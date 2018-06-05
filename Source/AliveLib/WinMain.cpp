@@ -16,7 +16,13 @@ ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
 ALIVE_VAR(1, 0xBBB9E8, LPSTR, sCommandLine_BBB9E8, nullptr);
 ALIVE_VAR(1, 0xBBB9FC, int, sCmdShow_BBB9FC, 0);
 ALIVE_VAR(1, 0xBBB9F4, HWND, sHwnd_BBB9F4, nullptr);
+ALIVE_VAR(1, 0xBBB9F8, WNDPROC, sWindowProcFilter_BBB9F8, nullptr);
 
+void CC Sys_SetWindowProc_Filter_4EE197(WNDPROC pFilter)
+{
+    sWindowProcFilter_BBB9F8 = pFilter;
+}
+ALIVE_FUNC_IMPLEX(0x4EE197, Sys_SetWindowProc_Filter_4EE197, WINMAIN_IMPL);
 
 ALIVE_FUNC_NOT_IMPL(0x4949F0, void CC(), Main_4949F0); // TODO
 ALIVE_FUNC_NOT_IMPL(0x4EE32D, LRESULT CALLBACK(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam), Sys_WindowProc_4EE32D); // TODO
