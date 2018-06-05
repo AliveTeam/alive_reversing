@@ -1,5 +1,6 @@
 #include <windows.h>
 #include "logger.hpp"
+#include "Function.hpp"
 
 bool IsAlive()
 {
@@ -42,7 +43,7 @@ BOOL WINAPI DllMain(
         LOG_INFO("DLL_PROCESS_ATTACH");
 
         LOG_INFO("Applying detours...");
-        //AliveFunctionBase::ApplyFunctions();
+        AliveFunctionBase::ApplyFunctions();
         LOG_INFO("Detours done");
     }
     else if(fdwReason == DLL_PROCESS_DETACH)

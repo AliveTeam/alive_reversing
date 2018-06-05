@@ -1,9 +1,11 @@
 project(AliveLib VERSION 0.1 LANGUAGES CXX)
 
 add_library(AliveLib
-    logger.hpp
     stdafx.cpp
     stdafx.h
+    logger.hpp
+    Function.cpp
+    Function.hpp
     WinMain.cpp
     WinMain.hpp)
 
