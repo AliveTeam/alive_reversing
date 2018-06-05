@@ -14,7 +14,7 @@ build_script:
  - cd build
  - cmake ..
  - msbuild AR.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
- - Source\Tests\%configuration%\Tests.exe
+# - Source\Tests\%configuration%\Tests.exe
  - call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C %configuration%
 
 install:
