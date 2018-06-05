@@ -1,0 +1,9 @@
+Output
+*.opensdf
+*.sdf
+*.suo
+*.user
+*.ipch
+*.log
+*.db
+build
