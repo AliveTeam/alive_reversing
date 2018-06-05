@@ -133,7 +133,7 @@ public:
         {
             if (convention == CallingConvention::eCDecl)
             {
-                return Cdecl_Static_Hook_Impl;
+                return  reinterpret_cast<Signature*>(Cdecl_Static_Hook_Impl);
             }
             else if (convention == CallingConvention::eStdCall)
             {
