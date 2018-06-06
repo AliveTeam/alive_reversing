@@ -6,6 +6,8 @@ add_library(AliveLib
     logger.hpp
     Function.cpp
     Function.hpp
+    Input.cpp
+    Input.hpp
     WinMain.cpp
     WinMain.hpp)
 

@@ -1,0 +1,1 @@
+void __cdecl InputGetJoystickInput_460280(float *X1, float *Y1, float *X2, float *Y2, DWORD *Buttons);
