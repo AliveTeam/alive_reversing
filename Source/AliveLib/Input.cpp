@@ -5,9 +5,11 @@
 #include "Function.hpp"
 #include "easylogging++.h"
 
+#define INPUT_IMPL true
+
 // -- Variables -- //
 
-ALIVE_ARY(1, 0xBD2F60, char, 256, sInputKeyStates_BD2F60, {});
+ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
 
 ALIVE_VAR(1, 0x5C2EF4, int, sJoystickEnabled_5C2EF4, 0);
 ALIVE_VAR(1, 0x5C2EFC, int, sJoystickNumButtons_5C2EFC, 0);
@@ -20,20 +22,25 @@ void CC Input_InitKeyStateArray_4EDD60()
 {
 	memset(sInputKeyStates_BD2F60, 0, 256u);
 }
-ALIVE_FUNC_IMPLEX(0x4EDD60, Input_InitKeyStateArray_4EDD60, true);
+ALIVE_FUNC_IMPLEX(0x4EDD60, Input_InitKeyStateArray_4EDD60, INPUT_IMPL);
 
 
 // Returns true if a key was just pressed down.
-bool __cdecl Abe_IsVKPressed_4EDD40(int a1)
+bool CC Abe_IsVKPressed_4EDD40(int key)
 {
-	char keyState = sInputKeyStates_BD2F60[a1];
+	unsigned char keyState = sInputKeyStates_BD2F60[key];
+
 	if (!keyState)
+	{
 		return false;
-	sInputKeyStates_BD2F60[a1] = keyState & 0x80;
+	}
+
+	sInputKeyStates_BD2F60[key] = keyState & 0x80;
+
 	return true;
 }
-ALIVE_FUNC_IMPLEX(0x4EDD40, Abe_IsVKPressed_4EDD40, true);
+ALIVE_FUNC_IMPLEX(0x4EDD40, Abe_IsVKPressed_4EDD40, INPUT_IMPL);
 
 
 // Unimplemented
-ALIVE_FUNC_IMPLEX(0x460280, InputGetJoystickInput_460280, false);
+ALIVE_FUNC_NOT_IMPL(0x460280, void CC(float *X1, float *Y1, float *X2, float *Y2, DWORD *Buttons), InputGetJoystickState_460280);
