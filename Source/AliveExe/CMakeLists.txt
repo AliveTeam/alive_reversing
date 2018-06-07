@@ -12,6 +12,8 @@ if (MSVC)
     set_target_properties(AliveExe PROPERTIES LINK_FLAGS "/DYNAMICBASE:NO /FIXED /BASE:0x40000")
 endif()
 
+target_compile_definitions(AliveExe PRIVATE "_CRT_SECURE_NO_WARNINGS")
+
 target_link_libraries(AliveExe AliveLib)
 
 export(TARGETS AliveExe FILE AliveExe.cmake)

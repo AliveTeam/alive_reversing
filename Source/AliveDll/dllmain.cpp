@@ -24,6 +24,20 @@ public:
 outbuf ob;
 std::streambuf *sb = nullptr;
 
+extern "C"
+{
+    __declspec(dllexport) void __cdecl ForceThisDllToLoadInExoddusExe()
+    {
+        // Never called because:
+        // The patched Exoddsue.exe loads this Dll and its WinMain calls this function but:
+        // 1. The dll is statically loaded as the EXE has been patched.
+        // 2. See that dll main hooks all reimplemented functions.
+        // 3. WinMain is reimplemented so the real EXE's WinMain is now a jmp to WinMain_4EE631
+        // 4. Therefore the patched WinMain that jmp's to this function is overwritten before 
+        // it can ever be executed.
+    }
+}
+
 BOOL WINAPI DllMain(
     _In_ HINSTANCE /*hinstDLL*/,
     _In_ DWORD     fdwReason,

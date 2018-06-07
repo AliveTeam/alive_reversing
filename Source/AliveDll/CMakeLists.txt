@@ -13,6 +13,8 @@ if (MSVC)
     set_target_properties(AliveDll PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
 endif()
 
+target_compile_definitions(AliveDll PRIVATE "_CRT_SECURE_NO_WARNINGS")
+
 target_link_libraries(AliveDll AliveLib)
 
 #add_custom_command(TARGET AliveDll
