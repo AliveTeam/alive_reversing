@@ -273,7 +273,7 @@ ALIVE_ASSERT_SIZEOF(ErrorData, 0x10C);
 ALIVE_ARY(1, 0xBBC570, ErrorData, 32, sErrors_BBC570, {});
 ALIVE_VAR(1, 0xBBC564, int, sErrorIndex_BBC564, 0);
 
-void CC Set_Error_String_4F2920(const char* pSourceFileName, int lineNumber, int minusOne, const char* errMsg)
+void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lineNumber, int minusOne, const char* errMsg)
 {
     if (sErrorIndex_BBC564 == 32)
     {
@@ -292,8 +292,15 @@ void CC Set_Error_String_4F2920(const char* pSourceFileName, int lineNumber, int
 
     sErrorIndex_BBC564++;
 }
-ALIVE_FUNC_IMPLEX(0x4F2920, Set_Error_String_4F2920, WINMAIN_IMPL);
+ALIVE_FUNC_IMPLEX(0x4F2920, Error_PushErrorRecord_4F2920, WINMAIN_IMPL);
 
+ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
+
+BOOL CC SYS_IsAppActive_4EDF30()
+{
+    return sAppIsActivated_BBBA00;
+}
+ALIVE_FUNC_IMPLEX(0x4EDF30, SYS_IsAppActive_4EDF30, WINMAIN_IMPL);
 
 HWND CC Sys_GetWindowHandle_4EE180()
 {
@@ -361,6 +368,7 @@ int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, 
     return 0;
 }
 ALIVE_FUNC_IMPLEX(0x4EE22F, Sys_WindowClass_Register_4EE22F, WINMAIN_IMPL);
+
 
 int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {

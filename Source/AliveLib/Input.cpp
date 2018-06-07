@@ -26,7 +26,7 @@ ALIVE_FUNC_IMPLEX(0x4EDD60, Input_InitKeyStateArray_4EDD60, INPUT_IMPL);
 
 
 // Returns true if a key was just pressed down.
-bool CC Abe_IsVKPressed_4EDD40(int key)
+bool CC Input_IsVKPressed_4EDD40(int key)
 {
 	unsigned char keyState = sInputKeyStates_BD2F60[key];
 
@@ -39,7 +39,7 @@ bool CC Abe_IsVKPressed_4EDD40(int key)
 
 	return true;
 }
-ALIVE_FUNC_IMPLEX(0x4EDD40, Abe_IsVKPressed_4EDD40, INPUT_IMPL);
+ALIVE_FUNC_IMPLEX(0x4EDD40, Input_IsVKPressed_4EDD40, INPUT_IMPL);
 
 
 // Unimplemented
