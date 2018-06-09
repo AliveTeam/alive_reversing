@@ -1,17 +1,90 @@
 #include "stdafx.h"
 #include "Sys.hpp"
 #include "Function.hpp"
+#include "Input.hpp"
+#include <assert.h>
 
 #define SYS_IMPL true
 
+typedef LRESULT(CC* TWindowProcFilter)(HWND, UINT, WPARAM, LPARAM);
+
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, HWND, sHwnd_BBB9F4, nullptr);
-ALIVE_VAR(1, 0xBBB9F8, WNDPROC, sWindowProcFilter_BBB9F8, nullptr);
+ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);
 ALIVE_VAR(1, 0xBBB9E8, LPSTR, sCommandLine_BBB9E8, nullptr);
 ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
 ALIVE_VAR(1, 0xBBB9FC, int, sCmdShow_BBB9FC, 0);
+ALIVE_VAR(1, 0xBD309C, BOOL, sIsAKeyDown_BD309C, FALSE);
+ALIVE_VAR(1, 0xBD30A0, int, sLastPressedKey_BD30A0, 0);
 
-ALIVE_FUNC_NOT_IMPL(0x4EE32D, LRESULT CALLBACK(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam), Sys_WindowProc_4EE32D); // TODO
+BOOL CC Sys_IsAnyKeyDown_4EDDF0()
+{
+    return sIsAKeyDown_BD309C;
+}
+
+LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    if (sWindowProcFilter_BBB9F8)
+    {
+        const LRESULT filterRet = sWindowProcFilter_BBB9F8(hWnd, msg, wParam, lParam);
+        if (filterRet > 0)
+        {
+            return ::DefWindowProcA(hWnd, msg, wParam, lParam);
+        }
+        else if (filterRet < 0)
+        {
+            return -1 - filterRet;
+        }
+    }
+
+    switch (msg)
+    {
+    case WM_SETCURSOR:
+        return 1;
+
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+
+    case WM_PAINT:
+        {
+            PAINTSTRUCT paint = {};
+            BeginPaint(hWnd, &paint);
+            EndPaint(hWnd, &paint);
+        }
+        break;
+
+    case WM_ACTIVATEAPP:
+        sAppIsActivated_BBBA00 = wParam;
+        break;
+
+    case WM_KEYDOWN:
+        if (!Input_GetInputEnabled_4EDDE0())
+        {
+            // Store the ASCII of a single key press. Used for typing in text for save names etc.
+            sIsAKeyDown_BD309C = TRUE;
+            BYTE KeyState[256] = {};
+            ::GetKeyboardState(KeyState);
+
+            const UINT vKey = wParam;
+            const UINT scanCode = HIWORD(lParam);
+            char translated[4] = {};
+            // TODO: can be negative but is never checked
+            const int numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<WORD*>(&translated), 0);
+            translated[numBytesWritten] = 0;
+            ::CharToOemA(translated, translated);
+            sLastPressedKey_BD30A0 = translated[0];
+        }
+        break;
+
+    case WM_KEYUP:
+        sIsAKeyDown_BD309C = 0;
+        sLastPressedKey_BD30A0 = 0;
+        break;
+    }
+    return ::DefWindowProcA(hWnd, msg, wParam, lParam);
+}
+ALIVE_FUNC_IMPLEX(0x4EE32D, Sys_WindowProc_4EE32D, SYS_IMPL);
 
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -20,7 +93,7 @@ void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
     sCommandLine_BBB9E8 = lpCmdLine;
 }
 
-void CC Sys_SetWindowProc_Filter_4EE197(WNDPROC pFilter)
+void CC Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
 {
     sWindowProcFilter_BBB9F8 = pFilter;
 }
@@ -60,7 +133,7 @@ int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, 
 {
     WNDCLASSA windowClass = {};
     windowClass.style = CS_VREDRAW | CS_HREDRAW;
-    windowClass.lpfnWndProc = Sys_WindowProc_4EE32D.Ptr();
+    windowClass.lpfnWndProc = Sys_WindowProc_4EE32D;
     windowClass.cbClsExtra = 0;
     windowClass.cbWndExtra = 0;
     windowClass.hInstance = sInstance_BBB9EC;

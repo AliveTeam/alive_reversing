@@ -14,8 +14,15 @@ ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
 ALIVE_VAR(1, 0x5C2EF4, int, sJoystickEnabled_5C2EF4, 0);
 ALIVE_VAR(1, 0x5C2EFC, int, sJoystickNumButtons_5C2EFC, 0);
 ALIVE_VAR(1, 0x5C2F00, int, sJoystickID_5C2F00, 0);
+ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
+
 
 // -- Functions -- //
+
+unsigned __int8 CC Input_GetInputEnabled_4EDDE0()
+{
+    return sInputEnabled_BBB9D0 != 0;
+}
 
 // Zeros the input key state array.
 void CC Input_InitKeyStateArray_4EDD60()
