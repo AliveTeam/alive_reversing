@@ -129,8 +129,8 @@ signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillCo
     HRESULT hr = S_OK;
     do
     {
-        hr = pBmp->field_0_pSurface->Blt(&rect, 0, &rect, 0x1000400, &blt_fx_stru_BBC458);
-        if (SUCCEEDED(hr))
+        hr = pBmp->field_0_pSurface->Blt(&rect, 0, &rect, DDBLT_COLORFILL | DDBLT_WAIT, &blt_fx_stru_BBC458);
+        if (FAILED(hr))
         {
             if (hr != DDERR_SURFACELOST)
             {
@@ -139,7 +139,7 @@ signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillCo
 
             hr = pBmp->field_0_pSurface->Restore();
             
-            if (SUCCEEDED(hr))
+            if (FAILED(hr))
             {
                 continue;
             }
@@ -151,6 +151,107 @@ signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillCo
     return -1;
 }
 ALIVE_FUNC_IMPLEX(0x4F1EE0, BMP_ClearRect_4F1EE0, BMP_IMPL);
+
+void CC BMP_unlock_4F2100(Bitmap* pBmp)
+{
+    if (pBmp->field_4_pLockedPixels && pBmp->field_0_pSurface)
+    {
+        const HRESULT hr = pBmp->field_0_pSurface->Unlock(pBmp->field_4_pLockedPixels);
+        if (FAILED(hr))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 393, -1, DX_HR_To_String_4F4EC0(hr));
+        }
+        pBmp->field_4_pLockedPixels = nullptr;
+    }
+}
+ALIVE_FUNC_IMPLEX(0x4F2100, BMP_unlock_4F2100, BMP_IMPL);
+
+void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
+{
+    if (pBmp && hdc)
+    {
+        const HRESULT hr = pBmp->field_0_pSurface->ReleaseDC(hdc);
+        if (FAILED(hr))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 431, -1, DX_HR_To_String_4F4EC0(hr));
+        }
+    }
+}
+ALIVE_FUNC_IMPLEX(0x4F21A0, BMP_Release_DC_4F21A0, BMP_IMPL);
+
+HDC CC BMP_Get_DC_4F2150(Bitmap* pBmp)
+{
+    if (!pBmp || pBmp->field_4_pLockedPixels || !pBmp->field_0_pSurface)
+    {
+        return nullptr;
+    }
+
+    HDC dc = nullptr;
+    const HRESULT hr = pBmp->field_0_pSurface->GetDC(&dc);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 412, -1, DX_HR_To_String_4F4EC0(hr));
+        return nullptr;
+    }
+
+    return dc;
+}
+ALIVE_FUNC_IMPLEX(0x4F2150, BMP_Get_DC_4F2150, BMP_IMPL);
+
+LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
+{
+    HDC dc = BMP_Get_DC_4F2150(pBmp);
+    TEXTMETRICA tm = {};
+    GetTextMetricsA(dc, &tm);
+    BMP_Release_DC_4F21A0(pBmp, dc);
+
+    // Invert if negative
+    LONG textHeight = tm.tmHeight;
+    if (tm.tmHeight < 0)
+    {
+        textHeight = -tm.tmHeight;
+    }
+
+    return textHeight;
+}
+ALIVE_FUNC_IMPLEX(0x4F21F0, BMP_Get_Font_Height_4F21F0, BMP_IMPL);
+
+signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
+{
+    signed int converted = 0;
+    switch (bpp)
+    {
+    case 1:
+        converted = 1;
+        break;
+    case 2:
+        converted = 2;
+        break;
+    case 4:
+        converted = 4;
+        break;
+    case 8:
+        converted = 8;
+        break;
+    case 15:
+    case 16:
+    case 115:
+    case 116:
+        converted = 16;
+        break;
+    case 24:
+        converted = 24;
+        break;
+    case 32:
+        converted = 32;
+        break;
+    default:
+        converted = -1;
+        break;
+    }
+    return converted;
+}
+ALIVE_FUNC_IMPLEX(0x4F1CC0, BMP_New_convert_BPP_4F1CC0, BMP_IMPL);
 
 
 #include "gmock/gmock.h"
