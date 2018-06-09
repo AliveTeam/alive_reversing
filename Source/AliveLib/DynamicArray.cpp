@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "DynamicArray.hpp"
 
-#define DYNAMIC_ARRAY_IMPL false
+#define DYNAMIC_ARRAY_IMPL true
+
+void DynamicArray_ForceLink() { }
 
 void* CC malloc_non_zero_4954F0(size_t size)
 {
@@ -11,13 +13,13 @@ void* CC malloc_non_zero_4954F0(size_t size)
     }
     return malloc(size);
 }
-ALIVE_FUNC_IMPLEX(0x4954F0, malloc_non_zero_4954F0, DYNAMIC_ARRAY_IMPL);
+ALIVE_FUNC_IMPLEX(0x4954F0, malloc_non_zero_4954F0, false);
 
 void CC Mem_Free_495540(void* ptr)
 {
     free(ptr);
 }
-ALIVE_FUNC_IMPLEX(0x495540, Mem_Free_495540, DYNAMIC_ARRAY_IMPL);
+ALIVE_FUNC_IMPLEX(0x495540, Mem_Free_495540, false);
 
 DynamicArray* DynamicArray::Ctor_40CA60(signed __int16 startingSize)
 {
@@ -38,5 +40,4 @@ DynamicArray* DynamicArray::Ctor_40CA60(signed __int16 startingSize)
 
     return this;
 }
-// TODO: Make ALIVE_FUNC_IMPLEX work with __thiscall
-//ALIVE_FUNC_IMPLEX(0x40CA60, &DynamicArray::Ctor_40CA60, DYNAMIC_ARRAY_IMPL);
+ALIVE_THISCALL_REDIRECT(0x40CA60, &DynamicArray::Ctor_40CA60, DYNAMIC_ARRAY_IMPL);

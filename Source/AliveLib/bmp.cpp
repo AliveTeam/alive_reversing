@@ -253,6 +253,52 @@ signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
 }
 ALIVE_FUNC_IMPLEX(0x4F1CC0, BMP_New_convert_BPP_4F1CC0, BMP_IMPL);
 
+int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
+{
+    int converted = 0;
+    switch (pBmp->field_15_pixel_format)
+    {
+    case 0xF:
+        converted = (b >> 3) | 4 * (g & 0xF8 | 32 * (r & 0xF8));
+        break;
+    case 0x10:
+        converted = (b >> 3) | 8 * (g & 0xFC | 32 * (r & 0xF8));
+        break;
+    case 0x18:
+    case 0x20:
+        converted = b | ((g | (r << 8)) << 8);
+        break;
+    case 0x73:
+        converted = (r >> 3) | 4 * (g & 0xF8 | 32 * (b & 0xF8));
+        break;
+    case 0x74:
+        converted = (r >> 3) | 8 * (g & 0xFC | 32 * (b & 0xF8));
+        break;
+    case 0x7C:
+    case 0x84:
+        converted = r | ((g | (b << 8)) << 8);
+        break;
+    default:
+        converted = 0;
+        break;
+    }
+    return converted;
+}
+ALIVE_FUNC_IMPLEX(0x4F17D0, Bmp_Convert_Colour_4F17D0, BMP_IMPL);
+
+void CC Bmp_Free_4F1950(Bitmap* pBmp)
+{
+    if (pBmp && pBmp->field_0_pSurface)
+    {
+        if (pBmp->field_4_pLockedPixels)
+        {
+            BMP_unlock_4F2100(pBmp);
+        }
+        pBmp->field_0_pSurface->Release();
+        memset(pBmp, 0, sizeof(Bitmap));
+    }
+}
+ALIVE_FUNC_IMPLEX(0x4F1950, Bmp_Free_4F1950, BMP_IMPL);
 
 #include "gmock/gmock.h"
 

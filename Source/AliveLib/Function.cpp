@@ -102,32 +102,3 @@ AliveVar::AliveVar(const char* name, DWORD addr, DWORD sizeInBytes, bool isPoint
 {
     Vars().insert({ addr, sizeInBytes, isPointerType, isConstData, name });
 }
-
-void DoDetour(DWORD addr, DWORD func)
-{
-    LONG err = DetourTransactionBegin();
-
-    if (err != NO_ERROR)
-    {
-        abort();
-    }
-
-    err = DetourUpdateThread(GetCurrentThread());
-
-    if (err != NO_ERROR)
-    {
-        abort();
-    }
-
-    err = DetourAttach(&(PVOID&)addr, (PVOID)func);
-    if (err != NO_ERROR)
-    {
-        abort();
-    }
-
-    err = DetourTransactionCommit();
-    if (err != NO_ERROR)
-    {
-        abort();
-    }
-}

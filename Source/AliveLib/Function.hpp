@@ -12,7 +12,6 @@
 #include "detours.h"
 
 bool IsAlive();
-void DoDetour(DWORD addr, DWORD func);
 
 #define ALIVE_FATAL(x)  ::MessageBox(NULL, x, "ALIVE Hook fatal error.", MB_ICONERROR | MB_OK); __debugbreak(); abort();
 
@@ -326,7 +325,59 @@ extern TypeName* VarName ;
 // isImplemented == false means redirect game func to our func. isImplemented == true means redirect our func to game func.
 #define ALIVE_FUNC_IMPLEX(addr, funcName, isImplemented) AliveFunction<(void*)addr, funcName, isImplemented ? HookType::eImpl : HookType::eNotImplWithStub, decltype(funcName)> funcName##_(#funcName);
 
-#define ALIVE_REDIRECT(addr, func) DoDetour((DWORD)addr, (DWORD)func)
+template<class T>
+inline void DoDetour(DWORD addr, T func)
+{
+    LONG err = DetourTransactionBegin();
+
+    if (err != NO_ERROR)
+    {
+        abort();
+    }
+
+    err = DetourUpdateThread(GetCurrentThread());
+
+    if (err != NO_ERROR)
+    {
+        abort();
+    }
+
+    err = DetourAttach(&(PVOID&)addr, (PVOID)func);
+    if (err != NO_ERROR)
+    {
+        abort();
+    }
+
+    err = DetourTransactionCommit();
+    if (err != NO_ERROR)
+    {
+        abort();
+    }
+}
+
+template<class T>
+class RedirectThisCall
+{
+public:
+    RedirectThisCall(DWORD addr, T thisFunc, bool impl)
+    {
+        if (impl && IsAlive())
+        {
+            // TODO: Might break for none thiscall, and is UB for thiscall anyway, but
+            // seems to work in MSVC and is only tempory measure.
+            void* ptr;
+            memcpy(&ptr, &thisFunc, sizeof(void*));
+            DoDetour(addr, ptr);
+        }
+    }
+
+};
+
+#define CAT(a,b) CAT2(a,b) // force expand
+#define CAT2(a,b) a##b // actually concatenate
+#define UNIQUE_ID() CAT(_uid_,__COUNTER__)
+#define ALIVE_THISCALL_REDIRECT(addr, func, impl) RedirectThisCall<decltype(func)> UNIQUE_ID()((DWORD)addr, func, impl)
+#define ALIVE_REDIRECT(addr, func) DoDetour((DWORD)addr, func)
 
 #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
 
