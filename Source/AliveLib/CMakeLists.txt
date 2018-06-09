@@ -8,6 +8,16 @@ add_library(AliveLib
     Function.hpp
     Input.cpp
     Input.hpp
+    DynamicArray.cpp
+    DynamicArray.hpp
+    Sys.cpp
+    Sys.hpp
+    VGA.cpp
+    VGA.hpp
+    DDraw.cpp
+    DDraw.hpp
+    Error.cpp
+    Error.hpp
     bmp.cpp
     bmp.hpp
     WinMain.cpp
@@ -19,6 +29,7 @@ target_include_directories(AliveLib PUBLIC
     PRIVATE src)
 
 target_compile_definitions(AliveLib PRIVATE "_CRT_SECURE_NO_WARNINGS")
+target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
 
 if (MSVC)
     target_compile_options(AliveLib PRIVATE /W4 /wd4996)
