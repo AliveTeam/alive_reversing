@@ -75,6 +75,83 @@ signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBm
     }
     return -1;
 }
+ALIVE_FUNC_IMPLEX(0x4F1E50, BMP_Blt_4F1E50, BMP_IMPL);
+
+ALIVE_VAR(1, 0xBBC458, DDBLTFX, blt_fx_stru_BBC458, {});
+
+signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+{
+    RECT rect = *pRect;
+
+    if (rect.left < 0)
+    {
+        rect.left = 0;
+    }
+
+    if (rect.left > pBmp->field_8_width)
+    {
+        rect.left = pBmp->field_8_width;
+    }
+
+    if (rect.right < pRect->left)
+    {
+        rect.right = pRect->left;
+    }
+
+    if (rect.right > pBmp->field_C_height)
+    {
+        rect.right = pBmp->field_C_height;
+    }
+
+    if (rect.top < 0)
+    {
+        rect.top = 0;
+    }
+
+    if (rect.top > pBmp->field_C_height)
+    {
+        rect.top = pBmp->field_C_height;
+    }
+
+    if (rect.bottom < rect.top)
+    {
+        rect.bottom = rect.top;
+    }
+
+    if (rect.bottom > pBmp->field_C_height)
+    {
+        rect.bottom = pBmp->field_C_height;
+    }
+
+    blt_fx_stru_BBC458.dwSize = sizeof(DDBLTFX);
+    blt_fx_stru_BBC458.dwFillColor = fillColour;
+
+    HRESULT hr = S_OK;
+    do
+    {
+        hr = pBmp->field_0_pSurface->Blt(&rect, 0, &rect, 0x1000400, &blt_fx_stru_BBC458);
+        if (SUCCEEDED(hr))
+        {
+            if (hr != DDERR_SURFACELOST)
+            {
+                continue;
+            }
+
+            hr = pBmp->field_0_pSurface->Restore();
+            
+            if (SUCCEEDED(hr))
+            {
+                continue;
+            }
+        }
+        return 0;
+    } while (hr == DDERR_WASSTILLDRAWING || hr == DDERR_WRONGMODE);
+
+    Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 340, -1, DX_HR_To_String_4F4EC0(hr));
+    return -1;
+}
+ALIVE_FUNC_IMPLEX(0x4F1EE0, BMP_ClearRect_4F1EE0, BMP_IMPL);
+
 
 #include "gmock/gmock.h"
 
