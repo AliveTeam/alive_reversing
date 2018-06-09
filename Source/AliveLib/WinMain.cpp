@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "logger.hpp"
 #include "Function.hpp"
+#include "bmp.hpp"
 
 #include "easylogging++.h"
 
@@ -369,6 +370,10 @@ int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, 
 }
 ALIVE_FUNC_IMPLEX(0x4EE22F, Sys_WindowClass_Register_4EE22F, WINMAIN_IMPL);
 
+static void RunTests()
+{
+    BmpTests();
+}
 
 int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -377,6 +382,7 @@ int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR 
     sPrevInstance_BBBA54 = hPrevInstance;
     sCmdShow_BBB9FC = nShowCmd;
     sCommandLine_BBB9E8 = lpCmdLine;
+    RunTests();
     Main_4949F0();
     return sExitCode_BBBA04;
 }

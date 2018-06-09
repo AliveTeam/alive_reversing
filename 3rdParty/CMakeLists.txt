@@ -36,6 +36,7 @@ export(TARGETS DxOld FILE DxOld.cmake)
 # googletest lib
 add_library(googletest
     googletest/googletest/src/gtest-all.cc
+    googletest/googlemock/src/gmock-all.cc
     )
 
 target_include_directories(googletest PUBLIC
@@ -44,8 +45,13 @@ target_include_directories(googletest PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include;
     ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include/gtest;
     ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include/gtest/internal;
-    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include/gtest/internal/custom>
-    $<INSTALL_INTERFACE:googletest/googletest/include>
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock;
+    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include;
+    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock;
+    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock/internal;
+    ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock/internal/custom>
+    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include/gmock>
     )
 
 export(TARGETS googletest FILE googletest.cmake)

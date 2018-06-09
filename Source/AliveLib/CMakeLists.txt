@@ -8,6 +8,8 @@ add_library(AliveLib
     Function.hpp
     Input.cpp
     Input.hpp
+    bmp.cpp
+    bmp.hpp
     WinMain.cpp
     WinMain.hpp)
 
@@ -37,6 +39,7 @@ target_compile_features(AliveLib
 target_link_libraries(AliveLib
     Detours
     EasyLogging++
+    googletest
     )
 
 export(TARGETS AliveLib FILE AliveLib.cmake)
