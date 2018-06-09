@@ -36,3 +36,24 @@ void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lineNumber
     sErrorIndex_BBC564++;
 }
 ALIVE_FUNC_IMPLEX(0x4F2920, Error_PushErrorRecord_4F2920, ERROR_IMPL);
+
+ALIVE_VAR(1, 0xBBFB04, HWND, hWnd_BBFB04, 0);
+
+int CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, const char* formatStr, ...)
+{
+    static char sErrorMessage_BBFBA8[2052];
+    static char sErrorTitle_BC03B4[2048];
+
+    va_list va;
+    va_start(va, formatStr);
+    vsprintf(sErrorMessage_BBFBA8, formatStr, va);
+    if (lineNum < 0)
+    {
+        strcpy(sErrorTitle_BC03B4, msg);
+    }
+    else
+    {
+        sprintf(sErrorTitle_BC03B4, "%s : %ld", msg, lineNum);
+    }
+    return MessageBoxA(hWnd_BBFB04, sErrorMessage_BBFBA8, sErrorTitle_BC03B4, 0);
+}

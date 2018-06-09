@@ -21,6 +21,7 @@ BOOL CC Sys_IsAnyKeyDown_4EDDF0()
 {
     return sIsAKeyDown_BD309C;
 }
+ALIVE_FUNC_IMPLEX(0x4EDDF0, Sys_IsAnyKeyDown_4EDDF0, SYS_IMPL);
 
 LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

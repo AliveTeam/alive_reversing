@@ -6,6 +6,7 @@
 #include "bmp.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
+#include "Psx.hpp"
 #include "easylogging++.h"
 
 INITIALIZE_EASYLOGGINGPP;
@@ -37,6 +38,7 @@ static void InitOtherHooksAndRunTests()
     //RunTests();
 
     VGA_ForceLink();
+    Psx_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "bmp.hpp"
 #include "Function.hpp"
+#include "DDraw.hpp"
+#include "Error.hpp"
 
 #define BMP_IMPL true
 
@@ -28,6 +30,51 @@ HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDR
     return hr;
 }
 ALIVE_FUNC_IMPLEX(0x4F1C60, BMP_New_create_surface_4F1C60, false); // TODO
+
+signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+{
+    HRESULT hr = S_OK;
+    bool addError = true;
+    for (;;)
+    {
+        hr = pDstBmp->field_0_pSurface->BltFast(
+            xPos,
+            yPos,
+            pSrcBmp->field_0_pSurface,
+            pRect,
+            flags);
+
+        if (SUCCEEDED(hr))
+        {
+            return 0;
+        }
+
+        if (hr == DDERR_SURFACELOST)
+        {
+            if (FAILED(pSrcBmp->field_0_pSurface->Restore()) && FAILED(pDstBmp->field_0_pSurface->Restore()))
+            {
+                addError = true;
+            }
+            else
+            {
+                addError = false;
+            }
+            break;
+        }
+
+        if (hr != DDERR_WASSTILLDRAWING && hr != DDERR_WRONGMODE)
+        {
+            addError = true;
+            break;
+        }
+    }
+
+    if (addError)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 307, -1, DX_HR_To_String_4F4EC0(hr));
+    }
+    return -1;
+}
 
 #include "gmock/gmock.h"
 

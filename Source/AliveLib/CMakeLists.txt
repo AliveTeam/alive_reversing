@@ -18,6 +18,8 @@ add_library(AliveLib
     DDraw.hpp
     Error.cpp
     Error.hpp
+    Psx.cpp
+    Psx.hpp
     bmp.cpp
     bmp.hpp
     WinMain.cpp
