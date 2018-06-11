@@ -26,7 +26,7 @@ unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
 }
 ALIVE_FUNC_IMPLEX(0x496C50, Math_FixedPoint_Multiply_496C50, Math_IMPL);
 
-unsigned int __cdecl Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
+unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
 {
 	signed int op1a; // ebx
 	unsigned int op1b; // edi
