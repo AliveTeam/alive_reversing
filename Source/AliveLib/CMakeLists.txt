@@ -59,6 +59,7 @@ target_link_libraries(AliveLib
     Detours
     EasyLogging++
     googletest
+    Winmm
     )
 
 export(TARGETS AliveLib FILE AliveLib.cmake)
