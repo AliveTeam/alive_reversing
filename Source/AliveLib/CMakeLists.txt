@@ -20,6 +20,12 @@ add_library(AliveLib
     Error.hpp
     Psx.cpp
     Psx.hpp
+    Math.cpp
+    Math.hpp
+    Midi.cpp
+    Midi.hpp
+    Quicksave.cpp
+    Quicksave.hpp
     bmp.cpp
     bmp.hpp
     WinMain.cpp

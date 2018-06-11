@@ -7,6 +7,9 @@
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "Psx.hpp"
+#include "Midi.hpp"
+#include "Quicksave.hpp"
+#include "Math.hpp"
 #include "DynamicArray.hpp"
 #include "easylogging++.h"
 
@@ -41,6 +44,9 @@ static void InitOtherHooksAndRunTests()
     VGA_ForceLink();
     Psx_ForceLink();
     DynamicArray_ForceLink();
+	Math_ForceLink();
+	Midi_ForceLink();
+	Quicksave_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
