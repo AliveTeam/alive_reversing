@@ -424,6 +424,46 @@ signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFo
 }
 ALIVE_FUNC_IMPLEX(0x4F1990, BMP_New_4F1990, BMP_IMPL);
 
+ALIVE_VAR(1, 0xBBC3E8, DDSURFACEDESC, sBmpSurfaceDesc_BBC3E8, {});
+
+LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
+{
+    // Already locked or we don't have a surface
+    if (pBitmap->field_4_pLockedPixels || !pBitmap->field_0_pSurface)
+    {
+        return  pBitmap->field_4_pLockedPixels;
+    }
+
+    // Try to lock
+    sBmpSurfaceDesc_BBC3E8.dwSize = sizeof(DDSURFACEDESC);
+    HRESULT hr = pBitmap->field_0_pSurface->Lock(nullptr, &sBmpSurfaceDesc_BBC3E8, DDLOCK_WAIT, 0);
+    if (hr == DDERR_SURFACELOST)
+    {
+        // Surface is gone, restore and try again
+        hr = pBitmap->field_0_pSurface->Restore();
+        if (SUCCEEDED(hr))
+        {
+            hr = pBitmap->field_0_pSurface->Lock(nullptr, &sBmpSurfaceDesc_BBC3E8, DDLOCK_WAIT, 0);
+        }
+    }
+
+    if (SUCCEEDED(hr))
+    {
+        // OK locked
+        pBitmap->field_10_locked_pitch = sBmpSurfaceDesc_BBC3E8.lPitch;
+        pBitmap->field_4_pLockedPixels = sBmpSurfaceDesc_BBC3E8.lpSurface;
+        return pBitmap->field_4_pLockedPixels;
+    }
+    else if (hr != DDERR_WRONGMODE)
+    {
+        // Push an error for everything bar wrong mode
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 363, -1, DX_HR_To_String_4F4EC0(hr));
+    }
+
+    return nullptr;
+}
+ALIVE_FUNC_IMPLEX(0x4F1FF0, BMP_Lock_4F1FF0, BMP_IMPL);
+
 void BmpTests()
 {
 
