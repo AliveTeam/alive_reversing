@@ -145,11 +145,14 @@ int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, 
     windowClass.lpszClassName = lpClassName;
     ::RegisterClassA(&windowClass);
 
+    //const DWORD style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+    const DWORD style = WS_CAPTION | WS_VISIBLE;
+
     const HWND hWnd = ::CreateWindowExA(
         0, // ExStyle
         lpClassName,
         lpWindowName,
-        WS_CAPTION | WS_VISIBLE,
+        style,
         x,
         y,
         nWidth,

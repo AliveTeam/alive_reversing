@@ -300,166 +300,128 @@ void CC Bmp_Free_4F1950(Bitmap* pBmp)
 }
 ALIVE_FUNC_IMPLEX(0x4F1950, Bmp_Free_4F1950, BMP_IMPL);
 
-#include "gmock/gmock.h"
+ALIVE_VAR(1, 0xBC0BB4, unsigned __int8, gVGA_ddsCaps_BC0BB4, 0);
 
-class MockedDirectDraw
+signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
 {
-public:
-    MOCK_METHOD3(CreateSurface, HRESULT(LPDDSURFACEDESC surfaceDesc, LPDIRECTDRAWSURFACE FAR * ppSurface, IUnknown FAR * pUnk));
-};
-
-class DirectDrawMock : public IDirectDraw
-{
-public:
-    MockedDirectDraw& mMock;
-
-    DirectDrawMock(MockedDirectDraw& mockDD)
-        : mMock(mockDD)
+    if (!pBitmap || !width || !height)
     {
-
+        return -1;
     }
 
-    /*** IUnknown methods ***/
-    STDMETHOD(QueryInterface) (THIS_ REFIID, LPVOID FAR*)
+    memset(pBitmap, 0, sizeof(Bitmap));
+    
+    const int bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
+    if (bpp < 0)
     {
-        return S_OK;
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 170, -1, "BMP_New: bits per pixel not supported");
+        return -1;
     }
 
-    STDMETHOD_(ULONG, AddRef) (THIS)
+    DWORD bMask = 0;
+    DWORD rMask = 0;
+    DWORD gMask = 0;
+    DWORD flags1 = 0;
+    switch (bpp)
     {
-        return S_OK;
+    case 1:
+        flags1 = 2048;
+        break;
+    case 2:
+        flags1 = 4096;
+        break;
+    case 4:
+        flags1 = 8;
+        break;
+    case 8:
+        flags1 = 32;
+        break;
+    case 15:
+        rMask = 0x7C00;
+        gMask = 0x3E0;
+        bMask = 0x1F;
+        break;
+    case 16:
+        rMask = 0xF800;
+        gMask = 0x7E0;
+        bMask = 0x1F;
+        break;
+    case 24:
+    case 32:
+        rMask = 0xFF0000;
+        gMask = 0xFF00;
+        bMask = 0xFF;
+        break;
+    case 115:
+        rMask = 0x1F;
+        gMask = 0x3E0;
+        bMask = 0x7C00;
+        break;
+    case 116:
+        rMask = 0x1F;
+        gMask = 0x7E0;
+        bMask = 0xF800;
+        break;
+    default:
+        break;
     }
 
-    STDMETHOD_(ULONG, Release) (THIS)
+    DDSURFACEDESC pSurfaceDesc = {};
+    pSurfaceDesc.dwSize = sizeof(DDSURFACEDESC);
+    pSurfaceDesc.ddpfPixelFormat.dwBBitMask = bMask;
+    pSurfaceDesc.ddpfPixelFormat.dwFlags = flags1 | 0x40;
+    pSurfaceDesc.ddckCKSrcBlt.dwColorSpaceHighValue = 0;
+    pSurfaceDesc.ddckCKSrcBlt.dwColorSpaceLowValue = 0;
+    pSurfaceDesc.ddpfPixelFormat.dwSize = 32;
+    pSurfaceDesc.ddpfPixelFormat.dwRBitMask = rMask;
+    pSurfaceDesc.ddpfPixelFormat.dwGBitMask = gMask;
+    pSurfaceDesc.ddpfPixelFormat.dwRGBBitCount = bpp;
+    pSurfaceDesc.dwFlags = 69639;
+    pSurfaceDesc.ddsCaps.dwCaps = 64;
+
+    if (gVGA_ddsCaps_BC0BB4)
     {
-        return S_OK;
+        pSurfaceDesc.ddsCaps.dwCaps = 0x840;
+    }
+    else if (createFlags & 1)
+    {
+        pSurfaceDesc.ddsCaps.dwCaps = 0x840;
+    }
+    else if (createFlags & 2)
+    {
+        pSurfaceDesc.ddsCaps.dwCaps = 0x4040;
     }
 
-    /*** IDirectDraw methods ***/
-    STDMETHOD(Compact)(THIS)
+    pSurfaceDesc.dwWidth = width;
+    pSurfaceDesc.dwHeight = height;
+
+    if (BMP_New_create_surface_4F1C60(&pSurfaceDesc, &pBitmap->field_0_pSurface))
     {
-        return S_OK;
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 230, -1, "BMP_New: can't create the surface");
+        return -1;
+    }
+    pBitmap->field_10_locked_pitch = pSurfaceDesc.lPitch;
+
+    if (pBitmap->field_0_pSurface->GetSurfaceDesc(&pSurfaceDesc))
+    {
+        pBitmap->field_10_locked_pitch = 0;
+        Error_NullPrint_4F28C0("BMP: GetSurfaceDesc failed on new BMP_t");
+    }
+    else
+    {
+        pBitmap->field_10_locked_pitch = pSurfaceDesc.lPitch;
     }
 
-    STDMETHOD(CreateSurface)(THIS_  LPDDSURFACEDESC surfaceDesc, LPDIRECTDRAWSURFACE FAR * ppSurface, IUnknown FAR * pUnk)
-    {
-        return mMock.CreateSurface(surfaceDesc, ppSurface, pUnk);
-    }
-
-    STDMETHOD(CreateClipper)(THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR*, IUnknown FAR*)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(CreatePalette)(THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR*, IUnknown FAR*)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(DuplicateSurface)(THIS_ LPDIRECTDRAWSURFACE, LPDIRECTDRAWSURFACE FAR*)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(EnumDisplayModes)(THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMMODESCALLBACK)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(EnumSurfaces)(THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMSURFACESCALLBACK)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(FlipToGDISurface)(THIS)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(GetCaps)(THIS_ LPDDCAPS, LPDDCAPS)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(GetDisplayMode)(THIS_ LPDDSURFACEDESC)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(GetFourCCCodes)(THIS_  LPDWORD, LPDWORD)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(GetGDISurface)(THIS_ LPDIRECTDRAWSURFACE FAR* )
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(GetMonitorFrequency)(THIS_ LPDWORD)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(GetScanLine)(THIS_ LPDWORD)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(GetVerticalBlankStatus)(THIS_ LPBOOL)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(Initialize)(THIS_ GUID FAR* )
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(RestoreDisplayMode)(THIS)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(SetCooperativeLevel)(THIS_ HWND, DWORD)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(SetDisplayMode)(THIS_ DWORD, DWORD, DWORD)
-    {
-        return S_OK;
-    }
-
-    STDMETHOD(WaitForVerticalBlank)(THIS_ DWORD, HANDLE)
-    {
-        return S_OK;
-    }
-
-};
-
-using namespace ::testing;
-
-void Test_BMP_New_create_surface_4F1C60()
-{
-    StrictMock<MockedDirectDraw> mocked;
-    DirectDrawMock mock(mocked);
-
-    sDDraw_BBC3D4 = &mock;
-
-    DDSURFACEDESC desc = {};
-    LPDIRECTDRAWSURFACE surf = nullptr;
-
-    EXPECT_CALL(mocked, CreateSurface(&desc, _, nullptr))
-        .WillOnce(Return(DDERR_INVALIDPARAMS))
-        .WillOnce(Return(S_OK));
-
-   ASSERT_EQ(S_OK, BMP_New_create_surface_4F1C60(&desc, &surf));
-
-   sDDraw_BBC3D4 = nullptr;
+    pBitmap->field_C_height = height;
+    pBitmap->field_14_bpp = static_cast<char>(pSurfaceDesc.ddpfPixelFormat.dwRGBBitCount);
+    pBitmap->field_8_width = width;
+    pBitmap->field_15_pixel_format = static_cast<char>(pixelFormat);
+    pBitmap->field_18_create_flags = createFlags;
+    return 0;
 }
+ALIVE_FUNC_IMPLEX(0x4F1990, BMP_New_4F1990, BMP_IMPL);
 
 void BmpTests()
 {
-    Test_BMP_New_create_surface_4F1C60();
+
 }
