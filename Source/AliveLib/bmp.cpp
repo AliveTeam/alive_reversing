@@ -17,7 +17,7 @@ HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDR
     if (hr == DDERR_INVALIDPARAMS)
     {
         const DWORD oldCaps = pSurfaceDesc->ddsCaps.dwCaps;
-        if (!(oldCaps & 0x800)) // TODO: Flag constant
+        if (!(oldCaps & DDSCAPS_SYSTEMMEMORY)) // 0x800
         {
             DWORD tempCaps = pSurfaceDesc->ddsCaps.dwCaps;
             // TODO
@@ -464,7 +464,77 @@ LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
 }
 ALIVE_FUNC_IMPLEX(0x4F1FF0, BMP_Lock_4F1FF0, BMP_IMPL);
 
-void BmpTests()
+void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int fgColour, int bgColour, LPCSTR lpString)
 {
+    const HDC dc = BMP_Get_DC_4F2150(pBmp);
+    if (bgColour)
+    {
+        ::SetBkColor(dc, 0);
+    }
 
+    ::SetBkMode(dc, (bgColour != 0) + 1);
+
+    unsigned int colour = 0;
+    colour |= (BYTE0(fgColour) << 16);
+    colour |= (BYTE1(fgColour) << 8);
+    colour |= (BYTE2(fgColour) << 0);
+
+    ::SetTextColor(dc, colour);
+    ::TextOutA(dc, x, y, lpString, strlen(lpString));
+    BMP_Release_DC_4F21A0(pBmp, dc);
+}
+ALIVE_FUNC_IMPLEX(0x4F2230, BMP_Draw_String_4F2230, BMP_IMPL);
+
+#include "gmock/gmock.h"
+
+namespace Test
+{
+    HDC CC Stub_BMP_Get_DC_4F2150(Bitmap*)
+    {
+        return nullptr;
+    }
+
+    void CC Stub_BMP_Release_DC_4F21A0(Bitmap*, HDC)
+    {
+
+    }
+
+    COLORREF WINAPI Stub_SetBkColor(HDC, COLORREF)
+    {
+        return 0;
+    }
+
+    int WINAPI Stub_SetBkMode(HDC, int)
+    {
+        return 0;
+    }
+
+    static COLORREF sLastSetTextColour = 0;
+    COLORREF WINAPI Stub_SetTextColor(HDC, COLORREF color)
+    {
+        sLastSetTextColour = color;
+        return 0;
+    }
+
+    BOOL WINAPI Stub_TextOutA(HDC, _In_ int, _In_ int, LPCSTR, int)
+    {
+        return TRUE;
+    }
+
+    static void Test_BMP_Draw_String_4F2230()
+    {
+        SCOPED_REDIRECT(BMP_Get_DC_4F2150, Stub_BMP_Get_DC_4F2150);
+        SCOPED_REDIRECT(BMP_Release_DC_4F21A0, Stub_BMP_Release_DC_4F21A0);
+        SCOPED_REDIRECT(SetBkColor, Stub_SetBkColor);
+        SCOPED_REDIRECT(SetBkMode, Stub_SetBkMode);
+        SCOPED_REDIRECT(SetTextColor, Stub_SetTextColor);
+        SCOPED_REDIRECT(TextOutA, Stub_TextOutA);
+        BMP_Draw_String_4F2230(nullptr, 0, 0, 0xAABBCCDD, 0xFFAABBDD, "Hello");
+        ASSERT_EQ(sLastSetTextColour, 0x00DDCCBBu);
+    }
+
+    void BmpTests()
+    {
+        Test_BMP_Draw_String_4F2230();
+    }
 }

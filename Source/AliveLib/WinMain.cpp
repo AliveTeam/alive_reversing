@@ -12,6 +12,7 @@
 #include "Math.hpp"
 #include "DynamicArray.hpp"
 #include "easylogging++.h"
+#include <gmock/gmock.h>
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -19,7 +20,12 @@ INITIALIZE_EASYLOGGINGPP;
 
 static void RunTests()
 {
-    BmpTests();
+    ::testing::GTEST_FLAG(throw_on_failure) = true;
+    int argCount = 0;
+    LPSTR cmdLine = Sys_GetCommandLine_4EE176();
+    ::testing::InitGoogleMock(&argCount, &cmdLine);
+
+    Test::BmpTests();
 }
 
 static void ReplaceStdLib()
@@ -39,7 +45,7 @@ static void InitOtherHooksAndRunTests()
 {
     // TODO: Fix memory API's
     //ReplaceStdLib();
-    //RunTests();
+    RunTests();
 
     VGA_ForceLink();
     Psx_ForceLink();

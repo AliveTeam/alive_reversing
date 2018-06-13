@@ -9,7 +9,10 @@
 #define DIRECT3D_VERSION 0x700
 #include "d3d.h"
 
-void BmpTests();
+namespace Test
+{
+    void BmpTests();
+}
 
 struct Bitmap
 {
