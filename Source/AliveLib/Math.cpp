@@ -5,6 +5,9 @@
 
 void Math_ForceLink() { }
 
+ALIVE_ARY(1, 0x546744, unsigned char, 256, sRandomBytes_546744, {});
+ALIVE_VAR(1, 0x5D1E10, unsigned char, sRandomSeed_5D1E10, 0);
+
 unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
 {
 	unsigned int op1a; // ecx
@@ -58,3 +61,41 @@ unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
 	return result;
 }
 ALIVE_FUNC_IMPLEX(0x496B70, Math_FixedPoint_Divide_496B70, Math_IMPL);
+
+short CC Math_RandomRange_496AB0(signed short min, signed short max)
+{
+	short tempMax = max;
+    short tempMin = min;
+
+    if (max >= min)
+    {
+        if (max == min)
+        {
+            // No need for random if min and max are the same.
+            return max;
+        }
+    }
+    else
+    {
+        // Whoops, silly developer, you've swapped the min and max values! Let me fix that for you!
+        tempMax = min;
+        tempMin = max;
+    }
+
+    short result = tempMin;
+    const int rangeSize = tempMax - tempMin;
+
+    if (rangeSize >= 256)
+    {
+        const int randByte = (257 * sRandomBytes_546744[sRandomSeed_5D1E10]);
+        sRandomSeed_5D1E10 += 2;
+        result = result + randByte % (rangeSize + 1);
+    }
+    else
+    {
+        result += sRandomBytes_546744[sRandomSeed_5D1E10++] % (rangeSize + 1);
+    }
+
+    return result;
+}
+ALIVE_FUNC_IMPLEX(0x496AB0, Math_RandomRange_496AB0, Math_IMPL);
