@@ -321,20 +321,21 @@ signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFo
     DWORD bMask = 0;
     DWORD rMask = 0;
     DWORD gMask = 0;
-    DWORD flags1 = 0;
+    DWORD flags = 0;
+
     switch (bpp)
     {
     case 1:
-        flags1 = 2048;
+        flags = DDPF_PALETTEINDEXED1; // 0x800
         break;
     case 2:
-        flags1 = 4096;
+        flags = DDPF_PALETTEINDEXED2; // 0x1000
         break;
     case 4:
-        flags1 = 8;
+        flags = DDPF_PALETTEINDEXED4; // 0x8
         break;
     case 8:
-        flags1 = 32;
+        flags = DDPF_PALETTEINDEXED8; // 0x20
         break;
     case 15:
         rMask = 0x7C00;
@@ -369,27 +370,29 @@ signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFo
     DDSURFACEDESC pSurfaceDesc = {};
     pSurfaceDesc.dwSize = sizeof(DDSURFACEDESC);
     pSurfaceDesc.ddpfPixelFormat.dwBBitMask = bMask;
-    pSurfaceDesc.ddpfPixelFormat.dwFlags = flags1 | 0x40;
+    pSurfaceDesc.ddpfPixelFormat.dwFlags = flags | DDPF_RGB; // 0x40
     pSurfaceDesc.ddckCKSrcBlt.dwColorSpaceHighValue = 0;
     pSurfaceDesc.ddckCKSrcBlt.dwColorSpaceLowValue = 0;
-    pSurfaceDesc.ddpfPixelFormat.dwSize = 32;
+
+    pSurfaceDesc.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
     pSurfaceDesc.ddpfPixelFormat.dwRBitMask = rMask;
     pSurfaceDesc.ddpfPixelFormat.dwGBitMask = gMask;
     pSurfaceDesc.ddpfPixelFormat.dwRGBBitCount = bpp;
-    pSurfaceDesc.dwFlags = 69639;
-    pSurfaceDesc.ddsCaps.dwCaps = 64;
+
+    pSurfaceDesc.dwFlags = DDSD_CAPS | DDSD_PIXELFORMAT | DDSD_CKSRCBLT | DDSD_WIDTH | DDSD_HEIGHT; // 0x11007;
+    pSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN; // 0x40
 
     if (gVGA_ddsCaps_BC0BB4)
     {
-        pSurfaceDesc.ddsCaps.dwCaps = 0x840;
+        pSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_SYSTEMMEMORY | DDSCAPS_OFFSCREENPLAIN; // 0x840
     }
     else if (createFlags & 1)
     {
-        pSurfaceDesc.ddsCaps.dwCaps = 0x840;
+        pSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_SYSTEMMEMORY | DDSCAPS_OFFSCREENPLAIN; // 0x840
     }
     else if (createFlags & 2)
     {
-        pSurfaceDesc.ddsCaps.dwCaps = 0x4040;
+        pSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_VIDEOMEMORY | DDSCAPS_OFFSCREENPLAIN; // 0x4040 
     }
 
     pSurfaceDesc.dwWidth = width;
