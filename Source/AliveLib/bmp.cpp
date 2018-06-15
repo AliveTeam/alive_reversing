@@ -17,11 +17,9 @@ HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDR
     if (hr == DDERR_INVALIDPARAMS)
     {
         const DWORD oldCaps = pSurfaceDesc->ddsCaps.dwCaps;
-        if (!(oldCaps & DDSCAPS_SYSTEMMEMORY)) // 0x800
+        if (!(oldCaps & DDSCAPS_SYSTEMMEMORY))
         {
-            DWORD tempCaps = pSurfaceDesc->ddsCaps.dwCaps;
-            // TODO
-            //BYTE1(tempCaps) = BYTE1(tempCaps) & 0xBF | 8;
+            const DWORD tempCaps = (pSurfaceDesc->ddsCaps.dwCaps & ~DDSCAPS_VIDEOMEMORY) | DDSCAPS_SYSTEMMEMORY;
             pSurfaceDesc->ddsCaps.dwCaps = tempCaps;
             hr = sDDraw_BBC3D4->CreateSurface(pSurfaceDesc, ppSurface, nullptr);
             pSurfaceDesc->ddsCaps.dwCaps = oldCaps;
@@ -29,7 +27,7 @@ HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDR
     }
     return hr;
 }
-ALIVE_FUNC_IMPLEX(0x4F1C60, BMP_New_create_surface_4F1C60, true); // TODO
+ALIVE_FUNC_IMPLEX(0x4F1C60, BMP_New_create_surface_4F1C60, BMP_IMPL);
 
 signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
 {
@@ -138,7 +136,7 @@ signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillCo
             }
 
             hr = pBmp->field_0_pSurface->Restore();
-            
+
             if (FAILED(hr))
             {
                 continue;
@@ -310,7 +308,7 @@ signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFo
     }
 
     memset(pBitmap, 0, sizeof(Bitmap));
-    
+
     const int bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
     if (bpp < 0)
     {
@@ -674,25 +672,48 @@ namespace Test
 
     void Test_BMP_New_create_surface_4F1C60()
     {
-        StrictMock<MockedDirectDraw> mocked;
-        DirectDrawMock mock(mocked);
-
-        sDDraw_BBC3D4 = &mock;
-
         DDSURFACEDESC desc = {};
         LPDIRECTDRAWSURFACE surf = nullptr;
 
-        desc.ddsCaps.dwCaps = 0x800;
-
-        
         DDSURFACEDESC actualData = {};
-        /*
-        EXPECT_CALL(mocked, CreateSurface(&desc, _, nullptr))
-           // .WillOnce(Return(DDERR_INVALIDPARAMS))
-            .WillOnce(SaveArgPointee<0>(&actualData)).WillOnce(Return(0)); // .Return(S_OK)
+        for (int i = 0; i < 32; i++)
+        {
+            const DWORD flag = (1 << i);
+            if (flag != DDSCAPS_SYSTEMMEMORY && flag != DDSCAPS_VIDEOMEMORY)
+            {
+                StrictMock<MockedDirectDraw> mocked;
+                DirectDrawMock mock(mocked);
 
-        ASSERT_EQ(S_OK, BMP_New_create_surface_4F1C60(&desc, &surf));
-        */
+                sDDraw_BBC3D4 = &mock;
+
+                memset(&actualData, 0, sizeof(DDSURFACEDESC));
+                desc.ddsCaps.dwCaps = flag;
+
+                EXPECT_CALL(mocked, CreateSurface(&desc, _, nullptr))
+                    .WillOnce(Return(DDERR_INVALIDPARAMS))
+                    .WillOnce(DoAll(SaveArgPointee<0>(&actualData), Return(S_OK)));
+                ASSERT_EQ(S_OK, BMP_New_create_surface_4F1C60(&desc, &surf));
+
+                ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<DWORD>(DDSCAPS_SYSTEMMEMORY | flag));
+            }
+        }
+
+        {
+            StrictMock<MockedDirectDraw> mocked;
+            DirectDrawMock mock(mocked);
+
+            sDDraw_BBC3D4 = &mock;
+
+            memset(&actualData, 0, sizeof(DDSURFACEDESC));
+            desc.ddsCaps.dwCaps = DDSCAPS_VIDEOMEMORY;
+
+            EXPECT_CALL(mocked, CreateSurface(&desc, _, nullptr))
+                .WillOnce(Return(DDERR_INVALIDPARAMS))
+                .WillOnce(DoAll(SaveArgPointee<0>(&actualData), Return(S_OK)));
+            ASSERT_EQ(S_OK, BMP_New_create_surface_4F1C60(&desc, &surf));
+
+            ASSERT_EQ(actualData.ddsCaps.dwCaps, static_cast<DWORD>(DDSCAPS_SYSTEMMEMORY));
+        }
 
         sDDraw_BBC3D4 = nullptr;
     }
