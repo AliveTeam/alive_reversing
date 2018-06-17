@@ -11,12 +11,6 @@ void Psx_ForceLink() {}
 
 #define PSX_IMPL true
 
-struct PSX_RECT
-{
-    short x, y, w, h;
-};
-ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
-
 ALIVE_VAR(1, 0x578325, char, sVSync_Unused_578325, 0);
 ALIVE_VAR(1, 0xBD0F2C, int, sVSyncLastMillisecond_BD0F2C, 0);
 ALIVE_VAR(1, 0xBD0F24, int, sLastFrameTimestampMilliseconds_BD0F24, 0);
