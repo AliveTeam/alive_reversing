@@ -28,6 +28,8 @@ add_library(AliveLib
     Quicksave.hpp
     bmp.cpp
     bmp.hpp
+    Game.cpp
+    Game.hpp
     WinMain.cpp
     WinMain.hpp)
 

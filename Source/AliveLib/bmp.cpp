@@ -298,7 +298,7 @@ void CC Bmp_Free_4F1950(Bitmap* pBmp)
 }
 ALIVE_FUNC_IMPLEX(0x4F1950, Bmp_Free_4F1950, BMP_IMPL);
 
-ALIVE_VAR(1, 0xBC0BB4, unsigned __int8, gVGA_ddsCaps_BC0BB4, 0);
+ALIVE_VAR(1, 0xBC0BB4, unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
 signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
 {
@@ -380,7 +380,7 @@ signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFo
     pSurfaceDesc.dwFlags = DDSD_CAPS | DDSD_PIXELFORMAT | DDSD_CKSRCBLT | DDSD_WIDTH | DDSD_HEIGHT; // 0x11007;
     pSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN; // 0x40
 
-    if (gVGA_ddsCaps_BC0BB4)
+    if (gVGA_force_sys_memory_surfaces_BC0BB4)
     {
         pSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_SYSTEMMEMORY | DDSCAPS_OFFSCREENPLAIN; // 0x840
     }

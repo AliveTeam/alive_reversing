@@ -6,8 +6,6 @@
 
 #define SYS_IMPL true
 
-typedef LRESULT(CC* TWindowProcFilter)(HWND, UINT, WPARAM, LPARAM);
-
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, HWND, sHwnd_BBB9F4, nullptr);
 ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);

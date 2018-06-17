@@ -27,13 +27,13 @@ ALIVE_FUNC_IMPLEX(0x4EDDE0, Input_GetInputEnabled_4EDDE0, INPUT_IMPL);
 
 void CC Input_EnableInput_4EDDD0()
 {
-    sInputEnabled_BBB9D0 = 1;
+    sInputEnabled_BBB9D0 = TRUE;
 }
 ALIVE_FUNC_IMPLEX(0x4EDDD0, Input_EnableInput_4EDDD0, INPUT_IMPL);
 
 void CC Input_DisableInput_4EDDC0()
 {
-    sInputEnabled_BBB9D0 = 0;
+    sInputEnabled_BBB9D0 = FALSE;
 }
 ALIVE_FUNC_IMPLEX(0x4EDDC0, Input_DisableInput_4EDDC0, INPUT_IMPL);
 
