@@ -9,3 +9,5 @@ struct PSX_RECT
     short x, y, w, h;
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
+
+int CC PSX_VSync_4F6170(int mode);

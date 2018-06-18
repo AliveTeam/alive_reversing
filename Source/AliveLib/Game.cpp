@@ -237,9 +237,12 @@ public:
     void PSX_Display_Render_OT_41DDF0();
 };
 
+ALIVE_FUNC_NOT_IMPL(0x41DDF0, void __fastcall(PsxDisplay*, void*), PSX_Display_Render_OT_41DDF0);
+
 void PsxDisplay::PSX_Display_Render_OT_41DDF0()
 {
     // TODO
+    ::PSX_Display_Render_OT_41DDF0(this, nullptr);
 }
 
 struct FG1
@@ -253,6 +256,31 @@ struct ScreenManager
     BaseGameObject field_0_mBase;
     // TODO
 };
+
+class ResourceManager
+{
+public:
+    BaseGameObject field_0_mBase;
+    // TODO
+
+    void Shutdown_465610();
+    void sub_465590(int a1);
+};
+ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
+
+ALIVE_FUNC_NOT_IMPL(0x465610, void __fastcall (ResourceManager*, void*), Shutdown_465610);
+
+void ResourceManager::Shutdown_465610()
+{
+    ::Shutdown_465610(this, nullptr);
+}
+
+ALIVE_FUNC_NOT_IMPL(0x465590, void __fastcall (ResourceManager*, void*, int), sub_465590);
+
+void ResourceManager::sub_465590(int a1)
+{
+    ::sub_465590(this, nullptr, a1);
+}
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
@@ -277,11 +305,388 @@ ALIVE_FUNC_NOT_IMPL(0x40AC20, void __cdecl (DynamicArray *pAnimations), AnimateA
 
 
 
+struct InputPadObject
+{
+    DWORD field_0_pressed;
+    BYTE field_4_dir;
+    BYTE field_5;
+    WORD field_6_padding; // Not confirmed
+    DWORD field_8_previous;
+    DWORD field_C_held;
+    DWORD field_10_released;
+    DWORD field_14_padding; // Not confirmed
+};
+ALIVE_ASSERT_SIZEOF(InputPadObject, 0x18);
+
+enum PsxButtonBits : unsigned int
+{
+    eL2 = 1 << 0,
+    eR2 = 1 << 1,
+    eL1 = 1 << 2,
+    eR1 = 1 << 3,
+    eTriangle = 1 << 4,
+    eCircle = 1 << 5,
+    eCross = 1 << 6,
+    eSquare = 1 << 7,
+    eSelect = 1 << 8,
+    // As seen in LibEtc.h of PSYQ.. don't think these can ever be used.
+    // PADi 9 ?
+    // PADj 10 ?
+    eStart = 1 << 11,
+    eDPadUp = 1 << 12,
+    eDPadRight = 1 << 13,
+    eDPadDown = 1 << 14,
+    eDPadLeft = 1 << 15,
+};
+
+enum InputCommands : unsigned int
+{
+    eUp =           1 << 0,
+    eDown =         1 << 1,
+    eLeft =         1 << 2,
+    eRight =        1 << 3,
+    eRun =          1 << 4,
+    eDoAction =     1 << 5,  // Pick up rock, pull lever etc
+    eSneak =        1 << 6,
+    eThrowItem =    1 << 7,  // Or I say I dunno if no items
+    eHop =          1 << 8,
+    eFartOrRoll =   1 << 9,  // (Only roll in AO)
+    eGameSpeak1 =   1 << 10, // Hello
+    eGameSpeak2 =   1 << 11, // (Follow Me)
+    eGameSpeak3 =   1 << 12, // Wait
+    eGameSpeak4 =   1 << 13, // (Work) (Whistle 1)
+    eGameSpeak5 =   1 << 14, // (Anger)
+    eGameSpeak6 =   1 << 15, // (All ya) (Fart)
+    eGameSpeak7 =   1 << 16, // (Sympathy) (Whistle 2)
+    eGameSpeak8 =   1 << 17, // (Stop it) (Laugh)
+    eChant =        1 << 18, 
+    ePause =        1 << 19, // Or enter
+    eUnPause =      1 << 20, // Or/and back
+    // 0x200000     = nothing
+    eCheatMode =    1 << 22,
+    // 0x800000     = nothing
+    // 0x1000000    = nothing
+    // 0x2000000    = nothing
+    // 0x4000000    = nothing
+    // 0x8000000    = nothing
+    // 0x10000000   = nothing
+    // 0x20000000   = nothing
+    // 0x40000000   = nothing
+    // 0x80000000   = nothing
+};
+
+
+class InputObject
+{
+public:
+    int Is_Demo_Playing_45F220();
+    void UnsetDemoPlaying_45F240();
+    void SetDemoResource_45F1E0(DWORD** pDemoRes);
+    void Update_45F040();
+    static DWORD CC Command_To_Raw_404354(DWORD cmd);
+private:
+    InputPadObject field_0_pads[2];
+    DWORD** field_30_pDemoRes;
+    DWORD field_34_demo_command_index;
+    WORD field_38_bDemoPlaying;
+    WORD field_3A_pad_idx;
+    DWORD field_3C_command;
+    DWORD field_40_command_duration;
+};
+ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
+
+ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
+
+int InputObject::Is_Demo_Playing_45F220()
+{
+    return field_38_bDemoPlaying & 1;
+}
+ALIVE_THISCALL_REDIRECT(0x45F220, &InputObject::Is_Demo_Playing_45F220, GAME_IMPL);
+
+void InputObject::UnsetDemoPlaying_45F240()
+{
+    field_38_bDemoPlaying &= ~1;
+}
+ALIVE_THISCALL_REDIRECT(0x45F240, &InputObject::UnsetDemoPlaying_45F240, GAME_IMPL);
+
+
+void InputObject::SetDemoResource_45F1E0(DWORD** pDemoRes)
+{
+    field_34_demo_command_index = 2;
+    field_30_pDemoRes = pDemoRes;
+    field_38_bDemoPlaying |= 1u;
+    field_40_command_duration = 0;
+}
+ALIVE_THISCALL_REDIRECT(0x45F1E0, &InputObject::SetDemoResource_45F1E0, GAME_IMPL);
+
+ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
+ALIVE_VAR(1, 0x5C1B84, unsigned int, sGnFrame_5C1B84, 0);
+ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
+ALIVE_VAR(1, 0x5CA4D2, BYTE, byte_5CA4D2, 0);
+
+
+
+ALIVE_FUNC_NOT_IMPL(0x4FA9C0, int CC(int padNum), sub_4FA9C0);
+
+
+void InputObject::Update_45F040()
+{
+    const unsigned char byte_545A4C[20] =
+    {
+        0, // left?
+        64, // up?
+        192, // down?
+        0,
+        128, // right?
+        96,
+        160,
+        128,
+        0,
+        32,
+        224,
+        0,
+        0,
+        64,
+        192,
+        0,
+        0,
+        0,
+        0,
+        0
+    };
+
+    field_0_pads[0].field_8_previous = field_0_pads[0].field_0_pressed;
+    field_0_pads[0].field_0_pressed = sub_4FA9C0(0);
+
+    if (Is_Demo_Playing_45F220())
+    {
+        // Stop if any button on any pad is pressed
+        if (field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+        {
+            word_5C1B9A = 0;
+            UnsetDemoPlaying_45F240();
+            return;
+        }
+
+        if (sGnFrame_5C1B84 >= field_40_command_duration)
+        {
+            const DWORD command = (*field_30_pDemoRes)[field_34_demo_command_index++];
+            field_3C_command = command >> 16;
+            field_40_command_duration = sGnFrame_5C1B84 + command & 0xFFFF;
+
+            // End demo/quit command
+            if (command & 0x8000)
+            {
+                UnsetDemoPlaying_45F240();
+            }
+        }
+
+        // Will do nothing if we hit the end command..
+        if (Is_Demo_Playing_45F220())
+        {
+            field_0_pads[0].field_0_pressed = Command_To_Raw_404354(field_3C_command);
+        }
+    }
+
+    field_0_pads[0].field_10_released = field_0_pads[0].field_8_previous & ~field_0_pads[0].field_0_pressed;
+    field_0_pads[0].field_C_held = field_0_pads[0].field_0_pressed & ~field_0_pads[0].field_8_previous;
+    field_0_pads[0].field_4_dir = byte_545A4C[field_0_pads[0].field_0_pressed & 0xF];
+
+    field_0_pads[1].field_8_previous = field_0_pads[1].field_0_pressed;
+    field_0_pads[1].field_0_pressed = sub_4FA9C0(1);
+    field_0_pads[1].field_10_released = field_0_pads[1].field_8_previous & ~field_0_pads[1].field_0_pressed;
+    field_0_pads[1].field_C_held = field_0_pads[1].field_0_pressed & ~field_0_pads[1].field_8_previous;
+    field_0_pads[1].field_4_dir = byte_545A4C[field_0_pads[1].field_0_pressed & 0xF];
+}
+ALIVE_THISCALL_REDIRECT(0x45F040, &InputObject::Update_45F040, GAME_IMPL);
+
+
+DWORD CC InputObject::Command_To_Raw_404354(DWORD cmd)
+{
+    unsigned int shoulderButtonsPressedCount = 0;
+
+    if (cmd & PsxButtonBits::eL2)
+    {
+        ++shoulderButtonsPressedCount;
+    }
+
+    if (cmd & PsxButtonBits::eR2)
+    {
+        ++shoulderButtonsPressedCount;
+    }
+
+    if (cmd & PsxButtonBits::eL1)
+    {
+        ++shoulderButtonsPressedCount;
+    }
+
+    if (cmd & PsxButtonBits::eR1)
+    {
+        ++shoulderButtonsPressedCount;
+    }
+
+    if (shoulderButtonsPressedCount > 1) // Any 2 shoulder button combo = chanting
+    {
+        return InputCommands::eChant;
+    }
+
+    DWORD rawInput = 0;
+    if (cmd & PsxButtonBits::eDPadUp)
+    {
+        rawInput |= InputCommands::eUp;
+    }
+
+    if (cmd & PsxButtonBits::eDPadRight)
+    {
+        rawInput |= InputCommands::eRight;
+    }
+
+    if (cmd & PsxButtonBits::eDPadDown)
+    {
+        rawInput |= InputCommands::eDown;
+    }
+
+    if (cmd & eDPadLeft)
+    {
+        rawInput |= InputCommands::eLeft;
+    }
+
+    if (cmd & PsxButtonBits::eR1)
+    {
+        rawInput |= InputCommands::eRun;
+    }
+
+    if (cmd & PsxButtonBits::eR2)
+    {
+        rawInput |= InputCommands::eSneak;
+    }
+
+    if (cmd & PsxButtonBits::eL1)
+    {
+        if (cmd & PsxButtonBits::eTriangle)
+        {
+            rawInput |= InputCommands::eGameSpeak1;
+        }
+
+        if (cmd & PsxButtonBits::eCircle)
+        {
+            rawInput |= InputCommands::eGameSpeak4;
+        }
+
+        if (cmd & PsxButtonBits::eCross)
+        {
+            rawInput |= InputCommands::eGameSpeak3;
+        }
+
+        if (cmd & PsxButtonBits::eSquare)
+        {
+            rawInput |= InputCommands::eGameSpeak2;
+        }
+    }
+    else if (cmd & PsxButtonBits::eL2)
+    {
+        if (cmd & PsxButtonBits::eTriangle)
+        {
+            rawInput |= InputCommands::eGameSpeak6;
+        }
+
+        if (cmd & PsxButtonBits::eCircle)
+        {
+            rawInput |= InputCommands::eGameSpeak7;
+        }
+
+        if (cmd & PsxButtonBits::eCross)
+        {
+            rawInput |= InputCommands::eGameSpeak5;
+        }
+
+        if (cmd & PsxButtonBits::eSquare)
+        {
+            rawInput |= InputCommands::eGameSpeak8;
+        }
+    }
+    else // No shoulder buttons
+    {
+        if (cmd & PsxButtonBits::eTriangle)
+        {
+            rawInput |= InputCommands::eHop;
+        }
+
+        if (cmd & PsxButtonBits::eCircle)
+        {
+            rawInput |= InputCommands::eThrowItem;
+        }
+
+        if (cmd & PsxButtonBits::eCross)
+        {
+            rawInput |= InputCommands::eFartOrRoll;
+        }
+
+        if (cmd & PsxButtonBits::eSquare)
+        {
+            rawInput |= InputCommands::eDoAction;
+        }
+    }
+
+    return rawInput;
+}
+// TODO: Fix hooking framework
+//ALIVE_FUNC_IMPLEX(0x404354, InputObject::Command_To_Raw_404354, GAME_IMPL);
+
+class Map
+{
+public:
+    unsigned __int16 sCurrentLevelId_5C3030;
+    unsigned __int16 sCurrentPathId_5C3032;
+    unsigned __int16 sCurrentCamId_5C3034;
+
+    __int16 field_6;
+    __int16 field_8;
+
+    unsigned __int16 field_A_5C303A_levelId;
+    __int16 field_C_5C303C_pathId;
+    __int16 field_E_cameraId;
+
+    __int16 field_10[7];
+
+    __int16 field_1E_5C304E;
+    __int16 field_20_5C3050;
+    __int16 field_22_5C3052;
+
+    int field_24_5C3054;
+    int field_28_5C3058;
+    int field_2C_5C305C;
+
+    void sub_480B80();
+};
+ALIVE_ASSERT_SIZEOF(Map, 0x30);
+
+ALIVE_FUNC_NOT_IMPL(0x494580, void __cdecl(), sub_494580);
+
+ALIVE_FUNC_NOT_IMPL(0x480B80, void __fastcall(Map*, void*), sub_480B80);
+
+void Map::sub_480B80()
+{
+    ::sub_480B80(this, nullptr);
+}
+
+ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});
+
+ALIVE_FUNC_NOT_IMPL(0x4F5BD0, signed int __cdecl(PSX_RECT *pRect, unsigned __int8 r, unsigned __int8 g, __int16 b), PSX_ClearImage_4F5BD0);
+ALIVE_FUNC_NOT_IMPL(0x4DD050, void __cdecl (), Font_sub_4DD050);
+
+
+int CC PSX_DrawSync_4F6280(int /*mode*/)
+{
+    return 0;
+}
+ALIVE_FUNC_IMPLEX(0x4F6280, PSX_DrawSync_4F6280, GAME_IMPL);
+
 void CC Game_Loop_467230()
 {
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;
-    bool isPauseMenuInObjList_3 = false;
+    bool bPauseMenuObjectFound = false;
     while (gBaseGameObject_list_BB47C4->field_4_used_size > 0)
     {
         sub_422DA0();
@@ -304,7 +709,7 @@ void CC Game_Loop_467230()
                 {
                     if (pBaseGameObject == pPauseMenu_5C9300)
                     {
-                        isPauseMenuInObjList_3 = true;
+                        bPauseMenuObjectFound = true;
                     }
                     else
                     {
@@ -341,8 +746,7 @@ void CC Game_Loop_467230()
             }
             else if (pObj->field_6_flags & 8)
             {
-                // TODO
-                //HIBYTE(v10->field_6_flags) |= 4u;
+                pObj->field_6_flags |= 0x400;
                 pObj->field_0_VTbl->VBaseGameObject.field_8_render(pObj, pOtBuffer);
             }
         }
@@ -362,18 +766,15 @@ void CC Game_Loop_467230()
             }
             else if (pFG1->field_0_mBase.field_6_flags & 8)
             {
-                // TODO
-                //HIBYTE(pFG1->field_0_mBase.field_6_flags) |= 4u;
+                pFG1->field_0_mBase.field_6_flags |= 0x400;
                 pFG1->field_0_mBase.field_0_VTbl->VBaseGameObject.field_8_render(&pFG1->field_0_mBase, pOtBuffer);
             }
         }
         
-        /*
-        Font::sub_4DD050();
+        Font_sub_4DD050();
         PSX_DrawSync_4F6280(0);
-        */
         pScreenManager_5BB5F4->field_0_mBase.field_0_VTbl->VBaseGameObject.field_8_render(&pScreenManager_5BB5F4->field_0_mBase, pOtBuffer);
-        //sub_494580();
+        sub_494580(); // Exit checking?
         
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
         
@@ -398,34 +799,31 @@ void CC Game_Loop_467230()
             }
         }
 
-        if (isPauseMenuInObjList_3 && pPauseMenu_5C9300)
+        if (bPauseMenuObjectFound && pPauseMenu_5C9300)
         {
             pPauseMenu_5C9300->field_0_VTbl->VBaseGameObject.field_4_update(pPauseMenu_5C9300);
         }
 
-        isPauseMenuInObjList_3 = false;
+        bPauseMenuObjectFound = false;
 
-        /*
-        Map::sub_480B80(&gMap_5C3030, v20);
-        Input_update_45F040(&sInputObject_5BD4E0);
+        gMap_5C3030.sub_480B80();
+        sInputObject_5BD4E0.Update_45F040();
 
         if (!word_5C1B66)
         {
-            ++sGnFrame_5C1B84;
+            sGnFrame_5C1B84++;
         }
-        */
 
         if (sBreakGameLoop_5C2FE0)
         {
             break;
         }
         
-        /*
+        // Enabled only for ddfast option
         if (byte_5CA4D2)
         {
-            ResourceManager::sub_465590(pResourceManager_5C1BB0, v25, 0);
+            pResourceManager_5C1BB0->sub_465590(0);
         }
-        */
     } // Main loop end
 
     // Clear the screen to black
@@ -434,12 +832,11 @@ void CC Game_Loop_467230()
     rect.y = 0;
     rect.w = 640;
     rect.h = 240;
-    /*
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
-    ResourceManager::Shutdown_465610(pResourceManager_5C1BB0);
-    */
+
+    pResourceManager_5C1BB0->Shutdown_465610();
 
     // Destroy all game objects
     while (gBaseGameObject_list_BB47C4->field_4_used_size > 0)
@@ -458,6 +855,6 @@ void CC Game_Loop_467230()
             pObj->field_0_VTbl->VBaseGameObject.field_0_destructor(pObj, 1);
         }
     }
-
 }
-ALIVE_FUNC_IMPLEX(0x467230, Game_Loop_467230, false); // TODO: Complete impl
+ALIVE_FUNC_IMPLEX(0x467230, Game_Loop_467230, GAME_IMPL);
+
