@@ -156,8 +156,8 @@ class BaseGameObject;
 
 struct BaseGameObject_VTable
 {
-    void(__thiscall *field_0)(BaseGameObject *, signed int);
-    void(__thiscall *field_4)(BaseGameObject *);
+    void(__thiscall *field_0_destructor)(BaseGameObject *, signed int);
+    void(__thiscall *field_4_update)(BaseGameObject *);
     void(__thiscall *field_8_render)(BaseGameObject *, int *);
     void *field_C;
     void *field_10;
@@ -248,6 +248,12 @@ struct FG1
     // TODO
 };
 
+struct ScreenManager
+{
+    BaseGameObject field_0_mBase;
+    // TODO
+};
+
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArray*, gBaseGameObject_list_BB47C4, nullptr);
@@ -255,6 +261,7 @@ ALIVE_VAR(1, 0x5C1A24, DynamicArray*, gObjList_animations_5C1A24, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArray*, gObjList_drawables_5C1124, nullptr);
 ALIVE_VAR(1, 0x5D1E28, DynamicArray*, gFG1List_5D1E28, nullptr);
 
+ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 
 
 ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
@@ -281,6 +288,7 @@ void CC Game_Loop_467230()
         sub_449A90();
         word_5C2FA0 = 0;
 
+        // Update objects
         for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->field_4_used_size; baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = (BaseGameObject *)gBaseGameObject_list_BB47C4->field_0_array[baseObjIdx];
@@ -300,7 +308,7 @@ void CC Game_Loop_467230()
                     }
                     else
                     {
-                        pBaseGameObject->field_0_VTbl->VBaseGameObject.field_4(pBaseGameObject);
+                        pBaseGameObject->field_0_VTbl->VBaseGameObject.field_4_update(pBaseGameObject);
                     }
                 }
                 else
@@ -310,33 +318,36 @@ void CC Game_Loop_467230()
             }
         }
 
+        // Animate everything
         if (word_5C1B66 <= 0)
         {
             AnimateAllAnimations_40AC20(gObjList_animations_5C1A24);
         }
 
         int* pOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
+        
+        // Render objects
         for (int i=0; i < gObjList_drawables_5C1124->field_4_used_size; i++)
         {
-            BaseGameObject* v10 = (BaseGameObject *)gObjList_drawables_5C1124->field_0_array[i];
-            if (!v10)
+            BaseGameObject* pObj = (BaseGameObject *)gObjList_drawables_5C1124->field_0_array[i];
+            if (!pObj)
             {
                 break;
             }
 
-            if (v10->field_6_flags & 4)
+            if (pObj->field_6_flags & 4)
             {
-                v10->field_6_flags = v10->field_6_flags & 0xFBFF;
+                pObj->field_6_flags = pObj->field_6_flags & ~0x400;
             }
-            else if (v10->field_6_flags & 8)
+            else if (pObj->field_6_flags & 8)
             {
                 // TODO
                 //HIBYTE(v10->field_6_flags) |= 4u;
-                v10->field_0_VTbl->VBaseGameObject.field_8_render(v10, pOtBuffer);
+                pObj->field_0_VTbl->VBaseGameObject.field_8_render(pObj, pOtBuffer);
             }
         }
 
-        int* pOtBuffer2 = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
+        // Render FG1's
         for (int i=0; i < gFG1List_5D1E28->field_4_used_size; i++)
         {
             FG1* pFG1 = (FG1 *)gFG1List_5D1E28->field_0_array[i];
@@ -347,57 +358,54 @@ void CC Game_Loop_467230()
 
             if (pFG1->field_0_mBase.field_6_flags & 4)
             {
-                pFG1->field_0_mBase.field_6_flags = pFG1->field_0_mBase.field_6_flags & 0xFBFF;
+                pFG1->field_0_mBase.field_6_flags = pFG1->field_0_mBase.field_6_flags & ~0x400;
             }
             else if (pFG1->field_0_mBase.field_6_flags & 8)
             {
                 // TODO
                 //HIBYTE(pFG1->field_0_mBase.field_6_flags) |= 4u;
-                pFG1->field_0_mBase.field_0_VTbl->VBaseGameObject.field_8_render(&pFG1->field_0_mBase, pOtBuffer2);
+                pFG1->field_0_mBase.field_0_VTbl->VBaseGameObject.field_8_render(&pFG1->field_0_mBase, pOtBuffer);
             }
         }
         
         /*
         Font::sub_4DD050();
         PSX_DrawSync_4F6280(0);
-
-        pScreenManager_5BB5F4->field_0_mBase.field_0_VTbl->VBaseGameObject.field_8_render(
-            &pScreenManager_5BB5F4->field_0_mBase,
-            gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
-
-        sub_494580();
-        gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
         */
-
-        /*
-        v21 = gBaseGameObject_list_BB47C4;
-        v22 = 0;
-        *(DWORD *)&pRect.x = gBaseGameObject_list_BB47C4;
-        pRect.w = 0;
-        while (v22 < v21->field_4_used_size)
+        pScreenManager_5BB5F4->field_0_mBase.field_0_VTbl->VBaseGameObject.field_8_render(&pScreenManager_5BB5F4->field_0_mBase, pOtBuffer);
+        //sub_494580();
+        
+        gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+        
+        // Destroy objects with certain flags
+        for (short idx = 0; idx < gBaseGameObject_list_BB47C4->field_4_used_size; idx++)
         {
-            v23 = v22++;
-            v20 = (BaseGameObject *)v21->field_0_array[v23];
-            pRect.w = v22;
-            if (!v20)
-                break;
-            v24 = v20->field_6_flags;
-            if (v24 & 4 && !(v24 & 0x400))
+            BaseGameObject* pObj = (BaseGameObject *)gBaseGameObject_list_BB47C4->field_0_array[idx];
+            if (!pObj)
             {
-                DynamicArrayIter::Remove_At_Iter_40CCA0((DynamicArrayIter *)&pRect);
-                v20->field_0_VTbl->VBaseGameObject.field_0(v20, 1);
-                v22 = pRect.w;
-                v21 = *(DynamicArray **)&pRect.x;
+                break;
+            }
+
+            const int flags = pObj->field_6_flags;
+            if (flags & 4 && !(flags & 0x400))
+            {
+                DynamicArrayIter it;
+                it.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
+                it.field_4_idx = idx + 1;
+
+                it.Remove_At_Iter_40CCA0();
+                pObj->field_0_VTbl->VBaseGameObject.field_0_destructor(pObj, 1);
             }
         }
 
         if (isPauseMenuInObjList_3 && pPauseMenu_5C9300)
         {
-            pPauseMenu_5C9300->field_0_VTbl->VBaseGameObject.field_4(pPauseMenu_5C9300);
+            pPauseMenu_5C9300->field_0_VTbl->VBaseGameObject.field_4_update(pPauseMenu_5C9300);
         }
 
-        isPauseMenuInObjList_3 = 0;
+        isPauseMenuInObjList_3 = false;
 
+        /*
         Map::sub_480B80(&gMap_5C3030, v20);
         Input_update_45F040(&sInputObject_5BD4E0);
 
@@ -405,48 +413,51 @@ void CC Game_Loop_467230()
         {
             ++sGnFrame_5C1B84;
         }
+        */
 
         if (sBreakGameLoop_5C2FE0)
         {
             break;
         }
         
+        /*
         if (byte_5CA4D2)
         {
             ResourceManager::sub_465590(pResourceManager_5C1BB0, v25, 0);
         }
         */
-    }
+    } // Main loop end
 
+    // Clear the screen to black
+    PSX_RECT rect = {};
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 640;
+    rect.h = 240;
     /*
-    pRect.x = 0;
-    pRect.y = 0;
-    pRect.w = 640;
-    pRect.h = 240;
-    PSX_ClearImage_4F5BD0(&pRect, 0, 0, 0);
+    PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
     ResourceManager::Shutdown_465610(pResourceManager_5C1BB0);
-    for (i = gBaseGameObject_list_BB47C4; gBaseGameObject_list_BB47C4->field_4_used_size > 0; pRect.w = 0)
+    */
+
+    // Destroy all game objects
+    while (gBaseGameObject_list_BB47C4->field_4_used_size > 0)
     {
-        v27 = 0;
-        *(DWORD *)&pRect.x = i;
-        pRect.w = 0;
-        while (v27 < i->field_4_used_size)
+        DynamicArrayIter iter = {};
+        iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
+        for (short idx =0; idx < gBaseGameObject_list_BB47C4->field_4_used_size; idx++)
         {
-            v28 = (BaseGameObject *)i->field_0_array[v27];
-            pRect.w = v27 + 1;
-            if (!v28)
+            BaseGameObject* pObj = (BaseGameObject *)gBaseGameObject_list_BB47C4->field_0_array[idx];
+            iter.field_4_idx = idx + 1;
+            if (!pObj)
             {
                 break;
             }
-            DynamicArrayIter::Remove_At_Iter_40CCA0((DynamicArrayIter *)&pRect);
-            v28->field_0_VTbl->VBaseGameObject.field_0(v28, 1);
-            v27 = pRect.w;
-            i = *(DynamicArray **)&pRect.x;
+            iter.Remove_At_Iter_40CCA0();
+            pObj->field_0_VTbl->VBaseGameObject.field_0_destructor(pObj, 1);
         }
-        i = gBaseGameObject_list_BB47C4;
     }
-    */
+
 }
 ALIVE_FUNC_IMPLEX(0x467230, Game_Loop_467230, false); // TODO: Complete impl
