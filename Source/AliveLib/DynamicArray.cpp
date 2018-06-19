@@ -84,7 +84,8 @@ signed __int16 DynamicArray::Push_Back_40CAF0(void* pValue)
     field_0_array[field_4_used_size++] = pValue;
     return 1;
 }
-ALIVE_THISCALL_REDIRECT(0x40CAF0, &DynamicArray::Push_Back_40CAF0, DYNAMIC_ARRAY_IMPL);
+// TODO: Hooking non public's
+//ALIVE_THISCALL_REDIRECT(0x40CAF0, &DynamicArray::Push_Back_40CAF0, DYNAMIC_ARRAY_IMPL);
 
 signed __int16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
 {
@@ -109,7 +110,7 @@ signed __int16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
     }
     return 0;
 }
-ALIVE_THISCALL_REDIRECT(0x40CB60, &DynamicArray::Remove_Item_40CB60, DYNAMIC_ARRAY_IMPL);
+//ALIVE_THISCALL_REDIRECT(0x40CB60, &DynamicArray::Remove_Item_40CB60, DYNAMIC_ARRAY_IMPL);
 
 signed __int16 DynamicArray::Expand_40CBE0(__int16 expandSize)
 {
