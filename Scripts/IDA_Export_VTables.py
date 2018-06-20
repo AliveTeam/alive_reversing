@@ -14,7 +14,7 @@ print "# AUTO GENERATED VIA IDA SCRIPT " + now.strftime("%Y-%m-%d %I:%M %p")
 def print_vtables(prefix):
     for seg_ea in range(idata_seg_startea, idata_seg_endea):
         name = Name(seg_ea)
-        if name.lower().startswith(prefix):
+        if name.lower().startswith(prefix) and not name.lower().startswith("vtbl_class_"):
             print hex(seg_ea) + "=" + name + "," + name.split('_')[1]
 
 print_vtables("vtbl_")
