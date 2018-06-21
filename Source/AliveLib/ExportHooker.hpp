@@ -99,8 +99,15 @@ private:
                     {
                         BYTE* ptr = &reinterpret_cast<BYTE*>(pCode)[i + 4];
                         DWORD old = 0;
-                        VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old);
+                        if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
+                        {
+                            ALIVE_FATAL("Failed to make memory writable");
+                        }
                         *ptr = 0x90;
+                        if (!::VirtualProtect(ptr, 1, old, &old))
+                        {
+                            ALIVE_FATAL("Failed to restore old memory protection");
+                        }
                     }
                     return false;
                 }

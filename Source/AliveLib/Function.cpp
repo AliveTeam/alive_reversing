@@ -57,42 +57,6 @@ void CheckVars()
     }
 }
 
-void AliveFunctionBase::ApplyFunctions()
-{
-    TRACE_ENTRYEXIT;
-    LONG err = DetourTransactionBegin();
-
-    if (err != NO_ERROR)
-    {
-        ALIVE_FATAL("DetourTransactionBegin failed");
-    }
-
-    err = DetourUpdateThread(GetCurrentThread());
-
-    if (err != NO_ERROR)
-    {
-        ALIVE_FATAL("DetourUpdateThread failed");
-    }
-
-    auto& funcs = GetHookedFunctionTable();
-    for (auto func : funcs)
-    {
-        func.second->Apply();
-    }
-    err = DetourTransactionCommit();
-    if (err != NO_ERROR)
-    {
-        ALIVE_FATAL("DetourTransactionCommit failed");
-    }
-}
-
-// Since the AliveFunctionBase instances are global we have to do this to avoid global static init ordering issues
-/*static*/ std::map<void*, AliveFunctionBase*>& AliveFunctionBase::GetHookedFunctionTable()
-{
-    static std::map<void*, AliveFunctionBase*> table;
-    return table;
-}
-
 bool operator < (const TVarInfo& lhs, const TVarInfo& rhs)
 {
     return lhs.mAddr < rhs.mAddr;
