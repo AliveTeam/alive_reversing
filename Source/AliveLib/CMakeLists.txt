@@ -1,6 +1,7 @@
 project(AliveLib VERSION 0.1 LANGUAGES CXX)
 
 add_library(AliveLib
+    ExportHooker.hpp
     stdafx.cpp
     stdafx.h
     logger.hpp
@@ -43,7 +44,11 @@ target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE"
 
 if (MSVC)
     target_compile_options(AliveLib PRIVATE /W4 /wd4996)
+
+    set_target_properties(AliveLib PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
+    set_target_properties(AliveLib PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
 endif()
+
 
 SET_TARGET_PRECOMPILED_HEADER(AliveLib stdafx.h stdafx.cpp)
 

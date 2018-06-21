@@ -8,6 +8,7 @@ void VGA_ForceLink() {}
 #ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(char /*bFullScreen*/)
 {
+    LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
     return 0;
 }
 #endif

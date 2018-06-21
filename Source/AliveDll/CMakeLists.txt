@@ -9,8 +9,8 @@ target_compile_features(AliveDll
     PRIVATE cxx_variadic_templates)
 
 if (MSVC)
-    set_target_properties(AliveDll PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
-    set_target_properties(AliveDll PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
+    set_target_properties(AliveDll PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
+    set_target_properties(AliveDll PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
 endif()
 
 target_compile_definitions(AliveDll PRIVATE "_CRT_SECURE_NO_WARNINGS")
