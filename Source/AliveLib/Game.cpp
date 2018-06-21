@@ -697,7 +697,6 @@ EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
 {
     return 0;
 }
-ALIVE_FUNC_IMPLEX(0x4F6280, PSX_DrawSync_4F6280, GAME_IMPL);
 
 void CC Game_Loop_467230()
 {
