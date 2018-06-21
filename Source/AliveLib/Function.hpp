@@ -15,7 +15,7 @@ bool IsAlive();
 
 #define ALIVE_FATAL(x)  ::MessageBox(NULL, x, "ALIVE Hook fatal error.", MB_ICONERROR | MB_OK); __debugbreak(); abort();
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
-#define NOT_IMPLEMENTED __asm {nop} _asm {nop} _asm {nop} _asm {nop} _asm {int 3} __asm {nop} _asm {nop} _asm {nop} _asm {nop};
+#define NOT_IMPLEMENTED if (IsAlive()) { __asm {nop} _asm {nop} _asm {nop} _asm {nop} _asm {int 3} __asm {nop} _asm {nop} _asm {nop} _asm {nop}; } else { static bool done = false; if (!done) { done = true; LOG_WARNING("Not implemented"); }}
 #define EXPORT __declspec(dllexport)
 
 class AliveFunctionBase
@@ -320,13 +320,13 @@ extern AliveVar Var_##VarName;\
 extern TypeName* VarName ;
 
 
-#define ALIVE_FUNC_NOT_IMPL(addr, signature, name) AliveFunction<(void*)addr, nullptr, HookType::eNotImpl, signature> name(#name);
-#define EXTERN_ALIVE_FUNC_NOT_IMPL(addr, signature, name) extern AliveFunction<(void*)addr, nullptr, HookType::eNotImpl, signature> name;
+//#define ALIVE_FUNC_NOT_IMPL(addr, signature, name) AliveFunction<(void*)addr, nullptr, HookType::eNotImpl, signature> name(#name);
+//#define EXTERN_ALIVE_FUNC_NOT_IMPL(addr, signature, name) extern AliveFunction<(void*)addr, nullptr, HookType::eNotImpl, signature> name;
 
-#define ALIVE_FUNC_IMPL(addr, funcName) AliveFunction<(void*)addr, funcName, HookType::eImpl, decltype(funcName)> funcName##_(#funcName);
+//#define ALIVE_FUNC_IMPL(addr, funcName) AliveFunction<(void*)addr, funcName, HookType::eImpl, decltype(funcName)> funcName##_(#funcName);
 
 // isImplemented == false means redirect game func to our func. isImplemented == true means redirect our func to game func.
-#define ALIVE_FUNC_IMPLEX(addr, funcName, isImplemented) AliveFunction<(void*)addr, funcName, isImplemented ? HookType::eImpl : HookType::eNotImplWithStub, decltype(funcName)> funcName##_(#funcName);
+//#define ALIVE_FUNC_IMPLEX(addr, funcName, isImplemented) AliveFunction<(void*)addr, funcName, isImplemented ? HookType::eImpl : HookType::eNotImplWithStub, decltype(funcName)> funcName##_(#funcName);
 
 template<class T>
 inline void DoDetour(DWORD addr, T func)

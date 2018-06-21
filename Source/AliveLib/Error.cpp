@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF(ErrorData, 0x10C);
 ALIVE_ARY(1, 0xBBC570, ErrorData, 32, sErrors_BBC570, {});
 ALIVE_VAR(1, 0xBBC564, int, sErrorIndex_BBC564, 0);
 
-void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lineNumber, int minusOne, const char* errMsg)
+EXPORT void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lineNumber, int minusOne, const char* errMsg)
 {
     if (sErrorIndex_BBC564 == 32)
     {
@@ -35,16 +35,15 @@ void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lineNumber
 
     sErrorIndex_BBC564++;
 }
-ALIVE_FUNC_IMPLEX(0x4F2920, Error_PushErrorRecord_4F2920, ERROR_IMPL);
 
-void CC Error_NullPrint_4F28C0(const char* msg)
+/*EXPORT not big enough to hook*/ void CC Error_NullPrint_4F28C0(const char* msg)
 {
     LOG_ERROR(msg);
 }
 
 ALIVE_VAR(1, 0xBBFB04, HWND, hWnd_BBFB04, 0);
 
-int CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, const char* formatStr, ...)
+EXPORT int CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, const char* formatStr, ...)
 {
     static char sErrorMessage_BBFBA8[2052];
     static char sErrorTitle_BC03B4[2048];

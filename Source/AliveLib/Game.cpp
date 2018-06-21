@@ -9,6 +9,8 @@
 #include "DynamicArray.hpp"
 #include <timeapi.h>
 
+void Game_ForceLink() { }
+
 using TExitGameCallBack = std::add_pointer<void CC()>::type;
 
 ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
@@ -21,16 +23,43 @@ ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
 ALIVE_VAR(1, 0xBBC558, DWORD, sIoThreadId_BBC558, 0);
 ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
-ALIVE_FUNC_NOT_IMPL(0x4F25A0, DWORD WINAPI(LPVOID lpThreadParameter), FS_IOThread_4F25A0);
-ALIVE_FUNC_NOT_IMPL(0x494EA0, void CC(const char *pCmdLineNotUsed, const char *pCommandLine), Main_ParseCommandLineArguments_494EA0);
-ALIVE_FUNC_NOT_IMPL(0x494A40, LRESULT CC(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam), Sys_WindowMessageHandler_494A40);
-ALIVE_FUNC_NOT_IMPL(0x466D40, void CC(), Game_Run_466D40);
-ALIVE_FUNC_NOT_IMPL(0x4FA010, void CC(), PSX_EMU_VideoDeAlloc_4FA010);
-ALIVE_FUNC_NOT_IMPL(0x4EDEC0, int __cdecl (UINT uDelay, void* callBack), CreateTimer_4EDEC0);
-ALIVE_FUNC_NOT_IMPL(0x4EFD50, void (), SND_Close_4EFD50);
+EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
 
+EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* /*pCommandLine*/)
+{
+    NOT_IMPLEMENTED;
+}
 
-void Game_ForceLink() { }
+EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND /*hWnd*/, UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
+{
+    NOT_IMPLEMENTED;
+}
+
+EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+EXPORT void CC SND_Close_4EFD50()
+{
+    NOT_IMPLEMENTED;
+}
+
+EXPORT void CC Game_Run_466D40()
+{
+    NOT_IMPLEMENTED;
+}
 
 EXPORT void CC Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
 {
@@ -101,7 +130,7 @@ EXPORT signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfac
         sIoThreadHandle_BBC55C = ::CreateThread(
             0,
             0x4000u,
-            FS_IOThread_4F25A0.Ptr(),
+            FS_IOThread_4F25A0,
             0,
             0,
             &sIoThreadId_BBC558);
@@ -129,7 +158,7 @@ EXPORT void CC Game_Main_4949F0()
     
     Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine_4EE176(), Sys_GetCommandLine_4EE176());
     Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
-    Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40.Ptr());
+    Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
     
     // Only returns once the engine is shutting down
     Game_Run_466D40();
@@ -297,12 +326,20 @@ ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
 ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
 ALIVE_VAR(1, 0x5C9300, BaseGameObject*, pPauseMenu_5C9300, nullptr);
 
+EXPORT void CC sub_422DA0()
+{
+    NOT_IMPLEMENTED;
+}
 
-ALIVE_FUNC_NOT_IMPL(0x422DA0, void(), sub_422DA0);
-ALIVE_FUNC_NOT_IMPL(0x449A90, void(), sub_449A90);
-ALIVE_FUNC_NOT_IMPL(0x40AC20, void __cdecl (DynamicArray *pAnimations), AnimateAllAnimations_40AC20);
+EXPORT void CC sub_449A90()
+{
+    NOT_IMPLEMENTED;
+}
 
-
+EXPORT void CC AnimateAllAnimations_40AC20(DynamicArray* /*pAnimations*/)
+{
+    NOT_IMPLEMENTED;
+}
 
 struct InputPadObject
 {
@@ -420,9 +457,10 @@ ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
 ALIVE_VAR(1, 0x5CA4D2, BYTE, byte_5CA4D2, 0);
 
 
-
-ALIVE_FUNC_NOT_IMPL(0x4FA9C0, int CC(int padNum), sub_4FA9C0);
-
+EXPORT int CC sub_4FA9C0(int /*padNum*/)
+{
+    return 0;
+}
 
 void InputObject::Update_45F040()
 {
@@ -659,10 +697,21 @@ void Map::sub_480B80()
 
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});
 
-ALIVE_FUNC_NOT_IMPL(0x494580, void __cdecl(), sub_494580);
+EXPORT void CC sub_494580()
+{
+    NOT_IMPLEMENTED;
+}
 
-ALIVE_FUNC_NOT_IMPL(0x4F5BD0, signed int __cdecl(PSX_RECT *pRect, unsigned __int8 r, unsigned __int8 g, __int16 b), PSX_ClearImage_4F5BD0);
-ALIVE_FUNC_NOT_IMPL(0x4DD050, void __cdecl (), Font_sub_4DD050);
+EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* /*pRect*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, __int16 /*b*/)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+EXPORT void CC Font_sub_4DD050()
+{
+    NOT_IMPLEMENTED;
+}
 
 EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
 {

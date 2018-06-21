@@ -4,4 +4,4 @@
 
 void VGA_ForceLink();
 
-void CC VGA_Shutdown_4F3170();
+EXPORT void CC VGA_Shutdown_4F3170();

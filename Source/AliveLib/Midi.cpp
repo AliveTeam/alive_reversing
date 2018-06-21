@@ -5,4 +5,8 @@
 
 void Midi_ForceLink() { }
 
-ALIVE_FUNC_NOT_IMPL(0x4FDC80, char CC(), MIDI_UpdatePlayer_4FDC80);
+EXPORT char CC MIDI_UpdatePlayer_4FDC80()
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}

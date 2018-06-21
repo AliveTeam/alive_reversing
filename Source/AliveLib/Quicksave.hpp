@@ -55,4 +55,4 @@ ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
 ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData_BAF7F8);
 
-EXTERN_ALIVE_FUNC_NOT_IMPL(0x4C9170, void CC(), Quicksave_LoadActive_4C9170);
+EXPORT void CC Quicksave_LoadActive_4C9170();

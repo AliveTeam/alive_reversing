@@ -60,7 +60,7 @@ ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
 
 EXPORT int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
-    LOG_INFO("WinMain_4EE631");
+    LOG_INFO("Main enter");
     Sys_Main(hInstance, lpCmdLine, nShowCmd);
     sPrevInstance_BBBA54 = hPrevInstance;
     InitOtherHooksAndRunTests();
