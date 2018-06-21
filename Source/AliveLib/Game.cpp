@@ -676,26 +676,24 @@ public:
     int field_28_5C3058;
     int field_2C_5C305C;
 
-    void sub_480B80();
+    EXPORT void sub_480B80();
 };
 ALIVE_ASSERT_SIZEOF(Map, 0x30);
 
 ALIVE_FUNC_NOT_IMPL(0x494580, void __cdecl(), sub_494580);
 
-ALIVE_FUNC_NOT_IMPL(0x480B80, void __fastcall(Map*, void*), sub_480B80);
-
 void Map::sub_480B80()
 {
-    ::sub_480B80(this, nullptr);
+    NOT_IMPLEMENTED;
 }
 
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});
 
+
 ALIVE_FUNC_NOT_IMPL(0x4F5BD0, signed int __cdecl(PSX_RECT *pRect, unsigned __int8 r, unsigned __int8 g, __int16 b), PSX_ClearImage_4F5BD0);
 ALIVE_FUNC_NOT_IMPL(0x4DD050, void __cdecl (), Font_sub_4DD050);
 
-
-int CC PSX_DrawSync_4F6280(int /*mode*/)
+EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
 {
     return 0;
 }
@@ -876,4 +874,3 @@ void CC Game_Loop_467230()
     }
 }
 ALIVE_FUNC_IMPLEX(0x467230, Game_Loop_467230, GAME_IMPL);
-

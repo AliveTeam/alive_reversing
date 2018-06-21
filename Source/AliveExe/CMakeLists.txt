@@ -8,10 +8,6 @@ target_compile_features(AliveExe
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 
-if (MSVC)
-    set_target_properties(AliveExe PROPERTIES LINK_FLAGS "/DYNAMICBASE:NO /FIXED /BASE:0x40000")
-endif()
-
 target_compile_definitions(AliveExe PRIVATE "_CRT_SECURE_NO_WARNINGS")
 
 target_link_libraries(AliveExe AliveLib)

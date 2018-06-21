@@ -15,6 +15,8 @@ bool IsAlive();
 
 #define ALIVE_FATAL(x)  ::MessageBox(NULL, x, "ALIVE Hook fatal error.", MB_ICONERROR | MB_OK); __debugbreak(); abort();
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
+#define NOT_IMPLEMENTED __asm {nop} _asm {nop} _asm {nop} _asm {nop} _asm {int 3} __asm {nop} _asm {nop} _asm {nop} _asm {nop};
+#define EXPORT __declspec(dllexport)
 
 class AliveFunctionBase
 {

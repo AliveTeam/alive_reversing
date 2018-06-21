@@ -15,7 +15,7 @@ endif()
 
 target_compile_definitions(AliveDll PRIVATE "_CRT_SECURE_NO_WARNINGS")
 
-target_link_libraries(AliveDll AliveLib)
+target_link_libraries(AliveDll Detours AliveLib)
 
 add_custom_command(TARGET AliveDll
                    POST_BUILD
