@@ -4,11 +4,9 @@
 #include "DDraw.hpp"
 #include "Error.hpp"
 
-#define BMP_IMPL true
-
 ALIVE_VAR(1, 0xBBC3D4, LPDIRECTDRAW, sDDraw_BBC3D4, nullptr);
 
-HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDRAWSURFACE* ppSurface)
+EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDRAWSURFACE* ppSurface)
 {
     *ppSurface = nullptr;
 
@@ -27,9 +25,8 @@ HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDR
     }
     return hr;
 }
-ALIVE_FUNC_IMPLEX(0x4F1C60, BMP_New_create_surface_4F1C60, BMP_IMPL);
 
-signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
 {
     HRESULT hr = S_OK;
     bool addError = true;
@@ -73,11 +70,10 @@ signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBm
     }
     return -1;
 }
-ALIVE_FUNC_IMPLEX(0x4F1E50, BMP_Blt_4F1E50, BMP_IMPL);
 
 ALIVE_VAR(1, 0xBBC458, DDBLTFX, blt_fx_stru_BBC458, {});
 
-signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+EXPORT signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
 {
     RECT rect = *pRect;
 
@@ -148,9 +144,8 @@ signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillCo
     Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 340, -1, DX_HR_To_String_4F4EC0(hr));
     return -1;
 }
-ALIVE_FUNC_IMPLEX(0x4F1EE0, BMP_ClearRect_4F1EE0, BMP_IMPL);
 
-void CC BMP_unlock_4F2100(Bitmap* pBmp)
+EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp)
 {
     if (pBmp->field_4_pLockedPixels && pBmp->field_0_pSurface)
     {
@@ -162,9 +157,8 @@ void CC BMP_unlock_4F2100(Bitmap* pBmp)
         pBmp->field_4_pLockedPixels = nullptr;
     }
 }
-ALIVE_FUNC_IMPLEX(0x4F2100, BMP_unlock_4F2100, BMP_IMPL);
 
-void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
+EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
 {
     if (pBmp && hdc)
     {
@@ -175,9 +169,8 @@ void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
         }
     }
 }
-ALIVE_FUNC_IMPLEX(0x4F21A0, BMP_Release_DC_4F21A0, BMP_IMPL);
 
-HDC CC BMP_Get_DC_4F2150(Bitmap* pBmp)
+EXPORT HDC CC BMP_Get_DC_4F2150(Bitmap* pBmp)
 {
     if (!pBmp || pBmp->field_4_pLockedPixels || !pBmp->field_0_pSurface)
     {
@@ -194,9 +187,8 @@ HDC CC BMP_Get_DC_4F2150(Bitmap* pBmp)
 
     return dc;
 }
-ALIVE_FUNC_IMPLEX(0x4F2150, BMP_Get_DC_4F2150, BMP_IMPL);
 
-LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
+EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
 {
     HDC dc = BMP_Get_DC_4F2150(pBmp);
     TEXTMETRICA tm = {};
@@ -212,9 +204,8 @@ LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* pBmp)
 
     return textHeight;
 }
-ALIVE_FUNC_IMPLEX(0x4F21F0, BMP_Get_Font_Height_4F21F0, BMP_IMPL);
 
-signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
+EXPORT signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
 {
     signed int converted = 0;
     switch (bpp)
@@ -249,9 +240,8 @@ signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
     }
     return converted;
 }
-ALIVE_FUNC_IMPLEX(0x4F1CC0, BMP_New_convert_BPP_4F1CC0, BMP_IMPL);
 
-int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
+EXPORT int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
 {
     int converted = 0;
     switch (pBmp->field_15_pixel_format)
@@ -282,9 +272,8 @@ int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
     }
     return converted;
 }
-ALIVE_FUNC_IMPLEX(0x4F17D0, Bmp_Convert_Colour_4F17D0, BMP_IMPL);
 
-void CC Bmp_Free_4F1950(Bitmap* pBmp)
+EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
 {
     if (pBmp && pBmp->field_0_pSurface)
     {
@@ -296,11 +285,10 @@ void CC Bmp_Free_4F1950(Bitmap* pBmp)
         memset(pBmp, 0, sizeof(Bitmap));
     }
 }
-ALIVE_FUNC_IMPLEX(0x4F1950, Bmp_Free_4F1950, BMP_IMPL);
 
 ALIVE_VAR(1, 0xBC0BB4, unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
-signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
+EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
 {
     if (!pBitmap || !width || !height)
     {
@@ -420,11 +408,10 @@ signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFo
     pBitmap->field_18_create_flags = createFlags;
     return 0;
 }
-ALIVE_FUNC_IMPLEX(0x4F1990, BMP_New_4F1990, BMP_IMPL);
 
 ALIVE_VAR(1, 0xBBC3E8, DDSURFACEDESC, sBmpSurfaceDesc_BBC3E8, {});
 
-LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
+EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
 {
     // Already locked or we don't have a surface
     if (pBitmap->field_4_pLockedPixels || !pBitmap->field_0_pSurface)
@@ -460,9 +447,8 @@ LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
 
     return nullptr;
 }
-ALIVE_FUNC_IMPLEX(0x4F1FF0, BMP_Lock_4F1FF0, BMP_IMPL);
 
-void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int fgColour, int bgColour, LPCSTR lpString)
+EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int fgColour, int bgColour, LPCSTR lpString)
 {
     const HDC dc = BMP_Get_DC_4F2150(pBmp);
     if (bgColour)
@@ -481,7 +467,6 @@ void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int fgColour
     ::TextOutA(dc, x, y, lpString, strlen(lpString));
     BMP_Release_DC_4F21A0(pBmp, dc);
 }
-ALIVE_FUNC_IMPLEX(0x4F2230, BMP_Draw_String_4F2230, BMP_IMPL);
 
 #include "gmock/gmock.h"
 

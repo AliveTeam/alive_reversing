@@ -1,31 +1,29 @@
 #include "stdafx.h"
 #include "DynamicArray.hpp"
 
-#define DYNAMIC_ARRAY_IMPL true
-
 void DynamicArray_ForceLink() { }
 
-void* CC malloc_non_zero_4954F0(size_t size)
+EXPORT void* CC malloc_non_zero_4954F0(size_t size)
 {
+    NOT_IMPLEMENTED;
     if (size == 0)
     {
         size = 1;
     }
     return malloc(size);
 }
-ALIVE_FUNC_IMPLEX(0x4954F0, malloc_non_zero_4954F0, false);
 
-void CC Mem_Free_495540(void* ptr)
+EXPORT void CC Mem_Free_495540(void* ptr)
 {
+    NOT_IMPLEMENTED;
     free(ptr);
 }
-ALIVE_FUNC_IMPLEX(0x495540, Mem_Free_495540, false);
 
-void CC Mem_Free_495560(void *ptr)
+EXPORT void CC Mem_Free_495560(void *ptr)
 {
+    NOT_IMPLEMENTED;
     free(ptr);
 }
-ALIVE_FUNC_IMPLEX(0x495560, Mem_Free_495560, false);
 
 DynamicArray* DynamicArray::ctor_40CA60(signed __int16 startingSize)
 {
@@ -46,7 +44,6 @@ DynamicArray* DynamicArray::ctor_40CA60(signed __int16 startingSize)
 
     return this;
 }
-ALIVE_THISCALL_REDIRECT(0x40CA60, &DynamicArray::ctor_40CA60, DYNAMIC_ARRAY_IMPL);
 
 DynamicArray* DynamicArray::ctor_40C9E0(signed __int16 startingSize)
 {
@@ -57,13 +54,11 @@ DynamicArray* DynamicArray::ctor_40C9E0(signed __int16 startingSize)
     }
     return this;
 }
-ALIVE_THISCALL_REDIRECT(0x40C9E0, &DynamicArray::ctor_40C9E0, DYNAMIC_ARRAY_IMPL);
 
 void DynamicArray::dtor_40CAD0()
 {
     Mem_Free_495560(field_0_array);
 }
-ALIVE_THISCALL_REDIRECT(0x40CAD0, &DynamicArray::dtor_40CAD0, DYNAMIC_ARRAY_IMPL);
 
 signed __int16 DynamicArray::Push_Back_40CAF0(void* pValue)
 {
@@ -84,8 +79,6 @@ signed __int16 DynamicArray::Push_Back_40CAF0(void* pValue)
     field_0_array[field_4_used_size++] = pValue;
     return 1;
 }
-// TODO: Hooking non public's
-//ALIVE_THISCALL_REDIRECT(0x40CAF0, &DynamicArray::Push_Back_40CAF0, DYNAMIC_ARRAY_IMPL);
 
 signed __int16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
 {
@@ -110,7 +103,6 @@ signed __int16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
     }
     return 0;
 }
-//ALIVE_THISCALL_REDIRECT(0x40CB60, &DynamicArray::Remove_Item_40CB60, DYNAMIC_ARRAY_IMPL);
 
 signed __int16 DynamicArray::Expand_40CBE0(__int16 expandSize)
 {
@@ -138,7 +130,6 @@ signed __int16 DynamicArray::Expand_40CBE0(__int16 expandSize)
 
     return 1;
 }
-ALIVE_THISCALL_REDIRECT(0x40CBE0, &DynamicArray::Expand_40CBE0, DYNAMIC_ARRAY_IMPL);
 
 void DynamicArrayIter::Remove_At_Iter_40CCA0()
 {
@@ -148,4 +139,3 @@ void DynamicArrayIter::Remove_At_Iter_40CCA0()
     // Overwrite the items to remove with the item from the end
     field_0_pDynamicArray->field_0_array[field_4_idx] = field_0_pDynamicArray->field_0_array[field_0_pDynamicArray->field_4_used_size];
 }
-ALIVE_THISCALL_REDIRECT(0x40CCA0, &DynamicArrayIter::Remove_At_Iter_40CCA0, DYNAMIC_ARRAY_IMPL);

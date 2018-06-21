@@ -2,9 +2,7 @@
 #include "DDraw.hpp"
 #include "Function.hpp"
 
-#define DDRAW_IMPL true
-
-const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
+EXPORT const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
 {
     switch (hr)
     {
@@ -237,4 +235,3 @@ const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
     }
     return "Unrecognized error value.";
 }
-ALIVE_FUNC_IMPLEX(0x4F4EC0, DX_HR_To_String_4F4EC0, DDRAW_IMPL);

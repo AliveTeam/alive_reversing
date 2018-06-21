@@ -28,7 +28,7 @@ struct Bitmap
 };
 ALIVE_ASSERT_SIZEOF(Bitmap, 0x1C);
 
-signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags);
-void CC Bmp_Free_4F1950(Bitmap* pBmp);
+EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags);
+EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp);
 
 ALIVE_VAR_EXTERN(unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4);

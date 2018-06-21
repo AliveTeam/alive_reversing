@@ -29,16 +29,16 @@ public:
 class DynamicArray
 {
 public:
-    DynamicArray* ctor_40CA60(signed __int16 startingSize);
-    DynamicArray* ctor_40C9E0(signed __int16 startingSize);
-    void dtor_40CAD0();
+    EXPORT DynamicArray* ctor_40CA60(signed __int16 startingSize);
+    EXPORT DynamicArray* ctor_40C9E0(signed __int16 startingSize);
+    EXPORT void dtor_40CAD0();
 
-    signed __int16 Expand_40CBE0(__int16 expandSize);
+    EXPORT signed __int16 Expand_40CBE0(__int16 expandSize);
     bool IsEmpty() const {  return field_4_used_size == 0; }
     __int16 Size() const {  return field_4_used_size; }
 protected:
-    signed __int16 Push_Back_40CAF0(void* pValue);
-    signed __int16 Remove_Item_40CB60(void* pItemToRemove);
+    EXPORT signed __int16 Push_Back_40CAF0(void* pValue);
+    EXPORT signed __int16 Remove_Item_40CB60(void* pItemToRemove);
     void** field_0_array;
 private:
     __int16 field_4_used_size;
@@ -53,7 +53,7 @@ ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
 class DynamicArrayIter
 {
 public:
-    void Remove_At_Iter_40CCA0();
+    EXPORT void Remove_At_Iter_40CCA0();
 
     DynamicArray* field_0_pDynamicArray;
     __int16 field_4_idx;

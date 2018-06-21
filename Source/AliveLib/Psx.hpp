@@ -10,4 +10,4 @@ struct PSX_RECT
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
 
-int CC PSX_VSync_4F6170(int mode);
+EXPORT int CC PSX_VSync_4F6170(int mode);

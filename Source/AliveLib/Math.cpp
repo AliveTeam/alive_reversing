@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Math.hpp"
 
-#define Math_IMPL true
-
 void Math_ForceLink() { }
 
 ALIVE_ARY(1, 0x546744, unsigned char, 256, sRandomBytes_546744, {
@@ -25,7 +23,7 @@ ALIVE_ARY(1, 0x546744, unsigned char, 256, sRandomBytes_546744, {
 });
 ALIVE_VAR(1, 0x5D1E10, unsigned char, sRandomSeed_5D1E10, 0);
 
-unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
+EXPORT unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
 {
 	unsigned int op1a; // ecx
 	unsigned int op2a; // esi
@@ -44,9 +42,8 @@ unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed int op2)
 		result = -result;
 	return result;
 }
-ALIVE_FUNC_IMPLEX(0x496C50, Math_FixedPoint_Multiply_496C50, Math_IMPL);
 
-unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
+EXPORT unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
 {
 	signed int op1a; // ebx
 	unsigned int op1b; // edi
@@ -77,9 +74,8 @@ unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int op2)
 		result = -result;
 	return result;
 }
-ALIVE_FUNC_IMPLEX(0x496B70, Math_FixedPoint_Divide_496B70, Math_IMPL);
 
-short CC Math_RandomRange_496AB0(signed short min, signed short max)
+EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
 {
 	short tempMax = max;
     short tempMin = min;
@@ -115,4 +111,3 @@ short CC Math_RandomRange_496AB0(signed short min, signed short max)
 
     return result;
 }
-ALIVE_FUNC_IMPLEX(0x496AB0, Math_RandomRange_496AB0, Math_IMPL);

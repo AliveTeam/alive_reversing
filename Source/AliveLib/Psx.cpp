@@ -9,13 +9,11 @@
 
 void Psx_ForceLink() {}
 
-#define PSX_IMPL true
-
 ALIVE_VAR(1, 0x578325, char, sVSync_Unused_578325, 0);
 ALIVE_VAR(1, 0xBD0F2C, int, sVSyncLastMillisecond_BD0F2C, 0);
 ALIVE_VAR(1, 0xBD0F24, int, sLastFrameTimestampMilliseconds_BD0F24, 0);
 
-bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
+EXPORT bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
 {
     return 
         pRect->x >= 0 && pRect->x < 1024 
@@ -26,11 +24,10 @@ bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
         && pRect->h + pRect->y - 1 >= 0
         && pRect->h + pRect->y - 1 < 512;
 }
-ALIVE_FUNC_IMPLEX(0x4FA050, PSX_Rect_IsInFrameBuffer_4FA050, PSX_IMPL);
 
 ALIVE_VAR(1, 0xC1D160, Bitmap, sPsxVram_C1D160, {});
 
-signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos)
+EXPORT signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos)
 {
     if (PSX_Rect_IsInFrameBuffer_4FA050(pRect))
     {
@@ -46,10 +43,9 @@ signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos)
     Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 531, "MoveImage: BAD SRC RECT !!!");
     return -1;
 }
-ALIVE_FUNC_IMPLEX(0x4F5D50, PSX_MoveImage_4F5D50, PSX_IMPL);
 
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
-int CC PSX_VSync_4F6170(int mode)
+EXPORT int CC PSX_VSync_4F6170(int mode)
 {
 	sVSync_Unused_578325 = 0;
 	MIDI_UpdatePlayer_4FDC80();
@@ -97,4 +93,3 @@ int CC PSX_VSync_4F6170(int mode)
 		return 240 * frameTimeInMilliseconds / 60000;
 	}
 }
-ALIVE_FUNC_IMPLEX(0x4F6170, PSX_VSync_4F6170, PSX_IMPL);

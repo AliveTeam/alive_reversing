@@ -17,8 +17,6 @@
 
 INITIALIZE_EASYLOGGINGPP;
 
-#define WINMAIN_IMPL true
-
 static void RunTests()
 {
     ::testing::GTEST_FLAG(throw_on_failure) = true;
@@ -60,7 +58,7 @@ static void InitOtherHooksAndRunTests()
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
 ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
 
-int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+EXPORT int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     LOG_INFO("WinMain_4EE631");
     Sys_Main(hInstance, lpCmdLine, nShowCmd);
@@ -70,4 +68,3 @@ int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR 
     LOG_INFO("Main exit");
     return sExitCode_BBBA04;
 }
-ALIVE_FUNC_IMPLEX(0x4EE631, WinMain_4EE631, WINMAIN_IMPL);

@@ -4,4 +4,4 @@
 
 void Game_ForceLink();
 
-void CC Game_Main_4949F0();
+EXPORT void CC Game_Main_4949F0();

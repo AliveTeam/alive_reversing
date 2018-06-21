@@ -9,8 +9,6 @@
 #include "DynamicArray.hpp"
 #include <timeapi.h>
 
-#define GAME_IMPL true
-
 using TExitGameCallBack = std::add_pointer<void CC()>::type;
 
 ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
@@ -34,19 +32,17 @@ ALIVE_FUNC_NOT_IMPL(0x4EFD50, void (), SND_Close_4EFD50);
 
 void Game_ForceLink() { }
 
-void CC Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
+EXPORT void CC Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
 {
     sGame_OnExitCallback_BBFB00 = callBack;
 }
-ALIVE_FUNC_IMPLEX(0x4F2BA0, Game_SetExitCallBack_4F2BA0, GAME_IMPL);
 
-void CC Game_ExitGame_4954B0()
+EXPORT void CC Game_ExitGame_4954B0()
 {
     PSX_EMU_VideoDeAlloc_4FA010();
 }
-ALIVE_FUNC_IMPLEX(0x4954B0, Game_ExitGame_4954B0, GAME_IMPL);
 
-void CC IO_Stop_ASync_IO_Thread_4F26B0()
+EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0()
 {
     if (sIoThreadHandle_BBC55C)
     {
@@ -54,9 +50,8 @@ void CC IO_Stop_ASync_IO_Thread_4F26B0()
         sIoThreadHandle_BBC55C = nullptr;
     }
 }
-ALIVE_FUNC_IMPLEX(0x4F26B0, IO_Stop_ASync_IO_Thread_4F26B0, GAME_IMPL);
 
-void CC Game_Shutdown_4F2C30()
+EXPORT void CC Game_Shutdown_4F2C30()
 {
     if (sGame_OnExitCallback_BBFB00)
     {
@@ -71,9 +66,8 @@ void CC Game_Shutdown_4F2C30()
     IO_Stop_ASync_IO_Thread_4F26B0();
     VGA_Shutdown_4F3170();
 }
-ALIVE_FUNC_IMPLEX(0x4F2C30, Game_Shutdown_4F2C30, GAME_IMPL);
 
-signed int TMR_Init_4EDE20()
+EXPORT signed int TMR_Init_4EDE20()
 {
     struct timecaps_tag ptc = {};
     if (::timeGetDevCaps(&ptc, sizeof(timecaps_tag)))
@@ -87,9 +81,8 @@ signed int TMR_Init_4EDE20()
     ::timeBeginPeriod(ptc.wPeriodMin);
     return 0;
 }
-ALIVE_FUNC_IMPLEX(0x4EDE20, TMR_Init_4EDE20, GAME_IMPL);
 
-signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
+EXPORT signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
 {
     static bool sbGameShutdownSet_BBC560 = false;
     if (!sbGameShutdownSet_BBC560)
@@ -128,9 +121,8 @@ signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
     }
     return 0;
 }
-ALIVE_FUNC_IMPLEX(0x4F2BF0, Init_Input_Timer_And_IO_4F2BF0, GAME_IMPL);
 
-void CC Game_Main_4949F0()
+EXPORT void CC Game_Main_4949F0()
 {
     // Inits
     Init_Input_Timer_And_IO_4F2BF0(false);
@@ -150,8 +142,6 @@ void CC Game_Main_4949F0()
 
     Game_Shutdown_4F2C30();
 }
-ALIVE_FUNC_IMPLEX(0x4949F0, Game_Main_4949F0, GAME_IMPL);
-
 
 class BaseGameObject
 {
@@ -160,7 +150,7 @@ public:
     virtual void VDestructor(signed int) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
     virtual void VUpdate();
     virtual void VRender(int* pOrderingTable);
-    virtual void vsub_4DC0A0();
+    EXPORT virtual void vsub_4DC0A0();
     virtual void vnullsub_4DC0F0();
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer);
 public:
@@ -183,12 +173,9 @@ void BaseGameObject::VRender(int* /*pOrderingTable*/)
     // Empty 0x4DBF80
 }
 
-ALIVE_FUNC_NOT_IMPL(0x4DC0A0, void __fastcall(BaseGameObject*, void*), vsub_4DC0A0);
-
 void BaseGameObject::vsub_4DC0A0()
 {
-    // TODO
-    ::vsub_4DC0A0(this, nullptr);
+    NOT_IMPLEMENTED;
 }
 
 void BaseGameObject::vnullsub_4DC0F0()
@@ -254,15 +241,12 @@ public:
     __int16 field_E;
     PSX_Display_Buffer field_10_drawEnv[2];
 
-    void PSX_Display_Render_OT_41DDF0();
+    EXPORT void PSX_Display_Render_OT_41DDF0();
 };
-
-ALIVE_FUNC_NOT_IMPL(0x41DDF0, void __fastcall(PsxDisplay*, void*), PSX_Display_Render_OT_41DDF0);
 
 void PsxDisplay::PSX_Display_Render_OT_41DDF0()
 {
-    // TODO
-    ::PSX_Display_Render_OT_41DDF0(this, nullptr);
+    NOT_IMPLEMENTED;
 }
 
 class FG1 : public BaseGameObject
@@ -282,23 +266,19 @@ class ResourceManager : public BaseGameObject
 public:
     // TODO
 
-    void Shutdown_465610();
-    void sub_465590(int a1);
+    EXPORT void Shutdown_465610();
+    EXPORT void sub_465590(int a1);
 };
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 
-ALIVE_FUNC_NOT_IMPL(0x465610, void __fastcall (ResourceManager*, void*), Shutdown_465610);
-
 void ResourceManager::Shutdown_465610()
 {
-    ::Shutdown_465610(this, nullptr);
+    NOT_IMPLEMENTED;
 }
 
-ALIVE_FUNC_NOT_IMPL(0x465590, void __fastcall (ResourceManager*, void*, int), sub_465590);
-
-void ResourceManager::sub_465590(int a1)
+void ResourceManager::sub_465590(int /*a1*/)
 {
-    ::sub_465590(this, nullptr, a1);
+    NOT_IMPLEMENTED;
 }
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
@@ -398,11 +378,11 @@ enum InputCommands : unsigned int
 class InputObject
 {
 public:
-    int Is_Demo_Playing_45F220();
-    void UnsetDemoPlaying_45F240();
-    void SetDemoResource_45F1E0(DWORD** pDemoRes);
-    void Update_45F040();
-    static DWORD CC Command_To_Raw_404354(DWORD cmd);
+    EXPORT int Is_Demo_Playing_45F220();
+    EXPORT void UnsetDemoPlaying_45F240();
+    EXPORT void SetDemoResource_45F1E0(DWORD** pDemoRes);
+    EXPORT void Update_45F040();
+    EXPORT static DWORD CC Command_To_Raw_404354(DWORD cmd);
 private:
     InputPadObject field_0_pads[2];
     DWORD** field_30_pDemoRes;
@@ -420,14 +400,11 @@ int InputObject::Is_Demo_Playing_45F220()
 {
     return field_38_bDemoPlaying & 1;
 }
-ALIVE_THISCALL_REDIRECT(0x45F220, &InputObject::Is_Demo_Playing_45F220, GAME_IMPL);
 
 void InputObject::UnsetDemoPlaying_45F240()
 {
     field_38_bDemoPlaying &= ~1;
 }
-ALIVE_THISCALL_REDIRECT(0x45F240, &InputObject::UnsetDemoPlaying_45F240, GAME_IMPL);
-
 
 void InputObject::SetDemoResource_45F1E0(DWORD** pDemoRes)
 {
@@ -436,7 +413,6 @@ void InputObject::SetDemoResource_45F1E0(DWORD** pDemoRes)
     field_38_bDemoPlaying |= 1u;
     field_40_command_duration = 0;
 }
-ALIVE_THISCALL_REDIRECT(0x45F1E0, &InputObject::SetDemoResource_45F1E0, GAME_IMPL);
 
 ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
 ALIVE_VAR(1, 0x5C1B84, unsigned int, sGnFrame_5C1B84, 0);
@@ -517,8 +493,6 @@ void InputObject::Update_45F040()
     field_0_pads[1].field_C_held = field_0_pads[1].field_0_pressed & ~field_0_pads[1].field_8_previous;
     field_0_pads[1].field_4_dir = byte_545A4C[field_0_pads[1].field_0_pressed & 0xF];
 }
-ALIVE_THISCALL_REDIRECT(0x45F040, &InputObject::Update_45F040, GAME_IMPL);
-
 
 DWORD CC InputObject::Command_To_Raw_404354(DWORD cmd)
 {
@@ -649,8 +623,6 @@ DWORD CC InputObject::Command_To_Raw_404354(DWORD cmd)
 
     return rawInput;
 }
-// TODO: Fix hooking framework
-//ALIVE_FUNC_IMPLEX(0x404354, InputObject::Command_To_Raw_404354, GAME_IMPL);
 
 class Map
 {
@@ -680,8 +652,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Map, 0x30);
 
-ALIVE_FUNC_NOT_IMPL(0x494580, void __cdecl(), sub_494580);
-
 void Map::sub_480B80()
 {
     NOT_IMPLEMENTED;
@@ -689,6 +659,7 @@ void Map::sub_480B80()
 
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});
 
+ALIVE_FUNC_NOT_IMPL(0x494580, void __cdecl(), sub_494580);
 
 ALIVE_FUNC_NOT_IMPL(0x4F5BD0, signed int __cdecl(PSX_RECT *pRect, unsigned __int8 r, unsigned __int8 g, __int16 b), PSX_ClearImage_4F5BD0);
 ALIVE_FUNC_NOT_IMPL(0x4DD050, void __cdecl (), Font_sub_4DD050);
@@ -698,7 +669,7 @@ EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
     return 0;
 }
 
-void CC Game_Loop_467230()
+EXPORT void CC Game_Loop_467230()
 {
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;
@@ -872,4 +843,3 @@ void CC Game_Loop_467230()
         }
     }
 }
-ALIVE_FUNC_IMPLEX(0x467230, Game_Loop_467230, GAME_IMPL);
