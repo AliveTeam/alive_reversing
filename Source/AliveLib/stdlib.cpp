@@ -5,13 +5,13 @@
 
 EXPORT void CC free_521334(void* ptr)
 {
-    NOT_IMPLEMENTED(0x521334);
+    NOT_IMPLEMENTED();
     ::free(ptr);
 }
 
 EXPORT void* CC malloc_5212C0(size_t size)
 {
-    NOT_IMPLEMENTED(0x5212C0);
+    NOT_IMPLEMENTED();
     return ::malloc(size);
 }
 

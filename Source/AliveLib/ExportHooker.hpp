@@ -85,7 +85,7 @@ private:
         return (lower >= 'a' && lower <= 'f');
     }
 
-    static bool IsImplemented(PVOID pCode, DWORD gameFuncAddr)
+    static bool IsImplemented(PVOID pCode, const std::string& addrStr)
     {
         // 4 nops, int 3, 4 nops
         const static BYTE kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
@@ -97,16 +97,15 @@ private:
             {
                 if (memcmp(&codeBuffer[i], kPatternToFind, sizeof(kPatternToFind)) == 0)
                 {
-                    // Go back 5 bytes and check the dword at that location matches the real game function address
+                    // Go back 5 bytes and check the offset to the string at that location matches the real game function address
                     // that we got from the export name. The asm patter before kPatternToFind should be:
                     // push eax
-                    // mov eax, real_func_addr
+                    // mov eax, offset to function name string
                     // pop eax
-                    // Therefore extracting real_func_addr is how we check this asm seq is actually for the function
-                    // we are looking at.
-                    DWORD* addr = reinterpret_cast<DWORD*>(&reinterpret_cast<BYTE*>(pCode)[i - 5]);
+                    // Therefore extracting the pointer to unmangled offset to the function name tells us if we have the right function.
+                    const char*** strAddr = reinterpret_cast<const char***>(&reinterpret_cast<BYTE*>(pCode)[i - 5]);
 
-                    if (*addr == gameFuncAddr)
+                    if (std::string(**strAddr).find(addrStr) != std::string::npos)
                     {
                         if (!IsAlive())
                         {
@@ -156,9 +155,10 @@ private:
 
             if (hexNumLen >= 6 && hexNumLen <= 8)
             {
-                unsigned long addr = std::stoul(name.substr(underScorePos + 1, hexNumLen), nullptr, 16);
+                std::string addrStr = name.substr(underScorePos + 1, hexNumLen);
+                unsigned long addr = std::stoul(addrStr, nullptr, 16);
 
-                mExports.push_back({ name, pCode, addr, IsImplemented(pCode, addr) });
+                mExports.push_back({ name, pCode, addr, IsImplemented(pCode, addrStr) });
                 return;
             }
 

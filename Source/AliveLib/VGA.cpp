@@ -25,7 +25,7 @@ ALIVE_VAR(1, 0xBD2A40, Bitmap, sVGA_Bmp2_BD2A40, {});
 
 EXPORT signed int CC DD_Shutdown_4F0790(int /*bDestroyDD*/)
 {
-    NOT_IMPLEMENTED(0x4F0790);
+    NOT_IMPLEMENTED();
     return 0;
 }
 

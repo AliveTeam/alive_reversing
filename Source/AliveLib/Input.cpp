@@ -57,5 +57,5 @@ EXPORT bool CC Input_IsVKPressed_4EDD40(int key)
 
 EXPORT void CC InputGetJoystickState_460280(float* /*X1*/, float* /*Y1*/, float* /*X2*/, float* /*Y2*/, DWORD* /*Buttons*/)
 {
-    NOT_IMPLEMENTED(0x460280);
+    NOT_IMPLEMENTED();
 }
