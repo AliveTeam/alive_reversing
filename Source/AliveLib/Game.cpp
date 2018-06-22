@@ -27,35 +27,35 @@ ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
 EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x4F25A0);
     return 0;
 }
 
 EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* /*pCommandLine*/)
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x494EA0);
 }
 
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND /*hWnd*/, UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x494A40);
     return 0;
 }
 
 EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x4FA010);
 }
 
 EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x4EDEC0);
     return 0;
 }
 
 EXPORT void CC Game_Run_466D40()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x466D40);
 }
 
 EXPORT void CC Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
@@ -201,7 +201,7 @@ void BaseGameObject::VRender(int* /*pOrderingTable*/)
 
 void BaseGameObject::vsub_4DC0A0()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x4DC0A0);
 }
 
 void BaseGameObject::vnullsub_4DC0F0()
@@ -272,7 +272,7 @@ public:
 
 void PsxDisplay::PSX_Display_Render_OT_41DDF0()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x41DDF0);
 }
 
 class FG1 : public BaseGameObject
@@ -299,12 +299,12 @@ ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 
 void ResourceManager::Shutdown_465610()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x465610);
 }
 
 void ResourceManager::sub_465590(int /*a1*/)
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x465590);
 }
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
@@ -325,17 +325,17 @@ ALIVE_VAR(1, 0x5C9300, BaseGameObject*, pPauseMenu_5C9300, nullptr);
 
 EXPORT void CC sub_422DA0()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x422DA0);
 }
 
 EXPORT void CC sub_449A90()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x449A90);
 }
 
 EXPORT void CC AnimateAllAnimations_40AC20(DynamicArray* /*pAnimations*/)
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x40AC20);
 }
 
 struct InputPadObject
@@ -689,25 +689,25 @@ ALIVE_ASSERT_SIZEOF(Map, 0x30);
 
 void Map::sub_480B80()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x480B80);
 }
 
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});
 
 EXPORT void CC sub_494580()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x494580);
 }
 
 EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* /*pRect*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, __int16 /*b*/)
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x4F5BD0);
     return 0;
 }
 
 EXPORT void CC Font_sub_4DD050()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x4DD050);
 }
 
 EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)

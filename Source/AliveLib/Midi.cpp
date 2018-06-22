@@ -8,6 +8,6 @@ void Midi_ForceLink() { }
 
 EXPORT char CC MIDI_UpdatePlayer_4FDC80()
 {
-    NOT_IMPLEMENTED;
+    NOT_IMPLEMENTED(0x4FDC80);
     return 0;
 }

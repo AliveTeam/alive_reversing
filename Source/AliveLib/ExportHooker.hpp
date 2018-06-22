@@ -85,7 +85,7 @@ private:
         return (lower >= 'a' && lower <= 'f');
     }
 
-    static bool IsImplemented(PVOID pCode)
+    static bool IsImplemented(PVOID pCode, DWORD gameFuncAddr)
     {
         // 4 nops, int 3, 4 nops
         const static BYTE kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
@@ -97,21 +97,38 @@ private:
             {
                 if (memcmp(&codeBuffer[i], kPatternToFind, sizeof(kPatternToFind)) == 0)
                 {
-                    if (!IsAlive())
+                    // Go back 5 bytes and check the dword at that location matches the real game function address
+                    // that we got from the export name. The asm patter before kPatternToFind should be:
+                    // push eax
+                    // mov eax, real_func_addr
+                    // pop eax
+                    // Therefore extracting real_func_addr is how we check this asm seq is actually for the function
+                    // we are looking at.
+                    DWORD* addr = reinterpret_cast<DWORD*>(&reinterpret_cast<BYTE*>(pCode)[i - 5]);
+
+                    if (*addr == gameFuncAddr)
                     {
-                        BYTE* ptr = &reinterpret_cast<BYTE*>(pCode)[i + 4];
-                        DWORD old = 0;
-                        if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
+                        if (!IsAlive())
                         {
-                            ALIVE_FATAL("Failed to make memory writable");
+                            BYTE* ptr = &reinterpret_cast<BYTE*>(pCode)[i + 4];
+                            DWORD old = 0;
+                            if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
+                            {
+                                ALIVE_FATAL("Failed to make memory writable");
+                            }
+                            *ptr = 0x90;
+                            if (!::VirtualProtect(ptr, 1, old, &old))
+                            {
+                                ALIVE_FATAL("Failed to restore old memory protection");
+                            }
                         }
-                        *ptr = 0x90;
-                        if (!::VirtualProtect(ptr, 1, old, &old))
-                        {
-                            ALIVE_FATAL("Failed to restore old memory protection");
-                        }
+                        return false;
                     }
-                    return false;
+                    else
+                    {
+                        LOG_INFO("didn't match address");
+                    }
+                   
                 }
             }
         }
@@ -141,7 +158,7 @@ private:
             {
                 unsigned long addr = std::stoul(name.substr(underScorePos + 1, hexNumLen), nullptr, 16);
 
-                mExports.push_back({ name, pCode, addr, IsImplemented(pCode) });
+                mExports.push_back({ name, pCode, addr, IsImplemented(pCode, addr) });
                 return;
             }
 
