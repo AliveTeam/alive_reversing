@@ -3,6 +3,7 @@
 #include "detours.h"
 #include <assert.h>
 #include <vector>
+#include <set>
 #include "logger.hpp"
 
 class ExportHooker
@@ -158,7 +159,16 @@ private:
                 std::string addrStr = name.substr(underScorePos + 1, hexNumLen);
                 unsigned long addr = std::stoul(addrStr, nullptr, 16);
 
+                auto it = mUsedAddrs.find(addr);
+                if (it != std::end(mUsedAddrs))
+                {
+                    std::stringstream s;
+                    s << "Duplicated function for address " << std::hex << "0x" << addr;
+                    ALIVE_FATAL(s.str().c_str());
+                }
+
                 mExports.push_back({ name, pCode, addr, IsImplemented(pCode, addrStr) });
+                mUsedAddrs.insert(addr);
                 return;
             }
 
@@ -198,4 +208,5 @@ private:
         bool mIsImplemented;
     };
     std::vector<Export> mExports;
+    std::set<DWORD> mUsedAddrs;
 };
