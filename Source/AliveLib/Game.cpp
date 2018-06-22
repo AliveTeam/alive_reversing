@@ -456,6 +456,7 @@ ALIVE_VAR(1, 0x5CA4D2, BYTE, byte_5CA4D2, 0);
 
 EXPORT int CC sub_4FA9C0(int /*padNum*/)
 {
+    NOT_IMPLEMENTED(0x4FA9C0);
     return 0;
 }
 
