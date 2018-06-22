@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DynamicArray.hpp"
+#include "Function.hpp"
 
 void DynamicArray_ForceLink() { }
 

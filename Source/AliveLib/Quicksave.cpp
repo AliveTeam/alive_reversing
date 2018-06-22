@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Quicksave.hpp"
+#include "Function.hpp"
 
 #define Quicksave_IMPL true
 

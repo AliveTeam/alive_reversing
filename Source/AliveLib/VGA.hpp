@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Function.hpp"
+#include "FunctionFwd.hpp"
 
 void VGA_ForceLink();
 

@@ -14,6 +14,7 @@
 #include "Game.hpp"
 #include "easylogging++.h"
 #include <gmock/gmock.h>
+#include "Function.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 

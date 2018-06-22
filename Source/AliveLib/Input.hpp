@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Function.hpp"
+#include "FunctionFwd.hpp"
 
 EXPORT unsigned __int8 CC Input_GetInputEnabled_4EDDE0();
 EXPORT void CC Input_EnableInput_4EDDD0();

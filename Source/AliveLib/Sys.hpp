@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Function.hpp"
+#include "FunctionFwd.hpp"
 
 typedef LRESULT(CC* TWindowProcFilter)(HWND, UINT, WPARAM, LPARAM);
 

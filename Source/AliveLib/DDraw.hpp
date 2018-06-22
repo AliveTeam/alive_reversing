@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Function.hpp"
+#include "FunctionFwd.hpp"
 
 #define DIRECTINPUT_VERSION 0x700
 #include <dinput.h>

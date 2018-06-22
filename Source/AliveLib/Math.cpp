@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Math.hpp"
+#include "Function.hpp"
 
 void Math_ForceLink() { }
 

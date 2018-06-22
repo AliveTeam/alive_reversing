@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Midi.hpp"
+#include "Function.hpp"
 
 #define Midi_IMPL true
 

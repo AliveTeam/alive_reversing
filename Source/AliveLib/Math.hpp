@@ -1,5 +1,5 @@
 #pragma once
 
-#include "Function.hpp"
+#include "FunctionFwd.hpp"
 
 void Math_ForceLink();

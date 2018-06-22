@@ -2,6 +2,8 @@
 
 #include "detours.h"
 #include <assert.h>
+#include <vector>
+#include "logger.hpp"
 
 class ExportHooker
 {
