@@ -41,6 +41,11 @@ EXPORT void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lin
     LOG_ERROR(msg);
 }
 
+/*EXPORT not big enough to hook*/ void CC Error_NullPrint_4F28D0(const char* msg)
+{
+    LOG_ERROR(msg);
+}
+
 ALIVE_VAR(1, 0xBBFB04, HWND, hWnd_BBFB04, 0);
 
 EXPORT int CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, const char* formatStr, ...)

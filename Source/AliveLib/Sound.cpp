@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Sound.hpp"
 #include "Function.hpp"
+#include "stdlib.hpp"
 #include <mmeapi.h>
 #include <dsound.h>
 
@@ -36,7 +37,7 @@ ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 
 ALIVE_ARY(1, 0xBBBAB8, SoundBuffer, 32, sSoundBuffers_BBBAB8, {});
 ALIVE_ARY(1, 0xBBBD38, int, 127, sVolumeTable_BBBD38, {});
-ALIVE_ARY(1, 0xBBBF38, SoundEntry, 256, sSoundSamples_BBBF38, {});
+ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 
 EXPORT void CC SND_Close_4EFD50()
 {
@@ -54,7 +55,7 @@ EXPORT void CC SND_Close_4EFD50()
 
         for (int i = 0; i < sLoadedSoundsCount_BBC394; i++)
         {
-            SoundEntry* pEntry = &sSoundSamples_BBBF38[i];
+            SoundEntry* pEntry = sSoundSamples_BBBF38[i];
             if (pEntry->field_4_pDSoundBuffer)
             {
                 pEntry->field_4_pDSoundBuffer->Stop();
@@ -67,4 +68,31 @@ EXPORT void CC SND_Close_4EFD50()
         sDSound_BBC344->Release();
         sDSound_BBC344 = nullptr;
     }
+}
+
+
+EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
+{
+    if (!sDSound_BBC344)
+    {
+        return -1;
+    }
+
+    pSnd->field_10 = 0;
+
+    if (pSnd->field_8_pSoundBuffer)
+    {
+        mem_free_4F4EA0(pSnd->field_8_pSoundBuffer);
+        pSnd->field_8_pSoundBuffer = 0;
+    }
+
+    if (pSnd->field_4_pDSoundBuffer)
+    {
+        pSnd->field_4_pDSoundBuffer->Release();
+        pSnd->field_4_pDSoundBuffer = nullptr;
+    }
+
+    sSoundSamples_BBBF38[pSnd->field_0_tableIdx] = nullptr;
+    sLoadedSoundsCount_BBC394--;
+    return 0;
 }

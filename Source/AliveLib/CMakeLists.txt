@@ -33,6 +33,8 @@ add_library(AliveLib
     Game.hpp
     Sound.cpp
     Sound.hpp
+    stdlib.cpp
+    stdlib.hpp
     WinMain.cpp
     WinMain.hpp)
 

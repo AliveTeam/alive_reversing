@@ -1,30 +1,9 @@
 #include "stdafx.h"
 #include "DynamicArray.hpp"
+#include "stdlib.hpp"
 #include "Function.hpp"
 
 void DynamicArray_ForceLink() { }
-
-EXPORT void* CC malloc_non_zero_4954F0(size_t size)
-{
-    NOT_IMPLEMENTED;
-    if (size == 0)
-    {
-        size = 1;
-    }
-    return malloc(size);
-}
-
-EXPORT void CC Mem_Free_495540(void* ptr)
-{
-    NOT_IMPLEMENTED;
-    free(ptr);
-}
-
-EXPORT void CC Mem_Free_495560(void *ptr)
-{
-    NOT_IMPLEMENTED;
-    free(ptr);
-}
 
 DynamicArray* DynamicArray::ctor_40CA60(signed __int16 startingSize)
 {
