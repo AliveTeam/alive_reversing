@@ -244,6 +244,9 @@ ALIVE_VAR(1, 0xBBC3C8, LPDIRECTDRAWSURFACE, sDD_Surface1_BBC3C8, nullptr);
 ALIVE_VAR(1, 0xBBC3CC, LPDIRECTDRAWSURFACE, sDD_Surface2_BBC3CC, nullptr);
 ALIVE_VAR(1, 0xBBC3D8, LPDIRECTDRAWPALETTE, sDD_Pal_BBC3D8, nullptr);
 
+ALIVE_VAR(1, 0xBBC3AC, int, sbDD_FlipMode_BBC3AC, 0); // TODO: Make Enum
+
+
 EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
 {
     if (sDDraw_BBC3D4)
@@ -417,5 +420,71 @@ EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface* pSourceSurface, LPRECT pSrcRect
     {
         DD_RestoreSurfacesIfRequired_4F01D0(hr, pSourceSurface, pTargetSurface);
         pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, nullptr); // 0x1000000
+    }
+}
+
+EXPORT void CC DD_Flip_4F15D0()
+{
+    if (!sDD_Surface1_BBC3C8 || !sDD_Surface2_BBC3CC)
+    {
+        return;
+    }
+
+    // Windowed path
+    if (!sbFullScreen_BBC3BC)
+    {
+        // Window rect in client coords
+        RECT rect = {};
+        ::GetClientRect(sDD_hWnd_BBC3B0, &rect);
+
+        // Convert to screen coords
+        POINT rectPoints[2] =
+        {
+            { rect.left, rect.top },
+            { rect.right, rect.bottom }
+        };
+        ::ClientToScreen(sDD_hWnd_BBC3B0, &rectPoints[0]);
+        ::ClientToScreen(sDD_hWnd_BBC3B0, &rectPoints[1]);
+
+        // Make a new rect in screen coords
+        RECT screenRect =
+        {
+            rectPoints[0].x, rectPoints[0].y,
+            rectPoints[1].x, rectPoints[1].y
+        };
+
+        DD_Blt_4F0170(sDD_Surface2_BBC3CC, nullptr, sDD_Surface1_BBC3C8, &screenRect, 0);
+        return;
+    }
+    
+    // Full screen path
+    if (sbDD_FlipMode_BBC3AC > 1)
+    {
+        HRESULT hr = S_OK;
+        do
+        {
+            for (;;)
+            {
+                hr = sDD_Surface1_BBC3C8->Flip(nullptr, 0);
+                if (SUCCEEDED(hr))
+                {
+                    // TODO / note 0xBBC3C4 appears to be unused
+                    //byte_BBC3C4[0] = (byte_BBC3C4[0] + 1) % sbDD_FlipMode_BBC3AC;
+                    return;
+                }
+
+                if (hr != DDERR_SURFACELOST)
+                {
+                    break;
+                }
+
+                if (DD_RestoreSurfacesIfRequired_4F01D0(DDERR_SURFACELOST, sDD_Surface1_BBC3C8, sDD_Surface2_BBC3CC))
+                {
+                    return;
+                }
+
+            }
+        } while (hr == DDERR_WASSTILLDRAWING || hr == DDERR_WRONGMODE);
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 1292, -1, DX_HR_To_String_4F4EC0(hr));
     }
 }
