@@ -2,6 +2,7 @@
 #include "DDraw.hpp"
 #include "Function.hpp"
 #include "Error.hpp"
+#include "Sys.hpp"
 
 EXPORT const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
 {
@@ -245,6 +246,7 @@ ALIVE_VAR(1, 0xBBC3CC, LPDIRECTDRAWSURFACE, sDD_Surface2_BBC3CC, nullptr);
 ALIVE_VAR(1, 0xBBC3D8, LPDIRECTDRAWPALETTE, sDD_Pal_BBC3D8, nullptr);
 
 ALIVE_VAR(1, 0xBBC3AC, int, sbDD_FlipMode_BBC3AC, 0); // TODO: Make Enum
+ALIVE_VAR(1, 0xBBC3E0, LONG, sDD_old_win_style_BBC3E0, 0);
 
 
 EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
@@ -487,4 +489,21 @@ EXPORT void CC DD_Flip_4F15D0()
         } while (hr == DDERR_WASSTILLDRAWING || hr == DDERR_WRONGMODE);
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 1292, -1, DX_HR_To_String_4F4EC0(hr));
     }
+}
+
+EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
+{
+    const LONG winStyle = ::GetWindowLongA(Sys_GetHWnd_4F2C70(), GWL_STYLE);
+    LONG newWinStyle = 0;
+    if (sbFullScreen_BBC3BC)
+    {
+        sDD_old_win_style_BBC3E0 = winStyle;
+        newWinStyle = winStyle & 0xFF3FFFFF;
+    }
+    else
+    {
+        newWinStyle = sDD_old_win_style_BBC3E0;
+    }
+    ::SetWindowLongA(Sys_GetHWnd_4F2C70(), GWL_STYLE, newWinStyle);
+    return sDDraw_BBC3D4->SetDisplayMode(width, height, bpp);
 }
