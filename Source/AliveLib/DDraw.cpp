@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DDraw.hpp"
 #include "Function.hpp"
+#include "Error.hpp"
 
 EXPORT const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
 {
@@ -280,4 +281,40 @@ EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
         }
     }
     return 1;
+}
+
+ALIVE_VAR(1, 0xBBC3B8, BOOL, sDD_Caps_BBC3B8, FALSE); // Force ram surfaces?
+ALIVE_VAR(1, 0xBBC3A0, BOOL, sDD_VideoMemory_BBC3A0, FALSE);
+ALIVE_VAR(1, 0xBBC3C0, DWORD, sDDColourKey_BBC3C0, 0);
+
+EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(int width, int height, int bSetUnknownCaps)
+{
+    DDSURFACEDESC surfaceDesc = {};
+    surfaceDesc.dwSize = sizeof(surfaceDesc);
+    surfaceDesc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH; // 7
+    surfaceDesc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN; // 0x40
+    if (bSetUnknownCaps || sDD_Caps_BBC3B8)
+    {
+        surfaceDesc.ddsCaps.dwCaps = DDSCAPS_SYSTEMMEMORY | DDSCAPS_OFFSCREENPLAIN; // 0x840
+    }
+    surfaceDesc.dwWidth = width;
+    surfaceDesc.dwHeight = height;
+
+    LPDIRECTDRAWSURFACE pSurface = nullptr;
+    const HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &pSurface, 0);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 650, -1, DX_HR_To_String_4F4EC0(hr));
+        return nullptr;
+    }
+
+    if (!sDD_VideoMemory_BBC3A0)
+    {
+        DDCOLORKEY colourKey = {};
+        colourKey.dwColorSpaceLowValue = sDDColourKey_BBC3C0;
+        colourKey.dwColorSpaceHighValue = sDDColourKey_BBC3C0;
+        pSurface->SetColorKey(DDCKEY_SRCBLT, &colourKey); // 8
+    }
+    
+    return pSurface;
 }
