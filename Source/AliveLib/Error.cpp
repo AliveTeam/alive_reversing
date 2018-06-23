@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Error.hpp"
 #include "Function.hpp"
+#include "Sys.hpp"
 
 #define ERROR_IMPL true
 
@@ -46,9 +47,7 @@ EXPORT void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lin
     LOG_ERROR(msg);
 }
 
-ALIVE_VAR(1, 0xBBFB04, HWND, hWnd_BBFB04, 0);
-
-EXPORT int CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, const char* formatStr, ...)
+EXPORT void CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, const char* formatStr, ...)
 {
     static char sErrorMessage_BBFBA8[2052];
     static char sErrorTitle_BC03B4[2048];
@@ -64,5 +63,37 @@ EXPORT int CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, const
     {
         sprintf(sErrorTitle_BC03B4, "%s : %ld", msg, lineNum);
     }
-    return MessageBoxA(hWnd_BBFB04, sErrorMessage_BBFBA8, sErrorTitle_BC03B4, 0);
+    ::MessageBoxA(Sys_GetHWnd_4F2C70(), sErrorMessage_BBFBA8, sErrorTitle_BC03B4, 0);
+}
+
+EXPORT void Error_MessageBox_4F2D00(const char* pFileName, int lineNum, const char* formatStr, ...)
+{
+    static char sErrorMsg_BBEEFC[2048];
+    static char sErrorTitle_BBF6FC[1024];
+
+    va_list va;
+    va_start(va, formatStr);
+    vsprintf(sErrorMsg_BBEEFC, formatStr, va);
+
+    if (lineNum < 0)
+    {
+        // Copy file name directly if no line number
+        strcpy(sErrorTitle_BBF6FC, pFileName);
+    }
+    else
+    {
+        // Else format in the line number after the file name
+        sprintf(sErrorTitle_BBF6FC, "%s : %ld", pFileName, lineNum);
+    }
+
+    ::MessageBoxA(Sys_GetHWnd_4F2C70(), sErrorMsg_BBEEFC, sErrorTitle_BBF6FC, MB_OK);
+}
+
+EXPORT void Error_WarningMessageBox_4F2D80(const char* pWarningMsg, ...)
+{
+    static char sWarningMsg_BBE6FC[2048];
+    va_list va;
+    va_start(va, pWarningMsg);
+    vsprintf(sWarningMsg_BBE6FC, pWarningMsg, va);
+    ::MessageBoxA(Sys_GetHWnd_4F2C70(), sWarningMsg_BBE6FC, "Warning", MB_OK);
 }

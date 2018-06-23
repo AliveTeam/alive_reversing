@@ -35,6 +35,14 @@ EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
     return 0;
 }
 
+EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
+{
+    CHAR RootPathName[4] = {};
+    strcpy(RootPathName, "C:\\");
+    RootPathName[0] = driveLetter;
+    return ::GetDriveTypeA(RootPathName) == DRIVE_CDROM;
+}
+
 EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* /*pCommandLine*/)
 {
     NOT_IMPLEMENTED();
