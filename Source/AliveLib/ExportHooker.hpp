@@ -6,6 +6,7 @@
 #include <set>
 #include <sstream>
 #include "logger.hpp"
+#include "Function.hpp"
 
 class ExportHooker
 {
@@ -17,6 +18,8 @@ public:
 
     void Apply()
     {
+        CheckVars(); // Check for dup vars or vars that overlap in address space
+
         if (!DetourEnumerateExports(mhInstance, this, EnumExports))
         {
             ALIVE_FATAL("Export enumeration failed");

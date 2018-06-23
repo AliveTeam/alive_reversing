@@ -235,3 +235,49 @@ EXPORT const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
     }
     return "Unrecognized error value.";
 }
+
+ALIVE_VAR(1, 0xBBC3D4, LPDIRECTDRAW, sDDraw_BBC3D4, nullptr);
+ALIVE_VAR(1, 0xBBC3B0, HWND, sDD_hWnd_BBC3B0, nullptr);
+ALIVE_VAR(1, 0xBBC3DC, LPDIRECTDRAWCLIPPER, sDD_Clipper_BBC3DC, nullptr);
+ALIVE_VAR(1, 0xBBC3C8, LPDIRECTDRAWSURFACE, sDD_Surface1_BBC3C8, nullptr);
+ALIVE_VAR(1, 0xBBC3CC, LPDIRECTDRAWSURFACE, sDD_Surface2_BBC3CC, nullptr);
+ALIVE_VAR(1, 0xBBC3D8, LPDIRECTDRAWPALETTE, sDD_Pal_BBC3D8, nullptr);
+
+EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
+{
+    if (sDDraw_BBC3D4)
+    {
+        if (sDD_Clipper_BBC3DC)
+        {
+            sDD_Clipper_BBC3DC->Release();
+            sDD_Clipper_BBC3DC = nullptr;
+        }
+
+        if (sDD_Surface2_BBC3CC)
+        {
+            sDD_Surface2_BBC3CC->Release();
+            sDD_Surface2_BBC3CC = nullptr;
+        }
+
+        if (sDD_Surface1_BBC3C8)
+        {
+            sDD_Surface1_BBC3C8->Release();
+            sDD_Surface1_BBC3C8 = nullptr;
+        }
+
+        if (sDD_Pal_BBC3D8)
+        {
+            sDD_Pal_BBC3D8->Release();
+            sDD_Pal_BBC3D8 = nullptr;
+        }
+        
+        if (bDestroyDD)
+        {
+            sDDraw_BBC3D4->RestoreDisplayMode();
+            sDDraw_BBC3D4->SetCooperativeLevel(sDD_hWnd_BBC3B0, DISCL_BACKGROUND); // 8
+            sDDraw_BBC3D4->Release();
+            sDDraw_BBC3D4 = nullptr;
+        }
+    }
+    return 1;
+}
