@@ -318,3 +318,55 @@ EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(int width, int height, in
     
     return pSurface;
 }
+
+EXPORT signed int CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDrawSurface* pSurface1, IDirectDrawSurface* pSurface2)
+{
+    if (hr == DDERR_SURFACELOST)
+    {
+        if (pSurface1)
+        {
+            hr = pSurface1->Restore();
+            if (FAILED(hr))
+            {
+                if (hr != DDERR_WRONGMODE)
+                {
+                    Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 55, -1, DX_HR_To_String_4F4EC0(hr));
+                    return -1;
+                }
+            }
+        }
+
+        if (pSurface2)
+        {
+            hr = pSurface2->Restore();
+            if (FAILED(hr))
+            {
+                if (hr != DDERR_WRONGMODE)
+                {
+                    Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 67, -1, DX_HR_To_String_4F4EC0(hr));
+                    return -1;
+                }
+            }
+        }
+
+    }
+    else
+    {
+        DDSURFACEDESC surface1Desc = {};
+        surface1Desc.dwSize = sizeof(DDSURFACEDESC);
+        hr = pSurface1->GetSurfaceDesc(&surface1Desc);
+        if (FAILED(hr))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 82, -1, DX_HR_To_String_4F4EC0(hr));
+        }
+
+        DDSURFACEDESC surface2Desc = {};
+        surface2Desc.dwSize = sizeof(DDSURFACEDESC);
+        hr = pSurface2->GetSurfaceDesc(&surface2Desc);
+        if (FAILED(hr))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 86, -1, DX_HR_To_String_4F4EC0(hr));
+        }
+    }
+    return 0;
+}
