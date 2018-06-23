@@ -9,6 +9,8 @@
 #include "DynamicArray.hpp"
 #include "Sound.hpp"
 #include "Function.hpp"
+#include "ResourceManager.hpp"
+#include "PsxDisplay.hpp"
 #include <timeapi.h>
 
 void Game_ForceLink() { }
@@ -16,6 +18,8 @@ void Game_ForceLink() { }
 using TExitGameCallBack = std::add_pointer<void CC()>::type;
 
 ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
+
+ALIVE_VAR(1, 0x5C1B84, unsigned int, sGnFrame_5C1B84, 0);
 
 // Timer
 ALIVE_VAR(1, 0xBBB9D4, DWORD, sTimer_period_BBB9D4, 0);
@@ -169,112 +173,6 @@ EXPORT void CC Game_Main_4949F0()
     Game_Shutdown_4F2C30();
 }
 
-class BaseGameObject
-{
-public:
-    // Order must match VTable
-    virtual void VDestructor(signed int) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
-    virtual void VUpdate();
-    virtual void VRender(int* pOrderingTable);
-    EXPORT virtual void vsub_4DC0A0();
-    virtual void vnullsub_4DC0F0();
-    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer);
-public:
-    __int16 field_4_typeId;
-    __int16 field_6_flags;
-    int field_8_flags_ex;
-    int field_C_objectId;
-    DynamicArray field_10_resources_array;
-    int field_1C_update_delay;
-};
-ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
-
-void BaseGameObject::VUpdate()
-{
-    // Empty 0x4DC080
-}
-
-void BaseGameObject::VRender(int* /*pOrderingTable*/)
-{
-    // Empty 0x4DBF80
-}
-
-void BaseGameObject::vsub_4DC0A0()
-{
-    NOT_IMPLEMENTED();
-}
-
-void BaseGameObject::vnullsub_4DC0F0()
-{
-    // Empty 0x4DC0F0
-}
-
-int BaseGameObject::GetSaveState_4DC110(BYTE* /*pSaveBuffer*/)
-{
-    return 0;
-}
-
-struct PSX_DISPENV
-{
-    PSX_RECT disp;
-    PSX_RECT screen;
-    char isinter;
-    char isrgb24;
-    char pad0;
-    char pad1;
-};
-
-struct PSX_DR_ENV
-{
-    int field_0_tag;
-    int field_4_code[15];
-};
-
-struct PSX_DRAWENV
-{
-    PSX_RECT field_0_clip;
-    __int16 field_8_ofs[2];
-    PSX_RECT field_C_tw;
-    unsigned __int16 field_14_tpage;
-    char field_16_dtd;
-    char field_17_dfe;
-    char field_18_isbg;
-    char field_19_r0;
-    char field_1A_g0;
-    char field_1B_b0;
-    PSX_DR_ENV field_1C_dr_env;
-};
-
-
-class PSX_Display_Buffer
-{
-public:
-    PSX_DRAWENV field_0_draw_env;
-    PSX_DISPENV field_5C_disp_env;
-    int field_70_ot_buffer[256];
-};
-
-class PsxDisplay
-{
-public:
-    unsigned __int16 field_0_width;
-    __int16 field_2_height;
-    __int16 field_4;
-    __int16 field_6_bpp;
-    __int16 field_8_max_buffers;
-    unsigned __int16 field_A_buffer_size;
-    unsigned __int16 field_C_buffer_index;
-    __int16 field_E;
-    PSX_Display_Buffer field_10_drawEnv[2];
-
-    EXPORT void PSX_Display_Render_OT_41DDF0();
-};
-
-void PsxDisplay::PSX_Display_Render_OT_41DDF0()
-{
-    NOT_IMPLEMENTED();
-}
-
 class FG1 : public BaseGameObject
 {
 public:
@@ -286,28 +184,6 @@ class ScreenManager : public BaseGameObject
 public:
     // TODO
 };
-
-class ResourceManager : public BaseGameObject
-{
-public:
-    // TODO
-
-    EXPORT void Shutdown_465610();
-    EXPORT void sub_465590(int a1);
-};
-ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
-
-void ResourceManager::Shutdown_465610()
-{
-    NOT_IMPLEMENTED();
-}
-
-void ResourceManager::sub_465590(int /*a1*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
 ALIVE_VAR(1, 0x5C1A24, DynamicArray*, gObjList_animations_5C1A24, nullptr);
@@ -322,6 +198,7 @@ ALIVE_VAR(1, 0x5C1B66, short, word_5C1B66, 0);
 ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
 ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
 ALIVE_VAR(1, 0x5C9300, BaseGameObject*, pPauseMenu_5C9300, nullptr);
+ALIVE_VAR(1, 0x5CA4D2, BYTE, byte_5CA4D2, 0);
 
 EXPORT void CC sub_422DA0()
 {
@@ -336,330 +213,6 @@ EXPORT void CC sub_449A90()
 EXPORT void CC AnimateAllAnimations_40AC20(DynamicArray* /*pAnimations*/)
 {
     NOT_IMPLEMENTED();
-}
-
-struct InputPadObject
-{
-    DWORD field_0_pressed;
-    BYTE field_4_dir;
-    BYTE field_5;
-    WORD field_6_padding; // Not confirmed
-    DWORD field_8_previous;
-    DWORD field_C_held;
-    DWORD field_10_released;
-    DWORD field_14_padding; // Not confirmed
-};
-ALIVE_ASSERT_SIZEOF(InputPadObject, 0x18);
-
-enum PsxButtonBits : unsigned int
-{
-    eL2 = 1 << 0,
-    eR2 = 1 << 1,
-    eL1 = 1 << 2,
-    eR1 = 1 << 3,
-    eTriangle = 1 << 4,
-    eCircle = 1 << 5,
-    eCross = 1 << 6,
-    eSquare = 1 << 7,
-    eSelect = 1 << 8,
-    // As seen in LibEtc.h of PSYQ.. don't think these can ever be used.
-    // PADi 9 ?
-    // PADj 10 ?
-    eStart = 1 << 11,
-    eDPadUp = 1 << 12,
-    eDPadRight = 1 << 13,
-    eDPadDown = 1 << 14,
-    eDPadLeft = 1 << 15,
-};
-
-enum InputCommands : unsigned int
-{
-    eUp =           1 << 0,
-    eDown =         1 << 1,
-    eLeft =         1 << 2,
-    eRight =        1 << 3,
-    eRun =          1 << 4,
-    eDoAction =     1 << 5,  // Pick up rock, pull lever etc
-    eSneak =        1 << 6,
-    eThrowItem =    1 << 7,  // Or I say I dunno if no items
-    eHop =          1 << 8,
-    eFartOrRoll =   1 << 9,  // (Only roll in AO)
-    eGameSpeak1 =   1 << 10, // Hello
-    eGameSpeak2 =   1 << 11, // (Follow Me)
-    eGameSpeak3 =   1 << 12, // Wait
-    eGameSpeak4 =   1 << 13, // (Work) (Whistle 1)
-    eGameSpeak5 =   1 << 14, // (Anger)
-    eGameSpeak6 =   1 << 15, // (All ya) (Fart)
-    eGameSpeak7 =   1 << 16, // (Sympathy) (Whistle 2)
-    eGameSpeak8 =   1 << 17, // (Stop it) (Laugh)
-    eChant =        1 << 18, 
-    ePause =        1 << 19, // Or enter
-    eUnPause =      1 << 20, // Or/and back
-    // 0x200000     = nothing
-    eCheatMode =    1 << 22,
-    // 0x800000     = nothing
-    // 0x1000000    = nothing
-    // 0x2000000    = nothing
-    // 0x4000000    = nothing
-    // 0x8000000    = nothing
-    // 0x10000000   = nothing
-    // 0x20000000   = nothing
-    // 0x40000000   = nothing
-    // 0x80000000   = nothing
-};
-
-
-class InputObject
-{
-public:
-    EXPORT int Is_Demo_Playing_45F220();
-    EXPORT void UnsetDemoPlaying_45F240();
-    EXPORT void SetDemoResource_45F1E0(DWORD** pDemoRes);
-    EXPORT void Update_45F040();
-    EXPORT static DWORD CC Command_To_Raw_404354(DWORD cmd);
-private:
-    InputPadObject field_0_pads[2];
-    DWORD** field_30_pDemoRes;
-    DWORD field_34_demo_command_index;
-    WORD field_38_bDemoPlaying;
-    WORD field_3A_pad_idx;
-    DWORD field_3C_command;
-    DWORD field_40_command_duration;
-};
-ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
-
-ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
-
-int InputObject::Is_Demo_Playing_45F220()
-{
-    return field_38_bDemoPlaying & 1;
-}
-
-void InputObject::UnsetDemoPlaying_45F240()
-{
-    field_38_bDemoPlaying &= ~1;
-}
-
-void InputObject::SetDemoResource_45F1E0(DWORD** pDemoRes)
-{
-    field_34_demo_command_index = 2;
-    field_30_pDemoRes = pDemoRes;
-    field_38_bDemoPlaying |= 1u;
-    field_40_command_duration = 0;
-}
-
-ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
-ALIVE_VAR(1, 0x5C1B84, unsigned int, sGnFrame_5C1B84, 0);
-ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
-ALIVE_VAR(1, 0x5CA4D2, BYTE, byte_5CA4D2, 0);
-
-
-
-EXPORT int CC sub_4FA9C0(int /*padNum*/)
-{
-
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-void InputObject::Update_45F040()
-{
-    const unsigned char byte_545A4C[20] =
-    {
-        0, // left?
-        64, // up?
-        192, // down?
-        0,
-        128, // right?
-        96,
-        160,
-        128,
-        0,
-        32,
-        224,
-        0,
-        0,
-        64,
-        192,
-        0,
-        0,
-        0,
-        0,
-        0
-    };
-
-    field_0_pads[0].field_8_previous = field_0_pads[0].field_0_pressed;
-    field_0_pads[0].field_0_pressed = sub_4FA9C0(0);
-
-    if (Is_Demo_Playing_45F220())
-    {
-        // Stop if any button on any pad is pressed
-        if (field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
-        {
-            word_5C1B9A = 0;
-            UnsetDemoPlaying_45F240();
-            return;
-        }
-
-        if (sGnFrame_5C1B84 >= field_40_command_duration)
-        {
-            const DWORD command = (*field_30_pDemoRes)[field_34_demo_command_index++];
-            field_3C_command = command >> 16;
-            field_40_command_duration = sGnFrame_5C1B84 + command & 0xFFFF;
-
-            // End demo/quit command
-            if (command & 0x8000)
-            {
-                UnsetDemoPlaying_45F240();
-            }
-        }
-
-        // Will do nothing if we hit the end command..
-        if (Is_Demo_Playing_45F220())
-        {
-            field_0_pads[0].field_0_pressed = Command_To_Raw_404354(field_3C_command);
-        }
-    }
-
-    field_0_pads[0].field_10_released = field_0_pads[0].field_8_previous & ~field_0_pads[0].field_0_pressed;
-    field_0_pads[0].field_C_held = field_0_pads[0].field_0_pressed & ~field_0_pads[0].field_8_previous;
-    field_0_pads[0].field_4_dir = byte_545A4C[field_0_pads[0].field_0_pressed & 0xF];
-
-    field_0_pads[1].field_8_previous = field_0_pads[1].field_0_pressed;
-    field_0_pads[1].field_0_pressed = sub_4FA9C0(1);
-    field_0_pads[1].field_10_released = field_0_pads[1].field_8_previous & ~field_0_pads[1].field_0_pressed;
-    field_0_pads[1].field_C_held = field_0_pads[1].field_0_pressed & ~field_0_pads[1].field_8_previous;
-    field_0_pads[1].field_4_dir = byte_545A4C[field_0_pads[1].field_0_pressed & 0xF];
-}
-
-DWORD CC InputObject::Command_To_Raw_404354(DWORD cmd)
-{
-    unsigned int shoulderButtonsPressedCount = 0;
-
-    if (cmd & PsxButtonBits::eL2)
-    {
-        ++shoulderButtonsPressedCount;
-    }
-
-    if (cmd & PsxButtonBits::eR2)
-    {
-        ++shoulderButtonsPressedCount;
-    }
-
-    if (cmd & PsxButtonBits::eL1)
-    {
-        ++shoulderButtonsPressedCount;
-    }
-
-    if (cmd & PsxButtonBits::eR1)
-    {
-        ++shoulderButtonsPressedCount;
-    }
-
-    if (shoulderButtonsPressedCount > 1) // Any 2 shoulder button combo = chanting
-    {
-        return InputCommands::eChant;
-    }
-
-    DWORD rawInput = 0;
-    if (cmd & PsxButtonBits::eDPadUp)
-    {
-        rawInput |= InputCommands::eUp;
-    }
-
-    if (cmd & PsxButtonBits::eDPadRight)
-    {
-        rawInput |= InputCommands::eRight;
-    }
-
-    if (cmd & PsxButtonBits::eDPadDown)
-    {
-        rawInput |= InputCommands::eDown;
-    }
-
-    if (cmd & eDPadLeft)
-    {
-        rawInput |= InputCommands::eLeft;
-    }
-
-    if (cmd & PsxButtonBits::eR1)
-    {
-        rawInput |= InputCommands::eRun;
-    }
-
-    if (cmd & PsxButtonBits::eR2)
-    {
-        rawInput |= InputCommands::eSneak;
-    }
-
-    if (cmd & PsxButtonBits::eL1)
-    {
-        if (cmd & PsxButtonBits::eTriangle)
-        {
-            rawInput |= InputCommands::eGameSpeak1;
-        }
-
-        if (cmd & PsxButtonBits::eCircle)
-        {
-            rawInput |= InputCommands::eGameSpeak4;
-        }
-
-        if (cmd & PsxButtonBits::eCross)
-        {
-            rawInput |= InputCommands::eGameSpeak3;
-        }
-
-        if (cmd & PsxButtonBits::eSquare)
-        {
-            rawInput |= InputCommands::eGameSpeak2;
-        }
-    }
-    else if (cmd & PsxButtonBits::eL2)
-    {
-        if (cmd & PsxButtonBits::eTriangle)
-        {
-            rawInput |= InputCommands::eGameSpeak6;
-        }
-
-        if (cmd & PsxButtonBits::eCircle)
-        {
-            rawInput |= InputCommands::eGameSpeak7;
-        }
-
-        if (cmd & PsxButtonBits::eCross)
-        {
-            rawInput |= InputCommands::eGameSpeak5;
-        }
-
-        if (cmd & PsxButtonBits::eSquare)
-        {
-            rawInput |= InputCommands::eGameSpeak8;
-        }
-    }
-    else // No shoulder buttons
-    {
-        if (cmd & PsxButtonBits::eTriangle)
-        {
-            rawInput |= InputCommands::eHop;
-        }
-
-        if (cmd & PsxButtonBits::eCircle)
-        {
-            rawInput |= InputCommands::eThrowItem;
-        }
-
-        if (cmd & PsxButtonBits::eCross)
-        {
-            rawInput |= InputCommands::eFartOrRoll;
-        }
-
-        if (cmd & PsxButtonBits::eSquare)
-        {
-            rawInput |= InputCommands::eDoAction;
-        }
-    }
-
-    return rawInput;
 }
 
 class Map
@@ -702,20 +255,9 @@ EXPORT void CC sub_494580()
     NOT_IMPLEMENTED();
 }
 
-EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* /*pRect*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, __int16 /*b*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT void CC Font_sub_4DD050()
 {
     NOT_IMPLEMENTED();
-}
-
-EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
-{
-    return 0;
 }
 
 EXPORT void CC Game_Loop_467230()

@@ -35,6 +35,12 @@ add_library(AliveLib
     Sound.hpp
     stdlib.cpp
     stdlib.hpp
+    ResourceManager.cpp
+    ResourceManager.hpp
+    BaseGameObject.cpp
+    BaseGameObject.hpp
+    PsxDisplay.cpp
+    PsxDisplay.hpp
     WinMain.cpp
     WinMain.hpp)
 

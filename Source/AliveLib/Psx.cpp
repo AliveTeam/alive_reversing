@@ -92,3 +92,14 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
         return 240 * frameTimeInMilliseconds / 60000;
     }
 }
+
+EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* /*pRect*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, __int16 /*b*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
+{
+    return 0;
+}
