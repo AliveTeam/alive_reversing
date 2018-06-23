@@ -498,7 +498,7 @@ EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
     if (sbFullScreen_BBC3BC)
     {
         sDD_old_win_style_BBC3E0 = winStyle;
-        newWinStyle = winStyle & 0xFF3FFFFF;
+        newWinStyle = winStyle & 0xFF3FFFFF; // TODO: Unset whatever win style this is removing
     }
     else
     {
@@ -506,4 +506,169 @@ EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
     }
     ::SetWindowLongA(Sys_GetHWnd_4F2C70(), GWL_STYLE, newWinStyle);
     return sDDraw_BBC3D4->SetDisplayMode(width, height, bpp);
+}
+
+ALIVE_VAR(1, 0xBBC3A4, int, sDD_Width_BBC3A4, 0);
+ALIVE_VAR(1, 0xBBC3A8, int, sDD_Height_BBC3A8, 0);
+
+EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int bpp, int flipMode, int a6)
+{
+    sbDD_FlipMode_BBC3AC = flipMode;
+    //byte_BBC3C4[0] = 0; // TODO: Never used?
+
+    if (!sDDraw_BBC3D4)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 206, -1, "DDEnable: no DD Object");
+        return 0;
+    }
+
+    int bitsPerPixelXPlanes = 0;
+    int heightCopy = 0;
+    int widthCopy = 0;
+    if (sbFullScreen_BBC3BC)
+    {
+        bitsPerPixelXPlanes = bpp;
+        heightCopy = height;
+        widthCopy = width;
+        HRESULT hr = DD_SetDisplayMode_4F0730(width, height, bitsPerPixelXPlanes);
+        if (FAILED(hr))
+        {
+            if (width != 640 || height != 480)
+            {
+                if (height * width >= 640 * 480)
+                {
+                    Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\POS\\MYDDRAW.C", 223, "Can't set mode trying 640x480");
+                }
+                else
+                {
+                    Error_MessageBox_4F2D00(
+                        "C:\\abe2\\code\\POS\\MYDDRAW.C",
+                        216,
+                        "Can't set mode %ldx%ld, trying 648x480.\n"
+                        "This will visibly decrease the performance\n"
+                        "Please make sure to have the latest version\n"
+                        "of the video drivers.\n"
+                        "\n"
+                        "DirectDraw error:\n"
+                        " %s",
+                        width,
+                        height,
+                        DX_HR_To_String_4F4EC0(hr));
+                }
+                heightCopy = 480;
+                widthCopy = 640;
+                hr = DD_SetDisplayMode_4F0730(640u, 480u, bpp);
+            }
+
+            if (FAILED(hr))
+            {
+                // Try 8 bpp
+                if (bitsPerPixelXPlanes != 8)
+                {
+                    Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\POS\\MYDDRAW.C", 232, "Can't set mode trying 640x480x8");
+                    bitsPerPixelXPlanes = 8;
+                    hr = DD_SetDisplayMode_4F0730(640u, heightCopy, 8u);
+                }
+
+                // Then try 16 bpp
+                if (FAILED(hr))
+                {
+                    if (bitsPerPixelXPlanes != 16)
+                    {
+                        Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\POS\\MYDDRAW.C", 238, "Can't set mode trying 640x480x16");
+                        bitsPerPixelXPlanes = 16;
+                        hr = DD_SetDisplayMode_4F0730(640u, heightCopy, 16u);
+                    }
+
+                    // Finally give up
+                    if (FAILED(hr))
+                    {
+                        Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\POS\\MYDDRAW.C", 244, "SetMode failed err=%d", hr);
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        HDC dc = ::GetDC(nullptr);
+        bitsPerPixelXPlanes = ::GetDeviceCaps(dc, BITSPIXEL) * ::GetDeviceCaps(dc, PLANES); // 12, 14
+        ::ReleaseDC(nullptr, dc);
+
+        const LONG oldWinStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
+        ::SetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE, oldWinStyle & 0xFF39FFFF | 0x80000000); // TODO: use SDK constants
+        heightCopy = height;
+        widthCopy = width;
+
+        RECT rect = {};
+        ::SetRect(&rect, 0, 0, width, height);
+
+        const LONG curExStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_EXSTYLE);
+        const BOOL bMenu = ::GetMenu(sDD_hWnd_BBC3B0) != 0;
+        const LONG curStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
+        ::AdjustWindowRectEx(&rect, curStyle, bMenu, curExStyle);
+
+        // TODO: use SDK constants
+        ::SetWindowPos(sDD_hWnd_BBC3B0, 0, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 0x16u); 
+
+        // TODO: use SDK constants
+        ::SetWindowPos(sDD_hWnd_BBC3B0, (HWND)0xFFFFFFFE, 0, 0, 0, 0, 0x13u);
+        RECT pvParam;
+        ::SystemParametersInfoA(SPI_GETWORKAREA, 0, &pvParam, 0);
+        ::GetWindowRect(sDD_hWnd_BBC3B0, &rect);
+
+        int left = rect.left;
+        if (rect.left < pvParam.left)
+        {
+            left = pvParam.left;
+            rect.left = pvParam.left;
+        }
+
+        int top = rect.top;
+        if (rect.top < pvParam.top)
+        {
+            top = pvParam.top;
+            rect.top = pvParam.top;
+        }
+
+        // TODO: use SDK constants
+        ::SetWindowPos(sDD_hWnd_BBC3B0, 0, left, top, 0, 0, 0x15u);
+        
+    }
+
+    // Get DD caps
+    DDCAPS ddCaps = {};
+    ddCaps.dwSize = sizeof(DDSCAPS);
+    HRESULT hr = sDDraw_BBC3D4->GetCaps(&ddCaps, nullptr);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 308, -1, DX_HR_To_String_4F4EC0(hr));
+    }
+
+    // TODO: What cap is this extracting, never read?
+    //dword_BBC3B4 = (ddCaps.dwCaps >> 26) & 1;
+    
+    // TODO: Refactor + use SDK constants
+    if (!sbDD_FlipMode_BBC3AC)
+    {
+        if (ddCaps.dwVidMemTotal <= (bitsPerPixelXPlanes << 20) / 8
+            || (sbDD_FlipMode_BBC3AC = 3, widthCopy > 640))
+        {
+            sbDD_FlipMode_BBC3AC = 2;
+        }
+    }
+
+    // TODO: Refactor + use SDK constants
+    if (ddCaps.dwCaps & 0x400000
+        && ddCaps.dwCKeyCaps & 1
+        && (a6 || !(ddCaps.dwCKeyCaps & 0x200))
+        && ddCaps.dwVidMemTotal >= bitsPerPixelXPlanes / 8 << 21)
+    {
+        sDD_VideoMemory_BBC3A0 = 1;
+    }
+    sDD_Width_BBC3A4 = widthCopy;
+    sDD_Height_BBC3A8 = heightCopy;
+
+    return 1;
 }
