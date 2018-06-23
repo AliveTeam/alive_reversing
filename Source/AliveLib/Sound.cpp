@@ -96,3 +96,12 @@ EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
     sLoadedSoundsCount_BBC394--;
     return 0;
 }
+
+EXPORT void CC SND_InitVolumeTable_4EEF60()
+{
+    for (int i = 0; i < 127; i++)
+    {
+        sVolumeTable_BBBD38[i] = min(max(log2f((i + 1) / 128.0) / log2f(2.0f) * 1000.0, -10000), 0);
+    }
+    sVolumeTable_BBBD38[0] = -10000;
+}
