@@ -410,12 +410,12 @@ EXPORT signed int CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, int forceSoftwa
     return 1;
 }
 
-EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface *pSourceSurface, LPRECT pSrcRect, IDirectDrawSurface *pTargetSurface, LPRECT pDstRect, int bltFlags)
+EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface* pSourceSurface, LPRECT pSrcRect, IDirectDrawSurface* pTargetSurface, LPRECT pDstRect, int bltFlags)
 {
-    const HRESULT hr = pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, 0); // 0x1000000
+    const HRESULT hr = pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, nullptr); // 0x1000000
     if (FAILED(hr))
     {
         DD_RestoreSurfacesIfRequired_4F01D0(hr, pSourceSurface, pTargetSurface);
-        pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, 0); // 0x1000000
+        pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, nullptr); // 0x1000000
     }
 }
