@@ -275,7 +275,7 @@ EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
         if (bDestroyDD)
         {
             sDDraw_BBC3D4->RestoreDisplayMode();
-            sDDraw_BBC3D4->SetCooperativeLevel(sDD_hWnd_BBC3B0, DISCL_BACKGROUND); // 8
+            sDDraw_BBC3D4->SetCooperativeLevel(sDD_hWnd_BBC3B0, DDSCL_NORMAL); // 8
             sDDraw_BBC3D4->Release();
             sDDraw_BBC3D4 = nullptr;
         }
@@ -286,6 +286,7 @@ EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
 ALIVE_VAR(1, 0xBBC3B8, BOOL, sDD_Caps_BBC3B8, FALSE); // Force ram surfaces?
 ALIVE_VAR(1, 0xBBC3A0, BOOL, sDD_VideoMemory_BBC3A0, FALSE);
 ALIVE_VAR(1, 0xBBC3C0, DWORD, sDDColourKey_BBC3C0, 0);
+ALIVE_VAR(1, 0xBBC3BC, bool, sbFullScreen_BBC3BC, 0);
 
 EXPORT LPDIRECTDRAWSURFACE CC DD_Create_Surface_4F0CB0(int width, int height, int bSetUnknownCaps)
 {
@@ -369,4 +370,52 @@ EXPORT signed int CC DD_RestoreSurfacesIfRequired_4F01D0(HRESULT hr, IDirectDraw
         }
     }
     return 0;
+}
+
+#pragma comment(lib, "ddraw.lib") // DirectDrawCreate
+
+EXPORT signed int CC DD_Init_4F02D0(HWND hwnd, bool bFullScreen, int forceSoftwareSurfaces)
+{
+    if (!sDDraw_BBC3D4)
+    {
+        static LPDIRECTDRAW sDirectDraw_BBC3D0 = nullptr;
+
+        sDD_Caps_BBC3B8 = forceSoftwareSurfaces;
+        HRESULT hr = DirectDrawCreate(0, &sDirectDraw_BBC3D0, 0);
+        if (FAILED(hr))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 136, -1, DX_HR_To_String_4F4EC0(hr));
+            return 0;
+        }
+
+        sbFullScreen_BBC3BC = bFullScreen;
+        sDD_hWnd_BBC3B0 = hwnd;
+
+        if (bFullScreen)
+        {
+            hr = sDirectDraw_BBC3D0->SetCooperativeLevel(hwnd, DDSCL_FULLSCREEN | DDSCL_ALLOWREBOOT | DDSCL_EXCLUSIVE | DDSCL_ALLOWMODEX); // 0x53
+        }
+        else
+        {
+            hr = sDirectDraw_BBC3D0->SetCooperativeLevel(hwnd, DDSCL_NORMAL); // 8
+        }
+
+        if (FAILED(hr))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 151, -1, DX_HR_To_String_4F4EC0(hr));
+            return 0;
+        }
+        sDDraw_BBC3D4 = sDirectDraw_BBC3D0;
+    }
+    return 1;
+}
+
+EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface *pSourceSurface, LPRECT pSrcRect, IDirectDrawSurface *pTargetSurface, LPRECT pDstRect, int bltFlags)
+{
+    const HRESULT hr = pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, 0); // 0x1000000
+    if (FAILED(hr))
+    {
+        DD_RestoreSurfacesIfRequired_4F01D0(hr, pSourceSurface, pTargetSurface);
+        pTargetSurface->Blt(pDstRect, pSourceSurface, pSrcRect, bltFlags | DDBLT_WAIT, 0); // 0x1000000
+    }
 }
