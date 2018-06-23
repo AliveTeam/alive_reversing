@@ -105,3 +105,16 @@ EXPORT void CC SND_InitVolumeTable_4EEF60()
     }
     sVolumeTable_BBBD38[0] = -10000;
 }
+
+EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampleRate, unsigned __int8 bitsPerSample, int channels)
+{
+    pWaveFormat->nSamplesPerSec = 0;
+    pWaveFormat->nAvgBytesPerSec = 0;
+    pWaveFormat->cbSize = 0;
+    pWaveFormat->nSamplesPerSec = sampleRate;
+    pWaveFormat->nChannels = (channels != 0) + 1;
+    pWaveFormat->wBitsPerSample = bitsPerSample;
+    pWaveFormat->wFormatTag = WAVE_FORMAT_PCM;
+    pWaveFormat->nBlockAlign = bitsPerSample * ((channels != 0) + 1) / 8;
+    pWaveFormat->nAvgBytesPerSec = sampleRate * pWaveFormat->nBlockAlign;
+}
