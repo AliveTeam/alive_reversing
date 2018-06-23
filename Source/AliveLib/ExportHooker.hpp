@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <vector>
 #include <set>
+#include <sstream>
 #include "logger.hpp"
 
 class ExportHooker
@@ -22,11 +23,29 @@ public:
         }
         if (IsAlive())
         {
+            LoadDisabledHooks();
             ProcessExports();
         }
     }
 
 private:
+    void LoadDisabledHooks()
+    {
+        std::ifstream inFile("hook_map.txt");
+        if (inFile)
+        {
+            std::string line;
+            while (std::getline(inFile, line))
+            {
+                if (!line.empty())
+                {
+                    unsigned long addr = std::stoul(line, nullptr, 16);
+                    mDisabledImpls.insert(addr);
+                }
+            }
+        }
+    }
+
     void ProcessExports()
     {
         TRACE_ENTRYEXIT;
@@ -46,15 +65,17 @@ private:
 
         for (const auto& e : mExports)
         {
+            const bool hookDisabledByConfig = mDisabledImpls.find(e.mGameFunctionAddr) != std::end(mDisabledImpls);
             LOG_INFO("Hook: "
                 << e.mName.c_str()
                 << " From "
                 << "0x" << std::hex << (e.mIsImplemented ? e.mGameFunctionAddr : (DWORD)e.mCode)
                 << " To "
                 << "0x" << std::hex << (e.mIsImplemented ? (DWORD)e.mCode : e.mGameFunctionAddr)
-                << " Implemented: " << e.mIsImplemented);
+                << " Implemented: " << e.mIsImplemented
+                << hookDisabledByConfig ? "(Override to OFF by config)" : "");
 
-            if (e.mIsImplemented)
+            if (e.mIsImplemented && !hookDisabledByConfig)
             {
                 err = DetourAttach(&(PVOID&)e.mGameFunctionAddr, e.mCode);
             }
@@ -209,4 +230,5 @@ private:
     };
     std::vector<Export> mExports;
     std::set<DWORD> mUsedAddrs;
+    std::set<DWORD> mDisabledImpls;
 };
