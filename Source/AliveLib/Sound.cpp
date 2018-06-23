@@ -101,7 +101,7 @@ EXPORT void CC SND_InitVolumeTable_4EEF60()
 {
     for (int i = 0; i < 127; i++)
     {
-        sVolumeTable_BBBD38[i] = min(max(log2f((i + 1) / 128.0) / log2f(2.0f) * 1000.0, -10000), 0);
+        sVolumeTable_BBBD38[i] = static_cast<int>(min(max(log2f((i + 1) / 128.0f) / log2f(2.0f) * 1000.0f, -10000), 0));
     }
     sVolumeTable_BBBD38[0] = -10000;
 }
