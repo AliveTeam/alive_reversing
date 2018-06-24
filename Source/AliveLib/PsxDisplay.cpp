@@ -2,32 +2,62 @@
 #include "PsxDisplay.hpp"
 #include "Function.hpp"
 #include "ScreenManager.hpp"
+#include "VGA.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
-EXPORT void __cdecl PSX_PutDrawEnv_4F5980(const PSX_DRAWENV *pDrawEnv)
+EXPORT void CC PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __cdecl sub_4945D0()
+EXPORT void CC sub_4945D0()
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __cdecl PSX_Display_OrderingTable_4F6540(int* pOT)
+EXPORT void CC PSX_Display_OrderingTable_4F6540(int* pOT)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __cdecl PSX_OrderingTable_Init_4F6290(int* otBuffer, int otBufferSize)
+EXPORT void CC PSX_OrderingTable_Init_4F6290(int* otBuffer, int otBufferSize)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __cdecl PSX_4F58E0(const PSX_DISPENV *pDispEnv)
+EXPORT void CC PSX_PutDispEnv_4F5640(const PSX_DISPENV *pDispEnv, char a2)
 {
     NOT_IMPLEMENTED();
+}
+
+using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
+
+ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_CallBack_1_dword_C1D184, nullptr);
+ALIVE_VAR(1, 0xBD0F21, BYTE, byte_BD0F21, 0);
+
+
+EXPORT void CC PSX_4F58E0(const PSX_DISPENV* pDispEnv)
+{
+    if (!sPsxEmu_CallBack_1_dword_C1D184 || !sPsxEmu_CallBack_1_dword_C1D184(0))
+    {
+        if (!byte_BD0F21)
+        {
+            if (sVGA_Bmp1_BD2A20.field_8_width != 320 || pDispEnv->disp.w != 640)
+            {
+                PSX_PutDispEnv_4F5640(pDispEnv, 1);
+            }
+            else
+            {
+                PSX_PutDispEnv_4F5640(pDispEnv, 0);
+            }
+        }
+
+        if (sPsxEmu_CallBack_1_dword_C1D184)
+        {
+            sPsxEmu_CallBack_1_dword_C1D184(1);
+        }
+    }
 }
 
 ALIVE_VAR(1, 0x5CA4D1, bool, sCommandLine_NoFrameSkip_5CA4D1, false);
