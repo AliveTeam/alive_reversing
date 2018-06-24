@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "bmp.hpp"
 
 void Psx_ForceLink();
 
@@ -47,3 +48,6 @@ struct PSX_DRAWENV
 EXPORT int CC PSX_VSync_4F6170(int mode);
 EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, __int16 b);
 EXPORT int CC PSX_DrawSync_4F6280(int mode);
+
+ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
+
