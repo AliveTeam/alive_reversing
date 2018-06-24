@@ -28,7 +28,7 @@ EXPORT unsigned int  CC Math_FixedPoint_Multiply_496C50(signed int op1, signed i
 {
     unsigned int op1a; // ecx
     unsigned int op2a; // esi
-    unsigned int result; // eax
+    int result; // eax
 
     op1a = op1;
     if (op1 < 0)
@@ -51,7 +51,7 @@ EXPORT unsigned int CC Math_FixedPoint_Divide_496B70(signed int op1, signed int 
     unsigned int op2a; // ecx
     unsigned int v5; // esi
     int v6; // edi
-    unsigned int result; // eax
+    int result; // eax
 
     op1a = op1;
     op1b = op1;
@@ -103,7 +103,7 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
     {
         const int randByte = (257 * sRandomBytes_546744[sRandomSeed_5D1E10]);
         sRandomSeed_5D1E10 += 2;
-        result = result + randByte % (rangeSize + 1);
+        result = static_cast<short>(result + randByte % (rangeSize + 1));
     }
     else
     {
