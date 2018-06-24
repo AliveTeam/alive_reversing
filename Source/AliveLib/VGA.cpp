@@ -4,6 +4,7 @@
 #include "DDraw.hpp"
 #include "Function.hpp"
 #include "Error.hpp"
+#include "Sys.hpp"
 
 void VGA_ForceLink() {}
 
@@ -23,6 +24,11 @@ ALIVE_VAR(1, 0xBD0BD0, Bitmap, sVGA_Bmp0_BD0BD0, {});
 ALIVE_VAR(1, 0xBD2A20, Bitmap, sVGA_Bmp1_BD2A20, {});
 ALIVE_VAR(1, 0xBD2A40, Bitmap, sVGA_Bmp2_BD2A40, {});
 
+
+ALIVE_VAR(1, 0xBD0BBC, char, sVGA_BD0BBC, 0);
+ALIVE_VAR(1, 0xBD0BF9, char, sVGA_bpp_BD0BF9, 0);
+ALIVE_VAR(1, 0xBD0BEC, WORD, sVGA_height_BD0BEC, 0);
+ALIVE_VAR(1, 0xBD0BC4, WORD, sVGA_width_BD0BC4, 0);
 
 EXPORT void CC VGA_Shutdown_4F3170()
 {
@@ -88,4 +94,158 @@ EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, unsigned __int8
 EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
+}
+
+EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 a4, IDirectDrawSurface** ppSurface)
+{
+    signed int result = 0;
+   
+    // TODO: Window sub classing for VGA_WindowSubClass_4F2F50 removed as it only exists to support 8 bpp mode.
+
+    if (sVGA_Inited_BC0BB8)
+    {
+        VGA_Shutdown_4F3170();
+    }
+
+    if (DD_Init_4F02D0(Sys_GetHWnd_4F2C70(), sVGA_IsWindowMode_BD0BF8, gVGA_force_sys_memory_surfaces_BC0BB4))
+    {
+        if (ppSurface)
+        {
+            sVGA_own_surfaces_BD0BFA = false;
+            sDD_Surface1_BBC3C8 = *ppSurface;
+            sDD_Surface2_BBC3CC = *ppSurface;
+            a4 = 1;
+        }
+        else
+        {
+            sVGA_own_surfaces_BD0BFA = true;
+        }
+        
+        sVGA_BD0BBC = a4;
+        sVGA_bpp_BD0BF9 = bpp;
+        memset(&sVGA_Bmp1_BD2A20, 0, sizeof(sVGA_Bmp1_BD2A20));
+        memset(&sVGA_Bmp2_BD2A40, 0, sizeof(sVGA_Bmp2_BD2A40));
+        sVGA_height_BD0BEC = height;
+        sVGA_width_BD0BC4 = width;
+
+        if (DD_Enable_4F0380(Sys_GetHWnd_4F2C70(), width, height, bpp, a4, 0))
+        {
+            if (!sVGA_IsWindowMode_BD0BF8)
+            {
+                RECT rect = {};
+                ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width, height, 0x204u); // TODO: SDK constants
+                ::GetClientRect(Sys_GetHWnd_4F2C70(), &rect);
+                if (width != rect.right || height != rect.bottom)
+                {
+                    ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width - rect.right + width, height - rect.bottom + height, 0x204u); // TODO: SDK constants
+                }
+            }
+
+            if (!sVGA_own_surfaces_BD0BFA || DD_Init_4F0840(a4))
+            {
+                DDSURFACEDESC surfaceDesc = {};
+                surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
+                if (sDD_Surface1_BBC3C8->GetSurfaceDesc(&surfaceDesc))
+                {
+                    Error_PushErrorRecord_4F2920(
+                        "C:\\abe2\\code\\POS\\VGA.C",
+                        368,
+                        -1,
+                        "VGA_DisplaySet: problem calling IDirectDrawSurface_GetSurfaceDesc");
+                }
+                else
+                {
+                    sVGA_Bmp1_BD2A20.field_0_pSurface = sDD_Surface1_BBC3C8;
+                    sVGA_Bmp1_BD2A20.field_8_width = surfaceDesc.dwWidth;
+                    sVGA_Bmp1_BD2A20.field_10_locked_pitch = surfaceDesc.lPitch;
+                    sVGA_Bmp1_BD2A20.field_C_height = surfaceDesc.dwHeight;
+                    sVGA_Bmp1_BD2A20.field_14_bpp = static_cast<char>(surfaceDesc.ddpfPixelFormat.dwRGBBitCount);
+                    sVGA_Bmp1_BD2A20.field_18_create_flags = 2;
+                    memcpy(&sVGA_Bmp2_BD2A40, &sVGA_Bmp1_BD2A20, sizeof(sVGA_Bmp2_BD2A40));
+                    sVGA_Bmp2_BD2A40.field_0_pSurface = sDD_Surface2_BBC3CC;
+                    sVGA_Inited_BC0BB8 = 1;
+
+                    // TODO: Refactor to own function, change if/else chain to early outs
+                    switch (surfaceDesc.ddpfPixelFormat.dwRGBBitCount)
+                    {
+                    case 1u:
+                        sVGA_Bmp1_BD2A20.field_15_pixel_format = 1;
+                        return 0;
+                    case 2u:
+                        sVGA_Bmp1_BD2A20.field_15_pixel_format = 2;
+                        return 0;
+                    case 4u:
+                        sVGA_Bmp1_BD2A20.field_15_pixel_format = 4;
+                        return 0;
+                    case 8u:
+                        sVGA_Bmp1_BD2A20.field_15_pixel_format = 8;
+                        return 0;
+                    case 16u:
+                        if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 63488)
+                        {
+                            if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 2016 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31)
+                            {
+                                sVGA_Bmp1_BD2A20.field_15_pixel_format = 16;
+                                return 0;
+                            }
+                            break;
+                        }
+                        if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 31)
+                        {
+                            if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 2016)
+                            {
+                                if (surfaceDesc.ddpfPixelFormat.dwBBitMask != 63488)
+                                    break;
+                                sVGA_Bmp1_BD2A20.field_15_pixel_format = 116;
+                                return 0;
+                            }
+                        }
+                        else
+                        {
+                            if (surfaceDesc.ddpfPixelFormat.dwRBitMask == 31744)
+                            {
+                                if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 992 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31)
+                                {
+                                    sVGA_Bmp1_BD2A20.field_15_pixel_format = 15;
+                                    return 0;
+                                }
+                                break;
+                            }
+                            if (surfaceDesc.ddpfPixelFormat.dwRBitMask != 31)
+                                break;
+                        }
+                        if (surfaceDesc.ddpfPixelFormat.dwGBitMask == 992 && surfaceDesc.ddpfPixelFormat.dwBBitMask == 31744)
+                        {
+                            sVGA_Bmp1_BD2A20.field_15_pixel_format = 115;
+                            return 0;
+                        }
+                        break;
+                    case 24u:
+                        sVGA_Bmp1_BD2A20.field_15_pixel_format = 24;
+                        return 0;
+                    case 32u:
+                        sVGA_Bmp1_BD2A20.field_15_pixel_format = 32;
+                        return 0;
+                    default:
+                        break;
+                    }
+                }
+                result = 0;
+            }
+            else
+            {
+                result = -1;
+            }
+        }
+        else
+        {
+            result = -1;
+        }
+    }
+    else
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\VGA.C", 273, -1, "VGA_DisplaySet(): DDInit failed");
+        result = -1;
+    }
+    return result;
 }
