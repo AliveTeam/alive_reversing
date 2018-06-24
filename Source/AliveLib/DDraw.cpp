@@ -4,6 +4,25 @@
 #include "Error.hpp"
 #include "Sys.hpp"
 
+RECT ClientToScreenConvert(HWND hwnd)
+{
+    RECT rect = {};
+    ::GetClientRect(hwnd, &rect);
+    POINT points[2] =
+    {
+        { rect.left, rect.top },
+        { rect.right, rect.bottom }
+    };
+    ::ClientToScreen(hwnd, &points[0]);
+    ::ClientToScreen(hwnd, &points[1]);
+    RECT screenRect =
+    {
+        points[0].x, points[0].y,
+        points[1].x, points[1].y
+    };
+    return screenRect;
+}
+
 EXPORT const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
 {
     switch (hr)
@@ -436,26 +455,7 @@ EXPORT void CC DD_Flip_4F15D0()
     // Windowed path
     if (!sbFullScreen_BBC3BC)
     {
-        // Window rect in client coords
-        RECT rect = {};
-        ::GetClientRect(sDD_hWnd_BBC3B0, &rect);
-
-        // Convert to screen coords
-        POINT rectPoints[2] =
-        {
-            { rect.left, rect.top },
-            { rect.right, rect.bottom }
-        };
-        ::ClientToScreen(sDD_hWnd_BBC3B0, &rectPoints[0]);
-        ::ClientToScreen(sDD_hWnd_BBC3B0, &rectPoints[1]);
-
-        // Make a new rect in screen coords
-        RECT screenRect =
-        {
-            rectPoints[0].x, rectPoints[0].y,
-            rectPoints[1].x, rectPoints[1].y
-        };
-
+        RECT screenRect = ClientToScreenConvert(sDD_hWnd_BBC3B0);
         DD_Blt_4F0170(sDD_Surface2_BBC3CC, nullptr, sDD_Surface1_BBC3C8, &screenRect, 0);
         return;
     }
@@ -894,20 +894,7 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
         }
         else
         {
-            RECT rect = {};
-            ::GetClientRect(Sys_GetHWnd_4F2C70(), &rect);
-            POINT points[2] = 
-            {
-                { rect.left, rect.top },
-                { rect.right, rect.bottom }
-            };
-            ::ClientToScreen(sDD_hWnd_BBC3B0, &points[0]);
-            ::ClientToScreen(sDD_hWnd_BBC3B0, &points[1]);
-            RECT screenRect =
-            {
-                points[0].x, points[0].y,
-                points[1].x, points[1].y
-            };
+            RECT screenRect = ClientToScreenConvert(sDD_hWnd_BBC3B0);
             DD_Blt_4F0170(pSurf, pRect, sDD_Surface1_BBC3C8, &screenRect, 0);
         }
     }

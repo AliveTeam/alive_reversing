@@ -249,3 +249,77 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
     }
     return result;
 }
+
+ALIVE_VAR(1, 0xBD0BF0, int, sbVga_LockedType_BD0BF0, 0); // TODO: Enum
+ALIVE_VAR(1, 0xBD0BC8, HDC, sVga_HDC_BD0BC8, 0);
+ALIVE_VAR(1, 0xBD0BC0, int, sVga_LockPType_BD0BC0, 0);
+ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
+
+
+EXPORT void VGA_BuffUnlockPtr_4F2FB0()
+{
+    if (sbVga_LockedType_BD0BF0)
+    {
+        Bitmap* pBmpToUnlock = &sVGA_Bmp1_BD2A20;
+        if (sVga_LockPType_BD0BC0 != 3)
+        {
+            pBmpToUnlock = &sVGA_Bmp2_BD2A40;
+        }
+
+        if (sbVga_LockedType_BD0BF0 == 1)
+        {
+            BMP_unlock_4F2100(pBmpToUnlock);
+            sVgaLockBuffer_BD0BF4 = nullptr;
+        }
+        else if (sbVga_LockedType_BD0BF0 == 2)
+        {
+            BMP_Release_DC_4F21A0(pBmpToUnlock, sVga_HDC_BD0BC8);
+            sVga_HDC_BD0BC8 = 0;
+            sbVga_LockedType_BD0BF0 = 0;
+            return;
+        }
+        sbVga_LockedType_BD0BF0 = 0;
+    }
+}
+
+
+EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(int always3)
+{
+    LPVOID pLockedBuffer = sVgaLockBuffer_BD0BF4;
+    if (!pLockedBuffer)
+    {
+        if (sVga_HDC_BD0BC8)
+        {
+            return nullptr;
+        }
+
+        if (always3 == 3)
+        {
+            if (!sVGA_IsWindowMode_BD0BF8)
+            {
+                RECT rect = ClientToScreenConvert(Sys_GetHWnd_4F2C70());
+                if (rect.left < 0 || rect.top < 0)
+                {
+                    return nullptr;
+                }
+            }
+            pLockedBuffer = BMP_Lock_4F1FF0(&sVGA_Bmp1_BD2A20);
+        }
+        else
+        {
+            if (always3 != 4)
+            {
+                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\VGA.C", 179, -1, "BuffLockPtr wrong PTYPE");
+                return 0;
+            }
+            pLockedBuffer = BMP_Lock_4F1FF0(&sVGA_Bmp2_BD2A40);
+        }
+        sVgaLockBuffer_BD0BF4 = pLockedBuffer;
+        if (pLockedBuffer)
+        {
+            sbVga_LockedType_BD0BF0 = 1;
+            sVga_LockPType_BD0BC0 = always3;
+        }
+    }
+    return pLockedBuffer;
+}

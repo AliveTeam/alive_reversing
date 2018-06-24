@@ -32,5 +32,8 @@ EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap*
 EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp);
 EXPORT int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b);
 EXPORT signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour);
+EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp);
+EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc);
+EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap);
 
 ALIVE_VAR_EXTERN(unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4);
