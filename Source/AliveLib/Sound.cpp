@@ -160,8 +160,15 @@ EXPORT char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
         return "DSERR_NOAGGREGATION: The object does not support aggregation.";
     }
 
-    sprintf(sDSoundErrorBuffer_BBC348, "DirectSound error %ld %lx", hr, hr);
-    return sDSoundErrorBuffer_BBC348;
+    if (hr)
+    {
+        sprintf(sDSoundErrorBuffer_BBC348, "DirectSound error %ld %lx", hr, hr);
+        return sDSoundErrorBuffer_BBC348;
+    }
+    else
+    {
+        return "";
+    }
 }
 
 EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, unsigned __int8 channels)
