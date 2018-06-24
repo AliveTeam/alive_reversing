@@ -35,5 +35,6 @@ EXPORT signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD
 EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp);
 EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc);
 EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap);
+EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags);
 
 ALIVE_VAR_EXTERN(unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4);

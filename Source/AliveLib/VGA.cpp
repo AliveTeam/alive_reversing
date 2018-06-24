@@ -11,6 +11,7 @@ void VGA_ForceLink() {}
 #ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(char /*bFullScreen*/)
 {
+  //  NOT_IMPLEMENTED();
     LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
     return 0;
 }
@@ -81,9 +82,258 @@ EXPORT signed int CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* /*pBmp*/, RECT* /*pRect*/, int /*screenMode*/)
+EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
 {
-    NOT_IMPLEMENTED();
+    Bitmap *pBitmapToUse; // ebp
+    int srcWidth; // ebx
+    char bpp; // cl
+    int v7; // eax
+    unsigned __int16 *v22; // esi
+    char *v23; // edx
+    int v24; // ecx
+    char *v25; // eax
+    unsigned int v26; // edi
+    unsigned __int16 v27; // ax
+    int v28; // ebx
+    char v29; // bp
+    char v30; // bl
+    unsigned int v31; // edi
+    unsigned __int16 v32; // ax
+    char v34; // [esp+10h] [ebp-438h]
+    char v35; // [esp+10h] [ebp-438h]
+    char v37; // [esp+14h] [ebp-434h]
+    char v38; // [esp+14h] [ebp-434h]
+    int v40; // [esp+18h] [ebp-430h]
+    int srcWidth2; // [esp+1Ch] [ebp-42Ch]
+    int v42; // [esp+20h] [ebp-428h]
+    int v45; // [esp+20h] [ebp-428h]
+    LONG srcX; // [esp+24h] [ebp-424h]
+    char v47; // [esp+24h] [ebp-424h]
+    int height; // [esp+28h] [ebp-420h]
+    int v50; // [esp+2Ch] [ebp-41Ch]
+    char *v52; // [esp+30h] [ebp-418h]
+    LONG srcY; // [esp+34h] [ebp-414h]
+    RECT rect; // [esp+38h] [ebp-410h]
+
+    if (sVGA_Bmp1_BD2A20.field_8_width == 0)
+    {
+        return;
+    }
+
+    if (pRect)
+    {
+        pBitmapToUse = pBmp;
+        srcX = pRect->left;
+        srcY = pRect->top;
+        srcWidth = pRect->right - pRect->left;
+        srcWidth2 = pRect->right - pRect->left;
+        height = pRect->bottom - srcY;
+    }
+    else
+    {
+        pBitmapToUse = pBmp;
+        srcX = 0;
+        srcY = 0;
+        srcWidth = pBmp->field_8_width;
+        srcWidth2 = pBmp->field_8_width;
+        height = pBmp->field_C_height;
+    }
+
+    if (pBitmapToUse && pBitmapToUse->field_0_pSurface)
+    {
+        bpp = sVGA_Bmp1_BD2A20.field_14_bpp;
+        if (pBitmapToUse->field_14_bpp == sVGA_Bmp1_BD2A20.field_14_bpp)
+        {
+            DD_render_back_buffer_4F0D90(pBitmapToUse->field_0_pSurface, pRect, screenMode);
+            if (sVGA_Bmp0_BD0BD0.field_0_pSurface)
+            {
+                Bmp_Free_4F1950(&sVGA_Bmp0_BD0BD0);
+            }
+            return;
+        }
+
+        // TODO: We never hit this point so it can't be cleaned up or debugged
+
+        if (pBitmapToUse->field_14_bpp != 16)
+        {
+            return;
+        }
+
+        if (srcWidth != sVGA_Bmp0_BD0BD0.field_8_width || height != sVGA_Bmp0_BD0BD0.field_C_height)
+        {
+            if (sVGA_Bmp0_BD0BD0.field_0_pSurface)
+            {
+                Bmp_Free_4F1950(&sVGA_Bmp0_BD0BD0);
+                bpp = sVGA_Bmp1_BD2A20.field_14_bpp;
+            }
+
+            switch (bpp)
+            {
+            case 8:
+                v7 = 8;
+                break;
+            case 24:
+                v7 = 24;
+                break;
+            case 32:
+                v7 = 32;
+                break;
+            default:
+                v7 = v42;
+                break;
+            }
+
+            if (BMP_New_4F1990(&sVGA_Bmp0_BD0BD0, srcWidth, height, v7, 1))
+            {
+                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\VGA.C", 452, -1, "VGA_CopyToFront: BMP_New FAILED!");
+                return;
+            }
+            bpp = sVGA_Bmp1_BD2A20.field_14_bpp;
+        }
+
+        if (bpp == 8)
+        {
+            // TODO: Mode not supported
+        }
+
+        if (bpp != 24 && bpp != 32)
+        {
+            goto LABEL_87;
+        }
+
+        if (!BMP_Lock_4F1FF0(pBitmapToUse))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\VGA.C", 546, -1, "VGA_CopyToFront: BMP_LockPtr 1 FAILED!");
+            return;
+        }
+
+        if (!BMP_Lock_4F1FF0(&sVGA_Bmp0_BD0BD0))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\VGA.C", 552, -1, "VGA_CopyToFront: BMP_LockPtr 2 FAILED!");
+            BMP_unlock_4F2100(pBitmapToUse);
+            return;
+        }
+
+        v50 = ((unsigned int)pBitmapToUse->field_10_locked_pitch >> 1) - srcWidth;
+        v22 = (unsigned __int16 *)((char *)pBitmapToUse->field_4_pLockedPixels
+            + 2 * (srcX + ((unsigned int)(srcY * pBitmapToUse->field_10_locked_pitch) >> 1)));
+
+        if (sVGA_Bmp1_BD2A20.field_14_bpp == 32)
+        {
+            v40 = 4 * srcWidth2;
+        }
+        else
+        {
+            v40 = 3 * srcWidth2;
+        }
+
+        v23 = (char *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels;
+        v24 = sVGA_Bmp0_BD0BD0.field_10_locked_pitch - v40;
+        v25 = (char *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
+        v45 = sVGA_Bmp0_BD0BD0.field_10_locked_pitch - v40;
+        v52 = (char *)sVGA_Bmp0_BD0BD0.field_4_pLockedPixels + height * sVGA_Bmp0_BD0BD0.field_10_locked_pitch;
+        if (sVGA_Bmp1_BD2A20.field_14_bpp == 32)
+        {
+            if (pBitmapToUse->field_15_pixel_format == 15)
+            {
+                v47 = 9;
+                v37 = 6;
+            }
+            else
+            {
+                if (pBitmapToUse->field_15_pixel_format != 16)
+                {
+                    v47 = 0;
+                    v37 = 0;
+                    v34 = 0;
+                    goto LABEL_68;
+                }
+                v47 = 8;
+                v37 = 5;
+            }
+            v34 = 3;
+        LABEL_68:
+            if (sVGA_Bmp0_BD0BD0.field_4_pLockedPixels < v25)
+            {
+                do
+                {
+                    v26 = (unsigned int)&v23[v40];
+                    if (v23 < &v23[v40])
+                    {
+                        do
+                        {
+                            v27 = *v22;
+                            v23 += 4;
+                            v28 = *v22 << v34;
+                            ++v22;
+                            *((DWORD *)v23 - 1) = (v27 << v37) & 0xFF00 | (v27 << v47) & 0xFF0000 | (unsigned __int8)v28;
+                        } while ((unsigned int)v23 < v26);
+                        v24 = v45;
+                        v25 = v52;
+                        pBitmapToUse = pBmp;
+                    }
+                    v23 += v24;
+                    v22 += v50;
+                } while (v23 < v25);
+            }
+            goto LABEL_86;
+        }
+        if (pBitmapToUse->field_15_pixel_format == 15)
+        {
+            v29 = 8;
+            v30 = 3;
+        }
+        else
+        {
+            if (pBitmapToUse->field_15_pixel_format == 16)
+            {
+                v29 = 7;
+                v38 = 2;
+                v35 = 3;
+                goto LABEL_80;
+            }
+            v29 = 0;
+            v30 = 0;
+        }
+        v38 = v30;
+        v35 = v30;
+    LABEL_80:
+        if (sVGA_Bmp0_BD0BD0.field_4_pLockedPixels < v25)
+        {
+            do
+            {
+                v31 = (unsigned int)&v23[v40];
+                if (v23 < &v23[v40])
+                {
+                    do
+                    {
+                        v32 = *v22;
+                        v23 += 3;
+                        ++v22;
+                        *(v23 - 3) = (unsigned int)v32 >> v29;
+                        *(v23 - 2) = (unsigned int)v32 >> v38;
+                        *(v23 - 1) = (BYTE)v32 << v35;
+                    } while ((unsigned int)v23 < v31);
+                    v24 = v45;
+                    v25 = v52;
+                }
+                v23 += v24;
+                v22 += v50;
+            } while (v23 < v25);
+        }
+        pBitmapToUse = pBmp;
+    LABEL_86:
+        srcWidth = srcWidth2;
+    LABEL_87:
+        BMP_unlock_4F2100(&sVGA_Bmp0_BD0BD0);
+        BMP_unlock_4F2100(pBitmapToUse);
+        rect.left = 0;
+        rect.top = 0;
+        rect.bottom = height;
+        rect.right = srcWidth;
+        DD_render_back_buffer_4F0D90(sVGA_Bmp0_BD0BD0.field_0_pSurface, &rect, screenMode);
+        return;
+    }
 }
 
 EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, unsigned __int8 screenMode)
