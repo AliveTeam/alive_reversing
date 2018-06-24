@@ -3,6 +3,7 @@
 #include "bmp.hpp"
 #include "DDraw.hpp"
 #include "Function.hpp"
+#include "Error.hpp"
 
 void VGA_ForceLink() {}
 
@@ -74,7 +75,7 @@ EXPORT signed int CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
-EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* /*pBmp*/, RECT* /*pRect*/, int screenMode)
+EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* /*pBmp*/, RECT* /*pRect*/, int /*screenMode*/)
 {
     NOT_IMPLEMENTED();
 }

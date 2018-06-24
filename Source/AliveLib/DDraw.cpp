@@ -271,11 +271,12 @@ EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
             sDD_Surface1_BBC3C8 = nullptr;
         }
 
+        /* Only used in unsupported 8 bpp mode
         if (sDD_Pal_BBC3D8)
         {
             sDD_Pal_BBC3D8->Release();
             sDD_Pal_BBC3D8 = nullptr;
-        }
+        }*/
         
         if (bDestroyDD)
         {
@@ -562,12 +563,17 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
 
             if (FAILED(hr))
             {
-                // Try 8 bpp
+               
+                // 8 bpp not supported
                 if (bitsPerPixelXPlanes != 8)
                 {
+                    Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\POS\\MYDDRAW.C", 232, "Not trying 640x480x8 as 8 bpp mode not supported");
+
+                    /*
                     Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\POS\\MYDDRAW.C", 232, "Can't set mode trying 640x480x8");
                     bitsPerPixelXPlanes = 8;
                     hr = DD_SetDisplayMode_4F0730(640u, heightCopy, 8u);
+                    */
                 }
 
                 // Then try 16 bpp
@@ -673,7 +679,8 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
     return 1;
 }
 
-ALIVE_ARY(1, 0xBD2A80, PALETTEENTRY, 256, sDDPalEntry_BD2A80, {});
+// Not used, part of 8 bpp mode
+//ALIVE_ARY(1, 0xBD2A80, PALETTEENTRY, 256, sDDPalEntry_BD2A80, {});
 
 static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
 {
@@ -705,55 +712,7 @@ static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
         return 1;
     }
 
-    // TODO: The whole of the pallet stuff appears to never be used
-    /*
-
-    v21 = &sDDPalEntry_BD2A80[246].peBlue;
-    do
-    {
-        v21[1] = 0;
-        *v21 = 0;
-        *(v21 - 1) = 0;
-        *(v21 - 2) = 0;
-        *(v21 - 983) = 0;
-        *(v21 - 984) = 0;
-        *(v21 - 985) = 0;
-        *(v21 - 986) = 0;
-    v21 += 4;
-    } while ((signed int)v21 < (signed int)&unk_BD2E82);
-
-    sDDPalEntry_BD2A80[255].peBlue = 255;
-    sDDPalEntry_BD2A80[255].peGreen = 255;
-    sDDPalEntry_BD2A80[255].peRed = 255;
-    sDDPalEntry_BD2A80[255].peFlags = 0;
-
-    k10Counter = 10;
-    v23 = &sDDPalEntry_BD2A80[10].peGreen;
-    do
-    {
-        v23 += 4;
-        *(v23 - 5) = 32 * (k10Counter >> 5);
-        *(v23 - 4) = 32 * (k10Counter >> 2);
-        *(v23 - 3) = (BYTE)k10Counter << 6;
-        *(v23 - 2) = 0;
-        ++k10Counter;
-    } while ((signed int)v23 < (signed int)&sDDPalEntry_BD2A80[246].peGreen);
-    */
-    /*
-    hr = sDDraw_BBC3D4->CreatePalette(4, sDDPalEntry_BD2A80, &sDD_Pal_BBC3D8, 0);
-    if (FAILED(hr))
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 588, -1, DX_HR_To_String_4F4EC0(hr));
-        return 0;
-    }
-
-    hr = sDD_Surface1_BBC3C8->SetPalette(sDD_Pal_BBC3D8);
-    if (FAILED(hr))
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 594, -1, DX_HR_To_String_4F4EC0(hr));
-        return 0;
-    }
-    */
+    // TODO: 8 bit support code removed
 
     return 1;
 }
