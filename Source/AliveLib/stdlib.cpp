@@ -25,6 +25,12 @@ EXPORT void* CC malloc_4F4E60(size_t size)
     ALIVE_FATAL("0 bytes allocated");
 }
 
+EXPORT void* CC realloc_522335(void* ptr, size_t size)
+{
+    NOT_IMPLEMENTED();
+    return ::realloc(ptr, size);
+}
+
 EXPORT void CC mem_free_4F4EA0(void* ptr)
 {
     if (ptr)
@@ -54,4 +60,9 @@ EXPORT void CC Mem_Free_495540(void* ptr)
 EXPORT void CC Mem_Free_495560(void *ptr)
 {
     free_521334(ptr);
+}
+
+EXPORT void* CC realloc_4F4E80(void* ptr, size_t size)
+{
+    return realloc_522335(ptr, size);
 }
