@@ -866,3 +866,90 @@ EXPORT signed int CC DD_Init_4F0840(signed int a1)
 
     return InitColourKeyAndPallete(sDD_Surface1_BBC3C8);
 }
+
+EXPORT void CC DD_mode_blt1_4F11E0(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, int /*screenMode*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC DD_mode_blt2_4F0F60(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, int /*screenMode*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, int screenMode)
+{
+    if (sDD_Surface1_BBC3C8 && pSurf)
+    {
+        sDD_hWnd_BBC3B0 = Sys_GetHWnd_4F2C70();
+
+        if (sbFullScreen_BBC3BC)
+        {
+            DDSURFACEDESC surfaceDesc1 = {};
+            surfaceDesc1.dwSize = sizeof(DDSURFACEDESC);
+            HRESULT hr = sDD_Surface1_BBC3C8->GetSurfaceDesc(&surfaceDesc1);
+            if (FAILED(hr))
+            {
+                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 1219, -1, DX_HR_To_String_4F4EC0(hr));
+                return;
+            }
+
+            DDSURFACEDESC surfaceDesc2 = {};
+            surfaceDesc2.dwSize = sizeof(DDSURFACEDESC);
+            hr = pSurf->GetSurfaceDesc(&surfaceDesc2);
+            if (FAILED(hr))
+            {
+                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 1226, -1, DX_HR_To_String_4F4EC0(hr));
+                return;
+            }
+
+            RECT rect = {};
+            RECT* pRectToUse = pRect;
+            if (!pRectToUse)
+            {
+                rect.bottom = surfaceDesc2.dwHeight;
+                rect.top = 0;
+                rect.left = 0;
+                rect.right = surfaceDesc2.dwWidth;
+                pRectToUse = &rect;
+            }
+
+            const unsigned int rectW = pRectToUse->right - pRectToUse->left;
+            const unsigned int rectH = pRectToUse->bottom - pRectToUse->top;
+
+            if (surfaceDesc1.dwWidth != 2 * rectW || surfaceDesc1.dwHeight != 2 * rectH)
+            {
+                if (surfaceDesc1.dwWidth != rectW || surfaceDesc1.dwHeight != 2 * rectH)
+                {
+                    DD_Blt_4F0170(pSurf, pRectToUse, sDD_Surface1_BBC3C8, 0, 0);
+                }
+                else
+                {
+                    DD_mode_blt1_4F11E0(pSurf, pRectToUse, screenMode);
+                }
+            }
+            else
+            {
+                DD_mode_blt2_4F0F60(pSurf, pRectToUse, screenMode);
+            }
+        }
+        else
+        {
+            RECT rect = {};
+            ::GetClientRect(Sys_GetHWnd_4F2C70(), &rect);
+            POINT points[2] = 
+            {
+                { rect.left, rect.top },
+                { rect.right, rect.bottom }
+            };
+            ::ClientToScreen(sDD_hWnd_BBC3B0, &points[0]);
+            ::ClientToScreen(sDD_hWnd_BBC3B0, &points[1]);
+            RECT screenRect =
+            {
+                points[0].x, points[0].y,
+                points[1].x, points[1].y
+            };
+            DD_Blt_4F0170(pSurf, pRect, sDD_Surface1_BBC3C8, &screenRect, 0);
+        }
+    }
+}
