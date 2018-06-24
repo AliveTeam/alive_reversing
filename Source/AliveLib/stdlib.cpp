@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Error.hpp"
 
+// stdlib proxys
 EXPORT void CC free_521334(void* ptr)
 {
     NOT_IMPLEMENTED();
@@ -15,6 +16,13 @@ EXPORT void* CC malloc_5212C0(size_t size)
     return ::malloc(size);
 }
 
+EXPORT void* CC realloc_522335(void* ptr, size_t size)
+{
+    NOT_IMPLEMENTED();
+    return ::realloc(ptr, size);
+}
+
+// Game specific stdlib wrappers
 EXPORT void* CC malloc_4F4E60(size_t size)
 {
     if (size > 0)
@@ -25,10 +33,18 @@ EXPORT void* CC malloc_4F4E60(size_t size)
     ALIVE_FATAL("0 bytes allocated");
 }
 
-EXPORT void* CC realloc_522335(void* ptr, size_t size)
+EXPORT void* CC malloc_4954D0(size_t size) // Probably operator new
 {
-    NOT_IMPLEMENTED();
-    return ::realloc(ptr, size);
+    return malloc_5212C0(size);
+}
+
+EXPORT void* CC malloc_non_zero_4954F0(size_t size)
+{
+    if (size == 0)
+    {
+        size = 1;
+    }
+    return malloc_5212C0(size);
 }
 
 EXPORT void CC mem_free_4F4EA0(void* ptr)
@@ -41,15 +57,6 @@ EXPORT void CC mem_free_4F4EA0(void* ptr)
     {
         Error_NullPrint_4F28D0("mem_free: invalid pointer ( 0 )\n");
     }
-}
-
-EXPORT void* CC malloc_non_zero_4954F0(size_t size)
-{
-    if (size == 0)
-    {
-        size = 1;
-    }
-    return malloc_5212C0(size);
 }
 
 EXPORT void CC Mem_Free_495540(void* ptr)
