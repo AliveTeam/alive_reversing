@@ -242,10 +242,108 @@ EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
     }
 }
 
-
-EXPORT signed int CC SND_Reload_4EF1C0(SoundEntry *pSnd, char *a2, unsigned char *pSoundBuffer, unsigned int a4)
+// Never seems to get called?
+// TODO: Clean up!
+EXPORT DWORD * CC SND_4F00B0(unsigned int *a1, unsigned int a2, int a3)
 {
     NOT_IMPLEMENTED();
+    return 0;
+    //DWORD *result; // eax
+    //unsigned int *v4; // edx
+    //unsigned int v5; // ecx
+    //int v6; // esi
+    //int v7; // esi
+
+    //result = (DWORD *)a2;
+    //v4 = a1;
+    //v5 = a2 + a3;
+    //if (a2 < a2 + a3)
+    //{
+    //    do
+    //    {
+    //        v6 = *result;
+    //        ++result;
+    //        *v4 = v6 ^ 0x80808080;
+    //        ++v4;
+    //    } while ((unsigned int)result < v5);
+    //    if ((unsigned int)result < v5)
+    //    {
+    //        v7 = (char *)v4 - (char *)result;
+    //        do
+    //        {
+    //            *((BYTE *)result + v7) = *(BYTE *)result ^ 0x80;
+    //            result = (DWORD *)((char *)result + 1);
+    //        } while ((unsigned int)result < v5);
+    //    }
+    //}
+    //return result;
+}
+
+// TODO: Clean up!
+EXPORT signed int CC SND_Reload_4EF1C0(SoundEntry *pSnd, char *sampleOffset, unsigned char *pSoundBuffer, unsigned int sampleCount)
+{
+    const int offsetBytes = (DWORD)sampleOffset * pSnd->field_1D_blockAlign;
+    const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
+
+    if (!sDSound_BBC344)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 644, -1, "DirectSound not initialized");
+        return -1;
+    }
+
+    unsigned int *leftChannelBuffer;
+    int leftChannelSize; 
+    char * rightChannelBuffer;
+    int rightChannelSize; 
+
+    int lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID *)&leftChannelBuffer, (LPDWORD)&leftChannelSize, (LPVOID *)&rightChannelBuffer, (LPDWORD)&rightChannelSize, 0);
+
+    if (lockHR == DSERR_BUFFERLOST)
+    {
+        if (pSnd->field_4_pDSoundBuffer->Restore())
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 654, -1, "SND_Reload(): Cannot restore the lost ds buffer");
+            return -1;
+        }
+        lockHR = pSnd->field_4_pDSoundBuffer->Lock(offsetBytes, bufferSizeBytes, (LPVOID *)&leftChannelBuffer, (LPDWORD)&leftChannelSize, (LPVOID *)&rightChannelBuffer, (LPDWORD)&rightChannelSize, 0);
+    }
+
+    if (lockHR)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 662, -1, "SND_Reload(): Cannot lock the ds buffer");
+        return -1;
+    }
+
+    if (pSnd->field_1C_bitsPerSample == 8) // All samples are 16 bits per sample, so....
+    {
+        if (leftChannelBuffer)
+        {
+            SND_4F00B0(leftChannelBuffer, (unsigned int)pSoundBuffer, (int)leftChannelSize);
+        }
+        if (rightChannelBuffer)
+        {
+            SND_4F00B0((unsigned int *)rightChannelBuffer, (DWORD)pSoundBuffer + (unsigned int)leftChannelSize, rightChannelSize);
+        }
+    }
+    else
+    {
+        if (leftChannelBuffer)
+        {
+            memcpy(leftChannelBuffer, pSoundBuffer, 4 * (leftChannelSize / 4));
+            memcpy(&leftChannelBuffer[(leftChannelSize / 4)], &pSoundBuffer[4 * (leftChannelSize / 2)], leftChannelSize & 3);
+        }
+
+        if (rightChannelBuffer) // dual buffers never really exist, so this is always null
+        {
+            const BYTE *secondBuffer = &pSoundBuffer[leftChannelSize];
+            const unsigned int roundedNearestFour = (rightChannelSize >> 2) * 4;
+            memcpy(rightChannelBuffer, secondBuffer, roundedNearestFour);
+            memcpy(&rightChannelBuffer[roundedNearestFour], &secondBuffer[roundedNearestFour], rightChannelSize & 3);
+        }
+    }
+
+    pSnd->field_4_pDSoundBuffer->Unlock(leftChannelBuffer, leftChannelSize, rightChannelBuffer, rightChannelSize);
+
     return 0;
 }
 
