@@ -15,6 +15,16 @@ EXPORT void* CC malloc_5212C0(size_t size)
     return ::malloc(size);
 }
 
+EXPORT void* CC malloc_4F4E60(size_t size)
+{
+    if (size > 0)
+    {
+        return malloc_5212C0(size);
+    }
+
+    ALIVE_FATAL("0 bytes allocated");
+}
+
 EXPORT void CC mem_free_4F4EA0(void* ptr)
 {
     if (ptr)
