@@ -11,6 +11,7 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
+#include "ScreenManager.hpp"
 #include <timeapi.h>
 
 void Game_ForceLink() { }
@@ -187,18 +188,11 @@ public:
     // TODO
 };
 
-class ScreenManager : public BaseGameObject
-{
-public:
-    // TODO
-};
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
 ALIVE_VAR(1, 0x5C1A24, DynamicArray*, gObjList_animations_5C1A24, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
-
-ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 
 
 ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);

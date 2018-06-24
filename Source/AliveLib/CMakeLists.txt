@@ -41,6 +41,8 @@ add_library(AliveLib
     BaseGameObject.hpp
     PsxDisplay.cpp
     PsxDisplay.hpp
+    ScreenManager.cpp
+    ScreenManager.hpp
     WinMain.cpp
     WinMain.hpp)
 
