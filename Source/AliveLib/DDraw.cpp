@@ -522,7 +522,7 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         return 0;
     }
 
-    int bitsPerPixelXPlanes = 0;
+    DWORD bitsPerPixelXPlanes = 0;
     int heightCopy = 0;
     int widthCopy = 0;
     if (sbFullScreen_BBC3BC)
@@ -671,4 +671,198 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
     sDD_Height_BBC3A8 = heightCopy;
 
     return 1;
+}
+
+ALIVE_ARY(1, 0xBD2A80, PALETTEENTRY, 256, sDDPalEntry_BD2A80, {});
+
+static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
+{
+    DDPIXELFORMAT pixelFormat = {};
+    pixelFormat.dwSize = sizeof(DDPIXELFORMAT);
+    pSurface->GetPixelFormat(&pixelFormat);
+
+    DWORD colourMask = 0;
+    if (pixelFormat.dwRGBBitCount == 8)
+    {
+        colourMask = 255;
+    }
+    else
+    {
+        colourMask = pixelFormat.dwRBitMask | pixelFormat.dwGBitMask | pixelFormat.dwBBitMask;
+    }
+
+    sDDColourKey_BBC3C0 = colourMask;
+    if (sDD_VideoMemory_BBC3A0)
+    {
+        DDCOLORKEY colourKey = {};
+        colourKey.dwColorSpaceLowValue = colourMask;
+        colourKey.dwColorSpaceHighValue = colourMask;
+        sDD_Surface2_BBC3CC->SetColorKey(DDCKEY_DESTBLT, &colourKey); // 2
+    }
+
+    if (pixelFormat.dwRGBBitCount != 8)
+    {
+        return 1;
+    }
+
+    // TODO: The whole of the pallet stuff appears to never be used
+    /*
+
+    v21 = &sDDPalEntry_BD2A80[246].peBlue;
+    do
+    {
+        v21[1] = 0;
+        *v21 = 0;
+        *(v21 - 1) = 0;
+        *(v21 - 2) = 0;
+        *(v21 - 983) = 0;
+        *(v21 - 984) = 0;
+        *(v21 - 985) = 0;
+        *(v21 - 986) = 0;
+    v21 += 4;
+    } while ((signed int)v21 < (signed int)&unk_BD2E82);
+
+    sDDPalEntry_BD2A80[255].peBlue = 255;
+    sDDPalEntry_BD2A80[255].peGreen = 255;
+    sDDPalEntry_BD2A80[255].peRed = 255;
+    sDDPalEntry_BD2A80[255].peFlags = 0;
+
+    k10Counter = 10;
+    v23 = &sDDPalEntry_BD2A80[10].peGreen;
+    do
+    {
+        v23 += 4;
+        *(v23 - 5) = 32 * (k10Counter >> 5);
+        *(v23 - 4) = 32 * (k10Counter >> 2);
+        *(v23 - 3) = (BYTE)k10Counter << 6;
+        *(v23 - 2) = 0;
+        ++k10Counter;
+    } while ((signed int)v23 < (signed int)&sDDPalEntry_BD2A80[246].peGreen);
+    */
+    /*
+    hr = sDDraw_BBC3D4->CreatePalette(4, sDDPalEntry_BD2A80, &sDD_Pal_BBC3D8, 0);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 588, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+
+    hr = sDD_Surface1_BBC3C8->SetPalette(sDD_Pal_BBC3D8);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 594, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+    */
+
+    return 1;
+}
+
+static signed int CreateDDObjects(signed int a1)
+{
+    DDSURFACEDESC surfaceDesc = {};
+    surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
+
+    surfaceDesc.dwFlags = 1; // TODO: Set constants
+    surfaceDesc.ddsCaps.dwCaps = 512; // TODO: Set constants
+
+    HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_Surface1_BBC3C8, 0);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 499, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+
+    if (a1 == 2)
+    {
+        sDD_Surface2_BBC3CC = DD_Create_Surface_4F0CB0(sDD_Width_BBC3A4, sDD_Height_BBC3A8, 0);
+        if (!sDD_Surface2_BBC3CC)
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 506, -1, DX_HR_To_String_4F4EC0(0));
+            return 0;
+        }
+    }
+
+    hr = sDDraw_BBC3D4->CreateClipper(0, &sDD_Clipper_BBC3DC, 0);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 513, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+
+    hr = sDD_Clipper_BBC3DC->SetHWnd(0, sDD_hWnd_BBC3B0);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 519, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+
+    hr = sDD_Surface1_BBC3C8->SetClipper(sDD_Clipper_BBC3DC);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 525, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+
+    return InitColourKeyAndPallete(sDD_Surface1_BBC3C8);
+}
+
+EXPORT signed int CC DD_Init_4F0840(signed int a1)
+{
+    if (!sbFullScreen_BBC3BC)
+    {
+        return CreateDDObjects(a1);
+    }
+
+    if (a1 <= 1)
+    {
+        if (a1 == 1)
+        {
+            DDSURFACEDESC surfaceDesc = {};
+            surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
+            surfaceDesc.dwFlags = 1; // TODO: Set constants
+            surfaceDesc.ddsCaps.dwCaps = 512; // TODO: Set constants
+            const HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_Surface1_BBC3C8, 0);
+            if (FAILED(hr))
+            {
+                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 483, -1, DX_HR_To_String_4F4EC0(hr));
+                return 0;
+            }
+            sDD_Surface1_BBC3C8->AddRef();
+            sDD_Surface2_BBC3CC = sDD_Surface1_BBC3C8;
+            return InitColourKeyAndPallete(sDD_Surface1_BBC3C8);
+        }
+        return CreateDDObjects(a1);
+    }
+
+    DDSURFACEDESC surfaceDesc = {};
+    surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
+    surfaceDesc.dwFlags = 33; // TODO: Set constants
+    surfaceDesc.dwBackBufferCount = a1 - 1;
+    surfaceDesc.ddsCaps.dwCaps = 536; // TODO: Set constants
+    HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_Surface1_BBC3C8, 0);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 445, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+
+    DDCAPS ddCaps = {};
+    ddCaps.dwSize = sizeof(DDCAPS);
+    hr = sDDraw_BBC3D4->GetCaps(&ddCaps, nullptr);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 459, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+
+    ddCaps.ddsOldCaps.dwCaps = 4;
+    hr = sDD_Surface1_BBC3C8->GetAttachedSurface(&ddCaps.ddsOldCaps, &sDD_Surface2_BBC3CC);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 470, -1, DX_HR_To_String_4F4EC0(hr));
+        return 0;
+    }
+
+    return InitColourKeyAndPallete(sDD_Surface1_BBC3C8);
 }
