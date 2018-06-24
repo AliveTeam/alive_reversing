@@ -39,6 +39,11 @@ ALIVE_ASSERT_SIZEOF(SoundEntry, 0x24);
 ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND8, sDSound_BBC344, nullptr);
 ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);
+ALIVE_VAR(1, 0xbbbab0, char, sPrimarySoundBufferChannels_BBBAB0, 0);
+ALIVE_VAR(1, 0xbbc338, char, sPrimarySoundBufferBitsPerSample_BBC338, 0);
+ALIVE_VAR(1, 0xbbc340, int, sPrimarySoundBufferSampleRate_BBC340, 0);
+ALIVE_VAR(1, 0xbbc33c, int, sLastNotePlayTime_BBC33C, 0);
+
 
 ALIVE_ARY(1, 0xBBBAB8, SoundBuffer, 32, sSoundBuffers_BBBAB8, {});
 ALIVE_ARY(1, 0xBBBD38, int, 127, sVolumeTable_BBBD38, {});
@@ -159,8 +164,6 @@ EXPORT char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
     return sDSoundErrorBuffer_BBC348;
 }
 
-
-
 EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, unsigned __int8 channels)
 {
     WAVEFORMATEX pWaveFormat; // [esp+0h] [ebp-14h]
@@ -191,4 +194,127 @@ EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSa
         return SND_SetPrimarySoundBufferFormat_4EE990(sampleRate, bitsPerSample, channels) != 0 ? 0xFD : 0;
     sPrimarySoundBuffer_BBC388->Release();
     return -2;
+}
+
+EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT signed int CC SND_Reload_4EF1C0(SoundEntry *pSnd, char *a2, unsigned char *pSoundBuffer, unsigned int a4)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int channels)
+{
+    if (sDSound_BBC344)
+    {
+        return 0;
+    }
+
+    HRESULT dsoundHR = DirectSoundCreate8(0, &sDSound_BBC344, 0);
+
+    if (dsoundHR)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 471, -1, SND_HR_Err_To_String_4EEC70(dsoundHR));
+        return -1;
+    }
+    else
+    {
+        HWND hwnd = Sys_GetHWnd_4F2C70();
+        if (hwnd)
+        {
+            if (sDSound_BBC344->SetCooperativeLevel(hwnd, DSSCL_EXCLUSIVE))
+            {
+                Error_PushErrorRecord_4F2920(
+                    "C:\\abe2\\code\\POS\\SND.C",
+                    483,
+                    -1,
+                    "SND_Init(): IDirectSound_SetCooperativeLevel failed");
+                return -1;
+            }
+            else
+            {
+                DSCAPS dsCaps;
+                dsCaps.dwSize = 96;
+                if (!sDSound_BBC344->GetCaps(&dsCaps))
+                {
+                    if (dsCaps.dwFlags & DSCAPS_PRIMARY16BIT)
+                    {
+                        bitsPerSample = 16;
+                    }
+                    else if (dsCaps.dwFlags & DSCAPS_PRIMARY8BIT)
+                    {
+                        bitsPerSample = 8;
+                    }
+
+                    if (dsCaps.dwFlags & DSCAPS_PRIMARYSTEREO)
+                    {
+                        if (!(dsCaps.dwFlags & DSCAPS_PRIMARYMONO))
+                        {
+                            channels = 1;
+                        }
+                    }
+                    else
+                    {
+                        channels = 0;
+                    }
+                    if (dsCaps.dwPlayCpuOverheadSwBuffers > 5)
+                    {
+                        if (dsCaps.dwPlayCpuOverheadSwBuffers > 10)
+                        {
+                            int newBitsPerSample = bitsPerSample;
+                            if (dsCaps.dwPlayCpuOverheadSwBuffers > 20)
+                            {
+                                newBitsPerSample = bitsPerSample >> 1;
+                            }
+                            SND_CreatePrimarySoundBuffer_4EEEC0(sampleRate >> 1, newBitsPerSample, 0);
+                        }
+                        else
+                        {
+                            SND_CreatePrimarySoundBuffer_4EEEC0(sampleRate >> 1, bitsPerSample, channels);
+                        }
+                    }
+                    else
+                    {
+                        SND_CreatePrimarySoundBuffer_4EEEC0(sampleRate, bitsPerSample, channels);
+                    }
+                }
+
+                sPrimarySoundBufferSampleRate_BBC340 = sampleRate;
+                sPrimarySoundBufferBitsPerSample_BBC338 = bitsPerSample;
+                sPrimarySoundBufferChannels_BBBAB0 = channels;
+
+                SND_InitVolumeTable_4EEF60();
+
+                if (sLoadedSoundsCount_BBC394)
+                {
+                    for (int i = 0; i < 256; i++)
+                    {
+                        if (sSoundSamples_BBBF38[i])
+                        {
+                            SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
+                            SND_Reload_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                            if ((i + 1) == sLoadedSoundsCount_BBC394)
+                                break;
+                        }
+                    }
+                }
+                sLastNotePlayTime_BBC33C = timeGetTime();
+                return 0;
+            }
+        }
+        else
+        {
+            Error_PushErrorRecord_4F2920(
+                "C:\\abe2\\code\\POS\\SND.C",
+                477,
+                -1,
+                "SND_Init(): SYS_GetOutputDevice() == NULL !!");
+            return -1;
+        }
+    }
 }

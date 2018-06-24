@@ -77,6 +77,7 @@ target_link_libraries(AliveLib
     EasyLogging++
     googletest
     Winmm
+    dsound
     )
 
 export(TARGETS AliveLib FILE AliveLib.cmake)
