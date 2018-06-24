@@ -39,6 +39,13 @@ EXPORT void CC sub_4ED9E0()
     NOT_IMPLEMENTED();
 }
 
+// TODO: Probably not font related at all?
+EXPORT int __cdecl Fnt_4955F0(__int16 a1, __int16 a2, __int16 a3, __int16 a4)
+{
+    NOT_IMPLEMENTED();
+}
+
+
 ALIVE_VAR(1, 0xC1D1A0, Bitmap, stru_C1D1A0, {});
 ALIVE_VAR(1, 0xC2D060, PSX_DISPENV, sLastDispEnv_C2D060, {});
 ALIVE_VAR(1, 0xBD146D, BYTE, sScreenMode_BD146D, 0);
@@ -50,26 +57,145 @@ ALIVE_VAR(1, 0xBD1464, BYTE, byte_BD1464, 0);
 struct TextRecords
 {
     char field_0_src_txt[1024];
-    char field_400_dst_txt[1036];
+    char field_400_dst_txt[1027];
 };
+ALIVE_ASSERT_SIZEOF(TextRecords, 0x803);
 
-// TODO: Structure size/fix alignment
 struct Texts
 {
-    char field_0_k16;
-    char field_1_displayWidth;
-    char field_2_k200;
-    DWORD field_3_txt_lens;
-    char field_7_flags_1;
-    TextRecords field_8_array[3];
+    BYTE field_0_xMargin;
+    BYTE field_1_yMargin;
+    BYTE field_2_displayWidth;
+    BYTE field_3_displayHeight;
+    DWORD field_4_max_len;
+    BYTE field_8_bgColour;
+    TextRecords field_9_text;
 };
+ALIVE_ASSERT_SIZEOF(Texts, 0x80C);
 
 ALIVE_VAR(1, 0xBD0F28, int, sFntCount_BD0F28, 0);
+ALIVE_ARY(1, 0xC27640, Texts, 4, sTexts_C27640, {});
 
-ALIVE_VAR(1, 0xC27640, BYTE, sFnt_byte_C27640, 0); // probably one, likely there is one of these for each of the Texts[3] for the text x,y offset
-ALIVE_ARY(1, 0xC27641, Texts, 3, sTexts_C27641, {});
+EXPORT void CC Fnt_Reset_4F8B40()
+{
+    memset(sTexts_C27640, 0, sizeof(Texts)*4); // 8240u
+    sFntCount_BD0F28 = 0;
+}
 
-// TODO: FIX ME
+EXPORT void CC Fnt_4F8BE0(signed int idx)
+{
+    if (idx >= 0 && idx <= 3)
+    {
+        strcpy(sTexts_C27640[idx].field_9_text.field_400_dst_txt, sTexts_C27640[idx].field_9_text.field_0_src_txt);
+        sTexts_C27640[idx].field_9_text.field_0_src_txt[0] = 0;
+    }
+}
+
+ALIVE_ARY(1, 0xBB47CC, char, 600, sTmpBuffer_BB47CC, {});
+
+ALIVE_VAR(1, 0xBB4A24, short, sbFontLoaded_BB4A24, 0);
+ALIVE_VAR(1, 0xBB47C8, int, sTextIdx_BB47C8, 0);
+
+
+EXPORT int CC sub_4F8AB0(BYTE k8, BYTE k16, BYTE displayWidth, BYTE k200, BYTE kZero, unsigned int k600)
+{
+    int idx = sFntCount_BD0F28;
+    if (sFntCount_BD0F28 == 4)
+    {
+        return -1;
+    }
+
+    ++sFntCount_BD0F28;
+
+    sTexts_C27640[idx].field_0_xMargin = k8;
+    sTexts_C27640[idx].field_1_yMargin = k16;
+    sTexts_C27640[idx].field_2_displayWidth = displayWidth;
+    sTexts_C27640[idx].field_3_displayHeight = k200;
+    sTexts_C27640[idx].field_8_bgColour = kZero | 1;
+    sTexts_C27640[idx].field_9_text.field_0_src_txt[0] = 0;
+    sTexts_C27640[idx].field_9_text.field_400_dst_txt[0] = 0;
+
+    int limitedMaxLen = k600;
+    if (k600 > 1023)
+    {
+        limitedMaxLen = 1023;
+    }
+    sTexts_C27640[idx].field_4_max_len = limitedMaxLen;
+    return idx;
+}
+
+EXPORT int CC Init_4DCF40() // Font
+{
+    if (!sbFontLoaded_BB4A24)
+    {
+        Fnt_4955F0(960, 256, 991, 287);
+        Fnt_4955F0(960, 384, 975, 385);
+        sbFontLoaded_BB4A24 = 1;
+    }
+    Fnt_Reset_4F8B40();
+    sTextIdx_BB47C8 = sub_4F8AB0(8, 16, gPsxDisplay_5C1130.field_0_width, 200, 0, 600u);
+    //nullsub_7(sTextIdx_BB47C8);
+    sTmpBuffer_BB47CC[0] = 0;
+    return 0;
+}
+
+
+EXPORT int CC Fnt_4F8B60(int idx, const char* formatStr, ...)
+{
+    va_list va;
+    va_start(va, formatStr);
+    if (idx < 0 || idx > 3)
+    {
+        return -1;
+    }
+
+    char buffer[1024] = {};
+    vsprintf(buffer, formatStr, va);
+    strncat(sTexts_C27640[idx].field_9_text.field_0_src_txt, buffer, sTexts_C27640[idx].field_4_max_len);
+    return strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt);
+}
+
+EXPORT void CC Font_sub_4DD050()
+{
+    Fnt_4F8B60(sTextIdx_BB47C8, sTmpBuffer_BB47CC);
+    Fnt_4F8BE0(sTextIdx_BB47C8);
+    sTmpBuffer_BB47CC[0] = 0;
+}
+
+
+#include <gmock/gmock.h>
+
+namespace Test
+{
+    static void Test_sub_4F8AB0()
+    {
+        Fnt_Reset_4F8B40();
+
+        sub_4F8AB0(8, 16, 77, 200, 33, 600);
+        ASSERT_EQ(16, sTexts_C27640[0].field_1_yMargin);
+        ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_0_src_txt[0]);
+        ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_400_dst_txt[0]);
+
+        sub_4F8AB0(8, 22, 77, 200, 33, 600);
+        ASSERT_EQ(22, sTexts_C27640[1].field_1_yMargin);
+
+        sub_4F8AB0(8, 33, 77, 200, 33, 600);
+        ASSERT_EQ(33, sTexts_C27640[2].field_1_yMargin);
+
+        sub_4F8AB0(8, 55, 77, 200, 33, 600);
+        ASSERT_EQ(55, sTexts_C27640[3].field_1_yMargin);
+
+        ASSERT_EQ(-1, sub_4F8AB0(8, 33, 77, 200, 33, 600));
+
+        Fnt_Reset_4F8B40();
+    }
+
+    void PsxDisplayTests()
+    {
+        Test_sub_4F8AB0();
+    }
+}
+
 static void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
 {
     if (sFntCount_BD0F28 <= 0)
@@ -80,14 +206,14 @@ static void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
     const LONG fontHeight = BMP_Get_Font_Height_4F21F0(pBmp);
     for (int i = 0; i < sFntCount_BD0F28; i++)
     {
-        Texts* pRecord = &sTexts_C27641[i];
-        int xpos = rect.left + sFnt_byte_C27640;
-        int ypos = rect.top + pRecord->field_0_k16;
-        int v6 = pRecord->field_7_flags_1;
-        for (char* j = strtok(pRecord->field_8_array[0].field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
+        Texts* pRecord = &sTexts_C27640[i];
+        const int xpos = rect.left + pRecord->field_0_xMargin;
+        int ypos = rect.top + pRecord->field_1_yMargin;
+        const int bgColour = pRecord->field_8_bgColour;
+        for (char* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
         {
             int fontColour = Bmp_Convert_Colour_4F17D0(&sPsxVram_C1D160, 255, 255, 191);
-            BMP_Draw_String_4F2230(pBmp, xpos, ypos, fontColour, v6, j);
+            BMP_Draw_String_4F2230(pBmp, xpos, ypos, fontColour, bgColour, j);
             ypos += fontHeight;
         }
     }

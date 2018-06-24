@@ -257,11 +257,6 @@ EXPORT void CC sub_494580()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Font_sub_4DD050()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC Game_Loop_467230()
 {
     dword_5C2F78 = 0;

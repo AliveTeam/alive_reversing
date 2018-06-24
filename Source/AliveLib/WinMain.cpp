@@ -12,6 +12,7 @@
 #include "Math.hpp"
 #include "DynamicArray.hpp"
 #include "Game.hpp"
+#include "PsxDisplay.hpp"
 #include "easylogging++.h"
 #include <gmock/gmock.h>
 #include "Function.hpp"
@@ -26,6 +27,7 @@ static void RunTests()
     ::testing::InitGoogleMock(&argCount, &cmdLine);
 
     Test::BmpTests();
+    Test::PsxDisplayTests();
 }
 
 static void ReplaceStdLib()
