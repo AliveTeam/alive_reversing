@@ -11,7 +11,7 @@
 
 struct SoundBuffer
 {
-    LPDIRECTSOUNDBUFFER8 field_0_pDSoundBuffer;
+    LPDIRECTSOUNDBUFFER field_0_pDSoundBuffer;
     int field_4;
     int field_8;
     int field_C;
@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF(SoundBuffer, 0x14);
 struct SoundEntry
 {
     int field_0_tableIdx;
-    LPDIRECTSOUNDBUFFER8 field_4_pDSoundBuffer;
+    LPDIRECTSOUNDBUFFER field_4_pDSoundBuffer;
     BYTE* field_8_pSoundBuffer;
     int field_C_buffer_size_bytes;
     int field_10;
@@ -32,11 +32,11 @@ struct SoundEntry
     unsigned __int8 field_1D_blockAlign;
     char field_1E;
     char field_1F;
-    int field_20_flags;
+    int field_20_channels;
 };
 ALIVE_ASSERT_SIZEOF(SoundEntry, 0x24);
 
-ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND8, sDSound_BBC344, nullptr);
+ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
 ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);
 ALIVE_VAR(1, 0xbbbab0, char, sPrimarySoundBufferChannels_BBBAB0, 0);
@@ -198,9 +198,43 @@ EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSa
 
 EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (sDSound_BBC344)
+    {
+        WAVEFORMATEX waveFormat;
+        DSBUFFERDESC bufferDesc;
+
+        waveFormat.wFormatTag = 0;
+        waveFormat.nSamplesPerSec = 0;
+        waveFormat.nAvgBytesPerSec = 0;
+        waveFormat.nBlockAlign = 0;
+        waveFormat.cbSize = 0;
+
+        SND_Init_WaveFormatEx_4EEA00(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_channels & 1);
+
+        bufferDesc.dwBufferBytes = pSnd->field_14_buffer_size_bytes;
+        bufferDesc.dwReserved = 0;
+        bufferDesc.lpwfxFormat = &waveFormat;
+        bufferDesc.dwSize = 20;
+        bufferDesc.dwFlags = 82144; // TODO: Fix constants
+
+        if (sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 371, -1, "SND_Renew(): Cannot create ds sound buffer");
+            return -1;
+        }
+        else
+        {
+            pSnd->field_10 = 0;
+            return 0;
+        }
+    }
+    else
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 351, -1, "DirectSound not initialized");
+        return -1;
+    }
 }
+
 
 EXPORT signed int CC SND_Reload_4EF1C0(SoundEntry *pSnd, char *a2, unsigned char *pSoundBuffer, unsigned int a4)
 {
@@ -215,7 +249,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSam
         return 0;
     }
 
-    HRESULT dsoundHR = DirectSoundCreate8(0, &sDSound_BBC344, 0);
+    HRESULT dsoundHR = DirectSoundCreate(0, &sDSound_BBC344, 0);
 
     if (dsoundHR)
     {
