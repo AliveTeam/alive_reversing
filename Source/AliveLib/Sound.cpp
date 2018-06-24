@@ -2,7 +2,11 @@
 #include "Sound.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
+#include "Error.hpp"
+#include "Sys.hpp"
+
 #include <mmeapi.h>
+#include <timeapi.h>
 #include <dsound.h>
 
 struct SoundBuffer
@@ -123,71 +127,36 @@ EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampl
 
 EXPORT char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
 {
-    char *result; // eax
+    switch (hr)
+    {
+    case DSERR_INVALIDCALL:
+        return "DSERR_INVALIDCALL: This function is not valid for the current state of this object.";
+    case DSERR_PRIOLEVELNEEDED:
+        return "DSERR_PRIOLEVELNEEDED: The caller does not have the priority level required for the function to succeed.";
+    case DSERR_NODRIVER:
+        return "DSERR_NODRIVER: No sound driver is available for use.";
+    case DSERR_OTHERAPPHASPRIO:
+        return "DSERR_OTHERAPPHASPRIO: This value is obsolete and is not used.";
+    case DSERR_UNINITIALIZED:
+        return "DSERR_UNINITIALIZED: The IDirectSound::Initialize method has not been called or has not been called successfully before other methods were called.";
+    case DSERR_CONTROLUNAVAIL:
+        return "DSERR_CONTROLUNAVAIL: The control (volume, pan, and so forth) requested by the caller is not available.";
+    case DSERR_INVALIDPARAM:
+        return "DSERR_INVALIDPARAM: An invalid parameter was passed to the returning function.";
+    case DSERR_ALLOCATED:
+        return "DSERR_ALLOCATED: The request failed because resources, such as a priority level, were already in use by another caller.";
+    case DSERR_OUTOFMEMORY:
+        return "DSERR_OUTOFMEMORY: The DirectSound subsystem could not allocate sufficient memory to complete the caller's request.";
+    case DSERR_UNSUPPORTED:
+        return "DSERR_UNSUPPORTED: The function called is not supported at this time. ";
+    case DSERR_GENERIC:
+        return "DSERR_GENERIC: An undetermined error occurred inside the DirectSound subsystem.";
+    case DSERR_NOAGGREGATION:
+        return "DSERR_NOAGGREGATION: The object does not support aggregation.";
+    }
 
-    if (hr > DSERR_CONTROLUNAVAIL)
-    {
-        switch (hr)
-        {
-        case DSERR_INVALIDCALL:
-            result = "DSERR_INVALIDCALL: This function is not valid for the current state of this object.";
-            break;
-        case DSERR_PRIOLEVELNEEDED:
-            result = "DSERR_PRIOLEVELNEEDED: The caller does not have the priority level required for the function to succeed.";
-            break;
-        case DSERR_NODRIVER:
-            result = "DSERR_NODRIVER: No sound driver is available for use.";
-            break;
-        case DSERR_OTHERAPPHASPRIO:
-            result = "DSERR_OTHERAPPHASPRIO: This value is obsolete and is not used.";
-            break;
-        case DSERR_UNINITIALIZED:
-            result = "DSERR_UNINITIALIZED: The IDirectSound::Initialize method has not been called or has not been called suc"
-                "cessfully before other methods were called.";
-            break;
-        default:
-            goto LABEL_23;
-        }
-    }
-    else if (hr == DSERR_CONTROLUNAVAIL)
-    {
-        result = "DSERR_CONTROLUNAVAIL: The control (volume, pan, and so forth) requested by the caller is not available.";
-    }
-    else
-    {
-        if (hr > DSERR_OUTOFMEMORY)
-        {
-            if (hr == DSERR_INVALIDPARAM)
-                return "DSERR_INVALIDPARAM: An invalid parameter was passed to the returning function.";
-            if (hr == DSERR_ALLOCATED)
-                return "DSERR_ALLOCATED: The request failed because resources, such as a priority level, were already in use by another caller.";
-        }
-        else
-        {
-            switch (hr)
-            {
-            case DSERR_OUTOFMEMORY:
-                return "DSERR_OUTOFMEMORY: The DirectSound subsystem could not allocate sufficient memory to complete the caller's request.";
-            case DSERR_UNSUPPORTED:
-                return "DSERR_UNSUPPORTED: The function called is not supported at this time. ";
-            case DSERR_GENERIC:
-                return "DSERR_GENERIC: An undetermined error occurred inside the DirectSound subsystem.";
-            case DSERR_NOAGGREGATION:
-                return "DSERR_NOAGGREGATION: The object does not support aggregation.";
-            }
-        }
-    LABEL_23:
-        if (hr)
-        {
-            sprintf(sDSoundErrorBuffer_BBC348, "DirectSound error %ld %lx", hr, hr);
-            result = sDSoundErrorBuffer_BBC348;
-        }
-        else
-        {
-            result = "";
-        }
-    }
-    return result;
+    sprintf(sDSoundErrorBuffer_BBC348, "DirectSound error %ld %lx", hr, hr);
+    return sDSoundErrorBuffer_BBC348;
 }
 
 
