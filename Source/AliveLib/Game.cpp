@@ -12,6 +12,7 @@
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
+#include "Animation.hpp"
 #include <timeapi.h>
 
 void Game_ForceLink() { }
@@ -212,11 +213,6 @@ EXPORT void CC sub_449A90()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC AnimateAllAnimations_40AC20(DynamicArray* /*pAnimations*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 class Map
 {
 public:
@@ -301,7 +297,7 @@ EXPORT void CC Game_Loop_467230()
         // Animate everything
         if (word_5C1B66 <= 0)
         {
-            AnimateAllAnimations_40AC20(gObjList_animations_5C1A24);
+            Animation::AnimateAll_40AC20(gObjList_animations_5C1A24);
         }
 
         int* pOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;

@@ -43,6 +43,8 @@ add_library(AliveLib
     PsxDisplay.hpp
     ScreenManager.cpp
     ScreenManager.hpp
+    Animation.cpp
+    Animation.hpp
     WinMain.cpp
     WinMain.hpp)
 
