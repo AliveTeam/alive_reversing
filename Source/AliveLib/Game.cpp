@@ -346,7 +346,7 @@ EXPORT void CC Game_Loop_467230()
             }
         }
         
-        Font_sub_4DD050();
+        DebugFont_Flush_4DD050();
         PSX_DrawSync_4F6280(0);
         pScreenManager_5BB5F4->VRender(pOtBuffer);
         sub_494580(); // Exit checking?

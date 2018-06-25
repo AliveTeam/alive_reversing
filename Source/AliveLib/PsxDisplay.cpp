@@ -6,6 +6,7 @@
 #include "Error.hpp"
 #include "Midi.hpp"
 #include <type_traits>
+#include <gmock/gmock.h>
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
@@ -61,7 +62,7 @@ struct TextRecords
 };
 ALIVE_ASSERT_SIZEOF(TextRecords, 0x803);
 
-struct Texts
+struct DebugTexts
 {
     BYTE field_0_xMargin;
     BYTE field_1_yMargin;
@@ -71,18 +72,18 @@ struct Texts
     BYTE field_8_bgColour;
     TextRecords field_9_text;
 };
-ALIVE_ASSERT_SIZEOF(Texts, 0x80C);
+ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
 
 ALIVE_VAR(1, 0xBD0F28, int, sFntCount_BD0F28, 0);
-ALIVE_ARY(1, 0xC27640, Texts, 4, sTexts_C27640, {});
+ALIVE_ARY(1, 0xC27640, DebugTexts, 4, sTexts_C27640, {});
 
-EXPORT void CC Fnt_Reset_4F8B40()
+EXPORT void CC DebugFont_Reset_4F8B40()
 {
-    memset(sTexts_C27640, 0, sizeof(Texts)*4); // 8240u
+    memset(sTexts_C27640, 0, sizeof(DebugTexts)*4); // 8240u
     sFntCount_BD0F28 = 0;
 }
 
-EXPORT void CC Fnt_4F8BE0(signed int idx)
+EXPORT void CC DebugFont_Update_Text_4F8BE0(signed int idx)
 {
     if (idx >= 0 && idx <= 3)
     {
@@ -91,15 +92,14 @@ EXPORT void CC Fnt_4F8BE0(signed int idx)
     }
 }
 
-ALIVE_ARY(1, 0xBB47CC, char, 600, sTmpBuffer_BB47CC, {});
+ALIVE_ARY(1, 0xBB47CC, char, 600, sDebugFontTmpBuffer_BB47CC, {});
+ALIVE_VAR(1, 0xBB4A24, short, sbDebugFontLoaded_BB4A24, 0);
+ALIVE_VAR(1, 0xBB47C8, int, sDebugTextIdx_BB47C8, 0);
 
-ALIVE_VAR(1, 0xBB4A24, short, sbFontLoaded_BB4A24, 0);
-ALIVE_VAR(1, 0xBB47C8, int, sTextIdx_BB47C8, 0);
 
-
-EXPORT int CC sub_4F8AB0(BYTE k8, BYTE k16, BYTE displayWidth, BYTE k200, BYTE kZero, unsigned int k600)
+EXPORT int CC DebugFont_Open_4F8AB0(BYTE xMargin, BYTE yMargin, BYTE displayWidth, BYTE displayHeight, BYTE bgColour, unsigned int maxLenChars)
 {
-    int idx = sFntCount_BD0F28;
+    const int idx = sFntCount_BD0F28;
     if (sFntCount_BD0F28 == 4)
     {
         return -1;
@@ -107,16 +107,16 @@ EXPORT int CC sub_4F8AB0(BYTE k8, BYTE k16, BYTE displayWidth, BYTE k200, BYTE k
 
     ++sFntCount_BD0F28;
 
-    sTexts_C27640[idx].field_0_xMargin = k8;
-    sTexts_C27640[idx].field_1_yMargin = k16;
+    sTexts_C27640[idx].field_0_xMargin = xMargin;
+    sTexts_C27640[idx].field_1_yMargin = yMargin;
     sTexts_C27640[idx].field_2_displayWidth = displayWidth;
-    sTexts_C27640[idx].field_3_displayHeight = k200;
-    sTexts_C27640[idx].field_8_bgColour = kZero | 1;
+    sTexts_C27640[idx].field_3_displayHeight = displayHeight;
+    sTexts_C27640[idx].field_8_bgColour = bgColour | 1;
     sTexts_C27640[idx].field_9_text.field_0_src_txt[0] = 0;
     sTexts_C27640[idx].field_9_text.field_400_dst_txt[0] = 0;
 
-    int limitedMaxLen = k600;
-    if (k600 > 1023)
+    int limitedMaxLen = maxLenChars;
+    if (maxLenChars > 1023)
     {
         limitedMaxLen = 1023;
     }
@@ -124,23 +124,23 @@ EXPORT int CC sub_4F8AB0(BYTE k8, BYTE k16, BYTE displayWidth, BYTE k200, BYTE k
     return idx;
 }
 
-EXPORT int CC Init_4DCF40() // Font
+EXPORT int CC DebugFont_Init_4DCF40() // Font
 {
-    if (!sbFontLoaded_BB4A24)
+    if (!sbDebugFontLoaded_BB4A24)
     {
         Fnt_4955F0(960, 256, 991, 287);
         Fnt_4955F0(960, 384, 975, 385);
-        sbFontLoaded_BB4A24 = 1;
+        sbDebugFontLoaded_BB4A24 = 1;
     }
-    Fnt_Reset_4F8B40();
-    sTextIdx_BB47C8 = sub_4F8AB0(8, 16, gPsxDisplay_5C1130.field_0_width, 200, 0, 600u);
+    DebugFont_Reset_4F8B40();
+    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, gPsxDisplay_5C1130.field_0_width, 200, 0, 600u);
     //nullsub_7(sTextIdx_BB47C8);
-    sTmpBuffer_BB47CC[0] = 0;
+    sDebugFontTmpBuffer_BB47CC[0] = 0;
     return 0;
 }
 
 
-EXPORT int CC Fnt_4F8B60(int idx, const char* formatStr, ...)
+EXPORT int CC DebugFont_Printf_4F8B60(int idx, const char* formatStr, ...)
 {
     va_list va;
     va_start(va, formatStr);
@@ -155,39 +155,36 @@ EXPORT int CC Fnt_4F8B60(int idx, const char* formatStr, ...)
     return strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt);
 }
 
-EXPORT void CC Font_sub_4DD050()
+EXPORT void CC DebugFont_Flush_4DD050()
 {
-    Fnt_4F8B60(sTextIdx_BB47C8, sTmpBuffer_BB47CC);
-    Fnt_4F8BE0(sTextIdx_BB47C8);
-    sTmpBuffer_BB47CC[0] = 0;
+    DebugFont_Printf_4F8B60(sDebugTextIdx_BB47C8, sDebugFontTmpBuffer_BB47CC);
+    DebugFont_Update_Text_4F8BE0(sDebugTextIdx_BB47C8);
+    sDebugFontTmpBuffer_BB47CC[0] = 0;
 }
-
-
-#include <gmock/gmock.h>
 
 namespace Test
 {
     static void Test_sub_4F8AB0()
     {
-        Fnt_Reset_4F8B40();
+        DebugFont_Reset_4F8B40();
 
-        sub_4F8AB0(8, 16, 77, 200, 33, 600);
+        DebugFont_Open_4F8AB0(8, 16, 77, 200, 33, 600);
         ASSERT_EQ(16, sTexts_C27640[0].field_1_yMargin);
         ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_0_src_txt[0]);
         ASSERT_EQ(0, sTexts_C27640[0].field_9_text.field_400_dst_txt[0]);
 
-        sub_4F8AB0(8, 22, 77, 200, 33, 600);
+        DebugFont_Open_4F8AB0(8, 22, 77, 200, 33, 600);
         ASSERT_EQ(22, sTexts_C27640[1].field_1_yMargin);
 
-        sub_4F8AB0(8, 33, 77, 200, 33, 600);
+        DebugFont_Open_4F8AB0(8, 33, 77, 200, 33, 600);
         ASSERT_EQ(33, sTexts_C27640[2].field_1_yMargin);
 
-        sub_4F8AB0(8, 55, 77, 200, 33, 600);
+        DebugFont_Open_4F8AB0(8, 55, 77, 200, 33, 600);
         ASSERT_EQ(55, sTexts_C27640[3].field_1_yMargin);
 
-        ASSERT_EQ(-1, sub_4F8AB0(8, 33, 77, 200, 33, 600));
+        ASSERT_EQ(-1, DebugFont_Open_4F8AB0(8, 33, 77, 200, 33, 600));
 
-        Fnt_Reset_4F8B40();
+        DebugFont_Reset_4F8B40();
     }
 
     void PsxDisplayTests()
@@ -206,7 +203,7 @@ static void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
     const LONG fontHeight = BMP_Get_Font_Height_4F21F0(pBmp);
     for (int i = 0; i < sFntCount_BD0F28; i++)
     {
-        Texts* pRecord = &sTexts_C27640[i];
+        DebugTexts* pRecord = &sTexts_C27640[i];
         const int xpos = rect.left + pRecord->field_0_xMargin;
         int ypos = rect.top + pRecord->field_1_yMargin;
         const int bgColour = pRecord->field_8_bgColour;

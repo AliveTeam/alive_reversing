@@ -12,12 +12,12 @@ class DynamicArrayT : public DynamicArray
 public:
     signed __int16 Push_Back(T* pValue)
     {
-        Push_Back_40CAF0(pValue);
+        return Push_Back_40CAF0(pValue);
     }
 
     signed __int16 Remove_Item(T* pItemToRemove)
     {
-        Remove_Item_40CB60(pItemToRemove);
+        return Remove_Item_40CB60(pItemToRemove);
     }
 
     T* ItemAt(int idx)

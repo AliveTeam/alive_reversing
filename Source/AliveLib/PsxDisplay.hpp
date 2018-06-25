@@ -31,7 +31,7 @@ public:
 
 ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_5C1130);
 
-EXPORT void CC Font_sub_4DD050();
+EXPORT void CC DebugFont_Flush_4DD050();
 
 namespace Test
 {
