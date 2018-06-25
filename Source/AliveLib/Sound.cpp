@@ -282,6 +282,8 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int *a1, unsigned int a2, int a3)
 // TODO: Clean up!
 EXPORT signed int CC SND_Reload_4EF1C0(SoundEntry *pSnd, char *sampleOffset, unsigned char *pSoundBuffer, unsigned int sampleCount)
 {
+    NOT_IMPLEMENTED();
+
     const int offsetBytes = (DWORD)sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
 

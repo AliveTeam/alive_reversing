@@ -13,3 +13,9 @@ void ResourceManager::sub_465590(int /*a1*/)
 {
     NOT_IMPLEMENTED();
 }
+
+signed __int16 __cdecl ResourceManager::LoadResourceFile_49C170(const char *pFileName, int a2)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}

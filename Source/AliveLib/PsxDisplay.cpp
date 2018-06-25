@@ -44,8 +44,34 @@ EXPORT void CC sub_4ED9E0()
 EXPORT int __cdecl Fnt_4955F0(__int16 a1, __int16 a2, __int16 a3, __int16 a4)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
+/*
+// No visible effect but just resets data
+void __cdecl sub_495660()
+{
+
+}
+
+// Prevents fonts getting to vram?
+signed __int16 __cdecl sub_4956C0(unsigned __int16 a1, __int16 a2, unsigned __int16 a3, WORD *a4)
+{
+    return 1;
+}
+
+// LED font/menu glyphs related
+signed int __cdecl sub_4958F0(signed __int16 *a1, char a2)
+{
+    return 1;
+}
+
+// LED font rendering related
+void __cdecl sub_495A60(int a1, int a2)
+{
+
+}
+*/
 
 ALIVE_VAR(1, 0xC1D1A0, Bitmap, stru_C1D1A0, {});
 ALIVE_VAR(1, 0xC2D060, PSX_DISPENV, sLastDispEnv_C2D060, {});

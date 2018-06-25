@@ -191,7 +191,7 @@ public:
 
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
-ALIVE_VAR(1, 0x5C1A24, DynamicArray*, gObjList_animations_5C1A24, nullptr);
+ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<Animation>*, gObjList_animations_5C1A24, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 
@@ -253,6 +253,28 @@ EXPORT void CC sub_494580()
     NOT_IMPLEMENTED();
 }
 
+struct BackgroundAnimation_Params
+{
+    __int16 field_0_flags;
+    __int16 field_2_length;
+    int field_4_type;
+    __int16 field_8_xpos;
+    __int16 field_A_ypos;
+    __int16 field_C_width;
+    __int16 field_E_height;
+    unsigned __int16 field_10_res_id;
+    __int16 field_12_is_semi_trans;
+    __int16 field_14_semi_trans_mode;
+    __int16 field_16_sound_effect;
+    __int16 field_18_id;
+    unsigned __int16 field_1A_layer;
+};
+
+EXPORT __int16 __cdecl Factory_BackgroundAnimation_4D84F0(void *pParams, int a2, int a3, __int16 mode)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void CC Game_Loop_467230()
 {
     dword_5C2F78 = 0;
@@ -299,6 +321,23 @@ EXPORT void CC Game_Loop_467230()
         {
             Animation::AnimateAll_40AC20(gObjList_animations_5C1A24);
         }
+
+        /*
+        static int hack = 0;
+        hack++;
+        if (hack == 100)
+        {
+            static BackgroundAnimation_Params params = {};
+            params.field_10_res_id = 8001;
+            params.field_8_xpos = 90;
+            params.field_A_ypos = 90;
+            params.field_C_width = 50;
+            params.field_E_height = 50;
+            params.field_1A_layer = 1;
+            ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", 0);
+            Factory_BackgroundAnimation_4D84F0(&params, 4, 4, 4);
+        }
+        */
 
         int* pOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
         
