@@ -13,6 +13,9 @@ public:
     EXPORT virtual void vsub_4DC0A0();
     virtual void vnullsub_4DC0F0();
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer);
+
+    EXPORT void ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize);
+
 public:
     __int16 field_4_typeId;
     __int16 field_6_flags;
@@ -22,3 +25,12 @@ public:
     int field_1C_update_delay;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
+
+ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4);
+
+class Class_5C1B70
+{
+public:
+    EXPORT void sub_449C10(int objCount, void* pGameObj);
+};
+
