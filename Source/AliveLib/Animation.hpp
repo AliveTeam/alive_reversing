@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "DynamicArray.hpp"
 #include "Psx.hpp"
+#include "BaseGameObject.hpp"
 
 class Animation
 {
@@ -60,3 +61,205 @@ class AnimationEx : public Animation
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
 #pragma pack(pop)
+
+class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
+{
+public:
+    // VTable @ 0x544C9C
+    /*
+     BaseAnimatedWithPhysicsGameObject__dtor_424A40
+     BaseAnimatedWithPhysicsGameObject__vnullsub_51
+     BaseAliveGameObject__Render_424B90
+     BaseGameObject__vsub_4DC0A0
+     BaseGameObject__vnullsub_4DC0F0
+     BaseGameObject__GetSaveState_4DC110
+     BaseAliveGameObject__vsub_424EE0
+     BaseAliveGameObject__vsub_424FD0
+     BaseAliveGameObject__vsub_4253B0
+     BaseAliveGameObject__vsub_425420
+     BaseAliveGameObject__vsub_4254A0
+     BaseAliveGameObject__vsub_425520
+     BaseAliveGameObject__vsub_425840
+     BaseAliveGameObject__vnullsub_53
+     BaseAliveGameObject__vnullsub_54
+    */
+
+
+    AnimationEx field_20_animation;
+    int field_B8_xpos;
+    int field_BC_ypos;
+    __int16 field_C0_path_number;
+    __int16 field_C2_lvl_number;
+    int field_C4_velx;
+    int field_C8_vely;
+    int field_CC_sprite_scale;
+    __int16 field_D0_r;
+    __int16 field_D2_g;
+    __int16 field_D4_b;
+    __int16 field_D6_scale;
+    __int16 field_D8_yOffset;
+    __int16 field_DA_xOffset;
+    __int16 field_DC_bApplyShadows;
+    __int16 field_DE_pad;
+    void* field_E0_176_ptr;
+};
+ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xE4);
+
+struct AnimHeader
+{
+    __int16 field_0_max_w;
+    __int16 field_2_max_h;
+    int field_4_frame_table_offset;
+};
+ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
+
+struct BackgroundAnimation_Params
+{
+    __int16 field_0_flags;
+    __int16 field_2_length;
+    int field_4_type;
+    __int16 field_8_xpos;
+    __int16 field_A_ypos;
+    __int16 field_C_width;
+    __int16 field_E_height;
+    unsigned __int16 field_10_res_id;
+    __int16 field_12_is_semi_trans;
+    __int16 field_14_semi_trans_mode;
+    __int16 field_16_sound_effect;
+    __int16 field_18_id;
+    unsigned __int16 field_1A_layer;
+};
+ALIVE_ASSERT_SIZEOF(BackgroundAnimation_Params, 0x1C);
+
+
+class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    // VTable @ 0x5440F0
+    /*
+    // dtor
+    BackgroundAnimation__dtor_40D420
+
+    // update
+    BackgroundAnimation__vsub_40D450
+
+    // render
+    BaseAliveGameObject__Render_424B90
+
+    // ??
+    BackgroundAnimation__vsub_40D550
+
+    // all base past here
+    */
+
+    void ctor_40D270(BackgroundAnimation_Params* pPathParams, int a3)
+    {
+        //BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+
+        field_4_typeId = 7;
+        field_F8_arg_a3 = a3;
+
+        AnimHeader** pAnimHeader;
+        /*
+        AnimHeader** pAnimHeader = (AnimHeader **)BaseGameObject::Add_resource_4DC130(
+            this,
+            Resource_Animation,
+            pPathParams->field_10_res_id);
+            */
+
+        field_F4_res = pAnimHeader;
+        if (!pAnimHeader)
+        {
+            field_6_flags = field_6_flags & 0xFFF7 | 4;
+        }
+
+        const int x = pPathParams->field_8_xpos << 16;
+        const int y = pPathParams->field_A_ypos << 16;
+
+        field_B8_xpos = x;
+        field_BC_ypos = y;
+
+        field_FC_xpos = x;
+        field_100_ypos = y;
+
+        /*
+        BaseAnimatedWithPhysicsGameObject_Animation_Init_424E10(
+            (*pAnimHeader)->field_4_frame_table_offset,
+            (*pAnimHeader)->field_0_max_w,
+            (*pAnimHeader)->field_2_max_h,
+            (AnimHeader *)pAnimHeader,
+            1,
+            1u);
+        */
+
+        //LOWORD(field_20_animation.field_4_flags) = field_20_animation.field_4_flags & 0xBFFF | ((pPathParams->field_12_is_semi_trans & 1) << 14);
+        //BYTE1(field_20_animation.field_4_flags) |= 0x80u;
+        
+        field_20_animation.field_B_render_mode = static_cast<BYTE>(pPathParams->field_14_semi_trans_mode);
+
+        const int v9 = pPathParams->field_1A_layer;
+        if ((WORD)v9)
+        {
+            const int v10 = v9 - 1;
+            if (!v10)
+            {
+                field_20_animation.field_C_render_layer = 20;
+            }
+            if (v10 == 1)
+            {
+                field_20_animation.field_C_render_layer = 39;
+            }
+        }
+        else
+        {
+            field_20_animation.field_C_render_layer = 1;
+        }
+    }
+
+    /*
+    void vsub_40D450()
+    {
+        if (sub_422C00(5))
+        {
+            field_6_flags |= 4u;
+        }
+        else
+        {
+            field_B8_xpos = (sTweakX_5C1BD0 << 16) + field_FC_xpos;
+            field_BC_ypos = (sTweakY_5C1BD4 << 16) + field_100_ypos;
+        }
+    }
+    */
+
+    void vsub_40D550()
+    {
+        field_6_flags |= 4u;
+    }
+
+    void dtor_40D4C0()
+    {
+        //sub_4DB8E0(this->field_F8_arg_a3, -1, 0, 0);
+        //BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    }
+
+    /*
+    void dtor_40D420(signed int flags)
+    {
+        dtor_40D4C0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+    */
+
+    int field_E4;
+    int field_E8;
+    int field_EC;
+    int field_F0;
+    AnimHeader **field_F4_res;
+    int field_F8_arg_a3;
+    int field_FC_xpos;
+    int field_100_ypos;
+};
+ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x104);

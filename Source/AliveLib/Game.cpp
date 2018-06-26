@@ -13,6 +13,7 @@
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
 #include "Animation.hpp"
+#include "stdlib.hpp"
 #include <timeapi.h>
 
 void Game_ForceLink() { }
@@ -67,8 +68,26 @@ EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
     return 0;
 }
 
+/*
+template<typename T, typename... Args>
+inline T* alive_new(Args&&... args)
+{
+    void* buffer = malloc_4954D0(sizeof(T));
+    if (buffer)
+    {
+        return new (buffer) T(std::forward<Args>(args)...);
+    }
+    return nullptr;
+}
+*/
+
 EXPORT void CC Game_Run_466D40()
 {
+    auto v0 = (DynamicArray *)malloc_4954D0(0xCu);
+    v0->ctor_40C9E0(30);
+
+    //alive_new<DynamicArray>();
+
     NOT_IMPLEMENTED();
 }
 
@@ -253,23 +272,6 @@ EXPORT void CC sub_494580()
     NOT_IMPLEMENTED();
 }
 
-struct BackgroundAnimation_Params
-{
-    __int16 field_0_flags;
-    __int16 field_2_length;
-    int field_4_type;
-    __int16 field_8_xpos;
-    __int16 field_A_ypos;
-    __int16 field_C_width;
-    __int16 field_E_height;
-    unsigned __int16 field_10_res_id;
-    __int16 field_12_is_semi_trans;
-    __int16 field_14_semi_trans_mode;
-    __int16 field_16_sound_effect;
-    __int16 field_18_id;
-    unsigned __int16 field_1A_layer;
-};
-
 EXPORT __int16 __cdecl Factory_BackgroundAnimation_4D84F0(void *pParams, int a2, int a3, __int16 mode)
 {
     NOT_IMPLEMENTED();
@@ -295,6 +297,21 @@ EXPORT void CC Game_Loop_467230()
             {
                 break;
             }
+
+            // bit 00 = 0x001 = BaseGameObject couldn't add to list / it unsets inverse of 0xF80A / 0b1111100000001010
+            // bit 01 = 0x002 = do update ?
+            // bit 02 = 0x004 = dead
+            // bit 03 = 0x008 = render
+            // bit 04 = 0x010 = set by BaseAnimatedWithPhysicsGameObject
+            // bit 05 = 0x020 = set by BaseAliveGameObject
+            // bit 06 = 0x040 = set by ChantSuppressor::ctor_466350 / MovingBomb::ctor_46FD40 - explodable?
+            // bit 07 = 0x080 = set by Uxb::ctor_4DE9A0 = pressable ?
+         
+            // bit 08 = 0x100 = ?
+            // bit 09 = 0x200 = still update in some circumstance ? when word_5C1B66 is 0
+            // bit 10 = 0x400 = can never be removed
+            // bit 11 = 0x800 = ?
+            // bit 12 = 0x1000 = ?
 
             if (pBaseGameObject->field_6_flags & 2 && !(pBaseGameObject->field_6_flags & 4) && (!word_5C1B66 || pBaseGameObject->field_6_flags & 0x200))
             {
