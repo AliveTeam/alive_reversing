@@ -8,7 +8,7 @@ class PSX_Display_Buffer
 public:
     PSX_DRAWENV field_0_draw_env;
     PSX_DISPENV field_5C_disp_env;
-    int field_70_ot_buffer[256];
+    int* field_70_ot_buffer[256];
 };
 // TODO: Size
 

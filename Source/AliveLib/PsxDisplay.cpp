@@ -20,20 +20,67 @@ EXPORT void CC sub_4945D0()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_Display_OrderingTable_4F6540(int* /*pOT*/)
+EXPORT void CC PSX_DrawOTag_4F6540(int** /*pOT*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT int __cdecl PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
+struct OtUnknown
 {
-    NOT_IMPLEMENTED();
+    int** field_0_pOtStart;
+    int** field_4;
+    int** field_8_pOt_End;
+};
+
+ALIVE_ARY(1, 0xBD0D88, OtUnknown, 32, sOt_Stack_BD0D88, {});
+ALIVE_VAR(1, 0xBD0C08, int, sOtIdxRollOver_BD0C08, 0);
+
+EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
+{
+    int otIdx = 0;
+    for (otIdx = 0; otIdx < 32; otIdx++)
+    {
+        if (otBuffer == sOt_Stack_BD0D88[otIdx].field_0_pOtStart)
+        {
+            break;
+        }
+    }
+
+    if (otIdx == 32)
+    {
+        sOtIdxRollOver_BD0C08 = (sOtIdxRollOver_BD0C08 & 31);
+        otIdx = sOtIdxRollOver_BD0C08;
+    }
+
+    sOt_Stack_BD0D88[otIdx].field_0_pOtStart = otBuffer;
+    sOt_Stack_BD0D88[otIdx].field_4 = otBuffer;
+    sOt_Stack_BD0D88[otIdx].field_8_pOt_End = &otBuffer[otBufferSize];
 }
 
-
-EXPORT void __cdecl PSX_ClearOTag_4F6290(int* otBuffer, int otBufferSize)
+EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
 {
-    NOT_IMPLEMENTED();
+    PSX_OrderingTable_4F62C0(otBuffer, otBufferSize);
+
+    // Set each element to point to the next
+    int i = 0;
+    for (i = 0; i < otBufferSize - 1; i++)
+    {
+        otBuffer[i] = reinterpret_cast<int*>(&otBuffer[i + 1]);
+    }
+
+    // Terminate the list
+    otBuffer[i] = reinterpret_cast<int*>(0xFFFFFFFF);
+}
+
+namespace Test
+{
+    static void Test_PSX_ClearOTag_4F6290()
+    {
+        int* ot[5] = {};
+        PSX_ClearOTag_4F6290(ot, 5);
+        ASSERT_EQ(ot[0], (int*)&ot[1]);
+        ASSERT_EQ(ot[4], (int*)0xFFFFFFFF);
+    }
 }
 
 EXPORT void CC sub_4EDAB0(Bitmap* /*pBmp*/, int /*left*/, int /*top*/, int /*width*/)
@@ -165,7 +212,7 @@ EXPORT int CC DebugFont_Init_4DCF40() // Font
         sbDebugFontLoaded_BB4A24 = 1;
     }
     DebugFont_Reset_4F8B40();
-    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, gPsxDisplay_5C1130.field_0_width, 200, 0, 600u);
+    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, static_cast<BYTE>(gPsxDisplay_5C1130.field_0_width), 200, 0, 600u);
     //nullsub_7(sTextIdx_BB47C8);
     sDebugFontTmpBuffer_BB47CC[0] = 0;
     return 0;
@@ -222,6 +269,7 @@ namespace Test
     void PsxDisplayTests()
     {
         Test_sub_4F8AB0();
+        Test_PSX_ClearOTag_4F6290();
     }
 }
 
@@ -459,14 +507,14 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
         sub_4945D0();
         if (sCommandLine_NoFrameSkip_5CA4D1)
         {
-            PSX_Display_OrderingTable_4F6540(field_10_drawEnv[0].field_70_ot_buffer);
+            PSX_DrawOTag_4F6540(field_10_drawEnv[0].field_70_ot_buffer);
             PSX_DrawSync_4F6280(0);
         }
         else
         {
             if (sbDisplayRenderFrame_55EF8C)
             {
-                PSX_Display_OrderingTable_4F6540(field_10_drawEnv[0].field_70_ot_buffer);
+                PSX_DrawOTag_4F6540(field_10_drawEnv[0].field_70_ot_buffer);
                 PSX_DrawSync_4F6280(0);
             }
             else
@@ -498,6 +546,6 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
         PSX_PutDrawEnv_4F5980(&field_10_drawEnv[field_C_buffer_index].field_0_draw_env);
 
         // Display current
-        PSX_Display_OrderingTable_4F6540(field_10_drawEnv[prevBufferIdx].field_70_ot_buffer);
+        PSX_DrawOTag_4F6540(field_10_drawEnv[prevBufferIdx].field_70_ot_buffer);
     }
 }

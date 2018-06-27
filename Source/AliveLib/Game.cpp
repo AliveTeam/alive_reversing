@@ -355,7 +355,7 @@ EXPORT void CC Game_Loop_467230()
         }
         */
 
-        int* pOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
+        int** pOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
         
         // Render objects
         for (int i=0; i < gObjList_drawables_5C1124->Size(); i++)

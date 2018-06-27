@@ -9,7 +9,7 @@ void BaseGameObject::VUpdate()
     // Empty 0x4DC080
 }
 
-void BaseGameObject::VRender(int* /*pOrderingTable*/)
+void BaseGameObject::VRender(int** /*pOrderingTable*/)
 {
     // Empty 0x4DBF80
 }
