@@ -368,7 +368,7 @@ EXPORT PSX_DISPENV *__cdecl PSX_PutDispEnv_4F5890(PSX_DISPENV *pDispEnv)
 
 EXPORT int CC PSX_SetDispMask_4F89F0(int /*mode*/)
 {
-
+    return 0;
 }
 
 void PsxDisplay::ctor_41DC30()
@@ -419,6 +419,10 @@ void PsxDisplay::ctor_41DC30()
     PSX_SetDispMask_4F89F0(1);
 }
 
+void PsxDisplay::PutCurrentDispEnv_41DFA0()
+{
+    PSX_PutDispEnv_4F5890(&field_10_drawEnv[field_C_buffer_index].field_5C_disp_env);
+}
 
 EXPORT void CC PSX_4F58E0(const PSX_DISPENV* pDispEnv)
 {
