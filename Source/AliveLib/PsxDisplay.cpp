@@ -328,17 +328,17 @@ int __cdecl sub_4F8A10(int)
     return 0;
 }
 
-void __cdecl sub_495660()
+EXPORT void __cdecl sub_495660()
 {
     NOT_IMPLEMENTED();
 }
 
-int __cdecl sub_483080(__int16 , __int16 , unsigned __int16 , unsigned __int16 )
+EXPORT int __cdecl sub_483080(__int16 , __int16 , unsigned __int16 , unsigned __int16 )
 {
     NOT_IMPLEMENTED();
 }
 
-__int16 *__cdecl PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV  *a1, __int16 a2, __int16 a3, __int16 a4, __int16 a5)
+EXPORT __int16 *__cdecl PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV  *a1, __int16 a2, __int16 a3, __int16 a4, __int16 a5)
 {
     NOT_IMPLEMENTED();
 }
@@ -361,7 +361,7 @@ EXPORT void CC PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, __int16 x, __int16
     memcpy(pOutEnv, &defEnv, sizeof(PSX_DISPENV));
 }
 
-PSX_DISPENV *__cdecl PSX_4F5890(PSX_DISPENV *pDispEnv)
+EXPORT PSX_DISPENV *__cdecl PSX_4F5890(PSX_DISPENV *pDispEnv)
 {
     NOT_IMPLEMENTED();
 }
