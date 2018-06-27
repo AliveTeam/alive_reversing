@@ -25,6 +25,7 @@ public:
     __int16 field_E;
     PSX_Display_Buffer field_10_drawEnv[2];
 
+    EXPORT void ctor_41DC30();
     EXPORT void PSX_Display_Render_OT_41DDF0();
 };
 // TODO: Size

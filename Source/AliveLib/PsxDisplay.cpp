@@ -25,7 +25,13 @@ EXPORT void CC PSX_Display_OrderingTable_4F6540(int* /*pOT*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_OrderingTable_Init_4F6290(int* /*otBuffer*/, int /*otBufferSize*/)
+EXPORT int __cdecl PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+EXPORT void __cdecl PSX_OrderingTable_Init_4F6290(int* otBuffer, int otBufferSize)
 {
     NOT_IMPLEMENTED();
 }
@@ -306,6 +312,107 @@ using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
 ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_CallBack_1_dword_C1D184, nullptr);
 ALIVE_VAR(1, 0xBD0F21, BYTE, byte_BD0F21, 0);
+
+int __cdecl PSX_ResetGraph_4F8800(int)
+{
+    return 0;
+}
+
+int __cdecl sub_4FA8F0()
+{
+    return 0;
+}
+
+int __cdecl sub_4F8A10(int)
+{
+    return 0;
+}
+
+void __cdecl sub_495660()
+{
+    NOT_IMPLEMENTED();
+}
+
+int __cdecl sub_483080(__int16 , __int16 , unsigned __int16 , unsigned __int16 )
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 *__cdecl PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV  *a1, __int16 a2, __int16 a3, __int16 a4, __int16 a5)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, __int16 x, __int16 y, __int16 w, __int16 h)
+{
+    if (!pOutEnv)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 180, -1, "SetDefDispEnv(): env == NULL");
+        return;
+    }
+
+    PSX_DISPENV defEnv = {};
+    defEnv.disp.x = x;
+    defEnv.disp.y = y;
+    defEnv.disp.h = h;
+    defEnv.disp.w = w;
+    defEnv.screen.w = 256;
+    defEnv.screen.h = 240;
+    memcpy(pOutEnv, &defEnv, sizeof(PSX_DISPENV));
+}
+
+PSX_DISPENV *__cdecl PSX_4F5890(PSX_DISPENV *pDispEnv)
+{
+    NOT_IMPLEMENTED();
+}
+
+void PsxDisplay::ctor_41DC30()
+{
+    PSX_VSync_4F6170(0);
+    //nullsub_6(0);
+    sub_4FA8F0(); // Another stub
+    field_0_width = 640;
+    field_2_height = 240;
+    field_4 = 0;
+    field_6_bpp = 16;
+    field_8_max_buffers = 1;
+    field_A_buffer_size = 43;
+    field_C_buffer_index = 0;
+    PSX_ResetGraph_4F8800(0);
+    sub_4F8A10(0);
+    sub_495660();
+    Fnt_4955F0(0, 0, 639, 271);
+    sub_483080(0, 240, 640, 32);
+    PSX_OrderingTable_Init_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
+    PSX_OrderingTable_Init_4F6290(field_10_drawEnv[1].field_70_ot_buffer, field_A_buffer_size);
+    PSX_SetDefDrawEnv_4F5AA0(&field_10_drawEnv[0].field_0_draw_env, 0, 0, field_0_width, field_2_height);
+    PSX_SetDefDispEnv_4F55A0(&field_10_drawEnv[0].field_5C_disp_env, 0, 0, field_0_width, field_2_height);
+
+    field_10_drawEnv[0].field_0_draw_env.field_17_dfe = 1;
+    field_10_drawEnv[1].field_0_draw_env.field_17_dfe = 1;
+
+    field_10_drawEnv[1].field_5C_disp_env.screen.x = 0;
+    field_10_drawEnv[0].field_5C_disp_env.screen.x = 0;
+
+    field_10_drawEnv[1].field_5C_disp_env.screen.y = 0;
+    field_10_drawEnv[0].field_5C_disp_env.screen.y = 0;
+
+    field_10_drawEnv[1].field_5C_disp_env.screen.h = 240;
+    field_10_drawEnv[0].field_5C_disp_env.screen.h = 240;
+
+    PSX_PutDrawEnv_4F5980(&field_10_drawEnv[0].field_0_draw_env);
+    PSX_4F5890(&field_10_drawEnv[0].field_5C_disp_env);
+
+    PSX_RECT rect = {};
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 1024;
+    rect.h = 512;
+    PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
+    PSX_DrawSync_4F6280(0);
+    PSX_VSync_4F6170(0);
+    //nullsub_6(1);
+}
 
 
 EXPORT void CC PSX_4F58E0(const PSX_DISPENV* pDispEnv)
