@@ -31,7 +31,7 @@ EXPORT int __cdecl PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
 }
 
 
-EXPORT void __cdecl PSX_OrderingTable_Init_4F6290(int* otBuffer, int otBufferSize)
+EXPORT void __cdecl PSX_ClearOTag_4F6290(int* otBuffer, int otBufferSize)
 {
     NOT_IMPLEMENTED();
 }
@@ -318,12 +318,12 @@ int __cdecl PSX_ResetGraph_4F8800(int)
     return 0;
 }
 
-int __cdecl sub_4FA8F0()
+EXPORT int CC PSX_SetVideoMode_4FA8F0()
 {
     return 0;
 }
 
-int __cdecl sub_4F8A10(int)
+EXPORT int CC PSX_SetGraphDebug_4F8A10(int)
 {
     return 0;
 }
@@ -361,16 +361,21 @@ EXPORT void CC PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, __int16 x, __int16
     memcpy(pOutEnv, &defEnv, sizeof(PSX_DISPENV));
 }
 
-EXPORT PSX_DISPENV *__cdecl PSX_4F5890(PSX_DISPENV *pDispEnv)
+EXPORT PSX_DISPENV *__cdecl PSX_PutDispEnv_4F5890(PSX_DISPENV *pDispEnv)
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT int CC PSX_SetDispMask_4F89F0(int /*mode*/)
+{
+
 }
 
 void PsxDisplay::ctor_41DC30()
 {
     PSX_VSync_4F6170(0);
-    //nullsub_6(0);
-    sub_4FA8F0(); // Another stub
+    PSX_SetDispMask_4F89F0(0);
+    PSX_SetVideoMode_4FA8F0();
     field_0_width = 640;
     field_2_height = 240;
     field_4 = 0;
@@ -379,12 +384,12 @@ void PsxDisplay::ctor_41DC30()
     field_A_buffer_size = 43;
     field_C_buffer_index = 0;
     PSX_ResetGraph_4F8800(0);
-    sub_4F8A10(0);
+    PSX_SetGraphDebug_4F8A10(0);
     sub_495660();
     Fnt_4955F0(0, 0, 639, 271);
     sub_483080(0, 240, 640, 32);
-    PSX_OrderingTable_Init_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
-    PSX_OrderingTable_Init_4F6290(field_10_drawEnv[1].field_70_ot_buffer, field_A_buffer_size);
+    PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
+    PSX_ClearOTag_4F6290(field_10_drawEnv[1].field_70_ot_buffer, field_A_buffer_size);
     PSX_SetDefDrawEnv_4F5AA0(&field_10_drawEnv[0].field_0_draw_env, 0, 0, field_0_width, field_2_height);
     PSX_SetDefDispEnv_4F55A0(&field_10_drawEnv[0].field_5C_disp_env, 0, 0, field_0_width, field_2_height);
 
@@ -401,7 +406,7 @@ void PsxDisplay::ctor_41DC30()
     field_10_drawEnv[0].field_5C_disp_env.screen.h = 240;
 
     PSX_PutDrawEnv_4F5980(&field_10_drawEnv[0].field_0_draw_env);
-    PSX_4F5890(&field_10_drawEnv[0].field_5C_disp_env);
+    PSX_PutDispEnv_4F5890(&field_10_drawEnv[0].field_5C_disp_env);
 
     PSX_RECT rect = {};
     rect.x = 0;
@@ -411,7 +416,7 @@ void PsxDisplay::ctor_41DC30()
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
-    //nullsub_6(1);
+    PSX_SetDispMask_4F89F0(1);
 }
 
 
@@ -468,7 +473,7 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
             PSX_VSync_4F6170(2);
         }
         PSX_4F58E0(&field_10_drawEnv[0].field_5C_disp_env);
-        PSX_OrderingTable_Init_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
+        PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
         field_C_buffer_index = 0;
     }
     else
@@ -484,7 +489,7 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
         }
 
         // Set up next
-        PSX_OrderingTable_Init_4F6290(field_10_drawEnv[field_C_buffer_index].field_70_ot_buffer,  field_A_buffer_size);
+        PSX_ClearOTag_4F6290(field_10_drawEnv[field_C_buffer_index].field_70_ot_buffer,  field_A_buffer_size);
         PSX_4F58E0(&field_10_drawEnv[field_C_buffer_index].field_5C_disp_env);
         PSX_PutDrawEnv_4F5980(&field_10_drawEnv[field_C_buffer_index].field_0_draw_env);
 
