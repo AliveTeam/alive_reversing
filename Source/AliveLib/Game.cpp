@@ -57,11 +57,6 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND /*hWnd*/, UINT /*msg*/, W
     return 0;
 }
 
-EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 {
     NOT_IMPLEMENTED();

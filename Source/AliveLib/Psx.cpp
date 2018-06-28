@@ -41,6 +41,8 @@ using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_put_disp_env_callback_C1D184, nullptr);
 ALIVE_VAR(1, 0xC1D17C, TPsxEmuCallBack, sPsxEmu_EndFrameFnPtr_C1D17C, nullptr);
 ALIVE_VAR(1, 0xBD0F21, BYTE, sPsxDontChangeDispEnv_BD0F21, 0);
+ALIVE_VAR(1, 0xBD145C, bool, sbBitmapsAllocated_BD145C, false);
+
 
 struct OtUnknown
 {
@@ -94,6 +96,20 @@ EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
     }
 
     // Note: sPsxEmu_BD1454 removed
+}
+
+EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
+{
+    if (sbBitmapsAllocated_BD145C)
+    {
+        Bmp_Free_4F1950(&sPsxVram_C1D160);
+        if (byte_BD1464)
+        {
+            Bmp_Free_4F1950(&stru_C1D1A0);
+            byte_BD1464 = 0;
+        }
+        sbBitmapsAllocated_BD145C = false;
+    }
 }
 
 EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
