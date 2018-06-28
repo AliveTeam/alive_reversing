@@ -23,6 +23,42 @@ ALIVE_VAR(1, 0xBDCD54, BYTE*, sPsx_drawenv_buffer_BDCD54, nullptr);
 
 EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2);
 
+EXPORT signed int CC PSX_LoadImage_4F5FB0(PSX_RECT* pRect, BYTE* pData)
+{
+    if (!PSX_Rect_IsInFrameBuffer_4FA050(pRect))
+    {
+        return 0;
+    }
+
+    if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
+    {
+        Error_PushErrorRecord_4F2920(
+            "C:\\abe2\\code\\PSXEmu\\LIBGPU.C",
+            678,
+            -1,
+            "LoadImage: can't lock the _psxemu_videomem");
+        return 1;
+    }
+
+    // TODO: Clean up more, treat as 1024x512 16bit array
+    unsigned int srcWidthInBytes = pRect->w * 2;
+    BYTE* pDst = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (pRect->x + (pRect->y * 1024));
+    BYTE* pDataEnd = &pData[srcWidthInBytes * pRect->h];
+    BYTE* pDataIter = pData;
+
+    while (pDataIter < pDataEnd)
+    {
+        memcpy(pDst, pDataIter, srcWidthInBytes);
+        pDataIter += srcWidthInBytes;
+        pDst += (1024 * 2); // vram width
+    }
+
+    BMP_unlock_4F2100(&sPsxVram_C1D160);
+    return 1;
+
+    // Note: Removed width == 32 optimization case.
+}
+
 EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(int x, int y, int w, int h, int unknown, BYTE* pBuffer)
 {
     sPsx_drawenv_clipx_BDCD40 = x;
