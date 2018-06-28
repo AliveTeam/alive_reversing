@@ -98,6 +98,70 @@ EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
     // Note: sPsxEmu_BD1454 removed
 }
 
+ALIVE_VAR(1, 0xBD1468, int, sVGA_DisplayType_BD1468, 0);
+
+EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC PSX_EMU_VideoAlloc_4F9D70()
+{
+    if (!sbBitmapsAllocated_BD145C)
+    {
+        if (sVGA_DisplayType_BD1468 == 1)
+        {
+            sVGA_DisplayType_BD1468 = 4;
+            if (BMP_New_4F1990(&sPsxVram_C1D160, 1024, 512, 15, 1))
+            {
+                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\PSXEMU.C", 405, -1, "PSXEMU_VideoAlloc: can't alloc PSX-VRAM");
+                return -1;
+            }
+
+            PSX_EMU_SetDispType_4F9960(sVGA_DisplayType_BD1468);
+        }
+        else
+        {
+            int pixelFormat = 0;
+            switch (sVGA_DisplayType_BD1468)
+            {
+            case 2:
+                pixelFormat = 16;
+                break;
+            case 3:
+                pixelFormat = 116;
+                break;
+            case 4:
+                pixelFormat = 15;
+                break;
+            case 5:
+                pixelFormat = 115;
+                break;
+            default:
+                pixelFormat = 0;
+                break;
+            }
+
+            if (BMP_New_4F1990(&sPsxVram_C1D160, 1024, 512, pixelFormat, 1))
+            {
+                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\PSXEMU.C", 414, -1, "PSXEMU_VideoAlloc: can't alloc PSX-VRAM");
+                return -1;
+            }
+        }
+
+        byte_BD1464 = 0;
+        sbBitmapsAllocated_BD145C = 1;
+    }
+
+    PSX_RECT rect = {};
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 1024;
+    rect.h = 512;
+    PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
+    return 0;
+}
+
 EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
 {
     if (sbBitmapsAllocated_BD145C)
