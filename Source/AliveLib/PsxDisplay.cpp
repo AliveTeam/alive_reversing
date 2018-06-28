@@ -388,9 +388,42 @@ EXPORT int __cdecl sub_483080(__int16 , __int16 , unsigned __int16 , unsigned __
     NOT_IMPLEMENTED();
 }
 
-EXPORT __int16 *__cdecl PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV  *a1, __int16 a2, __int16 a3, __int16 a4, __int16 a5)
+EXPORT void CC PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV* pDrawEnv, __int16 x, __int16 y, __int16 w, __int16 h)
 {
-    NOT_IMPLEMENTED();
+    PSX_DRAWENV drawEnv = {};
+    drawEnv.field_0_clip.x = x;
+    drawEnv.field_0_clip.y = y;
+
+    drawEnv.field_8_ofs[0] = x;
+    drawEnv.field_8_ofs[1] = y;
+
+    drawEnv.field_0_clip.w = w;
+    drawEnv.field_0_clip.h = h;
+
+    drawEnv.field_16_dtd = 1;
+    drawEnv.field_17_dfe = 1;
+
+    drawEnv.field_C_tw.x = 0;
+    drawEnv.field_C_tw.y = 0;
+
+    drawEnv.field_C_tw.w = 640;
+    drawEnv.field_C_tw.h = 0;
+
+    drawEnv.field_14_tpage = 0;
+
+    drawEnv.field_18_isbg = 0;
+    drawEnv.field_19_r0 = 0;
+    drawEnv.field_1A_g0 = 0;
+    drawEnv.field_1B_b0 = 0;
+    
+    if (pDrawEnv)
+    {
+        memcpy(pDrawEnv, &drawEnv, sizeof(PSX_DRAWENV));
+    }
+    else
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 442, -1, "SetDefDrawEnv(): env == NULL");
+    }
 }
 
 EXPORT void CC PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, __int16 x, __int16 y, __int16 w, __int16 h)
