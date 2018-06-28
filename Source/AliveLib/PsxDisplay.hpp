@@ -34,6 +34,7 @@ public:
 ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_5C1130);
 
 EXPORT void CC DebugFont_Flush_4DD050();
+void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);
 
 namespace Test
 {

@@ -5,177 +5,14 @@
 #include "VGA.hpp"
 #include "Error.hpp"
 #include "Midi.hpp"
+#include "stdlib.hpp"
 #include <type_traits>
 #include <gmock/gmock.h>
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
-ALIVE_VAR(1, 0xC3D080, PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080, {});
-ALIVE_VAR(1, 0x578E88, int, sConst_1000_578E88, 1000);
-ALIVE_VAR(1, 0xBD1464, BYTE, byte_BD1464, 0);
-
-ALIVE_VAR(1, 0xBDCD40, int, sPsx_drawenv_clipx_BDCD40, 0);
-ALIVE_VAR(1, 0xBDCD44, int, sPsx_drawenv_clipy_BDCD44, 0);
-ALIVE_VAR(1, 0xBDCD48, int, sPsx_drawenv_clipw_BDCD48, 0);
-ALIVE_VAR(1, 0xBDCD4C, int, sPsx_drawenv_cliph_BDCD4C, 0);
-ALIVE_VAR(1, 0xBDCD50, int, sPsx_drawenv_k500_BDCD50, 0);
-ALIVE_VAR(1, 0xBDCD54, BYTE*, sPsx_drawenv_buffer_BDCD54, nullptr);
-
-EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2);
-
-EXPORT signed int CC PSX_LoadImage_4F5FB0(PSX_RECT* pRect, BYTE* pData)
-{
-    if (!PSX_Rect_IsInFrameBuffer_4FA050(pRect))
-    {
-        return 0;
-    }
-
-    if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
-    {
-        Error_PushErrorRecord_4F2920(
-            "C:\\abe2\\code\\PSXEmu\\LIBGPU.C",
-            678,
-            -1,
-            "LoadImage: can't lock the _psxemu_videomem");
-        return 1;
-    }
-
-    // TODO: Clean up more, treat as 1024x512 16bit array
-    unsigned int srcWidthInBytes = pRect->w * 2;
-    BYTE* pDst = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (pRect->x + (pRect->y * 1024));
-    BYTE* pDataEnd = &pData[srcWidthInBytes * pRect->h];
-    BYTE* pDataIter = pData;
-
-    while (pDataIter < pDataEnd)
-    {
-        memcpy(pDst, pDataIter, srcWidthInBytes);
-        pDataIter += srcWidthInBytes;
-        pDst += (1024 * 2); // vram width
-    }
-
-    BMP_unlock_4F2100(&sPsxVram_C1D160);
-    return 1;
-
-    // Note: Removed width == 32 optimization case.
-}
-
-EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(int x, int y, int w, int h, int unknown, BYTE* pBuffer)
-{
-    sPsx_drawenv_clipx_BDCD40 = x;
-    sPsx_drawenv_clipy_BDCD44 = y;
-    sPsx_drawenv_clipw_BDCD48 = w;
-    sPsx_drawenv_cliph_BDCD4C = h;
-    sPsx_drawenv_k500_BDCD50 = unknown;
-    sPsx_drawenv_buffer_BDCD54 = pBuffer;
-}
-
-EXPORT void CC PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
-{
-    if (pDrawEnv)
-    {
-        memcpy(&sPSX_EMU_DrawEnvState_C3D080, pDrawEnv, sizeof(sPSX_EMU_DrawEnvState_C3D080));
-        if (byte_BD1464)
-        {
-            PSX_SetDrawEnv_Impl_4FE420(
-                0,
-                0,
-                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w - 16,
-                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h - 16,
-                sConst_1000_578E88 / 2,
-                nullptr);
-        }
-        else
-        {
-            PSX_SetDrawEnv_Impl_4FE420(
-                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x,
-                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y,
-                16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w) - 16,
-                16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h) - 16,
-                sConst_1000_578E88 / 2,
-                nullptr);
-        }
-    }
-    else
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 371, -1, "PutDrawEnv(): env == NULL");
-    }
-}
-
 
 EXPORT void CC sub_4945D0()
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC PSX_DrawOTag_4F6540(int** /*pOT*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-struct OtUnknown
-{
-    int** field_0_pOtStart;
-    int** field_4;
-    int** field_8_pOt_End;
-};
-
-ALIVE_ARY(1, 0xBD0D88, OtUnknown, 32, sOt_Stack_BD0D88, {});
-ALIVE_VAR(1, 0xBD0C08, int, sOtIdxRollOver_BD0C08, 0);
-
-EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
-{
-    int otIdx = 0;
-    for (otIdx = 0; otIdx < 32; otIdx++)
-    {
-        if (otBuffer == sOt_Stack_BD0D88[otIdx].field_0_pOtStart)
-        {
-            break;
-        }
-    }
-
-    if (otIdx == 32)
-    {
-        sOtIdxRollOver_BD0C08 = (sOtIdxRollOver_BD0C08 & 31);
-        otIdx = sOtIdxRollOver_BD0C08;
-    }
-
-    sOt_Stack_BD0D88[otIdx].field_0_pOtStart = otBuffer;
-    sOt_Stack_BD0D88[otIdx].field_4 = otBuffer;
-    sOt_Stack_BD0D88[otIdx].field_8_pOt_End = &otBuffer[otBufferSize];
-}
-
-EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
-{
-    PSX_OrderingTable_4F62C0(otBuffer, otBufferSize);
-
-    // Set each element to point to the next
-    int i = 0;
-    for (i = 0; i < otBufferSize - 1; i++)
-    {
-        otBuffer[i] = reinterpret_cast<int*>(&otBuffer[i + 1]);
-    }
-
-    // Terminate the list
-    otBuffer[i] = reinterpret_cast<int*>(0xFFFFFFFF);
-}
-
-namespace Test
-{
-    static void Test_PSX_ClearOTag_4F6290()
-    {
-        int* ot[5] = {};
-        PSX_ClearOTag_4F6290(ot, 5);
-        ASSERT_EQ(ot[0], (int*)&ot[1]);
-        ASSERT_EQ(ot[4], (int*)0xFFFFFFFF);
-    }
-}
-
-EXPORT void CC sub_4EDAB0(Bitmap* /*pBmp*/, int /*left*/, int /*top*/, int /*width*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC sub_4ED9E0()
 {
     NOT_IMPLEMENTED();
 }
@@ -213,12 +50,8 @@ void __cdecl sub_495A60(int a1, int a2)
 }
 */
 
-ALIVE_VAR(1, 0xC1D1A0, Bitmap, stru_C1D1A0, {});
-ALIVE_VAR(1, 0xC2D060, PSX_DISPENV, sLastDispEnv_C2D060, {});
-ALIVE_VAR(1, 0xBD146D, BYTE, sScreenMode_BD146D, 0);
-ALIVE_VAR(1, 0xBD0F20, BYTE, byte_BD0F20, 0);
-ALIVE_VAR(1, 0x578324, BYTE, byte_578324, 0);
-ALIVE_VAR(1, 0xBD1465, BYTE, sPsxEMU_show_vram_BD1465, 0);
+
+
 
 struct TextRecords
 {
@@ -355,11 +188,10 @@ namespace Test
     void PsxDisplayTests()
     {
         Test_sub_4F8AB0();
-        Test_PSX_ClearOTag_4F6290();
     }
 }
 
-static void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
+void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
 {
     if (sFntCount_BD0F28 <= 0)
     {
@@ -382,86 +214,6 @@ static void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
     }
 }
 
-EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
-{
-    if (!pDispEnv)
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 217, -1, "PutDispEnv(): env == NULL");
-        return;
-    }
-
-    MIDI_UpdatePlayer_4FDC80();
-    memcpy(&sLastDispEnv_C2D060, pDispEnv, sizeof(sLastDispEnv_C2D060));
-    if (sPsxVram_C1D160.field_4_pLockedPixels)
-    {
-        BMP_unlock_4F2100(&sPsxVram_C1D160);
-    }
-
-    if (!byte_BD0F20 && byte_578324)
-    {
-        if (sPsxEMU_show_vram_BD1465)
-        {
-            VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
-            MIDI_UpdatePlayer_4FDC80();
-            return;
-        }
-
-        Bitmap* pBmp = nullptr;
-        RECT rect = {};
-        if (byte_BD1464)
-        {
-            rect.top = 0;
-            rect.left = 0;
-            rect.right = sLastDispEnv_C2D060.disp.w;
-            rect.bottom = sLastDispEnv_C2D060.disp.h;
-            pBmp = &stru_C1D1A0;
-        }
-        else
-        {
-            rect.left = sLastDispEnv_C2D060.disp.x;
-            rect.top = sLastDispEnv_C2D060.disp.y;
-            rect.right = sLastDispEnv_C2D060.disp.x + sLastDispEnv_C2D060.disp.w;
-            rect.bottom = sLastDispEnv_C2D060.disp.y + sLastDispEnv_C2D060.disp.h;
-            pBmp = &sPsxVram_C1D160;
-        }
-
-        PSX_DrawDebugTextBuffers(pBmp, rect);
-
-        if (a2 && VGA_IsWindowMode_4F31E0())
-        {
-            sub_4EDAB0(pBmp, rect.left, rect.top, rect.right - rect.left);
-            sub_4ED9E0();
-        }
-        else
-        {
-            VGA_CopyToFront_4F3EB0(pBmp, &rect, sScreenMode_BD146D);
-        }
-
-        // TODO: Removed dead increment here
-    }
-    MIDI_UpdatePlayer_4FDC80();
-}
-
-using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
-
-ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_put_disp_env_callback_C1D184, nullptr);
-ALIVE_VAR(1, 0xBD0F21, BYTE, sPsxDontChangeDispEnv_BD0F21, 0);
-
-EXPORT int CC PSX_ResetGraph_4F8800(int)
-{
-    return 0;
-}
-
-EXPORT int CC PSX_SetVideoMode_4FA8F0()
-{
-    return 0;
-}
-
-EXPORT int CC PSX_SetGraphDebug_4F8A10(int)
-{
-    return 0;
-}
-
 EXPORT void __cdecl sub_495660()
 {
     NOT_IMPLEMENTED();
@@ -470,91 +222,6 @@ EXPORT void __cdecl sub_495660()
 EXPORT int __cdecl sub_483080(__int16 , __int16 , unsigned __int16 , unsigned __int16 )
 {
     NOT_IMPLEMENTED();
-}
-
-EXPORT void CC PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV* pDrawEnv, __int16 x, __int16 y, __int16 w, __int16 h)
-{
-    PSX_DRAWENV drawEnv = {};
-    drawEnv.field_0_clip.x = x;
-    drawEnv.field_0_clip.y = y;
-
-    drawEnv.field_8_ofs[0] = x;
-    drawEnv.field_8_ofs[1] = y;
-
-    drawEnv.field_0_clip.w = w;
-    drawEnv.field_0_clip.h = h;
-
-    drawEnv.field_16_dtd = 1;
-    drawEnv.field_17_dfe = 1;
-
-    drawEnv.field_C_tw.x = 0;
-    drawEnv.field_C_tw.y = 0;
-
-    drawEnv.field_C_tw.w = 640;
-    drawEnv.field_C_tw.h = 0;
-
-    drawEnv.field_14_tpage = 0;
-
-    drawEnv.field_18_isbg = 0;
-    drawEnv.field_19_r0 = 0;
-    drawEnv.field_1A_g0 = 0;
-    drawEnv.field_1B_b0 = 0;
-    
-    if (pDrawEnv)
-    {
-        memcpy(pDrawEnv, &drawEnv, sizeof(PSX_DRAWENV));
-    }
-    else
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 442, -1, "SetDefDrawEnv(): env == NULL");
-    }
-}
-
-EXPORT void CC PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, __int16 x, __int16 y, __int16 w, __int16 h)
-{
-    if (!pOutEnv)
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 180, -1, "SetDefDispEnv(): env == NULL");
-        return;
-    }
-
-    PSX_DISPENV defEnv = {};
-    defEnv.disp.x = x;
-    defEnv.disp.y = y;
-    defEnv.disp.h = h;
-    defEnv.disp.w = w;
-    defEnv.screen.w = 256;
-    defEnv.screen.h = 240;
-    memcpy(pOutEnv, &defEnv, sizeof(PSX_DISPENV));
-}
-
-EXPORT void CC PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv)
-{
-    auto pFn = sPsxEmu_put_disp_env_callback_C1D184;
-    if (sPsxEmu_put_disp_env_callback_C1D184)
-    {
-        if (sPsxEmu_put_disp_env_callback_C1D184(0))
-        {
-            return;
-        }
-        pFn = sPsxEmu_put_disp_env_callback_C1D184;
-    }
-
-    if (!sPsxDontChangeDispEnv_BD0F21)
-    {
-        PSX_PutDispEnv_Impl_4F5640(pDispEnv, 0);
-        pFn = sPsxEmu_put_disp_env_callback_C1D184;
-    }
-
-    if (pFn)
-    {
-        pFn(1);
-    }
-}
-
-EXPORT int CC PSX_SetDispMask_4F89F0(int /*mode*/)
-{
-    return 0;
 }
 
 void PsxDisplay::ctor_41DC30()
@@ -608,29 +275,6 @@ void PsxDisplay::ctor_41DC30()
 void PsxDisplay::PutCurrentDispEnv_41DFA0()
 {
     PSX_PutDispEnv_4F5890(&field_10_drawEnv[field_C_buffer_index].field_5C_disp_env);
-}
-
-EXPORT void CC PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv)
-{
-    if (!sPsxEmu_put_disp_env_callback_C1D184 || !sPsxEmu_put_disp_env_callback_C1D184(0))
-    {
-        if (!sPsxDontChangeDispEnv_BD0F21)
-        {
-            if (sVGA_Bmp1_BD2A20.field_8_width != 320 || pDispEnv->disp.w != 640)
-            {
-                PSX_PutDispEnv_Impl_4F5640(pDispEnv, 1);
-            }
-            else
-            {
-                PSX_PutDispEnv_Impl_4F5640(pDispEnv, 0);
-            }
-        }
-
-        if (sPsxEmu_put_disp_env_callback_C1D184)
-        {
-            sPsxEmu_put_disp_env_callback_C1D184(1);
-        }
-    }
 }
 
 ALIVE_VAR(1, 0x5CA4D1, bool, sCommandLine_NoFrameSkip_5CA4D1, false);

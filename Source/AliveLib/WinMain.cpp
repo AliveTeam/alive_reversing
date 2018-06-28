@@ -28,6 +28,7 @@ static void RunTests()
 
     Test::BmpTests();
     Test::PsxDisplayTests();
+    Test::PsxTests();
 }
 
 static void ReplaceStdLib()
