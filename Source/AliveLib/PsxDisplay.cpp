@@ -10,6 +10,8 @@
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
+EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2);
+
 EXPORT void CC PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* /*pDrawEnv*/)
 {
     NOT_IMPLEMENTED();
@@ -296,7 +298,7 @@ static void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
     }
 }
 
-EXPORT void CC PSX_PutDispEnv_4F5640(const PSX_DISPENV *pDispEnv, char a2)
+EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
 {
     if (!pDispEnv)
     {
@@ -358,10 +360,10 @@ EXPORT void CC PSX_PutDispEnv_4F5640(const PSX_DISPENV *pDispEnv, char a2)
 
 using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
-ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_CallBack_1_dword_C1D184, nullptr);
-ALIVE_VAR(1, 0xBD0F21, BYTE, byte_BD0F21, 0);
+ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_put_disp_env_callback_C1D184, nullptr);
+ALIVE_VAR(1, 0xBD0F21, BYTE, sPsxDontChangeDispEnv_BD0F21, 0);
 
-int __cdecl PSX_ResetGraph_4F8800(int)
+EXPORT int CC PSX_ResetGraph_4F8800(int)
 {
     return 0;
 }
@@ -409,9 +411,28 @@ EXPORT void CC PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, __int16 x, __int16
     memcpy(pOutEnv, &defEnv, sizeof(PSX_DISPENV));
 }
 
-EXPORT PSX_DISPENV *__cdecl PSX_PutDispEnv_4F5890(PSX_DISPENV *pDispEnv)
+EXPORT void CC PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv)
 {
-    NOT_IMPLEMENTED();
+    auto pFn = sPsxEmu_put_disp_env_callback_C1D184;
+    if (sPsxEmu_put_disp_env_callback_C1D184)
+    {
+        if (sPsxEmu_put_disp_env_callback_C1D184(0))
+        {
+            return;
+        }
+        pFn = sPsxEmu_put_disp_env_callback_C1D184;
+    }
+
+    if (!sPsxDontChangeDispEnv_BD0F21)
+    {
+        PSX_PutDispEnv_Impl_4F5640(pDispEnv, 0);
+        pFn = sPsxEmu_put_disp_env_callback_C1D184;
+    }
+
+    if (pFn)
+    {
+        pFn(1);
+    }
 }
 
 EXPORT int CC PSX_SetDispMask_4F89F0(int /*mode*/)
@@ -472,25 +493,25 @@ void PsxDisplay::PutCurrentDispEnv_41DFA0()
     PSX_PutDispEnv_4F5890(&field_10_drawEnv[field_C_buffer_index].field_5C_disp_env);
 }
 
-EXPORT void CC PSX_4F58E0(const PSX_DISPENV* pDispEnv)
+EXPORT void CC PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv)
 {
-    if (!sPsxEmu_CallBack_1_dword_C1D184 || !sPsxEmu_CallBack_1_dword_C1D184(0))
+    if (!sPsxEmu_put_disp_env_callback_C1D184 || !sPsxEmu_put_disp_env_callback_C1D184(0))
     {
-        if (!byte_BD0F21)
+        if (!sPsxDontChangeDispEnv_BD0F21)
         {
             if (sVGA_Bmp1_BD2A20.field_8_width != 320 || pDispEnv->disp.w != 640)
             {
-                PSX_PutDispEnv_4F5640(pDispEnv, 1);
+                PSX_PutDispEnv_Impl_4F5640(pDispEnv, 1);
             }
             else
             {
-                PSX_PutDispEnv_4F5640(pDispEnv, 0);
+                PSX_PutDispEnv_Impl_4F5640(pDispEnv, 0);
             }
         }
 
-        if (sPsxEmu_CallBack_1_dword_C1D184)
+        if (sPsxEmu_put_disp_env_callback_C1D184)
         {
-            sPsxEmu_CallBack_1_dword_C1D184(1);
+            sPsxEmu_put_disp_env_callback_C1D184(1);
         }
     }
 }
@@ -524,7 +545,7 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
             }
             PSX_VSync_4F6170(2);
         }
-        PSX_4F58E0(&field_10_drawEnv[0].field_5C_disp_env);
+        PSX_PutDispEnv_4F58E0(&field_10_drawEnv[0].field_5C_disp_env);
         PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
         field_C_buffer_index = 0;
     }
@@ -542,7 +563,7 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
 
         // Set up next
         PSX_ClearOTag_4F6290(field_10_drawEnv[field_C_buffer_index].field_70_ot_buffer,  field_A_buffer_size);
-        PSX_4F58E0(&field_10_drawEnv[field_C_buffer_index].field_5C_disp_env);
+        PSX_PutDispEnv_4F58E0(&field_10_drawEnv[field_C_buffer_index].field_5C_disp_env);
         PSX_PutDrawEnv_4F5980(&field_10_drawEnv[field_C_buffer_index].field_0_draw_env);
 
         // Display current
