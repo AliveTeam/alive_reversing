@@ -10,12 +10,61 @@
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
+ALIVE_VAR(1, 0xC3D080, PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080, {});
+ALIVE_VAR(1, 0x578E88, int, sConst_1000_578E88, 1000);
+ALIVE_VAR(1, 0xBD1464, BYTE, byte_BD1464, 0);
+
+ALIVE_VAR(1, 0xBDCD40, int, sPsx_drawenv_clipx_BDCD40, 0);
+ALIVE_VAR(1, 0xBDCD44, int, sPsx_drawenv_clipy_BDCD44, 0);
+ALIVE_VAR(1, 0xBDCD48, int, sPsx_drawenv_clipw_BDCD48, 0);
+ALIVE_VAR(1, 0xBDCD4C, int, sPsx_drawenv_cliph_BDCD4C, 0);
+ALIVE_VAR(1, 0xBDCD50, int, sPsx_drawenv_k500_BDCD50, 0);
+ALIVE_VAR(1, 0xBDCD54, BYTE*, sPsx_drawenv_buffer_BDCD54, nullptr);
+
 EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2);
 
-EXPORT void CC PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* /*pDrawEnv*/)
+EXPORT void CC PSX_SetDrawEnv_Impl_4FE420(int x, int y, int w, int h, int unknown, BYTE* pBuffer)
 {
-    NOT_IMPLEMENTED();
+    sPsx_drawenv_clipx_BDCD40 = x;
+    sPsx_drawenv_clipy_BDCD44 = y;
+    sPsx_drawenv_clipw_BDCD48 = w;
+    sPsx_drawenv_cliph_BDCD4C = h;
+    sPsx_drawenv_k500_BDCD50 = unknown;
+    sPsx_drawenv_buffer_BDCD54 = pBuffer;
 }
+
+EXPORT void CC PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
+{
+    if (pDrawEnv)
+    {
+        memcpy(&sPSX_EMU_DrawEnvState_C3D080, pDrawEnv, sizeof(sPSX_EMU_DrawEnvState_C3D080));
+        if (byte_BD1464)
+        {
+            PSX_SetDrawEnv_Impl_4FE420(
+                0,
+                0,
+                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w - 16,
+                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h - 16,
+                sConst_1000_578E88 / 2,
+                nullptr);
+        }
+        else
+        {
+            PSX_SetDrawEnv_Impl_4FE420(
+                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x,
+                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y,
+                16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w) - 16,
+                16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h) - 16,
+                sConst_1000_578E88 / 2,
+                nullptr);
+        }
+    }
+    else
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 371, -1, "PutDrawEnv(): env == NULL");
+    }
+}
+
 
 EXPORT void CC sub_4945D0()
 {
@@ -134,7 +183,6 @@ ALIVE_VAR(1, 0xBD146D, BYTE, sScreenMode_BD146D, 0);
 ALIVE_VAR(1, 0xBD0F20, BYTE, byte_BD0F20, 0);
 ALIVE_VAR(1, 0x578324, BYTE, byte_578324, 0);
 ALIVE_VAR(1, 0xBD1465, BYTE, sPsxEMU_show_vram_BD1465, 0);
-ALIVE_VAR(1, 0xBD1464, BYTE, byte_BD1464, 0);
 
 struct TextRecords
 {
