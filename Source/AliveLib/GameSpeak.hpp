@@ -9,7 +9,7 @@ void GameSpeak_ForceLink();
 class GameSpeak : public BaseGameObject
 {
 public:
-    EXPORT virtual void VUpdate() override;
+    EXPORT void Update_421920();
     EXPORT void PushEvent_4218D0(char event);
 
     /*EXPORT*/ void ctor_421820();

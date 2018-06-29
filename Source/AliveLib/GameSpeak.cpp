@@ -14,7 +14,7 @@ void GameSpeak::ctor_421820()
     field_28_last_event_index = 0;
 }
 
-void GameSpeak::VUpdate()
+void GameSpeak::Update_421920()
 {
     if (field_20_last_event != -1 && sGnFrame_5C1B84 > field_24_last_event_frame)
     {
