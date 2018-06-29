@@ -8,6 +8,7 @@
 #include "VGA.hpp"
 #include "Psx.hpp"
 #include "Midi.hpp"
+#include "GameSpeak.hpp"
 #include "Quicksave.hpp"
 #include "Math.hpp"
 #include "DynamicArray.hpp"
@@ -57,6 +58,7 @@ static void InitOtherHooksAndRunTests()
     Midi_ForceLink();
     Quicksave_ForceLink();
     Game_ForceLink();
+    GameSpeak_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

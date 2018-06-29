@@ -25,6 +25,8 @@ add_library(AliveLib
     Math.hpp
     Midi.cpp
     Midi.hpp
+    GameSpeak.hpp
+    GameSpeak.cpp
     Quicksave.cpp
     Quicksave.hpp
     bmp.cpp
