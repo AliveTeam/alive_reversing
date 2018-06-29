@@ -126,3 +126,11 @@ private:
 };
 
 #define SCOPED_REDIRECT(real, stub) ScopedDetour real##_scoped(real, stub)
+
+inline void SetVTable(void* thisPtr, DWORD vTable)
+{
+    if (IsAlive())
+    {
+        *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
+    }
+}

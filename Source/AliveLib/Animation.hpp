@@ -155,6 +155,7 @@ public:
     void ctor_40D270(BackgroundAnimation_Params* pPathParams, int a3)
     {
         //BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+        SetVTable(this, 0x5440F0);
 
         field_4_typeId = 7;
         field_F8_arg_a3 = a3;

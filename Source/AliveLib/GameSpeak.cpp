@@ -9,8 +9,9 @@ ALIVE_VAR(1, 0x5BC11C, GameSpeak*, pEventSystem_5BC11C, nullptr);
 
 GameSpeak* GameSpeak::ctor_421820()
 {
-    NOT_IMPLEMENTED(); // TODO: FIX ME hooked ctor is not setting the vtable
     BaseGameObject::ctor_4DBFA0(1, 0);
+    SetVTable(this, 0x544B20);
+
     field_6_flags |= 1u;
     field_2C_event_buffer[0] = -1;
     field_20_last_event = -1;

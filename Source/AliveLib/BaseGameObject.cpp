@@ -36,6 +36,8 @@ ALIVE_VAR(1, 0x5C1B70, Class_5C1B70, dword_5C1B70, {});
 
 void BaseGameObject::ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize)
 {
+    SetVTable(this, 0x547AC4);
+
     field_10_resources_array.ctor_40C9E0(resourceArraySize);
     field_1C_update_delay = 0;
     field_4_typeId = 0;
