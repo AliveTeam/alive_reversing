@@ -15,6 +15,7 @@ public:
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer);
 
     EXPORT void ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize);
+    EXPORT void dtor_4DBEC0();
 
 public:
     __int16 field_4_typeId;

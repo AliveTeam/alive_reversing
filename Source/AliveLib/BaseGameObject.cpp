@@ -55,6 +55,11 @@ void BaseGameObject::ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resour
     dword_5C1B70.sub_449C10(nextId, this);
 }
 
+EXPORT void BaseGameObject::dtor_4DBEC0()
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void Class_5C1B70::sub_449C10(int objCount, void* pGameObj)
 {
     NOT_IMPLEMENTED();

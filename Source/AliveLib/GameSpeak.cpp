@@ -1,39 +1,76 @@
 #include "stdafx.h"
 #include "GameSpeak.hpp"
+#include "stdlib.hpp"
 #include "Function.hpp"
 
 void GameSpeak_ForceLink() { }
 
-void GameSpeak::ctor_421820()
+ALIVE_VAR(1, 0x5BC11C, GameSpeak*, pEventSystem_5BC11C, nullptr);
+
+GameSpeak* GameSpeak::ctor_421820()
 {
+    NOT_IMPLEMENTED(); // TODO: FIX ME hooked ctor is not setting the vtable
     BaseGameObject::ctor_4DBFA0(1, 0);
     field_6_flags |= 1u;
     field_2C_event_buffer[0] = -1;
     field_20_last_event = -1;
     field_4_typeId = 38;
     field_28_last_event_index = 0;
+    return this;
+}
+
+
+void GameSpeak::dtor_4218A0()
+{
+    pEventSystem_5BC11C = nullptr;
+    dtor_4DBEC0();
+}
+
+
+void GameSpeak::dtor_421870(signed int flags)
+{
+    dtor_4218A0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+}
+
+
+void GameSpeak::VDestructor(signed int flags)
+{
+    dtor_421870(flags);
+}
+
+void GameSpeak::VUpdate()
+{
+    Update_421920();
 }
 
 void GameSpeak::Update_421920()
 {
     if (field_20_last_event != -1 && sGnFrame_5C1B84 > field_24_last_event_frame)
     {
-        const int nextIndex = field_28_last_event_index + 1;
-        field_28_last_event_index = nextIndex;
-        if (nextIndex >= sizeof(field_2C_event_buffer))
-            field_28_last_event_index = 0;
-        field_2C_event_buffer[field_28_last_event_index] = -1;
-        field_20_last_event = -1;
+        PushEvent_Impl(-1);
     }
 }
 
 void GameSpeak::PushEvent_4218D0(char event)
 {
-    const int nextIndex = field_28_last_event_index + 1;
-    field_28_last_event_index = nextIndex;
-    if (nextIndex >= sizeof(field_2C_event_buffer))
+    PushEvent_Impl(event);
+    field_24_last_event_frame = sGnFrame_5C1B84 + 60;
+}
+
+void GameSpeak::PushEvent_Impl(char event)
+{
+    field_28_last_event_index++;
+
+    // Wrap around
+    if (field_28_last_event_index >= sizeof(field_2C_event_buffer))
+    {
         field_28_last_event_index = 0;
+    }
+
     field_2C_event_buffer[field_28_last_event_index] = event;
     field_20_last_event = event;
-    field_24_last_event_frame = sGnFrame_5C1B84 + 60;
 }

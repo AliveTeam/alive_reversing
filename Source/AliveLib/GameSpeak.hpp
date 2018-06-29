@@ -9,15 +9,23 @@ void GameSpeak_ForceLink();
 class GameSpeak : public BaseGameObject
 {
 public:
+    virtual void VDestructor(signed int flags);
+    virtual void VUpdate() override;
+    virtual EXPORT void PushEvent_4218D0(char event);
+
+    EXPORT GameSpeak* ctor_421820();
+    EXPORT void dtor_4218A0();
+    EXPORT void dtor_421870(signed int flags);
+
+private:
     EXPORT void Update_421920();
-    EXPORT void PushEvent_4218D0(char event);
+    void PushEvent_Impl(char event);
 
-    /*EXPORT*/ void ctor_421820();
-
-public:
+private:
     __int16 field_20_last_event;
     __int16 field_22;
-    int field_24_last_event_frame;
+    unsigned int field_24_last_event_frame;
     int field_28_last_event_index;
     char field_2C_event_buffer[32];
 };
+ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
