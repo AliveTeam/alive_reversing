@@ -135,25 +135,6 @@ const PathData BA_PathData[] =
     { 0, 0, 750, 260, 375, 260, 375, 260, 156, 936, 375, 260, kObjectFactory }, 
 };
 
-const PathData SV2_PathData[] =
-{
-    kNullPathEntry, 
-    { 0, 0, 3000, 520, 375, 260, 375, 260, 768, 3076, 375, 0, kObjectFactory }, 
-    { 0, 0, 1500, 1560, 375, 260, 375, 260, 1872, 5068, 375, 0, kObjectFactory }, 
-    { 0, 0, 1875, 780, 375, 260, 375, 260, 960, 3544, 375, 260, kObjectFactory }, 
-    { 0, 0, 2250, 520, 375, 260, 375, 260, 776, 3052, 750, 0, kObjectFactory }, 
-    { 0, 0, 1500, 1300, 375, 260, 375, 260, 1720, 5440, 375, 260, kObjectFactory }, 
-    { 0, 0, 4500, 1820, 375, 260, 375, 260, 2532, 8392, 0, 260, kObjectFactory }, 
-    { 0, 0, 2250, 1300, 375, 260, 375, 260, 1200, 4808, 0, 0, kObjectFactory }, 
-    { 0, 0, 1500, 1300, 375, 260, 375, 260, 1420, 4316, 375, 260, kObjectFactory }, 
-    { 0, 0, 2250, 1300, 375, 260, 375, 260, 1300, 3172, 375, 260, kObjectFactory }, 
-    { 0, 0, 1875, 780, 375, 260, 375, 260, 800, 3584, 375, 260, kObjectFactory }, 
-    { 0, 0, 750, 260, 375, 260, 375, 260, 156, 1024, 375, 260, kObjectFactory }, 
-    { 0, 0, 750, 520, 375, 260, 375, 260, 332, 1324, 750, 0, kObjectFactory }, 
-    { 0, 0, 1875, 520, 375, 260, 375, 260, 520, 1700, 2250, 520, kObjectFactory }, 
-    { 0, 0, 2250, 780, 375, 260, 375, 260, 1204, 3024, 375, 520, kObjectFactory }, 
-};
-
 const PathData BW_PathData[] =
 {
     kNullPathEntry, 
@@ -211,85 +192,6 @@ const PathData BM_PathData[] =
 {
     kNullPathEntry, 
     { 0, 0, 2625, 2600, 375, 260, 375, 260, 2560, 8488, 375, 0, kObjectFactory }, 
-};
-
-const PathData PV2_PathData[] =
-{
-    kNullPathEntry, 
-    { 0, 0, 5250, 1560, 375, 260, 375, 260, 3192, 6548, 0, 520, kObjectFactory }, 
-    { 0, 0, 1500, 260, 375, 260, 375, 260, 212, 772, 3375, 1820, kObjectFactory }, 
-    { 0, 0, 3000, 1560, 375, 260, 375, 260, 1384, 3492, 0, 0, kObjectFactory }, 
-    { 0, 0, 1875, 1040, 375, 260, 375, 260, 1540, 3488, 0, 0, kObjectFactory }, 
-    { 0, 0, 2625, 780, 375, 260, 375, 260, 1568, 3376, 0, 520, kObjectFactory }, 
-    { 0, 0, 1875, 520, 375, 260, 375, 260, 560, 2200, 1125, 520, kObjectFactory }, 
-    { 0, 0, 2250, 1560, 375, 260, 375, 260, 1108, 3568, 750, 260, kObjectFactory }, 
-    { 0, 0, 1500, 780, 375, 260, 375, 260, 736, 2032, 0, 0, kObjectFactory }, 
-    { 0, 0, 2250, 1040, 375, 260, 375, 260, 932, 3256, 0, 260, kObjectFactory }, 
-    { 0, 0, 3375, 1300, 375, 260, 375, 260, 1580, 3408, 375, 1040, kObjectFactory }, 
-    { 0, 0, 2250, 520, 375, 260, 375, 260, 576, 2696, 0, 260, kObjectFactory }, 
-    { 0, 0, 1125, 1560, 375, 260, 375, 260, 1104, 3444, 750, 0, kObjectFactory }, 
-    { 0, 0, 4500, 2600, 375, 260, 375, 260, 3060, 6696, 0, 0, kObjectFactory }, 
-    { 0, 0, 1125, 1040, 375, 260, 375, 260, 656, 3084, 0, 0, kObjectFactory }, 
-    { 0, 0, 1500, 1040, 375, 260, 375, 260, 648, 2128, 1125, 520, kObjectFactory }, 
-};
-
-const PathData FD2_PathData[] =
-{
-    kNullPathEntry, 
-    { 0, 0, 3000, 1560, 375, 260, 375, 260, 1124, 3992, 3375, 520, kObjectFactory }, 
-    { 0, 0, 3000, 2080, 375, 260, 375, 260, 2372, 7184, 2625, 1560, kObjectFactory }, 
-    { 0, 0, 3375, 2600, 375, 260, 375, 260, 2920, 7080, 1875, 520, kObjectFactory }, 
-    { 0, 0, 3750, 1820, 375, 260, 375, 260, 3200, 8196, 2625, 1300, kObjectFactory }, 
-    { 0, 0, 3000, 1820, 375, 260, 375, 260, 2308, 5968, 2250, 1300, kObjectFactory }, 
-    { 0, 0, 1500, 520, 375, 260, 375, 260, 284, 1348, 4500, 1560, kObjectFactory }, 
-    { 0, 0, 1875, 1040, 375, 260, 375, 260, 1580, 3680, 2625, 1820, kObjectFactory }, 
-    { 0, 0, 1875, 1040, 375, 260, 375, 260, 960, 2940, 3000, 1560, kObjectFactory }, 
-    { 0, 0, 2250, 1300, 375, 260, 375, 260, 1240, 3260, 3000, 2080, kObjectFactory }, 
-    { 0, 0, 1875, 1040, 375, 260, 375, 260, 740, 2096, 3000, 2080, kObjectFactory }, 
-    { 0, 0, 2625, 1560, 375, 260, 375, 260, 2436, 7148, 375, 260, kObjectFactory }, 
-    { 0, 0, 1875, 780, 375, 260, 375, 260, 1540, 3684, 2625, 2080, kObjectFactory }, 
-    { 0, 0, 1500, 260, 375, 260, 375, 260, 1732, 4316, 750, 520, kObjectFactory }, 
-    { 0, 0, 1500, 780, 375, 260, 375, 260, 396, 1256, 375, 1300, kObjectFactory }, 
-};
-
-const PathData BA2_PathData[] =
-{
-    kNullPathEntry, 
-    { 0, 0, 2250, 2080, 375, 260, 375, 260, 2444, 7612, 375, 0, kObjectFactory }, 
-    { 0, 0, 1125, 1040, 375, 260, 375, 260, 336, 1536, 0, 0, kObjectFactory }, 
-    { 0, 0, 1500, 1300, 375, 260, 375, 260, 1820, 4464, 750, 520, kObjectFactory }, 
-    { 0, 0, 1125, 780, 375, 260, 375, 260, 1772, 5320, 375, 520, kObjectFactory }, 
-    { 0, 0, 4875, 2600, 375, 260, 375, 260, 5240, 12220, 375, 0, kObjectFactory }, 
-    { 0, 0, 4875, 2600, 375, 260, 375, 260, 5240, 12220, 375, 0, kObjectFactory }, 
-    { 0, 0, 2250, 1040, 375, 260, 375, 260, 2312, 8224, 0, 260, kObjectFactory }, 
-    { 0, 0, 2250, 2080, 375, 260, 375, 260, 2444, 7612, 375, 0, kObjectFactory }, 
-    { 0, 0, 2250, 780, 375, 260, 375, 260, 964, 3008, 375, 260, kObjectFactory }, 
-    { 0, 0, 2625, 780, 375, 260, 375, 260, 3848, 8624, 375, 260, kObjectFactory }, 
-    { 0, 0, 2250, 1820, 375, 260, 375, 260, 1136, 5136, 0, 0, kObjectFactory }, 
-    { 0, 0, 2250, 1820, 375, 260, 375, 260, 1136, 5136, 0, 0, kObjectFactory }, 
-    { 0, 0, 750, 780, 375, 260, 375, 260, 288, 1644, 375, 260, kObjectFactory }, 
-    { 0, 0, 2250, 1820, 375, 260, 375, 260, 4016, 7480, 0, 0, kObjectFactory }, 
-    { 0, 0, 750, 780, 375, 260, 375, 260, 368, 2964, 375, 260, kObjectFactory }, 
-    { 0, 0, 750, 260, 375, 260, 375, 260, 156, 936, 375, 260, kObjectFactory }, 
-};
-
-const PathData BW2_PathData[] =
-{
-    kNullPathEntry, 
-    { 0, 0, 3750, 1820, 375, 260, 375, 260, 1820, 4412, 0, 0, kObjectFactory }, 
-    { 0, 0, 3750, 2080, 375, 260, 375, 260, 3160, 9076, 0, 0, kObjectFactory }, 
-    { 0, 0, 3750, 1300, 375, 260, 375, 260, 2820, 7724, 0, 260, kObjectFactory }, 
-    { 0, 0, 3375, 2080, 375, 260, 375, 260, 2696, 9732, 375, 0, kObjectFactory }, 
-    { 0, 0, 3375, 2080, 375, 260, 375, 260, 2696, 9732, 375, 0, kObjectFactory }, 
-    { 0, 0, 3375, 2080, 375, 260, 375, 260, 2696, 9732, 375, 0, kObjectFactory }, 
-    { 0, 0, 3375, 1560, 375, 260, 375, 260, 1512, 6184, 375, 0, kObjectFactory }, 
-    { 0, 0, 3375, 1560, 375, 260, 375, 260, 1512, 6184, 375, 0, kObjectFactory }, 
-    { 0, 0, 2625, 1040, 375, 260, 375, 260, 1364, 4980, 375, 780, kObjectFactory }, 
-    { 0, 0, 3375, 1560, 375, 260, 375, 260, 1512, 6184, 375, 0, kObjectFactory }, 
-    { 0, 0, 1875, 520, 375, 260, 375, 260, 300, 1396, 1875, 1300, kObjectFactory }, 
-    { 0, 0, 1500, 520, 375, 260, 375, 260, 244, 1104, 1125, 520, kObjectFactory }, 
-    { 0, 0, 1500, 520, 375, 260, 375, 260, 604, 2348, 375, 1040, kObjectFactory }, 
-    { 0, 0, 3000, 780, 375, 260, 375, 260, 832, 2180, 750, 520, kObjectFactory }, 
 };
 
 const PathData TL_PathData[] =
@@ -424,25 +326,6 @@ const CollisionInfo BA_CollisionInfo[] =
     { Collisions::sub_4188A0, 0, 0, 750, 260, 16, 7, 375, 260}
 };
 
-const CollisionInfo SV2_CollisionInfo[] =
-{
-    kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 520, 128, 32, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1560, 192, 84, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 780, 120, 42, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 520, 96, 34, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1300, 160, 78, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 1820, 672, 93, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1300, 240, 48, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1300, 160, 63, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1300, 240, 53, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 780, 120, 34, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 260, 16, 7, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 520, 32, 15, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 520, 80, 22, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 780, 144, 53, 375, 260}, 
-};
-
 const CollisionInfo BW_CollisionInfo[] =
 {
     kNullCollisionInfo, 
@@ -500,85 +383,6 @@ const CollisionInfo BM_CollisionInfo[] =
 {
     kNullCollisionInfo, 
     { Collisions::sub_4188A0, 0, 0, 2625, 2600, 560, 100, 375, 260}
-};
-
-const CollisionInfo PV2_CollisionInfo[] =
-{
-    kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 5250, 1560, 672, 126, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 260, 32, 9, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1560, 384, 50, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1040, 160, 69, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 780, 168, 70, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 520, 80, 24, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1560, 288, 41, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 780, 96, 32, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1040, 192, 37, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1300, 360, 61, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 520, 96, 24, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1560, 144, 48, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 2600, 960, 105, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1040, 96, 28, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1040, 128, 26, 375, 260}
-};
-
-const CollisionInfo FD2_CollisionInfo[] =
-{
-    kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1560, 384, 37, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 2080, 512, 93, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 2600, 720, 110, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1820, 560, 132, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1820, 448, 93, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 11, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1040, 160, 71, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1040, 160, 40, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1300, 240, 50, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1040, 160, 29, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 1560, 336, 105, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 780, 120, 71, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 260, 32, 85, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 780, 96, 15, 375, 260}
-};
-
-const CollisionInfo BA2_CollisionInfo[] =
-{
-    kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 2080, 384, 103, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1040, 96, 12, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1300, 160, 83, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 780, 72, 85, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4875, 2600, 1040, 210, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4875, 2600, 1040, 210, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1040, 192, 106, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 2080, 384, 103, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 780, 144, 41, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 780, 168, 184, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1820, 336, 40, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1820, 336, 40, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 780, 48, 12, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1820, 336, 184, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 780, 48, 16, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 260, 16, 7, 375, 260}
-};
-
-const CollisionInfo BW2_CollisionInfo[] =
-{
-    kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1820, 560, 63, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 2080, 640, 126, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1300, 400, 121, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 1040, 224, 57, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 520, 80, 11, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 9, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 27, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 780, 192, 32, 375, 260}
 };
 
 const CollisionInfo TL_CollisionInfo[] =
@@ -769,6 +573,7 @@ static void Dump(std::ostream& s, const PathRoot& pr)
 
 const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId)
 {
+    /*
     std::stringstream s;
     for (int i = 0; i < 17; i++)
     {
@@ -781,6 +586,7 @@ const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned
     std::ofstream out("output.txt");
     out << str;
     out.close();
+    */
 
     return &sPathData_559660[lvlId].field_0_pBlyArrayPtr[pathId];
 }
