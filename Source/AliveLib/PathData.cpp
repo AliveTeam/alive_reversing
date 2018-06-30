@@ -594,7 +594,7 @@ const PathBlyRec CR_PathBlyRecInfo[] =
 
 const FmvInfo kNullFmvInfo = { nullptr, 0, 1, 0, 0 };
 
-const FmvInfo ST_FmvInfo[] =
+FmvInfo ST_FmvInfo[] =
 {
     kNullFmvInfo,
     { "LOGO.STR", 205, 2, 1, 127, },
@@ -605,7 +605,7 @@ const FmvInfo ST_FmvInfo[] =
     { "DDLOGO.STR", 95, 2, 1, 127 },
 };
 
-const FmvInfo MI_FmvInfo[] =
+FmvInfo MI_FmvInfo[] =
 {
     kNullFmvInfo,
     { "PROPHECY.STR", 440, 3, 1, 127, },
@@ -646,7 +646,7 @@ const FmvInfo MI_FmvInfo[] =
     { "NEBLK201.STR", 45, 3, 2, 127 },
 };
 
-const FmvInfo NE_FmvInfo[] =
+FmvInfo NE_FmvInfo[] =
 {
     kNullFmvInfo,
     { "NEP1C7.STR", 60, 3, 2, 127, },
@@ -676,7 +676,7 @@ const FmvInfo NE_FmvInfo[] =
     { "S1102N58.STR", 45, 3, 2, 127, },
 };
 
-const FmvInfo PV_FmvInfo[] =
+FmvInfo PV_FmvInfo[] =
 {
     kNullFmvInfo,
     { "PVP1C5.STR", 45, 3, 2, 127, },
@@ -717,7 +717,7 @@ const FmvInfo PV_FmvInfo[] =
     { "PV430402.STR", 45, 3, 2, 127 },
 };
 
-const FmvInfo FD_FmvInfo[] =
+FmvInfo FD_FmvInfo[] =
 {
     kNullFmvInfo,
     { "ASLIKEXP.STR", 321, 3, 1, 127, },
@@ -726,7 +726,7 @@ const FmvInfo FD_FmvInfo[] =
     { "FEECO.STR", 1406, 3, 32769, 127 },
 };
 
-const FmvInfo BA_FmvInfo[] =
+FmvInfo BA_FmvInfo[] =
 {
     kNullFmvInfo,
     { "SBP01C01.STR", 60, 3, 2, 127, },
@@ -738,7 +738,7 @@ const FmvInfo BA_FmvInfo[] =
     { "BA1114R.STR", 60, 3, 2, 127, },
 };
 
-const FmvInfo SV_FmvInfo[] =
+FmvInfo SV_FmvInfo[] =
 {
     kNullFmvInfo,
     { "SVP1C5.STR", 60, 3, 2, 127, },
@@ -781,7 +781,7 @@ const FmvInfo SV_FmvInfo[] =
 };
 
 
-const FmvInfo BR_FmvInfo[] =
+FmvInfo BR_FmvInfo[] =
 {
     kNullFmvInfo,
     { "BRP01C01.STR", 60, 3, 2, 127, },
@@ -804,7 +804,7 @@ const FmvInfo BR_FmvInfo[] =
     { "BDENDING.STR", 965, 3, 32769, 127 },
 };
 
-const FmvInfo BM_FmvInfo[] =
+FmvInfo BM_FmvInfo[] =
 {
     kNullFmvInfo,
     { "BRP01C01.STR", 60, 3, 2, 127, },
@@ -827,7 +827,7 @@ const FmvInfo BM_FmvInfo[] =
     { "BDENDING.STR", 965, 3, 32769, 127 },
 };
 
-const FmvInfo BW_FmvInfo[] =
+FmvInfo BW_FmvInfo[] =
 {
     kNullFmvInfo,
     { "BWP1C2.STR", 60, 3, 2, 127, },
@@ -838,12 +838,12 @@ const FmvInfo BW_FmvInfo[] =
     { "TRAIN3.STR", 499, 3, 2, 127 },
 };
 
-const FmvInfo TL_FmvInfo[] =
+FmvInfo TL_FmvInfo[] =
 {
     kNullFmvInfo
 };
 
-const FmvInfo CR_FmvInfo[] =
+FmvInfo CR_FmvInfo[] =
 {
     kNullFmvInfo,
     { "LOGO.STR", 205, 2, 1, 127, }
@@ -961,13 +961,6 @@ PathRootContainer pathData =
     }
 };
 
-ALIVE_VAR(1, 0x559660, PathRootContainer, sPathData_559660, pathData);
-
-const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId)
-{
-    return &sPathData_559660.paths[lvlId].field_0_pBlyArrayPtr[pathId];
-}
-
 struct PerLvlData
 {
     const char* field_0_display_name;
@@ -1060,3 +1053,20 @@ const static PerLvlData gPerLvlData_561700[17] =
     { "Credits", 16, 1, 1, 65535u, 0, 0 }, 
     { "Menu", 0, 1, 1, 65535u, 0, 0 }
 };
+
+ALIVE_VAR(1, 0x559660, PathRootContainer, sPathData_559660, pathData);
+
+const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId)
+{
+    return &sPathData_559660.paths[lvlId].field_0_pBlyArrayPtr[pathId];
+}
+
+FmvInfo* CC Path_Get_FMV_Record_460F70(unsigned __int16 lvlId, unsigned __int16 fmvId)
+{
+    return &sPathData_559660.paths[lvlId].field_4_pFmvArray[fmvId];
+}
+
+void CC Path_Format_CameraName_460FB0(char* pStrBuffer, __int16 levelId, __int16 pathId, __int16 cameraId)
+{
+    sprintf(pStrBuffer, "%sP%02dC%02d.CAM", sPathData_559660.paths[levelId].field_18_lvl_name, pathId, cameraId);
+}

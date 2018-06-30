@@ -64,7 +64,7 @@ struct SoundBlockInfo
 struct PathRoot
 {
     const PathBlyRec* field_0_pBlyArrayPtr;
-    const FmvInfo* field_4_pFmvArray;
+    FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
     const char* field_C_bsq_file_name;
     __int16 field_10_reverb;
@@ -89,14 +89,6 @@ struct PathRootContainer
 
 EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId);
 
-/*
-char *__cdecl Path_Get_FMV_Record_460F70(unsigned __int16 lvlId, unsigned __int16 fmvId)
-{
-    return (char *)sPathData_559660[lvlId].field_4_pFmvArray + 12 * fmvId;
-}
+EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(unsigned __int16 lvlId, unsigned __int16 fmvId);
 
-void __cdecl Path_Format_CameraName_460FB0(char *pStrBuffer, __int16 levelId, __int16 pathId, __int16 cameraId)
-{
-    sprintf(pStrBuffer, "%sP%02dC%02d.CAM", sPathData_559660[levelId].field_18_lvl_name, pathId, cameraId);
-}
-*/
+EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, __int16 levelId, __int16 pathId, __int16 cameraId);
