@@ -47,8 +47,8 @@ struct PathData
 struct PathBlyRec
 {
     const char *field_0_blyName;
-    PathData *field_4_pPathData;
-    CollisionInfo *field_8_pCollisionData;
+    const PathData *field_4_pPathData;
+    const CollisionInfo *field_8_pCollisionData;
     WORD field_C;
     WORD field_E;
 };
@@ -66,20 +66,20 @@ struct PathRoot
     PathBlyRec* field_0_pBlyArrayPtr;
     FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
-    const char *field_C_bsq_file_name;
+    const char* field_C_bsq_file_name;
     __int16 field_10_reverb;
     __int16 field_14_bg_music_id;
-    const char *field_18_lvl_name;
+    const char* field_18_lvl_name;
     __int16 field_1A_num_paths;
     __int16 field_1C_unused;
     int field_1E;
-    const char *field_22_lvl_name_cd;
+    const char* field_22_lvl_name_cd;
     int field_26;
-    const char *field_2A_ovl_name_cd;
+    const char* field_2A_ovl_name_cd;
     int field_2E;
-    const char *field_32_mov_name_cd;
-    const char *field_36_idx_name;
-    const char *field_3A_bnd_name;
+    const char* field_32_mov_name_cd;
+    const char* field_36_idx_name;
+    const char* field_3A_bnd_name;
 };
 
 EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId);

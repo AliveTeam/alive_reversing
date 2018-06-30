@@ -399,6 +399,197 @@ const CollisionInfo CR_CollisionInfo[] =
     { Collisions::sub_4188A0, 0, 0, 3750, 1300, 400, 0, 375, 260}
 };
 
+// ========================================================================
+
+const PathBlyRec kNullPathBlyRec = {};
+
+const PathBlyRec ST_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "STP1.BLY", ST_PathData, ST_CollisionInfo, 256, 0 }
+};
+
+const PathBlyRec MI_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "MIP1.BLY",  MI_PathData, MI_CollisionInfo, 1796, 2312 },
+    { "MIP2.BLY",  MI_PathData, MI_CollisionInfo, 2565, 3083 },
+    { "MIP3.BLY",  MI_PathData, MI_CollisionInfo, 3334, 3854 },
+    { "MIP4.BLY",  MI_PathData, MI_CollisionInfo, 1796, 2312 },
+    { "MIP5.BLY",  MI_PathData, MI_CollisionInfo, 4882, 5396 },
+    { "MIP6.BLY",  MI_PathData, MI_CollisionInfo, 5910, 6424 },
+    { "MIP7.BLY",  MI_PathData, MI_CollisionInfo, 5910, 6424 },
+    { "MIP8.BLY",  MI_PathData, MI_CollisionInfo, 1796, 2312 },
+    { "MIP9.BLY",  MI_PathData, MI_CollisionInfo, 2565, 3083 },
+    { "MIP10.BLY", MI_PathData, MI_CollisionInfo, 6938, 7452 },
+    { "MIP11.BLY", MI_PathData, MI_CollisionInfo, 1796, 2312 },
+    { "MIP12.BLY", MI_PathData, MI_CollisionInfo, 4882, 5396 }
+};
+
+const PathBlyRec NE_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "NEP1.BLY", NE_PathData, NE_CollisionInfo, 7966, 8480 },
+    { "NEP2.BLY", NE_PathData, NE_CollisionInfo, 9508, 10022 },
+    { "NEP3.BLY", NE_PathData, NE_CollisionInfo, 7966, 8480 },
+    { "NEP4.BLY", NE_PathData, NE_CollisionInfo, 7966, 8480 },
+    { "NEP5.BLY", NE_PathData, NE_CollisionInfo, 9508, 10022 },
+    { "NEP6.BLY", NE_PathData, NE_CollisionInfo, 7966, 8480 },
+    { "NEP7.BLY", NE_PathData, NE_CollisionInfo, 7966, 8480 }
+};
+
+const PathBlyRec PV_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "PVP1.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP2.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP3.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP4.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP5.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP6.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP7.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP8.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP9.BLY",  PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP10.BLY", PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP11.BLY", PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP12.BLY", PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP13.BLY", PV_PathData, PV_CollisionInfo, 10536, 11050 },
+    { "PVP14.BLY", PV_PathData, PV_CollisionInfo, 12078, 12592 },
+    { "PVP15.BLY", PV_PathData, PV_CollisionInfo, 13106, 13620 }
+};
+
+const PathBlyRec SV_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "SVP1.BLY",  SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP2.BLY",  SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP3.BLY",  SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP4.BLY",  SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP5.BLY",  SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP6.BLY",  SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP7.BLY",  SV_PathData, SV_CollisionInfo, 15676, 16190 },
+    { "SVP8.BLY",  SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP9.BLY",  SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP10.BLY", SV_PathData, SV_CollisionInfo, 16704, 17218 },
+    { "SVP11.BLY", SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP12.BLY", SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP13.BLY", SV_PathData, SV_CollisionInfo, 14134, 14648 },
+    { "SVP14.BLY", SV_PathData, SV_CollisionInfo, 14134, 14648 }
+};
+
+const PathBlyRec BW_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "BWP1.BLY",  BW_PathData, BW_CollisionInfo, 30068, 30582 },
+    { "BWP2.BLY",  BW_PathData, BW_CollisionInfo, 31610, 32124 },
+    { "BWP3.BLY",  BW_PathData, BW_CollisionInfo, 33666, 34180 },
+    { "BWP4.BLY",  BW_PathData, BW_CollisionInfo, 32638, 33152 },
+    { nullptr,     BW_PathData, BW_CollisionInfo, 30068, 30582 },
+    { nullptr,     BW_PathData, BW_CollisionInfo, 30068, 30582 },
+    { "BWP7.BLY",  BW_PathData, BW_CollisionInfo, 34694, 35208 },
+    { nullptr,     BW_PathData, BW_CollisionInfo, 30068, 30582 },
+    { "BWP9.BLY",  BW_PathData, BW_CollisionInfo, 35722, 36236 },
+    { nullptr,     BW_PathData, BW_CollisionInfo, 30068, 30582 },
+    { "BWP11.BLY", BW_PathData, BW_CollisionInfo, 32638, 33152 },
+    { "BWP12.BLY", BW_PathData, BW_CollisionInfo, 32638, 33152 },
+    { "BWP13.BLY", BW_PathData, BW_CollisionInfo, 35722, 36236 },
+    { "BWP14.BLY", BW_PathData, BW_CollisionInfo, 30068, 30582 }
+};
+
+const PathBlyRec BR_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "BRP1.BLY",  BR_PathData, BR_CollisionInfo, 36750, 37264 },
+    { "BRP2.BLY",  BR_PathData, BR_CollisionInfo, 38292, 38806 },
+    { "BRP3.BLY",  BR_PathData, BR_CollisionInfo, 39320, 39834 },
+    { "BRP4.BLY",  BR_PathData, BR_CollisionInfo, 40348, 40862 },
+    { "BRP5.BLY",  BR_PathData, BR_CollisionInfo, 41376, 41890 },
+    { "BRP6.BLY",  BR_PathData, BR_CollisionInfo, 39320, 39834 },
+    { "BRP7.BLY",  BR_PathData, BR_CollisionInfo, 36750, 37264 },
+    { "BRP8.BLY",  BR_PathData, BR_CollisionInfo, 38292, 38806 },
+    { "BRP9.BLY",  BR_PathData, BR_CollisionInfo, 42404, 42918 },
+    { "BRP10.BLY", BR_PathData, BR_CollisionInfo, 43432, 43946 },
+    { "BRP11.BLY", BR_PathData, BR_CollisionInfo, 44460, 44974 },
+    { "BRP12.BLY", BR_PathData, BR_CollisionInfo, 41376, 41890 },
+    { "BRP13.BLY", BR_PathData, BR_CollisionInfo, 41376, 41890 },
+    { "BRP14.BLY", BR_PathData, BR_CollisionInfo, 45488, 46002 },
+    { "BRP15.BLY", BR_PathData, BR_CollisionInfo, 46516, 47030 },
+    { "BRP16.BLY", BR_PathData, BR_CollisionInfo, 51656, 52170 },
+    { "BRP17.BLY", BR_PathData, BR_CollisionInfo, 50628, 51142 },
+    { "BRP18.BLY", BR_PathData, BR_CollisionInfo, 47544, 48058 },
+    { "BRP19.BLY", BR_PathData, BR_CollisionInfo, 48572, 49086 },
+    { "BRP20.BLY", BR_PathData, BR_CollisionInfo, 49600, 50114 },
+    { "BRP21.BLY", BR_PathData, BR_CollisionInfo, 49600, 50114 },
+    { nullptr,     BR_PathData, BR_CollisionInfo, 36750, 37264 },
+    { "BRP23.BLY", BR_PathData, BR_CollisionInfo, 49600, 50114 },
+    { "BRP24.BLY", BR_PathData, BR_CollisionInfo, 49600, 50114 },
+    { "BRP25.BLY", BR_PathData, BR_CollisionInfo, 49600, 50114 },
+    { "BRP26.BLY", BR_PathData, BR_CollisionInfo, 43432, 43946 },
+    { "BRP27.BLY", BR_PathData, BR_CollisionInfo, 44460, 44974 },
+    { "BRP28.BLY", BR_PathData, BR_CollisionInfo, 47544, 48058 },
+    { "BRP29.BLY", BR_PathData, BR_CollisionInfo, 49600, 50114 }
+};
+
+const PathBlyRec BM_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "BMP1.BLY", BM_PathData, BM_CollisionInfo, 52684, 53198 }
+};
+
+const PathBlyRec FD_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "FDP1.BLY",  FD_PathData, FD_CollisionInfo, 17732, 18246 },
+    { "FDP2.BLY",  FD_PathData, FD_CollisionInfo, 17732, 18246 },
+    { "FDP3.BLY",  FD_PathData, FD_CollisionInfo, 20302, 20816 },
+    { "FDP4.BLY",  FD_PathData, FD_CollisionInfo, 21330, 21844 },
+    { "FDP5.BLY",  FD_PathData, FD_CollisionInfo, 19274, 19788 },
+    { "FDP6.BLY",  FD_PathData, FD_CollisionInfo, 17732, 18246 },
+    { "FDP7.BLY",  FD_PathData, FD_CollisionInfo, 20302, 20816 },
+    { "FDP8.BLY",  FD_PathData, FD_CollisionInfo, 21330, 21844 },
+    { "FDP9.BLY",  FD_PathData, FD_CollisionInfo, 21330, 21844 },
+    { "FDP10.BLY", FD_PathData, FD_CollisionInfo, 22358, 22872 },
+    { "FDP11.BLY", FD_PathData, FD_CollisionInfo, 23386, 23900 },
+    { "FDP12.BLY", FD_PathData, FD_CollisionInfo, 20302, 20816 },
+    { "FDP13.BLY", FD_PathData, FD_CollisionInfo, 23386, 23900 },
+    { "FDP14.BLY", FD_PathData, FD_CollisionInfo, 17732, 18246 }
+};
+
+const PathBlyRec BA_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "BAP1.BLY",  BA_PathData, BA_CollisionInfo, 24414, 24928 },
+    { "BAP2.BLY",  BA_PathData, BA_CollisionInfo, 24414, 24928 },
+    { "BAP3.BLY",  BA_PathData, BA_CollisionInfo, 28012, 28526 },
+    { "BAP4.BLY",  BA_PathData, BA_CollisionInfo, 24414, 24928 },
+    { "BAP5.BLY",  BA_PathData, BA_CollisionInfo, 28012, 28526 },
+    { nullptr,     BA_PathData, BA_CollisionInfo, 24414, 24928 },
+    { "BAP7.BLY",  BA_PathData, BA_CollisionInfo, 24414, 24928 },
+    { nullptr,     BA_PathData, BA_CollisionInfo, 24414, 24928 },
+    { "BAP9.BLY",  BA_PathData, BA_CollisionInfo, 25956, 26470 },
+    { "BAP10.BLY", BA_PathData, BA_CollisionInfo, 28012, 28526 },
+    { "BAP11.BLY", BA_PathData, BA_CollisionInfo, 29040, 29554 },
+    { nullptr,     BA_PathData, BA_CollisionInfo, 24414, 24928 },
+    { "BAP13.BLY", BA_PathData, BA_CollisionInfo, 25956, 26470 },
+    { "BAP14.BLY", BA_PathData, BA_CollisionInfo, 26984, 27498 },
+    { "BAP15.BLY", BA_PathData, BA_CollisionInfo, 25956, 26470 },
+    { "BAP16.BLY", BA_PathData, BA_CollisionInfo, 25956, 26470 }
+};
+
+const PathBlyRec TL_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "TLP1.BLY", TL_PathData, TL_CollisionInfo, 209, 0 },
+    { "TLP2.BLY", TL_PathData, TL_CollisionInfo, 209, 0, },
+};
+
+const PathBlyRec CR_PathBlyRecInfo[] =
+{
+    kNullPathBlyRec,
+    { "CRP1.BLY", CR_PathData, CR_CollisionInfo, 256, 0 },
+    { "CRP2.BLY", CR_PathData, CR_CollisionInfo, 256, 0, },
+};
+
 
 
 ALIVE_ARY(1, 0x559660, PathRoot, 17, sPathData_559660, {});
@@ -452,38 +643,30 @@ static void OutputArrayLine(int indent, std::ostream& s, const char* item, bool 
     s << (item ? item : "");
     if (isEnd)
     {
-        s << "\n";
+        s << "";
     }
     else
     {
-        s << "\", \n";
+        s << "\", ";
     }
 }
-
-
-struct FactoryFuncs
-{
-    void* funcPtrs[256];
-};
-
-std::vector<FactoryFuncs> uniqueFactories;
 
 static void Dump(int indent, std::ostream& s, const PathBlyRec* paths, int count, const char* lvlName)
 {
     //OutputArrayStart(indent, s);
     //indent++;
-    s << "const CollisionInfo " << lvlName << "_CollisionInfo =\n";
+    s << "const PathBlyRec " << lvlName << "_PathBlyRecInfo[] =\n";
     s << "{\n";
     for (int i = 0; i < count; i++)
     {
-        //OutputArrayStart(indent, s);
-       //indent++;
-        //OutputArrayLine(indent, s, paths[i].field_0_blyName);
-        //  OutputArrayLine(indent, s, paths[i].field_C);
-         // const bool bEnd = i + 1 != count;
-         // OutputArrayLine(indent, s, paths[i].field_E, bEnd);
-         // indent--;
-         // OutputArrayEnd(indent, s, bEnd);
+        s << "{ ";
+        OutputArrayLine(0, s, paths[i].field_0_blyName);
+        s << lvlName << "_PathData, ";
+        s << lvlName << "_CollisionInfo, ";
+        OutputArrayLine(0, s, paths[i].field_C);
+        const bool bEnd = i + 1 != count;
+        OutputArrayLine(0, s, paths[i].field_E, bEnd);
+        s << "},\n";
     }
     s << "};\n\n";
 
@@ -573,7 +756,7 @@ static void Dump(std::ostream& s, const PathRoot& pr)
 
 const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId)
 {
-    /*
+    
     std::stringstream s;
     for (int i = 0; i < 17; i++)
     {
@@ -586,7 +769,8 @@ const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned
     std::ofstream out("output.txt");
     out << str;
     out.close();
-    */
+    
+    abort();
 
     return &sPathData_559660[lvlId].field_0_pBlyArrayPtr[pathId];
 }
