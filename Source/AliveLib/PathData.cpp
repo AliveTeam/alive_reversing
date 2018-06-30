@@ -936,191 +936,37 @@ SoundBlockInfo CR_SoundBlockInfo[] =
     { "OPTION.VH", "OPTION.VB", -1, 0 },
 };
 
+// =========================================================
 
-
-ALIVE_ARY(1, 0x559660, PathRoot, 17, sPathData_559660, {});
-
-
-static void OutputIndent(int indent, std::ostream& s)
+PathRootContainer pathData =
 {
-    std::string sIdent(indent * 4, ' ');
-    s << sIdent;
-}
-
-static void OutputArrayStart(int indent, std::ostream& s)
-{
-    OutputIndent(indent, s);
-    s << "{\n";
-}
-
-static void OutputArrayEnd(int indent, std::ostream& s, bool isEnd = false)
-{
-    OutputIndent(indent, s);
-    if (isEnd)
     {
-        s << "}\n";
+        { ST_PathBlyRecInfo, ST_FmvInfo, ST_SoundBlockInfo,       "STSEQ.BSQ", 16, 0, "ST", 1,  0, 2,   "\\ST.LVL;1", 0,   "\\ST.OVL;1", 3,   "\\ST.MOV;1", "ST.IDX", "STPATH.BND" },
+        { MI_PathBlyRecInfo, MI_FmvInfo, MI_SoundBlockInfo,       "MISEQ.BSQ", 32, 1, "MI", 12, 1, 16,  "\\MI.LVL;1", 4,   "\\MI.OVL;1", 17,  "\\MI.MOV;1", "MI.IDX", "MIPATH.BND" },
+        { NE_PathBlyRecInfo, NE_FmvInfo, NE_SoundBlockInfo,       "NESEQ.BSQ", 24, 8, "NE", 7,  1, 34,  "\\NE.LVL;1", 30,  "\\NE.OVL;1", 35,  "\\NE.MOV;1", "NE.IDX", "NEPATH.BND" },
+        { PV_PathBlyRecInfo, PV_FmvInfo, PV_SoundBlockInfo,       "PVSEQ.BSQ", 32, 2, "PV", 15, 1, 44,  "\\PV.LVL;1", 40,  "\\PV.OVL;1", 45,  "\\PV.MOV;1", "PV.IDX", "PVPATH.BND" },
+        { SV_PathBlyRecInfo, SV_FmvInfo, SV_SoundBlockInfo,       "SVSEQ.BSQ", 32, 3, "SV", 14, 1, 58,  "\\SV.LVL;1", 54,  "\\SV.OVL;1", 59,  "\\SV.MOV;1", "SV.IDX", "SVPATH.BND" },
+        { FD_PathBlyRecInfo, FD_FmvInfo, FD_SoundBlockInfo,       "FDSEQ.BSQ", 32, 4, "FD", 14, 2, 72,  "\\FD.LVL;1", 68,  "\\FD.OVL;1", 73,  "\\FD.MOV;1", "FD.IDX", "FDPATH.BND" },
+        { BA_PathBlyRecInfo, BA_FmvInfo, BA_SoundBlockInfo,       "BASEQ.BSQ", 24, 7, "BA", 16, 2, 98,  "\\BA.LVL;1", 94,  "\\BA.OVL;1", 99,  "\\BA.MOV;1", "BA.IDX", "BAPATH.BND" },
+        { SV_PathBlyRecInfo, SV_FmvInfo, SV_Ender_SoundBlockInfo, "SESEQ.BSQ", 32, 3, "SV", 14, 1, 58,  "\\SV.LVL;1", 54,  "\\SV.OVL;1", 59,  "\\SV.MOV;1", "SV.IDX", "SVPATH.BND" },
+        { BW_PathBlyRecInfo, BW_FmvInfo, BW_SoundBlockInfo,       "BWSEQ.BSQ", 32, 6, "BW", 14, 2, 120, "\\BW.LVL;1", 116, "\\BW.OVL;1", 121, "\\BW.MOV;1", "BW.IDX", "BWPATH.BND" },
+        { BR_PathBlyRecInfo, BR_FmvInfo, BR_SoundBlockInfo,       "BRSEQ.BSQ", 32, 5, "BR", 29, 2, 146, "\\BR.LVL;1", 142, "\\BR.OVL;1", 147, "\\BR.MOV;1", "BR.IDX", "BRPATH.BND" },
+        { BM_PathBlyRecInfo, BM_FmvInfo, BM_SoundBlockInfo,       "BMSEQ.BSQ", 16, 5, "BM", 1,  2, 208, "\\BM.LVL;1", 204, "\\BM.OVL;1", 147, "\\BR.MOV;1", "BR.IDX", "BMPATH.BND" },
+        { PV_PathBlyRecInfo, PV_FmvInfo, PV_Ender_SoundBlockInfo, "PESEQ.BSQ", 32, 2, "PV", 15, 1, 44,  "\\PV.LVL;1", 40,  "\\PV.OVL;1", 45,  "\\PV.MOV;1", "PV.IDX", "PVPATH.BND" },
+        { FD_PathBlyRecInfo, FD_FmvInfo, FD_Ender_SoundBlockInfo, "FESEQ.BSQ", 32, 4, "FD", 14, 2, 72,  "\\FD.LVL;1", 68,  "\\FD.OVL;1", 73,  "\\FD.MOV;1", "FD.IDX", "FDPATH.BND" },
+        { BA_PathBlyRecInfo, BA_FmvInfo, BA_Ender_SoundBlockInfo, "B2SEQ.BSQ", 24, 7, "BA", 16, 2, 98,  "\\BA.LVL;1", 94,  "\\BA.OVL;1", 99,  "\\BA.MOV;1", "BA.IDX", "BAPATH.BND" },
+        { BW_PathBlyRecInfo, BW_FmvInfo, BW_Ender_SoundBlockInfo, "B3SEQ.BSQ", 32, 6, "BW", 14, 2, 120, "\\BW.LVL;1", 116, "\\BW.OVL;1", 121, "\\BW.MOV;1", "BW.IDX", "BWPATH.BND" },
+        { TL_PathBlyRecInfo, TL_FmvInfo, TL_SoundBlockInfo,       "TLSEQ.BSQ", 16, 1, "TL", 2,  1, 213, "\\TL.LVL;1", 209, "\\TL.OVL;1", 214, "\\TL.MOV;1", "TL.IDX", "TLPATH.BND" },
+        { CR_PathBlyRecInfo, CR_FmvInfo, CR_SoundBlockInfo,       "STSEQ.BSQ", 16, 0, "CR", 2,  0, 215, "\\CR.LVL;1", 0,   "\\ST.OVL;1", 216, "\\CR.MOV;1", "CR.IDX", "CRPATH.BND" }
     }
-    else
-    {
-        s << "}, \n";
-    }
-}
+};
 
-
-template<class T>
-static void OutputArrayLine(int indent, std::ostream& s, const T& item, bool isEnd = false)
-{
-    OutputIndent(indent, s);
-    s << item;
-    if (isEnd)
-    {
-        //s << "\n";
-    }
-    else
-    {
-        s << ", ";
-    }
-}
-
-static void OutputArrayLine(int indent, std::ostream& s, const char* item, bool isEnd = false)
-{
-    OutputIndent(indent, s);
-    s << "\"";
-    s << (item ? item : "");
-    if (isEnd)
-    {
-        s << "";
-    }
-    else
-    {
-        s << "\", ";
-    }
-}
-
-/*
-static void Dump(int indent, std::ostream& s, const PathBlyRec* paths, int count, const char* lvlName)
-{
-    //OutputArrayStart(indent, s);
-    //indent++;
-    s << "const PathBlyRec " << lvlName << "_PathBlyRecInfo[] =\n";
-    s << "{\n";
-    for (int i = 0; i < count; i++)
-    {
-        s << "{ ";
-        OutputArrayLine(0, s, paths[i].field_0_blyName);
-        s << lvlName << "_PathData, ";
-        s << lvlName << "_CollisionInfo, ";
-        OutputArrayLine(0, s, paths[i].field_C);
-        const bool bEnd = i + 1 != count;
-        OutputArrayLine(0, s, paths[i].field_E, bEnd);
-        s << "},\n";
-    }
-    s << "};\n\n";
-
-    //indent--;
-   // OutputArrayEnd(indent, s, true);
-}
-*/
-
-static void Dump(int indent, std::ostream& s, const SoundBlockInfo* sound, const char* lvlName)
-{
-    s << "SoundBlockInfo " << lvlName << "_SoundBlockInfo[] =\n";
-    s << "{\n";
-    while (sound->field_0_vab_header_name && sound->field_4_vab_body_name)
-    {
-        s << "{ ";
-        indent = 0;
-        OutputArrayLine(indent, s, sound->field_0_vab_header_name);
-        OutputArrayLine(indent, s, sound->field_4_vab_body_name);
-        OutputArrayLine(indent, s, sound->field_8_vab_id);
-        const bool bEnd = (!(sound + 1)->field_0_vab_header_name) && (!(sound + 1)->field_4_vab_body_name);
-        OutputArrayLine(indent, s, sound->field_C_pVabHeader, bEnd);
-        indent--;
-        s << "},\n";
-        sound++;
-    }
-    s << "};\n\n";
-}
-
-static void Dump(int indent, std::ostream& s, const FmvInfo* fmv, const char* lvlName)
-{
-    s << "const FmvInfo " << lvlName << "_FmvInfo[] =\n";
-    s << "{\n";
-    bool first = true;
-    while (fmv->field_0_pName || first)
-    {
-        first = false;
-      
-        s << "{ ";
-        OutputArrayLine(0, s, fmv->field_0_pName);
-        OutputArrayLine(0, s, fmv->field_4_id);
-        OutputArrayLine(indent, s, fmv->field_6_flags);
-        OutputArrayLine(indent, s, fmv->field_8);
-        OutputArrayLine(indent, s, fmv->field_A_volume, (fmv + 1)->field_0_pName == nullptr);
-        s << "},\n";
-        fmv++;
-    }
-    s << "};\n\n";
-}
-
-static void Dump(std::ostream& s, const PathRoot& pr)
-{
-    int indent = 0;
-
-    // s << "{\n";
-     //auto calculated = (((BYTE*)pr.field_4_pFmvArray - (BYTE*)pr.field_0_pBlyArrayPtr) / sizeof(PathBlyRec));
-     //assert(pr.field_1A_num_paths+1 == calculated);
-//    Dump(indent, s, pr.field_0_pBlyArrayPtr, pr.field_1A_num_paths + 1, pr.field_18_lvl_name);
-
-
-    Dump(indent, s, pr.field_8_pMusicInfo, pr.field_18_lvl_name);
-
-/*
-    s << ", ";
-    s << ", \n";
-
-    s << ", \n";
-
-    OutputArrayLine(indent, s, pr.field_C_bsq_file_name);
-    OutputArrayLine(indent, s, pr.field_10_reverb);
-    OutputArrayLine(indent, s, pr.field_14_bg_music_id);
-    OutputArrayLine(indent, s, pr.field_18_lvl_name);
-    OutputArrayLine(indent, s, pr.field_1A_num_paths);
-    OutputArrayLine(indent, s, pr.field_1C_unused);
-    OutputArrayLine(indent, s, pr.field_1E);
-    OutputArrayLine(indent, s, pr.field_22_lvl_name_cd);
-    OutputArrayLine(indent, s, pr.field_26);
-    OutputArrayLine(indent, s, pr.field_2A_ovl_name_cd);
-    OutputArrayLine(indent, s, pr.field_2E);
-    OutputArrayLine(indent, s, pr.field_32_mov_name_cd);
-    OutputArrayLine(indent, s, pr.field_36_idx_name);
-    OutputArrayLine(indent, s, pr.field_3A_bnd_name, true);
-    OutputArrayEnd(indent, s);*/
-}
-
-
+ALIVE_VAR(1, 0x559660, PathRootContainer, sPathData_559660, pathData);
 
 const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId)
 {
-    
-    std::stringstream s;
-    for (int i = 0; i < 17; i++)
-    {
-        Dump(s, sPathData_559660[i]);
-    }
-
-    std::string str = s.str();
-    // ::OutputDebugString(str.c_str());
-
-    std::ofstream out("output.txt");
-    out << str;
-    out.close();
-    
-    abort();
-
-    return &sPathData_559660[lvlId].field_0_pBlyArrayPtr[pathId];
+    return &sPathData_559660.paths[lvlId].field_0_pBlyArrayPtr[pathId];
 }
-
 
 struct PerLvlData
 {

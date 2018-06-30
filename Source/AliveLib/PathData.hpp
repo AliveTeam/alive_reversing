@@ -82,6 +82,11 @@ struct PathRoot
     const char* field_3A_bnd_name;
 };
 
+struct PathRootContainer
+{
+    PathRoot paths[17];
+};
+
 EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId);
 
 /*
