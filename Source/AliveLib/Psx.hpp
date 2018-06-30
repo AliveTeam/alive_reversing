@@ -61,6 +61,9 @@ EXPORT void CC PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv);
 EXPORT void CC PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv);
 EXPORT void CC PSX_DrawOTag_4F6540(int** pOT);
 EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010();
+EXPORT int CC PSX_ResetCallBack_4FAA20();
+EXPORT int CC PSX_CdInit_4FB2C0();
+EXPORT int CC PSX_CdSetDebug_4FB330(int mode);
 
 ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
 ALIVE_VAR_EXTERN(BYTE, byte_BD0F20);

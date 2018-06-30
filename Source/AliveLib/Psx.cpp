@@ -105,6 +105,21 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     NOT_IMPLEMENTED();
 }
 
+EXPORT int CC PSX_ResetCallBack_4FAA20()
+{
+    return 0;
+}
+
+EXPORT int CC PSX_CdInit_4FB2C0()
+{
+    return 1;
+}
+
+EXPORT int CC PSX_CdSetDebug_4FB330(int /*mode*/)
+{
+    return 1;
+}
+
 EXPORT int CC PSX_EMU_VideoAlloc_4F9D70()
 {
     if (!sbBitmapsAllocated_BD145C)
@@ -400,13 +415,13 @@ EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
 EXPORT bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
 {
     return 
-        pRect->x >= 0 && pRect->x < 1024 
+        pRect->x >= 0 && pRect->x < sPsxVram_C1D160.field_8_width
         && pRect->y >= 0
-        && pRect->y < 512
+        && pRect->y < sPsxVram_C1D160.field_C_height
         && pRect->w + pRect->x - 1 >= 0
-        && pRect->w + pRect->x - 1 < 1024
+        && pRect->w + pRect->x - 1 < sPsxVram_C1D160.field_8_width
         && pRect->h + pRect->y - 1 >= 0
-        && pRect->h + pRect->y - 1 < 512;
+        && pRect->h + pRect->y - 1 < sPsxVram_C1D160.field_C_height;
 }
 
 EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, BYTE* pData)
@@ -427,8 +442,9 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, BYTE* pData)
     }
 
     // TODO: Clean up more, treat as 1024x512 16bit array
-    unsigned int srcWidthInBytes = pRect->w * 2;
-    BYTE* pDst = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (pRect->x + (pRect->y * 1024));
+    const unsigned int bytesPerPixel = sPsxVram_C1D160.field_14_bpp / 8;
+    unsigned int srcWidthInBytes = pRect->w * bytesPerPixel;
+    BYTE* pDst = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + bytesPerPixel * (pRect->x + (pRect->y * sPsxVram_C1D160.field_8_width));
     BYTE* pDataEnd = &pData[srcWidthInBytes * pRect->h];
     BYTE* pDataIter = pData;
 
@@ -436,7 +452,7 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, BYTE* pData)
     {
         memcpy(pDst, pDataIter, srcWidthInBytes);
         pDataIter += srcWidthInBytes;
-        pDst += (1024 * 2); // vram width
+        pDst += (sPsxVram_C1D160.field_8_width * bytesPerPixel);
     }
 
     BMP_unlock_4F2100(&sPsxVram_C1D160);
@@ -453,7 +469,7 @@ EXPORT void CC PSX_Pal_Conversion_4F98D0(WORD* pDataToConvert, WORD* pConverted,
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, BYTE* pData)
 {
     const unsigned int pixelCount = pRect->w * pRect->h;
-    WORD* pConversionBuffer = reinterpret_cast<WORD*>(malloc_4F4E60(pixelCount * 2));
+    WORD* pConversionBuffer = reinterpret_cast<WORD*>(malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
     if (!pConversionBuffer)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 579, 0, "LoadImage16: can't do color conversion.");

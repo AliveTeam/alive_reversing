@@ -7,6 +7,12 @@ class ResourceManager : public BaseGameObject
 {
 public:
     // TODO
+    virtual void VDestructor(signed int);
+    EXPORT void dtor_4649B0(signed int flags);
+    EXPORT void dtor_4649E0();
+
+    ResourceManager();
+    EXPORT void Ctor_464910();
 
     EXPORT void Shutdown_465610();
     EXPORT void sub_465590(int a1);
