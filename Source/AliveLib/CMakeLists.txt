@@ -47,6 +47,8 @@ add_library(AliveLib
     ScreenManager.hpp
     Animation.cpp
     Animation.hpp
+    PathData.cpp
+    PathData.hpp
     WinMain.cpp
     WinMain.hpp)
 
