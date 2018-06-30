@@ -63,8 +63,8 @@ struct SoundBlockInfo
 
 struct PathRoot
 {
-    PathBlyRec* field_0_pBlyArrayPtr;
-    FmvInfo* field_4_pFmvArray;
+    const PathBlyRec* field_0_pBlyArrayPtr;
+    const FmvInfo* field_4_pFmvArray;
     SoundBlockInfo* field_8_pMusicInfo;
     const char* field_C_bsq_file_name;
     __int16 field_10_reverb;

@@ -849,6 +849,93 @@ const FmvInfo CR_FmvInfo[] =
     { "LOGO.STR", 205, 2, 1, 127, }
 };
 
+// ===================================================================
+
+SoundBlockInfo ST_SoundBlockInfo[] =
+{
+    { "OPTION.VH", "OPTION.VB", -1, 0 },
+};
+
+SoundBlockInfo MI_SoundBlockInfo[] =
+{
+    { "MINES.VH", "MINES.VB", -1, 0 },
+};
+
+SoundBlockInfo NE_SoundBlockInfo[] =
+{
+    { "NECRUM.VH", "NECRUM.VB", -1, 0 },
+};
+
+SoundBlockInfo PV_SoundBlockInfo[] =
+{
+    { "PARVAULT.VH", "PARVAULT.VB", -1, 0 },
+};
+
+SoundBlockInfo SV_SoundBlockInfo[] =
+{
+    { "SCRVAULT.VH", "SCRVAULT.VB", -1, 0 },
+};
+
+SoundBlockInfo FD_SoundBlockInfo[] =
+{
+    { "FEECO.VH", "FEECO.VB", -1, 0 },
+};
+
+SoundBlockInfo BA_SoundBlockInfo[] =
+{
+    { "BARRACKS.VH", "BARRACKS.VB", -1, 0 },
+};
+
+SoundBlockInfo SV_Ender_SoundBlockInfo[] =
+{
+    { "SVENDER.VH", "SVENDER.VB", -1, 0 },
+};
+
+SoundBlockInfo BW_SoundBlockInfo[] =
+{
+    { "BONEWERK.VH", "BONEWERK.VB", -1, 0 },
+};
+
+SoundBlockInfo BR_SoundBlockInfo[] =
+{
+    { "BREWERY.VH", "BREWERY.VB", -1, 0 },
+};
+
+SoundBlockInfo BM_SoundBlockInfo[] =
+{
+    { "BRENDER.VH", "BRENDER.VB", -1, 0 },
+};
+
+SoundBlockInfo PV_Ender_SoundBlockInfo[] =
+{
+    { "PVENDER.VH", "PVENDER.VB", -1, 0 },
+};
+
+SoundBlockInfo FD_Ender_SoundBlockInfo[] =
+{
+    { "FEENDER.VH", "FEENDER.VB", -1, 0 },
+};
+
+SoundBlockInfo BA_Ender_SoundBlockInfo[] =
+{
+    { "BAENDER.VH", "BAENDER.VB", -1, 0 },
+};
+
+SoundBlockInfo BW_Ender_SoundBlockInfo[] =
+{
+    { "BWENDER.VH", "BWENDER.VB", -1, 0 },
+};
+
+SoundBlockInfo TL_SoundBlockInfo[] =
+{
+    { "MINES.VH", "MINES.VB", -1, 0 },
+};
+
+SoundBlockInfo CR_SoundBlockInfo[] =
+{
+    { "OPTION.VH", "OPTION.VB", -1, 0 },
+};
+
 
 
 ALIVE_ARY(1, 0x559660, PathRoot, 17, sPathData_559660, {});
@@ -935,25 +1022,24 @@ static void Dump(int indent, std::ostream& s, const PathBlyRec* paths, int count
 }
 */
 
-static void Dump(int indent, std::ostream& s, const SoundBlockInfo* sound)
+static void Dump(int indent, std::ostream& s, const SoundBlockInfo* sound, const char* lvlName)
 {
-    OutputArrayStart(indent, s);
-    indent++;
+    s << "SoundBlockInfo " << lvlName << "_SoundBlockInfo[] =\n";
+    s << "{\n";
     while (sound->field_0_vab_header_name && sound->field_4_vab_body_name)
     {
-        OutputArrayStart(indent, s);
-        indent++;
+        s << "{ ";
+        indent = 0;
         OutputArrayLine(indent, s, sound->field_0_vab_header_name);
         OutputArrayLine(indent, s, sound->field_4_vab_body_name);
         OutputArrayLine(indent, s, sound->field_8_vab_id);
         const bool bEnd = (!(sound + 1)->field_0_vab_header_name) && (!(sound + 1)->field_4_vab_body_name);
         OutputArrayLine(indent, s, sound->field_C_pVabHeader, bEnd);
         indent--;
-        OutputArrayEnd(indent, s, bEnd);
+        s << "},\n";
         sound++;
     }
-    indent--;
-    OutputArrayEnd(indent, s, true);
+    s << "};\n\n";
 }
 
 static void Dump(int indent, std::ostream& s, const FmvInfo* fmv, const char* lvlName)
@@ -986,14 +1072,13 @@ static void Dump(std::ostream& s, const PathRoot& pr)
      //assert(pr.field_1A_num_paths+1 == calculated);
 //    Dump(indent, s, pr.field_0_pBlyArrayPtr, pr.field_1A_num_paths + 1, pr.field_18_lvl_name);
 
-    Dump(indent, s, pr.field_4_pFmvArray, pr.field_18_lvl_name);
 
+    Dump(indent, s, pr.field_8_pMusicInfo, pr.field_18_lvl_name);
 
 /*
     s << ", ";
     s << ", \n";
 
-    Dump(indent, s, pr.field_8_pMusicInfo);
     s << ", \n";
 
     OutputArrayLine(indent, s, pr.field_C_bsq_file_name);
