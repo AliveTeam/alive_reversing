@@ -590,6 +590,265 @@ const PathBlyRec CR_PathBlyRecInfo[] =
     { "CRP2.BLY", CR_PathData, CR_CollisionInfo, 256, 0, },
 };
 
+// =======================================================================
+
+const FmvInfo kNullFmvInfo = { nullptr, 0, 1, 0, 0 };
+
+const FmvInfo ST_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "LOGO.STR", 205, 2, 1, 127, },
+    { "OPTION.STR", 45, 2, 2, 127, },
+    { "GTILOGO.STR", 95, 2, 1, 80, },
+    { "BACKSTRY.STR", 1600, 3, 32769, 127, },
+    { "INTRO.STR", 530, 2, 1, 127, },
+    { "DDLOGO.STR", 95, 2, 1, 127 },
+};
+
+const FmvInfo MI_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "PROPHECY.STR", 440, 3, 1, 127, },
+    { "V1A4S01.STR", 449, 3, 2, 127, },
+    { "MP1C2C1.STR", 90, 3, 2, 127, },
+    { "MP1C1C2.STR", 90, 3, 2, 127, },
+    { "MIP01C03.STR", 60, 3, 2, 127, },
+    { "MIP01C3R.STR", 60, 3, 2, 127, },
+    { "MI122711.STR", 45, 3, 2, 127, },
+    { "MI218227.STR", 45, 3, 2, 127, },
+    { "MI227218.STR", 45, 3, 2, 127, },
+    { "MI313401.STR", 45, 3, 2, 127, },
+    { "MI410313.STR", 45, 3, 2, 127, },
+    { "MI420432.STR", 45, 3, 2, 127, },
+    { "MI404430.STR", 45, 3, 2, 127, },
+    { "MI227221.STR", 45, 3, 2, 127, },
+    { "MI422437.STR", 45, 3, 2, 127, },
+    { "MI222221.STR", 45, 3, 2, 127, },
+    { "MI426427.STR", 45, 3, 2, 127, },
+    { "MI221227.STR", 45, 3, 2, 127, },
+    { "MI430044.STR", 45, 3, 2, 127, },
+    { "MI221222.STR", 45, 3, 2, 127, },
+    { "MI437422.STR", 45, 3, 2, 127, },
+    { "MI122111.STR", 45, 3, 2, 127, },
+    { "GAMEBGN.STR", 300, 3, 2, 127, },
+    { "VISION.STR", 2739, 3, 32769, 127, },
+    { "ESCAPE.STR", 143, 2, 1, 127, },
+    { "BREW.STR", 1595, 3, 32769, 127, },
+    { "MI111122.STR", 45, 3, 2, 127, },
+    { "M1018310.STR", 45, 3, 2, 127, },
+    { "M1018517.STR", 45, 3, 2, 127, },
+    { "M5171018.STR", 45, 3, 2, 127, },
+    { "BREWCAMT.STR", 164, 2, 2, 127, },
+    { "MI422423.STR", 45, 3, 2, 127, },
+    { "MI711122.STR", 45, 3, 2, 127, },
+    { "MI419431.STR", 45, 3, 2, 127, },
+    { "MI431419.STR", 45, 3, 2, 127, },
+    { "NEBLK201.STR", 45, 3, 2, 127 },
+};
+
+const FmvInfo NE_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "NEP1C7.STR", 60, 3, 2, 127, },
+    { "NEP1C11.STR", 60, 3, 2, 127, },
+    { "NEP1C12.STR", 60, 3, 2, 127, },
+    { "NEP1C13.STR", 60, 3, 2, 127, },
+    { "NE330309.STR", 45, 3, 2, 127, },
+    { "NE140601.STR", 45, 3, 2, 127, },
+    { "NE310033.STR", 45, 3, 2, 127, },
+    { "NEP01C08.STR", 60, 3, 2, 127, },
+    { "NEP01C09.STR", 60, 3, 2, 127, },
+    { "NEP01C10.STR", 60, 3, 2, 127, },
+    { "NEP01C8R.STR", 60, 3, 2, 127, },
+    { "NEP01C9R.STR", 60, 3, 2, 127, },
+    { "NEP1C10R.STR", 60, 3, 2, 127, },
+    { "NE140604.STR", 45, 3, 2, 127, },
+    { "NE410404.STR", 45, 3, 2, 127, },
+    { "NE440401.STR", 45, 3, 2, 127, },
+    { "NE610104.STR", 45, 3, 2, 127, },
+    { "NE610602.STR", 45, 3, 2, 127, },
+    { "NE620603.STR", 45, 3, 2, 127, },
+    { "NE630604.STR", 45, 3, 2, 127, },
+    { "NE640401.STR", 45, 3, 2, 127, },
+    { "REWARD.STR", 2140, 3, 32769, 127, },
+    { "NE640601.STR", 45, 3, 2, 127, },
+    { "PV131452.STR", 45, 3, 2, 127, },
+    { "S1102N58.STR", 45, 3, 2, 127, },
+};
+
+const FmvInfo PV_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "PVP1C5.STR", 45, 3, 2, 127, },
+    { "PVP7P10.STR", 60, 3, 2, 127, },
+    { "PVP7P10R.STR", 60, 3, 2, 127, },
+    { "P1314139.STR", 45, 3, 2, 127, },
+    { "P1391314.STR", 45, 3, 2, 127, },
+    { "PV12181R.STR", 45, 3, 2, 127, },
+    { "PV111081.STR", 45, 3, 2, 127, },
+    { "PV112076.STR", 45, 3, 2, 127, },
+    { "PV114081.STR", 45, 3, 2, 127, },
+    { "PV121081.STR", 45, 3, 2, 127, },
+    { "PV131082.STR", 45, 3, 2, 127, },
+    { "PV310801.STR", 45, 3, 2, 127, },
+    { "PV370801.STR", 45, 3, 2, 127, },
+    { "PV410801.STR", 45, 3, 2, 127, },
+    { "PV470801.STR", 45, 3, 2, 127, },
+    { "PV510801.STR", 45, 3, 2, 127, },
+    { "PV550801.STR", 45, 3, 2, 127, },
+    { "PV760112.STR", 45, 3, 2, 127, },
+    { "PV810301.STR", 45, 3, 2, 127, },
+    { "PV810401.STR", 45, 3, 2, 127, },
+    { "PV810501.STR", 45, 3, 2, 127, },
+    { "PV810901.STR", 45, 3, 2, 127, },
+    { "PV811101.STR", 45, 3, 2, 127, },
+    { "PV811201.STR", 45, 3, 2, 127, },
+    { "NEP02C01.STR", 60, 3, 2, 127, },
+    { "PV821301.STR", 45, 3, 2, 127, },
+    { "PV910801.STR", 45, 3, 2, 127, },
+    { "PVP01C05.STR", 60, 3, 2, 127, },
+    { "PVP01C5R.STR", 60, 3, 2, 127, },
+    { "REWARD.STR", 2140, 3, 32769, 127, },
+    { "PV910801.STR", 45, 3, 2, 127, },
+    { "PV107071.STR", 45, 3, 2, 127, },
+    { "PV712101.STR", 45, 3, 2, 127, },
+    { "PV101712.STR", 45, 3, 2, 127, },
+    { "PV131452.STR", 45, 3, 2, 127, },
+    { "PV430402.STR", 45, 3, 2, 127 },
+};
+
+const FmvInfo FD_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "ASLIKEXP.STR", 321, 3, 1, 127, },
+    { "ASLIKINF.STR", 596, 3, 1, 127, },
+    { "INFBOOTH.STR", 567, 3, 1, 127, },
+    { "FEECO.STR", 1406, 3, 32769, 127 },
+};
+
+const FmvInfo BA_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "SBP01C01.STR", 60, 3, 2, 127, },
+    { "SBP01C1R.STR", 60, 3, 2, 127, },
+    { "DRIPEXP.STR", 256, 3, 1, 127, },
+    { "DRIPINF.STR", 538, 3, 1, 127, },
+    { "TRAIN1.STR", 441, 3, 2, 127, },
+    { "BA1114.STR", 60, 3, 2, 127, },
+    { "BA1114R.STR", 60, 3, 2, 127, },
+};
+
+const FmvInfo SV_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "SVP1C5.STR", 60, 3, 2, 127, },
+    { "SV22073L.STR", 45, 3, 2, 127, },
+    { "SV36073R.STR", 45, 3, 2, 127, },
+    { "SV110703.STR", 45, 3, 2, 127, },
+    { "SV140106.STR", 45, 3, 2, 127, },
+    { "SV160703.STR", 45, 3, 2, 127, },
+    { "SV220703.STR", 45, 3, 2, 127, },
+    { "SV360703.STR", 45, 3, 2, 127, },
+    { "SV410703.STR", 45, 3, 2, 127, },
+    { "SV420405.STR", 45, 3, 2, 127, },
+    { "SV430703.STR", 45, 3, 2, 127, },
+    { "SV520703.STR", 45, 3, 2, 127, },
+    { "SV550507.STR", 45, 3, 2, 127, },
+    { "SV590703.STR", 45, 3, 2, 127, },
+    { "SV730101.STR", 45, 3, 2, 127, },
+    { "SV730202.STR", 45, 3, 2, 127, },
+    { "SV730306.STR", 45, 3, 2, 127, },
+    { "SV730401.STR", 45, 3, 2, 127, },
+    { "SV730502.STR", 45, 3, 2, 127, },
+    { "SV730801.STR", 45, 3, 2, 127, },
+    { "SV740904.STR", 45, 3, 2, 127, },
+    { "SV810703.STR", 45, 3, 2, 127, },
+    { "SV830703.STR", 45, 3, 2, 127, },
+    { "SV940704.STR", 45, 3, 2, 127, },
+    { "SV630609.STR", 45, 3, 2, 127, },
+    { "SV101112.STR", 45, 3, 2, 127, },
+    { "SV624063.STR", 45, 3, 2, 127, },
+    { "SV616618.STR", 45, 3, 2, 127, },
+    { "SV619622.STR", 45, 3, 2, 127, },
+    { "SV690613.STR", 45, 3, 2, 127, },
+    { "SV520504.STR", 45, 3, 2, 127, },
+    { nullptr,        45, 3, 2, 127, },
+    { nullptr,        45, 3, 2, 127, },
+    { "NEP02C02.STR", 60, 3, 2, 127, },
+    { "SVP01C05.STR", 60, 3, 2, 127, },
+    { "SVP01C5R.STR", 60, 3, 2, 127, },
+    { "REWARD.STR", 2140, 3, 32769, 127, },
+};
+
+
+const FmvInfo BR_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "BRP01C01.STR", 60, 3, 2, 127, },
+    { "BRP01C02.STR", 60, 3, 2, 127, },
+    { "BRP01C03.STR", 60, 3, 2, 127, },
+    { "BRP01C04.STR", 60, 3, 2, 127, },
+    { "BRP01C05.STR", 60, 3, 2, 127, },
+    { "BRP01C06.STR", 120, 3, 2, 127, },
+    { "BRP01C1R.STR", 60, 3, 2, 127, },
+    { "BRP01C2R.STR", 60, 3, 2, 127, },
+    { "BRP01C3R.STR", 60, 3, 2, 127, },
+    { "BRP01C4R.STR", 60, 3, 2, 127, },
+    { "BRP01C5R.STR", 60, 3, 2, 127, },
+    { "BRP01C6R.STR", 120, 3, 2, 127, },
+    { "CONFRNCE.STR", 424, 3, 1, 127, },
+    { "SSINFO.STR", 525, 3, 1, 127, },
+    { "TRAIN2.STR", 501, 3, 2, 127, },
+    { "INGRDNT.STR", 658, 3, 1, 127, },
+    { "GDENDING.STR", 2380, 3, 32769, 127, },
+    { "BDENDING.STR", 965, 3, 32769, 127 },
+};
+
+const FmvInfo BM_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "BRP01C01.STR", 60, 3, 2, 127, },
+    { "BRP01C02.STR", 60, 3, 2, 127, },
+    { "BRP01C03.STR", 60, 3, 2, 127, },
+    { "BRP01C04.STR", 60, 3, 2, 127, },
+    { "BRP01C05.STR", 60, 3, 2, 127, },
+    { "BRP01C06.STR", 120, 3, 2, 127, },
+    { "BRP01C1R.STR", 60, 3, 2, 127, },
+    { "BRP01C2R.STR", 60, 3, 2, 127, },
+    { "BRP01C3R.STR", 60, 3, 2, 127, },
+    { "BRP01C4R.STR", 60, 3, 2, 127, },
+    { "BRP01C5R.STR", 60, 3, 2, 127, },
+    { "BRP01C6R.STR", 120, 3, 2, 127, },
+    { "CONFRNCE.STR", 424, 3, 1, 127, },
+    { "SSINFO.STR", 525, 3, 1, 127, },
+    { "TRAIN2.STR", 501, 3, 2, 127, },
+    { "INGRDNT.STR", 658, 3, 1, 127, },
+    { "GDENDING.STR", 2380, 3, 32769, 127, },
+    { "BDENDING.STR", 965, 3, 32769, 127 },
+};
+
+const FmvInfo BW_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "BWP1C2.STR", 60, 3, 2, 127, },
+    { "BWP3P4.STR", 60, 3, 2, 127, },
+    { "BWP3P4R.STR", 60, 3, 2, 127, },
+    { "PHLEGINF.STR", 674, 3, 1, 127, },
+    { "PHLEGEXP.STR", 425, 3, 1, 127, },
+    { "TRAIN3.STR", 499, 3, 2, 127 },
+};
+
+const FmvInfo TL_FmvInfo[] =
+{
+    kNullFmvInfo
+};
+
+const FmvInfo CR_FmvInfo[] =
+{
+    kNullFmvInfo,
+    { "LOGO.STR", 205, 2, 1, 127, }
+};
+
 
 
 ALIVE_ARY(1, 0x559660, PathRoot, 17, sPathData_559660, {});
@@ -651,6 +910,7 @@ static void OutputArrayLine(int indent, std::ostream& s, const char* item, bool 
     }
 }
 
+/*
 static void Dump(int indent, std::ostream& s, const PathBlyRec* paths, int count, const char* lvlName)
 {
     //OutputArrayStart(indent, s);
@@ -673,6 +933,7 @@ static void Dump(int indent, std::ostream& s, const PathBlyRec* paths, int count
     //indent--;
    // OutputArrayEnd(indent, s, true);
 }
+*/
 
 static void Dump(int indent, std::ostream& s, const SoundBlockInfo* sound)
 {
@@ -695,28 +956,25 @@ static void Dump(int indent, std::ostream& s, const SoundBlockInfo* sound)
     OutputArrayEnd(indent, s, true);
 }
 
-static void Dump(int indent, std::ostream& s, const FmvInfo* fmv)
+static void Dump(int indent, std::ostream& s, const FmvInfo* fmv, const char* lvlName)
 {
-    OutputArrayStart(indent, s);
-    indent++;
+    s << "const FmvInfo " << lvlName << "_FmvInfo[] =\n";
+    s << "{\n";
     bool first = true;
     while (fmv->field_0_pName || first)
     {
         first = false;
-        OutputArrayStart(indent, s);
-        indent++;
-
-        OutputArrayLine(indent, s, fmv->field_0_pName);
-        OutputArrayLine(indent, s, fmv->field_4_id);
+      
+        s << "{ ";
+        OutputArrayLine(0, s, fmv->field_0_pName);
+        OutputArrayLine(0, s, fmv->field_4_id);
         OutputArrayLine(indent, s, fmv->field_6_flags);
         OutputArrayLine(indent, s, fmv->field_8);
         OutputArrayLine(indent, s, fmv->field_A_volume, (fmv + 1)->field_0_pName == nullptr);
-        indent--;
-        OutputArrayEnd(indent, s, (fmv + 1)->field_0_pName == nullptr);
+        s << "},\n";
         fmv++;
     }
-    indent--;
-    OutputArrayEnd(indent, s, true);
+    s << "};\n\n";
 }
 
 static void Dump(std::ostream& s, const PathRoot& pr)
@@ -726,10 +984,13 @@ static void Dump(std::ostream& s, const PathRoot& pr)
     // s << "{\n";
      //auto calculated = (((BYTE*)pr.field_4_pFmvArray - (BYTE*)pr.field_0_pBlyArrayPtr) / sizeof(PathBlyRec));
      //assert(pr.field_1A_num_paths+1 == calculated);
-    Dump(indent, s, pr.field_0_pBlyArrayPtr, pr.field_1A_num_paths + 1, pr.field_18_lvl_name);
-    /*
+//    Dump(indent, s, pr.field_0_pBlyArrayPtr, pr.field_1A_num_paths + 1, pr.field_18_lvl_name);
+
+    Dump(indent, s, pr.field_4_pFmvArray, pr.field_18_lvl_name);
+
+
+/*
     s << ", ";
-    Dump(indent, s, pr.field_4_pFmvArray);
     s << ", \n";
 
     Dump(indent, s, pr.field_8_pMusicInfo);
