@@ -12,7 +12,7 @@ GameSpeak* GameSpeak::ctor_421820()
     BaseGameObject::ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544B20);
 
-    field_6_flags |= 1u;
+    field_6_flags |= 0x100; // Dont destroy on loading save
     field_2C_event_buffer[0] = -1;
     field_20_last_event = -1;
     field_4_typeId = 38;
