@@ -27,6 +27,8 @@ add_library(AliveLib
     Midi.hpp
     GameSpeak.hpp
     GameSpeak.cpp
+    DDCheat.hpp
+    DDCheat.cpp
     Quicksave.cpp
     Quicksave.hpp
     bmp.cpp

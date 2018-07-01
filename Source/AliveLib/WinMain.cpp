@@ -11,6 +11,7 @@
 #include "GameSpeak.hpp"
 #include "Quicksave.hpp"
 #include "Math.hpp"
+#include "DDCheat.hpp"
 #include "DynamicArray.hpp"
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
@@ -59,6 +60,7 @@ static void InitOtherHooksAndRunTests()
     Quicksave_ForceLink();
     Game_ForceLink();
     GameSpeak_ForceLink();
+    DDCheat_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
