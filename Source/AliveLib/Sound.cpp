@@ -282,8 +282,6 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int *a1, unsigned int a2, int a3)
 // TODO: Clean up!
 EXPORT signed int CC SND_Reload_4EF1C0(SoundEntry *pSnd, char *sampleOffset, unsigned char *pSoundBuffer, unsigned int sampleCount)
 {
-    NOT_IMPLEMENTED();
-
     const int offsetBytes = (DWORD)sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
 
@@ -331,16 +329,11 @@ EXPORT signed int CC SND_Reload_4EF1C0(SoundEntry *pSnd, char *sampleOffset, uns
     {
         if (leftChannelBuffer)
         {
-            memcpy(leftChannelBuffer, pSoundBuffer, 4 * (leftChannelSize / 4));
-            memcpy(&leftChannelBuffer[(leftChannelSize / 4)], &pSoundBuffer[4 * (leftChannelSize / 2)], leftChannelSize & 3);
+            memcpy(leftChannelBuffer, pSoundBuffer, leftChannelSize);
         }
-
         if (rightChannelBuffer) // dual buffers never really exist, so this is always null
         {
-            const BYTE *secondBuffer = &pSoundBuffer[leftChannelSize];
-            const unsigned int roundedNearestFour = (rightChannelSize >> 2) * 4;
-            memcpy(rightChannelBuffer, secondBuffer, roundedNearestFour);
-            memcpy(&rightChannelBuffer[roundedNearestFour], &secondBuffer[roundedNearestFour], rightChannelSize & 3);
+            memcpy(rightChannelBuffer, &pSoundBuffer[leftChannelSize], rightChannelSize);
         }
     }
 
