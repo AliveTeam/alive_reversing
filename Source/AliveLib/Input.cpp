@@ -38,6 +38,11 @@ EXPORT void CC Input_DisableInput_4EDDC0()
     sInputEnabled_BBB9D0 = FALSE;
 }
 
+EXPORT void CC Input_Init_491BC0()
+{
+    NOT_IMPLEMENTED();
+}
+
 // Zeros the input key state array.
 EXPORT void CC Input_InitKeyStateArray_4EDD60()
 {

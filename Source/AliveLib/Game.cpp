@@ -123,6 +123,7 @@ ALIVE_VAR(1, 0x5BC520, LvlArchive, sLvlArchive_5BC520, {});
 class Map
 {
 public:
+  
     unsigned __int16 sCurrentLevelId_5C3030;
     unsigned __int16 sCurrentPathId_5C3032;
     unsigned __int16 sCurrentCamId_5C3034;
@@ -145,10 +146,22 @@ public:
     int field_2C_5C305C;
 
     EXPORT void sub_480B80();
+    EXPORT int sub_4803F0(__int16 a2, __int16 a3, __int16 a4, __int16 a5, __int16 a6, __int16 a7);
+    EXPORT void sub_4804E0();
 };
 ALIVE_ASSERT_SIZEOF(Map, 0x30);
 
 void Map::sub_480B80()
+{
+    NOT_IMPLEMENTED();
+}
+
+int Map::sub_4803F0(__int16 a2, __int16 a3, __int16 a4, __int16 a5, __int16 a6, __int16 a7)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Map::sub_4804E0()
 {
     NOT_IMPLEMENTED();
 }
@@ -162,10 +175,65 @@ EXPORT void CC DDCheat_Allocate_415320()
 
 EXPORT void CC Game_Loop_467230();
 
+class CheatController : public BaseGameObject
+{
+public:
+    virtual void VDestructor(signed int flags) override;
+    EXPORT void dtor_421C10(signed int flags);
+
+    CheatController();
+    EXPORT void ctor_421BD0();
+ 
+    __int16 field_20;
+    __int16 field_22;
+    int field_24;
+    int field_28;
+    int field_2C;
+    int field_30;
+    int field_34;
+    int field_38;
+    int field_3C;
+};
+ALIVE_ASSERT_SIZEOF(CheatController, 0x40);
+
+ALIVE_VAR(1, 0x5BC120, CheatController*, pCheatController_5BC120, nullptr);
+
+void CheatController::VDestructor(signed int flags)
+{
+    dtor_421C10(flags);
+}
+
+void CheatController::dtor_421C10(signed int flags)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+CheatController::CheatController()
+{
+    ctor_421BD0();
+}
+
+void CheatController::ctor_421BD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Game_Init_LoadingIcon_482CD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Game_Free_LoadingIcon_482D40()
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void CC Game_Run_466D40()
 {
     NOT_IMPLEMENTED();
 
+    // Begin start up
     sub_494580();
     dword_5C2F6C = 6000;
     word_5C1BA0 = 0;
@@ -203,32 +271,23 @@ EXPORT void CC Game_Run_466D40()
 
     camera.dtor_480E00();
 
-    /*
-    Input::Inits_491BC0();
-    Map::sub_4803F0(&gMap_5C3030, 0, 1, 25, 0, 0, 0);
-    */
+    Input_Init_491BC0();
+    gMap_5C3030.sub_4803F0(0, 1, 25, 0, 0, 0);
 
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = alive_new<GameSpeak>(); // ctor_421820
 
-    /*
-    v14 = malloc_4954D0(0x24u);
-    v27 = 8;
-    if (v14)
-        v15 = CheatController::ctor_421BD0(v14);
-    else
-        v15 = 0;
-    v27 = -1;
-    pCheatController_5BC120 = v15;
+    pCheatController_5BC120 = alive_new<CheatController>(); // ctor_421BD0
+    
     Game_Init_LoadingIcon_482CD0();
-    */
+    
+    // Main loop start
     Game_Loop_467230();
 
-    /*
+    // Shut down start
     Game_Free_LoadingIcon_482D40();
-    DDCheat::sub_415390();
-    Map::sub_4804E0(&gMap_5C3030);
-    */
+    //DDCheat::sub_415390(); // TODO
+    gMap_5C3030.sub_4804E0();
 
     /*
     v16 = gObjList_animations_5C1A24;
@@ -287,6 +346,8 @@ EXPORT void CC Game_Run_466D40()
     }
     pMusicController_5C3020 = 0;
     MusicController::Shutdown_47FD20();
+    */
+    /*
     SND_Clear_4CB4B0();
     SND_Shutdown_4CA280();
     PSX_CdControlB_4FB320(8, 0, 0);
