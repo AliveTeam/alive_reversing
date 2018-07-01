@@ -50,6 +50,7 @@ public:
     EXPORT void SetDemoResource_45F1E0(DWORD** pDemoRes);
     EXPORT void Update_45F040();
     EXPORT static DWORD CC Command_To_Raw_404354(DWORD cmd);
+    EXPORT void CC ShutDown_45F020();
 private:
     InputPadObject field_0_pads[2];
     DWORD** field_30_pDemoRes;

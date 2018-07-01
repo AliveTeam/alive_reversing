@@ -82,6 +82,11 @@ void DDCheat::AddPropertyEntry_004162C0(const char * text, int unknown, int * va
     }
 }
 
+void CC DDCheat::sub_415390()
+{
+    NOT_IMPLEMENTED();
+}
+
 void DDCheat::Update_415780()
 {
     NOT_IMPLEMENTED();

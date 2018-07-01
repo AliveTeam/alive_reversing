@@ -81,6 +81,15 @@ EXPORT void CC SND_Close_4EFD50()
     }
 }
 
+EXPORT void CC SND_Clear_4CB4B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC SND_Shutdown_4CA280()
+{
+    NOT_IMPLEMENTED();
+}
 
 EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
 {

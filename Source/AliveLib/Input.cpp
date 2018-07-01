@@ -332,3 +332,8 @@ DWORD CC InputObject::Command_To_Raw_404354(DWORD cmd)
 
     return rawInput;
 }
+
+void CC InputObject::ShutDown_45F020()
+{
+    // Empty
+}

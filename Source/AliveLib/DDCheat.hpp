@@ -26,6 +26,7 @@ public:
     EXPORT void dtor_415500(signed int flags);
 
     EXPORT void AddPropertyEntry_004162C0(const char *text, int unknown, int *valuePtr);
+    static EXPORT void CC sub_415390();
 
 private:
     EXPORT void Update_415780();

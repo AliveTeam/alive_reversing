@@ -110,6 +110,11 @@ EXPORT int CC PSX_ResetCallBack_4FAA20()
     return 0;
 }
 
+EXPORT int CC PSX_StopCallBack_4FAA30()
+{
+    return 0;
+}
+
 EXPORT int CC PSX_CdInit_4FB2C0()
 {
     return 1;
@@ -118,6 +123,11 @@ EXPORT int CC PSX_CdInit_4FB2C0()
 EXPORT int CC PSX_CdSetDebug_4FB330(int /*mode*/)
 {
     return 1;
+}
+
+EXPORT int CC PSX_CdControlB_4FB320(int, int, int)
+{
+    return 0;
 }
 
 EXPORT int CC PSX_EMU_VideoAlloc_4F9D70()

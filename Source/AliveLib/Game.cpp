@@ -17,6 +17,7 @@
 #include <timeapi.h>
 #include "GameSpeak.hpp"
 #include "PathData.hpp"
+#include "DDCheat.hpp"
 
 void Game_ForceLink() { }
 
@@ -229,10 +230,47 @@ EXPORT void CC Game_Free_LoadingIcon_482D40()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Game_Run_466D40()
+class MusicController
+{
+public:
+    static void CC Shutdown_47FD20();
+};
+
+ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
+
+void CC MusicController::Shutdown_47FD20()
 {
     NOT_IMPLEMENTED();
+}
 
+ALIVE_VAR(1, 0x5C1B78, DynamicArray*, ObjList_5C1B78, nullptr);
+ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
+ALIVE_VAR(1, 0x5C1B7C, DynamicArray*, gBaseAliveGameObjects_5C1B7C, nullptr);
+ALIVE_VAR(1, 0x5C1B80, DynamicArray*, sShadow_dArray_5C1B80, nullptr);
+
+class Collisions
+{
+public:
+    EXPORT void dtor_4189F0();
+private:
+    void* field_0_pArray;
+    int field_4;
+    int field_8;
+    int field_C;
+};
+ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
+
+void Collisions::dtor_4189F0()
+{
+    Mem_Free_495560(field_0_pArray);
+}
+
+ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
+
+
+
+EXPORT void CC Game_Run_466D40()
+{
     // Begin start up
     sub_494580();
     dword_5C2F6C = 6000;
@@ -286,77 +324,74 @@ EXPORT void CC Game_Run_466D40()
 
     // Shut down start
     Game_Free_LoadingIcon_482D40();
-    //DDCheat::sub_415390(); // TODO
+    DDCheat::sub_415390();
     gMap_5C3030.sub_4804E0();
 
-    /*
-    v16 = gObjList_animations_5C1A24;
     if (gObjList_animations_5C1A24)
     {
-        DynamicArray::dtor_40CAD0(gObjList_animations_5C1A24);
-        Mem_Free_495540(v16);
+        gObjList_animations_5C1A24->dtor_40CAD0();
+        Mem_Free_495540(gObjList_animations_5C1A24);
     }
-    v17 = gObjList_drawables_5C1124;
+
     if (gObjList_drawables_5C1124)
     {
-        DynamicArray::dtor_40CAD0(gObjList_drawables_5C1124);
-        Mem_Free_495540(v17);
+        gObjList_drawables_5C1124->dtor_40CAD0();
+        Mem_Free_495540(gObjList_drawables_5C1124);
     }
-    v18 = gFG1List_5D1E28;
+
     if (gFG1List_5D1E28)
     {
-        DynamicArray::dtor_40CAD0(gFG1List_5D1E28);
-        Mem_Free_495540(v18);
+        gFG1List_5D1E28->dtor_40CAD0();
+        Mem_Free_495540(gFG1List_5D1E28);
     }
-    v19 = gBaseGameObject_list_BB47C4;
+
     if (gBaseGameObject_list_BB47C4)
     {
-        DynamicArray::dtor_40CAD0(gBaseGameObject_list_BB47C4);
-        Mem_Free_495540(v19);
+        gBaseGameObject_list_BB47C4->dtor_40CAD0();
+        Mem_Free_495540(gBaseGameObject_list_BB47C4);
     }
-    v20 = ObjList_5C1B78;
+
     if (ObjList_5C1B78)
     {
-        DynamicArray::dtor_40CAD0(ObjList_5C1B78);
-        Mem_Free_495540(v20);
+        ObjList_5C1B78->dtor_40CAD0();
+        Mem_Free_495540(ObjList_5C1B78);
     }
-    v21 = ObjList_5BD4D8;
+
     if (ObjList_5BD4D8)
     {
-        DynamicArray::dtor_40CAD0(ObjList_5BD4D8);
-        Mem_Free_495540(v21);
+        ObjList_5BD4D8->dtor_40CAD0();
+        Mem_Free_495540(ObjList_5BD4D8);
     }
-    v22 = sShadow_dArray_5C1B80;
+
     if (sShadow_dArray_5C1B80)
     {
-        DynamicArray::dtor_40CAD0(sShadow_dArray_5C1B80);
-        Mem_Free_495540(v22);
+        sShadow_dArray_5C1B80->dtor_40CAD0();
+        Mem_Free_495540(sShadow_dArray_5C1B80);
     }
-    pBaseGameObjects = gBaseAliveGameObjects_5C1B7C;
+
     if (gBaseAliveGameObjects_5C1B7C)
     {
-        DynamicArray::dtor_40CAD0(gBaseAliveGameObjects_5C1B7C);
-        Mem_Free_495540(pBaseGameObjects);
+        gBaseAliveGameObjects_5C1B7C->dtor_40CAD0();
+        Mem_Free_495540(gBaseAliveGameObjects_5C1B7C);
     }
-    v24 = sCollisions_DArray_5C1128;
+
     if (sCollisions_DArray_5C1128)
     {
-        Collisions::dtor_4189F0(sCollisions_DArray_5C1128);
-        Mem_Free_495540(v24);
+        sCollisions_DArray_5C1128->dtor_4189F0();
+        Mem_Free_495540(sCollisions_DArray_5C1128);
     }
-    pMusicController_5C3020 = 0;
+
+    pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
     MusicController::Shutdown_47FD20();
-    */
-    /*
+
     SND_Clear_4CB4B0();
     SND_Shutdown_4CA280();
     PSX_CdControlB_4FB320(8, 0, 0);
     PSX_ResetCallBack_4FAA20();
     PSX_StopCallBack_4FAA30();
-    Input::ShutDown_45F020(&sInputObject_5BD4E0);
-    PSX_ResetGraph_4F8800(0);*/
+    sInputObject_5BD4E0.ShutDown_45F020();
+    PSX_ResetGraph_4F8800(0);
 }
-
 
 EXPORT void CC Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
 {
