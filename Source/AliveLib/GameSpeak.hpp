@@ -13,6 +13,7 @@ public:
     virtual void VUpdate() override;
     virtual EXPORT void PushEvent_4218D0(char event);
 
+    GameSpeak();
     EXPORT GameSpeak* ctor_421820();
     EXPORT void dtor_4218A0();
     EXPORT void dtor_421870(signed int flags);
@@ -29,3 +30,5 @@ private:
     char field_2C_event_buffer[32];
 };
 ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
+
+ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_5BC11C);

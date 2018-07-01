@@ -45,8 +45,14 @@ void ResourceManager::sub_465590(int /*a1*/)
     NOT_IMPLEMENTED();
 }
 
-signed __int16 __cdecl ResourceManager::LoadResourceFile_49C170(const char *pFileName, int a2)
+signed __int16 __cdecl ResourceManager::LoadResourceFile_49C170(const char* pFileName, Camera* a2)
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
 }

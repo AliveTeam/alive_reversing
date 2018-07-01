@@ -8,6 +8,23 @@ class Camera;
 class ResourceManager : public BaseGameObject
 {
 public:
+    enum ResourceType : DWORD
+    {
+        Resource_VLC = 0x20434C56,
+        Resource_End = 0x21646E45,
+        Resource_CHNK = 0x4B4E4843,
+        Resource_SEQp = 0x53455170,
+        Resource_Pend = 0x646E6550,
+        Resource_Free = 0x65657246,
+        Resource_PBuf = 0x66754250,
+        Resource_Path = 0x68746150,
+        Resource_Animation = 0x6D696E41,
+        Resource_Demo = 0x6F6D6544,
+        Resource_Bits = 0x73746942,
+        Resource_Palt = 0x746C6150,
+        Resource_Font = 0x746E6F46,
+    };
+
     // TODO
     virtual void VDestructor(signed int);
     EXPORT void dtor_4649B0(signed int flags);
@@ -18,7 +35,9 @@ public:
 
     EXPORT void Shutdown_465610();
     EXPORT void sub_465590(int a1);
-    EXPORT static signed __int16 __cdecl LoadResourceFile_49C170(const char *pFileName, int a2);
+    EXPORT static signed __int16 __cdecl LoadResourceFile_49C170(const char *pFileName, Camera* a2);
+
+    EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
 
 private:
     struct ResourceManager_FileRecord_1C

@@ -7,6 +7,11 @@ void GameSpeak_ForceLink() { }
 
 ALIVE_VAR(1, 0x5BC11C, GameSpeak*, pEventSystem_5BC11C, nullptr);
 
+GameSpeak::GameSpeak()
+{
+    ctor_421820();
+}
+
 GameSpeak* GameSpeak::ctor_421820()
 {
     BaseGameObject::ctor_4DBFA0(1, 0);

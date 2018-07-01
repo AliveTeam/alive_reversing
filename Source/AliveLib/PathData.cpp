@@ -1292,6 +1292,11 @@ const static PerLvlData gPerLvlData_561700[17] =
 
 ALIVE_VAR(1, 0x559660, PathRootContainer, sPathData_559660, pathData);
 
+const char* CdLvlName(unsigned __int16 lvlId)
+{
+    return sPathData_559660.paths[lvlId].field_22_lvl_name_cd;
+}
+
 const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId)
 {
     return &sPathData_559660.paths[lvlId].field_0_pBlyArrayPtr[pathId];

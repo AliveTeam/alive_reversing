@@ -92,3 +92,5 @@ EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, u
 EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(unsigned __int16 lvlId, unsigned __int16 fmvId);
 
 EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, __int16 levelId, __int16 pathId, __int16 cameraId);
+
+const char* CdLvlName(unsigned __int16 lvlId);
