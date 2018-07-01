@@ -2,6 +2,7 @@
 #include "Error.hpp"
 #include "Function.hpp"
 #include "Sys.hpp"
+#include "stdlib.hpp"
 
 #define ERROR_IMPL true
 
@@ -96,4 +97,51 @@ EXPORT void Error_WarningMessageBox_4F2D80(const char* pWarningMsg, ...)
     va_start(va, pWarningMsg);
     vsprintf(sWarningMsg_BBE6FC, pWarningMsg, va);
     ::MessageBoxA(Sys_GetHWnd_4F2C70(), sWarningMsg_BBE6FC, "Warning", MB_OK);
+}
+
+EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
+{
+    if (!sErrorIndex_BBC564)
+    {
+        return;
+    }
+
+    if (bDisplayAll)
+    {
+        // Add all errors to one huge message and display it
+        char* allocatedString = reinterpret_cast<char*>(malloc_4F4E60(sErrorIndex_BBC564 * 256));
+        if (allocatedString)
+        {
+            allocatedString[0] = 0;
+            for (int i = sErrorIndex_BBC564 - 1; i >= 0; i--)
+            {
+                char buffer[256] = {};
+                sprintf(buffer, "%4ld %s: %s\n",
+                    sErrors_BBC570[sErrorIndex_BBC564].field_104_line_num,
+                    sErrors_BBC570[sErrorIndex_BBC564].field_108_pSourceFileName,
+                    sErrors_BBC570[sErrorIndex_BBC564].field_4_str);
+                strcat(allocatedString, buffer);
+            }
+            Error_DisplayMessageBox_4F2C80("Error", 0, allocatedString);
+            mem_free_4F4EA0(allocatedString);
+            sErrorIndex_BBC564 = 0;
+        }
+    }
+    else
+    {
+        // Show only the last error, next call displays the next error
+        for (int i = sErrorIndex_BBC564 - 1; i >= 0; i--)
+        {
+            Error_DisplayMessageBox_4F2C80(
+                sErrors_BBC570[sErrorIndex_BBC564].field_108_pSourceFileName,
+                sErrors_BBC570[sErrorIndex_BBC564].field_104_line_num,
+                sErrors_BBC570[sErrorIndex_BBC564].field_4_str);
+
+            if (!bDisplayAll)
+            {
+                sErrorIndex_BBC564--;
+                break;
+            }
+        }
+    }
 }

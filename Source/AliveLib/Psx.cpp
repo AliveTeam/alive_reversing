@@ -100,6 +100,21 @@ EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
 
 ALIVE_VAR(1, 0xBD1468, int, sVGA_DisplayType_BD1468, 0);
 
+EXPORT void CC PSX_EMU_SetCallBack_4F9430(int callBackType, void* fnPtr)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 {
     NOT_IMPLEMENTED();
@@ -185,6 +200,42 @@ EXPORT int CC PSX_EMU_VideoAlloc_4F9D70()
     rect.h = 512;
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     return 0;
+}
+
+EXPORT void CC Init_VGA_AndPsxVram_494690()
+{
+    VGA_FullScreenSet_4F31F0(true);
+    VGA_DisplaySet_4F32C0(640u, 480u, 16u, 2u, 0);
+
+    RECT rect = {};
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = 640;
+    rect.bottom = 480;
+    BMP_ClearRect_4F1EE0(&sVGA_Bmp1_BD2A20, &rect, 0);
+
+    switch (VGA_GetPixelFormat_4F3EE0())
+    {
+    case 8:
+        PSX_EMU_SetDispType_4F9960(1);
+        break;
+    case 15:
+        PSX_EMU_SetDispType_4F9960(4);
+        break;
+    case 16:
+        PSX_EMU_SetDispType_4F9960(2);
+        break;
+    case 115:
+        PSX_EMU_SetDispType_4F9960(5);
+        break;
+    case 116:
+        PSX_EMU_SetDispType_4F9960(3);
+        break;
+    default:
+        Error_WarningMessageBox_4F2D80("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
+        Error_ShowErrorStackToUser_4F2A70(false);
+        return;
+    }
 }
 
 EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()

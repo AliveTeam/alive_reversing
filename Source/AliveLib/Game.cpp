@@ -49,9 +49,122 @@ EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
     return ::GetDriveTypeA(RootPathName) == DRIVE_CDROM;
 }
 
-EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* /*pCommandLine*/)
+
+EXPORT int CC Game_End_Frame_4950F0(float fps)
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT void CC sub_496720()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void IO_Init_494230()
+{
+    NOT_IMPLEMENTED();
+}
+
+ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
+ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
+ALIVE_VAR(1, 0x55EF90, int, dword_55EF90, 1);
+ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
+ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
+ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
+ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
+ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
+
+EXPORT void CC sub_4ED960(int a1)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* pCommandLine)
+{
+    //nullsub_2(); // Note: Pruned
+    IO_Init_494230();
+
+    // Default the CD drive to C:
+    char strDrive[3] = {};
+    strcpy(strDrive, "C:");
+
+    // Collect up all CD rom drives
+    int pos = 0;
+    for (char drive = 'D'; drive < 'Z'; drive++)
+    {
+        if (Is_Cd_Rom_Drive_495470(drive))
+        {
+            sCdRomDrives_5CA488[pos++] = drive;
+        }
+    }
+
+    // Use the first found CD ROM drive as the game location
+    if (sCdRomDrives_5CA488[0])
+    {
+        strDrive[0] = sCdRomDrives_5CA488[0];
+    }
+
+    PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(".", strDrive, strDrive);
+    Sys_WindowClass_Register_4EE22F("ABE_WINCLASS", "Oddworld Abe's Exoddus", 32, 64, 640, 480);
+    Sys_Set_Hwnd_4F2C50(Sys_GetWindowHandle_4EE180());
+
+    dword_5CA4D4 = 0;
+    dword_55EF90 = 1;
+    byte_55EF88 = true;
+
+    if (pCommandLine)
+    {
+        if (strstr(pCommandLine, "-ddfps"))
+        {
+            sCommandLine_ShowFps_5CA4D0 = true;
+        }
+
+        if (strstr(pCommandLine, "-ddnoskip"))
+        {
+            sCommandLine_NoFrameSkip_5CA4D1 = true;
+        }
+
+        if (strstr(pCommandLine, "-ddfast"))
+        {
+            byte_5CA4D2 = true;
+            dword_5CA4D4 = 1;
+            byte_55EF88 = false;
+            dword_5CA4E0 = 2;
+        }
+
+        if (strstr(pCommandLine, "-ddfastest"))
+        {
+            dword_5CA4E0 = 1;
+        }
+
+        if (strstr(pCommandLine, "-ddcheat"))
+        {
+            sCommandLine_DDCheatEnabled_5CA4B5 = true;
+        }
+    }
+
+    if (dword_5CA4E0 == 1)
+    {
+        sub_4ED960(1);
+        PSX_EMU_Set_screen_mode_4F9420(1);
+    }
+    else if (dword_5CA4E0 == 2)
+    {
+        sub_4ED960(0);
+        PSX_EMU_Set_screen_mode_4F9420(0);
+    }
+    else
+    {
+        sub_4ED960(2);
+        PSX_EMU_Set_screen_mode_4F9420(2);
+    }
+
+    Init_VGA_AndPsxVram_494690();
+    PSX_EMU_Init_4F9CD0(false);
+    PSX_EMU_VideoAlloc_4F9D70();
+    PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
+    //Main_Set_HWND_4F9410(Sys_GetWindowHandle_4EE180()); // Note: Set but never read
+    sub_496720();
 }
 
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND /*hWnd*/, UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
@@ -513,7 +626,6 @@ ALIVE_VAR(1, 0x5C1B66, short, word_5C1B66, 0);
 ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
 ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
 ALIVE_VAR(1, 0x5C9300, BaseGameObject*, pPauseMenu_5C9300, nullptr);
-ALIVE_VAR(1, 0x5CA4D2, BYTE, byte_5CA4D2, 0);
 
 EXPORT void CC sub_422DA0()
 {
