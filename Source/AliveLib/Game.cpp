@@ -233,7 +233,7 @@ EXPORT void CC Game_Free_LoadingIcon_482D40()
 class MusicController
 {
 public:
-    static void CC Shutdown_47FD20();
+    static EXPORT void CC Shutdown_47FD20();
 };
 
 ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
