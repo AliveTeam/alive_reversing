@@ -42,7 +42,7 @@ struct PathData
     __int16 field_1C_abe_start_ypos;
     void* field_1E_object_funcs[256];
 };
-//ALIVE_ASSERT_SIZEOF(PathData, 0x41E);
+ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
 
 struct PathBlyRec
 {
