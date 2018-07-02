@@ -16,7 +16,7 @@ public:
         mExports.reserve(5000);
     }
 
-    void Apply()
+    void Apply(bool saveImplementedFuncs = false)
     {
         CheckVars(); // Check for dup vars or vars that overlap in address space
 
@@ -24,6 +24,20 @@ public:
         {
             ALIVE_FATAL("Export enumeration failed");
         }
+
+        if (saveImplementedFuncs)
+        {
+            std::ofstream out("decompiled_functions.txt");
+            for (const auto& e : mExports)
+            {
+                if (e.mIsImplemented)
+                {
+                    out << e.mGameFunctionAddr << "\n";
+                }
+            }
+
+        }
+
         if (IsAlive())
         {
             LoadDisabledHooks();

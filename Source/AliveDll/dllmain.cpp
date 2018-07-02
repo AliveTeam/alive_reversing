@@ -59,7 +59,7 @@ BOOL WINAPI DllMain(
 
         LOG_INFO("Applying detours...");
         ExportHooker hooker(hinstDLL);
-        hooker.Apply();
+        hooker.Apply(false); // Change to true to update decompiled_functions.txt
         LOG_INFO("Detours done");
     }
     else if(fdwReason == DLL_PROCESS_DETACH)

@@ -33,23 +33,8 @@ static void RunTests()
     Test::PsxTests();
 }
 
-static void ReplaceStdLib()
-{
-    if (!IsAlive())
-    {
-        return;
-    }
-
-    ALIVE_REDIRECT(0x5212C0, malloc);
-    ALIVE_REDIRECT(0x495540, free);
-    ALIVE_REDIRECT(0x522335, realloc);
-    ALIVE_REDIRECT(0x528DD7, calloc);
-}
-
 static void InitOtherHooksAndRunTests()
 {
-    // TODO: Fix memory API's
-    //ReplaceStdLib();
     RunTests();
 
     VGA_ForceLink();
