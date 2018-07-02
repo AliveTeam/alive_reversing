@@ -637,8 +637,114 @@ EXPORT void CC sub_449A90()
     NOT_IMPLEMENTED();
 }
 
+struct Poly_G3
+{
+    int field_0_tag;
+    char field_4_num_longs;
+    char field_5_unknown;
+    __int16 field_6_pad0;
+    char field_8_r0;
+    char field_9_b0;
+    char field_A_g0;
+    char field_B_code;
+    __int16 field_C_x0;
+    __int16 field_E_y0;
+    char field_10_r1;
+    char field_11_g1;
+    char field_12_b1;
+    char field_13_pad2;
+    __int16 field_14_x1;
+    __int16 field_16_y1;
+    char field_18_r2;
+    char field_19_g2;
+    char field_1A_b2;
+    char field_1B_pad3;
+    __int16 field_1C_x2;
+    __int16 field_1E_y2;
+};
+ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
+
+ALIVE_VAR(1, 0xBD146C, BYTE, byte_BD146C, 0);
+
+EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly)
+{
+    pPoly->field_4_num_longs = 6;
+    pPoly->field_5_unknown = byte_BD146C;
+    pPoly->field_B_code = 0x30;
+}
+
+EXPORT void CC OrderingTable_Add_4F8AA0(int** pOt, void* pItem)
+{
+    NOT_IMPLEMENTED();
+}
+
+class RenderTest : public BaseGameObject
+{
+public:
+    RenderTest()
+    {
+        // Don't hack the vtable else our virtuals won't get called and we can't hack the correct one back since we don't know the address of our vtable.
+        DisableVTableHack disableHack;
+
+        ctor_4DBFA0(1, 1);
+
+        InitTestRender();
+        
+        field_6_flags |= 0x8;
+
+        gObjList_drawables_5C1124->Push_Back(this);
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        Destruct();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &poly); // 30 being the "layer"
+    }
+
+    void Destruct()
+    {
+        gObjList_drawables_5C1124->Remove_Item(this);
+    }
+
+private:
+    void InitTestRender()
+    {
+        PolyG3_Init_4F8890(&poly);
+
+        poly.field_8_r0 = 255;
+        poly.field_9_b0 = 255;
+        poly.field_A_g0 = 255;
+        poly.field_C_x0 = 50;
+        poly.field_E_y0 = 50;
+
+        poly.field_10_r1 = 0;
+        poly.field_11_g1 = 255;
+        poly.field_12_b1 = 255;
+        poly.field_14_x1 = 200;
+        poly.field_16_y1 = 50;
+
+        poly.field_18_r2 = 255;
+        poly.field_19_g2 = 0;
+        poly.field_1A_b2 = 255;
+        poly.field_1C_x2 = 150;
+        poly.field_1E_y2 = 100;
+    }
+
+    Poly_G3 poly = {};
+};
+
 EXPORT void CC Game_Loop_467230()
 {
+    alive_new<RenderTest>(); // Will get nuked at LVL/Path change
+
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;
     bool bPauseMenuObjectFound = false;

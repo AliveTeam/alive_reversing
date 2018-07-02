@@ -72,6 +72,7 @@ EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam);
 EXPORT void CC PSX_EMU_SetCallBack_4F9430(int callBackType, void* fnPtr);
 EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3);
 EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode);
+EXPORT signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos);
 
 ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
 ALIVE_VAR_EXTERN(BYTE, byte_BD0F20);

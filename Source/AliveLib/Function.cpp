@@ -3,6 +3,8 @@
 #include <set>
 #include <fstream>
 
+bool gVTableHack = true;
+
 struct TVarInfo
 {
     DWORD mAddr;

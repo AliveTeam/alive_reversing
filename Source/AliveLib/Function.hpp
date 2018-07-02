@@ -127,10 +127,26 @@ private:
 
 #define SCOPED_REDIRECT(real, stub) ScopedDetour real##_scoped(real, stub)
 
+extern bool gVTableHack;
+
 inline void SetVTable(void* thisPtr, DWORD vTable)
 {
-    if (IsAlive())
+    if (IsAlive() && gVTableHack)
     {
         *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
     }
 }
+
+class DisableVTableHack
+{
+public:
+    DisableVTableHack()
+    {
+        gVTableHack = false;
+    }
+
+    ~DisableVTableHack()
+    {
+        gVTableHack = true;
+    }
+};
