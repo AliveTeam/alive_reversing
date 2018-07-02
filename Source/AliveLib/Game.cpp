@@ -637,24 +637,33 @@ EXPORT void CC sub_449A90()
     NOT_IMPLEMENTED();
 }
 
-struct Poly_G3
+struct PrimHeader
 {
     int field_0_tag;
     char field_4_num_longs;
     char field_5_unknown;
     __int16 field_6_pad0;
+};
+ALIVE_ASSERT_SIZEOF(PrimHeader, 0x8);
+
+struct Poly_G3
+{
+    PrimHeader field_0_header;
+
     char field_8_r0;
-    char field_9_b0;
-    char field_A_g0;
+    char field_9_g0;
+    char field_A_b0;
     char field_B_code;
     __int16 field_C_x0;
     __int16 field_E_y0;
+
     char field_10_r1;
     char field_11_g1;
     char field_12_b1;
     char field_13_pad2;
     __int16 field_14_x1;
     __int16 field_16_y1;
+
     char field_18_r2;
     char field_19_g2;
     char field_1A_b2;
@@ -664,13 +673,40 @@ struct Poly_G3
 };
 ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
 
+struct Poly_F4
+{
+    PrimHeader field_0_header;
+
+    char field_8_r0;
+    char field_9_g0;
+    char field_A_b0;
+    char field_B_code;
+    __int16 field_C_x0;
+    __int16 field_E_y0;
+    __int16 field_10_x1;
+    __int16 field_12_y1;
+    __int16 field_14_x2;
+    __int16 field_16_y2;
+    __int16 field_18_x3;
+    __int16 field_1A_y3;
+};
+ALIVE_ASSERT_SIZEOF(Poly_F4, 0x1C);
+
+
 ALIVE_VAR(1, 0xBD146C, BYTE, byte_BD146C, 0);
 
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly)
 {
-    pPoly->field_4_num_longs = 6;
-    pPoly->field_5_unknown = byte_BD146C;
+    pPoly->field_0_header.field_4_num_longs = 6;
+    pPoly->field_0_header.field_5_unknown = byte_BD146C;
     pPoly->field_B_code = 0x30;
+}
+
+EXPORT void CC PolyF4_Init_4F8830(Poly_F4* pPoly)
+{
+    pPoly->field_0_header.field_4_num_longs = 5;
+    pPoly->field_0_header.field_5_unknown = byte_BD146C;
+    pPoly->field_B_code = 0x28;
 }
 
 EXPORT void CC OrderingTable_Add_4F8AA0(int** pOt, void* pItem)
@@ -706,7 +742,9 @@ public:
 
     virtual void VRender(int** pOrderingTable) override
     {
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &poly); // 30 being the "layer"
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG3.field_0_header.field_0_tag); // 30 being the "layer"
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.field_0_header.field_0_tag);
+        
     }
 
     void Destruct()
@@ -717,28 +755,55 @@ public:
 private:
     void InitTestRender()
     {
-        PolyG3_Init_4F8890(&poly);
+        PolyG3_Init_4F8890(&mPolyG3);
 
-        poly.field_8_r0 = 255;
-        poly.field_9_b0 = 255;
-        poly.field_A_g0 = 255;
-        poly.field_C_x0 = 50;
-        poly.field_E_y0 = 50;
+        mPolyG3.field_8_r0 = 255;
+        mPolyG3.field_9_g0 = 255;
+        mPolyG3.field_A_b0 = 255;
+        mPolyG3.field_C_x0 = 50;
+        mPolyG3.field_E_y0 = 50;
 
-        poly.field_10_r1 = 0;
-        poly.field_11_g1 = 255;
-        poly.field_12_b1 = 255;
-        poly.field_14_x1 = 200;
-        poly.field_16_y1 = 50;
+        mPolyG3.field_10_r1 = 0;
+        mPolyG3.field_11_g1 = 0;
+        mPolyG3.field_12_b1 = 255;
+        mPolyG3.field_14_x1 = 200;
+        mPolyG3.field_16_y1 = 50;
 
-        poly.field_18_r2 = 255;
-        poly.field_19_g2 = 0;
-        poly.field_1A_b2 = 255;
-        poly.field_1C_x2 = 150;
-        poly.field_1E_y2 = 100;
+        mPolyG3.field_18_r2 = 255;
+        mPolyG3.field_19_g2 = 0;
+        mPolyG3.field_1A_b2 = 255;
+        mPolyG3.field_1C_x2 = 150;
+        mPolyG3.field_1E_y2 = 100;
+
+        PolyF4_Init_4F8830(&mPolyF4);
+        mPolyF4.field_8_r0 = 255;
+        mPolyF4.field_9_g0 = 255;
+        mPolyF4.field_A_b0 = 255;
+
+        struct XY { short x; short y; };
+        XY points[4] =
+        {
+            { 150, 150 },
+            { 150, 200 },
+            { 200, 150 },
+            { 200, 200 },
+        };
+
+        mPolyF4.field_C_x0 = points[0].x;
+        mPolyF4.field_E_y0 = points[0].y;
+
+        mPolyF4.field_10_x1 = points[1].x;
+        mPolyF4.field_12_y1 = points[1].y;
+
+        mPolyF4.field_14_x2 = points[2].x;
+        mPolyF4.field_16_y2 = points[2].y;
+
+        mPolyF4.field_18_x3 = points[3].x;
+        mPolyF4.field_1A_y3 = points[3].y;
     }
 
-    Poly_G3 poly = {};
+    Poly_G3 mPolyG3 = {};
+    Poly_F4 mPolyF4 = {};
 };
 
 EXPORT void CC Game_Loop_467230()
