@@ -19,8 +19,6 @@ ALIVE_VAR(1, 0x5c1c06, __int16, sVisitedFeecoEnder_5C1C06, 0);
 
 ALIVE_VAR(1, 0x5bc008, __int16, sScreenshotOnNextFrame_5BC008, 0);
 
-ALIVE_VAR(1, 0x5ca4b5, bool, sCommandLine_DDCheatEnabled_5CA4B5, 0);
-
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
 
 #define DDCHEAT_PROPERTY_LIST_SIZE 10
