@@ -5,6 +5,10 @@
 
 void DDCheat_ForceLink() { }
 
+// UNOFFICIAL MODS
+#define FORCE_DDCHEAT
+//
+
 ALIVE_VAR(1, 0x5c1be6, int, sDoorsOpen_5C1BE6, 0);
 ALIVE_VAR(1, 0x5c1bd0, int, sTweakX_5C1BD0, 0);
 ALIVE_VAR(1, 0x5c1bd4, int, sTweakY_5C1BD4, 0);
@@ -14,6 +18,8 @@ ALIVE_VAR(1, 0x5c1c04, __int16, sVisitedBarracks_5C1C04, 0);
 ALIVE_VAR(1, 0x5c1c06, __int16, sVisitedFeecoEnder_5C1C06, 0);
 
 ALIVE_VAR(1, 0x5bc008, __int16, sScreenshotOnNextFrame_5BC008, 0);
+
+ALIVE_VAR(1, 0x5ca4b5, bool, sCommandLine_DDCheatEnabled_5CA4B5, 0);
 
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
 
@@ -48,6 +54,10 @@ DDCheat* DDCheat::ctor_4153C0()
     AddPropertyEntry_004162C0("Visited Bonewerks ", 1, (int *)&sVisitedBonewerks_5C1C02);
     AddPropertyEntry_004162C0("Visited Barracks ", 1, (int *)&sVisitedBarracks_5C1C04);
     AddPropertyEntry_004162C0("Visited Feeco Ender ", 1, (int *)&sVisitedFeecoEnder_5C1C06);
+
+#ifdef FORCE_DDCHEAT
+    sCommandLine_DDCheatEnabled_5CA4B5 = true;
+#endif
 
     return this;
 }
