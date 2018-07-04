@@ -611,12 +611,30 @@ EXPORT void CC sub_449A90()
     NOT_IMPLEMENTED();
 }
 
-struct PrimHeader
+struct PrimHeaderPart_Normal
 {
-    int field_0_tag;
     char field_4_num_longs;
     char field_5_unknown;
     __int16 field_6_pad0;
+};
+
+struct PrimHeaderPart_PsxRect
+{
+    short w;
+    short h;
+};
+
+union PrimHeaderPart
+{
+    PrimHeaderPart_Normal mNormal;
+    PrimHeaderPart_PsxRect mRect;
+};
+ALIVE_ASSERT_SIZEOF(PrimHeaderPart, 4);
+
+struct PrimHeader
+{
+    int field_0_tag;
+    PrimHeaderPart field_4;
     BYTE field_8_r0;
     BYTE field_9_g0;
     BYTE field_A_b0;
@@ -708,10 +726,29 @@ struct Prim_ScreenOffset
 };
 ALIVE_ASSERT_SIZEOF(Prim_ScreenOffset, 0x10);
 
-
-EXPORT void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, PSX_Pos16* pOffset)
+struct Prim_PrimClipper
 {
-    pPrim->field_0_header.field_5_unknown = byte_BD146C;
+    PrimHeader field_0_header;
+    short field_C_x;
+    short field_E_y;
+};
+ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
+
+
+EXPORT void CC Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
+{
+    // The memory layout of this is crazy..
+    pPrim->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
+    pPrim->field_0_header.field_B_code = 0x81u;
+    pPrim->field_C_x = pClipRect->x;
+    pPrim->field_E_y = pClipRect->y;
+    pPrim->field_0_header.field_4.mRect.w = pClipRect->w;
+    pPrim->field_0_header.field_4.mRect.h = pClipRect->h;
+}
+
+EXPORT void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset)
+{
+    pPrim->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
     pPrim->field_0_header.field_B_code = 0x82u;
     pPrim->field_C_xoff = pOffset->x;
     pPrim->field_E_yoff = pOffset->y;
@@ -719,28 +756,28 @@ EXPORT void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, PSX_Pos16*
 
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly)
 {
-    pPoly->field_0_header.field_4_num_longs = 6;
-    pPoly->field_0_header.field_5_unknown = byte_BD146C;
+    pPoly->field_0_header.field_4.mNormal.field_4_num_longs = 6;
+    pPoly->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
     pPoly->field_0_header.field_B_code = 0x30;
 }
 
 EXPORT void CC PolyG4_Init_4F88B0(Poly_G4* pPoly)
 {
-    pPoly->field_0_header.field_4_num_longs = 8;
-    pPoly->field_0_header.field_5_unknown = byte_BD146C;
+    pPoly->field_0_header.field_4.mNormal.field_4_num_longs = 8;
+    pPoly->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
     pPoly->field_0_header.field_B_code = 0x38;
 }
 
 EXPORT void CC PolyF4_Init_4F8830(Poly_F4* pPoly)
 {
-    pPoly->field_0_header.field_4_num_longs = 5;
-    pPoly->field_0_header.field_5_unknown = byte_BD146C;
+    pPoly->field_0_header.field_4.mNormal.field_4_num_longs = 5;
+    pPoly->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
     pPoly->field_0_header.field_B_code = 0x28;
 }
 
 EXPORT void CC Poly_Set_unknown_4F8A20(PrimHeader* pPrim, int bFlag1)
 {
-    pPrim->field_5_unknown = byte_BD146C;
+    pPrim->field_4.mNormal.field_5_unknown = byte_BD146C;
     if (bFlag1)
     {
         pPrim->field_B_code = pPrim->field_B_code | 1;
@@ -753,7 +790,7 @@ EXPORT void CC Poly_Set_unknown_4F8A20(PrimHeader* pPrim, int bFlag1)
 
 EXPORT void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans)
 {
-    pPrim->field_5_unknown = byte_BD146C;
+    pPrim->field_4.mNormal.field_5_unknown = byte_BD146C;
     if (bSemiTrans)
     {
         pPrim->field_B_code = pPrim->field_B_code | 2;
@@ -814,6 +851,15 @@ public:
         xy.y = ypos;
         InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mScreenOffset.field_0_header.field_0_tag);
+
+        static PSX_RECT clipRect = {};
+        clipRect.x = 80;
+        clipRect.y = 50;
+        clipRect.w = 640 - 300;
+        clipRect.h = 480 - 200;
+
+        Init_PrimClipper_4F5B80(&mPrimClipper, &clipRect);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header.field_0_tag);
 
     }
 
@@ -924,6 +970,7 @@ private:
     Poly_F4 mPolyF4 = {};
 
     Prim_ScreenOffset mScreenOffset = {};
+    Prim_PrimClipper mPrimClipper = {};
 };
 
 EXPORT void CC Game_Loop_467230()
