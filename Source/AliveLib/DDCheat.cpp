@@ -21,9 +21,9 @@ ALIVE_VAR(1, 0x5c1c02, __int16, sVisitedBonewerks_5C1C02, 0);
 ALIVE_VAR(1, 0x5c1c04, __int16, sVisitedBarracks_5C1C04, 0);
 ALIVE_VAR(1, 0x5c1c06, __int16, sVisitedFeecoEnder_5C1C06, 0);
 
-ALIVE_VAR(1, 0x550f5c, __int16, sTeleport_Level_550F5C, 0);
-ALIVE_VAR(1, 0x550f5e, __int16, sTeleport_Path_550F5E, 0);
-ALIVE_VAR(1, 0x550f60, __int16, sTeleport_Cam_550F60, 0);
+ALIVE_VAR(1, 0x550f5c, unsigned __int16, sTeleport_Level_550F5C, 0);
+ALIVE_VAR(1, 0x550f5e, unsigned __int16, sTeleport_Path_550F5E, 0);
+ALIVE_VAR(1, 0x550f60, unsigned __int16, sTeleport_Cam_550F60, 0);
 
 ALIVE_VAR(1, 0x5c2c08, bool, sDDCheat_FlyingEnabled_5C2C08, false);
 ALIVE_VAR(1, 0x5c1bd8, bool, sDDCheat_ShowAI_Info_5C1BD8, false);
@@ -53,6 +53,91 @@ EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
 
 #define DDCHEAT_PROPERTY_LIST_SIZE 10
 ALIVE_ARY(1, 0x5BBF78, DDCheatProperty, DDCHEAT_PROPERTY_LIST_SIZE, DDCheatProperties_5BBF78, {});
+
+ALIVE_ARY(1, 0x550f64, const char*, 17, sTeleportLevelNameTable_550F64,{
+    "Start screen",
+    "Mines",
+    "Necrum",
+    "Paramite Vault",
+    "Scrab Vault",
+    "Feeco Depot",
+    "Slig Barracks",
+    "Scrab Ender",
+    "Bonewerks",
+    "Soulstorm Brewery",
+    "Brewery Ender",
+    "Paramite Ender",
+    "Feeco Ender",
+    "Barracks Ender",
+    "Bonewerks Ender",
+    "Test Level",
+    "Credits",
+});
+
+
+void DDCheat::Menu_Teleport_415E20()
+{
+    DebugStr_4F5560("\n[Teleport]\n");
+    DebugStr_4F5560("Level (1,2):         %s\n", sTeleportLevelNameTable_550F64[sTeleport_Level_550F5C]);
+    DebugStr_4F5560("Path    (Up/Down):   %d\n", sTeleport_Path_550F5E);
+    DebugStr_4F5560("Camera (Left/Right): %d\n", sTeleport_Cam_550F60);
+    DebugStr_4F5560("Teleport = Enter Reset = Alt\n");
+
+    field_20 += 6;
+
+    if (field_38_input_pressed & eGameSpeak1)
+    {
+        if (sTeleport_Level_550F5C)
+            --sTeleport_Level_550F5C;
+    }
+    else if (field_38_input_pressed & eGameSpeak2)
+    {
+        if (sTeleport_Level_550F5C < 16)
+        {
+            ++sTeleport_Level_550F5C;
+        }
+    }
+    else if (field_38_input_pressed & eUp)
+    {
+        ++sTeleport_Path_550F5E;
+    }
+    else if (field_38_input_pressed & eDown)
+    {
+        if (sTeleport_Path_550F5E > 1)
+        {
+            --sTeleport_Path_550F5E;
+        }
+    }
+    else if (field_38_input_pressed & eLeft)
+    {
+        if (sTeleport_Cam_550F60 > 1)
+        {
+            --sTeleport_Cam_550F60;
+        }
+    }
+    else if (field_38_input_pressed & eRight)
+    {
+        ++sTeleport_Cam_550F60;
+    }
+    else if (field_38_input_pressed & eSneak)
+    {
+        sTeleport_Level_550F5C = gMap_5C3030.sCurrentLevelId_5C3030;
+        sTeleport_Path_550F5E = gMap_5C3030.sCurrentPathId_5C3032;
+        sTeleport_Cam_550F60 = gMap_5C3030.sCurrentCamId_5C3034;
+    }
+    else if (field_38_input_pressed & eUnPause)
+    {
+        sDDCheat_FlyingEnabled_5C2C08 = true;
+        
+        gMap_5C3030.sub_480D30(sTeleport_Level_550F5C, sTeleport_Path_550F5E, sTeleport_Cam_550F60, 0, 0, 0);
+        field_3C_flags |= 0x4000u;
+    }
+}
+
+void DDCheat::Menu_Movies_416000()
+{
+    NOT_IMPLEMENTED();
+}
 
 DDCheat* DDCheat::ctor_4153C0()
 {
@@ -133,16 +218,6 @@ void DDCheat::DebugStr_4F5560(char * pFormatStr, ...)
     va_start(va, pFormatStr);
     vsprintf(buffer, pFormatStr, va);
     DebugFont_Printf_4F8B60(0, buffer);
-}
-
-void DDCheat::Menu_Teleport_415E20()
-{
-    NOT_IMPLEMENTED();
-}
-
-void DDCheat::Menu_Movies_416000()
-{
-    NOT_IMPLEMENTED();
 }
 
 void DDCheat::Update_415780()
