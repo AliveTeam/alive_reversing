@@ -43,6 +43,10 @@ add_library(AliveLib
     ResourceManager.hpp
     BaseGameObject.cpp
     BaseGameObject.hpp
+    BaseAliveGameObject.cpp
+    BaseAliveGameObject.hpp
+    Map.cpp
+    Map.hpp
     PsxDisplay.cpp
     PsxDisplay.hpp
     ScreenManager.cpp

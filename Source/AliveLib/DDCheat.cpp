@@ -19,6 +19,9 @@ ALIVE_VAR(1, 0x5c1c06, __int16, sVisitedFeecoEnder_5C1C06, 0);
 
 ALIVE_VAR(1, 0x5bc008, __int16, sScreenshotOnNextFrame_5BC008, 0);
 
+ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
+ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject *, sControlledCharacter_5C1B8C, 0);
+
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
 
 #define DDCHEAT_PROPERTY_LIST_SIZE 10
@@ -98,6 +101,34 @@ void CC DDCheat::sub_415390()
 void DDCheat::Update_415780()
 {
     NOT_IMPLEMENTED();
+
+    if (sScreenshotOnNextFrame_5BC008)
+        DDCheat_SaveScreenshot_415550();
+
+    field_20 = 0;
+
+    /*if (sCommandLine_DDCheatEnabled_5CA4B5)
+    {
+        v2 = this->field_3C_flags;
+        if (v2 & 4)
+        {
+            this->field_3C_flags = v2 & 0xFFFB;
+            if (sActiveHero_5C1B68)
+            {
+                sub_480680(&gMap_5C3030, a2);
+                sActiveHero_5C1B68->field_0_mBase.field_0_mBase.field_B8_xpos = (a2[0] + 184) << 16;
+                sActiveHero_5C1B68->field_0_mBase.field_0_mBase.field_BC_ypos = (a2[1] + 60) << 16;
+                sActiveHero_5C1B68->field_0_mBase.field_106_animation_num = 3;
+                LOBYTE(sActiveHero_5C1B68->field_1AC) |= 0x40u;
+                sActiveHero_5C1B68->field_0_mBase.field_0_mBase.field_C2_lvl_number = level;
+                sActiveHero_5C1B68->field_0_mBase.field_0_mBase.field_C0_path_number = *(&level + 1);
+                sDDCheat_FlyingEnabled_5C2C08 = 0;
+                sControlledCharacter_5C1B8C->field_100_pCollisionLine = 0;
+                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_0_mBase.field_BC_ypos;
+                this->field_3C_flags &= 0xFFFEu;
+            }
+        }
+    }*/
 }
 
 void DDCheat::VDestructor(signed int flags)
