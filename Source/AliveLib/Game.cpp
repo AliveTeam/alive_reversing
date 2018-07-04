@@ -23,6 +23,8 @@
 
 #include <fstream>
 
+#define DEVELOPER_MODE
+
 void Game_ForceLink() { }
 
 using TExitGameCallBack = std::add_pointer<void CC()>::type;
@@ -379,25 +381,32 @@ EXPORT void CC Game_Run_466D40()
     camera.dtor_480E00();
 
     Input_Init_491BC0();
+#ifdef DEVELOPER_MODE
+    gMap_5C3030.sub_4803F0(0, 1, 1, 0, 0, 0);
+#else
     gMap_5C3030.sub_4803F0(0, 1, 25, 0, 0, 0);
-
+#endif
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = alive_new<GameSpeak>(); // ctor_421820
     pCheatController_5BC120 = alive_new<CheatController>(); // ctor_421BD0
     
     Game_Init_LoadingIcon_482CD0();
 
+#ifdef DEVELOPER_MODE
     // LOAD DEBUG SAVE //
     // If debug.sav exists, load it before game start.
     // Makes debugging in game stuff a lot faster.
+    // NOTE: Hold left shift during boot to skip this.
     std::ifstream debugSave("debug.sav");
-    if (!debugSave.fail())
+
+    if (!debugSave.fail() && GetKeyState(VK_LSHIFT) > 0)
     {
         debugSave.read((char*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
         Quicksave_LoadActive_4C9170();
         debugSave.close();
     }
     /////////////////////////
+#endif
     
     // Main loop start
     Game_Loop_467230();
