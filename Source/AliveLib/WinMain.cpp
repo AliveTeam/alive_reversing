@@ -33,6 +33,7 @@ static void RunTests()
     Test::BmpTests();
     Test::PsxDisplayTests();
     Test::PsxTests();
+    Test::GameTests();
 }
 
 static void InitOtherHooksAndRunTests()

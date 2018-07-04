@@ -734,6 +734,38 @@ struct Prim_PrimClipper
 };
 ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
 
+EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
+{
+    return ((((tp) & 0x3) << 7) | (((abr) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) |(((y) & 0x200) << 2));
+}
+
+#include <gmock/gmock.h>
+
+namespace Test
+{
+    static void Test_PSX_getTPage_4F60E0()
+    {
+        ASSERT_EQ(0, PSX_getTPage_4F60E0(0, 0, 0, 0));
+
+        ASSERT_EQ(32, PSX_getTPage_4F60E0(0, 1, 0, 0));
+        ASSERT_EQ(64, PSX_getTPage_4F60E0(0, 2, 0, 0));
+        ASSERT_EQ(96, PSX_getTPage_4F60E0(0, 3, 0, 0));
+
+        ASSERT_EQ(128, PSX_getTPage_4F60E0(1, 0, 0, 0));
+        ASSERT_EQ(256, PSX_getTPage_4F60E0(2, 0, 0, 0));
+        ASSERT_EQ(384, PSX_getTPage_4F60E0(3, 0, 0, 0));
+  
+        ASSERT_EQ(1, PSX_getTPage_4F60E0(0, 0, 64, 0));
+        ASSERT_EQ(2, PSX_getTPage_4F60E0(0, 0, 64 * 2, 64));
+        ASSERT_EQ(18, PSX_getTPage_4F60E0(0, 0, 64 * 2, 64* 4));
+
+    }
+
+    void GameTests()
+    {
+        Test_PSX_getTPage_4F60E0();
+    }
+}
 
 EXPORT void CC Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
 {
