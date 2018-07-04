@@ -151,7 +151,7 @@ void InputObject::Update_45F040()
         // Will do nothing if we hit the end command..
         if (Is_Demo_Playing_45F220())
         {
-            field_0_pads[0].field_0_pressed = Command_To_Raw_404354(field_3C_command);
+            field_0_pads[0].field_0_pressed = Command_To_Raw_45EE40(field_3C_command);
         }
     }
 
@@ -166,7 +166,7 @@ void InputObject::Update_45F040()
     field_0_pads[1].field_4_dir = byte_545A4C[field_0_pads[1].field_0_pressed & 0xF];
 }
 
-DWORD CC InputObject::Command_To_Raw_404354(DWORD cmd)
+DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
 {
     unsigned int shoulderButtonsPressedCount = 0;
 
