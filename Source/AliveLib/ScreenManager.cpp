@@ -45,6 +45,16 @@ void ScreenManager::dtor_40E460(signed int flags)
     NOT_IMPLEMENTED();
 }
 
+void ScreenManager::sub_40EC90(int x, int y, signed int width, signed int height, int a6)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ScreenManager::InvalidateRect(int x, int y, signed int width, signed int height)
+{
+    sub_40EC90(x, y, width, height, field_3A);
+}
+
 ScreenManager::ScreenManager(int a2, int a3)
 {
     ctor_40E3E0(a2, a3);

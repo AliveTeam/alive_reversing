@@ -8,6 +8,42 @@ EXPORT void CC Input_InitKeyStateArray_4EDD60();
 EXPORT void CC Input_DisableInput_4EDDC0();
 EXPORT void CC Input_Init_491BC0();
 
+enum InputCommands : unsigned int
+{
+    eUp =           1 << 0,
+    eDown =         1 << 1,
+    eLeft =         1 << 2,
+    eRight =        1 << 3,
+    eRun =          1 << 4,
+    eDoAction =     1 << 5,  // Pick up rock, pull lever etc
+    eSneak =        1 << 6,
+    eThrowItem =    1 << 7,  // Or I say I dunno if no items
+    eHop =          1 << 8,
+    eFartOrRoll =   1 << 9,  // (Only roll in AO)
+    eGameSpeak1 =   1 << 10, // Hello
+    eGameSpeak2 =   1 << 11, // (Follow Me)
+    eGameSpeak3 =   1 << 12, // Wait
+    eGameSpeak4 =   1 << 13, // (Work) (Whistle 1)
+    eGameSpeak5 =   1 << 14, // (Anger)
+    eGameSpeak6 =   1 << 15, // (All ya) (Fart)
+    eGameSpeak7 =   1 << 16, // (Sympathy) (Whistle 2)
+    eGameSpeak8 =   1 << 17, // (Stop it) (Laugh)
+    eChant =        1 << 18, 
+    ePause =        1 << 19, // Or enter
+    eUnPause =      1 << 20, // Or/and back
+    // 0x200000     = nothing
+    eCheatMode =    1 << 22,
+    // 0x800000     = nothing
+    // 0x1000000    = nothing
+    // 0x2000000    = nothing
+    // 0x4000000    = nothing
+    // 0x8000000    = nothing
+    // 0x10000000   = nothing
+    // 0x20000000   = nothing
+    // 0x40000000   = nothing
+    // 0x80000000   = nothing
+};
+
 struct InputPadObject
 {
     DWORD field_0_pressed;
@@ -51,7 +87,7 @@ public:
     EXPORT void Update_45F040();
     EXPORT static DWORD CC Command_To_Raw_404354(DWORD cmd);
     EXPORT void CC ShutDown_45F020();
-private:
+public:
     InputPadObject field_0_pads[2];
     DWORD** field_30_pDemoRes;
     DWORD field_34_demo_command_index;
@@ -63,3 +99,4 @@ private:
 ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
+ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5C1BBE);

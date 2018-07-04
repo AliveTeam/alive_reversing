@@ -38,6 +38,9 @@ public:
     EXPORT void sub_cam_vlc_40EF60(unsigned __int16** a2);
     EXPORT void MoveImage_40EB70();
 
+    EXPORT void sub_40EC90(int a2, int a3, signed int a4, signed int a5, int a6);
+    EXPORT void InvalidateRect(int a2, int a3, signed int a4, signed int a5);
+
     virtual void VDestructor(signed int flags) override;
     ScreenManager(int a2, int a3);
 private:

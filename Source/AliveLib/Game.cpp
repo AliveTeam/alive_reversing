@@ -19,6 +19,9 @@
 #include "GameSpeak.hpp"
 #include "PathData.hpp"
 #include "DDCheat.hpp"
+#include "Quicksave.hpp"
+
+#include <fstream>
 
 void Game_ForceLink() { }
 
@@ -384,6 +387,17 @@ EXPORT void CC Game_Run_466D40()
     pCheatController_5BC120 = alive_new<CheatController>(); // ctor_421BD0
     
     Game_Init_LoadingIcon_482CD0();
+
+    // LOAD DEBUG SAVE //
+    // If debug.sav exists, load it before game start.
+    // Makes debugging in game stuff a lot faster.
+    std::ifstream debugSave("debug.sav");
+    if (!debugSave.fail())
+    {
+        debugSave.read((char*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
+        Quicksave_LoadActive_4C9170();
+    }
+    /////////////////////////
     
     // Main loop start
     Game_Loop_467230();

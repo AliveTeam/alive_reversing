@@ -29,6 +29,7 @@ public:
 
     EXPORT static void AddPropertyEntry_004162C0(const char *text, int unknown, int *valuePtr);
     static EXPORT void CC sub_415390();
+    static EXPORT void DebugStr_4F5560(char *pFormatStr, ...);
 
 private:
     EXPORT void Update_415780();

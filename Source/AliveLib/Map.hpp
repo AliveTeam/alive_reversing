@@ -33,6 +33,7 @@ public:
     EXPORT void sub_480B80();
     EXPORT int sub_4803F0(__int16 a2, __int16 a3, __int16 a4, __int16 a5, __int16 a6, __int16 a7);
     EXPORT void sub_4804E0();
+    EXPORT void sub_480680(__int16 * point);
 };
 ALIVE_ASSERT_SIZEOF(Map, 0x30);
 

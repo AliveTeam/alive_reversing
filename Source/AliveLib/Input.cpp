@@ -166,43 +166,6 @@ void InputObject::Update_45F040()
     field_0_pads[1].field_4_dir = byte_545A4C[field_0_pads[1].field_0_pressed & 0xF];
 }
 
-
-enum InputCommands : unsigned int
-{
-    eUp =           1 << 0,
-    eDown =         1 << 1,
-    eLeft =         1 << 2,
-    eRight =        1 << 3,
-    eRun =          1 << 4,
-    eDoAction =     1 << 5,  // Pick up rock, pull lever etc
-    eSneak =        1 << 6,
-    eThrowItem =    1 << 7,  // Or I say I dunno if no items
-    eHop =          1 << 8,
-    eFartOrRoll =   1 << 9,  // (Only roll in AO)
-    eGameSpeak1 =   1 << 10, // Hello
-    eGameSpeak2 =   1 << 11, // (Follow Me)
-    eGameSpeak3 =   1 << 12, // Wait
-    eGameSpeak4 =   1 << 13, // (Work) (Whistle 1)
-    eGameSpeak5 =   1 << 14, // (Anger)
-    eGameSpeak6 =   1 << 15, // (All ya) (Fart)
-    eGameSpeak7 =   1 << 16, // (Sympathy) (Whistle 2)
-    eGameSpeak8 =   1 << 17, // (Stop it) (Laugh)
-    eChant =        1 << 18, 
-    ePause =        1 << 19, // Or enter
-    eUnPause =      1 << 20, // Or/and back
-    // 0x200000     = nothing
-    eCheatMode =    1 << 22,
-    // 0x800000     = nothing
-    // 0x1000000    = nothing
-    // 0x2000000    = nothing
-    // 0x4000000    = nothing
-    // 0x8000000    = nothing
-    // 0x10000000   = nothing
-    // 0x20000000   = nothing
-    // 0x40000000   = nothing
-    // 0x80000000   = nothing
-};
-
 DWORD CC InputObject::Command_To_Raw_404354(DWORD cmd)
 {
     unsigned int shoulderButtonsPressedCount = 0;

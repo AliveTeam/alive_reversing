@@ -18,4 +18,9 @@ void Map::sub_4804E0()
     NOT_IMPLEMENTED();
 }
 
+void Map::sub_480680(__int16 * point)
+{
+    NOT_IMPLEMENTED();
+}
+
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});

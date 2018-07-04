@@ -94,3 +94,5 @@ EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(unsigned __int16 lvlId, unsigned _
 EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, __int16 levelId, __int16 pathId, __int16 cameraId);
 
 const char* CdLvlName(unsigned __int16 lvlId);
+
+ALIVE_VAR_EXTERN(PathRootContainer, sPathData_559660);

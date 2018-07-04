@@ -35,7 +35,9 @@ ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_5C1130);
 ALIVE_VAR_EXTERN(bool, sCommandLine_NoFrameSkip_5CA4D1);
 
 EXPORT void CC DebugFont_Flush_4DD050();
+EXPORT int CC DebugFont_Printf_4F8B60(int idx, const char* formatStr, ...);
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);
+
 
 namespace Test
 {
