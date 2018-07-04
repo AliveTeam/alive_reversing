@@ -742,6 +742,21 @@ struct Prim_SetTPage
 ALIVE_ASSERT_SIZEOF(Prim_SetTPage, 0x10);
 
 
+struct Line_G2
+{
+    PrimHeader field_0_header;
+
+    __int16 field_C_x0;
+    __int16 field_E_y0;
+
+    BYTE field_10_r1;
+    BYTE field_11_g1;
+    BYTE field_12_b1;
+    char field_13_pad2;
+    __int16 field_14_x1;
+    __int16 field_16_y1;
+};
+// TODO: Assert size
 
 EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
 {
@@ -907,8 +922,11 @@ public:
         clipRect.h = 480 - 200;
 
         Init_PrimClipper_4F5B80(&mPrimClipper, &clipRect);
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header.field_0_tag);
+       // OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header.field_0_tag);
 
+       OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG2.field_0_header.field_0_tag);
+
+        
     }
 
     void Destruct()
@@ -1010,8 +1028,27 @@ private:
             mPolyG4.field_21_g3 = 0;
             mPolyG4.field_22_b3 = 255;
 
+            mLineG2.field_0_header.field_8_r0 = 255;
+            mLineG2.field_0_header.field_9_g0 = 255;
+            mLineG2.field_0_header.field_A_b0 = 0;
+            mLineG2.field_0_header.field_B_code = 0x50;
+            mLineG2.field_0_header.field_4.mNormal.field_4_num_longs = 4;
+            mLineG2.field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
+
+            mLineG2.field_10_r1 = 255;
+            mLineG2.field_11_g1 = 0;
+            mLineG2.field_12_b1 = 255;
+
+            mLineG2.field_C_x0 = 250;
+            mLineG2.field_E_y0 = 80;
+
+            mLineG2.field_14_x1 = 350;
+            mLineG2.field_16_y1 = 110;
+
         }
     }
+
+    Line_G2 mLineG2 = {};
 
     Poly_G3 mPolyG3 = {};
     Poly_G4 mPolyG4 = {};
@@ -1019,6 +1056,8 @@ private:
 
     Prim_ScreenOffset mScreenOffset = {};
     Prim_PrimClipper mPrimClipper = {};
+
+    // TODO: Test SetTPage
 };
 
 EXPORT void CC Game_Loop_467230()
