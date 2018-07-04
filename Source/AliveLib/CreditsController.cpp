@@ -21,13 +21,15 @@ void CreditsController::VUpdate()
     Update_418AC0();
 }
 
+constexpr int kShowCreditScreenForTicks = 160;
+
 CreditsController * CreditsController::ctor_418A10(int a2, int a3)
 {
-    BaseGameObject::ctor_4DBFA0(1, 0);
+    BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544618);
 
-    field_24 = gMap_5C3030.sCurrentCamId_5C3034;
-    field_20_next_cam_frame = sGnFrame_5C1B84 + 160;
+    field_24_camera_number = gMap_5C3030.sCurrentCamId_5C3034;
+    field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
 
     sDoesCreditsControllerExist_5C1B90 = true;
     
@@ -37,7 +39,7 @@ CreditsController * CreditsController::ctor_418A10(int a2, int a3)
 void CreditsController::dtor_418A90()
 {
     sDoesCreditsControllerExist_5C1B90 = false;
-    BaseGameObject::dtor_4DBEC0();
+    BaseGameObject_dtor_4DBEC0();
 }
 
 void CreditsController::dtor_418A60(char flags)
@@ -53,31 +55,31 @@ void CreditsController::Update_418AC0()
 {
     if (field_20_next_cam_frame <= sGnFrame_5C1B84)
     {
-        field_24++;
-        field_20_next_cam_frame = sGnFrame_5C1B84 + 160;
+        field_24_camera_number++;
+        field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
 
         if (gMap_5C3030.sCurrentPathId_5C3032 == 2)
         {
-            if (field_24 > 22)
+            if (field_24_camera_number > 22)
             {
-                field_24 = 1;
+                field_24_camera_number = 1;
                 gMap_5C3030.sub_480D30(16, 1, 1, 3, 0, 0);
             }
             else
             {
-                gMap_5C3030.sub_480D30(16, 2, field_24, 3, 0, 0);
+                gMap_5C3030.sub_480D30(16, 2, field_24_camera_number, 3, 0, 0);
             }
             word_5C30FE = 1;
         }
         else
         {
-            if (field_24 > 36)
+            if (field_24_camera_number > 36)
             {
                 gMap_5C3030.sub_480D30(0, 1, 1, 0, 0, 0);
             }
             else
             {
-                gMap_5C3030.sub_480D30(16, 1, field_24, 3, 0, 0);
+                gMap_5C3030.sub_480D30(16, 1, field_24_camera_number, 3, 0, 0);
             }
             word_5C30FE = 1;
         }

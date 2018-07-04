@@ -34,7 +34,7 @@ ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
 ALIVE_VAR(1, 0x5C1B70, Class_5C1B70, dword_5C1B70, {});
 
 
-void BaseGameObject::ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize)
+void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize)
 {
     SetVTable(this, 0x547AC4);
 
@@ -57,7 +57,7 @@ void BaseGameObject::ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resour
     dword_5C1B70.sub_449C10(nextId, this);
 }
 
-EXPORT void BaseGameObject::dtor_4DBEC0()
+EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
 {
     NOT_IMPLEMENTED();
 }

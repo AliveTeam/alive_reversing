@@ -9,10 +9,6 @@
 
 void DDCheat_ForceLink() { }
 
-// UNOFFICIAL MODS
-#define FORCE_DDCHEAT
-//
-
 ALIVE_VAR(1, 0x5c1be6, int, sDoorsOpen_5C1BE6, 0);
 ALIVE_VAR(1, 0x5c1bd0, int, sTweakX_5C1BD0, 0);
 ALIVE_VAR(1, 0x5c1bd4, int, sTweakY_5C1BD4, 0);
@@ -29,7 +25,7 @@ ALIVE_VAR(1, 0x5c2c08, bool, sDDCheat_FlyingEnabled_5C2C08, false);
 ALIVE_VAR(1, 0x5c1bd8, bool, sDDCheat_ShowAI_Info_5C1BD8, false);
 ALIVE_VAR(1, 0x5bc000, bool, sDDCheat_AlwaysShow_5BC000, false);
 ALIVE_VAR(1, 0x5bc004, int, sDDCheat_Unknown_5BC004, 0);
-ALIVE_VAR(1, 0x5bbff4, int, sDDCheat_PrevDebugInput_5BBFF4, 0);
+ALIVE_VAR(1, 0x5bbff4, DWORD, sDDCheat_PrevDebugInput_5BBFF4, 0);
 ALIVE_VAR(1, 0x550fa8, int, sDDCheat_DebugInputDelay_550FA8, 0);
 
 using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport_415E20);
@@ -141,7 +137,7 @@ void DDCheat::Menu_Movies_416000()
 
 DDCheat* DDCheat::ctor_4153C0()
 {
-    BaseGameObject::ctor_4DBFA0(1, 0);
+    BaseGameObject::BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544518);
     field_6_flags |= 0x300;
 
@@ -178,7 +174,7 @@ DDCheat* DDCheat::ctor_4153C0()
 
 void DDCheat::dtor_415530()
 {
-    dtor_4DBEC0();
+    BaseGameObject_dtor_4DBEC0();
 }
 
 
@@ -198,7 +194,7 @@ void DDCheat::AddPropertyEntry_004162C0(const char * text, int unknown, int * va
         if (DDCheatProperties_5BBF78[i].Name == nullptr)
         {
             DDCheatProperties_5BBF78[i].Name = text;
-            DDCheatProperties_5BBF78[i].Unknown = unknown;
+            DDCheatProperties_5BBF78[i].Unknown = unknown; // property type ?
             DDCheatProperties_5BBF78[i].ValuePtr = valuePtr;
             break;
         }
@@ -210,10 +206,10 @@ void CC DDCheat::sub_415390()
     NOT_IMPLEMENTED();
 }
 
-void DDCheat::DebugStr_4F5560(char * pFormatStr, ...)
+void DDCheat::DebugStr_4F5560(const char* pFormatStr, ...)
 {
-    char buffer[1024]; // [esp+0h] [ebp-400h]
-    va_list va; // [esp+408h] [ebp+8h]
+    char buffer[1024] = {};
+    va_list va;
 
     va_start(va, pFormatStr);
     vsprintf(buffer, pFormatStr, va);
@@ -223,7 +219,9 @@ void DDCheat::DebugStr_4F5560(char * pFormatStr, ...)
 void DDCheat::Update_415780()
 {
     if (sScreenshotOnNextFrame_5BC008)
+    {
         DDCheat_SaveScreenshot_415550();
+    }
 
     field_20 = 0;
 
@@ -256,15 +254,23 @@ void DDCheat::Update_415780()
             if (!sDDCheat_FlyingEnabled_5C2C08)
             {
                 if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
+                {
                     sActiveHero_5C1B68->field_1AC |= 0x4000u;
+                }
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = 0;
                 sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
+
             sDDCheat_ShowAI_Info_5C1BD8 = false;
+
             if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
+            {
                 sActiveHero_5C1B68->field_1AC |= 0x4000u; // Check these damn lobyte things
+            }
+
             sControlledCharacter_5C1B8C->field_100_pCollisionLine = 0;
             sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
+
             switch (sControlledCharacter_5C1B8C->field_4_typeId)
             {
             case 67:
@@ -301,22 +307,31 @@ void DDCheat::Update_415780()
                 gMap_5C3030.sCurrentPathId_5C3032,
                 gMap_5C3030.sCurrentCamId_5C3034,
                 sGnFrame_5C1B84);
+
             DebugStr_4F5560(
                 "\nheroxy=%4d,%4d",
                 sActiveHero_5C1B68->field_B8_xpos / 0x10000,
                 sActiveHero_5C1B68->field_BC_ypos / 0x10000);
+
             field_20 = 6;
+
             if (sDDCheat_FlyingEnabled_5C2C08)
             {
                 if (activePadPressed & eDoAction)
+                {
                     sDDCheat_ShowAI_Info_5C1BD8 = !sDDCheat_ShowAI_Info_5C1BD8;
+                }
+
                 if ((activePadPressed & eThrowItem) != 0)
                 {
                     sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
                     sDDCheat_Unused1_AB4A00 = sDDCheat_Unused2_AB49FC;
                 }
+
                 if (activePadPressed & eHop)
+                {
                     sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
+                }
             }
 
             /*DebugStr_4F5560("\n[Memory]");
@@ -330,7 +345,7 @@ void DDCheat::Update_415780()
         {
             if (!--sDDCheat_DebugInputDelay_550FA8)
             {
-                this->field_38_input_pressed = sDDCheat_PrevDebugInput_5BBFF4;
+                field_38_input_pressed = sDDCheat_PrevDebugInput_5BBFF4;
                 sDDCheat_DebugInputDelay_550FA8 = 2;
             }
         }
@@ -341,9 +356,11 @@ void DDCheat::Update_415780()
         }
 
         if (field_38_input_pressed & ePause)
+        {
             field_3C_flags ^= ((unsigned __int8)field_3C_flags ^ (unsigned __int8)~(unsigned __int8)field_3C_flags) & 1;
-        auto ddcheat_flags_3c = field_3C_flags;
-        if (ddcheat_flags_3c & 1)
+        }
+
+        if (field_3C_flags & 1)
         {
             if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & eCheatMode)
             {
@@ -351,9 +368,10 @@ void DDCheat::Update_415780()
             }
             else if (field_38_input_pressed & eCheatMode)
             {
-                field_3C_flags = ddcheat_flags_3c ^ ((unsigned __int8)ddcheat_flags_3c ^ (unsigned __int8)~(BYTE)ddcheat_flags_3c) & 2;
+                field_3C_flags = field_3C_flags ^ ((unsigned __int8)field_3C_flags ^ (unsigned __int8)~(BYTE)field_3C_flags) & 2;
                 field_26_next_fn_idx = field_24_fn_idx;
             }
+
             // Using hop instead looks like the only way to actually change the menu properly
             if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & eHop /*field_3C_flags & 2*/)
             {
@@ -365,15 +383,22 @@ void DDCheat::Update_415780()
                 {
                     field_26_next_fn_idx--;
                 }
+
                 if (field_38_input_pressed & eUnPause)
                 {
                     //field_24_fn_idx = field_26_next_fn_idx;
                     field_3C_flags &= ~0x2;
                 }
+
                 if (field_26_next_fn_idx < 0)
+                {
                     field_26_next_fn_idx = DDCHEAT_MENU_COUNT - 1;
+                }
+
                 if (field_26_next_fn_idx >= DDCHEAT_MENU_COUNT)
+                {
                     field_26_next_fn_idx = 0;
+                }
                 
                 field_24_fn_idx = field_26_next_fn_idx; // Always set new func index
                 field_20 += 4;
@@ -385,7 +410,9 @@ void DDCheat::Update_415780()
         }
 
         if (field_20)
+        {
             pScreenManager_5BB5F4->InvalidateRect(0, 0, 640, 240);
+        }
 
         /*if (sControlledCharacter_5C1B8C == (BaseAliveGameObject *)sActiveHero_5C1B68)
             sActiveHero_5C1B68->field_1AC |= 0x4000u;

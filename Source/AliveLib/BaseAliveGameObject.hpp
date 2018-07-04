@@ -27,5 +27,6 @@ public:
     int field_110;
     __int16 field_114_flags;
 };
+#pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x116);
 

@@ -14,7 +14,7 @@ GameSpeak::GameSpeak()
 
 GameSpeak* GameSpeak::ctor_421820()
 {
-    BaseGameObject::ctor_4DBFA0(1, 0);
+    BaseGameObject::BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544B20);
 
     field_6_flags |= 0x100; // Dont destroy on loading save
@@ -29,7 +29,7 @@ GameSpeak* GameSpeak::ctor_421820()
 void GameSpeak::dtor_4218A0()
 {
     pEventSystem_5BC11C = nullptr;
-    dtor_4DBEC0();
+    BaseGameObject_dtor_4DBEC0();
 }
 
 

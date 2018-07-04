@@ -23,8 +23,6 @@
 
 #include <fstream>
 
-#define DEVELOPER_MODE
-
 void Game_ForceLink() { }
 
 using TExitGameCallBack = std::add_pointer<void CC()>::type;
@@ -758,7 +756,7 @@ public:
         // Don't hack the vtable else our virtuals won't get called and we can't hack the correct one back since we don't know the address of our vtable.
         DisableVTableHack disableHack;
 
-        ctor_4DBFA0(1, 1);
+        BaseGameObject_ctor_4DBFA0(1, 1);
 
         InitTestRender();
         
