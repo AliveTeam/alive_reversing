@@ -734,6 +734,15 @@ struct Prim_PrimClipper
 };
 ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
 
+struct Prim_SetTPage
+{
+    PrimHeader field_0_header;
+    int field_C_tpage;
+};
+ALIVE_ASSERT_SIZEOF(Prim_SetTPage, 0x10);
+
+
+
 EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
 {
     return ((((tp) & 0x3) << 7) | (((abr) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) |(((y) & 0x200) << 2));
@@ -765,6 +774,13 @@ namespace Test
     {
         Test_PSX_getTPage_4F60E0();
     }
+}
+
+EXPORT void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage)
+{
+    pPrim->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
+    pPrim->field_0_header.field_B_code = 0x80u;
+    pPrim->field_C_tpage = tpage;
 }
 
 EXPORT void CC Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
