@@ -383,7 +383,6 @@ EXPORT void CC Game_Run_466D40()
 
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = alive_new<GameSpeak>(); // ctor_421820
-
     pCheatController_5BC120 = alive_new<CheatController>(); // ctor_421BD0
     
     Game_Init_LoadingIcon_482CD0();
@@ -396,6 +395,7 @@ EXPORT void CC Game_Run_466D40()
     {
         debugSave.read((char*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
         Quicksave_LoadActive_4C9170();
+        debugSave.close();
     }
     /////////////////////////
     

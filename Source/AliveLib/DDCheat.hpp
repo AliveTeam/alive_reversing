@@ -31,6 +31,9 @@ public:
     static EXPORT void CC sub_415390();
     static EXPORT void DebugStr_4F5560(char *pFormatStr, ...);
 
+    EXPORT void Menu_Teleport_415E20();
+    EXPORT void Menu_Movies_416000();
+
 private:
     EXPORT void Update_415780();
 private:

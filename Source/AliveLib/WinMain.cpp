@@ -14,6 +14,7 @@
 #include "DDCheat.hpp"
 #include "DynamicArray.hpp"
 #include "Game.hpp"
+#include "Map.hpp"
 #include "PsxDisplay.hpp"
 #include "easylogging++.h"
 #include <gmock/gmock.h>
@@ -46,6 +47,7 @@ static void InitOtherHooksAndRunTests()
     Game_ForceLink();
     GameSpeak_ForceLink();
     DDCheat_ForceLink();
+    Map_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
