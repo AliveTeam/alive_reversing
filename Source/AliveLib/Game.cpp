@@ -694,6 +694,29 @@ ALIVE_ASSERT_SIZEOF(Poly_G4, 0x28);
 
 ALIVE_VAR(1, 0xBD146C, BYTE, byte_BD146C, 0);
 
+struct PSX_Pos16
+{
+    short x, y;
+};
+
+// TODO: FIX ME - in hacked window mode screen offset doesn't actually work. Notice how explosion/screen shakes do nothing.
+struct Prim_ScreenOffset
+{
+    PrimHeader field_0_header;
+    short field_C_xoff;
+    short field_E_yoff;
+};
+ALIVE_ASSERT_SIZEOF(Prim_ScreenOffset, 0x10);
+
+
+EXPORT void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, PSX_Pos16* pOffset)
+{
+    pPrim->field_0_header.field_5_unknown = byte_BD146C;
+    pPrim->field_0_header.field_B_code = 0x82u;
+    pPrim->field_C_xoff = pOffset->x;
+    pPrim->field_E_yoff = pOffset->y;
+}
+
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly)
 {
     pPoly->field_0_header.field_4_num_longs = 6;
@@ -779,6 +802,18 @@ public:
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG3.field_0_header.field_0_tag); // 30 being the "layer"
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.field_0_header.field_0_tag);
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG4.field_0_header.field_0_tag);
+
+        static PSX_Pos16 xy = {};
+        static short ypos = 0;
+        ypos++;
+        if (ypos > 30)
+        {
+            ypos = 0;
+        }
+        xy.x = ypos;
+        xy.y = ypos;
+        InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mScreenOffset.field_0_header.field_0_tag);
 
     }
 
@@ -887,6 +922,8 @@ private:
     Poly_G3 mPolyG3 = {};
     Poly_G4 mPolyG4 = {};
     Poly_F4 mPolyF4 = {};
+
+    Prim_ScreenOffset mScreenOffset = {};
 };
 
 EXPORT void CC Game_Loop_467230()
