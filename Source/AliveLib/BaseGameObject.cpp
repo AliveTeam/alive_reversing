@@ -41,13 +41,13 @@ void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed
     field_10_resources_array.ctor_40C9E0(resourceArraySize);
     field_1C_update_delay = 0;
     field_4_typeId = 0;
-    field_6_flags = field_6_flags & 0xF80A | 2;
+    field_6_flags = field_6_flags & 0xF80A | BaseGameObject::eUpdatable; // TODO: To enum
 
     if (bAddToObjectList)
     {
         if (!gBaseGameObject_list_BB47C4->Push_Back(this))
         {
-            field_6_flags |= 1u;
+            field_6_flags |= BaseGameObject::eListAddFailed;
         }
     }
 

@@ -44,6 +44,7 @@ class AnimationEx : public Animation
     
     WORD field_28_dbuf_size;
 
+
     BYTE field_2A[38];
     BYTE field_50[38];
 
@@ -171,7 +172,7 @@ public:
 
     void vsub_40D550()
     {
-        field_6_flags |= 4u;
+        field_6_flags |= BaseGameObject::eDead;
     }
 
     void dtor_40D4C0()

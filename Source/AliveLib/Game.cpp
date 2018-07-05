@@ -883,7 +883,7 @@ public:
 
         InitTestRender();
         
-        field_6_flags |= 0x8;
+        field_6_flags |= BaseGameObject::eDrawable;
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -1083,22 +1083,9 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            // bit 00 = 0x001 = BaseGameObject couldn't add to list / it unsets inverse of 0xF80A / 0b1111100000001010
-            // bit 01 = 0x002 = do update ?
-            // bit 02 = 0x004 = dead
-            // bit 03 = 0x008 = render
-            // bit 04 = 0x010 = set by BaseAnimatedWithPhysicsGameObject
-            // bit 05 = 0x020 = set by BaseAliveGameObject
-            // bit 06 = 0x040 = set by ChantSuppressor::ctor_466350 / MovingBomb::ctor_46FD40 - explodable?
-            // bit 07 = 0x080 = set by Uxb::ctor_4DE9A0 = pressable ?
-         
-            // bit 08 = 0x100 = ?
-            // bit 09 = 0x200 = still update in some circumstance ? when word_5C1B66 is 0
-            // bit 10 = 0x400 = can never be removed
-            // bit 11 = 0x800 = ?
-            // bit 12 = 0x1000 = ?
-
-            if (pBaseGameObject->field_6_flags & 2 && !(pBaseGameObject->field_6_flags & 4) && (!word_5C1B66 || pBaseGameObject->field_6_flags & 0x200))
+            if (pBaseGameObject->field_6_flags & BaseGameObject::eUpdatable 
+                && !(pBaseGameObject->field_6_flags & BaseGameObject::eDead) 
+                && (!word_5C1B66 || pBaseGameObject->field_6_flags &  BaseGameObject::eUpdatableExtra))
             {
                 if (pBaseGameObject->field_1C_update_delay <= 0)
                 {
@@ -1152,13 +1139,13 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            if (pObj->field_6_flags & 4)
+            if (pObj->field_6_flags & BaseGameObject::eDead)
             {
-                pObj->field_6_flags = pObj->field_6_flags & ~0x400;
+                pObj->field_6_flags = pObj->field_6_flags & ~BaseGameObject::eCantKill;
             }
-            else if (pObj->field_6_flags & 8)
+            else if (pObj->field_6_flags & BaseGameObject::eDrawable)
             {
-                pObj->field_6_flags |= 0x400;
+                pObj->field_6_flags |= BaseGameObject::eCantKill;
                 pObj->VRender(pOtBuffer);
             }
         }
@@ -1172,13 +1159,13 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            if (pFG1->field_6_flags & 4)
+            if (pFG1->field_6_flags & BaseGameObject::eDead)
             {
-                pFG1->field_6_flags = pFG1->field_6_flags & ~0x400;
+                pFG1->field_6_flags = pFG1->field_6_flags & ~BaseGameObject::eCantKill;
             }
-            else if (pFG1->field_6_flags & 8)
+            else if (pFG1->field_6_flags & BaseGameObject::eDrawable)
             {
-                pFG1->field_6_flags |= 0x400;
+                pFG1->field_6_flags |= BaseGameObject::eCantKill;
                 pFG1->VRender(pOtBuffer);
             }
         }
@@ -1200,7 +1187,7 @@ EXPORT void CC Game_Loop_467230()
             }
 
             const int flags = pObj->field_6_flags;
-            if (flags & 4 && !(flags & 0x400))
+            if (flags & 4 && !(flags & BaseGameObject::eCantKill))
             {
                 DynamicArrayIter it;
                 it.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;

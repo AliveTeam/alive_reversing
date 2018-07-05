@@ -78,7 +78,7 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
     field_F4_res = pAnimHeader;
     if (!pAnimHeader)
     {
-        field_6_flags = field_6_flags & 0xFFF7 | 4;
+        field_6_flags = field_6_flags & 0xFFF7 | 4; // TODO: Enum bits
     }
 
     const int x = pPathParams->field_8_xpos << 16;

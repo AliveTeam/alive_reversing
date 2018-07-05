@@ -6,6 +6,50 @@
 class BaseGameObject
 {
 public:
+
+    enum Options
+    {
+        // bit 00 = 0x001 = BaseGameObject couldn't add to list / it unsets inverse of 0xF80A / 0b1111100000001010
+        eListAddFailed = 0x001,
+
+        // bit 01 = 0x002 = do update ?
+        eUpdatable = 0x002,
+
+        // bit 02 = 0x004 = dead
+        eDead = 0x004,
+
+        // bit 03 = 0x008 = render
+        eDrawable = 0x008,
+
+        // bit 04 = 0x010 = set by BaseAnimatedWithPhysicsGameObject
+        eBit04 = 0x010,
+
+        // bit 05 = 0x020 = set by BaseAliveGameObject
+        eIsBaseAliveGameObject = 0x020,
+
+        // bit 06 = 0x040 = set by ChantSuppressor::ctor_466350 / MovingBomb::ctor_46FD40 - explodable?
+        eCanExplode = 0x040,
+
+        // bit 07 = 0x080 = set by Uxb::ctor_4DE9A0 = pressable ?
+        eInteractive = 0x080,
+
+        // bit 08 = 0x100 = ?
+        eBit08 = 0x100,
+
+        // bit 09 = 0x200 = still update in some circumstance ? when word_5C1B66 is 0
+        eUpdatableExtra = 0x200,
+
+        // bit 10 = 0x400 = can never be removed
+        eCantKill = 0x400,
+
+        // bit 11 = 0x800 = ?
+        eBit11 = 0x800,
+
+        // bit 12 = 0x1000 = ?
+        eBit12 = 0x1000,
+
+    };
+
     // Order must match VTable
     virtual void VDestructor(signed int) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
     virtual void VUpdate();

@@ -139,7 +139,7 @@ DDCheat* DDCheat::ctor_4153C0()
 {
     BaseGameObject::BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544518);
-    field_6_flags |= 0x300;
+    field_6_flags |= 0x300; // TODO: Enum bits
 
     field_3C_flags &= 0xFFF8u;
     field_4_typeId = 19;
