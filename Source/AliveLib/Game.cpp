@@ -665,6 +665,10 @@ struct Poly_G3
 };
 ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
 
+// TODO: Poly_F3 @ MotionDetector::vsub_469120
+// TODO: Line_G4 @ SnoozeParticle::Render_4B0AF0
+// TODO: Poly_FT4  0x2C
+
 struct Poly_F4
 {
     PrimHeader field_0_header;
@@ -763,6 +767,11 @@ EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
     return ((((tp) & 0x3) << 7) | (((abr) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) |(((y) & 0x200) << 2));
 }
 
+EXPORT int CC PSX_getClut_4F6350(int x, int y)
+{
+    return (y << 6) | (x >> 4) & 63;
+}
+
 #include <gmock/gmock.h>
 
 namespace Test
@@ -817,6 +826,26 @@ EXPORT void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_
     pPrim->field_E_yoff = pOffset->y;
 }
 
+struct Prim_Sprt
+{
+    PrimHeader field_0_header;
+    short field_C_x0;
+    short field_E_y0;
+    BYTE field_10_u0;
+    BYTE field_11_v0;
+    WORD field_12_clut;
+    __int16 field_14_w;
+    __int16 field_16_h;
+};
+ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
+
+EXPORT void CC Sprt_Init_4F8910(Prim_Sprt* pPrim)
+{
+    pPrim->field_0_header.field_4.mNormal.field_4_num_longs = 4;
+    pPrim->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
+    pPrim->field_0_header.field_B_code = 0x64;
+}
+
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly)
 {
     pPoly->field_0_header.field_4.mNormal.field_4_num_longs = 6;
@@ -863,8 +892,6 @@ EXPORT void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans)
         pPrim->field_B_code = pPrim->field_B_code & ~2;
     }
 }
-
-
 
 EXPORT void CC OrderingTable_Add_4F8AA0(int** pOt, void* pItem)
 {
@@ -1058,6 +1085,8 @@ private:
     Prim_PrimClipper mPrimClipper = {};
 
     // TODO: Test SetTPage
+    // TODO: Test Prim_Sprt
+    // TODO: Test Prim_Tile
 };
 
 EXPORT void CC Game_Loop_467230()
