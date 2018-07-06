@@ -411,7 +411,7 @@ void DDCheat::Update_415780()
 
         if (field_20)
         {
-            pScreenManager_5BB5F4->InvalidateRect(0, 0, 640, 240);
+            pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
         }
 
         /*if (sControlledCharacter_5C1B8C == (BaseAliveGameObject *)sActiveHero_5C1B68)
