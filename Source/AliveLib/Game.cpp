@@ -665,10 +665,20 @@ struct Poly_G3
 };
 ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
 
-// TODO: Poly_F3 @ MotionDetector::vsub_469120
 // TODO: Line_G4 @ SnoozeParticle::Render_4B0AF0
 // TODO: Poly_FT4  0x2C
 
+struct Poly_F3
+{
+    PrimHeader field_0_header;
+    __int16 field_C_x0;
+    __int16 field_E_y0;
+    __int16 field_10_x1;
+    __int16 field_12_y1;
+    __int16 field_14_x2;
+    __int16 field_16_y2;
+};
+ALIVE_ASSERT_SIZEOF(Poly_F3, 0x18);
 
 struct Poly_F4
 {
@@ -847,6 +857,22 @@ EXPORT void CC Sprt_Init_4F8910(Prim_Sprt* pPrim)
     pPrim->field_0_header.field_B_code = 0x64;
 }
 
+// Note: Inlined everywhere in real game
+void PolyF3_Init(Poly_F3* pPoly)
+{
+    pPoly->field_0_header.field_4.mNormal.field_4_num_longs = 4;
+    pPoly->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
+    pPoly->field_0_header.field_B_code = 0x20;
+}
+
+// Note: Inlined everywhere in real game
+void LineG2_Init(Line_G2* pLine)
+{
+    pLine->field_0_header.field_4.mNormal.field_4_num_longs = 4;
+    pLine->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
+    pLine->field_0_header.field_B_code = 0x50;
+}
+
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly)
 {
     pPoly->field_0_header.field_4.mNormal.field_4_num_longs = 6;
@@ -954,7 +980,8 @@ public:
 
        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG2.field_0_header.field_0_tag);
 
-        
+       OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.field_0_header.field_0_tag);
+
     }
 
     void Destruct()
@@ -985,6 +1012,23 @@ private:
             mPolyG3.field_1A_b2 = 255;
             mPolyG3.field_1C_x2 = 150;
             mPolyG3.field_1E_y2 = 100;
+        }
+
+        {
+            PolyF3_Init(&mPolyF3);
+
+            mPolyF3.field_0_header.field_8_r0 = 255;
+            mPolyF3.field_0_header.field_9_g0 = 255;
+            mPolyF3.field_0_header.field_A_b0 = 0;
+
+            mPolyF3.field_C_x0 = 180+50;
+            mPolyF3.field_E_y0 = 50;
+
+            mPolyF3.field_10_x1 = 180+200;
+            mPolyF3.field_12_y1 = 50;
+
+            mPolyF3.field_14_x2 = 180+150;
+            mPolyF3.field_16_y2 = 100;
         }
 
         {
@@ -1040,7 +1084,7 @@ private:
             mPolyG4.field_10_r1 = 0;
             mPolyG4.field_11_g1 = 0;
             mPolyG4.field_12_b1 = 255;
-         
+
 
             mPolyG4.field_1C_x2 = points[2].x;
             mPolyG4.field_1E_y2 = points[2].y;
@@ -1055,13 +1099,14 @@ private:
             mPolyG4.field_20_r3 = 255;
             mPolyG4.field_21_g3 = 0;
             mPolyG4.field_22_b3 = 255;
+        }
+
+        {
+            LineG2_Init(&mLineG2);
 
             mLineG2.field_0_header.field_8_r0 = 255;
             mLineG2.field_0_header.field_9_g0 = 255;
             mLineG2.field_0_header.field_A_b0 = 0;
-            mLineG2.field_0_header.field_B_code = 0x50;
-            mLineG2.field_0_header.field_4.mNormal.field_4_num_longs = 4;
-            mLineG2.field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
 
             mLineG2.field_10_r1 = 255;
             mLineG2.field_11_g1 = 0;
@@ -1072,13 +1117,15 @@ private:
 
             mLineG2.field_14_x1 = 350;
             mLineG2.field_16_y1 = 110;
-
         }
+        
     }
 
     Line_G2 mLineG2 = {};
 
     Poly_G3 mPolyG3 = {};
+    Poly_F3 mPolyF3 = {};
+
     Poly_G4 mPolyG4 = {};
     Poly_F4 mPolyF4 = {};
 
