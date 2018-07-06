@@ -135,6 +135,11 @@ void DDCheat::Menu_Movies_416000()
     NOT_IMPLEMENTED();
 }
 
+DDCheat::DDCheat()
+{
+    ctor_4153C0();
+}
+
 DDCheat* DDCheat::ctor_4153C0()
 {
     BaseGameObject::BaseGameObject_ctor_4DBFA0(1, 0);
@@ -201,9 +206,12 @@ void DDCheat::AddPropertyEntry_004162C0(const char * text, int unknown, int * va
     }
 }
 
-void CC DDCheat::sub_415390()
+void CC DDCheat::ClearProperties_415390()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < DDCHEAT_PROPERTY_LIST_SIZE; i++)
+    {
+        DDCheatProperties_5BBF78[i].Name = nullptr;
+    }
 }
 
 void DDCheat::DebugStr_4F5560(const char* pFormatStr, ...)
@@ -257,7 +265,7 @@ void DDCheat::Update_415780()
                 {
                     sActiveHero_5C1B68->field_1AC |= 0x4000u;
                 }
-                sControlledCharacter_5C1B8C->field_100_pCollisionLine = 0;
+                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
                 sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
@@ -414,10 +422,15 @@ void DDCheat::Update_415780()
             pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
         }
 
-        /*if (sControlledCharacter_5C1B8C == (BaseAliveGameObject *)sActiveHero_5C1B68)
+        /*
+        if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
+        {
             sActiveHero_5C1B68->field_1AC |= 0x4000u;
-        sControlledCharacter_5C1B8C->field_100_pCollisionLine = 0;
-        sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;*/
+        }
+
+        sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
+        sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
+        */
     }
 }
 

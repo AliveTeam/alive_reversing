@@ -17,8 +17,8 @@ public:
     __int16 field_F4;
     __int16 field_F6;
     int field_F8;
-    int field_FC_pPathTLV;
-    int field_100_pCollisionLine;
+    void* field_FC_pPathTLV;
+    void* field_100_pCollisionLine;
     __int16 field_104;
     __int16 field_106_animation_num;
     __int16 field_108;

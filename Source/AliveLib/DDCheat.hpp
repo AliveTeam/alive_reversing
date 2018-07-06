@@ -23,12 +23,13 @@ public:
     virtual void VDestructor(signed int flags);
     virtual void VUpdate() override;
 
+    DDCheat();
     EXPORT DDCheat* ctor_4153C0();
     EXPORT void dtor_415530();
     EXPORT void dtor_415500(signed int flags);
 
     EXPORT static void AddPropertyEntry_004162C0(const char *text, int unknown, int *valuePtr);
-    static EXPORT void CC sub_415390();
+    static EXPORT void CC ClearProperties_415390();
     static EXPORT void DebugStr_4F5560(const char *pFormatStr, ...);
 
     EXPORT void Menu_Teleport_415E20();

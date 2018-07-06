@@ -240,7 +240,7 @@ ALIVE_VAR(1, 0x5BC520, LvlArchive, sLvlArchive_5BC520, {});
 
 EXPORT void CC DDCheat_Allocate_415320()
 {
-    NOT_IMPLEMENTED();
+    alive_new<DDCheat>(); // DDCheat_ctor_4153C0
 }
 
 EXPORT void CC Game_Loop_467230();
@@ -411,7 +411,7 @@ EXPORT void CC Game_Run_466D40()
 
     // Shut down start
     Game_Free_LoadingIcon_482D40();
-    DDCheat::sub_415390();
+    DDCheat::ClearProperties_415390();
     gMap_5C3030.sub_4804E0();
 
     if (gObjList_animations_5C1A24)
@@ -668,6 +668,7 @@ ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
 // TODO: Poly_F3 @ MotionDetector::vsub_469120
 // TODO: Line_G4 @ SnoozeParticle::Render_4B0AF0
 // TODO: Poly_FT4  0x2C
+
 
 struct Poly_F4
 {
