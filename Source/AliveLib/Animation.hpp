@@ -94,6 +94,7 @@ class AnimationEx : public Animation
 
     EXPORT void SetFrame_409D50(__int16 newFrame);
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(__int16 frame);
+    EXPORT WORD Get_Frame_Count_40AC70();
 
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);

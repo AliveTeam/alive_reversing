@@ -115,7 +115,7 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
         frame = field_92_current_frame != -1 ? field_92_current_frame : 0;
     }
 
-    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
     DWORD frameOffset = pHead->mFrameOffsets[frame];
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
@@ -130,6 +130,12 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
 
     return pFrame;
 
+}
+
+WORD AnimationEx::Get_Frame_Count_40AC70()
+{
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
+    return pHead->mNumFrames;
 }
 
 void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, int a3)
