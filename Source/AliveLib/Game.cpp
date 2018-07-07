@@ -665,9 +665,6 @@ struct Poly_G3
 };
 ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
 
-// TODO: Line_G4 @ SnoozeParticle::Render_4B0AF0
-// TODO: Poly_FT4  0x2C
-
 struct Poly_F3
 {
     PrimHeader field_0_header;
@@ -693,6 +690,8 @@ struct Poly_F4
     __int16 field_1A_y3;
 };
 ALIVE_ASSERT_SIZEOF(Poly_F4, 0x1C);
+
+// TODO: Poly_FT4  0x2C
 
 struct Poly_G4
 {
@@ -772,6 +771,37 @@ struct Line_G2
     __int16 field_16_y1;
 };
 // TODO: Assert size
+
+struct Line_G4
+{
+    PrimHeader field_0_header;
+
+    __int16 field_C_x0;
+    __int16 field_E_y0;
+
+    BYTE field_10_r1;
+    BYTE field_11_g1;
+    BYTE field_12_b1;
+    char field_13_pad2;
+    __int16 field_14_x1;
+    __int16 field_16_y1;
+
+    BYTE field_18_r2;
+    BYTE field_19_g2;
+    BYTE field_1A_b2;
+    char field_1B_pad3;
+    __int16 field_1C_x2;
+    __int16 field_1E_y2;
+
+    BYTE field_20_r3;
+    BYTE field_21_g3;
+    BYTE field_22_b3;
+    char field_23_pad4;
+    __int16 field_24_x3;
+    __int16 field_26_y3;
+    DWORD field_28_pad;
+};
+ALIVE_ASSERT_SIZEOF(Line_G4, 0x2C);
 
 EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
 {
@@ -872,6 +902,16 @@ void LineG2_Init(Line_G2* pLine)
     pLine->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
     pLine->field_0_header.field_B_code = 0x50;
 }
+
+// Note: Inlined everywhere in real game
+void LineG4_Init(Line_G4* pLine)
+{
+    pLine->field_0_header.field_4.mNormal.field_4_num_longs = 9;
+    pLine->field_0_header.field_4.mNormal.field_5_unknown = byte_BD146C;
+    pLine->field_0_header.field_B_code = 0x5C;
+    pLine->field_28_pad = 0x55555555;
+}
+
 
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly)
 {
@@ -982,6 +1022,9 @@ public:
 
        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.field_0_header.field_0_tag);
 
+       OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG4.field_0_header.field_0_tag);
+
+       
     }
 
     void Destruct()
@@ -1108,20 +1151,50 @@ private:
             mLineG2.field_0_header.field_9_g0 = 255;
             mLineG2.field_0_header.field_A_b0 = 0;
 
+            mLineG2.field_C_x0 = 250;
+            mLineG2.field_E_y0 = 80;
+
             mLineG2.field_10_r1 = 255;
             mLineG2.field_11_g1 = 0;
             mLineG2.field_12_b1 = 255;
 
-            mLineG2.field_C_x0 = 250;
-            mLineG2.field_E_y0 = 80;
-
+         
             mLineG2.field_14_x1 = 350;
             mLineG2.field_16_y1 = 110;
         }
         
+        {
+            LineG4_Init(&mLineG4);
+
+            mLineG4.field_0_header.field_8_r0 = 255;
+            mLineG4.field_0_header.field_9_g0 = 255;
+            mLineG4.field_0_header.field_A_b0 = 0;
+            mLineG4.field_C_x0 = 280;
+            mLineG4.field_E_y0 = 120;
+
+            mLineG4.field_10_r1 = 255;
+            mLineG4.field_11_g1 = 0;
+            mLineG4.field_12_b1 = 255;
+            mLineG4.field_14_x1 = 300;
+            mLineG4.field_16_y1 = 150;
+
+
+            mLineG4.field_1C_x2 = 20;
+            mLineG4.field_1E_y2 = 20;
+            mLineG4.field_18_r2 = 255;
+            mLineG4.field_19_g2 = 255;
+            mLineG4.field_22_b3 = 0;
+
+            mLineG4.field_24_x3 = 200;
+            mLineG4.field_26_y3 = 50;
+            mLineG4.field_20_r3 = 255;
+            mLineG4.field_21_g3 = 0;
+            mLineG4.field_22_b3 = 50;
+        }
     }
 
     Line_G2 mLineG2 = {};
+    Line_G4 mLineG4 = {};
 
     Poly_G3 mPolyG3 = {};
     Poly_F3 mPolyF3 = {};
@@ -1135,6 +1208,7 @@ private:
     // TODO: Test SetTPage
     // TODO: Test Prim_Sprt
     // TODO: Test Prim_Tile
+    // TODO: Test Poly_FT4
 };
 
 EXPORT void CC Game_Loop_467230()
