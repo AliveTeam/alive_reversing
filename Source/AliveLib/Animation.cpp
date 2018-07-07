@@ -120,7 +120,7 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
     
-    // Never seen this get hit, perhaps some sort of PSX specfic check as addresses have to be aligned there?
+    // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
     // TODO: Remove it in the future when proven to be not required?
     if (reinterpret_cast<DWORD>(pFrame) & 3)
     {
@@ -137,6 +137,15 @@ WORD AnimationEx::Get_Frame_Count_40AC70()
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
     return pHead->mNumFrames;
 }
+
+/*
+void AnimationEx::Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY)
+{
+     FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(frameNum);
+    *pBoundingX = pFrameHeader->mTopLeft.x;
+    *pBoundingY = pFrameHeader->mTopLeft.y;
+}
+*/
 
 void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, int a3)
 {

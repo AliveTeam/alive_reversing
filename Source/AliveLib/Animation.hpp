@@ -92,6 +92,7 @@ public:
     EXPORT void SetFrame_409D50(__int16 newFrame);
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(__int16 frame);
     EXPORT WORD Get_Frame_Count_40AC70();
+   // EXPORT void Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY);
 
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
