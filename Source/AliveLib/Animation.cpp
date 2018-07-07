@@ -59,6 +59,79 @@ void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
     }
 }
 
+struct AnimationHeader
+{
+    // Meta data - the offset where this record was read from
+    WORD mFps = 0;            // Seems to be 0x1 or 0x2
+    WORD mNumFrames = 0;      // Number of frames in the set
+
+    // If loop flag set then this is the frame to loop back to
+    WORD mLoopStartFrame = 0;
+
+    enum eFlags
+    {
+        eFlipXFlag = 0x4,
+        eFlipYFlag = 0x8,
+        eNeverUnload = 0x1,
+        eLoopFlag = 0x2
+    };
+    WORD mFlags = 0;
+    DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
+};
+//ALIVE_ASSERT_SIZEOF(AnimationHeader, 0x8);
+
+void AnimationEx::SetFrame_409D50(__int16 newFrame)
+{
+    if (field_20_ppBlock)
+    {
+        if (newFrame == -1)
+        {
+            newFrame = 0;
+        }
+
+        AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
+
+        if (newFrame > pHead->mNumFrames)
+        {
+            newFrame = pHead->mNumFrames;
+        }
+
+        field_E_frame_change_counter = 1;
+        field_92_current_frame = newFrame - 1;
+    }
+}
+
+ALIVE_VAR(1, 0x5440AC, FrameInfoHeader, sBlankFrameInfoHeader_5440AC, {});
+
+FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
+{
+    if (!field_20_ppBlock)
+    {
+        return nullptr;
+    }
+
+    if (frame < -1 || frame == -1)
+    {
+        frame = field_92_current_frame != -1 ? field_92_current_frame : 0;
+    }
+
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);
+    DWORD frameOffset = pHead->mFrameOffsets[frame];
+
+    FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
+    
+    // Never seen this get hit, perhaps some sort of PSX specfic check as addresses have to be aligned there?
+    // TODO: Remove it in the future when proven to be not required?
+    if (reinterpret_cast<DWORD>(pFrame) & 3)
+    {
+        FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_5440AC;
+        return Unknown;
+    }
+
+    return pFrame;
+
+}
+
 void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, int a3)
 {
     //BaseAnimatedWithPhysicsGameObject_ctor_424930(0);

@@ -28,17 +28,56 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x10);
 
+struct BanHeader
+{
+    WORD mMaxW = 0;
+    WORD mMaxH = 0;
+    DWORD mFrameTableOffSet = 0;
+    DWORD mPaltSize = 0;
+};
+
+struct FrameHeader
+{
+    DWORD mClutOffset;
+    BYTE mWidth;
+    BYTE mHeight;
+    BYTE mColourDepth;
+    BYTE mCompressionType;
+    WORD mWidth2;
+    WORD mHeight2;
+};
+
+struct Point
+{
+    __int16 x = 0;
+    __int16 y = 0;
+};
+
+struct FrameInfoHeader
+{
+    DWORD mFrameHeaderOffset = 0;
+    DWORD mMagic = 0;
+
+    // Collision bounding rectangle
+    Point mTopLeft;
+    Point mBottomRight;
+
+    WORD mOffx = 0;
+    WORD mOffy = 0;
+};
 
 #pragma pack(push)
 #pragma pack(2)
 class AnimationEx : public Animation
 {
     WORD field_10_frame_delay;
-    DWORD field_12_scale;
-    DWORD field_16_dataOffset;
-    WORD field_1A;
+    WORD field_12_scale;
+    WORD field_14;
+    WORD field_16_dataOffset;
+    DWORD field_18_frame_table_offset;
+//    WORD field_1A;
     DWORD field_1C_fn_ptr_array;
-    DWORD field_20_ppBlock; // // pointer to a pointer which points to anim data
+    BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
     DWORD field_24_dbuf;
     
     DWORD field_28_dbuf_size;
@@ -52,6 +91,10 @@ class AnimationEx : public Animation
     __int16 field_90_pal_depth;
     __int16 field_92_current_frame;
     void *field_94_pGameObj;
+
+    EXPORT void SetFrame_409D50(__int16 newFrame);
+    EXPORT FrameInfoHeader* Get_Frame_40B730(__int16 frame);
+
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
 #pragma pack(pop)
