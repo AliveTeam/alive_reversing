@@ -66,39 +66,35 @@ struct FrameInfoHeader
     WORD mOffy = 0;
 };
 
-#pragma pack(push)
-#pragma pack(2)
 class AnimationEx : public Animation
 {
+private:
     WORD field_10_frame_delay;
-    WORD field_12_scale;
-    WORD field_14;
-    WORD field_16_dataOffset;
+    WORD field_12_scale; // padding?
+    DWORD field_14_scale;
     DWORD field_18_frame_table_offset;
-//    WORD field_1A;
     DWORD field_1C_fn_ptr_array;
     BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
     DWORD field_24_dbuf;
     
     DWORD field_28_dbuf_size;
     Poly_FT4 field_2C_ot_data[2];
-    unsigned __int16 field_84;
-    __int16 field_86;
-    __int16 field_88;
-    __int16 field_8A_x;
-    __int16 field_8C_x;
-    __int16 field_8E_y;
+
+    PSX_RECT field_84_vram_rect;
+    __int16 field_8C_pal_vram_x;
+    __int16 field_8E_pal_vram_y;
+
     __int16 field_90_pal_depth;
     __int16 field_92_current_frame;
     void *field_94_pGameObj;
 
+public:
     EXPORT void SetFrame_409D50(__int16 newFrame);
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(__int16 frame);
     EXPORT WORD Get_Frame_Count_40AC70();
 
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
-#pragma pack(pop)
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
