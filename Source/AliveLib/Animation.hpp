@@ -29,7 +29,6 @@ public:
 ALIVE_ASSERT_SIZEOF(Animation, 0x10);
 
 
-
 #pragma pack(push)
 #pragma pack(2)
 class AnimationEx : public Animation
@@ -42,23 +41,17 @@ class AnimationEx : public Animation
     DWORD field_20_ppBlock; // // pointer to a pointer which points to anim data
     DWORD field_24_dbuf;
     
-    WORD field_28_dbuf_size;
-
-
-    BYTE field_2A[38];
-    BYTE field_50[38];
-
-    DWORD field_76_pad;
-
-    PSX_RECT field_7A;
-    PSX_RECT field_82;
-
-    WORD field_8A_x;
-    WORD field_8C_y;
-    WORD field_8E_num_cols;
-    WORD field_90_pad; // padding ??
-    WORD field_92_current_frame;
-    DWORD field_94_unknown_pointer; // Pointer to something
+    DWORD field_28_dbuf_size;
+    Poly_FT4 field_2C_ot_data[2];
+    unsigned __int16 field_84;
+    __int16 field_86;
+    __int16 field_88;
+    __int16 field_8A_x;
+    __int16 field_8C_x;
+    __int16 field_8E_y;
+    __int16 field_90_pal_depth;
+    __int16 field_92_current_frame;
+    void *field_94_pGameObj;
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
 #pragma pack(pop)
