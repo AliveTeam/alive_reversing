@@ -93,7 +93,7 @@ class AnimationEx : public Animation
     void *field_94_pGameObj;
 
     EXPORT void SetFrame_409D50(__int16 newFrame);
-    EXPORT FrameInfoHeader* Get_Frame_40B730(__int16 frame);
+    EXPORT FrameInfoHeader* Get_FrameHeader_40B730(__int16 frame);
 
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);

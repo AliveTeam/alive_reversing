@@ -749,6 +749,24 @@ EXPORT void CC PolyF4_Init_4F8830(Poly_F4* pPoly)
     pPoly->field_0_header.field_B_code = 0x28;
 }
 
+EXPORT void CC Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly)
+{
+    if ((pPoly->field_0_header.field_B_code & 0xFC) == 0x2C) // TODO: Add helper for this check, also used in DrawOTag?
+    {
+        pRect->x = pPoly->field_C_x0;
+        pRect->y = pPoly->field_E_y0;
+        pRect->w = pPoly->field_24_x3;
+        pRect->h = pPoly->field_26_y3;
+    }
+    else
+    {
+        pRect->h = 0;
+        pRect->w = 0;
+        pRect->y = 0;
+        pRect->x = 0;
+    }
+}
+
 EXPORT void CC Poly_Set_unknown_4F8A20(PrimHeader* pPrim, int bFlag1)
 {
     pPrim->field_4.mNormal.field_5_unknown = byte_BD146C;
