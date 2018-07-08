@@ -11,7 +11,9 @@ Camera::Camera()
 
 void Camera::ctor_480DD0()
 {
-    NOT_IMPLEMENTED();
+    field_0.ctor_40CA60(3);
+    field_30 &= ~1u;
+    field_C_pCamRes = nullptr;
 }
 
 void Camera::dtor_480E00()

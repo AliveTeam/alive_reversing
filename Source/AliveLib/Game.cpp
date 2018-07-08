@@ -581,14 +581,24 @@ EXPORT int CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc)
 
 EXPORT int CC PSX_CD_File_Read_4FB210(int numSectors, void* pBuffer)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    IO_Seek_4F2490(sCdFileHandle_BD1CC4, sCdReadPos_BD1894 << 11, 0);
+    IO_Read_4F23A0(sCdFileHandle_BD1CC4, pBuffer, numSectors << 11);
+    sCdReadPos_BD1894 += numSectors;
+    return 1;
 }
 
 EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (!sCdFileHandle_BD1CC4)
+    {
+        return -1;
+    }
+
+    if (!bASync)
+    {
+        IO_WaitForComplete_4F2510(sCdFileHandle_BD1CC4);
+    }
+    return sCdFileHandle_BD1CC4->field_10_bDone != 0;
 }
 
 class LvlArchive
