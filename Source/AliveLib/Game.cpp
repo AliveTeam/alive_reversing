@@ -15,6 +15,7 @@
 #include "ScreenManager.hpp"
 #include "Animation.hpp"
 #include "stdlib.hpp"
+#include "PauseMenu.hpp"
 #include <timeapi.h>
 #include "GameSpeak.hpp"
 #include "PathData.hpp"
@@ -587,11 +588,17 @@ EXPORT void CC Game_Run_466D40()
     // NOTE: Hold left shift during boot to skip this.
     std::ifstream debugSave("debug.sav");
 
-    if (!debugSave.fail() && GetKeyState(VK_LSHIFT) > 0)
+    if (!debugSave.fail() && GetKeyState(VK_LSHIFT) >= 0)
     {
         debugSave.read((char*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
         Quicksave_LoadActive_4C9170();
         debugSave.close();
+        if (pPauseMenu_5C9300 == nullptr)
+        {
+            pPauseMenu_5C9300 = alive_new<PauseMenu>();
+            pPauseMenu_5C9300->ctor_48FB80();
+            pPauseMenu_5C9300->field_1C_update_delay = 0;
+        }
     }
     /////////////////////////
 #endif
@@ -789,7 +796,6 @@ ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
 ALIVE_VAR(1, 0x5C1B66, short, word_5C1B66, 0);
 ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
 ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
-ALIVE_VAR(1, 0x5C9300, BaseGameObject*, pPauseMenu_5C9300, nullptr);
 
 EXPORT void CC sub_422DA0()
 {

@@ -47,6 +47,8 @@ add_library(AliveLib
     BaseAliveGameObject.hpp
     CreditsController.cpp
     CreditsController.hpp
+    PauseMenu.cpp
+    PauseMenu.hpp
     Map.cpp
     Map.hpp
     PsxDisplay.cpp

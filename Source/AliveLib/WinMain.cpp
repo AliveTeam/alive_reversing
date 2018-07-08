@@ -14,6 +14,7 @@
 #include "DDCheat.hpp"
 #include "DynamicArray.hpp"
 #include "Game.hpp"
+#include "PauseMenu.hpp"
 #include "Map.hpp"
 #include "PsxDisplay.hpp"
 #include "easylogging++.h"
@@ -51,6 +52,7 @@ static void InitOtherHooksAndRunTests()
     DDCheat_ForceLink();
     Map_ForceLink();
     CreditsController_ForceLink();
+    PauseMenu_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
