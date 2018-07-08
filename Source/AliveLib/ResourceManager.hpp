@@ -107,7 +107,15 @@ public:
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
     EXPORT static signed __int16 CC FreeResource_49C330(BaseHandle handle);
     EXPORT static signed __int16 CC FreeResource_Impl_49C360(RawHandle handle);
+    
+    // Helper to avoid casting raw types
+    template<class T>
+    static Handle<T> CC Allocate_New_Block_49BFB0_T(int sizeBytes, int allocMethod)
+    {
+        return Allocate_New_Block_49BFB0(sizeBytes, allocMethod);
+    }
 
+    EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
 private:
     struct ResourceManager_FileRecord_1C
     {

@@ -256,15 +256,78 @@ EXPORT int CC File_close_4FA530(int hFile)
     return 0;
 }
 
+EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int mode)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName)
+{
+    NOT_IMPLEMENTED();
+}
+
+struct CdlLOC
+{
+    unsigned __int8 field_0_minute;
+    unsigned __int8 field_1_second;
+    unsigned __int8 field_2_sector;
+    char field_3_track;
+};
+ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
+
+EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(int pos, CdlLOC* pLoc)
+{
+    pLoc->field_3_track = 0;
+    pLoc->field_0_minute = pos / 75 / 60 + 2;
+    pLoc->field_1_second = pos / 75 % 60;
+    pLoc->field_2_sector = pos + 108 * (pos / 75 / 60) - 75 * (pos / 75 % 60);
+    return pLoc;
+}
+
+EXPORT int CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc)
+{
+    int min = pLoc->field_0_minute;
+    if (min < 2)
+    {
+        min = 2;
+    }
+    return pLoc->field_2_sector + 75 * (pLoc->field_1_second + 20 * (3 * min - 6));
+}
+
+ALIVE_VAR(1, 0xBD1894, int, sCdReadPos_BD1894, 0);
+
+EXPORT int CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc)
+{
+    if (mode != 2)
+    {
+        return 0;
+    }
+    sCdReadPos_BD1894 = PSX_CdLoc_To_Pos_4FAE40(pLoc);
+    return 1;
+}
+
+EXPORT int CC PSX_CD_File_Read_4FB210(int numSectors, void* pBuffer)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 class LvlArchive
 {
 public:
-    EXPORT __int16 sub_432E80(const char* fileName);
+    EXPORT int Open_Archive_432E80(const char* fileName);
     EXPORT LvlFileRecord* Find_File_Record_433160(const char* pFileName);
     EXPORT __int16 Free_433130();
 private:
     ResourceManager::Handle<LvlHeader_Sub*> field_0_0x2800_res;
-    DWORD field_4[41];
+    DWORD field_4[41]; // TODO: Maybe is just 1 DWORD
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0xA8);
 
@@ -279,18 +342,43 @@ __int16 LvlArchive::Free_433130()
     return 0;
 }
 
-__int16 LvlArchive::sub_432E80(const char* fileName)
+const static int kSectorSize = 2048;
+
+int LvlArchive::Open_Archive_432E80(const char* fileName)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    // Allocate space for LVL archive header
+    field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0_T<LvlHeader_Sub*>(kSectorSize * 5, 0);
+
+    // Open the LVL file
+    int hFile = PSX_CD_OpenFile_4FAE80(fileName, 1);
+    if (!hFile)
+    {
+        return 0;
+    }
+
+    // Not sure why any of this is required, doesn't really do anything.
+    CdlLOC cdLoc = {};
+    PSX_Pos_To_CdLoc_4FADD0(0, &cdLoc);
+    field_4[0] = PSX_CdLoc_To_Pos_4FAE40(&cdLoc);
+    PSX_CD_File_Seek_4FB1E0(2, &cdLoc);
+
+    // Read the header
+    ResourceManager::Header* pResHeader = field_0_0x2800_res.GetHeader();
+    int bOk = PSX_CD_File_Read_4FB210(5, pResHeader);
+    if (PSX_CD_FileIOWait_4FB260(0) == -1)
+    {
+        bOk = 0;
+    }
+
+    // Set ref count to 1 so ResourceManager won't kill it
+    pResHeader->field_4_ref_count = 1;
+    return bOk;
 }
 
 ALIVE_VAR(1, 0x5CA4B0, BOOL, sbEnable_PCOpen_5CA4B0, FALSE);
 ALIVE_VAR(1, 0x5BC218, int, sWrappingFileIdx_5BC218, 0);
 ALIVE_VAR(1, 0x551D28, int, sTotalOpenedFilesCount_551D28, 3); // Starts at 3.. for some reason
 ALIVE_ARY(1, 0x5BC220, LvlFileRecord, 32, sOpenFileNames_5BC220, {});
-
-const static int kSectorSize = 2048;
 
 LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
 {
@@ -465,7 +553,7 @@ EXPORT void CC Game_Run_466D40()
 
     Camera camera; // ctor_480DD0
 
-    sLvlArchive_5BC520.sub_432E80(CdLvlName(0));
+    sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(0));
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, 125, 1u, 0);

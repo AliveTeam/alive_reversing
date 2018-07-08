@@ -86,3 +86,9 @@ signed __int16 CC ResourceManager::FreeResource_Impl_49C360(RawHandle handle)
     }
     return 1;
 }
+
+BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
