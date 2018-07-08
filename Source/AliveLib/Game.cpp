@@ -436,15 +436,109 @@ EXPORT int CC File_close_4FA530(int hFile)
     return 0;
 }
 
-EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int mode)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName)
 {
     NOT_IMPLEMENTED();
+}
+
+ALIVE_ARY(1, 0xC14620, char, 128, sCdEmu_Path1_C14620, {});
+ALIVE_ARY(1, 0xC144C0, char, 128, sCdEmu_Path2_C144C0, {});
+ALIVE_ARY(1, 0xC145A0, char, 128, sCdEmu_Path3_C145A0, {});
+
+ALIVE_VAR(1, 0xBD1CC4, IO_Handle*, sCdFileHandle_BD1CC4, nullptr);
+ALIVE_VAR(1, 0xBD1894, int, sCdReadPos_BD1894, 0);
+
+EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths)
+{
+    static char sLastOpenedFileName_BD1898[1024] = {};
+
+    char pNormalizedName[256] = {};
+    char fullFilePath[1024] = {};
+
+    if (_strcmpi(sLastOpenedFileName_BD1898, pFileName) != 0)
+    {
+        PSX_CD_Normalize_FileName_4FAD90(pNormalizedName, (*pFileName == '\\') ? pFileName + 1 : pFileName);
+        //dword_578D5C = -1; // Note: Never read
+        sCdReadPos_BD1894 = 0;
+        
+        int openMode = 1;
+        if (!sIOSyncReads_BD2A5C)
+        {
+            openMode = 5;
+        }
+
+        strcpy(fullFilePath, sCdEmu_Path1_C14620);
+        strcat(fullFilePath, pNormalizedName);
+        if (bTryAllPaths)
+        {
+            // Close any existing open file
+            if (sCdFileHandle_BD1CC4)
+            {
+                IO_fclose_4F24E0(sCdFileHandle_BD1CC4);
+                sLastOpenedFileName_BD1898[0] = 0;
+            }
+
+            // Try to open from path 1
+            sCdFileHandle_BD1CC4 = IO_Open_4F2320(fullFilePath, openMode);
+            if (!sCdFileHandle_BD1CC4)
+            {
+                // Failed, try path 2
+                strcpy(fullFilePath, sCdEmu_Path2_C144C0);
+                strcat(fullFilePath, pNormalizedName);
+                sCdFileHandle_BD1CC4 = IO_Open_4F2320(fullFilePath, openMode);
+                if (!sCdFileHandle_BD1CC4)
+                {
+                    // Failed try path 3 - each CD drive in the system
+                    strcpy(fullFilePath, sCdEmu_Path3_C145A0);
+                    strcat(fullFilePath, pNormalizedName);
+
+                    // Oops, we don't have any CD-ROM drives
+                    if (!sCdRomDrives_5CA488[0])
+                    {
+                        return 0;
+                    }
+
+                    char* pCdRomDrivesIter = sCdRomDrives_5CA488;
+                    while (*pCdRomDrivesIter)
+                    {
+                        fullFilePath[0] = *pCdRomDrivesIter;
+                        if (*pCdRomDrivesIter != sCdEmu_Path2_C144C0[0])
+                        {
+                            sCdFileHandle_BD1CC4 = IO_Open_4F2320(fullFilePath, openMode);
+                            if (sCdFileHandle_BD1CC4)
+                            {
+                                // Update the default CD-ROM to try
+                                sCdEmu_Path2_C144C0[0] = fullFilePath[0];
+                                strcpy(sLastOpenedFileName_BD1898, pFileName);
+                                return 1;
+                            }
+                        }
+                        pCdRomDrivesIter++;
+                    }
+                    return 0;
+                }
+            }
+        }
+        else
+        {
+            // Open the file
+            IO_Handle* hFile = IO_Open_4F2320(fullFilePath, openMode);
+            if (!hFile)
+            {
+                return 0;
+            }
+
+            // Close the old file and set the current file as the new one
+            if (sCdFileHandle_BD1CC4)
+            {
+                IO_fclose_4F24E0(sCdFileHandle_BD1CC4);
+                sLastOpenedFileName_BD1898[0] = 0;
+            }
+            sCdFileHandle_BD1CC4 = hFile;
+        }
+        strcpy(sLastOpenedFileName_BD1898, pFileName);
+    }
+    return 1;
 }
 
 struct CdlLOC
@@ -459,9 +553,9 @@ ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
 EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(int pos, CdlLOC* pLoc)
 {
     pLoc->field_3_track = 0;
-    pLoc->field_0_minute = pos / 75 / 60 + 2;
+    pLoc->field_0_minute = static_cast<BYTE>(pos / 75 / 60 + 2);
     pLoc->field_1_second = pos / 75 % 60;
-    pLoc->field_2_sector = pos + 108 * (pos / 75 / 60) - 75 * (pos / 75 % 60);
+    pLoc->field_2_sector = static_cast<BYTE>(pos + 108 * (pos / 75 / 60) - 75 * (pos / 75 % 60));
     return pLoc;
 }
 
@@ -474,8 +568,6 @@ EXPORT int CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc)
     }
     return pLoc->field_2_sector + 75 * (pLoc->field_1_second + 20 * (3 * min - 6));
 }
-
-ALIVE_VAR(1, 0xBD1894, int, sCdReadPos_BD1894, 0);
 
 EXPORT int CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc)
 {
