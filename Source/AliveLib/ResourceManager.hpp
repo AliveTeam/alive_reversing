@@ -35,17 +35,50 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
 
-    template<class T>
-    class Handle
+    class RawHandle
     {
     public:
-        Handle() : mResource(nullptr) { }
-        Handle(BYTE** res) : mResource(res) {}
+        RawHandle() : mResource(nullptr) { }
+        RawHandle(BYTE* res) : mResource(res) {}
+
+        Header* GetHeader()
+        {
+            return reinterpret_cast<Header*>((mResource - sizeof(Header)));
+        }
+
+        bool Valid() const { return mResource != nullptr; }
+
+    private:
+        BYTE* mResource = nullptr;
+    };
+
+    class BaseHandle
+    {
+    public:
+        BaseHandle() : mResource(nullptr) { }
+        BaseHandle(BYTE** res) : mResource(res) {}
 
         Header* GetHeader()
         {
             return reinterpret_cast<Header*>((*mResource - sizeof(Header)));
         }
+
+        RawHandle ToRawHandle()
+        {
+            return RawHandle(*mResource);
+        }
+
+        bool Valid() const { return mResource != nullptr; }
+        void Clear() { mResource = nullptr; }
+    protected:
+        BYTE** mResource = nullptr;
+    };
+
+    template<class T>
+    class Handle : public BaseHandle
+    {
+    public:
+        using BaseHandle::BaseHandle;
 
         T operator ->()
         {
@@ -57,9 +90,6 @@ public:
         {
             return reinterpret_cast<T>(*mResource);
         }
-
-    private:
-        BYTE** mResource = nullptr;
     };
 
     // TODO
@@ -75,6 +105,8 @@ public:
     EXPORT static signed __int16 __cdecl LoadResourceFile_49C170(const char *pFileName, Camera* a2);
 
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
+    EXPORT static signed __int16 CC FreeResource_49C330(BaseHandle handle);
+    EXPORT static signed __int16 CC FreeResource_Impl_49C360(RawHandle handle);
 
 private:
     struct ResourceManager_FileRecord_1C
@@ -114,3 +146,4 @@ private:
 ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 
 ALIVE_VAR_EXTERN(ResourceManager*, pResourceManager_5C1BB0);
+ALIVE_VAR_EXTERN(int, sManagedMemoryUsedSize_AB4A04);

@@ -260,21 +260,26 @@ class LvlArchive
 {
 public:
     EXPORT __int16 sub_432E80(const char* fileName);
-    EXPORT __int16 sub_433130();
     EXPORT LvlFileRecord* Find_File_Record_433160(const char* pFileName);
+    EXPORT __int16 Free_433130();
 private:
     ResourceManager::Handle<LvlHeader_Sub*> field_0_0x2800_res;
     DWORD field_4[41];
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0xA8);
 
-__int16 LvlArchive::sub_432E80(const char* fileName)
+__int16 LvlArchive::Free_433130()
 {
-    NOT_IMPLEMENTED();
+    // Strangely the emulated CD file isn't closed, but the next CD open file will close it anyway..
+    if (field_0_0x2800_res.Valid())
+    {
+        ResourceManager::FreeResource_49C330(field_0_0x2800_res);
+        field_0_0x2800_res.Clear();
+    }
     return 0;
 }
 
-__int16 LvlArchive::sub_433130()
+__int16 LvlArchive::sub_432E80(const char* fileName)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -471,7 +476,7 @@ EXPORT void CC Game_Run_466D40()
     pScreenManager_5BB5F4->sub_cam_vlc_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
 
-    sLvlArchive_5BC520.sub_433130();
+    sLvlArchive_5BC520.Free_433130();
 
     camera.dtor_480E00();
 

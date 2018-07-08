@@ -4,6 +4,7 @@
 #include "stdlib.hpp"
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
+ALIVE_VAR(1, 0xab4a04, int, sManagedMemoryUsedSize_AB4A04, 0);
 
 void ResourceManager::VDestructor(signed int flags)
 {
@@ -55,4 +56,33 @@ void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, int resourceID, u
 {
     NOT_IMPLEMENTED();
     return nullptr;
+}
+
+signed __int16 CC ResourceManager::FreeResource_49C330(BaseHandle handle)
+{
+    if (!handle.Valid())
+    {
+        return 1;
+    }
+    return FreeResource_Impl_49C360(handle.ToRawHandle());
+}
+
+signed __int16 CC ResourceManager::FreeResource_Impl_49C360(RawHandle handle)
+{
+    if (handle.Valid())
+    {
+        Header* pHeader = handle.GetHeader();
+        if (pHeader->field_4_ref_count)
+        {
+            pHeader->field_4_ref_count--;
+            if (pHeader->field_4_ref_count > 0)
+            {
+                return 0;
+            }
+            pHeader->field_8_type = Resource_Free;
+            pHeader->field_6_flags = 0;
+            sManagedMemoryUsedSize_AB4A04 -= pHeader->field_0_size;
+        }
+    }
+    return 1;
 }
