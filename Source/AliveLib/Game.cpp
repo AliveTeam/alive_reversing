@@ -21,7 +21,7 @@
 #include "PathData.hpp"
 #include "DDCheat.hpp"
 #include "Quicksave.hpp"
-
+#include <atomic>
 #include <fstream>
 
 void Game_ForceLink() { }
@@ -40,11 +40,6 @@ ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
 ALIVE_VAR(1, 0xBBC558, DWORD, sIoThreadId_BBC558, 0);
 ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
-EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
 
 EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {
@@ -68,6 +63,190 @@ EXPORT void CC sub_496720()
 EXPORT void IO_Init_494230()
 {
     NOT_IMPLEMENTED();
+}
+
+struct IO_Handle
+{
+    int field_0_flags;
+    int field_4;
+    FILE *field_8_hFile;
+    int field_C_last_api_result;
+    std::atomic<bool> field_10_bDone; // Note: OG bug - appears to be no thread sync on this
+    int field_14;
+    int field_18;
+};
+ALIVE_ASSERT_SIZEOF(IO_Handle, 0x1C);
+
+EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
+{
+    IO_Handle* pHandle = reinterpret_cast<IO_Handle*>(malloc_4F4E60(sizeof(IO_Handle)));
+    if (!pHandle)
+    {
+        return nullptr;
+    }
+
+    memset(pHandle, 0, sizeof(IO_Handle));
+
+    const char* mode = nullptr;
+    if ((modeFlag & 3) == 3)
+    {
+        mode = "rwb";
+    }
+    else if (modeFlag & 1)
+    {
+        mode = "rb";
+    }
+    else
+    {
+        mode = "wb";
+        if (!(modeFlag & 2))
+        {
+            // Somehow it can also be passed as string?? I don't think this case ever happens
+            mode = (const char *)modeFlag;
+        }
+    }
+
+    pHandle->field_8_hFile = fopen(fileName, mode);
+    if (pHandle->field_8_hFile)
+    {
+        pHandle->field_0_flags = modeFlag;
+        return pHandle;
+    }
+    else
+    {
+        mem_free_4F4EA0(pHandle);
+        return nullptr;
+    }
+}
+
+EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile)
+{
+    if (hFile && hFile->field_10_bDone)
+    {
+        do
+        {
+            Sleep(0);
+        }
+        while (hFile->field_10_bDone);
+    }
+}
+
+EXPORT int CC IO_Seek_4F2490(IO_Handle* hFile, int offset, int origin)
+{
+    if (!hFile)
+    {
+        return 0;
+    }
+
+    if (origin != 1 && origin != 2)
+    {
+        origin = 0;
+    }
+    return fseek(hFile->field_8_hFile, offset, origin);
+}
+
+EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile)
+{
+    if (hFile)
+    {
+        IO_WaitForComplete_4F2510(hFile);
+        fclose(hFile->field_8_hFile);
+        mem_free_4F4EA0(hFile);
+    }
+}
+
+ALIVE_VAR(1, 0xBBC4BC, std::atomic<IO_Handle*>, sIOHandle_BBC4BC, {});
+ALIVE_VAR(1, 0xBBC4C4, std::atomic<void*>, sIO_ReadBuffer_BBC4C4, {});
+ALIVE_VAR(1, 0xBBC4C0, std::atomic<int>, sIO_Thread_Operation_BBC4C0, {});
+ALIVE_VAR(1, 0xBBC4C8, std::atomic<size_t>, sIO_BytesToRead_BBC4C8, {});
+
+EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter)
+{
+    while (1)
+    {
+        while (1)
+        {
+            // Wait for a control message
+            MSG msg = {};
+            do
+            {
+                while (GetMessageA(&msg, 0, 0x400u, 0x400u) == -1)
+                {
+
+                }
+
+            } while (msg.wParam != 4444 || msg.lParam != 5555 || sIO_Thread_Operation_BBC4C0 != 3);
+
+            if (sIOHandle_BBC4BC.load())
+            {
+                break;
+            }
+
+            sIO_Thread_Operation_BBC4C0 = 0;
+        }
+
+        if (fread(sIO_ReadBuffer_BBC4C4, 1u, sIO_BytesToRead_BBC4C8, sIOHandle_BBC4BC.load()->field_8_hFile) == sIO_BytesToRead_BBC4C8)
+        {
+            sIOHandle_BBC4BC.load()->field_C_last_api_result = 0;
+        }
+        else
+        {
+            sIOHandle_BBC4BC.load()->field_C_last_api_result = -1;
+        }
+
+        sIOHandle_BBC4BC.load()->field_10_bDone = false;
+        sIOHandle_BBC4BC = nullptr;
+        sIO_Thread_Operation_BBC4C0 = 0;
+    }
+}
+
+EXPORT signed int CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* readBuffer, size_t bytesToRead, int /*notUsed1*/, int /*notUsed2*/, int /*notUsed3*/)
+{
+    if (sIOHandle_BBC4BC.load())
+    {
+        return -1;
+    }
+
+    hFile->field_10_bDone = true;
+
+    // TODO: Should be made atomic for thread safety.
+    sIOHandle_BBC4BC = hFile;
+    sIO_ReadBuffer_BBC4C4 = readBuffer;
+    sIO_Thread_Operation_BBC4C0 = always3;
+    sIO_BytesToRead_BBC4C8 = bytesToRead;
+    //sIO_NotUsed1_dword_BBC4CC = notUsed1;
+    //sIO_NotUsed2_dword_BBC4D0 = notUsed2;
+    //sIO_NotUsed3_dword_BBC4D4 = notUsed3;
+    return 0;
+}
+
+EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
+{
+    if (!hFile || !hFile->field_8_hFile)
+    {
+        return -1;
+    }
+
+    if (hFile->field_0_flags & 4) // ASync flag
+    {
+        IO_WaitForComplete_4F2510(hFile);
+        IO_Issue_ASync_Read_4F2430(hFile, 3, pBuffer, bytesCount, 0, 0, 0);
+        ::PostThreadMessageA(sIoThreadId_BBC558, 0x400u, 0x115Cu, 5555); // TODO: Add constants
+        return 0;
+    }
+    else
+    {
+        if (fread(pBuffer, 1u, bytesCount, hFile->field_8_hFile) == bytesCount)
+        {
+            hFile->field_C_last_api_result = 0;
+        }
+        else
+        {
+            hFile->field_C_last_api_result = -1;
+        }
+
+        return hFile->field_C_last_api_result;
+    }
 }
 
 ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
@@ -325,14 +504,40 @@ class LvlArchive
 public:
     EXPORT int Open_Archive_432E80(const char* fileName);
     EXPORT LvlFileRecord* Find_File_Record_433160(const char* pFileName);
-    EXPORT __int16 Free_433130();
+    EXPORT int Read_File_433070(const char* pFileName, void* pBuffer);
+    EXPORT int Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
+    EXPORT int Free_433130();
 private:
     ResourceManager::Handle<LvlHeader_Sub*> field_0_0x2800_res;
     DWORD field_4[41]; // TODO: Maybe is just 1 DWORD
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0xA8);
 
-__int16 LvlArchive::Free_433130()
+int LvlArchive::Read_File_433070(const char* pFileName, void* pBuffer)
+{
+    return Read_File_4330A0(Find_File_Record_433160(pFileName), pBuffer);
+}
+
+int LvlArchive::Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer)
+{
+    if (!hFile || !pBuffer)
+    {
+        return 0;
+    }
+
+    CdlLOC cdLoc = {};
+    PSX_Pos_To_CdLoc_4FADD0(field_4[0] + hFile->field_C_start_sector, &cdLoc);
+    PSX_CD_File_Seek_4FB1E0(2, &cdLoc);
+
+    int bOK = PSX_CD_File_Read_4FB210(hFile->field_10_num_sectors, pBuffer);
+    if (PSX_CD_FileIOWait_4FB260(0) == -1)
+    {
+        bOK = 0;
+    }
+    return bOK;
+}
+
+int LvlArchive::Free_433130()
 {
     // Strangely the emulated CD file isn't closed, but the next CD open file will close it anyway..
     if (field_0_0x2800_res.Valid())
