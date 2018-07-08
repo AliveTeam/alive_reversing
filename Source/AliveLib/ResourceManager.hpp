@@ -25,6 +25,43 @@ public:
         Resource_Font = 0x746E6F46,
     };
 
+    struct Header
+    {
+        DWORD field_0_size;
+        __int16 field_4_ref_count;
+        __int16 field_6_flags;
+        DWORD field_8_type;
+        DWORD field_C_id;
+    };
+    ALIVE_ASSERT_SIZEOF(Header, 0x10);
+
+    template<class T>
+    class Handle
+    {
+    public:
+        Handle() : mResource(nullptr) { }
+        Handle(BYTE** res) : mResource(res) {}
+
+        Header* GetHeader()
+        {
+            return reinterpret_cast<Header*>((*mResource - sizeof(Header)));
+        }
+
+        T operator ->()
+        {
+            // TODO: Can assert on GetHeader()->field_8_type matching T
+            return reinterpret_cast<T>(*mResource);
+        }
+
+        T operator & ()
+        {
+            return reinterpret_cast<T>(*mResource);
+        }
+
+    private:
+        BYTE** mResource = nullptr;
+    };
+
     // TODO
     virtual void VDestructor(signed int);
     EXPORT void dtor_4649B0(signed int flags);

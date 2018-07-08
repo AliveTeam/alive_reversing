@@ -212,13 +212,58 @@ ALIVE_VAR(1, 0x5C2F6C, DWORD, dword_5C2F6C, 0);
 ALIVE_VAR(1, 0x5C1BA0, WORD, word_5C1BA0, 0);
 ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
 
+struct LvlFileRecord
+{
+    char field_0_file_name[12];
+    int field_C_start_sector;
+    int field_10_num_sectors;
+    int field_14_file_size;
+};
+
+struct LvlHeader_Sub
+{
+    int field_0_num_files;
+    int field_4_unknown1;
+    int field_8_unknown2;
+    int field_C_unknown3;
+    LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access
+};
+
+struct LvlHeader
+{
+    int field_0_first_file_offset;
+    int field_4_ref_count;
+    int field_8_magic;
+    int field_C_id;
+    LvlHeader_Sub field_10_sub;
+};
+
+EXPORT int CC File_pc_open_4FA2C0(const char* fileName, int mode)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC File_seek_4FA490(int hFile, int distance, int method)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC File_close_4FA530(int hFile)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 class LvlArchive
 {
 public:
     EXPORT __int16 sub_432E80(const char* fileName);
     EXPORT __int16 sub_433130();
+    EXPORT LvlFileRecord* Find_File_Record_433160(const char* pFileName);
 private:
-    DWORD field_0_0x2800_res;
+    ResourceManager::Handle<LvlHeader_Sub*> field_0_0x2800_res;
     DWORD field_4[41];
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0xA8);
@@ -233,6 +278,58 @@ __int16 LvlArchive::sub_433130()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+ALIVE_VAR(1, 0x5CA4B0, BOOL, sbEnable_PCOpen_5CA4B0, FALSE);
+ALIVE_VAR(1, 0x5BC218, int, sWrappingFileIdx_5BC218, 0);
+ALIVE_VAR(1, 0x551D28, int, sTotalOpenedFilesCount_551D28, 3); // Starts at 3.. for some reason
+ALIVE_ARY(1, 0x5BC220, LvlFileRecord, 32, sOpenFileNames_5BC220, {});
+
+const static int kSectorSize = 2048;
+
+LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
+{
+    const unsigned int fileNameLen = strlen(pFileName) + 1;
+
+    const bool notEnoughSpaceForFileExt = (static_cast<signed int>(fileNameLen) - 1) < 4;
+    if (notEnoughSpaceForFileExt || _strcmpi(&pFileName[fileNameLen - 5], ".STR") != 0) // Check its not a STR file
+    {
+        if (sbEnable_PCOpen_5CA4B0)
+        {
+            const int hFile = File_pc_open_4FA2C0(pFileName, 0);
+            if (hFile >= 0)
+            {
+                const int idx = sWrappingFileIdx_5BC218++ & 31;
+                strcpy(sOpenFileNames_5BC220[idx].field_0_file_name, pFileName);
+                sOpenFileNames_5BC220[idx].field_C_start_sector = 0;
+                sOpenFileNames_5BC220[idx].field_14_file_size = File_seek_4FA490(hFile, 0, 2);
+                sOpenFileNames_5BC220[idx].field_10_num_sectors = (unsigned int)(sOpenFileNames_5BC220[idx].field_14_file_size + kSectorSize - 1) >> 11;
+                File_close_4FA530(hFile);
+                return &sOpenFileNames_5BC220[idx];
+            }
+            return nullptr;
+        }
+    }
+    else
+    {
+        ++sTotalOpenedFilesCount_551D28;
+    }
+    
+    if (!field_0_0x2800_res->field_0_num_files)
+    {
+        return nullptr;
+    }
+
+    int fileRecordIndex = 0;
+    while (strncmp(field_0_0x2800_res->field_10_file_recs[fileRecordIndex].field_0_file_name, pFileName, _countof(LvlFileRecord::field_0_file_name)))
+    {
+        fileRecordIndex++;
+        if (fileRecordIndex >= field_0_0x2800_res->field_0_num_files)
+        {
+            return nullptr;
+        }
+    }
+    return &field_0_0x2800_res->field_10_file_recs[fileRecordIndex];
 }
 
 ALIVE_VAR(1, 0x5BC520, LvlArchive, sLvlArchive_5BC520, {});
