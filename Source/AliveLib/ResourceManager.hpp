@@ -107,12 +107,17 @@ public:
     using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
     EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, __int16 a6);
     EXPORT void vLoadFile_StateMachine_464A70();
+    EXPORT void OnResourceLoaded_464CE0();
 
     EXPORT static signed __int16 __cdecl LoadResourceFile_49C170(const char *pFileName, Camera* a2);
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
     EXPORT static signed __int16 CC FreeResource_49C330(BaseHandle handle);
     EXPORT static signed __int16 CC FreeResource_Impl_49C360(RawHandle handle);
-    
+    EXPORT static void CC Decrement_Pending_Count_49C610();
+    EXPORT static void CC Increment_Pending_Count_49C5F0();
+    EXPORT static void CC sub_49C470(int size);
+    EXPORT static signed __int16 CC sub_49C1C0(BYTE** ppRes, DynamicArray* pArray);
+
     // Helper to avoid casting raw types
     template<class T>
     static Handle<T> CC Allocate_New_Block_49BFB0_T(int sizeBytes, int allocMethod)

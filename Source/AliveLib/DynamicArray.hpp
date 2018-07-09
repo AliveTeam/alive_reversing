@@ -45,8 +45,9 @@ protected:
     EXPORT signed __int16 Push_Back_40CAF0(void* pValue);
     EXPORT signed __int16 Remove_Item_40CB60(void* pItemToRemove);
     void** field_0_array;
-private:
+public:
     __int16 field_4_used_size;
+private:
     __int16 field_6_max_size;
     __int16 field_8_expand_size;
     // padding

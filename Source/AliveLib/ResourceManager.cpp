@@ -162,10 +162,15 @@ void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam
     field_20_files_dArray.Push_Back(pFileRecord);
 }
 
-void ResourceManager::vLoadFile_StateMachine_464A70()
+ALIVE_VAR(1, 0x5C1B96, short, word_5C1B96, 0);
+
+EXPORT void __stdcall sub_465BC0(int a1)
 {
     NOT_IMPLEMENTED();
-    /*
+}
+
+void ResourceManager::vLoadFile_StateMachine_464A70()
+{
     int v2; // eax
     ResourceManager_FileRecord_1C *pFile; // eax
     LvlFileRecord *pLvlFileRec1; // eax
@@ -175,7 +180,7 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
     BYTE attempts; // al
     signed int bWaitRet; // eax
 
-    switch (this->field_42_state)
+    switch (field_42_state)
     {
     case 0:
         PSX_CD_File_Seek_4FB1E0(1, 0);
@@ -226,7 +231,8 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
                 return;
             }
 
-            sub_465BC0(0);
+            sub_465BC0(0); // Crashes if forced to be called.. ?
+
             while (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
             {
                 // Do nothing
@@ -258,13 +264,42 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
     case 6:
         word_5C1B96 = 0;
         OnResourceLoaded_464CE0();
+        // TODO: Needs to be private
         field_48_dArray.field_4_used_size = 0;
         Decrement_Pending_Count_49C610();
         field_42_state = 0;
         break;
     default:
         return;
-    }*/
+    }
+}
+
+void ResourceManager::OnResourceLoaded_464CE0()
+{
+    NOT_IMPLEMENTED();
+}
+
+ALIVE_VAR(1, 0xAB49F4, short, sResources_Pending_Loading_AB49F4, 0);
+
+void CC ResourceManager::Decrement_Pending_Count_49C610()
+{
+    --sResources_Pending_Loading_AB49F4;
+}
+
+void CC ResourceManager::Increment_Pending_Count_49C5F0()
+{
+    ++sResources_Pending_Loading_AB49F4;
+}
+
+void CC ResourceManager::sub_49C470(int size)
+{
+    NOT_IMPLEMENTED();
+}
+
+signed __int16 CC ResourceManager::sub_49C1C0(BYTE** ppRes, DynamicArray* pArray)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4)
