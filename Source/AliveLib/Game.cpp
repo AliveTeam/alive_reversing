@@ -1708,7 +1708,7 @@ EXPORT void CC Game_Loop_467230()
         // Enabled only for ddfast option
         if (byte_5CA4D2)
         {
-            pResourceManager_5C1BB0->sub_465590(0);
+            pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
     } // Main loop end
 

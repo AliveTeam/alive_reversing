@@ -101,7 +101,11 @@ public:
     EXPORT void Ctor_464910();
 
     EXPORT void Shutdown_465610();
-    EXPORT void sub_465590(int a1);
+    EXPORT void LoadingLoop_465590(__int16 bShowLoadingIcon);
+    
+    using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
+    EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, __int16 a6);
+
     EXPORT static signed __int16 __cdecl LoadResourceFile_49C170(const char *pFileName, Camera* a2);
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
     EXPORT static signed __int16 CC FreeResource_49C330(BaseHandle handle);
@@ -116,36 +120,38 @@ public:
 
     EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
 private:
+    struct ResourceManager_FilePartRecord_18;
+
     struct ResourceManager_FileRecord_1C
     {
         char* field_0_fileName;
         int field_4;
         int field_8;
         int field_C;
-        DynamicArray field_10_file_sections_dArray;
+        DynamicArrayT<ResourceManager_FilePartRecord_18> field_10_file_sections_dArray;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_1C, 0x1C);
 
     struct ResourceManager_FilePartRecord_18
     {
-        int field_0;
-        int field_4;
+        int field_0_type;
+        int field_4_id;
         Camera *field_8_pCamera;
-        int field_C;
-        int field_10;
+        Camera* field_C_fn_arg_pCamera;
+        TLoaderFn field_10_pFn;
         __int16 field_14;
         __int16 field_16;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord_18, 0x18);
 
-    DynamicArray field_20_files_dArray;
+    DynamicArrayT<ResourceManager_FileRecord_1C> field_20_files_dArray;
     ResourceManager_FileRecord_1C* field_2C_pFileItem;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
-    char field_40;
-    char field_41;
+    int field_30_start_sector;
+    int field_34_num_sectors;
+    int field_38_ppRes;
+    int field_3C_pLoadingHeader;
+    char field_40_seek_attempts;
+    char field_41; // pad ?
     __int16 field_42_state;
     int field_44;
     DynamicArray field_48_dArray;

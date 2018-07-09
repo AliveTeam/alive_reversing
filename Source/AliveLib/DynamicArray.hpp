@@ -25,7 +25,7 @@ public:
         return reinterpret_cast<T*>(field_0_array[idx]);
     }
 
-    DynamicArrayT(signed int size)
+    DynamicArrayT(signed int size = 0)
     {
         ctor_40CA60(static_cast<signed __int16>(size));
     }
