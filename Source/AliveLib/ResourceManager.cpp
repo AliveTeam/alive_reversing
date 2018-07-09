@@ -54,7 +54,50 @@ void ResourceManager::Ctor_464910()
 
 void ResourceManager::Shutdown_465610()
 {
-    NOT_IMPLEMENTED();
+    // Clear out every file in the files array
+    auto pFilesArray = &field_20_files_dArray;
+    __int16 fileIdx = 0;
+    DynamicArrayIter iter;
+    iter.field_0_pDynamicArray = pFilesArray;
+    iter.field_4_idx = 0;
+    while (fileIdx < pFilesArray->Size())
+    {
+        // Iterate and clear out the file parts in this item
+        ResourceManager_FileRecord_1C* pFileRec = pFilesArray->ItemAt(fileIdx);
+        iter.field_4_idx = fileIdx + 1;
+        if (!pFileRec)
+        {
+            break;
+        }
+
+        auto pFileSectionsArray = &pFileRec->field_10_file_sections_dArray;
+        __int16 fileSectionIdx = 0;
+        DynamicArrayIter fileSectionsIter;
+        fileSectionsIter.field_0_pDynamicArray = &pFileRec->field_10_file_sections_dArray;
+        fileSectionsIter.field_4_idx = 0;
+
+        while (fileSectionIdx < pFileSectionsArray->Size())
+        {
+            ResourceManager_FilePartRecord_18* pFileSection = pFileSectionsArray->ItemAt(fileSectionIdx);
+            fileSectionsIter.field_4_idx = fileSectionIdx + 1;
+            if (!pFileSection)
+            {
+                break;
+            }
+            fileSectionsIter.Remove_At_Iter_40CCA0();
+            Mem_Free_495540(pFileSection);
+
+            fileSectionIdx = fileSectionsIter.field_4_idx;
+        }
+
+        iter.Remove_At_Iter_40CCA0();
+        Mem_Free_495560(pFileRec->field_0_fileName);
+
+        pFileRec->dtor_464EA0();
+        Mem_Free_495540(pFileRec);
+
+        fileIdx = iter.field_4_idx;
+    }
 }
 
 EXPORT void CC Game_ShowLoadingIcon_482D80()
@@ -158,4 +201,9 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, int allocMet
 {
     NOT_IMPLEMENTED();
     return nullptr;
+}
+
+EXPORT void ResourceManager::ResourceManager_FileRecord_1C::dtor_464EA0()
+{
+    NOT_IMPLEMENTED();
 }

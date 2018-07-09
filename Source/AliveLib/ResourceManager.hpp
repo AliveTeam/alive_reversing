@@ -129,6 +129,8 @@ private:
         int field_8;
         int field_C;
         DynamicArrayT<ResourceManager_FilePartRecord_18> field_10_file_sections_dArray;
+
+        EXPORT void dtor_464EA0();
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_1C, 0x1C);
 
