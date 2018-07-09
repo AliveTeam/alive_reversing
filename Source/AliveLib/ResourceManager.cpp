@@ -4,6 +4,7 @@
 #include "Psx.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "LvlArchive.hpp"
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 ALIVE_VAR(1, 0xab4a04, int, sManagedMemoryUsedSize_AB4A04, 0);
@@ -161,6 +162,110 @@ void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam
     field_20_files_dArray.Push_Back(pFileRecord);
 }
 
+void ResourceManager::vLoadFile_StateMachine_464A70()
+{
+    NOT_IMPLEMENTED();
+    /*
+    int v2; // eax
+    ResourceManager_FileRecord_1C *pFile; // eax
+    LvlFileRecord *pLvlFileRec1; // eax
+    int startSector; // ST04_4
+    BYTE **pNewBlock; // eax
+    Header *v7; // eax
+    BYTE attempts; // al
+    signed int bWaitRet; // eax
+
+    switch (this->field_42_state)
+    {
+    case 0:
+        PSX_CD_File_Seek_4FB1E0(1, 0);
+        // NOTE: Pruned branches here from stub that was hard coded to return 0
+        if (!field_20_files_dArray.IsEmpty())
+        {
+            if (!field_20_files_dArray.IsEmpty())
+            {
+                pFile = field_20_files_dArray.ItemAt(0);
+            }
+            else
+            {
+                pFile = nullptr;
+            }
+            field_2C_pFileItem = pFile;
+            pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(pFile->field_0_fileName);
+            word_5C1B96 = 1;
+            field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
+            startSector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4[0];
+            field_30_start_sector = startSector;
+            PSX_Pos_To_CdLoc_4FADD0(startSector, &field_44_cdLoc);
+            field_42_state = 1;
+        }
+        break;
+    case 1:
+        pNewBlock = ResourceManager::Allocate_New_Block_49BFB0(field_34_num_sectors << 11, 0);
+        field_38_ppRes = pNewBlock;
+        if (pNewBlock)
+        {
+            v7 = (Header *)(*pNewBlock - 16); // TODO: As Handle<T>
+            field_3C_pLoadingHeader = v7;
+            v7->field_8_type = Resource_Pend;
+            ResourceManager::Increment_Pending_Count_49C5F0();
+            field_42_state = 2;
+        }
+        else
+        {
+            ResourceManager::sub_49C470(200000);
+        }
+        break;
+    case 2:
+        if (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
+        {
+            attempts = field_40_seek_attempts;
+            if (attempts < 20u)
+            {
+                field_40_seek_attempts = attempts + 1;
+                return;
+            }
+
+            sub_465BC0(0);
+            while (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
+            {
+                // Do nothing
+            }
+        }
+        field_42_state = 3;
+        field_40_seek_attempts = 0;
+        break;
+    case 3:
+        if (PSX_CD_File_Read_4FB210(field_34_num_sectors, field_3C_pLoadingHeader))
+        {
+            field_42_state = 4;
+            goto LABEL_23;
+        }
+        field_42_state = 2;
+        break;
+    case 4:
+    LABEL_23:
+        bWaitRet = PSX_CD_FileIOWait_4FB260(1);
+        if (bWaitRet <= 0)
+        {
+            field_42_state = bWaitRet != -1 ? 5 : 2;
+        }
+        break;
+    case 5:
+        ResourceManager::sub_49C1C0(field_38_ppRes, &field_48_dArray);
+        field_42_state = 6;
+        break;
+    case 6:
+        word_5C1B96 = 0;
+        OnResourceLoaded_464CE0();
+        field_48_dArray.field_4_used_size = 0;
+        Decrement_Pending_Count_49C610();
+        field_42_state = 0;
+        break;
+    default:
+        return;
+    }*/
+}
 
 void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4)
 {
@@ -205,5 +310,5 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, int allocMet
 
 EXPORT void ResourceManager::ResourceManager_FileRecord_1C::dtor_464EA0()
 {
-    NOT_IMPLEMENTED();
+    field_10_file_sections_dArray.dtor_40CAD0();
 }

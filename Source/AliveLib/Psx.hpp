@@ -74,6 +74,24 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, c
 EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode);
 EXPORT signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos);
 
+EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName);
+EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths);
+
+struct CdlLOC
+{
+    unsigned __int8 field_0_minute;
+    unsigned __int8 field_1_second;
+    unsigned __int8 field_2_sector;
+    char field_3_track;
+};
+ALIVE_ASSERT_SIZEOF(CdlLOC, 0x4);
+
+EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(int pos, CdlLOC* pLoc);
+EXPORT int CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc);
+EXPORT int CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc);
+EXPORT int CC PSX_CD_File_Read_4FB210(int numSectors, void* pBuffer);
+EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync);
+
 ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
 ALIVE_VAR_EXTERN(BYTE, byte_BD0F20);
 

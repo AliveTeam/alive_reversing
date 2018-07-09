@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
+#include "Psx.hpp"
 
 class Camera;
 
@@ -105,6 +106,7 @@ public:
     
     using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
     EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, __int16 a6);
+    EXPORT void vLoadFile_StateMachine_464A70();
 
     EXPORT static signed __int16 __cdecl LoadResourceFile_49C170(const char *pFileName, Camera* a2);
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
@@ -150,12 +152,12 @@ private:
     ResourceManager_FileRecord_1C* field_2C_pFileItem;
     int field_30_start_sector;
     int field_34_num_sectors;
-    int field_38_ppRes;
-    int field_3C_pLoadingHeader;
+    BYTE** field_38_ppRes;
+    void* field_3C_pLoadingHeader;
     char field_40_seek_attempts;
     char field_41; // pad ?
     __int16 field_42_state;
-    int field_44;
+    CdlLOC field_44_cdLoc;
     DynamicArray field_48_dArray;
 };
 ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);

@@ -7,6 +7,8 @@
 #include "PsxDisplay.hpp"
 #include "VGA.hpp"
 #include "stdlib.hpp"
+#include "Io.hpp"
+#include "Game.hpp" // sIOSyncReads_BD2A5C, sCdRomDrives_5CA488
 #include <timeapi.h>
 #include <gmock/gmock.h>
 
@@ -36,6 +38,158 @@ ALIVE_VAR(1, 0xBD146D, BYTE, sScreenMode_BD146D, 0);
 ALIVE_VAR(1, 0xBD0F20, BYTE, byte_BD0F20, 0);
 ALIVE_VAR(1, 0x578324, BYTE, byte_578324, 0);
 
+
+ALIVE_ARY(1, 0xC14620, char, 128, sCdEmu_Path1_C14620, {});
+ALIVE_ARY(1, 0xC144C0, char, 128, sCdEmu_Path2_C144C0, {});
+ALIVE_ARY(1, 0xC145A0, char, 128, sCdEmu_Path3_C145A0, {});
+
+ALIVE_VAR(1, 0xBD1CC4, IO_Handle*, sCdFileHandle_BD1CC4, nullptr);
+ALIVE_VAR(1, 0xBD1894, int, sCdReadPos_BD1894, 0);
+
+EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths)
+{
+    static char sLastOpenedFileName_BD1898[1024] = {};
+
+    char pNormalizedName[256] = {};
+    char fullFilePath[1024] = {};
+
+    if (_strcmpi(sLastOpenedFileName_BD1898, pFileName) != 0)
+    {
+        PSX_CD_Normalize_FileName_4FAD90(pNormalizedName, (*pFileName == '\\') ? pFileName + 1 : pFileName);
+        //dword_578D5C = -1; // Note: Never read
+        sCdReadPos_BD1894 = 0;
+
+        int openMode = 1;
+        if (!sIOSyncReads_BD2A5C)
+        {
+            openMode = 5;
+        }
+
+        strcpy(fullFilePath, sCdEmu_Path1_C14620);
+        strcat(fullFilePath, pNormalizedName);
+        if (bTryAllPaths)
+        {
+            // Close any existing open file
+            if (sCdFileHandle_BD1CC4)
+            {
+                IO_fclose_4F24E0(sCdFileHandle_BD1CC4);
+                sLastOpenedFileName_BD1898[0] = 0;
+            }
+
+            // Try to open from path 1
+            sCdFileHandle_BD1CC4 = IO_Open_4F2320(fullFilePath, openMode);
+            if (!sCdFileHandle_BD1CC4)
+            {
+                // Failed, try path 2
+                strcpy(fullFilePath, sCdEmu_Path2_C144C0);
+                strcat(fullFilePath, pNormalizedName);
+                sCdFileHandle_BD1CC4 = IO_Open_4F2320(fullFilePath, openMode);
+                if (!sCdFileHandle_BD1CC4)
+                {
+                    // Failed try path 3 - each CD drive in the system
+                    strcpy(fullFilePath, sCdEmu_Path3_C145A0);
+                    strcat(fullFilePath, pNormalizedName);
+
+                    // Oops, we don't have any CD-ROM drives
+                    if (!sCdRomDrives_5CA488[0])
+                    {
+                        return 0;
+                    }
+
+                    char* pCdRomDrivesIter = sCdRomDrives_5CA488;
+                    while (*pCdRomDrivesIter)
+                    {
+                        fullFilePath[0] = *pCdRomDrivesIter;
+                        if (*pCdRomDrivesIter != sCdEmu_Path2_C144C0[0])
+                        {
+                            sCdFileHandle_BD1CC4 = IO_Open_4F2320(fullFilePath, openMode);
+                            if (sCdFileHandle_BD1CC4)
+                            {
+                                // Update the default CD-ROM to try
+                                sCdEmu_Path2_C144C0[0] = fullFilePath[0];
+                                strcpy(sLastOpenedFileName_BD1898, pFileName);
+                                return 1;
+                            }
+                        }
+                        pCdRomDrivesIter++;
+                    }
+                    return 0;
+                }
+            }
+        }
+        else
+        {
+            // Open the file
+            IO_Handle* hFile = IO_Open_4F2320(fullFilePath, openMode);
+            if (!hFile)
+            {
+                return 0;
+            }
+
+            // Close the old file and set the current file as the new one
+            if (sCdFileHandle_BD1CC4)
+            {
+                IO_fclose_4F24E0(sCdFileHandle_BD1CC4);
+                sLastOpenedFileName_BD1898[0] = 0;
+            }
+            sCdFileHandle_BD1CC4 = hFile;
+        }
+        strcpy(sLastOpenedFileName_BD1898, pFileName);
+    }
+    return 1;
+}
+
+EXPORT CdlLOC* CC PSX_Pos_To_CdLoc_4FADD0(int pos, CdlLOC* pLoc)
+{
+    pLoc->field_3_track = 0;
+    pLoc->field_0_minute = static_cast<BYTE>(pos / 75 / 60 + 2);
+    pLoc->field_1_second = pos / 75 % 60;
+    pLoc->field_2_sector = static_cast<BYTE>(pos + 108 * (pos / 75 / 60) - 75 * (pos / 75 % 60));
+    return pLoc;
+}
+
+EXPORT int CC PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc)
+{
+    int min = pLoc->field_0_minute;
+    if (min < 2)
+    {
+        min = 2;
+    }
+    return pLoc->field_2_sector + 75 * (pLoc->field_1_second + 20 * (3 * min - 6));
+}
+
+EXPORT int CC PSX_CD_File_Seek_4FB1E0(char mode, const CdlLOC* pLoc)
+{
+    if (mode != 2)
+    {
+        return 0;
+    }
+    sCdReadPos_BD1894 = PSX_CdLoc_To_Pos_4FAE40(pLoc);
+    return 1;
+}
+
+EXPORT int CC PSX_CD_File_Read_4FB210(int numSectors, void* pBuffer)
+{
+    IO_Seek_4F2490(sCdFileHandle_BD1CC4, sCdReadPos_BD1894 << 11, 0);
+    IO_Read_4F23A0(sCdFileHandle_BD1CC4, pBuffer, numSectors << 11);
+    sCdReadPos_BD1894 += numSectors;
+    return 1;
+}
+
+EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync)
+{
+    if (!sCdFileHandle_BD1CC4)
+    {
+        return -1;
+    }
+
+    if (!bASync)
+    {
+        IO_WaitForComplete_4F2510(sCdFileHandle_BD1CC4);
+    }
+    return sCdFileHandle_BD1CC4->field_10_bDone != 0;
+}
+
 using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
 ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_put_disp_env_callback_C1D184, nullptr);
@@ -64,9 +218,336 @@ EXPORT void CC sub_4ED9E0()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_DrawOTag_4F6540(int** /*pOT*/)
+ALIVE_VAR(1, 0xC2D038, Bitmap*, spBitmap_C2D038, nullptr);
+
+EXPORT signed int __cdecl PSX_OT_Idx_From_Ptr_4F6A40(unsigned int ot)
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void __cdecl PSX_4F6A70(void *a1, WORD *a2, unsigned __int8 *a3)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_4F6430(unsigned __int16 a1)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT unsigned __int8 *__cdecl PSX_4F7110(int a1, int a2, int a3)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT void __cdecl PSX_4F7960(int a1, int a2, int a3)
+{
+    NOT_IMPLEMENTED();
+}
+
+ALIVE_VAR(1, 0xC2D03C, int, dword_C2D03C, 0);
+
+using TPsxDraw = std::add_pointer<int(__cdecl)(DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD)>::type;
+
+ALIVE_VAR(1, 0xC2D04C, TPsxDraw, dword_C2D04C, nullptr);
+
+// TODO: For reference only, will be implemented when all prim types are recovered
+static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
+{
+
+    int** v1 = pOT;
+    __int16 v2 = drawEnv_of0;
+    __int16 v16 = drawEnv_of1;
+    //dword_BD30E4 = 0;
+    //dword_BD30A4 = 0;
+    //LOWORD(dword_578318) = -1;
+
+    int v3 = PSX_OT_Idx_From_Ptr_4F6A40((unsigned int)pOT);
+    if (v3 < 0)
+    {
+        return false;
+    }
+
+    int v4 = v3;
+    int** v21 = sOt_Stack_BD0D88[v4].field_4;
+    int** pOtEnd = sOt_Stack_BD0D88[v4].field_8_pOt_End;
+    if (pOT)
+    {
+        do
+        {
+            if (v1 == (int **)-1)
+            {
+                break;
+            }
+
+            MIDI_UpdatePlayer_4FDC80();
+
+            if (v1 < (int **)v21 || v1 >= pOtEnd)
+            {
+                char v5 = *((BYTE *)v1 + 11);
+                int itemToDrawType = *((unsigned __int8 *)v1 + 11);
+                switch (itemToDrawType)
+                {
+                case 2: // ??
+                    PSX_4F6A70(0, (WORD *)v1 + 6, (unsigned __int8 *)v1);
+                    break;
+                case 128: // 0x80 = change tpage?
+                    PSX_4F6430(*((WORD *)v1 + 6));
+                    break;
+                case 129: // 0x81 Init_PrimClipper_4F5B80
+                    LOG_WARNING("129");
+                    /*
+                    v8 = (int)v1[1];
+                    v27 = v1[3];
+                    *(_DWORD *)&sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x = v27;
+                    v28 = v8;
+                    *(_DWORD *)&sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w = v8;
+                    PSX_SetDrawEnv_Impl_4FE420(
+                        16 * (signed __int16)v27,
+                        16 * SHIWORD(v27),
+                        16 * ((signed __int16)v27 + (signed __int16)v8) - 16,
+                        16 * (SHIWORD(v27) + SHIWORD(v8)) - 16,
+                        sConst_1000_578E88 / 2,
+                        byte_989680);
+                    */
+                    break;
+                case 130: // 0x82 Prim_ScreenOffset
+                    LOG_WARNING("130");
+                    /*
+                    if (dword_55EF94)
+                    {
+                        v7 = *((signed __int16 *)v1 + 7);
+                        dword_BD30E4 = 2 * *((signed __int16 *)v1 + 6);
+                        dword_BD30A4 = v7;
+                    }
+                    else
+                    {
+                        v2 = drawEnv_of0 + *((signed __int16 *)v1 + 6);
+                        v16 = drawEnv_of1 + *((signed __int16 *)v1 + 7);
+                    }*/
+                    break;
+                case 131: // 0x83 ?? move image ?? 
+                    LOG_WARNING("131");
+                    BMP_unlock_4F2100(&sPsxVram_C1D160);
+                    PSX_MoveImage_4F5D50((PSX_RECT *)(v1 + 5), (int)v1[3], (int)v1[4]);
+                    if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
+                    {
+                        break;
+                    }
+
+                    if (sPsxEmu_EndFrameFnPtr_C1D17C)
+                    {
+                        sPsxEmu_EndFrameFnPtr_C1D17C(1);
+                    }
+                    return true;
+
+                case 132: // 0x84 ??
+                    LOG_WARNING("132");
+                    //PSX_4F7B80((int)v1[3], (int)v1[4], (int)v1[5], (int)v1[6], (int)v1[7]);
+                    break;
+                default:
+                    int v12 = 0;
+                    int v13 = 0;
+                    int v25 = 0;
+                    int v26 = 0;
+
+                    int v9 = dword_C2D03C++ + 1;
+                    if ((v5 & 0x60) == 96)
+                    {
+                        //LOBYTE(itemToDrawType) = itemToDrawType & 0xFC;
+                        switch (itemToDrawType & 0xFC)
+                        {
+                        case 96: // 0x60
+                            LOG_INFO("96");
+                            /*
+                            v10 = *((WORD *)v1 + 9);
+                            v25 = *((WORD *)v1 + 8);
+                            v26 = v10;*/
+                            goto LABEL_31;
+                        case 100: // 0x64
+                            v12 = *((WORD *)v1 + 10);
+                            v13 = *((WORD *)v1 + 11);
+                            v25 = *((WORD *)v1 + 10);
+                            v26 = v13;
+                            goto LABEL_36;
+                        case 104: // 0x68
+                            LOG_INFO("104");
+                            //v11 = 1;
+                            goto LABEL_30;
+                        case 112: // 0x70
+                            LOG_INFO("112");
+                            //v11 = 8;
+                            goto LABEL_30;
+                        case 116: // 0x74
+                            LOG_INFO("116");
+                            //v13 = 8;
+                            //v26 = 8;
+                            //v12 = 8;
+                            goto LABEL_35;
+                        case 120: // 0x78
+                            LOG_INFO("120");
+                            //v11 = 16;
+                        LABEL_30:
+                            //v26 = v11;
+                            //v25 = v11;
+                        LABEL_31:
+                            //LOWORD(v9) = v16 + *((WORD *)v1 + 7);
+                            //v23 = v2 + *((WORD *)v1 + 6);
+                            //v24 = v9;
+                            //PSX_4F6A70(v9, &v23, (unsigned __int8 *)v1);
+                            break;
+                        case 124: // 0x7C
+                        {
+                            LOG_INFO("124");
+                            //v13 = 16;
+                            //v26 = 16;
+                            //v12 = 16;
+                        LABEL_35:
+                            //v25 = v12;
+                        LABEL_36: // e
+
+                            itemToDrawType = *((BYTE *)v1 + 11); // TODO: LOBYTE() = 
+                            BYTE r = 0;
+                            BYTE g = 0;
+                            BYTE b = 0;
+                            if (itemToDrawType & 1)
+                            {
+                                r = 128;
+                                g = 128;
+                                b = 128;
+                            }
+                            else
+                            {
+                                b = *((BYTE *)v1 + 8);
+                                g = *((BYTE *)v1 + 9);
+                                r = *((BYTE *)v1 + 10);
+                            }
+
+                            //LOWORD(itemToDrawType) = *((WORD *)v1 + 9);
+
+                            int p1 = v2 + *((signed __int16 *)v1 + 6); // offset + ?
+                            int p2 = v16 + *((signed __int16 *)v1 + 7); // offset + ?;
+                            int p3 = *((unsigned __int8 *)v1 + 16);
+                            int p4 = *((unsigned __int8 *)v1 + 17);
+
+                            dword_C2D04C(
+                                p1,
+                                p2,
+                                p3,
+                                p4,
+                                128,
+                                128,
+                                128,
+                                640,
+                                480,
+                                100,
+                                100 & 2
+                            );
+
+                            /*
+                            dword_C2D04C(
+                                p1,
+                                p2,
+                                p3,
+                                p4,
+                                b,
+                                g,
+                                r,
+                                v12, // redraw width?
+                                v13, // redraw height ?
+                                itemToDrawType,
+                                itemToDrawType & 2);*/
+                        }
+                            break;
+                        default:
+                            goto LABEL_45;
+                        }
+                    }
+                    else if ((v5 & 0x40) == 64) // 0x40
+                    {
+                        LOG_WARNING("64");
+                        //PSX_4F7D90(v1, v2, v16);
+                    }
+                    else if ((v5 & 0x20) == 32) // 0x20
+                    {
+                        
+                        unsigned __int8 * v15 = PSX_4F7110((int)v1, v2, v16);
+                        if (v15)
+                        {
+                            PSX_4F7960((int)v15, v2, v16);
+                        }
+                    }
+                    break;
+                }
+            }
+        LABEL_45:
+            v1 = (int **)*v1;
+        } while (v1);
+    }
+
+    return false;
+}
+
+// TODO: Impl main ordering table parser
+EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
+{
+    NOT_IMPLEMENTED();
+
+    if (!sPsxEmu_EndFrameFnPtr_C1D17C || !sPsxEmu_EndFrameFnPtr_C1D17C(0))
+    {
+        if (byte_BD0F20 || !BMP_Lock_4F1FF0(&sPsxVram_C1D160))
+        {
+            if (sPsxEmu_EndFrameFnPtr_C1D17C)
+            {
+                sPsxEmu_EndFrameFnPtr_C1D17C(1);
+            }
+            return;
+        }
+
+        __int16 drawEnv_of0 = 0;
+        __int16 drawEnv_of1 = 0;
+
+        if (byte_BD1464)
+        {
+            if (!BMP_Lock_4F1FF0(&stru_C1D1A0))
+            {
+                BMP_unlock_4F2100(&sPsxVram_C1D160);
+                if (sPsxEmu_EndFrameFnPtr_C1D17C)
+                {
+                    sPsxEmu_EndFrameFnPtr_C1D17C(1);
+                }
+                return;
+            }
+            spBitmap_C2D038 = &stru_C1D1A0;
+            drawEnv_of1 = 0;
+            drawEnv_of0 = 0;
+        }
+        else
+        {
+            spBitmap_C2D038 = &sPsxVram_C1D160;
+            drawEnv_of0 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[0];
+            drawEnv_of1 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[1];
+        }
+
+        if (DrawOTagImpl(pOT, drawEnv_of0, drawEnv_of1))
+        {
+            return;
+        }
+
+        if (byte_BD1464)
+        {
+            BMP_unlock_4F2100(&stru_C1D1A0);
+        }
+
+        BMP_unlock_4F2100(&sPsxVram_C1D160);
+        if (sPsxEmu_EndFrameFnPtr_C1D17C)
+        {
+            sPsxEmu_EndFrameFnPtr_C1D17C(1);
+        }
+        return;
+    }
 }
 
 ALIVE_ARY(1, 0xC19160, float, 4096, sPsxEmu_float_table_C19160, {});
@@ -600,6 +1081,11 @@ EXPORT signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int y
 
     Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 531, "MoveImage: BAD SRC RECT !!!");
     return -1;
+}
+
+EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName)
+{
+    NOT_IMPLEMENTED();
 }
 
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.

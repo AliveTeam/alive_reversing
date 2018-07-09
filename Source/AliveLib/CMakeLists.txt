@@ -59,6 +59,10 @@ add_library(AliveLib
     Animation.hpp
     PathData.cpp
     PathData.hpp
+    LvlArchive.cpp
+    LvlArchive.hpp
+    Io.cpp
+    Io.hpp
     WinMain.cpp
     WinMain.hpp)
 

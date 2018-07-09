@@ -1,0 +1,48 @@
+#pragma once
+
+#include "FunctionFwd.hpp"
+#include "ResourceManager.hpp"
+
+struct LvlFileRecord
+{
+    char field_0_file_name[12];
+    int field_C_start_sector;
+    int field_10_num_sectors;
+    int field_14_file_size;
+};
+
+struct LvlHeader_Sub
+{
+    int field_0_num_files;
+    int field_4_unknown1;
+    int field_8_unknown2;
+    int field_C_unknown3;
+    LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access
+};
+
+struct LvlHeader
+{
+    int field_0_first_file_offset;
+    int field_4_ref_count;
+    int field_8_magic;
+    int field_C_id;
+    LvlHeader_Sub field_10_sub;
+};
+
+
+class LvlArchive
+{
+public:
+    EXPORT int Open_Archive_432E80(const char* fileName);
+    EXPORT LvlFileRecord* Find_File_Record_433160(const char* pFileName);
+    EXPORT int Read_File_433070(const char* pFileName, void* pBuffer);
+    EXPORT int Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
+    EXPORT int Free_433130();
+private:
+    ResourceManager::Handle<LvlHeader_Sub*> field_0_0x2800_res;
+public:
+    DWORD field_4[41]; // TODO: Maybe is just 1 DWORD
+};
+ALIVE_ASSERT_SIZEOF(LvlArchive, 0xA8);
+
+ALIVE_VAR_EXTERN(LvlArchive, sLvlArchive_5BC520);
