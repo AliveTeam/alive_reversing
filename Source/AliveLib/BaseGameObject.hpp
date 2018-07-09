@@ -58,6 +58,8 @@ public:
     virtual void vnullsub_4DC0F0();
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer);
 
+
+    EXPORT BYTE ** BaseGameObject::Add_Resource_4DC130(int type, int resourceID);
     EXPORT void BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 

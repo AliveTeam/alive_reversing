@@ -34,6 +34,12 @@ ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
 ALIVE_VAR(1, 0x5C1B70, Class_5C1B70, dword_5C1B70, {});
 
 
+BYTE ** BaseGameObject::Add_Resource_4DC130(int type, int resourceID)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize)
 {
     SetVTable(this, 0x547AC4);

@@ -103,7 +103,6 @@ public:
     EXPORT void Shutdown_465610();
     EXPORT void sub_465590(int a1);
     EXPORT static signed __int16 __cdecl LoadResourceFile_49C170(const char *pFileName, Camera* a2);
-
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
     EXPORT static signed __int16 CC FreeResource_49C330(BaseHandle handle);
     EXPORT static signed __int16 CC FreeResource_Impl_49C360(RawHandle handle);

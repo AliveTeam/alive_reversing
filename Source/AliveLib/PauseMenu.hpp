@@ -5,14 +5,21 @@
 #include "Animation.hpp"
 #include "Game.hpp"
 #include "Psx.hpp"
+#include "Function.hpp"
+#include "ResourceManager.hpp"
 
 void PauseMenu_ForceLink();
 
 class PauseMenu;
 
+ALIVE_ARY_EXTERN(byte, 32, sFont1VRAM_5BC5C8);
+ALIVE_ARY_EXTERN(byte, 32, sFont2VRAM_5BC5D8);
+
+
 class Font
 {
 public:
+    EXPORT void ctor_433590(int blockSize, BYTE *palette, byte *vramBuffer);
     EXPORT int DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int a9, char r, char g, char b, int a13, signed int scale, int a15, __int16 colorRandomRange);
     EXPORT int MeasureWidth_433700(char * text);
 public:
@@ -74,6 +81,8 @@ public:
     EXPORT PauseMenu * ctor_48FB80();
     EXPORT void dtor_48FCE0();
     EXPORT void dtor_48FCB0(signed int flags);
+
+    EXPORT void Init_491760();
 
     EXPORT void Update_48FD80();
 

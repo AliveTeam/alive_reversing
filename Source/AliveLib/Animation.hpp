@@ -68,7 +68,7 @@ struct FrameInfoHeader
 
 class AnimationEx : public Animation
 {
-private:
+public:
     WORD field_10_frame_delay;
     WORD field_12_scale; // padding?
     DWORD field_14_scale;
@@ -92,6 +92,7 @@ public:
     EXPORT void SetFrame_409D50(__int16 newFrame);
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(__int16 frame);
     EXPORT WORD Get_Frame_Count_40AC70();
+    EXPORT signed __int16 Init_40A030(int frameTableOffset, DynamicArray *animList, void *pGameObj, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
    // EXPORT void Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY);
 
 };
@@ -99,6 +100,8 @@ ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
+public:
+    EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize);
 public:
     // VTable @ 0x544C9C
     /*

@@ -138,6 +138,12 @@ WORD AnimationEx::Get_Frame_Count_40AC70()
     return pHead->mNumFrames;
 }
 
+signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray * animList, void * pGameObj, int maxW, unsigned __int16 maxH, BYTE ** ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 /*
 void AnimationEx::Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY)
 {
@@ -210,4 +216,10 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
     {
         field_20_animation.field_C_render_layer = 1;
     }
+}
+
+BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
 }
