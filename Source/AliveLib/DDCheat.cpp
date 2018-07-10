@@ -147,7 +147,7 @@ DDCheat* DDCheat::ctor_4153C0()
     field_6_flags |= 0x300; // TODO: Enum bits
 
     field_3C_flags &= 0xFFF8u;
-    field_4_typeId = 19;
+    field_4_typeId = Types::eDDCheat;
     field_20 = 0;
     field_24_fn_idx = 0;
     field_28 = 0;
@@ -281,14 +281,14 @@ void DDCheat::Update_415780()
 
             switch (sControlledCharacter_5C1B8C->field_4_typeId)
             {
-            case 67:
-            case 125:
+            case Types::eType_67:
+            case Types::eType_125:
                 sControlledCharacter_5C1B8C->field_106_animation_num = 7;
                 break;
-            case 69:
+            case Types::eType_69:
                 sControlledCharacter_5C1B8C->field_106_animation_num = 3;
                 break;
-            case 112:
+            case Types::eType_112:
                 sControlledCharacter_5C1B8C->field_106_animation_num = 8;
                 break;
             default:

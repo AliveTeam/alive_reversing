@@ -43,13 +43,13 @@ void ResourceManager::Ctor_464910()
     field_6_flags |= eBit08 | eUpdatableExtra; // TODO: Check me
     SetVTable(this, 0x545EBC); // vTbl_ResourceManager_545EBC
 
-    field_4_typeId = 79;
+    field_4_typeId = Types::eResourceManager;
     field_2C_pFileItem = 0;
     field_30_start_sector = 0;
     field_34_num_sectors = 0;
-    field_38_ppRes = 0;
+    field_38_ppRes = {};
     field_3C_pLoadingHeader = 0;
-    field_42_state = 0;
+    field_42_state = State_Wait_For_Load_Request;
     field_40_seek_attempts = 0;
 }
 
@@ -171,104 +171,97 @@ EXPORT void __stdcall sub_465BC0(int a1)
 
 void ResourceManager::vLoadFile_StateMachine_464A70()
 {
-    int v2; // eax
-    ResourceManager_FileRecord_1C *pFile; // eax
-    LvlFileRecord *pLvlFileRec1; // eax
-    int startSector; // ST04_4
-    BYTE **pNewBlock; // eax
-    Header *v7; // eax
-    BYTE attempts; // al
-    signed int bWaitRet; // eax
-
     switch (field_42_state)
     {
-    case 0:
-        PSX_CD_File_Seek_4FB1E0(1, 0);
+    case State_Wait_For_Load_Request:
+        PSX_CD_File_Seek_4FB1E0(1, 0); // NOTE: Mode 1 does nothing
         // NOTE: Pruned branches here from stub that was hard coded to return 0
         if (!field_20_files_dArray.IsEmpty())
         {
-            if (!field_20_files_dArray.IsEmpty())
-            {
-                pFile = field_20_files_dArray.ItemAt(0);
-            }
-            else
-            {
-                pFile = nullptr;
-            }
-            field_2C_pFileItem = pFile;
-            pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(pFile->field_0_fileName);
-            word_5C1B96 = 1;
+            field_2C_pFileItem = field_20_files_dArray.ItemAt(0);
+
+            LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
             field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
-            startSector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4[0];
-            field_30_start_sector = startSector;
-            PSX_Pos_To_CdLoc_4FADD0(startSector, &field_44_cdLoc);
-            field_42_state = 1;
+            field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4[0];
+            PSX_Pos_To_CdLoc_4FADD0(field_30_start_sector, &field_44_cdLoc);
+
+            word_5C1B96 = 1;
+            field_42_state = State_Allocate_Memory_For_File;
         }
         break;
-    case 1:
-        pNewBlock = ResourceManager::Allocate_New_Block_49BFB0(field_34_num_sectors << 11, 0);
-        field_38_ppRes = pNewBlock;
-        if (pNewBlock)
+
+    case State_Allocate_Memory_For_File:
+        field_38_ppRes = ResourceManager::Allocate_New_Block_49BFB0_T<void*>(field_34_num_sectors << 11, 0);
+        if (field_38_ppRes.Valid())
         {
-            v7 = (Header *)(*pNewBlock - 16); // TODO: As Handle<T>
-            field_3C_pLoadingHeader = v7;
-            v7->field_8_type = Resource_Pend;
+            field_3C_pLoadingHeader = field_38_ppRes.GetHeader();
+            field_3C_pLoadingHeader->field_8_type = Resource_Pend;
             ResourceManager::Increment_Pending_Count_49C5F0();
-            field_42_state = 2;
+            field_42_state = State_Seek_To_File;
         }
         else
         {
-            ResourceManager::sub_49C470(200000);
+            // Failed to allocate, free some memory and loop around for another go
+            ResourceManager::Reclaim_Memory_49C470(200000);
         }
         break;
-    case 2:
+
+    case State_Seek_To_File:
         if (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
         {
-            attempts = field_40_seek_attempts;
+            int attempts = field_40_seek_attempts;
             if (attempts < 20u)
             {
                 field_40_seek_attempts = attempts + 1;
                 return;
             }
 
-            sub_465BC0(0); // Crashes if forced to be called.. ?
+            sub_465BC0(0); // Crashes if forced to be called.. ? Seems to display the can't find demo/fmv message
 
             while (!PSX_CD_File_Seek_4FB1E0(2, &field_44_cdLoc))
             {
                 // Do nothing
             }
         }
-        field_42_state = 3;
+        field_42_state = State_Read_Sectors_ASync;
         field_40_seek_attempts = 0;
         break;
-    case 3:
+
+    case State_Read_Sectors_ASync:
         if (PSX_CD_File_Read_4FB210(field_34_num_sectors, field_3C_pLoadingHeader))
         {
-            field_42_state = 4;
-            goto LABEL_23;
+            field_42_state = State_Wait_For_Read_Complete;
+            // Note: Skipping State_Wait_For_Read_Complete till next tick
         }
-        field_42_state = 2;
-        break;
-    case 4:
-    LABEL_23:
-        bWaitRet = PSX_CD_FileIOWait_4FB260(1);
-        if (bWaitRet <= 0)
+        else
         {
-            field_42_state = bWaitRet != -1 ? 5 : 2;
+            field_42_state = State_Seek_To_File;
         }
         break;
-    case 5:
-        ResourceManager::sub_49C1C0(field_38_ppRes, &field_48_dArray);
-        field_42_state = 6;
+
+    case State_Wait_For_Read_Complete:
+        {
+            const int bWaitRet = PSX_CD_FileIOWait_4FB260(1);
+            if (bWaitRet <= 0)
+            {
+                field_42_state = bWaitRet != -1 ? State_File_Read_Completed : State_Seek_To_File;
+            }
+        }
         break;
-    case 6:
+
+    case State_File_Read_Completed:
+        ResourceManager::sub_49C1C0(field_38_ppRes, &field_48_dArray);
+        field_42_state = State_Load_Completed;
+        break;
+
+    case State_Load_Completed:
         word_5C1B96 = 0;
         OnResourceLoaded_464CE0();
-        // TODO: Needs to be private
-        field_48_dArray.field_4_used_size = 0;
+        field_48_dArray.field_4_used_size = 0; // TODO: Needs to be private
         Decrement_Pending_Count_49C610();
-        field_42_state = 0;
+        field_42_state = State_Wait_For_Load_Request;
         break;
+
     default:
         return;
     }
@@ -291,12 +284,12 @@ void CC ResourceManager::Increment_Pending_Count_49C5F0()
     ++sResources_Pending_Loading_AB49F4;
 }
 
-void CC ResourceManager::sub_49C470(int size)
+void CC ResourceManager::Reclaim_Memory_49C470(int size)
 {
     NOT_IMPLEMENTED();
 }
 
-signed __int16 CC ResourceManager::sub_49C1C0(BYTE** ppRes, DynamicArray* pArray)
+signed __int16 CC ResourceManager::sub_49C1C0(Handle<void*> ppRes, DynamicArray* pArray)
 {
     NOT_IMPLEMENTED();
     return 0;

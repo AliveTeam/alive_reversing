@@ -326,7 +326,7 @@ PauseMenu * PauseMenu::ctor_48FB80()
     sQuicksave_SaveNextFrame_5CA4D8 = 0;
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
-    field_4_typeId = 95;
+    field_4_typeId = Types::ePauseMenu;
     field_6_flags &= ~0x8;
     field_6_flags |= 0x100;
     word12C_flags &= ~0xE;

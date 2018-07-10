@@ -6,6 +6,19 @@
 class BaseGameObject
 {
 public:
+    enum Types : __int16
+    {
+        eNone = 0,
+        eBackgroundAnimation = 7,
+        eDDCheat = 19,
+        eGameSpeak = 38,
+        eType_67 = 67,
+        eType_69 = 69,
+        eResourceManager = 79,
+        ePauseMenu = 95,
+        eType_112 = 112,
+        eType_125 = 125,
+    };
 
     enum Options
     {
@@ -64,7 +77,7 @@ public:
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
 public:
-    __int16 field_4_typeId;
+    Types field_4_typeId;
     __int16 field_6_flags;
     int field_8_flags_ex;
     int field_C_objectId;

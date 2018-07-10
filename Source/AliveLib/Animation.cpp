@@ -158,7 +158,7 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
     //BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5440F0);
 
-    field_4_typeId = 7;
+    field_4_typeId = Types::eBackgroundAnimation;
     field_F8_arg_a3 = a3;
 
     AnimHeader** pAnimHeader;

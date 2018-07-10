@@ -57,7 +57,7 @@ public:
     {
     public:
         BaseHandle() : mResource(nullptr) { }
-        BaseHandle(BYTE** res) : mResource(res) {}
+        explicit BaseHandle(BYTE** res) : mResource(res) {}
 
         Header* GetHeader()
         {
@@ -115,14 +115,14 @@ public:
     EXPORT static signed __int16 CC FreeResource_Impl_49C360(RawHandle handle);
     EXPORT static void CC Decrement_Pending_Count_49C610();
     EXPORT static void CC Increment_Pending_Count_49C5F0();
-    EXPORT static void CC sub_49C470(int size);
-    EXPORT static signed __int16 CC sub_49C1C0(BYTE** ppRes, DynamicArray* pArray);
+    EXPORT static void CC Reclaim_Memory_49C470(int size);
+    EXPORT static signed __int16 CC sub_49C1C0(Handle<void*> ppRes, DynamicArray* pArray);
 
     // Helper to avoid casting raw types
     template<class T>
     static Handle<T> CC Allocate_New_Block_49BFB0_T(int sizeBytes, int allocMethod)
     {
-        return Allocate_New_Block_49BFB0(sizeBytes, allocMethod);
+        return Handle<T>(Allocate_New_Block_49BFB0(sizeBytes, allocMethod));
     }
 
     EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
@@ -153,15 +153,26 @@ private:
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord_18, 0x18);
 
+    enum LoadingStates : __int16
+    {
+        State_Wait_For_Load_Request = 0,
+        State_Allocate_Memory_For_File = 1,
+        State_Seek_To_File = 2,
+        State_Read_Sectors_ASync = 3,
+        State_Wait_For_Read_Complete = 4,
+        State_File_Read_Completed = 5,
+        State_Load_Completed = 6
+    };
+
     DynamicArrayT<ResourceManager_FileRecord_1C> field_20_files_dArray;
     ResourceManager_FileRecord_1C* field_2C_pFileItem;
     int field_30_start_sector;
     int field_34_num_sectors;
-    BYTE** field_38_ppRes;
-    void* field_3C_pLoadingHeader;
+    Handle<void*> field_38_ppRes;
+    Header* field_3C_pLoadingHeader;
     char field_40_seek_attempts;
     char field_41; // pad ?
-    __int16 field_42_state;
+    LoadingStates field_42_state;
     CdlLOC field_44_cdLoc;
     DynamicArray field_48_dArray;
 };
