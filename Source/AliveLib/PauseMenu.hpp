@@ -7,6 +7,7 @@
 #include "Psx.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
+#include "PsxDisplay.hpp"
 
 void PauseMenu_ForceLink();
 
@@ -85,6 +86,7 @@ public:
     EXPORT void Init_491760();
 
     EXPORT void Update_48FD80();
+    EXPORT void Render_490BD0(int **ot);
 
     EXPORT void Page_Base_Render_490A50(int **ot, PauseMenuPage *mp);
 

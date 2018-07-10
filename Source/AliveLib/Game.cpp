@@ -595,7 +595,7 @@ struct PSX_Pos16
     short x, y;
 };
 
-EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
+int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
 {
     return ((((tp) & 0x3) << 7) | (((abr) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) |(((y) & 0x200) << 2));
 }

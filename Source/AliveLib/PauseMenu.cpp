@@ -101,9 +101,9 @@ void PauseMenu::Init_491760()
     {
         this->field_158_animation.field_C_render_layer = field_20_animation.field_C_render_layer;
         this->field_158_animation.field_14_scale = field_CC_sprite_scale;
-        this->field_158_animation.field_8_r = -128;
-        this->field_158_animation.field_9_g = -128;
-        this->field_158_animation.field_A_b = -128;
+        this->field_158_animation.field_8_r = 127;
+        this->field_158_animation.field_9_g = 127;
+        this->field_158_animation.field_A_b = 127;
     }
     else
     {
@@ -112,6 +112,11 @@ void PauseMenu::Init_491760()
 }
 
 void PauseMenu::Update_48FD80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void PauseMenu::Render_490BD0(int ** ot)
 {
     NOT_IMPLEMENTED();
 }
