@@ -16,6 +16,12 @@ class PauseMenu;
 ALIVE_ARY_EXTERN(byte, 32, sFont1VRAM_5BC5C8);
 ALIVE_ARY_EXTERN(byte, 32, sFont2VRAM_5BC5D8);
 
+enum PauseMenuAlign
+{
+    Left = 0,
+    Centre = 1,
+    Right = 2,
+};
 
 class Font
 {
@@ -33,36 +39,24 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Font, 0x38);
 
-#pragma pack(push)
-#pragma pack(2)
 struct PauseMenuPageEntry
 {
-    __int16 field_0_x;
-    __int16 field_2_y;
-    __int16 field_4_unknown;
-    char *field_6_text;
-    char field_A_r;
-    char field_B_g;
-    char field_C_b;
-    char field_D_alignment;
-    __int16 field_E_unknown2;
+    __int16 field_0_unknown2;
+    __int16 field_2_x;
+    __int16 field_4_y;
+    __int16 field_6_unknown;
+    char *field_8_text;
+    unsigned char field_C_r;
+    unsigned char field_D_g;
+    unsigned char field_E_b;
+    unsigned char field_F_alignment;
 };
-#pragma pack(pop)
-
-#pragma pack(push)
-#pragma pack(2)
-struct PauseMenuPageEntryList
-{
-    __int16 unknown;
-    PauseMenuPageEntry entries[1];
-};
-#pragma pack(pop)
 
 struct PauseMenuPage
 {
     void(__thiscall *field_0_fn_update)(PauseMenu *);
     void(__thiscall *field_4_fn_render)(PauseMenu *, int **, PauseMenuPage *);
-    PauseMenuPageEntryList *field_8_menu_items;
+    PauseMenuPageEntry *field_8_menu_items;
     __int16 field_C_selected_index;
     char field_E_background_r;
     char field_F_background_g;
