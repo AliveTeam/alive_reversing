@@ -93,30 +93,91 @@ public:
         }
     };
 
-    // TODO
-    virtual void VDestructor(signed int);
+    struct ResourcesToLoadList_Entry
+    {
+        DWORD field_0_type;
+        DWORD field_4_res_id;
+    };
+    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
+
+    struct ResourcesToLoadList
+    {
+        int field_0_count;
+        ResourcesToLoadList_Entry field_4_items[1];
+    };
+    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
+
+
+    using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
+
+    struct ResourceManager_FilePartRecord_18
+    {
+        DWORD field_0_type;
+        DWORD field_4_id;
+        Camera *field_8_pCamera;
+        Camera* field_C_fn_arg_pCamera;
+        TLoaderFn field_10_pFn;
+        __int16 field_14_bAddUseCount;
+        __int16 field_16;
+    };
+    ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord_18, 0x18);
+
+    struct ResourceManager_FileRecord_1C
+    {
+        char* field_0_fileName;
+        ResourcesToLoadList* field_4_pResourcesToLoadList;
+        DWORD field_8_type;
+        DWORD field_C_id;
+        DynamicArrayT<ResourceManager_FilePartRecord_18> field_10_file_sections_dArray;
+
+        EXPORT void dtor_464EA0();
+    };
+    ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_1C, 0x1C);
+
+    EXPORT void Ctor_464910();
     EXPORT void dtor_4649B0(signed int flags);
     EXPORT void dtor_4649E0();
-
-    ResourceManager();
-    EXPORT void Ctor_464910();
-
-    EXPORT void Shutdown_465610();
-    EXPORT void LoadingLoop_465590(__int16 bShowLoadingIcon);
-    
-    using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;
-    EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, __int16 a6);
     EXPORT void vLoadFile_StateMachine_464A70();
     EXPORT void OnResourceLoaded_464CE0();
+    EXPORT void sub_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 bAddUseCount);
+    EXPORT void sub_465150(const char *pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 addUseCount);
+    EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, __int16 a6);
+    EXPORT void LoadingLoop_465590(__int16 bShowLoadingIcon);
+    EXPORT void Shutdown_465610();
+    EXPORT void Free_Resources_For_Camera_4656F0(const Camera* pCamera);
 
-    EXPORT static signed __int16 __cdecl LoadResourceFile_49C170(const char *pFileName, Camera* a2);
+
+    // TODO: Virtual wrappers
+    virtual void VDestructor(signed int);
+    ResourceManager();
+
+    struct ResourceHeapItem
+    {
+        // TODO
+    };
+
+    EXPORT static void CC Init_49BCE0();
+    EXPORT static ResourceHeapItem* CC Push_List_Item_49BD70();
+    EXPORT static void CC Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
+    EXPORT static BYTE** CC Split_block_49BDC0(ResourceHeapItem* pItem, int size);
+    EXPORT static int CC SEQ_HashName_49BE30(const char* pName);
+    EXPORT static BYTE** CC Alloc_New_Resource_49BED0(int type, int id, int size);
+    EXPORT static BYTE** CC Allocate_New_Locked_Resource_49BF40(int type, int id, int size);
+    EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
+    EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, int a4, Camera* pCamera);
+    EXPORT static signed __int16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
+    EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(Handle<void*> ppRes, DynamicArray* pArray);
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
+    EXPORT static DWORD* CC Inc_Ref_Count_49C310(BYTE **ppRes);
     EXPORT static signed __int16 CC FreeResource_49C330(BaseHandle handle);
     EXPORT static signed __int16 CC FreeResource_Impl_49C360(RawHandle handle);
-    EXPORT static void CC Decrement_Pending_Count_49C610();
-    EXPORT static void CC Increment_Pending_Count_49C5F0();
+    EXPORT static Header* CC Get_Header_49C410(BYTE* ppRes);
     EXPORT static void CC Reclaim_Memory_49C470(int size);
-    EXPORT static signed __int16 CC sub_49C1C0(Handle<void*> ppRes, DynamicArray* pArray);
+    EXPORT static void CC Increment_Pending_Count_49C5F0();
+    EXPORT static void CC Decrement_Pending_Count_49C610();
+    EXPORT static int CC Set_Header_Flags_49C650(BYTE** ppRes, __int16 flags);
+    EXPORT static void CC Free_Resource_Of_Type_49C6B0(int type);
+    EXPORT static void CC NoEffect_49C700();
 
     // Helper to avoid casting raw types
     template<class T>
@@ -125,33 +186,7 @@ public:
         return Handle<T>(Allocate_New_Block_49BFB0(sizeBytes, allocMethod));
     }
 
-    EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
 private:
-    struct ResourceManager_FilePartRecord_18;
-
-    struct ResourceManager_FileRecord_1C
-    {
-        char* field_0_fileName;
-        int field_4;
-        int field_8;
-        int field_C;
-        DynamicArrayT<ResourceManager_FilePartRecord_18> field_10_file_sections_dArray;
-
-        EXPORT void dtor_464EA0();
-    };
-    ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord_1C, 0x1C);
-
-    struct ResourceManager_FilePartRecord_18
-    {
-        int field_0_type;
-        int field_4_id;
-        Camera *field_8_pCamera;
-        Camera* field_C_fn_arg_pCamera;
-        TLoaderFn field_10_pFn;
-        __int16 field_14;
-        __int16 field_16;
-    };
-    ALIVE_ASSERT_SIZEOF(ResourceManager_FilePartRecord_18, 0x18);
 
     enum LoadingStates : __int16
     {
