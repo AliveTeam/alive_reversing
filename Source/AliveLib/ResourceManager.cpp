@@ -399,16 +399,36 @@ int CC ResourceManager::SEQ_HashName_49BE30(const char* seqFileName)
     return hashId;
 }
 
-BYTE** CC ResourceManager::Alloc_New_Resource_49BED0(int type, int id, int size)
+BYTE** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, DWORD allocType)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    BYTE** ppNewRes = Allocate_New_Block_49BFB0(size + sizeof(Header), allocType);
+    if (!ppNewRes)
+    {
+        // Failed, try to reclaim some memory and try again.
+        Reclaim_Memory_49C470(0);
+        ppNewRes = Allocate_New_Block_49BFB0(size + sizeof(Header), allocType);
+    }
+
+    if (ppNewRes)
+    {
+        Header* pHeader = Get_Header_49C410(ppNewRes);
+        pHeader->field_8_type = type;
+        pHeader->field_C_id = id;
+        pHeader->field_4_ref_count = 1;
+        pHeader->field_6_flags = locked ? ResourceHeaderFlags::eLocked : 0;
+    }
+
+    return ppNewRes;
 }
 
-BYTE** CC ResourceManager::Allocate_New_Locked_Resource_49BF40(int type, int id, int size)
+BYTE** CC ResourceManager::Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    return Alloc_New_Resource_Impl(type, id, size, false, 0);
+}
+
+BYTE** CC ResourceManager::Allocate_New_Locked_Resource_49BF40(DWORD type, DWORD id, DWORD size)
+{
+    return Alloc_New_Resource_Impl(type, id, size, true, 2);
 }
 
 BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod)

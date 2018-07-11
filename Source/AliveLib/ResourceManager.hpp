@@ -154,8 +154,9 @@ public:
     EXPORT static void CC Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
     EXPORT static BYTE** CC Split_block_49BDC0(ResourceHeapItem* pItem, int size);
     EXPORT static int CC SEQ_HashName_49BE30(const char* seqFileName);
-    EXPORT static BYTE** CC Alloc_New_Resource_49BED0(int type, int id, int size);
-    EXPORT static BYTE** CC Allocate_New_Locked_Resource_49BF40(int type, int id, int size);
+    static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, DWORD allocType);
+    EXPORT static BYTE** CC Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size);
+    EXPORT static BYTE** CC Allocate_New_Locked_Resource_49BF40(DWORD type, DWORD id, DWORD size);
     EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
     EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     EXPORT static signed __int16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
