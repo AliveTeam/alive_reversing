@@ -352,8 +352,29 @@ void CC ResourceManager::Pop_List_Item_49BD90(ResourceManager::ResourceHeapItem*
 
 BYTE** CC ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem* pItem, int size)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    Header* pToSplit = Get_Header_49C410(&pItem->field_0_ptr);
+    const unsigned int sizeForNewRes = pToSplit->field_0_size - size;
+    if (sizeForNewRes >= sizeof(Header))
+    {
+        ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item_49BD70();
+        pNewListItem->field_4_pNext = pItem->field_4_pNext; // New item points to old
+        pItem->field_4_pNext = pNewListItem; // Old item points to new
+
+        pNewListItem->field_0_ptr = pItem->field_0_ptr + size; // Point the split point
+
+        // Init header of split item
+        Header* pHeader = Get_Header_49C410(&pNewListItem->field_0_ptr);
+        pHeader->field_0_size = sizeForNewRes;
+        pHeader->field_8_type = Resource_Free;
+        pHeader->field_4_ref_count = 0;
+        pHeader->field_C_id = 0;
+
+        // Update old size
+        pToSplit->field_0_size = size;
+    }
+
+    // TODO: Confirm return type is correct
+    return reinterpret_cast<BYTE**>(pItem);
 }
 
 int CC ResourceManager::SEQ_HashName_49BE30(const char* seqFileName)
