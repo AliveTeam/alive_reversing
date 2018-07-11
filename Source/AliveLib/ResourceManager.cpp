@@ -14,6 +14,7 @@ ALIVE_VAR(1, 0x5C1BAC, int, dword_5C1BAC, 0);
 ALIVE_VAR(1, 0xAB49F4, short, sResources_Pending_Loading_AB49F4, 0);
 
 ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
+ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);
 
 
 void ResourceManager::Ctor_464910()
@@ -337,13 +338,16 @@ void CC ResourceManager::Init_49BCE0()
 
 ResourceManager::ResourceHeapItem* CC ResourceManager::Push_List_Item_49BD70()
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    auto old = sSecondLinkedListItem_5D29E8;
+    sSecondLinkedListItem_5D29E8 = sSecondLinkedListItem_5D29E8->field_4_pNext;
+    return old;
 }
 
 void CC ResourceManager::Pop_List_Item_49BD90(ResourceManager::ResourceHeapItem* pListItem)
 {
-    NOT_IMPLEMENTED();
+    pListItem->field_0_ptr = nullptr;
+    pListItem->field_4_pNext = sSecondLinkedListItem_5D29E8; // point to the currrent
+    sSecondLinkedListItem_5D29E8 = pListItem; // set current to old
 }
 
 BYTE** CC ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem* pItem, int size)
@@ -352,10 +356,47 @@ BYTE** CC ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem*
     return nullptr;
 }
 
-int CC ResourceManager::SEQ_HashName_49BE30(const char* pName)
+int CC ResourceManager::SEQ_HashName_49BE30(const char* seqFileName)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    DWORD hashId = 0;
+
+    size_t seqFileNameLength = strlen(seqFileName) - 1;
+    if (seqFileNameLength > 8)
+    {
+        seqFileNameLength = 8;
+    }
+
+    size_t index = 0;
+    if (seqFileNameLength)
+    {
+        do
+        {
+            char letter = seqFileName[index];
+            if (letter == '.')
+            {
+                break;
+            }
+
+            const DWORD temp = 10 * hashId;
+            if (letter < '0' || letter > '9')
+            {
+                if (letter >= 'a')
+                {
+                    if (letter <= 'z')
+                    {
+                        letter -= ' ';
+                    }
+                }
+                hashId = letter % 10 + temp;
+            }
+            else
+            {
+                hashId = index || *seqFileName != '0' ? temp + letter - '0' : temp + 9;
+            }
+            ++index;
+        } while (index < seqFileNameLength);
+    }
+    return hashId;
 }
 
 BYTE** CC ResourceManager::Alloc_New_Resource_49BED0(int type, int id, int size)
@@ -376,9 +417,9 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, int allocMet
     return {};
 }
 
-int CC ResourceManager::LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, int a4, Camera* pCamera)
+int CC ResourceManager::LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera)
 {
-    NOT_IMPLEMENTED();
+    pResourceManager_5C1BB0->LoadResourceFile_465460(filename, pCamera, a4, pFn, pCamera != nullptr);
     return 0;
 }
 
@@ -503,5 +544,6 @@ void CC ResourceManager::Free_Resource_Of_Type_49C6B0(DWORD type)
 
 void CC ResourceManager::NoEffect_49C700()
 {
-    NOT_IMPLEMENTED();
+     // NOTE: Does nothing because the real func just seems to try to tally 
+     // up some sort of stat that is never used.
 }

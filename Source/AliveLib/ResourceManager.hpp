@@ -153,11 +153,11 @@ public:
     EXPORT static ResourceHeapItem* CC Push_List_Item_49BD70();
     EXPORT static void CC Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
     EXPORT static BYTE** CC Split_block_49BDC0(ResourceHeapItem* pItem, int size);
-    EXPORT static int CC SEQ_HashName_49BE30(const char* pName);
+    EXPORT static int CC SEQ_HashName_49BE30(const char* seqFileName);
     EXPORT static BYTE** CC Alloc_New_Resource_49BED0(int type, int id, int size);
     EXPORT static BYTE** CC Allocate_New_Locked_Resource_49BF40(int type, int id, int size);
     EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
-    EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, int a4, Camera* pCamera);
+    EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     EXPORT static signed __int16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
     EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(BaseHandle ppRes, DynamicArray* pArray);
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock);
