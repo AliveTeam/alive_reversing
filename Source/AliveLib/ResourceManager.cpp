@@ -13,6 +13,9 @@ ALIVE_VAR(1, 0x5C1BAA, short, word_5C1BAA, 0);
 ALIVE_VAR(1, 0x5C1BAC, int, dword_5C1BAC, 0);
 ALIVE_VAR(1, 0xAB49F4, short, sResources_Pending_Loading_AB49F4, 0);
 
+ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
+
+
 void ResourceManager::Ctor_464910()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
@@ -72,7 +75,7 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
 
             LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
             field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
-            field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4[0];
+            field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4;
             PSX_Pos_To_CdLoc_4FADD0(field_30_start_sector, &field_44_cdLoc);
 
             word_5C1B96 = 1;
@@ -272,15 +275,28 @@ void ResourceManager::Shutdown_465610()
 
 void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
 {
-    for (int i = 0; i < field_20_files_dArray.Size(); i++)
+    DynamicArrayIter filesIter;
+    filesIter.field_0_pDynamicArray = &field_20_files_dArray;
+    filesIter.field_4_idx = 0;
+    while (filesIter.field_4_idx < filesIter.field_0_pDynamicArray->field_4_used_size)
     {
-        ResourceManager_FileRecord_1C* pFileRecord = field_20_files_dArray.ItemAt(i);
-        if (pFileRecord != field_2C_pFileItem)
+        ResourceManager_FileRecord_1C* pFileItem = field_20_files_dArray.ItemAt(filesIter.field_4_idx);
+        filesIter.field_4_idx++;
+
+        if (!pFileItem)
         {
-            // Remove all file parts matching pCamera
-            for (int j = 0; j < pFileRecord->field_10_file_sections_dArray.Size(); j++)
+            break;
+        }
+
+        if (pFileItem != field_2C_pFileItem)
+        {
+            DynamicArrayIter filePartsIter;
+            filePartsIter.field_0_pDynamicArray = &pFileItem->field_10_file_sections_dArray;
+            filePartsIter.field_4_idx = 0;
+            while (filePartsIter.field_4_idx < pFileItem->field_10_file_sections_dArray.Size())
             {
-                ResourceManager_FilePartRecord_18* pFilePartItem = pFileRecord->field_10_file_sections_dArray.ItemAt(j);
+                ResourceManager_FilePartRecord_18* pFilePartItem = pFileItem->field_10_file_sections_dArray.ItemAt(filePartsIter.field_4_idx);
+                filePartsIter.field_4_idx++;
                 if (!pFilePartItem)
                 {
                     break;
@@ -288,22 +304,17 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
 
                 if (pFilePartItem->field_C_fn_arg_pCamera == pCamera)
                 {
-                    pFileRecord->field_10_file_sections_dArray.Remove_Item(pFilePartItem);
+                    filePartsIter.Remove_At_Iter_40CCA0();
                     Mem_Free_495540(pFilePartItem);
-                    j--;
                 }
             }
 
-            // Remove the owning file item (NOTE: OG bug, if some file parts didn't match pCamera then they're leaked here?)
-            if (!field_20_files_dArray.IsEmpty())
+            if (pFileItem->field_10_file_sections_dArray.IsEmpty())
             {
-                field_20_files_dArray.Remove_Item(pFileRecord);
-
-                // Destroy pFileItem
-                Mem_Free_495560(pFileRecord->field_0_fileName);
-                pFileRecord->dtor_464EA0();
-                Mem_Free_495540(pFileRecord);
-                i--;
+                filesIter.Remove_At_Iter_40CCA0();
+                Mem_Free_495560(pFileItem->field_0_fileName);
+                pFileItem->dtor_464EA0();
+                Mem_Free_495540(pFileItem);
             }
         }
     }
@@ -362,7 +373,7 @@ BYTE** CC ResourceManager::Allocate_New_Locked_Resource_49BF40(int type, int id,
 BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod)
 {
     NOT_IMPLEMENTED();
-    return nullptr;
+    return {};
 }
 
 int CC ResourceManager::LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, int a4, Camera* pCamera)
@@ -378,40 +389,62 @@ signed __int16 CC ResourceManager::LoadResourceFile_49C170(const char* pFileName
     return 1;
 }
 
-signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(Handle<void*> ppRes, DynamicArray* pArray)
+signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(ResourceManager::BaseHandle ppRes, DynamicArray* pArray)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4)
+void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock)
 {
-    NOT_IMPLEMENTED();
+    // Iterate all list items
+    ResourceHeapItem* pListIter = sFirstLinkedListItem_5D29EC;
+    while (pListIter)
+    {
+        // Find something that matches the type and resource ID
+        Header* pResHeader = Get_Header_49C410(&pListIter->field_0_ptr);
+        if (pResHeader->field_8_type == type && pResHeader->field_C_id == resourceID)
+        {
+            if (addUseCount)
+            {
+                pResHeader->field_4_ref_count++;
+            }
+
+            if (bLock)
+            {
+                pResHeader->field_6_flags |= ResourceHeaderFlags::eLocked;
+            }
+
+            return pListIter;
+        }
+
+        pListIter = pListIter->field_4_pNext;
+    }
     return nullptr;
 }
 
-DWORD* CC ResourceManager::Inc_Ref_Count_49C310(BYTE **ppRes)
+void CC ResourceManager::Inc_Ref_Count_49C310(BYTE **ppRes)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    Get_Header_49C410(ppRes)->field_4_ref_count++;
 }
 
-signed __int16 CC ResourceManager::FreeResource_49C330(BaseHandle handle)
+signed __int16 CC ResourceManager::FreeResource_49C330(BYTE** handle)
 {
-    if (!handle.Valid())
+    if (!handle)
     {
         return 1;
     }
-    return FreeResource_Impl_49C360(handle.ToRawHandle());
+    return FreeResource_Impl_49C360(*handle);
 }
 
-signed __int16 CC ResourceManager::FreeResource_Impl_49C360(RawHandle handle)
+signed __int16 CC ResourceManager::FreeResource_Impl_49C360(BYTE* handle)
 {
-    if (handle.Valid())
+    if (handle)
     {
-        Header* pHeader = handle.GetHeader();
+        Header* pHeader = Get_Header_49C410(&handle);
         if (pHeader->field_4_ref_count)
         {
+            // Decrement ref count, if its not zero then we can't free it yet
             pHeader->field_4_ref_count--;
             if (pHeader->field_4_ref_count > 0)
             {
@@ -425,10 +458,9 @@ signed __int16 CC ResourceManager::FreeResource_Impl_49C360(RawHandle handle)
     return 1;
 }
 
-ResourceManager::Header* CC ResourceManager::Get_Header_49C410(BYTE* ppRes)
+ResourceManager::Header* CC ResourceManager::Get_Header_49C410(BYTE** ppRes)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    return  BaseHandle(ppRes).GetHeader();
 }
 
 void CC ResourceManager::Reclaim_Memory_49C470(int size)
@@ -445,15 +477,28 @@ void CC ResourceManager::Decrement_Pending_Count_49C610()
     --sResources_Pending_Loading_AB49F4;
 }
 
-int CC ResourceManager::Set_Header_Flags_49C650(BYTE** ppRes, __int16 flags)
+void CC ResourceManager::Set_Header_Flags_49C650(BYTE** ppRes, __int16 flags)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    Get_Header_49C410(ppRes)->field_6_flags |= flags;
 }
 
-void CC ResourceManager::Free_Resource_Of_Type_49C6B0(int type)
+void CC ResourceManager::Free_Resource_Of_Type_49C6B0(DWORD type)
 {
-    NOT_IMPLEMENTED();
+    ResourceHeapItem* pListItem = sFirstLinkedListItem_5D29EC;
+    while (pListItem)
+    {
+        // Free it if the type matches and its not flagged as never free
+        Header* pHeader = Get_Header_49C410(&pListItem->field_0_ptr);
+        if (pHeader->field_8_type == type && !(pHeader->field_6_flags & ResourceHeaderFlags::eNeverFree))
+        {
+            pHeader->field_8_type = Resource_Free;
+            pHeader->field_6_flags = 0;
+            pHeader->field_4_ref_count = 0;
+
+            sManagedMemoryUsedSize_AB4A04 -= pHeader->field_0_size;
+        }
+        pListItem = pListItem->field_4_pNext;
+    }
 }
 
 void CC ResourceManager::NoEffect_49C700()

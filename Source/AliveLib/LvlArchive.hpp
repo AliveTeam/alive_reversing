@@ -41,8 +41,8 @@ public:
 private:
     ResourceManager::Handle<LvlHeader_Sub*> field_0_0x2800_res;
 public:
-    DWORD field_4[41]; // TODO: Maybe is just 1 DWORD
+    DWORD field_4;
 };
-ALIVE_ASSERT_SIZEOF(LvlArchive, 0xA8);
+ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 
 ALIVE_VAR_EXTERN(LvlArchive, sLvlArchive_5BC520);

@@ -26,6 +26,12 @@ public:
         Resource_Font = 0x746E6F46,
     };
 
+    enum ResourceHeaderFlags : __int16
+    {
+        eLocked = 0x1,
+        eNeverFree = 0x4
+    };
+
     struct Header
     {
         DWORD field_0_size;
@@ -40,15 +46,9 @@ public:
     {
     public:
         RawHandle() : mResource(nullptr) { }
-        RawHandle(BYTE* res) : mResource(res) {}
-
-        Header* GetHeader()
-        {
-            return reinterpret_cast<Header*>((mResource - sizeof(Header)));
-        }
-
+        explicit RawHandle(BYTE* res) : mResource(res) {}
+        Header* GetHeader() { return reinterpret_cast<Header*>((mResource - sizeof(Header))); }
         bool Valid() const { return mResource != nullptr; }
-
     private:
         BYTE* mResource = nullptr;
     };
@@ -58,21 +58,13 @@ public:
     public:
         BaseHandle() : mResource(nullptr) { }
         explicit BaseHandle(BYTE** res) : mResource(res) {}
-
-        Header* GetHeader()
-        {
-            return reinterpret_cast<Header*>((*mResource - sizeof(Header)));
-        }
-
-        RawHandle ToRawHandle()
-        {
-            return RawHandle(*mResource);
-        }
-
+        Header* GetHeader() { return reinterpret_cast<Header*>((*mResource - sizeof(Header))); }
+        RawHandle ToRawHandle() { return RawHandle(*mResource); }
         bool Valid() const { return mResource != nullptr; }
         void Clear() { mResource = nullptr; }
+        BYTE** RawResource() { return mResource; }
     protected:
-        BYTE** mResource = nullptr;
+        BYTE** mResource;
     };
 
     template<class T>
@@ -146,15 +138,16 @@ public:
     EXPORT void Shutdown_465610();
     EXPORT void Free_Resources_For_Camera_4656F0(const Camera* pCamera);
 
-
     // TODO: Virtual wrappers
     virtual void VDestructor(signed int);
     ResourceManager();
 
     struct ResourceHeapItem
     {
-        // TODO
+        BYTE* field_0_ptr;
+        ResourceHeapItem* field_4_pNext;
     };
+    ALIVE_ASSERT_SIZEOF(ResourceHeapItem, 0x8);
 
     EXPORT static void CC Init_49BCE0();
     EXPORT static ResourceHeapItem* CC Push_List_Item_49BD70();
@@ -166,24 +159,25 @@ public:
     EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
     EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, int a4, Camera* pCamera);
     EXPORT static signed __int16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
-    EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(Handle<void*> ppRes, DynamicArray* pArray);
-    EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, int resourceID, unsigned __int16 addUseCount, __int16 a4);
-    EXPORT static DWORD* CC Inc_Ref_Count_49C310(BYTE **ppRes);
-    EXPORT static signed __int16 CC FreeResource_49C330(BaseHandle handle);
-    EXPORT static signed __int16 CC FreeResource_Impl_49C360(RawHandle handle);
-    EXPORT static Header* CC Get_Header_49C410(BYTE* ppRes);
+    EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(BaseHandle ppRes, DynamicArray* pArray);
+    EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock);
+    EXPORT static void CC Inc_Ref_Count_49C310(BYTE **ppRes);
+    EXPORT static signed __int16 CC FreeResource_49C330(BYTE** handle);
+    EXPORT static signed __int16 CC FreeResource_Impl_49C360(BYTE* handle);
+    EXPORT static Header* CC Get_Header_49C410(BYTE** ppRes);
     EXPORT static void CC Reclaim_Memory_49C470(int size);
     EXPORT static void CC Increment_Pending_Count_49C5F0();
     EXPORT static void CC Decrement_Pending_Count_49C610();
-    EXPORT static int CC Set_Header_Flags_49C650(BYTE** ppRes, __int16 flags);
-    EXPORT static void CC Free_Resource_Of_Type_49C6B0(int type);
+    EXPORT static void CC Set_Header_Flags_49C650(BYTE** ppRes, __int16 flags);
+    EXPORT static void CC Free_Resource_Of_Type_49C6B0(DWORD type);
     EXPORT static void CC NoEffect_49C700();
 
     // Helper to avoid casting raw types
     template<class T>
     static Handle<T> CC Allocate_New_Block_49BFB0_T(int sizeBytes, int allocMethod)
     {
-        return Handle<T>(Allocate_New_Block_49BFB0(sizeBytes, allocMethod));
+        BYTE** block = Allocate_New_Block_49BFB0(sizeBytes, allocMethod);
+        return Handle<T>(block);
     }
 
 private:
@@ -203,7 +197,7 @@ private:
     ResourceManager_FileRecord_1C* field_2C_pFileItem;
     int field_30_start_sector;
     int field_34_num_sectors;
-    Handle<void*> field_38_ppRes;
+    BaseHandle field_38_ppRes;
     Header* field_3C_pLoadingHeader;
     char field_40_seek_attempts;
     char field_41; // pad ?

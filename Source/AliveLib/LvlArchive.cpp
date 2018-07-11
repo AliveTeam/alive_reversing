@@ -43,7 +43,7 @@ int LvlArchive::Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer)
     }
 
     CdlLOC cdLoc = {};
-    PSX_Pos_To_CdLoc_4FADD0(field_4[0] + hFile->field_C_start_sector, &cdLoc);
+    PSX_Pos_To_CdLoc_4FADD0(field_4 + hFile->field_C_start_sector, &cdLoc);
     PSX_CD_File_Seek_4FB1E0(2, &cdLoc);
 
     int bOK = PSX_CD_File_Read_4FB210(hFile->field_10_num_sectors, pBuffer);
@@ -59,7 +59,7 @@ int LvlArchive::Free_433130()
     // Strangely the emulated CD file isn't closed, but the next CD open file will close it anyway..
     if (field_0_0x2800_res.Valid())
     {
-        ResourceManager::FreeResource_49C330(field_0_0x2800_res);
+        ResourceManager::FreeResource_49C330(field_0_0x2800_res.RawResource());
         field_0_0x2800_res.Clear();
     }
     return 0;
@@ -80,7 +80,7 @@ int LvlArchive::Open_Archive_432E80(const char* fileName)
     // Not sure why any of this is required, doesn't really do anything.
     CdlLOC cdLoc = {};
     PSX_Pos_To_CdLoc_4FADD0(0, &cdLoc);
-    field_4[0] = PSX_CdLoc_To_Pos_4FAE40(&cdLoc);
+    field_4= PSX_CdLoc_To_Pos_4FAE40(&cdLoc);
     PSX_CD_File_Seek_4FB1E0(2, &cdLoc);
 
     // Read the header
@@ -135,6 +135,7 @@ LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
         fileRecordIndex++;
         if (fileRecordIndex >= field_0_0x2800_res->field_0_num_files)
         {
+            LOG_ERROR("Couldn't find " << pFileName << " in LVL");
             return nullptr;
         }
     }
