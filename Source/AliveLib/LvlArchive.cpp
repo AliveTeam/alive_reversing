@@ -68,7 +68,7 @@ int LvlArchive::Free_433130()
 int LvlArchive::Open_Archive_432E80(const char* fileName)
 {
     // Allocate space for LVL archive header
-    field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0_T<LvlHeader_Sub*>(kSectorSize * 5, 0);
+    field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0_T<LvlHeader_Sub*>(kSectorSize * 5, ResourceManager::BlockAllocMethod::eFirstMatching);
 
     // Open the LVL file
     int hFile = PSX_CD_OpenFile_4FAE80(fileName, 1);

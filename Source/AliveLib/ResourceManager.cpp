@@ -7,11 +7,15 @@
 #include "LvlArchive.hpp"
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
+
 ALIVE_VAR(1, 0xab4a04, int, sManagedMemoryUsedSize_AB4A04, 0);
+ALIVE_VAR(1, 0xab4a08, int, sPeakedManagedMemUsage_AB4A08, 0);
+
 ALIVE_VAR(1, 0x5C1B96, short, word_5C1B96, 0);
 ALIVE_VAR(1, 0x5C1BAA, short, word_5C1BAA, 0);
 ALIVE_VAR(1, 0x5C1BAC, int, dword_5C1BAC, 0);
 ALIVE_VAR(1, 0xAB49F4, short, sResources_Pending_Loading_AB49F4, 0);
+ALIVE_VAR(1, 0xAB4A0C, short, word_AB4A0C, 0);
 
 ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
 ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);
@@ -85,10 +89,10 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
         break;
 
     case State_Allocate_Memory_For_File:
-        field_38_ppRes = ResourceManager::Allocate_New_Block_49BFB0_T<void*>(field_34_num_sectors << 11, 0);
-        if (field_38_ppRes.Valid())
+        field_38_ppRes = ResourceManager::Allocate_New_Block_49BFB0(field_34_num_sectors << 11, BlockAllocMethod::eFirstMatching);
+        if (field_38_ppRes)
         {
-            field_3C_pLoadingHeader = field_38_ppRes.GetHeader();
+            field_3C_pLoadingHeader = Get_Header_49C410(field_38_ppRes);
             field_3C_pLoadingHeader->field_8_type = Resource_Pend;
             ResourceManager::Increment_Pending_Count_49C5F0();
             field_42_state = State_Seek_To_File;
@@ -420,7 +424,7 @@ int CC ResourceManager::SEQ_HashName_49BE30(const char* seqFileName)
     return hashId;
 }
 
-BYTE** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, DWORD allocType)
+BYTE** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, ResourceManager::BlockAllocMethod allocType)
 {
     BYTE** ppNewRes = Allocate_New_Block_49BFB0(size + sizeof(Header), allocType);
     if (!ppNewRes)
@@ -444,18 +448,109 @@ BYTE** ResourceManager::Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size
 
 BYTE** CC ResourceManager::Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size)
 {
-    return Alloc_New_Resource_Impl(type, id, size, false, 0);
+    return Alloc_New_Resource_Impl(type, id, size, false, BlockAllocMethod::eFirstMatching);
 }
 
 BYTE** CC ResourceManager::Allocate_New_Locked_Resource_49BF40(DWORD type, DWORD id, DWORD size)
 {
-    return Alloc_New_Resource_Impl(type, id, size, true, 2);
+    return Alloc_New_Resource_Impl(type, id, size, true, BlockAllocMethod::eLastMatching);
 }
 
-BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod)
+BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMethod allocMethod)
 {
-    NOT_IMPLEMENTED();
-    return {};
+    ResourceHeapItem* pListItem = sFirstLinkedListItem_5D29EC;
+    ResourceHeapItem* pHeapMem = nullptr;
+    const unsigned int size = (sizeBytes + 3) & ~3u; // Rounding ??
+    Header* pHeaderToUse = nullptr;
+    while (pListItem)
+    {
+        // Is it a free block?
+        Header* pResHeader = Get_Header_49C410(&pListItem->field_0_ptr);
+        if (pResHeader->field_8_type == Resource_Free)
+        {
+            // Keep going till we hit a block that isn't free
+            for (ResourceHeapItem* i = pListItem->field_4_pNext; i; i = pListItem->field_4_pNext)
+            {
+                Header* pHeader = Get_Header_49C410(&i->field_0_ptr);
+                if (pHeader->field_8_type != Resource_Free)
+                {
+                    break;
+                }
+
+                // Combine up the free blocks
+                pResHeader->field_0_size += pHeader->field_0_size;
+                pListItem->field_4_pNext = i->field_4_pNext;
+                Pop_List_Item_49BD90(i);
+            }
+
+            // Size will be bigger now that we've freed at least 1 resource
+            if (pResHeader->field_0_size >= size)
+            {
+                switch (allocMethod)
+                {
+                case BlockAllocMethod::eFirstMatching:
+                    // Use first matching item
+                    sManagedMemoryUsedSize_AB4A04 += size;
+                    if (sManagedMemoryUsedSize_AB4A04 >= (unsigned int)sPeakedManagedMemUsage_AB4A08)
+                    {
+                        sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
+                    }
+                    return Split_block_49BDC0(pListItem, size);
+                case BlockAllocMethod::eNearestMatching:
+                    // Find nearest matching item
+                    if (pResHeader->field_0_size < pHeaderToUse->field_0_size)
+                    {
+                        pHeapMem = pListItem;
+                        pHeaderToUse = pResHeader;
+                    }
+                    break;
+                case BlockAllocMethod::eLastMatching:
+                    // Will always to set to the last most free item
+                    pHeapMem = pListItem;
+                    pHeaderToUse = pResHeader;
+                    break;
+                }
+            }
+        }
+
+        pListItem = pListItem->field_4_pNext;
+    }
+
+    if (!pHeapMem)
+    {
+        return nullptr;
+    }
+
+    sManagedMemoryUsedSize_AB4A04 += size;
+    if (sManagedMemoryUsedSize_AB4A04 >= (unsigned int)sPeakedManagedMemUsage_AB4A08)
+    {
+        sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
+    }
+
+    switch (allocMethod)
+    {
+    // Note: eFirstMatching case not possible here as pHeapMem case would have early returned
+    case BlockAllocMethod::eNearestMatching:
+        return ResourceManager::Split_block_49BDC0(pHeapMem, size);
+
+    case BlockAllocMethod::eLastMatching:
+        if (pHeaderToUse->field_0_size - size >= sizeof(Header))
+        {
+            // TODO: Return type == ??
+            return (BYTE **)Split_block_49BDC0(pHeapMem, pHeaderToUse->field_0_size - size)[1];
+        }
+        else
+        {
+            // No need to split as the size must be exactly the size of a resource header
+            // TODO: Return type == ??
+            return (BYTE **)pHeapMem;
+        }
+        break;
+    }
+
+    // Allocation failure
+    word_AB4A0C = 1;
+    return nullptr;
 }
 
 int CC ResourceManager::LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera)
@@ -471,7 +566,7 @@ signed __int16 CC ResourceManager::LoadResourceFile_49C170(const char* pFileName
     return 1;
 }
 
-signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(ResourceManager::BaseHandle ppRes, DynamicArray* pArray)
+signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArray* pArray)
 {
     NOT_IMPLEMENTED();
     return 0;

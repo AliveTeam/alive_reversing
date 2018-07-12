@@ -149,18 +149,25 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourceHeapItem, 0x8);
 
+    enum BlockAllocMethod : int
+    {
+        eFirstMatching = 0,
+        eNearestMatching = 1,
+        eLastMatching = 2
+    };
+
     EXPORT static void CC Init_49BCE0();
     EXPORT static ResourceHeapItem* CC Push_List_Item_49BD70();
     EXPORT static void CC Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
     EXPORT static BYTE** CC Split_block_49BDC0(ResourceHeapItem* pItem, int size);
     EXPORT static int CC SEQ_HashName_49BE30(const char* seqFileName);
-    static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, DWORD allocType);
+    static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, ResourceManager::BlockAllocMethod allocType);
     EXPORT static BYTE** CC Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size);
     EXPORT static BYTE** CC Allocate_New_Locked_Resource_49BF40(DWORD type, DWORD id, DWORD size);
-    EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, int allocMethod);
+    EXPORT static BYTE** CC Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMethod allocMethod);
     EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     EXPORT static signed __int16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
-    EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(BaseHandle ppRes, DynamicArray* pArray);
+    EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArray* pArray);
     EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock);
     EXPORT static void CC Inc_Ref_Count_49C310(BYTE **ppRes);
     EXPORT static signed __int16 CC FreeResource_49C330(BYTE** handle);
@@ -175,7 +182,7 @@ public:
 
     // Helper to avoid casting raw types
     template<class T>
-    static Handle<T> CC Allocate_New_Block_49BFB0_T(int sizeBytes, int allocMethod)
+    static Handle<T> CC Allocate_New_Block_49BFB0_T(int sizeBytes, BlockAllocMethod allocMethod)
     {
         BYTE** block = Allocate_New_Block_49BFB0(sizeBytes, allocMethod);
         return Handle<T>(block);
@@ -198,7 +205,7 @@ private:
     ResourceManager_FileRecord_1C* field_2C_pFileItem;
     int field_30_start_sector;
     int field_34_num_sectors;
-    BaseHandle field_38_ppRes;
+    BYTE** field_38_ppRes;
     Header* field_3C_pLoadingHeader;
     char field_40_seek_attempts;
     char field_41; // pad ?
@@ -210,3 +217,4 @@ ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 
 ALIVE_VAR_EXTERN(ResourceManager*, pResourceManager_5C1BB0);
 ALIVE_VAR_EXTERN(int, sManagedMemoryUsedSize_AB4A04);
+ALIVE_VAR_EXTERN(int, sPeakedManagedMemUsage_AB4A08);

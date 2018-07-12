@@ -40,7 +40,6 @@ ALIVE_ARY(1, 0x550f50, TDDCheatMenu, DDCHEAT_MENU_COUNT, sDDCheat_FnTable_550F50
 ALIVE_VAR(1, 0x5bc008, __int16, sScreenshotOnNextFrame_5BC008, 0);
 ALIVE_VAR(1, 0xab49fc, int, sDDCheat_Unused2_AB49FC, 0);
 ALIVE_VAR(1, 0xab4a00, int, sDDCheat_Unused1_AB4A00, 0);
-ALIVE_VAR(1, 0xab4a08, int, sPeakedManagedMemUsage_AB4A08, 0);
 
 ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
 ALIVE_VAR(1, 0x5c1b8c, Abe *, sControlledCharacter_5C1B8C, 0);
