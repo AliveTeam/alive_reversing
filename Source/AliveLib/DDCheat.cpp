@@ -247,7 +247,7 @@ void DDCheat::Update_415780()
                 sActiveHero_5C1B68->field_B8_xpos = (a2[0] + 184) << 16;
                 sActiveHero_5C1B68->field_BC_ypos = (a2[1] + 60) << 16;
                 sActiveHero_5C1B68->field_106_animation_num = 3;
-                sActiveHero_5C1B68->field_1AC |= 0x4000u; // Todo: double check
+                sActiveHero_5C1B68->field_1AC |= 0x40;
                 sActiveHero_5C1B68->field_C2_lvl_number = sTeleport_Level_550F5C;
                 sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
@@ -340,6 +340,7 @@ void DDCheat::Update_415780()
                 {
                     sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
                 }
+                    sActiveHero_5C1B68->field_1AC |= 0x40u;
             }
 
             /*DebugStr_4F5560("\n[Memory]");
@@ -425,7 +426,6 @@ void DDCheat::Update_415780()
         /*
         if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
         {
-            sActiveHero_5C1B68->field_1AC |= 0x4000u;
         }
 
         sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
