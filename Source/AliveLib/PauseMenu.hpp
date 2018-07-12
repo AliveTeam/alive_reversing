@@ -14,6 +14,7 @@
 #include "PathData.hpp"
 #include "Quicksave.hpp"
 #include "DDCheat.hpp"
+#include "Font.hpp"
 
 void PauseMenu_ForceLink();
 
@@ -30,21 +31,7 @@ enum PauseMenuAlign
     Right = 2,
 };
 
-class Font
-{
-public:
-    EXPORT void ctor_433590(int blockSize, BYTE *palette, byte *vramBuffer);
-    EXPORT int DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int a9, char r, char g, char b, int a13, signed int scale, int a15, __int16 colorRandomRange);
-    EXPORT int MeasureWidth_433700(char * text);
-public:
-    byte gap0[32];
-    BYTE **field_20;
-    byte *field_24;
-    PSX_RECT field_28_palette_rect;
-    int field_30_block_size;
-    byte *field_34;
-};
-ALIVE_ASSERT_SIZEOF(Font, 0x38);
+
 
 struct PauseMenuPageEntry
 {
