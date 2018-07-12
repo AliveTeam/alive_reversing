@@ -6,7 +6,7 @@
 
 // MACROS
 
-#define MENU_OVERRIDE(name) memcpy(reinterpret_cast<void*>(_MenuAddress##name##), &sPauseMenuList_##name, sizeof(sPauseMenuList_##name));
+#define MENU_OVERRIDE(name) memcpy(_MenuAddress##name##, &sPauseMenuList_##name, sizeof(sPauseMenuList_##name));
 #define MENU_VAR(addr, name) ALIVE_VAR(1, 0x##addr, t_sPauseMenuList_##name, PageEntryList_##name##_##addr, sPauseMenuList_##name);
 
 #define MENU_BEGIN(name) struct t_sPauseMenuList_##name{
@@ -14,7 +14,7 @@
 #define MENU_ENTRY_EX(text, x, y, align, r, g, b) PauseMenuPageEntry Menu_##x##y##align##r##g##b = { 2, x, y, 0, text, r, g, b, align};
 #define MENU_END(addr, name) PauseMenuPageEntry MenuEnd = {  0, 0, 0, 0, nullptr, 0, 0, 0, 0 };}; t_sPauseMenuList_##name sPauseMenuList_##name;\
 MENU_VAR(addr, name);\
-const int _MenuAddress##name = 0x##addr;
+void * _MenuAddress##name = reinterpret_cast<void*>(0x##addr);
 
 //
 
@@ -25,6 +25,13 @@ ALIVE_VAR(1, 0x5ca4d8, char, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, char, sQuicksave_LoadNextFrame_5CA4D9, 0);
 ALIVE_VAR(1, 0x5c9304, char, sDisableFontFlicker_5C9304, 0);
 ALIVE_ARY(1, 0x5C92F0, char, 16, sScreenStringBuffer_5C92F0, { 0 });
+
+ALIVE_VAR_EXTERN(__int16, sRescuedMudokons_5C1BC2);
+ALIVE_VAR(1, 0x5c1bc0, __int16, sKilledMudokons_5C1BC0, 0);
+
+ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
+
+ALIVE_VAR(1, 0x5d1e2c, BaseGameObject *, class_0x30_dword_5D1E2C, 0);
 
 ALIVE_ARY(1, 0x554474, byte, 32, pal_554474, {
     0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
@@ -38,7 +45,7 @@ MENU_BEGIN(MainMenu);
 MENU_ENTRY("continue", 184, 48, Centre);
 MENU_ENTRY("quicksave", 184, 70, Centre);
 #ifdef DEVELOPER_MODE
-MENU_ENTRY("alive menu", 184, 92, Centre);
+MENU_ENTRY_EX("developer", 184, 92, Centre, 33, 127, 33);
 #else
 MENU_ENTRY("controls", 184, 92, Centre);
 #endif
@@ -189,6 +196,14 @@ MENU_END(55e3a0, Menu_Load);
 //ALIVE_VAR(1, 0x, t_sPauseMenuList_MainMenu, PageEntryList_MainMenu_55E1C8, sPauseMenuList_MainMenu);
 //ALIVE_VAR(1, 0x, t_sPauseMenuList_ReallyQuit, PageEntryList_ReallyQuit_55E278, sPauseMenuList_ReallyQuit);
 
+// TODO: SET VALUES
+ALIVE_VAR(1, 0x5465B0, PauseMenu::PauseMenuPage, sPM_Page_Main_5465B0, {});
+ALIVE_VAR(1, 0x546610, PauseMenu::PauseMenuPage, sPM_Page_Controls_Actions_546610, {});
+ALIVE_VAR(1, 0x546628, PauseMenu::PauseMenuPage, sPM_Page_Load_546628, {});
+ALIVE_VAR(1, 0x5465F8, PauseMenu::PauseMenuPage, sPM_Page_Status_5465F8, {});
+ALIVE_VAR(1, 0x5465E0, PauseMenu::PauseMenuPage, sPM_Page_ReallyQuit_5465E0, {});
+ALIVE_VAR(1, 0x5465C8, PauseMenu::PauseMenuPage, sPM_Page_Save_5465C8, {});
+
 struct DumpEntry
 {
     int address;
@@ -274,25 +289,30 @@ void DumpMenus()
     fileOut << output.rdbuf() << "\n\n" << output_override.rdbuf();
 }
 
+
+
+
 void PauseMenu_ForceLink() {
 
+#ifdef DEVELOPER_MODE
     if (IsAlive())
     {
-        DumpMenus();
+        //DumpMenus();
 
         // Overwrites game menu lists with ours, so we can see if everything is the same.
         MENU_OVERRIDE(MainMenu);
-        MENU_OVERRIDE(Menu_ControlActions);
-        MENU_OVERRIDE(Menu_GameSpeak);
-        MENU_OVERRIDE(Menu_SligSpeak);
-        MENU_OVERRIDE(Menu_GlukkonSpeak);
-        MENU_OVERRIDE(Menu_ParamiteSpeak);
-        MENU_OVERRIDE(Menu_ScrabSpeak);
+        //MENU_OVERRIDE(Menu_ControlActions);
+        //MENU_OVERRIDE(Menu_GameSpeak);
+        //MENU_OVERRIDE(Menu_SligSpeak);
+        //MENU_OVERRIDE(Menu_GlukkonSpeak);
+        //MENU_OVERRIDE(Menu_ParamiteSpeak);
+        //MENU_OVERRIDE(Menu_ScrabSpeak);
         //MENU_OVERRIDE(Menu_Save);
-        MENU_OVERRIDE(Menu_ReallyQuit);
-        MENU_OVERRIDE(Menu_Status);
+        //MENU_OVERRIDE(Menu_ReallyQuit);
+        //MENU_OVERRIDE(Menu_Status);
         //MENU_OVERRIDE(Menu_Load);
     }
+#endif
 }
 
 EXPORT signed __int16 sub_4A2BC0()
@@ -385,7 +405,42 @@ void PauseMenu::Init_491760()
     }
 }
 
-void PauseMenu::Update_48FD80()
+EXPORT int CC MIDI_46FBA0(unsigned __int8 a1, int a2, int a3, int a4)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int sub_4CB0E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC sub_46FA90(unsigned __int8 a1, __int16 a2, int a3)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC LoadRockTypes_49AB30(unsigned __int16 a1, unsigned __int16 a2)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT BaseGameObject * sub_49A630(BaseGameObject * ptr)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void __fastcall sub_4A1F20(int a1, int a2)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT __int16 __fastcall sub_49A7A0(BaseGameObject *thisPtr, __int16 a2)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC sub_4C9870()
 {
     NOT_IMPLEMENTED();
 }
@@ -395,12 +450,143 @@ void PauseMenu::Render_490BD0(int ** ot)
     NOT_IMPLEMENTED();
 }
 
-void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenuPage * mp)
+
+#ifdef DEVELOPER_MODE
+// CUSTOM PAUSE MENU
+
+class CustomPauseMenu;
+struct CustomPauseMenuItem
+{
+    const char * text;
+    std::function<void(CustomPauseMenu *)> callback;
+};
+
+std::vector<CustomPauseMenu *> customMenuStack;
+
+class CustomPauseMenu
+{
+public:
+    CustomPauseMenu(std::vector<CustomPauseMenuItem> items, char * title)
+    {
+        entries = items;
+
+        int o = 0;
+        for (auto i : entries)
+        {
+            compiledEntries.push_back({ 0, 184, (short)(48 + (22 * o)), 0, (char*)i.text, 0x80, 0x10, 0xFF, Centre });
+            o++;
+        }
+        compiledEntries.push_back({ 0, 184, 16, 0, title, 127, 127, 127, Centre });
+        compiledEntries.push_back({ 0, 0, 0, 0, nullptr, 0, 0, 0, 0 });
+        mMenuPage.field_0_fn_update = &PauseMenu::CustomPauseMenuUpdate;
+        mMenuPage.field_4_fn_render = &PauseMenu::Page_Base_Render_490A50;
+        mMenuPage.field_C_selected_index = 0;
+        mMenuPage.field_8_menu_items = compiledEntries.data();
+        mMenuPage.field_E_background_r = 127;
+        mMenuPage.field_F_background_g = 127;
+        mMenuPage.field_10_background_b = 127;
+    }
+
+    void SetText(char * text)
+    {
+        entries[index].text = text;
+        compiledEntries[index].field_8_text = text;
+    }
+
+    void Update(PauseMenu * pm)
+    {
+        auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+        if (input & eDown)
+        {
+            if (++index >= entries.size())
+                index = 0;
+            MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+        }
+        else if (input & eUp)
+        {
+            if (--index < 0)
+                index = entries.size() - 1;
+            MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+        }
+        else if (input & 0x200000)
+        {
+            MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+            GoBack(pm);
+        }
+        else if (input & eUnPause)
+        {
+            entries[index].callback(this);
+            sub_46FA90(0x54u, 90, 0x10000);
+        }
+
+        pm->field_144_active_menu.field_C_selected_index = index;
+    }
+
+    void Activate()
+    {
+        customMenuStack.push_back(this);
+        SetLastPageStack(pPauseMenu_5C9300);
+    }
+
+    void GoBack(PauseMenu * pm)
+    {
+        customMenuStack.pop_back();
+        SetLastPageStack(pm);
+    }
+
+    void SetLastPageStack(PauseMenu * pm)
+    {
+        if (customMenuStack.size() > 0)
+            memcpy(&pm->field_144_active_menu, &customMenuStack[customMenuStack.size() - 1]->mMenuPage, sizeof(pm->field_144_active_menu));
+        else
+            memcpy(&pm->field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(pm->field_144_active_menu));
+    }
+
+public:
+    std::vector<CustomPauseMenuItem> entries;
+    int index = 0;
+    std::vector<PauseMenuPageEntry> compiledEntries;
+    PauseMenu::PauseMenuPage mMenuPage;
+};
+
+std::vector<CustomPauseMenuItem> devTeleportMenuItems({
+    { "Mines", [](CustomPauseMenu * pm) {} },
+    { "Feeco Depot", [](CustomPauseMenu * pm) {} },
+    { "Test", [](CustomPauseMenu * pm) {} },
+    { "Credits", [](CustomPauseMenu * pm) {} },
+});
+CustomPauseMenu devTeleportMenu(devTeleportMenuItems, "Level Select (TODO)");
+
+std::vector<CustomPauseMenuItem> devCheatsMenuItems({
+    { "Save All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; } },
+    { "Kill All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; } },
+    { "Give Rocks", [](CustomPauseMenu * pm) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; } },
+});
+CustomPauseMenu devCheatsMenu(devCheatsMenuItems, "Cheats");
+
+std::vector<CustomPauseMenuItem> devMenuItems({
+    { "Cheats", [](CustomPauseMenu * pm) { devCheatsMenu.Activate(); } },
+    { "Level Select", [](CustomPauseMenu * pm) { devTeleportMenu.Activate(); } },
+});
+CustomPauseMenu devMenu(devMenuItems, "Developer Menu");
+
+
+void PauseMenu::CustomPauseMenuUpdate()
+{
+    if (customMenuStack.size() > 0)
+        customMenuStack[customMenuStack.size() - 1]->Update(this);
+}
+
+///// END CUSTOM CODE!!! ///
+
+#endif
+
+void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp)
 {
     int i = 0;
     PauseMenuPageEntry * e = &mp->field_8_menu_items[i];
-    
-    while(e->field_8_text)
+
+    while (e->field_8_text)
     {
         char textFormatted[128];
         String_FormatString_4969D0(e->field_8_text, textFormatted, 128, 1);
@@ -450,6 +636,144 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenuPage * mp)
 
         e = &mp->field_8_menu_items[++i];
     }
+}
+
+void PauseMenu::Page_Main_Update_4903E0()
+{
+    //NOT_IMPLEMENTED();
+
+    auto inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+
+    if (inputHeld & eDown)
+    {
+        if (++field_134_Index_Main > 7)
+        {
+            field_134_Index_Main = 0;
+        }
+        MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+    }
+    if (inputHeld & eUp)
+    {
+        if (--field_134_Index_Main < 0)
+        {
+            field_134_Index_Main = 7;
+        }
+        MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+    }
+
+    field_144_active_menu.field_C_selected_index = field_134_Index_Main;
+
+    if (inputHeld & 0x200000)
+    {
+        word12C_flags &= 0xFFFEu;
+        MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+        sub_4CB0E0();
+    }
+    else if (inputHeld & eUnPause)
+    {
+        switch (field_134_Index_Main)
+        {
+        case 0:
+            word12C_flags &= 0xFFFEu;
+            MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+            sub_4CB0E0();
+            return;
+        case 1:
+            word12C_flags &= 0xFFFEu;
+            MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+            sub_4CB0E0();
+            Quicksave_4C90D0();
+            return;
+        case 2:
+#ifdef DEVELOPER_MODE
+            devMenu.Activate();
+#else
+            field_136 = 1;
+            memcpy(&field_144_active_menu, &sPM_Page_Controls_Actions_546610, sizeof(field_144_active_menu));
+            field_138 = 0;
+#endif
+            break;
+        case 3:
+            field_136 = 3;
+            memcpy(&field_144_active_menu, &sPM_Page_Status_5465F8, sizeof(field_144_active_menu));
+            break;
+        case 4:
+            field_136 = 5;
+            memcpy(&field_144_active_menu, &sPM_Page_Save_5465C8, sizeof(field_144_active_menu));
+            sub_46FA90(0x54u, 90, 0x10000);
+            field_13C = 0;
+            word12C_flags &= 0xFFF5u;
+            field_13E = -1;
+            word12C_flags |= 0x400;
+            field_13A = 0;
+            Quicksave_4C90D0();
+            Path_Format_CameraName_460FB0(
+                sSaveString_5C931C,
+                gMap_5C3030.sCurrentLevelId_5C3030,
+                gMap_5C3030.sCurrentPathId_5C3032,
+                gMap_5C3030.sCurrentCamId_5C3034);
+            sSaveString_5C931C[8] = 0;
+            strcat(sSaveString_5C931C, "\x03");
+            Input_DisableInput_4EDDC0();
+            return;
+        case 5:
+            Quicksave_FindSaves_4D4150();
+            field_136 = 4;
+            memcpy(&field_144_active_menu, &sPM_Page_Load_546628, sizeof(field_144_active_menu));
+            sub_46FA90(0x54u, 90, 0x10000);
+            word12C_flags &= 0xFFF5;
+            field_13C = 0;
+            word12C_flags |= 0x400;
+            field_13E = -1;
+            field_13A = 0;
+            return;
+        case 6:
+            sub_4A1F20(3 * sCurrentControllerIndex_5C1BBE, 3 * sCurrentControllerIndex_5C1BBE);
+            sub_4C9870();
+            memcpy(sSwitchStates_5C1A28,sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states,sizeof(sSwitchStates_5C1A28));
+            Abe::CreateFromSaveState_44D4F0(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
+            Quicksave_ReadWorldInfo_4C9490(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
+            
+            gMap_5C3030.sub_480D30(
+                sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
+                sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path,
+                sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_8_cam,
+                0,
+                1,
+                1);
+            gMap_5C3030.field_8 = 1;
+            if (sActiveHero_5C1B68->field_1A2_rock_or_bone_count)
+            {
+                LoadRockTypes_49AB30(
+                    sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
+                    sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path);
+                if (!class_0x30_dword_5D1E2C)
+                {
+                    auto v6 = (BaseGameObject *)malloc_4954D0(0x30u);
+                    sub_49A630(v6);
+                    class_0x30_dword_5D1E2C = v6;
+                }
+                sub_49A7A0(class_0x30_dword_5D1E2C, sActiveHero_5C1B68->field_1A2_rock_or_bone_count);
+            }
+            word12C_flags &= 0xFFFEu;
+            MIDI_46FBA0(0x11u, 40, 3400, 0x10000);
+            sub_4CB0E0();
+        case 7:
+            field_136 = 2;
+            memcpy(&field_144_active_menu, &sPM_Page_ReallyQuit_5465E0, sizeof(field_144_active_menu));
+            field_134_Index_Main = 0;
+            break;
+        default:
+            return;
+        }
+
+        sub_46FA90(0x54u, 90, 0x10000);
+    }
+}
+
+void PauseMenu::Update_48FD80()
+{
+    NOT_IMPLEMENTED();
 }
 
 void Font::ctor_433590(int blockSize, BYTE * palette, byte * vramBuffer)

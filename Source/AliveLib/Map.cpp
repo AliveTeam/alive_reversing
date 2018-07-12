@@ -29,3 +29,4 @@ void Map::sub_480D30(__int16 level, __int16 path, __int16 cam, __int16 a5, __int
 }
 
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});
+ALIVE_ARY(1, 0x5c1a28, char, 256, sSwitchStates_5C1A28, {});

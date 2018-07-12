@@ -12,3 +12,18 @@ EXPORT void CC Quicksave_LoadActive_4C9170()
 {
     NOT_IMPLEMENTED();
 }
+
+void CC Quicksave_4C90D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void CC Quicksave_ReadWorldInfo_4C9490(Quicksave_WorldInfo * a1)
+{
+    NOT_IMPLEMENTED();
+}
+
+void CC Quicksave_FindSaves_4D4150()
+{
+    NOT_IMPLEMENTED();
+}

@@ -43,7 +43,7 @@ ALIVE_VAR(1, 0xab4a00, int, sDDCheat_Unused1_AB4A00, 0);
 ALIVE_VAR(1, 0xab4a08, int, sPeakedManagedMemUsage_AB4A08, 0);
 
 ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
-ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject *, sControlledCharacter_5C1B8C, 0);
+ALIVE_VAR(1, 0x5c1b8c, Abe *, sControlledCharacter_5C1B8C, 0);
 
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
 
@@ -263,21 +263,13 @@ void DDCheat::Update_415780()
             {
                 if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
                 {
-                    sActiveHero_5C1B68->field_1AC |= 0x4000u;
+                    sActiveHero_5C1B68->field_1AC |= 0x40;
                 }
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
                 sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
-
-            if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
-            {
-                sActiveHero_5C1B68->field_1AC |= 0x4000u; // Check these damn lobyte things
-            }
-
-            sControlledCharacter_5C1B8C->field_100_pCollisionLine = 0;
-            sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
 
             switch (sControlledCharacter_5C1B8C->field_4_typeId)
             {
@@ -321,6 +313,10 @@ void DDCheat::Update_415780()
                 sActiveHero_5C1B68->field_B8_xpos / 0x10000,
                 sActiveHero_5C1B68->field_BC_ypos / 0x10000);
 
+#ifdef DEVELOPER_MODE
+            DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_animation_num);
+#endif
+
             field_20 = 6;
 
             if (sDDCheat_FlyingEnabled_5C2C08)
@@ -340,7 +336,14 @@ void DDCheat::Update_415780()
                 {
                     sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
                 }
+
+                if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
+                {
                     sActiveHero_5C1B68->field_1AC |= 0x40u;
+                }
+
+                sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
+                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             /*DebugStr_4F5560("\n[Memory]");
@@ -422,15 +425,6 @@ void DDCheat::Update_415780()
         {
             pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
         }
-
-        /*
-        if (sControlledCharacter_5C1B8C == sActiveHero_5C1B68)
-        {
-        }
-
-        sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-        sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
-        */
     }
 }
 
@@ -442,4 +436,10 @@ void DDCheat::VDestructor(signed int flags)
 void DDCheat::VUpdate()
 {
     Update_415780();
+}
+
+signed int CC Abe::CreateFromSaveState_44D4F0(char * a1)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }

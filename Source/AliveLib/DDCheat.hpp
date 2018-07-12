@@ -75,6 +75,8 @@ class Abe : public BaseAliveGameObject
 {
     // TODO: Vtables
 public:
+    EXPORT static signed int CC CreateFromSaveState_44D4F0(char *a1);
+public:
     __int16 field_116;
     __int16 field_118;
     __int16 field_11A;
@@ -123,3 +125,6 @@ public:
     int field_1B8;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
+
+ALIVE_VAR_EXTERN(Abe *, sActiveHero_5C1B68);
+ALIVE_VAR_EXTERN(Abe *, sControlledCharacter_5C1B8C);

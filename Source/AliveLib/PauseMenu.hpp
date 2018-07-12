@@ -8,10 +8,17 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
+#include "Input.hpp"
+#include "ScreenManager.hpp"
+#include "Map.hpp"
+#include "PathData.hpp"
+#include "Quicksave.hpp"
+#include "DDCheat.hpp"
 
 void PauseMenu_ForceLink();
 
 class PauseMenu;
+struct PauseMenuPage;
 
 ALIVE_ARY_EXTERN(byte, 32, sFont1VRAM_5BC5C8);
 ALIVE_ARY_EXTERN(byte, 32, sFont2VRAM_5BC5D8);
@@ -51,24 +58,11 @@ struct PauseMenuPageEntry
     unsigned char field_E_b;
     unsigned char field_F_alignment;
 };
-
-struct PauseMenuPage
-{
-    void(__thiscall *field_0_fn_update)(PauseMenu *);
-    void(__thiscall *field_4_fn_render)(PauseMenu *, int **, PauseMenuPage *);
-    PauseMenuPageEntry *field_8_menu_items;
-    __int16 field_C_selected_index;
-    char field_E_background_r;
-    char field_F_background_g;
-    char field_10_background_b;
-    char field_11;
-    char field_12;
-    char field_13;
-};
-ALIVE_ASSERT_SIZEOF(PauseMenuPage, 0x14);
+ALIVE_ASSERT_SIZEOF(PauseMenuPageEntry, 0x10);
 
 class PauseMenu : public BaseAnimatedWithPhysicsGameObject
 {
+    struct PauseMenuPage;
 public:
     virtual void VDestructor(signed int flags);
     virtual void VUpdate() override;
@@ -82,9 +76,34 @@ public:
     EXPORT void Update_48FD80();
     EXPORT void Render_490BD0(int **ot);
 
+    EXPORT void Page_Main_Update_4903E0();
     EXPORT void Page_Base_Render_490A50(int **ot, PauseMenuPage *mp);
 
-private:
+    using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update_4903E0);
+    using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render_490A50);
+
+#ifdef DEVELOPER_MODE
+    // DEVELOPER MODE STUFF
+    void CustomPauseMenuUpdate();
+    ///////////////////////
+#endif
+
+    struct PauseMenuPage
+    {
+        t_PmPage_Update field_0_fn_update;
+        t_PmPage_Render field_4_fn_render;
+        PauseMenuPageEntry *field_8_menu_items;
+        __int16 field_C_selected_index;
+        char field_E_background_r;
+        char field_F_background_g;
+        char field_10_background_b;
+        char field_11;
+        char field_12;
+        char field_13;
+    };
+    ALIVE_ASSERT_SIZEOF(PauseMenu::PauseMenuPage, 0x14);
+
+public:
     char gapE4;
     byte gapE5[15];
     Font field_F4_font;
@@ -100,12 +119,14 @@ private:
     __int16 field_13E;
     __int16 field_140;
     __int16 field_142;
-    PauseMenuPage field_144_active_menu;
+    PauseMenu::PauseMenuPage field_144_active_menu;
     AnimationEx field_158_animation;
     int field_1F0;
     Poly_F4 field_1F4[4];
     int field_264;
 };
-ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
+//ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
+
+
 
 ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5C9300);

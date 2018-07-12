@@ -15,6 +15,7 @@ public:
     EXPORT virtual __int16 Animationv_40B200();
     EXPORT virtual char Animation_v_40BEE0(__int16 a2, __int16 a3, int a4, __int16 a5, __int16 op1);
 
+    EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE **pAnimRes);
 
     EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<Animation>* pAnimations);
 
@@ -94,7 +95,7 @@ public:
     EXPORT WORD Get_Frame_Count_40AC70();
     EXPORT signed __int16 Init_40A030(int frameTableOffset, DynamicArray *animList, void *pGameObj, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
    // EXPORT void Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY);
-
+    EXPORT void Load_Pal_40A530(BYTE **pAnimData, int palOffset);
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
 

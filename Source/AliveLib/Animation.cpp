@@ -35,6 +35,12 @@ char Animation::Animation_v_40BEE0(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/, _
     return 0;
 }
 
+signed __int16 Animation::Set_Animation_Data_409C80(int frameTableOffset, BYTE ** pAnimRes)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
 {
     for (auto i = 0; i < pAnims->Size(); i++)
@@ -142,6 +148,11 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray * ani
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void AnimationEx::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
+{
+    NOT_IMPLEMENTED();
 }
 
 /*
