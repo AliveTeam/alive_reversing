@@ -12,7 +12,7 @@ ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 ALIVE_VAR(1, 0xab4a04, DWORD, sManagedMemoryUsedSize_AB4A04, 0);
 ALIVE_VAR(1, 0xab4a08, DWORD, sPeakedManagedMemUsage_AB4A08, 0);
 
-ALIVE_VAR(1, 0x5C1B96, short, word_5C1B96, 0);
+ALIVE_VAR(1, 0x5C1B96, short, sbLoadingInProgress_5C1B96, 0);
 ALIVE_VAR(1, 0x5C1BAA, short, word_5C1BAA, 0);
 ALIVE_VAR(1, 0x5C1BAC, int, dword_5C1BAC, 0);
 ALIVE_VAR(1, 0xAB49F4, short, sResources_Pending_Loading_AB49F4, 0);
@@ -26,7 +26,7 @@ void ResourceManager::Ctor_464910()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
-    field_20_files_dArray.ctor_40CA60(3);
+    field_20_files_pending_loading.ctor_40CA60(3);
     field_48_dArray.ctor_40CA60(3);
 
     field_6_flags |= eBit08 | eUpdatableExtra; // TODO: Check me
@@ -57,7 +57,7 @@ void ResourceManager::dtor_4649E0()
 }
 
 // TODO: Move to own file
-EXPORT void __stdcall sub_465BC0(int a1)
+EXPORT void __stdcall sub_465BC0(int /*a1*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -73,18 +73,17 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
     switch (field_42_state)
     {
     case State_Wait_For_Load_Request:
-        PSX_CD_File_Seek_4FB1E0(1, nullptr); // NOTE: Mode 1 does nothing
-                                             // NOTE: Pruned branches here from stub that was hard coded to return 0
-        if (!field_20_files_dArray.IsEmpty())
+        // NOTE: Pruned branches here from stub that was hard coded to return 0
+        if (!field_20_files_pending_loading.IsEmpty())
         {
-            field_2C_pFileItem = field_20_files_dArray.ItemAt(0);
+            field_2C_pFileItem = field_20_files_pending_loading.ItemAt(0);
 
             LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
             field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
             field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4;
             PSX_Pos_To_CdLoc_4FADD0(field_30_start_sector, &field_44_cdLoc);
 
-            word_5C1B96 = 1;
+            sbLoadingInProgress_5C1B96 = 1;
             field_42_state = State_Allocate_Memory_For_File;
         }
         break;
@@ -153,7 +152,7 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
         break;
 
     case State_Load_Completed:
-        word_5C1B96 = 0;
+        sbLoadingInProgress_5C1B96 = 0;
         OnResourceLoaded_464CE0();
         field_48_dArray.field_4_used_size = 0; // TODO: Needs to be private
         Decrement_Pending_Count_49C610();
@@ -175,9 +174,91 @@ void ResourceManager::ResourceManager_FileRecord_1C::dtor_464EA0()
     field_10_file_sections_dArray.dtor_40CAD0();
 }
 
-void ResourceManager::sub_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, __int16 bAddUseCount)
+void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, __int16 bAddUseCount)
 {
-    NOT_IMPLEMENTED();
+    BYTE** pLoadedRes = GetLoadedResource_49C2A0(type, resourceID, 1, 0);
+    if (pLoadedRes)
+    {
+        if (pCamera)
+        {
+            pCamera->field_0.Push_Back_40CAF0(pLoadedRes);
+        }
+
+        if (pFn)
+        {
+            pFn(pFnArg);
+        }
+        return;
+    }
+
+    for (int i=0; i<field_20_files_pending_loading.Size(); i++)
+    {
+        ResourceManager_FileRecord_1C* pFileRec = field_20_files_pending_loading.ItemAt(i);
+        if (!pFileRec)
+        {
+            break;
+        }
+
+        ResourcesToLoadList* pResourceToLoadList = pFileRec->field_4_pResourcesToLoadList;
+        if (pResourceToLoadList)
+        {
+            if (pResourceToLoadList->field_0_count > 0)
+            {
+                bool found = false;
+                for (int j = 0; j < pResourceToLoadList->field_0_count; j++)
+                {
+                    if (type == pResourceToLoadList->field_4_items[j].field_0_type && resourceID == pResourceToLoadList->field_4_items[j].field_4_res_id)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found)
+                {
+                    auto pNewFilePart = alive_new<ResourceManager_FilePartRecord_18>();
+                    pNewFilePart->field_0_type = type;
+                    pNewFilePart->field_10_pFn = pFn;
+                    pNewFilePart->field_8_pCamera = pCamera;
+                    pNewFilePart->field_14_bAddUseCount = bAddUseCount;
+                    pNewFilePart->field_4_id = resourceID;
+                    pNewFilePart->field_C_fn_arg_pCamera = pFnArg;
+                    pFileRec->field_10_file_sections_dArray.Push_Back(pNewFilePart);
+                    return;
+                }
+            }
+        }
+        else if (type == pFileRec->field_8_type && resourceID == pFileRec->field_C_id)
+        {
+            auto pNewFilePart = alive_new<ResourceManager_FilePartRecord_18>();
+            pNewFilePart->field_0_type = type;
+            pNewFilePart->field_10_pFn = pFn;
+            pNewFilePart->field_8_pCamera = pCamera;
+            pNewFilePart->field_14_bAddUseCount = bAddUseCount;
+            pNewFilePart->field_4_id = resourceID;
+            pNewFilePart->field_C_fn_arg_pCamera = pFnArg;
+            pFileRec->field_10_file_sections_dArray.Push_Back(pNewFilePart);
+            return;
+        }
+    }
+
+    auto pNewFileRec = alive_new<ResourceManager_FileRecord_1C>();
+    pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
+    pNewFileRec->field_0_fileName = reinterpret_cast<char*>(malloc_non_zero_4954F0(strlen(pFileItem) + 1));
+    strcpy(pNewFileRec->field_0_fileName, pFileItem);
+    pNewFileRec->field_4_pResourcesToLoadList = 0;
+    pNewFileRec->field_8_type = type;
+    pNewFileRec->field_C_id = resourceID;
+
+    auto pNewFilePart1 = alive_new<ResourceManager_FilePartRecord_18>();
+    pNewFilePart1->field_8_pCamera = pCamera;
+    pNewFilePart1->field_C_fn_arg_pCamera = pFnArg;
+    pNewFilePart1->field_10_pFn = pFn;
+    pNewFilePart1->field_0_type = type;
+    pNewFilePart1->field_4_id = resourceID;
+    pNewFilePart1->field_14_bAddUseCount = bAddUseCount;
+    pNewFileRec->field_10_file_sections_dArray.Push_Back(pNewFilePart1);
+    field_20_files_pending_loading.Push_Back(pNewFileRec);
 }
 
 void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, ResourceManager::ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, __int16 addUseCount)
@@ -219,9 +300,9 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
 
     // Check if we already have a file record or not
     ResourceManager_FileRecord_1C* pFoundFileRecord = nullptr;
-    for (int fileIdx1=0; fileIdx1 < field_20_files_dArray.Size(); fileIdx1++)
+    for (int fileIdx1=0; fileIdx1 < field_20_files_pending_loading.Size(); fileIdx1++)
     {
-        ResourceManager_FileRecord_1C* pFileRec = field_20_files_dArray.ItemAt(fileIdx1);
+        ResourceManager_FileRecord_1C* pFileRec = field_20_files_pending_loading.ItemAt(fileIdx1);
         if (!pFileRec)
         {
             break;
@@ -259,7 +340,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
     // Only add to array if we created it
     if (!pFoundFileRecord)
     {
-        field_20_files_dArray.Push_Back(pNewFileRec);
+        field_20_files_pending_loading.Push_Back(pNewFileRec);
     }
 }
 
@@ -290,12 +371,12 @@ void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam
     pFileRecord->field_10_file_sections_dArray.Push_Back(pFilePart);
 
     // Add the file to the array
-    field_20_files_dArray.Push_Back(pFileRecord);
+    field_20_files_pending_loading.Push_Back(pFileRecord);
 }
 
 void ResourceManager::LoadingLoop_465590(__int16 bShowLoadingIcon)
 {
-    while (!field_20_files_dArray.IsEmpty())
+    while (!field_20_files_pending_loading.IsEmpty())
     {
         sub_494580();
         VUpdate();  // vLoadFile_StateMachine_464A70 - process loading of files
@@ -312,7 +393,7 @@ void ResourceManager::LoadingLoop_465590(__int16 bShowLoadingIcon)
 void ResourceManager::Shutdown_465610()
 {
     // Clear out every file in the files array
-    auto pFilesArray = &field_20_files_dArray;
+    auto pFilesArray = &field_20_files_pending_loading;
     __int16 fileIdx = 0;
     DynamicArrayIter iter;
     iter.field_0_pDynamicArray = pFilesArray;
@@ -360,11 +441,11 @@ void ResourceManager::Shutdown_465610()
 void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
 {
     DynamicArrayIter filesIter;
-    filesIter.field_0_pDynamicArray = &field_20_files_dArray;
+    filesIter.field_0_pDynamicArray = &field_20_files_pending_loading;
     filesIter.field_4_idx = 0;
     while (filesIter.field_4_idx < filesIter.field_0_pDynamicArray->field_4_used_size)
     {
-        ResourceManager_FileRecord_1C* pFileItem = field_20_files_dArray.ItemAt(filesIter.field_4_idx);
+        ResourceManager_FileRecord_1C* pFileItem = field_20_files_pending_loading.ItemAt(filesIter.field_4_idx);
         filesIter.field_4_idx++;
 
         if (!pFileItem)

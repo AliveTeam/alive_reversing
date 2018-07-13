@@ -133,7 +133,7 @@ public:
     EXPORT void dtor_4649E0();
     EXPORT void vLoadFile_StateMachine_464A70();
     EXPORT void OnResourceLoaded_464CE0();
-    EXPORT void sub_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 bAddUseCount);
+    EXPORT void LoadResource_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 bAddUseCount);
     EXPORT void LoadResourcesFromList_465150(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 addUseCount);
     EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, __int16 a6);
     EXPORT void LoadingLoop_465590(__int16 bShowLoadingIcon);
@@ -203,7 +203,7 @@ private:
         State_Load_Completed = 6
     };
 
-    DynamicArrayT<ResourceManager_FileRecord_1C> field_20_files_dArray;
+    DynamicArrayT<ResourceManager_FileRecord_1C> field_20_files_pending_loading;
     ResourceManager_FileRecord_1C* field_2C_pFileItem;
     int field_30_start_sector;
     int field_34_num_sectors;
