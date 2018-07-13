@@ -80,7 +80,36 @@ int Font::MeasureWidth_433700(char * text)
     return result;
 }
 
+// Measures the width of a string with scale applied.
 int Font::MeasureWidth_4336C0(char * text, signed int fp_scale)
 {
     return (Math_FixedPoint_Multiply_496C50(Font::MeasureWidth_433700(text) << 16, fp_scale) + 0x8000) >> 16;
+}
+
+// Measures the width of a single character.
+int Font::MeasureWidth_433630(unsigned char character)
+{
+    int result = 0;
+    int charIndex = 0;
+
+    if (character <= 0x20u || character > 0xAFu)
+    {
+        if (character < 7u || character > 0x1Fu)
+        {
+            return field_34_font_context->field_8_atlas_array[1].field_2_width;
+        }
+        charIndex = character + 137;
+    }
+    else
+    {
+        charIndex = character - 31;
+    }
+    result = field_34_font_context->field_8_atlas_array[charIndex].field_2_width;
+
+    if (!byte_5CA4B4)
+    {
+        result = (23 * result + 20) / 40;
+    }
+
+    return result;
 }

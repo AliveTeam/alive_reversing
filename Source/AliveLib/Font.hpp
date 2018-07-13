@@ -41,6 +41,7 @@ public:
     EXPORT int DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, signed int scale, int a15, __int16 colorRandomRange);
     EXPORT int MeasureWidth_433700(char * text);
     EXPORT int MeasureWidth_4336C0(char *text, signed int fp_scale);
+    EXPORT int MeasureWidth_433630(unsigned char character);
 public:
     byte gap0[32];
     BYTE **field_20_fnt_poly_block_ptr;
