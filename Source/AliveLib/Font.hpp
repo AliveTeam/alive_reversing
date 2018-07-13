@@ -15,6 +15,18 @@
 
 void Font_ForceLink();
 
+struct File_Font
+{
+    __int16 field_0_width;
+    __int16 field_2_height;
+    __int16 field_4_color_depth;
+    __int16 field_6_palette_size;
+    byte field_8_palette[32];
+    BYTE field_28_pixel_buffer[];
+};
+//ALIVE_ASSERT_SIZEOF(File_Font, 0x2D);
+// Can vary in size
+
 struct Font_AtlasEntry
 {
     unsigned __int8 field_0_x;
@@ -29,6 +41,8 @@ struct Font_Context
     PSX_RECT field_0_rect;
     Font_AtlasEntry *field_8_atlas_array;
     __int16 field_C_resource_id;
+
+    EXPORT void LoadFontType_433400(int resourceID);
 };
 ALIVE_ASSERT_SIZEOF(Font_Context, 0x10);
 
@@ -58,3 +72,6 @@ ALIVE_VAR_EXTERN(Font_Context, sFont1Context_5BC5C8);
 ALIVE_VAR_EXTERN(Font_Context, sFont2Context_5BC5D8);
 
 ALIVE_VAR_EXTERN(char, sDisableFontFlicker_5C9304);
+
+ALIVE_ARY_EXTERN(Font_AtlasEntry, 169, sFont1Atlas_551D34);
+ALIVE_ARY_EXTERN(Font_AtlasEntry, 169, sFont2Atlas_551FD8);

@@ -31,12 +31,6 @@ void __cdecl sub_495660()
 
 }
 
-// Prevents fonts getting to vram?
-signed __int16 __cdecl sub_4956C0(unsigned __int16 a1, __int16 a2, unsigned __int16 a3, WORD *a4)
-{
-    return 1;
-}
-
 // LED font/menu glyphs related
 signed int __cdecl sub_4958F0(signed __int16 *a1, char a2)
 {
@@ -51,7 +45,10 @@ void __cdecl sub_495A60(int a1, int a2)
 */
 
 
-
+signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT *pRect)
+{
+    NOT_IMPLEMENTED();
+}
 
 struct TextRecords
 {
