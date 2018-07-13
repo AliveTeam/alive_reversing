@@ -24,6 +24,7 @@ public:
         Resource_Bits = 0x73746942,
         Resource_Palt = 0x746C6150,
         Resource_Font = 0x746E6F46,
+        Resource_FntP = 0x50746E46,
     };
 
     enum ResourceHeaderFlags : __int16

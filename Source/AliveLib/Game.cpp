@@ -377,7 +377,6 @@ EXPORT void CC Game_Run_466D40()
         if (pPauseMenu_5C9300 == nullptr)
         {
             pPauseMenu_5C9300 = alive_new<PauseMenu>();
-            pPauseMenu_5C9300->ctor_48FB80();
             pPauseMenu_5C9300->field_1C_update_delay = 0;
         }
     }

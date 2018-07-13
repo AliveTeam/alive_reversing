@@ -333,6 +333,11 @@ void PauseMenu::VUpdate()
     Update_48FD80();
 }
 
+PauseMenu::PauseMenu()
+{
+    ctor_48FB80();
+}
+
 PauseMenu * PauseMenu::ctor_48FB80()
 {
     BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(0);

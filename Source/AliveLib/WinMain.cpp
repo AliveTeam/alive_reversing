@@ -21,6 +21,7 @@
 #include <gmock/gmock.h>
 #include "Function.hpp"
 #include "CreditsController.hpp"
+#include "Font.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -53,6 +54,7 @@ static void InitOtherHooksAndRunTests()
     Map_ForceLink();
     CreditsController_ForceLink();
     PauseMenu_ForceLink();
+    Font_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

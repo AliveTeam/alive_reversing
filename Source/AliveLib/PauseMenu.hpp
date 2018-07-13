@@ -54,6 +54,8 @@ public:
     virtual void VDestructor(signed int flags);
     virtual void VUpdate() override;
 
+    PauseMenu();
+
     EXPORT PauseMenu * ctor_48FB80();
     EXPORT void dtor_48FCE0();
     EXPORT void dtor_48FCB0(signed int flags);
