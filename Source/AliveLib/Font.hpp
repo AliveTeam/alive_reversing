@@ -6,6 +6,7 @@
 #include "Animation.hpp"
 #include "Game.hpp"
 #include "Psx.hpp"
+#include "Math.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
@@ -39,6 +40,7 @@ public:
     EXPORT void ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontContext);
     EXPORT int DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, signed int scale, int a15, __int16 colorRandomRange);
     EXPORT int MeasureWidth_433700(char * text);
+    EXPORT int MeasureWidth_4336C0(char *text, signed int fp_scale);
 public:
     byte gap0[32];
     BYTE **field_20_fnt_poly_block_ptr;

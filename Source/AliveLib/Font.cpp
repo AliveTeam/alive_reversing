@@ -58,7 +58,7 @@ int Font::MeasureWidth_433700(char * text)
         {
             if (c < 7u || c > 0x1Fu)
             {
-                result += this->field_34_font_context->field_8_atlas_array[1].field_2_width;
+                result += field_34_font_context->field_8_atlas_array[1].field_2_width;
             }
             else
             {
@@ -78,4 +78,9 @@ int Font::MeasureWidth_433700(char * text)
         result = (23 * result + 20) / 40;
 
     return result;
+}
+
+int Font::MeasureWidth_4336C0(char * text, signed int fp_scale)
+{
+    return (Math_FixedPoint_Multiply_496C50(Font::MeasureWidth_433700(text) << 16, fp_scale) + 0x8000) >> 16;
 }
