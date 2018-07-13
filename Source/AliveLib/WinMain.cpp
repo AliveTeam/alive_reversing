@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "logger.hpp"
 #include "Function.hpp"
+#include "Primitives.hpp"
 #include "bmp.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
@@ -55,6 +56,7 @@ static void InitOtherHooksAndRunTests()
     CreditsController_ForceLink();
     PauseMenu_ForceLink();
     Font_ForceLink();
+    Primitives_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

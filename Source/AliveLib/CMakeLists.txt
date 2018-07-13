@@ -49,6 +49,8 @@ add_library(AliveLib
     CreditsController.hpp
     PauseMenu.cpp
     PauseMenu.hpp
+    Primitives.cpp
+    Primitives.hpp
     Map.cpp
     Map.hpp
     PsxDisplay.cpp

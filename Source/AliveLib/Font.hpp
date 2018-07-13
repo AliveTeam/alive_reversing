@@ -10,6 +10,8 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
+#include "Primitives.hpp"
+#include "ScreenManager.hpp"
 
 void Font_ForceLink();
 

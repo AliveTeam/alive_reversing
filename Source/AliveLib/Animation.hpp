@@ -4,6 +4,7 @@
 #include "DynamicArray.hpp"
 #include "Psx.hpp"
 #include "BaseGameObject.hpp"
+#include "Primitives.hpp"
 
 class Animation
 {

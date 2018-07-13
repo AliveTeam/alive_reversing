@@ -47,7 +47,7 @@ private:
     EXPORT void ctor_40E3E0(int a2, int a3);
     EXPORT void dtor_40E460(signed int flags);
 
-private:
+public:
     int field_20_pMap;
     int field_24_screen_blocks;
     int field_28;
