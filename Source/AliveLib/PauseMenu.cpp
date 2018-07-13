@@ -365,7 +365,7 @@ PauseMenu * PauseMenu::ctor_48FB80()
     field_13E = 0;
     field_140 = 0;
 
-    field_F4_font.ctor_433590(256, pal_554474, sFont1VRAM_5BC5C8);
+    field_F4_font.ctor_433590(256, pal_554474, &sFont1Context_5BC5C8);
     Init_491760();
     sub_4A2BC0();
     

@@ -21,9 +21,6 @@ void PauseMenu_ForceLink();
 class PauseMenu;
 struct PauseMenuPage;
 
-ALIVE_ARY_EXTERN(byte, 32, sFont1VRAM_5BC5C8);
-ALIVE_ARY_EXTERN(byte, 32, sFont2VRAM_5BC5D8);
-
 enum PauseMenuAlign
 {
     Left = 0,
