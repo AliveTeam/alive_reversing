@@ -30,6 +30,7 @@ public:
     enum ResourceHeaderFlags : __int16
     {
         eLocked = 0x1,
+        eOnlyAHeader = 0x2,
         eNeverFree = 0x4
     };
 
@@ -160,7 +161,7 @@ public:
     EXPORT static void CC Init_49BCE0();
     EXPORT static ResourceHeapItem* CC Push_List_Item_49BD70();
     EXPORT static void CC Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
-    EXPORT static BYTE** CC Split_block_49BDC0(ResourceHeapItem* pItem, int size);
+    EXPORT static ResourceHeapItem* CC Split_block_49BDC0(ResourceHeapItem* pItem, int size);
     EXPORT static int CC SEQ_HashName_49BE30(const char* seqFileName);
     static BYTE** Alloc_New_Resource_Impl(DWORD type, DWORD id, DWORD size, bool locked, ResourceManager::BlockAllocMethod allocType);
     EXPORT static BYTE** CC Alloc_New_Resource_49BED0(DWORD type, DWORD id, DWORD size);
@@ -174,7 +175,7 @@ public:
     EXPORT static signed __int16 CC FreeResource_49C330(BYTE** handle);
     EXPORT static signed __int16 CC FreeResource_Impl_49C360(BYTE* handle);
     EXPORT static Header* CC Get_Header_49C410(BYTE** ppRes);
-    EXPORT static void CC Reclaim_Memory_49C470(int size);
+    EXPORT static void CC Reclaim_Memory_49C470(unsigned int size);
     EXPORT static void CC Increment_Pending_Count_49C5F0();
     EXPORT static void CC Decrement_Pending_Count_49C610();
     EXPORT static void CC Set_Header_Flags_49C650(BYTE** ppRes, __int16 flags);
@@ -209,7 +210,6 @@ private:
     BYTE** field_38_ppRes;
     Header* field_3C_pLoadingHeader;
     char field_40_seek_attempts;
-    char field_41; // pad ?
     LoadingStates field_42_state;
     CdlLOC field_44_cdLoc;
     DynamicArray field_48_dArray;
@@ -217,5 +217,5 @@ private:
 ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 
 ALIVE_VAR_EXTERN(ResourceManager*, pResourceManager_5C1BB0);
-ALIVE_VAR_EXTERN(int, sManagedMemoryUsedSize_AB4A04);
-ALIVE_VAR_EXTERN(int, sPeakedManagedMemUsage_AB4A08);
+ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_AB4A04);
+ALIVE_VAR_EXTERN(DWORD, sPeakedManagedMemUsage_AB4A08);

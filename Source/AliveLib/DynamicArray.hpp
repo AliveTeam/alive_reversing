@@ -41,8 +41,9 @@ public:
     EXPORT signed __int16 Expand_40CBE0(__int16 expandSize);
     bool IsEmpty() const {  return field_4_used_size == 0; }
     __int16 Size() const {  return field_4_used_size; }
-protected:
+public:
     EXPORT signed __int16 Push_Back_40CAF0(void* pValue);
+protected:
     EXPORT signed __int16 Remove_Item_40CB60(void* pItemToRemove);
     void** field_0_array;
 public:

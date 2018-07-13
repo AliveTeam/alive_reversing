@@ -49,8 +49,9 @@ ALIVE_ASSERT_SIZEOF(PauseMenuPageEntry, 0x10);
 
 class PauseMenu : public BaseAnimatedWithPhysicsGameObject
 {
-    struct PauseMenuPage;
 public:
+    struct PauseMenuPage;
+
     virtual void VDestructor(signed int flags);
     virtual void VUpdate() override;
 

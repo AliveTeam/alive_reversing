@@ -8,14 +8,14 @@
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 
-ALIVE_VAR(1, 0xab4a04, int, sManagedMemoryUsedSize_AB4A04, 0);
-ALIVE_VAR(1, 0xab4a08, int, sPeakedManagedMemUsage_AB4A08, 0);
+ALIVE_VAR(1, 0xab4a04, DWORD, sManagedMemoryUsedSize_AB4A04, 0);
+ALIVE_VAR(1, 0xab4a08, DWORD, sPeakedManagedMemUsage_AB4A08, 0);
 
 ALIVE_VAR(1, 0x5C1B96, short, word_5C1B96, 0);
 ALIVE_VAR(1, 0x5C1BAA, short, word_5C1BAA, 0);
 ALIVE_VAR(1, 0x5C1BAC, int, dword_5C1BAC, 0);
 ALIVE_VAR(1, 0xAB49F4, short, sResources_Pending_Loading_AB49F4, 0);
-ALIVE_VAR(1, 0xAB4A0C, short, word_AB4A0C, 0);
+ALIVE_VAR(1, 0xAB4A0C, short, sAllocationFailed_AB4A0C, 0);
 
 ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
 ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);
@@ -147,7 +147,7 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
     break;
 
     case State_File_Read_Completed:
-        ResourceManager::Move_Resources_To_DArray_49C1C0(field_38_ppRes, &field_48_dArray);
+        Move_Resources_To_DArray_49C1C0(field_38_ppRes, &field_48_dArray);
         field_42_state = State_Load_Completed;
         break;
 
@@ -335,9 +335,36 @@ ResourceManager::ResourceManager()
     Ctor_464910();
 }
 
+const DWORD kResHeapSize = 5120000;
+ALIVE_ARY(1, 0x5D29F4, BYTE, kResHeapSize, sResourceHeap_5D29F4, {}); // Huge 5.4 MB static resource buffer
+
+const DWORD kLinkedListArraySize = 375;
+ALIVE_ARY(1, 0x5D1E30, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_5D1E30, {});
+
+ALIVE_VAR(1, 0xAB49F8, BYTE*, spResourceHeapEnd_AB49F8, nullptr);
+
 void CC ResourceManager::Init_49BCE0()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 1; i < kLinkedListArraySize - 1; i++)
+    {
+        sResourceLinkedList_5D1E30[i].field_0_ptr = nullptr;
+        sResourceLinkedList_5D1E30[i].field_4_pNext = &sResourceLinkedList_5D1E30[i + 1];
+    }
+
+    sResourceLinkedList_5D1E30[kLinkedListArraySize - 1].field_4_pNext = nullptr;
+
+    sResourceLinkedList_5D1E30[0].field_0_ptr = &sResourceHeap_5D29F4[sizeof(Header)];
+    sResourceLinkedList_5D1E30[0].field_4_pNext = nullptr;
+
+    Header* pHeader = Get_Header_49C410(&sResourceLinkedList_5D1E30[0].field_0_ptr);
+    pHeader->field_0_size = kResHeapSize;
+    pHeader->field_8_type = Resource_Free;
+
+    sFirstLinkedListItem_5D29EC = &sResourceLinkedList_5D1E30[0];
+    sSecondLinkedListItem_5D29E8 = &sResourceLinkedList_5D1E30[1];
+
+    // TODO: Check this is correct
+    spResourceHeapEnd_AB49F8 = &sResourceHeap_5D29F4[kResHeapSize - 1];
 }
 
 ResourceManager::ResourceHeapItem* CC ResourceManager::Push_List_Item_49BD70()
@@ -350,11 +377,11 @@ ResourceManager::ResourceHeapItem* CC ResourceManager::Push_List_Item_49BD70()
 void CC ResourceManager::Pop_List_Item_49BD90(ResourceManager::ResourceHeapItem* pListItem)
 {
     pListItem->field_0_ptr = nullptr;
-    pListItem->field_4_pNext = sSecondLinkedListItem_5D29E8; // point to the currrent
+    pListItem->field_4_pNext = sSecondLinkedListItem_5D29E8; // point to the current
     sSecondLinkedListItem_5D29E8 = pListItem; // set current to old
 }
 
-BYTE** CC ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem* pItem, int size)
+ResourceManager::ResourceHeapItem* CC ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem* pItem, int size)
 {
     Header* pToSplit = Get_Header_49C410(&pItem->field_0_ptr);
     const unsigned int sizeForNewRes = pToSplit->field_0_size - size;
@@ -377,49 +404,44 @@ BYTE** CC ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem*
         pToSplit->field_0_size = size;
     }
 
-    // TODO: Confirm return type is correct
-    return reinterpret_cast<BYTE**>(pItem);
+    return pItem;
 }
 
 int CC ResourceManager::SEQ_HashName_49BE30(const char* seqFileName)
 {
-    DWORD hashId = 0;
-
+    // Clamp max len
     size_t seqFileNameLength = strlen(seqFileName) - 1;
     if (seqFileNameLength > 8)
     {
         seqFileNameLength = 8;
     }
 
-    size_t index = 0;
-    if (seqFileNameLength)
+    // Iterate each char to calculate hash
+    DWORD hashId = 0;
+    for (size_t index = 0; index < seqFileNameLength; index++)
     {
-        do
+        char letter = seqFileName[index];
+        if (letter == '.')
         {
-            char letter = seqFileName[index];
-            if (letter == '.')
-            {
-                break;
-            }
+            break;
+        }
 
-            const DWORD temp = 10 * hashId;
-            if (letter < '0' || letter > '9')
+        const DWORD temp = 10 * hashId;
+        if (letter < '0' || letter > '9')
+        {
+            if (letter >= 'a')
             {
-                if (letter >= 'a')
+                if (letter <= 'z')
                 {
-                    if (letter <= 'z')
-                    {
-                        letter -= ' ';
-                    }
+                    letter -= ' ';
                 }
-                hashId = letter % 10 + temp;
             }
-            else
-            {
-                hashId = index || *seqFileName != '0' ? temp + letter - '0' : temp + 9;
-            }
-            ++index;
-        } while (index < seqFileNameLength);
+            hashId = letter % 10 + temp;
+        }
+        else
+        {
+            hashId = index || letter != '0' ? temp + letter - '0' : temp + 9;
+        }
     }
     return hashId;
 }
@@ -491,11 +513,11 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMe
                 case BlockAllocMethod::eFirstMatching:
                     // Use first matching item
                     sManagedMemoryUsedSize_AB4A04 += size;
-                    if (sManagedMemoryUsedSize_AB4A04 >= (unsigned int)sPeakedManagedMemUsage_AB4A08)
+                    if (sManagedMemoryUsedSize_AB4A04 >= sPeakedManagedMemUsage_AB4A08)
                     {
                         sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
                     }
-                    return Split_block_49BDC0(pListItem, size);
+                    return &Split_block_49BDC0(pListItem, size)->field_0_ptr;
                 case BlockAllocMethod::eNearestMatching:
                     // Find nearest matching item
                     if (pResHeader->field_0_size < pHeaderToUse->field_0_size)
@@ -518,11 +540,13 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMe
 
     if (!pHeapMem)
     {
+        // Allocation failure
+        sAllocationFailed_AB4A0C = 1;
         return nullptr;
     }
 
     sManagedMemoryUsedSize_AB4A04 += size;
-    if (sManagedMemoryUsedSize_AB4A04 >= (unsigned int)sPeakedManagedMemUsage_AB4A08)
+    if (sManagedMemoryUsedSize_AB4A04 >= sPeakedManagedMemUsage_AB4A08)
     {
         sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
     }
@@ -531,25 +555,22 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMe
     {
     // Note: eFirstMatching case not possible here as pHeapMem case would have early returned
     case BlockAllocMethod::eNearestMatching:
-        return ResourceManager::Split_block_49BDC0(pHeapMem, size);
+        return &ResourceManager::Split_block_49BDC0(pHeapMem, size)->field_0_ptr;
 
     case BlockAllocMethod::eLastMatching:
         if (pHeaderToUse->field_0_size - size >= sizeof(Header))
         {
-            // TODO: Return type == ??
-            return (BYTE **)Split_block_49BDC0(pHeapMem, pHeaderToUse->field_0_size - size)[1];
+            return &Split_block_49BDC0(pHeapMem, pHeaderToUse->field_0_size - size)->field_4_pNext->field_0_ptr;
         }
         else
         {
             // No need to split as the size must be exactly the size of a resource header
-            // TODO: Return type == ??
-            return (BYTE **)pHeapMem;
+            return &pHeapMem->field_0_ptr;
         }
         break;
     }
 
-    // Allocation failure
-    word_AB4A0C = 1;
+    // Should be impossible to get here
     return nullptr;
 }
 
@@ -568,8 +589,56 @@ signed __int16 CC ResourceManager::LoadResourceFile_49C170(const char* pFileName
 
 signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArray* pArray)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    ResourceHeapItem* pItemToAdd = (ResourceHeapItem *)ppRes;
+    Header* pHeader = Get_Header_49C410(&pItemToAdd->field_0_ptr);
+    if (pHeader->field_8_type != Resource_End)
+    {
+        // While we're not at the end resource and the pointer/size are a multiple of 4? (how can they not be when they are all allocated aligned??)
+        while (pHeader->field_8_type != Resource_Pend && pHeader->field_0_size && !(pHeader->field_0_size & 3))
+        {
+            if (pArray)
+            {
+                pArray->Push_Back_40CAF0(pItemToAdd);
+            }
+
+            pHeader = (Header *)((char *)pHeader + pHeader->field_0_size);
+            
+            // Out of heap space
+            if (pHeader->field_0_size >= kResHeapSize)
+            {
+                return 1;
+            }
+
+            ResourceHeapItem* pNewListItem = ResourceManager::Push_List_Item_49BD70();
+            pNewListItem->field_4_pNext = pItemToAdd->field_4_pNext;
+            pItemToAdd->field_4_pNext = pNewListItem;
+            pNewListItem->field_0_ptr = (BYTE*)&pHeader[1];// point after header
+            pItemToAdd = pNewListItem;
+
+            // No more resources to add
+            if (pHeader->field_8_type == Resource_End)
+            {
+                break;
+            }
+        }
+    }
+
+    if (pHeader)
+    {
+        pHeader->field_8_type = Resource_Free;
+        if (pItemToAdd->field_4_pNext)
+        {
+            // Size of next item - location of current res
+            pHeader->field_0_size = pItemToAdd->field_4_pNext->field_0_ptr - (BYTE*)pHeader - sizeof(Header);
+        }
+        else
+        {
+            // Isn't a next item so use ptr to end of heap - location of current res
+            pHeader->field_0_size = spResourceHeapEnd_AB49F8 - (BYTE *)pHeader;
+        }
+        sManagedMemoryUsedSize_AB4A04 -= pHeader->field_0_size;
+    }
+    return 1;
 }
 
 void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock)
@@ -637,12 +706,104 @@ signed __int16 CC ResourceManager::FreeResource_Impl_49C360(BYTE* handle)
 
 ResourceManager::Header* CC ResourceManager::Get_Header_49C410(BYTE** ppRes)
 {
-    return  BaseHandle(ppRes).GetHeader();
+    return BaseHandle(ppRes).GetHeader();
 }
 
-void CC ResourceManager::Reclaim_Memory_49C470(int size)
+void CC ResourceManager::Reclaim_Memory_49C470(unsigned int sizeToReclaim)
 {
-    NOT_IMPLEMENTED();
+    if (sResources_Pending_Loading_AB49F4 != 0)
+    {
+        return;
+    }
+
+    // If we failed to allocate a block or no size was passed then attempt to reclaim the whole heap
+    if (sAllocationFailed_AB4A0C || sizeToReclaim == 0)
+    {
+        sizeToReclaim = kResHeapSize;
+        sAllocationFailed_AB4A0C = 0;
+    }
+
+    ResourceHeapItem* pListItem = sFirstLinkedListItem_5D29EC;
+    ResourceHeapItem* pToUpdate = nullptr;
+
+    while (pListItem)
+    {
+        Header* pCurrentHeader = Get_Header_49C410(&pListItem->field_0_ptr);
+        if (pCurrentHeader->field_8_type == Resource_Free)
+        {
+            ResourceHeapItem* pNext = pListItem->field_4_pNext;
+            if (!pNext)
+            {
+                return;
+            }
+
+            Header* pNextHeader = Get_Header_49C410(&pNext->field_0_ptr);
+            if (pNextHeader->field_8_type == Resource_Free)
+            {
+                // Next block is also free, so we can merge them together
+                ResourceHeapItem* pToRemove = pListItem->field_4_pNext;
+                pCurrentHeader->field_0_size += pNextHeader->field_0_size;
+                pListItem->field_4_pNext = pNext->field_4_pNext;
+                Pop_List_Item_49BD90(pToRemove);
+            }
+            else
+            {
+                unsigned int sizeToMove = 0;
+                if (pNextHeader->field_6_flags & ResourceHeaderFlags::eOnlyAHeader)
+                {
+                    sizeToMove = sizeof(Header);
+                }
+                else
+                {
+                    sizeToMove = pNextHeader->field_0_size;
+                }
+
+                if (pNextHeader->field_6_flags & ResourceHeaderFlags::eLocked || sizeToMove > sizeToReclaim)
+                {
+                    // Locked or trying to move more than requested, skip to next
+                    pToUpdate = pListItem;
+                    pListItem = pListItem->field_4_pNext;
+                }
+                else
+                {
+                    sizeToReclaim -= sizeToMove;
+                    const DWORD savedSize = pCurrentHeader->field_0_size;
+                    BYTE* pDataStart = pNext->field_0_ptr - sizeof(Header);
+                    if (sizeToMove > 0)
+                    {
+                        const unsigned int offset = (char *)pCurrentHeader - (char *)pNextHeader;
+                        memmove(pDataStart + offset, pDataStart, sizeToMove);
+                    }
+
+                    // Get resource header after the current one
+                    Header* pNextResHeader = (Header *)((char *)pCurrentHeader + pCurrentHeader->field_0_size);
+                    pNextResHeader->field_0_size = savedSize;
+                    pNextResHeader->field_8_type = Resource_Free;
+                    
+                    pNext->field_0_ptr = (BYTE*)&pCurrentHeader[1]; // Data starts after header
+                    pListItem->field_0_ptr = (BYTE*)&pNextResHeader[1]; // Data starts after header
+                    pListItem->field_4_pNext = pNext->field_4_pNext;
+                    pNext->field_4_pNext = pListItem;
+
+                    if (pToUpdate)
+                    {
+                        pToUpdate->field_4_pNext = pNext;
+                    }
+                    else
+                    {
+                        sFirstLinkedListItem_5D29EC = pNext;
+                    }
+                    pToUpdate = pNext;
+                }
+            }
+        }
+        else
+        {
+            // Not a free block, so move to the next item
+            pToUpdate = pListItem;
+            pListItem = pListItem->field_4_pNext;
+        }
+    }
 }
 
 void CC ResourceManager::Increment_Pending_Count_49C5F0()
