@@ -134,7 +134,7 @@ public:
     EXPORT void vLoadFile_StateMachine_464A70();
     EXPORT void OnResourceLoaded_464CE0();
     EXPORT void sub_464EE0(const char* pFileItem, DWORD type, DWORD resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 bAddUseCount);
-    EXPORT void sub_465150(const char *pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 addUseCount);
+    EXPORT void LoadResourcesFromList_465150(const char* pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, __int16 addUseCount);
     EXPORT void LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, __int16 a6);
     EXPORT void LoadingLoop_465590(__int16 bShowLoadingIcon);
     EXPORT void Shutdown_465610();
@@ -170,7 +170,7 @@ public:
     EXPORT static int CC LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     EXPORT static signed __int16 CC LoadResourceFile_49C170(const char* pFileName, Camera* pCamera);
     EXPORT static signed __int16 CC Move_Resources_To_DArray_49C1C0(BYTE** ppRes, DynamicArray* pArray);
-    EXPORT static void* CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock);
+    EXPORT static BYTE** CC GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock);
     EXPORT static void CC Inc_Ref_Count_49C310(BYTE **ppRes);
     EXPORT static signed __int16 CC FreeResource_49C330(BYTE** handle);
     EXPORT static signed __int16 CC FreeResource_Impl_49C360(BYTE* handle);

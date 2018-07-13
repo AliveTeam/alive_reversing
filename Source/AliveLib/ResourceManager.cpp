@@ -5,6 +5,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "LvlArchive.hpp"
+#include "ScreenManager.hpp" // Camera
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 
@@ -179,9 +180,87 @@ void ResourceManager::sub_464EE0(const char* pFileItem, DWORD type, DWORD resour
     NOT_IMPLEMENTED();
 }
 
-void ResourceManager::sub_465150(const char *pFileName, ResourceManager::ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, __int16 addUseCount)
+void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, ResourceManager::ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, __int16 addUseCount)
 {
-    NOT_IMPLEMENTED();
+    if (!(pTypeAndIdList->field_0_count & ~0x80000000)) // Already loaded flag ??
+    {
+        return;
+    }
+
+    // Check if all resources are already loaded
+    bool failedToFindAResource = false;
+    for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
+    {
+        if (!GetLoadedResource_49C2A0(
+            pTypeAndIdList->field_4_items[i].field_0_type,
+            pTypeAndIdList->field_4_items[i].field_4_res_id,
+            0, 0))
+        {
+            // A resource we need is missing
+            failedToFindAResource = true;
+            break;
+        }
+    }
+
+    // All resources that we required are already loaded
+    if (!failedToFindAResource)
+    {
+        for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
+        {
+            // Add to array optionally bumping the ref count
+            pCamera->field_0.Push_Back_40CAF0(GetLoadedResource_49C2A0(
+                pTypeAndIdList->field_4_items[i].field_0_type,
+                pTypeAndIdList->field_4_items[i].field_4_res_id,
+                addUseCount,
+                0));
+        }
+        return;
+    }
+
+    // Check if we already have a file record or not
+    ResourceManager_FileRecord_1C* pFoundFileRecord = nullptr;
+    for (int fileIdx1=0; fileIdx1 < field_20_files_dArray.Size(); fileIdx1++)
+    {
+        ResourceManager_FileRecord_1C* pFileRec = field_20_files_dArray.ItemAt(fileIdx1);
+        if (!pFileRec)
+        {
+            break;
+        }
+
+        if (strcmp(pFileName, pFileRec->field_0_fileName) == 0)
+        {
+            pFoundFileRecord = pFileRec;
+            break;
+        }
+    }
+
+    // Create a new record or use the one we found
+    auto pNewFileRec = pFoundFileRecord ? pFoundFileRecord : alive_new<ResourceManager_FileRecord_1C>();
+    pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);  // TODO: De-inline ctor
+    pNewFileRec->field_0_fileName = reinterpret_cast<char*>(malloc_non_zero_4954F0(strlen(pFileName) + 1));
+    strcpy(pNewFileRec->field_0_fileName, pFileName);
+    pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
+    pNewFileRec->field_8_type = 0;
+    pNewFileRec->field_C_id = 0;
+
+    // Create a file part record for each item
+    for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
+    {
+        auto pNewFilePart = alive_new<ResourceManager_FilePartRecord_18>();
+        pNewFilePart->field_0_type = pTypeAndIdList->field_4_items[i].field_0_type;
+        pNewFilePart->field_4_id = pTypeAndIdList->field_4_items[i].field_4_res_id;
+        pNewFilePart->field_8_pCamera = pCamera;
+        pNewFilePart->field_10_pFn = pFn;
+        pNewFilePart->field_C_fn_arg_pCamera = pFnArg;
+        pNewFilePart->field_14_bAddUseCount = addUseCount;
+        pNewFileRec->field_10_file_sections_dArray.Push_Back(pNewFilePart);
+    }
+
+    // Only add to array if we created it
+    if (!pFoundFileRecord)
+    {
+        field_20_files_dArray.Push_Back(pNewFileRec);
+    }
 }
 
 void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam, Camera* a4, ResourceManager::TLoaderFn pFn, __int16 a6)
@@ -641,7 +720,7 @@ signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes,
     return 1;
 }
 
-void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock)
+BYTE** CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID, unsigned __int16 addUseCount, unsigned __int16 bLock)
 {
     // Iterate all list items
     ResourceHeapItem* pListIter = sFirstLinkedListItem_5D29EC;
@@ -661,7 +740,7 @@ void* CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID,
                 pResHeader->field_6_flags |= ResourceHeaderFlags::eLocked;
             }
 
-            return pListIter;
+            return &pListIter->field_0_ptr;
         }
 
         pListIter = pListIter->field_4_pNext;
