@@ -23,6 +23,7 @@
 #include "Function.hpp"
 #include "CreditsController.hpp"
 #include "Font.hpp"
+#include "FixedPoint.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -57,6 +58,7 @@ static void InitOtherHooksAndRunTests()
     PauseMenu_ForceLink();
     Font_ForceLink();
     Primitives_ForceLink();
+    FixedPoint_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

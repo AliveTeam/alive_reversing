@@ -65,6 +65,8 @@ add_library(AliveLib
     LvlArchive.hpp
     Io.cpp
     Io.hpp
+    FixedPoint.hpp
+    FixedPoint.cpp
     Font.hpp
     Font.cpp
     WinMain.cpp

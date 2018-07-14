@@ -2,6 +2,8 @@
 #include "Font.hpp"
 #include "Function.hpp"
 
+#include "FixedPoint.hpp"
+
 void Font_ForceLink()
 {
 
@@ -135,12 +137,7 @@ int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, in
         poly += 2;
     }
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(
-        (signed __int16)x,
-        (signed __int16)(y - 1),
-        (signed __int16)offsetX,
-        (signed __int16)(y + 24),
-        pScreenManager_5BB5F4->field_3A);
+    pScreenManager_5BB5F4->InvalidateRect_40EC90(x, y - 1, offsetX, y + 24, pScreenManager_5BB5F4->field_3A);
 
     return polyOffset + characterRenderCount;
 }
@@ -154,9 +151,9 @@ int Font::MeasureWidth_433700(char * text)
         const char c = text[i];
         int charIndex = 0;
 
-        if (c <= 0x20u || c > 0xAFu)
+        if (c <= 32 || c > 175)
         {
-            if (c < 7u || c > 0x1Fu)
+            if (c < 7 || c > 31)
             {
                 result += field_34_font_context->field_8_atlas_array[1].field_2_width;
                 continue;
@@ -176,7 +173,9 @@ int Font::MeasureWidth_433700(char * text)
     }
 
     if (!byte_5CA4B4)
+    {
         result = (23 * result + 20) / 40;
+    }
 
     return result;
 }
@@ -184,7 +183,7 @@ int Font::MeasureWidth_433700(char * text)
 // Measures the width of a string with scale applied.
 int Font::MeasureWidth_4336C0(char * text, signed int fp_scale)
 {
-    return (Math_FixedPoint_Multiply_496C50(Font::MeasureWidth_433700(text) << 16, fp_scale) + 0x8000) >> 16;
+    return (Math_FixedPoint_Multiply_496C50(MeasureWidth_433700(text) << 16, fp_scale) + 0x8000) >> 16;
 }
 
 // Measures the width of a single character.
