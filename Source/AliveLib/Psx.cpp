@@ -1085,7 +1085,20 @@ EXPORT signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int y
 
 EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName)
 {
-    NOT_IMPLEMENTED();
+    const char *fileNameIter = pFileName;
+    char* pNormalizedIter = pNormalized;
+    while (*fileNameIter)
+    {
+        if (*fileNameIter == ';')
+        {
+            break;
+        }
+
+        *pNormalizedIter = tolower(*fileNameIter);
+        ++fileNameIter;
+        ++pNormalizedIter;
+    } 
+    *pNormalizedIter = 0;
 }
 
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
