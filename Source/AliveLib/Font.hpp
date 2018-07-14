@@ -23,7 +23,7 @@ struct File_Font
     __int16 field_4_color_depth;
     __int16 field_6_palette_size;
     byte field_8_palette[32];
-    BYTE field_28_pixel_buffer[];
+    BYTE field_28_pixel_buffer[1];
 };
 //ALIVE_ASSERT_SIZEOF(File_Font, 0x2D);
 // Can vary in size

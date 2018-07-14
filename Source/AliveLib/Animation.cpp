@@ -186,11 +186,11 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
         field_6_flags = field_6_flags & 0xFFF7 | 4; // TODO: Enum bits
     }
 
-    field_B8_xpos = pPathParams->field_8_xpos;
-    field_BC_ypos = pPathParams->field_A_ypos;
+    field_B8_xpos = FP(pPathParams->field_8_xpos);
+    field_BC_ypos = FP(pPathParams->field_A_ypos);
 
-    field_FC_xpos = pPathParams->field_8_xpos;
-    field_100_ypos = pPathParams->field_A_ypos;
+    field_FC_xpos = FP(pPathParams->field_8_xpos);
+    field_100_ypos = FP(pPathParams->field_A_ypos);
 
     /*
     BaseAnimatedWithPhysicsGameObject_Animation_Init_424E10(

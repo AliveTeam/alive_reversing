@@ -6,65 +6,51 @@
 
 void FixedPoint_ForceLink();
 
-template <typename T>
 struct FixedPoint
 {
-    FixedPoint()
-    {
-        fpValue = 0;
-    }
+    FixedPoint();
 
-    FixedPoint(T v)
-    {
-        fpValue = v << (sizeof(T) * 4);
-    }
+    explicit FixedPoint(int v);
 
-    FixedPoint(double v)
-    {
-        fpValue = static_cast<T>(0x10000 * v);
-    }
+    explicit FixedPoint(double v);
 
-    inline FixedPoint& operator+=(const FixedPoint& other)
-    {
-        this->fpValue += other.fpValue;
-        return *this;
-    }
-    inline FixedPoint& operator-=(const FixedPoint& other)
-    {
-        this->fpValue -= other.fpValue;
-        return *this;
-    }
-    inline FixedPoint& operator*=(const FixedPoint& other)
-    {
-        this->fpValue = Math_FixedPoint_Multiply_496C50(this->fpValue, other.fpValue);
-        return *this;
-    }
-    inline FixedPoint& operator/=(const FixedPoint& other)
-    {
-        this->fpValue = Math_FixedPoint_Divide_496B70(this->fpValue, other.fpValue);
-        return *this;
-    }
+    FixedPoint& operator+=(const FixedPoint& other);
 
-    // Type Conversions
-    inline explicit operator T()
-    {
-        return fpValue >> (sizeof(T) * 4);
-    }
-    inline operator double()
-    {
-        return static_cast<double>(fpValue) / 0x10000;
-    }
+    FixedPoint& operator-=(const FixedPoint& other);
+
+    FixedPoint& operator*=(const FixedPoint& other);
+
+    FixedPoint& operator/=(const FixedPoint& other);
+
+    int GetExponent() const;
 
     // Avoid using this. Directly writes to fp value
-    inline void SetRaw(signed int rawFp)
-    {
-        fpValue = rawFp;
-    }
+    void SetRaw(signed int rawFp);
 public:
-    T fpValue;
+    int fpValue;
 };
 
+inline FixedPoint operator+(const FixedPoint& lhs, const FixedPoint& rhs)
+{
+    FixedPoint f;
+    f.fpValue = lhs.fpValue + rhs.fpValue;
+    return f;
+}
 
-typedef FixedPoint<signed int> FP;
+inline FixedPoint operator*(const FixedPoint& lhs, const FixedPoint& rhs)
+{
+    FixedPoint f;
+    f.fpValue = Math_FixedPoint_Multiply_496C50(lhs.fpValue, rhs.fpValue);
+    return f;
+}
+
+inline FixedPoint FP_FromDouble(double v)
+{
+    FixedPoint f;
+    f.fpValue = static_cast<int>(v * 0x10000);
+    return f;
+}
+
+using FP = FixedPoint;
 
 ALIVE_ASSERT_SIZEOF(FP, 0x4);

@@ -632,7 +632,7 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp
             glow + e->field_D_g,
             glow + e->field_E_b,
             field_142,
-            1.0,
+            FP_FromDouble(1.0),
             640,
             0);
 

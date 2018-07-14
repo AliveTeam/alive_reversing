@@ -87,8 +87,8 @@ int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, in
         const auto texture_u = atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F));
         const auto texture_v = atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y);
 
-        const auto widthScaled = static_cast<signed int>(charWidth * scale);
-        const auto heightScaled = static_cast<signed int>(charHeight * scale);
+        const auto widthScaled = static_cast<signed int>(charWidth * scale.GetExponent());
+        const auto heightScaled = static_cast<signed int>(charHeight * scale.GetExponent());
 
         PolyFT4_Init_4F8870(poly);
         Poly_Set_SemiTrans_4F8A60(&poly->field_0_header, bSemiTrans);
@@ -132,7 +132,7 @@ int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, in
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + static_cast<signed int>(field_34_font_context->field_8_atlas_array[0].field_2_width * scale);
+        offsetX += widthScaled + static_cast<signed int>(field_34_font_context->field_8_atlas_array[0].field_2_width * scale.GetExponent());
 
         poly += 2;
     }
@@ -183,7 +183,8 @@ int Font::MeasureWidth_433700(char * text)
 // Measures the width of a string with scale applied.
 int Font::MeasureWidth_4336C0(char * text, FP scale)
 {
-    return static_cast<int>(MeasureWidth_433700(text) * scale + 0.5);
+    FP ret = (FP(MeasureWidth_433700(text)) * scale) + FP_FromDouble(0.5);
+    return ret.GetExponent();
 }
 
 // Measures the width of a single character.
