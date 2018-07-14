@@ -87,6 +87,19 @@ struct PathRootContainer
     PathRoot paths[17];
 };
 
+struct PerLvlData
+{
+    const char* field_0_display_name;
+    WORD field_4_level;
+    WORD field_6_path;
+    WORD field_8_camera;
+    WORD field_A_scale;
+    WORD field_C_abe_x_off;
+    WORD field_E_abe_y_off;
+};  
+
+const extern PerLvlData gPerLvlData_561700[];
+
 EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId);
 
 EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(unsigned __int16 lvlId, unsigned __int16 fmvId);

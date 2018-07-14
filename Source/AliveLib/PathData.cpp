@@ -1197,17 +1197,6 @@ PathRootContainer pathData =
     }
 };
 
-struct PerLvlData
-{
-    const char* field_0_display_name;
-    WORD field_4_level;
-    WORD field_6_path;
-    WORD field_8_camera;
-    WORD field_A_scale;
-    WORD field_C_abe_x_off;
-    WORD field_E_abe_y_off;
-};
-
 const static PerLvlData gMovieMenuInfos_561540[28] =
 {
     { "GT Logo", 0, 65535, 65535, 3u, 65535, 65535 }, 

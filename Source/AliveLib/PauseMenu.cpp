@@ -38,8 +38,6 @@ ALIVE_ARY(1, 0x554474, byte, 32, pal_554474, {
     0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42,
     0x73, 0x4E });
 
-ALIVE_ARY(1, 0x561700, LevelSelectEntry, 17, sLevelSelectEntries_561700, {});
-
 // MENUS
 
 MENU_BEGIN(MainMenu);
@@ -579,7 +577,47 @@ std::vector<CustomPauseMenuItem> devTeleportMenuItems({
 });
 CustomPauseMenu devTeleportMenu(&devTeleportMenuItems, "Level Select");
 
+void DestroyAliveObjects()
+{
+    for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+    {
+        BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
+        if (!pObj || pObj == pPauseMenu_5C9300 || !(pObj->field_6_flags & BaseGameObject::eIsBaseAliveGameObject))
+        {
+            continue;
+        }
+
+        if (pObj->field_4_typeId != 69)
+        {
+            pObj->field_6_flags |= BaseGameObject::eDead;
+        }
+    }
+
+    sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+}
+
+void DestroyAllObjects()
+{
+    for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+    {
+        BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
+        if (!pObj || pObj == pPauseMenu_5C9300)
+        {
+            continue;
+        }
+
+        if (pObj->field_4_typeId != 69)
+        {
+            pObj->field_6_flags |= BaseGameObject::eDead;
+        }
+    }
+
+    sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+}
+
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
+    { "Destroy Alive Objs", [](CustomPauseMenu * pm) { DestroyAliveObjects(); pm->ClosePauseMenu(); } },
+    { "Destroy All Objects", [](CustomPauseMenu * pm) { DestroyAllObjects(); pm->ClosePauseMenu(); } },
     { "Save All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; } },
     { "Kill All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; } },
     { "Give Rocks", [](CustomPauseMenu * pm) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; } },
@@ -626,11 +664,10 @@ void PauseMenu_ForceLink() {
 
         devTeleportMenuItems.clear();
 
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 17; i++)
         {
-            
-            devTeleportMenuItems.push_back({ sLevelSelectEntries_561700[i].field_0_name, [](CustomPauseMenu * pm) {
-                const auto levelSelectEntry = sLevelSelectEntries_561700[pm->index];
+            devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu * pm) {
+                const auto levelSelectEntry = gPerLvlData_561700[pm->index];
                 pm->ClosePauseMenu();
                 sActiveHero_5C1B68->field_106_animation_num = 3;
                 sActiveHero_5C1B68->field_1AC |= 0x40;
@@ -638,9 +675,9 @@ void PauseMenu_ForceLink() {
                 sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
                 sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
                 sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
-                gMap_5C3030.sub_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_cam, 0, 0, 0);
-                sActiveHero_5C1B68->field_B8_xpos = FP(levelSelectEntry.field_C_spawn_x - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
-                sActiveHero_5C1B68->field_BC_ypos = FP(levelSelectEntry.field_E_spawn_y - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+                gMap_5C3030.sub_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, 0, 0, 0);
+                sActiveHero_5C1B68->field_B8_xpos = FP(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+                sActiveHero_5C1B68->field_BC_ypos = FP(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
             } });
         }
 

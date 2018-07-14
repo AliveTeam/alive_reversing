@@ -19,17 +19,6 @@
 
 void PauseMenu_ForceLink();
 
-struct LevelSelectEntry
-{
-    const char *field_0_name;
-    __int16 field_4_level;
-    __int16 field_6_path;
-    __int16 field_8_cam;
-    __int16 field_A;
-    __int16 field_C_spawn_x;
-    __int16 field_E_spawn_y;
-};
-
 
 class PauseMenu;
 struct PauseMenuPage;
