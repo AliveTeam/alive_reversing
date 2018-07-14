@@ -43,7 +43,7 @@ public:
 
     virtual void VDestructor(signed int flags) override;
 
-private:
+
     EXPORT void ctor_40E3E0(int a2, int a3);
     EXPORT void dtor_40E460(signed int flags);
 

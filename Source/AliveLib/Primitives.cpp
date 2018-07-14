@@ -143,3 +143,14 @@ void CC OrderingTable_Add_4F8AA0(int** pOt, void* pItem)
 {
     NOT_IMPLEMENTED();
 }
+
+
+int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
+{
+    return ((((tp) & 0x3) << 7) | (((abr) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) | (((y) & 0x200) << 2));
+}
+
+EXPORT int CC PSX_getClut_4F6350(int x, int y)
+{
+    return (y << 6) | (x >> 4) & 63;
+}

@@ -41,6 +41,16 @@ ALIVE_VAR(1, 0xBBB9D4, DWORD, sTimer_period_BBB9D4, 0);
 ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
 ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
+// Arrays of things
+ALIVE_VAR(1, 0x5C1B78, DynamicArray*, ObjList_5C1B78, nullptr);
+ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
+ALIVE_VAR(1, 0x5C1B7C, DynamicArray*, gBaseAliveGameObjects_5C1B7C, nullptr);
+ALIVE_VAR(1, 0x5C1B80, DynamicArray*, sShadow_dArray_5C1B80, nullptr);
+
+ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
+ALIVE_VAR(1, 0x5C1B66, short, word_5C1B66, 0);
+ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
+ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
 
 EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {
@@ -191,9 +201,68 @@ ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<Animation>*, gObjList_animations_5C1A24, nu
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 
-EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
+
+class MusicController
+{
+public:
+    static EXPORT int CC Create_47FC40();
+    static EXPORT void CC Shutdown_47FD20();
+};
+
+ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
+
+int CC MusicController::Create_47FC40()
 {
     NOT_IMPLEMENTED();
+    return 1;
+}
+
+void CC MusicController::Shutdown_47FD20()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC sub_43BF40()
+{
+    NOT_IMPLEMENTED();
+}
+
+ALIVE_VAR(1, 0x5C1B94, short, word_5C1B94, 0);
+
+
+ALIVE_VAR(1, 0x5C2A4C, Abe, stru_5C2A4C, {});
+
+ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &stru_5C2A4C);
+
+EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
+{
+    DebugFont_Init_4DCF40();
+    word_5C1B94 = 1; // Used in dead overlay stuff, CD number ??
+    //Overlays_Init_43BFC0(); // Note: Pointless because never used in PC
+    pPauseMenu_5C9300 = nullptr;
+    sActiveHero_5C1B68 = spAbe_554D5C;
+    sControlledCharacter_5C1B8C = 0;
+    word_5C1B66 = 0;
+    sGnFrame_5C1B84 = 0;
+    sbLoadingInProgress_5C1B96 = 0;
+
+    ObjList_5C1B78 = alive_new<DynamicArray>(); // For trap doors/dynamic platforms?
+    ObjList_5C1B78->ctor_40CA60(20);
+
+    ObjList_5BD4D8 = alive_new<DynamicArray>();
+    ObjList_5BD4D8->ctor_40CA60(10); // Never seems to be used?
+
+    sShadow_dArray_5C1B80 = alive_new<DynamicArray>();
+    sShadow_dArray_5C1B80->ctor_40CA60(4);
+
+    gBaseAliveGameObjects_5C1B7C = alive_new<DynamicArray>();;
+    gBaseAliveGameObjects_5C1B7C->ctor_40CA60(20);
+
+    ResourceManager::Init_49BCE0();
+    SND_Init_4CA1F0();
+    SND_4CB480();
+    MusicController::Create_47FC40();
+    sub_43BF40(); // Init other vars + switch states
 }
 
 EXPORT void __stdcall sub_45F000(int )
@@ -272,24 +341,6 @@ EXPORT void CC Game_Free_LoadingIcon_482D40()
     NOT_IMPLEMENTED();
 }
 
-class MusicController
-{
-public:
-    static EXPORT void CC Shutdown_47FD20();
-};
-
-ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
-
-void CC MusicController::Shutdown_47FD20()
-{
-    NOT_IMPLEMENTED();
-}
-
-ALIVE_VAR(1, 0x5C1B78, DynamicArray*, ObjList_5C1B78, nullptr);
-ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
-ALIVE_VAR(1, 0x5C1B7C, DynamicArray*, gBaseAliveGameObjects_5C1B7C, nullptr);
-ALIVE_VAR(1, 0x5C1B80, DynamicArray*, sShadow_dArray_5C1B80, nullptr);
-
 class Collisions
 {
 public:
@@ -355,7 +406,7 @@ EXPORT void CC Game_Run_466D40()
     gMap_5C3030.field_24_5C3054 = 0;
 
     pScreenManager_5BB5F4 = alive_new<ScreenManager>();
-    pScreenManager_5BB5F4->ctor_40E3E0((int)camera.field_C_pCamRes, (int)&gMap_5C3030.field_24_5C3054)
+    pScreenManager_5BB5F4->ctor_40E3E0((int)camera.field_C_pCamRes, (int)&gMap_5C3030.field_24_5C3054);
 
     pScreenManager_5BB5F4->sub_cam_vlc_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
@@ -588,13 +639,6 @@ EXPORT void CC Game_Main_4949F0()
     Game_Shutdown_4F2C30();
 }
 
-
-
-ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
-ALIVE_VAR(1, 0x5C1B66, short, word_5C1B66, 0);
-ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
-ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
-
 EXPORT void CC sub_422DA0()
 {
     NOT_IMPLEMENTED();
@@ -603,18 +647,6 @@ EXPORT void CC sub_422DA0()
 EXPORT void CC sub_449A90()
 {
     NOT_IMPLEMENTED();
-}
-
-
-
-int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y)
-{
-    return ((((tp) & 0x3) << 7) | (((abr) & 0x3) << 5) | (((y) & 0x100) >> 4) | (((x) & 0x3ff) >> 6) |(((y) & 0x200) << 2));
-}
-
-EXPORT int CC PSX_getClut_4F6350(int x, int y)
-{
-    return (y << 6) | (x >> 4) & 63;
 }
 
 #include <gmock/gmock.h>

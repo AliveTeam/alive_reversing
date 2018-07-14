@@ -251,4 +251,8 @@ EXPORT void CC Poly_Set_unknown_4F8A20(PrimHeader* pPrim, int bFlag1);
 EXPORT void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans);
 EXPORT void CC OrderingTable_Add_4F8AA0(int** pOt, void* pItem);
 
+EXPORT void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);
+EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y);
+EXPORT int CC PSX_getClut_4F6350(int x, int y);
+
 ALIVE_VAR_EXTERN(BYTE, byte_BD146C);

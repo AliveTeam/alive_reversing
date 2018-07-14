@@ -50,6 +50,16 @@ ALIVE_ARY(1, 0xBBBD38, int, 127, sVolumeTable_BBBD38, {});
 ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 ALIVE_ARY(1, 0xBBC348, char, 64, sDSoundErrorBuffer_BBC348, {});
 
+EXPORT void CC SND_Init_4CA1F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC SND_4CB480()
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void CC SND_Close_4EFD50()
 {
     if (sDSound_BBC344)

@@ -442,3 +442,13 @@ signed int CC Abe::CreateFromSaveState_44D4F0(char * a1)
     NOT_IMPLEMENTED();
     return 0;
 }
+
+void Abe::VDestructor(signed int flags)
+{
+    dtor_44B350(flags);
+}
+
+void Abe::dtor_44B350(signed int flags)
+{
+    NOT_IMPLEMENTED();
+}

@@ -76,6 +76,8 @@ class Abe : public BaseAliveGameObject
     // TODO: Vtables
 public:
     EXPORT static signed int CC CreateFromSaveState_44D4F0(char *a1);
+    virtual void VDestructor(signed int flags) override;
+    EXPORT void dtor_44B350(signed int flags);
 public:
     __int16 field_116;
     __int16 field_118;

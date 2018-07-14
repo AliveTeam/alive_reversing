@@ -219,3 +219,4 @@ ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 ALIVE_VAR_EXTERN(ResourceManager*, pResourceManager_5C1BB0);
 ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_AB4A04);
 ALIVE_VAR_EXTERN(DWORD, sPeakedManagedMemUsage_AB4A08);
+ALIVE_VAR_EXTERN(short, sbLoadingInProgress_5C1B96);
