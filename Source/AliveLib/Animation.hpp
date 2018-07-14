@@ -5,6 +5,7 @@
 #include "Psx.hpp"
 #include "BaseGameObject.hpp"
 #include "Primitives.hpp"
+#include "FixedPoint.hpp"
 
 class Animation
 {
@@ -103,6 +104,8 @@ ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
+    BaseAnimatedWithPhysicsGameObject() {}
+    BaseAnimatedWithPhysicsGameObject(signed __int16 resourceArraySize);
     EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize);
 public:
     // VTable @ 0x544C9C
@@ -126,8 +129,8 @@ public:
 
 
     AnimationEx field_20_animation;
-    int field_B8_xpos;
-    int field_BC_ypos;
+    FP field_B8_xpos;
+    FP field_BC_ypos;
     __int16 field_C0_path_number;
     __int16 field_C2_lvl_number;
     int field_C4_velx;
@@ -203,8 +206,8 @@ public:
         }
         else
         {
-            field_B8_xpos = (sTweakX_5C1BD0 << 16) + field_FC_xpos;
-            field_BC_ypos = (sTweakY_5C1BD4 << 16) + field_100_ypos;
+            field_B8_xpos = (sTweakX_5C1BD0) + field_FC_xpos;
+            field_BC_ypos = (sTweakY_5C1BD4) + field_100_ypos;
         }
     }
     */
@@ -237,7 +240,7 @@ public:
     int field_F0;
     AnimHeader **field_F4_res;
     int field_F8_arg_a3;
-    int field_FC_xpos;
-    int field_100_ypos;
+    FP field_FC_xpos;
+    FP field_100_ypos;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x104);

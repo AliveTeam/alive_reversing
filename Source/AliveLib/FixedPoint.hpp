@@ -6,39 +6,65 @@
 
 void FixedPoint_ForceLink();
 
+template <typename T>
 struct FixedPoint
 {
-    FixedPoint(signed int v)
+    FixedPoint()
     {
-        fpValue = v << 16;
+        fpValue = 0;
+    }
+
+    FixedPoint(T v)
+    {
+        fpValue = v << (sizeof(T) * 4);
     }
 
     FixedPoint(double v)
     {
-        fpValue = static_cast<signed int>(0x10000 * v);
+        fpValue = static_cast<T>(0x10000 * v);
     }
 
-    inline FixedPoint& operator+=(const FixedPoint& other);
-    inline FixedPoint& operator-=(const FixedPoint& other);
-    inline FixedPoint& operator*=(const FixedPoint& other);
-    inline FixedPoint& operator/=(const FixedPoint& other);
-
-    inline int operator*(const FixedPoint& other)
+    inline FixedPoint& operator+=(const FixedPoint& other)
     {
-        return 0;
+        this->fpValue += other.fpValue;
+        return *this;
+    }
+    inline FixedPoint& operator-=(const FixedPoint& other)
+    {
+        this->fpValue -= other.fpValue;
+        return *this;
+    }
+    inline FixedPoint& operator*=(const FixedPoint& other)
+    {
+        this->fpValue = Math_FixedPoint_Multiply_496C50(this->fpValue, other.fpValue);
+        return *this;
+    }
+    inline FixedPoint& operator/=(const FixedPoint& other)
+    {
+        this->fpValue = Math_FixedPoint_Divide_496B70(this->fpValue, other.fpValue);
+        return *this;
     }
 
     // Type Conversions
-    inline explicit operator signed int();
-    inline operator double();
+    inline explicit operator T()
+    {
+        return fpValue >> (sizeof(T) * 4);
+    }
+    inline operator double()
+    {
+        return static_cast<double>(fpValue) / 0x10000;
+    }
 
     // Avoid using this. Directly writes to fp value
-    inline void SetRaw(signed int rawFp);
+    inline void SetRaw(signed int rawFp)
+    {
+        fpValue = rawFp;
+    }
 public:
-    signed int fpValue;
+    T fpValue;
 };
-ALIVE_ASSERT_SIZEOF(FixedPoint, 0x4);
 
-std::ostream& operator<<(std::ostream &strm, const FixedPoint &other);
 
-typedef FixedPoint FP;
+typedef FixedPoint<signed int> FP;
+
+ALIVE_ASSERT_SIZEOF(FP, 0x4);

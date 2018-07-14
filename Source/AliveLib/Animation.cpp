@@ -186,14 +186,11 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
         field_6_flags = field_6_flags & 0xFFF7 | 4; // TODO: Enum bits
     }
 
-    const int x = pPathParams->field_8_xpos << 16;
-    const int y = pPathParams->field_A_ypos << 16;
+    field_B8_xpos = pPathParams->field_8_xpos;
+    field_BC_ypos = pPathParams->field_A_ypos;
 
-    field_B8_xpos = x;
-    field_BC_ypos = y;
-
-    field_FC_xpos = x;
-    field_100_ypos = y;
+    field_FC_xpos = pPathParams->field_8_xpos;
+    field_100_ypos = pPathParams->field_A_ypos;
 
     /*
     BaseAnimatedWithPhysicsGameObject_Animation_Init_424E10(
@@ -227,6 +224,11 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
     {
         field_20_animation.field_C_render_layer = 1;
     }
+}
+
+BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(signed __int16 resourceArraySize)
+{
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(resourceArraySize);
 }
 
 BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize)

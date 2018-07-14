@@ -243,8 +243,8 @@ void DDCheat::Update_415780()
             {
                 __int16 a2[2];
                 gMap_5C3030.sub_480680(a2);
-                sActiveHero_5C1B68->field_B8_xpos = (a2[0] + 184) << 16;
-                sActiveHero_5C1B68->field_BC_ypos = (a2[1] + 60) << 16;
+                sActiveHero_5C1B68->field_B8_xpos = (a2[0] + 184);
+                sActiveHero_5C1B68->field_BC_ypos = (a2[1] + 60);
                 sActiveHero_5C1B68->field_106_animation_num = 3;
                 sActiveHero_5C1B68->field_1AC |= 0x40;
                 sActiveHero_5C1B68->field_C2_lvl_number = sTeleport_Level_550F5C;
@@ -309,8 +309,8 @@ void DDCheat::Update_415780()
 
             DebugStr_4F5560(
                 "\nheroxy=%4d,%4d",
-                sActiveHero_5C1B68->field_B8_xpos / 0x10000,
-                sActiveHero_5C1B68->field_BC_ypos / 0x10000);
+                (int)sActiveHero_5C1B68->field_B8_xpos,
+                (int)sActiveHero_5C1B68->field_BC_ypos);
 
 #ifdef DEVELOPER_MODE
             DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_animation_num);
