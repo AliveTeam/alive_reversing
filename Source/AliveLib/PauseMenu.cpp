@@ -2,6 +2,7 @@
 #include "PauseMenu.hpp"
 #include "stdlib.hpp"
 #include "Function.hpp"
+#include "Map.hpp"
 #include <iomanip>
 
 // MACROS
@@ -29,12 +30,15 @@ ALIVE_VAR(1, 0x5c1bc0, __int16, sKilledMudokons_5C1BC0, 0);
 ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
 
 ALIVE_VAR(1, 0x5d1e2c, BaseGameObject *, class_0x30_dword_5D1E2C, 0);
+ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
 
 ALIVE_ARY(1, 0x554474, byte, 32, pal_554474, {
     0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
     0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29,
     0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42,
     0x73, 0x4E });
+
+ALIVE_ARY(1, 0x561700, LevelSelectEntry, 17, sLevelSelectEntries_561700, {});
 
 // MENUS
 
@@ -286,32 +290,6 @@ void DumpMenus()
     fileOut << output.rdbuf() << "\n\n" << output_override.rdbuf();
 }
 
-
-
-
-void PauseMenu_ForceLink() {
-
-#ifdef DEVELOPER_MODE
-    if (IsAlive())
-    {
-        //DumpMenus();
-
-        // Overwrites game menu lists with ours, so we can see if everything is the same.
-        MENU_OVERRIDE(MainMenu);
-        //MENU_OVERRIDE(Menu_ControlActions);
-        //MENU_OVERRIDE(Menu_GameSpeak);
-        //MENU_OVERRIDE(Menu_SligSpeak);
-        //MENU_OVERRIDE(Menu_GlukkonSpeak);
-        //MENU_OVERRIDE(Menu_ParamiteSpeak);
-        //MENU_OVERRIDE(Menu_ScrabSpeak);
-        //MENU_OVERRIDE(Menu_Save);
-        //MENU_OVERRIDE(Menu_ReallyQuit);
-        //MENU_OVERRIDE(Menu_Status);
-        //MENU_OVERRIDE(Menu_Load);
-    }
-#endif
-}
-
 EXPORT signed __int16 sub_4A2BC0()
 {
     NOT_IMPLEMENTED();
@@ -468,17 +446,43 @@ std::vector<CustomPauseMenu *> customMenuStack;
 class CustomPauseMenu
 {
 public:
-    CustomPauseMenu(std::vector<CustomPauseMenuItem> items, char * title)
+    CustomPauseMenu(std::vector<CustomPauseMenuItem> * items, char * titleStr)
     {
         entries = items;
+        title = std::string(titleStr);
+        CompileEntries();
+    }
+
+    void CompileEntries()
+    {
+        compiledEntries.clear();
+
+        if (index > maxScrollDown)
+        {
+            scrollDownIndex = index - maxScrollDown;
+        }
+        else
+        {
+            scrollDownIndex = 0;
+        }
 
         int o = 0;
-        for (auto i : entries)
+        int size = entries->size();
+        for (int i = scrollDownIndex; i < min(size, scrollDownIndex + 7); i++)
         {
-            compiledEntries.push_back({ 0, 184, (short)(48 + (22 * o)), 0, (char*)i.text, 0x80, 0x10, 0xFF, Centre });
+            const auto item = (*entries)[i];
+            compiledEntries.push_back({ 0, 184, (short)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });
             o++;
         }
-        compiledEntries.push_back({ 0, 184, 16, 0, title, 127, 127, 127, Centre });
+        compiledEntries.push_back({ 0, 184, 16, 0, (char*)title.c_str(), 127, 127, 127, Centre });
+        if (size > 7 && index < size - 2)
+        {
+            compiledEntries.push_back({ 0, 184, 210, 0, "\x02", 127, 127, 127, Centre });
+        }
+        if (index > 5)
+        {
+            compiledEntries.push_back({ 0, 184, 42, 0, "\x01", 127, 127, 127, Centre });
+        }
         compiledEntries.push_back({ 0, 0, 0, 0, nullptr, 0, 0, 0, 0 });
         mMenuPage.field_0_fn_update = &PauseMenu::CustomPauseMenuUpdate;
         mMenuPage.field_4_fn_render = &PauseMenu::Page_Base_Render_490A50;
@@ -491,8 +495,16 @@ public:
 
     void SetText(char * text)
     {
-        entries[index].text = text;
+        (*entries)[index].text = text;
         compiledEntries[index].field_8_text = text;
+    }
+
+    void ClosePauseMenu()
+    {
+        pPauseMenu_5C9300->word12C_flags &= ~1;
+        MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+        sub_4CB0E0();
+        customMenuStack.clear();
     }
 
     void Update(PauseMenu * pm)
@@ -500,15 +512,19 @@ public:
         auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
         if (input & eDown)
         {
-            if (++index >= entries.size())
+            if (++index >= entries->size())
                 index = 0;
             MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+
+            CompileEntries();
         }
         else if (input & eUp)
         {
             if (--index < 0)
-                index = entries.size() - 1;
+                index = entries->size() - 1;
             MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+
+            CompileEntries();
         }
         else if (input & 0x200000)
         {
@@ -517,15 +533,16 @@ public:
         }
         else if (input & eUnPause)
         {
-            entries[index].callback(this);
+            (*entries)[index].callback(this);
             sub_46FA90(0x54u, 90, 0x10000);
         }
 
-        pm->field_144_active_menu.field_C_selected_index = index;
+        pm->field_144_active_menu.field_C_selected_index = index - scrollDownIndex;
     }
 
     void Activate()
     {
+        CompileEntries();
         customMenuStack.push_back(this);
         SetLastPageStack(pPauseMenu_5C9300);
     }
@@ -545,8 +562,11 @@ public:
     }
 
 public:
-    std::vector<CustomPauseMenuItem> entries;
+    std::vector<CustomPauseMenuItem> * entries;
     int index = 0;
+    int scrollDownIndex = 0;
+    int maxScrollDown = 5;
+    std::string title;
     std::vector<PauseMenuPageEntry> compiledEntries;
     PauseMenu::PauseMenuPage mMenuPage;
 };
@@ -557,20 +577,21 @@ std::vector<CustomPauseMenuItem> devTeleportMenuItems({
     { "Test", [](CustomPauseMenu * pm) {} },
     { "Credits", [](CustomPauseMenu * pm) {} },
 });
-CustomPauseMenu devTeleportMenu(devTeleportMenuItems, "Level Select (TODO)");
+CustomPauseMenu devTeleportMenu(&devTeleportMenuItems, "Level Select");
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
     { "Save All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; } },
     { "Kill All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; } },
     { "Give Rocks", [](CustomPauseMenu * pm) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; } },
+    { "Open All Doors", [](CustomPauseMenu * pm) { memset(sSwitchStates_5C1A28, 1, 256); pm->ClosePauseMenu(); } },
 });
-CustomPauseMenu devCheatsMenu(devCheatsMenuItems, "Cheats");
+CustomPauseMenu devCheatsMenu(&devCheatsMenuItems, "Cheats");
 
 std::vector<CustomPauseMenuItem> devMenuItems({
     { "Cheats", [](CustomPauseMenu * pm) { devCheatsMenu.Activate(); } },
     { "Level Select", [](CustomPauseMenu * pm) { devTeleportMenu.Activate(); } },
 });
-CustomPauseMenu devMenu(devMenuItems, "Developer Menu");
+CustomPauseMenu devMenu(&devMenuItems, "Developer Menu");
 
 
 void PauseMenu::CustomPauseMenuUpdate()
@@ -582,6 +603,51 @@ void PauseMenu::CustomPauseMenuUpdate()
 ///// END CUSTOM CODE!!! ///
 
 #endif
+
+void PauseMenu_ForceLink() {
+
+#ifdef DEVELOPER_MODE
+    if (IsAlive())
+    {
+        //DumpMenus();
+
+        // Overwrites game menu lists with ours, so we can see if everything is the same.
+        MENU_OVERRIDE(MainMenu);
+        //MENU_OVERRIDE(Menu_ControlActions);
+        //MENU_OVERRIDE(Menu_GameSpeak);
+        //MENU_OVERRIDE(Menu_SligSpeak);
+        //MENU_OVERRIDE(Menu_GlukkonSpeak);
+        //MENU_OVERRIDE(Menu_ParamiteSpeak);
+        //MENU_OVERRIDE(Menu_ScrabSpeak);
+        //MENU_OVERRIDE(Menu_Save);
+        //MENU_OVERRIDE(Menu_ReallyQuit);
+        //MENU_OVERRIDE(Menu_Status);
+        //MENU_OVERRIDE(Menu_Load);
+
+        devTeleportMenuItems.clear();
+
+        for (int i = 0; i < 15; i++)
+        {
+            
+            devTeleportMenuItems.push_back({ sLevelSelectEntries_561700[i].field_0_name, [](CustomPauseMenu * pm) {
+                const auto levelSelectEntry = sLevelSelectEntries_561700[pm->index];
+                pm->ClosePauseMenu();
+                sActiveHero_5C1B68->field_106_animation_num = 3;
+                sActiveHero_5C1B68->field_1AC |= 0x40;
+                sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
+                sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
+                sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
+                sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
+                gMap_5C3030.sub_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_cam, 0, 0, 0);
+                sActiveHero_5C1B68->field_B8_xpos = FP(levelSelectEntry.field_C_spawn_x - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+                sActiveHero_5C1B68->field_BC_ypos = FP(levelSelectEntry.field_E_spawn_y - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+            } });
+        }
+
+        //devTeleportMenu = CustomPauseMenu(&devTeleportMenuItems, "Level Select");
+    }
+#endif
+}
 
 void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp)
 {

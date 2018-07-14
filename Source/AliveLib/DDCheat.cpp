@@ -251,7 +251,7 @@ void DDCheat::Update_415780()
                 sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos.GetExponent();
+                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
                 field_3C_flags &= ~0x1;
             }
         }
@@ -265,7 +265,7 @@ void DDCheat::Update_415780()
                     sActiveHero_5C1B68->field_1AC |= 0x40;
                 }
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos.GetExponent();
+                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
@@ -307,13 +307,24 @@ void DDCheat::Update_415780()
                 gMap_5C3030.sCurrentCamId_5C3034,
                 sGnFrame_5C1B84);
 
+            
+
+#ifdef DEVELOPER_MODE
+            DebugStr_4F5560(
+                "\n[obj %i] xy=%.3f,%.3f flags=%x",
+                sControlledCharacter_5C1B8C->field_4_typeId,
+                sControlledCharacter_5C1B8C->field_B8_xpos.GetDouble(),
+                sControlledCharacter_5C1B8C->field_BC_ypos.GetDouble(),
+                sControlledCharacter_5C1B8C->field_6_flags);
+
+            
+
+            DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_animation_num);
+#else
             DebugStr_4F5560(
                 "\nheroxy=%4d,%4d",
                 sActiveHero_5C1B68->field_B8_xpos.GetExponent(),
                 sActiveHero_5C1B68->field_BC_ypos.GetExponent());
-
-#ifdef DEVELOPER_MODE
-            DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_animation_num);
 #endif
 
             field_20 = 6;
@@ -342,7 +353,7 @@ void DDCheat::Update_415780()
                 }
 
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos.GetExponent();
+                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             /*DebugStr_4F5560("\n[Memory]");

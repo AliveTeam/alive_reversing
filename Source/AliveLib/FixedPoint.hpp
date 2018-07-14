@@ -23,6 +23,7 @@ struct FixedPoint
     FixedPoint& operator/=(const FixedPoint& other);
 
     int GetExponent() const;
+    double GetDouble() const;
 
     // Avoid using this. Directly writes to fp value
     void SetRaw(signed int rawFp);

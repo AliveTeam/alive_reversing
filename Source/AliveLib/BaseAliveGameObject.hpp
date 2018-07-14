@@ -16,7 +16,7 @@ public:
     int field_F0_prev_base;
     __int16 field_F4;
     __int16 field_F6;
-    int field_F8;
+    FP field_F8;
     void* field_FC_pPathTLV;
     void* field_100_pCollisionLine;
     __int16 field_104;
