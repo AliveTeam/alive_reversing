@@ -87,8 +87,8 @@ int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, in
         const auto texture_u = atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F));
         const auto texture_v = atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y);
 
-        const auto widthScaled = static_cast<signed int>(charWidth * scale.GetExponent());
-        const auto heightScaled = static_cast<signed int>(charHeight * scale.GetExponent());
+        const auto widthScaled = static_cast<signed int>(charWidth * scale.GetDouble());
+        const auto heightScaled = static_cast<signed int>(charHeight * scale.GetDouble());
 
         PolyFT4_Init_4F8870(poly);
         Poly_Set_SemiTrans_4F8A60(&poly->field_0_header, bSemiTrans);
