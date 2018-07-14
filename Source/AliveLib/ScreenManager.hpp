@@ -42,7 +42,7 @@ public:
     EXPORT void InvalidateRect_40EC10(int x, int y, signed int width, signed int height);
 
     virtual void VDestructor(signed int flags) override;
-    ScreenManager(int a2, int a3);
+
 private:
     EXPORT void ctor_40E3E0(int a2, int a3);
     EXPORT void dtor_40E460(signed int flags);

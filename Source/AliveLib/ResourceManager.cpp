@@ -21,6 +21,17 @@ ALIVE_VAR(1, 0xAB4A0C, short, sAllocationFailed_AB4A0C, 0);
 ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
 ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);
 
+// TODO: Move to own file
+EXPORT void __stdcall sub_465BC0(int /*a1*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+// TODO: Move to own file
+EXPORT void CC Game_ShowLoadingIcon_482D80()
+{
+    NOT_IMPLEMENTED();
+}
 
 void ResourceManager::Ctor_464910()
 {
@@ -53,19 +64,11 @@ void ResourceManager::dtor_4649B0(signed int flags)
 
 void ResourceManager::dtor_4649E0()
 {
-    NOT_IMPLEMENTED();
-}
-
-// TODO: Move to own file
-EXPORT void __stdcall sub_465BC0(int /*a1*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-// TODO: Move to own file
-EXPORT void CC Game_ShowLoadingIcon_482D80()
-{
-    NOT_IMPLEMENTED();
+    SetVTable(this, 0x545EBC); // vTbl_ResourceManager_545EBC
+    Shutdown_465610();
+    field_48_dArray.dtor_40CAD0();
+    field_20_files_pending_loading.dtor_40CAD0();
+    BaseGameObject_dtor_4DBEC0();
 }
 
 void ResourceManager::vLoadFile_StateMachine_464A70()
@@ -587,7 +590,7 @@ void ResourceManager::VDestructor(signed int flags)
 
 ResourceManager::ResourceManager()
 {
-    Ctor_464910();
+
 }
 
 const DWORD kResHeapSize = 5120000;

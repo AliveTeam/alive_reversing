@@ -335,7 +335,7 @@ void PauseMenu::VUpdate()
 
 PauseMenu::PauseMenu()
 {
-    ctor_48FB80();
+
 }
 
 PauseMenu * PauseMenu::ctor_48FB80()

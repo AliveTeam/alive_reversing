@@ -136,7 +136,7 @@ void DDCheat::Menu_Movies_416000()
 
 DDCheat::DDCheat()
 {
-    ctor_4153C0();
+
 }
 
 DDCheat* DDCheat::ctor_4153C0()

@@ -6,7 +6,7 @@ ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 
 Camera::Camera()
 {
-    ctor_480DD0();
+
 }
 
 void Camera::ctor_480DD0()
@@ -55,11 +55,6 @@ void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed
 void ScreenManager::InvalidateRect_40EC10(int x, int y, signed int width, signed int height)
 {
     InvalidateRect_40EC90(x, y, width, height, field_3A);
-}
-
-ScreenManager::ScreenManager(int a2, int a3)
-{
-    ctor_40E3E0(a2, a3);
 }
 
 void ScreenManager::ctor_40E3E0(int a2, int a3)
