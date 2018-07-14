@@ -166,7 +166,102 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
 
 void ResourceManager::OnResourceLoaded_464CE0()
 {
-    NOT_IMPLEMENTED();
+    // Iterate every section in the loaded file
+    DynamicArrayIter fileSectionsArrayIter = {};
+    fileSectionsArrayIter.field_0_pDynamicArray = &field_2C_pFileItem->field_10_file_sections_dArray;
+    fileSectionsArrayIter.field_4_idx = 0;
+    while (fileSectionsArrayIter.field_4_idx < field_2C_pFileItem->field_10_file_sections_dArray.Size())
+    {
+        ResourceManager_FilePartRecord_18* pFilePart = field_2C_pFileItem->field_10_file_sections_dArray.ItemAt(fileSectionsArrayIter.field_4_idx);
+        fileSectionsArrayIter.field_4_idx++;
+
+        if (!pFilePart)
+        {
+            break;
+        }
+
+        if (pFilePart->field_0_type || pFilePart->field_4_id)
+        {
+            // Find matching file part
+            BYTE** ppRes = nullptr;
+            for (int i=0; i< field_48_dArray.Size(); i++)
+            {
+                if (field_48_dArray.ItemAt(i))
+                {
+                    Header* pHeader = Get_Header_49C410(field_48_dArray.ItemAt(i));
+                    if (pHeader->field_C_id == pFilePart->field_4_id && pHeader->field_8_type == pFilePart->field_0_type)
+                    {
+                        ppRes = field_48_dArray.ItemAt(i);
+                        break;
+                    }
+                }
+            }
+
+            if (!ppRes)
+            {
+                LOG_ERROR("Should never happen!");
+                ALIVE_FATAL("File part not found");
+            }
+
+            if (pFilePart->field_14_bAddUseCount)
+            {
+                Inc_Ref_Count_49C310(ppRes);
+            }
+
+            if (pFilePart->field_8_pCamera)
+            {
+                pFilePart->field_8_pCamera->field_0.Push_Back_40CAF0(ppRes);
+            }
+
+            if (pFilePart->field_10_pFn)
+            {
+                pFilePart->field_10_pFn(pFilePart->field_C_fn_arg_pCamera);
+            }
+        }
+        else
+        {
+            if (pFilePart->field_14_bAddUseCount || pFilePart->field_8_pCamera)
+            {
+                for (int i = 0; i < field_48_dArray.Size(); i++)
+                {
+                    BYTE** pItem2 = field_48_dArray.ItemAt(i);
+                    if (!pItem2)
+                    {
+                        break;
+                    }
+
+                    if (pFilePart->field_14_bAddUseCount)
+                    {
+                        Inc_Ref_Count_49C310(pItem2);
+                    }
+
+                    if (pFilePart->field_8_pCamera)
+                    {
+                        pFilePart->field_8_pCamera->field_0.Push_Back_40CAF0(pItem2);
+                    }
+                }
+            }
+
+            if (pFilePart->field_10_pFn)
+            {
+                pFilePart->field_10_pFn(pFilePart->field_C_fn_arg_pCamera);
+            }
+        }
+        fileSectionsArrayIter.Remove_At_Iter_40CCA0();
+        Mem_Free_495540(pFilePart);
+    }
+
+    // Remove from pending files
+    field_20_files_pending_loading.Remove_Item(field_2C_pFileItem);
+
+    // Free/destruct the removed item
+    Mem_Free_495560(field_2C_pFileItem->field_0_fileName);
+    if (field_2C_pFileItem)
+    {
+        field_2C_pFileItem->dtor_464EA0();
+        Mem_Free_495540(field_2C_pFileItem);
+    }
+    field_2C_pFileItem = nullptr;
 }
 
 void ResourceManager::ResourceManager_FileRecord_1C::dtor_464EA0()

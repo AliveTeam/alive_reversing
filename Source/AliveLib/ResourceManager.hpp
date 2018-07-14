@@ -212,7 +212,7 @@ private:
     char field_40_seek_attempts;
     LoadingStates field_42_state;
     CdlLOC field_44_cdLoc;
-    DynamicArray field_48_dArray;
+    DynamicArrayT<BYTE*> field_48_dArray;
 };
 ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 
