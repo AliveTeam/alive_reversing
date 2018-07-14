@@ -66,7 +66,7 @@ EXPORT int CC Game_End_Frame_4950F0(float fps)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC sub_496720()
+EXPORT void CC VLC_Tables_Init_496720()
 {
     NOT_IMPLEMENTED();
 }
@@ -176,7 +176,7 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     PSX_EMU_VideoAlloc_4F9D70();
     PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
     //Main_Set_HWND_4F9410(Sys_GetWindowHandle_4EE180()); // Note: Set but never read
-    sub_496720();
+    VLC_Tables_Init_496720();
 }
 
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND /*hWnd*/, UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
