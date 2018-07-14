@@ -594,6 +594,7 @@ EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode)
 EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)

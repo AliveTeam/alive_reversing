@@ -588,6 +588,16 @@ void ResourceManager::VDestructor(signed int flags)
     dtor_4649B0(flags);
 }
 
+void ResourceManager::VUpdate()
+{
+    vLoadFile_StateMachine_464A70();
+}
+
+void ResourceManager::vsub_4DC0A0()
+{
+    // Empty
+}
+
 ResourceManager::ResourceManager()
 {
 

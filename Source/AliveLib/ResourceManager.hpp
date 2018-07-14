@@ -140,8 +140,10 @@ public:
     EXPORT void Shutdown_465610();
     EXPORT void Free_Resources_For_Camera_4656F0(const Camera* pCamera);
 
-    // TODO: Virtual wrappers
-    virtual void VDestructor(signed int);
+    virtual void VDestructor(signed int) override;
+    virtual void VUpdate() override;
+    virtual void vsub_4DC0A0() override;
+
     ResourceManager();
 
     struct ResourceHeapItem
