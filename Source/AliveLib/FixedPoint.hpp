@@ -8,23 +8,36 @@ void FixedPoint_ForceLink();
 
 struct FixedPoint
 {
-    FixedPoint(int v)
+    FixedPoint(signed int v)
     {
         fpValue = v << 16;
     }
 
     FixedPoint(double v)
     {
-        fpValue = static_cast<int>(0x10000 * v);
+        fpValue = static_cast<signed int>(0x10000 * v);
     }
 
     inline FixedPoint& operator+=(const FixedPoint& other);
     inline FixedPoint& operator-=(const FixedPoint& other);
     inline FixedPoint& operator*=(const FixedPoint& other);
     inline FixedPoint& operator/=(const FixedPoint& other);
+
+    inline int operator*(const FixedPoint& other)
+    {
+        return 0;
+    }
+
+    // Type Conversions
+    inline explicit operator signed int();
+    inline operator double();
+
+    // Avoid using this. Directly writes to fp value
+    inline void SetRaw(signed int rawFp);
 public:
-    int fpValue;
+    signed int fpValue;
 };
+ALIVE_ASSERT_SIZEOF(FixedPoint, 0x4);
 
 std::ostream& operator<<(std::ostream &strm, const FixedPoint &other);
 

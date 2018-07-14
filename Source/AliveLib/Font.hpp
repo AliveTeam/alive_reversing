@@ -12,6 +12,7 @@
 #include "PsxDisplay.hpp"
 #include "Primitives.hpp"
 #include "ScreenManager.hpp"
+#include "FixedPoint.hpp"
 
 void Font_ForceLink();
 
@@ -54,9 +55,9 @@ public:
     Font(int maxCharLength, BYTE *palette, Font_Context *fontContext);
 
     EXPORT void ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontContext);
-    EXPORT int DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, signed int scale, int a15, __int16 colorRandomRange);
+    EXPORT int DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange);
     EXPORT int MeasureWidth_433700(char * text);
-    EXPORT int MeasureWidth_4336C0(char *text, signed int fp_scale);
+    EXPORT int MeasureWidth_4336C0(char *text, FP scale);
     EXPORT int MeasureWidth_433630(unsigned char character);
 public:
     byte gap0[32];

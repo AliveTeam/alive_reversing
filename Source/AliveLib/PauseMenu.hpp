@@ -15,6 +15,7 @@
 #include "Quicksave.hpp"
 #include "DDCheat.hpp"
 #include "Font.hpp"
+#include "FixedPoint.hpp"
 
 void PauseMenu_ForceLink();
 

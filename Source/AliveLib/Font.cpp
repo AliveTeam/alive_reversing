@@ -41,7 +41,7 @@ void Font::ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontConte
     field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
 }
 
-int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, signed int scale, int a15, __int16 colorRandomRange)
+int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
 {
     if (!byte_5CA4B4) // Todo: Figure this insane shit out.
     {
@@ -87,8 +87,8 @@ int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, in
         const auto texture_u = atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F));
         const auto texture_v = atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y);
 
-        const auto widthScaled = (signed int)Math_FixedPoint_Multiply_496C50(charWidth << 16, scale) / 0x10000;
-        const auto heightScaled = (signed int)Math_FixedPoint_Multiply_496C50(charHeight << 16, scale) / 0x10000;
+        const auto widthScaled = static_cast<signed int>(charWidth * scale);
+        const auto heightScaled = static_cast<signed int>(charHeight * scale);
 
         PolyFT4_Init_4F8870(poly);
         Poly_Set_SemiTrans_4F8A60(&poly->field_0_header, bSemiTrans);
@@ -132,7 +132,7 @@ int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, in
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + (Math_FixedPoint_Multiply_496C50(field_34_font_context->field_8_atlas_array[0].field_2_width << 16, scale) / 0x10000);
+        offsetX += widthScaled + static_cast<signed int>(field_34_font_context->field_8_atlas_array[0].field_2_width * scale);
 
         poly += 2;
     }
@@ -181,9 +181,9 @@ int Font::MeasureWidth_433700(char * text)
 }
 
 // Measures the width of a string with scale applied.
-int Font::MeasureWidth_4336C0(char * text, signed int fp_scale)
+int Font::MeasureWidth_4336C0(char * text, FP scale)
 {
-    return (Math_FixedPoint_Multiply_496C50(MeasureWidth_433700(text) << 16, fp_scale) + 0x8000) >> 16;
+    return static_cast<int>(MeasureWidth_433700(text) * scale + 0.5);
 }
 
 // Measures the width of a single character.
