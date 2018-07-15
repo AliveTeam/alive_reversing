@@ -251,6 +251,62 @@ void Font_Context::LoadFontType_433400(int resourceID)
     }
 }
 
+void Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut)
+{
+    std::ifstream debugFont(fontPath, std::ios::binary | std::ios::ate);
+    std::ifstream debugFontAtlas(atlasPath, std::ios::binary | std::ios::ate);
+    if (debugFont.fail() || debugFontAtlas.fail())
+    {
+        debugFont.close();
+        debugFontAtlas.close();
+        return;
+    }
+
+    char * newFont = new char[debugFont.tellg()];
+    int fontSize = debugFont.tellg();
+    debugFont.seekg(0);
+    debugFont.read(newFont, fontSize);
+    auto fontFile = (File_Font*)newFont;
+    
+    char * fontAtlas = new char[debugFontAtlas.tellg()];
+    int fontAtlasSize = debugFontAtlas.tellg();
+    debugFontAtlas.seekg(0);
+    debugFontAtlas.read(fontAtlas, fontAtlasSize);
+
+    LoadFontTypeCustom(fontFile, (Font_AtlasEntry*)fontAtlas, pPaletteOut);
+
+    delete[] newFont;
+    
+    // TODO: Currently, font atlases are leaked in memory.
+    // A more better system will eventually replace this.
+    //delete[] fontAtlas;
+}
+
+void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut)
+{
+    // Give custom fonts a constant resource id for now.
+    field_C_resource_id = 0xBEEF;
+
+    Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
+    PSX_RECT rect = { field_0_rect.x, field_0_rect.y, fontFile->field_0_width / 4, fontFile->field_2_height };
+
+    if (pPaletteOut)
+    {
+        memcpy(pPaletteOut, fontFile->field_8_palette, fontFile->field_6_palette_size * 2);
+    }
+
+    if (fontFile->field_4_color_depth == 16)
+    {
+        PSX_LoadImage16_4F5E20(&rect, fontFile->field_28_pixel_buffer);
+    }
+    else
+    {
+        PSX_LoadImage_4F5FB0(&rect, fontFile->field_28_pixel_buffer);
+    }
+
+    field_8_atlas_array = fontAtlas;
+}
+
 ALIVE_ARY(1, 0x551D34, Font_AtlasEntry, 169, sFont1Atlas_551D34, 
 {
     { 0u, 0u, 2u, 0u },

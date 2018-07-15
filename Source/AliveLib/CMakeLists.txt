@@ -69,6 +69,8 @@ add_library(AliveLib
     FixedPoint.cpp
     Font.hpp
     Font.cpp
+    DebugHelpers.hpp
+    DebugHelpers.cpp
     WinMain.cpp
     WinMain.hpp)
 

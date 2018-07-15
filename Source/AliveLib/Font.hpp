@@ -44,6 +44,10 @@ struct Font_Context
     __int16 field_C_resource_id;
 
     EXPORT void LoadFontType_433400(int resourceID);
+
+    // Custom Functions to load fonts directly from raw files
+    void LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut);
+    void LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut);
 };
 ALIVE_ASSERT_SIZEOF(Font_Context, 0x10);
 
