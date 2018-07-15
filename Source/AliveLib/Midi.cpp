@@ -11,3 +11,8 @@ EXPORT char CC MIDI_UpdatePlayer_4FDC80()
     NOT_IMPLEMENTED();
     return 0;
 }
+
+EXPORT void CC SEQ_4CB060()
+{
+    NOT_IMPLEMENTED();
+}

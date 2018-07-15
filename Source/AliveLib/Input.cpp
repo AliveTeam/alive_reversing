@@ -49,6 +49,18 @@ EXPORT void CC Input_InitKeyStateArray_4EDD60()
     memset(sInputKeyStates_BD2F60, 0, 256u);
 }
 
+EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown)
+{
+    if (bIsDown)
+    {
+        sInputKeyStates_BD2F60[key] = -127;
+    }
+    else
+    {
+        sInputKeyStates_BD2F60[key] &= 1u;
+    }
+}
+
 // Returns true if a key was just pressed down.
 EXPORT bool CC Input_IsVKPressed_4EDD40(int key)
 {

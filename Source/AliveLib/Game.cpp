@@ -23,6 +23,8 @@
 #include "Quicksave.hpp"
 #include "Io.hpp"
 #include "LvlArchive.hpp"
+#include "DDraw.hpp"
+#include "Midi.hpp"
 #include <atomic>
 #include <fstream>
 #include "DebugHelpers.hpp"
@@ -53,6 +55,16 @@ ALIVE_VAR(1, 0x5C1B66, short, word_5C1B66, 0);
 ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
 ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
 
+ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
+ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
+ALIVE_VAR(1, 0x55EF90, int, dword_55EF90, 1);
+ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
+ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
+ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
+ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
+ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
+
+
 EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {
     CHAR RootPathName[4] = {};
@@ -61,10 +73,131 @@ EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
     return ::GetDriveTypeA(RootPathName) == DRIVE_CDROM;
 }
 
+EXPORT char CC SYS_PumpMessages_4EE4F4()
+{
+    MSG msg = {};
+    unsigned int paintMessageCount = 0;
+    while (::PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
+    {
+        if (msg.message == WM_QUIT)
+        {
+            return 1;
+        }
 
-EXPORT int CC Game_End_Frame_4950F0(float fps)
+        // I guess this stops the game hanging from paint request spam, seems like a hack.
+        if (msg.message == WM_PAINT && ++paintMessageCount >= 10)
+        {
+            break;
+        }
+
+        if (msg.message != WM_SYSKEYDOWN || msg.wParam != 32)
+        {
+            ::TranslateMessage(&msg);
+            ::DispatchMessageA(&msg);
+            if (msg.message == WM_QUIT)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+ALIVE_VAR(1, 0xBD0F08, char, byte_BD0F08, 0);
+
+EXPORT double __cdecl Calculate_FPS_495250(int frameCount)
 {
     NOT_IMPLEMENTED();
+    return 1.0;
+}
+
+EXPORT void __cdecl sub_4ED970(int x, int y, int w, int h)
+{
+    NOT_IMPLEMENTED();
+}
+
+ALIVE_VAR(1, 0xC2D03C, int, sNumRenderedPrims_C2D03C, 0);
+
+EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, int x, int y, float fps)
+{
+    char strBuffer[125] = {};
+    sprintf(strBuffer, "%02.1f fps ", fps);
+    sNumRenderedPrims_C2D03C = 0;
+    BMP_Draw_String_4F2230(pBmp, x, y, 0xFF80FFu, 1, strBuffer);
+    sub_4ED970(0, 0, 97, 32);
+}
+
+EXPORT void __cdecl sub_4FBA20()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void __cdecl CheckShiftCapslock_4953B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void __cdecl Draw_Debug_Strings_4F2800()
+{
+    NOT_IMPLEMENTED();
+}
+
+ALIVE_VAR(1, 0x5CA300, int, sFrameCount_5CA300, 0);
+
+EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
+{
+    if (flags & 1)
+    {
+        byte_BD0F20 = 0;
+        return 0;
+    }
+
+    const BYTE oldShowVRam = sPsxEMU_show_vram_BD1465;
+    if (sCommandLine_DDCheatEnabled_5CA4B5)
+    {
+        if (Input_IsVKPressed_4EDD40(VK_SCROLL))
+        {
+            sPsxEMU_show_vram_BD1465 = !sPsxEMU_show_vram_BD1465;
+            while (Input_IsVKPressed_4EDD40(VK_SCROLL))
+            {
+                //nullsub_3();
+                sub_494580();
+            }
+        }
+    }
+
+    if (oldShowVRam && !sPsxEMU_show_vram_BD1465)
+    {
+        sub_4ED970(0, 0, 640, 240);
+    }
+
+    const double fps = Calculate_FPS_495250(sFrameCount_5CA300);
+    CheckShiftCapslock_4953B0();
+    if (sCommandLine_ShowFps_5CA4D0)
+    {
+        Bitmap* pVram = spBitmap_C2D038;
+        if (!spBitmap_C2D038)
+        {
+            pVram = &sPsxVram_C1D160;
+        }
+
+        DrawFps_4952F0(
+            pVram,
+            sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + 4,
+            sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + 4,
+            static_cast<float>(fps));
+    }
+
+    Draw_Debug_Strings_4F2800();
+    ++sFrameCount_5CA300;
+
+    if (SYS_PumpMessages_4EE4F4())
+    {
+        byte_BD0F08 = 1;
+        exit(0);
+    }
+    sub_4FBA20();
+    return 0;
 }
 
 EXPORT void CC VLC_Tables_Init_496720()
@@ -76,16 +209,6 @@ EXPORT void IO_Init_494230()
 {
     NOT_IMPLEMENTED();
 }
-
-
-ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
-ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
-ALIVE_VAR(1, 0x55EF90, int, dword_55EF90, 1);
-ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
-ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
-ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
-ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
-ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
 
 EXPORT void CC sub_4ED960(int a1)
 {
@@ -180,10 +303,17 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     VLC_Tables_Init_496720();
 }
 
-EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND /*hWnd*/, UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+EXPORT char __cdecl SND_Seq_Table_Valid_4CAFE0()
+{
+    return 1;
+}
+
+ALIVE_VAR(1, 0x5CA230, SoundEntry*, sSoundEntry_5CA230, nullptr);
+
+EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    return 1;
 }
 
 EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)

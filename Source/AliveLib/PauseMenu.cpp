@@ -389,7 +389,7 @@ EXPORT int CC MIDI_46FBA0(unsigned __int8 a1, int a2, int a3, int a4)
     NOT_IMPLEMENTED();
 }
 
-EXPORT int sub_4CB0E0()
+EXPORT void CC sub_4CB0E0()
 {
     NOT_IMPLEMENTED();
 }

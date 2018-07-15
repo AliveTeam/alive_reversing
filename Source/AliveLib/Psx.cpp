@@ -190,8 +190,6 @@ EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync)
     return sCdFileHandle_BD1CC4->field_10_bDone != 0;
 }
 
-using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
-
 ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_put_disp_env_callback_C1D184, nullptr);
 ALIVE_VAR(1, 0xC1D17C, TPsxEmuCallBack, sPsxEmu_EndFrameFnPtr_C1D17C, nullptr);
 ALIVE_VAR(1, 0xBD0F21, BYTE, sPsxDontChangeDispEnv_BD0F21, 0);
@@ -581,9 +579,19 @@ EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
 
 ALIVE_VAR(1, 0xBD1468, int, sVGA_DisplayType_BD1468, 0);
 
-EXPORT void CC PSX_EMU_SetCallBack_4F9430(int callBackType, void* fnPtr)
+EXPORT void CC PSX_EMU_SetCallBack_4F9430(int callBackType, TPsxEmuCallBack fnPtr)
 {
-    NOT_IMPLEMENTED();
+    if (callBackType)
+    {
+        if (callBackType == 1)
+        {
+            sPsxEmu_put_disp_env_callback_C1D184 = fnPtr;
+        }
+    }
+    else
+    {
+        sPsxEmu_EndFrameFnPtr_C1D17C = fnPtr;
+    }
 }
 
 EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode)

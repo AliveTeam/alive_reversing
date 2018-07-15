@@ -19,23 +19,6 @@ struct SoundBuffer
 };
 ALIVE_ASSERT_SIZEOF(SoundBuffer, 0x14);
 
-struct SoundEntry
-{
-    int field_0_tableIdx;
-    LPDIRECTSOUNDBUFFER field_4_pDSoundBuffer;
-    BYTE* field_8_pSoundBuffer;
-    int field_C_buffer_size_bytes;
-    int field_10;
-    int field_14_buffer_size_bytes;
-    int field_18_sampleRate;
-    char field_1C_bitsPerSample;
-    unsigned __int8 field_1D_blockAlign;
-    char field_1E;
-    char field_1F;
-    int field_20_isStereo;
-};
-ALIVE_ASSERT_SIZEOF(SoundEntry, 0x24);
-
 ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
 ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);

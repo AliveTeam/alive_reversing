@@ -7,6 +7,8 @@ EXPORT void CC Input_EnableInput_4EDDD0();
 EXPORT void CC Input_InitKeyStateArray_4EDD60();
 EXPORT void CC Input_DisableInput_4EDDC0();
 EXPORT void CC Input_Init_491BC0();
+EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown);
+EXPORT bool CC Input_IsVKPressed_4EDD40(int key);
 
 enum InputCommands : unsigned int
 {

@@ -45,6 +45,8 @@ struct PSX_DRAWENV
 };
 // TODO: Size
 
+using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
+
 EXPORT int CC PSX_VSync_4F6170(int mode);
 EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, __int16 b);
 EXPORT int CC PSX_DrawSync_4F6280(int mode);
@@ -69,7 +71,7 @@ EXPORT int CC PSX_StopCallBack_4FAA30();
 EXPORT int CC PSX_EMU_VideoAlloc_4F9D70();
 EXPORT void CC Init_VGA_AndPsxVram_494690();
 EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam);
-EXPORT void CC PSX_EMU_SetCallBack_4F9430(int callBackType, void* fnPtr);
+EXPORT void CC PSX_EMU_SetCallBack_4F9430(int callBackType, TPsxEmuCallBack fnPtr);
 EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3);
 EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode);
 EXPORT signed int CC PSX_MoveImage_4F5D50(const PSX_RECT* pRect, int xpos, int ypos);
@@ -96,6 +98,9 @@ EXPORT int CC PSX_CD_FileIOWait_4FB260(int bASync);
 
 ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
 ALIVE_VAR_EXTERN(BYTE, byte_BD0F20);
+ALIVE_VAR_EXTERN(PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080);
+ALIVE_VAR_EXTERN(BYTE, sPsxEMU_show_vram_BD1465);
+ALIVE_VAR_EXTERN(Bitmap*, spBitmap_C2D038);
 
 
 
