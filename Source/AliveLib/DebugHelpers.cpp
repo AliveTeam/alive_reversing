@@ -439,10 +439,13 @@ public:
 };
 
 void DebugHelpers_Init() {
-    alive_new<ObjectDebugger>();
-    alive_new<DebugConsole>();
+    if (IsAlive())
+    {
+        alive_new<ObjectDebugger>();
+        alive_new<DebugConsole>();
 
-    DEV_CONSOLE_MESSAGE("Debug Helpers RUNNING!", 4);
+        DEV_CONSOLE_MESSAGE("Debug Console Active. Open with ~ (Tilde)", 7);
+    }
 }
 
 std::vector<BYTE> FS::ReadFile(std::string filePath)
