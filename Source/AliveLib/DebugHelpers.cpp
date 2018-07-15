@@ -337,6 +337,11 @@ public:
 
         const char * allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-+@#$%^&*()_";
 
+        if (mCommandLineEnabled && GetAsyncKeyState(VK_UP) & 0x1)
+        {
+            mCommandLineInput = mLastCommand;
+        }
+
         if (mCommandLineEnabled && key > 0)
         {
             switch (key)
@@ -349,6 +354,7 @@ public:
                 break;
             case VK_RETURN:
                 ParseCommand(mCommandLineInput);
+                mLastCommand = mCommandLineInput;
                 mCommandLineInput.clear();
                 mCommandLineEnabled = false;
                 Input_EnableInput_4EDDD0();
@@ -429,6 +435,7 @@ public:
     bool mCommandLineEnabled = false;
     std::string mCommandLineInput;
     std::string mAutoComplete;
+    std::string mLastCommand;
 };
 
 void DebugHelpers_Init() {
