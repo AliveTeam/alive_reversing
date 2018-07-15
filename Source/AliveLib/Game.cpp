@@ -25,6 +25,7 @@
 #include "LvlArchive.hpp"
 #include <atomic>
 #include <fstream>
+#include "DebugHelpers.hpp"
 
 void Game_ForceLink() { }
 
@@ -402,11 +403,11 @@ EXPORT void CC Game_Run_466D40()
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, 125, 1u, 0);
-    gMap_5C3030.field_28_5C3058 = 0;
-    gMap_5C3030.field_24_5C3054 = 0;
+    gMap_5C3030.field_28_camera_offset_y = FP(0);
+    gMap_5C3030.field_24_camera_offset_x = FP(0);
 
     pScreenManager_5BB5F4 = alive_new<ScreenManager>();
-    pScreenManager_5BB5F4->ctor_40E3E0((int)camera.field_C_pCamRes, (int)&gMap_5C3030.field_24_5C3054);
+    pScreenManager_5BB5F4->ctor_40E3E0((int)camera.field_C_pCamRes, (int)&gMap_5C3030.field_24_camera_offset_x);
 
     pScreenManager_5BB5F4->sub_cam_vlc_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
@@ -928,6 +929,7 @@ private:
 EXPORT void CC Game_Loop_467230()
 {
     alive_new<RenderTest>(); // Will get nuked at LVL/Path change
+    DebugHelpers_Init(); // Custom helper code
 
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;

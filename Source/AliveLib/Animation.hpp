@@ -74,7 +74,7 @@ class AnimationEx : public Animation
 public:
     WORD field_10_frame_delay;
     WORD field_12_scale; // padding?
-    DWORD field_14_scale;
+    FP field_14_scale;
     DWORD field_18_frame_table_offset;
     DWORD field_1C_fn_ptr_array;
     BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
@@ -135,7 +135,7 @@ public:
     __int16 field_C2_lvl_number;
     int field_C4_velx;
     int field_C8_vely;
-    int field_CC_sprite_scale;
+    FP field_CC_sprite_scale;
     __int16 field_D0_r;
     __int16 field_D2_g;
     __int16 field_D4_b;

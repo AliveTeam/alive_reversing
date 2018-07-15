@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "Function.hpp"
+#include "FixedPoint.hpp"
 
 void Map_ForceLink();
 
@@ -23,11 +24,9 @@ public:
     __int16 field_10[7];
 
     __int16 field_1E_5C304E;
-    __int16 field_20_5C3050;
-    __int16 field_22_5C3052;
-
-    int field_24_5C3054;
-    int field_28_5C3058;
+    int field_20;
+    FP field_24_camera_offset_x;
+    FP field_28_camera_offset_y;
     int field_2C_5C305C;
 
     EXPORT void sub_480B80();
