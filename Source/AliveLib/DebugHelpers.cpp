@@ -52,6 +52,18 @@ public:
         // Dont kill!
     }
 
+    static bool IsInAnimationList(Animation* toFind)
+    {
+        for (int i = 0; i < gObjList_animations_5C1A24->Size(); i++)
+        {
+            if (gObjList_animations_5C1A24->ItemAt(i) == toFind)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     virtual void VRender(int** pOrderingTable) override
     {
         int pIndex = 0;
@@ -70,19 +82,22 @@ public:
                 int x = aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset_x.GetExponent();
                 int y = aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_28_camera_offset_y.GetExponent();
 
-                if (aliveObj->field_20_animation.field_92_current_frame != -1)
+                if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
-                    auto framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
-                    if (framePtr != nullptr)
+                    if (aliveObj->field_20_animation.field_92_current_frame != -1)
                     {
-                        y += (framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                        auto framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
+                        if (framePtr != nullptr)
+                        {
+                            y += (framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                        }
                     }
                 }
-                
+
                 std::string text = std::to_string(pBaseGameObject->field_4_typeId);
                 
-                pIndex = mFont.DrawString_4337D0(pOrderingTable, (char*)text.c_str(), x - (mFont.MeasureWidth_433700((char*)text.c_str()) / 2) + 1, y + 1, 0, 0, 0, 39, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
-                pIndex = mFont.DrawString_4337D0(pOrderingTable, (char*)text.c_str(), x - (mFont.MeasureWidth_433700((char*)text.c_str()) / 2), y, 0, 1, 0, 40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+                pIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, 0, 0, 0, 39, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+                pIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, 0, 1, 0, 40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
             }
             
         }

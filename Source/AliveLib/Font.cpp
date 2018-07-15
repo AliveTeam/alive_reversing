@@ -43,7 +43,7 @@ void Font::ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontConte
     field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
 }
 
-int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
+int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
 {
     if (!byte_5CA4B4) // Todo: Figure this insane shit out.
     {
@@ -144,7 +144,7 @@ int Font::DrawString_4337D0(int **ot, char *text, int x, __int16 y, char abr, in
     return polyOffset + characterRenderCount;
 }
 
-int Font::MeasureWidth_433700(char * text)
+int Font::MeasureWidth_433700(const char * text)
 {
     int result = 0;
 
@@ -183,7 +183,7 @@ int Font::MeasureWidth_433700(char * text)
 }
 
 // Measures the width of a string with scale applied.
-int Font::MeasureWidth_4336C0(char * text, FP scale)
+int Font::MeasureWidth_4336C0(const char * text, FP scale)
 {
     FP ret = (FP(MeasureWidth_433700(text)) * scale) + FP_FromDouble(0.5);
     return ret.GetExponent();
