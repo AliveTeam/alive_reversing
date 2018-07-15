@@ -28,6 +28,7 @@
 #include <atomic>
 #include <fstream>
 #include "DebugHelpers.hpp"
+#include <gmock/gmock.h>
 
 void Game_ForceLink() { }
 
@@ -64,6 +65,27 @@ ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
 ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
 ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
 
+// Fps calcs
+ALIVE_VAR(1, 0xBD0F08, char, byte_BD0F08, 0);
+ALIVE_VAR(1, 0x55EFDC, double, sFps_55EFDC, 0.0);
+ALIVE_VAR(1, 0x5CA4DC, int, sFrameDiff_5CA4DC, 0);
+ALIVE_VAR(1, 0xC2D03C, int, sNumRenderedPrims_C2D03C, 0);
+ALIVE_VAR(1, 0x5CA300, int, sFrameCount_5CA300, 0);
+
+ALIVE_VAR(1, 0x5CA230, SoundEntry*, sSoundEntry_5CA230, nullptr);
+
+ALIVE_VAR(1, 0x5C1B94, short, word_5C1B94, 0);
+ALIVE_VAR(1, 0x5C2A4C, Abe, stru_5C2A4C, {});
+ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &stru_5C2A4C);
+
+
+ALIVE_VAR(1, 0x5C2F6C, DWORD, dword_5C2F6C, 0);
+ALIVE_VAR(1, 0x5C1BA0, WORD, word_5C1BA0, 0);
+ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
+
+ALIVE_VAR(1, 0x5BC120, class CheatController*, pCheatController_5BC120, nullptr);
+
+ALIVE_VAR(1, 0x5C1128, class Collisions*, sCollisions_DArray_5C1128, nullptr);
 
 EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {
@@ -103,10 +125,6 @@ EXPORT char CC SYS_PumpMessages_4EE4F4()
     return 0;
 }
 
-ALIVE_VAR(1, 0xBD0F08, char, byte_BD0F08, 0);
-ALIVE_VAR(1, 0x55EFDC, double, sFps_55EFDC, 0.0);
-ALIVE_VAR(1, 0x5CA4DC, int, sFrameDiff_5CA4DC, 0);
-
 EXPORT double CC Calculate_FPS_495250(int frameCount)
 {
     static DWORD sLastTime_5CA338 = timeGetTime() - 500;
@@ -126,12 +144,11 @@ EXPORT double CC Calculate_FPS_495250(int frameCount)
     return sFps_55EFDC;
 }
 
-EXPORT void __cdecl sub_4ED970(int x, int y, int w, int h)
+EXPORT void __cdecl sub_4ED970(int /*x*/, int /*y*/, int /*w*/, int /*h*/)
 {
     NOT_IMPLEMENTED();
 }
 
-ALIVE_VAR(1, 0xC2D03C, int, sNumRenderedPrims_C2D03C, 0);
 
 EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, int x, int y, float fps)
 {
@@ -157,7 +174,6 @@ EXPORT void __cdecl Draw_Debug_Strings_4F2800()
     NOT_IMPLEMENTED();
 }
 
-ALIVE_VAR(1, 0x5CA300, int, sFrameCount_5CA300, 0);
 
 EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
 {
@@ -225,7 +241,7 @@ EXPORT void IO_Init_494230()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC sub_4ED960(int a1)
+EXPORT void CC sub_4ED960(int /*a1*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -322,8 +338,6 @@ EXPORT char __cdecl SND_Seq_Table_Valid_4CAFE0()
 {
     return 1;
 }
-
-ALIVE_VAR(1, 0x5CA230, SoundEntry*, sSoundEntry_5CA230, nullptr);
 
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -490,13 +504,6 @@ EXPORT void CC sub_43BF40()
     NOT_IMPLEMENTED();
 }
 
-ALIVE_VAR(1, 0x5C1B94, short, word_5C1B94, 0);
-
-
-ALIVE_VAR(1, 0x5C2A4C, Abe, stru_5C2A4C, {});
-
-ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &stru_5C2A4C);
-
 EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
 {
     DebugFont_Init_4DCF40();
@@ -538,10 +545,6 @@ EXPORT void CC sub_494580()
     NOT_IMPLEMENTED();
 }
 
-ALIVE_VAR(1, 0x5C2F6C, DWORD, dword_5C2F6C, 0);
-ALIVE_VAR(1, 0x5C1BA0, WORD, word_5C1BA0, 0);
-ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
-
 EXPORT void CC DDCheat_Allocate_415320()
 {
     auto pDDCheat = alive_new<DDCheat>();
@@ -571,18 +574,15 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(CheatController, 0x40);
 
-ALIVE_VAR(1, 0x5BC120, CheatController*, pCheatController_5BC120, nullptr);
-
 void CheatController::VDestructor(signed int flags)
 {
     dtor_421C10(flags);
 }
 
-void CheatController::dtor_421C10(signed int flags)
+void CheatController::dtor_421C10(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
 }
-
 
 CheatController::CheatController()
 {
@@ -620,10 +620,6 @@ void Collisions::dtor_4189F0()
 {
     Mem_Free_495560(field_0_pArray);
 }
-
-ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
-
-
 
 EXPORT void CC Game_Run_466D40()
 {
@@ -912,34 +908,6 @@ EXPORT void CC sub_449A90()
     NOT_IMPLEMENTED();
 }
 
-#include <gmock/gmock.h>
-
-namespace Test
-{
-    static void Test_PSX_getTPage_4F60E0()
-    {
-        ASSERT_EQ(0, PSX_getTPage_4F60E0(0, 0, 0, 0));
-
-        ASSERT_EQ(32, PSX_getTPage_4F60E0(0, 1, 0, 0));
-        ASSERT_EQ(64, PSX_getTPage_4F60E0(0, 2, 0, 0));
-        ASSERT_EQ(96, PSX_getTPage_4F60E0(0, 3, 0, 0));
-
-        ASSERT_EQ(128, PSX_getTPage_4F60E0(1, 0, 0, 0));
-        ASSERT_EQ(256, PSX_getTPage_4F60E0(2, 0, 0, 0));
-        ASSERT_EQ(384, PSX_getTPage_4F60E0(3, 0, 0, 0));
-  
-        ASSERT_EQ(1, PSX_getTPage_4F60E0(0, 0, 64, 0));
-        ASSERT_EQ(2, PSX_getTPage_4F60E0(0, 0, 64 * 2, 64));
-        ASSERT_EQ(18, PSX_getTPage_4F60E0(0, 0, 64 * 2, 64* 4));
-
-    }
-
-    void GameTests()
-    {
-        Test_PSX_getTPage_4F60E0();
-    }
-}
-
 EXPORT void CC Game_Loop_467230()
 {
     DebugHelpers_Init(); // Custom helper code
@@ -990,23 +958,6 @@ EXPORT void CC Game_Loop_467230()
         {
             Animation::AnimateAll_40AC20(gObjList_animations_5C1A24);
         }
-
-        /*
-        static int hack = 0;
-        hack++;
-        if (hack == 100)
-        {
-            static BackgroundAnimation_Params params = {};
-            params.field_10_res_id = 8001;
-            params.field_8_xpos = 90;
-            params.field_A_ypos = 90;
-            params.field_C_width = 50;
-            params.field_E_height = 50;
-            params.field_1A_layer = 1;
-            ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", 0);
-            Factory_BackgroundAnimation_4D84F0(&params, 4, 4, 4);
-        }
-        */
 
         int** pOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
         
@@ -1133,5 +1084,32 @@ EXPORT void CC Game_Loop_467230()
             iter.Remove_At_Iter_40CCA0();
             pObj->VDestructor(1);
         }
+    }
+}
+
+
+namespace Test
+{
+    static void Test_PSX_getTPage_4F60E0()
+    {
+        ASSERT_EQ(0, PSX_getTPage_4F60E0(0, 0, 0, 0));
+
+        ASSERT_EQ(32, PSX_getTPage_4F60E0(0, 1, 0, 0));
+        ASSERT_EQ(64, PSX_getTPage_4F60E0(0, 2, 0, 0));
+        ASSERT_EQ(96, PSX_getTPage_4F60E0(0, 3, 0, 0));
+
+        ASSERT_EQ(128, PSX_getTPage_4F60E0(1, 0, 0, 0));
+        ASSERT_EQ(256, PSX_getTPage_4F60E0(2, 0, 0, 0));
+        ASSERT_EQ(384, PSX_getTPage_4F60E0(3, 0, 0, 0));
+
+        ASSERT_EQ(1, PSX_getTPage_4F60E0(0, 0, 64, 0));
+        ASSERT_EQ(2, PSX_getTPage_4F60E0(0, 0, 64 * 2, 64));
+        ASSERT_EQ(18, PSX_getTPage_4F60E0(0, 0, 64 * 2, 64 * 4));
+
+    }
+
+    void GameTests()
+    {
+        Test_PSX_getTPage_4F60E0();
     }
 }
