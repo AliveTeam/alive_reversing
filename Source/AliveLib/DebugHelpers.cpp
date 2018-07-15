@@ -438,6 +438,253 @@ public:
     std::string mLastCommand;
 };
 
+
+class RenderTest : public BaseGameObject
+{
+public:
+    RenderTest()
+    {
+        // Don't hack the vtable else our virtuals won't get called and we can't hack the correct one back since we don't know the address of our vtable.
+        DisableVTableHack disableHack;
+
+        BaseGameObject_ctor_4DBFA0(1, 1);
+
+        InitTestRender();
+
+        field_6_flags |= BaseGameObject::eDrawable;
+
+        gObjList_drawables_5C1124->Push_Back(this);
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        Destruct();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG3.field_0_header.field_0_tag); // 30 being the "layer"
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.field_0_header.field_0_tag);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG4.field_0_header.field_0_tag);
+
+        static PSX_Pos16 xy = {};
+        static short ypos = 0;
+        ypos++;
+        if (ypos > 30)
+        {
+            ypos = 0;
+        }
+        xy.x = ypos;
+        xy.y = ypos;
+        InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mScreenOffset.field_0_header.field_0_tag);
+
+        static PSX_RECT clipRect = {};
+        clipRect.x = 80;
+        clipRect.y = 50;
+        clipRect.w = 640 - 300;
+        clipRect.h = 480 - 200;
+
+        Init_PrimClipper_4F5B80(&mPrimClipper, &clipRect);
+        // OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header.field_0_tag);
+
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG2.field_0_header.field_0_tag);
+
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.field_0_header.field_0_tag);
+
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG4.field_0_header.field_0_tag);
+
+
+    }
+
+    void Destruct()
+    {
+        gObjList_drawables_5C1124->Remove_Item(this);
+    }
+
+private:
+    void InitTestRender()
+    {
+        {
+            PolyG3_Init_4F8890(&mPolyG3);
+
+            mPolyG3.field_0_header.field_8_r0 = 255;
+            mPolyG3.field_0_header.field_9_g0 = 255;
+            mPolyG3.field_0_header.field_A_b0 = 255;
+            mPolyG3.field_C_x0 = 50;
+            mPolyG3.field_E_y0 = 50;
+
+            mPolyG3.field_10_r1 = 0;
+            mPolyG3.field_11_g1 = 0;
+            mPolyG3.field_12_b1 = 255;
+            mPolyG3.field_14_x1 = 200;
+            mPolyG3.field_16_y1 = 50;
+
+            mPolyG3.field_18_r2 = 255;
+            mPolyG3.field_19_g2 = 0;
+            mPolyG3.field_1A_b2 = 255;
+            mPolyG3.field_1C_x2 = 150;
+            mPolyG3.field_1E_y2 = 100;
+        }
+
+        {
+            PolyF3_Init(&mPolyF3);
+
+            mPolyF3.field_0_header.field_8_r0 = 255;
+            mPolyF3.field_0_header.field_9_g0 = 255;
+            mPolyF3.field_0_header.field_A_b0 = 0;
+
+            mPolyF3.field_C_x0 = 180 + 50;
+            mPolyF3.field_E_y0 = 50;
+
+            mPolyF3.field_10_x1 = 180 + 200;
+            mPolyF3.field_12_y1 = 50;
+
+            mPolyF3.field_14_x2 = 180 + 150;
+            mPolyF3.field_16_y2 = 100;
+        }
+
+        {
+            PolyF4_Init_4F8830(&mPolyF4);
+            mPolyF4.field_0_header.field_8_r0 = 255;
+            mPolyF4.field_0_header.field_9_g0 = 255;
+            mPolyF4.field_0_header.field_A_b0 = 255;
+
+            struct XY { short x; short y; };
+            XY points[4] =
+            {
+                { 150, 150 },
+                { 150, 200 },
+                { 200, 150 },
+                { 200, 200 },
+            };
+
+            mPolyF4.field_C_x0 = points[0].x;
+            mPolyF4.field_E_y0 = points[0].y;
+
+            mPolyF4.field_10_x1 = points[1].x;
+            mPolyF4.field_12_y1 = points[1].y;
+
+            mPolyF4.field_14_x2 = points[2].x;
+            mPolyF4.field_16_y2 = points[2].y;
+
+            mPolyF4.field_18_x3 = points[3].x;
+            mPolyF4.field_1A_y3 = points[3].y;
+        }
+
+        {
+            PolyG4_Init_4F88B0(&mPolyG4);
+            struct XY { short x; short y; };
+            XY points[4] =
+            {
+                { 150 + 100, 150 + 10 },
+                { 150 + 100, 200 + 10 },
+                { 200 + 100, 150 + 10 },
+                { 200 + 100, 200 + 10 },
+            };
+
+            mPolyG4.field_C_x0 = points[0].x;
+            mPolyG4.field_E_y0 = points[0].y;
+
+            mPolyG4.field_0_header.field_8_r0 = 255;
+            mPolyG4.field_0_header.field_9_g0 = 0;
+            mPolyG4.field_0_header.field_A_b0 = 0;
+
+
+            mPolyG4.field_14_x1 = points[1].x;
+            mPolyG4.field_16_y1 = points[1].y;
+
+            mPolyG4.field_10_r1 = 0;
+            mPolyG4.field_11_g1 = 0;
+            mPolyG4.field_12_b1 = 255;
+
+
+            mPolyG4.field_1C_x2 = points[2].x;
+            mPolyG4.field_1E_y2 = points[2].y;
+
+            mPolyG4.field_18_r2 = 0;
+            mPolyG4.field_19_g2 = 255;
+            mPolyG4.field_1A_b2 = 0;
+
+            mPolyG4.field_24_x3 = points[3].x;
+            mPolyG4.field_26_y3 = points[3].y;
+
+            mPolyG4.field_20_r3 = 255;
+            mPolyG4.field_21_g3 = 0;
+            mPolyG4.field_22_b3 = 255;
+        }
+
+        {
+            LineG2_Init(&mLineG2);
+
+            mLineG2.field_0_header.field_8_r0 = 255;
+            mLineG2.field_0_header.field_9_g0 = 255;
+            mLineG2.field_0_header.field_A_b0 = 0;
+
+            mLineG2.field_C_x0 = 250;
+            mLineG2.field_E_y0 = 80;
+
+            mLineG2.field_10_r1 = 255;
+            mLineG2.field_11_g1 = 0;
+            mLineG2.field_12_b1 = 255;
+
+
+            mLineG2.field_14_x1 = 350;
+            mLineG2.field_16_y1 = 110;
+        }
+
+        {
+            LineG4_Init(&mLineG4);
+
+            mLineG4.field_0_header.field_8_r0 = 255;
+            mLineG4.field_0_header.field_9_g0 = 255;
+            mLineG4.field_0_header.field_A_b0 = 0;
+            mLineG4.field_C_x0 = 280;
+            mLineG4.field_E_y0 = 120;
+
+            mLineG4.field_10_r1 = 255;
+            mLineG4.field_11_g1 = 0;
+            mLineG4.field_12_b1 = 255;
+            mLineG4.field_14_x1 = 300;
+            mLineG4.field_16_y1 = 150;
+
+
+            mLineG4.field_1C_x2 = 20;
+            mLineG4.field_1E_y2 = 20;
+            mLineG4.field_18_r2 = 255;
+            mLineG4.field_19_g2 = 255;
+            mLineG4.field_22_b3 = 0;
+
+            mLineG4.field_24_x3 = 200;
+            mLineG4.field_26_y3 = 50;
+            mLineG4.field_20_r3 = 255;
+            mLineG4.field_21_g3 = 0;
+            mLineG4.field_22_b3 = 50;
+        }
+    }
+
+    Line_G2 mLineG2 = {};
+    Line_G4 mLineG4 = {};
+
+    Poly_G3 mPolyG3 = {};
+    Poly_F3 mPolyF3 = {};
+
+    Poly_G4 mPolyG4 = {};
+    Poly_F4 mPolyF4 = {};
+
+    Prim_ScreenOffset mScreenOffset = {};
+    Prim_PrimClipper mPrimClipper = {};
+
+    // TODO: Test SetTPage
+    // TODO: Test Prim_Sprt
+    // TODO: Test Prim_Tile
+    // TODO: Test Poly_FT4
+};
+
 void DebugHelpers_Init() {
     if (IsAlive())
     {
@@ -446,6 +693,9 @@ void DebugHelpers_Init() {
 
         DEV_CONSOLE_MESSAGE("Debug Console Active. Open with ~ (Tilde)", 7);
     }
+
+    // Test rendering diff prim types
+    alive_new<RenderTest>(); // Will get nuked at LVL/Path change
 }
 
 std::vector<BYTE> FS::ReadFile(std::string filePath)
