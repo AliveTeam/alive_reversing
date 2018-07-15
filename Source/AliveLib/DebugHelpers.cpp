@@ -135,8 +135,98 @@ static std::vector<DebugConsoleMessage> sDebugConsoleMessages;
 
 void ShowDebugConsoleMessage(std::string message, float duration)
 {
-    sDebugConsoleMessages.push_back({ message, static_cast<int>(30 * duration), 250 });
+    auto lines = SplitString(message, '\n');
+    
+    for (auto l : lines)
+    {
+        sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), { l, static_cast<int>(30 * duration), 250 });
+    }
 }
+
+struct FakeObjStruct
+{
+    int *field_0_VTbl;
+    __int16 field_4_typeId;
+    __int16 field_6_flags;
+    int field_8_flags_ex;
+    int field_C_objectId;
+    int field_10_resources_array;
+    int field_1C_update_delay;
+};
+
+struct DebugConsoleCommand
+{
+    std::string command;
+    int paramsCount;
+    std::function<void(std::vector<std::string> args)> callback;
+    std::string helpText;
+};
+
+extern std::vector<DebugConsoleCommand> sDebugConsoleCommands;
+
+void Command_Help(std::vector<std::string> args)
+{
+    DEV_CONSOLE_MESSAGE("You can call the following: ", 6);
+    for (auto c : sDebugConsoleCommands)
+    {
+        DEV_CONSOLE_MESSAGE(c.command + " - " + c.helpText, 6);
+    }
+}
+
+void Command_Test(std::vector<std::string> args)
+{
+    DEV_CONSOLE_MESSAGE("You called this with " + std::to_string(args.size()) + " arguments", 5);
+}
+
+void Command_Die(std::vector<std::string> args)
+{
+    FakeObjStruct fake;
+    fake.field_4_typeId = 30;
+    // Dont judge me on the line bellow paul :P
+    // It calls to vtable offset 19
+    ((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(sControlledCharacter_5C1B8C)+76)))(sControlledCharacter_5C1B8C, 0, reinterpret_cast<BaseGameObject*>(&fake));
+}
+
+void Command_Murder(std::vector<std::string> args)
+{
+    FakeObjStruct fake;
+    fake.field_4_typeId = 30;
+
+    for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+    {
+        BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
+
+        if (!pBaseGameObject)
+        {
+            break;
+        }
+
+        if (pBaseGameObject == sActiveHero_5C1B68)
+        {
+            continue;
+        }
+
+        if (pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAliveGameObject)
+        {
+            auto aliveObj = ((BaseAliveGameObject*)pBaseGameObject);
+            ((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(aliveObj)+76)))(aliveObj, 0, reinterpret_cast<BaseGameObject*>(&fake));
+        }
+    }
+}
+
+void Command_DDCheat(std::vector<std::string> args)
+{
+    sCommandLine_DDCheatEnabled_5CA4B5 = !sCommandLine_DDCheatEnabled_5CA4B5;
+    DEV_CONSOLE_MESSAGE("DDCheat is now " + std::string(((sCommandLine_DDCheatEnabled_5CA4B5) ? "On" : "Off")), 6);
+}
+
+std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
+    { "help", -1, Command_Help, "Shows what you're looking at" },
+    { "test", -1, Command_Test, "Is this thing on?" },
+    { "die", -1, Command_Die, "Kills you." },
+    { "murder", -1, Command_Murder, "Kill everything around you." },
+    { "ddcheat", -1, Command_DDCheat, "Toggle DDCheat" },
+};
 
 class DebugConsole : public BaseGameObject
 {
@@ -174,8 +264,106 @@ public:
         }
     }
 
+    void ParseCommand(std::string command)
+    {
+        command = StringToLower(command);
+        auto commandSplit = SplitString(command, ' ');
+
+        if (commandSplit.size() > 0)
+        {
+            for (auto c : sDebugConsoleCommands)
+            {
+                if (commandSplit[0] == c.command)
+                {
+                    commandSplit.erase(commandSplit.begin());
+
+                    if (c.paramsCount == -1 || c.paramsCount == commandSplit.size())
+                    {
+                        c.callback(commandSplit);
+                    }
+                    else
+                    {
+                        DEV_CONSOLE_MESSAGE("Command '" + c.command + "' was expecting " + std::to_string(c.paramsCount) + " args but got " + std::to_string(commandSplit.size()), 6);
+                    }
+                    
+                    return;
+                }
+            }
+
+            DEV_CONSOLE_MESSAGE("Unknown command '" + command + "' Type help for more info.", 6);
+        }
+    }
+
+    std::string GetAutoComplete(std::string s)
+    {
+        s = StringToLower(s);
+        for (auto c : sDebugConsoleCommands)
+        {
+            if (StringStartsWith(c.command, s))
+            {
+                return c.command;
+            }
+        }
+
+        return "";
+    }
+
     virtual void VUpdate() override
     {
+        auto key = Input_ReadKey_492610();
+
+        if (GetAsyncKeyState(VK_OEM_3) & 0x1)
+        {
+            mCommandLineEnabled = !mCommandLineEnabled;
+
+            if (mCommandLineEnabled)
+                Input_DisableInput_4EDDC0();
+            else
+                Input_EnableInput_4EDDD0();
+        }
+
+        const char * allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-+@#$%^&*()_";
+
+        if (mCommandLineEnabled && key > 0)
+        {
+            switch (key)
+            {
+            case VK_BACK:
+                if (mCommandLineInput.size() > 0)
+                {
+                    mCommandLineInput.pop_back();
+                }
+                break;
+            case VK_RETURN:
+                ParseCommand(mCommandLineInput);
+                mCommandLineInput.clear();
+                mCommandLineEnabled = false;
+                Input_EnableInput_4EDDD0();
+                Input_Reset_492660();
+                break;
+            case VK_TAB:
+                if (mAutoComplete.size() > 0)
+                {
+                    mCommandLineInput = mAutoComplete;
+                }
+                break;
+            default:
+                if (strspn(&key, allowedChars))
+                {
+                    mCommandLineInput += key;
+                }
+                break;
+            }
+
+            if (mCommandLineInput.size() > 0)
+            {
+                mAutoComplete = GetAutoComplete(mCommandLineInput);
+            }
+            else
+            {
+                mAutoComplete = "";
+            }
+        }
     }
 
     virtual void vsub_4DC0A0() override
@@ -193,8 +381,8 @@ public:
             /*it++*/)
         {
             auto message = it;
-            char color = max(0, min(message->time * 5, 255));
-            int targetY = 232 - (i * 9);
+            char color = max(0, min(message->time * 10, 255));
+            int targetY = 232 - (i * 9) - 9;
 
             message->y += (targetY - message->y) * 0.2f;
 
@@ -212,11 +400,22 @@ public:
                 ++it;
             }
         }
+
+        if (mCommandLineEnabled)
+        {
+            std::string trail = (sGnFrame_5C1B84 % 10 < 5) ? "" : "_";
+            pIndex = mFont.DrawString_4337D0(pOrderingTable, (">" + mCommandLineInput + trail).c_str(), 0, 232, 0, 1, 0, 40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(pOrderingTable, (" " + mAutoComplete).c_str(), 0, 232, 0, 1, 0, 40, 30, 30, 30, pIndex, FP_FromDouble(1.0), 640, 0);
+        }
     }
 
     Font mFont;
     char mFontPalette[32];
     Font_Context mFontContext;
+
+    bool mCommandLineEnabled = false;
+    std::string mCommandLineInput;
+    std::string mAutoComplete;
 };
 
 void DebugHelpers_Init() {
@@ -231,4 +430,50 @@ std::vector<BYTE> FS::ReadFile(std::string filePath)
     std::ifstream f(filePath, std::ios::binary);
     std::vector<BYTE> v(std::istreambuf_iterator<char>{f}, {});
     return v;
+}
+
+std::vector<std::string> SplitString(const std::string& s, char seperator)
+{
+    std::vector<std::string> output;
+
+    std::string::size_type prev_pos = 0, pos = 0;
+
+    while ((pos = s.find(seperator, pos)) != std::string::npos)
+    {
+        std::string substring(s.substr(prev_pos, pos - prev_pos));
+
+        output.push_back(substring);
+
+        prev_pos = ++pos;
+    }
+
+    output.push_back(s.substr(prev_pos, pos - prev_pos)); // Last word
+
+    return output;
+}
+
+bool StringStartsWith(std::string mainStr, std::string toMatch)
+{
+    // std::string::find returns 0 if toMatch is found at starting
+    if (mainStr.find(toMatch) == 0)
+        return true;
+    else
+        return false;
+}
+
+std::string StringToLower(std::string s)
+{
+    std::string r;
+    for (auto c : s)
+    {
+        char l = c;
+        if (l >= 65 && l <= 90)
+        {
+            l += 32;
+        }
+
+        r += l;
+    }
+
+    return r;
 }

@@ -463,3 +463,14 @@ void Abe::dtor_44B350(signed int flags)
 {
     NOT_IMPLEMENTED();
 }
+
+void Abe::Knockback_44E700(__int16 a2, __int16 a3)
+{
+    NOT_IMPLEMENTED();
+}
+
+bool Abe::vsub_Kill_44BB50(BaseGameObject * otherObj)
+{
+    NOT_IMPLEMENTED();
+    return false;
+}

@@ -43,6 +43,16 @@ EXPORT void CC Input_Init_491BC0()
     NOT_IMPLEMENTED();
 }
 
+EXPORT char Input_ReadKey_492610()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Input_Reset_492660()
+{
+    NOT_IMPLEMENTED();
+}
+
 // Zeros the input key state array.
 EXPORT void CC Input_InitKeyStateArray_4EDD60()
 {

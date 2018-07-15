@@ -78,6 +78,9 @@ public:
     EXPORT static signed int CC CreateFromSaveState_44D4F0(char *a1);
     virtual void VDestructor(signed int flags) override;
     EXPORT void dtor_44B350(signed int flags);
+
+    EXPORT void Knockback_44E700(__int16 a2, __int16 a3);
+    EXPORT bool vsub_Kill_44BB50(BaseGameObject *otherObj); // PART OF VTABLE
 public:
     __int16 field_116;
     __int16 field_118;
