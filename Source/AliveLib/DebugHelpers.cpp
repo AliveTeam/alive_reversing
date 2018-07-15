@@ -108,8 +108,94 @@ public:
     Font_Context mFontContext;
 };
 
+struct DebugConsoleMessage
+{
+    std::string message;
+    int time;
+    float y;
+};
+
+static std::vector<DebugConsoleMessage> sDebugConsoleMessages;
+
+void ShowDebugConsoleMessage(std::string message, float duration)
+{
+    sDebugConsoleMessages.push_back({ message, static_cast<int>(30 * duration), 250 });
+}
+
+class DebugConsole : public BaseGameObject
+{
+public:
+    DebugConsole()
+    {
+        DisableVTableHack disableHack;
+
+        BaseGameObject_ctor_4DBFA0(1, 1);
+        field_6_flags |= BaseGameObject::eDrawable | 0x100;
+        field_4_typeId = (BaseGameObject::Types)1002;
+        mFontContext.LoadFontTypeFromFile("Debug.Font", "Debug.Font_Atlas", mFontPalette);
+        mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+
+        gObjList_drawables_5C1124->Push_Back(this);
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    virtual void VUpdate() override
+    {
+    }
+
+    virtual void vsub_4DC0A0() override
+    {
+        // Dont kill!
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        int pIndex = 0;
+
+        int i = 0;
+        for (std::vector<DebugConsoleMessage>::iterator it = sDebugConsoleMessages.begin();
+            it != sDebugConsoleMessages.end();
+            /*it++*/)
+        {
+            auto message = it;
+            char color = max(0, min(message->time * 5, 255));
+            int targetY = 232 - (i * 9);
+
+            message->y += (targetY - message->y) * 0.2f;
+
+            pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 0, static_cast<int>(message->y), 0, 1, 0, 40, color, color, color, pIndex, FP_FromDouble(1.0), 640, 0);
+        
+            message->time--;
+
+            if (message->time <= 0)
+            {
+                it = sDebugConsoleMessages.erase(it);
+            }
+            else
+            {
+                i++;
+                ++it;
+            }
+        }
+    }
+
+    Font mFont;
+    char mFontPalette[32];
+    Font_Context mFontContext;
+};
+
 void DebugHelpers_Init() {
-    auto objDebugger = alive_new<ObjectDebugger>();
+    alive_new<ObjectDebugger>();
+    alive_new<DebugConsole>();
+
+    DEV_CONSOLE_MESSAGE("Debug Helpers RUNNING!", 4);
 }
 
 std::vector<BYTE> FS::ReadFile(std::string filePath)

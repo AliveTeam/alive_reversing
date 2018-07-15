@@ -3,6 +3,7 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
+#include "DebugHelpers.hpp"
 #include <iomanip>
 
 // MACROS
@@ -617,12 +618,12 @@ void DestroyAllObjects()
 }
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
-    { "Destroy Alive Objs", [](CustomPauseMenu * pm) { DestroyAliveObjects(); pm->ClosePauseMenu(); } },
-    { "Destroy All Objects", [](CustomPauseMenu * pm) { DestroyAllObjects(); pm->ClosePauseMenu(); } },
-    { "Save All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; } },
-    { "Kill All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; } },
-    { "Give Rocks", [](CustomPauseMenu * pm) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; } },
-    { "Open All Doors", [](CustomPauseMenu * pm) { memset(sSwitchStates_5C1A28, 1, 256); pm->ClosePauseMenu(); } },
+    { "Destroy Alive Objs", [](CustomPauseMenu * pm) { DestroyAliveObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4); } },
+    { "Destroy All Objects", [](CustomPauseMenu * pm) { DestroyAllObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed All Objects", 4); } },
+    { "Save All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
+    { "Kill All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
+    { "Give Rocks", [](CustomPauseMenu * pm) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
+    { "Open All Doors", [](CustomPauseMenu * pm) { memset(sSwitchStates_5C1A28, 1, 256); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4); } },
 });
 CustomPauseMenu devCheatsMenu(&devCheatsMenuItems, "Cheats");
 

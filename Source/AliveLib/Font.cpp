@@ -260,7 +260,7 @@ void Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atla
 
     if (!debugFont.size() || !debugFontAtlas.size())
     {
-        ALIVE_FATAL("Could not load custom font!");
+        // ALIVE_FATAL("Could not load custom font!");  - ;)
         return;
     }
 
