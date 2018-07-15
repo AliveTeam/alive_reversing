@@ -96,3 +96,10 @@ public:
 void DebugHelpers_Init() {
     auto objDebugger = alive_new<ObjectDebugger>();
 }
+
+std::vector<BYTE> FS::ReadFile(std::string filePath)
+{
+    std::ifstream f(filePath, std::ios::binary);
+    std::vector<BYTE> v(std::istreambuf_iterator<char>{f}, {});
+    return v;
+}

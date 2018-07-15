@@ -9,3 +9,8 @@
 
 void DebugHelpers_Init();
 
+// File System
+namespace FS
+{
+    std::vector<BYTE> ReadFile(std::string filePath);
+}

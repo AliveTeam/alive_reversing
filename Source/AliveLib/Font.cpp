@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Font.hpp"
 #include "Function.hpp"
-
+#include "DebugHelpers.hpp"
 #include "FixedPoint.hpp"
 
 void Font_ForceLink()
@@ -15,6 +15,8 @@ ALIVE_VAR(1, 0x5BC5D8, Font_Context, sFont2Context_5BC5D8, {});
 ALIVE_VAR(1, 0x5c9304, char, sDisableFontFlicker_5C9304, 0);
 
 ALIVE_VAR(1, 0x5ca4b4, byte, byte_5CA4B4, 0);
+
+static std::vector<std::vector<BYTE>> sLoadedAtlas;
 
 EXPORT signed __int16 __cdecl Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCount)
 {
@@ -253,33 +255,18 @@ void Font_Context::LoadFontType_433400(int resourceID)
 
 void Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut)
 {
-    std::ifstream debugFont(fontPath, std::ios::binary | std::ios::ate);
-    std::ifstream debugFontAtlas(atlasPath, std::ios::binary | std::ios::ate);
-    if (debugFont.fail() || debugFontAtlas.fail())
+    auto debugFont = FS::ReadFile(fontPath);
+    auto debugFontAtlas = FS::ReadFile(atlasPath);
+
+    if (!debugFont.size() || !debugFontAtlas.size())
     {
-        debugFont.close();
-        debugFontAtlas.close();
+        ALIVE_FATAL("Could not load custom font!");
         return;
     }
 
-    char * newFont = new char[debugFont.tellg()];
-    int fontSize = debugFont.tellg();
-    debugFont.seekg(0);
-    debugFont.read(newFont, fontSize);
-    auto fontFile = (File_Font*)newFont;
-    
-    char * fontAtlas = new char[debugFontAtlas.tellg()];
-    int fontAtlasSize = debugFontAtlas.tellg();
-    debugFontAtlas.seekg(0);
-    debugFontAtlas.read(fontAtlas, fontAtlasSize);
+    sLoadedAtlas.push_back(debugFontAtlas);
 
-    LoadFontTypeCustom(fontFile, (Font_AtlasEntry*)fontAtlas, pPaletteOut);
-
-    delete[] newFont;
-    
-    // TODO: Currently, font atlases are leaked in memory.
-    // A more better system will eventually replace this.
-    //delete[] fontAtlas;
+    LoadFontTypeCustom(reinterpret_cast<File_Font*>(debugFont.data()), reinterpret_cast<Font_AtlasEntry*>(sLoadedAtlas.back().data()), pPaletteOut);
 }
 
 void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut)
