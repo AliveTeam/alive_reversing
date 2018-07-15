@@ -104,11 +104,26 @@ EXPORT char CC SYS_PumpMessages_4EE4F4()
 }
 
 ALIVE_VAR(1, 0xBD0F08, char, byte_BD0F08, 0);
+ALIVE_VAR(1, 0x55EFDC, double, sFps_55EFDC, 0.0);
+ALIVE_VAR(1, 0x5CA4DC, int, sFrameDiff_5CA4DC, 0);
 
-EXPORT double __cdecl Calculate_FPS_495250(int frameCount)
+EXPORT double CC Calculate_FPS_495250(int frameCount)
 {
-    NOT_IMPLEMENTED();
-    return 1.0;
+    static DWORD sLastTime_5CA338 = timeGetTime() - 500;
+    const DWORD curTime = timeGetTime();
+    const int timeDiff = curTime - sLastTime_5CA338;
+
+    if (static_cast<signed int>((curTime - sLastTime_5CA338)) < 500)
+    {
+        return sFps_55EFDC;
+    }
+
+    const int diffFrames = frameCount - sFrameDiff_5CA4DC;
+    sFps_55EFDC = static_cast<double>(diffFrames) * 1000.0 / static_cast<double>(timeDiff);
+
+    sLastTime_5CA338 = curTime;
+    sFrameDiff_5CA4DC = frameCount;
+    return sFps_55EFDC;
 }
 
 EXPORT void __cdecl sub_4ED970(int x, int y, int w, int h)

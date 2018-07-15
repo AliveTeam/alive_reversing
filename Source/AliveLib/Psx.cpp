@@ -36,7 +36,7 @@ ALIVE_VAR(1, 0xC1D1A0, Bitmap, stru_C1D1A0, {}); // Note: never used?
 ALIVE_VAR(1, 0xC2D060, PSX_DISPENV, sLastDispEnv_C2D060, {});
 ALIVE_VAR(1, 0xBD146D, BYTE, sScreenMode_BD146D, 0);
 ALIVE_VAR(1, 0xBD0F20, BYTE, byte_BD0F20, 0);
-ALIVE_VAR(1, 0x578324, BYTE, byte_578324, 0);
+ALIVE_VAR(1, 0x578324, BYTE, byte_578324, 1);
 
 
 ALIVE_ARY(1, 0xC14620, char, 128, sCdEmu_Path1_C14620, {});
