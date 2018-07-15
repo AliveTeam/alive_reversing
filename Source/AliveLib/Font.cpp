@@ -253,20 +253,21 @@ void Font_Context::LoadFontType_433400(int resourceID)
     }
 }
 
-void Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut)
+bool Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut)
 {
     auto debugFont = FS::ReadFile(fontPath);
     auto debugFontAtlas = FS::ReadFile(atlasPath);
 
     if (!debugFont.size() || !debugFontAtlas.size())
     {
-        // ALIVE_FATAL("Could not load custom font!");  - ;)
-        return;
+        LOG_ERROR("Could not load custom font!");
+        return false;
     }
 
     sLoadedAtlas.push_back(debugFontAtlas);
 
     LoadFontTypeCustom(reinterpret_cast<File_Font*>(debugFont.data()), reinterpret_cast<Font_AtlasEntry*>(sLoadedAtlas.back().data()), pPaletteOut);
+    return true;
 }
 
 void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut)

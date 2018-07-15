@@ -28,14 +28,30 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags |= BaseGameObject::eDrawable | 0x100;
         field_4_typeId = (BaseGameObject::Types)1001;
-        mFontContext.LoadFontTypeFromFile("Debug.Font", "Debug.Font_Atlas", mFontPalette);
+        if (!mFontContext.LoadFontTypeFromFile("Debug.Font", "Debug.Font_Atlas", mFontPalette))
+        {
+            field_6_flags = BaseGameObject::eDead;
+            return;
+        }
+
         mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
 
+    ~ObjectDebugger()
+    {
+    }
+
+    void Destruct()
+    {
+        BaseGameObject_dtor_4DBEC0();
+        gObjList_drawables_5C1124->Remove_Item(this);
+    }
+
     virtual void VDestructor(signed int flags) override
     {
+        Destruct();
         if (flags & 1)
         {
             Mem_Free_495540(this);
@@ -132,14 +148,26 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags |= BaseGameObject::eDrawable | 0x100;
         field_4_typeId = (BaseGameObject::Types)1002;
-        mFontContext.LoadFontTypeFromFile("Debug.Font", "Debug.Font_Atlas", mFontPalette);
+        if (!mFontContext.LoadFontTypeFromFile("Debug.Font", "Debug.Font_Atlas", mFontPalette))
+        {
+            field_6_flags = BaseGameObject::eDead;
+            return;
+        }
+
         mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
 
+    void Destruct()
+    {
+        BaseGameObject_dtor_4DBEC0();
+        gObjList_drawables_5C1124->Remove_Item(this);
+    }
+
     virtual void VDestructor(signed int flags) override
     {
+        Destruct();
         if (flags & 1)
         {
             Mem_Free_495540(this);
