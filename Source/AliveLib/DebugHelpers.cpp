@@ -43,6 +43,8 @@ public:
     {
     }
 
+    static bool Enabled;
+
     void Destruct()
     {
         BaseGameObject_dtor_4DBEC0();
@@ -82,6 +84,9 @@ public:
 
     virtual void VRender(int** pOrderingTable) override
     {
+        if (!Enabled)
+            return;
+
         int pIndex = 0;
         for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
@@ -123,6 +128,7 @@ public:
     char mFontPalette[32];
     Font_Context mFontContext;
 };
+bool ObjectDebugger::Enabled = false;
 
 struct DebugConsoleMessage
 {
@@ -220,12 +226,19 @@ void Command_DDCheat(std::vector<std::string> args)
     DEV_CONSOLE_MESSAGE("DDCheat is now " + std::string(((sCommandLine_DDCheatEnabled_5CA4B5) ? "On" : "Off")), 6);
 }
 
+void Command_ObjectId(std::vector<std::string> args)
+{
+    ObjectDebugger::Enabled = !ObjectDebugger::Enabled;
+    DEV_CONSOLE_MESSAGE("Object ID Debugger is now " + std::string(((ObjectDebugger::Enabled) ? "On" : "Off")), 6);
+}
+
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "help", -1, Command_Help, "Shows what you're looking at" },
     { "test", -1, Command_Test, "Is this thing on?" },
     { "die", -1, Command_Die, "Kills you." },
     { "murder", -1, Command_Murder, "Kill everything around you." },
     { "ddcheat", -1, Command_DDCheat, "Toggle DDCheat" },
+    { "object_id", -1, Command_ObjectId, "Shows object id's on screen" },
 };
 
 class DebugConsole : public BaseGameObject
