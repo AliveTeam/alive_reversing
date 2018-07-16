@@ -10,11 +10,8 @@
 
 void DebugHelpers_Init();
 
-#ifdef DEVELOPER_MODE
 #define DEV_CONSOLE_MESSAGE(message, duration) ShowDebugConsoleMessage(message, duration);
-#else
-#define DEV_CONSOLE_MESSAGE(message, duration)
-#endif
+#define DEV_CONSOLE_MESSAGE_C(message, duration, r, g, b) ShowDebugConsoleMessage(message, duration, r, g, b);
 
 // File System
 namespace FS

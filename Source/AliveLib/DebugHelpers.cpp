@@ -124,18 +124,24 @@ struct DebugConsoleMessage
     std::string message;
     int time;
     float y;
+    char r, g, b;
 };
 
 static std::vector<DebugConsoleMessage> sDebugConsoleMessages;
 
-void ShowDebugConsoleMessage(std::string message, float duration)
+void ShowDebugConsoleMessage(std::string message, float duration, char r, char g, char b)
 {
     auto lines = SplitString(message, '\n');
     
     for (auto l : lines)
     {
-        sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), { l, static_cast<int>(30 * duration), 250 });
+        sDebugConsoleMessages.insert(sDebugConsoleMessages.begin(), { l, static_cast<int>(30 * duration), 250, r, g, b });
     }
+}
+
+void ShowDebugConsoleMessage(std::string message, float duration)
+{
+    ShowDebugConsoleMessage(message, duration, 255, 255, 255);
 }
 
 struct FakeObjStruct
@@ -230,16 +236,10 @@ void Command_HelperUpdate()
     }
 }
 
-void Command_DDCheat(std::vector<std::string> args)
+void Command_ToggleBool(bool * var, std::string varName)
 {
-    sCommandLine_DDCheatEnabled_5CA4B5 = !sCommandLine_DDCheatEnabled_5CA4B5;
-    DEV_CONSOLE_MESSAGE("DDCheat is now " + std::string(((sCommandLine_DDCheatEnabled_5CA4B5) ? "On" : "Off")), 6);
-}
-
-void Command_ObjectId(std::vector<std::string> args)
-{
-    ObjectDebugger::Enabled = !ObjectDebugger::Enabled;
-    DEV_CONSOLE_MESSAGE("Object ID Debugger is now " + std::string(((ObjectDebugger::Enabled) ? "On" : "Off")), 6);
+    *var = !*var;
+    DEV_CONSOLE_MESSAGE(varName + " is now " + std::string(((*var) ? "On" : "Off")), 6);
 }
 
 void Command_Teleport(std::vector<std::string> args)
@@ -260,8 +260,10 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "test", -1, Command_Test, "Is this thing on?" },
     { "die", -1, Command_Die, "Kills you." },
     { "murder", -1, Command_Murder, "Kill everything around you." },
-    { "ddcheat", -1, Command_DDCheat, "Toggle DDCheat" },
-    { "object_id", -1, Command_ObjectId, "Shows object id's on screen" },
+    { "ddcheat", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sCommandLine_DDCheatEnabled_5CA4B5, "DDCheat"); }, "Toggle DDCheat" },
+    { "object_id", -1, [](std::vector<std::string> args) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
+    { "no_frame_skip", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
+    { "fps", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
     { "open_doors", -1, [](std::vector<std::string> args) { Cheat_OpenAllDoors(); }, "Open all doors." },
     { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
 };
@@ -317,14 +319,14 @@ public:
                     }
                     else
                     {
-                        DEV_CONSOLE_MESSAGE("Command '" + c.command + "' was expecting " + std::to_string(c.paramsCount) + " args but got " + std::to_string(commandSplit.size()), 6);
+                        DEV_CONSOLE_MESSAGE_C("Command '" + c.command + "' was expecting " + std::to_string(c.paramsCount) + " args but got " + std::to_string(commandSplit.size()), 6, 127, 0, 0);
                     }
                     
                     return;
                 }
             }
 
-            DEV_CONSOLE_MESSAGE("Unknown command '" + command + "' Type help for more info.", 6);
+            DEV_CONSOLE_MESSAGE_C("Unknown command '" + command + "' Type help for more info.", 6, 127, 0, 0);
         }
     }
 
@@ -428,7 +430,7 @@ public:
 
             message->y += (targetY - message->y) * 0.2f;
 
-            pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 0, static_cast<int>(message->y), 0, 1, 0, 40, color, color, color, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 0, static_cast<int>(message->y), 0, 1, 0, 40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
         
             message->time--;
 
@@ -714,7 +716,7 @@ void DebugHelpers_Init() {
         alive_new<ObjectDebugger>();
         alive_new<DebugConsole>();
 
-        DEV_CONSOLE_MESSAGE("Debug Console Active. Open with ~ (Tilde)", 7);
+        DEV_CONSOLE_MESSAGE_C("Debug Console Active. Open with ~ (Tilde)", 7, 0, 150, 255);
     }
 
     // Test rendering diff prim types
