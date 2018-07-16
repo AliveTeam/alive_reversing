@@ -87,7 +87,7 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags & BaseGameObject::eBit04)
+            if (pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAnimatedWithPhysicsObj)
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
                 int x = aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset_x.GetExponent();

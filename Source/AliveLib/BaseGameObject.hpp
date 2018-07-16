@@ -35,7 +35,7 @@ public:
         eDrawable = 0x008,
 
         // bit 04 = 0x010 = set by BaseAnimatedWithPhysicsGameObject
-        eBit04 = 0x010,
+        eIsBaseAnimatedWithPhysicsObj = 0x010,
 
         // bit 05 = 0x020 = set by BaseAliveGameObject
         eIsBaseAliveGameObject = 0x020,
