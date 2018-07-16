@@ -9,15 +9,7 @@
 #include "ResourceManager.hpp"
 #include "Font.hpp"
 #include "DDCheat.hpp"
-
-//#ifdef DEVELOPER_MODE
-//static Font_Context debugFont;
-//static ;
-//debugFont.LoadFontTypeFromFile("Debug.Font", "Debug.Font_Atlas", debugFontPalette);
-//field_F4_font.ctor_433590(256, reinterpret_cast<BYTE*>(debugFontPalette), &debugFont);
-//#else
-//
-//#endif
+#include "Resources.hpp"
 
 class ObjectDebugger : public BaseGameObject
 {
@@ -29,12 +21,8 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags |= BaseGameObject::eDrawable | 0x100;
         field_4_typeId = (BaseGameObject::Types)1001;
-        if (!mFontContext.LoadFontTypeFromFile("Debug.Font", "Debug.Font_Atlas", mFontPalette))
-        {
-            field_6_flags = BaseGameObject::eDead;
-            return;
-        }
 
+        mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
@@ -288,12 +276,8 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags |= BaseGameObject::eDrawable | 0x100;
         field_4_typeId = (BaseGameObject::Types)1002;
-        if (!mFontContext.LoadFontTypeFromFile("Debug.Font", "Debug.Font_Atlas", mFontPalette))
-        {
-            field_6_flags = BaseGameObject::eDead;
-            return;
-        }
-
+        
+        mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);

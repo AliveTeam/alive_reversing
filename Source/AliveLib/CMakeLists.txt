@@ -67,6 +67,8 @@ add_library(AliveLib
     Io.hpp
     FixedPoint.hpp
     FixedPoint.cpp
+    Resources.hpp
+    Resources.cpp
     Font.hpp
     Font.cpp
     DebugHelpers.hpp
