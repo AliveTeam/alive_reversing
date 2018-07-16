@@ -236,3 +236,14 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     NOT_IMPLEMENTED();
     return nullptr;
 }
+
+void BaseAnimatedWithPhysicsGameObject::dtor_408210(signed int flags)
+{
+    NOT_IMPLEMENTED();
+}
+
+void BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
+{
+    dtor_408210(flags);
+}
+

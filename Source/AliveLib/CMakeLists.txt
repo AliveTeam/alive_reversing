@@ -73,6 +73,8 @@ add_library(AliveLib
     Font.cpp
     DebugHelpers.hpp
     DebugHelpers.cpp
+    Events.cpp
+    Events.hpp
     WinMain.cpp
     WinMain.hpp)
 

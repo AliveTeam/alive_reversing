@@ -24,6 +24,7 @@
 #include "CreditsController.hpp"
 #include "Font.hpp"
 #include "FixedPoint.hpp"
+#include "Events.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -38,6 +39,7 @@ static void RunTests()
     Test::PsxDisplayTests();
     Test::PsxTests();
     Test::GameTests();
+    Test::EventTests();
 }
 
 static void InitOtherHooksAndRunTests()

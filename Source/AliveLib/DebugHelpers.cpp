@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #include "stdafx.h"
 #include "DebugHelpers.hpp"
 #include "stdlib.hpp"
@@ -463,7 +464,6 @@ public:
     std::string mLastCommand;
 };
 
-
 class RenderTest : public BaseGameObject
 {
 public:
@@ -710,7 +710,8 @@ private:
     // TODO: Test Poly_FT4
 };
 
-void DebugHelpers_Init() {
+void DebugHelpers_Init() 
+{
     if (IsAlive())
     {
         alive_new<ObjectDebugger>();

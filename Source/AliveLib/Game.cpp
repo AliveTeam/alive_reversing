@@ -28,6 +28,7 @@
 #include <atomic>
 #include <fstream>
 #include "DebugHelpers.hpp"
+#include "Events.hpp"
 #include <gmock/gmock.h>
 
 void Game_ForceLink() { }
@@ -898,11 +899,6 @@ EXPORT void CC Game_Main_4949F0()
     Game_Shutdown_4F2C30();
 }
 
-EXPORT void CC sub_422DA0()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC sub_449A90()
 {
     NOT_IMPLEMENTED();
@@ -917,7 +913,7 @@ EXPORT void CC Game_Loop_467230()
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObject_list_BB47C4->IsEmpty())
     {
-        sub_422DA0();
+        Events_Reset_Active_422DA0();
         sub_449A90();
         word_5C2FA0 = 0;
 

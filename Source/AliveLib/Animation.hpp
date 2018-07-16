@@ -107,6 +107,10 @@ public:
     BaseAnimatedWithPhysicsGameObject() {}
     BaseAnimatedWithPhysicsGameObject(signed __int16 resourceArraySize);
     EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize);
+    
+    EXPORT void dtor_408210(signed int flags);
+    virtual void VDestructor(signed int flags);
+
 public:
     // VTable @ 0x544C9C
     /*
