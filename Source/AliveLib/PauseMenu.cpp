@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Map.hpp"
 #include "DebugHelpers.hpp"
+#include "SwitchStates.hpp"
 #include <iomanip>
 
 // MACROS

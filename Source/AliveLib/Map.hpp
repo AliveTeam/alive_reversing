@@ -40,4 +40,3 @@ public:
 ALIVE_ASSERT_SIZEOF(Map, 0x30);
 
 ALIVE_VAR_EXTERN(Map, gMap_5C3030);
-ALIVE_ARY_EXTERN(char, 256, sSwitchStates_5C1A28);

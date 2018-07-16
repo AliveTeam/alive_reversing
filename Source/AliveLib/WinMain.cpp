@@ -25,6 +25,7 @@
 #include "Font.hpp"
 #include "FixedPoint.hpp"
 #include "Events.hpp"
+#include "SwitchStates.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -61,6 +62,7 @@ static void InitOtherHooksAndRunTests()
     Font_ForceLink();
     Primitives_ForceLink();
     FixedPoint_ForceLink();
+    SwitchStates_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

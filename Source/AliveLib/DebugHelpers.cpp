@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 #include "stdafx.h"
 #include "DebugHelpers.hpp"
 #include "stdlib.hpp"
@@ -11,6 +10,7 @@
 #include "Font.hpp"
 #include "DDCheat.hpp"
 #include "Resources.hpp"
+#include "SwitchStates.hpp"
 
 class ObjectDebugger : public BaseGameObject
 {
@@ -796,6 +796,10 @@ BaseGameObject * FindObjectOfType(int id)
 
 void Cheat_OpenAllDoors()
 {
-    memset(sSwitchStates_5C1A28, 1, 256);
+    for (int i = 0; i < 256; i++)
+    {
+        SwitchStates_Set_465FF0(i, 1);
+    }
+
     DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4);
 }

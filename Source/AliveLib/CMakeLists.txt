@@ -75,6 +75,8 @@ add_library(AliveLib
     DebugHelpers.cpp
     Events.cpp
     Events.hpp
+    SwitchStates.hpp
+    SwitchStates.cpp
     WinMain.cpp
     WinMain.hpp)
 
