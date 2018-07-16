@@ -571,12 +571,7 @@ public:
     PauseMenu::PauseMenuPage mMenuPage;
 };
 
-std::vector<CustomPauseMenuItem> devTeleportMenuItems({
-    { "Mines", [](CustomPauseMenu * pm) {} },
-    { "Feeco Depot", [](CustomPauseMenu * pm) {} },
-    { "Test", [](CustomPauseMenu * pm) {} },
-    { "Credits", [](CustomPauseMenu * pm) {} },
-});
+std::vector<CustomPauseMenuItem> devTeleportMenuItems;
 CustomPauseMenu devTeleportMenu(&devTeleportMenuItems, "Level Select");
 
 void DestroyAliveObjects()
@@ -623,7 +618,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
     { "Save All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
     { "Kill All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
     { "Give Rocks", [](CustomPauseMenu * pm) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
-    { "Open All Doors", [](CustomPauseMenu * pm) { memset(sSwitchStates_5C1A28, 1, 256); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4); } },
+    { "Open All Doors", [](CustomPauseMenu * pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
 });
 CustomPauseMenu devCheatsMenu(&devCheatsMenuItems, "Cheats");
 

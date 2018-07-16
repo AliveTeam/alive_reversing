@@ -18,7 +18,7 @@ void Map::sub_4804E0()
     NOT_IMPLEMENTED();
 }
 
-void Map::sub_480680(__int16 * point)
+void Map::GetCurrentCamCoords_480680(POINT16 * point)
 {
     NOT_IMPLEMENTED();
 }

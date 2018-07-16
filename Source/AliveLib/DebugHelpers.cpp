@@ -8,6 +8,7 @@
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Font.hpp"
+#include "DDCheat.hpp"
 
 //#ifdef DEVELOPER_MODE
 //static Font_Context debugFont;
@@ -220,6 +221,27 @@ void Command_Murder(std::vector<std::string> args)
     }
 }
 
+bool sHasTeleported = false;
+void Command_HelperUpdate()
+{
+    if (sHasTeleported)
+    {
+        POINT16 pos;
+        gMap_5C3030.GetCurrentCamCoords_480680(&pos);
+
+        sActiveHero_5C1B68->field_B8_xpos = FP(pos.x + 184);
+        sActiveHero_5C1B68->field_BC_ypos = FP(pos.y + 60);
+        sHasTeleported = false;
+        sActiveHero_5C1B68->field_106_animation_num = 3;
+        sActiveHero_5C1B68->field_1AC |= 0x40;
+        sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
+        sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+        sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
+        sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
+        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+    }
+}
+
 void Command_DDCheat(std::vector<std::string> args)
 {
     sCommandLine_DDCheatEnabled_5CA4B5 = !sCommandLine_DDCheatEnabled_5CA4B5;
@@ -232,6 +254,19 @@ void Command_ObjectId(std::vector<std::string> args)
     DEV_CONSOLE_MESSAGE("Object ID Debugger is now " + std::string(((ObjectDebugger::Enabled) ? "On" : "Off")), 6);
 }
 
+void Command_Teleport(std::vector<std::string> args)
+{
+    int level = std::stoi(args[0]);
+    int path = std::stoi(args[1]);
+    int cam = std::stoi(args[2]);
+    gMap_5C3030.sub_480D30(level, path, cam, 5, 0, 0);
+    
+
+    sHasTeleported = true;
+
+    DEV_CONSOLE_MESSAGE("Teleported", 6);
+}
+
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "help", -1, Command_Help, "Shows what you're looking at" },
     { "test", -1, Command_Test, "Is this thing on?" },
@@ -239,6 +274,8 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "murder", -1, Command_Murder, "Kill everything around you." },
     { "ddcheat", -1, Command_DDCheat, "Toggle DDCheat" },
     { "object_id", -1, Command_ObjectId, "Shows object id's on screen" },
+    { "open_doors", -1, [](std::vector<std::string> args) { Cheat_OpenAllDoors(); }, "Open all doors." },
+    { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
 };
 
 class DebugConsole : public BaseGameObject
@@ -323,9 +360,11 @@ public:
 
     virtual void VUpdate() override
     {
+        Command_HelperUpdate();
+
         auto key = Input_ReadKey_492610();
 
-        if (GetAsyncKeyState(VK_OEM_3) & 0x1)
+        if (GetAsyncKeyState(VK_OEM_3) & 0x1 || GetAsyncKeyState(VK_F9) & 0x1 || GetAsyncKeyState(VK_RSHIFT) & 0x1)
         {
             mCommandLineEnabled = !mCommandLineEnabled;
 
@@ -749,4 +788,27 @@ std::string StringToLower(std::string s)
     }
 
     return r;
+}
+
+BaseGameObject * FindObjectOfType(int id)
+{
+    for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+    {
+        BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
+
+        if (!pBaseGameObject)
+        {
+            break;
+        }
+
+        if (pBaseGameObject->field_4_typeId == id)
+            return pBaseGameObject;
+    }
+    return nullptr;
+}
+
+void Cheat_OpenAllDoors()
+{
+    memset(sSwitchStates_5C1A28, 1, 256);
+    DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4);
 }

@@ -125,7 +125,7 @@ void DDCheat::Menu_Teleport_415E20()
         sDDCheat_FlyingEnabled_5C2C08 = true;
         
         gMap_5C3030.sub_480D30(sTeleport_Level_550F5C, sTeleport_Path_550F5E, sTeleport_Cam_550F60, 0, 0, 0);
-        field_3C_flags |= 0x4000u;
+        field_3C_flags |= 0x4u;
     }
 }
 
@@ -241,10 +241,10 @@ void DDCheat::Update_415780()
             field_3C_flags &= ~0x4;
             if (sActiveHero_5C1B68)
             {
-                __int16 a2[2];
-                gMap_5C3030.sub_480680(a2);
-                sActiveHero_5C1B68->field_B8_xpos = FP(a2[0] + 184);
-                sActiveHero_5C1B68->field_BC_ypos = FP(a2[1] + 60);
+                POINT16 pos;
+                gMap_5C3030.GetCurrentCamCoords_480680(&pos);
+                sActiveHero_5C1B68->field_B8_xpos = FP(pos.x + 184);
+                sActiveHero_5C1B68->field_BC_ypos = FP(pos.y + 60);
                 sActiveHero_5C1B68->field_106_animation_num = 3;
                 sActiveHero_5C1B68->field_1AC |= 0x40;
                 sActiveHero_5C1B68->field_C2_lvl_number = sTeleport_Level_550F5C;

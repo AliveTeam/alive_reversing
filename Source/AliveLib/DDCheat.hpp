@@ -35,9 +35,9 @@ public:
     EXPORT void Menu_Teleport_415E20();
     EXPORT void Menu_Movies_416000();
 
-private:
+public:
     EXPORT void Update_415780();
-private:
+public:
     int field_20;
     __int16 field_24_fn_idx;
     __int16 field_26_next_fn_idx;
