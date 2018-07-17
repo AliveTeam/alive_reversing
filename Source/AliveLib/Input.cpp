@@ -31,6 +31,59 @@ ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
 ALIVE_VAR(1, 0xbd30a0, BOOL, sLastPressedKey_BD30A0, FALSE);
 ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 
+ALIVE_ARY(1, 0x5C9D30, char, 256, sUnknownKeysAry_5C9D30, {});
+ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
+ALIVE_ARY(1, 0x5C9908, const char *, 10, sJoyButtonNames_5C9908, {});
+ALIVE_ARY(1, 0x5C9930, int, 256, sKeyBindings_5C9930, {});
+ALIVE_ARY(1, 0x5C98E0, int, 10, dword_5C98E0, {});
+
+ALIVE_ARY(1, 0x555708, char, 32, sGamePadStr_555708, { "Game Pad" });
+ALIVE_ARY(1, 0x55E85C, char, 32, sGamePadStr_55E85C, { "Game Pad" });
+
+ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
+    { VK_LEFT, eLeft },
+    { VK_RIGHT, eRight },
+    { VK_UP, eUp },
+    { VK_DOWN, eDown },
+    { VK_CONTROL, eDoAction },
+    { VK_MENU, eSneak },
+    { VK_SHIFT, eRun },
+    { VK_SPACE, eHop },
+    { 'Z', eThrowItem },
+    { 'X', eUnPause | eFartOrRoll },
+    { VK_ESCAPE, ePause | 0x200000 },
+    { VK_RETURN, eUnPause | eFartOrRoll },
+    { VK_TAB, eCheatMode },
+    { '1', eGameSpeak1 },
+    { '2', eGameSpeak2 },
+    { '3', eGameSpeak3 },
+    { '4', eGameSpeak4 },
+    { '5', eGameSpeak5 },
+    { '6', eGameSpeak6 },
+    { '7', eGameSpeak7 },
+    { '8', eGameSpeak8 },
+    { '0', eChant },
+    { VK_NUMPAD1, eGameSpeak1 },
+    { VK_NUMPAD2, eGameSpeak2 },
+    { VK_NUMPAD3, eGameSpeak3 },
+    { VK_NUMPAD4, eGameSpeak4 },
+    { VK_NUMPAD5, eGameSpeak5 },
+    { VK_NUMPAD6, eGameSpeak6 },
+    { VK_NUMPAD7, eGameSpeak7 },
+    { VK_NUMPAD8, eGameSpeak8 },
+    { VK_NUMPAD0, eChant },
+    { 'C', 0x80000000 },
+    { VK_PRIOR, 0x20000000 },
+    { VK_NEXT, 0x40000000 },
+    { VK_DELETE, 0x10000000 },
+    { 0, 0 }
+})
+
+int sInputUnknown_55EA2C[] =
+{ 32, 1049088, 128, 2097408, 8388608, 16, 16777216, 64, 0, 1572864 };
+
+
+
 // -- Functions -- //
 
 EXPORT void CC Input_45FF60(float x, float y, DWORD *buttons)
@@ -170,9 +223,173 @@ EXPORT void CC Input_DisableInput_4EDDC0()
     sInputEnabled_BBB9D0 = FALSE;
 }
 
-EXPORT void CC Input_Init_491BC0()
+EXPORT void CC Input_491870()
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Input_LoadSettingsIni_492D40()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int Input_492150()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int(*CC Input_SetCallback_4FA910(int(*a1)(void)))(void)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void Input_InitJoyStick_460080()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Input_Init_491BC0()
+{
+    // This seems so stupid
+    strncpy(sGamePadStr_555708, sGamePadStr_55E85C, 32u);
+    strncpy(sGamePadStr_55E85C, sGamePadStr_555708, 32u);
+
+    memset(sKeyNames_5C9394, 0, 1024);
+    memset(sUnknownKeysAry_5C9D30, 0, 256);
+
+    sUnknownKeysAry_5C9D30[VK_SHIFT] = 1;
+    sUnknownKeysAry_5C9D30[VK_CONTROL] = 1;
+    sUnknownKeysAry_5C9D30[VK_MENU] = 1;
+    sUnknownKeysAry_5C9D30[VK_BACK] = 1;
+    sUnknownKeysAry_5C9D30[VK_INSERT] = 1;
+    sUnknownKeysAry_5C9D30[VK_DELETE] = 1;
+    sUnknownKeysAry_5C9D30[VK_HOME] = 1;
+    sUnknownKeysAry_5C9D30[VK_END] = 1;
+    sUnknownKeysAry_5C9D30[VK_PRIOR] = 1;
+    sUnknownKeysAry_5C9D30[VK_NEXT] = 1;
+    sUnknownKeysAry_5C9D30[VK_SPACE] = 1;
+    sUnknownKeysAry_5C9D30['A'] = 1;
+    sUnknownKeysAry_5C9D30['B'] = 1;
+    sUnknownKeysAry_5C9D30['C'] = 1;
+    sUnknownKeysAry_5C9D30['D'] = 1;
+    sUnknownKeysAry_5C9D30['E'] = 1;
+    sUnknownKeysAry_5C9D30['F'] = 1;
+    sUnknownKeysAry_5C9D30['G'] = 1;
+    sUnknownKeysAry_5C9D30['H'] = 1;
+    sUnknownKeysAry_5C9D30['I'] = 1;
+    sUnknownKeysAry_5C9D30['J'] = 1;
+    sUnknownKeysAry_5C9D30['K'] = 1;
+    sUnknownKeysAry_5C9D30['L'] = 1;
+    sUnknownKeysAry_5C9D30['M'] = 1;
+    sUnknownKeysAry_5C9D30['N'] = 1;
+    sUnknownKeysAry_5C9D30['O'] = 1;
+    sUnknownKeysAry_5C9D30['P'] = 1;
+    sUnknownKeysAry_5C9D30['Q'] = 1;
+    sUnknownKeysAry_5C9D30['R'] = 1;
+    sUnknownKeysAry_5C9D30['S'] = 1;
+    sUnknownKeysAry_5C9D30['T'] = 1;
+    sUnknownKeysAry_5C9D30['U'] = 1;
+    sUnknownKeysAry_5C9D30['V'] = 1;
+    sUnknownKeysAry_5C9D30['W'] = 1;
+    sUnknownKeysAry_5C9D30['X'] = 1;
+    sUnknownKeysAry_5C9D30['Y'] = 1;
+    sUnknownKeysAry_5C9D30['Z'] = 1;
+    sUnknownKeysAry_5C9D30[WM_COMPAREITEM] = 1;
+    sUnknownKeysAry_5C9D30[VK_SEPARATOR] = 1;
+    sUnknownKeysAry_5C9D30[VK_DECIMAL] = 1;
+    sUnknownKeysAry_5C9D30[0] = 1;
+
+    sKeyNames_5C9394[VK_UP] = "\x10";
+    sKeyNames_5C9394[VK_DOWN] = "\x11";
+    sKeyNames_5C9394[VK_LEFT] = "\x12";
+    sKeyNames_5C9394[VK_RIGHT] = "\x13";
+    sKeyNames_5C9394[VK_SHIFT] = "shift";
+    sKeyNames_5C9394[VK_CONTROL] = "ctrl";
+    sKeyNames_5C9394[VK_RETURN] = "enter";
+    sKeyNames_5C9394[VK_ESCAPE] = "esc";
+    sKeyNames_5C9394[VK_BACK] = "bkspc";
+    sKeyNames_5C9394[VK_INSERT] = "ins";
+    sKeyNames_5C9394[VK_DELETE] = "del";
+    sKeyNames_5C9394[VK_HOME] = "home";
+    sKeyNames_5C9394[VK_END] = "end";
+    sKeyNames_5C9394[VK_PRIOR] = "pgup";
+    sKeyNames_5C9394[VK_NEXT] = "pgdn";
+    sKeyNames_5C9394[VK_SPACE] = "space";
+    sKeyNames_5C9394[VK_MENU] = "alt";
+    sKeyNames_5C9394[VK_TAB] = "tab";
+    sKeyNames_5C9394['A'] = "A";
+    sKeyNames_5C9394['B'] = "B";
+    sKeyNames_5C9394['C'] = "C";
+    sKeyNames_5C9394['D'] = "D";
+    sKeyNames_5C9394['E'] = "E";
+    sKeyNames_5C9394['F'] = "F";
+    sKeyNames_5C9394['G'] = "G";
+    sKeyNames_5C9394['H'] = "H";
+    sKeyNames_5C9394['I'] = "I";
+    sKeyNames_5C9394['J'] = "J";
+    sKeyNames_5C9394['K'] = "K";
+    sKeyNames_5C9394['L'] = "L";
+    sKeyNames_5C9394['M'] = "M";
+    sKeyNames_5C9394['N'] = "N";
+    sKeyNames_5C9394['O'] = "O";
+    sKeyNames_5C9394['P'] = "P";
+    sKeyNames_5C9394['Q'] = "Q";
+    sKeyNames_5C9394['R'] = "R";
+    sKeyNames_5C9394['S'] = "S";
+    sKeyNames_5C9394['T'] = "T";
+    sKeyNames_5C9394['U'] = "U";
+    sKeyNames_5C9394['V'] = "V";
+    sKeyNames_5C9394['W'] = "W";
+    sKeyNames_5C9394['X'] = "X";
+    sKeyNames_5C9394['Y'] = "Y";
+    sKeyNames_5C9394['Z'] = "Z";
+    sKeyNames_5C9394['0'] = "0";
+    sKeyNames_5C9394['1'] = "1";
+    sKeyNames_5C9394['2'] = "2";
+    sKeyNames_5C9394['3'] = "3";
+    sKeyNames_5C9394['4'] = "4";
+    sKeyNames_5C9394['5'] = "5";
+    sKeyNames_5C9394['6'] = "6";
+    sKeyNames_5C9394['7'] = "7";
+    sKeyNames_5C9394['8'] = "8";
+    sKeyNames_5C9394['9'] = "9";
+    sKeyNames_5C9394[VK_SEPARATOR] = ",";
+    sKeyNames_5C9394[VK_DECIMAL] = ".";
+    sKeyNames_5C9394[0] = "\\";
+    sKeyNames_5C9394[VK_NUMPAD0] = "0";
+    sKeyNames_5C9394[VK_NUMPAD1] = "1";
+    sKeyNames_5C9394[VK_NUMPAD2] = "2";
+    sKeyNames_5C9394[VK_NUMPAD3] = "3";
+    sKeyNames_5C9394[VK_NUMPAD4] = "4";
+    sKeyNames_5C9394[VK_NUMPAD5] = "5";
+    sKeyNames_5C9394[VK_NUMPAD6] = "6";
+    sKeyNames_5C9394[VK_NUMPAD7] = "7";
+    sKeyNames_5C9394[VK_NUMPAD8] = "8";
+    // Og game is missing vk_numpad 9 ? :s
+
+    sJoyButtonNames_5C9908[0] = "B1";
+    sJoyButtonNames_5C9908[1] = "B2";
+    sJoyButtonNames_5C9908[2] = "B3";
+    sJoyButtonNames_5C9908[3] = "B4";
+    sJoyButtonNames_5C9908[4] = "B5";
+    sJoyButtonNames_5C9908[5] = "B6";
+    sJoyButtonNames_5C9908[6] = "B7";
+    sJoyButtonNames_5C9908[7] = "B8";
+    sJoyButtonNames_5C9908[8] = "B9";
+    sJoyButtonNames_5C9908[9] = "B0";
+
+    Input_InitJoyStick_460080();
+    memset(sKeyBindings_5C9930, 0, sizeof(*sKeyBindings_5C9930) * 256);
+
+    for (auto kb = sDefaultKeyBindings_55EAD8; kb->key; kb++)
+    {
+        sKeyBindings_5C9930[kb->key] = kb->command;
+    }
+
+    memcpy(dword_5C98E0, &sInputUnknown_55EA2C, sizeof(sInputUnknown_55EA2C));
+    Input_LoadSettingsIni_492D40();
+    Input_491870();
+    Input_SetCallback_4FA910(Input_492150);
 }
 
 EXPORT char Input_ReadKey_492610()

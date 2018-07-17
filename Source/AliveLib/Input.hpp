@@ -82,6 +82,12 @@ enum PsxButtonBits : unsigned int
     eDPadLeft = 1 << 15,
 };
 
+struct InputBinding
+{
+    int key;
+    int command;
+};
+
 class InputObject
 {
 public:
