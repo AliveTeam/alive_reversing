@@ -273,7 +273,12 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     }
 
     PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(".", strDrive, strDrive);
-    Sys_WindowClass_Register_4EE22F("ABE_WINCLASS", "Oddworld Abe's Exoddus", 32, 64, 640, 480);
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    const char* kWindowTitle = "Oddworld Abe's Exoddus under ALIVE team hook :)";
+#else
+    const char* kWindowTitle = "Oddworld Abe's Exoddus";
+#endif
+    Sys_WindowClass_Register_4EE22F("ABE_WINCLASS", kWindowTitle, 32, 64, 640, 480);
     Sys_Set_Hwnd_4F2C50(Sys_GetWindowHandle_4EE180());
 
     dword_5CA4D4 = 0;

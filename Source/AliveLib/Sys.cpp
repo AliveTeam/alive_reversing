@@ -30,6 +30,59 @@ EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0()
 
 EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    switch (msg)
+    {
+    case WM_ERASEBKGND:
+    {
+        RECT rcWin;
+        HDC hDC = GetDC(hWnd);
+        GetClipBox((HDC)wParam, &rcWin);
+        FillRect(hDC, &rcWin, GetSysColorBrush(COLOR_DESKTOP));  // hBrush can be obtained by calling GetWindowLong()
+    }
+    return TRUE;
+
+    case WM_GETICON:
+    case WM_MOUSEACTIVATE:
+    case WM_NCLBUTTONDOWN:
+    case WM_NCMOUSELEAVE:
+    case WM_KILLFOCUS:
+    case WM_SETFOCUS:
+    case WM_NCHITTEST:
+    case WM_ACTIVATE:
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONUP:
+    case WM_LBUTTONDBLCLK:
+    case WM_NCCALCSIZE:
+    case WM_MOVE:
+    case WM_WINDOWPOSCHANGED:
+    case WM_WINDOWPOSCHANGING:
+    case WM_NCMOUSEMOVE:
+    case WM_MOUSEMOVE:
+        return DefWindowProc(hWnd, msg, wParam, lParam);
+    case WM_SETCURSOR:
+    {
+        // Set the cursor so the resize cursor or whatever doesn't "stick"
+        // when we move the mouse over the game window.
+        static HCURSOR cur = LoadCursor(0, IDC_ARROW);
+        if (cur)
+        {
+            SetCursor(cur);
+        }
+        return DefWindowProc(hWnd, msg, wParam, lParam);
+    }
+
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        BeginPaint(hWnd, &ps);
+        EndPaint(hWnd, &ps);
+
+    }
+    return FALSE;
+    }
+#endif
+
     if (sWindowProcFilter_BBB9F8)
     {
         const LRESULT filterRet = sWindowProcFilter_BBB9F8(hWnd, msg, wParam, lParam);
@@ -144,8 +197,10 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
     windowClass.lpszClassName = lpClassName;
     ::RegisterClassA(&windowClass);
 
-    //const DWORD style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
-    const DWORD style = WS_CAPTION | WS_VISIBLE;
+    DWORD style = WS_CAPTION | WS_VISIBLE;
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+    style |= WS_OVERLAPPEDWINDOW;
+#endif
 
     const HWND hWnd = ::CreateWindowExA(
         0, // ExStyle
@@ -167,7 +222,16 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
     }
 
     sHwnd_BBB9F4 = hWnd;
+    
+#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     Sys_SetWindowPos_4EE1B1(nWidth, nHeight);
+#else
+    RECT rc;
+    SetRect(&rc, 0, 0, nWidth, nHeight);
+    AdjustWindowRectEx(&rc, WS_OVERLAPPEDWINDOW | WS_VISIBLE, TRUE, 0);
+    SetWindowPos(hWnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_SHOWWINDOW);
+#endif
+
     ::ShowWindow(hWnd, sCmdShow_BBB9FC);
     ::UpdateWindow(hWnd);
     ::ShowCursor(TRUE);

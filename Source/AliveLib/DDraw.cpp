@@ -505,7 +505,10 @@ EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
     {
         newWinStyle = sDD_old_win_style_BBC3E0;
     }
+    // Leave the window style alone in forced window mode
+#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     ::SetWindowLongA(Sys_GetHWnd_4F2C70(), GWL_STYLE, newWinStyle);
+#endif
     return sDDraw_BBC3D4->SetDisplayMode(width, height, bpp);
 }
 
@@ -603,7 +606,10 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         ::ReleaseDC(nullptr, dc);
 
         const LONG oldWinStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
+        // Leave the window style alone in forced window mode
+#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
         ::SetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE, oldWinStyle & 0xFF39FFFF | 0x80000000); // TODO: use SDK constants
+#endif
         heightCopy = height;
         widthCopy = width;
 
@@ -615,11 +621,15 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         const LONG curStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
         ::AdjustWindowRectEx(&rect, curStyle, bMenu, curExStyle);
 
+        // Leave the window pos alone in forced window mode
+#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
         // TODO: use SDK constants
         ::SetWindowPos(sDD_hWnd_BBC3B0, 0, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 0x16u); 
 
         // TODO: use SDK constants
         ::SetWindowPos(sDD_hWnd_BBC3B0, (HWND)0xFFFFFFFE, 0, 0, 0, 0, 0x13u);
+
+
         RECT pvParam;
         ::SystemParametersInfoA(SPI_GETWORKAREA, 0, &pvParam, 0);
         ::GetWindowRect(sDD_hWnd_BBC3B0, &rect);
@@ -640,7 +650,7 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
 
         // TODO: use SDK constants
         ::SetWindowPos(sDD_hWnd_BBC3B0, 0, left, top, 0, 0, 0x15u);
-        
+#endif
     }
 
     // Get DD caps

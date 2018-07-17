@@ -382,6 +382,7 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
         {
             if (!sVGA_IsWindowMode_BD0BF8)
             {
+
                 RECT rect = {};
                 ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width, height, 0x204u); // TODO: SDK constants
                 ::GetClientRect(Sys_GetHWnd_4F2C70(), &rect);
@@ -389,6 +390,7 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
                 {
                     ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width - rect.right + width, height - rect.bottom + height, 0x204u); // TODO: SDK constants
                 }
+
             }
 
             if (!sVGA_own_surfaces_BD0BFA || DD_Init_4F0840(a4))
