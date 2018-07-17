@@ -30,12 +30,12 @@ ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
 ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
 ALIVE_VAR(1, 0xbd30a0, BOOL, sLastPressedKey_BD30A0, FALSE);
 ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
-
 ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
 ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
 ALIVE_ARY(1, 0x5C9908, const char *, 10, sJoyButtonNames_5C9908, {});
 ALIVE_ARY(1, 0x5C9930, int, 256, sKeyBindings_5C9930, {});
 ALIVE_ARY(1, 0x5C98E0, int, 10, dword_5C98E0, {});
+ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 
 ALIVE_ARY(1, 0x555708, char, 32, sGamePadStr_555708, { "Game Pad" });
 ALIVE_ARY(1, 0x55E85C, char, 32, sGamePadStr_55E85C, { "Game Pad" });
@@ -238,9 +238,9 @@ EXPORT int Input_492150()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int(*CC Input_SetCallback_4FA910(int(*a1)(void)))(void)
+EXPORT void CC Input_SetCallback_4FA910(t_InputCallback pFunc)
 {
-    NOT_IMPLEMENTED();
+    sInputCallbackFunc_BD1870 = pFunc;
 }
 
 EXPORT void Input_InitJoyStick_460080()
