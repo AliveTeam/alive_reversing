@@ -397,9 +397,13 @@ public:
                 }
                 break;
             case VK_RETURN:
-                ParseCommand(mCommandLineInput);
-                mLastCommand = mCommandLineInput;
-                mCommandLineInput.clear();
+                if (mCommandLineInput.size() > 0)
+                {
+                    ParseCommand(mCommandLineInput);
+                    mLastCommand = mCommandLineInput;
+                    mCommandLineInput.clear();
+                }
+
                 mCommandLineEnabled = false;
                 Input_EnableInput_4EDDD0();
                 Input_Reset_492660();
