@@ -50,7 +50,7 @@ const char * sEventEnumString[]
 
 EXPORT void CC Event_Broadcast_422BC0(Event eventType, BaseGameObject* pObject)
 {
-    sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType] = pObject;
+    sEventPtrs_5BC124.field_0_events[!sEventsToUse_5BC1D4].field_0_event_ptrs[eventType] = pObject;
 
     if (sDebugEnabled_VerboseEvents)
     {
@@ -147,6 +147,8 @@ namespace Test
         bang.field_6_flags = BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj | BaseAliveGameObject::eDrawable;
         Event_Broadcast_422BC0(Event::kEventLoudNoise, &bang);
 
+        Events_Reset_Active_422DA0();
+        
         ASSERT_EQ(&bang, Event_Get_422C00(Event::kEventLoudNoise));
         ASSERT_EQ(nullptr, Event_Get_422C00(Event::kEventAlarm));
 
