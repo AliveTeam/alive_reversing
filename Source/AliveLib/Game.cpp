@@ -145,7 +145,7 @@ EXPORT double CC Calculate_FPS_495250(int frameCount)
     return sFps_55EFDC;
 }
 
-EXPORT void __cdecl sub_4ED970(int /*x*/, int /*y*/, int /*w*/, int /*h*/)
+EXPORT void CC sub_4ED970(int /*x*/, int /*y*/, int /*w*/, int /*h*/)
 {
     NOT_IMPLEMENTED();
 }

@@ -18,7 +18,7 @@ ALIVE_VAR(1, 0x5ca4b4, byte, byte_5CA4B4, 0);
 
 static std::vector<std::vector<BYTE>> sLoadedAtlas;
 
-EXPORT signed __int16 __cdecl Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCount)
+EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCount)
 {
     NOT_IMPLEMENTED();
 }

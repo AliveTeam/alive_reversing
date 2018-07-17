@@ -397,7 +397,7 @@ EXPORT char Input_ReadKey_492610()
     if (!Sys_IsAnyKeyDown_4EDDF0())
         return 0;
 
-    auto lk = sLastPressedKey_BD30A0;
+    const auto lk = sLastPressedKey_BD30A0;
 
     sIsAKeyDown_BD309C = false;
     sLastPressedKey_BD30A0 = 0;
@@ -432,7 +432,7 @@ EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown)
 // Returns true if a key was just pressed down.
 EXPORT bool CC Input_IsVKPressed_4EDD40(int key)
 {
-    unsigned char keyState = sInputKeyStates_BD2F60[key];
+    const auto keyState = sInputKeyStates_BD2F60[key];
 
     if (!keyState)
     {
