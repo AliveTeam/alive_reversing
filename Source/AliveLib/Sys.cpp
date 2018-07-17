@@ -10,8 +10,6 @@ ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);
 ALIVE_VAR(1, 0xBBB9E8, LPSTR, sCommandLine_BBB9E8, nullptr);
 ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
 ALIVE_VAR(1, 0xBBB9FC, int, sCmdShow_BBB9FC, 0);
-ALIVE_VAR(1, 0xBD309C, BOOL, sIsAKeyDown_BD309C, FALSE);
-ALIVE_VAR(1, 0xBD30A0, int, sLastPressedKey_BD30A0, 0);
 ALIVE_VAR(1, 0xBBFB04, HWND, hWnd_BBFB04, nullptr);
 
 EXPORT void CC Sys_Set_Hwnd_4F2C50(HWND hwnd)

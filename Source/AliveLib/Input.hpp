@@ -104,3 +104,5 @@ ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
 ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5C1BBE);
+ALIVE_VAR_EXTERN(BOOL, sLastPressedKey_BD30A0);
+ALIVE_VAR_EXTERN(int, sIsAKeyDown_BD309C);

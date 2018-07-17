@@ -5,6 +5,7 @@
 #include "Function.hpp"
 #include "easylogging++.h"
 #include "Game.hpp"
+#include "Sys.hpp"
 
 #define INPUT_IMPL true
 
@@ -20,12 +21,21 @@ ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
 ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
 ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
 ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
+ALIVE_VAR(1, 0xbd30a0, BOOL, sLastPressedKey_BD30A0, FALSE);
+ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 
 // -- Functions -- //
 
 EXPORT unsigned __int8 CC Input_GetInputEnabled_4EDDE0()
 {
     return sInputEnabled_BBB9D0 != 0;
+}
+
+EXPORT char CC Input_GetKeyState_4EDD20(int key)
+{
+    const char keyState = sInputKeyStates_BD2F60[key] & 0x80;
+    sInputKeyStates_BD2F60[key] = keyState;
+    return keyState;
 }
 
 EXPORT void CC Input_EnableInput_4EDDD0()
@@ -45,12 +55,21 @@ EXPORT void CC Input_Init_491BC0()
 
 EXPORT char Input_ReadKey_492610()
 {
-    NOT_IMPLEMENTED();
+    if (!Sys_IsAnyKeyDown_4EDDF0())
+        return 0;
+
+    auto lk = sLastPressedKey_BD30A0;
+
+    sIsAKeyDown_BD309C = false;
+    sLastPressedKey_BD30A0 = 0;
+
+    return lk;
 }
 
 void Input_Reset_492660()
 {
-    NOT_IMPLEMENTED();
+    Input_EnableInput_4EDDD0();
+    Input_InitKeyStateArray_4EDD60();
 }
 
 // Zeros the input key state array.
