@@ -369,7 +369,7 @@ public:
 
         auto key = Input_ReadKey_492610();
 
-        if (GetAsyncKeyState(VK_OEM_3) & 0x1 || GetAsyncKeyState(VK_F9) & 0x1 || GetAsyncKeyState(VK_RSHIFT) & 0x1)
+        if (GetAsyncKeyState(VK_OEM_3) & 0x1 || GetAsyncKeyState(VK_F9) & 0x1)
         {
             mCommandLineEnabled = !mCommandLineEnabled;
 
