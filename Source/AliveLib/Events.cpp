@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Animation.hpp" // TODO: Move BaseAnimatedWithPhysicsGameObject to its own file
 #include "BaseAliveGameObject.hpp"
+#include "DebugHelpers.hpp"
 #include <gmock/gmock.h>
 
 struct EventsArray
@@ -21,9 +22,47 @@ ALIVE_ASSERT_SIZEOF(Events, 0xB0);
 ALIVE_VAR(1, 0x5BC1D4, short, sEventsToUse_5BC1D4, 0);
 ALIVE_VAR(1, 0x5BC124, Events, sEventPtrs_5BC124, {});
 
+const char * sEventEnumString[]
+{
+    "Noise",
+    "Speaking",
+    "Shooting",
+    "",
+    "HeroDying",
+    "DeathReset",
+    "DeathResetEnd",
+    "Resetting",
+    "AbeOhm",
+    "SuspiciousNoise",
+    "LoudNoise",
+    "MudokonDied",
+    "MudokonLaugh",
+    "MudokonAbuse",
+    "MudokonComfort",
+    "",
+    "",
+    "",
+    "Alarm",
+    "PortalOpen",
+    "",
+    "ScreenShake",
+};
+
 EXPORT void CC Event_Broadcast_422BC0(Event eventType, BaseGameObject* pObject)
 {
     sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType] = pObject;
+
+    if (sDebugEnabled_VerboseEvents)
+    {
+        switch (eventType)
+        {
+            // Ignore these as they get spammed.
+        case kEventNoise:
+        case kEventSuspiciousNoise:
+            return;
+        }
+        DEV_CONSOLE_MESSAGE_C("Event: " + std::string(sEventEnumString[eventType]), 5, 0, 0, 127);
+    }
 }
 
 EXPORT BaseGameObject* CC Event_Get_422C00(Event eventType)

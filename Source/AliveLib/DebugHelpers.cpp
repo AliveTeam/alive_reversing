@@ -11,6 +11,9 @@
 #include "DDCheat.hpp"
 #include "Resources.hpp"
 #include "SwitchStates.hpp"
+#include "Events.hpp"
+
+bool sDebugEnabled_VerboseEvents = false;
 
 class ObjectDebugger : public BaseGameObject
 {
@@ -256,6 +259,19 @@ void Command_Teleport(std::vector<std::string> args)
     DEV_CONSOLE_MESSAGE("Teleported", 6);
 }
 
+void Command_Event(std::vector<std::string> args)
+{
+    int eventId = std::stoi(args[0]);
+    if (eventId >= Event::kEventMax)
+    {
+        DEV_CONSOLE_MESSAGE_C("Invalid event id", 6, 127, 0, 0);
+        return;
+    }
+    Event_Broadcast_422BC0(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
+}
+
+
+
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "help", -1, Command_Help, "Shows what you're looking at" },
     { "test", -1, Command_Test, "Is this thing on?" },
@@ -265,8 +281,10 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "object_id", -1, [](std::vector<std::string> args) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
     { "no_frame_skip", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
     { "fps", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
+    { "verbose_events", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
     { "open_doors", -1, [](std::vector<std::string> args) { Cheat_OpenAllDoors(); }, "Open all doors." },
     { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
+    { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
 };
 
 class DebugConsole : public BaseGameObject
@@ -429,13 +447,14 @@ public:
             char color = max(0, min(message->time * 10, 255));
             int targetY = 232 - (i * 9) - 9;
 
-            message->y += (targetY - message->y) * 0.2f;
+            //message->y += (targetY - message->y) * 0.2f; // Smooth
+            message->y = targetY;
 
             pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 0, static_cast<int>(message->y), 0, 1, 0, 40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
         
             message->time--;
 
-            if (message->time <= 0)
+            if (message->time <= 0 || i > 15)
             {
                 it = sDebugConsoleMessages.erase(it);
             }
