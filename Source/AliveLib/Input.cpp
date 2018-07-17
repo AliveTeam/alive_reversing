@@ -7,17 +7,24 @@
 #include "Game.hpp"
 #include "Sys.hpp"
 
+#include <joystickapi.h>
+
 #define INPUT_IMPL true
 
 // -- Variables -- //
 
-ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
-
-ALIVE_VAR(1, 0x5C2EF4, int, sJoystickEnabled_5C2EF4, 0);
+ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickEnabled_5C2EF4, false);
 ALIVE_VAR(1, 0x5C2EFC, int, sJoystickNumButtons_5C2EFC, 0);
 ALIVE_VAR(1, 0x5C2F00, int, sJoystickID_5C2F00, 0);
-ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
+ALIVE_VAR(1, 0x5c2edc, int, sJoystickCapFlags_5C2EDC, 0);
+ALIVE_VAR(1, 0x5c2ee0, bool, sJoyStateIsInit_5C2EE0, 0);
+ALIVE_VAR(1, 0x5c2eec, int, sJoyLastTick_5C2EEC, 0);
+ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
+ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
+ALIVE_VAR(1, 0x5c2f00, UINT, sJoyID_5C2F00, 0);
 
+ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
+ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
 ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
 ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
 ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
@@ -25,6 +32,121 @@ ALIVE_VAR(1, 0xbd30a0, BOOL, sLastPressedKey_BD30A0, FALSE);
 ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 
 // -- Functions -- //
+
+EXPORT void CC Input_45FF60(float x, float y, DWORD *buttons)
+{
+    NOT_IMPLEMENTED();
+}
+
+// TODO: Needs actual testing.
+EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+{
+    if (!sJoystickEnabled_5C2EF4)
+    {
+        *pY2 = 0.0f;
+        *pX2 = 0.0f;
+        *pY1 = 0.0f;
+        *pX1 = 0.0f;
+        *pButtons = 0;
+        return;
+    }
+
+    if (!sJoyStateIsInit_5C2EE0)
+    {
+        sJoyStateIsInit_5C2EE0 = true;
+        sJoyLastTick_5C2EEC = GetTickCount() - 1000;
+    }
+
+    // Only update joystick every 30 ticks
+    auto const tickNow = GetTickCount();
+    if (tickNow - sJoyLastTick_5C2EEC >= 30)
+    {
+        sJoyLastTick_5C2EEC = tickNow;
+        sJoystickInfo_5C2EA8.dwSize = 52;
+        sJoystickInfo_5C2EA8.dwFlags = sJoystickCapFlags_5C2EDC;
+
+        if (joyGetPosEx(sJoyID_5C2F00, &sJoystickInfo_5C2EA8))
+        {
+            sJoystickEnabled_5C2EF4 = false;
+            return;
+        }
+    }
+
+    signed int xRange = (sJoystickCaps_5C2D10.wXmin + sJoystickCaps_5C2D10.wXmax) >> 1;
+    signed int xRangeDeadZone = (xRange - sJoystickCaps_5C2D10.wXmin) >> 2;
+    if (sJoystickInfo_5C2EA8.dwXpos < xRange - xRangeDeadZone || sJoystickInfo_5C2EA8.dwXpos > xRange + xRangeDeadZone)
+    {
+        *pX1 = static_cast<float>(sJoystickInfo_5C2EA8.dwXpos - xRange) / static_cast<float>(xRange - sJoystickCaps_5C2D10.wXmin);
+    }
+    else
+    {
+        *pX1 = 0.0f;
+    }
+
+    signed int yRange = (sJoystickCaps_5C2D10.wYmax + sJoystickCaps_5C2D10.wYmin) >> 1;
+    signed int yRangeDeadZone = (yRange - sJoystickCaps_5C2D10.wYmin) >> 2;
+    if (sJoystickInfo_5C2EA8.dwYpos < yRange - yRangeDeadZone || sJoystickInfo_5C2EA8.dwYpos > yRange + yRangeDeadZone)
+    {
+        *pY1 = static_cast<float>(sJoystickInfo_5C2EA8.dwYpos - yRange) / static_cast<float>(yRange - sJoystickCaps_5C2D10.wYmin);
+    }
+    else
+    {
+        *pY1 = 0.0f;
+    }
+
+    signed int zRange = (sJoystickCaps_5C2D10.wZmin + sJoystickCaps_5C2D10.wZmax) >> 1;
+    signed int zRangeDeadZone = (zRange - sJoystickCaps_5C2D10.wZmin) >> 2;
+    if (sJoystickCapFlags_5C2EDC & JOY_RETURNZ
+        && (sJoystickInfo_5C2EA8.dwZpos < zRange - zRangeDeadZone || sJoystickInfo_5C2EA8.dwZpos > zRange + zRangeDeadZone))
+    {
+        *pX2 = static_cast<float>(sJoystickInfo_5C2EA8.dwZpos - zRange) / static_cast<float>(zRange - sJoystickCaps_5C2D10.wZmin);
+    }
+    else
+    {
+        *pX2 = 0.0f;
+    }
+
+    signed int wRange = (sJoystickCaps_5C2D10.wRmax + sJoystickCaps_5C2D10.wRmin) >> 1;
+    signed int wRangeDeadZone = (wRange - sJoystickCaps_5C2D10.wRmin) >> 2;
+    if (sJoystickCapFlags_5C2EDC & JOY_RETURNR
+        && (sJoystickInfo_5C2EA8.dwRpos < wRange - wRangeDeadZone || sJoystickInfo_5C2EA8.dwRpos > wRange + wRangeDeadZone))
+    {
+        *pY2 = static_cast<float>(sJoystickInfo_5C2EA8.dwRpos - wRange) / static_cast<float>(wRange - sJoystickCaps_5C2D10.wRmin);
+    }
+    else
+    {
+        *pY2 = 0.0f;
+    }
+
+    if (sJoystickCapFlags_5C2EDC & JOY_RETURNPOV)
+    {
+        if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVBACKWARD) // TODO: Double check if forward and backward are swapped? 
+        {
+            *pX2 = -1.0f;
+        }
+        else if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVFORWARD)
+        {
+            *pX2 = 1.0f;
+        }
+        if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVLEFT)
+        {
+            *pY2 = -1.0f;
+        }
+        else if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVRIGHT)
+        {
+            *pY2 = 1.0f;
+        }
+    }
+
+    // Clamp all our stick values
+    *pX1 = min(1.0f, max(-1.0f, *pX1));
+    *pY1 = min(1.0f, max(-1.0f, *pY1));
+    *pX2 = min(1.0f, max(-1.0f, *pX2));
+    *pY2 = min(1.0f, max(-1.0f, *pY2));
+
+    *pButtons = sJoystickInfo_5C2EA8.dwButtons;
+    Input_45FF60(*pX2, *pY2, pButtons);
+}
 
 EXPORT unsigned __int8 CC Input_GetInputEnabled_4EDDE0()
 {
@@ -104,13 +226,6 @@ EXPORT bool CC Input_IsVKPressed_4EDD40(int key)
 
     return true;
 }
-
-EXPORT void CC InputGetJoystickState_460280(float* /*X1*/, float* /*Y1*/, float* /*X2*/, float* /*Y2*/, DWORD* /*Buttons*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-
 
 EXPORT int CC sub_4FA9C0(int /*padNum*/)
 {
