@@ -26,7 +26,6 @@ public:
     EXPORT virtual char Animation_v_40BEE0(__int16 a2, __int16 a3, int a4, __int16 a5, __int16 op1);
 
     EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE **pAnimRes);
-
     EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<Animation>* pAnimations);
 
     DWORD field_4_flags;
@@ -102,6 +101,7 @@ public:
 public:
     EXPORT void SetFrame_409D50(__int16 newFrame);
     EXPORT FrameInfoHeader* Get_FrameHeader_40B730(__int16 frame);
+    EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
     EXPORT WORD Get_Frame_Count_40AC70();
     EXPORT signed __int16 Init_40A030(int frameTableOffset, DynamicArray *animList, void *pGameObj, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
    // EXPORT void Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY);

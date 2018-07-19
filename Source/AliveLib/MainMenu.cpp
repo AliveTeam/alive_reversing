@@ -31,6 +31,9 @@ ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
 ALIVE_ARY(1, 0x5C1B50, BYTE, 20, sSavedKilledMudsPerPath_5C1B50, {});
 ALIVE_VAR(1, 0xbb4414, void *, pDemosOrFmvs_BB4414, 0);
 
+ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, {});
+
+
 MenuFMV sFmvs_561540[28] =
 {
     { "GT Logo", 0, 65535, 65535, 3, 65535, 65535 },
@@ -234,6 +237,38 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
     return this;
 }
 
+void MainMenuController::Render_4CF4C0(int ** ot)
+{
+    const auto animFlags = field_20_animation.field_4_flags;
+    if (animFlags & 2 && sMainMenuPages_561960[field_214_page_index].field_E_show_character && animFlags & 4)
+    {
+        field_20_animation.Animation_v_40B820(184, 162, (int)ot, 0, 0);
+        PSX_RECT pRect;
+        field_20_animation.Get_Frame_Rect_409E10(&pRect);
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A);
+    }
+
+    const auto buttons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
+    if (buttons)
+    {
+        if (!(field_23C_T80 & 0x10000))
+        {
+            const int index = field_1FC_button_index;
+            if (index != -1)
+            {
+                field_158_animation.Animation_v_40B820(buttons[index].field_2_x, buttons[index].field_4_y, (int)ot, 0, 0);
+                PSX_RECT pRect;
+                field_158_animation.Get_Frame_Rect_409E10(&pRect);
+                pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A);
+            }
+        }
+    }
+
+    auto renderFunc = sMainMenuPages_561960[this->field_214_page_index].field_14_fn_render;
+    if (renderFunc)
+        renderFunc(this, ot);
+}
+
 int MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
 {
     NOT_IMPLEMENTED();
@@ -252,7 +287,8 @@ void MainMenuController::sub_4D06A0(AnimationEx * a3)
 
 void MainMenuController::callback_4D06E0(MainMenuController * a1)
 {
-    NOT_IMPLEMENTED();
+    a1->field_F4_resources.field_0_res_abespeak = reinterpret_cast<AnimHeader *>(ResourceManager::GetLoadedResource_49C2A0(
+        'minA', kAbespeakResID, 1u, 0));
 }
 
 void MainMenu_ForceLink()

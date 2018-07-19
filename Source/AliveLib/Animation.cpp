@@ -138,6 +138,11 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
 
 }
 
+void AnimationEx::Get_Frame_Rect_409E10(PSX_RECT * pRect)
+{
+    NOT_IMPLEMENTED();
+}
+
 WORD AnimationEx::Get_Frame_Count_40AC70()
 {
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
