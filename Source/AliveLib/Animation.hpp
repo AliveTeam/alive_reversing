@@ -7,6 +7,14 @@
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 
+struct AnimHeader
+{
+    __int16 field_0_max_w;
+    __int16 field_2_max_h;
+    int field_4_frame_table_offset;
+};
+ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
+
 class Animation
 {
 public:
@@ -111,6 +119,8 @@ public:
     EXPORT void dtor_408210(signed int flags);
     virtual void VDestructor(signed int flags);
 
+    EXPORT signed __int16 Animation_Init_424E10( int frameTableOffset, int maxW, unsigned __int16 maxH, AnimHeader *a5, __int16 a6, unsigned __int8 a7);
+
 public:
     // VTable @ 0x544C9C
     /*
@@ -151,14 +161,6 @@ public:
     void* field_E0_176_ptr;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xE4);
-
-struct AnimHeader
-{
-    __int16 field_0_max_w;
-    __int16 field_2_max_h;
-    int field_4_frame_table_offset;
-};
-ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 
 struct BackgroundAnimation_Params
 {

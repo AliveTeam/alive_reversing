@@ -77,6 +77,8 @@ add_library(AliveLib
     Events.hpp
     SwitchStates.hpp
     SwitchStates.cpp
+    MainMenu.hpp
+    MainMenu.cpp
     WinMain.cpp
     WinMain.hpp)
 

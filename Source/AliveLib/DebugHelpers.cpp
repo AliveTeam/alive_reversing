@@ -81,6 +81,25 @@ public:
             return;
 
         int pIndex = 0;
+
+        /*struct MainMenuButton
+        {
+            __int16 field_0;
+            __int16 field_2_x;
+            __int16 field_4_y;
+            __int16 field_6;
+            __int16 field_8;
+            __int16 field_A;
+        };
+
+        auto list = reinterpret_cast<MainMenuButton *>(0x5610B8);
+
+        while (list->field_0)
+        {
+            pIndex = mFont.DrawString_4337D0(pOrderingTable, "O", list->field_2_x, list->field_4_y, 0, 1, 0, 40, 255, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+            list++;
+        }*/
+
         for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);

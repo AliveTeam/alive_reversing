@@ -32,7 +32,6 @@ ALIVE_VAR(1, 0x5c1bc0, __int16, sKilledMudokons_5C1BC0, 0);
 ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
 
 ALIVE_VAR(1, 0x5d1e2c, BaseGameObject *, class_0x30_dword_5D1E2C, 0);
-ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
 
 ALIVE_ARY(1, 0x554474, byte, 32, pal_554474, {
     0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,

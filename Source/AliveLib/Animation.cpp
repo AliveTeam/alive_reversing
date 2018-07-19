@@ -247,3 +247,9 @@ void BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
     dtor_408210(flags);
 }
 
+signed __int16 BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, AnimHeader * a5, __int16 a6, unsigned __int8 a7)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
