@@ -30,7 +30,7 @@ ALIVE_VAR(1, 0x5C1B64, byte, byte_5C1B64, {});
 ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
 ALIVE_ARY(1, 0x5C1B50, BYTE, 20, sSavedKilledMudsPerPath_5C1B50, {});
 ALIVE_VAR(1, 0xbb4414, void *, pDemosOrFmvs_BB4414, 0);
-
+ALIVE_VAR(1, 0x5c2f68, const char, byte_5C2F68, 0);
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, {});
 
 
@@ -174,7 +174,7 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
     if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
     {
         MainMenuController::sub_4D05E0(9, 0);
-        field_23C_T80 |= 0x100u;
+        field_23C_T80 |= 0x10000u;
     }
 
     field_23C_T80 &= 0xFEEB0000u;
@@ -184,7 +184,7 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
     field_20C = 0;
     field_210 = 0;
     field_23A = 0;
-    field_234 = (char *)0x5C2F68;
+    field_234 = &byte_5C2F68;
     field_238 = 0;
     field_25C = 0;
     field_25E = 0;

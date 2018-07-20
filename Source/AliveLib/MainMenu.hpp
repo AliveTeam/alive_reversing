@@ -87,7 +87,7 @@ private:
     __int16 field_22A;
     int field_22C_T80;
     int field_230;
-    char *field_234;
+    const char *field_234;
     __int16 field_238;
     __int16 field_23A;
     int field_23C_T80;
