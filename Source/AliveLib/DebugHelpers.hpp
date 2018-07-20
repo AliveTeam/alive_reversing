@@ -28,6 +28,7 @@ void ShowDebugConsoleMessage(std::string message, float duration);
 std::vector<std::string> SplitString(const std::string& s, char seperator);
 bool StringStartsWith(std::string mainStr, std::string toMatch);
 std::string StringToLower(std::string s);
+std::string IntToHexString(int v);
 
 BaseGameObject * FindObjectOfType(int id);
 

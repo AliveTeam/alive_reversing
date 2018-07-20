@@ -298,6 +298,7 @@ void Command_Menu(std::vector<std::string> args)
         MainMenuController::gMainMenuController->field_21A = menuCam;
         MainMenuController::gMainMenuController->field_218 = MainMenuController::GetPageIndexFromCam_4D05A0(menuCam);
         MainMenuController::gMainMenuController->field_21C = menuCam;
+        MainMenuController::gMainMenuController->field_23C_T80 |= 0x200000;
     }
 }
 
@@ -830,6 +831,13 @@ std::string StringToLower(std::string s)
     }
 
     return r;
+}
+
+std::string IntToHexString(int v)
+{
+    std::stringstream ss;
+    ss << "0x" << std::hex << v;
+    return ss.str();
 }
 
 BaseGameObject * FindObjectOfType(int id)

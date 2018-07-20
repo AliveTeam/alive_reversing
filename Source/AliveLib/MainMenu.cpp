@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "Game.hpp"
 #include "PathData.hpp"
+#include "DebugHelpers.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -275,7 +276,14 @@ void MainMenuController::Render_4CF4C0(int ** ot)
 
 int MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < 24; i++)
+    {
+        if (camId == sMainMenuPages_561960[i].field_0_cam_id)
+        {
+            return i;
+        }
+    }
+
     return 0;
 }
 
