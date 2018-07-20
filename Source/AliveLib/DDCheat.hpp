@@ -81,6 +81,7 @@ public:
 
     EXPORT void Knockback_44E700(__int16 a2, __int16 a3);
     EXPORT bool vsub_Kill_44BB50(BaseGameObject *otherObj); // PART OF VTABLE
+    EXPORT int __thiscall Abe::sub_44B7B0();
 public:
     __int16 field_116;
     __int16 field_118;
