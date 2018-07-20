@@ -57,7 +57,9 @@ public:
     EXPORT void sub_4D05E0(__int16 a2, __int16 a3);
     EXPORT void sub_4D06A0(AnimationEx *a3);
     EXPORT static void callback_4D06E0(MainMenuController *a1);
-private:
+
+    static MainMenuController * gMainMenuController;
+public:
     int field_E4[3];
     int field_F0;
     MainMenuControllerResources field_F4_resources;

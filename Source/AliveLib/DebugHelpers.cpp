@@ -12,6 +12,7 @@
 #include "Resources.hpp"
 #include "SwitchStates.hpp"
 #include "Events.hpp"
+#include "MainMenu.hpp"
 
 bool sDebugEnabled_VerboseEvents = false;
 
@@ -289,6 +290,17 @@ void Command_Event(std::vector<std::string> args)
     Event_Broadcast_422BC0(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
 }
 
+void Command_Menu(std::vector<std::string> args)
+{
+    int menuCam = std::stoi(args[0]);
+    if (MainMenuController::gMainMenuController != nullptr)
+    {
+        MainMenuController::gMainMenuController->field_21A = menuCam;
+        MainMenuController::gMainMenuController->field_218 = MainMenuController::GetPageIndexFromCam_4D05A0(menuCam);
+        MainMenuController::gMainMenuController->field_21C = menuCam;
+    }
+}
+
 
 
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
@@ -304,6 +316,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "open_doors", -1, [](std::vector<std::string> args) { Cheat_OpenAllDoors(); }, "Open all doors." },
     { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
+    { "menu", 1, Command_Menu, "Changes to given menu cam" },
 };
 
 class DebugConsole : public BaseGameObject

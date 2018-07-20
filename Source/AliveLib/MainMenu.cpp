@@ -5,6 +5,8 @@
 #include "Game.hpp"
 #include "PathData.hpp"
 
+MainMenuController * MainMenuController::gMainMenuController = nullptr;
+
 ALIVE_VAR(1, 0xbb4400, int, sMainMenuObjectCounter_BB4400, 0);
 ALIVE_VAR(1, 0x5c1b92, __int16, sMainMenuFontLoaded_5C1B92, 0);
 
@@ -103,6 +105,8 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
 
     ++sMainMenuObjectCounter_BB4400;
     field_6_flags |= 0x200u;
+
+    gMainMenuController = this;
 
     if (!sMainMenuFontLoaded_5C1B92)
     {
