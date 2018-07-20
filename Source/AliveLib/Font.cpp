@@ -53,7 +53,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
 
     int characterRenderCount = 0;
     const int maxRenderX = (40 * a15 + 11) / 23;
-    int offsetX = x;
+    short offsetX = static_cast<short>(x);
     int charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
 
@@ -99,8 +99,8 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
         poly->field_0_header.field_8_r0 = r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange);
         poly->field_0_header.field_9_g0 = g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange);
         poly->field_0_header.field_A_b0 = b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange);
-        poly->field_1A_tpage = tpage;
-        poly->field_12_clut = clut;
+        poly->field_1A_tpage = static_cast<short>(tpage);
+        poly->field_12_clut = static_cast<short>(clut);
 
         // Padding
         poly->field_22_pad1 = 0;

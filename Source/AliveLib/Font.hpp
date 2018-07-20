@@ -73,6 +73,8 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Font, 0x38);
 
+ALIVE_VAR_EXTERN(byte, byte_5CA4B4);
+
 ALIVE_VAR_EXTERN(Font_Context, sFont1Context_5BC5C8);
 ALIVE_VAR_EXTERN(Font_Context, sFont2Context_5BC5D8);
 

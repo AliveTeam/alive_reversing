@@ -481,13 +481,13 @@ public:
             /*it++*/)
         {
             auto message = it;
-            char color = max(0, min(message->time * 10, 255));
+            //char color = static_cast<char>(max(0, min(message->time * 10, 255)));
             int targetY = 232 - (i * 9) - 9;
 
             //message->y += (targetY - message->y) * 0.2f; // Smooth
             message->y = targetY;
 
-            pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 0, static_cast<int>(message->y), 0, 1, 0, 40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 0, static_cast<short>(message->y), 0, 1, 0, 40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
         
             message->time--;
 
@@ -861,7 +861,7 @@ void Cheat_OpenAllDoors()
 {
     for (int i = 0; i < 256; i++)
     {
-        SwitchStates_Set_465FF0(i, 1);
+        SwitchStates_Set_465FF0(static_cast<unsigned short>(i), 1);
     }
 
     DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4);

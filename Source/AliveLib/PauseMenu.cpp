@@ -6,6 +6,7 @@
 #include "DebugHelpers.hpp"
 #include "SwitchStates.hpp"
 #include <iomanip>
+#include "Common.hpp"
 
 // MACROS
 
@@ -295,11 +296,6 @@ EXPORT signed __int16 sub_4A2BC0()
     return 0;
 }
 
-EXPORT void CC String_FormatString_4969D0(char *src, char *dst, int a3, char a4)
-{
-    NOT_IMPLEMENTED();
-}
-
 void PauseMenu::VDestructor(signed int flags)
 {
     dtor_48FCB0(flags);
@@ -385,11 +381,6 @@ void PauseMenu::Init_491760()
     }
 }
 
-EXPORT int CC MIDI_46FBA0(unsigned __int8 a1, int a2, int a3, int a4)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC sub_4CB0E0()
 {
     NOT_IMPLEMENTED();
@@ -415,7 +406,7 @@ EXPORT void __fastcall sub_4A1F20(int a1, int a2)
     NOT_IMPLEMENTED();
 }
 
-EXPORT __int16 __fastcall sub_49A7A0(BaseGameObject *thisPtr, __int16 a2)
+EXPORT __int16 __fastcall sub_49A7A0(BaseGameObject * thisPtr, __int16 a2)
 {
     NOT_IMPLEMENTED();
 }

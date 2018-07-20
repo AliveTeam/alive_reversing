@@ -5,6 +5,7 @@
 #include "Game.hpp"
 #include "PathData.hpp"
 #include "DebugHelpers.hpp"
+#include "Common.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -172,9 +173,9 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
     field_22A = 0;
     field_22C_T80 = 0;
     field_224 = 0;
-    field_202 = 15;
-    field_204 = 0;
-    field_230 = 0; // Double check
+    field_202_input_hold_down_timer = 15;
+    field_204_prev_pressed = 0;
+    field_230_fmv_index = 0; // Double check
 
     if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
     {
@@ -233,7 +234,7 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
         field_258 = 0;
         pDemosOrFmvs_BB4414 = &sDemos_5617F0;
         sMenuItemCount_561538 = 23;
-        field_230 = word_5C1B9E;
+        field_230_fmv_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, (BYTE **)field_F4_resources.field_4_res_abespek2);
         sub_4D06A0(&field_20_animation);
         return this;
@@ -301,6 +302,89 @@ void MainMenuController::callback_4D06E0(MainMenuController * a1)
 {
     a1->field_F4_resources.field_0_res_abespeak = reinterpret_cast<AnimHeader *>(ResourceManager::GetLoadedResource_49C2A0(
         'minA', kAbespeakResID, 1u, 0));
+}
+
+int MainMenuController::DrawMenuText_4D20D0(MainMenuText * array, int ** ot, Font * font, int * polyIndex, char a5)
+{
+    NOT_IMPLEMENTED();
+
+    //bool charIndex; // bl
+    //char *v7; // eax
+    //signed int v8; // edi
+    //int x; // esi
+    //signed int measure; // ecx
+    //int xOffset; // edx
+    //unsigned int v12; // edx
+    //int v13; // esi
+    //unsigned int v14; // edx
+    //char v15; // bl
+    //signed int v16; // eax
+    //int result; // eax
+    //char dst[32]; // [esp+10h] [ebp-20h]
+    //bool char2Index; // [esp+34h] [ebp+4h]
+    //int y; // [esp+34h] [ebp+4h]
+    //signed int op2a; // [esp+44h] [ebp+14h]
+
+    //charIndex = strstr(array->field_8_text, "\x18") != 0;
+    //char2Index = strstr(array->field_8_text, "\x19") != 0;
+    //String_FormatString_4969D0(array->field_8_text, dst, 32, array->field_14 == 0);
+    //if (a5)
+    //{
+    //    v7 = strchr(dst, '+');
+    //    if (v7)
+    //        strcpy(dst, v7 + 1);
+    //}
+    //if (!array->field_14 && dst[0] && charIndex != char2Index)
+    //    strcat(dst, "+");
+    //if (array->field_10_scale == 0.0)
+    //{
+    //    op2a = 55050;
+    //    v8 = 55050;
+    //}
+    //else
+    //{
+    //    v8 = (signed __int64)(array->field_10_scale * 65536.0);
+    //    op2a = (signed __int64)(array->field_10_scale * 65536.0);
+    //}
+    //x = array->field_0_x;
+    //y = array->field_4_y;
+    //if (array->field_C_align == 1)
+    //{
+    //    v14 = (signed int)(40 * x + 11 + ((unsigned __int64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
+    //    v13 = (v14 >> 31) + v14;
+    //}
+    //else
+    //{
+    //    measure = font->MeasureWidth_4336C0(dst, (FP)v8);
+    //    xOffset = measure / -2;
+    //    if (array->field_C_align == 2)
+    //        xOffset = -measure;
+    //    v8 = op2a;
+    //    v12 = (signed int)(40 * (xOffset + x) + 11 + ((unsigned __int64)(-1307163959i64 * (40 * (xOffset + x) + 11)) >> 32)) >> 4;
+    //    v13 = strlen(dst) + v12 + (v12 >> 31);
+    //}
+    //v15 = byte_5CA4B4;
+    //v16 = Math_FixedPoint_Multiply_496C50(-655360, v8);
+    //byte_5CA4B4 = 1;
+    //result = font->DrawString_4337D0(
+    //    ot,
+    //    dst,
+    //    v13,
+    //    v16 / 0x10000 + y + 1,
+    //    0,
+    //    1,
+    //    0,
+    //    39,
+    //    0,
+    //    255,
+    //    0,
+    //    *polyIndex,
+    //    (FP)v8,
+    //    640,
+    //    0);
+    //*polyIndex = result;
+    //byte_5CA4B4 = v15;
+    //return result;
 }
 
 void MainMenu_ForceLink()

@@ -16,6 +16,7 @@
 #include "DDCheat.hpp"
 #include "Font.hpp"
 #include "FixedPoint.hpp"
+#include "Midi.hpp"
 
 void PauseMenu_ForceLink();
 
@@ -29,8 +30,6 @@ enum PauseMenuAlign
     Centre = 1,
     Right = 2,
 };
-
-
 
 struct PauseMenuPageEntry
 {
@@ -114,7 +113,7 @@ public:
     Poly_F4 field_1F4[4];
     int field_264;
 };
-//ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
+ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 
 
 EXPORT void CC sub_4CB0E0();
