@@ -778,6 +778,67 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 
     return 1;
 }
 
+// TODO: Should be refactored/combined with SND_SEQ_Play_4CAB10
+EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2, __int16 bDontStop)
+{
+    SeqDataRecord& rec = sSeqDataTable_BB2E38[idx];
+    if (!rec.field_C_ppSeq_Data)
+    {
+        return 0;
+    }
+
+    if (rec.field_A_id < 0)
+    {
+        if (sSeqsPlaying_count_word_BB2E3C >= 16)
+        {
+            SND_SsSeqClose_4CA8E0();
+            if (sSeqsPlaying_count_word_BB2E3C >= 16)
+            {
+                return 0;
+            }
+        }
+
+        const int vabId = sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id;
+        rec.field_A_id = MIDI_SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
+
+        sSeq_Ids_word_BB2354.ids[rec.field_A_id] = idx;
+        sSeqsPlaying_count_word_BB2E3C++;
+    }
+    else if (MIDI_SsIsEos_4FDA80(rec.field_A_id, 0))
+    {
+        if (!bDontStop)
+        {
+            return 0;
+        }
+        MIDI_SsSeqStop_4FD9C0(rec.field_A_id);
+    }
+
+    // Clamp vol
+    __int16 clampedVol = rec.field_9;
+    if (clampedVol <= 10)
+    {
+        clampedVol = 10;
+    }
+    else
+    {
+        if (clampedVol >= 127)
+        {
+            clampedVol = 127;
+        }
+    }
+
+    MIDI_SsSeqSetVol_4FDAC0(rec.field_A_id, clampedVol, clampedVol);
+    if (a2)
+    {
+        MIDI_SsSeqPlay_4FD900(rec.field_A_id, 1, a2);
+    }
+    else
+    {
+        MIDI_SsSeqPlay_4FD900(rec.field_A_id, 1, 0);
+    }
+
+    return 1;
+}
 
 
 ALIVE_VAR(1, 0xbb2e3e, WORD, sSnd_ReloadAbeResources_BB2E3E, 0);
@@ -1276,6 +1337,24 @@ EXPORT void CC MIDI_UpdatePlayer_4FDC80()
             }
             MIDI_4FDCE0();
         }
+    }
+}
+
+ALIVE_VAR(1, 0x560f78, short, sBackgroundMusic_seq_id_560F78, -1);
+
+void CC BackgroundMusic::Stop_4CB000()
+{
+    if (sBackgroundMusic_seq_id_560F78 >= 0)
+    {
+        SND_SEQ_Stop_4CAE60(sBackgroundMusic_seq_id_560F78);
+    }
+}
+
+void CC BackgroundMusic::Play_4CB030()
+{
+    if (sBackgroundMusic_seq_id_560F78 >= 0)
+    {
+        SND_SEQ_PlaySeq_4CA960(sBackgroundMusic_seq_id_560F78, 0, 0);
     }
 }
 
