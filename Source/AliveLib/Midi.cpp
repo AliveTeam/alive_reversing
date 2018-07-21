@@ -4,6 +4,9 @@
 #include "Sound.hpp"
 #include "PathData.hpp"
 #include "ResourceManager.hpp"
+#include "Game.hpp"
+#include "DDCheat.hpp" // TODO: Move Abe object to own file
+#include "LvlArchive.hpp"
 #include <timeapi.h>
 #include <gmock/gmock.h>
 
@@ -14,7 +17,7 @@ EXPORT void CC SEQ_4CB060()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC MIDI_46FBA0(unsigned __int8 a1, int a2, int a3, int a4)
+EXPORT int CC MIDI_46FBA0(unsigned __int8 /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -119,7 +122,7 @@ EXPORT void CC SND_SsVabClose_4FC5B0(int /*vabId*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC SND_Load_Vab_Header_4FC620(VabHeader* /*pVabHeader*/)
+EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* /*pVabHeader*/)
 {
     NOT_IMPLEMENTED();
 
@@ -160,6 +163,7 @@ EXPORT void CC SND_Load_Vab_Header_4FC620(VabHeader* /*pVabHeader*/)
 
     }
     */
+    return 0;
 }
 
 const int kSeqTableSize = 144;
@@ -672,6 +676,136 @@ EXPORT void CC MIDI_Wait_4FCE50()
 
     }
     sMidi_WaitUntil_BD1CF0 = 0;
+}
+
+ALIVE_VAR(1, 0xbb2e3e, WORD, sSnd_ReloadAbeResources_BB2E3E, 0);
+
+struct VabBodyRecord
+{
+    int field_0_length_or_duration;
+    int field_4_unused;
+    DWORD field_8_fileOffset;
+};
+
+EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* /*pVabBody*/, __int16 /*vabId*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
+{
+    // Fail if no file name
+    if (!pSoundBlockInfo->field_0_vab_header_name)
+    {
+        return 0;
+    }
+
+    // Find the VH file record
+    int headerSize = 0;
+    LvlFileRecord* pVabHeaderFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_0_vab_header_name);
+    if (sbEnable_PCOpen_5CA4B0)
+    {
+        headerSize = pVabHeaderFile->field_14_file_size;
+    }
+    else
+    {
+        headerSize = pVabHeaderFile->field_10_num_sectors << 11;
+    }
+
+    // Load the VH file data
+    BYTE** ppVabHeader = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_VabHeader, vabId, headerSize);
+    pSoundBlockInfo->field_C_pVabHeader = *ppVabHeader;
+    sLvlArchive_5BC520.Read_File_4330A0(pVabHeaderFile, *ppVabHeader);
+    pResourceManager_5C1BB0->LoadingLoop_465590(0);
+    
+    // Find the VB file record
+    LvlFileRecord* pVabBodyFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_4_vab_body_name);
+    if (!pVabBodyFile)
+    {
+        // For some reason its acceptable to assume we have a VH with no VB, but the VH must always exist, this happens for MONK.VB
+        return 0;
+    }
+
+    int vabBodySize = 0;
+    if (sbEnable_PCOpen_5CA4B0)
+    {
+        vabBodySize = pVabBodyFile->field_14_file_size;
+    }
+    else
+    {
+        vabBodySize = pVabBodyFile->field_10_num_sectors << 11;
+    }
+
+    // Load the VB file data
+    BYTE** ppVabBody = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VabBody, vabId, vabBodySize);
+    if (!ppVabBody)
+    {
+        // Maybe filed due to OOM cause its huge, free the abe resources and try again
+        if (!sSnd_ReloadAbeResources_BB2E3E)
+        {
+            sSnd_ReloadAbeResources_BB2E3E = TRUE;
+            sActiveHero_5C1B68->Free_Resources_44D420();
+        }
+
+        // Compact/reclaim any other memory we can too
+        ResourceManager::Reclaim_Memory_49C470(0);
+
+        // If it fails again there is no recovery, in either case caller will restore abes resources
+        ppVabBody = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VabBody, vabId, vabBodySize);
+        if (!ppVabBody)
+        {
+            return 0;
+        }
+    }
+
+    // Now we can read the actual VB data
+    sLvlArchive_5BC520.Read_File_4330A0(pVabBodyFile, *ppVabBody);
+
+    // Convert the records in the header to internal representation
+    pSoundBlockInfo->field_8_vab_id = SND_Load_Vab_Header_4FC620(reinterpret_cast<VabHeader*>(pSoundBlockInfo->field_C_pVabHeader));
+
+    // Load actual sample data
+    SND_LoadSoundDat_4FC840(reinterpret_cast<VabBodyRecord*>(*ppVabBody), static_cast<short>(pSoundBlockInfo->field_8_vab_id));
+
+    // Now the sound samples are loaded we don't need the VB data anymore
+    ResourceManager::FreeResource_49C330(ppVabBody);
+    return 1;
+}
+
+EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo *pSoundBlockInfo, int /*reverb*/)
+{
+    SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
+    sSnd_ReloadAbeResources_BB2E3E = FALSE;
+    if (sLastLoadedSoundBlockInfo_BB2E34 != pSoundBlockInfo)
+    {
+        //SsUtReverbOff_4FE350();
+        //SsUtSetReverbDepth_4FE380(0, 0);
+        //SpuClearReverbWorkArea_4FA690();
+        
+        if (sMonkVh_Vb_560F48.field_8_vab_id < 0)
+        {
+            SND_VAB_Load_4C9FE0(&sMonkVh_Vb_560F48, 32);
+        }
+
+        sLastLoadedSoundBlockInfo_BB2E34 = pSoundBlockInfo;
+
+        __int16 vabId = 0;
+        while (SND_VAB_Load_4C9FE0(pSoundBlockInfoIter, vabId))
+        {
+            ++vabId;
+            ++pSoundBlockInfoIter;
+        }
+
+        // Put abes resources back if we had to unload them to fit the VB in memory
+        if (sSnd_ReloadAbeResources_BB2E3E)
+        {
+            ResourceManager::Reclaim_Memory_49C470(0);
+            sActiveHero_5C1B68->Load_Basic_Resources_44D460();
+        }
+
+        //SsUtSetReverbDepth_4FE380(reverb, reverb);
+        //SsUtReverbOn_4FE340();
+    }
 }
 
 EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 /*a1*/, __int16 /*a2*/)

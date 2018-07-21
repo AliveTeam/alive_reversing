@@ -41,7 +41,6 @@ ALIVE_VAR(1, 0x5bc008, __int16, sScreenshotOnNextFrame_5BC008, 0);
 ALIVE_VAR(1, 0xab49fc, int, sDDCheat_Unused2_AB49FC, 0);
 ALIVE_VAR(1, 0xab4a00, int, sDDCheat_Unused1_AB4A00, 0);
 
-ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
 ALIVE_VAR(1, 0x5c1b8c, Abe *, sControlledCharacter_5C1B8C, 0);
 
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
@@ -505,4 +504,14 @@ int Abe::sub_44B7B0()
 #else
     NOT_IMPLEMENTED();
 #endif
+}
+
+void Abe::Load_Basic_Resources_44D460()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::Free_Resources_44D420()
+{
+    NOT_IMPLEMENTED();
 }

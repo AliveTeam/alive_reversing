@@ -88,6 +88,9 @@ ALIVE_VAR(1, 0x5BC120, class CheatController*, pCheatController_5BC120, nullptr)
 
 ALIVE_VAR(1, 0x5C1128, class Collisions*, sCollisions_DArray_5C1128, nullptr);
 
+ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
+
+
 EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {
     CHAR RootPathName[4] = {};
