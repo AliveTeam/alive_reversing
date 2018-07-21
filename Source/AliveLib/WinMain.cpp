@@ -43,6 +43,7 @@ static void RunTests()
     Test::PsxTests();
     Test::GameTests();
     Test::EventTests();
+    Test::MidiTests();
 }
 
 static void InitOtherHooksAndRunTests()

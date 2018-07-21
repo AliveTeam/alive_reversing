@@ -65,11 +65,11 @@ struct MainMenuText
 class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT MainMenuController * ctor_4CE9A0(int a2, int a3);
+    EXPORT void ctor_4CE9A0(int a2, int a3);
 
     EXPORT void Render_4CF4C0(int **ot);
 
-    static EXPORT int MainMenuController::GetPageIndexFromCam_4D05A0(int camId);
+    EXPORT static int __stdcall GetPageIndexFromCam_4D05A0(int camId);
     EXPORT void sub_4D05E0(__int16 a2, __int16 a3);
     EXPORT void sub_4D06A0(AnimationEx *a3);
     EXPORT static void callback_4D06E0(MainMenuController *a1);

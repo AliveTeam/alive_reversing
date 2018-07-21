@@ -98,7 +98,7 @@ PerLvlData sDemos_5617F0[23] =
     { "Greeters Go Boom", 9, 28, 4, 25, 0, 0 }
 };
 
-MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
+void MainMenuController::ctor_4CE9A0(int a2, int a3)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -164,7 +164,7 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
     field_1F0 = a3;
 
     field_23C_T80 &= 0xFF1C0000u;
-    field_214_page_index = MainMenuController::GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034);
+    field_214_page_index = GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034);
     field_21C = 1;
     field_21E = 0;
     field_1F8 = 0;
@@ -217,7 +217,7 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
         sMenuItemCount_561538 = 28;
         field_20_animation.Set_Animation_Data_409C80(247808, (BYTE **)field_F4_resources.field_4_res_abespek2);
         sub_4D06A0(&field_20_animation);
-        return this;
+        return;
     }
     if (gMap_5C3030.sCurrentCamId_5C3034 == 30)
     {
@@ -237,10 +237,7 @@ MainMenuController * MainMenuController::ctor_4CE9A0(int a2, int a3)
         field_230_fmv_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, (BYTE **)field_F4_resources.field_4_res_abespek2);
         sub_4D06A0(&field_20_animation);
-        return this;
     }
-
-    return this;
 }
 
 void MainMenuController::Render_4CF4C0(int ** ot)
@@ -275,7 +272,7 @@ void MainMenuController::Render_4CF4C0(int ** ot)
         renderFunc(this, ot);
 }
 
-int MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
+int __stdcall MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
 {
     for (int i = 0; i < 24; i++)
     {

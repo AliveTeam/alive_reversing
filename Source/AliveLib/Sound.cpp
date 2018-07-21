@@ -33,17 +33,12 @@ ALIVE_ARY(1, 0xBBBD38, int, 127, sVolumeTable_BBBD38, {});
 ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 ALIVE_ARY(1, 0xBBC348, char, 64, sDSoundErrorBuffer_BBC348, {});
 
-EXPORT void CC SND_Init_4CA1F0()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC SND_4CB480()
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC SND_Close_4EFD50()
+EXPORT void CC SND_SsQuit_4EFD50()
 {
     if (sDSound_BBC344)
     {
@@ -75,11 +70,6 @@ EXPORT void CC SND_Close_4EFD50()
 }
 
 EXPORT void CC SND_Clear_4CB4B0()
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC SND_Shutdown_4CA280()
 {
     NOT_IMPLEMENTED();
 }
@@ -136,6 +126,8 @@ EXPORT char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
 {
     switch (hr)
     {
+    case S_OK:
+        return "";
     case DSERR_INVALIDCALL:
         return "DSERR_INVALIDCALL: This function is not valid for the current state of this object.";
     case DSERR_PRIOLEVELNEEDED:
@@ -162,15 +154,13 @@ EXPORT char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
         return "DSERR_NOAGGREGATION: The object does not support aggregation.";
     }
 
-    if (hr)
+    if (FAILED(hr))
     {
         sprintf(sDSoundErrorBuffer_BBC348, "DirectSound error %ld %lx", hr, hr);
         return sDSoundErrorBuffer_BBC348;
     }
-    else
-    {
-        return "";
-    }
+
+    return "";
 }
 
 EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, unsigned __int8 isStereo)
@@ -531,4 +521,23 @@ EXPORT signed int __cdecl SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 568, -1, "SND_New: out of samples");
         return -1;
     }
+}
+
+EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveDataLen)
+{
+    SND_Free_4EFA30(pSnd);
+    if (!SND_New_4EEFF0(pSnd, waveDataLen, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo))
+    {
+        if (waveDataLen * pSnd->field_1D_blockAlign > pSnd->field_C_buffer_size_bytes)
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 804, -1, "SND_Load(): data too big !!");
+            return -1;
+        }
+
+        if (pSnd->field_8_pSoundBuffer)
+        {
+            memcpy(pSnd->field_8_pSoundBuffer, pWaveData, waveDataLen * pSnd->field_1D_blockAlign);
+        }
+    }
+    return SND_Reload_4EF1C0(pSnd, nullptr, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
 }

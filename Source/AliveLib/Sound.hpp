@@ -4,11 +4,10 @@
 #include <mmeapi.h>
 #include <dsound.h>
 
-EXPORT void CC SND_Init_4CA1F0();
 EXPORT void CC SND_4CB480();
-EXPORT void CC SND_Close_4EFD50();
+EXPORT void CC SND_SsQuit_4EFD50();
 EXPORT void CC SND_Clear_4CB4B0();
-EXPORT void CC SND_Shutdown_4CA280();
+EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int isStereo);
 
 
 struct SoundEntry
@@ -27,3 +26,5 @@ struct SoundEntry
     int field_20_isStereo;
 };
 ALIVE_ASSERT_SIZEOF(SoundEntry, 0x24);
+
+

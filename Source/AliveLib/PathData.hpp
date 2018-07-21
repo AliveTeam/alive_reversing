@@ -58,7 +58,7 @@ struct SoundBlockInfo
     const char *field_0_vab_header_name;
     const char *field_4_vab_body_name;
     int field_8_vab_id;
-    int field_C_pVabHeader;
+    BYTE* field_C_pVabHeader;
 };
 
 struct PathRoot
