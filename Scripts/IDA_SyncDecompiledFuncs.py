@@ -1,26 +1,18 @@
 from idautils import *
 from idaapi import *
 from idc import *
+import urllib2
 
-def set_decompiled(function_address):
-    idc.set_color(function_address, CIC_FUNC, 0xEEFFF0)
+def ida_set_function_colour(function_address, colour):
+    idc.set_color(function_address, CIC_FUNC, colour)
 
-def is_decompiled(function_address):
+def ida_get_function_colour(function_address):
     function = idaapi.get_func(function_address)
     if not function:
-        return False
-    return function.color == 0xEEFFF0
+        return 0
+    return function.color
 
-def set_stubbed(function_address):
-    idc.set_color(function_address, CIC_FUNC, 0x5EDAFA)
-
-def is_stubbed(function_address):
-    function = idaapi.get_func(function_address)
-    if not function:
-        return False
-    return function.color == 0x5EDAFA
-
-def func_exists(function_address):
+def ida_func_exists(function_address):
     for segment in Segments():
         # get all functions
         for function_ea in Functions(segment, SegEnd(segment)):
@@ -28,39 +20,105 @@ def func_exists(function_address):
                 return True
     return False
 
+def downloadFile(url):
+    response = urllib2.urlopen(url)
+    html = response.read()
+    return html
+
+def toAddressList(html):
+    lines = html.split('\n')
+    ret = []
+    for line in lines:
+        addr = line.split(" ")[0].strip()
+        if len(addr) > 0:
+            ret.append(addr)
+    return ret
+
+class FunctionData():
+    def __init__(self):
+        self.bIsImpl = False
+        self.bIsStub = False
+        self.bIsCovered = False
+
+    def ColourName(self):
+        if self.bIsImpl:
+            return "Decompiled"
+        elif self.bIsStub and self.bIsCovered:
+            return "Covered stub"
+        elif self.bIsStub:
+            return "Stub"
+        else:
+            return "Covered"
+
+    def Colour(self):
+        if self.bIsImpl:
+            return 0x0FC4F1
+        elif self.bIsStub and self.bIsCovered:
+            # Covered and stubbed
+            return 0xC57AAF
+        elif self.bIsStub:
+            # None covered stub
+            return 0xC57AAF
+        else:
+            # Coverage only case
+            return 0x6370EC
+
+def LineToInt(line):
+    line = line.strip();
+    return long(line)
+
+def EnsureKey(address, dict):
+    if not dict.has_key(address):
+        dict[address] = FunctionData()
+
+def AddDecompiled(address, dict):
+    EnsureKey(address, dict)
+    dict[address].bIsImpl = True
+
+def AddStubbed(address, dict):
+    EnsureKey(address, dict)
+    dict[address].bIsStub = True
+
+def AddCovered(address, dict):
+    print "Add covered " + asHex(address)
+    EnsureKey(address, dict)
+    dict[address].bIsCovered = True
+
 def asHex(value):
     return (hex(value).rstrip("L") or "0").upper()
 
-def set_func_colors(funcs, isStubs):
-  for func in funcs:
-        func = func.strip();
-        func = long(func)
-        if (func_exists(func)):
-            if isStubs:
-                if is_stubbed(func) == False:
-                    print "Marking " + asHex(func) + " as stubbed"
-                    set_stubbed(func)
-                else:
-                    print asHex(func) + " already marked as stubbed"
-            else:
-                if is_decompiled(func) == False:
-                    print "Marking " + asHex(func) + " as decompiled"
-                    set_decompiled(func)
-                else:
-                    print asHex(func) + " already marked as decompiled"
+def sync_function_colour(address, functionData):
+    if (ida_func_exists(address)):
+        # Everything else is open season
+        colourToSet = functionData.Colour()
+        if ida_get_function_colour(address) == colourToSet:
+            print asHex(address) + " already set to " + functionData.ColourName() + "(" + asHex(colourToSet) + ")"
         else:
-            print asHex(func) + " function not found in IDB!"
+            print "Set " + asHex(address) + " to " + functionData.ColourName() + "(" + asHex(colourToSet) + ")"
+            ida_set_function_colour(address, colourToSet)
+    else:
+        print asHex(address) + " function not found in IDB!"
+
 
 def main():
-    with open('C:\GOG Games\Abes Exoddus\decompiled_functions.txt', 'r') as f:
-        decompiledFuncs = [line for line in f]
+    functionDataDict = {}
 
-    set_func_colors(decompiledFuncs, False)
+    with open('C:\GOG Games\Abes Exoddus\decompiled_functions.txt', 'r') as f:
+        for line in f:
+            AddDecompiled(LineToInt(line), functionDataDict)
 
     with open('C:\GOG Games\Abes Exoddus\stubbed_functions.txt', 'r') as f:
-        stubbedFuncs = [line for line in f]
+        for line in f:
+            AddStubbed(LineToInt(line), functionDataDict)
 
-    set_func_colors(stubbedFuncs, True)
+    funcsWithCoverage = toAddressList(downloadFile("https://gist.githubusercontent.com/paulsapps/ea0f1f6e6c7d977578d472f6165546d5/raw/fbf2b84227f7fe9e798db06075c6f72feac14ca1/gistfile1.txt"))
+    for func in funcsWithCoverage:
+        print "func is " + func
+        AddCovered(int(func, 16), functionDataDict)
+
+    for address in functionDataDict.iterkeys():
+        data = functionDataDict[address]
+        sync_function_colour(address, data)
 
 if __name__ == '__main__':
     main()
