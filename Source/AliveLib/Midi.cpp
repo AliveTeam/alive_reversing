@@ -684,6 +684,19 @@ EXPORT signed __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE* /*pSeqData*/, __int16 /*seq
     return 0;
 }
 
+EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
+{
+    for (int i = 0; i < kNumChannels; i++)
+    {
+        // Does the index match a bit in the bitmask?
+        if ((1 << i) & bitMask)
+        {
+            // Turn it off
+            MIDI_Stop_Channel_4FE010(static_cast<short>(i));
+        }
+    }
+}
+
 EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight)
 {
     SeqDataRecord& rec = sSeqDataTable_BB2E38[idx];
