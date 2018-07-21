@@ -678,6 +678,95 @@ EXPORT void CC MIDI_Wait_4FCE50()
     sMidi_WaitUntil_BD1CF0 = 0;
 }
 
+EXPORT signed __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE* /*pSeqData*/, __int16 /*seqIdx*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight)
+{
+    SeqDataRecord& rec = sSeqDataTable_BB2E38[idx];
+    if (!rec.field_C_ppSeq_Data)
+    {
+        return 0;
+    }
+
+    // SEQ isn't in use
+    if (rec.field_A_id < 0)
+    {
+        // Too many playing
+        if (sSeqsPlaying_count_word_BB2E3C >= 16)
+        {
+            // Stop any SEQs that are done
+            SND_SsSeqClose_4CA8E0();
+
+            // If none where done then can't continue
+            if (sSeqsPlaying_count_word_BB2E3C >= 16)
+            {
+                return 0;
+            }
+        }
+
+        // Open the SEQ
+        const short vabId = static_cast<short>(sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id);
+        rec.field_A_id = MIDI_SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
+
+        // Index into the IDS via the seq ID and map it to the index
+        sSeq_Ids_word_BB2354.ids[rec.field_A_id] = idx;
+        sSeqsPlaying_count_word_BB2E3C++;
+    }
+    else if (MIDI_SsIsEos_4FDA80(rec.field_A_id, 0))
+    {
+        MIDI_SsSeqStop_4FD9C0(rec.field_A_id);
+    }
+
+    // Clamp left
+    signed __int16 clampedVolLeft = 0;
+    if (volLeft < 10)
+    {
+        clampedVolLeft = 10;
+    }
+    else if (volLeft >= 127)
+    {
+        clampedVolLeft = 127;
+    }
+    else
+    {
+        clampedVolLeft = volLeft;
+    }
+
+    // Clamp right
+    signed __int16 clampedVolRight = 0;
+    if (volRight < 10)
+    {
+        clampedVolRight = 10;
+    }
+    else
+    {
+        clampedVolRight = volRight;
+        if (volRight >= 127)
+        {
+            clampedVolRight = 127;
+        }
+    }
+
+    MIDI_SsSeqSetVol_4FDAC0(rec.field_A_id, clampedVolLeft, clampedVolRight);
+
+    if (a2)
+    {
+        MIDI_SsSeqPlay_4FD900(rec.field_A_id, 1, a2);
+    }
+    else
+    {
+        MIDI_SsSeqPlay_4FD900(rec.field_A_id, 1, 0);
+    }
+
+    return 1;
+}
+
+
+
 ALIVE_VAR(1, 0xbb2e3e, WORD, sSnd_ReloadAbeResources_BB2E3E, 0);
 
 struct VabBodyRecord
@@ -772,7 +861,7 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
     return 1;
 }
 
-EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo *pSoundBlockInfo, int /*reverb*/)
+EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int /*reverb*/)
 {
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     sSnd_ReloadAbeResources_BB2E3E = FALSE;
