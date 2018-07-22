@@ -855,6 +855,7 @@ struct VabBodyRecord
 ALIVE_VAR(1, 0xbd1ce0, FILE *, sSoundDatFileHandle_BD1CE0, nullptr);
 ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, TRUE);
 
+// TODO: Reverse/refactor properly
 EXPORT DWORD *__cdecl SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
 {
     VabBodyRecord *ret; // ecx
@@ -867,6 +868,7 @@ EXPORT DWORD *__cdecl SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHead
     return &ret->field_8_fileOffset;
 }
 
+// TODO: Reverse/refactor properly
 EXPORT int __cdecl SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
 {
     int result; // eax
@@ -878,22 +880,20 @@ EXPORT int __cdecl SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, Va
     return result;
 }
 
+// TODO: Reverse/refactor properly
 EXPORT int __cdecl sub_4FC440(VabHeader *pVabHeader, int pVabBody, int idx)
 {
     return *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, (VabBodyRecord *)pVabBody, idx) - 1);// -1 = field_4_unused
 }
 
+// TODO: Reverse/refactor properly
 EXPORT BOOL __cdecl sub_4FC470(VabHeader *pVabHeader, int pVabBody, int idx)
 {
     return sub_4FC440(pVabHeader, pVabBody, idx) < 0;
 }
 
-std::vector<int> idxes;
-
 EXPORT int CC SND_SoundsDat_Read_4FC4E0(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx, void *pBuffer)
 {
-    idxes.push_back(idx);
-
     const int sampleOffset = *SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx); // = field_8_fileOffset
     const int sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, idx);
     if (sampleOffset == -1 || !sSoundDatFileHandle_BD1CE0)
