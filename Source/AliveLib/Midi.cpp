@@ -7,6 +7,8 @@
 #include "Game.hpp"
 #include "DDCheat.hpp" // TODO: Move Abe object to own file
 #include "LvlArchive.hpp"
+#include "stdlib.hpp"
+#include "Sound.hpp"
 #include <timeapi.h>
 #include <gmock/gmock.h>
 
@@ -94,8 +96,8 @@ ALIVE_ASSERT_SIZEOF(VabUnknown, 512);
 const int kMaxVabs = 4;
 
 ALIVE_VAR(1, 0xC13180, VabUnknown, s512_byte_C13180, {});
-ALIVE_ARY(1, 0xBE6144, char, kMaxVabs, sVagCounts_BE6144, {});
-ALIVE_ARY(1, 0x0BDCD64, char, kMaxVabs, sProgCounts_BDCD64, {});
+ALIVE_ARY(1, 0xBE6144, BYTE, kMaxVabs, sVagCounts_BE6144, {});
+ALIVE_ARY(1, 0x0BDCD64, BYTE, kMaxVabs, sProgCounts_BDCD64, {});
 
 
 struct VabHeader
@@ -178,18 +180,18 @@ ALIVE_VAR(1, 0xBE6160, SoundEntryTable, sSoundEntryTable16_BE6160, {});
 
 struct Converted_Vag
 {
-    __int16 field_0_adsr1;
-    __int16 field_2_adsr;
-    __int16 field_4_adsr;
-    __int16 field_6_adsr;
+    WORD field_0_adsr1;
+    WORD field_2_adsr;
+    WORD field_4_adsr;
+    WORD field_6_adsr;
     char field_8_min;
     char field_9_max;
     __int16 field_A_shift_cen;
-    char field_C;
+    BYTE field_C;
     char field_D_vol;
-    char field_E_priority;
-    char field_F_prog;
-    char field_10_vag;
+    BYTE field_E_priority;
+    BYTE field_F_prog;
+    BYTE field_10_vag;
     char field_11_pad;
 };
 ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
@@ -799,7 +801,7 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2
         }
 
         const int vabId = sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id;
-        rec.field_A_id = MIDI_SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
+        rec.field_A_id = MIDI_SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<short>(vabId));
 
         sSeq_Ids_word_BB2354.ids[rec.field_A_id] = idx;
         sSeqsPlaying_count_word_BB2E3C++;
@@ -850,9 +852,135 @@ struct VabBodyRecord
     DWORD field_8_fileOffset;
 };
 
-EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* /*pVabBody*/, __int16 /*vabId*/)
+ALIVE_VAR(1, 0xbd1ce0, FILE *, sSoundDatFileHandle_BD1CE0, nullptr);
+ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, TRUE);
+
+EXPORT DWORD *__cdecl SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
 {
-    NOT_IMPLEMENTED();
+    VabBodyRecord *ret; // ecx
+
+    ret = pVabBody;
+    if (!pVabHeader || idx < 0)
+        return 0;
+    if (idx - 1 >= 0)
+        ret = (VabBodyRecord *)((char *)pVabBody + 4 * (3 * (idx - 1) + 3));
+    return &ret->field_8_fileOffset;
+}
+
+EXPORT int __cdecl SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
+{
+    int result; // eax
+
+    if (pVabHeader && idx >= 0)
+        result = (signed int)(8 * *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx) - 2)) / 16;// -2 = field_0_length_or_duration
+    else
+        result = -1;
+    return result;
+}
+
+EXPORT int __cdecl sub_4FC440(VabHeader *pVabHeader, int pVabBody, int idx)
+{
+    return *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, (VabBodyRecord *)pVabBody, idx) - 1);// -1 = field_4_unused
+}
+
+EXPORT BOOL __cdecl sub_4FC470(VabHeader *pVabHeader, int pVabBody, int idx)
+{
+    return sub_4FC440(pVabHeader, pVabBody, idx) < 0;
+}
+
+std::vector<int> idxes;
+
+EXPORT int CC SND_SoundsDat_Read_4FC4E0(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx, void *pBuffer)
+{
+    idxes.push_back(idx);
+
+    const int sampleOffset = *SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx); // = field_8_fileOffset
+    const int sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, idx);
+    if (sampleOffset == -1 || !sSoundDatFileHandle_BD1CE0)
+    {
+        return 0;
+    }
+
+    fseek_521955(sSoundDatFileHandle_BD1CE0, sampleOffset, 0);
+    fread_520B5C(pBuffer, 2 * sampleLen, 1u, sSoundDatFileHandle_BD1CE0);
+    return sampleLen;
+}
+
+EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
+{
+    if (vabId < 0)
+    {
+        return;
+    }
+
+    sSoundDatFileHandle_BD1CE0 = fopen_520C64("sounds.dat", "rb");
+    sSoundDatIsNull_BD1CE8 = sSoundDatFileHandle_BD1CE0 == nullptr;
+
+    VabHeader* pVabHeader = spVabHeaders_C13160[vabId];
+    const int vagCount = sVagCounts_BE6144[vabId];
+    for (int i = 0; i < vagCount; i++)
+    {
+        SoundEntry* pEntry = &sSoundEntryTable16_BE6160.table[vabId][i];
+        memset(pEntry, 0, sizeof(SoundEntry));
+
+        if (!(i & 7))
+        {
+            MIDI_UpdatePlayer_4FDC80();
+        }
+
+
+        int sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, i);
+        if (sampleLen < 4000 && !sub_4FC470(pVabHeader, (int)pVabBody, i))
+        {
+            sampleLen *= 2;
+        }
+
+        if (sampleLen > 0)
+        {
+            // Find matching converted vag to set field_C / field_6_adsr
+            const int unused_field = sub_4FC470(pVabHeader, (int)pVabBody, i);
+            const BYTE unused_copy = unused_field != 0 ? 4 : 0;
+            for (int prog = 0; prog < 128; prog++)
+            {
+                for (int tone = 0; tone < 16; tone++)
+                {
+                    Converted_Vag* pVag = &sConvertedVagTable_BEF160.table[vabId][tone][prog];
+                    if (pVag->field_10_vag == i)
+                    {
+                        pVag->field_C = unused_copy;
+                        if (!(unused_copy & 4) && !pVag->field_0_adsr1 && pVag->field_6_adsr)
+                        {
+                            pVag->field_6_adsr = 0;
+                        }
+                    }
+                }
+            }
+
+            // Allocate pEntry
+            if (SND_New_4EEFF0(pEntry, sampleLen, 44100, 16, 0) == 0)
+            {
+                // Allocate a temp buffer to read sounds.dat bytes into
+                void* pTempBuffer = malloc_4F4E60(sampleLen * pEntry->field_1D_blockAlign);
+                if (pTempBuffer)
+                {
+                    // Read the sample data
+                    memset(pTempBuffer, 0, sampleLen * pEntry->field_1D_blockAlign);
+                    if (SND_SoundsDat_Read_4FC4E0(pVabHeader, pVabBody, i, pTempBuffer))
+                    {
+                        // Load it into the sound buffer
+                        SND_Load_4EF680(pEntry, pTempBuffer, sampleLen);
+                    }
+                    mem_free_4F4EA0(pTempBuffer);
+                }
+            }
+        }
+    }
+
+    if (sSoundDatFileHandle_BD1CE0)
+    {
+        fclose_520CBE(sSoundDatFileHandle_BD1CE0);
+        sSoundDatFileHandle_BD1CE0 = nullptr;
+    }
 }
 
 EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __int16 vabId)
