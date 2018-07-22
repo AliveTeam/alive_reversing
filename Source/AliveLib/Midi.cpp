@@ -680,10 +680,124 @@ EXPORT void CC MIDI_Wait_4FCE50()
     sMidi_WaitUntil_BD1CF0 = 0;
 }
 
-EXPORT signed __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE* /*pSeqData*/, __int16 /*seqIdx*/)
+#pragma pack(push)
+#pragma pack(1)
+struct SeqHeader
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    int field_0_magic;
+    unsigned int field_4_version;
+    __int16 field_8_resolution_of_quater_note;
+    char field_A_tempo[3];
+    // No padding byte here, hence 1 byte packing enabled
+    char field_D_time_signature_bars;
+    char field_E_time_signature_beats;
+};
+#pragma pack(pop)
+ALIVE_ASSERT_SIZEOF(SeqHeader, 0xF);
+
+// TODO: Refactor/rewrite
+EXPORT const void **__cdecl MIDI_Copy_And_Advance_4FD870(const void **pSrc, void *pDst, unsigned int count)
+{
+    const void **result; // eax
+
+    result = pSrc;
+    memcpy(pDst, *pSrc, count);
+    *result = (char *)*result + count;
+    return result;
+}
+
+// TODO: Refactor/rewrite
+EXPORT __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE *pSeqData, __int16 seqIdx)
+{
+    int freeIdx; // ebp
+    MIDI_Struct2 *pIter; // eax
+    int freeIdxCopy; // esi
+    char *pMidiChannelData; // eax
+    signed int midiChannelCounter; // ecx
+    __int16 quaterNoteLoByte; // dx
+    int quaterNoteHiByte; // ecx
+    int quaterNoteLoByteCopy; // eax
+    __int16 tempoLastByte; // dx
+    int quaterNoteRes; // ecx
+    int calculatedQuaterNoteRes; // edi
+    int calculatedTempo; // eax
+    unsigned int tempo24bit; // eax
+    __int16 seqIdxCopy; // dx
+    BYTE *pSeqDataCopy; // eax
+    SeqHeader seqHeader; // [esp+0h] [ebp-10h]
+
+    MIDI_Copy_And_Advance_4FD870((const void **)&pSeqData, &seqHeader, 0xFu);
+    if (seqHeader.field_0_magic != ResourceManager::Resource_SEQp
+        || ((((seqHeader.field_4_version << 16) | seqHeader.field_4_version & 0xFF00) << 8) | (((seqHeader.field_4_version >> 16) | seqHeader.field_4_version & 0xFF0000) >> 8)) > 1)
+    {
+        return -1;
+    }
+
+    freeIdx = 0;
+    pIter = sMidiStruct2Ary32_C13400.table;
+    for (int i=0; i<32; i++)
+    {
+        if (!pIter->field_0_seq_data)
+        {
+            break;
+        }
+        ++pIter;
+        ++freeIdx;
+    } 
+
+    if (freeIdx == 32)
+    {
+        freeIdx = 0;
+        MIDI_Stop_None_Ended_Seq_4FD8D0(0);
+    }
+
+    freeIdxCopy = freeIdx;
+    memset(&sMidiStruct2Ary32_C13400.table[freeIdx], 0, sizeof(MIDI_Struct2));
+    pMidiChannelData = &sMidiStruct2Ary32_C13400.table[freeIdx].field_33[0].field_1;
+    midiChannelCounter = 16;
+    do
+    {
+        *(pMidiChannelData - 1) = 112;
+        *pMidiChannelData = 64;
+        pMidiChannelData += 3;
+        --midiChannelCounter;
+    } while (midiChannelCounter);
+
+    //LOBYTE(quaterNoteLoByte) = 0;
+    //HIBYTE(quaterNoteLoByte) = seqHeader.field_8_resolution_of_quater_note;
+    quaterNoteLoByte = 0;
+    quaterNoteLoByte = seqHeader.field_8_resolution_of_quater_note << 8;
+
+    quaterNoteHiByte = HIBYTE(seqHeader.field_8_resolution_of_quater_note);
+    sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_2E = -1;
+    quaterNoteLoByteCopy = quaterNoteLoByte;
+    tempoLastByte = *(WORD *)&seqHeader.field_A_tempo[2];
+    sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_10 = quaterNoteLoByteCopy | quaterNoteHiByte;
+    sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_31 = seqHeader.field_E_time_signature_beats;
+    sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_30 = HIBYTE(tempoLastByte);// also time sig bars ?
+    quaterNoteRes = sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_10;
+    if (quaterNoteRes >= 0)
+    {
+        tempo24bit = ((unsigned __int8)tempoLastByte | (((unsigned __int8)seqHeader.field_A_tempo[1] | ((unsigned int)(unsigned __int8)seqHeader.field_A_tempo[0] << 8)) << 8))
+            / quaterNoteRes;
+        calculatedTempo = ((((tempo24bit >> 1) + 15000) / tempo24bit >> 1) + 15000)
+            / (((tempo24bit >> 1) + 15000)
+                / tempo24bit);
+    }
+    else
+    {
+        calculatedQuaterNoteRes = -((unsigned __int8)quaterNoteRes * (-sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_10 >> 8));
+        sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_10 = calculatedQuaterNoteRes;
+        calculatedTempo = -1000000 / calculatedQuaterNoteRes;
+    }
+    seqIdxCopy = seqIdx;
+    sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_14 = calculatedTempo;
+    pSeqDataCopy = pSeqData;
+    sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_1C_pSeqData = pSeqData;
+    sMidiStruct2Ary32_C13400.table[freeIdx].field_0_seq_data = pSeqDataCopy;
+    sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_C_volume = 112;
+    sMidiStruct2Ary32_C13400.table[freeIdxCopy].field_seq_idx = seqIdxCopy;
+    return freeIdx;
 }
 
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
