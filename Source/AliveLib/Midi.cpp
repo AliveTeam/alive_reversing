@@ -24,6 +24,51 @@ EXPORT int CC MIDI_46FBA0(unsigned __int8 /*a1*/, int /*a2*/, int /*a3*/, int /*
     NOT_IMPLEMENTED();
 }
 
+EXPORT void SsUtReverbOff_4FE350()
+{
+    // Stub
+}
+
+EXPORT void SsUtSetReverbDepth_4FE380(int, int)
+{
+    // Stub
+}
+
+EXPORT void SpuClearReverbWorkArea_4FA690()
+{
+    // Stub
+}
+
+EXPORT void SsUtReverbOn_4FE340()
+{
+    // Stub
+}
+
+EXPORT void CC SsSetTableSize_4FE0B0(void*, int, int)
+{
+    // Stub
+}
+
+EXPORT void CC SsUtSetReverbType_4FE360(int)
+{
+    // Stub
+}
+
+EXPORT void CC SsSetTickMode_4FDC20(int)
+{
+    // Stub
+}
+
+EXPORT void CC SND_CallBack_4020A4()
+{
+    // Stub
+}
+
+EXPORT void CC SND_Set_VSyncCallback_4F8C40(void*)
+{
+    // Stub
+}
+
 struct MIDI_3_Bytes
 {
     char field_0;
@@ -302,13 +347,12 @@ ALIVE_VAR(1, 0xbb2e3c, __int16, sSeqsPlaying_count_word_BB2E3C, 0);
 EXPORT void CC SND_Init_4CA1F0()
 {
     SND_SsInitHot_4FC230();
-    // NOTE: These are stubs in real
-    //SsSetTableSize(&sTable_unk_BB2374, 16, 1);
-    //SsUtSetReverbDepth_4FE380(0, 0);
-    //SsUtSetReverbType_4FE360(4);
-    //SsUtReverbOn_4FE340();
-    //SsSetTickMode_4FDC20(4096);
-    //SND_Set_VSyncCallback_4F8C40(SND_CallBack_4020A4);
+    SsSetTableSize_4FE0B0(nullptr, 16, 1);
+    SsUtSetReverbDepth_4FE380(0, 0);
+    SsUtSetReverbType_4FE360(4);
+    SsUtReverbOn_4FE340();
+    SsSetTickMode_4FDC20(4096);
+    SND_Set_VSyncCallback_4F8C40(SND_CallBack_4020A4);
     PSX_SsStart_4FC320();
     PSX_SsSetMVol_4FC360(100, 100);
     memset(&sSeq_Ids_word_BB2354, -1, sizeof(SeqIds));
@@ -425,8 +469,7 @@ EXPORT void CC MIDI_SsSeqStop_4FD9C0(__int16 idx)
 
 EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx)
 {
-    if (sSeqDataTable_BB2E38[idx].field_A_id != -1
-        && sSeqDataTable_BB2E38[idx].field_C_ppSeq_Data)
+    if (sSeqDataTable_BB2E38[idx].field_A_id != -1 && sSeqDataTable_BB2E38[idx].field_C_ppSeq_Data)
     {
         if (MIDI_SsIsEos_4FDA80(sSeqDataTable_BB2E38[idx].field_A_id, 0))
         {
@@ -622,8 +665,8 @@ EXPORT void SND_Shutdown_4CA280()
     }
 
     PSX_SsSetMVol_4FC360(0, 0);
-    //SsUtReverbOff_4FE350();
-    //SsUtSetReverbDepth_4FE380(0, 0);
+    SsUtReverbOff_4FE350();
+    SsUtSetReverbDepth_4FE380(0, 0);
     MIDI_SsEnd_4FC350();
 
     for (int i = 0; i < kNumChannels; i++)
@@ -1167,15 +1210,15 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
     return 1;
 }
 
-EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int /*reverb*/)
+EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
 {
     SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     sSnd_ReloadAbeResources_BB2E3E = FALSE;
     if (sLastLoadedSoundBlockInfo_BB2E34 != pSoundBlockInfo)
     {
-        //SsUtReverbOff_4FE350();
-        //SsUtSetReverbDepth_4FE380(0, 0);
-        //SpuClearReverbWorkArea_4FA690();
+        SsUtReverbOff_4FE350();
+        SsUtSetReverbDepth_4FE380(0, 0);
+        SpuClearReverbWorkArea_4FA690();
         
         if (sMonkVh_Vb_560F48.field_8_vab_id < 0)
         {
@@ -1198,8 +1241,8 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int /*rever
             sActiveHero_5C1B68->Load_Basic_Resources_44D460();
         }
 
-        //SsUtSetReverbDepth_4FE380(reverb, reverb);
-        //SsUtReverbOn_4FE340();
+        SsUtSetReverbDepth_4FE380(reverb, reverb);
+        SsUtReverbOn_4FE340();
     }
 }
 
