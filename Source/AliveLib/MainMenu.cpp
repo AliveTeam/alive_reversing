@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "PathData.hpp"
 #include "DebugHelpers.hpp"
-#include "Common.hpp"
+#include "StringFormatters.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 

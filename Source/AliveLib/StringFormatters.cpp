@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "Common.hpp"
+#include "StringFormatters.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
 
-void Common_ForceLink()
+void StringFormatters_ForceLink()
 {
 }
 

@@ -6,7 +6,7 @@
 #include "DebugHelpers.hpp"
 #include "SwitchStates.hpp"
 #include <iomanip>
-#include "Common.hpp"
+#include "StringFormatters.hpp"
 
 // MACROS
 
