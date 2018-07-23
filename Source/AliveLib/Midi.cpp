@@ -686,95 +686,97 @@ struct SeqHeader
 {
     int field_0_magic;
     unsigned int field_4_version;
-    __int16 field_8_resolution_of_quater_note;
-    char field_A_tempo[3];
+    WORD field_8_resolution_of_quater_note;
+    BYTE field_A_tempo[3];
     // No padding byte here, hence 1 byte packing enabled
-    char field_D_time_signature_bars;
-    char field_E_time_signature_beats;
+    BYTE field_D_time_signature_bars;
+    BYTE field_E_time_signature_beats;
 };
 #pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(SeqHeader, 0xF);
 
-// TODO: Refactor/rewrite
-EXPORT const void **__cdecl MIDI_Copy_And_Advance_4FD870(const void **pSrc, void *pDst, unsigned int count)
+EXPORT void CC MIDI_Read_SEQ_Header_4FD870(BYTE** pSrc, SeqHeader* pDst, unsigned int size)
 {
-    const void **result; // eax
-
-    result = pSrc;
-    memcpy(pDst, *pSrc, count);
-    *result = (char *)*result + count;
-    return result;
+    memcpy(pDst, *pSrc, size);
+    (*pSrc) += size;
 }
 
-// TODO: Refactor/rewrite
-EXPORT __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE *pSeqData, __int16 seqIdx)
-{
-    MIDI_Struct2 *pIter; // eax
-    __int16 quaterNoteLoByte; // dx
-    int quaterNoteHiByte; // ecx
-    int quaterNoteLoByteCopy; // eax
-    __int16 tempoLastByte; // dx
-    int quaterNoteRes; // ecx
-    int calculatedQuaterNoteRes; // edi
-    int calculatedTempo; // eax
-    unsigned int tempo24bit; // eax
-    SeqHeader seqHeader; // [esp+0h] [ebp-10h]
+template<typename T> T SwapBytes(T value);
 
-    MIDI_Copy_And_Advance_4FD870((const void **)&pSeqData, &seqHeader, 0xFu);
-    if (seqHeader.field_0_magic != ResourceManager::Resource_SEQp
-        || ((((seqHeader.field_4_version << 16) | seqHeader.field_4_version & 0xFF00) << 8) | (((seqHeader.field_4_version >> 16) | seqHeader.field_4_version & 0xFF0000) >> 8)) > 1)
+template<>
+inline WORD SwapBytes<WORD>(WORD value)
+{
+    return (value >> 8) | (value << 8);
+}
+
+template<>
+inline unsigned SwapBytes<unsigned>(unsigned value)
+{
+    return unsigned(SwapBytes<WORD>(static_cast<WORD>(value)) << 16) | SwapBytes<WORD>(static_cast<WORD>(value >> 16));
+}
+
+EXPORT __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx)
+{
+    // Read header
+    SeqHeader seqHeader = {};
+    MIDI_Read_SEQ_Header_4FD870(&pSeqData, &seqHeader, sizeof(SeqHeader));
+    
+    // Check magic matches
+    if (seqHeader.field_0_magic != ResourceManager::Resource_SEQp)
     {
         return -1;
     }
 
+    // Only version 0 and 1 are valid ?
+    if (SwapBytes(seqHeader.field_4_version) > 1)
+    {
+        return -1;
+    }
+
+    // Find a free entry
     int freeIdx = 0;
-    for (int i=0; i<32; i++)
+    for (int i = 0; i<32; i++)
     {
         if (!sMidiStruct2Ary32_C13400.table[i].field_0_seq_data)
         {
             break;
         }
         freeIdx++;
-    } 
+    }
 
+    // Steal the first entry if none free
     if (freeIdx == 32)
     {
         freeIdx = 0;
         MIDI_Stop_None_Ended_Seq_4FD8D0(0);
     }
 
+    // Init its fields
     memset(&sMidiStruct2Ary32_C13400.table[freeIdx], 0, sizeof(MIDI_Struct2));
     for (int i = 0; i < 16; i++)
     {
-        sMidiStruct2Ary32_C13400.table[freeIdx].field_33[0].field_0 = 112;
-        sMidiStruct2Ary32_C13400.table[freeIdx].field_33[0].field_1 = 64;
+        sMidiStruct2Ary32_C13400.table[freeIdx].field_33[i].field_0 = 112;
+        sMidiStruct2Ary32_C13400.table[freeIdx].field_33[i].field_1 = 64;
     }
 
-    //LOBYTE(quaterNoteLoByte) = 0;
-    //HIBYTE(quaterNoteLoByte) = seqHeader.field_8_resolution_of_quater_note;
-    quaterNoteLoByte = 0;
-    quaterNoteLoByte = seqHeader.field_8_resolution_of_quater_note << 8;
-
-    quaterNoteHiByte = HIBYTE(seqHeader.field_8_resolution_of_quater_note);
+    // Set data based on SEQ header
     sMidiStruct2Ary32_C13400.table[freeIdx].field_2E = -1;
-    quaterNoteLoByteCopy = quaterNoteLoByte;
-    tempoLastByte = *(WORD *)&seqHeader.field_A_tempo[2];
-    sMidiStruct2Ary32_C13400.table[freeIdx].field_10 = quaterNoteLoByteCopy | quaterNoteHiByte;
+    sMidiStruct2Ary32_C13400.table[freeIdx].field_10 = SwapBytes(seqHeader.field_8_resolution_of_quater_note);
     sMidiStruct2Ary32_C13400.table[freeIdx].field_31 = seqHeader.field_E_time_signature_beats;
-    sMidiStruct2Ary32_C13400.table[freeIdx].field_30 = HIBYTE(tempoLastByte);// also time sig bars ?
+    sMidiStruct2Ary32_C13400.table[freeIdx].field_30 = seqHeader.field_D_time_signature_bars;
     
-    quaterNoteRes = sMidiStruct2Ary32_C13400.table[freeIdx].field_10;
+    const int quaterNoteRes = sMidiStruct2Ary32_C13400.table[freeIdx].field_10;
+    int calculatedTempo = 0;
+    // TODO: Figure out what these tempo calcs are actually doing
     if (quaterNoteRes >= 0)
     {
-        tempo24bit = ((unsigned __int8)tempoLastByte | (((unsigned __int8)seqHeader.field_A_tempo[1] | ((unsigned int)(unsigned __int8)seqHeader.field_A_tempo[0] << 8)) << 8))
-            / quaterNoteRes;
-        calculatedTempo = ((((tempo24bit >> 1) + 15000) / tempo24bit >> 1) + 15000)
-            / (((tempo24bit >> 1) + 15000)
-                / tempo24bit);
+        DWORD tempo24Bit = (seqHeader.field_A_tempo[0] << 16) | (seqHeader.field_A_tempo[1] << 8) | (seqHeader.field_A_tempo[2]);
+        tempo24Bit = tempo24Bit / quaterNoteRes;
+        calculatedTempo = ((((tempo24Bit >> 1) + 15000) / tempo24Bit >> 1) + 15000) / (((tempo24Bit >> 1) + 15000) / tempo24Bit);
     }
     else
     {
-        calculatedQuaterNoteRes = -((unsigned __int8)quaterNoteRes * (-sMidiStruct2Ary32_C13400.table[freeIdx].field_10 >> 8));
+        const int calculatedQuaterNoteRes = -(static_cast<unsigned __int8>(quaterNoteRes) * (-sMidiStruct2Ary32_C13400.table[freeIdx].field_10 >> 8));
         sMidiStruct2Ary32_C13400.table[freeIdx].field_10 = calculatedQuaterNoteRes;
         calculatedTempo = -1000000 / calculatedQuaterNoteRes;
     }
@@ -785,7 +787,7 @@ EXPORT __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE *pSeqData, __int16 seqIdx)
     sMidiStruct2Ary32_C13400.table[freeIdx].field_C_volume = 112;
     sMidiStruct2Ary32_C13400.table[freeIdx].field_seq_idx = seqIdx;
 
-    return freeIdx;
+    return static_cast<short>(freeIdx);
 }
 
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
