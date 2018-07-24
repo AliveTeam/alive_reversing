@@ -163,59 +163,30 @@ struct VabHeader
 };
 ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
 
-EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* /*pVabHeader*/)
+struct VagAtr
 {
-    NOT_IMPLEMENTED();
-
-    // TODO: Figure out vag conversion
-    /*
-    if (!pVabHeader)
-    {
-        return;
-    }
-
-    MIDI_UpdatePlayer_4FDC80();
-    int numVags = pVabHeader->field_16_num_vags;
-    const int vab_id = pVabHeader->field_8_id;
-    SND_SsVabClose_4FC5B0(vab_id);
-    int oldVabId = sVagCounts_BE6144[vab_id];
-    spVabHeaders_C13160[vab_id] = pVabHeader;
-    
-    if (oldVabId)
-    {
-        SND_SsVabClose_4FC5B0(vab_id);
-    }
-
-    if (numVags > 256)
-    {
-        numVags = 0;
-    }
-
-    const int numProgs = pVabHeader->field_12_num_progs;
-    sVagCounts_BE6144[vab_id] = static_cast<char>(numVags);
-    sProgCounts_BDCD64[vab_id] = static_cast<char>(numProgs);
-    //memset(s512_byte_C13180[vab_id], 0, sizeof(char[128]));
-
-    BYTE* pIntoHeader = (BYTE*)pVabHeader + 65;
-    //memset((char *)&unk_BEF160 + 36864 * vab_id, 0, 36864u);
-    int numProgs2 = pVabHeader->field_12_num_progs;
-    if (numProgs2 > 0)
-    {
-
-    }
-    */
-    return 0;
-}
-
-const int kSeqTableSize = 144;
-
-struct SoundEntryTable
-{
-    SoundEntry table[kMaxVabs][256];
+    char field_0_priority;
+    char field_1_mode;
+    char field_2_vol;
+    char field_3_pan;
+    unsigned __int8 field_4_centre;
+    unsigned __int8 field_5_shift;
+    char field_6_min;
+    char field_7_max;
+    char field_8_vibW;
+    char field_9_vibT;
+    char field_A_porW;
+    char field_B_porT;
+    char field_C_pitch_bend_min;
+    char field_D_pitch_bend_max;
+    char field_E_reserved1;
+    char field_F_reserved2;
+    __int16 field_10_adsr1;
+    __int16 field_12_adsr2;
+    __int16 field_14_prog;
+    __int16 field_16_vag;
+    __int16 field_18_reserved[4];
 };
-ALIVE_ASSERT_SIZEOF(SoundEntryTable, 36864);
-
-ALIVE_VAR(1, 0xBE6160, SoundEntryTable, sSoundEntryTable16_BE6160, {});
 
 struct Converted_Vag
 {
@@ -241,6 +212,121 @@ struct ConvertedVagTable
 };
 ALIVE_ASSERT_SIZEOF(ConvertedVagTable, 147456);
 ALIVE_VAR(1, 0xBEF160, ConvertedVagTable, sConvertedVagTable_BEF160, {});
+
+EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader *pVabHeader)
+{
+    if (!pVabHeader)
+    {
+        return -1;
+    }
+
+    MIDI_UpdatePlayer_4FDC80();
+
+    const int vab_id = pVabHeader->field_8_id;
+    SND_SsVabClose_4FC5B0(vab_id);
+    spVabHeaders_C13160[vab_id] = pVabHeader;
+    if (sVagCounts_BE6144[vab_id] > 0)
+    {
+        SND_SsVabClose_4FC5B0(vab_id);
+    }
+
+    int numVags = pVabHeader->field_16_num_vags;
+    if (numVags > 256)
+    {
+        numVags = 255;
+    }
+
+    sVagCounts_BE6144[vab_id] = numVags;
+    sProgCounts_BDCD64[vab_id] = pVabHeader->field_12_num_progs;
+    memset(s512_byte_C13180.field_0[vab_id], 0, sizeof(char[128]));
+    VagAtr* pVagAttr = (VagAtr *)&pVabHeader[1];
+    memset(&sConvertedVagTable_BEF160.table[vab_id][0][0], 0, sizeof(Converted_Vag[128][16]));
+
+    for (int i = 0; i < pVabHeader->field_12_num_progs; i++)
+    {
+        for (int toneCounter = 0; toneCounter < 16; toneCounter++)
+        {
+            if (pVagAttr->field_2_vol > 0)
+            {
+                //Converted_Vag* pData2 = &sConvertedVagTable_BEF160.table[vab_id][toneCounter][pVagAttr->field_14_prog];
+                Converted_Vag* pData =
+                    (Converted_Vag *)((char *)sConvertedVagTable_BEF160.table +
+                        sizeof(Converted_Vag) * (toneCounter + 16 * ((vab_id << 7) + pVagAttr->field_14_prog)));
+
+                pData->field_F_prog = pVagAttr->field_14_prog;
+                pData->field_10_vag = LOBYTE(pVagAttr->field_16_vag) - 1;
+                pData->field_C = 0;
+                pData->field_D_vol = pVagAttr->field_2_vol;
+                pData->field_E_priority = pVagAttr->field_0_priority;
+                pData->field_8_min = pVagAttr->field_6_min;
+                pData->field_9_max = pVagAttr->field_7_max;
+
+                const __int16 centre = pVagAttr->field_4_centre;
+                pData->field_A_shift_cen = 2 * (pVagAttr->field_5_shift + (centre << 7));
+
+                __int16 adsr11; // ax
+                char adsr2; // cl
+                double adsr1; // st7
+                float v17; // ST1C_4
+                float v18; // ST24_4
+                signed __int64 v19; // rax
+                signed __int64 v20; // rax
+                signed __int64 v21; // rax
+                signed __int64 v22; // rax
+                float sustainLevel; // [esp+10h] [ebp-8h]
+
+
+                adsr11 = pVagAttr->field_10_adsr1;
+                adsr2 = pVagAttr->field_12_adsr2;
+
+                adsr1 = (double)(2 * (~(unsigned __int8)pVagAttr->field_10_adsr1 & 15));
+                sustainLevel = (double)((unsigned __int8)adsr11 >> 4) * 0.06666667;
+                v19 = (signed __int64)(pow(2.0, (double)(HIBYTE(adsr11) & 127) * 0.25) * 0.09);
+                if ((signed int)v19 > 32767)
+                {
+                    v19 = 32767;
+                }
+                pData->field_0_adsr1 = v19;
+
+                v17 = adsr1 * 0.06666667;
+                v20 = (signed __int64)(v17 * 600.0);
+                if ((signed int)v20 > 32767)
+                {
+                    v20 = 32767;
+                }
+                pData->field_2_adsr = v20;
+
+                v21 = (signed __int64)(sustainLevel * 16.0);
+                if ((DWORD)v21 == 16)
+                {
+                    pData->field_2_adsr = 0;
+                }
+                pData->field_4_adsr = v21;
+
+                v18 = (double)(1 << (adsr2 & 0x1F)) * 0.045;
+                v22 = (signed __int64)v18;
+                if ((signed int)v22 > 32767)
+                {
+                    v22 = 32767;
+                }
+                pData->field_6_adsr = v22;
+            }
+            ++pVagAttr;
+        }
+    }
+    return static_cast<short>(vab_id);
+}
+
+const int kSeqTableSize = 144;
+
+struct SoundEntryTable
+{
+    SoundEntry table[kMaxVabs][256];
+};
+ALIVE_ASSERT_SIZEOF(SoundEntryTable, 36864);
+
+ALIVE_VAR(1, 0xBE6160, SoundEntryTable, sSoundEntryTable16_BE6160, {});
+
 
 struct MIDI_Struct1_Sub
 {
@@ -1264,10 +1350,51 @@ EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 /*a1*/, __int16 /*a2*/)
     return 0;
 }
 
-EXPORT int CC MIDI_PlayerPlayMidiNote_4FCE80(int /*a1*/, int /*program*/, int /*note*/, int /*leftVol*/, int /*rightVol*/, int /*volume*/)
+EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int /*idx*/, int /*vol*/)
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Struct1* pData, int vol)
+{
+    if (pData->field_8_left_vol == vol)
+    {
+        return 1;
+    }
+
+    pData->field_8_left_vol = static_cast<char>(vol);
+    
+    if (!SND_Buffer_Set_Volume_4EFAD0(pData->field_0_sound_buffer_field_4, vol))
+    {
+        return 1;
+    }
+
+    pData->field_1C.field_3 = 0;
+    return 0;
+}
+
+EXPORT int CC MIDI_PlayMidiNote_4FCB30(int /*vabId*/, int /*program*/, int /*note*/, int /*leftVolume*/, int /*rightVolume*/, int /*volume*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC MIDI_PlayerPlayMidiNote_4FCE80(int vabId, int program, int note, int leftVol, int rightVol, int volume)
+{
+    if (sSoundDatIsNull_BD1CE8)
+    {
+        return 0;
+    }
+
+    if (rightVol >= 64)
+    {
+        return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol * (127 - rightVol) / 64, leftVol, volume);
+    }
+    else
+    {
+        return MIDI_PlayMidiNote_4FCB30(vabId, program, note, leftVol, rightVol * leftVol / 64, volume);
+    }
 }
 
 ALIVE_VAR(1, 0xbd1cfc, BYTE, sControllerValue_BD1CFC, 0);
