@@ -163,12 +163,6 @@ struct VabHeader
 };
 ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
 
-
-EXPORT void CC SND_SsVabClose_4FC5B0(int /*vabId*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* /*pVabHeader*/)
 {
     NOT_IMPLEMENTED();
@@ -557,6 +551,24 @@ EXPORT void CC SND_Free_All_Seqs_4C9F40()
 }
 
 ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo *, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
+
+
+EXPORT void CC SND_SsVabClose_4FC5B0(int vabId)
+{
+    MIDI_Stop_All_Channels_4FDFE0();
+
+    if (sVagCounts_BE6144[vabId] - 1 >= 0)
+    {
+        // Free backwards
+        for (int i = sVagCounts_BE6144[vabId] - 1; i >= 0; i--)
+        {
+            SND_Free_4EFA30(&sSoundEntryTable16_BE6160.table[vabId][i]);
+        }
+    }
+
+    sVagCounts_BE6144[vabId] = 0;
+    sProgCounts_BDCD64[vabId] = 0;
+}
 
 EXPORT void CC SND_Free_All_VABS_4C9EB0()
 {

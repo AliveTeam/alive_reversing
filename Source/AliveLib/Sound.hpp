@@ -12,6 +12,7 @@ EXPORT void CC SND_Clear_4CB4B0();
 EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int isStereo);
 EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo);
 EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveDataLen);
+EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd);
 
 struct SoundEntry
 {
