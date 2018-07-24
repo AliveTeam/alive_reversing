@@ -35,6 +35,7 @@ ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_5C1130);
 ALIVE_VAR_EXTERN(bool, sCommandLine_NoFrameSkip_5CA4D1);
 
 EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT *pRect);
+EXPORT void CC Vram_free_495A60(int xy, int wh);
 EXPORT void CC DebugFont_Flush_4DD050();
 EXPORT int CC DebugFont_Printf_4F8B60(int idx, const char* formatStr, ...);
 EXPORT int CC DebugFont_Init_4DCF40();

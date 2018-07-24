@@ -50,6 +50,11 @@ signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsi
     NOT_IMPLEMENTED();
 }
 
+void CC Vram_free_495A60(int xy, int wh)
+{
+    NOT_IMPLEMENTED();
+}
+
 struct TextRecords
 {
     char field_0_src_txt[1024];

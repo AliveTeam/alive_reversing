@@ -44,7 +44,7 @@ struct Font_Context
     __int16 field_C_resource_id;
 
     EXPORT void LoadFontType_433400(int resourceID);
-
+    EXPORT void dtor_433510();
     // Custom Functions to load fonts directly from raw files
     bool LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut);
     void LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut);

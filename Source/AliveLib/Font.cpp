@@ -253,6 +253,12 @@ void Font_Context::LoadFontType_433400(int resourceID)
     }
 }
 
+void Font_Context::dtor_433510()
+{
+    if (field_0_rect.x)
+        Vram_free_495A60(*(DWORD *)&field_0_rect.x, *(DWORD *)&field_0_rect.w);
+}
+
 bool Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut)
 {
     auto debugFont = FS::ReadFile(fontPath);
