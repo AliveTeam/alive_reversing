@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BaseGameObject.hpp"
+#include "ResourceManager.hpp"
 #include "Function.hpp"
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
@@ -34,10 +35,14 @@ ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
 ALIVE_VAR(1, 0x5C1B70, Class_5C1B70, dword_5C1B70, {});
 
 
-BYTE ** BaseGameObject::Add_Resource_4DC130(int type, int resourceID)
+BYTE** BaseGameObject::Add_Resource_4DC130(DWORD type, int resourceID)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(type, resourceID, 1, 0);
+    if (ppRes)
+    {
+        field_10_resources_array.Push_Back_40CAF0(ppRes);
+    }
+    return ppRes;
 }
 
 void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize)
@@ -68,7 +73,7 @@ EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void Class_5C1B70::sub_449C10(int objCount, void* pGameObj)
+EXPORT void Class_5C1B70::sub_449C10(int /*objCount*/, void* /*pGameObj*/)
 {
     NOT_IMPLEMENTED();
 }
