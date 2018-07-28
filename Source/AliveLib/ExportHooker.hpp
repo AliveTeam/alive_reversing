@@ -89,6 +89,7 @@ private:
         for (const auto& e : mExports)
         {
             const bool hookDisabledByConfig = mDisabledImpls.find(e.mGameFunctionAddr) != std::end(mDisabledImpls);
+            /* So are so many hooks now that printing so much data to stdout out causes noticeable delay
             LOG_INFO("Hook: "
                 << e.mName.c_str()
                 << " From "
@@ -97,6 +98,7 @@ private:
                 << "0x" << std::hex << (e.mIsImplemented ? (DWORD)e.mCode : e.mGameFunctionAddr)
                 << " Implemented: " << e.mIsImplemented
                 << hookDisabledByConfig ? "(Override to OFF by config)" : "");
+            */
 
             if (e.mIsImplemented && !hookDisabledByConfig)
             {

@@ -144,6 +144,19 @@ ALIVE_VAR(1, 0xC13180, VabUnknown, s512_byte_C13180, {});
 ALIVE_ARY(1, 0xBE6144, BYTE, kMaxVabs, sVagCounts_BE6144, {});
 ALIVE_ARY(1, 0x0BDCD64, BYTE, kMaxVabs, sProgCounts_BDCD64, {});
 
+struct ProgAtr
+{
+    BYTE field_0_num_tones;
+    char field_1_vol;
+    char field_2_priority;
+    char field_3_mode;
+    char field_4_pan;
+    char field_5_reserved0;
+    __int16 field_6_attr;
+    int field_8_reserved1;
+    int field_C_reserved2;
+};
+ALIVE_ASSERT_SIZEOF(ProgAtr, 0x10);
 
 struct VabHeader
 {
@@ -160,7 +173,10 @@ struct VabHeader
     char field_1A_attr1;
     char field_1B_attr2;
     int field_1C_reserved1;
+    ProgAtr field_20_progs[128];
 };
+ALIVE_ASSERT_SIZEOF(VabHeader, 0x820);
+
 ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
 
 struct VagAtr
@@ -208,12 +224,12 @@ ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
 
 struct ConvertedVagTable
 {
-    Converted_Vag table[kMaxVabs][16][128]; // 16 = max tones, 128 = max progs
+    Converted_Vag table[kMaxVabs][128][16]; // 16 = max tones, 128 = max progs
 };
 ALIVE_ASSERT_SIZEOF(ConvertedVagTable, 147456);
 ALIVE_VAR(1, 0xBEF160, ConvertedVagTable, sConvertedVagTable_BEF160, {});
 
-EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader *pVabHeader)
+EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
 {
     if (!pVabHeader)
     {
@@ -248,10 +264,7 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader *pVabHeader)
         {
             if (pVagAttr->field_2_vol > 0)
             {
-                //Converted_Vag* pData2 = &sConvertedVagTable_BEF160.table[vab_id][toneCounter][pVagAttr->field_14_prog];
-                Converted_Vag* pData =
-                    (Converted_Vag *)((char *)sConvertedVagTable_BEF160.table +
-                        sizeof(Converted_Vag) * (toneCounter + 16 * ((vab_id << 7) + pVagAttr->field_14_prog)));
+                Converted_Vag* pData = &sConvertedVagTable_BEF160.table[vab_id][pVagAttr->field_14_prog][toneCounter];
 
                 pData->field_F_prog = pVagAttr->field_14_prog;
                 pData->field_10_vag = LOBYTE(pVagAttr->field_16_vag) - 1;
@@ -372,13 +385,8 @@ struct MidiTable
 ALIVE_ASSERT_SIZEOF(MidiTable, 3200);
 ALIVE_VAR(1, 0xC13400, MidiTable, sMidiStruct2Ary32_C13400, {});
 
-EXPORT void CC SND_SsInitHot_4FC230()
+static void SND_ResetData()
 {
-    sGlobalVolumeLevel_right_BD1CDE = 127;
-    sGlobalVolumeLevel_left_BD1CDC = 127;
-
-    SND_CreateDS_4EEAA0(22050u, 16, 1);
-
     memset(&s512_byte_C13180, 0, sizeof(VabUnknown));
     memset(&sSoundEntryTable16_BE6160, 0, sizeof(SoundEntryTable));
     memset(&sConvertedVagTable_BEF160, 0, sizeof(ConvertedVagTable));
@@ -399,6 +407,16 @@ EXPORT void CC SND_SsInitHot_4FC230()
             sMidiStruct2Ary32_C13400.table[i].field_33[j].field_1 = 64;
         }
     }
+}
+
+EXPORT void CC SND_SsInitHot_4FC230()
+{
+    sGlobalVolumeLevel_right_BD1CDE = 127;
+    sGlobalVolumeLevel_left_BD1CDC = 127;
+
+    SND_CreateDS_4EEAA0(22050u, 16, 1);
+
+    SND_ResetData();
 }
 
 struct SeqIds
@@ -1189,7 +1207,7 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
             {
                 for (int tone = 0; tone < 16; tone++)
                 {
-                    Converted_Vag* pVag = &sConvertedVagTable_BEF160.table[vabId][tone][prog];
+                    Converted_Vag* pVag = &sConvertedVagTable_BEF160.table[vabId][prog][tone];
                     if (pVag->field_10_vag == i)
                     {
                         pVag->field_C = unused_copy;
@@ -1806,6 +1824,8 @@ namespace Test
     //  TODO: Test all events
     static void Test_MIDI_ParseMidiMessage_4FD100()
     {
+        SND_ResetData();
+
         SCOPED_REDIRECT(MIDI_PlayerPlayMidiNote_4FCE80, Stub_MIDI_PlayerPlayMidiNote_4FCE80);
 
         MIDI_Struct2* pCtx = &sMidiStruct2Ary32_C13400.table[0];
@@ -1825,8 +1845,62 @@ namespace Test
         ASSERT_EQ(pCtx->field_2A, 0x95);
     }
 
+    static void Test_SND_Load_Vab_Header_4FC620()
+    {
+        SND_ResetData();
+
+        struct TestData
+        {
+            VabHeader header;
+            VagAtr attr[128 * 16];
+        };
+
+        TestData t = {};
+        int vab_id = 0;
+        t.header.field_8_id = vab_id;
+        t.header.field_12_num_progs = 1;
+        t.header.field_14_num_tones = 1;
+        t.header.field_16_num_vags = 1;
+
+        VagAtr& atr = t.attr[0];
+        atr.field_0_priority = 2;
+        atr.field_1_mode = 3;
+        atr.field_2_vol = 127;
+        atr.field_3_pan = 4;
+        atr.field_4_centre = 5;
+        atr.field_5_shift = 6;
+        atr.field_6_min = 7;
+        atr.field_7_max = 8;
+        atr.field_8_vibW = 9;
+        atr.field_9_vibT = 10;
+        atr.field_A_porW = 11;
+        atr.field_B_porT = 12;
+        atr.field_C_pitch_bend_min = 13;
+        atr.field_D_pitch_bend_max = 14;
+        atr.field_E_reserved1 = 15;
+        atr.field_F_reserved2 = 16;
+        atr.field_10_adsr1 = 17;
+        atr.field_12_adsr2 = 18;
+        atr.field_14_prog = 2;
+        atr.field_16_vag = 12;
+        for (int i = 0; i < 4; i++)
+        {
+            atr.field_18_reserved[i] = 8 + i;
+        }
+
+        SND_Load_Vab_Header_4FC620(&t.header);
+
+        ASSERT_EQ(atr.field_14_prog, sConvertedVagTable_BEF160.table[vab_id][atr.field_14_prog][0].field_F_prog);
+        ASSERT_EQ(atr.field_16_vag -1 , sConvertedVagTable_BEF160.table[vab_id][atr.field_14_prog][0].field_10_vag);
+
+        // TODO: Test other converted fields
+
+        SND_ResetData();
+    }
+
     void MidiTests()
     {
         Test_MIDI_ParseMidiMessage_4FD100();
+        Test_SND_Load_Vab_Header_4FC620();
     }
 }
