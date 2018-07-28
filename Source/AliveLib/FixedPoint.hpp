@@ -55,3 +55,10 @@ inline FixedPoint FP_FromDouble(double v)
 using FP = FixedPoint;
 
 ALIVE_ASSERT_SIZEOF(FP, 0x4);
+
+struct FP_Point
+{
+    FP field_0_x;
+    FP field_2_y;
+};
+ALIVE_ASSERT_SIZEOF(FP_Point, 8);

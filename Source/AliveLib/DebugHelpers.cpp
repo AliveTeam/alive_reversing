@@ -113,8 +113,8 @@ public:
             if (pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAnimatedWithPhysicsObj)
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
-                int x = aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset_x.GetExponent();
-                int y = aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_28_camera_offset_y.GetExponent();
+                int x = aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent();
+                int y = aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_2_y.GetExponent();
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {

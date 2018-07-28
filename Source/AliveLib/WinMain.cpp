@@ -28,6 +28,7 @@
 #include "SwitchStates.hpp"
 #include "StringFormatters.hpp"
 #include "MainMenu.hpp"
+#include "ScreenManager.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -44,6 +45,7 @@ static void RunTests()
     Test::GameTests();
     Test::EventTests();
     Test::MidiTests();
+    Test::ScreenManagerTests();
 }
 
 static void InitOtherHooksAndRunTests()
