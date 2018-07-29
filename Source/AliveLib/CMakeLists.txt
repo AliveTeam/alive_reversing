@@ -45,6 +45,8 @@ add_library(AliveLib
     BaseGameObject.hpp
     BaseAliveGameObject.cpp
     BaseAliveGameObject.hpp
+    BaseAnimatedWithPhysicsGameObject.cpp
+    BaseAnimatedWithPhysicsGameObject.hpp
     CreditsController.cpp
     CreditsController.hpp
     PauseMenu.cpp
@@ -60,6 +62,8 @@ add_library(AliveLib
     vlctable.hpp
     Animation.cpp
     Animation.hpp
+    BackgroundAnimation.cpp
+    BackgroundAnimation.hpp
     PathData.cpp
     PathData.hpp
     LvlArchive.cpp
@@ -80,6 +84,8 @@ add_library(AliveLib
     SwitchStates.cpp
     StringFormatters.hpp
     StringFormatters.cpp
+    Abe.hpp
+    Abe.cpp
     MainMenu.hpp
     MainMenu.cpp
     WinMain.cpp

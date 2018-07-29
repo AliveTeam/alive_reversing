@@ -9,6 +9,7 @@
 #include "LvlArchive.hpp"
 #include "stdlib.hpp"
 #include "Sound.hpp"
+#include "Abe.hpp"
 #include <timeapi.h>
 #include <gmock/gmock.h>
 

@@ -17,6 +17,7 @@
 #include "Font.hpp"
 #include "FixedPoint.hpp"
 #include "Midi.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 void PauseMenu_ForceLink();
 

@@ -29,6 +29,7 @@
 #include <fstream>
 #include "DebugHelpers.hpp"
 #include "Events.hpp"
+#include "Abe.hpp"
 #include <gmock/gmock.h>
 
 void Game_ForceLink() { }

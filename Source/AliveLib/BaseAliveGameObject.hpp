@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "DynamicArray.hpp"
 #include "Animation.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 #pragma pack(push)
 #pragma pack(2)

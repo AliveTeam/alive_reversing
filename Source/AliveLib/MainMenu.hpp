@@ -5,6 +5,7 @@
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
 #include "Font.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 void MainMenu_ForceLink();
 
