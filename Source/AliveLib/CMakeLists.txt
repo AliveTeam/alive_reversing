@@ -57,6 +57,7 @@ add_library(AliveLib
     PsxDisplay.hpp
     ScreenManager.cpp
     ScreenManager.hpp
+    vlctable.hpp
     Animation.cpp
     Animation.hpp
     PathData.cpp
