@@ -171,23 +171,19 @@ void Path::Init_4DB200(PathData* pPathData, __int16 level, __int16 path, __int16
 
 void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeToLoad)
 {
-    NOT_IMPLEMENTED();
-
     // Get a pointer to the array of index table offsets
     const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
 
     // Calculate the index of the offset we want for the given camera at x/y
-    const int objectTableIdx = indexTable[xpos + (ypos * field_6_cams_on_x)];
+    int objectTableIdx = indexTable[xpos + (ypos * field_6_cams_on_x)];
     if (objectTableIdx == -1)
     {
         // -1 means there are no objects for the given camera
         return;
     }
 
-    // With this offset we get a pointer to the first TLV item for this camera
     BYTE* ptr = &(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + objectTableIdx];
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
-    int tlvOffset = objectTableIdx;
     while (pPathTLV)
     {
         if ((typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) && ((WORD)loadMode || !(pPathTLV->field_0_flags & 3)))
@@ -197,11 +193,14 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeT
 
             if (!(WORD)loadMode)
             {
-                pPathTLV->field_0_flags |= 3;
+                pPathTLV->field_0_flags |= 3u;
             }
 
-            const DWORD gen = tlvOffset | ((field_0_levelId | (field_2_pathId << 8)) << 16);
-            pPathFnTable(pPathTLV, this, gen, static_cast<short>(loadMode));
+            pPathFnTable(
+                pPathTLV,
+                this,
+                objectTableIdx | ((field_0_levelId | (field_2_pathId << 8)) << 16),
+                static_cast<short>(loadMode));
         }
 
         // End of TLV list for current camera
@@ -210,8 +209,8 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeT
             break;
         }
 
-        pPathTLV = Path::Next_TLV_4DB6A0(pPathTLV);
-        tlvOffset += pPathTLV->field_2_length;
+        objectTableIdx += pPathTLV->field_2_length;
+        pPathTLV = Next_TLV_4DB6A0(pPathTLV);
     }
 }
 
