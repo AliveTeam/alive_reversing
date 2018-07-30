@@ -3,6 +3,7 @@
 #include "ResourceManager.hpp"
 #include "Function.hpp"
 #include "Events.hpp"
+#include "Map.hpp"
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
 
@@ -18,7 +19,12 @@ void BaseGameObject::VRender(int** /*pOrderingTable*/)
 
 void BaseGameObject::vsub_4DC0A0()
 {
-    NOT_IMPLEMENTED();
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId
+    || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId
+    || (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710()))
+    {
+        field_6_flags |= BaseGameObject::eDead;
+    }
 }
 
 void BaseGameObject::vnullsub_4DC0F0()

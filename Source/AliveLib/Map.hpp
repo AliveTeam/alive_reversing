@@ -65,6 +65,7 @@ public:
     EXPORT void Get_map_size_480640(PSX_Point* pPoint);
     EXPORT void GetCurrentCamCoords_480680(PSX_Point* pPoint);
     EXPORT void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
+    EXPORT __int16 Get_Path_Unknown_480710();
 
     EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, __int16 a5, __int16 a6, __int16 a7);
 
