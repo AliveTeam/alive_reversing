@@ -81,16 +81,17 @@ public:
     __int16 field_6_flags;
     int field_8_flags_ex;
     int field_C_objectId;
-    DynamicArray field_10_resources_array;
+    DynamicArrayT<BYTE*> field_10_resources_array;
     int field_1C_update_delay;
 };
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4);
 
-class Class_5C1B70
+class ObjectIds
 {
 public:
-    EXPORT void sub_449C10(int objCount, void* pGameObj);
+    EXPORT void Insert_449C10(int objCount, void* pGameObj);
+    EXPORT signed __int16 Remove_449C60(int id);
 };
 

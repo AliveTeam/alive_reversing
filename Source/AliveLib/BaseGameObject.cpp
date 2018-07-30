@@ -2,6 +2,7 @@
 #include "BaseGameObject.hpp"
 #include "ResourceManager.hpp"
 #include "Function.hpp"
+#include "Events.hpp"
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
 
@@ -32,7 +33,7 @@ int BaseGameObject::GetSaveState_4DC110(BYTE* /*pSaveBuffer*/)
 
 ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
 
-ALIVE_VAR(1, 0x5C1B70, Class_5C1B70, dword_5C1B70, {});
+ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds_5C1B70, {});
 
 
 BYTE** BaseGameObject::Add_Resource_4DC130(DWORD type, int resourceID)
@@ -65,15 +66,34 @@ void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed
     field_C_objectId = sAccumulatedObjectCount_5C1BF4;
     field_8_flags_ex = sAccumulatedObjectCount_5C1BF4;
     const int nextId = sAccumulatedObjectCount_5C1BF4++;
-    dword_5C1B70.sub_449C10(nextId, this);
+    sObjectIds_5C1B70.Insert_449C10(nextId, this);
 }
 
 EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
 {
+    SetVTable(this, 0x547AC4); // gVtbl_BaseGameObject_547AC4
+    Event_Cancel_For_Obj_422DF0(this);
+
+    for (int i = 0; i < field_10_resources_array.Size(); i++)
+    {
+        if (field_10_resources_array.ItemAt(i))
+        {
+            ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(i));
+        }
+    }
+
+    sObjectIds_5C1B70.Remove_449C60(field_8_flags_ex);
+
+    field_10_resources_array.dtor_40CAD0();
+}
+
+EXPORT void ObjectIds::Insert_449C10(int /*objCount*/, void* /*pGameObj*/)
+{
     NOT_IMPLEMENTED();
 }
 
-EXPORT void Class_5C1B70::sub_449C10(int /*objCount*/, void* /*pGameObj*/)
+signed __int16 ObjectIds::Remove_449C60(int /*id*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
