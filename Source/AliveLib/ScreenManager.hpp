@@ -14,18 +14,20 @@ public:
 public:
     EXPORT void ctor_480DD0();
     EXPORT void dtor_480E00();
+    EXPORT static void CC On_Loaded_480ED0(Camera* pCamera);
 
-    DynamicArray field_0;
+    DynamicArrayT<BYTE*> field_0;
     BYTE** field_C_pCamRes;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
-    __int16 field_30;
+    int field_10_camera;
+    __int16 field_14_xpos;
+    __int16 field_16_ypos;
+    __int16 field_18_path;
+    __int16 field_1A_level;
+    __int16 field_1C;
+    char field_1E_cam_name[12];
+    int field_2A;
+    __int16 field_2E;
+    __int16 field_30_flags;
 };
 #pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(Camera, 0x32);
