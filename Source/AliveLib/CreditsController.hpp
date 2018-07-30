@@ -15,7 +15,7 @@ public:
 
     EXPORT CreditsController* ctor_418A10(int a2, int a3);
     EXPORT void dtor_418A90();
-    EXPORT void dtor_418A60(char flags);
+    EXPORT void dtor_418A60(signed int flags);
     EXPORT void Update_418AC0();
 public:
     int field_20_next_cam_frame;

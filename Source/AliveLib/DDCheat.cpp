@@ -241,10 +241,10 @@ void DDCheat::Update_415780()
             field_3C_flags &= ~0x4;
             if (sActiveHero_5C1B68)
             {
-                POINT16 pos;
+                PSX_Point pos;
                 gMap_5C3030.GetCurrentCamCoords_480680(&pos);
-                sActiveHero_5C1B68->field_B8_xpos = FP(pos.x + 184);
-                sActiveHero_5C1B68->field_BC_ypos = FP(pos.y + 60);
+                sActiveHero_5C1B68->field_B8_xpos = FP(pos.field_0_x + 184);
+                sActiveHero_5C1B68->field_BC_ypos = FP(pos.field_2_y + 60);
                 sActiveHero_5C1B68->field_106_animation_num = 3;
                 sActiveHero_5C1B68->field_1AC |= 0x40;
                 sActiveHero_5C1B68->field_C2_lvl_number = sTeleport_Level_550F5C;

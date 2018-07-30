@@ -8,7 +8,6 @@
 void CreditsController_ForceLink() { }
 
 ALIVE_VAR(1, 0x5c1b90, __int16, sDoesCreditsControllerExist_5C1B90, false);
-ALIVE_VAR(1, 0x5c30fe, __int16, word_5C30FE, 0);
 
 
 void CreditsController::VDestructor(signed int flags)
@@ -23,7 +22,7 @@ void CreditsController::VUpdate()
 
 constexpr int kShowCreditScreenForTicks = 160;
 
-CreditsController * CreditsController::ctor_418A10(int a2, int a3)
+CreditsController * CreditsController::ctor_418A10(int /*a2*/, int /*a3*/)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544618);
@@ -42,7 +41,7 @@ void CreditsController::dtor_418A90()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void CreditsController::dtor_418A60(char flags)
+void CreditsController::dtor_418A60(signed int flags)
 {
     dtor_418A90();
     if (flags & 1)
@@ -53,7 +52,7 @@ void CreditsController::dtor_418A60(char flags)
 
 void CreditsController::Update_418AC0()
 {
-    if (field_20_next_cam_frame <= sGnFrame_5C1B84)
+    if (field_20_next_cam_frame <= static_cast<int>(sGnFrame_5C1B84))
     {
         field_24_camera_number++;
         field_20_next_cam_frame = sGnFrame_5C1B84 + kShowCreditScreenForTicks;
@@ -69,7 +68,7 @@ void CreditsController::Update_418AC0()
             {
                 gMap_5C3030.sub_480D30(16, 2, field_24_camera_number, 3, 0, 0);
             }
-            word_5C30FE = 1;
+            gMap_5C3030.field_CE = 1;
         }
         else
         {
@@ -81,7 +80,7 @@ void CreditsController::Update_418AC0()
             {
                 gMap_5C3030.sub_480D30(16, 1, field_24_camera_number, 3, 0, 0);
             }
-            word_5C30FE = 1;
+            gMap_5C3030.field_CE = 1;
         }
     }
 }

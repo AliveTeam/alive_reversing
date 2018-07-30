@@ -11,6 +11,14 @@ struct PSX_RECT
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
 
+
+struct PSX_Point
+{
+    short field_0_x;
+    short field_2_y;
+};
+ALIVE_ASSERT_SIZEOF(PSX_Point, 4);
+
 struct PSX_DISPENV
 {
     PSX_RECT disp;

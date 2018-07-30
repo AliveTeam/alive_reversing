@@ -46,11 +46,11 @@ int Abe::sub_44B7B0()
             pBaseGameObject->field_6_flags |= 4;
         }
 
-        POINT16 currentScreenCoords;
+        PSX_Point currentScreenCoords;
         gMap_5C3030.GetCurrentCamCoords_480680(&currentScreenCoords);
         if (pBaseGameObject != sActiveHero_5C1B68 && pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAliveGameObject &&
-            pBaseGameObject->field_B8_xpos.GetExponent() > currentScreenCoords.x && pBaseGameObject->field_B8_xpos.GetExponent() < currentScreenCoords.x + 350
-            && pBaseGameObject->field_BC_ypos.GetExponent() > currentScreenCoords.y && pBaseGameObject->field_BC_ypos.GetExponent() < currentScreenCoords.y + 240)
+            pBaseGameObject->field_B8_xpos.GetExponent() > currentScreenCoords.field_0_x && pBaseGameObject->field_B8_xpos.GetExponent() < currentScreenCoords.field_0_x + 350
+            && pBaseGameObject->field_BC_ypos.GetExponent() > currentScreenCoords.field_2_y && pBaseGameObject->field_BC_ypos.GetExponent() < currentScreenCoords.field_2_y + 240)
         {
             return (int)pBaseGameObject;
         }
