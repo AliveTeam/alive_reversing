@@ -102,6 +102,30 @@ void __stdcall Map::Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode)
     }
 }
 
+void CC Map::LoadResource_4DBE00(const char* pFileName, int type, int resourceId, __int16 loadMode, __int16 bDontLoad)
+{
+    if (!bDontLoad)
+    {
+        pResourceManager_5C1BB0->LoadResource_464EE0(pFileName, type, resourceId, sCameraBeingLoaded_5C3118, sCameraBeingLoaded_5C3118, 0, 1);
+        if (loadMode == 2)
+        {
+            pResourceManager_5C1BB0->LoadingLoop_465590(0);
+        }
+    }
+}
+
+void CC Map::LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, __int16 loadMode, __int16 bDontLoad)
+{
+    if (!bDontLoad)
+    {
+        pResourceManager_5C1BB0->LoadResourcesFromList_465150(pFileName, pList, sCameraBeingLoaded_5C3118, sCameraBeingLoaded_5C3118, 0, 1);
+        if (loadMode == 2)
+        {
+            pResourceManager_5C1BB0->LoadingLoop_465590(0);
+        }
+    }
+}
+
 void Path::ctor_4DB170()
 {
     field_C_pPathData = nullptr;

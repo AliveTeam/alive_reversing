@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
+#include "ResourceManager.hpp"
 
 void Map_ForceLink();
 
@@ -69,6 +70,8 @@ public:
 
     EXPORT static void __stdcall Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode);
 
+    EXPORT static void CC LoadResource_4DBE00(const char* pFileName, int type, int resourceId, __int16 loadMode, __int16 bDontLoad);
+    EXPORT static void CC LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, __int16 loadMode, __int16 bDontLoad);
 };
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
