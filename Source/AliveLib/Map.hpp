@@ -93,8 +93,13 @@ public:
     EXPORT void Free_4DB1C0();
     EXPORT void Init_4DB200(PathData* pPathData, __int16 level, __int16 path, __int16 cameraId, BYTE** ppPathRes);
 
+    
     EXPORT void Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeToLoad);
+    
+    EXPORT Path_TLV* Get_First_TLV_For_Offsetted_Camera_4DB610(__int16 cam_x_idx, __int16 cam_y_idx);
     EXPORT static Path_TLV* __stdcall Next_TLV_4DB6A0(Path_TLV* pTlv);
+    EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, __int16 camX);
+    EXPORT static Path_TLV* __stdcall TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type);
 
     unsigned __int16 field_0_levelId;
     unsigned __int16 field_2_pathId;

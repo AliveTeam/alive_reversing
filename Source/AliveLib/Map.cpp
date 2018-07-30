@@ -150,7 +150,7 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeT
     NOT_IMPLEMENTED();
 
     // Get a pointer to the array of index table offsets
-    int* indexTable = reinterpret_cast<int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
+    const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
 
     // Calculate the index of the offset we want for the given camera at x/y
     const int objectTableIdx = indexTable[xpos + (ypos * field_6_cams_on_x)];
@@ -191,6 +191,25 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeT
     }
 }
 
+Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(__int16 cam_x_idx, __int16 cam_y_idx)
+{
+    const int camY = cam_y_idx + gMap_5C3030.field_D2_cam_y_idx;
+    const int camX = cam_x_idx + gMap_5C3030.field_D0_cam_x_idx;
+    if (camX >= field_6_cams_on_x || camX < 0 || camY >= field_8_cams_on_y || camY < 0)
+    {
+        return nullptr;
+    }
+
+    const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
+    const int indexTableEntry = indexTable[(camX + (camY * field_6_cams_on_x))];
+    if (indexTableEntry == -1)
+    {
+        return nullptr;
+    }
+
+    return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + indexTableEntry]);
+}
+
 Path_TLV* __stdcall Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
 {
     if (pTlv->field_0_flags & 4)
@@ -202,6 +221,45 @@ Path_TLV* __stdcall Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
     BYTE* ptr = reinterpret_cast<BYTE*>(pTlv);
     BYTE* pNext = ptr + pTlv->field_2_length;
     return reinterpret_cast<Path_TLV*>(pNext);
+}
+
+Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, __int16 camX)
+{
+    Path_TLV* pTlv = Path::Get_First_TLV_For_Offsetted_Camera_4DB610(camX, 0);
+    if (!pTlv)
+    {
+        return 0;
+    }
+
+    while (pTlv->field_4_type != objectType)
+    {
+        pTlv = Path::Next_TLV_4DB6A0(pTlv);
+        if (!pTlv)
+        {
+            return nullptr;
+        }
+    }
+    return pTlv;
+}
+
+Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
+{
+    pTlv = Path::Next_TLV_4DB6A0(pTlv);
+    if (!pTlv)
+    {
+        return nullptr;
+    }
+
+    while (pTlv->field_4_type != type)
+    {
+        pTlv = Path::Next_TLV_4DB6A0(pTlv);
+        if (!pTlv)
+        {
+            return nullptr;
+        }
+    }
+
+    return pTlv;
 }
 
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});
