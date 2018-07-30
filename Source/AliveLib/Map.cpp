@@ -102,6 +102,49 @@ void __stdcall Map::Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode)
     }
 }
 
+void Path::ctor_4DB170()
+{
+    field_C_pPathData = nullptr;
+    field_10_ppRes = 0;
+    field_8_cams_on_y = 0;
+    field_6_cams_on_x = 0;
+    field_4_cameraId = 0;
+    field_2_pathId = 0;
+    field_0_levelId = 0;
+}
+
+void Path::dtor_4DB1A0()
+{
+    ResourceManager::FreeResource_49C330(field_10_ppRes);
+}
+
+void Path::Free_4DB1C0()
+{
+    ResourceManager::FreeResource_49C330(field_10_ppRes);
+    field_C_pPathData = 0;
+    field_10_ppRes = 0;
+    field_8_cams_on_y = 0;
+    field_6_cams_on_x = 0;
+    field_4_cameraId = 0;
+    field_2_pathId = 0;
+    field_0_levelId = 0;
+}
+
+void Path::Init_4DB200(PathData* pPathData, __int16 level, __int16 path, __int16 cameraId, BYTE** ppPathRes)
+{
+    ResourceManager::FreeResource_49C330(field_10_ppRes);
+    field_10_ppRes = ppPathRes;
+    ResourceManager::Inc_Ref_Count_49C310(ppPathRes);
+
+    field_4_cameraId = cameraId;
+    field_0_levelId = level;
+    field_2_pathId = path;
+
+    field_C_pPathData = pPathData;
+    field_6_cams_on_x = (field_C_pPathData->field_4_bTop - field_C_pPathData->field_0_bLeft) / field_C_pPathData->field_A_grid_width;
+    field_8_cams_on_y = (field_C_pPathData->field_6_bBottom - field_C_pPathData->field_2_bRight) / field_C_pPathData->field_C_grid_height;
+}
+
 void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeToLoad)
 {
     NOT_IMPLEMENTED();

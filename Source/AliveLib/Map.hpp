@@ -88,6 +88,11 @@ ALIVE_ASSERT_SIZEOF(Path_TLV, 0x10);
 class Path
 {
 public:
+    EXPORT void ctor_4DB170();
+    EXPORT void dtor_4DB1A0();
+    EXPORT void Free_4DB1C0();
+    EXPORT void Init_4DB200(PathData* pPathData, __int16 level, __int16 path, __int16 cameraId, BYTE** ppPathRes);
+
     EXPORT void Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeToLoad);
     EXPORT static Path_TLV* __stdcall Next_TLV_4DB6A0(Path_TLV* pTlv);
 
