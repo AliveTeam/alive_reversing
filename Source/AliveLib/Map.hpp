@@ -28,7 +28,7 @@ public:
     unsigned __int16 field_A_5C303A_levelId;
     unsigned __int16 field_C_5C303C_pathId;
     __int16 field_E_cameraId;
-    __int16 field_10;
+    __int16 field_10_screen_change_effect;
     __int16 field_12_ticks;
 
     __int16 field_14_direction;
@@ -60,9 +60,44 @@ public:
     EXPORT void sub_480B80();
     EXPORT int sub_4803F0(__int16 a2, __int16 a3, __int16 a4, __int16 a5, __int16 a6, __int16 a7);
     EXPORT void sub_4804E0();
+
+    EXPORT void Get_map_size_480640(PSX_Point* pPoint);
     EXPORT void GetCurrentCamCoords_480680(PSX_Point* pPoint);
-    EXPORT void sub_480D30(__int16 level, __int16 path, __int16 cam, __int16 a5, __int16 a6, __int16 a7);
+    EXPORT void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
+
+    EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, __int16 a5, __int16 a6, __int16 a7);
+
+    EXPORT static void __stdcall Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode);
+
 };
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
 ALIVE_VAR_EXTERN(Map, gMap_5C3030);
+
+struct Path_TLV
+{
+    __int16 field_0_flags;
+    __int16 field_2_length;
+    int field_4_type;
+    PSX_Point field_8_top_left;
+    PSX_Point field_C_bottom_right;
+};
+ALIVE_ASSERT_SIZEOF(Path_TLV, 0x10);
+
+
+class Path
+{
+public:
+    EXPORT void Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeToLoad);
+    EXPORT static Path_TLV* __stdcall Next_TLV_4DB6A0(Path_TLV* pTlv);
+
+    unsigned __int16 field_0_levelId;
+    unsigned __int16 field_2_pathId;
+    __int16 field_4_cameraId;
+    unsigned __int16 field_6_cams_on_x;
+    unsigned __int16 field_8_cams_on_y;
+    __int16 field_A;
+    PathData* field_C_pPathData;
+    BYTE** field_10_ppRes;
+};
+ALIVE_ASSERT_SIZEOF(Path, 0x14);
