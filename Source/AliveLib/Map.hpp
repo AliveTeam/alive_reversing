@@ -60,6 +60,7 @@ public:
 
     EXPORT void sub_480B80();
     EXPORT void Init_4803F0(__int16 level, __int16 path, __int16 camera, __int16 a5, __int16 a6, __int16 a7);
+    EXPORT void Reset_4805D0();
     EXPORT void GoTo_Camera_481890();
     EXPORT void sub_4804E0();
 
