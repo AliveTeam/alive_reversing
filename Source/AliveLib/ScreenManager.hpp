@@ -18,12 +18,12 @@ public:
 
     DynamicArrayT<BYTE*> field_0;
     BYTE** field_C_pCamRes;
-    int field_10_camera;
+    int field_10_camera_resource_id;
     __int16 field_14_xpos;
     __int16 field_16_ypos;
     __int16 field_18_path;
     __int16 field_1A_level;
-    __int16 field_1C;
+    __int16 field_1C_camera_number;
     char field_1E_cam_name[12];
     int field_2A;
     __int16 field_2E;

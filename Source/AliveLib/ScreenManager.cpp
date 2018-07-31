@@ -45,7 +45,7 @@ void Camera::dtor_480E00()
 void CC Camera::On_Loaded_480ED0(Camera* pCamera)
 {
     pCamera->field_30_flags |= 1;
-    pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera, 1, 0);
+    pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 }
 
 void ScreenManager::sub_40EE10()

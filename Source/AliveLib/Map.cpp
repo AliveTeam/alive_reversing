@@ -115,6 +115,80 @@ signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam
     return 1;
 }
 
+struct CameraName
+{
+    char name[8];
+};
+ALIVE_ASSERT_SIZEOF(CameraName, 8);
+
+Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
+{
+    // Check min bound
+    if (xpos < 0 || ypos < 0)
+    {
+        return nullptr;
+    }
+
+    // Check max bounds
+    if (xpos >= sPath_dword_BB47C0->field_6_cams_on_x || ypos >= sPath_dword_BB47C0->field_8_cams_on_y)
+    {
+        return nullptr;
+    }
+
+    // Return existing camera if we already have one
+    for (int i = 0; i < 5; i++)
+    {
+        if (field_40_stru_5[i]
+            && field_40_stru_5[i]->field_1A_level == sCurrentLevelId_5C3030
+            && field_40_stru_5[i]->field_18_path == sCurrentPathId_5C3032
+            && field_40_stru_5[i]->field_14_xpos == xpos
+            && field_40_stru_5[i]->field_16_ypos == ypos)
+        {
+            Camera* pTemp = field_40_stru_5[i];
+            field_40_stru_5[i] = nullptr;
+            return pTemp;
+        }
+    }
+
+    // Get a pointer to the camera name from the Path resource
+    BYTE* pPathData = *field_54_path_res_array.field_0_pPathRecs[sCurrentPathId_5C3032];
+    CameraName* pCamName = reinterpret_cast<CameraName*>(&pPathData[(xpos + (ypos * sPath_dword_BB47C0->field_6_cams_on_x)) * sizeof(CameraName)]);
+
+    // Empty/blank camera in the map array
+    if (!pCamName->name[0])
+    {
+        return nullptr;
+    }
+
+    Camera* newCamera = alive_new<Camera>();
+    newCamera->ctor_480DD0();
+
+    // Copy in the camera name from the Path resource and append .CAM
+    memset(newCamera->field_1E_cam_name, 0, sizeof(newCamera->field_1E_cam_name));
+    strncpy(newCamera->field_1E_cam_name, pCamName->name, _countof(CameraName::name));
+    strcat(newCamera->field_1E_cam_name, ".CAM");
+
+    newCamera->field_14_xpos = xpos;
+    newCamera->field_16_ypos = ypos;
+
+    newCamera->field_30_flags &= -1;
+
+    newCamera->field_1A_level = sCurrentLevelId_5C3030;
+    newCamera->field_18_path = sCurrentPathId_5C3032;;
+
+    // Calculate hash/resource ID of the camera
+    newCamera->field_10_camera_resource_id =
+        1 * (pCamName->name[7] - '0') +
+        10 * (pCamName->name[6] - '0') +
+        100 * (pCamName->name[4] - '0') +
+        1000 * (pCamName->name[3] - '0');
+
+    // Convert the 2 digit camera number string to an integer
+    newCamera->field_1C_camera_number = pCamName->name[7] - '0' + ((pCamName->name[6] - '0') * 10);
+    
+    return newCamera;
+}
+
 void __stdcall Map::Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode)
 {
     if (!pCamera)
@@ -138,7 +212,7 @@ void __stdcall Map::Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode)
             // Blocking camera load
             ResourceManager::LoadResourceFile_49C170(pCamera->field_1E_cam_name, pCamera);
             pCamera->field_30_flags |= 1;
-            pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera, 1, 0);
+            pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 
             sCameraBeingLoaded_5C3118 = pCamera;
             sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, 2, -1);
