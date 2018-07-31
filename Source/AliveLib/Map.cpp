@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
+#include "stdlib.hpp"
 
 void Map_ForceLink() { }
 
@@ -16,7 +17,32 @@ void Map::sub_480B80()
     NOT_IMPLEMENTED();
 }
 
-int Map::sub_4803F0(__int16 /*a2*/, __int16 /*a3*/, __int16 /*a4*/, __int16 /*a5*/, __int16 /*a6*/, __int16 /*a7*/)
+void Map::Init_4803F0(__int16 level, __int16 path, __int16 camera, __int16 a5, __int16 a6, __int16 a7)
+{
+    sPath_dword_BB47C0 = alive_new<Path>();
+    sPath_dword_BB47C0->ctor_4DB170();
+
+    field_2C_5C305C_camera_array[0] = 0;
+    field_2C_5C305C_camera_array[1] = 0;
+    field_2C_5C305C_camera_array[2] = 0;
+    field_2C_5C305C_camera_array[3] = 0;
+    field_2C_5C305C_camera_array[4] = 0;
+
+    field_22 = -1;
+
+    sCurrentCamId_5C3034 = static_cast<short>(-1);
+    sCurrentPathId_5C3032 = static_cast<short>(-1);
+    sCurrentLevelId_5C3030 = static_cast<short>(-1);
+
+    field_8 = 0;
+
+    SetActiveCam_480D30(level, path, camera, a5, a6, a7);
+    GoTo_Camera_481890();
+    
+    field_6 = 0;
+}
+
+void Map::GoTo_Camera_481890()
 {
     NOT_IMPLEMENTED();
 }

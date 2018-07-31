@@ -686,9 +686,9 @@ EXPORT void CC Game_Run_466D40()
 
     Input_Init_491BC0();
 #ifdef DEVELOPER_MODE
-    gMap_5C3030.sub_4803F0(0, 1, 1, 0, 0, 0);
+    gMap_5C3030.Init_4803F0(0, 1, 1, 0, 0, 0);
 #else
-    gMap_5C3030.sub_4803F0(0, 1, 25, 0, 0, 0);
+    gMap_5C3030.Init_4803F0(0, 1, 25, 0, 0, 0);
 #endif
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = alive_new<GameSpeak>();
