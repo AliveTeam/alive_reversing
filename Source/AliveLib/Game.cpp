@@ -727,7 +727,7 @@ EXPORT void CC Game_Run_466D40()
     // Shut down start
     Game_Free_LoadingIcon_482D40();
     DDCheat::ClearProperties_415390();
-    gMap_5C3030.sub_4804E0();
+    gMap_5C3030.Shutdown_4804E0();
 
     if (gObjList_animations_5C1A24)
     {

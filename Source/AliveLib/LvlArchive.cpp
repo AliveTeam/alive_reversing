@@ -11,6 +11,7 @@ ALIVE_VAR(1, 0x551D28, int, sTotalOpenedFilesCount_551D28, 3); // Starts at 3.. 
 ALIVE_ARY(1, 0x5BC220, LvlFileRecord, 32, sOpenFileNames_5BC220, {});
 
 ALIVE_VAR(1, 0x5BC520, LvlArchive, sLvlArchive_5BC520, {});
+ALIVE_VAR(1, 0x5C3110, LvlArchive, stru_5C3110, {});
 
 EXPORT int CC File_pc_open_4FA2C0(const char* fileName, int mode)
 {

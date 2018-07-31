@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
+#include "LvlArchive.hpp"
 #include "stdlib.hpp"
 
 void Map_ForceLink() { }
@@ -42,6 +43,46 @@ void Map::Init_4803F0(__int16 level, __int16 path, __int16 camera, __int16 a5, _
     field_6 = 0;
 }
 
+void Map::Shutdown_4804E0()
+{
+    sLvlArchive_5BC520.Free_433130();
+    stru_5C3110.Free_433130();
+
+    // Free Path resources
+    for (int i = 0; i < 30; i++)
+    {
+        if (field_54_path_res_array.field_0_pPathRecs[i])
+        {
+            ResourceManager::FreeResource_49C330(field_54_path_res_array.field_0_pPathRecs[i]);
+            field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
+        }
+    }
+
+    // Free cameras
+    for (int i = 0; i < 5; i++)
+    {
+        if (field_2C_5C305C_camera_array[i])
+        {
+            field_2C_5C305C_camera_array[i]->dtor_480E00();
+            Mem_Free_495540(field_2C_5C305C_camera_array[i]);
+            field_2C_5C305C_camera_array[i] = nullptr;
+        }
+    }
+
+    pScreenManager_5BB5F4 = nullptr;
+
+    // Free path
+    if (sPath_dword_BB47C0)
+    {
+        sPath_dword_BB47C0->dtor_4DB1A0();
+        Mem_Free_495540(sPath_dword_BB47C0);
+    }
+    sPath_dword_BB47C0 = nullptr;
+    
+    ResourceManager::Reclaim_Memory_49C470(0);
+    Reset_4805D0();
+}
+
 void Map::Reset_4805D0()
 {
     field_2C_5C305C_camera_array[0] = 0;
@@ -56,11 +97,6 @@ void Map::Reset_4805D0()
 }
 
 void Map::GoTo_Camera_481890()
-{
-    NOT_IMPLEMENTED();
-}
-
-void Map::sub_4804E0()
 {
     NOT_IMPLEMENTED();
 }

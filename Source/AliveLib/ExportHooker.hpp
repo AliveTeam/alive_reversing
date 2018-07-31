@@ -25,11 +25,11 @@ public:
             ALIVE_FATAL("Export enumeration failed");
         }
 
-        std::ofstream implementedStream("decompiled_functions.txt");
-        std::ofstream stubbedStream("stubbed_functions.txt");
-
         if (saveImplementedFuncs)
         {
+            std::ofstream implementedStream("decompiled_functions.txt");
+            std::ofstream stubbedStream("stubbed_functions.txt");
+
             for (const auto& e : mExports)
             {
                 if (e.mIsImplemented)
