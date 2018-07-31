@@ -184,7 +184,9 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
         1000 * (pCamName->name[3] - '0');
 
     // Convert the 2 digit camera number string to an integer
-    newCamera->field_1C_camera_number = pCamName->name[7] - '0' + ((pCamName->name[6] - '0') * 10);
+    newCamera->field_1C_camera_number = 
+        1* (pCamName->name[7] - '0') + 
+        10 *(pCamName->name[6] - '0');
     
     return newCamera;
 }
