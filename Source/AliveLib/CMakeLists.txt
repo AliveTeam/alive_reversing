@@ -90,6 +90,8 @@ add_library(AliveLib
     MusicController.cpp
     BackgroundMusic.hpp
     BackgroundMusic.cpp
+    Path.hpp
+    Path.cpp
     MainMenu.hpp
     MainMenu.cpp
     WinMain.cpp

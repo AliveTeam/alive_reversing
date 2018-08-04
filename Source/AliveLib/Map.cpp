@@ -13,6 +13,7 @@
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
 #include "stdlib.hpp"
+#include "Path.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }
@@ -39,15 +40,6 @@ void Map::sub_480B80_Common()
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         GoTo_Camera_481890();
-        if (sActiveHero_5C1B68 == spAbe_554D5C)
-        {
-
-        }
-        if (spAbe_554D5C)
-        {
-            //SetVTable(spAbe_554D5C, 0x5457BC); // gVTbl_Abe_5457BC
-            spAbe_554D5C->field_C4_velx++;
-        }
     }
 
     field_6_state = 0;
@@ -277,58 +269,6 @@ EXPORT void __cdecl sub_4C9A30()
 }
 
 ALIVE_VAR(1, 0xbb234c, WORD, word_BB234C, 0);
-
-struct Path_Door : public Path_TLV
-{
-    const static int kType;
-
-    __int16 field_10_level;
-    __int16 field_12_path;
-    __int16 field_14_camera;
-    __int16 field_16_scale;
-    __int16 field_18_door_number;
-    __int16 field_1A_id;
-    __int16 field_1C_target_door_number;
-    __int16 field_1E_type;
-    __int16 field_20_start_state;
-    __int16 field_22_hubs[8];
-    __int16 field_32_wipe_effect;
-    __int16 field_34_movie_number;
-    __int16 field_36_x_offset;
-    __int16 field_38_y_offset;
-    __int16 field_3A_wipe_x_org;
-    __int16 field_3C_wipe_y_org;
-    __int16 field_3E_abe_direction;
-    __int16 field_40_close_after_use;
-    __int16 field_42_cancel_throwables;
-};
-const int Path_Door::kType = 5;
-ALIVE_ASSERT_SIZEOF(Path_Door, 0x44);
-
-struct Path_Teleporter_Data
-{
-    __int16 field_10_id;
-    __int16 field_12_target_id;
-    __int16 field_14_camera;
-    __int16 field_16_path;
-    __int16 field_18_level;
-    __int16 field_1A_trigger_id;
-    __int16 field_1C_scale;
-    __int16 field_1E_wipe;
-    __int16 field_20_movie_number;
-    __int16 field_22_eletric_x;
-    __int16 field_24_electric_y;
-};
-ALIVE_ASSERT_SIZEOF(Path_Teleporter_Data, 0x16);
-
-struct Path_Teleporter : public Path_TLV
-{
-    const static int kType;
-    Path_Teleporter_Data field_10_data;
-    __int16 field_26_pad; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
-};
-const int Path_Teleporter::kType = 88;
-ALIVE_ASSERT_SIZEOF(Path_Teleporter, 0x28); // 0x10 for base
 
 struct QuickSaveRestoreTable
 {
@@ -1011,165 +951,6 @@ void CC Map::LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
     }
-}
-
-void Path::ctor_4DB170()
-{
-    field_C_pPathData = nullptr;
-    field_10_ppRes = 0;
-    field_8_cams_on_y = 0;
-    field_6_cams_on_x = 0;
-    field_4_cameraId = 0;
-    field_2_pathId = 0;
-    field_0_levelId = 0;
-}
-
-void Path::dtor_4DB1A0()
-{
-    ResourceManager::FreeResource_49C330(field_10_ppRes);
-}
-
-void Path::Free_4DB1C0()
-{
-    ResourceManager::FreeResource_49C330(field_10_ppRes);
-    field_C_pPathData = 0;
-    field_10_ppRes = 0;
-    field_8_cams_on_y = 0;
-    field_6_cams_on_x = 0;
-    field_4_cameraId = 0;
-    field_2_pathId = 0;
-    field_0_levelId = 0;
-}
-
-void Path::Init_4DB200(const PathData* pPathData, __int16 level, __int16 path, __int16 cameraId, BYTE** ppPathRes)
-{
-    ResourceManager::FreeResource_49C330(field_10_ppRes);
-    field_10_ppRes = ppPathRes;
-    ResourceManager::Inc_Ref_Count_49C310(ppPathRes);
-
-    field_4_cameraId = cameraId;
-    field_0_levelId = level;
-    field_2_pathId = path;
-
-    field_C_pPathData = pPathData;
-    field_6_cams_on_x = (field_C_pPathData->field_4_bTop - field_C_pPathData->field_0_bLeft) / field_C_pPathData->field_A_grid_width;
-    field_8_cams_on_y = (field_C_pPathData->field_6_bBottom - field_C_pPathData->field_2_bRight) / field_C_pPathData->field_C_grid_height;
-}
-
-void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeToLoad)
-{
-    // Get a pointer to the array of index table offsets
-    const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
-
-    // Calculate the index of the offset we want for the given camera at x/y
-    int objectTableIdx = indexTable[xpos + (ypos * field_6_cams_on_x)];
-    if (objectTableIdx == -1)
-    {
-        // -1 means there are no objects for the given camera
-        return;
-    }
-
-    BYTE* ptr = &(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + objectTableIdx];
-    Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
-    while (pPathTLV)
-    {
-        if ((typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) && ((WORD)loadMode || !(pPathTLV->field_0_flags & 3)))
-        {
-            void(__cdecl *pPathFnTable)(Path_TLV*, Path*, DWORD, __int16);
-            pPathFnTable = (decltype(pPathFnTable))field_C_pPathData->field_1E_object_funcs[pPathTLV->field_4_type];
-
-            if (!(WORD)loadMode)
-            {
-                pPathTLV->field_0_flags |= 3u;
-            }
-
-            pPathFnTable(
-                pPathTLV,
-                this,
-                objectTableIdx | ((field_0_levelId | (field_2_pathId << 8)) << 16),
-                static_cast<short>(loadMode));
-        }
-
-        // End of TLV list for current camera
-        if (pPathTLV->field_0_flags & 4)
-        {
-            break;
-        }
-
-        objectTableIdx += pPathTLV->field_2_length;
-        pPathTLV = Next_TLV_4DB6A0(pPathTLV);
-    }
-}
-
-Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(__int16 cam_x_idx, __int16 cam_y_idx)
-{
-    const int camY = cam_y_idx + gMap_5C3030.field_D2_cam_y_idx;
-    const int camX = cam_x_idx + gMap_5C3030.field_D0_cam_x_idx;
-    if (camX >= field_6_cams_on_x || camX < 0 || camY >= field_8_cams_on_y || camY < 0)
-    {
-        return nullptr;
-    }
-
-    const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
-    const int indexTableEntry = indexTable[(camX + (camY * field_6_cams_on_x))];
-    if (indexTableEntry == -1)
-    {
-        return nullptr;
-    }
-
-    return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + indexTableEntry]);
-}
-
-Path_TLV* __stdcall Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
-{
-    if (pTlv->field_0_flags & 4)
-    {
-        return nullptr;
-    }
-
-    // Skip length bytes to get to the start of the next TLV
-    BYTE* ptr = reinterpret_cast<BYTE*>(pTlv);
-    BYTE* pNext = ptr + pTlv->field_2_length;
-    return reinterpret_cast<Path_TLV*>(pNext);
-}
-
-Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, __int16 camX)
-{
-    Path_TLV* pTlv = Path::Get_First_TLV_For_Offsetted_Camera_4DB610(camX, 0);
-    if (!pTlv)
-    {
-        return 0;
-    }
-
-    while (pTlv->field_4_type != objectType)
-    {
-        pTlv = Path::Next_TLV_4DB6A0(pTlv);
-        if (!pTlv)
-        {
-            return nullptr;
-        }
-    }
-    return pTlv;
-}
-
-Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
-{
-    pTlv = Path::Next_TLV_4DB6A0(pTlv);
-    if (!pTlv)
-    {
-        return nullptr;
-    }
-
-    while (pTlv->field_4_type != type)
-    {
-        pTlv = Path::Next_TLV_4DB6A0(pTlv);
-        if (!pTlv)
-        {
-            return nullptr;
-        }
-    }
-
-    return pTlv;
 }
 
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});
