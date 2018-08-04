@@ -71,7 +71,7 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeT
         if ((typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) && ((WORD)loadMode || !(pPathTLV->field_0_flags & 3)))
         {
             void(__cdecl *pPathFnTable)(Path_TLV*, Path*, DWORD, __int16);
-            pPathFnTable = (decltype(pPathFnTable))field_C_pPathData->field_1E_object_funcs[pPathTLV->field_4_type];
+            pPathFnTable = (decltype(pPathFnTable))field_C_pPathData->field_1E_object_funcs.object_funcs[pPathTLV->field_4_type];
 
             if (!(WORD)loadMode)
             {

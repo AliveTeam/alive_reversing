@@ -42,6 +42,11 @@ struct CollisionInfo
 };
 ALIVE_ASSERT_SIZEOF(CollisionInfo, 0x1C);
 
+struct PathFunctionTable
+{
+    void* object_funcs[256];
+};
+
 struct PathData
 {
     __int16 field_0_bLeft;
@@ -56,7 +61,7 @@ struct PathData
     unsigned int field_16_object_indextable_offset;
     __int16 field_1A_abe_start_xpos;
     __int16 field_1C_abe_start_ypos;
-    void* field_1E_object_funcs[256];
+    PathFunctionTable field_1E_object_funcs;
 };
 ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
 

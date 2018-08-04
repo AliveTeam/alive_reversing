@@ -31,6 +31,42 @@
 #define LOG_(msg)
 #endif
 
+class outbuf : public std::streambuf
+{
+public:
+    outbuf()
+    {
+        setp(0, 0);
+    }
+
+    virtual int_type overflow(int_type c = traits_type::eof()) override
+    {
+        return fputc(c, stdout) == EOF ? traits_type::eof() : c;
+    }
+};
+
+inline void RedirectIoStream(bool replace)
+{
+    static std::streambuf* sb = nullptr;
+    if (replace)
+    {
+        if (!sb)
+        {
+            static outbuf ob;
+            sb = std::cout.rdbuf(&ob);
+        }
+    }
+    else
+    {
+        // make sure to restore the original so we don't get a crash on close!
+        if (sb)
+        {
+            std::cout.rdbuf(sb);
+        }
+        sb = nullptr;
+    }
+}
+
 namespace Logging
 {
     class AutoLog

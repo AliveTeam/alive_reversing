@@ -52,16 +52,16 @@ class FunctionData():
 
     def Colour(self):
         if self.bIsImpl:
-            return 0x0FC4F1
+            return 0xEEFFF0 #0xB4DED2
         elif self.bIsStub and self.bIsCovered:
             # Covered and stubbed
             return 0xC57AAF
         elif self.bIsStub:
             # None covered stub
-            return 0xC57AAF
+            return 0xD2B4DE
         else:
             # Coverage only case
-            return 0x6370EC
+            return 0xA569BD
 
 def LineToInt(line):
     line = line.strip();
