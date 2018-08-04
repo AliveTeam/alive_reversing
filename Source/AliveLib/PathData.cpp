@@ -1,16 +1,21 @@
 #include "stdafx.h"
 #include "PathData.hpp"
 #include "Function.hpp"
+#include "stdlib.hpp"
 #include <sstream>
 #include <assert.h>
 
-class Collisions
+void Collisions::dtor_4189F0()
 {
-public:
-    EXPORT static void CC sub_4188A0(CollisionInfo* pCollisionInfo, void* pPathRes);
-};
+    Mem_Free_495560(field_0_pArray);
+}
 
-void CC Collisions::sub_4188A0(CollisionInfo* pCollisionInfo, void* pPathRes)
+void CC Collisions::sub_4188A0(CollisionInfo* /*pCollisionInfo*/, void* /*pPathRes*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Collisions::loader_418930(const CollisionInfo* pCollisionInfo, void* pPathRes)
 {
     NOT_IMPLEMENTED();
 }
@@ -642,7 +647,7 @@ const PathBlyRec kNullPathBlyRec = {};
 const PathBlyRec ST_PathBlyRecInfo[] =
 {
     kNullPathBlyRec,
-    { "STP1.BLY", ST_PathData, ST_CollisionInfo, 256, 0 }
+    { "STP1.BLY", &ST_PathData[1], &ST_CollisionInfo[1], 256, 0 }
 };
 
 const PathBlyRec MI_PathBlyRecInfo[] =
@@ -1086,90 +1091,108 @@ FmvInfo CR_FmvInfo[] =
 };
 
 // ===================================================================
+const SoundBlockInfo kNullSoundBlockInfo = {};
 
 SoundBlockInfo ST_SoundBlockInfo[] =
 {
     { "OPTION.VH", "OPTION.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo MI_SoundBlockInfo[] =
 {
     { "MINES.VH", "MINES.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo NE_SoundBlockInfo[] =
 {
     { "NECRUM.VH", "NECRUM.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo PV_SoundBlockInfo[] =
 {
     { "PARVAULT.VH", "PARVAULT.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo SV_SoundBlockInfo[] =
 {
     { "SCRVAULT.VH", "SCRVAULT.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo FD_SoundBlockInfo[] =
 {
     { "FEECO.VH", "FEECO.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo BA_SoundBlockInfo[] =
 {
     { "BARRACKS.VH", "BARRACKS.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo SV_Ender_SoundBlockInfo[] =
 {
     { "SVENDER.VH", "SVENDER.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo BW_SoundBlockInfo[] =
 {
     { "BONEWERK.VH", "BONEWERK.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo BR_SoundBlockInfo[] =
 {
     { "BREWERY.VH", "BREWERY.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo BM_SoundBlockInfo[] =
 {
     { "BRENDER.VH", "BRENDER.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo PV_Ender_SoundBlockInfo[] =
 {
     { "PVENDER.VH", "PVENDER.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo FD_Ender_SoundBlockInfo[] =
 {
     { "FEENDER.VH", "FEENDER.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo BA_Ender_SoundBlockInfo[] =
 {
     { "BAENDER.VH", "BAENDER.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo BW_Ender_SoundBlockInfo[] =
 {
     { "BWENDER.VH", "BWENDER.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo TL_SoundBlockInfo[] =
 {
     { "MINES.VH", "MINES.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 SoundBlockInfo CR_SoundBlockInfo[] =
 {
     { "OPTION.VH", "OPTION.VB", -1, 0 },
+    kNullSoundBlockInfo
 };
 
 // =========================================================
@@ -1196,6 +1219,159 @@ PathRootContainer pathData =
         { CR_PathBlyRecInfo, CR_FmvInfo, CR_SoundBlockInfo,       "STSEQ.BSQ", 16, 0, "CR", 2,  0, 215, "\\CR.LVL;1", 0,   "\\ST.OVL;1", 216, "\\CR.MOV;1", "CR.IDX", "CRPATH.BND" }
     }
 };
+
+SeqDataTable sSeqData =
+{
+    {
+        { "OPTAMB.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "MINESAMB.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "PARAMB.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "SCRAMB.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "FEECOAMB.SEQ", 0, 0u, 90u, 65535, NULL },
+        { "BREWAMB.SEQ", 0, 0u, 40u, 65535, NULL },
+        { "BONEAMB.SEQ", 0, 0u, 90u, 65535, NULL },
+        { "BARRAMB.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "NECRAMB.SEQ", 0, 0u, 80u, 65535, NULL },
+        { "GUN.SEQ", 0, 0u, 40u, 65535, NULL },
+        { "OHM.SEQ", 0, 0u, 80u, 65535, NULL },
+        { "MUDOHM.SEQ", 0, 0u, 80u, 65535, NULL },
+        { "SSCRATCH.SEQ", 0, 0u, 55u, 65535, NULL },
+        { "PANTING.SEQ", 0, 0u, 45u, 65535, NULL },
+        { "SLIGBOMB.SEQ", 0, 0u, 127u, 65535, NULL },
+        { "SLIGBOM2.SEQ", 0, 0u, 127u, 65535, NULL },
+        { "OOPS.SEQ", 0, 0u, 40u, 65535, NULL },
+        { "PIGEONS.SEQ", 0, 0u, 40u, 65535, NULL },
+        { "STOPIT.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "WHEEL.SEQ", 0, 0u, 127u, 65535, NULL },
+        { "PARALLYA.SEQ", 0, 0u, 127u, 65535, NULL },
+        { "PATROL.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "SLEEPING.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "ONCHAIN.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "SLOSLEEP.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "PARAPANT.SEQ", 0, 0u, 35u, 65535, NULL },
+        { "FLEECHES.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "MYSTERY1.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "MYSTERY2.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "NEGATIV1.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "NEGATIV3.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "POSITIV1.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "POSITIV9.SEQ", 0, 0u, 60u, 65535, NULL },
+        { "NE_1_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "NE_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "NE_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "NE_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "NE_5_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "NE_6_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "NE_7_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "NE_8_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "NE_9_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_1_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_5_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_6_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_7_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_8_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PV_9_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PVEND_3.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PVEND_4.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PVEND_5.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PVEND_6.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PVEND_7.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PVEND_8.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "PVEND_9.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_1_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_5_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_6_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_7_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_8_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SV_9_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SVEND_3.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SVEND_4.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SVEND_5.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SVEND_6.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SVEND_7.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SVEND_8.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "SVEND_9.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_1_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_5_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_6_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_8_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_9_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FE_10_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FEEND_3.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FEEND_4.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FEEND_5.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "FEEND_6.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BA_1_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BA_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BA_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BA_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BA_5_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BA_6_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BAEND_3.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BAEND_4.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BAEND_5.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BAEND_6.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_1_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_5_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_6_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_8_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_9_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BW_10_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BWEND_3.SEQ", 0, 0u, 127u, 65535, NULL },
+        { "BWEND_4.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BWEND_5.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BWEND_6.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BWEND_8.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BWEND_9.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BWEND_10.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_1_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_5_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_6_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_8_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_9_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BR_10_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BREND_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BREND_2.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BREND_3.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BREND_4.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BREND_5.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "BREND_6.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_1_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_5_1.SEQ", 0, 0u, 115u, 65535, NULL },
+        { "MI_6_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "OP_2_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "OP_2_2.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "OP_2_3.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "OP_3_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "OP_3_2.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "OP_4_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_8_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_9_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_10_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { "MI_10_1.SEQ", 0, 0u, 100u, 65535, NULL },
+        { NULL, 0, 0u, 0u, 0, NULL }
+    }
+};
+
+ALIVE_VAR(1, 0x558d50, SeqDataTable, sSeqData_558D50, sSeqData);
 
 const static PerLvlData gMovieMenuInfos_561540[28] =
 {
@@ -1255,28 +1431,6 @@ const static PerLvlData gDemoData_off_5617F0[23] =
     { "Sligs", 9, 26, 4, 23u, 0, 0 },               // BR P26
     { "Tortured Mudokons", 9, 27, 7, 24u, 0, 0 },   // BR P27
     { "Greeters Go Boom", 9, 28, 4, 25u, 0, 0 }     // BR P28
-};
-
-// Used by the level skip cheat/ui/menu
-const static PerLvlData gPerLvlData_561700[17] =
-{
-    { "Mines", 1, 1, 4, 65535u, 2712, 1300 }, 
-    { "Mines Ender", 1, 6, 10, 65535u, 2935, 2525 }, 
-    { "Necrum", 2, 2, 1, 65535u, 2885, 1388 }, 
-    { "Mudomo Vault", 3, 1, 1, 65535u, 110, 917 }, 
-    { "Mudomo Vault Ender", 11, 13, 1, 65535u, 437, 454 }, 
-    { "Mudanchee Vault", 4, 6, 3, 65535u, 836, 873 }, 
-    { "Mudanchee Vault Ender", 7, 9, 4, 65534u, 1600, 550 }, 
-    { "FeeCo Depot", 5, 1, 1, 65535u, 4563, 972 }, 
-    { "FeeCo Depot Ender", 12, 11, 5, 65535u, 1965, 1650 }, 
-    { "Barracks", 6, 1, 4, 65535u, 1562, 1651 }, 
-    { "Barracks Ender", 13, 11, 5, 65535u, 961, 1132 }, 
-    { "Bonewerkz", 8, 1, 1, 65535u, 813, 451 }, 
-    { "Bonewerkz Ender", 14, 14, 10, 65535u, 810, 710 }, 
-    { "Brewery", 9, 16, 6, 65535u, 1962, 1232 }, 
-    { "Game Ender", 10, 1, 1, 65535u, 460, 968 }, 
-    { "Credits", 16, 1, 1, 65535u, 0, 0 }, 
-    { "Menu", 0, 1, 1, 65535u, 0, 0 }
 };
 
 ALIVE_VAR(1, 0x559660, PathRootContainer, sPathData_559660, pathData);

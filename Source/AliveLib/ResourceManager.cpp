@@ -476,7 +476,7 @@ void ResourceManager::LoadingLoop_465590(__int16 bShowLoadingIcon)
 {
     while (!field_20_files_pending_loading.IsEmpty())
     {
-        sub_494580();
+        SYS_EventsPump_494580();
         VUpdate();  // vLoadFile_StateMachine_464A70 - process loading of files
         PSX_VSync_4F6170(0);
         const int ticks = dword_5C1BAC++ + 1;
@@ -593,9 +593,14 @@ void ResourceManager::VUpdate()
     vLoadFile_StateMachine_464A70();
 }
 
-void ResourceManager::vsub_4DC0A0()
+EXPORT void ResourceManager::VScreenChanged_464EC0()
 {
     // Empty
+}
+
+void ResourceManager::VScreenChanged()
+{
+    VScreenChanged_464EC0();
 }
 
 ResourceManager::ResourceManager()

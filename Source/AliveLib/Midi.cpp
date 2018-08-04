@@ -478,17 +478,6 @@ EXPORT unsigned __int16 CC MIDI_SsIsEos_4FDA80(__int16 idx, __int16 kZero)
     return 0;
 }
 
-struct SeqDataRecord
-{
-    const char *field_0_mName;
-    int field_4_generated_res_id;
-    char field_8_sound_block_idx;
-    char field_9;
-    __int16 field_A_id;
-    BYTE *field_C_ppSeq_Data;
-};
-ALIVE_ASSERT_SIZEOF(SeqDataRecord, 0x10);
-
 ALIVE_VAR(1, 0xbb2e38, SeqDataRecord *, sSeqDataTable_BB2E38, nullptr);
 
 EXPORT __int16 CC MIDI_Stop_Channel_4FE010(__int16 idx)
@@ -961,6 +950,12 @@ EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
             MIDI_Stop_Channel_4FE010(static_cast<short>(i));
         }
     }
+}
+
+EXPORT int CC SND_4CA5D0(int /*a1*/, int /*a2*/, int /*a3*/, __int16 /*vol*/, __int16 /*min*/, __int16 /*max*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight)
@@ -1770,24 +1765,6 @@ EXPORT void CC MIDI_UpdatePlayer_4FDC80()
             }
             MIDI_4FDCE0();
         }
-    }
-}
-
-ALIVE_VAR(1, 0x560f78, short, sBackgroundMusic_seq_id_560F78, -1);
-
-void CC BackgroundMusic::Stop_4CB000()
-{
-    if (sBackgroundMusic_seq_id_560F78 >= 0)
-    {
-        SND_SEQ_Stop_4CAE60(sBackgroundMusic_seq_id_560F78);
-    }
-}
-
-void CC BackgroundMusic::Play_4CB030()
-{
-    if (sBackgroundMusic_seq_id_560F78 >= 0)
-    {
-        SND_SEQ_PlaySeq_4CA960(sBackgroundMusic_seq_id_560F78, 0, 0);
     }
 }
 

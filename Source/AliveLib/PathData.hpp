@@ -2,6 +2,22 @@
 
 #include "FunctionFwd.hpp"
 
+struct CollisionInfo;
+
+class Collisions
+{
+public:
+    EXPORT void dtor_4189F0();
+    EXPORT static void CC sub_4188A0(CollisionInfo* pCollisionInfo, void* pPathRes);
+    EXPORT void loader_418930(const CollisionInfo* pCollisionInfo, void* pPathRes);
+private:
+    void* field_0_pArray;
+    int field_4;
+    int field_8;
+    int field_C;
+};
+ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
+
 struct FmvInfo 
 {
     const char* field_0_pName;
@@ -96,9 +112,23 @@ struct PerLvlData
     WORD field_A_scale;
     WORD field_C_abe_x_off;
     WORD field_E_abe_y_off;
-};  
+};
 
-const extern PerLvlData gPerLvlData_561700[];
+struct SeqDataRecord
+{
+    const char *field_0_mName;
+    int field_4_generated_res_id;
+    char field_8_sound_block_idx;
+    char field_9;
+    __int16 field_A_id;
+    BYTE *field_C_ppSeq_Data;
+};
+ALIVE_ASSERT_SIZEOF(SeqDataRecord, 0x10);
+
+struct SeqDataTable
+{
+    SeqDataRecord mData[145];
+};
 
 EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId);
 
@@ -109,3 +139,4 @@ EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, __int16 levelId, 
 const char* CdLvlName(unsigned __int16 lvlId);
 
 ALIVE_VAR_EXTERN(PathRootContainer, sPathData_559660);
+ALIVE_VAR_EXTERN(SeqDataTable, sSeqData_558D50);

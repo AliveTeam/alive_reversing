@@ -86,6 +86,10 @@ add_library(AliveLib
     StringFormatters.cpp
     Abe.hpp
     Abe.cpp
+    MusicController.hpp
+    MusicController.cpp
+    BackgroundMusic.hpp
+    BackgroundMusic.cpp
     MainMenu.hpp
     MainMenu.cpp
     WinMain.cpp

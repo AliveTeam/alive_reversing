@@ -8,35 +8,37 @@
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
-    BaseAnimatedWithPhysicsGameObject() {}
-    BaseAnimatedWithPhysicsGameObject(signed __int16 resourceArraySize);
+    BaseAnimatedWithPhysicsGameObject();
     EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize);
 
     EXPORT void dtor_408210(signed int flags);
     virtual void VDestructor(signed int flags);
+    virtual void VUpdate() override;
+
+    EXPORT void Update_424AB0();
 
     EXPORT signed __int16 Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, AnimHeader *a5, __int16 a6, unsigned __int8 a7);
 
-public:
-    // VTable @ 0x544C9C
-    /*
-    BaseAnimatedWithPhysicsGameObject__dtor_424A40
-    BaseAnimatedWithPhysicsGameObject__vnullsub_51
-    BaseAliveGameObject__Render_424B90
-    BaseGameObject__vsub_4DC0A0
-    BaseGameObject__vnullsub_4DC0F0
-    BaseGameObject__GetSaveState_4DC110
-    BaseAliveGameObject__vsub_424EE0
-    BaseAliveGameObject__vsub_424FD0
-    BaseAliveGameObject__vsub_4253B0
-    BaseAliveGameObject__vsub_425420
-    BaseAliveGameObject__vsub_4254A0
-    BaseAliveGameObject__vsub_425520
-    BaseAliveGameObject__vsub_425840
-    BaseAliveGameObject__vnullsub_53
-    BaseAliveGameObject__vnullsub_54
-    */
+    virtual __int16 vsub_424EE0(int a2, int a3, int a4, int a5, void* a6);
+    virtual DWORD* vsub_424FD0(__int16 a3, int a4);
+    virtual __int16 vsub_4253B0(int a2, int a3);
+    virtual __int16 vsub_425420(int a2);
+    virtual __int16 vsub_4254A0(int a2);
+    virtual __int16 vsub_425520(int a2);
+    virtual int vsub_425840(unsigned __int16 a2);
+    virtual void vnull_408180();
+    virtual void vnull_4081A0();
 
+    EXPORT __int16 sub_424EE0(int a2, int a3, int a4, int a5, void* a6);
+    EXPORT DWORD* sub_424FD0(__int16 a3, int a4);
+    EXPORT __int16 sub_4253B0(int a2, int a3);
+    EXPORT __int16 sub_425420(int a2);
+    EXPORT __int16 sub_4254A0(int a2);
+    EXPORT __int16 sub_425520(int a2);
+    EXPORT int sub_425840(unsigned __int16 a2);
+    EXPORT void null_408180();
+    EXPORT void null_4081A0();
+public:
 
     AnimationEx field_20_animation;
     FP field_B8_xpos;

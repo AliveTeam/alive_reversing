@@ -72,7 +72,7 @@ public:
     __int16 field_198;
     __int16 field_19A;
     int field_19C;
-    __int16 field_1A0;
+    __int16 field_1A0_door_id;
     char field_1A2_rock_or_bone_count;
     char field_1A3_throw_direction;
     int field_1A4;

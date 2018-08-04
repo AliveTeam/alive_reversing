@@ -30,6 +30,8 @@
 #include "DebugHelpers.hpp"
 #include "Events.hpp"
 #include "Abe.hpp"
+#include "PathData.hpp"
+#include "MusicController.hpp"
 #include <gmock/gmock.h>
 
 void Game_ForceLink() { }
@@ -197,7 +199,7 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
             while (Input_IsVKPressed_4EDD40(VK_SCROLL))
             {
                 //nullsub_3();
-                sub_494580();
+                SYS_EventsPump_494580();
             }
         }
     }
@@ -488,27 +490,6 @@ ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<Animation>*, gObjList_animations_5C1A24, nu
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 
-
-class MusicController
-{
-public:
-    static EXPORT int CC Create_47FC40();
-    static EXPORT void CC Shutdown_47FD20();
-};
-
-ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
-
-int CC MusicController::Create_47FC40()
-{
-    NOT_IMPLEMENTED();
-    return 1;
-}
-
-void CC MusicController::Shutdown_47FD20()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC sub_43BF40()
 {
     NOT_IMPLEMENTED();
@@ -550,7 +531,7 @@ EXPORT void __stdcall sub_45F000(int )
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC sub_494580()
+EXPORT void CC SYS_EventsPump_494580()
 {
     NOT_IMPLEMENTED();
 }
@@ -614,31 +595,14 @@ EXPORT void CC Game_Free_LoadingIcon_482D40()
     NOT_IMPLEMENTED();
 }
 
-class Collisions
-{
-public:
-    EXPORT void dtor_4189F0();
-private:
-    void* field_0_pArray;
-    int field_4;
-    int field_8;
-    int field_C;
-};
-ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
-
-void Collisions::dtor_4189F0()
-{
-    Mem_Free_495560(field_0_pArray);
-}
-
 EXPORT void CC Game_Run_466D40()
 {
     // Begin start up
-    sub_494580();
+    SYS_EventsPump_494580();
     dword_5C2F6C = 6000;
     word_5C1BA0 = 0;
     dword_5C2F70 = 34;
-    sub_494580();
+    SYS_EventsPump_494580();
 
     PSX_ResetCallBack_4FAA20();
     gPsxDisplay_5C1130.ctor_41DC30();
@@ -671,7 +635,7 @@ EXPORT void CC Game_Run_466D40()
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, 125, 1u, 0);
-    gMap_5C3030.field_24_camera_offset.field_2_y = FP(0);
+    gMap_5C3030.field_24_camera_offset.field_4_y = FP(0);
     gMap_5C3030.field_24_camera_offset.field_0_x = FP(0);
 
     pScreenManager_5BB5F4 = alive_new<ScreenManager>();
@@ -1009,7 +973,7 @@ EXPORT void CC Game_Loop_467230()
         DebugFont_Flush_4DD050();
         PSX_DrawSync_4F6280(0);
         pScreenManager_5BB5F4->VRender(pOtBuffer);
-        sub_494580(); // Exit checking?
+        SYS_EventsPump_494580(); // Exit checking?
 
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
         

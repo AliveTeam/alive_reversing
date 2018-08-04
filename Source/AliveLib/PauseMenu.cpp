@@ -9,6 +9,29 @@
 #include "StringFormatters.hpp"
 #include "Abe.hpp"
 
+
+// Used by the level skip cheat/ui/menu
+const static PerLvlData gPerLvlData_561700[17] =
+{
+    { "Mines", 1, 1, 4, 65535u, 2712, 1300 },
+    { "Mines Ender", 1, 6, 10, 65535u, 2935, 2525 },
+    { "Necrum", 2, 2, 1, 65535u, 2885, 1388 },
+    { "Mudomo Vault", 3, 1, 1, 65535u, 110, 917 },
+    { "Mudomo Vault Ender", 11, 13, 1, 65535u, 437, 454 },
+    { "Mudanchee Vault", 4, 6, 3, 65535u, 836, 873 },
+    { "Mudanchee Vault Ender", 7, 9, 4, 65534u, 1600, 550 },
+    { "FeeCo Depot", 5, 1, 1, 65535u, 4563, 972 },
+    { "FeeCo Depot Ender", 12, 11, 5, 65535u, 1965, 1650 },
+    { "Barracks", 6, 1, 4, 65535u, 1562, 1651 },
+    { "Barracks Ender", 13, 11, 5, 65535u, 961, 1132 },
+    { "Bonewerkz", 8, 1, 1, 65535u, 813, 451 },
+    { "Bonewerkz Ender", 14, 14, 10, 65535u, 810, 710 },
+    { "Brewery", 9, 16, 6, 65535u, 1962, 1232 },
+    { "Game Ender", 10, 1, 1, 65535u, 460, 968 },
+    { "Credits", 16, 1, 1, 65535u, 0, 0 },
+    { "Menu", 0, 1, 1, 65535u, 0, 0 }
+};
+
 // MACROS
 
 #define MENU_OVERRIDE(name) memcpy(_MenuAddress##name##, &sPauseMenuList_##name, sizeof(sPauseMenuList_##name));
@@ -354,7 +377,7 @@ void PauseMenu::dtor_48FCE0()
     NOT_IMPLEMENTED();
 }
 
-void PauseMenu::dtor_48FCB0(signed int flags)
+void PauseMenu::dtor_48FCB0(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -387,27 +410,27 @@ EXPORT void CC sub_4CB0E0()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC sub_46FA90(unsigned __int8 a1, __int16 a2, int a3)
+EXPORT int CC sub_46FA90(unsigned __int8 /*a1*/, __int16 /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC LoadRockTypes_49AB30(unsigned __int16 a1, unsigned __int16 a2)
+EXPORT void CC LoadRockTypes_49AB30(unsigned __int16 /*a1*/, unsigned __int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT BaseGameObject * sub_49A630(BaseGameObject * ptr)
+EXPORT BaseGameObject * sub_49A630(BaseGameObject * /*ptr*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __fastcall sub_4A1F20(int a1, int a2)
+EXPORT void __fastcall sub_4A1F20(int /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT __int16 __fastcall sub_49A7A0(BaseGameObject * thisPtr, __int16 a2)
+EXPORT __int16 __fastcall sub_49A7A0(BaseGameObject * /*thisPtr*/, __int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -417,7 +440,7 @@ EXPORT void CC sub_4C9870()
     NOT_IMPLEMENTED();
 }
 
-void PauseMenu::Render_490BD0(int ** ot)
+void PauseMenu::Render_490BD0(int ** /*ot*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -504,7 +527,7 @@ public:
         auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
         if (input & eDown)
         {
-            if (++index >= entries->size())
+            if (++index >= static_cast<int>(entries->size()))
                 index = 0;
             MIDI_46FBA0(0x34u, 45, 400, 0x10000);
 
@@ -529,7 +552,7 @@ public:
             sub_46FA90(0x54u, 90, 0x10000);
         }
 
-        pm->field_144_active_menu.field_C_selected_index = index - scrollDownIndex;
+        pm->field_144_active_menu.field_C_selected_index = static_cast<short>(index - scrollDownIndex);
     }
 
     void Activate()
@@ -605,18 +628,18 @@ void DestroyAllObjects()
 }
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
-    { "Destroy Alive Objs", [](CustomPauseMenu * pm) { DestroyAliveObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4); } },
+    { "Destroy Alive Objs", [](CustomPauseMenu * pm ) { DestroyAliveObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4); } },
     { "Destroy All Objects", [](CustomPauseMenu * pm) { DestroyAllObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed All Objects", 4); } },
-    { "Save All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
-    { "Kill All Mudokons", [](CustomPauseMenu * pm) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
-    { "Give Rocks", [](CustomPauseMenu * pm) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
+    { "Save All Mudokons", [](CustomPauseMenu * ) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
+    { "Kill All Mudokons", [](CustomPauseMenu * ) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
+    { "Give Rocks", [](CustomPauseMenu * ) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
     { "Open All Doors", [](CustomPauseMenu * pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
 });
 CustomPauseMenu devCheatsMenu(&devCheatsMenuItems, "Cheats");
 
 std::vector<CustomPauseMenuItem> devMenuItems({
-    { "Cheats", [](CustomPauseMenu * pm) { devCheatsMenu.Activate(); } },
-    { "Level Select", [](CustomPauseMenu * pm) { devTeleportMenu.Activate(); } },
+    { "Cheats", [](CustomPauseMenu * ) { devCheatsMenu.Activate(); } },
+    { "Level Select", [](CustomPauseMenu * ) { devTeleportMenu.Activate(); } },
 });
 CustomPauseMenu devMenu(&devMenuItems, "Developer Menu");
 
@@ -696,7 +719,7 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp
 
         if (e->field_F_alignment != 0)
         {
-            auto textMeasure = field_F4_font.MeasureWidth_433700(textFormatted);
+            short textMeasure = static_cast<short>(field_F4_font.MeasureWidth_433700(textFormatted));
 
             if (textMeasure >= 608)
             {
@@ -712,22 +735,22 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp
             }
         }
 
-        field_142 = field_F4_font.DrawString_4337D0(
+        field_142 = static_cast<short>(field_F4_font.DrawString_4337D0(
             ot,
             textFormatted,
             x, // X
             e->field_4_y, // Y
-            0,
+            static_cast<char>(0),
             1,
             0,
             41,
-            glow + e->field_C_r,
-            glow + e->field_D_g,
-            glow + e->field_E_b,
+            static_cast<char>(glow + e->field_C_r),
+            static_cast<char>(glow + e->field_D_g),
+            static_cast<char>(glow + e->field_E_b),
             field_142,
             FP_FromDouble(1.0),
             640,
-            0);
+            0));
 
         e = &mp->field_8_menu_items[++i];
     }

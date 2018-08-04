@@ -60,7 +60,7 @@ public:
 
     }
 
-    virtual void vsub_4DC0A0() override
+    virtual void VScreenChanged() override
     {
         // Dont kill!
     }
@@ -115,7 +115,7 @@ public:
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
                 int x = aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent();
-                int y = aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_2_y.GetExponent();
+                int y = aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent();
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
@@ -467,7 +467,7 @@ public:
         }
     }
 
-    virtual void vsub_4DC0A0() override
+    virtual void VScreenChanged() override
     {
         // Dont kill!
     }

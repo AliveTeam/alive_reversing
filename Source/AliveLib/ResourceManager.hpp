@@ -6,6 +6,8 @@
 
 class Camera;
 
+EXPORT void CC Game_ShowLoadingIcon_482D80();
+
 class ResourceManager : public BaseGameObject
 {
 public:
@@ -145,7 +147,9 @@ public:
 
     virtual void VDestructor(signed int) override;
     virtual void VUpdate() override;
-    virtual void vsub_4DC0A0() override;
+    virtual void VScreenChanged() override;
+
+    EXPORT void VScreenChanged_464EC0();
 
     ResourceManager();
 
@@ -225,6 +229,8 @@ ALIVE_VAR_EXTERN(ResourceManager*, pResourceManager_5C1BB0);
 ALIVE_VAR_EXTERN(DWORD, sManagedMemoryUsedSize_AB4A04);
 ALIVE_VAR_EXTERN(DWORD, sPeakedManagedMemUsage_AB4A08);
 ALIVE_VAR_EXTERN(short, sbLoadingInProgress_5C1B96);
+ALIVE_VAR_EXTERN(short, word_5C1BAA);
+ALIVE_VAR_EXTERN(int, dword_5C1BAC);
 
 enum ResourceID
 {

@@ -9,7 +9,32 @@
 #pragma pack(2)
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
-    // Todo: VTable Headers
+public:
+    // gVtbl_BaseAliveGameObject_544000
+
+    virtual void VRender(int** pOrderingTable) override;
+    EXPORT void Render_424B90(int** pOrderingTable);
+
+    virtual int Vnull_408F90();
+    virtual unsigned __int16 Vnull_408F70();
+    virtual __int16 Vsub_4081C0(__int16 a2);
+    virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);
+    virtual __int16 Vsub_408730(int arg0);
+    virtual signed __int16 Vnull_4087F0(int a2a);
+    virtual char Vsub_408A40(__int16 a2);
+    virtual int Vsub_408FD0(__int16 a2);
+    virtual int Vnull_4081F0();
+  
+private:
+    EXPORT int vnull_408F90();
+    EXPORT unsigned __int16 vnull_408F70();
+    EXPORT __int16 vsub_4081C0(__int16 a2);
+    EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);
+    EXPORT __int16 vsub_408730(int arg0);
+    EXPORT signed __int16 vnull_4087F0(int a2a);
+    EXPORT char vsub_408A40(__int16 a2);
+    EXPORT int vsub_408FD0(__int16 a2);
+    EXPORT int vnull_4081F0();
 public:
     int field_E4;
     int field_E8;

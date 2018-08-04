@@ -2,10 +2,10 @@
 #include "Abe.hpp"
 #include "Function.hpp"
 
-signed int CC Abe::CreateFromSaveState_44D4F0(char * a1)
+signed int CC Abe::CreateFromSaveState_44D4F0(char * /*a1*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    return 216;
 }
 
 void Abe::VDestructor(signed int flags)
@@ -13,17 +13,17 @@ void Abe::VDestructor(signed int flags)
     dtor_44B350(flags);
 }
 
-void Abe::dtor_44B350(signed int flags)
+void Abe::dtor_44B350(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::Knockback_44E700(__int16 a2, __int16 a3)
+void Abe::Knockback_44E700(__int16 /*a2*/, __int16 /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
 
-bool Abe::vsub_Kill_44BB50(BaseGameObject * otherObj)
+bool Abe::vsub_Kill_44BB50(BaseGameObject * /*otherObj*/)
 {
     NOT_IMPLEMENTED();
     return false;

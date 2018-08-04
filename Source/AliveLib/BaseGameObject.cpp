@@ -17,7 +17,12 @@ void BaseGameObject::VRender(int** /*pOrderingTable*/)
     // Empty 0x4DBF80
 }
 
-void BaseGameObject::vsub_4DC0A0()
+void BaseGameObject::VScreenChanged()
+{
+    ScreenChanged_4DC0A0();
+}
+
+void BaseGameObject::ScreenChanged_4DC0A0()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId
     || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId

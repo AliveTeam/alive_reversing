@@ -13,7 +13,7 @@ namespace Test
 }
 
 EXPORT void CC Game_Main_4949F0();
-EXPORT void CC sub_494580();
+EXPORT void CC SYS_EventsPump_494580();
 
 
 ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
@@ -25,3 +25,5 @@ ALIVE_VAR_EXTERN(BOOL, sIOSyncReads_BD2A5C);
 ALIVE_ARY_EXTERN(char, 30, sCdRomDrives_5CA488);
 ALIVE_VAR_EXTERN(WORD, word_5C1BA0);
 ALIVE_VAR_EXTERN(class Abe *, sActiveHero_5C1B68);
+ALIVE_VAR_EXTERN(short, word_5C1B66);
+ALIVE_VAR_EXTERN(class Collisions*, sCollisions_DArray_5C1128);
