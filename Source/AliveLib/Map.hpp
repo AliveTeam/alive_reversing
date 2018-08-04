@@ -78,8 +78,8 @@ public:
     EXPORT Camera* Create_Camera_4829E0(__int16 xpos, __int16 ypos, int a4);
     EXPORT static void __stdcall Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode);
 
-    EXPORT static void CC LoadResource_4DBE00(const char* pFileName, int type, int resourceId, __int16 loadMode, __int16 bDontLoad);
-    EXPORT static void CC LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, __int16 loadMode, __int16 bDontLoad);
+    EXPORT static void CC LoadResource_4DBE00(const char* pFileName, int type, int resourceId, __int16 loadMode, __int16 bDontLoad = FALSE);
+    EXPORT static void CC LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, __int16 loadMode, __int16 bDontLoad = FALSE);
 private:
     void CreateScreenTransistionForTLV(Path_TLV* pTlv);
     void sub_480B80_Common();

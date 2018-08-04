@@ -102,9 +102,9 @@ public:
     struct ResourcesToLoadList
     {
         int field_0_count;
-        ResourcesToLoadList_Entry field_4_items[1];
+        ResourcesToLoadList_Entry field_4_items[99];
     };
-    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
+    //ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
 
 
     using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;

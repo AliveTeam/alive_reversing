@@ -62,11 +62,12 @@ struct MainMenuText
     char field_17;
 };
 
+struct Path_TLV;
 
 class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT void ctor_4CE9A0(int a2, int a3);
+    EXPORT void ctor_4CE9A0(Path_TLV* a2, DWORD tlvOffsetLevelIdPathId);
 
     EXPORT void Render_4CF4C0(int **ot);
 
@@ -144,3 +145,6 @@ struct MainMenuPage
     int(__thiscall *field_1C_fn_on_load)(MainMenuController *);
     int(__thiscall *field_20_fn_on_free)(MainMenuController *);
 };
+
+
+ALIVE_VAR_EXTERN(int, sMainMenuObjectCounter_BB4400);

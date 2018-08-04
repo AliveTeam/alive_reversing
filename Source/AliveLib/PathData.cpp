@@ -5,6 +5,42 @@
 #include <sstream>
 #include <assert.h>
 
+// TODO: Factory should probably be moved to its own file
+#include "MainMenu.hpp"
+#include "Map.hpp"
+#include "Path.hpp"
+
+EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/, DWORD tlvOffsetLevelIdPathId, __int16 loadmode)
+{
+    if (sMainMenuObjectCounter_BB4400 == 0)
+    {
+        if (loadmode == 1 || loadmode == 2)
+        {
+            // TODO: Hard coded to 99 in size, probably need to swtich to using a template?
+            static ResourceManager::ResourcesToLoadList kResources =
+            {
+                3,
+                {
+                    { ResourceManager::Resource_Animation, kHighliteResID },
+                    { ResourceManager::Resource_Animation, kOptflareResID },
+                    { ResourceManager::Resource_Palt, kHighlitePalResID },
+                }
+            };
+
+            Map::LoadResourcesFromList_4DBE70("STARTANM.BND", &kResources, loadmode);
+            Map::LoadResource_4DBE00("ABESPEK2.BAN", ResourceManager::Resource_Animation, kAbespek2ResID, loadmode);
+        }
+        else
+        {
+            auto pMainMenuController = alive_new<MainMenuController>();
+            if (pMainMenuController)
+            {
+                pMainMenuController->ctor_4CE9A0(pTlv, tlvOffsetLevelIdPathId);
+            }
+        }
+    }
+}
+
 void Collisions::dtor_4189F0()
 {
     Mem_Free_495560(field_0_pArray);
@@ -76,7 +112,6 @@ EXPORT void CC Factory_Null_4D6A60(int, int, int, __int16) { NOT_IMPLEMENTED(); 
 EXPORT void CC Factory_DoorFlame_4D70D0(int, int, int, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MovingBomb_4D8A50(int, int, int, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D8A30(int, int, int, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_MainMenuController_4D6DB0(int, int, int, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_4D7160(int, int, int, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6AE0(int, int, int, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_TimerTrigger_4DA0E0(int, int, int, __int16) { NOT_IMPLEMENTED(); }

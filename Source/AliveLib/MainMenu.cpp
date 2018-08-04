@@ -98,7 +98,7 @@ PerLvlData sDemos_5617F0[23] =
     { "Greeters Go Boom", 9, 28, 4, 25, 0, 0 }
 };
 
-void MainMenuController::ctor_4CE9A0(int a2, int a3)
+void MainMenuController::ctor_4CE9A0(Path_TLV* pTlv, DWORD tlvOffsetLevelIdPathId)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -161,7 +161,7 @@ void MainMenuController::ctor_4CE9A0(int a2, int a3)
 
     field_1FE = 40;
     field_200 = -8;
-    field_1F0 = a3;
+    field_1F0 = tlvOffsetLevelIdPathId;
 
     field_23C_T80 &= 0xFF1C0000u;
     field_214_page_index = GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034);
