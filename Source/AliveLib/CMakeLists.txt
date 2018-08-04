@@ -92,6 +92,8 @@ add_library(AliveLib
     BackgroundMusic.cpp
     Path.hpp
     Path.cpp
+    QuikSave.hpp
+    QuikSave.cpp
     MainMenu.hpp
     MainMenu.cpp
     WinMain.cpp
