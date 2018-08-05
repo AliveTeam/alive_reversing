@@ -99,12 +99,13 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(ResourcesToLoadList_Entry, 0x8);
 
+    // TODO: Replace/combine with CompileTimeResourceList when everything is decompiled
     struct ResourcesToLoadList
     {
         int field_0_count;
-        ResourcesToLoadList_Entry field_4_items[99];
+        ResourcesToLoadList_Entry field_4_items[1];
     };
-    //ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
+    ALIVE_ASSERT_SIZEOF(ResourcesToLoadList, 12);
 
 
     using TLoaderFn = std::add_pointer<void CC(Camera*)>::type;

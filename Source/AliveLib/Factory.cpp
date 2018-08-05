@@ -5,24 +5,39 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
+template<size_t arraySize>
+struct CompileTimeResourceList
+{
+    int field_0_count = arraySize;
+    ResourceManager::ResourcesToLoadList_Entry field_4_items[arraySize];
+
+    CompileTimeResourceList(std::initializer_list<ResourceManager::ResourcesToLoadList_Entry> elements)
+    {
+        std::copy(std::begin(elements), std::end(elements), std::begin(field_4_items));
+    }
+
+    // HACK: Cast to memory layout compatible type as we can't pass template types into
+    // ResourceManager (this can be fixed when everything is decompiled by using a
+    // more sane compile time resource list type).
+    ResourceManager::ResourcesToLoadList* AsList()
+    {
+        return reinterpret_cast<ResourceManager::ResourcesToLoadList*>(this);
+    }
+};
+
 EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {
     if (sMainMenuObjectCounter_BB4400 == 0)
     {
         if (loadmode == 1 || loadmode == 2)
         {
-            // TODO: Hard coded to 99 in size, probably need to switch to using a template?
-            static ResourceManager::ResourcesToLoadList kResources =
-            {
-                3,
-                {
-                    { ResourceManager::Resource_Animation, kHighliteResID },
-                    { ResourceManager::Resource_Animation, kOptflareResID },
-                    { ResourceManager::Resource_Palt, kHighlitePalResID },
-                }
-            };
+            CompileTimeResourceList<3> kResources({ 
+                { ResourceManager::Resource_Animation, kHighliteResID },
+                { ResourceManager::Resource_Animation, kOptflareResID },
+                { ResourceManager::Resource_Palt, kHighlitePalResID },
+            });
 
-            Map::LoadResourcesFromList_4DBE70("STARTANM.BND", &kResources, loadmode);
+            Map::LoadResourcesFromList_4DBE70("STARTANM.BND", kResources.AsList(), loadmode);
             Map::LoadResource_4DBE00("ABESPEK2.BAN", ResourceManager::Resource_Animation, kAbespek2ResID, loadmode);
         }
         else
