@@ -94,6 +94,8 @@ add_library(AliveLib
     Path.cpp
     QuikSave.hpp
     QuikSave.cpp
+    Factory.hpp
+    Factory.cpp
     MainMenu.hpp
     MainMenu.cpp
     WinMain.cpp

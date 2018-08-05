@@ -4,6 +4,7 @@
 #include "ResourceManager.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
+#include <assert.h>
 
 const unsigned short Path_Door::kType = 5;
 const unsigned short Path_Teleporter::kType = 88;
@@ -51,7 +52,7 @@ void Path::Init_4DB200(const PathData* pPathData, __int16 level, __int16 path, _
     field_8_cams_on_y = (field_C_pPathData->field_6_bBottom - field_C_pPathData->field_2_bRight) / field_C_pPathData->field_C_grid_height;
 }
 
-void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeToLoad)
+void Path::Loader_4DB800(__int16 xpos, __int16 ypos, __int16 loadMode, __int16 typeToLoad)
 {
     // Get a pointer to the array of index table offsets
     const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
@@ -68,21 +69,20 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, int loadMode, __int16 typeT
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
-        if ((typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) && ((WORD)loadMode || !(pPathTLV->field_0_flags & 3)))
+        if ((typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) && (loadMode || !(pPathTLV->field_0_flags & 3)))
         {
-            void(__cdecl *pPathFnTable)(Path_TLV*, Path*, DWORD, __int16);
-            pPathFnTable = (decltype(pPathFnTable))field_C_pPathData->field_1E_object_funcs.object_funcs[pPathTLV->field_4_type];
-
-            if (!(WORD)loadMode)
+            if (!loadMode)
             {
                 pPathTLV->field_0_flags |= 3u;
             }
 
-            pPathFnTable(
-                pPathTLV,
-                this,
-                objectTableIdx | ((field_0_levelId | (field_2_pathId << 8)) << 16),
-                static_cast<short>(loadMode));
+            TlvItemInfoUnion data;
+            data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
+            data.parts.levelId = static_cast<BYTE>(field_0_levelId);
+            data.parts.pathId = static_cast<BYTE>(field_2_pathId);
+
+            // Call the factory to construct the item
+            field_C_pPathData->field_1E_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, loadMode);
         }
 
         // End of TLV list for current camera

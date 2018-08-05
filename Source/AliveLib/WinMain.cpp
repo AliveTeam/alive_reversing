@@ -31,12 +31,6 @@
 #include "ScreenManager.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
-//SHARE_EASYLOGGINGPP;
-
-static void LoggingInit()
-{
-
-}
 
 static void RunTests()
 {

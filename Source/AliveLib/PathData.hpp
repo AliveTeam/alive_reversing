@@ -1,6 +1,8 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "Factory.hpp"
+#include "Factory.hpp"
 
 struct CollisionInfo;
 
@@ -41,11 +43,6 @@ struct CollisionInfo
     unsigned int field_18_grid_height;
 };
 ALIVE_ASSERT_SIZEOF(CollisionInfo, 0x1C);
-
-struct PathFunctionTable
-{
-    void* object_funcs[256];
-};
 
 struct PathData
 {
