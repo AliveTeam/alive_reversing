@@ -533,7 +533,12 @@ EXPORT void __stdcall sub_45F000(int )
 
 EXPORT void CC SYS_EventsPump_494580()
 {
-    NOT_IMPLEMENTED();
+    if (SYS_PumpMessages_4EE4F4())
+    {
+        byte_BD0F08 = 1;
+        exit(0);
+    }
+    sub_4FBA20();
 }
 
 EXPORT void CC DDCheat_Allocate_415320()
