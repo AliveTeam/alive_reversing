@@ -6,6 +6,7 @@
 #include "Animation.hpp"
 #include "Font.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "Factory.hpp"
 
 void MainMenu_ForceLink();
 
@@ -67,7 +68,7 @@ struct Path_TLV;
 class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT void ctor_4CE9A0(Path_TLV* a2, DWORD tlvOffsetLevelIdPathId);
+    EXPORT void ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
 
     EXPORT void Render_4CF4C0(int **ot);
 

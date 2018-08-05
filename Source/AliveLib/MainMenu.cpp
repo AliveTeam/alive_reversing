@@ -37,39 +37,42 @@ ALIVE_VAR(1, 0xbb4414, void *, pDemosOrFmvs_BB4414, 0);
 ALIVE_VAR(1, 0x5c2f68, const char, byte_5C2F68, 0);
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, {});
 
+inline std::int16_t operator "" _s(unsigned long long value)
+{
+    return static_cast<std::int16_t>(value);
+}
 
 MenuFMV sFmvs_561540[28] =
 {
-    { "GT Logo", 0, 65535, 65535, 3, 65535, 65535 },
-    { "Oddworld Intro", 0, 65535, 65535, 1, 65535, 65535 },
-    { "Abe's Exoddus", 0, 65535, 65535, 5, 65535, 65535 },
-    { "Backstory", 0, 65535, 65535, 4, 65535, 65535 },
-    { "Prophecy", 1, 65535, 65535, 1, 65535, 65535 },
-    { "Vision", 1, 65535, 65535, 24, 65535, 65535 },
-    { "Game Opening", 1, 65535, 65535, 2, 65535, 65535 },
-    { "Brew", 1, 65535, 65535, 26, 65535, 65535 },
-    { "Brew Transition", 1, 65535, 65535, 31, 65535, 65535 },
-    { "Escape", 1, 65535, 65535, 25, 65535, 65535 },
-    { "Reward", 2, 65535, 65535, 22, 65535, 65535 },
-    { "FeeCo", 5, 65535, 65535, 4, 65535, 65535 },
-    { "Information Booth", 5, 65535, 65535, 3, 65535, 65535 },
-    { "Train 1", 6, 65535, 65535, 5, 65535, 65535 },
-    { "Train 2", 9, 65535, 65535, 15, 65535, 65535 },
-    { "Train 3", 8, 65535, 65535, 6, 65535, 65535 },
-    { "Aslik Info", 5, 65535, 65535, 2, 65535, 65535 },
-    { "Aslik Explodes", 5, 65535, 65535, 1, 65535, 65535 },
-    { "Dripek Info", 6, 65535, 65535, 4, 65535, 65535 },
-    { "Dripek Explodes", 6, 65535, 65535, 3, 65535, 65535 },
-    { "Phleg Info", 8, 65535, 65535, 4, 65535, 65535 },
-    { "Phleg Explodes", 8, 65535, 65535, 5, 65535, 65535 },
-    { "Soulstorm Info", 9, 65535, 65535, 14, 65535, 65535 },
-    { "Ingredient", 9, 65535, 65535, 16, 65535, 65535 },
-    { "Conference", 9, 65535, 65535, 13, 65535, 65535 },
-    { "Happy Ending", 9, 65535, 65535, 17, 65535, 65535 },
-    { "Sad Ending", 9, 65535, 65535, 18, 65535, 65535 },
-    { "Credits", 16, 65535, 65535, 65535, 65535, 65535 }
+    { "GT Logo", 0_s, 65535_s, 65535_s, 3_s, 65535_s, 65535_s },
+    { "Oddworld Intro", 0_s, 65535_s, 65535_s, 1, 65535_s, 65535_s },
+    { "Abe's Exoddus", 0_s, 65535_s, 65535_s, 5, 65535_s, 65535_s },
+    { "Backstory", 0_s, 65535_s, 65535_s, 4, 65535_s, 65535_s },
+    { "Prophecy", 1_s, 65535_s, 65535_s, 1, 65535_s, 65535_s },
+    { "Vision", 1_s, 65535_s, 65535_s, 24, 65535_s, 65535_s },
+    { "Game Opening", 1_s, 65535_s, 65535_s, 2, 65535_s, 65535_s },
+    { "Brew", 1_s, 65535_s, 65535_s, 26, 65535_s, 65535_s },
+    { "Brew Transition", 1_s, 65535_s, 65535_s, 31, 65535_s, 65535_s },
+    { "Escape", 1_s, 65535_s, 65535_s, 25, 65535_s, 65535_s },
+    { "Reward", 2_s, 65535_s, 65535_s, 22, 65535_s, 65535_s },
+    { "FeeCo", 5_s, 65535_s, 65535_s, 4, 65535_s, 65535_s },
+    { "Information Booth", 5_s, 65535_s, 65535_s, 3, 65535_s, 65535_s },
+    { "Train 1", 6_s, 65535_s, 65535_s, 5, 65535_s, 65535_s },
+    { "Train 2", 9_s, 65535_s, 65535_s, 15, 65535_s, 65535_s },
+    { "Train 3", 8_s, 65535_s, 65535_s, 6, 65535_s, 65535_s },
+    { "Aslik Info", 5_s, 65535_s, 65535_s, 2, 65535_s, 65535_s },
+    { "Aslik Explodes", 5_s, 65535_s, 65535_s, 1, 65535_s, 65535_s },
+    { "Dripek Info", 6_s, 65535_s, 65535_s, 4, 65535_s, 65535_s },
+    { "Dripek Explodes", 6_s, 65535_s, 65535_s, 3, 65535_s, 65535_s },
+    { "Phleg Info", 8_s, 65535_s, 65535_s, 4, 65535_s, 65535_s },
+    { "Phleg Explodes", 8_s, 65535_s, 65535_s, 5, 65535_s, 65535_s },
+    { "Soulstorm Info", 9_s, 65535_s, 65535_s, 14, 65535_s, 65535_s },
+    { "Ingredient", 9_s, 65535_s, 65535_s, 16, 65535_s, 65535_s },
+    { "Conference", 9_s, 65535_s, 65535_s, 13, 65535_s, 65535_s },
+    { "Happy Ending", 9_s, 65535_s, 65535_s, 17, 65535_s, 65535_s },
+    { "Sad Ending", 9_s, 65535_s, 65535_s, 18, 65535_s, 65535_s },
+    { "Credits", 16_s, 65535_s, 65535_s, 65535_s, 65535_s, 65535_s }
 };
-
 
 PerLvlData sDemos_5617F0[23] =
 {
@@ -98,7 +101,7 @@ PerLvlData sDemos_5617F0[23] =
     { "Greeters Go Boom", 9, 28, 4, 25, 0, 0 }
 };
 
-void MainMenuController::ctor_4CE9A0(Path_TLV* pTlv, DWORD tlvOffsetLevelIdPathId)
+void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -161,10 +164,10 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* pTlv, DWORD tlvOffsetLevelIdPathI
 
     field_1FE = 40;
     field_200 = -8;
-    field_1F0 = tlvOffsetLevelIdPathId;
+    field_1F0 = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
     field_23C_T80 &= 0xFF1C0000u;
-    field_214_page_index = GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034);
+    field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034));
     field_21C = 1;
     field_21E = 0;
     field_1F8 = 0;
@@ -285,12 +288,12 @@ int __stdcall MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
     return 0;
 }
 
-void MainMenuController::sub_4D05E0(__int16 a2, __int16 a3)
+void MainMenuController::sub_4D05E0(__int16 /*a2*/, __int16 /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
 
-void MainMenuController::sub_4D06A0(AnimationEx * a3)
+void MainMenuController::sub_4D06A0(AnimationEx * /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -301,7 +304,7 @@ void MainMenuController::callback_4D06E0(MainMenuController * a1)
         'minA', kAbespeakResID, 1u, 0));
 }
 
-int MainMenuController::DrawMenuText_4D20D0(MainMenuText * array, int ** ot, Font * font, int * polyIndex, char a5)
+int MainMenuController::DrawMenuText_4D20D0(MainMenuText * /*array*/, int ** /*ot*/, Font * /*font*/, int * /*polyIndex*/, char /*a5*/)
 {
     NOT_IMPLEMENTED();
 

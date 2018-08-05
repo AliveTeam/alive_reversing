@@ -30,7 +30,7 @@ EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/
             auto pMainMenuController = alive_new<MainMenuController>();
             if (pMainMenuController)
             {
-                pMainMenuController->ctor_4CE9A0(pTlv, tlvOffsetLevelIdPathId.all); // TODO: Pass union type
+                pMainMenuController->ctor_4CE9A0(pTlv, tlvOffsetLevelIdPathId);
             }
         }
     }
