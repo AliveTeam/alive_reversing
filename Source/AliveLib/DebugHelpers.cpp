@@ -14,6 +14,7 @@
 #include "Events.hpp"
 #include "MainMenu.hpp"
 #include "Abe.hpp"
+#include "Midi.hpp"
 
 bool sDebugEnabled_VerboseEvents = false;
 
@@ -303,7 +304,15 @@ void Command_Menu(std::vector<std::string> args)
     }
 }
 
+void Command_Midi1(std::vector<std::string> args)
+{
+    int arg1 = std::stoi(args[0]);
+    int arg2 = std::stoi(args[1]);
 
+    MIDI_46FA90(arg1, arg2, 0x10000);
+
+    DEV_CONSOLE_MESSAGE("Played Midi1", 6);
+}
 
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "help", -1, Command_Help, "Shows what you're looking at" },
@@ -319,7 +328,10 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
     { "menu", 1, Command_Menu, "Changes to given menu cam" },
+    { "midi1", 2, Command_Midi1, "Play sound using midi func 1" },
 };
+
+//
 
 class DebugConsole : public BaseGameObject
 {

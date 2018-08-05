@@ -17,6 +17,7 @@ EXPORT void CC SEQ_4CB060();
 EXPORT void CC SND_Init_4CA1F0();
 EXPORT void CC SND_Shutdown_4CA280();
 EXPORT int CC MIDI_46FBA0(unsigned __int8 a1, int a2, int a3, int a4);
+EXPORT int CC MIDI_46FA90(unsigned __int8 /*a1*/, __int16 /*a2*/, int /*a3*/);
 EXPORT void CC SND_SsVabClose_4FC5B0(int vabId);
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask);
 EXPORT int CC SND_4CA5D0(int a1, int a2, int a3, __int16 vol, __int16 min, __int16 max);

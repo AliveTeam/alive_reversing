@@ -25,6 +25,11 @@ EXPORT int CC MIDI_46FBA0(unsigned __int8 /*a1*/, int /*a2*/, int /*a3*/, int /*
     NOT_IMPLEMENTED();
 }
 
+EXPORT int CC MIDI_46FA90(unsigned __int8 /*a1*/, __int16 /*a2*/, int /*a3*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void SsUtReverbOff_4FE350()
 {
     // Stub

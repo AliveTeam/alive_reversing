@@ -410,11 +410,6 @@ EXPORT void CC sub_4CB0E0()
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC sub_46FA90(unsigned __int8 /*a1*/, __int16 /*a2*/, int /*a3*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC LoadRockTypes_49AB30(unsigned __int16 /*a1*/, unsigned __int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
@@ -549,7 +544,7 @@ public:
         else if (input & eUnPause)
         {
             (*entries)[index].callback(this);
-            sub_46FA90(0x54u, 90, 0x10000);
+            MIDI_46FA90(0x54u, 90, 0x10000);
         }
 
         pm->field_144_active_menu.field_C_selected_index = static_cast<short>(index - scrollDownIndex);
@@ -818,7 +813,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         case 4:
             field_136 = 5;
             memcpy(&field_144_active_menu, &sPM_Page_Save_5465C8, sizeof(field_144_active_menu));
-            sub_46FA90(0x54u, 90, 0x10000);
+            MIDI_46FA90(0x54u, 90, 0x10000);
             field_13C = 0;
             word12C_flags &= 0xFFF5u;
             field_13E = -1;
@@ -838,7 +833,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             Quicksave_FindSaves_4D4150();
             field_136 = 4;
             memcpy(&field_144_active_menu, &sPM_Page_Load_546628, sizeof(field_144_active_menu));
-            sub_46FA90(0x54u, 90, 0x10000);
+            MIDI_46FA90(0x54u, 90, 0x10000);
             word12C_flags &= 0xFFF5;
             field_13C = 0;
             word12C_flags |= 0x400;
@@ -885,7 +880,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             return;
         }
 
-        sub_46FA90(0x54u, 90, 0x10000);
+        MIDI_46FA90(0x54u, 90, 0x10000);
     }
 }
 
