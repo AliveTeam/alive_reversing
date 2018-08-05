@@ -14,7 +14,7 @@ ALIVE_VAR(1, 0x5BC5D8, Font_Context, sFont2Context_5BC5D8, {});
 
 ALIVE_VAR(1, 0x5c9304, char, sDisableFontFlicker_5C9304, 0);
 
-ALIVE_VAR(1, 0x5ca4b4, byte, byte_5CA4B4, 0);
+ALIVE_VAR(1, 0x5ca4b4, byte, sFontDrawScreenSpace_5CA4B4, 0);
 
 static std::vector<std::vector<BYTE>> sLoadedAtlas;
 
@@ -45,10 +45,9 @@ void Font::ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontConte
 
 int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
 {
-    if (!byte_5CA4B4) // Todo: Figure this insane shit out.
+    if (!sFontDrawScreenSpace_5CA4B4)
     {
-        auto v17 = ((signed int)(40 * x + 11 + ((unsigned __int64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4);
-        x = (v17 >> 31) + v17;
+        x /= 0.575; // 368 to 640. Convert world space to screen space coords.
     }
 
     int characterRenderCount = 0;
@@ -174,9 +173,9 @@ int Font::MeasureWidth_433700(const char * text)
         result += field_34_font_context->field_8_atlas_array[charIndex].field_2_width;
     }
 
-    if (!byte_5CA4B4)
+    if (!sFontDrawScreenSpace_5CA4B4)
     {
-        result = (23 * result + 20) / 40;
+        result *= 0.575; // Convert screen space to world space.
     }
 
     return result;
@@ -209,9 +208,9 @@ int Font::MeasureWidth_433630(unsigned char character)
     }
     result = field_34_font_context->field_8_atlas_array[charIndex].field_2_width;
 
-    if (!byte_5CA4B4)
+    if (!sFontDrawScreenSpace_5CA4B4)
     {
-        result = (23 * result + 20) / 40;
+        result *= 0.575; // Convert screen space to world space.
     }
 
     return result;
