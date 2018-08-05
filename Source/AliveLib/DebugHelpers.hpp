@@ -29,6 +29,7 @@ std::vector<std::string> SplitString(const std::string& s, char seperator);
 bool StringStartsWith(std::string mainStr, std::string toMatch);
 std::string StringToLower(std::string s);
 std::string IntToHexString(int v);
+std::string EscapeUnknownCharacters(std::string text);
 
 BaseGameObject * FindObjectOfType(int id);
 

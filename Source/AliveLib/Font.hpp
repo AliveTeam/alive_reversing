@@ -16,6 +16,8 @@
 
 void Font_ForceLink();
 
+EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCount);
+
 struct File_Font
 {
     __int16 field_0_width;
@@ -73,6 +75,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Font, 0x38);
 
+ALIVE_VAR_EXTERN(__int16, sFontType2LoadCount_5BC5E8);
 ALIVE_VAR_EXTERN(byte, sFontDrawScreenSpace_5CA4B4);
 
 ALIVE_VAR_EXTERN(Font_Context, sFont1Context_5BC5C8);

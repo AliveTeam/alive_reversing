@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DebugHelpers.hpp"
 #include "stdlib.hpp"
+#include <iomanip>
 #include "Function.hpp"
 #include "Map.hpp"
 #include "PathData.hpp"
@@ -851,6 +852,25 @@ std::string IntToHexString(int v)
     std::stringstream ss;
     ss << "0x" << std::hex << v;
     return ss.str();
+}
+
+std::string EscapeUnknownCharacters(std::string text)
+{
+    std::stringstream output;
+
+    for (auto c : text)
+    {
+        if (c >= 32 && c <= 126)
+        {
+            output << c;
+        }
+        else
+        {
+            output << "\\x" << std::setfill('0') << std::setw(2) << std::hex << (int)c;
+        }
+    }
+
+    return output.str();
 }
 
 BaseGameObject * FindObjectOfType(int id)

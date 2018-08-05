@@ -5,7 +5,6 @@
 #include "Map.hpp"
 #include "DebugHelpers.hpp"
 #include "SwitchStates.hpp"
-#include <iomanip>
 #include "StringFormatters.hpp"
 #include "Abe.hpp"
 
@@ -234,25 +233,6 @@ struct DumpEntry
     int address;
     std::string name;
 };
-
-std::string EscapeUnknownCharacters(std::string text)
-{
-    std::stringstream output;
-
-    for (auto c : text)
-    {
-        if (c >= 32 && c <= 126)
-        {
-            output << c;
-        }
-        else
-        {
-            output << "\\x" << std::setfill('0') << std::setw(2) << std::hex << (int)c;
-        }
-    }
-
-    return output.str();
-}
 
 void DumpMenus()
 {

@@ -98,6 +98,8 @@ add_library(AliveLib
     Factory.cpp
     MainMenu.hpp
     MainMenu.cpp
+    LCDScreen.hpp
+    LCDScreen.cpp
     WinMain.cpp
     WinMain.hpp)
 

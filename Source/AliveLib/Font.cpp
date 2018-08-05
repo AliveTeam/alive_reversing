@@ -16,9 +16,11 @@ ALIVE_VAR(1, 0x5c9304, char, sDisableFontFlicker_5C9304, 0);
 
 ALIVE_VAR(1, 0x5ca4b4, byte, sFontDrawScreenSpace_5CA4B4, 0);
 
+ALIVE_VAR(1, 0x5BC5E8, __int16, sFontType2LoadCount_5BC5E8, 0);
+
 static std::vector<std::vector<BYTE>> sLoadedAtlas;
 
-EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCount)
+signed __int16 CC Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCount)
 {
     NOT_IMPLEMENTED();
 }
