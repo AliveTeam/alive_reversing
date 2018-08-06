@@ -19,7 +19,6 @@ void Font_ForceLink();
 EXPORT void CC static_font1context_init_433300();
 EXPORT void CC static_font2context_init_433380();
 
-EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCount);
 
 struct File_Font
 {

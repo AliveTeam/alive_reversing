@@ -8,6 +8,7 @@
 #include "Midi.hpp"
 #include "Events.hpp"
 #include "Sfx.hpp"
+#include "VRam.hpp"
 
 unsigned char sLCDScreen_Palette[] =
 {

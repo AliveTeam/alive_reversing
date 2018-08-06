@@ -104,6 +104,8 @@ add_library(AliveLib
     LCDScreen.cpp
     ObjectIds.hpp
     ObjectIds.cpp
+    VRam.hpp
+    VRam.cpp
     WinMain.cpp
     WinMain.hpp)
 

@@ -8,6 +8,7 @@
 #include "stdlib.hpp"
 #include <type_traits>
 #include <gmock/gmock.h>
+#include "VRam.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
@@ -44,16 +45,6 @@ void __cdecl sub_495A60(int a1, int a2)
 }
 */
 
-
-signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT *pRect)
-{
-    NOT_IMPLEMENTED();
-}
-
-void CC Vram_free_495A60(int xy, int wh)
-{
-    NOT_IMPLEMENTED();
-}
 
 struct TextRecords
 {
