@@ -20,5 +20,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ExportHooker hooker(hInstance);
     hooker.Apply();
 
+    // In the real game these are called before main, but shouldn't really matter in this case
+    Static_Inits();
+
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }

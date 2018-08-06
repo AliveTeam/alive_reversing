@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Events.hpp"
 #include "Map.hpp"
+#include "ObjectIds.hpp"
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
 
@@ -43,9 +44,6 @@ int BaseGameObject::GetSaveState_4DC110(BYTE* /*pSaveBuffer*/)
 }
 
 ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
-
-ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds_5C1B70, {});
-
 
 BYTE** BaseGameObject::Add_Resource_4DC130(DWORD type, int resourceID)
 {
@@ -96,15 +94,4 @@ EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
     sObjectIds_5C1B70.Remove_449C60(field_8_flags_ex);
 
     field_10_resources_array.dtor_40CAD0();
-}
-
-EXPORT void ObjectIds::Insert_449C10(int /*objCount*/, void* /*pGameObj*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-signed __int16 ObjectIds::Remove_449C60(int /*id*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }

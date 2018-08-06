@@ -31,6 +31,7 @@
 #include "ScreenManager.hpp"
 #include "LCDScreen.hpp"
 #include "Sfx.hpp"
+#include "ObjectIds.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -77,6 +78,13 @@ static void InitOtherHooksAndRunTests()
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
 ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
+
+// Manual calls to construct global static objects when not running as dll/injected into the real game.
+// There are only a very small amount of global static constructors to call.
+EXPORT void Static_Inits()
+{
+    static_ObjectIds_init_43EC30();
+}
 
 EXPORT int CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {

@@ -88,11 +88,3 @@ public:
 ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x20);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4);
-
-class ObjectIds
-{
-public:
-    EXPORT void Insert_449C10(int objCount, void* pGameObj);
-    EXPORT signed __int16 Remove_449C60(int id);
-};
-
