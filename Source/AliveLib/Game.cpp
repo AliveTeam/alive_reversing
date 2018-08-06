@@ -495,6 +495,11 @@ EXPORT void CC sub_43BF40()
     NOT_IMPLEMENTED();
 }
 
+EXPORT void CC static_init_set_default_hero_43EC10()
+{
+    sActiveHero_5C1B68 = spAbe_554D5C;
+}
+
 EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
 {
     DebugFont_Init_4DCF40();

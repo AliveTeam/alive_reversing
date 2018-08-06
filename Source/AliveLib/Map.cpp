@@ -30,6 +30,22 @@ struct CameraName
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
+EXPORT void CC static_map_construct_4802F0()
+{
+    gMap_5C3030.Reset_4805D0();
+}
+
+EXPORT void CC static_map_destruct_480330()
+{
+    gMap_5C3030.Shutdown_4804E0();
+}
+
+EXPORT void CC static_map_init_4802D0()
+{
+    static_map_construct_4802F0();
+    atexit(static_map_destruct_480330);
+}
+
 void Map::sub_480B80_Common()
 {
     if (field_6_state == 1)

@@ -7,6 +7,8 @@
 
 void Map_ForceLink();
 
+EXPORT void CC static_map_init_4802D0();
+
 struct Map_120
 {
     BYTE** field_0_pPathRecs[30];
