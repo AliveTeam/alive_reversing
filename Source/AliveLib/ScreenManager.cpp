@@ -5,6 +5,7 @@
 #include "ResourceManager.hpp"
 #include "vlctable.hpp"
 #include <gmock/gmock.h>
+#include "vlctable.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
 
@@ -68,23 +69,23 @@ void ScreenManager::VDestructor(signed int flags)
     dtor_40E460(flags);
 }
 
-void ScreenManager::dtor_40E460(signed int flags)
+void ScreenManager::dtor_40E460(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
 }
 
-void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx)
+void ScreenManager::InvalidateRect_40EC90(int /*x*/, int /*y*/, signed int /*width*/, signed int /*height*/, int /*idx*/)
 {
     NOT_IMPLEMENTED();
 }
 
-__int16 ScreenManager::IsDirty_40EBC0(int idx, int x, int y)
+__int16 ScreenManager::IsDirty_40EBC0(int /*idx*/, int /*x*/, int /*y*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-void ScreenManager::UnsetDirtyBits_40EDE0(int idx)
+void ScreenManager::UnsetDirtyBits_40EDE0(int /*idx*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -93,9 +94,6 @@ void ScreenManager::InvalidateRect_40EC10(int x, int y, signed int width, signed
 {
     InvalidateRect_40EC90(x, y, width, height, field_3A);
 }
-
-#include "vlctable.hpp"
-
 
 namespace Oddlib
 {
@@ -431,9 +429,15 @@ void ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
     Init_40E4B0((int)ppBits);
 }
 
-void ScreenManager::Init_40E4B0(int ppBits)
+void ScreenManager::Init_40E4B0(int /*ppBits*/)
 {
     NOT_IMPLEMENTED();
+
+    // HACK: Just enough impl for first cam to display correctly in standalone binary
+    field_2C_rect.x = 0;
+    field_2C_rect.y = 272;
+    field_2C_rect.w = 640;
+    field_2C_rect.h = 240;
 }
 
 namespace Test
