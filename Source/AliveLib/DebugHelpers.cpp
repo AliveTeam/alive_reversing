@@ -16,6 +16,7 @@
 #include "MainMenu.hpp"
 #include "Abe.hpp"
 #include "Midi.hpp"
+#include "Sfx.hpp"
 
 bool sDebugEnabled_VerboseEvents = false;
 
@@ -309,7 +310,7 @@ void Command_Midi1(std::vector<std::string> args)
 {
     int arg1 = std::stoi(args[0]);
 
-    MIDI_46FA90(arg1, 0, 0x10000);
+    SFX_Play_46FA90(arg1, 0, 0x10000);
 
     DEV_CONSOLE_MESSAGE("Played Midi1", 6);
 }

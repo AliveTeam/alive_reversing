@@ -33,6 +33,8 @@ add_library(AliveLib
     Quicksave.hpp
     bmp.cpp
     bmp.hpp
+    Sfx.hpp
+    Sfx.cpp
     Game.cpp
     Game.hpp
     Sound.cpp

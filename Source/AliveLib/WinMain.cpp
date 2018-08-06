@@ -30,6 +30,7 @@
 #include "MainMenu.hpp"
 #include "ScreenManager.hpp"
 #include "LCDScreen.hpp"
+#include "Sfx.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 

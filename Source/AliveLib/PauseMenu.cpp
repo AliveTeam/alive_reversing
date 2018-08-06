@@ -7,7 +7,7 @@
 #include "SwitchStates.hpp"
 #include "StringFormatters.hpp"
 #include "Abe.hpp"
-
+#include "Sfx.hpp"
 
 // Used by the level skip cheat/ui/menu
 const static PerLvlData gPerLvlData_561700[17] =
@@ -492,7 +492,7 @@ public:
     void ClosePauseMenu()
     {
         pPauseMenu_5C9300->word12C_flags &= ~1;
-        MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+        SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
         sub_4CB0E0();
         customMenuStack.clear();
     }
@@ -504,7 +504,7 @@ public:
         {
             if (++index >= static_cast<int>(entries->size()))
                 index = 0;
-            MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+            SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
 
             CompileEntries();
         }
@@ -512,19 +512,19 @@ public:
         {
             if (--index < 0)
                 index = entries->size() - 1;
-            MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+            SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
 
             CompileEntries();
         }
         else if (input & 0x200000)
         {
-            MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+            SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
             GoBack(pm);
         }
         else if (input & eUnPause)
         {
             (*entries)[index].callback(this);
-            MIDI_46FA90(0x54u, 90, 0x10000);
+            SFX_Play_46FA90(0x54u, 90, 0x10000);
         }
 
         pm->field_144_active_menu.field_C_selected_index = static_cast<short>(index - scrollDownIndex);
@@ -743,7 +743,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             field_134_Index_Main = 0;
         }
-        MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
     }
     if (inputHeld & eUp)
     {
@@ -751,7 +751,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             field_134_Index_Main = 7;
         }
-        MIDI_46FBA0(0x34u, 45, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
     }
 
     field_144_active_menu.field_C_selected_index = field_134_Index_Main;
@@ -759,7 +759,7 @@ void PauseMenu::Page_Main_Update_4903E0()
     if (inputHeld & 0x200000)
     {
         word12C_flags &= 0xFFFEu;
-        MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+        SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
         sub_4CB0E0();
     }
     else if (inputHeld & eUnPause)
@@ -768,12 +768,12 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
         case 0:
             word12C_flags &= 0xFFFEu;
-            MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+            SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
             sub_4CB0E0();
             return;
         case 1:
             word12C_flags &= 0xFFFEu;
-            MIDI_46FBA0(0x11u, 40, 2400, 0x10000);
+            SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
             sub_4CB0E0();
             Quicksave_4C90D0();
             return;
@@ -793,7 +793,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         case 4:
             field_136 = 5;
             memcpy(&field_144_active_menu, &sPM_Page_Save_5465C8, sizeof(field_144_active_menu));
-            MIDI_46FA90(0x54u, 90, 0x10000);
+            SFX_Play_46FA90(0x54u, 90, 0x10000);
             field_13C = 0;
             word12C_flags &= 0xFFF5u;
             field_13E = -1;
@@ -813,7 +813,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             Quicksave_FindSaves_4D4150();
             field_136 = 4;
             memcpy(&field_144_active_menu, &sPM_Page_Load_546628, sizeof(field_144_active_menu));
-            MIDI_46FA90(0x54u, 90, 0x10000);
+            SFX_Play_46FA90(0x54u, 90, 0x10000);
             word12C_flags &= 0xFFF5;
             field_13C = 0;
             word12C_flags |= 0x400;
@@ -849,7 +849,7 @@ void PauseMenu::Page_Main_Update_4903E0()
                 sub_49A7A0(class_0x30_dword_5D1E2C, sActiveHero_5C1B68->field_1A2_rock_or_bone_count);
             }
             word12C_flags &= 0xFFFEu;
-            MIDI_46FBA0(0x11u, 40, 3400, 0x10000);
+            SFX_Play_46FBA0(0x11u, 40, 3400, 0x10000);
             sub_4CB0E0();
         case 7:
             field_136 = 2;
@@ -860,7 +860,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             return;
         }
 
-        MIDI_46FA90(0x54u, 90, 0x10000);
+        SFX_Play_46FA90(0x54u, 90, 0x10000);
     }
 }
 
