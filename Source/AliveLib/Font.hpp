@@ -65,6 +65,7 @@ public:
     EXPORT int MeasureWidth_433700(const char * text);
     EXPORT int MeasureWidth_4336C0(const char *text, FP scale);
     EXPORT int MeasureWidth_433630(unsigned char character);
+    EXPORT const char * SliceText_433BD0(const char *text, int left, FP scale, int right);
 public:
     byte gap0[32];
     BYTE **field_20_fnt_poly_block_ptr;

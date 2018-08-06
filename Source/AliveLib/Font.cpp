@@ -9,6 +9,22 @@ void Font_ForceLink()
 
 }
 
+/*
+ Notes for when coming across crazy width conversions:
+ If it looks like this:
+
+ (40 * x + 11) / 23
+
+ Then its probably x *= 0.575;
+ If it looks like:
+
+ v17 = (signed int)(40 * x + 11 + ((unsigned __int64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
+ x = (v17 >> 31) + v17;
+
+ then do x /= 0.575;
+*/
+
+
 ALIVE_VAR(1, 0x5bc5c8, Font_Context, sFont1Context_5BC5C8, {});
 ALIVE_VAR(1, 0x5BC5D8, Font_Context, sFont2Context_5BC5D8, {});
 
@@ -216,6 +232,12 @@ int Font::MeasureWidth_433630(unsigned char character)
     }
 
     return result;
+}
+
+// Wasn't too sure what to call this. Returns the char offset of where the text is cut off. (left and right region)
+const char * Font::SliceText_433BD0(const char * text, int left, FP scale, int right)
+{
+    NOT_IMPLEMENTED();
 }
 
 void Font_Context::LoadFontType_433400(int resourceID)

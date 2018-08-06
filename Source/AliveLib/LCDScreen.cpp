@@ -5,6 +5,8 @@
 #include "SwitchStates.hpp"
 #include "DebugHelpers.hpp"
 #include "StringFormatters.hpp"
+#include "Midi.hpp"
+#include "Events.hpp"
 
 unsigned char sLCDScreen_Palette[] =
 {
@@ -190,17 +192,90 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
 
     String_FormatString_4969D0(field_A0_message, field_A8_message_buffer, 512, 1);
     field_A0_message = field_A8_message_buffer;
-    field_A4 = 0;
+    field_A4_message_cutoff_ptr = nullptr;
     field_2AC_x_offset = 0;
     sFontDrawScreenSpace_5CA4B4 = 1;
     field_2AE_character_width = field_60_font.MeasureWidth_433630(*field_A0_message) + 2;
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4 = 0;
     field_2B6_message_rand_min = params->field_12_message_rand_min;
-    field_6_flags |= 8u;
+    field_6_flags |= eDrawable;
     field_2B8_message_rand_max = params->field_14_message_rand_max;
     field_2A8_play_sound_toggle = 0;
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
 
     return this;
+}
+
+void LCDScreen::Update_460A00()
+{
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags |= eDead;
+    }
+
+#ifdef LCD_PS1_SPEED
+    field_2AC_x_offset += 6;
+#else
+    field_2AC_x_offset += 3;
+#endif
+
+    if (field_2AC_x_offset > field_2AE_character_width)
+    {
+        field_2AC_x_offset -= field_2AE_character_width;
+        char lastChar = *field_A0_message;
+        field_A0_message++; // Offset char index
+
+        if (lastChar == 0)
+        {
+            if (++field_2B4 == 1)
+            {
+                field_A0_message = sLCDMessageTable_555768[Math_RandomRange_496AB0(field_2B6_message_rand_min, field_2B8_message_rand_max)];
+            }
+            else
+            {
+                field_2B4 = 0;
+                if (SwitchStates_Get_466020(field_2B2_swap_message_sets_switch_id))
+                {
+                    field_A0_message = sLCDMessageTable_555768[field_2B0_message_2_id];
+                }
+                else
+                {
+                    field_A0_message = sLCDMessageTable_555768[field_2AA_message_1_id];
+                }
+            }
+
+            String_FormatString_4969D0(field_A0_message, field_A8_message_buffer, 512, 1);
+            field_A0_message = field_A8_message_buffer;
+
+            auto palSwap = field_98_pal_rect;
+            field_98_pal_rect = field_60_font.field_28_palette_rect;
+            field_60_font.field_28_palette_rect = palSwap;
+        }
+
+        sFontDrawScreenSpace_5CA4B4 = 1;
+        field_2AE_character_width = field_60_font.MeasureWidth_433630(*field_A0_message) + 2;
+        sFontDrawScreenSpace_5CA4B4 = 0;
+    }
+
+    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x.GetExponent();
+    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x.GetExponent();
+
+    sFontDrawScreenSpace_5CA4B4 = 1;
+    auto v14 = field_60_font.SliceText_433BD0(
+        field_A0_message,
+        (screenLeft * 0.575) - field_2AC_x_offset,
+        FP_FromDouble(1.0),
+        screenRight);
+    sFontDrawScreenSpace_5CA4B4 = 0;
+    if (v14 != field_A4_message_cutoff_ptr)
+    {
+        field_2A8_play_sound_toggle = !field_2A8_play_sound_toggle;
+        field_A4_message_cutoff_ptr = v14;
+        if (*v14 != ' ')
+        {
+            if (field_2A8_play_sound_toggle)
+                MIDI_46FA90(73u, 0, 0x10000);
+        }
+    }
 }

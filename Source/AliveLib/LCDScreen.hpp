@@ -24,12 +24,13 @@ class LCDScreen : public BaseGameObject
 {
 public:
     EXPORT LCDScreen * ctor_460680(Path_LCDScreen *params, TlvItemInfoUnion itemInfo);
+    EXPORT void LCDScreen::Update_460A00();
 public:
     Prim_PrimClipper field_20_prim_clippers[4];
     Font field_60_font;
     PSX_RECT field_98_pal_rect;
     const char *field_A0_message;
-    DWORD field_A4;
+    const char * field_A4_message_cutoff_ptr;
     char field_A8_message_buffer[512];
     WORD field_2A8_play_sound_toggle;
     signed __int16 field_2AA_message_1_id;
@@ -40,6 +41,7 @@ public:
     WORD field_2B4;
     WORD field_2B6_message_rand_min;
     WORD field_2B8_message_rand_max;
+    __int16 field_2BA;
     TlvItemInfoUnion field_2BC_tlv_item_info;
     Path_TLV field_2C0_tlv;
 };
