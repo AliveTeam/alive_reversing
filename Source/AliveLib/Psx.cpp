@@ -599,9 +599,56 @@ EXPORT void CC PSX_EMU_Set_screen_mode_4F9420(char mode)
     NOT_IMPLEMENTED();
 }
 
-EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3)
+EXPORT signed int CC PSX_CD_Add_EMU_Path_4FAC00(const char* /*filePath*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3)
+{
+    if (pPath1)
+    {
+        if (strlen(pPath1) >= 128) // TODO: _countof when done
+        {
+            return -1;
+        }
+        strcpy(sCdEmu_Path1_C14620, pPath1);
+        PSX_CD_Add_EMU_Path_4FAC00(sCdEmu_Path1_C14620);
+        if (sCdEmu_Path1_C14620[strlen(sCdEmu_Path1_C14620) - 1] != '\\')
+        {
+            strcat(sCdEmu_Path1_C14620, "\\");
+        }
+    }
+
+    if (pPath2)
+    {
+        if (strlen(pPath2) >= 128) // TODO: _countof when done
+        {
+            return -2;
+        }
+        strcpy(sCdEmu_Path2_C144C0, pPath2);
+        PSX_CD_Add_EMU_Path_4FAC00(sCdEmu_Path2_C144C0);
+        if (sCdEmu_Path2_C144C0[strlen(sCdEmu_Path2_C144C0) - 1] != '\\')
+        {
+            strcat(sCdEmu_Path2_C144C0, "\\");
+        }
+    }
+
+    if (pPath3)
+    {
+        if (strlen(pPath3) >= 128) // TODO: _countof when done
+        {
+            return -3;
+        }
+        strcpy(sCdEmu_Path3_C145A0, pPath3);
+        PSX_CD_Add_EMU_Path_4FAC00(sCdEmu_Path3_C145A0);
+        if (sCdEmu_Path3_C145A0[strlen(sCdEmu_Path3_C145A0) - 1] != '\\')
+        {
+            strcat(sCdEmu_Path3_C145A0, "\\");
+        }
+    }
+
     return 0;
 }
 
