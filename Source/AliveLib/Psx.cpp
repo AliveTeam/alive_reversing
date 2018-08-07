@@ -1159,6 +1159,14 @@ EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* p
     *pNormalizedIter = 0;
 }
 
+EXPORT BOOL CC PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
+{
+    return pRect1->x < (pRect2->x + pRect2->w) 
+        && pRect1->y < (pRect2->y + pRect2->h) 
+        && pRect2->x < (pRect1->x + pRect1->w) 
+        && pRect2->y < (pRect1->y + pRect1->h);
+}
+
 ALIVE_VAR(1, 0xbbb9c4, int, sDispEnv_mode_BBB9C4, 0);
 
 EXPORT void CC PSX_DispEnv_Set_4ED960(int mode)
