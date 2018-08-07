@@ -248,11 +248,6 @@ EXPORT void IO_Init_494230()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC sub_4ED960(int /*a1*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* pCommandLine)
 {
     //nullsub_2(); // Note: Pruned
@@ -324,17 +319,17 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
 
     if (dword_5CA4E0 == 1)
     {
-        sub_4ED960(1);
+        PSX_DispEnv_Set_4ED960(1);
         PSX_EMU_Set_screen_mode_4F9420(1);
     }
     else if (dword_5CA4E0 == 2)
     {
-        sub_4ED960(0);
+        PSX_DispEnv_Set_4ED960(0);
         PSX_EMU_Set_screen_mode_4F9420(0);
     }
     else
     {
-        sub_4ED960(2);
+        PSX_DispEnv_Set_4ED960(2);
         PSX_EMU_Set_screen_mode_4F9420(2);
     }
 

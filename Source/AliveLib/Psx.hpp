@@ -55,6 +55,7 @@ struct PSX_DRAWENV
 
 using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
+EXPORT void CC PSX_DispEnv_Set_4ED960(int mode);
 EXPORT int CC PSX_VSync_4F6170(int mode);
 EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, __int16 b);
 EXPORT int CC PSX_DrawSync_4F6280(int mode);
@@ -88,6 +89,7 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, BYTE* pData);
 
 EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* pFileName);
 EXPORT int CC PSX_CD_OpenFile_4FAE80(const char* pFileName, int bTryAllPaths);
+
 
 struct CdlLOC
 {

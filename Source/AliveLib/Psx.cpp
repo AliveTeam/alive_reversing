@@ -1159,6 +1159,13 @@ EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* p
     *pNormalizedIter = 0;
 }
 
+ALIVE_VAR(1, 0xbbb9c4, int, sDispEnv_mode_BBB9C4, 0);
+
+EXPORT void CC PSX_DispEnv_Set_4ED960(int mode)
+{
+    sDispEnv_mode_BBB9C4 = mode;
+}
+
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
 EXPORT int CC PSX_VSync_4F6170(int mode)
 {
