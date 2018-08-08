@@ -9,6 +9,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "VRam.hpp"
+#include "Game.hpp"
 
 unsigned char sLCDScreen_Palette[] =
 {
@@ -277,7 +278,52 @@ void LCDScreen::Update_460A00()
         if (*v14 != ' ')
         {
             if (field_2A8_play_sound_toggle)
+            {
                 SFX_Play_46FA90(73u, 0, 0x10000);
+            }
         }
+    }
+}
+
+void LCDScreen::Render_460CB0(int ** ot)
+{
+    if (!word_5C1B66)
+    {
+        const auto camPos = pScreenManager_5BB5F4->field_20_pCamPos;
+        const auto screenX = this->field_2C0_tlv.field_8_top_left.field_0_x - camPos->field_0_x.GetExponent();
+        const auto screenY = ((this->field_2C0_tlv.field_8_top_left.field_2_y + this->field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - camPos->field_4_y.GetExponent()) - 7;
+        const int screenXWorld = screenX / 0.575;
+        const auto maxWidth = this->field_2C0_tlv.field_C_bottom_right.field_0_x - camPos->field_0_x.GetExponent();
+
+        PSX_RECT clipRect = { 0,0,640,240 };
+
+        Init_PrimClipper_4F5B80(&field_20_prim_clippers[gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
+        OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[gPsxDisplay_5C1130.field_C_buffer_index]);
+
+        sFontDrawScreenSpace_5CA4B4 = 1;
+        field_60_font.DrawString_4337D0(
+            ot,
+            field_A0_message,
+            screenXWorld - this->field_2AC_x_offset,
+            screenY,
+            1,
+            1,
+            0,
+            24,
+            127,
+            127,
+            127,
+            0,
+            FP_FromDouble(1.0),
+            maxWidth,
+            sDisableFontFlicker_5C9304 != 0 ? 0 : 40);
+        sFontDrawScreenSpace_5CA4B4 = 0;
+
+        clipRect = { static_cast<short>(screenXWorld), static_cast<short>(screenY - 12), static_cast<short>((maxWidth - screenX) / 0.575), 48 };
+
+        Init_PrimClipper_4F5B80(&field_20_prim_clippers[gPsxDisplay_5C1130.field_C_buffer_index + 2], &clipRect);
+        OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[gPsxDisplay_5C1130.field_C_buffer_index + 2]);
+
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(screenXWorld, screenY, clipRect.w, 24, pScreenManager_5BB5F4->field_3A);
     }
 }

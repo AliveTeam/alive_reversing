@@ -24,7 +24,8 @@ class LCDScreen : public BaseGameObject
 {
 public:
     EXPORT LCDScreen * ctor_460680(Path_LCDScreen *params, TlvItemInfoUnion itemInfo);
-    EXPORT void LCDScreen::Update_460A00();
+    EXPORT void Update_460A00();
+    EXPORT void Render_460CB0(int **ot);
 public:
     Prim_PrimClipper field_20_prim_clippers[4];
     Font field_60_font;

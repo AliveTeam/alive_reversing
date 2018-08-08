@@ -86,7 +86,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
     }
 
     int characterRenderCount = 0;
-    const int maxRenderX = (40 * a15 + 11) / 23;
+    const int maxRenderX = a15 / 0.575;
     short offsetX = static_cast<short>(x);
     int charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
