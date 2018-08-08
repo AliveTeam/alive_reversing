@@ -19,6 +19,7 @@ ALIVE_ASSERT_SIZEOF(ObjectId_Record, 0xC);
 class ObjectIds
 {
 public:
+    void Destructor();
     EXPORT static void dtor_43EC90();
     EXPORT void ctor_449AE0(unsigned int size);
     EXPORT unsigned int Id_To_Buffer_Size_Range_449BA0(TObjectId_KeyType id);
@@ -33,3 +34,8 @@ private:
 ALIVE_ASSERT_SIZEOF(ObjectIds, 0x8);
 
 ALIVE_VAR_EXTERN(ObjectIds, sObjectIds_5C1B70);
+
+namespace Test
+{
+    void ObjectIdsTests();
+}

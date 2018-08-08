@@ -33,6 +33,7 @@
 #include "Sfx.hpp"
 #include "ObjectIds.hpp"
 #include "LvlArchive.hpp"
+#include "ObjectIds.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -50,6 +51,7 @@ static void RunTests()
     Test::EventTests();
     Test::MidiTests();
     Test::ScreenManagerTests();
+    Test::ObjectIdsTests();
 }
 
 static void InitOtherHooksAndRunTests()

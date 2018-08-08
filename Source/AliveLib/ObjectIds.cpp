@@ -19,15 +19,20 @@ EXPORT void CC static_ObjectIds_init_43EC30()
 
 void ObjectIds::dtor_43EC90()
 {
-    for (unsigned int i = 0; i < sObjectIds_5C1B70.field_0_buffer_size; i++)
+    sObjectIds_5C1B70.Destructor();
+}
+
+void ObjectIds::Destructor()
+{
+    for (unsigned int i = 0; i < field_0_buffer_size; i++)
     {
-        while (sObjectIds_5C1B70.field_4_pBuffer[i])
+        while (field_4_pBuffer[i])
         {
             // Keep a copy of the current item
-            ObjectId_Record* pCurrent = sObjectIds_5C1B70.field_4_pBuffer[i];
+            ObjectId_Record* pCurrent = field_4_pBuffer[i];
 
             // Set the array to point to the next item
-            sObjectIds_5C1B70.field_4_pBuffer[i] = pCurrent->field_8_pNext;
+            field_4_pBuffer[i] = pCurrent->field_8_pNext;
 
             // Now free current, repeat until everything is gone
             Mem_Free_495540(pCurrent);
@@ -35,7 +40,7 @@ void ObjectIds::dtor_43EC90()
     }
 
     // Free the backing array
-    Mem_Free_495560(sObjectIds_5C1B70.field_4_pBuffer);
+    Mem_Free_495560(field_4_pBuffer);
 }
 
 void ObjectIds::ctor_449AE0(unsigned int size)
@@ -139,4 +144,44 @@ BaseGameObject* ObjectIds::Find_449CF0(TObjectId_KeyType idToFind)
         }
     }
     return pFound;
+}
+
+#include "BaseGameObject.hpp"
+#include <gmock/gmock.h>
+
+namespace Test
+{
+    class FakeGameObject : public BaseGameObject
+    {
+    public:
+        virtual void VDestructor(signed int) override { }
+    };
+
+    void ObjectIdsTests()
+    {
+        ObjectIds ids;
+        ids.ctor_449AE0(101);
+
+        FakeGameObject p;
+        ids.Insert_449C10(1, &p);
+
+        ASSERT_EQ(&p, ids.Find_449CF0(1));
+
+        FakeGameObject p2;
+        ids.Insert_449C10(1, &p2);
+
+        ASSERT_EQ(&p2, ids.Find_449CF0(1));
+
+        ids.Remove_449C60(1);
+
+        ASSERT_EQ(&p, ids.Find_449CF0(1));
+
+        ids.Remove_449C60(1);
+
+        ASSERT_EQ(nullptr, ids.Find_449CF0(1));
+
+        ASSERT_EQ(nullptr, ids.Find_449CF0(9999));
+
+        ids.Destructor();
+    }
 }
