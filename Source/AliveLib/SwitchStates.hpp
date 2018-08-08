@@ -20,4 +20,9 @@ enum SwitchOp : __int16
 
 EXPORT void CC SwitchStates_Do_Operation_465F00(signed __int16 idx, SwitchOp operation);
 
-ALIVE_ARY_EXTERN(char, 256, sSwitchStates_5C1A28);
+struct SwitchStates
+{
+    char mData[256];
+};
+
+ALIVE_VAR_EXTERN(SwitchStates, sSwitchStates_5C1A28);

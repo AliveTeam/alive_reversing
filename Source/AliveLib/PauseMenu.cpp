@@ -823,7 +823,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         case 6:
             sub_4A1F20(3 * sCurrentControllerIndex_5C1BBE, 3 * sCurrentControllerIndex_5C1BBE);
             sub_4C9870();
-            memcpy(sSwitchStates_5C1A28,sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states,sizeof(sSwitchStates_5C1A28));
+            sSwitchStates_5C1A28 = sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states;
             Abe::CreateFromSaveState_44D4F0(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
             Quicksave_ReadWorldInfo_4C9490(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
             
