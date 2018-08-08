@@ -122,11 +122,8 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_120_font.ctor_433590(240, pal_560F80, &sFont1Context_5BC5C8);
     memset(&field_F4_resources, 0, sizeof(field_F4_resources));
 
-    field_F4_resources.field_4_res_abespek2 = reinterpret_cast<AnimHeader *>(ResourceManager::GetLoadedResource_49C2A0(
-        ResourceManager::Resource_Animation, kAbespek2ResID, 1u, 0));
-
-    field_F4_resources.field_10_res_optflare = reinterpret_cast<AnimHeader *>(ResourceManager::GetLoadedResource_49C2A0(
-        ResourceManager::Resource_Animation, kOptflareResID, 1u, 0));
+    field_F4_resources.field_4_res_abespek2 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbespek2ResID, 1u, 0);
+    field_F4_resources.field_10_res_optflare = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kOptflareResID, 1u, 0);
 
     field_F4_resources.field_14 = nullptr;
     field_F4_resources.field_0_res_abespeak = nullptr;
@@ -140,11 +137,9 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     else
     {
         ResourceManager::LoadResourceFile_49C170("ABEINTRO.BAN", 0);
-        field_F4_resources.field_8_res_abeintro = reinterpret_cast<AnimHeader *>(ResourceManager::GetLoadedResource_49C2A0(
-            ResourceManager::Resource_Animation, kAbeintroResID, 1u, 0));
+        field_F4_resources.field_8_res_abeintro = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbeintroResID, 1u, 0);
         ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", 0);
-        field_F4_resources.field_C_res_door = reinterpret_cast<AnimHeader *>(ResourceManager::GetLoadedResource_49C2A0(
-            ResourceManager::Resource_Animation, kDoorResID, 1u, 0));
+        field_F4_resources.field_C_res_door = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDoorResID, 1u, 0);
         Animation_Init_424E10(50212, 233, 0x7Du, field_F4_resources.field_C_res_door, 1, 1u);
     }
 
@@ -152,9 +147,8 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_20_animation.field_9_g = 127;
     field_20_animation.field_8_r = 127;
 
-    field_F4_resources.field_18_res_highlite = reinterpret_cast<AnimHeader *>(ResourceManager::GetLoadedResource_49C2A0(
-        ResourceManager::Resource_Animation, kHighliteResID, 1u, 0));
-    field_158_animation.Init_40A030(13912, gObjList_animations_5C1A24, this, 150, 0x41u, reinterpret_cast<BYTE**>(field_F4_resources.field_18_res_highlite), 1u, 0, 0);
+    field_F4_resources.field_18_res_highlite = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kHighliteResID, 1u, 0);
+    field_158_animation.Init_40A030(13912, gObjList_animations_5C1A24, this, 150, 0x41u, field_F4_resources.field_18_res_highlite, 1u, 0, 0);
 
     field_158_animation.field_14_scale = field_CC_sprite_scale;
     field_158_animation.field_4_flags &= 0x3FFF;
@@ -300,8 +294,7 @@ void MainMenuController::sub_4D06A0(AnimationEx * /*a3*/)
 
 void MainMenuController::callback_4D06E0(MainMenuController * a1)
 {
-    a1->field_F4_resources.field_0_res_abespeak = reinterpret_cast<AnimHeader *>(ResourceManager::GetLoadedResource_49C2A0(
-        'minA', kAbespeakResID, 1u, 0));
+    a1->field_F4_resources.field_0_res_abespeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbespeakResID, 1u, 0);
 }
 
 int MainMenuController::DrawMenuText_4D20D0(MainMenuText * /*array*/, int ** /*ot*/, Font * /*font*/, int * /*polyIndex*/, char /*a5*/)

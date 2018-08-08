@@ -34,17 +34,17 @@ struct MainMenuButton
 
 struct MainMenuControllerResources
 {
-    AnimHeader *field_0_res_abespeak;
-    AnimHeader *field_4_res_abespek2;
-    AnimHeader *field_8_res_abeintro;
-    AnimHeader *field_C_res_door;
-    AnimHeader *field_10_res_optflare;
-    AnimHeader *field_14;
-    AnimHeader *field_18_res_highlite;
-    AnimHeader *field_1C_res_slgspeak;
-    AnimHeader *field_20_res_glkspeak;
-    AnimHeader *field_24_res_scrspeak;
-    AnimHeader *field_28_res_parspeak;
+    BYTE** field_0_res_abespeak;
+    BYTE** field_4_res_abespek2;
+    BYTE** field_8_res_abeintro;
+    BYTE** field_C_res_door;
+    BYTE** field_10_res_optflare;
+    BYTE** field_14;
+    BYTE** field_18_res_highlite;
+    BYTE** field_1C_res_slgspeak;
+    BYTE** field_20_res_glkspeak;
+    BYTE** field_24_res_scrspeak;
+    BYTE** field_28_res_parspeak;
 };
 
 struct MainMenuText

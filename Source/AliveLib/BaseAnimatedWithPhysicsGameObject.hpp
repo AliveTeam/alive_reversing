@@ -17,7 +17,7 @@ public:
 
     EXPORT void Update_424AB0();
 
-    EXPORT signed __int16 Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, AnimHeader *a5, __int16 a6, unsigned __int8 a7);
+    EXPORT void Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7);
 
     virtual __int16 vsub_424EE0(int a2, int a3, int a4, int a5, void* a6);
     virtual DWORD* vsub_424FD0(__int16 a3, int a4);

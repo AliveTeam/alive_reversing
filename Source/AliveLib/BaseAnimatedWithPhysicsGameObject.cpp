@@ -2,6 +2,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
+#include "Game.hpp"
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
 {
@@ -65,10 +66,50 @@ void BaseAnimatedWithPhysicsGameObject::Update_424AB0()
     // Empty
 }
 
-signed __int16 BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int /*frameTableOffset*/, int /*maxW*/, unsigned __int16 /*maxH*/, AnimHeader * /*a5*/, __int16 /*a6*/, unsigned __int8 /*a7*/)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_20_animation.Init_40A030(
+        frameTableOffset,
+        gObjList_animations_5C1A24,
+        this,
+        maxW,
+        maxH,
+        ppAnimData,
+        a7,
+        0,
+        0))
+    {
+        if (field_CC_sprite_scale.fpValue == 0x10000)
+        {
+            field_20_animation.field_C_render_layer = 27;
+        }
+        else
+        {
+            field_20_animation.field_C_render_layer = 8;
+            field_D6_scale = 0;
+        }
+
+        if (!a6 || (gObjList_drawables_5C1124->Push_Back_40CAF0(this)))
+        {
+            field_20_animation.field_B_render_mode = 0;
+
+            // TODO: Double check this logic
+            DWORD animationFlags = field_20_animation.field_4_flags & 0xFFFF;
+            animationFlags &= ~0xC000;
+            animationFlags |= 0x4000;
+            field_20_animation.field_4_flags &= 0xFFFFF0000;
+            field_20_animation.field_4_flags |= animationFlags;
+        }
+        else
+        {
+            field_6_flags |= 5u;
+        }
+    }
+    else
+    {
+        field_6_flags |= 5u;
+    }
+
 }
 
 __int16 BaseAnimatedWithPhysicsGameObject::vsub_424EE0(int a2, int a3, int a4, int a5, void* a6)
