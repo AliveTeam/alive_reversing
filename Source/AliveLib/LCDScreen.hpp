@@ -29,7 +29,7 @@ public:
     EXPORT void vsub_460F10();
     EXPORT void dtor_460920();
 public:
-    Prim_PrimClipper field_20_prim_clippers[4];
+    Prim_PrimClipper field_20_prim_clippers[2][2];
     Font field_60_font;
     PSX_RECT field_98_pal_rect;
     const char *field_A0_message;
