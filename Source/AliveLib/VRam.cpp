@@ -16,3 +16,8 @@ signed __int16 CC Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCou
 {
     NOT_IMPLEMENTED();
 }
+
+void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
+{
+    NOT_IMPLEMENTED();
+}

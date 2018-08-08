@@ -78,6 +78,14 @@ void Font::ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontConte
     field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
 }
 
+void Font::dtor_433540()
+{
+    PSX_Point palPoint = { field_28_palette_rect.x,field_28_palette_rect.y };
+    Pal_free_483390(palPoint, field_28_palette_rect.w);
+    field_28_palette_rect.x = 0;
+    ResourceManager::FreeResource_49C330(field_20_fnt_poly_block_ptr);
+}
+
 int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_5CA4B4)

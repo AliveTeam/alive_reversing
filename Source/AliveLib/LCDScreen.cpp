@@ -327,3 +327,13 @@ void LCDScreen::Render_460CB0(int ** ot)
         pScreenManager_5BB5F4->InvalidateRect_40EC90(screenXWorld, screenY, clipRect.w, 24, pScreenManager_5BB5F4->field_3A);
     }
 }
+
+void LCDScreen::vsub_460F10()
+{
+    field_6_flags |= eDead;
+}
+
+void LCDScreen::dtor_460920()
+{
+    NOT_IMPLEMENTED();
+}

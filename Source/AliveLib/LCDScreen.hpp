@@ -26,6 +26,8 @@ public:
     EXPORT LCDScreen * ctor_460680(Path_LCDScreen *params, TlvItemInfoUnion itemInfo);
     EXPORT void Update_460A00();
     EXPORT void Render_460CB0(int **ot);
+    EXPORT void vsub_460F10();
+    EXPORT void dtor_460920();
 public:
     Prim_PrimClipper field_20_prim_clippers[4];
     Font field_60_font;
