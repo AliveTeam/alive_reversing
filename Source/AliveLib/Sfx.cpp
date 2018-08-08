@@ -128,9 +128,25 @@ ALIVE_ARY(1, 0x55C2A0, SfxDefinition, 146, sSfxEntries_55C2A0, {
     { 0u, 6u, 64u, 127u, 0, 0 }
 });
 
-EXPORT int CC SFX_4CA420(SfxDefinition *a1, __int16 a2, __int16 min, __int16 max)
+int CC SFX_SfxDefinition_Play_4CA420(SfxDefinition *a1, __int16 volume, __int16 min, __int16 max)
 {
     NOT_IMPLEMENTED();
+}
+
+int CC SFX_SfxDefinition_Play_4CA700(SfxDefinition *a1, __int16 volLeft, __int16 volRight, __int16 min, __int16 max)
+{
+    NOT_IMPLEMENTED();
+}
+
+int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, int scale)
+{
+    if (scale == 0x8000)
+    {
+        leftVol = 2 * leftVol / 3;
+        rightVol = 2 * rightVol / 3;
+    }
+
+    SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], leftVol, rightVol, 0x7FFF, 0x7FFF);
 }
 
 int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int a3, int scale)
@@ -143,7 +159,7 @@ int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int a3, int scale
     {
         volume /= 3;
     }
-    return SFX_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, a3, a3);
+    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, a3, a3);
 }
 
 int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, int scale)
@@ -156,5 +172,5 @@ int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, int scale)
     {
         volume /= 3;
     }
-    return SFX_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
