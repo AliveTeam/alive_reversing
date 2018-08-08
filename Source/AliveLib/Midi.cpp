@@ -572,6 +572,11 @@ EXPORT void CC MIDI_Stop_All_Channels_4FDFE0()
     while (idx >= 0);
 }
 
+int CC MIDI_4CA1B0(int a1, int note, int leftVol, int rightVol)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void CC MIDI_Stop_None_Ended_Seq_4FD8D0(__int16 idx)
 {
     MIDI_SsSeqStop_4FD9C0(idx);

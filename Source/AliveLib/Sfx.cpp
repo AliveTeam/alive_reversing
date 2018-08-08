@@ -2,6 +2,10 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 #include "DebugHelpers.hpp"
+#include "Midi.hpp"
+#include "PathData.hpp"
+
+ALIVE_VAR(1, 0x560f58, bool, sSFXPitchVariationEnabled_560F58, true);
 
 ALIVE_ARY(1, 0x55C2A0, SfxDefinition, 146, sSfxEntries_55C2A0, {
     { 0u, 0u, 66u, 75u, 0, 0 },
@@ -128,14 +132,103 @@ ALIVE_ARY(1, 0x55C2A0, SfxDefinition, 146, sSfxEntries_55C2A0, {
     { 0u, 6u, 64u, 127u, 0, 0 }
 });
 
-int CC SFX_SfxDefinition_Play_4CA420(SfxDefinition *a1, __int16 volume, __int16 min, __int16 max)
+EXPORT void CC SFX_SetPitch_4CA510(SfxDefinition *sfxEntry, int a2, __int16 pitch)
 {
     NOT_IMPLEMENTED();
 }
 
-int CC SFX_SfxDefinition_Play_4CA700(SfxDefinition *a1, __int16 volLeft, __int16 volRight, __int16 min, __int16 max)
+int CC SFX_SfxDefinition_Play_4CA420(SfxDefinition *sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max)
 {
-    NOT_IMPLEMENTED();
+    if (!volume)
+    {
+        volume = sfxDef->field_3_default_volume;
+    }
+
+    if (pitch_min == 0x7FFF)
+    {
+        pitch_min = sfxDef->field_4_pitch_min;
+    }
+
+    if (pitch_max == 0x7FFF)
+    {
+        pitch_max = sfxDef->field_6_pitch_max;
+    }
+
+    if (volume < 1)
+    {
+        volume = 1;
+    }
+    else if (volume >= 127)
+    {
+        volume = 127;
+    }
+
+    auto midiHandle = MIDI_4CA1B0(
+        sfxDef->field_1_program | (sLastLoadedSoundBlockInfo_BB2E34[sfxDef->field_0_block_idx].field_8_vab_id << 8),
+        sfxDef->field_2_note << 8,
+        volume,
+        volume);
+
+    if (!sSFXPitchVariationEnabled_560F58)
+    {
+        return 0;
+    }
+
+    if (pitch_min || pitch_max)
+    {
+        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange_496AB0(pitch_min, pitch_max));
+    }
+
+    return midiHandle;
+}
+
+int CC SFX_SfxDefinition_Play_4CA700(SfxDefinition *sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max)
+{
+    if (pitch_min == 0x7FFF)
+    {
+        pitch_min = sfxDef->field_4_pitch_min;
+    }
+
+    if (pitch_max == 0x7FFF)
+    {
+        pitch_max = sfxDef->field_6_pitch_max;
+    }
+
+    if (volLeft < 10)
+    {
+        volLeft = 10;
+    }
+    else if (volLeft >= 127)
+    {
+        volLeft = 127;
+    }
+
+    if (volRight < 10)
+    {
+        volRight = 10;
+    }
+    else if (volRight >= 127)
+    {
+        volRight = 127;
+    }
+
+    auto midiHandle = MIDI_4CA1B0(
+        sfxDef->field_1_program | (sLastLoadedSoundBlockInfo_BB2E34[sfxDef->field_0_block_idx].field_8_vab_id << 8),
+        sfxDef->field_2_note << 8,
+        volLeft,
+        volRight);
+
+    if (!sSFXPitchVariationEnabled_560F58)
+    {
+        return 0;
+    }
+
+    if (pitch_min || pitch_max)
+    {
+        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange_496AB0(pitch_min, pitch_max));
+    }
+
+    return midiHandle;
 }
 
 int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, int scale)
@@ -146,10 +239,10 @@ int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, int sca
         rightVol = 2 * rightVol / 3;
     }
 
-    SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], leftVol, rightVol, 0x7FFF, 0x7FFF);
+    return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], leftVol, rightVol, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int a3, int scale)
+int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int pitch, int scale)
 {
     if (!volume)
     {
@@ -159,7 +252,7 @@ int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int a3, int scale
     {
         volume /= 3;
     }
-    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, a3, a3);
+    return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, pitch, pitch);
 }
 
 int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, int scale)
