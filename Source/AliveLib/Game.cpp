@@ -89,7 +89,7 @@ ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
 
 ALIVE_VAR(1, 0x5BC120, class CheatController*, pCheatController_5BC120, nullptr);
 
-ALIVE_VAR(1, 0x5C1128, class Collisions*, sCollisions_DArray_5C1128, nullptr);
+ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 
 ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
 

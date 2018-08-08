@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Animation.hpp"
 #include "Primitives.hpp"
+#include "PathData.hpp"
 
 void Game_ForceLink();
 
@@ -28,4 +29,4 @@ ALIVE_ARY_EXTERN(char, 30, sCdRomDrives_5CA488);
 ALIVE_VAR_EXTERN(WORD, word_5C1BA0);
 ALIVE_VAR_EXTERN(class Abe *, sActiveHero_5C1B68);
 ALIVE_VAR_EXTERN(short, word_5C1B66);
-ALIVE_VAR_EXTERN(class Collisions*, sCollisions_DArray_5C1128);
+ALIVE_VAR_EXTERN(Collisions*, sCollisions_DArray_5C1128);

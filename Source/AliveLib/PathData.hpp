@@ -6,17 +6,32 @@
 
 struct CollisionInfo;
 
+struct PathLine
+{
+    __int16 field_0_x1;
+    __int16 field_2_y1;
+    __int16 field_4_x2;
+    __int16 field_6_y2;
+    __int16 field_8_mode;
+    __int16 field_A_unknown1;
+    __int16 field_C_unknown2;
+    __int16 field_E_unknown3;
+    __int16 field_10_unknown4;
+    __int16 field_12_unknown5;
+};
+ALIVE_ASSERT_SIZEOF(PathLine, 0x14);
+
 class Collisions
 {
 public:
     EXPORT void dtor_4189F0();
     EXPORT static void CC sub_4188A0(CollisionInfo* pCollisionInfo, void* pPathRes);
     EXPORT void loader_418930(const CollisionInfo* pCollisionInfo, void* pPathRes);
-private:
-    void* field_0_pArray;
+public:
+    PathLine* field_0_pArray;
     int field_4;
     int field_8;
-    int field_C;
+    int field_C_count;
 };
 ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 

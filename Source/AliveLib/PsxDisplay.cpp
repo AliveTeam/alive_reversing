@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <gmock/gmock.h>
 #include "VRam.hpp"
+#include "DebugHelpers.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
@@ -323,4 +324,8 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
         // Display current
         PSX_DrawOTag_4F6540(field_10_drawEnv[prevBufferIdx].field_70_ot_buffer);
     }
+
+#ifdef DEVELOPER_MODE
+    DEV::DebugOnFrameDraw();
+#endif
 }

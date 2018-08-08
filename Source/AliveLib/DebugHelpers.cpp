@@ -147,6 +147,130 @@ public:
 };
 bool ObjectDebugger::Enabled = false;
 
+class DebugPathRenderer : public BaseGameObject
+{
+public:
+    DebugPathRenderer()
+    {
+        DisableVTableHack disableHack;
+
+        BaseGameObject_ctor_4DBFA0(1, 1);
+        field_6_flags |= BaseGameObject::eDrawable | 0x100;
+        field_4_typeId = (BaseGameObject::Types)1001;
+
+        mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
+        mFont.ctor_433590(128, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+
+        gObjList_drawables_5C1124->Push_Back(this);
+    }
+
+    ~DebugPathRenderer()
+    {
+    }
+
+    static bool Enabled;
+    static bool GridEnabled;
+
+    void Destruct()
+    {
+        BaseGameObject_dtor_4DBEC0();
+        gObjList_drawables_5C1124->Remove_Item(this);
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        Destruct();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    virtual void VUpdate() override
+    {
+
+    }
+
+    virtual void VScreenChanged() override
+    {
+        // Dont kill!
+    }
+
+    struct LineColor { int r; int g; int b; };
+    std::map<int, LineColor> mLineColors = { 
+        { 0, { 255, 0, 0 } },
+        { 1, { 0, 0, 255 } },
+    };
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        int pIndex = 0;
+
+        if (GridEnabled)
+        {
+            const float gridX = 25 / 0.575f;
+            const int gridY = 20;
+            const int layer = 22;
+
+            for (int y = 0; y < 12; y++)
+            {
+                for (int x = 0; x < 15; x++)
+                {
+                    char c = ((x + y) % 2 == 0) ? 200 : 127;
+
+                    for (int i = -1; i < 2; i++)
+                    {
+                        DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) + (gridX / 2.0f) + i, y * gridY, (x * gridX) + (gridX / 2.0f) + i, (y * gridY) + (gridY / 4.0f), 255, 255, 255, false);
+                    }
+
+                    if (x == 0)
+                    {
+                        DEV::DebugDrawLine(pOrderingTable, layer, 0, y * gridY, 640, y * gridY, 255, 255, 255, false);
+                    }
+
+                    if (y == 0)
+                    {
+                        DEV::DebugDrawLine(pOrderingTable, layer, x * gridX, 0, x * gridX, 240, 255, 255, 255, false);
+                        DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) - 1, 0, (x * gridX) - 1, 240, 255, 255, 255, false);
+                    }
+
+                    DEV::DebugFillRect(pOrderingTable, layer, x * gridX, y * gridY, gridX, gridY, c, c, c, false);
+                }
+            }
+        }
+
+        if (Enabled)
+        {
+            for (int i = 0; i < sCollisions_DArray_5C1128->field_C_count; i++)
+            {
+                auto l = &sCollisions_DArray_5C1128->field_0_pArray[i];
+                LineColor color = { 255,0,0 };
+
+                if (mLineColors.find(l->field_8_mode) != mLineColors.end())
+                {
+                    color = mLineColors[l->field_8_mode];
+                }
+
+                DEV::DebugDrawLine(pOrderingTable, 40, l->field_0_x1, l->field_2_y1, l->field_4_x2, l->field_6_y2, color.r, color.g, color.b, true);
+
+                int id_x = l->field_0_x1 - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent();
+                int id_y = l->field_2_y1 - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent();
+
+                if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
+                {
+                    pIndex = mFont.DrawString_4337D0(pOrderingTable, std::to_string(l->field_8_mode).c_str(), id_x, id_y, 0, 0, 0, 40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+                }
+            }
+        }
+    }
+
+    Font mFont;
+    char mFontPalette[32];
+    Font_Context mFontContext;
+};
+bool DebugPathRenderer::Enabled = false;
+bool DebugPathRenderer::GridEnabled = false;
+
 struct DebugConsoleMessage
 {
     std::string message;
@@ -330,6 +454,8 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
     { "menu", 1, Command_Menu, "Changes to given menu cam" },
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
+    { "path_lines", -1, [](std::vector<std::string> args) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
+    { "grid", -1, [](std::vector<std::string> args) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
 };
 
 //
@@ -786,6 +912,7 @@ void DebugHelpers_Init()
     {
         alive_new<ObjectDebugger>();
         alive_new<DebugConsole>();
+        alive_new<DebugPathRenderer>();
 
         DEV_CONSOLE_MESSAGE_C("Debug Console Active. Open with ~ (Tilde)", 7, 0, 150, 255);
     }
@@ -898,4 +1025,99 @@ void Cheat_OpenAllDoors()
     }
 
     DEV_CONSOLE_MESSAGE("(CHEAT) All doors opened", 4);
+}
+
+int sNextLinePrim = 0;
+int sNextPolyF4Prim = 0;
+Line_G2 sLinePrimBuffer[1024];
+Poly_F4 sPolyF4PrimBuffer[1024];
+
+void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace)
+{
+    Poly_F4 * mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
+    PolyF4_Init_4F8830(mPolyF4);
+
+    const auto camOffset = gMap_5C3030.field_24_camera_offset;
+
+    if (worldspace)
+    {
+        x -= camOffset.field_0_x.GetExponent();
+        y -= camOffset.field_4_y.GetExponent();
+
+        x /= 0.575;
+        y /= 0.575;
+        width /= 0.575;
+        height /= 0.575;
+    }
+
+    mPolyF4->field_0_header.field_8_r0 = r;
+    mPolyF4->field_0_header.field_9_g0 = g;
+    mPolyF4->field_0_header.field_A_b0 = b;
+
+    struct XY { short x; short y; };
+    XY points[4] =
+    {
+        { x, y },
+        { x, y + height },
+        { x + width, y },
+        { x + width, y + height },
+    };
+
+    mPolyF4->field_C_x0 = points[0].x;
+    mPolyF4->field_E_y0 = points[0].y;
+
+    mPolyF4->field_10_x1 = points[1].x;
+    mPolyF4->field_12_y1 = points[1].y;
+
+    mPolyF4->field_14_x2 = points[2].x;
+    mPolyF4->field_16_y2 = points[2].y;
+
+    mPolyF4->field_18_x3 = points[3].x;
+    mPolyF4->field_1A_y3 = points[3].y;
+
+    OrderingTable_Add_4F8AA0(&ot[layer], &mPolyF4->field_0_header.field_0_tag);
+    pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+}
+
+void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, char r, char g, char b, bool worldspace)
+{
+    Line_G2 * mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
+    LineG2_Init(mLineG2);
+
+    const auto camOffset = gMap_5C3030.field_24_camera_offset;
+
+    if (worldspace)
+    {
+        x1 -= camOffset.field_0_x.GetExponent();
+        y1 -= camOffset.field_4_y.GetExponent();
+
+        x2 -= camOffset.field_0_x.GetExponent();
+        y2 -= camOffset.field_4_y.GetExponent();
+
+        x1 /= 0.575;
+        x2 /= 0.575;
+    }
+
+    mLineG2->field_0_header.field_8_r0 = r;
+    mLineG2->field_0_header.field_9_g0 = g;
+    mLineG2->field_0_header.field_A_b0 = b;
+
+    mLineG2->field_C_x0 = x1;
+    mLineG2->field_E_y0 = y1;
+
+    mLineG2->field_10_r1 = r;
+    mLineG2->field_11_g1 = g;
+    mLineG2->field_12_b1 = b;
+
+    mLineG2->field_14_x1 = x2;
+    mLineG2->field_16_y1 = y2;
+
+    OrderingTable_Add_4F8AA0(&ot[layer], &mLineG2->field_0_header.field_0_tag);
+    pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+}
+
+void DEV::DebugOnFrameDraw()
+{
+    sNextLinePrim = 0;
+    sNextPolyF4Prim = 0;
 }
