@@ -570,7 +570,7 @@ public:
 
         const char * allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-+@#$%^&*()_";
 
-        if (mCommandLineEnabled && GetAsyncKeyState(VK_UP) & 0x1)
+        if (GetAsyncKeyState(VK_UP) & 0x1 && mCommandLineEnabled)
         {
             mCommandLineInput = mLastCommand;
         }
