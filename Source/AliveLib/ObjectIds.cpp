@@ -66,22 +66,16 @@ ObjectId_Record* ObjectIds::Find_By_Id_449BC0(TObjectId_KeyType idToFind, Object
 
     while (pRecord)
     {
-        /* NOTE: Removed - can't see why this is needed, left over psx mem align check?
-        if ((unsigned __int8)pRecord & 3)
-        {
-            break;
-        }*/
-
         if (pRecord->field_0_id == idToFind)
         {
             return pRecord;
         }
 
-        // Go to the next record
-        pRecord = pRecord->field_8_pNext;
-
         // Keep track of what it was so we can fix links when removing found items
         *ppLastMatch = pRecord;
+
+        // Go to the next record
+        pRecord = pRecord->field_8_pNext;
     }
     return nullptr;
 }
@@ -181,6 +175,16 @@ namespace Test
         ASSERT_EQ(nullptr, ids.Find_449CF0(1));
 
         ASSERT_EQ(nullptr, ids.Find_449CF0(9999));
+
+        for (int i = 0; i < 3000; i++)
+        {
+            ids.Insert_449C10(i, &p);
+        }
+
+        for (int i = 0; i < 3000; i++)
+        {
+            ids.Remove_449C60(i);
+        }
 
         ids.Destructor();
     }
