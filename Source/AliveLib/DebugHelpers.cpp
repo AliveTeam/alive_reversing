@@ -209,7 +209,7 @@ public:
         { 9,{ 255, 255, 255 } }, // Comment lines
         { 10,{ 128, 128, 128 } }, // Bullet blocking walls
         { 17,{ 255, 255, 0 } }, // Flying Slig Collision
-        { 32,{ 255, 255, 100 } }, // Flying Pulley Platform
+        { 32,{ 255, 255, 100 } }, // Lift Platform
     };
 
     virtual void VRender(int** pOrderingTable) override
