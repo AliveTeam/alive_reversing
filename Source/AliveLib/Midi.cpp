@@ -337,35 +337,6 @@ ALIVE_ASSERT_SIZEOF(SoundEntryTable, 36864);
 ALIVE_VAR(1, 0xBE6160, SoundEntryTable, sSoundEntryTable16_BE6160, {});
 
 
-struct MIDI_Struct1_Sub
-{
-    unsigned __int8 field_0_seq_idx;
-    unsigned __int8 field_1_program;
-    unsigned __int8 field_2_note_byte1;
-    char field_3;
-    __int16 field_4;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A;
-    unsigned __int16 field_C;
-    unsigned __int8 field_E;
-    char field_F;
-};
-ALIVE_ASSERT_SIZEOF(MIDI_Struct1_Sub, 0x10);
-
-struct MIDI_Struct1
-{
-    int field_0_sound_buffer_field_4;
-    int field_4;
-    int field_8_left_vol;
-    int field_C;
-    float field_10_float;
-    int field_14_time;
-    int field_18_rightVol;
-    MIDI_Struct1_Sub field_1C;
-};
-ALIVE_ASSERT_SIZEOF(MIDI_Struct1, 0x2C);
-
 const int kNumChannels = 24;
 struct MidiChannels
 {

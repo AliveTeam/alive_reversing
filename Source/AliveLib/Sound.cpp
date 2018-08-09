@@ -4,6 +4,7 @@
 #include "stdlib.hpp"
 #include "Error.hpp"
 #include "Sys.hpp"
+#include "Midi.hpp"
 
 #include <mmeapi.h>
 #include <timeapi.h>
@@ -236,7 +237,7 @@ EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
 
 // Never seems to get called?
 // TODO: Clean up!
-EXPORT DWORD * CC SND_4F00B0(unsigned int *a1, unsigned int a2, int a3)
+EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -272,7 +273,7 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int *a1, unsigned int a2, int a3)
 }
 
 // TODO: Clean up!
-EXPORT signed int CC SND_Reload_4EF1C0(SoundEntry *pSnd, char *sampleOffset, unsigned char *pSoundBuffer, unsigned int sampleCount)
+EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, char* sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
 {
     const int offsetBytes = (DWORD)sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
@@ -572,4 +573,126 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
         pSoundBuffer->field_0_pDSoundBuffer->SetFrequency(freqHz);
     }
     return 0;
+}
+
+EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int /*tableIdx*/, int /*field10*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+const DWORD k127_dword_575158 = 127;
+
+EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int volume)
+{
+    if (!sDSound_BBC344)
+    {
+        return -1;
+    }
+
+    if (!pSnd)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 845, -1, "SND_PlayEx: NULL SAMPLE !!!");
+        return -1;
+    }
+
+    IDirectSoundBuffer* pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
+    if (!pDSoundBuffer)
+    {
+        return -1;
+    }
+
+    sLastNotePlayTime_BBC33C = timeGetTime();
+
+    int panLeft2 = panLeft;
+    int panRight2 = panRight;
+    if (panLeft > panRight)
+    {
+        panRight2 = panLeft;
+    }
+
+    int panRightConverted = 120 * panRight2 * k127_dword_575158 >> 14;// >> 14 = 16384
+    if (panRightConverted < 0)
+    {
+        panRightConverted = 0;
+    }
+    else if (panRightConverted > 127)
+    {
+        panRightConverted = 127;
+    }
+
+    if (pSnd->field_20_isStereo & 2)
+    {
+        DWORD status = 0;
+        if (FAILED(pDSoundBuffer->GetStatus(&status)))
+        {
+            return -1;
+        }
+        
+        if (status & DSBSTATUS_PLAYING)
+        {
+            pDSoundBuffer->SetFrequency(static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5)); // This freq don't get clamped for some reason
+            pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);
+            pDSoundBuffer->SetCurrentPosition(0);
+            return 0;
+        }
+    }
+    else
+    {
+        SoundBuffer* pSoundBuffer = SND_Get_Sound_Buffer_4EF970(pSnd->field_0_tableIdx, panRightConverted + volume);
+        if (!pSoundBuffer)
+        {
+            return -1;
+        }
+
+        HRESULT v15 = sDSound_BBC344->DuplicateSoundBuffer(pDSoundBuffer, &pSoundBuffer->field_0_pDSoundBuffer);
+        if (FAILED(v15))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 921, -1, SND_HR_Err_To_String_4EEC70(v15));
+            return -1;
+        }
+
+        pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
+        
+        if (pMidiStru)
+        {
+            pMidiStru->field_0_sound_buffer_field_4 = pSoundBuffer->field_4;
+        }
+    }
+
+    DWORD freqHz = static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5);
+    if (freqHz < DSBFREQUENCY_MIN)
+    {
+        freqHz = DSBFREQUENCY_MIN;
+    }
+    else if (freqHz >= DSBFREQUENCY_MAX)
+    {
+        freqHz = DSBFREQUENCY_MAX;
+    }
+
+    pDSoundBuffer->SetFrequency(freqHz);
+    pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);
+    
+    const int panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
+    pDSoundBuffer->SetPan(panConverted);
+    
+    if (playFlags & DSBPLAY_LOOPING)
+    {
+        playFlags = DSBPLAY_LOOPING;
+    }
+
+    if (pDSoundBuffer->Play(0, 0, playFlags) == DSERR_BUFFERLOST)
+    {
+        // Restore the lost buffer
+        if (SND_Reload_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
+        {
+            // Try again
+            if (SUCCEEDED(pDSoundBuffer->Play(0, 0, playFlags)))
+            {
+                return 0;
+            }
+        }
+    }
+
+    return -1;
 }
