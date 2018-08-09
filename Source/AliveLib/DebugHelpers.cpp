@@ -439,9 +439,9 @@ void Command_Menu(std::vector<std::string> args)
     int menuCam = std::stoi(args[0]);
     if (MainMenuController::gMainMenuController != nullptr)
     {
-        MainMenuController::gMainMenuController->field_21A = menuCam;
-        MainMenuController::gMainMenuController->field_218 = MainMenuController::GetPageIndexFromCam_4D05A0(menuCam);
-        MainMenuController::gMainMenuController->field_21C = menuCam;
+        MainMenuController::gMainMenuController->field_21A = static_cast<short>(menuCam);
+        MainMenuController::gMainMenuController->field_218 = static_cast<short>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
+        MainMenuController::gMainMenuController->field_21C = static_cast<short>(menuCam);
         MainMenuController::gMainMenuController->field_23C_T80 |= 0x200000;
     }
 }
@@ -641,7 +641,7 @@ public:
             int targetY = 232 - (i * 9) - 9;
 
             //message->y += (targetY - message->y) * 0.2f; // Smooth
-            message->y = targetY;
+            message->y = static_cast<float>(targetY);
 
             pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 0, static_cast<short>(message->y), 0, 1, 0, 40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
         
@@ -1060,10 +1060,10 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
         x -= camOffset.field_0_x.GetExponent();
         y -= camOffset.field_4_y.GetExponent();
 
-        x /= 0.575;
-        y /= 0.575;
-        width /= 0.575;
-        height /= 0.575;
+        x = static_cast<int>(x / 0.575);
+        y = static_cast<int>(y / 0.575);
+        width = static_cast<int>(width / 0.575);
+        height = static_cast<int>(height / 0.575);
     }
 
     mPolyF4->field_0_header.field_8_r0 = r;
@@ -1110,23 +1110,23 @@ void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, ch
         x2 -= camOffset.field_0_x.GetExponent();
         y2 -= camOffset.field_4_y.GetExponent();
 
-        x1 /= 0.575;
-        x2 /= 0.575;
+        x1 = static_cast<int>(x1 / 0.575);
+        x2 = static_cast<int>(x2 / 0.575);
     }
 
     mLineG2->field_0_header.field_8_r0 = r;
     mLineG2->field_0_header.field_9_g0 = g;
     mLineG2->field_0_header.field_A_b0 = b;
 
-    mLineG2->field_C_x0 = x1;
-    mLineG2->field_E_y0 = y1;
+    mLineG2->field_C_x0 = static_cast<short>(x1);
+    mLineG2->field_E_y0 = static_cast<short>(y1);
 
     mLineG2->field_10_r1 = r;
     mLineG2->field_11_g1 = g;
     mLineG2->field_12_b1 = b;
 
-    mLineG2->field_14_x1 = x2;
-    mLineG2->field_16_y1 = y2;
+    mLineG2->field_14_x1 = static_cast<short>(x2);
+    mLineG2->field_16_y1 = static_cast<short>(y2);
 
     OrderingTable_Add_4F8AA0(&ot[layer], &mLineG2->field_0_header.field_0_tag);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);

@@ -90,11 +90,11 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
 {
     if (!sFontDrawScreenSpace_5CA4B4)
     {
-        x /= 0.575; // 368 to 640. Convert world space to screen space coords.
+        x = static_cast<int>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
     }
 
     int characterRenderCount = 0;
-    const int maxRenderX = a15 / 0.575;
+    const int maxRenderX = static_cast<int>(a15 / 0.575);
     short offsetX = static_cast<short>(x);
     int charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
@@ -102,7 +102,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
     int tpage = PSX_getTPage_4F60E0(0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
     int clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
 
-    for (int i = 0; i < strlen(text); i++)
+    for (unsigned int i = 0; i < strlen(text); i++)
     {
         if (offsetX >= maxRenderX)
             break;
@@ -126,21 +126,21 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
         const auto fContext = field_34_font_context;
         const auto atlasEntry = &fContext->field_8_atlas_array[charInfoIndex];
 
-        const auto charWidth = atlasEntry->field_2_width;
+        const char charWidth = atlasEntry->field_2_width;
         const auto charHeight = atlasEntry->field_3_height;
-        const auto texture_u = atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F));
-        const auto texture_v = atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y);
+        const char texture_u = static_cast<char>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
+        const char texture_v = static_cast<char>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
 
-        const auto widthScaled = static_cast<signed int>(charWidth * scale.GetDouble());
-        const auto heightScaled = static_cast<signed int>(charHeight * scale.GetDouble());
+        const short widthScaled = static_cast<short>(charWidth * scale.GetDouble());
+        const short heightScaled = static_cast<short>(charHeight * scale.GetDouble());
 
         PolyFT4_Init_4F8870(poly);
         Poly_Set_SemiTrans_4F8A60(&poly->field_0_header, bSemiTrans);
         Poly_Set_unknown_4F8A20(&poly->field_0_header, a2);
 
-        poly->field_0_header.field_8_r0 = r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange);
-        poly->field_0_header.field_9_g0 = g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange);
-        poly->field_0_header.field_A_b0 = b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange);
+        poly->field_0_header.field_8_r0 = static_cast<BYTE>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange));
+        poly->field_0_header.field_9_g0 = static_cast<BYTE>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange));
+        poly->field_0_header.field_A_b0 = static_cast<BYTE>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange));
         poly->field_1A_tpage = static_cast<short>(tpage);
         poly->field_12_clut = static_cast<short>(clut);
 
@@ -176,7 +176,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + static_cast<signed int>(field_34_font_context->field_8_atlas_array[0].field_2_width * scale.GetExponent());
+        offsetX += widthScaled + static_cast<short>(field_34_font_context->field_8_atlas_array[0].field_2_width * scale.GetExponent());
 
         poly += 2;
     }
@@ -190,7 +190,7 @@ int Font::MeasureWidth_433700(const char * text)
 {
     int result = 0;
 
-    for (int i = 0; i < strlen(text); i++)
+    for (unsigned int i = 0; i < strlen(text); i++)
     {
         const char c = text[i];
         int charIndex = 0;
@@ -218,7 +218,7 @@ int Font::MeasureWidth_433700(const char * text)
 
     if (!sFontDrawScreenSpace_5CA4B4)
     {
-        result *= 0.575; // Convert screen space to world space.
+        result = static_cast<int>(result * 0.575); // Convert screen space to world space.
     }
 
     return result;
@@ -253,7 +253,7 @@ int Font::MeasureWidth_433630(unsigned char character)
 
     if (!sFontDrawScreenSpace_5CA4B4)
     {
-        result *= 0.575; // Convert screen space to world space.
+        result = static_cast<int>(result * 0.575); // Convert screen space to world space.
     }
 
     return result;
@@ -262,10 +262,48 @@ int Font::MeasureWidth_433630(unsigned char character)
 // Wasn't too sure what to call this. Returns the char offset of where the text is cut off. (left and right region)
 const char * Font::SliceText_433BD0(const char * text, int left, FP scale, int right)
 {
-    NOT_IMPLEMENTED();
+    int xOff = 0;
+    int rightWorldSpace = static_cast<int>(right * 0.575);
+
+    if (sFontDrawScreenSpace_5CA4B4)
+    {
+        xOff = left;
+    }
+    else
+    {
+        xOff = static_cast<int>(left / 0.575);
+    }
+
+    
+    for (const char *strPtr = text; *strPtr; strPtr++)
+    {
+        int atlasIdx = 0;
+        char character = *strPtr;
+        if (xOff >= rightWorldSpace)
+            return strPtr;
+        if (character <= 0x20u || character > 0x7Au)
+        {
+            if (character < 7u || character > 0x1Fu)
+            {
+                xOff += field_34_font_context->field_8_atlas_array[1].field_2_width;
+                continue;
+            }
+            atlasIdx = character + 137;
+        }
+        else
+        {
+            atlasIdx = character - 31;
+        }
+
+        // v12 = field_34_font_context->field_8_atlas_array[atlasIdx].field_3_height;
+        // Math_FixedPoint_Multiply_496C50(v12 << 16, scale);
+        xOff += static_cast<signed int>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * scale.GetDouble()) / 0x10000 + field_34_font_context->field_8_atlas_array->field_2_width;
+    }
+
+    return text;
 }
 
-void Font_Context::LoadFontType_433400(int resourceID)
+void Font_Context::LoadFontType_433400(short resourceID)
 {
     auto loadedResource = reinterpret_cast<BYTE **>(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Font, resourceID, 1u, 0));
     auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
@@ -327,7 +365,7 @@ bool Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atla
 void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut)
 {
     // Give custom fonts a constant resource id for now.
-    field_C_resource_id = 0xBEEF;
+    field_C_resource_id = 0xff;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
     PSX_RECT rect = { field_0_rect.x, field_0_rect.y, fontFile->field_0_width / 4, fontFile->field_2_height };
