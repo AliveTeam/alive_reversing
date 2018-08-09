@@ -17,6 +17,7 @@
 #include "Abe.hpp"
 #include "Midi.hpp"
 #include "Sfx.hpp"
+#include "Sys.hpp"
 
 bool sDebugEnabled_VerboseEvents = false;
 
@@ -216,6 +217,8 @@ public:
     {
         int pIndex = 0;
 
+        bool gridSemiTrans = true;
+
         if (GridEnabled)
         {
             const float gridX = 25 / 0.575f;
@@ -229,21 +232,21 @@ public:
                     char c = ((x + y) % 2 == 0) ? 200 : 127;
                     for (int i = -1; i < 2; i++)
                     {
-                        DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) + (gridX / 2.0f) + i, y * gridY, (x * gridX) + (gridX / 2.0f) + i, (y * gridY) + (gridY / 4.0f), 255, 255, 255, false);
+                        DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) + (gridX / 2.0f) + i, y * gridY, (x * gridX) + (gridX / 2.0f) + i, (y * gridY) + (gridY / 4.0f), 255, 255, 255, false, gridSemiTrans);
                     }
 
                     if (x == 0)
                     {
-                        DEV::DebugDrawLine(pOrderingTable, layer, 0, y * gridY, 640, y * gridY, 255, 255, 255, false);
+                        DEV::DebugDrawLine(pOrderingTable, layer, 0, y * gridY, 640, y * gridY, 255, 255, 255, false, gridSemiTrans);
                     }
 
                     if (y == 0)
                     {
-                        DEV::DebugDrawLine(pOrderingTable, layer, x * gridX, 0, x * gridX, 240, 255, 255, 255, false);
-                        DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) - 1, 0, (x * gridX) - 1, 240, 255, 255, 255, false);
+                        DEV::DebugDrawLine(pOrderingTable, layer, x * gridX, 0, x * gridX, 240, 255, 255, 255, false, gridSemiTrans);
+                        DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) - 1, 0, (x * gridX) - 1, 240, 255, 255, 255, false, gridSemiTrans);
                     }
 
-                    DEV::DebugFillRect(pOrderingTable, layer, x * gridX, y * gridY, gridX, gridY, c, c, c, false);
+                    DEV::DebugFillRect(pOrderingTable, layer, x * gridX, y * gridY, gridX, gridY, c, c, c, false, gridSemiTrans);
                 }
             }
         }
@@ -266,7 +269,7 @@ public:
                 {
                     layer = 23;
                 }
-                DEV::DebugDrawLine(pOrderingTable, layer, l->field_0_x1, l->field_2_y1, l->field_4_x2, l->field_6_y2, color.r, color.g, color.b, true);
+                DEV::DebugDrawLine(pOrderingTable, layer, l->field_0_x1, l->field_2_y1, l->field_4_x2, l->field_6_y2, color.r, color.g, color.b, true, false);
 
                 int id_x = l->field_0_x1 - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent();
                 int id_y = l->field_2_y1 - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent();
@@ -1048,9 +1051,10 @@ int sNextPolyF4Prim = 0;
 Line_G2 sLinePrimBuffer[1024];
 Poly_F4 sPolyF4PrimBuffer[1024];
 
-void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace)
+void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent)
 {
     Poly_F4 * mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
+    *mPolyF4 = {};
     PolyF4_Init_4F8830(mPolyF4);
 
     const auto camOffset = gMap_5C3030.field_24_camera_offset;
@@ -1091,11 +1095,13 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
     mPolyF4->field_18_x3 = points[3].x;
     mPolyF4->field_1A_y3 = points[3].y;
 
+    Poly_Set_SemiTrans_4F8A60(&mPolyF4->field_0_header, semiTransparent);
+
     OrderingTable_Add_4F8AA0(&ot[layer], &mPolyF4->field_0_header.field_0_tag);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, char r, char g, char b, bool worldspace)
+void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, char r, char g, char b, bool worldspace, bool semiTransparent)
 {
     Line_G2 * mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
     LineG2_Init(mLineG2);
@@ -1127,6 +1133,8 @@ void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, ch
 
     mLineG2->field_14_x1 = static_cast<short>(x2);
     mLineG2->field_16_y1 = static_cast<short>(y2);
+
+    Poly_Set_SemiTrans_4F8A60(&mLineG2->field_0_header, semiTransparent);
 
     OrderingTable_Add_4F8AA0(&ot[layer], &mLineG2->field_0_header.field_0_tag);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
