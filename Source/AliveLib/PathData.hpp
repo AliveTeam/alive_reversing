@@ -12,7 +12,8 @@ struct PathLine
     __int16 field_2_y1;
     __int16 field_4_x2;
     __int16 field_6_y2;
-    __int16 field_8_mode;
+    __int8 field_8_mode;
+    __int8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
     __int16 field_A_unknown1;
     __int16 field_C_unknown2;
     __int16 field_E_unknown3;

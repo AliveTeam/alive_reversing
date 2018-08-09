@@ -209,6 +209,7 @@ public:
         { 9,{ 255, 255, 255 } }, // Comment lines
         { 10,{ 128, 128, 128 } }, // Bullet blocking walls
         { 17,{ 255, 255, 0 } }, // Flying Slig Collision
+        { 32,{ 255, 255, 100 } }, // Flying Pulley Platform
     };
 
     virtual void VRender(int** pOrderingTable) override
@@ -253,7 +254,7 @@ public:
             {
                 auto l = &sCollisions_DArray_5C1128->field_0_pArray[i];
                 LineColor color = { 255, 0, 255 };
-                int mode = l->field_8_mode & 0xff;
+                int mode = l->field_8_mode;
 
                 if (mLineColors.find(mode) != mLineColors.end())
                 {
