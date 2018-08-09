@@ -198,8 +198,17 @@ public:
 
     struct LineColor { int r; int g; int b; };
     std::map<int, LineColor> mLineColors = { 
-        { 0, { 255, 0, 0 } },
-        { 1, { 0, 0, 255 } },
+        { 0,{ 255, 0, 0 } }, // Floor
+        { 1,{ 0, 0, 255 } }, // Left Wall
+        { 3,{ 255, 0, 0 } }, // Ceiling
+        { 2,{ 0, 0, 255 } }, // Right Wall
+        { 4,{ 100, 0, 0 } }, // Background Floor
+        { 5,{ 0, 0, 100 } }, // Background Left Wall
+        { 6,{ 0, 0, 100 } }, // Background Right Wall
+        { 8,{ 0, 255, 0 } }, // Path Group
+        { 9,{ 255, 255, 255 } }, // Comment lines
+        { 10,{ 128, 128, 128 } }, // Bullet blocking walls
+        { 17,{ 255, 255, 0 } }, // Flying Slig Collision
     };
 
     virtual void VRender(int** pOrderingTable) override
@@ -217,7 +226,6 @@ public:
                 for (int x = 0; x < 15; x++)
                 {
                     char c = ((x + y) % 2 == 0) ? 200 : 127;
-
                     for (int i = -1; i < 2; i++)
                     {
                         DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) + (gridX / 2.0f) + i, y * gridY, (x * gridX) + (gridX / 2.0f) + i, (y * gridY) + (gridY / 4.0f), 255, 255, 255, false);
@@ -244,21 +252,28 @@ public:
             for (int i = 0; i < sCollisions_DArray_5C1128->field_C_count; i++)
             {
                 auto l = &sCollisions_DArray_5C1128->field_0_pArray[i];
-                LineColor color = { 255,0,0 };
+                LineColor color = { 255, 0, 255 };
+                int mode = l->field_8_mode & 0xff;
 
-                if (mLineColors.find(l->field_8_mode) != mLineColors.end())
+                if (mLineColors.find(mode) != mLineColors.end())
                 {
-                    color = mLineColors[l->field_8_mode];
+                    color = mLineColors[mode];
                 }
 
-                DEV::DebugDrawLine(pOrderingTable, 40, l->field_0_x1, l->field_2_y1, l->field_4_x2, l->field_6_y2, color.r, color.g, color.b, true);
+                int layer = 40;
+                if (mode == 4 || mode == 5 || mode == 6)
+                {
+                    layer = 23;
+                }
+                DEV::DebugDrawLine(pOrderingTable, layer, l->field_0_x1, l->field_2_y1, l->field_4_x2, l->field_6_y2, color.r, color.g, color.b, true);
 
                 int id_x = l->field_0_x1 - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent();
                 int id_y = l->field_2_y1 - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent();
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
-                    pIndex = mFont.DrawString_4337D0(pOrderingTable, std::to_string(l->field_8_mode).c_str(), id_x, id_y, 0, 0, 0, 40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+                    pIndex = mFont.DrawString_4337D0(pOrderingTable, std::to_string(mode).c_str(), id_x, id_y, 0, 0, 0, layer + 1, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+                    pIndex = mFont.DrawString_4337D0(pOrderingTable, std::to_string(mode).c_str(), id_x + 1, id_y + 1, 0, 0, 0, layer + 1, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
                 }
             }
         }
