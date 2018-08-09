@@ -541,3 +541,35 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
     }
     return SND_Reload_4EF1C0(pSnd, nullptr, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
 }
+
+EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
+{
+    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 0x1FF];
+    IDirectSoundBuffer* pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
+
+    if (!pDSoundBuffer || ((idx ^ pSoundBuffer->field_4) & 0xFFFFFE00)) // TODO: Refactor
+    {
+        return -1;
+    }
+
+    if (!sSoundSamples_BBBF38[pSoundBuffer->field_8])
+    {
+        return -2;
+    }
+
+    DWORD currrentFreqHz = 0;
+    if (SUCCEEDED(pDSoundBuffer->GetFrequency(&currrentFreqHz)))
+    {
+        DWORD freqHz = static_cast<DWORD>(currrentFreqHz * hzChangeFreq);
+        if (freqHz < DSBFREQUENCY_MIN)
+        {
+            freqHz = DSBFREQUENCY_MIN;
+        }
+        else if (freqHz >= DSBFREQUENCY_MAX)
+        {
+            freqHz = DSBFREQUENCY_MAX;
+        }
+        pSoundBuffer->field_0_pDSoundBuffer->SetFrequency(freqHz);
+    }
+    return 0;
+}
