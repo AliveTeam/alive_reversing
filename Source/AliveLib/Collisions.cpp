@@ -11,13 +11,13 @@ void Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pP
     NOT_IMPLEMENTED();
 
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
-    field_4_current_item_count = pCollisionInfo->field_10_num_collision_items;
+    field_4_current_item_count = static_cast<WORD>(pCollisionInfo->field_10_num_collision_items);
 
     // Up to 40 dynamic collisions, slam doors, trap doors, lift platforms etc.
     field_C_max_count = pCollisionInfo->field_10_num_collision_items + 40;
 
     // Allocate memory for collisions array
-    field_0_pArray = reinterpret_cast<PathLine*>(malloc_non_zero_4954F0(field_4_current_item_count * sizeof(PathLine)));
+    field_0_pArray = reinterpret_cast<PathLine*>(malloc_non_zero_4954F0(field_C_max_count * sizeof(PathLine)));
 
     // Copy collision line data out of Path resource
     memcpy(field_0_pArray, &pPathRes[pCollisionInfo->field_C_collision_offset], field_4_current_item_count * sizeof(PathLine));

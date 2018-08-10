@@ -28,7 +28,7 @@ public:
     EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
 public:
     PathLine* field_0_pArray;
-    int field_4_current_item_count;
+    WORD field_4_current_item_count;
     int field_8_item_count;
     int field_C_max_count;
 };
