@@ -93,7 +93,7 @@ void Font::dtor_433540()
 #ifdef DEVELOPER_MODE 
     auto db = reinterpret_cast<void**>(field_20_fnt_poly_block_ptr);
     Mem_Free_495540(*db);
-    delete db;
+    delete[] db;
 #else
     ResourceManager::FreeResource_49C330(field_20_fnt_poly_block_ptr);
 #endif
