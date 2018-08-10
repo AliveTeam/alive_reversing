@@ -681,7 +681,13 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
         playFlags = DSBPLAY_LOOPING;
     }
 
-    if (pDSoundBuffer->Play(0, 0, playFlags) == DSERR_BUFFERLOST)
+    HRESULT hr = pDSoundBuffer->Play(0, 0, playFlags);
+    if (SUCCEEDED(hr))
+    {
+        return 0;
+    }
+
+    if (hr == DSERR_BUFFERLOST)
     {
         // Restore the lost buffer
         if (SND_Reload_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
