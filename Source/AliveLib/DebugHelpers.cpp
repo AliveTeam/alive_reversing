@@ -523,8 +523,8 @@ void Command_Menu(std::vector<std::string> args)
     int menuCam = std::stoi(args[0]);
     if (MainMenuController::gMainMenuController != nullptr)
     {
-        MainMenuController::gMainMenuController->field_21A = static_cast<short>(menuCam);
-        MainMenuController::gMainMenuController->field_218 = static_cast<short>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
+        MainMenuController::gMainMenuController->field_21A_target_cam = static_cast<short>(menuCam);
+        MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<short>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
         MainMenuController::gMainMenuController->field_21C = static_cast<short>(menuCam);
         MainMenuController::gMainMenuController->field_23C_T80 |= 0x200000;
     }

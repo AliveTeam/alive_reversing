@@ -6,6 +6,9 @@
 #include "PathData.hpp"
 #include "DebugHelpers.hpp"
 #include "StringFormatters.hpp"
+#include "CreditsController.hpp"
+#include "MusicController.hpp"
+#include "Sfx.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -156,8 +159,8 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_158_animation.field_C_render_layer = 38;
     field_158_animation.field_B_render_mode = 1;
 
-    field_1FE = 40;
-    field_200 = -8;
+    field_1FE_highlite_alpha = 40;
+    field_200_highlite_glow_speed = -8;
     field_1F0 = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
     field_23C_T80 &= 0xFF1C0000u;
@@ -269,6 +272,187 @@ void MainMenuController::Render_4CF4C0(int ** ot)
         renderFunc(this, ot);
 }
 
+// Todo: needs cleanup
+void MainMenuController::Update_4CF010()
+{
+    if (sDoesCreditsControllerExist_5C1B90)
+    {
+        if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed & 0x200000)
+        {
+            sDoesCreditsControllerExist_5C1B90 = 0;
+            gMap_5C3030.SetActiveCam_480D30(0, 1, 6, 0, 0, 0);
+            return;
+        }
+
+        if (field_1F4_credits_next_frame <= sGnFrame_5C1B84)
+        {
+            const auto currentCam = field_240_credits_current_cam + 1;
+            field_240_credits_current_cam = currentCam;
+            field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
+            if (gMap_5C3030.sCurrentPathId_5C3032 == 2)
+            {
+                if (currentCam > 22)
+                {
+                    field_240_credits_current_cam = 1;
+                    gMap_5C3030.SetActiveCam_480D30(16, 1, field_240_credits_current_cam, 3, 0, 0);
+                }
+                else
+                {
+                    gMap_5C3030.SetActiveCam_480D30(16, 2, currentCam, 3, 0, 0);
+                }
+            }
+            else
+            {
+                if (currentCam > 36)
+                {
+                    sDoesCreditsControllerExist_5C1B90 = 0;
+                    gMap_5C3030.SetActiveCam_480D30(0, 1, 6, 0, 0, 0);
+                    return;
+                }
+                gMap_5C3030.SetActiveCam_480D30(16, 1, field_240_credits_current_cam, 3, 0, 0);
+            }
+        }
+    }
+    else
+    {
+        if (gMap_5C3030.sCurrentCamId_5C3034 == 5
+            || gMap_5C3030.sCurrentCamId_5C3034 == 11
+            || gMap_5C3030.sCurrentCamId_5C3034 == 4)
+        {
+            MusicController::sub_47FD60(4, this, 0, 0);
+        }
+        else if (gMap_5C3030.sCurrentCamId_5C3034 == 12 || gMap_5C3030.sCurrentCamId_5C3034 == 13)
+        {
+            MusicController::sub_47FD60(8, this, 0, 0);
+        }
+        else
+        {
+            MusicController::sub_47FD60(0, this, 0, 0);
+        }
+
+        MainMenuController::UpdateHighliteGlow_4D0630();
+
+        if (MainMenuController::sub_4CF640())
+        {
+            MainMenuController::sub_4CFE80();
+            return;
+        }
+
+        MainMenuController::sub_4CFE80();
+
+        if (!(field_23C_T80 & 0x10000))
+        {
+            auto currentCamId = sMainMenuPages_561960[field_214_page_index].field_0_cam_id;
+            if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed
+                && currentCamId != 25
+                && currentCamId != 20
+                && currentCamId != 23)
+            {
+                field_1F8 = 0;
+            }
+            else
+            {
+                ++field_1F8;
+            }
+
+            auto v8 = 0;
+
+            if (sMainMenuPages_561960[field_214_page_index].field_4 <= 0 || sMainMenuPages_561960[field_214_page_index].field_8 <= 0 || field_1F8 <= sMainMenuPages_561960[field_214_page_index].field_4)
+            {
+                auto pagesBtns = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
+                auto btnsHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+
+                if (pagesBtns)
+                {
+                    auto btnIndex = field_1FC_button_index;
+                    if (btnIndex != -1)
+                    {
+                        if (sInputObject_5BD4E0.field_0_pads[0].field_C_held & 5)
+                        {
+                            // btnIndex = (signed __int16)btnIndex;
+                            if (sMainMenuPages_561960[field_214_page_index].field_0_cam_id != 4)
+                            {
+                                // Todo: Fix this up
+                                do
+                                {
+                                    if (btnIndex)
+                                    {
+                                        --btnIndex;
+                                    }
+                                    else
+                                    {
+                                        for (auto i = pagesBtns + 1; i->field_0; ++btnIndex)
+                                            ++i;
+                                    }
+                                } while (pagesBtns[btnIndex].field_0 != 1 && btnIndex != field_1FC_button_index);
+                            }
+                            field_1FC_button_index = btnIndex;
+
+                            field_158_animation.Set_Animation_Data_409C80(
+                                sMainMenuPages_561960[field_214_page_index].field_18_buttons[btnIndex].field_8_anim_frame_offset, 0);
+
+                            SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+                        }
+
+                        if (btnsHeld & (eRight | eDown))
+                        {
+                            auto btnIndex = field_1FC_button_index;
+                            auto v14 = field_214_page_index;
+                            if (sMainMenuPages_561960[v14].field_0_cam_id != 4)
+                            {
+                                auto btnArray = sMainMenuPages_561960[v14].field_18_buttons;
+                                do
+                                {
+                                    if (!btnArray[++btnIndex].field_0)
+                                        btnIndex = 0;
+                                } while (btnArray[btnIndex].field_0 != 1 && btnIndex != field_1FC_button_index);
+                            }
+                            field_1FC_button_index = btnIndex;
+                            field_158_animation.Set_Animation_Data_409C80(
+                                sMainMenuPages_561960[v14].field_18_buttons[(signed __int16)btnIndex].field_8_anim_frame_offset,
+                                0);
+                            SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+                        }
+                    }
+                }
+
+                if (field_21E)
+                    return;
+                if (field_23C_T80 & 0x200000)
+                    return;
+
+                auto v16 = sMainMenuPages_561960[field_214_page_index].field_10_fn_update;
+                if (!v16)
+                    return;
+                auto v18 = v16(this, btnsHeld);
+
+                if (v18 <= 0 || v18 == gMap_5C3030.sCurrentCamId_5C3034)
+                    return;
+
+                field_218_target_page_index = MainMenuController::GetPageIndexFromCam_4D05A0((unsigned __int8)v18);
+
+                // Seems to always be zero cause of this... but removing the shifting causes errors? Strange.
+                auto v19 = (v18 >> 16) & 0xFF;
+                field_21A_target_cam = v19;
+                if (v19 == 255)
+                    field_21A_target_cam = -1;
+                v8 = BYTE1(v18);
+            }
+            else
+            {
+                field_1F8 = 0;
+                field_218_target_page_index = MainMenuController::GetPageIndexFromCam_4D05A0(sMainMenuPages_561960[field_214_page_index].field_8);
+                field_21A_target_cam = sMainMenuPages_561960[field_214_page_index].field_C;
+                v8 = sMainMenuPages_561960[field_214_page_index].field_A;
+            }
+
+            field_21C = v8;
+            field_21E = 1;
+            return;
+        }
+    }
+}
+
 int __stdcall MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
 {
     for (int i = 0; i < 24; i++)
@@ -290,6 +474,32 @@ void MainMenuController::sub_4D05E0(__int16 /*a2*/, __int16 /*a3*/)
 void MainMenuController::sub_4D06A0(AnimationEx * /*a3*/)
 {
     NOT_IMPLEMENTED();
+}
+
+signed int MainMenuController::sub_4CF640()
+{
+    NOT_IMPLEMENTED();
+}
+
+void MainMenuController::sub_4CFE80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void MainMenuController::UpdateHighliteGlow_4D0630()
+{
+    field_1FE_highlite_alpha += field_200_highlite_glow_speed;
+
+    // Invert glow speed to make ping pong effect.
+    if (field_1FE_highlite_alpha < 40 || field_1FE_highlite_alpha > 80)
+    {
+        field_1FE_highlite_alpha += -field_200_highlite_glow_speed;
+        field_200_highlite_glow_speed = -field_200_highlite_glow_speed;
+    }
+
+    field_158_animation.field_8_r = field_1FE_highlite_alpha;
+    field_158_animation.field_A_b = field_1FE_highlite_alpha;
+    field_158_animation.field_9_g = field_1FE_highlite_alpha;
 }
 
 void MainMenuController::callback_4D06E0(MainMenuController * a1)

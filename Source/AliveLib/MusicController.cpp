@@ -15,7 +15,7 @@ void CC MusicController::Shutdown_47FD20()
     NOT_IMPLEMENTED();
 }
 
-void CC MusicController::sub_47FD60(__int16 /*a1*/, BaseAliveGameObject* /*a2*/, __int16 /*a3*/, char /*a4*/)
+void CC MusicController::sub_47FD60(__int16 /*a1*/, BaseGameObject* /*a2*/, __int16 /*a3*/, char /*a4*/)
 {
     NOT_IMPLEMENTED();
 }

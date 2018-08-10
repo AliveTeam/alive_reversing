@@ -28,8 +28,7 @@ struct MainMenuButton
     __int16 field_2_x;
     __int16 field_4_y;
     __int16 field_6;
-    __int16 field_8;
-    __int16 field_A;
+    int field_8_anim_frame_offset;
 };
 
 struct MainMenuControllerResources
@@ -71,10 +70,14 @@ public:
     EXPORT void ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
 
     EXPORT void Render_4CF4C0(int **ot);
+    EXPORT void Update_4CF010();
 
     EXPORT static int __stdcall GetPageIndexFromCam_4D05A0(int camId);
     EXPORT void sub_4D05E0(__int16 a2, __int16 a3);
     EXPORT void sub_4D06A0(AnimationEx *a3);
+    EXPORT signed int sub_4CF640();
+    EXPORT void sub_4CFE80();
+    EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);
     EXPORT static int DrawMenuText_4D20D0(MainMenuText *array, int **ot, Font *font, int *polyIndex, char a5);
 
@@ -89,8 +92,8 @@ public:
     int field_1F4_credits_next_frame;
     int field_1F8;
     __int16 field_1FC_button_index;
-    __int16 field_1FE;
-    __int16 field_200;
+    __int16 field_1FE_highlite_alpha;
+    __int16 field_200_highlite_glow_speed;
     __int16 field_202_input_hold_down_timer;
     int field_204_prev_pressed;
     int field_208;
@@ -98,8 +101,8 @@ public:
     int field_210;
     __int16 field_214_page_index;
     __int16 field_216;
-    __int16 field_218;
-    __int16 field_21A;
+    __int16 field_218_target_page_index;
+    __int16 field_21A_target_cam;
     __int16 field_21C;
     __int16 field_21E;
     __int16 field_220;
