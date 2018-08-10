@@ -74,7 +74,13 @@ void Font::ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontConte
     PSX_RECT rect = { field_28_palette_rect.x , field_28_palette_rect.y, 16, 1 };
     PSX_LoadImage16_4F5E20(&rect, palette);
     field_30_poly_count = maxCharLength;
+#ifdef DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
+    auto db = new void*[1];
+    db[0] = malloc_4954D0(sizeof(Poly_FT4) * 2 * maxCharLength);
+    field_20_fnt_poly_block_ptr = reinterpret_cast<BYTE**>(db);
+#else
     field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
+#endif
     field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
 }
 
@@ -83,7 +89,14 @@ void Font::dtor_433540()
     PSX_Point palPoint = { field_28_palette_rect.x,field_28_palette_rect.y };
     Pal_free_483390(palPoint, field_28_palette_rect.w);
     field_28_palette_rect.x = 0;
+
+#ifdef DEVELOPER_MODE 
+    auto db = reinterpret_cast<void**>(field_20_fnt_poly_block_ptr);
+    Mem_Free_495540(*db);
+    delete db;
+#else
     ResourceManager::FreeResource_49C330(field_20_fnt_poly_block_ptr);
+#endif
 }
 
 int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
