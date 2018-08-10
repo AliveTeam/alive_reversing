@@ -23,6 +23,7 @@ namespace DEV
 {
     void DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, char r, char g, char b, bool worldspace, bool semiTransparent = false);
     void DebugFillRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent = false);
     void DebugOnFrameDraw();
 }
 

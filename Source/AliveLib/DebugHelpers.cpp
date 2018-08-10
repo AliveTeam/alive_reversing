@@ -61,7 +61,7 @@ public:
 
     virtual void VUpdate() override
     {
-
+        mFontPIndex = 0;
     }
 
     virtual void VScreenChanged() override
@@ -81,29 +81,24 @@ public:
         return false;
     }
 
-    virtual void VRender(int** pOrderingTable) override
+    void DrawObjectIDs(int**pOrderingTable)
     {
-        if (!Enabled)
-            return;
-
-        int pIndex = 0;
-
         /*struct MainMenuButton
         {
-            __int16 field_0;
-            __int16 field_2_x;
-            __int16 field_4_y;
-            __int16 field_6;
-            __int16 field_8;
-            __int16 field_A;
+        __int16 field_0;
+        __int16 field_2_x;
+        __int16 field_4_y;
+        __int16 field_6;
+        __int16 field_8;
+        __int16 field_A;
         };
 
         auto list = reinterpret_cast<MainMenuButton *>(0x5610B8);
 
         while (list->field_0)
         {
-            pIndex = mFont.DrawString_4337D0(pOrderingTable, "O", list->field_2_x, list->field_4_y, 0, 1, 0, 40, 255, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
-            list++;
+        pIndex = mFont.DrawString_4337D0(pOrderingTable, "O", list->field_2_x, list->field_4_y, 0, 1, 0, 40, 255, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
+        list++;
         }*/
 
         for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
@@ -134,14 +129,100 @@ public:
                 }
 
                 std::string text = std::to_string(pBaseGameObject->field_4_typeId);
-                
-                pIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, 0, 0, 0, 39, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
-                pIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, 0, 1, 0, 40, 255, 255, 255, pIndex, FP_FromDouble(1.0), 640, 0);
+
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, 0, 0, 0, 39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, 0, 1, 0, 40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
             }
-            
         }
     }
 
+    float Vec2Distance(float x1, float y1, float x2, float y2)
+    {
+        // This takes into account the fact that the height of the screen is / 2
+        return sqrt(pow(x1 - x2, 2) + pow((y1 - y2) * 2, 2));
+    }
+
+    bool isDragging = false;
+    BaseAnimatedWithPhysicsGameObject * mDragObject;
+
+    void DrawUI(int** pOrderingTable)
+    {
+        HWND windowHandle = Sys_GetWindowHandle_4EE180();
+        POINT mousePos;
+        bool mouseLeftDown = GetAsyncKeyState(VK_LBUTTON);
+        RECT r;
+        GetClientRect(windowHandle, &r);
+        GetCursorPos(&mousePos);
+        ScreenToClient(windowHandle, &mousePos);
+        mousePos.y /= 2;
+        
+        for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+        {
+            BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
+
+            if (!pBaseGameObject)
+            {
+                break;
+            }
+
+            if (pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAnimatedWithPhysicsObj)
+            {
+                auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
+
+                int x = (aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent()) / 0.575;
+                int y = (aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent());
+
+                if (Vec2Distance(x, y, mousePos.x, mousePos.y) < 10 && !isDragging && mouseLeftDown)
+                {
+                    isDragging = true;
+                    mDragObject = aliveObj;
+                }
+
+                if (Vec2Distance(x, y, mousePos.x, mousePos.y) > 100)
+                    continue;
+
+                if (IsInAnimationList(&aliveObj->field_20_animation))
+                {
+                    if (aliveObj->field_20_animation.field_92_current_frame != -1)
+                    {
+                        auto framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
+                        if (framePtr != nullptr)
+                        {
+                            double scale = aliveObj->field_CC_sprite_scale.GetDouble();
+                            y += (framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                        }
+                    }
+                }
+
+                sFontDrawScreenSpace_5CA4B4 = 1;
+                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, "Test", x, y, 0, 0, 0, 32, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                sFontDrawScreenSpace_5CA4B4 = 0;
+            }
+
+            if (isDragging && !mouseLeftDown)
+            {
+                isDragging = false;
+            }
+
+            if (isDragging)
+            {
+                mDragObject->field_B8_xpos = FP(gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent() + (mousePos.x * 0.575));
+                mDragObject->field_BC_ypos = FP(gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent() + mousePos.y);
+            }
+        }
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        if (!Enabled)
+            return;
+
+        DrawUI(pOrderingTable);
+
+        DrawObjectIDs(pOrderingTable);
+    }
+
+    int mFontPIndex = 0;
     Font mFont;
     char mFontPalette[32];
     Font_Context mFontContext;
@@ -1099,6 +1180,14 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
 
     OrderingTable_Add_4F8AA0(&ot[layer], &mPolyF4->field_0_header.field_0_tag);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+}
+
+void DEV::DebugDrawRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent)
+{
+    DebugDrawLine(ot, layer, x, y, x + width, y, r, g, b, worldspace, semiTransparent);
+    DebugDrawLine(ot, layer, x + width, y, x + width, y + height, r, g, b, worldspace, semiTransparent);
+    DebugDrawLine(ot, layer, x + width, y + height, x, y + height, r, g, b, worldspace, semiTransparent);
+    DebugDrawLine(ot, layer, x, y + height, x, y, r, g, b, worldspace, semiTransparent);
 }
 
 void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, char r, char g, char b, bool worldspace, bool semiTransparent)
