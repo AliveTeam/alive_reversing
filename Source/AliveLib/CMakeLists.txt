@@ -106,6 +106,8 @@ add_library(AliveLib
     ObjectIds.cpp
     VRam.hpp
     VRam.cpp
+    Collisions.hpp
+    Collisions.cpp
     WinMain.cpp
     WinMain.hpp)
 

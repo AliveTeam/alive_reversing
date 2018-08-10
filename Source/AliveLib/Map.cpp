@@ -520,7 +520,7 @@ void Map::GoTo_Camera_481890()
         sCollisions_DArray_5C1128 = alive_new<Collisions>();
         if (sCollisions_DArray_5C1128)
         {
-            sCollisions_DArray_5C1128->loader_418930(pPathRec_1->field_8_pCollisionData, *field_54_path_res_array.field_0_pPathRecs[sCurrentPathId_5C3032]);
+            sCollisions_DArray_5C1128->ctor_418930(pPathRec_1->field_8_pCollisionData, *field_54_path_res_array.field_0_pPathRecs[sCurrentPathId_5C3032]);
         }
     }
 

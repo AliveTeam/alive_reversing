@@ -334,7 +334,7 @@ public:
 
         if (Enabled)
         {
-            for (int i = 0; i < sCollisions_DArray_5C1128->field_C_count; i++)
+            for (int i = 0; i < sCollisions_DArray_5C1128->field_C_max_count; i++)
             {
                 auto l = &sCollisions_DArray_5C1128->field_0_pArray[i];
                 LineColor color = { 255, 0, 255 };

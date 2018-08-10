@@ -5,20 +5,6 @@
 #include <sstream>
 #include <assert.h>
 
-void Collisions::dtor_4189F0()
-{
-    Mem_Free_495560(field_0_pArray);
-}
-
-void CC Collisions::sub_4188A0(CollisionInfo* /*pCollisionInfo*/, void* /*pPathRes*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-void Collisions::loader_418930(const CollisionInfo* /*pCollisionInfo*/, void* /*pPathRes*/)
-{
-    NOT_IMPLEMENTED();
-}
 const PathData kNullPathEntry = {};
 
 const PathData ST_PathData[] =
@@ -215,188 +201,188 @@ const CollisionInfo kNullCollisionInfo = {};
 const CollisionInfo ST_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 2340, 504, 0, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 2625, 2340, 504, 0, 375, 260}
 };
 
 const CollisionInfo MI_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 5625, 2340, 1080, 95, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4125, 2600, 880, 149, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 1820, 672, 54, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 3640, 1344, 153, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 1040, 384, 50, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4875, 1820, 728, 66, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1300, 240, 54, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1300, 360, 46, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 1560, 336, 60, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1040, 288, 65, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1300, 160, 15, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 780, 240, 46, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 5625, 2340, 1080, 95, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4125, 2600, 880, 149, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4500, 1820, 672, 54, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4500, 3640, 1344, 153, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4500, 1040, 384, 50, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4875, 1820, 728, 66, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1300, 240, 54, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1300, 360, 46, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 1560, 336, 60, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1040, 288, 65, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 1300, 160, 15, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3750, 780, 240, 46, 375, 260}
 };
 
 const CollisionInfo NE_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1300, 200, 27, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 2080, 384, 101, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 2600, 960, 37, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 2080, 320, 35, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1820, 504, 47, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1040, 256, 21, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 780, 168, 21, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 1875, 1300, 200, 27, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 2080, 384, 101, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4500, 2600, 960, 37, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 2080, 320, 35, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1820, 504, 47, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 1040, 256, 21, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 780, 168, 21, 375, 260}
 };
 
 const CollisionInfo PV_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 5250, 1560, 672, 126, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 260, 32, 9, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1560, 384, 50, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1040, 160, 69, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 780, 168, 70, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 520, 80, 24, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1560, 288, 41, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 780, 96, 32, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1040, 192, 37, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1300, 360, 61, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 520, 96, 24, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1560, 144, 48, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 2600, 960, 105, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1040, 96, 28, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1040, 128, 26, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 5250, 1560, 672, 126, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 260, 32, 9, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 1560, 384, 50, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 1040, 160, 69, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 780, 168, 70, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 520, 80, 24, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1560, 288, 41, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 780, 96, 32, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1040, 192, 37, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1300, 360, 61, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 520, 96, 24, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1125, 1560, 144, 48, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4500, 2600, 960, 105, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1125, 1040, 96, 28, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 1040, 128, 26, 375, 260}
 };
 
 const CollisionInfo SV_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 520, 128, 32, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1560, 192, 84, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 780, 120, 42, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 520, 96, 34, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1300, 160, 78, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 1820, 672, 93, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1300, 240, 48, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1300, 160, 63, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1300, 240, 53, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 780, 120, 34, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 260, 16, 7, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 520, 32, 15, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 520, 80, 22, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 780, 144, 53, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 3000, 520, 128, 32, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 1560, 192, 84, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 780, 120, 42, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 520, 96, 34, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 1300, 160, 78, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4500, 1820, 672, 93, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1300, 240, 48, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 1300, 160, 63, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1300, 240, 53, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 780, 120, 34, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 750, 260, 16, 7, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 750, 520, 32, 15, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 520, 80, 22, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 780, 144, 53, 375, 260}
 };
 
 const CollisionInfo FD_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1560, 384, 37, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 2080, 512, 93, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 2600, 720, 110, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1820, 560, 132, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1820, 448, 93, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 11, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1040, 160, 71, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1040, 160, 40, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1300, 240, 50, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1040, 160, 29, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 1560, 336, 105, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 780, 120, 71, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 260, 32, 85, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 780, 96, 15, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 3000, 1560, 384, 37, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 2080, 512, 93, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 2600, 720, 110, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3750, 1820, 560, 132, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 1820, 448, 93, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 520, 64, 11, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 1040, 160, 71, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 1040, 160, 40, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1300, 240, 50, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 1040, 160, 29, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 1560, 336, 105, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 780, 120, 71, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 260, 32, 85, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 780, 96, 15, 375, 260}
 };
 
 const CollisionInfo BA_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 2080, 384, 103, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1040, 96, 12, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 1300, 160, 83, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 780, 72, 85, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4875, 2600, 1040, 210, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4875, 2600, 1040, 210, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1040, 192, 106, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 2080, 384, 103, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 780, 144, 41, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 780, 168, 184, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1820, 336, 40, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1820, 336, 40, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 780, 48, 12, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1820, 336, 184, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 780, 48, 16, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 750, 260, 16, 7, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 2250, 2080, 384, 103, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1125, 1040, 96, 12, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 1300, 160, 83, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1125, 780, 72, 85, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4875, 2600, 1040, 210, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4875, 2600, 1040, 210, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1040, 192, 106, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 2080, 384, 103, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 780, 144, 41, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 780, 168, 184, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1820, 336, 40, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1820, 336, 40, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 750, 780, 48, 12, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1820, 336, 184, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 750, 780, 48, 16, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 750, 260, 16, 7, 375, 260}
 };
 
 const CollisionInfo BW_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1820, 560, 63, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 2080, 640, 126, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1300, 400, 121, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 1040, 224, 57, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 520, 80, 11, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 9, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 27, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 780, 192, 32, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 3750, 1820, 560, 63, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3750, 2080, 640, 126, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3750, 1300, 400, 121, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 2080, 576, 106, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 1040, 224, 57, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1560, 432, 54, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 520, 80, 11, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 520, 64, 9, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 520, 64, 27, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 780, 192, 32, 375, 260}
 };
 
 const CollisionInfo BR_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1040, 256, 79, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4500, 1820, 672, 92, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1040, 288, 74, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1820, 560, 41, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 1300, 360, 42, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 1820, 392, 108, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 780, 144, 60, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 520, 112, 37, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1820, 448, 134, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1820, 560, 65, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3375, 3120, 864, 75, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 780, 168, 30, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 260, 64, 31, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 4125, 780, 264, 48, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 780, 168, 29, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1300, 240, 26, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 2600, 480, 117, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 1040, 224, 30, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1040, 192, 76, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 1560, 384, 25, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 12, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 12, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1040, 96, 5, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1040, 96, 19, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 1040, 96, 24, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 2250, 1040, 192, 26, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 2340, 576, 25, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1500, 520, 64, 16, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3000, 780, 192, 18, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 3000, 1040, 256, 79, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4500, 1820, 672, 92, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1040, 288, 74, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3750, 1820, 560, 41, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 1300, 360, 42, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 1820, 392, 108, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 780, 144, 60, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 520, 112, 37, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 1820, 448, 134, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3750, 1820, 560, 65, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3375, 3120, 864, 75, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 780, 168, 30, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 260, 64, 31, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 4125, 780, 264, 48, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 780, 168, 29, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1300, 240, 26, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 2600, 480, 117, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2625, 1040, 224, 30, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1040, 192, 76, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 1560, 384, 25, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 520, 64, 12, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 520, 64, 12, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1125, 1040, 96, 5, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1125, 1040, 96, 19, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1125, 1040, 96, 24, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 2250, 1040, 192, 26, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 2340, 576, 25, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1500, 520, 64, 16, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3000, 780, 192, 18, 375, 260}
 };
 
 const CollisionInfo BM_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 2625, 2600, 560, 100, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 2625, 2600, 560, 100, 375, 260}
 };
 
 const CollisionInfo TL_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 1125, 260, 24, 20, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 1875, 1820, 280, 29, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 1125, 260, 24, 20, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 1875, 1820, 280, 29, 375, 260}
 };
 
 const CollisionInfo CR_CollisionInfo[] =
 {
     kNullCollisionInfo, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1820, 560, 0, 375, 260}, 
-    { Collisions::sub_4188A0, 0, 0, 3750, 1300, 400, 0, 375, 260}
+    { Collisions::Factory_4188A0, 0, 0, 3750, 1820, 560, 0, 375, 260}, 
+    { Collisions::Factory_4188A0, 0, 0, 3750, 1300, 400, 0, 375, 260}
 };
 
 // ========================================================================
