@@ -21,7 +21,6 @@ void Map_ForceLink() { }
 
 ALIVE_VAR(1, 0x5c311c, __int16, sMap_word_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
-ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);
 ALIVE_VAR(1, 0x5c3120, DWORD, sSoundChannelsMask_5C3120, 0);
 
 struct CameraName

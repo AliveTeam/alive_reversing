@@ -116,9 +116,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 
-
-EXPORT void CC sub_4CB0E0();
-
 ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5C9300);
 ALIVE_VAR_EXTERN(char, sQuicksave_SaveNextFrame_5CA4D8);
 ALIVE_VAR_EXTERN(char, sQuicksave_LoadNextFrame_5CA4D9);

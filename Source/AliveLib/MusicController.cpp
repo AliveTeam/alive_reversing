@@ -19,3 +19,8 @@ void CC MusicController::sub_47FD60(__int16 /*a1*/, BaseGameObject* /*a2*/, __in
 {
     NOT_IMPLEMENTED();
 }
+
+void CC MusicController::sub_47FE10(__int16 /*a1*/)
+{
+    NOT_IMPLEMENTED();
+}

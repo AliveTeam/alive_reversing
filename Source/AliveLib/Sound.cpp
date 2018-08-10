@@ -5,10 +5,12 @@
 #include "Error.hpp"
 #include "Sys.hpp"
 #include "Midi.hpp"
-
+#include "BackgroundMusic.hpp"
 #include <mmeapi.h>
 #include <timeapi.h>
 #include <dsound.h>
+#include "Path.hpp"
+#include "MusicController.hpp"
 
 struct SoundBuffer
 {
@@ -33,11 +35,6 @@ ALIVE_ARY(1, 0xBBBAB8, SoundBuffer, 32, sSoundBuffers_BBBAB8, {});
 ALIVE_ARY(1, 0xBBBD38, int, 127, sVolumeTable_BBBD38, {});
 ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 ALIVE_ARY(1, 0xBBC348, char, 64, sDSoundErrorBuffer_BBC348, {});
-
-EXPORT void CC SND_4CB480()
-{
-    NOT_IMPLEMENTED();
-}
 
 EXPORT void CC SND_SsQuit_4EFD50()
 {
@@ -68,11 +65,6 @@ EXPORT void CC SND_SsQuit_4EFD50()
         sDSound_BBC344->Release();
         sDSound_BBC344 = nullptr;
     }
-}
-
-EXPORT void CC SND_Clear_4CB4B0()
-{
-    NOT_IMPLEMENTED();
 }
 
 EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
@@ -701,4 +693,30 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
     }
 
     return -1;
+}
+
+EXPORT void CC SND_Init_Buffers_4CB480()
+{
+    // Note: Not empty in real but does nothing
+}
+
+EXPORT void CC SND_Clear_4CB4B0()
+{
+    // Note: Not empty in real but does nothing
+}
+
+EXPORT void CC Start_Sounds_For_Objects_In_Near_Cameras_4CBB60()
+{
+    SND_Clear_4CB4B0();
+    Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(3, -1, 0);    // left
+    Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(4, 1, 0);     // right
+    Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(1, 0, -1);    // bottom
+    Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(2, 0, 1);     // top
+}
+
+EXPORT void CC SND_Restart_4CB0E0()
+{
+    MusicController::sub_47FE10(1);
+    BackgroundMusic::Play_4CB030();
+    Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
 }

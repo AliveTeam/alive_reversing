@@ -9,6 +9,8 @@
 const unsigned short Path_Door::kType = 5;
 const unsigned short Path_Teleporter::kType = 88;
 
+ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);
+
 void Path::ctor_4DB170()
 {
     field_C_pPathData = nullptr;
@@ -165,4 +167,22 @@ Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int
     }
 
     return pTlv;
+}
+
+EXPORT void CC Start_Sounds_for_TLV_4CB530(__int16 /*type*/, Path_TLV* /*pTlv*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __int16 cam_x_idx, __int16 cam_y_idx)
+{
+    Path_TLV* pTlv = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(cam_x_idx, cam_y_idx);
+    while (pTlv)
+    {
+        if (!(pTlv->field_0_flags & 3))
+        {
+            Start_Sounds_for_TLV_4CB530(type, pTlv);
+        }
+        pTlv = Next_TLV_4DB6A0(pTlv);
+    }
 }

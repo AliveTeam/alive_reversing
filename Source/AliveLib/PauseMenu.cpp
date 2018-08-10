@@ -8,6 +8,7 @@
 #include "StringFormatters.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
+#include "Sound.hpp"
 
 // Used by the level skip cheat/ui/menu
 const static PerLvlData gPerLvlData_561700[17] =
@@ -385,11 +386,6 @@ void PauseMenu::Init_491760()
     }
 }
 
-EXPORT void CC sub_4CB0E0()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC LoadRockTypes_49AB30(unsigned __int16 /*a1*/, unsigned __int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
@@ -493,7 +489,7 @@ public:
     {
         pPauseMenu_5C9300->word12C_flags &= ~1;
         SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
-        sub_4CB0E0();
+        SND_Restart_4CB0E0();
         customMenuStack.clear();
     }
 
@@ -760,7 +756,7 @@ void PauseMenu::Page_Main_Update_4903E0()
     {
         word12C_flags &= 0xFFFEu;
         SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
-        sub_4CB0E0();
+        SND_Restart_4CB0E0();
     }
     else if (inputHeld & eUnPause)
     {
@@ -769,12 +765,12 @@ void PauseMenu::Page_Main_Update_4903E0()
         case 0:
             word12C_flags &= 0xFFFEu;
             SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
-            sub_4CB0E0();
+            SND_Restart_4CB0E0();
             return;
         case 1:
             word12C_flags &= 0xFFFEu;
             SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
-            sub_4CB0E0();
+            SND_Restart_4CB0E0();
             Quicksave_4C90D0();
             return;
         case 2:
@@ -850,7 +846,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             }
             word12C_flags &= 0xFFFEu;
             SFX_Play_46FBA0(0x11u, 40, 3400, 0x10000);
-            sub_4CB0E0();
+            SND_Restart_4CB0E0();
         case 7:
             field_136 = 2;
             memcpy(&field_144_active_menu, &sPM_Page_ReallyQuit_5465E0, sizeof(field_144_active_menu));

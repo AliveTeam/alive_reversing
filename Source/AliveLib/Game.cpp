@@ -380,7 +380,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         ret = -(MessageBoxA(hWnd, "Do you really want to quit?", "Abe's Exoddus 1.0", 0x124u) != 6); // TODO: Constants, refactor negation
         if (SND_Seq_Table_Valid_4CAFE0())
         {
-            sub_4CB0E0();
+            SND_Restart_4CB0E0();
         }
 
         if (!sSoundEntry_5CA230)
@@ -519,7 +519,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
 
     ResourceManager::Init_49BCE0();
     SND_Init_4CA1F0();
-    SND_4CB480();
+    SND_Init_Buffers_4CB480();
     MusicController::Create_47FC40();
     sub_43BF40(); // Init other vars + switch states
 }

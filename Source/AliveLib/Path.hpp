@@ -31,6 +31,8 @@ public:
     EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, __int16 camX);
     EXPORT static Path_TLV* __stdcall TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type);
 
+    EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __int16 cam_x_idx, __int16 cam_y_idx);
+
     unsigned __int16 field_0_levelId;
     unsigned __int16 field_2_pathId;
     __int16 field_4_cameraId;
@@ -92,3 +94,5 @@ struct Path_Teleporter : public Path_TLV
     __int16 field_26_pad; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
 };
 ALIVE_ASSERT_SIZEOF(Path_Teleporter, 0x28); // 0x10 for base
+
+ALIVE_VAR_EXTERN(Path*, sPath_dword_BB47C0);
