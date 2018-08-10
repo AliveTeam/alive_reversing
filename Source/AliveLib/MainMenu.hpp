@@ -82,6 +82,9 @@ public:
     EXPORT static int DrawMenuText_4D20D0(MainMenuText *array, int **ot, Font *font, int *polyIndex, char a5);
 
     static MainMenuController * gMainMenuController;
+private:
+    void HandleCreditsControllerUpdate();
+    void HandleMainMenuUpdate();
 public:
     int field_E4[3];
     int field_F0;
