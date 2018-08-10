@@ -143,7 +143,7 @@ struct MainMenuPage
     __int16 field_A;
     __int16 field_C;
     __int16 field_E_show_character;
-    __int16(__thiscall *field_10_fn_update)(MainMenuController *, int input);
+    int(__thiscall *field_10_fn_update)(MainMenuController *, int input);
     void(__thiscall *field_14_fn_render)(MainMenuController *, int **);
     MainMenuButton *field_18_buttons;
     int(__thiscall *field_1C_fn_on_load)(MainMenuController *);
