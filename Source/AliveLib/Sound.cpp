@@ -684,6 +684,28 @@ EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int field8, int 
     return pSoundBuffer;
 }
 
+EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx)
+{
+    IDirectSoundBuffer* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
+    {
+        return 0;
+    }
+
+    DWORD status = 0;
+    pBuffer->GetStatus(&status);
+    if (status & 4)
+    {
+        // Looped
+        return 2;
+    }
+    else
+    {
+        // Playing
+        return status & 1;
+    }
+}
+
 EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
 {
     int idx = -1;

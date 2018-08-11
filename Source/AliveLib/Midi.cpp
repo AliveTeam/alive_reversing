@@ -1727,6 +1727,54 @@ EXPORT void CC MIDI_UpdatePlayer_4FDC80()
     }
 }
 
+EXPORT int CC MIDI_Invert_4FCA40(int /*not_used*/, int value)
+{
+    return 127 - value;
+}
+
+EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int not_used, int a2)
+{
+    int lowestEndTime = -999999;
+    unsigned int timeMod24 = sMidiTime_BD1CEC % 24;
+    for (int i = 0; i < 24; i++)
+    {
+        if (sMidi_Channels_C14080.channels[i].field_1C.field_3 == 0)
+        {
+            return i;
+        }
+        else
+        {
+            //const int v6 = sMidi_Channels_C14080.channels[idx].field_14_time;
+            //const int v7 = sMidi_Channels_C14080.channels[idx].field_18_rightVol;
+            const int inverted = MIDI_Invert_4FCA40(sMidi_Channels_C14080.channels[i].field_4, sMidi_Channels_C14080.channels[i].field_8_left_vol);
+            if (inverted > lowestEndTime)
+            {
+                timeMod24 = i;
+                lowestEndTime = inverted;
+            }
+        }
+    }
+
+    // Try to find a channel that isn't playing anything
+    for (int i = 0; i < 24; i++)
+    {
+        if (SND_Get_Buffer_Status_4EE8F0(sMidi_Channels_C14080.channels[i].field_0_sound_buffer_field_4) == 0)
+        {
+            sMidi_Channels_C14080.channels[i].field_1C.field_3 = 0;
+            return i;
+        }
+    }
+
+    // Take the channel which has sound that is ending soonest
+    int idx = timeMod24;
+    if (a2 < sMidi_Channels_C14080.channels[idx].field_4)
+    {
+        return -1;
+    }
+    SND_Stop_Sample_At_Idx_4EFA90(sMidi_Channels_C14080.channels[idx].field_0_sound_buffer_field_4);
+    return idx;
+}
+
 namespace Test
 {
     class MidiStreamBuilder
