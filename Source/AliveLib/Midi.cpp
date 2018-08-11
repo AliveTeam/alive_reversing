@@ -1329,12 +1329,6 @@ EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 /*a1*/, __int16 /*a2*/)
     return 0;
 }
 
-EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int /*idx*/, int /*vol*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Struct1* pData, int vol)
 {
     if (pData->field_8_left_vol == vol)

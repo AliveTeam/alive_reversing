@@ -15,6 +15,7 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
 EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd);
 EXPORT void CC SND_Restart_4CB0E0();
 EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx);
+EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol);
 
 struct SoundEntry
 {

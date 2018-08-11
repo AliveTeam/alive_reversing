@@ -613,6 +613,47 @@ EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
 
 }
 
+const DWORD k127_dword_575158 = 127;
+
+EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
+{
+    IDirectSoundBuffer* pSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    if (!pSoundBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
+    {
+        return -1;
+    }
+
+    unsigned int volConverted = (unsigned int)(vol * k127_dword_575158) >> 7; // Conversion used else where
+    if (volConverted > 127)
+    {
+        volConverted = 127;
+    }
+    pSoundBuffer->SetVolume(sVolumeTable_BBBD38[120 * volConverted >> 7]);
+    return 0;
+}
+
+EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
+{
+    IDirectSoundBuffer* pDSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
+    if (!pDSoundBuffer || (idx ^ pSoundBuffer->field_4) & ~511)
+    {
+        return -1;
+    }
+
+    DWORD freqHz = static_cast<DWORD>(sSoundSamples_BBBF38[pSoundBuffer->field_8]->field_18_sampleRate * freq);
+    if (freqHz < DSBFREQUENCY_MIN)
+    {
+        freqHz = DSBFREQUENCY_MIN;
+    }
+    else if (freqHz >= DSBFREQUENCY_MAX)
+    {
+        freqHz = DSBFREQUENCY_MAX;
+    }
+    pDSoundBuffer->SetFrequency(freqHz);
+    return 0;
+}
+
 EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
 {
     IDirectSoundBuffer* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
@@ -664,8 +705,6 @@ EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
     }
     return SND_Recycle_Sound_Buffer_4EF9C0(idx, tableIdx, field10);
 }
-
-const DWORD k127_dword_575158 = 127;
 
 EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int volume)
 {
