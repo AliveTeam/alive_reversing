@@ -158,72 +158,79 @@ EXPORT char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
 
 EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, unsigned __int8 isStereo)
 {
-    WAVEFORMATEX pWaveFormat; // [esp+0h] [ebp-14h]
+    WAVEFORMATEX pWaveFormat = {};
 
     if (!sPrimarySoundBuffer_BBC388)
+    {
         return -2;
+    }
+
     pWaveFormat.wFormatTag = 0;
     pWaveFormat.nSamplesPerSec = 0;
     pWaveFormat.nAvgBytesPerSec = 0;
     pWaveFormat.nBlockAlign = 0;
     pWaveFormat.cbSize = 0;
-    SND_Init_WaveFormatEx_4EEA00(&pWaveFormat, sampleRate, bitsPerSample, isStereo);
+    SND_Init_WaveFormatEx_4EEA00(&pWaveFormat, sampleRate, static_cast<unsigned char>(bitsPerSample), isStereo);
     return -(sPrimarySoundBuffer_BBC388->SetFormat(&pWaveFormat) != 0);
 }
 
 EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSample, int isStereo)
 {
-    DSBUFFERDESC v4; // [esp+8h] [ebp-14h]
+    DSBUFFERDESC bufferDesc = {};
+    bufferDesc.dwSize = sizeof(DSBUFFERDESC);
+    bufferDesc.dwBufferBytes = 0;
+    bufferDesc.dwFlags = 1;
+    bufferDesc.dwReserved = 0;
+    bufferDesc.lpwfxFormat = 0;
 
-    v4.dwSize = 20;
-    v4.dwBufferBytes = 0;
-    v4.dwFlags = 1;
-    v4.dwReserved = 0;
-    v4.lpwfxFormat = 0;
-    if (sDSound_BBC344->CreateSoundBuffer(&v4, &sPrimarySoundBuffer_BBC388, 0))
+    if (FAILED(sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &sPrimarySoundBuffer_BBC388, nullptr)))
+    {
         return -1;
-    if (!sPrimarySoundBuffer_BBC388->Play(0, 0, 1))
-        return SND_SetPrimarySoundBufferFormat_4EE990(sampleRate, bitsPerSample, isStereo) != 0 ? 0xFD : 0;
+    }
+    
+    if (SUCCEEDED(sPrimarySoundBuffer_BBC388->Play(0, 0, 1)))
+    {
+        return SND_SetPrimarySoundBufferFormat_4EE990(sampleRate, bitsPerSample, static_cast<unsigned char>(isStereo)) != 0 ? 0xFD : 0;
+    }
+
     sPrimarySoundBuffer_BBC388->Release();
     return -2;
 }
 
 EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
 {
-    if (sDSound_BBC344)
-    {
-        WAVEFORMATEX waveFormat;
-        DSBUFFERDESC bufferDesc;
-
-        waveFormat.wFormatTag = 0;
-        waveFormat.nSamplesPerSec = 0;
-        waveFormat.nAvgBytesPerSec = 0;
-        waveFormat.nBlockAlign = 0;
-        waveFormat.cbSize = 0;
-
-        SND_Init_WaveFormatEx_4EEA00(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo & 1);
-
-        bufferDesc.dwBufferBytes = pSnd->field_14_buffer_size_bytes;
-        bufferDesc.dwReserved = 0;
-        bufferDesc.lpwfxFormat = &waveFormat;
-        bufferDesc.dwSize = 20;
-        bufferDesc.dwFlags = 82144; // TODO: Fix constants
-
-        if (sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0))
-        {
-            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 371, -1, "SND_Renew(): Cannot create ds sound buffer");
-            return -1;
-        }
-        else
-        {
-            pSnd->field_10 = 0;
-            return 0;
-        }
-    }
-    else
+    if (!sDSound_BBC344)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 351, -1, "DirectSound not initialized");
         return -1;
+    }
+
+    WAVEFORMATEX waveFormat;
+    DSBUFFERDESC bufferDesc;
+
+    waveFormat.wFormatTag = 0;
+    waveFormat.nSamplesPerSec = 0;
+    waveFormat.nAvgBytesPerSec = 0;
+    waveFormat.nBlockAlign = 0;
+    waveFormat.cbSize = 0;
+
+    SND_Init_WaveFormatEx_4EEA00(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo & 1);
+
+    bufferDesc.dwBufferBytes = pSnd->field_14_buffer_size_bytes;
+    bufferDesc.dwReserved = 0;
+    bufferDesc.lpwfxFormat = &waveFormat;
+    bufferDesc.dwSize = 20;
+    bufferDesc.dwFlags = 82144; // TODO: Fix constants
+
+    if (sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 371, -1, "SND_Renew(): Cannot create ds sound buffer");
+        return -1;
+    }
+    else
+    {
+        pSnd->field_10 = 0;
+        return 0;
     }
 }
 
@@ -331,6 +338,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSam
 {
     if (sDSound_BBC344)
     {
+        // Already created
         return 0;
     }
 
@@ -441,7 +449,9 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSam
 EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
 {
     if (!sDSound_BBC344)
+    {
         return -1;
+    }
 
     if (sLoadedSoundsCount_BBC394 < 256)
     {
@@ -453,12 +463,12 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         waveFormatEx.nAvgBytesPerSec = 0;
         waveFormatEx.nBlockAlign = 0;
         waveFormatEx.cbSize = 0;
-        SND_Init_WaveFormatEx_4EEA00(&waveFormatEx, sampleRate, bitsPerSample, isStereo & 1);
+        SND_Init_WaveFormatEx_4EEA00(&waveFormatEx, sampleRate, static_cast<unsigned char>(bitsPerSample), isStereo & 1);
 
         const int sampleByteSize = sampleLength * waveFormatEx.nBlockAlign;
         bufferDesc.dwReserved = 0;
         bufferDesc.lpwfxFormat = &waveFormatEx;
-        pSnd->field_1D_blockAlign = waveFormatEx.nBlockAlign;
+        pSnd->field_1D_blockAlign = static_cast<unsigned char>(waveFormatEx.nBlockAlign);
         bufferDesc.dwSize = 20;
         bufferDesc.dwBufferBytes = sampleByteSize;
         bufferDesc.dwFlags = 82152;
@@ -479,7 +489,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
             if (bufferData)
             {
                 pSnd->field_18_sampleRate = sampleRate;
-                pSnd->field_1C_bitsPerSample = bitsPerSample;
+                pSnd->field_1C_bitsPerSample = static_cast<char>(bitsPerSample);
                 pSnd->field_C_buffer_size_bytes = sampleByteSize;
                 pSnd->field_14_buffer_size_bytes = sampleByteSize;
                 pSnd->field_20_isStereo = isStereo;
@@ -567,10 +577,38 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
     return 0;
 }
 
-EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int /*tableIdx*/, int /*field10*/)
+EXPORT int CC SND_Buffer_Get_Status_4F00F0(int /*idx*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int /*idx*/, int /*field8*/, int /*field10*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
+}
+
+EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
+{
+    int idx = -1;
+    int statusToMatch = 0xC0000000;
+
+    for (int i = 0; i < 32; i++)
+    {
+        int status = SND_Buffer_Get_Status_4F00F0(i, field10);
+        if (status >= statusToMatch)
+        {
+            idx = i;
+            statusToMatch = status;
+        }
+    }
+
+    if (idx < 0)
+    {
+        return &sSoundBuffers_BBBAB8[0];
+    }
+    return SND_Recycle_Sound_Buffer_4EF9C0(idx, tableIdx, field10);
 }
 
 const DWORD k127_dword_575158 = 127;
