@@ -577,10 +577,40 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
     return 0;
 }
 
-EXPORT int CC SND_Buffer_Get_Status_4F00F0(int /*idx*/, int /*a2*/)
+EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    // TODO: Figure out the meaning of the constants in here
+    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx];
+    if (!pSoundBuffer->field_0_pDSoundBuffer)
+    {
+        return 0x40000000;
+    }
+
+    DWORD status = 0;
+    pSoundBuffer->field_0_pDSoundBuffer->GetStatus(&status);
+
+    int fromStatus = 0;
+    if (!(status & 1))
+    {
+        fromStatus = 0x8000000;
+    }
+    if (!(status & 4))
+    {
+        fromStatus += 0x8000000;
+    }
+
+    int v6 = (a2 - pSoundBuffer->field_10) >> 2; // >> 2 = / 2 ? 
+    if (v6 > 2)
+    {
+        v6 = 2;
+    }
+    else if (v6 < -2)
+    {
+        v6 = -2;
+    }
+
+    return fromStatus + 2 * (sLastNotePlayTime_BBC33C + (v6 << 8) - pSoundBuffer->field_C); // << 8 = * 256 ?
+
 }
 
 EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int /*idx*/, int /*field8*/, int /*field10*/)
