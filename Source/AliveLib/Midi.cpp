@@ -722,12 +722,6 @@ EXPORT void MIDI_SsEnd_4FC350()
     sMidi_Inited_dword_BD1CF4 = 0;
 }
 
-EXPORT signed int __cdecl SND_Stop_Sample_At_Idx_4EFA90(int /*idx*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT void SND_Shutdown_4CA280()
 {
     SND_Reset_4C9FB0();

@@ -613,10 +613,34 @@ EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
 
 }
 
-EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int /*idx*/, int /*field8*/, int /*field10*/)
+EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    IDirectSoundBuffer* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511) // TODO: Same unknown field_4 conversion
+    {
+        return -1;
+    }
+    pBuffer->Stop();
+    return 0;
+}
+
+EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int field8, int field10)
+{
+    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx];
+    if (pSoundBuffer->field_0_pDSoundBuffer)
+    {
+        pSoundBuffer->field_0_pDSoundBuffer->Release();
+        pSoundBuffer->field_0_pDSoundBuffer = nullptr;
+    }
+
+    // TODO: What is this shorthand for ?
+    const int oldField4 = pSoundBuffer->field_4 ^ ((unsigned __int16)idx ^ (unsigned __int16)pSoundBuffer->field_4) & 511;
+    pSoundBuffer->field_4 = oldField4 & 511 ^ ((oldField4 & ~511) + 512);
+
+    pSoundBuffer->field_8 = field8;
+    pSoundBuffer->field_C = sLastNotePlayTime_BBC33C;
+    pSoundBuffer->field_10 = field10;
+    return pSoundBuffer;
 }
 
 EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
