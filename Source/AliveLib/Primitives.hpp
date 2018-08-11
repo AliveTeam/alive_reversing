@@ -33,7 +33,7 @@ ALIVE_ASSERT_SIZEOF(PrimHeaderPart, 4);
 
 struct PrimHeader
 {
-    int field_0_tag;
+    int* field_0_tag;
     PrimHeaderPart field_4;
     BYTE field_8_r0;
     BYTE field_9_g0;
@@ -249,7 +249,7 @@ EXPORT void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_
 EXPORT void CC Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly);
 EXPORT void CC Poly_Set_unknown_4F8A20(PrimHeader* pPrim, int bFlag1);
 EXPORT void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans);
-EXPORT void CC OrderingTable_Add_4F8AA0(int** pOt, void* pItem);
+EXPORT void CC OrderingTable_Add_4F8AA0(int** pOt, PrimHeader* pItem);
 
 EXPORT void CC Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, int /*notUsed1*/, int /*notUsed2*/, int tpage);
 EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y);

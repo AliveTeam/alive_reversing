@@ -185,7 +185,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
         poly->field_28_u3 = texture_u + charWidth;
         poly->field_29_v3 = texture_v + charHeight;
 
-        OrderingTable_Add_4F8AA0(&ot[otLayer], poly);
+        OrderingTable_Add_4F8AA0(&ot[otLayer], &poly->field_0_header);
 
         ++characterRenderCount;
 

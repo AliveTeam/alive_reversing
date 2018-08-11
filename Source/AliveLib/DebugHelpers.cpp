@@ -788,9 +788,9 @@ public:
 
     virtual void VRender(int** pOrderingTable) override
     {
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG3.field_0_header.field_0_tag); // 30 being the "layer"
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.field_0_header.field_0_tag);
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG4.field_0_header.field_0_tag);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG3.field_0_header); // 30 being the "layer"
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.field_0_header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG4.field_0_header);
 
         static PSX_Pos16 xy = {};
         static short ypos = 0;
@@ -802,7 +802,7 @@ public:
         xy.x = ypos;
         xy.y = ypos;
         InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mScreenOffset.field_0_header.field_0_tag);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mScreenOffset.field_0_header);
 
         static PSX_RECT clipRect = {};
         clipRect.x = 80;
@@ -811,13 +811,13 @@ public:
         clipRect.h = 480 - 200;
 
         Init_PrimClipper_4F5B80(&mPrimClipper, &clipRect);
-        // OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header.field_0_tag);
+        // OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header);
 
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG2.field_0_header.field_0_tag);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG2.field_0_header);
 
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.field_0_header.field_0_tag);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.field_0_header);
 
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG4.field_0_header.field_0_tag);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG4.field_0_header);
 
 
     }
@@ -1178,7 +1178,7 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
 
     Poly_Set_SemiTrans_4F8A60(&mPolyF4->field_0_header, semiTransparent);
 
-    OrderingTable_Add_4F8AA0(&ot[layer], &mPolyF4->field_0_header.field_0_tag);
+    OrderingTable_Add_4F8AA0(&ot[layer], &mPolyF4->field_0_header);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
@@ -1225,7 +1225,7 @@ void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, ch
 
     Poly_Set_SemiTrans_4F8A60(&mLineG2->field_0_header, semiTransparent);
 
-    OrderingTable_Add_4F8AA0(&ot[layer], &mLineG2->field_0_header.field_0_tag);
+    OrderingTable_Add_4F8AA0(&ot[layer], &mLineG2->field_0_header);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 

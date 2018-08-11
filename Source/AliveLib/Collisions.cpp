@@ -8,8 +8,6 @@ ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 
 void Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes)
 {
-    NOT_IMPLEMENTED();
-
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
     field_4_current_item_count = static_cast<WORD>(pCollisionInfo->field_10_num_collision_items);
 
