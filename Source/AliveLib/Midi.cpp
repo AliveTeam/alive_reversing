@@ -1771,36 +1771,10 @@ EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int not_used, int priority)
 
 EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int leftVolume, int rightVolume, int volume)
 {
-    int noteKeyNumber; // ebp
-    int v7; // edx
-    int vagVol; // eax
-    signed int v10; // esi
-    signed int v11; // edi
-    signed int v12; // eax
-    MIDI_Struct1 *v13; // ebp
-    unsigned __int16 v14; // ax
-    BOOL v15; // ecx
-    int v16; // ecx
-    __int16 v17; // dx
-    __int16 v18; // ax
-    unsigned int v19; // edx
-    unsigned __int16 v20; // ax
-    long double v21; // st7
-    int v22; // eax
-    int v24; // [esp+Ch] [ebp-18h]
-    int v25; // [esp+10h] [ebp-14h]
-    int v26; // [esp+14h] [ebp-10h]
-    signed int k16ToneCounter; // [esp+18h] [ebp-Ch]
-    int vagNum; // [esp+1Ch] [ebp-8h]
-    char v29; // [esp+20h] [ebp-4h]
-    signed int leftVolumea; // [esp+34h] [ebp+10h]
-    float leftVolumeb; // [esp+34h] [ebp+10h]
-    unsigned int rightVolumea; // [esp+38h] [ebp+14h]
-
-    v26 = leftVolume;
-    noteKeyNumber = (note >> 8) & 127;
-    v25 = rightVolume;
-    v24 = 0;
+    int v26 = leftVolume;
+    const int noteKeyNumber = (note >> 8) & 127;
+    int v25 = rightVolume;
+    int usedChannelBits = 0;
     if (leftVolume)
     {
         if (leftVolume < 0)
@@ -1818,7 +1792,6 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
         return 0;
     }
 
-    v7 = volume;
     if (volume <= 0)
     {
         return 0;
@@ -1829,130 +1802,112 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
         return 0;
     }
 
-    k16ToneCounter = 16;
-    Converted_Vag* pVagIter = &sConvertedVagTable_BEF160.table[vabId][program][0];
-    while (1)
+    for (int i = 0; i < 16; i++)
     {
+        Converted_Vag* pVagIter = &sConvertedVagTable_BEF160.table[vabId][program][i];
         if (pVagIter->field_D_vol > 0 && pVagIter->field_8_min <= noteKeyNumber && noteKeyNumber <= pVagIter->field_9_max)
         {
-            vagVol = pVagIter->field_D_vol;
-            vagNum = pVagIter->field_10_vag;
-            v10 = v7 * v26 * vagVol * (unsigned __int16)sGlobalVolumeLevel_left_BD1CDC >> 21;
-            v11 = v7 * v25 * vagVol * (unsigned __int16)sGlobalVolumeLevel_right_BD1CDE >> 21;
-            rightVolumea = (((unsigned int)pVagIter->field_C) >> 2) & 1;
-            if (v10)
+            const int vagVol = pVagIter->field_D_vol;
+            int panLeft = volume * v26 * vagVol * (unsigned __int16)sGlobalVolumeLevel_left_BD1CDC >> 21;
+            int panRight = volume * v25 * vagVol * (unsigned __int16)sGlobalVolumeLevel_right_BD1CDE >> 21;
+            const unsigned int playFlags = (((unsigned int)pVagIter->field_C) >> 2) & 1;
+            if (panLeft)
             {
-                if (v10 < 0)
+                if (panLeft < 0)
                 {
-                    goto LABEL_49;
+                    continue;
                 }
             }
-            else if (!v11)
+            else if (!panRight)
             {
-                goto LABEL_49;
+                continue;
             }
-            if (v11 >= 0)
+            if (panRight >= 0)
             {
                 if ((((unsigned int)pVagIter->field_C >> 2)) & 1)
                 {
-                    if (v10 > 90)
+                    if (panLeft > 90)
                     {
-                        v10 = 90;
+                        panLeft = 90;
                     }
-                    if (v11 > 90)
+                    if (panRight > 90)
                     {
-                        v11 = 90;
+                        panRight = 90;
                     }
                 }
-                leftVolumea = v11;
-                if (v10 >= v11)
+                int leftVolumea = panRight;
+                if (panLeft >= panRight)
                 {
-                    leftVolumea = v10;
+                    leftVolumea = panLeft;
                 }
-                v12 = MIDI_Allocate_Channel_4FCA50(leftVolumea, pVagIter->field_E_priority);
-                v29 = v12;
-                if (v12 >= 0)
+                const int midiChannel = MIDI_Allocate_Channel_4FCA50(leftVolumea, pVagIter->field_E_priority);
+                if (midiChannel >= 0)
                 {
-                    v13 = &sMidi_Channels_C14080.channels[v12];
-                    v14 = pVagIter->field_0_adsr1;
-                    v15 = v14
-                        || pVagIter->field_2_adsr
-                        || pVagIter->field_4_adsr != 16
-                        || pVagIter->field_6_adsr >= 33u;
-                    v13->field_C = leftVolumea;
+                    MIDI_Struct1* pChannel = &sMidi_Channels_C14080.channels[midiChannel];
+                    const BOOL v15 = pVagIter->field_0_adsr1 || pVagIter->field_2_adsr || pVagIter->field_4_adsr != 16 || pVagIter->field_6_adsr >= 33u;
+                    pChannel->field_C = leftVolumea;
                     if (v15)
                     {
-                        v16 = v14 * (127 - volume);
-                        v17 = pVagIter->field_2_adsr;
-                        v18 = pVagIter->field_4_adsr;
-                        v13->field_1C.field_3 = 1;
-                        v13->field_1C.field_4 = v16 >> 6;
+                        const __int16 v16 = pVagIter->field_0_adsr1 * (127 - volume);
+                        pChannel->field_1C.field_3 = 1;
+                        pChannel->field_1C.field_4 = v16 >> 6;
+                        pChannel->field_1C.field_6 = pVagIter->field_2_adsr;
+                        pChannel->field_1C.field_8 = pVagIter->field_4_adsr;
+                        pChannel->field_1C.field_A = pVagIter->field_6_adsr;
 
-                        v16 = pVagIter->field_6_adsr;
-
-                        v13->field_1C.field_6 = v17;
-                        v13->field_1C.field_8 = v18;
-                        v13->field_1C.field_A = v16;
-                        if (v13->field_1C.field_4)
+                        if (pChannel->field_1C.field_4)
                         {
-                            v10 = 2;
+                            panLeft = 2;
                             leftVolumea = 2;
                             v25 = 2;
                             v26 = 2;
-                            v11 = 2;
+                            panRight = 2;
                         }
+
                     }
-                    else if (rightVolumea)
+                    else if (playFlags)
                     {
-                        v13->field_1C.field_3 = -1;
+                        pChannel->field_1C.field_3 = -1;
                     }
                     else
                     {
-                        v13->field_1C.field_3 = -2;
+                        pChannel->field_1C.field_3 = -2;
                     }
-                    v13->field_8_left_vol = leftVolumea;
-                    v19 = sMidiTime_BD1CEC;
-                    v13->field_4 = pVagIter->field_E_priority;
-                    v13->field_18_rightVol = rightVolumea;
-                    v13->field_14_time = v19;
-                    v13->field_1C.field_0_seq_idx = vabId;
-                    v13->field_1C.field_1_program = program;
-                    v20 = pVagIter->field_A_shift_cen;
-                    v13->field_1C.field_2_note_byte1 = BYTE1(note) & 127;
-                    v21 = pow(1.059463094359, (double)(note - v20) * 0.00390625);
-                    v22 = sMidi_WaitUntil_BD1CF0;
-                    v13->field_10_float = v21;
-                    if (v22)
+
+                    pChannel->field_8_left_vol = leftVolumea;
+                    pChannel->field_4 = pVagIter->field_E_priority;
+                    pChannel->field_18_rightVol = playFlags;
+                    pChannel->field_14_time = sMidiTime_BD1CEC;
+                    pChannel->field_1C.field_0_seq_idx = vabId;
+                    pChannel->field_1C.field_1_program = program;
+                    pChannel->field_1C.field_2_note_byte1 = noteKeyNumber;
+                    pChannel->field_10_float = pow(1.059463094359, (double)(note - pVagIter->field_A_shift_cen) * 0.00390625);
+
+                    if (sMidi_WaitUntil_BD1CF0)
                     {
                         MIDI_Wait_4FCE50();
                     }
-                    leftVolumeb = v21;
+
                     SND_PlayEx_4EF740(
-                        &sSoundEntryTable16_BE6160.table[vabId][vagNum],
-                        v10,
-                        v11,
-                        leftVolumeb,
-                        v13,
-                        rightVolumea,
+                        &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
+                        panLeft,
+                        panRight,
+                        pChannel->field_10_float, // freq
+                        pChannel,
+                        playFlags,
                         pVagIter->field_E_priority);
+
                     if (program == 4 || program == 5 || program == 8 || program == 23 || program == 24 || program == 25)
                     {
                         sMidi_WaitUntil_BD1CF0 = timeGetTime() + 10;
                     }
-                    v24 |= 1 << v29;
+
+                    usedChannelBits |= (1 << midiChannel);
                 }
-                noteKeyNumber = (note >> 8) & 127;
             }
         }
-    LABEL_49:
-        pVagIter++;
-        if (!--k16ToneCounter)
-        {
-            return v24;
-        }
-        v7 = volume;
     }
-    return 0;
+    return usedChannelBits;
 }
 
 namespace Test
