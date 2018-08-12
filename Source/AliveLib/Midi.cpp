@@ -759,9 +759,97 @@ EXPORT void SND_Shutdown_4CA280()
     SND_SsQuit_4EFD50();
 }
 
-EXPORT void CC MIDI_4FDCE0()
+EXPORT void CC MIDI_ADSR_Update_4FDCE0()
 {
-    NOT_IMPLEMENTED();
+    for (int i=0; i<kNumChannels; i++)
+    {
+        MIDI_Struct1* pChannel = &sMidi_Channels_C14080.channels[i];
+        if (pChannel->field_1C.field_3)
+        {
+            signed int timeDiff1 = sMidiTime_BD1CEC - pChannel->field_14_time;
+            signed int timeDiff2 = sMidiTime_BD1CEC - pChannel->field_14_time;
+
+            if ((signed int)(sMidiTime_BD1CEC - pChannel->field_14_time) < 0)
+            {
+                timeDiff1 = 0;
+                timeDiff2 = 0;
+            }
+            
+            int timeDiffSquared = timeDiff1 * timeDiff1;
+            switch (pChannel->field_1C.field_3 + 1) // ADSR state ?
+            {
+            case 0:
+                if (timeDiff1 > 90000)
+                {
+                    MIDI_Stop_Channel_4FE010(static_cast<short>(i));
+                }
+                break;
+            case 2:
+                if (timeDiff1 >= pChannel->field_1C.field_4)
+                {
+                    pChannel->field_1C.field_3 = 2;
+                    pChannel->field_14_time += pChannel->field_1C.field_4;
+                    timeDiff1 -= pChannel->field_1C.field_4;
+                    // Fall through to case 3
+                }
+                else
+                {
+                    MIDI_Set_Volume_4FDE80(
+                        pChannel,
+                        (signed __int64)(((double)timeDiff2 / (double)pChannel->field_1C.field_4
+                            + (double)timeDiff2 / (double)pChannel->field_1C.field_4
+                            - (double)timeDiff2 / (double)pChannel->field_1C.field_4 * ((double)timeDiff2 / (double)pChannel->field_1C.field_4))
+                            * (double)pChannel->field_C));
+                    break;
+                }
+            case 3:
+                if (timeDiff1 < pChannel->field_1C.field_6)
+                {
+                    const int v8 = pChannel->field_C * (16 - pChannel->field_1C.field_8) >> 4;
+                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C - timeDiffSquared * v8 / (pChannel->field_1C.field_6 * pChannel->field_1C.field_6));
+                    break;
+                }
+                pChannel->field_1C.field_3 = 3;
+                pChannel->field_14_time += pChannel->field_1C.field_6;
+                timeDiff1 -= pChannel->field_1C.field_6;
+                if (MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C * pChannel->field_1C.field_8 >> 4))
+                {
+                    // Fall through to case 4
+                }
+                else
+                {
+                    break;
+                }
+            case 4:
+                if (timeDiff1 > 15000)
+                {
+                    pChannel->field_1C.field_3 = 4;
+                    pChannel->field_14_time = sMidiTime_BD1CEC;
+                    timeDiff1 = 0;
+                    timeDiffSquared = 0;
+                    pChannel->field_C = pChannel->field_8_left_vol;
+                    // Fall through to case 5
+                }
+                else
+                {
+                    break;
+                }
+            case 5:
+                if (timeDiff1 >= pChannel->field_1C.field_A)
+                {
+                    pChannel->field_1C.field_3 = 0;
+                    SND_Stop_Sample_At_Idx_4EFA90(pChannel->field_0_sound_buffer_field_4);
+                }
+                else
+                {
+                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C - timeDiffSquared * pChannel->field_C / (pChannel->field_1C.field_A * pChannel->field_1C.field_A));
+                }
+                break;
+            default:
+                break;
+            }
+        }
+    }
 }
 
 ALIVE_VAR(1, 0xbd1ce4, char, sbDisableSeqs_BD1CE4, 0);
@@ -1716,7 +1804,7 @@ EXPORT void CC MIDI_UpdatePlayer_4FDC80()
                     }
                 }
             }
-            MIDI_4FDCE0();
+            MIDI_ADSR_Update_4FDCE0();
         }
     }
 }

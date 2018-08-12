@@ -18,10 +18,10 @@ struct MIDI_Struct1_Sub
     unsigned __int8 field_1_program;
     unsigned __int8 field_2_note_byte1;
     char field_3;
-    __int16 field_4;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A;
+    unsigned __int16 field_4;
+    unsigned __int16 field_6;
+    unsigned __int16 field_8;
+    unsigned __int16 field_A;
     unsigned __int16 field_C;
     unsigned __int8 field_E;
     char field_F;
@@ -59,5 +59,6 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2
 EXPORT void CC MIDI_Stop_All_Channels_4FDFE0();
 EXPORT int CC MIDI_4CA1B0(int a1, int note, int leftVol, int rightVol);
 EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int leftVolume, int rightVolume, int volume);
+EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Struct1* pData, int vol);
 
 
