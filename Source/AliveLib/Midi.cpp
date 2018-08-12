@@ -543,7 +543,7 @@ EXPORT void CC MIDI_Stop_All_Channels_4FDFE0()
     while (idx >= 0);
 }
 
-int CC MIDI_4CA1B0(int a1, int note, int leftVol, int rightVol)
+int CC MIDI_4CA1B0(int /*a1*/, int /*note*/, int /*leftVol*/, int /*rightVol*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -1726,7 +1726,7 @@ EXPORT int CC MIDI_Invert_4FCA40(int /*not_used*/, int value)
     return 127 - value;
 }
 
-EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int not_used, int priority)
+EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int /*not_used*/, int priority)
 {
     int lowestEndTime = -999999;
     unsigned int timeMod24 = sMidiTime_BD1CEC % 24;
@@ -1771,10 +1771,11 @@ EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int not_used, int priority)
 
 EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int leftVolume, int rightVolume, int volume)
 {
-    int v26 = leftVolume;
     const int noteKeyNumber = (note >> 8) & 127;
-    int v25 = rightVolume;
-    int usedChannelBits = 0;
+    int leftVol2 = leftVolume;
+    int rightVol2 = rightVolume;
+
+    // TODO: Logic seems wrong even in OG - also is this actually panning ??
     if (leftVolume)
     {
         if (leftVolume < 0)
@@ -1802,15 +1803,18 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
         return 0;
     }
 
+    int usedChannelBits = 0;
     for (int i = 0; i < 16; i++)
     {
         Converted_Vag* pVagIter = &sConvertedVagTable_BEF160.table[vabId][program][i];
         if (pVagIter->field_D_vol > 0 && pVagIter->field_8_min <= noteKeyNumber && noteKeyNumber <= pVagIter->field_9_max)
         {
             const int vagVol = pVagIter->field_D_vol;
-            int panLeft = volume * v26 * vagVol * (unsigned __int16)sGlobalVolumeLevel_left_BD1CDC >> 21;
-            int panRight = volume * v25 * vagVol * (unsigned __int16)sGlobalVolumeLevel_right_BD1CDE >> 21;
+            int panLeft = (volume * leftVol2 * vagVol * sGlobalVolumeLevel_left_BD1CDC) >> 21;
+            int panRight = (volume * rightVol2 * vagVol * sGlobalVolumeLevel_right_BD1CDE) >> 21;
             const unsigned int playFlags = (((unsigned int)pVagIter->field_C) >> 2) & 1;
+            
+            // TODO: Logic seems wrong even in OG
             if (panLeft)
             {
                 if (panLeft < 0)
@@ -1822,35 +1826,39 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
             {
                 continue;
             }
+
             if (panRight >= 0)
             {
                 if ((((unsigned int)pVagIter->field_C >> 2)) & 1)
                 {
+                    // Clamp pans
                     if (panLeft > 90)
                     {
                         panLeft = 90;
                     }
+
                     if (panRight > 90)
                     {
                         panRight = 90;
                     }
                 }
-                int leftVolumea = panRight;
+                int maxPan = panRight;
                 if (panLeft >= panRight)
                 {
-                    leftVolumea = panLeft;
+                    maxPan = panLeft;
                 }
-                const int midiChannel = MIDI_Allocate_Channel_4FCA50(leftVolumea, pVagIter->field_E_priority);
+                const int midiChannel = MIDI_Allocate_Channel_4FCA50(maxPan, pVagIter->field_E_priority);
                 if (midiChannel >= 0)
                 {
                     MIDI_Struct1* pChannel = &sMidi_Channels_C14080.channels[midiChannel];
-                    const BOOL v15 = pVagIter->field_0_adsr1 || pVagIter->field_2_adsr || pVagIter->field_4_adsr != 16 || pVagIter->field_6_adsr >= 33u;
-                    pChannel->field_C = leftVolumea;
-                    if (v15)
+                    const BOOL bUnknown = pVagIter->field_0_adsr1 || pVagIter->field_2_adsr || pVagIter->field_4_adsr != 16 || pVagIter->field_6_adsr >= 33u;
+                    pChannel->field_C = maxPan;
+                    if (bUnknown)
                     {
-                        const __int16 v16 = pVagIter->field_0_adsr1 * (127 - volume);
+                        const __int16 adsrValue = static_cast<short>(pVagIter->field_0_adsr1 * (127 - volume));
+                        pChannel->field_1C.field_4 = adsrValue >> 6;
+
                         pChannel->field_1C.field_3 = 1;
-                        pChannel->field_1C.field_4 = v16 >> 6;
                         pChannel->field_1C.field_6 = pVagIter->field_2_adsr;
                         pChannel->field_1C.field_8 = pVagIter->field_4_adsr;
                         pChannel->field_1C.field_A = pVagIter->field_6_adsr;
@@ -1858,9 +1866,9 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         if (pChannel->field_1C.field_4)
                         {
                             panLeft = 2;
-                            leftVolumea = 2;
-                            v25 = 2;
-                            v26 = 2;
+                            maxPan = 2;
+                            rightVol2 = 2;
+                            leftVol2 = 2;
                             panRight = 2;
                         }
 
@@ -1874,14 +1882,14 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         pChannel->field_1C.field_3 = -2;
                     }
 
-                    pChannel->field_8_left_vol = leftVolumea;
+                    pChannel->field_8_left_vol = maxPan;
                     pChannel->field_4 = pVagIter->field_E_priority;
                     pChannel->field_18_rightVol = playFlags;
                     pChannel->field_14_time = sMidiTime_BD1CEC;
-                    pChannel->field_1C.field_0_seq_idx = vabId;
-                    pChannel->field_1C.field_1_program = program;
-                    pChannel->field_1C.field_2_note_byte1 = noteKeyNumber;
-                    pChannel->field_10_float = pow(1.059463094359, (double)(note - pVagIter->field_A_shift_cen) * 0.00390625);
+                    pChannel->field_1C.field_0_seq_idx = static_cast<unsigned char>(vabId);
+                    pChannel->field_1C.field_1_program = static_cast<unsigned char>(program);
+                    pChannel->field_1C.field_2_note_byte1 = static_cast<unsigned char>(noteKeyNumber);
+                    pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)(note - pVagIter->field_A_shift_cen) * 0.00390625));
 
                     if (sMidi_WaitUntil_BD1CF0)
                     {
