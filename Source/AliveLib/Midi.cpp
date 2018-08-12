@@ -65,6 +65,11 @@ EXPORT void CC SND_Set_VSyncCallback_4F8C40(void*)
     // Stub
 }
 
+EXPORT void SsVabTransCompleted_4FE060(int)
+{
+    // Stub
+}
+
 struct MIDI_3_Bytes
 {
     char field_0;
@@ -1369,6 +1374,8 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
 
     // Load actual sample data
     SND_LoadSoundDat_4FC840(reinterpret_cast<VabBodyRecord*>(*ppVabBody), static_cast<short>(pSoundBlockInfo->field_8_vab_id));
+    
+    SsVabTransCompleted_4FE060(1); // SS_WAIT_COMPLETED
 
     // Now the sound samples are loaded we don't need the VB data anymore
     ResourceManager::FreeResource_49C330(ppVabBody);
