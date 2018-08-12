@@ -57,7 +57,7 @@ EXPORT void CC SND_Load_Seqs_4CAED0(SeqDataRecord* pSeqTable, const char* bsqFil
 EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx);
 EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2, __int16 bDontStop);
 EXPORT void CC MIDI_Stop_All_Channels_4FDFE0();
-EXPORT int CC MIDI_4CA1B0(int a1, int note, int leftVol, int rightVol);
+EXPORT int CC MIDI_Play_Single_Note_4CA1B0(int vabIdAndProgram, int note, int leftVol, int rightVol);
 EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int leftVolume, int rightVolume, int volume);
 EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Struct1* pData, int vol);
 

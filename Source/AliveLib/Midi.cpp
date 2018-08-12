@@ -548,9 +548,63 @@ EXPORT void CC MIDI_Stop_All_Channels_4FDFE0()
     while (idx >= 0);
 }
 
-int CC MIDI_4CA1B0(int /*a1*/, int /*note*/, int /*leftVol*/, int /*rightVol*/)
+EXPORT int CC MIDI_Stop_Existing_Single_Note_4FCFF0(int VabIdAndProgram, int note)
 {
-    NOT_IMPLEMENTED();
+    const int vabId = (VabIdAndProgram >> 8) & 31;
+    if (!sVagCounts_BE6144[vabId])
+    {
+        return 0;
+    }
+
+    short i = 0;
+    for (i = 0; i < kNumChannels; i++)
+    {
+        MIDI_Struct1* pChannel = &sMidi_Channels_C14080.channels[i];
+        MIDI_Struct1_Sub* pSub = &pChannel->field_1C;
+        if (pSub->field_3
+            && pSub->field_0_seq_idx == vabId
+            && pSub->field_1_program == (VabIdAndProgram & 127)
+            && pSub->field_2_note_byte1 == ((note >> 8) & 127))
+        {
+            MIDI_Stop_Channel_4FE010(i);
+            return 0;
+        }
+    }
+    
+    MIDI_Stop_Channel_4FE010(i);
+    return 0;
+}
+
+ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, TRUE);
+
+EXPORT int CC MIDI_Play_Single_Note_Impl_4FCF10(int vabIdAndProgram, int note, unsigned __int16 leftVol, unsigned __int16 rightVol)
+{
+    MIDI_Stop_Existing_Single_Note_4FCFF0(vabIdAndProgram & 127 | (((vabIdAndProgram >> 8) & 31) << 8), note);
+    
+    if (sSoundDatIsNull_BD1CE8)
+    {
+        return 0;
+    }
+
+    const int channelBits = MIDI_PlayMidiNote_4FCB30((vabIdAndProgram >> 8) & 31, vabIdAndProgram & 127, note, leftVol, rightVol, 96);
+
+    for (int idx = 0; idx < kNumChannels; idx++)
+    {
+        MIDI_Struct1* pChannel = &sMidi_Channels_C14080.channels[idx];
+        if ((1 << idx) & channelBits)
+        {
+            pChannel->field_1C.field_C = 0xFFFF; // or both -1, but they appear to be unsigned ??
+            pChannel->field_1C.field_E = 0xFF;
+        }
+    }
+
+    return channelBits;
+}
+
+EXPORT int CC MIDI_Play_Single_Note_4CA1B0(int vabIdAndProgram, int note, int leftVol, int rightVol)
+{
+    // NOTE: word_BB2E40 is used as a guard here, but it is never read anywhere else
+    return MIDI_Play_Single_Note_Impl_4FCF10(vabIdAndProgram, note, static_cast<unsigned short>(leftVol), static_cast<unsigned short>(rightVol));
 }
 
 EXPORT void CC MIDI_Stop_None_Ended_Seq_4FD8D0(__int16 idx)
@@ -1170,7 +1224,6 @@ struct VabBodyRecord
 };
 
 ALIVE_VAR(1, 0xbd1ce0, FILE *, sSoundDatFileHandle_BD1CE0, nullptr);
-ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, TRUE);
 
 // TODO: Reverse/refactor properly
 EXPORT DWORD *__cdecl SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)

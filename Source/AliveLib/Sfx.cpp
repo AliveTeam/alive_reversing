@@ -5,7 +5,7 @@
 #include "Midi.hpp"
 #include "PathData.hpp"
 
-ALIVE_VAR(1, 0x560f58, bool, sSFXPitchVariationEnabled_560F58, true);
+ALIVE_VAR(1, 0x560f58, __int16, sSFXPitchVariationEnabled_560F58, true);
 
 ALIVE_ARY(1, 0x55C2A0, SfxDefinition, 146, sSfxEntries_55C2A0, {
     { 0u, 0u, 66u, 75u, 0, 0 },
@@ -163,7 +163,7 @@ int CC SFX_SfxDefinition_Play_4CA420(SfxDefinition *sfxDef, __int16 volume, __in
         volume = 127;
     }
 
-    auto midiHandle = MIDI_4CA1B0(
+    auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
         sfxDef->field_1_program | (sLastLoadedSoundBlockInfo_BB2E34[sfxDef->field_0_block_idx].field_8_vab_id << 8),
         sfxDef->field_2_note << 8,
         volume,
@@ -212,7 +212,7 @@ int CC SFX_SfxDefinition_Play_4CA700(SfxDefinition *sfxDef, __int16 volLeft, __i
         volRight = 127;
     }
 
-    auto midiHandle = MIDI_4CA1B0(
+    auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
         sfxDef->field_1_program | (sLastLoadedSoundBlockInfo_BB2E34[sfxDef->field_0_block_idx].field_8_vab_id << 8),
         sfxDef->field_2_note << 8,
         volLeft,
