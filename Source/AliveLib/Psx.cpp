@@ -312,7 +312,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                     */
                     break;
                 case 130: // 0x82 Prim_ScreenOffset
-                    LOG_WARNING("130");
+                    //LOG_WARNING("130");
                     /*
                     if (dword_55EF94)
                     {
@@ -465,7 +465,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                     }
                     else if ((v5 & 0x40) == 64) // 0x40
                     {
-                        LOG_WARNING("64");
+                        //LOG_WARNING("64");
                         //PSX_4F7D90(v1, v2, v16);
                     }
                     else if ((v5 & 0x20) == 32) // 0x20

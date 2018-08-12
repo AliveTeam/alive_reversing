@@ -42,13 +42,12 @@ struct MIDI_Struct1
 ALIVE_ASSERT_SIZEOF(MIDI_Struct1, 0x2C);
 
 
-ALIVE_VAR_EXTERN(SoundBlockInfo *, sLastLoadedSoundBlockInfo_BB2E34);
+ALIVE_VAR_EXTERN(SoundBlockInfo*, sLastLoadedSoundBlockInfo_BB2E34);
 
 EXPORT void CC MIDI_UpdatePlayer_4FDC80();
 EXPORT void CC SEQ_4CB060();
 EXPORT void CC SND_Init_4CA1F0();
 EXPORT void CC SND_Shutdown_4CA280();
-
 EXPORT void CC SND_SsVabClose_4FC5B0(int vabId);
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask);
 EXPORT int CC SND_4CA5D0(int a1, int a2, int a3, __int16 vol, __int16 min, __int16 max);
@@ -58,5 +57,7 @@ EXPORT void CC SND_Load_Seqs_4CAED0(SeqDataRecord* pSeqTable, const char* bsqFil
 EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx);
 EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2, __int16 bDontStop);
 EXPORT void CC MIDI_Stop_All_Channels_4FDFE0();
-
 EXPORT int CC MIDI_4CA1B0(int a1, int note, int leftVol, int rightVol);
+EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int leftVolume, int rightVolume, int volume);
+
+
