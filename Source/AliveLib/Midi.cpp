@@ -1471,12 +1471,6 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb)
     }
 }
 
-EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 /*a1*/, __int16 /*a2*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Struct1* pData, int vol)
 {
     if (pData->field_8_left_vol == vol)
@@ -2064,6 +2058,27 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
         }
     }
     return usedChannelBits;
+}
+
+EXPORT __int16 CC MIDI_Set_Freq_4FDF70(__int16 idx, int /*program*/, int /*vabId*/, __int16 noteLo, __int16 kZero, __int16 noteHigh, __int16 a7)
+{
+    const float freq = pow(1.059463094359f, (float)(a7 + ((noteHigh - (signed int)noteLo) << 7) - kZero) * 0.0078125f);
+    SND_Buffer_Set_Frequency_4EFC90(sMidi_Channels_C14080.channels[idx].field_0_sound_buffer_field_4, freq);
+    return 0;
+}
+
+EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 field4_match, __int16 pitch)
+{
+    const float pitcha = pow(1.059463094359f, (float)pitch * 0.0078125f);
+    for (int i = 0; i < kNumChannels; i++)
+    {
+        if (sMidi_Channels_C14080.channels[i].field_1C.field_1_program == field4_match)
+        {
+            const float freq = pitcha * sMidi_Channels_C14080.channels[i].field_10_float;
+            SND_Buffer_Set_Frequency_4EFC00(sMidi_Channels_C14080.channels[i].field_C, freq);
+        }
+    }
+    return 0;
 }
 
 namespace Test

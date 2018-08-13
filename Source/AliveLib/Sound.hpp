@@ -17,6 +17,8 @@ EXPORT void CC SND_Restart_4CB0E0();
 EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx);
 EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx);
 EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol);
+EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq);
+EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq);
 
 struct MIDI_Struct1;
 EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority);
