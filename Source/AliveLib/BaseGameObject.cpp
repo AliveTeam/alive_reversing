@@ -73,7 +73,7 @@ void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed
     }
 
     field_C_objectId = sAccumulatedObjectCount_5C1BF4;
-    field_8_flags_ex = sAccumulatedObjectCount_5C1BF4;
+    field_8_object_id = sAccumulatedObjectCount_5C1BF4;
     const int nextId = sAccumulatedObjectCount_5C1BF4++;
     sObjectIds_5C1B70.Insert_449C10(nextId, this);
 }
@@ -91,7 +91,7 @@ EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
         }
     }
 
-    sObjectIds_5C1B70.Remove_449C60(field_8_flags_ex);
+    sObjectIds_5C1B70.Remove_449C60(field_8_object_id);
 
     field_10_resources_array.dtor_40CAD0();
 }

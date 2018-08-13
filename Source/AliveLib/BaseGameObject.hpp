@@ -81,7 +81,7 @@ public:
 public:
     Types field_4_typeId;
     __int16 field_6_flags;
-    int field_8_flags_ex;
+    int field_8_object_id;
     int field_C_objectId;
     DynamicArrayT<BYTE*> field_10_resources_array;
     int field_1C_update_delay;

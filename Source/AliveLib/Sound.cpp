@@ -869,7 +869,7 @@ EXPORT void CC Start_Sounds_For_Objects_In_Near_Cameras_4CBB60()
 
 EXPORT void CC SND_Restart_4CB0E0()
 {
-    MusicController::sub_47FE10(1);
+    MusicController::EnableMusic_47FE10(TRUE);
     BackgroundMusic::Play_4CB030();
     Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
 }
