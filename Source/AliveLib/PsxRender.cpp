@@ -436,8 +436,89 @@ EXPORT void CC PSX_TPage_Change_4F6430(unsigned __int16 tPage)
     }
 }
 
+EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PSX_RECT* pRect2, PSX_RECT* pOverlapRect, int* pOverlapX, int* pOverlapY)
+{
+    NOT_IMPLEMENTED();
+
+    __int16 rect1_x; // dx
+    __int16 rect2_x; // si
+    int rect1_right; // ecx
+    int rect2_right; // eax
+    __int16 v10; // ax
+    __int16 v11; // di
+    __int16 v12; // dx
+    int v13; // eax
+    __int16 v14; // ax
+
+    if (!PSX_Rects_overlap_4FA0B0(pRect1, pRect2))
+    {
+        return false;
+    }
+
+    rect1_x = pRect1->x;
+    rect2_x = pRect2->x;
+    rect1_right = pRect1->x + pRect1->w;
+    rect2_right = pRect2->x + pRect2->w;
+
+    short t1 = rect2_x;
+    if (rect2_right > rect1_right)
+    {
+        t1 = rect1_right;
+    }
+    v10 = t1 - rect2_x;
+    pOverlapRect->w = v10;
+    if (rect2_x >= rect1_x)
+    {
+        pOverlapRect->x = rect2_x;
+    }
+    else
+    {
+        pOverlapRect->x = rect1_x;
+        pOverlapRect->w = rect2_x + v10 - rect1_x;
+        *pOverlapX += rect1_x - rect2_x;
+    }
+    v11 = pRect2->y;
+    v12 = pRect1->y;
+    v13 = v11 + pRect2->h;
+
+    int t2 = v13;
+    if (v13 > v12 + pRect1->h)
+    {
+        t2 = v12 + pRect1->h;
+    }
+    v14 = t2 - v11;
+    pOverlapRect->h = v14;
+    if (v11 >= v12)
+    {
+        pOverlapRect->y = v11;
+    }
+    else
+    {
+        pOverlapRect->y = v12;
+        pOverlapRect->h = v11 + v14 - v12;
+        *pOverlapY += v12 - v11;
+    }
+
+    return true;
+}
+
+
+
 namespace Test
 {
+    static void Test_PSX_Rects_intersect_point_4FA100()
+    {
+        PSX_RECT r1 = { 0,0, 300, 150 };
+        PSX_RECT r2 = { 10, 10, 50, 200 };
+        PSX_RECT ro = {};
+        int px = 0;
+        int py = 0;
+        ASSERT_EQ(1, PSX_Rects_intersect_point_4FA100(&r1, &r2, &ro, &px, &py));
+
+        ASSERT_EQ(px, 0);
+
+    }
+
     static void Test_PSX_TPage_Change_4F6430()
     {
         sActiveTPage_578318 = 0;
@@ -463,5 +544,6 @@ namespace Test
     void PsxRenderTests()
     {
         Test_PSX_TPage_Change_4F6430();
+        Test_PSX_Rects_intersect_point_4FA100();
     }
 }
