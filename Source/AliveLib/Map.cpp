@@ -15,6 +15,7 @@
 #include "stdlib.hpp"
 #include "Path.hpp"
 #include "QuikSave.hpp"
+#include "Sfx.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }

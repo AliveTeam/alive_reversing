@@ -132,9 +132,81 @@ ALIVE_ARY(1, 0x55C2A0, SfxDefinition, 146, sSfxEntries_55C2A0, {
     { 0u, 6u, 64u, 127u, 0, 0 }
 });
 
-EXPORT void CC SFX_SetPitch_4CA510(SfxDefinition *sfxEntry, int a2, __int16 pitch)
+EXPORT void CC SFX_SetPitch_4CA510(SfxDefinition* pSfx, int channelsBits, __int16 pitch)
 {
-    NOT_IMPLEMENTED();
+    int v3 = 0;
+    __int16 v4 = 0;
+
+    if (pitch >= 0)
+    {
+        v3 = (pitch >> 7) & 0xFFFF;
+        v4 = pitch & 127;
+    }
+    else
+    {
+        v3 = -1 - (-pitch >> 7);
+        v4 = 127 - (-(char)pitch & 127);
+    }
+
+    for (short i=0; i<24; i++) // TODO: use kNumChannels
+    {
+        if ((1 << i) & channelsBits)
+        {
+            const short vabId = 0; // Not used by target func
+            const short program = 0; // Not used by target func
+            MIDI_Set_Freq_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<int>(pSfx->field_2_note) + v3, v4);
+        }
+    }
+}
+
+EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 min, __int16 max)
+{
+    int volClamped = 0;
+    if (vol < 10)
+    {
+        volClamped = 10;
+    }
+    else
+    {
+        volClamped = vol;
+        if (vol >= 127)
+        {
+            volClamped = 127;
+        }
+    }
+
+    const int channelBits = MIDI_Play_Single_Note_4CA1B0(vabId | ((signed __int16)program << 8), note << 8, volClamped, volClamped);
+    if (!sSFXPitchVariationEnabled_560F58)
+    {
+        return 0;
+    }
+
+    if (min || max)
+    {
+        __int16 randomValue = Math_RandomRange_496AB0(min, max);
+
+        int v9; // edi
+        __int16 v10; // bx
+        if (randomValue >= 0)
+        {
+            v9 = (randomValue >> 7) & 0xFFFF;
+            v10 = randomValue & 127;
+        }
+        else
+        {
+            v9 = -1 - (-randomValue >> 7);
+            v10 = 127 - (-(char)randomValue & 127);
+        }
+
+        for (int i = 0; i < 24; i++) // TODO: Use kNumChannels
+        {
+            if ((1 << i) & channelBits)
+            {
+                MIDI_Set_Freq_4FDF70(i, program, vabId, note, 0, v9 + note, v10);
+            }
+        }
+    }
+    return channelBits;
 }
 
 int CC SFX_SfxDefinition_Play_4CA420(SfxDefinition *sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max)

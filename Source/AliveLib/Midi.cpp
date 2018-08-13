@@ -1064,12 +1064,6 @@ EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
     }
 }
 
-EXPORT int CC SND_4CA5D0(int /*a1*/, int /*a2*/, int /*a3*/, __int16 /*vol*/, __int16 /*min*/, __int16 /*max*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight)
 {
     SeqDataRecord& rec = sSeqDataTable_BB2E38[idx];
