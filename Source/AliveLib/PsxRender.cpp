@@ -3,6 +3,8 @@
 #include "Function.hpp"
 #include "Psx.hpp"
 #include "Midi.hpp"
+#include "Primitives.hpp"
+#include <gmock/gmock.h>
 
 using TPsxDraw = std::add_pointer<int(__cdecl)(DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD)>::type;
 
@@ -65,11 +67,6 @@ EXPORT signed int __cdecl PSX_OT_Idx_From_Ptr_4F6A40(unsigned int /*ot*/)
 
 
 EXPORT void __cdecl PSX_4F6A70(void* /*a1*/, WORD* /*a2*/, unsigned __int8* /*a3*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC PSX_TPage_Change_4F6430(unsigned __int16 /*tPage*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -402,10 +399,69 @@ EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigne
     } while (counter);
 }
 
+ALIVE_VAR(1, 0x578318, WORD, sActiveTPage_578318, 0xFFFF);
+ALIVE_VAR(1, 0xbd0f0c, DWORD, sTexture_page_x_BD0F0C, 0);
+ALIVE_VAR(1, 0xbd0f10, DWORD, sTexture_page_y_BD0F10, 0);
+ALIVE_VAR(1, 0xbd0f14, DWORD, sTexture_page_idx_BD0F14, 0);
+ALIVE_VAR(1, 0x57831c, DWORD, dword_57831C, 10);
+ALIVE_VAR(1, 0xBD0F18, DWORD, sTexture_page_abr_BD0F18, 0);
+ALIVE_VAR(1, 0xbd0f1c, WORD *, sTPage_src_ptr_BD0F1C, nullptr);
+
+
+EXPORT void CC PSX_TPage_Change_4F6430(unsigned __int16 tPage)
+{
+    if (sActiveTPage_578318 != tPage)
+    {
+        sActiveTPage_578318 = tPage;
+
+        // NOTE: Branch guarded by PSX_Ret_0_4F60D0 removed
+
+        // Extract parts of the tpage
+        sTexture_page_x_BD0F0C = (tPage & 0xF) << 6;
+        sTexture_page_y_BD0F10 = 16 * (tPage & 0x10) + (((unsigned int)tPage >> 2) & 0x200);
+
+        sTexture_page_idx_BD0F14 = ((unsigned int)tPage >> 7) & 3;
+        sTexture_page_abr_BD0F18 = ((unsigned int)tPage >> 5) & 3;
+
+        // TODO: Figure out why page 3 is forced to 2
+        if (sTexture_page_idx_BD0F14 == 3)
+        {
+            sTexture_page_idx_BD0F14 = 2;
+        }
+
+        // NOTE: Branch guarded by dword_BD2250[tPage & 31] removed as it is never written
+
+        dword_57831C = 10;
+        sTPage_src_ptr_BD0F1C = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + (sTexture_page_x_BD0F0C + (sTexture_page_y_BD0F10 * 1024));
+    }
+}
+
 namespace Test
 {
+    static void Test_PSX_TPage_Change_4F6430()
+    {
+        sActiveTPage_578318 = 0;
+        sTexture_page_x_BD0F0C = 0;
+        sTexture_page_y_BD0F10 = 0;
+        sTexture_page_idx_BD0F14 = 0;
+        dword_57831C = 0;
+
+        for (DWORD i = 0; i < 3; i++)
+        {
+            DWORD tpage = PSX_getTPage_4F60E0(static_cast<char>(i), static_cast<char>(3 - i), 64 * i, (i == 0u) ? 0u : 256u);
+            PSX_TPage_Change_4F6430(static_cast<short>(tpage));
+
+            ASSERT_EQ(sActiveTPage_578318, tpage);
+            ASSERT_EQ(sTexture_page_x_BD0F0C, 64u * i);
+            ASSERT_EQ(sTexture_page_y_BD0F10, (i == 0) ? 0u : 256u);
+            ASSERT_EQ(sTexture_page_idx_BD0F14, i);
+            ASSERT_EQ(sTexture_page_abr_BD0F18, 3 - i);
+            ASSERT_EQ(dword_57831C, 10u);
+        }
+    }
+
     void PsxRenderTests()
     {
-
+        Test_PSX_TPage_Change_4F6430();
     }
 }
