@@ -547,7 +547,7 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
 
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
 {
-    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 512];
+    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
     IDirectSoundBuffer* pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
 
     if (!pDSoundBuffer || ((idx ^ pSoundBuffer->field_4) & ~511)) // TODO: Refactor
