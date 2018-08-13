@@ -10,6 +10,7 @@
 #include <gmock/gmock.h>
 #include "VRam.hpp"
 #include "DebugHelpers.hpp"
+#include "PsxRender.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
@@ -20,7 +21,7 @@ EXPORT void CC sub_4945D0()
 }
 
 // TODO: Probably not font related at all?
-EXPORT int __cdecl Fnt_4955F0(__int16 a1, __int16 a2, __int16 a3, __int16 a4)
+EXPORT int __cdecl Fnt_4955F0(__int16 /*a1*/, __int16 /*a2*/, __int16 /*a3*/, __int16 /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;

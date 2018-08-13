@@ -21,6 +21,8 @@ add_library(AliveLib
     Error.hpp
     Psx.cpp
     Psx.hpp
+    PsxRender.cpp
+    PsxRender.hpp
     Math.cpp
     Math.hpp
     Midi.cpp
