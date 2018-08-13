@@ -64,23 +64,23 @@ EXPORT signed int __cdecl PSX_OT_Idx_From_Ptr_4F6A40(unsigned int /*ot*/)
 }
 
 
-EXPORT void __cdecl PSX_4F6A70(void *a1, WORD *a2, unsigned __int8 *a3)
+EXPORT void __cdecl PSX_4F6A70(void* /*a1*/, WORD* /*a2*/, unsigned __int8* /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_4F6430(unsigned __int16 a1)
+EXPORT void CC PSX_TPage_Change_4F6430(unsigned __int16 /*tPage*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT unsigned __int8 *__cdecl PSX_4F7110(int a1, int a2, int a3)
+EXPORT unsigned __int8 *__cdecl PSX_4F7110(int /*a1*/, int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-EXPORT void __cdecl PSX_4F7960(int a1, int a2, int a3)
+EXPORT void __cdecl PSX_4F7960(int /*a1*/, int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -126,7 +126,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                     PSX_4F6A70(0, (WORD *)v1 + 6, (unsigned __int8 *)v1);
                     break;
                 case 128: // 0x80 = change tpage?
-                    PSX_4F6430(*((WORD *)v1 + 6));
+                    PSX_TPage_Change_4F6430(*((WORD *)v1 + 6));
                     break;
                 case 129: // 0x81 Init_PrimClipper_4F5B80
                     LOG_WARNING("129");
@@ -185,7 +185,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                     int v25 = 0;
                     int v26 = 0;
 
-                    int v9 = dword_C2D03C++ + 1;
+                   // int v9 = dword_C2D03C++ + 1;
                     if ((v5 & 0x60) == 96)
                     {
                         //LOBYTE(itemToDrawType) = itemToDrawType & 0xFC;
@@ -400,4 +400,12 @@ EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigne
         offset += 16;
         --counter;
     } while (counter);
+}
+
+namespace Test
+{
+    void PsxRenderTests()
+    {
+
+    }
 }
