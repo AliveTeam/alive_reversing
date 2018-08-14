@@ -338,7 +338,7 @@ EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
         __int16 drawEnv_of0 = 0;
         __int16 drawEnv_of1 = 0;
 
-        if (byte_BD1464)
+        if (bDontUseXYOffsetInRender_BD1464)
         {
             if (!BMP_Lock_4F1FF0(&stru_C1D1A0))
             {
@@ -365,7 +365,7 @@ EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
             return;
         }
 
-        if (byte_BD1464)
+        if (bDontUseXYOffsetInRender_BD1464)
         {
             BMP_unlock_4F2100(&stru_C1D1A0);
         }
@@ -377,26 +377,6 @@ EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
         }
         return;
     }
-}
-
-EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigned int amount)
-{
-    NOT_IMPLEMENTED();
-
-    int offset; // eax
-    unsigned int counter; // ecx
-    double v5; // st7
-
-    offset = 0;
-    counter = amount >> 4;                        // div 16 ?
-    do
-    {
-        v5 = (double)*(signed __int64 *)&pSrc[offset + 8];
-        *(__int64 *)&pVram[offset] = (signed __int64)(double)*(signed __int64 *)&pSrc[offset];
-        *(__int64 *)&pVram[offset + 8] = (signed __int64)v5;
-        offset += 16;
-        --counter;
-    } while (counter);
 }
 
 ALIVE_VAR(1, 0x578318, WORD, sActiveTPage_578318, 0xFFFF);
@@ -502,7 +482,77 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PS
     return true;
 }
 
+EXPORT void CC PSX_EMU_Render_TPage_0_51F0E0(PSX_RECT* /*a1*/, int /*a2*/, int /*a3*/, unsigned __int8 /*a4*/, unsigned __int8 /*a5*/, unsigned __int8 /*a6*/, unsigned __int16 /*a7*/, __int16* /*a8*/)
+{
+    NOT_IMPLEMENTED();
+}
 
+EXPORT void CC PSX_EMU_Render_TPage_1_51F660(PSX_RECT* /*pRect*/, int /*tpagex_off*/, int /*tpagey_off*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, unsigned __int16 /*a7*/, char /*a8*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigned int amount)
+{
+    NOT_IMPLEMENTED();
+
+    int offset; // eax
+    unsigned int counter; // ecx
+    double v5; // st7
+
+    offset = 0;
+    counter = amount >> 4;                        // div 16 ?
+    do
+    {
+        v5 = (double)*(signed __int64 *)&pSrc[offset + 8];
+        *(__int64 *)&pVram[offset] = (signed __int64)(double)*(signed __int64 *)&pSrc[offset];
+        *(__int64 *)&pVram[offset + 8] = (signed __int64)v5;
+        offset += 16;
+        --counter;
+    } while (counter);
+}
+
+EXPORT void CC PSX_EMU_Render_TPage_2_51FA30(PSX_RECT* /*pRect*/, int /*tpageX*/, int /*tpageY*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, int /*a7*/, char /*a8*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int minX, int minY, int r, int g, int b, __int16 w, __int16 h, int a10, int a11)
+{
+    // Get the screen rect
+    PSX_RECT screenRect  = {};
+    if (bDontUseXYOffsetInRender_BD1464)
+    {
+        screenRect.y = 0;
+        screenRect.x = 0;
+        screenRect.w = sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w;
+        screenRect.h = sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h;
+    }
+    else
+    {
+        screenRect = sPSX_EMU_DrawEnvState_C3D080.field_0_clip;
+    }
+
+    // Check for overlap
+    const PSX_RECT toRenderRect = { x , y, w, h };
+    PSX_RECT overlapRect = {};
+    if (PSX_Rects_intersect_point_4FA100(&screenRect, &toRenderRect, &overlapRect, &minX, &minY))
+    {
+        // Render
+        if (sTexture_page_idx_BD0F14 == 0)
+        {
+            PSX_EMU_Render_TPage_0_51F0E0(&overlapRect, minX, minY, r, g, b, a10, (__int16 *)a11);
+        }
+        else if (sTexture_page_idx_BD0F14 == 1)
+        {
+            PSX_EMU_Render_TPage_1_51F660(&overlapRect, minX, minY, r, g, b, a10, a11);
+        }
+        else if (sTexture_page_idx_BD0F14 == 2)
+        {
+            PSX_EMU_Render_TPage_2_51FA30(&overlapRect, minX, minY, r, g, b, a10, a11);
+        }
+    }
+}
 
 namespace Test
 {

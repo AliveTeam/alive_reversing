@@ -21,7 +21,7 @@ ALIVE_VAR(1, 0xBD0F24, int, sLastFrameTimestampMilliseconds_BD0F24, 0);
 
 ALIVE_VAR(1, 0xC3D080, PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080, {});
 ALIVE_VAR(1, 0x578E88, int, sConst_1000_578E88, 1000);
-ALIVE_VAR(1, 0xBD1464, BYTE, byte_BD1464, 0);
+ALIVE_VAR(1, 0xBD1464, BYTE, bDontUseXYOffsetInRender_BD1464, 0);
 
 ALIVE_VAR(1, 0xBDCD40, int, sPsx_drawenv_clipx_BDCD40, 0);
 ALIVE_VAR(1, 0xBDCD44, int, sPsx_drawenv_clipy_BDCD44, 0);
@@ -391,7 +391,7 @@ EXPORT int CC PSX_EMU_VideoAlloc_4F9D70()
             }
         }
 
-        byte_BD1464 = 0;
+        bDontUseXYOffsetInRender_BD1464 = 0;
         sbBitmapsAllocated_BD145C = 1;
     }
 
@@ -445,10 +445,10 @@ EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
     if (sbBitmapsAllocated_BD145C)
     {
         Bmp_Free_4F1950(&sPsxVram_C1D160);
-        if (byte_BD1464)
+        if (bDontUseXYOffsetInRender_BD1464)
         {
             Bmp_Free_4F1950(&stru_C1D1A0);
-            byte_BD1464 = 0;
+            bDontUseXYOffsetInRender_BD1464 = 0;
         }
         sbBitmapsAllocated_BD145C = false;
     }
@@ -481,7 +481,7 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
 
         Bitmap* pBmp = nullptr;
         RECT rect = {};
-        if (byte_BD1464)
+        if (bDontUseXYOffsetInRender_BD1464)
         {
             rect.top = 0;
             rect.left = 0;
@@ -723,7 +723,7 @@ EXPORT void CC PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     if (pDrawEnv)
     {
         memcpy(&sPSX_EMU_DrawEnvState_C3D080, pDrawEnv, sizeof(sPSX_EMU_DrawEnvState_C3D080));
-        if (byte_BD1464)
+        if (bDontUseXYOffsetInRender_BD1464)
         {
             PSX_SetDrawEnv_Impl_4FE420(
                 0,
