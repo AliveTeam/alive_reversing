@@ -315,13 +315,6 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, c
     return 0;
 }
 
-EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
-{
-    NOT_IMPLEMENTED();
-
-    sVGA_DisplayType_BD1468 = dispType;
-}
-
 EXPORT int CC PSX_ResetCallBack_4FAA20()
 {
     return 0;

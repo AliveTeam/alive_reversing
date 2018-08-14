@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 #include <gmock/gmock.h>
 
-using TPsxDraw = std::add_pointer<int(__cdecl)(DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD)>::type;
+using TPsxDraw = std::add_pointer<void(__cdecl)(short, short, int, int, int, int, int, short, short, int, int)>::type;
 
 ALIVE_VAR(1, 0xC2D04C, TPsxDraw, dword_C2D04C, nullptr);
 
@@ -21,6 +21,16 @@ ALIVE_ARY(1, 0xBD0D88, OtUnknown, 32, sOt_Stack_BD0D88, {});
 ALIVE_VAR(1, 0xBD0C08, int, sOtIdxRollOver_BD0C08, 0);
 
 ALIVE_VAR(1, 0xC2D03C, int, dword_C2D03C, 0);
+
+EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
+{
+    NOT_IMPLEMENTED();
+
+    // HACK / enough impl to alllow standalone to boot
+    sVGA_DisplayType_BD1468 = dispType;
+
+    dword_C2D04C = PSX_EMU_Render_51EF90;
+}
 
 EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
 {
@@ -256,10 +266,10 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 
                             //LOWORD(itemToDrawType) = *((WORD *)v1 + 9);
 
-                            int p1 = v2 + *((signed __int16 *)v1 + 6); // offset + ?
-                            int p2 = v16 + *((signed __int16 *)v1 + 7); // offset + ?;
-                            int p3 = *((unsigned __int8 *)v1 + 16);
-                            int p4 = *((unsigned __int8 *)v1 + 17);
+                            short p1 = v2 + *((signed __int16 *)v1 + 6); // offset + ?
+                            short p2 = v16 + *((signed __int16 *)v1 + 7); // offset + ?;
+                            short p3 = *((unsigned __int8 *)v1 + 16);
+                            short p4 = *((unsigned __int8 *)v1 + 17);
 
                             dword_C2D04C(
                                 p1,
