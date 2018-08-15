@@ -194,34 +194,34 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                         //LOBYTE(itemToDrawType) = itemToDrawType & 0xFC;
                         switch (itemToDrawType & 0xFC)
                         {
-                        case 96: // 0x60
+                        case 96: // 0x60 Tile
                             LOG_INFO("96");
                             /*
                             v10 = *((WORD *)pOtItem + 9);
                             v25 = *((WORD *)pOtItem + 8);
                             v26 = v10;*/
                             goto LABEL_31;
-                        case 100: // 0x64
+                        case PrimTypeCodes::eSprt: // 0x64 Sprt
                             v12 = *((WORD *)pOtItem + 10);
                             v13 = *((WORD *)pOtItem + 11);
                             v25 = *((WORD *)pOtItem + 10);
                             v26 = v13;
                             goto LABEL_36;
-                        case 104: // 0x68
+                        case 104: // 0x68 Tile1
                             LOG_INFO("104");
                             //v11 = 1;
                             goto LABEL_30;
-                        case 112: // 0x70
+                        case 112: // 0x70 Tile8
                             LOG_INFO("112");
                             //v11 = 8;
                             goto LABEL_30;
-                        case 116: // 0x74
+                        case 116: // 0x74 Sprt8
                             LOG_INFO("116");
                             //v13 = 8;
                             //v26 = 8;
                             //v12 = 8;
                             goto LABEL_35;
-                        case 120: // 0x78
+                        case 120: // 0x78 Tile16
                             LOG_INFO("120");
                             //v11 = 16;
                         LABEL_30:
@@ -233,7 +233,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                             //v24 = v9;
                             //PSX_4F6A70(v9, &v23, (unsigned __int8 *)pOtItem);
                             break;
-                        case 124: // 0x7C
+                        case 124: // 0x7C setSprt16
                         {
                             LOG_INFO("124");
                             //v13 = 16;
@@ -268,6 +268,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                             short p3 = *((unsigned __int8 *)pOtItem + 16);
                             short p4 = *((unsigned __int8 *)pOtItem + 17);
                             
+                            // Textured rect rendering ?
                             dword_C2D04C(
                             p1,
                             p2,
@@ -286,14 +287,14 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                             goto LABEL_45;
                         }
                     }
-                    else if ((v5 & 0x40) == 64) // 0x40
+                    else if ((v5 & 0x40) == 64) // LineF2 and anything else that falls in 0x40 bit pattern  ?
                     {
                         //LOG_WARNING("64");
-                        //PSX_4F7D90(pOtItem, v2, v16);
+                        //PSX_4F7D90(pOtItem, v2, v16); // Line rendering ?
                     }
-                    else if ((v5 & 0x20) == 32) // 0x20
+                    else if ((v5 & PrimTypeCodes::ePolyF3) == PrimTypeCodes::ePolyF3) // and anything else that falls in 0x20 bit pattern?
                     {
-
+                        // Flat/G/Tri/Quad rendering?
                         unsigned __int8 * v15 = PSX_4F7110((int)pOtItem, v2, v16);
                         if (v15)
                         {
