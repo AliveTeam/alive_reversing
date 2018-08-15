@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Input.hpp"
 #include <assert.h>
+#include "../AliveExe/resource.h"
 
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, HWND, sHwnd_BBB9F4, nullptr);
@@ -190,7 +191,14 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
     windowClass.cbClsExtra = 0;
     windowClass.cbWndExtra = 0;
     windowClass.hInstance = sInstance_BBB9EC;
-    windowClass.hIcon = ::LoadIconA(sInstance_BBB9EC, IDI_APPLICATION);
+    if (IsAlive())
+    {
+        windowClass.hIcon = ::LoadIconA(sInstance_BBB9EC, IDI_APPLICATION);
+    }
+    else
+    {
+        windowClass.hIcon = ::LoadIconA(sInstance_BBB9EC, MAKEINTRESOURCE(IDI_MAIN_ICON));
+    }
     windowClass.hCursor = ::LoadCursorA(sInstance_BBB9EC, IDC_WAIT);
     windowClass.hbrBackground = nullptr;
     windowClass.lpszMenuName = lpClassName;

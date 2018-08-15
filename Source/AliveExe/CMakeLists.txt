@@ -1,4 +1,8 @@
-add_executable(AliveExe WIN32 Exe.cpp)
+add_executable(AliveExe WIN32 
+    Exe.cpp 
+    resource.rc
+    resource.h
+    app.ico)
 
 target_include_directories(AliveExe PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
