@@ -92,15 +92,18 @@ EXPORT void __cdecl PSX_4F7960(int /*a1*/, int /*a2*/, int /*a3*/)
     NOT_IMPLEMENTED();
 }
 
+ALIVE_VAR(1, 0xbd30e4, int, sScreenXOffSet_BD30E4, 0);
+ALIVE_VAR(1, 0xbd30a4, int, sScreenYOffset_BD30A4, 0);
+
 // TODO: For reference only, will be implemented when all prim types are recovered
 static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 {
 
-    int** v1 = pOT;
+    int** pOtItem = pOT;
     __int16 v2 = drawEnv_of0;
     __int16 v16 = drawEnv_of1;
-    //dword_BD30E4 = 0;
-    //dword_BD30A4 = 0;
+    sScreenXOffSet_BD30E4 = 0;
+    sScreenYOffset_BD30A4 = 0;
     //LOWORD(dword_578318) = -1;
 
     int v3 = PSX_OT_Idx_From_Ptr_4F6A40((unsigned int)pOT);
@@ -116,61 +119,54 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
     {
         do
         {
-            if (v1 == (int **)-1)
+            if (pOtItem == (int **)-1)
             {
                 break;
             }
 
             MIDI_UpdatePlayer_4FDC80();
 
-            if (v1 < (int **)v21 || v1 >= pOtEnd)
+            PrimAny any;
+            any.mVoid = pOtItem;
+
+            if (pOtItem < (int **)v21 || pOtItem >= pOtEnd)
             {
-                char v5 = *((BYTE *)v1 + 11);
-                int itemToDrawType = *((unsigned __int8 *)v1 + 11);
+                char v5 = *((BYTE *)pOtItem + 11);
+                int itemToDrawType = any.mPrimHeader->field_B_code;
                 switch (itemToDrawType)
                 {
                 case 2: // ??
-                    PSX_4F6A70(0, (WORD *)v1 + 6, (unsigned __int8 *)v1);
+                    PSX_4F6A70(0, (WORD *)pOtItem + 6, (unsigned __int8 *)pOtItem);
                     break;
-                case 128: // 0x80 = change tpage?
-                    PSX_TPage_Change_4F6430(*((WORD *)v1 + 6));
+
+                case PrimTypeCodes::eSetTPage:
+                    PSX_TPage_Change_4F6430(any.mSetTPage->field_C_tpage);
                     break;
-                case 129: // 0x81 Init_PrimClipper_4F5B80
-                    LOG_WARNING("129");
-                    /*
-                    v8 = (int)v1[1];
-                    v27 = v1[3];
-                    *(_DWORD *)&sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x = v27;
-                    v28 = v8;
-                    *(_DWORD *)&sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w = v8;
+
+                case PrimTypeCodes::ePrimClipper:
+                    sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x = any.mPrimClipper->field_C_x;
+                    sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y = any.mPrimClipper->field_E_y;
+                    sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w = any.mPrimHeader->field_4.mRect.w;
+                    sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h = any.mPrimHeader->field_4.mRect.h;
+
                     PSX_SetDrawEnv_Impl_4FE420(
-                    16 * (signed __int16)v27,
-                    16 * SHIWORD(v27),
-                    16 * ((signed __int16)v27 + (signed __int16)v8) - 16,
-                    16 * (SHIWORD(v27) + SHIWORD(v8)) - 16,
-                    sConst_1000_578E88 / 2,
-                    byte_989680);
-                    */
+                        16 * any.mPrimClipper->field_C_x,
+                        16 * any.mPrimClipper->field_E_y,
+                        (16 * (any.mPrimClipper->field_C_x + any.mPrimHeader->field_4.mRect.w)) - 16,
+                        (16 * (any.mPrimClipper->field_E_y + any.mPrimHeader->field_4.mRect.h)) - 16,
+                        1000 / 2,
+                        nullptr);
                     break;
-                case 130: // 0x82 Prim_ScreenOffset
-                          //LOG_WARNING("130");
-                          /*
-                          if (dword_55EF94)
-                          {
-                          v7 = *((signed __int16 *)v1 + 7);
-                          dword_BD30E4 = 2 * *((signed __int16 *)v1 + 6);
-                          dword_BD30A4 = v7;
-                          }
-                          else
-                          {
-                          v2 = drawEnv_of0 + *((signed __int16 *)v1 + 6);
-                          v16 = drawEnv_of1 + *((signed __int16 *)v1 + 7);
-                          }*/
+                case PrimTypeCodes::eScreenOffset:
+                    // NOTE: Conditional on dword_55EF94 removed as it is constant 1
+                    sScreenXOffSet_BD30E4 = any.mScreenOffset->field_C_xoff * 2;
+                    sScreenYOffset_BD30A4 = any.mScreenOffset->field_E_yoff;
                     break;
+
                 case 131: // 0x83 ?? move image ?? 
                     LOG_WARNING("131");
                     BMP_unlock_4F2100(&sPsxVram_C1D160);
-                    PSX_MoveImage_4F5D50((PSX_RECT *)(v1 + 5), (int)v1[3], (int)v1[4]);
+                    PSX_MoveImage_4F5D50((PSX_RECT *)(pOtItem + 5), (int)pOtItem[3], (int)pOtItem[4]);
                     if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
                     {
                         break;
@@ -183,8 +179,8 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                     return true;
 
                 case 132: // 0x84 ??
-                    LOG_WARNING("132");
-                    //PSX_4F7B80((int)v1[3], (int)v1[4], (int)v1[5], (int)v1[6], (int)v1[7]);
+                    LOG_WARNING("132"); // Appears for gas..
+                    //PSX_4F7B80((int)pOtItem[3], (int)pOtItem[4], (int)pOtItem[5], (int)pOtItem[6], (int)pOtItem[7]);
                     break;
                 default:
                     int v12 = 0;
@@ -201,14 +197,14 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                         case 96: // 0x60
                             LOG_INFO("96");
                             /*
-                            v10 = *((WORD *)v1 + 9);
-                            v25 = *((WORD *)v1 + 8);
+                            v10 = *((WORD *)pOtItem + 9);
+                            v25 = *((WORD *)pOtItem + 8);
                             v26 = v10;*/
                             goto LABEL_31;
                         case 100: // 0x64
-                            v12 = *((WORD *)v1 + 10);
-                            v13 = *((WORD *)v1 + 11);
-                            v25 = *((WORD *)v1 + 10);
+                            v12 = *((WORD *)pOtItem + 10);
+                            v13 = *((WORD *)pOtItem + 11);
+                            v25 = *((WORD *)pOtItem + 10);
                             v26 = v13;
                             goto LABEL_36;
                         case 104: // 0x68
@@ -232,10 +228,10 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                             //v26 = v11;
                             //v25 = v11;
                         LABEL_31:
-                            //LOWORD(v9) = v16 + *((WORD *)v1 + 7);
-                            //v23 = v2 + *((WORD *)v1 + 6);
+                            //LOWORD(v9) = v16 + *((WORD *)pOtItem + 7);
+                            //v23 = v2 + *((WORD *)pOtItem + 6);
                             //v24 = v9;
-                            //PSX_4F6A70(v9, &v23, (unsigned __int8 *)v1);
+                            //PSX_4F6A70(v9, &v23, (unsigned __int8 *)pOtItem);
                             break;
                         case 124: // 0x7C
                         {
@@ -247,10 +243,11 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                             //v25 = v12;
                         LABEL_36: // e
 
-                            itemToDrawType = *((BYTE *)v1 + 11); // TODO: LOBYTE() = 
+                            itemToDrawType = *((BYTE *)pOtItem + 11); // TODO: LOBYTE() = 
                             BYTE r = 0;
                             BYTE g = 0;
                             BYTE b = 0;
+                            
                             if (itemToDrawType & 1)
                             {
                                 r = 128;
@@ -259,33 +256,18 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                             }
                             else
                             {
-                                b = *((BYTE *)v1 + 8);
-                                g = *((BYTE *)v1 + 9);
-                                r = *((BYTE *)v1 + 10);
+                                b = *((BYTE *)pOtItem + 8);
+                                g = *((BYTE *)pOtItem + 9);
+                                r = *((BYTE *)pOtItem + 10);
                             }
 
-                            //LOWORD(itemToDrawType) = *((WORD *)v1 + 9);
+                            //LOWORD(itemToDrawType) = *((WORD *)pOtItem + 9);
 
-                            short p1 = v2 + *((signed __int16 *)v1 + 6); // offset + ?
-                            short p2 = v16 + *((signed __int16 *)v1 + 7); // offset + ?;
-                            short p3 = *((unsigned __int8 *)v1 + 16);
-                            short p4 = *((unsigned __int8 *)v1 + 17);
-
-                            dword_C2D04C(
-                                p1,
-                                p2,
-                                p3,
-                                p4,
-                                128,
-                                128,
-                                128,
-                                640,
-                                480,
-                                100,
-                                100 & 2
-                            );
-
-                            /*
+                            short p1 = v2 + *((signed __int16 *)pOtItem + 6); // offset + ?
+                            short p2 = v16 + *((signed __int16 *)pOtItem + 7); // offset + ?;
+                            short p3 = *((unsigned __int8 *)pOtItem + 16);
+                            short p4 = *((unsigned __int8 *)pOtItem + 17);
+                            
                             dword_C2D04C(
                             p1,
                             p2,
@@ -297,7 +279,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                             v12, // redraw width?
                             v13, // redraw height ?
                             itemToDrawType,
-                            itemToDrawType & 2);*/
+                            itemToDrawType & 2);
                         }
                         break;
                         default:
@@ -307,12 +289,12 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                     else if ((v5 & 0x40) == 64) // 0x40
                     {
                         //LOG_WARNING("64");
-                        //PSX_4F7D90(v1, v2, v16);
+                        //PSX_4F7D90(pOtItem, v2, v16);
                     }
                     else if ((v5 & 0x20) == 32) // 0x20
                     {
 
-                        unsigned __int8 * v15 = PSX_4F7110((int)v1, v2, v16);
+                        unsigned __int8 * v15 = PSX_4F7110((int)pOtItem, v2, v16);
                         if (v15)
                         {
                             PSX_4F7960((int)v15, v2, v16);
@@ -322,8 +304,8 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 }
             }
         LABEL_45:
-            v1 = (int **)*v1;
-        } while (v1);
+            pOtItem = (int **)*pOtItem;
+        } while (pOtItem);
     }
 
     return false;

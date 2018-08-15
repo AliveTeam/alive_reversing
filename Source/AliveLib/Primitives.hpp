@@ -233,6 +233,41 @@ struct Prim_Sprt
 };
 ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
 
+enum PrimTypeCodes
+{
+    eSetTPage = 0x80,
+    ePrimClipper = 0x81,
+    eScreenOffset = 0x82,
+
+    eSprt = 0x64,
+    ePolyF3 = 0x20,
+    eLineG2 = 0x50,
+    eLineG4 = 0x5C,
+    ePolyG3 = 0x30,
+    ePolyG4 = 0x38,
+    ePolyF4 = 0x28,
+    ePolyFT4 = 0x2C,
+};
+
+union PrimAny
+{
+    void* mVoid;
+    PrimHeader* mPrimHeader;
+    Prim_SetTPage* mSetTPage;
+    Prim_PrimClipper* mPrimClipper;
+    Prim_ScreenOffset* mScreenOffset;
+    Poly_G3* mPolyG3;
+    Poly_F3* mPolyF3;
+    Poly_F4* mPolyF4;
+    Poly_FT4* mPolyFT4;
+    Poly_G4* mPolyG4;
+    Line_G2* mLineG2;
+    Line_G4* mLineG4;
+    Prim_Sprt* mSprt;
+};
+ALIVE_ASSERT_SIZEOF(PrimAny, sizeof(void*));
+
+
 EXPORT void PolyF3_Init(Poly_F3* pPoly);
 EXPORT void LineG2_Init(Line_G2* pLine);
 EXPORT void LineG4_Init(Line_G4* pLine);
