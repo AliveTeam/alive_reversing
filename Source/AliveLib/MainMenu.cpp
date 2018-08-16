@@ -432,7 +432,8 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
 
-        const auto pageUpdateRet = sMainMenuPages_561960[field_214_page_index].field_10_fn_update(this, btnsHeld);
+        const auto pageUpdateRet = (this->*(sMainMenuPages_561960[field_214_page_index].field_10_fn_update))(btnsHeld);
+
         if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == gMap_5C3030.sCurrentCamId_5C3034)
         {
             return;
@@ -463,7 +464,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
 void MainMenuController::Update_4CF010()
 {
-    NOT_IMPLEMENTED();
+    //NOT_IMPLEMENTED();
 
     if (sDoesCreditsControllerExist_5C1B90)
     {

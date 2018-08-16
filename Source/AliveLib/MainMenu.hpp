@@ -81,6 +81,8 @@ public:
     EXPORT static void callback_4D06E0(MainMenuController *a1);
     EXPORT static int DrawMenuText_4D20D0(MainMenuText *array, int **ot, Font *font, int *polyIndex, char a5);
 
+    unsigned int MainMenuPageUpdateTemplate(int input);
+
     static MainMenuController * gMainMenuController;
 private:
     void HandleCreditsControllerUpdate();
@@ -136,6 +138,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 
+using t_MainMenuPage_Update = decltype(&MainMenuController::MainMenuPageUpdateTemplate);
 
 struct MainMenuPage
 {
@@ -146,7 +149,7 @@ struct MainMenuPage
     __int16 field_A;
     __int16 field_C;
     __int16 field_E_show_character;
-    int(__thiscall *field_10_fn_update)(MainMenuController *, int input);
+    t_MainMenuPage_Update field_10_fn_update;
     void(__thiscall *field_14_fn_render)(MainMenuController *, int **);
     MainMenuButton *field_18_buttons;
     int(__thiscall *field_1C_fn_on_load)(MainMenuController *);
