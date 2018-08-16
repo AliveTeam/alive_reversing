@@ -239,14 +239,43 @@ enum PrimTypeCodes
     ePrimClipper = 0x81,
     eScreenOffset = 0x82,
 
+    // TODO: Type 2
+    // TODO: Type 0x83 (move image?)
+    // TODO: Type 0x84 (used in gas rendering)
+
+    // Sprite/tile prims
+    eTile = 0x60,
     eSprt = 0x64,
-    ePolyF3 = 0x20,
+    eTile1 = 0x68,
+    eTile8 = 0x70,
+    eSprt8 = 0x74,
+    eTile16 = 0x78,
+    eSprt16 = 0x7C,
+
+    //                         F  3  T
+    ePolyF3 = 0x20,     // 0b1[0][0][0]00
+    ePolyFT3 = 0x24,    // 0b1[0][0][1]00
+    
+    //                         G  3  T
+    ePolyG3 = 0x30,     // 0b1[1][0][0]00
+    ePolyGT3 = 0x34,    // 0b1[1][0][1]00
+
+    //                         F  4  T
+    ePolyF4 = 0x28,     // 0b1[0][1][0]00
+    ePolyFT4 = 0x2C,    // 0b1[0][1][1]00
+
+    //                         G  4  T
+    ePolyG4 = 0x38,     // 0b1[1][1][0]00
+    ePolyGT4 = 0x3C,    // 0b1[1][1][1]00
+
+
+    // Line prims
+    eLineF2 = 0x40,
+    eLineF3 = 0x48,
+    eLineF4 = 0x4C,
     eLineG2 = 0x50,
-    eLineG4 = 0x5C,
-    ePolyG3 = 0x30,
-    ePolyG4 = 0x38,
-    ePolyF4 = 0x28,
-    ePolyFT4 = 0x2C,
+    eLineG3 = 0x58,
+    eLineG4 = 0x5C
 };
 
 union PrimAny

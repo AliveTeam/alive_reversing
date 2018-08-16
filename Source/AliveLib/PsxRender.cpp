@@ -105,6 +105,11 @@ EXPORT void __cdecl PSX_4F7960(int /*a1*/, int /*a2*/, int /*a3*/)
 ALIVE_VAR(1, 0xbd30e4, int, sScreenXOffSet_BD30E4, 0);
 ALIVE_VAR(1, 0xbd30a4, int, sScreenYOffset_BD30A4, 0);
 
+EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
+{
+    NOT_IMPLEMENTED();
+}
+
 static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1)
 {
     int width = 0;
@@ -202,9 +207,7 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
     }
     else if ((v5 & 0x40) == 64) // LineF2 and anything else that falls in 0x40 bit pattern  ?
     {
-        //LOG_WARNING("64");
-        // Odd calling convention - may not be able to replace individually 
-        //PSX_4F7D90(pOtItem, drawEnv_of0, drawEnv_of1); // Line rendering ?
+        PSX_Render_Line_Prim_4F7D90(any.mVoid, drawEnv_of0, drawEnv_of1); // Line rendering ?
     }
     else if ((v5 & PrimTypeCodes::ePolyF3) == PrimTypeCodes::ePolyF3) // and anything else that falls in 0x20 bit pattern?
     {
@@ -220,7 +223,6 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
 // TODO: For reference only, will be implemented when all prim types are recovered
 static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 {
-    int** pOtItem = pOT;
     sScreenXOffSet_BD30E4 = 0;
     sScreenYOffset_BD30A4 = 0;
     sActiveTPage_578318 = -1;
@@ -233,6 +235,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 
     int** pLastOtItem = sOt_Stack_BD0D88[otIdx].field_4;
     int** pOtEnd = sOt_Stack_BD0D88[otIdx].field_8_pOt_End;
+    int** pOtItem = pOT;
     while (pOtItem)
     {
         if (pOtItem == (int **)-1)
