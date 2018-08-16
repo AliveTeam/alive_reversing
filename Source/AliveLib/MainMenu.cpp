@@ -356,61 +356,65 @@ void MainMenuController::HandleMainMenuUpdate()
 
     if (sMainMenuPages_561960[field_214_page_index].field_4 <= 0 || sMainMenuPages_561960[field_214_page_index].field_8 <= 0 || field_1F8 <= sMainMenuPages_561960[field_214_page_index].field_4)
     {
-        auto pagesBtns = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
-        auto btnsHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+        auto pageBtns = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
+        auto inputHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
 
-        if (pagesBtns)
+        if (pageBtns)
         {
+            auto btnArray = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
+
             if (field_1FC_button_index != -1)
             {
-                auto btnIndex = field_1FC_button_index;
-                if (sInputObject_5BD4E0.field_0_pads[0].field_C_held & 5)
+                if (inputHeld & (eLeft | eUp))
                 {
-                    // btnIndex = (signed __int16)btnIndex;
                     if (sMainMenuPages_561960[field_214_page_index].field_0_cam_id != 4)
                     {
-                        // Todo: Fix this up
-                        do
+                        for (;;)
                         {
-                            if (btnIndex)
+                            field_1FC_button_index--;
+                            if (field_1FC_button_index < 0)
                             {
-                                --btnIndex;
-                            }
-                            else
-                            {
-                                for (auto i = pagesBtns + 1; i->field_0; ++btnIndex)
+                                int lastIndex = 0;
+                                while (btnArray[lastIndex++].field_0 == 1)
                                 {
-                                    ++i;
+                                    lastIndex++;
                                 }
+                                field_1FC_button_index = lastIndex;
                             }
-                        } while (pagesBtns[btnIndex].field_0 != 1 && btnIndex != field_1FC_button_index);
+                            else if (btnArray[field_1FC_button_index].field_0 == 1)
+                            {
+                                break;
+                            }
+                        }
                     }
-                    field_1FC_button_index = btnIndex;
 
                     field_158_animation.Set_Animation_Data_409C80(
-                        sMainMenuPages_561960[field_214_page_index].field_18_buttons[btnIndex].field_8_anim_frame_offset, 0);
+                        sMainMenuPages_561960[field_214_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
 
                     SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
                 }
 
-                if (btnsHeld & (eRight | eDown))
+                if (inputHeld & (eRight | eDown))
                 {
-                    btnIndex = field_1FC_button_index;
-                    auto v14 = field_214_page_index;
-                    if (sMainMenuPages_561960[v14].field_0_cam_id != 4)
+                    if (sMainMenuPages_561960[field_214_page_index].field_0_cam_id != 4)
                     {
-                        auto btnArray = sMainMenuPages_561960[v14].field_18_buttons;
-                        do
+                        for (;;)
                         {
-                            if (!btnArray[++btnIndex].field_0)
+                            field_1FC_button_index++;
+                            if (!btnArray[field_1FC_button_index].field_0)
                             {
-                                btnIndex = 0;
+                                field_1FC_button_index = 0;
+                                break;
                             }
-                        } while (btnArray[btnIndex].field_0 != 1 && btnIndex != field_1FC_button_index);
+                            else if (btnArray[field_1FC_button_index].field_0 == 1)
+                            {
+                                break;
+                            }
+                        }
                     }
-                    field_1FC_button_index = btnIndex;
+
                     field_158_animation.Set_Animation_Data_409C80(
-                        sMainMenuPages_561960[v14].field_18_buttons[(signed __int16)btnIndex].field_8_anim_frame_offset,
+                        sMainMenuPages_561960[field_214_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
                         0);
                     SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
                 }
@@ -432,7 +436,7 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
 
-        const auto pageUpdateRet = (this->*(sMainMenuPages_561960[field_214_page_index].field_10_fn_update))(btnsHeld);
+        const auto pageUpdateRet = (this->*(sMainMenuPages_561960[field_214_page_index].field_10_fn_update))(inputHeld);
 
         if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == gMap_5C3030.sCurrentCamId_5C3034)
         {
@@ -441,7 +445,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
         field_218_target_page_index = GetPageIndexFromCam_4D05A0(pageUpdateRet & 0xFF);
 
-        // Seems to always be zero cause of this... but removing the shifting causes errors? Strange.
+        // The return variable of page update seems to have multiple bits of data masked.
         auto v19 = (pageUpdateRet >> 16) & 0xFF;
         field_21A_target_cam = v19;
         if (v19 == 255)
