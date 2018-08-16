@@ -113,7 +113,7 @@ void CC Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly)
     }
 }
 
-void CC Poly_Set_unknown_4F8A20(PrimHeader* pPrim, int bFlag1)
+void CC Poly_Set_Blending_4F8A20(PrimHeader* pPrim, int bFlag1)
 {
     pPrim->field_4.mNormal.field_5_unknown = byte_BD146C;
     if (bFlag1)

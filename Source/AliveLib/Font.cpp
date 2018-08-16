@@ -149,7 +149,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
 
         PolyFT4_Init_4F8870(poly);
         Poly_Set_SemiTrans_4F8A60(&poly->field_0_header, bSemiTrans);
-        Poly_Set_unknown_4F8A20(&poly->field_0_header, a2);
+        Poly_Set_Blending_4F8A20(&poly->field_0_header, a2);
 
         poly->field_0_header.field_8_r0 = static_cast<BYTE>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange));
         poly->field_0_header.field_9_g0 = static_cast<BYTE>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange));
