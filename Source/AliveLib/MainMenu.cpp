@@ -24,6 +24,7 @@ unsigned char pal_560F80[] =
 };
 
 ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
+ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
 
 ALIVE_VAR_EXTERN(__int16, sRescuedMudokons_5C1BC2);
 ALIVE_VAR_EXTERN(__int16, sKilledMudokons_5C1BC0);
@@ -77,6 +78,28 @@ MenuFMV sFmvs_561540[28] =
     { "Credits", 16_s, 65535_s, 65535_s, 65535_s, 65535_s, 65535_s }
 };
 
+// Used by the level skip cheat/ui/menu
+PerLvlData gPerLvlData_561700[17] =
+{
+    { "Mines", 1, 1, 4, 65535u, 2712, 1300 },
+    { "Mines Ender", 1, 6, 10, 65535u, 2935, 2525 },
+    { "Necrum", 2, 2, 1, 65535u, 2885, 1388 },
+    { "Mudomo Vault", 3, 1, 1, 65535u, 110, 917 },
+    { "Mudomo Vault Ender", 11, 13, 1, 65535u, 437, 454 },
+    { "Mudanchee Vault", 4, 6, 3, 65535u, 836, 873 },
+    { "Mudanchee Vault Ender", 7, 9, 4, 65534u, 1600, 550 },
+    { "FeeCo Depot", 5, 1, 1, 65535u, 4563, 972 },
+    { "FeeCo Depot Ender", 12, 11, 5, 65535u, 1965, 1650 },
+    { "Barracks", 6, 1, 4, 65535u, 1562, 1651 },
+    { "Barracks Ender", 13, 11, 5, 65535u, 961, 1132 },
+    { "Bonewerkz", 8, 1, 1, 65535u, 813, 451 },
+    { "Bonewerkz Ender", 14, 14, 10, 65535u, 810, 710 },
+    { "Brewery", 9, 16, 6, 65535u, 1962, 1232 },
+    { "Game Ender", 10, 1, 1, 65535u, 460, 968 },
+    { "Credits", 16, 1, 1, 65535u, 0, 0 },
+    { "Menu", 0, 1, 1, 65535u, 0, 0 }
+};
+
 PerLvlData sDemos_5617F0[23] =
 {
     { "Mudokons 1", 1, 8, 5, 0, 0, 0 },
@@ -102,6 +125,59 @@ PerLvlData sDemos_5617F0[23] =
     { "Sligs", 9, 26, 4, 23, 0, 0 },
     { "Tortured Mudokons", 9, 27, 7, 24, 0, 0 },
     { "Greeters Go Boom", 9, 28, 4, 25, 0, 0 }
+};
+
+MainMenuFrameTable sMainMenuFrameTable_561CC8[49] =
+{
+    { 0, 0, 0, 0, 0 },
+    { 247808, 1, 65535, 1, 0 },
+    { 247684, 1, 65535, 1, 0 },
+    { 247620, 1, 3, 1, 0 },
+    { 247924, 1, 12, 1, 14 },
+    { 693672, 0, 4, 1, 0 },
+    { 693504, 0, 11, 1, 14 },
+    { 693912, 0, 6, 1, 0 },
+    { 693556, 0, 5, 1, 14 },
+    { 50212, 3, 65535, 10, 0 },
+    { 25888, 2, 65535, 11, 0 },
+    { 247684, 1, 65535, 3, 0 },
+    { 693772, 0, 65535, 0, 0 },
+    { 693748, 0, 65535, 1, 0 },
+    { 694084, 0, 25, 1, 0 },
+    { 694132, 0, 17, 1, 0 },
+    { 694200, 0, 26, 1, 0 },
+    { 693956, 0, 27, 1, 14 },
+    { 1105688, 7, 65535, 18, 0 },
+    { 1105420, 7, 8, 18, 0 },
+    { 1105516, 7, 2, 18, 0 },
+    { 1105600, 7, 1, 18, 0 },
+    { 1105816, 7, 3, 18, 14 },
+    { 1105884, 7, 6, 18, 14 },
+    { 1105964, 7, 5, 18, 0 },
+    { 1106020, 7, 7, 18, 0 },
+    { 1106072, 7, 0, 18, 0 },
+    { 1371728, 8, 65535, 27, 0 },
+    { 1371876, 8, 65535, 27, 0 },
+    { 1372024, 8, 8, 27, 17 },
+    { 1372108, 8, 7, 27, 0 },
+    { 1372192, 8, 2, 27, 0 },
+    { 1371452, 8, 3, 27, 17 },
+    { 1371520, 8, 1, 27, 17 },
+    { 1371580, 8, 6, 27, 17 },
+    { 1371660, 8, 0, 27, 0 },
+    { 1372292, 8, 4, 27, 0 },
+    { 506044, 9, 65535, 37, 0 },
+    { 506160, 9, 65535, 37, 0 },
+    { 505836, 9, 8, 37, 0 },
+    { 505756, 9, 0, 37, 0 },
+    { 888448, 10, 65535, 41, 0 },
+    { 888572, 10, 65535, 41, 0 },
+    { 888936, 10, 9, 41, 0 },
+    { 888240, 10, 5, 41, 14 },
+    { 888308, 10, 0, 41, 14 },
+    { 888696, 10, 1, 41, 14 },
+    { 888824, 10, 2, 41, 14 },
+    { 889016, 10, 0, 41, 14 }
 };
 
 void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
@@ -167,7 +243,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034));
     field_21C = 1;
     field_21E = 0;
-    field_1F8 = 0;
+    field_1F8_page_timeout = 0;
     field_220 = 1;
     field_228 = 0;
     field_22A = 0;
@@ -175,7 +251,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_224 = 0;
     field_202_input_hold_down_timer = 15;
     field_204_prev_pressed = 0;
-    field_230_fmv_index = 0; // Double check
+    field_230_fmv_level_index = 0; // Double check
 
     if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
     {
@@ -234,7 +310,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
         field_258 = 0;
         pDemosOrFmvs_BB4414 = &sDemos_5617F0;
         sMenuItemCount_561538 = 23;
-        field_230_fmv_index = word_5C1B9E;
+        field_230_fmv_level_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, (BYTE **)field_F4_resources.field_4_res_abespek2);
         sub_4D06A0(&field_20_animation);
     }
@@ -270,6 +346,110 @@ void MainMenuController::Render_4CF4C0(int ** ot)
     auto renderFunc = sMainMenuPages_561960[this->field_214_page_index].field_14_fn_render;
     if (renderFunc)
         renderFunc(this, ot);
+}
+
+// Main Menu Text Data
+
+MainMenuText sMMT_FrontPage_5623A0 = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
+
+
+//
+
+unsigned int MainMenuController::Page_Front_Update_4D0720(InputCommands input)
+{
+    __int16 v3; // ax
+    int result; // eax
+
+    if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed)
+    {
+        v3 = 0;
+        this->field_1F8_page_timeout = 0;
+        word_5C1B9A = 0;
+    }
+    else
+    {
+        v3 = word_5C1B9A;
+    }
+    if (this->field_1F8_page_timeout <= (v3 != 0 ? 300 : 1500))
+    {
+        if (input & eUnPause)
+        {
+            if (this->field_F4_resources.field_0_res_abespeak)
+            {
+                sub_4D05E0(4, 0);
+            }
+            switch (this->field_1FC_button_index)
+            {
+            case 0:
+                result = 12;
+                break;
+            case 1:
+                sub_4D05E0(6, 0);
+                result = 11;
+                break;
+            case 2:
+                this->field_230_fmv_level_index = 0;
+                result = 0xFFFF0004;
+                break;
+            case 3:
+                result = 3;
+                break;
+            case 4:
+                this->field_230_fmv_level_index = 0;
+                result = 2;
+                break;
+            default:
+                goto LABEL_15;
+            }
+        }
+        else
+        {
+        LABEL_15:
+            if (sEnableCheatFMV_5C1BEC)
+            {
+                sEnableCheatFMV_5C1BEC = 0;
+                this->field_25C = 1;
+                pDemosOrFmvs_BB4414 = sFmvs_561540;
+                sMenuItemCount_561538 = 28;
+                this->field_230_fmv_level_index = 0;
+                this->field_250 = 0;
+                this->field_254 = 0;
+                this->field_258 = 0;
+                result = 0xFFFF0006;
+            }
+            else if (sEnableCheatLevelSelect_5C1BEE)
+            {
+                sEnableCheatLevelSelect_5C1BEE = 0;
+                this->field_25E = 1;
+                pDemosOrFmvs_BB4414 = gPerLvlData_561700;
+                sMenuItemCount_561538 = 15;
+                this->field_230_fmv_level_index = 0;
+                this->field_250 = 0;
+                this->field_254 = 0;
+                this->field_258 = 0;
+                result = 0xFFFF001F;
+            }
+            else
+            {
+                result = 0;
+            }
+        }
+    }
+    else
+    {
+        word_5C1B9A = 1;
+        this->field_1FC_button_index = 0;
+        result = 0xFFFF0016;
+    }
+    return result;
+}
+
+int MainMenuController::Page_Front_Render_4D24B0(int ** ot)
+{
+    int a4; // [esp+0h] [ebp-4h]
+
+    a4 = 0;
+    return MainMenuController::DrawMenuText_4D20D0(&sMMT_FrontPage_5623A0, ot, &this->field_120_font, &a4, 1);
 }
 
 void MainMenuController::HandleCreditsControllerUpdate()
@@ -345,16 +525,16 @@ void MainMenuController::HandleMainMenuUpdate()
     const auto currentCamId = sMainMenuPages_561960[field_214_page_index].field_0_cam_id;
     if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed && currentCamId != 25  && currentCamId != 20 && currentCamId != 23)
     {
-        field_1F8 = 0;
+        field_1F8_page_timeout = 0;
     }
     else
     {
-        ++field_1F8;
+        ++field_1F8_page_timeout;
     }
 
     auto v8 = 0;
 
-    if (sMainMenuPages_561960[field_214_page_index].field_4 <= 0 || sMainMenuPages_561960[field_214_page_index].field_8 <= 0 || field_1F8 <= sMainMenuPages_561960[field_214_page_index].field_4)
+    if (sMainMenuPages_561960[field_214_page_index].field_4 <= 0 || sMainMenuPages_561960[field_214_page_index].field_8 <= 0 || field_1F8_page_timeout <= sMainMenuPages_561960[field_214_page_index].field_4)
     {
         auto pageBtns = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
         auto inputHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
@@ -456,7 +636,7 @@ void MainMenuController::HandleMainMenuUpdate()
     }
     else
     {
-        field_1F8 = 0;
+        field_1F8_page_timeout = 0;
         field_218_target_page_index = GetPageIndexFromCam_4D05A0(sMainMenuPages_561960[field_214_page_index].field_8);
         field_21A_target_cam = sMainMenuPages_561960[field_214_page_index].field_C;
         v8 = sMainMenuPages_561960[field_214_page_index].field_A;
@@ -493,9 +673,13 @@ int __stdcall MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
     return 0;
 }
 
-void MainMenuController::sub_4D05E0(__int16 /*a2*/, __int16 /*a3*/)
+void MainMenuController::sub_4D05E0(__int16 a2, __int16 a3)
 {
-    NOT_IMPLEMENTED();
+    if (a2 != this->field_220 || sMainMenuFrameTable_561CC8[a2].field_8 == a2)
+    {
+        this->field_228 = a2;
+        this->field_22A = a3;
+    }
 }
 
 void MainMenuController::sub_4D06A0(AnimationEx * /*a3*/)

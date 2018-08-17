@@ -114,3 +114,4 @@ ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
 ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5C1BBE);
 ALIVE_VAR_EXTERN(BOOL, sLastPressedKey_BD30A0);
 ALIVE_VAR_EXTERN(int, sIsAKeyDown_BD309C);
+ALIVE_VAR_EXTERN(__int16, word_5C1B9A);

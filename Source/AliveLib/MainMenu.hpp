@@ -7,6 +7,7 @@
 #include "Font.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Factory.hpp"
+#include "Input.hpp"
 
 void MainMenu_ForceLink();
 
@@ -51,16 +52,27 @@ struct MainMenuText
     int field_0_x;
     int field_4_y;
     const char *field_8_text;
-    char field_C_align;
-    char field_D;
-    char field_E;
-    char field_F;
+    BYTE field_C_align;
+    BYTE field_D;
+    BYTE field_E;
+    BYTE field_F;
     float field_10_scale;
-    char field_14;
-    char field_15;
-    char field_16;
-    char field_17;
+    BYTE field_14;
+    BYTE field_15;
+    BYTE field_16;
+    BYTE field_17;
 };
+
+struct MainMenuFrameTable
+{
+    int field_0_frame_offset;
+    __int16 field_4;
+    __int16 field_6;
+    __int16 field_8;
+    __int16 field_A;
+};
+
+extern PerLvlData gPerLvlData_561700[17];
 
 struct Path_TLV;
 
@@ -81,7 +93,14 @@ public:
     EXPORT static void callback_4D06E0(MainMenuController *a1);
     EXPORT static int DrawMenuText_4D20D0(MainMenuText *array, int **ot, Font *font, int *polyIndex, char a5);
 
-    unsigned int MainMenuPageUpdateTemplate(int input);
+    unsigned int    MainMenuPageUpdateTemplate(int input);  // Returns target cam/page info.
+    int             MainMenuPageRenderTemplate(int **ot);   // Returns poly index for text rendering.
+    
+    // Page Functions
+    
+    // Front End
+    EXPORT unsigned int Page_Front_Update_4D0720(InputCommands input);
+    EXPORT int Page_Front_Render_4D24B0(int **ot);
 
     static MainMenuController * gMainMenuController;
 private:
@@ -95,7 +114,7 @@ public:
     AnimationEx field_158_animation;
     int field_1F0;
     int field_1F4_credits_next_frame;
-    int field_1F8;
+    int field_1F8_page_timeout; // Timer for starting demos automatically / backing out of menus
     __int16 field_1FC_button_index;
     __int16 field_1FE_highlite_alpha;
     __int16 field_200_highlite_glow_speed;
@@ -116,7 +135,7 @@ public:
     __int16 field_228;
     __int16 field_22A;
     int field_22C_T80;
-    __int16 field_230_fmv_index;
+    __int16 field_230_fmv_level_index;
     __int16 field_232;
     const char *field_234;
     __int16 field_238;

@@ -9,28 +9,7 @@
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "Sound.hpp"
-
-// Used by the level skip cheat/ui/menu
-const static PerLvlData gPerLvlData_561700[17] =
-{
-    { "Mines", 1, 1, 4, 65535u, 2712, 1300 },
-    { "Mines Ender", 1, 6, 10, 65535u, 2935, 2525 },
-    { "Necrum", 2, 2, 1, 65535u, 2885, 1388 },
-    { "Mudomo Vault", 3, 1, 1, 65535u, 110, 917 },
-    { "Mudomo Vault Ender", 11, 13, 1, 65535u, 437, 454 },
-    { "Mudanchee Vault", 4, 6, 3, 65535u, 836, 873 },
-    { "Mudanchee Vault Ender", 7, 9, 4, 65534u, 1600, 550 },
-    { "FeeCo Depot", 5, 1, 1, 65535u, 4563, 972 },
-    { "FeeCo Depot Ender", 12, 11, 5, 65535u, 1965, 1650 },
-    { "Barracks", 6, 1, 4, 65535u, 1562, 1651 },
-    { "Barracks Ender", 13, 11, 5, 65535u, 961, 1132 },
-    { "Bonewerkz", 8, 1, 1, 65535u, 813, 451 },
-    { "Bonewerkz Ender", 14, 14, 10, 65535u, 810, 710 },
-    { "Brewery", 9, 16, 6, 65535u, 1962, 1232 },
-    { "Game Ender", 10, 1, 1, 65535u, 460, 968 },
-    { "Credits", 16, 1, 1, 65535u, 0, 0 },
-    { "Menu", 0, 1, 1, 65535u, 0, 0 }
-};
+#include "MainMenu.hpp"
 
 // MACROS
 
