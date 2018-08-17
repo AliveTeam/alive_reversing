@@ -74,20 +74,46 @@ void ScreenManager::dtor_40E460(signed int /*flags*/)
     NOT_IMPLEMENTED();
 }
 
-void ScreenManager::InvalidateRect_40EC90(int /*x*/, int /*y*/, signed int /*width*/, signed int /*height*/, int /*idx*/)
+void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx)
 {
     NOT_IMPLEMENTED();
+
+    x = max(x, 0);
+    y = max(y, 0);
+
+    width = min(width, 639);
+    height = min(height, 239);
+
+    for (int tileX = x / 32; tileX <= width / 32; tileX++)
+    {
+        for (int tileY = y / 16; tileY <= height / 16; tileY++)
+        {
+            field_64_20x16_dirty_bits[idx].SetTile(tileX, tileY, true);
+        }
+    }
 }
 
-__int16 ScreenManager::IsDirty_40EBC0(int /*idx*/, int /*x*/, int /*y*/)
+void ScreenManager::InvalidateRect_Layer3_40EDB0(int x, int y, signed int width, signed int height)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    InvalidateRect_40EC90(x, y, width, height, 3);
 }
 
-void ScreenManager::UnsetDirtyBits_40EDE0(int /*idx*/)
+__int16 ScreenManager::IsDirty_40EBC0(int idx, int x, int y)
 {
-    NOT_IMPLEMENTED();
+    return field_64_20x16_dirty_bits[idx].GetTile(x / 32, y / 16);
+}
+
+void ScreenManager::UnsetDirtyBits_40EDE0(int idx)
+{
+    memset(&field_64_20x16_dirty_bits[idx], 0, sizeof(field_64_20x16_dirty_bits[idx]));
+}
+
+void ScreenManager::UnsetDirtyBits_FG1_40ED70()
+{
+    UnsetDirtyBits_40EDE0(7);
+    UnsetDirtyBits_40EDE0(5);
+    UnsetDirtyBits_40EDE0(6);
+    UnsetDirtyBits_40EDE0(4);
 }
 
 void ScreenManager::InvalidateRect_40EC10(int x, int y, signed int width, signed int height)
@@ -461,6 +487,19 @@ namespace Test
 
         gBaseGameObject_list_BB47C4->dtor_40CAD0();
         gBaseGameObject_list_BB47C4 = nullptr;
+
+        // Test dirty bit helpers
+        sm.field_64_20x16_dirty_bits->SetBit(25, true);
+        sm.field_64_20x16_dirty_bits->SetBit(24, false);
+
+        ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetBit(25), true);
+        ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetBit(24), false);
+
+        sm.field_64_20x16_dirty_bits->SetTile(2, 8, true);
+        sm.field_64_20x16_dirty_bits->SetTile(1, 4, false);
+
+        ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetTile(2, 8), true);
+        ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetTile(1, 4), false);
     }
 
     void ScreenManagerTests()

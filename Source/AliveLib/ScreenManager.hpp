@@ -34,7 +34,37 @@ ALIVE_ASSERT_SIZEOF(Camera, 0x32);
 
 struct DirtyBits
 {
-    BYTE mData[40];
+    WORD mData[20]; // 20 Columns
+
+    bool GetBit(int n)
+    {
+        return mData[n / 16] & (1 << (n % 16));
+    }
+
+    void SetBit(int n, bool b)
+    {
+        mData[n / 16] &= ~(1 << (n % 16));
+        
+        if (b)
+        {
+            mData[n / 16] |= (1 << (n % 16));
+        }
+    }
+
+    bool GetTile(int x, int y)
+    {
+        return mData[x] & (1 << y);
+    }
+
+    void SetTile(int x, int y, bool b)
+    {
+        mData[x] &= ~(1 << y);
+        
+        if (b)
+        {
+            mData[x] |= 1 << y;
+        }
+    }
 };
 
 namespace Oddlib
@@ -51,10 +81,12 @@ public:
     EXPORT void MoveImage_40EB70();
 
     EXPORT void InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx);
+    EXPORT void InvalidateRect_40EC10(int x, int y, signed int width, signed int height);
+    EXPORT void InvalidateRect_Layer3_40EDB0(int x, int y, signed int width, signed int height);
+
     EXPORT __int16 IsDirty_40EBC0(int idx, int x, int y);
     EXPORT void UnsetDirtyBits_40EDE0(int idx);
-
-    EXPORT void InvalidateRect_40EC10(int x, int y, signed int width, signed int height);
+    EXPORT void UnsetDirtyBits_FG1_40ED70();
 
     virtual void VDestructor(signed int flags) override;
 
