@@ -1008,6 +1008,11 @@ private:
 
 void DebugHelpers_Init() 
 {
+    if (GetKeyState(VK_LCONTROL) < 0)
+    {
+        return;
+    }
+
     if (IsAlive())
     {
         alive_new<ObjectDebugger>();
