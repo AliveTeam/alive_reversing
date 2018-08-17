@@ -788,10 +788,6 @@ public:
 
     virtual void VRender(int** pOrderingTable) override
     {
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG3.field_0_header); // 30 being the "layer"
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.field_0_header);
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG4.field_0_header);
-
         static PSX_Pos16 xy = {};
         static short ypos = 0;
         ypos++;
@@ -802,7 +798,7 @@ public:
         xy.x = ypos;
         xy.y = ypos;
         InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mScreenOffset.field_0_header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mScreenOffset.mBase);
 
         static PSX_RECT clipRect = {};
         clipRect.x = 80;
@@ -813,11 +809,29 @@ public:
         Init_PrimClipper_4F5B80(&mPrimClipper, &clipRect);
         // OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header);
 
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG2.field_0_header);
+        // Tiles
 
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.field_0_header);
+        // Sprites
 
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG4.field_0_header);
+        // Lines
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineF2.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineF3.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineF4.mBase.header);
+
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG2.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG3.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG4.mBase.header);
+
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyFT4.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG4.mBase.header);
+        // TG
+
+        // Polys
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG3.mBase.header);
+        // T
+        // TG
 
 
     }
@@ -833,169 +847,170 @@ private:
         {
             PolyG3_Init_4F8890(&mPolyG3);
 
-            mPolyG3.field_0_header.field_8_r0 = 255;
-            mPolyG3.field_0_header.field_9_g0 = 255;
-            mPolyG3.field_0_header.field_A_b0 = 255;
-            mPolyG3.field_C_x0 = 50;
-            mPolyG3.field_E_y0 = 50;
+            SetRGB0(&mPolyG3, 255, 255, 255);
+            SetRGB1(&mPolyG3, 0, 0, 255);
+            SetRGB2(&mPolyG3, 255, 0, 255);
 
-            mPolyG3.field_10_r1 = 0;
-            mPolyG3.field_11_g1 = 0;
-            mPolyG3.field_12_b1 = 255;
-            mPolyG3.field_14_x1 = 200;
-            mPolyG3.field_16_y1 = 50;
-
-            mPolyG3.field_18_r2 = 255;
-            mPolyG3.field_19_g2 = 0;
-            mPolyG3.field_1A_b2 = 255;
-            mPolyG3.field_1C_x2 = 150;
-            mPolyG3.field_1E_y2 = 100;
+            SetXY0(&mPolyG3, 50, 50);
+            SetXY1(&mPolyG3, 200, 50);
+            SetXY2(&mPolyG3, 150, 100);
         }
 
         {
             PolyF3_Init(&mPolyF3);
+            
+            SetRGB0(&mPolyF3, 255, 255, 0);
 
-            mPolyF3.field_0_header.field_8_r0 = 255;
-            mPolyF3.field_0_header.field_9_g0 = 255;
-            mPolyF3.field_0_header.field_A_b0 = 0;
-
-            mPolyF3.field_C_x0 = 180 + 50;
-            mPolyF3.field_E_y0 = 50;
-
-            mPolyF3.field_10_x1 = 180 + 200;
-            mPolyF3.field_12_y1 = 50;
-
-            mPolyF3.field_14_x2 = 180 + 150;
-            mPolyF3.field_16_y2 = 100;
+            SetXY0(&mPolyF3, 180 + 50, 50);
+            SetXY1(&mPolyF3, 180 + 200, 50);
+            SetXY2(&mPolyF3, 180 + 150, 100);
         }
 
         {
             PolyF4_Init_4F8830(&mPolyF4);
-            mPolyF4.field_0_header.field_8_r0 = 255;
-            mPolyF4.field_0_header.field_9_g0 = 255;
-            mPolyF4.field_0_header.field_A_b0 = 255;
 
-            struct XY { short x; short y; };
-            XY points[4] =
-            {
-                { 150, 150 },
-                { 150, 200 },
-                { 200, 150 },
-                { 200, 200 },
-            };
+            SetRGB0(&mPolyF4, 255, 255, 255);
 
-            mPolyF4.field_C_x0 = points[0].x;
-            mPolyF4.field_E_y0 = points[0].y;
-
-            mPolyF4.field_10_x1 = points[1].x;
-            mPolyF4.field_12_y1 = points[1].y;
-
-            mPolyF4.field_14_x2 = points[2].x;
-            mPolyF4.field_16_y2 = points[2].y;
-
-            mPolyF4.field_18_x3 = points[3].x;
-            mPolyF4.field_1A_y3 = points[3].y;
+            SetXY0(&mPolyF4, 150, 150);
+            SetXY1(&mPolyF4, 150, 200);
+            SetXY2(&mPolyF4, 200, 150);
+            SetXY3(&mPolyF4, 200, 200);
         }
 
         {
+            PolyFT4_Init_4F8870(&mPolyFT4);
+
+            SetRGB0(&mPolyFT4, 127, 127, 127);
+
+            int xpos = 20;
+            int ypos = 30;
+            int w = 128*2;
+            int h = 128;
+
+            SetXY0(&mPolyFT4, xpos, ypos);
+            SetXY1(&mPolyFT4, xpos, ypos + h);
+            SetXY2(&mPolyFT4, xpos + w, ypos);
+            SetXY3(&mPolyFT4, xpos + w, ypos + h);
+
+            /* TODO: Use a smaller hard coded array with the image data, also test using pallete
+            std::vector<WORD> buffer(128 * 128);
+            FILE* f = fopen("AbeSpa.raw", "rb");
+            fread((BYTE*)buffer.data(), 1, 128 * 128 * 2, f);
+            fclose(f);
+
+            std::reverse(buffer.begin(), buffer.end());
+
+            PSX_RECT rect = { 640, 0, 128, 128 };
+            PSX_LoadImage_4F5FB0(&rect, (BYTE*)buffer.data());
+            */
+
+            Poly_Set_Blending_4F8A20(&mPolyFT4.mBase.header, 0);
+            Poly_Set_SemiTrans_4F8A60(&mPolyFT4.mBase.header, 0);
+
+            SetTPage(&mPolyFT4, PSX_getTPage_4F60E0(2, 0, 640, 0));
+            SetClut(&mPolyFT4, 0);
+            //SetClut(&mPolyFT4, PSX_getClut_4F6350(0, 0));
+
+            SetUV0(&mPolyFT4, 0, 0);
+            SetUV1(&mPolyFT4, 0, 128);
+            SetUV2(&mPolyFT4, 128, 0);
+            SetUV3(&mPolyFT4, 128, 128);
+
+        }
+
+        
+
+        {
             PolyG4_Init_4F88B0(&mPolyG4);
-            struct XY { short x; short y; };
-            XY points[4] =
-            {
-                { 150 + 100, 150 + 10 },
-                { 150 + 100, 200 + 10 },
-                { 200 + 100, 150 + 10 },
-                { 200 + 100, 200 + 10 },
-            };
 
-            mPolyG4.field_C_x0 = points[0].x;
-            mPolyG4.field_E_y0 = points[0].y;
+            SetRGB0(&mPolyG4, 255, 0, 0);
+            SetRGB1(&mPolyG4, 0, 0, 255);
+            SetRGB2(&mPolyG4, 0, 255, 0);
+            SetRGB3(&mPolyG4, 255, 0, 255);
 
-            mPolyG4.field_0_header.field_8_r0 = 255;
-            mPolyG4.field_0_header.field_9_g0 = 0;
-            mPolyG4.field_0_header.field_A_b0 = 0;
+            SetXY0(&mPolyG4, 150 + 100, 150 + 10);
+            SetXY1(&mPolyG4, 150 + 100, 200 + 10);
+            SetXY2(&mPolyG4, 200 + 100, 150 + 10);
+            SetXY3(&mPolyG4, 200 + 100, 200 + 10);
+        }
 
+        {
+            Line_F2_Init(&mLineF2);
+            SetRGB0(&mLineF2, 255, 55, 55);
+            SetXY0(&mLineF2, 40, 50);
+            SetXY1(&mLineF2, 200, 200);
+        }
 
-            mPolyG4.field_14_x1 = points[1].x;
-            mPolyG4.field_16_y1 = points[1].y;
+        {
+            Line_F3_Init(&mLineF3);
+            SetRGB0(&mLineF3, 55, 255, 55);
+            SetXY0(&mLineF3, 30, 30);
+            SetXY1(&mLineF3, 100, 200);
+            SetXY2(&mLineF3, 120, 180);
+        }
 
-            mPolyG4.field_10_r1 = 0;
-            mPolyG4.field_11_g1 = 0;
-            mPolyG4.field_12_b1 = 255;
-
-
-            mPolyG4.field_1C_x2 = points[2].x;
-            mPolyG4.field_1E_y2 = points[2].y;
-
-            mPolyG4.field_18_r2 = 0;
-            mPolyG4.field_19_g2 = 255;
-            mPolyG4.field_1A_b2 = 0;
-
-            mPolyG4.field_24_x3 = points[3].x;
-            mPolyG4.field_26_y3 = points[3].y;
-
-            mPolyG4.field_20_r3 = 255;
-            mPolyG4.field_21_g3 = 0;
-            mPolyG4.field_22_b3 = 255;
+        {
+            Line_F4_Init(&mLineF4);
+            SetRGB0(&mLineF4, 55, 155, 155);
+            SetXY0(&mLineF4, 20, 40);
+            SetXY1(&mLineF4, 110, 230);
+            SetXY2(&mLineF4, 120, 140);
+            SetXY3(&mLineF4, 140, 170);
         }
 
         {
             LineG2_Init(&mLineG2);
+            SetRGB0(&mLineG2, 255, 255, 0);
+            SetRGB1(&mLineG2, 255, 0, 255);
 
-            mLineG2.field_0_header.field_8_r0 = 255;
-            mLineG2.field_0_header.field_9_g0 = 255;
-            mLineG2.field_0_header.field_A_b0 = 0;
+            SetXY0(&mLineG2, 250, 80);
+            SetXY1(&mLineG2, 350, 110);
+        }
 
-            mLineG2.field_C_x0 = 250;
-            mLineG2.field_E_y0 = 80;
+        {
+            LineG3_Init(&mLineG3);
 
-            mLineG2.field_10_r1 = 255;
-            mLineG2.field_11_g1 = 0;
-            mLineG2.field_12_b1 = 255;
-
-
-            mLineG2.field_14_x1 = 350;
-            mLineG2.field_16_y1 = 110;
+            SetRGB0(&mLineG3, 55, 55, 90);
+            SetRGB1(&mLineG3, 155, 60, 255);
+            SetRGB2(&mLineG3, 50, 255, 255);
+  
+            SetXY1(&mLineG3, 100, 150);
+            SetXY0(&mLineG3, 150, 200);
+            SetXY2(&mLineG3, 200, 150);
         }
 
         {
             LineG4_Init(&mLineG4);
 
-            mLineG4.field_0_header.field_8_r0 = 255;
-            mLineG4.field_0_header.field_9_g0 = 255;
-            mLineG4.field_0_header.field_A_b0 = 0;
-            mLineG4.field_C_x0 = 280;
-            mLineG4.field_E_y0 = 120;
+            SetRGB0(&mLineG4, 255, 255, 0);
+            SetRGB1(&mLineG4, 255, 0, 255);
+            SetRGB2(&mLineG4, 255, 255, 0);
+            SetRGB3(&mLineG4, 255, 0, 255);
 
-            mLineG4.field_10_r1 = 255;
-            mLineG4.field_11_g1 = 0;
-            mLineG4.field_12_b1 = 255;
-            mLineG4.field_14_x1 = 300;
-            mLineG4.field_16_y1 = 150;
-
-
-            mLineG4.field_1C_x2 = 20;
-            mLineG4.field_1E_y2 = 20;
-            mLineG4.field_18_r2 = 255;
-            mLineG4.field_19_g2 = 255;
-            mLineG4.field_22_b3 = 0;
-
-            mLineG4.field_24_x3 = 200;
-            mLineG4.field_26_y3 = 50;
-            mLineG4.field_20_r3 = 255;
-            mLineG4.field_21_g3 = 0;
-            mLineG4.field_22_b3 = 50;
+            SetXY1(&mLineG4, 300, 150);
+            SetXY0(&mLineG4, 280, 120);
+            SetXY2(&mLineG4, 20, 20);
+            SetXY3(&mLineG4, 200, 50);
         }
     }
 
+    Line_F2 mLineF2 = {};
+    Line_F3 mLineF3 = {};
+    Line_F4 mLineF4 = {};
+
     Line_G2 mLineG2 = {};
+    Line_G3 mLineG3 = {};
     Line_G4 mLineG4 = {};
 
     Poly_G3 mPolyG3 = {};
     Poly_F3 mPolyF3 = {};
+    //Poly_FT3 a;
+    //Poly_GT3 b;
 
     Poly_G4 mPolyG4 = {};
     Poly_F4 mPolyF4 = {};
+    Poly_FT4 mPolyFT4 = {};
+    //Poly_GT4 b;
 
     Prim_ScreenOffset mScreenOffset = {};
     Prim_PrimClipper mPrimClipper = {};
@@ -1003,7 +1018,6 @@ private:
     // TODO: Test SetTPage
     // TODO: Test Prim_Sprt
     // TODO: Test Prim_Tile
-    // TODO: Test Poly_FT4
 };
 
 void DebugHelpers_Init() 
@@ -1156,9 +1170,7 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
         height = static_cast<int>(height / 0.575);
     }
 
-    mPolyF4->field_0_header.field_8_r0 = r;
-    mPolyF4->field_0_header.field_9_g0 = g;
-    mPolyF4->field_0_header.field_A_b0 = b;
+    SetRGB0(mPolyF4, r, g, b);
 
     struct XY { short x; short y; };
     XY points[4] =
@@ -1169,21 +1181,14 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
         { x + width, y + height },
     };
 
-    mPolyF4->field_C_x0 = points[0].x;
-    mPolyF4->field_E_y0 = points[0].y;
+    SetXY0(mPolyF4, points[0].x, points[0].y);
+    SetXY1(mPolyF4, points[1].x, points[1].y);
+    SetXY2(mPolyF4, points[2].x, points[2].y);
+    SetXY3(mPolyF4, points[3].x, points[3].y);
 
-    mPolyF4->field_10_x1 = points[1].x;
-    mPolyF4->field_12_y1 = points[1].y;
+    Poly_Set_SemiTrans_4F8A60(&mPolyF4->mBase.header, semiTransparent);
 
-    mPolyF4->field_14_x2 = points[2].x;
-    mPolyF4->field_16_y2 = points[2].y;
-
-    mPolyF4->field_18_x3 = points[3].x;
-    mPolyF4->field_1A_y3 = points[3].y;
-
-    Poly_Set_SemiTrans_4F8A60(&mPolyF4->field_0_header, semiTransparent);
-
-    OrderingTable_Add_4F8AA0(&ot[layer], &mPolyF4->field_0_header);
+    OrderingTable_Add_4F8AA0(&ot[layer], &mPolyF4->mBase.header);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
@@ -1214,23 +1219,16 @@ void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, ch
         x2 = static_cast<int>(x2 / 0.575);
     }
 
-    mLineG2->field_0_header.field_8_r0 = r;
-    mLineG2->field_0_header.field_9_g0 = g;
-    mLineG2->field_0_header.field_A_b0 = b;
+    // TODO: Might as well use Line_F2 here
+    SetRGB0(mLineG2, r, g, b);
+    SetXY0(mLineG2, static_cast<short>(x1), static_cast<short>(y1));
 
-    mLineG2->field_C_x0 = static_cast<short>(x1);
-    mLineG2->field_E_y0 = static_cast<short>(y1);
+    SetRGB1(mLineG2, r, g, b);
+    SetXY1(mLineG2, static_cast<short>(x2), static_cast<short>(y2));
 
-    mLineG2->field_10_r1 = r;
-    mLineG2->field_11_g1 = g;
-    mLineG2->field_12_b1 = b;
+    Poly_Set_SemiTrans_4F8A60(&mLineG2->mBase.header, semiTransparent);
 
-    mLineG2->field_14_x1 = static_cast<short>(x2);
-    mLineG2->field_16_y1 = static_cast<short>(y2);
-
-    Poly_Set_SemiTrans_4F8A60(&mLineG2->field_0_header, semiTransparent);
-
-    OrderingTable_Add_4F8AA0(&ot[layer], &mLineG2->field_0_header);
+    OrderingTable_Add_4F8AA0(&ot[layer], &mLineG2->mBase.header);
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 

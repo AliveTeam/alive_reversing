@@ -298,7 +298,7 @@ void LCDScreen::Render_460CB0(int ** ot)
         PSX_RECT clipRect = { 0,0,640,240 };
 
         Init_PrimClipper_4F5B80(&field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
-        OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index].field_0_header);
+        OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
         sFontDrawScreenSpace_5CA4B4 = 1;
         field_60_font.DrawString_4337D0(
@@ -322,7 +322,7 @@ void LCDScreen::Render_460CB0(int ** ot)
         clipRect = { static_cast<short>(screenXWorld), static_cast<short>(screenY - 12), static_cast<short>((maxWidth - screenX) / 0.575), 48 };
 
         Init_PrimClipper_4F5B80(&field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
-        OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index].field_0_header);
+        OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(screenXWorld, screenY, clipRect.w, 24, pScreenManager_5BB5F4->field_3A);
     }

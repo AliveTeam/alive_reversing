@@ -99,6 +99,31 @@ void Font::dtor_433540()
 #endif
 }
 
+struct Poly_FT42
+{
+    PrimHeader field_0_header;
+    __int16 field_C_x0;
+    __int16 field_E_y0;
+    char field_10_u0;
+    char field_11_v0;
+    __int16 field_12_clut;
+    __int16 field_14_x1;
+    __int16 field_16_y1;
+    char field_18_u1;
+    char field_19_v1;
+    __int16 field_1A_tpage;
+    __int16 field_1C_x2;
+    __int16 field_1E_y2;
+    char field_20_u2;
+    char field_21_v2;
+    __int16 field_22_pad1;
+    __int16 field_24_x3;
+    __int16 field_26_y3;
+    char field_28_u3;
+    char field_29_v3;
+    __int16 field_2A_pad2;
+};
+
 int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_5CA4B4)
@@ -147,45 +172,44 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
         const short widthScaled = static_cast<short>(charWidth * scale.GetDouble());
         const short heightScaled = static_cast<short>(charHeight * scale.GetDouble());
 
-        PolyFT4_Init_4F8870(poly);
-        Poly_Set_SemiTrans_4F8A60(&poly->field_0_header, bSemiTrans);
-        Poly_Set_Blending_4F8A20(&poly->field_0_header, a2);
+        Poly_FT42* pHack = (Poly_FT42*)poly;
 
-        poly->field_0_header.field_8_r0 = static_cast<BYTE>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange));
-        poly->field_0_header.field_9_g0 = static_cast<BYTE>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange));
-        poly->field_0_header.field_A_b0 = static_cast<BYTE>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange));
-        poly->field_1A_tpage = static_cast<short>(tpage);
-        poly->field_12_clut = static_cast<short>(clut);
+        PolyFT4_Init_4F8870(poly);
+        Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
+        Poly_Set_Blending_4F8A20(&poly->mBase.header, a2);
+
+        SetRGB0
+        (
+            poly,
+            static_cast<BYTE>(r + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
+            static_cast<BYTE>(g + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange)),
+            static_cast<BYTE>(b + Math_RandomRange_496AB0(-colorRandomRange, colorRandomRange))
+        );
+        
+        SetTPage(poly, static_cast<short>(tpage));
+        SetClut(poly, static_cast<short>(clut));
 
         // Padding
-        poly->field_22_pad1 = 0;
-        poly->field_2A_pad2 = 0;
+        poly->mVerts[1].mUv.tpage_clut_pad = 0;
+        poly->mVerts[2].mUv.tpage_clut_pad = 0;
 
         // P0
-        poly->field_C_x0 = offsetX;
-        poly->field_E_y0 = y;
-        poly->field_10_u0 = texture_u;
-        poly->field_11_v0 = texture_v;
+        SetXY0(poly, offsetX, y);
+        SetUV0(poly, texture_u, texture_v);
 
         // P1
-        poly->field_14_x1 = offsetX + widthScaled;
-        poly->field_16_y1 = y;
-        poly->field_18_u1 = texture_u + charWidth;
-        poly->field_19_v1 = texture_v;
+        SetXY1(poly, offsetX + widthScaled, y);
+        SetUV1(poly, texture_u + charWidth, texture_v);
 
         // P2
-        poly->field_1C_x2 = offsetX;
-        poly->field_1E_y2 = y + heightScaled;
-        poly->field_20_u2 = texture_u;
-        poly->field_21_v2 = texture_v + charHeight;
+        SetXY2(poly, offsetX, y + heightScaled);
+        SetUV2(poly, texture_u, texture_v + charHeight);
 
         // P3
-        poly->field_24_x3 = offsetX + widthScaled;
-        poly->field_26_y3 = y + heightScaled;
-        poly->field_28_u3 = texture_u + charWidth;
-        poly->field_29_v3 = texture_v + charHeight;
+        SetXY3(poly, offsetX + widthScaled, y + heightScaled);
+        SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
 
-        OrderingTable_Add_4F8AA0(&ot[otLayer], &poly->field_0_header);
+        OrderingTable_Add_4F8AA0(&ot[otLayer], &poly->mBase.header);
 
         ++characterRenderCount;
 

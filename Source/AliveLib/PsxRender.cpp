@@ -117,15 +117,15 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
     int width_copy = 0;
     int height_copy = 0;
 
-    char v5 = any.mPrimHeader->field_B_code;
-    int itemToDrawType = any.mPrimHeader->field_B_code;
+    char v5 = any.mPrimHeader->rgb_code.code_or_pad;
+    int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
 
     // int v9 = dword_C2D03C++ + 1;
     if ((v5 & 0x60) == 96)
     {
         switch (itemToDrawType & 0xFC) // Mask off semi trans and blending bits
         {
-        case 96: // 0x60 Tile
+        case PrimTypeCodes::eTile:
             LOG_INFO("96");
             /*
             width_copy = *((WORD *)pOtItem + 8);
@@ -137,21 +137,21 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
             width_copy = any.mSprt->field_14_w;
             height_copy = height;
             goto LABEL_36;
-        case 104: // 0x68 Tile1
+        case PrimTypeCodes::eTile1:
             LOG_INFO("104");
             //v11 = 1;
             goto LABEL_30;
-        case 112: // 0x70 Tile8
+        case PrimTypeCodes::eTile8:
             LOG_INFO("112");
             //v11 = 8;
             goto LABEL_30;
-        case 116: // 0x74 Sprt8
+        case PrimTypeCodes::eSprt8:
             LOG_INFO("116");
             //height = 8;
             //height_copy = 8;
             //width = 8;
             goto LABEL_35;
-        case 120: // 0x78 Tile16
+        case PrimTypeCodes::eTile16:
             LOG_INFO("120");
             //v11 = 16;
         LABEL_30:
@@ -163,7 +163,8 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
             //v24 = v9;
             //PSX_4F6A70(v9, &v23, (unsigned __int8 *)pOtItem);
             break;
-        case 124: // 0x7C setSprt16
+
+        case PrimTypeCodes::eSprt16:
         {
             LOG_INFO("124");
             //height = 16;
@@ -173,12 +174,12 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
             //width_copy = width;
         LABEL_36: // e
 
-            itemToDrawType = any.mPrimHeader->field_B_code;
+            itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
 
             BYTE b = 0;
             BYTE g = 0;
             BYTE r = 0;
-            if (itemToDrawType & 1) // Blending disabled
+            if (itemToDrawType & 1) // Blending disabled bit
             {
                 b = 128;
                 g = 128;
@@ -186,21 +187,21 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
             }
             else
             {
-                r = any.mPrimHeader->field_8_r0;
-                g = any.mPrimHeader->field_9_g0;
-                b = any.mPrimHeader->field_A_b0;
+                r = any.mPrimHeader->rgb_code.r;
+                g = any.mPrimHeader->rgb_code.g;
+                b = any.mPrimHeader->rgb_code.b;
             }
 
             // TODO: Not really a SPRT here but the fields match
-            short x0 = drawEnv_of0 + any.mSprt->field_C_x0; // offset + ?
-            short y0 = drawEnv_of1 + any.mSprt->field_E_y0; // offset + ?;
-            short u0 = any.mSprt->field_10_u0;
-            short v0 = any.mSprt->field_11_v0;
+            short x0 = drawEnv_of0 + any.mSprt->mBase.vert.x;
+            short y0 = drawEnv_of1 + any.mSprt->mBase.vert.y;
+            short u0 = any.mSprt->mUv.u;
+            short v0 = any.mSprt->mUv.v;
 
             // Textured rect rendering ?
             dword_C2D04C(x0, y0, u0, v0, r, g, b, width, height,
                 itemToDrawType,
-                itemToDrawType & 2); // Semi transparency
+                itemToDrawType & 2); // Semi transparency bit
         }
         break;
         }
@@ -250,7 +251,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 
         if (pOtItem < pLastOtItem || pOtItem >= pOtEnd) // Must actually be start otherwise check makes no sense ??
         {
-            int itemToDrawType = any.mPrimHeader->field_B_code;
+            int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
             switch (itemToDrawType)
             {
             case 2: // ??
@@ -264,14 +265,14 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             case PrimTypeCodes::ePrimClipper:
                 sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x = any.mPrimClipper->field_C_x;
                 sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y = any.mPrimClipper->field_E_y;
-                sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w = any.mPrimHeader->field_4.mRect.w;
-                sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h = any.mPrimHeader->field_4.mRect.h;
+                sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w = any.mPrimHeader->header.mRect.w;
+                sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h = any.mPrimHeader->header.mRect.h;
 
                 PSX_SetDrawEnv_Impl_4FE420(
                     16 * any.mPrimClipper->field_C_x,
                     16 * any.mPrimClipper->field_E_y,
-                    (16 * (any.mPrimClipper->field_C_x + any.mPrimHeader->field_4.mRect.w)) - 16,
-                    (16 * (any.mPrimClipper->field_E_y + any.mPrimHeader->field_4.mRect.h)) - 16,
+                    (16 * (any.mPrimClipper->field_C_x + any.mPrimHeader->header.mRect.w)) - 16,
+                    (16 * (any.mPrimClipper->field_E_y + any.mPrimHeader->header.mRect.h)) - 16,
                     1000 / 2,
                     nullptr);
                 break;
@@ -306,7 +307,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             }
         }
 
-        pOtItem = (int **)any.mPrimHeader->field_0_tag;
+        pOtItem = (int **)any.mPrimHeader->tag;
     }
 
     return false;

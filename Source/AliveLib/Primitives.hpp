@@ -10,6 +10,7 @@ struct PSX_Pos16
 {
     short x, y;
 };
+ALIVE_ASSERT_SIZEOF(PSX_Pos16, 0x4);
 
 struct PrimHeaderPart_Normal
 {
@@ -17,12 +18,14 @@ struct PrimHeaderPart_Normal
     char field_5_unknown;
     __int16 field_6_pad0;
 };
+ALIVE_ASSERT_SIZEOF(PrimHeaderPart_Normal, 0x4);
 
 struct PrimHeaderPart_PsxRect
 {
     short w;
     short h;
 };
+ALIVE_ASSERT_SIZEOF(PrimHeaderPart_PsxRect, 0x4);
 
 union PrimHeaderPart
 {
@@ -31,127 +34,137 @@ union PrimHeaderPart
 };
 ALIVE_ASSERT_SIZEOF(PrimHeaderPart, 4);
 
+struct Prim_RGB
+{
+    BYTE r;
+    BYTE g;
+    BYTE b;
+    BYTE code_or_pad;
+};
+ALIVE_ASSERT_SIZEOF(Prim_RGB, 0x4);
+
 struct PrimHeader
 {
-    int* field_0_tag;
-    PrimHeaderPart field_4;
-    BYTE field_8_r0;
-    BYTE field_9_g0;
-    BYTE field_A_b0;
-    BYTE field_B_code;
+    int* tag;
+    PrimHeaderPart header;
+    Prim_RGB rgb_code;
 };
 ALIVE_ASSERT_SIZEOF(PrimHeader, 0xC);
 
+struct FVert
+{
+    __int16 x;
+    __int16 y;
+};
+ALIVE_ASSERT_SIZEOF(FVert, 0x4);
+
+struct GVert
+{
+    Prim_RGB mRgb;
+    FVert mVert;
+};
+ALIVE_ASSERT_SIZEOF(GVert, 0x8);
+
+struct Poly_Base
+{
+    PrimHeader header;
+    FVert vert;
+};
+ALIVE_ASSERT_SIZEOF(Poly_Base, 0x10);
+
+struct UV
+{
+    BYTE u;
+    BYTE v;
+    WORD tpage_clut_pad;
+};
+ALIVE_ASSERT_SIZEOF(UV, 0x4);
+
+struct TVert
+{
+    FVert mVert;
+    UV mUv;
+};
+ALIVE_ASSERT_SIZEOF(TVert, 0x8);
+
+struct TGVert
+{
+    Prim_RGB mRgb;
+    FVert mVert;
+    UV mUv;
+};
+// TODO: Assert size
+
 struct Poly_G3
 {
-    PrimHeader field_0_header;
-
-    __int16 field_C_x0;
-    __int16 field_E_y0;
-
-    BYTE field_10_r1;
-    BYTE field_11_g1;
-    BYTE field_12_b1;
-    char field_13_pad2;
-    __int16 field_14_x1;
-    __int16 field_16_y1;
-
-    BYTE field_18_r2;
-    BYTE field_19_g2;
-    BYTE field_1A_b2;
-    char field_1B_pad3;
-    __int16 field_1C_x2;
-    __int16 field_1E_y2;
+    Poly_Base mBase;
+    GVert mVerts[2];
 };
 ALIVE_ASSERT_SIZEOF(Poly_G3, 0x20);
 
+struct FVertWrapper
+{
+    FVert mVert;
+};
+
 struct Poly_F3
 {
-    PrimHeader field_0_header;
-    __int16 field_C_x0;
-    __int16 field_E_y0;
-    __int16 field_10_x1;
-    __int16 field_12_y1;
-    __int16 field_14_x2;
-    __int16 field_16_y2;
+    Poly_Base mBase;
+    FVertWrapper mVerts[2];
 };
 ALIVE_ASSERT_SIZEOF(Poly_F3, 0x18);
 
+
 struct Poly_F4
 {
-    PrimHeader field_0_header;
-    __int16 field_C_x0;
-    __int16 field_E_y0;
-    __int16 field_10_x1;
-    __int16 field_12_y1;
-    __int16 field_14_x2;
-    __int16 field_16_y2;
-    __int16 field_18_x3;
-    __int16 field_1A_y3;
+    Poly_Base mBase;
+    FVertWrapper mVerts[3];
 };
 ALIVE_ASSERT_SIZEOF(Poly_F4, 0x1C);
 
+struct Poly_FT3
+{
+    Poly_Base mBase;
+    UV mUv;
+    TVert mVerts[2];
+};
+ALIVE_ASSERT_SIZEOF(Poly_FT3, 0x24);
+
 struct Poly_FT4
 {
-    PrimHeader field_0_header;
-    __int16 field_C_x0;
-    __int16 field_E_y0;
-    char field_10_u0;
-    char field_11_v0;
-    __int16 field_12_clut;
-    __int16 field_14_x1;
-    __int16 field_16_y1;
-    char field_18_u1;
-    char field_19_v1;
-    __int16 field_1A_tpage;
-    __int16 field_1C_x2;
-    __int16 field_1E_y2;
-    char field_20_u2;
-    char field_21_v2;
-    __int16 field_22_pad1;
-    __int16 field_24_x3;
-    __int16 field_26_y3;
-    char field_28_u3;
-    char field_29_v3;
-    __int16 field_2A_pad2;
+    Poly_Base mBase;
+    UV mUv;
+    TVert mVerts[3];
 };
 ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
 
 struct Poly_G4
 {
-    PrimHeader field_0_header;
-
-    __int16 field_C_x0;
-    __int16 field_E_y0;
-
-    BYTE field_10_r1;
-    BYTE field_11_g1;
-    BYTE field_12_b1;
-    char field_13_pad2;
-    __int16 field_14_x1;
-    __int16 field_16_y1;
-
-    BYTE field_18_r2;
-    BYTE field_19_g2;
-    BYTE field_1A_b2;
-    char field_1B_pad3;
-    __int16 field_1C_x2;
-    __int16 field_1E_y2;
-
-    BYTE field_20_r3;
-    BYTE field_21_g3;
-    BYTE field_22_b3;
-    char field_23_pad4;
-    __int16 field_24_x3;
-    __int16 field_26_y3;
+    Poly_Base mBase;
+    GVert mVerts[3];
 };
 ALIVE_ASSERT_SIZEOF(Poly_G4, 0x28);
 
+struct Poly_GT4
+{
+    Poly_Base mBase;
+    UV mUv;
+    TGVert mVerts[2];
+};
+// TODO: Assert size
+
+struct Poly_GT3
+{
+    Poly_Base mBase;
+    UV mUv;
+    TGVert mVerts[3];
+};
+// TODO: Assert size
 
 // TODO: FIX ME - in hacked window mode screen offset doesn't actually work. Notice how explosion/screen shakes do nothing.
 struct Prim_ScreenOffset
 {
-    PrimHeader field_0_header;
+    PrimHeader mBase;
     short field_C_xoff;
     short field_E_yoff;
 };
@@ -159,7 +172,7 @@ ALIVE_ASSERT_SIZEOF(Prim_ScreenOffset, 0x10);
 
 struct Prim_PrimClipper
 {
-    PrimHeader field_0_header;
+    PrimHeader mBase;
     short field_C_x;
     short field_E_y;
 };
@@ -167,71 +180,98 @@ ALIVE_ASSERT_SIZEOF(Prim_PrimClipper, 0x10);
 
 struct Prim_SetTPage
 {
-    PrimHeader field_0_header;
+    PrimHeader mBase;
     int field_C_tpage;
 };
 ALIVE_ASSERT_SIZEOF(Prim_SetTPage, 0x10);
 
+struct Line_F2
+{
+    Poly_Base mBase;
+    FVertWrapper mVerts[1];
+};
+// TODO: Assert size
+
+struct Line_F3
+{
+    Poly_Base mBase;
+    FVertWrapper mVerts[2];
+    DWORD pad;
+};
+// TODO: Assert size
+
+struct Line_F4
+{
+    Poly_Base mBase;
+    FVertWrapper mVerts[3];
+    DWORD pad;
+};
+// TODO: Assert size
 
 struct Line_G2
 {
-    PrimHeader field_0_header;
+    Poly_Base mBase;
+    GVert mVerts[1];
+};
+// TODO: Assert size
 
-    __int16 field_C_x0;
-    __int16 field_E_y0;
-
-    BYTE field_10_r1;
-    BYTE field_11_g1;
-    BYTE field_12_b1;
-    char field_13_pad2;
-    __int16 field_14_x1;
-    __int16 field_16_y1;
+struct Line_G3
+{
+    Poly_Base mBase;
+    GVert mVerts[2];
 };
 // TODO: Assert size
 
 struct Line_G4
 {
-    PrimHeader field_0_header;
-
-    __int16 field_C_x0;
-    __int16 field_E_y0;
-
-    BYTE field_10_r1;
-    BYTE field_11_g1;
-    BYTE field_12_b1;
-    char field_13_pad2;
-    __int16 field_14_x1;
-    __int16 field_16_y1;
-
-    BYTE field_18_r2;
-    BYTE field_19_g2;
-    BYTE field_1A_b2;
-    char field_1B_pad3;
-    __int16 field_1C_x2;
-    __int16 field_1E_y2;
-
-    BYTE field_20_r3;
-    BYTE field_21_g3;
-    BYTE field_22_b3;
-    char field_23_pad4;
-    __int16 field_24_x3;
-    __int16 field_26_y3;
+    Poly_Base mBase;
+    GVert mVerts[3];
     DWORD field_28_pad;
 };
 ALIVE_ASSERT_SIZEOF(Line_G4, 0x2C);
 
 struct Prim_Sprt
 {
-    PrimHeader field_0_header;
-    short field_C_x0;
-    short field_E_y0;
-    BYTE field_10_u0;
-    BYTE field_11_v0;
-    WORD field_12_clut;
+    Poly_Base mBase;
+    UV mUv;
     __int16 field_14_w;
     __int16 field_16_h;
 };
 ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
+
+struct Prim_Sprt_16
+{
+    Poly_Base mBase;
+    UV mUv;
+};
+
+struct Prim_Sprt_8
+{
+    Poly_Base mBase;
+    UV mUv;
+};
+
+struct Prim_Tile
+{
+    Poly_Base mBase;
+    __int16 field_14_w;
+    __int16 field_16_h;
+};
+
+struct Prim_Tile_16
+{
+    Poly_Base mBase;
+};
+
+struct Prim_Tile_8
+{
+    Poly_Base mBase;
+};
+
+struct Prim_Tile_1
+{
+    Poly_Base mBase;
+};
 
 enum PrimTypeCodes
 {
@@ -282,24 +322,160 @@ union PrimAny
 {
     void* mVoid;
     PrimHeader* mPrimHeader;
+
     Prim_SetTPage* mSetTPage;
     Prim_PrimClipper* mPrimClipper;
     Prim_ScreenOffset* mScreenOffset;
-    Poly_G3* mPolyG3;
+    // TODO: Type 2
+    // TODO: Type 0x83 (move image?)
+    // TODO: Type 0x84 (used in gas rendering)
+
+    Prim_Sprt* mSprt;
+    Prim_Sprt_16* mSprt16;
+    Prim_Sprt_8* mSprt8;
+
+    Prim_Tile* mTile;
+    Prim_Tile_16* mTile16;
+    Prim_Tile_8* mTile8;
+    Prim_Tile_1* mTile1;
+
     Poly_F3* mPolyF3;
+    Poly_FT3* ePolyFT3;
+    Poly_G3* mPolyG3;
+    Poly_GT3* ePolyGT3;
+
     Poly_F4* mPolyF4;
     Poly_FT4* mPolyFT4;
     Poly_G4* mPolyG4;
+    Poly_GT4* ePolyGT4;
+
+    Line_F2* mLineF2;
+    Line_F3* mLineF3;
+    Line_F4* mLineF4;
+
     Line_G2* mLineG2;
+    Line_G3* mLineG3;
     Line_G4* mLineG4;
-    Prim_Sprt* mSprt;
 };
 ALIVE_ASSERT_SIZEOF(PrimAny, sizeof(void*));
 
+template<class T>
+inline void SetRGB0(T* prim, BYTE r, BYTE g, BYTE b)
+{
+    prim->mBase.header.rgb_code.r = r;
+    prim->mBase.header.rgb_code.g = g;
+    prim->mBase.header.rgb_code.b = b;
+}
 
-EXPORT void PolyF3_Init(Poly_F3* pPoly);
-EXPORT void LineG2_Init(Line_G2* pLine);
-EXPORT void LineG4_Init(Line_G4* pLine);
+template<class T>
+inline void SetXY_Generic(T* prim, int idx, short x, short y)
+{
+    prim->mVerts[idx].mVert.x = x;
+    prim->mVerts[idx].mVert.y = y;
+}
+
+template<class T>
+inline void SetUV_Generic(T* prim, int idx, BYTE u, BYTE v)
+{
+    prim->mVerts[idx].mUv.u = u;
+    prim->mVerts[idx].mUv.v = v;
+}
+
+template<class T>
+inline void SetRGB_Generic(T* prim, int idx, BYTE r, BYTE g, BYTE b)
+{
+    prim->mVerts[idx].mRgb.r = r;
+    prim->mVerts[idx].mRgb.g = g;
+    prim->mVerts[idx].mRgb.b = b;
+}
+
+template<class T>
+inline void SetRGB1(T* prim, BYTE r, BYTE g, BYTE b)
+{
+    SetRGB_Generic(prim, 0, r, g, b);
+}
+
+template<class T>
+inline void SetRGB2(T* prim, BYTE r, BYTE g, BYTE b)
+{
+    SetRGB_Generic(prim, 1, r, g, b);
+}
+
+template<class T>
+inline void SetRGB3(T* prim, BYTE r, BYTE g, BYTE b)
+{
+    SetRGB_Generic(prim, 2, r, g, b);
+}
+
+template<class T>
+inline void SetXY0(T* prim, short x, short y)
+{
+    prim->mBase.vert.x = x;
+    prim->mBase.vert.y = y;
+}
+
+template<class T>
+inline void SetUV0(T* prim, BYTE u, BYTE v)
+{
+    prim->mUv.u = u;
+    prim->mUv.v = v;
+}
+
+template<class T>
+inline void SetUV1(T* prim, BYTE u, BYTE v)
+{
+    SetUV_Generic(prim, 0, u, v);
+}
+template<class T>
+inline void SetUV2(T* prim, BYTE u, BYTE v)
+{
+    SetUV_Generic(prim, 1, u, v);
+}
+
+template<class T>
+inline void SetUV3(T* prim, BYTE u, BYTE v)
+{
+    SetUV_Generic(prim, 2, u, v);
+}
+
+template<class T>
+inline void SetXY1(T* prim, short x, short y)
+{
+    SetXY_Generic(prim, 0, x, y);
+}
+
+template<class T>
+inline void SetXY2(T* prim, short x, short y)
+{
+    SetXY_Generic(prim, 1, x, y);
+}
+
+template<class T>
+inline void SetXY3(T* prim, short x, short y)
+{
+    SetXY_Generic(prim, 2, x, y);
+}
+
+template<class T>
+inline void SetTPage(T* prim, short tpage)
+{
+    prim->mVerts[0].mUv.tpage_clut_pad = tpage;
+}
+
+template<class T>
+inline void SetClut(T* prim, short clut)
+{
+    prim->mUv.tpage_clut_pad = clut;
+}
+
+void PolyF3_Init(Poly_F3* pPoly);
+void Line_F2_Init(Line_F2* pLine);
+void Line_F3_Init(Line_F3* pLine);
+void Line_F4_Init(Line_F4* pLine);
+
+void LineG2_Init(Line_G2* pLine);
+void LineG3_Init(Line_G3* pLine);
+void LineG4_Init(Line_G4* pLine);
 
 EXPORT void CC Sprt_Init_4F8910(Prim_Sprt* pPrim);
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly);
