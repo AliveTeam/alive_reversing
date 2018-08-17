@@ -489,11 +489,6 @@ namespace Test
         gBaseGameObject_list_BB47C4 = nullptr;
 
         // Test dirty bit helpers
-        sm.field_64_20x16_dirty_bits->SetBit(25, true);
-        sm.field_64_20x16_dirty_bits->SetBit(24, false);
-
-        ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetBit(25), true);
-        ASSERT_EQ(sm.field_64_20x16_dirty_bits->GetBit(24), false);
 
         sm.field_64_20x16_dirty_bits->SetTile(2, 8, true);
         sm.field_64_20x16_dirty_bits->SetTile(1, 4, false);

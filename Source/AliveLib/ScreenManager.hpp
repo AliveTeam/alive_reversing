@@ -36,21 +36,6 @@ struct DirtyBits
 {
     WORD mData[20]; // 20 Columns
 
-    bool GetBit(int n)
-    {
-        return mData[n / 16] & (1 << (n % 16));
-    }
-
-    void SetBit(int n, bool b)
-    {
-        mData[n / 16] &= ~(1 << (n % 16));
-        
-        if (b)
-        {
-            mData[n / 16] |= (1 << (n % 16));
-        }
-    }
-
     bool GetTile(int x, int y)
     {
         return mData[x] & (1 << y);
@@ -58,11 +43,13 @@ struct DirtyBits
 
     void SetTile(int x, int y, bool b)
     {
-        mData[x] &= ~(1 << y);
-        
         if (b)
         {
             mData[x] |= 1 << y;
+        }
+        else
+        {
+            mData[x] &= ~(1 << y);
         }
     }
 };
