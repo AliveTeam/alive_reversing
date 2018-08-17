@@ -38,7 +38,7 @@ struct DirtyBits
 
     bool GetTile(int x, int y)
     {
-        return mData[x] & (1 << y);
+        return mData[x] & (1 << y) ? true : false;
     }
 
     void SetTile(int x, int y, bool b)

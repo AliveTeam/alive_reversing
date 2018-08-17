@@ -590,18 +590,22 @@ void CheatController::ctor_421BD0()
 
 EXPORT void CC Game_Init_LoadingIcon_482CD0()
 {
-    BYTE **rsrc = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 8010, 1u, 0);
-    if (!rsrc)
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1u, 0);
+    if (!ppRes)
     {
-        ResourceManager::LoadResourceFile_49C170("LOADING.BAN", 0);
-        rsrc = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 8010, 1u, 0);
+        ResourceManager::LoadResourceFile_49C170("LOADING.BAN", nullptr);
+        ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 1u, 0);
     }
-    ResourceManager::Set_Header_Flags_49C650(rsrc, 4);
+    ResourceManager::Set_Header_Flags_49C650(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
 }
 
 EXPORT void CC Game_Free_LoadingIcon_482D40()
 {
-    NOT_IMPLEMENTED();
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, 0, 0);
+    if (ppRes)
+    {
+        ResourceManager::FreeResource_49C330(ppRes);
+    }
 }
 
 EXPORT void CC Game_Run_466D40()
