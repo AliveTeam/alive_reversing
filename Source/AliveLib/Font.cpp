@@ -99,31 +99,6 @@ void Font::dtor_433540()
 #endif
 }
 
-struct Poly_FT42
-{
-    PrimHeader field_0_header;
-    __int16 field_C_x0;
-    __int16 field_E_y0;
-    char field_10_u0;
-    char field_11_v0;
-    __int16 field_12_clut;
-    __int16 field_14_x1;
-    __int16 field_16_y1;
-    char field_18_u1;
-    char field_19_v1;
-    __int16 field_1A_tpage;
-    __int16 field_1C_x2;
-    __int16 field_1E_y2;
-    char field_20_u2;
-    char field_21_v2;
-    __int16 field_22_pad1;
-    __int16 field_24_x3;
-    __int16 field_26_y3;
-    char field_28_u3;
-    char field_29_v3;
-    __int16 field_2A_pad2;
-};
-
 int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, char r, char g, char b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_5CA4B4)
@@ -171,8 +146,6 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
 
         const short widthScaled = static_cast<short>(charWidth * scale.GetDouble());
         const short heightScaled = static_cast<short>(charHeight * scale.GetDouble());
-
-        Poly_FT42* pHack = (Poly_FT42*)poly;
 
         PolyFT4_Init_4F8870(poly);
         Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
