@@ -590,7 +590,13 @@ void CheatController::ctor_421BD0()
 
 EXPORT void CC Game_Init_LoadingIcon_482CD0()
 {
-    NOT_IMPLEMENTED();
+    BYTE **rsrc = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 8010, 1u, 0);
+    if (!rsrc)
+    {
+        ResourceManager::LoadResourceFile_49C170("LOADING.BAN", 0);
+        rsrc = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 8010, 1u, 0);
+    }
+    ResourceManager::Set_Header_Flags_49C650(rsrc, 4);
 }
 
 EXPORT void CC Game_Free_LoadingIcon_482D40()
