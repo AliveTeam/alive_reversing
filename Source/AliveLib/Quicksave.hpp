@@ -20,7 +20,7 @@ struct Quicksave_WorldInfo
     __int16 field_4_level;
     __int16 field_6_path;
     __int16 field_8_cam;
-    __int16 field_A_unknown_1;
+    unsigned __int16 field_A_unknown_1;
     __int16 field_C_controlled_x;
     __int16 field_E_controlled_y;
     __int16 field_10_controlled_scale;

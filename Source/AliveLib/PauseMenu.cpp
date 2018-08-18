@@ -375,11 +375,6 @@ EXPORT BaseGameObject * sub_49A630(BaseGameObject * /*ptr*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __fastcall sub_4A1F20(int /*a1*/, int /*a2*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT __int16 __fastcall sub_49A7A0(BaseGameObject * /*thisPtr*/, __int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
@@ -796,7 +791,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             field_13A = 0;
             return;
         case 6:
-            sub_4A1F20(3 * sCurrentControllerIndex_5C1BBE, 3 * sCurrentControllerIndex_5C1BBE);
+            DestroyObjects_4A1F20();
             sub_4C9870();
             sSwitchStates_5C1A28 = sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states;
             Abe::CreateFromSaveState_44D4F0(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);

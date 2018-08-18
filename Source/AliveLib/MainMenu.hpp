@@ -177,3 +177,6 @@ struct MainMenuPage
 
 
 ALIVE_VAR_EXTERN(int, sMainMenuObjectCounter_BB4400);
+
+ALIVE_VAR_EXTERN(char, sEnableCheatLevelSelect_5C1BEE);
+ALIVE_VAR_EXTERN(char, sEnableCheatFMV_5C1BEC);

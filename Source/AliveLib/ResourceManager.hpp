@@ -30,6 +30,7 @@ public:
         Resource_Seq = 0x20716553,
         Resource_VabHeader = 0x48424156,
         Resource_VabBody = 0x42424156,
+        Resource_NxtP = 0x5074784E,
     };
 
     enum ResourceHeaderFlags : __int16

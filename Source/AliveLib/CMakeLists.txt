@@ -110,6 +110,8 @@ add_library(AliveLib
     VRam.cpp
     Collisions.hpp
     Collisions.cpp
+    CheatController.hpp
+    CheatController.cpp
     WinMain.cpp
     WinMain.hpp)
 

@@ -33,6 +33,7 @@
 #include "PathData.hpp"
 #include "MusicController.hpp"
 #include <gmock/gmock.h>
+#include "CheatController.hpp"
 
 void Game_ForceLink() { }
 
@@ -87,7 +88,7 @@ ALIVE_VAR(1, 0x5C2F6C, DWORD, dword_5C2F6C, 0);
 ALIVE_VAR(1, 0x5C1BA0, WORD, word_5C1BA0, 0);
 ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
 
-ALIVE_VAR(1, 0x5BC120, class CheatController*, pCheatController_5BC120, nullptr);
+
 
 ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
 
@@ -128,6 +129,11 @@ EXPORT char CC SYS_PumpMessages_4EE4F4()
         }
     }
     return 0;
+}
+
+void DestroyObjects_4A1F20()
+{
+    NOT_IMPLEMENTED();
 }
 
 EXPORT double CC Calculate_FPS_495250(int frameCount)
@@ -547,46 +553,6 @@ EXPORT void CC DDCheat_Allocate_415320()
 
 EXPORT void CC Game_Loop_467230();
 
-class CheatController : public BaseGameObject
-{
-public:
-    virtual void VDestructor(signed int flags) override;
-    EXPORT void dtor_421C10(signed int flags);
-
-    CheatController();
-    EXPORT void ctor_421BD0();
- 
-    __int16 field_20;
-    __int16 field_22;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
-};
-ALIVE_ASSERT_SIZEOF(CheatController, 0x40);
-
-void CheatController::VDestructor(signed int flags)
-{
-    dtor_421C10(flags);
-}
-
-void CheatController::dtor_421C10(signed int /*flags*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-CheatController::CheatController()
-{
-
-}
-
-void CheatController::ctor_421BD0()
-{
-    NOT_IMPLEMENTED();
-}
 
 EXPORT void CC Game_Init_LoadingIcon_482CD0()
 {
