@@ -18,6 +18,7 @@
 #include "Midi.hpp"
 #include "Sfx.hpp"
 #include "Sys.hpp"
+#include "RenderingTestTimData.hpp"
 
 bool sDebugEnabled_VerboseEvents = false;
 
@@ -123,7 +124,7 @@ public:
                         auto framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += (framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                            y += static_cast<int>(framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
                         }
                     }
                 }
@@ -149,7 +150,7 @@ public:
     {
         HWND windowHandle = Sys_GetWindowHandle_4EE180();
         POINT mousePos;
-        bool mouseLeftDown = GetAsyncKeyState(VK_LBUTTON);
+        bool mouseLeftDown = GetAsyncKeyState(VK_LBUTTON) ? true : false;
         RECT r;
         GetClientRect(windowHandle, &r);
         GetCursorPos(&mousePos);
@@ -169,8 +170,8 @@ public:
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
 
-                int x = (aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent()) / 0.575;
-                int y = (aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent());
+                int x = static_cast<int>((aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent()) / 0.575);
+                int y = static_cast<int>((aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent()));
 
                 if (Vec2Distance(x, y, mousePos.x, mousePos.y) < 10 && !isDragging && mouseLeftDown)
                 {
@@ -188,8 +189,7 @@ public:
                         auto framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            double scale = aliveObj->field_CC_sprite_scale.GetDouble();
-                            y += (framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                            y += static_cast<int>(framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
                         }
                     }
                 }
@@ -376,12 +376,12 @@ struct DebugConsoleMessage
     std::string message;
     int time;
     float y;
-    char r, g, b;
+    BYTE r, g, b;
 };
 
 static std::vector<DebugConsoleMessage> sDebugConsoleMessages;
 
-void ShowDebugConsoleMessage(std::string message, float duration, char r, char g, char b)
+void ShowDebugConsoleMessage(std::string message, float duration, BYTE r, BYTE g, BYTE b)
 {
     auto lines = SplitString(message, '\n');
     
@@ -812,6 +812,95 @@ public:
     std::string mLastCommand;
 };
 
+struct PsxTimHeader
+{
+    DWORD mMagic;   // 0x10
+    DWORD mFlag;    // 0x08 4BPP, 0x09 8BPP, 0x02 16BPP
+    DWORD mUnknown;
+    WORD mClutX;
+    WORD mClutY;
+    WORD mNumClutColours;
+    WORD mClutCount;
+};
+
+struct PsxTimImageHeader
+{
+    DWORD mSizeInBytes; // includes header size
+    PSX_RECT mImageRect;
+};
+
+struct TimInfo
+{
+    short mRenderWidth;
+    short mHeight;
+    WORD mTPage;
+    WORD mClut;
+};
+
+static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer)
+{
+    const PsxTimHeader* pHeader = reinterpret_cast<const PsxTimHeader*>(timBuffer);
+    const PsxTimImageHeader* pImgHeader = nullptr;
+    if (pHeader->mFlag == 2) // 16 bit
+    {
+        pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + (sizeof(DWORD) * 2)); // skip magic marker and flags
+        pInfo->mClut = 0;
+    }
+    else
+    {
+        int clutSkip = pHeader->mClutCount * pHeader->mNumClutColours * 2;
+        pImgHeader = reinterpret_cast<const PsxTimImageHeader*>(timBuffer + sizeof(PsxTimHeader) + clutSkip);
+
+        PSX_RECT clutRect = { static_cast<short>(pHeader->mClutX), static_cast<short>(pHeader->mClutY), static_cast<short>(pHeader->mNumClutColours), static_cast<short>(1) };
+        PSX_LoadImage16_4F5E20(&clutRect, (BYTE*)&pHeader[1]);
+
+        pInfo->mClut = static_cast<WORD>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
+    }
+
+    if (pHeader->mFlag == 2) // 16 bit
+    {
+        // Raw pixel data, convert it
+        PSX_LoadImage16_4F5E20(&pImgHeader->mImageRect, (BYTE*)&pImgHeader[1]);
+    }
+    else
+    {
+        // Bytes or nibbles of pal indices, don't convert it
+        PSX_LoadImage_4F5FB0(&pImgHeader->mImageRect, (BYTE*)&pImgHeader[1]);
+    }
+
+    int mode = 2;
+    if (pHeader->mFlag == 2) // 16 bit
+    {
+        mode = 2;
+    }
+    else if (pHeader->mFlag == 9) // 8 bit
+    {
+        mode = 1;
+    }
+    else if (pHeader->mFlag == 8) // 4 bit
+    {
+        mode = 0;
+    }
+    else
+    {
+        ALIVE_FATAL("Unknown TIM flags");
+    }
+
+    int widthMultipler = 1;
+    if (mode == 0)
+    {
+        widthMultipler = 4;
+    }
+    else if (mode == 1)
+    {
+        widthMultipler = 2;
+    }
+
+    pInfo->mRenderWidth = static_cast<short>(pImgHeader->mImageRect.w * widthMultipler);
+    pInfo->mHeight = pImgHeader->mImageRect.h;
+    pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(static_cast<char>(mode), 0, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
+}
+
 class RenderTest : public BaseGameObject
 {
 public:
@@ -840,6 +929,9 @@ public:
 
     virtual void VRender(int** pOrderingTable) override
     {
+        PSX_RECT screen = { 0, 0, 640, 240 };
+        PSX_ClearImage_4F5BD0(&screen, 127, 127, 127);
+
         static PSX_Pos16 xy = {};
         static short ypos = 0;
         ypos++;
@@ -874,7 +966,11 @@ public:
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG3.mBase.header);
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineG4.mBase.header);
 
-        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyFT4.mBase.header);
+        for (int i = 0; i < 4; i++)
+        {
+            OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyFT4[i].mBase.header);
+        }
+
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.mBase.header);
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG4.mBase.header);
         // TG
@@ -930,47 +1026,51 @@ private:
         }
 
         {
-            PolyFT4_Init_4F8870(&mPolyFT4);
+            for (int i = 0; i < 4; i++)
+            {
+                PolyFT4_Init_4F8870(&mPolyFT4[i]);
 
-            SetRGB0(&mPolyFT4, 127, 127, 127);
+                TimInfo timInfo = {};
+                if (i == 0)
+                {
+                    LoadTIM(&timInfo, &tim_16_bit[0]);
+                }
+                else if (i == 1)
+                {
+                    LoadTIM(&timInfo, &tim_8_bit[0]);
+                }
+                else if (i == 2)
+                {
+                    LoadTIM(&timInfo, &tim_8_bit2[0]);
+                }
+                else
+                {
+                    LoadTIM(&timInfo, &tim_4_bit[0]);
+                }
 
-            int xpos = 20;
-            int ypos = 30;
-            int w = 128*2;
-            int h = 128;
+                SetRGB0(&mPolyFT4[i], 127, 127, 127);
+                Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 0);
+                Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 0);
+                SetTPage(&mPolyFT4[i], timInfo.mTPage);
+                SetClut(&mPolyFT4[i], timInfo.mClut);
 
-            SetXY0(&mPolyFT4, xpos, ypos);
-            SetXY1(&mPolyFT4, xpos, ypos + h);
-            SetXY2(&mPolyFT4, xpos + w, ypos);
-            SetXY3(&mPolyFT4, xpos + w, ypos + h);
+                const short xpos = 30 + (150 * i);
+                const short ypos = 20;
+                const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+                const short h = timInfo.mHeight;
 
-            /* TODO: Use a smaller hard coded array with the image data, also test using pallete
-            std::vector<WORD> buffer(128 * 128);
-            FILE* f = fopen("AbeSpa.raw", "rb");
-            fread((BYTE*)buffer.data(), 1, 128 * 128 * 2, f);
-            fclose(f);
+                SetXY0(&mPolyFT4[i], xpos, ypos);
+                SetXY1(&mPolyFT4[i], xpos, ypos + h);
+                SetXY2(&mPolyFT4[i], xpos + w, ypos);
+                SetXY3(&mPolyFT4[i], xpos + w, ypos + h);
 
-            std::reverse(buffer.begin(), buffer.end());
-
-            PSX_RECT rect = { 640, 0, 128, 128 };
-            PSX_LoadImage_4F5FB0(&rect, (BYTE*)buffer.data());
-            */
-
-            Poly_Set_Blending_4F8A20(&mPolyFT4.mBase.header, 0);
-            Poly_Set_SemiTrans_4F8A60(&mPolyFT4.mBase.header, 0);
-
-            SetTPage(&mPolyFT4, PSX_getTPage_4F60E0(2, 0, 640, 0));
-            SetClut(&mPolyFT4, 0);
-            //SetClut(&mPolyFT4, PSX_getClut_4F6350(0, 0));
-
-            SetUV0(&mPolyFT4, 0, 0);
-            SetUV1(&mPolyFT4, 0, 128);
-            SetUV2(&mPolyFT4, 128, 0);
-            SetUV3(&mPolyFT4, 128, 128);
-
+                // This assumes the texture data is at 0,0 in the active texture page
+                SetUV0(&mPolyFT4[i], 0, 0);
+                SetUV1(&mPolyFT4[i], 0, static_cast<BYTE>(timInfo.mHeight));
+                SetUV2(&mPolyFT4[i], static_cast<BYTE>(timInfo.mRenderWidth), 0);
+                SetUV3(&mPolyFT4[i], static_cast<BYTE>(timInfo.mRenderWidth), static_cast<BYTE>(timInfo.mHeight));
+            }
         }
-
-        
 
         {
             PolyG4_Init_4F88B0(&mPolyG4);
@@ -1061,7 +1161,7 @@ private:
 
     Poly_G4 mPolyG4 = {};
     Poly_F4 mPolyF4 = {};
-    Poly_FT4 mPolyFT4 = {};
+    Poly_FT4 mPolyFT4[4] = {};
     //Poly_GT4 b;
 
     Prim_ScreenOffset mScreenOffset = {};
@@ -1224,19 +1324,10 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
 
     SetRGB0(mPolyF4, r, g, b);
 
-    struct XY { short x; short y; };
-    XY points[4] =
-    {
-        { x, y },
-        { x, y + height },
-        { x + width, y },
-        { x + width, y + height },
-    };
-
-    SetXY0(mPolyF4, points[0].x, points[0].y);
-    SetXY1(mPolyF4, points[1].x, points[1].y);
-    SetXY2(mPolyF4, points[2].x, points[2].y);
-    SetXY3(mPolyF4, points[3].x, points[3].y);
+    SetXY0(mPolyF4, static_cast<short>(x), static_cast<short>(y));
+    SetXY1(mPolyF4, static_cast<short>(x), static_cast<short>(y + height));
+    SetXY2(mPolyF4, static_cast<short>(x + width), static_cast<short>(y));
+    SetXY3(mPolyF4, static_cast<short>(x + width), static_cast<short>(y + height));
 
     Poly_Set_SemiTrans_4F8A60(&mPolyF4->mBase.header, semiTransparent);
 

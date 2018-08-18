@@ -30,7 +30,7 @@ namespace DEV
 extern bool sDebugEnabled_VerboseEvents;
 
 // Duration in seconds
-void ShowDebugConsoleMessage(std::string message, float duration, char r, char g, char b);
+void ShowDebugConsoleMessage(std::string message, float duration, BYTE r, BYTE g, BYTE b);
 void ShowDebugConsoleMessage(std::string message, float duration);
 
 std::vector<std::string> SplitString(const std::string& s, char seperator);

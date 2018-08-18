@@ -80,6 +80,7 @@ add_library(AliveLib
     Resources.cpp
     Font.hpp
     Font.cpp
+    RenderingTestTimData.hpp
     DebugHelpers.hpp
     DebugHelpers.cpp
     Events.cpp
