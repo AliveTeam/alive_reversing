@@ -38,6 +38,7 @@ bool StringStartsWith(std::string mainStr, std::string toMatch);
 std::string StringToLower(std::string s);
 std::string IntToHexString(int v);
 std::string EscapeUnknownCharacters(std::string text);
+bool IsStringNumber(const std::string& s);
 
 BaseGameObject * FindObjectOfType(int id);
 

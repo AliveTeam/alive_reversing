@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+#include "FixedPoint.hpp"
 
 struct PathLine
 {
@@ -26,6 +27,8 @@ public:
     EXPORT void ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
     EXPORT void dtor_4189F0();
     EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
+
+    EXPORT signed __int16 Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, FP * unknown, FP * hitX, FP * hitY, int modeMask);
 public:
     PathLine* field_0_pArray;
     WORD field_4_current_item_count;

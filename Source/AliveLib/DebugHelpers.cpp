@@ -484,6 +484,36 @@ void Command_HelperUpdate()
         sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
         sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
         sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
+        sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+        sActiveHero_5C1B68->field_D6_scale = 1;
+        FP rX, rY, rUnk;
+        
+        float subDevide = 368 / 10.0f;
+        for (int i = 0; i < 10; i++)
+        {
+            int centerIndex = ((i + 5) % 10);
+            FP xOffset = FP_FromDouble(pos.field_0_x + (subDevide * centerIndex));
+            FP yOffset = FP_FromDouble(pos.field_2_y);
+            if (sCollisions_DArray_5C1128->Raycast_417A60(xOffset, yOffset,
+                xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1))
+            {
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+                sActiveHero_5C1B68->field_D6_scale = 1;
+                sActiveHero_5C1B68->field_B8_xpos = rX;
+                sActiveHero_5C1B68->field_BC_ypos = rY;
+                break;
+            }
+            else if (sCollisions_DArray_5C1128->Raycast_417A60(xOffset, yOffset,
+                xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1 << 4))
+            {
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+                sActiveHero_5C1B68->field_D6_scale = 0;
+                sActiveHero_5C1B68->field_B8_xpos = rX;
+                sActiveHero_5C1B68->field_BC_ypos = rY;
+                break;
+            }
+        }
+        
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
     }
 }
@@ -496,7 +526,29 @@ void Command_ToggleBool(bool * var, std::string varName)
 
 void Command_Teleport(std::vector<std::string> args)
 {
-    int level = std::stoi(args[0]);
+    int level = 0;
+    if (IsStringNumber(args[0]))
+    {
+        level = std::stoi(args[0]);
+    }
+    else
+    {
+        bool found = false;
+        for (int i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
+        {
+            if (!strcmpi(sPathData_559660.paths[i].field_18_lvl_name, args[0].c_str()))
+            {
+                level = i;
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found)
+        {
+            DEV_CONSOLE_MESSAGE("Cannot find level specified!", 6);
+        }
+    }
     int path = std::stoi(args[1]);
     int cam = std::stoi(args[2]);
     gMap_5C3030.SetActiveCam_480D30(level, path, cam, 5, 0, 0);
@@ -1236,4 +1288,10 @@ void DEV::DebugOnFrameDraw()
 {
     sNextLinePrim = 0;
     sNextPolyF4Prim = 0;
+}
+
+bool IsStringNumber(const std::string& s)
+{
+    return !s.empty() && std::find_if(s.begin(),
+        s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
 }

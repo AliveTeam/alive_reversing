@@ -63,7 +63,7 @@ CheatEntry sCheatArray_5515F8[4] =
 
 void CheatController::ctor_421BD0()
 {
-    BaseGameObject::BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject_ctor_4DBFA0(1, 0);
     field_6_flags |= eBit08;
     SetVTable(this, 0x544B44);
     field_4_typeId = BaseGameObject::Types::eNone;
@@ -88,7 +88,7 @@ void CheatController::dtor_421C40()
 {
     SetVTable(this, 0x544B44);
     pCheatController_5BC120 = nullptr;
-    BaseGameObject::BaseGameObject_dtor_4DBEC0();
+    BaseGameObject_dtor_4DBEC0();
 }
 
 void CheatController::Update_421C70()
