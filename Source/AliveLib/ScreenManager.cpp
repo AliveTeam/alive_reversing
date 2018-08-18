@@ -76,8 +76,6 @@ void ScreenManager::dtor_40E460(signed int /*flags*/)
 
 void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx)
 {
-    NOT_IMPLEMENTED();
-
     x = max(x, 0);
     y = max(y, 0);
 
