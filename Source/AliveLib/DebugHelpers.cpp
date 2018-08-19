@@ -1098,7 +1098,7 @@ private:
         }
 
         {
-            for (int i = 0; i < 4; i++)
+            for (short i = 0; i < 4; i++)
             {
                 PolyFT4_Init_4F8870(&mPolyFT4[i]);
 
@@ -1318,7 +1318,7 @@ private:
 
         {
             Sprt_Init_4F8910(&mSprt);
-            SetRGB0(&mSprt, 127, 127, 127);
+            SetRGB0(&mSprt, 255, 127, 127);
             SetXY0(&mSprt, 550, 120);
 
             TimInfo timInfo = {};

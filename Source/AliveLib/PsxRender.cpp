@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 #include <gmock/gmock.h>
 
-using TPsxDraw = std::add_pointer<void(__cdecl)(short, short, int, int, int, int, int, short, short, int, int)>::type;
+using TPsxDraw = std::add_pointer<void(__cdecl)(short, short, int, int, BYTE, BYTE, BYTE, short, short, int, int)>::type;
 
 ALIVE_VAR(1, 0xC2D04C, TPsxDraw, pPSX_EMU_Render_51EF90_C2D04C, nullptr);
 
@@ -124,9 +124,9 @@ static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 draw
     // Blending disabled bit
     if (any.mPrimHeader->rgb_code.code_or_pad & 1)
     {
-        b = 128;
-        g = 128;
         r = 128;
+        g = 128;
+        b = 128;
     }
     else
     {
@@ -141,8 +141,15 @@ static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 draw
     const short v0 = any.mSprt->mUv.v;
 
     // Render flat or textured rectangle
-    pPSX_EMU_Render_51EF90_C2D04C(x0, y0, u0, v0, r, g, b, width, height,
-        any.mPrimHeader->rgb_code.code_or_pad,
+    pPSX_EMU_Render_51EF90_C2D04C(
+        x0, y0,
+        u0, v0,
+        r,
+        g,
+        b,
+        width,
+        height,
+        any.mSprt->mUv.tpage_clut_pad,
         any.mPrimHeader->rgb_code.code_or_pad & 2); // Semi transparency bit
 }
 
@@ -493,7 +500,7 @@ EXPORT void CC PSX_EMU_Render_TPage_2_51FA30(PSX_RECT* /*pRect*/, int /*tpageX*/
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, int r, int g, int b, __int16 w, __int16 h, int primCode, int semiTrans)
+EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, BYTE r, BYTE g, BYTE b, __int16 w, __int16 h, int clut, int semiTrans)
 {
     // Get the screen rect
     PSX_RECT screenRect  = {};
@@ -517,15 +524,15 @@ EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, int r, 
         // Render
         if (sTexture_page_idx_BD0F14 == 0)
         {
-            PSX_EMU_Render_TPage_0_51F0E0(&overlapRect, u, v, r, g, b, primCode, (__int16 *)semiTrans);
+            PSX_EMU_Render_TPage_0_51F0E0(&overlapRect, u, v, r, g, b, clut, (__int16 *)semiTrans);
         }
         else if (sTexture_page_idx_BD0F14 == 1)
         {
-            PSX_EMU_Render_TPage_1_51F660(&overlapRect, u, v, r, g, b, primCode, semiTrans);
+            PSX_EMU_Render_TPage_1_51F660(&overlapRect, u, v, r, g, b, clut, semiTrans);
         }
         else if (sTexture_page_idx_BD0F14 == 2)
         {
-            PSX_EMU_Render_TPage_2_51FA30(&overlapRect, u, v, r, g, b, primCode, semiTrans);
+            PSX_EMU_Render_TPage_2_51FA30(&overlapRect, u, v, r, g, b, clut, semiTrans);
         }
     }
 }
