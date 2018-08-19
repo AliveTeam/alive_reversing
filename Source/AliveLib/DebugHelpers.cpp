@@ -837,7 +837,7 @@ struct TimInfo
     WORD mClut;
 };
 
-static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer)
+static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, char abr)
 {
     const PsxTimHeader* pHeader = reinterpret_cast<const PsxTimHeader*>(timBuffer);
     const PsxTimImageHeader* pImgHeader = nullptr;
@@ -898,7 +898,7 @@ static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer)
 
     pInfo->mRenderWidth = static_cast<short>(pImgHeader->mImageRect.w * widthMultipler);
     pInfo->mHeight = pImgHeader->mImageRect.h;
-    pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(static_cast<char>(mode), 0, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
+    pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(static_cast<char>(mode), abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
 
 class RenderTest : public BaseGameObject
@@ -978,10 +978,8 @@ public:
         // Polys
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.mBase.header);
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG3.mBase.header);
-        // T
-        // TG
-
-
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyFT3.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyGT3.mBase.header);
     }
 
     void Destruct()
@@ -1015,6 +1013,65 @@ private:
         }
 
         {
+            PolyFT3_Init(&mPolyFT3);
+
+            TimInfo timInfo = {};
+            LoadTIM(&timInfo, &tim_16_bit[0], 3);
+
+            SetRGB0(&mPolyFT3, 127, 127, 127);
+
+            Poly_Set_Blending_4F8A20(&mPolyFT3.mBase.header, 1);
+            Poly_Set_SemiTrans_4F8A60(&mPolyFT3.mBase.header, 1);
+            SetTPage(&mPolyFT3, timInfo.mTPage);
+            SetClut(&mPolyFT3, timInfo.mClut);
+
+            const short xpos = 30;
+            const short ypos = 160;
+            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const short h = timInfo.mHeight;
+
+            SetXY0(&mPolyFT3, xpos, ypos);
+            SetXY1(&mPolyFT3, xpos, ypos + h);
+            SetXY2(&mPolyFT3, xpos + w, ypos);
+
+            // This assumes the texture data is at 0,0 in the active texture page
+            SetUV0(&mPolyFT3, 0, 0);
+            SetUV1(&mPolyFT3, 0, static_cast<BYTE>(timInfo.mHeight));
+            SetUV2(&mPolyFT3, static_cast<BYTE>(timInfo.mRenderWidth), 0);
+        }
+
+        {
+            PolyGT3_Init(&mPolyGT3);
+
+            TimInfo timInfo = {};
+            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+
+            SetRGB0(&mPolyGT3, 255, 0, 255);
+            // Much like PolyGT4 these have no effect, so same behaviour as PolyFT3
+            SetRGB1(&mPolyGT3, 255, 0, 0);
+            SetRGB2(&mPolyGT3, 0, 255, 0);
+
+            Poly_Set_Blending_4F8A20(&mPolyGT3.mBase.header, 0);
+            Poly_Set_SemiTrans_4F8A60(&mPolyGT3.mBase.header, 0);
+            SetTPage(&mPolyGT3, timInfo.mTPage);
+            SetClut(&mPolyGT3, timInfo.mClut);
+
+            const short xpos = 180;
+            const short ypos = 90;
+            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const short h = timInfo.mHeight;
+
+            SetXY0(&mPolyGT3, xpos, ypos);
+            SetXY1(&mPolyGT3, xpos, ypos + h);
+            SetXY2(&mPolyGT3, xpos + w, ypos);
+
+            // This assumes the texture data is at 0,0 in the active texture page
+            SetUV0(&mPolyGT3, 0, 0);
+            SetUV1(&mPolyGT3, 0, static_cast<BYTE>(timInfo.mHeight));
+            SetUV2(&mPolyGT3, static_cast<BYTE>(timInfo.mRenderWidth), 0);
+        }
+
+        {
             PolyF4_Init_4F8830(&mPolyF4);
 
             SetRGB0(&mPolyF4, 255, 255, 255);
@@ -1033,24 +1090,30 @@ private:
                 TimInfo timInfo = {};
                 if (i == 0)
                 {
-                    LoadTIM(&timInfo, &tim_16_bit[0]);
+                    LoadTIM(&timInfo, &tim_16_bit[0], 0);
+                    Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 0);
+                    Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 0);
                 }
                 else if (i == 1)
                 {
-                    LoadTIM(&timInfo, &tim_8_bit[0]);
+                    LoadTIM(&timInfo, &tim_8_bit[0], 1);
+                    Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
                 }
                 else if (i == 2)
                 {
-                    LoadTIM(&timInfo, &tim_8_bit2[0]);
+                    LoadTIM(&timInfo, &tim_8_bit2[0], 2);
+                    Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
                 }
                 else
                 {
-                    LoadTIM(&timInfo, &tim_4_bit[0]);
+                    LoadTIM(&timInfo, &tim_4_bit[0], 3);
+                    Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
                 }
 
                 SetRGB0(&mPolyFT4[i], 127, 127, 127);
-                Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 0);
-                Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 0);
                 SetTPage(&mPolyFT4[i], timInfo.mTPage);
                 SetClut(&mPolyFT4[i], timInfo.mClut);
 
@@ -1076,7 +1139,7 @@ private:
             PolyGT4_Init(&mPolyGT4);
 
             TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0]);
+            LoadTIM(&timInfo, &tim_16_bit[0], 0);
 
             // So it appears that only RGB0 changes the colour, so GT4 behaves the same
             // as FT4.
@@ -1091,7 +1154,7 @@ private:
             SetClut(&mPolyGT4, timInfo.mClut);
 
             const short xpos = 30;
-            const short ypos = 120;
+            const short ypos = 90;
             const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
             const short h = timInfo.mHeight;
 
@@ -1191,8 +1254,8 @@ private:
 
     Poly_G3 mPolyG3 = {};
     Poly_F3 mPolyF3 = {};
-    //Poly_FT3 a;
-    //Poly_GT3 b;
+    Poly_FT3 mPolyFT3 = {};
+    Poly_GT3 mPolyGT3 = {};
 
     Poly_G4 mPolyG4 = {};
     Poly_F4 mPolyF4 = {};

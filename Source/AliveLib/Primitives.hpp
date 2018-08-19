@@ -469,6 +469,9 @@ inline void SetClut(T* prim, short clut)
 }
 
 void PolyF3_Init(Poly_F3* pPoly);
+void PolyFT3_Init(Poly_FT3* pPoly);
+void PolyGT3_Init(Poly_GT3* pPoly);
+
 void Line_F2_Init(Line_F2* pLine);
 void Line_F3_Init(Line_F3* pLine);
 void Line_F4_Init(Line_F4* pLine);

@@ -63,6 +63,20 @@ void PolyF3_Init(Poly_F3* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF3);
 }
 
+void PolyFT3_Init(Poly_FT3* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyFT3);
+}
+
+void PolyGT3_Init(Poly_GT3* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyGT3);
+}
+
 void Line_F2_Init(Line_F2* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 4);
