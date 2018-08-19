@@ -958,8 +958,19 @@ public:
         {
             OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mTiles[i].mBase.header);
         }
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mTile8.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mTile16.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mTile.mBase.header);
 
         // Sprites
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mSprt8.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mSprt8_TPage.mBase);
+
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mSprt16.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mSprt16_TPage.mBase);
+
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mSprt.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mSprt_TPage.mBase);
 
         // Lines
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mLineF2.mBase.header);
@@ -1256,6 +1267,71 @@ private:
                 SetXY0(&mTiles[i], 30 + (i * 5), 10);
             }
         }
+
+        {
+            Init_Tile8(&mTile8);
+            SetRGB0(&mTile8, 55, 80, 55);
+            SetXY0(&mTile8, 180, 5);
+        }
+
+        {
+            Init_Tile16(&mTile16);
+            SetRGB0(&mTile16, 100, 255, 0);
+            SetXY0(&mTile16, 200, 2);
+        }
+
+        {
+            Init_Tile(&mTile);
+            SetRGB0(&mTile, 30, 50, 90);
+            SetXY0(&mTile, 450, 80);
+            mTile.field_14_w = 50;
+            mTile.field_16_h = 90;
+        }
+
+        {
+            Init_Sprt_8(&mSprt8);
+            SetRGB0(&mSprt8, 127, 127, 127);
+            SetXY0(&mSprt8, 520, 80);
+            
+            TimInfo timInfo = {};
+            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+
+            SetClut(&mSprt8, timInfo.mClut);
+            SetUV0(&mSprt8, 30, 30);
+
+            Init_SetTPage_4F5B60(&mSprt8_TPage, 0, 0, timInfo.mTPage);
+        }
+
+        {
+            Init_Sprt_16(&mSprt16);
+            SetRGB0(&mSprt16, 127, 127, 127);
+            SetXY0(&mSprt16, 520, 120);
+
+            TimInfo timInfo = {};
+            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+
+            SetClut(&mSprt8, timInfo.mClut);
+            SetUV0(&mSprt16, 30, 30);
+
+            Init_SetTPage_4F5B60(&mSprt16_TPage, 0, 0, timInfo.mTPage);
+        }
+
+        {
+            Sprt_Init_4F8910(&mSprt);
+            SetRGB0(&mSprt, 127, 127, 127);
+            SetXY0(&mSprt, 550, 120);
+
+            TimInfo timInfo = {};
+            LoadTIM(&timInfo, &tim_16_bit[0], 0);
+
+            SetClut(&mSprt, timInfo.mClut);
+            SetUV0(&mSprt, 10, 10);
+
+            mSprt.field_14_w = 50;
+            mSprt.field_16_h = 50;
+
+            Init_SetTPage_4F5B60(&mSprt_TPage, 0, 0, timInfo.mTPage);
+        }
     }
 
     Line_F2 mLineF2 = {};
@@ -1276,14 +1352,26 @@ private:
     Poly_FT4 mPolyFT4[4] = {};
     Poly_GT4 mPolyGT4 = {};
 
+    Prim_Tile_1 mTiles[10] = {};
+    Prim_Tile_8 mTile8 = {};
+    Prim_Tile_16 mTile16 = {};
+    Prim_Tile mTile = {};
+
+    Prim_SetTPage mSprt8_TPage = {};
+    Prim_Sprt_8 mSprt8 = {};
+
+    Prim_SetTPage mSprt16_TPage = {};
+    Prim_Sprt_16 mSprt16 = {};
+
+    Prim_SetTPage mSprt_TPage = {};
+    Prim_Sprt mSprt = {};
+
+    // TODO: Type 2
+    // TODO: Type 0x83 (move image?)
+    // TODO: Type 0x84 (used in gas rendering)
+
     Prim_ScreenOffset mScreenOffset = {};
     Prim_PrimClipper mPrimClipper = {};
-
-    Prim_Tile_1 mTiles[10] = {};
-
-    // TODO: Test SetTPage
-    // TODO: Test Prim_Sprt
-    // TODO: Test Prim_Tile
 };
 
 void DebugHelpers_Init() 

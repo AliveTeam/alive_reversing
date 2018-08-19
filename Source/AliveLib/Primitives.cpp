@@ -48,6 +48,20 @@ void CC InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_Pos16* 
     pPrim->field_E_yoff = pOffset->y;
 }
 
+void Init_Sprt_8(Prim_Sprt_8* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt8);
+}
+
+void Init_Sprt_16(Prim_Sprt_16* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt16);
+}
+
 void CC Sprt_Init_4F8910(Prim_Sprt* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 4);
@@ -127,6 +141,27 @@ void Init_Tile1(Prim_Tile_1* pPrim)
     SetNumLongs(&pPrim->mBase.header, 99);
     SetUnknown(&pPrim->mBase.header);
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile1);
+}
+
+void Init_Tile8(Prim_Tile_8* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile8);
+}
+
+void Init_Tile16(Prim_Tile_16* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile16);
+}
+
+void Init_Tile(Prim_Tile* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile);
 }
 
 void CC PolyG3_Init_4F8890(Poly_G3* pPrim)

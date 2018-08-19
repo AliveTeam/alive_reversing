@@ -481,8 +481,14 @@ void LineG3_Init(Line_G3* pLine);
 void LineG4_Init(Line_G4* pLine);
 
 void Init_Tile1(Prim_Tile_1* pTile);
+void Init_Tile8(Prim_Tile_8* pTile);
+void Init_Tile16(Prim_Tile_16* pTile);
+void Init_Tile(Prim_Tile* pTile);
 
+void Init_Sprt_8(Prim_Sprt_8* pPrim);
+void Init_Sprt_16(Prim_Sprt_16* pPrim);
 EXPORT void CC Sprt_Init_4F8910(Prim_Sprt* pPrim);
+
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly);
 EXPORT void CC PolyG4_Init_4F88B0(Poly_G4* pPoly);
 EXPORT void CC PolyF4_Init_4F8830(Poly_F4* pPoly);
