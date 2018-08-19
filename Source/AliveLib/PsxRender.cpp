@@ -86,18 +86,18 @@ EXPORT signed int __cdecl PSX_OT_Idx_From_Ptr_4F6A40(unsigned int /*ot*/)
 }
 
 
-EXPORT void __cdecl PSX_2_4F6A70(void* /*a1*/, WORD* /*a2*/, unsigned __int8* /*a3*/)
+EXPORT void __cdecl PSX_2_4F6A70(PSX_RECT* /*pRect*/, void* /*pPrim*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT unsigned __int8 *__cdecl PSX_Render_Polys_1_4F7110(int /*a1*/, int /*a2*/, int /*a3*/)
+EXPORT unsigned __int8* CC PSX_Render_Polys_1_4F7110(void* /*a1*/, int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-EXPORT void __cdecl PSX_Render_Polys_2_4F7960(int /*a1*/, int /*a2*/, int /*a3*/)
+EXPORT void __cdecl PSX_Render_Polys_2_4F7960(unsigned __int8* /*a1*/, int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -105,7 +105,7 @@ EXPORT void __cdecl PSX_Render_Polys_2_4F7960(int /*a1*/, int /*a2*/, int /*a3*/
 ALIVE_VAR(1, 0xbd30e4, int, sScreenXOffSet_BD30E4, 0);
 ALIVE_VAR(1, 0xbd30a4, int, sScreenYOffset_BD30A4, 0);
 
-EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
+EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* /*pOtPrim*/, int /*offX*/, int /*offY*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -115,119 +115,104 @@ EXPORT void CC PSX_84_4F7B80(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/, int
     NOT_IMPLEMENTED();
 }
 
+static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1, int width, int height)
+{
+    BYTE b = 0;
+    BYTE g = 0;
+    BYTE r = 0;
+
+    // Blending disabled bit
+    if (any.mPrimHeader->rgb_code.code_or_pad & 1)
+    {
+        b = 128;
+        g = 128;
+        r = 128;
+    }
+    else
+    {
+        r = any.mPrimHeader->rgb_code.r;
+        g = any.mPrimHeader->rgb_code.g;
+        b = any.mPrimHeader->rgb_code.b;
+    }
+
+    const short x0 = drawEnv_of0 + any.mSprt->mBase.vert.x;
+    const short y0 = drawEnv_of1 + any.mSprt->mBase.vert.y;
+    const short u0 = any.mSprt->mUv.u;
+    const short v0 = any.mSprt->mUv.v;
+
+    // Render flat or textured rectangle
+    pPSX_EMU_Render_51EF90_C2D04C(x0, y0, u0, v0, r, g, b, width, height,
+        any.mPrimHeader->rgb_code.code_or_pad,
+        any.mPrimHeader->rgb_code.code_or_pad & 2); // Semi transparency bit
+}
+
+static void DrawOTag_Render_TILE(PrimAny& any, short x, short y, short w, short h)
+{
+    PSX_RECT rect = { x,y,w,h };
+    PSX_2_4F6A70(&rect, any.mVoid);
+}
+
 static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1)
 {
-    int width = 0;
-    int height = 0;
-    int width_copy = 0;
-    int height_copy = 0;
-
-    char v5 = any.mPrimHeader->rgb_code.code_or_pad;
-    int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
-
-    // int v9 = sNumRenderedPrims_C2D03C++ + 1;
-    if ((v5 & 0x60) == 96)
+    switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad))
     {
-        switch (itemToDrawType & 0xFC) // Mask off semi trans and blending bits
+    case PrimTypeCodes::eSprt:
+        DrawOTag_Render_SPRT(any, drawEnv_of0, drawEnv_of1, any.mSprt->field_14_w, any.mSprt->field_16_h);
+        break;
+
+    case PrimTypeCodes::eSprt8:
+        DrawOTag_Render_SPRT(any, drawEnv_of0, drawEnv_of1, 8, 8);
+        break;
+
+    case PrimTypeCodes::eSprt16:
+        DrawOTag_Render_SPRT(any, drawEnv_of0, drawEnv_of1, 16, 16);
+        break;
+
+    case PrimTypeCodes::eTile:
+        DrawOTag_Render_TILE(any, drawEnv_of0 + any.mSprt->mBase.vert.x, drawEnv_of1 + any.mSprt->mBase.vert.y, any.mTile->field_14_w, any.mTile->field_16_h);
+        break;
+
+    case PrimTypeCodes::eTile1:
+        DrawOTag_Render_TILE(any, drawEnv_of0 + any.mSprt->mBase.vert.x, drawEnv_of1 + any.mSprt->mBase.vert.y, 1, 1);
+        break;
+
+    case PrimTypeCodes::eTile8:
+        DrawOTag_Render_TILE(any, drawEnv_of0 + any.mSprt->mBase.vert.x, drawEnv_of1 + any.mSprt->mBase.vert.y, 8, 8);
+        break;
+
+    case PrimTypeCodes::eTile16:
+        DrawOTag_Render_TILE(any, drawEnv_of0 + any.mSprt->mBase.vert.x, drawEnv_of1 + any.mSprt->mBase.vert.y, 16, 16);
+        break;
+
+    case PrimTypeCodes::eLineF2:
+    case PrimTypeCodes::eLineF3:
+    case PrimTypeCodes::eLineF4:
+    case PrimTypeCodes::eLineG2:
+    case PrimTypeCodes::eLineG3:
+    case PrimTypeCodes::eLineG4:
+        PSX_Render_Line_Prim_4F7D90(any.mVoid, drawEnv_of0, drawEnv_of1);
+        break;
+
+    case PrimTypeCodes::ePolyF3:
+    case PrimTypeCodes::ePolyFT3:
+    case PrimTypeCodes::ePolyG3:
+    case PrimTypeCodes::ePolyGT3:
+    case PrimTypeCodes::ePolyF4:
+    case PrimTypeCodes::ePolyFT4:
+    case PrimTypeCodes::ePolyG4:
+    case PrimTypeCodes::ePolyGT4:
         {
-        case PrimTypeCodes::eTile:
-            LOG_INFO("96");
-            /*
-            width_copy = *((WORD *)pOtItem + 8);
-            height_copy = *((WORD *)pOtItem + 9);*/
-            goto other_rend_L2;
-        case PrimTypeCodes::eSprt: // 0x64 Sprt
-            width = any.mSprt->field_14_w;
-            height = any.mSprt->field_16_h;
-            width_copy = any.mSprt->field_14_w;
-            height_copy = height;
-            goto LABEL_36;
-        case PrimTypeCodes::eTile1:
-            LOG_INFO("104");
-            //v11 = 1;
-            goto other_rend_L1;
-        case PrimTypeCodes::eTile8:
-            LOG_INFO("112");
-            //v11 = 8;
-            goto other_rend_L1;
-        case PrimTypeCodes::eSprt8:
-            LOG_INFO("116");
-            //height = 8;
-            //height_copy = 8;
-            //width = 8;
-            goto LABEL_35;
-        case PrimTypeCodes::eTile16:
-            LOG_INFO("120");
-            //v11 = 16;
-        other_rend_L1:
-            //height_copy = v11;
-            //width_copy = v11;
-        other_rend_L2:
-            //LOWORD(v9) = drawEnv_of1_copy + *((WORD *)pOtItem + 7);
-            //v23 = drawEnv_of0_copy + *((WORD *)pOtItem + 6);
-            //v24 = v9;
-            
-            //PSX_2_4F6A70(v9, &v23, (unsigned __int8 *)any.mVoid);
-            break;
-
-        case PrimTypeCodes::eSprt16:
-        {
-            LOG_INFO("124");
-            //height = 16;
-            //height_copy = 16;
-            //width = 16;
-        LABEL_35:
-            //width_copy = width;
-        LABEL_36: // e
-
-            itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
-
-            BYTE b = 0;
-            BYTE g = 0;
-            BYTE r = 0;
-            if (itemToDrawType & 1) // Blending disabled bit
+            // I think this works by func 1 populating some data structure and then func 2 does the actual rendering
+            unsigned __int8* pPolyBuffer = PSX_Render_Polys_1_4F7110(any.mVoid, drawEnv_of0, drawEnv_of1);
+            if (pPolyBuffer)
             {
-                b = 128;
-                g = 128;
-                r = 128;
+                PSX_Render_Polys_2_4F7960(pPolyBuffer, drawEnv_of0, drawEnv_of1);
             }
-            else
-            {
-                r = any.mPrimHeader->rgb_code.r;
-                g = any.mPrimHeader->rgb_code.g;
-                b = any.mPrimHeader->rgb_code.b;
-            }
-
-            // TODO: Not really a SPRT here but the fields match
-            short x0 = drawEnv_of0 + any.mSprt->mBase.vert.x;
-            short y0 = drawEnv_of1 + any.mSprt->mBase.vert.y;
-            short u0 = any.mSprt->mUv.u;
-            short v0 = any.mSprt->mUv.v;
-
-            // Textured rect rendering ?
-            pPSX_EMU_Render_51EF90_C2D04C(x0, y0, u0, v0, r, g, b, width, height,
-                itemToDrawType,
-                itemToDrawType & 2); // Semi transparency bit
         }
         break;
-        }
-    }
-    else if ((v5 & 0x40) == 64) // LineF2 and anything else that falls in 0x40 bit pattern  ?
-    {
-        PSX_Render_Line_Prim_4F7D90(any.mVoid, drawEnv_of0, drawEnv_of1); // Line rendering ?
-    }
-    else if ((v5 & PrimTypeCodes::ePolyF3) == PrimTypeCodes::ePolyF3) // and anything else that falls in 0x20 bit pattern?
-    {
-        // Flat/G/Tri/Quad rendering?
-        unsigned __int8 * v15 = PSX_Render_Polys_1_4F7110((int)any.mVoid, drawEnv_of0, drawEnv_of1);
-        if (v15)
-        {
-            PSX_Render_Polys_2_4F7960((int)v15, drawEnv_of0, drawEnv_of1);
-        }
     }
 }
 
-// TODO: For reference only, will be implemented when all prim types are recovered
 static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 {
     sScreenXOffSet_BD30E4 = 0;
@@ -260,8 +245,8 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
             switch (itemToDrawType)
             {
-            case 2: // ??
-                PSX_2_4F6A70(0, (WORD *)pOtItem + 6, (unsigned __int8 *)pOtItem);
+            case 2: // TODO: unknown
+                PSX_2_4F6A70(nullptr, any.mVoid);
                 break;
 
             case PrimTypeCodes::eSetTPage:
@@ -288,7 +273,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 sScreenYOffset_BD30A4 = any.mScreenOffset->field_E_yoff;
                 break;
 
-            case 0x83:
+            case 0x83: // TODO: unknown
                 // Unlock because move image will lock + unlock again
                 BMP_unlock_4F2100(&sPsxVram_C1D160);
                 PSX_MoveImage_4F5D50((PSX_RECT *)(pOtItem + 5), (int)pOtItem[3], (int)pOtItem[4]);
@@ -305,7 +290,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 }
                 return true;
 
-            case 0x84:
+            case 0x84: // TODO: unknown
                 // Appears for gas..
                 PSX_84_4F7B80((int)pOtItem[3], (int)pOtItem[4], (int)pOtItem[5], (int)pOtItem[6], (int)pOtItem[7]);
                 break;
@@ -324,8 +309,6 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 
 EXPORT void CC PSX_DrawOTag_4F6540(int** pOT)
 {
-    NOT_IMPLEMENTED();
-
     if (!sPsxEmu_EndFrameFnPtr_C1D17C || !sPsxEmu_EndFrameFnPtr_C1D17C(0))
     {
         if (byte_BD0F20 || !BMP_Lock_4F1FF0(&sPsxVram_C1D160))

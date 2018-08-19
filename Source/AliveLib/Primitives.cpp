@@ -199,9 +199,15 @@ void PolyGT4_Init(Poly_GT4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyGT4);
 }
 
+int PSX_Prim_Code_Without_Blending_Or_SemiTransparency(int code)
+{
+    // Last 2 bits are for blending and semi transparency enable
+    return code & 0xFC;
+}
+
 void CC Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly)
 {
-    if ((pPoly->mBase.header.rgb_code.code_or_pad & 0xFC) == PrimTypeCodes::ePolyFT4) // TODO: Add helper for this check, also used in DrawOTag?
+    if (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(pPoly->mBase.header.rgb_code.code_or_pad) == PrimTypeCodes::ePolyFT4)
     {
         pRect->x = pPoly->mBase.vert.x;
         pRect->y = pPoly->mBase.vert.y;
