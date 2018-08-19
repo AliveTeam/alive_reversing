@@ -8,7 +8,7 @@
 
 using TPsxDraw = std::add_pointer<void(__cdecl)(short, short, int, int, int, int, int, short, short, int, int)>::type;
 
-ALIVE_VAR(1, 0xC2D04C, TPsxDraw, dword_C2D04C, nullptr);
+ALIVE_VAR(1, 0xC2D04C, TPsxDraw, pPSX_EMU_Render_51EF90_C2D04C, nullptr);
 
 struct OtUnknown
 {
@@ -39,7 +39,7 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     // HACK / enough impl to alllow standalone to boot
     sVGA_DisplayType_BD1468 = dispType;
 
-    dword_C2D04C = PSX_EMU_Render_51EF90;
+    pPSX_EMU_Render_51EF90_C2D04C = PSX_EMU_Render_51EF90;
 }
 
 EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
@@ -86,18 +86,18 @@ EXPORT signed int __cdecl PSX_OT_Idx_From_Ptr_4F6A40(unsigned int /*ot*/)
 }
 
 
-EXPORT void __cdecl PSX_4F6A70(void* /*a1*/, WORD* /*a2*/, unsigned __int8* /*a3*/)
+EXPORT void __cdecl PSX_2_4F6A70(void* /*a1*/, WORD* /*a2*/, unsigned __int8* /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT unsigned __int8 *__cdecl PSX_4F7110(int /*a1*/, int /*a2*/, int /*a3*/)
+EXPORT unsigned __int8 *__cdecl PSX_Render_Polys_1_4F7110(int /*a1*/, int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;
 }
 
-EXPORT void __cdecl PSX_4F7960(int /*a1*/, int /*a2*/, int /*a3*/)
+EXPORT void __cdecl PSX_Render_Polys_2_4F7960(int /*a1*/, int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -106,6 +106,11 @@ ALIVE_VAR(1, 0xbd30e4, int, sScreenXOffSet_BD30E4, 0);
 ALIVE_VAR(1, 0xbd30a4, int, sScreenYOffset_BD30A4, 0);
 
 EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_84_4F7B80(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/, int /*a5*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -120,7 +125,7 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
     char v5 = any.mPrimHeader->rgb_code.code_or_pad;
     int itemToDrawType = any.mPrimHeader->rgb_code.code_or_pad;
 
-    // int v9 = dword_C2D03C++ + 1;
+    // int v9 = sNumRenderedPrims_C2D03C++ + 1;
     if ((v5 & 0x60) == 96)
     {
         switch (itemToDrawType & 0xFC) // Mask off semi trans and blending bits
@@ -130,7 +135,7 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
             /*
             width_copy = *((WORD *)pOtItem + 8);
             height_copy = *((WORD *)pOtItem + 9);*/
-            goto LABEL_31;
+            goto other_rend_L2;
         case PrimTypeCodes::eSprt: // 0x64 Sprt
             width = any.mSprt->field_14_w;
             height = any.mSprt->field_16_h;
@@ -140,11 +145,11 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
         case PrimTypeCodes::eTile1:
             LOG_INFO("104");
             //v11 = 1;
-            goto LABEL_30;
+            goto other_rend_L1;
         case PrimTypeCodes::eTile8:
             LOG_INFO("112");
             //v11 = 8;
-            goto LABEL_30;
+            goto other_rend_L1;
         case PrimTypeCodes::eSprt8:
             LOG_INFO("116");
             //height = 8;
@@ -154,14 +159,15 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
         case PrimTypeCodes::eTile16:
             LOG_INFO("120");
             //v11 = 16;
-        LABEL_30:
+        other_rend_L1:
             //height_copy = v11;
             //width_copy = v11;
-        LABEL_31:
+        other_rend_L2:
             //LOWORD(v9) = drawEnv_of1_copy + *((WORD *)pOtItem + 7);
             //v23 = drawEnv_of0_copy + *((WORD *)pOtItem + 6);
             //v24 = v9;
-            //PSX_4F6A70(v9, &v23, (unsigned __int8 *)pOtItem);
+            
+            //PSX_2_4F6A70(v9, &v23, (unsigned __int8 *)any.mVoid);
             break;
 
         case PrimTypeCodes::eSprt16:
@@ -199,7 +205,7 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
             short v0 = any.mSprt->mUv.v;
 
             // Textured rect rendering ?
-            dword_C2D04C(x0, y0, u0, v0, r, g, b, width, height,
+            pPSX_EMU_Render_51EF90_C2D04C(x0, y0, u0, v0, r, g, b, width, height,
                 itemToDrawType,
                 itemToDrawType & 2); // Semi transparency bit
         }
@@ -213,10 +219,10 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
     else if ((v5 & PrimTypeCodes::ePolyF3) == PrimTypeCodes::ePolyF3) // and anything else that falls in 0x20 bit pattern?
     {
         // Flat/G/Tri/Quad rendering?
-        unsigned __int8 * v15 = PSX_4F7110((int)any.mVoid, drawEnv_of0, drawEnv_of1);
+        unsigned __int8 * v15 = PSX_Render_Polys_1_4F7110((int)any.mVoid, drawEnv_of0, drawEnv_of1);
         if (v15)
         {
-            PSX_4F7960((int)v15, drawEnv_of0, drawEnv_of1);
+            PSX_Render_Polys_2_4F7960((int)v15, drawEnv_of0, drawEnv_of1);
         }
     }
 }
@@ -255,7 +261,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             switch (itemToDrawType)
             {
             case 2: // ??
-                PSX_4F6A70(0, (WORD *)pOtItem + 6, (unsigned __int8 *)pOtItem);
+                PSX_2_4F6A70(0, (WORD *)pOtItem + 6, (unsigned __int8 *)pOtItem);
                 break;
 
             case PrimTypeCodes::eSetTPage:
@@ -282,10 +288,12 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 sScreenYOffset_BD30A4 = any.mScreenOffset->field_E_yoff;
                 break;
 
-            case 131: // 0x83 ?? move image ?? 
-                LOG_WARNING("131");
+            case 0x83:
+                // Unlock because move image will lock + unlock again
                 BMP_unlock_4F2100(&sPsxVram_C1D160);
                 PSX_MoveImage_4F5D50((PSX_RECT *)(pOtItem + 5), (int)pOtItem[3], (int)pOtItem[4]);
+
+                // Hence lock again after move image
                 if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
                 {
                     break;
@@ -297,9 +305,9 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 }
                 return true;
 
-            case 132: // 0x84 ??
-                LOG_WARNING("132"); // Appears for gas..
-                //PSX_4F7B80((int)pOtItem[3], (int)pOtItem[4], (int)pOtItem[5], (int)pOtItem[6], (int)pOtItem[7]);
+            case 0x84:
+                // Appears for gas..
+                PSX_84_4F7B80((int)pOtItem[3], (int)pOtItem[4], (int)pOtItem[5], (int)pOtItem[6], (int)pOtItem[7]);
                 break;
             default:
                 DrawOTag_HandlePrimRendering(any, drawEnv_of0, drawEnv_of1);
@@ -307,6 +315,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             }
         }
 
+        // To the next item
         pOtItem = (int **)any.mPrimHeader->tag;
     }
 
