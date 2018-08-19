@@ -136,6 +136,13 @@ void CC PolyFT4_Init_4F8870(Poly_FT4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyFT4);
 }
 
+void PolyGT4_Init(Poly_GT4* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99); // TODO: Num longs never used by anything? 
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyGT4);
+}
+
 void CC Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly)
 {
     if ((pPoly->mBase.header.rgb_code.code_or_pad & 0xFC) == PrimTypeCodes::ePolyFT4) // TODO: Add helper for this check, also used in DrawOTag?

@@ -971,9 +971,9 @@ public:
             OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyFT4[i].mBase.header);
         }
 
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyGT4.mBase.header);
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF4.mBase.header);
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyG4.mBase.header);
-        // TG
 
         // Polys
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyF3.mBase.header);
@@ -1073,6 +1073,41 @@ private:
         }
 
         {
+            PolyGT4_Init(&mPolyGT4);
+
+            TimInfo timInfo = {};
+            LoadTIM(&timInfo, &tim_16_bit[0]);
+
+            // So it appears that only RGB0 changes the colour, so GT4 behaves the same
+            // as FT4.
+            SetRGB0(&mPolyGT4, 0, 255, 0);
+            SetRGB1(&mPolyGT4, 0, 0, 0);
+            SetRGB2(&mPolyGT4, 0, 0, 0);
+            SetRGB3(&mPolyGT4, 0, 0, 0);
+
+            Poly_Set_Blending_4F8A20(&mPolyGT4.mBase.header, 0);
+            Poly_Set_SemiTrans_4F8A60(&mPolyGT4.mBase.header,1);
+            SetTPage(&mPolyGT4, timInfo.mTPage);
+            SetClut(&mPolyGT4, timInfo.mClut);
+
+            const short xpos = 30;
+            const short ypos = 120;
+            const short w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
+            const short h = timInfo.mHeight;
+
+            SetXY0(&mPolyGT4, xpos, ypos);
+            SetXY1(&mPolyGT4, xpos, ypos + h);
+            SetXY2(&mPolyGT4, xpos + w, ypos);
+            SetXY3(&mPolyGT4, xpos + w, ypos + h);
+
+            // This assumes the texture data is at 0,0 in the active texture page
+            SetUV0(&mPolyGT4, 0, 0);
+            SetUV1(&mPolyGT4, 0, static_cast<BYTE>(timInfo.mHeight));
+            SetUV2(&mPolyGT4, static_cast<BYTE>(timInfo.mRenderWidth), 0);
+            SetUV3(&mPolyGT4, static_cast<BYTE>(timInfo.mRenderWidth), static_cast<BYTE>(timInfo.mHeight));
+        }
+
+        {
             PolyG4_Init_4F88B0(&mPolyG4);
 
             SetRGB0(&mPolyG4, 255, 0, 0);
@@ -1162,7 +1197,7 @@ private:
     Poly_G4 mPolyG4 = {};
     Poly_F4 mPolyF4 = {};
     Poly_FT4 mPolyFT4[4] = {};
-    //Poly_GT4 b;
+    Poly_GT4 mPolyGT4 = {};
 
     Prim_ScreenOffset mScreenOffset = {};
     Prim_PrimClipper mPrimClipper = {};
