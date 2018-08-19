@@ -6,7 +6,7 @@
 #include "easylogging++.h"
 #include "Game.hpp"
 #include "Sys.hpp"
-
+#include "DebugHelpers.hpp"
 #include <joystickapi.h>
 
 #define INPUT_IMPL true
@@ -125,46 +125,46 @@ EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, floa
         }
     }
 
-    signed int xRange = (sJoystickCaps_5C2D10.wXmin + sJoystickCaps_5C2D10.wXmax) >> 1;
-    signed int xRangeDeadZone = (xRange - sJoystickCaps_5C2D10.wXmin) >> 2;
+    signed int xRange = (sJoystickCaps_5C2D10.wXmin + sJoystickCaps_5C2D10.wXmax) / 2;
+    signed int xRangeDeadZone = (xRange - sJoystickCaps_5C2D10.wXmin) / 4;
     if (sJoystickInfo_5C2EA8.dwXpos < xRange - xRangeDeadZone || sJoystickInfo_5C2EA8.dwXpos > xRange + xRangeDeadZone)
     {
-        *pX1 = static_cast<float>(sJoystickInfo_5C2EA8.dwXpos - xRange) / static_cast<float>(xRange - sJoystickCaps_5C2D10.wXmin);
+        *pX1 = static_cast<float>(static_cast<signed int>(sJoystickInfo_5C2EA8.dwXpos) - xRange) / static_cast<float>(xRange - sJoystickCaps_5C2D10.wXmin);
     }
     else
     {
         *pX1 = 0.0f;
     }
 
-    signed int yRange = (sJoystickCaps_5C2D10.wYmax + sJoystickCaps_5C2D10.wYmin) >> 1;
-    signed int yRangeDeadZone = (yRange - sJoystickCaps_5C2D10.wYmin) >> 2;
+    signed int yRange = (sJoystickCaps_5C2D10.wYmax + sJoystickCaps_5C2D10.wYmin) / 2;
+    signed int yRangeDeadZone = (yRange - sJoystickCaps_5C2D10.wYmin) / 4;
     if (sJoystickInfo_5C2EA8.dwYpos < yRange - yRangeDeadZone || sJoystickInfo_5C2EA8.dwYpos > yRange + yRangeDeadZone)
     {
-        *pY1 = static_cast<float>(sJoystickInfo_5C2EA8.dwYpos - yRange) / static_cast<float>(yRange - sJoystickCaps_5C2D10.wYmin);
+        *pY1 = static_cast<float>(static_cast<signed int>(sJoystickInfo_5C2EA8.dwYpos) - yRange) / static_cast<float>(yRange - sJoystickCaps_5C2D10.wYmin);
     }
     else
     {
         *pY1 = 0.0f;
     }
 
-    signed int zRange = (sJoystickCaps_5C2D10.wZmin + sJoystickCaps_5C2D10.wZmax) >> 1;
-    signed int zRangeDeadZone = (zRange - sJoystickCaps_5C2D10.wZmin) >> 2;
+    signed int zRange = (sJoystickCaps_5C2D10.wZmin + sJoystickCaps_5C2D10.wZmax) / 2;
+    signed int zRangeDeadZone = (zRange - sJoystickCaps_5C2D10.wZmin) / 4;
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNZ
         && (sJoystickInfo_5C2EA8.dwZpos < zRange - zRangeDeadZone || sJoystickInfo_5C2EA8.dwZpos > zRange + zRangeDeadZone))
     {
-        *pX2 = static_cast<float>(sJoystickInfo_5C2EA8.dwZpos - zRange) / static_cast<float>(zRange - sJoystickCaps_5C2D10.wZmin);
+        *pX2 = static_cast<float>(static_cast<signed int>(sJoystickInfo_5C2EA8.dwZpos) - zRange) / static_cast<float>(zRange - sJoystickCaps_5C2D10.wZmin);
     }
     else
     {
         *pX2 = 0.0f;
     }
 
-    signed int wRange = (sJoystickCaps_5C2D10.wRmax + sJoystickCaps_5C2D10.wRmin) >> 1;
-    signed int wRangeDeadZone = (wRange - sJoystickCaps_5C2D10.wRmin) >> 2;
+    signed int wRange = (sJoystickCaps_5C2D10.wRmax + sJoystickCaps_5C2D10.wRmin) / 2;
+    signed int wRangeDeadZone = (wRange - sJoystickCaps_5C2D10.wRmin) / 4;
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNR
         && (sJoystickInfo_5C2EA8.dwRpos < wRange - wRangeDeadZone || sJoystickInfo_5C2EA8.dwRpos > wRange + wRangeDeadZone))
     {
-        *pY2 = static_cast<float>(sJoystickInfo_5C2EA8.dwRpos - wRange) / static_cast<float>(wRange - sJoystickCaps_5C2D10.wRmin);
+        *pY2 = static_cast<float>(static_cast<signed int>(sJoystickInfo_5C2EA8.dwRpos) - wRange) / static_cast<float>(wRange - sJoystickCaps_5C2D10.wRmin);
     }
     else
     {
