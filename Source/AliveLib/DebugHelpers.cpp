@@ -997,13 +997,13 @@ private:
         {
             PolyG3_Init_4F8890(&mPolyG3);
 
-            SetRGB0(&mPolyG3, 255, 255, 255);
-            SetRGB1(&mPolyG3, 0, 0, 255);
-            SetRGB2(&mPolyG3, 255, 0, 255);
+            SetRGB0(&mPolyG3, 255, 0, 0);
+            SetRGB1(&mPolyG3, 0, 255, 0);
+            SetRGB2(&mPolyG3, 0, 0, 255);
 
-            SetXY0(&mPolyG3, 50, 50);
-            SetXY1(&mPolyG3, 200, 50);
-            SetXY2(&mPolyG3, 150, 100);
+            SetXY0(&mPolyG3, 180, 190);
+            SetXY1(&mPolyG3, 180, 190 + 20);
+            SetXY2(&mPolyG3, 180 + (20 * 2), 190);
         }
 
         {
@@ -1011,9 +1011,9 @@ private:
             
             SetRGB0(&mPolyF3, 255, 255, 0);
 
-            SetXY0(&mPolyF3, 180 + 50, 50);
-            SetXY1(&mPolyF3, 180 + 200, 50);
-            SetXY2(&mPolyF3, 180 + 150, 100);
+            SetXY0(&mPolyF3, 240, 190);
+            SetXY1(&mPolyF3, 240, 190 + 20);
+            SetXY2(&mPolyF3, 240 + (20 * 2), 190);
         }
 
         {
@@ -1051,7 +1051,7 @@ private:
             LoadTIM(&timInfo, &tim_16_bit[0], 0);
 
             SetRGB0(&mPolyGT3, 255, 0, 255);
-            // Much like PolyGT4 these have no effect, so same behaviour as PolyFT3
+            // Much like PolyGT4 these have no effect, so same behavior as PolyFT3
             SetRGB1(&mPolyGT3, 255, 0, 0);
             SetRGB2(&mPolyGT3, 0, 255, 0);
 
@@ -1080,10 +1080,10 @@ private:
 
             SetRGB0(&mPolyF4, 255, 255, 255);
 
-            SetXY0(&mPolyF4, 150, 150);
-            SetXY1(&mPolyF4, 150, 200);
-            SetXY2(&mPolyF4, 200, 150);
-            SetXY3(&mPolyF4, 200, 200);
+            SetXY0(&mPolyF4, 180, 160);
+            SetXY1(&mPolyF4, 180, 160 + 20);
+            SetXY2(&mPolyF4, 180 + (20*2), 160);
+            SetXY3(&mPolyF4, 180 + (20*2), 160 + 20);
         }
 
         {
@@ -1182,34 +1182,35 @@ private:
             SetRGB2(&mPolyG4, 0, 255, 0);
             SetRGB3(&mPolyG4, 255, 0, 255);
 
-            SetXY0(&mPolyG4, 150 + 100, 150 + 10);
-            SetXY1(&mPolyG4, 150 + 100, 200 + 10);
-            SetXY2(&mPolyG4, 200 + 100, 150 + 10);
-            SetXY3(&mPolyG4, 200 + 100, 200 + 10);
+            SetXY0(&mPolyG4, 240, 160);
+            SetXY1(&mPolyG4, 240, 160 + 20);
+            SetXY2(&mPolyG4, 240 + (20 * 2), 160);
+            SetXY3(&mPolyG4, 240 + (20 * 2), 160 + 20);
         }
 
         {
             Line_F2_Init(&mLineF2);
-            SetRGB0(&mLineF2, 255, 55, 55);
-            SetXY0(&mLineF2, 40, 50);
-            SetXY1(&mLineF2, 200, 200);
+            SetRGB0(&mLineF2, 0, 0, 255);
+            SetXY0(&mLineF2, 30, 9);
+            SetXY1(&mLineF2, 30 + 80, 9);
         }
 
         {
             Line_F3_Init(&mLineF3);
             SetRGB0(&mLineF3, 55, 255, 55);
-            SetXY0(&mLineF3, 30, 30);
-            SetXY1(&mLineF3, 100, 200);
-            SetXY2(&mLineF3, 120, 180);
+            SetXY0(&mLineF3, 30, 11);
+            SetXY1(&mLineF3, 30 + 80, 11);
+            SetXY2(&mLineF3, 30 + 80, 15);
         }
 
         {
             Line_F4_Init(&mLineF4);
             SetRGB0(&mLineF4, 55, 155, 155);
-            SetXY0(&mLineF4, 20, 40);
-            SetXY1(&mLineF4, 110, 230);
-            SetXY2(&mLineF4, 120, 140);
-            SetXY3(&mLineF4, 140, 170);
+
+            SetXY0(&mLineF4, 30, 18);
+            SetXY1(&mLineF4, 30 + 140, 18);
+            SetXY2(&mLineF4, 30 + 140, 85);
+            SetXY3(&mLineF4, 30, 85);
         }
 
         {
@@ -1217,8 +1218,8 @@ private:
             SetRGB0(&mLineG2, 255, 255, 0);
             SetRGB1(&mLineG2, 255, 0, 255);
 
-            SetXY0(&mLineG2, 250, 80);
-            SetXY1(&mLineG2, 350, 110);
+            SetXY0(&mLineG2, 320, 90);
+            SetXY1(&mLineG2, 420, 90);
         }
 
         {
@@ -1228,23 +1229,23 @@ private:
             SetRGB1(&mLineG3, 155, 60, 255);
             SetRGB2(&mLineG3, 50, 255, 255);
   
-            SetXY1(&mLineG3, 100, 150);
-            SetXY0(&mLineG3, 150, 200);
-            SetXY2(&mLineG3, 200, 150);
+            SetXY0(&mLineG3, 320, 120);
+            SetXY1(&mLineG3, 420, 120);
+            SetXY2(&mLineG3, 320, 100);
         }
 
         {
             LineG4_Init(&mLineG4);
 
-            SetRGB0(&mLineG4, 255, 255, 0);
-            SetRGB1(&mLineG4, 255, 0, 255);
-            SetRGB2(&mLineG4, 255, 255, 0);
+            SetRGB0(&mLineG4, 255, 0, 0);
+            SetRGB1(&mLineG4, 0, 255, 0);
+            SetRGB2(&mLineG4, 0, 0, 255);
             SetRGB3(&mLineG4, 255, 0, 255);
 
-            SetXY1(&mLineG4, 300, 150);
-            SetXY0(&mLineG4, 280, 120);
-            SetXY2(&mLineG4, 20, 20);
-            SetXY3(&mLineG4, 200, 50);
+            SetXY0(&mLineG4, 320, 140);
+            SetXY1(&mLineG4, 420, 140);
+            SetXY2(&mLineG4, 320, 180);
+            SetXY3(&mLineG4, 420, 180);
         }
 
         {
