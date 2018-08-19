@@ -954,6 +954,10 @@ public:
         // OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header);
 
         // Tiles
+        for (int i = 0; i < 10; i++)
+        {
+            OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mTiles[i].mBase.header);
+        }
 
         // Sprites
 
@@ -1242,6 +1246,15 @@ private:
             SetXY2(&mLineG4, 20, 20);
             SetXY3(&mLineG4, 200, 50);
         }
+
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Init_Tile1(&mTiles[i]);
+                SetRGB0(&mTiles[i], 255, i * 12, i * 12);
+                SetXY0(&mTiles[i], 30 + (i * 5), 10);
+            }
+        }
     }
 
     Line_F2 mLineF2 = {};
@@ -1264,6 +1277,8 @@ private:
 
     Prim_ScreenOffset mScreenOffset = {};
     Prim_PrimClipper mPrimClipper = {};
+
+    Prim_Tile_1 mTiles[10] = {};
 
     // TODO: Test SetTPage
     // TODO: Test Prim_Sprt

@@ -480,6 +480,8 @@ void LineG2_Init(Line_G2* pLine);
 void LineG3_Init(Line_G3* pLine);
 void LineG4_Init(Line_G4* pLine);
 
+void Init_Tile1(Prim_Tile_1* pTile);
+
 EXPORT void CC Sprt_Init_4F8910(Prim_Sprt* pPrim);
 EXPORT void CC PolyG3_Init_4F8890(Poly_G3* pPoly);
 EXPORT void CC PolyG4_Init_4F88B0(Poly_G4* pPoly);

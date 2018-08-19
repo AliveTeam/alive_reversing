@@ -122,6 +122,13 @@ void LineG4_Init(Line_G4* pPrim)
     pPrim->field_28_pad = 0x55555555;
 }
 
+void Init_Tile1(Prim_Tile_1* pPrim)
+{
+    SetNumLongs(&pPrim->mBase.header, 99);
+    SetUnknown(&pPrim->mBase.header);
+    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile1);
+}
+
 void CC PolyG3_Init_4F8890(Poly_G3* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 6);
