@@ -11,6 +11,14 @@ if(DEVELOPER_MODE)
   add_definitions(-DDEVELOPER_MODE)
 endif()
 
+if(LCD_PS1_SPEED)
+  add_definitions(-DLCD_PS1_SPEED)
+endif()
+
+if(XINPUT_SUPPORT)
+  add_definitions(-DXINPUT_SUPPORT)
+endif()
+
 if(BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE)
   add_definitions(-DBEHAVIOUR_CHANGE_FORCE_WINDOW_MODE)
 endif()

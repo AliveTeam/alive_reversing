@@ -150,6 +150,7 @@ target_link_libraries(AliveLib
     googletest
     Winmm
     dsound
+    xinput
     )
 
 export(TARGETS AliveLib FILE AliveLib.cmake)

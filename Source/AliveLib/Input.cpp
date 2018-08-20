@@ -8,6 +8,12 @@
 #include "Sys.hpp"
 #include "DebugHelpers.hpp"
 #include <joystickapi.h>
+#include "Events.hpp"
+#include "PsxRender.hpp"
+
+#ifdef XINPUT_SUPPORT
+#include <Xinput.h>
+#endif
 
 #define INPUT_IMPL true
 
@@ -91,8 +97,7 @@ EXPORT void CC Input_45FF60(float x, float y, DWORD *buttons)
     NOT_IMPLEMENTED();
 }
 
-// TODO: Needs actual testing.
-EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
 {
     if (!sJoystickEnabled_5C2EF4)
     {
@@ -199,6 +204,113 @@ EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, floa
 
     *pButtons = sJoystickInfo_5C2EA8.dwButtons;
     Input_45FF60(*pX2, *pY2, pButtons);
+}
+
+#ifdef XINPUT_SUPPORT
+void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+{
+    XINPUT_STATE state;
+    ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+    float deadzone = 0.2f;
+
+    *pButtons = 0;
+    *pX1 = 0;
+    *pY1 = 0;
+    *pX2 = 0;
+    *pY2 = 0;
+
+    if (XInputGetState(sCurrentControllerIndex_5C1BBE, &state) == ERROR_SUCCESS)
+    {
+        float f_LX = state.Gamepad.sThumbLX / 32767.0f;
+        float f_LY = state.Gamepad.sThumbLY / 32767.0f;
+
+        float f_RX = state.Gamepad.sThumbRX / 32767.0f;
+        float f_RY = state.Gamepad.sThumbRY / 32767.0f;
+
+        // Joysticks
+        if (abs(f_LX) > deadzone)
+            *pX1 = f_LX;
+        if (abs(f_LY) > deadzone)
+            *pY1 = -f_LY;
+
+        if (abs(f_RX) > deadzone)
+            *pX2 = f_RX;
+        if (abs(f_RY) > deadzone)
+            *pY2 = -f_RY;
+
+        // DPad Movement
+        if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
+            *pX1 = 1;
+        else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
+            *pX1 = -1;
+        if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
+            *pY1 = -1;
+        else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
+            *pY1 = 1;
+
+#define M_XINPUT_BIND(BIT, PAD_BUTTON){if (state.Gamepad.wButtons & PAD_BUTTON) *pButtons |= (1 << BIT); }
+
+
+        M_XINPUT_BIND(0, XINPUT_GAMEPAD_X);
+        M_XINPUT_BIND(1, XINPUT_GAMEPAD_A);
+        M_XINPUT_BIND(2, XINPUT_GAMEPAD_B);
+        M_XINPUT_BIND(3, XINPUT_GAMEPAD_Y);
+        M_XINPUT_BIND(4, XINPUT_GAMEPAD_LEFT_SHOULDER);
+        M_XINPUT_BIND(5, XINPUT_GAMEPAD_RIGHT_SHOULDER);
+        M_XINPUT_BIND(8, XINPUT_GAMEPAD_BACK);
+        M_XINPUT_BIND(9, XINPUT_GAMEPAD_START);
+
+        if (state.Gamepad.bLeftTrigger > 32)
+            *pButtons |= (1 << 6);
+        if (state.Gamepad.bRightTrigger > 32)
+            *pButtons |= (1 << 7);
+
+        // 0 Square
+        // 1 Cross
+        // 2 Circle
+        // 3 Triangle
+        // 4 L1
+        // 5 R1
+        // 6 L2
+        // 7 R2
+        // 8 Back
+        // 9 Start
+
+        static float vibrationAmount = 0.0f;
+        int screenShake = max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
+
+        if (screenShake > 0)
+        {
+            vibrationAmount = min(screenShake, 30) / 30.0f;
+        }
+        else if (Event_Get_422C00(kEventScreenShake))
+        {
+            vibrationAmount = 1.0f;
+        }
+        
+
+        XINPUT_VIBRATION vib;
+        USHORT vibLR = vibrationAmount * 65535;
+
+        vib.wLeftMotorSpeed = vibLR;
+        vib.wRightMotorSpeed = vibLR;
+        XInputSetState(0, &vib);
+
+        vibrationAmount -= 0.2f;
+        vibrationAmount = max(0, vibrationAmount);
+    }
+}
+#endif
+
+// TODO: Needs actual testing.
+EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+{
+#ifdef XINPUT_SUPPORT
+    Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
+#else
+    Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
+#endif
 }
 
 EXPORT unsigned __int8 CC Input_GetInputEnabled_4EDDE0()
@@ -367,6 +479,20 @@ EXPORT void CC Input_Init_491BC0()
     sKeyNames_5C9394[VK_NUMPAD8] = "8";
     // Og game is missing vk_numpad 9 ? :s
 
+#ifdef XINPUT_SUPPORT
+    sGamePadStr_55E85C = "Xbox Controller";
+
+    sJoyButtonNames_5C9908[0] = "X";
+    sJoyButtonNames_5C9908[1] = "A";
+    sJoyButtonNames_5C9908[2] = "B";
+    sJoyButtonNames_5C9908[3] = "Y";
+    sJoyButtonNames_5C9908[4] = "LB";
+    sJoyButtonNames_5C9908[5] = "RB";
+    sJoyButtonNames_5C9908[6] = "LT";
+    sJoyButtonNames_5C9908[7] = "RT";
+    sJoyButtonNames_5C9908[8] = "";
+    sJoyButtonNames_5C9908[9] = "";
+#else
     sJoyButtonNames_5C9908[0] = "B1";
     sJoyButtonNames_5C9908[1] = "B2";
     sJoyButtonNames_5C9908[2] = "B3";
@@ -377,6 +503,7 @@ EXPORT void CC Input_Init_491BC0()
     sJoyButtonNames_5C9908[7] = "B8";
     sJoyButtonNames_5C9908[8] = "B9";
     sJoyButtonNames_5C9908[9] = "B0";
+#endif
 
     Input_InitJoyStick_460080();
     memset(sKeyBindings_5C9930, 0, sizeof(*sKeyBindings_5C9930) * 256);
