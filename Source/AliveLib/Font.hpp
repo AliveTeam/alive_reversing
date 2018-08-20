@@ -52,6 +52,7 @@ struct Font_Context
     // Custom Functions to load fonts directly from raw files
     bool LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut);
     void LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut);
+    bool LoadFontTypeFromOddFont(const char * fontPath, char * pPaletteOut);
 };
 ALIVE_ASSERT_SIZEOF(Font_Context, 0x10);
 
