@@ -401,68 +401,49 @@ EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage)
 
 EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PSX_RECT* pRect2, PSX_RECT* pOverlapRect, int* pOverlapX, int* pOverlapY)
 {
-    NOT_IMPLEMENTED();
+    const bool bOverlaps = PSX_Rects_overlap_4FA0B0(pRect1, pRect2) ? true : false;
+    if (bOverlaps)
+    {
+        int rect1_right = pRect1->x + pRect1->w;
+        int rect2_right = pRect2->x + pRect2->w;
+        if (rect2_right > rect1_right)
+        {
+            rect2_right = rect1_right;
+        }
 
-    __int16 rect1_x; // dx
-    __int16 rect2_x; // si
-    int rect1_right; // ecx
-    int rect2_right; // eax
-    __int16 v10; // ax
-    __int16 v11; // di
-    __int16 v12; // dx
-    int v13; // eax
-    __int16 v14; // ax
+        __int16 v10 = rect2_right - pRect2->x;
+        pOverlapRect->w = v10;
+        if (pRect2->x >= pRect1->x)
+        {
+            pOverlapRect->x = pRect2->x;
+        }
+        else
+        {
+            pOverlapRect->x = pRect1->x;
+            pOverlapRect->w = pRect2->x + v10 - pRect1->x;
+            *pOverlapX += pRect1->x - pRect2->x;
+        }
 
-    if (!PSX_Rects_overlap_4FA0B0(pRect1, pRect2))
-    {
-        return false;
-    }
 
-    rect1_x = pRect1->x;
-    rect2_x = pRect2->x;
-    rect1_right = pRect1->x + pRect1->w;
-    rect2_right = pRect2->x + pRect2->w;
-
-    short t1 = rect2_x;
-    if (rect2_right > rect1_right)
-    {
-        t1 = rect1_right;
+        int rects_bottom = pRect2->y + pRect2->h;
+        if (rects_bottom > pRect1->y + pRect1->h)
+        {
+            rects_bottom = pRect1->y + pRect1->h;
+        }
+        __int16 overlap_h = rects_bottom - pRect2->y;
+        pOverlapRect->h = overlap_h;
+        if (pRect2->y >= pRect1->y)
+        {
+            pOverlapRect->y = pRect2->y;
+        }
+        else
+        {
+            pOverlapRect->y = pRect1->y;
+            pOverlapRect->h = pRect2->y + overlap_h - pRect1->y;
+            *pOverlapY += pRect1->y - pRect2->y;
+        }
     }
-    v10 = t1 - rect2_x;
-    pOverlapRect->w = v10;
-    if (rect2_x >= rect1_x)
-    {
-        pOverlapRect->x = rect2_x;
-    }
-    else
-    {
-        pOverlapRect->x = rect1_x;
-        pOverlapRect->w = rect2_x + v10 - rect1_x;
-        *pOverlapX += rect1_x - rect2_x;
-    }
-    v11 = pRect2->y;
-    v12 = pRect1->y;
-    v13 = v11 + pRect2->h;
-
-    int t2 = v13;
-    if (v13 > v12 + pRect1->h)
-    {
-        t2 = v12 + pRect1->h;
-    }
-    v14 = t2 - v11;
-    pOverlapRect->h = v14;
-    if (v11 >= v12)
-    {
-        pOverlapRect->y = v11;
-    }
-    else
-    {
-        pOverlapRect->y = v12;
-        pOverlapRect->h = v11 + v14 - v12;
-        *pOverlapY += v12 - v11;
-    }
-
-    return true;
+    return bOverlaps;
 }
 
 EXPORT void CC PSX_EMU_Render_TPage_0_51F0E0(PSX_RECT* /*a1*/, int /*a2*/, int /*a3*/, unsigned __int8 /*a4*/, unsigned __int8 /*a5*/, unsigned __int8 /*a6*/, unsigned __int16 /*a7*/, __int16* /*a8*/)
