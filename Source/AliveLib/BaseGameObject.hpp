@@ -9,6 +9,7 @@ public:
     enum Types : __int16
     {
         eNone = 0,
+        eScreenManager = 6,
         eBackgroundAnimation = 7,
         eDDCheat = 19,
         eGameSpeak = 38,

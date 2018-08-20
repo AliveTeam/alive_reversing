@@ -6,8 +6,11 @@
 #include "vlctable.hpp"
 #include <gmock/gmock.h>
 #include "vlctable.hpp"
+#include "Primitives.hpp"
+#include "VRam.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager_5BB5F4, nullptr);
+ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer_5B86C8, {});
 
 Camera::Camera()
 {
@@ -57,8 +60,8 @@ void ScreenManager::sub_40EE10()
 void ScreenManager::MoveImage_40EB70()
 {
     PSX_RECT rect = {};
-    rect.x = field_2C_rect.x;
-    rect.y = field_2C_rect.y;
+    rect.x = field_2C_upos;
+    rect.y = field_2E_vpos;
     rect.h = 240;
     rect.w = 640;
     PSX_MoveImage_4F5D50(&rect, 0, 0);
@@ -116,7 +119,7 @@ void ScreenManager::UnsetDirtyBits_FG1_40ED70()
 
 void ScreenManager::InvalidateRect_40EC10(int x, int y, signed int width, signed int height)
 {
-    InvalidateRect_40EC90(x, y, width, height, field_3A);
+    InvalidateRect_40EC90(x, y, width, height, field_3A_idx);
 }
 
 namespace Oddlib
@@ -450,18 +453,77 @@ void ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
 
     SetVTable(this, 0x5441E4);
 
-    Init_40E4B0((int)ppBits);
+    Init_40E4B0(ppBits);
 }
 
-void ScreenManager::Init_40E4B0(int /*ppBits*/)
+void ScreenManager::Init_40E4B0(BYTE** ppBits)
 {
     NOT_IMPLEMENTED();
 
-    // HACK: Just enough impl for first cam to display correctly in standalone binary
-    field_2C_rect.x = 0;
-    field_2C_rect.y = 272;
-    field_2C_rect.w = 640;
-    field_2C_rect.h = 240;
+    // TODO: Check correct
+    //BYTE2(this->field_40_flags) |= 1u;
+    field_6_flags |= BaseGameObject::eBit08;
+
+    field_4_typeId = BaseGameObject::eScreenManager;
+
+    field_2C_upos = 0;
+    field_2E_vpos = 272;
+    field_30_cam_width = 640;
+    field_32_cam_height = 240;
+
+    Vram_alloc_fixed_4955F0(0, 272, 640 - 1, 512 - 1);
+    sub_cam_vlc_40EF60(reinterpret_cast<WORD**>(ppBits));
+
+    field_24_screen_sprites = &sSpriteTPageBuffer_5B86C8[0];
+
+    short xpos = 0;
+    short ypos = 0;
+    for (int i = 0; i < 300; i++)
+    {
+        Sprt_Init_4F8910(&field_24_screen_sprites[i].mSprt);
+        SetRGB0(&field_24_screen_sprites[i].mSprt, 128, 128, 128);
+        SetXY0(&field_24_screen_sprites[i].mSprt, xpos, ypos);
+
+        field_24_screen_sprites[i].mSprt.field_14_w = 32;
+        field_24_screen_sprites[i].mSprt.field_16_h = 16;
+
+        int u0 = field_2C_upos + 32 * (i % 20);
+        int v0 = field_2E_vpos + 16 * (i / 20);
+        int tpage = ScreenManager::GetTPage_40F040(2, 0, &u0, &v0);
+
+        // TODO fix me
+        //HIBYTE(tpage) |= 0x80u;
+        tpage |= 0x8000;
+
+        Init_SetTPage_4F5B60(&field_24_screen_sprites[i].mTPage, 0, 0, tpage);
+
+        SetUV0(&field_24_screen_sprites[i].mSprt, static_cast<BYTE>(u0), static_cast<BYTE>(v0));
+
+        xpos += 32;
+        if (xpos == 640)
+        {
+            xpos = 0;
+            ypos += 16;
+        }
+    }
+
+    for (int i = 0; i < 8; i++)
+    {
+        UnsetDirtyBits_40EDE0(i);
+    }
+
+    field_3A_idx = 2;
+    field_3C_y_idx = 1;
+    field_3E_x_idx = 0;
+}
+
+int CC ScreenManager::GetTPage_40F040(char tp, char abr, int* xpos, int* ypos)
+{
+    const short clampedYPos = *ypos & 0xFF00;
+    const short clampedXPos = *xpos & 0xFFC0;
+    *xpos -= clampedXPos;
+    *ypos -= clampedYPos;
+    return PSX_getTPage_4F60E0(tp, abr, clampedXPos, clampedYPos);
 }
 
 namespace Test

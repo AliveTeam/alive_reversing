@@ -4,6 +4,9 @@
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
 #include "FixedPoint.hpp"
+#include "Primitives.hpp"
+
+struct Prim_Sprt;
 
 #pragma pack(push)
 #pragma pack(2)
@@ -59,6 +62,12 @@ namespace Oddlib
     struct BitsLogic;
 }
 
+struct SprtTPage
+{
+    Prim_Sprt mSprt;
+    Prim_SetTPage mTPage;
+};
+
 class ScreenManager : public BaseGameObject
 {
 public:
@@ -86,22 +95,28 @@ public:
 
     EXPORT void ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset);
     
-    EXPORT void Init_40E4B0(int ppBits);
+    EXPORT void Init_40E4B0(BYTE** ppBits);
    
 
     EXPORT void dtor_40E460(signed int flags);
     int next_bits();
 
+    EXPORT static int CC GetTPage_40F040(char tp, char abr, int* xpos, int* ypos);
+
 private:
 public:
     FP_Point* field_20_pCamPos;
-    int field_24_screen_blocks;
+    SprtTPage* field_24_screen_sprites;
     int field_28;
-    PSX_RECT field_2C_rect;
+    unsigned __int16 field_2C_upos;
+    unsigned __int16 field_2E_vpos;
+    __int16 field_30_cam_width;
+    __int16 field_32_cam_height;
     int field_34;
     __int16 field_38;
-    unsigned __int16 field_3A;
-    int field_3C;
+    unsigned __int16 field_3A_idx;
+    unsigned __int16 field_3C_y_idx;
+    unsigned __int16 field_3E_x_idx;
     int field_40_flags;
     int field_44;
     int field_48;

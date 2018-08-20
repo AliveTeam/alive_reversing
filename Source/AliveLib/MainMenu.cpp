@@ -324,7 +324,7 @@ void MainMenuController::Render_4CF4C0(int ** ot)
         field_20_animation.Animation_v_40B820(184, 162, (int)ot, 0, 0);
         PSX_RECT pRect;
         field_20_animation.Get_Frame_Rect_409E10(&pRect);
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A);
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
     }
 
     const auto buttons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
@@ -338,7 +338,7 @@ void MainMenuController::Render_4CF4C0(int ** ot)
                 field_158_animation.Animation_v_40B820(buttons[index].field_2_x, buttons[index].field_4_y, (int)ot, 0, 0);
                 PSX_RECT pRect;
                 field_158_animation.Get_Frame_Rect_409E10(&pRect);
-                pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A);
+                pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
             }
         }
     }

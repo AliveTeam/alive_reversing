@@ -324,7 +324,7 @@ void LCDScreen::Render_460CB0(int ** ot)
         Init_PrimClipper_4F5B80(&field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
         OrderingTable_Add_4F8AA0(&ot[24], &field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
-        pScreenManager_5BB5F4->InvalidateRect_40EC90(screenXWorld, screenY, clipRect.w, 24, pScreenManager_5BB5F4->field_3A);
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(screenXWorld, screenY, clipRect.w, 24, pScreenManager_5BB5F4->field_3A_idx);
     }
 }
 

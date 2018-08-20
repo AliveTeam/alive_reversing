@@ -20,13 +20,6 @@ EXPORT void CC sub_4945D0()
     NOT_IMPLEMENTED();
 }
 
-// TODO: Probably not font related at all?
-EXPORT int __cdecl Vram_alloc_fixed_4955F0(__int16 /*a1*/, __int16 /*a2*/, __int16 /*a3*/, __int16 /*a4*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 /*
 // No visible effect but just resets data
 void __cdecl sub_495660()

@@ -191,7 +191,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
         poly += 2;
     }
 
-    pScreenManager_5BB5F4->InvalidateRect_40EC90(x, y - 1, offsetX, y + 24, pScreenManager_5BB5F4->field_3A);
+    pScreenManager_5BB5F4->InvalidateRect_40EC90(x, y - 1, offsetX, y + 24, pScreenManager_5BB5F4->field_3A_idx);
 
     return polyOffset + characterRenderCount;
 }
