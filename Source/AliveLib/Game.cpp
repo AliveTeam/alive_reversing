@@ -34,6 +34,7 @@
 #include "MusicController.hpp"
 #include <gmock/gmock.h>
 #include "CheatController.hpp"
+#include "config.h"
 
 void Game_ForceLink() { }
 
@@ -278,7 +279,7 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     }
 
     PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(".", strDrive, strDrive);
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     const char* kWindowTitle = "Oddworld Abe's Exoddus under ALIVE team hook :)";
 #else
     const char* kWindowTitle = "Oddworld Abe's Exoddus";
@@ -628,7 +629,7 @@ EXPORT void CC Game_Run_466D40()
     camera.dtor_480E00();
 
     Input_Init_491BC0();
-#ifdef DEVELOPER_MODE
+#if DEVELOPER_MODE
     gMap_5C3030.Init_4803F0(0, 1, 1, 0, 0, 0);
 #else
     gMap_5C3030.Init_4803F0(0, 1, 25, 0, 0, 0);
@@ -642,7 +643,7 @@ EXPORT void CC Game_Run_466D40()
 
     Game_Init_LoadingIcon_482CD0();
 
-#ifdef DEVELOPER_MODE
+#if DEVELOPER_MODE
     // LOAD DEBUG SAVE //
     // If debug.sav exists, load it before game start.
     // Makes debugging in game stuff a lot faster.

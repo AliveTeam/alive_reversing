@@ -10,6 +10,7 @@
 #include "Sfx.hpp"
 #include "Sound.hpp"
 #include "MainMenu.hpp"
+#include "config.h"
 
 // MACROS
 
@@ -48,7 +49,7 @@ ALIVE_ARY(1, 0x554474, byte, 32, pal_554474, {
 MENU_BEGIN(MainMenu);
 MENU_ENTRY("continue", 184, 48, Centre);
 MENU_ENTRY("quicksave", 184, 70, Centre);
-#ifdef DEVELOPER_MODE
+#if DEVELOPER_MODE
 MENU_ENTRY_EX("developer", 184, 92, Centre, 33, 127, 33);
 #else
 MENU_ENTRY("controls", 184, 92, Centre);
@@ -391,7 +392,7 @@ void PauseMenu::Render_490BD0(int ** /*ot*/)
 }
 
 
-#ifdef DEVELOPER_MODE
+#if DEVELOPER_MODE
 // CUSTOM PAUSE MENU
 
 class CustomPauseMenu;
@@ -591,8 +592,10 @@ CustomPauseMenu devMenu(&devMenuItems, "Developer Menu");
 
 void PauseMenu::CustomPauseMenuUpdate()
 {
+#if DEVELOPER_MODE
     if (customMenuStack.size() > 0)
         customMenuStack[customMenuStack.size() - 1]->Update(this);
+#endif
 }
 
 ///// END CUSTOM CODE!!! ///
@@ -601,7 +604,7 @@ void PauseMenu::CustomPauseMenuUpdate()
 
 void PauseMenu_ForceLink() {
 
-#ifdef DEVELOPER_MODE
+#if DEVELOPER_MODE
     if (IsAlive())
     {
         //DumpMenus();
@@ -748,7 +751,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             Quicksave_4C90D0();
             return;
         case 2:
-#ifdef DEVELOPER_MODE
+#if DEVELOPER_MODE
             devMenu.Activate();
 #else
             field_136 = 1;

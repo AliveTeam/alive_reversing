@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Error.hpp"
 #include "Sys.hpp"
+#include "config.h"
 
 RECT ClientToScreenConvert(HWND hwnd)
 {
@@ -505,8 +506,9 @@ EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
     {
         newWinStyle = sDD_old_win_style_BBC3E0;
     }
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     // Leave the window style alone in forced window mode
-#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#else
     ::SetWindowLongA(Sys_GetHWnd_4F2C70(), GWL_STYLE, newWinStyle);
 #endif
     return sDDraw_BBC3D4->SetDisplayMode(width, height, bpp);
@@ -606,8 +608,9 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         ::ReleaseDC(nullptr, dc);
 
         const LONG oldWinStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
         // Leave the window style alone in forced window mode
-#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#else
         ::SetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE, oldWinStyle & 0xFF39FFFF | 0x80000000); // TODO: use SDK constants
 #endif
         heightCopy = height;
@@ -621,8 +624,9 @@ EXPORT signed int CC DD_Enable_4F0380(HWND /*hwnd*/, int width, int height, int 
         const LONG curStyle = ::GetWindowLongA(sDD_hWnd_BBC3B0, GWL_STYLE);
         ::AdjustWindowRectEx(&rect, curStyle, bMenu, curExStyle);
 
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
         // Leave the window pos alone in forced window mode
-#ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#else
         // TODO: use SDK constants
         ::SetWindowPos(sDD_hWnd_BBC3B0, 0, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 0x16u); 
 

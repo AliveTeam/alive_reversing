@@ -1,6 +1,7 @@
 project(AliveLib VERSION 0.1 LANGUAGES CXX)
 
 add_library(AliveLib
+    ${CMAKE_BINARY_DIR}/config.h
     ExportHooker.hpp
     stdafx.cpp
     stdafx.h
@@ -119,7 +120,7 @@ add_library(AliveLib
 target_include_directories(AliveLib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
-    PRIVATE src)
+    PRIVATE src ${CMAKE_BINARY_DIR})
 
 target_compile_definitions(AliveLib PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")

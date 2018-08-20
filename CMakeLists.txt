@@ -1,32 +1,10 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(ar VERSION 0.1 LANGUAGES C CXX)
 
-option(DEVELOPER_MODE "Boot direct to main selection screen, enable debug.sav loading" ON)
-option(BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE "Force game to run in windowed mode" ON)
-option(FORCE_DDCHEAT "Force ddcheat mode to be enabled" ON)
-option(LCD_PS1_SPEED "Corrects LCD Screens to move as fast as the original PS1 version of the game." ON)
-option(XINPUT_SUPPORT "Adds XINPUT support to the game and replaces in game fonts with Xbox Versions." ON)
-
-if(DEVELOPER_MODE)
-  add_definitions(-DDEVELOPER_MODE)
-endif()
-
-if(LCD_PS1_SPEED)
-  add_definitions(-DLCD_PS1_SPEED)
-endif()
-
-if(XINPUT_SUPPORT)
-  add_definitions(-DXINPUT_SUPPORT)
-endif()
-
-if(BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE)
-  add_definitions(-DBEHAVIOUR_CHANGE_FORCE_WINDOW_MODE)
-endif()
-
-if(FORCE_DDCHEAT)
-  add_definitions(-DFORCE_DDCHEAT)
-endif()
-
+add_custom_target(
+    myCustomTarget
+    COMMAND cmake -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
+)
 set(CompilerFlags
         CMAKE_CXX_FLAGS
         CMAKE_CXX_FLAGS_DEBUG
@@ -54,6 +32,8 @@ add_subdirectory(3rdParty)
 add_subdirectory(Source/AliveLib)
 add_subdirectory(Source/AliveExe)
 add_subdirectory(Source/AliveDll)
+
+add_dependencies(AliveLib myCustomTarget)
 
 if(WIN32)
     # On Windows generate ZIP packages

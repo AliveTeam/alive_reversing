@@ -319,7 +319,7 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
         PSX_DrawOTag_4F6540(field_10_drawEnv[prevBufferIdx].field_70_ot_buffer);
     }
 
-#ifdef DEVELOPER_MODE
+#if DEVELOPER_MODE
     DEV::DebugOnFrameDraw();
 #endif
 }

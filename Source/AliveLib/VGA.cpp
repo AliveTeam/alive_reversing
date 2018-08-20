@@ -5,10 +5,11 @@
 #include "Function.hpp"
 #include "Error.hpp"
 #include "Sys.hpp"
+#include "config.h"
 
 void VGA_ForceLink() {}
 
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
   //  NOT_IMPLEMENTED();

@@ -19,6 +19,7 @@
 #include "Sfx.hpp"
 #include "Sys.hpp"
 #include "RenderingTestTimData.hpp"
+#include "config.h"
 
 bool sDebugEnabled_VerboseEvents = false;
 
@@ -1376,6 +1377,7 @@ private:
 
 void DebugHelpers_Init() 
 {
+#if DEVELOPER_MODE
     if (GetKeyState(VK_LCONTROL) < 0)
     {
         return;
@@ -1389,9 +1391,12 @@ void DebugHelpers_Init()
 
         DEV_CONSOLE_MESSAGE_C("Debug Console Active. Open with ~ (Tilde)", 7, 0, 150, 255);
     }
+#endif
 
+#if RENDER_TEST
     // Test rendering diff prim types
     alive_new<RenderTest>(); // Will get nuked at LVL/Path change
+#endif
 }
 
 std::vector<BYTE> FS::ReadFile(std::string filePath)

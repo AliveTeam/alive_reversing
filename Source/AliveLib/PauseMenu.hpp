@@ -71,11 +71,9 @@ public:
     using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update_4903E0);
     using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render_490A50);
 
-#ifdef DEVELOPER_MODE
     // DEVELOPER MODE STUFF
     void CustomPauseMenuUpdate();
     ///////////////////////
-#endif
 
     struct PauseMenuPage
     {

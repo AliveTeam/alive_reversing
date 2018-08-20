@@ -10,6 +10,7 @@
 #include "Sfx.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
+#include "config.h"
 
 unsigned char sLCDScreen_Palette[] =
 {
@@ -217,7 +218,7 @@ void LCDScreen::Update_460A00()
         field_6_flags |= eDead;
     }
 
-#ifdef LCD_PS1_SPEED
+#if LCD_PS1_SPEED
     field_2AC_x_offset += 6;
 #else
     field_2AC_x_offset += 3;

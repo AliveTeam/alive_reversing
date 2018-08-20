@@ -4,6 +4,7 @@
 #include "Input.hpp"
 #include <assert.h>
 #include "../AliveExe/resource.h"
+#include "config.h"
 
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, HWND, sHwnd_BBB9F4, nullptr);
@@ -31,7 +32,7 @@ EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0()
 
 EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     switch (msg)
     {
     case WM_ERASEBKGND:
@@ -206,7 +207,7 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
     ::RegisterClassA(&windowClass);
 
     DWORD style = WS_CAPTION | WS_VISIBLE;
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     style |= WS_OVERLAPPEDWINDOW;
 #endif
 
@@ -231,7 +232,7 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
 
     sHwnd_BBB9F4 = hWnd;
     
-#ifdef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     Sys_SetWindowPos_4EE1B1(nWidth, nHeight);
 #else
     RECT rc;

@@ -4,6 +4,7 @@
 #include "DebugHelpers.hpp"
 #include "FixedPoint.hpp"
 #include "VRam.hpp"
+#include "config.h"
 
 void Font_ForceLink()
 {
@@ -74,7 +75,7 @@ void Font::ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontConte
     PSX_RECT rect = { field_28_palette_rect.x , field_28_palette_rect.y, 16, 1 };
     PSX_LoadImage16_4F5E20(&rect, palette);
     field_30_poly_count = maxCharLength;
-#ifdef DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
+#if DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
     auto db = new void*[1];
     db[0] = malloc_4954D0(sizeof(Poly_FT4) * 2 * maxCharLength);
     field_20_fnt_poly_block_ptr = reinterpret_cast<BYTE**>(db);
@@ -90,7 +91,7 @@ void Font::dtor_433540()
     Pal_free_483390(palPoint, field_28_palette_rect.w);
     field_28_palette_rect.x = 0;
 
-#ifdef DEVELOPER_MODE 
+#if DEVELOPER_MODE 
     auto db = reinterpret_cast<void**>(field_20_fnt_poly_block_ptr);
     Mem_Free_495540(*db);
     delete[] db;

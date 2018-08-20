@@ -8,6 +8,7 @@
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
+#include "config.h"
 
 void DDCheat_ForceLink() { }
 
@@ -168,7 +169,7 @@ DDCheat* DDCheat::ctor_4153C0()
     AddPropertyEntry_004162C0("Visited Barracks ", 1, (int *)&sVisitedBarracks_5C1C04);
     AddPropertyEntry_004162C0("Visited Feeco Ender ", 1, (int *)&sVisitedFeecoEnder_5C1C06);
 
-#ifdef FORCE_DDCHEAT
+#if FORCE_DDCHEAT
     sCommandLine_DDCheatEnabled_5CA4B5 = true;
 #endif
 
@@ -309,7 +310,7 @@ void DDCheat::Update_415780()
 
             
 
-#ifdef DEVELOPER_MODE
+#if DEVELOPER_MODE
             DebugStr_4F5560(
                 "\n[obj %i] xy=%.3f,%.3f flags=%x",
                 sControlledCharacter_5C1B8C->field_4_typeId,

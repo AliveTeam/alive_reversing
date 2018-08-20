@@ -10,8 +10,9 @@
 #include <joystickapi.h>
 #include "Events.hpp"
 #include "PsxRender.hpp"
+#include "config.h"
 
-#ifdef XINPUT_SUPPORT
+#if XINPUT_SUPPORT
 #include <Xinput.h>
 #endif
 
@@ -206,7 +207,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
     Input_45FF60(*pX2, *pY2, pButtons);
 }
 
-#ifdef XINPUT_SUPPORT
+#if XINPUT_SUPPORT
 void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
 {
     XINPUT_STATE state;
@@ -306,7 +307,7 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
 // TODO: Needs actual testing.
 EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
 {
-#ifdef XINPUT_SUPPORT
+#if XINPUT_SUPPORT
     Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
 #else
     Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
@@ -479,7 +480,7 @@ EXPORT void CC Input_Init_491BC0()
     sKeyNames_5C9394[VK_NUMPAD8] = "8";
     // Og game is missing vk_numpad 9 ? :s
 
-#ifdef XINPUT_SUPPORT
+#if XINPUT_SUPPORT
     sGamePadStr_55E85C = "Xbox Controller";
 
     sJoyButtonNames_5C9908[0] = "X";
