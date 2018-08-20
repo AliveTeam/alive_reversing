@@ -458,22 +458,10 @@ EXPORT void CC PSX_EMU_Render_TPage_1_51F660(PSX_RECT* /*pRect*/, int /*tpagex_o
 
 EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigned int amount)
 {
-    NOT_IMPLEMENTED();
-
-    int offset; // eax
-    unsigned int counter; // ecx
-    double v5; // st7
-
-    offset = 0;
-    counter = amount >> 4;                        // div 16 ?
-    do
+    for (int i = 0; i < amount; i++)
     {
-        v5 = (double)*(signed __int64 *)&pSrc[offset + 8];
-        *(__int64 *)&pVram[offset] = (signed __int64)(double)*(signed __int64 *)&pSrc[offset];
-        *(__int64 *)&pVram[offset + 8] = (signed __int64)v5;
-        offset += 16;
-        --counter;
-    } while (counter);
+        pVram[i] = pSrc[i];
+    }
 }
 
 EXPORT void CC PSX_EMU_Render_TPage_2_51FA30(PSX_RECT* /*pRect*/, int /*tpageX*/, int /*tpageY*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, int /*a7*/, char /*a8*/)
