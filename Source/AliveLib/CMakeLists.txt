@@ -1,7 +1,6 @@
 project(AliveLib VERSION 0.1 LANGUAGES CXX)
 
 add_library(AliveLib
-    ${CMAKE_BINARY_DIR}/config.h
     ExportHooker.hpp
     stdafx.cpp
     stdafx.h

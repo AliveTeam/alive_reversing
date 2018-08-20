@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(ar VERSION 0.1 LANGUAGES C CXX)
 
 add_custom_target(
-    myCustomTarget
+    UpdateConfigHeader
     COMMAND cmake -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
 )
 set(CompilerFlags
@@ -33,7 +33,7 @@ add_subdirectory(Source/AliveLib)
 add_subdirectory(Source/AliveExe)
 add_subdirectory(Source/AliveDll)
 
-add_dependencies(AliveLib myCustomTarget)
+add_dependencies(AliveLib UpdateConfigHeader)
 
 if(WIN32)
     # On Windows generate ZIP packages
