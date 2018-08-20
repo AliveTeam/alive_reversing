@@ -34,6 +34,7 @@
 #include "MusicController.hpp"
 #include <gmock/gmock.h>
 #include "CheatController.hpp"
+#include "FG1.hpp"
 #include "config.h"
 
 void Game_ForceLink() { }
@@ -480,15 +481,9 @@ EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
     return 0;
 }
 
-class FG1 : public BaseGameObject
-{
-public:
-    // TODO
-};
 
 ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<Animation>*, gObjList_animations_5C1A24, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
-ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 
 EXPORT void CC sub_43BF40()
 {

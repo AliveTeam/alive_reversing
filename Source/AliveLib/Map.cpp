@@ -16,6 +16,7 @@
 #include "Path.hpp"
 #include "QuikSave.hpp"
 #include "Sfx.hpp"
+#include "FG1.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }
@@ -714,7 +715,27 @@ __int16 Map::Get_Path_Unknown_480710()
 
 void Map::Create_FG1s_480F10()
 {
-    NOT_IMPLEMENTED();
+    pScreenManager_5BB5F4->UnsetDirtyBits_FG1_40ED70();
+
+    Camera* pCamera = field_2C_5C305C_camera_array[0];
+    for (int i = 0; i < pCamera->field_0.Size(); i++)
+    {
+        BYTE** ppRes = pCamera->field_0.ItemAt(i);
+        if (!ppRes)
+        {
+            break;
+        }
+
+        if (*ppRes)
+        {
+            ResourceManager::Header* pHeader = ResourceManager::Get_Header_49C410(ppRes);
+            if (pHeader->field_8_type == ResourceManager::Resource_FG1)
+            {
+                FG1* pFG1 = alive_new<FG1>();
+                pFG1->ctor_499FC0(ppRes);
+            }
+        }
+    }
 }
 
 signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, __int16 screenChangeEffect, __int16 a6, __int16 forceChange)
