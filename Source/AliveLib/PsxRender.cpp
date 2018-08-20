@@ -399,49 +399,48 @@ EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage)
     }
 }
 
-EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PSX_RECT* pRect2, PSX_RECT* pOverlapRect, int* uStart, int* vStart)
+EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pScreen, const PSX_RECT* pToRender, PSX_RECT* pOverlapRect, int* uStart, int* vStart)
 {
-    const bool bOverlaps = PSX_Rects_overlap_4FA0B0(pRect1, pRect2) ? true : false;
+    const bool bOverlaps = PSX_Rects_overlap_4FA0B0(pScreen, pToRender) ? true : false;
     if (bOverlaps)
     {
-        const int rect1_right = pRect1->x + pRect1->w;
-        int rect2_right = pRect2->x + pRect2->w;
-        if (rect2_right > rect1_right)
+        int biggestRight = pToRender->x + pToRender->w;
+        if (biggestRight > pScreen->x + pScreen->w)
         {
-            rect2_right = rect1_right;
+            biggestRight = pScreen->x + pScreen->w;
         }
 
-        const __int16 overlap_w = static_cast<short>(rect2_right - pRect2->x);
+        const __int16 overlap_w = static_cast<short>(biggestRight - pToRender->x);
         pOverlapRect->w = overlap_w;
-        if (pRect2->x >= pRect1->x)
+        if (pToRender->x >= pScreen->x)
         {
-            pOverlapRect->x = pRect2->x;
+            pOverlapRect->x = pToRender->x;
         }
         else
         {
-            pOverlapRect->x = pRect1->x;
-            pOverlapRect->w = pRect2->x + overlap_w - pRect1->x;
-            *uStart += pRect1->x - pRect2->x;
+            pOverlapRect->x = pScreen->x;
+            pOverlapRect->w = pToRender->x + overlap_w - pScreen->x;
+            *uStart += pScreen->x - pToRender->x;
         }
 
 
-        int rects_bottom = pRect2->y + pRect2->h;
-        if (rects_bottom > pRect1->y + pRect1->h)
+        int biggestBottom = pToRender->y + pToRender->h;
+        if (biggestBottom > pScreen->y + pScreen->h)
         {
-            rects_bottom = pRect1->y + pRect1->h;
+            biggestBottom = pScreen->y + pScreen->h;
         }
 
-        __int16 overlap_h = static_cast<short>(rects_bottom - pRect2->y);
+        const __int16 overlap_h = static_cast<short>(biggestBottom - pToRender->y);
         pOverlapRect->h = overlap_h;
-        if (pRect2->y >= pRect1->y)
+        if (pToRender->y >= pScreen->y)
         {
-            pOverlapRect->y = pRect2->y;
+            pOverlapRect->y = pToRender->y;
         }
         else
         {
-            pOverlapRect->y = pRect1->y;
-            pOverlapRect->h = pRect2->y + overlap_h - pRect1->y;
-            *vStart += pRect1->y - pRect2->y;
+            pOverlapRect->y = pScreen->y;
+            pOverlapRect->h = pToRender->y + overlap_h - pScreen->y;
+            *vStart += pScreen->y - pToRender->y;
         }
     }
     return bOverlaps;
