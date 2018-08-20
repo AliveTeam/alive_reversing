@@ -444,8 +444,6 @@ void ScreenManager::sub_cam_vlc_40EF60(WORD** ppBits)
 
 void ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
 {
-    NOT_IMPLEMENTED();
-
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_20_pCamPos = pCameraOffset;
 
@@ -458,11 +456,7 @@ void ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
 
 void ScreenManager::Init_40E4B0(BYTE** ppBits)
 {
-    NOT_IMPLEMENTED();
-
-    // TODO: Check correct
-    //BYTE2(this->field_40_flags) |= 1u;
-    field_6_flags |= BaseGameObject::eBit08;
+    field_40_flags |= 0x10000;
 
     field_4_typeId = BaseGameObject::eScreenManager;
 
@@ -480,24 +474,23 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
     short ypos = 0;
     for (int i = 0; i < 300; i++)
     {
-        Sprt_Init_4F8910(&field_24_screen_sprites[i].mSprt);
-        SetRGB0(&field_24_screen_sprites[i].mSprt, 128, 128, 128);
-        SetXY0(&field_24_screen_sprites[i].mSprt, xpos, ypos);
+        SprtTPage* pItem = &field_24_screen_sprites[i];
+        Sprt_Init_4F8910(&pItem->mSprt);
+        SetRGB0(&pItem->mSprt, 128, 128, 128);
+        SetXY0(&pItem->mSprt, xpos, ypos);
 
-        field_24_screen_sprites[i].mSprt.field_14_w = 32;
-        field_24_screen_sprites[i].mSprt.field_16_h = 16;
+        pItem->mSprt.field_14_w = 32;
+        pItem->mSprt.field_16_h = 16;
 
         int u0 = field_2C_upos + 32 * (i % 20);
         int v0 = field_2E_vpos + 16 * (i / 20);
         int tpage = ScreenManager::GetTPage_40F040(2, 0, &u0, &v0);
 
-        // TODO fix me
-        //HIBYTE(tpage) |= 0x80u;
         tpage |= 0x8000;
 
-        Init_SetTPage_4F5B60(&field_24_screen_sprites[i].mTPage, 0, 0, tpage);
+        Init_SetTPage_4F5B60(&pItem->mTPage, 0, 0, tpage);
 
-        SetUV0(&field_24_screen_sprites[i].mSprt, static_cast<BYTE>(u0), static_cast<BYTE>(v0));
+        SetUV0(&pItem->mSprt, static_cast<BYTE>(u0), static_cast<BYTE>(v0));
 
         xpos += 32;
         if (xpos == 640)
