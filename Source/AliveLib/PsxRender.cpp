@@ -6,7 +6,7 @@
 #include "Primitives.hpp"
 #include <gmock/gmock.h>
 
-using TPsxDraw = std::add_pointer<void(__cdecl)(short, short, int, int, BYTE, BYTE, BYTE, short, short, int, int)>::type;
+using TPsxDraw = std::add_pointer<void(__cdecl)(short, short, int, int, BYTE, BYTE, BYTE, short, short, WORD, int)>::type;
 
 ALIVE_VAR(1, 0xC2D04C, TPsxDraw, pPSX_EMU_Render_51EF90_C2D04C, nullptr);
 
@@ -115,7 +115,7 @@ EXPORT void CC PSX_84_4F7B80(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/, int
     NOT_IMPLEMENTED();
 }
 
-static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1, int width, int height)
+static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1, short width, short height)
 {
     BYTE b = 0;
     BYTE g = 0;
@@ -257,7 +257,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 break;
 
             case PrimTypeCodes::eSetTPage:
-                PSX_TPage_Change_4F6430(any.mSetTPage->field_C_tpage);
+                PSX_TPage_Change_4F6430(static_cast<short>(any.mSetTPage->field_C_tpage));
                 break;
 
             case PrimTypeCodes::ePrimClipper:
@@ -399,20 +399,20 @@ EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage)
     }
 }
 
-EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PSX_RECT* pRect2, PSX_RECT* pOverlapRect, int* pOverlapX, int* pOverlapY)
+EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PSX_RECT* pRect2, PSX_RECT* pOverlapRect, int* uStart, int* vStart)
 {
     const bool bOverlaps = PSX_Rects_overlap_4FA0B0(pRect1, pRect2) ? true : false;
     if (bOverlaps)
     {
-        int rect1_right = pRect1->x + pRect1->w;
+        const int rect1_right = pRect1->x + pRect1->w;
         int rect2_right = pRect2->x + pRect2->w;
         if (rect2_right > rect1_right)
         {
             rect2_right = rect1_right;
         }
 
-        __int16 v10 = rect2_right - pRect2->x;
-        pOverlapRect->w = v10;
+        const __int16 overlap_w = static_cast<short>(rect2_right - pRect2->x);
+        pOverlapRect->w = overlap_w;
         if (pRect2->x >= pRect1->x)
         {
             pOverlapRect->x = pRect2->x;
@@ -420,8 +420,8 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PS
         else
         {
             pOverlapRect->x = pRect1->x;
-            pOverlapRect->w = pRect2->x + v10 - pRect1->x;
-            *pOverlapX += pRect1->x - pRect2->x;
+            pOverlapRect->w = pRect2->x + overlap_w - pRect1->x;
+            *uStart += pRect1->x - pRect2->x;
         }
 
 
@@ -430,7 +430,8 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PS
         {
             rects_bottom = pRect1->y + pRect1->h;
         }
-        __int16 overlap_h = rects_bottom - pRect2->y;
+
+        __int16 overlap_h = static_cast<short>(rects_bottom - pRect2->y);
         pOverlapRect->h = overlap_h;
         if (pRect2->y >= pRect1->y)
         {
@@ -440,13 +441,13 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pRect1, const PS
         {
             pOverlapRect->y = pRect1->y;
             pOverlapRect->h = pRect2->y + overlap_h - pRect1->y;
-            *pOverlapY += pRect1->y - pRect2->y;
+            *vStart += pRect1->y - pRect2->y;
         }
     }
     return bOverlaps;
 }
 
-EXPORT void CC PSX_EMU_Render_TPage_0_51F0E0(PSX_RECT* /*a1*/, int /*a2*/, int /*a3*/, unsigned __int8 /*a4*/, unsigned __int8 /*a5*/, unsigned __int8 /*a6*/, unsigned __int16 /*a7*/, __int16* /*a8*/)
+EXPORT void CC PSX_EMU_Render_TPage_0_51F0E0(PSX_RECT* /*a1*/, int /*a2*/, int /*a3*/, unsigned __int8 /*a4*/, unsigned __int8 /*a5*/, unsigned __int8 /*a6*/, unsigned __int16 /*a7*/, char /*a8*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -481,7 +482,7 @@ EXPORT void CC PSX_EMU_Render_TPage_2_51FA30(PSX_RECT* /*pRect*/, int /*tpageX*/
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, BYTE r, BYTE g, BYTE b, __int16 w, __int16 h, int clut, int semiTrans)
+EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, BYTE r, BYTE g, BYTE b, __int16 w, __int16 h, WORD clut, int semiTrans)
 {
     // Get the screen rect
     PSX_RECT screenRect  = {};
@@ -505,15 +506,15 @@ EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, BYTE r,
         // Render
         if (sTexture_page_idx_BD0F14 == 0)
         {
-            PSX_EMU_Render_TPage_0_51F0E0(&overlapRect, u, v, r, g, b, clut, (__int16 *)semiTrans);
+            PSX_EMU_Render_TPage_0_51F0E0(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
         else if (sTexture_page_idx_BD0F14 == 1)
         {
-            PSX_EMU_Render_TPage_1_51F660(&overlapRect, u, v, r, g, b, clut, semiTrans);
+            PSX_EMU_Render_TPage_1_51F660(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
         else if (sTexture_page_idx_BD0F14 == 2)
         {
-            PSX_EMU_Render_TPage_2_51FA30(&overlapRect, u, v, r, g, b, clut, semiTrans);
+            PSX_EMU_Render_TPage_2_51FA30(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
     }
 }
