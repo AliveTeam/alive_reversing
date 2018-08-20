@@ -121,7 +121,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
         if (offsetX >= maxRenderX)
             break;
 
-        const char c = text[i];
+        const unsigned char c = text[i];
 
         if (c <= 0x20u || c > 0xAFu)
         {
