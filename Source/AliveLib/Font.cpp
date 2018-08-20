@@ -5,6 +5,7 @@
 #include "FixedPoint.hpp"
 #include "VRam.hpp"
 #include "config.h"
+#include "Resources.h"
 
 void Font_ForceLink()
 {
@@ -316,11 +317,20 @@ const char * Font::SliceText_433BD0(const char * text, int left, FP scale, int r
 
 void Font_Context::LoadFontType_433400(short resourceID)
 {
-    /*if (resourceID == 2)
+    // Override game fonts with our XInput friendly ones.
+#if XINPUT_SUPPORT 
+    if (resourceID == 2)
     {
-        LoadFontTypeFromOddFont("LCD_XBOX.oddfont", nullptr);
+        LoadFontTypeFromOddFontMem(sOddFontXboxLCD, nullptr);
         return;
-    }*/
+    }
+    if (resourceID == 1)
+    {
+        LoadFontTypeFromOddFontMem(sOddFontXboxMenu, nullptr);
+        return;
+    }
+#endif
+
     auto loadedResource = reinterpret_cast<BYTE **>(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Font, resourceID, 1u, 0));
     auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
     
@@ -406,21 +416,25 @@ void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fo
 bool Font_Context::LoadFontTypeFromOddFont(const char * fontPath, char * pPaletteOut)
 {
     auto debugFont = FS::ReadFile(fontPath);
+    if (!debugFont.size())
+        {
+            LOG_ERROR("Could not load custom font!");
+            return false;
+        }
 
-    auto fontFile = reinterpret_cast<File_Font*>(debugFont.data());
+    return LoadFontTypeFromOddFontMem(debugFont.data(), pPaletteOut);
+}
+
+bool Font_Context::LoadFontTypeFromOddFontMem(BYTE * data, char * pPaletteOut)
+{
+    auto fontFile = reinterpret_cast<File_Font*>(data);
     int * atlasCount = reinterpret_cast<int *>(fontFile->field_28_pixel_buffer + ((fontFile->field_0_width * fontFile->field_2_height) / 2));
     Font_AtlasEntry * atlasData = reinterpret_cast<Font_AtlasEntry*>(atlasCount + 1);
 
     auto debugFontAtlas = std::vector<BYTE>((BYTE*)atlasData, (BYTE*)atlasData + (sizeof(Font_AtlasEntry) * *atlasCount));
 
-    if (!debugFont.size() || !debugFontAtlas.size())
-    {
-        LOG_ERROR("Could not load custom font!");
-        return false;
-    }
-
     sLoadedAtlas.push_back(debugFontAtlas);
-    LoadFontTypeCustom(reinterpret_cast<File_Font*>(debugFont.data()), reinterpret_cast<Font_AtlasEntry*>(sLoadedAtlas.back().data()), pPaletteOut);
+    LoadFontTypeCustom(reinterpret_cast<File_Font*>(data), reinterpret_cast<Font_AtlasEntry*>(sLoadedAtlas.back().data()), pPaletteOut);
     return true;
 }
 

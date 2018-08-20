@@ -53,6 +53,7 @@ struct Font_Context
     bool LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut);
     void LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fontAtlas, char * pPaletteOut);
     bool LoadFontTypeFromOddFont(const char * fontPath, char * pPaletteOut);
+    bool LoadFontTypeFromOddFontMem(BYTE * data, char * pPaletteOut);
 };
 ALIVE_ASSERT_SIZEOF(Font_Context, 0x10);
 

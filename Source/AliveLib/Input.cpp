@@ -483,6 +483,19 @@ EXPORT void CC Input_Init_491BC0()
 #if XINPUT_SUPPORT
     sGamePadStr_55E85C = "Xbox Controller";
 
+    // These are to be used with the custom XBOX fonts.
+    sJoyButtonNames_5C9908[0] = "\x81";
+    sJoyButtonNames_5C9908[1] = "\x80";
+    sJoyButtonNames_5C9908[2] = "\x82";
+    sJoyButtonNames_5C9908[3] = "\x83";
+    sJoyButtonNames_5C9908[4] = "\x84";
+    sJoyButtonNames_5C9908[5] = "\x85";
+    sJoyButtonNames_5C9908[6] = "\x86";
+    sJoyButtonNames_5C9908[7] = "\x87";
+    sJoyButtonNames_5C9908[8] = "";
+    sJoyButtonNames_5C9908[9] = "";
+
+    /*
     sJoyButtonNames_5C9908[0] = "X";
     sJoyButtonNames_5C9908[1] = "A";
     sJoyButtonNames_5C9908[2] = "B";
@@ -493,6 +506,7 @@ EXPORT void CC Input_Init_491BC0()
     sJoyButtonNames_5C9908[7] = "RT";
     sJoyButtonNames_5C9908[8] = "";
     sJoyButtonNames_5C9908[9] = "";
+    */
 #else
     sJoyButtonNames_5C9908[0] = "B1";
     sJoyButtonNames_5C9908[1] = "B2";
