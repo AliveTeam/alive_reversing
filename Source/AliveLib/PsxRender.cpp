@@ -6,9 +6,6 @@
 #include "Primitives.hpp"
 #include <gmock/gmock.h>
 
-using TPsxDraw = std::add_pointer<void(__cdecl)(short, short, int, int, BYTE, BYTE, BYTE, short, short, WORD, int)>::type;
-
-ALIVE_VAR(1, 0xC2D04C, TPsxDraw, pPSX_EMU_Render_51EF90_C2D04C, nullptr);
 
 struct OtUnknown
 {
@@ -31,15 +28,108 @@ ALIVE_VAR(1, 0x57831c, DWORD, dword_57831C, 10);
 ALIVE_VAR(1, 0xBD0F18, DWORD, sTexture_page_abr_BD0F18, 0);
 ALIVE_VAR(1, 0xbd0f1c, WORD *, sTPage_src_ptr_BD0F1C, nullptr);
 
+EXPORT int CC PSX_EMU_Render_Polys_2_51CCA0(int /*a1*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int* CC PSX_EMU_Render_Polys_2_51E140(int /*a1*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT int CC PSX_EMU_Render_Polys_2_51D890(int /*a1*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT unsigned int CC PSX_EMU_Render_Polys_2_51C4C0(int /*a2*/, int /*a3*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_EMU_Render_Polys_2_51C6E0(int /*a1*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int* CC PSX_EMU_Render_Polys_2_51D2B0(int /*a1*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT int* CC PSX_EMU_Render_Polys_2_51E890(int /*a1*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT int CC PSX_EMU_Render_Polys_2_51DC90(int /*a1*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int CC PSX_EMU_Render_Polys_2_51C590(int /*a1*/, int /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT int* CC PSX_EMU_Render_Polys_2_51C8D0(int /*a1*/, int /*size*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+ALIVE_VAR(1, 0xC2D04C, decltype(&PSX_EMU_Render_51EF90), pPSX_EMU_Render_51EF90_C2D04C, nullptr);
+ALIVE_VAR(1, 0xBD3364, decltype(&PSX_EMU_Render_Polys_2_51CCA0), pPSX_EMU_51CCA0_BD3364, nullptr);
+ALIVE_VAR(1, 0xBD328C, decltype(&PSX_EMU_Render_Polys_2_51E140), pPSX_EMU_51E140_BD328C, nullptr);
+ALIVE_VAR(1, 0xBD3360, decltype(&PSX_EMU_Render_Polys_2_51D890), pPSX_EMU_51D890_BD3360, nullptr);
+ALIVE_VAR(1, 0xBD32D4, decltype(&PSX_EMU_Render_Polys_2_51C4C0), pPSX_EMU_51C4C0_BD32D4, nullptr);
+ALIVE_VAR(1, 0xBD32D0, decltype(&PSX_EMU_Render_Polys_2_51C6E0), pPSX_EMU_51C6E0_BD32D0, nullptr);
+ALIVE_VAR(1, 0xBD327C, decltype(&PSX_EMU_Render_Polys_2_51D2B0), pPSX_EMU_51D2B0_BD327C, nullptr);
+ALIVE_VAR(1, 0xBD326C, decltype(&PSX_EMU_Render_Polys_2_51E890), pPSX_EMU_51E890_BD326C, nullptr);
+ALIVE_VAR(1, 0xBD3274, decltype(&PSX_EMU_Render_Polys_2_51DC90), pPSX_EMU_51DC90_BD3274, nullptr);
+ALIVE_VAR(1, 0xBD3354, decltype(&PSX_EMU_Render_Polys_2_51C590), pPSX_EMU_51C590_BD3354, nullptr);
+ALIVE_VAR(1, 0xBD335C, decltype(&PSX_EMU_Render_Polys_2_51C8D0), pPSX_EMU_51C8D0_BD335C, nullptr);
+
 
 EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 {
     NOT_IMPLEMENTED();
 
-    // HACK / enough impl to alllow standalone to boot
+    // HACK / enough impl to allow standalone to boot
     sVGA_DisplayType_BD1468 = dispType;
 
     pPSX_EMU_Render_51EF90_C2D04C = PSX_EMU_Render_51EF90;
+    pPSX_EMU_51CCA0_BD3364 = PSX_EMU_Render_Polys_2_51CCA0;
+    pPSX_EMU_51E140_BD328C = PSX_EMU_Render_Polys_2_51E140;
+    pPSX_EMU_51D890_BD3360 = PSX_EMU_Render_Polys_2_51D890;
+    pPSX_EMU_51C4C0_BD32D4 = PSX_EMU_Render_Polys_2_51C4C0;
+    pPSX_EMU_51C6E0_BD32D0 = PSX_EMU_Render_Polys_2_51C6E0;
+    pPSX_EMU_51D2B0_BD327C = PSX_EMU_Render_Polys_2_51D2B0;
+    pPSX_EMU_51E890_BD326C = PSX_EMU_Render_Polys_2_51E890;
+    pPSX_EMU_51DC90_BD3274 = PSX_EMU_Render_Polys_2_51DC90;
+    pPSX_EMU_51C590_BD3354 = PSX_EMU_Render_Polys_2_51C590;
+    pPSX_EMU_51C8D0_BD335C = PSX_EMU_Render_Polys_2_51C8D0;
+
+    /*
+    dword_BD3290 = (int)PSX_EMU_nullsub_20;
+    dword_BD3280 = (int)PSX_EMU_nullsub_22;
+    dword_BD3288 = (int)PSX_EMU_nullsub_24;
+    dword_BD3268 = (int)PSX_EMU_nullsub_21;
+    dword_BD3284 = (int)PSX_EMU_nullsub_23;
+    dword_BD3278 = (int)PSX_EMU_nullsub_25;
+    */
+
+    return 0;
 }
 
 EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
