@@ -480,7 +480,7 @@ EXPORT void CC Input_Init_491BC0()
     // Og game is missing vk_numpad 9 ? :s
 
 #if XINPUT_SUPPORT
-    sGamePadStr_55E85C = "Xbox Controller";
+    strncpy(sGamePadStr_55E85C, "Xbox Controller", 32u);
 
     // These are to be used with the custom XBOX fonts.
     sJoyButtonNames_5C9908[0] = "\x81";
