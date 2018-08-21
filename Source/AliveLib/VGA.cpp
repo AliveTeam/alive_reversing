@@ -5,7 +5,6 @@
 #include "Function.hpp"
 #include "Error.hpp"
 #include "Sys.hpp"
-#include "config.h"
 
 void VGA_ForceLink() {}
 

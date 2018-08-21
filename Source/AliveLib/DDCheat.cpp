@@ -8,7 +8,6 @@
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
-#include "config.h"
 
 void DDCheat_ForceLink() { }
 

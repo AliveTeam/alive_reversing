@@ -19,7 +19,6 @@
 #include "Sfx.hpp"
 #include "Sys.hpp"
 #include "RenderingTestTimData.hpp"
-#include "config.h"
 
 bool sDebugEnabled_VerboseEvents = false;
 

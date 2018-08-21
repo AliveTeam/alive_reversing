@@ -4,7 +4,6 @@
 #include "DebugHelpers.hpp"
 #include "FixedPoint.hpp"
 #include "VRam.hpp"
-#include "config.h"
 #include "Resources.hpp"
 
 void Font_ForceLink()

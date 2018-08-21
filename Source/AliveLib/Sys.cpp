@@ -4,7 +4,6 @@
 #include "Input.hpp"
 #include <assert.h>
 #include "../AliveExe/resource.h"
-#include "config.h"
 
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, HWND, sHwnd_BBB9F4, nullptr);

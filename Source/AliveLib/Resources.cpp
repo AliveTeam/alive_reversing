@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "config.h"
 
 unsigned char sDebugFontAtlas[680] =
 {

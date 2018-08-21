@@ -10,7 +10,6 @@
 #include <joystickapi.h>
 #include "Events.hpp"
 #include "PsxRender.hpp"
-#include "config.h"
 
 #if XINPUT_SUPPORT
 #include <Xinput.h>

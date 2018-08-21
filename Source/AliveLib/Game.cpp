@@ -35,7 +35,6 @@
 #include <gmock/gmock.h>
 #include "CheatController.hpp"
 #include "FG1.hpp"
-#include "config.h"
 
 void Game_ForceLink() { }
 

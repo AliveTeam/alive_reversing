@@ -3,7 +3,6 @@
 #include "Function.hpp"
 #include "Error.hpp"
 #include "Sys.hpp"
-#include "config.h"
 
 RECT ClientToScreenConvert(HWND hwnd)
 {

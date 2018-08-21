@@ -10,7 +10,6 @@
 #include "Sfx.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
-#include "config.h"
 
 unsigned char sLCDScreen_Palette[] =
 {

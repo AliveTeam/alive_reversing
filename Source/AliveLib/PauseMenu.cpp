@@ -10,7 +10,6 @@
 #include "Sfx.hpp"
 #include "Sound.hpp"
 #include "MainMenu.hpp"
-#include "config.h"
 
 // MACROS
 
