@@ -100,6 +100,10 @@ ALIVE_VAR(1, 0xBD3274, decltype(&PSX_EMU_Render_Polys_2_51DC90), pPSX_EMU_51DC90
 ALIVE_VAR(1, 0xBD3354, decltype(&PSX_EMU_Render_Polys_2_51C590), pPSX_EMU_51C590_BD3354, nullptr);
 ALIVE_VAR(1, 0xBD335C, decltype(&PSX_EMU_Render_Polys_2_51C8D0), pPSX_EMU_51C8D0_BD335C, nullptr);
 
+ALIVE_VAR(1, 0xc215c0, DWORD, sSemiTransShift_C215C0, 0);
+ALIVE_VAR(1, 0xc215c4, DWORD, sRedShift_C215C4, 0);
+ALIVE_VAR(1, 0xc1d180, DWORD, sGreenShift_C1D180, 0);
+ALIVE_VAR(1, 0xc19140, DWORD, sBlueShift_C19140, 0);
 
 EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 {
@@ -107,6 +111,11 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 
     // HACK / enough impl to allow standalone to boot
     sVGA_DisplayType_BD1468 = dispType;
+
+    sRedShift_C215C4 = 11;
+    sGreenShift_C1D180 = 6;
+    sBlueShift_C19140 = 0;
+    sSemiTransShift_C215C0 = 5;
 
     pPSX_EMU_Render_51EF90_C2D04C = PSX_EMU_Render_51EF90;
     pPSX_EMU_51CCA0_BD3364 = PSX_EMU_Render_Polys_2_51CCA0;
@@ -132,10 +141,75 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     return 0;
 }
 
-EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* /*pRect*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, __int16 /*b*/)
+
+template <typename T>
+T clip(const T& n, const T& lower, const T& upper) 
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return max(lower, min(n, upper));
+}
+
+EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b)
+{
+    if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
+    {
+        return 0;
+    }
+
+    // Max bound check
+    if (pRect->x >= 1024 || pRect->y >= 512)
+    {
+        return 0;
+    }
+
+    // Min bound check
+    if (pRect->w + pRect->x - 1 < 0 || pRect->h + pRect->y - 1 < 0)
+    {
+        return 0;
+    }
+
+    int rect_x1 = pRect->x;
+    int rect_y1 = pRect->y;
+    int rect_right = pRect->w + rect_x1 - 1;
+    int rect_bottom = pRect->h + rect_y1 - 1;
+
+    rect_x1 = clip(rect_x1, 0, 1023);
+
+    if (rect_right > 1023)
+    {
+        rect_right = 1023;
+    }
+
+    rect_y1 = clip(rect_y1, 0, 511);
+
+    if (rect_bottom > 511)
+    {
+        rect_bottom = 511;
+    }
+
+    WORD colour_value = 
+        ((1 << sSemiTransShift_C215C0) // TODO: Might be something else
+        | (static_cast<unsigned int>(r) >> 3 << sRedShift_C215C4)
+        | (static_cast<unsigned int>(g) >> 3 << sGreenShift_C1D180)
+        | (static_cast<unsigned int>(b) >> 3 << sBlueShift_C19140));
+
+    WORD* pVram = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + sizeof(WORD) * (rect_x1 + rect_y1 * (sPsxVram_C1D160.field_10_locked_pitch / sizeof(WORD)));
+
+    const int rect_h = rect_bottom - rect_y1 + 1;
+    const int rect_w = rect_right - rect_x1 + 1;
+    if (rect_h - 1 >= 0)
+    {
+        const int pitch_words =  sPsxVram_C1D160.field_10_locked_pitch / sizeof(WORD);
+        for (int y=0; y<rect_h; y++)
+        {
+            for (int x = 0; x < rect_w; x++)
+            {
+                pVram[x] = colour_value;
+            }
+            pVram += pitch_words;
+        }
+    }
+    BMP_unlock_4F2100(&sPsxVram_C1D160);
+    return 1;
 }
 
 EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
