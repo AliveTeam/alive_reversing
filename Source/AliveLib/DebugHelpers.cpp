@@ -19,6 +19,7 @@
 #include "Sfx.hpp"
 #include "Sys.hpp"
 #include "RenderingTestTimData.hpp"
+#include "PsxRender.hpp"
 
 bool sDebugEnabled_VerboseEvents = false;
 

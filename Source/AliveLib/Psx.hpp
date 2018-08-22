@@ -57,7 +57,6 @@ using TPsxEmuCallBack = std::add_pointer<int(DWORD)>::type;
 
 EXPORT void CC PSX_DispEnv_Set_4ED960(int mode);
 EXPORT int CC PSX_VSync_4F6170(int mode);
-EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, __int16 b);
 EXPORT int CC PSX_DrawSync_4F6280(int mode);
 EXPORT bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect);
 EXPORT int CC PSX_SetDispMask_4F89F0(int mode);

@@ -132,6 +132,12 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     return 0;
 }
 
+EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* /*pRect*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, __int16 /*b*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 EXPORT void CC PSX_ClearOTag_4F6290(int** otBuffer, int otBufferSize)
 {
     PSX_OrderingTable_4F62C0(otBuffer, otBufferSize);
@@ -548,7 +554,7 @@ EXPORT void CC PSX_EMU_Render_TPage_1_51F660(PSX_RECT* /*pRect*/, int /*tpagex_o
 
 EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigned int amount)
 {
-    for (int i = 0; i < amount; i++)
+    for (unsigned int i = 0; i < amount; i++)
     {
         pVram[i] = pSrc[i];
     }

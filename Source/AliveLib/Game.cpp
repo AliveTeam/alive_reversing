@@ -35,6 +35,7 @@
 #include <gmock/gmock.h>
 #include "CheatController.hpp"
 #include "FG1.hpp"
+#include "PsxRender.hpp"
 
 void Game_ForceLink() { }
 
