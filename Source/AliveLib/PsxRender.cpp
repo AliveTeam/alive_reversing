@@ -4,6 +4,7 @@
 #include "Psx.hpp"
 #include "Midi.hpp"
 #include "Primitives.hpp"
+#include "Game.hpp"
 #include <gmock/gmock.h>
 
 
@@ -23,10 +24,29 @@ ALIVE_VAR(1, 0xC2D03C, int, dword_C2D03C, 0);
 ALIVE_VAR(1, 0x578318, short, sActiveTPage_578318, -1);
 ALIVE_VAR(1, 0xbd0f0c, DWORD, sTexture_page_x_BD0F0C, 0);
 ALIVE_VAR(1, 0xbd0f10, DWORD, sTexture_page_y_BD0F10, 0);
-ALIVE_VAR(1, 0xbd0f14, DWORD, sTexture_page_idx_BD0F14, 0);
+ALIVE_VAR(1, 0xbd0f14, DWORD, sTexture_mode_BD0F14, 0);
 ALIVE_VAR(1, 0x57831c, DWORD, dword_57831C, 10);
 ALIVE_VAR(1, 0xBD0F18, DWORD, sTexture_page_abr_BD0F18, 0);
 ALIVE_VAR(1, 0xbd0f1c, WORD *, sTPage_src_ptr_BD0F1C, nullptr);
+
+ALIVE_VAR(1, 0xBD2A04, DWORD, sTile_r_BD2A04, 0);
+ALIVE_VAR(1, 0xBD2A00, DWORD, sTile_g_BD2A00, 0);
+ALIVE_VAR(1, 0xBD29FC, DWORD, sTile_b_BD29FC, 0);
+
+enum TextureModes
+{
+    e4Bit = 0,
+    e8Bit = 1,
+    e16Bit = 2
+};
+
+enum BlendModes // Or SemiTransparency rates
+{
+    eBlendMode_0 = 0, // 0.5xB + 0.5xF
+    eBlendMode_1 = 1, // 1.0xB + 1.0xF
+    eBlendMode_2 = 2, // 1.0xB - 1.0xF
+    eBlendMode_3 = 3, // 1.0xB + 0.25xF
+};
 
 EXPORT int CC PSX_EMU_Render_Polys_2_51CCA0(int /*a1*/, int /*a2*/)
 {
@@ -148,6 +168,23 @@ T clip(const T& n, const T& lower, const T& upper)
     return max(lower, min(n, upper));
 }
 
+// Note: Assumes bounds checked before hand
+static void VRam_Rect_Fill(WORD* pVRamIter, int rect_w, int rect_h, int pitch_words, WORD fill_colour)
+{
+    if (rect_h - 1 >= 0)
+    {
+        for (int y = 0; y < rect_h; y++)
+        {
+            for (int x = 0; x < rect_w; x++)
+            {
+                pVRamIter[x] = fill_colour;
+            }
+
+            pVRamIter += pitch_words;
+        }
+    }
+}
+
 EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b)
 {
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
@@ -186,28 +223,21 @@ EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, u
         rect_bottom = 511;
     }
 
-    WORD colour_value = 
+    const WORD colour_value = 
         ((1 << sSemiTransShift_C215C0) // TODO: Might be something else
         | (static_cast<unsigned int>(r) >> 3 << sRedShift_C215C4)
         | (static_cast<unsigned int>(g) >> 3 << sGreenShift_C1D180)
         | (static_cast<unsigned int>(b) >> 3 << sBlueShift_C19140));
 
-    WORD* pVram = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + sizeof(WORD) * (rect_x1 + rect_y1 * (sPsxVram_C1D160.field_10_locked_pitch / sizeof(WORD)));
+    const int pitch_words = sPsxVram_C1D160.field_10_locked_pitch / sizeof(WORD);
+
+    WORD* pVram = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + sizeof(WORD) * (rect_x1 + (rect_y1 * pitch_words));
 
     const int rect_h = rect_bottom - rect_y1 + 1;
     const int rect_w = rect_right - rect_x1 + 1;
-    if (rect_h - 1 >= 0)
-    {
-        const int pitch_words =  sPsxVram_C1D160.field_10_locked_pitch / sizeof(WORD);
-        for (int y=0; y<rect_h; y++)
-        {
-            for (int x = 0; x < rect_w; x++)
-            {
-                pVram[x] = colour_value;
-            }
-            pVram += pitch_words;
-        }
-    }
+
+    VRam_Rect_Fill(pVram, rect_w, rect_h, pitch_words, colour_value);
+
     BMP_unlock_4F2100(&sPsxVram_C1D160);
     return 1;
 }
@@ -255,10 +285,128 @@ EXPORT signed int __cdecl PSX_OT_Idx_From_Ptr_4F6A40(unsigned int /*ot*/)
     return 0;
 }
 
-
-EXPORT void __cdecl PSX_2_4F6A70(PSX_RECT* /*pRect*/, void* /*pPrim*/)
+EXPORT void __cdecl PSX_4F6ED0(WORD* /*pVRam*/, int /*width*/, int /*height*/, int /*r*/, int /*g*/, int /*b*/, int /*pitch*/)
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT void __cdecl PSX_4F6D00(WORD* /*pVRam*/, int /*width*/, int /*height*/, int /*r*/, int /*g*/, int /*b*/, int /*pitch*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* pPrim)
+{
+    if (!spBitmap_C2D038->field_4_pLockedPixels)
+    {
+        return;
+    }
+
+    if (pRect->x > sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x - 1)
+    {
+        return;
+    }
+
+    if (pRect->y > sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y - 1)
+    {
+        return;
+    }
+
+    int rect_right_clipped = pRect->w + pRect->x - 1;
+    if (rect_right_clipped < sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x)
+    {
+        return;
+    }
+
+    const int rect_bottom = pRect->h + pRect->y - 1;
+    if (rect_bottom < sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y)
+    {
+        return;
+    }
+
+    int clipped_x = pRect->x;
+    if (pRect->x <= sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x)
+    {
+        clipped_x = sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x;
+    }
+
+    int clipped_y = sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y;
+    if (pRect->y > sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y)
+    {
+        clipped_y = pRect->y;
+    }
+
+    if (rect_right_clipped >= sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x - 1)
+    {
+        rect_right_clipped = sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x - 1;
+    }
+
+    int rect_bottom_clipped = rect_bottom;
+    if (rect_bottom >= sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y - 1)
+    {
+        rect_bottom_clipped = sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y - 1;
+    }
+
+    const int rect_w = rect_right_clipped - clipped_x + 1;
+    const int rect_h = rect_bottom_clipped - clipped_y + 1;
+
+    const BYTE r0 = pPrim->rgb_code.r;
+    const BYTE b0 = pPrim->rgb_code.b;
+    const BYTE g0 = pPrim->rgb_code.g;
+
+    const DWORD r0_S3 = r0 >> 3;
+    const DWORD g0_S3 = g0 >> 3;
+    const DWORD b0_S3 = b0 >> 3;
+
+    const int width_pitch = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    WORD* pVRamDst = reinterpret_cast<WORD*>(spBitmap_C2D038->field_4_pLockedPixels) + (clipped_x + (clipped_y * width_pitch));
+
+    if (!(pPrim->rgb_code.code_or_pad & 2)) // blending flag
+    {
+        const WORD fill_colour = static_cast<WORD>((r0_S3 << sRedShift_C215C4) | (g0_S3 << sGreenShift_C1D180) | (b0_S3 << sBlueShift_C19140));
+        VRam_Rect_Fill(pVRamDst, rect_w, rect_h, width_pitch, fill_colour);
+        return;
+    }
+
+    if (r0_S3 == 0 && g0_S3 == 0 && b0_S3 == 0)
+    {
+        return;
+    }
+
+    if (dword_5CA4D4) // Some DDFast option
+    {
+        if (sTexture_page_abr_BD0F18 == BlendModes::eBlendMode_1)
+        {
+            sTile_r_BD2A04 |= r0;
+            sTile_g_BD2A00 |= g0;
+            sTile_b_BD29FC |= b0;
+            return;
+        }
+
+        if (sTexture_page_abr_BD0F18 == BlendModes::eBlendMode_2)
+        {
+            // RGB 666 / 24bit ?
+            sTile_r_BD2A04 |= (r0 >> 1) & 63;
+            sTile_g_BD2A00 |= (g0 >> 1) & 63;
+            sTile_b_BD29FC |= (b0 >> 1) & 63;
+            return;
+        }
+    }
+
+    if (sTexture_page_abr_BD0F18 == 2 && r0_S3 >= 31 && g0_S3 >= 31 && b0_S3 >= 31)
+    {
+        VRam_Rect_Fill(pVRamDst, rect_w, rect_h, width_pitch, 0);
+        return;
+    }
+
+    if (rect_w * rect_h < 16384)
+    {
+        PSX_4F6ED0(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
+    }
+    else
+    {
+        PSX_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
+    }
 }
 
 EXPORT unsigned __int8* CC PSX_Render_Polys_1_4F7110(void* /*a1*/, int /*a2*/, int /*a3*/)
@@ -326,7 +474,7 @@ static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 draw
 static void DrawOTag_Render_TILE(PrimAny& any, short x, short y, short w, short h)
 {
     PSX_RECT rect = { x,y,w,h };
-    PSX_2_4F6A70(&rect, any.mVoid);
+    PSX_Render_TILE_4F6A70(&rect, &any.mTile->mBase.header);
 }
 
 static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1)
@@ -423,7 +571,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             switch (itemToDrawType)
             {
             case 2: // TODO: unknown
-                PSX_2_4F6A70(nullptr, any.mVoid);
+                PSX_Render_TILE_4F6A70(nullptr, &any.mTile->mBase.header);
                 break;
 
             case PrimTypeCodes::eSetTPage:
@@ -553,13 +701,13 @@ EXPORT void CC PSX_TPage_Change_4F6430(__int16 tPage)
         sTexture_page_x_BD0F0C = (tPage & 0xF) << 6;
         sTexture_page_y_BD0F10 = 16 * (tPage & 0x10) + (((unsigned int)tPage >> 2) & 0x200);
 
-        sTexture_page_idx_BD0F14 = ((unsigned int)tPage >> 7) & 3;
+        sTexture_mode_BD0F14 = ((unsigned int)tPage >> 7) & 3;
         sTexture_page_abr_BD0F18 = ((unsigned int)tPage >> 5) & 3;
 
-        // TODO: Figure out why page 3 is forced to 2
-        if (sTexture_page_idx_BD0F14 == 3)
+        if (sTexture_mode_BD0F14 == (TextureModes::e16Bit | TextureModes::e8Bit))
         {
-            sTexture_page_idx_BD0F14 = 2;
+            // 0, 1 and 2 are valid values. So if for some reason 1 and 2 are set then default to 2
+            sTexture_mode_BD0F14 = TextureModes::e16Bit;
         }
 
         // NOTE: Branch guarded by dword_BD2250[tPage & 31] removed as it is never written
@@ -661,15 +809,15 @@ EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, BYTE r,
     if (PSX_Rects_intersect_point_4FA100(&screenRect, &toRenderRect, &overlapRect, &u, &v))
     {
         // Render
-        if (sTexture_page_idx_BD0F14 == 0)
+        if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
         {
             PSX_EMU_Render_TPage_0_51F0E0(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
-        else if (sTexture_page_idx_BD0F14 == 1)
+        else if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
         {
             PSX_EMU_Render_TPage_1_51F660(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
-        else if (sTexture_page_idx_BD0F14 == 2)
+        else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
         {
             PSX_EMU_Render_TPage_2_51FA30(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
@@ -696,7 +844,7 @@ namespace Test
         sActiveTPage_578318 = 0;
         sTexture_page_x_BD0F0C = 0;
         sTexture_page_y_BD0F10 = 0;
-        sTexture_page_idx_BD0F14 = 0;
+        sTexture_mode_BD0F14 = 0;
         dword_57831C = 0;
 
         for (DWORD i = 0; i < 3; i++)
@@ -707,7 +855,7 @@ namespace Test
             ASSERT_EQ(sActiveTPage_578318, tpage);
             ASSERT_EQ(sTexture_page_x_BD0F0C, 64u * i);
             ASSERT_EQ(sTexture_page_y_BD0F10, (i == 0) ? 0u : 256u);
-            ASSERT_EQ(sTexture_page_idx_BD0F14, i);
+            ASSERT_EQ(sTexture_mode_BD0F14, i);
             ASSERT_EQ(sTexture_page_abr_BD0F18, 3 - i);
             ASSERT_EQ(dword_57831C, 10u);
         }
