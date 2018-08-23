@@ -50,6 +50,32 @@ enum InputCommands : unsigned int
     // 0x80000000   = nothing
 };
 
+// Not to be confused for PsxButtonBits.
+// This is used internally in input functions.
+// 0 Square
+// 1 Cross
+// 2 Circle
+// 3 Triangle
+// 4 L1
+// 5 R1
+// 6 L2
+// 7 R2
+// 8 Back
+// 9 Start
+enum InputButtonBits : unsigned int
+{
+    eInputSquare = 1 << 0,
+    eInputCross = 1 << 1,
+    eInputCircle = 1 << 2,
+    eInputTriangle = 1 << 3,
+    eInputL1 = 1 << 4,
+    eInputR1 = 1 << 5,
+    eInputL2 = 1 << 6,
+    eInputR2 = 1 << 7,
+    eInputSelect = 1 << 8,
+    eInputStart = 1 << 9,
+};
+
 struct InputPadObject
 {
     DWORD field_0_pressed;

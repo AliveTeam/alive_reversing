@@ -47,6 +47,12 @@ ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 ALIVE_ARY(1, 0x555708, char, 32, sGamePadStr_555708, { "Game Pad" });
 ALIVE_ARY(1, 0x55E85C, char, 32, sGamePadStr_55E85C, { "Game Pad" });
 
+ALIVE_VAR(1, 0x5c2ee8, int, dword_5C2EE8, 0);
+ALIVE_VAR(1, 0x5c2ea4, int, dword_5C2EA4, 0);
+ALIVE_VAR(1, 0x5c2ee4, int, dword_5C2EE4, 0);
+ALIVE_VAR(1, 0x5c2ef0, int, dword_5C2EF0, 0);
+
+
 ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { VK_LEFT, eLeft },
     { VK_RIGHT, eRight },
@@ -93,7 +99,9 @@ int sInputUnknown_55EA2C[] =
 
 // -- Functions -- //
 
-EXPORT void CC Input_45FF60(float x, float y, DWORD *buttons)
+// For joysticks with very little buttons, depending on strength of joystick, will make abe
+// automatically run/sneak.
+EXPORT void CC Input_AutoRun_45FF60(float x, float y, DWORD *buttons)
 {
     NOT_IMPLEMENTED();
 }
@@ -204,7 +212,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
     *pY2 = min(1.0f, max(-1.0f, *pY2));
 
     *pButtons = sJoystickInfo_5C2EA8.dwButtons;
-    Input_45FF60(*pX2, *pY2, pButtons);
+    Input_AutoRun_45FF60(*pX2, *pY2, pButtons);
 }
 
 #if XINPUT_SUPPORT
@@ -356,9 +364,51 @@ EXPORT void CC Input_SetCallback_4FA910(t_InputCallback pFunc)
     sInputCallbackFunc_BD1870 = pFunc;
 }
 
-EXPORT void CC Input_45FDF0(float X, float y, int a3, int a4)
+EXPORT void CC Input_45FDF0(float x, float y, int a3, bool cap_has_r)
 {
-    NOT_IMPLEMENTED();
+    if (sJoystickNumButtons_5C2EFC == 4 && (a3 || cap_has_r))
+    {
+        dword_5C2EE8 = 0;
+        dword_5C2EA4 = 0;
+        dword_5C2EE4 = 0;
+        dword_5C2EF0 = 0;
+        if (a3)
+        {
+            dword_5C2EE4 = 1;
+            sJoystickNumButtons_5C2EFC = 5;
+            if (x <= -0.25f || x >= 0.25f)
+            {
+                dword_5C2EE8 = 1;
+                if (x <= 0.0f)
+                {
+                    dword_5C2EE8 = 0;
+                }
+            }
+            else
+            {
+                sJoystickNumButtons_5C2EFC = 6;
+                dword_5C2EE4 = 2;
+            }
+        }
+        if (cap_has_r)
+        {
+            dword_5C2EF0 = 1;
+            ++sJoystickNumButtons_5C2EFC;
+            if (y <= -0.25f || y >= 0.25f)
+            {
+                dword_5C2EA4 = 1;
+                if (y <= 0.0f)
+                {
+                    dword_5C2EA4 = 0;
+                }
+            }
+            else
+            {
+                dword_5C2EF0 = 2;
+                ++sJoystickNumButtons_5C2EFC;
+            }
+        }
+    }
 }
 
 EXPORT void Input_InitJoyStick_460080()
