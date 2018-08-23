@@ -20,6 +20,7 @@
 #include "Sys.hpp"
 #include "RenderingTestTimData.hpp"
 #include "PsxRender.hpp"
+#include "LvlArchive.hpp"
 
 char _devConsoleBuffer[1000];
 
@@ -611,6 +612,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
     { "path_lines", -1, [](std::vector<std::string> args) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
     { "grid", -1, [](std::vector<std::string> args) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
+    { "pcopen", -1, [](std::vector<std::string> args) { Command_ToggleBool(reinterpret_cast<bool*>(&sbEnable_PCOpen_5CA4B0), "PCOpen"); }, "Toggles PCOpen" },
 };
 
 //
@@ -785,7 +787,7 @@ public:
         
             message->time--;
 
-            if (message->time <= 0 || i > 15)
+            if (message->time <= 0 || i > 32)
             {
                 it = sDebugConsoleMessages.erase(it);
             }
