@@ -695,6 +695,16 @@ public:
 
     virtual void VUpdate() override
     {
+        char titleBuffer[1000];
+        char camBuffer[32];
+        Path_Format_CameraName_460FB0(
+            camBuffer,
+            gMap_5C3030.sCurrentLevelId_5C3030,
+            gMap_5C3030.sCurrentPathId_5C3032,
+            gMap_5C3030.sCurrentCamId_5C3034);
+        sprintf(titleBuffer, "Oddworld Abe's Exoddus DEV MODE - %s", camBuffer);
+        SetWindowText(Sys_GetHWnd_4F2C70(), titleBuffer);
+
         Command_HelperUpdate();
 
         auto key = Input_ReadKey_492610();
