@@ -207,10 +207,10 @@ struct VagAtr
 
 struct Converted_Vag
 {
-    WORD field_0_adsr1;
-    WORD field_2_adsr;
-    WORD field_4_adsr;
-    WORD field_6_adsr;
+    WORD field_0_adsr_attack;
+    WORD field_2_adsr_sustain_level;
+    WORD field_4_adsr_decay;
+    WORD field_6_adsr_release;
     BYTE field_8_min;
     BYTE field_9_max;
     __int16 field_A_shift_cen;
@@ -278,52 +278,18 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
                 const __int16 centre = pVagAttr->field_4_centre;
                 pData->field_A_shift_cen = 2 * (pVagAttr->field_5_shift + (centre << 7));
 
-                __int16 adsr11; // ax
-                char adsr2; // cl
-                double adsr1; // st7
-                float v17; // ST1C_4
-                float v18; // ST24_4
-                signed __int64 v19; // rax
-                signed __int64 v20; // rax
-                signed __int64 v21; // rax
-                signed __int64 v22; // rax
-                float sustainLevel; // [esp+10h] [ebp-8h]
+                float sustain_level = (2 * (~(unsigned __int8)pVagAttr->field_10_adsr1 & 0xF));
 
+                pData->field_0_adsr_attack = min(static_cast<WORD>((powf(2.0f, ((pVagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), 32767);
+                pData->field_4_adsr_decay = static_cast<WORD>((((pVagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
+                pData->field_2_adsr_sustain_level = min(static_cast<WORD>((sustain_level / 15.0f) * 600.0), 32767);
+                pData->field_6_adsr_release = min(static_cast<WORD>(pow(2, pVagAttr->field_12_adsr2 & 0x1F) * 0.045f), 32767);
 
-                adsr11 = pVagAttr->field_10_adsr1;
-                adsr2 = pVagAttr->field_12_adsr2;
-
-                adsr1 = (double)(2 * (~(unsigned __int8)pVagAttr->field_10_adsr1 & 15));
-                sustainLevel = (double)((unsigned __int8)adsr11 >> 4) * 0.06666667;
-                v19 = (signed __int64)(pow(2.0, (double)(HIBYTE(adsr11) & 127) * 0.25) * 0.09);
-                if ((signed int)v19 > 32767)
+                // If decay is at max, then nothing should play. So mute sustain too ?
+                if (pData->field_4_adsr_decay == 16)
                 {
-                    v19 = 32767;
+                    pData->field_2_adsr_sustain_level = 0;
                 }
-                pData->field_0_adsr1 = v19;
-
-                v17 = adsr1 * 0.06666667;
-                v20 = (signed __int64)(v17 * 600.0);
-                if ((signed int)v20 > 32767)
-                {
-                    v20 = 32767;
-                }
-                pData->field_2_adsr = v20;
-
-                v21 = (signed __int64)(sustainLevel * 16.0);
-                if ((DWORD)v21 == 16)
-                {
-                    pData->field_2_adsr = 0;
-                }
-                pData->field_4_adsr = v21;
-
-                v18 = (double)(1 << (adsr2 & 0x1F)) * 0.045;
-                v22 = (signed __int64)v18;
-                if ((signed int)v22 > 32767)
-                {
-                    v22 = 32767;
-                }
-                pData->field_6_adsr = v22;
             }
             ++pVagAttr;
         }
@@ -458,9 +424,9 @@ EXPORT __int16 CC MIDI_Stop_Channel_4FE010(__int16 idx)
     {
         pChannel->field_1C.field_3 = 4;
         pChannel->field_C = pChannel->field_8_left_vol;
-        if (pChannel->field_1C.field_A < 300)
+        if (pChannel->field_1C.field_A_release < 300)
         {
-            pChannel->field_1C.field_A = 300;
+            pChannel->field_1C.field_A_release = 300;
         }
         pChannel->field_14_time = sMidiTime_BD1CEC;
     }
@@ -844,34 +810,34 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 }
                 break;
             case 2:
-                if (timeDiff1 >= pChannel->field_1C.field_4)
+                if (timeDiff1 >= pChannel->field_1C.field_4_attack)
                 {
                     pChannel->field_1C.field_3 = 2;
-                    pChannel->field_14_time += pChannel->field_1C.field_4;
-                    timeDiff1 -= pChannel->field_1C.field_4;
+                    pChannel->field_14_time += pChannel->field_1C.field_4_attack;
+                    timeDiff1 -= pChannel->field_1C.field_4_attack;
                     // Fall through to case 3
                 }
                 else
                 {
                     MIDI_Set_Volume_4FDE80(
                         pChannel,
-                        (signed __int64)(((double)timeDiff2 / (double)pChannel->field_1C.field_4
-                            + (double)timeDiff2 / (double)pChannel->field_1C.field_4
-                            - (double)timeDiff2 / (double)pChannel->field_1C.field_4 * ((double)timeDiff2 / (double)pChannel->field_1C.field_4))
+                        (signed __int64)(((double)timeDiff2 / (double)pChannel->field_1C.field_4_attack
+                            + (double)timeDiff2 / (double)pChannel->field_1C.field_4_attack
+                            - (double)timeDiff2 / (double)pChannel->field_1C.field_4_attack * ((double)timeDiff2 / (double)pChannel->field_1C.field_4_attack))
                             * (double)pChannel->field_C));
                     break;
                 }
             case 3:
-                if (timeDiff1 < pChannel->field_1C.field_6)
+                if (timeDiff1 < pChannel->field_1C.field_6_sustain)
                 {
-                    const int v8 = pChannel->field_C * (16 - pChannel->field_1C.field_8) >> 4;
-                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C - timeDiffSquared * v8 / (pChannel->field_1C.field_6 * pChannel->field_1C.field_6));
+                    const int v8 = pChannel->field_C * (16 - pChannel->field_1C.field_8_decay) >> 4;
+                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C - timeDiffSquared * v8 / (pChannel->field_1C.field_6_sustain * pChannel->field_1C.field_6_sustain));
                     break;
                 }
                 pChannel->field_1C.field_3 = 3;
-                pChannel->field_14_time += pChannel->field_1C.field_6;
-                timeDiff1 -= pChannel->field_1C.field_6;
-                if (MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C * pChannel->field_1C.field_8 >> 4))
+                pChannel->field_14_time += pChannel->field_1C.field_6_sustain;
+                timeDiff1 -= pChannel->field_1C.field_6_sustain;
+                if (MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C * pChannel->field_1C.field_8_decay >> 4))
                 {
                     // Fall through to case 4
                 }
@@ -894,14 +860,14 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                     break;
                 }
             case 5:
-                if (timeDiff1 >= pChannel->field_1C.field_A)
+                if (timeDiff1 >= pChannel->field_1C.field_A_release)
                 {
                     pChannel->field_1C.field_3 = 0;
                     SND_Stop_Sample_At_Idx_4EFA90(pChannel->field_0_sound_buffer_field_4);
                 }
                 else
                 {
-                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C - timeDiffSquared * pChannel->field_C / (pChannel->field_1C.field_A * pChannel->field_1C.field_A));
+                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C - timeDiffSquared * pChannel->field_C / (pChannel->field_1C.field_A_release * pChannel->field_1C.field_A_release));
                 }
                 break;
             default:
@@ -1312,9 +1278,9 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
                     if (pVag->field_10_vag == i)
                     {
                         pVag->field_C = unused_copy;
-                        if (!(unused_copy & 4) && !pVag->field_0_adsr1 && pVag->field_6_adsr)
+                        if (!(unused_copy & 4) && !pVag->field_0_adsr_attack && pVag->field_6_adsr_release)
                         {
-                            pVag->field_6_adsr = 0;
+                            pVag->field_6_adsr_release = 0;
                         }
                     }
                 }
@@ -1987,19 +1953,18 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                 if (midiChannel >= 0)
                 {
                     MIDI_Struct1* pChannel = &sMidi_Channels_C14080.channels[midiChannel];
-                    const BOOL bUnknown = pVagIter->field_0_adsr1 || pVagIter->field_2_adsr || pVagIter->field_4_adsr != 16 || pVagIter->field_6_adsr >= 33u;
+                    const BOOL bUnknown = pVagIter->field_0_adsr_attack || pVagIter->field_2_adsr_sustain_level || pVagIter->field_4_adsr_decay != 16 || pVagIter->field_6_adsr_release >= 33u;
                     pChannel->field_C = maxPan;
                     if (bUnknown)
                     {
-                        const __int16 adsrValue = static_cast<short>(pVagIter->field_0_adsr1 * (127 - volume));
-                        pChannel->field_1C.field_4 = adsrValue >> 6;
-
                         pChannel->field_1C.field_3 = 1;
-                        pChannel->field_1C.field_6 = pVagIter->field_2_adsr;
-                        pChannel->field_1C.field_8 = pVagIter->field_4_adsr;
-                        pChannel->field_1C.field_A = pVagIter->field_6_adsr;
 
-                        if (pChannel->field_1C.field_4)
+                        pChannel->field_1C.field_4_attack = static_cast<unsigned short>((pVagIter->field_0_adsr_attack * (127 - volume)) / 64);
+                        pChannel->field_1C.field_6_sustain = pVagIter->field_2_adsr_sustain_level;
+                        pChannel->field_1C.field_8_decay = pVagIter->field_4_adsr_decay;
+                        pChannel->field_1C.field_A_release = pVagIter->field_6_adsr_release;
+
+                        if (pChannel->field_1C.field_4_attack)
                         {
                             panLeft = 2;
                             maxPan = 2;

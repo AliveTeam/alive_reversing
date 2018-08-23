@@ -18,10 +18,10 @@ struct MIDI_Struct1_Sub
     unsigned __int8 field_1_program;
     unsigned __int8 field_2_note_byte1;
     char field_3;
-    unsigned __int16 field_4;
-    unsigned __int16 field_6;
-    unsigned __int16 field_8;
-    unsigned __int16 field_A;
+    unsigned __int16 field_4_attack;
+    unsigned __int16 field_6_sustain;
+    unsigned __int16 field_8_decay;
+    unsigned __int16 field_A_release;
     unsigned __int16 field_C;
     unsigned __int8 field_E;
     char field_F;
