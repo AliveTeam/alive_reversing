@@ -10,8 +10,14 @@
 
 void DebugHelpers_Init();
 
+extern char _devConsoleBuffer[1000];
+
 #define DEV_CONSOLE_MESSAGE(message, duration) ShowDebugConsoleMessage(message, duration);
 #define DEV_CONSOLE_MESSAGE_C(message, duration, r, g, b) ShowDebugConsoleMessage(message, duration, r, g, b);
+
+#define DEV_CONSOLE_PRINTF(format, ...) memset(_devConsoleBuffer, 0, sizeof(_devConsoleBuffer));\
+sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);\
+DEV_CONSOLE_MESSAGE_C(_devConsoleBuffer, 5, 127, 127, 0);
 
 // File System
 namespace FS

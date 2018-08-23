@@ -25,6 +25,7 @@ ALIVE_VAR(1, 0x5C2F00, int, sJoystickID_5C2F00, 0);
 ALIVE_VAR(1, 0x5c2edc, int, sJoystickCapFlags_5C2EDC, 0);
 ALIVE_VAR(1, 0x5c2ee0, bool, sJoyStateIsInit_5C2EE0, 0);
 ALIVE_VAR(1, 0x5c2eec, int, sJoyLastTick_5C2EEC, 0);
+ALIVE_VAR(1, 0x5C2EF8, int, dword_5C2EF8, 0);
 ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
 ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 ALIVE_VAR(1, 0x5c2f00, UINT, sJoyID_5C2F00, 0);
@@ -355,9 +356,87 @@ EXPORT void CC Input_SetCallback_4FA910(t_InputCallback pFunc)
     sInputCallbackFunc_BD1870 = pFunc;
 }
 
-EXPORT void Input_InitJoyStick_460080()
+EXPORT void CC Input_45FDF0(float X, float y, int a3, int a4)
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT void Input_InitJoyStick_460080()
+{
+    sJoystickEnabled_5C2EF4 = false;
+
+    for (int i = 0; i < joyGetNumDevs(); i++)
+    {
+        if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, 0x194u))
+        {
+            sJoystickEnabled_5C2EF4 = true;
+            sJoyID_5C2F00 = i;
+            break;
+        }
+    }
+
+    if (_strnicmp(sJoystickCaps_5C2D10.szPname, "Microsoft PC Joystick Driver", 0xCu))
+    {
+        if (_strnicmp(sJoystickCaps_5C2D10.szPname, "Custom", 6u))
+        {
+            if (_strnicmp(sJoystickCaps_5C2D10.szPname, "Generic", 7u))
+            {
+                strncpy(sGamePadStr_555708, sJoystickCaps_5C2D10.szPname, 0x20u);
+            }
+        }
+    }
+
+    int joyFlags = 0xC83;
+
+    if (sJoystickCaps_5C2D10.wCaps & JOYCAPS_HASZ)
+    {
+        joyFlags = 0xC87;
+    }
+    if (sJoystickCaps_5C2D10.wCaps & JOYCAPS_HASR)
+    {
+        joyFlags |= 8u;
+    }
+    if (sJoystickCaps_5C2D10.wCaps & JOYCAPS_POV4DIR)
+    {
+        joyFlags |= 0x40u;
+    }
+
+    sJoystickCapFlags_5C2EDC = joyFlags;
+
+    if (joyFlags & 8)
+    {
+        dword_5C2EF8 |= 4;
+    }
+    if (joyFlags & 4)
+    {
+        dword_5C2EF8 |= 8;
+    }
+    if (joyFlags & 0x40)
+    {
+        dword_5C2EF8 |= 2;
+    }
+    sJoystickNumButtons_5C2EFC = sJoystickCaps_5C2D10.wNumButtons;
+    if (sJoystickCaps_5C2D10.wNumButtons <= 2
+        || sJoystickCaps_5C2D10.wNumButtons > 4 && sJoystickCaps_5C2D10.wNumAxes > 2)
+    {
+        dword_5C2EF8 |= 1u;
+    }
+    if (sJoystickCaps_5C2D10.wNumButtons == 4)
+    {
+        if (joyFlags & 0xC)
+        {
+            float pY2; // [esp+Ch] [ebp-14h]
+            float pX2; // [esp+10h] [ebp-10h]
+            DWORD pButtons; // [esp+14h] [ebp-Ch]
+            float pY1; // [esp+18h] [ebp-8h]
+            float pX1; // [esp+1Ch] [ebp-4h]
+
+            Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
+            Input_45FDF0(pX2, pY2, sJoystickCapFlags_5C2EDC & 4, sJoystickCapFlags_5C2EDC & 8);
+        }
+    }
+
+    DEV_CONSOLE_PRINTF("Joystick Initialized: Buttons: %i", sJoystickNumButtons_5C2EFC);
 }
 
 EXPORT void CC Input_Init_491BC0()

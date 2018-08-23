@@ -21,6 +21,8 @@
 #include "RenderingTestTimData.hpp"
 #include "PsxRender.hpp"
 
+char _devConsoleBuffer[1000];
+
 bool sDebugEnabled_VerboseEvents = false;
 
 class ObjectDebugger : public BaseGameObject
@@ -196,7 +198,7 @@ public:
                 }
 
                 sFontDrawScreenSpace_5CA4B4 = 1;
-                mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, "Test", x, y, 0, 0, 0, 32, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
+                //mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, "Test", x, y, 0, 0, 0, 32, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
                 sFontDrawScreenSpace_5CA4B4 = 0;
             }
 
@@ -625,7 +627,7 @@ public:
         field_4_typeId = (BaseGameObject::Types)1002;
         
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
-        mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
+        mFont.ctor_433590(4096 * 2, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -774,13 +776,12 @@ public:
             /*it++*/)
         {
             auto message = it;
-            //char color = static_cast<char>(max(0, min(message->time * 10, 255)));
             int targetY = 232 - (i * 9) - 9;
 
-            //message->y += (targetY - message->y) * 0.2f; // Smooth
             message->y = static_cast<float>(targetY);
 
             pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 0, static_cast<short>(message->y), 0, 1, 0, 40, message->r, message->g, message->b, pIndex, FP_FromDouble(1.0), 640, 0);
+            pIndex = mFont.DrawString_4337D0(pOrderingTable, message->message.c_str(), 1, static_cast<short>(message->y) + 1, 0, 1, 0, 40, 0, 0, 0, pIndex, FP_FromDouble(1.0), 640, 0);
         
             message->time--;
 
