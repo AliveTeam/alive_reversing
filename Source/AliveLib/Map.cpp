@@ -149,6 +149,11 @@ void Map::sub_481610()
     NOT_IMPLEMENTED();
 }
 
+signed __int16 Map::sub_4811A0(int level, int path, FP xpos, FP ypos)
+{
+    NOT_IMPLEMENTED();
+}
+
 void Map::Init_4803F0(__int16 level, __int16 path, __int16 camera, __int16 a5, __int16 a6, __int16 a7)
 {
     sPath_dword_BB47C0 = alive_new<Path>();
