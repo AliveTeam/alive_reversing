@@ -14,7 +14,7 @@ public:
         eDDCheat = 19,
         eGameSpeak = 38,
         eType_67 = 67,
-        eType_69 = 69,
+        eType_Abe = 69,
         eResourceManager = 79,
         eMusicController = 93,
         ePauseMenu = 95,

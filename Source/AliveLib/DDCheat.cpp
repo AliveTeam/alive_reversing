@@ -276,7 +276,7 @@ void DDCheat::Update_415780()
             case Types::eType_125:
                 sControlledCharacter_5C1B8C->field_106_animation_num = 7;
                 break;
-            case Types::eType_69:
+            case Types::eType_Abe:
                 sControlledCharacter_5C1B8C->field_106_animation_num = 3;
                 break;
             case Types::eType_112:

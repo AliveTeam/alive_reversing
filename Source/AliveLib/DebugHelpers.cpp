@@ -595,6 +595,29 @@ void Command_Midi1(std::vector<std::string> args)
     DEV_CONSOLE_MESSAGE("Played Midi1", 6);
 }
 
+void Command_SetState(std::vector<std::string> args)
+{
+    if (sControlledCharacter_5C1B8C->field_4_typeId != BaseGameObject::eType_Abe)
+    {
+        DEV_CONSOLE_MESSAGE_C("Setting state not supported on this object!", 6, 255, 0, 0);
+        return;
+    }
+
+    int state = std::stoi(args[0]);
+    auto resource = sControlledCharacter_5C1B8C->StateToAnimResource_44AAB0(state);
+
+    if (resource != nullptr)
+    {
+        sControlledCharacter_5C1B8C->field_106_animation_num = state;
+        sControlledCharacter_5C1B8C->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[state], resource);
+        DEV_CONSOLE_PRINTF("Set state to %i", state);
+    }
+    else
+    {
+        DEV_CONSOLE_PRINTF("Cannot set state to %i! Resource NULL", state);
+    }
+}
+
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "help", -1, Command_Help, "Shows what you're looking at" },
     { "test", -1, Command_Test, "Is this thing on?" },
@@ -608,7 +631,8 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "open_doors", -1, [](std::vector<std::string> args) { Cheat_OpenAllDoors(); }, "Open all doors." },
     { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
-    { "menu", 1, Command_Menu, "Changes to given menu cam" },
+    //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
+    { "state", 1, Command_SetState, "Sets currently controlled objects state." },
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
     { "path_lines", -1, [](std::vector<std::string> args) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
     { "grid", -1, [](std::vector<std::string> args) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },

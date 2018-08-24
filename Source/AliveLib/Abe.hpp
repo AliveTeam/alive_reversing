@@ -35,6 +35,8 @@ public:
     EXPORT int sub_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
+
+    EXPORT BYTE ** StateToAnimResource_44AAB0(signed int state);
 public:
     __int16 field_116;
     __int16 field_118;
@@ -87,3 +89,5 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 
 ALIVE_VAR_EXTERN(Abe *, sActiveHero_5C1B68);
 ALIVE_VAR_EXTERN(Abe *, sControlledCharacter_5C1B8C);
+
+extern int sAbeFrameOffsetTable_554B18[130];
