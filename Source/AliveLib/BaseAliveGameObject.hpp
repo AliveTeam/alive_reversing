@@ -5,6 +5,15 @@
 #include "Animation.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
+struct TintEntry
+{
+    __int8 field_0_level;
+    unsigned __int8 field_1_r;
+    unsigned __int8 field_2_g;
+    unsigned __int8 field_3_b;
+};
+ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
+
 #pragma pack(push)
 #pragma pack(2)
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
@@ -35,6 +44,7 @@ private:
     EXPORT char vsub_408A40(__int16 a2);
     EXPORT int vsub_408FD0(__int16 a2);
     EXPORT int vnull_4081F0();
+    EXPORT void SetColorLUT_425600(TintEntry *pTintArray, __int16 level_id);
 public:
     int field_E4;
     int field_E8;
