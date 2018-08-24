@@ -415,13 +415,13 @@ struct DebugConsoleCommand
 {
     std::string command;
     int paramsCount;
-    std::function<void(std::vector<std::string> args)> callback;
+    std::function<void(const std::vector<std::string>& args)> callback;
     std::string helpText;
 };
 
 extern std::vector<DebugConsoleCommand> sDebugConsoleCommands;
 
-void Command_Help(std::vector<std::string> args)
+void Command_Help(const std::vector<std::string>& args)
 {
     DEV_CONSOLE_MESSAGE("You can call the following: ", 6);
     for (auto c : sDebugConsoleCommands)
@@ -430,12 +430,12 @@ void Command_Help(std::vector<std::string> args)
     }
 }
 
-void Command_Test(std::vector<std::string> args)
+void Command_Test(const std::vector<std::string>& args)
 {
     DEV_CONSOLE_MESSAGE("You called this with " + std::to_string(args.size()) + " arguments", 5);
 }
 
-void Command_Die(std::vector<std::string> args)
+void Command_Die(const std::vector<std::string>& args)
 {
     FakeObjStruct fake;
     fake.field_4_typeId = 30;
@@ -444,7 +444,7 @@ void Command_Die(std::vector<std::string> args)
     ((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(sControlledCharacter_5C1B8C)+76)))(sControlledCharacter_5C1B8C, 0, reinterpret_cast<BaseGameObject*>(&fake));
 }
 
-void Command_Murder(std::vector<std::string> args)
+void Command_Murder(const std::vector<std::string>& args)
 {
     FakeObjStruct fake;
     fake.field_4_typeId = 30;
@@ -528,7 +528,7 @@ void Command_ToggleBool(bool * var, std::string varName)
     DEV_CONSOLE_MESSAGE(varName + " is now " + std::string(((*var) ? "On" : "Off")), 6);
 }
 
-void Command_Teleport(std::vector<std::string> args)
+void Command_Teleport(const std::vector<std::string>& args)
 {
     int level = 0;
     if (IsStringNumber(args[0]))
@@ -563,7 +563,7 @@ void Command_Teleport(std::vector<std::string> args)
     DEV_CONSOLE_MESSAGE("Teleported", 6);
 }
 
-void Command_Event(std::vector<std::string> args)
+void Command_Event(const std::vector<std::string>& args)
 {
     int eventId = std::stoi(args[0]);
     if (eventId >= Event::kEventMax)
@@ -574,7 +574,7 @@ void Command_Event(std::vector<std::string> args)
     Event_Broadcast_422BC0(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
 }
 
-void Command_Menu(std::vector<std::string> args)
+void Command_Menu(const std::vector<std::string>& args)
 {
     int menuCam = std::stoi(args[0]);
     if (MainMenuController::gMainMenuController != nullptr)
@@ -586,7 +586,7 @@ void Command_Menu(std::vector<std::string> args)
     }
 }
 
-void Command_Midi1(std::vector<std::string> args)
+void Command_Midi1(const std::vector<std::string>& args)
 {
     int arg1 = std::stoi(args[0]);
 
@@ -595,7 +595,7 @@ void Command_Midi1(std::vector<std::string> args)
     DEV_CONSOLE_MESSAGE("Played Midi1", 6);
 }
 
-void Command_SetState(std::vector<std::string> args)
+void Command_SetState(const std::vector<std::string>& args)
 {
     if (sControlledCharacter_5C1B8C->field_4_typeId != BaseGameObject::eType_Abe)
     {
@@ -623,20 +623,20 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "test", -1, Command_Test, "Is this thing on?" },
     { "die", -1, Command_Die, "Kills you." },
     { "murder", -1, Command_Murder, "Kill everything around you." },
-    { "ddcheat", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sCommandLine_DDCheatEnabled_5CA4B5, "DDCheat"); }, "Toggle DDCheat" },
-    { "object_id", -1, [](std::vector<std::string> args) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
-    { "no_frame_skip", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
-    { "fps", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
-    { "verbose_events", -1, [](std::vector<std::string> args) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
-    { "open_doors", -1, [](std::vector<std::string> args) { Cheat_OpenAllDoors(); }, "Open all doors." },
+    { "ddcheat", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sCommandLine_DDCheatEnabled_5CA4B5, "DDCheat"); }, "Toggle DDCheat" },
+    { "object_id", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
+    { "no_frame_skip", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
+    { "fps", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
+    { "verbose_events", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
+    { "open_doors", -1, [](const std::vector<std::string>& args) { Cheat_OpenAllDoors(); }, "Open all doors." },
     { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
     { "state", 1, Command_SetState, "Sets currently controlled objects state." },
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
-    { "path_lines", -1, [](std::vector<std::string> args) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
-    { "grid", -1, [](std::vector<std::string> args) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
-    { "pcopen", -1, [](std::vector<std::string> args) { Command_ToggleBool(reinterpret_cast<bool*>(&sbEnable_PCOpen_5CA4B0), "PCOpen"); }, "Toggles PCOpen" },
+    { "path_lines", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
+    { "grid", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
+    { "pcopen", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(reinterpret_cast<bool*>(&sbEnable_PCOpen_5CA4B0), "PCOpen"); }, "Toggles PCOpen" },
 };
 
 //
@@ -821,7 +821,7 @@ public:
         
             message->time--;
 
-            if (message->time <= 0 || i > 32)
+            if (message->time <= 0 || i > 64)
             {
                 it = sDebugConsoleMessages.erase(it);
             }
