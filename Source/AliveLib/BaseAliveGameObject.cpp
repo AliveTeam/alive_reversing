@@ -113,7 +113,7 @@ int BaseAliveGameObject::vnull_4081F0()
     return 0;
 }
 
-void BaseAliveGameObject::SetColorLUT_425600(TintEntry * pTintArray, __int16 level_id)
+void BaseAliveGameObject::SetTint_425600(TintEntry * pTintArray, __int16 level_id)
 {
     while (pTintArray->field_0_level != level_id)
     {
