@@ -5,6 +5,7 @@
 #include "Midi.hpp"
 #include "Primitives.hpp"
 #include "Game.hpp"
+#include "Error.hpp"
 #include <gmock/gmock.h>
 
 
@@ -135,11 +136,21 @@ ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
 
 ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, stru_C215E0, {});
 
+struct Psx_Data
+{
+    BYTE field_0[32];
+};
+ALIVE_ASSERT_SIZEOF(Psx_Data, 32);
+
+ALIVE_ARY(1, 0xC1D1C0, Psx_Data, 32, stru_C1D1C0, {});
+ALIVE_VAR(1, 0xC146C0, Psx_Test, stru_C146C0, {});
+
+
 static void CalculateBlendingModesLUT()
 {
-    int redShift = sRedShift_C215C4;
-    int greenShift = sGreenShift_C1D180;
-    int idx = 0;
+    const int redShift = sRedShift_C215C4;
+    const int greenShift = sGreenShift_C1D180;
+    short idx = 0;
     for (short i = 0; i < 32; i++)
     {
         for (short j = 0; j < 32; j++)
@@ -186,9 +197,16 @@ static void CalculateBlendingModesLUT()
 }
 EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 {
-    NOT_IMPLEMENTED();
+    if (dispType != 2)
+    {
+        Error_PushErrorRecord_4F2920(
+            "C:\\abe2\\code\\PSXEmu\\PSXEMU.C",
+            288,
+            -1,
+            "PSX_EMU_SetDispType_4F9960 only implemented for type 2");
+        return -1;
+    }
 
-    // HACK / enough impl to allow standalone to boot
     sVGA_DisplayType_BD1468 = dispType;
 
     sRedShift_C215C4 = 11;
@@ -209,6 +227,7 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     pPSX_EMU_51C8D0_BD335C = PSX_EMU_Render_Polys_2_51C8D0;
 
     /*
+    // NOTE: Never used and empty funcs, so skipped.
     dword_BD3290 = (int)PSX_EMU_nullsub_20;
     dword_BD3280 = (int)PSX_EMU_nullsub_22;
     dword_BD3288 = (int)PSX_EMU_nullsub_24;
@@ -217,31 +236,39 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     dword_BD3278 = (int)PSX_EMU_nullsub_25;
     */
 
+    const int redShift = sRedShift_C215C4;
+    const int greenShift = sGreenShift_C1D180;
+
+    // TODO: Its unknown what this is calculating
+    short idx = 0;
+    for (short i = 0; i < 32; i++)
+    {
+        short iPlus_iExp = 0;
+        short iExp = 0;
+        for (short j = 0; j < 32; j++)
+        {
+            short value = iPlus_iExp / 16;
+            if (value > 31)
+            {
+                value = 31;
+            }
+
+            stru_C1D1C0[i].field_0[j] = static_cast<BYTE>(value);
+
+            stru_C146C0.field_0_a1[idx] = value << redShift;
+            stru_C146C0.field_800_a2[idx] = value << greenShift;
+            stru_C146C0.field_1000_a3[idx] = value;
+
+            idx++;
+
+            iPlus_iExp = i + iExp;
+            iExp += i;
+        }
+    }
+
     CalculateBlendingModesLUT();
 
     return 0;
-}
-
-void PSX_Disp_Mode_Test()
-{
-    /*
-    Psx_Test backup[4];
-    for (int i = 0; i < 4; i++)
-    {
-        backup[i] = stru_C215E0[i];
-    }
-
-    memset(&stru_C215E0[0], 0, sizeof(Psx_Test) * 4);
-
-    CalculateBlendingModesLUT();
-
-    for (int i = 0; i < 4; i++)
-    {
-        if (memcmp(&backup[i], &stru_C215E0[i], sizeof(Psx_Test)) != 0)
-        {
-            ALIVE_FATAL("error");
-        }
-    }*/
 }
 
 template <typename T>

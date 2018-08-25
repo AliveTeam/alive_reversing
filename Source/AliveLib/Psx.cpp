@@ -431,7 +431,6 @@ EXPORT void CC Init_VGA_AndPsxVram_494690()
         Error_ShowErrorStackToUser_4F2A70(false);
         return;
     }
-    PSX_Disp_Mode_Test();
 }
 
 EXPORT void CC PSX_EMU_VideoDeAlloc_4FA010()
