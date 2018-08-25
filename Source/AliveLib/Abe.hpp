@@ -91,3 +91,4 @@ ALIVE_VAR_EXTERN(Abe *, sActiveHero_5C1B68);
 ALIVE_VAR_EXTERN(Abe *, sControlledCharacter_5C1B8C);
 
 extern int sAbeFrameOffsetTable_554B18[130];
+extern const char * sAbeStateNames[];

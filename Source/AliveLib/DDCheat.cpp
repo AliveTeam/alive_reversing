@@ -317,9 +317,12 @@ void DDCheat::Update_415780()
                 sControlledCharacter_5C1B8C->field_BC_ypos.GetDouble(),
                 sControlledCharacter_5C1B8C->field_6_flags);
 
-            
-
             DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_animation_num);
+
+            if (sControlledCharacter_5C1B8C->field_4_typeId == eType_Abe)
+            {
+                DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_animation_num]);
+            }
 #else
             DebugStr_4F5560(
                 "\nheroxy=%4d,%4d",
