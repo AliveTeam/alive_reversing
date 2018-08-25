@@ -109,7 +109,7 @@ EXPORT int* CC PSX_EMU_Render_Polys_2_51C8D0(int /*a1*/, int /*size*/)
     return nullptr;
 }
 
-ALIVE_VAR(1, 0xC2D04C, decltype(&PSX_EMU_Render_51EF90), pPSX_EMU_Render_51EF90_C2D04C, nullptr);
+ALIVE_VAR(1, 0xC2D04C, decltype(&PSX_EMU_Render_SPRT_51EF90), pPSX_EMU_Render_SPRT_51EF90_C2D04C, nullptr);
 ALIVE_VAR(1, 0xBD3364, decltype(&PSX_EMU_Render_Polys_2_51CCA0), pPSX_EMU_51CCA0_BD3364, nullptr);
 ALIVE_VAR(1, 0xBD328C, decltype(&PSX_EMU_Render_Polys_2_51E140), pPSX_EMU_51E140_BD328C, nullptr);
 ALIVE_VAR(1, 0xBD3360, decltype(&PSX_EMU_Render_Polys_2_51D890), pPSX_EMU_51D890_BD3360, nullptr);
@@ -211,7 +211,7 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     sBlueShift_C19140 = 0;
     sSemiTransShift_C215C0 = 5;
 
-    pPSX_EMU_Render_51EF90_C2D04C = PSX_EMU_Render_51EF90;
+    pPSX_EMU_Render_SPRT_51EF90_C2D04C = PSX_EMU_Render_SPRT_51EF90;
     pPSX_EMU_51CCA0_BD3364 = PSX_EMU_Render_Polys_2_51CCA0;
     pPSX_EMU_51E140_BD328C = PSX_EMU_Render_Polys_2_51E140;
     pPSX_EMU_51D890_BD3360 = PSX_EMU_Render_Polys_2_51D890;
@@ -605,8 +605,7 @@ static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 draw
     const short u0 = any.mSprt->mUv.u;
     const short v0 = any.mSprt->mUv.v;
 
-    // Render flat or textured rectangle
-    pPSX_EMU_Render_51EF90_C2D04C(
+    pPSX_EMU_Render_SPRT_51EF90_C2D04C(
         x0, y0,
         u0, v0,
         r,
@@ -911,12 +910,12 @@ EXPORT bool CC PSX_Rects_intersect_point_4FA100(const PSX_RECT* pScreen, const P
     return bOverlaps;
 }
 
-EXPORT void CC PSX_EMU_Render_TPage_0_51F0E0(PSX_RECT* /*a1*/, int /*a2*/, int /*a3*/, unsigned __int8 /*a4*/, unsigned __int8 /*a5*/, unsigned __int8 /*a6*/, unsigned __int16 /*a7*/, char /*a8*/)
+EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(PSX_RECT* /*a1*/, int /*a2*/, int /*a3*/, unsigned __int8 /*a4*/, unsigned __int8 /*a5*/, unsigned __int8 /*a6*/, unsigned __int16 /*a7*/, char /*a8*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_EMU_Render_TPage_1_51F660(PSX_RECT* /*pRect*/, int /*tpagex_off*/, int /*tpagey_off*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, unsigned __int16 /*a7*/, char /*a8*/)
+EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(PSX_RECT* /*pRect*/, int /*tpagex_off*/, int /*tpagey_off*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, unsigned __int16 /*a7*/, char /*a8*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -929,12 +928,12 @@ EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigne
     }
 }
 
-EXPORT void CC PSX_EMU_Render_TPage_2_51FA30(PSX_RECT* /*pRect*/, int /*tpageX*/, int /*tpageY*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, int /*a7*/, char /*a8*/)
+EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(PSX_RECT* /*pRect*/, int /*tpageX*/, int /*tpageY*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, int /*a7*/, char /*a8*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, BYTE r, BYTE g, BYTE b, __int16 w, __int16 h, WORD clut, int semiTrans)
+EXPORT void CC PSX_EMU_Render_SPRT_51EF90(__int16 x, __int16 y, int u, int v, BYTE r, BYTE g, BYTE b, __int16 w, __int16 h, WORD clut, int semiTrans)
 {
     // Get the screen rect
     PSX_RECT screenRect  = {};
@@ -958,15 +957,15 @@ EXPORT void CC PSX_EMU_Render_51EF90(__int16 x, __int16 y, int u, int v, BYTE r,
         // Render
         if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
         {
-            PSX_EMU_Render_TPage_0_51F0E0(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
+            PSX_EMU_Render_SPRT_4bit_51F0E0(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
         else if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
         {
-            PSX_EMU_Render_TPage_1_51F660(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
+            PSX_EMU_Render_SPRT_8bit_51F660(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
         else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
         {
-            PSX_EMU_Render_TPage_2_51FA30(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
+            PSX_EMU_Render_SPRT_16bit_51FA30(&overlapRect, u, v, r, g, b, clut, static_cast<char>(semiTrans));
         }
     }
 }
