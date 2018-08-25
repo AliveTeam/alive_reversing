@@ -128,13 +128,13 @@ ALIVE_VAR(1, 0xc19140, DWORD, sBlueShift_C19140, 0);
 
 struct Psx_Test
 {
-    __int16 field_0_a1[1024];
-    __int16 field_800_a2[1024];
-    __int16 field_1000_a3[1024];
+    __int16 field_0_a1[32][32];
+    __int16 field_800_a2[32][32];
+    __int16 field_1000_a3[32][32];
 };
 ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
 
-ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, stru_C215E0, {});
+ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, sPsx_abr_lut_C215E0, {});
 
 struct Psx_Data
 {
@@ -150,16 +150,15 @@ static void CalculateBlendingModesLUT()
 {
     const int redShift = sRedShift_C215C4;
     const int greenShift = sGreenShift_C1D180;
-    short idx = 0;
     for (short i = 0; i < 32; i++)
     {
         for (short j = 0; j < 32; j++)
         {
             // 0.5xB + 0.5xF
             short value1 = (j + i) / 2;
-            stru_C215E0[eBlendMode_0].field_0_a1[idx] = value1 << redShift;
-            stru_C215E0[eBlendMode_0].field_800_a2[idx] = value1 << greenShift;
-            stru_C215E0[eBlendMode_0].field_1000_a3[idx] = value1;
+            sPsx_abr_lut_C215E0[eBlendMode_0].field_0_a1[i][j] = value1 << redShift;
+            sPsx_abr_lut_C215E0[eBlendMode_0].field_800_a2[i][j] = value1 << greenShift;
+            sPsx_abr_lut_C215E0[eBlendMode_0].field_1000_a3[i][j] = value1;
 
             // 1.0xB + 1.0xF
             short value2 = i + j;
@@ -167,9 +166,9 @@ static void CalculateBlendingModesLUT()
             {
                 value2 = 31;
             }
-            stru_C215E0[eBlendMode_1].field_0_a1[idx] = value2 << redShift;
-            stru_C215E0[eBlendMode_1].field_800_a2[idx] = value2 << greenShift;
-            stru_C215E0[eBlendMode_1].field_1000_a3[idx] = value2;
+            sPsx_abr_lut_C215E0[eBlendMode_1].field_0_a1[i][j] = value2 << redShift;
+            sPsx_abr_lut_C215E0[eBlendMode_1].field_800_a2[i][j] = value2 << greenShift;
+            sPsx_abr_lut_C215E0[eBlendMode_1].field_1000_a3[i][j] = value2;
 
             // 1.0xB - 1.0xF
             short value3 = j - i;
@@ -177,9 +176,9 @@ static void CalculateBlendingModesLUT()
             {
                 value3 = 0;
             }
-            stru_C215E0[eBlendMode_2].field_0_a1[idx] = value3 << redShift;
-            stru_C215E0[eBlendMode_2].field_800_a2[idx] = value3 << greenShift;
-            stru_C215E0[eBlendMode_2].field_1000_a3[idx] = value3;
+            sPsx_abr_lut_C215E0[eBlendMode_2].field_0_a1[i][j] = value3 << redShift;
+            sPsx_abr_lut_C215E0[eBlendMode_2].field_800_a2[i][j] = value3 << greenShift;
+            sPsx_abr_lut_C215E0[eBlendMode_2].field_1000_a3[i][j] = value3;
 
             // 1.0xB + 0.25xF
             short value4 = j + (i / 4);
@@ -187,11 +186,9 @@ static void CalculateBlendingModesLUT()
             {
                 value4 = 31;
             }
-            stru_C215E0[eBlendMode_3].field_0_a1[idx] = value4 << redShift;
-            stru_C215E0[eBlendMode_3].field_800_a2[idx] = value4 << greenShift;
-            stru_C215E0[eBlendMode_3].field_1000_a3[idx] = value4;
-
-            idx++;
+            sPsx_abr_lut_C215E0[eBlendMode_3].field_0_a1[i][j] = value4 << redShift;
+            sPsx_abr_lut_C215E0[eBlendMode_3].field_800_a2[i][j] = value4 << greenShift;
+            sPsx_abr_lut_C215E0[eBlendMode_3].field_1000_a3[i][j] = value4;
         }
     }
 }
@@ -240,7 +237,6 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     const int greenShift = sGreenShift_C1D180;
 
     // TODO: Its unknown what this is calculating
-    short idx = 0;
     for (short i = 0; i < 32; i++)
     {
         short iPlus_iExp = 0;
@@ -255,11 +251,9 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 
             stru_C1D1C0[i].field_0[j] = static_cast<BYTE>(value);
 
-            stru_C146C0.field_0_a1[idx] = value << redShift;
-            stru_C146C0.field_800_a2[idx] = value << greenShift;
-            stru_C146C0.field_1000_a3[idx] = value;
-
-            idx++;
+            stru_C146C0.field_0_a1[i][j] = value << redShift;
+            stru_C146C0.field_800_a2[i][j] = value << greenShift;
+            stru_C146C0.field_1000_a3[i][j] = value;
 
             iPlus_iExp = i + iExp;
             iExp += i;
@@ -399,9 +393,58 @@ EXPORT void __cdecl PSX_4F6ED0(WORD* /*pVRam*/, int /*width*/, int /*height*/, i
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __cdecl PSX_4F6D00(WORD* /*pVRam*/, int /*width*/, int /*height*/, int /*r*/, int /*g*/, int /*b*/, int /*pitch*/)
+static int sLast_TILE_r_578328 = 0;
+static int sLast_TILE_g_C3D0E0 = 0;
+static int sLast_TILE_b_C3D0DC = 0;
+static DWORD sLast_Tile_abr_57832C = 0;
+ALIVE_ARY(1, 0xC2D080, short, 16384, word_C2D080, {});
+
+void PSX_Render_TILE_Blended_Large_Impl(WORD *pVRam, int width, int height, int r, int g, int b, int pitch)
 {
-    NOT_IMPLEMENTED();
+    // Rebuild if cached copy is invalid
+    if (r != sLast_TILE_r_578328
+        || g != sLast_TILE_g_C3D0E0
+        || b != sLast_TILE_b_C3D0DC
+        || sTexture_page_abr_BD0F18 != sLast_Tile_abr_57832C)
+    {  
+        // NOTE: if (spBitmap_C2D038->field_15_pixel_format == 15) {} case removed as only 16 supported
+
+        short* pAbr_R = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].field_0_a1[r][0];
+        short* pAbr_G = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].field_800_a2[g][0];
+        short* pAbr_B = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].field_1000_a3[b][0];
+
+        // TODO: Figure out what this look up table actually is
+        for (int i = 0; i < 16384; i++)
+        {
+            word_C2D080[i] = pAbr_B[(4 * i) & 31] | pAbr_R[(((i / 64)) / 8) & 31]  | pAbr_G[((4 * i) / 64) & 31];
+        }
+
+        sLast_TILE_r_578328 = r;
+        sLast_TILE_g_C3D0E0 = g;
+        sLast_TILE_b_C3D0DC = b;
+        sLast_Tile_abr_57832C = sTexture_page_abr_BD0F18;
+    }
+
+    if (height - 1 >= 0)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                // Index into the look up table using the vram limited value as the index
+                // which in turn is used as the output
+                const WORD v1 = (pVRam[x] >> 2) & 0x3FFF;
+                pVRam[x] = word_C2D080[v1];
+            }
+
+            pVRam += pitch;
+        }
+    }
+}
+
+EXPORT void CC PSX_Render_TILE_Blended_Large_4F6D00(WORD *pVRam, int width, int height, int r, int g, int b, int pitch)
+{
+    PSX_Render_TILE_Blended_Large_Impl(pVRam, width, height, r, g, b, pitch);
 }
 
 EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* pPrim)
@@ -509,15 +552,8 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
         return;
     }
 
-    // Some other optimization case?
-    if (rect_w * rect_h < 16384)
-    {
-        PSX_4F6ED0(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
-    }
-    else
-    {
-        PSX_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
-    }
+    // NOTE: if (rect_w * rect_h < 16384){} optimization case removed
+    PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
 EXPORT unsigned __int8* CC PSX_Render_Polys_1_4F7110(void* /*a1*/, int /*a2*/, int /*a3*/)
