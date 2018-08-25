@@ -125,6 +125,65 @@ ALIVE_VAR(1, 0xc215c4, DWORD, sRedShift_C215C4, 0);
 ALIVE_VAR(1, 0xc1d180, DWORD, sGreenShift_C1D180, 0);
 ALIVE_VAR(1, 0xc19140, DWORD, sBlueShift_C19140, 0);
 
+struct Psx_Test
+{
+    __int16 field_0_a1[1024];
+    __int16 field_800_a2[1024];
+    __int16 field_1000_a3[1024];
+};
+ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
+
+ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, stru_C215E0, {});
+
+static void CalculateBlendingModesLUT()
+{
+    int redShift = sRedShift_C215C4;
+    int greenShift = sGreenShift_C1D180;
+    int idx = 0;
+    for (short i = 0; i < 32; i++)
+    {
+        for (short j = 0; j < 32; j++)
+        {
+            // 0.5xB + 0.5xF
+            short value1 = (j + i) / 2;
+            stru_C215E0[eBlendMode_0].field_0_a1[idx] = value1 << redShift;
+            stru_C215E0[eBlendMode_0].field_800_a2[idx] = value1 << greenShift;
+            stru_C215E0[eBlendMode_0].field_1000_a3[idx] = value1;
+
+            // 1.0xB + 1.0xF
+            short value2 = i + j;
+            if (value2 > 31)
+            {
+                value2 = 31;
+            }
+            stru_C215E0[eBlendMode_1].field_0_a1[idx] = value2 << redShift;
+            stru_C215E0[eBlendMode_1].field_800_a2[idx] = value2 << greenShift;
+            stru_C215E0[eBlendMode_1].field_1000_a3[idx] = value2;
+
+            // 1.0xB - 1.0xF
+            short value3 = j - i;
+            if (value3 < 0)
+            {
+                value3 = 0;
+            }
+            stru_C215E0[eBlendMode_2].field_0_a1[idx] = value3 << redShift;
+            stru_C215E0[eBlendMode_2].field_800_a2[idx] = value3 << greenShift;
+            stru_C215E0[eBlendMode_2].field_1000_a3[idx] = value3;
+
+            // 1.0xB + 0.25xF
+            short value4 = j + (i / 4);
+            if (value4 > 31)
+            {
+                value4 = 31;
+            }
+            stru_C215E0[eBlendMode_3].field_0_a1[idx] = value4 << redShift;
+            stru_C215E0[eBlendMode_3].field_800_a2[idx] = value4 << greenShift;
+            stru_C215E0[eBlendMode_3].field_1000_a3[idx] = value4;
+
+            idx++;
+        }
+    }
+}
 EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 {
     NOT_IMPLEMENTED();
@@ -158,9 +217,32 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     dword_BD3278 = (int)PSX_EMU_nullsub_25;
     */
 
+    CalculateBlendingModesLUT();
+
     return 0;
 }
 
+void PSX_Disp_Mode_Test()
+{
+    /*
+    Psx_Test backup[4];
+    for (int i = 0; i < 4; i++)
+    {
+        backup[i] = stru_C215E0[i];
+    }
+
+    memset(&stru_C215E0[0], 0, sizeof(Psx_Test) * 4);
+
+    CalculateBlendingModesLUT();
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (memcmp(&backup[i], &stru_C215E0[i], sizeof(Psx_Test)) != 0)
+        {
+            ALIVE_FATAL("error");
+        }
+    }*/
+}
 
 template <typename T>
 T clip(const T& n, const T& lower, const T& upper) 
@@ -393,12 +475,14 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
         }
     }
 
-    if (sTexture_page_abr_BD0F18 == 2 && r0_S3 >= 31 && g0_S3 >= 31 && b0_S3 >= 31)
+    // Some optimization case - for type 2 blending and white colour the result must be black
+    if (sTexture_page_abr_BD0F18 == BlendModes::eBlendMode_2 && r0_S3 >= 31 && g0_S3 >= 31 && b0_S3 >= 31)
     {
         VRam_Rect_Fill(pVRamDst, rect_w, rect_h, width_pitch, 0);
         return;
     }
 
+    // Some other optimization case?
     if (rect_w * rect_h < 16384)
     {
         PSX_4F6ED0(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
