@@ -937,25 +937,17 @@ EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(PSX_RECT* /*pRect*/, int /*tpagex
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigned int amount)
-{
-    for (unsigned int i = 0; i < amount; i++)
-    {
-        pVram[i] = pSrc[i];
-    }
-}
-
 EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*clut*/, char bSemiTrans)
 {
     const int texture_row_width = (1 << dword_57831C) - pRect->w;
     const unsigned int line_pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch >> 1;
     const unsigned int pitch_remainder = line_pitch - pRect->w;
-    
+
     const WORD* pTexture_src = &sTPage_src_ptr_BD0F1C[u + (v << dword_57831C)];// dword_57831C = tpage width/bpp? becomes / 1024 ?
     WORD* pVram_start = reinterpret_cast<WORD*>(spBitmap_C2D038->field_4_pLockedPixels) + (pRect->x + (line_pitch * pRect->y));
     WORD* pVram_end = &pVram_start[(pRect->w - 1) + line_pitch * (pRect->h - 1)];
-  
-    if (r == 128 && g == 128 && b == 128 && !bSemiTrans)
+
+    if (!bSemiTrans && (r != 128 || g != 128 || b != 128))
     {
         while (pVram_start < pVram_end)
         {
@@ -966,7 +958,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, int u, in
                 if (texture_pixel)
                 {
                     *pVram_start =
-                          stru_C146C0.r[r >> 3][(texture_pixel >> 11) & 31]
+                        stru_C146C0.r[r >> 3][(texture_pixel >> 11) & 31]
                         | stru_C146C0.g[g >> 3][(texture_pixel >> 6) & 31]
                         | stru_C146C0.b[b >> 3][(texture_pixel & 31)];
                 }
@@ -997,7 +989,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, int u, in
                     const BYTE bLut = stru_C1D1C0[b >> 3].field_0[texture_pixel & 31];
 
                     *pVram_start =
-                          pAbr_lut->r[rLut][(vram_pixel >> 11)]
+                        pAbr_lut->r[rLut][(vram_pixel >> 11)]
                         | pAbr_lut->g[gLut][((vram_pixel >> 6) & 31)]
                         | pAbr_lut->b[bLut][(vram_pixel & 31)];
                 }
@@ -1012,42 +1004,24 @@ EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, int u, in
         return;
     }
 
-    // TODO: These 2 cases could be combined as the black pixel skip is the only real difference
-    if (sActiveTPage_578318 >= 0)
-    {
-        const int widthBytes = pRect->w + pitch_remainder;
-        const int nextWriteOffset = widthBytes;
+    const int widthBytes = pRect->w + pitch_remainder;
+    const int nextWriteOffset = widthBytes;
+    const bool ignoreBlackPixels = sActiveTPage_578318 >= 0;
 
-        // NOTE: Odd optimization case removed
-        while (pVram_start < pVram_end)
+    // NOTE: Odd optimization case removed
+    while (pVram_start < pVram_end)
+    {
+        for (int i = 0; i < pRect->w; i++)
         {
-            for (int i = 0; i < pRect->w; i++)
+            // Skip black pixels these become see through
+            const bool writePixel = ignoreBlackPixels == false || pTexture_src[i];
+            if (writePixel)
             {
-                // Skip black pixels these become see through
-                if (pTexture_src[i])
-                {
-                    pVram_start[i] = pTexture_src[i];
-                }
+                pVram_start[i] = pTexture_src[i];
             }
-            pVram_start += nextWriteOffset;
-            pTexture_src += nextWriteOffset;
         }
-    }
-    else
-    {
-        // Negative TPage is set by OR'ing 0x8000 as seen in screen manager
-
-        // Copy source to destination directly with no changes, when 0x8000 has been OR'd into tpage
-        const int widthBytes = pRect->w + pitch_remainder;
-        const int nextWriteOffset = widthBytes;
-
-        // NOTE: direct memcpy optimization removed for even x,y
-        while (pVram_start < pVram_end)
-        {
-            PSX_EMU_Background_Render_51C490((BYTE*)pVram_start, (BYTE*)pTexture_src, 2 * pRect->w);
-            pVram_start += nextWriteOffset;
-            pTexture_src += nextWriteOffset;
-        }
+        pVram_start += nextWriteOffset;
+        pTexture_src += nextWriteOffset;
     }
 }
 
