@@ -680,11 +680,6 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, BYTE* pData)
     // Note: Removed width == 32 optimization case.
 }
 
-EXPORT void CC PSX_Pal_Conversion_4F98D0(WORD* /*pDataToConvert*/, WORD* /*pConverted*/, unsigned int /*size*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, BYTE* pData)
 {
     const unsigned int pixelCount = pRect->w * pRect->h;

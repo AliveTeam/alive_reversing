@@ -128,9 +128,9 @@ ALIVE_VAR(1, 0xc19140, DWORD, sBlueShift_C19140, 0);
 
 struct Psx_Test
 {
-    __int16 field_0_a1[32][32];
-    __int16 field_800_a2[32][32];
-    __int16 field_1000_a3[32][32];
+    __int16 r[32][32];
+    __int16 g[32][32];
+    __int16 b[32][32];
 };
 ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
 
@@ -156,9 +156,9 @@ static void CalculateBlendingModesLUT()
         {
             // 0.5xB + 0.5xF
             short value1 = (j + i) / 2;
-            sPsx_abr_lut_C215E0[eBlendMode_0].field_0_a1[i][j] = value1 << redShift;
-            sPsx_abr_lut_C215E0[eBlendMode_0].field_800_a2[i][j] = value1 << greenShift;
-            sPsx_abr_lut_C215E0[eBlendMode_0].field_1000_a3[i][j] = value1;
+            sPsx_abr_lut_C215E0[eBlendMode_0].r[i][j] = value1 << redShift;
+            sPsx_abr_lut_C215E0[eBlendMode_0].g[i][j] = value1 << greenShift;
+            sPsx_abr_lut_C215E0[eBlendMode_0].b[i][j] = value1;
 
             // 1.0xB + 1.0xF
             short value2 = i + j;
@@ -166,9 +166,9 @@ static void CalculateBlendingModesLUT()
             {
                 value2 = 31;
             }
-            sPsx_abr_lut_C215E0[eBlendMode_1].field_0_a1[i][j] = value2 << redShift;
-            sPsx_abr_lut_C215E0[eBlendMode_1].field_800_a2[i][j] = value2 << greenShift;
-            sPsx_abr_lut_C215E0[eBlendMode_1].field_1000_a3[i][j] = value2;
+            sPsx_abr_lut_C215E0[eBlendMode_1].r[i][j] = value2 << redShift;
+            sPsx_abr_lut_C215E0[eBlendMode_1].g[i][j] = value2 << greenShift;
+            sPsx_abr_lut_C215E0[eBlendMode_1].b[i][j] = value2;
 
             // 1.0xB - 1.0xF
             short value3 = j - i;
@@ -176,9 +176,9 @@ static void CalculateBlendingModesLUT()
             {
                 value3 = 0;
             }
-            sPsx_abr_lut_C215E0[eBlendMode_2].field_0_a1[i][j] = value3 << redShift;
-            sPsx_abr_lut_C215E0[eBlendMode_2].field_800_a2[i][j] = value3 << greenShift;
-            sPsx_abr_lut_C215E0[eBlendMode_2].field_1000_a3[i][j] = value3;
+            sPsx_abr_lut_C215E0[eBlendMode_2].r[i][j] = value3 << redShift;
+            sPsx_abr_lut_C215E0[eBlendMode_2].g[i][j] = value3 << greenShift;
+            sPsx_abr_lut_C215E0[eBlendMode_2].b[i][j] = value3;
 
             // 1.0xB + 0.25xF
             short value4 = j + (i / 4);
@@ -186,9 +186,9 @@ static void CalculateBlendingModesLUT()
             {
                 value4 = 31;
             }
-            sPsx_abr_lut_C215E0[eBlendMode_3].field_0_a1[i][j] = value4 << redShift;
-            sPsx_abr_lut_C215E0[eBlendMode_3].field_800_a2[i][j] = value4 << greenShift;
-            sPsx_abr_lut_C215E0[eBlendMode_3].field_1000_a3[i][j] = value4;
+            sPsx_abr_lut_C215E0[eBlendMode_3].r[i][j] = value4 << redShift;
+            sPsx_abr_lut_C215E0[eBlendMode_3].g[i][j] = value4 << greenShift;
+            sPsx_abr_lut_C215E0[eBlendMode_3].b[i][j] = value4;
         }
     }
 }
@@ -251,9 +251,9 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 
             stru_C1D1C0[i].field_0[j] = static_cast<BYTE>(value);
 
-            stru_C146C0.field_0_a1[i][j] = value << redShift;
-            stru_C146C0.field_800_a2[i][j] = value << greenShift;
-            stru_C146C0.field_1000_a3[i][j] = value;
+            stru_C146C0.r[i][j] = value << redShift;
+            stru_C146C0.g[i][j] = value << greenShift;
+            stru_C146C0.b[i][j] = value;
 
             iPlus_iExp = i + iExp;
             iExp += i;
@@ -263,6 +263,23 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
     CalculateBlendingModesLUT();
 
     return 0;
+}
+
+
+EXPORT void CC PSX_Pal_Conversion_4F98D0(WORD* pDataToConvert, WORD* pConverted, unsigned int size)
+{
+    if (sVGA_DisplayType_BD1468 == 5)
+    {
+        return;
+    }
+
+    for (unsigned int i = 0; i < size; i++)
+    {
+        pConverted[i] = ((pDataToConvert[i] >> 15) << sSemiTransShift_C215C0)
+                      | ((pDataToConvert[i] & 31) << sRedShift_C215C4)
+                      | (((pDataToConvert[i] >> 5) & 31) << sGreenShift_C1D180)
+                      | (((pDataToConvert[i] >> 10) & 31) << sBlueShift_C19140);
+    }
 }
 
 template <typename T>
@@ -409,9 +426,9 @@ void PSX_Render_TILE_Blended_Large_Impl(WORD *pVRam, int width, int height, int 
     {  
         // NOTE: if (spBitmap_C2D038->field_15_pixel_format == 15) {} case removed as only 16 supported
 
-        short* pAbr_R = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].field_0_a1[r][0];
-        short* pAbr_G = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].field_800_a2[g][0];
-        short* pAbr_B = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].field_1000_a3[b][0];
+        short* pAbr_R = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].r[r][0];
+        short* pAbr_G = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].g[g][0];
+        short* pAbr_B = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].b[b][0];
 
         // TODO: Figure out what this look up table actually is
         for (int i = 0; i < 16384; i++)
@@ -928,9 +945,110 @@ EXPORT void CC PSX_EMU_Background_Render_51C490(BYTE *pVram, BYTE *pSrc, unsigne
     }
 }
 
-EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(PSX_RECT* /*pRect*/, int /*tpageX*/, int /*tpageY*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, int /*a7*/, char /*a8*/)
+EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*clut*/, char bSemiTrans)
 {
-    NOT_IMPLEMENTED();
+    const int texture_row_width = (1 << dword_57831C) - pRect->w;
+    const unsigned int line_pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch >> 1;
+    const unsigned int pitch_remainder = line_pitch - pRect->w;
+    
+    const WORD* pTexture_src = &sTPage_src_ptr_BD0F1C[u + (v << dword_57831C)];// dword_57831C = tpage width/bpp? becomes / 1024 ?
+    WORD* pVram_start = reinterpret_cast<WORD*>(spBitmap_C2D038->field_4_pLockedPixels) + (pRect->x + (line_pitch * pRect->y));
+    WORD* pVram_end = &pVram_start[(pRect->w - 1) + line_pitch * (pRect->h - 1)];
+  
+    if (r == 128 && g == 128 && b == 128 && !bSemiTrans)
+    {
+        while (pVram_start < pVram_end)
+        {
+            WORD* pLineEnd = &pVram_start[pRect->w];
+            while (pVram_start < pLineEnd)
+            {
+                const WORD texture_pixel = *pTexture_src;
+                if (texture_pixel)
+                {
+                    *pVram_start =
+                          stru_C146C0.r[r >> 3][(texture_pixel >> 11) & 31]
+                        | stru_C146C0.g[g >> 3][(texture_pixel >> 6) & 31]
+                        | stru_C146C0.b[b >> 3][(texture_pixel & 31)];
+                }
+                pTexture_src++;
+                pVram_start++;
+            }
+            pTexture_src += texture_row_width;
+            pVram_start += pitch_remainder;
+        }
+        return;
+    }
+
+    if (bSemiTrans)
+    {
+        const auto pAbr_lut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
+        while (pVram_start < pVram_end)
+        {
+            WORD* pLineEnd = &pVram_start[pRect->w];
+            while (pVram_start < pLineEnd)
+            {
+                const WORD texture_pixel = *pTexture_src;
+                if (texture_pixel)
+                {
+                    const WORD vram_pixel = *pVram_start;
+
+                    const BYTE rLut = stru_C1D1C0[r >> 3].field_0[texture_pixel >> 11];
+                    const BYTE gLut = stru_C1D1C0[g >> 3].field_0[(texture_pixel >> 6) & 31];
+                    const BYTE bLut = stru_C1D1C0[b >> 3].field_0[texture_pixel & 31];
+
+                    *pVram_start =
+                          pAbr_lut->r[rLut][(vram_pixel >> 11)]
+                        | pAbr_lut->g[gLut][((vram_pixel >> 6) & 31)]
+                        | pAbr_lut->b[bLut][(vram_pixel & 31)];
+                }
+
+                pTexture_src++;
+                pVram_start++;
+            }
+
+            pVram_start += pitch_remainder;
+            pTexture_src += texture_row_width;
+        }
+        return;
+    }
+
+    // TODO: These 2 cases could be combined as the black pixel skip is the only real difference
+    if (sActiveTPage_578318 >= 0)
+    {
+        const int widthBytes = pRect->w + pitch_remainder;
+        const int nextWriteOffset = widthBytes;
+
+        // NOTE: Odd optimization case removed
+        while (pVram_start < pVram_end)
+        {
+            for (int i = 0; i < pRect->w; i++)
+            {
+                // Skip black pixels these become see through
+                if (pTexture_src[i])
+                {
+                    pVram_start[i] = pTexture_src[i];
+                }
+            }
+            pVram_start += nextWriteOffset;
+            pTexture_src += nextWriteOffset;
+        }
+    }
+    else
+    {
+        // Negative TPage is set by OR'ing 0x8000 as seen in screen manager
+
+        // Copy source to destination directly with no changes, when 0x8000 has been OR'd into tpage
+        const int widthBytes = pRect->w + pitch_remainder;
+        const int nextWriteOffset = widthBytes;
+
+        // NOTE: direct memcpy optimization removed for even x,y
+        while (pVram_start < pVram_end)
+        {
+            PSX_EMU_Background_Render_51C490((BYTE*)pVram_start, (BYTE*)pTexture_src, 2 * pRect->w);
+            pVram_start += nextWriteOffset;
+            pTexture_src += nextWriteOffset;
+        }
+    }
 }
 
 EXPORT void CC PSX_EMU_Render_SPRT_51EF90(__int16 x, __int16 y, int u, int v, BYTE r, BYTE g, BYTE b, __int16 w, __int16 h, WORD clut, int semiTrans)
