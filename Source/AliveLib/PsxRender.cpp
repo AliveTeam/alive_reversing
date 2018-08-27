@@ -932,9 +932,139 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(PSX_RECT* /*a1*/, int /*a2*/, int
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(PSX_RECT* /*pRect*/, int /*tpagex_off*/, int /*tpagey_off*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/, unsigned __int16 /*a7*/, char /*a8*/)
+// TODO: Can be refactored further
+EXPORT void CC PSX_EMU_Render_SPRT_8bit_51F660(PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, unsigned __int16 clut, char bSemiTrans)
 {
-    NOT_IMPLEMENTED();
+    const int tpagex = sTexture_page_x_BD0F0C + (u / 2);
+    const int tpagey = sTexture_page_y_BD0F10 + v;
+    BYTE* pTexture_8bit_src = (unsigned __int8 *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (tpagex + (tpagey * 1024));
+    const int texture_8bit_remainder = 2048 - pRect->w;
+
+    const WORD* pClutSrc = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((clut & 63) + (((unsigned int)clut / 64) * 64)));
+
+    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / 2;
+    const int vram_dst_remainder = pitch - pRect->w;
+    unsigned __int16* pVram_dst = (unsigned __int16 *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (pRect->x + pitch * pRect->y));
+    WORD* pVram_End = &pVram_dst[(pRect->w - 1) + pitch * (pRect->h - 1)];
+
+    if (r != 128 || g != 128 || b != 128)
+    {
+        if (bSemiTrans)
+        {
+            Psx_Test* pAbr_Lut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
+            while (pVram_dst < pVram_End)
+            {
+                WORD* pLineEnd = &pVram_dst[pRect->w];
+                while (pVram_dst < pLineEnd)
+                {
+                    const int vram_8bit_idx = *pTexture_8bit_src;
+                    if (pClutSrc[vram_8bit_idx])
+                    {
+                        const WORD clut_pixel = pClutSrc[vram_8bit_idx];
+
+                        const BYTE g_lut_idx = stru_C1D1C0[g >> 3].field_0[(clut_pixel >> 6) & 31];
+                        const BYTE r_lut_idx = stru_C1D1C0[r >> 3].field_0[(clut_pixel >> 11) & 31];
+                        const BYTE b_lut_idx = stru_C1D1C0[b >> 3].field_0[(clut_pixel) & 31];
+
+                        const WORD vram_pixel = *pVram_dst;
+                        *pVram_dst =
+                              pAbr_Lut->r[r_lut_idx][(vram_pixel >> 11) & 31]
+                            | pAbr_Lut->g[g_lut_idx][(vram_pixel >> 6) & 31]
+                            | pAbr_Lut->b[b_lut_idx][(vram_pixel) & 31];
+                    }
+                    pVram_dst++;
+                    pTexture_8bit_src++;
+                }
+                pVram_dst += vram_dst_remainder;
+                pTexture_8bit_src += texture_8bit_remainder;
+            }
+        }
+        else
+        {
+            while (pVram_dst < pVram_End)
+            {
+                WORD* pLineEnd = &pVram_dst[pRect->w];
+                while (pVram_dst < pLineEnd)
+                {
+                    const WORD vram_8bit_idx = *pTexture_8bit_src;
+                    const WORD clut_pixel = pClutSrc[vram_8bit_idx];
+                    if (clut_pixel)
+                    {
+                        *pVram_dst =
+                              stru_C146C0.b[b >> 3][clut_pixel & 31]
+                            | stru_C146C0.r[r >> 3][clut_pixel >> 11]
+                            | stru_C146C0.g[g >> 3][(clut_pixel >> 6) & 31];
+                    }
+                    pVram_dst++;
+                    pTexture_8bit_src++;
+                }
+                pTexture_8bit_src += texture_8bit_remainder;
+                pVram_dst += vram_dst_remainder;
+            }
+        }
+    }
+    else if (bSemiTrans)
+    {
+        Psx_Test* pAbr_Lut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
+        while (pVram_dst < pVram_End)
+        {
+            WORD* pLineEnd = &pVram_dst[pRect->w];
+            while (pVram_dst < pLineEnd)
+            {
+                const WORD vram_8bit_idx = *pTexture_8bit_src;
+                const WORD clut_pixel = pClutSrc[vram_8bit_idx];
+
+                if (clut_pixel)
+                {
+                    // Semi trans flag
+                    if (clut_pixel & 0x20) 
+                    {
+                        const BYTE r_lut_idx = (clut_pixel >> 11);
+                        const BYTE g_lut_idx = (((clut_pixel >> 6) & 31));
+                        const BYTE b_lut_idx = ((clut_pixel & 31));
+
+                        const WORD vram_pixel = *pVram_dst;
+                        *pVram_dst =
+                              pAbr_Lut->r[r_lut_idx][(vram_pixel >> 11)]
+                            | pAbr_Lut->g[g_lut_idx][((vram_pixel >> 6) & 31)]
+                            | pAbr_Lut->b[b_lut_idx][(vram_pixel & 31)];
+                    }
+                    else
+                    {
+                        *pVram_dst = clut_pixel;
+                    }
+                }
+                else
+                {
+                    // Pure black pixels skipped
+                }
+
+                pVram_dst++;
+                pTexture_8bit_src++;
+            }
+            pVram_dst += vram_dst_remainder;
+            pTexture_8bit_src += texture_8bit_remainder;
+        }
+    }
+    else
+    {
+        while (pVram_dst < pVram_End)
+        {
+            WORD* pLineEnd = &pVram_dst[pRect->w];
+            while (pVram_dst < pLineEnd)
+            {
+                const WORD vram_8bit_idx = *pTexture_8bit_src;
+                if (pClutSrc[vram_8bit_idx])
+                {
+                    *pVram_dst = pClutSrc[vram_8bit_idx];
+                }
+                pTexture_8bit_src++;
+                pVram_dst++;
+            }
+            pTexture_8bit_src += texture_8bit_remainder;
+            pVram_dst += vram_dst_remainder;
+        }
+    }
 }
 
 EXPORT void CC PSX_EMU_Render_SPRT_16bit_51FA30(const PSX_RECT* pRect, int u, int v, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*clut*/, char bSemiTrans)
