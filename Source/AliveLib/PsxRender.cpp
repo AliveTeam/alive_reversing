@@ -399,10 +399,17 @@ EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
     sOt_Stack_BD0D88[otIdx].field_8_pOt_End = &otBuffer[otBufferSize];
 }
 
-EXPORT signed int __cdecl PSX_OT_Idx_From_Ptr_4F6A40(unsigned int /*ot*/)
+EXPORT signed int CC PSX_OT_Idx_From_Ptr_4F6A40(int** ot)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    for (int i = 0; i < 32; i++)
+    {
+        OtUnknown* pItem = &sOt_Stack_BD0D88[i];
+        if (ot >= pItem->field_4 && ot <= pItem->field_8_pOt_End)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
 EXPORT void __cdecl PSX_4F6ED0(WORD* /*pVRam*/, int /*width*/, int /*height*/, int /*r*/, int /*g*/, int /*b*/, int /*pitch*/)
@@ -707,7 +714,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
     sScreenYOffset_BD30A4 = 0;
     sActiveTPage_578318 = -1;
 
-    int otIdx = PSX_OT_Idx_From_Ptr_4F6A40((unsigned int)pOT);
+    int otIdx = PSX_OT_Idx_From_Ptr_4F6A40(pOT);
     if (otIdx < 0)
     {
         return false;
