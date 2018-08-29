@@ -35,6 +35,7 @@
 #include "LvlArchive.hpp"
 #include "ObjectIds.hpp"
 #include "PsxRender.hpp"
+#include "VRam.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -54,6 +55,7 @@ static void RunTests()
     Test::ScreenManagerTests();
     Test::ObjectIdsTests();
     Test::PsxRenderTests();
+    Test::VRamTests();
 }
 
 static void InitOtherHooksAndRunTests()

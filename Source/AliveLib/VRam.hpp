@@ -11,3 +11,9 @@ EXPORT void CC Vram_free_495A60(int xy, int wh);
 
 EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT *a1, unsigned int paletteColorCount);
 EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth);
+EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+
+namespace Test
+{
+    void VRamTests();
+}
