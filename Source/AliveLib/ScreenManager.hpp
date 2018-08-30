@@ -97,11 +97,16 @@ public:
     
     EXPORT void Init_40E4B0(BYTE** ppBits);
    
-
+    EXPORT void dtor_40E490();
     EXPORT void dtor_40E460(signed int flags);
     int next_bits();
 
     EXPORT static int CC GetTPage_40F040(char tp, char abr, int* xpos, int* ypos);
+    
+    virtual void VRender(int** pOrderingTable) override;
+    EXPORT void Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite_idx, int** ot);
+    EXPORT void sub_40EE50();
+    EXPORT void VRender_40E6E0(int **ot);
 
 private:
 public:

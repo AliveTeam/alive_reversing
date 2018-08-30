@@ -72,9 +72,18 @@ void ScreenManager::VDestructor(signed int flags)
     dtor_40E460(flags);
 }
 
-void ScreenManager::dtor_40E460(signed int /*flags*/)
+void ScreenManager::dtor_40E490()
 {
-    NOT_IMPLEMENTED();
+    BaseGameObject_dtor_4DBEC0();
+}
+
+void ScreenManager::dtor_40E460(signed int flags)
+{
+    dtor_40E490();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
 }
 
 void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx)
@@ -519,6 +528,99 @@ int CC ScreenManager::GetTPage_40F040(char tp, char abr, int* xpos, int* ypos)
     return PSX_getTPage_4F60E0(tp, abr, clampedXPos, clampedYPos);
 }
 
+void ScreenManager::VRender(int** pOrderingTable)
+{
+    VRender_40E6E0(pOrderingTable);
+}
+
+ALIVE_VAR(1, 0x5BB5DC, SprtTPage*, pCurrent_SprtTPage_5BB5DC, nullptr);
+ALIVE_VAR(1, 0x5bb5f0, int, sCurrentYPos_5BB5F0, 0);
+ALIVE_VAR(1, 0x5bb5d8, int, sIdx_5BB5D8, 0);
+
+void ScreenManager::Render_Helper_40E9F0(int /*xpos*/, int /*ypos*/, int /*idx*/, int /*sprite_idx*/, int** /*ot*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ScreenManager::sub_40EE50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void ScreenManager::VRender_40E6E0(int **ot)
+{
+    if (field_40_flags & 0x10000) // Render enabled flag ?
+    {
+        PSX_DrawSync_4F6280(0);
+        pCurrent_SprtTPage_5BB5DC = nullptr;
+        sCurrentYPos_5BB5F0 = -1;
+
+        for (int i = 0; i < 300; i++)
+        {
+            SprtTPage* pSpriteTPage = &field_24_screen_sprites[i];
+            const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
+            const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
+            if (IsDirty_40EBC0(7, spriteX, spriteY))
+            {
+                Render_Helper_40E9F0(spriteX, spriteY, 37, i, ot);
+            }
+            else if (IsDirty_40EBC0(6, spriteX, spriteY))
+            {
+                Render_Helper_40E9F0(spriteX, spriteY, 23, i, ot);
+            }
+            else if (IsDirty_40EBC0(5, spriteX, spriteY))
+            {
+                Render_Helper_40E9F0(spriteX, spriteY, 18, i, ot);
+            }
+            else if (IsDirty_40EBC0(4, spriteX, spriteY))
+            {
+                Render_Helper_40E9F0(spriteX, spriteY, 4, i, ot);
+            }
+            else if (IsDirty_40EBC0(field_3C_y_idx, spriteX, spriteY) || IsDirty_40EBC0(3, spriteX, spriteY))
+            {
+                SprtTPage* pItem = &field_24_screen_sprites[i];
+                if (pItem->mSprt.mBase.vert.y != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != 1)
+                {
+                    if (pCurrent_SprtTPage_5BB5DC)
+                    {
+                        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+                        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+                    }
+                    pItem->mSprt.field_14_w = 32;
+                    pCurrent_SprtTPage_5BB5DC = pItem;
+                    sIdx_5BB5D8 = 1;
+                    sCurrentYPos_5BB5F0 = pItem->mSprt.mBase.vert.y;
+                }
+                else
+                {
+                    pCurrent_SprtTPage_5BB5DC->mSprt.field_14_w += 32;
+                }
+            }
+            else if (pCurrent_SprtTPage_5BB5DC)
+            {
+                OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+                OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+                pCurrent_SprtTPage_5BB5DC = nullptr;
+                sCurrentYPos_5BB5F0 = -1;
+            }
+        }
+
+        if (pCurrent_SprtTPage_5BB5DC)
+        {
+            OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+            OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+        }
+
+        sub_40EE50();
+       
+        for (int i = 0; i < 20; i++)
+        {
+            field_64_20x16_dirty_bits[field_3C_y_idx].mData[i] |= field_64_20x16_dirty_bits[3].mData[i];
+        }
+
+        UnsetDirtyBits_40EDE0(3);
+    }
+}
 namespace Test
 {
     static void DirtyBitTests()
