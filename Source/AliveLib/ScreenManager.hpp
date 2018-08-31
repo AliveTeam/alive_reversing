@@ -109,6 +109,8 @@ public:
     EXPORT void VRender_40E6E0(int **ot);
 
 private:
+    void AddCurrentSPRT_TPage(int **ot);
+
 public:
     FP_Point* field_20_pCamPos;
     SprtTPage* field_24_screen_sprites;

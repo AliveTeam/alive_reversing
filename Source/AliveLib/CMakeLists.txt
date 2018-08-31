@@ -113,6 +113,8 @@ add_library(AliveLib
     Collisions.cpp
     CheatController.hpp
     CheatController.cpp
+    Compression.hpp
+    Compression.cpp
     FG1.hpp
     FG1.cpp
     WinMain.cpp

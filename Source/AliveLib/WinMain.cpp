@@ -36,6 +36,7 @@
 #include "ObjectIds.hpp"
 #include "PsxRender.hpp"
 #include "VRam.hpp"
+#include "Compression.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -81,6 +82,7 @@ static void InitOtherHooksAndRunTests()
     MainMenu_ForceLink();
     StringFormatters_ForceLink();
     LCDScreen_ForceLink();
+    Compression_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

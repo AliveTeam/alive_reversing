@@ -549,78 +549,84 @@ void ScreenManager::sub_40EE50()
 
 void ScreenManager::VRender_40E6E0(int **ot)
 {
-    if (field_40_flags & 0x10000) // Render enabled flag ?
+    if (!(field_40_flags & 0x10000)) // Render enabled flag ?
     {
-        PSX_DrawSync_4F6280(0);
-        pCurrent_SprtTPage_5BB5DC = nullptr;
-        sCurrentYPos_5BB5F0 = -1;
+        return;
+    }
 
-        for (int i = 0; i < 300; i++)
+    PSX_DrawSync_4F6280(0);
+    pCurrent_SprtTPage_5BB5DC = nullptr;
+    sCurrentYPos_5BB5F0 = -1;
+
+    for (int i = 0; i < 300; i++)
+    {
+        SprtTPage* pSpriteTPage = &field_24_screen_sprites[i];
+        const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
+        const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
+
+        if (IsDirty_40EBC0(7, spriteX, spriteY))
         {
-            SprtTPage* pSpriteTPage = &field_24_screen_sprites[i];
-            const int spriteY = pSpriteTPage->mSprt.mBase.vert.y;
-            const int spriteX = pSpriteTPage->mSprt.mBase.vert.x;
-            if (IsDirty_40EBC0(7, spriteX, spriteY))
+            Render_Helper_40E9F0(spriteX, spriteY, 37, i, ot);
+        }
+        else if (IsDirty_40EBC0(6, spriteX, spriteY))
+        {
+            Render_Helper_40E9F0(spriteX, spriteY, 23, i, ot);
+        }
+        else if (IsDirty_40EBC0(5, spriteX, spriteY))
+        {
+            Render_Helper_40E9F0(spriteX, spriteY, 18, i, ot);
+        }
+        else if (IsDirty_40EBC0(4, spriteX, spriteY))
+        {
+            Render_Helper_40E9F0(spriteX, spriteY, 4, i, ot);
+        }
+        else if (IsDirty_40EBC0(field_3C_y_idx, spriteX, spriteY) || IsDirty_40EBC0(3, spriteX, spriteY))
+        {
+            if (spriteY != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != 1)
             {
-                Render_Helper_40E9F0(spriteX, spriteY, 37, i, ot);
+                AddCurrentSPRT_TPage(ot);
+                pSpriteTPage->mSprt.field_14_w = 32;
+                pCurrent_SprtTPage_5BB5DC = pSpriteTPage;
+                sIdx_5BB5D8 = 1;
+                sCurrentYPos_5BB5F0 = spriteY;
             }
-            else if (IsDirty_40EBC0(6, spriteX, spriteY))
+            else
             {
-                Render_Helper_40E9F0(spriteX, spriteY, 23, i, ot);
+                pCurrent_SprtTPage_5BB5DC->mSprt.field_14_w += 32;
             }
-            else if (IsDirty_40EBC0(5, spriteX, spriteY))
+        }
+        else
+        {
+            if (pCurrent_SprtTPage_5BB5DC)
             {
-                Render_Helper_40E9F0(spriteX, spriteY, 18, i, ot);
-            }
-            else if (IsDirty_40EBC0(4, spriteX, spriteY))
-            {
-                Render_Helper_40E9F0(spriteX, spriteY, 4, i, ot);
-            }
-            else if (IsDirty_40EBC0(field_3C_y_idx, spriteX, spriteY) || IsDirty_40EBC0(3, spriteX, spriteY))
-            {
-                SprtTPage* pItem = &field_24_screen_sprites[i];
-                if (pItem->mSprt.mBase.vert.y != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != 1)
-                {
-                    if (pCurrent_SprtTPage_5BB5DC)
-                    {
-                        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-                        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
-                    }
-                    pItem->mSprt.field_14_w = 32;
-                    pCurrent_SprtTPage_5BB5DC = pItem;
-                    sIdx_5BB5D8 = 1;
-                    sCurrentYPos_5BB5F0 = pItem->mSprt.mBase.vert.y;
-                }
-                else
-                {
-                    pCurrent_SprtTPage_5BB5DC->mSprt.field_14_w += 32;
-                }
-            }
-            else if (pCurrent_SprtTPage_5BB5DC)
-            {
-                OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-                OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+                AddCurrentSPRT_TPage(ot);
                 pCurrent_SprtTPage_5BB5DC = nullptr;
                 sCurrentYPos_5BB5F0 = -1;
             }
         }
+    }
 
-        if (pCurrent_SprtTPage_5BB5DC)
-        {
-            OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-            OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
-        }
+    AddCurrentSPRT_TPage(ot);
 
-        sub_40EE50();
-       
-        for (int i = 0; i < 20; i++)
-        {
-            field_64_20x16_dirty_bits[field_3C_y_idx].mData[i] |= field_64_20x16_dirty_bits[3].mData[i];
-        }
+    sub_40EE50();
 
-        UnsetDirtyBits_40EDE0(3);
+    for (int i = 0; i < 20; i++)
+    {
+        field_64_20x16_dirty_bits[field_3C_y_idx].mData[i] |= field_64_20x16_dirty_bits[3].mData[i];
+    }
+
+    UnsetDirtyBits_40EDE0(3);
+}
+
+void ScreenManager::AddCurrentSPRT_TPage(int **ot)
+{
+    if (pCurrent_SprtTPage_5BB5DC)
+    {
+        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
     }
 }
+
 namespace Test
 {
     static void DirtyBitTests()
