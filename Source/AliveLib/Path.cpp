@@ -169,6 +169,11 @@ Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int
     return pTlv;
 }
 
+EXPORT void __stdcall Path::TLV_Reset_4DB8E0(unsigned int /*tlvOffset_levelId_PathId*/, __int16 /*hiFlags*/, char /*a3*/, char /*a4*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 EXPORT void CC Start_Sounds_for_TLV_4CB530(__int16 /*type*/, Path_TLV* /*pTlv*/)
 {
     NOT_IMPLEMENTED();

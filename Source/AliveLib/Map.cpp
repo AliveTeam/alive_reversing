@@ -149,7 +149,7 @@ void Map::sub_481610()
     NOT_IMPLEMENTED();
 }
 
-signed __int16 Map::sub_4811A0(int level, int path, FP xpos, FP ypos)
+signed __int16 Map::sub_4811A0(int /*level*/, int /*path*/, FP /*xpos*/, FP /*ypos*/)
 {
     NOT_IMPLEMENTED();
 }

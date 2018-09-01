@@ -30,6 +30,7 @@ public:
     EXPORT static Path_TLV* __stdcall Next_TLV_4DB6A0(Path_TLV* pTlv);
     EXPORT Path_TLV* TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, __int16 camX);
     EXPORT static Path_TLV* __stdcall TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type);
+    EXPORT static void __stdcall TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char a3, char a4);
 
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __int16 cam_x_idx, __int16 cam_y_idx);
 

@@ -28,6 +28,12 @@ public:
     EXPORT void Render_460CB0(int **ot);
     EXPORT void vsub_460F10();
     EXPORT void dtor_460920();
+    EXPORT void vdtor_4608F0(signed int flags);
+
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    virtual void VDestructor(signed int flags) override;
+    virtual void vnullsub_4DC0F0() override;
 public:
     Prim_PrimClipper field_20_prim_clippers[2][2];
     Font field_60_font;

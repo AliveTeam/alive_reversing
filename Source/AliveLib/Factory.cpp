@@ -4,6 +4,7 @@
 #include "MainMenu.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "LCDScreen.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -110,7 +111,22 @@ EXPORT void CC Factory_Null_4D6AE0(Path_TLV* , Path*, TlvItemInfoUnion, __int16)
 EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_LCD_4D6CF0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_LCD_4D6CF0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
+{
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::ResourceType::Resource_Font, 2, loadmode); // TODO: Add to resource ID enum
+        return;
+    }
+
+    auto pLCD = alive_new<LCDScreen>();
+    if (pLCD)
+    {
+        pLCD->ctor_460680(reinterpret_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
+    }
+}
+
 EXPORT void CC Factory_HandStone_4D9FA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_CreditsController_4D6D60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6910(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }

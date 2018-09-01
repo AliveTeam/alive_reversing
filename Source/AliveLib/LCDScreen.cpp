@@ -159,7 +159,7 @@ void LCDScreen_ForceLink() {
 
 LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion itemInfo)
 {
-    BaseGameObject::BaseGameObject_ctor_4DBFA0(1, 0);
+    BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x545AAC);
 
     field_C_objectId = itemInfo.all;
@@ -178,8 +178,8 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
     ++sFontType2LoadCount_5BC5E8;
     field_60_font.ctor_433590(60, sLCDScreen_Palette, &sFont2Context_5BC5D8);
 
-    Pal_Allocate_483110(&field_98_pal_rect, 0x10u);
-    PSX_RECT palSize = { field_98_pal_rect.x , field_98_pal_rect.y, 16, 1 };
+    Pal_Allocate_483110(&field_98_pal_rect, 16);
+    const PSX_RECT palSize = { field_98_pal_rect.x , field_98_pal_rect.y, 16, 1 };
     PSX_LoadImage16_4F5E20(&palSize, sLCDScreen_Palette2);
 
     if (SwitchStates_Get_466020(field_2B2_swap_message_sets_switch_id))
@@ -335,5 +335,46 @@ void LCDScreen::vsub_460F10()
 
 void LCDScreen::dtor_460920()
 {
-    NOT_IMPLEMENTED();
+    SetVTable(this, 0x545AAC); // vTbl_LCDScreen_545AAC
+
+    Pal_free_483390({ field_98_pal_rect.x, field_98_pal_rect.y }, field_98_pal_rect.w);
+
+    gObjList_drawables_5C1124->Remove_Item(this);
+    Path::TLV_Reset_4DB8E0(field_2BC_tlv_item_info.all, -1, 0, 0);
+
+    if (!--sFontType2LoadCount_5BC5E8)
+    {
+        sFont2Context_5BC5D8.dtor_433510();
+    }
+    field_60_font.dtor_433540();
+    BaseGameObject_dtor_4DBEC0();
+}
+
+void LCDScreen::vdtor_4608F0(signed int flags)
+{
+    dtor_460920();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+}
+
+void LCDScreen::VUpdate()
+{
+    Update_460A00();
+}
+
+void LCDScreen::VRender(int** pOrderingTable)
+{
+    Render_460CB0(pOrderingTable);
+}
+
+void LCDScreen::VDestructor(signed int flags)
+{
+    vdtor_4608F0(flags);
+}
+
+void LCDScreen::vnullsub_4DC0F0()
+{
+    vsub_460F10();
 }
