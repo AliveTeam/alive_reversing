@@ -25,43 +25,41 @@ EXPORT signed int __cdecl Vram_4958F0(PSX_RECT *pRect, char depth)
     // TODO: Needs to be cleaned up
     NOT_IMPLEMENTED();
 
-    __int16 v2; // bx
-    char i; // cl
-    int v4; // edx
-    int v5; // eax
+    
     int v6; // eax
-    int v7; // edi
-    PSX_RECT *v8; // ebx
 
-    v2 = pRect->w;
-    pRect->x = 1024 - v2;
+    pRect->x = 1024 - pRect->w;
+    
+    const char depthShift = 2 - depth;
 
-    if ((signed __int16)(1024 - v2) >= 0)
+    if (pRect->x >= 0)
     {
-        for (i = 2 - depth; ; i = 2 - depth)
+        while (true)
         {
-            v4 = pRect->x;
-            if ((v2 << i) + ((pRect->x & 0x3F) << i) > 256)
+            if ((pRect->w << depthShift) + ((pRect->x & 0x3F) << depthShift) > 256)
             {
                 break;
             }
-            v7 = 0;
+            
             if (sVram_Count_dword_5CC888 <= 0)
             {
                 return 1;
             }
-            v8 = sVramAllocations_5CB888;
-            while (!Vram_rects_overlap_4959E0(pRect, v8))
+
+            int i = 0;
+            PSX_RECT *currentVramAlloc = sVramAllocations_5CB888;
+            while (!Vram_rects_overlap_4959E0(pRect, currentVramAlloc))
             {
-                ++v7;
-                ++v8;
-                if (v7 >= sVram_Count_dword_5CC888)
+                i++;
+                currentVramAlloc++;
+                if (i >= sVram_Count_dword_5CC888)
                 {
                     return 1;
                 }
             }
-            v2 = pRect->w;
-            v6 = sVramAllocations_5CB888[v7].x - v2 + 1;
+
+            v6 = currentVramAlloc->x - pRect->w + 1;
+
             if (v6 < pRect->x)
             {
                 goto LABEL_12;
@@ -72,11 +70,10 @@ EXPORT signed int __cdecl Vram_4958F0(PSX_RECT *pRect, char depth)
                 return 0;
             }
         }
-        v5 = v4 + 63;
         
-        v5 |= ((v4 + 63) & 0xC0) >> 24; //LOBYTE(v5) = (v4 + 63) & 0xC0; TODO: CHECK if this is okay
-        v6 = v5 - v2 + 1;
-        if (v6 >= v4)
+        //v5 |= ((pRect->x + 63) & 0xC0) >> 24; //LOBYTE(v5) = (v4 + 63) & 0xC0; TODO: CHECK if this is okay
+        v6 = (pRect->x + 63) - pRect->w + 1;
+        if (v6 >= pRect->x)
         {
             goto LABEL_13;
         }
@@ -258,6 +255,7 @@ namespace Test
 
         Vram_free_495A60(*reinterpret_cast<int*>(&rect.x), *reinterpret_cast<int*>(&rect.w));
         Vram_free_495A60(*reinterpret_cast<int*>(&rect2.x), *reinterpret_cast<int*>(&rect2.w));
+        Vram_free_495A60(*reinterpret_cast<int*>(&rect3.x), *reinterpret_cast<int*>(&rect3.w));
     }
 
     void VRamTests()
