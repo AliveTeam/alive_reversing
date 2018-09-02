@@ -47,48 +47,48 @@ private:
     }
 };
 
-// 0xxx xxxx = string of literals (1 to 128)
-// 1xxx xxyy yyyy yyyy = copy from y bytes back, x bytes
-EXPORT void CC CompressionType_4Or5_Decompress_4ABAB0(const BYTE* pData, BYTE* decompressedData)
-{
-    IPtrStream stream(&pData);
 
-    // Get the length of the destination buffer
-    DWORD nDestinationLength = 0;
-    stream.Read(nDestinationLength);
+static bool Expand3To4Bytes(int& remainingCount, IPtrStream& stream, BYTE** ret, DWORD& dstPos)
+{
+    if (!remainingCount)
+    {
+        return false;
+    }
+    const DWORD src3Bytes = stream.ReadU8() | (stream.ReadU16() << 8);
+    remainingCount--;
+
+    // TODO: Should write each byte by itself
+    const DWORD value = (4 * (WORD)src3Bytes & 0x3F00) | (src3Bytes & 0x3F) | (16 * src3Bytes & 0x3F0000) | (4 * (16 * src3Bytes & 0xFC00000));
+    *reinterpret_cast<DWORD*>(&ret[dstPos]) = value;
+    dstPos += 4;
+
+    return true;
+}
+
+EXPORT void CC CompressionType2_Decompress_40AA50(const BYTE* pSrc, BYTE* pDst, DWORD dataSize)
+{
+    IPtrStream stream(&pSrc);
+
+    int dwords_left = dataSize / 4;
+    int remainder = dataSize % 4;
 
     DWORD dstPos = 0;
-    while (dstPos < nDestinationLength)
+    while (dwords_left)
     {
-        // get code byte
-        const BYTE c = stream.ReadU8();
-
-        // 0x80 = 0b10000000 = RLE flag
-        // 0xc7 = 0b01111100 = bytes to use for length
-        // 0x03 = 0b00000011
-        if (c & 0x80)
+        for (int i = 0; i < 4; i++)
         {
-            // Figure out how many bytes to copy.
-            const DWORD nCopyLength = ((c & 0x7C) >> 2) + 3;
-
-            // The last 2 bits plus the next byte gives us the destination of the copy
-            const BYTE c1 = stream.ReadU8();
-            const DWORD nPosition = ((c & 0x03) << 8) + c1 + 1;
-            const DWORD startIndex = dstPos - nPosition;
-
-            for (DWORD i = 0; i < nCopyLength; i++)
+            if (!Expand3To4Bytes(dwords_left, stream, &pDst, dstPos))
             {
-                decompressedData[dstPos++] = decompressedData[startIndex + i];
+                break;
             }
         }
-        else
-        {
-            // Here the value is the number of literals to copy
-            for (int i = 0; i < c + 1; i++)
-            {
-                decompressedData[dstPos++] = stream.ReadU8();
-            }
-        }
+    }
+
+    // TODO: Branch not tested - copies remainder bytes directly into output
+    while (remainder > 0)
+    {
+        remainder--;
+        pDst[dstPos++] = stream.ReadU8();
     }
 }
 
@@ -174,46 +174,138 @@ EXPORT void CC CompressionType_3Ae_Decompress_40A6A0(const BYTE* pData, BYTE* de
 
 }
 
-static bool Expand3To4Bytes(int& remainingCount, IPtrStream& stream, BYTE** ret, DWORD& dstPos)
+// 0xxx xxxx = string of literals (1 to 128)
+// 1xxx xxyy yyyy yyyy = copy from y bytes back, x bytes
+EXPORT void CC CompressionType_4Or5_Decompress_4ABAB0(const BYTE* pData, BYTE* decompressedData)
 {
-    if (!remainingCount)
-    {
-        return false;
-    }
-    const DWORD src3Bytes = stream.ReadU8() | (stream.ReadU16() << 8);
-    remainingCount--;
+    IPtrStream stream(&pData);
 
-    // TODO: Should write each byte by itself
-    const DWORD value = (4 * (WORD)src3Bytes & 0x3F00) | (src3Bytes & 0x3F) | (16 * src3Bytes & 0x3F0000) | (4 * (16 * src3Bytes & 0xFC00000));
-    *reinterpret_cast<DWORD*>(&ret[dstPos]) = value;
-    dstPos += 4;
-
-    return true;
-}
-
-EXPORT void CC CompressionType2_Decompress_40AA50(const BYTE* pSrc, BYTE* pDst, DWORD dataSize)
-{
-    IPtrStream stream(&pSrc);
-
-    int dwords_left = dataSize / 4;
-    int remainder = dataSize % 4;
+    // Get the length of the destination buffer
+    DWORD nDestinationLength = 0;
+    stream.Read(nDestinationLength);
 
     DWORD dstPos = 0;
-    while (dwords_left)
+    while (dstPos < nDestinationLength)
     {
-        for (int i = 0; i < 4; i++)
+        // get code byte
+        const BYTE c = stream.ReadU8();
+
+        // 0x80 = 0b10000000 = RLE flag
+        // 0xc7 = 0b01111100 = bytes to use for length
+        // 0x03 = 0b00000011
+        if (c & 0x80)
         {
-            if (!Expand3To4Bytes(dwords_left, stream, &pDst, dstPos))
+            // Figure out how many bytes to copy.
+            const DWORD nCopyLength = ((c & 0x7C) >> 2) + 3;
+
+            // The last 2 bits plus the next byte gives us the destination of the copy
+            const BYTE c1 = stream.ReadU8();
+            const DWORD nPosition = ((c & 0x03) << 8) + c1 + 1;
+            const DWORD startIndex = dstPos - nPosition;
+
+            for (DWORD i = 0; i < nCopyLength; i++)
             {
-                break;
+                decompressedData[dstPos++] = decompressedData[startIndex + i];
+            }
+        }
+        else
+        {
+            // Here the value is the number of literals to copy
+            for (int i = 0; i < c + 1; i++)
+            {
+                decompressedData[dstPos++] = stream.ReadU8();
             }
         }
     }
+}
 
-    // TODO: Branch not tested - copies remainder bytes directly into output
-    while (remainder > 0)
+static BYTE NextNibble(IPtrStream& stream, bool& readLo, BYTE& srcByte)
+{
+    if (readLo)
     {
-        remainder--;
-        pDst[dstPos++] = stream.ReadU8();
+        readLo = !readLo;
+        return srcByte >> 4;
+    }
+    else
+    {
+        srcByte = stream.ReadU8();
+        readLo = !readLo;
+        return srcByte & 0xF;
+    }
+}
+
+EXPORT void CC CompressionType6Ae_Decompress_40A8A0(const BYTE* pSrc, BYTE* pDst)
+{
+    IPtrStream stream(&pSrc);
+
+    bool bNibbleToRead = false;
+    bool bSkip = false;
+    DWORD dstPos = 0;
+
+    int w = stream.ReadU16();
+    int h = stream.ReadU16();
+
+    if (h > 0)
+    {
+        BYTE srcByte = 0;
+        int heightCounter = h;
+        do
+        {
+            int widthCounter = 0;
+            while (widthCounter < w)
+            {
+                BYTE nibble = NextNibble(stream, bNibbleToRead, srcByte);
+                widthCounter += nibble;
+
+                while (nibble)
+                {
+                    if (bSkip)
+                    {
+                        dstPos++;
+                    }
+                    else
+                    {
+                        pDst[dstPos] = 0;
+                    }
+                    bSkip = !bSkip;
+                    --nibble;
+                }
+
+                nibble = NextNibble(stream, bNibbleToRead, srcByte);
+                widthCounter += nibble;
+
+                if (nibble > 0)
+                {
+                    do
+                    {
+                        const BYTE data = NextNibble(stream, bNibbleToRead, srcByte);
+                        if (bSkip)
+                        {
+                            pDst[dstPos++] |= 16 * data;
+                            bSkip = 0;
+                        }
+                        else
+                        {
+                            pDst[dstPos] = data;
+                            bSkip = 1;
+                        }
+                    } while (--nibble);
+                }
+            }
+
+            for (; widthCounter & 7; ++widthCounter)
+            {
+                if (bSkip)
+                {
+                    dstPos++;
+                }
+                else
+                {
+                    pDst[dstPos] = 0;
+                }
+                bSkip = !bSkip;
+            }
+
+        } while (heightCounter-- != 1);
     }
 }
