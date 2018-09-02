@@ -15,6 +15,25 @@ struct AnimHeader
 };
 ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 
+struct Point
+{
+    __int16 x = 0;
+    __int16 y = 0;
+};
+
+struct FrameInfoHeader
+{
+    DWORD mFrameHeaderOffset = 0;
+    DWORD mMagic = 0;
+
+    // Collision bounding rectangle
+    Point mTopLeft;
+    Point mBottomRight;
+
+    WORD mOffx = 0;
+    WORD mOffy = 0;
+};
+
 class Animation
 {
 public:
@@ -57,25 +76,6 @@ struct FrameHeader
     WORD mHeight2;
 };
 
-struct Point
-{
-    __int16 x = 0;
-    __int16 y = 0;
-};
-
-struct FrameInfoHeader
-{
-    DWORD mFrameHeaderOffset = 0;
-    DWORD mMagic = 0;
-
-    // Collision bounding rectangle
-    Point mTopLeft;
-    Point mBottomRight;
-
-    WORD mOffx = 0;
-    WORD mOffy = 0;
-};
-
 class AnimationEx : public Animation
 {
 public:
@@ -91,8 +91,7 @@ public:
     Poly_FT4 field_2C_ot_data[2];
 
     PSX_RECT field_84_vram_rect;
-    __int16 field_8C_pal_vram_x;
-    __int16 field_8E_pal_vram_y;
+    PSX_Point field_8C_pal_vram_x;
 
     __int16 field_90_pal_depth;
     __int16 field_92_current_frame;
@@ -104,25 +103,7 @@ public:
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
     EXPORT WORD Get_Frame_Count_40AC70();
     EXPORT signed __int16 Init_40A030(int frameTableOffset, DynamicArray *animList, void *pGameObj, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
-   // EXPORT void Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY);
-    EXPORT void Load_Pal_40A530(BYTE **pAnimData, int palOffset);
+    //EXPORT void Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY);
+    EXPORT void Load_Pal_40A530(BYTE** pAnimData, int palOffset);
 };
 ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
-
-struct BackgroundAnimation_Params
-{
-    __int16 field_0_flags;
-    __int16 field_2_length;
-    int field_4_type;
-    __int16 field_8_xpos;
-    __int16 field_A_ypos;
-    __int16 field_C_width;
-    __int16 field_E_height;
-    unsigned __int16 field_10_res_id;
-    __int16 field_12_is_semi_trans;
-    __int16 field_14_semi_trans_mode;
-    __int16 field_16_sound_effect;
-    __int16 field_18_id;
-    unsigned __int16 field_1A_layer;
-};
-ALIVE_ASSERT_SIZEOF(BackgroundAnimation_Params, 0x1C);

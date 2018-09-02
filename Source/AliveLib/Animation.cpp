@@ -36,7 +36,7 @@ char Animation::Animation_v_40BEE0(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/, _
     return 0;
 }
 
-signed __int16 Animation::Set_Animation_Data_409C80(int frameTableOffset, BYTE ** pAnimRes)
+signed __int16 Animation::Set_Animation_Data_409C80(int /*frameTableOffset*/, BYTE** /*pAnimRes*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -139,7 +139,7 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
 
 }
 
-void AnimationEx::Get_Frame_Rect_409E10(PSX_RECT * pRect)
+void AnimationEx::Get_Frame_Rect_409E10(PSX_RECT * /*pRect*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -150,7 +150,7 @@ WORD AnimationEx::Get_Frame_Count_40AC70()
     return pHead->mNumFrames;
 }
 
-signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray * animList, void * pGameObj, int maxW, unsigned __int16 maxH, BYTE ** ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3)
+signed __int16 AnimationEx::Init_40A030(int /*frameTableOffset*/, DynamicArray* /*animList*/, void* /*pGameObj*/, int /*maxW*/, unsigned __int16 /*maxH*/, BYTE** /*ppAnimData*/, unsigned __int8 /*unknown1*/, signed int /*pal_depth*/, char /*unknown3*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -158,7 +158,19 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray * ani
 
 void AnimationEx::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
 {
-    NOT_IMPLEMENTED();
+    if (!pAnimData)
+    {
+        return;
+    }
+
+    PSX_RECT rect = {};
+    rect.x = field_8C_pal_vram_x.field_0_x;
+    rect.y = field_8C_pal_vram_x.field_2_y;
+    rect.w = field_90_pal_depth; // 16, 64, 256
+    rect.h = 1;
+
+    BYTE* pPal = &(*pAnimData)[palOffset];
+    PSX_LoadImage16_4F5E20(&rect, pPal + 4); // First 4 pal bytes are the length, TODO: Add structure for pallete to avoid this
 }
 
 /*

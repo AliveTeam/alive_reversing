@@ -4,6 +4,25 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Animation.hpp"
 
+struct BackgroundAnimation_Params
+{
+    // TODO: TLV base
+    __int16 field_0_flags;
+    __int16 field_2_length;
+    int field_4_type;
+    __int16 field_8_xpos;
+    __int16 field_A_ypos;
+    __int16 field_C_width;
+    __int16 field_E_height;
+    unsigned __int16 field_10_res_id;
+    __int16 field_12_is_semi_trans;
+    __int16 field_14_semi_trans_mode;
+    __int16 field_16_sound_effect;
+    __int16 field_18_id;
+    unsigned __int16 field_1A_layer;
+};
+ALIVE_ASSERT_SIZEOF(BackgroundAnimation_Params, 0x1C);
+
 class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
 {
 public:
