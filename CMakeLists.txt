@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(ar VERSION 0.1 LANGUAGES C CXX)
 
+find_program(CMAKE cmake)
+if(NOT CMAKE)
+    message(FATAL_ERROR "CMake binary not found!")
+endif()
+
 add_custom_target(
     UpdateConfigHeader
-    COMMAND cmake -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
+    COMMAND "${CMAKE}" -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
 )
 set(CompilerFlags
         CMAKE_CXX_FLAGS
