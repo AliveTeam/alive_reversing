@@ -6,3 +6,4 @@
 #cmakedefine01 LCD_PS1_SPEED
 #cmakedefine01 XINPUT_SUPPORT
 #cmakedefine01 RENDER_TEST
+#cmakedefine01 USE_SDL2

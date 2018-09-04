@@ -6,20 +6,20 @@
 #include "../AliveExe/resource.h"
 
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
-ALIVE_VAR(1, 0xBBB9F4, HWND, sHwnd_BBB9F4, nullptr);
+ALIVE_VAR(1, 0xBBB9F4, TWindowHandleType, sHwnd_BBB9F4, nullptr);
 ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);
 ALIVE_VAR(1, 0xBBB9E8, LPSTR, sCommandLine_BBB9E8, nullptr);
 ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
 ALIVE_VAR(1, 0xBBB9FC, int, sCmdShow_BBB9FC, 0);
-ALIVE_VAR(1, 0xBBFB04, HWND, hWnd_BBFB04, nullptr);
+ALIVE_VAR(1, 0xBBFB04, TWindowHandleType, hWnd_BBFB04, nullptr);
 
-EXPORT void CC Sys_Set_Hwnd_4F2C50(HWND hwnd)
+EXPORT void CC Sys_Set_Hwnd_4F2C50(TWindowHandleType hwnd)
 {
     hWnd_BBFB04 = hwnd;
     // Note: Not setting byte BBE6F8
 }
 
-EXPORT HWND CC Sys_GetHWnd_4F2C70()
+EXPORT TWindowHandleType CC Sys_GetHWnd_4F2C70()
 {
     return hWnd_BBFB04;
 }
@@ -162,7 +162,7 @@ EXPORT BOOL CC SYS_IsAppActive_4EDF30()
     return sAppIsActivated_BBBA00;
 }
 
-EXPORT HWND CC Sys_GetWindowHandle_4EE180()
+EXPORT TWindowHandleType CC Sys_GetWindowHandle_4EE180()
 {
     return sHwnd_BBB9F4;
 }
@@ -183,7 +183,13 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
     }
 }
 
-EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
+#if USE_SDL2
+static int CC Sys_WindowClass_Register_SDL(LPCSTR lpClassName, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
+{
+    return 0;
+}
+#else
+static int CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
 {
     WNDCLASSA windowClass = {};
     windowClass.style = CS_VREDRAW | CS_HREDRAW;
@@ -230,7 +236,7 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
     }
 
     sHwnd_BBB9F4 = hWnd;
-    
+
 #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
     Sys_SetWindowPos_4EE1B1(nWidth, nHeight);
 #else
@@ -244,4 +250,14 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
     ::UpdateWindow(hWnd);
     ::ShowCursor(TRUE);
     return 0;
+}
+#endif
+
+EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
+{
+#if USE_SDL2
+    return Sys_WindowClass_Register_SDL(lpClassName, lpWindowName, x, y, nWidth, nHeight);
+#else
+    return Sys_WindowClass_Register_Win32(lpClassName, lpWindowName, x, y, nWidth, nHeight);
+#endif
 }

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(ar VERSION 0.1 LANGUAGES C CXX)
 
+set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake")
+
 find_program(CMAKE cmake)
 if(NOT CMAKE)
     message(FATAL_ERROR "CMake binary not found!")
@@ -10,6 +12,10 @@ add_custom_target(
     UpdateConfigHeader
     COMMAND "${CMAKE}" -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
 )
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
 set(CompilerFlags
         CMAKE_CXX_FLAGS
         CMAKE_CXX_FLAGS_DEBUG

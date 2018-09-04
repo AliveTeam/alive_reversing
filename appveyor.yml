@@ -19,9 +19,9 @@ build_script:
 
 install:
  - git submodule update --init --recursive
-# - ps: Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip'
-# - 7z x SDL2-devel-2.0.4-VC.zip
-# - set SDL2DIR=C:\ar\SDL2-2.0.4
+ - ps: Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip'
+ - 7z x SDL2-devel-2.0.4-VC.zip
+ - set SDL2DIR=C:\ar\SDL2-2.0.4
 
 artifacts:
  - path: build\*.zip
