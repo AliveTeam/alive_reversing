@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "DynamicArray.hpp"
+#include "BitField.hpp"
 
 class BaseGameObject
 {
@@ -20,6 +21,10 @@ public:
         ePauseMenu = 95,
         eType_112 = 112,
         eType_125 = 125,
+
+        eDebugHelper = 1001, // NOTE: Not part of the original game - a debug helper only
+        eDebugConsole = 1002,
+        eDebugPathRenderer = 1003,
     };
 
     enum Options
@@ -81,7 +86,7 @@ public:
 
 public:
     Types field_4_typeId;
-    __int16 field_6_flags;
+    BitField16<Options> field_6_flags;
     int field_8_object_id;
     int field_C_objectId;
     DynamicArrayT<BYTE*> field_10_resources_array;

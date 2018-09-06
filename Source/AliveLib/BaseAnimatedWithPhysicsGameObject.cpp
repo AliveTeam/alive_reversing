@@ -26,8 +26,11 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     field_D2_g = 127;
     field_D0_r = 127;
 
-    field_6_flags &= ~(BaseGameObject::eInteractive | BaseGameObject::eCanExplode);
-    field_6_flags |= BaseGameObject::eDrawable | BaseGameObject::eIsBaseAnimatedWithPhysicsObj;
+    field_6_flags.Clear(BaseGameObject::eInteractive);
+    field_6_flags.Clear(BaseGameObject::eCanExplode);
+
+    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eIsBaseAnimatedWithPhysicsObj);
 
     field_DC_bApplyShadows &= ~2;
     field_DC_bApplyShadows |= 1;
@@ -102,12 +105,14 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffs
         }
         else
         {
-            field_6_flags |= 5u;
+            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eListAddFailed);
         }
     }
     else
     {
-        field_6_flags |= 5u;
+        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eListAddFailed);
     }
 
 }

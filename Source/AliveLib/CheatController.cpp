@@ -64,7 +64,7 @@ CheatEntry sCheatArray_5515F8[4] =
 void CheatController::ctor_421BD0()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
-    field_6_flags |= eBit08;
+    field_6_flags.Set(BaseGameObject::eBit08);
     SetVTable(this, 0x544B44);
     field_4_typeId = BaseGameObject::Types::eNone;
     field_20 = 0;

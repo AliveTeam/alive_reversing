@@ -103,7 +103,7 @@ EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(Even
         return nullptr;
     }
 
-    if (!(pObj->field_6_flags & BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj) || !(pObj->field_6_flags & BaseAliveGameObject::eDrawable))
+    if (!(pObj->field_6_flags.Get(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj)) || !(pObj->field_6_flags.Get(BaseAliveGameObject::eDrawable)))
     {
         return nullptr;
     }
@@ -144,7 +144,8 @@ namespace Test
         bang.field_B8_xpos = FP(10);
         bang.field_BC_ypos = FP(20);
         bang.field_D6_scale = 0;
-        bang.field_6_flags = BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj | BaseAliveGameObject::eDrawable;
+        bang.field_6_flags.Set(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj);
+        bang.field_6_flags.Set(BaseAliveGameObject::eDrawable);
         Event_Broadcast_422BC0(Event::kEventLoudNoise, &bang);
 
         Events_Reset_Active_422DA0();

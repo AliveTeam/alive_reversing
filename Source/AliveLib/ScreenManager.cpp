@@ -456,7 +456,8 @@ void ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_20_pCamPos = pCameraOffset;
 
-    field_6_flags = BaseGameObject::eBit08 | BaseGameObject::eUpdatableExtra;
+    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eUpdatableExtra);
 
     SetVTable(this, 0x5441E4);
 

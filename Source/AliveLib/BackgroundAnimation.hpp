@@ -62,7 +62,7 @@ public:
 
     void vsub_40D550()
     {
-        field_6_flags |= BaseGameObject::eDead;
+        field_6_flags.Set(BaseGameObject::eDead);
     }
 
     void dtor_40D4C0()

@@ -306,8 +306,8 @@ PauseMenu * PauseMenu::ctor_48FB80()
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
     field_4_typeId = Types::ePauseMenu;
-    field_6_flags &= ~0x8;
-    field_6_flags |= 0x100;
+    field_6_flags.Clear(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eBit08);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 
@@ -361,7 +361,7 @@ void PauseMenu::Init_491760()
     }
     else
     {
-        field_6_flags |= 1u; // Todo: check this
+        field_6_flags.Set(BaseGameObject::eListAddFailed);
     }
 }
 
@@ -539,14 +539,14 @@ void DestroyAliveObjects()
     for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
     {
         BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
-        if (!pObj || pObj == pPauseMenu_5C9300 || !(pObj->field_6_flags & BaseGameObject::eIsBaseAliveGameObject))
+        if (!pObj || pObj == pPauseMenu_5C9300 || pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) == false)
         {
             continue;
         }
 
-        if (pObj->field_4_typeId != 69)
+        if (pObj->field_4_typeId != BaseGameObject::eType_Abe)
         {
-            pObj->field_6_flags |= BaseGameObject::eDead;
+            pObj->field_6_flags.Set(BaseGameObject::eDead);
         }
     }
 
@@ -563,9 +563,9 @@ void DestroyAllObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != 69)
+        if (pObj->field_4_typeId != BaseGameObject::Types::eType_Abe)
         {
-            pObj->field_6_flags |= BaseGameObject::eDead;
+            pObj->field_6_flags.Set(BaseGameObject::eDead);
         }
     }
 

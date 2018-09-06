@@ -117,6 +117,7 @@ add_library(AliveLib
     Compression.cpp
     FG1.hpp
     FG1.cpp
+    BitField.hpp
     WinMain.cpp
     WinMain.hpp)
 

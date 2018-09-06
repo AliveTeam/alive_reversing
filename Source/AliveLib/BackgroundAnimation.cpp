@@ -21,7 +21,8 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
     field_F4_res = pAnimHeader;
     if (!pAnimHeader)
     {
-        field_6_flags = field_6_flags & 0xFFF7 | 4; // TODO: Enum bits
+        field_6_flags.Clear(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eDead);
     }
 
     field_B8_xpos = FP(pPathParams->field_8_xpos);

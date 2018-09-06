@@ -875,9 +875,9 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags & BaseGameObject::eUpdatable 
-                && !(pBaseGameObject->field_6_flags & BaseGameObject::eDead) 
-                && (!word_5C1B66 || pBaseGameObject->field_6_flags &  BaseGameObject::eUpdatableExtra))
+            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdatable)
+                && pBaseGameObject->field_6_flags.Get(BaseGameObject::eDead) == false
+                && (!word_5C1B66 || pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdatableExtra)))
             {
                 if (pBaseGameObject->field_1C_update_delay <= 0)
                 {
@@ -914,13 +914,13 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            if (pObj->field_6_flags & BaseGameObject::eDead)
+            if (pObj->field_6_flags.Get(BaseGameObject::eDead))
             {
-                pObj->field_6_flags = pObj->field_6_flags & ~BaseGameObject::eCantKill;
+                pObj->field_6_flags.Clear(BaseGameObject::eCantKill);
             }
-            else if (pObj->field_6_flags & BaseGameObject::eDrawable)
+            else if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
             {
-                pObj->field_6_flags |= BaseGameObject::eCantKill;
+                pObj->field_6_flags.Set(BaseGameObject::eCantKill);
                 pObj->VRender(pOtBuffer);
             }
         }
@@ -934,13 +934,13 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            if (pFG1->field_6_flags & BaseGameObject::eDead)
+            if (pFG1->field_6_flags.Get(BaseGameObject::eDead))
             {
-                pFG1->field_6_flags = pFG1->field_6_flags & ~BaseGameObject::eCantKill;
+                pFG1->field_6_flags.Clear(BaseGameObject::eCantKill);
             }
-            else if (pFG1->field_6_flags & BaseGameObject::eDrawable)
+            else if (pFG1->field_6_flags.Get(BaseGameObject::eDrawable))
             {
-                pFG1->field_6_flags |= BaseGameObject::eCantKill;
+                pFG1->field_6_flags.Set(BaseGameObject::eCantKill);
                 pFG1->VRender(pOtBuffer);
             }
         }
@@ -961,8 +961,7 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            const int flags = pObj->field_6_flags;
-            if (flags & 4 && !(flags & BaseGameObject::eCantKill))
+            if (pObj->field_6_flags.Get(BaseGameObject::eDead) && pObj->field_6_flags.Get(BaseGameObject::eCantKill) == false)
             {
                 DynamicArrayIter it;
                 it.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;

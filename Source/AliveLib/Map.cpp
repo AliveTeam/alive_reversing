@@ -95,7 +95,7 @@ void Map::sub_480B80()
                 pItem->VScreenChanged();
 
                 // Did the screen change kill the object?
-                if (pItem->field_6_flags & BaseGameObject::eDead)
+                if (pItem->field_6_flags.Get(BaseGameObject::eDead))
                 {
                     iter.Remove_At_Iter_40CCA0();
                     pItem->VDestructor(1);
@@ -319,9 +319,9 @@ void Map::GoTo_Camera_481890()
                     break;
                 }
 
-                if (pBaseGameObj->field_6_flags & BaseGameObject::eUpdatable)
+                if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatable))
                 {
-                    if (!(pBaseGameObj->field_6_flags & BaseGameObject::eDead) && (!word_5C1B66 || pBaseGameObj->field_6_flags & BaseGameObject::eUpdatableExtra))
+                    if (!(pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead)) && (!word_5C1B66 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatableExtra)))
                     {
                         if (pBaseGameObj->field_1C_update_delay > 0)
                         {
@@ -334,7 +334,7 @@ void Map::GoTo_Camera_481890()
                     }
                 }
             }
-        } while (!(pFmvRet->field_6_flags & BaseGameObject::eDead));
+        } while (!(pFmvRet->field_6_flags.Get(BaseGameObject::eDead)));
 
         if (sSoundChannelsMask_5C3120)
         {

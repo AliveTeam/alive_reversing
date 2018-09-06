@@ -29,7 +29,7 @@ void BaseGameObject::ScreenChanged_4DC0A0()
     || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId
     || (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710()))
     {
-        field_6_flags |= BaseGameObject::eDead;
+        field_6_flags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -62,13 +62,13 @@ void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed
     field_10_resources_array.ctor_40C9E0(resourceArraySize);
     field_1C_update_delay = 0;
     field_4_typeId = Types::eNone;
-    field_6_flags = field_6_flags & 0xF80A | BaseGameObject::eUpdatable; // TODO: To enum
+    field_6_flags.Raw().all = field_6_flags.Raw().all & 0xF80A | BaseGameObject::eUpdatable; // TODO: Refactor
 
     if (bAddToObjectList)
     {
         if (!gBaseGameObject_list_BB47C4->Push_Back(this))
         {
-            field_6_flags |= BaseGameObject::eListAddFailed;
+            field_6_flags.Set(BaseGameObject::eListAddFailed);
         }
     }
 

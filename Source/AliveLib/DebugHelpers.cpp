@@ -34,8 +34,10 @@ public:
         DisableVTableHack disableHack;
 
         BaseGameObject_ctor_4DBFA0(1, 1);
-        field_6_flags |= BaseGameObject::eDrawable | 0x100;
-        field_4_typeId = (BaseGameObject::Types)1001;
+
+        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eBit08);
+        field_4_typeId = BaseGameObject::Types::eDebugHelper;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
@@ -115,7 +117,7 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAnimatedWithPhysicsObj)
+            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
                 int x = aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent();
@@ -170,7 +172,7 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAnimatedWithPhysicsObj)
+            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
 
@@ -241,8 +243,9 @@ public:
         DisableVTableHack disableHack;
 
         BaseGameObject_ctor_4DBFA0(1, 1);
-        field_6_flags |= BaseGameObject::eDrawable | 0x100;
-        field_4_typeId = (BaseGameObject::Types)1001;
+        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eBit08);
+        field_4_typeId = BaseGameObject::Types::eDebugPathRenderer;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(128, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
@@ -463,7 +466,7 @@ void Command_Murder(const std::vector<std::string>& args)
             continue;
         }
 
-        if (pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAliveGameObject)
+        if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
         {
             auto aliveObj = ((BaseAliveGameObject*)pBaseGameObject);
             ((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(aliveObj)+76)))(aliveObj, 0, reinterpret_cast<BaseGameObject*>(&fake));
@@ -649,8 +652,9 @@ public:
         DisableVTableHack disableHack;
 
         BaseGameObject_ctor_4DBFA0(1, 1);
-        field_6_flags |= BaseGameObject::eDrawable | 0x100;
-        field_4_typeId = (BaseGameObject::Types)1002;
+        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eBit08);
+        field_4_typeId = BaseGameObject::Types::eDebugConsole;
         
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(4096 * 2, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
@@ -951,7 +955,7 @@ public:
 
         InitTestRender();
 
-        field_6_flags |= BaseGameObject::eDrawable;
+        field_6_flags.Set(BaseGameObject::eDrawable);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }

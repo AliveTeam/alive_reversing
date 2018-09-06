@@ -102,10 +102,12 @@ private:
 
             if (e.mIsImplemented && !hookDisabledByConfig)
             {
+                // Redirect real game function to our impl
                 err = DetourAttach(&(PVOID&)e.mGameFunctionAddr, e.mCode);
             }
             else
             {
+                // Redirect our impl to real game function
                 err = DetourAttach(&(PVOID&)e.mCode, (PVOID)e.mGameFunctionAddr);
             }
 

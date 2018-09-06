@@ -188,7 +188,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     SetVTable(&field_158_animation, 0x544290);
 
     ++sMainMenuObjectCounter_BB4400;
-    field_6_flags |= 0x200u;
+    field_6_flags.Set(BaseGameObject::eUpdatableExtra);
 
     gMainMenuController = this;
 
