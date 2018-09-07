@@ -230,8 +230,10 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_158_animation.Init_40A030(13912, gObjList_animations_5C1A24, this, 150, 0x41u, field_F4_resources.field_18_res_highlite, 1u, 0, 0);
 
     field_158_animation.field_14_scale = field_CC_sprite_scale;
-    field_158_animation.field_4_flags &= 0x3FFF;
-    field_158_animation.field_4_flags |= 0x4000;
+
+    field_158_animation.field_4_flags.Clear(AnimFlags::eBit16);
+    field_158_animation.field_4_flags.Set(AnimFlags::eBit15);
+
     field_158_animation.field_C_render_layer = 38;
     field_158_animation.field_B_render_mode = 1;
 
@@ -318,11 +320,12 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
 
 void MainMenuController::Render_4CF4C0(int ** ot)
 {
-    const auto animFlags = field_20_animation.field_4_flags;
-    if (animFlags & 2 && sMainMenuPages_561960[field_214_page_index].field_E_show_character && animFlags & 4)
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit2_Animate)
+        && sMainMenuPages_561960[field_214_page_index].field_E_show_character 
+        && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_LoopBackwards))
     {
         field_20_animation.Animation_v_40B820(184, 162, (int)ot, 0, 0);
-        PSX_RECT pRect;
+        PSX_RECT pRect = {};
         field_20_animation.Get_Frame_Rect_409E10(&pRect);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
     }
@@ -332,10 +335,9 @@ void MainMenuController::Render_4CF4C0(int ** ot)
     {
         if (!(field_23C_T80 & 0x10000))
         {
-            const int index = field_1FC_button_index;
-            if (index != -1)
+            if (field_1FC_button_index != -1)
             {
-                field_158_animation.Animation_v_40B820(buttons[index].field_2_x, buttons[index].field_4_y, (int)ot, 0, 0);
+                field_158_animation.Animation_v_40B820(buttons[field_1FC_button_index].field_2_x, buttons[field_1FC_button_index].field_4_y, (int)ot, 0, 0);
                 PSX_RECT pRect;
                 field_158_animation.Get_Frame_Rect_409E10(&pRect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
@@ -343,9 +345,11 @@ void MainMenuController::Render_4CF4C0(int ** ot)
         }
     }
 
-    auto renderFunc = sMainMenuPages_561960[this->field_214_page_index].field_14_fn_render;
+    auto renderFunc = sMainMenuPages_561960[field_214_page_index].field_14_fn_render;
     if (renderFunc)
+    {
         renderFunc(this, ot);
+    }
 }
 
 // Main Menu Text Data

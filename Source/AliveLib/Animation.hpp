@@ -23,21 +23,102 @@ struct Point
 
 struct FrameInfoHeader
 {
-    DWORD mFrameHeaderOffset = 0;
-    DWORD mMagic = 0;
+    DWORD field_0_frame_header_offset = 0;
+    short field_4_magic = 0;
+    short field_6_count = 0;
 
     // Collision bounding rectangle
-    Point mTopLeft;
-    Point mBottomRight;
+    Point mTopLeft; // x0, y0
+    Point mBottomRight; // x1, y2
 
     WORD mOffx = 0;
     WORD mOffy = 0;
 };
 
+
+enum AnimFlags
+{
+    // Bit 1 = some unknown effect on frame ordering
+    eBit1 = 0x1,
+
+    // Bit 2 = Visible/render flag?
+    eBit2_Animate = 0x2,
+
+    // Bit 3 = nothing ?
+    eBit3_LoopBackwards = 0x4,
+
+    // Bit 4 = Horizontal flip
+    eBit4 = 0x8,
+
+    // Bit 5 = Vertical flip
+    eBit5 = 0x10,
+
+    // Bit 6 = nothing ?
+    eBit6 = 0x20,
+
+    // Bit 7 = loop
+    eBit7 = 0x40,
+
+    // Bit 8 = ?
+    eBit8_Loop = 0x80,
+
+    // Bit 9 = ?
+    eBit9 = 0x100,
+
+    // Bit 10 = ?
+    eBit10 = 0x200,
+
+    // Bit 11 = ?
+    eBit11 = 0x400,
+
+    // Bit 12 = prevents updating or gets anims stuck ??
+    eBit12 = 0x800,
+
+    // Bit 13 = colour depth related
+    eBit13 = 0x1000,
+
+    // Bit 14 = transparency enabled
+    eBit14 = 0x2000,
+
+    // Bit 15 = disable RGB changes? Shadows no longer work, all muds look like abe ?
+    eBit15 = 0x4000,
+
+    // Bit 16 = nothing ?
+    eBit16 = 0x8000,
+
+    // Bit 17 = is last frame? causes instance chiseling of muds
+    eBit17 = 0x10000,
+
+    // Bit 18 = backwards (or forwards?) frame order
+    eBit18 = 0x20000,
+
+    // Bit 19 = offset Y by H?
+    eBit19 = 0x40000,
+
+    // Bit 20 = nothing ?
+    eBit20 = 0x80000,
+
+    // Bit 21 = Hang/crash
+    eBit21 = 0x100000,
+
+    // Bit 22 = nothing ?
+    eBit22 = 0x200000,
+
+    // Bit 23 = nothing ?
+    eBit23 = 0x400000,
+
+    // Bit 24 = Display vram ?
+    eBit24 = 0x800000,
+
+    // Bit 25-32 = nothing ?
+};
+
 class Animation
 {
 public:
-    EXPORT virtual void Animation__vdecode_40AC90();
+    // TODO: Virtuals must be on the base type, yet there is only 1 vtable pointing to derived ?
+    virtual void Animation__vdecode_40AC90();
+
     EXPORT virtual char Animation_v_40B820(signed int a2, int a3, int a4, __int16 a5, signed int op1);
     EXPORT virtual signed __int16 Animationv_40C630();
    
@@ -47,7 +128,7 @@ public:
     EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE **pAnimRes);
     EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<Animation>* pAnimations);
 
-    DWORD field_4_flags;
+    BitField32<AnimFlags> field_4_flags;
     BYTE field_8_r;
     BYTE field_9_g;
     BYTE field_A_b;
@@ -68,24 +149,27 @@ struct BanHeader
 struct FrameHeader
 {
     DWORD mClutOffset;
-    BYTE mWidth;
-    BYTE mHeight;
+    BYTE field_4_width;
+    BYTE field_5_height;
     BYTE mColourDepth;
-    BYTE mCompressionType;
-    WORD mWidth2;
+    BYTE field_7_compression_type;
+    WORD field_8_width2;
     WORD mHeight2;
 };
 
 class AnimationEx : public Animation
 {
 public:
+    EXPORT void Animation__vdecode_40AC90();
+    EXPORT void Invoke_CallBacks_40B7A0();
+
     WORD field_10_frame_delay;
     WORD field_12_scale; // padding?
     FP field_14_scale;
     DWORD field_18_frame_table_offset;
     DWORD field_1C_fn_ptr_array;
     BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
-    DWORD field_24_dbuf;
+    BYTE** field_24_dbuf;
     
     DWORD field_28_dbuf_size;
     Poly_FT4 field_2C_ot_data[2];

@@ -58,8 +58,8 @@ struct BitFieldBytes32
 
 struct BitFieldWords32
 {
-    WORD w0;
-    WORD w1;
+    WORD loword;
+    WORD hiword;
 };
 
 union BitFieldUnion32
