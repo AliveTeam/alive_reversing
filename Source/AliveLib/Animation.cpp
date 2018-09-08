@@ -11,7 +11,7 @@ struct AnimationHeader
     short field_2_num_frames = 0;      // Number of frames in the set
 
                               // If loop flag set then this is the frame to loop back to
-    WORD field_4_loop_start_frame = 0;
+    short field_4_loop_start_frame = 0;
 
     enum eFlags
     {
@@ -30,7 +30,7 @@ void Animation::Animation__vdecode_40AC90()
 
 }
 
-void AnimationEx::DecodeFrame(WORD tmpFlags1)
+void AnimationEx::DecompressFrame()
 {
     BYTE **pAnimData; // ecx
     FrameHeader *pFrameHeader; // edi
@@ -56,12 +56,6 @@ void AnimationEx::DecodeFrame(WORD tmpFlags1)
     unsigned int i; // eax
     int pData3; // [esp+10h] [ebp-Ch]
 
-    // TODO
-    field_4_flags.Raw().words.hiword = tmpFlags1;
-    //field_4_flags &= 0xFFFF;
-    //field_4_flags |= tmpFlags1;
-    //HIWORD(this->field_4_flags) = tmpFlags1;
-
     FrameInfoHeader* pFrameInfo = Get_FrameHeader_40B730(-1);
     pAnimData = this->field_20_ppBlock;
     v13 = (int)*pAnimData;
@@ -72,11 +66,8 @@ void AnimationEx::DecodeFrame(WORD tmpFlags1)
         field_4_flags.Toggle(AnimFlags::eBit10);
     }
 
-    // TODO fix me
-
     if (pFrameInfo->field_6_count > 0)
     {
-        //abort();
         Invoke_CallBacks_40B7A0(); // v12
     }
 
@@ -240,97 +231,87 @@ void AnimationEx::Animation__vdecode_40AC90()
 {
     NOT_IMPLEMENTED();
 
-    __int16 flags; // cx
-    BYTE **ppData; // edx
-    AnimationHeader *pAnimHeader; // eax
-    __int16 prevFrameNum; // dx
-    __int16 newFrame; // dx
-    __int16 tmpFlags1; // cx
-    __int16 nextFrameNum; // di
-    __int16 endFrame; // di
-
-    int v12; // edx
-  
- 
-    flags = field_4_flags.Raw().words.hiword;
-    if (flags & AnimFlags::eBit6)
+    if (field_4_flags.Get(AnimFlags::eBit22))
     {
         Animationv_40B200();
         return;
     }
 
-    ppData = this->field_20_ppBlock;
-    if (!ppData)
+    if (!field_20_ppBlock)
     {
         return;
     }
-    pAnimHeader = (AnimationHeader *)&(*ppData)[this->field_18_frame_table_offset];
-    if (pAnimHeader->field_2_num_frames != 1 || !(field_4_flags.Get(AnimFlags::eBit12)))
+
+    AnimationHeader* pAnimHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[field_18_frame_table_offset]);
+    if (pAnimHeader->field_2_num_frames != 1 || !(field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)))
     {
-        if (flags & AnimFlags::eBit3_LoopBackwards)
+        if (field_4_flags.Get(AnimFlags::eBit19_LoopBackwards))
         {
-            // Looping backwards?
-            prevFrameNum = --this->field_92_current_frame;
-            this->field_E_frame_change_counter = this->field_10_frame_delay;
-            if (prevFrameNum < (signed int)pAnimHeader->field_4_loop_start_frame)
+            // Loop backwards
+            const __int16 prevFrameNum = --field_92_current_frame;
+            field_E_frame_change_counter = field_10_frame_delay;
+
+            if (prevFrameNum < pAnimHeader->field_4_loop_start_frame)
             {
-                if ((char)(this->field_4_flags.Raw().bytes.b0) >= 0)
+                if (field_4_flags.Get(AnimFlags::eBit8_Loop))
                 {
-                    newFrame = prevFrameNum + 1;
-                    this->field_E_frame_change_counter = 0;
+                    // Loop to last frame
+                    field_92_current_frame = pAnimHeader->field_2_num_frames - 1;
                 }
                 else
                 {
-                    newFrame = pAnimHeader->field_2_num_frames - 1;
+                    // Stay on current frame
+                    field_92_current_frame = prevFrameNum + 1;
+                    field_E_frame_change_counter = 0;
                 }
-                this->field_92_current_frame = newFrame;
+
+                // For some reason eBit12_ForwardLoopCompleted isn't set when going backwards
             }
 
-            if (!this->field_92_current_frame)
+            // Is first (last since running backwards) frame?
+            if (field_92_current_frame == 0)
             {
-                tmpFlags1 = flags | AnimFlags::eBit2_Animate;
-                DecodeFrame(tmpFlags1);
+                field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+                DecompressFrame();
                 return;
             }
         }
         else
         {
             // Loop forwards
-            nextFrameNum = ++this->field_92_current_frame;
-            this->field_E_frame_change_counter = this->field_10_frame_delay;
+            const __int16 nextFrameNum = ++field_92_current_frame;
+            field_E_frame_change_counter = field_10_frame_delay;
 
             // Animation reached end point
-            if (nextFrameNum >= (signed int)pAnimHeader->field_2_num_frames)
+            if (nextFrameNum >= pAnimHeader->field_2_num_frames)
             {
                 if (field_4_flags.Get(AnimFlags::eBit8_Loop))
                 {
                     // Loop back to loop start frame
-                    endFrame = pAnimHeader->field_4_loop_start_frame;
+                    field_92_current_frame = pAnimHeader->field_4_loop_start_frame;
                 }
                 else
                 {
-                    // Do not loop
-                    endFrame = nextFrameNum - 1;
-                    this->field_E_frame_change_counter = 0;
+                    // Stay on current frame
+                    field_92_current_frame = nextFrameNum - 1;
+                    field_E_frame_change_counter = 0;
                 }
 
-                this->field_92_current_frame = endFrame;
 
-                // Set the "finished once" flag ?
-                field_4_flags.Set(AnimFlags::eBit12);
+                field_4_flags.Set(AnimFlags::eBit12_ForwardLoopCompleted);
             }
 
             // Is last frame ?
-            if (this->field_92_current_frame == pAnimHeader->field_2_num_frames - 1)
+            if (field_92_current_frame == pAnimHeader->field_2_num_frames - 1)
             {
-                tmpFlags1 = flags | AnimFlags::eBit2_Animate;
-                DecodeFrame(tmpFlags1);
+                field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+                DecompressFrame();
                 return;
             }
         }
 
-        tmpFlags1 = flags & ~AnimFlags::eBit2_Animate;
-        DecodeFrame(tmpFlags1);
+        field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
+        DecompressFrame();
         return;
     }
 }
@@ -396,8 +377,8 @@ void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
             {
                 pAnim->Animation__vdecode_40AC90();
 
-                //pAnim->field_4_flags |= AnimFlags::eBit12;
-                //pAnim->field_4_flags &= ~AnimFlags::eBit12;
+                //pAnim->field_4_flags |= AnimFlags::eBit12_LoopCompleted;
+                //pAnim->field_4_flags &= ~AnimFlags::eBit12_LoopCompleted;
 
             }
         }

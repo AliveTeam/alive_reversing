@@ -322,7 +322,7 @@ void MainMenuController::Render_4CF4C0(int ** ot)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit2_Animate)
         && sMainMenuPages_561960[field_214_page_index].field_E_show_character 
-        && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_LoopBackwards))
+        && field_20_animation.field_4_flags.Get(AnimFlags::eBit3))
     {
         field_20_animation.Animation_v_40B820(184, 162, (int)ot, 0, 0);
         PSX_RECT pRect = {};

@@ -45,7 +45,7 @@ enum AnimFlags
     eBit2_Animate = 0x2,
 
     // Bit 3 = nothing ?
-    eBit3_LoopBackwards = 0x4,
+    eBit3 = 0x4,
 
     // Bit 4 = Horizontal flip
     eBit4 = 0x8,
@@ -72,7 +72,7 @@ enum AnimFlags
     eBit11 = 0x400,
 
     // Bit 12 = prevents updating or gets anims stuck ??
-    eBit12 = 0x800,
+    eBit12_ForwardLoopCompleted = 0x800,
 
     // Bit 13 = colour depth related
     eBit13 = 0x1000,
@@ -90,10 +90,10 @@ enum AnimFlags
     eBit17 = 0x10000,
 
     // Bit 18 = backwards (or forwards?) frame order
-    eBit18 = 0x20000,
+    eBit18_IsLastFrame = 0x20000,
 
     // Bit 19 = offset Y by H?
-    eBit19 = 0x40000,
+    eBit19_LoopBackwards = 0x40000,
 
     // Bit 20 = nothing ?
     eBit20 = 0x80000,
@@ -160,7 +160,7 @@ struct FrameHeader
 class AnimationEx : public Animation
 {
 public:
-    void DecodeFrame(WORD tmpFlags1);
+    void DecompressFrame();
     EXPORT void Animation__vdecode_40AC90();
     EXPORT void Invoke_CallBacks_40B7A0();
 

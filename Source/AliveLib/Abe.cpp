@@ -291,7 +291,7 @@ void Abe::Free_Resources_44D420()
     NOT_IMPLEMENTED();
 }
 
-BYTE ** Abe::StateToAnimResource_44AAB0(signed int state)
+BYTE ** Abe::StateToAnimResource_44AAB0(signed int /*state*/)
 {
     NOT_IMPLEMENTED();
 }
