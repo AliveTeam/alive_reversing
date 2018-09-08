@@ -30,24 +30,11 @@ void Animation::Animation__vdecode_40AC90()
 
 }
 
-// WIP
-void AnimationEx::Animation__vdecode_40AC90()
+void AnimationEx::DecodeFrame(WORD tmpFlags1)
 {
-    NOT_IMPLEMENTED();
-
-    __int16 flags; // cx
-    BYTE **ppData; // edx
-    AnimationHeader *pAnimHeader; // eax
-    __int16 prevFrameNum; // dx
-    __int16 newFrame; // dx
-    __int16 tmpFlags1; // cx
-    __int16 nextFrameNum; // di
-    __int16 endFrame; // di
-    FrameInfoHeader *pFrameInfo; // eax
-    int v12; // edx
-    int v13; // edi
     BYTE **pAnimData; // ecx
     FrameHeader *pFrameHeader; // edi
+
     unsigned __int16 vram_w; // cx
     int width_rounded; // ebx
     __int16 vram_x; // ax
@@ -62,11 +49,209 @@ void AnimationEx::Animation__vdecode_40AC90()
     BYTE **pDBuf4; // eax
     BYTE **pDBuf5; // eax
     BYTE **pDBuf6; // eax
+
+    int v13; // edi
+
     unsigned int totalSize; // ebp
     unsigned int i; // eax
     int pData3; // [esp+10h] [ebp-Ch]
+
+    // TODO
+    field_4_flags.Raw().words.hiword = tmpFlags1;
+    //field_4_flags &= 0xFFFF;
+    //field_4_flags |= tmpFlags1;
+    //HIWORD(this->field_4_flags) = tmpFlags1;
+
+    FrameInfoHeader* pFrameInfo = Get_FrameHeader_40B730(-1);
+    pAnimData = this->field_20_ppBlock;
+    v13 = (int)*pAnimData;
+    pFrameHeader = (FrameHeader *)(pFrameInfo->field_0_frame_header_offset + v13);
+
+    if (field_4_flags.Get(AnimFlags::eBit11))
+    {
+        field_4_flags.Toggle(AnimFlags::eBit10);
+    }
+
+    // TODO fix me
+
+    if (pFrameInfo->field_6_count > 0)
+    {
+        //abort();
+        Invoke_CallBacks_40B7A0(); // v12
+    }
+
     PSX_RECT rect; // [esp+14h] [ebp-8h]
 
+    vram_w = this->field_84_vram_rect.w;
+    if (vram_w)
+    {
+        if (field_4_flags.Get(AnimFlags::eBit13))
+        {
+            width_rounded = (pFrameHeader->field_4_width + 3) / 2;
+        }
+        else if (field_4_flags.Get(AnimFlags::eBit14))
+        {
+            width_rounded = pFrameHeader->field_4_width + 1;
+        }
+        else
+        {
+            width_rounded = (pFrameHeader->field_4_width + 7) / 4;
+        }
+        vram_x = this->field_84_vram_rect.x;
+        vram_width = width_rounded & 0xFFFFFFFE;
+        rect.y = this->field_84_vram_rect.y;
+        rect.x = vram_x;
+        rect.w = vram_width;
+        rect.h = pFrameHeader->field_5_height;
+        if (vram_width > vram_w)
+        {
+            rect.w = vram_w;
+        }
+        if ((unsigned __int16)pFrameHeader->field_5_height > this->field_84_vram_rect.h)
+        {
+            rect.h = this->field_84_vram_rect.h;
+        }
+        switch (pFrameHeader->field_7_compression_type)
+        {
+        case 0:
+            // TODO
+            //HIBYTE(this->field_4_flags) |= 1u;
+            PSX_LoadImage_4F5FB0(&rect, (BYTE *)&pFrameHeader->field_8_width2);
+            break;
+        case 1:
+            abort();
+            /*
+            // Dead case - no source data can ever hit this
+            pDBuf = this->field_24_dbuf;
+            // TODO
+            //HIBYTE(this->field_4_flags) |= 1u;
+            pData = *(DWORD *)&pFrameHeader->field_8_width2;
+            if (pDBuf
+            || (pAllocatedDBuf = ResourceManager::Alloc_New_Resource_49BED0('fuBD', 0, this->field_28_dbuf_size),
+            (this->field_24_dbuf = pAllocatedDBuf) != 0))
+            {
+            Animation::decompress_type_1_40A610(
+            (int)&pFrameHeader[1],
+            *this->field_24_dbuf,
+            pData,
+            2 * vram_width * pFrameHeader->field_5_height);
+            PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
+            }*/
+            break;
+        case 2:
+            pDBuf2 = this->field_24_dbuf;
+            // TODO
+            //HIBYTE(this->field_4_flags) |= 1u;
+            if (pDBuf2
+                || (pAllocatedDBuf2 = ResourceManager::Alloc_New_Resource_49BED0(
+                    1718960708,
+                    0,
+                    this->field_28_dbuf_size),
+                    (this->field_24_dbuf = pAllocatedDBuf2) != 0))
+            {
+                // TODO
+                abort();
+                /*
+                Animation::decompress_type_2_40AA50(
+                (unsigned __int8 *)&pFrameHeader[1],
+                *this->field_24_dbuf,
+                2 * vram_width * pFrameHeader->field_5_height);
+                PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
+                */
+            }
+            break;
+        case 3:
+            if (this->field_4_flags.Raw().all & 0x1000000)
+            {
+                if (this->field_24_dbuf
+                    || (pDBuf3 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
+                    (this->field_24_dbuf = pDBuf3) != 0))
+                {
+                    CompressionType_3Ae_Decompress_40A6A0((const BYTE*)&pFrameHeader->field_8_width2, *this->field_24_dbuf);
+                    goto LABEL_55;
+                }
+            }
+            break;
+        case 4:
+        case 5:
+            pData2 = (int)&pFrameHeader->field_8_width2;
+
+            if (!field_24_dbuf)
+            {
+                field_24_dbuf = ResourceManager::Alloc_New_Resource_49BED0(0x66754244, 0, this->field_28_dbuf_size);
+            }
+
+            if (field_24_dbuf)
+            {
+                CompressionType_4Or5_Decompress_4ABAB0((BYTE *)pData2, *field_24_dbuf);
+                goto LABEL_55;
+            }
+            break;
+        case 6:
+            if (this->field_4_flags.Raw().all & 0x1000000)
+            {
+                if (this->field_24_dbuf
+                    || (pDBuf5 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
+                    (this->field_24_dbuf = pDBuf5) != 0))
+                {
+                    // TODO:
+                    abort();
+                    //Animation::decompress_type_6_40A8A0(&pFrameHeader->field_8_width2, *this->field_24_dbuf);
+                LABEL_55:
+                    PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
+                }
+            }
+            break;
+        case 7:
+        case 8:
+            // TODO
+            //HIBYTE(this->field_4_flags) |= 1u;
+            pData3 = *(DWORD *)&pFrameHeader->field_8_width2;
+            if (this->field_24_dbuf
+                || (pDBuf6 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
+                (this->field_24_dbuf = pDBuf6) != 0))
+            {
+                totalSize = 2 * vram_width * pFrameHeader->field_5_height;
+                // TODO
+                abort();
+                /*
+                for (i = Compression_type_7_8_4ABB90(
+                &pFrameHeader[1],
+                *this->field_24_dbuf,
+                pData3,
+                pFrameHeader->field_7_compression_type != 8 ? 8 : 6);
+                i < totalSize;
+                (*this->field_24_dbuf)[i - 1] = 0)
+                {
+                ++i;
+                }
+                */
+                PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
+            }
+            break;
+        default:
+            return;
+        }
+    }
+}
+
+// WIP
+void AnimationEx::Animation__vdecode_40AC90()
+{
+    NOT_IMPLEMENTED();
+
+    __int16 flags; // cx
+    BYTE **ppData; // edx
+    AnimationHeader *pAnimHeader; // eax
+    __int16 prevFrameNum; // dx
+    __int16 newFrame; // dx
+    __int16 tmpFlags1; // cx
+    __int16 nextFrameNum; // di
+    __int16 endFrame; // di
+
+    int v12; // edx
+  
+ 
     flags = field_4_flags.Raw().words.hiword;
     if (flags & AnimFlags::eBit6)
     {
@@ -75,254 +260,78 @@ void AnimationEx::Animation__vdecode_40AC90()
     }
 
     ppData = this->field_20_ppBlock;
-    if (ppData)
+    if (!ppData)
     {
-        pAnimHeader = (AnimationHeader *)&(*ppData)[this->field_18_frame_table_offset];
-        if (pAnimHeader->field_2_num_frames != 1 || !(field_4_flags.Get(AnimFlags::eBit12)))
+        return;
+    }
+    pAnimHeader = (AnimationHeader *)&(*ppData)[this->field_18_frame_table_offset];
+    if (pAnimHeader->field_2_num_frames != 1 || !(field_4_flags.Get(AnimFlags::eBit12)))
+    {
+        if (flags & AnimFlags::eBit3_LoopBackwards)
         {
-            if (flags & AnimFlags::eBit3_LoopBackwards)
+            // Looping backwards?
+            prevFrameNum = --this->field_92_current_frame;
+            this->field_E_frame_change_counter = this->field_10_frame_delay;
+            if (prevFrameNum < (signed int)pAnimHeader->field_4_loop_start_frame)
             {
-                // Looping backwards?
-                prevFrameNum = --this->field_92_current_frame;
-                this->field_E_frame_change_counter = this->field_10_frame_delay;
-                if (prevFrameNum < (signed int)pAnimHeader->field_4_loop_start_frame)
+                if ((char)(this->field_4_flags.Raw().bytes.b0) >= 0)
                 {
-                    if ((char)(this->field_4_flags.Raw().bytes.b0) >= 0)
-                    {
-                        newFrame = prevFrameNum + 1;
-                        this->field_E_frame_change_counter = 0;
-                    }
-                    else
-                    {
-                        newFrame = pAnimHeader->field_2_num_frames - 1;
-                    }
-                    this->field_92_current_frame = newFrame;
+                    newFrame = prevFrameNum + 1;
+                    this->field_E_frame_change_counter = 0;
                 }
-                if (!this->field_92_current_frame)
+                else
                 {
-                    tmpFlags1 = flags | AnimFlags::eBit2_Animate;
-                LABEL_22:
-                    // TODO
-                    field_4_flags.Raw().words.hiword = tmpFlags1;
-                    //field_4_flags &= 0xFFFF;
-                    //field_4_flags |= tmpFlags1;
-                    //HIWORD(this->field_4_flags) = tmpFlags1;
-
-                    pFrameInfo = Get_FrameHeader_40B730(-1);
-                    pAnimData = this->field_20_ppBlock;
-                    v13 = (int)*pAnimData;
-                    pFrameHeader = (FrameHeader *)(pFrameInfo->field_0_frame_header_offset + v13);
-
-                    if (field_4_flags.Get(AnimFlags::eBit11))
-                    {
-                        field_4_flags.Toggle(AnimFlags::eBit10);
-                    }
-
-                    // TODO fix me
-                    
-                    if (pFrameInfo->field_6_count > 0)
-                    {
-                        //abort();
-                        Invoke_CallBacks_40B7A0(); // v12
-                    }
-                    
-
-                    vram_w = this->field_84_vram_rect.w;
-                    if (vram_w)
-                    {
-                        if (field_4_flags.Get(AnimFlags::eBit13))
-                        {
-                            width_rounded = (pFrameHeader->field_4_width + 3) / 2;
-                        }
-                        else if (field_4_flags.Get(AnimFlags::eBit14))
-                        {
-                            width_rounded = pFrameHeader->field_4_width + 1;
-                        }
-                        else
-                        {
-                            width_rounded = (pFrameHeader->field_4_width + 7) / 4;
-                        }
-                        vram_x = this->field_84_vram_rect.x;
-                        vram_width = width_rounded & 0xFFFFFFFE;
-                        rect.y = this->field_84_vram_rect.y;
-                        rect.x = vram_x;
-                        rect.w = vram_width;
-                        rect.h = pFrameHeader->field_5_height;
-                        if (vram_width > vram_w)
-                        {
-                            rect.w = vram_w;
-                        }
-                        if ((unsigned __int16)pFrameHeader->field_5_height > this->field_84_vram_rect.h)
-                        {
-                            rect.h = this->field_84_vram_rect.h;
-                        }
-                        switch (pFrameHeader->field_7_compression_type)
-                        {
-                        case 0:
-                            // TODO
-                            //HIBYTE(this->field_4_flags) |= 1u;
-                            PSX_LoadImage_4F5FB0(&rect, (BYTE *)&pFrameHeader->field_8_width2);
-                            break;
-                        case 1:
-                            abort();
-                            /*
-                            // Dead case - no source data can ever hit this
-                            pDBuf = this->field_24_dbuf;
-                            // TODO
-                            //HIBYTE(this->field_4_flags) |= 1u;
-                            pData = *(DWORD *)&pFrameHeader->field_8_width2;
-                            if (pDBuf
-                                || (pAllocatedDBuf = ResourceManager::Alloc_New_Resource_49BED0('fuBD', 0, this->field_28_dbuf_size),
-                                (this->field_24_dbuf = pAllocatedDBuf) != 0))
-                            {
-                                Animation::decompress_type_1_40A610(
-                                    (int)&pFrameHeader[1],
-                                    *this->field_24_dbuf,
-                                    pData,
-                                    2 * vram_width * pFrameHeader->field_5_height);
-                                PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
-                            }*/
-                            break;
-                        case 2:
-                            pDBuf2 = this->field_24_dbuf;
-                            // TODO
-                            //HIBYTE(this->field_4_flags) |= 1u;
-                            if (pDBuf2
-                                || (pAllocatedDBuf2 = ResourceManager::Alloc_New_Resource_49BED0(
-                                    1718960708,
-                                    0,
-                                    this->field_28_dbuf_size),
-                                    (this->field_24_dbuf = pAllocatedDBuf2) != 0))
-                            {
-                                // TODO
-                                abort();
-                                /*
-                                Animation::decompress_type_2_40AA50(
-                                    (unsigned __int8 *)&pFrameHeader[1],
-                                    *this->field_24_dbuf,
-                                    2 * vram_width * pFrameHeader->field_5_height);
-                                PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
-                                */
-                            }
-                            break;
-                        case 3:
-                            if (this->field_4_flags.Raw().all & 0x1000000)
-                            {
-                                if (this->field_24_dbuf
-                                    || (pDBuf3 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
-                                    (this->field_24_dbuf = pDBuf3) != 0))
-                                {
-                                    CompressionType_3Ae_Decompress_40A6A0((const BYTE*)&pFrameHeader->field_8_width2, *this->field_24_dbuf);
-                                    goto LABEL_55;
-                                }
-                            }
-                            break;
-                        case 4:
-                        case 5:
-                            pData2 = (int)&pFrameHeader->field_8_width2;
-                            
-                            if (!field_24_dbuf)
-                            {
-                                field_24_dbuf = ResourceManager::Alloc_New_Resource_49BED0(0x66754244, 0, this->field_28_dbuf_size);
-                            }
-
-                            if (field_24_dbuf)
-                            {
-                                CompressionType_4Or5_Decompress_4ABAB0((BYTE *)pData2, *field_24_dbuf);
-                                goto LABEL_55;
-                            }
-                            break;
-                        case 6:
-                            if (this->field_4_flags.Raw().all & 0x1000000)
-                            {
-                                if (this->field_24_dbuf
-                                    || (pDBuf5 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
-                                    (this->field_24_dbuf = pDBuf5) != 0))
-                                {
-                                    // TODO:
-                                    abort();
-                                    //Animation::decompress_type_6_40A8A0(&pFrameHeader->field_8_width2, *this->field_24_dbuf);
-                                LABEL_55:
-                                    PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
-                                }
-                            }
-                            break;
-                        case 7:
-                        case 8:
-                            // TODO
-                            //HIBYTE(this->field_4_flags) |= 1u;
-                            pData3 = *(DWORD *)&pFrameHeader->field_8_width2;
-                            if (this->field_24_dbuf
-                                || (pDBuf6 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
-                                (this->field_24_dbuf = pDBuf6) != 0))
-                            {
-                                totalSize = 2 * vram_width * pFrameHeader->field_5_height;
-                                // TODO
-                                abort();
-                                /*
-                                for (i = Compression_type_7_8_4ABB90(
-                                    &pFrameHeader[1],
-                                    *this->field_24_dbuf,
-                                    pData3,
-                                    pFrameHeader->field_7_compression_type != 8 ? 8 : 6);
-                                    i < totalSize;
-                                    (*this->field_24_dbuf)[i - 1] = 0)
-                                {
-                                    ++i;
-                                }
-                                */
-                                PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
-                            }
-                            break;
-                        default:
-                            return;
-                        }
-                    }
-                    return;
+                    newFrame = pAnimHeader->field_2_num_frames - 1;
                 }
-            }
-            else
-            {
-                // Loop forwards
-                nextFrameNum = ++this->field_92_current_frame;
-                this->field_E_frame_change_counter = this->field_10_frame_delay;
-
-                // Animation reached end point
-                if (nextFrameNum >= (signed int)pAnimHeader->field_2_num_frames)
-                {
-                    if (field_4_flags.Get(AnimFlags::eBit8_Loop))
-                    {
-                        // Loop back to loop start frame
-                        endFrame = pAnimHeader->field_4_loop_start_frame;
-                    }
-                    else
-                    {
-                        // Do not loop
-                        endFrame = nextFrameNum - 1;
-                        this->field_E_frame_change_counter = 0;
-                    }
-                    
-                    this->field_92_current_frame = endFrame;
-
-                    // TODO
-                    //HIBYTE(flags1) |= 8u;
-                    //LOWORD(this->field_4_flags) = flags1;
-
-                    // Set the "finished once" flag ?
-                    field_4_flags.Set(AnimFlags::eBit12);
-                }
-
-                // Is last frame ?
-                if (this->field_92_current_frame == pAnimHeader->field_2_num_frames - 1)
-                {
-                    tmpFlags1 = flags | AnimFlags::eBit2_Animate;
-                    goto LABEL_22;
-                }
+                this->field_92_current_frame = newFrame;
             }
 
-            tmpFlags1 = flags & ~AnimFlags::eBit2_Animate;
-            goto LABEL_22;
+            if (!this->field_92_current_frame)
+            {
+                tmpFlags1 = flags | AnimFlags::eBit2_Animate;
+                DecodeFrame(tmpFlags1);
+                return;
+            }
         }
+        else
+        {
+            // Loop forwards
+            nextFrameNum = ++this->field_92_current_frame;
+            this->field_E_frame_change_counter = this->field_10_frame_delay;
+
+            // Animation reached end point
+            if (nextFrameNum >= (signed int)pAnimHeader->field_2_num_frames)
+            {
+                if (field_4_flags.Get(AnimFlags::eBit8_Loop))
+                {
+                    // Loop back to loop start frame
+                    endFrame = pAnimHeader->field_4_loop_start_frame;
+                }
+                else
+                {
+                    // Do not loop
+                    endFrame = nextFrameNum - 1;
+                    this->field_E_frame_change_counter = 0;
+                }
+
+                this->field_92_current_frame = endFrame;
+
+                // Set the "finished once" flag ?
+                field_4_flags.Set(AnimFlags::eBit12);
+            }
+
+            // Is last frame ?
+            if (this->field_92_current_frame == pAnimHeader->field_2_num_frames - 1)
+            {
+                tmpFlags1 = flags | AnimFlags::eBit2_Animate;
+                DecodeFrame(tmpFlags1);
+                return;
+            }
+        }
+
+        tmpFlags1 = flags & ~AnimFlags::eBit2_Animate;
+        DecodeFrame(tmpFlags1);
+        return;
     }
 }
 

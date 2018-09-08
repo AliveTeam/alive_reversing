@@ -160,6 +160,7 @@ struct FrameHeader
 class AnimationEx : public Animation
 {
 public:
+    void DecodeFrame(WORD tmpFlags1);
     EXPORT void Animation__vdecode_40AC90();
     EXPORT void Invoke_CallBacks_40B7A0();
 
