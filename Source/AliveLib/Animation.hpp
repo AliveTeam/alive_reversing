@@ -66,10 +66,10 @@ enum AnimFlags
     eBit9 = 0x100,
 
     // Bit 10 = ?
-    eBit10 = 0x200,
+    eBit10_alternating_flag = 0x200,
 
     // Bit 11 = ?
-    eBit11 = 0x400,
+    eBit11_bToggle_Bit10 = 0x400,
 
     // Bit 12 = prevents updating or gets anims stuck ??
     eBit12_ForwardLoopCompleted = 0x800,
@@ -119,12 +119,13 @@ class Animation
 {
 public:
     // TODO: Virtuals must be on the base type, yet there is only 1 vtable pointing to derived ?
-    virtual void Animation__vdecode_40AC90();
+    virtual void vDecode_40AC90();
 
     EXPORT virtual char Animation_v_40B820(signed int a2, int a3, int a4, __int16 a5, signed int op1);
     EXPORT virtual signed __int16 Animationv_40C630();
    
-    EXPORT virtual __int16 Animationv_40B200();
+    // TODO: Restore vTable entry
+    //EXPORT virtual __int16 Animationv_40B200();
     EXPORT virtual char Animation_v_40BEE0(__int16 a2, __int16 a3, int a4, __int16 a5, __int16 op1);
 
     EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE **pAnimRes);
@@ -153,7 +154,7 @@ struct FrameHeader
     DWORD mClutOffset;
     BYTE field_4_width;
     BYTE field_5_height;
-    BYTE mColourDepth;
+    BYTE field_6_colour_depth;
     BYTE field_7_compression_type;
     WORD field_8_width2;
     WORD mHeight2;
@@ -162,8 +163,14 @@ struct FrameHeader
 class AnimationEx : public Animation
 {
 public:
+    bool EnsureDecompressionBuffer();
+    void DecompressFrame_VramAlloc();
     void DecompressFrame();
-    EXPORT void Animation__vdecode_40AC90();
+
+    EXPORT void vDecode2_40B200();
+    EXPORT void vDecode_40AC90();
+    bool DecodeCommon();
+
     EXPORT void Invoke_CallBacks_40B7A0();
 
     WORD field_10_frame_delay;
