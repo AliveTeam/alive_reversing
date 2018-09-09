@@ -643,7 +643,7 @@ EXPORT bool CC PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
         && pRect->h + pRect->y - 1 < sPsxVram_C1D160.field_C_height;
 }
 
-EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, BYTE* pData)
+EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
 {
     if (!PSX_Rect_IsInFrameBuffer_4FA050(pRect))
     {
@@ -664,8 +664,8 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, BYTE* pData)
     const unsigned int bytesPerPixel = sPsxVram_C1D160.field_14_bpp / 8;
     unsigned int srcWidthInBytes = pRect->w * bytesPerPixel;
     BYTE* pDst = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + bytesPerPixel * (pRect->x + (pRect->y * sPsxVram_C1D160.field_8_width));
-    BYTE* pDataEnd = &pData[srcWidthInBytes * pRect->h];
-    BYTE* pDataIter = pData;
+    const BYTE* pDataEnd = &pData[srcWidthInBytes * pRect->h];
+    const BYTE* pDataIter = pData;
 
     while (pDataIter < pDataEnd)
     {

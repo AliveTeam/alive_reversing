@@ -32,205 +32,177 @@ void Animation::Animation__vdecode_40AC90()
 
 void AnimationEx::DecompressFrame()
 {
-    BYTE **pAnimData; // ecx
-    FrameHeader *pFrameHeader; // edi
-
-    unsigned __int16 vram_w; // cx
-    int width_rounded; // ebx
-    __int16 vram_x; // ax
-    signed int vram_width; // ebx
-    BYTE **pDBuf; // eax
-    unsigned int pData; // ebp
-    BYTE **pAllocatedDBuf; // eax
-    BYTE **pDBuf2; // eax
-    BYTE **pAllocatedDBuf2; // eax
-    BYTE **pDBuf3; // eax
-    int pData2; // edi
-    BYTE **pDBuf4; // eax
-    BYTE **pDBuf5; // eax
-    BYTE **pDBuf6; // eax
-
-    int v13; // edi
-
-    unsigned int totalSize; // ebp
-    unsigned int i; // eax
-    int pData3; // [esp+10h] [ebp-Ch]
-
-    FrameInfoHeader* pFrameInfo = Get_FrameHeader_40B730(-1);
-    pAnimData = this->field_20_ppBlock;
-    v13 = (int)*pAnimData;
-    pFrameHeader = (FrameHeader *)(pFrameInfo->field_0_frame_header_offset + v13);
-
     if (field_4_flags.Get(AnimFlags::eBit11))
     {
         field_4_flags.Toggle(AnimFlags::eBit10);
     }
 
+    const FrameInfoHeader* pFrameInfo = Get_FrameHeader_40B730(-1); // -1 = use current frame
     if (pFrameInfo->field_6_count > 0)
     {
-        Invoke_CallBacks_40B7A0(); // v12
+        Invoke_CallBacks_40B7A0();
     }
 
-    PSX_RECT rect; // [esp+14h] [ebp-8h]
-
-    vram_w = this->field_84_vram_rect.w;
-    if (vram_w)
+    if (field_84_vram_rect.w <= 0)
     {
-        if (field_4_flags.Get(AnimFlags::eBit13))
-        {
-            width_rounded = (pFrameHeader->field_4_width + 3) / 2;
-        }
-        else if (field_4_flags.Get(AnimFlags::eBit14))
-        {
-            width_rounded = pFrameHeader->field_4_width + 1;
-        }
-        else
-        {
-            width_rounded = (pFrameHeader->field_4_width + 7) / 4;
-        }
-        vram_x = this->field_84_vram_rect.x;
-        vram_width = width_rounded & 0xFFFFFFFE;
-        rect.y = this->field_84_vram_rect.y;
-        rect.x = vram_x;
-        rect.w = vram_width;
-        rect.h = pFrameHeader->field_5_height;
-        if (vram_width > vram_w)
-        {
-            rect.w = vram_w;
-        }
-        if ((unsigned __int16)pFrameHeader->field_5_height > this->field_84_vram_rect.h)
-        {
-            rect.h = this->field_84_vram_rect.h;
-        }
-        switch (pFrameHeader->field_7_compression_type)
-        {
-        case 0:
-            // TODO
-            //HIBYTE(this->field_4_flags) |= 1u;
-            PSX_LoadImage_4F5FB0(&rect, (BYTE *)&pFrameHeader->field_8_width2);
-            break;
-        case 1:
-            abort();
-            /*
-            // Dead case - no source data can ever hit this
-            pDBuf = this->field_24_dbuf;
-            // TODO
-            //HIBYTE(this->field_4_flags) |= 1u;
-            pData = *(DWORD *)&pFrameHeader->field_8_width2;
-            if (pDBuf
-            || (pAllocatedDBuf = ResourceManager::Alloc_New_Resource_49BED0('fuBD', 0, this->field_28_dbuf_size),
-            (this->field_24_dbuf = pAllocatedDBuf) != 0))
-            {
-            Animation::decompress_type_1_40A610(
-            (int)&pFrameHeader[1],
-            *this->field_24_dbuf,
-            pData,
-            2 * vram_width * pFrameHeader->field_5_height);
-            PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
-            }*/
-            break;
-        case 2:
-            pDBuf2 = this->field_24_dbuf;
-            // TODO
-            //HIBYTE(this->field_4_flags) |= 1u;
-            if (pDBuf2
-                || (pAllocatedDBuf2 = ResourceManager::Alloc_New_Resource_49BED0(
-                    1718960708,
-                    0,
-                    this->field_28_dbuf_size),
-                    (this->field_24_dbuf = pAllocatedDBuf2) != 0))
-            {
-                // TODO
-                abort();
-                /*
-                Animation::decompress_type_2_40AA50(
-                (unsigned __int8 *)&pFrameHeader[1],
-                *this->field_24_dbuf,
-                2 * vram_width * pFrameHeader->field_5_height);
-                PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
-                */
-            }
-            break;
-        case 3:
-            if (this->field_4_flags.Raw().all & 0x1000000)
-            {
-                if (this->field_24_dbuf
-                    || (pDBuf3 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
-                    (this->field_24_dbuf = pDBuf3) != 0))
-                {
-                    CompressionType_3Ae_Decompress_40A6A0((const BYTE*)&pFrameHeader->field_8_width2, *this->field_24_dbuf);
-                    goto LABEL_55;
-                }
-            }
-            break;
-        case 4:
-        case 5:
-            pData2 = (int)&pFrameHeader->field_8_width2;
+        return;
+    }
 
+    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+
+    short width_bpp_adjusted = 0;
+    if (field_4_flags.Get(AnimFlags::eBit13))
+    {
+        // 8 bit, divided by half
+        width_bpp_adjusted = ((pFrameHeader->field_4_width + 3) / 2) & ~ 1;
+    }
+    else if (field_4_flags.Get(AnimFlags::eBit14))
+    {
+        // 16 bit, only multiple of 2 rounding
+        width_bpp_adjusted = (pFrameHeader->field_4_width + 1) & ~1;
+    }
+    else
+    {
+        // 4 bit divide by quarter
+        width_bpp_adjusted = ((pFrameHeader->field_4_width + 7) / 4) & ~1;
+    }
+
+    PSX_RECT vram_rect =
+    {
+        field_84_vram_rect.x,
+        field_84_vram_rect.y,
+        width_bpp_adjusted,
+        pFrameHeader->field_5_height
+    };
+
+    // Clamp width
+    if (width_bpp_adjusted > field_84_vram_rect.w)
+    {
+        vram_rect.w = field_84_vram_rect.w;
+    }
+
+    // Clamp height
+    if (pFrameHeader->field_5_height > field_84_vram_rect.h)
+    {
+        vram_rect.h = field_84_vram_rect.h;
+    }
+
+    switch (pFrameHeader->field_7_compression_type)
+    {
+    case 0:
+        // No compression, load the data directly into frame buffer
+        field_4_flags.Set(AnimFlags::eBit25);
+        PSX_LoadImage_4F5FB0(&vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
+        break;
+
+    case 1:
+        // This isn't in any of the animation data files on disk, therefore can't ever be used.
+        ALIVE_FATAL("Compression type 1 never expected to be used");
+        break;
+
+    case 2:
+        field_4_flags.Set(AnimFlags::eBit25);
+
+        if (!field_24_dbuf)
+        {
+            field_24_dbuf = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
+        }
+
+        if (field_24_dbuf)
+        {
+            CompressionType2_Decompress_40AA50(
+                reinterpret_cast<const BYTE*>(&pFrameHeader[1]), // TODO: Refactor structure to get pixel data
+                *field_24_dbuf,
+                width_bpp_adjusted * pFrameHeader->field_5_height * 2);
+
+            PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
+        }
+        break;
+
+    case 3:
+        if (field_4_flags.Get(AnimFlags::eBit25))
+        {
             if (!field_24_dbuf)
             {
-                field_24_dbuf = ResourceManager::Alloc_New_Resource_49BED0(0x66754244, 0, this->field_28_dbuf_size);
+                field_24_dbuf = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
             }
 
             if (field_24_dbuf)
             {
-                CompressionType_4Or5_Decompress_4ABAB0((BYTE *)pData2, *field_24_dbuf);
-                goto LABEL_55;
+                CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf); // TODO: Refactor structure to get pixel data
+                PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
             }
-            break;
-        case 6:
-            if (this->field_4_flags.Raw().all & 0x1000000)
+        }
+        break;
+
+    case 4:
+    case 5:
+        if (!field_24_dbuf)
+        {
+            field_24_dbuf = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
+        }
+
+        if (field_24_dbuf)
+        {
+            CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf); // TODO: Refactor structure to get pixel data
+            PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
+        }
+        break;
+
+    case 6:
+        if (field_4_flags.Get(AnimFlags::eBit25))
+        {
+            if (!field_24_dbuf)
             {
-                if (this->field_24_dbuf
-                    || (pDBuf5 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
-                    (this->field_24_dbuf = pDBuf5) != 0))
-                {
-                    // TODO:
-                    abort();
-                    //Animation::decompress_type_6_40A8A0(&pFrameHeader->field_8_width2, *this->field_24_dbuf);
-                LABEL_55:
-                    PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
-                }
+                field_24_dbuf = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
             }
-            break;
-        case 7:
-        case 8:
-            // TODO
-            //HIBYTE(this->field_4_flags) |= 1u;
+
+            if (field_24_dbuf)
+            {
+                CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf); // TODO: Refactor structure to get pixel data
+                PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
+            }
+        }
+        break;
+
+    case 7:
+    case 8:
+        field_4_flags.Set(AnimFlags::eBit25);
+
+        if (!field_24_dbuf)
+        {
+            field_24_dbuf = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
+        }
+
+        if (field_24_dbuf)
+        {
+            const int totalSize = width_bpp_adjusted * pFrameHeader->field_5_height * 2;
+            
+            // TODO: ABEINTRO.BAN in AE PC has this?
+            ALIVE_FATAL("Not implemented");
+            /*
+
             pData3 = *(DWORD *)&pFrameHeader->field_8_width2;
-            if (this->field_24_dbuf
-                || (pDBuf6 = ResourceManager::Alloc_New_Resource_49BED0(1718960708, 0, this->field_28_dbuf_size),
-                (this->field_24_dbuf = pDBuf6) != 0))
-            {
-                totalSize = 2 * vram_width * pFrameHeader->field_5_height;
-                // TODO
-                abort();
-                /*
-                for (i = Compression_type_7_8_4ABB90(
+
+            for (i = Compression_type_7_8_4ABB90(
                 &pFrameHeader[1],
-                *this->field_24_dbuf,
+                *field_24_dbuf,
                 pData3,
                 pFrameHeader->field_7_compression_type != 8 ? 8 : 6);
                 i < totalSize;
-                (*this->field_24_dbuf)[i - 1] = 0)
-                {
+                (*field_24_dbuf)[i - 1] = 0)
+            {
                 ++i;
-                }
-                */
-                PSX_LoadImage_4F5FB0(&rect, *this->field_24_dbuf);
             }
-            break;
-        default:
-            return;
+            PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
+            */
         }
+        break;
     }
 }
 
-// WIP
 void AnimationEx::Animation__vdecode_40AC90()
 {
-    NOT_IMPLEMENTED();
-
     if (field_4_flags.Get(AnimFlags::eBit22))
     {
         Animationv_40B200();

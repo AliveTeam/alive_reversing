@@ -110,7 +110,9 @@ enum AnimFlags
     // Bit 24 = Display vram ?
     eBit24 = 0x800000,
 
-    // Bit 25-32 = nothing ?
+    eBit25 = 0x1000000,
+
+    // Bit 26-32 = nothing ?
 };
 
 class Animation
