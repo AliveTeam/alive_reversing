@@ -128,7 +128,6 @@ public:
     //EXPORT virtual __int16 Animationv_40B200();
     EXPORT virtual char Animation_v_40BEE0(__int16 a2, __int16 a3, int a4, __int16 a5, __int16 op1);
 
-    EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE **pAnimRes);
     EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<Animation>* pAnimations);
 
     BitField32<AnimFlags> field_4_flags;
@@ -163,6 +162,8 @@ struct FrameHeader
 class AnimationEx : public Animation
 {
 public:
+    EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE **pAnimRes);
+
     bool EnsureDecompressionBuffer();
     void DecompressFrame_VramAlloc();
     void DecompressFrame();

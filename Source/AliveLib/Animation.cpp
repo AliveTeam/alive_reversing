@@ -8,12 +8,13 @@
 struct AnimationHeader
 {
     // Meta data - the offset where this record was read from
-    WORD mFps = 0;            // Seems to be 0x1 or 0x2
+    WORD field_0_fps = 0;            // Seems to be 0x1 or 0x2
     short field_2_num_frames = 0;      // Number of frames in the set
 
                               // If loop flag set then this is the frame to loop back to
     short field_4_loop_start_frame = 0;
 
+    // These where reversed by editing data in memory on PSX version
     enum eFlags
     {
         eFlipXFlag = 0x4,
@@ -21,14 +22,14 @@ struct AnimationHeader
         eNeverUnload = 0x1,
         eLoopFlag = 0x2
     };
-    WORD mFlags = 0;
+    WORD field_6_flags = 0;
     DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 //ALIVE_ASSERT_SIZEOF(AnimationHeader, 0x8);
 
 void Animation::vDecode_40AC90()
 {
-
+    ALIVE_FATAL("Should never be called");
 }
 
 bool AnimationEx::EnsureDecompressionBuffer()
@@ -502,10 +503,48 @@ char Animation::Animation_v_40BEE0(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/, _
     return 0;
 }
 
-signed __int16 Animation::Set_Animation_Data_409C80(int /*frameTableOffset*/, BYTE** /*pAnimRes*/)
+signed __int16 AnimationEx::Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (pAnimRes)
+    {
+        // Animation block must match what was previously set
+        if (field_4_flags.Get(AnimFlags::eBit22) && field_20_ppBlock != pAnimRes)
+        {
+            return 0;
+        }
+        field_20_ppBlock = pAnimRes;
+    }
+
+    if (!field_20_ppBlock)
+    {
+        return 0;
+    }
+
+    field_18_frame_table_offset = frameTableOffset;
+
+    AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[field_18_frame_table_offset]);
+    field_10_frame_delay = pAnimationHeader->field_0_fps;
+
+    field_4_flags.Clear(AnimFlags::eBit12_ForwardLoopCompleted);
+    field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
+    field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
+    field_4_flags.Clear(AnimFlags::eBit8_Loop);
+
+    if (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag)
+    {
+        field_4_flags.Set(AnimFlags::eBit8_Loop);
+    }
+
+    field_E_frame_change_counter = 1;
+    field_92_current_frame = -1;
+
+    vDecode_40AC90();
+
+    // Reset to start frame
+    field_E_frame_change_counter = 1;
+    field_92_current_frame = -1;
+
+    return 1;
 }
 
 void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
