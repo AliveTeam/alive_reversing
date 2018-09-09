@@ -177,7 +177,7 @@ public:
     WORD field_12_scale; // padding?
     FP field_14_scale;
     DWORD field_18_frame_table_offset;
-    DWORD field_1C_fn_ptr_array;
+    int(__cdecl **field_1C_fn_ptr_array)(void *, __int16 *);
     BYTE** field_20_ppBlock; // // pointer to a pointer which points to anim data
     BYTE** field_24_dbuf;
     

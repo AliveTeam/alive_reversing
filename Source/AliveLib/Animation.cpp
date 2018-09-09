@@ -460,7 +460,24 @@ bool AnimationEx::DecodeCommon()
 
 void AnimationEx::Invoke_CallBacks_40B7A0()
 {
-    NOT_IMPLEMENTED();
+    if (!field_20_ppBlock || !field_1C_fn_ptr_array)
+    {
+        return;
+    }
+
+    FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader_40B730(-1);
+    // TODO: Add a union, clearly this data can be an array of DWORD's of field_6_count
+    // which may contain more data used by the call back.
+    __int16* pCallBackData = &pFrameHeaderCopy->mTopLeft.x + 2 * pFrameHeaderCopy->field_4_magic;
+    for (int i = 0; i < pFrameHeaderCopy->field_6_count; i++)
+    {
+        auto pFnCallBack = field_1C_fn_ptr_array[*(DWORD *)pCallBackData];
+        if (!pFnCallBack)
+        {
+            break;
+        }
+        pCallBackData += 2 * pFnCallBack(field_94_pGameObj, pCallBackData + 2) + 2;
+    }
 }
 
 char Animation::Animation_v_40B820(signed int /*a2*/, int /*a3*/, int /*a4*/, __int16 /*a5*/, signed int /*op1*/)
