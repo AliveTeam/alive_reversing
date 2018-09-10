@@ -651,11 +651,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
     __int16 hiwordFlags; // dx
     signed __int16 result; // ax
     AnimationHeader *pHeader; // edi
-    __int16 v14; // ax
-    __int16 v15; // cx
     __int16 v16; // cx
-    int v18; // eax
-    __int16 v23; // ax
     FrameInfoHeader *pFrameHeader; // eax
     BYTE *pAnimData; // ecx
     FrameHeader *pFrameHeader_1; // edi
@@ -665,8 +661,6 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
     int vram_width; // edi
     char b16Bit; // al
     __int16 b16BitFlag; // dx
-    char v34; // al
-    bool v35; // zf
     __int16 *vram_x; // ebx
     unsigned int v37; // edi
     int v38; // eax
@@ -715,9 +709,23 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
     field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_4_flags.Set(AnimFlags::eBit3);
 
-    // TODO
-    v15 = ((pHeader->field_6_flags & 2 | (unsigned __int16)(8 * (unknown3 & 1 | 2 * (pal_depth & 1)))) << 6);
-    this->field_4_flags.Raw().words.loword |= v15;
+    if (pHeader->field_6_flags & AnimationHeader::eLoopFlag)
+    {
+        field_4_flags.Set(AnimFlags::eBit8_Loop);
+    }
+
+    //v15 = (( (unsigned __int16)(8 * (unknown3 & 1 | 2 * (pal_depth & 1)))) << 6);
+    //this->field_4_flags.Raw().words.loword |= v15;
+    if (unknown3)
+    {
+        field_4_flags.Set(AnimFlags::eBit10_alternating_flag);
+    }
+
+    if (pal_depth)
+    {
+        field_4_flags.Set(AnimFlags::eBit11_bToggle_Bit10);
+    }
+
     /*
     0x2000
     0x1000
