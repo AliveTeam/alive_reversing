@@ -3,14 +3,14 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-pool:
-  vmImage: 'Ubuntu 16.04'
+queue: Hosted VS2017
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  mkdir build
+  cd build
+  cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.4
+  msbuild AR.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C %configuration%
+ 
+  displayName: 'Execute build'
