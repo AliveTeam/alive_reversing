@@ -734,14 +734,13 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     
     BYTE* pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
   
-    __int16 result = Vram_alloc_4956C0(maxW, maxH, pFrameHeader_1->field_6_colour_depth, &field_84_vram_rect);
-    if (!result)
+    if (!Vram_alloc_4956C0(maxW, maxH, pFrameHeader_1->field_6_colour_depth, &field_84_vram_rect))
     {
-        return result;
+        return 0;
     }
     
     WORD pal_depth = 0;
-
+    char b256Pal = 0;
     int vram_width = 0;
     if (pFrameHeader_1->field_6_colour_depth == 4)
     {
@@ -750,21 +749,21 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
 
         vram_width = v38 + v37;
         pal_depth = 16;
-        goto LABEL_26;
+        b256Pal = 0; // is 16 pal
     }
-
-    char b16Bit = 0;
-    if (pFrameHeader_1->field_6_colour_depth == 8)
+    else if (pFrameHeader_1->field_6_colour_depth == 8)
     {
         vram_width = (unsigned __int16)maxW;
         field_4_flags.Set(AnimFlags::eBit13);
         if (*(DWORD *)pClut != 64)
         {
             pal_depth = 256;
-            b16Bit = 1;
-            goto LABEL_27;
+            b256Pal = 1; // is 256 pal
         }
-        pal_depth = 64;
+        else
+        {
+            pal_depth = 64;
+        }
     }
     else
     {
@@ -777,19 +776,15 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         {
             vram_width = pal_depth;
         }
+
         if (pal_depth != 16 && pal_depth != 64)
         {
-            b16Bit = 1;
-            goto LABEL_27;
+            b256Pal = 1; // not 16 or 64 so must be 256 ??
         }
     }
-LABEL_26:
-    b16Bit = 0;
-LABEL_27:
-    __int16 b16BitFlag = b16Bit & 1;
-    
+
     field_4_flags.Clear(AnimFlags::eBit25);
-    if (b16BitFlag)
+    if (b256Pal)
     {
         field_4_flags.Set(AnimFlags::eBit25);
     }
@@ -813,24 +808,21 @@ LABEL_27:
     }
 
     field_28_dbuf_size = maxH * (vram_width + 3);
-    const DWORD dbuf_size = field_28_dbuf_size;
+    field_28_dbuf_size += 8; // Add 8 for some reason
     field_24_dbuf = nullptr;
-    field_28_dbuf_size = dbuf_size + 8;
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
-    const __int16 bAdded = gObjList_animations_5C1A24->Push_Back(this);
-    if (!bAdded)
+    if (!gObjList_animations_5C1A24->Push_Back(this))
     {
         return 0;
     }
 
     vDecode_40AC90();
 
-    result = bAdded;
     field_E_frame_change_counter = 1;
     field_92_current_frame = -1;
 
-    return result;
+    return 1;
 }
 
 void AnimationEx::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
