@@ -692,8 +692,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
     this->field_94_pGameObj = pGameObj;
     pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
 
-    hiwordFlags = this->field_4_flags.Raw().words.hiword;
-
+  
     /*
     0x40
     0x20
@@ -716,6 +715,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
     field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_4_flags.Set(AnimFlags::eBit3);
 
+    // TODO
     v15 = ((pHeader->field_6_flags & 2 | (unsigned __int16)(8 * (unknown3 & 1 | 2 * (pal_depth & 1)))) << 6);
     this->field_4_flags.Raw().words.loword |= v15;
     /*
@@ -735,6 +735,8 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
     0x40000
     0x20000
     */
+    // TODO
+    hiwordFlags = this->field_4_flags.Raw().words.hiword;
     v16 = hiwordFlags & ~0xE ^ (unknown1 ^ hiwordFlags & ~0xFF0Eu) & 1;
     
     this->field_4_flags.Raw().words.hiword = v16;
@@ -754,7 +756,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
         field_4_flags.Set(AnimFlags::eBit22);
     }
 
-    if (field_4_flags.Raw().all & 0x200000)
+    if (field_4_flags.Get(AnimFlags::eBit22))
     {
         ALIVE_FATAL("Unknown data");
     }
@@ -789,13 +791,19 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
     0x8000 eBit16
     0x4000 eBit15
     */
+    /*
     v23 = this->field_4_flags.Raw().words.loword & ~0xC000u;
-    this->field_10_frame_delay = pHeader->field_0_fps;
     //  HIBYTE(v23) |= 0x80u; // eBit16
     v23 |= 0x8000u;
+    this->field_4_flags.Raw().words.loword = v23;
+    */
+    field_4_flags.Clear(AnimFlags::eBit16);
+    field_4_flags.Clear(AnimFlags::eBit15);
+    field_4_flags.Set(AnimFlags::eBit16);
+
+    this->field_10_frame_delay = pHeader->field_0_fps;
     this->field_E_frame_change_counter = 1;
     this->field_92_current_frame = -1;
-    this->field_4_flags.Raw().words.loword = v23;
     this->field_B_render_mode = 0;
     this->field_A_b = 0;
     this->field_9_g = 0;
@@ -868,7 +876,8 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
         {
             vram_width = (unsigned __int16)maxW;
         }
-        BYTE1(this->field_4_flags) |= 0x10u;
+        //BYTE1(this->field_4_flags) |= 0x10u;
+        field_4_flags.Set(AnimFlags::eBit13);
         if (*(DWORD *)pClut != 64)
         {
             pal_depth = 256;
@@ -891,7 +900,8 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
             {
                 vram_width = 2 * (unsigned __int16)maxW;
             }
-            BYTE1(this->field_4_flags) |= 0x20u;
+            //BYTE1(this->field_4_flags) |= 0x20u;
+            field_4_flags.Set(AnimFlags::eBit14);
         }
         else
         {
@@ -908,10 +918,15 @@ LABEL_26:
 LABEL_27:
     //LOBYTE(b16BitFlag) = 0;
     b16BitFlag = b16Bit & 1;
-    v34 = this->field_4_flags.Raw().bytes.b2;
-    v35 = (this->field_4_flags.Raw().all & 0x10000) == 0;
-    this->field_4_flags.Raw().words.hiword = this->field_4_flags.Raw().words.hiword & ~0x100 | b16BitFlag;
-    if (!v35 && v34 >= 0)
+    
+//    this->field_4_flags.Raw().words.hiword = this->field_4_flags.Raw().words.hiword & ~0x100 | b16BitFlag;
+    field_4_flags.Clear(AnimFlags::eBit25);
+    if (b16BitFlag)
+    {
+        field_4_flags.Set(AnimFlags::eBit25);
+    }
+
+    if (field_4_flags.Get(AnimFlags::eBit17)==true && field_4_flags.Get(AnimFlags::eBit24) == false)
     {
         vram_x = (__int16 *)&this->field_8C_pal_vram_x;
         if (!Pal_Allocate_483110((PSX_RECT *)&this->field_8C_pal_vram_x, pal_depth))
@@ -960,6 +975,7 @@ LABEL_27:
     result = bAdded;
     this->field_E_frame_change_counter = 1;
     this->field_92_current_frame = -1;
+
     return result;
 
 }
