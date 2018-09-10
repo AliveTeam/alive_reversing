@@ -648,42 +648,26 @@ WORD AnimationEx::Get_Frame_Count_40AC70()
 
 signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, void *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
-    field_4_flags.Raw().all = 0; // extra - init to 0's first
-
-    // 0x100000
+    field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
-    //this->field_4_flags.Raw().bytes.b2 |= 0x10u;
-    this->field_18_frame_table_offset = frameTableOffset;
-    this->field_20_ppBlock = ppAnimData;
-    this->field_1C_fn_ptr_array = nullptr;
-    this->field_24_dbuf = nullptr;
+    
+    field_18_frame_table_offset = frameTableOffset;
+    field_20_ppBlock = ppAnimData;
+    field_1C_fn_ptr_array = nullptr;
+    field_24_dbuf = nullptr;
+
     if (!ppAnimData)
     {
         return 0;
     }
-    this->field_94_pGameObj = pGameObj;
+    
+    field_94_pGameObj = pGameObj;
     AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
 
-  
-    /*
-    0x40
-    0x20
-    0x10
-    0x1
-    */
     field_4_flags.Clear(AnimFlags::eBit1);
     field_4_flags.Clear(AnimFlags::eBit5);
     field_4_flags.Clear(AnimFlags::eBit6);
     field_4_flags.Clear(AnimFlags::eBit7);
-    //v14 = this->field_4_flags.Raw().words.loword & ~0x71;
-    
-    // LOBYTE(v14) =
-    /*
-    0x4
-    0x2
-    */
-    //v14 = v14 | 6;
-    //this->field_4_flags.Raw().words.loword = v14;
     field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_4_flags.Set(AnimFlags::eBit3);
 
@@ -692,8 +676,6 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         field_4_flags.Set(AnimFlags::eBit8_Loop);
     }
 
-    //v15 = (( (unsigned __int16)(8 * (bEnable_flag10_alternating & 1 | 2 * (pal_depth & 1)))) << 6);
-    //this->field_4_flags.Raw().words.loword |= v15;
     if (bEnable_flag10_alternating)
     {
         field_4_flags.Set(AnimFlags::eBit10_alternating_flag);
@@ -704,13 +686,6 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         field_4_flags.Set(AnimFlags::eBit11_bToggle_Bit10);
     }
 
-    WORD pal_depth = 0;
-
-    /*
-    0x2000
-    0x1000
-    */
-    //this->field_4_flags.Raw().words.loword = v15 & ~0x3000;
     field_4_flags.Clear(AnimFlags::eBit14);
     field_4_flags.Clear(AnimFlags::eBit13);
 
@@ -718,161 +693,70 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     field_84_vram_rect.w = 0;
     field_90_pal_depth = 0;
 
-    // TODO
-    /*
-    Unset
-    0x80000 eBit20
-    0x40000 eBit19_LoopBackwards
-    0x20000 eBit18_IsLastFrame
-    And then conditionally set eBit17 ?
-    */
-    //hiwordFlags = this->field_4_flags.Raw().words.hiword;
-    //v16 = hiwordFlags & ~0xE ^ (bFlag_17 ^ hiwordFlags & ~0xFF0Eu) & 1;
-    //this->field_4_flags.Raw().words.hiword = v16;
     if (bFlag_17)
     {
         field_4_flags.Set(AnimFlags::eBit17);
     }
 
-//    pAnimData_1 = (Anim_Unknown *)*ppAnimData;
-    /*
-    0x800000 eBit24
-    0x400000 eBit23
-    0x200000 eBit22
-    */
-    //v18 = (unsigned __int16)(v16 & ~0xE0) | 32 * (*((DWORD *)*ppAnimData + 2) != 0);// | 0x0 or | 0x20 + 0000 = 0x200000
-    //this->field_4_flags.Raw().words.hiword = v18; // waring conv
     field_4_flags.Clear(AnimFlags::eBit24);
     field_4_flags.Clear(AnimFlags::eBit23);
     field_4_flags.Clear(AnimFlags::eBit22);
+
+    // TODO: Refactor
     if (*((DWORD *)*ppAnimData + 2) != 0)
     {
         field_4_flags.Set(AnimFlags::eBit22);
     }
 
+    // NOTE: All branches related to bit 22 removed
     if (field_4_flags.Get(AnimFlags::eBit22))
     {
         ALIVE_FATAL("Unknown data");
     }
-    /*
-    if (v18 & 0x20)                             // actually 0x200000 ?
-    {
-        LOWORD(this->field_0_mBase.field_4_flags) &= ~0x600u;
-        ++pAnimData_1->field_C_ref_count;
-        if (pAnimData_1->field_18_wh)
-        {
-            *(DWORD *)&this->field_84_vram_rect.x = *(DWORD *)&pAnimData_1->field_12_vram_p2.field_2_y;
-            v19 = *(DWORD *)&pAnimData_1->field_18_wh;
-            BYTE2(this->field_0_mBase.field_4_flags) |= 0x40u;
-            v20 = HIWORD(this->field_0_mBase.field_4_flags);
-            *(DWORD *)&this->field_84_vram_rect.w = v19;
-            if (pAnimData_1->field_12_vram_p2.field_0_x)
-            {
-                if (v20 & 1)
-                {
-                    v21 = &this->field_8C_pal_vram_x;
-                    *v21 = pAnimData_1->field_E_vram_p1;
-                    v22 = pAnimData_1->field_12_vram_p2.field_0_x;
-                    BYTE2(this->field_0_mBase.field_4_flags) |= 0x80u;
-                    v21[1].field_0_x = v22;
-                }
-            }
-        }
-    }
-    */
 
-    /*
-    0x8000 eBit16
-    0x4000 eBit15
-    */
-    /*
-    v23 = this->field_4_flags.Raw().words.loword & ~0xC000u;
-    //  HIBYTE(v23) |= 0x80u; // eBit16
-    v23 |= 0x8000u;
-    this->field_4_flags.Raw().words.loword = v23;
-    */
     field_4_flags.Clear(AnimFlags::eBit16);
     field_4_flags.Clear(AnimFlags::eBit15);
     field_4_flags.Set(AnimFlags::eBit16);
 
-    this->field_10_frame_delay = pHeader->field_0_fps;
-    this->field_E_frame_change_counter = 1;
-    this->field_92_current_frame = -1;
-    this->field_B_render_mode = 0;
-    this->field_A_b = 0;
-    this->field_9_g = 0;
-    this->field_8_r = 0;
-    this->field_14_scale.fpValue = 0x10000;
+    field_10_frame_delay = pHeader->field_0_fps;
+    field_E_frame_change_counter = 1;
+    field_92_current_frame = -1;
+    field_B_render_mode = 0;
+    field_A_b = 0;
+    field_9_g = 0;
+    field_8_r = 0;
+    field_14_scale.fpValue = 0x10000;
+
     FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(0);
-    BYTE* pAnimData = *this->field_20_ppBlock;
+    BYTE* pAnimData = *field_20_ppBlock;
 
-    /*
-    if (this->field_0_mBase.field_4_flags & 0x200000)
-    {
-        v26 = pAnimData_1->field_8_frame_header_offset;
-        pFrameHeader_1 = (FrameHeader *)&pAnimData[v26];
-        unknown3a = (FrameHeader *)&pAnimData[v26];
-    }
-    else
-    */
+    FrameHeader* pFrameHeader_1 = reinterpret_cast<FrameHeader*>(&pAnimData[pFrameHeader->field_0_frame_header_offset]);
     
-    const int v28 = pFrameHeader->field_0_frame_header_offset;
-    FrameHeader* pFrameHeader_1 = (FrameHeader *)&pAnimData[v28];
-    
-    const unsigned __int16 colourDepth = pFrameHeader_1->field_6_colour_depth;
     BYTE* pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
-    const int unknown1a = (int)&pAnimData[pFrameHeader_1->field_0_clut_offset];
-
-    //if (!(this->field_0_mBase.field_4_flags & 0x200000))
-    
-    __int16 result = Vram_alloc_4956C0(maxW, maxH, colourDepth, &this->field_84_vram_rect);
+  
+    __int16 result = Vram_alloc_4956C0(maxW, maxH, pFrameHeader_1->field_6_colour_depth, &field_84_vram_rect);
     if (!result)
     {
         return result;
     }
-    pClut = (BYTE *)unknown1a;
     
+    WORD pal_depth = 0;
 
     int vram_width = 0;
-    if (colourDepth == 4)
+    if (pFrameHeader_1->field_6_colour_depth == 4)
     {
-        /*
-        if (this->field_0_mBase.field_4_flags & 0x200000)
-        {
-            v37 = (unsigned int)unknown3a->field_4_width >> 1;
-            v38 = unknown3a->field_4_width & 1;
-            if (v38 < 0)
-            {
-                pal_depth = 16;
-                vram_width = (((_BYTE)v38 - 1) | ~1u) + 1 + v37;
-                goto LABEL_26;
-            }
-        }
-        else
-        */
-       // {
-            const int v37 = (unsigned int)(unsigned __int16)maxW >> 1;
-            const int v38 = (unsigned __int16)maxW % 2;
-        //}
+        const int v37 = (unsigned int)(unsigned __int16)maxW >> 1;
+        const int v38 = (unsigned __int16)maxW % 2;
+
         vram_width = v38 + v37;
         pal_depth = 16;
         goto LABEL_26;
     }
 
     char b16Bit = 0;
-    if (colourDepth == 8)
+    if (pFrameHeader_1->field_6_colour_depth == 8)
     {
-        /*
-        if (this->field_0_mBase.field_4_flags & 0x200000)
-        {
-            vram_width = unknown3a->field_4_width;
-        }
-        else
-        */
-        {
-            vram_width = (unsigned __int16)maxW;
-        }
-        //BYTE1(this->field_4_flags) |= 0x10u;
+        vram_width = (unsigned __int16)maxW;
         field_4_flags.Set(AnimFlags::eBit13);
         if (*(DWORD *)pClut != 64)
         {
@@ -884,19 +768,9 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     }
     else
     {
-        if (colourDepth == 16)
+        if (pFrameHeader_1->field_6_colour_depth == 16)
         {
-            /*
-            if (this->field_0_mBase.field_4_flags & 0x200000)
-            {
-                vram_width = 2 * unknown3a->field_4_width;
-            }
-            else
-            */
-            {
-                vram_width = 2 * (unsigned __int16)maxW;
-            }
-            //BYTE1(this->field_4_flags) |= 0x20u;
+            vram_width = 2 * (unsigned __int16)maxW;
             field_4_flags.Set(AnimFlags::eBit14);
         }
         else
@@ -912,10 +786,8 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
 LABEL_26:
     b16Bit = 0;
 LABEL_27:
-    //LOBYTE(b16BitFlag) = 0;
     __int16 b16BitFlag = b16Bit & 1;
     
-//    this->field_4_flags.Raw().words.hiword = this->field_4_flags.Raw().words.hiword & ~0x100 | b16BitFlag;
     field_4_flags.Clear(AnimFlags::eBit25);
     if (b16BitFlag)
     {
@@ -924,42 +796,26 @@ LABEL_27:
 
     if (field_4_flags.Get(AnimFlags::eBit17)==true && field_4_flags.Get(AnimFlags::eBit24) == false)
     {
-        const __int16* vram_x = (__int16 *)&this->field_8C_pal_vram_x;
-        if (!Pal_Allocate_483110((PSX_RECT *)&this->field_8C_pal_vram_x, pal_depth))
+        const __int16* vram_x = (__int16 *)&field_8C_pal_vram_x;
+        if (!Pal_Allocate_483110((PSX_RECT *)&field_8C_pal_vram_x, pal_depth))
         {
             Animation_Pal_Free_40C4C0();
             return 0;
         }
-        const __int16 vram_y = this->field_8C_pal_vram_x.field_2_y;
+        const __int16 vram_y = field_8C_pal_vram_x.field_2_y;
 
-        PSX_RECT rect; // [esp+Ch] [ebp-Ch]
-
+        PSX_RECT rect = {};
         rect.x = *vram_x;
         rect.y = vram_y;
         rect.w = pal_depth;
         rect.h = 1;
-        PSX_LoadImage16_4F5E20(&rect, (BYTE *)(unknown1a + 4));
-        /*
-        if (!(this->field_0_mBase.field_4_flags & 0x200000))
-        {
-            goto LABEL_45;
-        }
-        v40 = &pAnimData_1->field_E_vram_p1;
-        *v40 = *(PSX_Point *)vram_x;
-        v40[1].field_0_x = this->field_90_pal_depth;
-        BYTE2(this->field_0_mBase.field_4_flags) |= 0x80u;
-        */
+        PSX_LoadImage16_4F5E20(&rect, (BYTE *)(pClut + 4)); // Skips CLUT len
     }
-    /*
-    if (this->field_0_mBase.field_4_flags & 0x200000)
-    {
-        this->field_28_dbuf_size = (vram_width + 3) * unknown3a->field_5_height;
-        goto LABEL_46;
-    }*/
-    this->field_28_dbuf_size = maxH * (vram_width + 3);
-    const DWORD dbuf_size = this->field_28_dbuf_size;
-    this->field_24_dbuf = 0;
-    this->field_28_dbuf_size = dbuf_size + 8;
+
+    field_28_dbuf_size = maxH * (vram_width + 3);
+    const DWORD dbuf_size = field_28_dbuf_size;
+    field_24_dbuf = nullptr;
+    field_28_dbuf_size = dbuf_size + 8;
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
     const __int16 bAdded = gObjList_animations_5C1A24->Push_Back(this);
@@ -967,15 +823,14 @@ LABEL_27:
     {
         return 0;
     }
-    //this->field_0_VTbl->Animation__vdecode_40AC90(this);
+
     vDecode_40AC90();
 
     result = bAdded;
-    this->field_E_frame_change_counter = 1;
-    this->field_92_current_frame = -1;
+    field_E_frame_change_counter = 1;
+    field_92_current_frame = -1;
 
     return result;
-
 }
 
 void AnimationEx::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
