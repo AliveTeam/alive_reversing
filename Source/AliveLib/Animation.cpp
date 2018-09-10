@@ -744,8 +744,8 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     int vram_width = 0;
     if (pFrameHeader_1->field_6_colour_depth == 4)
     {
-        const int v37 = (unsigned int)(unsigned __int16)maxW >> 1;
-        const int v38 = (unsigned __int16)maxW % 2;
+        const int v37 = maxW / 2;
+        const int v38 = maxW % 2;
 
         vram_width = v38 + v37;
         pal_depth = 16;
@@ -753,9 +753,9 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     }
     else if (pFrameHeader_1->field_6_colour_depth == 8)
     {
-        vram_width = (unsigned __int16)maxW;
+        vram_width = maxW;
         field_4_flags.Set(AnimFlags::eBit13);
-        if (*(DWORD *)pClut != 64)
+        if (*(DWORD *)pClut != 64) // CLUT entry count
         {
             pal_depth = 256;
             b256Pal = 1; // is 256 pal
@@ -769,7 +769,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     {
         if (pFrameHeader_1->field_6_colour_depth == 16)
         {
-            vram_width = 2 * (unsigned __int16)maxW;
+            vram_width = maxW * 2;
             field_4_flags.Set(AnimFlags::eBit14);
         }
         else
@@ -791,19 +791,20 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
 
     if (field_4_flags.Get(AnimFlags::eBit17)==true && field_4_flags.Get(AnimFlags::eBit24) == false)
     {
-        const __int16* vram_x = (__int16 *)&field_8C_pal_vram_x;
-        if (!Pal_Allocate_483110((PSX_RECT *)&field_8C_pal_vram_x, pal_depth))
+        PSX_RECT rect = {}; // TODO: Not sure if its really a rect passed here, seems to populate x,y,colour depth?
+        if (!Pal_Allocate_483110(&rect, pal_depth))
         {
             Animation_Pal_Free_40C4C0();
             return 0;
         }
-        const __int16 vram_y = field_8C_pal_vram_x.field_2_y;
 
-        PSX_RECT rect = {};
-        rect.x = *vram_x;
-        rect.y = vram_y;
+        field_8C_pal_vram_x.field_0_x = rect.x;
+        field_8C_pal_vram_x.field_2_y = rect.y;
+        field_90_pal_depth = pal_depth;
+
         rect.w = pal_depth;
         rect.h = 1;
+
         PSX_LoadImage16_4F5E20(&rect, (BYTE *)(pClut + 4)); // Skips CLUT len
     }
 
@@ -817,6 +818,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         return 0;
     }
 
+    // Get first frame decompressed/into VRAM
     vDecode_40AC90();
 
     field_E_frame_change_counter = 1;
