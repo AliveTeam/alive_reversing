@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "Compression.hpp"
 #include "VRam.hpp"
+#include "Game.hpp"
 
 struct AnimationHeader
 {
@@ -547,6 +548,11 @@ signed __int16 AnimationEx::Set_Animation_Data_409C80(int frameTableOffset, BYTE
     return 1;
 }
 
+void AnimationEx::Animation_Pal_Free_40C4C0()
+{
+    NOT_IMPLEMENTED();
+}
+
 void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
 {
     for (auto i = 0; i < pAnims->Size(); i++)
@@ -640,10 +646,322 @@ WORD AnimationEx::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-signed __int16 AnimationEx::Init_40A030(int /*frameTableOffset*/, DynamicArray* /*animList*/, void* /*pGameObj*/, int /*maxW*/, unsigned __int16 /*maxH*/, BYTE** /*ppAnimData*/, unsigned __int8 /*unknown1*/, signed int /*pal_depth*/, char /*unknown3*/)
+signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *animList, void *pGameObj, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    __int16 hiwordFlags; // dx
+    signed __int16 result; // ax
+    AnimationHeader *pHeader; // edi
+    __int16 v14; // ax
+    __int16 v15; // cx
+    __int16 v16; // cx
+    int v18; // eax
+    __int16 v23; // ax
+    FrameInfoHeader *pFrameHeader; // eax
+    BYTE *pAnimData; // ecx
+    FrameHeader *pFrameHeader_1; // edi
+    int v28; // eax
+    int colourDepth; // ebx
+    BYTE *pClut; // eax
+    int vram_width; // edi
+    char b16Bit; // al
+    __int16 b16BitFlag; // dx
+    char v34; // al
+    bool v35; // zf
+    __int16 *vram_x; // ebx
+    unsigned int v37; // edi
+    int v38; // eax
+    __int16 vram_y; // cx
+    DWORD dbuf_size; // edx
+    signed __int16 bAdded; // di
+    int unknown1a; // [esp+34h] [ebp+1Ch]
+    FrameHeader *unknown3a; // [esp+3Ch] [ebp+24h]
+
+    field_4_flags.Raw().all = 0; // extra - init to 0's first
+
+    // 0x100000
+    field_4_flags.Set(AnimFlags::eBit21);
+    //this->field_4_flags.Raw().bytes.b2 |= 0x10u;
+    this->field_18_frame_table_offset = frameTableOffset;
+    this->field_20_ppBlock = ppAnimData;
+    this->field_1C_fn_ptr_array = nullptr;
+    this->field_24_dbuf = nullptr;
+    if (!ppAnimData)
+    {
+        return 0;
+    }
+    this->field_94_pGameObj = pGameObj;
+    pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
+
+    hiwordFlags = this->field_4_flags.Raw().words.hiword;
+
+    /*
+    0x40
+    0x20
+    0x10
+    0x1
+    */
+    field_4_flags.Clear(AnimFlags::eBit1);
+    field_4_flags.Clear(AnimFlags::eBit5);
+    field_4_flags.Clear(AnimFlags::eBit6);
+    field_4_flags.Clear(AnimFlags::eBit7);
+    //v14 = this->field_4_flags.Raw().words.loword & ~0x71;
+    
+    // LOBYTE(v14) =
+    /*
+    0x4
+    0x2
+    */
+    //v14 = v14 | 6;
+    //this->field_4_flags.Raw().words.loword = v14;
+    field_4_flags.Set(AnimFlags::eBit2_Animate);
+    field_4_flags.Set(AnimFlags::eBit3);
+
+    v15 = ((pHeader->field_6_flags & 2 | (unsigned __int16)(8 * (unknown3 & 1 | 2 * (pal_depth & 1)))) << 6);
+    this->field_4_flags.Raw().words.loword |= v15;
+    /*
+    0x2000
+    0x1000
+    */
+    //this->field_4_flags.Raw().words.loword = v15 & ~0x3000;
+    field_4_flags.Clear(AnimFlags::eBit14);
+    field_4_flags.Clear(AnimFlags::eBit13);
+
+    // Clear vram/pal inits to not allocated
+    field_84_vram_rect.w = 0;
+    field_90_pal_depth = 0;
+
+    /*
+    0x80000
+    0x40000
+    0x20000
+    */
+    v16 = hiwordFlags & ~0xE ^ (unknown1 ^ hiwordFlags & ~0xFF0Eu) & 1;
+    
+    this->field_4_flags.Raw().words.hiword = v16;
+//    pAnimData_1 = (Anim_Unknown *)*ppAnimData;
+    /*
+    0x800000 eBit24
+    0x400000 eBit23
+    0x200000 eBit22
+    */
+    //v18 = (unsigned __int16)(v16 & ~0xE0) | 32 * (*((DWORD *)*ppAnimData + 2) != 0);// | 0x0 or | 0x20 + 0000 = 0x200000
+    //this->field_4_flags.Raw().words.hiword = v18; // waring conv
+    field_4_flags.Clear(AnimFlags::eBit24);
+    field_4_flags.Clear(AnimFlags::eBit23);
+    field_4_flags.Clear(AnimFlags::eBit22);
+    if (*((DWORD *)*ppAnimData + 2) != 0)
+    {
+        field_4_flags.Set(AnimFlags::eBit22);
+    }
+
+    if (field_4_flags.Raw().all & 0x200000)
+    {
+        ALIVE_FATAL("Unknown data");
+    }
+    /*
+    if (v18 & 0x20)                             // actually 0x200000 ?
+    {
+        LOWORD(this->field_0_mBase.field_4_flags) &= ~0x600u;
+        ++pAnimData_1->field_C_ref_count;
+        if (pAnimData_1->field_18_wh)
+        {
+            *(DWORD *)&this->field_84_vram_rect.x = *(DWORD *)&pAnimData_1->field_12_vram_p2.field_2_y;
+            v19 = *(DWORD *)&pAnimData_1->field_18_wh;
+            BYTE2(this->field_0_mBase.field_4_flags) |= 0x40u;
+            v20 = HIWORD(this->field_0_mBase.field_4_flags);
+            *(DWORD *)&this->field_84_vram_rect.w = v19;
+            if (pAnimData_1->field_12_vram_p2.field_0_x)
+            {
+                if (v20 & 1)
+                {
+                    v21 = &this->field_8C_pal_vram_x;
+                    *v21 = pAnimData_1->field_E_vram_p1;
+                    v22 = pAnimData_1->field_12_vram_p2.field_0_x;
+                    BYTE2(this->field_0_mBase.field_4_flags) |= 0x80u;
+                    v21[1].field_0_x = v22;
+                }
+            }
+        }
+    }
+    */
+
+    /*
+    0x8000 eBit16
+    0x4000 eBit15
+    */
+    v23 = this->field_4_flags.Raw().words.loword & ~0xC000u;
+    this->field_10_frame_delay = pHeader->field_0_fps;
+    //  HIBYTE(v23) |= 0x80u; // eBit16
+    v23 |= 0x8000u;
+    this->field_E_frame_change_counter = 1;
+    this->field_92_current_frame = -1;
+    this->field_4_flags.Raw().words.loword = v23;
+    this->field_B_render_mode = 0;
+    this->field_A_b = 0;
+    this->field_9_g = 0;
+    this->field_8_r = 0;
+    this->field_14_scale.fpValue = 0x10000;
+    pFrameHeader = Get_FrameHeader_40B730(0);
+    pAnimData = *this->field_20_ppBlock;
+
+    /*
+    if (this->field_0_mBase.field_4_flags & 0x200000)
+    {
+        v26 = pAnimData_1->field_8_frame_header_offset;
+        pFrameHeader_1 = (FrameHeader *)&pAnimData[v26];
+        unknown3a = (FrameHeader *)&pAnimData[v26];
+    }
+    else
+    */
+    {
+        v28 = pFrameHeader->field_0_frame_header_offset;
+        unknown3a = (FrameHeader *)&pAnimData[v28];
+        pFrameHeader_1 = (FrameHeader *)&pAnimData[v28];
+    }
+    colourDepth = pFrameHeader_1->field_6_colour_depth;
+    pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
+    unknown1a = (int)&pAnimData[pFrameHeader_1->field_0_clut_offset];
+
+    //if (!(this->field_0_mBase.field_4_flags & 0x200000))
+    {
+        result = Vram_alloc_4956C0(maxW, maxH, colourDepth, &this->field_84_vram_rect);
+        if (!result)
+        {
+            return result;
+        }
+        pClut = (BYTE *)unknown1a;
+    }
+
+    if (colourDepth == 4)
+    {
+        /*
+        if (this->field_0_mBase.field_4_flags & 0x200000)
+        {
+            v37 = (unsigned int)unknown3a->field_4_width >> 1;
+            v38 = unknown3a->field_4_width & 1;
+            if (v38 < 0)
+            {
+                pal_depth = 16;
+                vram_width = (((_BYTE)v38 - 1) | ~1u) + 1 + v37;
+                goto LABEL_26;
+            }
+        }
+        else
+        */
+        {
+            v37 = (unsigned int)(unsigned __int16)maxW >> 1;
+            v38 = (unsigned __int16)maxW % 2;
+        }
+        vram_width = v38 + v37;
+        pal_depth = 16;
+        goto LABEL_26;
+    }
+    if (colourDepth == 8)
+    {
+        /*
+        if (this->field_0_mBase.field_4_flags & 0x200000)
+        {
+            vram_width = unknown3a->field_4_width;
+        }
+        else
+        */
+        {
+            vram_width = (unsigned __int16)maxW;
+        }
+        BYTE1(this->field_4_flags) |= 0x10u;
+        if (*(DWORD *)pClut != 64)
+        {
+            pal_depth = 256;
+            b16Bit = 1;
+            goto LABEL_27;
+        }
+        pal_depth = 64;
+    }
+    else
+    {
+        if (colourDepth == 16)
+        {
+            /*
+            if (this->field_0_mBase.field_4_flags & 0x200000)
+            {
+                vram_width = 2 * unknown3a->field_4_width;
+            }
+            else
+            */
+            {
+                vram_width = 2 * (unsigned __int16)maxW;
+            }
+            BYTE1(this->field_4_flags) |= 0x20u;
+        }
+        else
+        {
+            vram_width = pal_depth;
+        }
+        if (pal_depth != 16 && pal_depth != 64)
+        {
+            b16Bit = 1;
+            goto LABEL_27;
+        }
+    }
+LABEL_26:
+    b16Bit = 0;
+LABEL_27:
+    //LOBYTE(b16BitFlag) = 0;
+    b16BitFlag = b16Bit & 1;
+    v34 = this->field_4_flags.Raw().bytes.b2;
+    v35 = (this->field_4_flags.Raw().all & 0x10000) == 0;
+    this->field_4_flags.Raw().words.hiword = this->field_4_flags.Raw().words.hiword & ~0x100 | b16BitFlag;
+    if (!v35 && v34 >= 0)
+    {
+        vram_x = (__int16 *)&this->field_8C_pal_vram_x;
+        if (!Pal_Allocate_483110((PSX_RECT *)&this->field_8C_pal_vram_x, pal_depth))
+        {
+            Animation_Pal_Free_40C4C0();
+            return 0;
+        }
+        vram_y = this->field_8C_pal_vram_x.field_2_y;
+
+        PSX_RECT rect; // [esp+Ch] [ebp-Ch]
+
+        rect.x = *vram_x;
+        rect.y = vram_y;
+        rect.w = pal_depth;
+        rect.h = 1;
+        PSX_LoadImage16_4F5E20(&rect, (BYTE *)(unknown1a + 4));
+        /*
+        if (!(this->field_0_mBase.field_4_flags & 0x200000))
+        {
+            goto LABEL_45;
+        }
+        v40 = &pAnimData_1->field_E_vram_p1;
+        *v40 = *(PSX_Point *)vram_x;
+        v40[1].field_0_x = this->field_90_pal_depth;
+        BYTE2(this->field_0_mBase.field_4_flags) |= 0x80u;
+        */
+    }
+    /*
+    if (this->field_0_mBase.field_4_flags & 0x200000)
+    {
+        this->field_28_dbuf_size = (vram_width + 3) * unknown3a->field_5_height;
+        goto LABEL_46;
+    }*/
+    this->field_28_dbuf_size = maxH * (vram_width + 3);
+    dbuf_size = this->field_28_dbuf_size;
+    this->field_24_dbuf = 0;
+    this->field_28_dbuf_size = dbuf_size + 8;
+    bAdded = gObjList_animations_5C1A24->Push_Back(this);
+    if (!bAdded)
+    {
+        return 0;
+    }
+    //this->field_0_VTbl->Animation__vdecode_40AC90(this);
+    vDecode_40AC90();
+
+    result = bAdded;
+    this->field_E_frame_change_counter = 1;
+    this->field_92_current_frame = -1;
+    return result;
+
 }
 
 void AnimationEx::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)

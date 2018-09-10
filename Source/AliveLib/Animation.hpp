@@ -150,7 +150,7 @@ struct BanHeader
 
 struct FrameHeader
 {
-    DWORD mClutOffset;
+    DWORD field_0_clut_offset;
     BYTE field_4_width;
     BYTE field_5_height;
     BYTE field_6_colour_depth;
@@ -163,6 +163,7 @@ class AnimationEx : public Animation
 {
 public:
     EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE **pAnimRes);
+    EXPORT void Animation_Pal_Free_40C4C0();
 
     bool EnsureDecompressionBuffer();
     void DecompressFrame_VramAlloc();
