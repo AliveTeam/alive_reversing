@@ -646,17 +646,15 @@ WORD AnimationEx::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *animList, void *pGameObj, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3)
+signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, void *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
-    __int16 hiwordFlags; // dx
     signed __int16 result; // ax
     AnimationHeader *pHeader; // edi
-    __int16 v16; // cx
     FrameInfoHeader *pFrameHeader; // eax
     BYTE *pAnimData; // ecx
     FrameHeader *pFrameHeader_1; // edi
     int v28; // eax
-    int colourDepth; // ebx
+    unsigned __int16 colourDepth; // ebx
     BYTE *pClut; // eax
     int vram_width; // edi
     char b16Bit; // al
@@ -714,17 +712,19 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
         field_4_flags.Set(AnimFlags::eBit8_Loop);
     }
 
-    //v15 = (( (unsigned __int16)(8 * (unknown3 & 1 | 2 * (pal_depth & 1)))) << 6);
+    //v15 = (( (unsigned __int16)(8 * (bEnable_flag10_alternating & 1 | 2 * (pal_depth & 1)))) << 6);
     //this->field_4_flags.Raw().words.loword |= v15;
-    if (unknown3)
+    if (bEnable_flag10_alternating)
     {
         field_4_flags.Set(AnimFlags::eBit10_alternating_flag);
     }
 
-    if (pal_depth)
+    if (b_StartingAlternationState)
     {
         field_4_flags.Set(AnimFlags::eBit11_bToggle_Bit10);
     }
+
+    WORD pal_depth = 0;
 
     /*
     0x2000
@@ -738,16 +738,22 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray *anim
     field_84_vram_rect.w = 0;
     field_90_pal_depth = 0;
 
-    /*
-    0x80000
-    0x40000
-    0x20000
-    */
     // TODO
-    hiwordFlags = this->field_4_flags.Raw().words.hiword;
-    v16 = hiwordFlags & ~0xE ^ (unknown1 ^ hiwordFlags & ~0xFF0Eu) & 1;
-    
-    this->field_4_flags.Raw().words.hiword = v16;
+    /*
+    Unset
+    0x80000 eBit20
+    0x40000 eBit19_LoopBackwards
+    0x20000 eBit18_IsLastFrame
+    And then conditionally set eBit17 ?
+    */
+    //hiwordFlags = this->field_4_flags.Raw().words.hiword;
+    //v16 = hiwordFlags & ~0xE ^ (bFlag_17 ^ hiwordFlags & ~0xFF0Eu) & 1;
+    //this->field_4_flags.Raw().words.hiword = v16;
+    if (bFlag_17)
+    {
+        field_4_flags.Set(AnimFlags::eBit17);
+    }
+
 //    pAnimData_1 = (Anim_Unknown *)*ppAnimData;
     /*
     0x800000 eBit24
@@ -972,6 +978,8 @@ LABEL_27:
     dbuf_size = this->field_28_dbuf_size;
     this->field_24_dbuf = 0;
     this->field_28_dbuf_size = dbuf_size + 8;
+
+    // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
     bAdded = gObjList_animations_5C1A24->Push_Back(this);
     if (!bAdded)
     {
