@@ -648,26 +648,6 @@ WORD AnimationEx::Get_Frame_Count_40AC70()
 
 signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, void *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
-    signed __int16 result; // ax
-    AnimationHeader *pHeader; // edi
-    FrameInfoHeader *pFrameHeader; // eax
-    BYTE *pAnimData; // ecx
-    FrameHeader *pFrameHeader_1; // edi
-    int v28; // eax
-    unsigned __int16 colourDepth; // ebx
-    BYTE *pClut; // eax
-    int vram_width; // edi
-    char b16Bit; // al
-    __int16 b16BitFlag; // dx
-    __int16 *vram_x; // ebx
-    unsigned int v37; // edi
-    int v38; // eax
-    __int16 vram_y; // cx
-    DWORD dbuf_size; // edx
-    signed __int16 bAdded; // di
-    int unknown1a; // [esp+34h] [ebp+1Ch]
-    FrameHeader *unknown3a; // [esp+3Ch] [ebp+24h]
-
     field_4_flags.Raw().all = 0; // extra - init to 0's first
 
     // 0x100000
@@ -682,7 +662,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         return 0;
     }
     this->field_94_pGameObj = pGameObj;
-    pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
+    AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
 
   
     /*
@@ -823,8 +803,8 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     this->field_9_g = 0;
     this->field_8_r = 0;
     this->field_14_scale.fpValue = 0x10000;
-    pFrameHeader = Get_FrameHeader_40B730(0);
-    pAnimData = *this->field_20_ppBlock;
+    FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(0);
+    BYTE* pAnimData = *this->field_20_ppBlock;
 
     /*
     if (this->field_0_mBase.field_4_flags & 0x200000)
@@ -835,25 +815,25 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     }
     else
     */
-    {
-        v28 = pFrameHeader->field_0_frame_header_offset;
-        unknown3a = (FrameHeader *)&pAnimData[v28];
-        pFrameHeader_1 = (FrameHeader *)&pAnimData[v28];
-    }
-    colourDepth = pFrameHeader_1->field_6_colour_depth;
-    pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
-    unknown1a = (int)&pAnimData[pFrameHeader_1->field_0_clut_offset];
+    
+    const int v28 = pFrameHeader->field_0_frame_header_offset;
+    FrameHeader* pFrameHeader_1 = (FrameHeader *)&pAnimData[v28];
+    
+    const unsigned __int16 colourDepth = pFrameHeader_1->field_6_colour_depth;
+    BYTE* pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
+    const int unknown1a = (int)&pAnimData[pFrameHeader_1->field_0_clut_offset];
 
     //if (!(this->field_0_mBase.field_4_flags & 0x200000))
+    
+    __int16 result = Vram_alloc_4956C0(maxW, maxH, colourDepth, &this->field_84_vram_rect);
+    if (!result)
     {
-        result = Vram_alloc_4956C0(maxW, maxH, colourDepth, &this->field_84_vram_rect);
-        if (!result)
-        {
-            return result;
-        }
-        pClut = (BYTE *)unknown1a;
+        return result;
     }
+    pClut = (BYTE *)unknown1a;
+    
 
+    int vram_width = 0;
     if (colourDepth == 4)
     {
         /*
@@ -870,14 +850,16 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         }
         else
         */
-        {
-            v37 = (unsigned int)(unsigned __int16)maxW >> 1;
-            v38 = (unsigned __int16)maxW % 2;
-        }
+       // {
+            const int v37 = (unsigned int)(unsigned __int16)maxW >> 1;
+            const int v38 = (unsigned __int16)maxW % 2;
+        //}
         vram_width = v38 + v37;
         pal_depth = 16;
         goto LABEL_26;
     }
+
+    char b16Bit = 0;
     if (colourDepth == 8)
     {
         /*
@@ -931,7 +913,7 @@ LABEL_26:
     b16Bit = 0;
 LABEL_27:
     //LOBYTE(b16BitFlag) = 0;
-    b16BitFlag = b16Bit & 1;
+    __int16 b16BitFlag = b16Bit & 1;
     
 //    this->field_4_flags.Raw().words.hiword = this->field_4_flags.Raw().words.hiword & ~0x100 | b16BitFlag;
     field_4_flags.Clear(AnimFlags::eBit25);
@@ -942,13 +924,13 @@ LABEL_27:
 
     if (field_4_flags.Get(AnimFlags::eBit17)==true && field_4_flags.Get(AnimFlags::eBit24) == false)
     {
-        vram_x = (__int16 *)&this->field_8C_pal_vram_x;
+        const __int16* vram_x = (__int16 *)&this->field_8C_pal_vram_x;
         if (!Pal_Allocate_483110((PSX_RECT *)&this->field_8C_pal_vram_x, pal_depth))
         {
             Animation_Pal_Free_40C4C0();
             return 0;
         }
-        vram_y = this->field_8C_pal_vram_x.field_2_y;
+        const __int16 vram_y = this->field_8C_pal_vram_x.field_2_y;
 
         PSX_RECT rect; // [esp+Ch] [ebp-Ch]
 
@@ -975,12 +957,12 @@ LABEL_27:
         goto LABEL_46;
     }*/
     this->field_28_dbuf_size = maxH * (vram_width + 3);
-    dbuf_size = this->field_28_dbuf_size;
+    const DWORD dbuf_size = this->field_28_dbuf_size;
     this->field_24_dbuf = 0;
     this->field_28_dbuf_size = dbuf_size + 8;
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
-    bAdded = gObjList_animations_5C1A24->Push_Back(this);
+    const __int16 bAdded = gObjList_animations_5C1A24->Push_Back(this);
     if (!bAdded)
     {
         return 0;
