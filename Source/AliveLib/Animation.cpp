@@ -5,6 +5,7 @@
 #include "Compression.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
+#include "PsxDisplay.hpp"
 
 struct AnimationHeader
 {
@@ -635,9 +636,20 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
 
 }
 
-void AnimationEx::Get_Frame_Rect_409E10(PSX_RECT * /*pRect*/)
+void AnimationEx::Get_Frame_Rect_409E10(PSX_RECT* pRect)
 {
     NOT_IMPLEMENTED();
+
+    if (!field_4_flags.Get(AnimFlags::eBit16))
+    {
+        Poly_FT4_Get_Rect_409DA0(pRect, &field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index]);
+        return;
+    }
+
+    // The ASM here is crazy, but basically it gets a pointer to field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index] twice
+    // so everything it is comparing is a pointer ot the same polygon.
+
+    // TODO: Impl
 }
 
 WORD AnimationEx::Get_Frame_Count_40AC70()
