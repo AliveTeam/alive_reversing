@@ -81,6 +81,9 @@ class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT void ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
 
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+
     EXPORT void Render_4CF4C0(int **ot);
     EXPORT void Update_4CF010();
 

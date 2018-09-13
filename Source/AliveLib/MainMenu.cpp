@@ -318,6 +318,16 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     }
 }
 
+void MainMenuController::VUpdate()
+{
+    Update_4CF010();
+}
+
+void MainMenuController::VRender(int** pOrderingTable)
+{
+    Render_4CF4C0(pOrderingTable);
+}
+
 void MainMenuController::Render_4CF4C0(int ** ot)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit2_Animate)
@@ -380,7 +390,7 @@ unsigned int MainMenuController::Page_Front_Update_4D0720(InputCommands input)
         {
             if (this->field_F4_resources.field_0_res_abespeak)
             {
-                sub_4D05E0(4, 0);
+                sub_4D05E0(4, 0); // Abe hello anim
             }
             switch (this->field_1FC_button_index)
             {
@@ -388,7 +398,7 @@ unsigned int MainMenuController::Page_Front_Update_4D0720(InputCommands input)
                 result = 12;
                 break;
             case 1:
-                sub_4D05E0(6, 0);
+                sub_4D05E0(6, 0); // Opening door anim
                 result = 11;
                 break;
             case 2:
