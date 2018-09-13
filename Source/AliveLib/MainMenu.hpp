@@ -86,7 +86,7 @@ public:
 
     EXPORT static int __stdcall GetPageIndexFromCam_4D05A0(int camId);
     EXPORT void sub_4D05E0(__int16 a2, __int16 a3);
-    EXPORT void sub_4D06A0(AnimationEx *a3);
+    EXPORT void Load_Anim_Pal_4D06A0(AnimationEx* pAnim);
     EXPORT signed int sub_4CF640();
     EXPORT void sub_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();

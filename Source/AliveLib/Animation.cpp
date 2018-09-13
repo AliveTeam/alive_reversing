@@ -742,7 +742,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(0);
     BYTE* pAnimData = *field_20_ppBlock;
 
-    FrameHeader* pFrameHeader_1 = reinterpret_cast<FrameHeader*>(&pAnimData[pFrameHeader->field_0_frame_header_offset]);
+    const FrameHeader* pFrameHeader_1 = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameHeader->field_0_frame_header_offset]);
     
     BYTE* pClut = &pAnimData[pFrameHeader_1->field_0_clut_offset];
   

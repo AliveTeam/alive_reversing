@@ -294,7 +294,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
         pDemosOrFmvs_BB4414 = &sFmvs_561540;
         sMenuItemCount_561538 = 28;
         field_20_animation.Set_Animation_Data_409C80(247808, (BYTE **)field_F4_resources.field_4_res_abespek2);
-        sub_4D06A0(&field_20_animation);
+        Load_Anim_Pal_4D06A0(&field_20_animation);
         return;
     }
     if (gMap_5C3030.sCurrentCamId_5C3034 == 30)
@@ -314,7 +314,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
         sMenuItemCount_561538 = 23;
         field_230_fmv_level_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, (BYTE **)field_F4_resources.field_4_res_abespek2);
-        sub_4D06A0(&field_20_animation);
+        Load_Anim_Pal_4D06A0(&field_20_animation);
     }
 }
 
@@ -686,9 +686,12 @@ void MainMenuController::sub_4D05E0(__int16 a2, __int16 a3)
     }
 }
 
-void MainMenuController::sub_4D06A0(AnimationEx * /*a3*/)
+void MainMenuController::Load_Anim_Pal_4D06A0(AnimationEx* pAnim)
 {
-    NOT_IMPLEMENTED();
+    // TODO: If this is duplicated a lot it can be moved to a helper
+    const FrameInfoHeader* pFrameInfo = pAnim->Get_FrameHeader_40B730(0);
+    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*pAnim->field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+    pAnim->Load_Pal_40A530(pAnim->field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 }
 
 signed int MainMenuController::sub_4CF640()
