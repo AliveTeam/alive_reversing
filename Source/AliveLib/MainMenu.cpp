@@ -516,91 +516,82 @@ void MainMenuController::t_Load_Slig_Speak_4D3090()
 
 unsigned int MainMenuController::Page_Front_Update_4D0720(InputCommands input)
 {
-    __int16 v3; // ax
-    int result; // eax
-
+    // Reset time out if any input detected
     if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed)
     {
-        v3 = 0;
-        this->field_1F8_page_timeout = 0;
+        field_1F8_page_timeout = 0;
         word_5C1B9A = 0;
     }
-    else
-    {
-        v3 = word_5C1B9A;
-    }
-    if (this->field_1F8_page_timeout <= (v3 != 0 ? 300 : 1500))
-    {
-        if (input & eUnPause)
-        {
-            if (this->field_F4_resources.field_0_res_abespeak)
-            {
-                sub_4D05E0(4, 0); // Abe hello anim
-            }
-            switch (this->field_1FC_button_index)
-            {
-            case 0:
-                result = 12;
-                break;
-            case 1:
-                sub_4D05E0(6, 0); // Opening door anim
-                result = 11;
-                break;
-            case 2:
-                this->field_230_fmv_level_index = 0;
-                result = 0xFFFF0004;
-                break;
-            case 3:
-                result = 3;
-                break;
-            case 4:
-                this->field_230_fmv_level_index = 0;
-                result = 2;
-                break;
-            default:
-                goto LABEL_15;
-            }
-        }
-        else
-        {
-        LABEL_15:
-            if (sEnableCheatFMV_5C1BEC)
-            {
-                sEnableCheatFMV_5C1BEC = 0;
-                this->field_25C = 1;
-                pDemosOrFmvs_BB4414 = sFmvs_561540;
-                sMenuItemCount_561538 = 28;
-                this->field_230_fmv_level_index = 0;
-                this->field_250 = 0;
-                this->field_254 = 0;
-                this->field_258 = 0;
-                result = 0xFFFF0006;
-            }
-            else if (sEnableCheatLevelSelect_5C1BEE)
-            {
-                sEnableCheatLevelSelect_5C1BEE = 0;
-                this->field_25E = 1;
-                pDemosOrFmvs_BB4414 = gPerLvlData_561700;
-                sMenuItemCount_561538 = 15;
-                this->field_230_fmv_level_index = 0;
-                this->field_250 = 0;
-                this->field_254 = 0;
-                this->field_258 = 0;
-                result = 0xFFFF001F;
-            }
-            else
-            {
-                result = 0;
-            }
-        }
-    }
-    else
+
+    // Go to loading a demo screen if no input after time out
+    if (field_1F8_page_timeout > (word_5C1B9A != 0 ? 300 : 1500))
     {
         word_5C1B9A = 1;
-        this->field_1FC_button_index = 0;
-        result = 0xFFFF0016;
+        field_1FC_button_index = 0;
+        return 0xFFFF0016;
     }
-    return result;
+
+    // Enter pressed on selected menu item?
+    if (input & eUnPause)
+    {
+        if (field_F4_resources.field_0_res_abespeak)
+        {
+            // Abe saying OK anim
+            sub_4D05E0(4, 0);
+        }
+
+        switch (field_1FC_button_index)
+        {
+        case 0:
+            // Begin
+            return 12;
+        case 1:
+            // Quit
+            sub_4D05E0(6, 0); // Abe saying "Good bye" anim
+            return 11;
+        case 2:
+            // Load
+            field_230_fmv_level_index = 0;
+            return 0xFFFF0004;
+        case 3:
+            // Options
+            return 3;
+        case 4:
+            // Game speak
+            field_230_fmv_level_index = 0;
+            return 2;
+        }
+    }
+
+    if (sEnableCheatFMV_5C1BEC)
+    {
+        // To FMV list menu
+        sEnableCheatFMV_5C1BEC = 0;
+        field_25C = 1;
+        pDemosOrFmvs_BB4414 = sFmvs_561540;
+        sMenuItemCount_561538 = 28;
+        field_230_fmv_level_index = 0;
+        field_250 = 0;
+        field_254 = 0;
+        field_258 = 0;
+        return 0xFFFF0006;
+    }
+    
+    if (sEnableCheatLevelSelect_5C1BEE)
+    {
+        // To level select menu
+        sEnableCheatLevelSelect_5C1BEE = 0;
+        field_25E = 1;
+        pDemosOrFmvs_BB4414 = gPerLvlData_561700;
+        sMenuItemCount_561538 = 15;
+        field_230_fmv_level_index = 0;
+        field_250 = 0;
+        field_254 = 0;
+        field_258 = 0;
+        return 0xFFFF001F;
+    }
+
+    return 0;
 }
 
 int MainMenuController::Page_Front_Render_4D24B0(int ** ot)
