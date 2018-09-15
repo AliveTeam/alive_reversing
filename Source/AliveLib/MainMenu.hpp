@@ -100,7 +100,11 @@ public:
     int             MainMenuPageRenderTemplate(int **ot);   // Returns poly index for text rendering.
     
     // Page Functions
-    
+    EXPORT void t_Unload_Slig_Speak_4D3170();
+
+    EXPORT void t_Load_Slig_Speak_4D3090();
+    void Unload_AbeSpeakResources();
+
     // Front End
     EXPORT unsigned int Page_Front_Update_4D0720(InputCommands input);
     EXPORT int Page_Front_Render_4D24B0(int **ot);

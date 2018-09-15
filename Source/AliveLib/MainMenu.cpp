@@ -366,8 +366,47 @@ void MainMenuController::Render_4CF4C0(int ** ot)
 
 MainMenuText sMMT_FrontPage_5623A0 = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
 
+void MainMenuController::t_Unload_Slig_Speak_4D3170()
+{
+    if (!field_F4_resources.field_1C_res_slgspeak)
+    {
+        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+    }
+    ResourceManager::FreeResource_49C330(field_F4_resources.field_1C_res_slgspeak);
 
-//
+    // Prevent animation since its now unloaded
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+
+    field_F4_resources.field_1C_res_slgspeak = nullptr;
+
+    // TODO: Can move to Load_AbeSpeakResources helper
+    ResourceManager::Reclaim_Memory_49C470(0);
+    ResourceManager::LoadResourceFile_49C170("ABESPEK2.BAN", nullptr);
+    
+    field_F4_resources.field_4_res_abespek2 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, TRUE, FALSE);
+    ResourceManager::Reclaim_Memory_49C470(0);
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+    {
+        Game_ShowLoadingIcon_482D80();
+        ResourceManager::LoadResourceFile_49C170("ABESPEAK.BAN", nullptr);
+    }
+
+    field_F4_resources.field_0_res_abespeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 130, TRUE, FALSE);
+
+    sub_4D05E0(1, 0);
+}
+
+void MainMenuController::t_Load_Slig_Speak_4D3090()
+{
+    Unload_AbeSpeakResources();
+
+    ResourceManager::LoadResourceFile_49C170("SLGSPEAK.BAN", nullptr);
+
+    field_F4_resources.field_1C_res_slgspeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 140, TRUE, FALSE);
+    field_20_animation.Set_Animation_Data_409C80(0x10DF18, field_F4_resources.field_1C_res_slgspeak);
+    sub_4D05E0(18, 0);
+}
 
 unsigned int MainMenuController::Page_Front_Update_4D0720(InputCommands input)
 {
@@ -820,4 +859,28 @@ int MainMenuController::DrawMenuText_4D20D0(MainMenuText * /*array*/, int ** /*o
 
 void MainMenu_ForceLink()
 {
+}
+
+void MainMenuController::Unload_AbeSpeakResources()
+{
+    // If they are currently loading wait for them to finish
+    if (!field_F4_resources.field_0_res_abespeak || !field_F4_resources.field_4_res_abespek2)
+    {
+        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+    }
+
+    // And then bin them off to make room for new resources
+    ResourceManager::FreeResource_49C330(field_F4_resources.field_0_res_abespeak);
+    ResourceManager::FreeResource_49C330(field_F4_resources.field_4_res_abespek2);
+
+    field_F4_resources.field_4_res_abespek2 = nullptr;
+    field_F4_resources.field_0_res_abespeak = nullptr;
+
+    // Prevent animation since its now unloaded
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+
+    // Compact the heap
+    ResourceManager::Reclaim_Memory_49C470(0);
+
+    Game_ShowLoadingIcon_482D80();
 }
