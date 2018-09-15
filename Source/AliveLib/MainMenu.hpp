@@ -100,8 +100,9 @@ public:
     int             MainMenuPageRenderTemplate(int **ot);   // Returns poly index for text rendering.
     
     // Page Functions
+    EXPORT void t_Render_Slig_Speak_4D2370(int** ot);
+    EXPORT signed int t_Input_Slig_Speak_4D3280(int a2);
     EXPORT void t_Unload_Slig_Speak_4D3170();
-
     EXPORT void t_Load_Slig_Speak_4D3090();
     void Unload_AbeSpeakResources();
 
@@ -129,7 +130,7 @@ public:
     int field_204_prev_pressed;
     int field_208;
     int field_20C;
-    int field_210;
+    void* field_210_pUnknown;
     __int16 field_214_page_index;
     __int16 field_216;
     __int16 field_218_target_page_index;

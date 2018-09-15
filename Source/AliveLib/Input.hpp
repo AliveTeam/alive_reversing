@@ -37,6 +37,7 @@ enum InputCommands : unsigned int
     eChant =        1 << 18, 
     ePause =        1 << 19, // Or enter
     eUnPause =      1 << 20, // Or/and back
+    eBack =         1 << 21,
     // 0x200000     = nothing
     eCheatMode =    1 << 22,
     // 0x800000     = nothing

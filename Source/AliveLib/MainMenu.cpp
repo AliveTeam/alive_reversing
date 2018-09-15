@@ -266,7 +266,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_1FC_button_index = 0;
     field_208 = 0;
     field_20C = 0;
-    field_210 = 0;
+    field_210_pUnknown = nullptr;
     field_23A = 0;
     field_234 = &byte_5C2F68;
     field_238 = 0;
@@ -365,6 +365,112 @@ void MainMenuController::Render_4CF4C0(int ** ot)
 // Main Menu Text Data
 
 MainMenuText sMMT_FrontPage_5623A0 = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
+
+EXPORT void MainMenuController::t_Render_Slig_Speak_4D2370(int** ot)
+{
+    // TODO: Render the button text
+    NOT_IMPLEMENTED();
+}
+
+EXPORT signed int MainMenuController::t_Input_Slig_Speak_4D3280(int inputHeldState)
+{
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+
+    if (field_230_fmv_level_index == 8)
+    {
+        return 0;
+    }
+
+    const DWORD input_held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+
+    // Hi
+    if (input_held & InputCommands::eGameSpeak1)
+    {
+        sub_4D05E0(26, 0);
+        field_230_fmv_level_index = 0;
+        return 0;
+    }
+    // Git 'im
+    else if (input_held & InputCommands::eGameSpeak4)
+    {
+        sub_4D05E0(20, 0);
+        field_230_fmv_level_index = 1;
+        return 0;
+    }
+    // Freeze
+    else if (input_held & InputCommands::eGameSpeak3)
+    {
+        sub_4D05E0(19, 0);
+        field_230_fmv_level_index = 2;
+        return 0;
+    }
+    // Here boy
+    else if (input_held & InputCommands::eGameSpeak2)
+    {
+        sub_4D05E0(21, 0);
+        field_230_fmv_level_index = 3;
+        return 0;
+    }
+    // Bs
+    else if (input_held & InputCommands::eGameSpeak6)
+    {
+        sub_4D05E0(24, 0);
+        field_230_fmv_level_index = 4;
+        return 0;
+    }
+    // Look out
+    else if (input_held & InputCommands::eGameSpeak7)
+    {
+        sub_4D05E0(23, 0);
+        field_230_fmv_level_index = 5;
+        return 0;
+    }
+    // S'mo bs
+    else if (input_held & InputCommands::eGameSpeak5)
+    {
+        sub_4D05E0(25, 0);
+        field_230_fmv_level_index = 6;
+        return 0;
+    }
+    // Laugh
+    else if (input_held & InputCommands::eGameSpeak8)
+    {
+        sub_4D05E0(22, 0);
+        field_230_fmv_level_index = 7;
+        return 0;
+    }
+    else if (inputHeldState & InputCommands::eBack)
+    {
+        // Exit
+        sub_4D05E0(25, 0);
+
+        field_230_fmv_level_index = 8;
+        field_1FC_button_index = -1;
+
+        if (field_210_pUnknown)
+        {
+            // TODO: Recover type
+            WORD* pUnknown = (WORD *)field_210_pUnknown;
+            pUnknown[124] = 1;
+            field_210_pUnknown = nullptr;
+        }
+
+        // To game speak menu select screen
+        return 0x10002;
+    }
+    else
+    {
+        if (field_210_pUnknown)
+        {
+            // TODO: Recover type
+            WORD* pUnknown = (WORD *)field_210_pUnknown;
+            pUnknown[124] = 1;
+            field_210_pUnknown = nullptr;
+        }
+        return 0;
+    }
+}
 
 void MainMenuController::t_Unload_Slig_Speak_4D3170()
 {
@@ -701,8 +807,6 @@ void MainMenuController::HandleMainMenuUpdate()
 
 void MainMenuController::Update_4CF010()
 {
-    //NOT_IMPLEMENTED();
-
     if (sDoesCreditsControllerExist_5C1B90)
     {
         HandleCreditsControllerUpdate();
