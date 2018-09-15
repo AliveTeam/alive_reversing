@@ -107,7 +107,7 @@ public:
     void Unload_AbeSpeakResources();
 
     // Front End
-    EXPORT unsigned int Page_Front_Update_4D0720(InputCommands input);
+    EXPORT unsigned int Page_Front_Update_4D0720(unsigned int input);
     EXPORT int Page_Front_Render_4D24B0(int **ot);
 
     static MainMenuController * gMainMenuController;
@@ -135,8 +135,8 @@ public:
     __int16 field_216;
     __int16 field_218_target_page_index;
     __int16 field_21A_target_cam;
-    __int16 field_21C;
-    __int16 field_21E;
+    __int16 field_21C_bDoScreenTransistionEffect;
+    __int16 field_21E_bChangeScreen;
     __int16 field_220;
     char field_222;
     int field_224;
@@ -173,8 +173,8 @@ struct MainMenuPage
     __int16 field_2;
     int field_4;
     __int16 field_8;
-    __int16 field_A;
-    __int16 field_C;
+    __int16 field_A_bDoScreenTransistionEffect;
+    __int16 field_C_target_camera;
     __int16 field_E_show_character;
     t_MainMenuPage_Update field_10_fn_update;
     void(__thiscall *field_14_fn_render)(MainMenuController *, int **);

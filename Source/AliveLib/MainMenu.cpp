@@ -243,8 +243,8 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
 
     field_23C_T80 &= 0xFF1C0000u;
     field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034));
-    field_21C = 1;
-    field_21E = 0;
+    field_21C_bDoScreenTransistionEffect = 1;
+    field_21E_bChangeScreen = 0;
     field_1F8_page_timeout = 0;
     field_220 = 1;
     field_228 = 0;
@@ -514,7 +514,7 @@ void MainMenuController::t_Load_Slig_Speak_4D3090()
     sub_4D05E0(18, 0);
 }
 
-unsigned int MainMenuController::Page_Front_Update_4D0720(InputCommands input)
+unsigned int MainMenuController::Page_Front_Update_4D0720(unsigned int input)
 {
     // Reset time out if any input detected
     if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed)
@@ -523,7 +523,7 @@ unsigned int MainMenuController::Page_Front_Update_4D0720(InputCommands input)
         word_5C1B9A = 0;
     }
 
-    // Go to loading a demo screen if no input after time out
+    // Go to loading a demo screen if no input after time out, after one demo plays the next time out is lower if input isn't pressed
     if (field_1F8_page_timeout > (word_5C1B9A != 0 ? 300 : 1500))
     {
         word_5C1B9A = 1;
@@ -599,7 +599,7 @@ int MainMenuController::Page_Front_Render_4D24B0(int ** ot)
     int a4; // [esp+0h] [ebp-4h]
 
     a4 = 0;
-    return MainMenuController::DrawMenuText_4D20D0(&sMMT_FrontPage_5623A0, ot, &this->field_120_font, &a4, 1);
+    return DrawMenuText_4D20D0(&sMMT_FrontPage_5623A0, ot, &field_120_font, &a4, 1);
 }
 
 void MainMenuController::HandleCreditsControllerUpdate()
@@ -751,7 +751,7 @@ void MainMenuController::HandleMainMenuUpdate()
             }
         }
 
-        if (field_21E)
+        if (field_21E_bChangeScreen)
         {
             return;
         }
@@ -788,12 +788,12 @@ void MainMenuController::HandleMainMenuUpdate()
     {
         field_1F8_page_timeout = 0;
         field_218_target_page_index = GetPageIndexFromCam_4D05A0(sMainMenuPages_561960[field_214_page_index].field_8);
-        field_21A_target_cam = sMainMenuPages_561960[field_214_page_index].field_C;
-        v8 = sMainMenuPages_561960[field_214_page_index].field_A;
+        field_21A_target_cam = sMainMenuPages_561960[field_214_page_index].field_C_target_camera;
+        v8 = sMainMenuPages_561960[field_214_page_index].field_A_bDoScreenTransistionEffect;
     }
 
-    field_21C = v8;
-    field_21E = 1;
+    field_21C_bDoScreenTransistionEffect = v8;
+    field_21E_bChangeScreen = 1;
 }
 
 void MainMenuController::Update_4CF010()
