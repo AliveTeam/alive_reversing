@@ -585,7 +585,7 @@ void Command_Menu(const std::vector<std::string>& args)
         MainMenuController::gMainMenuController->field_21A_target_cam = static_cast<short>(menuCam);
         MainMenuController::gMainMenuController->field_218_target_page_index = static_cast<short>(MainMenuController::GetPageIndexFromCam_4D05A0(menuCam));
         MainMenuController::gMainMenuController->field_21C_bDoScreenTransistionEffect = static_cast<short>(menuCam);
-        MainMenuController::gMainMenuController->field_23C_T80 |= 0x200000;
+        MainMenuController::gMainMenuController->field_23C_T80.Set(MainMenuController::Flags::eBit22);
     }
 }
 

@@ -8,6 +8,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Factory.hpp"
 #include "Input.hpp"
+#include "BitField.hpp"
 
 void MainMenu_ForceLink();
 
@@ -191,6 +192,37 @@ private:
     void HandleCreditsControllerUpdate();
     void HandleMainMenuUpdate();
 public:
+
+    enum Flags
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+        eBit6 = 0x20,
+        eBit7 = 0x40,
+        eBit8 = 0x80,
+        eBit9 = 0x100,
+        eBit10 = 0x200,
+        eBit11 = 0x400,
+        eBit12 = 0x800,
+        eBit13 = 0x1000,
+        eBit14 = 0x2000,
+        eBit15 = 0x4000,
+        eBit16 = 0x8000,
+        eBit17 = 0x10000,
+        eBit18 = 0x20000,
+        eBit19 = 0x40000,
+        eBit20 = 0x80000,
+        eBit21 = 0x100000,
+        eBit22 = 0x200000,
+        eBit23 = 0x400000,
+        eBit24 = 0x800000,
+        eBit25 = 0x1000000,
+    };
+
+
     int field_E4[3];
     int field_F0;
     MainMenuControllerResources field_F4_resources;
@@ -224,7 +256,7 @@ public:
     const char* field_234_pStr;
     __int16 field_238;
     __int16 field_23A;
-    int field_23C_T80;
+    BitField32<Flags> field_23C_T80;
     int field_240_credits_current_cam;
     __int16 field_244_lvl_id;
     __int16 field_246_path_id;

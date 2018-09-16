@@ -243,7 +243,6 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_200_highlite_glow_speed = -8;
     field_1F0 = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
-    field_23C_T80 &= 0xFF1C0000u;
     field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034));
     field_21C_bDoScreenTransistionEffect = 1;
     field_21E_bChangeScreen = 0;
@@ -257,13 +256,21 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_204_prev_pressed = 0;
     field_230_fmv_level_index = 0; // Double check
 
+    field_23C_T80.Clear(Flags::eBit17);
+    field_23C_T80.Clear(Flags::eBit18);
+    field_23C_T80.Clear(Flags::eBit22);
+    field_23C_T80.Clear(Flags::eBit23);
+    field_23C_T80.Clear(Flags::eBit24);
+
     if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
     {
         MainMenuController::Set_Anim_4D05E0(9, 0);
-        field_23C_T80 |= 0x10000u;
+        field_23C_T80.Set(Flags::eBit17);
     }
 
-    field_23C_T80 &= 0xFEEB0000u;
+    field_23C_T80.Clear(Flags::eBit19);
+    field_23C_T80.Clear(Flags::eBit21);
+    field_23C_T80.Clear(Flags::eBit25);
 
     field_1FC_button_index = 0;
     field_208 = 0;
@@ -345,7 +352,7 @@ void MainMenuController::Render_4CF4C0(int ** ot)
     const auto buttons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
     if (buttons)
     {
-        if (!(field_23C_T80 & 0x10000))
+        if (!field_23C_T80.Get(Flags::eBit17))
         {
             if (field_1FC_button_index != -1)
             {
@@ -447,7 +454,7 @@ ALIVE_ASSERT_SIZEOF(Particle, 0xF8);
 signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
 {
     // 8 is when returning to previous screen
-    if (field_230_fmv_level_index != 8 && (field_23C_T80 & 0x800000) != 0)
+    if (field_230_fmv_level_index != 8 && field_23C_T80.Get(Flags::eBit24))
     {
         // Only 1 when chanting
         if (field_230_fmv_level_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
@@ -926,7 +933,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
     sub_4CFE80();
 
-    if (field_23C_T80 & 0x10000)
+    if (field_23C_T80.Get(Flags::eBit17))
     {
         return;
     }
@@ -1015,7 +1022,7 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
         
-        if (field_23C_T80 & 0x200000)
+        if (field_23C_T80.Get(Flags::eBit22))
         {
             return;
         }
@@ -1164,20 +1171,20 @@ void MainMenuController::sub_4CFE80()
             field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4] = nullptr;
             break;
 
-        /*
         case 11: // ??
             ResourceManager::Reclaim_Memory_49C470(0);
-            if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 130, 0, 0))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 130, 0, 0))
             {
-                ResourceManager::LoadResourceFile_49C130(
-                    "ABESPEAK.BAN",
-                    (void(__cdecl *)(Camera *))j_MainMenuController::callback_4D06E0,
-                    (Camera *)this,
-                    0);
+                // TODO: Fix the types
+                ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN",
+                    reinterpret_cast<ResourceManager::TLoaderFn>(callback_4D06E0),
+                    reinterpret_cast<Camera *>(this), nullptr);
             }
-            HIWORD(this->field_23C_T80) &= ~1u;
-            this->field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(300, 450);
+            field_23C_T80.Clear(Flags::eBit17);
+            field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(300, 450);
+            break;
 
+            /*
         case AnimIds::eAbe_Chant:
             if ((unsigned __int16)Input::IsChanting_45F260())
             {
@@ -1201,38 +1208,39 @@ void MainMenuController::sub_4CFE80()
                 this->field_210_pUnknown = 0;
                 Set_Anim_4D05E0(this, 13, 0);
             }
-            break;
+            break;*/
+
         case AnimIds::eSlig_Idle:
             break;
+
         case AnimIds::eGlukkon_Idle:
-            if (this->field_224 <= sGnFrame_5C1B84)
+            if (field_224 <= sGnFrame_5C1B84)
             {
-                Set_Anim_4D05E0(this, 28, 0);
-                this->field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
+                Set_Anim_4D05E0(28); // ??
+                field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
             }
             break;
+
         case AnimIds::eScrab_Idle:
-            if (this->field_224 <= sGnFrame_5C1B84)
+            if (field_224 <= sGnFrame_5C1B84)
             {
-                Set_Anim_4D05E0(this, 38, 0);
-                v2 = Math_RandomRange_496AB0(120, 450);
-            LABEL_20:
-                this->field_224 = sGnFrame_5C1B84 + v2;
+                Set_Anim_4D05E0(38); // ??
+                field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
             }
             break;
+
         case AnimIds::eParamite_Idle:
-            if (this->field_224 <= sGnFrame_5C1B84)
+            if (field_224 <= sGnFrame_5C1B84)
             {
-                Set_Anim_4D05E0(this, 42, 0);
-            LABEL_23:
-                this->field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
+                Set_Anim_4D05E0(42); // ??
+                field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
             }
             break;
+
         default:
-            HIWORD(this->field_23C_T80) &= ~0x20u;
-            break;*/
+            field_23C_T80.Clear(Flags::eBit22);
+            break;
         }
-        
     }
     
     /*
