@@ -10,6 +10,7 @@
 #include "MusicController.hpp"
 #include "Sfx.hpp"
 #include "Midi.hpp"
+#include "Abe.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -260,7 +261,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_23C_T80.Clear(Flags::eBit18);
     field_23C_T80.Clear(Flags::eBit22);
     field_23C_T80.Clear(Flags::eBit23);
-    field_23C_T80.Clear(Flags::eBit24);
+    field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
 
     if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
     {
@@ -454,7 +455,7 @@ ALIVE_ASSERT_SIZEOF(Particle, 0xF8);
 signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
 {
     // 8 is when returning to previous screen
-    if (field_230_fmv_level_index != 8 && field_23C_T80.Get(Flags::eBit24))
+    if (field_230_fmv_level_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
     {
         // Only 1 when chanting
         if (field_230_fmv_level_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
@@ -1167,8 +1168,8 @@ void MainMenuController::sub_4CFE80()
             }
             // Fall through to next case
         case 10: // ??
-            ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4]);
-            field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4] = nullptr;
+            ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id]);
+            field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id] = nullptr;
             break;
 
         case 11: // ??
@@ -1214,7 +1215,7 @@ void MainMenuController::sub_4CFE80()
             break;
 
         case AnimIds::eGlukkon_Idle:
-            if (field_224 <= sGnFrame_5C1B84)
+            if (field_224 <= static_cast<int>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(28); // ??
                 field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -1222,7 +1223,7 @@ void MainMenuController::sub_4CFE80()
             break;
 
         case AnimIds::eScrab_Idle:
-            if (field_224 <= sGnFrame_5C1B84)
+            if (field_224 <= static_cast<int>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(38); // ??
                 field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -1230,7 +1231,7 @@ void MainMenuController::sub_4CFE80()
             break;
 
         case AnimIds::eParamite_Idle:
-            if (field_224 <= sGnFrame_5C1B84)
+            if (field_224 <= static_cast<int>(sGnFrame_5C1B84))
             {
                 Set_Anim_4D05E0(42); // ??
                 field_224 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(120, 450);
@@ -1243,30 +1244,27 @@ void MainMenuController::sub_4CFE80()
         }
     }
     
-    /*
-    v5 = this->field_220_frame_table_idx;
-    v6 = v5;
-    if (sMainMenuFrameTable_561CC8[v6].field_4 == 10
-        && this->field_0_mBase.field_20_animation.field_92_current_frame == *((unsigned __int8 *)&sMainMenuPages_561960[22].field_1C_fn_on_load
-            + v5
+    if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id == 10
+        // TODO: What the ?
+        && field_20_animation.field_92_current_frame == *((unsigned __int8 *)&sMainMenuPages_561960[22].field_1C_fn_on_load
+            + field_220_frame_table_idx
             + 1)
-        && v5 != 41
-        && v5 != 42)
+        && field_220_frame_table_idx != eParamite_Idle
+        && field_220_frame_table_idx != 42)
     {
-        if (v5 == 48)
+        if (field_220_frame_table_idx == 48)
         {
-            SFX_SfxDefinition_Play_4CA700(&stru_55D7C0 + sMainMenuFrameTable_561CC8[v6].field_6, 127, 127, 64, 64);
+            //SFX_SfxDefinition_Play_4CA700(&stru_55D7C0 + sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound, 127, 127, 64, 64);
         }
         else
         {
-            v7 = sMainMenuFrameTable_561CC8[v6].field_6;
-            if (v7 == 9)
+            if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound == 9)
             {
                 SND_SEQ_Play_4CAB10(0x14u, 1, 127, 127);
             }
             else
             {
-                SFX_SfxDefinition_Play_4CA700(&stru_55D7C0 + v7, 127, 127, 0x7FFF, 0x7FFF);
+                //SFX_SfxDefinition_Play_4CA700(&stru_55D7C0 + sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound, 127, 127, 0x7FFF, 0x7FFF);
             }
         }
     }
@@ -1276,92 +1274,100 @@ void MainMenuController::sub_4CFE80()
         field_22C_T80 = field_22C_T80 - 1;
     }
 
-    if (this->field_0_mBase.field_20_animation.field_0_mBase.field_4_flags & 0x20000
-        || (v9 = this->field_220_frame_table_idx, v9 == 1)
-        || v9 == 2
-        || v9 == 18
-        || v9 == 27
-        || v9 == 28
-        || v9 == 37
-        || v9 == 38
-        || v9 == 41
-        || v9 == 42)
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)
+        || field_220_frame_table_idx == eAbe_Idle
+        || field_220_frame_table_idx == 2
+        || field_220_frame_table_idx == eSlig_Idle
+        || field_220_frame_table_idx == eGlukkon_Idle
+        || field_220_frame_table_idx == 28
+        || field_220_frame_table_idx == eScrab_Idle
+        || field_220_frame_table_idx == 38
+        || field_220_frame_table_idx == eParamite_Idle
+        || field_220_frame_table_idx == 42)
     {
-        if (!this->field_22C_T80)
+        if (!field_22C_T80)
         {
-            res_idx = this->field_228_res_idx;
-            v11 = 12 * res_idx;
-            v12 = *(__int16 *)((char *)&sMainMenuFrameTable_561CC8[0].field_4 + v11);
-            if (*((_DWORD *)&this->field_F4_resources_array_11.field_0_res_abespeak + v12))
+            if (field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id])
             {
-                if (res_idx)
+                if (field_228_res_idx > 0)
                 {
-                    v13 = *(__int16 *)((char *)&sMainMenuFrameTable_561CC8[0].field_6 + v11);
-                    if (v13 != -1)
+                    const __int16 sound = sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound;
+                    if (sound != -1)
                     {
-                        switch (v12)
+                        switch (sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id)
                         {
-                        case 0:
-                        case 1:
-                            Abe_SFX_457EC0(*((_BYTE *)&sMainMenuFrameTable_561CC8[0].field_6 + v11), 0, 0, 0);
-                            goto LABEL_62;
-                        case 7:
-                            LOBYTE(v11) = *((_BYTE *)&sMainMenuFrameTable_561CC8[0].field_6 + v11);
-                            sub_4C04F0(v11, 0, 0, 0);
-                            goto LABEL_62;
-                        case 8:
-                            Glukkon::sub_444AF0(*((_BYTE *)&sMainMenuFrameTable_561CC8[0].field_6 + v11), 0, 0, 0);
-                            goto LABEL_62;
-                        case 9:
+                        case eAbeSpeak:
+                        case eAbeSpeak2:
+                            Abe_SFX_457EC0(static_cast<BYTE>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, nullptr);
+                            //BYTE2(this->field_23C_T80) |= 0x20u;
+                            break;
+
+                        case eSligSpeak:
+                            //sub_4C04F0(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound, 0, 0, 0);
+                            //BYTE2(this->field_23C_T80) |= 0x20u;
+                            break;
+
+                        case eGlukkonSpeak:
+                            //Glukkon::sub_444AF0(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound, 0, 0, 0);
+                            //BYTE2(this->field_23C_T80) |= 0x20u;
+                            break;
+
+                        case eScrabSpeak:
+                            /*
                             SFX_SfxDefinition_Play_4CA700(
-                                &stru_560330[v13],
-                                (char)stru_560330[v13].field_3_default_volume,
-                                (char)stru_560330[v13].field_3_default_volume,
+                                &stru_560330[sound],
+                                (char)stru_560330[sound].field_3_default_volume,
+                                (char)stru_560330[sound].field_3_default_volume,
                                 0x7FFF,
                                 0x7FFF);
-                            goto LABEL_62;
-                        case 10:
-                        LABEL_62:
-                            BYTE2(this->field_23C_T80) |= 0x20u;
+                            */
+                            //BYTE2(this->field_23C_T80) |= 0x20u;
                             break;
+
+                        case eParamiteSpeak:
+                            //BYTE2(this->field_23C_T80) |= 0x20u;
+                            break;
+
                         default:
                             break;
                         }
                     }
-                    v14 = this->field_228_res_idx;
-                    if (v14)
+
+                    if (field_228_res_idx > 0)
                     {
-                        if (v14 == 12)
+                        if (field_228_res_idx == eAbe_Chant)
                         {
-                            SND_SEQ_PlaySeq_4CA960(10u, 0, 1);
-                            BYTE2(this->field_23C_T80) |= 0x80u;
+                            SND_SEQ_PlaySeq_4CA960(10, 0, 1);
+                            field_23C_T80.Set(Flags::eBit24_Chant_Seq_Playing);
                         }
-                        v15 = this->field_228_res_idx;
-                        LOBYTE(this->field_0_mBase.field_20_animation.field_0_mBase.field_4_flags) |= 2u;
-                        Animation::Set_Animation_Data_409C80(
-                            &this->field_0_mBase.field_20_animation,
-                            sMainMenuFrameTable_561CC8[v15].field_0_frame_offset,
-                            *((BYTE ***)&this->field_F4_resources_array_11.field_0_res_abespeak
-                                + sMainMenuFrameTable_561CC8[v15].field_4));
-                        if (sMainMenuFrameTable_561CC8[this->field_228_res_idx].field_4 != sMainMenuFrameTable_561CC8[this->field_220_frame_table_idx].field_4)
+
+                        field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+
+                        field_20_animation.Set_Animation_Data_409C80(
+                            sMainMenuFrameTable_561CC8[field_228_res_idx].field_0_frame_offset,
+                            field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id]);
+
+                        if (sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id != sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id)
                         {
-                            MainMenuController::Load_Anim_Pal_4D06A0(this, &this->field_0_mBase.field_20_animation);
+                            Load_Anim_Pal_4D06A0(&field_20_animation);
                         }
-                        Animation::SetFrame_409D50(&this->field_0_mBase.field_20_animation, this->field_22A_anim_frame_num);
-                        if (this->field_228_res_idx != 12 && (this->field_23C_T80 & 0x800000) != 0)
+
+                        field_20_animation.SetFrame_409D50(field_22A_anim_frame_num);
+
+                        if (field_228_res_idx != eAbe_Chant && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
                         {
-                            SND_SEQ_Stop_4CAE60(10u);
-                            HIWORD(this->field_23C_T80) &= ~0x80u;
+                            SND_SEQ_Stop_4CAE60(10);
+                            field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
                         }
-                        v16 = this->field_228_res_idx;
-                        this->field_228_res_idx = 0;
-                        this->field_220_frame_table_idx = v16;
-                        this->field_22A_anim_frame_num = 0;
+                        
+                        field_220_frame_table_idx = field_228_res_idx;
+                        field_228_res_idx = 0;
+                        field_22A_anim_frame_num = 0;
                     }
                 }
             }
         }
-    }*/
+    }
 }
 
 void MainMenuController::UpdateHighliteGlow_4D0630()

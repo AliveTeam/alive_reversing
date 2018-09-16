@@ -22,6 +22,8 @@ struct Abe_1BC_20_sub_object
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
+EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, class Abe *pHero);
+
 class Abe : public BaseAliveGameObject
 {
     // TODO: Vtables

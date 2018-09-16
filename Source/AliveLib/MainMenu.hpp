@@ -72,8 +72,8 @@ struct MainMenuText
 struct MainMenuFrameTable
 {
     int field_0_frame_offset;
-    __int16 field_4;
-    __int16 field_6;
+    __int16 field_4_menu_res_id;
+    __int16 field_6_sound;
     __int16 field_8_anim_enum;
     __int16 field_A_frame_number;
 };
@@ -218,7 +218,7 @@ public:
         eBit21 = 0x100000,
         eBit22 = 0x200000,
         eBit23 = 0x400000,
-        eBit24 = 0x800000,
+        eBit24_Chant_Seq_Playing = 0x800000,
         eBit25 = 0x1000000,
     };
 
