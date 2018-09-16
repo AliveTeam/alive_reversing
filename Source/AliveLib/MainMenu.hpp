@@ -113,6 +113,9 @@ public:
         eGlukkon_Help = 34,
         eGlukkon_Laugh = 30,
 
+        eScrab_ShredPower = 39,
+        eScrab_Howl = 40,
+        eScrab_Idle = 37,
     };
 
     EXPORT void Set_Anim_4D05E0(__int16 a2, __int16 a3 = 0);
@@ -137,6 +140,10 @@ public:
     EXPORT void t_Unload_Glukkon_Speak_4D3560();
     EXPORT void t_Load_Glukkon_Speak_4D3480();
 
+    EXPORT void t_Render_Scrab_Speak_4D2410(int** ot);
+    EXPORT signed int t_Input_Scrab_Speak_4D3A60(int input_held);
+    EXPORT void t_Unload_Scrab_Speak_4D3950();
+    EXPORT void t_Load_Scrab_Speak_4D3870();
 
     void Unload_AbeSpeakResources();
     void Load_AbeSpeakResources();

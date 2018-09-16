@@ -313,7 +313,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
         pDemosOrFmvs_BB4414 = &sDemos_5617F0;
         sMenuItemCount_561538 = 23;
         field_230_fmv_level_index = word_5C1B9E;
-        field_20_animation.Set_Animation_Data_409C80(247808, (BYTE **)field_F4_resources.field_4_res_abespek2);
+        field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_4_res_abespek2);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
 }
@@ -366,7 +366,7 @@ void MainMenuController::Render_4CF4C0(int ** ot)
 
 MainMenuText sMMT_FrontPage_5623A0 = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
 
-EXPORT void MainMenuController::t_Render_Slig_Speak_4D2370(int** ot)
+EXPORT void MainMenuController::t_Render_Slig_Speak_4D2370(int** /*ot*/)
 {
     // TODO: Render the button text
     NOT_IMPLEMENTED();
@@ -409,7 +409,7 @@ void MainMenuController::t_Load_Slig_Speak_4D3090()
     Set_Anim_4D05E0(AnimIds::eSlig_Idle);
 }
 
-EXPORT void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** ot)
+EXPORT void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** /*ot*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -449,6 +449,48 @@ EXPORT void MainMenuController::t_Load_Glukkon_Speak_4D3480()
     field_F4_resources.field_20_res_glkspeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 150, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x14EE50, field_F4_resources.field_20_res_glkspeak);
     Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
+}
+
+EXPORT void MainMenuController::t_Render_Scrab_Speak_4D2410(int** /*ot*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+signed int MainMenuController::t_Input_Scrab_Speak_4D3A60(int input_held)
+{
+    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    {
+        switch (cmd)
+        {
+        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eScrab_ShredPower); return 0;
+        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eScrab_Howl); return 0;
+        case InputCommands::eGameSpeak3: return 0; // Scrabs don't have much to say.
+        case InputCommands::eGameSpeak4: return 0;
+        case InputCommands::eGameSpeak5: return 0;
+        case InputCommands::eGameSpeak6: return 0;
+        case InputCommands::eGameSpeak7: return 0;
+        case InputCommands::eGameSpeak8: return 0;
+        case InputCommands::eBack: Set_Anim_4D05E0(AnimIds::eScrab_ShredPower); return 0x30002;
+        }
+        return 0;
+    });
+}
+
+void MainMenuController::t_Unload_Scrab_Speak_4D3950()
+{
+    Unload_Resource(field_F4_resources.field_24_res_scrspeak);
+    Load_AbeSpeakResources();
+    Set_Anim_4D05E0(AnimIds::eAbe_Idle);
+}
+
+void MainMenuController::t_Load_Scrab_Speak_4D3870()
+{
+    Unload_AbeSpeakResources();
+
+    ResourceManager::LoadResourceFile_49C170("SCRSPEAK.BAN", nullptr);
+    field_F4_resources.field_24_res_scrspeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 170, TRUE, FALSE);
+    field_20_animation.Set_Animation_Data_409C80(0x7B8BC, field_F4_resources.field_24_res_scrspeak);
+    Set_Anim_4D05E0(AnimIds::eScrab_Idle);
 }
 
 unsigned int MainMenuController::Page_Front_Update_4D0720(unsigned int input)
@@ -636,7 +678,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
         return;
     }
 
-    if (field_1F4_credits_next_frame <= sGnFrame_5C1B84)
+    if (field_1F4_credits_next_frame <= static_cast<int>(sGnFrame_5C1B84))
     {
         const auto currentCam = field_240_credits_current_cam + 1;
         field_240_credits_current_cam = currentCam;
@@ -646,11 +688,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap_5C3030.SetActiveCam_480D30(16, 1, field_240_credits_current_cam, 3, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), 3, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(16, 2, currentCam, 3, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(16, 2, static_cast<short>(currentCam), 3, 0, 0);
             }
         }
         else
@@ -661,7 +703,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
                 gMap_5C3030.SetActiveCam_480D30(0, 1, 6, 0, 0, 0);
                 return;
             }
-            gMap_5C3030.SetActiveCam_480D30(16, 1, field_240_credits_current_cam, 3, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), 3, 0, 0);
         }
     }
 }
@@ -729,7 +771,7 @@ void MainMenuController::HandleMainMenuUpdate()
                             field_1FC_button_index--;
                             if (field_1FC_button_index < 0)
                             {
-                                int lastIndex = 0;
+                                short lastIndex = 0;
                                 while (btnArray[lastIndex++].field_0 == 1)
                                 {
                                     lastIndex++;
@@ -798,11 +840,11 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
 
-        field_218_target_page_index = GetPageIndexFromCam_4D05A0(pageUpdateRet & 0xFF);
+        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pageUpdateRet & 0xFF));
 
         // The return variable of page update seems to have multiple bits of data masked.
         auto v19 = (pageUpdateRet >> 16) & 0xFF;
-        field_21A_target_cam = v19;
+        field_21A_target_cam = static_cast<short>(v19);
         if (v19 == 255)
         {
             field_21A_target_cam = -1;
@@ -812,7 +854,7 @@ void MainMenuController::HandleMainMenuUpdate()
     else
     {
         field_1F8_page_timeout = 0;
-        field_218_target_page_index = GetPageIndexFromCam_4D05A0(sMainMenuPages_561960[field_214_page_index].field_8);
+        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(sMainMenuPages_561960[field_214_page_index].field_8));
         field_21A_target_cam = sMainMenuPages_561960[field_214_page_index].field_C_target_camera;
         v8 = sMainMenuPages_561960[field_214_page_index].field_A_bDoScreenTransistionEffect;
     }
@@ -900,9 +942,9 @@ void MainMenuController::UpdateHighliteGlow_4D0630()
         field_200_highlite_glow_speed = -field_200_highlite_glow_speed;
     }
 
-    field_158_animation.field_8_r = field_1FE_highlite_alpha;
-    field_158_animation.field_A_b = field_1FE_highlite_alpha;
-    field_158_animation.field_9_g = field_1FE_highlite_alpha;
+    field_158_animation.field_8_r = static_cast<BYTE>(field_1FE_highlite_alpha);
+    field_158_animation.field_A_b = static_cast<BYTE>(field_1FE_highlite_alpha);
+    field_158_animation.field_9_g = static_cast<BYTE>(field_1FE_highlite_alpha);
 }
 
 void MainMenuController::callback_4D06E0(MainMenuController * a1)
