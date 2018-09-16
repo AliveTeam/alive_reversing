@@ -493,6 +493,49 @@ void MainMenuController::t_Load_Scrab_Speak_4D3870()
     Set_Anim_4D05E0(AnimIds::eScrab_Idle);
 }
 
+void MainMenuController::t_Render_Paramite_Speak_4D2460(int** ot)
+{
+    NOT_IMPLEMENTED();
+}
+
+signed int MainMenuController::t_Input_Paramite_Speak_4D3D60(int input_held)
+{
+    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    {
+        switch (cmd)
+        {
+        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eParamite_Howdy); return 0;
+        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eParamite_Cmon); return 0;
+        case InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eParamite_Stay); return 0;
+        case InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eParamite_DoIt); return 0;
+        case InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eParamite_Attack); return 0;
+        case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eParamite_AllAYa); return 0;
+        case InputCommands::eGameSpeak7: return 0; // Paramites don't have as much to say.
+        case InputCommands::eGameSpeak8: return 0;
+        case InputCommands::eBack: Set_Anim_4D05E0(AnimIds::eParamite_Attack); return 0x40002;
+        }
+        return 0;
+    });
+}
+
+void MainMenuController::t_Unload_Paramite_Speak_4D3C50()
+{
+    Unload_Resource(field_F4_resources.field_28_res_parspeak);
+    Load_AbeSpeakResources();
+    Set_Anim_4D05E0(AnimIds::eAbe_Idle);
+}
+
+
+void MainMenuController::t_Load_Paramite_Speak_4D3B70()
+{
+    Unload_AbeSpeakResources();
+
+    ResourceManager::LoadResourceFile_49C170("PARSPEAK.BAN", nullptr);
+    field_F4_resources.field_28_res_parspeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 160, TRUE, FALSE);
+    field_20_animation.Set_Animation_Data_409C80(0xD8E80, field_F4_resources.field_28_res_parspeak);
+    Set_Anim_4D05E0(AnimIds::eParamite_Idle);
+}
+
 unsigned int MainMenuController::Page_Front_Update_4D0720(unsigned int input)
 {
     // Reset time out if any input detected
