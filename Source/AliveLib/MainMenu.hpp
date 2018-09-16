@@ -32,19 +32,24 @@ struct MainMenuButton
     int field_8_anim_frame_offset;
 };
 
+enum MenuResIds
+{
+    eAbeSpeak = 0,
+    eAbeSpeak2 = 1,
+    eAbeIntro = 2,
+    eDoor = 3,
+    eOptionFlare = 4,
+    eUnknown = 5,
+    eResHighLite = 6,
+    eSligSpeak = 7,
+    eGlukkonSpeak = 8,
+    eScrabSpeak = 9,
+    eParamiteSpeak = 10,
+};
+
 struct MainMenuControllerResources
 {
-    BYTE** field_0_res_abespeak;
-    BYTE** field_4_res_abespek2;
-    BYTE** field_8_res_abeintro;
-    BYTE** field_C_res_door;
-    BYTE** field_10_res_optflare;
-    BYTE** field_14;
-    BYTE** field_18_res_highlite;
-    BYTE** field_1C_res_slgspeak;
-    BYTE** field_20_res_glkspeak;
-    BYTE** field_24_res_scrspeak;
-    BYTE** field_28_res_parspeak;
+    BYTE** field_0_resources[11];
 };
 
 struct MainMenuText
@@ -68,8 +73,8 @@ struct MainMenuFrameTable
     int field_0_frame_offset;
     __int16 field_4;
     __int16 field_6;
-    __int16 field_8;
-    __int16 field_A;
+    __int16 field_8_anim_enum;
+    __int16 field_A_frame_number;
 };
 
 extern PerLvlData gPerLvlData_561700[17];
@@ -94,6 +99,7 @@ public:
         eAbe_Idle = 1,
         eAbe_GoodBye = 6,
         eAbe_Hello = 3,
+        eAbe_OK = 4,
         eAbe_FollowMe = 5,
         eAbe_Chant = 12,
         eAbe_Wait = 7,
@@ -207,7 +213,7 @@ public:
     __int16 field_21A_target_cam;
     __int16 field_21C_bDoScreenTransistionEffect;
     __int16 field_21E_bChangeScreen;
-    __int16 field_220;
+    __int16 field_220_frame_table_idx;
     char field_222;
     int field_224;
     __int16 field_228_res_idx;
@@ -215,17 +221,17 @@ public:
     int field_22C_T80;
     __int16 field_230_fmv_level_index;
     __int16 field_232;
-    const char *field_234;
+    const char* field_234_pStr;
     __int16 field_238;
     __int16 field_23A;
     int field_23C_T80;
     int field_240_credits_current_cam;
-    __int16 field_244;
-    __int16 field_246;
+    __int16 field_244_lvl_id;
+    __int16 field_246_path_id;
     __int16 field_248;
-    __int16 field_24A;
-    __int16 field_24C_unknown;
-    __int16 field_24E;
+    __int16 field_24A_abeXOff;
+    __int16 field_24C_abeYOff;
+    __int16 field_24E_start_scale;
     __int16 field_250;
     __int16 field_252;
     int field_254;
