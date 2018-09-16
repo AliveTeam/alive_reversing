@@ -247,8 +247,8 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_21E_bChangeScreen = 0;
     field_1F8_page_timeout = 0;
     field_220 = 1;
-    field_228 = 0;
-    field_22A = 0;
+    field_228_res_idx = 0;
+    field_22A_anim_frame_num = 0;
     field_22C_T80 = 0;
     field_224 = 0;
     field_202_input_hold_down_timer = 15;
@@ -257,7 +257,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
 
     if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
     {
-        MainMenuController::sub_4D05E0(9, 0);
+        MainMenuController::Set_Anim_4D05E0(9, 0);
         field_23C_T80 |= 0x10000u;
     }
 
@@ -293,7 +293,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
         field_25C = 1;
         pDemosOrFmvs_BB4414 = &sFmvs_561540;
         sMenuItemCount_561538 = 28;
-        field_20_animation.Set_Animation_Data_409C80(247808, (BYTE **)field_F4_resources.field_4_res_abespek2);
+        field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_4_res_abespek2);
         Load_Anim_Pal_4D06A0(&field_20_animation);
         return;
     }
@@ -372,135 +372,31 @@ EXPORT void MainMenuController::t_Render_Slig_Speak_4D2370(int** ot)
     NOT_IMPLEMENTED();
 }
 
-EXPORT signed int MainMenuController::t_Input_Slig_Speak_4D3280(int inputHeldState)
+EXPORT signed int MainMenuController::t_Input_Slig_Speak_4D3280(DWORD input_held)
 {
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit3);
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
-
-    if (field_230_fmv_level_index == 8)
+    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
-        return 0;
-    }
-
-    const DWORD input_held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
-
-    // Hi
-    if (input_held & InputCommands::eGameSpeak1)
-    {
-        sub_4D05E0(26, 0);
-        field_230_fmv_level_index = 0;
-        return 0;
-    }
-    // Git 'im
-    else if (input_held & InputCommands::eGameSpeak4)
-    {
-        sub_4D05E0(20, 0);
-        field_230_fmv_level_index = 1;
-        return 0;
-    }
-    // Freeze
-    else if (input_held & InputCommands::eGameSpeak3)
-    {
-        sub_4D05E0(19, 0);
-        field_230_fmv_level_index = 2;
-        return 0;
-    }
-    // Here boy
-    else if (input_held & InputCommands::eGameSpeak2)
-    {
-        sub_4D05E0(21, 0);
-        field_230_fmv_level_index = 3;
-        return 0;
-    }
-    // Bs
-    else if (input_held & InputCommands::eGameSpeak6)
-    {
-        sub_4D05E0(24, 0);
-        field_230_fmv_level_index = 4;
-        return 0;
-    }
-    // Look out
-    else if (input_held & InputCommands::eGameSpeak7)
-    {
-        sub_4D05E0(23, 0);
-        field_230_fmv_level_index = 5;
-        return 0;
-    }
-    // S'mo bs
-    else if (input_held & InputCommands::eGameSpeak5)
-    {
-        sub_4D05E0(25, 0);
-        field_230_fmv_level_index = 6;
-        return 0;
-    }
-    // Laugh
-    else if (input_held & InputCommands::eGameSpeak8)
-    {
-        sub_4D05E0(22, 0);
-        field_230_fmv_level_index = 7;
-        return 0;
-    }
-    else if (inputHeldState & InputCommands::eBack)
-    {
-        // Exit
-        sub_4D05E0(25, 0);
-
-        field_230_fmv_level_index = 8;
-        field_1FC_button_index = -1;
-
-        if (field_210_pUnknown)
+        switch (cmd)
         {
-            // TODO: Recover type
-            WORD* pUnknown = (WORD *)field_210_pUnknown;
-            pUnknown[124] = 1;
-            field_210_pUnknown = nullptr;
-        }
-
-        // To game speak menu select screen
-        return 0x10002;
-    }
-    else
-    {
-        if (field_210_pUnknown)
-        {
-            // TODO: Recover type
-            WORD* pUnknown = (WORD *)field_210_pUnknown;
-            pUnknown[124] = 1;
-            field_210_pUnknown = nullptr;
+        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eSlig_Hi); return 0;
+        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eSlig_HereBoy); return 0;
+        case InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eSlig_Freeze); return 0;
+        case InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eSlig_GetEm); return 0;
+        case InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eSlig_SmoBs); return 0;
+        case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eSlig_Bs); return 0;
+        case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eSlig_LookOut); return 0;
+        case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eSlig_Laugh); return 0;
+        case InputCommands::eBack: Set_Anim_4D05E0(AnimIds::eSlig_Laugh); return 0x10002;
         }
         return 0;
-    }
+    });
 }
 
 void MainMenuController::t_Unload_Slig_Speak_4D3170()
 {
-    if (!field_F4_resources.field_1C_res_slgspeak)
-    {
-        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
-    }
-    ResourceManager::FreeResource_49C330(field_F4_resources.field_1C_res_slgspeak);
-
-    // Prevent animation since its now unloaded
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-
-    field_F4_resources.field_1C_res_slgspeak = nullptr;
-
-    // TODO: Can move to Load_AbeSpeakResources helper
-    ResourceManager::Reclaim_Memory_49C470(0);
-    ResourceManager::LoadResourceFile_49C170("ABESPEK2.BAN", nullptr);
-    
-    field_F4_resources.field_4_res_abespek2 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, TRUE, FALSE);
-    ResourceManager::Reclaim_Memory_49C470(0);
-
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
-    {
-        Game_ShowLoadingIcon_482D80();
-        ResourceManager::LoadResourceFile_49C170("ABESPEAK.BAN", nullptr);
-    }
-
-    field_F4_resources.field_0_res_abespeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 130, TRUE, FALSE);
-
-    sub_4D05E0(1, 0);
+    Unload_Resource(field_F4_resources.field_1C_res_slgspeak);
+    Load_AbeSpeakResources();
+    Set_Anim_4D05E0(AnimIds::eAbe_Idle);
 }
 
 void MainMenuController::t_Load_Slig_Speak_4D3090()
@@ -508,10 +404,51 @@ void MainMenuController::t_Load_Slig_Speak_4D3090()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("SLGSPEAK.BAN", nullptr);
-
     field_F4_resources.field_1C_res_slgspeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 140, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x10DF18, field_F4_resources.field_1C_res_slgspeak);
-    sub_4D05E0(18, 0);
+    Set_Anim_4D05E0(AnimIds::eSlig_Idle);
+}
+
+EXPORT void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** ot)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT signed int MainMenuController::t_Input_Glukkon_Speak_4D3670(DWORD input_held)
+{
+    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    {
+        switch (cmd)
+        {
+        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eGlukkon_Hey); return 0;
+        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eGlukkon_Commere); return 0;
+        case InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eGlukkon_StayHere); return 0;
+        case InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eGlukkon_DoIt); return 0;
+        case InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eGlukkon_KillEm); return 0;
+        case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eGlukkon_AllOYa); return 0;
+        case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eGlukkon_Help); return 0;
+        case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh); return 0;
+        case InputCommands::eBack: Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh); return 0x20002;
+        }
+        return 0;
+    });
+}
+
+EXPORT void MainMenuController::t_Unload_Glukkon_Speak_4D3560()
+{
+    Unload_Resource(field_F4_resources.field_20_res_glkspeak);
+    Load_AbeSpeakResources();
+    Set_Anim_4D05E0(AnimIds::eAbe_Idle);
+}
+
+EXPORT void MainMenuController::t_Load_Glukkon_Speak_4D3480()
+{
+    Unload_AbeSpeakResources();
+
+    ResourceManager::LoadResourceFile_49C170("GLKSPEAK.BAN", nullptr);
+    field_F4_resources.field_20_res_glkspeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 150, TRUE, FALSE);
+    field_20_animation.Set_Animation_Data_409C80(0x14EE50, field_F4_resources.field_20_res_glkspeak);
+    Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
 }
 
 unsigned int MainMenuController::Page_Front_Update_4D0720(unsigned int input)
@@ -537,7 +474,7 @@ unsigned int MainMenuController::Page_Front_Update_4D0720(unsigned int input)
         if (field_F4_resources.field_0_res_abespeak)
         {
             // Abe saying OK anim
-            sub_4D05E0(4, 0);
+            Set_Anim_4D05E0(4, 0);
         }
 
         switch (field_1FC_button_index)
@@ -547,7 +484,7 @@ unsigned int MainMenuController::Page_Front_Update_4D0720(unsigned int input)
             return 12;
         case 1:
             // Quit
-            sub_4D05E0(6, 0); // Abe saying "Good bye" anim
+            Set_Anim_4D05E0(6, 0); // Abe saying "Good bye" anim
             return 11;
         case 2:
             // Load
@@ -600,6 +537,94 @@ int MainMenuController::Page_Front_Render_4D24B0(int ** ot)
 
     a4 = 0;
     return DrawMenuText_4D20D0(&sMMT_FrontPage_5623A0, ot, &field_120_font, &a4, 1);
+}
+
+signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::function<signed int(InputCommands cmd)> fnOnGameSpeak)
+{
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+
+    if (field_230_fmv_level_index == 8)
+    {
+        return 0;
+    }
+
+    // Hi
+    if (input_held & InputCommands::eGameSpeak1) // 0x400
+    {
+        field_230_fmv_level_index = 0;
+        return fnOnGameSpeak(InputCommands::eGameSpeak1);
+    }
+    // Git 'im
+    else if (input_held & InputCommands::eGameSpeak4) // 0x2000
+    {
+        field_230_fmv_level_index = 1;
+        return fnOnGameSpeak(InputCommands::eGameSpeak4);
+    }
+    // Freeze
+    else if (input_held & InputCommands::eGameSpeak3) // 0x1000
+    {
+        field_230_fmv_level_index = 2;
+        return fnOnGameSpeak(InputCommands::eGameSpeak3);
+    }
+    // Here boy
+    else if (input_held & InputCommands::eGameSpeak2) // 0x800
+    {
+        field_230_fmv_level_index = 3;
+        return fnOnGameSpeak(InputCommands::eGameSpeak2);
+    }
+    // Bs
+    else if (input_held & InputCommands::eGameSpeak6) // 0x8000
+    {
+        field_230_fmv_level_index = 4;
+        return fnOnGameSpeak(InputCommands::eGameSpeak6);
+    }
+    // Look out
+    else if (input_held & InputCommands::eGameSpeak7) // 0x10000
+    {
+        field_230_fmv_level_index = 5;
+        return fnOnGameSpeak(InputCommands::eGameSpeak7);
+    }
+    // S'mo bs
+    else if (input_held & InputCommands::eGameSpeak5) // 0x4000
+    {
+        field_230_fmv_level_index = 6;
+        return fnOnGameSpeak(InputCommands::eGameSpeak5);
+    }
+    // Laugh
+    else if (input_held & InputCommands::eGameSpeak8) // 0x20000
+    {
+        field_230_fmv_level_index = 7;
+        return fnOnGameSpeak(InputCommands::eGameSpeak8);
+    }
+    else if (input_held & InputCommands::eBack) // 0x200000
+    {
+        // Exit
+      
+        field_230_fmv_level_index = 8;
+        field_1FC_button_index = -1;
+
+        if (field_210_pUnknown)
+        {
+            // TODO: Recover type
+            WORD* pUnknown = (WORD *)field_210_pUnknown;
+            pUnknown[124] = 1;
+            field_210_pUnknown = nullptr;
+        }
+
+        return fnOnGameSpeak(InputCommands::eBack);
+    }
+    else
+    {
+        if (field_210_pUnknown)
+        {
+            // TODO: Recover type
+            WORD* pUnknown = (WORD *)field_210_pUnknown;
+            pUnknown[124] = 1;
+            field_210_pUnknown = nullptr;
+        }
+        return 0;
+    }
 }
 
 void MainMenuController::HandleCreditsControllerUpdate()
@@ -796,6 +821,22 @@ void MainMenuController::HandleMainMenuUpdate()
     field_21E_bChangeScreen = 1;
 }
 
+void MainMenuController::Unload_Resource(BYTE**& res)
+{
+    // Resource might be pending, wait for it to load if so
+    if (!res)
+    {
+        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+    }
+
+    // Now we can free it
+    ResourceManager::FreeResource_49C330(res);
+    res = nullptr;
+
+    // Prevent animation since its now unloaded
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+}
+
 void MainMenuController::Update_4CF010()
 {
     if (sDoesCreditsControllerExist_5C1B90)
@@ -821,12 +862,12 @@ int __stdcall MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
     return 0;
 }
 
-void MainMenuController::sub_4D05E0(__int16 a2, __int16 a3)
+void MainMenuController::Set_Anim_4D05E0(__int16 a2, __int16 a3)
 {
     if (a2 != this->field_220 || sMainMenuFrameTable_561CC8[a2].field_8 == a2)
     {
-        this->field_228 = a2;
-        this->field_22A = a3;
+        this->field_228_res_idx = a2;
+        this->field_22A_anim_frame_num = a3;
     }
 }
 
@@ -978,4 +1019,24 @@ void MainMenuController::Unload_AbeSpeakResources()
     ResourceManager::Reclaim_Memory_49C470(0);
 
     Game_ShowLoadingIcon_482D80();
+}
+
+void MainMenuController::Load_AbeSpeakResources()
+{
+    // Compact heap + load file to memory
+    ResourceManager::Reclaim_Memory_49C470(0);
+    ResourceManager::LoadResourceFile_49C170("ABESPEK2.BAN", nullptr);
+
+    // Get the resource, if we don't have it compact heap again
+    field_F4_resources.field_4_res_abespek2 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, TRUE, FALSE);
+    ResourceManager::Reclaim_Memory_49C470(0);
+
+    // And then try to load it
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+    {
+        Game_ShowLoadingIcon_482D80();
+        ResourceManager::LoadResourceFile_49C170("ABESPEAK.BAN", nullptr);
+    }
+
+    field_F4_resources.field_0_res_abespeak = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 130, TRUE, FALSE);
 }

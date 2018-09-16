@@ -88,7 +88,34 @@ public:
     EXPORT void Update_4CF010();
 
     EXPORT static int __stdcall GetPageIndexFromCam_4D05A0(int camId);
-    EXPORT void sub_4D05E0(__int16 a2, __int16 a3);
+
+    enum AnimIds
+    {
+        eAbe_Idle = 1,
+
+        eSlig_Idle = 18,
+        eSlig_Hi = 26,
+        eSlig_HereBoy = 21,
+        eSlig_Freeze = 19,
+        eSlig_GetEm = 20,
+        eSlig_SmoBs = 25,
+        eSlig_Bs = 24,
+        eSlig_LookOut = 23,
+        eSlig_Laugh = 22,
+
+        eGlukkon_Idle = 27,
+        eGlukkon_Hey = 35,
+        eGlukkon_Commere = 32,
+        eGlukkon_StayHere = 31,
+        eGlukkon_DoIt = 33,
+        eGlukkon_KillEm = 29,
+        eGlukkon_AllOYa = 36,
+        eGlukkon_Help = 34,
+        eGlukkon_Laugh = 30,
+
+    };
+
+    EXPORT void Set_Anim_4D05E0(__int16 a2, __int16 a3 = 0);
     EXPORT void Load_Anim_Pal_4D06A0(AnimationEx* pAnim);
     EXPORT signed int sub_4CF640();
     EXPORT void sub_4CFE80();
@@ -101,10 +128,18 @@ public:
     
     // Page Functions
     EXPORT void t_Render_Slig_Speak_4D2370(int** ot);
-    EXPORT signed int t_Input_Slig_Speak_4D3280(int a2);
+    EXPORT signed int t_Input_Slig_Speak_4D3280(DWORD input_held);
     EXPORT void t_Unload_Slig_Speak_4D3170();
     EXPORT void t_Load_Slig_Speak_4D3090();
+
+    EXPORT void t_Render_Glukkon_Speak_4D23C0(int** ot);
+    EXPORT signed int t_Input_Glukkon_Speak_4D3670(DWORD input_held);
+    EXPORT void t_Unload_Glukkon_Speak_4D3560();
+    EXPORT void t_Load_Glukkon_Speak_4D3480();
+
+
     void Unload_AbeSpeakResources();
+    void Load_AbeSpeakResources();
 
     // Front End
     EXPORT unsigned int Page_Front_Update_4D0720(unsigned int input);
@@ -112,6 +147,8 @@ public:
 
     static MainMenuController * gMainMenuController;
 private:
+    signed int HandleGameSpeakInput(DWORD input_held, std::function<signed int(InputCommands cmd)> fnOnGameSpeak);
+
     void HandleCreditsControllerUpdate();
     void HandleMainMenuUpdate();
 public:
@@ -140,8 +177,8 @@ public:
     __int16 field_220;
     char field_222;
     int field_224;
-    __int16 field_228;
-    __int16 field_22A;
+    __int16 field_228_res_idx;
+    __int16 field_22A_anim_frame_num;
     int field_22C_T80;
     __int16 field_230_fmv_level_index;
     __int16 field_232;
@@ -162,6 +199,8 @@ public:
     int field_258;
     __int16 field_25C;
     __int16 field_25E;
+private:
+    void Unload_Resource(BYTE**& res);
 };
 ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 
