@@ -92,6 +92,16 @@ public:
     enum AnimIds
     {
         eAbe_Idle = 1,
+        eAbe_GoodBye = 6,
+        eAbe_Hello = 3,
+        eAbe_FollowMe = 5,
+        eAbe_Chant = 12,
+        eAbe_Wait = 7,
+        eAbe_Work = 14,
+        eAbe_Anger = 8,
+        eAbe_AllYa = 15,
+        eAbe_Sympathy = 17,
+        eAbe_StopIt = 16,
 
         eSlig_Idle = 18,
         eSlig_Hi = 26,
@@ -138,6 +148,9 @@ public:
     int             MainMenuPageRenderTemplate(int **ot);   // Returns poly index for text rendering.
     
     // Page Functions
+    EXPORT void t_Render_Abe_Speak_4D2060(int** ot);
+    EXPORT signed int t_Input_Abe_Speak_4D2D20(DWORD input_held);
+
     EXPORT void t_Render_Slig_Speak_4D2370(int** ot);
     EXPORT signed int t_Input_Slig_Speak_4D3280(DWORD input_held);
     EXPORT void t_Unload_Slig_Speak_4D3170();
@@ -149,12 +162,12 @@ public:
     EXPORT void t_Load_Glukkon_Speak_4D3480();
 
     EXPORT void t_Render_Scrab_Speak_4D2410(int** ot);
-    EXPORT signed int t_Input_Scrab_Speak_4D3A60(int input_held);
+    EXPORT signed int t_Input_Scrab_Speak_4D3A60(DWORD input_held);
     EXPORT void t_Unload_Scrab_Speak_4D3950();
     EXPORT void t_Load_Scrab_Speak_4D3870();
 
     EXPORT void t_Render_Paramite_Speak_4D2460(int** ot);
-    EXPORT signed int t_Input_Paramite_Speak_4D3D60(int input_held);
+    EXPORT signed int t_Input_Paramite_Speak_4D3D60(DWORD input_held);
     EXPORT void t_Unload_Paramite_Speak_4D3C50();
     EXPORT void t_Load_Paramite_Speak_4D3B70();
 

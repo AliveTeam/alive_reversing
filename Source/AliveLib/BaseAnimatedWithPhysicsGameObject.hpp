@@ -10,7 +10,7 @@ class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 public:
     BaseAnimatedWithPhysicsGameObject();
     EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize);
-
+    EXPORT void BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     EXPORT void dtor_408210(signed int flags);
     virtual void VDestructor(signed int flags);
     virtual void VUpdate() override;

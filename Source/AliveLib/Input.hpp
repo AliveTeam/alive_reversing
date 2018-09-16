@@ -13,6 +13,7 @@ EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown);
 EXPORT bool CC Input_IsVKPressed_4EDD40(int key);
 EXPORT char Input_ReadKey_492610();
 EXPORT void Input_Reset_492660();
+EXPORT unsigned int Input_IsChanting_45F260();
 
 enum InputCommands : unsigned int
 {

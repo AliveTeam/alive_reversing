@@ -681,6 +681,11 @@ void Input_Reset_492660()
     Input_InitKeyStateArray_4EDD60();
 }
 
+EXPORT unsigned int Input_IsChanting_45F260()
+{
+    return (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed & InputCommands::eChant) == InputCommands::eChant;
+}
+
 // Zeros the input key state array.
 EXPORT void CC Input_InitKeyStateArray_4EDD60()
 {

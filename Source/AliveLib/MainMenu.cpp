@@ -9,6 +9,7 @@
 #include "CreditsController.hpp"
 #include "MusicController.hpp"
 #include "Sfx.hpp"
+#include "Midi.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -366,13 +367,157 @@ void MainMenuController::Render_4CF4C0(int ** ot)
 
 MainMenuText sMMT_FrontPage_5623A0 = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
 
-EXPORT void MainMenuController::t_Render_Slig_Speak_4D2370(int** /*ot*/)
+void MainMenuController::t_Render_Abe_Speak_4D2060(int** /*ot*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+class Particle : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT void ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
+    {
+        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+
+        SetVTable(this, 0x547858); // vTbl_Particle_547858
+        field_4_typeId = Types::eParticle;
+        
+        ResourceManager::Inc_Ref_Count_49C310(ppAnimData);
+
+        field_10_resources_array.Push_Back(ppAnimData);
+
+        field_D4_b = 128;
+        field_D2_g = 128;
+        field_D0_r = 128;
+
+        Animation_Init_424E10(animFrameTableOffset, static_cast<short>(maxW), static_cast<short>(maxH), ppAnimData, 1, 1);
+
+        if (field_6_flags.Get(Options::eListAddFailed))
+        {
+            field_6_flags.Set(Options::eDead);
+        }
+
+        field_BC_ypos = ypos;
+        field_B8_xpos = xpos;
+        field_F4_scale_amount = 0;
+    }
+
+    EXPORT void vUpdate_4CC620()
+    {
+        field_B8_xpos.fpValue += field_C4_velx;
+        field_BC_ypos.fpValue += field_C8_vely;
+        field_CC_sprite_scale.fpValue += field_F4_scale_amount;
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_6_flags.Set(Options::eDead);
+        }
+    }
+
+    EXPORT void vdtor_4CC5D0(signed int flags)
+    {
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_4CC620();
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        vdtor_4CC5D0(flags);
+    }
+
+private:
+    int field_E4;
+    int field_E8;
+    int field_EC;
+    int field_F0;
+    int field_F4_scale_amount;
+};
+
+ALIVE_ASSERT_SIZEOF(Particle, 0xF8);
+
+signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
+{
+    // 8 is when returning to previous screen
+    if (field_230_fmv_level_index != 8 && (field_23C_T80 & 0x800000) != 0)
+    {
+        // Only 1 when chanting
+        if (field_230_fmv_level_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
+        {
+            // Spawn chant star/flare particle at random locations around abes head
+            field_F4_resources.field_10_res_optflare = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, FALSE, FALSE);
+            Particle* pParticle = alive_new<Particle>();
+            if (pParticle)
+            {
+                const short randX = Math_RandomRange_496AB0(-40, 40) + 184;
+                const short randY = Math_RandomRange_496AB0(30, 90);
+
+                const FP xpos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromDouble(randX);
+                FP ypos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromDouble(randY);
+                ypos.fpValue += 0x44D60C;  // TODO: 68.83 ??
+
+                pParticle->ctor_4CC4C0(
+                    xpos,
+                    ypos,
+                    4176,   // frame table
+                    92,     // max w
+                    47,     // max h
+                    field_F4_resources.field_10_res_optflare);
+
+                if (pParticle)
+                {
+                    pParticle->field_20_animation.field_B_render_mode = 1;
+                    pParticle->field_20_animation.field_C_render_layer = 39;
+                }
+            }
+        }
+        return 0;
+    }
+
+    return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
+    {
+        switch (cmd)
+        {
+        case InputCommands::eChant: Set_Anim_4D05E0(AnimIds::eAbe_Chant); return 0;
+        case InputCommands::eGameSpeak1: Set_Anim_4D05E0(AnimIds::eAbe_Hello); return 0;
+        case InputCommands::eGameSpeak2: Set_Anim_4D05E0(AnimIds::eAbe_FollowMe); return 0;
+        case InputCommands::eGameSpeak3: Set_Anim_4D05E0(AnimIds::eAbe_Wait); return 0;
+        case InputCommands::eGameSpeak4: Set_Anim_4D05E0(AnimIds::eAbe_Work); return 0;
+        case InputCommands::eGameSpeak5: Set_Anim_4D05E0(AnimIds::eAbe_Anger); return 0;
+        case InputCommands::eGameSpeak6: Set_Anim_4D05E0(AnimIds::eAbe_AllYa); return 0;
+        case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eAbe_Sympathy); return 0;
+        case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eAbe_StopIt); return 0;
+        case InputCommands::eBack: 
+            Set_Anim_4D05E0(AnimIds::eAbe_GoodBye);
+            // Stop chanting music
+            SND_SEQ_Stop_4CAE60(10u);
+
+            // TODO: Extra case for Abe - recover the type
+            if (field_20C)
+            {
+                *(WORD *)(field_20C + 248) = 1;
+                this->field_20C = 0;
+            }
+            return 0x00002;
+        }
+        return 0;
+    });
+}
+
+void MainMenuController::t_Render_Slig_Speak_4D2370(int** /*ot*/)
 {
     // TODO: Render the button text
     NOT_IMPLEMENTED();
 }
 
-EXPORT signed int MainMenuController::t_Input_Slig_Speak_4D3280(DWORD input_held)
+signed int MainMenuController::t_Input_Slig_Speak_4D3280(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
@@ -409,12 +554,12 @@ void MainMenuController::t_Load_Slig_Speak_4D3090()
     Set_Anim_4D05E0(AnimIds::eSlig_Idle);
 }
 
-EXPORT void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** /*ot*/)
+void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** /*ot*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT signed int MainMenuController::t_Input_Glukkon_Speak_4D3670(DWORD input_held)
+signed int MainMenuController::t_Input_Glukkon_Speak_4D3670(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
@@ -434,14 +579,14 @@ EXPORT signed int MainMenuController::t_Input_Glukkon_Speak_4D3670(DWORD input_h
     });
 }
 
-EXPORT void MainMenuController::t_Unload_Glukkon_Speak_4D3560()
+void MainMenuController::t_Unload_Glukkon_Speak_4D3560()
 {
     Unload_Resource(field_F4_resources.field_20_res_glkspeak);
     Load_AbeSpeakResources();
     Set_Anim_4D05E0(AnimIds::eAbe_Idle);
 }
 
-EXPORT void MainMenuController::t_Load_Glukkon_Speak_4D3480()
+void MainMenuController::t_Load_Glukkon_Speak_4D3480()
 {
     Unload_AbeSpeakResources();
 
@@ -451,12 +596,12 @@ EXPORT void MainMenuController::t_Load_Glukkon_Speak_4D3480()
     Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
 }
 
-EXPORT void MainMenuController::t_Render_Scrab_Speak_4D2410(int** /*ot*/)
+void MainMenuController::t_Render_Scrab_Speak_4D2410(int** /*ot*/)
 {
     NOT_IMPLEMENTED();
 }
 
-signed int MainMenuController::t_Input_Scrab_Speak_4D3A60(int input_held)
+signed int MainMenuController::t_Input_Scrab_Speak_4D3A60(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
@@ -493,12 +638,12 @@ void MainMenuController::t_Load_Scrab_Speak_4D3870()
     Set_Anim_4D05E0(AnimIds::eScrab_Idle);
 }
 
-void MainMenuController::t_Render_Paramite_Speak_4D2460(int** ot)
+void MainMenuController::t_Render_Paramite_Speak_4D2460(int** /*ot*/)
 {
     NOT_IMPLEMENTED();
 }
 
-signed int MainMenuController::t_Input_Paramite_Speak_4D3D60(int input_held)
+signed int MainMenuController::t_Input_Paramite_Speak_4D3D60(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
@@ -524,7 +669,6 @@ void MainMenuController::t_Unload_Paramite_Speak_4D3C50()
     Load_AbeSpeakResources();
     Set_Anim_4D05E0(AnimIds::eAbe_Idle);
 }
-
 
 void MainMenuController::t_Load_Paramite_Speak_4D3B70()
 {
@@ -634,8 +778,13 @@ signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::funct
         return 0;
     }
 
+    if (Input_IsChanting_45F260())
+    {
+        field_230_fmv_level_index = 1;
+        return fnOnGameSpeak(InputCommands::eChant);
+    }
     // Hi
-    if (input_held & InputCommands::eGameSpeak1) // 0x400
+    else if (input_held & InputCommands::eGameSpeak1) // 0x400
     {
         field_230_fmv_level_index = 0;
         return fnOnGameSpeak(InputCommands::eGameSpeak1);

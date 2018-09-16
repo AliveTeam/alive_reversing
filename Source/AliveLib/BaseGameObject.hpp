@@ -21,6 +21,7 @@ public:
         ePauseMenu = 95,
         eType_112 = 112,
         eType_125 = 125,
+        eParticle = 134,
 
         eDebugHelper = 1001, // NOTE: Not part of the original game - a debug helper only
         eDebugConsole = 1002,

@@ -49,6 +49,11 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     return this;
 }
 
+EXPORT void BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_dtor_424AD0()
+{
+    NOT_IMPLEMENTED();
+}
+
 void BaseAnimatedWithPhysicsGameObject::dtor_408210(signed int /*flags*/)
 {
     NOT_IMPLEMENTED();
