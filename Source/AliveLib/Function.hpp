@@ -12,7 +12,7 @@
 #include "detours.h"
 #include "FunctionFwd.hpp"
 
-#define NOT_IMPLEMENTED() { const static auto __kAddr__ = __FUNCTION__; __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } static bool __done__ = false; if (!__done__) { __done__ = true; LOG_WARNING("Not implemented"); }
+#define NOT_IMPLEMENTED() { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } static bool __done__ = false; if (!__done__) { __done__ = true; LOG_WARNING("Not implemented"); }
 
 #define ALIVE_ARY(Redirect, Addr, TypeName, Size, VarName, ...)\
 TypeName LocalArray_##VarName[Size]=__VA_ARGS__;\

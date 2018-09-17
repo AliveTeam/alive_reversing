@@ -11,6 +11,7 @@
 #include "Sfx.hpp"
 #include "Midi.hpp"
 #include "Abe.hpp"
+#include "Psx.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -66,6 +67,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL
     },
     {
+        // Main menu screen where abe says hello
         1,        0,        0,        0,        65535,        65535,        1,
         &MainMenuController::Page_Front_Update_4D0720,
         &MainMenuController::Page_Front_Render_4D24B0,
@@ -165,6 +167,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         20, 0, 150, 25, 1, 65535, 0, NULL, NULL, NULL, NULL, NULL 
     },
     { 
+        // Copy right boot screen
         25, 0, 150, 1, 7, 0, 0, NULL, NULL, NULL, NULL, NULL 
     },
     { 
@@ -1298,6 +1301,89 @@ void MainMenuController::Load_Anim_Pal_4D06A0(AnimationEx* pAnim)
     pAnim->Load_Pal_40A530(pAnim->field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 }
 
+EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int /*messageType*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+ALIVE_VAR(1, 0x5ca408, DWORD, sLevelId_dword_5CA408, 0);
+
+EXPORT void CC sub_494460(const char* /*a1*/, const char* /*a2*/, const char* /*a3*/, DWORD* /*a4*/, DWORD* /*a5*/, DWORD* /*a6*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+class Movie : public BaseGameObject
+{
+public:
+    virtual void VDestructor(signed int flags) override
+    {
+        vdtor_4DFE80(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_4E0030();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        // Null sub 0x4E02A0
+    }
+
+    EXPORT void Init_4DFF60(int /*a2*/, CdlLOC* /*pCdPos*/, char /*bUnknown*/, __int16 /*a5*/, __int16 /*a6*/);
+
+    
+    EXPORT void ctor_4DFDE0(int a2, int pos, char a4, int a5, __int16 a6)
+    {
+        BaseGameObject_ctor_4DBFA0(TRUE, 0);
+        SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4
+
+        CdlLOC cdLoc = {};
+        PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
+        Init_4DFF60(a2, &cdLoc, a4, a5, a6);
+    }
+
+    EXPORT void vUpdate_4E0030()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vdtor_4DFE80(signed int flags)
+    {
+        BaseGameObject_dtor_4DBEC0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+private:
+    __int16 field_20;
+    __int16 field_22_param5;
+    int field_24;
+    int field_28;
+    BYTE** field_2C_ppRes;
+    int field_30;
+    int field_34;
+    int field_38_param_1;
+    int field_3C;
+    int field_40;
+    char field_44_cd_loc_min;
+    char field_45_cd_loc_sec;
+    char field_46;
+    char field_47;
+};
+ALIVE_ASSERT_SIZEOF(Movie, 0x48);
+
+ALIVE_VAR(1, 0xbb4ae4, int, sMovie_ref_count_BB4AE4, 0);
+
+void Movie::Init_4DFF60(int /*a2*/, CdlLOC* /*pCdPos*/, char /*bUnknown*/, __int16 /*a5*/, __int16 /*a6*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 signed int MainMenuController::sub_4CF640()
 {
     NOT_IMPLEMENTED();
@@ -1307,7 +1393,7 @@ signed int MainMenuController::sub_4CF640()
         return 0;
     }
 
-    int screenChangeEffect = 0;
+    short screenChangeEffect = 0;
 
     switch (field_21E_bChangeScreen)
     {
@@ -1361,84 +1447,96 @@ signed int MainMenuController::sub_4CF640()
     case 2:
         if (sMainMenuPages_561960[field_214_page_index].field_A_bDoScreenTransistionEffect == 7)
         {
-            /*
+            char buffer[256] = {};
+
+            // Use path 2
             strcpy(buffer, sCdEmu_Path2_C144C0);
             strcat(buffer, "movies");
-            hFind = _findfirst(buffer, &sFindData);
-            if (hFind != -1)
+
+            WIN32_FIND_DATA sFindData = {};
+            HANDLE hFind = FindFirstFile(buffer, &sFindData);
+            if (hFind == INVALID_HANDLE_VALUE)
             {
-                goto label_close_hfind;
+                // Can't enumerate anything at all in path 2, try path 3
+                strcpy(buffer, sCdEmu_Path3_C145A0);
+                strcat(buffer, "movies");
             }
-            strcpy(buffer, sCdEmu_Path3_C145A0);
-            strcat(buffer, "movies");
-            buffer[0] = sCdRomDrives_5CA488[0];
-            if (!sCdRomDrives_5CA488[0])
+
+            int i = 0;
+            for (;;) // TODO: Switch to using the len/size of sCdRomDrives_5CA488 when reversed
             {
-                goto label_no_cd_drives;
-            }
-            pCdRomDriverLetterIter = sCdRomDrives_5CA488;
-            while (1)
-            {
-                hFind = _findfirst(buffer, &sFindData);
-                if (hFind != -1)
+                if (!sCdRomDrives_5CA488[i])
                 {
+                    // Out of CD drives to try
+                    buffer[0] = 0;
                     break;
                 }
-                cdRomDriveLetter = (pCdRomDriverLetterIter++)[1];
-                buffer[0] = cdRomDriveLetter;
-                if (!cdRomDriveLetter)
+
+                buffer[0] = sCdRomDrives_5CA488[i];
+                hFind = FindFirstFile(buffer, &sFindData);
+                if (hFind != INVALID_HANDLE_VALUE)
                 {
-                    goto label_no_cd_drives;
+                    // Found a valid drive
+                    break;
                 }
+
+                i++;
             }
+
             if (!buffer[0])
             {
-            label_no_cd_drives:
+                // Displays the "Abes Exoddus" full screen message you see on boot.
+                // You will probably always see this given that the CD drive with the game in it
+                // usually isn't there.
                 Display_Full_Screen_Message_Blocking_465820(1, 3);
             }
-            if (hFind != -1)
+
+            if (hFind != INVALID_HANDLE_VALUE)
             {
-            label_close_hfind:
-                _findclose(hFind);
+                FindClose(hFind);
             }
-            v12 = 0;
-            pFmvRecord = Path_Get_FMV_Record_460F70(0, 3u);
-            while (Input_IsVKPressed_4EDD40(13))
+
+            // Find the record for GTILOGO.STR
+            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(0, 3u);
+            while (Input_IsVKPressed_4EDD40(VK_RETURN))
             {
                 SYS_EventsPump_494580();
             }
+
+            DWORD v34 = 0; // Gets set to 0x11111111
             sub_494460(pFmvRecord->field_0_pName, 0, 0, &v34, 0, 0);
             sLevelId_dword_5CA408 = 0;
-            v14 = (Movie *)malloc_4954D0(0x48u);
-            pMovieMem2 = v14;
-            v38 = 2;
-            if (v14)
+
+            // Create a movie object
+            auto pMovie = alive_new<Movie>();
+            if (pMovie)
             {
-                LOWORD(v15) = pFmvRecord->field_8;
-                v12 = Movie::ctor_4DFDE0(
-                    v14,
+                pMovie->ctor_4DFDE0(
                     pFmvRecord->field_4_id,
-                    (int)v34,
+                    v34,
                     pFmvRecord->field_6_flags & 1,
-                    v15,
-                    pFmvRecord->field_A);
+                    pFmvRecord->field_8,
+                    pFmvRecord->field_A_volume);
             }
-            v38 = -1;
-            while (sMovie_ref_count_BB4AE4)
+
+            // Run the movie till its done
+            while (sMovie_ref_count_BB4AE4 > 0)
             {
-                v16 = v12->field_0_mBase.field_6_flags;
-                if (v16 & 2)
+                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
                 {
-                    if (!(v16 & 4) && (!word_5C1B66 || v16 & 0x200))
+                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead) == false && (!word_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdatableExtra)))
                     {
-                        v12->field_0_mBase.field_0_VTbl->VBaseGameObject.field_4(&v12->field_0_mBase);
+                        pMovie->VUpdate();
                     }
                 }
             }
+
             while (Input_IsVKPressed_4EDD40(13))
             {
                 SYS_EventsPump_494580();
             }
+
+            /*
             sub_494460("DDLOGO.STR", 0, 0, &v34, 0, 0);
             sLevelId_dword_5CA408 = 0;
             pMovieMem = (Movie *)malloc_4954D0(0x48u);
@@ -1524,14 +1622,11 @@ signed int MainMenuController::sub_4CF640()
         field_21E_bChangeScreen = 3;
         return 1;
     case 3:
-        /*
-        pFn_unload = sMainMenuPages_561960[this->field_214_page_index].field_20_fn_on_free;
-        if (pFn_unload)
+        if (sMainMenuPages_561960[field_214_page_index].field_20_fn_on_free)
         {
-            pFn_unload(this);
+            (this->*sMainMenuPages_561960[field_214_page_index].field_20_fn_on_free)();
         }
-        this->field_21E_bChangeScreen = 4;
-        */
+        field_21E_bChangeScreen = 4;
         return 1;
     case 4:
         /*

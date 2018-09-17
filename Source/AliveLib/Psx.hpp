@@ -116,7 +116,9 @@ ALIVE_VAR_EXTERN(BYTE, bDontUseXYOffsetInRender_BD1464);
 ALIVE_VAR_EXTERN(Bitmap, stru_C1D1A0);
 ALIVE_VAR_EXTERN(int, sVGA_DisplayType_BD1468);
 
-
+ALIVE_ARY_EXTERN(char, 128, sCdEmu_Path1_C14620);
+ALIVE_ARY_EXTERN(char, 128, sCdEmu_Path2_C144C0);
+ALIVE_ARY_EXTERN(char, 128, sCdEmu_Path3_C145A0);
 
 namespace Test
 {

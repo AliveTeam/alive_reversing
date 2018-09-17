@@ -134,12 +134,32 @@ private:
         return (lower >= 'a' && lower <= 'f');
     }
 
-    static bool IsImplemented(PVOID pCode, const std::string& addrStr)
+    struct ExportInformation
     {
+        bool mIsImplemented;
+        std::string mExportedFunctionName;
+        std::string mUnMangledFunctioName;
+
+        const std::string& Name()
+        {
+            if (!mUnMangledFunctioName.empty())
+            {
+                return mUnMangledFunctioName;
+            }
+            return mExportedFunctionName;
+        }
+    };
+
+    static ExportInformation GetExportInformation(PVOID pExportedFunctionAddress, const std::string& exportedFunctionName)
+    {
+        ExportInformation info = {};
+        info.mIsImplemented = false;
+        info.mExportedFunctionName = exportedFunctionName;
+        
         // 4 nops, int 3, 4 nops
         const static BYTE kPatternToFind[] = { 0x90, 0x90, 0x90, 0x90, 0xCC, 0x90, 0x90, 0x90, 0x90 };
         BYTE codeBuffer[256] = {};
-        memcpy(codeBuffer, pCode, sizeof(codeBuffer));
+        memcpy(codeBuffer, pExportedFunctionAddress, sizeof(codeBuffer));
         for (int i = 0; i < sizeof(codeBuffer) - sizeof(kPatternToFind); i++)
         {
             if (codeBuffer[i] == kPatternToFind[0])
@@ -152,13 +172,19 @@ private:
                     // mov eax, offset to function name string
                     // pop eax
                     // Therefore extracting the pointer to unmangled offset to the function name tells us if we have the right function.
-                    const char*** strAddr = reinterpret_cast<const char***>(&reinterpret_cast<BYTE*>(pCode)[i - 5]);
+                    const char*** strAddr = reinterpret_cast<const char***>(&reinterpret_cast<BYTE*>(pExportedFunctionAddress)[i - 5]);
 
-                    if (std::string(**strAddr).find(addrStr) != std::string::npos)
+                    const char* pBothNames = **strAddr;
+                    size_t len = strlen(pBothNames);
+                    const char* mangledName = pBothNames + len + 1;
+
+                    if (std::string(mangledName) == exportedFunctionName)
                     {
+                        info.mUnMangledFunctioName = pBothNames;
+
                         if (!IsAlive())
                         {
-                            BYTE* ptr = &reinterpret_cast<BYTE*>(pCode)[i + 4];
+                            BYTE* ptr = &reinterpret_cast<BYTE*>(pExportedFunctionAddress)[i + 4];
                             DWORD old = 0;
                             if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
                             {
@@ -170,7 +196,7 @@ private:
                                 ALIVE_FATAL("Failed to restore old memory protection");
                             }
                         }
-                        return false;
+                        return info;
                     }
                     else
                     {
@@ -180,19 +206,20 @@ private:
                 }
             }
         }
-        return true;
+        info.mIsImplemented = true; // Didn't find not impl instruction pattern
+        return info;
     }
 
     void OnExport(PCHAR pszName, PVOID pCode)
     {
-        std::string name(pszName);
-        auto underScorePos = name.find_first_of('_');
+        std::string exportedFunctionName(pszName);
+        auto underScorePos = exportedFunctionName.find_first_of('_');
         while (underScorePos != std::string::npos)
         {
             int hexNumLen = 0;
-            for (size_t i = underScorePos + 1; i < name.length(); i++)
+            for (size_t i = underScorePos + 1; i < exportedFunctionName.length(); i++)
             {
-                if (IsHexDigit(name[i]))
+                if (IsHexDigit(exportedFunctionName[i]))
                 {
                     hexNumLen++;
                 }
@@ -204,23 +231,35 @@ private:
 
             if (hexNumLen >= 6 && hexNumLen <= 8)
             {
-                std::string addrStr = name.substr(underScorePos + 1, hexNumLen);
+                if (exportedFunctionName.find("?__done__@") == 0 || exportedFunctionName.find("?__kAddr__@") == 0)
+                {
+                    // The likes of ?__done__@?1??vUpdate_4E0030@Movie@@QAEXXZ@4_NA have been seen - even though the static bool done = false; isn't exported.
+                    // The code below treats this var as a function causing false positive of duplicated addresses. Therefore this hack filters out global static
+                    // done booleans that have been exported for unknown reasons.
+                    // This can also have for kAddr.
+                    LOG_WARNING("Ignoring done static boolean which has for some reason been exported " << exportedFunctionName);
+                    return;
+                }
+
+                std::string addrStr = exportedFunctionName.substr(underScorePos + 1, hexNumLen);
                 unsigned long addr = std::stoul(addrStr, nullptr, 16);
 
                 auto it = mUsedAddrs.find(addr);
                 if (it != std::end(mUsedAddrs))
                 {
                     std::stringstream s;
-                    s << "Duplicated function for address " << std::hex << "0x" << addr;
+                    s << "Duplicated function for address " << std::hex << "0x" << addr << " already used by " << it->second.Name() << " when checking " << exportedFunctionName;
                     ALIVE_FATAL(s.str().c_str());
                 }
 
-                mExports.push_back({ name, pCode, addr, IsImplemented(pCode, addrStr) });
-                mUsedAddrs.insert(addr);
+
+                ExportInformation exportInfo = GetExportInformation(pCode, exportedFunctionName);
+                mExports.push_back({ exportedFunctionName, pCode, addr, exportInfo.mIsImplemented });
+                mUsedAddrs.insert({ addr, exportInfo });
                 return;
             }
 
-            underScorePos = name.find('_', underScorePos + 1);
+            underScorePos = exportedFunctionName.find('_', underScorePos + 1);
         }
         LOG_WARNING(pszName << " was not hooked");
     }
@@ -256,6 +295,6 @@ private:
         bool mIsImplemented;
     };
     std::vector<Export> mExports;
-    std::set<DWORD> mUsedAddrs;
+    std::map<DWORD, ExportInformation> mUsedAddrs;
     std::set<DWORD> mDisabledImpls;
 };
