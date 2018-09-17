@@ -151,9 +151,6 @@ public:
     EXPORT static void callback_4D06E0(MainMenuController *a1);
     EXPORT static int DrawMenuText_4D20D0(MainMenuText *array, int **ot, Font *font, int *polyIndex, char a5);
 
-    unsigned int    MainMenuPageUpdateTemplate(int input);  // Returns target cam/page info.
-    int             MainMenuPageRenderTemplate(int **ot);   // Returns poly index for text rendering.
-    
     // Page Functions
     EXPORT void t_Render_Abe_Speak_4D2060(int** ot);
     EXPORT signed int t_Input_Abe_Speak_4D2D20(DWORD input_held);
@@ -182,8 +179,8 @@ public:
     void Load_AbeSpeakResources();
 
     // Front End
-    EXPORT unsigned int Page_Front_Update_4D0720(unsigned int input);
-    EXPORT int Page_Front_Render_4D24B0(int **ot);
+    EXPORT signed int Page_Front_Update_4D0720(DWORD input);
+    EXPORT void Page_Front_Render_4D24B0(int **ot);
 
     static MainMenuController * gMainMenuController;
 private:
@@ -236,7 +233,7 @@ public:
     __int16 field_200_highlite_glow_speed;
     __int16 field_202_input_hold_down_timer;
     int field_204_prev_pressed;
-    int field_208;
+    int field_208_transition_obj;
     int field_20C;
     void* field_210_pUnknown;
     __int16 field_214_page_index;
@@ -275,7 +272,10 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 
-using t_MainMenuPage_Update = decltype(&MainMenuController::MainMenuPageUpdateTemplate);
+using TFnInput = signed int (MainMenuController::*)(DWORD);
+using TFnRender = void (MainMenuController::*)(int**);
+using TFnLoad = void (MainMenuController::*)();
+using TFnUnLoad = void (MainMenuController::*)();
 
 struct MainMenuPage
 {
@@ -286,11 +286,11 @@ struct MainMenuPage
     __int16 field_A_bDoScreenTransistionEffect;
     __int16 field_C_target_camera;
     __int16 field_E_show_character;
-    t_MainMenuPage_Update field_10_fn_update;
-    void(__thiscall *field_14_fn_render)(MainMenuController *, int **);
+    TFnInput field_10_fn_update;
+    TFnRender field_14_fn_render;
     MainMenuButton *field_18_buttons;
-    int(__thiscall *field_1C_fn_on_load)(MainMenuController *);
-    int(__thiscall *field_20_fn_on_free)(MainMenuController *);
+    TFnLoad field_1C_fn_on_load;
+    TFnUnLoad field_20_fn_on_free;
 };
 
 
