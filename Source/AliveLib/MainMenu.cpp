@@ -1332,17 +1332,21 @@ public:
         // Null sub 0x4E02A0
     }
 
-    EXPORT void Init_4DFF60(int /*a2*/, CdlLOC* /*pCdPos*/, char /*bUnknown*/, __int16 /*a5*/, __int16 /*a6*/);
-
-    
-    EXPORT void ctor_4DFDE0(int a2, int pos, char a4, int a5, __int16 a6)
+    EXPORT void Init_4DFF60(int /*a2*/, CdlLOC* /*pCdPos*/, __int16 /*bUnknown*/, __int16 /*a5*/, __int16 /*a6*/)
     {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void ctor_4DFDE0(int id, DWORD pos, __int16 a4, __int16 a5, __int16 volume)
+    {
+        NOT_IMPLEMENTED(); // TODO FIX ME - causes a hang
+
         BaseGameObject_ctor_4DBFA0(TRUE, 0);
         SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4
 
         CdlLOC cdLoc = {};
         PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
-        Init_4DFF60(a2, &cdLoc, a4, a5, a6);
+        Init_4DFF60(id, &cdLoc, a4, a5, volume);
     }
 
     EXPORT void vUpdate_4E0030()
@@ -1378,11 +1382,6 @@ private:
 ALIVE_ASSERT_SIZEOF(Movie, 0x48);
 
 ALIVE_VAR(1, 0xbb4ae4, int, sMovie_ref_count_BB4AE4, 0);
-
-void Movie::Init_4DFF60(int /*a2*/, CdlLOC* /*pCdPos*/, char /*bUnknown*/, __int16 /*a5*/, __int16 /*a6*/)
-{
-    NOT_IMPLEMENTED();
-}
 
 signed int MainMenuController::sub_4CF640()
 {
@@ -1444,6 +1443,7 @@ signed int MainMenuController::sub_4CF640()
     LABEL_17:
         field_21E_bChangeScreen = 2;
         return 1;
+
     case 2:
         if (sMainMenuPages_561960[field_214_page_index].field_A_bDoScreenTransistionEffect == 7)
         {
@@ -1507,7 +1507,7 @@ signed int MainMenuController::sub_4CF640()
             sub_494460(pFmvRecord->field_0_pName, 0, 0, &v34, 0, 0);
             sLevelId_dword_5CA408 = 0;
 
-            // Create a movie object
+            // Create a movie object for the GTI logo
             auto pMovie = alive_new<Movie>();
             if (pMovie)
             {
@@ -1536,52 +1536,45 @@ signed int MainMenuController::sub_4CF640()
                 SYS_EventsPump_494580();
             }
 
-            /*
+            // Create movie object for the DD logo
             sub_494460("DDLOGO.STR", 0, 0, &v34, 0, 0);
             sLevelId_dword_5CA408 = 0;
-            pMovieMem = (Movie *)malloc_4954D0(0x48u);
-            pMovieMem2 = pMovieMem;
-            v38 = 3;
-            if (pMovieMem)
+            pMovie = alive_new<Movie>();
+
+            if (pMovie)
             {
-                LOWORD(v18) = pFmvRecord->field_8;
-                pMovieObj = Movie::ctor_4DFDE0(
-                    pMovieMem,
+                pMovie->ctor_4DFDE0(
                     pFmvRecord->field_4_id,
-                    (int)v34,
+                    v34,
                     pFmvRecord->field_6_flags & 1,
-                    v18,
-                    pFmvRecord->field_A);
+                    pFmvRecord->field_8,
+                    pFmvRecord->field_A_volume);
             }
-            else
+
+            // Run the movie till its done
+            while (sMovie_ref_count_BB4AE4 > 0)
             {
-                pMovieObj = 0;
-            }
-            v38 = -1;
-            while (sMovie_ref_count_BB4AE4)
-            {
-                v20 = pMovieObj->field_0_mBase.field_6_flags;
-                if (v20 & 2)
+                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
                 {
-                    if (!(v20 & 4) && (!word_5C1B66 || v20 & 0x200))
+                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead) == false && (!word_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdatableExtra)))
                     {
-                        pMovieObj->field_0_mBase.field_0_VTbl->VBaseGameObject.field_4(&pMovieObj->field_0_mBase);
+                        pMovie->VUpdate();
                     }
                 }
             }
-            PSX_Display::PutCurrentDispEnv_41DFA0(&gPsxDisplay_5C1130);
-            Map::SetActiveCam_480D30(&gMap_5C3030, 0, 1, 1, 5, 10502, 0);
-            Animation::Set_Animation_Data_409C80(
-                &this->field_0_mBase.field_20_animation,
-                0xC424,
-                this->field_F4_resources_array_11[3].field_0_res);
-            MainMenuController::Load_Anim_Pal_4D06A0(this, &this->field_0_mBase.field_20_animation);
-            BYTE2(this->field_23C_T80) |= 1u;
-            this->field_220_frame_table_idx = 9;
-            this->field_228_res_idx = 0;
-            this->field_21E_bChangeScreen = 3;
+
+            gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+
+            gMap_5C3030.SetActiveCam_480D30(0, 1, 1, 5, 10502, 0);
+
+            field_20_animation.Set_Animation_Data_409C80(0xC424, field_F4_resources.field_0_resources[MenuResIds::eDoor]);
+            Load_Anim_Pal_4D06A0(&field_20_animation);
+
+            field_23C_T80.Set(Flags::eBit17);
+            field_220_frame_table_idx = 9;
+            field_228_res_idx = 0;
+            field_21E_bChangeScreen = 3;
             return 1;
-            */
         }
 
         switch (field_21C_bDoScreenTransistionEffect)
@@ -1609,6 +1602,7 @@ signed int MainMenuController::sub_4CF640()
         default:
             break;
         }
+
         gMap_5C3030.SetActiveCam_480D30(
             0,
             1,
@@ -1621,6 +1615,7 @@ signed int MainMenuController::sub_4CF640()
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_21E_bChangeScreen = 3;
         return 1;
+
     case 3:
         if (sMainMenuPages_561960[field_214_page_index].field_20_fn_on_free)
         {
@@ -1628,55 +1623,54 @@ signed int MainMenuController::sub_4CF640()
         }
         field_21E_bChangeScreen = 4;
         return 1;
+
     case 4:
-        /*
         if (word_5C1B66 > 0)
         {
             return 1;
         }
-        if (!this->field_21C_bDoScreenTransistionEffect || this->field_21C_bDoScreenTransistionEffect == 2)
+
+        if (field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2)
         {
-            MainMenuTransition::sub_464370(this->field_208_transition_obj, 40, 0, 0, 16);
+            //MainMenuTransition::sub_464370(this->field_208_transition_obj, 40, 0, 0, 16);
         }
-        menu_target_idx = this->field_218_target_page_index;
-        LOWORD(this->field_0_mBase.field_20_animation.field_0_mBase.field_4_flags) |= 4u;
-        v24 = this->field_214_page_index;
-        this->field_214_page_index = menu_target_idx;
-        menu_target_idx_copy = menu_target_idx;
-        this->field_21E_bChangeScreen = 5;
-        this->field_216 = v24;
-        menu_idx = menu_target_idx;
-        if (!sMainMenuPages_561960[menu_idx].field_18_buttons)
+
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit3);
+        field_216 = field_214_page_index;
+        field_214_page_index = field_218_target_page_index;
+        field_21E_bChangeScreen = 5;
+
+        if (sMainMenuPages_561960[field_218_target_page_index].field_18_buttons == 0)
         {
             goto LABEL_76;
         }
-        target_cam = this->field_21A_target_cam;
-        this->field_1FC_button_index = target_cam;
-        if (target_cam != -1)
+        
+        field_1FC_button_index = field_21A_target_cam;
+
+        if (field_21A_target_cam != -1)
         {
             goto LABEL_74;
         }
-        buttons = sMainMenuPages_561960[menu_idx].field_18_buttons;
-        v29 = 0;
-        v30 = buttons->field_0;
-        if (v30 == 1)
+
+        if (sMainMenuPages_561960[field_218_target_page_index].field_18_buttons->field_0 == 1)
         {
-            goto LABEL_73;
-        }*/
+            field_1FC_button_index = 0;
+            goto LABEL_74;
+        }
         break;
     case 5:
-        /*
-        LOWORD(effect_type) = this->field_21C_bDoScreenTransistionEffect;
-        if ((_WORD)effect_type != 7)
+        if (field_21C_bDoScreenTransistionEffect != 7)
         {
-            LOBYTE(this->field_0_mBase.field_20_animation.field_0_mBase.field_4_flags) |= 6u;
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3);
         }
-        effect_type = (signed __int16)effect_type;
-        if ((!(_WORD)effect_type || effect_type == 2) && !this->field_208_transition_obj->field_26)
+
+        if ((field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2) /*&& !field_208_transition_obj->field_26*/)
         {
             return 1;
         }
-        this->field_21E_bChangeScreen = 0;*/
+
+        field_21E_bChangeScreen = 0;
         return 0;
     default:
         return 0;
@@ -1698,22 +1692,21 @@ signed int MainMenuController::sub_4CF640()
             this->field_1FC_button_index = v29;
             break;
         }
-    }
-LABEL_74:
-    v31 = this->field_1FC_button_index;
-    if (v31 != -1)
-    {
-        Animation::Set_Animation_Data_409C80(
-            &this->field_158_animation,
-            sMainMenuPages_561960[menu_target_idx_copy].field_18_buttons[v31].field_8_anim_frame_offset,
-            0);
-    }
-LABEL_76:
-    pFn_load = (void(__cdecl *)())sMainMenuPages_561960[this->field_214_page_index].field_1C_fn_on_load;
-    if (pFn_load)
-    {
-        pFn_load();
     }*/
+
+LABEL_74:
+    if (field_1FC_button_index != -1)
+    {
+        field_158_animation.Set_Animation_Data_409C80(
+            sMainMenuPages_561960[field_218_target_page_index].field_18_buttons[field_218_target_page_index].field_8_anim_frame_offset,
+            nullptr);
+    }
+
+LABEL_76:
+    if (sMainMenuPages_561960[field_214_page_index].field_1C_fn_on_load)
+    {
+        (this->*sMainMenuPages_561960[field_214_page_index].field_1C_fn_on_load)();
+    }
     return 1;
 }
 
