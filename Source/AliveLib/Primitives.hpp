@@ -368,6 +368,24 @@ inline void SetRGB0(T* prim, BYTE r, BYTE g, BYTE b)
 }
 
 template<class T>
+inline BYTE R0(T* prim)
+{
+    return prim->mBase.header.rgb_code.r;
+}
+
+template<class T>
+inline BYTE G0(T* prim)
+{
+    return prim->mBase.header.rgb_code.g;
+}
+
+template<class T>
+inline BYTE B0(T* prim)
+{
+    return prim->mBase.header.rgb_code.b;
+}
+
+template<class T>
 inline void SetXY_Generic(T* prim, int idx, short x, short y)
 {
     prim->mVerts[idx].mVert.x = x;

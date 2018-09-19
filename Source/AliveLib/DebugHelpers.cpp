@@ -943,37 +943,16 @@ static void LoadTIM(TimInfo* pInfo, const BYTE* timBuffer, char abr)
     pInfo->mTPage = static_cast<WORD>(PSX_getTPage_4F60E0(static_cast<char>(mode), abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
 
-class RenderTest : public BaseGameObject
+class RenderTest_AllPrims
 {
 public:
-    RenderTest()
+    RenderTest_AllPrims()
     {
-        // Don't hack the vtable else our virtuals won't get called and we can't hack the correct one back since we don't know the address of our vtable.
-        DisableVTableHack disableHack;
-
-        BaseGameObject_ctor_4DBFA0(1, 1);
-
         InitTestRender();
-
-        field_6_flags.Set(BaseGameObject::eDrawable);
-
-        gObjList_drawables_5C1124->Push_Back(this);
     }
 
-    virtual void VDestructor(signed int flags) override
+    void Render(int** pOrderingTable)
     {
-        Destruct();
-        if (flags & 1)
-        {
-            Mem_Free_495540(this);
-        }
-    }
-
-    virtual void VRender(int** pOrderingTable) override
-    {
-        PSX_RECT screen = { 0, 0, 640, 240 };
-        PSX_ClearImage_4F5BD0(&screen, 127, 127, 127);
-
         static PSX_Pos16 xy = {};
         static short ypos = 0;
         ypos++;
@@ -1039,12 +1018,8 @@ public:
         OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolyGT3.mBase.header);
     }
 
-    void Destruct()
-    {
-        gObjList_drawables_5C1124->Remove_Item(this);
-    }
-
 private:
+
     void InitTestRender()
     {
         {
@@ -1061,7 +1036,7 @@ private:
 
         {
             PolyF3_Init(&mPolyF3);
-            
+
             SetRGB0(&mPolyF3, 255, 255, 0);
 
             SetXY0(&mPolyF3, 240, 190);
@@ -1135,8 +1110,8 @@ private:
 
             SetXY0(&mPolyF4, 180, 160);
             SetXY1(&mPolyF4, 180, 160 + 20);
-            SetXY2(&mPolyF4, 180 + (20*2), 160);
-            SetXY3(&mPolyF4, 180 + (20*2), 160 + 20);
+            SetXY2(&mPolyF4, 180 + (20 * 2), 160);
+            SetXY3(&mPolyF4, 180 + (20 * 2), 160 + 20);
         }
 
         {
@@ -1206,7 +1181,7 @@ private:
             SetRGB3(&mPolyGT4, 0, 0, 0);
 
             Poly_Set_Blending_4F8A20(&mPolyGT4.mBase.header, 0);
-            Poly_Set_SemiTrans_4F8A60(&mPolyGT4.mBase.header,1);
+            Poly_Set_SemiTrans_4F8A60(&mPolyGT4.mBase.header, 1);
             SetTPage(&mPolyGT4, timInfo.mTPage);
             SetClut(&mPolyGT4, timInfo.mClut);
 
@@ -1281,7 +1256,7 @@ private:
             SetRGB0(&mLineG3, 55, 55, 90);
             SetRGB1(&mLineG3, 155, 60, 255);
             SetRGB2(&mLineG3, 50, 255, 255);
-  
+
             SetXY0(&mLineG3, 320, 120);
             SetXY1(&mLineG3, 420, 120);
             SetXY2(&mLineG3, 320, 100);
@@ -1334,7 +1309,7 @@ private:
             Init_Sprt_8(&mSprt8);
             SetRGB0(&mSprt8, 127, 127, 127);
             SetXY0(&mSprt8, 520, 80);
-            
+
             TimInfo timInfo = {};
             LoadTIM(&timInfo, &tim_16_bit[0], 0);
 
@@ -1414,6 +1389,117 @@ private:
 
     Prim_ScreenOffset mScreenOffset = {};
     Prim_PrimClipper mPrimClipper = {};
+};
+
+class Poly_F3_Test
+{
+public:
+    Poly_F3_Test()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            PolyF3_Init(&mPolys[i]);
+        }
+        Update();
+
+        SetRGB0(&mPolys[0], 127, 127, 127);
+        SetRGB0(&mPolys[1], 255, 0, 0);
+        SetRGB0(&mPolys[2], 0, 255, 0);
+        SetRGB0(&mPolys[3], 0, 0, 255);
+
+        Poly_Set_SemiTrans_4F8A60(&mPolys[2].mBase.header, TRUE);
+        Poly_Set_SemiTrans_4F8A60(&mPolys[3].mBase.header, TRUE);
+
+        Poly_Set_Blending_4F8A20(&mPolys[0].mBase.header, TRUE);
+        Poly_Set_Blending_4F8A20(&mPolys[1].mBase.header, TRUE);
+    }
+
+    void Render(int** pOrderingTable)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPolys[i].mBase.header);
+        }
+    }
+
+    void Update()
+    {
+        mWidth++;
+        if (mWidth > 100)
+        {
+            mWidth = 60;
+        }
+
+        int xpos = mXPos;
+        for (int i = 0; i < 4; i++)
+        {
+            SetXY0(&mPolys[i], xpos, mYPos);
+            SetXY1(&mPolys[i], xpos, mYPos + mHeight);
+            SetXY2(&mPolys[i], xpos + (mWidth * 2), mYPos);
+
+            xpos += (mWidth * 2) - 60;
+        }
+    }
+
+private:
+    int mWidth = 60;
+    int mHeight = 150;
+    int mXPos = 50;
+    int mYPos = 50/2;
+    Poly_F3 mPolys[4];
+};
+
+class RenderTest : public BaseGameObject
+{
+public:
+    RenderTest()
+    {
+        // Don't hack the vtable else our virtuals won't get called and we can't hack the correct one back since we don't know the address of our vtable.
+        DisableVTableHack disableHack;
+
+        BaseGameObject_ctor_4DBFA0(1, 1);
+
+        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eUpdatable);
+
+        gObjList_drawables_5C1124->Push_Back(this);
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        Destruct();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    virtual void VUpdate() override
+    {
+        field_1C_update_delay = 4;
+        mPoly_F3_Test.Update();
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        PSX_RECT screen = { 0, 0, 640, 240 };
+        PSX_ClearImage_4F5BD0(&screen, 0, 0, 0);
+
+        //pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+
+        mPoly_F3_Test.Render(pOrderingTable);
+
+        mAllPrims.Render(pOrderingTable);
+    }
+
+    void Destruct()
+    {
+        gObjList_drawables_5C1124->Remove_Item(this);
+    }
+
+private:
+    RenderTest_AllPrims mAllPrims;
+    Poly_F3_Test mPoly_F3_Test;
 };
 
 void DebugHelpers_Init() 

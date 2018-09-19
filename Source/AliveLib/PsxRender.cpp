@@ -580,9 +580,107 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
-EXPORT unsigned __int8* CC PSX_Render_Polys_1_4F7110(void* /*a1*/, int /*a2*/, int /*a3*/)
+struct OT_Prim
+{
+    int field_0;
+    int field_4;
+    BYTE field_8_r;
+    BYTE field_9_g;
+    BYTE field_A_b;
+    BYTE field_B_flags;
+    char field_C_vert_count;
+    char field_D;
+    char field_E;
+    char field_F;
+    __int16 field_10_tpage;
+    __int16 field_12;
+    int field_14_x0;
+    int field_18_y0;
+    int field_1C;
+    int field_20;
+    int field_24;
+    int field_28_u;
+    int field_2C_v;
+    int field_30_r;
+    int field_34_g;
+    int field_38_b;
+    int field_3C_x1;
+    int field_40_y1;
+    int field_44;
+    int field_48;
+    int field_4C;
+    int field_50;
+    int field_54;
+    int field_58_ptr;
+    int field_5C;
+    int field_60;
+    int field_64_x2;
+    int field_68_y2;
+    int field_6C;
+    int field_70;
+    int field_74;
+    int field_78;
+    int field_7C;
+    int field_80_ptr;
+    int field_84;
+    int field_88;
+    int field_8C;
+    int field_90;
+    int field_94;
+    int field_98;
+    int field_9C;
+    int field_A0;
+    int field_A4;
+    int field_A8_ptr;
+    int field_AC;
+    int field_B0;
+};
+ALIVE_ASSERT_SIZEOF(OT_Prim, 180); // could be up to 380
+
+ALIVE_ARY(1, 0x0, BYTE, 380, byte_BD0C0C, {});
+
+ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
+
+EXPORT unsigned __int8* CC PSX_Render_Polys_1_4F7110(void* pData, int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
+    
+    PrimAny any;
+    any.mVoid = pData;
+
+    OT_Prim* result = off_578330;
+    //*((_BYTE *)off_578330 + 14) = 0; // Never read, setting dword_5783B0    dd 0D0Ah
+    
+
+    result->field_D = 1;
+    result->field_8_r = any.mPrimHeader->rgb_code.r;
+    result->field_9_g = any.mPrimHeader->rgb_code.g;
+    result->field_A_b = any.mPrimHeader->rgb_code.b;
+    result->field_B_flags = any.mPrimHeader->rgb_code.code_or_pad;
+
+    const int kPrimType = PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad);
+    if (kPrimType == ePolyF3)
+    {
+        result->field_C_vert_count = 3;
+
+        result->field_14_x0 = 16 * any.mPolyF3->mBase.vert.x;
+        result->field_18_y0 = 16 * any.mPolyF3->mBase.vert.y;
+        result->field_1C = 0;
+
+        result->field_30_r = (unsigned __int8)any.mPrimHeader->rgb_code.r << 13;
+        result->field_34_g = (unsigned __int8)any.mPrimHeader->rgb_code.g << 13;
+        result->field_38_b = (unsigned __int8)any.mPrimHeader->rgb_code.b << 13;
+
+        result->field_3C_x1 = 16 * any.mPolyF3->mVerts[0].mVert.x;
+        result->field_40_y1 = 16 * any.mPolyF3->mVerts[0].mVert.y;
+        result->field_44 = 0;
+
+        result->field_64_x2 = 16 * any.mPolyF3->mVerts[1].mVert.x;
+        result->field_68_y2 = 16 * any.mPolyF3->mVerts[1].mVert.y;
+        result->field_6C = 0;
+        return (unsigned char*)result;
+    }
+
     return nullptr;
 }
 
@@ -1442,9 +1540,40 @@ namespace Test
         }
     }
 
+    static void Test_PSX_Render_Polys_1_4F7110()
+    {
+        memset(off_578330, 0, 380);
+
+        Poly_F3 polyF3 = {};
+        PolyF3_Init(&polyF3);
+        SetRGB0(&polyF3, 255, 0, 255);
+        SetXY0(&polyF3, 20, 50);
+        SetXY1(&polyF3, 20, 50 + 50);
+        SetXY2(&polyF3, 20 + 50, 50 + 50);
+
+        PSX_Render_Polys_1_4F7110(&polyF3, 0, 0);
+
+        ASSERT_EQ(off_578330->field_D, 1);
+        ASSERT_EQ(off_578330->field_C_vert_count, 3);
+
+        ASSERT_EQ(off_578330->field_8_r, R0(&polyF3));
+        ASSERT_EQ(off_578330->field_9_g, G0(&polyF3));
+        ASSERT_EQ(off_578330->field_A_b, B0(&polyF3));
+
+        ASSERT_EQ(off_578330->field_14_x0, 20 * 16);
+        ASSERT_EQ(off_578330->field_18_y0, 50 * 16);
+
+        ASSERT_EQ(off_578330->field_3C_x1, 20 * 16);
+        ASSERT_EQ(off_578330->field_40_y1, (50 + 50) * 16);
+
+        ASSERT_EQ(off_578330->field_64_x2, (20 + 50) * 16);
+        ASSERT_EQ(off_578330->field_68_y2, (50 + 50) * 16);
+    }
+
     void PsxRenderTests()
     {
         Test_PSX_TPage_Change_4F6430();
         Test_PSX_Rects_intersect_point_4FA100();
+        Test_PSX_Render_Polys_1_4F7110();
     }
 }
