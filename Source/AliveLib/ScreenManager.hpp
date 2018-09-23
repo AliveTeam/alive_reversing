@@ -108,6 +108,7 @@ public:
     EXPORT void sub_40EE50();
     EXPORT void VRender_40E6E0(int **ot);
 
+    virtual void VScreenChanged() override;
 private:
     void AddCurrentSPRT_TPage(int **ot);
 

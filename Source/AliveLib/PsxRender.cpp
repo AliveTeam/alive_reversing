@@ -580,6 +580,21 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
+struct OT_Vert
+{
+    int field_0_x0;
+    int field_4_y0;
+    int field_8;
+    int field_C;
+    int field_10;
+    int field_14_u;
+    int field_18_v;
+    int field_1C_r;
+    int field_20_g;
+    int field_24_b;
+};
+ALIVE_ASSERT_SIZEOF(OT_Vert, 0x28);
+
 struct OT_Prim
 {
     int field_0;
@@ -593,47 +608,8 @@ struct OT_Prim
     char field_E;
     char field_F;
     __int16 field_10_tpage;
-    __int16 field_12;
-    int field_14_x0;
-    int field_18_y0;
-    int field_1C;
-    int field_20;
-    int field_24;
-    int field_28_u;
-    int field_2C_v;
-    int field_30_r;
-    int field_34_g;
-    int field_38_b;
-    int field_3C_x1;
-    int field_40_y1;
-    int field_44;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
-    int field_58_ptr;
-    int field_5C;
-    int field_60;
-    int field_64_x2;
-    int field_68_y2;
-    int field_6C;
-    int field_70;
-    int field_74;
-    int field_78;
-    int field_7C;
-    int field_80_ptr;
-    int field_84;
-    int field_88;
-    int field_8C;
-    int field_90;
-    int field_94;
-    int field_98;
-    int field_9C;
-    int field_A0;
-    int field_A4;
-    int field_A8_ptr;
-    int field_AC;
-    int field_B0;
+    __int16 field_12_clut;
+    OT_Vert field_14_verts[4];
 };
 ALIVE_ASSERT_SIZEOF(OT_Prim, 180); // could be up to 380
 
@@ -641,50 +617,367 @@ ALIVE_ARY(1, 0x0, BYTE, 380, byte_BD0C0C, {});
 
 ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
 
-EXPORT unsigned __int8* CC PSX_Render_Polys_1_4F7110(void* pData, int /*a2*/, int /*a3*/)
+EXPORT void CC PSX_poly_helper_50CC70(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/)
 {
     NOT_IMPLEMENTED();
-    
+}
+
+EXPORT void CC PSX_poly_helper_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/, int /*x0*/, int /*y0*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_poly_helper_517880(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pData, int xoff, int yoff)
+{
+    NOT_IMPLEMENTED();
+
     PrimAny any;
     any.mVoid = pData;
 
-    OT_Prim* result = off_578330;
-    //*((_BYTE *)off_578330 + 14) = 0; // Never read, setting dword_5783B0    dd 0D0Ah
-    
-
-    result->field_D = 1;
-    result->field_8_r = any.mPrimHeader->rgb_code.r;
-    result->field_9_g = any.mPrimHeader->rgb_code.g;
-    result->field_A_b = any.mPrimHeader->rgb_code.b;
-    result->field_B_flags = any.mPrimHeader->rgb_code.code_or_pad;
+    OT_Prim* pConverted = off_578330;
+    pConverted->field_E = 0;
+    pConverted->field_D = 1;
+    pConverted->field_8_r = any.mPrimHeader->rgb_code.r;
+    pConverted->field_9_g = any.mPrimHeader->rgb_code.g;
+    pConverted->field_A_b = any.mPrimHeader->rgb_code.b;
+    pConverted->field_B_flags = any.mPrimHeader->rgb_code.code_or_pad;
 
     const int kPrimType = PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad);
-    if (kPrimType == ePolyF3)
+    if (kPrimType == ePolyGT4)
     {
-        result->field_C_vert_count = 3;
+        Poly_GT4* pPoly = any.mPolyGT4;
+        pConverted->field_C_vert_count = 4;
 
-        result->field_14_x0 = 16 * any.mPolyF3->mBase.vert.x;
-        result->field_18_y0 = 16 * any.mPolyF3->mBase.vert.y;
-        result->field_1C = 0;
+        pConverted->field_10_tpage = GetTPage(pPoly);
+        pConverted->field_12_clut = GetClut(pPoly);
 
-        result->field_30_r = (unsigned __int8)any.mPrimHeader->rgb_code.r << 13;
-        result->field_34_g = (unsigned __int8)any.mPrimHeader->rgb_code.g << 13;
-        result->field_38_b = (unsigned __int8)any.mPrimHeader->rgb_code.b << 13;
+        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
+        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
+        pConverted->field_14_verts[0].field_8 = 0;
+        pConverted->field_14_verts[0].field_1C_r = R0(pPoly);
+        pConverted->field_14_verts[0].field_20_g = G0(pPoly);
+        pConverted->field_14_verts[0].field_24_b = B0(pPoly);
+        pConverted->field_14_verts[0].field_14_u = U0(pPoly);
+        pConverted->field_14_verts[0].field_18_v = V0(pPoly);
 
-        result->field_3C_x1 = 16 * any.mPolyF3->mVerts[0].mVert.x;
-        result->field_40_y1 = 16 * any.mPolyF3->mVerts[0].mVert.y;
-        result->field_44 = 0;
+        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
+        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
+        pConverted->field_14_verts[1].field_8 = 0;
+        pConverted->field_14_verts[1].field_1C_r = R1(pPoly);
+        pConverted->field_14_verts[1].field_20_g = G1(pPoly);
+        pConverted->field_14_verts[1].field_24_b = B1(pPoly);
+        pConverted->field_14_verts[1].field_14_u = U1(pPoly);
+        pConverted->field_14_verts[1].field_18_v = V1(pPoly);
 
-        result->field_64_x2 = 16 * any.mPolyF3->mVerts[1].mVert.x;
-        result->field_68_y2 = 16 * any.mPolyF3->mVerts[1].mVert.y;
-        result->field_6C = 0;
-        return (unsigned char*)result;
+        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
+        pConverted->field_14_verts[2].field_8 = 0;
+        pConverted->field_14_verts[2].field_1C_r = R2(pPoly);
+        pConverted->field_14_verts[2].field_20_g = G2(pPoly);
+        pConverted->field_14_verts[2].field_24_b = B2(pPoly);
+        pConverted->field_14_verts[2].field_14_u = U2(pPoly);
+        pConverted->field_14_verts[2].field_18_v = V2(pPoly);
+
+        pConverted->field_14_verts[3].field_0_x0 = 16 * X3(pPoly);
+        pConverted->field_14_verts[3].field_4_y0 = 16 * Y3(pPoly);
+        pConverted->field_14_verts[3].field_8 = 0;
+        pConverted->field_14_verts[3].field_1C_r = R3(pPoly);
+        pConverted->field_14_verts[3].field_20_g = G3(pPoly);
+        pConverted->field_14_verts[3].field_24_b = B3(pPoly);
+        pConverted->field_14_verts[3].field_14_u = U3(pPoly);
+        pConverted->field_14_verts[3].field_18_v = V3(pPoly);
+        return pConverted;
     }
+    else if (kPrimType == ePolyG4)
+    {
+        Poly_G4* pPoly = any.mPolyG4;
+        pConverted->field_C_vert_count = 4;
 
-    return nullptr;
+        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
+        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
+        pConverted->field_14_verts[0].field_8 = 0;
+        pConverted->field_14_verts[0].field_1C_r = R0(pPoly) << 13;
+        pConverted->field_14_verts[0].field_20_g = G0(pPoly) << 13;
+        pConverted->field_14_verts[0].field_24_b = B0(pPoly) << 13;
+
+        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
+        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
+        pConverted->field_14_verts[1].field_8 = 0;
+        pConverted->field_14_verts[1].field_1C_r = R1(pPoly) << 13;
+        pConverted->field_14_verts[1].field_20_g = G1(pPoly) << 13;
+        pConverted->field_14_verts[1].field_24_b = B1(pPoly) << 13;
+
+        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
+        pConverted->field_14_verts[2].field_8 = 0;
+        pConverted->field_14_verts[2].field_1C_r = R2(pPoly) << 13;
+        pConverted->field_14_verts[2].field_20_g = G2(pPoly) << 13;
+        pConverted->field_14_verts[2].field_24_b = B2(pPoly) << 13;
+
+        pConverted->field_14_verts[3].field_0_x0 = 16 * X3(pPoly);
+        pConverted->field_14_verts[3].field_4_y0 = 16 * Y3(pPoly);
+        pConverted->field_14_verts[3].field_8 = 0;
+        pConverted->field_14_verts[3].field_1C_r = R3(pPoly) << 13;
+        pConverted->field_14_verts[3].field_20_g = G3(pPoly) << 13;
+        pConverted->field_14_verts[3].field_24_b = B3(pPoly) << 13;
+        return pConverted;
+    }
+    else if (kPrimType == ePolyFT4)
+    {
+        Poly_FT4* pPoly = any.mPolyFT4;
+        pConverted->field_C_vert_count = 4;
+
+        pConverted->field_10_tpage = GetTPage(pPoly);
+        pConverted->field_12_clut = GetClut(pPoly);
+
+        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
+        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
+        pConverted->field_14_verts[0].field_8 = 0;
+        pConverted->field_14_verts[0].field_14_u = U0(pPoly);
+        pConverted->field_14_verts[0].field_18_v = V0(pPoly);
+
+        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
+        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
+        pConverted->field_14_verts[1].field_8 = 0;
+        pConverted->field_14_verts[1].field_14_u = U1(pPoly);
+        pConverted->field_14_verts[1].field_18_v = V1(pPoly);
+
+        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
+        pConverted->field_14_verts[2].field_8 = 0;
+        pConverted->field_14_verts[2].field_14_u = U2(pPoly);
+        pConverted->field_14_verts[2].field_18_v = V2(pPoly);
+
+        pConverted->field_14_verts[3].field_0_x0 = 16 * X3(pPoly);
+        pConverted->field_14_verts[3].field_4_y0 = 16 * Y3(pPoly);
+        pConverted->field_14_verts[3].field_8 = 0;
+        pConverted->field_14_verts[3].field_14_u = U3(pPoly);
+        pConverted->field_14_verts[3].field_18_v = V3(pPoly);
+
+        if (!(pConverted->field_B_flags & 1) // Blending enabled?
+            && (pConverted->field_8_r & 248) == 128
+            && (pConverted->field_9_g & 248) == 128
+            && (pConverted->field_A_b & 248) == 128)
+        {
+            pConverted->field_B_flags |= 1;
+        }
+
+        // TODO: Figure out what this extra 4 byte of data in the reserved fields is being used for
+        const DWORD unknown = pPoly->mVerts[1].mUv.tpage_clut_pad + (pPoly->mVerts[2].mUv.tpage_clut_pad << 16);
+        if (unknown)
+        {
+            const int xoffConverted = 16 * xoff;
+            if (xoffConverted > 0)
+            {
+                pConverted->field_14_verts[0].field_0_x0 += xoffConverted;
+                pConverted->field_14_verts[1].field_0_x0 += xoffConverted;
+                pConverted->field_14_verts[2].field_0_x0 += xoffConverted;
+                pConverted->field_14_verts[3].field_0_x0 += xoffConverted;
+            }
+
+            const int yoffConverted = 16 * yoff;
+            if (yoffConverted > 0)
+            {
+                pConverted->field_14_verts[0].field_4_y0 += yoffConverted;
+                pConverted->field_14_verts[1].field_4_y0 += yoffConverted;
+                pConverted->field_14_verts[2].field_4_y0 += yoffConverted;
+                pConverted->field_14_verts[3].field_4_y0 += yoffConverted;
+            }
+
+            PSX_TPage_Change_4F6430(pConverted->field_10_tpage);
+
+            const int tPageSemiTransRate = (pConverted->field_10_tpage >> 7) & 3;
+            switch (tPageSemiTransRate)
+            {
+            case eBlendMode_0: // 0.5xB + 0.5xF
+                PSX_poly_helper_517880(pConverted, 
+                    pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0,
+                    pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0,
+                    unknown);
+                break;
+
+            case eBlendMode_1: // 1.0xB + 1.0xF
+                PSX_poly_helper_50CC70(pConverted,
+                    pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0,
+                    pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0,
+                    unknown);
+                break;
+
+            case eBlendMode_2: // 1.0xB - 1.0xF
+                PSX_poly_helper_517990(pConverted,
+                    pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0,
+                    pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0,
+                    unknown,
+                    pConverted->field_14_verts[0].field_0_x0 , pConverted->field_14_verts[0].field_4_y0);
+                break;
+
+            case eBlendMode_3: // 1.0xB + 0.25xF
+                break;
+            }
+            return nullptr;
+        }
+        return pConverted;
+    }
+    else if (kPrimType == ePolyF4)
+    {
+        Poly_F4* pPoly = any.mPolyF4;
+        pConverted->field_C_vert_count = 4;
+
+        pConverted->field_14_verts[0].field_1C_r = R0(pPoly) << 13;
+        pConverted->field_14_verts[0].field_20_g = G0(pPoly) << 13;
+        pConverted->field_14_verts[0].field_24_b = B0(pPoly) << 13;
+
+        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
+        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
+        pConverted->field_14_verts[0].field_8 = 0;
+
+        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
+        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
+        pConverted->field_14_verts[1].field_8 = 0;
+
+        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
+        pConverted->field_14_verts[2].field_8 = 0;
+
+        pConverted->field_14_verts[3].field_0_x0 = 16 * X3(pPoly);
+        pConverted->field_14_verts[3].field_4_y0 = 16 * Y3(pPoly);
+        pConverted->field_14_verts[3].field_8 = 0;
+        return pConverted;
+    }
+    else if (kPrimType == ePolyGT3)
+    {
+        Poly_GT3* pPoly = any.mPolyGT3;
+        pConverted->field_C_vert_count = 3;
+
+        pConverted->field_10_tpage = GetTPage(pPoly);
+        pConverted->field_12_clut = GetClut(pPoly);
+
+        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
+        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
+        pConverted->field_14_verts[0].field_8 = 0;
+        pConverted->field_14_verts[0].field_1C_r = R0(pPoly);
+        pConverted->field_14_verts[0].field_20_g = G0(pPoly);
+        pConverted->field_14_verts[0].field_24_b = B0(pPoly);
+        pConverted->field_14_verts[0].field_14_u = U0(pPoly);
+        pConverted->field_14_verts[0].field_18_v = V0(pPoly);
+
+        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
+        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
+        pConverted->field_14_verts[1].field_8 = 0;
+        pConverted->field_14_verts[1].field_1C_r = R1(pPoly);
+        pConverted->field_14_verts[1].field_20_g = G1(pPoly);
+        pConverted->field_14_verts[1].field_24_b = B1(pPoly);
+        pConverted->field_14_verts[1].field_14_u = U1(pPoly);
+        pConverted->field_14_verts[1].field_18_v = V1(pPoly);
+
+        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
+        pConverted->field_14_verts[2].field_8 = 0;
+        pConverted->field_14_verts[2].field_1C_r = R2(pPoly);
+        pConverted->field_14_verts[2].field_20_g = G2(pPoly);
+        pConverted->field_14_verts[2].field_24_b = B2(pPoly);
+        pConverted->field_14_verts[2].field_14_u = U2(pPoly);
+        pConverted->field_14_verts[2].field_18_v = V2(pPoly);
+        return pConverted;
+    }
+    else if (kPrimType == ePolyG3)
+    {
+        Poly_G3* pPoly = any.mPolyG3;
+        pConverted->field_C_vert_count = 3;
+
+        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
+        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
+        pConverted->field_14_verts[0].field_8 = 0;
+        pConverted->field_14_verts[0].field_1C_r = R0(pPoly) << 13;
+        pConverted->field_14_verts[0].field_20_g = G0(pPoly) << 13;
+        pConverted->field_14_verts[0].field_24_b = B0(pPoly) << 13;
+
+        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
+        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
+        pConverted->field_14_verts[1].field_8 = 0;
+        pConverted->field_14_verts[1].field_1C_r = R1(pPoly) << 13;
+        pConverted->field_14_verts[1].field_20_g = G1(pPoly) << 13;
+        pConverted->field_14_verts[1].field_24_b = B1(pPoly) << 13;
+
+        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted->field_14_verts[2].field_4_y0 = 16 * Y3(pPoly);
+        pConverted->field_14_verts[2].field_8 = 0;
+        pConverted->field_14_verts[2].field_1C_r = R2(pPoly) << 13;
+        pConverted->field_14_verts[2].field_20_g = G2(pPoly) << 13;
+        pConverted->field_14_verts[2].field_24_b = B2(pPoly) << 13;
+        return pConverted;
+    }
+    else if (kPrimType == ePolyFT3)
+    {
+        Poly_FT3* pPoly = any.mPolyFT3;
+        pConverted->field_C_vert_count = 3;
+
+        pConverted->field_10_tpage = GetTPage(pPoly);
+        pConverted->field_12_clut = GetClut(pPoly);
+
+        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
+        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
+        pConverted->field_14_verts[0].field_8 = 0;
+        pConverted->field_14_verts[0].field_14_u = U0(pPoly);
+        pConverted->field_14_verts[0].field_18_v = V0(pPoly);
+
+        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
+        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
+        pConverted->field_14_verts[1].field_8 = 0;
+        pConverted->field_14_verts[1].field_14_u = U1(pPoly);
+        pConverted->field_14_verts[1].field_18_v = V1(pPoly);
+
+        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
+        pConverted->field_14_verts[2].field_8 = 0;
+        pConverted->field_14_verts[2].field_14_u = U2(pPoly);
+        pConverted->field_14_verts[2].field_18_v = V2(pPoly);
+
+        if (!(pConverted->field_B_flags & 1) // Blending enabled?
+            && (pConverted->field_8_r & 248) == 128
+            && (pConverted->field_9_g & 248) == 128
+            && (pConverted->field_A_b & 248) == 128)
+        {
+            pConverted->field_B_flags |= 1;
+        }
+
+        return pConverted;
+    }
+    else if (kPrimType == ePolyF3)
+    {
+        Poly_F3* pPoly = any.mPolyF3;
+        pConverted->field_C_vert_count = 3;
+
+        pConverted->field_14_verts[0].field_1C_r = R0(pPoly) << 13;
+        pConverted->field_14_verts[0].field_20_g = G0(pPoly) << 13;
+        pConverted->field_14_verts[0].field_24_b = B0(pPoly) << 13;
+
+        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
+        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
+        pConverted->field_14_verts[0].field_8 = 0;
+
+        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
+        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
+        pConverted->field_14_verts[1].field_8 = 0;
+
+        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
+        pConverted->field_14_verts[2].field_8 = 0;
+        
+        return pConverted;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
-EXPORT void __cdecl PSX_Render_Polys_2_4F7960(unsigned __int8* /*a1*/, int /*a2*/, int /*a3*/)
+EXPORT void CC PSX_Render_Polys_2_4F7960(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -796,7 +1089,7 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
     case PrimTypeCodes::ePolyGT4:
         {
             // I think this works by func 1 populating some data structure and then func 2 does the actual rendering
-            unsigned __int8* pPolyBuffer = PSX_Render_Polys_1_4F7110(any.mVoid, drawEnv_of0, drawEnv_of1);
+            OT_Prim* pPolyBuffer = PSX_Render_Convert_Polys_To_Internal_Format_4F7110(any.mVoid, drawEnv_of0, drawEnv_of1);
             if (pPolyBuffer)
             {
                 PSX_Render_Polys_2_4F7960(pPolyBuffer, drawEnv_of0, drawEnv_of1);
@@ -1540,40 +1833,46 @@ namespace Test
         }
     }
 
-    static void Test_PSX_Render_Polys_1_4F7110()
+    static void Test_PSX_Render_Convert_Polys_To_Internal_Format_4F7110()
     {
-        memset(off_578330, 0, 380);
+        {
+            memset(off_578330, 0, 380);
 
-        Poly_F3 polyF3 = {};
-        PolyF3_Init(&polyF3);
-        SetRGB0(&polyF3, 255, 0, 255);
-        SetXY0(&polyF3, 20, 50);
-        SetXY1(&polyF3, 20, 50 + 50);
-        SetXY2(&polyF3, 20 + 50, 50 + 50);
+            Poly_F3 polyF3 = {};
+            PolyF3_Init(&polyF3);
+            SetRGB0(&polyF3, 255, 0, 255);
+            SetXY0(&polyF3, 20, 50);
+            SetXY1(&polyF3, 20, 50 + 50);
+            SetXY2(&polyF3, 20 + 50, 50 + 50);
 
-        PSX_Render_Polys_1_4F7110(&polyF3, 0, 0);
+            PSX_Render_Convert_Polys_To_Internal_Format_4F7110(&polyF3, 0, 0);
 
-        ASSERT_EQ(off_578330->field_D, 1);
-        ASSERT_EQ(off_578330->field_C_vert_count, 3);
+            ASSERT_EQ(off_578330->field_D, 1);
+            ASSERT_EQ(off_578330->field_C_vert_count, 3);
 
-        ASSERT_EQ(off_578330->field_8_r, R0(&polyF3));
-        ASSERT_EQ(off_578330->field_9_g, G0(&polyF3));
-        ASSERT_EQ(off_578330->field_A_b, B0(&polyF3));
+            ASSERT_EQ(off_578330->field_8_r, R0(&polyF3));
+            ASSERT_EQ(off_578330->field_9_g, G0(&polyF3));
+            ASSERT_EQ(off_578330->field_A_b, B0(&polyF3));
 
-        ASSERT_EQ(off_578330->field_14_x0, 20 * 16);
-        ASSERT_EQ(off_578330->field_18_y0, 50 * 16);
+            ASSERT_EQ(off_578330->field_14_verts[0].field_0_x0, 20 * 16);
+            ASSERT_EQ(off_578330->field_14_verts[0].field_4_y0, 50 * 16);
 
-        ASSERT_EQ(off_578330->field_3C_x1, 20 * 16);
-        ASSERT_EQ(off_578330->field_40_y1, (50 + 50) * 16);
+            ASSERT_EQ(off_578330->field_14_verts[1].field_0_x0, 20 * 16);
+            ASSERT_EQ(off_578330->field_14_verts[1].field_4_y0, (50 + 50) * 16);
 
-        ASSERT_EQ(off_578330->field_64_x2, (20 + 50) * 16);
-        ASSERT_EQ(off_578330->field_68_y2, (50 + 50) * 16);
+            ASSERT_EQ(off_578330->field_14_verts[2].field_0_x0, (20 + 50) * 16);
+            ASSERT_EQ(off_578330->field_14_verts[2].field_4_y0, (50 + 50) * 16);
+        }
+
+        {
+
+        }
     }
 
     void PsxRenderTests()
     {
         Test_PSX_TPage_Change_4F6430();
         Test_PSX_Rects_intersect_point_4FA100();
-        Test_PSX_Render_Polys_1_4F7110();
+        Test_PSX_Render_Convert_Polys_To_Internal_Format_4F7110();
     }
 }

@@ -619,6 +619,11 @@ void ScreenManager::VRender_40E6E0(int **ot)
     UnsetDirtyBits_40EDE0(3);
 }
 
+void ScreenManager::VScreenChanged()
+{
+    // NullSub@0x40F090
+}
+
 void ScreenManager::AddCurrentSPRT_TPage(int **ot)
 {
     if (pCurrent_SprtTPage_5BB5DC)

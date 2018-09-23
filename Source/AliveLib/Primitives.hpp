@@ -340,14 +340,14 @@ union PrimAny
     Prim_Tile_1* mTile1;
 
     Poly_F3* mPolyF3;
-    Poly_FT3* ePolyFT3;
+    Poly_FT3* mPolyFT3;
     Poly_G3* mPolyG3;
-    Poly_GT3* ePolyGT3;
+    Poly_GT3* mPolyGT3;
 
     Poly_F4* mPolyF4;
     Poly_FT4* mPolyFT4;
     Poly_G4* mPolyG4;
-    Poly_GT4* ePolyGT4;
+    Poly_GT4* mPolyGT4;
 
     Line_F2* mLineF2;
     Line_F3* mLineF3;
@@ -367,23 +367,45 @@ inline void SetRGB0(T* prim, BYTE r, BYTE g, BYTE b)
     prim->mBase.header.rgb_code.b = b;
 }
 
-template<class T>
-inline BYTE R0(T* prim)
-{
-    return prim->mBase.header.rgb_code.r;
-}
+template<class T> inline BYTE R0(T* prim) { return prim->mBase.header.rgb_code.r; }
+template<class T> inline BYTE G0(T* prim) { return prim->mBase.header.rgb_code.g; }
+template<class T> inline BYTE B0(T* prim) { return prim->mBase.header.rgb_code.b; }
 
-template<class T>
-inline BYTE G0(T* prim)
-{
-    return prim->mBase.header.rgb_code.g;
-}
+template<class T> inline BYTE R_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.r; }
+template<class T> inline BYTE G_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.g; }
+template<class T> inline BYTE B_Generic(T* prim, int idx) { return prim->mVerts[idx].mRgb.b; }
+template<class T> inline BYTE R1(T* prim) { return R_Generic(prim, 0); }
+template<class T> inline BYTE G1(T* prim) { return G_Generic(prim, 0); }
+template<class T> inline BYTE B1(T* prim) { return B_Generic(prim, 0); }
+template<class T> inline BYTE R2(T* prim) { return R_Generic(prim, 1); }
+template<class T> inline BYTE G2(T* prim) { return G_Generic(prim, 1); }
+template<class T> inline BYTE B2(T* prim) { return B_Generic(prim, 1); }
+template<class T> inline BYTE R3(T* prim) { return R_Generic(prim, 2); }
+template<class T> inline BYTE G3(T* prim) { return G_Generic(prim, 2); }
+template<class T> inline BYTE B3(T* prim) { return B_Generic(prim, 2); }
 
-template<class T>
-inline BYTE B0(T* prim)
-{
-    return prim->mBase.header.rgb_code.b;
-}
+template<class T> inline short X0(T* prim) { return prim->mBase.vert.x; }
+template<class T> inline short Y0(T* prim) { return prim->mBase.vert.y; }
+
+template<class T> inline short X_Generic(T* prim, int idx) { return prim->mVerts[idx].mVert.x; }
+template<class T> inline short Y_Generic(T* prim, int idx) { return prim->mVerts[idx].mVert.y; }
+template<class T> inline short X1(T* prim) { return X_Generic(prim, 0); }
+template<class T> inline short Y1(T* prim) { return Y_Generic(prim, 0); }
+template<class T> inline short X2(T* prim) { return X_Generic(prim, 1); }
+template<class T> inline short Y2(T* prim) { return Y_Generic(prim, 1); }
+template<class T> inline short X3(T* prim) { return X_Generic(prim, 2); }
+template<class T> inline short Y3(T* prim) { return Y_Generic(prim, 2); }
+
+template<class T> inline BYTE U0(T* prim) { return prim->mUv.u; }
+template<class T> inline BYTE V0(T* prim) { return prim->mUv.v; }
+template<class T> inline BYTE U_Generic(T* prim, int idx) { return prim->mVerts[idx].mUv.u; }
+template<class T> inline BYTE V_Generic(T* prim, int idx) { return prim->mVerts[idx].mUv.v; }
+template<class T> inline BYTE U1(T* prim) { return U_Generic(prim, 0); }
+template<class T> inline BYTE V1(T* prim) { return V_Generic(prim, 0); }
+template<class T> inline BYTE U2(T* prim) { return U_Generic(prim, 1); }
+template<class T> inline BYTE V2(T* prim) { return V_Generic(prim, 1); }
+template<class T> inline BYTE U3(T* prim) { return U_Generic(prim, 2); }
+template<class T> inline BYTE V3(T* prim) { return V_Generic(prim, 2); }
 
 template<class T>
 inline void SetXY_Generic(T* prim, int idx, short x, short y)
@@ -481,10 +503,23 @@ inline void SetTPage(T* prim, short tpage)
 }
 
 template<class T>
+inline short GetTPage(T* prim)
+{
+    return prim->mVerts[0].mUv.tpage_clut_pad;
+}
+
+template<class T>
 inline void SetClut(T* prim, short clut)
 {
     prim->mUv.tpage_clut_pad = clut;
 }
+
+template<class T>
+inline short GetClut(T* prim)
+{
+    return prim->mUv.tpage_clut_pad;
+}
+
 
 void PolyF3_Init(Poly_F3* pPoly);
 void PolyFT3_Init(Poly_FT3* pPoly);
