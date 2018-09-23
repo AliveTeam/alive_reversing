@@ -617,9 +617,29 @@ ALIVE_ARY(1, 0x0, BYTE, 380, byte_BD0C0C, {});
 
 ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
 
-EXPORT void CC PSX_Render_PolyFT4_BlendMode1_50CC70(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/)
+EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode1_R11_SemiTrans_501B00(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode1_R11_Opaque_5006E0(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC PSX_Render_PolyFT4_BlendMode1_50CC70(OT_Prim* pOt, int width, int height, int unknown)
+{
+    assert(sRedShift_C215C4 == 11); // Should be the only possible case
+    if (pOt->field_B_flags & 2 && k1_dword_55EF90)
+    {
+        PSX_Render_PolyFT4_BlendMode1_R11_SemiTrans_501B00(pOt, width, height, unknown);
+    }
+    else
+    {
+        PSX_Render_PolyFT4_BlendMode1_R11_Opaque_5006E0(pOt, width, height, unknown);
+    }
 }
 
 EXPORT void CC PSX_Render_PolyFT4_BlendMode2_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
@@ -627,10 +647,31 @@ EXPORT void CC PSX_Render_PolyFT4_BlendMode2_517990(OT_Prim* /*pOt*/, int /*widt
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_Render_PolyFT4_BlendMode0_517880(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/)
+EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode0_R11_SemiTrans_50DF30(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
+
+EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode0_R11_Opqaue_50CDB0(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, int /*a4*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC PSX_Render_PolyFT4_BlendMode0_517880(OT_Prim* pOt, int width, int height, int unknown)
+{
+    assert(sRedShift_C215C4 == 11); // Should be the only possible case
+    if (pOt->field_B_flags & 2)
+    {
+        PSX_Render_PolyFT4_BlendMode0_R11_SemiTrans_50DF30(pOt, width, height, unknown);
+    }
+    else
+    {
+        PSX_Render_PolyFT4_BlendMode0_R11_Opqaue_50CDB0(pOt, width, height, unknown);
+    }
+}
+
 
 // For 3 verticies the order is 0, 1, 2
 // For 4 verticies the order is 0, 1, 3, 2

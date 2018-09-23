@@ -65,7 +65,7 @@ ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
 
 ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
 ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
-ALIVE_VAR(1, 0x55EF90, int, dword_55EF90, 1);
+ALIVE_VAR(1, 0x55EF90, int, k1_dword_55EF90, 1);
 ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
 ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
 ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
@@ -289,7 +289,7 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     Sys_Set_Hwnd_4F2C50(Sys_GetWindowHandle_4EE180());
 
     dword_5CA4D4 = 0;
-    dword_55EF90 = 1;
+    k1_dword_55EF90 = 1; // Global way to turn off semi trans rendering?
     byte_55EF88 = true;
 
     if (pCommandLine)
