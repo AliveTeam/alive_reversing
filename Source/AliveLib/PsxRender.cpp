@@ -622,7 +622,7 @@ EXPORT void CC PSX_poly_helper_50CC70(OT_Prim* /*pOt*/, int /*width*/, int /*hei
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_poly_helper_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/, int /*x0*/, int /*y0*/)
+EXPORT void CC PSX_poly_helper_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -793,25 +793,25 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
             switch (tPageSemiTransRate)
             {
             case eBlendMode_0: // 0.5xB + 0.5xF
-                PSX_poly_helper_517880(pConverted, 
-                    pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0,
-                    pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0,
+                PSX_poly_helper_517880(pConverted,
+                    (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
+                    (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
                     unknown);
                 break;
 
             case eBlendMode_1: // 1.0xB + 1.0xF
                 PSX_poly_helper_50CC70(pConverted,
-                    pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0,
-                    pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0,
+                    (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
+                    (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
                     unknown);
                 break;
 
             case eBlendMode_2: // 1.0xB - 1.0xF
                 PSX_poly_helper_517990(pConverted,
-                    pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0,
-                    pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0,
-                    unknown,
-                    pConverted->field_14_verts[0].field_0_x0 , pConverted->field_14_verts[0].field_4_y0);
+                    (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
+                    (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
+                    reinterpret_cast<DWORD*>(unknown),
+                    pConverted->field_14_verts[0].field_0_x0 /16 , pConverted->field_14_verts[0].field_4_y0 / 16);
                 break;
 
             case eBlendMode_3: // 1.0xB + 0.25xF
