@@ -617,19 +617,119 @@ ALIVE_ARY(1, 0x0, BYTE, 380, byte_BD0C0C, {});
 
 ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
 
-EXPORT void CC PSX_poly_helper_50CC70(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/)
+EXPORT void CC PSX_Render_PolyFT4_BlendMode1_50CC70(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_poly_helper_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
+EXPORT void CC PSX_Render_PolyFT4_BlendMode2_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_poly_helper_517880(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/)
+EXPORT void CC PSX_Render_PolyFT4_BlendMode0_517880(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, int /*unknown*/)
 {
     NOT_IMPLEMENTED();
+}
+
+// For 3 verticies the order is 0, 1, 2
+// For 4 verticies the order is 0, 1, 3, 2
+enum class EPolyType
+{
+    e4Point,
+    e3Point,
+};
+
+template<class T>
+static inline void Convert_Vertex_XY(OT_Vert* pConverted, T* pPoly, EPolyType polyType)
+{
+    pConverted[0].field_0_x0 = 16 * X0(pPoly);
+    pConverted[0].field_4_y0 = 16 * Y0(pPoly);
+    pConverted[0].field_8 = 0;
+
+    pConverted[1].field_0_x0 = 16 * X1(pPoly);
+    pConverted[1].field_4_y0 = 16 * Y1(pPoly);
+    pConverted[1].field_8 = 0;
+
+    if (polyType == EPolyType::e4Point)
+    {
+        pConverted[2].field_0_x0 = 16 * X3(pPoly);
+        pConverted[2].field_4_y0 = 16 * Y3(pPoly);
+        pConverted[2].field_8 = 0;
+
+        pConverted[3].field_0_x0 = 16 * X2(pPoly);
+        pConverted[3].field_4_y0 = 16 * Y2(pPoly);
+        pConverted[3].field_8 = 0;
+    }
+    else
+    {
+        pConverted[2].field_0_x0 = 16 * X2(pPoly);
+        pConverted[2].field_4_y0 = 16 * Y2(pPoly);
+        pConverted[2].field_8 = 0;
+    }
+}
+
+template<class T>
+static inline void Convert_Vertex_RGB_Single(OT_Vert* pConverted, T* pPoly)
+{
+    pConverted[0].field_1C_r = R0(pPoly) << 13;
+    pConverted[0].field_20_g = G0(pPoly) << 13;
+    pConverted[0].field_24_b = B0(pPoly) << 13;
+}
+
+template<class T>
+static inline void Convert_Vertex_RGB(OT_Vert* pConverted, T* pPoly, EPolyType polyType, bool hasTexture)
+{
+    const int shiftValue = hasTexture ? 0 : 13;
+
+    pConverted[0].field_1C_r = R0(pPoly) << shiftValue;
+    pConverted[0].field_20_g = G0(pPoly) << shiftValue;
+    pConverted[0].field_24_b = B0(pPoly) << shiftValue;
+
+    pConverted[1].field_1C_r = R1(pPoly) << shiftValue;
+    pConverted[1].field_20_g = G1(pPoly) << shiftValue;
+    pConverted[1].field_24_b = B1(pPoly) << shiftValue;
+
+    if (polyType == EPolyType::e4Point)
+    {
+        pConverted[2].field_1C_r = R3(pPoly) << shiftValue;
+        pConverted[2].field_20_g = G3(pPoly) << shiftValue;
+        pConverted[2].field_24_b = B3(pPoly) << shiftValue;
+
+        pConverted[3].field_1C_r = R2(pPoly) << shiftValue;
+        pConverted[3].field_20_g = G2(pPoly) << shiftValue;
+        pConverted[3].field_24_b = B2(pPoly) << shiftValue;
+    }
+    else
+    {
+        pConverted[2].field_1C_r = R2(pPoly) << shiftValue;
+        pConverted[2].field_20_g = G2(pPoly) << shiftValue;
+        pConverted[2].field_24_b = B2(pPoly) << shiftValue;
+    }
+}
+
+template<class T>
+static inline void Convert_Vertex_UV(OT_Vert* pConverted, T* pPoly, EPolyType polyType)
+{
+    pConverted[0].field_14_u = U0(pPoly);
+    pConverted[0].field_18_v = V0(pPoly);
+
+    pConverted[1].field_14_u = U1(pPoly);
+    pConverted[1].field_18_v = V1(pPoly);
+
+    if (polyType == EPolyType::e4Point)
+    {
+        pConverted[2].field_14_u = U3(pPoly);
+        pConverted[2].field_18_v = V3(pPoly);
+
+        pConverted[3].field_14_u = U2(pPoly);
+        pConverted[3].field_18_v = V2(pPoly);
+    }
+    else
+    {
+        pConverted[2].field_14_u = U2(pPoly);
+        pConverted[2].field_18_v = V2(pPoly);
+    }
 }
 
 EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pData, int xoff, int yoff)
@@ -654,41 +754,10 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         pConverted->field_10_tpage = GetTPage(pPoly);
         pConverted->field_12_clut = GetClut(pPoly);
 
-        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
-        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
-        pConverted->field_14_verts[0].field_8 = 0;
-        pConverted->field_14_verts[0].field_1C_r = R0(pPoly);
-        pConverted->field_14_verts[0].field_20_g = G0(pPoly);
-        pConverted->field_14_verts[0].field_24_b = B0(pPoly);
-        pConverted->field_14_verts[0].field_14_u = U0(pPoly);
-        pConverted->field_14_verts[0].field_18_v = V0(pPoly);
+        Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e4Point);
+        Convert_Vertex_RGB(pConverted->field_14_verts, pPoly, EPolyType::e4Point, true);
+        Convert_Vertex_UV(pConverted->field_14_verts, pPoly, EPolyType::e4Point);
 
-        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
-        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
-        pConverted->field_14_verts[1].field_8 = 0;
-        pConverted->field_14_verts[1].field_1C_r = R1(pPoly);
-        pConverted->field_14_verts[1].field_20_g = G1(pPoly);
-        pConverted->field_14_verts[1].field_24_b = B1(pPoly);
-        pConverted->field_14_verts[1].field_14_u = U1(pPoly);
-        pConverted->field_14_verts[1].field_18_v = V1(pPoly);
-
-        pConverted->field_14_verts[2].field_0_x0 = 16 * X3(pPoly);
-        pConverted->field_14_verts[2].field_4_y0 = 16 * Y3(pPoly);
-        pConverted->field_14_verts[2].field_8 = 0;
-        pConverted->field_14_verts[2].field_1C_r = R3(pPoly);
-        pConverted->field_14_verts[2].field_20_g = G3(pPoly);
-        pConverted->field_14_verts[2].field_24_b = B3(pPoly);
-        pConverted->field_14_verts[2].field_14_u = U3(pPoly);
-        pConverted->field_14_verts[2].field_18_v = V3(pPoly);
-
-        pConverted->field_14_verts[3].field_0_x0 = 16 * X2(pPoly);
-        pConverted->field_14_verts[3].field_4_y0 = 16 * Y2(pPoly);
-        pConverted->field_14_verts[3].field_8 = 0;
-        pConverted->field_14_verts[3].field_1C_r = R2(pPoly);
-        pConverted->field_14_verts[3].field_20_g = G2(pPoly);
-        pConverted->field_14_verts[3].field_24_b = B2(pPoly);
-        pConverted->field_14_verts[3].field_14_u = U2(pPoly);
-        pConverted->field_14_verts[3].field_18_v = V2(pPoly);
         return pConverted;
     }
     else if (kPrimType == ePolyG4)
@@ -696,33 +765,9 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         Poly_G4* pPoly = any.mPolyG4;
         pConverted->field_C_vert_count = 4;
 
-        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
-        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
-        pConverted->field_14_verts[0].field_8 = 0;
-        pConverted->field_14_verts[0].field_1C_r = R0(pPoly) << 13;
-        pConverted->field_14_verts[0].field_20_g = G0(pPoly) << 13;
-        pConverted->field_14_verts[0].field_24_b = B0(pPoly) << 13;
+        Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e4Point);
+        Convert_Vertex_RGB(pConverted->field_14_verts, pPoly, EPolyType::e4Point, false);
 
-        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
-        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
-        pConverted->field_14_verts[1].field_8 = 0;
-        pConverted->field_14_verts[1].field_1C_r = R1(pPoly) << 13;
-        pConverted->field_14_verts[1].field_20_g = G1(pPoly) << 13;
-        pConverted->field_14_verts[1].field_24_b = B1(pPoly) << 13;
-
-        pConverted->field_14_verts[2].field_0_x0 = 16 * X3(pPoly);
-        pConverted->field_14_verts[2].field_4_y0 = 16 * Y3(pPoly);
-        pConverted->field_14_verts[2].field_8 = 0;
-        pConverted->field_14_verts[2].field_1C_r = R3(pPoly) << 13;
-        pConverted->field_14_verts[2].field_20_g = G3(pPoly) << 13;
-        pConverted->field_14_verts[2].field_24_b = B3(pPoly) << 13;
-
-        pConverted->field_14_verts[3].field_0_x0 = 16 * X2(pPoly);
-        pConverted->field_14_verts[3].field_4_y0 = 16 * Y2(pPoly);
-        pConverted->field_14_verts[3].field_8 = 0;
-        pConverted->field_14_verts[3].field_1C_r = R2(pPoly) << 13;
-        pConverted->field_14_verts[3].field_20_g = G2(pPoly) << 13;
-        pConverted->field_14_verts[3].field_24_b = B2(pPoly) << 13;
         return pConverted;
     }
     else if (kPrimType == ePolyFT4)
@@ -733,29 +778,8 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         pConverted->field_10_tpage = GetTPage(pPoly);
         pConverted->field_12_clut = GetClut(pPoly);
 
-        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
-        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
-        pConverted->field_14_verts[0].field_8 = 0;
-        pConverted->field_14_verts[0].field_14_u = U0(pPoly);
-        pConverted->field_14_verts[0].field_18_v = V0(pPoly);
-
-        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
-        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
-        pConverted->field_14_verts[1].field_8 = 0;
-        pConverted->field_14_verts[1].field_14_u = U1(pPoly);
-        pConverted->field_14_verts[1].field_18_v = V1(pPoly);
-
-        pConverted->field_14_verts[2].field_0_x0 = 16 * X3(pPoly);
-        pConverted->field_14_verts[2].field_4_y0 = 16 * Y3(pPoly);
-        pConverted->field_14_verts[2].field_8 = 0;
-        pConverted->field_14_verts[2].field_14_u = U3(pPoly);
-        pConverted->field_14_verts[2].field_18_v = V3(pPoly);
-
-        pConverted->field_14_verts[3].field_0_x0 = 16 * X2(pPoly);
-        pConverted->field_14_verts[3].field_4_y0 = 16 * Y2(pPoly);
-        pConverted->field_14_verts[3].field_8 = 0;
-        pConverted->field_14_verts[3].field_14_u = U2(pPoly);
-        pConverted->field_14_verts[3].field_18_v = V2(pPoly);
+        Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e4Point);
+        Convert_Vertex_UV(pConverted->field_14_verts, pPoly, EPolyType::e4Point);
 
         if (!(pConverted->field_B_flags & 1) // Blending enabled?
             && (pConverted->field_8_r & 248) == 128
@@ -793,21 +817,21 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
             switch (tPageSemiTransRate)
             {
             case eBlendMode_0: // 0.5xB + 0.5xF
-                PSX_poly_helper_517880(pConverted,
+                PSX_Render_PolyFT4_BlendMode0_517880(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
                     unknown);
                 break;
 
             case eBlendMode_1: // 1.0xB + 1.0xF
-                PSX_poly_helper_50CC70(pConverted,
+                PSX_Render_PolyFT4_BlendMode1_50CC70(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
                     unknown);
                 break;
 
             case eBlendMode_2: // 1.0xB - 1.0xF
-                PSX_poly_helper_517990(pConverted,
+                PSX_Render_PolyFT4_BlendMode2_517990(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
                     reinterpret_cast<DWORD*>(unknown),
@@ -826,25 +850,9 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         Poly_F4* pPoly = any.mPolyF4;
         pConverted->field_C_vert_count = 4;
 
-        pConverted->field_14_verts[0].field_1C_r = R0(pPoly) << 13;
-        pConverted->field_14_verts[0].field_20_g = G0(pPoly) << 13;
-        pConverted->field_14_verts[0].field_24_b = B0(pPoly) << 13;
-
-        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
-        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
-        pConverted->field_14_verts[0].field_8 = 0;
-
-        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
-        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
-        pConverted->field_14_verts[1].field_8 = 0;
-
-        pConverted->field_14_verts[2].field_0_x0 = 16 * X3(pPoly);
-        pConverted->field_14_verts[2].field_4_y0 = 16 * Y3(pPoly);
-        pConverted->field_14_verts[2].field_8 = 0;
-
-        pConverted->field_14_verts[3].field_0_x0 = 16 * X2(pPoly);
-        pConverted->field_14_verts[3].field_4_y0 = 16 * Y2(pPoly);
-        pConverted->field_14_verts[3].field_8 = 0;
+        Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e4Point);
+        Convert_Vertex_RGB_Single(pConverted->field_14_verts, pPoly);
+     
         return pConverted;
     }
     else if (kPrimType == ePolyGT3)
@@ -855,32 +863,10 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         pConverted->field_10_tpage = GetTPage(pPoly);
         pConverted->field_12_clut = GetClut(pPoly);
 
-        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
-        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
-        pConverted->field_14_verts[0].field_8 = 0;
-        pConverted->field_14_verts[0].field_1C_r = R0(pPoly);
-        pConverted->field_14_verts[0].field_20_g = G0(pPoly);
-        pConverted->field_14_verts[0].field_24_b = B0(pPoly);
-        pConverted->field_14_verts[0].field_14_u = U0(pPoly);
-        pConverted->field_14_verts[0].field_18_v = V0(pPoly);
+        Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e3Point);
+        Convert_Vertex_RGB(pConverted->field_14_verts, pPoly, EPolyType::e3Point, true);
+        Convert_Vertex_UV(pConverted->field_14_verts, pPoly, EPolyType::e3Point);
 
-        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
-        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
-        pConverted->field_14_verts[1].field_8 = 0;
-        pConverted->field_14_verts[1].field_1C_r = R1(pPoly);
-        pConverted->field_14_verts[1].field_20_g = G1(pPoly);
-        pConverted->field_14_verts[1].field_24_b = B1(pPoly);
-        pConverted->field_14_verts[1].field_14_u = U1(pPoly);
-        pConverted->field_14_verts[1].field_18_v = V1(pPoly);
-
-        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
-        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
-        pConverted->field_14_verts[2].field_8 = 0;
-        pConverted->field_14_verts[2].field_1C_r = R2(pPoly);
-        pConverted->field_14_verts[2].field_20_g = G2(pPoly);
-        pConverted->field_14_verts[2].field_24_b = B2(pPoly);
-        pConverted->field_14_verts[2].field_14_u = U2(pPoly);
-        pConverted->field_14_verts[2].field_18_v = V2(pPoly);
         return pConverted;
     }
     else if (kPrimType == ePolyG3)
@@ -888,26 +874,9 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         Poly_G3* pPoly = any.mPolyG3;
         pConverted->field_C_vert_count = 3;
 
-        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
-        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
-        pConverted->field_14_verts[0].field_8 = 0;
-        pConverted->field_14_verts[0].field_1C_r = R0(pPoly) << 13;
-        pConverted->field_14_verts[0].field_20_g = G0(pPoly) << 13;
-        pConverted->field_14_verts[0].field_24_b = B0(pPoly) << 13;
+        Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e3Point);
+        Convert_Vertex_RGB(pConverted->field_14_verts, pPoly, EPolyType::e3Point, false);
 
-        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
-        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
-        pConverted->field_14_verts[1].field_8 = 0;
-        pConverted->field_14_verts[1].field_1C_r = R1(pPoly) << 13;
-        pConverted->field_14_verts[1].field_20_g = G1(pPoly) << 13;
-        pConverted->field_14_verts[1].field_24_b = B1(pPoly) << 13;
-
-        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
-        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
-        pConverted->field_14_verts[2].field_8 = 0;
-        pConverted->field_14_verts[2].field_1C_r = R2(pPoly) << 13;
-        pConverted->field_14_verts[2].field_20_g = G2(pPoly) << 13;
-        pConverted->field_14_verts[2].field_24_b = B2(pPoly) << 13;
         return pConverted;
     }
     else if (kPrimType == ePolyFT3)
@@ -918,23 +887,8 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         pConverted->field_10_tpage = GetTPage(pPoly);
         pConverted->field_12_clut = GetClut(pPoly);
 
-        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
-        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
-        pConverted->field_14_verts[0].field_8 = 0;
-        pConverted->field_14_verts[0].field_14_u = U0(pPoly);
-        pConverted->field_14_verts[0].field_18_v = V0(pPoly);
-
-        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
-        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
-        pConverted->field_14_verts[1].field_8 = 0;
-        pConverted->field_14_verts[1].field_14_u = U1(pPoly);
-        pConverted->field_14_verts[1].field_18_v = V1(pPoly);
-
-        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
-        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
-        pConverted->field_14_verts[2].field_8 = 0;
-        pConverted->field_14_verts[2].field_14_u = U2(pPoly);
-        pConverted->field_14_verts[2].field_18_v = V2(pPoly);
+        Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e3Point);
+        Convert_Vertex_UV(pConverted->field_14_verts, pPoly, EPolyType::e3Point);
 
         if (!(pConverted->field_B_flags & 1) // Blending enabled?
             && (pConverted->field_8_r & 248) == 128
@@ -951,22 +905,9 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         Poly_F3* pPoly = any.mPolyF3;
         pConverted->field_C_vert_count = 3;
 
-        pConverted->field_14_verts[0].field_1C_r = R0(pPoly) << 13;
-        pConverted->field_14_verts[0].field_20_g = G0(pPoly) << 13;
-        pConverted->field_14_verts[0].field_24_b = B0(pPoly) << 13;
+        Convert_Vertex_XY(pConverted->field_14_verts, pPoly, EPolyType::e3Point);
+        Convert_Vertex_RGB_Single(pConverted->field_14_verts, pPoly);
 
-        pConverted->field_14_verts[0].field_0_x0 = 16 * X0(pPoly);
-        pConverted->field_14_verts[0].field_4_y0 = 16 * Y0(pPoly);
-        pConverted->field_14_verts[0].field_8 = 0;
-
-        pConverted->field_14_verts[1].field_0_x0 = 16 * X1(pPoly);
-        pConverted->field_14_verts[1].field_4_y0 = 16 * Y1(pPoly);
-        pConverted->field_14_verts[1].field_8 = 0;
-
-        pConverted->field_14_verts[2].field_0_x0 = 16 * X2(pPoly);
-        pConverted->field_14_verts[2].field_4_y0 = 16 * Y2(pPoly);
-        pConverted->field_14_verts[2].field_8 = 0;
-        
         return pConverted;
     }
     else
