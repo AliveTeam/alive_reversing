@@ -916,9 +916,111 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
     }
 }
 
-EXPORT void CC PSX_Render_Polys_2_4F7960(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/)
+EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* /*pOt*/)
 {
     NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+EXPORT void CC PSX_poly_helper_517B10(OT_Prim* /*pPrim*/, void* /*fn1*/, void* /*fn2*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC PSX_poly_helper_517E60(int /*a1*/, int* /*a2*/, int /*a3*/, int /*a4*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC PSX_poly_Flat_NoTexture_517DF0(int* /*a1*/, int* /*a2*/, int /*idx1*/, int /*idx2*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_poly_helper_517FC0(int* /*a1*/, int* /*a2*/, int /*a3*/, int /*a4*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC PSX_poly_helper_5180B0(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff, int yoff)
+{
+    if (!prim)
+    {
+        return;
+    }
+
+    // Temp increase clip w/h
+    sPsx_drawenv_clipw_BDCD48 += 16;
+    sPsx_drawenv_cliph_BDCD4C += 16;
+
+    for (int i = 0; i < prim->field_C_vert_count; i++)
+    {
+        prim->field_14_verts[i].field_0_x0 += 16 * xoff;
+        prim->field_14_verts[i].field_4_y0 += 16 * yoff;
+    }
+
+    if (prim->field_D)
+    {
+        prim = PSX_poly_helper_4FE710(prim);// Another conversion ? Result may be another type
+    }
+
+    if (prim)
+    {
+        const short oldTPage = sActiveTPage_578318;
+        switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(prim->field_B_flags))
+        {
+        case PrimTypeCodes::ePolyFT3:
+        case PrimTypeCodes::ePolyGT3:
+        case PrimTypeCodes::ePolyFT4:
+        case PrimTypeCodes::ePolyGT4:
+            PSX_TPage_Change_4F6430(prim->field_10_tpage);
+
+            if (prim->field_E & 1)
+            {
+                // unknown flag, something to do with specific colours? Maybe optimization case?
+                PSX_poly_helper_517B10(prim, PSX_poly_helper_5180B0, (prim->field_B_flags & 2) ? (void*)PSX_EMU_Render_Polys_2_51DC90 : (void*)PSX_EMU_Render_Polys_2_51D890);
+            }
+            else
+            {
+                
+                if (prim->field_B_flags & 1)
+                {
+                    // Blending enabled
+                    PSX_poly_helper_517B10(prim, PSX_poly_helper_517FC0, (prim->field_B_flags & 2) ? (void*)PSX_EMU_Render_Polys_2_51D2B0 : (void*)PSX_EMU_Render_Polys_2_51CCA0);
+                }
+                else
+                {
+                    PSX_poly_helper_517B10(prim, PSX_poly_helper_517FC0, (prim->field_B_flags & 2) ? (void*)PSX_EMU_Render_Polys_2_51E890 : (void*)PSX_EMU_Render_Polys_2_51E140);
+                }
+            }
+
+            // Restore old tpage
+            PSX_TPage_Change_4F6430(oldTPage);
+            break;
+
+        case PrimTypeCodes::ePolyG3:
+        case PrimTypeCodes::ePolyG4:
+            // G shaded, not textured
+            PSX_poly_helper_517B10(prim, PSX_poly_helper_517E60, (prim->field_B_flags & 2) ? (void*)PSX_EMU_Render_Polys_2_51C8D0 : (void*)PSX_EMU_Render_Polys_2_51C6E0);
+            break;
+
+        case PrimTypeCodes::ePolyF3:
+        case PrimTypeCodes::ePolyF4:
+            // F shaded, not textured
+            PSX_poly_helper_517B10(prim, PSX_poly_Flat_NoTexture_517DF0, (prim->field_B_flags & 2) ? (void*)PSX_EMU_Render_Polys_2_51C590 : (void*)PSX_EMU_Render_Polys_2_51C4C0);
+            break;
+        }
+    }
+
+    // Restore clip w/h
+    sPsx_drawenv_clipw_BDCD48 -= 16;
+    sPsx_drawenv_cliph_BDCD4C -= 16;
 }
 
 ALIVE_VAR(1, 0xbd30e4, int, sScreenXOffSet_BD30E4, 0);
@@ -1027,11 +1129,12 @@ static void DrawOTag_HandlePrimRendering(PrimAny& any, __int16 drawEnv_of0, __in
     case PrimTypeCodes::ePolyG4:
     case PrimTypeCodes::ePolyGT4:
         {
-            // I think this works by func 1 populating some data structure and then func 2 does the actual rendering
+            // This works by func 1 populating some data structure and then func 2 does the actual rendering
+            // for POLY_FT4 it may return nullptr as it short circuits this logic and renders the polygon itself in some cases.
             OT_Prim* pPolyBuffer = PSX_Render_Convert_Polys_To_Internal_Format_4F7110(any.mVoid, drawEnv_of0, drawEnv_of1);
             if (pPolyBuffer)
             {
-                PSX_Render_Polys_2_4F7960(pPolyBuffer, drawEnv_of0, drawEnv_of1);
+                PSX_Render_Internal_Format_Polygon_4F7960(pPolyBuffer, drawEnv_of0, drawEnv_of1);
             }
         }
         break;
