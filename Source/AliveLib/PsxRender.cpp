@@ -963,9 +963,181 @@ EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* /*pOt*/)
     return nullptr;
 }
 
-EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* /*pPrim*/, void* /*fn1*/, void* /*fn2*/)
+ALIVE_VAR(1, 0xbd3264, OT_Vert *, pVerts_dword_BD3264, nullptr);
+ALIVE_VAR(1, 0xbd3270, WORD *, pClut_src_BD3270, nullptr);
+ALIVE_VAR(1, 0xbd32c8, WORD *, pTPage_src_BD32C8, nullptr);
+
+ALIVE_VAR(1, 0xbd3308, __int16*, r_lut_dword_BD3308, nullptr);
+ALIVE_VAR(1, 0xbd32d8, __int16*, g_lut_dword_BD32D8, nullptr);
+ALIVE_VAR(1, 0xbd3348, __int16*, b_lut_dword_BD3348, nullptr);
+
+ALIVE_VAR(1, 0xbd32cc, BYTE*, rTable_dword_BD32CC, nullptr);
+ALIVE_VAR(1, 0xbd3358, BYTE*, gTable_dword_BD3358, nullptr);
+ALIVE_VAR(1, 0xbd334c, BYTE*, bTable_dword_BD334C, nullptr);
+
+ALIVE_VAR(1, 0xbd3350, WORD, sPoly_fill_colour_BD3350, 0);
+
+ALIVE_VAR(1, 0xbd3320, int, sFn1_arg_1_1_dword_BD3320, 0);
+ALIVE_VAR(1, 0xbd3200, int, sFn1_arg_2_1_dword_BD3200, 0);
+
+ALIVE_VAR(1, 0xbd32a0, int, sFn1_arg_1_2_dword_BD32A0, 0);
+ALIVE_VAR(1, 0xbd32e0, int, sFn1_arg_2_2_dword_BD32E0, 0);
+
+// TODO: Refactor/clean up
+void __cdecl Temp1(int *, int *, int, int);
+void __cdecl Temp2(BYTE *, int);
+
+using Temp1Fn = decltype(&Temp1);
+using Temp2Fn = decltype(&Temp2);
+
+// TODO: Refactor/clean up
+EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1, void* pF2)
 {
-    NOT_IMPLEMENTED();
+
+    Temp1Fn pFn1 = reinterpret_cast<Temp1Fn>(pF1);
+    Temp2Fn pFn2 = reinterpret_cast<Temp2Fn>(pF2);
+
+    OT_Vert *pVerts_start; // ebp
+    signed __int16 r; // ax
+    signed int smallestYPos; // ebx
+    OT_Vert *pVertIter; // edi
+    unsigned int v16; // edx
+    OT_Vert *pVerts2; // [esp+18h] [ebp-8h]
+   
+    int vertCount1 = pPrim->field_C_vert_count;
+    const int vertCount2 = pPrim->field_C_vert_count;
+
+    if (vertCount1 < 3)
+    {
+        return;
+    }
+
+    pVerts_start = pPrim->field_14_verts;
+    pVerts2 = pPrim->field_14_verts;
+    pVerts_dword_BD3264 = pPrim->field_14_verts;
+    const int flags = pPrim->field_B_flags;
+    OT_Vert* pPrima = &pPrim->field_14_verts[vertCount1];
+
+    // textured check
+    if (flags & 4)
+    {
+        // Set up CLUT source if not 16 bit direct mode
+        if (sTexture_mode_BD0F14 != TextureModes::e16Bit)
+        {
+            pClut_src_BD3270 = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels
+                + 0x20 * ((pPrim->field_12_clut & 63) + (pPrim->field_12_clut >> 6 << 6)));
+        }
+
+        pTPage_src_BD32C8 = sTPage_src_ptr_BD0F1C;
+
+        if (flags & 1)
+        {
+            // blending
+            const int greenBlue = (16 << sGreenShift_C1D180) | (16 << sBlueShift_C19140);
+            r = 16;
+            sPoly_fill_colour_BD3350 = static_cast<WORD>((r << sRedShift_C215C4) | greenBlue);
+        }
+        else
+        {
+            // no blending
+
+            unsigned int g_s3 = pPrim->field_9_g >> 3;
+            unsigned int r_s3 = pPrim->field_8_r >> 3;
+            unsigned int b_s3 = pPrim->field_A_b >> 3;
+
+            r_lut_dword_BD3308 = stru_C146C0.r[r_s3];
+            g_lut_dword_BD32D8 = stru_C146C0.g[g_s3];
+            b_lut_dword_BD3348 = stru_C146C0.b[b_s3];
+
+            rTable_dword_BD32CC = stru_C1D1C0[r_s3].field_0;
+            gTable_dword_BD3358 = stru_C1D1C0[g_s3].field_0;
+            bTable_dword_BD334C = stru_C1D1C0[b_s3].field_0;
+
+            sPoly_fill_colour_BD3350 = ((WORD)r_s3 << sRedShift_C215C4) | ((WORD)g_s3 << sGreenShift_C1D180) | ((WORD)b_s3 << sBlueShift_C19140);
+        }
+    }
+    else
+    {
+        // not textured
+        const int greenBlue = (((WORD)pPrim->field_9_g >> 3) << sGreenShift_C1D180) | (((WORD)pPrim->field_A_b >> 3) << sBlueShift_C19140);
+        r = (WORD)pPrim->field_8_r >> 3;
+        sPoly_fill_colour_BD3350 = static_cast<WORD>((r << sRedShift_C215C4) | greenBlue);
+    }
+
+    int pFn1_ret = 0;
+    smallestYPos = 0x7FFFFFFF;
+    for (pVertIter = pVerts_start; pVertIter < pPrima; ++pVertIter)
+    {
+        if (pVertIter->field_4_y0 < smallestYPos)
+        {
+            smallestYPos = pVertIter->field_4_y0;
+            v16 = (signed int)((unsigned __int64)(0x66666667i64 * ((char *)pVertIter - (char *)pVerts_start)) >> 32) >> 4;// mod 5 ?
+            pFn1_ret = ((v16 >> 31) + v16);
+        }
+    }
+    
+    int pFn1_ret_c1 = pFn1_ret;
+    int pFn1_ret_c2 = pFn1_ret;
+    int ypos_unknown_rounded = (smallestYPos + 15) / 16;
+    int ypos_unknown_rounded_m1 = ypos_unknown_rounded - 1;
+
+    int nextY = ypos_unknown_rounded - 1;
+    while (vertCount1 > 0)
+    {
+        // Backwards loop ?
+        int vertIdx1 = 0;
+        while (nextY <= ypos_unknown_rounded)
+        {
+            if (vertCount1 <= 0)
+            {
+                break;
+            }
+            vertIdx1 = pFn1_ret_c2 - 1;
+            --vertCount1;
+            if (pFn1_ret_c2 - 1 < 0)
+            {
+                vertIdx1 = vertCount2 - 1;
+            }
+            pFn1(&sFn1_arg_1_1_dword_BD3320, &sFn1_arg_2_1_dword_BD3200, pFn1_ret_c2, vertIdx1);
+            pFn1_ret_c2 = vertIdx1;
+            nextY = (pVerts2[vertIdx1].field_4_y0 + 15) / 16;
+        }
+
+        // Forwards loop ?
+        int vertIdx2 = 0;
+        while (ypos_unknown_rounded_m1 <= ypos_unknown_rounded)
+        {
+            if (vertCount1 <= 0)
+            {
+                break;
+            }
+            --vertCount1;
+            vertIdx2 = pFn1_ret_c1 + 1;
+            if (pFn1_ret_c1 + 1 >= vertCount2)
+            {
+                vertIdx2 = 0;
+            }
+            pFn1(&sFn1_arg_1_2_dword_BD32A0, &sFn1_arg_2_2_dword_BD32E0, pFn1_ret_c1, vertIdx2);
+            pFn1_ret_c1 = vertIdx2;
+
+            ypos_unknown_rounded_m1 = (pVerts2[vertIdx2].field_4_y0 + 15) / 16;
+        }
+
+        if (nextY >= ypos_unknown_rounded_m1)
+        {
+            nextY = ypos_unknown_rounded_m1;
+        }
+
+        if (nextY - ypos_unknown_rounded > 0)
+        {
+            pFn2(
+                (BYTE *)spBitmap_C2D038->field_4_pLockedPixels
+                + ypos_unknown_rounded * spBitmap_C2D038->field_10_locked_pitch,
+                nextY - ypos_unknown_rounded);
+        }
+
+        ypos_unknown_rounded = nextY;
+    }
 }
 
 EXPORT int CC PSX_poly_GShaded_NoTexture_517E60(int /*a1*/, int* /*a2*/, int /*a3*/, int /*a4*/)
