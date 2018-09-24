@@ -297,18 +297,12 @@ BYTE ** Abe::StateToAnimResource_44AAB0(signed int /*state*/)
 }
 
 // TODO: Clean up
-EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Abe *pHero)
+EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Abe* pHero)
 {
     //DEV_CONSOLE_PRINTF("Abe SFX: %i", idx);
 
     switch (idx)
     {
-    case 8u:
-        if (pHero == sActiveHero_5C1B68 && gMap_5C3030.sCurrentLevelId_5C3030 == 10)
-        {
-            idx = 10;
-        }
-        goto LABEL_7;
     case 14u:
         if (pHero && pHero->field_CC_sprite_scale.GetDouble() == 0.5)
         {
@@ -329,62 +323,71 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
             SND_SEQ_Play_4CAB10(0x12u, 1, 115, 115);
         }
         break;
+    case 8u:
+        if (pHero == sActiveHero_5C1B68 && gMap_5C3030.sCurrentLevelId_5C3030 == 10)
+        {
+            idx = 10;
+        }
+        // Fall through
     default:
-    LABEL_7:
         if (!volume)
         {
-            volume = (char)sAbeSFXList_555250[idx].field_3_default_volume;
+            volume = sAbeSFXList_555250[idx].field_3_default_volume;
         }
+
+        // OG bug - isn't null checked in other cases before de-ref?
         if (!pHero)
         {
-            goto LABEL_30;
+            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, pitch, pitch);
+            return;
         }
+
         if (pHero->field_CC_sprite_scale.GetDouble() == 0.5)
         {
             volume = 2 * volume / 3;
         }
-        if (pHero != sActiveHero_5C1B68)
+
+        if (pHero == sActiveHero_5C1B68)
         {
-            switch (gMap_5C3030.sub_4811A0(
-                pHero->field_C2_lvl_number,
-                pHero->field_C0_path_number,
-                pHero->field_B8_xpos,
-                pHero->field_BC_ypos))
-            {
-            case 0:
-                SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, pitch, pitch);
-                break;
-            case 1:
-            case 2:
-                SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], 2 * volume / 3, pitch, pitch);
-                break;
-            case 3:
-                SFX_SfxDefinition_Play_4CA700(
-                    &sAbeSFXList_555250[idx],
-                    ((unsigned int)((unsigned __int64)(2863311532i64 * (signed __int16)volume) >> 32) >> 31)
-                    + ((unsigned __int64)(2863311532i64 * (signed __int16)volume) >> 32),
-                    2 * (signed __int16)volume / 9,
-                    pitch,
-                    pitch);
-                break;
-            case 4:
-                SFX_SfxDefinition_Play_4CA700(
-                    &sAbeSFXList_555250[idx],
-                    ((unsigned int)((unsigned __int64)(1908874354i64 * (signed __int16)volume) >> 32) >> 31)
-                    + ((signed int)((unsigned __int64)(1908874354i64 * (signed __int16)volume) >> 32) >> 1),
-                    2 * (signed __int16)volume / 3,
-                    pitch,
-                    pitch);
-                break;
-            default:
-                return;
-            }
-        }
-        else
-        {
-        LABEL_30:
             SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, pitch, pitch);
+            return;
         }
-        return;
+
+        switch (gMap_5C3030.sub_4811A0(
+            pHero->field_C2_lvl_number,
+            pHero->field_C0_path_number,
+            pHero->field_B8_xpos,
+            pHero->field_BC_ypos))
+        {
+        case 0:
+            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, pitch, pitch);
+            break;
+        case 1:
+        case 2:
+            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], 2 * volume / 3, pitch, pitch);
+            break;
+        case 3:
+            // TODO: Deoptimise math
+            SFX_SfxDefinition_Play_4CA700(
+                &sAbeSFXList_555250[idx],
+                ((unsigned int)((unsigned __int64)(2863311532i64 * (signed __int16)volume) >> 32) >> 31)
+                + ((unsigned __int64)(2863311532i64 * (signed __int16)volume) >> 32),
+                2 * (signed __int16)volume / 9,
+                pitch,
+                pitch);
+            break;
+        case 4:
+            // TODO: Deoptimise math
+            SFX_SfxDefinition_Play_4CA700(
+                &sAbeSFXList_555250[idx],
+                ((unsigned int)((unsigned __int64)(1908874354i64 * (signed __int16)volume) >> 32) >> 31)
+                + ((signed int)((unsigned __int64)(1908874354i64 * (signed __int16)volume) >> 32) >> 1),
+                2 * (signed __int16)volume / 3,
+                pitch,
+                pitch);
+            break;
+        default:
+            break;
+        }
     }
 }
