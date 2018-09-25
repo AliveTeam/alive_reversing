@@ -70,7 +70,7 @@ EXPORT int CC PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890(int /*a1*/, in
 struct Render_Unknown
 {
     int field_0_x;
-    int field_4;
+    int field_4_y;
     int field_8;
     int field_C;
     float field_10_float;
@@ -90,60 +90,34 @@ ALIVE_VAR(1, 0xbd3200, Render_Unknown, sFn1_arg_2_1_dword_BD3200, {});
 ALIVE_VAR(1, 0xbd32a0, Render_Unknown, sFn1_arg_1_2_dword_BD32A0, {});
 ALIVE_VAR(1, 0xbd32e0, Render_Unknown, sFn1_arg_2_2_dword_BD32E0, {});
 
-EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(WORD *pVram, int ySize)
+EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(WORD* pVram, int ySize)
 {
-    WORD *pVram_out; // edx
-    WORD *pDst; // edi
-    WORD *pEnd; // ecx
-    unsigned int size; // ecx
-    unsigned __int8 remainder; // cf
-    WORD *pAfter; // edi
-    int i; // ecx
-    bool bEnd; // zf
-    unsigned int width_pitch; // [esp+Ch] [ebp-4h]
-
-    const WORD fillColour = sPoly_fill_colour_BD3350;
     Render_Unknown* arg_1_1 = &sFn1_arg_1_1_dword_BD3320;
     Render_Unknown* arg_1_2 = &sFn1_arg_1_2_dword_BD32A0;
-    if (ySize - 1 >= 0)
+    if (arg_1_1->field_0_x > arg_1_2->field_0_x)
     {
-        width_pitch = 2 * ((unsigned int)spBitmap_C2D038->field_10_locked_pitch >> 1);
-        pVram_out = pVram;
-        do
+        Render_Unknown* arg_1_1_swap_temp = arg_1_1;
+        arg_1_1 = arg_1_2;
+        arg_1_2 = arg_1_1_swap_temp;
+    }
+
+    const unsigned int width_pitch = ((unsigned int)spBitmap_C2D038->field_10_locked_pitch) / sizeof(WORD);
+    for (int i = 0; i < ySize; i++)
+    {
+        WORD* pDst = &pVram[arg_1_1->field_0_x >> 16];
+        WORD* pEnd = &pVram[arg_1_2->field_0_x >> 16];
+        if (pDst < pEnd)
         {
-            if (arg_1_1->field_0_x > arg_1_2->field_0_x)
+            const unsigned int size = (pEnd - pDst) + 1;
+            for (unsigned int p = 0; p < size; p++)
             {
-                Render_Unknown* arg_1_1_swap_temp = arg_1_1;
-                arg_1_1 = arg_1_2;
-                arg_1_2 = arg_1_1_swap_temp;
+                *(pDst + p) = sPoly_fill_colour_BD3350;
             }
+        }
 
-            pDst = &pVram_out[arg_1_1->field_0_x >> 16];
-            pEnd = &pVram_out[arg_1_2->field_0_x >> 16];
-            if (pDst < pEnd)
-            {
-                size = (unsigned int)((char *)pEnd - (char *)pDst + 1) >> 1;
-                remainder = size & 1;
-                size = size / 2;
-                for (unsigned int p = 0; p < size; p++)
-                {
-                    *(pDst+p) = fillColour;
-                }
-
-                pAfter = &pDst[2 * size];
-                for (i = remainder; i; --i)
-                {
-                    *pAfter = fillColour;
-                    ++pAfter;
-                }
-            }
-//            v2 = sFn1_arg_2_1_dword_BD3200.field_0_x + sFn1_arg_1_1_dword_BD3320.field_0_x;
-            pVram_out = pVram_out + (width_pitch / 2);
-            bEnd = ySize == 1;
-            sFn1_arg_1_1_dword_BD3320.field_0_x += sFn1_arg_2_1_dword_BD3200.field_0_x;
-            sFn1_arg_1_2_dword_BD32A0.field_0_x += sFn1_arg_2_2_dword_BD32E0.field_0_x;
-            --ySize;
-        } while (!bEnd);
+        pVram = &pVram[width_pitch];
+        sFn1_arg_1_1_dword_BD3320.field_0_x += sFn1_arg_2_1_dword_BD3200.field_0_x;
+        sFn1_arg_1_2_dword_BD32A0.field_0_x += sFn1_arg_2_2_dword_BD32E0.field_0_x;
     }
 }
 
@@ -1202,6 +1176,19 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1
         if (nextY - ypos_unknown_rounded > 0)
         {
             // PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890
+            /*
+            static int h = 0;
+            h++;
+            if (h > 120)
+            {
+                h = 0;
+            }
+
+            pFn2(
+                (BYTE *)spBitmap_C2D038->field_4_pLockedPixels
+                + ypos_unknown_rounded * spBitmap_C2D038->field_10_locked_pitch,
+                h);
+            */
             pFn2(
                 (BYTE *)spBitmap_C2D038->field_4_pLockedPixels
                 + ypos_unknown_rounded * spBitmap_C2D038->field_10_locked_pitch,
@@ -1218,29 +1205,21 @@ EXPORT int CC PSX_poly_GShaded_NoTexture_517E60(int /*a1*/, int* /*a2*/, int /*a
     return 0;
 }
 
-EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown *p1, Render_Unknown *p2, int idx1, int idx2)
+EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* p1, Render_Unknown* p2, int idx1, int idx2)
 {
-    OT_Vert *pVert; // ecx
-    int vert_x; // esi
-    int vert_y; // ebx
-    int vert_x_diff; // eax
-    int vert_y_diff; // ecx
-    int v9; // eax
-
-    pVert = &pVerts_dword_BD3264[idx1];
-    vert_x = pVert->field_0_x0;
-    vert_y = pVert->field_4_y0;
-    vert_x_diff = (pVerts_dword_BD3264[idx2].field_0_x0 - pVert->field_0_x0) << 16;
-    vert_y_diff = pVerts_dword_BD3264[idx2].field_4_y0 - vert_y;
+    const int vert_x_diff = (pVerts_dword_BD3264[idx2].field_0_x0 - pVerts_dword_BD3264[idx1].field_0_x0) << 16; // to FP?
+    const int vert_y_diff = (pVerts_dword_BD3264[idx2].field_4_y0 - pVerts_dword_BD3264[idx1].field_4_y0);
+    
     p2->field_0_x = vert_x_diff;
-    p2->field_4 = vert_y_diff;
-    if (vert_y_diff)
+    p2->field_4_y = vert_y_diff;
+
+    if (vert_y_diff > 0)
     {
         p2->field_0_x = vert_x_diff / vert_y_diff;
     }
-    v9 = vert_y + 15;
+    const int v9 = pVerts_dword_BD3264[idx1].field_4_y0 + 15;
    // LOBYTE(v9) = (vert_y + 15) & 240;
-    p1->field_0_x = (vert_x << 12) + p2->field_0_x * (v9 - vert_y) / 16;
+    p1->field_0_x = (pVerts_dword_BD3264[idx1].field_0_x0 << 12) + p2->field_0_x * (v9 - pVerts_dword_BD3264[idx1].field_4_y0) / 16;
 }
 
 
