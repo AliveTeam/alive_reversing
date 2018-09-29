@@ -49,22 +49,19 @@ enum BlendModes // Or SemiTransparency rates
     eBlendMode_3 = 3, // 1.0xB + 0.25xF
 };
 
-EXPORT int CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(int /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
 }
 
-EXPORT int* CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(int /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return nullptr;
 }
 
-EXPORT int CC PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890(int /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
 }
 
 struct Render_Unknown
@@ -119,40 +116,34 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(WORD* pVram,
     }
 }
 
-EXPORT int CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(int /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
 }
 
-EXPORT int* CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(int /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return nullptr;
 }
 
-EXPORT int* CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(int /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return nullptr;
 }
 
-EXPORT int CC PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90(int /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
 }
 
-EXPORT int CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(int /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
 }
 
-EXPORT int* CC PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(int /*a1*/, int /*size*/)
+EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(WORD* /*a1*/, int /*size*/)
 {
     NOT_IMPLEMENTED();
-    return nullptr;
 }
 
 ALIVE_VAR(1, 0xC2D04C, decltype(&PSX_EMU_Render_SPRT_51EF90), pPSX_EMU_Render_SPRT_51EF90_C2D04C, nullptr);
@@ -1025,18 +1016,14 @@ ALIVE_VAR(1, 0xbd334c, BYTE*, bTable_dword_BD334C, nullptr);
 
 
 // TODO: Refactor/clean up
-void __cdecl Temp1(int *, int *, int, int);
-void __cdecl Temp2(BYTE *, int);
+void __cdecl Temp1(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2);
 
 using Temp1Fn = decltype(&Temp1);
-using Temp2Fn = decltype(&Temp2);
+using Temp2Fn = decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0);
 
 // TODO: Refactor/clean up
-EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1, void* pF2)
+EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, Temp1Fn pF1, Temp2Fn pF2)
 {
-    Temp1Fn pFn1 = reinterpret_cast<Temp1Fn>(pF1);
-    Temp2Fn pFn2 = reinterpret_cast<Temp2Fn>(pF2);
-
     OT_Vert *pVerts_start; // ebp
     signed __int16 r; // ax
     signed int smallestYPos; // ebx
@@ -1140,7 +1127,7 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1
             }
 
             // PSX_poly_FShaded_NoTexture_517DF0,
-            pFn1((int*)&left_side_BD3320, (int*)&slope_1_BD3200, pFn1_ret_c2, vertIdx1);
+            pF1(&left_side_BD3320, &slope_1_BD3200, pFn1_ret_c2, vertIdx1);
             pFn1_ret_c2 = vertIdx1;
             nextY = (pVerts2[vertIdx1].field_4_y0 + 15) / 16;
         }
@@ -1160,7 +1147,7 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1
                 vertIdx2 = 0;
             }
             // PSX_poly_FShaded_NoTexture_517DF0
-            pFn1((int*)&right_side_BD32A0, (int*)&slope_2_BD32E0, pFn1_ret_c1, vertIdx2);
+            pF1(&right_side_BD32A0, &slope_2_BD32E0, pFn1_ret_c1, vertIdx2);
             pFn1_ret_c1 = vertIdx2;
 
             ypos_unknown_rounded_m1 = (pVerts2[vertIdx2].field_4_y0 + 15) / 16;
@@ -1175,9 +1162,9 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1
         {
             // PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890
 
-            pFn2(
-                (BYTE *)spBitmap_C2D038->field_4_pLockedPixels
-                + ypos_unknown_rounded * spBitmap_C2D038->field_10_locked_pitch,
+            BYTE* pVram = (BYTE*)spBitmap_C2D038->field_4_pLockedPixels + ypos_unknown_rounded * spBitmap_C2D038->field_10_locked_pitch;
+            pF2(
+                (WORD *)pVram,
                 nextY - ypos_unknown_rounded);
 
         }
@@ -1186,10 +1173,9 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1
     }
 }
 
-EXPORT int CC PSX_poly_GShaded_NoTexture_517E60(int /*a1*/, int* /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT void CC PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* /*pOrigin*/, Render_Unknown* /*pSlope*/, int /*idx1*/, int /*idx2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
 }
 
 EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
@@ -1221,12 +1207,12 @@ EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render
     pOrigin->field_0_x += (v1_y_rounded * pSlope->field_0_x) / 16; // Div16 is conversion of fixed 16:16 ?
 }
 
-EXPORT void CC PSX_poly_Textured_517FC0(int* /*a1*/, int* /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT void CC PSX_poly_Textured_517FC0(Render_Unknown* /*pOrigin*/, Render_Unknown* /*pSlope*/, int /*idx1*/, int /*idx2*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC PSX_poly_Textured_Unknown_5180B0(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* /*pOrigin*/, Render_Unknown* /*pSlope*/, int /*idx1*/, int /*idx2*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -1269,7 +1255,7 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
                 // unknown flag, something to do with specific colours? Maybe optimization case?
                 PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_Unknown_5180B0, 
                     (prim->field_B_flags & 2) ? 
-                        (void*)PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90 : (void*)PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890);
+                        PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90 : PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890);
             }
             else
             {
@@ -1278,13 +1264,13 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
                     // Blending enabled
                     PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_517FC0, 
                         (prim->field_B_flags & 2) ? 
-                            (void*)PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0 : (void*)PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0);
+                            PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0 : PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0);
                 }
                 else
                 {
                     PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_517FC0, 
                         (prim->field_B_flags & 2) ? 
-                            (void*)PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890 : (void*)PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140);
+                            PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890 : PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140);
                 }
             }
 
@@ -1297,7 +1283,7 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
             // G shaded, not textured
             PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_GShaded_NoTexture_517E60, 
                 (prim->field_B_flags & 2) ? 
-                    (void*)PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0 : (void*)PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0);
+                    PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0 : PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0);
             break;
 
         case PrimTypeCodes::ePolyF3:
@@ -1305,7 +1291,7 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
             // F shaded, not textured
             PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_FShaded_NoTexture_517DF0, 
                 (prim->field_B_flags & 2) ? 
-                    (void*)PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590 : (void*)PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0);
+                    PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590 : PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0);
             break;
         }
     }
