@@ -211,8 +211,6 @@ EXPORT void CC sub_4ED9E0()
 ALIVE_VAR(1, 0xC2D038, Bitmap*, spBitmap_C2D038, nullptr);
 
 
-ALIVE_ARY(1, 0xC19160, float, 4096, sPsxEmu_float_table_C19160, {});
-ALIVE_ARY(1, 0xC1D5C0, int, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
 
 EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
 {
@@ -222,20 +220,8 @@ EXPORT void CC PSX_EMU_Init_4F9CD0(bool bShowVRam)
     sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
     sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
     sPsxEMU_show_vram_BD1465 = bShowVRam;
-
-    for (int i = 0; i < 4096; i++)
-    {
-        if (i == 0)
-        {
-            sPsxEmu_float_table_C19160[i] = 0;
-            sPsxEmu_fixed_point_table_C1D5C0[i] = 0;
-        }
-        else
-        {
-            sPsxEmu_float_table_C19160[i] = 1.0f / static_cast<float>(i);
-            sPsxEmu_fixed_point_table_C1D5C0[i] = 0x10000 / (i);
-        }
-    }
+    
+    Psx_Render_Float_Table_Init();
 
     // Note: sPsxEmu_BD1454 removed
 }

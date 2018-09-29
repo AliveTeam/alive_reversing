@@ -34,6 +34,9 @@ ALIVE_VAR(1, 0xBD2A04, DWORD, sTile_r_BD2A04, 0);
 ALIVE_VAR(1, 0xBD2A00, DWORD, sTile_g_BD2A00, 0);
 ALIVE_VAR(1, 0xBD29FC, DWORD, sTile_b_BD29FC, 0);
 
+ALIVE_ARY(1, 0xC19160, float, 4096, sPsxEmu_float_table_C19160, {});
+ALIVE_ARY(1, 0xC1D5C0, int, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
+
 enum TextureModes
 {
     e4Bit = 0,
@@ -48,6 +51,23 @@ enum BlendModes // Or SemiTransparency rates
     eBlendMode_2 = 2, // 1.0xB - 1.0xF
     eBlendMode_3 = 3, // 1.0xB + 0.25xF
 };
+
+void Psx_Render_Float_Table_Init()
+{
+    for (int i = 0; i < 4096; i++)
+    {
+        if (i == 0)
+        {
+            sPsxEmu_float_table_C19160[i] = 0;
+            sPsxEmu_fixed_point_table_C1D5C0[i] = 0;
+        }
+        else
+        {
+            sPsxEmu_float_table_C19160[i] = 1.0f / static_cast<float>(i);
+            sPsxEmu_fixed_point_table_C1D5C0[i] = 0x10000 / (i);
+        }
+    }
+}
 
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* /*a1*/, int /*a2*/)
 {
@@ -71,8 +91,8 @@ struct Render_Unknown
     int field_8;
     int field_C;
     float field_10_float;
-    int field_14_u;
-    int field_18_v;
+    float field_14_u;
+    float field_18_v;
     int field_1C_GShade;
     int field_20_GShade;
     int field_24_GShade;
@@ -1212,9 +1232,32 @@ EXPORT void CC PSX_poly_Textured_517FC0(Render_Unknown* /*pOrigin*/, Render_Unkn
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* /*pOrigin*/, Render_Unknown* /*pSlope*/, int /*idx1*/, int /*idx2*/)
+EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
 {
-    NOT_IMPLEMENTED();
+    const OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
+    const OT_Vert* pV2 = &pVerts_dword_BD3264[idx2];
+
+    const int v1_x = pV1->field_0_x0;
+    const int v2_y = pV1->field_4_y0;
+
+    pSlope->field_0_x = (pV2->field_0_x0 - pV1->field_0_x0) << 16; // To FP 16:16
+    pSlope->field_4_y = pV2->field_4_y0 - v2_y;
+    if (pSlope->field_4_y > 0)
+    {
+        const float psx_fixed_to_float = sPsxEmu_float_table_C19160[pSlope->field_4_y];
+        pSlope->field_0_x = static_cast<int>(pSlope->field_0_x * psx_fixed_to_float);
+        pSlope->field_14_u = (pV2->field_14_u - pV1->field_14_u) * psx_fixed_to_float * 16.0f;
+        pSlope->field_18_v = (pV2->field_18_v - pV1->field_18_v) * psx_fixed_to_float * 16.0f;
+        pSlope->field_10_float = (pV2->field_10 - pV1->field_10) * psx_fixed_to_float * 16.0f;
+    }
+
+    const int yRounded = (pV1->field_4_y0 + 15) & ~15;
+    pOrigin->field_0_x =  (yRounded * pSlope->field_0_x) + (v1_x * 4096) / 16;
+
+    const float yRounded_scaled = yRounded - (pV1->field_4_y0 / 16.0f); // * 0.0625f
+    pOrigin->field_14_u = (yRounded_scaled * pSlope->field_14_u) + pV1->field_14_u;
+    pOrigin->field_18_v = (yRounded_scaled * pSlope->field_18_v) + pV1->field_18_v;
+    pOrigin->field_10_float = (yRounded_scaled * pSlope->field_10_float) + pV1->field_10;
 }
 
 EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff, int yoff)

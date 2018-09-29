@@ -20,5 +20,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_51EF90(__int16 x, __int16 y, int minX, int mi
 EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b);
 EXPORT void CC PSX_Pal_Conversion_4F98D0(WORD* pDataToConvert, WORD* pConverted, unsigned int size);
 
+void Psx_Render_Float_Table_Init();
+
 ALIVE_VAR_EXTERN(int, sScreenXOffSet_BD30E4);
 ALIVE_VAR_EXTERN(int, sScreenYOffset_BD30A4);
