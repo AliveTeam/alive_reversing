@@ -69,7 +69,7 @@ EXPORT int CC PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890(int /*a1*/, in
 
 struct Render_Unknown
 {
-    int field_0_x;
+    int field_0_x; // 16:16 fixed ??
     int field_4_y;
     int field_8;
     int field_C;
@@ -84,40 +84,38 @@ ALIVE_ASSERT_SIZEOF(Render_Unknown, 0x28);
 
 ALIVE_VAR(1, 0xbd3350, WORD, sPoly_fill_colour_BD3350, 0);
 
-ALIVE_VAR(1, 0xbd3320, Render_Unknown, sFn1_arg_1_1_dword_BD3320, {});
-ALIVE_VAR(1, 0xbd3200, Render_Unknown, sFn1_arg_2_1_dword_BD3200, {});
+ALIVE_VAR(1, 0xbd3320, Render_Unknown, left_side_BD3320, {});
+ALIVE_VAR(1, 0xbd3200, Render_Unknown, slope_1_BD3200, {});
 
-ALIVE_VAR(1, 0xbd32a0, Render_Unknown, sFn1_arg_1_2_dword_BD32A0, {});
-ALIVE_VAR(1, 0xbd32e0, Render_Unknown, sFn1_arg_2_2_dword_BD32E0, {});
+ALIVE_VAR(1, 0xbd32a0, Render_Unknown, right_side_BD32A0, {});
+ALIVE_VAR(1, 0xbd32e0, Render_Unknown, slope_2_BD32E0, {});
 
 EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(WORD* pVram, int ySize)
 {
-    Render_Unknown* arg_1_1 = &sFn1_arg_1_1_dword_BD3320;
-    Render_Unknown* arg_1_2 = &sFn1_arg_1_2_dword_BD32A0;
-    if (arg_1_1->field_0_x > arg_1_2->field_0_x)
-    {
-        Render_Unknown* arg_1_1_swap_temp = arg_1_1;
-        arg_1_1 = arg_1_2;
-        arg_1_2 = arg_1_1_swap_temp;
-    }
+    Render_Unknown* pLeft = &left_side_BD3320;
+    Render_Unknown* pRight = &right_side_BD32A0;
 
     const unsigned int width_pitch = ((unsigned int)spBitmap_C2D038->field_10_locked_pitch) / sizeof(WORD);
     for (int i = 0; i < ySize; i++)
     {
-        WORD* pDst = &pVram[arg_1_1->field_0_x >> 16];
-        WORD* pEnd = &pVram[arg_1_2->field_0_x >> 16];
-        if (pDst < pEnd)
+        if (pLeft->field_0_x > pRight->field_0_x)
         {
-            const unsigned int size = (pEnd - pDst) + 1;
-            for (unsigned int p = 0; p < size; p++)
-            {
-                *(pDst + p) = sPoly_fill_colour_BD3350;
-            }
+            Render_Unknown* pTmpLeft = pLeft;
+            pLeft = pRight;
+            pRight = pTmpLeft;
+        }
+
+        WORD* pDst = &pVram[pLeft->field_0_x >> 16];
+        WORD* pEnd = &pVram[pRight->field_0_x >> 16];
+        while (pDst < pEnd)
+        {
+            *pDst = sPoly_fill_colour_BD3350;
+            pDst++;
         }
 
         pVram = &pVram[width_pitch];
-        sFn1_arg_1_1_dword_BD3320.field_0_x += sFn1_arg_2_1_dword_BD3200.field_0_x;
-        sFn1_arg_1_2_dword_BD32A0.field_0_x += sFn1_arg_2_2_dword_BD32E0.field_0_x;
+        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
     }
 }
 
@@ -630,8 +628,8 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
 
 struct OT_Vert
 {
-    int field_0_x0;
-    int field_4_y0;
+    int field_0_x0; // Note actually __int16 1.3.12 FP
+    int field_4_y0; // Note actually __int16 1.3.12 FP
     int field_8;
     int field_C;
     int field_10;
@@ -1036,7 +1034,6 @@ using Temp2Fn = decltype(&Temp2);
 // TODO: Refactor/clean up
 EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1, void* pF2)
 {
-
     Temp1Fn pFn1 = reinterpret_cast<Temp1Fn>(pF1);
     Temp2Fn pFn2 = reinterpret_cast<Temp2Fn>(pF2);
 
@@ -1142,8 +1139,8 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1
                 vertIdx1 = vertCount2 - 1;
             }
 
-            //PSX_poly_Textured_517FC0,
-            pFn1((int*)&sFn1_arg_1_1_dword_BD3320, (int*)&sFn1_arg_2_1_dword_BD3200, pFn1_ret_c2, vertIdx1);
+            // PSX_poly_FShaded_NoTexture_517DF0,
+            pFn1((int*)&left_side_BD3320, (int*)&slope_1_BD3200, pFn1_ret_c2, vertIdx1);
             pFn1_ret_c2 = vertIdx1;
             nextY = (pVerts2[vertIdx1].field_4_y0 + 15) / 16;
         }
@@ -1162,7 +1159,8 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1
             {
                 vertIdx2 = 0;
             }
-            pFn1((int*)&sFn1_arg_1_2_dword_BD32A0, (int*)&sFn1_arg_2_2_dword_BD32E0, pFn1_ret_c1, vertIdx2);
+            // PSX_poly_FShaded_NoTexture_517DF0
+            pFn1((int*)&right_side_BD32A0, (int*)&slope_2_BD32E0, pFn1_ret_c1, vertIdx2);
             pFn1_ret_c1 = vertIdx2;
 
             ypos_unknown_rounded_m1 = (pVerts2[vertIdx2].field_4_y0 + 15) / 16;
@@ -1176,23 +1174,12 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim *pPrim, void* pF1
         if (nextY - ypos_unknown_rounded > 0)
         {
             // PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890
-            /*
-            static int h = 0;
-            h++;
-            if (h > 120)
-            {
-                h = 0;
-            }
 
             pFn2(
                 (BYTE *)spBitmap_C2D038->field_4_pLockedPixels
                 + ypos_unknown_rounded * spBitmap_C2D038->field_10_locked_pitch,
-                h);
-            */
-            pFn2(
-                (BYTE *)spBitmap_C2D038->field_4_pLockedPixels
-                + ypos_unknown_rounded * spBitmap_C2D038->field_10_locked_pitch,
                 nextY - ypos_unknown_rounded);
+
         }
 
         ypos_unknown_rounded = nextY;
@@ -1205,23 +1192,34 @@ EXPORT int CC PSX_poly_GShaded_NoTexture_517E60(int /*a1*/, int* /*a2*/, int /*a
     return 0;
 }
 
-EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* p1, Render_Unknown* p2, int idx1, int idx2)
+EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
 {
-    const int vert_x_diff = (pVerts_dword_BD3264[idx2].field_0_x0 - pVerts_dword_BD3264[idx1].field_0_x0) << 16; // to FP?
-    const int vert_y_diff = (pVerts_dword_BD3264[idx2].field_4_y0 - pVerts_dword_BD3264[idx1].field_4_y0);
-    
-    p2->field_0_x = vert_x_diff;
-    p2->field_4_y = vert_y_diff;
+    // Calculate slope between verts
+    const int v1_x = pVerts_dword_BD3264[idx1].field_0_x0;
+    const int v1_y = pVerts_dword_BD3264[idx1].field_4_y0;
 
-    if (vert_y_diff > 0)
+    const int dx = (pVerts_dword_BD3264[idx2].field_0_x0 - v1_x) << 16; // to fixed point 16:16
+    const int dy = (pVerts_dword_BD3264[idx2].field_4_y0 - v1_y);
+
+    // Prevent divide by zero
+    if (dy > 0)
     {
-        p2->field_0_x = vert_x_diff / vert_y_diff;
+        // Amount to increment X by in pixels (fixed point)
+        pSlope->field_0_x = dx / dy;
     }
-    const int v9 = pVerts_dword_BD3264[idx1].field_4_y0 + 15;
-   // LOBYTE(v9) = (vert_y + 15) & 240;
-    p1->field_0_x = (pVerts_dword_BD3264[idx1].field_0_x0 << 12) + p2->field_0_x * (v9 - pVerts_dword_BD3264[idx1].field_4_y0) / 16;
-}
+    else
+    {
+        // Amount to increment X by in pixels (fixed point)
+        pSlope->field_0_x = dx;
+    }
+    pSlope->field_4_y = dy;
 
+    // Set starting x to PSX GTE fixed format?
+    pOrigin->field_0_x = (pVerts_dword_BD3264[idx1].field_0_x0 * 4096);
+
+    const int v1_y_rounded = ((v1_y + 15) & ~15) - v1_y;
+    pOrigin->field_0_x += (v1_y_rounded * pSlope->field_0_x) / 16; // Div16 is conversion of fixed 16:16 ?
+}
 
 EXPORT void CC PSX_poly_Textured_517FC0(int* /*a1*/, int* /*a2*/, int /*a3*/, int /*a4*/)
 {
@@ -2234,10 +2232,57 @@ namespace Test
         }
     }
 
+    static void Test_PSX_poly_FShaded_NoTexture_517DF0()
+    {
+        {
+            Render_Unknown origin = {};
+            Render_Unknown slope = {};
+
+            OT_Vert verts[2] = {};
+            pVerts_dword_BD3264 = verts;
+
+            verts[0].field_0_x0 = 1 * 16;
+            verts[0].field_4_y0 = 1 * 16;
+
+            verts[1].field_0_x0 = 640 * 16;
+            verts[1].field_4_y0 = 480 * 16;
+
+            PSX_poly_FShaded_NoTexture_517DF0(&origin, &slope, 0, 1);
+
+            ASSERT_EQ(0x00015582, slope.field_0_x);
+            ASSERT_EQ(0x00001df0, slope.field_4_y);
+            ASSERT_EQ(0x00010000, origin.field_0_x);
+            ASSERT_EQ(0x00000000, origin.field_4_y);
+        }
+
+        {
+            Render_Unknown origin = {};
+            Render_Unknown slope = {};
+
+            OT_Vert verts[2] = {};
+            pVerts_dword_BD3264 = verts;
+
+            verts[0].field_0_x0 = 1 * 16;
+            verts[0].field_4_y0 = 1;
+
+            verts[1].field_0_x0 = 640 * 16;
+            verts[1].field_4_y0 = 5;
+
+            PSX_poly_FShaded_NoTexture_517DF0(&origin, &slope, 0, 1);
+
+            ASSERT_EQ(167510016, slope.field_0_x);
+            ASSERT_EQ(4, slope.field_4_y);
+            ASSERT_EQ(-111329280, origin.field_0_x);
+            ASSERT_EQ(0, origin.field_4_y);
+        }
+        pVerts_dword_BD3264 = nullptr;
+    }
+
     void PsxRenderTests()
     {
         Test_PSX_TPage_Change_4F6430();
         Test_PSX_Rects_intersect_point_4FA100();
         Test_PSX_Render_Convert_Polys_To_Internal_Format_4F7110();
+        Test_PSX_poly_FShaded_NoTexture_517DF0();
     }
 }
