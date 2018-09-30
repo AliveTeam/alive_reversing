@@ -1,0 +1,16 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+queue: Hosted VS2017
+
+steps:
+- script: |
+    mkdir build
+    cd build
+    cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.4
+    msbuild AR.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C %configuration%
+ 
+  displayName: 'Execute build'
