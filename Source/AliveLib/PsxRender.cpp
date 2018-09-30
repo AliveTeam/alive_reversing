@@ -1044,6 +1044,8 @@ using Temp2Fn = decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0);
 // TODO: Refactor/clean up
 EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, Temp1Fn pF1, Temp2Fn pF2)
 {
+    NOT_IMPLEMENTED(); // TODO: Breaks main menu fades
+
     OT_Vert *pVerts_start; // ebp
     signed __int16 r; // ax
     signed int smallestYPos; // ebx
@@ -1195,7 +1197,7 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, Temp1Fn p
 
 EXPORT int CC PSX_poly_helper_fixed_point_scale_517FA0(int fixedPoint, int scaleFactor)
 {
-    return (fixedPoint >> 16) * scaleFactor;
+    return (static_cast<signed __int64>(fixedPoint) * scaleFactor) / 0x10000;
 }
 
 EXPORT void CC PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
@@ -1215,10 +1217,10 @@ EXPORT void CC PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render
     {
         const int tableValue = sPsxEmu_fixed_point_table_C1D5C0[dy + 1];
         pSlope->field_0_x = PSX_poly_helper_fixed_point_scale_517FA0(dx, tableValue);
-
         pSlope->field_1C_GShadeR = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_1C_GShadeR, tableValue * 16);
         pSlope->field_20_GShadeG = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_20_GShadeG, tableValue * 16);
         pSlope->field_24_GShadeB = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_24_GShadeB, tableValue * 16);
+
     }
     pSlope->field_4_y = dy;
 
@@ -2339,11 +2341,25 @@ namespace Test
         pVerts_dword_BD3264 = nullptr;
     }
 
+    static void Test_PSX_poly_helper_fixed_point_scale_517FA0()
+    {
+        ASSERT_EQ(172890, PSX_poly_helper_fixed_point_scale_517FA0(2088960, 339 * 16));
+        ASSERT_EQ(2, PSX_poly_helper_fixed_point_scale_517FA0(0x10000, 2));
+        ASSERT_EQ(2, PSX_poly_helper_fixed_point_scale_517FA0(0x12000, 2));
+        ASSERT_EQ(2, PSX_poly_helper_fixed_point_scale_517FA0(0x10200, 2));
+        ASSERT_EQ(2, PSX_poly_helper_fixed_point_scale_517FA0(0x12020, 2));
+        ASSERT_EQ(2, PSX_poly_helper_fixed_point_scale_517FA0(0x10002, 2));
+        ASSERT_EQ(4, PSX_poly_helper_fixed_point_scale_517FA0(0x20002, 2));
+        ASSERT_EQ(0xFFFE0, PSX_poly_helper_fixed_point_scale_517FA0(0x7FFF0002, 32));
+
+    }
+
     void PsxRenderTests()
     {
         Test_PSX_TPage_Change_4F6430();
         Test_PSX_Rects_intersect_point_4FA100();
         Test_PSX_Render_Convert_Polys_To_Internal_Format_4F7110();
         Test_PSX_poly_FShaded_NoTexture_517DF0();
+        Test_PSX_poly_helper_fixed_point_scale_517FA0();
     }
 }
