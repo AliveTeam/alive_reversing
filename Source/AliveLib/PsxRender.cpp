@@ -93,9 +93,9 @@ struct Render_Unknown
     float field_10_float;
     float field_14_u;
     float field_18_v;
-    int field_1C_GShade;
-    int field_20_GShade;
-    int field_24_GShade;
+    int field_1C_GShadeR;
+    int field_20_GShadeG;
+    int field_24_GShadeB;
 };
 ALIVE_ASSERT_SIZEOF(Render_Unknown, 0x28);
 
@@ -1193,9 +1193,41 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, Temp1Fn p
     }
 }
 
-EXPORT void CC PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* /*pOrigin*/, Render_Unknown* /*pSlope*/, int /*idx1*/, int /*idx2*/)
+EXPORT int CC PSX_poly_helper_fixed_point_scale_517FA0(int fixedPoint, int scaleFactor)
 {
-    NOT_IMPLEMENTED();
+    return (fixedPoint >> 16) * scaleFactor;
+}
+
+EXPORT void CC PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
+{
+    const OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
+    const OT_Vert* pV2 = &pVerts_dword_BD3264[idx2];
+
+    pSlope->field_1C_GShadeR = pV2->field_1C_r - pV1->field_1C_r;
+    pSlope->field_20_GShadeG = pV2->field_20_g - pV1->field_20_g;
+    pSlope->field_24_GShadeB = pV2->field_24_b - pV1->field_24_b;
+
+    const int dx = (pV2->field_0_x0 - pV1->field_0_x0) << 16; // To FP 16:16
+    const int dy = pV2->field_4_y0 - pV1->field_4_y0;
+
+    pSlope->field_0_x = dx;
+    if (dy > 0)
+    {
+        const int tableValue = sPsxEmu_fixed_point_table_C1D5C0[dy + 1];
+        pSlope->field_0_x = PSX_poly_helper_fixed_point_scale_517FA0(dx, tableValue);
+
+        pSlope->field_1C_GShadeR = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_1C_GShadeR, tableValue * 16);
+        pSlope->field_20_GShadeG = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_20_GShadeG, tableValue * 16);
+        pSlope->field_24_GShadeB = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_24_GShadeB, tableValue * 16);
+    }
+    pSlope->field_4_y = dy;
+
+    const int v1_y0_rounded = ((pV1->field_4_y0 + 15) & ~15) - pV1->field_4_y0;
+    pOrigin->field_0_x = (pV1->field_0_x0 * 4096) + (v1_y0_rounded * pSlope->field_0_x) / 16;
+
+    pOrigin->field_1C_GShadeR = pV1->field_1C_r + (v1_y0_rounded * pSlope->field_1C_GShadeR) / 16;
+    pOrigin->field_20_GShadeG = pV1->field_20_g + (v1_y0_rounded * pSlope->field_20_GShadeG) / 16;
+    pOrigin->field_24_GShadeB = pV1->field_24_b + (v1_y0_rounded * pSlope->field_24_GShadeB) / 16;
 }
 
 EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
