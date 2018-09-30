@@ -120,8 +120,11 @@ ALIVE_ARY_EXTERN(char, 128, sCdEmu_Path1_C14620);
 ALIVE_ARY_EXTERN(char, 128, sCdEmu_Path2_C144C0);
 ALIVE_ARY_EXTERN(char, 128, sCdEmu_Path3_C145A0);
 
+ALIVE_VAR_EXTERN(int, sPsx_drawenv_clipx_BDCD40);
+ALIVE_VAR_EXTERN(int, sPsx_drawenv_clipy_BDCD44);
 ALIVE_VAR_EXTERN(int, sPsx_drawenv_clipw_BDCD48);
 ALIVE_VAR_EXTERN(int, sPsx_drawenv_cliph_BDCD4C);
+
 
 namespace Test
 {
