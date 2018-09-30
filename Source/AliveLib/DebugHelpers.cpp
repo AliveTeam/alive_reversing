@@ -1449,6 +1449,71 @@ private:
     Poly_F3 mPolys[4];
 };
 
+
+class Poly_F_Test
+{
+public:
+    Poly_F_Test()
+    {
+        PolyF3_Init(&mPoly_F3);
+        SetRGB0(&mPoly_F3, 255, 0, 0);
+        Poly_Set_SemiTrans_4F8A60(&mPoly_F3.mBase.header, FALSE);
+        Poly_Set_Blending_4F8A20(&mPoly_F3.mBase.header, FALSE);
+
+        SetXY0(&mPoly_F3, 50, 80);
+        SetXY1(&mPoly_F3, 300, 200);
+        SetXY2(&mPoly_F3, 200, 100);
+
+        PolyF4_Init_4F8830(&mPoly_F4);
+        SetRGB0(&mPoly_F4, 255, 0, 255);
+        Poly_Set_SemiTrans_4F8A60(&mPoly_F4.mBase.header, FALSE);
+        Poly_Set_Blending_4F8A20(&mPoly_F4.mBase.header, FALSE);
+
+        SetXY0(&mPoly_F4, 350, 100);
+        SetXY1(&mPoly_F4, 550, 100);
+        SetXY2(&mPoly_F4, 300, 200);
+        SetXY3(&mPoly_F4, 500, 50);
+
+        for (int i = 0; i < 4; i++)
+        {
+            Init_Tile8(&mPoly_F4_Verts[i]);
+        }
+        SetRGB0(&mPoly_F4_Verts[0], 255, 0, 0);
+        SetXY0(&mPoly_F4_Verts[0], 350, 100);
+
+        SetRGB0(&mPoly_F4_Verts[1], 0, 255, 0);
+        SetXY0(&mPoly_F4_Verts[1], 550, 100);
+
+        SetRGB0(&mPoly_F4_Verts[2], 0, 0, 255);
+        SetXY0(&mPoly_F4_Verts[2], 300, 200);
+
+        SetRGB0(&mPoly_F4_Verts[3], 255, 255, 255);
+        SetXY0(&mPoly_F4_Verts[3], 500, 50);
+    }
+
+    void Render(int** pOrderingTable)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPoly_F4_Verts[i].mBase.header);
+        }
+
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPoly_F3.mBase.header);
+        OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPoly_F4.mBase.header);
+    }
+
+    void Update()
+    {
+
+    }
+
+private:
+    Poly_F3 mPoly_F3;
+    Poly_F4 mPoly_F4;
+    Prim_Tile_8 mPoly_F4_Verts[4];
+};
+
+
 class RenderTest : public BaseGameObject
 {
 public:
@@ -1478,6 +1543,7 @@ public:
     {
         field_1C_update_delay = 4;
         mPoly_F3_Test.Update();
+        mPoly_F_Test.Update();
     }
 
     virtual void VRender(int** pOrderingTable) override
@@ -1486,6 +1552,8 @@ public:
         PSX_ClearImage_4F5BD0(&screen, 0, 0, 0);
 
         //pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
+
+        mPoly_F_Test.Render(pOrderingTable);
 
         mPoly_F3_Test.Render(pOrderingTable);
 
@@ -1500,6 +1568,7 @@ public:
 private:
     RenderTest_AllPrims mAllPrims;
     Poly_F3_Test mPoly_F3_Test;
+    Poly_F_Test mPoly_F_Test;
 };
 
 void DebugHelpers_Init() 
