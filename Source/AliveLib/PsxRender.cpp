@@ -666,7 +666,7 @@ struct OT_Prim
     char field_F;
     __int16 field_10_tpage;
     __int16 field_12_clut;
-    OT_Vert field_14_verts[4];
+    OT_Vert field_14_verts[4]; // TODO: Should be 9 ??
 };
 ALIVE_ASSERT_SIZEOF(OT_Prim, 180); // could be up to 380
 
@@ -1058,8 +1058,7 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, Temp1Fn p
         if (sTexture_mode_BD0F14 != TextureModes::e16Bit)
         {
             // TODO: Refactor
-            pClut_src_BD3270 = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels
-                + 0x20 * ((pPrim->field_12_clut & 63) + (pPrim->field_12_clut >> 6 << 6)));
+            pClut_src_BD3270 = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 63) + (pPrim->field_12_clut >> 6 << 6)));
         }
 
         pTPage_src_BD32C8 = sTPage_src_ptr_BD0F1C;
@@ -1092,9 +1091,11 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, Temp1Fn p
     else
     {
         // not textured
-        const int greenBlue = (((WORD)pPrim->field_9_g >> 3) << sGreenShift_C1D180) | (((WORD)pPrim->field_A_b >> 3) << sBlueShift_C19140);
-        signed __int16 r = (WORD)pPrim->field_8_r >> 3;
-        sPoly_fill_colour_BD3350 = static_cast<WORD>((r << sRedShift_C215C4) | greenBlue);
+        unsigned int g_s3 = pPrim->field_9_g >> 3;
+        unsigned int r_s3 = pPrim->field_8_r >> 3;
+        unsigned int b_s3 = pPrim->field_A_b >> 3;
+
+        sPoly_fill_colour_BD3350 = ((WORD)r_s3 << sRedShift_C215C4) | ((WORD)g_s3 << sGreenShift_C1D180) | ((WORD)b_s3 << sBlueShift_C19140);
     }
 
     int lowest_y_vert_idx = 0;
@@ -1113,52 +1114,50 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, Temp1Fn p
     int lowest_y_vert_idx_1 = lowest_y_vert_idx;
     int lowest_y_vert_idx_2 = lowest_y_vert_idx;
 
-    int ypos_unknown_rounded = (smallestYPos + 15) / 16;
-    int ypos_unknown_rounded_m1_1 = ypos_unknown_rounded - 1;
-    int ypos_unknown_rounded_m1_2 = ypos_unknown_rounded - 1;
+    int bottom_pos = (smallestYPos + 15) / 16;
+    int ypos_unknown_rounded_m1_1 = bottom_pos - 1;
+    int ypos_unknown_rounded_m1_2 = bottom_pos - 1;
 
     int vertCounter = pPrim->field_C_vert_count;
     while (vertCounter > 0)
     {
-        // Backwards loop ?
-        int vertIdx_1 = 0;
-        while (ypos_unknown_rounded_m1_2 <= ypos_unknown_rounded)
+        // Backwards loop around verts
+        while (ypos_unknown_rounded_m1_2 <= bottom_pos)
         {
             if (vertCounter <= 0)
             {
                 break;
             }
-            vertIdx_1 = lowest_y_vert_idx_2 - 1;
             --vertCounter;
+
+            int vertIdx_2 = lowest_y_vert_idx_2 - 1;
             if (lowest_y_vert_idx_2 - 1 < 0)
             {
-                vertIdx_1 = pPrim->field_C_vert_count - 1;
+                vertIdx_2 = pPrim->field_C_vert_count - 1;
             }
 
-            // PSX_poly_FShaded_NoTexture_517DF0,
-            pF1(&left_side_BD3320, &slope_1_BD3200, lowest_y_vert_idx_2, vertIdx_1);
-            lowest_y_vert_idx_2 = vertIdx_1;
-            ypos_unknown_rounded_m1_2 = (pPrim->field_14_verts[vertIdx_1].field_4_y0 + 15) / 16;
+            pF1(&left_side_BD3320, &slope_1_BD3200, lowest_y_vert_idx_2, vertIdx_2);
+            lowest_y_vert_idx_2 = vertIdx_2;
+            ypos_unknown_rounded_m1_2 = (pPrim->field_14_verts[vertIdx_2].field_4_y0 + 15) / 16;
         }
 
-        // Forwards loop ?
-        int vertIdx_2 = 0;
-        while (ypos_unknown_rounded_m1_1 <= ypos_unknown_rounded)
+        // Forwards loop around verts
+        while (ypos_unknown_rounded_m1_1 <= bottom_pos)
         {
             if (vertCounter <= 0)
             {
                 break;
             }
             --vertCounter;
-            vertIdx_2 = lowest_y_vert_idx_1 + 1;
+
+            int vertIdx_2 = lowest_y_vert_idx_1 + 1;
             if (lowest_y_vert_idx_1 + 1 >= pPrim->field_C_vert_count)
             {
                 vertIdx_2 = 0;
             }
-            // PSX_poly_FShaded_NoTexture_517DF0
+
             pF1(&right_side_BD32A0, &slope_2_BD32E0, lowest_y_vert_idx_1, vertIdx_2);
             lowest_y_vert_idx_1 = vertIdx_2;
-
             ypos_unknown_rounded_m1_1 = (pPrim->field_14_verts[vertIdx_2].field_4_y0 + 15) / 16;
         }
 
@@ -1167,14 +1166,13 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, Temp1Fn p
             ypos_unknown_rounded_m1_2 = ypos_unknown_rounded_m1_1;
         }
 
-        if (ypos_unknown_rounded_m1_2 - ypos_unknown_rounded > 0)
+        if (ypos_unknown_rounded_m1_2 - bottom_pos > 0)
         {
-            // PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890
-            BYTE* pVram = ((BYTE*)spBitmap_C2D038->field_4_pLockedPixels) + ypos_unknown_rounded * spBitmap_C2D038->field_10_locked_pitch;
-            pF2((WORD *)pVram, ypos_unknown_rounded_m1_2 - ypos_unknown_rounded);
+            BYTE* pVram = ((BYTE*)spBitmap_C2D038->field_4_pLockedPixels) + bottom_pos * spBitmap_C2D038->field_10_locked_pitch;
+            pF2((WORD *)pVram, ypos_unknown_rounded_m1_2 - bottom_pos);
         }
 
-        ypos_unknown_rounded = ypos_unknown_rounded_m1_2;
+        bottom_pos = ypos_unknown_rounded_m1_2;
     }
 }
 
