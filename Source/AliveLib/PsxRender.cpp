@@ -1165,53 +1165,34 @@ EXPORT void CC PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render
 
 EXPORT void CC PSX_poly_Textured_517FC0(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
 {
-    OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
-    OT_Vert* pV2 = &pVerts_dword_BD3264[idx2];
+    const OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
+    const OT_Vert* pV2 = &pVerts_dword_BD3264[idx2];
 
-    int v1_u = pV1->field_14_u;
-    int v2_x = pVerts_dword_BD3264[idx2].field_0_x0;
-    int v1_v = pV1->field_18_v;
-    int v2_u = pVerts_dword_BD3264[idx2].field_14_u;
-    int _v1_u = v1_u;
-    int v1_x = pV1->field_0_x0;
-    int xDiff_f = (v2_x - pV1->field_0_x0) << 16;
-    int uDiff_f = (v2_u - v1_u) << 10;
-    int vDiff_f = (pV2->field_18_v - v1_v) << 10;
-    pSlope->field_0_x = xDiff_f;
-    pSlope->field_14_u = uDiff_f;
-    pSlope->field_18_v = vDiff_f;
+    pSlope->field_0_x = (pV2->field_0_x0 - pV1->field_0_x0) << 16;
+    pSlope->field_14_u = (pV2->field_14_u - pV1->field_14_u) * 1024;
+    pSlope->field_18_v = (pV2->field_18_v - pV1->field_18_v) * 1024;
+    pSlope->field_4_y = pV2->field_4_y0 - pV1->field_4_y0;
 
-    int u_updated = 0;
-    if (vDiff_f >= 0)
+    if (pSlope->field_18_v > 0)
     {
-        if (vDiff_f <= 0)
-        {
-            goto LABEL_6;
-        }
-        u_updated = vDiff_f + 1024;
+        pSlope->field_18_v += 1024;
     }
-    else
+    else if (pSlope->field_18_v < 0)
     {
-        u_updated = vDiff_f - 1024;
+        pSlope->field_18_v -= 1024;
     }
-    pSlope->field_18_v = u_updated;
-LABEL_6:
-    int v1_y = pV1->field_4_y0;
-    int yDiff = pV2->field_4_y0 - v1_y;
-    pSlope->field_4_y = yDiff;
-    if (yDiff)
+
+    if (pSlope->field_4_y > 0)
     {
-        pSlope->field_0_x = xDiff_f / yDiff;
-        pSlope->field_14_u = 16 * (uDiff_f / yDiff);
-        pSlope->field_18_v = 16 * (pSlope->field_18_v / yDiff);
+        pSlope->field_0_x = pSlope->field_0_x / pSlope->field_4_y;
+        pSlope->field_14_u = (pSlope->field_14_u / pSlope->field_4_y) * 16;
+        pSlope->field_18_v = (pSlope->field_18_v / pSlope->field_4_y) * 16;
     }
-    int v1_y_rounded = ((v1_y + 15) & ~15) - v1_y;
-    int v17 = v1_y_rounded * pSlope->field_14_u;
-    pOrigin->field_0_x = (v1_x << 12) + v1_y_rounded * pSlope->field_0_x / 16;
-    int v18 = (_v1_u << 10) + v17 / 16;
-    int v19 = v1_y_rounded * pSlope->field_18_v;
-    pOrigin->field_14_u = v18;
-    pOrigin->field_18_v = (v1_v << 10) + v19 / 16;
+
+    const int v1_y_rounded = ((pV1->field_4_y0 + 15) & ~15) - pV1->field_4_y0;
+    pOrigin->field_0_x = (pV1->field_0_x0 * 4096) + (v1_y_rounded * pSlope->field_0_x) / 16;
+    pOrigin->field_14_u = (pV1->field_14_u * 1024) + (v1_y_rounded * pSlope->field_14_u) / 16;
+    pOrigin->field_18_v = (pV1->field_18_v * 1024) + (v1_y_rounded * pSlope->field_18_v) / 16;
 }
 
 EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
