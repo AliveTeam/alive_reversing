@@ -1199,11 +1199,8 @@ EXPORT void CC PSX_poly_Textured_Unknown_5180B0(Render_Unknown* pOrigin, Render_
 using TCalculateSlopes = decltype(&PSX_poly_FShaded_NoTexture_517DF0);
 using TRenderScanLines = decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0);
 
-// TODO: Refactor/clean up
 EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculateSlopes pCalcSlopes, TRenderScanLines pRenderScanLines)
 {
-    NOT_IMPLEMENTED(); // TODO: Breaks main menu fades
-
     if (pPrim->field_C_vert_count < 3)
     {
         return;
@@ -1248,7 +1245,6 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
     }
     else
     {
-
         // not textured
         unsigned int g_s3 = pPrim->field_9_g >> 3;
         unsigned int r_s3 = pPrim->field_8_r >> 3;
@@ -1270,18 +1266,19 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
 
     pVerts_dword_BD3264 = pPrim->field_14_verts;
 
-    int lowest_y_vert_idx_1 = lowest_y_vert_idx;
-    int lowest_y_vert_idx_2 = lowest_y_vert_idx;
-
     int bottom_pos = (smallestYPos + 15) / 16;
-    int ypos_unknown_rounded_m1_1 = bottom_pos - 1;
-    int ypos_unknown_rounded_m1_2 = bottom_pos - 1;
+
+    int lowest_y_idx_forwards = lowest_y_vert_idx;
+    int ypos_forwards = bottom_pos - 1;
+
+    int lowest_y_idx_backwards = lowest_y_vert_idx;
+    int ypos_backwards = bottom_pos - 1;
 
     int vertCounter = pPrim->field_C_vert_count;
     while (vertCounter > 0)
     {
         // Backwards loop around verts
-        while (ypos_unknown_rounded_m1_2 <= bottom_pos)
+        while (ypos_backwards <= bottom_pos)
         {
             if (vertCounter <= 0)
             {
@@ -1289,19 +1286,19 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
             }
             --vertCounter;
 
-            int vertIdx_2 = lowest_y_vert_idx_2 - 1;
-            if (lowest_y_vert_idx_2 - 1 < 0)
+            int vertIdx_2 = lowest_y_idx_backwards - 1;
+            if (vertIdx_2 < 0)
             {
                 vertIdx_2 = pPrim->field_C_vert_count - 1;
             }
 
-            pCalcSlopes(&left_side_BD3320, &slope_1_BD3200, lowest_y_vert_idx_2, vertIdx_2);
-            lowest_y_vert_idx_2 = vertIdx_2;
-            ypos_unknown_rounded_m1_2 = (pPrim->field_14_verts[vertIdx_2].field_4_y0 + 15) / 16;
+            pCalcSlopes(&left_side_BD3320, &slope_1_BD3200, lowest_y_idx_backwards, vertIdx_2);
+            ypos_backwards = (pPrim->field_14_verts[vertIdx_2].field_4_y0 + 15) / 16;
+            lowest_y_idx_backwards = vertIdx_2;
         }
 
         // Forwards loop around verts
-        while (ypos_unknown_rounded_m1_1 <= bottom_pos)
+        while (ypos_forwards <= bottom_pos)
         {
             if (vertCounter <= 0)
             {
@@ -1309,30 +1306,30 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
             }
             --vertCounter;
 
-            int vertIdx_2 = lowest_y_vert_idx_1 + 1;
-            if (lowest_y_vert_idx_1 + 1 >= pPrim->field_C_vert_count)
+            int vertIdx_2 = lowest_y_idx_forwards + 1;
+            if (vertIdx_2 >= pPrim->field_C_vert_count)
             {
                 vertIdx_2 = 0;
             }
 
-            pCalcSlopes(&right_side_BD32A0, &slope_2_BD32E0, lowest_y_vert_idx_1, vertIdx_2);
-            lowest_y_vert_idx_1 = vertIdx_2;
-            ypos_unknown_rounded_m1_1 = (pPrim->field_14_verts[vertIdx_2].field_4_y0 + 15) / 16;
+            pCalcSlopes(&right_side_BD32A0, &slope_2_BD32E0, lowest_y_idx_forwards, vertIdx_2);
+            ypos_forwards = (pPrim->field_14_verts[vertIdx_2].field_4_y0 + 15) / 16;
+            lowest_y_idx_forwards = vertIdx_2;
         }
 
-        if (ypos_unknown_rounded_m1_2 >= ypos_unknown_rounded_m1_1)
+        int clampedY = ypos_backwards;
+        if (ypos_backwards >= ypos_forwards)
         {
-            ypos_unknown_rounded_m1_2 = ypos_unknown_rounded_m1_1;
+            clampedY = ypos_forwards;
         }
 
-        if (ypos_unknown_rounded_m1_2 - bottom_pos > 0)
+        if (clampedY - bottom_pos > 0)
         {
             BYTE* pVram = ((BYTE*)spBitmap_C2D038->field_4_pLockedPixels) + (bottom_pos * spBitmap_C2D038->field_10_locked_pitch);
-
-            pRenderScanLines((WORD *)pVram, ypos_unknown_rounded_m1_2 - bottom_pos);
+            pRenderScanLines((WORD*)pVram, clampedY - bottom_pos);
         }
 
-        bottom_pos = ypos_unknown_rounded_m1_2;
+        bottom_pos = clampedY;
     }
 }
 
@@ -1343,6 +1340,7 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
     {
         return;
     }
+
 
     // Temp increase clip w/h
     sPsx_drawenv_clipw_BDCD48 += 16;
@@ -1356,19 +1354,7 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
 
     if (prim->field_D)
     {
-        OT_Prim bk = *prim;
         prim = PSX_poly_helper_4FE710(prim);// Another conversion ? Result may be another type
-        if (prim->field_C_vert_count > 4)
-        {
-            /*
-            int x = sPsx_drawenv_clipx_BDCD40;
-            int y = sPsx_drawenv_clipy_BDCD44;
-            int w = sPsx_drawenv_clipw_BDCD48;
-            int h = sPsx_drawenv_cliph_BDCD4C;
-
-            abort();
-            */
-        }
     }
 
     if (prim)
