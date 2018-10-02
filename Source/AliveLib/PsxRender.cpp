@@ -81,6 +81,11 @@ void Psx_Render_Float_Table_Init()
     }
 }
 
+EXPORT int CC PSX_poly_helper_fixed_point_scale_517FA0(int fixedPoint, int scaleFactor)
+{
+    return (static_cast<signed __int64>(fixedPoint) * scaleFactor) / 0x10000;
+}
+
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
@@ -182,11 +187,6 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(WORD* pVR
     }
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(WORD* /*a1*/, int /*a2*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
@@ -202,11 +202,57 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90(WORD* /*a1
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC PSX_poly_helper_fixed_point_scale_517FA0(int fixedPoint, int scaleFactor)
+EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(WORD* pVRam, int ySize)
 {
-    return (static_cast<signed __int64>(fixedPoint) * scaleFactor) / 0x10000;
-}
+    const Render_Unknown* pLeft = &left_side_BD3320;
+    const Render_Unknown* pRight = &right_side_BD32A0;
+    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
+    for (int i = 0; i < ySize; i++)
+    {
+        if (pLeft->field_0_x > pRight->field_0_x)
+        {
+            const Render_Unknown* leftTemp = pLeft;
+            pLeft = pRight;
+            pRight = leftTemp;
+        }
+
+        const int xdiff_f = (pRight->field_0_x >> 16) - (pLeft->field_0_x >> 16);
+        if (xdiff_f > 0)
+        {
+            int shade_r = pLeft->field_1C_GShadeR;
+            int shade_g = pLeft->field_20_GShadeG;
+            int shade_b = pLeft->field_24_GShadeB;
+
+            const int r_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_1C_GShadeR - shade_r, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
+            const int g_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_20_GShadeG - shade_g, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
+            const int b_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_24_GShadeB - shade_b, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
+            
+            WORD* pStart = &pVRam[pLeft->field_0_x >> 16];
+            WORD* pEnd = &pVRam[pRight->field_0_x >> 16];
+            while (pStart < pEnd)
+            {
+                *pStart = ((shade_b >> 16) & 0x1F) | ((shade_g >> 10) & 0x7C0) | ((shade_r >> 5) & 0xF800);
+                ++pStart;
+                shade_r += r_scaled;
+                shade_g += g_scaled;
+                shade_b += b_scaled;
+            }
+        }
+
+        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.field_1C_GShadeR += slope_1_BD3200.field_1C_GShadeR;
+        left_side_BD3320.field_20_GShadeG += slope_1_BD3200.field_20_GShadeG;
+        left_side_BD3320.field_24_GShadeB += slope_1_BD3200.field_24_GShadeB;
+
+        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.field_1C_GShadeR += slope_2_BD32E0.field_1C_GShadeR;
+        right_side_BD32A0.field_20_GShadeG += slope_2_BD32E0.field_20_GShadeG;
+        right_side_BD32A0.field_24_GShadeB += slope_2_BD32E0.field_24_GShadeB;
+
+        pVRam += pitch;
+    }
+}
 
 EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(WORD* pVram, int yCount)
 {
