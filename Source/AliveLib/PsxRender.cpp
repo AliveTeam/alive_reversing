@@ -148,6 +148,40 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(WORD* pVram,
     }
 }
 
+EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(WORD* pVRam, int ySize)
+{
+    const auto lut_b = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].b[(sPoly_fill_colour_BD3350 & 0x1F)][0];
+    const auto lut_r = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].r[(sPoly_fill_colour_BD3350 >> 11) & 0x1F][0];
+    const auto lut_g = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18].g[(sPoly_fill_colour_BD3350 >> 6) & 0x1F][0];
+
+    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const Render_Unknown* pLeft1 = &left_side_BD3320;
+    const Render_Unknown* pRight1 = &right_side_BD32A0;
+
+    for (int i = 0; i < ySize; i++)
+    {
+        if (pLeft1->field_0_x > pRight1->field_0_x)
+        {
+            const Render_Unknown* pLeft1Temp = pLeft1;
+            pLeft1 = pRight1;
+            pRight1 = pLeft1Temp;
+        }
+
+        WORD* pStart = &pVRam[pLeft1->field_0_x >> 16];
+        WORD* pEnd =   &pVRam[pRight1->field_0_x >> 16];
+        while (pStart < pEnd)
+        {
+            const WORD vram_pixel = *pStart;
+            *pStart = lut_b[vram_pixel & 0x1F] | lut_r[(vram_pixel >> 11) & 0x1F] | lut_g[(vram_pixel >> 6) & 0x1F];
+            ++pStart;
+        }
+
+        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        pVRam += pitch;
+    }
+}
+
 EXPORT void CC PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
@@ -164,11 +198,6 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(WORD* /
 }
 
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90(WORD* /*a1*/, int /*a2*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
 }
