@@ -169,30 +169,31 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
     Render_Unknown* pLeft = &left_side_BD3320;
     Render_Unknown* pRight = &right_side_BD32A0;
 
-    // TODO: Unswitch the loops
-    if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
+    for (int i = 0; i < ySize; i++)
     {
-        for (int i = 0; i < ySize; i++)
+        if (pLeft->field_0_x > pRight->field_0_x)
         {
-            if (pLeft->field_0_x > pRight->field_0_x)
-            {
-                std::swap(pLeft, pRight);
-            }
+            std::swap(pLeft, pRight);
+        }
 
-            const int x_right = pRight->field_0_x >> 16;
-            const int x_left = pLeft->field_0_x >> 16;
-            const int x_diff = x_right - x_left;
-            if (x_diff > 0)
+        const int x_right = pRight->field_0_x >> 16;
+        const int x_left = pLeft->field_0_x >> 16;
+
+        const int x_diff = x_right - x_left;
+        if (x_diff > 0)
+        {
+            DWORD u_left = pLeft->field_14_u;
+            const DWORD left_v = pLeft->field_18_v;
+            int x_diff_m1 = x_diff - 1;
+            if (x_diff_m1 <= 0)
             {
-                DWORD u_left = pLeft->field_14_u;
-                const DWORD left_v = pLeft->field_18_v;
-                int x_diff_m1 = x_diff - 1;
-                if (x_diff_m1 <= 0)
-                {
-                    x_diff_m1 = 1;
-                }
-                const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
-                const int v_diff = (signed int)(pRight->field_18_v - left_v) / x_diff_m1;
+                x_diff_m1 = 1;
+            }
+            const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
+            const int v_diff = (signed int)(pRight->field_18_v - left_v) / x_diff_m1;
+
+            if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
+            {
                 DWORD left_v_fixed = left_v << 11;
                 WORD* pStart = &pVRam[x_left];
                 for (WORD* pEnd = &pVRam[x_right]; pStart < pEnd; left_v_fixed += v_diff << 11)
@@ -209,54 +210,24 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
                     u_left += u_diff;
                 }
             }
-
-            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
-            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
-
-            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
-            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
-            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
-
-            pVRam += pitch;
-        }
-    }
-    else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
-    {
-        const int k_255_sr10_p10 = 255 << (10 + 10);
-        if (sActiveTPage_578318 >= 0)
-        {
-            for (int i = 0; i < ySize; i++)
+            else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
             {
-                if (pLeft->field_0_x > pRight->field_0_x)
-                {
-                    std::swap(pLeft, pRight);
-                }
+                const int k_255_sr10_p10 = 255 << (10 + 10);
 
-                const int x_right = pRight->field_0_x >> 16;
-                const int x_diff = x_right - (pLeft->field_0_x >> 16);
-                const int x_left = pLeft->field_0_x >> 16;
-                if (x_diff > 0)
+                if (sActiveTPage_578318 >= 0)
                 {
-                    DWORD u_left = pLeft->field_14_u;
                     const DWORD v_left = pLeft->field_18_v;
-                    int x_diff_m1 = x_diff - 1;
-                    if (x_diff_m1 <= 0)
-                    {
-                        x_diff_m1 = 1;
-                    }
-                    const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
-                    const int v_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
+
                     WORD* pStart = &pVRam[x_left];
                     WORD* pEnd2 = &pVRam[x_right];
                     DWORD v_current = v_left << 10;
                     int v_pos = v_diff << 10;
-                    while ( pStart < pEnd2)
+                    while (pStart < pEnd2)
                     {
                         if (pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10])
                         {
                             *pStart =
-                                  b_lut_dword_BD3348[(pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10] & 0x1F)]
+                                b_lut_dword_BD3348[(pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10] & 0x1F)]
                                 | r_lut_dword_BD3308[(pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10] >> 11) & 0x1F]
                                 | g_lut_dword_BD32D8[(pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10] >> 6) & 0x1F];
                         }
@@ -265,37 +236,12 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
                         v_current += v_pos;
                     }
                 }
-
-                left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-                left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
-                left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
-
-                right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
-                right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
-                right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
-
-                pVRam += pitch;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < ySize; i++)
-            {
-                if (pLeft->field_0_x > pRight->field_0_x)
+                else
                 {
-                    std::swap(pLeft, pRight);
-                }
-
-                const int x_right = pRight->field_0_x >> 16;
-                const int x_left = pLeft->field_0_x >> 16;
-                const int x_diff = x_right - x_left;
-                if (x_diff > 0)
-                {
-                    DWORD u_left = pLeft->field_14_u;
-                    const DWORD v_left = pLeft->field_18_v;
                     WORD* pStart = &pVRam[x_left];
                     if (x_diff == 1)
                     {
+                        const DWORD v_left = pLeft->field_18_v;
                         const WORD tpage_pixel = pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & (v_left << 10))) >> 10];
                         *pStart =
                             b_lut_dword_BD3348[tpage_pixel & 0x1F]
@@ -304,13 +250,7 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
                     }
                     else
                     {
-                        int x_diff_m1 = x_diff - 1;
-                        if (x_diff_m1 <= 0)
-                        {
-                            x_diff_m1 = 1;
-                        }
-                        const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
-                        const int v_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
+                        const DWORD v_left = pLeft->field_18_v;
                         DWORD v_diff_fixed = v_left << 10;
                         const int u_diff_fixed = v_diff << 10;
                         WORD* pEnd = &pVRam[x_right];
@@ -331,43 +271,13 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
                         }
                     }
                 }
-
-                left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-                left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
-                left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
-
-                right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
-                right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
-                right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
-
-                pVRam += pitch;
             }
-        }
-    }
-    else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
-    {
-        for (int i = 0; i < ySize; i++)
-        {
-            if (pLeft->field_0_x > pRight->field_0_x)
+            else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
             {
-                std::swap(pLeft, pRight);
-            }
-
-            const int x_right = pRight->field_0_x >> 16;
-            const int x_left = pLeft->field_0_x >> 16;
-            if (x_right - x_left > 0)
-            {
-                DWORD u_left = pLeft->field_14_u;
                 const DWORD v_left = pLeft->field_18_v;
-                int x_diff_m1 = x_right - x_left - 1;
-                if (x_diff_m1 <= 0)
-                {
-                    x_diff_m1 = 1;
-                }
-                const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
-                const int v_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
                 DWORD v_fixed_1 = v_left << 12;
                 WORD* pStart = &pVRam[x_left];
+
                 int v_fixed = v_diff << 12;
                 const int _v_fixed_2 = v_fixed;
                 while (pStart < &pVRam[x_right])
@@ -388,25 +298,25 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
                         v_fixed = _v_fixed_2;
                         *pStart =
                             b_lut_dword_BD3348[(clut_pixel & 0x1F)]
-                          | r_lut_dword_BD3308[(clut_pixel >> 11) & 0x1F]
-                          | g_lut_dword_BD32D8[(clut_pixel >> 6) & 0x1F];
+                            | r_lut_dword_BD3308[(clut_pixel >> 11) & 0x1F]
+                            | g_lut_dword_BD32D8[(clut_pixel >> 6) & 0x1F];
                     }
                     ++pStart;
                     u_left += u_diff;
                     v_fixed_1 += v_fixed;
                 }
             }
-
-            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
-            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
-
-            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
-            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
-            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
-
-            pVRam += pitch;
         }
+
+        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+        left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+        right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+
+        pVRam += pitch;
     }
 }
 
