@@ -37,6 +37,28 @@ ALIVE_VAR(1, 0xBD29FC, DWORD, sTile_b_BD29FC, 0);
 ALIVE_ARY(1, 0xC19160, float, 4096, sPsxEmu_float_table_C19160, {});
 ALIVE_ARY(1, 0xC1D5C0, int, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
 
+struct Render_Unknown
+{
+    int field_0_x; // 16:16 fixed ??
+    int field_4_y;
+    int field_8;
+    int field_C;
+    int field_10_float; // float ?
+    int field_14_u; // float ?
+    int field_18_v; // float ?
+    int field_1C_GShadeR;
+    int field_20_GShadeG;
+    int field_24_GShadeB;
+};
+ALIVE_ASSERT_SIZEOF(Render_Unknown, 0x28);
+
+ALIVE_VAR(1, 0xbd3350, WORD, sPoly_fill_colour_BD3350, 0);
+
+ALIVE_VAR(1, 0xbd3320, Render_Unknown, left_side_BD3320, {});
+ALIVE_VAR(1, 0xbd3200, Render_Unknown, slope_1_BD3200, {});
+
+ALIVE_VAR(1, 0xbd32a0, Render_Unknown, right_side_BD32A0, {});
+ALIVE_VAR(1, 0xbd32e0, Render_Unknown, slope_2_BD32E0, {});
 
 struct Psx_Test
 {
@@ -48,6 +70,55 @@ ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
 
 ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, sPsx_abr_lut_C215E0, {});
 
+
+struct OT_Vert
+{
+    int field_0_x0; // Note actually __int16 1.3.12 FP
+    int field_4_y0; // Note actually __int16 1.3.12 FP
+    int field_8;
+    int field_C;
+    int field_10;
+    int field_14_u;
+    int field_18_v;
+    int field_1C_r;
+    int field_20_g;
+    int field_24_b;
+};
+ALIVE_ASSERT_SIZEOF(OT_Vert, 0x28);
+
+struct OT_Prim
+{
+    int field_0;
+    int field_4;
+    BYTE field_8_r;
+    BYTE field_9_g;
+    BYTE field_A_b;
+    BYTE field_B_flags;
+    char field_C_vert_count;
+    char field_D;
+    char field_E;
+    char field_F;
+    __int16 field_10_tpage;
+    __int16 field_12_clut;
+    OT_Vert field_14_verts[9]; // TODO: Should be 9 ??
+};
+ALIVE_ASSERT_SIZEOF(OT_Prim, 380); // could be up to 380
+
+ALIVE_ARY(1, 0x0, BYTE, 380, byte_BD0C0C, {});
+
+ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
+
+ALIVE_VAR(1, 0xbd3264, OT_Vert *, pVerts_dword_BD3264, nullptr);
+ALIVE_VAR(1, 0xbd3270, WORD *, pClut_src_BD3270, nullptr);
+ALIVE_VAR(1, 0xbd32c8, WORD *, pTPage_src_BD32C8, nullptr);
+
+ALIVE_VAR(1, 0xbd3308, __int16*, r_lut_dword_BD3308, nullptr);
+ALIVE_VAR(1, 0xbd32d8, __int16*, g_lut_dword_BD32D8, nullptr);
+ALIVE_VAR(1, 0xbd3348, __int16*, b_lut_dword_BD3348, nullptr);
+
+ALIVE_VAR(1, 0xbd32cc, BYTE*, rTable_dword_BD32CC, nullptr);
+ALIVE_VAR(1, 0xbd3358, BYTE*, gTable_dword_BD3358, nullptr);
+ALIVE_VAR(1, 0xbd334c, BYTE*, bTable_dword_BD334C, nullptr);
 
 enum TextureModes
 {
@@ -91,38 +162,258 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* /*a1*/
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* /*a1*/, int /*a2*/)
+// TODO: Refactor/remove duplication
+EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRam, int ySize)
 {
-    NOT_IMPLEMENTED();
+    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    Render_Unknown* pLeft = &left_side_BD3320;
+    Render_Unknown* pRight = &right_side_BD32A0;
+
+    // TODO: Unswitch the loops
+    if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
+    {
+        for (int i = 0; i < ySize; i++)
+        {
+            if (pLeft->field_0_x > pRight->field_0_x)
+            {
+                std::swap(pLeft, pRight);
+            }
+
+            const int x_right = pRight->field_0_x >> 16;
+            const int x_left = pLeft->field_0_x >> 16;
+            const int x_diff = x_right - x_left;
+            if (x_diff > 0)
+            {
+                DWORD u_left = pLeft->field_14_u;
+                const DWORD left_v = pLeft->field_18_v;
+                int x_diff_m1 = x_diff - 1;
+                if (x_diff_m1 <= 0)
+                {
+                    x_diff_m1 = 1;
+                }
+                const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
+                const int v_diff = (signed int)(pRight->field_18_v - left_v) / x_diff_m1;
+                DWORD left_v_fixed = left_v << 11;
+                WORD* pStart = &pVRam[x_left];
+                for (WORD* pEnd = &pVRam[x_right]; pStart < pEnd; left_v_fixed += v_diff << 11)
+                {
+                    const int clut_idx = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left + (left_v_fixed & 0x1FE00000)) >> 10));
+                    if (pClut_src_BD3270[clut_idx])
+                    {
+                        *pStart =
+                            b_lut_dword_BD3348[pClut_src_BD3270[clut_idx] & 0x1F]
+                            | r_lut_dword_BD3308[(pClut_src_BD3270[clut_idx] >> 11) & 0x1F]
+                            | g_lut_dword_BD32D8[(pClut_src_BD3270[clut_idx] >> 6) & 0x1F];
+                    }
+                    ++pStart;
+                    u_left += u_diff;
+                }
+            }
+
+            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+
+            pVRam += pitch;
+        }
+    }
+    else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
+    {
+        const int k_255_sr10_p10 = 255 << (10 + 10);
+        if (sActiveTPage_578318 >= 0)
+        {
+            for (int i = 0; i < ySize; i++)
+            {
+                if (pLeft->field_0_x > pRight->field_0_x)
+                {
+                    std::swap(pLeft, pRight);
+                }
+
+                const int x_right = pRight->field_0_x >> 16;
+                const int x_diff = x_right - (pLeft->field_0_x >> 16);
+                const int x_left = pLeft->field_0_x >> 16;
+                if (x_diff > 0)
+                {
+                    DWORD u_left = pLeft->field_14_u;
+                    const DWORD v_left = pLeft->field_18_v;
+                    int x_diff_m1 = x_diff - 1;
+                    if (x_diff_m1 <= 0)
+                    {
+                        x_diff_m1 = 1;
+                    }
+                    const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
+                    const int v_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
+                    WORD* pStart = &pVRam[x_left];
+                    WORD* pEnd2 = &pVRam[x_right];
+                    DWORD v_current = v_left << 10;
+                    int v_pos = v_diff << 10;
+                    while ( pStart < pEnd2)
+                    {
+                        if (pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10])
+                        {
+                            *pStart =
+                                  b_lut_dword_BD3348[(pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10] & 0x1F)]
+                                | r_lut_dword_BD3308[(pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10] >> 11) & 0x1F]
+                                | g_lut_dword_BD32D8[(pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_current)) >> 10] >> 6) & 0x1F];
+                        }
+                        u_left += u_diff;
+                        ++pStart;
+                        v_current += v_pos;
+                    }
+                }
+
+                left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+                left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+                left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+                right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+                right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+                right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+
+                pVRam += pitch;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < ySize; i++)
+            {
+                if (pLeft->field_0_x > pRight->field_0_x)
+                {
+                    std::swap(pLeft, pRight);
+                }
+
+                const int x_right = pRight->field_0_x >> 16;
+                const int x_left = pLeft->field_0_x >> 16;
+                const int x_diff = x_right - x_left;
+                if (x_diff > 0)
+                {
+                    DWORD u_left = pLeft->field_14_u;
+                    const DWORD v_left = pLeft->field_18_v;
+                    WORD* pStart = &pVRam[x_left];
+                    if (x_diff == 1)
+                    {
+                        const WORD tpage_pixel = pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & (v_left << 10))) >> 10];
+                        *pStart =
+                            b_lut_dword_BD3348[tpage_pixel & 0x1F]
+                            | r_lut_dword_BD3308[(tpage_pixel >> 11) & 0x1F]
+                            | g_lut_dword_BD32D8[(tpage_pixel >> 6) & 0x1F];
+                    }
+                    else
+                    {
+                        int x_diff_m1 = x_diff - 1;
+                        if (x_diff_m1 <= 0)
+                        {
+                            x_diff_m1 = 1;
+                        }
+                        const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
+                        const int v_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
+                        DWORD v_diff_fixed = v_left << 10;
+                        const int u_diff_fixed = v_diff << 10;
+                        WORD* pEnd = &pVRam[x_right];
+                        if (pStart < pEnd)
+                        {
+                            while (pStart < pEnd)
+                            {
+                                ++pStart;
+                                const WORD tpage_pixel = pTPage_src_BD32C8[(u_left + (k_255_sr10_p10 & v_diff_fixed)) >> 10];
+                                const WORD pixel_value =
+                                    b_lut_dword_BD3348[tpage_pixel & 0x1F]
+                                    | r_lut_dword_BD3308[(tpage_pixel >> 11) & 0x1F]
+                                    | g_lut_dword_BD32D8[(tpage_pixel >> 6) & 0x1F];
+                                v_diff_fixed += u_diff_fixed;
+                                *(pStart - 1) = pixel_value;
+                                u_left += u_diff;
+                            }
+                        }
+                    }
+                }
+
+                left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+                left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+                left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+                right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+                right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+                right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+
+                pVRam += pitch;
+            }
+        }
+    }
+    else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
+    {
+        for (int i = 0; i < ySize; i++)
+        {
+            if (pLeft->field_0_x > pRight->field_0_x)
+            {
+                std::swap(pLeft, pRight);
+            }
+
+            const int x_right = pRight->field_0_x >> 16;
+            const int x_left = pLeft->field_0_x >> 16;
+            if (x_right - x_left > 0)
+            {
+                DWORD u_left = pLeft->field_14_u;
+                const DWORD v_left = pLeft->field_18_v;
+                int x_diff_m1 = x_right - x_left - 1;
+                if (x_diff_m1 <= 0)
+                {
+                    x_diff_m1 = 1;
+                }
+                const int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
+                const int v_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
+                DWORD v_fixed_1 = v_left << 12;
+                WORD* pStart = &pVRam[x_left];
+                int v_fixed = v_diff << 12;
+                const int _v_fixed_2 = v_fixed;
+                while (pStart < &pVRam[x_right])
+                {
+                    const unsigned int tpage_pixel_1 = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left + (v_fixed_1 & 0x3FC00000)) >> 11));
+                    unsigned int nibble = 0;
+                    if (u_left & 0x400)
+                    {
+                        nibble = tpage_pixel_1 >> 4;
+                    }
+                    else
+                    {
+                        nibble = tpage_pixel_1 & 0xF;
+                    }
+                    const WORD clut_pixel = pClut_src_BD3270[nibble];
+                    if (clut_pixel)
+                    {
+                        v_fixed = _v_fixed_2;
+                        *pStart =
+                            b_lut_dword_BD3348[(clut_pixel & 0x1F)]
+                          | r_lut_dword_BD3308[(clut_pixel >> 11) & 0x1F]
+                          | g_lut_dword_BD32D8[(clut_pixel >> 6) & 0x1F];
+                    }
+                    ++pStart;
+                    u_left += u_diff;
+                    v_fixed_1 += v_fixed;
+                }
+            }
+
+            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+
+            pVRam += pitch;
+        }
+    }
 }
 
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
 }
-
-struct Render_Unknown
-{
-    int field_0_x; // 16:16 fixed ??
-    int field_4_y;
-    int field_8;
-    int field_C;
-    int field_10_float; // float ?
-    int field_14_u; // float ?
-    int field_18_v; // float ?
-    int field_1C_GShadeR;
-    int field_20_GShadeG;
-    int field_24_GShadeB;
-};
-ALIVE_ASSERT_SIZEOF(Render_Unknown, 0x28);
-
-ALIVE_VAR(1, 0xbd3350, WORD, sPoly_fill_colour_BD3350, 0);
-
-ALIVE_VAR(1, 0xbd3320, Render_Unknown, left_side_BD3320, {});
-ALIVE_VAR(1, 0xbd3200, Render_Unknown, slope_1_BD3200, {});
-
-ALIVE_VAR(1, 0xbd32a0, Render_Unknown, right_side_BD32A0, {});
-ALIVE_VAR(1, 0xbd32e0, Render_Unknown, slope_2_BD32E0, {});
 
 EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(WORD* pVram, int ySize)
 {
@@ -779,43 +1070,6 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
-struct OT_Vert
-{
-    int field_0_x0; // Note actually __int16 1.3.12 FP
-    int field_4_y0; // Note actually __int16 1.3.12 FP
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14_u;
-    int field_18_v;
-    int field_1C_r;
-    int field_20_g;
-    int field_24_b;
-};
-ALIVE_ASSERT_SIZEOF(OT_Vert, 0x28);
-
-struct OT_Prim
-{
-    int field_0;
-    int field_4;
-    BYTE field_8_r;
-    BYTE field_9_g;
-    BYTE field_A_b;
-    BYTE field_B_flags;
-    char field_C_vert_count;
-    char field_D;
-    char field_E;
-    char field_F;
-    __int16 field_10_tpage;
-    __int16 field_12_clut;
-    OT_Vert field_14_verts[9]; // TODO: Should be 9 ??
-};
-ALIVE_ASSERT_SIZEOF(OT_Prim, 380); // could be up to 380
-
-ALIVE_ARY(1, 0x0, BYTE, 380, byte_BD0C0C, {});
-
-ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
-
 EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode1_R11_SemiTrans_501B00(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
@@ -1156,19 +1410,6 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
     }
 }
 
-ALIVE_VAR(1, 0xbd3264, OT_Vert *, pVerts_dword_BD3264, nullptr);
-ALIVE_VAR(1, 0xbd3270, WORD *, pClut_src_BD3270, nullptr);
-ALIVE_VAR(1, 0xbd32c8, WORD *, pTPage_src_BD32C8, nullptr);
-
-ALIVE_VAR(1, 0xbd3308, __int16*, r_lut_dword_BD3308, nullptr);
-ALIVE_VAR(1, 0xbd32d8, __int16*, g_lut_dword_BD32D8, nullptr);
-ALIVE_VAR(1, 0xbd3348, __int16*, b_lut_dword_BD3348, nullptr);
-
-ALIVE_VAR(1, 0xbd32cc, BYTE*, rTable_dword_BD32CC, nullptr);
-ALIVE_VAR(1, 0xbd3358, BYTE*, gTable_dword_BD3358, nullptr);
-ALIVE_VAR(1, 0xbd334c, BYTE*, bTable_dword_BD334C, nullptr);
-
-
 EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* pOt)
 {
     NOT_IMPLEMENTED();
@@ -1470,7 +1711,7 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
         case PrimTypeCodes::ePolyGT4:
             PSX_TPage_Change_4F6430(prim->field_10_tpage);
 
-            if (prim->field_E & 1)
+            if (prim->field_E & 1) // TODO: Dead code? Haven't seen this get written... yet
             {
                 // unknown flag, something to do with specific colours? Maybe optimization case?
                 PSX_Render_Poly_Internal_Generic_517B10(prim, PSX_poly_Textured_Unknown_5180B0, 
