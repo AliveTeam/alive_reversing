@@ -38,10 +38,24 @@ inline FixedPoint operator+(const FixedPoint& lhs, const FixedPoint& rhs)
     return f;
 }
 
+inline FixedPoint operator-(const FixedPoint& lhs, const FixedPoint& rhs)
+{
+    FixedPoint f;
+    f.fpValue = lhs.fpValue - rhs.fpValue;
+    return f;
+}
+
 inline FixedPoint operator*(const FixedPoint& lhs, const FixedPoint& rhs)
 {
     FixedPoint f;
     f.fpValue = Math_FixedPoint_Multiply_496C50(lhs.fpValue, rhs.fpValue);
+    return f;
+}
+
+inline FixedPoint operator/(const FixedPoint& lhs, const FixedPoint& rhs)
+{
+    FixedPoint f;
+    f.fpValue = Math_FixedPoint_Divide_496B70(lhs.fpValue, rhs.fpValue);
     return f;
 }
 

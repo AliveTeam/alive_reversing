@@ -54,6 +54,7 @@ FixedPoint& FixedPoint::operator/=(const FixedPoint& other)
     return *this;
 }
 
+
 FixedPoint& FixedPoint::operator*=(const FixedPoint& other)
 {
     fpValue = Math_FixedPoint_Multiply_496C50(fpValue, other.fpValue);

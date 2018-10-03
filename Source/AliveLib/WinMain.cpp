@@ -30,6 +30,7 @@
 #include "MainMenu.hpp"
 #include "ScreenManager.hpp"
 #include "LCDScreen.hpp"
+#include "StatsSign.hpp"
 #include "Sfx.hpp"
 #include "ObjectIds.hpp"
 #include "LvlArchive.hpp"
@@ -83,6 +84,7 @@ static void InitOtherHooksAndRunTests()
     StringFormatters_ForceLink();
     LCDScreen_ForceLink();
     Compression_ForceLink();
+    StatsSign_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

@@ -29,9 +29,6 @@ unsigned char pal_560F80[] =
 ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
 ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
 
-ALIVE_VAR_EXTERN(__int16, sRescuedMudokons_5C1BC2);
-ALIVE_VAR_EXTERN(__int16, sKilledMudokons_5C1BC0);
-
 ALIVE_VAR(1, 0x5C1BEC, short, word_5C1BEC, {});
 ALIVE_VAR(1, 0x5C1BC6, short, word_5C1BC6, {});
 ALIVE_VAR(1, 0x5C1BC8, short, word_5C1BC8, {});

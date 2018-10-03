@@ -105,6 +105,8 @@ add_library(AliveLib
     MainMenu.cpp
     LCDScreen.hpp
     LCDScreen.cpp
+    StatsSign.hpp
+    StatsSign.cpp
     ObjectIds.hpp
     ObjectIds.cpp
     VRam.hpp
