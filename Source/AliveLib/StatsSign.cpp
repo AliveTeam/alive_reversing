@@ -83,6 +83,7 @@ void StatsSign::vUpdate_47B8D0()
     }
 }
 
+// Todo: clean up
 void StatsSign::vRender_47B900(int ** pOt)
 {
     __int16 flickerAmount = 50; // ax
@@ -93,7 +94,7 @@ void StatsSign::vRender_47B900(int ** pOt)
     unsigned int v10; // edx
     char text[12]; // [esp+4h] [ebp-Ch]
 
-    //if (!field_108_is_hidden)
+    if (!field_108_is_hidden)
     {
         sprintf(text, "%3d", (unsigned __int16)sMudsInLevelCount_55CFAC[gMap_5C3030.sCurrentLevelId_5C3030]);
         int maxWidth = field_90_font3.MeasureWidth_433700(text);
