@@ -404,114 +404,108 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
             {
                 std::swap(pLeft, pRight);
             }
-            int x_right = pRight->field_0_x >> 16;
-            int x_left = pLeft->field_0_x >> 16;
+            const int x_right = pRight->field_0_x >> 16;
+            const int x_left = pLeft->field_0_x >> 16;
             if (x_right - x_left > 0)
             {
-                DWORD u_left = pLeft->field_14_u;
-                DWORD v_left = pLeft->field_18_v;
-                int x_diff_m1 = (pRight->field_0_x >> 16) - x_left - 1;
-                DWORD u_left2 = pLeft->field_14_u;
+              
+                int x_diff_m1 = x_right - x_left - 1;
                 if (x_diff_m1 <= 0)
                 {
                     x_diff_m1 = 1;
                 }
-                int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
-                int v_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
-                DWORD v_left_fixed = v_left << 11;
+                const int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
+                const int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) << 11;
+
+                DWORD u_pos = pLeft->field_14_u;
+                DWORD v_pos = pLeft->field_18_v << 11;
+
                 WORD* pStart = &pVram[x_left];
-                int v_diff_fixed = v_diff << 11;
-                int v_pos = v_diff_fixed;
-                while (pStart < &pVram[x_right])
+                WORD* pEnd = &pVram[x_right];
+                while (pStart < pEnd)
                 {
-                    int clut_idx = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left + (v_left_fixed & 0x1FE00000)) >> 10));
-                    WORD clut_pixel = pClut_src_BD3270[clut_idx];
-                    if (clut_pixel)
+                    const int clut_idx = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x1FE00000)) >> 10));
+                    const WORD clut_pixel = pClut_src_BD3270[clut_idx];
+                    if (clut_pixel != 0) // Black pixels are transparent
                     {
                         if (clut_pixel & 0x20)
                         {
-                            DWORD clut_pixel2 = pClut_src_BD3270[clut_idx];
-                            v_diff_fixed = v_pos;
                             *pStart =
-                                abr_lut->b[*pStart & 0x1F][clut_pixel2 & 0x1F]
-                                | abr_lut->r[(*pStart >> 11) & 0x1F][(clut_pixel2 >> 11) & 0x1F]
-                                | abr_lut->g[(*pStart >> 6) & 0x1F][(clut_pixel2 >> 6) & 0x1F];
-                            u_left = u_left2;
+                                abr_lut->b[*pStart & 0x1F][clut_pixel & 0x1F]
+                                | abr_lut->r[(*pStart >> 11) & 0x1F][(clut_pixel >> 11) & 0x1F]
+                                | abr_lut->g[(*pStart >> 6) & 0x1F][(clut_pixel >> 6) & 0x1F];
                         }
                         else
                         {
                             *pStart = clut_pixel;
                         }
                     }
+                    u_pos += u_diff;
+                    v_pos += v_diff;
                     ++pStart;
-                    u_left += u_diff;
-                    v_left_fixed += v_diff_fixed;
-                    u_left2 = u_left;
                 }
             }
             left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
             left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
             left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
             right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
             right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
             right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+
             pVram += pitch;
         }
     }
     else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
     {
-        int k255_s20 = 255 << (10 + 10);
+        const int k255_s20 = 255 << (10 + 10);
         for (int i = 0; i < ySize; i++)
         {
             if (pLeft->field_0_x > pRight->field_0_x)
             {
                 std::swap(pLeft, pRight);
             }
-            int x_left2 = pLeft->field_0_x >> 16;
-            if ((pRight->field_0_x >> 16) - x_left2 > 0)
+            int x_left = pLeft->field_0_x >> 16;
+            int x_right = pRight->field_0_x >> 16;
+            if (x_right - x_left > 0)
             {
-                DWORD u_left3 = pLeft->field_14_u;
-                DWORD v_left2 = pLeft->field_18_v;
-                int  x_diff_m2 = (pRight->field_0_x >> 16) - x_left2 - 1;
-                DWORD u_left4 = pLeft->field_14_u;
+                int x_diff_m2 = x_right - x_left - 1;
                 if (x_diff_m2 <= 0)
                 {
                     x_diff_m2 = 1;
                 }
-                int u_right2 = (signed int)(pRight->field_14_u - u_left3) / x_diff_m2;
-                int v_right2 = (signed int)(pRight->field_18_v - v_left2) / x_diff_m2;
-                DWORD v_left_fixed2 = v_left2 << 10;
-                int v_right_fixed2 = v_right2 << 10;
-                WORD* pStart2 = &pVram[x_left2];
-                WORD* pEnd2 = &pVram[pRight->field_0_x >> 16];
-                int v_pos2 = v_right_fixed2;
-                WORD* pEnd2_iter = pEnd2;
-                while (pStart2 < pEnd2)
+                int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m2;
+                int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m2) << 10;
+
+                DWORD v_pos = pLeft->field_18_v << 10;
+                DWORD u_pos = pLeft->field_14_u;
+
+                WORD* pStart = &pVram[x_left];
+                WORD* pEnd = &pVram[x_right];
+                while (pStart < pEnd)
                 {
-                    DWORD tpage_idx = (u_left3 + (k255_s20 & v_left_fixed2)) >> 10;
-                    if (pTPage_src_BD32C8[tpage_idx])
+                    const DWORD tpage_idx = (u_pos + (k255_s20 & v_pos)) >> 10;
+                    if (pTPage_src_BD32C8[tpage_idx] != 0)
                     {
-                        DWORD clut_pixel3 = pTPage_src_BD32C8[tpage_idx];
-                        pEnd2 = pEnd2_iter;
-                        v_right_fixed2 = v_pos2;
-                        *pStart2 =
-                            abr_lut->b[*pStart2 & 0x1F][clut_pixel3 & 0x1F]
-                            | abr_lut->r[(*pStart2 >> 11) & 0x1F][(clut_pixel3 >> 11) & 0x1F]
-                            | abr_lut->g[(*pStart2 >> 6) & 0x1F][(clut_pixel3 >> 6) & 0x1F];
-                        u_left3 = u_left4;
+                        DWORD clut_pixel = pTPage_src_BD32C8[tpage_idx];
+                        *pStart =
+                              abr_lut->b[*pStart & 0x1F][clut_pixel & 0x1F]
+                            | abr_lut->r[(*pStart >> 11) & 0x1F][(clut_pixel >> 11) & 0x1F]
+                            | abr_lut->g[(*pStart >> 6) & 0x1F][(clut_pixel >> 6) & 0x1F];
                     }
-                    ++pStart2;
-                    u_left3 += u_right2;
-                    v_left_fixed2 += v_right_fixed2;
-                    u_left4 = u_left3;
+                    ++pStart;
+                    u_pos += u_diff;
+                    v_pos += v_diff;
                 }
             }
             left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
             left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
             left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
             right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
             right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
             right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+
             pVram += pitch;
         }
     }
@@ -523,49 +517,49 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
             {
                 std::swap(pLeft, pRight);
             }
-            int x_right2 = pRight->field_0_x >> 16;
-            int  x_left4 = pLeft->field_0_x >> 16;
-            if (x_right2 - x_left4 > 0)
+
+            const int x_right = pRight->field_0_x >> 16;
+            const int x_left = pLeft->field_0_x >> 16;
+            if (x_right - x_left > 0)
             {
-                DWORD u_left5 = pLeft->field_14_u;
-                DWORD v_right3 = pLeft->field_18_v;
-                int x_diff_m3 = (pRight->field_0_x >> 16) - x_left4 - 1;
-                if (x_diff_m3 <= 0)
+                int x_diff_m1 = x_right - x_left - 1;
+                if (x_diff_m1 <= 0)
                 {
-                    x_diff_m3 = 1;
+                    x_diff_m1 = 1;
                 }
-                int  u_diff_1 = (signed int)(pRight->field_14_u - u_left5) / x_diff_m3;
-                int v_diff_1 = (signed int)(pRight->field_18_v - v_right3) / x_diff_m3;
-                DWORD v_right_fixed3 = v_right3 << 12;
-                WORD* pStart3 = &pVram[x_left4];
-                DWORD v_pos_1 = v_right_fixed3;
-                int v_fixed = v_diff_1 << 12;
-                int v_pos_2 = v_fixed;
-                while (pStart3 < &pVram[x_right2])
+
+                int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
+                int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) << 12;
+
+                DWORD v_pos = pLeft->field_18_v << 12;
+                DWORD u_pos = pLeft->field_14_u;
+
+                WORD* pStart = &pVram[x_left];
+                WORD* pEnd = &pVram[x_right];
+                while (pStart < pEnd)
                 {
-                    int clut_idx2 = (*((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left5 + (v_right_fixed3 & 0x3FC00000)) >> 11)) >> (BYTE1(u_left5) & 4)) & 0xF;
-                    if (pClut_src_BD3270[clut_idx2])
+                    const int clut_idx = (*((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x3FC00000)) >> 11)) >> (BYTE1(u_pos) & 4)) & 0xF;
+                    if (pClut_src_BD3270[clut_idx])
                     {
-                        DWORD clut_pixel4 = pClut_src_BD3270[clut_idx2];
-                        v_fixed = v_pos_2;
-                        *pStart3 =
-                            abr_lut->b[*pStart3 & 0x1F][clut_pixel4 & 0x1F]
-                            | abr_lut->r[(*pStart3 >> 11) & 0x1F][(clut_pixel4 >> 11) & 0x1F]
-                            | abr_lut->g[(*pStart3 >> 6) & 0x1F][(clut_pixel4 >> 6) & 0x1F];
-                        v_right_fixed3 = v_pos_1;
+                        const DWORD clut_pixel = pClut_src_BD3270[clut_idx];
+                        *pStart =
+                            abr_lut->b[*pStart & 0x1F][clut_pixel & 0x1F]
+                            | abr_lut->r[(*pStart >> 11) & 0x1F][(clut_pixel >> 11) & 0x1F]
+                            | abr_lut->g[(*pStart >> 6) & 0x1F][(clut_pixel >> 6) & 0x1F];
                     }
-                    ++pStart3;
-                    u_left5 += u_diff_1;
-                    v_right_fixed3 += v_fixed;
-                    v_pos_1 = v_right_fixed3;
+                    ++pStart;
+                    u_pos += u_diff;
+                    v_pos += v_diff;
                 }
             }
             left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
             left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
             left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
             right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
             right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
             right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+
             pVram += pitch;
         }
     }
