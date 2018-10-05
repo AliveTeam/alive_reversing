@@ -157,6 +157,18 @@ EXPORT int CC PSX_poly_helper_fixed_point_scale_517FA0(int fixedPoint, int scale
     return (static_cast<signed __int64>(fixedPoint) * scaleFactor) / 0x10000;
 }
 
+template<class T>
+static inline void WriteSinglePixelOfXLine(WORD* pVRam, int xLeft, int xRight, T writePixel)
+{
+    WORD* pStart = &pVRam[xLeft];
+    WORD* pEnd = &pVRam[xRight];
+    while (pStart < pEnd)
+    {
+        writePixel(pStart);
+        ++pStart;
+    }
+}
+
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam, int ySize)
 {
     const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
@@ -173,35 +185,48 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
         const int x_right = pRight->field_0_x >> 16;
         const int x_left = pLeft->field_0_x >> 16;
         const int x_diff = x_right - x_left;
+
         if (x_diff > 0)
         {
-            int x_diff_m1 = (pRight->field_0_x >> 16) - x_left - 1;
+            int x_diff_m1 = x_right - x_left - 1;
+            // Prevent divide by zero
             if (x_diff_m1 <= 0)
             {
                 x_diff_m1 = 1;
             }
 
+            int kFixedPointFactor = 0;
+            switch (sTexture_mode_BD0F14)
+            {
+            case TextureModes::e16Bit:
+                kFixedPointFactor = 1024;
+                break;
+            case TextureModes::e8Bit:
+                kFixedPointFactor = 2048;
+                break;
+            case TextureModes::e4Bit:
+                kFixedPointFactor = 4096;
+                break;
+            }
+
+            const int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
+            int u_pos = pLeft->field_14_u;
+
+            const int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) * kFixedPointFactor;
+            int v_pos = pLeft->field_18_v * kFixedPointFactor;
+
             if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
             {
-                const int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
-                const int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) << 11;
-
-                int u_pos = pLeft->field_14_u;
-                int v_pos = pLeft->field_18_v << 11;
-
-                WORD* pStart = &pVRam[x_left];
-                WORD* pEnd = &pVRam[x_right];
-                while (pStart < pEnd)
+                WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut) 
                 {
                     const WORD clut_pixel = pClut_src_BD3270[*((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x1FE00000)) >> 10))];
                     if (clut_pixel)
                     {
-                        *pStart = clut_pixel;
+                        *pOut = clut_pixel;
                     }
-                    ++pStart;
                     u_pos += u_diff;
                     v_pos += v_diff;
-                }
+                });
             }
             else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
             {
@@ -209,25 +234,16 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
 
                 if (sActiveTPage_578318 >= 0)
                 {
-                    const int v_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
-                    const int u_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) << 10;
-
-                    DWORD u_pos = pLeft->field_14_u;
-                    DWORD v_pos = pLeft->field_18_v << 10;
-
-                    WORD* pStart = &pVRam[x_left];
-                    WORD* pEnd = &pVRam[x_right];
-                    while (pStart < pEnd)
+                    WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut)
                     {
                         const WORD tpage_pixel = pTPage_src_BD32C8[(u_pos + (k255_s20 & v_pos)) >> 10];
                         if (tpage_pixel)
                         {
-                            *pStart = tpage_pixel;
+                            *pOut = tpage_pixel;
                         }
-                        ++pStart;
-                        u_pos += v_diff;
-                        v_pos += u_diff;
-                    }
+                        u_pos += u_diff;
+                        v_pos += v_diff;
+                    });
                 }
                 else
                 {
@@ -237,38 +253,22 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
                     }
                     else
                     {
-                        const int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
-                        const int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) << 10;
-
-                        DWORD u_pos = pLeft->field_14_u;
-                        DWORD v_pos = pLeft->field_18_v << 10;
-
-                        WORD* pStart = &pVRam[x_left];
-                        WORD* pEnd = &pVRam[x_right];
-                        while (pStart < pEnd)
+                        WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut)
                         {
                             const unsigned int tpage_idx = (u_pos + (k255_s20 & v_pos)) >> 10;
-                            *pStart = pTPage_src_BD32C8[tpage_idx];
+                            *pOut = pTPage_src_BD32C8[tpage_idx];
                             u_pos += u_diff;
                             v_pos += v_diff;
-                            ++pStart;
-                        }
+                        });
                     }
                 }
             }
             else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
             {
-                const int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
-                const int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) << 12;
-
-                DWORD u_pos = pLeft->field_14_u;
-                DWORD v_pos = pLeft->field_18_v << 12;
-
-                WORD* pStart = &pVRam[x_left];
-                WORD* pEnd = &pVRam[x_right];
-                while (pStart < pEnd)
+                WriteSinglePixelOfXLine(pVRam, x_left, x_right, [&](WORD* pOut)
                 {
                     const unsigned int tpage_nibbles = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x3FC00000)) >> 11));
+                    
                     unsigned int nibble = 0;
                     if (u_pos & 0x400)
                     {
@@ -278,15 +278,16 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam,
                     {
                         nibble = tpage_nibbles & 0xF;
                     }
+                    
                     const WORD clut_pixel = pClut_src_BD3270[nibble];
                     if (clut_pixel)
                     {
-                        *pStart = clut_pixel;
+                        *pOut = clut_pixel;
                     }
-                    ++pStart;
+
                     u_pos += u_diff;
                     v_pos += v_diff;
-                }
+                });
             }
         }
 
