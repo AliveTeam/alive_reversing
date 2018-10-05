@@ -157,9 +157,222 @@ EXPORT int CC PSX_poly_helper_fixed_point_scale_517FA0(int fixedPoint, int scale
     return (static_cast<signed __int64>(fixedPoint) * scaleFactor) / 0x10000;
 }
 
-EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* /*a1*/, int /*a2*/)
+EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(WORD* pVRam, int ySize)
 {
-    NOT_IMPLEMENTED();
+    const Render_Unknown* pLeft = &left_side_BD3320;
+    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+    const Render_Unknown* pRight = &right_side_BD32A0;
+
+    if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
+    {
+        for (int i = 0; i < ySize; i++)
+        {
+            if (pLeft->field_0_x > pRight->field_0_x)
+            {
+                std::swap(pLeft, pRight);
+            }
+            int x_right = pRight->field_0_x >> 16;
+            int x_left = pLeft->field_0_x >> 16;
+            if (x_right - x_left > 0)
+            {
+                DWORD u_left = pLeft->field_14_u;
+                int x_diff_m1 = (pRight->field_0_x >> 16) - x_left - 1;
+                if (x_diff_m1 <= 0)
+                {
+                    x_diff_m1 = 1;
+                }
+                int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
+                int v_diff = (signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1;
+                DWORD v_left_fixed = pLeft->field_18_v << 11;
+                const int v_diff_fixed = v_diff << 11;
+
+                WORD* pStart = &pVRam[x_left];
+                WORD* pEnd = &pVRam[x_right];
+                while (pStart < pEnd)
+                {
+                    const WORD clut_pixel = pClut_src_BD3270[*((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left + (v_left_fixed & 0x1FE00000)) >> 10))];
+                    if (clut_pixel)
+                    {
+                        *pStart = clut_pixel;
+                    }
+                    ++pStart;
+                    u_left += u_diff;
+                    v_left_fixed += v_diff_fixed;
+                }
+            }
+            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+            pVRam += pitch;
+        }
+    }
+    else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
+    {
+        const int k255_s20 = 255 << (20);
+        if (sActiveTPage_578318 >= 0)
+        {
+            for (int i = 0; i < ySize; i++)
+            {
+                if (pLeft->field_0_x > pRight->field_0_x)
+                {
+                    std::swap(pLeft, pRight);
+                }
+                int x_right = pRight->field_0_x >> 16;
+                int x_left = pLeft->field_0_x >> 16;
+                if (x_right - x_left > 0)
+                {
+                    int x_diff_m1 = (pRight->field_0_x >> 16) - x_left - 1;
+                    DWORD u_left = pLeft->field_14_u;
+                    DWORD v_left = pLeft->field_18_v;
+                    if (x_diff_m1 <= 0)
+                    {
+                        x_diff_m1 = 1;
+                    }
+                    int v_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
+                    int u_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
+                    WORD* pStart = &pVRam[x_left];
+                    WORD* pEnd = &pVRam[x_right];
+                    DWORD v_left_fixed = v_left << 10;
+                    int u_diff_fixed = u_diff << 10;
+
+                    while (pStart < pEnd)
+                    {
+                        const WORD tpage_pixel = pTPage_src_BD32C8[(u_left + (k255_s20 & v_left_fixed)) >> 10];
+                        if (tpage_pixel)
+                        {
+                            *pStart = tpage_pixel;
+                        }
+                        ++pStart;
+                        u_left += v_diff;
+                        v_left_fixed += u_diff_fixed;
+                    }
+                }
+                left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+                left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+                left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+                right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+                right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+                right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+
+                pVRam += pitch;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < ySize; i++)
+            {
+                if (pLeft->field_0_x > pRight->field_0_x)
+                {
+                    std::swap(pLeft, pRight);
+                }
+                int x_left = pLeft->field_0_x >> 16;
+                int x_right = pRight->field_0_x >> 16;
+                int x_right_copy = x_right;
+                int x_diff = x_right - x_left;
+                if (x_diff > 0)
+                {
+                    DWORD u_left = pLeft->field_14_u;
+                    DWORD v_left = pLeft->field_18_v;
+                    if (x_diff == 1)
+                    {
+                        pVRam[x_left] = pTPage_src_BD32C8[(u_left + (k255_s20 & (v_left << 10))) >> 10];
+                    }
+                    else
+                    {
+                        int x_diff_m1 = x_diff - 1;
+                        if (x_diff_m1 <= 0)
+                        {
+                            x_diff_m1 = 1;
+                        }
+                        int u_diff = (signed int)(pRight->field_14_u - u_left) / x_diff_m1;
+                        int v_diff = (signed int)(pRight->field_18_v - v_left) / x_diff_m1;
+                        DWORD v_left_fixed = v_left << 10;
+                        int v_diff_fixed = v_diff << 10;
+
+                        WORD* pStart = &pVRam[x_left];
+                        WORD* pEnd = &pVRam[x_right_copy];
+                        while (pStart < pEnd)
+                        {
+                            const unsigned int tpage_idx = (u_left + (k255_s20 & v_left_fixed)) >> 10;
+                            *pStart = pTPage_src_BD32C8[tpage_idx];
+                            u_left += u_diff;
+                            v_left_fixed += v_diff_fixed;
+                            ++pStart;
+                        }
+                    }
+                }
+                left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+                left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+                left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+                right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+                right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+                right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+
+                pVRam += pitch;
+
+            }
+        }
+    }
+    else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
+    {
+        for (int i = 0; i < ySize; i++)
+        {
+            if (pLeft->field_0_x > pRight->field_0_x)
+            {
+                std::swap(pLeft, pRight);
+            }
+            int x_right = pRight->field_0_x >> 16;
+            int x_left = pLeft->field_0_x >> 16;
+            if (x_right - x_left > 0)
+            {
+                int x_diff_m1 = (pRight->field_0_x >> 16) - x_left - 1;
+                DWORD u_left4 = pLeft->field_14_u;
+                if (x_diff_m1 <= 0)
+                {
+                    x_diff_m1 = 1;
+                }
+                int u_diff = (signed int)(pRight->field_14_u - u_left4) / x_diff_m1;
+                DWORD v_left_fixed = pLeft->field_18_v << 12;
+                WORD* pStart = &pVRam[x_left];
+                int v_diff = (signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1 << 12;
+                while (pStart < &pVRam[x_right])
+                {
+                    unsigned int tpage_nibbles = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left4 + (v_left_fixed & 0x3FC00000)) >> 11));
+                    unsigned int nibble = 0;
+                    if (u_left4 & 0x400)
+                    {
+                        nibble = tpage_nibbles >> 4;
+                    }
+                    else
+                    {
+                        nibble = tpage_nibbles & 0xF;
+                    }
+                    const WORD clut_pixel2 = pClut_src_BD3270[nibble];
+                    if (clut_pixel2)
+                    {
+                        *pStart = clut_pixel2;
+                    }
+                    ++pStart;
+                    u_left4 += u_diff;
+                    v_left_fixed += v_diff;
+                }
+            }
+            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+
+            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+            pVRam += pitch;
+        }
+    }
 }
 
 // TODO: Refactor/remove duplication
