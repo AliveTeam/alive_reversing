@@ -388,56 +388,59 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(WORD* pVR
     }
 }
 
+static inline WORD Calc_Abr_Pixel(const Psx_Test& abr_lut, WORD vram_pixel, WORD clut_pixel)
+{
+    return abr_lut.b[clut_pixel & 0x1F]         [vram_pixel & 0x1F]
+         | abr_lut.r[(clut_pixel >> 11) & 0x1F] [(vram_pixel >> 11) & 0x1F]
+         | abr_lut.g[(clut_pixel >> 6) & 0x1F]  [(vram_pixel >> 6) & 0x1F];
+}
+
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVram, int ySize)
 {
     const Render_Unknown* pRight = &right_side_BD32A0;
     const Render_Unknown* pLeft = &left_side_BD3320;
 
     const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
-    const Psx_Test* abr_lut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
-
-    if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
+    const Psx_Test& abr_lut = sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
+    for (int i = 0; i < ySize; i++)
     {
-        for (int i = 0; i < ySize; i++)
+        if (pLeft->field_0_x > pRight->field_0_x)
         {
-            if (pLeft->field_0_x > pRight->field_0_x)
+            std::swap(pLeft, pRight);
+        }
+        const int x_right = pRight->field_0_x >> 16;
+        const int x_left = pLeft->field_0_x >> 16;
+        if (x_right - x_left > 0)
+        {
+            int x_diff_m1 = x_right - x_left - 1;
+            if (x_diff_m1 <= 0)
             {
-                std::swap(pLeft, pRight);
+                x_diff_m1 = 1;
             }
-            const int x_right = pRight->field_0_x >> 16;
-            const int x_left = pLeft->field_0_x >> 16;
-            if (x_right - x_left > 0)
+
+            const int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
+            DWORD u_pos = pLeft->field_14_u;
+
+            WORD* pStart = &pVram[x_left];
+            WORD* pEnd = &pVram[x_right];
+
+            if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
             {
-              
-                int x_diff_m1 = x_right - x_left - 1;
-                if (x_diff_m1 <= 0)
-                {
-                    x_diff_m1 = 1;
-                }
-                const int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
-                const int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) << 11;
-
-                DWORD u_pos = pLeft->field_14_u;
-                DWORD v_pos = pLeft->field_18_v << 11;
-
-                WORD* pStart = &pVram[x_left];
-                WORD* pEnd = &pVram[x_right];
+                const int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) * 2048;
+                DWORD v_pos = pLeft->field_18_v * 2048;
                 while (pStart < pEnd)
                 {
+                    // TODO: Refactor
                     const int clut_idx = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x1FE00000)) >> 10));
-                    const WORD clut_pixel = pClut_src_BD3270[clut_idx];
-                    if (clut_pixel != 0) // Black pixels are transparent
+                    if (pClut_src_BD3270[clut_idx] != 0) // Black pixels are transparent
                     {
-                        if (clut_pixel & 0x20)
+                        if (pClut_src_BD3270[clut_idx] & 0x20) // unknown flag
                         {
-                            *pStart =
-                                abr_lut->b[*pStart & 0x1F][clut_pixel & 0x1F]
-                                | abr_lut->r[(*pStart >> 11) & 0x1F][(clut_pixel >> 11) & 0x1F]
-                                | abr_lut->g[(*pStart >> 6) & 0x1F][(clut_pixel >> 6) & 0x1F];
+                            *pStart = Calc_Abr_Pixel(abr_lut, *pStart, pClut_src_BD3270[clut_idx]);
                         }
                         else
                         {
-                            *pStart = clut_pixel;
+                            *pStart = pClut_src_BD3270[clut_idx];
                         }
                     }
                     u_pos += u_diff;
@@ -445,123 +448,52 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
                     ++pStart;
                 }
             }
-            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
-            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
-
-            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
-            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
-            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
-
-            pVram += pitch;
-        }
-    }
-    else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
-    {
-        const int k255_s20 = 255 << (10 + 10);
-        for (int i = 0; i < ySize; i++)
-        {
-            if (pLeft->field_0_x > pRight->field_0_x)
+            else if (sTexture_mode_BD0F14 == TextureModes::e16Bit)
             {
-                std::swap(pLeft, pRight);
-            }
-            int x_left = pLeft->field_0_x >> 16;
-            int x_right = pRight->field_0_x >> 16;
-            if (x_right - x_left > 0)
-            {
-                int x_diff_m2 = x_right - x_left - 1;
-                if (x_diff_m2 <= 0)
-                {
-                    x_diff_m2 = 1;
-                }
-                int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m2;
-                int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m2) << 10;
+                int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) * 1024;
+                DWORD v_pos = pLeft->field_18_v * 1024;
 
-                DWORD v_pos = pLeft->field_18_v << 10;
-                DWORD u_pos = pLeft->field_14_u;
-
-                WORD* pStart = &pVram[x_left];
-                WORD* pEnd = &pVram[x_right];
                 while (pStart < pEnd)
                 {
-                    const DWORD tpage_idx = (u_pos + (k255_s20 & v_pos)) >> 10;
-                    if (pTPage_src_BD32C8[tpage_idx] != 0)
+                    // TODO: Refactor
+                    const DWORD tpage_idx = (u_pos + (v_pos & 0x0ff00000)) / 1024;
+                    if (pTPage_src_BD32C8[tpage_idx] != 0) // Black pixels are transparent
                     {
-                        DWORD clut_pixel = pTPage_src_BD32C8[tpage_idx];
-                        *pStart =
-                              abr_lut->b[*pStart & 0x1F][clut_pixel & 0x1F]
-                            | abr_lut->r[(*pStart >> 11) & 0x1F][(clut_pixel >> 11) & 0x1F]
-                            | abr_lut->g[(*pStart >> 6) & 0x1F][(clut_pixel >> 6) & 0x1F];
+                        *pStart = Calc_Abr_Pixel(abr_lut, *pStart, pTPage_src_BD32C8[tpage_idx]);
                     }
                     ++pStart;
                     u_pos += u_diff;
                     v_pos += v_diff;
                 }
             }
-            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
-            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
-
-            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
-            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
-            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
-
-            pVram += pitch;
-        }
-    }
-    else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
-    {
-        for (int i = 0; i < ySize; i++)
-        {
-            if (pLeft->field_0_x > pRight->field_0_x)
+            else if (sTexture_mode_BD0F14 == TextureModes::e4Bit)
             {
-                std::swap(pLeft, pRight);
-            }
-
-            const int x_right = pRight->field_0_x >> 16;
-            const int x_left = pLeft->field_0_x >> 16;
-            if (x_right - x_left > 0)
-            {
-                int x_diff_m1 = x_right - x_left - 1;
-                if (x_diff_m1 <= 0)
-                {
-                    x_diff_m1 = 1;
-                }
-
-                int u_diff = (signed int)(pRight->field_14_u - pLeft->field_14_u) / x_diff_m1;
-                int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) << 12;
-
-                DWORD v_pos = pLeft->field_18_v << 12;
-                DWORD u_pos = pLeft->field_14_u;
-
-                WORD* pStart = &pVram[x_left];
-                WORD* pEnd = &pVram[x_right];
+                int v_diff = ((signed int)(pRight->field_18_v - pLeft->field_18_v) / x_diff_m1) * 4096;
+                DWORD v_pos = pLeft->field_18_v * 4096;
                 while (pStart < pEnd)
                 {
+                    // TODO: Refactor
                     const int clut_idx = (*((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_pos + (v_pos & 0x3FC00000)) >> 11)) >> (BYTE1(u_pos) & 4)) & 0xF;
-                    if (pClut_src_BD3270[clut_idx])
+                    if (pClut_src_BD3270[clut_idx] != 0) // Black pixels are transparent
                     {
-                        const DWORD clut_pixel = pClut_src_BD3270[clut_idx];
-                        *pStart =
-                            abr_lut->b[*pStart & 0x1F][clut_pixel & 0x1F]
-                            | abr_lut->r[(*pStart >> 11) & 0x1F][(clut_pixel >> 11) & 0x1F]
-                            | abr_lut->g[(*pStart >> 6) & 0x1F][(clut_pixel >> 6) & 0x1F];
+                        *pStart = Calc_Abr_Pixel(abr_lut, *pStart, pClut_src_BD3270[clut_idx]);
                     }
                     ++pStart;
                     u_pos += u_diff;
                     v_pos += v_diff;
                 }
             }
-            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
-            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
-
-            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
-            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
-            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
-
-            pVram += pitch;
         }
+
+        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+        left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+
+        right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+
+        pVram += pitch;
     }
 }
 
