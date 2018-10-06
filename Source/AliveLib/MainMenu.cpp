@@ -1210,7 +1210,8 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
 
-        const auto pageUpdateRet = (this->*(sMainMenuPages_561960[field_214_page_index].field_10_fn_update))(inputHeld);
+        // Todo: change all field_10_fn_update function types to unsigned.
+        const unsigned int pageUpdateRet = (this->*(sMainMenuPages_561960[field_214_page_index].field_10_fn_update))(inputHeld);
 
         if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == gMap_5C3030.sCurrentCamId_5C3034)
         {
