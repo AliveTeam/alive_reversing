@@ -2060,9 +2060,149 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
 ALIVE_VAR(1, 0xbd30e4, int, sScreenXOffSet_BD30E4, 0);
 ALIVE_VAR(1, 0xbd30a4, int, sScreenYOffset_BD30A4, 0);
 
-EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* /*pOtPrim*/, int /*offX*/, int /*offY*/)
+EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* /*pOtPrim*/, signed int /*x0*/, int /*y0*/, int /*x1*/, int /*y2*/, int /*r0*/, int /*g0*/, int /*b0*/, int /*r1*/, int /*g1*/, int /*b1*/)
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_EMU_Render_F_LineSegment_4F80C0(int /*x0*/, int /*y0*/, int /*x1*/, int /*y1*/, unsigned __int8 /*r*/, int /*g*/, int /*b*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
+{
+    PrimAny any;
+    any.mVoid = pOtPrim;
+
+    switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad))
+    {
+    case PrimTypeCodes::eLineG2:
+    {
+        Line_G2* pLine = any.mLineG2;
+        PSX_EMU_Render_G_LineSegment_4F8250(
+            pOtPrim,
+            offX + X0(pLine),
+            offY + Y0(pLine),
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            R0(pLine), G0(pLine), B0(pLine),
+            R1(pLine), G1(pLine), B1(pLine));
+    }
+    break;
+
+    case PrimTypeCodes::eLineG3:
+    {
+        Line_G3* pLine = any.mLineG3;
+        PSX_EMU_Render_G_LineSegment_4F8250(
+            pOtPrim,
+            offX + X0(pLine),
+            offY + Y0(pLine),
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            R0(pLine), G0(pLine), B0(pLine),
+            R1(pLine), G1(pLine), B1(pLine));
+
+        PSX_EMU_Render_G_LineSegment_4F8250(
+            pOtPrim,
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            offX + X2(pLine),
+            offY + Y2(pLine),
+            R1(pLine), G1(pLine), B1(pLine),
+            R2(pLine), G2(pLine), B2(pLine));
+    }
+    break;
+
+    case PrimTypeCodes::eLineG4:
+    {
+        Line_G4* pLine = any.mLineG4;
+        PSX_EMU_Render_G_LineSegment_4F8250(
+            pOtPrim,
+            offX + X0(pLine),
+            offY + Y0(pLine),
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            R0(pLine), G0(pLine), B0(pLine),
+            R1(pLine), G1(pLine), B1(pLine));
+
+        PSX_EMU_Render_G_LineSegment_4F8250(
+            pOtPrim,
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            offX + X2(pLine),
+            offY + Y2(pLine),
+            R1(pLine), G1(pLine), B1(pLine),
+            R2(pLine), G2(pLine), B2(pLine));
+
+        PSX_EMU_Render_G_LineSegment_4F8250(
+            pOtPrim,
+            offX + X2(pLine),
+            offY + Y2(pLine),
+            offX + X3(pLine),
+            offY + Y3(pLine),
+            R2(pLine), G2(pLine), B2(pLine),
+            R3(pLine), G3(pLine), B3(pLine));
+    }
+    break;
+
+    case PrimTypeCodes::eLineF2:
+    {
+        Line_F2* pLine = any.mLineF2;
+        PSX_EMU_Render_F_LineSegment_4F80C0(
+            offX + X0(pLine),
+            offY + Y0(pLine),
+            offX + X1(pLine),
+            offY + Y1(pLine), 
+            R0(pLine), G0(pLine), B0(pLine));
+    } 
+    break;
+
+    case PrimTypeCodes::eLineF3:
+    {
+        Line_F3* pLine = any.mLineF3;
+        PSX_EMU_Render_F_LineSegment_4F80C0(
+            offX + X0(pLine),
+            offY + Y0(pLine),
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            R0(pLine), G0(pLine), B0(pLine));
+
+        PSX_EMU_Render_F_LineSegment_4F80C0(
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            offX + X2(pLine),
+            offY + Y2(pLine),
+            R0(pLine), G0(pLine), B0(pLine));
+    }
+    break;
+
+    case PrimTypeCodes::eLineF4:
+    {
+        Line_F4* pLine = any.mLineF4;
+        PSX_EMU_Render_F_LineSegment_4F80C0(
+            offX + X0(pLine),
+            offY + Y0(pLine),
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            R0(pLine), G0(pLine), B0(pLine));
+
+        PSX_EMU_Render_F_LineSegment_4F80C0(
+            offX + X1(pLine),
+            offY + Y1(pLine),
+            offX + X2(pLine),
+            offY + Y2(pLine),
+            R0(pLine), G0(pLine), B0(pLine));
+
+        PSX_EMU_Render_F_LineSegment_4F80C0(
+            offX + X2(pLine),
+            offY + Y2(pLine),
+            offX + X3(pLine),
+            offY + Y3(pLine),
+            R0(pLine), G0(pLine), B0(pLine));
+    }
+    break;
+    }
 }
 
 EXPORT void CC PSX_84_4F7B80(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/, int /*a5*/)
