@@ -461,6 +461,301 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(WORD* pVRa
     }
 }
 
+static inline WORD Calc_Abr_Pixel(const Psx_Test& abr_lut, WORD vram_pixel, WORD clut_pixel)
+{
+    return abr_lut.b[clut_pixel & 0x1F][vram_pixel & 0x1F]
+        | abr_lut.r[(clut_pixel >> 11) & 0x1F][(vram_pixel >> 11) & 0x1F]
+        | abr_lut.g[(clut_pixel >> 6) & 0x1F][(vram_pixel >> 6) & 0x1F];
+}
+
+EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(WORD* pVRam, int ySize)
+{
+    
+    unsigned int pitch1; // ebx
+    Render_Unknown *pRight1; // edx
+    Render_Unknown *pLeft1; // eax
+    int x_right; // edi
+    int x_left; // esi
+    DWORD u_left; // ebx
+    DWORD v_left; // ebp
+    int x_diff_m1; // ecx
+    int v_diff; // eax
+    DWORD v_left_fixed; // ebp
+    WORD *pStart; // esi
+    int v_diff_fixed; // eax
+    WORD clut_pixel = 0; // dx
+    WORD pixel_value = 0; // cx
+    int x_left2; // esi
+    DWORD u_left2; // ebx
+    DWORD v_left2; // edi
+    int x_diff_m2; // ecx
+    int v_diff2; // eax
+    DWORD u_left_fixed2; // edi
+    int v_diff_fixed2; // eax
+    WORD *pStart2; // esi
+    WORD *pEnd2; // ebp
+    int x_right4; // ebx
+    int x_left4; // esi
+    DWORD u_left4; // ebp
+    DWORD v_left4; // edi
+    int x_diff_m4; // ecx
+    int v_diff4; // eax
+    DWORD v_left_fixed4; // edi
+    WORD *pStart4; // esi
+    int v_diff_fixed4; // eax
+    unsigned int nibbles; // ecx
+    unsigned int nibble; // ecx
+    WORD clut_pixel_1 = 0; // dx
+    WORD pixel4 = 0; // cx
+    Render_Unknown *pRight2; // [esp+10h] [ebp-24h]
+    Render_Unknown *pLeft2; // [esp+14h] [ebp-20h]
+    Psx_Test *abr_lut; // [esp+18h] [ebp-1Ch]
+    unsigned int pitch2; // [esp+1Ch] [ebp-18h]
+    DWORD u_left_copy; // [esp+20h] [ebp-14h]
+    int yCounter2; // [esp+20h] [ebp-14h]
+    int yCounter3; // [esp+20h] [ebp-14h]
+    int yCounter1; // [esp+24h] [ebp-10h]
+    DWORD u_left_1; // [esp+24h] [ebp-10h]
+    DWORD v_left_fixed4_copy; // [esp+24h] [ebp-10h]
+    int v_diff_fixed_copy; // [esp+28h] [ebp-Ch]
+    int v_diff_fixed_copya; // [esp+28h] [ebp-Ch]
+    int u_diff; // [esp+2Ch] [ebp-8h]
+    signed int k255_S20; // [esp+2Ch] [ebp-8h]
+    int u_diff4; // [esp+2Ch] [ebp-8h]
+    int u_diff2; // [esp+30h] [ebp-4h]
+    int v_diff_fixed_copy4; // [esp+30h] [ebp-4h]
+    WORD *pLine2; // [esp+3Ch] [ebp+8h]
+
+    pitch1 = (unsigned int)spBitmap_C2D038->field_10_locked_pitch >> 1;
+    pRight1 = &right_side_BD32A0;
+    abr_lut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
+    pLeft1 = &left_side_BD3320;
+    pitch2 = (unsigned int)spBitmap_C2D038->field_10_locked_pitch >> 1;
+    pLeft2 = &left_side_BD3320;
+    pRight2 = &right_side_BD32A0;
+    if (sTexture_mode_BD0F14 == TextureModes::e8Bit)
+    {
+        if (ySize - 1 >= 0)
+        {
+            yCounter1 = ySize;
+            do
+            {
+                if (pLeft1->field_0_x > pRight1->field_0_x)
+                {
+                    pLeft2 = pRight1;
+                    pRight2 = pLeft1;
+                    pRight1 = pLeft1;
+                    pLeft1 = pLeft2;
+                }
+                x_right = pRight1->field_0_x >> 16;
+                x_left = pLeft1->field_0_x >> 16;
+                if (x_right - x_left > 0)
+                {
+                    u_left = pLeft1->field_14_u;
+                    v_left = pLeft1->field_18_v;
+                    x_diff_m1 = (pRight1->field_0_x >> 16) - x_left - 1;
+                    u_left_copy = pLeft1->field_14_u;
+                    if (x_diff_m1 <= 0)
+                    {
+                        x_diff_m1 = 1;
+                    }
+                    u_diff = (signed int)(pRight1->field_14_u - u_left) / x_diff_m1;
+                    v_diff = (signed int)(pRight2->field_18_v - v_left) / x_diff_m1;
+                    v_left_fixed = v_left << 11;
+                    pStart = &pVRam[x_left];
+                    v_diff_fixed = v_diff << 11;
+                    v_diff_fixed_copy = v_diff_fixed;
+                    do
+                    {
+                        clut_pixel = pClut_src_BD3270[*((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left + (v_left_fixed & 0x1FE00000)) >> 10))];
+                        if (clut_pixel)
+                        {
+                            WORD rLut = r_lut_dword_BD3308[(clut_pixel >> 11) & 0x1F];
+                            WORD gLut = g_lut_dword_BD32D8[(clut_pixel >> 6) & 0x1F];
+                            WORD bLut = b_lut_dword_BD3348[(clut_pixel & 0x1F)];
+
+                            pixel_value = rLut | gLut | bLut;
+
+                            if (clut_pixel & 0x20)
+                            {
+                                pixel_value = Calc_Abr_Pixel(*abr_lut, *pStart , pixel_value);
+                            }
+                            v_diff_fixed = v_diff_fixed_copy;
+                            u_left = u_left_copy;
+                            *pStart = pixel_value;
+                        }
+                        ++pStart;
+                        u_left += u_diff;
+                        v_left_fixed += v_diff_fixed;
+                        u_left_copy = u_left;
+                    } while (pStart < &pVRam[x_right]);
+                    pRight1 = pRight2;
+                    pLeft1 = pLeft2;
+                    pitch1 = pitch2;
+                }
+                left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+                left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+                left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+                right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+                right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+                right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+                pVRam += pitch1;
+                --yCounter1;
+            } while (yCounter1);
+        }
+    }
+    else if (sTexture_mode_BD0F14 == 2)
+    {
+        k255_S20 = 255 << (20);
+        if (ySize - 1 >= 0)
+        {
+            yCounter2 = ySize;
+            do
+            {
+                if (pLeft1->field_0_x > pRight1->field_0_x)
+                {
+                    pLeft2 = pRight1;
+                    pRight2 = pLeft1;
+                    pRight1 = pLeft1;
+                    pLeft1 = pLeft2;
+                }
+                x_left2 = pLeft1->field_0_x >> 16;
+                if ((pRight1->field_0_x >> 16) - x_left2 > 0)
+                {
+                    u_left2 = pLeft1->field_14_u;
+                    v_left2 = pLeft1->field_18_v;
+                    x_diff_m2 = (pRight1->field_0_x >> 16) - x_left2 - 1;
+                    u_left_1 = pLeft1->field_14_u;
+                    if (x_diff_m2 <= 0)
+                    {
+                        x_diff_m2 = 1;
+                    }
+                    u_diff2 = (signed int)(pRight2->field_14_u - u_left2) / x_diff_m2;
+                    v_diff2 = (signed int)(pRight2->field_18_v - v_left2) / x_diff_m2;
+                    u_left_fixed2 = v_left2 << 10;
+                    v_diff_fixed2 = v_diff2 << 10;
+                    pStart2 = &pVRam[x_left2];
+                    pEnd2 = &pVRam[pRight1->field_0_x >> 16];
+                    v_diff_fixed_copya = v_diff_fixed2;
+                    for (pLine2 = pEnd2; pStart2 < pEnd2; u_left_1 = u_left2)
+                    {
+                        const WORD texture_pixel = pTPage_src_BD32C8[(u_left2 + (u_left_fixed2 & 0x0ff00000)) >> 10];
+                        if (texture_pixel)
+                        {
+                            const WORD rLut = r_lut_dword_BD3308[(texture_pixel >> 11) & 0x1F];
+                            const WORD gLut = g_lut_dword_BD32D8[(texture_pixel >> 6) & 0x1F];
+                            const WORD bLut = b_lut_dword_BD3348[texture_pixel & 0x1F];
+
+                            WORD pixel2 = rLut | gLut | bLut;
+                            if (texture_pixel & 0x20)
+                            {
+                                pixel2 = Calc_Abr_Pixel(*abr_lut, *pStart2, pixel2);
+                            }
+
+                            pEnd2 = pLine2;
+                            u_left2 = u_left_1;
+                            v_diff_fixed2 = v_diff_fixed_copya;
+                            *pStart2 = pixel2;
+                        }
+                        ++pStart2;
+                        u_left2 += u_diff2;
+                        u_left_fixed2 += v_diff_fixed2;
+                    }
+                    pRight1 = pRight2;
+                    pLeft1 = pLeft2;
+                    pitch1 = pitch2;
+                }
+                left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+                left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+                left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+                right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+                right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+                right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+                pVRam += pitch1;
+                --yCounter2;
+            } while (yCounter2);
+        }
+    }
+    else if (!sTexture_mode_BD0F14 && ySize - 1 >= 0)
+    {
+        yCounter3 = ySize;
+        do
+        {
+            if (pLeft1->field_0_x > pRight1->field_0_x)
+            {
+                pLeft2 = pRight1;
+                pRight2 = pLeft1;
+                pRight1 = pLeft1;
+                pLeft1 = pLeft2;
+            }
+            x_right4 = pRight1->field_0_x >> 16;
+            x_left4 = pLeft1->field_0_x >> 16;
+            if (x_right4 - x_left4 > 0)
+            {
+                u_left4 = pLeft1->field_14_u;
+                v_left4 = pLeft1->field_18_v;
+                x_diff_m4 = (pRight1->field_0_x >> 16) - x_left4 - 1;
+                if (x_diff_m4 <= 0)
+                {
+                    x_diff_m4 = 1;
+                }
+                u_diff4 = (signed int)(pRight1->field_14_u - u_left4) / x_diff_m4;
+                v_diff4 = (signed int)(pRight2->field_18_v - v_left4) / x_diff_m4;
+                v_left_fixed4 = v_left4 << 12;
+                pStart4 = &pVRam[x_left4];
+                v_left_fixed4_copy = v_left_fixed4;
+                v_diff_fixed4 = v_diff4 << 12;
+                v_diff_fixed_copy4 = v_diff_fixed4;
+                do
+                {
+                    nibbles = *((unsigned __int8 *)pTPage_src_BD32C8 + ((signed int)(u_left4 + (v_left_fixed4 & 0x3FC00000)) >> 11));
+                    if (u_left4 & 0x400)
+                    {
+                        nibble = nibbles >> 4;
+                    }
+                    else
+                    {
+                        nibble = nibbles & 0xF;
+                    }
+                    clut_pixel_1 = pClut_src_BD3270[nibble];
+                    
+                    if (clut_pixel_1)
+                    {
+                        WORD rLut = r_lut_dword_BD3308[(clut_pixel_1 >> 11) & 0x1F];
+                        WORD gLut = g_lut_dword_BD32D8[(clut_pixel_1 >> 6) & 0x1F];
+                        WORD bLut = b_lut_dword_BD3348[(clut_pixel_1 & 0x1F)];
+
+                        pixel4 = rLut | gLut | bLut;
+
+                        if (clut_pixel_1 & 0x20)
+                        {
+                            pixel4 = Calc_Abr_Pixel(*abr_lut, *pStart4, pixel4);
+                        }
+
+                        v_left_fixed4 = v_left_fixed4_copy;
+                        v_diff_fixed4 = v_diff_fixed_copy4;
+                        *pStart4 = pixel4;
+                    }
+                    ++pStart4;
+                    u_left4 += u_diff4;
+                    v_left_fixed4 += v_diff_fixed4;
+                    v_left_fixed4_copy = v_left_fixed4;
+                } while (pStart4 < &pVRam[x_right4]);
+                pRight1 = pRight2;
+                pLeft1 = pLeft2;
+            }
+            left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+            left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
+            left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
+            right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
+            right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+            right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
+            pVRam += pitch2;
+            --yCounter3;
+        } while (yCounter3);
+    }
+}
+
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890(WORD* /*a1*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
@@ -527,13 +822,6 @@ EXPORT void CC PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(WORD* pVR
         right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
         pVRam += pitch;
     }
-}
-
-static inline WORD Calc_Abr_Pixel(const Psx_Test& abr_lut, WORD vram_pixel, WORD clut_pixel)
-{
-    return abr_lut.b[clut_pixel & 0x1F]         [vram_pixel & 0x1F]
-         | abr_lut.r[(clut_pixel >> 11) & 0x1F] [(vram_pixel >> 11) & 0x1F]
-         | abr_lut.g[(clut_pixel >> 6) & 0x1F]  [(vram_pixel >> 6) & 0x1F];
 }
 
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVram, int ySize)
@@ -636,11 +924,6 @@ EXPORT void CC PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(WORD* pVr
 
         pVram += pitch;
     }
-}
-
-EXPORT void CC PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(WORD* /*a1*/, int /*a2*/)
-{
-    NOT_IMPLEMENTED();
 }
 
 EXPORT void CC PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90(WORD* /*a1*/, int /*a2*/)
