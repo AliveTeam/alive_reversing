@@ -2131,9 +2131,115 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* /*pOtPrim*/, signed int
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC PSX_EMU_Render_F_LineSegment_4F80C0(int /*x0*/, int /*y0*/, int /*x1*/, int /*y1*/, unsigned __int8 /*r*/, int /*g*/, int /*b*/)
+EXPORT char CC PSX_Clip_Line_Segments_4FE4F0(int *pX0, int *pY0, int *pX1, int *pY1)
 {
     NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC PSX_EMU_Render_F_LineSegment_4F80C0(int x0, int y0, int x1, int y1, int r, int g, int b)
+{
+    if (PSX_Clip_Line_Segments_4FE4F0(&x0, &y0, &x1, &y1))
+    {
+        const WORD g_s3 = g >> 3;
+        const WORD r_s3 = r >> 3;
+        const WORD b_s3 = b >> 3;
+        const WORD fill_colour = (r_s3 << sRedShift_C215C4) | (g_s3 << sGreenShift_C1D180) | (b_s3 << sBlueShift_C19140);
+
+        const unsigned int pitch2 = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+
+        int x1_copy = x1;
+        int y1_biggest = y1;
+        int x0_copy = x0;
+        int y0_biggest = y0;
+        int x_diff = x1 - x0;
+        int y_diff = y1 - y0;
+        int x_diff_2 = x1 - x0;
+        int y_diff_2 = y1 - y0;
+        if (y1 - y0 < 0)
+        {
+            y_diff_2 = y0 - y1;
+        }
+        if (x_diff < 0)
+        {
+            x_diff = x0 - x1;
+        }
+        if (y_diff_2 <= x_diff)
+        {
+            if (x0 > x1)
+            {
+                y1_biggest = y0;
+                y0_biggest = y1;
+                x1_copy = x0;
+                x0_copy = x1;
+                y1 = y0;
+                y0 = y0_biggest;
+                x1 = x0;
+                x0 = x0_copy;
+            }
+            int x_diff_3 = x1_copy - x0_copy;
+            if (x_diff_3)
+            {
+                y_diff = ((y1_biggest - y0_biggest) << 16) / x_diff_3;
+            }
+            int y0_fixed = y0_biggest << 16;
+            WORD* pVRam_1 = (WORD*)((BYTE*)spBitmap_C2D038->field_4_pLockedPixels + 2 * x0_copy);
+            if (x_diff_3 >= 0)
+            {
+                int y0_fixed2 = y0_fixed + 0x7FFF;
+                int xpos1 = x_diff_3 + 1;
+                do
+                {
+                    int ypos1 = pitch2 * (y0_fixed2 >> 16);
+                    pVRam_1[ypos1] = fill_colour;
+                    pVRam_1++;
+
+                    y0_fixed2 += y_diff;
+                    --xpos1;
+                } while (xpos1);
+            }
+        }
+        else
+        {
+            if (y0 > y1)
+            {
+                y1_biggest = y0;
+                y0_biggest = y1;
+                x1_copy = x0;
+                x0_copy = x1;
+                y1 = y0;
+                y0 = y0_biggest;
+                x1 = x0;
+                x0 = x0_copy;
+            }
+            int y_diff_3 = y1_biggest - y0_biggest;
+            int y_diff_4 = y_diff_3;
+            int x_diff_1 = 0;
+            if (y_diff_3)
+            {
+                x_diff_1 = ((x1_copy - x0_copy) << 16) / y_diff_3;
+            }
+            else
+            {
+                x_diff_1 = x_diff_2;
+            }
+            int x_fixed = x0_copy << 16;
+            WORD* pVRam = (WORD*)((BYTE*)spBitmap_C2D038->field_4_pLockedPixels + 2 * y0_biggest * pitch2);
+            if (y_diff_4 >= 0)
+            {
+                int yCounter = y_diff_4 + 1;
+                int x_fixed2 = x_fixed + 0x7FFF;
+                do
+                {
+                    int x_fixed3 = x_fixed2;
+                    x_fixed2 += x_diff_1;
+                    pVRam[x_fixed3 >> 16] = fill_colour;
+                    pVRam += pitch2;
+                    --yCounter;
+                } while (yCounter);
+            }
+        }
+    }
 }
 
 EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
