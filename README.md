@@ -16,3 +16,16 @@ If you'd like to contribute to our reverse engineering efforts, make sure to fol
 
 ### Code Guidelines
 - Todo
+
+### How to build
+- Clone the repo with the --recursive option so that submodules are cloned.
+- Download https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip
+- Create a build directory in repo root
+- Create a SDL2 directory in the build directory
+- Extract SDL2-devel-2.0.4-VC.zip into freshly created SDL2 directory
+- Open a visual studio developer command prompt and cd into the build directory
+- Run "cmake .. -DSDL2_DIR=c:\Alive_Repo_Root\build\SDL2"
+- Run "msbuild /p:Configuration=Debug;Platform=Win32 /m" to compile
+- Note that the output dll is hard coded to output at "C:\GOG Games\Abes Exoddus\AliveDll.dll"
+- Note that you need to either obtain a modified copy of Exoddus.exe or modify Exoddus.exe yourself to add AliveDll.dll to the imports list
+
