@@ -2060,6 +2060,72 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
 ALIVE_VAR(1, 0xbd30e4, int, sScreenXOffSet_BD30E4, 0);
 ALIVE_VAR(1, 0xbd30a4, int, sScreenYOffset_BD30A4, 0);
 
+enum LineSegmentClipEdges
+{
+    eLeft = 0x1,
+    eRight = 0x2,
+    eBottom = 0x4,
+    eTop = 0x8,
+};
+
+EXPORT char CC PSX_Calc_LineSegment_Clip_Edges_4FE460(int x, int y)
+{
+    char result = 0;
+
+    if (x < sPsx_drawenv_clipx_BDCD40)
+    {
+        result = LineSegmentClipEdges::eLeft;
+    }
+    else if (x > sPsx_drawenv_clipw_BDCD48)
+    {
+        result = LineSegmentClipEdges::eRight;
+    }
+
+    if (y < sPsx_drawenv_clipy_BDCD44)
+    {
+        result |= LineSegmentClipEdges::eBottom;
+    }
+    else if (y > sPsx_drawenv_cliph_BDCD4C)
+    {
+        result |= LineSegmentClipEdges::eTop;
+    }
+
+    return result;
+}
+
+EXPORT void CC PSX_Clip_LineSegment_Against_DrawEnv_4FE640(int* pX, int* pY, int xDiff, int yDiff, char clipEdges)
+{
+    if (clipEdges & LineSegmentClipEdges::eLeft)
+    {
+        const int newY = (yDiff * (sPsx_drawenv_clipx_BDCD40 - *pX)) / (xDiff + *pY);
+        *pX = sPsx_drawenv_clipx_BDCD40;
+        *pY = newY;
+        clipEdges = PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, *pY);
+    }
+    else if (clipEdges & LineSegmentClipEdges::eRight)
+    {
+        const int newY = (yDiff * (sPsx_drawenv_clipw_BDCD48 - *pX)) / (xDiff + *pY);
+        *pX = sPsx_drawenv_clipw_BDCD48;
+        *pY = newY;
+        clipEdges = PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, *pY);
+    }
+
+    if (clipEdges & LineSegmentClipEdges::eBottom)
+    {
+        const int newX = (xDiff * (sPsx_drawenv_clipy_BDCD44 - *pY)) / (yDiff + *pX);
+        *pY = sPsx_drawenv_clipy_BDCD44;
+        *pX = newX;
+        PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, *pY);
+    }
+    else if (clipEdges & LineSegmentClipEdges::eTop)
+    {
+        const int newX = (xDiff * (sPsx_drawenv_cliph_BDCD4C - *pY)) / (yDiff + *pX);
+        *pY = sPsx_drawenv_cliph_BDCD4C;
+        *pX = newX;
+        PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, *pY);
+    }
+}
+
 EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* /*pOtPrim*/, signed int /*x0*/, int /*y0*/, int /*x1*/, int /*y2*/, int /*r0*/, int /*g0*/, int /*b0*/, int /*r1*/, int /*g1*/, int /*b1*/)
 {
     NOT_IMPLEMENTED();
