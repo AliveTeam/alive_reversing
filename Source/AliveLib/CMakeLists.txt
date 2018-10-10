@@ -121,7 +121,9 @@ add_library(AliveLib
     FG1.cpp
     BitField.hpp
     WinMain.cpp
-    WinMain.hpp)
+    WinMain.hpp
+    Slurg.cpp
+    Slurg.hpp)
 
 target_include_directories(AliveLib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
