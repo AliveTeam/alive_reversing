@@ -69,7 +69,7 @@ ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
 ALIVE_VAR(1, 0x55EF90, int, k1_dword_55EF90, 1);
 ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
 ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
-ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false); //sScreenInterpMode_55EFE0
+ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
 ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
 ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
 
