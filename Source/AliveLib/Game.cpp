@@ -36,6 +36,7 @@
 #include "CheatController.hpp"
 #include "FG1.hpp"
 #include "PsxRender.hpp"
+#include "Slurg.hpp"
 
 void Game_ForceLink() { }
 
@@ -68,7 +69,7 @@ ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
 ALIVE_VAR(1, 0x55EF90, int, k1_dword_55EF90, 1);
 ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
 ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
-ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
+ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false); //sScreenInterpMode_55EFE0
 ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
 ALIVE_VAR(1, 0x5CA4E0, int, dword_5CA4E0, 0);
 
@@ -847,11 +848,6 @@ EXPORT void CC Game_Main_4949F0()
     Game_Shutdown_4F2C30();
 }
 
-EXPORT void CC sub_449A90()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC Game_Loop_467230()
 {
     DebugHelpers_Init(); // Custom helper code
@@ -862,7 +858,7 @@ EXPORT void CC Game_Loop_467230()
     while (!gBaseGameObject_list_BB47C4->IsEmpty())
     {
         Events_Reset_Active_422DA0();
-        sub_449A90();
+        Slurg::Clear_Slurg_Step_Watch_Points_449A90();
         word_5C2FA0 = 0;
 
         // Update objects
