@@ -18,11 +18,13 @@ If you'd like to contribute to our reverse engineering efforts, make sure to fol
 - Ensure you use spaces instead of tabs (4 spaces per tab)
 - Ensure any shared vars/arrays are wrapped in ALIVE_VAR or ALIVE_ARY macros. This is so that when running as part of the real game they point to the original data. And when running in its own binary it becomes its own copy of the data.
 - Ensure any structures sizes are validated with ALIVE_ASSERT_SIZEOF(StructureType, Size); this helps catch aligment issues at compile time, invidivual fields may still have alignment issues but this is a quick and easy sanity check of the general case.
+- Ensure your function is marked with the EXPORT macro from FunctionFwd.hpp otherwise it will not be replaced/hooked at runtime in the real game. Also if a function must be stubbed so that you can call it ensure its body starts with NOT_IMPLEMENTED(); macro so that the real games function is called instead of the stub.
 - "Deoptimize" reversed functions as much as possible, for instance:
   - Replace any constructs with equivalents that are easier to read but have the same effect.
   - Undo loop unswitching https://en.wikipedia.org/wiki/Loop_unswitching
   - Remove duplicated/redundant local vars.
-  - Make each local as "local" as possible, for instance
+  - In addition to making vars as local as possible also make them as const as possible, this aids readablitiy and also makes it easier to spot more vars that have become redundant or are actually just copies of others.
+  - Make each local as "local" as possible, for instance:
 ```
         int x;
         [lots of code]
@@ -33,7 +35,6 @@ If you'd like to contribute to our reverse engineering efforts, make sure to fol
         [lots of code]
         const int x = bar();
 ```
-   - In addition to making vars as local as possible also make them as const as possible, this aids readablitiy and also makes it easier to spot more vars that have become redundant or are actually just copies of others.
 - Todo other guidelines
 
 ### How to build
