@@ -2126,15 +2126,153 @@ EXPORT void CC PSX_Clip_LineSegment_Against_DrawEnv_4FE640(int* pX, int* pY, int
     }
 }
 
-EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* /*pOtPrim*/, signed int /*x0*/, int /*y0*/, int /*x1*/, int /*y2*/, int /*r0*/, int /*g0*/, int /*b0*/, int /*r1*/, int /*g1*/, int /*b1*/)
+EXPORT char CC PSX_Clip_Line_Segments_4FE4F0(int* /*pX0*/, int* /*pY0*/, int* /*pX1*/, int* /*pY1*/)
 {
     NOT_IMPLEMENTED();
+    // TODO: Standalone hack hack hack!
+    return 1;
 }
 
-EXPORT char CC PSX_Clip_Line_Segments_4FE4F0(int *pX0, int *pY0, int *pX1, int *pY1)
+EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0, int y0, int x1, int y1, int r0, int g0, int b0, int r1, int g1, int b1)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (!PSX_Clip_Line_Segments_4FE4F0(&x0, &y0, &x1, &y1))
+    {
+        return;
+    }
+
+    OT_Prim* pOtPrim = (OT_Prim*)pOtPrim1;
+
+    const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+
+    int rDiff = ((unsigned __int8)r1 - (unsigned __int8)r0) << 16;
+    int gDiff = ((unsigned __int8)g1 - (unsigned __int8)g0) << 16;
+    int bDiff = ((unsigned __int8)b1 - (unsigned __int8)b0) << 16;
+
+    int r0_fixed = (unsigned __int8)r0 << 16;
+    int g0_fixed = (unsigned __int8)g0 << 16;
+    int b0_fixed = (unsigned __int8)b0 << 16;
+
+    int x_Diff = x1 - x0;
+    int y_Diff = y1 - y0;
+ 
+    Psx_Test* abr_lut = nullptr;
+    if (pOtPrim->field_B_flags & 2)
+    {
+        abr_lut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
+    }
+
+    if (y_Diff < 0)
+    {
+        y_Diff = -y_Diff;
+    }
+
+    if (x_Diff < 0)
+    {
+        x_Diff = -x_Diff;
+    }
+
+    if (y_Diff <= x_Diff)
+    {
+        int x_max = x1;
+        int y_max = y0;
+
+        if (x0 > x1)
+        {
+            y_max = y1;
+            std::swap(y0, y1);
+
+            x_max = x0;
+            std::swap(x0, x1);
+        }
+
+        int xDiff2 = x_max - x0;
+        int xCount = xDiff2;
+
+        if (xDiff2 > 0)
+        {
+            y_Diff = ((y1 - y_max) << 16) / xDiff2;
+            y_max = y0;
+            rDiff /= xDiff2;
+            gDiff /= xDiff2;
+            bDiff /= xDiff2;
+        }
+
+        WORD* pVram = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x0);
+        int yLine = (y_max << 16) + 0x7FFF;
+        for (int i = 0; i <= xCount; i++)
+        {
+            if (pOtPrim->field_B_flags & 2)
+            {
+                WORD* pVramSrcDst = &pVram[pitch * (yLine >> 16)];
+                *pVramSrcDst =
+                      abr_lut->b[(b0_fixed >> 19)][((*pVramSrcDst >> sBlueShift_C19140) & 0x1F)]
+                    | abr_lut->g[(g0_fixed >> 19)][((*pVramSrcDst >> sGreenShift_C1D180) & 0x1F)]
+                    | abr_lut->r[(r0_fixed >> 19)][((*pVramSrcDst >> sRedShift_C215C4) & 0x1F)];
+            }
+            else
+            {
+                const WORD pixel = (r0_fixed >> 19 << sRedShift_C215C4) | (g0_fixed >> 19 << sGreenShift_C1D180) | (b0_fixed >> 19 << sBlueShift_C19140);
+                pVram[pitch * (yLine >> 16)] = pixel;
+            }
+            pVram++; // Move X across
+            r0_fixed += rDiff;
+            g0_fixed += gDiff;
+            b0_fixed += bDiff;
+            yLine += y_Diff;
+        }
+    }
+    else
+    {
+        int yMax = y1;
+        int y0_max = y0;
+
+        if (y0 > y1)
+        {
+            yMax = y0;
+            y0_max = y1;
+
+            std::swap(x0, x1);
+            std::swap(y0, y1);
+        }
+
+        int height = yMax - y0_max;
+
+        if (height > 0)
+        {
+            x_Diff = ((x1 - x0) << 16) / height;
+            y0_max = y0;
+            rDiff /= height;
+            gDiff /= height;
+            bDiff /= height;
+        }
+
+        WORD* pVRam = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * y0_max * pitch);
+
+        int xpos = (x0 << 16) + 0x7FFF;
+        for (int i = 0; i <= height; i++)
+        {
+            if (pOtPrim->field_B_flags & 2)
+            {
+                WORD* pVramIter2 = &pVRam[xpos >> 16];
+                *pVramIter2 =
+                      abr_lut->b[(b0_fixed >> 19)][((*pVramIter2 >> sBlueShift_C19140) & 0x1F)]
+                    | abr_lut->g[(g0_fixed >> 19)][((*pVramIter2 >> sGreenShift_C1D180) & 0x1F)]
+                    | abr_lut->b[(r0_fixed >> 19)][((*pVramIter2 >> sRedShift_C215C4) & 0x1F)];
+            }
+            else
+            {
+                pVRam[xpos >> 16] = (r0_fixed >> 19 << sRedShift_C215C4) | (g0_fixed >> 19 << sGreenShift_C1D180) | (b0_fixed >> 19 << sBlueShift_C19140);
+            }
+
+            pVRam += (2 * pitch);
+
+            r0_fixed += rDiff;
+            b0_fixed += bDiff;
+            g0_fixed += gDiff;
+
+            xpos += x_Diff;
+        }
+    }
 }
 
 EXPORT void CC PSX_EMU_Render_F_LineSegment_4F80C0(int x0, int y0, int x1, int y1, int r, int g, int b)
