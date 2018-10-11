@@ -2133,30 +2133,30 @@ EXPORT char CC PSX_Clip_Line_Segments_4FE4F0(int* /*pX0*/, int* /*pY0*/, int* /*
     return 1;
 }
 
-EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0, int y0, int x1, int y1, int r0, int g0, int b0, int r1, int g1, int b1)
+EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0, int y0, int x1, int y1, BYTE r0, BYTE g0, BYTE b0, BYTE r1, BYTE g1, BYTE b1)
 {
     if (!PSX_Clip_Line_Segments_4FE4F0(&x0, &y0, &x1, &y1))
     {
         return;
     }
 
-    OT_Prim* pOtPrim = (OT_Prim*)pOtPrim1;
-
     const unsigned int pitch = (unsigned int)spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
-    int rDiff = ((unsigned __int8)r1 - (unsigned __int8)r0) << 16;
-    int gDiff = ((unsigned __int8)g1 - (unsigned __int8)g0) << 16;
-    int bDiff = ((unsigned __int8)b1 - (unsigned __int8)b0) << 16;
+    int rDiff = (r1 - r0) << 16;
+    int gDiff = (g1 - g0) << 16;
+    int bDiff = (b1 - b0) << 16;
 
-    int r0_fixed = (unsigned __int8)r0 << 16;
-    int g0_fixed = (unsigned __int8)g0 << 16;
-    int b0_fixed = (unsigned __int8)b0 << 16;
+    int r0_fixed = r0 << 16;
+    int g0_fixed = g0 << 16;
+    int b0_fixed = b0 << 16;
 
     int x_Diff = x1 - x0;
     int y_Diff = y1 - y0;
  
+    OT_Prim* pOtPrim = (OT_Prim*)pOtPrim1;
     Psx_Test* abr_lut = nullptr;
-    if (pOtPrim->field_B_flags & 2)
+    const bool bSemiTrans = (pOtPrim->field_B_flags & 2) != 0;
+    if (bSemiTrans)
     {
         abr_lut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
     }
@@ -2185,29 +2185,28 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0
             std::swap(x0, x1);
         }
 
-        int xDiff2 = x_max - x0;
-        int xCount = xDiff2;
-
-        if (xDiff2 > 0)
+        int width = x_max - x0;
+        if (width > 0)
         {
-            y_Diff = ((y1 - y_max) << 16) / xDiff2;
+            y_Diff = ((y1 - y_max) << 16) / width;
             y_max = y0;
-            rDiff /= xDiff2;
-            gDiff /= xDiff2;
-            bDiff /= xDiff2;
+            rDiff /= width;
+            gDiff /= width;
+            bDiff /= width;
         }
 
         WORD* pVram = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x0);
         int yLine = (y_max << 16) + 0x7FFF;
-        for (int i = 0; i <= xCount; i++)
+        for (int i = 0; i <= width; i++)
         {
-            if (pOtPrim->field_B_flags & 2)
+            if (bSemiTrans)
             {
                 WORD* pVramSrcDst = &pVram[pitch * (yLine >> 16)];
+                DWORD src = *pVramSrcDst;
                 *pVramSrcDst =
-                      abr_lut->b[(b0_fixed >> 19)][((*pVramSrcDst >> sBlueShift_C19140) & 0x1F)]
-                    | abr_lut->g[(g0_fixed >> 19)][((*pVramSrcDst >> sGreenShift_C1D180) & 0x1F)]
-                    | abr_lut->r[(r0_fixed >> 19)][((*pVramSrcDst >> sRedShift_C215C4) & 0x1F)];
+                      abr_lut->b[(b0_fixed >> 19) & 0x1F][((src >> sBlueShift_C19140) & 0x1F)]
+                    | abr_lut->g[(g0_fixed >> 19) & 0x1F][((src >> sGreenShift_C1D180) & 0x1F)]
+                    | abr_lut->r[(r0_fixed >> 19) & 0x1F][((src >> sRedShift_C215C4) & 0x1F)];
             }
             else
             {
@@ -2236,7 +2235,6 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0
         }
 
         int height = yMax - y0_max;
-
         if (height > 0)
         {
             x_Diff = ((x1 - x0) << 16) / height;
@@ -2251,13 +2249,14 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0
         int xpos = (x0 << 16) + 0x7FFF;
         for (int i = 0; i <= height; i++)
         {
-            if (pOtPrim->field_B_flags & 2)
+            if (bSemiTrans)
             {
-                WORD* pVramIter2 = &pVRam[xpos >> 16];
-                *pVramIter2 =
-                      abr_lut->b[(b0_fixed >> 19)][((*pVramIter2 >> sBlueShift_C19140) & 0x1F)]
-                    | abr_lut->g[(g0_fixed >> 19)][((*pVramIter2 >> sGreenShift_C1D180) & 0x1F)]
-                    | abr_lut->b[(r0_fixed >> 19)][((*pVramIter2 >> sRedShift_C215C4) & 0x1F)];
+                WORD* pVramSrcDst = &pVRam[xpos >> 16];
+                DWORD src = *pVramSrcDst;
+                *pVramSrcDst =
+                      abr_lut->b[(b0_fixed >> 19) & 0x1F][((src >> sBlueShift_C19140) & 0x1F)]
+                    | abr_lut->g[(g0_fixed >> 19) & 0x1F][((src >> sGreenShift_C1D180) & 0x1F)]
+                    | abr_lut->r[(r0_fixed >> 19) & 0x1F][((src >> sRedShift_C215C4) & 0x1F)];
             }
             else
             {
