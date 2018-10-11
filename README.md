@@ -15,7 +15,26 @@ If you'd like to contribute to our reverse engineering efforts, make sure to fol
 - Functions that belong exclusivly to VTables should use the following format: **ClassName_FunctionName_Address**. *(Example: **Slig_Ctor_547460**)*
 
 ### Code Guidelines
-- Todo
+- Ensure you use spaces instead of tabs (4 spaces per tab)
+- Ensure any shared vars/arrays are wrapped in ALIVE_VAR or ALIVE_ARY macros. This is so that when running as part of the real game they point to the original data. And when running in its own binary it becomes its own copy of the data.
+- Ensure any structures sizes are validated with ALIVE_ASSERT_SIZEOF(StructureType, Size); this helps catch aligment issues at compile time, invidivual fields may still have alignment issues but this is a quick and easy sanity check of the general case.
+- "Deoptimize" reversed functions as much as possible, for instance:
+  - Replace any constructs with equivalents that are easier to read but have the same effect.
+  - Undo loop unswitching https://en.wikipedia.org/wiki/Loop_unswitching
+  - Remove duplicated/redundant local vars.
+  - Make each local as "local" as possible, for instance
+```
+        int x;
+        [lots of code]
+        x = bar();
+```
+  Can be replaced with:
+```
+        [lots of code]
+        const int x = bar();
+```
+   - In addition to making vars as local as possible also make them as const as possible, this aids readablitiy and also makes it easier to spot more vars that have become redundant or are actually just copies of others.
+- Todo other guidelines
 
 ### How to build
 - Clone the repo with the --recursive option so that submodules are cloned.
