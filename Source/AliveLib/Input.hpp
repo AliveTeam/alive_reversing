@@ -17,29 +17,29 @@ EXPORT unsigned int Input_IsChanting_45F260();
 
 enum InputCommands : unsigned int
 {
-    eUp =           1 << 0,
-    eDown =         1 << 1,
-    eLeft =         1 << 2,
-    eRight =        1 << 3,
-    eRun =          1 << 4,
-    eDoAction =     1 << 5,  // Pick up rock, pull lever etc
-    eSneak =        1 << 6,
-    eThrowItem =    1 << 7,  // Or I say I dunno if no items
-    eHop =          1 << 8,
-    eFartOrRoll =   1 << 9,  // (Only roll in AO)
-    eGameSpeak1 =   1 << 10, // Hello
-    eGameSpeak2 =   1 << 11, // (Follow Me)
-    eGameSpeak3 =   1 << 12, // Wait
-    eGameSpeak4 =   1 << 13, // (Work) (Whistle 1)
-    eGameSpeak5 =   1 << 14, // (Anger)
-    eGameSpeak6 =   1 << 15, // (All ya) (Fart)
-    eGameSpeak7 =   1 << 16, // (Sympathy) (Whistle 2)
-    eGameSpeak8 =   1 << 17, // (Stop it) (Laugh)
-    eChant =        1 << 18, 
-    ePause =        1 << 19, // Or enter
-    eUnPause =      1 << 20, // Or/and back
-    eBack =         1 << 21,
-    eCheatMode =    1 << 22,
+    eUp =           1u << 0,
+    eDown =         1u << 1,
+    eLeft =         1u << 2,
+    eRight =        1u << 3,
+    eRun =          1u << 4,
+    eDoAction =     1u << 5,  // Pick up rock, pull lever etc
+    eSneak =        1u << 6,
+    eThrowItem =    1u << 7,  // Or I say I dunno if no items
+    eHop =          1u << 8,
+    eFartOrRoll =   1u << 9,  // (Only roll in AO)
+    eGameSpeak1 =   1u << 10, // Hello
+    eGameSpeak2 =   1u << 11, // (Follow Me)
+    eGameSpeak3 =   1u << 12, // Wait
+    eGameSpeak4 =   1u << 13, // (Work) (Whistle 1)
+    eGameSpeak5 =   1u << 14, // (Anger)
+    eGameSpeak6 =   1u << 15, // (All ya) (Fart)
+    eGameSpeak7 =   1u << 16, // (Sympathy) (Whistle 2)
+    eGameSpeak8 =   1u << 17, // (Stop it) (Laugh)
+    eChant =        1u << 18, 
+    ePause =        1u << 19, // Or enter
+    eUnPause =      1u << 20, // Or/and back
+    eBack =         1u << 21,
+    eCheatMode =    1u << 22,
     // 0x800000     = nothing
     // 0x1000000    = nothing
     // 0x2000000    = nothing
@@ -48,7 +48,7 @@ enum InputCommands : unsigned int
     // 0x10000000   = nothing
     // 0x20000000   = nothing
     // 0x40000000   = nothing
-    e0x80000000   = 1 << 31,
+    e0x80000000   = 1u << 31,
 };
 
 // Not to be confused for PsxButtonBits.
