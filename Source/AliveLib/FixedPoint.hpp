@@ -22,7 +22,7 @@ struct FixedPoint
 
     FixedPoint& operator/=(const FixedPoint& other);
 
-    int GetExponent() const;
+    short GetExponent() const;
     double GetDouble() const;
 
     // Avoid using this. Directly writes to fp value
@@ -64,6 +64,24 @@ inline FixedPoint FP_FromDouble(double v)
     FixedPoint f;
     f.fpValue = static_cast<int>(v * 0x10000);
     return f;
+}
+
+template<class T>
+inline FixedPoint FP_FromInteger(T v)
+{
+    FixedPoint f;
+    f.fpValue = v << 16;
+    return f;
+}
+
+inline bool operator == (const FixedPoint& lhs, const FixedPoint& rhs)
+{
+    return lhs.fpValue == rhs.fpValue;
+}
+
+inline bool operator != (const FixedPoint& lhs, const FixedPoint& rhs)
+{
+    return lhs.fpValue != rhs.fpValue;
 }
 
 using FP = FixedPoint;

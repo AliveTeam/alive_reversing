@@ -411,8 +411,8 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
 
     field_158_animation.field_14_scale = field_CC_sprite_scale;
 
-    field_158_animation.field_4_flags.Clear(AnimFlags::eBit16);
-    field_158_animation.field_4_flags.Set(AnimFlags::eBit15);
+    field_158_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+    field_158_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_158_animation.field_C_render_layer = 38;
     field_158_animation.field_B_render_mode = 1;
@@ -519,9 +519,9 @@ void MainMenuController::Render_4CF4C0(int ** ot)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit2_Animate)
         && sMainMenuPages_561960[field_214_page_index].field_E_show_character 
-        && field_20_animation.field_4_flags.Get(AnimFlags::eBit3))
+        && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        field_20_animation.Animation_v_40B820(184, 162, (int)ot, 0, 0);
+        field_20_animation.vRender_40B820(184, 162, ot, 0, 0);
         PSX_RECT pRect = {};
         field_20_animation.Get_Frame_Rect_409E10(&pRect);
         pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
@@ -534,7 +534,7 @@ void MainMenuController::Render_4CF4C0(int ** ot)
         {
             if (field_1FC_button_index != -1)
             {
-                field_158_animation.Animation_v_40B820(buttons[field_1FC_button_index].field_2_x, buttons[field_1FC_button_index].field_4_y, (int)ot, 0, 0);
+                field_158_animation.vRender_40B820(buttons[field_1FC_button_index].field_2_x, buttons[field_1FC_button_index].field_4_y, ot, 0, 0);
                 PSX_RECT pRect;
                 field_158_animation.Get_Frame_Rect_409E10(&pRect);
                 pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
@@ -955,7 +955,7 @@ void MainMenuController::Page_Front_Render_4D24B0(int ** ot)
 
 signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::function<signed int(InputCommands cmd)> fnOnGameSpeak)
 {
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit3);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
     if (field_230_fmv_level_index == 8)
@@ -1609,7 +1609,7 @@ signed int MainMenuController::sub_4CF640()
             0,
             0);
 
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
         field_21E_bChangeScreen = 3;
         return 1;
@@ -1633,7 +1633,7 @@ signed int MainMenuController::sub_4CF640()
             //MainMenuTransition::sub_464370(this->field_208_transition_obj, 40, 0, 0, 16);
         }
 
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit3);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         field_216 = field_214_page_index;
         field_214_page_index = field_218_target_page_index;
         field_21E_bChangeScreen = 5;
@@ -1660,7 +1660,7 @@ signed int MainMenuController::sub_4CF640()
         if (field_21C_bDoScreenTransistionEffect != 7)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit3);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         }
 
         if ((field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2) /*&& !field_208_transition_obj->field_26*/)

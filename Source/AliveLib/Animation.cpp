@@ -6,6 +6,7 @@
 #include "VRam.hpp"
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
+#include <gmock/gmock.h>
 
 struct AnimationHeader
 {
@@ -74,12 +75,12 @@ void AnimationEx::DecompressFrame_VramAlloc()
     // TODO: Allocated rect is copied some where unknown here
 
     short width_bpp_adjusted = 0;
-    if (field_4_flags.Get(AnimFlags::eBit13))
+    if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
         // 8 bit, divided by half
         width_bpp_adjusted = ((pFrameHeader->field_4_width + 3) / 2) & ~1;
     }
-    else if (field_4_flags.Get(AnimFlags::eBit14))
+    else if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
     {
         // 16 bit, only multiple of 2 rounding
         width_bpp_adjusted = (pFrameHeader->field_4_width + 1) & ~1;
@@ -123,7 +124,7 @@ void AnimationEx::DecompressFrame_VramAlloc()
         break;
 
     case 2:
-        field_4_flags.Set(AnimFlags::eBit25);
+        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
         if (!EnsureDecompressionBuffer())
         {
             return;
@@ -224,12 +225,12 @@ void AnimationEx::DecompressFrame()
     }
 
     short width_bpp_adjusted = 0;
-    if (field_4_flags.Get(AnimFlags::eBit13))
+    if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
     {
         // 8 bit, divided by half
         width_bpp_adjusted = ((pFrameHeader->field_4_width + 3) / 2) & ~1;
     }
-    else if (field_4_flags.Get(AnimFlags::eBit14))
+    else if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
     {
         // 16 bit, only multiple of 2 rounding
         width_bpp_adjusted = (pFrameHeader->field_4_width + 1) & ~1;
@@ -264,7 +265,7 @@ void AnimationEx::DecompressFrame()
     {
     case 0:
         // No compression, load the data directly into frame buffer
-        field_4_flags.Set(AnimFlags::eBit25);
+        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
         PSX_LoadImage_4F5FB0(&vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
         break;
 
@@ -274,7 +275,7 @@ void AnimationEx::DecompressFrame()
         break;
 
     case 2:
-        field_4_flags.Set(AnimFlags::eBit25);
+        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
         if (EnsureDecompressionBuffer())
         {
             // TODO: Refactor structure to get pixel data
@@ -288,7 +289,7 @@ void AnimationEx::DecompressFrame()
         break;
 
     case 3:
-        if (field_4_flags.Get(AnimFlags::eBit25))
+        if (field_4_flags.Get(AnimFlags::eBit25_NotUsedMode))
         {
             if (EnsureDecompressionBuffer())
             {
@@ -310,7 +311,7 @@ void AnimationEx::DecompressFrame()
         break;
 
     case 6:
-        if (field_4_flags.Get(AnimFlags::eBit25))
+        if (field_4_flags.Get(AnimFlags::eBit25_NotUsedMode))
         {
             if (EnsureDecompressionBuffer())
             {
@@ -323,7 +324,7 @@ void AnimationEx::DecompressFrame()
 
     case 7:
     case 8:
-        field_4_flags.Set(AnimFlags::eBit25);
+        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
 
         if (EnsureDecompressionBuffer())
         {
@@ -352,6 +353,202 @@ void AnimationEx::DecompressFrame()
     }
 }
 
+inline short FP_AdjustedToInteger(FP fp, FP adjustment)
+{
+    return (fp + adjustment).GetExponent();
+}
+
+void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height)
+{
+    if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_NotUsedMode)))
+    {
+        // TODO: Use points
+        Vram_free_495A60(*(DWORD *)&field_84_vram_rect.x, *(DWORD *)&field_84_vram_rect.w);
+        field_84_vram_rect.x = 0;
+        field_84_vram_rect.y = 0;
+    }
+
+    const short xpos_unknown = static_cast<short>(40 * xpos / 23);
+    const short width_unknown = static_cast<short>(40 * width / 23);
+
+    if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
+    {
+        ALIVE_FATAL("Unexpected flag 0x200000 / eBit22_DeadMode"); // Animation_vRender2_40BEE0()
+    }
+
+    if (!field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        return;
+    }
+
+    if (!field_20_ppBlock)
+    {
+        return;
+    }
+
+    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader_40B730(-1);
+    FrameHeader* pFrameHeader = (FrameHeader *)&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset];
+  
+    FP frame_width_fixed;
+    FP frame_height_fixed;
+    if (width_unknown)
+    {
+        frame_width_fixed = FP_FromInteger(width_unknown);
+        frame_height_fixed = FP_FromInteger(height);
+    }
+    else
+    {
+        frame_width_fixed = FP_FromInteger(pFrameHeader->field_4_width);
+        frame_height_fixed = FP_FromInteger(pFrameHeader->field_5_height);
+    }
+
+    FP xOffSet_fixed;
+    FP yOffset_fixed;
+    if (field_4_flags.Get(AnimFlags::eBit20))
+    {
+        xOffSet_fixed = FP_FromInteger(0);
+        yOffset_fixed = FP_FromInteger(0);
+    }
+    else
+    {
+        xOffSet_fixed = FP_FromInteger(pFrameInfoHeader->mOffx);
+        yOffset_fixed = FP_FromInteger(pFrameInfoHeader->mOffy);
+    }
+
+    char textureMode = 0;
+    if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit)) //  if (BYTE1(pFrameHeader) & 0x10)
+    {
+        // 8 bit
+        textureMode = 1;
+    }
+    else if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
+    {
+        // 16 bit
+        textureMode = 2;
+    }
+    else
+    {
+        // 4 bit
+        textureMode = 0;
+    }
+
+    Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
+    PolyFT4_Init_4F8870(pPoly);
+    Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit15_bSemiTrans));
+    Poly_Set_Blending_4F8A20(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit16_bBlending));
+    SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
+    SetTPage(pPoly, static_cast<WORD>(PSX_getTPage_4F60E0(textureMode, field_B_render_mode, field_84_vram_rect.x, field_84_vram_rect.y)));
+    SetClut(pPoly, static_cast<WORD>(PSX_getClut_4F6350(field_8C_pal_vram_x.field_0_x, field_8C_pal_vram_x.field_2_y)));
+
+    BYTE u1 = field_84_vram_rect.x & 63;
+    if (textureMode == 1)
+    {
+        // 8 bit
+        u1 *= 2;
+    }
+    else if (textureMode == 0)
+    {
+        // 4 bit
+        u1 *= 4;
+    }
+    else
+    {
+        // 16 bit
+    }
+
+    const BYTE v0 = static_cast<BYTE>(field_84_vram_rect.y);
+    const BYTE u0 = pFrameHeader->field_4_width + u1 - 1;
+    const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
+
+    if (field_14_scale != FP(1.0))
+    {
+        // Apply scale to x/y pos
+        frame_height_fixed *= field_14_scale;
+        frame_width_fixed *= field_14_scale;
+
+        if (field_14_scale == FP(0.5))
+        {
+            // Add 1 if half scale
+            frame_height_fixed += FP(1.0);
+            frame_width_fixed += FP(1.0);
+        }
+
+        // Apply scale to x/y offset
+        xOffSet_fixed *= field_14_scale;
+        yOffset_fixed = (yOffset_fixed * field_14_scale) - FP(1.0);
+    }
+
+    short polyXPos = 0;
+    short polyYPos = 0;
+    if (field_4_flags.Get(AnimFlags::eBit6_FlipY))
+    {
+        if (field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            SetUV0(pPoly, u0, v1);
+            SetUV1(pPoly, u1, v1);
+            SetUV2(pPoly, u0, v0);
+            SetUV3(pPoly, u1, v0);
+            polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP(0.499));
+        }
+        else
+        {
+            SetUV0(pPoly, u1, v1);
+            SetUV1(pPoly, u0, v1);
+            SetUV2(pPoly, u1, v0);
+            SetUV3(pPoly, u0, v0);
+            polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP(0.499));
+        }
+        // TODO: Might be wrong because this was doing something with the sign bit abs() ??
+        polyYPos = static_cast<short>(ypos) - FP_AdjustedToInteger(yOffset_fixed, FP(0.499)) - FP_AdjustedToInteger(frame_height_fixed, FP(0.499));
+    }
+    else
+    {
+        FP yPosFixed;
+        if (field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            SetUV0(pPoly, u0, v0);
+            SetUV1(pPoly, u1, v0);
+            SetUV2(pPoly, u0, v1);
+            SetUV3(pPoly, u1, v1);
+
+            polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP(0.499));
+            polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP(0.499));
+        }
+        else
+        {
+            SetUV0(pPoly, u1, v0);
+            SetUV1(pPoly, u0, v0);
+            SetUV2(pPoly, u1, v1);
+            SetUV3(pPoly, u0, v1);
+
+            polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP(0.499));
+
+            yPosFixed = yOffset_fixed + FP(0.499);
+            polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP(0.499));
+        }
+        
+    }
+
+    SetXY0(pPoly, polyXPos, polyYPos);
+    SetXY1(pPoly, polyXPos + (frame_width_fixed - FP(0.501)).GetExponent(), polyYPos);
+    SetXY2(pPoly, polyXPos, polyYPos + (frame_height_fixed - FP(0.501)).GetExponent());
+    SetXY3(pPoly, polyXPos + (frame_width_fixed - FP(0.501)).GetExponent(), polyYPos + (frame_height_fixed - FP(0.501)).GetExponent());
+
+    if (pFrameHeader->field_7_compression_type == 3 || pFrameHeader->field_7_compression_type == 6)
+    {
+        // Storing a pointer as 2 words to the compressed frame data ??
+        pPoly->mVerts[1].mUv.tpage_clut_pad = (WORD)(unsigned int)&pFrameHeader->field_8_width2 >> 0;
+        pPoly->mVerts[2].mUv.tpage_clut_pad = (unsigned int)&pFrameHeader->field_8_width2 >> 16;
+    }
+    else
+    {
+        pPoly->mVerts[1].mUv.tpage_clut_pad = 0;
+        pPoly->mVerts[2].mUv.tpage_clut_pad = 0;
+    }
+
+    OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
+}
+
 void AnimationEx::vDecode2_40B200()
 {
     if (DecodeCommon())
@@ -362,7 +559,7 @@ void AnimationEx::vDecode2_40B200()
 
 void AnimationEx::vDecode_40AC90()
 {
-    if (field_4_flags.Get(AnimFlags::eBit22))
+    if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {
         // Never hit ?
         vDecode2_40B200();
@@ -471,7 +668,7 @@ void AnimationEx::Invoke_CallBacks_40B7A0()
     FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader_40B730(-1);
     // TODO: Add a union, clearly this data can be an array of DWORD's of field_6_count
     // which may contain more data used by the call back.
-    __int16* pCallBackData = &pFrameHeaderCopy->mTopLeft.x + 2 * pFrameHeaderCopy->field_4_magic;
+    WORD* pCallBackData = &pFrameHeaderCopy->mOffx + 2 * pFrameHeaderCopy->field_4_magic;
     for (int i = 0; i < pFrameHeaderCopy->field_6_count; i++)
     {
         auto pFnCallBack = field_1C_fn_ptr_array[*(DWORD *)pCallBackData];
@@ -479,14 +676,14 @@ void AnimationEx::Invoke_CallBacks_40B7A0()
         {
             break;
         }
-        pCallBackData += 2 * pFnCallBack(field_94_pGameObj, pCallBackData + 2) + 2;
+        pCallBackData += 2 * pFnCallBack(field_94_pGameObj, (short*)pCallBackData + 2) + 2;
     }
 }
 
-char Animation::Animation_v_40B820(signed int /*a2*/, int /*a3*/, int /*a4*/, __int16 /*a5*/, signed int /*op1*/)
+void Animation::vRender_40B820(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, signed int /*height*/)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    ALIVE_FATAL("Should never be called");
+//    return 0;
 }
 
 // Destructor ?
@@ -510,7 +707,7 @@ signed __int16 AnimationEx::Set_Animation_Data_409C80(int frameTableOffset, BYTE
     if (pAnimRes)
     {
         // Animation block must match what was previously set
-        if (field_4_flags.Get(AnimFlags::eBit22) && field_20_ppBlock != pAnimRes)
+        if (field_4_flags.Get(AnimFlags::eBit22_DeadMode) && field_20_ppBlock != pAnimRes)
         {
             return 0;
         }
@@ -576,9 +773,6 @@ void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
             {
                 pAnim->vDecode_40AC90();
 
-                //pAnim->field_4_flags |= AnimFlags::eBit12_LoopCompleted;
-                //pAnim->field_4_flags &= ~AnimFlags::eBit12_LoopCompleted;
-
             }
         }
     }
@@ -640,7 +834,7 @@ void AnimationEx::Get_Frame_Rect_409E10(PSX_RECT* pRect)
 {
     NOT_IMPLEMENTED();
 
-    if (!field_4_flags.Get(AnimFlags::eBit16))
+    if (!field_4_flags.Get(AnimFlags::eBit16_bBlending))
     {
         Poly_FT4_Get_Rect_409DA0(pRect, &field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index]);
         return;
@@ -677,11 +871,11 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
 
     field_4_flags.Clear(AnimFlags::eBit1);
-    field_4_flags.Clear(AnimFlags::eBit5);
-    field_4_flags.Clear(AnimFlags::eBit6);
+    field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+    field_4_flags.Clear(AnimFlags::eBit6_FlipY);
     field_4_flags.Clear(AnimFlags::eBit7);
     field_4_flags.Set(AnimFlags::eBit2_Animate);
-    field_4_flags.Set(AnimFlags::eBit3);
+    field_4_flags.Set(AnimFlags::eBit3_Render);
 
     if (pHeader->field_6_flags & AnimationHeader::eLoopFlag)
     {
@@ -698,8 +892,8 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         field_4_flags.Set(AnimFlags::eBit11_bToggle_Bit10);
     }
 
-    field_4_flags.Clear(AnimFlags::eBit14);
-    field_4_flags.Clear(AnimFlags::eBit13);
+    field_4_flags.Clear(AnimFlags::eBit14_Is16Bit);
+    field_4_flags.Clear(AnimFlags::eBit13_Is8Bit);
 
     // Clear vram/pal inits to not allocated
     field_84_vram_rect.w = 0;
@@ -712,23 +906,25 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
 
     field_4_flags.Clear(AnimFlags::eBit24);
     field_4_flags.Clear(AnimFlags::eBit23);
-    field_4_flags.Clear(AnimFlags::eBit22);
+    field_4_flags.Clear(AnimFlags::eBit22_DeadMode);
 
     // TODO: Refactor
     if (*((DWORD *)*ppAnimData + 2) != 0)
     {
-        field_4_flags.Set(AnimFlags::eBit22);
+        // Never in any source data ?
+        field_4_flags.Set(AnimFlags::eBit22_DeadMode);
+        ALIVE_FATAL("This can't happen");
     }
 
     // NOTE: All branches related to bit 22 removed
-    if (field_4_flags.Get(AnimFlags::eBit22))
+    if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {
         ALIVE_FATAL("Unknown data");
     }
 
-    field_4_flags.Clear(AnimFlags::eBit16);
-    field_4_flags.Clear(AnimFlags::eBit15);
-    field_4_flags.Set(AnimFlags::eBit16);
+    field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+    field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_4_flags.Set(AnimFlags::eBit16_bBlending);
 
     field_10_frame_delay = pHeader->field_0_fps;
     field_E_frame_change_counter = 1;
@@ -766,7 +962,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     else if (pFrameHeader_1->field_6_colour_depth == 8)
     {
         vram_width = maxW;
-        field_4_flags.Set(AnimFlags::eBit13);
+        field_4_flags.Set(AnimFlags::eBit13_Is8Bit);
         if (*(DWORD *)pClut != 64) // CLUT entry count
         {
             pal_depth = 256;
@@ -782,7 +978,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         if (pFrameHeader_1->field_6_colour_depth == 16)
         {
             vram_width = maxW * 2;
-            field_4_flags.Set(AnimFlags::eBit14);
+            field_4_flags.Set(AnimFlags::eBit14_Is16Bit);
         }
         else
         {
@@ -795,10 +991,10 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         }
     }
 
-    field_4_flags.Clear(AnimFlags::eBit25);
+    field_4_flags.Clear(AnimFlags::eBit25_NotUsedMode);
     if (b256Pal)
     {
-        field_4_flags.Set(AnimFlags::eBit25);
+        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
     }
 
     if (field_4_flags.Get(AnimFlags::eBit17)==true && field_4_flags.Get(AnimFlags::eBit24) == false)
@@ -864,3 +1060,151 @@ void AnimationEx::Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __i
     *pBoundingY = pFrameHeader->mTopLeft.y;
 }
 */
+
+namespace Test
+{
+    struct TestAnimData
+    {
+        AnimationHeader mHeader;
+        FrameInfoHeader mFrameInfoHeader;
+        FrameHeader mFrameHeader;
+    };
+
+    static void RenderTest()
+    {
+        AnimationEx anim;
+        anim.field_84_vram_rect.x = 0;
+        anim.field_84_vram_rect.y = 0;
+        anim.field_4_flags.Raw().all = 0;
+        anim.field_4_flags.Set(AnimFlags::eBit3_Render);
+        anim.field_92_current_frame = 0;
+        anim.field_C_render_layer = 0;
+        anim.field_14_scale.fpValue = 0x10000;
+        anim.field_B_render_mode = 0;
+
+        TestAnimData testData = {};
+        testData.mHeader.mFrameOffsets[0] = sizeof(AnimationHeader);
+        testData.mHeader.field_0_fps = 2;
+
+        testData.mFrameInfoHeader.field_0_frame_header_offset = sizeof(AnimationHeader) + sizeof(FrameInfoHeader);
+        testData.mFrameInfoHeader.field_6_count = 1;
+        testData.mFrameInfoHeader.mOffx = 3;
+        testData.mFrameInfoHeader.mOffy = 7;
+
+        testData.mFrameHeader.field_4_width = 20;
+        testData.mFrameHeader.field_5_height = 30;
+        testData.mFrameHeader.field_6_colour_depth = 8;
+
+        TestAnimData* pTestData = &testData;
+
+        anim.field_20_ppBlock = (BYTE **)&pTestData;
+        anim.field_18_frame_table_offset = 0;
+
+        gPsxDisplay_5C1130.field_C_buffer_index = 0;
+      
+        int ot[256] = {};
+        Poly_FT4* pPoly = &anim.field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
+
+        {
+            *pPoly = {};
+
+            anim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+            anim.vRender_40B820(20, 30, (int**)&ot, 0, 0);
+
+            ASSERT_EQ(X0(pPoly), 37);
+            ASSERT_EQ(Y0(pPoly), 37);
+
+            ASSERT_EQ(X1(pPoly), 56);
+            ASSERT_EQ(Y1(pPoly), 37);
+
+            ASSERT_EQ(X2(pPoly), 37);
+            ASSERT_EQ(Y2(pPoly), 66);
+
+            ASSERT_EQ(X3(pPoly), 56);
+            ASSERT_EQ(Y3(pPoly), 66);
+
+            ASSERT_EQ(U0(pPoly), 0);
+            ASSERT_EQ(V0(pPoly), 0);
+
+            ASSERT_EQ(U1(pPoly), 19);
+            ASSERT_EQ(V1(pPoly), 0);
+
+            ASSERT_EQ(U2(pPoly), 0);
+            ASSERT_EQ(V2(pPoly), 29);
+
+            ASSERT_EQ(U3(pPoly), 19);
+            ASSERT_EQ(V3(pPoly), 29);
+
+
+        }
+
+        {
+            *pPoly = {};
+            anim.field_4_flags.Set(eBit5_FlipX);
+            anim.vRender_40B820(20, 30, (int**)&ot, 0, 0);
+
+            ASSERT_EQ(X0(pPoly), 11);
+            ASSERT_EQ(Y0(pPoly), 37);
+
+            ASSERT_EQ(X1(pPoly), 30);
+            ASSERT_EQ(Y1(pPoly), 37);
+
+            ASSERT_EQ(X2(pPoly), 11);
+            ASSERT_EQ(Y2(pPoly), 66);
+
+            ASSERT_EQ(X3(pPoly), 30);
+            ASSERT_EQ(Y3(pPoly), 66);
+
+
+            ASSERT_EQ(U0(pPoly), 19);
+            ASSERT_EQ(V0(pPoly), 0);
+
+            ASSERT_EQ(U1(pPoly), 0);
+            ASSERT_EQ(V1(pPoly), 0);
+
+            ASSERT_EQ(U2(pPoly), 19);
+            ASSERT_EQ(V2(pPoly), 29);
+
+            ASSERT_EQ(U3(pPoly), 0);
+            ASSERT_EQ(V3(pPoly), 29);
+        }
+
+        {
+            *pPoly = {};
+            anim.field_4_flags.Set(eBit5_FlipX);
+            anim.field_4_flags.Set(eBit13_Is8Bit);
+
+            anim.vRender_40B820(20, 30, (int**)&ot, 0, 0);
+
+            ASSERT_EQ(X0(pPoly), 11);
+            ASSERT_EQ(Y0(pPoly), 37);
+
+            ASSERT_EQ(X1(pPoly), 30);
+            ASSERT_EQ(Y1(pPoly), 37);
+
+            ASSERT_EQ(X2(pPoly), 11);
+            ASSERT_EQ(Y2(pPoly), 66);
+
+            ASSERT_EQ(X3(pPoly), 30);
+            ASSERT_EQ(Y3(pPoly), 66);
+
+
+            ASSERT_EQ(U0(pPoly), 19);
+            ASSERT_EQ(V0(pPoly), 0);
+
+            ASSERT_EQ(U1(pPoly), 0);
+            ASSERT_EQ(V1(pPoly), 0);
+
+            ASSERT_EQ(U2(pPoly), 19);
+            ASSERT_EQ(V2(pPoly), 29);
+
+            ASSERT_EQ(U3(pPoly), 0);
+            ASSERT_EQ(V3(pPoly), 29);
+        }
+    }
+
+    void AnimationTests()
+    {
+        RenderTest();
+    }
+}

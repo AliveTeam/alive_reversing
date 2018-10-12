@@ -102,8 +102,8 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffs
             field_20_animation.field_B_render_mode = 0;
 
             // TODO: Double check this logic
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit16);
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit15);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
         }
         else
         {

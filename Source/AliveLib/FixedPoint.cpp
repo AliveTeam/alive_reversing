@@ -61,9 +61,9 @@ FixedPoint& FixedPoint::operator*=(const FixedPoint& other)
     return *this;
 }
 
-int FixedPoint::GetExponent() const
+short FixedPoint::GetExponent() const
 {
-    return fpValue >> (sizeof(int) * 4);
+    return static_cast<short>(fpValue / 0x10000);
 }
 
 double FixedPoint::GetDouble() const

@@ -7,6 +7,11 @@
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 
+namespace Test
+{
+    void AnimationTests();
+}
+
 struct AnimHeader
 {
     __int16 field_0_max_w;
@@ -27,12 +32,12 @@ struct FrameInfoHeader
     short field_4_magic = 0;
     short field_6_count = 0;
 
+    WORD mOffx = 0;
+    WORD mOffy = 0;
+
     // Collision bounding rectangle
     Point mTopLeft; // x0, y0
     Point mBottomRight; // x1, y2
-
-    WORD mOffx = 0;
-    WORD mOffy = 0;
 };
 
 
@@ -45,16 +50,16 @@ enum AnimFlags
     eBit2_Animate = 0x2,
 
     // Bit 3 = nothing ?
-    eBit3 = 0x4,
+    eBit3_Render = 0x4,
 
     // Bit 4 = Horizontal flip
     eBit4 = 0x8,
 
     // Bit 5 = Vertical flip
-    eBit5 = 0x10,
+    eBit5_FlipX = 0x10,
 
     // Bit 6 = nothing ?
-    eBit6 = 0x20,
+    eBit6_FlipY = 0x20,
 
     // Bit 7 = loop
     eBit7 = 0x40,
@@ -75,16 +80,16 @@ enum AnimFlags
     eBit12_ForwardLoopCompleted = 0x800,
 
     // Bit 13 = colour depth related
-    eBit13 = 0x1000,
+    eBit13_Is8Bit = 0x1000,
 
     // Bit 14 = transparency enabled
-    eBit14 = 0x2000,
+    eBit14_Is16Bit = 0x2000,
 
     // Bit 15 = disable RGB changes? Shadows no longer work, all muds look like abe ?
-    eBit15 = 0x4000,
+    eBit15_bSemiTrans = 0x4000,
 
     // Bit 16 = nothing ?
-    eBit16 = 0x8000,
+    eBit16_bBlending = 0x8000,
 
     // Bit 17 = is last frame? causes instance chiseling of muds
     eBit17 = 0x10000,
@@ -102,7 +107,7 @@ enum AnimFlags
     eBit21 = 0x100000,
 
     // Bit 22 = nothing ?
-    eBit22 = 0x200000,
+    eBit22_DeadMode = 0x200000,
 
     // Bit 23 = nothing ?
     eBit23 = 0x400000,
@@ -110,7 +115,7 @@ enum AnimFlags
     // Bit 24 = Display vram ?
     eBit24 = 0x800000,
 
-    eBit25 = 0x1000000,
+    eBit25_NotUsedMode = 0x1000000,
 
     // Bit 26-32 = nothing ?
 };
@@ -121,7 +126,7 @@ public:
     // TODO: Virtuals must be on the base type, yet there is only 1 vtable pointing to derived ?
     virtual void vDecode_40AC90();
 
-    EXPORT virtual char Animation_v_40B820(signed int a2, int a3, int a4, __int16 a5, signed int op1);
+    virtual void vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height);
     EXPORT virtual signed __int16 Animationv_40C630();
    
     // TODO: Restore vTable entry
@@ -168,6 +173,8 @@ public:
     bool EnsureDecompressionBuffer();
     void DecompressFrame_VramAlloc();
     void DecompressFrame();
+
+    EXPORT virtual void vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height) override;
 
     EXPORT void vDecode2_40B200();
     EXPORT void vDecode_40AC90();
