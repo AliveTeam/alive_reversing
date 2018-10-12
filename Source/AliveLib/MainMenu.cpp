@@ -40,6 +40,17 @@ ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
 ALIVE_ARY(1, 0x5C1B50, BYTE, 20, sSavedKilledMudsPerPath_5C1B50, {});
 ALIVE_VAR(1, 0xbb4414, void *, pDemosOrFmvs_BB4414, 0);
 ALIVE_VAR(1, 0x5c2f68, const char, byte_5C2F68, 0);
+
+MainMenuButton sBtnArray_FrontEnd_560FA0[6] =
+{
+    { 1, 33, 82, 0, 13912 },
+    { 1, 32, 104, 0, 13912 },
+    { 1, 337, 219, 0, 13912 },
+    { 1, 337, 239, 0, 13912 },
+    { 1, 33, 62, 0, 13912 },
+    { 0, 0, 0, 0, 0 }
+};
+
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, 
 {
     {
@@ -69,7 +80,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         1,        0,        0,        0,        65535,        65535,        1,
         &MainMenuController::Page_Front_Update_4D0720,
         &MainMenuController::Page_Front_Render_4D24B0,
-        nullptr, //&sBtnArray_FrontEnd_560FA0,
+        sBtnArray_FrontEnd_560FA0,
         NULL,
         NULL
     },
@@ -516,7 +527,7 @@ void MainMenuController::VRender(int** pOrderingTable)
     Render_4CF4C0(pOrderingTable);
 }
 
-void MainMenuController::Render_4CF4C0(int ** ot)
+void MainMenuController::Render_4CF4C0(int** ot)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit2_Animate)
         && sMainMenuPages_561960[field_214_page_index].field_E_show_character 
@@ -528,17 +539,17 @@ void MainMenuController::Render_4CF4C0(int ** ot)
         pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
     }
 
-    const auto buttons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
-    if (buttons)
+    const MainMenuButton* pButtons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
+    if (pButtons)
     {
         if (!field_23C_T80.Get(Flags::eBit17))
         {
             if (field_1FC_button_index != -1)
             {
-                field_158_animation.vRender_40B820(buttons[field_1FC_button_index].field_2_x, buttons[field_1FC_button_index].field_4_y, ot, 0, 0);
-                PSX_RECT pRect;
-                field_158_animation.Get_Frame_Rect_409E10(&pRect);
-                pScreenManager_5BB5F4->InvalidateRect_40EC90(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager_5BB5F4->field_3A_idx);
+                field_158_animation.vRender_40B820(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].field_4_y, ot, 0, 0);
+                PSX_RECT rect = {};
+                field_158_animation.Get_Frame_Rect_409E10(&rect);
+                pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
             }
         }
     }
@@ -875,12 +886,10 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
     return 0;
 }
 
-void MainMenuController::Page_Front_Render_4D24B0(int ** ot)
+void MainMenuController::Page_Front_Render_4D24B0(int** ot)
 {
-    int a4; // [esp+0h] [ebp-4h]
-
-    a4 = 0;
-    DrawMenuText_4D20D0(&sMMT_FrontPage_5623A0, ot, &field_120_font, &a4, 1);
+    int notUsed = 0;
+    DrawMenuText_4D20D0(&sMMT_FrontPage_5623A0, ot, &field_120_font, &notUsed, 1);
 }
 
 signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::function<signed int(InputCommands cmd)> fnOnGameSpeak)
