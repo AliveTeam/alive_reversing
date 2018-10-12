@@ -10,6 +10,8 @@
 #include <joystickapi.h>
 #include "Events.hpp"
 #include "PsxRender.hpp"
+#include <timeapi.h>
+#include "Sys.hpp"
 
 #if XINPUT_SUPPORT
 #include <Xinput.h>
@@ -20,12 +22,14 @@
 // -- Variables -- //
 
 ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickEnabled_5C2EF4, false);
+ALIVE_VAR(1, 0x5c9f70, int, sJoystickEnabled_5C9F70, 0); // ? Double var? :/
+
 ALIVE_VAR(1, 0x5C2EFC, int, sJoystickNumButtons_5C2EFC, 0);
 ALIVE_VAR(1, 0x5C2F00, int, sJoystickID_5C2F00, 0);
 ALIVE_VAR(1, 0x5c2edc, int, sJoystickCapFlags_5C2EDC, 0);
 ALIVE_VAR(1, 0x5c2ee0, bool, sJoyStateIsInit_5C2EE0, 0);
 ALIVE_VAR(1, 0x5c2eec, int, sJoyLastTick_5C2EEC, 0);
-ALIVE_VAR(1, 0x5C2EF8, int, dword_5C2EF8, 0);
+ALIVE_VAR(1, 0x5C2EF8, int, sGamepadCapFlags_5C2EF8, 0);
 ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
 ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 ALIVE_VAR(1, 0x5c2f00, UINT, sJoyID_5C2F00, 0);
@@ -40,8 +44,8 @@ ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
 ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
 ALIVE_ARY(1, 0x5C9908, const char *, 10, sJoyButtonNames_5C9908, {});
-ALIVE_ARY(1, 0x5C9930, int, 256, sKeyBindings_5C9930, {});
-ALIVE_ARY(1, 0x5C98E0, int, 10, dword_5C98E0, {});
+ALIVE_ARY(1, 0x5C9930, InputCommands, 256, sKeyBindings_5C9930, {});
+ALIVE_ARY(1, 0x5C98E0, int, 10, sKeyboardBindings_5C98E0, {});
 ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 
 ALIVE_ARY(1, 0x555708, char, 32, sGamePadStr_555708, { "Game Pad" });
@@ -63,9 +67,9 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { VK_SHIFT, eRun },
     { VK_SPACE, eHop },
     { 'Z', eThrowItem },
-    { 'X', eUnPause | eFartOrRoll },
-    { VK_ESCAPE, ePause | 0x200000 },
-    { VK_RETURN, eUnPause | eFartOrRoll },
+    { 'X', static_cast<InputCommands>(eUnPause | eFartOrRoll) },
+    { VK_ESCAPE, static_cast<InputCommands>(ePause | eCheatMode) },
+    { VK_RETURN, static_cast<InputCommands>(eUnPause | eFartOrRoll) },
     { VK_TAB, eCheatMode },
     { '1', eGameSpeak1 },
     { '2', eGameSpeak2 },
@@ -85,12 +89,12 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { VK_NUMPAD7, eGameSpeak7 },
     { VK_NUMPAD8, eGameSpeak8 },
     { VK_NUMPAD0, eChant },
-    { 'C', 0x80000000 },
-    { VK_PRIOR, 0x20000000 },
-    { VK_NEXT, 0x40000000 },
-    { VK_DELETE, 0x10000000 },
-    { 0, 0 }
-})
+    { 'C', e0x80000000 },
+    { VK_PRIOR, static_cast<InputCommands>(0x20000000) },
+    { VK_NEXT, static_cast<InputCommands>(0x40000000) },
+    { VK_DELETE, static_cast<InputCommands>(0x10000000) },
+    { 0, static_cast<InputCommands>(0) }
+});
 
 int sInputUnknown_55EA2C[] =
 { 32, 1049088, 128, 2097408, 8388608, 16, 16777216, 64, 0, 1572864 };
@@ -354,9 +358,255 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
     NOT_IMPLEMENTED();
 }
 
+ALIVE_VAR(1, 0x55ebf8, DWORD, dword_55EBF8, 0);
+ALIVE_VAR(1, 0x5c9390, BYTE, byte_5C9390, 0);
+ALIVE_VAR(1, 0x5c98d8, DWORD, dword_5C98D8, 0);
+ALIVE_VAR(1, 0x5c98dc, DWORD, dword_5C98DC, 0);
+ALIVE_VAR(1, 0x5c9f74, DWORD, dword_5C9F74, 0);
+ALIVE_VAR(1, 0x5c9f78, DWORD, dword_5C9F78, 0);
+ALIVE_VAR(1, 0x5c9794, int, sGamePadBindings_5C9794, 0);
+
+// Temp Hax. Todo: fix up
 EXPORT int Input_492150()
 {
-    NOT_IMPLEMENTED();
+    int result; // eax
+    int flags1_3; // esi
+    int flags1; // ebx
+    DWORD v3; // eax
+    int key; // edi
+    InputCommands *v5; // esi
+    DWORD buttons; // edx
+    char v7; // cl
+    int *keyboardBindings; // eax
+    char v9; // cl
+    int *v10; // eax
+    DWORD v11; // eax
+    char v12; // [esp+2h] [ebp-1Ah]
+    char v13; // [esp+3h] [ebp-19h]
+    int flags1_2; // [esp+4h] [ebp-18h]
+    DWORD pButtons; // [esp+8h] [ebp-14h]
+    float pX1; // [esp+Ch] [ebp-10h]
+    float pY1; // [esp+10h] [ebp-Ch]
+    float pY2; // [esp+14h] [ebp-8h]
+    float pX2; // [esp+18h] [ebp-4h]
+
+    if (!Input_GetInputEnabled_4EDDE0())
+    {
+        return 0;
+    }
+    flags1_3 = 0;
+    flags1 = 0;
+    if (byte_5C9390 & 1)
+    {
+        v3 = dword_5C98D8;
+    }
+    else
+    {
+        byte_5C9390 |= 1u;
+        v3 = timeGetTime() - 55;
+        dword_5C98D8 = v3;
+    }
+    if (!(byte_5C9390 & 2))
+    {
+        byte_5C9390 |= 2u;
+        dword_5C98DC = v3 - 55;
+    }
+    if (SYS_IsAppActive_4EDF30())
+    {
+        key = 0;
+        v5 = sKeyBindings_5C9930;
+        do
+        {
+            if (*v5)
+            {
+                if (Input_IsVKPressed_4EDD40(key))
+                {
+                    flags1 |= *v5;
+                }
+            }
+            ++v5;
+            ++key;
+        } while ((signed int)v5 < (signed int)sAllowedGameKeys_5C9D30);
+        flags1_2 = flags1;
+        if (!sJoystickEnabled_5C9F70)
+        {
+            goto LABEL_78;
+        }
+        Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
+        if ((sGamepadCapFlags_5C2EF8 & eAutoRun) == 1 && sJoystickNumButtons_5C2EFC <= 4 && fabs(pX1) >= 0.75)// Auto sprint
+        {
+            flags1 |= eRun;
+            flags1_2 = flags1;
+        }
+        if (pX1 >= -0.050000001)
+        {
+            if (pX1 <= 0.050000001)
+            {
+                goto LABEL_24;
+            }
+            flags1 |= 8u;
+        }
+        else
+        {
+            flags1 |= 4u;
+        }
+        flags1_2 = flags1;
+    LABEL_24:
+        if (pY1 >= -0.050000001)
+        {
+            if (pY1 <= 0.050000001)
+            {
+            LABEL_29:
+                v13 = 0;
+                v12 = 0;
+                if (flags1 & 0xF)
+                {
+                    buttons = pButtons;
+                }
+                else
+                {
+                    buttons = pButtons;
+                    v7 = 0;
+                    keyboardBindings = sKeyboardBindings_5C98E0;
+                    do
+                    {
+                        if (*keyboardBindings & 0x800000)
+                        {
+                            if ((1 << v7) & pButtons)
+                            {
+                                flags1 = flags1_2;
+                                v13 = 1;
+                            }
+                        }
+                        if (*keyboardBindings & 0x1000000)
+                        {
+                            if ((1 << v7) & pButtons)
+                            {
+                                flags1 = flags1_2;
+                                v12 = 1;
+                            }
+                        }
+                        ++keyboardBindings;
+                        ++v7;
+                    } while ((signed int)keyboardBindings < (signed int)sJoyButtonNames_5C9908);
+                    if (v13)
+                    {
+                        if (v12)
+                        {
+                            flags1 |= eChant;
+                        }
+                        else
+                        {
+                            if (pButtons & 1)
+                            {
+                                BYTE1(flags1) |= 8u;
+                            }
+                            if (pButtons & 2)
+                            {
+                                BYTE1(flags1) |= 0x10u;
+                            }
+                            if (pButtons & 4)
+                            {
+                                BYTE1(flags1) |= 0x20u;
+                            }
+                            if (pButtons & 8)
+                            {
+                                BYTE1(flags1) |= 4u;
+                            }
+                            buttons = pButtons & 0xFFFFFFF0;
+                            pButtons &= 0xFFFFFFF0;
+                        }
+                    }
+                    else if (v12)
+                    {
+                        if (pButtons & 1)
+                        {
+                            flags1 |= 0x20000u;
+                        }
+                        if (pButtons & 2)
+                        {
+                            BYTE1(flags1) |= 0x40u;
+                        }
+                        if (pButtons & 4)
+                        {
+                            flags1 |= 0x10000u;
+                        }
+                        if (pButtons & 8)
+                        {
+                            BYTE1(flags1) |= 0x80u;
+                        }
+                        buttons = pButtons & 0xFFFFFFF0;
+                        pButtons &= 0xFFFFFFF0;
+                    }
+                }
+                v9 = 0;
+                v10 = sKeyboardBindings_5C98E0;
+                do
+                {
+                    if (*v10)
+                    {
+                        if ((1 << v9) & buttons)
+                        {
+                            flags1 |= *v10;
+                        }
+                    }
+                    ++v10;
+                    ++v9;
+                } while ((signed int)v10 < (signed int)sJoyButtonNames_5C9908);
+                if (sJoystickNumButtons_5C2EFC <= 6)
+                {
+                    if (!(sGamepadCapFlags_5C2EF8 & eAutoRun))
+                    {
+                        if (((unsigned __int8)flags1 ^ (unsigned __int8)dword_5C9F74) & 0xC)
+                        {
+                            dword_5C9F78 = (unsigned __int8)sGamepadCapFlags_5C2EF8 & (unsigned __int8)eAutoRun;
+                            if (!(dword_5C9F74 & 0xC))
+                            {
+                                v11 = timeGetTime();
+                                if ((unsigned int)(dword_5C98D8 - dword_5C98DC) <= 0xDC && v11 - dword_5C98D8 <= 0xDC)
+                                {
+                                    dword_5C9F78 = 1;
+                                }
+                                dword_5C98DC = v11;
+                            }
+                            if (!(flags1 & 0xC))
+                            {
+                                dword_5C98D8 = timeGetTime();
+                            }
+                        }
+                    }
+                    if (dword_5C9F78)
+                    {
+                        flags1 |= 0x10u;
+                    }
+                }
+            LABEL_78:
+                if ((flags1 & 3) == 3)
+                {
+                    flags1 &= 0xFFFFFFFC;
+                }
+                if ((flags1 & 0xC) == 12)
+                {
+                    flags1 &= 0xFFFFFFF3;
+                }
+                flags1_3 = flags1;
+                goto LABEL_83;
+            }
+            flags1 |= 2u;
+        }
+        else
+        {
+            flags1 |= 1u;
+        }
+        flags1_2 = flags1;
+        goto LABEL_29;
+    }
+LABEL_83:
+    dword_55EBF8 = flags1_3;
+    sGamePadBindings_5C9794 = flags1_3;
+    result = flags1_3;
+    dword_5C9F74 = flags1;
+    return result;
 }
 
 EXPORT void CC Input_SetCallback_4FA910(t_InputCallback pFunc)
@@ -455,21 +705,21 @@ EXPORT void Input_InitJoyStick_460080()
 
     if (joyFlags & 8)
     {
-        dword_5C2EF8 |= 4;
+        sGamepadCapFlags_5C2EF8 |= 4;
     }
     if (joyFlags & 4)
     {
-        dword_5C2EF8 |= 8;
+        sGamepadCapFlags_5C2EF8 |= 8;
     }
     if (joyFlags & 0x40)
     {
-        dword_5C2EF8 |= 2;
+        sGamepadCapFlags_5C2EF8 |= 2;
     }
     sJoystickNumButtons_5C2EFC = sJoystickCaps_5C2D10.wNumButtons;
     if (sJoystickCaps_5C2D10.wNumButtons <= 2
         || sJoystickCaps_5C2D10.wNumButtons > 4 && sJoystickCaps_5C2D10.wNumAxes > 2)
     {
-        dword_5C2EF8 |= 1u;
+        sGamepadCapFlags_5C2EF8 |= 1u;
     }
     if (sJoystickCaps_5C2D10.wNumButtons == 4)
     {
@@ -656,7 +906,7 @@ EXPORT void CC Input_Init_491BC0()
         sKeyBindings_5C9930[kb->key] = kb->command;
     }
 
-    memcpy(dword_5C98E0, &sInputUnknown_55EA2C, sizeof(sInputUnknown_55EA2C));
+    memcpy(sKeyboardBindings_5C98E0, &sInputUnknown_55EA2C, sizeof(sInputUnknown_55EA2C));
     Input_LoadSettingsIni_492D40();
     Input_491870();
     Input_SetCallback_4FA910(Input_492150);

@@ -39,7 +39,6 @@ enum InputCommands : unsigned int
     ePause =        1 << 19, // Or enter
     eUnPause =      1 << 20, // Or/and back
     eBack =         1 << 21,
-    // 0x200000     = nothing
     eCheatMode =    1 << 22,
     // 0x800000     = nothing
     // 0x1000000    = nothing
@@ -49,7 +48,7 @@ enum InputCommands : unsigned int
     // 0x10000000   = nothing
     // 0x20000000   = nothing
     // 0x40000000   = nothing
-    // 0x80000000   = nothing
+    e0x80000000   = 1 << 31,
 };
 
 // Not to be confused for PsxButtonBits.
@@ -115,7 +114,12 @@ enum PsxButtonBits : unsigned int
 struct InputBinding
 {
     int key;
-    int command;
+    InputCommands command;
+};
+
+enum GamepadOptionFlags
+{
+    eAutoRun = 0x1,
 };
 
 class InputObject

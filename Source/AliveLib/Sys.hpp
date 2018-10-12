@@ -18,3 +18,4 @@ EXPORT TWindowHandleType CC Sys_GetHWnd_4F2C70();
 EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight);
 EXPORT TWindowHandleType CC Sys_GetWindowHandle_4EE180();
 EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0();
+EXPORT BOOL CC SYS_IsAppActive_4EDF30();
