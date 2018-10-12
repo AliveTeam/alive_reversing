@@ -120,6 +120,7 @@ add_library(AliveLib
     FG1.hpp
     FG1.cpp
     BitField.hpp
+    Particle.hpp
     WinMain.cpp
     WinMain.hpp
     Slurg.cpp

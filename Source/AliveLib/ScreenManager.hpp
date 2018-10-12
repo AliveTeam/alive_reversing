@@ -85,6 +85,7 @@ public:
     EXPORT void UnsetDirtyBits_FG1_40ED70();
 
     virtual void VDestructor(signed int flags) override;
+    virtual void VUpdate() override {}
 
     void process_segment(WORD* aVlcBufferPtr, int xPos);
     void vlc_decode(WORD* aCamSeg, WORD* aDst);

@@ -6,6 +6,9 @@
 #include "stdlib.hpp"
 #include "LvlArchive.hpp"
 #include "ScreenManager.hpp" // Camera
+#include "Particle.hpp"
+#include "PsxRender.hpp"
+#include "PsxDisplay.hpp"
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 
@@ -30,7 +33,42 @@ EXPORT void __stdcall sub_465BC0(int /*a1*/)
 // TODO: Move to own file
 EXPORT void CC Game_ShowLoadingIcon_482D80()
 {
-    NOT_IMPLEMENTED();
+    BYTE** ppLoadingAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kLoadingResID, FALSE, FALSE);
+    if (!ppLoadingAnimRes)
+    {
+        return;
+    }
+    PSX_Display_Buffer dispBuffer = {};
+
+    Particle* pParticle = alive_new<Particle>();
+    pParticle->ctor_4CC4C0(FP(0), FP(0), 900, 50, 38, ppLoadingAnimRes);
+
+    // TODO: May need to clear all other low word bits ?
+    pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+    pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+
+    pParticle->field_20_animation.field_C_render_layer = 0;
+    PSX_SetDefDrawEnv_4F5AA0(&dispBuffer.field_0_draw_env, 0, 0, 640, 240);
+    PSX_PutDrawEnv_4F5980(&dispBuffer.field_0_draw_env);
+    PSX_DrawSync_4F6280(0);
+
+    // This was doing something odd with OT index.. I think its trying to simulate double buffering by
+    // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
+    // on PC it seems fine to just always start at zero.
+    PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
+    pParticle->field_20_animation.vRender_40B820(320, 220, dispBuffer.field_70_ot_buffer, 0, 0);
+    PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
+    PSX_DrawSync_4F6280(0);
+
+    PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
+    pParticle->field_20_animation.vRender_40B820(320, 640 - 164, dispBuffer.field_70_ot_buffer, 0, 0);
+    PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
+    PSX_DrawSync_4F6280(0);
+
+    PSX_SetDefDispEnv_4F55A0(&dispBuffer.field_5C_disp_env, 0, 0, 640, 240);
+    PSX_PutDispEnv_4F5890(&dispBuffer.field_5C_disp_env);
+    pParticle->field_6_flags.Set(BaseGameObject::eDead);
+    word_5C1BAA = 1;
 }
 
 void ResourceManager::Ctor_464910()
