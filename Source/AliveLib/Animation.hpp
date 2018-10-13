@@ -171,7 +171,6 @@ public:
     EXPORT void Animation_Pal_Free_40C4C0();
 
     bool EnsureDecompressionBuffer();
-    void DecompressFrame_VramAlloc();
     void DecompressFrame();
 
     EXPORT virtual void vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height) override;

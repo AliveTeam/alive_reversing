@@ -1365,58 +1365,59 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
-EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode1_R11_SemiTrans_501B00(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode1_R11_Opaque_5006E0(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT void CC PSX_Render_PolyFT4_BlendMode1_50CC70(OT_Prim* pOt, int width, int height, int unknown)
+EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int height, int unknown)
 {
     assert(sRedShift_C215C4 == 11); // Should be the only possible case
     if (pOt->field_B_flags & 2 && k1_dword_55EF90)
     {
-        PSX_Render_PolyFT4_BlendMode1_R11_SemiTrans_501B00(pOt, width, height, unknown);
+        PSX_Render_PolyFT4_8bit_SemiTrans_501B00(pOt, width, height, unknown);
     }
     else
     {
-        PSX_Render_PolyFT4_BlendMode1_R11_Opaque_5006E0(pOt, width, height, unknown);
+        PSX_Render_PolyFT4_8bit_Opaque_5006E0(pOt, width, height, unknown);
     }
 }
 
-EXPORT void CC PSX_Render_PolyFT4_BlendMode2_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
+EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
 {
+    // Only possible to be used by FG1?
     NOT_IMPLEMENTED();
 }
 
-EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode0_R11_SemiTrans_50DF30(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, int /*a4*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT unsigned int CC PSX_Render_PolyFT4_BlendMode0_R11_Opqaue_50CDB0(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT void CC PSX_Render_PolyFT4_BlendMode0_517880(OT_Prim* pOt, int width, int height, int unknown)
+EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, int /*a4*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC PSX_Render_PolyFT4_4bit_517880(OT_Prim* pOt, int width, int height, int unknown)
 {
     assert(sRedShift_C215C4 == 11); // Should be the only possible case
     if (pOt->field_B_flags & 2)
     {
-        PSX_Render_PolyFT4_BlendMode0_R11_SemiTrans_50DF30(pOt, width, height, unknown);
+        PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(pOt, width, height, unknown);
     }
     else
     {
-        PSX_Render_PolyFT4_BlendMode0_R11_Opqaue_50CDB0(pOt, width, height, unknown);
+        PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(pOt, width, height, unknown);
     }
 }
 
@@ -1578,7 +1579,8 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
             pConverted->field_B_flags |= 1;
         }
 
-        // TODO: Figure out what this extra 4 byte of data in the reserved fields is being used for
+        // TODO: This seems to be set by Animation::vRender and its a pointer to type 3 or 6 compressed frame data ??
+        // must also be set by FG1 rendering ?
         const DWORD unknown = pPoly->mVerts[1].mUv.tpage_clut_pad + (pPoly->mVerts[2].mUv.tpage_clut_pad << 16);
         if (unknown)
         {
@@ -1602,32 +1604,29 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
 
             PSX_TPage_Change_4F6430(pConverted->field_10_tpage);
 
-            const int tPageSemiTransRate = (pConverted->field_10_tpage >> 7) & 3;
-            switch (tPageSemiTransRate)
+            const int bitDepth = (pConverted->field_10_tpage >> 7) & 3;
+            switch (bitDepth)
             {
-            case eBlendMode_0: // 0.5xB + 0.5xF
-                PSX_Render_PolyFT4_BlendMode0_517880(pConverted,
+            case TextureModes::e4Bit:
+                PSX_Render_PolyFT4_4bit_517880(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
                     unknown);
                 break;
 
-            case eBlendMode_1: // 1.0xB + 1.0xF
-                PSX_Render_PolyFT4_BlendMode1_50CC70(pConverted,
+            case TextureModes::e8Bit:
+                PSX_Render_PolyFT4_8bit_50CC70(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
                     unknown);
                 break;
 
-            case eBlendMode_2: // 1.0xB - 1.0xF
-                PSX_Render_PolyFT4_BlendMode2_517990(pConverted,
+            case TextureModes::e16Bit:
+                PSX_Render_PolyFT4_16bit_517990(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
                     reinterpret_cast<DWORD*>(unknown),
-                    pConverted->field_14_verts[0].field_0_x0 /16 , pConverted->field_14_verts[0].field_4_y0 / 16);
-                break;
-
-            case eBlendMode_3: // 1.0xB + 0.25xF
+                    pConverted->field_14_verts[0].field_0_x0 / 16 , pConverted->field_14_verts[0].field_4_y0 / 16);
                 break;
             }
             return nullptr;

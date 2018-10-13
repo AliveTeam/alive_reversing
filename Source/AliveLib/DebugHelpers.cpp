@@ -1571,6 +1571,109 @@ private:
     Poly_F_Test mPoly_F_Test;
 };
 
+class AnimRenderTest : public BaseGameObject
+{
+public:
+    AnimRenderTest()
+    {
+        DisableVTableHack disableHack;
+
+        BaseGameObject_ctor_4DBFA0(1, 1);
+
+        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eUpdatable);
+
+        gObjList_drawables_5C1124->Push_Back(this);
+
+        Init();
+    }
+
+    virtual void VRender(int** ot) override
+    {
+        mAnim[0].vRender_40B820(40 + (1 * 85), 40 + (1 * 90), ot, 0, 0);
+        mAnim[1].vRender_40B820(40 + (2 * 85), 40 + (1 * 90), ot, 0, 0);
+        mAnim[2].vRender_40B820(40 + (1 * 85), 40 + (2 * 90), ot, 0, 0);
+        mAnim[3].vRender_40B820(40 + (2 * 85), 40 + (2 * 90), ot, 0, 0);
+        mAnim[4].vRender_40B820(180 + 90, 170 + 45, ot, 0, 0);
+    }
+
+    virtual void VUpdate() override
+    {
+
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        Destruct();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    void Destruct()
+    {
+        gObjList_drawables_5C1124->Remove_Item(this);
+    }
+private:
+    void Init()
+    {
+        ResourceManager::LoadResourceFile_49C170("LOADING.BAN", nullptr);
+        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
+
+        for (int i = 0; i < 5; i++)
+        {
+
+            SetVTable(&mAnim[i], 0x544290);
+
+            if (i < 2)
+            {
+                // 4 bit
+                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kLoadingResID, TRUE, FALSE);
+                mAnim[i].Init_40A030(900, gObjList_animations_5C1A24, this, 150, 0x41u, mAnimRes[i], 1, 0, 0);
+            }
+            else
+            {
+                // 8 bit
+                mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, TRUE, FALSE);
+                mAnim[i].Init_40A030(7812, gObjList_animations_5C1A24, this, 50, 25, mAnimRes[i], 1, 0, 0);
+            }
+            // No 16 bit test case because there are simply no 16bit sprites at all in the game data
+           
+            mAnim[i].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            mAnim[i].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+            mAnim[i].field_14_scale = FP_FromDouble(2.0);
+
+            mAnim[i].field_C_render_layer = 38;
+            mAnim[i].field_B_render_mode = 1;
+
+            mAnim[i].field_A_b = 127;
+            mAnim[i].field_9_g = 127;
+            mAnim[i].field_8_r = 127;
+        }
+
+        // 4 bit o 
+        mAnim[0].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[0].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+        // 4 bit s
+        mAnim[1].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[1].field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+
+        // 8 bit o
+        mAnim[2].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[2].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+        // 8 bit s
+        mAnim[3].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[3].field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    }
+
+    BYTE** mAnimRes[5];
+    AnimationEx mAnim[5];
+};
+
 void DebugHelpers_Init() 
 {
 #if DEVELOPER_MODE
@@ -1592,6 +1695,7 @@ void DebugHelpers_Init()
 #if RENDER_TEST
     // Test rendering diff prim types
     alive_new<RenderTest>(); // Will get nuked at LVL/Path change
+    alive_new<AnimRenderTest>();
 #endif
 }
 

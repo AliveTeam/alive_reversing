@@ -44,165 +44,6 @@ bool AnimationEx::EnsureDecompressionBuffer()
     return field_24_dbuf != nullptr;
 }
 
-// TODO: Can be combined with other DecompressFrame method
-void AnimationEx::DecompressFrame_VramAlloc()
-{
-    const FrameInfoHeader* pFrameInfo = Get_FrameHeader_40B730(-1); // -1 = use current frame
-    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
-
-    if (pFrameInfo->field_6_count > 0)
-    {
-        Invoke_CallBacks_40B7A0();
-    }
-
-    if (field_4_flags.Get(AnimFlags::eBit23))
-    {
-        return;
-    }
-    
-    field_84_vram_rect.w = 0;
-
-
-    if (!Vram_alloc_4956C0(
-        pFrameHeader->field_4_width,
-        pFrameHeader->field_5_height,
-        pFrameHeader->field_6_colour_depth,
-        &field_84_vram_rect))
-    {
-        return;
-    }
-
-    // TODO: Allocated rect is copied some where unknown here
-
-    short width_bpp_adjusted = 0;
-    if (field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
-    {
-        // 8 bit, divided by half
-        width_bpp_adjusted = ((pFrameHeader->field_4_width + 3) / 2) & ~1;
-    }
-    else if (field_4_flags.Get(AnimFlags::eBit14_Is16Bit))
-    {
-        // 16 bit, only multiple of 2 rounding
-        width_bpp_adjusted = (pFrameHeader->field_4_width + 1) & ~1;
-    }
-    else
-    {
-        // 4 bit divide by quarter
-        width_bpp_adjusted = ((pFrameHeader->field_4_width + 7) / 4) & ~1;
-    }
-
-    PSX_RECT vram_rect =
-    {
-        field_84_vram_rect.x,
-        field_84_vram_rect.y,
-        width_bpp_adjusted,
-        pFrameHeader->field_5_height
-    };
-
-    // Clamp width
-    if (width_bpp_adjusted > field_84_vram_rect.w)
-    {
-        vram_rect.w = field_84_vram_rect.w;
-    }
-
-    // Clamp height
-    if (pFrameHeader->field_5_height > field_84_vram_rect.h)
-    {
-        vram_rect.h = field_84_vram_rect.h;
-    }
-
-    switch (pFrameHeader->field_7_compression_type)
-    {
-    case 0:
-        // No compression, load the data directly into frame buffer
-        PSX_LoadImage_4F5FB0(&vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
-        break;
-
-    case 1:
-        // This isn't in any of the animation data files on disk, therefore can't ever be used.
-        ALIVE_FATAL("Compression type 1 never expected to be used");
-        break;
-
-    case 2:
-        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
-        if (!EnsureDecompressionBuffer())
-        {
-            return;
-        }
-
-        // TODO: Refactor structure to get pixel data
-        CompressionType2_Decompress_40AA50(
-            reinterpret_cast<const BYTE*>(&pFrameHeader[1]),
-            *field_24_dbuf,
-            width_bpp_adjusted * pFrameHeader->field_5_height * 2);
-
-        PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-
-        break;
-
-    case 3:
-        if (!EnsureDecompressionBuffer())
-        {
-            return;
-        }
-
-        // TODO: Refactor structure to get pixel data
-        CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
-        PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-        break;
-
-    case 4:
-    case 5:
-        if (!EnsureDecompressionBuffer())
-        {
-            return;
-        }
-        // TODO: Refactor structure to get pixel data
-        CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
-        PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-        break;
-
-        // NOTE: No case 6 handled in this method.. strange
-
-    case 7:
-    case 8:
-        if (!EnsureDecompressionBuffer())
-        {
-            return;
-        }
-
-        const int totalSize = width_bpp_adjusted * pFrameHeader->field_5_height * 2;
-
-        // TODO: ABEINTRO.BAN in AE PC has this?
-        ALIVE_FATAL("Decompression 7 and 8 not implemented");
-        /*
-
-        pData3 = *(DWORD *)&pFrameHeader->field_8_width2;
-
-        for (i = Compression_type_7_8_4ABB90(
-        &pFrameHeader[1],
-        *field_24_dbuf,
-        pData3,
-        pFrameHeader->field_7_compression_type != 8 ? 8 : 6);
-        i < totalSize;
-        (*field_24_dbuf)[i - 1] = 0)
-        {
-        ++i;
-        }
-        PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-        */
-        break;
-    }
-
-    if (field_24_dbuf)
-    {
-        ResourceManager::FreeResource_49C330(field_24_dbuf);
-        field_24_dbuf = nullptr;
-    }
-
-    field_4_flags.Set(AnimFlags::eBit23);
-}
-
 void AnimationEx::DecompressFrame()
 {
     if (field_4_flags.Get(AnimFlags::eBit11_bToggle_Bit10))
@@ -324,31 +165,7 @@ void AnimationEx::DecompressFrame()
 
     case 7:
     case 8:
-        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
-
-        if (EnsureDecompressionBuffer())
-        {
-            const int totalSize = width_bpp_adjusted * pFrameHeader->field_5_height * 2;
-
-            // TODO: ABEINTRO.BAN in AE PC has this?
-            ALIVE_FATAL("Decompression 7 and 8 not implemented");
-            /*
-
-            pData3 = *(DWORD *)&pFrameHeader->field_8_width2;
-
-            for (i = Compression_type_7_8_4ABB90(
-                &pFrameHeader[1],
-                *field_24_dbuf,
-                pData3,
-                pFrameHeader->field_7_compression_type != 8 ? 8 : 6);
-                i < totalSize;
-                (*field_24_dbuf)[i - 1] = 0)
-            {
-                ++i;
-            }
-            PSX_LoadImage_4F5FB0(&vram_rect, *field_24_dbuf);
-            */
-        }
+        ALIVE_FATAL("Decompression 7 and 8 never expected to be used");
         break;
     }
 }
@@ -551,10 +368,7 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
 
 void AnimationEx::vDecode2_40B200()
 {
-    if (DecodeCommon())
-    {
-        DecompressFrame_VramAlloc();
-    }
+    ALIVE_FATAL("Impossible - this kind of anim data don't exist");
 }
 
 void AnimationEx::vDecode_40AC90()
@@ -772,7 +586,6 @@ void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
             if (pAnim->field_E_frame_change_counter == 0)
             {
                 pAnim->vDecode_40AC90();
-
             }
         }
     }
