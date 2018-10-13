@@ -37,6 +37,11 @@ If you'd like to contribute to our reverse engineering efforts, make sure to fol
 ```
 - Todo other guidelines
 
+### Useful reversing hints/tip/videos
+ - Comparing C to machine language https://www.youtube.com/watch?v=yOyaJXpAYZQ
+ - Real-world Decompilation with IDA Pro https://www.youtube.com/watch?v=vb18UVF4a_o&index=1&list=PLQgy5xfkFQv2FyKPwYHkgy25yCyy7JGWG
+ - Time lapse decompliation of a function from this project. See description for more hints, possibly play at a slower speed to see roughly what is going on. https://www.youtube.com/watch?v=pxm3F_pQHMk&feature=youtu.be
+
 ### How to build
 - Clone the repo with the --recursive option so that submodules are cloned.
 - Download https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip
