@@ -27,7 +27,7 @@ public:
     virtual void VDestructor(signed int flags) override;
     EXPORT void vdtor_49A1E0(signed int flags);
     EXPORT void dtor_49A540();
-    EXPORT static signed __int16 __stdcall Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pBlock);
+    EXPORT __int16 Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     int field_20;
     __int16 field_24_level_id;
