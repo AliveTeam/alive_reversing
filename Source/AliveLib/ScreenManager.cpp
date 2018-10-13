@@ -108,6 +108,11 @@ void ScreenManager::InvalidateRect_Layer3_40EDB0(int x, int y, signed int width,
     InvalidateRect_40EC90(x, y, width, height, 3);
 }
 
+void ScreenManager::InvalidateRect_40EC50(int x, int y, signed int width, signed int height, int idx)
+{
+    InvalidateRect_40EC90(x, y, width, height, idx + 4);
+}
+
 __int16 ScreenManager::IsDirty_40EBC0(int idx, int x, int y)
 {
     return field_64_20x16_dirty_bits[idx].GetTile(x / 32, y / 16);

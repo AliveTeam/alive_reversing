@@ -19,6 +19,7 @@ public:
         eResourceManager = 79,
         eMusicController = 93,
         ePauseMenu = 95,
+        eFG1 = 101, 
         eType_112 = 112,
         eType_125 = 125,
         eParticle = 134,

@@ -79,6 +79,7 @@ public:
     EXPORT void InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx);
     EXPORT void InvalidateRect_40EC10(int x, int y, signed int width, signed int height);
     EXPORT void InvalidateRect_Layer3_40EDB0(int x, int y, signed int width, signed int height);
+    EXPORT void InvalidateRect_40EC50(int x, int y, signed int width, signed int height, int idx);
 
     EXPORT __int16 IsDirty_40EBC0(int idx, int x, int y);
     EXPORT void UnsetDirtyBits_40EDE0(int idx);
