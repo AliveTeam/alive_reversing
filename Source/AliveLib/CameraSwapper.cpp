@@ -171,7 +171,10 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         return;
     }
     field_38_changeEffect = changeEffect;
-    int v7 = 0;
+    
+    PSX_Point xy = {};
+    PSX_Point wh = {};
+
     switch (changeEffect)
     {
     case CameraSwapEffects::eEffect0_InstantChange:
@@ -181,12 +184,39 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         return;
 
     case CameraSwapEffects::eEffect1_LeftToRight:
-        // TODO
-        field_56 = 80;
+        field_56_slices = 640 / 8;
+        field_3C_count_amount = -1;
+        field_3E_upper_bound = gPsxDisplay_5C1130.field_0_width / field_56_slices;
+        field_3A_count = gPsxDisplay_5C1130.field_0_width / field_56_slices;
+
+        xy.field_2_y = 0;
+        xy.field_0_x = gPsxDisplay_5C1130.field_0_width;
+
+        wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
+        wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
+
+        pScreenManager_5BB5F4->field_44 = 1;
 
         field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        break;
 
-       
+    case CameraSwapEffects::eEffect2_RightToLeft:
+        field_56_slices = 640 / 8;
+        field_3C_count_amount = 1;
+        field_3E_upper_bound = gPsxDisplay_5C1130.field_0_width / field_56_slices;
+        field_3A_count = -1;
+
+        xy.field_2_y = 0;
+        xy.field_0_x = 0;
+
+        wh.field_0_x = 0;
+        wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
+
+        pScreenManager_5BB5F4->field_44 = 1;
+
+        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
         // TODO: Missing cases for other effects
