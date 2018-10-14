@@ -81,7 +81,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     field_38_changeEffect = changeEffect;
     switch (changeEffect)
     {
-    case CameraSwapEffects::eEffect0:
+    case CameraSwapEffects::eEffect0_InstantChange:
         pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, 0, 640, 240);
         field_6_flags.Set(BaseGameObject::eDead);
         field_34_pSubObject = nullptr;

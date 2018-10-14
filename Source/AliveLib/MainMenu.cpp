@@ -990,7 +990,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
     if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed & 0x200000)
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
-        gMap_5C3030.SetActiveCam_480D30(0, 1, 6, CameraSwapEffects::eEffect0, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         return;
     }
 
@@ -1016,7 +1016,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 36)
             {
                 sDoesCreditsControllerExist_5C1B90 = 0;
-                gMap_5C3030.SetActiveCam_480D30(0, 1, 6, CameraSwapEffects::eEffect0, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 return;
             }
             gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3, 0, 0);
@@ -1329,7 +1329,7 @@ signed int MainMenuController::sub_4CF640()
         return 0;
     }
 
-    CameraSwapEffects screenChangeEffect = CameraSwapEffects::eEffect0;
+    CameraSwapEffects screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
 
     switch (field_21E_bChangeScreen)
     {

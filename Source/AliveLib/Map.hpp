@@ -22,7 +22,7 @@ struct Path_TLV;
 
 enum class CameraSwapEffects : __int16
 {
-    eEffect0 = 0,
+    eEffect0_InstantChange = 0,
     eEffect1 = 1,
     eEffect2 = 2,
     eEffect3 = 3,

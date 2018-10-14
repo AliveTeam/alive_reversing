@@ -74,7 +74,7 @@ void CreditsController::Update_418AC0()
         {
             if (field_24_camera_number > 36)
             {
-                gMap_5C3030.SetActiveCam_480D30(0, 1, 1, CameraSwapEffects::eEffect0, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
             else
             {
