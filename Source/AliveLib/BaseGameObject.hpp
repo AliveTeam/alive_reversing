@@ -21,6 +21,7 @@ public:
         ePauseMenu = 95,
         eFG1 = 101, 
         eType_112 = 112,
+        eScreenClipper = 114,
         eType_125 = 125,
         eParticle = 134,
         eCameraSwapper = 149,

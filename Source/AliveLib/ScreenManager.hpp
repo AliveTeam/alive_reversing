@@ -128,7 +128,8 @@ public:
     unsigned __int16 field_3C_y_idx;
     unsigned __int16 field_3E_x_idx;
     int field_40_flags;
-    int field_44;
+    unsigned __int16 field_44;
+    unsigned __int16 field_46;
     int field_48;
     int field_4C;
     int field_50;

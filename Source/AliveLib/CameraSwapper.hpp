@@ -4,6 +4,8 @@
 
 enum class CameraSwapEffects : __int16;
 
+class ScreenClipper;
+
 class CameraSwapper : public BaseGameObject
 {
 public:
@@ -20,7 +22,7 @@ private:
     int field_28_movie;
     int field_2C_movie_id;
     BYTE** field_30_ppCamRes;
-    BaseGameObject* field_34_pSubObject;
+    ScreenClipper* field_34_pSubObject;
     CameraSwapEffects field_38_changeEffect;
     __int16 field_3A_count;
     __int16 field_3C_count_amount;
