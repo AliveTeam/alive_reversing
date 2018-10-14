@@ -558,7 +558,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     }
     int path = std::stoi(args[1]);
     int cam = std::stoi(args[2]);
-    gMap_5C3030.SetActiveCam_480D30(level, path, cam, CameraSwapEffects::eEffect5, 0, 0);
+    gMap_5C3030.SetActiveCam_480D30(level, path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
     
 
     sHasTeleported = true;
@@ -1694,8 +1694,8 @@ void DebugHelpers_Init()
 
 #if RENDER_TEST
     // Test rendering diff prim types
-    alive_new<RenderTest>(); // Will get nuked at LVL/Path change
-    alive_new<AnimRenderTest>();
+    //alive_new<RenderTest>(); // Will get nuked at LVL/Path change
+    //alive_new<AnimRenderTest>();
 #endif
 }
 

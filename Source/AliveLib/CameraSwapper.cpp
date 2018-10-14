@@ -60,7 +60,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 
     field_34_pSubObject = nullptr;
 
-    if (changeEffect == CameraSwapEffects::eEffect5 || changeEffect == CameraSwapEffects::eEffect9 || changeEffect == CameraSwapEffects::eEffect10)
+    if (changeEffect == CameraSwapEffects::eEffect5_1_FMV || changeEffect == CameraSwapEffects::eEffect9_2_FMV || changeEffect == CameraSwapEffects::eEffect10_3_FMV)
     {
         field_30_ppCamRes = ppCamRes;
     }

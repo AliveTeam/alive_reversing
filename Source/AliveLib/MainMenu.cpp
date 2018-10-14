@@ -1004,11 +1004,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(16, 2, static_cast<short>(currentCam), CameraSwapEffects::eEffect3, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(16, 2, static_cast<short>(currentCam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
         }
         else
@@ -1019,7 +1019,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
                 gMap_5C3030.SetActiveCam_480D30(0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
                 return;
             }
-            gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
         }
     }
 }
@@ -1502,7 +1502,7 @@ signed int MainMenuController::sub_4CF640()
 
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
 
-            gMap_5C3030.SetActiveCam_480D30(0, 1, 1, CameraSwapEffects::eEffect5, 10502, 0);
+            gMap_5C3030.SetActiveCam_480D30(0, 1, 1, CameraSwapEffects::eEffect5_1_FMV, 10502, 0);
 
             field_20_animation.Set_Animation_Data_409C80(0xC424, field_F4_resources.field_0_resources[MenuResIds::eDoor]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
@@ -1525,16 +1525,16 @@ signed int MainMenuController::sub_4CF640()
             }*/
             return 1;
         case 3:
-            screenChangeEffect = CameraSwapEffects::eEffect3;
+            screenChangeEffect = CameraSwapEffects::eEffect3_TopToBottom;
             break;
         case 4:
-            screenChangeEffect = CameraSwapEffects::eEffect4;
+            screenChangeEffect = CameraSwapEffects::eEffect4_BottomToTop;
             break;
         case 5:
-            screenChangeEffect = CameraSwapEffects::eEffect1;
+            screenChangeEffect = CameraSwapEffects::eEffect1_LeftToRight;
             break;
         case 6:
-            screenChangeEffect = CameraSwapEffects::eEffect2;
+            screenChangeEffect = CameraSwapEffects::eEffect2_RightToLeft;
             break;
         default:
             break;

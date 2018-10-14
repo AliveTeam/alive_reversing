@@ -23,14 +23,17 @@ struct Path_TLV;
 enum class CameraSwapEffects : __int16
 {
     eEffect0_InstantChange = 0,
-    eEffect1 = 1,
-    eEffect2 = 2,
-    eEffect3 = 3,
-    eEffect4 = 4,
-    eEffect5 = 5,
-    eEffect9 = 9,
-    eEffect10 = 10,
-    eEffect11 = 11
+    eEffect1_LeftToRight = 1,       // Left to right
+    eEffect2_RightToLeft = 2,       // Right to left
+    eEffect3_TopToBottom = 3,       // Top to bottom
+    eEffect4_BottomToTop = 4,       // Bottom to top
+    eEffect5_1_FMV = 5,             // Play single fmv
+    eEffect6_VerticalSplit = 6,     // Screen splits from the middle and moves out up/down
+    eEffect7_HorizontalSplit = 7,   // Screen splits from the middle and moves out left/right
+    eEffect8_BoxOut = 8,            // A rect "grows" out from the centre of the screen
+    eEffect9_2_FMV = 9,             // Play 2 fmvs
+    eEffect10_3_FMV = 10,           // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
+    eEffect11 = 11                  // Unknown, has special handing in the map object
 };
 
 class Map
