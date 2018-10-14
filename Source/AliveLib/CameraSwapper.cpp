@@ -107,6 +107,7 @@ void CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect,
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
     field_4E_xpos_converted = (40 * xpos) / 23;
     field_50_ypos_converted = ypos;
+    
     Init_4E50C0(ppCamRes, changeEffect);
 }
 
@@ -260,13 +261,39 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         break;
 
     case CameraSwapEffects::eEffect6_VerticalSplit:
-        // TODO:
-        LOG_WARNING("Vert split effect not impl");
+        field_56_slices = (gPsxDisplay_5C1130.field_0_width / 2) / kSliceWidth;
+        field_3C_count_amount = 1;
+        field_3E_slice_number = (gPsxDisplay_5C1130.field_0_width / 2) / field_56_slices;
+        field_3A_count = 0;
+
+        pScreenManager_5BB5F4->field_44 = 1;
+
+        xy.field_0_x = gPsxDisplay_5C1130.field_0_width / 2;
+        xy.field_2_y = 0;
+
+        wh.field_0_x = gPsxDisplay_5C1130.field_0_width / 2;
+        wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
+
+        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
     case CameraSwapEffects::eEffect7_HorizontalSplit:
-        // TODO:
-        LOG_WARNING("Horz split effect not impl");
+        field_56_slices = (gPsxDisplay_5C1130.field_2_height / 2) / kSliceWidth;
+        field_3C_count_amount = 1;
+        field_3E_slice_number = (gPsxDisplay_5C1130.field_2_height / 2) / field_56_slices;
+        field_3A_count = 0;
+
+        pScreenManager_5BB5F4->field_44 = 1;
+
+        xy.field_0_x = 0;
+        xy.field_2_y = gPsxDisplay_5C1130.field_2_height / 2;
+
+        wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
+        wh.field_2_y = gPsxDisplay_5C1130.field_2_height / 2;
+
+        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
     case CameraSwapEffects::eEffect8_BoxOut:
@@ -277,8 +304,10 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     case CameraSwapEffects::eEffect5_1_FMV:
     case CameraSwapEffects::eEffect9_2_FMV:
     case CameraSwapEffects::eEffect10_3_FMV:
-        LOG_WARNING("FMV effect not impl");
-        // TODO:
+        pScreenManager_5BB5F4->field_44 = 1;
+
+        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject->ctor_416D60({0, 0}, {1, 1}, 0);
         break;
 
     default:
