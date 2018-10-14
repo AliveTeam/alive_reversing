@@ -26,7 +26,7 @@ private:
     CameraSwapEffects field_38_changeEffect;
     __int16 field_3A_count;
     __int16 field_3C_count_amount;
-    __int16 field_3E_upper_bound;
+    __int16 field_3E_slice_number;
     __int16 field_40_movie;
     __int16 field_42_movie;
     __int16 field_44_movie_vol;

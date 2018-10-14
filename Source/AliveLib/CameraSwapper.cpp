@@ -142,6 +142,8 @@ void CameraSwapper::vdtor_4E4D90(signed int flags)
     }
 }
 
+const int kSliceWidth = 8;
+
 void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 {
     NOT_IMPLEMENTED();
@@ -165,7 +167,9 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 
     if (sNum_CamSwappers_5C1B66 != 1)
     {
-        // TODO: Missing flag changes
+        field_6_flags.Clear(BaseGameObject::eUpdatable);
+        field_6_flags.Set(BaseGameObject::eListAddFailed);
+        field_6_flags.Set(BaseGameObject::eDead);
 
         // There can only be 1 active at a time
         return;
@@ -178,15 +182,15 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     switch (changeEffect)
     {
     case CameraSwapEffects::eEffect0_InstantChange:
-        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, 0, 640, 240);
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
         field_6_flags.Set(BaseGameObject::eDead);
         field_34_pSubObject = nullptr;
         return;
 
     case CameraSwapEffects::eEffect1_LeftToRight:
-        field_56_slices = 640 / 8;
+        field_56_slices = gPsxDisplay_5C1130.field_0_width / kSliceWidth;
         field_3C_count_amount = -1;
-        field_3E_upper_bound = gPsxDisplay_5C1130.field_0_width / field_56_slices;
+        field_3E_slice_number = gPsxDisplay_5C1130.field_0_width / field_56_slices;
         field_3A_count = gPsxDisplay_5C1130.field_0_width / field_56_slices;
 
         xy.field_2_y = 0;
@@ -202,9 +206,9 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         break;
 
     case CameraSwapEffects::eEffect2_RightToLeft:
-        field_56_slices = 640 / 8;
+        field_56_slices = gPsxDisplay_5C1130.field_0_width / kSliceWidth;
         field_3C_count_amount = 1;
-        field_3E_upper_bound = gPsxDisplay_5C1130.field_0_width / field_56_slices;
+        field_3E_slice_number = gPsxDisplay_5C1130.field_0_width / field_56_slices;
         field_3A_count = -1;
 
         xy.field_2_y = 0;
@@ -219,7 +223,66 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         field_34_pSubObject->ctor_416D60(xy, wh, 0);
         break;
 
-        // TODO: Missing cases for other effects
+    case CameraSwapEffects::eEffect3_TopToBottom:
+        field_56_slices = gPsxDisplay_5C1130.field_2_height / kSliceWidth;
+        field_3C_count_amount = -1;
+        field_3E_slice_number = gPsxDisplay_5C1130.field_2_height / field_56_slices;
+        field_3A_count = gPsxDisplay_5C1130.field_2_height / field_56_slices;
+
+        xy.field_0_x = 0;
+        xy.field_2_y = gPsxDisplay_5C1130.field_2_height;
+
+        wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
+        wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
+
+        pScreenManager_5BB5F4->field_44 = 1;
+
+        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        break;
+
+    case CameraSwapEffects::eEffect4_BottomToTop:
+        field_56_slices = gPsxDisplay_5C1130.field_2_height / kSliceWidth;
+        field_3C_count_amount = 1;
+        field_3E_slice_number = gPsxDisplay_5C1130.field_2_height / field_56_slices;
+        field_3A_count = -1;
+
+        xy.field_0_x = 0;
+        xy.field_2_y = 0;
+
+        wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
+        wh.field_2_y = 0;
+
+        pScreenManager_5BB5F4->field_44 = 1;
+
+        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject->ctor_416D60(xy, wh, 0);
+        break;
+
+    case CameraSwapEffects::eEffect6_VerticalSplit:
+        // TODO:
+        LOG_WARNING("Vert split effect not impl");
+        break;
+
+    case CameraSwapEffects::eEffect7_HorizontalSplit:
+        // TODO:
+        LOG_WARNING("Horz split effect not impl");
+        break;
+
+    case CameraSwapEffects::eEffect8_BoxOut:
+        // TODO:
+        LOG_WARNING("Box effect not impl");
+        break;
+
+    case CameraSwapEffects::eEffect5_1_FMV:
+    case CameraSwapEffects::eEffect9_2_FMV:
+    case CameraSwapEffects::eEffect10_3_FMV:
+        LOG_WARNING("FMV effect not impl");
+        // TODO:
+        break;
+
+    default:
+        ALIVE_FATAL("Unknown camera swap effect"); // Or one that isn't handled here
     }
 
 }
