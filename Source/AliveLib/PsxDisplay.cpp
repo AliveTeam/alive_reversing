@@ -15,7 +15,7 @@
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
 
-EXPORT void CC sub_4945D0()
+EXPORT void CC PSX_Calc_FrameSkip_4945D0()
 {
     NOT_IMPLEMENTED();
 }
@@ -274,7 +274,7 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
     {
         // Single buffered rendering
         PSX_PutDrawEnv_4F5980(&field_10_drawEnv[0].field_0_draw_env);
-        sub_4945D0();
+        PSX_Calc_FrameSkip_4945D0();
         if (sCommandLine_NoFrameSkip_5CA4D1)
         {
             PSX_DrawOTag_4F6540(field_10_drawEnv[0].field_70_ot_buffer);

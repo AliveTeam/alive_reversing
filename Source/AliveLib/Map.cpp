@@ -237,42 +237,57 @@ EXPORT void __stdcall sub_465800(int)
     NOT_IMPLEMENTED();
 }
 
-class Class_5480E4 : public BaseGameObject
+class CameraSwapper : public BaseGameObject
 {
 public:
-    EXPORT void ctor_4E5000(BYTE** a2, int a3, __int16 a4, __int16 a5);
+    EXPORT void ctor_4E5000(BYTE** ppCamRes, __int16 changeEffect, __int16 xpos, __int16 ypos);
     EXPORT void dtor_4E5790();
     EXPORT void vdtor_4E4D90(signed int flags);
+    EXPORT void Init_4E50C0(BYTE**ppCamRes, __int16 changeEffect);
+
     virtual void VDestructor(signed int flags) override;
 
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
+private:
+    int field_20_movie;
+    int field_24_movie_id;
+    int field_28_movie;
+    int field_2C_movie_id;
+    BYTE** field_30_ppCamRes;
+    int field_34_pSubObject;
+    __int16 field_38_changeEffect;
+    __int16 field_3A_count;
+    __int16 field_3C_count_amount;
+    __int16 field_3E_upper_bound;
+    __int16 field_40_movie;
+    __int16 field_42_movie;
+    __int16 field_44_movie_vol;
+    __int16 field_46_movie;
+    __int16 field_48_movie;
+    __int16 field_4A_movie_vol;
+    __int16 field_4C_movie_next;
+    __int16 field_4E_xpos_converted;
+    __int16 field_50_ypos_converted;
+    __int16 field_52_k40;
+    __int16 field_54_k15;
+    __int16 field_56;
 };
-ALIVE_ASSERT_SIZEOF(Class_5480E4, 0x58);
+ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x58);
 
-void Class_5480E4::ctor_4E5000(BYTE** /*a2*/, int /*a3*/, __int16 /*a4*/, __int16 /*a5*/)
+void CameraSwapper::ctor_4E5000(BYTE** ppCamRes, __int16 changeEffect, __int16 xpos, __int16 ypos)
+{
+    BaseGameObject_ctor_4DBFA0(1, 0);
+    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
+    field_4E_xpos_converted = (40 * xpos) / 23;
+    field_50_ypos_converted = ypos;
+    Init_4E50C0(ppCamRes, changeEffect);
+}
+
+void CameraSwapper::dtor_4E5790()
 {
     NOT_IMPLEMENTED();
 }
 
-void Class_5480E4::dtor_4E5790()
-{
-    NOT_IMPLEMENTED();
-}
-
-void Class_5480E4::vdtor_4E4D90(signed int flags)
+void CameraSwapper::vdtor_4E4D90(signed int flags)
 {
     dtor_4E5790();
     if (flags & 1)
@@ -281,7 +296,12 @@ void Class_5480E4::vdtor_4E4D90(signed int flags)
     }
 }
 
-void Class_5480E4::VDestructor(signed int flags)
+void CameraSwapper::Init_4E50C0(BYTE** /*ppCamRes*/, __int16 /*changeEffect*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void CameraSwapper::VDestructor(signed int flags)
 {
     vdtor_4E4D90(flags);
 }
@@ -639,8 +659,7 @@ void Map::GoTo_Camera_481890()
         {
             if (!field_20)
             {
-                // Normal transition ?
-                auto obj = alive_new<Class_5480E4>();
+                auto obj = alive_new<CameraSwapper>();
                 if (obj)
                 {
                     obj->ctor_4E5000(field_2C_5C305C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, 368 / 2, 240 / 2);
@@ -679,7 +698,7 @@ void Map::GoTo_Camera_481890()
 
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 {
-    auto obj = alive_new<Class_5480E4>();
+    auto obj = alive_new<CameraSwapper>();
     if (obj)
     {
         // TODO: Refactor
