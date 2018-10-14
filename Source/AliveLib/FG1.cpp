@@ -5,6 +5,7 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "ScreenManager.hpp"
+#include "PsxDisplay.hpp"
 
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 
@@ -175,4 +176,35 @@ __int16 FG1::Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pB
         pPoly->mVerts[2].mUv.tpage_clut_pad = ptr_first_half;
     }
     return 1;
+}
+
+void FG1::VRender(int** pOrderingTable)
+{
+    vRender_49A3C0(pOrderingTable);
+}
+
+void FG1::vRender_49A3C0(int** pOt)
+{
+    for (int i = 0; i < field_28_render_block_count; i++)
+    {
+        Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay_5C1130.field_C_buffer_index];
+        const int xpos = X0(pPoly);
+        const int ypos = Y0(pPoly);
+        if (pScreenManager_5BB5F4->IsDirty_40EBC0(pScreenManager_5BB5F4->field_3A_idx, xpos, ypos) || pScreenManager_5BB5F4->IsDirty_40EBC0(3, xpos, ypos))
+        {
+            OrderingTable_Add_4F8AA0(&pOt[field_30_chnk_res[i].field_66_mapped_layer], &pPoly->mBase.header);
+            // NOTE: Polygon has a pointer to the bit fields for which pixels should be skipped
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(xpos, ypos, X3(pPoly), Y3(pPoly), pScreenManager_5BB5F4->field_3A_idx);
+        }
+    }
+}
+
+void FG1::VScreenChanged()
+{
+    vScreenChanged_49A520();
+}
+
+void FG1::vScreenChanged_49A520()
+{
+    field_6_flags.Set(BaseGameObject::eDead);
 }
