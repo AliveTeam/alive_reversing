@@ -36,8 +36,8 @@ private:
     __int16 field_4C_movie_next;
     __int16 field_4E_xpos_converted;
     __int16 field_50_ypos_converted;
-    __int16 field_52_k40;
-    __int16 field_54_k15;
+    __int16 field_52_XSlices;
+    __int16 field_54_YSlices;
     __int16 field_56_slices;
 };
 ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x58);

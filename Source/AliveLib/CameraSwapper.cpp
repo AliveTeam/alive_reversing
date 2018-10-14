@@ -9,6 +9,7 @@
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
+#include "Sfx.hpp"
 
 class ScreenClipper : public BaseGameObject
 {
@@ -107,7 +108,6 @@ void CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect,
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
     field_4E_xpos_converted = (40 * xpos) / 23;
     field_50_ypos_converted = ypos;
-    
     Init_4E50C0(ppCamRes, changeEffect);
 }
 
@@ -147,8 +147,6 @@ const int kSliceWidth = 8;
 
 void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 {
-    NOT_IMPLEMENTED();
-
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
 
     field_4_typeId = Types::eCameraSwapper;
@@ -297,9 +295,48 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         break;
 
     case CameraSwapEffects::eEffect8_BoxOut:
-        // TODO:
-        LOG_WARNING("Box effect not impl");
-        break;
+    {
+        field_52_XSlices = (gPsxDisplay_5C1130.field_0_width / 2) / kSliceWidth;
+        field_54_YSlices = (gPsxDisplay_5C1130.field_2_height / 2) / kSliceWidth;
+        
+        short xDiff = gPsxDisplay_5C1130.field_0_width - field_4E_xpos_converted;
+        if (xDiff <= field_4E_xpos_converted)
+        {
+            xDiff = field_4E_xpos_converted;
+        }
+
+        short yDiff = gPsxDisplay_5C1130.field_2_height - field_50_ypos_converted;
+        if (yDiff <= field_50_ypos_converted)
+        {
+            yDiff = field_50_ypos_converted;
+        }
+
+        short startingSlice = 0;
+        if ((xDiff / field_52_XSlices) <= (yDiff / field_54_YSlices))
+        {
+            startingSlice = yDiff / field_54_YSlices;
+        }
+        else
+        {
+            startingSlice = xDiff / field_52_XSlices;
+        }
+
+        field_3C_count_amount = 1;
+        field_3E_slice_number = startingSlice + 1;
+        field_3A_count = 0;
+
+        pScreenManager_5BB5F4->field_44 = 1;
+
+        xy.field_0_x = gPsxDisplay_5C1130.field_0_width - 1;
+        xy.field_2_y = gPsxDisplay_5C1130.field_2_height - 1;
+
+        field_34_pSubObject = alive_new<ScreenClipper>();
+        field_34_pSubObject->ctor_416D60(xy, { 1, 1 }, 0);
+
+        // "Whoosh" door sound effect
+        SFX_Play_46FA90(84u, 127, 0x10000);
+    }
+    break;
 
     case CameraSwapEffects::eEffect5_1_FMV:
     case CameraSwapEffects::eEffect9_2_FMV:
