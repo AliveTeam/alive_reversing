@@ -1694,8 +1694,8 @@ void DebugHelpers_Init()
 
 #if RENDER_TEST
     // Test rendering diff prim types
-    //alive_new<RenderTest>(); // Will get nuked at LVL/Path change
-    //alive_new<AnimRenderTest>();
+    alive_new<RenderTest>(); // Will get nuked at LVL/Path change
+    alive_new<AnimRenderTest>();
 #endif
 }
 
