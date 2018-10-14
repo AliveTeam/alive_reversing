@@ -49,10 +49,24 @@ public:
     virtual void VScreenChanged() {}
     virtual void VUpdate() { }
 
-    void vRender_416F70(int** /*ot*/)
+    void vRender_416F70(int** ot)
     {
-        // TODO
-        NOT_IMPLEMENTED();
+        PSX_RECT clipRect = {};
+
+        clipRect.x = field_40_rect.x;
+        clipRect.y = field_40_rect.y;
+        clipRect.w = field_40_rect.w - field_40_rect.x;
+        clipRect.h = field_40_rect.h - field_40_rect.y;
+
+        if (gPsxDisplay_5C1130.field_C_buffer_index)
+        {
+            // Move to the lower buffer if not using the top buffer
+            clipRect.y += 256;
+        }
+
+        Prim_PrimClipper* pClipper = &field_20_clippers[gPsxDisplay_5C1130.field_C_buffer_index];
+        Init_PrimClipper_4F5B80(pClipper, &clipRect);
+        OrderingTable_Add_4F8AA0(&ot[field_48_ot_layer], &pClipper->mBase);
     }
 
     EXPORT void dtor_416E30()
@@ -81,17 +95,9 @@ public:
     }
 
 private:
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
+    Prim_PrimClipper field_20_clippers[2];
     PSX_RECT field_40_rect;
     __int16 field_48_ot_layer;
-    __int16 field_4A;
 };
 ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x4C);
 
