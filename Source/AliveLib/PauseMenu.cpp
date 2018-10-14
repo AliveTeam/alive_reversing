@@ -634,7 +634,7 @@ void PauseMenu_ForceLink() {
                 sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
                 sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
                 sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
-                gMap_5C3030.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, 0, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eEffect0, 0, 0);
                 sActiveHero_5C1B68->field_B8_xpos = FP(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
                 sActiveHero_5C1B68->field_BC_ypos = FP(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
                 DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
@@ -803,7 +803,7 @@ void PauseMenu::Page_Main_Update_4903E0()
                 sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
                 sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path,
                 sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_8_cam,
-                0,
+                CameraSwapEffects::eEffect0,
                 1,
                 1);
             gMap_5C3030.field_8 = 1;

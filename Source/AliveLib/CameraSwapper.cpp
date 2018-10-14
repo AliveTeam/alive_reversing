@@ -9,7 +9,7 @@
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
 
-void CameraSwapper::ctor_4E5000(BYTE** ppCamRes, __int16 changeEffect, __int16 xpos, __int16 ypos)
+void CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
@@ -50,7 +50,7 @@ void CameraSwapper::vdtor_4E4D90(signed int flags)
     }
 }
 
-void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, __int16 changeEffect)
+void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 {
     NOT_IMPLEMENTED();
 
@@ -58,16 +58,15 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, __int16 changeEffect)
 
     field_4_typeId = Types::eCameraSwapper;
 
-
     field_34_pSubObject = nullptr;
 
-    if (changeEffect == 5 || changeEffect == 9 || changeEffect == 10)
+    if (changeEffect == CameraSwapEffects::eEffect5 || changeEffect == CameraSwapEffects::eEffect9 || changeEffect == CameraSwapEffects::eEffect10)
     {
         field_30_ppCamRes = ppCamRes;
     }
     else
     {
-        pScreenManager_5BB5F4->sub_cam_vlc_40EF60(reinterpret_cast<WORD**>(ppCamRes));
+        pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(ppCamRes));
     }
 
     sNum_CamSwappers_5C1B66++;
@@ -82,7 +81,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, __int16 changeEffect)
     field_38_changeEffect = changeEffect;
     switch (changeEffect)
     {
-    case 0:
+    case CameraSwapEffects::eEffect0:
         pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, 0, 640, 240);
         field_6_flags.Set(BaseGameObject::eDead);
         field_34_pSubObject = nullptr;

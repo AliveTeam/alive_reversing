@@ -617,7 +617,7 @@ EXPORT void CC Game_Run_466D40()
     pScreenManager_5BB5F4 = alive_new<ScreenManager>();
     pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap_5C3030.field_24_camera_offset);
 
-    pScreenManager_5BB5F4->sub_cam_vlc_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
+    pScreenManager_5BB5F4->DecompressToVRam_40EF60((unsigned __int16 **)camera.field_C_pCamRes);
     pScreenManager_5BB5F4->MoveImage_40EB70();
 
     sLvlArchive_5BC520.Free_433130();
@@ -626,9 +626,9 @@ EXPORT void CC Game_Run_466D40()
 
     Input_Init_491BC0();
 #if DEVELOPER_MODE
-    gMap_5C3030.Init_4803F0(0, 1, 1, 0, 0, 0);
+    gMap_5C3030.Init_4803F0(0, 1, 1, CameraSwapEffects::eEffect0, 0, 0);
 #else
-    gMap_5C3030.Init_4803F0(0, 1, 25, 0, 0, 0);
+    gMap_5C3030.Init_4803F0(0, 1, 25, CameraSwapEffects::eEffect0, 0, 0);
 #endif
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = alive_new<GameSpeak>();

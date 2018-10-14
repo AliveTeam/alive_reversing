@@ -2,13 +2,15 @@
 
 #include "BaseGameObject.hpp"
 
+enum class CameraSwapEffects : __int16;
+
 class CameraSwapper : public BaseGameObject
 {
 public:
-    EXPORT void ctor_4E5000(BYTE** ppCamRes, __int16 changeEffect, __int16 xpos, __int16 ypos);
+    EXPORT void ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos);
     EXPORT void dtor_4E5790();
     EXPORT void vdtor_4E4D90(signed int flags);
-    EXPORT void Init_4E50C0(BYTE** ppCamRes, __int16 changeEffect);
+    EXPORT void Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect);
 
     virtual void VDestructor(signed int flags) override;
 
@@ -19,7 +21,7 @@ private:
     int field_2C_movie_id;
     BYTE** field_30_ppCamRes;
     BaseGameObject* field_34_pSubObject;
-    __int16 field_38_changeEffect;
+    CameraSwapEffects field_38_changeEffect;
     __int16 field_3A_count;
     __int16 field_3C_count_amount;
     __int16 field_3E_upper_bound;

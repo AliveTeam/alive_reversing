@@ -93,7 +93,7 @@ public:
     void vlc_decoder(int aR, int aG, int aB, signed int aWidth, int aVramX, int aVramY);
     void write_4_pixel_block(const Oddlib::BitsLogic& aR, const Oddlib::BitsLogic& aG, const Oddlib::BitsLogic& aB, int aVramX, int aVramY);
 
-    EXPORT void sub_cam_vlc_40EF60(WORD** ppBits);
+    EXPORT void DecompressToVRam_40EF60(WORD** ppBits);
 
     EXPORT void ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset);
     

@@ -990,7 +990,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
     if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed & 0x200000)
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
-        gMap_5C3030.SetActiveCam_480D30(0, 1, 6, 0, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(0, 1, 6, CameraSwapEffects::eEffect0, 0, 0);
         return;
     }
 
@@ -1004,11 +1004,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 22)
             {
                 field_240_credits_current_cam = 1;
-                gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), 3, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(16, 2, static_cast<short>(currentCam), 3, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(16, 2, static_cast<short>(currentCam), CameraSwapEffects::eEffect3, 0, 0);
             }
         }
         else
@@ -1016,10 +1016,10 @@ void MainMenuController::HandleCreditsControllerUpdate()
             if (currentCam > 36)
             {
                 sDoesCreditsControllerExist_5C1B90 = 0;
-                gMap_5C3030.SetActiveCam_480D30(0, 1, 6, 0, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(0, 1, 6, CameraSwapEffects::eEffect0, 0, 0);
                 return;
             }
-            gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), 3, 0, 0);
+            gMap_5C3030.SetActiveCam_480D30(16, 1, static_cast<short>(field_240_credits_current_cam), CameraSwapEffects::eEffect3, 0, 0);
         }
     }
 }
@@ -1329,7 +1329,7 @@ signed int MainMenuController::sub_4CF640()
         return 0;
     }
 
-    short screenChangeEffect = 0;
+    CameraSwapEffects screenChangeEffect = CameraSwapEffects::eEffect0;
 
     switch (field_21E_bChangeScreen)
     {
@@ -1502,7 +1502,7 @@ signed int MainMenuController::sub_4CF640()
 
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
 
-            gMap_5C3030.SetActiveCam_480D30(0, 1, 1, 5, 10502, 0);
+            gMap_5C3030.SetActiveCam_480D30(0, 1, 1, CameraSwapEffects::eEffect5, 10502, 0);
 
             field_20_animation.Set_Animation_Data_409C80(0xC424, field_F4_resources.field_0_resources[MenuResIds::eDoor]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
@@ -1525,16 +1525,16 @@ signed int MainMenuController::sub_4CF640()
             }*/
             return 1;
         case 3:
-            screenChangeEffect = 3;
+            screenChangeEffect = CameraSwapEffects::eEffect3;
             break;
         case 4:
-            screenChangeEffect = 4;
+            screenChangeEffect = CameraSwapEffects::eEffect4;
             break;
         case 5:
-            screenChangeEffect = 1;
+            screenChangeEffect = CameraSwapEffects::eEffect1;
             break;
         case 6:
-            screenChangeEffect = 2;
+            screenChangeEffect = CameraSwapEffects::eEffect2;
             break;
         default:
             break;

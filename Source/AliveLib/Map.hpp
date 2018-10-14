@@ -20,6 +20,19 @@ class Camera;
 struct PathData;
 struct Path_TLV;
 
+enum class CameraSwapEffects : __int16
+{
+    eEffect0 = 0,
+    eEffect1 = 1,
+    eEffect2 = 2,
+    eEffect3 = 3,
+    eEffect4 = 4,
+    eEffect5 = 5,
+    eEffect9 = 9,
+    eEffect10 = 10,
+    eEffect11 = 11
+};
+
 class Map
 {
 public:
@@ -32,7 +45,7 @@ public:
     __int16 field_A_5C303A_levelId;
     __int16 field_C_5C303C_pathId;
     __int16 field_E_cameraId;
-    __int16 field_10_screen_change_effect;
+    CameraSwapEffects field_10_screen_change_effect;
     __int16 field_12_ticks;
 
     __int16 field_14_direction;
@@ -65,7 +78,7 @@ public:
     EXPORT void sub_480740(__int16 a2);
     EXPORT void sub_481610();
     EXPORT signed __int16 sub_4811A0(int level, int path, FP xpos, FP ypos);
-    EXPORT void Init_4803F0(__int16 level, __int16 path, __int16 camera, __int16 a5, __int16 a6, __int16 a7);
+    EXPORT void Init_4803F0(__int16 level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange);
     EXPORT void Shutdown_4804E0();
     EXPORT void Reset_4805D0();
     EXPORT void GoTo_Camera_481890();
@@ -76,7 +89,7 @@ public:
     EXPORT __int16 Get_Path_Unknown_480710();
     EXPORT void Create_FG1s_480F10();
 
-    EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, __int16 a5, __int16 a6, __int16 a7);
+    EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange);
     EXPORT static BaseGameObject* CC FMV_482650(BYTE** ppBits, Map* pMap, int lvlId);
     EXPORT Camera* Create_Camera_4829E0(__int16 xpos, __int16 ypos, int a4);
     EXPORT static void __stdcall Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode);

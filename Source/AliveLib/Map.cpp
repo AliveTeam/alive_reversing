@@ -155,7 +155,7 @@ signed __int16 Map::sub_4811A0(int /*level*/, int /*path*/, FP /*xpos*/, FP /*yp
     NOT_IMPLEMENTED();
 }
 
-void Map::Init_4803F0(__int16 level, __int16 path, __int16 camera, __int16 a5, __int16 a6, __int16 a7)
+void Map::Init_4803F0(__int16 level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange)
 {
     sPath_dword_BB47C0 = alive_new<Path>();
     sPath_dword_BB47C0->ctor_4DB170();
@@ -174,7 +174,7 @@ void Map::Init_4803F0(__int16 level, __int16 path, __int16 camera, __int16 a5, _
 
     field_8 = 0;
 
-    SetActiveCam_480D30(level, path, camera, a5, a6, a7);
+    SetActiveCam_480D30(level, path, camera, screenChangeEffect, a6, forceChange);
     GoTo_Camera_481890();
     
     field_6_state = 0;
@@ -256,7 +256,7 @@ void Map::GoTo_Camera_481890()
         bShowLoadingIcon = TRUE;
     }
 
-    if (field_10_screen_change_effect == 11)
+    if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
     {
         BaseGameObject* pFmvRet = FMV_482650(nullptr, this, sCurrentLevelId_5C3030);
         do
@@ -300,7 +300,7 @@ void Map::GoTo_Camera_481890()
         if (field_A_5C303A_levelId != sCurrentLevelId_5C3030
             || field_8
             || field_C_5C303C_pathId != sCurrentPathId_5C3032 
-            && field_10_screen_change_effect == 5)
+            && field_10_screen_change_effect == CameraSwapEffects::eEffect5)
         {
             Game_ShowLoadingIcon_482D80();
         }
@@ -554,14 +554,14 @@ void Map::GoTo_Camera_481890()
 
     Create_FG1s_480F10();
 
-    if (field_10_screen_change_effect == 5)
+    if (field_10_screen_change_effect == CameraSwapEffects::eEffect5)
     {
         Map::FMV_482650(field_2C_5C305C_camera_array[0]->field_C_pCamRes, this, field_A_5C303A_levelId);
     }
 
-    if (field_10_screen_change_effect == 11)
+    if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
     {
-        pScreenManager_5BB5F4->sub_cam_vlc_40EF60(reinterpret_cast<WORD**>(field_2C_5C305C_camera_array[0]->field_C_pCamRes));
+        pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(field_2C_5C305C_camera_array[0]->field_C_pCamRes));
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
         pScreenManager_5BB5F4->MoveImage_40EB70();
         pScreenManager_5BB5F4->field_40_flags |= 0x10000;
@@ -572,7 +572,7 @@ void Map::GoTo_Camera_481890()
         pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     }
 
-    if (field_10_screen_change_effect != 5 && field_10_screen_change_effect != 11)
+    if (field_10_screen_change_effect != CameraSwapEffects::eEffect5 && field_10_screen_change_effect != CameraSwapEffects::eEffect11)
     {
         if (field_1E_door)
         {
@@ -694,7 +694,7 @@ void Map::Create_FG1s_480F10()
     }
 }
 
-signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, __int16 screenChangeEffect, __int16 a6, __int16 forceChange)
+signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange)
 {
     if (!forceChange && cam == sCurrentCamId_5C3034 && level == sCurrentLevelId_5C3030 && path == sCurrentPathId_5C3032)
     {
@@ -708,7 +708,7 @@ signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam
     field_10_screen_change_effect = screenChangeEffect;
     field_6_state = 2;
 
-    if (screenChangeEffect == 5 || screenChangeEffect == 11)
+    if (screenChangeEffect == CameraSwapEffects::eEffect5 || screenChangeEffect == CameraSwapEffects::eEffect11)
     {
         sMap_word_5C311C = 1;
     }
