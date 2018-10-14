@@ -121,6 +121,8 @@ add_library(AliveLib
     FG1.cpp
     BitField.hpp
     Particle.hpp
+    CameraSwapper.cpp
+    CameraSwapper.hpp
     WinMain.cpp
     WinMain.hpp
     Slurg.cpp

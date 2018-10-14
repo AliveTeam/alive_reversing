@@ -90,3 +90,4 @@ private:
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
 ALIVE_VAR_EXTERN(Map, gMap_5C3030);
+ALIVE_VAR_EXTERN(__int16, sMap_word_5C311C);
