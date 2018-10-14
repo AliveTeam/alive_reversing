@@ -60,7 +60,7 @@ ALIVE_VAR(1, 0x5C1B7C, DynamicArray*, gBaseAliveGameObjects_5C1B7C, nullptr);
 ALIVE_VAR(1, 0x5C1B80, DynamicArray*, sShadow_dArray_5C1B80, nullptr);
 
 ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
-ALIVE_VAR(1, 0x5C1B66, short, word_5C1B66, 0);
+ALIVE_VAR(1, 0x5C1B66, short, sNum_CamSwappers_5C1B66, 0);
 ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
 ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
 
@@ -504,7 +504,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
     pPauseMenu_5C9300 = nullptr;
     sActiveHero_5C1B68 = spAbe_554D5C;
     sControlledCharacter_5C1B8C = 0;
-    word_5C1B66 = 0;
+    sNum_CamSwappers_5C1B66 = 0;
     sGnFrame_5C1B84 = 0;
     sbLoadingInProgress_5C1B96 = 0;
 
@@ -638,7 +638,7 @@ EXPORT void CC Game_Run_466D40()
     pCheatController_5BC120->ctor_421BD0();
 
     Game_Init_LoadingIcon_482CD0();
-
+    
 #if DEVELOPER_MODE
     // LOAD DEBUG SAVE //
     // If debug.sav exists, load it before game start.
@@ -660,7 +660,7 @@ EXPORT void CC Game_Run_466D40()
     }
     /////////////////////////
 #endif
-    
+
     // Main loop start
     Game_Loop_467230();
 
@@ -873,7 +873,7 @@ EXPORT void CC Game_Loop_467230()
 
             if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdatable)
                 && pBaseGameObject->field_6_flags.Get(BaseGameObject::eDead) == false
-                && (!word_5C1B66 || pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdatableExtra)))
+                && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))
             {
                 if (pBaseGameObject->field_1C_update_delay <= 0)
                 {
@@ -894,7 +894,7 @@ EXPORT void CC Game_Loop_467230()
         }
 
         // Animate everything
-        if (word_5C1B66 <= 0)
+        if (sNum_CamSwappers_5C1B66 <= 0)
         {
             Animation::AnimateAll_40AC20(gObjList_animations_5C1A24);
         }
@@ -978,7 +978,7 @@ EXPORT void CC Game_Loop_467230()
         gMap_5C3030.sub_480B80();
         sInputObject_5BD4E0.Update_45F040();
 
-        if (!word_5C1B66)
+        if (sNum_CamSwappers_5C1B66 == 0)
         {
             sGnFrame_5C1B84++;
         }

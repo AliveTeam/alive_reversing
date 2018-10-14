@@ -17,6 +17,7 @@
 #include "QuikSave.hpp"
 #include "Sfx.hpp"
 #include "FG1.hpp"
+#include "Sound.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }
@@ -243,7 +244,7 @@ public:
     EXPORT void ctor_4E5000(BYTE** ppCamRes, __int16 changeEffect, __int16 xpos, __int16 ypos);
     EXPORT void dtor_4E5790();
     EXPORT void vdtor_4E4D90(signed int flags);
-    EXPORT void Init_4E50C0(BYTE**ppCamRes, __int16 changeEffect);
+    EXPORT void Init_4E50C0(BYTE** ppCamRes, __int16 changeEffect);
 
     virtual void VDestructor(signed int flags) override;
 
@@ -253,7 +254,7 @@ private:
     int field_28_movie;
     int field_2C_movie_id;
     BYTE** field_30_ppCamRes;
-    int field_34_pSubObject;
+    BaseGameObject* field_34_pSubObject;
     __int16 field_38_changeEffect;
     __int16 field_3A_count;
     __int16 field_3C_count_amount;
@@ -284,7 +285,25 @@ void CameraSwapper::ctor_4E5000(BYTE** ppCamRes, __int16 changeEffect, __int16 x
 
 void CameraSwapper::dtor_4E5790()
 {
-    NOT_IMPLEMENTED();
+    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
+
+    sNum_CamSwappers_5C1B66--;
+
+    if (field_34_pSubObject)
+    {
+        field_34_pSubObject->field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (sMap_word_5C311C)
+    {
+        gMap_5C3030.sub_480740(0);
+        sMap_word_5C311C = 0;
+    }
+
+    BackgroundMusic::Play_4CB030();
+    MusicController::EnableMusic_47FE10(1);
+    Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
+    BaseGameObject_dtor_4DBEC0();
 }
 
 void CameraSwapper::vdtor_4E4D90(signed int flags)
@@ -296,9 +315,45 @@ void CameraSwapper::vdtor_4E4D90(signed int flags)
     }
 }
 
-void CameraSwapper::Init_4E50C0(BYTE** /*ppCamRes*/, __int16 /*changeEffect*/)
+void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, __int16 changeEffect)
 {
     NOT_IMPLEMENTED();
+
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
+
+    field_4_typeId = Types::eCameraSwapper;
+
+
+    field_34_pSubObject = nullptr;
+
+    if (changeEffect == 5 || changeEffect == 9 || changeEffect == 10)
+    {
+        field_30_ppCamRes = ppCamRes;
+    }
+    else
+    {
+        pScreenManager_5BB5F4->sub_cam_vlc_40EF60(reinterpret_cast<WORD**>(ppCamRes));
+    }
+
+    sNum_CamSwappers_5C1B66++;
+
+    if (sNum_CamSwappers_5C1B66 != 1)
+    {
+        // TODO: Missing flag changes
+
+        // There can only be 1 active at a time
+        return;
+    }
+    field_38_changeEffect = changeEffect;
+    switch (changeEffect)
+    {
+    case 0:
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, 0, 640, 240);
+        field_6_flags.Set(BaseGameObject::eDead);
+        field_34_pSubObject = nullptr;
+        return;
+    // TODO: Missing cases for other effects
+    }
 }
 
 void CameraSwapper::VDestructor(signed int flags)
@@ -341,7 +396,7 @@ void Map::GoTo_Camera_481890()
 
                 if (pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatable))
                 {
-                    if (!(pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead)) && (!word_5C1B66 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdatableExtra)))
+                    if (!(pBaseGameObj->field_6_flags.Get(BaseGameObject::eDead)) && (!sNum_CamSwappers_5C1B66 || pBaseGameObj->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))
                     {
                         if (pBaseGameObj->field_1C_update_delay > 0)
                         {

@@ -79,7 +79,7 @@ void ResourceManager::Ctor_464910()
     field_48_dArray.ctor_40CA60(3);
 
     field_6_flags.Set(BaseGameObject::eBit08);
-    field_6_flags.Set(BaseGameObject::eUpdatableExtra);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
     SetVTable(this, 0x545EBC); // vTbl_ResourceManager_545EBC
 
     field_4_typeId = Types::eResourceManager;

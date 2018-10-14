@@ -287,7 +287,7 @@ void LCDScreen::Update_460A00()
 
 void LCDScreen::Render_460CB0(int ** ot)
 {
-    if (!word_5C1B66)
+    if (sNum_CamSwappers_5C1B66 == 0)
     {
         const auto camPos = pScreenManager_5BB5F4->field_20_pCamPos;
         const auto screenX = this->field_2C0_tlv.field_8_top_left.field_0_x - camPos->field_0_x.GetExponent();

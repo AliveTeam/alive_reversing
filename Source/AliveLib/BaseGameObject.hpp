@@ -23,7 +23,7 @@ public:
         eType_112 = 112,
         eType_125 = 125,
         eParticle = 134,
-
+        eCameraSwapper = 149,
         eDebugHelper = 1001, // NOTE: Not part of the original game - a debug helper only
         eDebugConsole = 1002,
         eDebugPathRenderer = 1003,
@@ -58,8 +58,8 @@ public:
         // bit 08 = 0x100 = ?
         eBit08 = 0x100,
 
-        // bit 09 = 0x200 = still update in some circumstance ? when word_5C1B66 is 0
-        eUpdatableExtra = 0x200,
+        // bit 09 = 0x200 = still update when the camera is changing
+        eUpdateDuringCamSwap = 0x200,
 
         // bit 10 = 0x400 = can never be removed
         eCantKill = 0x400,

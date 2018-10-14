@@ -379,7 +379,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     SetVTable(&field_158_animation, 0x544290);
 
     ++sMainMenuObjectCounter_BB4400;
-    field_6_flags.Set(BaseGameObject::eUpdatableExtra);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
 
     gMainMenuController = this;
 
@@ -1461,7 +1461,7 @@ signed int MainMenuController::sub_4CF640()
             {
                 if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
                 {
-                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead) == false && (!word_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdatableExtra)))
+                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead) == false && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))
                     {
                         pMovie->VUpdate();
                     }
@@ -1493,7 +1493,7 @@ signed int MainMenuController::sub_4CF640()
             {
                 if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
                 {
-                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead) == false && (!word_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdatableExtra)))
+                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead) == false && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))
                     {
                         pMovie->VUpdate();
                     }
@@ -1562,7 +1562,7 @@ signed int MainMenuController::sub_4CF640()
         return 1;
 
     case 4:
-        if (word_5C1B66 > 0)
+        if (sNum_CamSwappers_5C1B66 > 0)
         {
             return 1;
         }
@@ -1677,7 +1677,7 @@ void MainMenuController::sub_4CFE80()
             break;
 
         case 9: // ??
-            field_6_flags.Clear(BaseGameObject::eUpdatableExtra);
+            field_6_flags.Clear(BaseGameObject::eUpdateDuringCamSwap);
             field_22C_T80 = 15;
             
             if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
