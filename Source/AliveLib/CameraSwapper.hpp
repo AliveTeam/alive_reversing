@@ -43,3 +43,5 @@ private:
     __int16 field_56_slice_width;
 };
 ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x58);
+
+ALIVE_VAR_EXTERN(int, sMovie_ref_count_BB4AE4);

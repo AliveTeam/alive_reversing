@@ -13,6 +13,7 @@
 #include "Abe.hpp"
 #include "Psx.hpp"
 #include "Particle.hpp"
+#include "CameraSwapper.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -1317,8 +1318,6 @@ private:
     char field_47;
 };
 ALIVE_ASSERT_SIZEOF(Movie, 0x48);
-
-ALIVE_VAR(1, 0xbb4ae4, int, sMovie_ref_count_BB4AE4, 0);
 
 signed int MainMenuController::sub_4CF640()
 {

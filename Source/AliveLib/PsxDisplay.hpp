@@ -15,7 +15,7 @@ public:
 class PsxDisplay
 {
 public:
-    unsigned __int16 field_0_width;
+    __int16 field_0_width;
     __int16 field_2_height;
     __int16 field_4;
     __int16 field_6_bpp;

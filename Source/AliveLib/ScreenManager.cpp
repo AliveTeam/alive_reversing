@@ -105,6 +105,7 @@ void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed
 
 void ScreenManager::InvalidateRect_Layer3_40EDB0(int x, int y, signed int width, signed int height)
 {
+    LOG_INFO("x" << x << " y " << y << " w " << width << " h " << height);
     InvalidateRect_40EC90(x, y, width, height, 3);
 }
 

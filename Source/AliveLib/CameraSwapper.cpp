@@ -11,6 +11,8 @@
 #include "PsxDisplay.hpp"
 #include "Sfx.hpp"
 
+ALIVE_VAR(1, 0xbb4ae4, int, sMovie_ref_count_BB4AE4, 0); // TODO: Move to movie obj when created
+
 class ScreenClipper : public BaseGameObject
 {
 public:
@@ -391,6 +393,101 @@ void CameraSwapper::vUpdate_4E5850()
         field_34_pSubObject->Update_Clip_Rect_416EB0({ xpos, 0 }, { width + 1, gPsxDisplay_5C1130.field_2_height });
     }
     break;
+
+    case CameraSwapEffects::eEffect3_TopToBottom:
+    case CameraSwapEffects::eEffect4_BottomToTop:
+    {
+        field_3A_current_slice += field_3C_slices_per_tick;
+        if (field_3A_current_slice < 0 || field_3A_current_slice >= field_3E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        const short ypos = field_56_slice_width * field_3A_current_slice;
+        short height = (field_56_slice_width * (field_3A_current_slice + 1));
+
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, ypos, gPsxDisplay_5C1130.field_0_width, height);
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ 0, ypos }, { gPsxDisplay_5C1130.field_0_width, height });
+    }
+    break;
+
+    case CameraSwapEffects::eEffect6_VerticalSplit:
+    {
+        field_3A_current_slice += field_3C_slices_per_tick;
+        if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        const short xpos = field_56_slice_width * field_3A_current_slice;
+        const short halfDisplayWidth = gPsxDisplay_5C1130.field_0_width / 2;
+
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(halfDisplayWidth - xpos, 0, xpos + halfDisplayWidth, gPsxDisplay_5C1130.field_2_height);
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ halfDisplayWidth - xpos, 0 }, { xpos + halfDisplayWidth + 1,  gPsxDisplay_5C1130.field_2_height });
+    }
+    break;
+
+    case CameraSwapEffects::eEffect7_HorizontalSplit:
+    {
+        field_3A_current_slice += field_3C_slices_per_tick;
+        if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        const short ypos = field_56_slice_width * field_3A_current_slice;
+        const short halfDisplayHeight = gPsxDisplay_5C1130.field_2_height / 2;
+
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, halfDisplayHeight - ypos, 640, halfDisplayHeight + ypos);
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ 0, halfDisplayHeight - ypos }, { 640, halfDisplayHeight + ypos });
+    }
+    break;
+
+    case CameraSwapEffects::eEffect8_BoxOut:
+        // TODO
+        break;
+
+    case CameraSwapEffects::eEffect5_1_FMV:
+    {
+        if (sMovie_ref_count_BB4AE4)
+        {
+            // A movie is still playing
+            return;
+        }
+
+        if (field_4C_movie_next == 1)
+        {
+            gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+        }
+
+        pScreenManager_5BB5F4->field_44 = 1;
+
+        // Now apply the camera we where storing now that the movie is finished
+        if (field_30_ppCamRes)
+        {
+            pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(field_30_ppCamRes));
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0);
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 1);
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 2);
+        }
+
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    break;
+
+    case CameraSwapEffects::eEffect9_2_FMV:
+        // TODO
+        break;
+
+    case CameraSwapEffects::eEffect10_3_FMV:
+        // TODO
+        break;
 
     // TODO: Other effects
 
