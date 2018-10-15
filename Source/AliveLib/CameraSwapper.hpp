@@ -13,9 +13,11 @@ public:
     EXPORT void dtor_4E5790();
     EXPORT void vdtor_4E4D90(signed int flags);
     EXPORT void Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect);
+    EXPORT void vUpdate_4E5850();
 
+    virtual void VUpdate() override;
     virtual void VDestructor(signed int flags) override;
-
+    
 private:
     int field_20_movie;
     int field_24_movie_id;
@@ -24,9 +26,9 @@ private:
     BYTE** field_30_ppCamRes;
     ScreenClipper* field_34_pSubObject;
     CameraSwapEffects field_38_changeEffect;
-    __int16 field_3A_count;
-    __int16 field_3C_count_amount;
-    __int16 field_3E_slice_number;
+    __int16 field_3A_current_slice;
+    __int16 field_3C_slices_per_tick;
+    __int16 field_3E_total_slices;
     __int16 field_40_movie;
     __int16 field_42_movie;
     __int16 field_44_movie_vol;
@@ -38,6 +40,6 @@ private:
     __int16 field_50_ypos_converted;
     __int16 field_52_XSlices;
     __int16 field_54_YSlices;
-    __int16 field_56_slices;
+    __int16 field_56_slice_width;
 };
 ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x58);

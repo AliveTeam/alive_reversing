@@ -187,10 +187,10 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         return;
 
     case CameraSwapEffects::eEffect1_LeftToRight:
-        field_56_slices = gPsxDisplay_5C1130.field_0_width / kSliceWidth;
-        field_3C_count_amount = -1;
-        field_3E_slice_number = gPsxDisplay_5C1130.field_0_width / field_56_slices;
-        field_3A_count = gPsxDisplay_5C1130.field_0_width / field_56_slices;
+        field_56_slice_width = gPsxDisplay_5C1130.field_0_width / kSliceWidth;
+        field_3C_slices_per_tick = -1;
+        field_3E_total_slices = gPsxDisplay_5C1130.field_0_width / field_56_slice_width;
+        field_3A_current_slice = field_3E_total_slices;
 
         xy.field_2_y = 0;
         xy.field_0_x = gPsxDisplay_5C1130.field_0_width;
@@ -205,10 +205,10 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         break;
 
     case CameraSwapEffects::eEffect2_RightToLeft:
-        field_56_slices = gPsxDisplay_5C1130.field_0_width / kSliceWidth;
-        field_3C_count_amount = 1;
-        field_3E_slice_number = gPsxDisplay_5C1130.field_0_width / field_56_slices;
-        field_3A_count = -1;
+        field_56_slice_width = gPsxDisplay_5C1130.field_0_width / kSliceWidth;
+        field_3C_slices_per_tick = 1;
+        field_3E_total_slices = gPsxDisplay_5C1130.field_0_width / field_56_slice_width;
+        field_3A_current_slice = -1;
 
         xy.field_2_y = 0;
         xy.field_0_x = 0;
@@ -223,10 +223,10 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         break;
 
     case CameraSwapEffects::eEffect3_TopToBottom:
-        field_56_slices = gPsxDisplay_5C1130.field_2_height / kSliceWidth;
-        field_3C_count_amount = -1;
-        field_3E_slice_number = gPsxDisplay_5C1130.field_2_height / field_56_slices;
-        field_3A_count = gPsxDisplay_5C1130.field_2_height / field_56_slices;
+        field_56_slice_width = gPsxDisplay_5C1130.field_2_height / kSliceWidth;
+        field_3C_slices_per_tick = -1;
+        field_3E_total_slices = gPsxDisplay_5C1130.field_2_height / field_56_slice_width;
+        field_3A_current_slice = field_3E_total_slices;
 
         xy.field_0_x = 0;
         xy.field_2_y = gPsxDisplay_5C1130.field_2_height;
@@ -241,10 +241,10 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         break;
 
     case CameraSwapEffects::eEffect4_BottomToTop:
-        field_56_slices = gPsxDisplay_5C1130.field_2_height / kSliceWidth;
-        field_3C_count_amount = 1;
-        field_3E_slice_number = gPsxDisplay_5C1130.field_2_height / field_56_slices;
-        field_3A_count = -1;
+        field_56_slice_width = gPsxDisplay_5C1130.field_2_height / kSliceWidth;
+        field_3C_slices_per_tick = 1;
+        field_3E_total_slices = gPsxDisplay_5C1130.field_2_height / field_56_slice_width;
+        field_3A_current_slice = -1;
 
         xy.field_0_x = 0;
         xy.field_2_y = 0;
@@ -259,10 +259,10 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         break;
 
     case CameraSwapEffects::eEffect6_VerticalSplit:
-        field_56_slices = (gPsxDisplay_5C1130.field_0_width / 2) / kSliceWidth;
-        field_3C_count_amount = 1;
-        field_3E_slice_number = (gPsxDisplay_5C1130.field_0_width / 2) / field_56_slices;
-        field_3A_count = 0;
+        field_56_slice_width = (gPsxDisplay_5C1130.field_0_width / 2) / kSliceWidth;
+        field_3C_slices_per_tick = 1;
+        field_3E_total_slices = (gPsxDisplay_5C1130.field_0_width / 2) / field_56_slice_width;
+        field_3A_current_slice = 0;
 
         pScreenManager_5BB5F4->field_44 = 1;
 
@@ -277,10 +277,10 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         break;
 
     case CameraSwapEffects::eEffect7_HorizontalSplit:
-        field_56_slices = (gPsxDisplay_5C1130.field_2_height / 2) / kSliceWidth;
-        field_3C_count_amount = 1;
-        field_3E_slice_number = (gPsxDisplay_5C1130.field_2_height / 2) / field_56_slices;
-        field_3A_count = 0;
+        field_56_slice_width = (gPsxDisplay_5C1130.field_2_height / 2) / kSliceWidth;
+        field_3C_slices_per_tick = 1;
+        field_3E_total_slices = (gPsxDisplay_5C1130.field_2_height / 2) / field_56_slice_width;
+        field_3A_current_slice = 0;
 
         pScreenManager_5BB5F4->field_44 = 1;
 
@@ -321,9 +321,9 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
             startingSlice = xDiff / field_52_XSlices;
         }
 
-        field_3C_count_amount = 1;
-        field_3E_slice_number = startingSlice + 1;
-        field_3A_count = 0;
+        field_3C_slices_per_tick = 1;
+        field_3E_total_slices = startingSlice + 1;
+        field_3A_current_slice = 0;
 
         pScreenManager_5BB5F4->field_44 = 1;
 
@@ -351,6 +351,50 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
         ALIVE_FATAL("Unknown camera swap effect"); // Or one that isn't handled here
     }
 
+}
+
+void CameraSwapper::VUpdate()
+{
+    vUpdate_4E5850();
+}
+
+void CameraSwapper::vUpdate_4E5850()
+{
+    NOT_IMPLEMENTED();
+
+    if (field_6_flags.Get(BaseGameObject::eDead))
+    {
+        return;
+    }
+
+    switch (field_38_changeEffect)
+    {
+    case CameraSwapEffects::eEffect1_LeftToRight:
+    case CameraSwapEffects::eEffect2_RightToLeft:
+    {
+        field_3A_current_slice += field_3C_slices_per_tick;
+        if (field_3A_current_slice < 0 || field_3A_current_slice >= field_3E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        const short xpos = field_56_slice_width * field_3A_current_slice;
+        short width = (field_56_slice_width * (field_3A_current_slice + 1));
+        if (width > gPsxDisplay_5C1130.field_0_width - 1)
+        {
+            width = gPsxDisplay_5C1130.field_0_width - 1;
+        }
+
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(xpos, 0, width, gPsxDisplay_5C1130.field_2_height);
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ xpos, 0 }, { width + 1, gPsxDisplay_5C1130.field_2_height });
+    }
+    break;
+
+    // TODO: Other effects
+
+    }
 }
 
 void CameraSwapper::VDestructor(signed int flags)
