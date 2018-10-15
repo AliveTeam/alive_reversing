@@ -10,6 +10,7 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 #include "Sfx.hpp"
+#include "Movie.hpp"
 
 ALIVE_VAR(1, 0xbb4ae4, int, sMovie_ref_count_BB4AE4, 0); // TODO: Move to movie obj when created
 
@@ -481,16 +482,62 @@ void CameraSwapper::vUpdate_4E5850()
     }
     break;
 
+    // TODO: 2 and 3 FMV cases can be de-duped
     case CameraSwapEffects::eEffect9_2_FMV:
-        // TODO
+        if (field_3A_current_slice < 1)
+        {
+            field_3A_current_slice++;
+        }
+        else
+        {
+            pScreenManager_5BB5F4->field_40_flags &= ~1u;
+        }
+        
+        // When no movie is playing start the next one
+        if (sMovie_ref_count_BB4AE4 == 0)
+        {
+            auto pMovie = alive_new<Movie>();
+            if (pMovie)
+            {
+                pMovie->ctor_4DFDE0(
+                    field_24_movie_id,
+                    field_20_movie,
+                    field_40_movie,
+                    field_42_movie,
+                    field_44_movie_vol);
+            }
+            field_38_changeEffect = CameraSwapEffects::eEffect5_1_FMV;
+            field_4C_movie_next = field_48_movie;
+        }
         break;
 
     case CameraSwapEffects::eEffect10_3_FMV:
-        // TODO
+        if (field_3A_current_slice < 1)
+        {
+            field_3A_current_slice++;
+        }
+        else
+        {
+            pScreenManager_5BB5F4->field_40_flags &= ~1u;
+        }
+
+        // When no movie is playing start the next one
+        if (sMovie_ref_count_BB4AE4 == 0)
+        {
+            auto pMovie = alive_new<Movie>();
+            if (pMovie)
+            {
+                pMovie->ctor_4DFDE0(
+                    field_2C_movie_id,
+                    field_28_movie,
+                    field_46_movie,
+                    field_48_movie,
+                    field_4A_movie_vol);
+            }
+            field_38_changeEffect = CameraSwapEffects::eEffect9_2_FMV;
+            field_4C_movie_next = field_48_movie;
+        }
         break;
-
-    // TODO: Other effects
-
     }
 }
 

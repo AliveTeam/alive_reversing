@@ -14,6 +14,7 @@
 #include "Psx.hpp"
 #include "Particle.hpp"
 #include "CameraSwapper.hpp"
+#include "Movie.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -1251,73 +1252,6 @@ EXPORT void CC sub_494460(const char* /*a1*/, const char* /*a2*/, const char* /*
 {
     NOT_IMPLEMENTED();
 }
-
-class Movie : public BaseGameObject
-{
-public:
-    virtual void VDestructor(signed int flags) override
-    {
-        vdtor_4DFE80(flags);
-    }
-
-    virtual void VUpdate() override
-    {
-        vUpdate_4E0030();
-    }
-
-    virtual void VScreenChanged() override
-    {
-        // Null sub 0x4E02A0
-    }
-
-    EXPORT void Init_4DFF60(int /*a2*/, CdlLOC* /*pCdPos*/, __int16 /*bUnknown*/, __int16 /*a5*/, __int16 /*a6*/)
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    EXPORT void ctor_4DFDE0(int id, DWORD pos, __int16 a4, __int16 a5, __int16 volume)
-    {
-        NOT_IMPLEMENTED(); // TODO FIX ME - causes a hang
-
-        BaseGameObject_ctor_4DBFA0(TRUE, 0);
-        SetVTable(this, 0x547EF4); // vTbl_Movie_547EF4
-
-        CdlLOC cdLoc = {};
-        PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
-        Init_4DFF60(id, &cdLoc, a4, a5, volume);
-    }
-
-    EXPORT void vUpdate_4E0030()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    EXPORT void vdtor_4DFE80(signed int flags)
-    {
-        BaseGameObject_dtor_4DBEC0();
-        if (flags & 1)
-        {
-            Mem_Free_495540(this);
-        }
-    }
-
-private:
-    __int16 field_20;
-    __int16 field_22_param5;
-    int field_24;
-    int field_28;
-    BYTE** field_2C_ppRes;
-    int field_30;
-    int field_34;
-    int field_38_param_1;
-    int field_3C;
-    int field_40;
-    char field_44_cd_loc_min;
-    char field_45_cd_loc_sec;
-    char field_46;
-    char field_47;
-};
-ALIVE_ASSERT_SIZEOF(Movie, 0x48);
 
 signed int MainMenuController::sub_4CF640()
 {
