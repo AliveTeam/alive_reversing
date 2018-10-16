@@ -15,6 +15,7 @@
 #include "Particle.hpp"
 #include "CameraSwapper.hpp"
 #include "Movie.hpp"
+#include "MainMenuTransition.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -1277,40 +1278,37 @@ signed int MainMenuController::sub_4CF640()
 
             if (field_208_transition_obj)
             {
-                //MainMenuTransition::sub_464370(field_208_transition_obj, 40, 1, 0, 16);
+                field_208_transition_obj->sub_464370(40, 1, 0, 16);
                 field_21E_bChangeScreen = 2;
                 return 1;
             }
-            /*
-            pTransMem = (MainMenuTransition *)malloc_4954D0(0x258u);
-            if (pTransMem)
+
+            field_208_transition_obj = alive_new<MainMenuTransition>();
+            if (field_208_transition_obj)
             {
-                pTrans = (MainMenuTransition *)MainMenu_Transition::ctor_464110(pTransMem, 40, 1, 0, 16, 2);
-                goto LABEL_16;
-            }*/
+                field_208_transition_obj->ctor_464110(40, 1, 0, 16, 2);
+                field_21E_bChangeScreen = 2;
+                return 1;
+            }
         }
         else
         {
             if (field_208_transition_obj)
             {
-                //MainMenuTransition::sub_464370(field_208_transition_obj, 40, 1, 0, 16);
+                field_208_transition_obj->sub_464370(40, 1, 0, 16);
                 field_21E_bChangeScreen = 2;
                 return 1;
             }
-            /*
-            v8 = (MainMenuTransition *)malloc_4954D0(0x258u);
-            if (v8)
+
+            field_208_transition_obj = alive_new<MainMenuTransition>();
+            if (field_208_transition_obj)
             {
-                pTrans = (MainMenuTransition *)MainMenu_Transition::ctor_464110(v8, 40, 1, 0, 16, 1);
-                this->field_208_transition_obj = pTrans;
-                this->field_21E_bChangeScreen = 2;
+                field_208_transition_obj->ctor_464110(40, 1, 0, 16, 1);
+                field_21E_bChangeScreen = 2;
                 return 1;
-            }*/
+            }
         }
-        //pTrans = 0;
-    LABEL_16:
-        //field_208_transition_obj = pTrans;
-    LABEL_17:
+        // alive_new failure case
         field_21E_bChangeScreen = 2;
         return 1;
 

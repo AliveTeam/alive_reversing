@@ -81,6 +81,7 @@ struct MainMenuFrameTable
 extern PerLvlData gPerLvlData_561700[17];
 
 struct Path_TLV;
+class MainMenuTransition;
 
 class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 {
@@ -233,7 +234,7 @@ public:
     __int16 field_200_highlite_glow_speed;
     __int16 field_202_input_hold_down_timer;
     int field_204_prev_pressed;
-    int field_208_transition_obj;
+    MainMenuTransition* field_208_transition_obj;
     int field_20C;
     void* field_210_pUnknown;
     __int16 field_214_page_index;

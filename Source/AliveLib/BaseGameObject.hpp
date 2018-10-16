@@ -22,6 +22,7 @@ public:
         eFG1 = 101, 
         eType_112 = 112,
         eScreenClipper = 114,
+        eMainMenuTransistion = 116,
         eType_125 = 125,
         eParticle = 134,
         eCameraSwapper = 149,

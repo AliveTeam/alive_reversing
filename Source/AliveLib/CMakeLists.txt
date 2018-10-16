@@ -126,6 +126,8 @@ add_library(AliveLib
     Movie.cpp
     CameraSwapper.cpp
     CameraSwapper.hpp
+    MainMenuTransition.hpp
+    MainMenuTransition.cpp
     WinMain.cpp
     WinMain.hpp
     Slurg.cpp
