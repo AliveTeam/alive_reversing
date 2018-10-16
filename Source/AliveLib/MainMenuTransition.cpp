@@ -58,7 +58,7 @@ EXPORT int CC sub_496CD0(char /*a1*/)
     return 0;
 }
 
-void MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr)
+MainMenuTransition* MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -99,6 +99,8 @@ void MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeDirection, __int
     field_24E_width = 320;
     field_250_k120 = 120;
     sub_464370(layer, fadeDirection, bKillWhenDone, fadeSpeed);
+
+    return this;
 }
 
 void MainMenuTransition::sub_464370(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
