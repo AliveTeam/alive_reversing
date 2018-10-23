@@ -363,8 +363,6 @@ void CameraSwapper::VUpdate()
 
 void CameraSwapper::vUpdate_4E5850()
 {
-    NOT_IMPLEMENTED();
-
     if (field_6_flags.Get(BaseGameObject::eDead))
     {
         return;
@@ -451,8 +449,38 @@ void CameraSwapper::vUpdate_4E5850()
     break;
 
     case CameraSwapEffects::eEffect8_BoxOut:
-        // TODO
-        break;
+    {
+        field_3A_current_slice += field_3C_slices_per_tick;
+        if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
+        {
+            // All slices done
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        const short xSlicePos = field_3A_current_slice * field_52_XSlices;
+        const short width = (field_4E_xpos_converted + xSlicePos > gPsxDisplay_5C1130.field_0_width) ? gPsxDisplay_5C1130.field_0_width : field_4E_xpos_converted + xSlicePos;
+
+        const short ySlicePos = field_3A_current_slice * field_54_YSlices;
+        const short height = (ySlicePos + field_50_ypos_converted > gPsxDisplay_5C1130.field_2_height) ? gPsxDisplay_5C1130.field_2_height : ySlicePos + field_50_ypos_converted;
+
+        PSX_Point rect_xy = {};
+        rect_xy.field_0_x = (field_4E_xpos_converted - xSlicePos <= 0) ? 0 : field_4E_xpos_converted - xSlicePos;
+        rect_xy.field_2_y = (field_50_ypos_converted - ySlicePos <= 0) ? 0 : field_50_ypos_converted - ySlicePos;
+
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(
+            rect_xy.field_0_x,
+            rect_xy.field_2_y,
+            width,
+            height);
+
+        PSX_Point rect_wh = {};
+        rect_wh.field_0_x = width + 1;
+        rect_wh.field_2_y = height;
+
+        field_34_pSubObject->Update_Clip_Rect_416EB0(rect_xy, rect_wh);
+    }
+    break;
 
     case CameraSwapEffects::eEffect5_1_FMV:
     {
