@@ -105,6 +105,83 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x4C);
 
+CameraSwapper* CameraSwapper::ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int movieId, char movieFlag, __int16  movieFlags, __int16 movieVol)
+{
+    BaseGameObject_ctor_4DBFA0(1, 0);
+    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
+
+    Init_4E50C0(ppCamRes, CameraSwapEffects::eEffect5_1_FMV);
+
+    PSX_ResetCallBack_4FAA20();
+
+    Movie* pMovie = alive_new<Movie>();
+    if (pMovie)
+    {
+        pMovie->ctor_4DFDE0(movieId, movieSector, movieFlag, movieFlags, movieVol);
+    }
+
+    field_4C_movie_bPutDispEnv = movieFlags;
+
+    return this;
+}
+
+CameraSwapper* CameraSwapper::ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, char movieFlag1, __int16 movieFlags1, __int16 movieVol1, __int16 movieFlag2, __int16 movieFlags2, __int16 movieVol2)
+{
+    BaseGameObject_ctor_4DBFA0(1, 0);
+    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
+
+    Init_4E50C0(ppCamRes, CameraSwapEffects::eEffect9_2_FMV);
+    
+    PSX_ResetCallBack_4FAA20();
+
+    Movie* pMovie = alive_new<Movie>();
+    if (pMovie)
+    {
+        pMovie->ctor_4DFDE0(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
+    }
+
+    field_24_movie_id_3 = movieId2;
+    field_20_movie_pos_3 = moviePos2;
+    field_44_movie_vol_3 = movieVol2;
+    field_42_movie_flags_3 = movieFlags2;
+    field_40_movie_flag_3 = movieFlag2;
+
+    field_4C_movie_bPutDispEnv = movieFlags1;
+
+    return this;
+}
+
+CameraSwapper* CameraSwapper::ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, __int16  movieFlags1, __int16 movieVol1, __int16 movieFlag2, __int16 movieFlags2, __int16 movieVol2, __int16 moveFlag3, __int16 movieFlags3, __int16 movieVol3)
+{
+    BaseGameObject_ctor_4DBFA0(1, 0);
+    SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
+
+    Init_4E50C0(ppCamRes, CameraSwapEffects::eEffect10_3_FMV);
+
+    PSX_ResetCallBack_4FAA20();
+    Movie* pMovie = alive_new<Movie>();
+    if (pMovie)
+    {
+        pMovie->ctor_4DFDE0(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
+    }
+
+    field_2C_movie_id_2 = movieId2;
+    field_28_movie_pos_2 = moviePos2;
+    field_46_movie_flag_2 = movieFlag2;
+    field_48_movie_flags_2 = movieFlags2;
+    field_4A_movie_vol_2 = movieVol2;
+
+    field_24_movie_id_3 = movieId3;
+    field_20_movie_pos_3 = moviePos3;
+    field_40_movie_flag_3 = moveFlag3;
+    field_42_movie_flags_3 = movieFlags3;
+    field_44_movie_vol_3 = movieVol3;
+
+    field_4C_movie_bPutDispEnv = movieFlags1;
+
+    return this;
+}
+
 void CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
@@ -490,7 +567,7 @@ void CameraSwapper::vUpdate_4E5850()
             return;
         }
 
-        if (field_4C_movie_next == 1)
+        if (field_4C_movie_bPutDispEnv == 1)
         {
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
         }
@@ -528,14 +605,14 @@ void CameraSwapper::vUpdate_4E5850()
             if (pMovie)
             {
                 pMovie->ctor_4DFDE0(
-                    field_24_movie_id,
-                    field_20_movie,
-                    field_40_movie,
-                    field_42_movie,
-                    field_44_movie_vol);
+                    field_24_movie_id_3,
+                    field_20_movie_pos_3,
+                    field_40_movie_flag_3,
+                    field_42_movie_flags_3,
+                    field_44_movie_vol_3);
             }
             field_38_changeEffect = CameraSwapEffects::eEffect5_1_FMV;
-            field_4C_movie_next = field_48_movie;
+            field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
         }
         break;
 
@@ -556,14 +633,14 @@ void CameraSwapper::vUpdate_4E5850()
             if (pMovie)
             {
                 pMovie->ctor_4DFDE0(
-                    field_2C_movie_id,
-                    field_28_movie,
-                    field_46_movie,
-                    field_48_movie,
-                    field_4A_movie_vol);
+                    field_2C_movie_id_2,
+                    field_28_movie_pos_2,
+                    field_46_movie_flag_2,
+                    field_48_movie_flags_2,
+                    field_4A_movie_vol_2);
             }
             field_38_changeEffect = CameraSwapEffects::eEffect9_2_FMV;
-            field_4C_movie_next = field_48_movie;
+            field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
         }
         break;
     }
@@ -572,4 +649,9 @@ void CameraSwapper::vUpdate_4E5850()
 void CameraSwapper::VDestructor(signed int flags)
 {
     vdtor_4E4D90(flags);
+}
+
+void CameraSwapper::VScreenChanged()
+{
+
 }
