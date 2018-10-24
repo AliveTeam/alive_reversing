@@ -23,27 +23,29 @@ EXPORT char CC Vram_calc_width_4955A0(int width, int depth)
     return 0;
 }
 
-EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, char depth)
+EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, int depth)
 {
-    // TODO: Needs to be cleaned up
-    NOT_IMPLEMENTED();
-
-
-    int v6; // eax
-
     pRect->x = 1024 - pRect->w;
-
-    const char depthShift = 2 - depth;
-
-    if (pRect->x >= 0)
+    if (pRect->x < 0)
     {
-        while (true)
-        {
-            if ((pRect->w << depthShift) + ((pRect->x & 0x3F) << depthShift) > 256)
-            {
-                break;
-            }
+        return 0;
+    }
 
+    short newX = 0;
+    const int depthShift = 2 - depth;
+    while (true)
+    {
+        if ((pRect->w << depthShift) + ((pRect->x & 63) << depthShift) > 256)
+        {
+            newX = pRect->x + 64 - 1;
+            newX = (pRect->x + (64 - 1)) & ~(64 - 1);
+            if (newX < pRect->x)
+            {
+                pRect->x = newX;
+            }
+        }
+        else
+        {
             if (sVram_Count_dword_5CC888 <= 0)
             {
                 return 1;
@@ -61,30 +63,19 @@ EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, char depth)
                 }
             }
 
-            v6 = currentVramAlloc->x - pRect->w + 1;
+            newX = currentVramAlloc->x - pRect->w + 1;
 
-            if (v6 < pRect->x)
+            if (newX < pRect->x)
             {
-                goto LABEL_12;
-            }
-        LABEL_13:
-            if (--pRect->x < 0)
-            {
-                return 0;
+                pRect->x = newX;
             }
         }
 
-        //v5 |= ((pRect->x + 63) & 0xC0) >> 24; //LOBYTE(v5) = (v4 + 63) & 0xC0; TODO: CHECK if this is okay
-        v6 = (pRect->x + 63) - pRect->w + 1;
-        if (v6 >= pRect->x)
+        if (--pRect->x < 0)
         {
-            goto LABEL_13;
+            return 0;
         }
-    LABEL_12:
-        pRect->x = v6;
-        goto LABEL_13;
     }
-    return 0;
 }
 
 EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
@@ -114,7 +105,7 @@ EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
             {
                 // v7 &= 0xFFFFFF00; // Todo: check this. was LOBYTE(v7) = 0; Doesn't seem needed
                 // to pass tests.
-                const int ypos = (pRect->y + 255) - pRect->h + 1;
+                const short ypos = (pRect->y + 255) - pRect->h + 1;
                 if (ypos < pRect->y)
                 {
                     pRect->y = ypos;
