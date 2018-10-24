@@ -367,7 +367,9 @@ void Font_Context::LoadFontType_433400(short resourceID)
 void Font_Context::dtor_433510()
 {
     if (field_0_rect.x)
-        Vram_free_495A60(*(DWORD *)&field_0_rect.x, *(DWORD *)&field_0_rect.w);
+    {
+        Vram_free_495A60({ field_0_rect.x, field_0_rect.y }, { field_0_rect.w, field_0_rect.h });
+    }
 }
 
 bool Font_Context::LoadFontTypeFromFile(const char * fontPath, const char * atlasPath, char * pPaletteOut)

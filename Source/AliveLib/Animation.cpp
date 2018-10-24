@@ -179,8 +179,7 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
 {
     if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_NotUsedMode)))
     {
-        // TODO: Use points
-        Vram_free_495A60(*(DWORD *)&field_84_vram_rect.x, *(DWORD *)&field_84_vram_rect.w);
+        Vram_free_495A60({ field_84_vram_rect.x, field_84_vram_rect.y }, { field_84_vram_rect.w, field_84_vram_rect.h });
         field_84_vram_rect.x = 0;
         field_84_vram_rect.y = 0;
     }

@@ -1365,59 +1365,60 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
-EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, const void* /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* /*pPrim*/, int /*width*/, int /*height*/, const void* /*pCompressed*/)
 {
+
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int height, int unknown)
+EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int height, const void* pCompressedData)
 {
     assert(sRedShift_C215C4 == 11); // Should be the only possible case
     if (pOt->field_B_flags & 2 && k1_dword_55EF90)
     {
-        PSX_Render_PolyFT4_8bit_SemiTrans_501B00(pOt, width, height, unknown);
+        PSX_Render_PolyFT4_8bit_SemiTrans_501B00(pOt, width, height, pCompressedData);
     }
     else
     {
-        PSX_Render_PolyFT4_8bit_Opaque_5006E0(pOt, width, height, unknown);
+        PSX_Render_PolyFT4_8bit_Opaque_5006E0(pOt, width, height, pCompressedData);
     }
 }
 
-EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
+// Only possible to be used by FG1
+EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, const DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
 {
-    // Only possible to be used by FG1?
     NOT_IMPLEMENTED();
 }
 
-EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, int /*a4*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, int /*a4*/)
+EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, const void* /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT void CC PSX_Render_PolyFT4_4bit_517880(OT_Prim* pOt, int width, int height, int unknown)
+EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, const void* /*a4*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC PSX_Render_PolyFT4_4bit_517880(OT_Prim* pOt, int width, int height, const void* pCompressed)
 {
     assert(sRedShift_C215C4 == 11); // Should be the only possible case
     if (pOt->field_B_flags & 2)
     {
-        PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(pOt, width, height, unknown);
+        PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(pOt, width, height, pCompressed);
     }
     else
     {
-        PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(pOt, width, height, unknown);
+        PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(pOt, width, height, pCompressed);
     }
 }
 
@@ -1579,10 +1580,11 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
             pConverted->field_B_flags |= 1;
         }
 
-        // TODO: This seems to be set by Animation::vRender and its a pointer to type 3 or 6 compressed frame data ??
-        // must also be set by FG1 rendering ?
-        const DWORD unknown = pPoly->mVerts[1].mUv.tpage_clut_pad + (pPoly->mVerts[2].mUv.tpage_clut_pad << 16);
-        if (unknown)
+        // TODO: 64bit - can't fit 64bits of data into 32
+        // TODO: This seems to be set by Animation::vRender and its a pointer to type 3 or 6 compressed frame data
+        // It can also be set by FG1 rendering in which case a its a pointer to FG1 data.
+        const void* pAnimOrFG1Data = reinterpret_cast<void*>(pPoly->mVerts[1].mUv.tpage_clut_pad + (pPoly->mVerts[2].mUv.tpage_clut_pad << 16));
+        if (pAnimOrFG1Data)
         {
             const int xoffConverted = 16 * xoff;
             if (xoffConverted > 0)
@@ -1611,21 +1613,21 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
                 PSX_Render_PolyFT4_4bit_517880(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
-                    unknown);
+                    pAnimOrFG1Data);
                 break;
 
             case TextureModes::e8Bit:
                 PSX_Render_PolyFT4_8bit_50CC70(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
-                    unknown);
+                    pAnimOrFG1Data);
                 break;
 
             case TextureModes::e16Bit:
                 PSX_Render_PolyFT4_16bit_517990(pConverted,
                     (pConverted->field_14_verts[2].field_0_x0 - pConverted->field_14_verts[0].field_0_x0) / 16,
                     (pConverted->field_14_verts[2].field_4_y0 - pConverted->field_14_verts[0].field_4_y0) / 16,
-                    reinterpret_cast<DWORD*>(unknown),
+                    reinterpret_cast<const DWORD*>(pAnimOrFG1Data),
                     pConverted->field_14_verts[0].field_0_x0 / 16 , pConverted->field_14_verts[0].field_4_y0 / 16);
                 break;
             }

@@ -48,6 +48,7 @@ static void RunTests()
     LPSTR cmdLine = Sys_GetCommandLine_4EE176();
     ::testing::InitGoogleMock(&argCount, &cmdLine);
 
+    Test::VRamTests();
     Test::AnimationTests();
     Test::BmpTests();
     Test::PsxDisplayTests();
@@ -58,7 +59,6 @@ static void RunTests()
     Test::ScreenManagerTests();
     Test::ObjectIdsTests();
     Test::PsxRenderTests();
-    Test::VRamTests();
 }
 
 static void InitOtherHooksAndRunTests()

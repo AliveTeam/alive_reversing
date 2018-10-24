@@ -84,7 +84,7 @@ EXPORT signed int __cdecl Vram_4958F0(PSX_RECT *pRect, char depth)
     return 0;
 }
 
-EXPORT signed int __cdecl Vram_4957B0(PSX_RECT *pRect, int depth)
+EXPORT signed int __cdecl Vram_4957B0(PSX_RECT* pRect, int depth)
 {
     if (pRect->w > 1024 || pRect->h > 512)
     {
@@ -94,34 +94,30 @@ EXPORT signed int __cdecl Vram_4957B0(PSX_RECT *pRect, int depth)
     if (pRect->h * pRect->w >= 1024)
     {
         pRect->y = 512 - pRect->h;
-        if (pRect->y >= 0)
+        while (pRect->y >= 0)
         {
-            do
+            // Old Code: if (static_cast<unsigned __int8>(pRect->y) + pRect->h <= 256)
+            // Instead of casting to unsigned __int8 to wrap around the integer, we're
+            // going to do it manually in case other platforms don't auto wrap integers on
+            // cast.
+            if ((pRect->y % 256) + pRect->h <= 256)
             {
-                // Old Code: if (static_cast<unsigned __int8>(pRect->y) + pRect->h <= 256)
-                // Instead of casting to unsigned __int8 to wrap around the integer, we're
-                // going to do it manually incase other platforms dont auto wrap integers on
-                // cast.
-                if ((pRect->y % 256) + pRect->h <= 256)
+                if (Vram_4958F0(pRect, depth))
                 {
-                    if (Vram_4958F0(pRect, depth))
-                    {
-                        return 1;
-                    }
+                    return 1;
                 }
-                else
+            }
+            else
+            {
+                // v7 &= 0xFFFFFF00; // Todo: check this. was LOBYTE(v7) = 0; Doesn't seem needed
+                // to pass tests.
+                const int ypos = (pRect->y + 255) - pRect->h + 1;
+                if (ypos < pRect->y)
                 {
-                    // v7 &= 0xFFFFFF00; // Todo: check this. was LOBYTE(v7) = 0; Doesn't seem needed
-                    // to pass tests.
-                    const int v8 = (pRect->y + 255) - pRect->h + 1;
-                    if (v8 < pRect->y)
-                    {
-                        pRect->y = v8;
-                    }
+                    pRect->y = ypos;
                 }
-                --pRect->y;
-            } 
-            while (pRect->y >= 0);
+            }
+            --pRect->y;
         }
         return 0;
     }
@@ -165,11 +161,11 @@ EXPORT signed int __cdecl Vram_4957B0(PSX_RECT *pRect, int depth)
     return 1;
 }
 
-signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT* pRect)
+EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT* pRect)
 {
-    PSX_RECT rect;
+    PSX_RECT rect = {};
 
-    int depth = colourDepth / 8;
+    const int depth = colourDepth / 8;
 
     rect.w = Vram_calc_width_4955A0(width, depth);
     rect.h = height;
@@ -185,23 +181,38 @@ signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsi
     return 1;
 }
 
-int __cdecl Vram_alloc_fixed_4955F0(__int16 /*a1*/, __int16 /*a2*/, __int16 /*a3*/, __int16 /*a4*/)
+EXPORT int CC Vram_alloc_fixed_4955F0(__int16 /*a1*/, __int16 /*a2*/, __int16 /*a3*/, __int16 /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-void CC Vram_free_495A60(int /*xy*/, int /*wh*/)
+EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
+{
+    // Find the allocation
+    for (int i = 0; i < sVram_Count_dword_5CC888; i++)
+    {
+        if (sVramAllocations_5CB888[i].x == xy.field_0_x &&
+            sVramAllocations_5CB888[i].y == xy.field_2_y &&
+            sVramAllocations_5CB888[i].w == wh.field_0_x &&
+            sVramAllocations_5CB888[i].h == wh.field_2_y)
+        {
+            // Copy the last element to this one
+            sVramAllocations_5CB888[i] = sVramAllocations_5CB888[sVram_Count_dword_5CC888-1];
+
+            // Decrement the used count
+            sVram_Count_dword_5CC888--;
+            return;
+        }
+    }
+}
+
+EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* /*a1*/, unsigned int /*paletteColorCount*/)
 {
     NOT_IMPLEMENTED();
 }
 
-signed __int16 CC Pal_Allocate_483110(PSX_RECT* /*a1*/, unsigned int /*paletteColorCount*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-void CC Pal_free_483390(PSX_Point /*xy*/, __int16 /*palDepth*/)
+EXPORT void CC Pal_free_483390(PSX_Point /*xy*/, __int16 /*palDepth*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -253,9 +264,20 @@ namespace Test
         PSX_RECT rect3;
         Vram_alloc_4956C0(32, 16, 8, &rect3);
 
-        Vram_free_495A60(*reinterpret_cast<int*>(&rect.x), *reinterpret_cast<int*>(&rect.w));
-        Vram_free_495A60(*reinterpret_cast<int*>(&rect2.x), *reinterpret_cast<int*>(&rect2.w));
-        Vram_free_495A60(*reinterpret_cast<int*>(&rect3.x), *reinterpret_cast<int*>(&rect3.w));
+        
+        ASSERT_EQ(sVram_Count_dword_5CC888, 3);
+        Vram_free_495A60({ rect2.x, rect2.y }, { rect2.w, rect2.h });
+
+        PSX_RECT* pp0 = &sVramAllocations_5CB888[0];
+        PSX_RECT* pp1 = &sVramAllocations_5CB888[1];
+        PSX_RECT* pp2 = &sVramAllocations_5CB888[2];
+        PSX_RECT* pp3 = &sVramAllocations_5CB888[3];
+
+        ASSERT_TRUE(memcmp(&sVramAllocations_5CB888[1], &sVramAllocations_5CB888[2], sizeof(PSX_RECT)) == 0);
+        ASSERT_EQ(sVram_Count_dword_5CC888, 2);
+
+        Vram_free_495A60({ rect.x, rect.y }, { rect.w, rect.h });
+        Vram_free_495A60({ rect3.x, rect2.y }, { rect3.w, rect3.h });
     }
 
     void VRamTests()
