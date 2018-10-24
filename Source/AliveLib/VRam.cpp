@@ -23,16 +23,16 @@ EXPORT char CC Vram_calc_width_4955A0(int width, int depth)
     return 0;
 }
 
-EXPORT signed int __cdecl Vram_4958F0(PSX_RECT *pRect, char depth)
+EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, char depth)
 {
     // TODO: Needs to be cleaned up
     NOT_IMPLEMENTED();
 
-    
+
     int v6; // eax
 
     pRect->x = 1024 - pRect->w;
-    
+
     const char depthShift = 2 - depth;
 
     if (pRect->x >= 0)
@@ -43,7 +43,7 @@ EXPORT signed int __cdecl Vram_4958F0(PSX_RECT *pRect, char depth)
             {
                 break;
             }
-            
+
             if (sVram_Count_dword_5CC888 <= 0)
             {
                 return 1;
@@ -73,7 +73,7 @@ EXPORT signed int __cdecl Vram_4958F0(PSX_RECT *pRect, char depth)
                 return 0;
             }
         }
-        
+
         //v5 |= ((pRect->x + 63) & 0xC0) >> 24; //LOBYTE(v5) = (v4 + 63) & 0xC0; TODO: CHECK if this is okay
         v6 = (pRect->x + 63) - pRect->w + 1;
         if (v6 >= pRect->x)
@@ -87,7 +87,7 @@ EXPORT signed int __cdecl Vram_4958F0(PSX_RECT *pRect, char depth)
     return 0;
 }
 
-EXPORT signed int __cdecl Vram_4957B0(PSX_RECT* pRect, int depth)
+EXPORT int CC Vram_alloc_block_4957B0(PSX_RECT* pRect, int depth)
 {
     if (pRect->w > 1024 || pRect->h > 512)
     {
@@ -105,7 +105,7 @@ EXPORT signed int __cdecl Vram_4957B0(PSX_RECT* pRect, int depth)
             // cast.
             if ((pRect->y % 256) + pRect->h <= 256)
             {
-                if (Vram_4958F0(pRect, depth))
+                if (Vram_Is_Area_Free_4958F0(pRect, depth))
                 {
                     return 1;
                 }
@@ -137,7 +137,7 @@ EXPORT signed int __cdecl Vram_4957B0(PSX_RECT* pRect, int depth)
         const short yPos = pRect->y;
         if (pRect->h + yPos <= 255 || yPos >= 256)
         {
-            if (!Vram_4958F0(pRect, depth))
+            if (!Vram_Is_Area_Free_4958F0(pRect, depth))
             {
                 pRect->y++;
                 if (pRect->y >= 512 - pRect->h)
@@ -173,7 +173,7 @@ EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 heigh
     rect.w = Vram_calc_width_4955A0(width, depth);
     rect.h = height;
 
-    if (sVram_Count_dword_5CC888 >= kMaxAllocs || !Vram_4957B0(&rect, depth))
+    if (sVram_Count_dword_5CC888 >= kMaxAllocs || !Vram_alloc_block_4957B0(&rect, depth))
     {
         return 0;
     }
