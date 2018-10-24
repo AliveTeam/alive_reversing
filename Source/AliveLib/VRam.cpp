@@ -249,6 +249,31 @@ EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT*
     return 0;
 }
 
+
+ALIVE_VAR(1, 0x5c9162, __int16, pal_xpos_5C9162, 0);
+ALIVE_VAR(1, 0x5c9160, __int16, pal_ypos_5C9160, 0);
+
+ALIVE_VAR(1, 0x5c915c, __int16, pal_width_5C915C, 0);
+ALIVE_VAR(1, 0x5c915e, __int16, pal_free_count_5C915E, 0);
+
+ALIVE_ARY(1, 0x5c9164, int, 77, sPal_table_5C9164, {}); // TODO: Actually 32 in size ?
+
+EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16 width, unsigned __int16 height)
+{
+    pal_xpos_5C9162 = xpos;
+    pal_ypos_5C9160 = ypos;
+
+    pal_width_5C915C = width / 4;
+    pal_free_count_5C915E = height;
+
+    Vram_alloc_explicit_4955F0(xpos, ypos, xpos + width - 1, ypos + height - 1);
+    
+    for (int i = 0; i < height; i++)
+    {
+        sPal_table_5C9164[i] = 0;
+    }
+}
+
 using namespace ::testing;
 
 namespace Test

@@ -181,11 +181,6 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
     }
 }
 
-EXPORT int __cdecl Pal_Area_Init_483080(__int16 , __int16 , unsigned __int16 , unsigned __int16 )
-{
-    NOT_IMPLEMENTED();
-}
-
 void PsxDisplay::ctor_41DC30()
 {
     PSX_VSync_4F6170(0);
