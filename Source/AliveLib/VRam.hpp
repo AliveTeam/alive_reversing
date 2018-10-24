@@ -5,8 +5,8 @@
 
 EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT *pRect);
 
-EXPORT int __cdecl Vram_alloc_fixed_4955F0(__int16 /*a1*/, __int16 /*a2*/, __int16 /*a3*/, __int16 /*a4*/);
-
+EXPORT void CC Vram_init_495660();
+EXPORT void CC Vram_alloc_explicit_4955F0(__int16 x, __int16 y, __int16 w, __int16 h);
 EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh);
 
 EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* a1, unsigned int paletteColorCount);

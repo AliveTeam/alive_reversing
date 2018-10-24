@@ -20,27 +20,6 @@ EXPORT void CC PSX_Calc_FrameSkip_4945D0()
     NOT_IMPLEMENTED();
 }
 
-/*
-// No visible effect but just resets data
-void __cdecl sub_495660()
-{
-
-}
-
-// LED font/menu glyphs related
-signed int __cdecl sub_4958F0(signed __int16 *a1, char a2)
-{
-    return 1;
-}
-
-// LED font rendering related
-void __cdecl sub_495A60(int a1, int a2)
-{
-
-}
-*/
-
-
 struct TextRecords
 {
     char field_0_src_txt[1024];
@@ -114,8 +93,8 @@ EXPORT int CC DebugFont_Init_4DCF40() // Font
 {
     if (!sbDebugFontLoaded_BB4A24)
     {
-        Vram_alloc_fixed_4955F0(960, 256, 991, 287);
-        Vram_alloc_fixed_4955F0(960, 384, 975, 385);
+        Vram_alloc_explicit_4955F0(960, 256, 991, 287);
+        Vram_alloc_explicit_4955F0(960, 384, 975, 385);
         sbDebugFontLoaded_BB4A24 = 1;
     }
     DebugFont_Reset_4F8B40();
@@ -202,11 +181,6 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
     }
 }
 
-EXPORT void __cdecl Vram_init_495660()
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT int __cdecl Pal_Area_Init_483080(__int16 , __int16 , unsigned __int16 , unsigned __int16 )
 {
     NOT_IMPLEMENTED();
@@ -227,7 +201,7 @@ void PsxDisplay::ctor_41DC30()
     PSX_ResetGraph_4F8800(0);
     PSX_SetGraphDebug_4F8A10(0);
     Vram_init_495660();
-    Vram_alloc_fixed_4955F0(0, 0, 639, 271);
+    Vram_alloc_explicit_4955F0(0, 0, 639, 271);
     Pal_Area_Init_483080(0, 240, 640, 32);
     PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
     PSX_ClearOTag_4F6290(field_10_drawEnv[1].field_70_ot_buffer, field_A_buffer_size);

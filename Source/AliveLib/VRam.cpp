@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "VRam.hpp"
 #include "Function.hpp"
+#include "PsxDisplay.hpp"
 #include <gmock/gmock.h>
 
-ALIVE_ARY(1, 0x5cb888, PSX_RECT, 512, sVramAllocations_5CB888, {});
+const int kMaxAllocs = 512;
+
+ALIVE_ARY(1, 0x5cb888, PSX_RECT, kMaxAllocs, sVramAllocations_5CB888, {});
 ALIVE_VAR(1, 0x5cc888, int, sVram_Count_dword_5CC888, 0);
 
 EXPORT char CC Vram_calc_width_4955A0(int width, int depth)
@@ -170,7 +173,7 @@ EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 heigh
     rect.w = Vram_calc_width_4955A0(width, depth);
     rect.h = height;
 
-    if (sVram_Count_dword_5CC888 >= 512 || !Vram_4957B0(&rect, depth))
+    if (sVram_Count_dword_5CC888 >= kMaxAllocs || !Vram_4957B0(&rect, depth))
     {
         return 0;
     }
@@ -181,10 +184,26 @@ EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 heigh
     return 1;
 }
 
-EXPORT int CC Vram_alloc_fixed_4955F0(__int16 /*a1*/, __int16 /*a2*/, __int16 /*a3*/, __int16 /*a4*/)
+EXPORT void CC Vram_init_495660()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    for (int i = 0; i < kMaxAllocs; i++)
+    {
+        sVramAllocations_5CB888[i] = {};
+    }
+    sbDebugFontLoaded_BB4A24 = 0;
+    sVram_Count_dword_5CC888 = 0;
+}
+
+EXPORT void CC Vram_alloc_explicit_4955F0(__int16 x, __int16 y, __int16 w, __int16 h)
+{
+    if (sVram_Count_dword_5CC888 < kMaxAllocs)
+    {
+        sVram_Count_dword_5CC888++;
+        sVramAllocations_5CB888[sVram_Count_dword_5CC888].x = x;
+        sVramAllocations_5CB888[sVram_Count_dword_5CC888].y = y;
+        sVramAllocations_5CB888[sVram_Count_dword_5CC888].w = w - x + 1;
+        sVramAllocations_5CB888[sVram_Count_dword_5CC888].h = h - y + 1;
+    }
 }
 
 EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
@@ -267,11 +286,6 @@ namespace Test
         
         ASSERT_EQ(sVram_Count_dword_5CC888, 3);
         Vram_free_495A60({ rect2.x, rect2.y }, { rect2.w, rect2.h });
-
-        PSX_RECT* pp0 = &sVramAllocations_5CB888[0];
-        PSX_RECT* pp1 = &sVramAllocations_5CB888[1];
-        PSX_RECT* pp2 = &sVramAllocations_5CB888[2];
-        PSX_RECT* pp3 = &sVramAllocations_5CB888[3];
 
         ASSERT_TRUE(memcmp(&sVramAllocations_5CB888[1], &sVramAllocations_5CB888[2], sizeof(PSX_RECT)) == 0);
         ASSERT_EQ(sVram_Count_dword_5CC888, 2);

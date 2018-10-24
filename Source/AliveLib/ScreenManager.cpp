@@ -481,7 +481,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
     field_30_cam_width = 640;
     field_32_cam_height = 240;
 
-    Vram_alloc_fixed_4955F0(0, 272, 640 - 1, 512 - 1);
+    Vram_alloc_explicit_4955F0(0, 272, 640 - 1, 512 - 1);
     DecompressToVRam_40EF60(reinterpret_cast<WORD**>(ppBits));
 
     field_24_screen_sprites = &sSpriteTPageBuffer_5B86C8[0];
