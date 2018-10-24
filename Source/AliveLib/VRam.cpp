@@ -198,11 +198,11 @@ EXPORT void CC Vram_alloc_explicit_4955F0(__int16 x, __int16 y, __int16 w, __int
 {
     if (sVram_Count_dword_5CC888 < kMaxAllocs)
     {
-        sVram_Count_dword_5CC888++;
         sVramAllocations_5CB888[sVram_Count_dword_5CC888].x = x;
         sVramAllocations_5CB888[sVram_Count_dword_5CC888].y = y;
         sVramAllocations_5CB888[sVram_Count_dword_5CC888].w = w - x + 1;
         sVramAllocations_5CB888[sVram_Count_dword_5CC888].h = h - y + 1;
+        sVram_Count_dword_5CC888++;
     }
 }
 
