@@ -52,18 +52,16 @@ EXPORT int CC Vram_Is_Area_Free_4958F0(PSX_RECT* pRect, int depth)
             }
 
             int i = 0;
-            PSX_RECT *currentVramAlloc = sVramAllocations_5CB888;
-            while (!Vram_rects_overlap_4959E0(pRect, currentVramAlloc))
+            while (!Vram_rects_overlap_4959E0(pRect, &sVramAllocations_5CB888[i]))
             {
                 i++;
-                currentVramAlloc++;
                 if (i >= sVram_Count_dword_5CC888)
                 {
                     return 1;
                 }
             }
 
-            newX = currentVramAlloc->x - pRect->w + 1;
+            newX = sVramAllocations_5CB888[i].x - pRect->w + 1;
 
             if (newX < pRect->x)
             {
