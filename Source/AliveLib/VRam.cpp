@@ -215,16 +215,6 @@ EXPORT void CC Vram_free_495A60(PSX_Point xy, PSX_Point wh)
     }
 }
 
-EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* /*a1*/, unsigned int /*paletteColorCount*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Pal_free_483390(PSX_Point /*xy*/, __int16 /*palDepth*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
     const int x1 = pRect1->x;
@@ -257,6 +247,29 @@ ALIVE_VAR(1, 0x5c915c, __int16, pal_width_5C915C, 0);
 ALIVE_VAR(1, 0x5c915e, __int16, pal_free_count_5C915E, 0);
 
 ALIVE_ARY(1, 0x5c9164, int, 77, sPal_table_5C9164, {}); // TODO: Actually 32 in size ?
+
+EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* /*a1*/, unsigned int /*paletteColorCount*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
+{
+    const int palIdx = xy.field_2_y - pal_ypos_5C9160;
+    const int palWidthBits = xy.field_0_x - pal_xpos_5C9162;
+    switch (palDepth)
+    {
+    case 16: // 1 bit
+        sPal_table_5C9164[palIdx] ^= 1 << ((palWidthBits) / 16); // div 16 to get num bits
+        break;
+    case 64: // 4 bits
+        sPal_table_5C9164[palIdx] ^= 0xF << ((palWidthBits) / 16);
+        break;
+    case 256: // 16 bits
+        sPal_table_5C9164[palIdx] ^= 0xFFFF << ((palWidthBits) / 16);
+        break;
+    }
+}
 
 EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16 width, unsigned __int16 height)
 {
