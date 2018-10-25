@@ -1,6 +1,13 @@
 # Alive_Reversing
 An open source reimplementation of Oddworld: Abe's Exoddus.
 
+## Discord/discussion/patreon server:
+https://discord.gg/khs6KKS
+
+## Patreons:
+- HTML_Earth
+- SligStorm
+
 ## Contributing
 If you'd like to contribute to our reverse engineering efforts, make sure to follow our reverse engineering guidelines:
 
