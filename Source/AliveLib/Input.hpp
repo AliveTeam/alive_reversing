@@ -11,9 +11,10 @@ EXPORT void CC Input_DisableInput_4EDDC0();
 EXPORT void CC Input_Init_491BC0();
 EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown);
 EXPORT bool CC Input_IsVKPressed_4EDD40(int key);
-EXPORT char Input_ReadKey_492610();
+EXPORT DWORD Input_GetLastPressedKey_492610();
 EXPORT void Input_Reset_492660();
 EXPORT unsigned int Input_IsChanting_45F260();
+EXPORT void CC Input_Pads_Reset_4FA960();
 
 enum InputCommands : unsigned int
 {
@@ -144,6 +145,6 @@ ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
 ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
 ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5C1BBE);
-ALIVE_VAR_EXTERN(BOOL, sLastPressedKey_BD30A0);
+ALIVE_VAR_EXTERN(DWORD, sLastPressedKey_BD30A0);
 ALIVE_VAR_EXTERN(int, sIsAKeyDown_BD309C);
 ALIVE_VAR_EXTERN(__int16, word_5C1B9A);

@@ -527,11 +527,6 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
     sub_43BF40(); // Init other vars + switch states
 }
 
-EXPORT void __stdcall sub_45F000(int )
-{
-    NOT_IMPLEMENTED();
-}
-
 EXPORT void CC SYS_EventsPump_494580()
 {
     if (SYS_PumpMessages_4EE4F4())
@@ -584,7 +579,7 @@ EXPORT void CC Game_Run_466D40()
     gPsxDisplay_5C1130.ctor_41DC30();
     PSX_CdInit_4FB2C0();
     PSX_CdSetDebug_4FB330(0);
-    sub_45F000(1); // starts card/pads on psx ver
+    Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
 
     gBaseGameObject_list_BB47C4 = alive_new<DynamicArrayT<BaseGameObject>>();
     gBaseGameObject_list_BB47C4->ctor_40CA60(50);

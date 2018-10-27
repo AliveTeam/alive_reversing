@@ -735,19 +735,23 @@ public:
 
         Command_HelperUpdate();
 
-        auto key = Input_ReadKey_492610();
+        const char key = Input_GetLastPressedKey_492610();
 
         if (GetAsyncKeyState(VK_OEM_3) & 0x1 || GetAsyncKeyState(VK_F9) & 0x1)
         {
             mCommandLineEnabled = !mCommandLineEnabled;
 
             if (mCommandLineEnabled)
+            {
                 Input_DisableInput_4EDDC0();
+            }
             else
+            {
                 Input_EnableInput_4EDDD0();
+            }
         }
 
-        const char * allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-+@#$%^&*()_";
+        const char* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-+@#$%^&*()_";
 
         if (GetAsyncKeyState(VK_UP) & 0x1 && mCommandLineEnabled)
         {

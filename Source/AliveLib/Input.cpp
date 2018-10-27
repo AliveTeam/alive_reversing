@@ -39,7 +39,7 @@ ALIVE_VAR(1, 0xBBB9D0, BYTE, sInputEnabled_BBB9D0, 0);
 ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
 ALIVE_VAR(1, 0x5C1BBE, unsigned __int16, sCurrentControllerIndex_5C1BBE, 0);
 ALIVE_VAR(1, 0x5C1B9A, __int16, word_5C1B9A, 0);
-ALIVE_VAR(1, 0xbd30a0, BOOL, sLastPressedKey_BD30A0, FALSE);
+ALIVE_VAR(1, 0xbd30a0, DWORD, sLastPressedKey_BD30A0, 0);
 ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
 ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
@@ -56,6 +56,8 @@ ALIVE_VAR(1, 0x5c2ea4, int, dword_5C2EA4, 0);
 ALIVE_VAR(1, 0x5c2ee4, int, dword_5C2EE4, 0);
 ALIVE_VAR(1, 0x5c2ef0, int, dword_5C2EF0, 0);
 
+ALIVE_VAR(1, 0xbd1878, DWORD, sLastPad_Input_BD1878, 0);
+ALIVE_VAR(1, 0xbd1874, bool, sReadPadEnable_BD1874, false);
 
 ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { VK_LEFT, eLeft },
@@ -105,7 +107,7 @@ int sInputUnknown_55EA2C[] =
 
 // For joysticks with very little buttons, depending on strength of joystick, will make abe
 // automatically run/sneak.
-EXPORT void CC Input_AutoRun_45FF60(float x, float y, DWORD *buttons)
+EXPORT void CC Input_AutoRun_45FF60(float /*x*/, float /*y*/, DWORD* /*buttons*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -143,7 +145,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
         }
     }
 
-    signed int xRange = (sJoystickCaps_5C2D10.wXmin + sJoystickCaps_5C2D10.wXmax) / 2;
+    DWORD xRange = (sJoystickCaps_5C2D10.wXmin + sJoystickCaps_5C2D10.wXmax) / 2;
     signed int xRangeDeadZone = (xRange - sJoystickCaps_5C2D10.wXmin) / 4;
     if (sJoystickInfo_5C2EA8.dwXpos < xRange - xRangeDeadZone || sJoystickInfo_5C2EA8.dwXpos > xRange + xRangeDeadZone)
     {
@@ -154,7 +156,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
         *pX1 = 0.0f;
     }
 
-    signed int yRange = (sJoystickCaps_5C2D10.wYmax + sJoystickCaps_5C2D10.wYmin) / 2;
+    DWORD yRange = (sJoystickCaps_5C2D10.wYmax + sJoystickCaps_5C2D10.wYmin) / 2;
     signed int yRangeDeadZone = (yRange - sJoystickCaps_5C2D10.wYmin) / 4;
     if (sJoystickInfo_5C2EA8.dwYpos < yRange - yRangeDeadZone || sJoystickInfo_5C2EA8.dwYpos > yRange + yRangeDeadZone)
     {
@@ -165,7 +167,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
         *pY1 = 0.0f;
     }
 
-    signed int zRange = (sJoystickCaps_5C2D10.wZmin + sJoystickCaps_5C2D10.wZmax) / 2;
+    DWORD zRange = (sJoystickCaps_5C2D10.wZmin + sJoystickCaps_5C2D10.wZmax) / 2;
     signed int zRangeDeadZone = (zRange - sJoystickCaps_5C2D10.wZmin) / 4;
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNZ
         && (sJoystickInfo_5C2EA8.dwZpos < zRange - zRangeDeadZone || sJoystickInfo_5C2EA8.dwZpos > zRange + zRangeDeadZone))
@@ -177,7 +179,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
         *pX2 = 0.0f;
     }
 
-    signed int wRange = (sJoystickCaps_5C2D10.wRmax + sJoystickCaps_5C2D10.wRmin) / 2;
+    DWORD wRange = (sJoystickCaps_5C2D10.wRmax + sJoystickCaps_5C2D10.wRmin) / 2;
     signed int wRangeDeadZone = (wRange - sJoystickCaps_5C2D10.wRmin) / 4;
     if (sJoystickCapFlags_5C2EDC & JOY_RETURNR
         && (sJoystickInfo_5C2EA8.dwRpos < wRange - wRangeDeadZone || sJoystickInfo_5C2EA8.dwRpos > wRange + wRangeDeadZone))
@@ -665,7 +667,7 @@ EXPORT void Input_InitJoyStick_460080()
 {
     sJoystickEnabled_5C2EF4 = false;
 
-    for (int i = 0; i < joyGetNumDevs(); i++)
+    for (DWORD i = 0; i < joyGetNumDevs(); i++)
     {
         if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, 0x194u))
         {
@@ -732,7 +734,7 @@ EXPORT void Input_InitJoyStick_460080()
             float pX1; // [esp+1Ch] [ebp-4h]
 
             Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
-            Input_45FDF0(pX2, pY2, sJoystickCapFlags_5C2EDC & 4, sJoystickCapFlags_5C2EDC & 8);
+            Input_45FDF0(pX2, pY2, (sJoystickCapFlags_5C2EDC & 4) != 0, (sJoystickCapFlags_5C2EDC & 8) != 0);
         }
     }
 
@@ -912,17 +914,19 @@ EXPORT void CC Input_Init_491BC0()
     Input_SetCallback_4FA910(Input_492150);
 }
 
-EXPORT char Input_ReadKey_492610()
+EXPORT DWORD Input_GetLastPressedKey_492610()
 {
     if (!Sys_IsAnyKeyDown_4EDDF0())
+    {
         return 0;
+    }
 
-    const auto lk = sLastPressedKey_BD30A0;
+    const DWORD lastVKeyPressed = sLastPressedKey_BD30A0;
 
     sIsAKeyDown_BD309C = false;
     sLastPressedKey_BD30A0 = 0;
 
-    return lk;
+    return lastVKeyPressed;
 }
 
 void Input_Reset_492660()
@@ -946,7 +950,7 @@ EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown)
 {
     if (bIsDown)
     {
-        sInputKeyStates_BD2F60[key] = -127;
+        sInputKeyStates_BD2F60[key] = 129;
     }
     else
     {
@@ -969,11 +973,25 @@ EXPORT bool CC Input_IsVKPressed_4EDD40(int key)
     return true;
 }
 
-EXPORT int CC sub_4FA9C0(int /*padNum*/)
+EXPORT int CC Input_Read_Pad_4FA9C0(int padNum)
 {
+    if (!sReadPadEnable_BD1874 || (padNum != 0) != (Input_GetKeyState_4EDD20(VK_F2) != 0))
+    {
+        return 0;
+    }
 
-    NOT_IMPLEMENTED();
-    return 0;
+    if (sInputCallbackFunc_BD1870)
+    {
+        sLastPad_Input_BD1878 = sInputCallbackFunc_BD1870();
+    }
+
+    return sLastPad_Input_BD1878;
+}
+
+EXPORT void CC Input_Pads_Reset_4FA960()
+{
+    sLastPad_Input_BD1878 = 0;
+    sReadPadEnable_BD1874 = true;
 }
 
 int InputObject::Is_Demo_Playing_45F220()
@@ -1021,7 +1039,7 @@ void InputObject::Update_45F040()
     };
 
     field_0_pads[0].field_8_previous = field_0_pads[0].field_0_pressed;
-    field_0_pads[0].field_0_pressed = sub_4FA9C0(0);
+    field_0_pads[0].field_0_pressed = Input_Read_Pad_4FA9C0(0);
 
     if (Is_Demo_Playing_45F220())
     {
@@ -1058,7 +1076,7 @@ void InputObject::Update_45F040()
     field_0_pads[0].field_4_dir = byte_545A4C[field_0_pads[0].field_0_pressed & 0xF];
 
     field_0_pads[1].field_8_previous = field_0_pads[1].field_0_pressed;
-    field_0_pads[1].field_0_pressed = sub_4FA9C0(1);
+    field_0_pads[1].field_0_pressed = Input_Read_Pad_4FA9C0(1);
     field_0_pads[1].field_10_released = field_0_pads[1].field_8_previous & ~field_0_pads[1].field_0_pressed;
     field_0_pads[1].field_C_held = field_0_pads[1].field_0_pressed & ~field_0_pads[1].field_8_previous;
     field_0_pads[1].field_4_dir = byte_545A4C[field_0_pads[1].field_0_pressed & 0xF];

@@ -52,8 +52,8 @@ StatsSign * StatsSign::ctor_47B600(Path_StatsSign * params, int a3)
     field_104_position_x = (FP(static_cast<int>(params->field_0_mBase.field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x).GetExponent();
     field_106_position_y = (FP(static_cast<int>(params->field_0_mBase.field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y).GetExponent();
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
-    field_108_is_hidden = params->field_14_hidden;
-    sStatsSignCurrentArea_5C1A20 = params->field_12_zulag_number;
+    field_108_is_hidden = static_cast<__int16 >(params->field_14_hidden);
+    sStatsSignCurrentArea_5C1A20 = static_cast<char>(params->field_12_zulag_number);
     return this;
 }
 
@@ -86,19 +86,14 @@ void StatsSign::vUpdate_47B8D0()
 // Todo: clean up
 void StatsSign::vRender_47B900(int ** pOt)
 {
-    __int16 flickerAmount = 50; // ax
-
-    int maxWidth; // edi
     
-    unsigned __int8 mudsLeftInArea; // al
-    unsigned int v10; // edx
-    char text[12]; // [esp+4h] [ebp-Ch]
-
     if (!field_108_is_hidden)
     {
+        char text[12] = {};
         sprintf(text, "%3d", (unsigned __int16)sMudsInLevelCount_55CFAC[gMap_5C3030.sCurrentLevelId_5C3030]);
         int maxWidth = field_90_font3.MeasureWidth_433700(text);
 
+        __int16 flickerAmount = 50; // ax
         if (sDisableFontFlicker_5C9304)
         {
             flickerAmount = 0;
@@ -121,8 +116,7 @@ void StatsSign::vRender_47B900(int ** pOt)
             FP_FromDouble(1.0),
             field_104_position_x + maxWidth,
             flickerAmount);
-        mudsLeftInArea = sMudokonsInArea_5C1BC4
-            - sSavedKilledMudsPerPath_5C1B50[sStatsSignCurrentArea_5C1A20];
+        const __int16  mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerPath_5C1B50[sStatsSignCurrentArea_5C1A20];
         field_10A_muds_left_in_area = mudsLeftInArea;
 
         // Muds in this Area
