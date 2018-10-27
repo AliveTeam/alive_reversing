@@ -1392,9 +1392,75 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int heigh
 }
 
 // Only possible to be used by FG1
-EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* /*pOt*/, int /*width*/, int /*height*/, const DWORD* /*unknown*/, int /*x0*/, int /*y0*/)
+EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, int width, int height, const DWORD* pFg1Data, int xoffset, int yoffset)
 {
-    NOT_IMPLEMENTED();
+    int xConverted = pPrim->field_14_verts[0].field_0_x0 / 16;
+    int yConverted = pPrim->field_14_verts[0].field_4_y0 / 16;
+
+    const int clipx_div16 = sPsx_drawenv_clipx_BDCD40 / 16;
+    const int clipy_div16 = sPsx_drawenv_clipy_BDCD44 / 16;
+
+    // TODO: Needs more reversing/clean up to understand the coordinate space conversion
+    int skipBits = 0;
+    if (xConverted >= clipx_div16)
+    {
+        skipBits = 0;
+    }
+    else
+    {
+        skipBits = clipx_div16 - xConverted;
+        width -= clipx_div16 - xConverted;
+        xoffset += clipx_div16 - xConverted;
+        xConverted = sPsx_drawenv_clipx_BDCD40 / 16;
+    }
+
+    if (width > sPsx_drawenv_clipw_BDCD48 / 16 - xConverted)
+    {
+        width = sPsx_drawenv_clipw_BDCD48 / 16 - xConverted;
+    }
+
+    int height_clipped = 0;
+    if (yConverted >= clipy_div16)
+    {
+        height_clipped = height;
+    }
+    else
+    {
+        height_clipped = yConverted - clipy_div16 + height;
+        yoffset += clipy_div16 - yConverted;
+        yConverted = sPsx_drawenv_clipy_BDCD44 / 16;
+    }
+
+    if (height_clipped > sPsx_drawenv_cliph_BDCD4C / 16 - yConverted)
+    {
+        height_clipped = sPsx_drawenv_cliph_BDCD4C / 16 - yConverted;
+    }
+
+    if (height_clipped >= 0 && width >= 0)
+    {
+        const unsigned int pitch = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
+        WORD* pDst = (WORD *)spBitmap_C2D038->field_4_pLockedPixels + (1 * xConverted) + (yConverted * pitch);
+        WORD* pSrc = (WORD *)spBitmap_C2D038->field_4_pLockedPixels + (pitch * (yoffset + 272)) + xoffset;
+       
+        for (int yIter = 0; yIter < height_clipped; yIter++)
+        {
+            DWORD bitMask = (*pFg1Data) >> skipBits;
+            int dst_off = pSrc - pDst;
+            for (int xIter = 0; xIter < width; xIter++)
+            {
+                if (bitMask & 1)
+                {
+                    pDst[xIter] = pDst[dst_off + xIter];
+                }
+                bitMask >>= 1; // To next bit
+            }
+
+            pDst += pitch;
+            pSrc += pitch;
+
+            pFg1Data++;
+        }
+    }
 }
 
 EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* /*pOt*/, int /*a2*/, int /*a3*/, const void* /*a4*/)
