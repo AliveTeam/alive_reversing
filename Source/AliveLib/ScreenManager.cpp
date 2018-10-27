@@ -105,7 +105,6 @@ void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed
 
 void ScreenManager::InvalidateRect_Layer3_40EDB0(int x, int y, signed int width, signed int height)
 {
-    LOG_INFO("x" << x << " y " << y << " w " << width << " h " << height);
     InvalidateRect_40EC90(x, y, width, height, 3);
 }
 
@@ -544,9 +543,35 @@ ALIVE_VAR(1, 0x5BB5DC, SprtTPage*, pCurrent_SprtTPage_5BB5DC, nullptr);
 ALIVE_VAR(1, 0x5bb5f0, int, sCurrentYPos_5BB5F0, 0);
 ALIVE_VAR(1, 0x5bb5d8, int, sIdx_5BB5D8, 0);
 
-void ScreenManager::Render_Helper_40E9F0(int /*xpos*/, int /*ypos*/, int /*idx*/, int /*sprite_idx*/, int** /*ot*/)
+void ScreenManager::Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite_idx, int** ot)
 {
-    NOT_IMPLEMENTED();
+    if (IsDirty_40EBC0(field_3A_idx, xpos, ypos) || IsDirty_40EBC0(field_3C_y_idx, xpos, ypos) || IsDirty_40EBC0(3, xpos, ypos))
+    {
+        SprtTPage* pSprite = &field_24_screen_sprites[sprite_idx];
+        if (Y0(&pSprite->mSprt) != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != idx)
+        {
+            if (pCurrent_SprtTPage_5BB5DC)
+            {
+                OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+                OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+            }
+            pSprite->mSprt.field_14_w = 32;
+            pCurrent_SprtTPage_5BB5DC = pSprite;
+            sIdx_5BB5D8 = idx;
+            sCurrentYPos_5BB5F0 = Y0(&pSprite->mSprt);
+        }
+        else
+        {
+            pCurrent_SprtTPage_5BB5DC->mSprt.field_14_w += 32;
+        }
+    }
+    else if (pCurrent_SprtTPage_5BB5DC)
+    {
+        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+        OrderingTable_Add_4F8AA0(&ot[sIdx_5BB5D8], &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+        pCurrent_SprtTPage_5BB5DC = nullptr;
+        sCurrentYPos_5BB5F0 = -1;
+    }
 }
 
 void ScreenManager::sub_40EE50()
