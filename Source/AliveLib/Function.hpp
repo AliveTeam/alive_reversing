@@ -14,6 +14,12 @@
 
 #define NOT_IMPLEMENTED() { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } static bool __done__ = false; if (!__done__) { __done__ = true; LOG_WARNING("Not implemented"); }
 
+// Stdlib functions are marked as not implemented even though they are implemented. This is so that in the real game in the injection dll
+// we call the games stdlib function due to being marked as not implemented. Then in the standalone exe we have to run whatever impl we have which
+// is a forward call to the matching stdlib function. We use this instead of NOT_IMPLEMENTED() to highlite this odd corner case and so that we do not
+// get log spam about stdlib functions not being implemented.
+#define STDLIB_FUNCTION() { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop }
+
 #define ALIVE_ARY(Redirect, Addr, TypeName, Size, VarName, ...)\
 TypeName LocalArray_##VarName[Size]=__VA_ARGS__;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalArray_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\

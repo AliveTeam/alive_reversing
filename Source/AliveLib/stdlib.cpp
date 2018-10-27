@@ -3,46 +3,46 @@
 #include "Function.hpp"
 #include "Error.hpp"
 
-// stdlib proxys
+// stdlib proxys, see comment on STDLIB_FUNCTION for details.
 EXPORT void CC free_521334(void* ptr)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
     ::free(ptr);
 }
 
 EXPORT void* CC malloc_5212C0(size_t size)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
     return ::malloc(size);
 }
 
 EXPORT void* CC realloc_522335(void* ptr, size_t size)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
     return ::realloc(ptr, size);
 }
 
 EXPORT int CC fseek_521955(FILE* stream, int offset, int origin)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
     return fseek(stream, offset, origin);
 }
 
 EXPORT size_t CC fread_520B5C(void* ptr, size_t size, size_t count, FILE* stream)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
     return fread(ptr, size, count, stream);
 }
 
 EXPORT FILE* CC fopen_520C64(const char* filename, const char* mode)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
     return fopen(filename, mode);
 }
 
 EXPORT int CC fclose_520CBE(FILE* stream)
 {
-    NOT_IMPLEMENTED();
+    STDLIB_FUNCTION();
     return fclose(stream);
 }
 
