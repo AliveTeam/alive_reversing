@@ -248,9 +248,85 @@ ALIVE_VAR(1, 0x5c915e, __int16, pal_free_count_5C915E, 0);
 
 ALIVE_ARY(1, 0x5c9164, int, 77, sPal_table_5C9164, {}); // TODO: Actually 32 in size ?
 
-EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* /*a1*/, unsigned int /*paletteColorCount*/)
+static bool Pal_Allocate_Helper(int& i, int& palX_idx, int maskValue, int numBits)
 {
-    NOT_IMPLEMENTED();
+    for (i = 0; i < pal_free_count_5C915E; i++)
+    {
+        if (sPal_table_5C9164[i] != (1 << (pal_width_5C915C + 1)) - 1)
+        {
+            if (pal_width_5C915C != numBits)
+            {
+                palX_idx = 0;
+                bool foundMatch = true;
+                while ((maskValue << palX_idx) & sPal_table_5C9164[i])
+                {
+                    if (++palX_idx >= pal_width_5C915C - numBits)
+                    {
+                        foundMatch = false;
+                        break;
+                    }
+                }
+
+                if (foundMatch)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    // Failed, out of pals
+    return false;
+}
+
+EXPORT signed __int16 CC Pal_Allocate_483110(PSX_RECT* pRect, unsigned int paletteColorCount)
+{
+    if (!pal_free_count_5C915E)
+    {
+        return 0;
+    }
+
+    if (paletteColorCount != 256 && paletteColorCount != 64 && paletteColorCount != 16 )
+    {
+        return 0;
+    }
+
+    int pal_rect_y = 0;
+    int palX_idx = 0;
+    int palBitMask = 0;
+    
+    if (paletteColorCount == 16)
+    {
+        palBitMask = 1;
+        if (!Pal_Allocate_Helper(pal_rect_y, palX_idx, palBitMask, 0))
+        {
+            return 0;
+        }
+    }
+    else if (paletteColorCount == 64)
+    {
+        palBitMask = 0xF;
+        if (!Pal_Allocate_Helper(pal_rect_y, palX_idx, palBitMask, paletteColorCount / 16)) // 64/16 = 4
+        {
+            return 0;
+        }
+    }
+    else if (paletteColorCount == 256)
+    {
+        palBitMask = 0xFFFF;
+        if (!Pal_Allocate_Helper(pal_rect_y, palX_idx, palBitMask, paletteColorCount / 16)) // 256/16 = 16
+        {
+            return 0;
+        }
+    }
+
+    pRect->w = static_cast<short>(paletteColorCount);
+
+    palBitMask = palBitMask << palX_idx;
+    sPal_table_5C9164[pal_rect_y] |= palBitMask;
+    pRect->x = static_cast<short>(pal_xpos_5C9162 + (16 * palX_idx));
+    pRect->y = static_cast<short>(pal_rect_y + pal_ypos_5C9160);
+    return 1;
 }
 
 EXPORT void CC Pal_free_483390(PSX_Point xy, __int16 palDepth)
