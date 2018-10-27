@@ -49,7 +49,7 @@ public:
     __int16 field_C_5C303C_pathId;
     __int16 field_E_cameraId;
     CameraSwapEffects field_10_screen_change_effect;
-    __int16 field_12_ticks;
+    unsigned __int16 field_12_fmv_base_id;
 
     __int16 field_14_direction;
     __int16 field_16;
@@ -92,8 +92,8 @@ public:
     EXPORT __int16 Get_Path_Unknown_480710();
     EXPORT void Create_FG1s_480F10();
 
-    EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange);
-    EXPORT static BaseGameObject* CC FMV_482650(BYTE** ppBits, Map* pMap, int lvlId);
+    EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
+    EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, __int16 lvlId);
     EXPORT Camera* Create_Camera_4829E0(__int16 xpos, __int16 ypos, int a4);
     EXPORT static void __stdcall Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode);
 

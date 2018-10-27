@@ -27,7 +27,9 @@ private:
     __int16 field_20_current_value;
     __int16 field_22_change_by_speed;
     __int16 field_24_fade_direction;
+public:
     __int16 field_26_bDone;
+private:
     __int16 field_28_bKillOnDone;
     __int16 field_2A;
     MainMenuTransition_Polys field_2C_polys[2];

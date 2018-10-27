@@ -1249,11 +1249,6 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
 
 ALIVE_VAR(1, 0x5ca408, DWORD, sLevelId_dword_5CA408, 0);
 
-EXPORT void CC sub_494460(const char* /*a1*/, const char* /*a2*/, const char* /*a3*/, DWORD* /*a4*/, DWORD* /*a5*/, DWORD* /*a6*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 signed int MainMenuController::sub_4CF640()
 {
     NOT_IMPLEMENTED();
@@ -1372,7 +1367,7 @@ signed int MainMenuController::sub_4CF640()
             }
 
             DWORD v34 = 0; // Gets set to 0x11111111
-            sub_494460(pFmvRecord->field_0_pName, 0, 0, &v34, 0, 0);
+            Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, 0, 0, &v34, 0, 0);
             sLevelId_dword_5CA408 = 0;
 
             // Create a movie object for the GTI logo
@@ -1405,7 +1400,7 @@ signed int MainMenuController::sub_4CF640()
             }
 
             // Create movie object for the DD logo
-            sub_494460("DDLOGO.STR", 0, 0, &v34, 0, 0);
+            Get_fmvs_sectors_494460("DDLOGO.STR", 0, 0, &v34, 0, 0);
             sLevelId_dword_5CA408 = 0;
             pMovie = alive_new<Movie>();
 
@@ -1449,11 +1444,10 @@ signed int MainMenuController::sub_4CF640()
         {
         case 0:
         case 2:
-            /*
-            if (this->field_208_transition_obj->field_26)
+            if (field_208_transition_obj->field_26_bDone)
             {
                 break;
-            }*/
+            }
             return 1;
         case 3:
             screenChangeEffect = CameraSwapEffects::eEffect3_TopToBottom;
@@ -1500,7 +1494,7 @@ signed int MainMenuController::sub_4CF640()
 
         if (field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2)
         {
-            //MainMenuTransition::sub_464370(this->field_208_transition_obj, 40, 0, 0, 16);
+            field_208_transition_obj->sub_464370(40, 0, 0, 16);
         }
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
@@ -1533,7 +1527,7 @@ signed int MainMenuController::sub_4CF640()
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         }
 
-        if ((field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2) /*&& !field_208_transition_obj->field_26*/)
+        if ((field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2) && !field_208_transition_obj->field_26_bDone)
         {
             return 1;
         }

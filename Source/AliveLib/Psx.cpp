@@ -828,6 +828,11 @@ EXPORT int CC PSX_DrawSync_4F6280(int /*mode*/)
     return 0;
 }
 
+EXPORT void CC Get_fmvs_sectors_494460(const char* /*fmvName1*/, const char* /*fmvName2*/, const char* /*fmvName3*/, DWORD* /*fmvSectorPos1*/, DWORD* /*fmvSectorPos2*/, DWORD* /*fmvSectorPos3*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 namespace Test
 {
     static void Test_PSX_ClearOTag_4F6290()

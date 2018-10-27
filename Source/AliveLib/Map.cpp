@@ -18,6 +18,7 @@
 #include "Sfx.hpp"
 #include "FG1.hpp"
 #include "CameraSwapper.hpp"
+#include "MainMenu.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }
@@ -259,7 +260,7 @@ void Map::GoTo_Camera_481890()
 
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
     {
-        BaseGameObject* pFmvRet = FMV_482650(nullptr, this, sCurrentLevelId_5C3030);
+        BaseGameObject* pFmvRet = FMV_Camera_Change_482650(nullptr, this, sCurrentLevelId_5C3030);
         do
         {
             SYS_EventsPump_494580();
@@ -557,7 +558,7 @@ void Map::GoTo_Camera_481890()
 
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
     {
-        Map::FMV_482650(field_2C_5C305C_camera_array[0]->field_C_pCamRes, this, field_A_5C303A_levelId);
+        Map::FMV_Camera_Change_482650(field_2C_5C305C_camera_array[0]->field_C_pCamRes, this, field_A_5C303A_levelId);
     }
 
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
@@ -695,7 +696,7 @@ void Map::Create_FG1s_480F10()
     }
 }
 
-signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange)
+signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)
 {
     if (!forceChange && cam == sCurrentCamId_5C3034 && level == sCurrentLevelId_5C3030 && path == sCurrentPathId_5C3032)
     {
@@ -703,7 +704,7 @@ signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam
     }
 
     field_E_cameraId = cam;
-    field_12_ticks = a6;
+    field_12_fmv_base_id = fmvBaseId;
     field_C_5C303C_pathId = path;
     field_A_5C303A_levelId = level;
     field_10_screen_change_effect = screenChangeEffect;
@@ -722,9 +723,89 @@ signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam
     return 1;
 }
 
-BaseGameObject* CC Map::FMV_482650(BYTE** /*ppBits*/, Map* /*pMap*/, int /*lvlId*/)
+BaseGameObject* CC Map::FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, __int16 lvlId)
 {
-    NOT_IMPLEMENTED();
+    if (pMap->field_12_fmv_base_id > 10000u)
+    {
+        // Trippe FMV
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 10000);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 100 % 100);
+        FmvInfo* pFmvRec3 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id % 100);
+        sLevelId_dword_5CA408 = lvlId;
+        DWORD pos1 = 0;
+        DWORD pos2 = 0;
+        DWORD pos3 = 0;
+        Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, pFmvRec3->field_0_pName, &pos1, &pos2, &pos3);
+        CameraSwapper* pSwapperMem3 = alive_new<CameraSwapper>();
+        if (pSwapperMem3)
+        {
+            return pSwapperMem3->ctor_4E4ED0(
+                ppBits,
+                pos1,
+                pFmvRec1->field_4_id,
+                pos2,
+                pFmvRec2->field_4_id,
+                pos3,
+                pFmvRec3->field_4_id,
+
+                pFmvRec1->field_6_flags & 1,
+                pFmvRec1->field_8,
+                pFmvRec1->field_A_volume,
+
+                pFmvRec2->field_6_flags & 1,
+                pFmvRec2->field_8,
+                pFmvRec2->field_A_volume,
+
+                pFmvRec3->field_6_flags & 1,
+                pFmvRec3->field_8,
+                pFmvRec3->field_A_volume);
+        }
+    }
+    if (pMap->field_12_fmv_base_id >= 100u)
+    {
+        // Double FMV
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id / 100);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id % 100);
+        DWORD cdPos1 = 0;
+        DWORD cdPos2 = 0;
+        Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
+        sLevelId_dword_5CA408 = lvlId;
+        CameraSwapper* pSwapperMem2 = alive_new<CameraSwapper>();
+        if (pSwapperMem2)
+        {
+            return pSwapperMem2->ctor_4E4DC0(
+                ppBits,
+                cdPos1,
+                pFmvRec1->field_4_id,
+                cdPos2,
+                pFmvRec2->field_4_id,
+                pFmvRec1->field_6_flags & 1,
+                pFmvRec1->field_8,
+                pFmvRec1->field_A_volume,
+                pFmvRec2->field_6_flags & 1,
+                pFmvRec2->field_8,
+                pFmvRec2->field_A_volume);
+        }
+    }
+    else // < 100
+    {
+        // Single FMV
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_460F70(lvlId, pMap->field_12_fmv_base_id);
+        DWORD cdPos = 0;
+        Get_fmvs_sectors_494460(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
+        sLevelId_dword_5CA408 = lvlId;
+        CameraSwapper* pSwapperMem = alive_new<CameraSwapper>();
+        if (pSwapperMem)
+        {
+            return pSwapperMem->ctor_4E4CA0(
+                ppBits,
+                cdPos,
+                pFmvRec1->field_4_id,
+                pFmvRec1->field_6_flags & 1,
+                pFmvRec1->field_8,
+                pFmvRec1->field_A_volume);
+        }
+    }
     return nullptr;
 }
 
