@@ -28,12 +28,33 @@ __int16 sMudsInLevelCount_55CFAC[15] =
 ALIVE_VAR(1, 0x5C1BC4, __int16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, char, sStatsSignCurrentArea_5C1A20, 0);
 
-StatsSign * StatsSign::ctor_47B600(Path_StatsSign * params, int a3)
+
+void StatsSign::VDestructor(signed int flags)
+{
+    vdtor_47B7B0(flags);
+}
+
+void StatsSign::VUpdate()
+{
+    vUpdate_47B8D0();
+}
+
+void StatsSign::VRender(int** pOrderingTable)
+{
+    vRender_47B900(pOrderingTable);
+}
+
+void StatsSign::VScreenChanged()
+{
+    vScreenChanged_47BC40();
+}
+
+StatsSign * StatsSign::ctor_47B600(Path_StatsSign * params, TlvItemInfoUnion a3)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x54635C);
 
-    field_100_objectId = a3;
+    field_100_objectId = a3.all;
 
     if (!sFontType2LoadCount_5BC5E8)
     {
@@ -75,6 +96,16 @@ void StatsSign::dtor_47B7E0()
     BaseGameObject_dtor_4DBEC0();
 }
 
+
+void StatsSign::vdtor_47B7B0(signed int flags)
+{
+    dtor_47B7E0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+}
+
 void StatsSign::vUpdate_47B8D0()
 { 
     if (Event_Get_422C00(kEventDeathReset))
@@ -86,7 +117,6 @@ void StatsSign::vUpdate_47B8D0()
 // Todo: clean up
 void StatsSign::vRender_47B900(int ** pOt)
 {
-    
     if (!field_108_is_hidden)
     {
         char text[12] = {};

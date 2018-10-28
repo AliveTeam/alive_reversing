@@ -31,3 +31,5 @@ ALIVE_VAR_EXTERN(short, sNum_CamSwappers_5C1B66);
 ALIVE_VAR_EXTERN(int, dword_5CA4D4);
 ALIVE_VAR_EXTERN(int, k1_dword_55EF90);
 ALIVE_VAR_EXTERN(short, sBreakGameLoop_5C2FE0);
+ALIVE_VAR_EXTERN(class Abe*, spAbe_554D5C);
+

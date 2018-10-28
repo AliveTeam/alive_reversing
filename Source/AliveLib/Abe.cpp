@@ -220,7 +220,11 @@ TintEntry sTintTable_Abe_554D20[15] =
     { -1, 102u, 102u, 102u }
 };
 
-
+Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*a3*/, int /*a4*/, int /*a5*/)
+{
+    NOT_IMPLEMENTED();
+    return this;
+}
 
 signed int CC Abe::CreateFromSaveState_44D4F0(char * /*a1*/)
 {

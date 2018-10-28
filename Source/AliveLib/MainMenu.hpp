@@ -189,7 +189,9 @@ public:
     EXPORT signed int tLoad_New_Game_Input_4D0920(DWORD input);
 
     EXPORT signed int tGame_BackStory_Or_NewGame_Input_4D1C60(DWORD input_held);
-    
+    EXPORT void tGame_BackStory_Or_NewGame_Load_4D1BA0();
+    EXPORT void tGame_BackStory_Or_NewGame_Unload_4D1BE0();
+
     // "Quit" page load
     EXPORT void Game_Force_Quit_Load_4D1A90();
 
@@ -245,8 +247,8 @@ public:
     __int16 field_202_input_hold_down_timer;
     int field_204_prev_pressed;
     MainMenuTransition* field_208_transition_obj;
-    int field_20C;
-    void* field_210_pUnknown;
+    BaseGameObject* field_20C;
+    BaseGameObject* field_210_pUnknown;
     __int16 field_214_page_index;
     __int16 field_216;
     __int16 field_218_target_page_index;
@@ -268,7 +270,7 @@ public:
     int field_240_credits_current_cam;
     __int16 field_244_lvl_id;
     __int16 field_246_path_id;
-    __int16 field_248;
+    __int16 field_248_camera;
     __int16 field_24A_abeXOff;
     __int16 field_24C_abeYOff;
     __int16 field_24E_start_scale;

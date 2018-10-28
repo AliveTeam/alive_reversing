@@ -28,6 +28,8 @@ class Abe : public BaseAliveGameObject
 {
     // TODO: Vtables
 public:
+    EXPORT Abe* ctor_44AD10(int frameTableOffset, int a3, int a4, int a5);
+
     EXPORT static signed int CC CreateFromSaveState_44D4F0(char *a1);
     virtual void VDestructor(signed int flags) override;
     EXPORT void dtor_44B350(signed int flags);
