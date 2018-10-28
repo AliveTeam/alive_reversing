@@ -1067,6 +1067,11 @@ EXPORT void CC PSX_Pal_Conversion_4F98D0(WORD* pDataToConvert, WORD* pConverted,
     }
 }
 
+EXPORT void CC Add_Dirty_Area_4ED970(int /*x*/, int /*y*/, int /*w*/, int /*h*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 template <typename T>
 T clip(const T& n, const T& lower, const T& upper) 
 {
@@ -1090,7 +1095,7 @@ static void VRam_Rect_Fill(WORD* pVRamIter, int rect_w, int rect_h, int pitch_wo
     }
 }
 
-EXPORT signed int CC PSX_ClearImage_4F5BD0(PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b)
+EXPORT int CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b)
 {
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {

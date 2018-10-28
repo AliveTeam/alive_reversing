@@ -158,19 +158,13 @@ EXPORT double CC Calculate_FPS_495250(int frameCount)
     return sFps_55EFDC;
 }
 
-EXPORT void CC sub_4ED970(int /*x*/, int /*y*/, int /*w*/, int /*h*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-
 EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, int x, int y, float fps)
 {
     char strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", fps);
     sNumRenderedPrims_C2D03C = 0;
     BMP_Draw_String_4F2230(pBmp, x, y, 0xFF80FFu, 1, strBuffer);
-    sub_4ED970(0, 0, 97, 32);
+    Add_Dirty_Area_4ED970(0, 0, 97, 32);
 }
 
 EXPORT void __cdecl sub_4FBA20()
@@ -213,7 +207,7 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
 
     if (oldShowVRam && !sPsxEMU_show_vram_BD1465)
     {
-        sub_4ED970(0, 0, 640, 240);
+        Add_Dirty_Area_4ED970(0, 0, 640, 240);
     }
 
     const double fps = Calculate_FPS_495250(sFrameCount_5CA300);
@@ -348,11 +342,6 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     VLC_Tables_Init_496720();
 }
 
-EXPORT char __cdecl SND_Seq_Table_Valid_4CAFE0()
-{
-    return 1;
-}
-
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
@@ -367,7 +356,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
             GetClientRect(hWnd, &rect);
             PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, 0x42u); // TODO: Constants
             EndPaint(hWnd, &paint);
-            sub_4ED970(0, 0, 640, 240);
+            Add_Dirty_Area_4ED970(0, 0, 640, 240);
         }
         return 1;
 

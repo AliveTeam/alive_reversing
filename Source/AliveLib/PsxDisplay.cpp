@@ -11,13 +11,43 @@
 #include "VRam.hpp"
 #include "DebugHelpers.hpp"
 #include "PsxRender.hpp"
+#include <timeapi.h>
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
 
 EXPORT void CC PSX_Calc_FrameSkip_4945D0()
 {
-    NOT_IMPLEMENTED();
+    static DWORD delta_time_ring_buffer_5CA310[10] = {};
+    static DWORD sPreviousTime_5CA4C8 = 0;
+    static DWORD sLastTicks_5CA4CC = 0;
+
+    const DWORD currentTime = timeGetTime();
+    const int ticks = currentTime - sPreviousTime_5CA4C8 - delta_time_ring_buffer_5CA310[0] + sLastTicks_5CA4CC;
+    
+    // Move all elements down one, so the the last value is "empty"
+    memcpy(delta_time_ring_buffer_5CA310, &delta_time_ring_buffer_5CA310[1], sizeof(delta_time_ring_buffer_5CA310) - sizeof(delta_time_ring_buffer_5CA310[0]));// 9 dwords
+    
+    // Store at the last/"empty" value
+    delta_time_ring_buffer_5CA310[9] = currentTime - sPreviousTime_5CA4C8;
+
+    if (ticks <= 400)
+    {
+        sbDisplayRenderFrame_55EF8C = 1;
+    }
+    else
+    {
+        sbDisplayRenderFrame_55EF8C = sbDisplayRenderFrame_55EF8C == 0;
+    }
+
+    sLastTicks_5CA4CC = ticks;
+    sPreviousTime_5CA4C8 = currentTime;
+    
+    // Override if frame skip is off
+    if (sCommandLine_NoFrameSkip_5CA4D1)
+    {
+        sbDisplayRenderFrame_55EF8C = 1;
+    }
 }
 
 struct TextRecords

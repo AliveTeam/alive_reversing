@@ -16,6 +16,7 @@
 #include "CameraSwapper.hpp"
 #include "Movie.hpp"
 #include "MainMenuTransition.hpp"
+#include "Text.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -1239,12 +1240,6 @@ void MainMenuController::Load_Anim_Pal_4D06A0(AnimationEx* pAnim)
     const FrameInfoHeader* pFrameInfo = pAnim->Get_FrameHeader_40B730(0);
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*pAnim->field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
     pAnim->Load_Pal_40A530(pAnim->field_20_ppBlock, pFrameHeader->field_0_clut_offset);
-}
-
-EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int /*messageType*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }
 
 ALIVE_VAR(1, 0x5ca408, DWORD, sLevelId_dword_5CA408, 0);

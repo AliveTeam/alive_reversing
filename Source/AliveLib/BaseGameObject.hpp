@@ -17,6 +17,7 @@ public:
         eType_67 = 67,
         eType_Abe = 69,
         eResourceManager = 79,
+        eText = 87,
         eMusicController = 93,
         ePauseMenu = 95,
         eFG1 = 101, 

@@ -503,6 +503,11 @@ EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx)
     }
 }
 
+EXPORT char CC SND_Seq_Table_Valid_4CAFE0()
+{
+    return sSeqDataTable_BB2E38 != 0;
+}
+
 EXPORT void CC MIDI_Stop_All_Channels_4FDFE0()
 {
     // Stop all backwards
