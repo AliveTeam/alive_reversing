@@ -297,7 +297,7 @@ PauseMenu::PauseMenu()
 
 PauseMenu * PauseMenu::ctor_48FB80()
 {
-    BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(&field_158_animation, 0x544290);
     SetVTable(this, 0x546658);
@@ -334,12 +334,23 @@ PauseMenu * PauseMenu::ctor_48FB80()
 
 void PauseMenu::dtor_48FCE0()
 {
-    NOT_IMPLEMENTED();
+    SetVTable(this, 0x546658);
+
+    field_6_flags.Clear(BaseGameObject::eDrawable);
+
+    gObjList_drawables_5C1124->Remove_Item(this);
+    field_158_animation.vCleanUp_40C630();
+    field_F4_font.dtor_433540();
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void PauseMenu::dtor_48FCB0(signed int /*flags*/)
+void PauseMenu::dtor_48FCB0(signed int flags)
 {
-    NOT_IMPLEMENTED();
+    dtor_48FCE0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
 }
 
 void PauseMenu::Init_491760()
