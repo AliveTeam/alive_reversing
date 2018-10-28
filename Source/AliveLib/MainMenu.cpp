@@ -17,6 +17,8 @@
 #include "Movie.hpp"
 #include "MainMenuTransition.hpp"
 #include "Text.hpp"
+#include "Sound.hpp"
+#include "Path.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -55,6 +57,15 @@ MainMenuButton sBtnArray_FrontEnd_560FA0[6] =
     { 0, 0, 0, 0, 0 }
 };
 
+MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[4] =
+{
+    { 1, 59, 199, 0, 13912 },
+    { 1, 248, 199, 0, 13912 },
+    { 3, 180, 240, 0, 13912 },
+    { 0, 0, 0, 0, 0 }
+};
+
+
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, 
 {
     {
@@ -74,14 +85,14 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL
     },
     {
-        11,        0,        0,        0,        65535,        0,        0,        
+        11,        0,        0,        0,        65535,        0,       0,
         NULL,        NULL,        NULL,
-        nullptr, //&MainMenuController::Game_Force_Quit_4D1A90,
+        &MainMenuController::Game_Force_Quit_Load_4D1A90,
         NULL
     },
     {
         // Main menu screen where abe says hello
-        1,        0,        0,        0,        65535,        65535,        1,
+        1,        0,        0,        0,        65535,        65535,    1,
         &MainMenuController::Page_Front_Update_4D0720,
         &MainMenuController::Page_Front_Render_4D24B0,
         sBtnArray_FrontEnd_560FA0,
@@ -162,7 +173,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         13,        0,        0,        0,        65535,        65535,        0,
-        nullptr, //&MainMenuController::tsub_Game_Start_New_4D0920,
+        &MainMenuController::tLoad_New_Game_Input_4D0920,
         NULL,
         NULL,
         NULL,
@@ -228,11 +239,11 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         12,        0,        900,        1,        0,        0,        0,
-        nullptr, //&MainMenuController::tsub_FMV_4D1C60,
-        nullptr, // &MainMenuController::t_Render_All_Text_4D2630,
-        nullptr, //&sBtnArray_561420,
-        nullptr, //&MainMenuController::tsub_4D1BA0,
-        nullptr, //&MainMenuController::tsub_4D1BE0
+        &MainMenuController::tGame_BackStory_Or_NewGame_Input_4D1C60,
+        nullptr, // &MainMenuController::tGame_BackStory_Or_NewGame_Render_4D2630,
+        sBtnArray_Game_BackStory_Or_NewGame_561420,
+        nullptr, //&MainMenuController::tGame_BackStory_Or_NewGame_Render_4D2630,
+        nullptr, //&MainMenuController::tGame_BackStory_Or_NewGame_Load_4D1BE0
     }
 });
 
@@ -519,6 +530,38 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
+}
+
+void MainMenuController::vdtor_4CEF00(signed int flags)
+{
+    dtor_4CEF30();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+}
+
+void MainMenuController::dtor_4CEF30()
+{
+    SetVTable(this, 0x547958);
+
+    Path::TLV_Reset_4DB8E0(field_1F0, -1, 0, 0);
+    field_158_animation.vCleanUp_40C630();
+
+    for (auto& res : field_F4_resources.field_0_resources)
+    {
+        ResourceManager::FreeResource_49C330(res);
+    }
+
+    --sMainMenuObjectCounter_BB4400;
+
+    field_120_font.dtor_433540();
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+}
+
+void MainMenuController::VDestructor(signed int flags)
+{
+    vdtor_4CEF00(flags);
 }
 
 void MainMenuController::VUpdate()
@@ -894,6 +937,94 @@ void MainMenuController::Page_Front_Render_4D24B0(int** ot)
 {
     int notUsed = 0;
     DrawMenuText_4D20D0(&sMMT_FrontPage_5623A0, ot, &field_120_font, &notUsed, 1);
+}
+
+signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
+{
+    // This is the actual "now loading" screen that loads the path
+    NOT_IMPLEMENTED();
+
+    field_6_flags.Set(BaseGameObject::eDead);
+    return 0;
+}
+
+ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
+ALIVE_VAR(1, 0x5c1b88, int, dword_5C1B88, 0);
+
+EXPORT signed int MainMenuController::tGame_BackStory_Or_NewGame_Input_4D1C60(DWORD input_held)
+{
+    if (input_held & 0x100000) // TODO: start button ?
+    {
+        if (field_1FC_button_index == 0) // Back story
+        {
+            FmvInfo* pFmvRecord = Path_Get_FMV_Record_460F70(0, 4u);
+            while (Input_IsVKPressed_4EDD40(VK_RETURN))
+            {
+                SYS_EventsPump_494580();
+            }
+
+            DWORD fmvSector = 0;
+            Get_fmvs_sectors_494460(pFmvRecord->field_0_pName, nullptr, nullptr, &fmvSector, 0, 0);
+            sLevelId_dword_5CA408 = 0;
+
+            auto pMovie = alive_new<Movie>();
+            if (pMovie)
+            {
+                pMovie->ctor_4DFDE0(
+                    pFmvRecord->field_4_id,
+                    input_held,
+                    pFmvRecord->field_6_flags & 1,
+                    pFmvRecord->field_8,
+                    pFmvRecord->field_A_volume);
+            }
+
+            while (sMovie_ref_count_BB4AE4)
+            {
+                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
+                {
+                    if (!(pMovie->field_6_flags.Get(BaseGameObject::eDead) && (!sNum_CamSwappers_5C1B66 || (pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))))
+                    {
+                        pMovie->VUpdate();
+                    }
+                }
+            }
+
+            gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+            pScreenManager_5BB5F4->DecompressToVRam_40EF60((WORD**)gMap_5C3030.field_2C_5C305C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->MoveImage_40EB70();
+            pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
+            SND_Restart_4CB0E0();
+            field_1FC_button_index = 1; // Select start game
+            return 0;
+        }
+        else if (field_1FC_button_index == 1) // Start game
+        {
+            sCurrentControllerIndex_5C1BBE = 0;
+            dword_5C1B88 = sGnFrame_5C1B84;
+            return 0xFFFF000D;
+        }
+    }
+    else if (input_held & 0x200000) // Escape/back
+    {
+        ResourceManager::Reclaim_Memory_49C470(0);
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+        {
+            // TODO: Fix the types
+            ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN",
+                reinterpret_cast<ResourceManager::TLoaderFn>(callback_4D06E0),
+                reinterpret_cast<Camera *>(this), nullptr);
+        }
+        word_BB43DC = 1;
+        field_23C_T80.Clear(Flags::eBit25);
+        return 1;
+    }
+
+    return 0;
+}
+
+void MainMenuController::Game_Force_Quit_Load_4D1A90()
+{
+    sBreakGameLoop_5C2FE0 = TRUE;
 }
 
 signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::function<signed int(InputCommands cmd)> fnOnGameSpeak)

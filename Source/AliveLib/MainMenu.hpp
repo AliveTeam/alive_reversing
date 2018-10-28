@@ -87,7 +87,10 @@ class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT void ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
+    EXPORT void vdtor_4CEF00(signed int flags);
+    EXPORT void dtor_4CEF30();
 
+    virtual void VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
 
@@ -182,6 +185,13 @@ public:
     // Front End
     EXPORT signed int Page_Front_Update_4D0720(DWORD input);
     EXPORT void Page_Front_Render_4D24B0(int **ot);
+
+    EXPORT signed int tLoad_New_Game_Input_4D0920(DWORD input);
+
+    EXPORT signed int tGame_BackStory_Or_NewGame_Input_4D1C60(DWORD input_held);
+    
+    // "Quit" page load
+    EXPORT void Game_Force_Quit_Load_4D1A90();
 
     static MainMenuController * gMainMenuController;
 private:

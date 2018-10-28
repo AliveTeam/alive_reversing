@@ -132,6 +132,8 @@ add_library(AliveLib
     WinMain.hpp
     Text.cpp
     Text.hpp
+    Shadow.hpp
+    Shadow.cpp
     Slurg.cpp
     Slurg.hpp)
 

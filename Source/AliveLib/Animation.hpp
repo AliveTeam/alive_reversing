@@ -127,7 +127,7 @@ public:
     virtual void vDecode_40AC90();
 
     virtual void vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height);
-    EXPORT virtual signed __int16 Animationv_40C630();
+    virtual signed __int16 vCleanUp_40C630() = 0;
    
     // TODO: Restore vTable entry
     //EXPORT virtual __int16 Animationv_40B200();
@@ -174,6 +174,7 @@ public:
     void DecompressFrame();
 
     EXPORT virtual void vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height) override;
+    EXPORT virtual signed __int16 vCleanUp_40C630() override;
 
     EXPORT void vDecode2_40B200();
     EXPORT void vDecode_40AC90();

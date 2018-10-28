@@ -5,6 +5,8 @@
 #include "FunctionFwd.hpp"
 #include "Animation.hpp"
 
+class Shadow;
+
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
@@ -56,6 +58,6 @@ public:
     __int16 field_DA_xOffset;
     __int16 field_DC_bApplyShadows;
     __int16 field_DE_pad;
-    void* field_E0_176_ptr;
+    Shadow* field_E0_176_ptr;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xE4);

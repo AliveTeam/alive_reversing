@@ -3,6 +3,8 @@
 #include "Function.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
+#include "stdlib.hpp"
+#include "Shadow.hpp"
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
 {
@@ -51,12 +53,32 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
 
 EXPORT void BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_dtor_424AD0()
 {
-    NOT_IMPLEMENTED();
+    SetVTable(this, 0x544C9C); // gVtbl_BaseAnimatedWithPhysicsGameObject_544C9C
+
+    if (!field_6_flags.Get(BaseGameObject::eListAddFailed))
+    {
+        if (field_6_flags.Get(BaseGameObject::eDrawable))
+        {
+            gObjList_drawables_5C1124->Remove_Item(this);
+            field_20_animation.vCleanUp_40C630();
+        }
+
+        if (field_E0_176_ptr)
+        {
+            field_E0_176_ptr->dtor_4ACA30();
+            Mem_Free_495540(field_E0_176_ptr);
+        }
+    }
+    BaseGameObject_dtor_4DBEC0();
 }
 
-void BaseAnimatedWithPhysicsGameObject::dtor_408210(signed int /*flags*/)
+void BaseAnimatedWithPhysicsGameObject::dtor_408210(signed int flags)
 {
-    NOT_IMPLEMENTED();
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
 }
 
 void BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)

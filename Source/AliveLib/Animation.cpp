@@ -365,6 +365,13 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
     OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
 }
 
+signed __int16 AnimationEx::vCleanUp_40C630()
+{
+    gObjList_animations_5C1A24->Remove_Item(this);
+    Animation_Pal_Free_40C4C0();
+    return ResourceManager::FreeResource_49C330(field_24_dbuf);
+}
+
 void AnimationEx::vDecode2_40B200()
 {
     ALIVE_FATAL("Impossible - this kind of anim data don't exist");
@@ -499,15 +506,6 @@ void Animation::vRender_40B820(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int1
 //    return 0;
 }
 
-// Destructor ?
-signed __int16 Animation::Animationv_40C630()
-{
-    NOT_IMPLEMENTED();
-    LOG_INFO("Animationv_40C630");
-    return 0;
-}
-
-
 char Animation::Animation_v_40BEE0(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/, __int16 /*a5*/, __int16 /*op1*/)
 {
     NOT_IMPLEMENTED();
@@ -561,7 +559,26 @@ signed __int16 AnimationEx::Set_Animation_Data_409C80(int frameTableOffset, BYTE
 
 void AnimationEx::Animation_Pal_Free_40C4C0()
 {
-    NOT_IMPLEMENTED();
+    if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
+    {
+        ALIVE_FATAL("Impossible case - data of this type dosen't exist");
+    }
+    else
+    {
+        if (field_84_vram_rect.w > 0)
+        {
+            if (field_84_vram_rect.x || field_84_vram_rect.y || field_4_flags.Get(AnimFlags::eBit9))
+            {
+                Vram_free_495A60({ field_84_vram_rect.x, field_84_vram_rect.y }, { field_84_vram_rect.w, field_84_vram_rect.h });
+            }
+        }
+
+        if (field_90_pal_depth > 0 && field_4_flags.Get(AnimFlags::eBit17))
+        {
+            Pal_free_483390(field_8C_pal_vram_x, field_90_pal_depth);
+        }
+
+    }
 }
 
 void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
