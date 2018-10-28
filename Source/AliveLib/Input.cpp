@@ -371,8 +371,6 @@ ALIVE_VAR(1, 0x5c9794, int, sGamePadBindings_5C9794, 0);
 // Temp Hax. Todo: fix up
 EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 {
-    NOT_IMPLEMENTED(); // This function still has some serious bugs for game pad inputs
-
     DWORD timeStamp; // eax
     DWORD buttons; // edx
     DWORD currentTime; // eax
@@ -443,11 +441,11 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
             {
                 goto LABEL_24;
             }
-            pressed_keyboard_keys |= 8u;
+            pressed_keyboard_keys |= eRight;
         }
         else
         {
-            pressed_keyboard_keys |= 4u;
+            pressed_keyboard_keys |= eLeft;
         }
 
         keys_down = pressed_keyboard_keys;
@@ -459,7 +457,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
             LABEL_29:
                 input_command_c_pressed = 0;
                 input_command_delete_pressed = 0;
-                if (pressed_keyboard_keys & 0xF)
+                if (pressed_keyboard_keys & (eRight | eLeft | eDown | eUp))
                 {
                     buttons = pButtons;
                 }
@@ -496,46 +494,46 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                         }
                         else
                         {
-                            if (pButtons & 1)
+                            if (pButtons & eUp)
                             {
-                                BYTE1(pressed_keyboard_keys) |= 8u;
+                                pressed_keyboard_keys |= eGameSpeak2;
                             }
-                            if (pButtons & 2)
+                            if (pButtons & eDown)
                             {
-                                BYTE1(pressed_keyboard_keys) |= 0x10u;
+                                pressed_keyboard_keys |= eGameSpeak3;
                             }
-                            if (pButtons & 4)
+                            if (pButtons & eLeft)
                             {
-                                BYTE1(pressed_keyboard_keys) |= 0x20u;
+                                pressed_keyboard_keys |= eGameSpeak4;
                             }
-                            if (pButtons & 8)
+                            if (pButtons & eRight)
                             {
-                                BYTE1(pressed_keyboard_keys) |= 4u;
+                                pressed_keyboard_keys |= eGameSpeak1;
                             }
-                            buttons = pButtons & ~0xFu;
-                            pButtons &= ~0xFu;
+                            buttons = pButtons & ~(eRight | eLeft | eDown | eUp);
+                            pButtons &= ~(eRight | eLeft | eDown | eUp);
                         }
                     }
                     else if (input_command_delete_pressed)
                     {
-                        if (pButtons & 1)
+                        if (pButtons & eUp)
                         {
-                            pressed_keyboard_keys |= 0x20000u;
+                            pressed_keyboard_keys |= eGameSpeak8;
                         }
-                        if (pButtons & 2)
+                        if (pButtons & eDown)
                         {
-                            BYTE1(pressed_keyboard_keys) |= 0x40u;
+                            pressed_keyboard_keys |= eGameSpeak5;
                         }
-                        if (pButtons & 4)
+                        if (pButtons & eLeft)
                         {
-                            pressed_keyboard_keys |= 0x10000u;
+                            pressed_keyboard_keys |= eGameSpeak7;
                         }
-                        if (pButtons & 8)
+                        if (pButtons & eRight)
                         {
-                            BYTE1(pressed_keyboard_keys) |= 0x80u;
+                            pressed_keyboard_keys |= eGameSpeak6;
                         }
-                        buttons = pButtons & ~0xFu;
-                        pButtons &= ~0xFu;
+                        buttons = pButtons & ~(eRight | eLeft | eDown | eUp);
+                        pButtons &= ~(eRight | eLeft | eDown | eUp);
                     }
                 }
 
@@ -554,19 +552,19 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                 {
                     if (!(sGamepadCapFlags_5C2EF8 & eAutoRun))
                     {
-                        if (((unsigned __int8)pressed_keyboard_keys ^ (unsigned __int8)sPrevious_down_keyboard_keys_5C9F74) & 0xC)
+                        if ((pressed_keyboard_keys ^ sPrevious_down_keyboard_keys_5C9F74) & (eRight | eLeft))
                         {
-                            dword_5C9F78 = (unsigned __int8)sGamepadCapFlags_5C2EF8 & (unsigned __int8)eAutoRun;
-                            if (!(sPrevious_down_keyboard_keys_5C9F74 & 0xC))
+                            dword_5C9F78 = sGamepadCapFlags_5C2EF8 & eAutoRun;
+                            if (!(sPrevious_down_keyboard_keys_5C9F74 & (eRight | eLeft)))
                             {
                                 currentTime = timeGetTime();
-                                if ((unsigned int)(sPrevTimeStamp_5C98D8 - dword_5C98DC) <= 0xDC && currentTime - sPrevTimeStamp_5C98D8 <= 0xDC)
+                                if ((unsigned int)(sPrevTimeStamp_5C98D8 - dword_5C98DC) <= 220 && currentTime - sPrevTimeStamp_5C98D8 <= 220)
                                 {
                                     dword_5C9F78 = 1;
                                 }
                                 dword_5C98DC = currentTime;
                             }
-                            if (!(pressed_keyboard_keys & 0xC))
+                            if (!(pressed_keyboard_keys & (eRight | eLeft)))
                             {
                                 sPrevTimeStamp_5C98D8 = timeGetTime();
                             }
@@ -574,26 +572,31 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                     }
                     if (dword_5C9F78)
                     {
-                        pressed_keyboard_keys |= 0x10u;
+                        pressed_keyboard_keys |= eRun;
                     }
                 }
             no_joystick:
-                if ((pressed_keyboard_keys & 3) == 3)
+
+                // If pressing up and down at same time turn off
+                if ((pressed_keyboard_keys & (eDown | eUp)) == (eDown | eUp))
                 {
-                    pressed_keyboard_keys &= ~3u;
+                    pressed_keyboard_keys &= ~(eDown | eUp);
                 }
-                if ((pressed_keyboard_keys & 0xC) == 0xC)
+
+                // If pressing left and right at same time turn off
+                if ((pressed_keyboard_keys & (eRight | eLeft)) == (eRight | eLeft))
                 {
-                    pressed_keyboard_keys &= ~0xCu;
+                    pressed_keyboard_keys &= ~(eRight | eLeft);
                 }
+
                 converted_input = pressed_keyboard_keys;
                 goto exit_func;
             }
-            pressed_keyboard_keys |= 2u;
+            pressed_keyboard_keys |= eDown;
         }
         else
         {
-            pressed_keyboard_keys |= 1u;
+            pressed_keyboard_keys |= eUp;
         }
         keys_down = pressed_keyboard_keys;
         goto LABEL_29;
