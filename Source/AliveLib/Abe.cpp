@@ -7,6 +7,7 @@
 #include "DebugHelpers.hpp"
 #include "stdlib.hpp"
 #include "Shadow.hpp"
+#include "ObjectIds.hpp"
 
 const char * sAbeStateNames[] =
 {
@@ -469,6 +470,76 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     return this;
 }
 
+void Abe::dtor_44B380()
+{
+    NOT_IMPLEMENTED();
+
+    SetVTable(this, 0x5457BC); // gVTbl_Abe_5457BC
+
+    BaseGameObject* pField_148 = sObjectIds_5C1B70.Find_449CF0(field_148);
+    BaseGameObject* pField_14C = sObjectIds_5C1B70.Find_449CF0(field_14C);
+    BaseGameObject* pField_150 = sObjectIds_5C1B70.Find_449CF0(field_150);
+    BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154);
+    BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158);
+    BaseGameObject* pField_15C = sObjectIds_5C1B70.Find_449CF0(field_15C);
+    BaseGameObject* pField_160 = sObjectIds_5C1B70.Find_449CF0(field_160);
+    BaseGameObject* pField_178 = sObjectIds_5C1B70.Find_449CF0(field_178);
+
+    SND_SEQ_Stop_4CAE60(0xAu);
+
+    if (pField_148)
+    {
+        pField_148->field_6_flags.Set(BaseGameObject::eDead);
+        field_148 = -1;
+    }
+
+    if (pField_160)
+    {
+        field_160 = -1;
+    }
+
+    if (pField_15C)
+    {
+        pField_15C->field_6_flags.Set(BaseGameObject::eDead);
+        field_15C = -1;
+    }
+
+    if (pField_14C)
+    {
+        pField_14C->field_6_flags.Set(BaseGameObject::eDead);
+        field_14C = -1;
+    }
+
+    if (pField_150)
+    {
+        pField_150->field_6_flags.Set(BaseGameObject::eDead);
+        field_150 = -1;
+    }
+
+    if (pField_154)
+    {
+        field_154 = -1;
+    }
+
+    if (pField_158)
+    {
+        pField_158->field_6_flags.Set(BaseGameObject::eDead);
+        field_158 = -1;
+    }
+
+    if (pField_178)
+    {
+        pField_178->field_6_flags.Set(BaseGameObject::eDead);
+        field_178 = -1;
+    }
+
+    field_164 = -1;
+
+    sActiveHero_5C1B68 = spAbe_554D5C;
+
+    dtor_4080B0();
+}
+
 signed int CC Abe::CreateFromSaveState_44D4F0(char * /*a1*/)
 {
     NOT_IMPLEMENTED();
@@ -477,12 +548,16 @@ signed int CC Abe::CreateFromSaveState_44D4F0(char * /*a1*/)
 
 void Abe::VDestructor(signed int flags)
 {
-    dtor_44B350(flags);
+    vdtor_44B350(flags);
 }
 
-void Abe::dtor_44B350(signed int /*flags*/)
+void Abe::vdtor_44B350(signed int flags)
 {
-    NOT_IMPLEMENTED();
+    dtor_44B380();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
 }
 
 void Abe::Knockback_44E700(__int16 /*a2*/, __int16 /*a3*/)

@@ -22,6 +22,7 @@ public:
     // gVtbl_BaseAliveGameObject_544000
 
     EXPORT BaseAliveGameObject* ctor_408240(short resourceArraySize);
+    EXPORT void dtor_4080B0();
 
     virtual void VRender(int** pOrderingTable) override;
     EXPORT void Render_424B90(int** pOrderingTable);

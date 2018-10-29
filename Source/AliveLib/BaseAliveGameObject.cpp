@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Function.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "ObjectIds.hpp"
+#include "ResourceManager.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
@@ -26,6 +28,27 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_6_flags.Set(BaseGameObject::eIsBaseAliveGameObject);
 
     return this;
+}
+
+EXPORT void BaseAliveGameObject::dtor_4080B0()
+{
+    SetVTable(this, 0x544000);
+
+    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_110));
+    gBaseAliveGameObjects_5C1B7C->Remove_Item(this);
+
+    if (pField_110)
+    {
+        pField_110->Vnull_4081F0(); // TODO: Passes this ??
+        field_110 = -1;
+    }
+
+    if (field_10A)
+    {
+        pResourceManager_5C1BB0->Shutdown_465610();
+    }
+
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void BaseAliveGameObject::VRender(int** pOrderingTable)
