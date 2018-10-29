@@ -33,8 +33,8 @@ EXPORT void Particle::ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffset, in
 
 EXPORT void Particle::vUpdate_4CC620()
 {
-    field_B8_xpos.fpValue += field_C4_velx;
-    field_BC_ypos.fpValue += field_C8_vely;
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
     field_CC_sprite_scale.fpValue += field_F4_scale_amount;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))

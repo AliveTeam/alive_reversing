@@ -8,6 +8,7 @@
 #include "stdlib.hpp"
 #include "Shadow.hpp"
 #include "ObjectIds.hpp"
+#include "Input.hpp"
 
 const char * sAbeStateNames[] =
 {
@@ -223,6 +224,142 @@ TintEntry sTintTable_Abe_554D20[15] =
     { -1, 102u, 102u, 102u }
 };
 
+using TAbeStateFunction = decltype(&Abe::State_Idle_44EEB0);
+
+TAbeStateFunction sAbeStateMachineTable_554910[130] =
+{
+    &Abe::State_Idle_44EEB0,
+    &Abe::State_WalkLoop_44FBA0,
+    &Abe::State_StandingTurn_451830,
+    &Abe::State_Fall_459B60,
+    &Abe::State_WalkEndLeftFoot_44FFC0,
+    &Abe::State_WalkEndRightFoot_00450080,
+    &Abe::State_WalkBegin_44FEE0,
+    &Abe::State_45B140,
+    &Abe::State_45B160,
+    &Abe::State_45B180,
+    &Abe::State_Fart_45B1A0,
+    &Abe::State_Speak_45B0A0,
+    &Abe::State_Null_4569C0,
+    &Abe::State_HoistBegin_452B20,
+    &Abe::State_HoistIdle_452440,
+    &Abe::State_HoistLand_452BA0,
+    &Abe::State_LandSoft_45A360,
+    &Abe::State_CrouchIdle_456BC0,
+    &Abe::State_CrouchToStand_454600,
+    &Abe::State_StandToCrouch_453DC0,
+    &Abe::State_454550,
+    &Abe::jState_4545E0,
+    &Abe::State_RollBegin_4539A0,
+    &Abe::State_RollLoop_453A90,
+    &Abe::State_453D00,
+    &Abe::State_RunSlideStop_451330,
+    &Abe::State_RunTurn_451500,
+    &Abe::State_HopBegin_4521C0,
+    &Abe::State_HopMid_451C50,
+    &Abe::State_HopLand_4523D0,
+    &Abe::State_RunJumpBegin_4532E0,
+    &Abe::State_RunJumpMid_452C10,
+    &Abe::State_RunJumpLand_453460,
+    &Abe::State_RunLoop_4508E0,
+    &Abe::State_DunnoBegin_44ECF0,
+    &Abe::State_DunnoEnd_44ED10,
+    &Abe::State_Null_45BC50,
+    &Abe::State_CrouchTurn_454390,
+    &Abe::jState_RollBegin_453A70,
+    &Abe::State_StandingToRun_450D40,
+    &Abe::State_SneakLoop_450550,
+    &Abe::State_450250,
+    &Abe::State_4503D0,
+    &Abe::State_450380,
+    &Abe::State_450500,
+    &Abe::State_SneakBegin_4507A0,
+    &Abe::State_SneakEnd_450870,
+    &Abe::jState_SneakEnd_4508C0,
+    &Abe::State_4500A0,
+    &Abe::State_450200,
+    &Abe::State_RunToWalk1_450E20,
+    &Abe::State_RunToWalk2_450F50,
+    &Abe::State_451710,
+    &Abe::State_451800,
+    &Abe::State_RunJumpLandRun_4538F0,
+    &Abe::State_RunJumpLandWalk_453970,
+    &Abe::State_4591F0,
+    &Abe::State_Dead_4589A0,
+    &Abe::State_DeadPre_4593E0,
+    &Abe::State_Null_459450,
+    &Abe::State_4A3200,
+    &Abe::State_TurnToRun_456530,
+    &Abe::State_Punch_454750,
+    &Abe::State_Sorry_454670,
+    &Abe::State_454730,
+    &Abe::State_LedgeAscend_4548E0,
+    &Abe::State_LedgeDescend_454970,
+    &Abe::State_LedgeHang_454E20,
+    &Abe::State_454B80,
+    &Abe::State_LedgeHangWobble_454EF0,
+    &Abe::State_RingRopePull_455AF0,
+    &Abe::State_Knockback_455090,
+    &Abe::State_KnockbackGetUp_455340,
+    &Abe::State_PushWall_4553A0,
+    &Abe::State_455290,
+    &Abe::State_45C7B0,
+    &Abe::State_45CA40,
+    &Abe::State_45D130,
+    &Abe::State_WellBegin_45C810,
+    &Abe::State_WellInside_45CA60,
+    &Abe::State_WellShotOut_45D150,
+    &Abe::jState_WellBegin_45C7F0,
+    &Abe::State_45CC80,
+    &Abe::State_45CF70,
+    &Abe::State_FallLandDie_45A420,
+    &Abe::jState_Fall_455070,
+    &Abe::State_HandstoneBegin_45BD00,
+    &Abe::State_HandstoneEnd_45C4F0,
+    &Abe::State_GrenadeMachineUse_45C510,
+    &Abe::State_BrewMachineBegin_4584C0,
+    &Abe::State_BrewMachineEnd_4585B0,
+    &Abe::State_RingRopePullEnd_4557B0,
+    &Abe::State_455800,
+    &Abe::State_FallLedgeBegin_455970,
+    &Abe::jState_FallLedgeBegin_4559A0,
+    &Abe::jState_FallLedgeBegin_4559C0,
+    &Abe::State_4559E0,
+    &Abe::jState_FallLedgeBegin_455A80,
+    &Abe::jState_FallLedgeBegin_455AA0,
+    &Abe::State_LeverUse_455AC0,
+    &Abe::State_455B60,
+    &Abe::State_KnockForward_455420,
+    &Abe::State_455310,
+    &Abe::jState_KnockbackGetUp_455380,
+    &Abe::State_RockThrowStandingHold_455DF0,
+    &Abe::State_RockThrowStandingThrow_456460,
+    &Abe::State_RockThrowStandingEnd_455F20,
+    &Abe::State_RockThrowCrouchingHold_454410,
+    &Abe::State_RockThrowCrouchingThrow_454500,
+    &Abe::State_455550,
+    &Abe::State_455670,
+    &Abe::State_GrabRock_4564A0,
+    &Abe::State_Chant_45B1C0,
+    &Abe::State_ChantEnd_45BBE0,
+    &Abe::State_DoorEnter_459470,
+    &Abe::State_DoorExit_459A40,
+    &Abe::State_MineCarEnter_458780,
+    &Abe::State_4587C0,
+    &Abe::State_MineCarExit_458890,
+    &Abe::State_45A990,
+    &Abe::State_45AB00,
+    &Abe::State_LiftGrabBegin_45A600,
+    &Abe::State_LiftGrabEnd_45A670,
+    &Abe::State_LiftGrabIdle_45A6A0,
+    &Abe::State_LiftUseUp_45A780,
+    &Abe::State_LiftUseDown_45A7B0,
+    &Abe::State_TurnWheelBegin_456700,
+    &Abe::State_TurnWheelLoop_456750,
+    &Abe::State_TurnWheelEnd_4569A0,
+    &Abe::State_PoisonGasDeath_4565C0
+};
+
 // Frame call backs ??
 EXPORT int CC sub_455F40(void*, signed __int16*)
 {
@@ -378,7 +515,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     ResourceManager::LoadResourceFile_49C170("SPOTLITE.BAN", nullptr);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
 
-    field_128.field_10_mood = 1;
+    field_128.field_10 = 1;
 
     Animation_Init_424E10(
         frameTableOffset,
@@ -406,11 +543,11 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
 
     field_128.field_C = 0;
     field_128.field_E = 0;
-    field_128.field_10_mood = 0;
-    field_128.field_12 = 0;
+    field_128.field_10 = 0;
+    field_128.field_12_mood = 0;
 
-    field_C4_velx = 0;
-    field_C8_vely = 0;
+    field_C4_velx = FP(0);
+    field_C8_vely = FP(0);
     field_100_pCollisionLine = nullptr;
     field_106_animation_num = 3;
     field_122 = -1;
@@ -453,7 +590,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_1AC_flags &= ~3u;
     field_124_gnFrame = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
-    field_128.field_12 = 0;
+    field_128.field_12_mood = 0;
     field_128.field_18 = -1;
     field_144 = 0;
 
@@ -600,9 +737,486 @@ void Abe::vdtor_44B350(signed int flags)
     }
 }
 
+// TODO: Convert to readable fixed point
+const FP sAbe_xVel_table_545770[8] = 
+{
+    FP_FromInteger(4), // 262144
+    FP_FromInteger(4),
+    FP(0), 
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP(0),
+    FP_FromInteger(4)
+};
+
+const FP sAbe_yVel_table_545790[8] =
+{
+    FP(0), 
+    FP_FromInteger(-4), // 4294705152
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP(0),
+    FP_FromInteger(4), // 262144
+    FP_FromInteger(4),
+    FP_FromInteger(4)
+};
+
+const InputCommands sInputKey_Run_5550E8 = eRun;
+
+ALIVE_VAR(1, 0x5c1bda, short, word_5C1BDA, 0);
+
+
 void Abe::Update_449DC0()
 {
     NOT_IMPLEMENTED();
+
+    if (word_5C1BDA) // Some flag to reset HP?
+    {
+        field_114_flags &= ~0x40u;
+        field_10C_health = FP_FromDouble(1.0);
+    }
+
+    if (field_114_flags & 0x100)
+    {
+        field_114_flags &= ~0x100;
+        if (field_104 != -1)
+        {
+            /*
+            Collisions::Raycast_417A60(
+                sCollisions_DArray_5C1128,
+                this->field_0_mBase.field_0_mBase.field_B8_xpos,
+                this->field_0_mBase.field_0_mBase.field_BC_ypos - 0x140000,
+                this->field_0_mBase.field_0_mBase.field_B8_xpos,
+                this->field_0_mBase.field_0_mBase.field_BC_ypos + 0x140000,
+                &this->field_0_mBase.field_100_pCollisionLine,
+                &this->field_0_mBase.field_0_mBase.field_B8_xpos,
+                &this->field_0_mBase.field_0_mBase.field_BC_ypos,
+                1 << field_104);*/
+            field_104 = -1;
+        }
+
+        field_110 = BaseGameObject::Find_Flags_4DC170(field_110);
+        field_148 = BaseGameObject::Find_Flags_4DC170(field_148);
+        field_14C = BaseGameObject::Find_Flags_4DC170(field_14C);
+        field_1A8 = BaseGameObject::Find_Flags_4DC170(field_1A8);
+        field_150 = BaseGameObject::Find_Flags_4DC170(field_150);
+        field_154 = BaseGameObject::Find_Flags_4DC170(field_154);
+        field_158 = BaseGameObject::Find_Flags_4DC170(field_158);
+        field_15C = BaseGameObject::Find_Flags_4DC170(field_15C);
+        field_160 = BaseGameObject::Find_Flags_4DC170(field_160);
+        field_164 = BaseGameObject::Find_Flags_4DC170(field_164);
+
+        if (!(field_114_flags & 0x80))
+        {
+            /*
+            if (!this->field_170)
+            {
+                this->field_170 = sGnFrame_5C1B84 + 2;
+            }
+            pClass_545A60Mem = (BaseGameObject *)malloc_4954D0(0x4Cu);
+            pClass_545A60Mem_Copy = pClass_545A60Mem;
+            unknown = 0;
+            if (pClass_545A60Mem)
+            {
+                pClass_545A60 = Class_545A60::ctor_45F280(pClass_545A60Mem, (int)this);
+            }
+            else
+            {
+                pClass_545A60 = 0;
+            }
+            l_field_8_flags_ex = pClass_545A60->field_8_flags_ex;
+            unknown = -1;
+            this->field_178 = l_field_8_flags_ex;
+            Class_545A60::sub_45FA00((int)pClass_545A60);
+            */
+        }
+    }
+
+    if (field_1AC_flags & 0x800)
+    {
+        return;
+    }
+
+    if (word_5C1BDA)
+    {
+        field_10C_health = FP_FromDouble(1.0);
+    }
+
+    if (!Input_IsChanting_45F260())
+    {
+        field_1AC_flags &= ~0x20u;
+        field_174 = 1;
+    }
+
+    const int totalAliveSavedMuds = sRescuedMudokons_5C1BC2 - sKilledMudokons_5C1BC0;
+    if (totalAliveSavedMuds == 0)
+    {
+        // "Normal" voice
+        field_128.field_12_mood = 5;
+    }
+    else if (totalAliveSavedMuds >= 0)
+    {
+        // "Happy" voice
+        field_128.field_12_mood = 0;
+    }
+    else if (totalAliveSavedMuds <= 0)
+    {
+        // "Sad" voice
+        field_128.field_12_mood = 3;
+    }
+
+    if (!sDDCheat_FlyingEnabled_5C2C08 || sControlledCharacter_5C1B8C != this)
+    {
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+    
+        // Execute the current state
+        (this->*(sAbeStateMachineTable_554910)[field_106_animation_num])();
+
+        if (field_114_flags & 0x100 || field_1AC_flags & 0x10)
+        {
+            return;
+        }
+
+        /*
+        if (this->field_0_mBase.field_100_pCollisionLine)
+        {
+            this->field_0_mBase.field_0_mBase.field_BC_ypos &= 0xFFFF0000;
+        }
+
+        xpos2 = this->field_0_mBase.field_0_mBase.field_B8_xpos;
+        if (xpos != xpos2 || ypos != this->field_0_mBase.field_0_mBase.field_BC_ypos)
+        {
+            pTlv = Path::TLV_Get_At_4DB290(
+                sPath_dword_BB47C0,
+                0,
+                xpos2,
+                this->field_0_mBase.field_0_mBase.field_BC_ypos,
+                xpos2,
+                this->field_0_mBase.field_0_mBase.field_BC_ypos);
+            pVirtualTable = this->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl;
+            this->field_0_mBase.field_FC_pPathTLV = pTlv;
+            ((void(__thiscall *)(Abe *, Path_TLV *))pVirtualTable->VAbe.field_0.field_50)(this, pTlv);
+        }
+
+        if (this->field_0_mBase.field_114_flags & 1)
+        {
+            state_idx = this->field_122;
+            Abe::Knockback_44E700(this, 1, 1);
+            if (state_idx != -1)
+            {
+                this->field_0_mBase.field_106_animation_num = state_idx;
+            }
+            l_field_114_flags_and_1 = this->field_0_mBase.field_114_flags & ~1;
+            this->field_0_mBase.field_108 = 0;
+            LOBYTE(l_field_114_flags_and_1) = l_field_114_flags_and_1 | 2;
+            this->field_1AC_flags &= ~2u;
+            this->field_122 = 0;
+            this->field_0_mBase.field_114_flags = l_field_114_flags_and_1;
+        }
+        pScreenShake = (int)Event_Get_422C00(kEventScreenShake);
+        if (pScreenShake)
+        {
+            if (this->field_0_mBase.field_10C_health > 0)
+            {
+                pScreenShake = Abe::sub_449D30(this);
+                if ((_WORD)pScreenShake)
+                {
+                    pScreenShake = Abe::Knockback_44E700(this, 1, 0);
+                }
+            }
+        }
+
+        if (this->field_128.field_18 < 0 || (pScreenShake = this->field_144, (signed int)sGnFrame_5C1B84 < pScreenShake))
+        {
+        LABEL_75:
+            LOWORD(pScreenShake) = this->field_0_mBase.field_106_animation_num;
+            if (state_idx != (signed __int16)pScreenShake || this->field_0_mBase.field_114_flags & 2)
+            {
+                this->field_0_mBase.field_114_flags &= ~2u;
+                if ((_WORD)pScreenShake != 12 && !(this->field_1AC_flags & 0x10))
+                {
+                    remapState = Abe::StateToAnimResource_44AAB0(this, pScreenShake);
+                    Animation::Set_Animation_Data_409C80(
+                        &this->field_0_mBase.field_0_mBase.field_20_animation,
+                        sAbeFrameOffsetTable_554B18[this->field_0_mBase.field_106_animation_num],
+                        remapState);
+                    this->field_128.field_14 = sGnFrame_5C1B84;
+                    if (state_idx == 12 || state_idx == 60)
+                    {
+                        Animation::SetFrame_409D50(
+                            &this->field_0_mBase.field_0_mBase.field_20_animation,
+                            this->field_0_mBase.field_F6);
+                    }
+                }
+            }
+
+            if (this->field_1AC_flags & 2)
+            {
+                LOWORD(pScreenShake) = this->field_0_mBase.field_F4;
+                this->field_0_mBase.field_106_animation_num = pScreenShake;
+                v24 = Abe::StateToAnimResource_44AAB0(this, pScreenShake);
+                Animation::Set_Animation_Data_409C80(
+                    &this->field_0_mBase.field_0_mBase.field_20_animation,
+                    sAbeFrameOffsetTable_554B18[this->field_0_mBase.field_106_animation_num],
+                    v24);
+                v25 = this->field_0_mBase.field_F6;
+                this->field_128.field_14 = sGnFrame_5C1B84;
+                Animation::SetFrame_409D50(&this->field_0_mBase.field_0_mBase.field_20_animation, v25);
+                this->field_1AC_flags &= 0xFFFDu;
+            }
+
+            if (*(_DWORD *)&this->field_128.field_4 <= (signed int)sGnFrame_5C1B84
+                && this->field_0_mBase.field_10C_health > 0)
+            {
+                this->field_0_mBase.field_10C_health = 0x10000;
+            }
+
+            if (this->field_168)
+            {
+                if (this->field_0_mBase.field_0_mBase.field_20_animation.field_0_mBase.field_4_flags & 4)
+                {
+                    if (Map::Is_Point_In_Current_Camera_4810D0(
+                        &gMap_5C3030,
+                        this->field_0_mBase.field_0_mBase.field_C2_lvl_number,
+                        this->field_0_mBase.field_0_mBase.field_C0_path_number,
+                        this->field_0_mBase.field_0_mBase.field_B8_xpos,
+                        this->field_0_mBase.field_0_mBase.field_BC_ypos,
+                        0))
+                    {
+                        v26 = this->field_168;
+                        if ((signed int)sGnFrame_5C1B84 <= v26)
+                        {
+                            if (!((signed int)sGnFrame_5C1B84 % 32))
+                            {
+                                v27 = 0;
+                                if (this->field_16C)
+                                {
+                                    v27 = 4;
+                                }
+                                else if (this->field_16E)
+                                {
+                                    v27 = 7;
+                                }
+                                else if (this->field_1AC_flags & 0x4000)
+                                {
+                                    v27 = 14;
+                                }
+                                v28 = ((int(__thiscall *)(Abe *, char *, signed int))this->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl->VBaseAliveGameObject.field_0_mBase.field_0_mBase.field_1C_update_delay)(
+                                    this,
+                                    &v38,
+                                    1);
+                                pClass_545A60Mem_Copy = *(BaseGameObject **)v28;
+                                v37 = *(_DWORD *)(v28 + 4);
+                                AbilityRing::ctor_482F80(
+                                    ((signed __int16)pClass_545A60Mem_Copy + (signed __int16)v37) / 2 << 16,
+                                    (SHIWORD(pClass_545A60Mem_Copy) + SHIWORD(v37)) / 2 << 16,
+                                    v27,
+                                    this->field_0_mBase.field_0_mBase.field_CC_sprite_scale);
+                                SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
+                            }
+                        }
+                        else
+                        {
+                            if (v26)
+                            {
+                                if (this->field_16C)
+                                {
+                                    sub_45AA90(this);
+                                }
+                            }
+                            this->field_168 = 0;
+                        }
+                    }
+                }
+            }
+            v29 = ObjectIds::Find_449CF0(&sObjectIds_5C1B70, this->field_178);
+            if (v29)
+            {
+                v30 = this->field_170;
+                if (v30)
+                {
+                    if ((signed int)sGnFrame_5C1B84 > v30)
+                    {
+                        this->field_170 = 0;
+                        sub_45FA30(v29);
+                    }
+                }
+            }
+            l_field_1AC_flags = this->field_1AC_flags;
+            if (l_field_1AC_flags < 0)
+            {
+                l_field_1AE = this->field_1AE;
+                if (l_field_1AE & 1)
+                {
+                    if (gMap_5C3030.sCurrentLevelId_5C3030 == 2)
+                    {
+                        flagsTmp = l_field_1AC_flags & ~0xC000u;
+                        HIBYTE(flagsTmp) |= 0x40u;
+                        this->field_168 = sGnFrame_5C1B84 + 200000;
+                        this->field_16C = 0;
+                        this->field_16E = 0;
+                        this->field_1AE = l_field_1AE & ~1;
+                        this->field_1AC_flags = flagsTmp;
+                    }
+                }
+            }
+            if (Event_Get_422C00(kEventMudokonDied))
+            {
+                this->field_128.field_18 = 14;
+                this->field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+                pMusicTrigger = (BaseGameObject *)malloc_4954D0(0x34u);
+                pClass_545A60Mem_Copy = pMusicTrigger;
+                unknown = 1;
+                if (pMusicTrigger)
+                {
+                    MusicTrigger::ctor_47FF10(pMusicTrigger, 1, 0, 90, 0);
+                }
+                unknown = -1;
+            }
+            if (Event_Get_422C00(kEventMudokonComfort))
+            {
+                this->field_128.field_18 = 8;
+                this->field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+            }
+            if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
+            {
+                this->field_128.field_18 = 14;
+                this->field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+            }
+            l_field_1AE_1 = this->field_1AE;
+            if (!(l_field_1AE_1 & 2))
+            {
+                return;
+            }
+            this->field_1AE = l_field_1AE_1 & ~2;
+            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = this->field_1B0_save_num;
+            Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
+            ((void(__stdcall *)(Quicksave_Obj_Abe *))sActiveHero_5C1B68->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl->VBaseGameObject.field_14_get_save_state)(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
+            qmemcpy(
+                sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states,
+                sSwitchStates_5C1A28,
+                sizeof(sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states));
+            Quicksave_4C90D0();
+            return;
+        }
+
+        if (!Map::Is_Point_In_Current_Camera_4810D0(
+            &gMap_5C3030,
+            this->field_0_mBase.field_0_mBase.field_C2_lvl_number,
+            this->field_0_mBase.field_0_mBase.field_C0_path_number,
+            this->field_0_mBase.field_0_mBase.field_B8_xpos,
+            this->field_0_mBase.field_0_mBase.field_BC_ypos,
+            0)
+            || (animNum = this->field_0_mBase.field_106_animation_num, animNum == 112)
+            || animNum == 7
+            || animNum == 8
+            || animNum == 9
+            || animNum == 10)
+        {
+        LABEL_74:
+            this->field_128.field_18 = -1;
+            goto LABEL_75;
+        }
+
+        if (!animNum || animNum == 12)
+        {
+            l_sub_field_18 = this->field_128.field_18;
+            LOBYTE(this->field_0_mBase.field_114_flags) |= 2u;
+            switch (l_sub_field_18)
+            {
+            case 5:
+                goto LABEL_123;
+            case 14:
+                this->field_0_mBase.field_106_animation_num = 34;
+                goto LABEL_69;
+            case 28:
+            LABEL_123:
+                this->field_0_mBase.field_106_animation_num = 10;
+                goto LABEL_69;
+            }
+            this->field_0_mBase.field_106_animation_num = 9;
+        }
+
+    LABEL_69:
+        if (this->field_128.field_18 == 5)
+        {
+            Event_Broadcast_422BC0(kEventMudokonLaugh, &sActiveHero_5C1B68->field_0_mBase.field_0_mBase.field_0_mBase);
+        }
+        if (this->field_128.field_18 == 28)
+        {
+            Abe_SFX_457EC0(this->field_128.field_18, 80, 0, this);
+        }
+        else
+        {
+            Abe_SFX_457EC0(this->field_128.field_18, 0, 0, this);
+        }
+        goto LABEL_74;
+        */
+    }
+
+    /*
+    // vcall 23
+    ((void(__thiscall *)(Abe *))this->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl->VAbe.field_0.field_5C)(this);
+    */
+    Vnull_4081F0();
+
+    field_F8 = field_BC_ypos;
+    field_1AC_flags &= ~0x10u;
+    field_106_animation_num = 85;
+    field_100_pCollisionLine = nullptr;
+
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft | eDown | eUp))
+    {
+        field_C4_velx = sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+        field_C8_vely = sAbe_yVel_table_545790[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+        
+        if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+        {
+            field_C4_velx += sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            field_C4_velx += sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            field_C8_vely += sAbe_yVel_table_545790[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+        }
+
+        field_B8_xpos += field_C4_velx;
+        field_BC_ypos += field_C8_vely;
+
+        // Keep within map max min bounds
+        if (field_B8_xpos < FP(0))
+        {
+            field_B8_xpos = FP(0);
+        }
+
+        if (field_BC_ypos < FP(0))
+        {
+            field_BC_ypos = FP(0);
+        }
+
+        // Keep within map max bounds
+        PSX_Point mapSize = {};
+        gMap_5C3030.Get_map_size_480640(&mapSize);
+
+        FP mapWidth = FP_FromInteger(mapSize.field_0_x);
+        if (field_B8_xpos >= mapWidth)
+        {
+            field_B8_xpos = mapWidth - FP_FromDouble(1.0);
+        }
+
+        FP mapHeight = FP_FromInteger(mapSize.field_2_y);
+        if (field_BC_ypos >= mapHeight)
+        {
+            field_BC_ypos = mapHeight - FP_FromDouble(1.0);
+            sub_408C40();
+            return;
+        }
+    }
+    else
+    {
+        field_C4_velx = FP(0);
+        field_C8_vely = FP(0);
+    }
+    
+    sub_408C40();
 }
 
 int Abe::vsub_44E970(__int16 /*a2*/)
@@ -622,9 +1236,17 @@ void Abe::Knockback_44E700(__int16 /*a2*/, __int16 /*a3*/)
     NOT_IMPLEMENTED();
 }
 
-void Abe::vRender_44B580(int** /*pOrderingTable*/)
+void Abe::vRender_44B580(int** pOrderingTable)
 {
-    NOT_IMPLEMENTED();
+    if (!(field_1AC_flags & 0x10))
+    {
+        field_20_animation.field_14_scale = field_CC_sprite_scale;
+    }
+
+    if (field_106_animation_num != 79 && field_106_animation_num != 82 && field_106_animation_num != 76)
+    {
+        Render_424B90(pOrderingTable);
+    }
 }
 
 void Abe::vScreenChanged_44D240()
@@ -693,6 +1315,657 @@ void Abe::Free_Resources_44D420()
 }
 
 BYTE ** Abe::StateToAnimResource_44AAB0(signed int /*state*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+void Abe::State_Idle_44EEB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_WalkLoop_44FBA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_StandingTurn_451830()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Fall_459B60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_WalkEndLeftFoot_44FFC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_WalkEndRightFoot_00450080()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_WalkBegin_44FEE0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45B140()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45B160()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45B180()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Fart_45B1A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Speak_45B0A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Null_4569C0()
+{
+
+}
+
+void Abe::State_HoistBegin_452B20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_HoistIdle_452440()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_HoistLand_452BA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LandSoft_45A360()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_CrouchIdle_456BC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_CrouchToStand_454600()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_StandToCrouch_453DC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_454550()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_4545E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RollBegin_4539A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RollLoop_453A90()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_453D00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunSlideStop_451330()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunTurn_451500()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_HopBegin_4521C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_HopMid_451C50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_HopLand_4523D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunJumpBegin_4532E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunJumpMid_452C10()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunJumpLand_453460()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunLoop_4508E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_DunnoBegin_44ECF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_DunnoEnd_44ED10()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Null_45BC50()
+{
+
+}
+
+void Abe::State_CrouchTurn_454390()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_RollBegin_453A70()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_StandingToRun_450D40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_SneakLoop_450550()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_450250()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_4503D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_450380()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_450500()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_SneakBegin_4507A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_SneakEnd_450870()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_SneakEnd_4508C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_4500A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_450200()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunToWalk1_450E20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunToWalk2_450F50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_451710()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_451800()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunJumpLandRun_4538F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RunJumpLandWalk_453970()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_4591F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Dead_4589A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_DeadPre_4593E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Null_459450()
+{
+
+}
+
+void Abe::State_4A3200()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_TurnToRun_456530()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Punch_454750()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Sorry_454670()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_454730()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LedgeAscend_4548E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LedgeDescend_454970()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LedgeHang_454E20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_454B80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LedgeHangWobble_454EF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RingRopePull_455AF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Knockback_455090()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_KnockbackGetUp_455340()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_PushWall_4553A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_455290()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45C7B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45CA40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45D130()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_WellBegin_45C810()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_WellInside_45CA60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_WellShotOut_45D150()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_WellBegin_45C7F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45CC80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45CF70()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_FallLandDie_45A420()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_Fall_455070()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_HandstoneBegin_45BD00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_HandstoneEnd_45C4F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_GrenadeMachineUse_45C510()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_BrewMachineBegin_4584C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_BrewMachineEnd_4585B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RingRopePullEnd_4557B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_455800()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_FallLedgeBegin_455970()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_FallLedgeBegin_4559A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_FallLedgeBegin_4559C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_4559E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_FallLedgeBegin_455A80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_FallLedgeBegin_455AA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LeverUse_455AC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_455B60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_KnockForward_455420()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_455310()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::jState_KnockbackGetUp_455380()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RockThrowStandingHold_455DF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RockThrowStandingThrow_456460()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RockThrowStandingEnd_455F20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RockThrowCrouchingHold_454410()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_RockThrowCrouchingThrow_454500()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_455550()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_455670()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_GrabRock_4564A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_Chant_45B1C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_ChantEnd_45BBE0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_DoorEnter_459470()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_DoorExit_459A40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_MineCarEnter_458780()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_4587C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_MineCarExit_458890()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45A990()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_45AB00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LiftGrabBegin_45A600()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LiftGrabEnd_45A670()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LiftGrabIdle_45A6A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LiftUseUp_45A780()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_LiftUseDown_45A7B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_TurnWheelBegin_456700()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_TurnWheelLoop_456750()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_TurnWheelEnd_4569A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::State_PoisonGasDeath_4565C0()
 {
     NOT_IMPLEMENTED();
 }

@@ -51,3 +51,7 @@ public:
     __int16 field_3E;
 };
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x40);
+
+ALIVE_VAR_EXTERN(bool, sDDCheat_FlyingEnabled_5C2C08);
+ALIVE_VAR_EXTERN(__int16, sRescuedMudokons_5C1BC2);
+ALIVE_VAR_EXTERN(__int16, sKilledMudokons_5C1BC0);

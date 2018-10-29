@@ -18,8 +18,8 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     SetVTable(&field_20_animation, 0x544290); // gVtbl_animation_2a_544290
     SetVTable(this, 0x544C9C); // gVtbl_BaseAnimatedWithPhysicsGameObject_544C9C
 
-    field_C4_velx = 0;
-    field_C8_vely = 0;
+    field_C4_velx = FP(0);
+    field_C8_vely = FP(0);
 
     field_B8_xpos = FP(0);
     field_BC_ypos = FP(0);

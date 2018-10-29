@@ -30,8 +30,6 @@ ALIVE_VAR(1, 0x5ca4d9, char, sQuicksave_LoadNextFrame_5CA4D9, 0);
 
 ALIVE_ARY(1, 0x5C92F0, char, 16, sScreenStringBuffer_5C92F0, { 0 });
 
-ALIVE_VAR_EXTERN(__int16, sRescuedMudokons_5C1BC2);
-ALIVE_VAR(1, 0x5c1bc0, __int16, sKilledMudokons_5C1BC0, 0);
 
 ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
 

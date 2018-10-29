@@ -95,3 +95,24 @@ EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
 
     field_10_resources_array.dtor_40CAD0();
 }
+
+EXPORT int __stdcall BaseGameObject::Find_Flags_4DC170(int objectId)
+{
+    if (objectId != -1)
+    {
+        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_C_objectId == objectId)
+            {
+                return pObj->field_8_object_id;
+            }
+        }
+    }
+    return -1;
+}

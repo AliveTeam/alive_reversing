@@ -15,6 +15,8 @@ ALIVE_VAR(1, 0x5c1be6, int, sDoorsOpen_5C1BE6, 0);
 ALIVE_VAR(1, 0x5c1bd0, int, sTweakX_5C1BD0, 0);
 ALIVE_VAR(1, 0x5c1bd4, int, sTweakY_5C1BD4, 0);
 ALIVE_VAR(1, 0x5c1bc2, __int16, sRescuedMudokons_5C1BC2, 0);
+ALIVE_VAR(1, 0x5c1bc0, __int16, sKilledMudokons_5C1BC0, 0);
+
 ALIVE_VAR(1, 0x5c1c02, __int16, sVisitedBonewerks_5C1C02, 0);
 ALIVE_VAR(1, 0x5c1c04, __int16, sVisitedBarracks_5C1C04, 0);
 ALIVE_VAR(1, 0x5c1c06, __int16, sVisitedFeecoEnder_5C1C06, 0);

@@ -177,3 +177,8 @@ void BaseAliveGameObject::SetTint_425600(TintEntry * pTintArray, __int16 level_i
     field_D2_g = pTintArray->field_2_g;
     field_D4_b = pTintArray->field_3_b;
 }
+
+EXPORT __int16 BaseAliveGameObject::sub_408C40()
+{
+    NOT_IMPLEMENTED();
+}
