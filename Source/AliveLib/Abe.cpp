@@ -551,6 +551,46 @@ void Abe::VDestructor(signed int flags)
     vdtor_44B350(flags);
 }
 
+void Abe::VUpdate()
+{
+    Update_449DC0();
+}
+
+void Abe::VRender(int** pOrderingTable)
+{
+    vRender_44B580(pOrderingTable);
+}
+
+void Abe::VScreenChanged()
+{
+    vScreenChanged_44D240();
+}
+
+int Abe::GetSaveState_4DC110(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_457110(pSaveBuffer);
+}
+
+__int16 Abe::Vsub_408730(int arg0)
+{
+    return vsub_Kill_44BB50(reinterpret_cast<BaseAliveGameObject*>(arg0));
+}
+
+__int16 Abe::Vnull_4087F0(int a2a)
+{
+    return vsub_44B5D0(a2a);
+}
+
+int Abe::Vsub_408FD0(__int16 a2)
+{
+    return vsub_44E970(a2);
+}
+
+int Abe::Vnull_4081F0()
+{
+    return reinterpret_cast<int>(vsub_45A570());
+}
+
 void Abe::vdtor_44B350(signed int flags)
 {
     dtor_44B380();
@@ -560,15 +600,54 @@ void Abe::vdtor_44B350(signed int flags)
     }
 }
 
+void Abe::Update_449DC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+int Abe::vsub_44E970(__int16 /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+BaseGameObject* Abe::vsub_45A570()
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 void Abe::Knockback_44E700(__int16 /*a2*/, __int16 /*a3*/)
 {
     NOT_IMPLEMENTED();
+}
+
+void Abe::vRender_44B580(int** /*pOrderingTable*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::vScreenChanged_44D240()
+{
+    NOT_IMPLEMENTED();
+}
+
+int Abe::vGetSaveState_457110(BYTE* /*pSaveBuffer*/)
+{
+    NOT_IMPLEMENTED();
+    return 216;
 }
 
 bool Abe::vsub_Kill_44BB50(BaseGameObject * /*otherObj*/)
 {
     NOT_IMPLEMENTED();
     return false;
+}
+
+__int16 Abe::vsub_44B5D0(int /*a2a*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 int Abe::sub_44B7B0()
