@@ -22,6 +22,8 @@ class DDCheat : public BaseGameObject
 public:
     virtual void VDestructor(signed int flags);
     virtual void VUpdate() override;
+    virtual void VRender(int**) { }
+    virtual void VScreenChanged() { }
 
     DDCheat();
     EXPORT DDCheat* ctor_4153C0();
