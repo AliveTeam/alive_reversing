@@ -24,6 +24,7 @@ struct FixedPoint
 
     short GetExponent() const;
     double GetDouble() const;
+    void RemoveFractional();
 
     // Avoid using this. Directly writes to fp value
     void SetRaw(signed int rawFp);
@@ -62,6 +63,11 @@ inline FixedPoint operator/(const FixedPoint& lhs, const FixedPoint& rhs)
 inline bool operator < (const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue < rhs.fpValue;
+}
+
+inline bool operator > (const FixedPoint& lhs, const FixedPoint& rhs)
+{
+    return lhs.fpValue > rhs.fpValue;
 }
 
 inline bool operator >= (const FixedPoint& lhs, const FixedPoint& rhs)

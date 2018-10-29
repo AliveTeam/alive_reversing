@@ -9,6 +9,7 @@
 #include "Shadow.hpp"
 #include "ObjectIds.hpp"
 #include "Input.hpp"
+#include "Events.hpp"
 
 const char * sAbeStateNames[] =
 {
@@ -737,10 +738,9 @@ void Abe::vdtor_44B350(signed int flags)
     }
 }
 
-// TODO: Convert to readable fixed point
 const FP sAbe_xVel_table_545770[8] = 
 {
-    FP_FromInteger(4), // 262144
+    FP_FromInteger(4),
     FP_FromInteger(4),
     FP(0), 
     FP_FromInteger(-4),
@@ -753,11 +753,11 @@ const FP sAbe_xVel_table_545770[8] =
 const FP sAbe_yVel_table_545790[8] =
 {
     FP(0), 
-    FP_FromInteger(-4), // 4294705152
+    FP_FromInteger(-4),
     FP_FromInteger(-4),
     FP_FromInteger(-4),
     FP(0),
-    FP_FromInteger(4), // 262144
+    FP_FromInteger(4),
     FP_FromInteger(4),
     FP_FromInteger(4)
 };
@@ -782,17 +782,16 @@ void Abe::Update_449DC0()
         field_114_flags &= ~0x100;
         if (field_104 != -1)
         {
-            /*
-            Collisions::Raycast_417A60(
-                sCollisions_DArray_5C1128,
-                this->field_0_mBase.field_0_mBase.field_B8_xpos,
-                this->field_0_mBase.field_0_mBase.field_BC_ypos - 0x140000,
-                this->field_0_mBase.field_0_mBase.field_B8_xpos,
-                this->field_0_mBase.field_0_mBase.field_BC_ypos + 0x140000,
-                &this->field_0_mBase.field_100_pCollisionLine,
-                &this->field_0_mBase.field_0_mBase.field_B8_xpos,
-                &this->field_0_mBase.field_0_mBase.field_BC_ypos,
-                1 << field_104);*/
+            sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(20),
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(20),
+                &field_100_pCollisionLine,
+                &field_B8_xpos,
+                &field_BC_ypos,
+                1 << field_104);
+
             field_104 = -1;
         }
 
@@ -878,12 +877,12 @@ void Abe::Update_449DC0()
             return;
         }
 
-        /*
-        if (this->field_0_mBase.field_100_pCollisionLine)
+        if (field_100_pCollisionLine)
         {
-            this->field_0_mBase.field_0_mBase.field_BC_ypos &= 0xFFFF0000;
+            field_BC_ypos.RemoveFractional();
         }
 
+        /*
         xpos2 = this->field_0_mBase.field_0_mBase.field_B8_xpos;
         if (xpos != xpos2 || ypos != this->field_0_mBase.field_0_mBase.field_BC_ypos)
         {
@@ -898,38 +897,37 @@ void Abe::Update_449DC0()
             this->field_0_mBase.field_FC_pPathTLV = pTlv;
             ((void(__thiscall *)(Abe *, Path_TLV *))pVirtualTable->VAbe.field_0.field_50)(this, pTlv);
         }
+        */
 
-        if (this->field_0_mBase.field_114_flags & 1)
+        if (field_114_flags & 1)
         {
-            state_idx = this->field_122;
-            Abe::Knockback_44E700(this, 1, 1);
-            if (state_idx != -1)
+            Knockback_44E700(1, 1);
+            if (field_122 != -1)
             {
-                this->field_0_mBase.field_106_animation_num = state_idx;
+                field_106_animation_num = field_122;
             }
-            l_field_114_flags_and_1 = this->field_0_mBase.field_114_flags & ~1;
-            this->field_0_mBase.field_108 = 0;
-            LOBYTE(l_field_114_flags_and_1) = l_field_114_flags_and_1 | 2;
-            this->field_1AC_flags &= ~2u;
-            this->field_122 = 0;
-            this->field_0_mBase.field_114_flags = l_field_114_flags_and_1;
+
+            field_108 = 0;
+            field_1AC_flags &= ~2u;
+            field_122 = 0;
+            field_114_flags = (field_114_flags & ~1) | 2;
         }
-        pScreenShake = (int)Event_Get_422C00(kEventScreenShake);
-        if (pScreenShake)
+
+        BaseGameObject* pScreenShake = Event_Get_422C00(kEventScreenShake);
+        if (pScreenShake && field_10C_health > FP(0))
         {
-            if (this->field_0_mBase.field_10C_health > 0)
+            if (sub_449D30())
             {
-                pScreenShake = Abe::sub_449D30(this);
-                if ((_WORD)pScreenShake)
-                {
-                    pScreenShake = Abe::Knockback_44E700(this, 1, 0);
-                }
+                Knockback_44E700(1, 0);
             }
         }
 
-        if (this->field_128.field_18 < 0 || (pScreenShake = this->field_144, (signed int)sGnFrame_5C1B84 < pScreenShake))
+        
+        if (field_128.field_18 < 0 || sGnFrame_5C1B84 < field_144)
         {
+        /*
         LABEL_75:
+                ScreenShake = this->field_144
             LOWORD(pScreenShake) = this->field_0_mBase.field_106_animation_num;
             if (state_idx != (signed __int16)pScreenShake || this->field_0_mBase.field_114_flags & 2)
             {
@@ -1099,26 +1097,22 @@ void Abe::Update_449DC0()
                 sizeof(sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states));
             Quicksave_4C90D0();
             return;
+            */
         }
 
-        if (!Map::Is_Point_In_Current_Camera_4810D0(
-            &gMap_5C3030,
-            this->field_0_mBase.field_0_mBase.field_C2_lvl_number,
-            this->field_0_mBase.field_0_mBase.field_C0_path_number,
-            this->field_0_mBase.field_0_mBase.field_B8_xpos,
-            this->field_0_mBase.field_0_mBase.field_BC_ypos,
-            0)
-            || (animNum = this->field_0_mBase.field_106_animation_num, animNum == 112)
-            || animNum == 7
-            || animNum == 8
-            || animNum == 9
-            || animNum == 10)
+        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
+            || (field_106_animation_num == 112)
+            || field_106_animation_num == 7
+            || field_106_animation_num == 8
+            || field_106_animation_num == 9
+            || field_106_animation_num == 10)
         {
-        LABEL_74:
-            this->field_128.field_18 = -1;
-            goto LABEL_75;
+        //LABEL_74:
+            field_128.field_18 = -1;
+            //goto LABEL_75;
         }
 
+        /*
         if (!animNum || animNum == 12)
         {
             l_sub_field_18 = this->field_128.field_18;
@@ -1312,6 +1306,12 @@ void Abe::Load_Basic_Resources_44D460()
 void Abe::Free_Resources_44D420()
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT BOOL Abe::sub_449D30()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 BYTE ** Abe::StateToAnimResource_44AAB0(signed int /*state*/)

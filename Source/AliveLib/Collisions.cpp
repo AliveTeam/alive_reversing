@@ -45,7 +45,7 @@ void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const BY
     }
 }
 
-signed __int16 Collisions::Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, FP * unknown, FP * hitX, FP * hitY, int modeMask)
+signed __int16 Collisions::Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, int modeMask)
 {
     NOT_IMPLEMENTED();
 }

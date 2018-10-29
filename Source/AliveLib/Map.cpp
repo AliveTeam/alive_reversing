@@ -19,6 +19,7 @@
 #include "FG1.hpp"
 #include "CameraSwapper.hpp"
 #include "MainMenu.hpp"
+#include "Events.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }
@@ -694,6 +695,50 @@ void Map::Create_FG1s_480F10()
             }
         }
     }
+}
+
+__int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width)
+{
+    const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP(0);
+    if (level != sCurrentLevelId_5C3030 || path != sCurrentPathId_5C3032)
+    {
+        return 0;
+    }
+
+    PSX_RECT rect = {};
+    rect.x = (xpos - calculated_width).GetExponent();
+    rect.w = (calculated_width + xpos).GetExponent();
+    rect.y = ypos.GetExponent();
+    rect.h = ypos.GetExponent();
+    return Is_Rect_In_Current_Camera_480FE0(&rect) == 0;
+}
+
+EXPORT __int16 Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
+{
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        return 5;
+    }
+
+    const int xExp = field_24_camera_offset.field_0_x.GetExponent();
+    const int yExp = field_24_camera_offset.field_4_y.GetExponent();
+
+    if (pRect->x > (xExp + 368))
+    {
+        return 4;
+    }
+
+    if (pRect->y > (yExp + 240))
+    {
+        return 2;
+    }
+
+    if (pRect->w >= xExp)
+    {
+        return pRect->h < yExp;     // return 1 or 0
+    }
+
+    return 3;
 }
 
 signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)

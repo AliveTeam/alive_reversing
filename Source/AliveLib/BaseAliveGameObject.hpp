@@ -14,6 +14,9 @@ struct TintEntry
 };
 ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 
+struct Path_TLV;
+struct PathLine;
+
 #pragma pack(push)
 #pragma pack(2)
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
@@ -58,8 +61,8 @@ public:
     __int16 field_F4;
     __int16 field_F6;
     FP field_F8;
-    void* field_FC_pPathTLV;
-    void* field_100_pCollisionLine;
+    Path_TLV* field_FC_pPathTLV;
+    PathLine* field_100_pCollisionLine;
     __int16 field_104;
     __int16 field_106_animation_num;
     __int16 field_108;

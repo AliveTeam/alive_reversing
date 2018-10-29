@@ -71,6 +71,13 @@ double FixedPoint::GetDouble() const
     return static_cast<double>(fpValue) / 0x10000;
 }
 
+
+void FixedPoint::RemoveFractional()
+{
+    // Leave only the whole number part
+    fpValue &= 0xFFFF0000;
+}
+
 void FixedPoint::SetRaw(signed int rawFp)
 {
     fpValue = rawFp;

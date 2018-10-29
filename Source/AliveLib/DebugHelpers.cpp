@@ -493,7 +493,9 @@ void Command_HelperUpdate()
         sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
         sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
         sActiveHero_5C1B68->field_D6_scale = 1;
-        FP rX, rY, rUnk;
+        FP rX(0);
+        FP rY(0);
+        PathLine* rUnk = nullptr;
         
         float subDevide = 368 / 10.0f;
         for (int i = 0; i < 10; i++)

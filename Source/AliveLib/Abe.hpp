@@ -59,6 +59,7 @@ public:
     EXPORT int sub_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
+    EXPORT BOOL sub_449D30();
 
     EXPORT BYTE ** StateToAnimResource_44AAB0(signed int state);
 
@@ -203,7 +204,7 @@ public:
     __int16 field_122;
     int field_124_gnFrame;
     Abe_1BC_20_sub_object field_128;
-    int field_144;
+    unsigned int field_144;
     int field_148;
     int field_14C;
     int field_150;

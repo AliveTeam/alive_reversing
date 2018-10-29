@@ -91,7 +91,8 @@ public:
     EXPORT void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
     EXPORT __int16 Get_Path_Unknown_480710();
     EXPORT void Create_FG1s_480F10();
-
+    EXPORT __int16 Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width);
+    EXPORT __int16 Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect);
     EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
     EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, __int16 lvlId);
     EXPORT Camera* Create_Camera_4829E0(__int16 xpos, __int16 ypos, int a4);
