@@ -869,8 +869,10 @@ void Abe::Update_449DC0()
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
     
+        short state_idx = field_106_animation_num;
+
         // Execute the current state
-        (this->*(sAbeStateMachineTable_554910)[field_106_animation_num])();
+        (this->*(sAbeStateMachineTable_554910)[state_idx])();
 
         if (field_114_flags & 0x100 || field_1AC_flags & 0x10)
         {
@@ -879,32 +881,30 @@ void Abe::Update_449DC0()
 
         if (field_100_pCollisionLine)
         {
+            // Snap to a whole number so we are "on" the line
             field_BC_ypos.RemoveFractional();
         }
 
         /*
-        xpos2 = this->field_0_mBase.field_0_mBase.field_B8_xpos;
-        if (xpos != xpos2 || ypos != this->field_0_mBase.field_0_mBase.field_BC_ypos)
+        if (xpos != field_B8_xpos || ypos != field_BC_ypos)
         {
-            pTlv = Path::TLV_Get_At_4DB290(
-                sPath_dword_BB47C0,
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
                 0,
-                xpos2,
-                this->field_0_mBase.field_0_mBase.field_BC_ypos,
-                xpos2,
-                this->field_0_mBase.field_0_mBase.field_BC_ypos);
-            pVirtualTable = this->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl;
-            this->field_0_mBase.field_FC_pPathTLV = pTlv;
-            ((void(__thiscall *)(Abe *, Path_TLV *))pVirtualTable->VAbe.field_0.field_50)(this, pTlv);
+                field_B8_xpos,
+                field_BC_ypos,
+                field_B8_xpos,
+                field_BC_ypos);
+            ((void(__thiscall *)(Abe *, Path_TLV *))field_0_VTbl->VAbe.field_0.field_50)(this, field_FC_pPathTLV);
         }
         */
 
         if (field_114_flags & 1)
         {
+            state_idx = field_122;
             Knockback_44E700(1, 1);
-            if (field_122 != -1)
+            if (state_idx != -1)
             {
-                field_106_animation_num = field_122;
+                field_106_animation_num = state_idx;
             }
 
             field_108 = 0;
@@ -922,69 +922,55 @@ void Abe::Update_449DC0()
             }
         }
 
-        
         if (field_128.field_18 < 0 || sGnFrame_5C1B84 < field_144)
         {
-        /*
-        LABEL_75:
-                ScreenShake = this->field_144
-            LOWORD(pScreenShake) = this->field_0_mBase.field_106_animation_num;
-            if (state_idx != (signed __int16)pScreenShake || this->field_0_mBase.field_114_flags & 2)
+            //LABEL_75:
+            if (state_idx != field_106_animation_num || field_114_flags & 2)
             {
-                this->field_0_mBase.field_114_flags &= ~2u;
-                if ((_WORD)pScreenShake != 12 && !(this->field_1AC_flags & 0x10))
+                field_114_flags &= ~2u;
+                if (field_106_animation_num != 12 && !(field_1AC_flags & 0x10))
                 {
-                    remapState = Abe::StateToAnimResource_44AAB0(this, pScreenShake);
-                    Animation::Set_Animation_Data_409C80(
-                        &this->field_0_mBase.field_0_mBase.field_20_animation,
-                        sAbeFrameOffsetTable_554B18[this->field_0_mBase.field_106_animation_num],
-                        remapState);
-                    this->field_128.field_14 = sGnFrame_5C1B84;
+                    field_20_animation.Set_Animation_Data_409C80(
+                        sAbeFrameOffsetTable_554B18[field_106_animation_num],
+                        StateToAnimResource_44AAB0(field_106_animation_num));
+
+                    field_128.field_14 = sGnFrame_5C1B84;
+
                     if (state_idx == 12 || state_idx == 60)
                     {
-                        Animation::SetFrame_409D50(
-                            &this->field_0_mBase.field_0_mBase.field_20_animation,
-                            this->field_0_mBase.field_F6);
+                        field_20_animation.SetFrame_409D50(field_F6);
                     }
                 }
             }
 
-            if (this->field_1AC_flags & 2)
+            if (field_1AC_flags & 2)
             {
-                LOWORD(pScreenShake) = this->field_0_mBase.field_F4;
-                this->field_0_mBase.field_106_animation_num = pScreenShake;
-                v24 = Abe::StateToAnimResource_44AAB0(this, pScreenShake);
-                Animation::Set_Animation_Data_409C80(
-                    &this->field_0_mBase.field_0_mBase.field_20_animation,
-                    sAbeFrameOffsetTable_554B18[this->field_0_mBase.field_106_animation_num],
-                    v24);
-                v25 = this->field_0_mBase.field_F6;
-                this->field_128.field_14 = sGnFrame_5C1B84;
-                Animation::SetFrame_409D50(&this->field_0_mBase.field_0_mBase.field_20_animation, v25);
-                this->field_1AC_flags &= 0xFFFDu;
+                field_106_animation_num = field_F4;
+                field_20_animation.Set_Animation_Data_409C80(
+                    sAbeFrameOffsetTable_554B18[field_106_animation_num],
+                    StateToAnimResource_44AAB0(field_106_animation_num));
+
+                field_128.field_14 = sGnFrame_5C1B84;
+                field_20_animation.SetFrame_409D50(field_F6);
+                field_1AC_flags &= ~2u;
             }
 
-            if (*(_DWORD *)&this->field_128.field_4 <= (signed int)sGnFrame_5C1B84
-                && this->field_0_mBase.field_10C_health > 0)
+            /*
+            if (*(_DWORD *)&this->field_128.field_4 <= sGnFrame_5C1B84  && field_10C_health > FP(0))
             {
-                this->field_0_mBase.field_10C_health = 0x10000;
+                field_10C_health = FP_FromDouble(1.0);
             }
+            */
 
-            if (this->field_168)
+            if (field_168)
             {
-                if (this->field_0_mBase.field_0_mBase.field_20_animation.field_0_mBase.field_4_flags & 4)
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
                 {
-                    if (Map::Is_Point_In_Current_Camera_4810D0(
-                        &gMap_5C3030,
-                        this->field_0_mBase.field_0_mBase.field_C2_lvl_number,
-                        this->field_0_mBase.field_0_mBase.field_C0_path_number,
-                        this->field_0_mBase.field_0_mBase.field_B8_xpos,
-                        this->field_0_mBase.field_0_mBase.field_BC_ypos,
-                        0))
+                    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                     {
-                        v26 = this->field_168;
-                        if ((signed int)sGnFrame_5C1B84 <= v26)
+                        if (sGnFrame_5C1B84 <= field_168)
                         {
+                            /*
                             if (!((signed int)sGnFrame_5C1B84 % 32))
                             {
                                 v27 = 0;
@@ -1012,58 +998,53 @@ void Abe::Update_449DC0()
                                     v27,
                                     this->field_0_mBase.field_0_mBase.field_CC_sprite_scale);
                                 SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
-                            }
+                            }*/
                         }
                         else
                         {
-                            if (v26)
+                            if (field_168 > 0 && field_16C > 0)
                             {
-                                if (this->field_16C)
-                                {
-                                    sub_45AA90(this);
-                                }
+                                //sub_45AA90();
                             }
-                            this->field_168 = 0;
+                            field_168 = 0;
                         }
                     }
                 }
             }
-            v29 = ObjectIds::Find_449CF0(&sObjectIds_5C1B70, this->field_178);
-            if (v29)
+
+
+            BaseGameObject* pObj_field_178 = sObjectIds_5C1B70.Find_449CF0(field_178);
+            if (pObj_field_178 && field_170 > 0)
             {
-                v30 = this->field_170;
-                if (v30)
+                if (sGnFrame_5C1B84 > field_170)
                 {
-                    if ((signed int)sGnFrame_5C1B84 > v30)
-                    {
-                        this->field_170 = 0;
-                        sub_45FA30(v29);
-                    }
+                    field_170 = 0;
+                    //sub_45FA30(pObj_field_178);
                 }
             }
-            l_field_1AC_flags = this->field_1AC_flags;
-            if (l_field_1AC_flags < 0)
+
+            if (field_1AC_flags < 0)
             {
-                l_field_1AE = this->field_1AE;
-                if (l_field_1AE & 1)
+                if (field_1AE & 1)
                 {
                     if (gMap_5C3030.sCurrentLevelId_5C3030 == 2)
                     {
-                        flagsTmp = l_field_1AC_flags & ~0xC000u;
-                        HIBYTE(flagsTmp) |= 0x40u;
-                        this->field_168 = sGnFrame_5C1B84 + 200000;
-                        this->field_16C = 0;
-                        this->field_16E = 0;
-                        this->field_1AE = l_field_1AE & ~1;
-                        this->field_1AC_flags = flagsTmp;
+                        field_168 = sGnFrame_5C1B84 + 200000;
+                        field_16C = 0;
+                        field_16E = 0;
+                        field_1AE &= ~1;
+                        field_1AC_flags &= ~0xC000u;
+                        field_1AC_flags |= 0x4000u;
                     }
                 }
             }
+
             if (Event_Get_422C00(kEventMudokonDied))
             {
+                /*
                 this->field_128.field_18 = 14;
                 this->field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
-                pMusicTrigger = (BaseGameObject *)malloc_4954D0(0x34u);
+                pMusicTrigger =  (BaseGameObject *)malloc_4954D0(0x34u);
                 pClass_545A60Mem_Copy = pMusicTrigger;
                 unknown = 1;
                 if (pMusicTrigger)
@@ -1071,22 +1052,29 @@ void Abe::Update_449DC0()
                     MusicTrigger::ctor_47FF10(pMusicTrigger, 1, 0, 90, 0);
                 }
                 unknown = -1;
+                */
             }
+
             if (Event_Get_422C00(kEventMudokonComfort))
             {
-                this->field_128.field_18 = 8;
-                this->field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+                field_128.field_18 = 8;
+                field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
             }
-            if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
+
+            //if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
             {
+                /*
                 this->field_128.field_18 = 14;
                 this->field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+                */
             }
-            l_field_1AE_1 = this->field_1AE;
-            if (!(l_field_1AE_1 & 2))
+
+            if (!(field_1AE & 2))
             {
                 return;
             }
+
+            /*
             this->field_1AE = l_field_1AE_1 & ~2;
             sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = this->field_1B0_save_num;
             Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
@@ -1095,9 +1083,8 @@ void Abe::Update_449DC0()
                 sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states,
                 sSwitchStates_5C1A28,
                 sizeof(sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states));
-            Quicksave_4C90D0();
+            Quicksave_4C90D0();*/
             return;
-            */
         }
 
         if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
@@ -1112,39 +1099,41 @@ void Abe::Update_449DC0()
             //goto LABEL_75;
         }
 
-        /*
-        if (!animNum || animNum == 12)
+        if (field_106_animation_num == 0 || field_106_animation_num == 12)
         {
-            l_sub_field_18 = this->field_128.field_18;
-            LOBYTE(this->field_0_mBase.field_114_flags) |= 2u;
-            switch (l_sub_field_18)
+            field_114_flags |= 2u;
+            switch (field_128.field_18)
             {
-            case 5:
-                goto LABEL_123;
             case 14:
-                this->field_0_mBase.field_106_animation_num = 34;
-                goto LABEL_69;
+                field_106_animation_num = 34;
+                break;
+            case 5:
+                field_106_animation_num = 10;
+                break;
             case 28:
-            LABEL_123:
-                this->field_0_mBase.field_106_animation_num = 10;
-                goto LABEL_69;
+                field_106_animation_num = 10;
+                break;
+            default:
+                field_106_animation_num = 9;
+                break;
             }
-            this->field_0_mBase.field_106_animation_num = 9;
         }
 
-    LABEL_69:
-        if (this->field_128.field_18 == 5)
+        if (field_128.field_18 == 5)
         {
-            Event_Broadcast_422BC0(kEventMudokonLaugh, &sActiveHero_5C1B68->field_0_mBase.field_0_mBase.field_0_mBase);
+            Event_Broadcast_422BC0(kEventMudokonLaugh, sActiveHero_5C1B68);
         }
-        if (this->field_128.field_18 == 28)
+
+        if (field_128.field_18 == 28)
         {
-            Abe_SFX_457EC0(this->field_128.field_18, 80, 0, this);
+            Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 80, 0, this);
         }
         else
         {
-            Abe_SFX_457EC0(this->field_128.field_18, 0, 0, this);
+            Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 0, 0, this);
         }
+
+        /*
         goto LABEL_74;
         */
     }

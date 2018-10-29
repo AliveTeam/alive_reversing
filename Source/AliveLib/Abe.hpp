@@ -213,10 +213,10 @@ public:
     int field_15C;
     int field_160;
     int field_164;
-    int field_168;
+    unsigned int field_168;
     __int16 field_16C;
     __int16 field_16E;
-    int field_170;
+    unsigned int field_170;
     __int16 field_174;
     __int16 field_176;
     int field_178;
