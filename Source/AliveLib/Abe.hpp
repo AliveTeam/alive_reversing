@@ -15,7 +15,8 @@ struct Abe_1BC_20_sub_object
     char field_B;
     __int16 field_C;
     __int16 field_E;
-    int field_10_mood;
+    __int16 field_10_mood;
+    __int16 field_12;
     int field_14;
     __int16 field_18;
     __int16 field_1A;
@@ -43,14 +44,12 @@ public:
     EXPORT BYTE ** StateToAnimResource_44AAB0(signed int state);
 public:
     __int16 field_116;
-    __int16 field_118;
-    __int16 field_11A;
+    int field_118;
     __int16 field_11C;
     __int16 field_11E;
-    __int16 field_120;
+    unsigned __int16 field_120_state;
     __int16 field_122;
-    __int16 field_124;
-    __int16 field_126;
+    int field_124_gnFrame;
     Abe_1BC_20_sub_object field_128;
     int field_144;
     int field_148;
@@ -75,7 +74,7 @@ public:
     int field_18C;
     int field_190;
     int field_194;
-    __int16 field_198;
+    __int16 field_198_has_evil_fart;
     __int16 field_19A;
     int field_19C;
     __int16 field_1A0_door_id;
@@ -83,7 +82,7 @@ public:
     char field_1A3_throw_direction;
     int field_1A4;
     int field_1A8;
-    __int16 field_1AC;
+    __int16 field_1AC_flags;
     __int16 field_1AE;
     int field_1B0_save_num;
     int field_1B4;

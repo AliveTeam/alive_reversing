@@ -18,6 +18,7 @@ namespace Test
 EXPORT void CC Game_Main_4949F0();
 EXPORT void CC SYS_EventsPump_494580();
 EXPORT void DestroyObjects_4A1F20();
+EXPORT void CC Init_GameStates_43BF40();
 
 ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
 ALIVE_VAR_EXTERN(bool, sCommandLine_DDCheatEnabled_5CA4B5);

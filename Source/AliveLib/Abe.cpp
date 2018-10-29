@@ -5,6 +5,8 @@
 #include "Midi.hpp"
 #include "Sfx.hpp"
 #include "DebugHelpers.hpp"
+#include "stdlib.hpp"
+#include "Shadow.hpp"
 
 const char * sAbeStateNames[] =
 {
@@ -220,9 +222,250 @@ TintEntry sTintTable_Abe_554D20[15] =
     { -1, 102u, 102u, 102u }
 };
 
-Abe* Abe::ctor_44AD10(int /*frameTableOffset*/, int /*a3*/, int /*a4*/, int /*a5*/)
+// Frame call backs ??
+EXPORT int CC sub_455F40(void*, signed __int16*)
 {
+    return 1;
+}
+
+EXPORT int CC sub_455F60(void*, signed __int16*)
+{
+    return 1;
+}
+
+EXPORT int CC sub_455F80(void*, signed __int16*)
+{
+    // Does ray casting checks?
     NOT_IMPLEMENTED();
+    return 1;
+}
+
+EXPORT int CC sub_4561B0(void*, signed __int16*)
+{
+    // Slurg squish check/particles?
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+EXPORT int CC sub_434130(void*, signed __int16*)
+{
+    // ??
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+using TFrameCallBackType = decltype(&sub_434130);
+
+// TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks_40B7A0
+ALIVE_ARY(1, 0x55EF98, TFrameCallBackType, 5, off_55EF98,
+{
+    sub_455F40,
+    sub_455F60,
+    sub_455F80,
+    sub_4561B0,
+    sub_434130
+});
+
+enum AbeResources
+{
+    eAbeBSic = 0,
+    eAbeBSic1 = 1,
+};
+
+EXPORT int CC sub_4498F0(FP scale, int unknown)
+{
+    if (scale == FP_FromDouble(0.5))
+    {
+        return (13 * unknown) - 8;
+    }
+
+    if (scale == FP_FromDouble(1.0))
+    {
+        return (25 * unknown) - 13;
+    }
+
+    return 187;
+}
+
+Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
+{
+    const int kResourceArraySize = 28;
+
+    ctor_408240(kResourceArraySize);
+
+    SetVTable(this, 0x5457BC); // gVTbl_Abe_5457BC
+    
+    field_4_typeId = Types::eType_Abe;
+
+    field_6_flags.Set(BaseGameObject::eBit08);
+    field_C_objectId = -65536;
+
+    Init_GameStates_43BF40();
+
+    // Zero out the resource array
+    for (int i = 0; i < kResourceArraySize; i++)
+    {
+        field_10_resources_array.SetAt(i, nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, TRUE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEBSIC.BAN", nullptr);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, TRUE, FALSE);
+    }
+    field_10_resources_array.SetAt(AbeResources::eAbeBSic, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, FALSE, FALSE));
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, TRUE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEBSIC1.BAN", nullptr);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, TRUE, FALSE);
+    }
+    field_10_resources_array.SetAt(AbeResources::eAbeBSic1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, FALSE, FALSE));
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, TRUE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEEDGE.BAN", nullptr);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, TRUE, FALSE);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, TRUE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEKNFD.BAN", nullptr);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, TRUE, FALSE);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeommResID, TRUE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEOMM.BAN", nullptr);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeommResID, TRUE, FALSE);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, TRUE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEKNBK.BAN", nullptr);
+        ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, TRUE, FALSE);
+    }
+
+    ResourceManager::LoadResourceFile_49C170("ABENOELM.BND", nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbefallResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbesmashResID);
+
+    ResourceManager::LoadResourceFile_49C170("OMMFLARE.BAN", nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID);
+
+    ResourceManager::LoadResourceFile_49C170("SQBSMK.BAN", nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID);
+
+    ResourceManager::LoadResourceFile_49C170("DUST.BAN", nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDustResID);
+
+    ResourceManager::LoadResourceFile_49C170("BLOODROP.BAN", nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
+    }
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID);
+
+    ResourceManager::LoadResourceFile_49C170("DEADFLR.BAN", nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
+
+    ResourceManager::LoadResourceFile_49C170("DOVBASIC.BAN", nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID);
+
+    ResourceManager::LoadResourceFile_49C170("SPOTLITE.BAN", nullptr);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
+
+    field_128.field_10_mood = 1;
+
+    Animation_Init_424E10(
+        frameTableOffset,
+        135, // Width
+        80,  // Height
+        field_10_resources_array.ItemAt(AbeResources::eAbeBSic1),
+        1,
+        1u);
+
+    field_20_animation.field_1C_fn_ptr_array = off_55EF98;
+
+    PSX_Point point = {};
+    gMap_5C3030.GetCurrentCamCoords_480680(&point);
+
+    const int v8 = sub_4498F0(field_CC_sprite_scale, 4);
+    field_B8_xpos = FP_FromInteger(point.field_0_x + v8);
+    field_BC_ypos = FP_FromInteger(point.field_2_y + 120);
+
+    field_F8 = field_BC_ypos;
+
+    field_128.field_8 = 0;
+    field_128.field_9 = 0;
+    field_128.field_A = 0;
+    field_128.field_B = 0;
+
+    field_128.field_C = 0;
+    field_128.field_E = 0;
+    field_128.field_10_mood = 0;
+    field_128.field_12 = 0;
+
+    field_C4_velx = 0;
+    field_C8_vely = 0;
+    field_100_pCollisionLine = nullptr;
+    field_106_animation_num = 3;
+    field_122 = -1;
+    field_20_animation.field_C_render_layer = 32;
+    field_198_has_evil_fart = 0;
+    field_1A2_rock_or_bone_count = 0;
+    field_158 = -1;
+    field_154 = -1;
+    field_150 = -1;
+    field_14C = -1;
+    field_148 = -1;
+    field_1A8 = -1;
+    field_164 = -1;
+    field_160 = -1;
+    field_15C = -1;
+    field_1AE &= ~3u;
+
+    __int16 v9 = field_114_flags;
+    v9 = v9 & ~0x100;
+    v9 = v9 | 0x20;
+    field_114_flags = v9;
+
+    field_1AC_flags = (unsigned __int8)(field_1AC_flags & 0xAB) | 0x40;
+    
+    // Changes Abe's "default" colour depending on the level we are in
+    SetTint_425600(&sTintTable_Abe_554D20[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_20_animation.field_B_render_mode = 0;
+
+    field_118 = 0;
+    field_F6 = 0;
+    field_120_state = 0;
+    field_168 = 0;
+    field_16E = 0;
+    field_170 = 0;
+    field_174 = 0;
+    field_176 = 0;
+    field_178 = -1;
+    field_1AC_flags &= ~3u;
+    field_124_gnFrame = sGnFrame_5C1B84;
+    field_FC_pPathTLV = nullptr;
+    field_128.field_12 = 0;
+    field_128.field_18 = -1;
+    field_144 = 0;
+
+    // Set Abe to be the current player controlled object
+    sControlledCharacter_5C1B8C = this;
+
+    // Create shadow
+    field_E0_176_ptr = alive_new<Shadow>();
+    if (field_E0_176_ptr)
+    {
+        field_E0_176_ptr->ctor_4AC990();
+    }
+
     return this;
 }
 

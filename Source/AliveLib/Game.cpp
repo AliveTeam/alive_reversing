@@ -56,7 +56,6 @@ ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 // Arrays of things
 ALIVE_VAR(1, 0x5C1B78, DynamicArray*, ObjList_5C1B78, nullptr);
 ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
-ALIVE_VAR(1, 0x5C1B7C, DynamicArray*, gBaseAliveGameObjects_5C1B7C, nullptr);
 ALIVE_VAR(1, 0x5C1B80, DynamicArray*, sShadow_dArray_5C1B80, nullptr);
 
 ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
@@ -475,7 +474,7 @@ EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<Animation>*, gObjList_animations_5C1A24, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 
-EXPORT void CC sub_43BF40()
+EXPORT void CC Init_GameStates_43BF40()
 {
     NOT_IMPLEMENTED();
 }
@@ -506,14 +505,14 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
     sShadow_dArray_5C1B80 = alive_new<DynamicArray>();
     sShadow_dArray_5C1B80->ctor_40CA60(4);
 
-    gBaseAliveGameObjects_5C1B7C = alive_new<DynamicArray>();;
+    gBaseAliveGameObjects_5C1B7C = alive_new<DynamicArrayT<BaseAliveGameObject>>();
     gBaseAliveGameObjects_5C1B7C->ctor_40CA60(20);
 
     ResourceManager::Init_49BCE0();
     SND_Init_4CA1F0();
     SND_Init_Buffers_4CB480();
     MusicController::Create_47FC40();
-    sub_43BF40(); // Init other vars + switch states
+    Init_GameStates_43BF40(); // Init other vars + switch states
 }
 
 EXPORT void CC SYS_EventsPump_494580()

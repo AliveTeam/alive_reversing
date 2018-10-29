@@ -6,6 +6,8 @@
 class Shadow
 {
 public:
+    EXPORT Shadow* ctor_4AC990();
+
     EXPORT void dtor_4ACA30();
 private:
     int field_0;

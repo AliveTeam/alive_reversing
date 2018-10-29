@@ -21,6 +21,8 @@ class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 public:
     // gVtbl_BaseAliveGameObject_544000
 
+    EXPORT BaseAliveGameObject* ctor_408240(short resourceArraySize);
+
     virtual void VRender(int** pOrderingTable) override;
     EXPORT void Render_424B90(int** pOrderingTable);
 
@@ -34,7 +36,7 @@ public:
     virtual int Vsub_408FD0(__int16 a2);
     virtual int Vnull_4081F0();
   
-private:
+protected:
     EXPORT int vnull_408F90();
     EXPORT unsigned __int16 vnull_408F70();
     EXPORT __int16 vsub_4081C0(__int16 a2);
@@ -59,10 +61,11 @@ public:
     __int16 field_106_animation_num;
     __int16 field_108;
     __int16 field_10A;
-    int field_10C_health;
+    FP field_10C_health;
     int field_110;
     __int16 field_114_flags;
 };
 #pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x116);
 
+ALIVE_VAR_EXTERN(DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C);

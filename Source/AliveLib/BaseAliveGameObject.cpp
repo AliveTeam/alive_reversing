@@ -2,6 +2,32 @@
 #include "Function.hpp"
 #include "BaseAliveGameObject.hpp"
 
+ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
+
+EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArraySize)
+{
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(resourceArraySize);
+    SetVTable(this, 0x544000);
+
+    field_114_flags &= 0xF800u;
+    field_FC_pPathTLV = nullptr;
+    field_100_pCollisionLine = nullptr;
+    field_10C_health = FP_FromDouble(1.0);
+    field_110 = -1;
+    field_106_animation_num = 0;
+    field_108 = 0;
+    field_F4 = 0;
+    field_F6 = 0;
+    field_F8 = FP(0);
+    field_10A = 0;
+
+    gBaseAliveGameObjects_5C1B7C->Push_Back(this);
+
+    field_6_flags.Set(BaseGameObject::eIsBaseAliveGameObject);
+
+    return this;
+}
+
 void BaseAliveGameObject::VRender(int** pOrderingTable)
 {
     Render_424B90(pOrderingTable);

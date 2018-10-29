@@ -24,6 +24,11 @@ public:
     {
         return reinterpret_cast<T*>(field_0_array[idx]);
     }
+
+    void SetAt(int idx, T* itemToSet)
+    {
+        field_0_array[idx] = itemToSet;
+    }
 };
 
 class DynamicArray
