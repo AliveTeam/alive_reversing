@@ -10,6 +10,7 @@
 #include "ObjectIds.hpp"
 #include "Input.hpp"
 #include "Events.hpp"
+#include "Quicksave.hpp"
 
 const char * sAbeStateNames[] =
 {
@@ -808,11 +809,11 @@ void Abe::Update_449DC0()
 
         if (!(field_114_flags & 0x80))
         {
-            /*
-            if (!this->field_170)
+            if (!field_170)
             {
-                this->field_170 = sGnFrame_5C1B84 + 2;
+                field_170 = sGnFrame_5C1B84 + 2;
             }
+            /*
             pClass_545A60Mem = (BaseGameObject *)malloc_4954D0(0x4Cu);
             pClass_545A60Mem_Copy = pClass_545A60Mem;
             unknown = 0;
@@ -970,22 +971,22 @@ void Abe::Update_449DC0()
                     {
                         if (sGnFrame_5C1B84 <= field_168)
                         {
-                            /*
-                            if (!((signed int)sGnFrame_5C1B84 % 32))
+                            if (!(sGnFrame_5C1B84 % 32))
                             {
-                                v27 = 0;
-                                if (this->field_16C)
+                                int v27 = 0;
+                                if (field_16C)
                                 {
                                     v27 = 4;
                                 }
-                                else if (this->field_16E)
+                                else if (field_16E)
                                 {
                                     v27 = 7;
                                 }
-                                else if (this->field_1AC_flags & 0x4000)
+                                else if (field_1AC_flags & 0x4000)
                                 {
                                     v27 = 14;
                                 }
+                                /*
                                 v28 = ((int(__thiscall *)(Abe *, char *, signed int))this->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl->VBaseAliveGameObject.field_0_mBase.field_0_mBase.field_1C_update_delay)(
                                     this,
                                     &v38,
@@ -997,8 +998,9 @@ void Abe::Update_449DC0()
                                     (SHIWORD(pClass_545A60Mem_Copy) + SHIWORD(v37)) / 2 << 16,
                                     v27,
                                     this->field_0_mBase.field_0_mBase.field_CC_sprite_scale);
+                                */
                                 SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
-                            }*/
+                            }
                         }
                         else
                         {
@@ -1041,9 +1043,9 @@ void Abe::Update_449DC0()
 
             if (Event_Get_422C00(kEventMudokonDied))
             {
+                field_128.field_18 = 14;
+                field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
                 /*
-                this->field_128.field_18 = 14;
-                this->field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
                 pMusicTrigger =  (BaseGameObject *)malloc_4954D0(0x34u);
                 pClass_545A60Mem_Copy = pMusicTrigger;
                 unknown = 1;
@@ -1074,16 +1076,16 @@ void Abe::Update_449DC0()
                 return;
             }
 
-            /*
-            this->field_1AE = l_field_1AE_1 & ~2;
-            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = this->field_1B0_save_num;
-            Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
-            ((void(__stdcall *)(Quicksave_Obj_Abe *))sActiveHero_5C1B68->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl->VBaseGameObject.field_14_get_save_state)(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
-            qmemcpy(
-                sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states,
-                sSwitchStates_5C1A28,
-                sizeof(sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states));
-            Quicksave_4C90D0();*/
+          
+            field_1AE &= ~2;
+            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = static_cast<short>(field_1B0_save_num);
+            //Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
+            vGetSaveState_457110(reinterpret_cast<BYTE*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
+            memcpy(
+                sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states.mData,
+                sSwitchStates_5C1A28.mData,
+                sizeof(sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states.mData));
+            Quicksave_4C90D0();
             return;
         }
 
