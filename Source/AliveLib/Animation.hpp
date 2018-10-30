@@ -26,20 +26,51 @@ struct Point
     __int16 y = 0;
 };
 
-struct FrameInfoHeader
+
+
+struct OffsetAndBoundingRect
 {
-    DWORD field_0_frame_header_offset = 0;
-    short field_4_magic = 0;
-    short field_6_count = 0;
-
-    WORD mOffx = 0;
-    WORD mOffy = 0;
-
-    // Collision bounding rectangle
-    Point mTopLeft; // x0, y0
-    Point mBottomRight; // x1, y2
+    Point mOffset;
+    Point mMin;
+    Point mMax;
 };
 
+union PointsUnion
+{
+    PointsUnion() {}
+    OffsetAndBoundingRect offsetAndRect;
+    Point points[3];
+};
+
+struct FrameInfoHeader
+{
+    DWORD field_0_frame_header_offset;
+    short field_4_magic;
+    short field_6_count;
+    PointsUnion field_8_data;
+};
+
+struct AnimationHeader
+{
+    // Meta data - the offset where this record was read from
+    WORD field_0_fps;            // Seems to be 0x1 or 0x2
+    short field_2_num_frames;      // Number of frames in the set
+
+                                       // If loop flag set then this is the frame to loop back to
+    short field_4_loop_start_frame;
+
+    // These where reversed by editing data in memory on PSX version
+    enum eFlags
+    {
+        eFlipXFlag = 0x4,
+        eFlipYFlag = 0x8,
+        eNeverUnload = 0x1,
+        eLoopFlag = 0x2
+    };
+    WORD field_6_flags;
+    DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
+};
+//ALIVE_ASSERT_SIZEOF(AnimationHeader, 0x8);
 
 enum AnimFlags
 {

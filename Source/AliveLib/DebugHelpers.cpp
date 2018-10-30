@@ -127,10 +127,10 @@ public:
                 {
                     if (aliveObj->field_20_animation.field_92_current_frame != -1)
                     {
-                        auto framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
+                        FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<int>(framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                            y += static_cast<int>(framePtr->field_8_data.offsetAndRect.mMax.y * aliveObj->field_CC_sprite_scale.GetDouble());
                         }
                     }
                 }
@@ -192,10 +192,10 @@ public:
                 {
                     if (aliveObj->field_20_animation.field_92_current_frame != -1)
                     {
-                        auto framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
+                        FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<int>(framePtr->mBottomRight.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                            y += static_cast<int>(framePtr->field_8_data.offsetAndRect.mMax.y * aliveObj->field_CC_sprite_scale.GetDouble());
                         }
                     }
                 }

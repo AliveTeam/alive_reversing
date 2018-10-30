@@ -5,6 +5,12 @@
 #include "FunctionFwd.hpp"
 #include "Animation.hpp"
 
+
+namespace Test
+{
+    void BaseAnimatedWithPhysicsGameObjectTests();
+}
+
 class Shadow;
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
@@ -22,7 +28,8 @@ public:
     EXPORT void Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7);
 
     virtual __int16 vsub_424EE0(int a2, int a3, int a4, int a5, void* a6);
-    virtual DWORD* vsub_424FD0(__int16 a3, int a4);
+    // TODO: Just return by value - this is odd optimization the compiler does
+    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     virtual __int16 vsub_4253B0(int a2, int a3);
     virtual __int16 vsub_425420(int a2);
     virtual __int16 vsub_4254A0(int a2);
@@ -32,7 +39,7 @@ public:
     virtual void vnull_4081A0();
 
     EXPORT __int16 sub_424EE0(int a2, int a3, int a4, int a5, void* a6);
-    EXPORT DWORD* sub_424FD0(__int16 a3, int a4);
+    EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     EXPORT __int16 sub_4253B0(int a2, int a3);
     EXPORT __int16 sub_425420(int a2);
     EXPORT __int16 sub_4254A0(int a2);
@@ -40,6 +47,8 @@ public:
     EXPORT int sub_425840(unsigned __int16 a2);
     EXPORT void null_408180();
     EXPORT void null_4081A0();
+
+    EXPORT __int16 Is_In_Current_Camera_424A70();
 public:
 
     AnimationEx field_20_animation;

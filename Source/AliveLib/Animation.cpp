@@ -8,28 +8,6 @@
 #include "PsxDisplay.hpp"
 #include <gmock/gmock.h>
 
-struct AnimationHeader
-{
-    // Meta data - the offset where this record was read from
-    WORD field_0_fps = 0;            // Seems to be 0x1 or 0x2
-    short field_2_num_frames = 0;      // Number of frames in the set
-
-                              // If loop flag set then this is the frame to loop back to
-    short field_4_loop_start_frame = 0;
-
-    // These where reversed by editing data in memory on PSX version
-    enum eFlags
-    {
-        eFlipXFlag = 0x4,
-        eFlipYFlag = 0x8,
-        eNeverUnload = 0x1,
-        eLoopFlag = 0x2
-    };
-    WORD field_6_flags = 0;
-    DWORD mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
-};
-//ALIVE_ASSERT_SIZEOF(AnimationHeader, 0x8);
-
 void Animation::vDecode_40AC90()
 {
     ALIVE_FATAL("Should never be called");
@@ -227,8 +205,8 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
     }
     else
     {
-        xOffSet_fixed = FP_FromInteger(pFrameInfoHeader->mOffx);
-        yOffset_fixed = FP_FromInteger(pFrameInfoHeader->mOffy);
+        xOffSet_fixed = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x);
+        yOffset_fixed = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y);
     }
 
     char textureMode = 0;
@@ -486,17 +464,19 @@ void AnimationEx::Invoke_CallBacks_40B7A0()
     }
 
     FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader_40B730(-1);
-    // TODO: Add a union, clearly this data can be an array of DWORD's of field_6_count
-    // which may contain more data used by the call back.
-    WORD* pCallBackData = &pFrameHeaderCopy->mOffx + 2 * pFrameHeaderCopy->field_4_magic;
+    // This data can be an array of DWORD's + other data up to field_6_count
+    // which appears AFTER the usual data.
+    DWORD* pCallBackData = reinterpret_cast<DWORD*>(&pFrameHeaderCopy->field_8_data.points[3]);
     for (int i = 0; i < pFrameHeaderCopy->field_6_count; i++)
     {
-        auto pFnCallBack = field_1C_fn_ptr_array[*(DWORD *)pCallBackData];
+        auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
         if (!pFnCallBack)
         {
             break;
         }
-        pCallBackData += 2 * pFnCallBack(field_94_pGameObj, (short*)pCallBackData + 2) + 2;
+        pCallBackData++; // Skip the array index
+        // Pass the data pointer into the call back which will then read and skip any extra data
+        pCallBackData += pFnCallBack(field_94_pGameObj, (short*)pCallBackData);
     }
 }
 
@@ -917,8 +897,8 @@ namespace Test
 
         testData.mFrameInfoHeader.field_0_frame_header_offset = sizeof(AnimationHeader) + sizeof(FrameInfoHeader);
         testData.mFrameInfoHeader.field_6_count = 1;
-        testData.mFrameInfoHeader.mOffx = 3;
-        testData.mFrameInfoHeader.mOffy = 7;
+        testData.mFrameInfoHeader.field_8_data.offsetAndRect.mOffset.x = 3;
+        testData.mFrameInfoHeader.field_8_data.offsetAndRect.mOffset.y = 7;
 
         testData.mFrameHeader.field_4_width = 20;
         testData.mFrameHeader.field_5_height = 30;

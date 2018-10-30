@@ -11,6 +11,14 @@ struct PSX_RECT
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
 
+inline bool operator == (const PSX_RECT& lhs, const PSX_RECT& rhs)
+{
+    return 
+        (lhs.x == rhs.x) && 
+        (lhs.y == rhs.y) && 
+        (lhs.w == rhs.w) && 
+        (lhs.h == rhs.h);
+}
 
 struct PSX_Point
 {

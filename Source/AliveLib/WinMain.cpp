@@ -38,6 +38,7 @@
 #include "PsxRender.hpp"
 #include "VRam.hpp"
 #include "Compression.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -59,6 +60,7 @@ static void RunTests()
     Test::ScreenManagerTests();
     Test::ObjectIdsTests();
     Test::PsxRenderTests();
+    Test::BaseAnimatedWithPhysicsGameObjectTests();
 }
 
 static void InitOtherHooksAndRunTests()
