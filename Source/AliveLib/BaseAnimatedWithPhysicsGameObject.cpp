@@ -73,7 +73,7 @@ EXPORT void BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject
     BaseGameObject_dtor_4DBEC0();
 }
 
-void BaseAnimatedWithPhysicsGameObject::dtor_408210(signed int flags)
+void BaseAnimatedWithPhysicsGameObject::dtor_424A40(signed int flags)
 {
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
@@ -84,7 +84,7 @@ void BaseAnimatedWithPhysicsGameObject::dtor_408210(signed int flags)
 
 void BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
 {
-    dtor_408210(flags);
+    dtor_424A40(flags);
 }
 
 void BaseAnimatedWithPhysicsGameObject::VUpdate()

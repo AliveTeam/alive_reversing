@@ -6,6 +6,7 @@
 #include "Map.hpp"
 #include "ScreenManager.hpp"
 #include "Shadow.hpp"
+#include "stdlib.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
@@ -54,9 +55,24 @@ EXPORT void BaseAliveGameObject::dtor_4080B0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
+
+void BaseAliveGameObject::dtor_408210(signed int flags)
+{
+    dtor_4080B0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+}
+
 void BaseAliveGameObject::VRender(int** pOrderingTable)
 {
     Render_424B90(pOrderingTable);
+}
+
+void BaseAliveGameObject::VDestructor(signed int flags)
+{
+    dtor_408210(flags);
 }
 
 EXPORT void CC ShadowZones_Calculate_Colour_463CE0(int /*xpos*/, int /*ypos*/, __int16 /*scale*/, __int16* /*r*/, __int16* /*g*/, __int16* /*b*/)

@@ -27,7 +27,11 @@ public:
     EXPORT BaseAliveGameObject* ctor_408240(short resourceArraySize);
     EXPORT void dtor_4080B0();
 
+    void dtor_408210(signed int flags);
+
     virtual void VRender(int** pOrderingTable) override;
+    virtual void VDestructor(signed int flags) override;
+
     EXPORT void Render_424B90(int** pOrderingTable);
 
     virtual int Vnull_408F90();
