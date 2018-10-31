@@ -31,3 +31,13 @@ EXPORT void Shadow::dtor_4ACA30()
 {
     field_18_animation.vCleanUp_40C630();
 }
+
+EXPORT void Shadow::Calculate_Position_4ACA50(FP /*xpos*/, FP /*ypos*/, PSX_RECT* /*frameRect*/, FP /*spriteScale*/, __int16 /*scale*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void Shadow::Render_4ACE60(int** /*pOt*/)
+{
+    NOT_IMPLEMENTED();
+}
