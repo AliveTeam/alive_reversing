@@ -412,19 +412,22 @@ enum AbeResources
     eAbeBSic1 = 1,
 };
 
-EXPORT int CC sub_4498F0(FP scale, int unknown)
+EXPORT int CC GridXMidPos_4498F0(FP scale, int unknown)
 {
     if (scale == FP_FromDouble(0.5))
     {
+        // 12.5 = half grid size
         return (13 * unknown) - 8;
     }
 
     if (scale == FP_FromDouble(1.0))
     {
+        // 25 = full grid size
         return (25 * unknown) - 13;
     }
 
-    return 187;
+    // Default to middle of the screen
+    return (374 / 2);
 }
 
 Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
@@ -532,8 +535,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     PSX_Point point = {};
     gMap_5C3030.GetCurrentCamCoords_480680(&point);
 
-    const int v8 = sub_4498F0(field_CC_sprite_scale, 4);
-    field_B8_xpos = FP_FromInteger(point.field_0_x + v8);
+    field_B8_xpos = FP_FromInteger(point.field_0_x + GridXMidPos_4498F0(field_CC_sprite_scale, 4));
     field_BC_ypos = FP_FromInteger(point.field_2_y + 120);
 
     field_F8 = field_BC_ypos;
