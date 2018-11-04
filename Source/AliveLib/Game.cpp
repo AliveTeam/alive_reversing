@@ -135,7 +135,32 @@ EXPORT char CC SYS_PumpMessages_4EE4F4()
 
 void DestroyObjects_4A1F20()
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED(); // Todo: double check if this is reversed properly.
+
+
+    pResourceManager_5C1BB0->LoadingLoop_465590(0);
+
+    for (int p = 2; p; p--)
+    {
+        for (short idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (!pObj->field_6_flags.Get(BaseGameObject::eBit08))
+            {
+                DynamicArrayIter it;
+                it.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
+                it.field_4_idx = idx + 1;
+
+                it.Remove_At_Iter_40CCA0();
+                pObj->VDestructor(1);
+            }
+        }
+    }
 }
 
 EXPORT double CC Calculate_FPS_495250(int frameCount)

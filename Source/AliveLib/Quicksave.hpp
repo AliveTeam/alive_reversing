@@ -55,6 +55,7 @@ ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
 
 ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData_BAF7F8);
+ALIVE_VAR_EXTERN(int, sAccumulatedObjectCount_5C1BF4);
 
 EXPORT void CC Quicksave_LoadActive_4C9170();
 EXPORT void CC Quicksave_4C90D0();

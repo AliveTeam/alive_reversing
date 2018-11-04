@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Events.hpp"
 #include "Map.hpp"
+#include "Quicksave.hpp"
 #include "ObjectIds.hpp"
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
@@ -42,8 +43,6 @@ int BaseGameObject::GetSaveState_4DC110(BYTE* /*pSaveBuffer*/)
 {
     return 0;
 }
-
-ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
 
 BYTE** BaseGameObject::Add_Resource_4DC130(DWORD type, int resourceID)
 {

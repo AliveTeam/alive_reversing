@@ -6,11 +6,233 @@
 #include "PathData.hpp"
 #include "Map.hpp"
 
+int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { return 12; }
+int CC CreateFromSaveState_412C10(const BYTE*) { return 60; }
+int CC CreateFromSaveState_417740(const BYTE*) { return 8; }
+int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { return 128; }
+int CC Grinder__CreateFromSaveState_421600(const BYTE*) { return 20; }
+int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { return 60; }
+int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { return 180; }
+int CC FlyingSlig__CreateFromSaveState_437E40(const BYTE*) { return 172; }
+int CC FlyingSligSpawner__CreateFromSaveState_43B690(const BYTE*) { return 16; }
+int CC CreateFromSaveState_43BD10(const BYTE*) { return 16; }
+int CC CreateFromSaveState_43DC20(const BYTE*) { return 4; }
+int CC SlapLock__CreateFromSaveState_43EA00(const BYTE*) { return 24; }
+int CC Greeter__CreateFromSaveState_446040(const BYTE*) { return 80; }
+int CC Grenade__CreateFromSaveState_449410(const BYTE*) { return 60; }
+int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { return 144; }
+int CC Abe__CreateFromSaveState_44D4F0(const BYTE*) { return 216; }
+int CC SligSpawner__CreateFromSaveState_409B10(const BYTE*) { return 16; }
+int CC LiftPoint__CreateFromSaveState_4630F0(const BYTE*) { return 28; }
+int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { return 136; }
+int CC CreateFromSaveState_46A9E0(const BYTE*) { return 60; }
+int CC MineCar__CreateFromSaveState_467740(const BYTE*) { return 104; }
+int CC Paramite__CreateFromSaveState_4855A0(const BYTE*) { return 120; }
+int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { return 8; }
+int CC CreateFromSaveState_49B200(const BYTE*) { return 4; }
+int CC AbilityRing__CreateFromSaveState_49DF90(const BYTE*) { return 40; }
+int CC Rock__CreateFromSaveState_49F720(const BYTE*) { return 56; }
+int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { return 160; }
+int CC ScrabSpawner__CreateFromSaveState_4ABEB0(const BYTE*) { return 16; }
+int CC SlamDoor__CreateFromSaveState_4C08B0(const BYTE*) { return 8; }
+int CC Slig__CreateFromSaveState_4B3B50(const BYTE*) { return 164; }
+int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { return 120; }
+int CC Slurg__CreateFromSaveState_4C8DF0(const BYTE*) { return 44; }
+int CC TimerTrigger__CreateFromSaveState_4CDF70(const BYTE*) { return 16; }
+int CC TrapDoor__CreateFromSaveState_4DDED0(const BYTE*) { return 12; }
+int CC Uxb__CreateFromSaveState_4DFAE0(const BYTE*) { return 24; }
+int CC WorkWheel__CreateFromSaveState_4E3B10(const BYTE*) { return 16; }
+
 struct QuickSaveRestoreTable
 {
     int(CC* mFns[180])(const BYTE *);
 };
-ALIVE_VAR(1, 0x560c34, QuickSaveRestoreTable, sQuicksaveLoadFunctionTable_560C34, {}); // TODO: Rip table
+
+QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
+{
+    NULL,
+    NULL,
+    &SligSpawner__CreateFromSaveState_409B10,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &LiftMover__CreateFromSaveState_40D180,
+    NULL,
+    &CreateFromSaveState_412C10,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &CreateFromSaveState_417740,
+    &NakedSlig__CreateFromSaveState_41AE80,
+    NULL,
+    NULL,
+    NULL,
+    &Grinder__CreateFromSaveState_421600,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &EvilFart__CreateFromSaveState_4281C0,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &Fleech__CreateFromSaveState_42DD50,
+    NULL,
+    NULL,
+    NULL,
+    &FlyingSlig__CreateFromSaveState_437E40,
+    &FlyingSligSpawner__CreateFromSaveState_43B690,
+    NULL,
+    &CreateFromSaveState_43BD10,
+    NULL,
+    NULL,
+    &CreateFromSaveState_43DC20,
+    &SlapLock__CreateFromSaveState_43EA00,
+    NULL,
+    NULL,
+    &Greeter__CreateFromSaveState_446040,
+    &Grenade__CreateFromSaveState_449410,
+    NULL,
+    &Glukkon__CreateFromSaveState_442830,
+    NULL,
+    &Abe__CreateFromSaveState_44D4F0,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &LiftPoint__CreateFromSaveState_4630F0,
+    NULL,
+    NULL,
+    &Mudokon__CreateFromSaveState_4717C0,
+    NULL,
+    NULL,
+    &CreateFromSaveState_46A9E0,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &MineCar__CreateFromSaveState_467740,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &Paramite__CreateFromSaveState_4855A0,
+    NULL,
+    NULL,
+    &BirdPortal__CreateFromSaveState_499C90,
+    NULL,
+    NULL,
+    &CreateFromSaveState_49B200,
+    NULL,
+    &AbilityRing__CreateFromSaveState_49DF90,
+    &Rock__CreateFromSaveState_49F720,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &Scrab__CreateFromSaveState_4A70A0,
+    &ScrabSpawner__CreateFromSaveState_4ABEB0,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &SlamDoor__CreateFromSaveState_4C08B0,
+    NULL,
+    NULL,
+    &Slig__CreateFromSaveState_4B3B50,
+    &Slog__CreateFromSaveState_4C54F0,
+    NULL,
+    NULL,
+    &Slurg__CreateFromSaveState_4C8DF0,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &TimerTrigger__CreateFromSaveState_4CDF70,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &TrapDoor__CreateFromSaveState_4DDED0,
+    &Uxb__CreateFromSaveState_4DFAE0,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    &WorkWheel__CreateFromSaveState_4E3B10,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+};
+
+ALIVE_VAR(1, 0x560c34, QuickSaveRestoreTable, sQuicksaveLoadFunctionTable_560C34, sQuicksaveLoadFunctionTable);
 
 struct QuickSaveFlagTypeTable
 {

@@ -272,7 +272,7 @@ void DDCheat::Update_415780()
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
 
-            switch (sControlledCharacter_5C1B8C->field_4_typeId)
+                switch (sControlledCharacter_5C1B8C->field_4_typeId)
             {
             case Types::eType_67:
             case Types::eType_125:
