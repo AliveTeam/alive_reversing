@@ -5,43 +5,43 @@
 #include "Path.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
+#include "Abe.hpp"
 
-int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { return 12; }
-int CC CreateFromSaveState_412C10(const BYTE*) { return 60; }
-int CC CreateFromSaveState_417740(const BYTE*) { return 8; }
-int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { return 128; }
-int CC Grinder__CreateFromSaveState_421600(const BYTE*) { return 20; }
-int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { return 60; }
-int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { return 180; }
-int CC FlyingSlig__CreateFromSaveState_437E40(const BYTE*) { return 172; }
-int CC FlyingSligSpawner__CreateFromSaveState_43B690(const BYTE*) { return 16; }
-int CC CreateFromSaveState_43BD10(const BYTE*) { return 16; }
-int CC CreateFromSaveState_43DC20(const BYTE*) { return 4; }
-int CC SlapLock__CreateFromSaveState_43EA00(const BYTE*) { return 24; }
-int CC Greeter__CreateFromSaveState_446040(const BYTE*) { return 80; }
-int CC Grenade__CreateFromSaveState_449410(const BYTE*) { return 60; }
-int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { return 144; }
-int CC Abe__CreateFromSaveState_44D4F0(const BYTE*) { return 216; }
-int CC SligSpawner__CreateFromSaveState_409B10(const BYTE*) { return 16; }
-int CC LiftPoint__CreateFromSaveState_4630F0(const BYTE*) { return 28; }
-int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { return 136; }
-int CC CreateFromSaveState_46A9E0(const BYTE*) { return 60; }
-int CC MineCar__CreateFromSaveState_467740(const BYTE*) { return 104; }
-int CC Paramite__CreateFromSaveState_4855A0(const BYTE*) { return 120; }
-int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { return 8; }
-int CC CreateFromSaveState_49B200(const BYTE*) { return 4; }
-int CC AbilityRing__CreateFromSaveState_49DF90(const BYTE*) { return 40; }
-int CC Rock__CreateFromSaveState_49F720(const BYTE*) { return 56; }
-int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { return 160; }
-int CC ScrabSpawner__CreateFromSaveState_4ABEB0(const BYTE*) { return 16; }
-int CC SlamDoor__CreateFromSaveState_4C08B0(const BYTE*) { return 8; }
-int CC Slig__CreateFromSaveState_4B3B50(const BYTE*) { return 164; }
-int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { return 120; }
-int CC Slurg__CreateFromSaveState_4C8DF0(const BYTE*) { return 44; }
-int CC TimerTrigger__CreateFromSaveState_4CDF70(const BYTE*) { return 16; }
-int CC TrapDoor__CreateFromSaveState_4DDED0(const BYTE*) { return 12; }
-int CC Uxb__CreateFromSaveState_4DFAE0(const BYTE*) { return 24; }
-int CC WorkWheel__CreateFromSaveState_4E3B10(const BYTE*) { return 16; }
+EXPORT int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
+EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
+EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
+EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
+EXPORT int CC Grinder__CreateFromSaveState_421600(const BYTE*) { NOT_IMPLEMENTED(); return 20; }
+EXPORT int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
+EXPORT int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { NOT_IMPLEMENTED(); return 180; }
+EXPORT int CC FlyingSlig__CreateFromSaveState_437E40(const BYTE*) { NOT_IMPLEMENTED(); return 172; }
+EXPORT int CC FlyingSligSpawner__CreateFromSaveState_43B690(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
+EXPORT int CC CreateFromSaveState_43BD10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
+EXPORT int CC CreateFromSaveState_43DC20(const BYTE*) { NOT_IMPLEMENTED(); return 4; }
+EXPORT int CC SlapLock__CreateFromSaveState_43EA00(const BYTE*) { NOT_IMPLEMENTED(); return 24; }
+EXPORT int CC Greeter__CreateFromSaveState_446040(const BYTE*) { NOT_IMPLEMENTED(); return 80; }
+EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
+EXPORT int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { NOT_IMPLEMENTED(); return 144; }
+EXPORT int CC SligSpawner__CreateFromSaveState_409B10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
+EXPORT int CC LiftPoint__CreateFromSaveState_4630F0(const BYTE*) { NOT_IMPLEMENTED(); return 28; }
+EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
+EXPORT int CC CreateFromSaveState_46A9E0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
+EXPORT int CC MineCar__CreateFromSaveState_467740(const BYTE*) { NOT_IMPLEMENTED(); return 104; }
+EXPORT int CC Paramite__CreateFromSaveState_4855A0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
+EXPORT int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
+EXPORT int CC CreateFromSaveState_49B200(const BYTE*) { NOT_IMPLEMENTED(); return 4; }
+EXPORT int CC AbilityRing__CreateFromSaveState_49DF90(const BYTE*) { NOT_IMPLEMENTED(); return 40; }
+EXPORT int CC Rock__CreateFromSaveState_49F720(const BYTE*) { NOT_IMPLEMENTED(); return 56; }
+EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED(); return 160; }
+EXPORT int CC ScrabSpawner__CreateFromSaveState_4ABEB0(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
+EXPORT int CC SlamDoor__CreateFromSaveState_4C08B0(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
+EXPORT int CC Slig__CreateFromSaveState_4B3B50(const BYTE*) { NOT_IMPLEMENTED(); return 164; }
+EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
+EXPORT int CC Slurg__CreateFromSaveState_4C8DF0(const BYTE*) { NOT_IMPLEMENTED(); return 44; }
+EXPORT int CC TimerTrigger__CreateFromSaveState_4CDF70(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
+EXPORT int CC TrapDoor__CreateFromSaveState_4DDED0(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
+EXPORT int CC Uxb__CreateFromSaveState_4DFAE0(const BYTE*) { NOT_IMPLEMENTED(); return 24; }
+EXPORT int CC WorkWheel__CreateFromSaveState_4E3B10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 
 struct QuickSaveRestoreTable
 {
@@ -50,186 +50,186 @@ struct QuickSaveRestoreTable
 
 QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
 {
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &SligSpawner__CreateFromSaveState_409B10,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &LiftMover__CreateFromSaveState_40D180,
-    NULL,
+    nullptr,
     &CreateFromSaveState_412C10,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &CreateFromSaveState_417740,
     &NakedSlig__CreateFromSaveState_41AE80,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
     &Grinder__CreateFromSaveState_421600,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &EvilFart__CreateFromSaveState_4281C0,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &Fleech__CreateFromSaveState_42DD50,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
     &FlyingSlig__CreateFromSaveState_437E40,
     &FlyingSligSpawner__CreateFromSaveState_43B690,
-    NULL,
+    nullptr,
     &CreateFromSaveState_43BD10,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &CreateFromSaveState_43DC20,
     &SlapLock__CreateFromSaveState_43EA00,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &Greeter__CreateFromSaveState_446040,
     &Grenade__CreateFromSaveState_449410,
-    NULL,
+    nullptr,
     &Glukkon__CreateFromSaveState_442830,
-    NULL,
-    &Abe__CreateFromSaveState_44D4F0,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    &Abe::CreateFromSaveState_44D4F0,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &LiftPoint__CreateFromSaveState_4630F0,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &Mudokon__CreateFromSaveState_4717C0,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &CreateFromSaveState_46A9E0,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &MineCar__CreateFromSaveState_467740,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &Paramite__CreateFromSaveState_4855A0,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &BirdPortal__CreateFromSaveState_499C90,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &CreateFromSaveState_49B200,
-    NULL,
+    nullptr,
     &AbilityRing__CreateFromSaveState_49DF90,
     &Rock__CreateFromSaveState_49F720,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &Scrab__CreateFromSaveState_4A70A0,
     &ScrabSpawner__CreateFromSaveState_4ABEB0,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &SlamDoor__CreateFromSaveState_4C08B0,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &Slig__CreateFromSaveState_4B3B50,
     &Slog__CreateFromSaveState_4C54F0,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
     &Slurg__CreateFromSaveState_4C8DF0,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &TimerTrigger__CreateFromSaveState_4CDF70,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &TrapDoor__CreateFromSaveState_4DDED0,
     &Uxb__CreateFromSaveState_4DFAE0,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     &WorkWheel__CreateFromSaveState_4E3B10,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr
 };
 
 ALIVE_VAR(1, 0x560c34, QuickSaveRestoreTable, sQuicksaveLoadFunctionTable_560C34, sQuicksaveLoadFunctionTable);

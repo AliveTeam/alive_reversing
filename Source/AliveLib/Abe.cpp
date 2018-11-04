@@ -679,7 +679,7 @@ void Abe::dtor_44B380()
     dtor_4080B0();
 }
 
-signed int CC Abe::CreateFromSaveState_44D4F0(char * /*a1*/)
+signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* /*a1*/)
 {
     NOT_IMPLEMENTED();
     return 216;

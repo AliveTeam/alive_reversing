@@ -31,7 +31,7 @@ public:
     EXPORT Abe* ctor_44AD10(int frameTableOffset, int a3, int a4, int a5);
     EXPORT void dtor_44B380();
 
-    EXPORT static signed int CC CreateFromSaveState_44D4F0(char *a1);
+    EXPORT static signed int CC CreateFromSaveState_44D4F0(const BYTE* a1);
     
     virtual void VDestructor(signed int flags) override;
     virtual void VUpdate() override;

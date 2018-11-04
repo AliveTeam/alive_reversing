@@ -46,7 +46,7 @@ struct Quicksave
     int field_200_accumulated_obj_count;
     Quicksave_WorldInfo field_204_world_info;
     Quicksave_WorldInfo field_244_restart_path_world_info;
-    char field_284_restart_path_abe_state[216];
+    BYTE field_284_restart_path_abe_state[216];
     SwitchStates field_35C_restart_path_switch_states;
     SwitchStates field_45C_switch_states;
     char field_55C_objects_state_data[6820];
