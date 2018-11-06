@@ -1725,14 +1725,14 @@ static void NoScaling_1(
 
 static void Scaling_1(
     int xpos_clip,
-    int ypos_clip2,
+    int ypos_clip,
     int width_clip,
     int height_clip,
     int v_width,
     int u_height,
     int width,
     int height,
-    WORD* pVramDst2, 
+    WORD* pVramDst, 
     signed int vram_pitch, 
     WORD* pCompressedIter,
     WORD* pClut,
@@ -1740,57 +1740,54 @@ static void Scaling_1(
 {
     int height_clip_counter; // [esp+58h] [ebp-94h]
     int v159; // [esp+50h] [ebp-9Ch]
-    float texture_w_step; // [esp+28h] [ebp-C4h]
-    double v97; // st7
-    float v96; // ST68_4
-    unsigned int dstIdx; // ebx
     int v99; // ebp
-    WORD *pVramDst5; // [esp+14h] [ebp-D8h]
     int x_fixedb; // [esp+40h] [ebp-ACh]
     int v_width2 = v_width; // [esp+44h] [ebp-A8h]
     int k; // ecx
     int control_byte5; // esi
     int srcCount7; // edx
-    unsigned int srcByte_3; // ebx
     int v105; // ecx
     int srcCount8; // eax
-    double v107; // st6
     int l; // ebp
     int control_byte7; // esi
     int srcCount11; // ebp
     int v142; // [esp+2Ch] [ebp-C0h]
-    signed int v134; // [esp+20h] [ebp-CCh]
+    int v134; // [esp+20h] [ebp-CCh]
     int control_byte6; // esi
     int srcCount9; // edx
-    unsigned int v120; // ebx
-    int v121; // ebp
-    int srcCount10; // eax
-    unsigned int v111; // ebx
-    WORD *v112; // ebp
-    unsigned __int8 srcCount12; // al
-    unsigned __int8 srcCount13; // [esp+10h] [ebp-DCh]
     int v114; // ebp
     int lut_bb; // [esp+5Ch] [ebp-90h]
-    WORD *v116; // eax
     int v117; // ecx
     int v115; // edx
-    WORD *bHasAllBackClutEntryb; // [esp+1Ch] [ebp-D0h]
     int pClut_2d; // [esp+38h] [ebp-B4h]
+    int v121; // ebp
+    int srcCount10; // eax
+
+    WORD* v112; // ebp
+    WORD* pVramDst5; // [esp+14h] [ebp-D8h]
+    WORD* v116; // eax
+    WORD* bHasAllBackClutEntryb; // [esp+1Ch] [ebp-D0h]
+    WORD* v100; // edx
     WORD v168; // [esp+64h] [ebp-88h]
+
     bool b_height_Remainder_end; // zf
-    WORD *v100; // edx
 
     int control_byte = 0;
 
-    height_clip_counter = 0;                    // start of needs scaling case?
+    height_clip_counter = 0;
     v159 = 0;
-    texture_w_step = (double)u_height / (double)width;
-    v97 = 0.0;
+    float texture_w_step = (float)u_height / (float)width;
+    float v97 = 0.0f;
+
     if (v_width <= 0)
     {
         return;
     }
-    dstIdx = 0;
+
+    unsigned int dstIdx = 0;
+    float v107 = 0.0f;
+
+    // 1st loop - skip to "correct" start of compressed data ?
     while (1)
     {
         if (height_clip_counter >= height_clip)
@@ -1798,32 +1795,36 @@ static void Scaling_1(
             return;
         }
         v99 = 0;
-        pVramDst5 = pVramDst2;
+        pVramDst5 = pVramDst;
         x_fixedb = 0;
         if (v159 == (unsigned int)(signed __int64)v97)
         {
             do
             {
-                v96 = (double)v_width2 / (double)height;
+                float v96 = (float)v_width2 / (float)height;
                 v97 = v97 + v96;
                 ++v99;
-                pVramDst2 = (WORD *)((char *)pVramDst2 + vram_pitch);
+                pVramDst = (WORD *)((char *)pVramDst + vram_pitch);
             } while (v159 == (unsigned int)(signed __int64)v97);
             x_fixedb = v99;
         }
+
         height_clip_counter += v99;
-        if (v99 > height_clip_counter - ypos_clip2)
+
+        if (v99 > height_clip_counter - ypos_clip)
         {
-            v100 = (WORD *)((char *)pVramDst5 + vram_pitch * (ypos_clip2 + v99 - height_clip_counter));
-            v99 = height_clip_counter - ypos_clip2;
+            v100 = (WORD *)((char *)pVramDst5 + vram_pitch * (ypos_clip + v99 - height_clip_counter));
+            v99 = height_clip_counter - ypos_clip;
             pVramDst5 = v100;
-            x_fixedb = height_clip_counter - ypos_clip2;
+            x_fixedb = height_clip_counter - ypos_clip;
         }
+
         if (height_clip_counter > height_clip)
         {
             v99 += height_clip - height_clip_counter;
             x_fixedb = v99;
         }
+
         if (v99 <= 0)
         {
             k = 0;
@@ -1846,7 +1847,7 @@ static void Scaling_1(
                 }
                 control_byte5 = control_byte - 6;
                 srcCount7 = dstIdx & 0x3F;
-                srcByte_3 = dstIdx >> 6;
+                unsigned int srcByte_3 = dstIdx >> 6;
                 v105 = srcCount7 + k;
                 if (control_byte5)
                 {
@@ -1890,7 +1891,7 @@ static void Scaling_1(
             goto LABEL_346;
         }
         v142 = 0;
-        v107 = 0.0;
+        v107 = 0.0f;
         v134 = 0;
         if (u_height >= 0)
         {
@@ -1902,6 +1903,8 @@ static void Scaling_1(
             return;
         }
     }
+
+    // 2nd loop
     while (1)
     {
         l = v134;
@@ -1928,7 +1931,7 @@ static void Scaling_1(
                     }
                     control_byte6 = control_byte - 6;
                     srcCount9 = dstIdx & 0x3F;
-                    v120 = dstIdx >> 6;
+                    unsigned int v120 = dstIdx >> 6;
                     v121 = srcCount9 + l;
                     if (control_byte6)
                     {
@@ -1989,7 +1992,7 @@ static void Scaling_1(
         }
         control_byte7 = control_byte - 6;
         srcCount11 = (dstIdx & 0x3F) + v134;
-        v111 = dstIdx >> 6;
+        unsigned int v111 = dstIdx >> 6;
         v134 = srcCount11;
         if (unknown_2 == 2)
         {
@@ -2035,7 +2038,7 @@ static void Scaling_1(
             pCompressedIter += 2;
         }
         control_byte = control_byte7 - 6;
-        srcCount12 = v111 & 0x3F;
+        unsigned __int8 srcCount12 = v111 & 0x3F;
         dstIdx = v111 >> 6;
         if (srcCount12)
         {
@@ -2060,7 +2063,7 @@ static void Scaling_1(
                 }
                 control_byte -= 6;
                 v114 = 0;
-                srcCount13 = dstIdx & 0x3F;
+                unsigned __int8 srcCount13 = dstIdx & 0x3F;
                 for (dstIdx >>= 6; v134 == (unsigned int)(signed __int64)v107; ++v114)
                 {
                     v107 = v107 + texture_w_step;
@@ -2364,11 +2367,11 @@ idx_over_64:
     pCompressedIter = ((WORD*)pData) + 2;                  // skip w/h to get to compressed data
     if (!bHasAllBackClutEntry)                  // one writes black pixels and the other skips them ??
     {
-        if (u_height == width && v_width == height_for_v)// no scale case
+       // if (u_height == width && v_width == height_for_v)// no scale case
         {
-            NoScaling_1(pClut, xpos_clip, ypos_clip, width_clip, height_clip, pCompressedIter, pVramDst2, vram_pitch, u_height, unknown_2);
+            //NoScaling_1(pClut, xpos_clip, ypos_clip, width_clip, height_clip, pCompressedIter, pVramDst2, vram_pitch, u_height, unknown_2);
         }
-        else
+        //else
         {
             Scaling_1(
                 xpos_clip,
@@ -2384,7 +2387,6 @@ idx_over_64:
                 pCompressedIter,
                 pClut,
                 unknown_2);
-            
         }
     }
     if (u_height == width && v_width == height_for_v)
