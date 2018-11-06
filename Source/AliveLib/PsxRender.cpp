@@ -1794,7 +1794,7 @@ static void Scaling_1(
 
         if (curYLine > ySkipCounter - ypos_clip)
         {
-            WORD* v100 = (WORD *)((char *)pVramIter + vram_pitch * (ypos_clip + curYLine - ySkipCounter));
+            WORD* v100 = pVramIter + (vram_pitch / sizeof(WORD)) * (ypos_clip + curYLine - ySkipCounter);
             curYLine = ySkipCounter - ypos_clip;
             pVramIter = v100;
             yDuplicateCount = ySkipCounter - ypos_clip;
@@ -1873,14 +1873,14 @@ static void Scaling_1(
                             width_to_write++;
                         }
 
-                        pVramIter = (WORD *)((char *)pVramIter + bytesToNextPixel * width_to_write);
+                        pVramIter += (bytesToNextPixel / sizeof(WORD)) * width_to_write;
                         width_clip_counter += width_to_write;
 
                         if (width_to_write > width_clip_counter - xpos_clip)
                         {
-                            int v115 = (int)pVramXOff + bytesToNextPixel * (xpos_clip + width_to_write - width_clip_counter);
+                            WORD* v115 = pVramXOff + (bytesToNextPixel / sizeof(WORD)) * (xpos_clip + width_to_write - width_clip_counter);
                             width_to_write = width_clip_counter - xpos_clip;
-                            pVramXOff = (WORD *)v115;
+                            pVramXOff = v115;
                         }
 
                         if (width_clip_counter > width_clip)
