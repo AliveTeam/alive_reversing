@@ -1767,40 +1767,36 @@ static void Scaling_1(
     const float texture_w_step = (float)u_width / (float)width;
     const float texture_h_step = (float)v_height / (float)height;
 
-    float v_pos = 0.0f;
-    float u_pos = 0.0f;
-
     int control_byte = 0;
     unsigned int dstIdx = 0;
 
     int ySkipCounter = 0;
-    for (int v_width2_counter = 0; v_width2_counter < v_height; v_width2_counter++)
+    float v_pos = 0.0f;
+    for (int v_height_counter = 0; v_height_counter < v_height; v_height_counter++)
     {
         if (ySkipCounter >= height_clip)
         {
             return;
         }
 
-        int curYLine = 0;
-        WORD* pVramDst5 = pVramDst;
-        int yDuplicateCount = 0;
+        WORD* pVramIter = pVramDst;
 
-        while (v_width2_counter == static_cast<int>(v_pos))
+        int curYLine = 0;
+        while (v_height_counter == static_cast<int>(v_pos))
         {
             v_pos += texture_h_step;
             ++curYLine;
             pVramDst += (vram_pitch / sizeof(WORD));
-
         }
-        yDuplicateCount = curYLine;
 
+        int yDuplicateCount = curYLine;
         ySkipCounter += curYLine;
 
         if (curYLine > ySkipCounter - ypos_clip)
         {
-            WORD* v100 = (WORD *)((char *)pVramDst5 + vram_pitch * (ypos_clip + curYLine - ySkipCounter));
+            WORD* v100 = (WORD *)((char *)pVramIter + vram_pitch * (ypos_clip + curYLine - ySkipCounter));
             curYLine = ySkipCounter - ypos_clip;
-            pVramDst5 = v100;
+            pVramIter = v100;
             yDuplicateCount = ySkipCounter - ypos_clip;
         }
 
@@ -1812,50 +1808,52 @@ static void Scaling_1(
 
         if (curYLine > 0)
         {
-            int width_clip_counter = 0;
-            u_pos = 0.0f;
-            int u_height_counter = 0;
-
-            if (u_width >= 0)
+            // Write scan lines
+            if (u_width < 0)
             {
-                while (1)
+                break;
+            }
+
+            int width_clip_counter = 0;
+            float u_pos = 0.0f;
+            int u_width_counter = 0;
+            while (u_width_counter < u_width)
+            {
+                if (width_clip_counter >= width_clip)
                 {
-                    int u_height_counter_2 = u_height_counter;
-                    if (width_clip_counter >= width_clip)
+                    // Skip end of line clipped area
+                    while (u_width_counter <= u_width)
                     {
-                        if (u_height_counter <= u_width)
+                        int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                        int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+
+                        u_width_counter += runLengthCount + blackPixelCount;
+
+                        while (runLengthCount > 0)
                         {
-                            do
-                            {
-                                int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                                int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-
-                                u_height_counter_2 += runLengthCount + blackPixelCount;
-
-                                while (runLengthCount > 0)
-                                {
-                                    Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                                    runLengthCount--;
-                                }
-                            } while (u_height_counter_2 <= u_width);
+                            Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                            runLengthCount--;
                         }
-                        break;
                     }
+                    break;
+                }
+                else
+                {
                     const int blackLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                    const int totalWidthBytes = blackLengthCount + u_height_counter;
-                    u_height_counter = totalWidthBytes;
+                    const int totalWidthBytes = blackLengthCount + u_width_counter;
+                    u_width_counter = totalWidthBytes;
 
                     while (totalWidthBytes > static_cast<int>(u_pos))
                     {
                         if (bytesToNextPixel == 2)
                         {
                             // Left to right
-                            pVramDst5++;
+                            pVramIter++;
                         }
                         else
                         {
                             // Right to left
-                            pVramDst5--;
+                            pVramIter--;
                         }
                         u_pos += texture_w_step;
                         width_clip_counter++;
@@ -1864,25 +1862,25 @@ static void Scaling_1(
                     BYTE runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
                     for (int bb = 0; bb < runLengthCopyCount; bb++)
                     {
-                        WORD* bHasAllBackClutEntryb = pVramDst5;
+                        WORD* pVramXOff = pVramIter;
 
                         BYTE decompressed_byte = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
                         int width_to_write = 0;
-                        while (u_height_counter == static_cast<int>(u_pos))
+                        while (u_width_counter == static_cast<int>(u_pos))
                         {
                             u_pos += texture_w_step;
                             width_to_write++;
                         }
 
-                        pVramDst5 = (WORD *)((char *)pVramDst5 + bytesToNextPixel * width_to_write);
+                        pVramIter = (WORD *)((char *)pVramIter + bytesToNextPixel * width_to_write);
                         width_clip_counter += width_to_write;
 
                         if (width_to_write > width_clip_counter - xpos_clip)
                         {
-                            int v115 = (int)bHasAllBackClutEntryb + bytesToNextPixel * (xpos_clip + width_to_write - width_clip_counter);
+                            int v115 = (int)pVramXOff + bytesToNextPixel * (xpos_clip + width_to_write - width_clip_counter);
                             width_to_write = width_clip_counter - xpos_clip;
-                            bHasAllBackClutEntryb = (WORD *)v115;
+                            pVramXOff = (WORD *)v115;
                         }
 
                         if (width_clip_counter > width_clip)
@@ -1890,13 +1888,13 @@ static void Scaling_1(
                             width_to_write += width_clip - width_clip_counter;
                         }
 
-                        ++u_height_counter;
+                        ++u_width_counter;
 
                         // Write out the scanline to vram
                         if (width_to_write > 0)
                         {
                             const WORD clut_pixel = pClut[decompressed_byte];
-                            WORD* pDstVRamLine = bHasAllBackClutEntryb;
+                            WORD* pDstVRamLine = pVramXOff;
                             for (int aa = 0; aa < yDuplicateCount; aa++)
                             {
                                 for (int ww = 0; ww < width_to_write; ww++)
@@ -1904,22 +1902,17 @@ static void Scaling_1(
                                     *pDstVRamLine = clut_pixel;
                                     pDstVRamLine += (bytesToNextPixel / sizeof(WORD));
                                 }
-                                pDstVRamLine = &bHasAllBackClutEntryb[vram_pitch / sizeof(WORD)];
-                                bHasAllBackClutEntryb = pDstVRamLine;
+                                pDstVRamLine = &pVramXOff[vram_pitch / sizeof(WORD)];
+                                pVramXOff = pDstVRamLine;
                             }
                         }
-                    }
-
-                    if (u_height_counter > u_width)
-                    {
-                        break;
                     }
                 }
             }
         }
         else
         {
-            // Skip lines
+            // Skip Y lines
             int u_skip_counter = 0;
             while (u_skip_counter <= u_width)
             {
