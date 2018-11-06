@@ -1777,12 +1777,11 @@ static void Scaling_1(
     const float texture_h_step = (float)v_height / (float)height;
 
     unsigned int dstIdx = 0;
-    int v_width2_counter = 0;
     float v_pos = 0.0f;
     float u_pos = 0.0f;
 
     int ySkipCounter = 0;
-    while (1)
+    for (int v_width2_counter = 0; v_width2_counter < v_height; v_width2_counter++)
     {
         if (ySkipCounter >= height_clip)
         {
@@ -1941,11 +1940,6 @@ static void Scaling_1(
                     }
                 }
             }
-        }
-
-        if (++v_width2_counter >= v_height)
-        {
-            return;
         }
     }
 }
