@@ -1761,25 +1761,18 @@ static void Scaling_1(
 {
     int curYLine; // ebp
     int x_fixedb; // [esp+40h] [ebp-ACh]
-    int v_width2 = v_width; // [esp+44h] [ebp-A8h]
-    int l; // ebp
+    int u_height_counter_2; // ebp
     int srcCount11; // ebp
-    int v142; // [esp+2Ch] [ebp-C0h]
+    int width_clip_counter; // [esp+2Ch] [ebp-C0h]
     int u_height_counter; // [esp+20h] [ebp-CCh]
-    int v114; // ebp
-    int lut_bb; // [esp+5Ch] [ebp-90h]
-    int v117; // ecx
-    int v115; // edx
-    int pClut_2d; // [esp+38h] [ebp-B4h]
-    int v121; // ebp
+    int width_to_write; // ebp
+    int w_to_write_counter; // ecx
 
+    int v115; // edx
     WORD* v112; // ebp
     WORD* pVramDst5; // [esp+14h] [ebp-D8h]
-    WORD* v116; // eax
     WORD* bHasAllBackClutEntryb; // [esp+1Ch] [ebp-D0h]
-    WORD* v100; // edx
-
-    bool b_height_Remainder_end; // zf
+ 
 
     int control_byte = 0;
 
@@ -1792,7 +1785,7 @@ static void Scaling_1(
     }
 
     unsigned int dstIdx = 0;
-    int v159 = 0;
+    int v_width2_counter = 0;
     float v97 = 0.0f;
 
     float v107 = 0.0f;
@@ -1809,15 +1802,15 @@ static void Scaling_1(
         curYLine = 0;
         pVramDst5 = pVramDst;
         x_fixedb = 0;
-        if (v159 == (unsigned int)(signed __int64)v97)
+        if (v_width2_counter == (unsigned int)(signed __int64)v97)
         {
             do
             {
-                float v96 = (float)v_width2 / (float)height;
+                float v96 = (float)v_width / (float)height;
                 v97 = v97 + v96;
                 ++curYLine;
                 pVramDst = (WORD *)((char *)pVramDst + vram_pitch);
-            } while (v159 == (unsigned int)(signed __int64)v97);
+            } while (v_width2_counter == (unsigned int)(signed __int64)v97);
             x_fixedb = curYLine;
         }
 
@@ -1825,7 +1818,7 @@ static void Scaling_1(
 
         if (curYLine > ySkipCounter - ypos_clip)
         {
-            v100 = (WORD *)((char *)pVramDst5 + vram_pitch * (ypos_clip + curYLine - ySkipCounter));
+            WORD* v100 = (WORD *)((char *)pVramDst5 + vram_pitch * (ypos_clip + curYLine - ySkipCounter));
             curYLine = ySkipCounter - ypos_clip;
             pVramDst5 = v100;
             x_fixedb = ySkipCounter - ypos_clip;
@@ -1856,7 +1849,7 @@ static void Scaling_1(
             goto LABEL_346;
         }
 
-        v142 = 0;
+        width_clip_counter = 0;
         v107 = 0.0f;
         u_height_counter = 0;
 
@@ -1867,7 +1860,7 @@ static void Scaling_1(
 
     LABEL_346:
 
-        if (++v159 >= v_width2)
+        if (++v_width2_counter >= v_width)
         {
             return;
         }
@@ -1876,8 +1869,8 @@ static void Scaling_1(
     // 2nd loop
     while (1)
     {
-        l = u_height_counter;
-        if (v142 >= width_clip)
+        u_height_counter_2 = u_height_counter;
+        if (width_clip_counter >= width_clip)
         {
             if (u_height_counter <= u_height)
             {
@@ -1885,15 +1878,15 @@ static void Scaling_1(
                 {
                     int srcCount9 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
-                    v121 = srcCount9 + l;
+                    int v121 = srcCount9 + u_height_counter_2;
 
                     int srcCount10 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
-                    for (l = srcCount10 + v121; srcCount10; --srcCount10)
+                    for (u_height_counter_2 = srcCount10 + v121; srcCount10; --srcCount10)
                     {
                         Decompress_Next(control_byte, dstIdx, pCompressedIter);
                     }
-                } while (l <= u_height);
+                } while (u_height_counter_2 <= u_height);
             }
             goto LABEL_346;
         }
@@ -1911,7 +1904,7 @@ static void Scaling_1(
                 {
                     v107 = v107 + texture_w_step;
                     ++v112;
-                    ++v142;
+                    ++width_clip_counter;
                 } while (u_height_counter > (signed int)(signed __int64)v107);
             LABEL_320:
                 pVramDst5 = v112;
@@ -1925,69 +1918,71 @@ static void Scaling_1(
             {
                 v107 = v107 + texture_w_step;
                 --v112;
-                ++v142;
+                ++width_clip_counter;
             } while (u_height_counter > (signed int)(signed __int64)v107);
             goto LABEL_320;
         }
+
     LABEL_321:
         unsigned __int8 srcCount12 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
         if (srcCount12)
         {
-            lut_bb = srcCount12;
+            int srcCount12_counter = srcCount12;
             do
             {
                 bHasAllBackClutEntryb = pVramDst5;
 
                 unsigned __int8 srcCount13 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
-                v114 = 0;
-                for (; u_height_counter == (unsigned int)(signed __int64)v107; ++v114)
+                width_to_write = 0;
+                for (; u_height_counter == (unsigned int)(signed __int64)v107; ++width_to_write)
                 {
                     v107 = v107 + texture_w_step;
                 }
                 
-                pVramDst5 = (WORD *)((char *)pVramDst5 + unknown_2 * v114);
-                v142 += v114;
+                pVramDst5 = (WORD *)((char *)pVramDst5 + unknown_2 * width_to_write);
+                width_clip_counter += width_to_write;
                 
-                if (v114 > v142 - xpos_clip)
+                if (width_to_write > width_clip_counter - xpos_clip)
                 {
-                    v115 = (int)bHasAllBackClutEntryb + unknown_2 * (xpos_clip + v114 - v142);
-                    v114 = v142 - xpos_clip;
+                    v115 = (int)bHasAllBackClutEntryb + unknown_2 * (xpos_clip + width_to_write - width_clip_counter);
+                    width_to_write = width_clip_counter - xpos_clip;
                     bHasAllBackClutEntryb = (WORD *)v115;
                 }
                 
-                if (v142 > width_clip)
+                if (width_clip_counter > width_clip)
                 {
-                    v114 += width_clip - v142;
+                    width_to_write += width_clip - width_clip_counter;
                 }
                 
                 ++u_height_counter;
 
-                if (v114 > 0)
+                if (width_to_write > 0)
                 {
                     const WORD clut_pixel = pClut[srcCount13];
-                    v116 = bHasAllBackClutEntryb;
+                    WORD* v116 = bHasAllBackClutEntryb;
 
                     for (int aa = 0; aa < x_fixedb; aa++)
                     {
-                        if (v114 > 0)
+                        if (width_to_write > 0)
                         {
-                            v117 = v114;
+                            w_to_write_counter = width_to_write;
                             do
                             {
                                 *v116 = clut_pixel;
                                 v116 = (WORD *)((char *)v116 + unknown_2);
-                                --v117;
-                            } while (v117);
+                                --w_to_write_counter;
+                            } while (w_to_write_counter);
                         }
                         v116 = &bHasAllBackClutEntryb[vram_pitch / 2u];
                         bHasAllBackClutEntryb = (WORD *)((char *)bHasAllBackClutEntryb + vram_pitch);
                     }
                 }
-                --lut_bb;
-            } while (lut_bb);
+                --srcCount12_counter;
+            } while (srcCount12_counter);
         }
+
         if (u_height_counter > u_height)
         {
             goto LABEL_346;
