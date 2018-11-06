@@ -1723,6 +1723,397 @@ static void NoScaling_1(
     }
 }
 
+static void Scaling_1(
+    int xpos_clip,
+    int ypos_clip2,
+    int width_clip,
+    int height_clip,
+    int v_width,
+    int u_height,
+    int width,
+    int height,
+    WORD* pVramDst2, 
+    signed int vram_pitch, 
+    WORD* pCompressedIter,
+    WORD* pClut,
+    int unknown_2)
+{
+    int height_clip_counter; // [esp+58h] [ebp-94h]
+    int v159; // [esp+50h] [ebp-9Ch]
+    float texture_w_step; // [esp+28h] [ebp-C4h]
+    double v97; // st7
+    float v96; // ST68_4
+    unsigned int dstIdx; // ebx
+    int v99; // ebp
+    WORD *pVramDst5; // [esp+14h] [ebp-D8h]
+    int x_fixedb; // [esp+40h] [ebp-ACh]
+    int v_width2 = v_width; // [esp+44h] [ebp-A8h]
+    int k; // ecx
+    int control_byte5; // esi
+    int srcCount7; // edx
+    unsigned int srcByte_3; // ebx
+    int v105; // ecx
+    int srcCount8; // eax
+    double v107; // st6
+    int l; // ebp
+    int control_byte7; // esi
+    int srcCount11; // ebp
+    int v142; // [esp+2Ch] [ebp-C0h]
+    signed int v134; // [esp+20h] [ebp-CCh]
+    int control_byte6; // esi
+    int srcCount9; // edx
+    unsigned int v120; // ebx
+    int v121; // ebp
+    int srcCount10; // eax
+    unsigned int v111; // ebx
+    WORD *v112; // ebp
+    unsigned __int8 srcCount12; // al
+    unsigned __int8 srcCount13; // [esp+10h] [ebp-DCh]
+    int v114; // ebp
+    int lut_bb; // [esp+5Ch] [ebp-90h]
+    WORD *v116; // eax
+    int v117; // ecx
+    int v115; // edx
+    WORD *bHasAllBackClutEntryb; // [esp+1Ch] [ebp-D0h]
+    int pClut_2d; // [esp+38h] [ebp-B4h]
+    WORD v168; // [esp+64h] [ebp-88h]
+    bool b_height_Remainder_end; // zf
+    WORD *v100; // edx
+
+    int control_byte = 0;
+
+    height_clip_counter = 0;                    // start of needs scaling case?
+    v159 = 0;
+    texture_w_step = (double)u_height / (double)width;
+    v97 = 0.0;
+    if (v_width <= 0)
+    {
+        return;
+    }
+    dstIdx = 0;
+    while (1)
+    {
+        if (height_clip_counter >= height_clip)
+        {
+            return;
+        }
+        v99 = 0;
+        pVramDst5 = pVramDst2;
+        x_fixedb = 0;
+        if (v159 == (unsigned int)(signed __int64)v97)
+        {
+            do
+            {
+                v96 = (double)v_width2 / (double)height;
+                v97 = v97 + v96;
+                ++v99;
+                pVramDst2 = (WORD *)((char *)pVramDst2 + vram_pitch);
+            } while (v159 == (unsigned int)(signed __int64)v97);
+            x_fixedb = v99;
+        }
+        height_clip_counter += v99;
+        if (v99 > height_clip_counter - ypos_clip2)
+        {
+            v100 = (WORD *)((char *)pVramDst5 + vram_pitch * (ypos_clip2 + v99 - height_clip_counter));
+            v99 = height_clip_counter - ypos_clip2;
+            pVramDst5 = v100;
+            x_fixedb = height_clip_counter - ypos_clip2;
+        }
+        if (height_clip_counter > height_clip)
+        {
+            v99 += height_clip - height_clip_counter;
+            x_fixedb = v99;
+        }
+        if (v99 <= 0)
+        {
+            k = 0;
+            while (k <= u_height)
+            {
+                if (control_byte)
+                {
+                    if (control_byte == 14)
+                    {
+                        control_byte = 30;
+                        dstIdx |= *pCompressedIter << 14;
+                        ++pCompressedIter;
+                    }
+                }
+                else
+                {
+                    dstIdx = *(DWORD *)pCompressedIter;
+                    control_byte = 32;
+                    pCompressedIter += 2;
+                }
+                control_byte5 = control_byte - 6;
+                srcCount7 = dstIdx & 0x3F;
+                srcByte_3 = dstIdx >> 6;
+                v105 = srcCount7 + k;
+                if (control_byte5)
+                {
+                    if (control_byte5 == 14)
+                    {
+                        control_byte5 = 30;
+                        srcByte_3 |= *pCompressedIter << 14;
+                        ++pCompressedIter;
+                    }
+                }
+                else
+                {
+                    srcByte_3 = *(DWORD *)pCompressedIter;
+                    control_byte5 = 32;
+                    pCompressedIter += 2;
+                }
+                control_byte = control_byte5 - 6;
+                srcCount8 = srcByte_3 & 0x3F;
+                dstIdx = srcByte_3 >> 6;
+                for (k = srcCount8 + v105; srcCount8; --srcCount8)
+                {
+                    if (control_byte)
+                    {
+                        if (control_byte == 14)
+                        {
+                            control_byte = 30;
+                            dstIdx |= *pCompressedIter << 14;
+                            ++pCompressedIter;
+                        }
+                    }
+                    else
+                    {
+                        dstIdx = *(DWORD *)pCompressedIter;
+                        control_byte = 32;
+                        pCompressedIter += 2;
+                    }
+                    control_byte -= 6;
+                    dstIdx >>= 6;
+                }
+            }
+            goto LABEL_346;
+        }
+        v142 = 0;
+        v107 = 0.0;
+        v134 = 0;
+        if (u_height >= 0)
+        {
+            break;
+        }
+    LABEL_346:
+        if (++v159 >= v_width2)
+        {
+            return;
+        }
+    }
+    while (1)
+    {
+        l = v134;
+        if (v142 >= width_clip)
+        {
+            if (v134 <= u_height)
+            {
+                do
+                {
+                    if (control_byte)
+                    {
+                        if (control_byte == 14)
+                        {
+                            control_byte = 30;
+                            dstIdx |= *pCompressedIter << 14;
+                            ++pCompressedIter;
+                        }
+                    }
+                    else
+                    {
+                        dstIdx = *(DWORD *)pCompressedIter;
+                        control_byte = 32;
+                        pCompressedIter += 2;
+                    }
+                    control_byte6 = control_byte - 6;
+                    srcCount9 = dstIdx & 0x3F;
+                    v120 = dstIdx >> 6;
+                    v121 = srcCount9 + l;
+                    if (control_byte6)
+                    {
+                        if (control_byte6 == 14)
+                        {
+                            control_byte6 = 30;
+                            v120 |= *pCompressedIter << 14;
+                            ++pCompressedIter;
+                        }
+                    }
+                    else
+                    {
+                        v120 = *(DWORD *)pCompressedIter;
+                        control_byte6 = 32;
+                        pCompressedIter += 2;
+                    }
+                    control_byte = control_byte6 - 6;
+                    srcCount10 = v120 & 0x3F;
+                    dstIdx = v120 >> 6;
+                    for (l = srcCount10 + v121; srcCount10; --srcCount10)
+                    {
+                        if (control_byte)
+                        {
+                            if (control_byte == 14)
+                            {
+                                control_byte = 30;
+                                dstIdx |= *pCompressedIter << 14;
+                                ++pCompressedIter;
+                            }
+                        }
+                        else
+                        {
+                            dstIdx = *(DWORD *)pCompressedIter;
+                            control_byte = 32;
+                            pCompressedIter += 2;
+                        }
+                        control_byte -= 6;
+                        dstIdx >>= 6;
+                    }
+                } while (l <= u_height);
+            }
+            goto LABEL_346;
+        }
+        if (control_byte)
+        {
+            if (control_byte == 14)
+            {
+                control_byte = 30;
+                dstIdx |= *pCompressedIter << 14;
+                ++pCompressedIter;
+            }
+        }
+        else
+        {
+            dstIdx = *(DWORD *)pCompressedIter;
+            control_byte = 32;
+            pCompressedIter += 2;
+        }
+        control_byte7 = control_byte - 6;
+        srcCount11 = (dstIdx & 0x3F) + v134;
+        v111 = dstIdx >> 6;
+        v134 = srcCount11;
+        if (unknown_2 == 2)
+        {
+            if (srcCount11 > (signed int)(signed __int64)v107)
+            {
+                v112 = pVramDst5;
+                do
+                {
+                    v107 = v107 + texture_w_step;
+                    ++v112;
+                    ++v142;
+                } while (v134 > (signed int)(signed __int64)v107);
+            LABEL_320:
+                pVramDst5 = v112;
+                goto LABEL_321;
+            }
+        }
+        else if (srcCount11 > (signed int)(signed __int64)v107)
+        {
+            v112 = pVramDst5;
+            do
+            {
+                v107 = v107 + texture_w_step;
+                --v112;
+                ++v142;
+            } while (v134 > (signed int)(signed __int64)v107);
+            goto LABEL_320;
+        }
+    LABEL_321:
+        if (control_byte7)
+        {
+            if (control_byte7 == 14)
+            {
+                control_byte7 = 30;
+                v111 |= *pCompressedIter << 14;
+                ++pCompressedIter;
+            }
+        }
+        else
+        {
+            v111 = *(DWORD *)pCompressedIter;
+            control_byte7 = 32;
+            pCompressedIter += 2;
+        }
+        control_byte = control_byte7 - 6;
+        srcCount12 = v111 & 0x3F;
+        dstIdx = v111 >> 6;
+        if (srcCount12)
+        {
+            lut_bb = srcCount12;
+            do
+            {
+                bHasAllBackClutEntryb = pVramDst5;
+                if (control_byte)
+                {
+                    if (control_byte == 14)
+                    {
+                        control_byte = 30;
+                        dstIdx |= *pCompressedIter << 14;
+                        ++pCompressedIter;
+                    }
+                }
+                else
+                {
+                    dstIdx = *(DWORD *)pCompressedIter;
+                    control_byte = 32;
+                    pCompressedIter += 2;
+                }
+                control_byte -= 6;
+                v114 = 0;
+                srcCount13 = dstIdx & 0x3F;
+                for (dstIdx >>= 6; v134 == (unsigned int)(signed __int64)v107; ++v114)
+                {
+                    v107 = v107 + texture_w_step;
+                }
+                pVramDst5 = (WORD *)((char *)pVramDst5 + unknown_2 * v114);
+                v142 += v114;
+                if (v114 > v142 - xpos_clip)
+                {
+                    v115 = (int)bHasAllBackClutEntryb + unknown_2 * (xpos_clip + v114 - v142);
+                    v114 = v142 - xpos_clip;
+                    bHasAllBackClutEntryb = (WORD *)v115;
+                }
+                if (v142 > width_clip)
+                {
+                    v114 += width_clip - v142;
+                }
+                ++v134;
+                if (v114 > 0)
+                {
+                    v168 = pClut[srcCount13];
+                    if (x_fixedb > 0)
+                    {
+                        pClut_2d = x_fixedb;
+                        v116 = bHasAllBackClutEntryb;
+                        do
+                        {
+                            if (v114 > 0)
+                            {
+                                v117 = v114;
+                                do
+                                {
+                                    *v116 = v168;
+                                    v116 = (WORD *)((char *)v116 + unknown_2);
+                                    --v117;
+                                } while (v117);
+                            }
+                            v116 = &bHasAllBackClutEntryb[vram_pitch / 2u];
+                            b_height_Remainder_end = pClut_2d == 1;
+                            bHasAllBackClutEntryb = (WORD *)((char *)bHasAllBackClutEntryb + vram_pitch);
+                            --pClut_2d;
+                        } while (!b_height_Remainder_end);
+                    }
+                }
+                --lut_bb;
+            } while (lut_bb);
+        }
+        if (v134 > u_height)
+        {
+            goto LABEL_346;
+        }
+    }
+}
+
 EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, int height, const void* pData)
 {
 
@@ -1790,79 +2181,38 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
     unsigned int v70; // ebx
     int v71; // ebp
     int srcCount27; // eax
-
-  
-   
-    float v96; // ST68_4
-    double v97; // st7
-    unsigned int dstIdx; // ebx
-    int v99; // ebp
-    WORD *v100; // edx
-    int k; // ecx
-    int control_byte5; // esi
-    int srcCount7; // edx
-    unsigned int srcByte_3; // ebx
-    int v105; // ecx
-    int srcCount8; // eax
-    double v107; // st6
-    int l; // ebp
-    int control_byte7; // esi
-    int srcCount11; // ebp
-    unsigned int v111; // ebx
-    WORD *v112; // ebp
-    unsigned __int8 srcCount12; // al
-    int v114; // ebp
-    int v115; // edx
-    WORD *v116; // eax
-    int v117; // ecx
-    int control_byte6; // esi
-    int srcCount9; // edx
-    unsigned int v120; // ebx
-    int v121; // ebp
-    int srcCount10; // eax
     unsigned __int8 srcCount25; // [esp+10h] [ebp-DCh]
-    unsigned __int8 srcCount13; // [esp+10h] [ebp-DCh]
     WORD *v125; // [esp+14h] [ebp-D8h]
     char *v126; // [esp+14h] [ebp-D8h]
-    WORD *pVramDst5; // [esp+14h] [ebp-D8h]
     int u_height; // [esp+18h] [ebp-D4h]
     signed int bHasAllBackClutEntry; // [esp+1Ch] [ebp-D0h]
     WORD *bHasAllBackClutEntrya; // [esp+1Ch] [ebp-D0h]
-    WORD *bHasAllBackClutEntryb; // [esp+1Ch] [ebp-D0h]
     signed int v133; // [esp+20h] [ebp-CCh]
-    signed int v134; // [esp+20h] [ebp-CCh]
     WORD *pVramDst2; // [esp+24h] [ebp-C8h]
     WORD *clut_iter2; // [esp+28h] [ebp-C4h]
     WORD *clut_iter2a; // [esp+28h] [ebp-C4h]
     WORD *clut_iter2b; // [esp+28h] [ebp-C4h]
     float clut_iter2c; // [esp+28h] [ebp-C4h]
-    float texture_w_step; // [esp+28h] [ebp-C4h]
     int v141; // [esp+2Ch] [ebp-C0h]
-    int v142; // [esp+2Ch] [ebp-C0h]
     signed int unknown_2; // [esp+30h] [ebp-BCh]
     int width_clip; // [esp+34h] [ebp-B8h]
     int pClut_2; // [esp+38h] [ebp-B4h]
     int pClut_2a; // [esp+38h] [ebp-B4h]
-    int pClut_2d; // [esp+38h] [ebp-B4h]
     signed int vram_pitch; // [esp+3Ch] [ebp-B0h]
     int x_fixed; // [esp+40h] [ebp-ACh]
     int x_fixeda; // [esp+40h] [ebp-ACh]
-    int x_fixedb; // [esp+40h] [ebp-ACh]
     int y_fixed; // [esp+44h] [ebp-A8h]
-    int v_width2; // [esp+44h] [ebp-A8h]
     int xpos_clip; // [esp+48h] [ebp-A4h]
     int height_clip; // [esp+4Ch] [ebp-A0h]
     int v158; // [esp+50h] [ebp-9Ch]
-    int v159; // [esp+50h] [ebp-9Ch]
     signed int clut_counter; // [esp+54h] [ebp-98h]
     int ypos_clip2; // [esp+54h] [ebp-98h]
     int v162; // [esp+58h] [ebp-94h]
-    int height_clip_counter; // [esp+58h] [ebp-94h]
     __int16 *lut_b; // [esp+5Ch] [ebp-90h]
     int lut_ba; // [esp+5Ch] [ebp-90h]
-    int lut_bb; // [esp+5Ch] [ebp-90h]
+   
     WORD *pClut; // [esp+60h] [ebp-8Ch]
-    WORD v168; // [esp+64h] [ebp-88h]
+    
     WORD v169; // [esp+68h] [ebp-84h]
     WORD clut_local[64]; // [esp+6Ch] [ebp-80h]
     bool b_height_Remainder_end; // zf
@@ -1975,7 +2325,7 @@ idx_over_64:
 
     u_height = pPrim->field_14_verts[2].field_14_u - pPrim->field_14_verts[0].field_14_u;
     v_width =  pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
-    v_width2 = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
+    int v_width2 = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
 
     if (u_height <= 0)
     {
@@ -2020,336 +2370,21 @@ idx_over_64:
         }
         else
         {
-            height_clip_counter = 0;                    // start of needs scaling case?
-            v159 = 0;
-            texture_w_step = (double)u_height / (double)width;
-            v97 = 0.0;
-            if (v_width <= 0)
-            {
-                return;
-            }
-            dstIdx = 0;
-            while (1)
-            {
-                if (height_clip_counter >= height_clip)
-                {
-                    return;
-                }
-                v99 = 0;
-                pVramDst5 = pVramDst2;
-                x_fixedb = 0;
-                if (v159 == (unsigned int)(signed __int64)v97)
-                {
-                    do
-                    {
-                        v96 = (double)v_width2 / (double)height;
-                        v97 = v97 + v96;
-                        ++v99;
-                        pVramDst2 = (WORD *)((char *)pVramDst2 + vram_pitch);
-                    } while (v159 == (unsigned int)(signed __int64)v97);
-                    x_fixedb = v99;
-                }
-                height_clip_counter += v99;
-                if (v99 > height_clip_counter - ypos_clip2)
-                {
-                    v100 = (WORD *)((char *)pVramDst5 + vram_pitch * (ypos_clip2 + v99 - height_clip_counter));
-                    v99 = height_clip_counter - ypos_clip2;
-                    pVramDst5 = v100;
-                    x_fixedb = height_clip_counter - ypos_clip2;
-                }
-                if (height_clip_counter > height_clip)
-                {
-                    v99 += height_clip - height_clip_counter;
-                    x_fixedb = v99;
-                }
-                if (v99 <= 0)
-                {
-                    k = 0;
-                    while (k <= u_height)
-                    {
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                control_byte = 30;
-                                dstIdx |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            dstIdx = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte5 = control_byte - 6;
-                        srcCount7 = dstIdx & 0x3F;
-                        srcByte_3 = dstIdx >> 6;
-                        v105 = srcCount7 + k;
-                        if (control_byte5)
-                        {
-                            if (control_byte5 == 14)
-                            {
-                                control_byte5 = 30;
-                                srcByte_3 |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            srcByte_3 = *(DWORD *)pCompressedIter;
-                            control_byte5 = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte = control_byte5 - 6;
-                        srcCount8 = srcByte_3 & 0x3F;
-                        dstIdx = srcByte_3 >> 6;
-                        for (k = srcCount8 + v105; srcCount8; --srcCount8)
-                        {
-                            if (control_byte)
-                            {
-                                if (control_byte == 14)
-                                {
-                                    control_byte = 30;
-                                    dstIdx |= *pCompressedIter << 14;
-                                    ++pCompressedIter;
-                                }
-                            }
-                            else
-                            {
-                                dstIdx = *(DWORD *)pCompressedIter;
-                                control_byte = 32;
-                                pCompressedIter += 2;
-                            }
-                            control_byte -= 6;
-                            dstIdx >>= 6;
-                        }
-                    }
-                    goto LABEL_346;
-                }
-                v142 = 0;
-                v107 = 0.0;
-                v134 = 0;
-                if (u_height >= 0)
-                {
-                    break;
-                }
-            LABEL_346:
-                if (++v159 >= v_width2)
-                {
-                    return;
-                }
-            }
-            while (1)
-            {
-                l = v134;
-                if (v142 >= width_clip)
-                {
-                    if (v134 <= u_height)
-                    {
-                        do
-                        {
-                            if (control_byte)
-                            {
-                                if (control_byte == 14)
-                                {
-                                    control_byte = 30;
-                                    dstIdx |= *pCompressedIter << 14;
-                                    ++pCompressedIter;
-                                }
-                            }
-                            else
-                            {
-                                dstIdx = *(DWORD *)pCompressedIter;
-                                control_byte = 32;
-                                pCompressedIter += 2;
-                            }
-                            control_byte6 = control_byte - 6;
-                            srcCount9 = dstIdx & 0x3F;
-                            v120 = dstIdx >> 6;
-                            v121 = srcCount9 + l;
-                            if (control_byte6)
-                            {
-                                if (control_byte6 == 14)
-                                {
-                                    control_byte6 = 30;
-                                    v120 |= *pCompressedIter << 14;
-                                    ++pCompressedIter;
-                                }
-                            }
-                            else
-                            {
-                                v120 = *(DWORD *)pCompressedIter;
-                                control_byte6 = 32;
-                                pCompressedIter += 2;
-                            }
-                            control_byte = control_byte6 - 6;
-                            srcCount10 = v120 & 0x3F;
-                            dstIdx = v120 >> 6;
-                            for (l = srcCount10 + v121; srcCount10; --srcCount10)
-                            {
-                                if (control_byte)
-                                {
-                                    if (control_byte == 14)
-                                    {
-                                        control_byte = 30;
-                                        dstIdx |= *pCompressedIter << 14;
-                                        ++pCompressedIter;
-                                    }
-                                }
-                                else
-                                {
-                                    dstIdx = *(DWORD *)pCompressedIter;
-                                    control_byte = 32;
-                                    pCompressedIter += 2;
-                                }
-                                control_byte -= 6;
-                                dstIdx >>= 6;
-                            }
-                        } while (l <= u_height);
-                    }
-                    goto LABEL_346;
-                }
-                if (control_byte)
-                {
-                    if (control_byte == 14)
-                    {
-                        control_byte = 30;
-                        dstIdx |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    dstIdx = *(DWORD *)pCompressedIter;
-                    control_byte = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte7 = control_byte - 6;
-                srcCount11 = (dstIdx & 0x3F) + v134;
-                v111 = dstIdx >> 6;
-                v134 = srcCount11;
-                if (unknown_2 == 2)
-                {
-                    if (srcCount11 > (signed int)(signed __int64)v107)
-                    {
-                        v112 = pVramDst5;
-                        do
-                        {
-                            v107 = v107 + texture_w_step;
-                            ++v112;
-                            ++v142;
-                        } while (v134 > (signed int)(signed __int64)v107);
-                    LABEL_320:
-                        pVramDst5 = v112;
-                        goto LABEL_321;
-                    }
-                }
-                else if (srcCount11 > (signed int)(signed __int64)v107)
-                {
-                    v112 = pVramDst5;
-                    do
-                    {
-                        v107 = v107 + texture_w_step;
-                        --v112;
-                        ++v142;
-                    } while (v134 > (signed int)(signed __int64)v107);
-                    goto LABEL_320;
-                }
-            LABEL_321:
-                if (control_byte7)
-                {
-                    if (control_byte7 == 14)
-                    {
-                        control_byte7 = 30;
-                        v111 |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    v111 = *(DWORD *)pCompressedIter;
-                    control_byte7 = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte = control_byte7 - 6;
-                srcCount12 = v111 & 0x3F;
-                dstIdx = v111 >> 6;
-                if (srcCount12)
-                {
-                    lut_bb = srcCount12;
-                    do
-                    {
-                        bHasAllBackClutEntryb = pVramDst5;
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                control_byte = 30;
-                                dstIdx |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            dstIdx = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        v114 = 0;
-                        srcCount13 = dstIdx & 0x3F;
-                        for (dstIdx >>= 6; v134 == (unsigned int)(signed __int64)v107; ++v114)
-                        {
-                            v107 = v107 + texture_w_step;
-                        }
-                        pVramDst5 = (WORD *)((char *)pVramDst5 + unknown_2 * v114);
-                        v142 += v114;
-                        if (v114 > v142 - xpos_clip)
-                        {
-                            v115 = (int)bHasAllBackClutEntryb + unknown_2 * (xpos_clip + v114 - v142);
-                            v114 = v142 - xpos_clip;
-                            bHasAllBackClutEntryb = (WORD *)v115;
-                        }
-                        if (v142 > width_clip)
-                        {
-                            v114 += width_clip - v142;
-                        }
-                        ++v134;
-                        if (v114 > 0)
-                        {
-                            v168 = pClut[srcCount13];
-                            if (x_fixedb > 0)
-                            {
-                                pClut_2d = x_fixedb;
-                                v116 = bHasAllBackClutEntryb;
-                                do
-                                {
-                                    if (v114 > 0)
-                                    {
-                                        v117 = v114;
-                                        do
-                                        {
-                                            *v116 = v168;
-                                            v116 = (WORD *)((char *)v116 + unknown_2);
-                                            --v117;
-                                        } while (v117);
-                                    }
-                                    v116 = &bHasAllBackClutEntryb[vram_pitch / 2u];
-                                    b_height_Remainder_end = pClut_2d == 1;
-                                    bHasAllBackClutEntryb = (WORD *)((char *)bHasAllBackClutEntryb + vram_pitch);
-                                    --pClut_2d;
-                                } while (!b_height_Remainder_end);
-                            }
-                        }
-                        --lut_bb;
-                    } while (lut_bb);
-                }
-                if (v134 > u_height)
-                {
-                    goto LABEL_346;
-                }
-            }                                           // end scaling case ?
+            Scaling_1(
+                xpos_clip,
+                ypos_clip2,
+                width_clip,
+                height_clip,
+                v_width,
+                u_height,
+                width,
+                height,
+                pVramDst2,
+                vram_pitch,
+                pCompressedIter,
+                pClut,
+                unknown_2);
+            
         }
     }
     if (u_height == width && v_width == height_for_v)
