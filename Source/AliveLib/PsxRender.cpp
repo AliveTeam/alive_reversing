@@ -1723,6 +1723,27 @@ static void NoScaling_1(
     }
 }
 
+static inline BYTE Decompress_Next(int& control_byte, unsigned int& dstIdx, WORD*& pCompressed)
+{
+    if (!control_byte)
+    {
+        dstIdx = *(DWORD *)pCompressed;
+        control_byte = 32;
+        pCompressed += 2;
+    }
+    else if (control_byte == 14)
+    {
+        control_byte = 30;
+        dstIdx |= *pCompressed << 14;
+        ++pCompressed;
+    }
+
+    control_byte = control_byte - 6;
+    const BYTE data = dstIdx & 0x3F;
+    dstIdx = dstIdx >> 6;
+    return data;
+}
+
 static void Scaling_1(
     int xpos_clip,
     int ypos_clip,
@@ -1744,31 +1765,24 @@ static void Scaling_1(
     int x_fixedb; // [esp+40h] [ebp-ACh]
     int v_width2 = v_width; // [esp+44h] [ebp-A8h]
     int k; // ecx
-    int control_byte5; // esi
-    int srcCount7; // edx
     int v105; // ecx
-    int srcCount8; // eax
     int l; // ebp
     int control_byte7; // esi
     int srcCount11; // ebp
     int v142; // [esp+2Ch] [ebp-C0h]
     int v134; // [esp+20h] [ebp-CCh]
-    int control_byte6; // esi
-    int srcCount9; // edx
     int v114; // ebp
     int lut_bb; // [esp+5Ch] [ebp-90h]
     int v117; // ecx
     int v115; // edx
     int pClut_2d; // [esp+38h] [ebp-B4h]
     int v121; // ebp
-    int srcCount10; // eax
 
     WORD* v112; // ebp
     WORD* pVramDst5; // [esp+14h] [ebp-D8h]
     WORD* v116; // eax
     WORD* bHasAllBackClutEntryb; // [esp+1Ch] [ebp-D0h]
     WORD* v100; // edx
-    WORD v168; // [esp+64h] [ebp-88h]
 
     bool b_height_Remainder_end; // zf
 
@@ -1830,62 +1844,19 @@ static void Scaling_1(
             k = 0;
             while (k <= u_height)
             {
-                if (control_byte)
-                {
-                    if (control_byte == 14)
-                    {
-                        control_byte = 30;
-                        dstIdx |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    dstIdx = *(DWORD *)pCompressedIter;
-                    control_byte = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte5 = control_byte - 6;
-                srcCount7 = dstIdx & 0x3F;
-                unsigned int srcByte_3 = dstIdx >> 6;
+                const int srcCount7 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                int control_byte5 = control_byte;
+                unsigned int srcByte_3 = dstIdx;
+
                 v105 = srcCount7 + k;
-                if (control_byte5)
-                {
-                    if (control_byte5 == 14)
-                    {
-                        control_byte5 = 30;
-                        srcByte_3 |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    srcByte_3 = *(DWORD *)pCompressedIter;
-                    control_byte5 = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte = control_byte5 - 6;
-                srcCount8 = srcByte_3 & 0x3F;
-                dstIdx = srcByte_3 >> 6;
+
+                int srcCount8 = Decompress_Next(control_byte5, srcByte_3, pCompressedIter);
+                control_byte = control_byte5;
+                dstIdx = srcByte_3;
+
                 for (k = srcCount8 + v105; srcCount8; --srcCount8)
                 {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            dstIdx |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        dstIdx = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte -= 6;
-                    dstIdx >>= 6;
+                    Decompress_Next(control_byte, dstIdx, pCompressedIter);
                 }
             }
             goto LABEL_346;
@@ -1914,86 +1885,31 @@ static void Scaling_1(
             {
                 do
                 {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            dstIdx |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        dstIdx = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte6 = control_byte - 6;
-                    srcCount9 = dstIdx & 0x3F;
-                    unsigned int v120 = dstIdx >> 6;
+                    int srcCount9 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    int control_byte6 = control_byte;
+                    unsigned int v120 = dstIdx;
+
                     v121 = srcCount9 + l;
-                    if (control_byte6)
-                    {
-                        if (control_byte6 == 14)
-                        {
-                            control_byte6 = 30;
-                            v120 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v120 = *(DWORD *)pCompressedIter;
-                        control_byte6 = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte = control_byte6 - 6;
-                    srcCount10 = v120 & 0x3F;
-                    dstIdx = v120 >> 6;
+
+                    int srcCount10 = Decompress_Next(control_byte6, v120, pCompressedIter);
+                    control_byte = control_byte6;
+                    dstIdx = v120;
+
                     for (l = srcCount10 + v121; srcCount10; --srcCount10)
                     {
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                control_byte = 30;
-                                dstIdx |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            dstIdx = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        dstIdx >>= 6;
+                        Decompress_Next(control_byte, dstIdx, pCompressedIter);
                     }
                 } while (l <= u_height);
             }
             goto LABEL_346;
         }
-        if (control_byte)
-        {
-            if (control_byte == 14)
-            {
-                control_byte = 30;
-                dstIdx |= *pCompressedIter << 14;
-                ++pCompressedIter;
-            }
-        }
-        else
-        {
-            dstIdx = *(DWORD *)pCompressedIter;
-            control_byte = 32;
-            pCompressedIter += 2;
-        }
-        control_byte7 = control_byte - 6;
-        srcCount11 = (dstIdx & 0x3F) + v134;
-        unsigned int v111 = dstIdx >> 6;
+
+        int r = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+        control_byte7 = control_byte;
+        srcCount11 = r + v134;
+        unsigned int v111 = dstIdx;
         v134 = srcCount11;
+
         if (unknown_2 == 2)
         {
             if (srcCount11 > (signed int)(signed __int64)v107)
@@ -2022,49 +1938,22 @@ static void Scaling_1(
             goto LABEL_320;
         }
     LABEL_321:
-        if (control_byte7)
-        {
-            if (control_byte7 == 14)
-            {
-                control_byte7 = 30;
-                v111 |= *pCompressedIter << 14;
-                ++pCompressedIter;
-            }
-        }
-        else
-        {
-            v111 = *(DWORD *)pCompressedIter;
-            control_byte7 = 32;
-            pCompressedIter += 2;
-        }
-        control_byte = control_byte7 - 6;
-        unsigned __int8 srcCount12 = v111 & 0x3F;
-        dstIdx = v111 >> 6;
+        unsigned __int8 srcCount12 = Decompress_Next(control_byte7, v111, pCompressedIter);
+
+        control_byte = control_byte7;
+        dstIdx = v111 ;
+
         if (srcCount12)
         {
             lut_bb = srcCount12;
             do
             {
                 bHasAllBackClutEntryb = pVramDst5;
-                if (control_byte)
-                {
-                    if (control_byte == 14)
-                    {
-                        control_byte = 30;
-                        dstIdx |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    dstIdx = *(DWORD *)pCompressedIter;
-                    control_byte = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte -= 6;
+
+                unsigned __int8 srcCount13 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+
                 v114 = 0;
-                unsigned __int8 srcCount13 = dstIdx & 0x3F;
-                for (dstIdx >>= 6; v134 == (unsigned int)(signed __int64)v107; ++v114)
+                for (; v134 == (unsigned int)(signed __int64)v107; ++v114)
                 {
                     v107 = v107 + texture_w_step;
                 }
@@ -2083,7 +1972,7 @@ static void Scaling_1(
                 ++v134;
                 if (v114 > 0)
                 {
-                    v168 = pClut[srcCount13];
+                    const WORD v168 = pClut[srcCount13];
                     if (x_fixedb > 0)
                     {
                         pClut_2d = x_fixedb;
