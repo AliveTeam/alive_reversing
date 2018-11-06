@@ -1749,7 +1749,7 @@ static void Scaling_1(
     int ypos_clip,
     int width_clip,
     int height_clip,
-    int v_width,
+    int v_height,
     int u_height,
     int width,
     int height,
@@ -1757,32 +1757,24 @@ static void Scaling_1(
     signed int vram_pitch, 
     WORD* pCompressedIter,
     WORD* pClut,
-    int unknown_2)
+    int bytesToNextPixel)
 {
-    int curYLine; // ebp
-    int x_fixedb; // [esp+40h] [ebp-ACh]
-    int u_height_counter_2; // ebp
-    int srcCount11; // ebp
-    int width_clip_counter; // [esp+2Ch] [ebp-C0h]
-    int u_height_counter; // [esp+20h] [ebp-CCh]
-    int width_to_write; // ebp
-    int w_to_write_counter; // ecx
-
-    int v115; // edx
-    WORD* v112; // ebp
-    WORD* pVramDst5; // [esp+14h] [ebp-D8h]
-    WORD* bHasAllBackClutEntryb; // [esp+1Ch] [ebp-D0h]
- 
-
-    int control_byte = 0;
-
-    
-    float texture_w_step = (float)u_height / (float)width;
-   
-    if (v_width <= 0)
+    if (v_height <= 0)
     {
         return;
     }
+
+    int yDuplicateCount; // [esp+40h] [ebp-ACh]
+    int u_height_counter_2; // ebp
+    int width_clip_counter; // [esp+2Ch] [ebp-C0h]
+    int u_height_counter; // [esp+20h] [ebp-CCh]
+
+    WORD* v112; // ebp
+    WORD* pVramDst5; // [esp+14h] [ebp-D8h]
+
+    int control_byte = 0;
+
+    float texture_w_step = (float)u_height / (float)width;
 
     unsigned int dstIdx = 0;
     int v_width2_counter = 0;
@@ -1798,19 +1790,20 @@ static void Scaling_1(
             return;
         }
 
-        curYLine = 0;
+        int curYLine = 0;
         pVramDst5 = pVramDst;
-        x_fixedb = 0;
-        if (v_width2_counter == (unsigned int)(signed __int64)v_pos)
+        yDuplicateCount = 0;
+
+        if (v_width2_counter == static_cast<int>(v_pos))
         {
             do
             {
-                float v96 = (float)v_width / (float)height;
-                v_pos = v_pos + v96;
+                float texture_h_step = (float)v_height / (float)height;
+                v_pos += texture_h_step;
                 ++curYLine;
-                pVramDst = (WORD *)((char *)pVramDst + vram_pitch);
-            } while (v_width2_counter == (unsigned int)(signed __int64)v_pos);
-            x_fixedb = curYLine;
+                pVramDst += (vram_pitch / sizeof(WORD));
+            } while (v_width2_counter == static_cast<int>(v_pos));
+            yDuplicateCount = curYLine;
         }
 
         ySkipCounter += curYLine;
@@ -1820,13 +1813,13 @@ static void Scaling_1(
             WORD* v100 = (WORD *)((char *)pVramDst5 + vram_pitch * (ypos_clip + curYLine - ySkipCounter));
             curYLine = ySkipCounter - ypos_clip;
             pVramDst5 = v100;
-            x_fixedb = ySkipCounter - ypos_clip;
+            yDuplicateCount = ySkipCounter - ypos_clip;
         }
 
         if (ySkipCounter > height_clip)
         {
             curYLine += height_clip - ySkipCounter;
-            x_fixedb = curYLine;
+            yDuplicateCount = curYLine;
         }
 
         if (curYLine <= 0)
@@ -1859,7 +1852,7 @@ static void Scaling_1(
 
     LABEL_346:
 
-        if (++v_width2_counter >= v_width)
+        if (++v_width2_counter >= v_height)
         {
             return;
         }
@@ -1891,58 +1884,61 @@ static void Scaling_1(
         }
 
         int blackLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-        srcCount11 = blackLengthCount + u_height_counter;
-        u_height_counter = srcCount11;
+        int totalLineWidth = blackLengthCount + u_height_counter;
+        u_height_counter = totalLineWidth;
 
-        if (unknown_2 == 2)
+        if (bytesToNextPixel == 2)
         {
-            if (srcCount11 > (signed int)(signed __int64)u_pos)
+            // Left to right
+            if (totalLineWidth > static_cast<int>(u_pos))
             {
                 v112 = pVramDst5;
                 do
                 {
-                    u_pos = u_pos + texture_w_step;
+                    u_pos += texture_w_step;
                     ++v112;
                     ++width_clip_counter;
-                } while (u_height_counter > (signed int)(signed __int64)u_pos);
+                } while (u_height_counter > static_cast<int>(u_pos));
             LABEL_320:
                 pVramDst5 = v112;
                 goto LABEL_321;
             }
         }
-        else if (srcCount11 > (signed int)(signed __int64)u_pos)
+        else if (totalLineWidth > static_cast<int>(u_pos))
         {
+            // Right to left
             v112 = pVramDst5;
             do
             {
-                u_pos = u_pos + texture_w_step;
+                u_pos += texture_w_step;
                 --v112;
                 ++width_clip_counter;
-            } while (u_height_counter > (signed int)(signed __int64)u_pos);
+            } while (u_height_counter > static_cast<int>(u_pos));
             goto LABEL_320;
         }
 
     LABEL_321:
-        unsigned __int8 runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
+        unsigned __int8 runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
         for (int bb = 0; bb < runLengthCopyCount; bb++)
         {
-            bHasAllBackClutEntryb = pVramDst5;
+            WORD* bHasAllBackClutEntryb = pVramDst5;
 
             unsigned __int8 decompressed_byte = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
-            width_to_write = 0;
-            for (; u_height_counter == (unsigned int)(signed __int64)u_pos; ++width_to_write)
+            int width_to_write = 0;
+            while (u_height_counter == static_cast<int>(u_pos))
             {
-                u_pos = u_pos + texture_w_step;
+                u_pos += texture_w_step;
+                width_to_write++;
             }
 
-            pVramDst5 = (WORD *)((char *)pVramDst5 + unknown_2 * width_to_write);
+            pVramDst5 = (WORD *)((char *)pVramDst5 + bytesToNextPixel * width_to_write);
             width_clip_counter += width_to_write;
 
             if (width_to_write > width_clip_counter - xpos_clip)
             {
-                v115 = (int)bHasAllBackClutEntryb + unknown_2 * (xpos_clip + width_to_write - width_clip_counter);
+                int v115 = (int)bHasAllBackClutEntryb + bytesToNextPixel * (xpos_clip + width_to_write - width_clip_counter);
                 width_to_write = width_clip_counter - xpos_clip;
                 bHasAllBackClutEntryb = (WORD *)v115;
             }
@@ -1954,25 +1950,20 @@ static void Scaling_1(
 
             ++u_height_counter;
 
+            // Write out the scanline to vram
             if (width_to_write > 0)
             {
                 const WORD clut_pixel = pClut[decompressed_byte];
-                WORD* v116 = bHasAllBackClutEntryb;
-
-                for (int aa = 0; aa < x_fixedb; aa++)
+                WORD* pDstVRamLine = bHasAllBackClutEntryb;
+                for (int aa = 0; aa < yDuplicateCount; aa++)
                 {
-                    if (width_to_write > 0)
+                    for (int ww = 0; ww < width_to_write; ww++)
                     {
-                        w_to_write_counter = width_to_write;
-                        do
-                        {
-                            *v116 = clut_pixel;
-                            v116 = (WORD *)((char *)v116 + unknown_2);
-                            --w_to_write_counter;
-                        } while (w_to_write_counter);
+                        *pDstVRamLine = clut_pixel;
+                        pDstVRamLine += (bytesToNextPixel / sizeof(WORD));
                     }
-                    v116 = &bHasAllBackClutEntryb[vram_pitch / 2u];
-                    bHasAllBackClutEntryb = (WORD *)((char *)bHasAllBackClutEntryb + vram_pitch);
+                    pDstVRamLine = &bHasAllBackClutEntryb[vram_pitch / sizeof(WORD)];
+                    bHasAllBackClutEntryb = pDstVRamLine;
                 }
             }
         }
@@ -2553,7 +2544,7 @@ idx_over_64:
     {
         v162 = 0;                                     // start scaling case
         x_fixeda = 0;
-        clut_iter2c = (double)u_height / (double)width;
+        clut_iter2c = (float)u_height / (float)width;
         v47 = 0.0;
         if (v_width <= 0)
         {
@@ -2569,15 +2560,15 @@ idx_over_64:
             v49 = 0;
             v126 = (char *)pVramDst2;
             v158 = 0;
-            if (x_fixeda == (unsigned int)(signed __int64)v47)
+            if (x_fixeda == static_cast<int>(v47))
             {
                 do
                 {
-                    v46 = (double)v_width2 / (double)height;
+                    v46 = (float)v_width2 / (float)height;
                     v47 = v47 + v46;
                     ++v49;
                     pVramDst2 = (WORD *)((char *)pVramDst2 + vram_pitch);
-                } while (x_fixeda == (unsigned int)(signed __int64)v47);
+                } while (x_fixeda == static_cast<int>(v47));
                 v158 = v49;
             }
             v162 += v49;
@@ -2761,7 +2752,7 @@ idx_over_64:
                         control_byte -= 6;
                         v64 = 0;
                         srcCount25 = v48 & 0x3F;
-                        for (v48 >>= 6; v133 == (unsigned int)(signed __int64)v57; ++v64)
+                        for (v48 >>= 6; v133 == static_cast<float>(v57); ++v64)
                         {
                             v57 = v57 + clut_iter2c;
                         }
