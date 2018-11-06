@@ -1750,7 +1750,7 @@ static void Scaling_1(
     int width_clip,
     int height_clip,
     int v_height,
-    int u_height,
+    int u_width,
     int width,
     int height,
     WORD* pVramDst, 
@@ -1773,14 +1773,14 @@ static void Scaling_1(
 
     int control_byte = 0;
 
-    float texture_w_step = (float)u_height / (float)width;
+    const float texture_w_step = (float)u_width / (float)width;
+    const float texture_h_step = (float)v_height / (float)height;
 
     unsigned int dstIdx = 0;
     int v_width2_counter = 0;
     float v_pos = 0.0f;
     float u_pos = 0.0f;
 
-    // 1st loop - skip to "correct" start of compressed data ?
     int ySkipCounter = 0;
     while (1)
     {
@@ -1793,17 +1793,14 @@ static void Scaling_1(
         pVramDst5 = pVramDst;
         yDuplicateCount = 0;
 
-        if (v_width2_counter == static_cast<int>(v_pos))
+        while (v_width2_counter == static_cast<int>(v_pos))
         {
-            do
-            {
-                float texture_h_step = (float)v_height / (float)height;
-                v_pos += texture_h_step;
-                ++curYLine;
-                pVramDst += (vram_pitch / sizeof(WORD));
-            } while (v_width2_counter == static_cast<int>(v_pos));
-            yDuplicateCount = curYLine;
+            v_pos += texture_h_step;
+            ++curYLine;
+            pVramDst += (vram_pitch / sizeof(WORD));
+
         }
+        yDuplicateCount = curYLine;
 
         ySkipCounter += curYLine;
 
@@ -1824,9 +1821,9 @@ static void Scaling_1(
         if (curYLine <= 0)
         {
             int u_skip_counter = 0;
-            while (u_skip_counter <= u_height)
+            while (u_skip_counter <= u_width)
             {
-                int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter) + u_skip_counter;
+                const int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter) + u_skip_counter;
                 int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
                 u_skip_counter = runLengthCount + blackPixelCount;
@@ -1844,120 +1841,111 @@ static void Scaling_1(
             u_pos = 0.0f;
             u_height_counter = 0;
 
-            if (u_height >= 0)
+            if (u_width >= 0)
             {
-                break;
+                while (1)
+                {
+                    u_height_counter_2 = u_height_counter;
+                    if (width_clip_counter >= width_clip)
+                    {
+                        if (u_height_counter <= u_width)
+                        {
+                            do
+                            {
+                                int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                                int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+
+                                u_height_counter_2 += runLengthCount + blackPixelCount;
+
+                                while (runLengthCount > 0)
+                                {
+                                    Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                                    runLengthCount--;
+                                }
+                            } while (u_height_counter_2 <= u_width);
+                        }
+                        break;
+                    }
+                    const int blackLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    const int totalWidthBytes = blackLengthCount + u_height_counter;
+                    u_height_counter = totalWidthBytes;
+
+                    while (totalWidthBytes > static_cast<int>(u_pos))
+                    {
+                        if (bytesToNextPixel == 2)
+                        {
+                            // Left to right
+                            pVramDst5++;
+                        }
+                        else
+                        {
+                            // Right to left
+                            pVramDst5--;
+                        }
+                        u_pos += texture_w_step;
+                        width_clip_counter++;
+                    }
+
+                    BYTE runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    for (int bb = 0; bb < runLengthCopyCount; bb++)
+                    {
+                        WORD* bHasAllBackClutEntryb = pVramDst5;
+
+                        BYTE decompressed_byte = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+
+                        int width_to_write = 0;
+                        while (u_height_counter == static_cast<int>(u_pos))
+                        {
+                            u_pos += texture_w_step;
+                            width_to_write++;
+                        }
+
+                        pVramDst5 = (WORD *)((char *)pVramDst5 + bytesToNextPixel * width_to_write);
+                        width_clip_counter += width_to_write;
+
+                        if (width_to_write > width_clip_counter - xpos_clip)
+                        {
+                            int v115 = (int)bHasAllBackClutEntryb + bytesToNextPixel * (xpos_clip + width_to_write - width_clip_counter);
+                            width_to_write = width_clip_counter - xpos_clip;
+                            bHasAllBackClutEntryb = (WORD *)v115;
+                        }
+
+                        if (width_clip_counter > width_clip)
+                        {
+                            width_to_write += width_clip - width_clip_counter;
+                        }
+
+                        ++u_height_counter;
+
+                        // Write out the scanline to vram
+                        if (width_to_write > 0)
+                        {
+                            const WORD clut_pixel = pClut[decompressed_byte];
+                            WORD* pDstVRamLine = bHasAllBackClutEntryb;
+                            for (int aa = 0; aa < yDuplicateCount; aa++)
+                            {
+                                for (int ww = 0; ww < width_to_write; ww++)
+                                {
+                                    *pDstVRamLine = clut_pixel;
+                                    pDstVRamLine += (bytesToNextPixel / sizeof(WORD));
+                                }
+                                pDstVRamLine = &bHasAllBackClutEntryb[vram_pitch / sizeof(WORD)];
+                                bHasAllBackClutEntryb = pDstVRamLine;
+                            }
+                        }
+                    }
+
+                    if (u_height_counter > u_width)
+                    {
+                        break;
+                    }
+                }
             }
         }
-
-    loop1_ender:
 
         if (++v_width2_counter >= v_height)
         {
             return;
-        }
-    }
-
-    // 2nd loop
-    while (1)
-    {
-        u_height_counter_2 = u_height_counter;
-        if (width_clip_counter >= width_clip)
-        {
-            if (u_height_counter <= u_height)
-            {
-                do
-                {
-                    int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                    int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-
-                    u_height_counter_2 += runLengthCount + blackPixelCount;
-
-                    while (runLengthCount > 0)
-                    {
-                        Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                        runLengthCount--;
-                    }
-                } while (u_height_counter_2 <= u_height);
-            }
-            goto loop1_ender;
-        }
-
-        int blackLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-        int totalLineWidth = blackLengthCount + u_height_counter;
-        u_height_counter = totalLineWidth;
-
-        if (totalLineWidth > static_cast<int>(u_pos))
-        {
-            do
-            {
-                if (bytesToNextPixel == 2)
-                {
-                    // Left to right
-                    pVramDst5++;
-                }
-                else
-                {
-                    // Right to left
-                    pVramDst5--;
-                }
-                u_pos += texture_w_step;
-                width_clip_counter++;
-            } while (u_height_counter > static_cast<int>(u_pos));
-        }
-
-        unsigned __int8 runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-        for (int bb = 0; bb < runLengthCopyCount; bb++)
-        {
-            WORD* bHasAllBackClutEntryb = pVramDst5;
-
-            unsigned __int8 decompressed_byte = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-
-            int width_to_write = 0;
-            while (u_height_counter == static_cast<int>(u_pos))
-            {
-                u_pos += texture_w_step;
-                width_to_write++;
-            }
-
-            pVramDst5 = (WORD *)((char *)pVramDst5 + bytesToNextPixel * width_to_write);
-            width_clip_counter += width_to_write;
-
-            if (width_to_write > width_clip_counter - xpos_clip)
-            {
-                int v115 = (int)bHasAllBackClutEntryb + bytesToNextPixel * (xpos_clip + width_to_write - width_clip_counter);
-                width_to_write = width_clip_counter - xpos_clip;
-                bHasAllBackClutEntryb = (WORD *)v115;
-            }
-
-            if (width_clip_counter > width_clip)
-            {
-                width_to_write += width_clip - width_clip_counter;
-            }
-
-            ++u_height_counter;
-
-            // Write out the scanline to vram
-            if (width_to_write > 0)
-            {
-                const WORD clut_pixel = pClut[decompressed_byte];
-                WORD* pDstVRamLine = bHasAllBackClutEntryb;
-                for (int aa = 0; aa < yDuplicateCount; aa++)
-                {
-                    for (int ww = 0; ww < width_to_write; ww++)
-                    {
-                        *pDstVRamLine = clut_pixel;
-                        pDstVRamLine += (bytesToNextPixel / sizeof(WORD));
-                    }
-                    pDstVRamLine = &bHasAllBackClutEntryb[vram_pitch / sizeof(WORD)];
-                    bHasAllBackClutEntryb = pDstVRamLine;
-                }
-            }
-        }
-
-        if (u_height_counter > u_height)
-        {
-            goto loop1_ender;
         }
     }
 }
