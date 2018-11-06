@@ -1845,14 +1845,10 @@ static void Scaling_1(
             while (k <= u_height)
             {
                 const int srcCount7 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                int control_byte5 = control_byte;
-                unsigned int srcByte_3 = dstIdx;
-
+             
                 v105 = srcCount7 + k;
 
-                int srcCount8 = Decompress_Next(control_byte5, srcByte_3, pCompressedIter);
-                control_byte = control_byte5;
-                dstIdx = srcByte_3;
+                int srcCount8 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
                 for (k = srcCount8 + v105; srcCount8; --srcCount8)
                 {
@@ -1886,14 +1882,10 @@ static void Scaling_1(
                 do
                 {
                     int srcCount9 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                    int control_byte6 = control_byte;
-                    unsigned int v120 = dstIdx;
 
                     v121 = srcCount9 + l;
 
-                    int srcCount10 = Decompress_Next(control_byte6, v120, pCompressedIter);
-                    control_byte = control_byte6;
-                    dstIdx = v120;
+                    int srcCount10 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
                     for (l = srcCount10 + v121; srcCount10; --srcCount10)
                     {
@@ -1972,7 +1964,7 @@ static void Scaling_1(
                 ++v134;
                 if (v114 > 0)
                 {
-                    const WORD v168 = pClut[srcCount13];
+                    const WORD clut_pixel = pClut[srcCount13];
                     if (x_fixedb > 0)
                     {
                         pClut_2d = x_fixedb;
@@ -1984,7 +1976,7 @@ static void Scaling_1(
                                 v117 = v114;
                                 do
                                 {
-                                    *v116 = v168;
+                                    *v116 = clut_pixel;
                                     v116 = (WORD *)((char *)v116 + unknown_2);
                                     --v117;
                                 } while (v117);
