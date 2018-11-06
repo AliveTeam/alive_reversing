@@ -1764,21 +1764,14 @@ static void Scaling_1(
         return;
     }
 
-    int yDuplicateCount; // [esp+40h] [ebp-ACh]
-    int u_height_counter_2; // ebp
-    int width_clip_counter; // [esp+2Ch] [ebp-C0h]
-    int u_height_counter; // [esp+20h] [ebp-CCh]
-
-    WORD* pVramDst5; // [esp+14h] [ebp-D8h]
-
-    int control_byte = 0;
-
     const float texture_w_step = (float)u_width / (float)width;
     const float texture_h_step = (float)v_height / (float)height;
 
-    unsigned int dstIdx = 0;
     float v_pos = 0.0f;
     float u_pos = 0.0f;
+
+    int control_byte = 0;
+    unsigned int dstIdx = 0;
 
     int ySkipCounter = 0;
     for (int v_width2_counter = 0; v_width2_counter < v_height; v_width2_counter++)
@@ -1789,8 +1782,8 @@ static void Scaling_1(
         }
 
         int curYLine = 0;
-        pVramDst5 = pVramDst;
-        yDuplicateCount = 0;
+        WORD* pVramDst5 = pVramDst;
+        int yDuplicateCount = 0;
 
         while (v_width2_counter == static_cast<int>(v_pos))
         {
@@ -1817,34 +1810,17 @@ static void Scaling_1(
             yDuplicateCount = curYLine;
         }
 
-        if (curYLine <= 0)
+        if (curYLine > 0)
         {
-            int u_skip_counter = 0;
-            while (u_skip_counter <= u_width)
-            {
-                const int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter) + u_skip_counter;
-                int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-
-                u_skip_counter = runLengthCount + blackPixelCount;
-
-                while (runLengthCount > 0)
-                {
-                    Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                    runLengthCount--;
-                }
-            }
-        }
-        else
-        {
-            width_clip_counter = 0;
+            int width_clip_counter = 0;
             u_pos = 0.0f;
-            u_height_counter = 0;
+            int u_height_counter = 0;
 
             if (u_width >= 0)
             {
                 while (1)
                 {
-                    u_height_counter_2 = u_height_counter;
+                    int u_height_counter_2 = u_height_counter;
                     if (width_clip_counter >= width_clip)
                     {
                         if (u_height_counter <= u_width)
@@ -1938,6 +1914,24 @@ static void Scaling_1(
                     {
                         break;
                     }
+                }
+            }
+        }
+        else
+        {
+            // Skip lines
+            int u_skip_counter = 0;
+            while (u_skip_counter <= u_width)
+            {
+                const int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter) + u_skip_counter;
+                int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+
+                u_skip_counter = runLengthCount + blackPixelCount;
+
+                while (runLengthCount > 0)
+                {
+                    Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    runLengthCount--;
                 }
             }
         }
