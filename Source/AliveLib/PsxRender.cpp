@@ -1769,7 +1769,6 @@ static void Scaling_1(
     int width_clip_counter; // [esp+2Ch] [ebp-C0h]
     int u_height_counter; // [esp+20h] [ebp-CCh]
 
-    WORD* v112; // ebp
     WORD* pVramDst5; // [esp+14h] [ebp-D8h]
 
     int control_byte = 0;
@@ -1888,32 +1887,23 @@ static void Scaling_1(
         int totalLineWidth = blackLengthCount + u_height_counter;
         u_height_counter = totalLineWidth;
 
-        if (bytesToNextPixel == 2)
+        if (totalLineWidth > static_cast<int>(u_pos))
         {
-            // Left to right
-            if (totalLineWidth > static_cast<int>(u_pos))
-            {
-                v112 = pVramDst5;
-                do
-                {
-                    u_pos += texture_w_step;
-                    ++v112;
-                    ++width_clip_counter;
-                } while (u_height_counter > static_cast<int>(u_pos));
-                pVramDst5 = v112;
-            }
-        }
-        else if (totalLineWidth > static_cast<int>(u_pos))
-        {
-            // Right to left
-            v112 = pVramDst5;
             do
             {
+                if (bytesToNextPixel == 2)
+                {
+                    // Left to right
+                    pVramDst5++;
+                }
+                else
+                {
+                    // Right to left
+                    pVramDst5--;
+                }
                 u_pos += texture_w_step;
-                --v112;
-                ++width_clip_counter;
+                width_clip_counter++;
             } while (u_height_counter > static_cast<int>(u_pos));
-            pVramDst5 = v112;
         }
 
         unsigned __int8 runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
