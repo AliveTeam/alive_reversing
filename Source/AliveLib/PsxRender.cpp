@@ -1838,19 +1838,20 @@ static void Scaling_1(
                     runLengthCount--;
                 }
             }
-            goto LABEL_346;
         }
-
-        width_clip_counter = 0;
-        u_pos = 0.0f;
-        u_height_counter = 0;
-
-        if (u_height >= 0)
+        else
         {
-            break;
+            width_clip_counter = 0;
+            u_pos = 0.0f;
+            u_height_counter = 0;
+
+            if (u_height >= 0)
+            {
+                break;
+            }
         }
 
-    LABEL_346:
+    loop1_ender:
 
         if (++v_width2_counter >= v_height)
         {
@@ -1880,7 +1881,7 @@ static void Scaling_1(
                     }
                 } while (u_height_counter_2 <= u_height);
             }
-            goto LABEL_346;
+            goto loop1_ender;
         }
 
         int blackLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
@@ -1899,9 +1900,7 @@ static void Scaling_1(
                     ++v112;
                     ++width_clip_counter;
                 } while (u_height_counter > static_cast<int>(u_pos));
-            LABEL_320:
                 pVramDst5 = v112;
-                goto LABEL_321;
             }
         }
         else if (totalLineWidth > static_cast<int>(u_pos))
@@ -1914,10 +1913,8 @@ static void Scaling_1(
                 --v112;
                 ++width_clip_counter;
             } while (u_height_counter > static_cast<int>(u_pos));
-            goto LABEL_320;
+            pVramDst5 = v112;
         }
-
-    LABEL_321:
 
         unsigned __int8 runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
         for (int bb = 0; bb < runLengthCopyCount; bb++)
@@ -1970,7 +1967,7 @@ static void Scaling_1(
 
         if (u_height_counter > u_height)
         {
-            goto LABEL_346;
+            goto loop1_ender;
         }
     }
 }
