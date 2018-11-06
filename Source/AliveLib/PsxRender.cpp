@@ -1786,9 +1786,8 @@ static void Scaling_1(
 
     unsigned int dstIdx = 0;
     int v_width2_counter = 0;
-    float v97 = 0.0f;
-
-    float v107 = 0.0f;
+    float v_pos = 0.0f;
+    float u_pos = 0.0f;
 
     // 1st loop - skip to "correct" start of compressed data ?
     int ySkipCounter = 0;
@@ -1802,15 +1801,15 @@ static void Scaling_1(
         curYLine = 0;
         pVramDst5 = pVramDst;
         x_fixedb = 0;
-        if (v_width2_counter == (unsigned int)(signed __int64)v97)
+        if (v_width2_counter == (unsigned int)(signed __int64)v_pos)
         {
             do
             {
                 float v96 = (float)v_width / (float)height;
-                v97 = v97 + v96;
+                v_pos = v_pos + v96;
                 ++curYLine;
                 pVramDst = (WORD *)((char *)pVramDst + vram_pitch);
-            } while (v_width2_counter == (unsigned int)(signed __int64)v97);
+            } while (v_width2_counter == (unsigned int)(signed __int64)v_pos);
             x_fixedb = curYLine;
         }
 
@@ -1850,7 +1849,7 @@ static void Scaling_1(
         }
 
         width_clip_counter = 0;
-        v107 = 0.0f;
+        u_pos = 0.0f;
         u_height_counter = 0;
 
         if (u_height >= 0)
@@ -1876,111 +1875,106 @@ static void Scaling_1(
             {
                 do
                 {
-                    int srcCount9 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
-                    int v121 = srcCount9 + u_height_counter_2;
+                    u_height_counter_2 += runLengthCount + blackPixelCount;
 
-                    int srcCount10 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-
-                    for (u_height_counter_2 = srcCount10 + v121; srcCount10; --srcCount10)
+                    while (runLengthCount > 0)
                     {
                         Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                        runLengthCount--;
                     }
                 } while (u_height_counter_2 <= u_height);
             }
             goto LABEL_346;
         }
 
-        int r = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-        srcCount11 = r + u_height_counter;
+        int blackLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+        srcCount11 = blackLengthCount + u_height_counter;
         u_height_counter = srcCount11;
 
         if (unknown_2 == 2)
         {
-            if (srcCount11 > (signed int)(signed __int64)v107)
+            if (srcCount11 > (signed int)(signed __int64)u_pos)
             {
                 v112 = pVramDst5;
                 do
                 {
-                    v107 = v107 + texture_w_step;
+                    u_pos = u_pos + texture_w_step;
                     ++v112;
                     ++width_clip_counter;
-                } while (u_height_counter > (signed int)(signed __int64)v107);
+                } while (u_height_counter > (signed int)(signed __int64)u_pos);
             LABEL_320:
                 pVramDst5 = v112;
                 goto LABEL_321;
             }
         }
-        else if (srcCount11 > (signed int)(signed __int64)v107)
+        else if (srcCount11 > (signed int)(signed __int64)u_pos)
         {
             v112 = pVramDst5;
             do
             {
-                v107 = v107 + texture_w_step;
+                u_pos = u_pos + texture_w_step;
                 --v112;
                 ++width_clip_counter;
-            } while (u_height_counter > (signed int)(signed __int64)v107);
+            } while (u_height_counter > (signed int)(signed __int64)u_pos);
             goto LABEL_320;
         }
 
     LABEL_321:
-        unsigned __int8 srcCount12 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+        unsigned __int8 runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
-        if (srcCount12)
+        for (int bb = 0; bb < runLengthCopyCount; bb++)
         {
-            int srcCount12_counter = srcCount12;
-            do
+            bHasAllBackClutEntryb = pVramDst5;
+
+            unsigned __int8 decompressed_byte = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+
+            width_to_write = 0;
+            for (; u_height_counter == (unsigned int)(signed __int64)u_pos; ++width_to_write)
             {
-                bHasAllBackClutEntryb = pVramDst5;
+                u_pos = u_pos + texture_w_step;
+            }
 
-                unsigned __int8 srcCount13 = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+            pVramDst5 = (WORD *)((char *)pVramDst5 + unknown_2 * width_to_write);
+            width_clip_counter += width_to_write;
 
-                width_to_write = 0;
-                for (; u_height_counter == (unsigned int)(signed __int64)v107; ++width_to_write)
-                {
-                    v107 = v107 + texture_w_step;
-                }
-                
-                pVramDst5 = (WORD *)((char *)pVramDst5 + unknown_2 * width_to_write);
-                width_clip_counter += width_to_write;
-                
-                if (width_to_write > width_clip_counter - xpos_clip)
-                {
-                    v115 = (int)bHasAllBackClutEntryb + unknown_2 * (xpos_clip + width_to_write - width_clip_counter);
-                    width_to_write = width_clip_counter - xpos_clip;
-                    bHasAllBackClutEntryb = (WORD *)v115;
-                }
-                
-                if (width_clip_counter > width_clip)
-                {
-                    width_to_write += width_clip - width_clip_counter;
-                }
-                
-                ++u_height_counter;
+            if (width_to_write > width_clip_counter - xpos_clip)
+            {
+                v115 = (int)bHasAllBackClutEntryb + unknown_2 * (xpos_clip + width_to_write - width_clip_counter);
+                width_to_write = width_clip_counter - xpos_clip;
+                bHasAllBackClutEntryb = (WORD *)v115;
+            }
 
-                if (width_to_write > 0)
-                {
-                    const WORD clut_pixel = pClut[srcCount13];
-                    WORD* v116 = bHasAllBackClutEntryb;
+            if (width_clip_counter > width_clip)
+            {
+                width_to_write += width_clip - width_clip_counter;
+            }
 
-                    for (int aa = 0; aa < x_fixedb; aa++)
+            ++u_height_counter;
+
+            if (width_to_write > 0)
+            {
+                const WORD clut_pixel = pClut[decompressed_byte];
+                WORD* v116 = bHasAllBackClutEntryb;
+
+                for (int aa = 0; aa < x_fixedb; aa++)
+                {
+                    if (width_to_write > 0)
                     {
-                        if (width_to_write > 0)
+                        w_to_write_counter = width_to_write;
+                        do
                         {
-                            w_to_write_counter = width_to_write;
-                            do
-                            {
-                                *v116 = clut_pixel;
-                                v116 = (WORD *)((char *)v116 + unknown_2);
-                                --w_to_write_counter;
-                            } while (w_to_write_counter);
-                        }
-                        v116 = &bHasAllBackClutEntryb[vram_pitch / 2u];
-                        bHasAllBackClutEntryb = (WORD *)((char *)bHasAllBackClutEntryb + vram_pitch);
+                            *v116 = clut_pixel;
+                            v116 = (WORD *)((char *)v116 + unknown_2);
+                            --w_to_write_counter;
+                        } while (w_to_write_counter);
                     }
+                    v116 = &bHasAllBackClutEntryb[vram_pitch / 2u];
+                    bHasAllBackClutEntryb = (WORD *)((char *)bHasAllBackClutEntryb + vram_pitch);
                 }
-                --srcCount12_counter;
-            } while (srcCount12_counter);
+            }
         }
 
         if (u_height_counter > u_height)
