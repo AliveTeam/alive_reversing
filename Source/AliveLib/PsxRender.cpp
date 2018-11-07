@@ -1403,6 +1403,7 @@ static inline BYTE Decompress_Next(int& control_byte, unsigned int& dstIdx, cons
     return data;
 }
 
+template<class TfnWritePixel, class TfnConvertPixel>
 static void Scaled_Poly_FT4_Inline_Texture_Render(
     int xpos_clip,
     int ypos_clip,
@@ -1417,7 +1418,8 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     const WORD* pCompressedIter,
     const WORD* pClut,
     int bytesToNextPixel,
-    bool skipBlackPixels)
+    TfnWritePixel fnWritePixel,
+    TfnConvertPixel fnConvertPixel)
 {
     if (v_height <= 0)
     {
@@ -1557,21 +1559,15 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
                         if (width_to_write > 0)
                         {
                             const WORD clut_pixel = pClut[decompressed_byte]; // Note: Clut data is already "converted"
-                            
-                            bool skipPixel = false;
-                            if (skipBlackPixels && clut_pixel == 0)
-                            {
-                                skipPixel = true;
-                            }
-
-                            if (!skipPixel)
+                            if (fnWritePixel(clut_pixel))
                             {
                                 WORD* pDstVRamLine = pVramXOff;
                                 for (int yLinesToWrite = 0; yLinesToWrite < yDuplicateCount; yLinesToWrite++)
                                 {
                                     for (int widthPixelsToWrite = 0; widthPixelsToWrite < width_to_write; widthPixelsToWrite++)
                                     {
-                                        *pDstVRamLine = clut_pixel;
+                                        const WORD converted_pixel = fnConvertPixel(clut_pixel, *pDstVRamLine);
+                                        *pDstVRamLine = converted_pixel;
                                         pDstVRamLine += (bytesToNextPixel / sizeof(WORD));
                                     }
                                     pDstVRamLine = &pVramXOff[vram_pitch / sizeof(WORD)];
@@ -1604,7 +1600,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     }
 }
 
-EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, int height, const void* pData)
+static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int height, const void* pData)
 {
     WORD clut_local[64] = {};
 
@@ -1644,14 +1640,9 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
             }
             else
             {
-                WORD clut_entry = pClut[i];
-                WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
-                clut_pixel |= 0x20;
-                if (!clut_pixel)
-                {
-                    skipBlackPixels = 0;
-                }
-                clut_local[i] = clut_pixel;
+                const WORD clut_entry = pClut[i];
+                const WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
+                clut_local[i] = clut_pixel | 0x20;
             }
         }
 
@@ -1686,7 +1677,7 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
     }
 
     WORD* pVramStartPos = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * polyXPos + polyYPos * spBitmap_C2D038->field_10_locked_pitch);
-  
+
     int u_height = pPrim->field_14_verts[2].field_14_u - pPrim->field_14_verts[0].field_14_u;
     int v_width = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
 
@@ -1739,7 +1730,26 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
         pCompressedIter,
         pClut,
         bytesToNextPixel,
-        skipBlackPixels > 0);
+        [&](WORD clut_value)
+    {
+        if (skipBlackPixels && clut_value == 0)
+        {
+            // Don't write this pixel
+            return false;
+        }
+        return true;
+    },
+        [](WORD clut_value, WORD /*vram_value*/)
+    {
+        // No conversion required
+        return clut_value;
+    }
+    );
+}
+
+EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, int height, const void* pData)
+{
+    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pData);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int height, const void* pCompressedData)
