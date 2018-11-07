@@ -1382,347 +1382,6 @@ EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* pPrim, 
     return 0;
 }
 
-static void NoScaling_1(
-    WORD* pClut,
-    int xpos_clip,
-    int ypos_clip, 
-    int width_clip,
-    int height_clip,
-    WORD* pCompressedIter,
-    WORD* pVramDst2,
-    signed int vram_pitch,
-    int u_height, 
-    signed int unknown_2)
-
-{
-    int ypos_iter1; // ebx
-    unsigned int dstIndex; // eax
-
-    int ypos_clip_counter; // [esp+38h] [ebp-B4h]
-    int h_counter; // edx
-    int control_byte = 0; // esi
-    int control_byte2; // esi
-    int srcCount; // ecx
-    unsigned int srcByte; // eax
-    int v79; // edx
-    int srcCount1; // ecx
-    signed int v82; // ebx
-    int height_remainder_counter; // [esp+38h] [ebp-B4h]
-    WORD *pVramDst3; // edx
-    int j; // ebp
-    int control_byte3; // esi
-    int srcCount2; // ecx
-    unsigned int srcByte_1; // eax
-    int xpos_clip_counter; // ebp
-    int srcCount3; // ecx
-    WORD *pVramDst4; // [esp+14h] [ebp-D8h]
-    int srcCount4; // edx
-    int control_byte4; // esi
-    int srcCount5; // ecx
-    unsigned int srcByte_2; // eax
-    int v94; // ebp
-    int srcCount6; // ecx
-    bool b_height_Remainder_end; // zf
-    int height_remainder; // ecx
-
-
-    ypos_iter1 = 0;
-    if (ypos_clip <= 0)
-    {
-        dstIndex = 0;
-    }
-    else
-    {
-        dstIndex = 0;
-        ypos_clip_counter = ypos_clip;
-        pVramDst2 = (WORD *)((char *)pVramDst2 + ypos_clip * vram_pitch);
-        ypos_iter1 = ypos_clip;
-        do                                      // skip y compressed lines ?
-        {
-            h_counter = 0;
-            while (h_counter <= u_height)
-            {
-                if (control_byte)
-                {
-                    if (control_byte == 14)
-                    {
-                        control_byte = 30;
-                        dstIndex |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    dstIndex = *(DWORD *)pCompressedIter;
-                    control_byte = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte2 = control_byte - 6;
-                srcCount = dstIndex & 0x3F;
-                srcByte = dstIndex >> 6;
-
-                v79 = srcCount + h_counter;
-                if (control_byte2)
-                {
-                    if (control_byte2 == 14)
-                    {
-                        control_byte2 = 30;
-                        srcByte |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    srcByte = *(DWORD *)pCompressedIter;
-                    control_byte2 = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte = control_byte2 - 6;
-                srcCount1 = srcByte & 0x3F;
-                dstIndex = srcByte >> 6;
-                for (h_counter = srcCount1 + v79; srcCount1; --srcCount1)
-                {
-
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            dstIndex |= *pCompressedIter << 14;
-                            control_byte = 30;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        dstIndex = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte -= 6;
-                    dstIndex >>= 6;
-
-                }
-            }
-            --ypos_clip_counter;
-        } while (ypos_clip_counter);
-    }
-    if (ypos_iter1 >= height_clip)
-    {
-        return;
-    }
-    height_remainder = height_clip - ypos_iter1;
-    v82 = unknown_2;
-    height_remainder_counter = height_remainder;
-    while (1)
-    {
-        pVramDst3 = pVramDst2;
-        j = 0;
-        if (u_height >= 0)                    // for each y
-        {
-            while (j < width_clip)              // fore each x
-            {
-                if (control_byte)
-                {
-                    if (control_byte == 14)
-                    {
-                        control_byte = 30;
-                        dstIndex |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    dstIndex = *(DWORD *)pCompressedIter;
-                    control_byte = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte3 = control_byte - 6;
-                srcCount2 = dstIndex & 0x3F;
-                srcByte_1 = dstIndex >> 6;
-                xpos_clip_counter = srcCount2 + j;
-                if (v82 != 2)
-                {
-                    srcCount2 = -srcCount2;
-                }
-                pVramDst3 += srcCount2;
-                pVramDst4 = pVramDst3;
-                if (control_byte3)
-                {
-                    if (control_byte3 == 14)
-                    {
-                        control_byte3 = 30;
-                        srcByte_1 |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    srcByte_1 = *(DWORD *)pCompressedIter;
-                    control_byte3 = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte = control_byte3 - 6;
-                srcCount3 = srcByte_1 & 0x3F; // lobyte
-                dstIndex = srcByte_1 >> 6;
-                srcCount3 = (unsigned __int8)srcCount3;
-                if (xpos_clip_counter < xpos_clip)
-                {
-                    do
-                    {
-                        if (!srcCount3)
-                        {
-                            break;
-                        }
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                dstIndex |= *pCompressedIter << 14;
-                                control_byte = 30;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            dstIndex = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        pVramDst3 = (WORD *)((char *)pVramDst3 + v82);
-                        dstIndex >>= 6;
-                        ++xpos_clip_counter;
-                        --srcCount3;
-                    } while (xpos_clip_counter < xpos_clip);
-                    pVramDst4 = pVramDst3;
-                }
-                for (; xpos_clip_counter < width_clip; pVramDst4 = (WORD *)((char *)pVramDst4 + unknown_2))
-                {
-                    if (!srcCount3)
-                    {
-                        break;
-                    }
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            dstIndex |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        dstIndex = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte -= 6;
-                    srcCount4 = dstIndex & 0x3F;
-                    dstIndex >>= 6;
-                    *pVramDst4 = pClut[srcCount4];
-                    v82 = unknown_2;
-                    pVramDst3 = &pVramDst4[unknown_2 / 2u];
-                    ++xpos_clip_counter;
-                    --srcCount3;
-                }
-                for (j = srcCount3 + xpos_clip_counter; srcCount3; --srcCount3)
-                {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            dstIndex |= *pCompressedIter << 14;
-                            control_byte = 30;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        dstIndex = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte -= 6;
-                    dstIndex >>= 6;
-                }
-                if (j > u_height)
-                {
-                    goto LABEL_276;
-                }
-            }
-            while (j <= u_height)
-            {
-                if (control_byte)
-                {
-                    if (control_byte == 14)
-                    {
-                        control_byte = 30;
-                        dstIndex |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    dstIndex = *(DWORD *)pCompressedIter;
-                    control_byte = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte4 = control_byte - 6;
-                srcCount5 = dstIndex & 0x3F;
-                srcByte_2 = dstIndex >> 6;
-                v94 = srcCount5 + j;
-                if (control_byte4)
-                {
-                    if (control_byte4 == 0xE)
-                    {
-                        control_byte4 = 0x1E;
-                        srcByte_2 |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    srcByte_2 = *(DWORD *)pCompressedIter;
-                    control_byte4 = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte = control_byte4 - 6;
-                srcCount6 = srcByte_2 & 0x3F;
-                dstIndex = srcByte_2 >> 6;
-                for (j = srcCount6 + v94; srcCount6; --srcCount6)
-                {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            dstIndex |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        dstIndex = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte -= 6;
-                    dstIndex >>= 6;
-                }
-            }
-        }
-    LABEL_276:
-        b_height_Remainder_end = height_remainder_counter == 1;
-        pVramDst2 = (WORD *)((char *)pVramDst2 + vram_pitch);
-        --height_remainder_counter;
-        if (b_height_Remainder_end)
-        {
-            return;
-        }
-    }
-}
-
 static inline BYTE Decompress_Next(int& control_byte, unsigned int& dstIdx, WORD*& pCompressed)
 {
     if (!control_byte)
@@ -1744,7 +1403,7 @@ static inline BYTE Decompress_Next(int& control_byte, unsigned int& dstIdx, WORD
     return data;
 }
 
-static void Scaling_1(
+static void Scaled_Poly_FT4_Inline_Texture_Render(
     int xpos_clip,
     int ypos_clip,
     int width_clip,
@@ -1757,56 +1416,56 @@ static void Scaling_1(
     signed int vram_pitch, 
     WORD* pCompressedIter,
     WORD* pClut,
-    int bytesToNextPixel)
+    int bytesToNextPixel,
+    bool skipBlackPixels)
 {
     if (v_height <= 0)
     {
         return;
     }
 
-    const float texture_w_step = (float)u_width / (float)width;
-    const float texture_h_step = (float)v_height / (float)height;
+    const float texture_w_step = static_cast<float>(u_width) / static_cast<float>(width);
+    const float texture_h_step = static_cast<float>(v_height) / static_cast<float>(height);
 
     int control_byte = 0;
     unsigned int dstIdx = 0;
 
-    int ySkipCounter = 0;
+    int yCounter = 0;
     float v_pos = 0.0f;
     for (int v_height_counter = 0; v_height_counter < v_height; v_height_counter++)
     {
-        if (ySkipCounter >= height_clip)
+        if (yCounter >= height_clip)
         {
             return;
         }
 
         WORD* pVramIter = pVramDst;
 
-        int curYLine = 0;
+        // Move to next vpos
+        int yDuplicateCount = 0;
         while (v_height_counter == static_cast<int>(v_pos))
         {
             v_pos += texture_h_step;
-            ++curYLine;
+            yDuplicateCount++;
             pVramDst += (vram_pitch / sizeof(WORD));
         }
 
-        int yDuplicateCount = curYLine;
-        ySkipCounter += curYLine;
+        yCounter += yDuplicateCount;
 
-        if (curYLine > ySkipCounter - ypos_clip)
+        if (yDuplicateCount > yCounter - ypos_clip)
         {
-            WORD* v100 = pVramIter + (vram_pitch / sizeof(WORD)) * (ypos_clip + curYLine - ySkipCounter);
-            curYLine = ySkipCounter - ypos_clip;
-            pVramIter = v100;
-            yDuplicateCount = ySkipCounter - ypos_clip;
+            // Move the vram pointer to match the vpos
+            pVramIter += (vram_pitch / sizeof(WORD)) * (ypos_clip + yDuplicateCount - yCounter);
+            yDuplicateCount = yCounter - ypos_clip;
         }
 
-        if (ySkipCounter > height_clip)
+        // Limit the number of y lines to write if its going out of bounds
+        if (yCounter > height_clip)
         {
-            curYLine += height_clip - ySkipCounter;
-            yDuplicateCount = curYLine;
+            yDuplicateCount += height_clip - yCounter;
         }
 
-        if (curYLine > 0)
+        if (yDuplicateCount > 0)
         {
             // Write scan lines
             if (u_width < 0)
@@ -1824,7 +1483,7 @@ static void Scaling_1(
                     // Skip end of line clipped area
                     while (u_width_counter <= u_width)
                     {
-                        int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                        const int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
                         int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
 
                         u_width_counter += runLengthCount + blackPixelCount;
@@ -1843,6 +1502,7 @@ static void Scaling_1(
                     const int totalWidthBytes = blackLengthCount + u_width_counter;
                     u_width_counter = totalWidthBytes;
 
+                    // Write black pixels
                     while (totalWidthBytes > static_cast<int>(u_pos))
                     {
                         if (bytesToNextPixel == 2)
@@ -1859,8 +1519,9 @@ static void Scaling_1(
                         width_clip_counter++;
                     }
 
+                    // Write non black pixels
                     BYTE runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                    for (int bb = 0; bb < runLengthCopyCount; bb++)
+                    for (int numBytesToCopy = 0; numBytesToCopy < runLengthCopyCount; numBytesToCopy++)
                     {
                         WORD* pVramXOff = pVramIter;
 
@@ -1878,32 +1539,44 @@ static void Scaling_1(
 
                         if (width_to_write > width_clip_counter - xpos_clip)
                         {
-                            WORD* v115 = pVramXOff + (bytesToNextPixel / sizeof(WORD)) * (xpos_clip + width_to_write - width_clip_counter);
+                            // Move the vram pointer to match the upos
+                            WORD* pVramTmp = pVramXOff + (bytesToNextPixel / sizeof(WORD)) * (xpos_clip + width_to_write - width_clip_counter);
                             width_to_write = width_clip_counter - xpos_clip;
-                            pVramXOff = v115;
+                            pVramXOff = pVramTmp;
                         }
 
+                        // Limit if going to go out of bounds
                         if (width_clip_counter > width_clip)
                         {
                             width_to_write += width_clip - width_clip_counter;
                         }
 
-                        ++u_width_counter;
+                        u_width_counter++;
 
                         // Write out the scanline to vram
                         if (width_to_write > 0)
                         {
-                            const WORD clut_pixel = pClut[decompressed_byte];
-                            WORD* pDstVRamLine = pVramXOff;
-                            for (int aa = 0; aa < yDuplicateCount; aa++)
+                            const WORD clut_pixel = pClut[decompressed_byte]; // Note: Clut data is already "converted"
+                            
+                            bool skipPixel = false;
+                            if (skipBlackPixels && clut_pixel == 0)
                             {
-                                for (int ww = 0; ww < width_to_write; ww++)
+                                skipPixel = true;
+                            }
+
+                            if (!skipPixel)
+                            {
+                                WORD* pDstVRamLine = pVramXOff;
+                                for (int yLinesToWrite = 0; yLinesToWrite < yDuplicateCount; yLinesToWrite++)
                                 {
-                                    *pDstVRamLine = clut_pixel;
-                                    pDstVRamLine += (bytesToNextPixel / sizeof(WORD));
+                                    for (int widthPixelsToWrite = 0; widthPixelsToWrite < width_to_write; widthPixelsToWrite++)
+                                    {
+                                        *pDstVRamLine = clut_pixel;
+                                        pDstVRamLine += (bytesToNextPixel / sizeof(WORD));
+                                    }
+                                    pDstVRamLine = &pVramXOff[vram_pitch / sizeof(WORD)];
+                                    pVramXOff = pDstVRamLine;
                                 }
-                                pDstVRamLine = &pVramXOff[vram_pitch / sizeof(WORD)];
-                                pVramXOff = pDstVRamLine;
                             }
                         }
                     }
@@ -1934,8 +1607,6 @@ static void Scaling_1(
 EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, int height, const void* pData)
 {
 
-    __int16 *lut_r; // ebx
-    __int16 *lut_g; // ebp
     WORD *pClutIter; // edx
     int pClut_1; // ecx
     unsigned __int16 clut_entry; // cx
@@ -1949,102 +1620,32 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
     int height_for_v; // edx
     int tmpHeightClip; // edi
     WORD *pCompressedIter; // edi
-    int v23; // ebx
-    unsigned int v24; // eax
-    int m; // edx
-    int control_byte8; // esi
-    int srcCount14; // ecx
-    unsigned int v28; // eax
-    int v29; // edx
-    int srcCount15; // ecx
-    int v31; // ebx
-    int n; // ebp
-    int control_byte9; // esi
-    int srcCount16; // ecx
-    unsigned int v35; // eax
-    int v36; // ebp
-    int srcCount17; // edx
-    int srcCount18; // ecx
-    WORD v39; // cx
-    int control_byte10; // esi
-    int srcCount19; // ecx
-    unsigned int v42; // eax
-    int v43; // ebp
-    int srcCount20; // ecx
-    float v46; // ST64_4
-    double v47; // st7
-    unsigned int v48; // ebx
-    int v49; // ebp
-    int v50; // edx
-    int ii; // ecx
-    int v52; // esi
-    int srcCount21; // eax
-    unsigned int v54; // ebx
-    int v55; // ecx
-    int srcCount22; // eax
-    double v57; // st6
-    int jj; // ebp
-    int control_byte11; // esi
-    int srcCount23; // ebp
-    unsigned int v61; // ebx
-    char *v62; // ebp
-    unsigned __int8 srcCount24; // al
-    int v64; // ebp
-    int v65; // edx
-    WORD *v66; // eax
-    int v67; // ecx
-    int control_byte12; // esi
-    int srcCount26; // edx
-    unsigned int v70; // ebx
-    int v71; // ebp
-    int srcCount27; // eax
-    unsigned __int8 srcCount25; // [esp+10h] [ebp-DCh]
-    WORD *v125; // [esp+14h] [ebp-D8h]
-    char *v126; // [esp+14h] [ebp-D8h]
     int u_height; // [esp+18h] [ebp-D4h]
     signed int bHasAllBackClutEntry; // [esp+1Ch] [ebp-D0h]
-    WORD *bHasAllBackClutEntrya; // [esp+1Ch] [ebp-D0h]
-    signed int v133; // [esp+20h] [ebp-CCh]
     WORD *pVramDst2; // [esp+24h] [ebp-C8h]
     WORD *clut_iter2; // [esp+28h] [ebp-C4h]
-    WORD *clut_iter2a; // [esp+28h] [ebp-C4h]
-    WORD *clut_iter2b; // [esp+28h] [ebp-C4h]
-    float clut_iter2c; // [esp+28h] [ebp-C4h]
-    int v141; // [esp+2Ch] [ebp-C0h]
-    signed int unknown_2; // [esp+30h] [ebp-BCh]
+    signed int bytesToNextPixel; // [esp+30h] [ebp-BCh]
     int width_clip; // [esp+34h] [ebp-B8h]
     int pClut_2; // [esp+38h] [ebp-B4h]
-    int pClut_2a; // [esp+38h] [ebp-B4h]
     signed int vram_pitch; // [esp+3Ch] [ebp-B0h]
-    int x_fixed; // [esp+40h] [ebp-ACh]
-    int x_fixeda; // [esp+40h] [ebp-ACh]
-    int y_fixed; // [esp+44h] [ebp-A8h]
     int xpos_clip; // [esp+48h] [ebp-A4h]
     int height_clip; // [esp+4Ch] [ebp-A0h]
-    int v158; // [esp+50h] [ebp-9Ch]
     signed int clut_counter; // [esp+54h] [ebp-98h]
     int ypos_clip2; // [esp+54h] [ebp-98h]
-    int v162; // [esp+58h] [ebp-94h]
-    __int16 *lut_b; // [esp+5Ch] [ebp-90h]
-    int lut_ba; // [esp+5Ch] [ebp-90h]
-   
-    WORD *pClut; // [esp+60h] [ebp-8Ch]
-    
-    WORD v169; // [esp+68h] [ebp-84h]
+
+
     WORD clut_local[64]; // [esp+6Ch] [ebp-80h]
-    bool b_height_Remainder_end; // zf
 
-    int control_byte = 0;
     bHasAllBackClutEntry = 0;
-    
-    pClut = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)));
-    
-    x_fixed = pPrim->field_14_verts[0].field_0_x0 / 16;
-    y_fixed = pPrim->field_14_verts[0].field_4_y0 / 16;
 
-    lut_r = &stru_C146C0.r[pPrim->field_8_r >> 3][0];
-    lut_g = &stru_C146C0.g[pPrim->field_9_g >> 3][0];
-    lut_b = &stru_C146C0.b[pPrim->field_A_b >> 3][0];
+    WORD* pClut = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)));
+
+    const int x_fixed = pPrim->field_14_verts[0].field_0_x0 / 16;
+    const int y_fixed = pPrim->field_14_verts[0].field_4_y0 / 16;
+
+    const __int16* lut_r = &stru_C146C0.r[pPrim->field_8_r >> 3][0];
+    const __int16* lut_g = &stru_C146C0.g[pPrim->field_9_g >> 3][0];
+    const __int16* lut_b = &stru_C146C0.b[pPrim->field_A_b >> 3][0];
 
     if (pPrim->field_B_flags & 1)
     {
@@ -2100,7 +1701,7 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
             //less_than_63 = clut_counter++ - 63 < 0;
             clut_counter++;
             if (clut_counter >= 64)
- //           if (!(less_than_63 ^ over_64))
+                //           if (!(less_than_63 ^ over_64))
             {
                 break;
             }
@@ -2141,14 +1742,14 @@ idx_over_64:
     pVramDst2 = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x_fixed + y_fixed * spBitmap_C2D038->field_10_locked_pitch);
 
     u_height = pPrim->field_14_verts[2].field_14_u - pPrim->field_14_verts[0].field_14_u;
-    v_width =  pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
+    v_width = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
     int v_width2 = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
 
     if (u_height <= 0)
     {
         u_height = pPrim->field_14_verts[0].field_14_u - pPrim->field_14_verts[2].field_14_u;
         pVramDst1 += width;
-        unknown_2 = -2;
+        bytesToNextPixel = -2;
         vram_pitch = 2048;
         pVramDst2 = pVramDst1;
         tmpWidthClip = width + 1 - xpos_clip;
@@ -2157,7 +1758,7 @@ idx_over_64:
     }
     else
     {
-        unknown_2 = 2;
+        bytesToNextPixel = 2;
         vram_pitch = 2048;
     }
 
@@ -2179,656 +1780,21 @@ idx_over_64:
     }
 
     pCompressedIter = ((WORD*)pData) + 2;                  // skip w/h to get to compressed data
-    if (!bHasAllBackClutEntry)                  // one writes black pixels and the other skips them ??
-    {
-       // if (u_height == width && v_width == height_for_v)// no scale case
-        {
-            //NoScaling_1(pClut, xpos_clip, ypos_clip, width_clip, height_clip, pCompressedIter, pVramDst2, vram_pitch, u_height, unknown_2);
-        }
-        //else
-        {
-            Scaling_1(
-                xpos_clip,
-                ypos_clip2,
-                width_clip,
-                height_clip,
-                v_width,
-                u_height,
-                width,
-                height,
-                pVramDst2,
-                vram_pitch,
-                pCompressedIter,
-                pClut,
-                unknown_2);
-        }
-    }
-    if (u_height == width && v_width == height_for_v)
-    {
-        v23 = 0;
-        if (ypos_clip <= 0)
-        {
-            v24 = bHasAllBackClutEntry;
-        }
-        else
-        {
-            v24 = bHasAllBackClutEntry;
-            clut_iter2a = (WORD *)ypos_clip;
-            pVramDst2 = (WORD *)((char *)pVramDst2 + ypos_clip * vram_pitch);
-            v23 = ypos_clip;
-            do
-            {
-                m = 0;
-                while (m <= u_height)
-                {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            v24 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v24 = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte8 = control_byte - 6;
-                    srcCount14 = v24 & 0x3F;
-                    v28 = v24 >> 6;
-                    v29 = srcCount14 + m;
-                    if (control_byte8)
-                    {
-                        if (control_byte8 == 14)
-                        {
-                            control_byte8 = 30;
-                            v28 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v28 = *(DWORD *)pCompressedIter;
-                        control_byte8 = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte = control_byte8 - 6;
-                    srcCount15 = v28 & 0x3F;
-                    v24 = v28 >> 6;
-                    for (m = srcCount15 + v29; srcCount15; --srcCount15)
-                    {
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                v24 |= *pCompressedIter << 14;
-                                control_byte = 30;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            v24 = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        v24 >>= 6;
-                    }
-                }
-                clut_iter2a = (WORD *)((char *)clut_iter2a - 1);
-            } while (clut_iter2a);
-        }
-        if (v23 >= height_clip)
-        {
-            return;
-        }
-        clut_iter2b = (WORD *)(height_clip - v23);
-        do
-        {
-            v31 = (int)pVramDst2;
-            n = 0;
-            if (u_height >= 0)
-            {
-                while (n < width_clip)
-                {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            v24 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v24 = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte9 = control_byte - 6;
-                    srcCount16 = v24 & 0x3F;
-                    v35 = v24 >> 6;
-                    v36 = srcCount16 + n;
-                    if (unknown_2 != 2)
-                    {
-                        srcCount16 = -srcCount16;
-                    }
-                    v31 += 2 * srcCount16;
-                    v125 = (WORD *)v31;
-                    if (control_byte9)
-                    {
-                        if (control_byte9 == 14)
-                        {
-                            control_byte9 = 30;
-                            v35 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v35 = *(DWORD *)pCompressedIter;
-                        control_byte9 = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte = control_byte9 - 6;
-                    srcCount17 = v35 & 0x3F; // lobyte
-                    v24 = v35 >> 6;
-                    srcCount17 = (unsigned __int8)srcCount17;
-                    if (v36 < xpos_clip)
-                    {
-                        do
-                        {
-                            if (!srcCount17)
-                            {
-                                break;
-                            }
-                            if (control_byte)
-                            {
-                                if (control_byte == 14)
-                                {
-                                    v24 |= *pCompressedIter << 14;
-                                    control_byte = 30;
-                                    ++pCompressedIter;
-                                }
-                            }
-                            else
-                            {
-                                v24 = *(DWORD *)pCompressedIter;
-                                control_byte = 32;
-                                pCompressedIter += 2;
-                            }
-                            v31 += unknown_2;
-                            control_byte -= 6;
-                            v24 >>= 6;
-                            ++v36;
-                            --srcCount17;
-                        } while (v36 < xpos_clip);
-                        v125 = (WORD *)v31;
-                    }
-                    for (; v36 < width_clip; v125 = (WORD *)((char *)v125 + unknown_2))
-                    {
-                        if (!srcCount17)
-                        {
-                            break;
-                        }
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                control_byte = 30;
-                                v24 |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            v24 = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        srcCount18 = v24 & 0x3F;
-                        v24 >>= 6;
-                        v39 = pClut[srcCount18];
-                        if (v39)
-                        {
-                            *v125 = v39;
-                        }
-                        v31 = (int)&v125[unknown_2 / 2u];
-                        ++v36;
-                        --srcCount17;
-                    }
-                    for (n = srcCount17 + v36; srcCount17; --srcCount17)
-                    {
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                control_byte = 30;
-                                v24 |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            v24 = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        v24 >>= 6;
-                    }
-                    if (n > u_height)
-                    {
-                        goto LABEL_110;
-                    }
-                }
-                while (n <= u_height)
-                {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            v24 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v24 = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte10 = control_byte - 6;
-                    srcCount19 = v24 & 0x3F;
-                    v42 = v24 >> 6;
-                    v43 = srcCount19 + n;
-                    if (control_byte10)
-                    {
-                        if (control_byte10 == 14)
-                        {
-                            control_byte10 = 30;
-                            v42 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v42 = *(DWORD *)pCompressedIter;
-                        control_byte10 = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte = control_byte10 - 6;
-                    srcCount20 = v42 & 0x3F;
-                    v24 = v42 >> 6;
-                    for (n = srcCount20 + v43; srcCount20; --srcCount20)
-                    {
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                v24 |= *pCompressedIter << 14;
-                                control_byte = 30;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            v24 = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        v24 >>= 6;
-                    }
-                }
-            }
-        LABEL_110:
-            b_height_Remainder_end = clut_iter2b == (WORD *)1;
-            pVramDst2 = (WORD *)((char *)pVramDst2 + vram_pitch);
-            clut_iter2b = (WORD *)((char *)clut_iter2b - 1);
-        } while (!b_height_Remainder_end);
-        return;
-    }
-    else
-    {
-        v162 = 0;                                     // start scaling case
-        x_fixeda = 0;
-        clut_iter2c = (float)u_height / (float)width;
-        v47 = 0.0;
-        if (v_width <= 0)
-        {
-            return;
-        }
-        v48 = bHasAllBackClutEntry;
-        do
-        {
-            if (v162 >= height_clip)
-            {
-                return;
-            }
-            v49 = 0;
-            v126 = (char *)pVramDst2;
-            v158 = 0;
-            if (x_fixeda == static_cast<int>(v47))
-            {
-                do
-                {
-                    v46 = (float)v_width2 / (float)height;
-                    v47 = v47 + v46;
-                    ++v49;
-                    pVramDst2 = (WORD *)((char *)pVramDst2 + vram_pitch);
-                } while (x_fixeda == static_cast<int>(v47));
-                v158 = v49;
-            }
-            v162 += v49;
-            if (v49 > v162 - ypos_clip2)
-            {
-                v50 = (int)&v126[vram_pitch * (ypos_clip2 + v49 - v162)];
-                v49 = v162 - ypos_clip2;
-                v126 = (char *)v50;
-                v158 = v162 - ypos_clip2;
-            }
-            if (v162 > height_clip)
-            {
-                v49 += height_clip - v162;
-                v158 = v49;
-            }
-            if (v49 <= 0)
-            {
-                ii = 0;
-                while (ii <= u_height)
-                {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            v48 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v48 = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    v52 = control_byte - 6;
-                    srcCount21 = v48 & 0x3F;
-                    v54 = v48 >> 6;
-                    v55 = srcCount21 + ii;
-                    if (v52)
-                    {
-                        if (v52 == 14)
-                        {
-                            v52 = 30;
-                            v54 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v54 = *(DWORD *)pCompressedIter;
-                        v52 = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte = v52 - 6;
-                    srcCount22 = v54 & 0x3F;
-                    v48 = v54 >> 6;
-                    for (ii = srcCount22 + v55; srcCount22; --srcCount22)
-                    {
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                control_byte = 30;
-                                v48 |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            v48 = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        v48 >>= 6;
-                    }
-                }
-                goto LABEL_181;
-            }
-            v141 = 0;
-            v57 = 0.0;
-            v133 = 0;
-            if (u_height < 0)
-            {
-                goto LABEL_181;
-            }
-            while (1)
-            {
-                jj = v133;
-                if (v141 >= width_clip)
-                {
-                    break;
-                }
-                if (control_byte)
-                {
-                    if (control_byte == 14)
-                    {
-                        control_byte = 30;
-                        v48 |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    v48 = *(DWORD *)pCompressedIter;
-                    control_byte = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte11 = control_byte - 6;
-                srcCount23 = (v48 & 0x3F) + v133;
-                v61 = v48 >> 6;
-                v133 = srcCount23;
-                if (unknown_2 == 2)
-                {
-                    if (srcCount23 > (signed int)(signed __int64)v57)
-                    {
-                        v62 = v126;
-                        do
-                        {
-                            v57 = v57 + clut_iter2c;
-                            v62 += 2;
-                            ++v141;
-                        } while (v133 > (signed int)(signed __int64)v57);
-                    LABEL_154:
-                        v126 = v62;
-                        goto LABEL_155;
-                    }
-                }
-                else if (srcCount23 > (signed int)(signed __int64)v57)
-                {
-                    v62 = v126;
-                    do
-                    {
-                        v57 = v57 + clut_iter2c;
-                        v62 -= 2;
-                        ++v141;
-                    } while (v133 > (signed int)(signed __int64)v57);
-                    goto LABEL_154;
-                }
-            LABEL_155:
-                if (control_byte11)
-                {
-                    if (control_byte11 == 14)
-                    {
-                        control_byte11 = 30;
-                        v61 |= *pCompressedIter << 14;
-                        ++pCompressedIter;
-                    }
-                }
-                else
-                {
-                    v61 = *(DWORD *)pCompressedIter;
-                    control_byte11 = 32;
-                    pCompressedIter += 2;
-                }
-                control_byte = control_byte11 - 6;
-                srcCount24 = v61 & 0x3F;
-                v48 = v61 >> 6;
-                if (srcCount24)
-                {
-                    pClut_2a = srcCount24;
-                    do
-                    {
-                        bHasAllBackClutEntrya = (WORD *)v126;
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                control_byte = 30;
-                                v48 |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            v48 = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        v64 = 0;
-                        srcCount25 = v48 & 0x3F;
-                        for (v48 >>= 6; v133 == static_cast<float>(v57); ++v64)
-                        {
-                            v57 = v57 + clut_iter2c;
-                        }
-                        v126 += unknown_2 * v64;
-                        v141 += v64;
-                        if (v64 > v141 - xpos_clip)
-                        {
-                            v65 = (int)bHasAllBackClutEntrya + unknown_2 * (xpos_clip + v64 - v141);
-                            v64 = v141 - xpos_clip;
-                            bHasAllBackClutEntrya = (WORD *)v65;
-                        }
-                        if (v141 > width_clip)
-                        {
-                            v64 += width_clip - v141;
-                        }
-                        ++v133;
-                        if (v64 > 0)
-                        {
-                            v169 = pClut[srcCount25];
-                            if (v169)
-                            {
-                                if (v158 > 0)
-                                {
-                                    lut_ba = v158;
-                                    v66 = bHasAllBackClutEntrya;
-                                    do
-                                    {
-                                        if (v64 > 0)
-                                        {
-                                            v67 = v64;
-                                            do
-                                            {
-                                                *v66 = v169;
-                                                v66 = (WORD *)((char *)v66 + unknown_2);
-                                                --v67;
-                                            } while (v67);
-                                        }
-                                        v66 = &bHasAllBackClutEntrya[vram_pitch / 2u];
-                                        b_height_Remainder_end = lut_ba == 1;
-                                        bHasAllBackClutEntrya = (WORD *)((char *)bHasAllBackClutEntrya + vram_pitch);
-                                        --lut_ba;
-                                    } while (!b_height_Remainder_end);
-                                }
-                            }
-                        }
-                        --pClut_2a;
-                    } while (pClut_2a);
-                }
-                if (v133 > u_height)
-                {
-                    goto LABEL_181;
-                }
-            }
-            if (v133 <= u_height)
-            {
-                do
-                {
-                    if (control_byte)
-                    {
-                        if (control_byte == 14)
-                        {
-                            control_byte = 30;
-                            v48 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v48 = *(DWORD *)pCompressedIter;
-                        control_byte = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte12 = control_byte - 6;
-                    srcCount26 = v48 & 0x3F;
-                    v70 = v48 >> 6;
-                    v71 = srcCount26 + jj;
-                    if (control_byte12)
-                    {
-                        if (control_byte12 == 14)
-                        {
-                            control_byte12 = 30;
-                            v70 |= *pCompressedIter << 14;
-                            ++pCompressedIter;
-                        }
-                    }
-                    else
-                    {
-                        v70 = *(DWORD *)pCompressedIter;
-                        control_byte12 = 32;
-                        pCompressedIter += 2;
-                    }
-                    control_byte = control_byte12 - 6;
-                    srcCount27 = v70 & 0x3F;
-                    v48 = v70 >> 6;
-                    for (jj = srcCount27 + v71; srcCount27; --srcCount27)
-                    {
-                        if (control_byte)
-                        {
-                            if (control_byte == 14)
-                            {
-                                control_byte = 30;
-                                v48 |= *pCompressedIter << 14;
-                                ++pCompressedIter;
-                            }
-                        }
-                        else
-                        {
-                            v48 = *(DWORD *)pCompressedIter;
-                            control_byte = 32;
-                            pCompressedIter += 2;
-                        }
-                        control_byte -= 6;
-                        v48 >>= 6;
-                    }
-                } while (jj <= u_height);
-            }
-        LABEL_181:
-            ++x_fixeda;
-        } while (x_fixeda < v_width2);
-    }
+    Scaled_Poly_FT4_Inline_Texture_Render(
+        xpos_clip,
+        ypos_clip2,
+        width_clip,
+        height_clip,
+        v_width,
+        u_height,
+        width,
+        height,
+        pVramDst2,
+        vram_pitch,
+        pCompressedIter,
+        pClut,
+        bytesToNextPixel,
+        !!bHasAllBackClutEntry);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int height, const void* pCompressedData)
