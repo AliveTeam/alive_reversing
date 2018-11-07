@@ -1606,37 +1606,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, int height, const void* pData)
 {
-
-    WORD *pClutIter; // edx
-    int pClut_1; // ecx
-    unsigned __int16 clut_entry; // cx
-    WORD clut_pixel; // ax
-    signed int idx1; // eax
-    WORD *pClut1; // ecx
-    int ypos_clip; // ecx
-    WORD *pVramDst1; // ebp
-    int v_width; // eax
-    int tmpWidthClip; // edx
-    int height_for_v; // edx
-    int tmpHeightClip; // edi
-    WORD *pCompressedIter; // edi
-    int u_height; // [esp+18h] [ebp-D4h]
-    signed int bHasAllBackClutEntry; // [esp+1Ch] [ebp-D0h]
-    WORD *pVramDst2; // [esp+24h] [ebp-C8h]
-    WORD *clut_iter2; // [esp+28h] [ebp-C4h]
-    signed int bytesToNextPixel; // [esp+30h] [ebp-BCh]
-    int width_clip; // [esp+34h] [ebp-B8h]
-    int pClut_2; // [esp+38h] [ebp-B4h]
-    signed int vram_pitch; // [esp+3Ch] [ebp-B0h]
-    int xpos_clip; // [esp+48h] [ebp-A4h]
-    int height_clip; // [esp+4Ch] [ebp-A0h]
-    signed int clut_counter; // [esp+54h] [ebp-98h]
-    int ypos_clip2; // [esp+54h] [ebp-98h]
-
-
-    WORD clut_local[64]; // [esp+6Ch] [ebp-80h]
-
-    bHasAllBackClutEntry = 0;
+    WORD clut_local[64] = {};
 
     WORD* pClut = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)));
 
@@ -1647,10 +1617,11 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
     const __int16* lut_g = &stru_C146C0.g[pPrim->field_9_g >> 3][0];
     const __int16* lut_b = &stru_C146C0.b[pPrim->field_A_b >> 3][0];
 
+    int bHasAllBackClutEntry = 0;
     if (pPrim->field_B_flags & 1)
     {
-        idx1 = 1;
-        pClut1 = (WORD*)(char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) + 2;
+        int idx1 = 1;
+        WORD* pClut1 = (WORD*)(char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) + 2;
         while (*pClut1)
         {
             ++idx1;
@@ -1664,14 +1635,14 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
     }
     else
     {
-        pClutIter = clut_local;
-        pClut_1 = (char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) - (char *)clut_local;
-        clut_counter = 0;
-        clut_iter2 = clut_local;
+        WORD* pClutIter = clut_local;
+        int pClut_1 = (char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) - (char *)clut_local;
+        int clut_counter = 0;
+        WORD* clut_iter2 = clut_local;
 
-        for (pClut_2 = (char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) - (char *)clut_local; ; pClut_1 = pClut_2)
+        for (int pClut_2 = (char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) - (char *)clut_local; ; pClut_1 = pClut_2)
         {
-            clut_entry = *(WORD *)((char *)pClutIter + pClut_1);
+            const WORD clut_entry = *(WORD *)((char *)pClutIter + pClut_1);
             if (clut_entry)
             {
                 if (clut_entry == 0x20)
@@ -1680,7 +1651,7 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
                 }
                 else
                 {
-                    clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
+                    WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
                     pClutIter = clut_iter2;
                     clut_pixel = clut_pixel | 0x20; // LOBYTE
                     *clut_iter2 = clut_pixel;
@@ -1711,11 +1682,12 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
 
 idx_over_64:
 
-    height_clip = height;
-    ypos_clip = 0;
-    xpos_clip = 0;
-    ypos_clip2 = 0;
-    width_clip = width;
+    int height_clip = height;
+    int width_clip = width;
+
+    int ypos_clip = 0;
+    int xpos_clip = 0;
+    int ypos_clip2 = 0;
 
     if (x_fixed < sPsx_drawenv_clipx_BDCD40 / 16)
     {
@@ -1738,13 +1710,15 @@ idx_over_64:
         height_clip = sPsx_drawenv_cliph_BDCD4C / 16 - y_fixed + 1;
     }
 
-    pVramDst1 = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x_fixed + y_fixed * spBitmap_C2D038->field_10_locked_pitch);
-    pVramDst2 = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x_fixed + y_fixed * spBitmap_C2D038->field_10_locked_pitch);
+    WORD* pVramDst1 = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x_fixed + y_fixed * spBitmap_C2D038->field_10_locked_pitch);
+    WORD* pVramDst2 = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x_fixed + y_fixed * spBitmap_C2D038->field_10_locked_pitch);
 
-    u_height = pPrim->field_14_verts[2].field_14_u - pPrim->field_14_verts[0].field_14_u;
-    v_width = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
+    int u_height = pPrim->field_14_verts[2].field_14_u - pPrim->field_14_verts[0].field_14_u;
+    int v_width = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
     int v_width2 = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
 
+    int bytesToNextPixel = 0;
+    int vram_pitch = 0;
     if (u_height <= 0)
     {
         u_height = pPrim->field_14_verts[0].field_14_u - pPrim->field_14_verts[2].field_14_u;
@@ -1752,7 +1726,7 @@ idx_over_64:
         bytesToNextPixel = -2;
         vram_pitch = 2048;
         pVramDst2 = pVramDst1;
-        tmpWidthClip = width + 1 - xpos_clip;
+        int tmpWidthClip = width + 1 - xpos_clip;
         xpos_clip = width - width_clip + 1;
         width_clip = tmpWidthClip;
     }
@@ -1762,6 +1736,7 @@ idx_over_64:
         vram_pitch = 2048;
     }
 
+    int height_for_v = 0;
     if (v_width >= 0)
     {
         height_for_v = height;
@@ -1771,7 +1746,7 @@ idx_over_64:
         height_for_v = height;
         vram_pitch = -2048;
         pVramDst2 = &pVramDst1[1024 * height];
-        tmpHeightClip = height_clip - ypos_clip;
+        int tmpHeightClip = height_clip - ypos_clip;
         v_width = pPrim->field_14_verts[0].field_18_v - pPrim->field_14_verts[2].field_18_v;
         v_width2 = pPrim->field_14_verts[0].field_18_v - pPrim->field_14_verts[2].field_18_v;
         ypos_clip = height - height_clip + 1;
@@ -1779,7 +1754,7 @@ idx_over_64:
         height_clip = ypos_clip + tmpHeightClip;
     }
 
-    pCompressedIter = ((WORD*)pData) + 2;                  // skip w/h to get to compressed data
+    WORD* pCompressedIter = ((WORD*)pData) + 2;                  // skip w/h to get to compressed data
     Scaled_Poly_FT4_Inline_Texture_Render(
         xpos_clip,
         ypos_clip2,
