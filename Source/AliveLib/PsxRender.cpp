@@ -1382,7 +1382,7 @@ EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* pPrim, 
     return 0;
 }
 
-static inline BYTE Decompress_Next(int& control_byte, unsigned int& dstIdx, WORD*& pCompressed)
+static inline BYTE Decompress_Next(int& control_byte, unsigned int& dstIdx, const WORD*& pCompressed)
 {
     if (!control_byte)
     {
@@ -1414,8 +1414,8 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     int height,
     WORD* pVramDst, 
     signed int vram_pitch, 
-    WORD* pCompressedIter,
-    WORD* pClut,
+    const WORD* pCompressedIter,
+    const WORD* pClut,
     int bytesToNextPixel,
     bool skipBlackPixels)
 {
@@ -1608,168 +1608,138 @@ EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, 
 {
     WORD clut_local[64] = {};
 
-    WORD* pClut = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)));
+    const WORD* pClut = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)));
 
-    const int x_fixed = pPrim->field_14_verts[0].field_0_x0 / 16;
-    const int y_fixed = pPrim->field_14_verts[0].field_4_y0 / 16;
+    const int polyXPos = pPrim->field_14_verts[0].field_0_x0 / 16;
+    const int polyYPos = pPrim->field_14_verts[0].field_4_y0 / 16;
 
     const __int16* lut_r = &stru_C146C0.r[pPrim->field_8_r >> 3][0];
     const __int16* lut_g = &stru_C146C0.g[pPrim->field_9_g >> 3][0];
     const __int16* lut_b = &stru_C146C0.b[pPrim->field_A_b >> 3][0];
 
-    int bHasAllBackClutEntry = 0;
+    int skipBlackPixels = 1;
     if (pPrim->field_B_flags & 1)
     {
-        int idx1 = 1;
-        WORD* pClut1 = (WORD*)(char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) + 2;
-        while (*pClut1)
+        for (int i = 1; i < 64; i++)
         {
-            ++idx1;
-            ++pClut1;
-            if (idx1 >= 64)
+            if (pClut[i] == 0)
             {
-                goto idx_over_64;
-            }
-        }
-        bHasAllBackClutEntry = 1;
-    }
-    else
-    {
-        WORD* pClutIter = clut_local;
-        int pClut_1 = (char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) - (char *)clut_local;
-        int clut_counter = 0;
-        WORD* clut_iter2 = clut_local;
-
-        for (int pClut_2 = (char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)) - (char *)clut_local; ; pClut_1 = pClut_2)
-        {
-            const WORD clut_entry = *(WORD *)((char *)pClutIter + pClut_1);
-            if (clut_entry)
-            {
-                if (clut_entry == 0x20)
-                {
-                    *pClutIter = 0x20;
-                }
-                else
-                {
-                    WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
-                    pClutIter = clut_iter2;
-                    clut_pixel = clut_pixel | 0x20; // LOBYTE
-                    *clut_iter2 = clut_pixel;
-                    if (!clut_pixel)
-                    {
-                        bHasAllBackClutEntry = 1;
-                    }
-                }
-            }
-            else
-            {
-                *pClutIter = 0;
-                bHasAllBackClutEntry = clut_counter;
-            }
-            ++pClutIter;
-            clut_iter2 = pClutIter;
-            //over_64 = __OFSUB__(clut_counter + 1, 64);
-            //less_than_63 = clut_counter++ - 63 < 0;
-            clut_counter++;
-            if (clut_counter >= 64)
-                //           if (!(less_than_63 ^ over_64))
-            {
+                skipBlackPixels = 0;
                 break;
             }
         }
+    }
+    else
+    {
+        for (int i = 0; i < 64; i++)
+        {
+            if (pClut[i] == 0)
+            {
+                clut_local[i] = 0;
+                skipBlackPixels = i > 0;
+            }
+            else if (pClut[i] == 0x20)
+            {
+                clut_local[i] = 0x20;
+            }
+            else
+            {
+                WORD clut_entry = pClut[i];
+                WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
+                clut_pixel |= 0x20;
+                if (!clut_pixel)
+                {
+                    skipBlackPixels = 0;
+                }
+                clut_local[i] = clut_pixel;
+            }
+        }
+
+        // Use the local/converted clut
         pClut = clut_local;
     }
-
-idx_over_64:
 
     int height_clip = height;
     int width_clip = width;
 
     int ypos_clip = 0;
     int xpos_clip = 0;
-    int ypos_clip2 = 0;
 
-    if (x_fixed < sPsx_drawenv_clipx_BDCD40 / 16)
+    if (polyXPos < (sPsx_drawenv_clipx_BDCD40 / 16))
     {
-        xpos_clip = sPsx_drawenv_clipx_BDCD40 / 16 - x_fixed;
+        xpos_clip = (sPsx_drawenv_clipx_BDCD40 / 16) - polyXPos;
     }
 
-    if (y_fixed < sPsx_drawenv_clipy_BDCD44 / 16)
+    if (polyYPos < (sPsx_drawenv_clipy_BDCD44 / 16))
     {
-        ypos_clip = sPsx_drawenv_clipy_BDCD44 / 16 - y_fixed;
-        ypos_clip2 = sPsx_drawenv_clipy_BDCD44 / 16 - y_fixed;
+        ypos_clip = (sPsx_drawenv_clipy_BDCD44 / 16) - polyYPos;
     }
 
-    if (width > sPsx_drawenv_clipw_BDCD48 / 16 - x_fixed + 1)
+    if ((width > sPsx_drawenv_clipw_BDCD48 / 16) - polyXPos + 1)
     {
-        width_clip = sPsx_drawenv_clipw_BDCD48 / 16 - x_fixed + 1;
+        width_clip = (sPsx_drawenv_clipw_BDCD48 / 16) - polyXPos + 1;
     }
 
-    if (height > sPsx_drawenv_cliph_BDCD4C / 16 - y_fixed + 1)
+    if (height > (sPsx_drawenv_cliph_BDCD4C / 16) - polyYPos + 1)
     {
-        height_clip = sPsx_drawenv_cliph_BDCD4C / 16 - y_fixed + 1;
+        height_clip = (sPsx_drawenv_cliph_BDCD4C / 16) - polyYPos + 1;
     }
 
-    WORD* pVramDst1 = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x_fixed + y_fixed * spBitmap_C2D038->field_10_locked_pitch);
-    WORD* pVramDst2 = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * x_fixed + y_fixed * spBitmap_C2D038->field_10_locked_pitch);
-
+    WORD* pVramStartPos = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * polyXPos + polyYPos * spBitmap_C2D038->field_10_locked_pitch);
+  
     int u_height = pPrim->field_14_verts[2].field_14_u - pPrim->field_14_verts[0].field_14_u;
     int v_width = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
-    int v_width2 = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
 
     int bytesToNextPixel = 0;
-    int vram_pitch = 0;
+    int vramPitchBytes = 0;
     if (u_height <= 0)
     {
+        // Swap them
         u_height = pPrim->field_14_verts[0].field_14_u - pPrim->field_14_verts[2].field_14_u;
-        pVramDst1 += width;
-        bytesToNextPixel = -2;
-        vram_pitch = 2048;
-        pVramDst2 = pVramDst1;
-        int tmpWidthClip = width + 1 - xpos_clip;
+        bytesToNextPixel = -static_cast<int>(sizeof(WORD));
+        vramPitchBytes = 1024 * sizeof(WORD);
+
+        pVramStartPos += width;
+
+        const int tmpWidthClip = width + 1 - xpos_clip;
         xpos_clip = width - width_clip + 1;
         width_clip = tmpWidthClip;
     }
     else
     {
-        bytesToNextPixel = 2;
-        vram_pitch = 2048;
+        bytesToNextPixel = sizeof(WORD);
+        vramPitchBytes = 1024 * sizeof(WORD);
     }
 
-    int height_for_v = 0;
-    if (v_width >= 0)
+    if (v_width < 0)
     {
-        height_for_v = height;
-    }
-    else
-    {
-        height_for_v = height;
-        vram_pitch = -2048;
-        pVramDst2 = &pVramDst1[1024 * height];
-        int tmpHeightClip = height_clip - ypos_clip;
+        // Swap them
         v_width = pPrim->field_14_verts[0].field_18_v - pPrim->field_14_verts[2].field_18_v;
-        v_width2 = pPrim->field_14_verts[0].field_18_v - pPrim->field_14_verts[2].field_18_v;
+        vramPitchBytes = -2048;
+
+        pVramStartPos = &pVramStartPos[1024 * height];
+
+        const int tmpHeightClip = height_clip - ypos_clip;
         ypos_clip = height - height_clip + 1;
-        ypos_clip2 = height - height_clip + 1;
         height_clip = ypos_clip + tmpHeightClip;
     }
 
     WORD* pCompressedIter = ((WORD*)pData) + 2;                  // skip w/h to get to compressed data
     Scaled_Poly_FT4_Inline_Texture_Render(
         xpos_clip,
-        ypos_clip2,
+        ypos_clip,
         width_clip,
         height_clip,
         v_width,
         u_height,
         width,
         height,
-        pVramDst2,
-        vram_pitch,
+        pVramStartPos,
+        vramPitchBytes,
         pCompressedIter,
         pClut,
         bytesToNextPixel,
-        !!bHasAllBackClutEntry);
+        skipBlackPixels > 0);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int height, const void* pCompressedData)
