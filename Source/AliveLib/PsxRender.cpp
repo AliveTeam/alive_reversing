@@ -1371,9 +1371,9 @@ EXPORT void CC PSX_Render_TILE_4F6A70(const PSX_RECT* pRect, const PrimHeader* p
     PSX_Render_TILE_Blended_Large_4F6D00(pVRamDst, rect_w, rect_h, r0_S3, g0_S3, b0_S3, width_pitch);
 }
 
-static inline BYTE Decompress_Next(int& control_byte, unsigned int& dstIdx, const WORD*& pCompressed)
+static inline BYTE Decompress_Next_Type3(int& control_byte, unsigned int& dstIdx, const WORD*& pCompressed)
 {
-    if (!control_byte)
+    if (control_byte == 0)
     {
         dstIdx = *(DWORD *)pCompressed;
         control_byte = 32;
@@ -1392,7 +1392,23 @@ static inline BYTE Decompress_Next(int& control_byte, unsigned int& dstIdx, cons
     return data;
 }
 
-template<class TfnWritePixel, class TfnConvertPixel>
+
+static inline BYTE Decompress_Next_Type6(int& control_byte, unsigned int& dstIdx, const WORD*& pCompressed)
+{
+    if (control_byte == 0)
+    {
+        dstIdx = *(DWORD *)pCompressed;
+        control_byte = 32;
+        pCompressed += 2;
+    }
+
+    control_byte = control_byte - 4;
+    const BYTE data = dstIdx & 0xF;
+    dstIdx = dstIdx >> 4;
+    return data;
+}
+
+template<class TfnWritePixel, class TfnConvertPixel, class TfnDecompress>
 static void Scaled_Poly_FT4_Inline_Texture_Render(
     int xpos_clip,
     int ypos_clip,
@@ -1408,7 +1424,8 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     const WORD* pClut,
     int bytesToNextPixel,
     TfnWritePixel fnWritePixel,
-    TfnConvertPixel fnConvertPixel)
+    TfnConvertPixel fnConvertPixel,
+    TfnDecompress fnDecompress)
 {
     if (v_height <= 0)
     {
@@ -1474,14 +1491,14 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
                     // Skip end of line clipped area
                     while (u_width_counter <= u_width)
                     {
-                        const int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
-                        int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                        const int blackPixelCount = fnDecompress(control_byte, dstIdx, pCompressedIter);
+                        int runLengthCount = fnDecompress(control_byte, dstIdx, pCompressedIter);
 
                         u_width_counter += runLengthCount + blackPixelCount;
 
                         while (runLengthCount > 0)
                         {
-                            Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                            fnDecompress(control_byte, dstIdx, pCompressedIter);
                             runLengthCount--;
                         }
                     }
@@ -1489,7 +1506,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
                 }
                 else
                 {
-                    const int blackLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    const int blackLengthCount = fnDecompress(control_byte, dstIdx, pCompressedIter);
                     const int totalWidthBytes = blackLengthCount + u_width_counter;
                     u_width_counter = totalWidthBytes;
 
@@ -1511,12 +1528,12 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
                     }
 
                     // Write non black pixels
-                    BYTE runLengthCopyCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    BYTE runLengthCopyCount = fnDecompress(control_byte, dstIdx, pCompressedIter);
                     for (int numBytesToCopy = 0; numBytesToCopy < runLengthCopyCount; numBytesToCopy++)
                     {
                         WORD* pVramXOff = pVramIter;
 
-                        BYTE decompressed_byte = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                        BYTE decompressed_byte = fnDecompress(control_byte, dstIdx, pCompressedIter);
 
                         int width_to_write = 0;
                         while (u_width_counter == static_cast<int>(u_pos))
@@ -1574,14 +1591,14 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
             int u_skip_counter = 0;
             while (u_skip_counter <= u_width)
             {
-                const int blackPixelCount = Decompress_Next(control_byte, dstIdx, pCompressedIter) + u_skip_counter;
-                int runLengthCount = Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                const int blackPixelCount = fnDecompress(control_byte, dstIdx, pCompressedIter) + u_skip_counter;
+                int runLengthCount = fnDecompress(control_byte, dstIdx, pCompressedIter);
 
                 u_skip_counter = runLengthCount + blackPixelCount;
 
                 while (runLengthCount > 0)
                 {
-                    Decompress_Next(control_byte, dstIdx, pCompressedIter);
+                    fnDecompress(control_byte, dstIdx, pCompressedIter);
                     runLengthCount--;
                 }
             }
@@ -1589,7 +1606,8 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     }
 }
 
-static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int height, const void* pData)
+template<class TFnDecompress>
+static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int height, const void* pData, TFnDecompress fnDecompress)
 {
     WORD clut_local[64] = {};
 
@@ -1810,22 +1828,32 @@ static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int heigh
 
         // No conversion required
         //return clut_value;
-    }
+    }, fnDecompress
     );
 }
 
-EXPORT unsigned int CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* pPrim, int width, int height, const void* pCompressed)
+EXPORT void CC PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* pPrim, int width, int height, const void* pCompressed)
 {
-    //NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED();
+    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pCompressed, Decompress_Next_Type6);
+}
 
-    // HACK: Just call the other for now
-    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pCompressed);
-    return 0;
+EXPORT void CC PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(OT_Prim* pPrim, int width, int height, const void* pCompressed)
+{
+    NOT_IMPLEMENTED();
+    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pCompressed, Decompress_Next_Type6);
+}
+
+EXPORT void CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* pPrim, int width, int height, const void* pCompressed)
+{
+    NOT_IMPLEMENTED();
+    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pCompressed, Decompress_Next_Type3);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, int height, const void* pData)
 {
-    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pData);
+    NOT_IMPLEMENTED();
+    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pData, Decompress_Next_Type3);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int height, const void* pCompressedData)
@@ -1913,29 +1941,16 @@ EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, int width, int he
     }
 }
 
-
-EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* /*pOT*/, int /*width*/, int /*height*/, DWORD* /*pCompressed*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT unsigned int CC PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(OT_Prim* /*pOT*/, int /*width*/, int /*height*/, DWORD* /*pCompressed*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT void CC PSX_Render_PolyFT4_4bit_517880(OT_Prim* pOt, int width, int height, const void* pCompressed)
 {
     assert(sRedShift_C215C4 == 11); // Should be the only possible case
     if (pOt->field_B_flags & 2)
     {
-        PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(pOt, width, height, (DWORD*)pCompressed);
+        PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(pOt, width, height, pCompressed);
     }
     else
     {
-        PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(pOt, width, height, (DWORD*)pCompressed);
+        PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(pOt, width, height, pCompressed);
     }
 }
 
