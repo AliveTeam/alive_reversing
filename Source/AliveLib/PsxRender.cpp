@@ -1440,6 +1440,14 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
 
     int yCounter = 0;
     float v_pos = 0.0f;
+
+    if ( (xpos_clip % 2) !=0)
+    {
+        // TODO: HACK HACK, some xpos rendering is off by 1
+        pVramDst = pVramDst - 1;
+    }
+  
+
     for (int v_height_counter = 0; v_height_counter < v_height; v_height_counter++)
     {
         if (yCounter >= height_clip)
@@ -1751,15 +1759,15 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
 
     if ((width > sPsx_drawenv_clipw_BDCD48 / 16) - polyXPos + 1)
     {
-        width_clip = (sPsx_drawenv_clipw_BDCD48 / 16) - polyXPos + 1;
+        width_clip = (sPsx_drawenv_clipw_BDCD48 / 16) - (polyXPos + 1);
     }
 
     if (height > (sPsx_drawenv_cliph_BDCD4C / 16) - polyYPos + 1)
     {
-        height_clip = (sPsx_drawenv_cliph_BDCD4C / 16) - polyYPos + 1;
+        height_clip = (sPsx_drawenv_cliph_BDCD4C / 16) - (polyYPos + 1);
     }
 
-    WORD* pVramStartPos = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * polyXPos + polyYPos * spBitmap_C2D038->field_10_locked_pitch);
+    WORD* pVramStartPos = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + (sizeof(WORD) * polyXPos) + (polyYPos * spBitmap_C2D038->field_10_locked_pitch));
 
     int u_height = pPrim->field_14_verts[2].field_14_u - pPrim->field_14_verts[0].field_14_u;
     int v_width = pPrim->field_14_verts[2].field_18_v - pPrim->field_14_verts[0].field_18_v;
@@ -1775,7 +1783,7 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
 
         pVramStartPos += width;
 
-        const int tmpWidthClip = width + 1 - xpos_clip;
+        const int tmpWidthClip = width - xpos_clip + 1;
         xpos_clip = width - width_clip + 1;
         width_clip = tmpWidthClip;
     }
@@ -1806,7 +1814,7 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
         {
             if (!skipBlackPixels && clut_value == 0)
             {
-                //return false;
+                return false;
             }
             return true;
         }
@@ -1814,7 +1822,7 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
         {
             if (!skipBlackPixels && clut_value == 0)
             {
-               // return false;
+                return false;
             }
             return true;
         }
