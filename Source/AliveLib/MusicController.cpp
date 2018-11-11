@@ -13,6 +13,176 @@ ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
 ALIVE_VAR(1, 0x5C301C, DWORD, sMusicControllerBaseTimeStamp_5C301C, 0);
 ALIVE_VAR(1, 0x5c3024, DWORD, sMusicTime_5C3024, 0);
 
+struct MusicController_Record3_Sub
+{
+    __int16 field_0;
+    char field_2_min;
+    char field_3_max;
+};
+ALIVE_ASSERT_SIZEOF(MusicController_Record3_Sub, 4);
+
+struct MusicController_Record3
+{
+    MusicController_Record3_Sub field_0[3];
+    BYTE field_C;
+    BYTE field_D;
+};
+ALIVE_ASSERT_SIZEOF(MusicController_Record3, 0xE);
+
+// TODO: 17 = max levels?
+
+const MusicController_Record3 stru_55D1E0[17] =
+{
+    { { { 2048, 107, 108 },   { -1, 109, 109 },     { -1, 0, 0     } }, 1u, 0u },
+    { { { 320, 103, 103 },    { 1280, 102, 102 },   { -1, 101, 101 } }, 1u, 0u },
+    { { { 512, 8, 8 },        { 512, 7, 7 },        { -1, 6, 6     } }, 1u, 0u },
+    { { { 512, 17, 17 },      { 512, 16, 16 },      { -1, 15, 15   } }, 1u, 0u },
+    { { { 1024, 33, 33 },     { 512, 32, 32 },      { -1, 31, 31   } }, 1u, 0u },
+    { { { 640, 49, 49 },      { 640, 48, 48 },      { -1, 47, 47   } }, 1u, 0u },
+    { { { 640, 62, 62 },      { 640, 61, 61 },      { -1, 60, 60   } }, 1u, 0u },
+    { { { -1, 40, 40 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
+    { { { 320, 72, 72 },      { 320, 71, 71 },      { -1, 70, 70   } }, 1u, 0u },
+    { { { 320, 88, 88 },      { 320, 87, 87 },      { -1, 86, 86   } }, 1u, 0u },
+    { { { 512, 97, 97 },      { -1, 96, 97 },       { -1, -1, -1   } }, 1u, 0u },
+    { { { -1, 24, 24 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
+    { { { -1, 56, 56 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
+    { { { -1, 66, 66 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
+    { { { -1, 79, 79 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
+    { { { 320, 103, 103 },    { 1280, 102, 102 },   { -1, 101, 101 } }, 1u, 0u },
+    { { { -1, 111, 111 },     { -1, 0, 0 },         { -1, 0, 0     } }, 1u, 0u }
+};
+
+// TODO: 118 = max SEQs?
+struct MusicController_Record2
+{
+    WORD field_0_idx;
+    WORD field_2_duration;
+};
+ALIVE_ASSERT_SIZEOF(MusicController_Record2, 4);
+
+const MusicController_Record2 stru_55D008[118] =
+{
+    { 27u, 320u },
+    { 28u, 320u },
+    { 29u, 320u },
+    { 30u, 320u },
+    { 31u, 320u },
+    { 32u, 320u },
+    { 33u, 512u },
+    { 34u, 512u },
+    { 35u, 256u },
+    { 36u, 320u },
+    { 38u, 320u },
+    { 37u, 320u },
+    { 39u, 160u },
+    { 40u, 640u },
+    { 41u, 160u },
+    { 42u, 512u },
+    { 43u, 512u },
+    { 44u, 512u },
+    { 45u, 256u },
+    { 46u, 512u },
+    { 47u, 256u },
+    { 48u, 160u },
+    { 49u, 640u },
+    { 50u, 160u },
+    { 51u, 448u },
+    { 52u, 224u },
+    { 54u, 112u },
+    { 53u, 448u },
+    { 55u, 160u },
+    { 56u, 640u },
+    { 57u, 160u },
+    { 58u, 512u },
+    { 59u, 512u },
+    { 60u, 1024u },
+    { 61u, 256u },
+    { 62u, 1024u },
+    { 63u, 256u },
+    { 64u, 160u },
+    { 65u, 640u },
+    { 66u, 160u },
+    { 67u, 448u },
+    { 68u, 224u },
+    { 70u, 112u },
+    { 69u, 448u },
+    { 71u, 160u },
+    { 72u, 640u },
+    { 73u, 160u },
+    { 74u, 320u },
+    { 75u, 640u },
+    { 76u, 640u },
+    { 77u, 320u },
+    { 79u, 320u },
+    { 78u, 320u },
+    { 80u, 160u },
+    { 81u, 640u },
+    { 82u, 160u },
+    { 83u, 448u },
+    { 84u, 112u },
+    { 86u, 448u },
+    { 85u, 224u },
+    { 87u, 640u },
+    { 88u, 640u },
+    { 89u, 640u },
+    { 90u, 320u },
+    { 92u, 320u },
+    { 91u, 320u },
+    { 93u, 448u },
+    { 94u, 112u },
+    { 96u, 448u },
+    { 95u, 224u },
+    { 97u, 320u },
+    { 98u, 320u },
+    { 99u, 320u },
+    { 100u, 320u },
+    { 102u, 320u },
+    { 101u, 320u },
+    { 103u, 160u },
+    { 104u, 640u },
+    { 105u, 160u },
+    { 106u, 448u },
+    { 107u, 112u },
+    { 109u, 448u },
+    { 108u, 224u },
+    { 110u, 160u },
+    { 111u, 640u },
+    { 112u, 160u },
+    { 113u, 320u },
+    { 114u, 320u },
+    { 115u, 320u },
+    { 116u, 320u },
+    { 118u, 320u },
+    { 117u, 320u },
+    { 119u, 160u },
+    { 120u, 640u },
+    { 121u, 160u },
+    { 122u, 512u },
+    { 123u, 512u },
+    { 124u, 512u },
+    { 125u, 320u },
+    { 127u, 320u },
+    { 126u, 320u },
+    { 128u, 320u },
+    { 129u, 1280u },
+    { 130u, 320u },
+    { 131u, 320u },
+    { 133u, 320u },
+    { 132u, 320u },
+    { 134u, 256u },
+    { 135u, 2048u },
+    { 136u, 2048u },
+    { 137u, 256u },
+    { 138u, 2048u },
+    { 139u, 256u },
+    { 140u, 160u },
+    { 141u, 640u },
+    { 142u, 160u },
+    { 141u, 640u },
+    { 0u, 0u }
+};
+
+
 int CC MusicController::Create_47FC40()
 {
     if (pMusicController_5C3020)
@@ -398,7 +568,73 @@ void MusicController::sub_47F260()
 
 void MusicController::sub_47F0B0()
 {
-    NOT_IMPLEMENTED();
+    if (field_58_flags & 0x10 || ((field_2C_flags_and_seq_idx & 0x8000u) != 0))
+    {
+        if (field_58_flags & 8)
+        {
+            field_30_music_time = 0;
+            field_58_flags &= ~8;
+            field_34_music_start_time = sMusicTime_5C3024;
+        }
+
+        int musicTime = sMusicTime_5C3024;
+        if (sMusicTime_5C3024 >= this->field_30_music_time && this->field_58_flags & 0x10)
+        {
+            if ((field_2C_flags_and_seq_idx & 0x8000u) == 0)
+            {
+                SND_SEQ_Stop_4CAE60(field_2C_flags_and_seq_idx);
+                musicTime = sMusicTime_5C3024;
+            }
+
+            __int16 random = 0;
+            if (field_42_type)
+            {
+                random = Math_RandomRange_496AB0(
+                    stru_55D1E0[field_24_currentLevelID].field_0[0].field_2_min,
+                    stru_55D1E0[field_24_currentLevelID].field_0[0].field_3_max);
+            }
+            else
+            {
+                const int calculatedTime = musicTime - field_34_music_start_time;
+                int total = 0;
+                bool found = false;
+                for (const MusicController_Record3_Sub& rec : stru_55D1E0[field_24_currentLevelID].field_0)
+                {
+                    total += rec.field_0;
+                    if (rec.field_0 < 0 || calculatedTime < total)
+                    {
+                        random = Math_RandomRange_496AB0(rec.field_2_min, rec.field_3_max);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    field_2C_flags_and_seq_idx = -1;
+                    field_30_music_time = sMusicTime_5C3024;
+                    return;
+                }
+            }
+
+            if (random < 0)
+            {
+                field_2C_flags_and_seq_idx = -1;
+                field_30_music_time = sMusicTime_5C3024;
+            }
+            else
+            {
+                field_2C_flags_and_seq_idx = stru_55D008[random].field_0_idx;
+                SND_SEQ_Play_4CAB10(field_2C_flags_and_seq_idx, stru_55D1E0[field_24_currentLevelID].field_C, field_50_current_vol, field_50_current_vol);
+                field_30_music_time = sMusicTime_5C3024 + stru_55D008[random].field_2_duration;
+            }
+        }
+    }
+    else
+    {
+        SND_SEQ_Stop_4CAE60(field_2C_flags_and_seq_idx);
+        field_2C_flags_and_seq_idx = -1;
+    }
 }
 
 void CC MusicController::sub_47FD60(__int16 typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
