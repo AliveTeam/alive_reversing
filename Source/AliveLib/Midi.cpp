@@ -10,14 +10,35 @@
 #include "stdlib.hpp"
 #include "Sound.hpp"
 #include "Abe.hpp"
+#include "MusicController.hpp"
+#include "BackgroundMusic.hpp"
 #include <timeapi.h>
 #include <gmock/gmock.h>
 
 void Midi_ForceLink() { }
 
-EXPORT void CC SEQ_4CB060()
+EXPORT void SND_Stop_All_Seqs_4CA850();
+
+EXPORT void CC SND_StopAll_4CB060()
 {
-    NOT_IMPLEMENTED();
+    MusicController::EnableMusic_47FE10(FALSE);
+    BackgroundMusic::Stop_4CB000();
+    SND_Clear_4CB4B0();
+    SND_Stop_All_Seqs_4CA850();
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (!pObj->field_6_flags.Get(BaseGameObject::eDead))
+        {
+            pObj->vnullsub_4DC0F0();
+        }
+    }
+    MIDI_Stop_All_Channels_4FDFE0();
 }
 
 EXPORT void SsUtReverbOff_4FE350()

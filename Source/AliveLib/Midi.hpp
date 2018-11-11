@@ -45,7 +45,7 @@ ALIVE_ASSERT_SIZEOF(MIDI_Struct1, 0x2C);
 ALIVE_VAR_EXTERN(SoundBlockInfo*, sLastLoadedSoundBlockInfo_BB2E34);
 
 EXPORT void CC MIDI_UpdatePlayer_4FDC80();
-EXPORT void CC SEQ_4CB060();
+EXPORT void CC SND_StopAll_4CB060();
 EXPORT void CC SND_Init_4CA1F0();
 EXPORT void CC SND_Shutdown_4CA280();
 EXPORT void CC SND_SsVabClose_4FC5B0(int vabId);

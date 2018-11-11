@@ -396,7 +396,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         }
         if (SND_Seq_Table_Valid_4CAFE0())
         {
-            SEQ_4CB060();
+            SND_StopAll_4CB060();
         }
 
         ret = -(MessageBoxA(hWnd, "Do you really want to quit?", "Abe's Exoddus 1.0", 0x124u) != 6); // TODO: Constants, refactor negation

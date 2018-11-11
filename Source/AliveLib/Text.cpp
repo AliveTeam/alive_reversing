@@ -228,7 +228,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
 
     if (SND_Seq_Table_Valid_4CAFE0())
     {
-        SEQ_4CB060();
+        SND_StopAll_4CB060();
     }
 
     DWORD displayForMsecs = timeGetTime() + 1000;
