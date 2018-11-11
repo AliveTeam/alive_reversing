@@ -32,6 +32,7 @@ public:
     EXPORT void SetMusicVolumeDelayed_47FB00(__int16 vol, __int16 delay);
     EXPORT void sub_47EFD0();
     EXPORT void sub_47F910(__int16 typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
+
     EXPORT void sub_47F260();
     EXPORT void sub_47F0B0();
 

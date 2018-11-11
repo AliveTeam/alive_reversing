@@ -8,6 +8,7 @@
 #include "Abe.hpp"
 #include "Map.hpp"
 #include "ObjectIds.hpp"
+#include "PathData.hpp"
 
 ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
 ALIVE_VAR(1, 0x5C301C, DWORD, sMusicControllerBaseTimeStamp_5C301C, 0);
@@ -50,6 +51,163 @@ const MusicController_Record3 stru_55D1E0[17] =
     { { { -1, 79, 79 },       { -1, -1, -1 },       { -1, -1, -1   } }, 1u, 0u },
     { { { 320, 103, 103 },    { 1280, 102, 102 },   { -1, 101, 101 } }, 1u, 0u },
     { { { -1, 111, 111 },     { -1, 0, 0 },         { -1, 0, 0     } }, 1u, 0u }
+};
+
+
+struct MusicController_Record
+{
+    char field_0;
+    char field_1;
+    char field_2;
+    char field_3;
+};
+ALIVE_ASSERT_SIZEOF(MusicController_Record, 0x4);
+
+const BYTE byte_55D468[17] =
+{
+    16u,
+    20u,
+    16u,
+    16u,
+    16u,
+    20u,
+    20u,
+    28u,
+    20u,
+    20u,
+    16u,
+    28u,
+    28u,
+    28u,
+    28u,
+    20u,
+    16u
+};
+
+const MusicController_Record stru_55D2D0[17] =
+{
+    { 111u, 16u, 0u, 0u },
+    { 104u, 20u, 0u, 0u },
+    { 9u, 20u, 0u, 0u },
+    { 18u, 16u, 0u, 0u },
+    { 34u, 16u, 0u, 0u },
+    { 50u, 20u, 0u, 0u },
+    { 63u, 20u, 0u, 0u },
+    { 41u, 28u, 0u, 0u },
+    { 73u, 20u, 0u, 0u },
+    { 89u, 20u, 0u, 0u },
+    { 98u, 20u, 0u, 0u },
+    { 25u, 28u, 0u, 0u },
+    { 57u, 28u, 0u, 0u },
+    { 67u, 28u, 0u, 0u },
+    { 80u, 28u, 0u, 0u },
+    { 104u, 20u, 0u, 0u },
+    { -1, 1u, 1u, 0u }
+};
+
+const MusicController_Record stru_55D314[17] =
+{
+    { 112, 16u, 0u, 0u },
+    { 105, 20u, 0u, 0u },
+    { 10, 20u, 0u, 0u },
+    { 19, 16u, 0u, 0u },
+    { 35, 16u, 0u, 0u },
+    { 51, 20u, 0u, 0u },
+    { 64, 20u, 0u, 0u },
+    { 42, 28u, 0u, 0u },
+    { 74, 20u, 0u, 0u },
+    { 90, 20u, 0u, 0u },
+    { 99, 20u, 0u, 0u },
+    { 26, 28u, 0u, 0u },
+    { 58, 28u, 0u, 0u },
+    { 68, 28u, 0u, 0u },
+    { 81, 28u, 0u, 0u },
+    { 105, 20u, 0u, 0u },
+    { -1, 1u, 1u, 0u }
+};
+
+const MusicController_Record stru_55D358[17] =
+{
+    { -1, 1u, 1u, 0u },
+    { 106u, 20u, 0u, 0u },
+    { 11u, 20u, 0u, 0u },
+    { 20u, 16u, 0u, 0u },
+    { 36u, 16u, 0u, 0u },
+    { 52u, 20u, 0u, 0u },
+    { 65u, 20u, 0u, 0u },
+    { 43u, 28u, 0u, 0u },
+    { 75u, 20u, 0u, 0u },
+    { 91u, 20u, 0u, 0u },
+    { 100u, 20u, 0u, 0u },
+    { 27u, 28u, 0u, 0u },
+    { 59u, 28u, 0u, 0u },
+    { 69u, 28u, 0u, 0u },
+    { 82u, 28u, 0u, 0u },
+    { 106u, 20u, 0u, 0u },
+    { -1, 1u, 1u, 0u }
+};
+
+const MusicController_Record stru_55D39C[17] =
+{
+    { -1, 1u, 1u, 0u },
+    { 113u, 20u, 0u, 0u },
+    { 12u, 20u, 0u, 0u },
+    { 21u, 20u, 0u, 0u },
+    { 37u, 20u, 0u, 0u },
+    { 53u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 44u, 20u, 0u, 0u },
+    { 76u, 20u, 0u, 0u },
+    { 92u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 28u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 83u, 20u, 0u, 0u },
+    { 113u, 20u, 0u, 0u },
+    { -1, 1u, 1u, 0u }
+};
+
+const MusicController_Record stru_55D3E0[17] =
+{
+    { -1, 1u, 1u, 0u },
+    { 114u, 20u, 0u, 0u },
+    { 13u, 20u, 0u, 0u },
+    { 22u, 20u, 0u, 0u },
+    { 38u, 20u, 0u, 0u },
+    { 54u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 45u, 20u, 0u, 0u },
+    { 77u, 20u, 0u, 0u },
+    { 93u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 29u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 84u, 20u, 0u, 0u },
+    { 114u, 20u, 0u, 0u },
+    { -1, 1u, 1u, 0u }
+};
+
+const MusicController_Record stru_55D424[17] =
+{
+    { -1, 1u, 1u, 0u },
+    { 115u, 20u, 0u, 0u },
+    { 14u, 20u, 0u, 0u },
+    { 23u, 20u, 0u, 0u },
+    { 39u, 20u, 0u, 0u },
+    { 55u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 46u, 20u, 0u, 0u },
+    { 78u, 20u, 0u, 0u },
+    { 94u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 30u, 20u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { -1, 1u, 0u, 0u },
+    { 85u, 20u, 0u, 0u },
+    { 115u, 20u, 0u, 0u },
+    { -1, 1u, 1u, 0u }
 };
 
 // TODO: 118 = max SEQs?
@@ -310,7 +468,7 @@ void MusicController::dtor_47EF50()
 {
     SetVTable(this, 0x5463C0); // vTbl_MusicController_5463C0
 
-    if ((field_40_flags_and_idx & 0x8000) == 0)
+    if (field_40_flags_and_idx > 0)
     {
         SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
     }
@@ -389,13 +547,13 @@ void MusicController::sub_47EFD0()
             field_4C_state = 0;
             field_50_current_vol = 0;
 
-            if ((field_2C_flags_and_seq_idx & 0x8000u) == 0) // TODO: These checks are just != -1 ?
+            if (field_2C_flags_and_seq_idx > 0) 
             {
                 SND_SEQ_Stop_4CAE60(field_2C_flags_and_seq_idx);
                 field_2C_flags_and_seq_idx = -1;
             }
 
-            if ((field_40_flags_and_idx & 0x8000u) == 0)
+            if (field_40_flags_and_idx > 0)
             {
                 SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
                 field_40_flags_and_idx = -1;
@@ -409,12 +567,12 @@ void MusicController::sub_47EFD0()
                 field_50_current_vol = field_52_target_volume;
                 field_4C_state = 1; // Playing ?
                 
-                if ((field_2C_flags_and_seq_idx & 0x8000u) == 0)
+                if (field_2C_flags_and_seq_idx  > 0)
                 {
                     SND_SEQ_SetVol_4CAD20(field_2C_flags_and_seq_idx, field_50_current_vol, field_50_current_vol);
                 }
 
-                if ((field_40_flags_and_idx & 0x8000u) == 0)
+                if (field_40_flags_and_idx > 0)
                 {
                     SND_SEQ_SetVol_4CAD20(field_40_flags_and_idx, field_50_current_vol, field_50_current_vol);
                 }
@@ -467,13 +625,13 @@ void MusicController::Update_47F730()
             field_48_last_music_frame = sMusicTime_5C3024;
             field_28_object_id = -1;
 
-            if ((field_2C_flags_and_seq_idx & 0x8000u) == 0)
+            if (field_2C_flags_and_seq_idx > 0)
             {
                 SND_SEQ_Stop_4CAE60(field_2C_flags_and_seq_idx);
                 field_2C_flags_and_seq_idx = -1;
             }
 
-            if ((field_40_flags_and_idx & 0x8000u) == 0)
+            if (field_40_flags_and_idx > 0)
             {
                 SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
                 field_40_flags_and_idx = -1;
@@ -562,13 +720,163 @@ void MusicController::sub_47F910(__int16 typeToSet, const BaseGameObject* pObj, 
 
 void MusicController::sub_47F260()
 {
-    // TODO: This function has crazy tables of static data
-    NOT_IMPLEMENTED();
+    int idx = 0;
+    const MusicController_Record* pRecord = nullptr;
+   
+    if (field_40_flags_and_idx < 0
+        || !SND_SsIsEos_DeInlined_4CACD0(field_40_flags_and_idx)
+        || field_58_flags & 0x20
+        && ( field_42_type == 2
+            || field_42_type == 3
+            || field_42_type == 10
+            || field_42_type == 11
+            || field_42_type == 12
+            || field_42_type == 13
+            || field_42_type == 7
+            || field_42_type == 8))
+    {
+        if (field_40_flags_and_idx > 0)
+        {
+            SND_SEQ_Stop_4CAE60(field_40_flags_and_idx);
+        }
+        
+        switch (field_42_type)
+        {
+        case 2: // Silence/base line only?
+            field_58_flags &= ~0x10u;
+            field_3C = 1;
+            SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
+            break;
+        case 3: // The rupture farms screen change random ambiance?
+            if (field_58_flags & 0x20)
+            {
+                idx = Math_RandomRange_496AB0(0, 1);
+            }
+            else
+            {
+                idx = -1;
+            }
+            field_58_flags &= ~0x10u;
+            field_3C = 1;
+            SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
+            break;
+        case 4: // danger near music - when slig is near
+        case 5: // slog tension
+        case 6: // slog tension 2?
+            if (field_42_type == 4)
+            {
+                pRecord = &stru_55D2D0[field_24_currentLevelID];
+            }
+            else if (field_42_type == 5)
+            {
+                pRecord = &stru_55D39C[field_24_currentLevelID];
+            }
+            else if (field_42_type == 6)
+            {
+                pRecord = &stru_55D424[field_24_currentLevelID];
+            }
+            idx = pRecord->field_0;
+            field_3C = pRecord->field_1;
+            field_58_flags = field_58_flags & ~0x10 | 0x10 * (pRecord->field_2 & 1);
+            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[pRecord->field_0].field_0_idx].field_9, 0);
+            break;
+        case 7: // chase music
+            pRecord = &stru_55D3E0[field_24_currentLevelID];
+            idx = pRecord->field_0;
+            field_3C = pRecord->field_1;
+            field_58_flags = field_58_flags & ~0x10 | 0x10 * (pRecord->field_2 & 1);
+            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[idx].field_0_idx].field_9, 0);
+            break;
+        case 8: // slig chase?
+            pRecord = &stru_55D314[field_24_currentLevelID];
+            field_3C = pRecord->field_1;
+            idx = pRecord->field_0;
+            field_58_flags = field_58_flags & ~0x10 | 0x10 * (pRecord->field_2 & 1);
+            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[idx].field_0_idx].field_9, 0);
+            break;
+        case 9: // slig possesed 
+            if (field_58_flags & 0x20)
+            {
+                pRecord = &stru_55D358[field_24_currentLevelID];
+                field_3C = pRecord->field_1;
+                idx = stru_55D358[field_24_currentLevelID].field_0;
+                field_58_flags = field_58_flags & ~0x10 | 0x10 * (pRecord->field_2 & 1);
+                SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[idx].field_0_idx].field_9, 0);
+            }
+            else
+            {
+                field_58_flags = field_58_flags | 0x10;
+                field_3C = 20;
+                SetMusicVolumeDelayed_47FB00(field_20_vol, 30);
+                field_58_flags |= 0x40u;
+            }
+            break;
+        case 10: // Death jingle short
+            field_3C = 1;
+            idx = (field_58_flags & 0x20) != 0 ? 2 : -1;
+            field_58_flags = field_58_flags & ~0x10;
+            SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
+            break;
+        case 11: // Death jingle long
+            field_3C = 1;
+            idx = (field_58_flags & 0x20) != 0 ? 3 : -1;
+            field_58_flags = field_58_flags & ~0x10;
+            SetMusicVolumeDelayed_47FB00(field_22_vol, 0);
+            break;
+        case 12: // secret area short
+            field_3C = 120;
+            idx = (field_58_flags & 0x20) != 0 ? 4 : -1;
+            field_58_flags = field_58_flags & ~0x10;
+            SetMusicVolumeDelayed_47FB00(127, 0);
+            break;
+        case 13: // secret area long
+            field_3C = 120;
+            idx = (field_58_flags & 0x20) != 0 ? 5 : -1;
+            field_58_flags = field_58_flags & ~0x10;
+            SetMusicVolumeDelayed_47FB00(80, 0);
+            break;
+        default: // no change ?
+            SetMusicVolumeDelayed_47FB00(field_20_vol, 30);
+            field_58_flags |= 0x10u;
+            field_3C = byte_55D468[field_24_currentLevelID];
+            break;
+        }
+
+        if (idx > 0)
+        {
+            field_40_flags_and_idx = stru_55D008[idx].field_0_idx;
+            field_44 = sMusicTime_5C3024 + stru_55D008[idx].field_2_duration;
+            SND_SEQ_Play_4CAB10(field_40_flags_and_idx, 1, field_50_current_vol, field_50_current_vol);
+        }
+        else
+        {
+            field_40_flags_and_idx = -1;
+            field_44 = 0;
+        }
+
+        field_38 = sMusicTime_5C3024;
+
+        if (!(field_58_flags & 0x20))
+        {
+            return;
+        }
+
+        if (field_58_flags & 0x40)
+        {
+            field_58_flags = field_58_flags & ~0x40;
+        }
+        else
+        {
+            field_58_flags |= 8;
+        }
+
+        field_58_flags &= ~0x20u;
+    }
 }
 
 void MusicController::sub_47F0B0()
 {
-    if (field_58_flags & 0x10 || ((field_2C_flags_and_seq_idx & 0x8000u) != 0))
+    if (field_58_flags & 0x10 || (field_2C_flags_and_seq_idx < 0))
     {
         if (field_58_flags & 8)
         {
@@ -580,7 +888,7 @@ void MusicController::sub_47F0B0()
         int musicTime = sMusicTime_5C3024;
         if (sMusicTime_5C3024 >= this->field_30_music_time && this->field_58_flags & 0x10)
         {
-            if ((field_2C_flags_and_seq_idx & 0x8000u) == 0)
+            if (field_2C_flags_and_seq_idx > 0)
             {
                 SND_SEQ_Stop_4CAE60(field_2C_flags_and_seq_idx);
                 musicTime = sMusicTime_5C3024;
