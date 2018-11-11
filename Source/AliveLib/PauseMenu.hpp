@@ -53,6 +53,8 @@ public:
 
     virtual void VDestructor(signed int flags);
     virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override;
 
     PauseMenu();
 
@@ -64,6 +66,8 @@ public:
 
     EXPORT void Update_48FD80();
     EXPORT void Render_490BD0(int **ot);
+
+    EXPORT void vsub_490D30();
 
     EXPORT void Page_Main_Update_4903E0();
     EXPORT void Page_Base_Render_490A50(int **ot, PauseMenuPage *mp);
@@ -91,8 +95,7 @@ public:
     ALIVE_ASSERT_SIZEOF(PauseMenu::PauseMenuPage, 0x14);
 
 public:
-    char gapE4;
-    byte gapE5[15];
+    byte gapE4[16];
     Font field_F4_font;
     __int16 word12C_flags;
     __int16 field_12E_selected_glow;
@@ -108,9 +111,9 @@ public:
     __int16 field_142;
     PauseMenu::PauseMenuPage field_144_active_menu;
     AnimationEx field_158_animation;
-    int field_1F0;
-    Poly_F4 field_1F4[4];
-    int field_264;
+    Prim_SetTPage field_1F0[2];
+    Poly_F4 field_210[2];
+    Prim_SetTPage field_248[2]; // Not used ??
 };
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 

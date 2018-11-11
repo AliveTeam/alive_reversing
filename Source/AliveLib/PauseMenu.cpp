@@ -198,8 +198,39 @@ MENU_END(55e3a0, Menu_Load);
 //ALIVE_VAR(1, 0x, t_sPauseMenuList_MainMenu, PageEntryList_MainMenu_55E1C8, sPauseMenuList_MainMenu);
 //ALIVE_VAR(1, 0x, t_sPauseMenuList_ReallyQuit, PageEntryList_ReallyQuit_55E278, sPauseMenuList_ReallyQuit);
 
+PauseMenuPageEntry PauseMenu__PageEntryList_Main_55E1C8[11] =
+{
+    { 2, 184, 48, 0, "continue", 128u, 16u, 255u, 1u },
+    { 2, 184, 70, 0, "quiksave", 128u, 16u, 255u, 1u },
+    { 2, 184, 92, 0, "controls", 128u, 16u, 255u, 1u },
+    { 2, 184, 114, 0, "status", 128u, 16u, 255u, 1u },
+    { 2, 184, 136, 0, "save", 128u, 16u, 255u, 1u },
+    { 2, 184, 158, 0, "load", 128u, 16u, 255u, 1u },
+    { 2, 184, 180, 0, "restart path", 128u, 16u, 255u, 1u },
+    { 2, 184, 202, 0, "quit", 128u, 16u, 255u, 1u },
+    { 1, 184, 16, 0, "paused", 128u, 16u, 255u, 1u },
+    { 1, 280, 16, 0, sScreenStringBuffer_5C92F0, 128u, 16u, 255u, 0u },
+    { 0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+
+PauseMenu::PauseMenuPage sPM_Page_Main = 
+{
+    &PauseMenu::Page_Main_Update_4903E0,
+    &PauseMenu::Page_Base_Render_490A50,
+    PauseMenu__PageEntryList_Main_55E1C8,
+    0,
+    100u,
+    100u,
+    100u,
+    0u,
+    0u,
+    0u
+};
+
 // TODO: SET VALUES
-ALIVE_VAR(1, 0x5465B0, PauseMenu::PauseMenuPage, sPM_Page_Main_5465B0, {});
+ALIVE_VAR(1, 0x5465B0, PauseMenu::PauseMenuPage, sPM_Page_Main_5465B0, { sPM_Page_Main });
+
 ALIVE_VAR(1, 0x546610, PauseMenu::PauseMenuPage, sPM_Page_Controls_Actions_546610, {});
 ALIVE_VAR(1, 0x546628, PauseMenu::PauseMenuPage, sPM_Page_Load_546628, {});
 ALIVE_VAR(1, 0x5465F8, PauseMenu::PauseMenuPage, sPM_Page_Status_5465F8, {});
@@ -286,6 +317,16 @@ void PauseMenu::VDestructor(signed int flags)
 void PauseMenu::VUpdate()
 {
     Update_48FD80();
+}
+
+void PauseMenu::VRender(int** pOrderingTable)
+{
+    Render_490BD0(pOrderingTable);
+}
+
+void PauseMenu::VScreenChanged()
+{
+    vsub_490D30();
 }
 
 PauseMenu::PauseMenu()
@@ -394,11 +435,40 @@ EXPORT void CC sub_4C9870()
     NOT_IMPLEMENTED();
 }
 
-void PauseMenu::Render_490BD0(int ** /*ot*/)
+void PauseMenu::Render_490BD0(int ** ot)
 {
-    NOT_IMPLEMENTED();
+    field_142 = 0;
+
+    // Render the page
+    (this->*field_144_active_menu.field_4_fn_render)(ot, &field_144_active_menu);
+    
+    // Draw a full screen polygon that "dims" out the screen while paused
+    Prim_SetTPage* pTPage = &field_1F0[gPsxDisplay_5C1130.field_C_buffer_index];
+    Poly_F4* pPolys = &field_210[gPsxDisplay_5C1130.field_C_buffer_index];
+    PolyF4_Init_4F8830(pPolys);
+    Poly_Set_SemiTrans_4F8A60(&pPolys->mBase.header, TRUE);
+    Poly_Set_Blending_4F8A20(&pPolys->mBase.header, FALSE);
+    SetRGB0(pPolys, 
+        field_144_active_menu.field_E_background_r,
+        field_144_active_menu.field_F_background_g,
+        field_144_active_menu.field_10_background_b);
+    SetXY0(pPolys, 0, 0);
+    SetXY1(pPolys, 640, 0);
+    SetXY2(pPolys, 0, 240);
+    SetXY3(pPolys, 640, 240);
+    Init_SetTPage_4F5B60(pTPage, 0, 0, PSX_getTPage_4F60E0(0, 2, 0, 0));
+    OrderingTable_Add_4F8AA0(&ot[41], &pPolys->mBase.header);
+    OrderingTable_Add_4F8AA0(&ot[41], &pTPage->mBase);
+    pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, pScreenManager_5BB5F4->field_3A_idx);
 }
 
+EXPORT void PauseMenu::vsub_490D30()
+{
+    if (gMap_5C3030.field_A_5C303A_levelId == 16)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
 
 #if DEVELOPER_MODE
 // CUSTOM PAUSE MENU
@@ -843,6 +913,12 @@ void PauseMenu::Page_Main_Update_4903E0()
 
         SFX_Play_46FA90(0x54u, 90, 0x10000);
     }
+}
+
+EXPORT WORD CC sub_4A2B70()
+{
+    NOT_IMPLEMENTED();
+    return 1;
 }
 
 void PauseMenu::Update_48FD80()

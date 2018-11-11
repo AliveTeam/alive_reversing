@@ -14,6 +14,7 @@ public:
         eBackgroundAnimation = 7,
         eDDCheat = 19,
         eGameSpeak = 38,
+        eType_45 = 45,
         eType_67 = 67,
         eType_Abe = 69,
         eResourceManager = 79,

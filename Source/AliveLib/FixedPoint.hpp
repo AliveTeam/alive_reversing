@@ -65,6 +65,11 @@ inline bool operator < (const FixedPoint& lhs, const FixedPoint& rhs)
     return lhs.fpValue < rhs.fpValue;
 }
 
+inline bool operator <= (const FixedPoint& lhs, const FixedPoint& rhs)
+{
+    return lhs.fpValue <= rhs.fpValue;
+}
+
 inline bool operator > (const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue > rhs.fpValue;
