@@ -148,3 +148,4 @@ ALIVE_VAR_EXTERN(unsigned __int16, sCurrentControllerIndex_5C1BBE);
 ALIVE_VAR_EXTERN(DWORD, sLastPressedKey_BD30A0);
 ALIVE_VAR_EXTERN(int, sIsAKeyDown_BD309C);
 ALIVE_VAR_EXTERN(__int16, word_5C1B9A);
+ALIVE_VAR_EXTERN(int, sJoystickEnabled_5C9F70);
