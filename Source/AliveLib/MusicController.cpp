@@ -7,6 +7,7 @@
 #include "Events.hpp"
 #include "Abe.hpp"
 #include "Map.hpp"
+#include "ObjectIds.hpp"
 
 ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
 ALIVE_VAR(1, 0x5C301C, DWORD, sMusicControllerBaseTimeStamp_5C301C, 0);
@@ -333,9 +334,60 @@ void MusicController::Update_47F730()
     }
 }
 
-void MusicController::sub_47F910(__int16 /*typeToSet*/, const BaseGameObject* /*pObj*/, __int16 /*bFlag4*/, char /*bFlag0x20*/)
+void MusicController::sub_47F910(__int16 typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
 {
-    NOT_IMPLEMENTED();
+    MusicController::UpdateMusicTime_47F8B0();
+
+    if (typeToSet <= 1 || pObj)
+    {
+        if (!sObjectIds_5C1B70.Find_449CF0(field_28_object_id))
+        {
+            field_28_object_id = -1;
+        }
+
+        if (field_42_type == typeToSet)
+        {
+            if (typeToSet)
+            {
+                field_48_last_music_frame = sMusicTime_5C3024;
+            }
+
+            if (field_28_object_id != -1 && field_28_object_id == pObj->field_8_object_id)
+            {
+                field_58_flags = (field_58_flags & ~4) | 4 * (bFlag4 & 1);
+            }
+
+            if (!(field_58_flags & 0x20))
+            {
+                field_58_flags = (field_58_flags & ~0x20) | 0x20 * (bFlag0x20 & 1);
+            }
+            return;
+        }
+
+        if (!pObj)
+        {
+            if (field_58_flags & 4)
+            {
+                return;
+            }
+
+            if (bFlag4)
+            {
+                field_28_object_id = -1;
+            }
+        }
+        else if (pObj->field_8_object_id == field_28_object_id || field_28_object_id == -1 || !(field_58_flags & 4) && (bFlag4 || typeToSet >= field_42_type))
+        {
+            field_28_object_id = pObj->field_8_object_id;
+            field_58_flags = (field_58_flags & ~4) | 4 * (bFlag4 & 1);
+        }
+
+        field_58_flags |= 0x20u;
+        field_48_last_music_frame = sMusicTime_5C3024;
+        field_42_type = typeToSet;
+        field_44 = 0;
+        return;
+    }
 }
 
 void MusicController::sub_47F260()
