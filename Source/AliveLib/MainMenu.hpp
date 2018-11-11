@@ -153,7 +153,7 @@ public:
     EXPORT void sub_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);
-    EXPORT static int DrawMenuText_4D20D0(MainMenuText *array, int **ot, Font *font, int *polyIndex, char a5);
+    EXPORT static void DrawMenuText_4D20D0(MainMenuText *array, int **ot, Font *font, int *polyIndex, char a5);
 
     // Page Functions
     EXPORT void t_Render_Abe_Speak_4D2060(int** ot);

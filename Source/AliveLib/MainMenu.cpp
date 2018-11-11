@@ -944,7 +944,7 @@ void MainMenuController::Page_Front_Render_4D24B0(int** ot)
 ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
 ALIVE_VAR(1, 0x5c1b88, int, dword_5C1B88, 0);
 
-signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD input)
+signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
 {
     // TODO: De-dupe the big parts of duplicated code in here
     if (field_23C_T80.Get(Flags::eBit21))
@@ -2137,87 +2137,89 @@ void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
             ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbespeakResID, TRUE, FALSE);
 }
 
-int MainMenuController::DrawMenuText_4D20D0(MainMenuText * /*array*/, int ** /*ot*/, Font * /*font*/, int * /*polyIndex*/, char /*a5*/)
+const char byte_55EE00[2] = { '\x18', '\0' };
+const char byte_55EDEC[2] = { '\x19', '\0' };
+
+void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Font* font, int* polyIndex, char op2)
 {
-    NOT_IMPLEMENTED();
+    const bool bCancel = strstr(array->field_8_text, byte_55EE00) != 0; // cancel
+    const bool bEndOfMedium = strstr(array->field_8_text, byte_55EDEC) != 0; // end of medium
 
-    //bool charIndex; // bl
-    //char *v7; // eax
-    //signed int v8; // edi
-    //int x; // esi
-    //signed int measure; // ecx
-    //int xOffset; // edx
-    //unsigned int v12; // edx
-    //int v13; // esi
-    //unsigned int v14; // edx
-    //char v15; // bl
-    //signed int v16; // eax
-    //int result; // eax
-    //char dst[32]; // [esp+10h] [ebp-20h]
-    //bool char2Index; // [esp+34h] [ebp+4h]
-    //int y; // [esp+34h] [ebp+4h]
-    //signed int op2a; // [esp+44h] [ebp+14h]
+    char textBuffer[32] = {};
+    String_FormatString_4969D0(array->field_8_text, textBuffer, _countof(textBuffer), array->field_14 == 0);
+    
+    if (op2)
+    {
+        char* plusSignIx = strchr(textBuffer, '+');
+        if (plusSignIx)
+        {
+            strcpy(textBuffer, plusSignIx + 1);
+        }
+    }
 
-    //charIndex = strstr(array->field_8_text, "\x18") != 0;
-    //char2Index = strstr(array->field_8_text, "\x19") != 0;
-    //String_FormatString_4969D0(array->field_8_text, dst, 32, array->field_14 == 0);
-    //if (a5)
-    //{
-    //    v7 = strchr(dst, '+');
-    //    if (v7)
-    //        strcpy(dst, v7 + 1);
-    //}
-    //if (!array->field_14 && dst[0] && charIndex != char2Index)
-    //    strcat(dst, "+");
-    //if (array->field_10_scale == 0.0)
-    //{
-    //    op2a = 55050;
-    //    v8 = 55050;
-    //}
-    //else
-    //{
-    //    v8 = (signed __int64)(array->field_10_scale * 65536.0);
-    //    op2a = (signed __int64)(array->field_10_scale * 65536.0);
-    //}
-    //x = array->field_0_x;
-    //y = array->field_4_y;
-    //if (array->field_C_align == 1)
-    //{
-    //    v14 = (signed int)(40 * x + 11 + ((unsigned __int64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
-    //    v13 = (v14 >> 31) + v14;
-    //}
-    //else
-    //{
-    //    measure = font->MeasureWidth_4336C0(dst, (FP)v8);
-    //    xOffset = measure / -2;
-    //    if (array->field_C_align == 2)
-    //        xOffset = -measure;
-    //    v8 = op2a;
-    //    v12 = (signed int)(40 * (xOffset + x) + 11 + ((unsigned __int64)(-1307163959i64 * (40 * (xOffset + x) + 11)) >> 32)) >> 4;
-    //    v13 = strlen(dst) + v12 + (v12 >> 31);
-    //}
-    //v15 = byte_5CA4B4;
-    //v16 = Math_FixedPoint_Multiply_496C50(-655360, v8);
-    //byte_5CA4B4 = 1;
-    //result = font->DrawString_4337D0(
-    //    ot,
-    //    dst,
-    //    v13,
-    //    v16 / 0x10000 + y + 1,
-    //    0,
-    //    1,
-    //    0,
-    //    39,
-    //    0,
-    //    255,
-    //    0,
-    //    *polyIndex,
-    //    (FP)v8,
-    //    640,
-    //    0);
-    //*polyIndex = result;
-    //byte_5CA4B4 = v15;
-    //return result;
+    if (!array->field_14)
+    {
+        if (textBuffer[0])
+        {
+            if (bCancel != bEndOfMedium)
+            {
+                strcat(textBuffer, "+");
+            }
+        }
+    }
+
+    FP fontScale;
+    if (array->field_10_scale == 0.0)
+    {
+        fontScale = FP_FromDouble(0.84f); // 0xD70A
+    }
+    else
+    {
+        fontScale = FP_FromDouble(array->field_10_scale);
+    }
+
+    const int array_field_x = array->field_0_x;
+    const int array_field_y = array->field_4_y;
+
+    short text_xpos = 0;
+    if (array->field_C_align == 1)
+    {
+        text_xpos = (40 * array_field_x) / 23;
+    }
+    else
+    {
+        int fontWidth = font->MeasureWidth_4336C0(textBuffer, fontScale);
+        int halfFontWidth = fontWidth / -2;
+        if (array->field_C_align == 2)
+        {
+            halfFontWidth = -fontWidth;
+        }
+        text_xpos = static_cast<short>(strlen(textBuffer)) + ((40 * (halfFontWidth + array_field_x)) / 23);
+    }
+
+    const FP text_ypos = FP_FromInteger(-10) * fontScale; // -655360
+
+    const BYTE oldDrawInScreenSpace = sFontDrawScreenSpace_5CA4B4;
+    sFontDrawScreenSpace_5CA4B4 = 1;
+
+    *polyIndex = font->DrawString_4337D0(
+        ot,
+        textBuffer,
+        text_xpos,
+        static_cast<short>(text_ypos.GetExponent() + array_field_y + 1),
+        0,
+        1,
+        0,
+        39,
+        0,
+        255,
+        0,
+        *polyIndex,
+        fontScale,
+        640,
+        0);
+
+    sFontDrawScreenSpace_5CA4B4 = oldDrawInScreenSpace;
 }
 
 void MainMenu_ForceLink()
