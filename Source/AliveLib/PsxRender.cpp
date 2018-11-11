@@ -1606,46 +1606,56 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     }
 }
 
-template<class TFnDecompress>
-static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int height, const void* pData, TFnDecompress fnDecompress)
+template<size_t clut_size, class TFnDecompress>
+static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, int width, int height, const void* pData, TFnDecompress fnDecompress)
 {
-    WORD clut_local[64] = {};
+    WORD clut_local[clut_size] = {};
 
     const WORD* pClut = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 32 * ((pPrim->field_12_clut & 0x3F) + (pPrim->field_12_clut >> 6 << 6)));
-
 
     const __int16* lut_r = &stru_C146C0.r[pPrim->field_8_r >> 3][0];
     const __int16* lut_g = &stru_C146C0.g[pPrim->field_9_g >> 3][0];
     const __int16* lut_b = &stru_C146C0.b[pPrim->field_A_b >> 3][0];
 
-    int skipBlackPixels = 1;
-    bool isSemiTrans = true;
-    if (isSemiTrans)
+    int skipBlackPixels = 0;
+    int unknown = 1;
+
+    if (pPrim->field_B_flags & 1)
     {
-        if (pPrim->field_B_flags & 1)
+        for (int i = 1; i < 64; i++)
         {
-            for (int i = 1; i < 64; i++)
+            if (isSemiTrans)
             {
                 if (pClut[i] == 0)
                 {
-                    // some var = 1
-                    //skipBlackPixels = 0;
+                    skipBlackPixels = 1;
                 }
 
                 if (!(pClut[i] & 0x20))
                 {
-                    // some other var = 0
+                    unknown = 0;
+                }
+            }
+            else
+            {
+                if (pClut[i] == 0)
+                {
+                    skipBlackPixels = 1;
+                    break;
                 }
             }
         }
-        else
+    }
+    else
+    {
+        for (int i = 0; i < clut_size; i++)
         {
-            for (int i = 0; i < 64; i++)
+            if (isSemiTrans)
             {
                 if (pClut[i] == 0)
                 {
                     clut_local[i] = 0;
-                    skipBlackPixels = i > 0;
+                    skipBlackPixels = i == 0;
                 }
                 else if (pClut[i] == 0x20)
                 {
@@ -1654,50 +1664,44 @@ static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int heigh
                 else
                 {
                     const WORD clut_entry = pClut[i];
-                    WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
-                    if (clut_entry & 0x20)
+                    if (clut_entry != 0)
                     {
-                        clut_pixel |= 0x20;
-                    }
-                    clut_local[i] = clut_pixel;
-                    if (clut_pixel == 0x20)
-                    {
-                        if (sTexture_page_abr_BD0F18 != BlendModes::eBlendMode_0)
+                        if (clut_entry == 0x20)
                         {
-                            //bAllowBlack = 1;
+                            clut_local[i] = 0x20;
                         }
                         else
                         {
-                            clut_local[i] = 0x861;
+                            const DWORD bitSet = (clut_entry & 0x20);
+                            WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
+                            clut_pixel |= bitSet;
+                            clut_local[i] = clut_pixel;
+
+                            if (clut_pixel == 0x20)
+                            {
+                                if (sTexture_page_abr_BD0F18 != BlendModes::eBlendMode_0)
+                                {
+                                    skipBlackPixels = 1;
+                                }
+                                else
+                                {
+                                    clut_local[i] = 0x861;
+                                }
+                            }
+
+                            if (!bitSet)
+                            {
+                                unknown = i == 0;
+                            }
                         }
                     }
-                    else if (clut_pixel == 0)
+                    else
                     {
-                        //bDunno = i == 0;
+                        skipBlackPixels = i > 0;
                     }
                 }
             }
-
-            // Use the local/converted clut
-            pClut = clut_local;
-        }
-    }
-    else
-    {
-        if (pPrim->field_B_flags & 1)
-        {
-            for (int i = 1; i < 64; i++)
-            {
-                if (pClut[i] == 0)
-                {
-                    skipBlackPixels = 0;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            for (int i = 0; i < 64; i++)
+            else
             {
                 if (pClut[i] == 0)
                 {
@@ -1712,13 +1716,18 @@ static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int heigh
                 {
                     const WORD clut_entry = pClut[i];
                     const WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
-                    clut_local[i] = clut_pixel | 0x20;
+                    clut_local[i] = clut_pixel | (clut_entry & 0x20);
                 }
             }
-
-            // Use the local/converted clut
-            pClut = clut_local;
         }
+
+        // Use the local/converted clut
+        pClut = clut_local;
+    }
+
+    if (sTexture_page_abr_BD0F18 != BlendModes::eBlendMode_1 /*|| !dword_5CA4D4*/)
+    {
+        unknown = 0;
     }
 
     int height_clip = height;
@@ -1780,7 +1789,7 @@ static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int heigh
     {
         // Swap them
         v_width = pPrim->field_14_verts[0].field_18_v - pPrim->field_14_verts[2].field_18_v;
-        vramPitchBytes = -2048;
+        vramPitchBytes = -static_cast<int>(1024 * sizeof(WORD));
 
         pVramStartPos = &pVramStartPos[1024 * height];
 
@@ -1790,6 +1799,48 @@ static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int heigh
     }
 
     Psx_Test* pAbrLut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
+
+    auto fnShouldWritePixel = [&](WORD clut_value)
+    {
+        if (isSemiTrans)
+        {
+            if (!skipBlackPixels && clut_value == 0)
+            {
+                //return false;
+            }
+            return true;
+        }
+        else
+        {
+            if (!skipBlackPixels && clut_value == 0)
+            {
+               // return false;
+            }
+            return true;
+        }
+    };
+
+    auto fnConvertPixel = [&](WORD clut_value, WORD vram_value)
+    {
+        if (isSemiTrans)
+        {
+            // TODO: Some cases ignore 0x20 flag
+            if (unknown && isSemiTrans && !skipBlackPixels)
+            {
+                return Calc_Abr_Pixel(*pAbrLut, vram_value, clut_value);
+            }
+            
+            if (clut_value & 0x20)
+            {
+                return Calc_Abr_Pixel(*pAbrLut, vram_value, clut_value);
+            }
+            else
+            {
+                return clut_value;
+            }
+        }
+        return clut_value;
+    };
 
     WORD* pCompressedIter = ((WORD*)pData) + 2;                  // skip w/h to get to compressed data
     Scaled_Poly_FT4_Inline_Texture_Render(
@@ -1806,54 +1857,30 @@ static void PSX_Render_Poly_FT4_Direct_Impl(OT_Prim* pPrim, int width, int heigh
         pCompressedIter,
         pClut,
         bytesToNextPixel,
-        [&](WORD clut_value)
-    {
-        if (skipBlackPixels && clut_value == 0)
-        {
-            // Don't write this pixel
-            return false;
-        }
-        return true;
-    },
-        [&](WORD clut_value , WORD vram_value)
-    {
-
-        if (clut_value & 0x20)
-        {
-            const WORD ret = Calc_Abr_Pixel(*pAbrLut, vram_value, clut_value);
-
-            return ret;
-        }
-        return clut_value;
-
-        // No conversion required
-        //return clut_value;
-    }, fnDecompress
+        fnShouldWritePixel,
+        fnConvertPixel,
+        fnDecompress
     );
 }
 
 EXPORT void CC PSX_Render_PolyFT4_4bit_SemiTrans_50DF30(OT_Prim* pPrim, int width, int height, const void* pCompressed)
 {
-    NOT_IMPLEMENTED();
-    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pCompressed, Decompress_Next_Type6);
+    PSX_Render_Poly_FT4_Direct_Impl<16>(true, pPrim, width, height, pCompressed, Decompress_Next_Type6);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_4bit_Opqaue_50CDB0(OT_Prim* pPrim, int width, int height, const void* pCompressed)
 {
-    NOT_IMPLEMENTED();
-    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pCompressed, Decompress_Next_Type6);
+    PSX_Render_Poly_FT4_Direct_Impl<16>(false, pPrim, width, height, pCompressed, Decompress_Next_Type6);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_SemiTrans_501B00(OT_Prim* pPrim, int width, int height, const void* pCompressed)
 {
-    NOT_IMPLEMENTED();
-    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pCompressed, Decompress_Next_Type3);
+    PSX_Render_Poly_FT4_Direct_Impl<64>(true, pPrim, width, height, pCompressed, Decompress_Next_Type3);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_Opaque_5006E0(OT_Prim* pPrim, int width, int height, const void* pData)
 {
-    NOT_IMPLEMENTED();
-    PSX_Render_Poly_FT4_Direct_Impl(pPrim, width, height, pData, Decompress_Next_Type3);
+    PSX_Render_Poly_FT4_Direct_Impl<64>(false, pPrim, width, height, pData, Decompress_Next_Type3);
 }
 
 EXPORT void CC PSX_Render_PolyFT4_8bit_50CC70(OT_Prim* pOt, int width, int height, const void* pCompressedData)
