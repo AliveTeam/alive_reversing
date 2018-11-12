@@ -2,7 +2,7 @@
 #include "BackgroundAnimation.hpp"
 #include "Function.hpp"
 
-void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, int a3)
+void BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* pPathParams, int a3)
 {
     //BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5440F0);
@@ -10,7 +10,7 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
     field_4_typeId = Types::eBackgroundAnimation;
     field_F8_arg_a3 = a3;
 
-    AnimHeader** pAnimHeader;
+    AnimHeader** pAnimHeader = nullptr;
     /*
     AnimHeader** pAnimHeader = (AnimHeader **)BaseGameObject::Add_resource_4DC130(
     this,
@@ -25,11 +25,13 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_Params* pPathParams, i
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
+    /*
     field_B8_xpos = FP(pPathParams->field_8_xpos);
     field_BC_ypos = FP(pPathParams->field_A_ypos);
 
     field_FC_xpos = FP(pPathParams->field_8_xpos);
     field_100_ypos = FP(pPathParams->field_A_ypos);
+    */
 
     /*
     BaseAnimatedWithPhysicsGameObject_Animation_Init_424E10(

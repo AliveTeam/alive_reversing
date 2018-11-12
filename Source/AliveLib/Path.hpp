@@ -2,12 +2,21 @@
 
 #include "FunctionFwd.hpp"
 #include "Psx.hpp"
+#include "BitField.hpp"
 
 struct PathData;
 
+enum TLV_Flags
+{
+    eBit1_Created = 0x1,
+    eBit2_Unknown = 0x2,
+    eBit3_End_TLV_List = 0x4,
+};
+
 struct Path_TLV
 {
-    __int16 field_0_flags;
+    BitField8<TLV_Flags> field_0_flags;
+    BYTE field_1_unknown;
     __int16 field_2_length;
     int field_4_type;
     PSX_Point field_8_top_left;
@@ -32,7 +41,7 @@ public:
     EXPORT Path_TLV* TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 objectType);
 
     EXPORT static Path_TLV* __stdcall TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type);
-    EXPORT static void __stdcall TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char a3, char a4);
+    EXPORT static void __stdcall TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __int16 cam_x_idx, __int16 cam_y_idx);
 
     unsigned __int16 field_0_levelId;

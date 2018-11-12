@@ -294,19 +294,21 @@ void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         do
                         {
+                            // TODO: Convert table to strongly typed flags
                             const BYTE tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[pTlv->field_4_type];
                             if (tableValue)
                             {
                                 if (tableValue <= 2)
                                 {
-                                    pTlv->field_0_flags = *pSrcFlags;
+                                    pTlv->field_0_flags.Raw().all = *pSrcFlags;
+                                    pTlv->field_1_unknown = 0;
                                     ++pSrcFlags;
                                 }
                             }
 
-                            if (pTlv->field_0_flags & 4)
+                            if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
                             {
-                                // End of restoring flags for this camera?
+                                // End of restoring flags for this camera
                                 break;
                             }
 

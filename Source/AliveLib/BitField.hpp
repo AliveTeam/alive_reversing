@@ -33,6 +33,13 @@ private:
     DataType mData = {};
 };
 
+union BitFieldUnion8
+{
+    BYTE all;
+};
+template<class EnumType>
+using BitField8 = BitFieldT<BitFieldUnion8, EnumType>;
+
 struct BitFieldBytes16
 {
     BYTE b0;

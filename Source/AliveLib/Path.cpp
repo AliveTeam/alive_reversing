@@ -71,24 +71,28 @@ void Path::Loader_4DB800(__int16 xpos, __int16 ypos, __int16 loadMode, __int16 t
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
-        if ((typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) && (loadMode || !(pPathTLV->field_0_flags & 3)))
+        if (typeToLoad == -1 || typeToLoad == pPathTLV->field_4_type) 
         {
-            if (!loadMode)
+            if (loadMode || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Unknown)))
             {
-                pPathTLV->field_0_flags |= 3u;
+                if (!loadMode)
+                {
+                    pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
+                    pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                }
+
+                TlvItemInfoUnion data;
+                data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
+                data.parts.levelId = static_cast<BYTE>(field_0_levelId);
+                data.parts.pathId = static_cast<BYTE>(field_2_pathId);
+
+                // Call the factory to construct the item
+                field_C_pPathData->field_1E_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, loadMode);
             }
-
-            TlvItemInfoUnion data;
-            data.parts.tlvOffset = static_cast<WORD>(objectTableIdx);
-            data.parts.levelId = static_cast<BYTE>(field_0_levelId);
-            data.parts.pathId = static_cast<BYTE>(field_2_pathId);
-
-            // Call the factory to construct the item
-            field_C_pPathData->field_1E_object_funcs.object_funcs[pPathTLV->field_4_type](pPathTLV, this, data, loadMode);
         }
 
         // End of TLV list for current camera
-        if (pPathTLV->field_0_flags & 4)
+        if (pPathTLV->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
         {
             break;
         }
@@ -119,7 +123,7 @@ Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(__int16 cam_x_idx, __i
 
 Path_TLV* __stdcall Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
 {
-    if (pTlv->field_0_flags & 4)
+    if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
     {
         return nullptr;
     }
@@ -175,9 +179,47 @@ Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int
     return pTlv;
 }
 
-EXPORT void __stdcall Path::TLV_Reset_4DB8E0(unsigned int /*tlvOffset_levelId_PathId*/, __int16 /*hiFlags*/, char /*a3*/, char /*a4*/)
+EXPORT void __stdcall Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
 {
-    NOT_IMPLEMENTED();
+    TlvItemInfoUnion data;
+    data.all = tlvOffset_levelId_PathId;
+
+    if (data.parts.levelId == gMap_5C3030.sCurrentLevelId_5C3030)
+    {
+        const PathBlyRec* pBlyRec = Path_Get_Bly_Record_460F30(data.parts.levelId, data.parts.pathId);
+        BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
+        if (ppPathRes)
+        {
+            const int tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
+            Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[tlvOffset]);
+            
+            if (bBit2 & 1)
+            {
+                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+            }
+            else
+            {
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+            }
+
+            if (bSetCreated & 1)
+            {
+                pTlv->field_0_flags.Set(TLV_Flags::eBit1_Created);
+            }
+            else
+            {
+                pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+            }
+
+            if (hiFlags != -1)
+            {
+                // NOTE: Real game seems to have this as top 8 flags.. but only used as a byte ??
+                // Seems to be a blob per TLV specific bits
+                pTlv->field_1_unknown = static_cast<BYTE>(hiFlags);
+            }
+            ResourceManager::FreeResource_49C330(ppPathRes);
+        }
+    }
 }
 
 EXPORT void CC Start_Sounds_for_TLV_4CB530(__int16 /*type*/, Path_TLV* /*pTlv*/)
@@ -190,7 +232,7 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __i
     Path_TLV* pTlv = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(cam_x_idx, cam_y_idx);
     while (pTlv)
     {
-        if (!(pTlv->field_0_flags & 3))
+        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) || (pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown))))
         {
             Start_Sounds_for_TLV_4CB530(type, pTlv);
         }
