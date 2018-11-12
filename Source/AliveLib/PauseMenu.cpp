@@ -1139,17 +1139,20 @@ void PauseMenu::Update_48FD80()
                 for (size_t i = 0; i < strlen(sScreenStringBuffer_5C92F0); i++)
                 {
                     char currentCamChar = sScreenStringBuffer_5C92F0[i];
-                    if (currentCamChar < 'A' || currentCamChar > 'Z')
+                    if (currentCamChar == '.') // Chop off .CAM
                     {
-                        if (currentCamChar < '0' || currentCamChar > '9')
-                        {
-                            continue;
-                        }
+                        sScreenStringBuffer_5C92F0[i] = 0;
+                        break;
+                    }
+
+                    if (currentCamChar >= '0' && currentCamChar <= '9')
+                    {
+                        // "Lower" case numbers in the font atlas
                         sScreenStringBuffer_5C92F0[i] = currentCamChar - 58;
                     }
                     else
                     {
-                        sScreenStringBuffer_5C92F0[i] = currentCamChar | 0x20;
+                        sScreenStringBuffer_5C92F0[i] = ::tolower(currentCamChar);
                     }
                 }
 
