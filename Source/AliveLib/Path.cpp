@@ -149,6 +149,12 @@ Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, 
     return pTlv;
 }
 
+Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*width*/, __int16 /*height*/, unsigned __int16 /*objectType*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
 {
     pTlv = Path::Next_TLV_4DB6A0(pTlv);

@@ -55,7 +55,7 @@ protected:
     EXPORT int vsub_408FD0(__int16 a2);
     EXPORT int vnull_4081F0();
     EXPORT void SetTint_425600(TintEntry *pTintArray, __int16 level_id);
-    EXPORT __int16 sub_408C40();
+    EXPORT void sub_408C40();
 
 public:
     int field_E4;

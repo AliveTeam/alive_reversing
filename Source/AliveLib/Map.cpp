@@ -28,6 +28,41 @@ ALIVE_VAR(1, 0x5c311c, __int16, sMap_word_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
 ALIVE_VAR(1, 0x5c3120, DWORD, sSoundChannelsMask_5C3120, 0);
 
+ALIVE_VAR(1, 0xbb234c, WORD, word_BB234C, 0);
+ALIVE_VAR(1, 0x5c3154, DWORD, dword_5C3154, 0);
+
+struct Path_ChangeTLV : public Path_TLV
+{
+    const static unsigned short kType;
+    __int16 field_10_level;
+    __int16 field_12_path;
+    __int16 field_14_camera;
+    __int16 field_16_movie;
+    __int16 field_18_wipe;
+    __int16 field_1A_scale;
+};
+ALIVE_ASSERT_SIZEOF(Path_ChangeTLV, 0x1C);
+
+const unsigned short Path_ChangeTLV::kType = 1;
+
+// Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
+const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[12] =
+{ 
+    CameraSwapEffects::eEffect5_1_FMV,
+    CameraSwapEffects::eEffect2_RightToLeft,
+    CameraSwapEffects::eEffect1_LeftToRight,
+    CameraSwapEffects::eEffect4_BottomToTop,
+    CameraSwapEffects::eEffect3_TopToBottom,
+    CameraSwapEffects::eEffect8_BoxOut,
+    CameraSwapEffects::eEffect6_VerticalSplit,
+    CameraSwapEffects::eEffect7_HorizontalSplit,
+    CameraSwapEffects::eEffect11,
+    CameraSwapEffects::eEffect0_InstantChange,
+    CameraSwapEffects::eEffect0_InstantChange,
+    CameraSwapEffects::eEffect0_InstantChange
+};
+
+
 struct CameraName
 {
     char name[8];
@@ -147,9 +182,86 @@ void Map::sub_480740(__int16 /*a2*/)
     NOT_IMPLEMENTED();
 }
 
+__int16 word_5463F8[] = { 3, 0, 4, 0, 1, 0, 2, 0, 0, 0 };
+
 void Map::sub_481610()
 {
-    NOT_IMPLEMENTED();
+    Path_ChangeTLV* pPathChangeTLV = nullptr;
+    if (field_18_pAliveObj)
+    {
+        pPathChangeTLV = reinterpret_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            field_18_pAliveObj->field_B8_xpos.GetExponent(),
+            field_18_pAliveObj->field_BC_ypos.GetExponent(),
+            field_18_pAliveObj->field_B8_xpos.GetExponent(),
+            field_18_pAliveObj->field_BC_ypos.GetExponent(),
+            Path_ChangeTLV::kType));
+    }
+
+    if (field_18_pAliveObj && pPathChangeTLV)
+    {
+        field_A_5C303A_levelId = pPathChangeTLV->field_10_level;
+        field_C_5C303C_pathId = pPathChangeTLV->field_12_path;
+        field_E_cameraId = pPathChangeTLV->field_14_camera;
+        field_12_fmv_base_id = pPathChangeTLV->field_16_movie;
+        field_10_screen_change_effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
+        field_18_pAliveObj->field_C2_lvl_number = field_A_5C303A_levelId;
+        field_18_pAliveObj->field_C0_path_number = field_C_5C303C_pathId;
+        GoTo_Camera_481890();
+
+        // Translate TLV scale to internal scale?
+        if (pPathChangeTLV->field_1A_scale > 0)
+        {
+            if (pPathChangeTLV->field_1A_scale -1 == 0)
+            {
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+                sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 13;
+            }
+        }
+        else
+        {
+            sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 32;
+        }
+        field_18_pAliveObj->Vsub_408320(
+            field_D0_cam_x_idx * field_D4_ptr->field_A_grid_width,
+            field_D2_cam_y_idx * field_D4_ptr->field_C_grid_height,
+            word_5463F8[2 * (unsigned __int16)field_14_direction]); // remap direction ??
+    }
+    else
+    {
+        switch (field_14_direction)
+        {
+        case MapDirections::eMapLeft:
+            field_D0_cam_x_idx--;
+            field_10_screen_change_effect = CameraSwapEffects::eEffect2_RightToLeft;
+            break;
+        case MapDirections::eMapRight:
+            field_D0_cam_x_idx++;
+            field_10_screen_change_effect = CameraSwapEffects::eEffect1_LeftToRight;
+            break;
+        case MapDirections::eMapTop:
+            field_D2_cam_y_idx--;
+            field_10_screen_change_effect = CameraSwapEffects::eEffect4_BottomToTop;
+            break;
+        case MapDirections::eMapBottom:
+            field_D2_cam_y_idx++;
+            field_10_screen_change_effect = CameraSwapEffects::eEffect3_TopToBottom;
+            break;
+        default:
+            break;
+        }
+
+        DWORD pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
+        BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[sCurrentPathId_5C3032];
+        CameraName* pCameraName = reinterpret_cast<CameraName*>(pPathRes + pCamNameOffset);
+
+        // Convert the 2 digit camera number string to an integer
+        field_E_cameraId =
+            1 * (pCameraName->name[7] - '0') +
+            10 * (pCameraName->name[6] - '0');
+
+        GoTo_Camera_481890();
+    }
 }
 
 signed __int16 Map::sub_4811A0(int /*level*/, int /*path*/, FP /*xpos*/, FP /*ypos*/)
@@ -244,9 +356,6 @@ EXPORT void __cdecl sub_4C9A30()
 {
     NOT_IMPLEMENTED();
 }
-
-ALIVE_VAR(1, 0xbb234c, WORD, word_BB234C, 0);
-ALIVE_VAR(1, 0x5c3154, DWORD, dword_5C3154, 0);
 
 void Map::GoTo_Camera_481890()
 {
@@ -631,6 +740,11 @@ void Map::GoTo_Camera_481890()
     }
 }
 
+Camera* Map::GetCamera(CameraPos pos)
+{
+    return field_2C_5C305C_camera_array[static_cast<int>(pos)];
+}
+
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 {
     auto obj = alive_new<CameraSwapper>();
@@ -710,35 +824,43 @@ __int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP 
     rect.w = (calculated_width + xpos).GetExponent();
     rect.y = ypos.GetExponent();
     rect.h = ypos.GetExponent();
-    return Is_Rect_In_Current_Camera_480FE0(&rect) == 0;
+    return Is_Rect_In_Current_Camera_480FE0(&rect) == CameraPos::eCamCurrent;
 }
 
-EXPORT __int16 Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
+
+EXPORT Map::CameraPos Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        return 5;
+        return CameraPos::eCamNone;
     }
 
-    const int xExp = field_24_camera_offset.field_0_x.GetExponent();
-    const int yExp = field_24_camera_offset.field_4_y.GetExponent();
+    const int camX = field_24_camera_offset.field_0_x.GetExponent();
+    const int camY = field_24_camera_offset.field_4_y.GetExponent();
 
-    if (pRect->x > (xExp + 368))
+    if (pRect->x > (camX + 368))
     {
-        return 4;
+        return CameraPos::eCamRight;
     }
 
-    if (pRect->y > (yExp + 240))
+    if (pRect->y > (camY + 240))
     {
-        return 2;
+        return CameraPos::eCamBottom;
     }
 
-    if (pRect->w >= xExp)
+    if (pRect->w >= camX)
     {
-        return pRect->h < yExp;     // return 1 or 0
+        if (pRect->h < camY)     // return 1 or 0
+        {
+            return CameraPos::eCamTop;
+        }
+        else
+        {
+            return CameraPos::eCamCurrent;
+        }
     }
 
-    return 3;
+    return CameraPos::eCamLeft;
 }
 
 signed __int16 Map::SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)
@@ -978,6 +1100,84 @@ void CC Map::LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
     }
+}
+
+signed __int16 Map::Sub_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 kMinus1)
+{
+    Path_ChangeTLV* pPathChangeTLV = nullptr;
+    CameraSwapEffects unknown = CameraSwapEffects::eEffect0_InstantChange;
+    if (pObj)
+    {
+        pPathChangeTLV = reinterpret_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            pObj->field_B8_xpos.GetExponent(),
+            pObj->field_BC_ypos.GetExponent(),
+            pObj->field_B8_xpos.GetExponent(),
+            pObj->field_BC_ypos.GetExponent(),
+            Path_ChangeTLV::kType));
+    }
+
+    if (pObj && pPathChangeTLV)
+    {
+        field_A_5C303A_levelId = pPathChangeTLV->field_10_level;
+        field_C_5C303C_pathId = pPathChangeTLV->field_12_path;
+        field_E_cameraId = pPathChangeTLV->field_14_camera;
+        if (kMinus1 < 0)
+        {
+            // Map the TLV/editor value of screen change to the internal screen change
+            unknown = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
+        }
+        else
+        {
+            unknown = static_cast<CameraSwapEffects>(kMinus1); // TODO: Correct ??
+        }
+    }
+    else
+    {
+         switch (direction)
+         {
+         case MapDirections::eMapLeft:
+             if (!GetCamera(CameraPos::eCamLeft))
+             {
+                 return 0;
+             }
+             break;
+         case MapDirections::eMapRight:
+             if (!GetCamera(CameraPos::eCamRight))
+             {
+                 return 0;
+             }
+             break;
+         case MapDirections::eMapBottom:
+             if (!GetCamera(CameraPos::eCamBottom))
+             {
+                 return 0;
+             }
+             break;
+         case MapDirections::eMapTop:
+             if (!GetCamera(CameraPos::eCamTop))
+             {
+                 return 0;
+             }
+             break;
+         }
+
+        field_A_5C303A_levelId = sCurrentLevelId_5C3030;
+        field_C_5C303C_pathId = sCurrentPathId_5C3032;
+        unknown = static_cast<CameraSwapEffects>(kMinus1); // TODO: Correct ??
+    }
+
+    field_14_direction = direction;
+    field_18_pAliveObj = pObj;
+    field_1C = unknown;
+    field_6_state = 1;
+    sMap_word_5C311C = 0;
+    
+    if (unknown == CameraSwapEffects::eEffect5_1_FMV || unknown == CameraSwapEffects::eEffect11)
+    {
+        sMap_word_5C311C = 1;
+    }
+
+    return 1;
 }
 
 ALIVE_VAR(1, 0x5C3030, Map, gMap_5C3030, {});

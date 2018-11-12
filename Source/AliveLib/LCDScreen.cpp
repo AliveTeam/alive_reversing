@@ -374,6 +374,11 @@ void LCDScreen::VDestructor(signed int flags)
     vdtor_4608F0(flags);
 }
 
+void LCDScreen::VScreenChanged()
+{
+    vsub_460F10();
+}
+
 void LCDScreen::vnullsub_4DC0F0()
 {
     vsub_460F10();

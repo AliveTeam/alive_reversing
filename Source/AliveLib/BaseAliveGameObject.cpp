@@ -7,6 +7,7 @@
 #include "ScreenManager.hpp"
 #include "Shadow.hpp"
 #include "stdlib.hpp"
+#include "Abe.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
@@ -87,7 +88,7 @@ void BaseAliveGameObject::Render_424B90(int** pOrderingTable)
         // Only render if in the active level, path and camera
         if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number
          && gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number
-         && Is_In_Current_Camera_424A70() == 0)
+         && Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent)
         {
             field_20_animation.field_14_scale = field_CC_sprite_scale;
             
@@ -262,7 +263,39 @@ void BaseAliveGameObject::SetTint_425600(TintEntry * pTintArray, __int16 level_i
     field_D4_b = pTintArray->field_3_b;
 }
 
-EXPORT __int16 BaseAliveGameObject::sub_408C40()
+EXPORT void BaseAliveGameObject::sub_408C40()
 {
-    NOT_IMPLEMENTED();
+     if (sControlledCharacter_5C1B8C == this)
+     {
+         switch (Is_In_Current_Camera_424A70())
+         {
+         case Map::CameraPos::eCamTop:
+             if (field_C8_vely < FP(0))
+             {
+                 gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapTop, this, -1);
+             }
+             break;
+         case Map::CameraPos::eCamBottom:
+             if (field_C8_vely > FP(0))
+             {
+                 gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapBottom, this, -1);
+             }
+             break;
+         case Map::CameraPos::eCamLeft:
+             if (field_C4_velx < FP(0))
+             {
+                 gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapLeft, this, -1);
+             }
+             break;
+         case Map::CameraPos::eCamRight:
+             if (field_C4_velx > FP(0))
+             {
+                 gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapRight, this, -1);
+             }
+             break;
+         case Map::CameraPos::eCamCurrent:
+         case Map::CameraPos::eCamNone:
+             return;
+         }
+     }
 }

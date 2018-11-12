@@ -39,6 +39,24 @@ enum class CameraSwapEffects : __int16
 class Map
 {
 public:
+    enum class MapDirections : __int16
+    {
+        eMapLeft = 0,
+        eMapRight = 1,
+        eMapTop = 2,
+        eMapBottom = 3,
+    };
+
+    enum class CameraPos : __int16
+    {
+        eCamCurrent = 0,
+        eCamTop = 1,
+        eCamBottom = 2,
+        eCamLeft = 3,
+        eCamRight = 4,
+        eCamNone = 5,   // Not "in" the camera
+    };
+
     __int16 sCurrentLevelId_5C3030;
     __int16 sCurrentPathId_5C3032;
     __int16 sCurrentCamId_5C3034;
@@ -51,12 +69,12 @@ public:
     CameraSwapEffects field_10_screen_change_effect;
     unsigned __int16 field_12_fmv_base_id;
 
-    __int16 field_14_direction;
+    MapDirections field_14_direction;
     __int16 field_16;
 
     BaseAliveGameObject *field_18_pAliveObj;
 
-    __int16 field_1C;
+    CameraSwapEffects field_1C;
     __int16 field_1E_door;
     __int16 field_20;
     __int16 field_22;
@@ -92,7 +110,7 @@ public:
     EXPORT __int16 Get_Path_Unknown_480710();
     EXPORT void Create_FG1s_480F10();
     EXPORT __int16 Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width);
-    EXPORT __int16 Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect);
+    EXPORT CameraPos Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect);
     EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
     EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, __int16 lvlId);
     EXPORT Camera* Create_Camera_4829E0(__int16 xpos, __int16 ypos, int a4);
@@ -100,7 +118,12 @@ public:
 
     EXPORT static void CC LoadResource_4DBE00(const char* pFileName, int type, int resourceId, __int16 loadMode, __int16 bDontLoad = FALSE);
     EXPORT static void CC LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, __int16 loadMode, __int16 bDontLoad = FALSE);
+
+    EXPORT signed __int16 Sub_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 kMinus1);
+
 private:
+    Camera* GetCamera(CameraPos pos);
+
     void CreateScreenTransistionForTLV(Path_TLV* pTlv);
     void sub_480B80_Common();
 };

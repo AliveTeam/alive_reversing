@@ -4,7 +4,7 @@
 #include "FixedPoint.hpp"
 #include "FunctionFwd.hpp"
 #include "Animation.hpp"
-
+#include "Map.hpp"
 
 namespace Test
 {
@@ -48,7 +48,7 @@ public:
     EXPORT void null_408180();
     EXPORT void null_4081A0();
 
-    EXPORT __int16 Is_In_Current_Camera_424A70();
+    EXPORT Map::CameraPos Is_In_Current_Camera_424A70();
 public:
 
     AnimationEx field_20_animation;

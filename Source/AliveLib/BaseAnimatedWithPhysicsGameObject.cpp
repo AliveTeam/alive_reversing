@@ -272,7 +272,7 @@ void BaseAnimatedWithPhysicsGameObject::null_4081A0()
     NOT_IMPLEMENTED();
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()
+Map::CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()
 {
     PSX_RECT rect = {};
     vGetBoundingRect_424FD0(&rect, 1);
