@@ -32,8 +32,6 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VDestructor(signed int flags) override;
 
-    EXPORT void Render_424B90(int** pOrderingTable);
-
     virtual int Vnull_408F90();
     virtual unsigned __int16 Vnull_408F70();
     virtual __int16 Vsub_4081C0(__int16 a2);

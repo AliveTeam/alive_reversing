@@ -19,11 +19,14 @@ public:
     BaseAnimatedWithPhysicsGameObject();
     EXPORT BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize);
     EXPORT void BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    EXPORT void dtor_424A40(signed int flags);
-    virtual void VDestructor(signed int flags);
+    
+    virtual void VDestructor(signed int flags) override;
     virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
 
+    EXPORT void dtor_424A40(signed int flags);
     EXPORT void Update_424AB0();
+    EXPORT void Render_424B90(int** pOrderingTable);
 
     EXPORT void Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7);
 
