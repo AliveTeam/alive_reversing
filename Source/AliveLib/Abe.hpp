@@ -60,6 +60,7 @@ public:
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
     EXPORT BOOL sub_449D30();
+    EXPORT void sub_45AA90();
 
     EXPORT BYTE ** StateToAnimResource_44AAB0(signed int state);
 

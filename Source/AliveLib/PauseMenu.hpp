@@ -72,6 +72,10 @@ public:
     EXPORT void Page_Main_Update_4903E0();
     EXPORT void Page_Base_Render_490A50(int **ot, PauseMenuPage *mp);
 
+    EXPORT void Page_ControlsActions_Update_48FA60();
+
+    EXPORT void Page_ReallyQuit_Update_490930();
+
     using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update_4903E0);
     using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render_490A50);
 

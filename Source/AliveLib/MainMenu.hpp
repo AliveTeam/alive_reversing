@@ -312,4 +312,5 @@ ALIVE_VAR_EXTERN(int, sMainMenuObjectCounter_BB4400);
 ALIVE_VAR_EXTERN(char, sEnableCheatLevelSelect_5C1BEE);
 ALIVE_VAR_EXTERN(char, sEnableCheatFMV_5C1BEC);
 ALIVE_ARY_EXTERN(BYTE, 20, sSavedKilledMudsPerPath_5C1B50);
+ALIVE_VAR_EXTERN(byte, byte_5C1B64);
 ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);

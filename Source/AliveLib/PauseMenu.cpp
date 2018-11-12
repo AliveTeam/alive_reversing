@@ -10,6 +10,7 @@
 #include "Sfx.hpp"
 #include "Sound.hpp"
 #include "MainMenu.hpp"
+#include "ThrowableArray.hpp"
 
 // MACROS
 
@@ -33,7 +34,6 @@ ALIVE_ARY(1, 0x5C92F0, char, 16, sScreenStringBuffer_5C92F0, { 0 });
 
 ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
 
-ALIVE_VAR(1, 0x5d1e2c, BaseGameObject *, class_0x30_dword_5D1E2C, 0);
 
 ALIVE_ARY(1, 0x554474, BYTE, 32, pal_554474, {
     0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
@@ -228,14 +228,91 @@ PauseMenu::PauseMenuPage sPM_Page_Main =
     0u
 };
 
+PauseMenuPageEntry PauseMenu__PageEntryList_ControlsActions_55D820[17] =
+{
+    { 2, 184, 205, 0, "more", 128u, 16u, 255u, 1u },
+    { 1, 184, 20, 0, "Actions", 127u, 127u, 127u, 1u },
+    { 1, 180, 50, 0, "\x5\x2B\x3\x4", 160u, 160u, 160u, 2u },
+    { 1, 180, 70, 0, "\x7\x2B\x3\x4", 160u, 160u, 160u, 2u },
+    { 1, 180, 90, 0, "\t", 160u, 160u, 160u, 2u },
+    { 1, 180, 110, 0, "\x8\x2B\x1A", 160u, 160u, 160u, 2u },
+    { 1, 180, 135, 0, "\x2", 160u, 160u, 160u, 2u },
+    { 1, 180, 150, 0, "\x6", 160u, 160u, 160u, 2u },
+    { 1, 180, 173, 0, "\x1", 160u, 160u, 160u, 2u },
+    { 1, 200, 50, 0, "run", 128u, 16u, 255u, 0u },
+    { 1, 200, 70, 0, "sneak", 128u, 16u, 255u, 0u },
+    { 1, 200, 90, 0, "jump", 128u, 16u, 255u, 0u },
+    { 1, 200, 110, 0, "throw", 128u, 16u, 255u, 0u },
+    { 1, 200, 130, 0, "crouch", 128u, 16u, 255u, 0u },
+    { 1, 200, 150, 0, "action", 128u, 16u, 255u, 0u },
+    { 1, 200, 170, 0, "hoist \x1B zturn", 128u, 16u, 255u, 0u },
+    { 0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenu::PauseMenuPage sPM_Page_Controls_Actions =
+{
+    &PauseMenu::Page_ControlsActions_Update_48FA60,
+    &PauseMenu::Page_Base_Render_490A50,
+    PauseMenu__PageEntryList_ControlsActions_55D820,
+    0,
+    100u,
+    100u,
+    100u,
+    0u,
+    0u,
+    0u
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_Save_55E4C8 = { 1, 184, 120, 0, sSaveString_5C931C, 128u, 16u, 255u, 1u };
+
+/*
+PauseMenu::PauseMenuPage sPM_Page_Save =
+{
+    &PauseMenu::Page_Save_Update_491210,
+    &PauseMenu::tsub_491660,
+    PauseMenu__PageEntryList_Save_55E4C8,
+    0,
+    160u,
+    160u,
+    160u,
+    0u,
+    0u,
+    0u
+};
+*/
+
+PauseMenuPageEntry PauseMenu__PageEntryList_ReallyQuit_55E278[3] =
+{
+    { 1, 184, 110, 0, "REALLY QUIT?", 128u, 16u, 255u, 1u },
+    { 1, 184, 135, 0, "Enter yes   Esc no", 160u, 160u, 160u, 1u },
+    { 0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+
+PauseMenu::PauseMenuPage sPM_Page_ReallyQuit =
+{
+    &PauseMenu::Page_ReallyQuit_Update_490930,
+    &PauseMenu::Page_Base_Render_490A50,
+    PauseMenu__PageEntryList_ReallyQuit_55E278,
+    -1,
+    100u,
+    100u,
+    100u,
+    0u,
+    0u,
+    0u
+};
+
 // TODO: SET VALUES
 ALIVE_VAR(1, 0x5465B0, PauseMenu::PauseMenuPage, sPM_Page_Main_5465B0, { sPM_Page_Main });
-
-ALIVE_VAR(1, 0x546610, PauseMenu::PauseMenuPage, sPM_Page_Controls_Actions_546610, {});
+ALIVE_VAR(1, 0x546610, PauseMenu::PauseMenuPage, sPM_Page_Controls_Actions_546610, { sPM_Page_Controls_Actions });
 ALIVE_VAR(1, 0x546628, PauseMenu::PauseMenuPage, sPM_Page_Load_546628, {});
 ALIVE_VAR(1, 0x5465F8, PauseMenu::PauseMenuPage, sPM_Page_Status_5465F8, {});
-ALIVE_VAR(1, 0x5465E0, PauseMenu::PauseMenuPage, sPM_Page_ReallyQuit_5465E0, {});
-ALIVE_VAR(1, 0x5465C8, PauseMenu::PauseMenuPage, sPM_Page_Save_5465C8, {});
+ALIVE_VAR(1, 0x5465E0, PauseMenu::PauseMenuPage, sPM_Page_ReallyQuit_5465E0, { sPM_Page_ReallyQuit });
+ALIVE_VAR(1, 0x5465C8, PauseMenu::PauseMenuPage, sPM_Page_Save_5465C8, { });
+
+// TODO: Populate
+ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40, {});
 
 struct DumpEntry
 {
@@ -413,21 +490,6 @@ void PauseMenu::Init_491760()
     {
         field_6_flags.Set(BaseGameObject::eListAddFailed);
     }
-}
-
-EXPORT void CC LoadRockTypes_49AB30(unsigned __int16 /*a1*/, unsigned __int16 /*a2*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT BaseGameObject * sub_49A630(BaseGameObject * /*ptr*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT __int16 __fastcall sub_49A7A0(BaseGameObject * /*thisPtr*/, __int16 /*a2*/)
-{
-    NOT_IMPLEMENTED();
 }
 
 EXPORT void CC sub_4C9870()
@@ -782,6 +844,7 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp
     }
 }
 
+
 void PauseMenu::Page_Main_Update_4903E0()
 {
     //NOT_IMPLEMENTED();
@@ -891,13 +954,14 @@ void PauseMenu::Page_Main_Update_4903E0()
                 LoadRockTypes_49AB30(
                     sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
                     sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path);
-                if (!class_0x30_dword_5D1E2C)
+
+                if (!gpThrowableArray_5D1E2C)
                 {
-                    auto v6 = (BaseGameObject *)malloc_4954D0(0x30u);
-                    sub_49A630(v6);
-                    class_0x30_dword_5D1E2C = v6;
+                    gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
+                    gpThrowableArray_5D1E2C->ctor_49A630();
                 }
-                sub_49A7A0(class_0x30_dword_5D1E2C, sActiveHero_5C1B68->field_1A2_rock_or_bone_count);
+
+                gpThrowableArray_5D1E2C->Add_49A7A0(sActiveHero_5C1B68->field_1A2_rock_or_bone_count);
             }
             word12C_flags &= 0xFFFEu;
             SFX_Play_46FBA0(0x11u, 40, 3400, 0x10000);
@@ -915,15 +979,271 @@ void PauseMenu::Page_Main_Update_4903E0()
     }
 }
 
+void PauseMenu::Page_ControlsActions_Update_48FA60()
+{
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x200000)
+    {
+        field_136 = 0;
+        memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
+        SFX_Play_46FBA0(17u, 40, 2400, 0x10000);
+    }
+
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x100000)
+    {
+        const int prev = ++field_138;
+        if (prev < 6)
+        {
+            field_144_active_menu.field_8_menu_items = sControlActionsPages_55DE40[prev];
+            SFX_Play_46FA90(84u, 90, 0x10000);
+        }
+        else
+        {
+            field_138 = 0;
+            field_136 = 0;
+            memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
+            SFX_Play_46FBA0(17u, 40, 2400, 0x10000);
+        }
+    }
+}
+
+EXPORT void PauseMenu::Page_ReallyQuit_Update_490930()
+{
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x200000)
+    {
+        field_136 = 0;
+        memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
+        SFX_Play_46FBA0(17u, 40, 2400, 0x10000);
+    }
+
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x100000)
+    {
+        word12C_flags &= ~1u;
+        SFX_Play_46FBA0(17u, 40, 2400, 0x10000);
+
+        if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
+        {
+            pPauseMenu_5C9300->field_6_flags.Set(BaseGameObject::eDead);
+        }
+        else
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+
+        pPauseMenu_5C9300 = 0;
+        gMap_5C3030.SetActiveCam_480D30(0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.field_CE = 1;
+        sCurrentControllerIndex_5C1BBE = 0;
+    }
+}
+
 EXPORT WORD CC sub_4A2B70()
 {
     NOT_IMPLEMENTED();
     return 1;
 }
+ALIVE_ARY(1, 0x55e718, char, 32, sPauseMenu_Of300Mudokons_55E718, {});
+ALIVE_ARY(1, 0x55e738, char, 56, sHasBeenTerminated_55E738, {});
 
 void PauseMenu::Update_48FD80()
 {
-    NOT_IMPLEMENTED();
+    Abe* pHero = sActiveHero_5C1B68;
+    Abe* pControlledChar = nullptr;
+    
+    if (sActiveHero_5C1B68->field_10C_health <= FP(0) || sActiveHero_5C1B68->field_114_flags & 0x40)
+    {
+        pControlledChar = sControlledCharacter_5C1B8C;
+    }
+    else
+    {
+        pControlledChar = sControlledCharacter_5C1B8C;
+        if (!(sControlledCharacter_5C1B8C->field_114_flags & 0x200))
+        {
+            const __int16 heroState = sActiveHero_5C1B68->field_106_animation_num;
+            if (heroState != 86
+                && heroState != 119
+                && heroState != 120
+                && heroState != 75
+                && heroState != 76
+                && heroState != 77
+                && heroState != 78
+                && heroState != 79
+                && heroState != 80
+                && heroState != 81
+                && heroState != 82
+                && heroState != 83
+                && (sControlledCharacter_5C1B8C->field_4_typeId != Types::eType_45 || LOWORD(sControlledCharacter_5C1B8C->field_124_gnFrame) != 2)
+                && sActiveHero_5C1B68->field_1A8 == -1)
+            {
+                if (sQuicksave_SaveNextFrame_5CA4D8)
+                {
+                    Quicksave_4C90D0();
+                    pHero = sActiveHero_5C1B68;
+                    pControlledChar = sControlledCharacter_5C1B8C;
+                }
+                else if (sQuicksave_LoadNextFrame_5CA4D9)
+                {
+                    Quicksave_LoadActive_4C9170();
+                    SND_SEQ_Stop_4CAE60(0xAu);
+                    pHero = sActiveHero_5C1B68;
+                    pControlledChar = sControlledCharacter_5C1B8C;
+                }
+                else
+                {
+                    sQuicksave_SaveNextFrame_5CA4D8 = 0;
+                    sQuicksave_LoadNextFrame_5CA4D9 = 0;
+                }
+            }
+        }
+    }
+
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::ePause)
+    {
+        if (pHero->field_10C_health > FP(0)
+            && !(pHero->field_114_flags & 0x40)
+            && !(pControlledChar->field_114_flags & 0x200))
+        {
+            const short heroState = pHero->field_106_animation_num;
+            if (heroState != 86
+                && heroState != 119
+                && heroState != 120
+                && heroState != 75
+                && heroState != 76
+                && heroState != 77
+                && heroState != 78
+                && heroState != 79
+                && heroState != 80
+                && heroState != 81
+                && heroState != 82
+                && heroState != 83
+                && (pControlledChar->field_4_typeId != BaseGameObject::eType_45 || LOWORD(pControlledChar->field_124_gnFrame) != 2) // TODO: Why LOWORD only ??
+                && pHero->field_1A8 == -1)
+            {
+                SND_StopAll_4CB060();
+                SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+                sub_4A2B70();
+                field_6_flags.Set(BaseGameObject::eDrawable);
+                field_134_Index_Main = 0;
+                field_136 = 0;
+                word12C_flags = word12C_flags & ~8 | 1;
+                field_12E_selected_glow = 40;
+                field_130 = 8;
+                Path_Format_CameraName_460FB0(
+                    sScreenStringBuffer_5C92F0,
+                    gMap_5C3030.sCurrentLevelId_5C3030,
+                    gMap_5C3030.sCurrentPathId_5C3032,
+                    gMap_5C3030.sCurrentCamId_5C3034);
+
+                // TODO: never read ??
+                //byte_5C92F8 = 0;
+
+                for (size_t i = 0; i < strlen(sScreenStringBuffer_5C92F0); i++)
+                {
+                    char currentCamChar = sScreenStringBuffer_5C92F0[i];
+                    if (currentCamChar < 'A' || currentCamChar > 'Z')
+                    {
+                        if (currentCamChar < '0' || currentCamChar > '9')
+                        {
+                            continue;
+                        }
+                        sScreenStringBuffer_5C92F0[i] = currentCamChar - 58;
+                    }
+                    else
+                    {
+                        sScreenStringBuffer_5C92F0[i] = currentCamChar | 0x20;
+                    }
+                }
+
+                // TODO: How do these ever get read ??
+                sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF 300 MUDOKONS", sRescuedMudokons_5C1BC2);
+                sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons_5C1BC0, (sKilledMudokons_5C1BC0 != 0) ? "VE" : "S");
+
+                if (sActiveHero_5C1B68->field_128.field_12_mood == 0)
+                {
+                    field_158_animation.Set_Animation_Data_409C80(1248, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 203, 1u, 0));
+                }
+                else if (sActiveHero_5C1B68->field_128.field_12_mood == 3)
+                {
+                    field_158_animation.Set_Animation_Data_409C80(1076, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 202, 1u, 0));
+                }
+                else if (sActiveHero_5C1B68->field_128.field_12_mood == 5)
+                {
+                    field_158_animation.Set_Animation_Data_409C80(1252, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 201, 1u, 0));
+                }
+
+                FrameInfoHeader* pFrameInfoHeader = field_158_animation.Get_FrameHeader_40B730(0);
+                FrameHeader* pHeader = reinterpret_cast<FrameHeader*>(&(*field_158_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+
+                field_158_animation.Load_Pal_40A530(field_158_animation.field_20_ppBlock, pHeader->field_0_clut_offset);
+                sDisableFontFlicker_5C9304 = 1;
+                memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
+                if (word12C_flags & 1)
+                {
+                    // Start pause menu update/render loop
+                    do
+                    {
+                        if (pResourceManager_5C1BB0)
+                        {
+                            pResourceManager_5C1BB0->VUpdate();
+                        }
+
+                        SYS_EventsPump_494580();
+
+                        for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+                        {
+                            BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
+                            if (!pObj)
+                            {
+                                break;
+                            }
+
+                            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+                            {
+                                if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
+                                {
+                                    pObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+                                }
+                            }
+                        }
+
+                        pScreenManager_5BB5F4->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+
+                        PSX_DrawSync_4F6280(0);
+                        ResourceManager::Reclaim_Memory_49C470(500000);
+                        gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+                        sInputObject_5BD4E0.Update_45F040();
+
+                        if (field_130 > 0)
+                        {
+                            field_12E_selected_glow += 8;
+                        }
+
+                        if (field_12E_selected_glow <= 120 || field_130 <= 0)
+                        {
+                            if (field_130 <= 0)
+                            {
+                                field_12E_selected_glow -= 8;
+                                if (field_12E_selected_glow < 40)
+                                {
+                                    field_130 = -field_130;
+                                    field_12E_selected_glow += field_130;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            field_130 = -field_130;
+                            field_12E_selected_glow += field_130;
+                        }
+
+                        (this->*field_144_active_menu.field_0_fn_update)();
+                    } while (word12C_flags & 1);
+                }
+                sInputObject_5BD4E0.Update_45F040();
+                field_6_flags.Clear(BaseGameObject::eDrawable);
+            }
+        }
+    }
+    sDisableFontFlicker_5C9304 = 0;
 }
 
 ALIVE_VAR(1, 0x5C9300, PauseMenu*, pPauseMenu_5C9300, nullptr);

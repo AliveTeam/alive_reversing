@@ -11,6 +11,8 @@
 #include "Input.hpp"
 #include "Events.hpp"
 #include "Quicksave.hpp"
+#include "MainMenu.hpp"
+#include "ThrowableArray.hpp"
 
 const char * sAbeStateNames[] =
 {
@@ -613,8 +615,6 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
 
 void Abe::dtor_44B380()
 {
-    NOT_IMPLEMENTED();
-
     SetVTable(this, 0x5457BC); // gVTbl_Abe_5457BC
 
     BaseGameObject* pField_148 = sObjectIds_5C1B70.Find_449CF0(field_148);
@@ -1008,7 +1008,7 @@ void Abe::Update_449DC0()
                         {
                             if (field_168 > 0 && field_16C > 0)
                             {
-                                //sub_45AA90();
+                                sub_45AA90();
                             }
                             field_168 = 0;
                         }
@@ -1238,7 +1238,81 @@ void Abe::vRender_44B580(int** pOrderingTable)
 
 void Abe::vScreenChanged_44D240()
 {
-    NOT_IMPLEMENTED();
+    if (sControlledCharacter_5C1B8C == this)
+    {
+        field_C2_lvl_number = gMap_5C3030.field_A_5C303A_levelId;
+        field_C0_path_number = gMap_5C3030.field_C_5C303C_pathId;
+    }
+
+    // Level has changed?
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    {
+        if (gMap_5C3030.field_A_5C303A_levelId == 1 && !word_5C1BA0)
+        {
+            field_128.field_18 = 3;
+            field_144 = sGnFrame_5C1B84 + 35;
+        }
+
+        // Set the correct tint for this map
+        SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_A_5C303A_levelId);
+
+        if (gMap_5C3030.sCurrentLevelId_5C3030)
+        {
+            if (field_1A2_rock_or_bone_count > 0)
+            {
+                if (gpThrowableArray_5D1E2C)
+                {
+                    gpThrowableArray_5D1E2C->Remove_49AA00(field_1A2_rock_or_bone_count);
+                }
+            }
+            
+            field_1A2_rock_or_bone_count = 0;
+            
+            if (field_168 > 0 && field_16C)
+            {
+                sub_45AA90();
+            }
+
+            field_168 = 0;
+        }
+
+        if (gMap_5C3030.field_A_5C303A_levelId == 2)
+        {
+            if (gMap_5C3030.sCurrentLevelId_5C3030 == 7)
+            {
+                field_1AC_flags |= 0x8000u;
+            }
+
+            if (gMap_5C3030.sCurrentLevelId_5C3030 == 11)
+            {
+                field_1AE |= 1u;
+            }
+        }
+
+        if (gMap_5C3030.field_A_5C303A_levelId == 16 || gMap_5C3030.field_A_5C303A_levelId == 0)
+        {
+            // Remove Abe for menu/credits levels?
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
+
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
+    {
+        field_168 = 0;
+        if (gMap_5C3030.sCurrentLevelId_5C3030)
+        {
+            field_198_has_evil_fart = 0;
+        }
+    }
+
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId && !(field_114_flags & 0x100))
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            sSavedKilledMudsPerPath_5C1B50[i] = 0;
+        }
+        byte_5C1B64 = 0;
+    }
 }
 
 int Abe::vGetSaveState_457110(BYTE* /*pSaveBuffer*/)
@@ -1306,6 +1380,19 @@ EXPORT BOOL Abe::sub_449D30()
     NOT_IMPLEMENTED();
     return 0;
 }
+
+void Abe::sub_45AA90()
+{
+    ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(25));
+    field_10_resources_array.SetAt(25, nullptr);
+
+    ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(26));
+    field_10_resources_array.SetAt(26, nullptr);
+
+    ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(27));
+    field_10_resources_array.SetAt(27, nullptr);
+}
+
 
 BYTE ** Abe::StateToAnimResource_44AAB0(signed int /*state*/)
 {

@@ -134,6 +134,8 @@ add_library(AliveLib
     Text.hpp
     Shadow.hpp
     Shadow.cpp
+    ThrowableArray.cpp
+    ThrowableArray.hpp
     Slurg.cpp
     Slurg.hpp)
 
