@@ -1614,6 +1614,8 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     }
 }
 
+// TODO: FIX ME - when rendering BgAnim for the "fans" some rows are too far right, this is probably a bug in
+// Scaled_Poly_FT4_Inline_Texture_Render related to the "empty" RLE blocks, ignoring for now as it will likely take days to solve.
 template<size_t clut_size, class TFnDecompress>
 static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, int width, int height, const void* pData, TFnDecompress fnDecompress)
 {
