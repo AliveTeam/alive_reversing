@@ -42,3 +42,6 @@ public:
     __int16 field_10A_muds_left_in_area;
 };
 ALIVE_ASSERT_SIZEOF(StatsSign, 0x10C);
+
+ALIVE_VAR_EXTERN(__int16, sMudokonsInArea_5C1BC4);
+ALIVE_VAR_EXTERN(char, sStatsSignCurrentArea_5C1A20);

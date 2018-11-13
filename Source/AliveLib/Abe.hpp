@@ -5,16 +5,10 @@
 
 struct Abe_1BC_20_sub_object
 {
-    int field_0;
-    char field_4;
-    char field_5;
-    __int16 field_6;
-    char field_8;
-    char field_9;
-    char field_A;
-    char field_B;
-    __int16 field_C;
-    __int16 field_E;
+    int field_0_gnFrame;
+    int field_4;
+    int field_8;
+    int field_C;
     __int16 field_10;
     __int16 field_12_mood;
     int field_14;
@@ -199,13 +193,12 @@ public:
 public:
     __int16 field_116;
     int field_118;
-    __int16 field_11C;
-    __int16 field_11E;
+    int field_11C;
     unsigned __int16 field_120_state;
     __int16 field_122;
     int field_124_gnFrame;
     Abe_1BC_20_sub_object field_128;
-    unsigned int field_144;
+    int field_144;
     int field_148;
     int field_14C;
     int field_150;
@@ -214,27 +207,37 @@ public:
     int field_15C;
     int field_160;
     int field_164;
-    unsigned int field_168;
+    int field_168;
     __int16 field_16C;
     __int16 field_16E;
-    unsigned int field_170;
+    int field_170;
     __int16 field_174;
     __int16 field_176;
     int field_178;
-    int field_17C;
+    char field_17C;
+    char field_17D;
+    char field_17E;
+    char field_17F;
     int field_180;
-    int field_184;
-    int field_188;
-    int field_18C;
-    int field_190;
-    int field_194;
+    __int16 field_184;
+    __int16 field_186;
+    __int16 field_188;
+    __int16 field_18A;
+    __int16 field_18C;
+    __int16 field_18E;
+    __int16 field_190;
+    __int16 field_192;
+    __int16 field_194;
+    __int16 field_196;
     __int16 field_198_has_evil_fart;
     __int16 field_19A;
-    int field_19C;
+    __int16 field_19C;
+    __int16 field_19E;
     __int16 field_1A0_door_id;
     char field_1A2_rock_or_bone_count;
     char field_1A3_throw_direction;
-    int field_1A4;
+    __int16 field_1A4;
+    __int16 field_1A6;
     int field_1A8;
     __int16 field_1AC_flags;
     __int16 field_1AE;
@@ -246,6 +249,8 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 
 ALIVE_VAR_EXTERN(Abe *, sActiveHero_5C1B68);
 ALIVE_VAR_EXTERN(Abe *, sControlledCharacter_5C1B8C);
+
+ALIVE_VAR_EXTERN(short, word_5C1BDA);
 
 extern int sAbeFrameOffsetTable_554B18[130];
 extern const char * sAbeStateNames[];

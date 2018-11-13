@@ -146,7 +146,7 @@ void StatsSign::vRender_47B900(int ** pOt)
             FP_FromDouble(1.0),
             field_104_position_x + maxWidth,
             flickerAmount);
-        const __int16  mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerPath_5C1B50[sStatsSignCurrentArea_5C1A20];
+        const __int16 mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20];
         field_10A_muds_left_in_area = mudsLeftInArea;
 
         // Muds in this Area

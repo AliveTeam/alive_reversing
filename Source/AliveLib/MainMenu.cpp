@@ -45,7 +45,7 @@ ALIVE_VAR(1, 0x5c1b9e, __int16, word_5C1B9E, 0);
 ALIVE_VAR(1, 0x5C1B64, byte, byte_5C1B64, {});
 
 ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
-ALIVE_ARY(1, 0x5C1B50, BYTE, 20, sSavedKilledMudsPerPath_5C1B50, {});
+ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
 ALIVE_VAR(1, 0xbb4414, void *, pDemosOrFmvs_BB4414, 0);
 ALIVE_VAR(1, 0x5c2f68, const char, byte_5C2F68, 0);
 
@@ -489,7 +489,7 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
     field_25C = 0;
     field_25E = 0;
 
-    memset(sSavedKilledMudsPerPath_5C1B50, 0, 20);
+    memset(&sSavedKilledMudsPerPath_5C1B50.mData, 0, sizeof(sSavedKilledMudsPerPath_5C1B50.mData));
 
     word_5C1BEC = 0;
     sEnableCheatLevelSelect_5C1BEE = 0;

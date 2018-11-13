@@ -541,16 +541,8 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_BC_ypos = FP_FromInteger(point.field_2_y + 120);
 
     field_F8 = field_BC_ypos;
-
     field_128.field_8 = 0;
-    field_128.field_9 = 0;
-    field_128.field_A = 0;
-    field_128.field_B = 0;
-
     field_128.field_C = 0;
-    field_128.field_E = 0;
-    field_128.field_10 = 0;
-    field_128.field_12_mood = 0;
 
     field_C4_velx = FP(0);
     field_C8_vely = FP(0);
@@ -925,7 +917,7 @@ void Abe::Update_449DC0()
             }
         }
 
-        if (field_128.field_18 < 0 || sGnFrame_5C1B84 < field_144)
+        if (field_128.field_18 < 0 || static_cast<int>(sGnFrame_5C1B84) < field_144)
         {
             //LABEL_75:
             if (state_idx != field_106_animation_num || field_114_flags & 2)
@@ -958,12 +950,10 @@ void Abe::Update_449DC0()
                 field_1AC_flags &= ~2u;
             }
 
-            /*
-            if (*(_DWORD *)&this->field_128.field_4 <= sGnFrame_5C1B84  && field_10C_health > FP(0))
+            if (field_128.field_4 <= static_cast<int>(sGnFrame_5C1B84)  && field_10C_health > FP(0))
             {
                 field_10C_health = FP_FromDouble(1.0);
             }
-            */
 
             if (field_168)
             {
@@ -971,7 +961,7 @@ void Abe::Update_449DC0()
                 {
                     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                     {
-                        if (sGnFrame_5C1B84 <= field_168)
+                        if (static_cast<int>(sGnFrame_5C1B84) <= field_168)
                         {
                             if (!(sGnFrame_5C1B84 % 32))
                             {
@@ -1020,7 +1010,7 @@ void Abe::Update_449DC0()
             BaseGameObject* pObj_field_178 = sObjectIds_5C1B70.Find_449CF0(field_178);
             if (pObj_field_178 && field_170 > 0)
             {
-                if (sGnFrame_5C1B84 > field_170)
+                if (static_cast<int>(sGnFrame_5C1B84) > field_170)
                 {
                     field_170 = 0;
                     //sub_45FA30(pObj_field_178);
@@ -1081,7 +1071,7 @@ void Abe::Update_449DC0()
           
             field_1AE &= ~2;
             sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = static_cast<short>(field_1B0_save_num);
-            //Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
+            Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
             vGetSaveState_457110(reinterpret_cast<BYTE*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
             memcpy(
                 sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states.mData,
@@ -1307,9 +1297,9 @@ void Abe::vScreenChanged_44D240()
 
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId && !(field_114_flags & 0x100))
     {
-        for (int i = 0; i < 20; i++)
+        for (BYTE& val : sSavedKilledMudsPerPath_5C1B50.mData)
         {
-            sSavedKilledMudsPerPath_5C1B50[i] = 0;
+            val = 0;
         }
         byte_5C1B64 = 0;
     }

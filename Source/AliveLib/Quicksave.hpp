@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "SwitchStates.hpp"
+#include "MainMenu.hpp"
 
 void Quicksave_ForceLink();
 
@@ -20,14 +21,15 @@ struct Quicksave_WorldInfo
     __int16 field_4_level;
     __int16 field_6_path;
     __int16 field_8_cam;
-    unsigned __int16 field_A_unknown_1;
+    __int16 field_A_unknown_1;
     __int16 field_C_controlled_x;
     __int16 field_E_controlled_y;
     __int16 field_10_controlled_scale;
     __int16 field_12_saved_muds;
     __int16 field_14_killed_muds;
-    __int16 field_16_muds_in_area;
-    char field_18_saved_killed_muds_per_path[20];
+    char field_16_muds_in_area;
+    char field_17;
+    PerPathMudStats field_18_saved_killed_muds_per_path;
     char field_2C;
     char field_2D;
     __int16 field_2E;
@@ -36,7 +38,8 @@ struct Quicksave_WorldInfo
     __int16 field_34_visited_barracks;
     __int16 field_36_visited_feeco_ender;
     int field_38;
-    int field_3C;
+    __int16 field_3C;
+    __int16 field_3E;
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_WorldInfo, 0x40);
 
@@ -59,5 +62,6 @@ ALIVE_VAR_EXTERN(int, sAccumulatedObjectCount_5C1BF4);
 
 EXPORT void CC Quicksave_LoadActive_4C9170();
 EXPORT void CC Quicksave_4C90D0();
-EXPORT void CC Quicksave_ReadWorldInfo_4C9490(Quicksave_WorldInfo *a1);
+EXPORT void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo);
+EXPORT void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo);
 EXPORT void CC Quicksave_FindSaves_4D4150();
