@@ -870,12 +870,12 @@ signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
 {
     field_230_fmv_level_index = 0;
 
-    if (input_held & 0x200000)
+    if (input_held & InputCommands::eBack)
     {
         return 1;
     }
 
-    if (!(input_held & 0x100000))
+    if (!(input_held & InputCommands::eUnPause))
     {
         return 0;
     }
@@ -902,6 +902,7 @@ signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
     }
 }
 
+// Just seems to render esc and x.
 void MainMenuController::t_Render_All_Text_4D24F0(int ** ot)
 {
     int polyIndex = 0;
