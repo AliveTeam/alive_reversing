@@ -181,7 +181,10 @@ public:
 
     EXPORT signed int t_Input_Gamespeak_4D1FC0(DWORD input_held);
 
+    void RenderOnScreenTextHelper(int ** ot, MainMenuText * menuTextArray, int count);
+
     EXPORT void t_Render_All_Text_4D24F0(int** ot);
+    EXPORT void t_Render_All_Text_4D2540(int** ot);
 
     void Unload_AbeSpeakResources();
     void Load_AbeSpeakResources();

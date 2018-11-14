@@ -78,6 +78,17 @@ MainMenuButton sBtnArray_Gamespeak_561310[7] =
     { 0, 0, 0, 0, 0 }
 };
 
+MainMenuButton sBtnArray_Options_561368[4] =
+{
+    { 1, 33, 62, 0, 13912 },
+    { 1, 336, 61, 0, 13912 },
+    { 3, 332, 240, 0, 13912 },
+    { 0, 0, 0, 0, 0 }
+};
+
+
+
+
 // Sfx Arrays
 
 SfxDefinition stru_55D7C0[] =
@@ -137,11 +148,11 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL,
         NULL
     },
-    {
+    { // Options Page
         3,        0,        900,        1,        0,        3,        1,
         nullptr, //&MainMenuController::tsub_DemoMenu_4D1AB0,
-        nullptr, //&MainMenuController::t_Render_All_Text_4D2540,
-        nullptr, //&sBtnArray_561368,
+        &MainMenuController::t_Render_All_Text_4D2540,
+        sBtnArray_Options_561368,
         NULL,
         NULL
     },
@@ -920,16 +931,35 @@ signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
     }
 }
 
-// Just seems to render esc and x.
-void MainMenuController::t_Render_All_Text_4D24F0(int ** ot)
+void MainMenuController::RenderOnScreenTextHelper(int ** ot, MainMenuText * menuTextArray, int count)
 {
     int polyIndex = 0;
 
-    MainMenuText t1 = { 330, 204, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
-    MainMenuText t2 = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
+    for (int i = 0; i < count; i++)
+    {
+        MainMenuController::DrawMenuText_4D20D0(&menuTextArray[i], ot, &field_120_font, &polyIndex, 1);
+    }
+}
 
-    MainMenuController::DrawMenuText_4D20D0(&t1, ot, &field_120_font, &polyIndex, 1);
-    MainMenuController::DrawMenuText_4D20D0(&t2, ot, &field_120_font, &polyIndex, 1);
+MainMenuText sMTxt_Gamespeak_5623B8[2] = {
+    { 330, 204, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+};
+
+MainMenuText sMTxt_Gamespeak_5623E8[2] = {
+    { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 331, 205, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+};
+
+void MainMenuController::t_Render_All_Text_4D24F0(int ** ot)
+{
+    RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623B8, 2);
+}
+
+
+void MainMenuController::t_Render_All_Text_4D2540(int ** ot)
+{
+    RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623E8, 2);
 }
 
 signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
