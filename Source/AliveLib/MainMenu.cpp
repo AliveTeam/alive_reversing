@@ -67,6 +67,16 @@ MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[4] =
     { 0, 0, 0, 0, 0 }
 };
 
+MainMenuButton sBtnArray_Gamespeak_561310[7] =
+{
+    { 1, 153, 122, 0, 13912 },
+    { 1, 153, 143, 0, 13912 },
+    { 1, 153, 164, 0, 13912 },
+    { 1, 153, 184, 0, 13912 },
+    { 1, 153, 205, 0, 13912 },
+    { 3, 313, 240, 0, 13924 },
+    { 0, 0, 0, 0, 0 }
+};
 
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, 
 {
@@ -101,11 +111,11 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL,
         NULL
     },
-    {
+    { // Gamespeak Page
         2,        0,        900,        1,        0,        4,        0,
-        nullptr, //&MainMenuController::tsub_4D1FC0,
-        nullptr, //&MainMenuController::t_Render_All_Text_4D24F0,
-        nullptr, //&sBtnArray_561310,
+        &MainMenuController::t_Input_Gamespeak_4D1FC0,
+        &MainMenuController::t_Render_All_Text_4D24F0,
+        sBtnArray_Gamespeak_561310,
         NULL,
         NULL
     },
@@ -856,6 +866,53 @@ void MainMenuController::t_Load_Paramite_Speak_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
+signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
+{
+    field_230_fmv_level_index = 0;
+
+    if (input_held & 0x200000)
+    {
+        return 1;
+    }
+
+    if (!(input_held & 0x100000))
+    {
+        return 0;
+    }
+
+    switch (field_1FC_button_index)
+    {
+    case 0:
+        return 0xFFFF000E;
+        break;
+    case 1:
+        return 0xFFFF000F;
+        break;
+    case 2:
+        return 0xFFFF0010;
+        break;
+    case 3:
+        return 0xFFFF0011;
+        break;
+    case 4:
+        return 0xFFFF0012;
+        break;
+    default:
+        return 0;
+    }
+}
+
+void MainMenuController::t_Render_All_Text_4D24F0(int ** ot)
+{
+    int polyIndex = 0;
+
+    MainMenuText t1 = { 330, 204, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
+    MainMenuText t2 = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
+
+    MainMenuController::DrawMenuText_4D20D0(&t1, ot, &field_120_font, &polyIndex, 1);
+    MainMenuController::DrawMenuText_4D20D0(&t2, ot, &field_120_font, &polyIndex, 1);
+}
+
 signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
 {
     // Reset time out if any input detected
@@ -1374,6 +1431,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
     auto v8 = 0;
 
+    printf("%i\n", field_1FC_button_index);
     if (sMainMenuPages_561960[field_214_page_index].field_4 <= 0 || sMainMenuPages_561960[field_214_page_index].field_8 <= 0 || field_1F8_page_timeout <= sMainMenuPages_561960[field_214_page_index].field_4)
     {
         auto pageBtns = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
