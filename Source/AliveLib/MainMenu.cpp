@@ -1432,7 +1432,6 @@ void MainMenuController::HandleMainMenuUpdate()
 
     auto v8 = 0;
 
-    printf("%i\n", field_1FC_button_index);
     if (sMainMenuPages_561960[field_214_page_index].field_4 <= 0 || sMainMenuPages_561960[field_214_page_index].field_8 <= 0 || field_1F8_page_timeout <= sMainMenuPages_561960[field_214_page_index].field_4)
     {
         auto pageBtns = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
