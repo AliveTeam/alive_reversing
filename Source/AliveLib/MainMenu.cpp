@@ -78,6 +78,24 @@ MainMenuButton sBtnArray_Gamespeak_561310[7] =
     { 0, 0, 0, 0, 0 }
 };
 
+// Sfx Arrays
+
+SfxDefinition stru_55D7C0[] =
+{
+    { 0u, 5u, 60u, 90u, 65016, 65016 },
+    { 0u, 5u, 61u, 75u, 65016, 65016 },
+    { 0u, 5u, 62u, 50u, 65016, 65016 },
+    { 0u, 5u, 64u, 40u, 65016, 65016 },
+    { 0u, 5u, 65u, 40u, 65016, 65016 },
+    { 0u, 5u, 66u, 30u, 65016, 65016 },
+    { 0u, 5u, 66u, 50u, 0, 0 },
+    { 0u, 5u, 67u, 40u, 65016, 65016 },
+    { 0u, 5u, 68u, 30u, 65016, 65016 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 }
+};
+
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, 
 {
     {
@@ -1928,6 +1946,8 @@ LABEL_76:
     return 1;
 }
 
+
+
 void MainMenuController::sub_4CFE80()
 {
     NOT_IMPLEMENTED();
@@ -2057,7 +2077,7 @@ void MainMenuController::sub_4CFE80()
     {
         if (field_220_frame_table_idx == 48)
         {
-            //SFX_SfxDefinition_Play_4CA700(&stru_55D7C0 + sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound, 127, 127, 64, 64);
+            SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64);
         }
         else
         {
@@ -2067,7 +2087,7 @@ void MainMenuController::sub_4CFE80()
             }
             else
             {
-                //SFX_SfxDefinition_Play_4CA700(&stru_55D7C0 + sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound, 127, 127, 0x7FFF, 0x7FFF);
+                SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF);
             }
         }
     }
