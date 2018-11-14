@@ -584,7 +584,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_170 = 0;
     field_174 = 0;
     field_176 = 0;
-    field_178 = -1;
+    field_178_invisible_effect_id = -1;
     field_1AC_flags &= ~3u;
     field_124_gnFrame = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
@@ -616,7 +616,7 @@ void Abe::dtor_44B380()
     BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158);
     BaseGameObject* pField_15C = sObjectIds_5C1B70.Find_449CF0(field_15C);
     BaseGameObject* pField_160 = sObjectIds_5C1B70.Find_449CF0(field_160);
-    BaseGameObject* pField_178 = sObjectIds_5C1B70.Find_449CF0(field_178);
+    BaseGameObject* pField_178 = sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id);
 
     SND_SEQ_Stop_4CAE60(0xAu);
 
@@ -663,7 +663,7 @@ void Abe::dtor_44B380()
     if (pField_178)
     {
         pField_178->field_6_flags.Set(BaseGameObject::eDead);
-        field_178 = -1;
+        field_178_invisible_effect_id = -1;
     }
 
     field_164 = -1;
@@ -761,6 +761,155 @@ const InputCommands sInputKey_Run_5550E8 = eRun;
 
 ALIVE_VAR(1, 0x5c1bda, short, word_5C1BDA, 0);
 
+EXPORT signed int CC PSX_LoadImage_4F5E90(const PSX_RECT* /*rect*/, const WORD* /*pData*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC Pal_Set_483560(const PSX_Point* pPoint, __int16 w, const WORD* pPalData, PSX_RECT* rect)
+{
+    NOT_IMPLEMENTED();
+
+    rect->x = pPoint->field_0_x;
+    rect->y = pPoint->field_2_y;
+    rect->w = w;
+    rect->h = 1;
+    PSX_LoadImage_4F5E90(rect, pPalData);
+}
+
+class Class_545A60 : public BaseGameObject
+{
+public:
+    EXPORT Class_545A60* ctor_45F280(Abe* pAbe)
+    {
+        BaseGameObject_ctor_4DBFA0(TRUE, 0);
+        SetVTable(this, 0x545A60);
+
+        field_4_typeId = BaseGameObject::Types::eType_75;
+
+        field_44_objId = pAbe->field_8_object_id;
+
+        field_24_pAlloc = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(pAbe->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+        Pal_Set_483560(
+            &pAbe->field_20_animation.field_8C_pal_vram_x,
+            pAbe->field_20_animation.field_90_pal_depth,
+            field_24_pAlloc,
+            &field_28);
+
+        field_30_pPalAlloc = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(pAbe->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+        Pal_Set_483560(
+            &pAbe->field_20_animation.field_8C_pal_vram_x,
+            pAbe->field_20_animation.field_90_pal_depth,
+            field_30_pPalAlloc,
+            &field_34);
+
+        field_4A_flags = 0;
+
+        if (pAbe->field_20_animation.field_4_flags.Get(AnimFlags::eBit15_bSemiTrans))
+        {
+            field_4A_flags |= 0x1;
+        }
+        if (pAbe->field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending))
+        {
+            field_4A_flags |= 0x2;
+        }
+
+        field_4A_flags &= ~4u;
+        field_48 = pAbe->field_20_animation.field_B_render_mode;
+        field_20_state_or_op = 0;
+
+        return this;
+    }
+
+    EXPORT void dtor_45F410()
+    {
+        SetVTable(this, 0x545A60);
+
+        if (field_24_pAlloc)
+        {
+            Mem_Free_495560(field_24_pAlloc);
+        }
+
+        if (field_30_pPalAlloc)
+        {
+            Mem_Free_495560(field_30_pPalAlloc);
+        }
+
+        BaseGameObject_dtor_4DBEC0();
+    }
+
+    EXPORT void sub_45FA00()
+    {
+        NOT_IMPLEMENTED();
+        field_4A_flags |= 4u;
+        field_1C_update_delay = 1;
+        field_20_state_or_op = 1;
+    }
+
+    EXPORT void sub_45FA30()
+    {
+        NOT_IMPLEMENTED();
+        field_20_state_or_op = 4;
+    }
+
+    EXPORT void sub_45FA50()
+    {
+        NOT_IMPLEMENTED();
+        field_1C_update_delay = 1;
+        field_20_state_or_op = 5;
+    }
+
+    EXPORT void sub_45F9E0()
+    {
+        field_1C_update_delay = 1;
+        field_20_state_or_op = 1;
+    }
+
+    EXPORT void vUpdate_45F4A0()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vdtor_45F3E0(signed int flags)
+    {
+        dtor_45F410();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        vdtor_45F3E0(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_45F4A0();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        // Null @ 45F9C0
+    }
+
+private:
+    unsigned __int16 field_20_state_or_op;
+    __int16 field_22;
+    WORD* field_24_pAlloc;
+    PSX_RECT field_28;
+    WORD* field_30_pPalAlloc;
+    PSX_RECT field_34;
+    int field_3C;
+    int field_40;
+    int field_44_objId;
+    char field_48;
+    char field_49;
+    __int16 field_4A_flags;
+};
+ALIVE_ASSERT_SIZEOF(Class_545A60, 0x4C);
 
 void Abe::Update_449DC0()
 {
@@ -807,23 +956,11 @@ void Abe::Update_449DC0()
             {
                 field_170 = sGnFrame_5C1B84 + 2;
             }
-            /*
-            pClass_545A60Mem = (BaseGameObject *)malloc_4954D0(0x4Cu);
-            pClass_545A60Mem_Copy = pClass_545A60Mem;
-            unknown = 0;
-            if (pClass_545A60Mem)
-            {
-                pClass_545A60 = Class_545A60::ctor_45F280(pClass_545A60Mem, (int)this);
-            }
-            else
-            {
-                pClass_545A60 = 0;
-            }
-            l_field_8_flags_ex = pClass_545A60->field_8_flags_ex;
-            unknown = -1;
-            this->field_178 = l_field_8_flags_ex;
-            Class_545A60::sub_45FA00((int)pClass_545A60);
-            */
+
+            auto pClass = alive_new<Class_545A60>();
+            pClass->ctor_45F280(this);
+            field_178_invisible_effect_id = pClass->field_8_object_id;
+            pClass->sub_45FA00();
         }
     }
 
@@ -1006,14 +1143,14 @@ void Abe::Update_449DC0()
                 }
             }
 
-
-            BaseGameObject* pObj_field_178 = sObjectIds_5C1B70.Find_449CF0(field_178);
+            
+            Class_545A60* pObj_field_178 = static_cast<Class_545A60*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
             if (pObj_field_178 && field_170 > 0)
             {
                 if (static_cast<int>(sGnFrame_5C1B84) > field_170)
                 {
                     field_170 = 0;
-                    //sub_45FA30(pObj_field_178);
+                    pObj_field_178->sub_45FA30();
                 }
             }
 
@@ -1073,10 +1210,7 @@ void Abe::Update_449DC0()
             sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = static_cast<short>(field_1B0_save_num);
             Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
             vGetSaveState_457110(reinterpret_cast<BYTE*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
-            memcpy(
-                sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states.mData,
-                sSwitchStates_5C1A28.mData,
-                sizeof(sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states.mData));
+            sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
             Quicksave_4C90D0();
             return;
         }

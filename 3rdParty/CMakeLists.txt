@@ -4,7 +4,7 @@ project(Deps VERSION 0.1 LANGUAGES C CXX)
 add_library(Detours
     Detours/src/detours.cpp
     Detours/src/disasm.cpp
-    Detours/src/Image.cpp
+    Detours/src/image.cpp
     Detours/src/modules.cpp
     )
 

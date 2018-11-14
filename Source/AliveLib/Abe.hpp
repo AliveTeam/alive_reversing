@@ -213,7 +213,7 @@ public:
     int field_170;
     __int16 field_174;
     __int16 field_176;
-    int field_178;
+    int field_178_invisible_effect_id;
     char field_17C;
     char field_17D;
     char field_17E;
