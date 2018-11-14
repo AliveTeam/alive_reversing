@@ -1395,7 +1395,7 @@ void MainMenuController::HandleMainMenuUpdate()
                             if (field_1FC_button_index < 0)
                             {
                                 short lastIndex = 0;
-                                while (btnArray[lastIndex++].field_0 == 1)
+                                while (btnArray[lastIndex].field_0 == 1)
                                 {
                                     lastIndex++;
                                 }
