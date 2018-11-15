@@ -5,18 +5,15 @@
 #include "Game.hpp"
 #include "Map.hpp"
 #include "MainMenu.hpp"
-#include "Quicksave.hpp"
+#include "QuikSave.hpp"
 
 void CheatController_ForceLink() { }
 
 ALIVE_VAR(1, 0x5BC120, CheatController*, pCheatController_5BC120, nullptr);
 
-InputCommands sCheatKeyArray_MovieSelect_5515C0[8] =
-{ eUp, eLeft, eRight, eLeft, eRight, eLeft, eRight, eDown };
-InputCommands sCheatKeyArray_LevelSelect_5515D0[8] =
-{ eDown, eRight, eLeft, eRight, eLeft, eRight, eLeft, eUp };
-InputCommands sCheatKeyArray_PathSkip_5515E8[6] =
-{ eLeft, eRight, eUp, eDown, eLeft, eRight };
+InputCommands sCheatKeyArray_MovieSelect_5515C0[8] = { eUp, eLeft, eRight, eLeft, eRight, eLeft, eRight, eDown };
+InputCommands sCheatKeyArray_LevelSelect_5515D0[8] = { eDown, eRight, eLeft, eRight, eLeft, eRight, eLeft, eUp };
+InputCommands sCheatKeyArray_PathSkip_5515E8[6] = { eLeft, eRight, eUp, eDown, eLeft, eRight };
 
 EXPORT void CC CheatController_Cheat_FMV_421AD0()
 {

@@ -12,7 +12,7 @@
 #include "ScreenManager.hpp"
 #include "Map.hpp"
 #include "PathData.hpp"
-#include "Quicksave.hpp"
+#include "QuikSave.hpp"
 #include "DDCheat.hpp"
 #include "Font.hpp"
 #include "FixedPoint.hpp"

@@ -10,7 +10,7 @@
 #include "Psx.hpp"
 #include "Midi.hpp"
 #include "GameSpeak.hpp"
-#include "Quicksave.hpp"
+#include "QuikSave.hpp"
 #include "Math.hpp"
 #include "DDCheat.hpp"
 #include "DynamicArray.hpp"
@@ -72,7 +72,6 @@ static void InitOtherHooksAndRunTests()
     DynamicArray_ForceLink();
     Math_ForceLink();
     Midi_ForceLink();
-    Quicksave_ForceLink();
     Game_ForceLink();
     GameSpeak_ForceLink();
     DDCheat_ForceLink();

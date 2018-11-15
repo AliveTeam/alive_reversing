@@ -20,7 +20,7 @@
 #include "GameSpeak.hpp"
 #include "PathData.hpp"
 #include "DDCheat.hpp"
-#include "Quicksave.hpp"
+#include "QuikSave.hpp"
 #include "Io.hpp"
 #include "LvlArchive.hpp"
 #include "DDraw.hpp"

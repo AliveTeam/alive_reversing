@@ -4,7 +4,7 @@
 #include "Function.hpp"
 #include "Events.hpp"
 #include "Map.hpp"
-#include "Quicksave.hpp"
+#include "QuikSave.hpp"
 #include "ObjectIds.hpp"
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);

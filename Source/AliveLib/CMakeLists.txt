@@ -31,8 +31,6 @@ add_library(AliveLib
     GameSpeak.cpp
     DDCheat.hpp
     DDCheat.cpp
-    Quicksave.cpp
-    Quicksave.hpp
     bmp.cpp
     bmp.hpp
     Sfx.hpp
