@@ -24,7 +24,7 @@ struct CollisionInfo;
 class Collisions
 {
 public:
-    EXPORT void ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
+    EXPORT Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
     EXPORT void dtor_4189F0();
     EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
 
