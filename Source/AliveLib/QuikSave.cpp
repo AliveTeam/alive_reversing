@@ -280,7 +280,7 @@ void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
     }
 
     // Skip the 2 zero entries, the saved flag words come after the object save state data
-    const WORD* pSrcFlags = pSaveData2 += 2;
+    const BYTE* pSrcFlags = reinterpret_cast<const BYTE*>(pSaveData2 + 2);
     for (short i = 1; i < sPathData_559660.paths[gMap_5C3030.sCurrentLevelId_5C3030].field_1A_num_paths; i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, i);
@@ -310,8 +310,10 @@ void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
                                 if (tableValue <= 2)
                                 {
                                     pTlv->field_0_flags.Raw().all = *pSrcFlags;
-                                    pTlv->field_1_unknown = 0;
-                                    ++pSrcFlags;
+                                    pSrcFlags++;
+                                    
+                                    pTlv->field_1_unknown = *pSrcFlags;
+                                    pSrcFlags++;
                                 }
                             }
 
