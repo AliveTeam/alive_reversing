@@ -664,6 +664,8 @@ void MusicController::Update_47F730()
 
 void MusicController::sub_47F910(__int16 typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20)
 {
+    //NOT_IMPLEMENTED();
+
     MusicController::UpdateMusicTime_47F8B0();
 
     if (typeToSet <= 1 || pObj)
@@ -703,18 +705,22 @@ void MusicController::sub_47F910(__int16 typeToSet, const BaseGameObject* pObj, 
             {
                 field_28_object_id = -1;
             }
+
+            field_58_flags |= 0x20u;
+            field_48_last_music_frame = sMusicTime_5C3024;
+            field_42_type = typeToSet;
+            field_44 = 0;
         }
         else if (pObj->field_8_object_id == field_28_object_id || field_28_object_id == -1 || !(field_58_flags & 4) && (bFlag4 || typeToSet >= field_42_type))
         {
             field_28_object_id = pObj->field_8_object_id;
             field_58_flags = (field_58_flags & ~4) | 4 * (bFlag4 & 1);
+            field_58_flags |= 0x20u;
+            field_48_last_music_frame = sMusicTime_5C3024;
+            field_42_type = typeToSet;
+            field_44 = 0;
         }
 
-        field_58_flags |= 0x20u;
-        field_48_last_music_frame = sMusicTime_5C3024;
-        field_42_type = typeToSet;
-        field_44 = 0;
-        return;
     }
 }
 
