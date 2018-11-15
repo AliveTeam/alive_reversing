@@ -13,6 +13,7 @@
 #include "Quicksave.hpp"
 #include "MainMenu.hpp"
 #include "ThrowableArray.hpp"
+#include "MusicController.hpp"
 
 const char * sAbeStateNames[] =
 {
@@ -761,21 +762,19 @@ const InputCommands sInputKey_Run_5550E8 = eRun;
 
 ALIVE_VAR(1, 0x5c1bda, short, word_5C1BDA, 0);
 
-EXPORT signed int CC PSX_LoadImage_4F5E90(const PSX_RECT* /*rect*/, const WORD* /*pData*/)
+EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* /*rect*/, WORD* /*pData*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT void CC Pal_Set_483560(const PSX_Point* pPoint, __int16 w, const WORD* pPalData, PSX_RECT* rect)
+EXPORT void CC Pal_Copy_483560(const PSX_Point* pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect)
 {
-    NOT_IMPLEMENTED();
-
     rect->x = pPoint->field_0_x;
     rect->y = pPoint->field_2_y;
     rect->w = w;
     rect->h = 1;
-    PSX_LoadImage_4F5E90(rect, pPalData);
+    PSX_StoreImage_4F5E90(rect, pPalData);
 }
 
 class Class_545A60 : public BaseGameObject
@@ -791,14 +790,14 @@ public:
         field_44_objId = pAbe->field_8_object_id;
 
         field_24_pAlloc = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(pAbe->field_20_animation.field_90_pal_depth * sizeof(WORD)));
-        Pal_Set_483560(
+        Pal_Copy_483560(
             &pAbe->field_20_animation.field_8C_pal_vram_x,
             pAbe->field_20_animation.field_90_pal_depth,
             field_24_pAlloc,
             &field_28);
 
         field_30_pPalAlloc = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(pAbe->field_20_animation.field_90_pal_depth * sizeof(WORD)));
-        Pal_Set_483560(
+        Pal_Copy_483560(
             &pAbe->field_20_animation.field_8C_pal_vram_x,
             pAbe->field_20_animation.field_90_pal_depth,
             field_30_pPalAlloc,
@@ -841,7 +840,6 @@ public:
 
     EXPORT void sub_45FA00()
     {
-        NOT_IMPLEMENTED();
         field_4A_flags |= 4u;
         field_1C_update_delay = 1;
         field_20_state_or_op = 1;
@@ -849,13 +847,11 @@ public:
 
     EXPORT void sub_45FA30()
     {
-        NOT_IMPLEMENTED();
         field_20_state_or_op = 4;
     }
 
     EXPORT void sub_45FA50()
     {
-        NOT_IMPLEMENTED();
         field_1C_update_delay = 1;
         field_20_state_or_op = 5;
     }
@@ -910,6 +906,157 @@ private:
     __int16 field_4A_flags;
 };
 ALIVE_ASSERT_SIZEOF(Class_545A60, 0x4C);
+
+class MusicTrigger : public BaseGameObject
+{
+public:
+    EXPORT void ctor_47FF10(__int16 type, __int16 a3, int /*a4*/, __int16 delay)
+    {
+        BaseGameObject_ctor_4DBFA0(TRUE, 0);
+        SetVTable(this, 0x5463DC);
+        Init_47FFB0(type, a3, delay);
+        field_2C = 0;
+        field_30 = 0;
+        field_2E = 0;
+        field_32 = 0;
+        field_20 = -1;
+    }
+
+    EXPORT void Init_47FFB0(__int16 type, __int16 a3, __int16 delay)
+    {
+        field_24_flags &= ~7u;
+        field_4_typeId = BaseGameObject::Types::eMusicTrigger;
+        field_28_counter = 0;
+
+        switch (type)
+        {
+        case 0:
+            field_26 = 3;
+            field_28_counter = 400;
+            break;
+        case 1:
+            field_26 = 10;
+            field_28_counter = 30;
+            break;
+        case 2:
+            field_26 = 13;
+            field_28_counter = 30;
+            break;
+        case 3:
+            field_26 = 8;
+            field_24_flags |= 4;
+            break;
+        case 4:
+            field_26 = 7;
+            field_24_flags |= 4;
+            break;
+        case 5:
+            field_26 = 2;
+            field_28_counter = delay;
+            break;
+        case 6:
+            field_26 = 12;
+            field_28_counter = 30;
+            break;
+        default:
+            break;
+        }
+
+        if (a3)
+        {
+            if (a3 == 1)
+            {
+                field_24_flags |= 1u;
+            }
+        }
+        else
+        {
+            field_1C_update_delay = delay;
+        }
+    }
+
+    EXPORT void vdtor_47FEE0(signed int flags)
+    {
+        dtor_4800C0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    EXPORT void dtor_4800C0()
+    {
+        SetVTable(this, 0x5463DC);
+        if (field_24_flags & 4)
+        {
+            MusicController::sub_47FD60(0, this, 0, 0);
+        }
+        BaseGameObject_dtor_4DBEC0();
+    }
+
+    EXPORT void vScreenChange_4802A0()
+    {
+        if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
+
+    EXPORT void vUpdate_480140()
+    {
+        if (Event_Get_422C00(kEventHeroDying))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+
+        if (field_24_flags & 1)
+        {
+            FP xpos = sControlledCharacter_5C1B8C->field_B8_xpos;
+            FP ypos = sControlledCharacter_5C1B8C->field_BC_ypos;
+
+            if (xpos >= FP_FromInteger(field_2C) && xpos <= FP_FromInteger(field_30) &&
+               (ypos >= FP_FromInteger(field_2E) && ypos <= FP_FromInteger(field_32)))
+            {
+                field_24_flags &= ~1;
+                MusicController::sub_47FD60(field_26, this, (field_24_flags >> 2) & 1,  1);
+                field_24_flags |= 2u;
+                if (field_28_counter >= 0)
+                {
+                    field_28_counter += sGnFrame_5C1B84;
+                }
+            }            
+        }
+        else if (field_24_flags & 2)
+        {
+            if (field_28_counter < 0 || static_cast<int>(sGnFrame_5C1B84) < field_28_counter)
+            {
+                MusicController::sub_47FD60(field_26, this, (field_24_flags >> 2) & 1, 0);
+            }
+            else
+            {
+                field_6_flags.Set(BaseGameObject::eDead);
+            }
+        }
+        else
+        {
+            MusicController::sub_47FD60(field_26, this, (field_24_flags >> 2) & 1, 1);
+            field_24_flags |= 2u;
+            field_28_counter += sGnFrame_5C1B84;
+        }
+    }
+
+private:
+    int field_20;
+    __int16 field_24_flags;
+    __int16 field_26;
+    int field_28_counter;
+    __int16 field_2C;
+    __int16 field_2E;
+    __int16 field_30;
+    __int16 field_32;
+};
+ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x34);
+
 
 void Abe::Update_449DC0()
 {
