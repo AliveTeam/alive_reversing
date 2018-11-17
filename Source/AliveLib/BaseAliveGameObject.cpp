@@ -101,9 +101,9 @@ __int16 BaseAliveGameObject::Vsub_408730(int arg0)
     return vsub_408730(arg0);
 }
 
-signed __int16 BaseAliveGameObject::Vnull_4087F0(int a2a)
+signed __int16 BaseAliveGameObject::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
 {
-    return vnull_4087F0(a2a);
+    return vOn_TLV_Collision_4087F0(pTlv);
 }
 
 char BaseAliveGameObject::Vsub_408A40(__int16 a2)
@@ -153,7 +153,7 @@ __int16 BaseAliveGameObject::vsub_408730(int /*arg0*/)
     return 0;
 }
 
-signed __int16 BaseAliveGameObject::vnull_4087F0(int /*a2a*/)
+signed __int16 BaseAliveGameObject::vOn_TLV_Collision_4087F0(Path_TLV* /*pTlv*/)
 {
     // Empty
     return 0;

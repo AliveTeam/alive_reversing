@@ -34,7 +34,7 @@ public:
     virtual void VScreenChanged() override;
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
     virtual __int16 Vsub_408730(int arg0) override;
-    virtual __int16 Vnull_4087F0(int a2a) override;
+    virtual __int16 VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
     virtual int Vsub_408FD0(__int16 a2) override;
     virtual int Vnull_4081F0() override;
 
@@ -45,7 +45,7 @@ public:
     EXPORT void vScreenChanged_44D240();
     EXPORT int vGetSaveState_457110(BYTE* pSaveBuffer);
     EXPORT bool vsub_Kill_44BB50(BaseGameObject *otherObj);
-    EXPORT __int16 vsub_44B5D0(int a2a);
+    EXPORT __int16 vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
     EXPORT int vsub_44E970(__int16 a2);
     EXPORT BaseGameObject* vsub_45A570();
 

@@ -727,9 +727,9 @@ __int16 Abe::Vsub_408730(int arg0)
     return vsub_Kill_44BB50(reinterpret_cast<BaseAliveGameObject*>(arg0));
 }
 
-__int16 Abe::Vnull_4087F0(int a2a)
+__int16 Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
 {
-    return vsub_44B5D0(a2a);
+    return vOn_TLV_Collision_44B5D0(pTlv);
 }
 
 int Abe::Vsub_408FD0(__int16 a2)
@@ -1207,8 +1207,7 @@ void Abe::Update_449DC0()
                 field_BC_ypos,
                 field_B8_xpos,
                 field_BC_ypos);
-            //Vsub_408730(field_FC_pPathTLV);
-            //((void(__thiscall *)(Abe *, Path_TLV *))field_0_VTbl->VAbe.field_0.field_50)(this, field_FC_pPathTLV);
+            VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
         }
 
         if (field_114_flags & 1)
@@ -1624,7 +1623,7 @@ bool Abe::vsub_Kill_44BB50(BaseGameObject * /*otherObj*/)
     return false;
 }
 
-__int16 Abe::vsub_44B5D0(int /*a2a*/)
+__int16 Abe::vOn_TLV_Collision_44B5D0(Path_TLV* /*a2a*/)
 {
     NOT_IMPLEMENTED();
     return 0;
