@@ -942,26 +942,24 @@ void MainMenuController::RenderOnScreenTextHelper(int ** ot, MainMenuText * menu
 }
 
 MainMenuText sMTxt_Gamespeak_5623B8[2] = {
-    { 330, 204, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
-    { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 330, 204, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
+    { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
 };
 
 MainMenuText sMTxt_Gamespeak_5623E8[2] = {
-    { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
-    { 331, 205, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
+    { 331, 205, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
 };
 
-MainMenuText sMTxt_NewGame_562598[3] = {
-    { 165, 211, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
-    { 330, 174, "\x0f", 2u, 0u, 0u, 0u,  0.88, 0u, 0u, 0u, 0u },
-    { 161, 164, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+MainMenuText sMTxt_NewGame_562598[2] = {
+    { 165, 211, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
+    { 161, 164, "x", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u }
 };
 
 void MainMenuController::t_Render_All_Text_4D24F0(int ** ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623B8, 2);
 }
-
 
 void MainMenuController::t_Render_All_Text_4D2540(int ** ot)
 {
@@ -970,7 +968,7 @@ void MainMenuController::t_Render_All_Text_4D2540(int ** ot)
 
 void MainMenuController::tGame_BackStory_Or_NewGame_Render_4D2630(int ** ot)
 {
-    RenderOnScreenTextHelper(ot, sMTxt_NewGame_562598, 3);
+    RenderOnScreenTextHelper(ot, sMTxt_NewGame_562598, 2);
 }
 
 signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
