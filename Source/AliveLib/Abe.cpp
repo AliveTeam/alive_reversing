@@ -576,16 +576,17 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_15C = -1;
     field_1AE &= ~3u;
 
+    field_114_flags.Set(Flags_114::e114_Bit6);
 
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit9);
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit8);
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit6);
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit4);
+    field_1AC_flags.Raw().all = 0;
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit6);
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
+
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit1);
 
-    field_1AC_flags.Set(Flags_1AC::e1AC_Bit6);
-    field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
 
     // Changes Abe's "default" colour depending on the level we are in
     SetTint_425600(&sTintTable_Abe_554D20[0], gMap_5C3030.sCurrentLevelId_5C3030);
@@ -602,8 +603,6 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_174 = 0;
     field_176 = 0;
     field_178_invisible_effect_id = -1;
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit1);
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
     field_124_gnFrame = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
     field_128.field_12_mood = 0;
@@ -1093,15 +1092,16 @@ ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x34);
 void Abe::Update_449DC0()
 {
     NOT_IMPLEMENTED();
+
     if (word_5C1BDA) // Some flag to reset HP?
     {
-        field_114_flags &= ~0x40u;
+        field_114_flags.Clear(Flags_114::e114_Bit7);
         field_10C_health = FP_FromDouble(1.0);
     }
 
-    if (field_114_flags & 0x100)
+    if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
-        field_114_flags &= ~0x100;
+        field_114_flags.Clear(Flags_114::e114_Bit9);
         if (field_104 != -1)
         {
             sCollisions_DArray_5C1128->Raycast_417A60(
@@ -1128,7 +1128,7 @@ void Abe::Update_449DC0()
         field_160 = BaseGameObject::Find_Flags_4DC170(field_160);
         field_164 = BaseGameObject::Find_Flags_4DC170(field_164);
 
-        if (!(field_114_flags & 0x80))
+        if (!(field_114_flags.Get(Flags_114::e114_Bit8)))
         {
             if (!field_170)
             {
@@ -1186,7 +1186,7 @@ void Abe::Update_449DC0()
         const FP oldYPos = field_BC_ypos;
         (this->*(sAbeStateMachineTable_554910)[state_idx])();
 
-        if (field_114_flags & 0x100 || field_1AC_flags.Get(Flags_1AC::e1AC_Bit6))
+        if (field_114_flags.Get(Flags_114::e114_Bit9) || field_1AC_flags.Get(Flags_1AC::e1AC_Bit6))
         {
             return;
         }
@@ -1210,7 +1210,7 @@ void Abe::Update_449DC0()
             VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
         }
 
-        if (field_114_flags & 1)
+        if (field_114_flags.Get(Flags_114::e114_Bit1))
         {
             state_idx = field_122;
             Knockback_44E700(1, 1);
@@ -1222,11 +1222,11 @@ void Abe::Update_449DC0()
             field_108 = 0;
             field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
             field_122 = 0;
-            field_114_flags = (field_114_flags & ~1) | 2;
+            field_114_flags.Clear(Flags_114::e114_Bit1);
+            field_114_flags.Set(Flags_114::e114_Bit2);
         }
 
-        BaseGameObject* pScreenShake = Event_Get_422C00(kEventScreenShake);
-        if (pScreenShake && field_10C_health > FP(0))
+        if (Event_Get_422C00(kEventScreenShake) && field_10C_health > FP(0))
         {
             if (sub_449D30())
             {
@@ -1237,9 +1237,9 @@ void Abe::Update_449DC0()
         if (field_128.field_18 < 0 || static_cast<int>(sGnFrame_5C1B84) < field_144)
         {
             //LABEL_75:
-            if (state_idx != field_106_animation_num || field_114_flags & 2)
+            if (state_idx != field_106_animation_num || field_114_flags.Get(Flags_114::e114_Bit2))
             {
-                field_114_flags &= ~2u;
+                field_114_flags.Clear(Flags_114::e114_Bit2);
                 if (field_106_animation_num != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5)))
                 {
                     field_20_animation.Set_Animation_Data_409C80(
@@ -1248,7 +1248,7 @@ void Abe::Update_449DC0()
 
                     field_128.field_14 = sGnFrame_5C1B84;
 
-                    if (state_idx == 12 || state_idx == 60)
+                    if (state_idx == eAbeStates::State_12_Null_4569C0 || state_idx == eAbeStates::State_60_4A3200)
                     {
                         field_20_animation.SetFrame_409D50(field_F6);
                     }
@@ -1356,8 +1356,7 @@ void Abe::Update_449DC0()
                 field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
                 // Do the death jingle
-                auto pMusicTrigger = alive_new<MusicTrigger>();
-                pMusicTrigger->ctor_47FF10(1, 0, 90, 0);
+                alive_new<MusicTrigger>()->ctor_47FF10(1, 0, 90, 0);
             }
 
             if (Event_Get_422C00(kEventMudokonComfort))
@@ -1401,7 +1400,7 @@ void Abe::Update_449DC0()
 
         if (field_106_animation_num == eAbeStates::State_0_Idle_44EEB0 || field_106_animation_num == eAbeStates::State_12_Null_4569C0)
         {
-            field_114_flags |= 2u;
+            field_114_flags.Set(Flags_114::e114_Bit2);
             switch (field_128.field_18)
             {
             case 14:
@@ -1601,7 +1600,7 @@ void Abe::vScreenChanged_44D240()
         }
     }
 
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId && !(field_114_flags & 0x100))
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId && !(field_114_flags.Get(Flags_114::e114_Bit9)))
     {
         for (BYTE& val : sSavedKilledMudsPerPath_5C1B50.mData)
         {
@@ -2205,7 +2204,7 @@ void Abe::State_99_LeverUse_455AC0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_114_flags & 0x200)
+        if (field_114_flags.Get(Flags_114::e114_Bit10))
         {
             field_106_animation_num = eAbeStates::State_34_DunnoBegin_44ECF0;
         }
@@ -2310,7 +2309,7 @@ void Abe::State_118_MineCarExit_458890()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        field_114_flags |= 2;
+        field_114_flags.Set(Flags_114::e114_Bit2);
         field_106_animation_num = eAbeStates::State_0_Idle_44EEB0;
         field_124_gnFrame = 1;
     }

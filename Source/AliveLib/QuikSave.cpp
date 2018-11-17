@@ -374,7 +374,7 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     word_5C1BBC = pInfo->field_2E;
     sSavedKilledMudsPerPath_5C1B50 = pInfo->field_18_saved_killed_muds_per_path;
     byte_5C1B64 = pInfo->field_17;
-    sActiveHero_5C1B68->field_114_flags |= 100u;
+    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);
     sStatsSignCurrentArea_5C1A20 = pInfo->field_2C;
     sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
     sRescuedMudokons_5C1BC2 = pInfo->field_12_saved_muds;

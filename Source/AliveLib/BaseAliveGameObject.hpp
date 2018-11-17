@@ -17,6 +17,21 @@ ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 struct Path_TLV;
 struct PathLine;
 
+enum Flags_114
+{
+    e114_Bit1 = 0x1,
+    e114_Bit2 = 0x2,
+    e114_Bit3 = 0x4,
+    e114_Bit4 = 0x8,
+    e114_Bit5 = 0x10,
+    e114_Bit6 = 0x20,
+    e114_Bit7 = 0x40,
+    e114_Bit8 = 0x80,
+    e114_Bit9 = 0x100,
+    e114_Bit10 = 0x200,
+    e114_Bit11 = 0x400,
+};
+
 #pragma pack(push)
 #pragma pack(2)
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
@@ -71,7 +86,7 @@ public:
     __int16 field_10A;
     FP field_10C_health;
     int field_110;
-    __int16 field_114_flags;
+    BitField16<Flags_114> field_114_flags;
 };
 #pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x116);

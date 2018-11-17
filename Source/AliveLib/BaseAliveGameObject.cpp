@@ -16,7 +16,18 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     BaseAnimatedWithPhysicsGameObject_ctor_424930(resourceArraySize);
     SetVTable(this, 0x544000);
 
-    field_114_flags &= 0xF800u;
+    field_114_flags.Clear(Flags_114::e114_Bit1);
+    field_114_flags.Clear(Flags_114::e114_Bit2);
+    field_114_flags.Clear(Flags_114::e114_Bit3);
+    field_114_flags.Clear(Flags_114::e114_Bit4);
+    field_114_flags.Clear(Flags_114::e114_Bit5);
+    field_114_flags.Clear(Flags_114::e114_Bit6);
+    field_114_flags.Clear(Flags_114::e114_Bit7);
+    field_114_flags.Clear(Flags_114::e114_Bit8);
+    field_114_flags.Clear(Flags_114::e114_Bit9);
+    field_114_flags.Clear(Flags_114::e114_Bit10);
+    field_114_flags.Clear(Flags_114::e114_Bit11);
+
     field_FC_pPathTLV = nullptr;
     field_100_pCollisionLine = nullptr;
     field_10C_health = FP_FromDouble(1.0);
