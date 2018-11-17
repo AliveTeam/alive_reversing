@@ -161,6 +161,7 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*
 
 Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* /*pTlv*/, FP /*xpos*/, FP /*ypos*/, FP /*w*/, FP /*h*/)
 {
+    NOT_IMPLEMENTED();
     return nullptr;
 }
 

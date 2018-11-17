@@ -1577,9 +1577,82 @@ private:
     Poly_F_Test mPoly_F_Test;
 };
 
+#include "ScreenManager.hpp"
+#include "VRam.hpp"
+
+static WORD RGB888toRGB565(unsigned int r, unsigned int g, unsigned int b)
+{
+    return static_cast<WORD>((r >> 3 << 11) + (g >> 2 << 5) + (b >> 3));
+}
+
+const WORD kTestImagePal[16] =
+{
+    RGB888toRGB565(237, 28,  36),
+    RGB888toRGB565(255, 255, 255),
+    RGB888toRGB565(127, 127, 127),
+    RGB888toRGB565(63,  72,  204),
+    RGB888toRGB565(34,  177, 76),
+    RGB888toRGB565(255, 174, 201),
+    RGB888toRGB565(255, 127, 39),
+    RGB888toRGB565(163, 73,  164),
+};
+
+const BYTE kTestImg[4][8] =
+{
+    { 0, 0, 1, 2, 2, 2, 1, 3 },
+    { 0, 0, 1, 1, 2, 1, 1, 3 },
+    { 4, 4, 5, 1, 2, 1, 6, 7 },
+    { 4, 4, 1, 5, 2, 6, 1, 7 },
+};
+
+inline static BYTE AsByte(BYTE nibble1, BYTE nibble2)
+{
+    return (nibble2 << 4) | nibble1;
+}
+
+// Pack kTestImg nibbles into bytes
+const BYTE kTestImage[4][4] =
+{
+    { AsByte(kTestImg[0][0],kTestImg[0][1]), AsByte(kTestImg[0][2],kTestImg[0][3]), AsByte(kTestImg[0][4],kTestImg[0][5]), AsByte(kTestImg[0][6],kTestImg[0][7]) },
+    { AsByte(kTestImg[1][0],kTestImg[1][1]), AsByte(kTestImg[1][2],kTestImg[1][3]), AsByte(kTestImg[1][4],kTestImg[1][5]), AsByte(kTestImg[1][6],kTestImg[1][7]) },
+    { AsByte(kTestImg[2][0],kTestImg[2][1]), AsByte(kTestImg[2][2],kTestImg[2][3]), AsByte(kTestImg[2][4],kTestImg[2][5]), AsByte(kTestImg[2][6],kTestImg[2][7]) },
+    { AsByte(kTestImg[3][0],kTestImg[3][1]), AsByte(kTestImg[3][2],kTestImg[3][3]), AsByte(kTestImg[3][4],kTestImg[3][5]), AsByte(kTestImg[3][6],kTestImg[3][7]) },
+};
+
+// Pack kTestImage bytes into a RLE compressed buffer
+const BYTE kTestImageCompressed[] =
+{
+    8, 0,               // u16 width
+    4, 0,               // u16 height
+    AsByte(0, 8),       // (black pixel count, direct copy count) both are limited to max 16,16 since 4 bits each
+    kTestImage[0][0],
+    kTestImage[0][1],
+    kTestImage[0][2],
+    kTestImage[0][3],
+
+    AsByte(0, 8),
+    kTestImage[1][0],
+    kTestImage[1][1],
+    kTestImage[1][2],
+    kTestImage[1][3],
+
+    AsByte(0, 8),
+    kTestImage[2][0],
+    kTestImage[2][1],
+    kTestImage[2][2],
+    kTestImage[2][3],
+
+    AsByte(0, 8),
+    kTestImage[3][0],
+    kTestImage[3][1],
+    kTestImage[3][2],
+    kTestImage[3][3],
+};
+
 class AnimRenderTest : public BaseGameObject
 {
 public:
+  
     AnimRenderTest()
     {
         DisableVTableHack disableHack;
@@ -1601,6 +1674,10 @@ public:
         mAnim[2].vRender_40B820(40 + (1 * 85), 40 + (2 * 90), ot, 0, 0);
         mAnim[3].vRender_40B820(40 + (2 * 85), 40 + (2 * 90), ot, 0, 0);
         mAnim[4].vRender_40B820(180 + 90, 170 + 45, ot, 0, 0);
+
+        OrderingTable_Add_4F8AA0(&ot[30], &mPolyFT4[0].mBase.header);
+
+        pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
     }
 
     virtual void VUpdate() override
@@ -1662,22 +1739,62 @@ private:
         // 4 bit o 
         mAnim[0].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         mAnim[0].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[0].field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        mAnim[0].field_14_scale = FP_FromDouble(1.0);
 
         // 4 bit s
         mAnim[1].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         mAnim[1].field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[1].field_14_scale = FP_FromDouble(2.0);
 
         // 8 bit o
         mAnim[2].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         mAnim[2].field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[2].field_14_scale = FP_FromDouble(1.0);
 
         // 8 bit s
         mAnim[3].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
         mAnim[3].field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+
+        PSX_RECT pr = {};
+        Pal_Allocate_483110(&pr, 16);
+        pr.w = 16;
+        pr.h = 1;
+        PSX_LoadImage16_4F5E20(&pr, (BYTE*)&kTestImagePal[0]);
+
+        for (short i = 0; i < 1; i++)
+        {
+            PolyFT4_Init_4F8870(&mPolyFT4[i]);
+
+            SetRGB0(&mPolyFT4[i], 127, 127, 127);
+            SetTPage(&mPolyFT4[i], 0);
+            SetClut(&mPolyFT4[i], PSX_getClut_4F6350(pr.x, pr.y));
+
+            const short xpos = 20 + (150 * i);
+            const short ypos = 10;
+            const short w = 255; // All width doubled due to PC doubling the render width
+            const short h = 80;
+
+            SetXY0(&mPolyFT4[i], xpos, ypos);
+            SetXY1(&mPolyFT4[i], xpos, ypos + h);
+            SetXY2(&mPolyFT4[i], xpos , ypos);
+            SetXY3(&mPolyFT4[i], xpos + w, ypos + h);
+
+            // This assumes the texture data is at 0,0 in the active texture page
+            SetUV0(&mPolyFT4[i], 6, 0);
+            SetUV1(&mPolyFT4[i], 2, 0);
+            SetUV2(&mPolyFT4[i], 2, 0);
+            SetUV3(&mPolyFT4[i], 2, 4);
+
+            const void* ptr = &kTestImageCompressed[0];
+            mPolyFT4[i].mVerts[1].mUv.tpage_clut_pad = (WORD)(unsigned int)ptr >> 0;
+            mPolyFT4[i].mVerts[2].mUv.tpage_clut_pad = (unsigned int)ptr >> 16;
+        }
     }
 
     BYTE** mAnimRes[5];
     AnimationEx mAnim[5];
+    Poly_FT4 mPolyFT4[1];
 };
 
 void DebugHelpers_Init() 
@@ -1698,11 +1815,11 @@ void DebugHelpers_Init()
     }
 #endif
 
-#if RENDER_TEST
+//#if RENDER_TEST
     // Test rendering diff prim types
-    alive_new<RenderTest>(); // Will get nuked at LVL/Path change
-    alive_new<AnimRenderTest>();
-#endif
+   // alive_new<RenderTest>(); // Will get nuked at LVL/Path change
+   //alive_new<AnimRenderTest>();
+//#endif
 }
 
 std::vector<BYTE> FS::ReadFile(std::string filePath)
