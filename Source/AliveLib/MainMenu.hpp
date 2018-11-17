@@ -185,6 +185,7 @@ public:
 
     EXPORT void t_Render_All_Text_4D24F0(int** ot);
     EXPORT void t_Render_All_Text_4D2540(int** ot);
+    EXPORT void tGame_BackStory_Or_NewGame_Render_4D2630(int** ot);
 
     void Unload_AbeSpeakResources();
     void Load_AbeSpeakResources();
