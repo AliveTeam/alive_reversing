@@ -195,7 +195,7 @@ public:
 
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
-
+    EXPORT __int16 sub_454090(FP fpX, FP fpY, int a4);
 public:
     __int16 field_116;
     int field_118;
