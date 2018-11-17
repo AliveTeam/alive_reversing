@@ -48,6 +48,8 @@ void UXB::PlaySFX_4DE930(unsigned __int8 sfxIdx)
 
 UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
 {
+    NOT_IMPLEMENTED();
+
     BaseAliveGameObject::ctor_408240(0);
     SetVTable(this, 0x547E80);
     SetVTable(&field_128_animation, 0x544290);
