@@ -54,7 +54,7 @@ protected:
     EXPORT int vnull_4081F0();
     EXPORT void SetTint_425600(TintEntry *pTintArray, __int16 level_id);
     EXPORT void sub_408C40();
-
+    EXPORT __int16 sub_408D10(__int16 snapToGrid);
 public:
     int field_E4;
     int field_E8;

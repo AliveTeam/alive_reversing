@@ -194,6 +194,7 @@ public:
     // End states
 
     EXPORT void ToDie_4588D0();
+    EXPORT void ToIdle_44E6B0();
 
 public:
     __int16 field_116;

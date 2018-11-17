@@ -229,3 +229,9 @@ EXPORT void BaseAliveGameObject::sub_408C40()
          }
      }
 }
+
+__int16 BaseAliveGameObject::sub_408D10(__int16 /*snapToGrid*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}

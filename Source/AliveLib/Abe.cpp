@@ -1869,12 +1869,18 @@ void Abe::State_33_RunLoop_4508E0()
 
 void Abe::State_34_DunnoBegin_44ECF0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_animation_num = eAbeStates::State_35_DunnoEnd_44ED10;
+    }
 }
 
 void Abe::State_35_DunnoEnd_44ED10()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_36_Null_45BC50()
@@ -2194,7 +2200,17 @@ void Abe::jState_98_FallLedgeBegin_455AA0()
 
 void Abe::State_99_LeverUse_455AC0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_114_flags & 0x200)
+        {
+            field_106_animation_num = eAbeStates::State_34_DunnoBegin_44ECF0;
+        }
+        else
+        {
+            ToIdle_44E6B0();
+        }
+    }
 }
 
 void Abe::State_100_455B60()
@@ -2289,7 +2305,12 @@ void Abe::State_117_4587C0()
 
 void Abe::State_118_MineCarExit_458890()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        field_114_flags |= 2;
+        field_106_animation_num = eAbeStates::State_0_Idle_44EEB0;
+        field_124_gnFrame = 1;
+    }
 }
 
 void Abe::State_119_45A990()
@@ -2354,6 +2375,18 @@ void Abe::ToDie_4588D0()
     field_124_gnFrame = 0;
     field_10C_health = FP(0);
     MusicController::sub_47FD60(0, this, 1, 0);
+}
+
+void Abe::ToIdle_44E6B0()
+{
+    field_128.field_8 = 0;
+    field_C4_velx = FP(0);
+    field_C8_vely = FP(0);
+    field_124_gnFrame = sGnFrame_5C1B84;
+    field_106_animation_num = eAbeStates::State_0_Idle_44EEB0;
+    field_118 = 0;
+    field_11C = 0;
+    sub_408D10(TRUE);
 }
 
 // TODO: Clean up
