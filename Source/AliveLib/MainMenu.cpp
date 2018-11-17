@@ -951,9 +951,10 @@ MainMenuText sMTxt_Gamespeak_5623E8[2] = {
     { 331, 205, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
 };
 
-MainMenuText sMTxt_NewGame_562598[2] = {
-    { 165, 211, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
-    { 161, 164, "x", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u }
+MainMenuText sMTxt_NewGame_562598[3] = {
+    { 165, 211, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 330, 174, "\x0f", 2u, 0u, 0u, 0u,  0.88, 0u, 0u, 0u, 0u },
+    { 161, 164, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
 };
 
 void MainMenuController::t_Render_All_Text_4D24F0(int ** ot)
@@ -2386,3 +2387,7 @@ void MainMenuController::Load_AbeSpeakResources()
 
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 130, TRUE, FALSE);
 }
+
+MainMenuText sMTxt_NewGame_562598[2] = {
+    { 165, 211, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
+    { 161, 164, "x", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u }
