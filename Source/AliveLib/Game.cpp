@@ -94,6 +94,19 @@ ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
 
 ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
 
+EXPORT signed int ScaleToGridSize_4498B0(signed int scale)
+{
+    if (scale == 0x8000)
+    {
+        return 0xD0000;
+    }
+    if (scale == 0x10000)
+    {
+        return 0x190000;
+    }
+    return 0;
+}
+
 
 EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {

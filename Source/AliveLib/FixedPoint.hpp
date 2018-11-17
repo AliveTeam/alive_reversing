@@ -83,7 +83,14 @@ inline bool operator >= (const FixedPoint& lhs, const FixedPoint& rhs)
 inline FixedPoint FP_FromDouble(double v)
 {
     FixedPoint f;
-    f.fpValue = static_cast<int>(v * 0x10000);
+    f.SetRaw(static_cast<signed int>(v * 0x10000));
+    return f;
+}
+
+inline FixedPoint FP_FromRaw(signed int v)
+{
+    FixedPoint f;
+    f.SetRaw(v);
     return f;
 }
 

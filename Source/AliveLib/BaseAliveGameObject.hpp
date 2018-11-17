@@ -56,10 +56,10 @@ protected:
     EXPORT void sub_408C40();
     EXPORT __int16 sub_408D10(__int16 snapToGrid);
 public:
-    int field_E4;
-    int field_E8;
-    int field_EC;
-    int field_F0_prev_base;
+    FP field_E4;
+    FP field_E8;
+    FP field_EC;
+    FP field_F0_prev_base;
     __int16 field_F4;
     __int16 field_F6;
     FP field_F8;

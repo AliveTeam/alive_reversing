@@ -29,6 +29,7 @@ public:
         eMainMenuTransistion = 116,
         eType_125 = 125,
         eParticle = 134,
+        eUXB = 143,
         eCameraSwapper = 149,
         eDebugHelper = 1001, // NOTE: Not part of the original game - a debug helper only
         eDebugConsole = 1002,
