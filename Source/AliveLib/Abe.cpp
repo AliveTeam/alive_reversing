@@ -14,139 +14,287 @@
 #include "MainMenu.hpp"
 #include "ThrowableArray.hpp"
 #include "MusicController.hpp"
+#include "Path.hpp"
 
-const char * sAbeStateNames[] =
+using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
+
+#define ABE_STATES_ENUM(ENTRY) \
+    ENTRY(State_0_Idle_44EEB0) \
+    ENTRY(State_1_WalkLoop_44FBA0) \
+    ENTRY(State_2_StandingTurn_451830) \
+    ENTRY(State_3_Fall_459B60) \
+    ENTRY(State_4_WalkEndLeftFoot_44FFC0) \
+    ENTRY(State_5_WalkEndRightFoot_00450080) \
+    ENTRY(State_6_WalkBegin_44FEE0) \
+    ENTRY(State_7_45B140) \
+    ENTRY(State_8_45B160) \
+    ENTRY(State_9_45B180) \
+    ENTRY(State_10_Fart_45B1A0) \
+    ENTRY(State_11_Speak_45B0A0) \
+    ENTRY(State_12_Null_4569C0) \
+    ENTRY(State_13_HoistBegin_452B20) \
+    ENTRY(State_14_HoistIdle_452440) \
+    ENTRY(State_15_HoistLand_452BA0) \
+    ENTRY(State_16_LandSoft_45A360) \
+    ENTRY(State_17_CrouchIdle_456BC0) \
+    ENTRY(State_18_CrouchToStand_454600) \
+    ENTRY(State_19_StandToCrouch_453DC0) \
+    ENTRY(State_20_454550) \
+    ENTRY(jState_21_4545E0) \
+    ENTRY(State_22_RollBegin_4539A0) \
+    ENTRY(State_23_RollLoop_453A90) \
+    ENTRY(State_24_453D00) \
+    ENTRY(State_25_RunSlideStop_451330) \
+    ENTRY(State_26_RunTurn_451500) \
+    ENTRY(State_27_HopBegin_4521C0) \
+    ENTRY(State_28_HopMid_451C50) \
+    ENTRY(State_29_HopLand_4523D0) \
+    ENTRY(State_30_RunJumpBegin_4532E0) \
+    ENTRY(State_31_RunJumpMid_452C10) \
+    ENTRY(State_32_RunJumpLand_453460) \
+    ENTRY(State_33_RunLoop_4508E0) \
+    ENTRY(State_34_DunnoBegin_44ECF0) \
+    ENTRY(State_35_DunnoEnd_44ED10) \
+    ENTRY(State_36_Null_45BC50) \
+    ENTRY(State_37_CrouchTurn_454390) \
+    ENTRY(jState_38_RollBegin_453A70) \
+    ENTRY(State_39_StandingToRun_450D40) \
+    ENTRY(State_40_SneakLoop_450550) \
+    ENTRY(State_41_450250) \
+    ENTRY(State_42_4503D0) \
+    ENTRY(State_43_450380) \
+    ENTRY(State_44_450500) \
+    ENTRY(State_45_SneakBegin_4507A0) \
+    ENTRY(State_46_SneakEnd_450870) \
+    ENTRY(jState_47_SneakEnd_4508C0) \
+    ENTRY(State_48_4500A0) \
+    ENTRY(State_49_450200) \
+    ENTRY(State_50_RunToWalk1_450E20) \
+    ENTRY(State_51_RunToWalk2_450F50) \
+    ENTRY(State_52_451710) \
+    ENTRY(State_53_451800) \
+    ENTRY(State_54_RunJumpLandRun_4538F0) \
+    ENTRY(State_55_RunJumpLandWalk_453970) \
+    ENTRY(State_56_4591F0) \
+    ENTRY(State_57_Dead_4589A0) \
+    ENTRY(State_58_DeadPre_4593E0) \
+    ENTRY(State_59_Null_459450) \
+    ENTRY(State_60_4A3200) \
+    ENTRY(State_61_TurnToRun_456530) \
+    ENTRY(State_62_Punch_454750) \
+    ENTRY(State_63_Sorry_454670) \
+    ENTRY(State_64_454730) \
+    ENTRY(State_65_LedgeAscend_4548E0) \
+    ENTRY(State_66_LedgeDescend_454970) \
+    ENTRY(State_67_LedgeHang_454E20) \
+    ENTRY(State_68_454B80) \
+    ENTRY(State_69_LedgeHangWobble_454EF0) \
+    ENTRY(State_70_RingRopePull_455AF0) \
+    ENTRY(State_71_Knockback_455090) \
+    ENTRY(State_72_KnockbackGetUp_455340) \
+    ENTRY(State_73_PushWall_4553A0) \
+    ENTRY(State_74_455290) \
+    ENTRY(State_75_45C7B0) \
+    ENTRY(State_76_45CA40) \
+    ENTRY(State_77_45D130) \
+    ENTRY(State_78_WellBegin_45C810) \
+    ENTRY(State_79_WellInside_45CA60) \
+    ENTRY(State_80_WellShotOut_45D150) \
+    ENTRY(jState_81_WellBegin_45C7F0) \
+    ENTRY(State_82_45CC80) \
+    ENTRY(State_83_45CF70) \
+    ENTRY(State_84_FallLandDie_45A420) \
+    ENTRY(jState_85_Fall_455070) \
+    ENTRY(State_86_HandstoneBegin_45BD00) \
+    ENTRY(State_87_HandstoneEnd_45C4F0) \
+    ENTRY(State_88_GrenadeMachineUse_45C510) \
+    ENTRY(State_89_BrewMachineBegin_4584C0) \
+    ENTRY(State_90_BrewMachineEnd_4585B0) \
+    ENTRY(State_91_RingRopePullEnd_4557B0) \
+    ENTRY(State_92_455800) \
+    ENTRY(State_93_FallLedgeBegin_455970) \
+    ENTRY(jState_94_FallLedgeBegin_4559A0) \
+    ENTRY(jState_95_FallLedgeBegin_4559C0) \
+    ENTRY(State_96_4559E0) \
+    ENTRY(jState_97_FallLedgeBegin_455A80) \
+    ENTRY(jState_98_FallLedgeBegin_455AA0) \
+    ENTRY(State_99_LeverUse_455AC0) \
+    ENTRY(State_100_455B60) \
+    ENTRY(State_101_KnockForward_455420) \
+    ENTRY(State_102_455310) \
+    ENTRY(jState_103_KnockbackGetUp_455380) \
+    ENTRY(State_104_RockThrowStandingHold_455DF0) \
+    ENTRY(State_105_RockThrowStandingThrow_456460) \
+    ENTRY(State_106_RockThrowStandingEnd_455F20) \
+    ENTRY(State_107_RockThrowCrouchingHold_454410) \
+    ENTRY(State_108_RockThrowCrouchingThrow_454500) \
+    ENTRY(State_109_455550) \
+    ENTRY(State_110_455670) \
+    ENTRY(State_111_GrabRock_4564A0) \
+    ENTRY(State_112_Chant_45B1C0) \
+    ENTRY(State_113_ChantEnd_45BBE0) \
+    ENTRY(State_114_DoorEnter_459470) \
+    ENTRY(State_115_DoorExit_459A40) \
+    ENTRY(State_116_MineCarEnter_458780) \
+    ENTRY(State_117_4587C0) \
+    ENTRY(State_118_MineCarExit_458890) \
+    ENTRY(State_119_45A990) \
+    ENTRY(State_120_45AB00) \
+    ENTRY(State_121_LiftGrabBegin_45A600) \
+    ENTRY(State_122_LiftGrabEnd_45A670) \
+    ENTRY(State_123_LiftGrabIdle_45A6A0) \
+    ENTRY(State_124_LiftUseUp_45A780) \
+    ENTRY(State_125_LiftUseDown_45A7B0) \
+    ENTRY(State_126_TurnWheelBegin_456700) \
+    ENTRY(State_127_TurnWheelLoop_456750) \
+    ENTRY(State_128_TurnWheelEnd_4569A0) \
+    ENTRY(State_129_PoisonGasDeath_4565C0)
+
+#define MAKE_ENUM(VAR) VAR,
+enum eAbeStates 
 {
-    "Idle_44EEB0",
-    "WalkLoop_44FBA0",
-    "StandingTurn_451830",
-    "Fall_459B60",
-    "WalkEndLeftFoot_44FFC0",
-    "WalkEndRightFoot_00450080",
-    "WalkBegin_44FEE0",
-    "45B140",
-    "45B160",
-    "45B180",
-    "Fart_45B1A0",
-    "Speak_45B0A0",
-    "nullsub_41",
-    "HoistBegin_452B20",
-    "HoistIdle_452440",
-    "HoistLand_452BA0",
-    "LandSoft_45A360",
-    "CrouchIdle_456BC0",
-    "CrouchToStand_454600",
-    "StandToCrouch_453DC0",
-    "454550",
-    "j_j_454550",
-    "RollBegin_4539A0",
-    "RollLoop_453A90",
-    "453D00",
-    "RunSlideStop_451330",
-    "RunTurn_451500",
-    "HopBegin_4521C0",
-    "HopMid_451C50",
-    "HopLand_4523D0",
-    "RunJumpBegin_4532E0",
-    "RunJumpMid_452C10",
-    "RunJumpLand_453460",
-    "RunLoop_4508E0",
-    "DunnoBegin_44ECF0",
-    "DunnoEnd_44ED10",
-    "nullsub_43",
-    "CrouchTurn_454390",
-    "RunToRoll_4539A0",
-    "StandingToRun_450D40",
-    "SneakLoop_450550",
-    "450250",
-    "4503D0",
-    "450380",
-    "450500",
-    "SneakBegin_4507A0",
-    "SneakEnd1_450870",
-    "SneakEnd2_450870",
-    "4500A0",
-    "450200",
-    "RunToWalk1_450E20",
-    "RunToWalk2_450F50",
-    "451710",
-    "451800",
-    "RunJumpLandRun_4538F0",
-    "RunJumpLandWalk_453970",
-    "4591F0",
-    "Dead_4589A0",
-    "DeadPre_4593E0",
-    "nullsub_42",
-    "4A3200",
-    "TurnToRun_456530",
-    "Punch_454750",
-    "Sorry_454670",
-    "454730",
-    "LedgeAscend_4548E0",
-    "LedgeDescend_454970",
-    "LedgeHang_454E20",
-    "454B80",
-    "LedgeHangWobble_454EF0",
-    "RingRopePull_455AF0",
-    "Knockback_455090",
-    "KnockbackGetUp_455340",
-    "PushWall_4553A0",
-    "455290",
-    "45C7B0",
-    "45CA40",
-    "45D130",
-    "WellBegin_45C810",
-    "WellInside_45CA60",
-    "WellShotOut_45D150",
-    "j_j_WellBegin_45C810",
-    "45CC80",
-    "45CF70",
-    "FallLandDie_45A420",
-    "j_j_Fall_459B60",
-    "HandstoneBegin_45BD00",
-    "HandstoneEnd_45C4F0",
-    "GrenadeMachineUse_45C510",
-    "BrewMachineBegin_4584C0",
-    "BrewMachineEnd_4585B0",
-    "RingRopePullEnd_4557B0",
-    "455800",
-    "FallLedgeBegin_455970",
-    "j_j_455970",
-    "j_j_455970_0",
-    "4559E0",
-    "j_j_455970_1",
-    "j_j_RollEdgeFall_455970",
-    "LeverUse_455AC0",
-    "455B60",
-    "KnockForward_455420",
-    "455310",
-    "j_j_455340",
-    "RockThrowStandingHold_455DF0",
-    "RockThrowStandingThrow_456460",
-    "RockThrowStandingEnd_455F20",
-    "RockThrowCrouchingHold_454410",
-    "RockThrowCrouchingThrow_454500",
-    "455550",
-    "455670",
-    "GrabRock_4564A0",
-    "Chant_45B1C0",
-    "ChantEnd_45BBE0",
-    "DoorEnter_459470",
-    "DoorExit_459A40",
-    "MineCarEnter_458780",
-    "4587C0",
-    "MineCarExit_458890",
-    "45A990",
-    "45AB00",
-    "LiftGrabBegin_45A600",
-    "LiftGrabEnd_45A670",
-    "LiftGrabIdle_45A6A0",
-    "LiftUseUp_45A780",
-    "LiftUseDown_45A7B0",
-    "TurnWheelBegin_456700",
-    "TurnWheelLoop_456750",
-    "TurnWheelEnd_4569A0",
-    "PoisonGasDeath_4565C0",
+    ABE_STATES_ENUM(MAKE_ENUM)
+};
+
+#define MAKE_STRINGS(VAR) #VAR,
+const char* const sAbeStateNames[130] =
+{
+    ABE_STATES_ENUM(MAKE_STRINGS)
+};
+
+
+TAbeStateFunction sAbeStateMachineTable_554910[130] =
+{
+    &Abe::State_0_Idle_44EEB0,
+    &Abe::State_1_WalkLoop_44FBA0,
+    &Abe::State_2_StandingTurn_451830,
+    &Abe::State_3_Fall_459B60,
+    &Abe::State_4_WalkEndLeftFoot_44FFC0,
+    &Abe::State_5_WalkEndRightFoot_00450080,
+    &Abe::State_6_WalkBegin_44FEE0,
+    &Abe::State_7_45B140,
+    &Abe::State_8_45B160,
+    &Abe::State_9_45B180,
+    &Abe::State_10_Fart_45B1A0,
+    &Abe::State_11_Speak_45B0A0,
+    &Abe::State_12_Null_4569C0,
+    &Abe::State_13_HoistBegin_452B20,
+    &Abe::State_14_HoistIdle_452440,
+    &Abe::State_15_HoistLand_452BA0,
+    &Abe::State_16_LandSoft_45A360,
+    &Abe::State_17_CrouchIdle_456BC0,
+    &Abe::State_18_CrouchToStand_454600,
+    &Abe::State_19_StandToCrouch_453DC0,
+    &Abe::State_20_454550,
+    &Abe::jState_21_4545E0,
+    &Abe::State_22_RollBegin_4539A0,
+    &Abe::State_23_RollLoop_453A90,
+    &Abe::State_24_453D00,
+    &Abe::State_25_RunSlideStop_451330,
+    &Abe::State_26_RunTurn_451500,
+    &Abe::State_27_HopBegin_4521C0,
+    &Abe::State_28_HopMid_451C50,
+    &Abe::State_29_HopLand_4523D0,
+    &Abe::State_30_RunJumpBegin_4532E0,
+    &Abe::State_31_RunJumpMid_452C10,
+    &Abe::State_32_RunJumpLand_453460,
+    &Abe::State_33_RunLoop_4508E0,
+    &Abe::State_34_DunnoBegin_44ECF0,
+    &Abe::State_35_DunnoEnd_44ED10,
+    &Abe::State_36_Null_45BC50,
+    &Abe::State_37_CrouchTurn_454390,
+    &Abe::jState_38_RollBegin_453A70,
+    &Abe::State_39_StandingToRun_450D40,
+    &Abe::State_40_SneakLoop_450550,
+    &Abe::State_41_450250,
+    &Abe::State_42_4503D0,
+    &Abe::State_43_450380,
+    &Abe::State_44_450500,
+    &Abe::State_45_SneakBegin_4507A0,
+    &Abe::State_46_SneakEnd_450870,
+    &Abe::jState_47_SneakEnd_4508C0,
+    &Abe::State_48_4500A0,
+    &Abe::State_49_450200,
+    &Abe::State_50_RunToWalk1_450E20,
+    &Abe::State_51_RunToWalk2_450F50,
+    &Abe::State_52_451710,
+    &Abe::State_53_451800,
+    &Abe::State_54_RunJumpLandRun_4538F0,
+    &Abe::State_55_RunJumpLandWalk_453970,
+    &Abe::State_56_4591F0,
+    &Abe::State_57_Dead_4589A0,
+    &Abe::State_58_DeadPre_4593E0,
+    &Abe::State_59_Null_459450,
+    &Abe::State_60_4A3200,
+    &Abe::State_61_TurnToRun_456530,
+    &Abe::State_62_Punch_454750,
+    &Abe::State_63_Sorry_454670,
+    &Abe::State_64_454730,
+    &Abe::State_65_LedgeAscend_4548E0,
+    &Abe::State_66_LedgeDescend_454970,
+    &Abe::State_67_LedgeHang_454E20,
+    &Abe::State_68_454B80,
+    &Abe::State_69_LedgeHangWobble_454EF0,
+    &Abe::State_70_RingRopePull_455AF0,
+    &Abe::State_71_Knockback_455090,
+    &Abe::State_72_KnockbackGetUp_455340,
+    &Abe::State_73_PushWall_4553A0,
+    &Abe::State_74_455290,
+    &Abe::State_75_45C7B0,
+    &Abe::State_76_45CA40,
+    &Abe::State_77_45D130,
+    &Abe::State_78_WellBegin_45C810,
+    &Abe::State_79_WellInside_45CA60,
+    &Abe::State_80_WellShotOut_45D150,
+    &Abe::jState_81_WellBegin_45C7F0,
+    &Abe::State_82_45CC80,
+    &Abe::State_83_45CF70,
+    &Abe::State_84_FallLandDie_45A420,
+    &Abe::jState_85_Fall_455070,
+    &Abe::State_86_HandstoneBegin_45BD00,
+    &Abe::State_87_HandstoneEnd_45C4F0,
+    &Abe::State_88_GrenadeMachineUse_45C510,
+    &Abe::State_89_BrewMachineBegin_4584C0,
+    &Abe::State_90_BrewMachineEnd_4585B0,
+    &Abe::State_91_RingRopePullEnd_4557B0,
+    &Abe::State_92_455800,
+    &Abe::State_93_FallLedgeBegin_455970,
+    &Abe::jState_94_FallLedgeBegin_4559A0,
+    &Abe::jState_95_FallLedgeBegin_4559C0,
+    &Abe::State_96_4559E0,
+    &Abe::jState_97_FallLedgeBegin_455A80,
+    &Abe::jState_98_FallLedgeBegin_455AA0,
+    &Abe::State_99_LeverUse_455AC0,
+    &Abe::State_100_455B60,
+    &Abe::State_101_KnockForward_455420,
+    &Abe::State_102_455310,
+    &Abe::jState_103_KnockbackGetUp_455380,
+    &Abe::State_104_RockThrowStandingHold_455DF0,
+    &Abe::State_105_RockThrowStandingThrow_456460,
+    &Abe::State_106_RockThrowStandingEnd_455F20,
+    &Abe::State_107_RockThrowCrouchingHold_454410,
+    &Abe::State_108_RockThrowCrouchingThrow_454500,
+    &Abe::State_109_455550,
+    &Abe::State_110_455670,
+    &Abe::State_111_GrabRock_4564A0,
+    &Abe::State_112_Chant_45B1C0,
+    &Abe::State_113_ChantEnd_45BBE0,
+    &Abe::State_114_DoorEnter_459470,
+    &Abe::State_115_DoorExit_459A40,
+    &Abe::State_116_MineCarEnter_458780,
+    &Abe::State_117_4587C0,
+    &Abe::State_118_MineCarExit_458890,
+    &Abe::State_119_45A990,
+    &Abe::State_120_45AB00,
+    &Abe::State_121_LiftGrabBegin_45A600,
+    &Abe::State_122_LiftGrabEnd_45A670,
+    &Abe::State_123_LiftGrabIdle_45A6A0,
+    &Abe::State_124_LiftUseUp_45A780,
+    &Abe::State_125_LiftUseDown_45A7B0,
+    &Abe::State_126_TurnWheelBegin_456700,
+    &Abe::State_127_TurnWheelLoop_456750,
+    &Abe::State_128_TurnWheelEnd_4569A0,
+    &Abe::State_129_PoisonGasDeath_4565C0
 };
 
 SfxDefinition sAbeSFXList_555250[41] =
@@ -227,142 +375,6 @@ TintEntry sTintTable_Abe_554D20[15] =
     { 13, 102u, 102u, 102u },
     { 14, 120u, 90u, 80u },
     { -1, 102u, 102u, 102u }
-};
-
-using TAbeStateFunction = decltype(&Abe::State_Idle_44EEB0);
-
-TAbeStateFunction sAbeStateMachineTable_554910[130] =
-{
-    &Abe::State_Idle_44EEB0,
-    &Abe::State_WalkLoop_44FBA0,
-    &Abe::State_StandingTurn_451830,
-    &Abe::State_Fall_459B60,
-    &Abe::State_WalkEndLeftFoot_44FFC0,
-    &Abe::State_WalkEndRightFoot_00450080,
-    &Abe::State_WalkBegin_44FEE0,
-    &Abe::State_45B140,
-    &Abe::State_45B160,
-    &Abe::State_45B180,
-    &Abe::State_Fart_45B1A0,
-    &Abe::State_Speak_45B0A0,
-    &Abe::State_Null_4569C0,
-    &Abe::State_HoistBegin_452B20,
-    &Abe::State_HoistIdle_452440,
-    &Abe::State_HoistLand_452BA0,
-    &Abe::State_LandSoft_45A360,
-    &Abe::State_CrouchIdle_456BC0,
-    &Abe::State_CrouchToStand_454600,
-    &Abe::State_StandToCrouch_453DC0,
-    &Abe::State_454550,
-    &Abe::jState_4545E0,
-    &Abe::State_RollBegin_4539A0,
-    &Abe::State_RollLoop_453A90,
-    &Abe::State_453D00,
-    &Abe::State_RunSlideStop_451330,
-    &Abe::State_RunTurn_451500,
-    &Abe::State_HopBegin_4521C0,
-    &Abe::State_HopMid_451C50,
-    &Abe::State_HopLand_4523D0,
-    &Abe::State_RunJumpBegin_4532E0,
-    &Abe::State_RunJumpMid_452C10,
-    &Abe::State_RunJumpLand_453460,
-    &Abe::State_RunLoop_4508E0,
-    &Abe::State_DunnoBegin_44ECF0,
-    &Abe::State_DunnoEnd_44ED10,
-    &Abe::State_Null_45BC50,
-    &Abe::State_CrouchTurn_454390,
-    &Abe::jState_RollBegin_453A70,
-    &Abe::State_StandingToRun_450D40,
-    &Abe::State_SneakLoop_450550,
-    &Abe::State_450250,
-    &Abe::State_4503D0,
-    &Abe::State_450380,
-    &Abe::State_450500,
-    &Abe::State_SneakBegin_4507A0,
-    &Abe::State_SneakEnd_450870,
-    &Abe::jState_SneakEnd_4508C0,
-    &Abe::State_4500A0,
-    &Abe::State_450200,
-    &Abe::State_RunToWalk1_450E20,
-    &Abe::State_RunToWalk2_450F50,
-    &Abe::State_451710,
-    &Abe::State_451800,
-    &Abe::State_RunJumpLandRun_4538F0,
-    &Abe::State_RunJumpLandWalk_453970,
-    &Abe::State_4591F0,
-    &Abe::State_Dead_4589A0,
-    &Abe::State_DeadPre_4593E0,
-    &Abe::State_Null_459450,
-    &Abe::State_4A3200,
-    &Abe::State_TurnToRun_456530,
-    &Abe::State_Punch_454750,
-    &Abe::State_Sorry_454670,
-    &Abe::State_454730,
-    &Abe::State_LedgeAscend_4548E0,
-    &Abe::State_LedgeDescend_454970,
-    &Abe::State_LedgeHang_454E20,
-    &Abe::State_454B80,
-    &Abe::State_LedgeHangWobble_454EF0,
-    &Abe::State_RingRopePull_455AF0,
-    &Abe::State_Knockback_455090,
-    &Abe::State_KnockbackGetUp_455340,
-    &Abe::State_PushWall_4553A0,
-    &Abe::State_455290,
-    &Abe::State_45C7B0,
-    &Abe::State_45CA40,
-    &Abe::State_45D130,
-    &Abe::State_WellBegin_45C810,
-    &Abe::State_WellInside_45CA60,
-    &Abe::State_WellShotOut_45D150,
-    &Abe::jState_WellBegin_45C7F0,
-    &Abe::State_45CC80,
-    &Abe::State_45CF70,
-    &Abe::State_FallLandDie_45A420,
-    &Abe::jState_Fall_455070,
-    &Abe::State_HandstoneBegin_45BD00,
-    &Abe::State_HandstoneEnd_45C4F0,
-    &Abe::State_GrenadeMachineUse_45C510,
-    &Abe::State_BrewMachineBegin_4584C0,
-    &Abe::State_BrewMachineEnd_4585B0,
-    &Abe::State_RingRopePullEnd_4557B0,
-    &Abe::State_455800,
-    &Abe::State_FallLedgeBegin_455970,
-    &Abe::jState_FallLedgeBegin_4559A0,
-    &Abe::jState_FallLedgeBegin_4559C0,
-    &Abe::State_4559E0,
-    &Abe::jState_FallLedgeBegin_455A80,
-    &Abe::jState_FallLedgeBegin_455AA0,
-    &Abe::State_LeverUse_455AC0,
-    &Abe::State_455B60,
-    &Abe::State_KnockForward_455420,
-    &Abe::State_455310,
-    &Abe::jState_KnockbackGetUp_455380,
-    &Abe::State_RockThrowStandingHold_455DF0,
-    &Abe::State_RockThrowStandingThrow_456460,
-    &Abe::State_RockThrowStandingEnd_455F20,
-    &Abe::State_RockThrowCrouchingHold_454410,
-    &Abe::State_RockThrowCrouchingThrow_454500,
-    &Abe::State_455550,
-    &Abe::State_455670,
-    &Abe::State_GrabRock_4564A0,
-    &Abe::State_Chant_45B1C0,
-    &Abe::State_ChantEnd_45BBE0,
-    &Abe::State_DoorEnter_459470,
-    &Abe::State_DoorExit_459A40,
-    &Abe::State_MineCarEnter_458780,
-    &Abe::State_4587C0,
-    &Abe::State_MineCarExit_458890,
-    &Abe::State_45A990,
-    &Abe::State_45AB00,
-    &Abe::State_LiftGrabBegin_45A600,
-    &Abe::State_LiftGrabEnd_45A670,
-    &Abe::State_LiftGrabIdle_45A6A0,
-    &Abe::State_LiftUseUp_45A780,
-    &Abe::State_LiftUseDown_45A7B0,
-    &Abe::State_TurnWheelBegin_456700,
-    &Abe::State_TurnWheelLoop_456750,
-    &Abe::State_TurnWheelEnd_4569A0,
-    &Abe::State_PoisonGasDeath_4565C0
 };
 
 // Frame call backs ??
@@ -548,7 +560,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_C4_velx = FP(0);
     field_C8_vely = FP(0);
     field_100_pCollisionLine = nullptr;
-    field_106_animation_num = 3;
+    field_106_animation_num = eAbeStates::State_3_Fall_459B60;
     field_122 = -1;
     field_20_animation.field_C_render_layer = 32;
     field_198_has_evil_fart = 0;
@@ -564,13 +576,17 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_15C = -1;
     field_1AE &= ~3u;
 
-    __int16 v9 = field_114_flags;
-    v9 = v9 & ~0x100;
-    v9 = v9 | 0x20;
-    field_114_flags = v9;
 
-    field_1AC_flags = (unsigned __int8)(field_1AC_flags & 0xAB) | 0x40;
-    
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit9);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit8);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit6);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit4);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit1);
+
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit6);
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
+
     // Changes Abe's "default" colour depending on the level we are in
     SetTint_425600(&sTintTable_Abe_554D20[0], gMap_5C3030.sCurrentLevelId_5C3030);
     
@@ -586,7 +602,8 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_174 = 0;
     field_176 = 0;
     field_178_invisible_effect_id = -1;
-    field_1AC_flags &= ~3u;
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit1);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
     field_124_gnFrame = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
     field_128.field_12_mood = 0;
@@ -1045,6 +1062,21 @@ public:
         }
     }
 
+    virtual void VDestructor(signed int flags) override
+    {
+        vdtor_47FEE0(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_480140();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChange_4802A0();
+    }
+
 private:
     int field_20;
     __int16 field_24_flags;
@@ -1061,7 +1093,6 @@ ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x34);
 void Abe::Update_449DC0()
 {
     NOT_IMPLEMENTED();
-
     if (word_5C1BDA) // Some flag to reset HP?
     {
         field_114_flags &= ~0x40u;
@@ -1111,7 +1142,7 @@ void Abe::Update_449DC0()
         }
     }
 
-    if (field_1AC_flags & 0x800)
+    if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit12))
     {
         return;
     }
@@ -1123,7 +1154,7 @@ void Abe::Update_449DC0()
 
     if (!Input_IsChanting_45F260())
     {
-        field_1AC_flags &= ~0x20u;
+        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit6);
         field_174 = 1;
     }
 
@@ -1151,9 +1182,11 @@ void Abe::Update_449DC0()
         short state_idx = field_106_animation_num;
 
         // Execute the current state
+        const FP oldXPos = field_B8_xpos;
+        const FP oldYPos = field_BC_ypos;
         (this->*(sAbeStateMachineTable_554910)[state_idx])();
 
-        if (field_114_flags & 0x100 || field_1AC_flags & 0x10)
+        if (field_114_flags & 0x100 || field_1AC_flags.Get(Flags_1AC::e1AC_Bit6))
         {
             return;
         }
@@ -1164,18 +1197,19 @@ void Abe::Update_449DC0()
             field_BC_ypos.RemoveFractional();
         }
 
-        /*
-        if (xpos != field_B8_xpos || ypos != field_BC_ypos)
+        // Did position change?
+        if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
         {
+            // Get the TLV we are on
             field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
-                0,
+                nullptr,
                 field_B8_xpos,
                 field_BC_ypos,
                 field_B8_xpos,
                 field_BC_ypos);
-            ((void(__thiscall *)(Abe *, Path_TLV *))field_0_VTbl->VAbe.field_0.field_50)(this, field_FC_pPathTLV);
+            //Vsub_408730(field_FC_pPathTLV);
+            //((void(__thiscall *)(Abe *, Path_TLV *))field_0_VTbl->VAbe.field_0.field_50)(this, field_FC_pPathTLV);
         }
-        */
 
         if (field_114_flags & 1)
         {
@@ -1187,7 +1221,7 @@ void Abe::Update_449DC0()
             }
 
             field_108 = 0;
-            field_1AC_flags &= ~2u;
+            field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
             field_122 = 0;
             field_114_flags = (field_114_flags & ~1) | 2;
         }
@@ -1207,7 +1241,7 @@ void Abe::Update_449DC0()
             if (state_idx != field_106_animation_num || field_114_flags & 2)
             {
                 field_114_flags &= ~2u;
-                if (field_106_animation_num != 12 && !(field_1AC_flags & 0x10))
+                if (field_106_animation_num != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5)))
                 {
                     field_20_animation.Set_Animation_Data_409C80(
                         sAbeFrameOffsetTable_554B18[field_106_animation_num],
@@ -1222,7 +1256,7 @@ void Abe::Update_449DC0()
                 }
             }
 
-            if (field_1AC_flags & 2)
+            if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit2))
             {
                 field_106_animation_num = field_F4;
                 field_20_animation.Set_Animation_Data_409C80(
@@ -1231,7 +1265,7 @@ void Abe::Update_449DC0()
 
                 field_128.field_14 = sGnFrame_5C1B84;
                 field_20_animation.SetFrame_409D50(field_F6);
-                field_1AC_flags &= ~2u;
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
             }
 
             if (field_128.field_4 <= static_cast<int>(sGnFrame_5C1B84)  && field_10C_health > FP(0))
@@ -1258,7 +1292,7 @@ void Abe::Update_449DC0()
                                 {
                                     v27 = 7;
                                 }
-                                else if (field_1AC_flags & 0x4000)
+                                else if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit15))
                                 {
                                     v27 = 14;
                                 }
@@ -1301,7 +1335,7 @@ void Abe::Update_449DC0()
                 }
             }
 
-            if (field_1AC_flags < 0)
+            if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit16))
             {
                 if (field_1AE & 1)
                 {
@@ -1311,8 +1345,8 @@ void Abe::Update_449DC0()
                         field_16C = 0;
                         field_16E = 0;
                         field_1AE &= ~1;
-                        field_1AC_flags &= ~0xC000u;
-                        field_1AC_flags |= 0x4000u;
+                        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16);
+                        field_1AC_flags.Set(Flags_1AC::e1AC_eBit15);
                     }
                 }
             }
@@ -1321,16 +1355,10 @@ void Abe::Update_449DC0()
             {
                 field_128.field_18 = 14;
                 field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
-                /*
-                pMusicTrigger =  (BaseGameObject *)malloc_4954D0(0x34u);
-                pClass_545A60Mem_Copy = pMusicTrigger;
-                unknown = 1;
-                if (pMusicTrigger)
-                {
-                    MusicTrigger::ctor_47FF10(pMusicTrigger, 1, 0, 90, 0);
-                }
-                unknown = -1;
-                */
+
+                // Do the death jingle
+                auto pMusicTrigger = alive_new<MusicTrigger>();
+                pMusicTrigger->ctor_47FF10(1, 0, 90, 0);
             }
 
             if (Event_Get_422C00(kEventMudokonComfort))
@@ -1339,12 +1367,10 @@ void Abe::Update_449DC0()
                 field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
             }
 
-            //if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
+            if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
             {
-                /*
-                this->field_128.field_18 = 14;
-                this->field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
-                */
+                field_128.field_18 = 14;
+                field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
             }
 
             if (!(field_1AE & 2))
@@ -1363,33 +1389,33 @@ void Abe::Update_449DC0()
         }
 
         if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
-            || (field_106_animation_num == 112)
-            || field_106_animation_num == 7
-            || field_106_animation_num == 8
-            || field_106_animation_num == 9
-            || field_106_animation_num == 10)
+            || (field_106_animation_num == eAbeStates::State_112_Chant_45B1C0)
+            || field_106_animation_num == eAbeStates::State_7_45B140
+            || field_106_animation_num == eAbeStates::State_8_45B160
+            || field_106_animation_num == eAbeStates::State_9_45B180
+            || field_106_animation_num == eAbeStates::State_10_Fart_45B1A0)
         {
         //LABEL_74:
             field_128.field_18 = -1;
             //goto LABEL_75;
         }
 
-        if (field_106_animation_num == 0 || field_106_animation_num == 12)
+        if (field_106_animation_num == eAbeStates::State_0_Idle_44EEB0 || field_106_animation_num == eAbeStates::State_12_Null_4569C0)
         {
             field_114_flags |= 2u;
             switch (field_128.field_18)
             {
             case 14:
-                field_106_animation_num = 34;
+                field_106_animation_num = eAbeStates::State_34_DunnoBegin_44ECF0;
                 break;
             case 5:
-                field_106_animation_num = 10;
+                field_106_animation_num = eAbeStates::State_10_Fart_45B1A0;
                 break;
             case 28:
-                field_106_animation_num = 10;
+                field_106_animation_num = eAbeStates::State_10_Fart_45B1A0;
                 break;
             default:
-                field_106_animation_num = 9;
+                field_106_animation_num = eAbeStates::State_9_45B180;
                 break;
             }
         }
@@ -1420,8 +1446,8 @@ void Abe::Update_449DC0()
     Vnull_4081F0();
 
     field_F8 = field_BC_ypos;
-    field_1AC_flags &= ~0x10u;
-    field_106_animation_num = 85;
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+    field_106_animation_num = eAbeStates::jState_85_Fall_455070;
     field_100_pCollisionLine = nullptr;
 
     if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft | eDown | eUp))
@@ -1496,12 +1522,12 @@ void Abe::Knockback_44E700(__int16 /*a2*/, __int16 /*a3*/)
 
 void Abe::vRender_44B580(int** pOrderingTable)
 {
-    if (!(field_1AC_flags & 0x10))
+    if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5)))
     {
         field_20_animation.field_14_scale = field_CC_sprite_scale;
     }
 
-    if (field_106_animation_num != 79 && field_106_animation_num != 82 && field_106_animation_num != 76)
+    if (field_106_animation_num != eAbeStates::State_79_WellInside_45CA60 && field_106_animation_num != eAbeStates::State_82_45CC80 && field_106_animation_num != eAbeStates::State_76_45CA40)
     {
         Render_424B90(pOrderingTable);
     }
@@ -1551,7 +1577,7 @@ void Abe::vScreenChanged_44D240()
         {
             if (gMap_5C3030.sCurrentLevelId_5C3030 == 7)
             {
-                field_1AC_flags |= 0x8000u;
+                field_1AC_flags.Set(Flags_1AC::e1AC_eBit16);
             }
 
             if (gMap_5C3030.sCurrentLevelId_5C3030 == 11)
@@ -1671,654 +1697,663 @@ BYTE ** Abe::StateToAnimResource_44AAB0(signed int /*state*/)
 }
 
 
-void Abe::State_Idle_44EEB0()
+void Abe::State_0_Idle_44EEB0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_WalkLoop_44FBA0()
+void Abe::State_1_WalkLoop_44FBA0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_StandingTurn_451830()
+void Abe::State_2_StandingTurn_451830()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Fall_459B60()
+void Abe::State_3_Fall_459B60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_WalkEndLeftFoot_44FFC0()
+void Abe::State_4_WalkEndLeftFoot_44FFC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_WalkEndRightFoot_00450080()
+void Abe::State_5_WalkEndRightFoot_00450080()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_WalkBegin_44FEE0()
+void Abe::State_6_WalkBegin_44FEE0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45B140()
+void Abe::State_7_45B140()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45B160()
+void Abe::State_8_45B160()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45B180()
+void Abe::State_9_45B180()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Fart_45B1A0()
+void Abe::State_10_Fart_45B1A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Speak_45B0A0()
+void Abe::State_11_Speak_45B0A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Null_4569C0()
+void Abe::State_12_Null_4569C0()
 {
 
 }
 
-void Abe::State_HoistBegin_452B20()
+void Abe::State_13_HoistBegin_452B20()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_HoistIdle_452440()
+void Abe::State_14_HoistIdle_452440()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_HoistLand_452BA0()
+void Abe::State_15_HoistLand_452BA0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LandSoft_45A360()
+void Abe::State_16_LandSoft_45A360()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_CrouchIdle_456BC0()
+void Abe::State_17_CrouchIdle_456BC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_CrouchToStand_454600()
+void Abe::State_18_CrouchToStand_454600()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_StandToCrouch_453DC0()
+void Abe::State_19_StandToCrouch_453DC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_454550()
+void Abe::State_20_454550()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_4545E0()
+void Abe::jState_21_4545E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RollBegin_4539A0()
+void Abe::State_22_RollBegin_4539A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RollLoop_453A90()
+void Abe::State_23_RollLoop_453A90()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_453D00()
+void Abe::State_24_453D00()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunSlideStop_451330()
+void Abe::State_25_RunSlideStop_451330()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunTurn_451500()
+void Abe::State_26_RunTurn_451500()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_HopBegin_4521C0()
+void Abe::State_27_HopBegin_4521C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_HopMid_451C50()
+void Abe::State_28_HopMid_451C50()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_HopLand_4523D0()
+void Abe::State_29_HopLand_4523D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunJumpBegin_4532E0()
+void Abe::State_30_RunJumpBegin_4532E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunJumpMid_452C10()
+void Abe::State_31_RunJumpMid_452C10()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunJumpLand_453460()
+void Abe::State_32_RunJumpLand_453460()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunLoop_4508E0()
+void Abe::State_33_RunLoop_4508E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_DunnoBegin_44ECF0()
+void Abe::State_34_DunnoBegin_44ECF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_DunnoEnd_44ED10()
+void Abe::State_35_DunnoEnd_44ED10()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Null_45BC50()
+void Abe::State_36_Null_45BC50()
 {
 
 }
 
-void Abe::State_CrouchTurn_454390()
+void Abe::State_37_CrouchTurn_454390()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_RollBegin_453A70()
+void Abe::jState_38_RollBegin_453A70()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_StandingToRun_450D40()
+void Abe::State_39_StandingToRun_450D40()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_SneakLoop_450550()
+void Abe::State_40_SneakLoop_450550()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_450250()
+void Abe::State_41_450250()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_4503D0()
+void Abe::State_42_4503D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_450380()
+void Abe::State_43_450380()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_450500()
+void Abe::State_44_450500()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_SneakBegin_4507A0()
+void Abe::State_45_SneakBegin_4507A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_SneakEnd_450870()
+void Abe::State_46_SneakEnd_450870()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_SneakEnd_4508C0()
+void Abe::jState_47_SneakEnd_4508C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_4500A0()
+void Abe::State_48_4500A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_450200()
+void Abe::State_49_450200()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunToWalk1_450E20()
+void Abe::State_50_RunToWalk1_450E20()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunToWalk2_450F50()
+void Abe::State_51_RunToWalk2_450F50()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_451710()
+void Abe::State_52_451710()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_451800()
+void Abe::State_53_451800()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunJumpLandRun_4538F0()
+void Abe::State_54_RunJumpLandRun_4538F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RunJumpLandWalk_453970()
+void Abe::State_55_RunJumpLandWalk_453970()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_4591F0()
+void Abe::State_56_4591F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Dead_4589A0()
+void Abe::State_57_Dead_4589A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_DeadPre_4593E0()
+void Abe::State_58_DeadPre_4593E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Null_459450()
+void Abe::State_59_Null_459450()
 {
 
 }
 
-void Abe::State_4A3200()
+void Abe::State_60_4A3200()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_TurnToRun_456530()
+void Abe::State_61_TurnToRun_456530()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Punch_454750()
+void Abe::State_62_Punch_454750()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Sorry_454670()
+void Abe::State_63_Sorry_454670()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_454730()
+void Abe::State_64_454730()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LedgeAscend_4548E0()
+void Abe::State_65_LedgeAscend_4548E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LedgeDescend_454970()
+void Abe::State_66_LedgeDescend_454970()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LedgeHang_454E20()
+void Abe::State_67_LedgeHang_454E20()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_454B80()
+void Abe::State_68_454B80()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LedgeHangWobble_454EF0()
+void Abe::State_69_LedgeHangWobble_454EF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RingRopePull_455AF0()
+void Abe::State_70_RingRopePull_455AF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Knockback_455090()
+void Abe::State_71_Knockback_455090()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_KnockbackGetUp_455340()
+void Abe::State_72_KnockbackGetUp_455340()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_PushWall_4553A0()
+void Abe::State_73_PushWall_4553A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_455290()
+void Abe::State_74_455290()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45C7B0()
+void Abe::State_75_45C7B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45CA40()
+void Abe::State_76_45CA40()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45D130()
+void Abe::State_77_45D130()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_WellBegin_45C810()
+void Abe::State_78_WellBegin_45C810()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_WellInside_45CA60()
+void Abe::State_79_WellInside_45CA60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_WellShotOut_45D150()
+void Abe::State_80_WellShotOut_45D150()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_WellBegin_45C7F0()
+void Abe::jState_81_WellBegin_45C7F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45CC80()
+void Abe::State_82_45CC80()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45CF70()
+void Abe::State_83_45CF70()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_FallLandDie_45A420()
+void Abe::State_84_FallLandDie_45A420()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_Fall_455070()
+void Abe::jState_85_Fall_455070()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_HandstoneBegin_45BD00()
+void Abe::State_86_HandstoneBegin_45BD00()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_HandstoneEnd_45C4F0()
+void Abe::State_87_HandstoneEnd_45C4F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_GrenadeMachineUse_45C510()
+void Abe::State_88_GrenadeMachineUse_45C510()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_BrewMachineBegin_4584C0()
+void Abe::State_89_BrewMachineBegin_4584C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_BrewMachineEnd_4585B0()
+void Abe::State_90_BrewMachineEnd_4585B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RingRopePullEnd_4557B0()
+void Abe::State_91_RingRopePullEnd_4557B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_455800()
+void Abe::State_92_455800()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_FallLedgeBegin_455970()
+void Abe::State_93_FallLedgeBegin_455970()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_FallLedgeBegin_4559A0()
+void Abe::jState_94_FallLedgeBegin_4559A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_FallLedgeBegin_4559C0()
+void Abe::jState_95_FallLedgeBegin_4559C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_4559E0()
+void Abe::State_96_4559E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_FallLedgeBegin_455A80()
+void Abe::jState_97_FallLedgeBegin_455A80()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_FallLedgeBegin_455AA0()
+void Abe::jState_98_FallLedgeBegin_455AA0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LeverUse_455AC0()
+void Abe::State_99_LeverUse_455AC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_455B60()
+void Abe::State_100_455B60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_KnockForward_455420()
+void Abe::State_101_KnockForward_455420()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_455310()
+void Abe::State_102_455310()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_KnockbackGetUp_455380()
+void Abe::jState_103_KnockbackGetUp_455380()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RockThrowStandingHold_455DF0()
+void Abe::State_104_RockThrowStandingHold_455DF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RockThrowStandingThrow_456460()
+void Abe::State_105_RockThrowStandingThrow_456460()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RockThrowStandingEnd_455F20()
+void Abe::State_106_RockThrowStandingEnd_455F20()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RockThrowCrouchingHold_454410()
+void Abe::State_107_RockThrowCrouchingHold_454410()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_RockThrowCrouchingThrow_454500()
+void Abe::State_108_RockThrowCrouchingThrow_454500()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_455550()
+void Abe::State_109_455550()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_455670()
+void Abe::State_110_455670()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_GrabRock_4564A0()
+void Abe::State_111_GrabRock_4564A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_Chant_45B1C0()
+void Abe::State_112_Chant_45B1C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_ChantEnd_45BBE0()
+void Abe::State_113_ChantEnd_45BBE0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_DoorEnter_459470()
+void Abe::State_114_DoorEnter_459470()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_DoorExit_459A40()
+void Abe::State_115_DoorExit_459A40()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_MineCarEnter_458780()
+void Abe::State_116_MineCarEnter_458780()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_4587C0()
+void Abe::State_117_4587C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_MineCarExit_458890()
+void Abe::State_118_MineCarExit_458890()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45A990()
+void Abe::State_119_45A990()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_45AB00()
+void Abe::State_120_45AB00()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LiftGrabBegin_45A600()
+void Abe::State_121_LiftGrabBegin_45A600()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LiftGrabEnd_45A670()
+void Abe::State_122_LiftGrabEnd_45A670()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LiftGrabIdle_45A6A0()
+void Abe::State_123_LiftGrabIdle_45A6A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LiftUseUp_45A780()
+void Abe::State_124_LiftUseUp_45A780()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_LiftUseDown_45A7B0()
+void Abe::State_125_LiftUseDown_45A7B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_TurnWheelBegin_456700()
+void Abe::State_126_TurnWheelBegin_456700()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_TurnWheelLoop_456750()
+void Abe::State_127_TurnWheelLoop_456750()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_TurnWheelEnd_4569A0()
+void Abe::State_128_TurnWheelEnd_4569A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_PoisonGasDeath_4565C0()
+void Abe::State_129_PoisonGasDeath_4565C0()
 {
     NOT_IMPLEMENTED();
+}
+
+void Abe::ToDie_4588D0()
+{
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
+    field_106_animation_num = eAbeStates::State_56_4591F0;
+    field_124_gnFrame = 0;
+    field_10C_health = FP(0);
+    MusicController::sub_47FD60(0, this, 1, 0);
 }
 
 // TODO: Clean up

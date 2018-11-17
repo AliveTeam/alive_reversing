@@ -159,6 +159,11 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*
     return nullptr;
 }
 
+Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* /*pTlv*/, FP /*xpos*/, FP /*ypos*/, FP /*w*/, FP /*h*/)
+{
+    return nullptr;
+}
+
 Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
 {
     pTlv = Path::Next_TLV_4DB6A0(pTlv);

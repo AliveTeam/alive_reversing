@@ -65,7 +65,7 @@ EXPORT void CC Event_Broadcast_422BC0(Event eventType, BaseGameObject* pObject)
     }
 }
 
-EXPORT BaseGameObject* CC Event_Get_422C00(Event eventType)
+EXPORT BaseGameObject* CC Event_Get_422C00(__int16 eventType)
 {
     return sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType];
 }

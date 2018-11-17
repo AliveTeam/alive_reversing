@@ -2,6 +2,7 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "FunctionFwd.hpp"
+#include "BitField.hpp"
 
 struct Abe_1BC_20_sub_object
 {
@@ -59,136 +60,140 @@ public:
     EXPORT BYTE ** StateToAnimResource_44AAB0(signed int state);
 
     // States
-    EXPORT void State_Idle_44EEB0();
-    EXPORT void State_WalkLoop_44FBA0();
-    EXPORT void State_StandingTurn_451830();
-    EXPORT void State_Fall_459B60();
-    EXPORT void State_WalkEndLeftFoot_44FFC0();
-    EXPORT void State_WalkEndRightFoot_00450080();
-    EXPORT void State_WalkBegin_44FEE0();
-    EXPORT void State_45B140();
-    EXPORT void State_45B160();
-    EXPORT void State_45B180();
-    EXPORT void State_Fart_45B1A0();
-    EXPORT void State_Speak_45B0A0();
-    void State_Null_4569C0();
-    EXPORT void State_HoistBegin_452B20();
-    EXPORT void State_HoistIdle_452440();
-    EXPORT void State_HoistLand_452BA0();
-    EXPORT void State_LandSoft_45A360();
-    EXPORT void State_CrouchIdle_456BC0();
-    EXPORT void State_CrouchToStand_454600();
-    EXPORT void State_StandToCrouch_453DC0();
-    EXPORT void State_454550();
-    EXPORT void jState_4545E0();
-    EXPORT void State_RollBegin_4539A0();
-    EXPORT void State_RollLoop_453A90();
-    EXPORT void State_453D00();
-    EXPORT void State_RunSlideStop_451330();
-    EXPORT void State_RunTurn_451500();
-    EXPORT void State_HopBegin_4521C0();
-    EXPORT void State_HopMid_451C50();
-    EXPORT void State_HopLand_4523D0();
-    EXPORT void State_RunJumpBegin_4532E0();
-    EXPORT void State_RunJumpMid_452C10();
-    EXPORT void State_RunJumpLand_453460();
-    EXPORT void State_RunLoop_4508E0();
-    EXPORT void State_DunnoBegin_44ECF0();
-    EXPORT void State_DunnoEnd_44ED10();
-    void State_Null_45BC50();
-    EXPORT void State_CrouchTurn_454390();
-    EXPORT void jState_RollBegin_453A70();
-    EXPORT void State_StandingToRun_450D40();
-    EXPORT void State_SneakLoop_450550();
-    EXPORT void State_450250();
-    EXPORT void State_4503D0();
-    EXPORT void State_450380();
-    EXPORT void State_450500();
-    EXPORT void State_SneakBegin_4507A0();
-    EXPORT void State_SneakEnd_450870();
-    EXPORT void jState_SneakEnd_4508C0();
-    EXPORT void State_4500A0();
-    EXPORT void State_450200();
-    EXPORT void State_RunToWalk1_450E20();
-    EXPORT void State_RunToWalk2_450F50();
-    EXPORT void State_451710();
-    EXPORT void State_451800();
-    EXPORT void State_RunJumpLandRun_4538F0();
-    EXPORT void State_RunJumpLandWalk_453970();
-    EXPORT void State_4591F0();
-    EXPORT void State_Dead_4589A0();
-    EXPORT void State_DeadPre_4593E0();
-    void State_Null_459450();
-    EXPORT void State_4A3200();
-    EXPORT void State_TurnToRun_456530();
-    EXPORT void State_Punch_454750();
-    EXPORT void State_Sorry_454670();
-    EXPORT void State_454730();
-    EXPORT void State_LedgeAscend_4548E0();
-    EXPORT void State_LedgeDescend_454970();
-    EXPORT void State_LedgeHang_454E20();
-    EXPORT void State_454B80();
-    EXPORT void State_LedgeHangWobble_454EF0();
-    EXPORT void State_RingRopePull_455AF0();
-    EXPORT void State_Knockback_455090();
-    EXPORT void State_KnockbackGetUp_455340();
-    EXPORT void State_PushWall_4553A0();
-    EXPORT void State_455290();
-    EXPORT void State_45C7B0();
-    EXPORT void State_45CA40();
-    EXPORT void State_45D130();
-    EXPORT void State_WellBegin_45C810();
-    EXPORT void State_WellInside_45CA60();
-    EXPORT void State_WellShotOut_45D150();
-    EXPORT void jState_WellBegin_45C7F0();
-    EXPORT void State_45CC80();
-    EXPORT void State_45CF70();
-    EXPORT void State_FallLandDie_45A420();
-    EXPORT void jState_Fall_455070();
-    EXPORT void State_HandstoneBegin_45BD00();
-    EXPORT void State_HandstoneEnd_45C4F0();
-    EXPORT void State_GrenadeMachineUse_45C510();
-    EXPORT void State_BrewMachineBegin_4584C0();
-    EXPORT void State_BrewMachineEnd_4585B0();
-    EXPORT void State_RingRopePullEnd_4557B0();
-    EXPORT void State_455800();
-    EXPORT void State_FallLedgeBegin_455970();
-    EXPORT void jState_FallLedgeBegin_4559A0();
-    EXPORT void jState_FallLedgeBegin_4559C0();
-    EXPORT void State_4559E0();
-    EXPORT void jState_FallLedgeBegin_455A80();
-    EXPORT void jState_FallLedgeBegin_455AA0();
-    EXPORT void State_LeverUse_455AC0();
-    EXPORT void State_455B60();
-    EXPORT void State_KnockForward_455420();
-    EXPORT void State_455310();
-    EXPORT void jState_KnockbackGetUp_455380();
-    EXPORT void State_RockThrowStandingHold_455DF0();
-    EXPORT void State_RockThrowStandingThrow_456460();
-    EXPORT void State_RockThrowStandingEnd_455F20();
-    EXPORT void State_RockThrowCrouchingHold_454410();
-    EXPORT void State_RockThrowCrouchingThrow_454500();
-    EXPORT void State_455550();
-    EXPORT void State_455670();
-    EXPORT void State_GrabRock_4564A0();
-    EXPORT void State_Chant_45B1C0();
-    EXPORT void State_ChantEnd_45BBE0();
-    EXPORT void State_DoorEnter_459470();
-    EXPORT void State_DoorExit_459A40();
-    EXPORT void State_MineCarEnter_458780();
-    EXPORT void State_4587C0();
-    EXPORT void State_MineCarExit_458890();
-    EXPORT void State_45A990();
-    EXPORT void State_45AB00();
-    EXPORT void State_LiftGrabBegin_45A600();
-    EXPORT void State_LiftGrabEnd_45A670();
-    EXPORT void State_LiftGrabIdle_45A6A0();
-    EXPORT void State_LiftUseUp_45A780();
-    EXPORT void State_LiftUseDown_45A7B0();
-    EXPORT void State_TurnWheelBegin_456700();
-    EXPORT void State_TurnWheelLoop_456750();
-    EXPORT void State_TurnWheelEnd_4569A0();
-    EXPORT void State_PoisonGasDeath_4565C0();
+    EXPORT void State_0_Idle_44EEB0();
+    EXPORT void State_1_WalkLoop_44FBA0();
+    EXPORT void State_2_StandingTurn_451830();
+    EXPORT void State_3_Fall_459B60();
+    EXPORT void State_4_WalkEndLeftFoot_44FFC0();
+    EXPORT void State_5_WalkEndRightFoot_00450080();
+    EXPORT void State_6_WalkBegin_44FEE0();
+    EXPORT void State_7_45B140();
+    EXPORT void State_8_45B160();
+    EXPORT void State_9_45B180();
+    EXPORT void State_10_Fart_45B1A0();
+    EXPORT void State_11_Speak_45B0A0();
+    void State_12_Null_4569C0();
+    EXPORT void State_13_HoistBegin_452B20();
+    EXPORT void State_14_HoistIdle_452440();
+    EXPORT void State_15_HoistLand_452BA0();
+    EXPORT void State_16_LandSoft_45A360();
+    EXPORT void State_17_CrouchIdle_456BC0();
+    EXPORT void State_18_CrouchToStand_454600();
+    EXPORT void State_19_StandToCrouch_453DC0();
+    EXPORT void State_20_454550();
+    EXPORT void jState_21_4545E0();
+    EXPORT void State_22_RollBegin_4539A0();
+    EXPORT void State_23_RollLoop_453A90();
+    EXPORT void State_24_453D00();
+    EXPORT void State_25_RunSlideStop_451330();
+    EXPORT void State_26_RunTurn_451500();
+    EXPORT void State_27_HopBegin_4521C0();
+    EXPORT void State_28_HopMid_451C50();
+    EXPORT void State_29_HopLand_4523D0();
+    EXPORT void State_30_RunJumpBegin_4532E0();
+    EXPORT void State_31_RunJumpMid_452C10();
+    EXPORT void State_32_RunJumpLand_453460();
+    EXPORT void State_33_RunLoop_4508E0();
+    EXPORT void State_34_DunnoBegin_44ECF0();
+    EXPORT void State_35_DunnoEnd_44ED10();
+    void State_36_Null_45BC50();
+    EXPORT void State_37_CrouchTurn_454390();
+    EXPORT void jState_38_RollBegin_453A70();
+    EXPORT void State_39_StandingToRun_450D40();
+    EXPORT void State_40_SneakLoop_450550();
+    EXPORT void State_41_450250();
+    EXPORT void State_42_4503D0();
+    EXPORT void State_43_450380();
+    EXPORT void State_44_450500();
+    EXPORT void State_45_SneakBegin_4507A0();
+    EXPORT void State_46_SneakEnd_450870();
+    EXPORT void jState_47_SneakEnd_4508C0();
+    EXPORT void State_48_4500A0();
+    EXPORT void State_49_450200();
+    EXPORT void State_50_RunToWalk1_450E20();
+    EXPORT void State_51_RunToWalk2_450F50();
+    EXPORT void State_52_451710();
+    EXPORT void State_53_451800();
+    EXPORT void State_54_RunJumpLandRun_4538F0();
+    EXPORT void State_55_RunJumpLandWalk_453970();
+    EXPORT void State_56_4591F0();
+    EXPORT void State_57_Dead_4589A0();
+    EXPORT void State_58_DeadPre_4593E0();
+    void State_59_Null_459450();
+    EXPORT void State_60_4A3200();
+    EXPORT void State_61_TurnToRun_456530();
+    EXPORT void State_62_Punch_454750();
+    EXPORT void State_63_Sorry_454670();
+    EXPORT void State_64_454730();
+    EXPORT void State_65_LedgeAscend_4548E0();
+    EXPORT void State_66_LedgeDescend_454970();
+    EXPORT void State_67_LedgeHang_454E20();
+    EXPORT void State_68_454B80();
+    EXPORT void State_69_LedgeHangWobble_454EF0();
+    EXPORT void State_70_RingRopePull_455AF0();
+    EXPORT void State_71_Knockback_455090();
+    EXPORT void State_72_KnockbackGetUp_455340();
+    EXPORT void State_73_PushWall_4553A0();
+    EXPORT void State_74_455290();
+    EXPORT void State_75_45C7B0();
+    EXPORT void State_76_45CA40();
+    EXPORT void State_77_45D130();
+    EXPORT void State_78_WellBegin_45C810();
+    EXPORT void State_79_WellInside_45CA60();
+    EXPORT void State_80_WellShotOut_45D150();
+    EXPORT void jState_81_WellBegin_45C7F0();
+    EXPORT void State_82_45CC80();
+    EXPORT void State_83_45CF70();
+    EXPORT void State_84_FallLandDie_45A420();
+    EXPORT void jState_85_Fall_455070();
+    EXPORT void State_86_HandstoneBegin_45BD00();
+    EXPORT void State_87_HandstoneEnd_45C4F0();
+    EXPORT void State_88_GrenadeMachineUse_45C510();
+    EXPORT void State_89_BrewMachineBegin_4584C0();
+    EXPORT void State_90_BrewMachineEnd_4585B0();
+    EXPORT void State_91_RingRopePullEnd_4557B0();
+    EXPORT void State_92_455800();
+    EXPORT void State_93_FallLedgeBegin_455970();
+    EXPORT void jState_94_FallLedgeBegin_4559A0();
+    EXPORT void jState_95_FallLedgeBegin_4559C0();
+    EXPORT void State_96_4559E0();
+    EXPORT void jState_97_FallLedgeBegin_455A80();
+    EXPORT void jState_98_FallLedgeBegin_455AA0();
+    EXPORT void State_99_LeverUse_455AC0();
+    EXPORT void State_100_455B60();
+    EXPORT void State_101_KnockForward_455420();
+    EXPORT void State_102_455310();
+    EXPORT void jState_103_KnockbackGetUp_455380();
+    EXPORT void State_104_RockThrowStandingHold_455DF0();
+    EXPORT void State_105_RockThrowStandingThrow_456460();
+    EXPORT void State_106_RockThrowStandingEnd_455F20();
+    EXPORT void State_107_RockThrowCrouchingHold_454410();
+    EXPORT void State_108_RockThrowCrouchingThrow_454500();
+    EXPORT void State_109_455550();
+    EXPORT void State_110_455670();
+    EXPORT void State_111_GrabRock_4564A0();
+    EXPORT void State_112_Chant_45B1C0();
+    EXPORT void State_113_ChantEnd_45BBE0();
+    EXPORT void State_114_DoorEnter_459470();
+    EXPORT void State_115_DoorExit_459A40();
+    EXPORT void State_116_MineCarEnter_458780();
+    EXPORT void State_117_4587C0();
+    EXPORT void State_118_MineCarExit_458890();
+    EXPORT void State_119_45A990();
+    EXPORT void State_120_45AB00();
+    EXPORT void State_121_LiftGrabBegin_45A600();
+    EXPORT void State_122_LiftGrabEnd_45A670();
+    EXPORT void State_123_LiftGrabIdle_45A6A0();
+    EXPORT void State_124_LiftUseUp_45A780();
+    EXPORT void State_125_LiftUseDown_45A7B0();
+    EXPORT void State_126_TurnWheelBegin_456700();
+    EXPORT void State_127_TurnWheelLoop_456750();
+    EXPORT void State_128_TurnWheelEnd_4569A0();
+    EXPORT void State_129_PoisonGasDeath_4565C0();
+
+    // End states
+
+    EXPORT void ToDie_4588D0();
 
 public:
     __int16 field_116;
@@ -239,7 +244,36 @@ public:
     __int16 field_1A4;
     __int16 field_1A6;
     int field_1A8;
-    __int16 field_1AC_flags;
+
+    enum Flags_1AC
+    {
+        e1AC_Bit1 = 0x1,
+        e1AC_Bit2 = 0x2,
+        e1AC_Bit3 = 0x4,
+        e1AC_Bit4 = 0x8,
+        e1AC_Bit5 = 0x10,
+        e1AC_Bit6 = 0x20,
+        e1AC_Bit7 = 0x40,
+        e1AC_Bit8 = 0x80,
+        e1AC_Bit9 = 0x100,
+        e1AC_Bit10 = 0x200,
+        e1AC_Bit11 = 0x400,
+        e1AC_Bit12 = 0x800,
+        e1AC_eBit13 = 0x1000,
+        e1AC_eBit14 = 0x2000,
+        e1AC_eBit15 = 0x4000,
+        e1AC_eBit16 = 0x8000,
+        e1AC_eBit17 = 0x10000,
+        e1AC_eBit18 = 0x20000,
+        e1AC_eBit19 = 0x40000,
+        e1AC_eBit20 = 0x80000,
+        e1AC_eBit21 = 0x100000,
+        e1AC_eBit22 = 0x200000,
+        e1AC_eBit23 = 0x400000,
+        e1AC_eBit24 = 0x800000,
+        e1AC_eBit25 = 0x1000000,
+    };
+    BitField16<Flags_1AC> field_1AC_flags;
     __int16 field_1AE;
     int field_1B0_save_num;
     int field_1B4;
@@ -253,4 +287,4 @@ ALIVE_VAR_EXTERN(Abe *, sControlledCharacter_5C1B8C);
 ALIVE_VAR_EXTERN(short, word_5C1BDA);
 
 extern int sAbeFrameOffsetTable_554B18[130];
-extern const char * sAbeStateNames[];
+extern const char* const sAbeStateNames[130];
