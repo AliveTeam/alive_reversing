@@ -218,10 +218,10 @@ void UXB::Render_4DF3D0(int ** pOt)
             this->field_BC_ypos,
             0))
         {
-            auto v3 = FP_FromRaw(Math_FixedPoint_Multiply_496C50(this->field_CC_sprite_scale.fpValue, 1114112));
+            FP v3 = FP_FromRaw(Math_FixedPoint_Multiply_496C50(this->field_CC_sprite_scale.fpValue, 1114112));
             this->field_128_animation.vRender_40B820(
-                (this->field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x).GetExponent(),
-                (this->field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_FromInteger<int>(v3.GetExponent())).GetExponent(),
+                FP_GetExponent((this->field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
+                FP_GetExponent((this->field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_FromInteger<int>(FP_GetExponent(v3)))),
                 pOt,
                 0,
                 0);
