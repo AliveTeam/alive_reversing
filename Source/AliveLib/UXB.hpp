@@ -31,8 +31,9 @@ public:
     EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
     EXPORT void Update_4DF030();
     EXPORT void Render_4DF3D0(int **pOt);
-    EXPORT void sub_4DEED0(AnimationEx *a2);
+    EXPORT void InitBlinkAnim_4DEED0(AnimationEx *pAnimation);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
+    EXPORT signed int sub_4DF630();
 public:
     BYTE gap116[2];
     WORD field_118;
@@ -50,3 +51,5 @@ public:
     __int16 field_1CA;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1CC);
+
+EXPORT int CC Uxb__CreateFromSaveState_4DFAE0(const BYTE*);
