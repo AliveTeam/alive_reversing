@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
+#include "ScreenManager.hpp"
 
 TintEntry sTintMap_UXB_563A3C[19] =
 {
@@ -46,10 +47,13 @@ void UXB::PlaySFX_4DE930(unsigned __int8 sfxIdx)
     NOT_IMPLEMENTED();
 }
 
+void UXB::VRender(int ** pOrderingTable)
+{
+    Render_4DF3D0(pOrderingTable);
+}
+
 UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
 {
-    NOT_IMPLEMENTED();
-
     BaseAliveGameObject::ctor_408240(0);
     SetVTable(this, 0x547E80);
     SetVTable(&field_128_animation, 0x544290);
@@ -65,120 +69,127 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
     SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.sCurrentLevelId_5C3030);
 
     field_6_flags.Set(BaseGameObject::Options::eInteractive);
+    field_1C8 &= 0xFFFEu;
+    field_118 = 0;
 
-    this->field_1C8 &= 0xFFFEu;
-    this->field_118 = 0;
-    this->field_1C0_num_patterns = tlv_params->field_10_num_patterns;
+    field_1C0_num_patterns = tlv_params->field_10_num_patterns;
     if (tlv_params->field_10_num_patterns < 1 || tlv_params->field_10_num_patterns > 4)
     {
-        this->field_1C0_num_patterns = 1;
-    }
-    this->field_1C4_pattern = tlv_params->field_12_pattern;
-    if (!tlv_params->field_12_pattern)
-    {
-        this->field_1C4_pattern = 11111;
+        field_1C0_num_patterns = 1;
     }
 
-    auto v7 = this->field_1C4_pattern;
-    const auto v8 = this->field_1C0_num_patterns - 1;
-    this->field_1C2 = 0;
-    auto v9 = 0;
-    if (v8)
+    field_1C4_pattern = tlv_params->field_12_pattern;
+    if (!tlv_params->field_12_pattern) // If no pattern set, go to a default one.
     {
-        v9 = v8;
-        do
-        {
-            --v9;
-            v7 = (unsigned __int16)v7 / 10;
-        } while (v9);
+        field_1C4_pattern = 11111;
     }
-    this->field_1C6 = (unsigned __int16)v7 % 10;
+
+    field_1C2 = 0;
+
+    auto v7 = field_1C4_pattern;
+    
+    if (field_1C0_num_patterns - 1)
+    {
+        for (int i = field_1C0_num_patterns - 1; i > 0; i--)
+        {
+            v7 /= 10;
+        }
+    }
+
+    field_1C6 = v7 % 10;
+
     if (tlv_params->field_14_scale)
     {
         if (tlv_params->field_14_scale == 1)
         {
-            this->field_CC_sprite_scale = FP_FromDouble(0.5);
-            this->field_20_animation.field_C_render_layer = 16;
-            this->field_D6_scale = 0;
+            field_CC_sprite_scale = FP_FromDouble(0.5);
+            field_20_animation.field_C_render_layer = 16;
+            field_D6_scale = 0;
         }
     }
     else
     {
-        this->field_CC_sprite_scale = FP_FromDouble(1.0);
-        this->field_20_animation.field_C_render_layer = 35;
-        this->field_D6_scale = 1;
+        field_CC_sprite_scale = FP_FromDouble(1.0);
+        field_20_animation.field_C_render_layer = 35;
+        field_D6_scale = 1;
     }
 
-    sub_4DEED0(&this->field_128_animation);
+    sub_4DEED0(&field_128_animation);
+
     if ((tlv_params->field_0_mBase.field_0_flags.Raw().all & 0xFF00) == 256)
     {
         if (!tlv_params->field_16_state)
         {
-            auto v10 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 1006, 0, 0);
-            field_128_animation.Load_Pal_40A530(v10, 0);
-            this->field_1C8 &= 0xFFFDu;
-            field_128_animation.Set_Animation_Data_409C80( 544, 0);
+            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 1006, 0, 0), 0);
+            field_1C8 &= 0xFFFDu;
+            field_128_animation.Set_Animation_Data_409C80(544, 0);
             PlaySFX_4DE930(2);
-            field_20_animation.Set_Animation_Data_409C80( 0x2000, 0);
-            this->field_118 = 3;
-        LABEL_16:
-            this->field_11A = 0;
-            goto LABEL_17;
+            field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
+            field_118 = 3;
+            field_11A = 0;
         }
-        this->field_11A = 3;
+        else
+        {
+            field_11A = 3;
+        }
     }
     else
     {
         if (!tlv_params->field_16_state)
         {
-            goto LABEL_16;
+            field_11A = 0;
         }
-        auto v21 = ResourceManager::GetLoadedResource_49C2A0(1953259856, 1006, 0, 0);
-        this->field_128_animation.Load_Pal_40A530(v21, 0);
-        this->field_1C8 &= 0xFFFDu;
-        field_128_animation.Set_Animation_Data_409C80(544, 0);
-        field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
-        this->field_11A = 3;
-        this->field_118 = 3;
+        else
+        {
+            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 1006, 0, 0), 0);
+            field_1C8 &= 0xFFFDu;
+            field_128_animation.Set_Animation_Data_409C80(544, 0);
+            field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
+            field_11A = 3;
+            field_118 = 3;
+        }
     }
 
-LABEL_17:
+    const auto x_middle = FP_FromInteger<int>((tlv_params->field_0_mBase.field_8_top_left.field_0_x + tlv_params->field_0_mBase.field_C_bottom_right.field_0_x) / 2);
+
+    FP hitX;
     FP hitY;
-    FP a8;
-    const int v12 = tlv_params->field_0_mBase.field_8_top_left.field_0_x + tlv_params->field_0_mBase.field_C_bottom_right.field_0_x;
-    field_B8_xpos = FP_FromInteger<int>(v12 / 2);
-    this->field_BC_ypos = FP_FromInteger<int>(tlv_params->field_0_mBase.field_8_top_left.field_2_y);
+    
+    field_B8_xpos = x_middle;
+    field_BC_ypos = FP_FromInteger<int>(tlv_params->field_0_mBase.field_8_top_left.field_2_y);
+
+    // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        FP_FromInteger<int>(v12 / 2),
+        x_middle,
         FP_FromInteger<int>(tlv_params->field_0_mBase.field_8_top_left.field_2_y),
-        FP_FromInteger<int>(v12 / 2),
+        x_middle,
         FP_FromInteger<int>(tlv_params->field_0_mBase.field_8_top_left.field_2_y + 24),
-        &this->field_100_pCollisionLine,
+        &field_100_pCollisionLine,
+        &hitX,
         &hitY,
-        &a8,
         field_D6_scale != 0 ? 1 : 16) == 1)
     {
-        this->field_BC_ypos = a8;
+        field_BC_ypos = hitY;
     }
-    this->field_120 = itemInfo;
-    this->field_124_next_state_frame = sGnFrame_5C1B84;
-    this->field_11C_disabled_resources = tlv_params->field_18_disabled_resources;
+
+    field_120_tlv = itemInfo;
+    field_124_next_state_frame = sGnFrame_5C1B84;
+    field_11C_disabled_resources = tlv_params->field_18_disabled_resources;
+
     Add_Resource_4DC130(ResourceManager::Resource_Animation, 13);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, 1105);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, 300);
     Add_Resource_4DC130(ResourceManager::Resource_Palt, 1006);
 
-    if (!(this->field_11C_disabled_resources & 1))
+    if (!(field_11C_disabled_resources & 1))
     {
         Add_Resource_4DC130(ResourceManager::Resource_Animation, 25);
     }
-    if (!(this->field_11C_disabled_resources & 2))
+    if (!(field_11C_disabled_resources & 2))
     {
         Add_Resource_4DC130(ResourceManager::Resource_Animation, 576);
     }
-
     FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-
     field_E4 = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
     field_EC = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
     field_6_flags.Set(Options::eInteractive);
@@ -187,4 +198,41 @@ LABEL_17:
     field_F0_prev_base = field_BC_ypos;
 
     return this;
+}
+
+void UXB::Update_4DF030()
+{
+    NOT_IMPLEMENTED();
+}
+
+void UXB::Render_4DF3D0(int ** pOt)
+{
+    PSX_RECT a2;
+
+    if (this->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            this->field_C2_lvl_number,
+            this->field_C0_path_number,
+            this->field_B8_xpos,
+            this->field_BC_ypos,
+            0))
+        {
+            auto v3 = FP_FromRaw(Math_FixedPoint_Multiply_496C50(this->field_CC_sprite_scale.fpValue, 1114112));
+            this->field_128_animation.vRender_40B820(
+                (this->field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x).GetExponent(),
+                (this->field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_FromInteger<int>(v3.GetExponent())).GetExponent(),
+                pOt,
+                0,
+                0);
+            this->field_128_animation.Get_Frame_Rect_409E10((PSX_RECT *)&a2);
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                a2.x,
+                a2.y,
+                a2.w,
+                a2.h,
+                pScreenManager_5BB5F4->field_3A_idx);
+            BaseAnimatedWithPhysicsGameObject::Render_424B90(pOt);
+        }
+    }
 }

@@ -22,23 +22,24 @@ struct Path_UXB
 class UXB : public BaseAliveGameObject
 {
 public:
-    EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
+    //virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    /*virtual void VDestructor(signed int flags) override;
+    virtual void VScreenChanged() override;
+    virtual void vnullsub_4DC0F0() override;*/
 
+    EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
+    EXPORT void Update_4DF030();
+    EXPORT void Render_4DF3D0(int **pOt);
     EXPORT void sub_4DEED0(AnimationEx *a2);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
-
-    /* virtual void VUpdate() override;
-     virtual void VRender(int** pOrderingTable) override;
-     virtual void VDestructor(signed int flags) override;
-     virtual void VScreenChanged() override;
-     virtual void vnullsub_4DC0F0() override;*/
 public:
     BYTE gap116[2];
     WORD field_118;
     WORD field_11A;
     WORD field_11C_disabled_resources;
     BYTE gap11E[2];
-    TlvItemInfoUnion field_120;
+    TlvItemInfoUnion field_120_tlv;
     DWORD field_124_next_state_frame;
     AnimationEx field_128_animation;
     WORD field_1C0_num_patterns;

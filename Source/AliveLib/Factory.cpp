@@ -5,6 +5,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "LCDScreen.hpp"
+#include "UXB.hpp"
 #include "StatsSign.hpp"
 #include "BackgroundAnimation.hpp"
 
@@ -34,7 +35,7 @@ EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/
     {
         if (loadmode == 1 || loadmode == 2)
         {
-            CompileTimeResourceList<3> kResources({ 
+            static CompileTimeResourceList<3> kResources({
                 { ResourceManager::Resource_Animation, kHighliteResID },
                 { ResourceManager::Resource_Animation, kOptflareResID },
                 { ResourceManager::Resource_Palt, kHighlitePalResID },
@@ -78,7 +79,41 @@ EXPORT void CC Factory_Null_4D6A20(Path_TLV* , Path*, TlvItemInfoUnion, __int16)
 EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Well_4D7E60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Mine_4D8890(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_UXB_4D8960(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
+{ 
+    Path_UXB * uxb_tlv = reinterpret_cast<Path_UXB *>(pTlv);
+
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadmode, uxb_tlv->field_18_disabled_resources & 1);
+        Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadmode, uxb_tlv->field_18_disabled_resources & 2);
+        
+        static CompileTimeResourceList<3> sUXBResourceList_563390({
+            { ResourceManager::Resource_Animation, kTbombResID },
+            { ResourceManager::Resource_Animation, kBombflshResID },
+            { ResourceManager::Resource_Palt, kGrenflshResID },
+        });
+
+        static CompileTimeResourceList<3> sExplodeResourceList_56334C({
+            { ResourceManager::Resource_Animation, kAbebombResID },
+            { ResourceManager::Resource_Animation, kDebrisID00 },
+            { ResourceManager::Resource_Animation, kBgexpldResID },
+        });
+
+        Map::LoadResourcesFromList_4DBE70("UXB.BND", sUXBResourceList_563390.AsList(), loadmode, 0);
+        Map::LoadResourcesFromList_4DBE70("EXPLODE.BND", sExplodeResourceList_56334C.AsList(), loadmode, 0);
+    }
+    else
+    {
+        auto pUXB = alive_new<UXB>();
+        if (pUXB)
+        {
+            pUXB->ctor_4DE9A0(uxb_tlv, tlvOffsetLevelIdPathId);
+        }
+    }
+}
+
 EXPORT void CC Factory_Paramite_4D9190(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MovieHandStone_4D9F50(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
