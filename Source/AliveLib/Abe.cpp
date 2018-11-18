@@ -1088,6 +1088,15 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x34);
 
+class AbilityRing
+{
+public:
+    EXPORT static BaseGameObject * CC Factory_482F80(int /*xpos*/, int /*ypos*/, int /*type*/, FP /*scale*/)
+    {
+        NOT_IMPLEMENTED();
+        return nullptr;
+    }
+};
 
 void Abe::Update_449DC0()
 {
@@ -1236,7 +1245,7 @@ void Abe::Update_449DC0()
 
         if (field_128.field_18 < 0 || static_cast<int>(sGnFrame_5C1B84) < field_144)
         {
-            //LABEL_75:
+LABEL_75:
             if (state_idx != field_106_animation_num || field_114_flags.Get(Flags_114::e114_Bit2))
             {
                 field_114_flags.Clear(Flags_114::e114_Bit2);
@@ -1282,32 +1291,24 @@ void Abe::Update_449DC0()
                         {
                             if (!(sGnFrame_5C1B84 % 32))
                             {
-                                int v27 = 0;
+                                int ringType = 0;
                                 if (field_16C)
                                 {
-                                    v27 = 4;
+                                    ringType = 4;
                                 }
                                 else if (field_16E)
                                 {
-                                    v27 = 7;
+                                    ringType = 7;
                                 }
                                 else if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit15))
                                 {
-                                    v27 = 14;
+                                    ringType = 14;
                                 }
-                                /*
-                                v28 = ((int(__thiscall *)(Abe *, char *, signed int))this->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl->VBaseAliveGameObject.field_0_mBase.field_0_mBase.field_1C_update_delay)(
-                                    this,
-                                    &v38,
-                                    1);
-                                pClass_545A60Mem_Copy = *(BaseGameObject **)v28;
-                                v37 = *(_DWORD *)(v28 + 4);
-                                AbilityRing::ctor_482F80(
-                                    ((signed __int16)pClass_545A60Mem_Copy + (signed __int16)v37) / 2 << 16,
-                                    (SHIWORD(pClass_545A60Mem_Copy) + SHIWORD(v37)) / 2 << 16,
-                                    v27,
-                                    this->field_0_mBase.field_0_mBase.field_CC_sprite_scale);
-                                */
+
+                                PSX_RECT rect = {};
+                                GetBoundingRect_424FD0(&rect, 1);
+                                AbilityRing::Factory_482F80((rect.x + rect.w)/ 2, (rect.y + rect.h) / 2, ringType, field_CC_sprite_scale);
+
                                 SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
                             }
                         }
@@ -1393,9 +1394,9 @@ void Abe::Update_449DC0()
             || field_106_animation_num == eAbeStates::State_9_45B180
             || field_106_animation_num == eAbeStates::State_10_Fart_45B1A0)
         {
-        //LABEL_74:
+LABEL_74:
             field_128.field_18 = -1;
-            //goto LABEL_75;
+            goto LABEL_75;
         }
 
         if (field_106_animation_num == eAbeStates::State_0_Idle_44EEB0 || field_106_animation_num == eAbeStates::State_12_Null_4569C0)
@@ -1432,9 +1433,7 @@ void Abe::Update_449DC0()
             Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 0, 0, this);
         }
 
-        /*
         goto LABEL_74;
-        */
     }
 
     /*
