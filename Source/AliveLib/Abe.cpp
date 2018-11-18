@@ -869,10 +869,18 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_C2_lvl_number = pSaveState->field_16_lvl_number;
     sActiveHero_5C1B68->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
     sActiveHero_5C1B68->field_D6_scale = pSaveState->field_1C_scale;
-    
-    //sActiveHero_5C1B68->field_114_flags = sActiveHero_5C1B68->field_114_flags & 0xFFBF | ((pSaveState->word40 & 1) << 6);
-    //v3 = sActiveHero_5C1B68->field_114_flags & ~0x80;
-    //sActiveHero_5C1B68->field_114_flags = v3 | ((pSaveState->word42 & 1) << 7);
+
+    sActiveHero_5C1B68->field_114_flags.Clear(Flags_114::e114_Bit7);
+    if (pSaveState->word40 & 1)
+    {
+        sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit7);
+    }
+
+    sActiveHero_5C1B68->field_114_flags.Clear(Flags_114::e114_Bit8);
+    if (pSaveState->word42 & 1)
+    {
+        sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8);
+    }
 
     sActiveHero_5C1B68->field_106_animation_num = pSaveState->word26;
     BYTE** animFromState = sActiveHero_5C1B68->StateToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_animation_num);
@@ -880,42 +888,52 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     {
         DWORD id = sAbeResourceIDTable_554D60[sActiveHero_5C1B68->field_128.field_10];
         ResourceManager::LoadResourceFile_49C170(off_545830[sActiveHero_5C1B68->field_128.field_10], 0);
-        sActiveHero_5C1B68->field_10_resources_array.SetAt(sActiveHero_5C1B68->field_128.field_10, ResourceManager::GetLoadedResource_49C2A0(1835626049, id, TRUE, FALSE));
+        sActiveHero_5C1B68->field_10_resources_array.SetAt(sActiveHero_5C1B68->field_128.field_10, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, id, TRUE, FALSE));
         animFromState = sActiveHero_5C1B68->field_10_resources_array.ItemAt(sActiveHero_5C1B68->field_128.field_10);
     }
-
 
     sActiveHero_5C1B68->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[sActiveHero_5C1B68->field_106_animation_num], animFromState);
     sActiveHero_5C1B68->field_20_animation.field_92_current_frame = pSaveState->word28;
     sActiveHero_5C1B68->field_20_animation.field_E_frame_change_counter = pSaveState->word2A;
 
-    /*
-    LOWORD(sActiveHero_5C1B68->field_20_animation.field_4_flags) = sActiveHero_5C1B68->field_20_animation.field_4_flags & 0xFFEF | 16 * (pSaveState->word24 & 1);
-    sActiveHero_5C1B68->field_6_flags = sActiveHero_5C1B68->field_6_flags & 0xFFF7 | 8 * (pSaveState->byte2E & 1);
-    LOWORD(sActiveHero_5C1B68->field_20_animation.field_4_flags) = sActiveHero_5C1B68->field_20_animation.field_4_flags & 0xFFFB | 4 * (pSaveState->byte2D & 1);
-    */
+    sActiveHero_5C1B68->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+    if (pSaveState->word24 & 1)
+    {
+        sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+    }
+
+    sActiveHero_5C1B68->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    if (pSaveState->byte2D & 1)
+    {
+        sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+    }
+
+    sActiveHero_5C1B68->field_6_flags.Clear(BaseGameObject::eDrawable);
+    if (pSaveState->byte2E & 1)
+    {
+        sActiveHero_5C1B68->field_6_flags.Set(BaseGameObject::eDrawable);
+    }
 
     sActiveHero_5C1B68->field_20_animation.field_C_render_layer = pSaveState->byte2C;
     
+    // TODO
     if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame == *(unsigned __int16 *)&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[sActiveHero_5C1B68->field_20_animation.field_18_frame_table_offset + 2] - 1)
     {
-        //BYTE2(sActiveHero_5C1B68->field_20_animation.field_4_flags) |= 2u;
+        sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
     FrameInfoHeader* pFrameHeader = sActiveHero_5C1B68->field_20_animation.Get_FrameHeader_40B730(-1);
-    /*
+
+    /* TODO
     sActiveHero_5C1B68->field_20_animation.Load_Pal_40A530(
         sActiveHero_5C1B68->field_20_animation.field_20_ppBlock,
         *(DWORD *)&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[pFrameHeader->field_0_frame_header_offset]);
     */
 
     sActiveHero_5C1B68->SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.sCurrentLevelId_5C3030);
-
     sActiveHero_5C1B68->field_20_animation.field_B_render_mode = 0;
-    
-    //BYTE1(sActiveHero_5C1B68->field_20_animation.field_4_flags) |= 0x40u;
-    //LOWORD(sActiveHero_5C1B68->field_20_animation.field_4_flags) &= 0x7FFFu;
-
+    sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    sActiveHero_5C1B68->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     sActiveHero_5C1B68->field_10C_health = pSaveState->field_30_health;
     sActiveHero_5C1B68->field_106_animation_num = pSaveState->field_34_animation_num;
     sActiveHero_5C1B68->field_108 = pSaveState->word36;
@@ -934,41 +952,41 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 
     if (sActiveHero_5C1B68->field_168 && sActiveHero_5C1B68->field_16C)
     {
-        /*
-        if (!sActiveHero_5C1B68->field_10_resources_array.field_0_array[25])
+        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(25))
         {
-            if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 117, 0, 0))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, FALSE, FALSE))
             {
-                ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", 0);
+                ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
             }
-            if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 355, 0, 0))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, FALSE, FALSE))
             {
-                ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", 0);
+                ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
             }
 
-            //sActiveHero_5C1B68->sub_45AA20();
+            sActiveHero_5C1B68->Get_Shrykull_Resources_45AA20();
         }
-        */
+       
     }
     else
     {
-        /*
-        if (sActiveHero_5C1B68->field_10_resources_array.field_0_array[25])
+        if (sActiveHero_5C1B68->field_10_resources_array.ItemAt(25))
         {
-            sActiveHero_5C1B68->sub_45AA90();
-        }*/
+            sActiveHero_5C1B68->Free_Shrykull_Resources_45AA90();
+        }
     }
 
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+    if (pSaveState->byte6D & 1)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
+    }
 
-    //sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFFEF | 16 * (pSaveState->byte6D & 1);
     sActiveHero_5C1B68->field_16E = pSaveState->byte6F;
     sActiveHero_5C1B68->field_104 = pSaveState->field_3a_collision_line_id;
 
-    /*
-    HIBYTE(sActiveHero_5C1B68->field_114_flags) |= 1u;
-    sActiveHero_5C1B68->field_118 = Input::Command_Convert_45EE40(pSaveState->word70);
-    sActiveHero_5C1B68->field_11C = Input::Command_Convert_45EE40(pSaveState->word72);
-    */
+    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);
+    sActiveHero_5C1B68->field_118 = InputObject::Command_To_Raw_45EE40(pSaveState->word70);
+    sActiveHero_5C1B68->field_11C = InputObject::Command_To_Raw_45EE40(pSaveState->word72);
     sActiveHero_5C1B68->field_122 = pSaveState->word74;
     sActiveHero_5C1B68->field_128.field_14 = sGnFrame_5C1B84 - pSaveState->dword78;
     sActiveHero_5C1B68->field_148 = pSaveState->dword7C;
@@ -1026,38 +1044,35 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 
     if (sActiveHero_5C1B68->field_198_has_evil_fart)
     {
-        if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 6017, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6017, FALSE, FALSE))
         {
-            ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", 0);
+            ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
         }
 
-        /*
-        if (!sActiveHero_5C1B68->field_10_resources_array.field_0_array[22])
+        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
         {
-        sActiveHero_5C1B68->field_10_resources_array.field_0_array[22] = ResourceManager::GetLoadedResource_49C2A0(1835626049, 6017, 1u, 0);
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6017, TRUE, FALSE)); // TODO: ResId
         }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 301, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
         {
-        ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", 0);
+            ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
         }
 
-        if (!sActiveHero_5C1B68->field_10_resources_array.field_0_array[24])
+        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(24))
         {
-        sActiveHero_5C1B68->field_10_resources_array.field_0_array[24] = ResourceManager::GetLoadedResource_49C2A0(1835626049, 301, 1u, 0);
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, TRUE, FALSE));
         }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 25, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
         {
-        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
+            ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
         }
 
-        if (!sActiveHero_5C1B68->field_10_resources_array.field_0_array[23])
+        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(23))
         {
-        sActiveHero_5C1B68->field_10_resources_array.field_0_array[23] = ResourceManager::GetLoadedResource_49C2A0(1835626049, 25, 1u, 0);
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, TRUE, FALSE));
         }
-        */
-
     }
 
     return sizeof(Quicksave_Obj_Abe);
@@ -1683,7 +1698,7 @@ LABEL_75:
                         {
                             if (field_168 > 0 && field_16C > 0)
                             {
-                                sub_45AA90();
+                                Free_Shrykull_Resources_45AA90();
                             }
                             field_168 = 0;
                         }
@@ -1931,7 +1946,7 @@ void Abe::vScreenChanged_44D240()
             
             if (field_168 > 0 && field_16C)
             {
-                sub_45AA90();
+                Free_Shrykull_Resources_45AA90();
             }
 
             field_168 = 0;
@@ -2042,7 +2057,7 @@ EXPORT BOOL Abe::sub_449D30()
     return 0;
 }
 
-void Abe::sub_45AA90()
+void Abe::Free_Shrykull_Resources_45AA90()
 {
     ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(25));
     field_10_resources_array.SetAt(25, nullptr);
@@ -2762,6 +2777,13 @@ __int16 Abe::sub_454090(FP /*fpX*/, FP /*fpY*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void Abe::Get_Shrykull_Resources_45AA20()
+{
+    field_10_resources_array.SetAt(25, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(26, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(27, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, TRUE, FALSE));
 }
 
 // TODO: Clean up

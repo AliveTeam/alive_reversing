@@ -55,7 +55,7 @@ public:
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
     EXPORT BOOL sub_449D30();
-    EXPORT void sub_45AA90();
+    EXPORT void Free_Shrykull_Resources_45AA90();
 
     EXPORT BYTE ** StateToAnimResource_44AAB0(signed int state);
 
@@ -196,6 +196,9 @@ public:
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
     EXPORT __int16 sub_454090(FP fpX, FP fpY, int a4);
+
+    EXPORT void Get_Shrykull_Resources_45AA20();
+
 public:
     __int16 field_116;
     int field_118;
