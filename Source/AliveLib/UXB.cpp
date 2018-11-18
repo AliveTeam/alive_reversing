@@ -207,8 +207,6 @@ void UXB::Update_4DF030()
 
 void UXB::Render_4DF3D0(int ** pOt)
 {
-    PSX_RECT a2;
-
     if (this->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -218,21 +216,24 @@ void UXB::Render_4DF3D0(int ** pOt)
             this->field_BC_ypos,
             0))
         {
-            FP v3 = FP_FromRaw(Math_FixedPoint_Multiply_496C50(this->field_CC_sprite_scale.fpValue, 1114112));
             this->field_128_animation.vRender_40B820(
                 FP_GetExponent((this->field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-                FP_GetExponent((this->field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_FromInteger<int>(FP_GetExponent(v3)))),
+                FP_GetExponent((this->field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_Round(field_CC_sprite_scale * FP_FromDouble(17)))),
                 pOt,
                 0,
                 0);
-            this->field_128_animation.Get_Frame_Rect_409E10((PSX_RECT *)&a2);
+
+            PSX_RECT frameRect;
+            this->field_128_animation.Get_Frame_Rect_409E10(&frameRect);
+
             pScreenManager_5BB5F4->InvalidateRect_40EC90(
-                a2.x,
-                a2.y,
-                a2.w,
-                a2.h,
+                frameRect.x,
+                frameRect.y,
+                frameRect.w,
+                frameRect.h,
                 pScreenManager_5BB5F4->field_3A_idx);
-            BaseAnimatedWithPhysicsGameObject::Render_424B90(pOt);
+
+            Render_424B90(pOt);
         }
     }
 }
