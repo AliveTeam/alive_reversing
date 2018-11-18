@@ -690,10 +690,377 @@ void Abe::dtor_44B380()
     dtor_4080B0();
 }
 
-signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* /*a1*/)
+struct Quicksave_Obj_Abe
+{
+    WORD field_0_id;
+    __int16 field_2;
+    FP field_4_xpos;
+    FP field_8_ypos;
+    FP field_c_velx;
+    FP field_10_vely;
+    WORD field_14_path_number;
+    WORD field_16_lvl_number;
+    FP field_18_sprite_scale;
+    WORD field_1C_scale;
+    WORD field_1e_r;
+    WORD field_20_g;
+    WORD field_22_b;
+    WORD word24;
+    WORD word26;
+    WORD word28;
+    WORD word2A;
+    char byte2C;
+    char byte2D;
+    char byte2E;
+    char field_2F;
+    FP field_30_health;
+    WORD field_34_animation_num;
+    WORD word36;
+    WORD word38;
+    WORD field_3a_collision_line_id;
+    DWORD dword3C;
+    WORD word40;
+    WORD word42;
+    char field_44_is_abe_controlled;
+    char field_45;
+    __int16 field_46;
+    DWORD dword48;
+    DWORD dword4C;
+    DWORD dword50;
+    DWORD dword54;
+    DWORD dword58;
+    DWORD dword5C;
+    WORD word60;
+    WORD word62;
+    DWORD dword64;
+    DWORD dword68;
+    char field_6c_rock_bone_count;
+    char byte6D;
+    char byte6E;
+    char byte6F;
+    WORD word70;
+    WORD word72;
+    WORD word74;
+    __int16 field_76;
+    DWORD dword78;
+    DWORD dword7C;
+    DWORD dword80;
+    DWORD dword84;
+    DWORD dword88;
+    DWORD dword8C;
+    DWORD dword90;
+    DWORD dword94;
+    DWORD dword98;
+    DWORD dword9C;
+    WORD wordA0;
+    WORD wordA2;
+    char byteA4;
+    char field_A5;
+    __int16 field_A6;
+    DWORD dwordA8;
+    WORD wordAC;
+    WORD wordAE;
+    WORD wordB0;
+    WORD wordB2;
+    WORD wordB4;
+    WORD wordB6;
+    WORD wordB8;
+    WORD wordBA;
+    WORD wordBC;
+    WORD wordBE;
+    WORD wordC0;
+    WORD wordC2;
+    WORD wordC4;
+    WORD wordC6;
+    WORD wordC8;
+    char field_ca_throw_direction;
+    char field_CB;
+    WORD wordCC;
+    __int16 field_CE;
+    DWORD dwordD0;
+    WORD wordD4;
+    WORD wordD6;
+};
+ALIVE_ASSERT_SIZEOF(Quicksave_Obj_Abe, 216);
+
+const char* off_545830[22] =
+{
+    "ABEBASIC.BAN",
+    "ABEBSIC1.BAN",
+    "ABEPULL.BAN",
+    "ABEPICK.BAN",
+    "ABEBOMB.BAN",
+    "ABETHROW.BAN",
+    "ABESMASH.BAN",
+    "ABEFALL.BAN",
+    "ABESTONE.BAN",
+    "ABEKNBK.BAN",
+    "ABEKNFD.BAN",
+    "ABEKNOKZ.BAN",
+    "ABEHOIST.BAN",
+    "ABEEDGE.BAN",
+    "ABEDOOR.BAN",
+    "ABEWELL.BAN",
+    "ABEOMM.BAN",
+    "ABELIFT.BAN",
+    "ABECAR.BAN",
+    "ABEMORPH.BAN",
+    "ABEWORK.BAN",
+    "ABEGAS.BAN",
+};
+
+int sAbeResourceIDTable_554D60[22] =
+{
+    10,
+    55,
+    11,
+    12,
+    13,
+    14,
+    19,
+    20,
+    21,
+    26,
+    27,
+    28,
+    42,
+    43,
+    45,
+    47,
+    48,
+    53,
+    113,
+    117,
+    515,
+    118,
+};
+
+signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 {
     NOT_IMPLEMENTED();
-    return 216;
+
+    const Quicksave_Obj_Abe* pSaveState = reinterpret_cast<const Quicksave_Obj_Abe*>(pData);
+
+    Abe* pAbe = sActiveHero_5C1B68;
+    if (sActiveHero_5C1B68 == spAbe_554D5C)
+    {
+        pAbe = alive_new<Abe>();
+        if (pAbe)
+        {
+            pAbe->ctor_44AD10(58808, 85, 57, 55);
+        }
+        sActiveHero_5C1B68 = pAbe;
+    }
+
+    if (pSaveState->field_44_is_abe_controlled)
+    {
+        sControlledCharacter_5C1B8C = pAbe;
+    }
+
+    pAbe->field_FC_pPathTLV = nullptr;
+    sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
+    sActiveHero_5C1B68->field_B8_xpos = pSaveState->field_4_xpos;
+    sActiveHero_5C1B68->field_BC_ypos = pSaveState->field_8_ypos;
+    sActiveHero_5C1B68->field_C4_velx = pSaveState->field_c_velx;
+    sActiveHero_5C1B68->field_C8_vely = pSaveState->field_10_vely;
+    sActiveHero_5C1B68->field_128.field_8 = pSaveState->dword48;
+    sActiveHero_5C1B68->field_128.field_C = pSaveState->dword4C;
+    sActiveHero_5C1B68->field_C0_path_number = pSaveState->field_14_path_number;
+    sActiveHero_5C1B68->field_C2_lvl_number = pSaveState->field_16_lvl_number;
+    sActiveHero_5C1B68->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
+    sActiveHero_5C1B68->field_D6_scale = pSaveState->field_1C_scale;
+    
+    //sActiveHero_5C1B68->field_114_flags = sActiveHero_5C1B68->field_114_flags & 0xFFBF | ((pSaveState->word40 & 1) << 6);
+    //v3 = sActiveHero_5C1B68->field_114_flags & ~0x80;
+    //sActiveHero_5C1B68->field_114_flags = v3 | ((pSaveState->word42 & 1) << 7);
+
+    sActiveHero_5C1B68->field_106_animation_num = pSaveState->word26;
+    BYTE** animFromState = sActiveHero_5C1B68->StateToAnimResource_44AAB0(sActiveHero_5C1B68->field_106_animation_num);
+    if (!animFromState)
+    {
+        DWORD id = sAbeResourceIDTable_554D60[sActiveHero_5C1B68->field_128.field_10];
+        ResourceManager::LoadResourceFile_49C170(off_545830[sActiveHero_5C1B68->field_128.field_10], 0);
+        sActiveHero_5C1B68->field_10_resources_array.SetAt(sActiveHero_5C1B68->field_128.field_10, ResourceManager::GetLoadedResource_49C2A0(1835626049, id, TRUE, FALSE));
+        animFromState = sActiveHero_5C1B68->field_10_resources_array.ItemAt(sActiveHero_5C1B68->field_128.field_10);
+    }
+
+
+    sActiveHero_5C1B68->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[sActiveHero_5C1B68->field_106_animation_num], animFromState);
+    sActiveHero_5C1B68->field_20_animation.field_92_current_frame = pSaveState->word28;
+    sActiveHero_5C1B68->field_20_animation.field_E_frame_change_counter = pSaveState->word2A;
+
+    /*
+    LOWORD(sActiveHero_5C1B68->field_20_animation.field_4_flags) = sActiveHero_5C1B68->field_20_animation.field_4_flags & 0xFFEF | 16 * (pSaveState->word24 & 1);
+    sActiveHero_5C1B68->field_6_flags = sActiveHero_5C1B68->field_6_flags & 0xFFF7 | 8 * (pSaveState->byte2E & 1);
+    LOWORD(sActiveHero_5C1B68->field_20_animation.field_4_flags) = sActiveHero_5C1B68->field_20_animation.field_4_flags & 0xFFFB | 4 * (pSaveState->byte2D & 1);
+    */
+
+    sActiveHero_5C1B68->field_20_animation.field_C_render_layer = pSaveState->byte2C;
+    
+    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame == *(unsigned __int16 *)&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[sActiveHero_5C1B68->field_20_animation.field_18_frame_table_offset + 2] - 1)
+    {
+        //BYTE2(sActiveHero_5C1B68->field_20_animation.field_4_flags) |= 2u;
+    }
+
+    FrameInfoHeader* pFrameHeader = sActiveHero_5C1B68->field_20_animation.Get_FrameHeader_40B730(-1);
+    /*
+    sActiveHero_5C1B68->field_20_animation.Load_Pal_40A530(
+        sActiveHero_5C1B68->field_20_animation.field_20_ppBlock,
+        *(DWORD *)&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[pFrameHeader->field_0_frame_header_offset]);
+    */
+
+    sActiveHero_5C1B68->SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.sCurrentLevelId_5C3030);
+
+    sActiveHero_5C1B68->field_20_animation.field_B_render_mode = 0;
+    
+    //BYTE1(sActiveHero_5C1B68->field_20_animation.field_4_flags) |= 0x40u;
+    //LOWORD(sActiveHero_5C1B68->field_20_animation.field_4_flags) &= 0x7FFFu;
+
+    sActiveHero_5C1B68->field_10C_health = pSaveState->field_30_health;
+    sActiveHero_5C1B68->field_106_animation_num = pSaveState->field_34_animation_num;
+    sActiveHero_5C1B68->field_108 = pSaveState->word36;
+    sActiveHero_5C1B68->field_F8 = FP_FromInteger(pSaveState->word38);
+    sActiveHero_5C1B68->field_110 = pSaveState->dword3C;
+    sActiveHero_5C1B68->field_120_state = pSaveState->dword50;
+    sActiveHero_5C1B68->field_124_gnFrame = pSaveState->dword54;
+    sActiveHero_5C1B68->field_128.field_0_gnFrame = pSaveState->dword58;
+    sActiveHero_5C1B68->field_128.field_4 = pSaveState->dword5C;
+    sActiveHero_5C1B68->field_128.field_12_mood = pSaveState->word60;
+    sActiveHero_5C1B68->field_128.field_18 = pSaveState->word62;
+    sActiveHero_5C1B68->field_144 = pSaveState->dword64;
+    sActiveHero_5C1B68->field_1A2_rock_or_bone_count = pSaveState->field_6c_rock_bone_count;
+    sActiveHero_5C1B68->field_168 = pSaveState->dword68;
+    sActiveHero_5C1B68->field_16C = pSaveState->byte6E;
+
+    if (sActiveHero_5C1B68->field_168 && sActiveHero_5C1B68->field_16C)
+    {
+        /*
+        if (!sActiveHero_5C1B68->field_10_resources_array.field_0_array[25])
+        {
+            if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 117, 0, 0))
+            {
+                ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", 0);
+            }
+            if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 355, 0, 0))
+            {
+                ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", 0);
+            }
+
+            //sActiveHero_5C1B68->sub_45AA20();
+        }
+        */
+    }
+    else
+    {
+        /*
+        if (sActiveHero_5C1B68->field_10_resources_array.field_0_array[25])
+        {
+            sActiveHero_5C1B68->sub_45AA90();
+        }*/
+    }
+
+
+    //sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFFEF | 16 * (pSaveState->byte6D & 1);
+    sActiveHero_5C1B68->field_16E = pSaveState->byte6F;
+    sActiveHero_5C1B68->field_104 = pSaveState->field_3a_collision_line_id;
+
+    /*
+    HIBYTE(sActiveHero_5C1B68->field_114_flags) |= 1u;
+    sActiveHero_5C1B68->field_118 = Input::Command_Convert_45EE40(pSaveState->word70);
+    sActiveHero_5C1B68->field_11C = Input::Command_Convert_45EE40(pSaveState->word72);
+    */
+    sActiveHero_5C1B68->field_122 = pSaveState->word74;
+    sActiveHero_5C1B68->field_128.field_14 = sGnFrame_5C1B84 - pSaveState->dword78;
+    sActiveHero_5C1B68->field_148 = pSaveState->dword7C;
+    sActiveHero_5C1B68->field_14C = pSaveState->dword80;
+    sActiveHero_5C1B68->field_150 = pSaveState->dword84;
+    sActiveHero_5C1B68->field_154 = pSaveState->dword88;
+    sActiveHero_5C1B68->field_158 = pSaveState->dword8C;
+    sActiveHero_5C1B68->field_15C = pSaveState->dword90;
+    sActiveHero_5C1B68->field_160 = pSaveState->dword94;
+    sActiveHero_5C1B68->field_164 = pSaveState->dword98;
+    sActiveHero_5C1B68->field_178_invisible_effect_id = -1;
+    sActiveHero_5C1B68->field_170 = pSaveState->dword9C;
+    sActiveHero_5C1B68->field_174 = pSaveState->wordA0;
+    sActiveHero_5C1B68->field_176 = pSaveState->wordA2;
+    sActiveHero_5C1B68->field_17C = pSaveState->byteA4;
+    sActiveHero_5C1B68->field_180 = pSaveState->dwordA8;
+    sActiveHero_5C1B68->field_184 = pSaveState->wordAC;
+    sActiveHero_5C1B68->field_186 = pSaveState->wordAE;
+    sActiveHero_5C1B68->field_188 = pSaveState->wordB0;
+    sActiveHero_5C1B68->field_18A = pSaveState->wordB2;
+    sActiveHero_5C1B68->field_18C = pSaveState->wordB4;
+    sActiveHero_5C1B68->field_18E = pSaveState->wordB6;
+    sActiveHero_5C1B68->field_190 = pSaveState->wordB8;
+    sActiveHero_5C1B68->field_192 = pSaveState->wordBA;
+    sActiveHero_5C1B68->field_194 = pSaveState->wordBC;
+    sActiveHero_5C1B68->field_196 = pSaveState->wordBE;
+    sActiveHero_5C1B68->field_198_has_evil_fart = pSaveState->wordC0;
+    sActiveHero_5C1B68->field_19A = pSaveState->wordC2;
+    sActiveHero_5C1B68->field_19C = pSaveState->wordC4;
+    sActiveHero_5C1B68->field_19E = pSaveState->wordC6;
+    sActiveHero_5C1B68->field_1A0_door_id = pSaveState->wordC8;
+    sActiveHero_5C1B68->field_1A3_throw_direction = pSaveState->field_ca_throw_direction;
+    sActiveHero_5C1B68->field_1A4 = pSaveState->wordCC;
+    sActiveHero_5C1B68->field_1A8 = pSaveState->dwordD0;
+    
+    /*
+    sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 1;
+    sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 2;
+    sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 4;
+    sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 8;
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFFDF | 2 * (pSaveState->wordD4 & 0x10);
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFFBF | 2 * (pSaveState->wordD4 & 0x20);
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFF7F | 2 * (pSaveState->wordD4 & 0x40);
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFEFF | 2 * (pSaveState->wordD4 & 0x80);
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xF7FF | 8 * (pSaveState->wordD4 & 0x100);
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xEFFF | 8 * (pSaveState->wordD4 & 0x200);
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xDFFF | 8 * (pSaveState->wordD4 & 0x400);
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xBFFF | 8 * (pSaveState->wordD4 & 0x800);
+    sActiveHero_5C1B68->field_114_flags = sActiveHero_5C1B68->field_114_flags & 0xFDFF | ( pSaveState->wordD4 >> 3) & 0x200;
+    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0x7FFF | 4 * (pSaveState->wordD4 & 0xE000);
+    sActiveHero_5C1B68->field_1AE = (unsigned __int16)(sActiveHero_5C1B68->field_1AE & 0xFFFE) | (pSaveState->wordD4 >> 14) & 1;
+    LOWORD(sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags) = sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags & 0xFFFD | (pSaveState->wordD4 >> 14) & 2;
+    LOWORD(sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags) ^= ((unsigned __int8)LOWORD(sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags) ^ LOBYTE(pSaveState->wordD6)) & 1;
+    */
+
+    if (sActiveHero_5C1B68->field_198_has_evil_fart)
+    {
+        if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 6017, 0, 0))
+        {
+            ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", 0);
+        }
+
+        /*
+        if (!sActiveHero_5C1B68->field_10_resources_array.field_0_array[22])
+        {
+        sActiveHero_5C1B68->field_10_resources_array.field_0_array[22] = ResourceManager::GetLoadedResource_49C2A0(1835626049, 6017, 1u, 0);
+        }
+
+        if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 301, 0, 0))
+        {
+        ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", 0);
+        }
+
+        if (!sActiveHero_5C1B68->field_10_resources_array.field_0_array[24])
+        {
+        sActiveHero_5C1B68->field_10_resources_array.field_0_array[24] = ResourceManager::GetLoadedResource_49C2A0(1835626049, 301, 1u, 0);
+        }
+
+        if (!ResourceManager::GetLoadedResource_49C2A0(1835626049, 25, 0, 0))
+        {
+        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
+        }
+
+        if (!sActiveHero_5C1B68->field_10_resources_array.field_0_array[23])
+        {
+        sActiveHero_5C1B68->field_10_resources_array.field_0_array[23] = ResourceManager::GetLoadedResource_49C2A0(1835626049, 25, 1u, 0);
+        }
+        */
+
+    }
+
+    return sizeof(Quicksave_Obj_Abe);
 }
 
 void Abe::VDestructor(signed int flags)
@@ -1438,7 +1805,7 @@ LABEL_74:
 
     /*
     // vcall 23
-    ((void(__thiscall *)(Abe *))this->field_0_mBase.field_0_mBase.field_0_mBase.field_0_VTbl->VAbe.field_0.field_5C)(this);
+    ((void(__thiscall *)(Abe *))this->field_0_VTbl->VAbe.field_0.field_5C)(this);
     */
     Vnull_4081F0();
 
@@ -1691,6 +2058,7 @@ void Abe::sub_45AA90()
 BYTE ** Abe::StateToAnimResource_44AAB0(signed int /*state*/)
 {
     NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 
