@@ -557,8 +557,8 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_128.field_8 = 0;
     field_128.field_C = 0;
 
-    field_C4_velx = FP(0);
-    field_C8_vely = FP(0);
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
     field_100_pCollisionLine = nullptr;
     field_106_animation_num = eAbeStates::State_3_Fall_459B60;
     field_122 = -1;
@@ -754,21 +754,21 @@ const FP sAbe_xVel_table_545770[8] =
 {
     FP_FromInteger(4),
     FP_FromInteger(4),
-    FP(0), 
+    FP_FromInteger(0),
     FP_FromInteger(-4),
     FP_FromInteger(-4),
     FP_FromInteger(-4),
-    FP(0),
+    FP_FromInteger(0),
     FP_FromInteger(4)
 };
 
 const FP sAbe_yVel_table_545790[8] =
 {
-    FP(0), 
+    FP_FromInteger(0),
     FP_FromInteger(-4),
     FP_FromInteger(-4),
     FP_FromInteger(-4),
-    FP(0),
+    FP_FromInteger(0),
     FP_FromInteger(4),
     FP_FromInteger(4),
     FP_FromInteger(4)
@@ -1194,7 +1194,7 @@ void Abe::Update_449DC0()
         if (field_100_pCollisionLine)
         {
             // Snap to a whole number so we are "on" the line
-            field_BC_ypos.RemoveFractional();
+            FP_RemoveFractional(field_BC_ypos);
         }
 
         // Did position change?
@@ -1226,7 +1226,7 @@ void Abe::Update_449DC0()
             field_114_flags.Set(Flags_114::e114_Bit2);
         }
 
-        if (Event_Get_422C00(kEventScreenShake) && field_10C_health > FP(0))
+        if (Event_Get_422C00(kEventScreenShake) && field_10C_health > FP_FromInteger(0))
         {
             if (sub_449D30())
             {
@@ -1267,7 +1267,7 @@ void Abe::Update_449DC0()
                 field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
             }
 
-            if (field_128.field_4 <= static_cast<int>(sGnFrame_5C1B84)  && field_10C_health > FP(0))
+            if (field_128.field_4 <= static_cast<int>(sGnFrame_5C1B84)  && field_10C_health > FP_FromInteger(0))
             {
                 field_10C_health = FP_FromDouble(1.0);
             }
@@ -1464,14 +1464,14 @@ void Abe::Update_449DC0()
         field_BC_ypos += field_C8_vely;
 
         // Keep within map max min bounds
-        if (field_B8_xpos < FP(0))
+        if (field_B8_xpos < FP_FromInteger(0))
         {
-            field_B8_xpos = FP(0);
+            field_B8_xpos = FP_FromInteger(0);
         }
 
-        if (field_BC_ypos < FP(0))
+        if (field_BC_ypos < FP_FromInteger(0))
         {
-            field_BC_ypos = FP(0);
+            field_BC_ypos = FP_FromInteger(0);
         }
 
         // Keep within map max bounds
@@ -1494,8 +1494,8 @@ void Abe::Update_449DC0()
     }
     else
     {
-        field_C4_velx = FP(0);
-        field_C8_vely = FP(0);
+        field_C4_velx = FP_FromInteger(0);
+        field_C8_vely = FP_FromInteger(0);
     }
     
     sub_408C40();
@@ -2375,15 +2375,15 @@ void Abe::ToDie_4588D0()
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
     field_106_animation_num = eAbeStates::State_56_4591F0;
     field_124_gnFrame = 0;
-    field_10C_health = FP(0);
+    field_10C_health = FP_FromInteger(0);
     MusicController::sub_47FD60(0, this, 1, 0);
 }
 
 void Abe::ToIdle_44E6B0()
 {
     field_128.field_8 = 0;
-    field_C4_velx = FP(0);
-    field_C8_vely = FP(0);
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
     field_124_gnFrame = sGnFrame_5C1B84;
     field_106_animation_num = eAbeStates::State_0_Idle_44EEB0;
     field_118 = 0;
@@ -2405,7 +2405,7 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
     switch (idx)
     {
     case 14u:
-        if (pHero && pHero->field_CC_sprite_scale.GetDouble() == 0.5)
+        if (pHero && pHero->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
             SND_SEQ_Play_4CAB10(0x10u, 1, 90, 90);
         }
@@ -2415,7 +2415,7 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
         }
         break;
     case 26u:
-        if (pHero && pHero->field_CC_sprite_scale.GetDouble() == 0.5)
+        if (pHero && pHero->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
             SND_SEQ_Play_4CAB10(0x12u, 1, 80, 80);
         }
@@ -2443,7 +2443,7 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
             return;
         }
 
-        if (pHero->field_CC_sprite_scale.GetDouble() == 0.5)
+        if (pHero->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
             volume = 2 * volume / 3;
         }

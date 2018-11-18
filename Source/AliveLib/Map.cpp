@@ -190,10 +190,10 @@ void Map::sub_481610()
     if (field_18_pAliveObj)
     {
         pPathChangeTLV = reinterpret_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            field_18_pAliveObj->field_B8_xpos.GetExponent(),
-            field_18_pAliveObj->field_BC_ypos.GetExponent(),
-            field_18_pAliveObj->field_B8_xpos.GetExponent(),
-            field_18_pAliveObj->field_BC_ypos.GetExponent(),
+            FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
+            FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
+            FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
+            FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
             Path_ChangeTLV::kType));
     }
 
@@ -575,8 +575,8 @@ void Map::GoTo_Camera_481890()
 
     field_D0_cam_x_idx = static_cast<short>((pCamNameOffset / sizeof(CameraName)) % sPath_dword_BB47C0->field_6_cams_on_x);
     field_D2_cam_y_idx = static_cast<short>((pCamNameOffset / sizeof(CameraName)) / sPath_dword_BB47C0->field_6_cams_on_x);
-    field_24_camera_offset.field_0_x = FP(field_D0_cam_x_idx * field_D4_ptr->field_A_grid_width);
-    field_24_camera_offset.field_4_y = FP(field_D2_cam_y_idx * field_D4_ptr->field_C_grid_height);
+    field_24_camera_offset.field_0_x = FP_FromInteger(field_D0_cam_x_idx * field_D4_ptr->field_A_grid_width);
+    field_24_camera_offset.field_4_y = FP_FromInteger(field_D2_cam_y_idx * field_D4_ptr->field_C_grid_height);
 
     // If map has changed then load new collision info
     if (prevPathId != sCurrentPathId_5C3032 || prevLevelId != sCurrentLevelId_5C3030)
@@ -752,11 +752,11 @@ void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
     {
         // TODO: Refactor
         const FP_Point* pCamPos2 = pScreenManager_5BB5F4->field_20_pCamPos;
-        const short doorYDiff = static_cast<short>(pTlv->field_8_top_left.field_2_y - pCamPos2->field_4_y.GetExponent());
+        const short doorYDiff = static_cast<short>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pCamPos2->field_4_y));
         FP camX = pCamPos2->field_0_x;
         const short midX = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
 
-        const short rightPos = static_cast<short>(midX - camX.GetExponent());
+        const short rightPos = static_cast<short>(midX - FP_GetExponent(camX));
         const short xpos2 = rightPos;
         obj->ctor_4E5000(field_2C_5C305C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
     }
@@ -813,17 +813,17 @@ void Map::Create_FG1s_480F10()
 
 __int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width)
 {
-    const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP(0);
+    const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
     if (level != sCurrentLevelId_5C3030 || path != sCurrentPathId_5C3032)
     {
         return 0;
     }
 
     PSX_RECT rect = {};
-    rect.x = (xpos - calculated_width).GetExponent();
-    rect.w = (calculated_width + xpos).GetExponent();
-    rect.y = ypos.GetExponent();
-    rect.h = ypos.GetExponent();
+    rect.x = FP_GetExponent(xpos - calculated_width);
+    rect.w = FP_GetExponent(calculated_width + xpos);
+    rect.y = FP_GetExponent(ypos);
+    rect.h = FP_GetExponent(ypos);
     return Is_Rect_In_Current_Camera_480FE0(&rect) == CameraPos::eCamCurrent;
 }
 
@@ -835,8 +835,8 @@ EXPORT Map::CameraPos Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
         return CameraPos::eCamNone;
     }
 
-    const int camX = field_24_camera_offset.field_0_x.GetExponent();
-    const int camY = field_24_camera_offset.field_4_y.GetExponent();
+    const int camX = FP_GetExponent(field_24_camera_offset.field_0_x);
+    const int camY = FP_GetExponent(field_24_camera_offset.field_4_y);
 
     if (pRect->x > (camX + 368))
     {
@@ -1109,10 +1109,10 @@ signed __int16 Map::Sub_4814A0(MapDirections direction, BaseAliveGameObject* pOb
     if (pObj)
     {
         pPathChangeTLV = reinterpret_cast<Path_ChangeTLV*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            pObj->field_B8_xpos.GetExponent(),
-            pObj->field_BC_ypos.GetExponent(),
-            pObj->field_B8_xpos.GetExponent(),
-            pObj->field_BC_ypos.GetExponent(),
+            FP_GetExponent(pObj->field_B8_xpos),
+            FP_GetExponent(pObj->field_BC_ypos),
+            FP_GetExponent(pObj->field_B8_xpos),
+            FP_GetExponent(pObj->field_BC_ypos),
             Path_ChangeTLV::kType));
     }
 

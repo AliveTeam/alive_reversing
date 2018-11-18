@@ -245,8 +245,8 @@ void DDCheat::Update_415780()
             {
                 PSX_Point pos;
                 gMap_5C3030.GetCurrentCamCoords_480680(&pos);
-                sActiveHero_5C1B68->field_B8_xpos = FP(pos.field_0_x + 184);
-                sActiveHero_5C1B68->field_BC_ypos = FP(pos.field_2_y + 60);
+                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
+                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
                 sActiveHero_5C1B68->field_106_animation_num = 3;
                 sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
                 sActiveHero_5C1B68->field_C2_lvl_number = sTeleport_Level_550F5C;
@@ -315,8 +315,8 @@ void DDCheat::Update_415780()
             DebugStr_4F5560(
                 "\n[obj %i] xy=%.3f,%.3f flags=%x",
                 sControlledCharacter_5C1B8C->field_4_typeId,
-                sControlledCharacter_5C1B8C->field_B8_xpos.GetDouble(),
-                sControlledCharacter_5C1B8C->field_BC_ypos.GetDouble(),
+                FP_GetDouble(sControlledCharacter_5C1B8C->field_B8_xpos),
+                FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
                 sControlledCharacter_5C1B8C->field_6_flags);
 
             DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_animation_num);

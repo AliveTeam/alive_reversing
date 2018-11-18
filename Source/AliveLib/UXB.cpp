@@ -176,7 +176,8 @@ LABEL_17:
     {
         Add_Resource_4DC130(ResourceManager::Resource_Animation, 576);
     }
-    auto gridSnap = FP_FromRaw(ScaleToGridSize_4498B0(field_CC_sprite_scale.fpValue));
+
+    FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
     field_E4 = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
     field_EC = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;

@@ -150,7 +150,7 @@ void AnimationEx::DecompressFrame()
 
 inline short FP_AdjustedToInteger(FP fp, FP adjustment)
 {
-    return (fp + adjustment).GetExponent();
+    return FP_GetExponent(fp + adjustment);
 }
 
 void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height)
@@ -254,22 +254,22 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
     const BYTE u0 = pFrameHeader->field_4_width + u1 - 1;
     const BYTE v1 = pFrameHeader->field_5_height + v0 - 1;
 
-    if (field_14_scale != FP(1.0))
+    if (field_14_scale != FP_FromDouble(1.0))
     {
         // Apply scale to x/y pos
         frame_height_fixed *= field_14_scale;
         frame_width_fixed *= field_14_scale;
 
-        if (field_14_scale == FP(0.5))
+        if (field_14_scale == FP_FromDouble(0.5))
         {
             // Add 1 if half scale
-            frame_height_fixed += FP(1.0);
-            frame_width_fixed += FP(1.0);
+            frame_height_fixed += FP_FromDouble(1.0);
+            frame_width_fixed += FP_FromDouble(1.0);
         }
 
         // Apply scale to x/y offset
         xOffSet_fixed *= field_14_scale;
-        yOffset_fixed = (yOffset_fixed * field_14_scale) - FP(1.0);
+        yOffset_fixed = (yOffset_fixed * field_14_scale) - FP_FromDouble(1.0);
     }
 
     short polyXPos = 0;
@@ -282,7 +282,7 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
             SetUV1(pPoly, u1, v1);
             SetUV2(pPoly, u0, v0);
             SetUV3(pPoly, u1, v0);
-            polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP(0.499));
+            polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP_FromDouble(0.499));
         }
         else
         {
@@ -290,10 +290,10 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
             SetUV1(pPoly, u0, v1);
             SetUV2(pPoly, u1, v0);
             SetUV3(pPoly, u0, v0);
-            polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP(0.499));
+            polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499));
         }
         // TODO: Might be wrong because this was doing something with the sign bit abs() ??
-        polyYPos = static_cast<short>(ypos) - FP_AdjustedToInteger(yOffset_fixed, FP(0.499)) - FP_AdjustedToInteger(frame_height_fixed, FP(0.499));
+        polyYPos = static_cast<short>(ypos) - FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_height_fixed, FP_FromDouble(0.499));
     }
     else
     {
@@ -305,8 +305,8 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
             SetUV2(pPoly, u0, v1);
             SetUV3(pPoly, u1, v1);
 
-            polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP(0.499));
-            polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP(0.499));
+            polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP_FromDouble(0.499));
+            polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
         }
         else
         {
@@ -315,18 +315,18 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
             SetUV2(pPoly, u1, v1);
             SetUV3(pPoly, u0, v1);
 
-            polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP(0.499));
+            polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499));
 
-            yPosFixed = yOffset_fixed + FP(0.499);
-            polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP(0.499));
+            yPosFixed = yOffset_fixed + FP_FromDouble(0.499);
+            polyYPos = static_cast<short>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
         }
         
     }
 
     SetXY0(pPoly, polyXPos, polyYPos);
-    SetXY1(pPoly, polyXPos + (frame_width_fixed - FP(0.501)).GetExponent(), polyYPos);
-    SetXY2(pPoly, polyXPos, polyYPos + (frame_height_fixed - FP(0.501)).GetExponent());
-    SetXY3(pPoly, polyXPos + (frame_width_fixed - FP(0.501)).GetExponent(), polyYPos + (frame_height_fixed - FP(0.501)).GetExponent());
+    SetXY1(pPoly, polyXPos + FP_GetExponent(frame_width_fixed - FP_FromDouble(0.501)), polyYPos);
+    SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)));
+    SetXY3(pPoly, polyXPos + FP_GetExponent(frame_width_fixed - FP_FromDouble(0.501)), polyYPos + FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)));
 
     if (pFrameHeader->field_7_compression_type == 3 || pFrameHeader->field_7_compression_type == 6)
     {

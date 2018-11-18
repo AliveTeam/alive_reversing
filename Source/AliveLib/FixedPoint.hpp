@@ -8,54 +8,58 @@ void FixedPoint_ForceLink();
 
 struct FixedPoint
 {
-    FixedPoint();
-
-    explicit FixedPoint(int v);
-
-    explicit FixedPoint(double v);
-
-    FixedPoint& operator+=(const FixedPoint& other);
-
-    FixedPoint& operator-=(const FixedPoint& other);
-
-    FixedPoint& operator*=(const FixedPoint& other);
-
-    FixedPoint& operator/=(const FixedPoint& other);
-
-    short GetExponent() const;
-    double GetDouble() const;
-    void RemoveFractional();
-
-    // Avoid using this. Directly writes to fp value
-    void SetRaw(signed int rawFp);
-public:
     int fpValue;
 };
+static_assert(std::is_pod<FixedPoint>::value, "FixedPoint must be a POD type, otherwise things are going to randomly break so STAP!");
+
+inline FixedPoint& operator+=(FixedPoint& lhs, const FixedPoint& rhs)
+{
+    lhs.fpValue += rhs.fpValue;
+    return lhs;
+}
+
+inline FixedPoint& operator-=(FixedPoint& lhs, const FixedPoint& rhs)
+{
+    lhs.fpValue -= rhs.fpValue;
+    return lhs;
+}
+
+inline FixedPoint& operator*=(FixedPoint& lhs, const FixedPoint& rhs)
+{
+    lhs.fpValue = Math_FixedPoint_Multiply_496C50(lhs.fpValue, rhs.fpValue);
+    return lhs;
+}
+
+inline FixedPoint& operator/=(FixedPoint& lhs, const FixedPoint& rhs)
+{
+    lhs.fpValue = Math_FixedPoint_Divide_496B70(lhs.fpValue, rhs.fpValue);
+    return lhs;
+}
 
 inline FixedPoint operator+(const FixedPoint& lhs, const FixedPoint& rhs)
 {
-    FixedPoint f;
+    FixedPoint f = {};
     f.fpValue = lhs.fpValue + rhs.fpValue;
     return f;
 }
 
 inline FixedPoint operator-(const FixedPoint& lhs, const FixedPoint& rhs)
 {
-    FixedPoint f;
+    FixedPoint f = {};
     f.fpValue = lhs.fpValue - rhs.fpValue;
     return f;
 }
 
 inline FixedPoint operator*(const FixedPoint& lhs, const FixedPoint& rhs)
 {
-    FixedPoint f;
+    FixedPoint f = {};
     f.fpValue = Math_FixedPoint_Multiply_496C50(lhs.fpValue, rhs.fpValue);
     return f;
 }
 
 inline FixedPoint operator/(const FixedPoint& lhs, const FixedPoint& rhs)
 {
-    FixedPoint f;
+    FixedPoint f = {};
     f.fpValue = Math_FixedPoint_Divide_496B70(lhs.fpValue, rhs.fpValue);
     return f;
 }
@@ -80,28 +84,6 @@ inline bool operator >= (const FixedPoint& lhs, const FixedPoint& rhs)
     return lhs.fpValue >= rhs.fpValue;
 }
 
-inline FixedPoint FP_FromDouble(double v)
-{
-    FixedPoint f;
-    f.SetRaw(static_cast<signed int>(v * 0x10000));
-    return f;
-}
-
-inline FixedPoint FP_FromRaw(signed int v)
-{
-    FixedPoint f;
-    f.SetRaw(v);
-    return f;
-}
-
-template<class T>
-inline FixedPoint FP_FromInteger(T v)
-{
-    FixedPoint f;
-    f.fpValue = v << 16;
-    return f;
-}
-
 inline bool operator == (const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue == rhs.fpValue;
@@ -110,6 +92,44 @@ inline bool operator == (const FixedPoint& lhs, const FixedPoint& rhs)
 inline bool operator != (const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue != rhs.fpValue;
+}
+
+inline FixedPoint FP_FromDouble(double v)
+{
+    FixedPoint f = {};
+    f.fpValue = (static_cast<signed int>(v * 0x10000));
+    return f;
+}
+
+inline FixedPoint FP_FromRaw(signed int v)
+{
+    FixedPoint f = {};
+    f.fpValue = v;
+    return f;
+}
+
+template<class T>
+inline FixedPoint FP_FromInteger(T v)
+{
+    FixedPoint f = {};
+    f.fpValue = v << 16;
+    return f;
+}
+
+inline short FP_GetExponent(const FixedPoint& fp)
+{
+    return static_cast<short>(fp.fpValue / 0x10000);
+}
+
+inline double FP_GetDouble(FixedPoint& fp)
+{
+    return static_cast<double>(fp.fpValue) / 0x10000;
+}
+
+inline void FP_RemoveFractional(FixedPoint& fp)
+{
+    // Leave only the whole number part
+    fp.fpValue &= 0xFFFF0000;
 }
 
 using FP = FixedPoint;

@@ -20,11 +20,11 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     SetVTable(&field_20_animation, 0x544290); // gVtbl_animation_2a_544290
     SetVTable(this, 0x544C9C); // gVtbl_BaseAnimatedWithPhysicsGameObject_544C9C
 
-    field_C4_velx = FP(0);
-    field_C8_vely = FP(0);
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
 
-    field_B8_xpos = FP(0);
-    field_BC_ypos = FP(0);
+    field_B8_xpos = FP_FromInteger(0);
+    field_BC_ypos = FP_FromInteger(0);
 
     field_D4_b = 127;
     field_D2_g = 127;
@@ -42,7 +42,7 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
     field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
 
-    field_CC_sprite_scale = FP(1);
+    field_CC_sprite_scale = FP_FromInteger(1);
 
     field_D6_scale = 1;
     field_D8_yOffset = 0;
@@ -131,7 +131,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
             if (field_DC_bApplyShadows & 1)
             {
                 ShadowZones_Calculate_Colour_463CE0(
-                    field_B8_xpos.GetExponent(),        // Left side
+                    FP_GetExponent(field_B8_xpos),        // Left side
                     (wh.field_2_y + xy.field_2_y) / 2,  // Middle of Height
                     field_D6_scale,
                     &r,
@@ -144,8 +144,8 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
             field_20_animation.field_A_b = static_cast<BYTE>(b);
 
             field_20_animation.vRender_40B820(
-                (FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x).GetExponent(),
-                (FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y).GetExponent(),
+                FP_GetExponent((FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
+                FP_GetExponent((FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y)),
                 pOrderingTable,
                 0,
                 0);
@@ -297,13 +297,13 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pR
         rect.h = -rect.h;
     }
 
-    rect.x = (FP_FromInteger(rect.x) * field_CC_sprite_scale).GetExponent();
-    rect.y = (FP_FromInteger(rect.y) * field_CC_sprite_scale).GetExponent();
-    rect.w = (FP_FromInteger(rect.w) * field_CC_sprite_scale).GetExponent();
-    rect.h = (FP_FromInteger(rect.h) * field_CC_sprite_scale).GetExponent();
+    rect.x = FP_GetExponent((FP_FromInteger(rect.x) * field_CC_sprite_scale));
+    rect.y = FP_GetExponent((FP_FromInteger(rect.y) * field_CC_sprite_scale));
+    rect.w = FP_GetExponent((FP_FromInteger(rect.w) * field_CC_sprite_scale));
+    rect.h = FP_GetExponent((FP_FromInteger(rect.h) * field_CC_sprite_scale));
 
-    const short xpos = field_B8_xpos.GetExponent();
-    const short ypos = field_BC_ypos.GetExponent();
+    const short xpos = FP_GetExponent(field_B8_xpos);
+    const short ypos = FP_GetExponent(field_BC_ypos);
 
     rect.x += xpos;
     rect.y += ypos;

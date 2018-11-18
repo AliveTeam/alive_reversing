@@ -41,7 +41,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     PSX_Display_Buffer dispBuffer = {};
 
     Particle* pParticle = alive_new<Particle>();
-    pParticle->ctor_4CC4C0(FP(0), FP(0), 900, 50, 38, ppLoadingAnimRes);
+    pParticle->ctor_4CC4C0(FP_FromInteger(0), FP_FromInteger(0), 900, 50, 38, ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
     pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);

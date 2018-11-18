@@ -261,8 +261,8 @@ void LCDScreen::Update_460A00()
         sFontDrawScreenSpace_5CA4B4 = 0;
     }
 
-    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x.GetExponent();
-    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x.GetExponent();
+    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
 
     sFontDrawScreenSpace_5CA4B4 = 1;
     auto v14 = field_60_font.SliceText_433BD0(
@@ -290,10 +290,10 @@ void LCDScreen::Render_460CB0(int ** ot)
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         const auto camPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        const auto screenX = this->field_2C0_tlv.field_8_top_left.field_0_x - camPos->field_0_x.GetExponent();
-        const auto screenY = ((this->field_2C0_tlv.field_8_top_left.field_2_y + this->field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - camPos->field_4_y.GetExponent()) - 7;
+        const auto screenX = this->field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const auto screenY = ((this->field_2C0_tlv.field_8_top_left.field_2_y + this->field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
         const int screenXWorld = screenX / 0.575;
-        const auto maxWidth = this->field_2C0_tlv.field_C_bottom_right.field_0_x - camPos->field_0_x.GetExponent();
+        const auto maxWidth = this->field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
 
         PSX_RECT clipRect = { 0,0,640,240 };
 

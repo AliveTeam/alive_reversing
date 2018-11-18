@@ -36,7 +36,7 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_108 = 0;
     field_F4 = 0;
     field_F6 = 0;
-    field_F8 = FP(0);
+    field_F8 = FP_FromInteger(0);
     field_10A = 0;
 
     gBaseAliveGameObjects_5C1B7C->Push_Back(this);
@@ -211,25 +211,25 @@ EXPORT void BaseAliveGameObject::sub_408C40()
          switch (Is_In_Current_Camera_424A70())
          {
          case Map::CameraPos::eCamTop:
-             if (field_C8_vely < FP(0))
+             if (field_C8_vely < FP_FromInteger(0))
              {
                  gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapTop, this, -1);
              }
              break;
          case Map::CameraPos::eCamBottom:
-             if (field_C8_vely > FP(0))
+             if (field_C8_vely > FP_FromInteger(0))
              {
                  gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapBottom, this, -1);
              }
              break;
          case Map::CameraPos::eCamLeft:
-             if (field_C4_velx < FP(0))
+             if (field_C4_velx < FP_FromInteger(0))
              {
                  gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapLeft, this, -1);
              }
              break;
          case Map::CameraPos::eCamRight:
-             if (field_C4_velx > FP(0))
+             if (field_C4_velx > FP_FromInteger(0))
              {
                  gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapRight, this, -1);
              }

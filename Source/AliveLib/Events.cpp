@@ -111,8 +111,8 @@ EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(Even
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
     auto pDerived = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
     if ((scale == -1 || pDerived->field_D6_scale == scale)
-        && xpos.GetExponent() / kGridMapWidth  == pDerived->field_B8_xpos.GetExponent() / kGridMapWidth
-        && ypos.GetExponent() / kGridMapHeight == pDerived->field_BC_ypos.GetExponent() / kGridMapHeight)
+        && FP_GetExponent(xpos) / kGridMapWidth  == FP_GetExponent(pDerived->field_B8_xpos) / kGridMapWidth
+        && FP_GetExponent(ypos) / kGridMapHeight == FP_GetExponent(pDerived->field_BC_ypos) / kGridMapHeight)
     {
         return pDerived;
     }
@@ -141,8 +141,8 @@ namespace Test
         Events_Reset_422D70();
 
         BaseAnimatedWithPhysicsGameObject bang;
-        bang.field_B8_xpos = FP(10);
-        bang.field_BC_ypos = FP(20);
+        bang.field_B8_xpos = FP_FromInteger(10);
+        bang.field_BC_ypos = FP_FromInteger(20);
         bang.field_D6_scale = 0;
         bang.field_6_flags.Set(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj);
         bang.field_6_flags.Set(BaseAliveGameObject::eDrawable);
@@ -153,8 +153,8 @@ namespace Test
         ASSERT_EQ(&bang, Event_Get_422C00(Event::kEventLoudNoise));
         ASSERT_EQ(nullptr, Event_Get_422C00(Event::kEventAlarm));
 
-        ASSERT_EQ(&bang, Event_Is_Event_In_Range_422C30(Event::kEventLoudNoise, FP(10), FP(20), 0));
-        ASSERT_EQ(nullptr, Event_Is_Event_In_Range_422C30(Event::kEventLoudNoise, FP(kGridMapWidth * 2), FP(kGridMapHeight * 2), 0));
+        ASSERT_EQ(&bang, Event_Is_Event_In_Range_422C30(Event::kEventLoudNoise, FP_FromInteger(10), FP_FromInteger(20), 0));
+        ASSERT_EQ(nullptr, Event_Is_Event_In_Range_422C30(Event::kEventLoudNoise, FP_FromInteger(kGridMapWidth * 2), FP_FromInteger(kGridMapHeight * 2), 0));
 
         Event_Cancel_For_Obj_422DF0(&bang);
         ASSERT_EQ(nullptr, Event_Get_422C00(Event::kEventLoudNoise));

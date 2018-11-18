@@ -145,8 +145,8 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
         const char texture_u = static_cast<char>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
         const char texture_v = static_cast<char>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
 
-        const short widthScaled = static_cast<short>(charWidth * scale.GetDouble());
-        const short heightScaled = static_cast<short>(charHeight * scale.GetDouble());
+        const short widthScaled = static_cast<short>(charWidth * FP_GetDouble(scale));
+        const short heightScaled = static_cast<short>(charHeight * FP_GetDouble(scale));
 
         PolyFT4_Init_4F8870(poly);
         Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
@@ -187,7 +187,7 @@ int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char a
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + static_cast<short>(field_34_font_context->field_8_atlas_array[0].field_2_width * scale.GetExponent());
+        offsetX += widthScaled + static_cast<short>(field_34_font_context->field_8_atlas_array[0].field_2_width * FP_GetExponent(scale));
 
         poly += 2;
     }
@@ -238,8 +238,8 @@ int Font::MeasureWidth_433700(const char * text)
 // Measures the width of a string with scale applied.
 int Font::MeasureWidth_4336C0(const char * text, FP scale)
 {
-    FP ret = (FP(MeasureWidth_433700(text)) * scale) + FP_FromDouble(0.5);
-    return ret.GetExponent();
+    FP ret = (FP_FromInteger(MeasureWidth_433700(text)) * scale) + FP_FromDouble(0.5);
+    return FP_GetExponent(ret);
 }
 
 // Measures the width of a single character.
@@ -308,7 +308,7 @@ const char * Font::SliceText_433BD0(const char * text, int left, FP scale, int r
 
         // v12 = field_34_font_context->field_8_atlas_array[atlasIdx].field_3_height;
         // Math_FixedPoint_Multiply_496C50(v12 << 16, scale);
-        xOff += static_cast<signed int>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * scale.GetDouble()) / 0x10000 + field_34_font_context->field_8_atlas_array->field_2_width;
+        xOff += static_cast<signed int>(field_34_font_context->field_8_atlas_array[atlasIdx].field_2_width * FP_GetDouble(scale)) / 0x10000 + field_34_font_context->field_8_atlas_array->field_2_width;
     }
 
     return text;

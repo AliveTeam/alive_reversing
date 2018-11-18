@@ -120,8 +120,8 @@ public:
             if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
-                int x = aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent();
-                int y = aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent();
+                int x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                int y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
@@ -130,7 +130,7 @@ public:
                         FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<int>(framePtr->field_8_data.offsetAndRect.mMax.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                            y += static_cast<int>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
                         }
                     }
                 }
@@ -176,8 +176,8 @@ public:
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
 
-                int x = static_cast<int>((aliveObj->field_B8_xpos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent()) / 0.575);
-                int y = static_cast<int>((aliveObj->field_BC_ypos.GetExponent() - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent()));
+                int x = static_cast<int>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x)) / 0.575);
+                int y = static_cast<int>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y)));
 
                 if (Vec2Distance(x, y, mousePos.x, mousePos.y) < 10 && !isDragging && mouseLeftDown)
                 {
@@ -195,7 +195,7 @@ public:
                         FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<int>(framePtr->field_8_data.offsetAndRect.mMax.y * aliveObj->field_CC_sprite_scale.GetDouble());
+                            y += static_cast<int>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
                         }
                     }
                 }
@@ -212,8 +212,8 @@ public:
 
             if (isDragging)
             {
-                mDragObject->field_B8_xpos = FP(gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent() + (mousePos.x * 0.575));
-                mDragObject->field_BC_ypos = FP(gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent() + mousePos.y);
+                mDragObject->field_B8_xpos = FP_FromInteger(static_cast<int>(FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x) + (mousePos.x * 0.575)));
+                mDragObject->field_BC_ypos = FP_FromInteger(static_cast<int>(FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y) + mousePos.y));
             }
         }
     }
@@ -359,8 +359,8 @@ public:
                 }
                 DEV::DebugDrawLine(pOrderingTable, layer, l->field_0_x1, l->field_2_y1, l->field_4_x2, l->field_6_y2, color.r, color.g, color.b, true, false);
 
-                int id_x = l->field_0_x1 - gMap_5C3030.field_24_camera_offset.field_0_x.GetExponent();
-                int id_y = l->field_2_y1 - gMap_5C3030.field_24_camera_offset.field_4_y.GetExponent();
+                int id_x = l->field_0_x1 - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                int id_y = l->field_2_y1 - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
@@ -482,8 +482,8 @@ void Command_HelperUpdate()
         PSX_Point pos;
         gMap_5C3030.GetCurrentCamCoords_480680(&pos);
 
-        sActiveHero_5C1B68->field_B8_xpos = FP(pos.field_0_x + 184);
-        sActiveHero_5C1B68->field_BC_ypos = FP(pos.field_2_y + 60);
+        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
+        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
         sActiveHero_5C1B68->field_106_animation_num = 3;
         sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7);
@@ -493,8 +493,8 @@ void Command_HelperUpdate()
         sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
         sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
         sActiveHero_5C1B68->field_D6_scale = 1;
-        FP rX(0);
-        FP rY(0);
+        FP rX = FP_FromInteger(0);
+        FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
         
         float subDevide = 368 / 10.0f;
@@ -1943,8 +1943,8 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
 
     if (worldspace)
     {
-        x -= camOffset.field_0_x.GetExponent();
-        y -= camOffset.field_4_y.GetExponent();
+        x -= FP_GetExponent(camOffset.field_0_x);
+        y -= FP_GetExponent(camOffset.field_4_y);
 
         x = static_cast<int>(x / 0.575);
         y = static_cast<int>(y / 0.575);
@@ -1982,11 +1982,11 @@ void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, ch
 
     if (worldspace)
     {
-        x1 -= camOffset.field_0_x.GetExponent();
-        y1 -= camOffset.field_4_y.GetExponent();
+        x1 -= FP_GetExponent(camOffset.field_0_x);
+        y1 -= FP_GetExponent(camOffset.field_4_y);
 
-        x2 -= camOffset.field_0_x.GetExponent();
-        y2 -= camOffset.field_4_y.GetExponent();
+        x2 -= FP_GetExponent(camOffset.field_0_x);
+        y2 -= FP_GetExponent(camOffset.field_4_y);
 
         x1 = static_cast<int>(x1 / 0.575);
         x2 = static_cast<int>(x2 / 0.575);

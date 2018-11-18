@@ -70,8 +70,8 @@ StatsSign * StatsSign::ctor_47B600(Path_StatsSign * params, TlvItemInfoUnion a3)
 
     field_6_flags.Set(eDrawable);
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
-    field_104_position_x = (FP(static_cast<int>(params->field_0_mBase.field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x).GetExponent();
-    field_106_position_y = (FP(static_cast<int>(params->field_0_mBase.field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y).GetExponent();
+    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<int>(params->field_0_mBase.field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<int>(params->field_0_mBase.field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
     field_108_is_hidden = static_cast<__int16 >(params->field_14_hidden);
     sStatsSignCurrentArea_5C1A20 = static_cast<char>(params->field_12_zulag_number);

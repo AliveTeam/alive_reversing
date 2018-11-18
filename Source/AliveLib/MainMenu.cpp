@@ -1114,8 +1114,8 @@ signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
 
             field_6_flags.Set(BaseGameObject::eDead);
             
-            sActiveHero_5C1B68->field_B8_xpos = FP(0);
-            sActiveHero_5C1B68->field_BC_ypos = FP(0);
+            sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
+            sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
             
             Quicksave_LoadActive_4C9170();
 
@@ -2323,7 +2323,7 @@ void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Font
         ot,
         textBuffer,
         text_xpos,
-        static_cast<short>(text_ypos.GetExponent() + array_field_y + 1),
+        static_cast<short>(FP_GetExponent(text_ypos) + array_field_y + 1),
         0,
         1,
         0,

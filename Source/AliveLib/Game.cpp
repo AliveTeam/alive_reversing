@@ -94,17 +94,17 @@ ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
 
 ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
 
-EXPORT signed int ScaleToGridSize_4498B0(signed int scale)
+FP CC ScaleToGridSize_4498B0(FP scaleFP)
 {
-    if (scale == 0x8000)
+    if (scaleFP == FP_FromDouble(0.5))
     {
-        return 0xD0000;
+        return FP_FromInteger(13); // 25/2
     }
-    if (scale == 0x10000)
+    if (scaleFP == FP_FromDouble(1.0))
     {
-        return 0x190000;
+        return FP_FromInteger(25);
     }
-    return 0;
+    return FP_FromInteger(0);
 }
 
 
@@ -632,8 +632,8 @@ EXPORT void CC Game_Run_466D40()
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, 125, 1u, 0);
-    gMap_5C3030.field_24_camera_offset.field_4_y = FP(0);
-    gMap_5C3030.field_24_camera_offset.field_0_x = FP(0);
+    gMap_5C3030.field_24_camera_offset.field_4_y = FP_FromInteger(0);
+    gMap_5C3030.field_24_camera_offset.field_0_x = FP_FromInteger(0);
 
     pScreenManager_5BB5F4 = alive_new<ScreenManager>();
     pScreenManager_5BB5F4->ctor_40E3E0(camera.field_C_pCamRes, &gMap_5C3030.field_24_camera_offset);

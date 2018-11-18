@@ -776,8 +776,8 @@ void PauseMenu_ForceLink() {
                 sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
                 sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
                 gMap_5C3030.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                sActiveHero_5C1B68->field_B8_xpos = FP(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
-                sActiveHero_5C1B68->field_BC_ypos = FP(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
                 DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
             } });
         }
@@ -1049,7 +1049,7 @@ void PauseMenu::Update_48FD80()
     Abe* pHero = sActiveHero_5C1B68;
     Abe* pControlledChar = nullptr;
     
-    if (sActiveHero_5C1B68->field_10C_health <= FP(0) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7))
+    if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7))
     {
         pControlledChar = sControlledCharacter_5C1B8C;
     }
@@ -1098,7 +1098,7 @@ void PauseMenu::Update_48FD80()
 
     if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::ePause)
     {
-        if (pHero->field_10C_health > FP(0)
+        if (pHero->field_10C_health > FP_FromInteger(0)
             && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7))
             && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10)))
         {

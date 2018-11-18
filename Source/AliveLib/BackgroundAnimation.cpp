@@ -35,11 +35,11 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvI
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    field_B8_xpos = FP(pPathParams->field_8_top_left.field_0_x);
-    field_BC_ypos = FP(pPathParams->field_8_top_left.field_2_y);
+    field_B8_xpos = FP_FromInteger(pPathParams->field_8_top_left.field_0_x);
+    field_BC_ypos = FP_FromInteger(pPathParams->field_8_top_left.field_2_y);
 
-    field_FC_xpos = FP(pPathParams->field_8_top_left.field_0_x);
-    field_100_ypos = FP(pPathParams->field_8_top_left.field_2_y);
+    field_FC_xpos = FP_FromInteger(pPathParams->field_8_top_left.field_0_x);
+    field_100_ypos = FP_FromInteger(pPathParams->field_8_top_left.field_2_y);
 
     Animation_Init_424E10(
         (*field_F4_res)->field_4_frame_table_offset,
