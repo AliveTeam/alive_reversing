@@ -126,6 +126,13 @@ inline double FP_GetDouble(FixedPoint& fp)
     return static_cast<double>(fp.fpValue) / 0x10000;
 }
 
+inline FixedPoint FP_NoFractional(const FixedPoint& fp)
+{
+    FixedPoint nfp = fp;
+    nfp.fpValue &= 0xFFFF0000;
+    return nfp;
+}
+
 inline FixedPoint FP_Round(FixedPoint& fp)
 {
     return FP_FromDouble(round(FP_GetDouble(fp)));
