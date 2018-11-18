@@ -1203,7 +1203,7 @@ void Abe::Update_449DC0()
         if (field_100_pCollisionLine)
         {
             // Snap to a whole number so we are "on" the line
-            FP_RemoveFractional(field_BC_ypos);
+            field_BC_ypos = FP_NoFractional(field_BC_ypos);
         }
 
         // Did position change?

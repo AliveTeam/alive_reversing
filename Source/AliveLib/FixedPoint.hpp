@@ -133,17 +133,6 @@ inline FixedPoint FP_NoFractional(const FixedPoint& fp)
     return nfp;
 }
 
-inline FixedPoint FP_Round(FixedPoint& fp)
-{
-    return FP_FromDouble(round(FP_GetDouble(fp)));
-}
-
-inline void FP_RemoveFractional(FixedPoint& fp)
-{
-    // Leave only the whole number part
-    fp.fpValue &= 0xFFFF0000;
-}
-
 using FP = FixedPoint;
 
 ALIVE_ASSERT_SIZEOF(FP, 0x4);
