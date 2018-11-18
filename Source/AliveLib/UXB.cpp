@@ -218,7 +218,7 @@ void UXB::Render_4DF3D0(int ** pOt)
         {
             this->field_128_animation.vRender_40B820(
                 FP_GetExponent((this->field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-                FP_GetExponent((this->field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_Round(field_CC_sprite_scale * FP_FromDouble(17)))),
+                FP_GetExponent((this->field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromDouble(17)))),
                 pOt,
                 0,
                 0);
