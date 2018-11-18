@@ -22,7 +22,7 @@ struct Path_UXB
 class UXB : public BaseAliveGameObject
 {
 public:
-    //virtual void VUpdate() override;
+    virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     /*virtual void VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
