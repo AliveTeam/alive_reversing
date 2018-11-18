@@ -2059,10 +2059,276 @@ void Abe::vScreenChanged_44D240()
     }
 }
 
-int Abe::vGetSaveState_457110(BYTE* /*pSaveBuffer*/)
+int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 {
     NOT_IMPLEMENTED();
-    return 216;
+
+    Quicksave_Obj_Abe* pSaveState = reinterpret_cast<Quicksave_Obj_Abe*>(pSaveBuffer);
+
+    pSaveState->field_0_id = Types::eType_Abe;
+    pSaveState->field_4_xpos = field_B8_xpos;
+    pSaveState->field_8_ypos = field_BC_ypos;
+    pSaveState->field_c_velx = field_C4_velx;
+    pSaveState->field_10_vely = field_C8_vely;
+    pSaveState->dword48 = field_128.field_8;
+    pSaveState->dword4C = field_128.field_C;
+    pSaveState->field_14_path_number = field_C0_path_number;
+    pSaveState->field_16_lvl_number = field_C2_lvl_number;
+    pSaveState->field_18_sprite_scale = field_CC_sprite_scale;
+    pSaveState->field_1C_scale = field_D6_scale;
+    pSaveState->field_1e_r = field_D0_r;
+    pSaveState->field_20_g = field_D2_g;
+    pSaveState->field_22_b = field_D4_b;
+
+    if (field_114_flags.Get(Flags_114::e114_Bit11))
+    {
+        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        {
+            auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            /* TODO
+            if (pObj->field_4_typeId == 150)
+            {
+                if (v5[1].field_0_VTbl == field_8_object_id)
+                {
+                    pSaveState->field_1e_r = v5[1].field_4_typeId;
+                    pSaveState->field_20_g = v5[1].field_6_flags;
+                    pSaveState->field_22_b = v5[1].field_8_flags_ex;
+                    break;
+                }
+            }*/
+        }
+    }
+
+    //pSaveState->word24 = (field_20_animation.field_4_flags) >> 4) & 1;
+    pSaveState->word26 = field_106_animation_num;
+    pSaveState->word28 = field_20_animation.field_92_current_frame;
+    pSaveState->word2A = field_20_animation.field_E_frame_change_counter;
+    
+    if (!field_20_animation.field_E_frame_change_counter)
+    {
+        pSaveState->word2A = 1;
+    }
+
+    //pSaveState->byte2E = (LOBYTE(this->field_6_flags) >> 3) & 1;
+    //pSaveState->byte2D = (LOBYTE(this->field_20_animation.field_4_flags) >> 2) & 1;
+    pSaveState->byte2C = field_20_animation.field_C_render_layer;
+    pSaveState->field_30_health = field_10C_health;
+    pSaveState->field_34_animation_num = field_106_animation_num;
+    pSaveState->word36 = field_108;
+    pSaveState->word38 = FP_GetExponent(field_F8);
+    //pSaveState->word40 = (LOBYTE(this->field_114_flags) >> 6) & 1;
+    //pSaveState->word42 = (unsigned __int8)(LOBYTE(this->field_114_flags) >> 7);
+
+    if (field_100_pCollisionLine)
+    {
+        pSaveState->field_3a_collision_line_id = field_100_pCollisionLine->field_8_mode;
+    }
+    else
+    {
+        pSaveState->field_3a_collision_line_id = -1;
+    }
+    
+    pSaveState->dword3C = field_110;
+
+    if (field_110 != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110);
+        if (pObj)
+        {
+            pSaveState->dword3C = pObj->field_C_objectId;
+        }
+    }
+
+    pSaveState->field_44_is_abe_controlled = (this == sControlledCharacter_5C1B8C);
+    pSaveState->dword50 = field_120_state;
+    pSaveState->dword54 = field_124_gnFrame;
+    pSaveState->dword58 = field_128.field_0_gnFrame;
+    pSaveState->dword5C = field_128.field_4;
+    pSaveState->word60 = field_128.field_12_mood;
+    pSaveState->word62 = field_128.field_18;
+    pSaveState->dword64 = field_144;
+    pSaveState->dword68 = field_168;
+    pSaveState->field_6c_rock_bone_count = field_1A2_rock_or_bone_count;
+    //pSaveState->byte6D = (LOBYTE(this->field_1AC_flags) >> 4) & 1;
+    pSaveState->byte6E = field_16C;
+    pSaveState->byte6F = field_16E;
+    //pSaveState->word70 = sub_45EF70(field_118);
+    //pSaveState->word72 = sub_45EF70(field_11C);
+    pSaveState->word74 = field_122;
+    pSaveState->dword78 = sGnFrame_5C1B84 - field_128.field_14;
+    pSaveState->dword7C = field_148;
+    
+    if (field_148 != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_148);
+        if (pObj)
+        {
+            pSaveState->dword7C = pObj->field_C_objectId;
+        }
+    }
+
+    pSaveState->dword80 = field_14C;
+
+    if (field_14C != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_14C);
+        if (pObj)
+        {
+            pSaveState->dword80 = pObj->field_C_objectId;
+        }
+    }
+    pSaveState->dword84 = field_150;
+
+    if (field_150 != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_150);
+        if (pObj)
+        {
+            pSaveState->dword84 = pObj->field_C_objectId;
+        }
+    }
+    
+    pSaveState->dword88 = field_154;
+
+    if (field_154 != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158);
+        if (pObj)
+        {
+            pSaveState->dword88 = pObj->field_C_objectId;
+        }
+    }
+
+    pSaveState->dword8C = field_158;
+
+    if (field_158 != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158);
+        if (pObj)
+        {
+            pSaveState->dword8C = pObj->field_C_objectId;
+        }
+    }
+
+    pSaveState->dword90 = field_15C;
+
+    if (field_15C != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_15C);
+        if (pObj)
+        {
+            pSaveState->dword90 = pObj->field_C_objectId;
+        }
+    }
+
+    pSaveState->dword94 = field_160;
+
+    if (field_160 != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_160);
+        if (pObj)
+        {
+            pSaveState->dword94 = pObj->field_C_objectId;
+        }
+    }
+
+    pSaveState->dword98 = field_164;
+
+    if (field_164 != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_164);
+        if (pObj)
+        {
+            pSaveState->dword98 = pObj->field_C_objectId;
+        }
+    }
+
+    pSaveState->dwordD0 = field_1A8;
+
+    if (field_1A8 != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_1A8);
+        if (pObj)
+        {
+            pSaveState->dwordD0 = pObj->field_C_objectId;
+        }
+    }
+
+    pSaveState->dword9C = field_170;
+    pSaveState->wordA0 = field_174;
+    pSaveState->wordA2 = field_176;
+    pSaveState->byteA4 = field_17C;
+    pSaveState->dwordA8 = field_180;
+    pSaveState->wordAC = field_184;
+    pSaveState->wordAE = field_186;
+    pSaveState->wordB0 = field_188;
+    pSaveState->wordB2 = field_18A;
+    pSaveState->wordB4 = field_18C;
+    pSaveState->wordB6 = field_18E;
+    pSaveState->wordB8 = field_190;
+    pSaveState->wordBA = field_192;
+    pSaveState->wordBC = field_194;
+    pSaveState->wordBE = field_196;
+    pSaveState->wordC0 = field_198_has_evil_fart;
+    pSaveState->wordC2 = field_19A;
+    pSaveState->wordC4 = field_19C;
+    pSaveState->wordC6 = field_19E;
+    pSaveState->wordC8 = field_1A0_door_id;
+    pSaveState->field_ca_throw_direction = field_1A3_throw_direction;
+    pSaveState->wordCC = field_1A4;
+
+    /*
+    v17 = pSaveState->wordD4 ^ (LOBYTE(this->field_1AC_flags) ^ (unsigned __int8)pSaveState->wordD4) & 1;
+    pSaveState->wordD4 = v17;
+    v18 = v17 ^ (LOBYTE(this->field_1AC_flags) ^ (unsigned __int8)v17) & 2;
+    pSaveState->wordD4 = v18;
+    v19 = v18 ^ (LOBYTE(this->field_1AC_flags) ^ (unsigned __int8)v18) & 4;
+    pSaveState->wordD4 = v19;
+    v20 = v19 ^ (LOBYTE(this->field_1AC_flags) ^ (unsigned __int8)v19) & 8;
+    pSaveState->wordD4 = v20;
+    v21 = v20 & ~0x10 | (LOBYTE(this->field_1AC_flags) >> 1) & 0x10;
+    pSaveState->wordD4 = v21;
+    v22 = v21 & ~0xFFFF0020;
+    v23 = v22 | (LOBYTE(this->field_1AC_flags) >> 1) & 0x20;
+    pSaveState->wordD4 = v23;
+    v24 = v23 & ~0xFFFF0040;
+    v25 = v24 | (LOBYTE(this->field_1AC_flags) >> 1) & 0x40;
+    pSaveState->wordD4 = v25;
+    LOWORD(v22) = this->field_1AC_flags;
+    LOWORD(v22) = v25 & ~0x80 | (v22 >> 1) & 0x80;
+    pSaveState->wordD4 = v22;
+    LOWORD(v24) = this->field_1AC_flags;
+    v26 = v22 & ~0xFFFF0100;
+    LOWORD(v24) = v26 | (v24 >> 3) & 0x100;
+    pSaveState->wordD4 = v24;
+    LOWORD(v26) = this->field_1AC_flags;
+    v27 = v24 & ~0xFFFF0200;
+    LOWORD(v26) = v27 | (v26 >> 3) & 0x200;
+    pSaveState->wordD4 = v26;
+    LOWORD(v27) = this->field_1AC_flags;
+    v28 = v26 & ~0xFFFF0400;
+    LOWORD(v27) = v28 | (v27 >> 3) & 0x400;
+    pSaveState->wordD4 = v27;
+    LOWORD(v28) = this->field_1AC_flags;
+    LOWORD(v28) = v27 & ~0x800 | (v28 >> 3) & 0x800;
+    pSaveState->wordD4 = v28;
+    v29 = v28 & ~0xFFFF1000;
+    LOWORD(v27) = v29 | 8 * (this->field_114_flags & 0x200);
+    pSaveState->wordD4 = v27;
+    LOWORD(v29) = this->field_1AC_flags;
+    LOWORD(v29) = v27 & ~0x2000 | (v29 >> 2) & 0x2000;
+    pSaveState->wordD4 = v29;
+    LOWORD(v27) = v29 & ~0x4000 | ((this->field_1AE & 1) << 14);
+    pSaveState->wordD4 = v27;
+    pSaveState->wordD4 = (((LOBYTE(this->field_E0_176_ptr->field_14_flags) >> 1) & 1) << 15) | v27 & ~0x8000u;
+    pSaveState->wordD6 ^= (this->field_E0_176_ptr->field_14_flags & 1 ^ (unsigned __int8)pSaveState->wordD6) & 1;
+    */
+    return sizeof(Quicksave_Obj_Abe);
 }
 
 bool Abe::vsub_Kill_44BB50(BaseGameObject * /*otherObj*/)
