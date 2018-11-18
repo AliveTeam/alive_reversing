@@ -16,6 +16,7 @@ private:
     int field_8;
     int field_C;
     int field_10;
+public:
     int field_14_flags;
     AnimationEx field_18_animation;
 };

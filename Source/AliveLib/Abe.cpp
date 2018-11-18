@@ -917,7 +917,8 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_20_animation.field_C_render_layer = pSaveState->byte2C;
     
     // TODO
-    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame == *(unsigned __int16 *)&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[sActiveHero_5C1B68->field_20_animation.field_18_frame_table_offset + 2] - 1)
+    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame ==
+        *(unsigned __int16 *)&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[sActiveHero_5C1B68->field_20_animation.field_18_frame_table_offset + 2] - 1)
     {
         sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     }
@@ -962,10 +963,8 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
             {
                 ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
             }
-
             sActiveHero_5C1B68->Get_Shrykull_Resources_45AA20();
         }
-       
     }
     else
     {
@@ -1022,24 +1021,93 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_1A4 = pSaveState->wordCC;
     sActiveHero_5C1B68->field_1A8 = pSaveState->dwordD0;
     
-    /*
+    /* TODO: .. only the last one is going to "win" here.. !?
     sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 1;
     sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 2;
     sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 4;
     sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 8;
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFFDF | 2 * (pSaveState->wordD4 & 0x10);
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFFBF | 2 * (pSaveState->wordD4 & 0x20);
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFF7F | 2 * (pSaveState->wordD4 & 0x40);
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xFEFF | 2 * (pSaveState->wordD4 & 0x80);
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xF7FF | 8 * (pSaveState->wordD4 & 0x100);
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xEFFF | 8 * (pSaveState->wordD4 & 0x200);
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xDFFF | 8 * (pSaveState->wordD4 & 0x400);
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0xBFFF | 8 * (pSaveState->wordD4 & 0x800);
-    sActiveHero_5C1B68->field_114_flags = sActiveHero_5C1B68->field_114_flags & 0xFDFF | ( pSaveState->wordD4 >> 3) & 0x200;
-    sActiveHero_5C1B68->field_1AC_flags = sActiveHero_5C1B68->field_1AC_flags & 0x7FFF | 4 * (pSaveState->wordD4 & 0xE000);
-    sActiveHero_5C1B68->field_1AE = (unsigned __int16)(sActiveHero_5C1B68->field_1AE & 0xFFFE) | (pSaveState->wordD4 >> 14) & 1;
-    LOWORD(sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags) = sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags & 0xFFFD | (pSaveState->wordD4 >> 14) & 2;
+    */
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+    if (pSaveState->wordD4 & 0x10)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
+    }
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit6);
+    if (pSaveState->wordD4 & 0x20)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit6);
+    }
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit7);
+    if (pSaveState->wordD4 & 0x40)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
+    }
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit9);
+    if (pSaveState->wordD4 & 0x80)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit9);
+    }
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit12);
+    if (pSaveState->wordD4 & 0x100)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit12);
+    }
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13);
+    if (pSaveState->wordD4 & 0x200)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit13);
+    }
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+    if (pSaveState->wordD4 & 0x400)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit14);
+    }
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit15);
+    if (pSaveState->wordD4 & 0x800)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15);
+    }
+
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16);
+    if (pSaveState->wordD4 & 0xE000)
+    {
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16);
+    }
+
+    sActiveHero_5C1B68->field_114_flags.Clear(Flags_114::e114_Bit10);
+    if ((pSaveState->wordD4 >> 3) & 0x200)
+    {
+        sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit10);
+    }
+
+    sActiveHero_5C1B68->field_1AE &= ~1;
+    if ((pSaveState->wordD4 >> 14) & 1)
+    {
+        sActiveHero_5C1B68->field_1AE |= 1;
+    }
+
+    // TODO: Move to shadow object
+    sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags &= ~2;
+    if ((pSaveState->wordD4 >> 14) & 2)
+    {
+        sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags |= 2;
+    }
+
+    /* TODO: Will wipe out previously set bits ??
     LOWORD(sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags) ^= ((unsigned __int8)LOWORD(sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags) ^ LOBYTE(pSaveState->wordD6)) & 1;
+    sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags &= ~1;
+    if ((pSaveState->wordD6) & 1)
+    {
+        sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags |= 1;
+    }
     */
 
     if (sActiveHero_5C1B68->field_198_has_evil_fart)
