@@ -1805,7 +1805,7 @@ void DebugHelpers_Init()
         return;
     }
 
-    if (IsAlive())
+    //if (IsAlive())
     {
         alive_new<ObjectDebugger>();
         alive_new<DebugConsole>();
