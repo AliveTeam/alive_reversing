@@ -8,6 +8,7 @@
 #include "Shadow.hpp"
 #include "stdlib.hpp"
 #include "Abe.hpp"
+#include "Collisions.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
@@ -245,4 +246,18 @@ __int16 BaseAliveGameObject::sub_408D10(__int16 /*snapToGrid*/)
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+EXPORT int BaseAliveGameObject::Raycast_408750(FP offY, FP offX)
+{
+    PathLine* pLine = nullptr;
+    return sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        field_BC_ypos - offY,
+        field_B8_xpos + offX,
+        field_BC_ypos - offY,
+        &pLine,
+        &offX,
+        &offY,
+        field_D6_scale != 0 ? 6 : 96) != 0; // TODO: Enum for line types
 }

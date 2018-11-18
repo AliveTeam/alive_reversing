@@ -70,6 +70,7 @@ protected:
     EXPORT void SetTint_425600(TintEntry *pTintArray, __int16 level_id);
     EXPORT void sub_408C40();
     EXPORT __int16 sub_408D10(__int16 snapToGrid);
+    EXPORT int Raycast_408750(FP offY, FP offX);
 public:
     FP field_E4;
     FP field_E8;
