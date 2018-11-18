@@ -165,6 +165,20 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* /*pTlv*/, FP /*xpos*/, FP /*ypos*/, 
     return nullptr;
 }
 
+Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_PathId)
+{
+    NOT_IMPLEMENTED();
+
+    if (tlvOffset_levelId_PathId >> 16 == field_0_levelId + (field_2_pathId << 8))
+    {
+        return reinterpret_cast<Path_TLV *>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + static_cast<unsigned __int16>(tlvOffset_levelId_PathId)]);
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
 Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
 {
     pTlv = Path::Next_TLV_4DB6A0(pTlv);
