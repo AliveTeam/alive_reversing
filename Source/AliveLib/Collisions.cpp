@@ -283,3 +283,34 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
     *ppLine = nullptr;
     return 0;
 }
+
+PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(__int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode)
+{
+    bool freeItemFound = false;
+    int idx = field_8_item_count;
+    while (idx < field_C_max_count)
+    {
+        PathLine* pIter = &field_0_pArray[idx];
+        if (!pIter->field_0_x1 && !pIter->field_4_x2 && !pIter->field_2_y1 && !pIter->field_6_y2)
+        {
+            freeItemFound = true;
+            break;
+        }
+        idx++;
+    }
+
+    if (!freeItemFound)
+    {
+        idx--;
+    }
+
+    PathLine* pAddedLine = &field_0_pArray[idx];
+    pAddedLine->field_0_x1 = x1;
+    pAddedLine->field_2_y1 = y1;
+    pAddedLine->field_4_x2 = x2;
+    pAddedLine->field_6_y2 = y2;
+    pAddedLine->field_8_mode = mode;
+    pAddedLine->field_C_unknown2 = -1;
+    pAddedLine->field_A_unknown1 = -1;
+    return pAddedLine;
+}
