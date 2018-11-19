@@ -10,6 +10,7 @@
 #include "VRam.hpp"
 #include "Game.hpp"
 #include "ScreenManager.hpp"
+#include "Midi.hpp"
 
 TintEntry sTintMap_UXB_563A3C[19] =
 {
@@ -112,7 +113,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
         field_1C0_pattern_length = 1;
     }
 
-    
+
     field_1C4_pattern = tlv_params->field_12_pattern;
     if (!tlv_params->field_12_pattern) // If no pattern set, go to a default one.
     {
@@ -238,7 +239,7 @@ void UXB::Update_4DF030()
                 auto explosion = alive_new<BaseBomb>();
                 if (explosion)
                 {
-                    explosion->ctor_423E70(field_B8_xpos,field_BC_ypos, 0, field_CC_sprite_scale);
+                    explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
                 }
                 field_6_flags.Set(Options::eDead);
             }
@@ -429,4 +430,76 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
 BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int unused, FP scale)
 {
     NOT_IMPLEMENTED();
+
+    BYTE **v6; // eax
+    int v7; // eax
+    BaseGameObject *v8; // eax
+    WORD *v9; // eax
+    __int16 v10; // cx
+    __int16 v12; // [esp+8h] [ebp-14h]
+    __int16 v13; // [esp+Ah] [ebp-12h]
+    __int16 v14; // [esp+Ch] [ebp-10h]
+    __int16 v15; // [esp+Eh] [ebp-Eh]
+    int v16; // [esp+18h] [ebp-4h]
+
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+    v16 = 0;
+    SetVTable(this, 0x544C54);
+    field_4_typeId = eBaseBomb;
+
+
+    v6 = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, 300);
+    Animation_Init_424E10(51588, 214, 0x31u, v6, 1, 1u);
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit24);
+    field_20_animation.field_B_render_mode = 1;
+    field_20_animation.field_A_b = -128;
+    field_20_animation.field_9_g = -128;
+    field_20_animation.field_8_r = -128;
+    this->field_f4_scale = scale;
+    if (scale == FP_FromDouble(1.0))
+    {
+        field_20_animation.field_C_render_layer = 36;
+    }
+    else
+    {
+        field_20_animation.field_C_render_layer = 17;
+    }
+    field_DC_bApplyShadows &= 0xFFFEu;
+    field_CC_sprite_scale = scale * FP_FromDouble(2.75);
+    field_B8_xpos = x;
+    field_BC_ypos = y;
+
+    /*v8 = (BaseGameObject *)malloc_4954D0(0x48u);
+    if (v8)
+    {
+        ScreenShake::ctor_4ACF70(v8, 1, 0);
+    }*/
+    if (word_5CC88C <= 3846)
+    {
+        /*v9 = malloc_4954D0(0x108u);
+        if (v9)
+        {
+            sub_41CF50(
+                v9,
+                this->field_0_base.field_B8_xpos,
+                this->field_0_base.field_BC_ypos,
+                35,
+                this->field_f4_scale,
+                0,
+                13);
+        }*/
+    }
+    
+    /*v12 = (signed int)Math_FixedPoint_Multiply_496C50(-655360, this->field_f4_scale) / 0x10000;
+    v14 = (signed int)Math_FixedPoint_Multiply_496C50(655360, this->field_f4_scale) / 0x10000;
+    v13 = (signed int)Math_FixedPoint_Multiply_496C50(-655360, this->field_f4_scale) / 0x10000;
+    v15 = (signed int)Math_FixedPoint_Multiply_496C50(655360, this->field_f4_scale) / 0x10000;
+    BaseAnimatedWithPhysicsGameObject::sub_4247A0(this, &v12);*/
+
+    static int dword_5BC1FC = 0;
+    dword_5BC1FC = (dword_5BC1FC + 1) % 2;
+    SND_SEQ_PlaySeq_4CA960(14 +  dword_5BC1FC, 1, 1);
+
+    return this;
 }

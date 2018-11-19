@@ -15,6 +15,7 @@ public:
         eDDCheat = 19,
         eGameSpeak = 38,
         eType_45 = 45,
+        eBaseBomb = 46,
         eType_67 = 67,
         eType_Abe = 69,
         eType_75 = 75,

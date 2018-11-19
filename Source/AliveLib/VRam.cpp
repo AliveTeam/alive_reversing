@@ -8,6 +8,7 @@ const int kMaxAllocs = 512;
 
 ALIVE_ARY(1, 0x5cb888, PSX_RECT, kMaxAllocs, sVramAllocations_5CB888, {});
 ALIVE_VAR(1, 0x5cc888, int, sVram_Count_dword_5CC888, 0);
+ALIVE_VAR(1, 0x5CC88C, WORD, word_5CC88C, 0);
 
 EXPORT char CC Vram_calc_width_4955A0(int width, int depth)
 {

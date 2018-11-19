@@ -3,6 +3,8 @@
 #include "FunctionFwd.hpp"
 #include "Psx.hpp"
 
+ALIVE_VAR_EXTERN(WORD, word_5CC88C, 0);
+
 EXPORT signed __int16 CC Vram_alloc_4956C0(unsigned __int16 width, __int16 height, unsigned __int16 colourDepth, PSX_RECT *pRect);
 
 EXPORT void CC Vram_init_495660();

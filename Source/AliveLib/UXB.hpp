@@ -37,7 +37,7 @@ public:
 public:
 
     BYTE field_E4[16];
-    DWORD field_f4_scale;
+    FP field_f4_scale;
 };
 ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);
 
