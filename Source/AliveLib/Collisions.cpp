@@ -131,7 +131,7 @@ inline Fixed_24_8 operator / (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, int modeMask)
+signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 
@@ -271,8 +271,10 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
         int xh = x1.fpValue + ((xDiff.fpValue * nearestMatch.fpValue) / 256);
         int yh = y1.fpValue + ((yDiff.fpValue * nearestMatch.fpValue) / 256);
 
-        *hitX = FP_FromRaw(xh << 8);
-        *hitY = FP_FromRaw(yh << 8);
+        // TODO: Don't know if removing fractional is correct... but seems to fix issue of Abe falling through floor if attempting to hoist twice at the right most wall
+        // TODO: Need to get a trace of both this and the real function and check this is correct
+        *hitX = FP_NoFractional(FP_FromRaw(xh << 8));
+        *hitY = FP_NoFractional(FP_FromRaw(yh << 8));
 
         *ppLine = pNearestMatch;
         return 1;
