@@ -46,101 +46,238 @@ void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const BY
     }
 }
 
-signed __int16 Collisions::Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, int modeMask)
+// 24:8 fixed type.. I guess 16:16 wasn't good enough for collision detection
+class Fixed_24_8
 {
-    // THIS IMPLEMENTATION IS NOT CORRECT!
-    // This is an entirely different method of raycasting.
-    // It works, but its not 100% correct.
-    // Flying sligs do not spawn and crash the game because of this.
-    // But it is enough to get Abe + some physics stuff working.
-    // This function should be reversed and implemented using the
-    // base game code as reference.
-
-    NOT_IMPLEMENTED();
-        
-    PathLine * nearestLine = nullptr;
-    float nearestCollisionX = 0;
-    float nearestCollisionY = 0;
-    float nearestDistance = 0.f;
-    bool hasCollided = false;
-    bool firstCollision = true;
-
-    if (!field_8_item_count)
+public:
+    Fixed_24_8()
+        : fpValue(0)
     {
-        *ppLine = nullptr;
-        return false;
+
     }
 
-    for (int i = 0; i < field_8_item_count; i++)
+    explicit Fixed_24_8(int val)
     {
-        PathLine * currentLine = &field_0_pArray[i];
+        fpValue = val * 256;
+    }
 
-        // Game specific
-        if (!(((1 << currentLine->field_8_mode) % 32) & modeMask)) // if (!(currentLine->Mode & mode))
-            continue;
+    explicit Fixed_24_8(FP fixed16_16)
+    {
+        fpValue = fixed16_16.fpValue / 256;
+    }
 
-        bool segments_intersect = false;
-        float intersectionX = 0;
-        float intersectionY = 0;
+    FP AsFP16() const
+    {
+        return FP_FromRaw(fpValue * 256);
+    }
 
-        // Converting to fixed point only needed for real game.
-        // Alive won't need this
-        int line1p1x = FP_GetExponent(X1);
-        int line1p1y = FP_GetExponent(Y1);
-        int line1p2x = FP_GetExponent(X2);
-        int line1p2y = FP_GetExponent(Y2);
+    int GetExponent() const
+    {
+        return fpValue / 256;
+    }
 
-        int line2p1x = currentLine->field_0_x1;
-        int line2p1y = currentLine->field_2_y1;
-        int line2p2x = currentLine->field_4_x2;
-        int line2p2y = currentLine->field_6_y2;
-
-        // Get the segments' parameters.
-        int dx12 = line1p2x - line1p1x;
-        int dy12 = line1p2y - line1p1y;
-        int dx34 = line2p2x - line2p1x;
-        int dy34 = line2p2y - line2p1y;
-
-        // Solve for t1 and t2
-        float denominator = (dy12 * dx34 - dx12 * dy34);
-        float t1 = ((line1p1x - line2p1x) * dy34 + (line2p1y - line1p1y) * dx34) / denominator;
-
-        if (isinf(t1))
-            continue;
-
-        float t2 = ((line2p1x - line1p1x) * dy12 + (line1p1y - line2p1y) * dx12) / -denominator;
-
-        // Find the point of intersection.
-        intersectionX = line1p1x + dx12 * t1;
-        intersectionY = line1p1y + dy12 * t1;
-
-        // The segments intersect if t1 and t2 are between 0 and 1.
-        hasCollided = ((t1 >= 0) && (t1 <= 1) && (t2 >= 0) && (t2 <= 1));
-
-        if (hasCollided)
+    Fixed_24_8 Abs() const
+    {
+        Fixed_24_8 r;
+        if (fpValue > 0)
         {
-            float distance = sqrtf(powf((line1p1x - intersectionX), 2) + powf((line1p1y - intersectionY), 2));
+            r.fpValue = fpValue;
+        }
+        else
+        {
+            r.fpValue = -fpValue;
+        }
+        return r;
+    }
 
-            if (firstCollision || distance < nearestDistance)
+    int fpValue;
+};
+
+inline bool operator > (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+{
+    return lhs.fpValue > rhs.fpValue;
+}
+
+inline bool operator < (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+{
+    return lhs.fpValue < rhs.fpValue;
+}
+
+inline Fixed_24_8 operator - (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+{
+    Fixed_24_8 r;
+    r.fpValue = lhs.fpValue - rhs.fpValue;
+    return r;
+}
+
+inline Fixed_24_8 operator + (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+{
+    Fixed_24_8 r;
+    r.fpValue = lhs.fpValue + rhs.fpValue;
+    return r;
+}
+
+inline Fixed_24_8 operator * (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+{
+    Fixed_24_8 r;
+    r.fpValue = lhs.fpValue * (rhs.GetExponent());
+    return r;
+}
+
+inline Fixed_24_8 operator / (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
+{
+    Fixed_24_8 r;
+    r.fpValue = lhs.fpValue / (rhs.GetExponent());
+    return r;
+}
+
+signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, int modeMask)
+{
+    // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
+
+    // The following was a huge help in figuring this out:
+    // https://stackoverflow.com/questions/35473936/find-whether-two-line-segments-intersect-or-not-in-c
+
+    Fixed_24_8 x1(X1_16_16);
+    Fixed_24_8 x2(X2_16_16);
+    Fixed_24_8 y1(Y1_16_16);
+    Fixed_24_8 y2(Y2_16_16);
+
+    int minX = min(x1, x2).GetExponent();
+    int maxX = max(x1, x2).GetExponent();
+
+    int minY = min(y1, y2).GetExponent();
+    int maxY = max(y1, y2).GetExponent();
+
+    Fixed_24_8 xDiff = x2 - x1;
+    Fixed_24_8 yDiff = y2 - y1;
+
+    Fixed_24_8 nearestMatch(2); // 512
+
+    Fixed_24_8 epslion;
+    epslion.fpValue = 256; // 0.99
+
+    PathLine* pNearestMatch = nullptr;
+
+    for (int i = 0; i < field_C_max_count; i++)
+    {
+        PathLine* pLine = &field_0_pArray[i];
+        if (!(1 << (pLine->field_8_mode % 32) & modeMask))
+        {
+            // Not a match on type
+            continue;
+        }
+
+        if (min(pLine->field_0_x1, pLine->field_4_x2) > maxX)
+        {
+            continue;
+        }
+
+        if (max(pLine->field_0_x1, pLine->field_4_x2) < minX)
+        {
+            continue;
+        }
+
+        if (min(pLine->field_2_y1, pLine->field_6_y2) > maxY)
+        {
+            continue;
+        }
+
+        if (max(pLine->field_2_y1, pLine->field_6_y2) < minY)
+        {
+            continue;
+        }
+
+        Fixed_24_8 xDiffCurrent(pLine->field_4_x2 - pLine->field_0_x1);
+        Fixed_24_8 yDiffCurrent(pLine->field_6_y2 - pLine->field_2_y1);
+
+        Fixed_24_8 det = (xDiffCurrent * yDiff) - (xDiff * yDiffCurrent);
+        if (det.Abs() < epslion)
+        {
+            continue;
+        }
+
+        Fixed_24_8 unknown1 =
+            xDiffCurrent * (Fixed_24_8(pLine->field_2_y1) - y1) -
+            yDiffCurrent * (Fixed_24_8(pLine->field_0_x1) - x1);
+
+        if (det > Fixed_24_8(0))
+        {
+            if (unknown1 < Fixed_24_8(0))
             {
-                nearestCollisionX = intersectionX;
-                nearestCollisionY = intersectionY;
-                nearestDistance = distance;
-                nearestLine = currentLine;
-
-                firstCollision = false;
+                continue;
+            }
+            
+            if (unknown1 > det)
+            {
+                continue;
             }
         }
+        else
+        {
+            if (unknown1 > Fixed_24_8(0))
+            {
+                continue;
+            }
+            
+            if (unknown1 < det)
+            {
+                continue;
+            }
+        }
+
+        Fixed_24_8 unknown2 =
+            xDiff * (Fixed_24_8(pLine->field_2_y1) - y1) -
+            yDiff * (Fixed_24_8(pLine->field_0_x1) - x1);
+
+        if (det > Fixed_24_8(0))
+        {
+            if (unknown2 < Fixed_24_8(0))
+            {
+                continue;
+            }
+            
+            if (unknown2 > det)
+            {
+                continue;
+            }
+        }
+        else
+        {
+            if (unknown2 > Fixed_24_8(0))
+            {
+                continue;
+            }
+            
+            if (unknown2 < det)
+            {
+                continue;
+            }
+        }
+
+        unknown1 = unknown1 / det;
+
+        if (unknown1 < nearestMatch)
+        {
+            nearestMatch = unknown1;
+            pNearestMatch = pLine;
+        }
+
     }
 
-    if (nearestLine)
+    if (nearestMatch < Fixed_24_8(2))
     {
-        *hitX = FP_FromDouble(nearestCollisionX);
-        *hitY = FP_FromDouble(nearestCollisionY);
-        *ppLine = nearestLine;
-        return true;
+        // TODO: Clean up - not sure how this maps on to the operators.. somehow kept getting the wrong results argh! 
+        int xh = x1.fpValue + ((xDiff.fpValue * nearestMatch.fpValue) / 256);
+        int yh = y1.fpValue + ((yDiff.fpValue * nearestMatch.fpValue) / 256);
+
+        *hitX = FP_FromRaw(xh << 8);
+        *hitY = FP_FromRaw(yh << 8);
+
+        *ppLine = pNearestMatch;
+        return 1;
     }
 
     *ppLine = nullptr;
-    return false;
+    return 0;
 }
