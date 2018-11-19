@@ -362,7 +362,7 @@ public:
             {
                 auto l = &sCollisions_DArray_5C1128->field_0_pArray[i];
                 LineColor color = { 255, 0, 255 };
-                int mode = l->field_8_mode;
+                int mode = l->field_8_type;
 
                 if (mLineColors.find(mode) != mLineColors.end())
                 {

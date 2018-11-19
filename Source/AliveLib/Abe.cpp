@@ -2126,7 +2126,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 
     if (field_100_pCollisionLine)
     {
-        pSaveState->field_3a_collision_line_id = field_100_pCollisionLine->field_8_mode;
+        pSaveState->field_3a_collision_line_id = field_100_pCollisionLine->field_8_type;
     }
     else
     {

@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "PathData.hpp"
-
+#include "Psx.hpp"
 
 ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions_DArray_5C1128, nullptr);
 
@@ -66,11 +66,6 @@ public:
         fpValue = fixed16_16.fpValue / 256;
     }
 
-    FP AsFP16() const
-    {
-        return FP_FromRaw(fpValue * 256);
-    }
-
     int GetExponent() const
     {
         return fpValue / 256;
@@ -131,6 +126,19 @@ inline Fixed_24_8 operator / (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
+EXPORT PSX_RECT* __stdcall Rect_Clear_418040(PSX_RECT* pRect)
+{
+    if (!pRect)
+    {
+        return nullptr;
+    }
+    pRect->x = 0;
+    pRect->w = 0;
+    pRect->y = 0;
+    pRect->h = 0;
+    return pRect;
+}
+
 signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
@@ -162,7 +170,7 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
     for (int i = 0; i < field_C_max_count; i++)
     {
         PathLine* pLine = &field_0_pArray[i];
-        if (!(1 << (pLine->field_8_mode % 32) & modeMask))
+        if (!(1 << (pLine->field_8_type % 32) & modeMask))
         {
             // Not a match on type
             continue;
@@ -309,8 +317,109 @@ PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(__int16 x1, __int16 y1, 
     pAddedLine->field_2_y1 = y1;
     pAddedLine->field_4_x2 = x2;
     pAddedLine->field_6_y2 = y2;
-    pAddedLine->field_8_mode = mode;
-    pAddedLine->field_C_unknown2 = -1;
-    pAddedLine->field_A_unknown1 = -1;
+    pAddedLine->field_8_type = mode;
+    pAddedLine->field_C_next = -1;
+    pAddedLine->field_A_previous = -1;
     return pAddedLine;
+}
+
+PathLine* Collisions::Get_Line_At_Idx_418070(__int16 idx)
+{
+    if (idx == -1)
+    {
+        return nullptr;
+    }
+    return &field_0_pArray[idx];
+}
+
+const int kNearLineTollerance = 8;
+
+PathLine* Collisions::PreviousLine_4180A0(PathLine* pLine)
+{
+    if (pLine->field_A_previous != -1)
+    {
+        return &field_0_pArray[pLine->field_A_previous];
+    }
+
+    if (!field_C_max_count)
+    {
+        return nullptr;
+    }
+
+    for (int i = 0; i < field_C_max_count; i++)
+    {
+        int xDiff = 0;
+        if (pLine->field_0_x1 - field_0_pArray[i].field_4_x2 >= 0)
+        {
+            xDiff = pLine->field_0_x1 - field_0_pArray[i].field_4_x2;
+        }
+        else
+        {
+            xDiff = field_0_pArray[i].field_4_x2 - pLine->field_0_x1;
+        }
+
+        if (xDiff <= kNearLineTollerance)
+        {
+            int yDiff = 0;
+            if (pLine->field_2_y1 - field_0_pArray[i].field_6_y2 >= 0)
+            {
+                yDiff = pLine->field_2_y1 - field_0_pArray[i].field_6_y2;
+            }
+            else
+            {
+                yDiff = field_0_pArray[i].field_6_y2 - pLine->field_2_y1;
+            }
+
+            if (yDiff <= kNearLineTollerance && (1 << field_0_pArray[i].field_8_type % 32) & (1 << pLine->field_8_type % 32))
+            {
+                return &field_0_pArray[i];
+            }
+        }
+    }
+    return nullptr;
+}
+
+PathLine* Collisions::NextLine_418180(PathLine* pLine)
+{
+    if (pLine->field_C_next != -1)
+    {
+        return &field_0_pArray[pLine->field_C_next];
+    }
+
+    if (!field_C_max_count)
+    {
+        return 0;
+    }
+    
+    for (int i = 0; i < field_C_max_count; i++)
+    {
+        int xDiff = 0;
+        if (pLine->field_4_x2 - field_0_pArray[i].field_0_x1 >= 0)
+        {
+            xDiff = pLine->field_4_x2 - field_0_pArray[i].field_0_x1;
+        }
+        else
+        {
+            xDiff = field_0_pArray[i].field_0_x1 - pLine->field_4_x2;
+        }
+
+        if (xDiff <= kNearLineTollerance)
+        {
+            int yDiff = 0;
+            if (pLine->field_6_y2 - field_0_pArray[i].field_2_y1 >= 0)
+            {
+                yDiff = pLine->field_6_y2 - field_0_pArray[i].field_2_y1;
+            }
+            else
+            {
+                yDiff = field_0_pArray[i].field_2_y1 - pLine->field_6_y2;
+            }
+
+            if (yDiff <= kNearLineTollerance && (1 << field_0_pArray[i].field_8_type % 32) & (1 << pLine->field_8_type % 32))
+            {
+                return &field_0_pArray[i];
+            }
+        }
+    }
+    return nullptr;
 }
