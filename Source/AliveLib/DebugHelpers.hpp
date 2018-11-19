@@ -19,6 +19,10 @@ extern char _devConsoleBuffer[1000];
 sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);\
 DEV_CONSOLE_MESSAGE_C(_devConsoleBuffer, 5, 127, 127, 0);
 
+#define DEV_WORLD_PRINTF(x,y,ot,format, ...) memset(_devConsoleBuffer, 0, sizeof(_devConsoleBuffer));\
+sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);\
+DEV::DebugDrawText(ot, 39, std::string(_devConsoleBuffer), x,y,255,255,255, true, false);
+
 // File System
 namespace FS
 {
@@ -28,6 +32,7 @@ namespace FS
 namespace DEV
 {
     void DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, char r, char g, char b, bool worldspace, bool semiTransparent = false);
+    void DebugDrawText(int ** ot, int layer, std::string & text, int x, int y, char r, char g, char b, bool worldspace, bool semiTransparent);
     void DebugFillRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent = false);
     void DebugDrawRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent = false);
     void DebugOnFrameDraw();

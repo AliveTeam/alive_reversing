@@ -2,6 +2,12 @@
 
 #include "FunctionFwd.hpp"
 
+enum Type1SFX
+{
+    eUXBGreen = 2,
+    eUXBRed = 3,
+};
+
 struct SfxDefinition
 {
     char field_0_block_idx;

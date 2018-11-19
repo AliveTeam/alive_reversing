@@ -103,34 +103,25 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
     SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.sCurrentLevelId_5C3030);
 
     field_6_flags.Set(BaseGameObject::Options::eInteractive);
-    field_1C8 &= 0xFFFEu;
+    field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1);
     field_118 = 0;
 
-    field_1C0_num_patterns = tlv_params->field_10_num_patterns;
+    field_1C0_pattern_length = tlv_params->field_10_num_patterns;
     if (tlv_params->field_10_num_patterns < 1 || tlv_params->field_10_num_patterns > 4)
     {
-        field_1C0_num_patterns = 1;
+        field_1C0_pattern_length = 1;
     }
 
+    
     field_1C4_pattern = tlv_params->field_12_pattern;
     if (!tlv_params->field_12_pattern) // If no pattern set, go to a default one.
     {
         field_1C4_pattern = 11111;
     }
 
-    field_1C2 = 0;
-
-    auto v7 = field_1C4_pattern;
-
-    if (field_1C0_num_patterns - 1)
-    {
-        for (int i = field_1C0_num_patterns - 1; i > 0; i--)
-        {
-            v7 /= 10;
-        }
-    }
-
-    field_1C6 = v7 % 10;
+    field_1C2_pattern_index = 0;
+    // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
+    field_1C6_red_blink_count = (field_1C4_pattern / static_cast<int>(pow(10, field_1C0_pattern_length - 1))) % 10;
 
     if (tlv_params->field_14_scale)
     {
@@ -150,12 +141,12 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
 
     InitBlinkAnim_4DEED0(&field_128_animation);
 
-    if ((tlv_params->field_0_mBase.field_0_flags.Raw().all & 0xFF00) == 256)
+    if ((tlv_params->field_0_mBase.field_0_flags.Raw().all & 0xFF00) == 256) // Checking if 9th bit is set?
     {
         if (!tlv_params->field_16_state)
         {
-            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 1006, 0, 0), 0);
-            field_1C8 &= 0xFFFDu;
+            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
+            field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit2_IsRed);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             PlaySFX_4DE930(2);
             field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
@@ -175,8 +166,8 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
         }
         else
         {
-            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 1006, 0, 0), 0);
-            field_1C8 &= 0xFFFDu;
+            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
+            field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit2_IsRed);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
             field_11A = 3;
@@ -210,19 +201,20 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
     field_124_next_state_frame = sGnFrame_5C1B84;
     field_11C_disabled_resources = tlv_params->field_18_disabled_resources;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 13);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 1105);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 300);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, 1006);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, kAbebombResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, kDebrisID00);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, kBgexpldResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, kGrenflshResID);
 
     if (!(field_11C_disabled_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 25);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, kAbeblowResID);
     }
     if (!(field_11C_disabled_resources & 2))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 576);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, kSlogBlowResID);
     }
+
     FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     field_E4 = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
     field_EC = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
@@ -238,139 +230,110 @@ void UXB::Update_4DF030()
 {
     NOT_IMPLEMENTED();
 
-    // Todo: wip needs cleanup
-
-    int v2; // eax
-    int v3; // eax
-    BaseAnimatedWithPhysicsGameObject *v4; // eax
-    __int16 v5; // ax
-    __int16 v6; // ax
-    BYTE **v7; // eax
-    unsigned __int16 v8; // ax
-    int v9; // ecx
-    unsigned __int16 v10; // ax
-    int v11; // edi
-    unsigned int v12; // edx
-    __int16 v13; // ax
-
-    v2 = (unsigned __int16)this->field_118;
-    if (v2)
+    if (field_118)
     {
-        v3 = v2 - 1;
+        const int v3 = field_118 - 1;
         if (v3)
         {
-            if (v3 == 1 && sGnFrame_5C1B84 >= this->field_124_next_state_frame)
+            if (v3 == 1 && sGnFrame_5C1B84 >= field_124_next_state_frame)
             {
-                v4 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0xF8u);
+                BaseAnimatedWithPhysicsGameObject *v4 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0xF8u);
                 if (v4)
                 {
                     // Todo: make it go boom
                     /*BaseBomb::ctor_423E70(
                         v4,
-                        this->field_B8_xpos,
-                        this->field_BC_ypos,
+                        field_B8_xpos,
+                        field_BC_ypos,
                         0,
-                        (DWORD *)this->field_CC_sprite_scale);*/
+                        (DWORD *)field_CC_sprite_scale);*/
                 }
                 field_6_flags.Set(Options::eDead);
             }
-            goto LABEL_29;
         }
-        if (sub_4DF630())
+        else if (sub_4DF630())
         {
-            this->field_118 = 2;
-        LABEL_28:
-            this->field_124_next_state_frame = sGnFrame_5C1B84 + 2;
-            goto LABEL_29;
+            field_118 = 2;
+            field_124_next_state_frame = sGnFrame_5C1B84 + 2;
         }
-        if (this->field_124_next_state_frame <= sGnFrame_5C1B84)
+        else if (field_124_next_state_frame <= sGnFrame_5C1B84)
         {
-            v5 = this->field_1C6;
-            if (v5)
+            if (field_1C6_red_blink_count)
             {
-                v6 = v5 - 1;
-                this->field_1C6 = v6;
-                if (!v6)
+                field_1C6_red_blink_count--;
+                if (!field_1C6_red_blink_count)
                 {
-                    v7 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 1006, 0, 0);
-                    this->field_128_animation.Load_Pal_40A530(v7, 0);
-                    this->field_1C8 &= 0xFFFDu;
+                    field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
+                    field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit2_IsRed);
                 }
             }
             else
             {
-                this->field_128_animation.Load_Pal_40A530(
-                    this->field_128_animation.field_20_ppBlock,
-                    *(DWORD *)&(*this->field_128_animation.field_20_ppBlock)[*(DWORD *)&(*this->field_128_animation.field_20_ppBlock)[*((DWORD *)*this->field_128_animation.field_20_ppBlock + 138)]]);
-                this->field_1C8 |= 2u;
-                ++this->field_1C2;
-                v8 = this->field_1C0_num_patterns;
-                if (this->field_1C2 >= v8)
+                const FrameInfoHeader* pFrameInfo = field_128_animation.Get_FrameHeader_40B730(-1);
+                const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_128_animation.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+                field_128_animation.Load_Pal_40A530(field_128_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+
+                field_1C8_flags.Set(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+
+                field_1C2_pattern_index++;
+
+                if (field_1C2_pattern_index >= field_1C0_pattern_length)
                 {
-                    this->field_1C2 = 0;
+                    field_1C2_pattern_index = 0;
                 }
-                v9 = this->field_1C4_pattern;
-                v10 = v8 - this->field_1C2 - 1;
-                if (v10)
-                {
-                    v11 = v10;
-                    do
-                    {
-                        --v11;
-                        v9 = (unsigned __int16)v9 / 10;
-                    } while (v11);
-                }
-                this->field_1C6 = (unsigned __int16)v9 % 10;
+
+                // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
+                field_1C6_red_blink_count = (field_1C4_pattern / static_cast<int>(pow(10, field_1C0_pattern_length - field_1C2_pattern_index - 1))) % 10;
             }
-            this->field_128_animation.Set_Animation_Data_409C80(544, 0);
-            if (this->field_1C8 & 2)
+
+            field_128_animation.Set_Animation_Data_409C80(544, 0);
+
+            if (field_1C8_flags.Get(UXB_Flags_1C8::e1C8_Bit2_IsRed))
             {
-                PlaySFX_4DE930(3);
+                PlaySFX_4DE930(Type1SFX::eUXBRed);
             }
             else
             {
-                PlaySFX_4DE930(2);
+                PlaySFX_4DE930(Type1SFX::eUXBGreen);
             }
-            v12 = sGnFrame_5C1B84;
-            this->field_118 = 0;
-            this->field_124_next_state_frame = v12 + 10;
+
+            field_118 = 0;
+            field_124_next_state_frame = sGnFrame_5C1B84 + 10; // UXB change color delay
         }
     }
     else
     {
         if (sub_4DF630())
         {
-            this->field_118 = 2;
-            this->field_124_next_state_frame = sGnFrame_5C1B84 + 2;
-            goto LABEL_29;
+            field_118 = 2;
+            field_124_next_state_frame = sGnFrame_5C1B84 + 2;
         }
-        if (this->field_124_next_state_frame <= sGnFrame_5C1B84)
+        else if (field_124_next_state_frame <= sGnFrame_5C1B84)
         {
-            this->field_118 = 1;
-            this->field_128_animation.Set_Animation_Data_409C80(556, 0);
-            goto LABEL_28;
+            field_118 = 1;
+            field_128_animation.Set_Animation_Data_409C80(556, 0);
+            field_124_next_state_frame = sGnFrame_5C1B84 + 2;
         }
     }
-LABEL_29:
-    if (this->field_118 != 2)
+
+    if (field_118 != 2)
     {
         if (Event_Get_422C00(kEventDeathReset))
         {
-            v13 = this->field_11A;
-            if (v13 != 3 || this->field_118 == 3)
+            if (field_11A != 3 || field_118 == 3)
             {
-                if (v13 || this->field_118 != 3)
+                if (field_11A || field_118 != 3)
                 {
-                    Path::TLV_Reset_4DB8E0(this->field_120_tlv.all, 0, 1, 0);
+                    Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
                 }
                 else
                 {
-                    Path::TLV_Reset_4DB8E0(this->field_120_tlv.all, 1, 1, 0);
+                    Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
                 }
             }
             else
             {
-                Path::TLV_Reset_4DB8E0(this->field_120_tlv.all, 1, 1, 0);
+                Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
             }
             field_6_flags.Set(Options::eDead);
         }
@@ -379,24 +342,24 @@ LABEL_29:
 
 void UXB::Render_4DF3D0(int ** pOt)
 {
-    if (this->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-            this->field_C2_lvl_number,
-            this->field_C0_path_number,
-            this->field_B8_xpos,
-            this->field_BC_ypos,
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
             0))
         {
-            this->field_128_animation.vRender_40B820(
-                FP_GetExponent((this->field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
-                FP_GetExponent((this->field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromDouble(17)))),
+            field_128_animation.vRender_40B820(
+                FP_GetExponent((field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x)),
+                FP_GetExponent((field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y - FP_NoFractional(field_CC_sprite_scale * FP_FromDouble(17)))),
                 pOt,
                 0,
                 0);
 
             PSX_RECT frameRect;
-            this->field_128_animation.Get_Frame_Rect_409E10(&frameRect);
+            field_128_animation.Get_Frame_Rect_409E10(&frameRect);
 
             pScreenManager_5BB5F4->InvalidateRect_40EC90(
                 frameRect.x,
@@ -464,9 +427,9 @@ EXPORT int CC Uxb__CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     pUXB->field_118 = pSaveState->field_c_uxb_118;
     pUXB->field_11A = pSaveState->field_e_uxb_11a;
     pUXB->field_11C_disabled_resources = pSaveState->field_10_disabled_resources;
-    pUXB->field_1C2 = pSaveState->field_12_uxb_1c2;
-    pUXB->field_1C6 = pSaveState->field_14_uxb_1c6;
-    pUXB->field_1C8 = pUXB->field_1C8 & 0xFFFD | 2 * (pSaveState->field_16_unknown & 1);
+    pUXB->field_1C2_pattern_index = pSaveState->field_12_uxb_1c2;
+    pUXB->field_1C6_red_blink_count = pSaveState->field_14_uxb_1c6;
+    pUXB->field_1C8_flags.Raw().all = pUXB->field_1C8_flags.Raw().all & 0xFFFD | 2 * (pSaveState->field_16_unknown & 1); // Todo. Use better bit flag funcs
 
     return sizeof(SaveState_UXB); // 24
 }

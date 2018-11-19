@@ -26,6 +26,22 @@ char _devConsoleBuffer[1000];
 
 bool sDebugEnabled_VerboseEvents = false;
 
+Font g_DebugGlobalFont;
+int g_DebugGlobalFontPolyIndex = 0;
+char g_DebugGlobalFontPalette[32];
+Font_Context g_DebugGlobalFontContext;
+bool g_DebugGlobalFontIsInit = false;
+
+void InitDebugFont()
+{
+    if (!g_DebugGlobalFontIsInit)
+    {
+        g_DebugGlobalFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), g_DebugGlobalFontPalette);
+        g_DebugGlobalFont.ctor_433590(1024, reinterpret_cast<BYTE*>(g_DebugGlobalFontPalette), &g_DebugGlobalFontContext);
+        g_DebugGlobalFontIsInit = true;
+    }
+}
+
 class ObjectDebugger : public BaseGameObject
 {
 public:
@@ -662,6 +678,8 @@ public:
         mFont.ctor_433590(4096 * 2, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
 
         gObjList_drawables_5C1124->Push_Back(this);
+
+        InitDebugFont();
     }
 
     void Destruct()
@@ -2005,10 +2023,25 @@ void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, ch
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
+void DEV::DebugDrawText(int ** ot, int layer, std::string & text, int x, int y, char r, char g, char b, bool worldspace, bool semiTransparent)
+{
+    const auto camOffset = gMap_5C3030.field_24_camera_offset;
+
+    if (worldspace)
+    {
+        x -= FP_GetExponent(camOffset.field_0_x);
+        y -= FP_GetExponent(camOffset.field_4_y);
+    }
+
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), y, semiTransparent, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, semiTransparent, 0, 0, layer - 1, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+}
+
 void DEV::DebugOnFrameDraw()
 {
     sNextLinePrim = 0;
     sNextPolyF4Prim = 0;
+    g_DebugGlobalFontPolyIndex = 0;
 }
 
 bool IsStringNumber(const std::string& s)

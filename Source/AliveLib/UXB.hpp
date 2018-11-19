@@ -19,6 +19,12 @@ struct Path_UXB
     int field_18_disabled_resources;
 };
 
+enum UXB_Flags_1C8
+{
+    e1C8_Bit1 = 0x1,
+    e1C8_Bit2_IsRed = 0x2,
+};
+
 class UXB : public BaseAliveGameObject
 {
 public:
@@ -43,11 +49,11 @@ public:
     TlvItemInfoUnion field_120_tlv;
     DWORD field_124_next_state_frame;
     AnimationEx field_128_animation;
-    WORD field_1C0_num_patterns;
-    WORD field_1C2;
+    WORD field_1C0_pattern_length;
+    WORD field_1C2_pattern_index;
     WORD field_1C4_pattern;
-    WORD field_1C6;
-    WORD field_1C8;
+    WORD field_1C6_red_blink_count;
+    BitField16<UXB_Flags_1C8> field_1C8_flags;
     __int16 field_1CA;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1CC);
