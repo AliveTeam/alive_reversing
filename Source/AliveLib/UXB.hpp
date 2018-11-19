@@ -25,6 +25,22 @@ enum UXB_Flags_1C8
     e1C8_Bit2_IsRed = 0x2,
 };
 
+class BaseBomb : BaseAnimatedWithPhysicsGameObject
+{
+public:
+    /*virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;*/
+    /*virtual void VDestructor(signed int flags) override; */
+
+    EXPORT BaseBomb * ctor_423E70(FP x, FP y, int unused, FP scale);
+
+public:
+
+    BYTE field_E4[16];
+    DWORD field_f4_scale;
+};
+ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);
+
 class UXB : public BaseAliveGameObject
 {
 public:
@@ -40,6 +56,8 @@ public:
     EXPORT void InitBlinkAnim_4DEED0(AnimationEx *pAnimation);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
     EXPORT signed int sub_4DF630();
+
+    EXPORT static int CC CreateFromSaveState_4DFAE0(const BYTE*);
 public:
     BYTE gap116[2];
     WORD field_118;
@@ -57,5 +75,3 @@ public:
     __int16 field_1CA;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1CC);
-
-EXPORT int CC Uxb__CreateFromSaveState_4DFAE0(const BYTE*);

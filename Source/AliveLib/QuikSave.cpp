@@ -196,7 +196,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     &TrapDoor__CreateFromSaveState_4DDED0,
-    &Uxb__CreateFromSaveState_4DFAE0,
+    &UXB::CreateFromSaveState_4DFAE0,
     nullptr,
     nullptr,
     nullptr,

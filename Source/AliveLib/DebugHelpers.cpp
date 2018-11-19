@@ -21,6 +21,7 @@
 #include "RenderingTestTimData.hpp"
 #include "PsxRender.hpp"
 #include "LvlArchive.hpp"
+#include "UXB.hpp"
 
 char _devConsoleBuffer[1000];
 
@@ -485,7 +486,13 @@ void Command_Murder(const std::vector<std::string>& args)
         if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
         {
             auto aliveObj = ((BaseAliveGameObject*)pBaseGameObject);
-            ((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(aliveObj)+76)))(aliveObj, 0, reinterpret_cast<BaseGameObject*>(&fake));
+
+            auto explosion = alive_new<BaseBomb>();
+            if (explosion)
+            {
+                explosion->ctor_423E70(aliveObj->field_B8_xpos, aliveObj->field_BC_ypos, 0, aliveObj->field_CC_sprite_scale);
+            }
+            //((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(aliveObj)+76)))(aliveObj, 0, reinterpret_cast<BaseGameObject*>(&fake));
         }
     }
 }
@@ -680,6 +687,11 @@ public:
         gObjList_drawables_5C1124->Push_Back(this);
 
         InitDebugFont();
+
+        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, 0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kAbebombResID, 0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kDebrisID00, 0, 0);
+        Map::LoadResource_4DBE00("EXPLODE.BND", ResourceManager::Resource_Animation, kBgexpldResID, 0, 0);
     }
 
     void Destruct()

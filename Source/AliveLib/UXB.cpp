@@ -228,8 +228,6 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
 
 void UXB::Update_4DF030()
 {
-    NOT_IMPLEMENTED();
-
     if (field_118)
     {
         const int v3 = field_118 - 1;
@@ -237,16 +235,10 @@ void UXB::Update_4DF030()
         {
             if (v3 == 1 && sGnFrame_5C1B84 >= field_124_next_state_frame)
             {
-                BaseAnimatedWithPhysicsGameObject *v4 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0xF8u);
-                if (v4)
+                auto explosion = alive_new<BaseBomb>();
+                if (explosion)
                 {
-                    // Todo: make it go boom
-                    /*BaseBomb::ctor_423E70(
-                        v4,
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        0,
-                        (DWORD *)field_CC_sprite_scale);*/
+                    explosion->ctor_423E70(field_B8_xpos,field_BC_ypos, 0, field_CC_sprite_scale);
                 }
                 field_6_flags.Set(Options::eDead);
             }
@@ -387,7 +379,7 @@ struct SaveState_UXB
 };
 ALIVE_ASSERT_SIZEOF(SaveState_UXB, 24);
 
-EXPORT int CC Uxb__CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
+EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
 {
     const SaveState_UXB * pSaveState = reinterpret_cast<const SaveState_UXB *>(__pSaveState);
 
@@ -432,4 +424,9 @@ EXPORT int CC Uxb__CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     pUXB->field_1C8_flags.Raw().all = pUXB->field_1C8_flags.Raw().all & 0xFFFD | 2 * (pSaveState->field_16_unknown & 1); // Todo. Use better bit flag funcs
 
     return sizeof(SaveState_UXB); // 24
+}
+
+BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int unused, FP scale)
+{
+    NOT_IMPLEMENTED();
 }
