@@ -219,9 +219,9 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffs
 
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vsub_424EE0(int a2, int a3, int a4, int a5, void* a6)
+void BaseAnimatedWithPhysicsGameObject::vsub_424EE0(PSX_Point xy, PSX_Point wh, DynamicArray* pObjList, int startingPointIdx, TCollisionCallBack pFn)
 {
-    return sub_424EE0(a2, a3, a4, a5, a6);
+    sub_424EE0(xy, wh, pObjList, startingPointIdx, pFn);
 }
 
 PSX_RECT* BaseAnimatedWithPhysicsGameObject::vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
@@ -262,11 +262,6 @@ void BaseAnimatedWithPhysicsGameObject::vnull_408180()
 void BaseAnimatedWithPhysicsGameObject::vnull_4081A0()
 {
     null_4081A0();
-}
-
-__int16 BaseAnimatedWithPhysicsGameObject::sub_424EE0(int /*a2*/, int /*a3*/, int /*a4*/, int /*a5*/, void* /*a6*/)
-{
-    NOT_IMPLEMENTED();
 }
 
 PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
@@ -354,6 +349,11 @@ Map::CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()
     PSX_RECT rect = {};
     vGetBoundingRect_424FD0(&rect, 1);
     return gMap_5C3030.Is_Rect_In_Current_Camera_480FE0(&rect);
+}
+
+void BaseAnimatedWithPhysicsGameObject::sub_424EE0(PSX_Point /*xy*/, PSX_Point /*wh*/, DynamicArray* /*pObjList*/, int /*startingPointIdx*/, TCollisionCallBack /*pFn*/)
+{
+    NOT_IMPLEMENTED();
 }
 
 namespace Test

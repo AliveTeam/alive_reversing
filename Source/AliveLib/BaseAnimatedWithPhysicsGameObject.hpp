@@ -12,6 +12,9 @@ namespace Test
 }
 
 class Shadow;
+class BaseAliveGameObject;
+
+using TCollisionCallBack = __int16(BaseAliveGameObject::*)(BaseAliveGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
@@ -30,7 +33,7 @@ public:
 
     EXPORT void Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7);
 
-    virtual __int16 vsub_424EE0(int a2, int a3, int a4, int a5, void* a6);
+    virtual void vsub_424EE0(PSX_Point xy, PSX_Point wh, DynamicArray *pObjList, int startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     virtual __int16 vsub_4253B0(int a2, int a3);
@@ -41,7 +44,6 @@ public:
     virtual void vnull_408180();
     virtual void vnull_4081A0();
 
-    EXPORT __int16 sub_424EE0(int a2, int a3, int a4, int a5, void* a6);
     EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     EXPORT __int16 sub_4253B0(int a2, int a3);
     EXPORT __int16 sub_425420(int a2);
@@ -52,6 +54,8 @@ public:
     EXPORT void null_4081A0();
 
     EXPORT Map::CameraPos Is_In_Current_Camera_424A70();
+
+    EXPORT void sub_424EE0(PSX_Point xy, PSX_Point wh, DynamicArray* pObjList, int startingPointIdx, TCollisionCallBack pFn);
 public:
 
     AnimationEx field_20_animation;

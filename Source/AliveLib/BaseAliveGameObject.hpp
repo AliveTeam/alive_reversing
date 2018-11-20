@@ -71,6 +71,9 @@ protected:
     EXPORT void sub_408C40();
     EXPORT __int16 sub_408D10(__int16 snapToGrid);
     EXPORT int Raycast_408750(FP offY, FP offX);
+    EXPORT __int16 sub_408810(PathLine **ppPathLine, FP* hitX, FP* hitY, FP op2);
+public:
+    EXPORT __int16 sub_408BA0(BaseAliveGameObject* pOther);
 public:
     FP field_E4;
     FP field_E8;

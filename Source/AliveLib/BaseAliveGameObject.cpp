@@ -261,3 +261,15 @@ EXPORT int BaseAliveGameObject::Raycast_408750(FP offY, FP offX)
         &offY,
         field_D6_scale != 0 ? 6 : 96) != 0; // TODO: Enum for line types
 }
+
+__int16 BaseAliveGameObject::sub_408810(PathLine** /*ppPathLine*/, FP* /*hitX*/, FP* /*hitY*/, FP /*op2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 BaseAliveGameObject::sub_408BA0(BaseAliveGameObject* /*pOther*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}

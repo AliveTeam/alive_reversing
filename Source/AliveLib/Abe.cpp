@@ -94,7 +94,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_72_KnockbackGetUp_455340) \
     ENTRY(State_73_PushWall_4553A0) \
     ENTRY(State_74_455290) \
-    ENTRY(State_75_45C7B0) \
+    ENTRY(State_75_Jump_Into_Well_45C7B0) \
     ENTRY(State_76_45CA40) \
     ENTRY(State_77_45D130) \
     ENTRY(State_78_WellBegin_45C810) \
@@ -240,7 +240,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_72_KnockbackGetUp_455340,
     &Abe::State_73_PushWall_4553A0,
     &Abe::State_74_455290,
-    &Abe::State_75_45C7B0,
+    &Abe::State_75_Jump_Into_Well_45C7B0,
     &Abe::State_76_45CA40,
     &Abe::State_77_45D130,
     &Abe::State_78_WellBegin_45C810,
@@ -554,7 +554,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_BC_ypos = FP_FromInteger(point.field_2_y + 120);
 
     field_F8 = field_BC_ypos;
-    field_128.field_8 = 0;
+    field_128.field_8 = FP_FromInteger(0);
     field_128.field_C = 0;
 
     field_C4_velx = FP_FromInteger(0);
@@ -724,7 +724,7 @@ struct Quicksave_Obj_Abe
     char field_44_is_abe_controlled;
     char field_45;
     __int16 field_46;
-    DWORD dword48;
+    FP dword48;
     DWORD dword4C;
     DWORD dword50;
     DWORD dword54;
@@ -2428,7 +2428,261 @@ void Abe::State_2_StandingTurn_451830()
 
 void Abe::State_3_Fall_459B60()
 {
-    NOT_IMPLEMENTED();
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        field_C4_velx -= (field_CC_sprite_scale * field_128.field_8);
+        if (field_C4_velx < FP_FromInteger(0))
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+    else if (field_C4_velx < FP_FromInteger(0))
+    {
+        field_C4_velx += (field_CC_sprite_scale * field_128.field_8);
+        if (field_C4_velx > FP_FromInteger(0))
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* pPathLine = nullptr;
+    const int bCollision = sub_408810(&pPathLine, &hitX, &hitY, FP_FromDouble(1.80)); // 0x1CCCC
+    sub_408C40();
+
+    // Are we falling into a local well?
+    field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        Path_Well_Local::kType);
+
+    if (!field_FC_pPathTLV)
+    {
+        // No, are we falling into an express well?
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            Path_Well_Express::kType);
+    }
+
+    // Handle falling into a well
+    if (field_FC_pPathTLV)
+    {
+        if (field_10C_health > FP_FromInteger(0))
+        {
+            if (field_FC_pPathTLV->field_4_type == Path_Well_Local::kType || field_FC_pPathTLV->field_4_type == Path_Well_Express::kType)
+            {
+                // The well must be on the same scale/layer
+                Path_Well_Base* pWellBase = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
+                if ((pWellBase->field_0_scale == 0 && field_CC_sprite_scale == FP_FromDouble(1.0))
+                 || (pWellBase->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
+                {
+                    field_1AC_flags.Set(Flags_1AC::e1AC_Bit3);
+                    field_106_animation_num = eAbeStates::State_75_Jump_Into_Well_45C7B0;
+                    return;
+                }
+            }
+        }
+    }
+
+    Path_SoftLanding* pSoftLanding = nullptr;
+    if (bCollision)
+    {
+        switch (pPathLine->field_8_type)
+        {
+        case eFloor:
+        case eBackGroundFloor:
+        case 32u: // TODO: These type are never seen, internal only ??
+        case 36u:
+            field_B8_xpos = hitX;
+            field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
+            field_100_pCollisionLine = pPathLine;
+            sub_408D10(TRUE);
+            field_124_gnFrame = sGnFrame_5C1B84 + 30;
+
+            // See if there is a soft landing at our feet (given we known we just hit the floor)
+            pSoftLanding = 
+                static_cast<Path_SoftLanding*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                    FP_GetExponent(field_B8_xpos),
+                    FP_GetExponent(field_BC_ypos),
+                    FP_GetExponent(field_B8_xpos),
+                    FP_GetExponent(field_BC_ypos),
+                    Path_SoftLanding::kType));
+
+            if (pSoftLanding)
+            {
+                if (!SwitchStates_Get_466020(pSoftLanding->field_10_id))
+                {
+                    pSoftLanding = nullptr;
+                }
+            }
+
+            if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
+                || (pSoftLanding && field_10C_health > FP_FromInteger(0)) // If we are dead soft landing won't save us
+                || (field_BC_ypos - field_F8) < (field_CC_sprite_scale * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
+                && (field_10C_health > FP_FromInteger(0) || word_5C1BDA))
+            {
+                field_106_animation_num = eAbeStates::State_16_LandSoft_45A360;
+            }
+            else
+            {
+                // Slam into the floor and break all your bones
+                field_10C_health = FP_FromInteger(0);
+                field_106_animation_num = eAbeStates::State_84_FallLandDie_45A420;
+                field_128.field_4 = sGnFrame_5C1B84 + 900;
+            }
+
+            field_F4 = 3;
+
+            vsub_424EE0(
+                { FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_B8_xpos + FP_FromInteger(10)) },
+                { FP_GetExponent(field_BC_ypos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10)) }, 
+                ObjList_5C1B78,
+                1, 
+                &BaseAliveGameObject::sub_408BA0);
+            break;
+
+        case eWallLeft:
+        case eWallRight: 
+        case eBackGroundWallLeft:
+        case eBackGroundWallRight: 
+            field_B8_xpos = hitX;
+            field_BC_ypos = hitY;
+            Knockback_44E700(1, 1);
+            break;
+        }
+        return;
+    }
+
+    if (field_10C_health <= FP_FromInteger(0))
+    {
+        return;
+    }
+
+    // Look down 75 for an edge
+    Path_Edge* pEdge = static_cast<Path_Edge*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(75))),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        Path_Edge::kType));
+
+    field_FC_pPathTLV = pEdge;
+    bool tryToHang = false;
+    if (pEdge)
+    {
+        if (!pEdge->field_12_can_grab)
+        {
+            return;
+        }
+
+        // Edge scale must match
+        if (pEdge->field_14_scale != Path_Edge::Scale::eFull && field_D6_scale != 0)
+        {
+            return;
+        }
+        else if (pEdge->field_14_scale != Path_Edge::Scale::eHalf && field_D6_scale != 1)
+        {
+            return;
+        }
+
+        if (pEdge->field_10_type == Path_Edge::Type::eLeft)
+        {
+            if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                // Left but we are facing right
+                return;
+            }
+        }
+        else if (pEdge->field_10_type == Path_Edge::Type::eRight)
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                // Right but we are facing left
+                return;
+            }
+        }
+        else if (pEdge->field_10_type != Path_Edge::Type::eBoth)
+        {
+            // Some unknown edge type
+            return;
+        }
+
+        tryToHang = true;
+    }
+
+    // Didn't find and edge to grab so check if falling onto a hoist
+    if (!tryToHang)
+    {
+        // Look down 20 for a hoist
+        FP minus20 = field_CC_sprite_scale * FP_FromInteger(20);
+        Path_Hoist* pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos - minus20),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos - minus20),
+            Path_Hoist::kType));
+
+        if (pHoist)
+        {
+            // Must match our scale
+            if ((pHoist->field_12_edge_type == 0 && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+             || (pHoist->field_12_edge_type == 1 && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))))
+            {
+                tryToHang = true;
+            }
+        }
+
+        field_FC_pPathTLV = pHoist;
+    }
+
+    if (tryToHang)
+    {
+        if (field_C4_velx == FP_FromInteger(0))
+        {
+            return;
+        }
+
+        field_B8_xpos = FP_FromInteger((field_FC_pPathTLV->field_8_top_left.field_0_x + field_FC_pPathTLV->field_C_bottom_right.field_0_x) / 2);
+
+        sub_408D10(TRUE);
+
+        if (!sCollisions_DArray_5C1128->Raycast_417A60(
+            field_B8_xpos,
+            FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y + 65526), // TODO: Negative ??
+            field_B8_xpos,
+            FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y + 10),
+            &pPathLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16))
+        {
+            return;
+        }
+
+        field_BC_ypos = hitY;
+        field_100_pCollisionLine = pPathLine;
+        field_C8_vely = FP_FromInteger(0);
+        field_C4_velx = FP_FromInteger(0);
+        if (field_FC_pPathTLV->field_4_type != Path_Hoist::kType ||
+            (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y + 0xFFFF * field_FC_pPathTLV->field_8_top_left.field_2_y)) >= (field_CC_sprite_scale * FP_FromInteger(70)))
+        {
+            field_106_animation_num = eAbeStates::State_69_LedgeHangWobble_454EF0;
+            field_E0_176_ptr->field_14_flags |= 1u;
+        }
+        else
+        {
+            field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
+            field_F4 = 65;
+            field_F6 = 12;
+            field_E0_176_ptr->field_14_flags |= 1u;
+        }
+    }
 }
 
 void Abe::State_4_WalkEndLeftFoot_44FFC0()
@@ -2796,7 +3050,7 @@ void Abe::State_74_455290()
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_75_45C7B0()
+void Abe::State_75_Jump_Into_Well_45C7B0()
 {
     NOT_IMPLEMENTED();
 }
@@ -3097,7 +3351,7 @@ void Abe::ToDie_4588D0()
 
 void Abe::ToIdle_44E6B0()
 {
-    field_128.field_8 = 0;
+    field_128.field_8 = FP_FromInteger(0);
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_124_gnFrame = sGnFrame_5C1B84;

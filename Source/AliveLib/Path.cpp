@@ -8,6 +8,12 @@
 
 const unsigned short Path_Door::kType = 5;
 const unsigned short Path_Teleporter::kType = 88;
+const unsigned short Path_Edge::kType = 3;
+const unsigned short Path_Hoist::kType = 2;
+const unsigned short Path_SoftLanding::kType = 75;
+const unsigned short Path_Well_Local::kType = 8;
+const unsigned short Path_Well_Express::kType = 23;
+
 
 ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);
 
@@ -168,10 +174,12 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* /*pTlv*/, FP /*xpos*/, FP /*ypos*/, 
 Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_PathId)
 {
     NOT_IMPLEMENTED();
+    TlvItemInfoUnion data;
+    data.all = tlvOffset_levelId_PathId;
 
-    if (tlvOffset_levelId_PathId >> 16 == field_0_levelId + (field_2_pathId << 8))
+    if (data.parts.levelId == field_0_levelId && data.parts.pathId == field_2_pathId)
     {
-        return reinterpret_cast<Path_TLV *>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + static_cast<unsigned __int16>(tlvOffset_levelId_PathId)]);
+        return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + data.parts.tlvOffset]);
     }
     else
     {

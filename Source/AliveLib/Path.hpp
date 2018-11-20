@@ -108,4 +108,85 @@ struct Path_Teleporter : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Teleporter, 0x28); // 0x10 for base
 
+
+struct Path_Hoist : public Path_TLV
+{
+    const static unsigned short kType;
+
+    __int16 field_10_type;
+    __int16 field_12_edge_type;
+    __int16 field_14_id;
+    __int16 field_16_scale;
+};
+
+struct Path_Edge : public Path_TLV
+{
+    const static unsigned short kType;
+
+    enum class Type : __int16
+    {
+        eLeft = 0,
+        eRight = 1,
+        eBoth = 2,
+    };
+    Type field_10_type;
+    __int16 field_12_can_grab;
+
+    enum class Scale : int
+    {
+        eFull = 0,
+        eHalf = 1,
+    };
+    Scale field_14_scale;
+};
+
+struct Path_SoftLanding : public Path_TLV
+{
+    const static unsigned short kType;
+    int field_10_id;
+};
+
+struct Path_Well_Base : public Path_TLV
+{
+    __int16 field_0_scale;
+    __int16 field_2_trigger_id;
+    __int16 field_4_well_id;
+    __int16 field_6_res_id;
+};
+
+struct Path_Well_Local : public Path_Well_Base
+{
+    const static unsigned short kType;
+
+    __int16 field_18_off_dx;
+    __int16 field_1A_off_dy;
+    __int16 field_1C_on_dx;
+    __int16 field_1E_on_dy;
+    __int16 field_20_emit_leaves;
+    __int16 field_22_leaf_x;
+    __int16 field_24_leaf_y;
+    __int16 field_26;
+};
+
+struct Path_Well_Express : public Path_Well_Base
+{
+    const static unsigned short kType;
+
+    __int16 field_18_exit_x;
+    __int16 field_1A_exit_y;
+    __int16 field_1C_off_level;
+    __int16 field_1E_off_path;
+    __int16 field_20_off_camera;
+    __int16 field_22_on_level;
+    __int16 field_24_on_path;
+    __int16 field_26_on_camera;
+    __int16 field_28_target_well;
+    __int16 field_2A_emit_leaves;
+    __int16 field_2C_leaf_x;
+    __int16 field_2E_leaf_y;
+    __int16 field_30_movie_id;
+    __int16 pad;
+};
+
+
 ALIVE_VAR_EXTERN(Path*, sPath_dword_BB47C0);

@@ -8,7 +8,7 @@ struct Abe_1BC_20_sub_object
 {
     int field_0_gnFrame;
     int field_4;
-    int field_8;
+    FP field_8;
     int field_C;
     __int16 field_10;
     __int16 field_12_mood;
@@ -135,7 +135,7 @@ public:
     EXPORT void State_72_KnockbackGetUp_455340();
     EXPORT void State_73_PushWall_4553A0();
     EXPORT void State_74_455290();
-    EXPORT void State_75_45C7B0();
+    EXPORT void State_75_Jump_Into_Well_45C7B0();
     EXPORT void State_76_45CA40();
     EXPORT void State_77_45D130();
     EXPORT void State_78_WellBegin_45C810();
