@@ -10,7 +10,7 @@ struct Abe_1BC_20_sub_object
     int field_4;
     FP field_8;
     int field_C;
-    __int16 field_10;
+    unsigned __int16 field_10;
     __int16 field_12_mood;
     int field_14;
     __int16 field_18;

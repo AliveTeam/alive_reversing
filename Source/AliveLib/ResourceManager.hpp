@@ -446,4 +446,5 @@ enum ResourceID
     kHighliteResID = 0x1F42,
     kHighlitePalResID = 0x1F43,
     kLoadingResID = 0x1F4A,
+    kAbeCarResId = 113,
 };

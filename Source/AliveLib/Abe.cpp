@@ -151,7 +151,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_129_PoisonGasDeath_4565C0)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eAbeStates 
+enum eAbeStates : int
 {
     ABE_STATES_ENUM(MAKE_ENUM)
 };
@@ -783,7 +783,7 @@ struct Quicksave_Obj_Abe
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_Obj_Abe, 216);
 
-const char* off_545830[22] =
+const char* sAbe_ResNames_545830[22] =
 {
     "ABEBASIC.BAN",
     "ABEBSIC1.BAN",
@@ -809,30 +809,57 @@ const char* off_545830[22] =
     "ABEGAS.BAN",
 };
 
-int sAbeResourceIDTable_554D60[22] =
+const int sAbeResourceIDTable_554D60[22] =
 {
-    10,
-    55,
-    11,
-    12,
-    13,
-    14,
-    19,
-    20,
-    21,
-    26,
-    27,
-    28,
-    42,
-    43,
-    45,
-    47,
-    48,
-    53,
-    113,
-    117,
-    515,
-    118,
+    ResourceID::kAbebasicResID,     // 10
+    ResourceID::kAbebsic1ResID,     // 55
+    ResourceID::kAbepullResID,      // 11
+    ResourceID::kAbepickResID,      // 12
+    ResourceID::kAbebombResID,      // 13
+    ResourceID::kAbethrowResID,     // 14
+    ResourceID::kAbesmashResID,     // 19
+    ResourceID::kAbefallResID,      // 20
+    ResourceID::kAbestoneResID,     // 21
+    ResourceID::kAbeknbkResID,      // 26
+    ResourceID::kAbeknfdResID,      // 27
+    ResourceID::kAbeknokzResID,     // 28
+    ResourceID::kAbehoistResID,     // 42
+    ResourceID::kAbeedgeResID,      // 43
+    ResourceID::kAbedoorResID,      // 45
+    ResourceID::kAbewellResID,      // 47
+    ResourceID::kAbeommResID,       // 48
+    ResourceID::kAbeliftResID,      // 53
+    ResourceID::kAbeCarResId,       // 113
+    ResourceID::kAbemorphResID,     // 117
+    ResourceID::kAbeworkResID,      // 515
+    ResourceID::kAbegasResID,       // 118
+};
+
+
+enum ResourceIndices
+{
+    eBasic_0 = 0,
+    eBasic1_1 = 1,
+    ePull_2 = 2,
+    ePick_3 = 3,
+    eBomb_4 = 4,
+    eThrow_5 = 5,
+    eSmash_6 = 6,
+    eFall_7 = 7,
+    eStone_8 = 8,
+    eKnockBack_9 = 9,
+    eKnockFd_10 = 10,
+    eKnockZ_11 = 11,
+    eHosit_12 = 12,
+    eEdge_13 = 13,
+    eDoor_14 = 14,
+    eWell_15 = 15,
+    eChant_16 = 16,
+    eLift_17 = 17,
+    eMineCar_18 = 18,
+    eMorph_19 = 19,
+    eWork_20 = 20,
+    eGas_21 = 21,
 };
 
 signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
@@ -887,7 +914,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     if (!animFromState)
     {
         DWORD id = sAbeResourceIDTable_554D60[sActiveHero_5C1B68->field_128.field_10];
-        ResourceManager::LoadResourceFile_49C170(off_545830[sActiveHero_5C1B68->field_128.field_10], 0);
+        ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero_5C1B68->field_128.field_10], 0);
         sActiveHero_5C1B68->field_10_resources_array.SetAt(sActiveHero_5C1B68->field_128.field_10, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, id, TRUE, FALSE));
         animFromState = sActiveHero_5C1B68->field_10_resources_array.ItemAt(sActiveHero_5C1B68->field_128.field_10);
     }
@@ -2403,11 +2430,122 @@ void Abe::Free_Shrykull_Resources_45AA90()
     field_10_resources_array.SetAt(27, nullptr);
 }
 
-
-BYTE ** Abe::StateToAnimResource_44AAB0(signed int /*state*/)
+BYTE** Abe::StateToAnimResource_44AAB0(int state)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    int mapped = ResourceIndices::eBasic_0;
+    if (state < eAbeStates::State_12_Null_4569C0)
+    {
+        mapped = ResourceIndices::eBasic1_1;
+    }
+    else if (state < eAbeStates::State_65_LedgeAscend_4548E0)
+    {
+        mapped = ResourceIndices::eBasic_0;
+    }
+    else if (state < eAbeStates::State_71_Knockback_455090)
+    {
+        mapped = ResourceIndices::eHosit_12;
+    }
+    else if (state < eAbeStates::State_75_Jump_Into_Well_45C7B0)
+    {
+        mapped = ResourceIndices::eKnockBack_9;
+    }
+    else if (state < eAbeStates::State_84_FallLandDie_45A420)
+    {
+        mapped = ResourceIndices::eWell_15;
+    }
+    else if (state < eAbeStates::jState_85_Fall_455070)
+    {
+        mapped = ResourceIndices::eSmash_6;
+    }
+    else if (state < eAbeStates::State_86_HandstoneBegin_45BD00)
+    {
+        mapped = ResourceIndices::eFall_7;
+    }
+    else if (state < eAbeStates::State_91_RingRopePullEnd_4557B0)
+    {
+        mapped = ResourceIndices::eStone_8;
+    }
+    else if (state < eAbeStates::State_99_LeverUse_455AC0)
+    {
+        mapped = ResourceIndices::eEdge_13;
+    }
+    else if (state < eAbeStates::State_100_455B60)
+    {
+        mapped = ResourceIndices::ePull_2;
+    }
+    else if (state < eAbeStates::State_101_KnockForward_455420)
+    {
+        mapped = ResourceIndices::eBomb_4;
+    }
+    else if (state < eAbeStates::State_104_RockThrowStandingHold_455DF0)
+    {
+        mapped = ResourceIndices::eKnockFd_10;
+    }
+    else if (state < eAbeStates::State_109_455550)
+    {
+        mapped = ResourceIndices::eThrow_5;
+    }
+    else if (state < eAbeStates::State_111_GrabRock_4564A0)
+    {
+        mapped = ResourceIndices::eKnockZ_11;
+    }
+    else if (state < eAbeStates::State_112_Chant_45B1C0)
+    {
+        mapped = ResourceIndices::ePick_3;
+    }
+    else if (state < eAbeStates::State_114_DoorEnter_459470)
+    {
+        mapped = ResourceIndices::eChant_16;
+    }
+    else if (state < eAbeStates::State_116_MineCarEnter_458780)
+    {
+        mapped = ResourceIndices::eDoor_14;
+    }
+    else if (state < eAbeStates::State_119_45A990)
+    {
+        mapped = ResourceIndices::eMineCar_18;
+    }
+    else if (state < eAbeStates::State_121_LiftGrabBegin_45A600)
+    {
+        mapped = ResourceIndices::eMorph_19;
+    }
+    else if (state < eAbeStates::State_126_TurnWheelBegin_456700)
+    {
+        mapped = ResourceIndices::eLift_17;
+    }
+    else if (state < eAbeStates::State_129_PoisonGasDeath_4565C0)
+    {
+        mapped = ResourceIndices::eWork_20;
+    }
+    else if (state < 130) // Max states
+    {
+        mapped = ResourceIndices::eGas_21;
+    }
+    else
+    {
+        mapped = state;
+    }
+
+    if (mapped == field_128.field_10)
+    {
+        return field_10_resources_array.ItemAt(field_128.field_10);
+    }
+
+    // Check to never free basic res
+    if (field_128.field_10 != ResourceIndices::eBasic_0 && field_128.field_10 != 1)
+    {
+        ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(field_128.field_10));
+        field_10_resources_array.SetAt(field_128.field_10, nullptr);
+    }
+
+    // Check to never load basic res
+    if (mapped != ResourceIndices::eBasic_0 && mapped != 1)
+    {
+        field_10_resources_array.SetAt(mapped, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, sAbeResourceIDTable_554D60[mapped], TRUE, FALSE));
+    }
+
+    field_128.field_10 = mapped;
+    return field_10_resources_array.ItemAt(mapped);
 }
 
 
