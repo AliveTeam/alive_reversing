@@ -269,6 +269,10 @@ ALIVE_VAR(1, 0x55EF8C, int, sbDisplayRenderFrame_55EF8C, 1);
 
 void PsxDisplay::PSX_Display_Render_OT_41DDF0()
 {
+#if DEVELOPER_MODE
+    DEV::DebugOnFrameDraw(field_10_drawEnv[0].field_70_ot_buffer);
+#endif
+
     if (field_8_max_buffers <= 1)
     {
         // Single buffered rendering
@@ -317,8 +321,4 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
         // Display current
         PSX_DrawOTag_4F6540(field_10_drawEnv[prevBufferIdx].field_70_ot_buffer);
     }
-
-#if DEVELOPER_MODE
-    DEV::DebugOnFrameDraw();
-#endif
 }

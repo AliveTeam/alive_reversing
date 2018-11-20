@@ -32,6 +32,14 @@ int g_DebugGlobalFontPolyIndex = 0;
 char g_DebugGlobalFontPalette[32];
 Font_Context g_DebugGlobalFontContext;
 bool g_DebugGlobalFontIsInit = false;
+bool g_EnabledRaycastRendering = false;
+
+std::vector<RaycastDebug> g_RaycastDebugList;
+
+void DebugAddRaycast(RaycastDebug rc)
+{
+    g_RaycastDebugList.push_back(rc);
+}
 
 void InitDebugFont()
 {
@@ -655,6 +663,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "object_id", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
     { "no_frame_skip", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
     { "fps", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
+    { "raycast", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&g_EnabledRaycastRendering, "Raycast Debug"); }, "Toggle Raycast Debug" },
     { "verbose_events", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
     { "open_doors", -1, [](const std::vector<std::string>& args) { Cheat_OpenAllDoors(); }, "Open all doors." },
     { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
@@ -2049,11 +2058,35 @@ void DEV::DebugDrawText(int ** ot, int layer, std::string & text, int x, int y, 
     g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, semiTransparent, 0, 0, layer - 1, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
 }
 
-void DEV::DebugOnFrameDraw()
+void DEV::DebugOnFrameDraw(int ** pOt)
 {
     sNextLinePrim = 0;
     sNextPolyF4Prim = 0;
     g_DebugGlobalFontPolyIndex = 0;
+
+    if (g_EnabledRaycastRendering)
+    {
+        for (auto rc : g_RaycastDebugList)
+        {
+            if (rc.pLine != nullptr)
+            {
+                const int hitX = FP_GetExponent(rc.hitX);
+                const int hitY = FP_GetExponent(rc.hitY);
+
+                DEV::DebugDrawLine(pOt, 38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), hitX, hitY, 255, 255, 0, true, true);
+
+
+                DEV::DebugDrawLine(pOt, 38, hitX - 1, hitY - 1, hitX + 1, hitY + 1, 255, 255, 255, true, true);
+                DEV::DebugDrawLine(pOt, 38, hitX + 1, hitY - 1, hitX - 1, hitY + 1, 255, 255, 255, true, true);
+            }
+            else
+            {
+                DEV::DebugDrawLine(pOt, 38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), FP_GetExponent(rc.x2), FP_GetExponent(rc.y2), 0, 255, 0, true, true);
+            }
+        }
+    }
+
+    g_RaycastDebugList.clear();
 }
 
 bool IsStringNumber(const std::string& s)

@@ -23,6 +23,20 @@ DEV_CONSOLE_MESSAGE_C(_devConsoleBuffer, 5, 127, 127, 0);
 sprintf(_devConsoleBuffer, format, ##__VA_ARGS__);\
 DEV::DebugDrawText(ot, 39, std::string(_devConsoleBuffer), x,y,255,255,255, true, false);
 
+struct RaycastDebug
+{
+    FP x1;
+    FP y1;
+    FP x2;
+    FP y2;
+    FP hitX;
+    FP hitY;
+    PathLine * pLine;
+    unsigned int type;
+};
+
+void DebugAddRaycast(RaycastDebug rc);
+
 // File System
 namespace FS
 {
@@ -35,7 +49,7 @@ namespace DEV
     void DebugDrawText(int ** ot, int layer, std::string & text, int x, int y, char r, char g, char b, bool worldspace, bool semiTransparent);
     void DebugFillRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent = false);
     void DebugDrawRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent = false);
-    void DebugOnFrameDraw();
+    void DebugOnFrameDraw(int ** pOt);
 }
 
 extern bool sDebugEnabled_VerboseEvents;
