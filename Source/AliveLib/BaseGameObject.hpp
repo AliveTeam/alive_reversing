@@ -25,6 +25,7 @@ public:
         eMusicTrigger = 94,
         ePauseMenu = 95,
         eFG1 = 101, 
+        eType_110 = 110,
         eType_112 = 112,
         eScreenClipper = 114,
         eMainMenuTransistion = 116,

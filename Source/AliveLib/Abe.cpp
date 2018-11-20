@@ -2586,7 +2586,7 @@ void Abe::State_3_Fall_459B60()
     FP hitX = {};
     FP hitY = {};
     PathLine* pPathLine = nullptr;
-    const int bCollision = sub_408810(&pPathLine, &hitX, &hitY, FP_FromDouble(1.80)); // 0x1CCCC
+    const int bCollision = InAirCollision_408810(&pPathLine, &hitX, &hitY, FP_FromDouble(1.80)); // 0x1CCCC
     sub_408C40();
 
     // Are we falling into a local well?
@@ -2637,6 +2637,7 @@ void Abe::State_3_Fall_459B60()
         case eBackGroundFloor:
         case 32u: // TODO: These type are never seen, internal only ??
         case 36u:
+        {
             field_B8_xpos = hitX;
             field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
             field_100_pCollisionLine = pPathLine;
@@ -2644,7 +2645,7 @@ void Abe::State_3_Fall_459B60()
             field_124_gnFrame = sGnFrame_5C1B84 + 30;
 
             // See if there is a soft landing at our feet (given we known we just hit the floor)
-            pSoftLanding = 
+            pSoftLanding =
                 static_cast<Path_SoftLanding*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                     FP_GetExponent(field_B8_xpos),
                     FP_GetExponent(field_BC_ypos),
@@ -2677,12 +2678,15 @@ void Abe::State_3_Fall_459B60()
 
             field_F4 = 3;
 
+            PSX_Point xy{ FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_B8_xpos + FP_FromInteger(10)) };
+            PSX_Point wh{ FP_GetExponent(field_BC_ypos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10)) };
             vsub_424EE0(
-                { FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_B8_xpos + FP_FromInteger(10)) },
-                { FP_GetExponent(field_BC_ypos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10)) }, 
+                xy,
+                wh,
                 ObjList_5C1B78,
-                1, 
+                1,
                 &BaseAliveGameObject::sub_408BA0);
+        }
             break;
 
         case eWallLeft:

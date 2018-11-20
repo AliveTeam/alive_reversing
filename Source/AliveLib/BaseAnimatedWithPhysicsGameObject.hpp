@@ -12,7 +12,11 @@ namespace Test
 }
 
 class Shadow;
-class BaseAliveGameObject;
+
+
+// NOTE: __single_inheritance required to workaround MSVC code gen bug
+// https://stackoverflow.com/questions/8676879/member-function-pointer-runtime-error-the-value-of-esp-was-not-properly-saved
+class __single_inheritance BaseAliveGameObject;
 
 using TCollisionCallBack = __int16(BaseAliveGameObject::*)(BaseAliveGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 

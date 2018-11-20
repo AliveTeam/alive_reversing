@@ -262,10 +262,82 @@ EXPORT int BaseAliveGameObject::Raycast_408750(FP offY, FP offX)
         field_D6_scale != 0 ? 6 : 96) != 0; // TODO: Enum for line types
 }
 
-__int16 BaseAliveGameObject::sub_408810(PathLine** /*ppPathLine*/, FP* /*hitX*/, FP* /*hitY*/, FP /*op2*/)
+__int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    field_C8_vely += field_CC_sprite_scale * velY;
+    if (field_C8_vely > (field_CC_sprite_scale * FP_FromInteger(20)))
+    {
+        field_C8_vely = field_CC_sprite_scale * FP_FromInteger(20);
+    }
+
+    const FP oldYPos = field_BC_ypos;
+    const FP oldXPos = field_B8_xpos;
+
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
+
+    // TODO: Not sure what is going on here??
+    __int16  inverted_scale = -(field_D6_scale != 0);
+    inverted_scale = inverted_scale & ~0xE0u;
+
+    __int16 bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+        oldXPos,
+        oldYPos,
+        field_B8_xpos,
+        field_BC_ypos,
+        ppPathLine,
+        hitX,
+        hitY,
+        inverted_scale + 240);
+
+    if (bCollision)
+    {
+        return bCollision;
+    }
+    
+    FP velYClamped = field_C8_vely;
+    if (field_4_typeId == Types::eType_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
+    {
+        velYClamped = FP_FromInteger(4);
+    }
+
+    bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        field_BC_ypos,
+        field_B8_xpos + field_C4_velx,
+        velYClamped + field_BC_ypos,
+        ppPathLine,
+        hitX,
+        hitY,
+        field_D6_scale != 0 ? 1 : 16);
+
+    if (bCollision)
+    {
+        // TODO: Enum type for unknowns, trap doors ??
+        if ((*ppPathLine)->field_8_type == 32 || (*ppPathLine)->field_8_type == 36)
+        {
+            return bCollision;
+        }
+
+        bCollision = FALSE;
+        *ppPathLine = nullptr;
+    }
+
+    if (this != sActiveHero_5C1B68)
+    {
+        return bCollision;
+    }
+
+    const FP k10Scaled = field_CC_sprite_scale * FP_FromInteger(10);
+    return sCollisions_DArray_5C1128->Raycast_417A60(
+        oldXPos,
+        oldYPos - k10Scaled,
+        field_B8_xpos,
+        field_BC_ypos - k10Scaled,
+        ppPathLine,
+        hitX,
+        hitY,
+        field_D6_scale != 0 ? 6 : 96);
 }
 
 __int16 BaseAliveGameObject::sub_408BA0(BaseAliveGameObject* /*pOther*/)
