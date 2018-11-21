@@ -148,7 +148,7 @@ target_compile_definitions(AliveLib PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
 
 if (MSVC)
-    target_compile_options(AliveLib PRIVATE /W4 /wd4996 /WX)
+    target_compile_options(AliveLib PRIVATE /W4 /wd4996 /WX /MP)
 
     set_target_properties(AliveLib PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
     set_target_properties(AliveLib PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")

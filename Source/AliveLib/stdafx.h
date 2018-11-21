@@ -15,5 +15,13 @@
 #include <iostream>
 #include <memory>
 #include <map>
-
+#include <gmock/gmock.h>
 #include "config.h"
+#include "logger.hpp"
+
+#define DIRECTINPUT_VERSION 0x700
+#include <dinput.h>
+#define DIRECTDRAW_VERSION 0x700
+#include <ddraw.h>
+#define DIRECT3D_VERSION 0x700
+#include "d3d.h"
