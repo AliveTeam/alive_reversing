@@ -274,8 +274,8 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
         numVags = 255;
     }
 
-    sVagCounts_BE6144[vab_id] = numVags;
-    sProgCounts_BDCD64[vab_id] = pVabHeader->field_12_num_progs;
+    sVagCounts_BE6144[vab_id] = static_cast<BYTE>(numVags);
+    sProgCounts_BDCD64[vab_id] = static_cast<BYTE>(pVabHeader->field_12_num_progs);
     memset(s512_byte_C13180.field_0[vab_id], 0, sizeof(char[128]));
     VagAtr* pVagAttr = (VagAtr *)&pVabHeader[1];
     memset(&sConvertedVagTable_BEF160.table[vab_id][0][0], 0, sizeof(Converted_Vag[128][16]));
@@ -288,7 +288,7 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
             {
                 Converted_Vag* pData = &sConvertedVagTable_BEF160.table[vab_id][pVagAttr->field_14_prog][toneCounter];
 
-                pData->field_F_prog = pVagAttr->field_14_prog;
+                pData->field_F_prog = static_cast<BYTE>(pVagAttr->field_14_prog);
                 pData->field_10_vag = LOBYTE(pVagAttr->field_16_vag) - 1;
                 pData->field_C = 0;
                 pData->field_D_vol = pVagAttr->field_2_vol;
@@ -299,7 +299,7 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
                 const __int16 centre = pVagAttr->field_4_centre;
                 pData->field_A_shift_cen = 2 * (pVagAttr->field_5_shift + (centre << 7));
 
-                float sustain_level = (2 * (~(unsigned __int8)pVagAttr->field_10_adsr1 & 0xF));
+                float sustain_level = static_cast<float>((2 * (~(unsigned __int8)pVagAttr->field_10_adsr1 & 0xF)));
 
                 pData->field_0_adsr_attack = min(static_cast<WORD>((powf(2.0f, ((pVagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), 32767);
                 pData->field_4_adsr_decay = static_cast<WORD>((((pVagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
@@ -505,7 +505,7 @@ EXPORT void CC MIDI_SsSeqStop_4FD9C0(__int16 idx)
     {
         unsigned int field_C = sMidi_Channels_C14080.channels[i].field_1C.field_C;
         field_C = field_C >> 4;
-        if (field_C == idx)
+        if (field_C == static_cast<unsigned int>(idx))
         {
             MIDI_Stop_Channel_4FE010(static_cast<short>(i));
             sMidi_Channels_C14080.channels[i].field_1C.field_C = 0;
@@ -2159,7 +2159,7 @@ namespace Test
         atr.field_12_adsr2 = 18;
         atr.field_14_prog = 2;
         atr.field_16_vag = 12;
-        for (int i = 0; i < 4; i++)
+        for (short i = 0; i < 4; i++)
         {
             atr.field_18_reserved[i] = 8 + i;
         }

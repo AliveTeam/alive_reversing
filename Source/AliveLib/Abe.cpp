@@ -723,7 +723,7 @@ struct Quicksave_Obj_Abe
     WORD field_34_animation_num;
     WORD word36;
     WORD word38;
-    WORD field_3a_collision_line_id;
+    short field_3a_collision_line_id;
     DWORD dword3C;
     WORD word40;
     WORD word42;
@@ -956,7 +956,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
         sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
-    FrameInfoHeader* pFrameHeader = sActiveHero_5C1B68->field_20_animation.Get_FrameHeader_40B730(-1);
+    //FrameInfoHeader* pFrameHeader = sActiveHero_5C1B68->field_20_animation.Get_FrameHeader_40B730(-1);
 
     /* TODO
     sActiveHero_5C1B68->field_20_animation.Load_Pal_40A530(
@@ -973,7 +973,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_108 = pSaveState->word36;
     sActiveHero_5C1B68->field_F8 = FP_FromInteger(pSaveState->word38);
     sActiveHero_5C1B68->field_110 = pSaveState->dword3C;
-    sActiveHero_5C1B68->field_120_state = pSaveState->dword50;
+    sActiveHero_5C1B68->field_120_state = static_cast<WORD>(pSaveState->dword50);
     sActiveHero_5C1B68->field_124_gnFrame = pSaveState->dword54;
     sActiveHero_5C1B68->field_128.field_0_gnFrame = pSaveState->dword58;
     sActiveHero_5C1B68->field_128.field_4 = pSaveState->dword5C;
@@ -2149,7 +2149,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 
     //pSaveState->byte2E = (LOBYTE(this->field_6_flags) >> 3) & 1;
     //pSaveState->byte2D = (LOBYTE(this->field_20_animation.field_4_flags) >> 2) & 1;
-    pSaveState->byte2C = field_20_animation.field_C_render_layer;
+    pSaveState->byte2C = static_cast<char>(field_20_animation.field_C_render_layer);
     pSaveState->field_30_health = field_10C_health;
     pSaveState->field_34_animation_num = field_106_animation_num;
     pSaveState->word36 = field_108;
@@ -2188,8 +2188,8 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->dword68 = field_168;
     pSaveState->field_6c_rock_bone_count = field_1A2_rock_or_bone_count;
     //pSaveState->byte6D = (LOBYTE(this->field_1AC_flags) >> 4) & 1;
-    pSaveState->byte6E = field_16C;
-    pSaveState->byte6F = field_16E;
+    pSaveState->byte6E = static_cast<char>(field_16C);
+    pSaveState->byte6F = static_cast<char>(field_16E);
     //pSaveState->word70 = sub_45EF70(field_118);
     //pSaveState->word72 = sub_45EF70(field_11C);
     pSaveState->word74 = field_122;
@@ -2438,7 +2438,7 @@ void Abe::Free_Shrykull_Resources_45AA90()
 
 BYTE** Abe::StateToAnimResource_44AAB0(int state)
 {
-    int mapped = ResourceIndices::eBasic_0;
+    short mapped = ResourceIndices::eBasic_0;
     if (state < eAbeStates::State_12_Null_4569C0)
     {
         mapped = ResourceIndices::eBasic1_1;
@@ -2529,7 +2529,8 @@ BYTE** Abe::StateToAnimResource_44AAB0(int state)
     }
     else
     {
-        mapped = state;
+        // Impossible case?
+        mapped = static_cast<short>(state);
     }
 
     if (mapped == field_128.field_10)
@@ -2661,7 +2662,7 @@ void Abe::State_3_Fall_459B60()
 
             if (pSoftLanding)
             {
-                if (!SwitchStates_Get_466020(pSoftLanding->field_10_id))
+                if (!SwitchStates_Get_466020(static_cast<short>(pSoftLanding->field_10_id)))
                 {
                     pSoftLanding = nullptr;
                 }
@@ -3606,7 +3607,7 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
         // OG bug - isn't null checked in other cases before de-ref?
         if (!pHero)
         {
-            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, pitch, pitch);
+            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume,  static_cast<short>(pitch),  static_cast<short>(pitch));
             return;
         }
 
@@ -3617,7 +3618,7 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
 
         if (pHero == sActiveHero_5C1B68)
         {
-            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, pitch, pitch);
+            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, static_cast<short>(pitch), static_cast<short>(pitch));
             return;
         }
 
@@ -3628,11 +3629,11 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
             pHero->field_BC_ypos))
         {
         case 0:
-            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, pitch, pitch);
+            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], volume, static_cast<short>(pitch), static_cast<short>(pitch));
             break;
         case 1:
         case 2:
-            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], 2 * volume / 3, pitch, pitch);
+            SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[idx], 2 * volume / 3, static_cast<short>(pitch), static_cast<short>(pitch));
             break;
         case 3:
             // TODO: Deoptimise math
@@ -3641,8 +3642,7 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
                 ((unsigned int)((unsigned __int64)(2863311532i64 * (signed __int16)volume) >> 32) >> 31)
                 + ((unsigned __int64)(2863311532i64 * (signed __int16)volume) >> 32),
                 2 * (signed __int16)volume / 9,
-                pitch,
-                pitch);
+                static_cast<short>(pitch), static_cast<short>(pitch));
             break;
         case 4:
             // TODO: Deoptimise math
@@ -3651,8 +3651,7 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
                 ((unsigned int)((unsigned __int64)(1908874354i64 * (signed __int16)volume) >> 32) >> 31)
                 + ((signed int)((unsigned __int64)(1908874354i64 * (signed __int16)volume) >> 32) >> 1),
                 2 * (signed __int16)volume / 3,
-                pitch,
-                pitch);
+                static_cast<short>(pitch), static_cast<short>(pitch));
             break;
         default:
             break;

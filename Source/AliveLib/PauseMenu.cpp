@@ -1152,7 +1152,7 @@ void PauseMenu::Update_48FD80()
                     }
                     else
                     {
-                        sScreenStringBuffer_5C92F0[i] = ::tolower(currentCamChar);
+                        sScreenStringBuffer_5C92F0[i] =  static_cast<char>(::tolower(currentCamChar));
                     }
                 }
 

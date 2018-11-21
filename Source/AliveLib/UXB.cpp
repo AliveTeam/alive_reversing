@@ -28,7 +28,7 @@ TintEntry sTintMap_UXB_563A3C[19] =
     { 12, 127u, 127u, 127u },
     { 13, 127u, 127u, 127u },
     { 14, 127u, 127u, 127u },
-    { 255, 127u, 127u, 127u },
+    { -1, 127u, 127u, 127u },
     { 0, 0u, 0u, 0u },
     { 0, 0u, 0u, 0u },
     { 0, 0u, 0u, 0u },
@@ -200,7 +200,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
 
     field_120_tlv = itemInfo;
     field_124_next_state_frame = sGnFrame_5C1B84;
-    field_11C_disabled_resources = tlv_params->field_18_disabled_resources;
+    field_11C_disabled_resources = static_cast<WORD>(tlv_params->field_18_disabled_resources);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, kAbebombResID);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, kDebrisID00);
@@ -427,19 +427,11 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     return sizeof(SaveState_UXB); // 24
 }
 
-BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int unused, FP scale)
+BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
 {
     NOT_IMPLEMENTED();
 
     BYTE **v6; // eax
-    int v7; // eax
-    BaseGameObject *v8; // eax
-    WORD *v9; // eax
-    __int16 v10; // cx
-    __int16 v12; // [esp+8h] [ebp-14h]
-    __int16 v13; // [esp+Ah] [ebp-12h]
-    __int16 v14; // [esp+Ch] [ebp-10h]
-    __int16 v15; // [esp+Eh] [ebp-Eh]
     int v16; // [esp+18h] [ebp-4h]
 
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
@@ -453,9 +445,9 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int unused, FP scale)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
     field_20_animation.field_4_flags.Set(AnimFlags::eBit24);
     field_20_animation.field_B_render_mode = 1;
-    field_20_animation.field_A_b = -128;
-    field_20_animation.field_9_g = -128;
-    field_20_animation.field_8_r = -128;
+    field_20_animation.field_A_b = 128;
+    field_20_animation.field_9_g = 128;
+    field_20_animation.field_8_r = 128;
     this->field_f4_scale = scale;
     if (scale == FP_FromDouble(1.0))
     {
@@ -499,7 +491,7 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int unused, FP scale)
 
     static int dword_5BC1FC = 0;
     dword_5BC1FC = (dword_5BC1FC + 1) % 2;
-    SND_SEQ_PlaySeq_4CA960(14 +  dword_5BC1FC, 1, 1);
+    SND_SEQ_PlaySeq_4CA960(static_cast<short>(14 +  dword_5BC1FC), 1, 1);
 
     return this;
 }

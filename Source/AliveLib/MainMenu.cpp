@@ -93,15 +93,15 @@ MainMenuButton sBtnArray_Options_561368[4] =
 
 SfxDefinition stru_55D7C0[] =
 {
-    { 0u, 5u, 60u, 90u, 65016, 65016 },
-    { 0u, 5u, 61u, 75u, 65016, 65016 },
-    { 0u, 5u, 62u, 50u, 65016, 65016 },
-    { 0u, 5u, 64u, 40u, 65016, 65016 },
-    { 0u, 5u, 65u, 40u, 65016, 65016 },
-    { 0u, 5u, 66u, 30u, 65016, 65016 },
+    { 0u, 5u, 60u, 90u, -520, -520 },
+    { 0u, 5u, 61u, 75u, -520, -520 },
+    { 0u, 5u, 62u, 50u, -520, -520 },
+    { 0u, 5u, 64u, 40u, -520, -520 },
+    { 0u, 5u, 65u, 40u, -520, -520 },
+    { 0u, 5u, 66u, 30u, -520, -520 },
     { 0u, 5u, 66u, 50u, 0, 0 },
-    { 0u, 5u, 67u, 40u, 65016, 65016 },
-    { 0u, 5u, 68u, 30u, 65016, 65016 },
+    { 0u, 5u, 67u, 40u, -520, -520 },
+    { 0u, 5u, 68u, 30u, -520, -520 },
     { 0u, 0u, 0u, 0u, 0, 0 },
     { 0u, 0u, 0u, 0u, 0, 0 },
     { 0u, 0u, 0u, 0u, 0, 0 }
@@ -110,7 +110,7 @@ SfxDefinition stru_55D7C0[] =
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, 
 {
     {
-        23,       0,        0,        0,        65535,        0,        0,
+        23,       0,        0,        0,        -1,        0,        0,
         nullptr, // &MainMenuController::sub_JoyStick_4D16D0,
         nullptr, //&MainMenuController::sub_Render_4D26C0,
         NULL,
@@ -118,7 +118,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL
     },
     {
-        5,        0,        0,        0,        65535,        0,        0,
+        5,        0,        0,        0,        -1,        0,        0,
         nullptr, //&MainMenuController::tsub_4D1820,
         nullptr, //&MainMenuController::t_Remap_Input_Render_4D2A10,
         NULL,
@@ -126,14 +126,14 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL
     },
     {
-        11,        0,        0,        0,        65535,        0,       0,
+        11,        0,        0,        0,        -1,        0,       0,
         NULL,        NULL,        NULL,
         &MainMenuController::Game_Force_Quit_Load_4D1A90,
         NULL
     },
     {
         // Main menu screen where abe says hello
-        1,        0,        0,        0,        65535,        65535,    1,
+        1,        0,        0,        0,        -1,        -1,    1,
         &MainMenuController::Page_Front_Update_4D0720,
         &MainMenuController::Page_Front_Render_4D24B0,
         sBtnArray_FrontEnd_560FA0,
@@ -213,7 +213,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL
     },
     {
-        13,        0,        0,        0,        65535,        65535,        0,
+        13,        0,        0,        0,        -1,        -1,        0,
         &MainMenuController::tLoad_New_Game_Input_4D0920,
         NULL,
         NULL,
@@ -221,7 +221,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL
     },
     {
-        22,        0,        0,        0,        65535,        65535,        0,
+        22,        0,        0,        0,        -1,        -1,        0,
         nullptr, //&MainMenuController::tsub_LoadSave_4D1040,
         NULL,
         NULL,
@@ -229,14 +229,14 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL
     },
     { 
-        20, 0, 150, 25, 1, 65535, 0, NULL, NULL, NULL, NULL, NULL 
+        20, 0, 150, 25, 1, -1, 0, NULL, NULL, NULL, NULL, NULL
     },
     { 
         // Copy right boot screen
         25, 0, 150, 1, 7, 0, 0, NULL, NULL, NULL, NULL, NULL 
     },
     { 
-        23, 0, 150, 25, 1, 65535, 0, NULL, NULL, NULL, NULL, NULL 
+        23, 0, 150, 25, 1, -1, 0, NULL, NULL, NULL, NULL, NULL 
     },
     {
         14,        0,        1600,        2,        0,        0,        1,
@@ -377,24 +377,24 @@ PerLvlData sDemos_5617F0[23] =
 MainMenuFrameTable sMainMenuFrameTable_561CC8[49] =
 {
     { 0, 0, 0, 0, 0 },
-    { 247808, 1, 65535, 1, 0 },
-    { 247684, 1, 65535, 1, 0 },
+    { 247808, 1, -1, 1, 0 },
+    { 247684, 1, -1, 1, 0 },
     { 247620, 1, 3, 1, 0 },
     { 247924, 1, 12, 1, 14 },
     { 693672, 0, 4, 1, 0 },
     { 693504, 0, 11, 1, 14 },
     { 693912, 0, 6, 1, 0 },
     { 693556, 0, 5, 1, 14 },
-    { 50212, 3, 65535, 10, 0 },
-    { 25888, 2, 65535, 11, 0 },
-    { 247684, 1, 65535, 3, 0 },
-    { 693772, 0, 65535, 0, 0 },
-    { 693748, 0, 65535, 1, 0 },
+    { 50212, 3, -1, 10, 0 },
+    { 25888, 2, -1, 11, 0 },
+    { 247684, 1, -1, 3, 0 },
+    { 693772, 0, -1, 0, 0 },
+    { 693748, 0, -1, 1, 0 },
     { 694084, 0, 25, 1, 0 },
     { 694132, 0, 17, 1, 0 },
     { 694200, 0, 26, 1, 0 },
     { 693956, 0, 27, 1, 14 },
-    { 1105688, 7, 65535, 18, 0 },
+    { 1105688, 7, -1, 18, 0 },
     { 1105420, 7, 8, 18, 0 },
     { 1105516, 7, 2, 18, 0 },
     { 1105600, 7, 1, 18, 0 },
@@ -403,8 +403,8 @@ MainMenuFrameTable sMainMenuFrameTable_561CC8[49] =
     { 1105964, 7, 5, 18, 0 },
     { 1106020, 7, 7, 18, 0 },
     { 1106072, 7, 0, 18, 0 },
-    { 1371728, 8, 65535, 27, 0 },
-    { 1371876, 8, 65535, 27, 0 },
+    { 1371728, 8, -1, 27, 0 },
+    { 1371876, 8, -1, 27, 0 },
     { 1372024, 8, 8, 27, 17 },
     { 1372108, 8, 7, 27, 0 },
     { 1372192, 8, 2, 27, 0 },
@@ -413,12 +413,12 @@ MainMenuFrameTable sMainMenuFrameTable_561CC8[49] =
     { 1371580, 8, 6, 27, 17 },
     { 1371660, 8, 0, 27, 0 },
     { 1372292, 8, 4, 27, 0 },
-    { 506044, 9, 65535, 37, 0 },
-    { 506160, 9, 65535, 37, 0 },
+    { 506044, 9, -1, 37, 0 },
+    { 506160, 9, -1, 37, 0 },
     { 505836, 9, 8, 37, 0 },
     { 505756, 9, 0, 37, 0 },
-    { 888448, 10, 65535, 41, 0 },
-    { 888572, 10, 65535, 41, 0 },
+    { 888448, 10, -1, 41, 0 },
+    { 888572, 10, -1, 41, 0 },
     { 888936, 10, 9, 41, 0 },
     { 888240, 10, 5, 41, 14 },
     { 888308, 10, 0, 41, 14 },
@@ -1574,7 +1574,7 @@ void MainMenuController::HandleMainMenuUpdate()
         // Todo: change all field_10_fn_update function types to unsigned.
         const unsigned int pageUpdateRet = (this->*(sMainMenuPages_561960[field_214_page_index].field_10_fn_update))(inputHeld);
 
-        if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == gMap_5C3030.sCurrentCamId_5C3034)
+        if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == static_cast<unsigned int>(gMap_5C3030.sCurrentCamId_5C3034))
         {
             return;
         }
@@ -1598,7 +1598,7 @@ void MainMenuController::HandleMainMenuUpdate()
         v8 = sMainMenuPages_561960[field_214_page_index].field_A_bDoScreenTransistionEffect;
     }
 
-    field_21C_bDoScreenTransistionEffect = v8;
+    field_21C_bDoScreenTransistionEffect = static_cast<short>(v8);
     field_21E_bChangeScreen = 1;
 }
 
@@ -2301,7 +2301,7 @@ void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Font
     short text_xpos = 0;
     if (array->field_C_align == 1)
     {
-        text_xpos = (40 * array_field_x) / 23;
+        text_xpos = static_cast<short>((40 * array_field_x) / 23);
     }
     else
     {
@@ -2311,7 +2311,7 @@ void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Font
         {
             halfFontWidth = -fontWidth;
         }
-        text_xpos = static_cast<short>(strlen(textBuffer)) + ((40 * (halfFontWidth + array_field_x)) / 23);
+        text_xpos = static_cast<short>((strlen(textBuffer)) + ((40 * (halfFontWidth + array_field_x)) / 23));
     }
 
     const FP text_ypos = FP_FromInteger(-10) * fontScale; // -655360

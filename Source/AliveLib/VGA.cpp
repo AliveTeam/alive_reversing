@@ -87,7 +87,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
     Bitmap *pBitmapToUse; // ebp
     int srcWidth; // ebx
     char bpp; // cl
-    int v7; // eax
+    int v7 = 0; // eax
     unsigned __int16 *v22; // esi
     char *v23; // edx
     int v24; // ecx
@@ -105,7 +105,6 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
     char v38; // [esp+14h] [ebp-434h]
     int v40; // [esp+18h] [ebp-430h]
     int srcWidth2; // [esp+1Ch] [ebp-42Ch]
-    int v42; // [esp+20h] [ebp-428h]
     int v45; // [esp+20h] [ebp-428h]
     LONG srcX; // [esp+24h] [ebp-424h]
     char v47; // [esp+24h] [ebp-424h]
@@ -179,7 +178,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
                 v7 = 32;
                 break;
             default:
-                v7 = v42;
+                //v7 = v42;
                 break;
             }
 
@@ -310,8 +309,8 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int screenMode)
                         v32 = *v22;
                         v23 += 3;
                         ++v22;
-                        *(v23 - 3) = (unsigned int)v32 >> v29;
-                        *(v23 - 2) = (unsigned int)v32 >> v38;
+                        *(v23 - 3) = static_cast<char>((unsigned int)v32 >> v29);
+                        *(v23 - 2) = static_cast<char>((unsigned int)v32 >> v38);
                         *(v23 - 1) = (BYTE)v32 << v35;
                     } while ((unsigned int)v23 < v31);
                     v24 = v45;

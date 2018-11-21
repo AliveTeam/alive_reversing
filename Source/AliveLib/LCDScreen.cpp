@@ -168,7 +168,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
 
     field_2AA_message_1_id = params->field_10_message_1_id;
     field_2B0_message_2_id = params->field_16_message_2_id;
-    field_2B2_swap_message_sets_switch_id = params->field_18_swap_message_sets_switch_id;
+    field_2B2_swap_message_sets_switch_id = static_cast<WORD>(params->field_18_swap_message_sets_switch_id);
     field_2BC_tlv_item_info = itemInfo;
 
     if (!sFontType2LoadCount_5BC5E8)
@@ -198,7 +198,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
     field_A4_message_cutoff_ptr = nullptr;
     field_2AC_x_offset = 0;
     sFontDrawScreenSpace_5CA4B4 = 1;
-    field_2AE_character_width = field_60_font.MeasureWidth_433630(*field_A0_message) + 2;
+    field_2AE_character_width = static_cast<WORD>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4 = 0;
     field_2B6_message_rand_min = params->field_12_message_rand_min;
@@ -257,7 +257,7 @@ void LCDScreen::Update_460A00()
         }
 
         sFontDrawScreenSpace_5CA4B4 = 1;
-        field_2AE_character_width = field_60_font.MeasureWidth_433630(*field_A0_message) + 2;
+        field_2AE_character_width = static_cast<WORD>(field_60_font.MeasureWidth_433630(*field_A0_message) + 2);
         sFontDrawScreenSpace_5CA4B4 = 0;
     }
 
@@ -267,7 +267,7 @@ void LCDScreen::Update_460A00()
     sFontDrawScreenSpace_5CA4B4 = 1;
     auto v14 = field_60_font.SliceText_433BD0(
         field_A0_message,
-        (screenLeft * 0.575) - field_2AC_x_offset,
+        static_cast<int>((screenLeft * 0.575) - field_2AC_x_offset),
         FP_FromDouble(1.0),
         screenRight);
     sFontDrawScreenSpace_5CA4B4 = 0;
@@ -289,11 +289,11 @@ void LCDScreen::Render_460CB0(int ** ot)
 {
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        const auto camPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        const auto screenX = this->field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
-        const auto screenY = ((this->field_2C0_tlv.field_8_top_left.field_2_y + this->field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
-        const int screenXWorld = screenX / 0.575;
-        const auto maxWidth = this->field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const FP_Point* camPos = pScreenManager_5BB5F4->field_20_pCamPos;
+        const int screenX = this->field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const int screenY = ((this->field_2C0_tlv.field_8_top_left.field_2_y + this->field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
+        const int screenXWorld = static_cast<int>(screenX / 0.575f);
+        const int maxWidth = this->field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
 
         PSX_RECT clipRect = { 0,0,640,240 };
 
@@ -304,8 +304,8 @@ void LCDScreen::Render_460CB0(int ** ot)
         field_60_font.DrawString_4337D0(
             ot,
             field_A0_message,
-            screenXWorld - this->field_2AC_x_offset,
-            screenY,
+            static_cast<short>(screenXWorld - field_2AC_x_offset),
+            static_cast<short>(screenY),
             1,
             1,
             0,

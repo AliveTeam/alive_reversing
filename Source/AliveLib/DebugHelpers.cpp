@@ -145,8 +145,8 @@ public:
             if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
-                int x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                int y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                short x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                short y = FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
@@ -155,7 +155,7 @@ public:
                         FrameInfoHeader* framePtr = aliveObj->field_20_animation.Get_FrameHeader_40B730(aliveObj->field_20_animation.field_92_current_frame);
                         if (framePtr != nullptr)
                         {
-                            y += static_cast<int>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
+                            y += static_cast<short>(framePtr->field_8_data.offsetAndRect.mMax.y * FP_GetDouble(aliveObj->field_CC_sprite_scale));
                         }
                     }
                 }
@@ -177,7 +177,7 @@ public:
     bool isDragging = false;
     BaseAnimatedWithPhysicsGameObject * mDragObject;
 
-    void DrawUI(int** pOrderingTable)
+    void DrawUI(int** /*pOrderingTable*/)
     {
         HWND windowHandle = Sys_GetWindowHandle_4EE180();
         POINT mousePos;
@@ -204,14 +204,16 @@ public:
                 int x = static_cast<int>((FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x)) / 0.575);
                 int y = static_cast<int>((FP_GetExponent(aliveObj->field_BC_ypos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y)));
 
-                if (Vec2Distance(x, y, mousePos.x, mousePos.y) < 10 && !isDragging && mouseLeftDown)
+                if (Vec2Distance(static_cast<float>(x), static_cast<float>(y), static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) < 10 && !isDragging && mouseLeftDown)
                 {
                     isDragging = true;
                     mDragObject = aliveObj;
                 }
 
-                if (Vec2Distance(x, y, mousePos.x, mousePos.y) > 100)
+                if (Vec2Distance(static_cast<float>(x), static_cast<float>(y), static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)) > 100)
+                {
                     continue;
+                }
 
                 if (IsInAnimationList(&aliveObj->field_20_animation))
                 {
@@ -310,7 +312,7 @@ public:
         // Dont kill!
     }
 
-    struct LineColor { int r; int g; int b; };
+    struct LineColor { BYTE r; BYTE g; BYTE b; };
     std::map<int, LineColor> mLineColors = { 
         { 0,{ 255, 0, 0 } }, // Floor
         { 1,{ 0, 0, 255 } }, // Left Wall
@@ -334,7 +336,7 @@ public:
 
         if (GridEnabled)
         {
-            const float gridX = 25 / 0.575f;
+            const int gridX = 25 / 2;
             const int gridY = 20;
             const int layer = 22;
 
@@ -345,7 +347,7 @@ public:
                     char c = ((x + y) % 2 == 0) ? 200 : 127;
                     for (int i = -1; i < 2; i++)
                     {
-                        DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) + (gridX / 2.0f) + i, y * gridY, (x * gridX) + (gridX / 2.0f) + i, (y * gridY) + (gridY / 4.0f), 255, 255, 255, false, gridSemiTrans);
+                        DEV::DebugDrawLine(pOrderingTable, layer, (x * gridX) + (gridX / 2) + i, y * gridY, (x * gridX) + (gridX / 2) + i, (y * gridY) + (gridY / 4), 255, 255, 255, false, gridSemiTrans);
                     }
 
                     if (x == 0)
@@ -384,8 +386,8 @@ public:
                 }
                 DEV::DebugDrawLine(pOrderingTable, layer, l->field_0_x1, l->field_2_y1, l->field_4_x2, l->field_6_y2, color.r, color.g, color.b, true, false);
 
-                int id_x = l->field_0_x1 - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                int id_y = l->field_2_y1 - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                short id_x = l->field_0_x1 - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                short id_y = l->field_2_y1 - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
@@ -449,7 +451,7 @@ struct DebugConsoleCommand
 
 extern std::vector<DebugConsoleCommand> sDebugConsoleCommands;
 
-void Command_Help(const std::vector<std::string>& args)
+void Command_Help(const std::vector<std::string>& /*args*/)
 {
     DEV_CONSOLE_MESSAGE("You can call the following: ", 6);
     for (auto c : sDebugConsoleCommands)
@@ -463,16 +465,17 @@ void Command_Test(const std::vector<std::string>& args)
     DEV_CONSOLE_MESSAGE("You called this with " + std::to_string(args.size()) + " arguments", 5);
 }
 
-void Command_Die(const std::vector<std::string>& args)
+void Command_Die(const std::vector<std::string>& /*args*/)
 {
     FakeObjStruct fake;
     fake.field_4_typeId = 30;
     // Dont judge me on the line bellow paul :P
     // It calls to vtable offset 19
-    ((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(sControlledCharacter_5C1B8C)+76)))(sControlledCharacter_5C1B8C, 0, reinterpret_cast<BaseGameObject*>(&fake));
+    sControlledCharacter_5C1B8C->Vsub_408730(0);
+    //((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(sControlledCharacter_5C1B8C)+76)))(sControlledCharacter_5C1B8C, 0, reinterpret_cast<BaseGameObject*>(&fake));
 }
 
-void Command_Murder(const std::vector<std::string>& args)
+void Command_Murder(const std::vector<std::string>& /*args*/)
 {
     FakeObjStruct fake;
     fake.field_4_typeId = 30;
@@ -566,15 +569,15 @@ void Command_ToggleBool(bool * var, std::string varName)
 
 void Command_Teleport(const std::vector<std::string>& args)
 {
-    int level = 0;
+    short level = 0;
     if (IsStringNumber(args[0]))
     {
-        level = std::stoi(args[0]);
+        level = static_cast<short>(std::stoi(args[0]));
     }
     else
     {
         bool found = false;
-        for (int i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
+        for (short i = 0; i < sizeof(sPathData_559660.paths) / sizeof(PathRoot);i++)
         {
             if (!strcmpi(sPathData_559660.paths[i].field_18_lvl_name, args[0].c_str()))
             {
@@ -589,8 +592,8 @@ void Command_Teleport(const std::vector<std::string>& args)
             DEV_CONSOLE_MESSAGE("Cannot find level specified!", 6);
         }
     }
-    int path = std::stoi(args[1]);
-    int cam = std::stoi(args[2]);
+    short path = static_cast<short>(std::stoi(args[1]));
+    short cam = static_cast<short>(std::stoi(args[2]));
     gMap_5C3030.SetActiveCam_480D30(level, path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
     
 
@@ -624,7 +627,7 @@ void Command_Menu(const std::vector<std::string>& args)
 
 void Command_Midi1(const std::vector<std::string>& args)
 {
-    int arg1 = std::stoi(args[0]);
+    const unsigned __int8 arg1 = static_cast<unsigned __int8>(std::stoi(args[0]));
 
     SFX_Play_46FA90(arg1, 0, 0x10000);
 
@@ -639,7 +642,7 @@ void Command_SetState(const std::vector<std::string>& args)
         return;
     }
 
-    int state = std::stoi(args[0]);
+    __int16  state = static_cast<__int16 >(std::stoi(args[0]));
     auto resource = sControlledCharacter_5C1B8C->StateToAnimResource_44AAB0(state);
 
     if (resource != nullptr)
@@ -659,21 +662,21 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "test", -1, Command_Test, "Is this thing on?" },
     { "die", -1, Command_Die, "Kills you." },
     { "murder", -1, Command_Murder, "Kill everything around you." },
-    { "ddcheat", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sCommandLine_DDCheatEnabled_5CA4B5, "DDCheat"); }, "Toggle DDCheat" },
-    { "object_id", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
-    { "no_frame_skip", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
-    { "fps", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
-    { "raycast", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&g_EnabledRaycastRendering, "Raycast Debug"); }, "Toggle Raycast Debug" },
-    { "verbose_events", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
-    { "open_doors", -1, [](const std::vector<std::string>& args) { Cheat_OpenAllDoors(); }, "Open all doors." },
+    { "ddcheat", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_DDCheatEnabled_5CA4B5, "DDCheat"); }, "Toggle DDCheat" },
+    { "object_id", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
+    { "no_frame_skip", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
+    { "fps", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
+    { "raycast", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&g_EnabledRaycastRendering, "Raycast Debug"); }, "Toggle Raycast Debug" },
+    { "verbose_events", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
+    { "open_doors", -1, [](const std::vector<std::string>& /*args*/) { Cheat_OpenAllDoors(); }, "Open all doors." },
     { "teleport", 3, Command_Teleport, "Teleport to a cam. (LEVEL, PATH, CAM)" },
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
     { "state", 1, Command_SetState, "Sets currently controlled objects state." },
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
-    { "path_lines", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
-    { "grid", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
-    { "pcopen", -1, [](const std::vector<std::string>& args) { Command_ToggleBool(reinterpret_cast<bool*>(&sbEnable_PCOpen_5CA4B0), "PCOpen"); }, "Toggles PCOpen" },
+    { "path_lines", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
+    { "grid", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
+    { "pcopen", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(reinterpret_cast<bool*>(&sbEnable_PCOpen_5CA4B0), "PCOpen"); }, "Toggles PCOpen" },
 };
 
 //
@@ -723,15 +726,15 @@ public:
         command = StringToLower(command);
         auto commandSplit = SplitString(command, ' ');
 
-        if (commandSplit.size() > 0)
+        if (!commandSplit.empty())
         {
-            for (auto c : sDebugConsoleCommands)
+            for (const auto& c : sDebugConsoleCommands)
             {
                 if (commandSplit[0] == c.command)
                 {
                     commandSplit.erase(commandSplit.begin());
 
-                    if (c.paramsCount == -1 || c.paramsCount == commandSplit.size())
+                    if (c.paramsCount == -1 || c.paramsCount == static_cast<int>(commandSplit.size()))
                     {
                         c.callback(commandSplit);
                     }
@@ -776,7 +779,7 @@ public:
 
         Command_HelperUpdate();
 
-        const char key = Input_GetLastPressedKey_492610();
+        const char key = static_cast<char>(Input_GetLastPressedKey_492610());
 
         if (GetAsyncKeyState(VK_OEM_3) & 0x1 || GetAsyncKeyState(VK_F9) & 0x1)
         {
@@ -1322,7 +1325,7 @@ private:
         }
 
         {
-            for (int i = 0; i < 10; i++)
+            for (BYTE i = 0; i < 10; i++)
             {
                 Init_Tile1(&mTiles[i]);
                 SetRGB0(&mTiles[i], 255, i * 12, i * 12);
@@ -1441,9 +1444,9 @@ class Poly_F3_Test
 public:
     Poly_F3_Test()
     {
-        for (int i = 0; i < 4; i++)
+        for (auto& poly : mPolys)
         {
-            PolyF3_Init(&mPolys[i]);
+            PolyF3_Init(&poly);
         }
         Update();
 
@@ -1475,22 +1478,22 @@ public:
             mWidth = 60;
         }
 
-        int xpos = mXPos;
-        for (int i = 0; i < 4; i++)
+        short xpos = mXPos;
+        for (auto& poly : mPolys)
         {
-            SetXY0(&mPolys[i], xpos, mYPos);
-            SetXY1(&mPolys[i], xpos, mYPos + mHeight);
-            SetXY2(&mPolys[i], xpos + (mWidth * 2), mYPos);
+            SetXY0(&poly, xpos, mYPos);
+            SetXY1(&poly, xpos, mYPos + mHeight);
+            SetXY2(&poly, xpos + (mWidth * 2), mYPos);
 
             xpos += (mWidth * 2) - 60;
         }
     }
 
 private:
-    int mWidth = 60;
-    int mHeight = 150;
-    int mXPos = 50;
-    int mYPos = 50/2;
+    short mWidth = 60;
+    short mHeight = 150;
+    short mXPos = 50;
+    short mYPos = 50/2;
     Poly_F3 mPolys[4];
 };
 
@@ -1807,7 +1810,7 @@ private:
 
             SetRGB0(&mPolyFT4[i], 127, 127, 127);
             SetTPage(&mPolyFT4[i], 0);
-            SetClut(&mPolyFT4[i], PSX_getClut_4F6350(pr.x, pr.y));
+            SetClut(&mPolyFT4[i], static_cast<short>(PSX_getClut_4F6350(pr.x, pr.y)));
 
             const short xpos = 20 + (150 * i);
             const short ypos = 10;
@@ -1972,7 +1975,7 @@ int sNextPolyF4Prim = 0;
 Line_G2 sLinePrimBuffer[1024];
 Poly_F4 sPolyF4PrimBuffer[1024];
 
-void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent)
+void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
 {
     Poly_F4 * mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
     *mPolyF4 = {};
@@ -2004,7 +2007,7 @@ void DEV::DebugFillRect(int ** ot, int layer, int x, int y, int width, int heigh
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawRect(int ** ot, int layer, int x, int y, int width, int height, char r, char g, char b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawRect(int ** ot, int layer, int x, int y, int width, int height, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
 {
     DebugDrawLine(ot, layer, x, y, x + width, y, r, g, b, worldspace, semiTransparent);
     DebugDrawLine(ot, layer, x + width, y, x + width, y + height, r, g, b, worldspace, semiTransparent);
@@ -2012,7 +2015,7 @@ void DEV::DebugDrawRect(int ** ot, int layer, int x, int y, int width, int heigh
     DebugDrawLine(ot, layer, x, y + height, x, y, r, g, b, worldspace, semiTransparent);
 }
 
-void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, char r, char g, char b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
 {
     Line_G2 * mLineG2 = &sLinePrimBuffer[++sNextLinePrim];
     LineG2_Init(mLineG2);
@@ -2044,7 +2047,7 @@ void DEV::DebugDrawLine(int ** ot, int layer, int x1, int y1, int x2, int y2, ch
     pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
 }
 
-void DEV::DebugDrawText(int ** ot, int layer, std::string & text, int x, int y, char r, char g, char b, bool worldspace, bool semiTransparent)
+void DEV::DebugDrawText(int ** ot, int layer, std::string & text, int x, int y, BYTE r, BYTE g, BYTE b, bool worldspace, bool semiTransparent)
 {
     const auto camOffset = gMap_5C3030.field_24_camera_offset;
 
@@ -2054,8 +2057,8 @@ void DEV::DebugDrawText(int ** ot, int layer, std::string & text, int x, int y, 
         y -= FP_GetExponent(camOffset.field_4_y);
     }
 
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), y, semiTransparent, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
-    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, semiTransparent, 0, 0, layer - 1, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2), static_cast<short>(y), semiTransparent, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
+    g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureWidth_433700(text.c_str()) / 2) + 1, static_cast<short>(y + 1), semiTransparent, 0, 0, layer - 1, 0, 0, 0, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);
 }
 
 void DEV::DebugOnFrameDraw(int ** pOt)

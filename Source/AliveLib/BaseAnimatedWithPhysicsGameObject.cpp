@@ -180,7 +180,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffs
         frameTableOffset,
         gObjList_animations_5C1A24,
         this,
-        maxW,
+        static_cast<short>(maxW),
         maxH,
         ppAnimData,
         a7,

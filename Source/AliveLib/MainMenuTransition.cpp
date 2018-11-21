@@ -18,32 +18,32 @@ ALIVE_ASSERT_SIZEOF(MainMenu_TransitionData, 0x8);
 
 const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
 {
-    { 65528u,   65528,      384, 1 },
-    { 0u,       65504,      256, 1 },
-    { 8u,       65528,      384, 1 },
-    { 32u,      0,          256, 1 },
-    { 8u,       8,          384, 1 },
-    { 0u,       32,         256, 1 },
-    { 65528u,   8,          384, 1 },
-    { 65504u,   0,          256, 1 },
+    { -8,       -8,         384, 1 },
+    { 0,       -32,         256, 1 },
+    { 8,       -8,          384, 1 },
+    { 32,       0,          256, 1 },
+    { 8,        8,          384, 1 },
+    { 0,        32,         256, 1 },
+    { -8,       8,          384, 1 },
+    { -32,      0,          256, 1 },
 
-    { 65520u,   65520,      256, 1 },
-    { 0u,       65513,      256, 1 },
-    { 16u,      65520,      256, 1 },
-    { 23u,      0,          256, 1 },
-    { 16u,      16,         256, 1 },
-    { 0u,       23,         256, 1 },
-    { 65520u,   16,         256, 1 },
+    { -16,      -16,        256, 1 },
+    { 0,       -23,         256, 1 },
+    { 16,      -16,         256, 1 },
+    { 23,      0,           256, 1 },
+    { 16,      16,          256, 1 },
+    { 0,       23,          256, 1 },
+    { -16,      16,         256, 1 },
 
-    { 65513u,   0,          256, 1 },
-    { 65520u,   65520,      256, 1 },
-    { 0u,       65520,      256, 1 },
-    { 16u,      65520,      256, 1 },
-    { 16u,      0,          256, 1 },
-    { 16u,      16,         256, 1 },
-    { 0u,       16,         256, 1 },
-    { 65520u,   16,         256, 1 },
-    { 65520u,   0,          256, 1 },
+    { -23,      0,          256, 1 },
+    { -16,      -16,        256, 1 },
+    { 0,        -16,        256, 1 },
+    { 16,       -16,        256, 1 },
+    { 16,       0,          256, 1 },
+    { 16,       16,         256, 1 },
+    { 0,        16,         256, 1 },
+    { -16,      16,         256, 1 },
+    { -16,       0,         256, 1 },
 };
 
 EXPORT int CC sub_496DD0(char /*a1*/)
@@ -238,13 +238,13 @@ void MainMenuTransition::Render_464470(int** ot)
         y1 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v27, v28) >> 16); // LOWORD
         Poly_G3* pPoly = &field_2C_polys[gPsxDisplay_5C1130.field_C_buffer_index].field_0_polys[i];
 
-        SetRGB0(pPoly, r0g0, r0g0, 255);
-        SetRGB1(pPoly, rgValue, rgValue, bValue);
-        SetRGB2(pPoly, rgValue, rgValue, bValue);
+        SetRGB0(pPoly, static_cast<BYTE>(r0g0), static_cast<BYTE>(r0g0), 255);
+        SetRGB1(pPoly, static_cast<BYTE>(rgValue), static_cast<BYTE>(rgValue), static_cast<BYTE>(bValue));
+        SetRGB2(pPoly, static_cast<BYTE>(rgValue), static_cast<BYTE>(rgValue), static_cast<BYTE>(bValue));
 
         SetXY0(pPoly, field_24E_width, field_250_k120);
         SetXY1(pPoly, x0, y0);
-        SetXY2(pPoly, x1, y1);
+        SetXY2(pPoly, static_cast<short>(x1), static_cast<short>(y1));
 
         OrderingTable_Add_4F8AA0(&ot[field_24C_layer], &pPoly->mBase.header);
     }

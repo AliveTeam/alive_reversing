@@ -4144,11 +4144,12 @@ namespace Test
         ASSERT_EQ(0xFFFE0, PSX_poly_helper_fixed_point_scale_517FA0(0x7FFF0002, 32));
     }
     
-    static void Stub_RenderScanLines(WORD* /*a1*/, int a2)
+    /*
+    static void Stub_RenderScanLines(WORD* a1, int a2)
     {
         a2 = a2;
     }
-    
+    */
 
     static void Test_PSX_poly_helper_4FE710()
     {
