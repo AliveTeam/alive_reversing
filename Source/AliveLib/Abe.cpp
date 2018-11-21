@@ -409,6 +409,12 @@ EXPORT int CC sub_434130(void*, signed __int16*)
     return 1;
 }
 
+EXPORT int CC Abe_SFX_2_457A40(char /*a1*/, int /*a2*/, int /*a3*/, BaseAliveGameObject* /*a4*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 using TFrameCallBackType = decltype(&sub_434130);
 
 // TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks_40B7A0
@@ -2889,7 +2895,43 @@ void Abe::State_15_HoistLand_452BA0()
 
 void Abe::State_16_LandSoft_45A360()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 2)
+    {
+        if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)))
+        {
+            // Hitting the floor events
+            Event_Broadcast_422BC0(kEventNoise, this);
+            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+        }
+        
+        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit7);
+
+        // Hitting the floor sounds
+        if (field_F4 == 3)
+        {
+            Abe_SFX_2_457A40(5, 0, 0x7FFF, this);
+        }
+        else
+        {
+            Abe_SFX_2_457A40(6, 0, 0x7FFF, this);
+        }
+
+        if (sControlledCharacter_5C1B8C != this)
+        {
+            // If Abe is controlling something else then must be standing and chanting
+            field_106_animation_num = eAbeStates::State_112_Chant_45B1C0;
+        }
+
+        if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft))
+        {
+            ToLeftRightMovement_44E340();
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_17_CrouchIdle_456BC0()
@@ -3514,6 +3556,12 @@ void Abe::Get_Shrykull_Resources_45AA20()
     field_10_resources_array.SetAt(25, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, TRUE, FALSE));
     field_10_resources_array.SetAt(26, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kShrmorphResID, TRUE, FALSE));
     field_10_resources_array.SetAt(27, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, TRUE, FALSE));
+}
+
+EXPORT __int16 Abe::ToLeftRightMovement_44E340()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 // TODO: Clean up

@@ -199,6 +199,8 @@ public:
 
     EXPORT void Get_Shrykull_Resources_45AA20();
 
+    EXPORT __int16 ToLeftRightMovement_44E340();
+
 public:
     __int16 field_116;
     int field_118;
