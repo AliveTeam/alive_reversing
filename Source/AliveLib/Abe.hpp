@@ -195,7 +195,7 @@ public:
 
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
-    EXPORT __int16 sub_454090(FP fpX, FP fpY, int a4);
+    EXPORT __int16 sub_454090(FP fpX, int fpY, int a4);
     EXPORT void Get_Shrykull_Resources_45AA20();
     EXPORT __int16 ToLeftRightMovement_44E340();
     EXPORT void TryHoist_44ED30();

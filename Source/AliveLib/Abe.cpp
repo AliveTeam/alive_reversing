@@ -3513,7 +3513,7 @@ void Abe::State_19_StandToCrouch_453DC0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        sub_454090(field_B8_xpos, (field_BC_ypos - FP_FromInteger(5)) / FP_FromDouble(1.0), 1);
+        sub_454090(field_B8_xpos, FP_GetExponent(field_BC_ypos - FP_FromInteger(5)), 1);
         field_106_animation_num = eAbeStates::State_17_CrouchIdle_456BC0;
     }
 }
@@ -4110,7 +4110,7 @@ void Abe::ToIdle_44E6B0()
     sub_408D10(TRUE);
 }
 
-__int16 Abe::sub_454090(FP /*fpX*/, FP /*fpY*/, int /*a4*/)
+__int16 Abe::sub_454090(FP /*fpX*/, int /*fpY*/, int /*a4*/)
 {
     NOT_IMPLEMENTED();
     return 0;
