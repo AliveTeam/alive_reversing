@@ -1,10 +1,10 @@
-#include "stdafx.h"
+    #include "stdafx.h"
 #include "Particle.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
 
-EXPORT void Particle::ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
+EXPORT Particle* Particle::ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -29,6 +29,7 @@ EXPORT void Particle::ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffset, in
     field_BC_ypos = ypos;
     field_B8_xpos = xpos;
     field_F4_scale_amount = 0;
+    return this;
 }
 
 EXPORT void Particle::vUpdate_4CC620()

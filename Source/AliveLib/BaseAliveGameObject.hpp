@@ -54,7 +54,7 @@ public:
     virtual __int16 Vsub_408730(int arg0);
     virtual signed __int16 VOn_TLV_Collision_4087F0(Path_TLV* pTlv);
     virtual char Vsub_408A40(__int16 a2);
-    virtual int Vsub_408FD0(__int16 a2);
+    virtual BaseGameObject* Vsub_408FD0(__int16 a2);
     virtual int Vnull_4081F0();
   
 protected:
@@ -65,13 +65,14 @@ protected:
     EXPORT __int16 vsub_408730(int arg0);
     EXPORT signed __int16 vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
     EXPORT char vsub_408A40(__int16 a2);
-    EXPORT int vsub_408FD0(__int16 a2);
+    EXPORT BaseGameObject* vsub_408FD0(__int16 a2);
     EXPORT int vnull_4081F0();
     EXPORT void SetTint_425600(TintEntry *pTintArray, __int16 level_id);
     EXPORT void sub_408C40();
     EXPORT __int16 sub_408D10(__int16 snapToGrid);
     EXPORT int Raycast_408750(FP offY, FP offX);
     EXPORT __int16 InAirCollision_408810(PathLine **ppPathLine, FP* hitX, FP* hitY, FP velY);
+    EXPORT BaseAliveGameObject* FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos);
 public:
     EXPORT __int16 sub_408BA0(BaseAliveGameObject* pOther);
 public:

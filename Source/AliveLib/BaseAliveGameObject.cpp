@@ -123,7 +123,7 @@ char BaseAliveGameObject::Vsub_408A40(__int16 a2)
     return vsub_408A40(a2);
 }
 
-int BaseAliveGameObject::Vsub_408FD0(__int16 a2)
+BaseGameObject* BaseAliveGameObject::Vsub_408FD0(__int16 a2)
 {
     return vsub_408FD0(a2);
 }
@@ -177,10 +177,10 @@ char BaseAliveGameObject::vsub_408A40(__int16 /*a2*/)
     return 0;
 }
 
-int BaseAliveGameObject::vsub_408FD0(__int16 /*a2*/)
+BaseGameObject* BaseAliveGameObject::vsub_408FD0(__int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    return nullptr;
 }
 
 int BaseAliveGameObject::vnull_4081F0()
@@ -296,7 +296,7 @@ __int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hi
     }
     
     FP velYClamped = field_C8_vely;
-    if (field_4_typeId == Types::eType_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
+    if (field_4_typeId == Types::eMudokon_110 && velYClamped >= FP_FromInteger(0) && velYClamped < FP_FromInteger(4))
     {
         velYClamped = FP_FromInteger(4);
     }
@@ -338,6 +338,12 @@ __int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hi
         hitX,
         hitY,
         field_D6_scale != 0 ? 6 : 96);
+}
+
+BaseAliveGameObject* BaseAliveGameObject::FindObjectOfType_425180(Types /*typeToFind*/, FP /*xpos*/, FP /*ypos*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
 }
 
 __int16 BaseAliveGameObject::sub_408BA0(BaseAliveGameObject* /*pOther*/)

@@ -35,7 +35,7 @@ public:
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
     virtual __int16 Vsub_408730(int arg0) override;
     virtual __int16 VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-    virtual int Vsub_408FD0(__int16 a2) override;
+    virtual BaseGameObject* Vsub_408FD0(__int16 a2) override;
     virtual int Vnull_4081F0() override;
 
     // Virtual impls
@@ -46,7 +46,7 @@ public:
     EXPORT int vGetSaveState_457110(BYTE* pSaveBuffer);
     EXPORT bool vsub_Kill_44BB50(BaseGameObject *otherObj);
     EXPORT __int16 vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
-    EXPORT int vsub_44E970(__int16 a2);
+    EXPORT BaseGameObject* vsub_44E970(__int16 a2);
     EXPORT BaseGameObject* vsub_45A570();
 
     // Non virtuals
@@ -196,14 +196,16 @@ public:
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
     EXPORT __int16 sub_454090(FP fpX, FP fpY, int a4);
-
     EXPORT void Get_Shrykull_Resources_45AA20();
-
     EXPORT __int16 ToLeftRightMovement_44E340();
-
+    EXPORT void TryHoist_44ED30();
+    EXPORT static void CC Create_Fart_421D20();
+    EXPORT __int16 sub_4569E0();
+    EXPORT int sub_44EE10();
+    EXPORT __int16 HandleDoAction_455BD0();
 public:
     __int16 field_116;
-    int field_118;
+    int field_118_prev_held;
     int field_11C;
     unsigned __int16 field_120_state;
     __int16 field_122;

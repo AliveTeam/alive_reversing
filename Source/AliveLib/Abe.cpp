@@ -15,6 +15,7 @@
 #include "ThrowableArray.hpp"
 #include "MusicController.hpp"
 #include "Path.hpp"
+#include "GameSpeak.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -161,7 +162,6 @@ const char* const sAbeStateNames[130] =
 {
     ABE_STATES_ENUM(MAKE_STRINGS)
 };
-
 
 TAbeStateFunction sAbeStateMachineTable_554910[130] =
 {
@@ -415,6 +415,19 @@ EXPORT int CC Abe_SFX_2_457A40(char /*a1*/, int /*a2*/, int /*a3*/, BaseAliveGam
     return 0;
 }
 
+// Fart/dust cloud particle spawner
+EXPORT int CC sub_426C70(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT BaseAliveGameObject* __stdcall Make_Throwable_49AF30(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 using TFrameCallBackType = decltype(&sub_434130);
 
 // TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks_40B7A0
@@ -426,6 +439,10 @@ ALIVE_ARY(1, 0x55EF98, TFrameCallBackType, 5, off_55EF98,
     sub_4561B0,
     sub_434130
 });
+
+ALIVE_VAR(1, 0x5c1bde, WORD, word_5C1BDE, 0);
+ALIVE_VAR(1, 0x5c112c, WORD, word_5C112C, 0);
+
 
 enum AbeResources
 {
@@ -600,7 +617,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 0;
 
-    field_118 = 0;
+    field_118_prev_held = 0;
     field_F6 = 0;
     field_120_state = 0;
     field_168 = 0;
@@ -1017,7 +1034,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_104 = pSaveState->field_3a_collision_line_id;
 
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);
-    sActiveHero_5C1B68->field_118 = InputObject::Command_To_Raw_45EE40(pSaveState->word70);
+    sActiveHero_5C1B68->field_118_prev_held = InputObject::Command_To_Raw_45EE40(pSaveState->word70);
     sActiveHero_5C1B68->field_11C = InputObject::Command_To_Raw_45EE40(pSaveState->word72);
     sActiveHero_5C1B68->field_122 = pSaveState->word74;
     sActiveHero_5C1B68->field_128.field_14 = sGnFrame_5C1B84 - pSaveState->dword78;
@@ -1214,7 +1231,7 @@ __int16 Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     return vOn_TLV_Collision_44B5D0(pTlv);
 }
 
-int Abe::Vsub_408FD0(__int16 a2)
+BaseGameObject* Abe::Vsub_408FD0(__int16 a2)
 {
     return vsub_44E970(a2);
 }
@@ -1257,7 +1274,26 @@ const FP sAbe_yVel_table_545790[8] =
     FP_FromInteger(4)
 };
 
+
+const InputCommands sInputKey_Right_5550D0 = eRight;
+const InputCommands sInputKey_Left_5550D4 = eLeft;
+const InputCommands sInputKey_Up_5550D8 = eUp;
+const InputCommands sInputKey_Down_5550DC = eDown;
+const InputCommands sInputKey_Hop_5550E0 = eHop;
+const InputCommands sInputKey_DoAction_5550E4 = eDoAction;
 const InputCommands sInputKey_Run_5550E8 = eRun;
+const InputCommands sInputKey_Sneak_5550EC = eSneak;
+const InputCommands sInputKey_FartRoll_5550F0 = eFartOrRoll;
+const InputCommands sInputKey_ThrowItem_5550F4 = eThrowItem;
+const InputCommands sInputKey_GameSpeak2_5550F8 = eGameSpeak2;
+const InputCommands sInputKey_GameSpeak4_5550FC = eGameSpeak4;
+const InputCommands sInputKey_GameSpeak3_555100 = eGameSpeak3;
+const InputCommands sInputKey_GameSpeak1_555104 = eGameSpeak1;
+const InputCommands sInputKey_GameSpeak6_555108 = eGameSpeak6;
+const InputCommands sInputKey_GameSpeak5_55510C = eGameSpeak5;
+const InputCommands sInputKey_GameSpeak8_555110 = eGameSpeak8;
+const InputCommands sInputKey_GameSpeak7_555114 = eGameSpeak7;
+
 
 ALIVE_VAR(1, 0x5c1bda, short, word_5C1BDA, 0);
 
@@ -1580,6 +1616,136 @@ public:
         return nullptr;
     }
 };
+
+// TODO: Figure out what this is and impl
+class Class_544FE4 : public BaseGameObject
+{
+public:
+    EXPORT Class_544FE4* ctor_431CB0(FP /*xpos*/, FP /*ypos*/, __int16 /*layer*/, FP /*scale*/, __int16 /*count*/, __int16 /*bUnknown*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        vdtor_431DE0(flags);
+    }
+
+    EXPORT void dtor_431E10()
+    {
+        NOT_IMPLEMENTED();
+        BaseGameObject_dtor_4DBEC0();
+    }
+
+    EXPORT void vdtor_431DE0(signed int flags)
+    {
+        dtor_431E10();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+private:
+    int field_20_xpos1;
+    int field_24_ypos1;
+    int field_28_xpos2;
+    int field_2C_ypos2;
+    int field_30;
+    int field_34;
+    int field_38;
+    int field_3C;
+    __int16 field_40_layer;
+    __int16 field_42;
+    __int16 field_44;
+    __int16 field_46;
+    __int16 field_48_count;
+    __int16 field_4A;
+    int field_4C_prims;
+    int field_50;
+    int field_54;
+    int field_58;
+    int field_5C;
+    int field_60;
+    int field_64;
+    int field_68;
+    int field_6C;
+    int field_70;
+    int field_74;
+    int field_78;
+    int field_7C;
+    int field_80;
+    int field_84;
+    int field_88;
+    int field_8C;
+    int field_90;
+    int field_94;
+    int field_98;
+    int field_9C;
+    int field_A0;
+    int field_A4;
+    int field_A8;
+    int field_AC;
+    int field_B0;
+    int field_B4;
+    int field_B8;
+    int field_BC;
+    int field_C0;
+    int field_C4;
+    int field_C8;
+    int field_CC;
+    int field_D0;
+    int field_D4;
+    int field_D8;
+    int field_DC;
+    int field_E0;
+    int field_E4;
+    int field_E8;
+    int field_EC;
+    int field_F0;
+    int field_F4;
+    int field_F8;
+    int field_FC;
+    int field_100;
+    int field_104;
+    int field_108;
+    int field_10C;
+    int field_110;
+    int field_114;
+    int field_118;
+    int field_11C;
+    int field_120;
+    int field_124;
+    int field_128;
+    int field_12C;
+    int field_130;
+    int field_134;
+    int field_138;
+    int field_13C;
+    int field_140;
+    int field_144;
+    int field_148;
+    int field_14C;
+    int field_150;
+    int field_154;
+    int field_158;
+    int field_15C;
+    int field_160;
+    int field_164;
+    int field_168;
+    int field_16C;
+    int field_170;
+    int field_174;
+    int field_178;
+    int field_17C;
+    int field_180;
+    int field_184;
+    int field_188;
+    __int16 field_18C;
+    __int16 field_18E_bUnknown;
+};
+ALIVE_ASSERT_SIZEOF(Class_544FE4, 0x190);
 
 void Abe::Update_449DC0()
 {
@@ -1983,10 +2149,10 @@ LABEL_74:
     sub_408C40();
 }
 
-int Abe::vsub_44E970(__int16 /*a2*/)
+BaseGameObject* Abe::vsub_44E970(__int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    return nullptr;
 }
 
 BaseGameObject* Abe::vsub_45A570()
@@ -2190,7 +2356,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     //pSaveState->byte6D = (LOBYTE(this->field_1AC_flags) >> 4) & 1;
     pSaveState->byte6E = static_cast<char>(field_16C);
     pSaveState->byte6F = static_cast<char>(field_16E);
-    //pSaveState->word70 = sub_45EF70(field_118);
+    //pSaveState->word70 = sub_45EF70(field_118_prev_held);
     //pSaveState->word72 = sub_45EF70(field_11C);
     pSaveState->word74 = field_122;
     pSaveState->dword78 = sGnFrame_5C1B84 - field_128.field_14;
@@ -2555,10 +2721,408 @@ BYTE** Abe::StateToAnimResource_44AAB0(int state)
     return field_10_resources_array.ItemAt(mapped);
 }
 
-
 void Abe::State_0_Idle_44EEB0()
 {
     NOT_IMPLEMENTED();
+
+    if (Input_IsChanting_45F260() && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit6)))
+    {
+        if (field_168 && field_16C)
+        {
+            field_106_animation_num = eAbeStates::State_119_45A990;
+            field_120_state = 0;
+        }
+        else
+        {
+            // Goto chanting
+            field_124_gnFrame = sGnFrame_5C1B84 + 90;
+            field_106_animation_num = eAbeStates::State_112_Chant_45B1C0;
+            field_120_state = 0;
+            SND_SEQ_PlaySeq_4CA960(0xAu, 0, 1);
+        }
+        return;
+    }
+
+    // Goto game speak state
+    const DWORD held = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    if (held & (eChant | eGameSpeak8 | eGameSpeak7 | eGameSpeak6 | eGameSpeak5 | eGameSpeak4 | eGameSpeak3 | eGameSpeak2 | eGameSpeak1))
+    {
+        field_118_prev_held = held;
+        field_106_animation_num = eAbeStates::State_11_Speak_45B0A0;
+        return;
+    }
+
+    const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    if (sInputKey_Hop_5550E0 & pressed)
+    {
+        // Some strange alternative way of hoisting, hangover from PSX AO Demo?
+        if (pressed & sInputKey_Up_5550D8)
+        {
+            TryHoist_44ED30();
+        }
+        else
+        {
+            field_106_animation_num = eAbeStates::State_27_HopBegin_4521C0;
+
+            BaseGameObject* pObj = Vsub_408FD0(2);
+            if (pObj)
+            {
+                field_1A4 = 0;
+                field_1A8 = pObj->field_8_object_id;
+            }
+        }
+        return;
+    }
+
+    if (ToLeftRightMovement_44E340())
+    {
+        // To turn/walk/sneak/run
+        return;
+    }
+
+    if (sInputKey_Down_5550DC & pressed)
+    {
+        // Check for a lift rope (going down)
+        BaseGameObject* pObj_field_110 = sObjectIds_5C1B70.Find_449CF0(field_110);
+        if (pObj_field_110)
+        {
+            if (pObj_field_110->field_4_typeId == Types::eType_78)
+            {
+                const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
+                const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_x1 + field_100_pCollisionLine->field_4_x2) / 2);
+                const FP xPosToMidLiftPlatformDistance = (field_B8_xpos - liftPlatformXMidPoint) >= FP_FromInteger(0) ? field_B8_xpos - liftPlatformXMidPoint : liftPlatformXMidPoint - field_B8_xpos;
+                if (xPosToMidLiftPlatformDistance < halfGrid)
+                {
+                    field_106_animation_num = eAbeStates::State_121_LiftGrabBegin_45A600;
+                    return;
+                }
+            }
+        }
+        
+        // Look below for a down hoist
+        Path_Hoist* pHoist =  static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos) + 16,
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos) + 16,
+            Path_Hoist::kType));
+
+        if (pHoist)
+        {
+            // Must match our scale
+            if (pHoist->field_16_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 1)
+            {
+                return;
+            }
+
+            if (pHoist->field_16_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 0)
+            {
+                return;
+            }
+
+            // Are we facing the same direction as the hoist edge?
+            if ((pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft || field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+             && (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eRight || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))))
+            {
+                // Yeah go down
+                field_106_animation_num = eAbeStates::State_66_LedgeDescend_454970;
+            }
+            else
+            {
+                // Otherwise gotta turn around
+                field_108 = 66;
+                field_106_animation_num = eAbeStates::State_2_StandingTurn_451830;
+            }
+        }
+        else
+        {
+            // Isn't a hoist so just crouch
+            field_106_animation_num = eAbeStates::State_19_StandToCrouch_453DC0;
+        }
+        return;
+    }
+
+    if (sInputKey_FartRoll_5550F0 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held)
+    {
+        // Do the fart sound
+        Abe_SFX_457EC0(7u, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(3);
+
+        // Let others hear the fart
+        Event_Broadcast_422BC0(kEventNoise, this);
+        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+       
+        if (field_198_has_evil_fart)
+        {
+            // An evil fart
+            field_198_has_evil_fart = FALSE;
+            Create_Fart_421D20();
+
+            if (field_10_resources_array.ItemAt(22))
+            {
+                ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(22));
+                field_10_resources_array.SetAt(22, nullptr);
+                field_106_animation_num = eAbeStates::State_10_Fart_45B1A0;
+                return;
+            }
+        }
+        else
+        {
+            const FP fartScale = FP_FromDouble(0.5) * field_CC_sprite_scale;
+            const FP fartYPos = field_BC_ypos - (FP_FromInteger(24) * field_CC_sprite_scale);
+            FP fartXPos = {};
+
+            // A normal fart, figure out the direction of Abe's Arse
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                fartXPos = field_B8_xpos + (FP_FromInteger(12) * field_CC_sprite_scale);
+            }
+            else
+            {
+                fartXPos = field_B8_xpos - (FP_FromInteger(12) * field_CC_sprite_scale);
+            }
+
+            sub_426C70(fartXPos, fartYPos, fartScale, 3, 32u, 128u, 32u);
+        }
+
+        field_106_animation_num = eAbeStates::State_10_Fart_45B1A0;
+        return;
+    }
+
+    bool handleDoActionOrThrow = false;
+    if (pressed & sInputKey_Up_5550D8)
+    {
+        // Check for lift rope.. (going up)
+        BaseGameObject* pObj_field_110_2 = sObjectIds_5C1B70.Find_449CF0(field_110);
+        if (pObj_field_110_2)
+        {
+            if (pObj_field_110_2->field_4_typeId == Types::eType_78)
+            {
+                const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
+                const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_x1 + field_100_pCollisionLine->field_4_x2) / 2);
+                const FP xPosToMidLiftPlatformDistance = (field_B8_xpos - liftPlatformXMidPoint >= FP_FromInteger(0)) ? field_B8_xpos - liftPlatformXMidPoint : liftPlatformXMidPoint - field_B8_xpos;
+                if (xPosToMidLiftPlatformDistance < halfGrid)
+                {
+                    field_106_animation_num = eAbeStates::State_121_LiftGrabBegin_45A600;
+                    return;
+                }
+            }
+        }
+
+        // Get the first TLV
+        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            nullptr,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
+
+        // Handle objects that accept "up"
+        while (pTlv)
+        {
+            switch (pTlv->field_4_type)
+            {
+            case Path_Door::kType:
+                if (!sub_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7))
+                {
+                    if (sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held) // OG bug, already checked ??
+                    {
+                        field_106_animation_num = eAbeStates::State_34_DunnoBegin_44ECF0;
+                    }
+                }
+                else
+                {
+                    field_FC_pPathTLV = pTlv;
+                    field_120_state = 0;
+                    field_106_animation_num = eAbeStates::State_114_DoorEnter_459470;
+                }
+                return;
+                
+            case Path_Well_Local::kType:
+            {
+                if (field_114_flags.Get(Flags_114::e114_Bit10))
+                {
+                    break;
+                }
+
+                // Bail if scale doesn't match
+                Path_Well_Local* pWell = static_cast<Path_Well_Local*>(pTlv);
+                if ((pWell->field_0_scale != 0 || field_CC_sprite_scale != FP_FromDouble(1.0)) && (pWell->field_0_scale != 1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
+                {
+                    break;
+                }
+
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+                field_FC_pPathTLV = pTlv;
+                field_106_animation_num = eAbeStates::State_78_WellBegin_45C810;
+            }
+            return;
+                
+            case Path_Well_Express::kType:
+            {
+                if (field_114_flags.Get(Flags_114::e114_Bit10))
+                {
+                    break;
+                }
+
+                // Bail if scale doesn't match
+                Path_Well_Express* pWell = static_cast<Path_Well_Express*>(pTlv);
+                if ((pWell->field_0_scale != 0 || field_CC_sprite_scale != FP_FromDouble(1.0)) && (pWell->field_0_scale != 1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
+                {
+                    break;
+                }
+
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+                field_FC_pPathTLV = pTlv;
+                field_106_animation_num = eAbeStates::jState_81_WellBegin_45C7F0;
+            }
+            return;
+                
+            case 27: // 027_Movie_stone
+            case 61: // 061_Hand_stone
+                field_FC_pPathTLV = pTlv;
+                field_106_animation_num = eAbeStates::State_86_HandstoneBegin_45BD00;
+                field_120_state = 0;
+                return;
+
+            case 59:  // 059_Grenade_machine
+            {
+                BaseAliveGameObject* pMachineButton = FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25)));
+                if (pMachineButton)
+                {
+                    pMachineButton->Vnull_408F70();
+                    field_106_animation_num = eAbeStates::State_88_GrenadeMachineUse_45C510;
+                }
+                else
+                {
+                    field_106_animation_num = eAbeStates::State_34_DunnoBegin_44ECF0;
+                }
+            }
+            break;
+                
+            case 79:  // 079_Wheel
+            {
+                bool bCanUseWheel = true;
+                for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+                {
+                    BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+                    if (!pObj)
+                    {
+                        break;
+                    }
+                    
+                    if (pObj->field_4_typeId == Types::eMudokon_110 && pObj->field_D6_scale == field_D6_scale)
+                    {
+                        FP xDiff = pObj->field_B8_xpos - field_B8_xpos;
+                        if (xDiff < FP_FromInteger(0))
+                        {
+                            xDiff = field_B8_xpos - pObj->field_B8_xpos;
+                        }
+
+                        FP gridWidth = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                        if (xDiff < gridWidth)
+                        {
+                            FP yDiff = pObj->field_BC_ypos - field_BC_ypos;
+                            if (yDiff < FP_FromInteger(0))
+                            {
+                                yDiff = field_BC_ypos - pObj->field_BC_ypos;
+                            }
+
+                            if (yDiff < gridWidth)
+                            {
+                                bCanUseWheel = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (bCanUseWheel)
+                {
+                    field_106_animation_num = eAbeStates::State_126_TurnWheelBegin_456700;
+                    BaseAliveGameObject* pObj_148 = FindObjectOfType_425180(Types::eType_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
+                    if (pObj_148)
+                    {
+                        field_164 = pObj_148->field_8_object_id;
+                    }
+                }
+            }
+            break;
+            
+            case 101: // 101_Fart_machine
+                field_106_animation_num = eAbeStates::State_89_BrewMachineBegin_4584C0;
+                field_120_state = 0;
+                break;
+
+            default:
+                break;
+            }
+
+            // To next TLV (if any)
+            pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                pTlv,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_B8_xpos,
+                field_BC_ypos);
+        }
+
+        if (!sub_4569E0())
+        {
+            if (field_106_animation_num == eAbeStates::State_0_Idle_44EEB0)
+            {
+                TryHoist_44ED30();
+            }
+            handleDoActionOrThrow = true;
+        }
+    }
+
+    if (!(pressed & sInputKey_Up_5550D8) || handleDoActionOrThrow)
+    {
+        // TODO: Clean up the logic of these 2 statements
+        if (!(sInputKey_ThrowItem_5550F4 & held) || field_106_animation_num != eAbeStates::State_0_Idle_44EEB0)
+        {
+            if (held & sInputKey_DoAction_5550E4) // not throwing, maybe pressing up and pressing action, so do action
+            {
+                field_106_animation_num = HandleDoAction_455BD0();
+            }
+        }
+        else if (field_1A2_rock_or_bone_count > 0 || word_5C1BDE > 0)
+        {
+            field_158 = Make_Throwable_49AF30(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(40),
+                FP_FromInteger(0))->field_8_object_id;
+
+            if (!word_5C112C)
+            {
+                Class_544FE4* pThrowable = alive_new<Class_544FE4>();
+                if (pThrowable)
+                {
+                    const FP xOffSet = (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? FP_FromInteger(-15) : FP_FromInteger(15) * field_CC_sprite_scale;
+
+                    pThrowable->ctor_431CB0(
+                        field_B8_xpos + xOffSet,
+                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-50)),
+                        field_20_animation.field_C_render_layer,
+                        field_20_animation.field_14_scale,
+                        field_1A2_rock_or_bone_count,
+                        TRUE);
+                }
+            }
+
+            field_106_animation_num = eAbeStates::State_104_RockThrowStandingHold_455DF0;
+            
+            if (word_5C1BDE == 0)
+            {
+                field_1A2_rock_or_bone_count--;
+            }
+        }
+        else
+        {
+            field_106_animation_num = eAbeStates::State_34_DunnoBegin_44ECF0;
+        }
+    }
 }
 
 void Abe::State_1_WalkLoop_44FBA0()
@@ -2780,8 +3344,8 @@ void Abe::State_3_Fall_459B60()
         if (pHoist)
         {
             // Must match our scale
-            if ((pHoist->field_12_edge_type == 0 && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-             || (pHoist->field_12_edge_type == 1 && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))))
+            if ((pHoist->field_12_edge_type == Path_Hoist::EdgeType::eRight && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+             || (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))))
             {
                 tryToHang = true;
             }
@@ -3541,7 +4105,7 @@ void Abe::ToIdle_44E6B0()
     field_C8_vely = FP_FromInteger(0);
     field_124_gnFrame = sGnFrame_5C1B84;
     field_106_animation_num = eAbeStates::State_0_Idle_44EEB0;
-    field_118 = 0;
+    field_118_prev_held = 0;
     field_11C = 0;
     sub_408D10(TRUE);
 }
@@ -3559,7 +4123,34 @@ void Abe::Get_Shrykull_Resources_45AA20()
     field_10_resources_array.SetAt(27, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, TRUE, FALSE));
 }
 
-EXPORT __int16 Abe::ToLeftRightMovement_44E340()
+__int16 Abe::ToLeftRightMovement_44E340()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void Abe::TryHoist_44ED30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void CC Abe::Create_Fart_421D20()
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 Abe::sub_4569E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+int Abe::sub_44EE10()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Abe::HandleDoAction_455BD0()
 {
     NOT_IMPLEMENTED();
     return 0;

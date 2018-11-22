@@ -274,14 +274,14 @@ void DDCheat::Update_415780()
 
             switch (sControlledCharacter_5C1B8C->field_4_typeId)
             {
-            case Types::eType_67:
-            case Types::eType_125:
+            case Types::eGlukkon_67:
+            case Types::eSlig_125:
                 sControlledCharacter_5C1B8C->field_106_animation_num = 7;
                 break;
             case Types::eType_Abe:
-                sControlledCharacter_5C1B8C->field_106_animation_num = 3;
+                sControlledCharacter_5C1B8C->field_106_animation_num = 3; // eAbeStates::State_3_Fall_459B60
                 break;
-            case Types::eType_112:
+            case Types::eScrab_112:
                 sControlledCharacter_5C1B8C->field_106_animation_num = 8;
                 break;
             default:

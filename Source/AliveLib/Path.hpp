@@ -57,10 +57,9 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
-
 struct Path_Door : public Path_TLV
 {
-    const static unsigned short kType;
+    const static unsigned short kType = 5;
 
     __int16 field_10_level;
     __int16 field_12_path;
@@ -102,26 +101,45 @@ ALIVE_ASSERT_SIZEOF(Path_Teleporter_Data, 0x16);
 
 struct Path_Teleporter : public Path_TLV
 {
-    const static unsigned short kType;
+    static constexpr unsigned short kType = 88;
     Path_Teleporter_Data field_10_data;
     __int16 field_26_pad; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
 };
 ALIVE_ASSERT_SIZEOF(Path_Teleporter, 0x28); // 0x10 for base
 
-
 struct Path_Hoist : public Path_TLV
 {
-    const static unsigned short kType;
+    static constexpr unsigned short kType = 2;
 
-    __int16 field_10_type;
-    __int16 field_12_edge_type;
+    enum class Type : __int16
+    {
+        eNextFloor = 0,
+        eNextEdge = 1,
+        eOffScreen = 2,
+    };
+    Type field_10_type;
+
+    enum class EdgeType : __int16
+    {
+        eRight = 0,
+        eLeft = 1,
+        eBoth = 2,
+    };
+    EdgeType field_12_edge_type;
+
     __int16 field_14_id;
-    __int16 field_16_scale;
+
+    enum class Scale : __int16
+    {
+        eFull = 0,
+        eHalf = 1,
+    };
+    Scale field_16_scale;
 };
 
 struct Path_Edge : public Path_TLV
 {
-    const static unsigned short kType;
+    static constexpr unsigned short kType = 3;
 
     enum class Type : __int16
     {
@@ -142,7 +160,7 @@ struct Path_Edge : public Path_TLV
 
 struct Path_SoftLanding : public Path_TLV
 {
-    const static unsigned short kType;
+    static constexpr unsigned short kType = 75;
     int field_10_id;
 };
 
@@ -156,7 +174,7 @@ struct Path_Well_Base : public Path_TLV
 
 struct Path_Well_Local : public Path_Well_Base
 {
-    const static unsigned short kType;
+    static constexpr unsigned short kType = 8;
 
     __int16 field_18_off_dx;
     __int16 field_1A_off_dy;
@@ -170,7 +188,7 @@ struct Path_Well_Local : public Path_Well_Base
 
 struct Path_Well_Express : public Path_Well_Base
 {
-    const static unsigned short kType;
+    static constexpr unsigned short kType = 23;
 
     __int16 field_18_exit_x;
     __int16 field_1A_exit_y;

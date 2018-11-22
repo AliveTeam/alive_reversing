@@ -6,15 +6,6 @@
 #include "Map.hpp"
 #include <assert.h>
 
-const unsigned short Path_Door::kType = 5;
-const unsigned short Path_Teleporter::kType = 88;
-const unsigned short Path_Edge::kType = 3;
-const unsigned short Path_Hoist::kType = 2;
-const unsigned short Path_SoftLanding::kType = 75;
-const unsigned short Path_Well_Local::kType = 8;
-const unsigned short Path_Well_Express::kType = 23;
-
-
 ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);
 
 void Path::ctor_4DB170()
