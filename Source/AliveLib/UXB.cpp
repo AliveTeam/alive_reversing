@@ -70,9 +70,42 @@ void UXB::PlaySFX_4DE930(unsigned __int8 sfxIdx)
     }
 }
 
-signed int UXB::sub_4DF630()
+signed int UXB::IsColliding_4DF630()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT uxbBound;
+    vGetBoundingRect_424FD0(&uxbBound, 1);
+
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject * pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+
+        if (!pObj)
+        {
+            break;
+        }
+
+        // e114_Bit6 May be "can set off explosives?"
+        if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+        {
+            PSX_RECT objBound;
+            pObj->vGetBoundingRect_424FD0(&objBound, 1);
+
+            int objX = FP_GetExponent(pObj->field_B8_xpos);
+            int objY = FP_GetExponent(pObj->field_BC_ypos);
+
+            if (objX > uxbBound.x &&
+                objX < uxbBound.w &&
+                objY < uxbBound.h + 5 &&
+                uxbBound.x <= objBound.w &&
+                uxbBound.w >= objBound.x &&
+                uxbBound.h >= objBound.y &&
+                uxbBound.y <= objBound.h &&
+                pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+            {
+                return 1;
+            }
+        }
+    }
 
     return 0;
 }
@@ -244,7 +277,7 @@ void UXB::Update_4DF030()
                 field_6_flags.Set(Options::eDead);
             }
         }
-        else if (sub_4DF630())
+        else if (IsColliding_4DF630())
         {
             field_118 = 2;
             field_124_next_state_frame = sGnFrame_5C1B84 + 2;
@@ -296,7 +329,7 @@ void UXB::Update_4DF030()
     }
     else
     {
-        if (sub_4DF630())
+        if (IsColliding_4DF630())
         {
             field_118 = 2;
             field_124_next_state_frame = sGnFrame_5C1B84 + 2;

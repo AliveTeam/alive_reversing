@@ -55,7 +55,7 @@ public:
     EXPORT void Render_4DF3D0(int **pOt);
     EXPORT void InitBlinkAnim_4DEED0(AnimationEx *pAnimation);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
-    EXPORT signed int sub_4DF630();
+    EXPORT signed int IsColliding_4DF630();
 
     EXPORT static int CC CreateFromSaveState_4DFAE0(const BYTE*);
 public:

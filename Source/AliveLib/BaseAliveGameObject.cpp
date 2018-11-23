@@ -22,7 +22,7 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_114_flags.Clear(Flags_114::e114_Bit3);
     field_114_flags.Clear(Flags_114::e114_Bit4);
     field_114_flags.Clear(Flags_114::e114_Bit5);
-    field_114_flags.Clear(Flags_114::e114_Bit6);
+    field_114_flags.Clear(Flags_114::e114_Bit6_SetOffExplosives);
     field_114_flags.Clear(Flags_114::e114_Bit7);
     field_114_flags.Clear(Flags_114::e114_Bit8);
     field_114_flags.Clear(Flags_114::e114_Bit9);

@@ -599,7 +599,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_15C = -1;
     field_1AE &= ~3u;
 
-    field_114_flags.Set(Flags_114::e114_Bit6);
+    field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
     field_1AC_flags.Raw().all = 0;
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit6);

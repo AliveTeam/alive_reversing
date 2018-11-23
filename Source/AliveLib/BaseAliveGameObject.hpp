@@ -24,7 +24,7 @@ enum Flags_114
     e114_Bit3 = 0x4,
     e114_Bit4 = 0x8,
     e114_Bit5 = 0x10,
-    e114_Bit6 = 0x20,
+    e114_Bit6_SetOffExplosives = 0x20,
     e114_Bit7 = 0x40,
     e114_Bit8 = 0x80,
     e114_Bit9 = 0x100,
