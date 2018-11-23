@@ -399,20 +399,6 @@ void UXB::Render_4DF3D0(int ** pOt)
     }
 }
 
-struct SaveState_UXB
-{
-    BYTE field_0[4];
-    TlvItemInfoUnion field_4_tlv;
-    DWORD field_8_next_state_frame;
-    WORD field_c_uxb_118;
-    WORD field_e_uxb_11a;
-    WORD field_10_disabled_resources;
-    WORD field_12_uxb_1c2;
-    WORD field_14_uxb_1c6;
-    WORD field_16_unknown;
-};
-ALIVE_ASSERT_SIZEOF(SaveState_UXB, 24);
-
 EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
 {
     const SaveState_UXB * pSaveState = reinterpret_cast<const SaveState_UXB *>(__pSaveState);
@@ -453,11 +439,34 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     pUXB->field_118 = pSaveState->field_c_uxb_118;
     pUXB->field_11A = pSaveState->field_e_uxb_11a;
     pUXB->field_11C_disabled_resources = pSaveState->field_10_disabled_resources;
-    pUXB->field_1C2_pattern_index = pSaveState->field_12_uxb_1c2;
-    pUXB->field_1C6_red_blink_count = pSaveState->field_14_uxb_1c6;
-    pUXB->field_1C8_flags.Raw().all = pUXB->field_1C8_flags.Raw().all & 0xFFFD | 2 * (pSaveState->field_16_unknown & 1); // Todo. Use better bit flag funcs
+    pUXB->field_1C2_pattern_index = pSaveState->field_12_pattern_index;
+    pUXB->field_1C6_red_blink_count = pSaveState->field_14_red_blink_count;
+
+    pUXB->field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+    
+    if (pSaveState->field_16_is_red)
+    {
+        pUXB->field_1C8_flags.Set(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+    }
 
     return sizeof(SaveState_UXB); // 24
+}
+
+int UXB::GetSaveState_4DC110(BYTE * __pSaveBuffer)
+{
+    SaveState_UXB * pSaveState = reinterpret_cast<SaveState_UXB *>(__pSaveBuffer);
+
+    pSaveState->field_0_id = 143;
+    pSaveState->field_4_tlv = field_120_tlv;
+    pSaveState->field_8_next_state_frame = field_124_next_state_frame;
+    pSaveState->field_c_uxb_118 = field_118;
+    pSaveState->field_e_uxb_11a = field_11A;
+    pSaveState->field_10_disabled_resources = field_11C_disabled_resources;
+    pSaveState->field_12_pattern_index = field_1C2_pattern_index;
+    pSaveState->field_14_red_blink_count = field_1C6_red_blink_count;
+    pSaveState->field_16_is_red = field_1C8_flags.Get(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+
+    return sizeof(SaveState_UXB);
 }
 
 BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)

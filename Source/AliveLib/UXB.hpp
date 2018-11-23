@@ -19,6 +19,21 @@ struct Path_UXB
     int field_18_disabled_resources;
 };
 
+struct SaveState_UXB
+{
+    __int16 field_0_id;
+    __int16 field_2;
+    TlvItemInfoUnion field_4_tlv;
+    DWORD field_8_next_state_frame;
+    WORD field_c_uxb_118;
+    WORD field_e_uxb_11a;
+    WORD field_10_disabled_resources;
+    WORD field_12_uxb_1c2;
+    WORD field_14_uxb_1c6;
+    WORD field_16_is_red;
+};
+ALIVE_ASSERT_SIZEOF(SaveState_UXB, 24);
+
 enum UXB_Flags_1C8
 {
     e1C8_Bit1 = 0x1,
@@ -49,6 +64,8 @@ public:
     /*virtual void VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
     virtual void vnullsub_4DC0F0() override;*/
+
+    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
 
     EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
     EXPORT void Update_4DF030();
