@@ -469,10 +469,7 @@ void Command_Die(const std::vector<std::string>& /*args*/)
 {
     FakeObjStruct fake;
     fake.field_4_typeId = 30;
-    // Dont judge me on the line bellow paul :P
-    // It calls to vtable offset 19
-    sControlledCharacter_5C1B8C->Vsub_408730(0);
-    //((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(sControlledCharacter_5C1B8C)+76)))(sControlledCharacter_5C1B8C, 0, reinterpret_cast<BaseGameObject*>(&fake));
+    sControlledCharacter_5C1B8C->Vsub_408730(reinterpret_cast<int>(&fake));
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -503,7 +500,6 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
             {
                 explosion->ctor_423E70(aliveObj->field_B8_xpos, aliveObj->field_BC_ypos, 0, aliveObj->field_CC_sprite_scale);
             }
-            //((void(__fastcall*)(BaseGameObject *, int eax, BaseGameObject *))(*(int*)(*(int*)(aliveObj)+76)))(aliveObj, 0, reinterpret_cast<BaseGameObject*>(&fake));
         }
     }
 }
