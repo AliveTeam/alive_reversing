@@ -62,8 +62,8 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VDestructor(signed int flags) override;
-    /*virtual void VScreenChanged() override;
-    virtual void vnullsub_4DC0F0() override;*/
+    virtual void VScreenChanged() override;
+    // virtual void vnullsub_4DC0F0() override;
 
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
 
@@ -72,6 +72,7 @@ public:
     EXPORT void dtor_4DEEA0(signed int flags);
     EXPORT void Update_4DF030();
     EXPORT void Render_4DF3D0(int **pOt);
+    EXPORT void ScreenChanged_4DF9C0();
     EXPORT void InitBlinkAnim_4DEED0(AnimationEx *pAnimation);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
     EXPORT signed int IsColliding_4DF630();

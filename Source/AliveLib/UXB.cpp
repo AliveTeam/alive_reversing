@@ -11,6 +11,7 @@
 #include "Game.hpp"
 #include "ScreenManager.hpp"
 #include "Midi.hpp"
+#include "Abe.hpp"
 
 TintEntry sTintMap_UXB_563A3C[19] =
 {
@@ -123,6 +124,11 @@ void UXB::VRender(int ** pOrderingTable)
 void UXB::VDestructor(signed int flags)
 {
     dtor_4DEEA0(flags);
+}
+
+void UXB::VScreenChanged()
+{
+    ScreenChanged_4DF9C0();
 }
 
 UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
@@ -429,6 +435,49 @@ void UXB::Render_4DF3D0(int ** pOt)
                 pScreenManager_5BB5F4->field_3A_idx);
 
             Render_424B90(pOt);
+        }
+    }
+}
+
+void UXB::ScreenChanged_4DF9C0()
+{
+    ScreenChanged_4DC0A0();
+
+    FP x_distance = sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos;
+
+    // This is pretty much the same as using Abs()
+    if (x_distance < FP_FromInteger(0))
+    {
+        x_distance = field_B8_xpos - sControlledCharacter_5C1B8C->field_B8_xpos;
+    }
+
+    FP y_distance = sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos;
+
+    // This is pretty much the same as using Abs()
+    if (y_distance < FP_FromInteger(0))
+    {
+        y_distance = field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos;
+    }
+
+    if (y_distance > FP_FromInteger(520) || x_distance > FP_FromInteger(750))
+    {
+        if (field_11A != 3 || field_118 == 3)
+        {
+            if (field_11A || field_118 != 3)
+            {
+                Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
+                field_6_flags.Set(Options::eDead);
+            }
+            else
+            {
+                Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
+                field_6_flags.Set(Options::eDead);
+            }
+        }
+        else
+        {
+            Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
+            field_6_flags.Set(Options::eDead);
         }
     }
 }
