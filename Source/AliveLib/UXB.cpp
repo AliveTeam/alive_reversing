@@ -482,6 +482,23 @@ void UXB::ScreenChanged_4DF9C0()
     }
 }
 
+int UXB::GetSaveState_4DFD40(BYTE * __pSaveBuffer)
+{
+    SaveState_UXB * pSaveState = reinterpret_cast<SaveState_UXB *>(__pSaveBuffer);
+
+    pSaveState->field_0_id = 143;
+    pSaveState->field_4_tlv = field_120_tlv;
+    pSaveState->field_8_next_state_frame = field_124_next_state_frame;
+    pSaveState->field_c_uxb_118 = field_118;
+    pSaveState->field_e_uxb_11a = field_11A;
+    pSaveState->field_10_disabled_resources = field_11C_disabled_resources;
+    pSaveState->field_12_pattern_index = field_1C2_pattern_index;
+    pSaveState->field_14_red_blink_count = field_1C6_red_blink_count;
+    pSaveState->field_16_is_red = field_1C8_flags.Get(UXB_Flags_1C8::e1C8_Bit1_IsRed);
+
+    return sizeof(SaveState_UXB);
+}
+
 EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
 {
     const SaveState_UXB * pSaveState = reinterpret_cast<const SaveState_UXB *>(__pSaveState);
@@ -537,19 +554,7 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
 
 int UXB::GetSaveState_4DC110(BYTE * __pSaveBuffer)
 {
-    SaveState_UXB * pSaveState = reinterpret_cast<SaveState_UXB *>(__pSaveBuffer);
-
-    pSaveState->field_0_id = 143;
-    pSaveState->field_4_tlv = field_120_tlv;
-    pSaveState->field_8_next_state_frame = field_124_next_state_frame;
-    pSaveState->field_c_uxb_118 = field_118;
-    pSaveState->field_e_uxb_11a = field_11A;
-    pSaveState->field_10_disabled_resources = field_11C_disabled_resources;
-    pSaveState->field_12_pattern_index = field_1C2_pattern_index;
-    pSaveState->field_14_red_blink_count = field_1C6_red_blink_count;
-    pSaveState->field_16_is_red = field_1C8_flags.Get(UXB_Flags_1C8::e1C8_Bit1_IsRed);
-
-    return sizeof(SaveState_UXB);
+    return GetSaveState_4DFD40(__pSaveBuffer);
 }
 
 BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)

@@ -63,7 +63,6 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
-
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
 
     EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
@@ -72,6 +71,7 @@ public:
     EXPORT void Update_4DF030();
     EXPORT void Render_4DF3D0(int **pOt);
     EXPORT void ScreenChanged_4DF9C0();
+    EXPORT int GetSaveState_4DFD40(BYTE* pSaveBuffer);
     EXPORT void InitBlinkAnim_4DEED0(AnimationEx *pAnimation);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
     EXPORT signed int IsColliding_4DF630();
