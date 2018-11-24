@@ -177,7 +177,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
 
 void Mine::Update_46B5D0()
 {
-    const bool onScreen = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+    const short onScreen = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
         field_C0_path_number,
         field_B8_xpos,
