@@ -77,7 +77,7 @@ void Mine::VDestructor(signed int /*flags*/)
 
 void Mine::VScreenChanged()
 {
-
+    ScreenChanged_46BAE0();
 }
 
 Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
@@ -132,7 +132,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     }
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame_5C1B84;
-    field_124_animation.Init_40A030(400, gObjList_animations_5C1A24, this, 36, 8u, Add_Resource_4DC130(ResourceManager::Resource_Animation, 1040), 1u, 0, 0);
+    field_124_animation.Init_40A030(400, gObjList_animations_5C1A24, this, 36, 8u, Add_Resource_4DC130(ResourceManager::Resource_Animation, kMineflshResID), 1u, 0, 0);
 
     field_124_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_124_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
@@ -151,17 +151,17 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
         field_1BC_flags.Set(Mine_Flags_1BC::e1BC_Bit1);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 13);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 1105);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 300);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, kAbebombResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, kDebrisID00);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, kBgexpldResID);
 
     if (!(field_11A_disabled_resources & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 25);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, kAbeblowResID);
     }
     if (!(field_11A_disabled_resources & 2))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 576);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, kSlogBlowResID );
     }
 
     FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
@@ -247,6 +247,16 @@ void Mine::Render_46B7A0(int ** pOt)
 
             Render_424B90(pOt);
         }
+    }
+}
+
+void Mine::ScreenChanged_46BAE0()
+{
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId
+        || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId
+        || !field_1BC_flags.Get(Mine_Flags_1BC::e1BC_Bit1))
+    {
+        field_6_flags.Set(Options::eDead);
     }
 }
 
