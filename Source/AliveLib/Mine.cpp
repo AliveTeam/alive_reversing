@@ -173,3 +173,25 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     return this;
 }
 
+void Mine::Render_46B7A0(int ** pOt)
+{
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
+        {
+            this->field_124_animation.vRender_40B820(FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                pOt,
+                0,
+                0);
+
+            Render_424B90(pOt);
+        }
+    }
+}
+

@@ -35,6 +35,8 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT Mine * ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
+
+    EXPORT void Render_46B7A0(int ** pOt);
 public:
     BYTE field_116[2];
     WORD field_118;
