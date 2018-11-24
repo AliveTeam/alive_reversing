@@ -1079,6 +1079,8 @@ void PauseMenu::Update_48FD80()
                     Quicksave_4C90D0();
                     pHero = sActiveHero_5C1B68;
                     pControlledChar = sControlledCharacter_5C1B8C;
+                    sQuicksave_SaveNextFrame_5CA4D8 = 0;
+                    sQuicksave_LoadNextFrame_5CA4D9 = 0;
                 }
                 else if (sQuicksave_LoadNextFrame_5CA4D9)
                 {
@@ -1086,6 +1088,8 @@ void PauseMenu::Update_48FD80()
                     SND_SEQ_Stop_4CAE60(0xAu);
                     pHero = sActiveHero_5C1B68;
                     pControlledChar = sControlledCharacter_5C1B8C;
+                    sQuicksave_SaveNextFrame_5CA4D8 = 0;
+                    sQuicksave_LoadNextFrame_5CA4D9 = 0;
                 }
                 else
                 {
