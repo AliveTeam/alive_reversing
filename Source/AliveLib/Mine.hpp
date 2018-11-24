@@ -35,8 +35,10 @@ public:
     virtual void VScreenChanged() override;
 
     EXPORT Mine * ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
-
+    EXPORT void Update_46B5D0();
     EXPORT void Render_46B7A0(int ** pOt);
+
+    EXPORT bool IsColliding_46B8C0();
 public:
     BYTE field_116[2];
     WORD field_118;

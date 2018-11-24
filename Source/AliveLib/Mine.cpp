@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Mine.hpp"
+#include "UXB.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
@@ -17,6 +18,7 @@
 void Mine_ForceLink() {
 }
 
+ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 
 //signed int UXB::IsColliding_4DF630()
 //{
@@ -60,12 +62,12 @@ void Mine_ForceLink() {
 
 void Mine::VUpdate()
 {
-
+    Update_46B5D0();
 }
 
-void Mine::VRender(int ** /*pOrderingTable*/)
+void Mine::VRender(int ** pOrderingTable)
 {
-
+    Render_46B7A0(pOrderingTable);
 }
 
 void Mine::VDestructor(signed int /*flags*/)
@@ -173,6 +175,59 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     return this;
 }
 
+void Mine::Update_46B5D0()
+{
+    const bool onScreen = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos,
+        0);
+
+    if (field_118)
+    {
+        if (field_118 == 1 && sGnFrame_5C1B84 >= field_120_gnframe)
+        {
+            auto explosion = alive_new<BaseBomb>();
+            if (explosion)
+            {
+                explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+            }
+            field_6_flags.Set(Options::eDead);
+        }
+    }
+    else
+    {
+        if (field_20_animation.field_92_current_frame == 1
+            && (!sMineSFXOwner_5C3008 || sMineSFXOwner_5C3008 == this))
+        {
+            if (onScreen)
+            {
+                SFX_Play_46FA90(3u, 35, 0x10000);
+                sMineSFXOwner_5C3008 = this;
+            }
+            else
+            {
+                sMineSFXOwner_5C3008 = nullptr;
+            }
+        }
+        if (Mine::IsColliding_46B8C0())
+        {
+            field_118 = 1;
+            field_120_gnframe = sGnFrame_5C1B84;
+        }
+    }
+    if (field_118 != 1)
+    {
+        BaseGameObject * pEventObj = Event_Get_422C00(kEventDeathReset);
+        if (pEventObj || field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 ||
+            field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032)
+        {
+            field_6_flags.Set(Options::eDead);
+        }
+    }
+}
+
 void Mine::Render_46B7A0(int ** pOt)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -193,5 +248,45 @@ void Mine::Render_46B7A0(int ** pOt)
             Render_424B90(pOt);
         }
     }
+}
+
+bool Mine::IsColliding_46B8C0()
+{
+    PSX_RECT mineBound;
+    vGetBoundingRect_424FD0(&mineBound, 1);
+
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject * pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+
+        if (!pObj)
+        {
+            break;
+        }
+
+        // e114_Bit6 May be "can set off explosives?"
+        if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+        {
+            PSX_RECT objBound;
+            pObj->vGetBoundingRect_424FD0(&objBound, 1);
+
+            int objX = FP_GetExponent(pObj->field_B8_xpos);
+            int objY = FP_GetExponent(pObj->field_BC_ypos);
+
+            if (objX > mineBound.x &&
+                objX < mineBound.w &&
+                objY < mineBound.h + 12 &&
+                mineBound.x <= objBound.w &&
+                mineBound.w >= objBound.x &&
+                mineBound.h >= objBound.y &&
+                mineBound.y <= objBound.h &&
+                pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+            {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 }
 
