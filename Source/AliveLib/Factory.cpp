@@ -6,6 +6,7 @@
 #include "Path.hpp"
 #include "LCDScreen.hpp"
 #include "UXB.hpp"
+#include "Mine.hpp"
 #include "StatsSign.hpp"
 #include "BackgroundAnimation.hpp"
 
@@ -78,7 +79,39 @@ EXPORT void CC Factory_Null_4D6A00(Path_TLV* , Path*, TlvItemInfoUnion, __int16)
 EXPORT void CC Factory_Null_4D6A20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Well_4D7E60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Mine_4D8890(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
+{
+    Path_Mine * mine_tlv = reinterpret_cast<Path_Mine *>(pTlv);
+
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, loadmode, mine_tlv->field_16_disabled_resources & 1);
+        Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, kSlogBlowResID, loadmode, mine_tlv->field_16_disabled_resources & 2);
+
+        static CompileTimeResourceList<3> sMineResourceList_56337C({
+            { ResourceManager::Resource_Animation, kLandmineResID },
+            { ResourceManager::Resource_Animation, kMineflshResID },
+        });
+
+        static CompileTimeResourceList<3> sExplodeResourceList_56334C({
+            { ResourceManager::Resource_Animation, kAbebombResID },
+            { ResourceManager::Resource_Animation, kDebrisID00 },
+            { ResourceManager::Resource_Animation, kBgexpldResID },
+        });
+
+        Map::LoadResourcesFromList_4DBE70("MINE.BND", sMineResourceList_56337C.AsList(), loadmode, 0);
+        Map::LoadResourcesFromList_4DBE70("EXPLODE.BND", sExplodeResourceList_56334C.AsList(), loadmode, 0);
+    }
+    else
+    {
+        auto pMine = alive_new<Mine>();
+        if (pMine)
+        {
+            pMine->ctor_46B120(mine_tlv, tlvOffsetLevelIdPathId);
+        }
+    }
+}
 
 EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 { 
@@ -86,8 +119,8 @@ EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
 
     if (loadmode == 1 || loadmode == 2)
     {
-        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadmode, uxb_tlv->field_18_disabled_resources & 1);
-        Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadmode, uxb_tlv->field_18_disabled_resources & 2);
+        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, loadmode, uxb_tlv->field_18_disabled_resources & 1);
+        Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, kSlogBlowResID, loadmode, uxb_tlv->field_18_disabled_resources & 2);
         
         static CompileTimeResourceList<3> sUXBResourceList_563390({
             { ResourceManager::Resource_Animation, kTbombResID },
