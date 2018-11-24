@@ -31,6 +31,7 @@
 #include "ScreenManager.hpp"
 #include "LCDScreen.hpp"
 #include "UXB.hpp"
+#include "Mine.hpp"
 #include "StatsSign.hpp"
 #include "Sfx.hpp"
 #include "ObjectIds.hpp"
@@ -89,6 +90,7 @@ static void InitOtherHooksAndRunTests()
     Compression_ForceLink();
     StatsSign_ForceLink();
     UXB_ForceLink();
+    Mine_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

@@ -136,6 +136,8 @@ add_library(AliveLib
     ThrowableArray.hpp
     UXB.cpp
     UXB.hpp
+    Mine.cpp
+    Mine.hpp
     Slurg.cpp
     Slurg.hpp)
 

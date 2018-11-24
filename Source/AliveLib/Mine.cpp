@@ -1,0 +1,175 @@
+#include "stdafx.h"
+#include "Mine.hpp"
+#include "Function.hpp"
+#include "stdlib.hpp"
+#include "SwitchStates.hpp"
+#include "DebugHelpers.hpp"
+#include "StringFormatters.hpp"
+#include "Events.hpp"
+#include "Sfx.hpp"
+#include "VRam.hpp"
+#include "Game.hpp"
+#include "ScreenManager.hpp"
+#include "Midi.hpp"
+#include "Abe.hpp"
+
+
+void Mine_ForceLink() {
+}
+
+
+//signed int UXB::IsColliding_4DF630()
+//{
+//    PSX_RECT uxbBound;
+//    vGetBoundingRect_424FD0(&uxbBound, 1);
+//
+//    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+//    {
+//        BaseAliveGameObject * pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+//
+//        if (!pObj)
+//        {
+//            break;
+//        }
+//
+//        // e114_Bit6 May be "can set off explosives?"
+//        if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+//        {
+//            PSX_RECT objBound;
+//            pObj->vGetBoundingRect_424FD0(&objBound, 1);
+//
+//            int objX = FP_GetExponent(pObj->field_B8_xpos);
+//            int objY = FP_GetExponent(pObj->field_BC_ypos);
+//
+//            if (objX > uxbBound.x &&
+//                objX < uxbBound.w &&
+//                objY < uxbBound.h + 5 &&
+//                uxbBound.x <= objBound.w &&
+//                uxbBound.w >= objBound.x &&
+//                uxbBound.h >= objBound.y &&
+//                uxbBound.y <= objBound.h &&
+//                pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+//            {
+//                return 1;
+//            }
+//        }
+//    }
+//
+//    return 0;
+//}
+
+void Mine::VUpdate()
+{
+
+}
+
+void Mine::VRender(int ** /*pOrderingTable*/)
+{
+
+}
+
+void Mine::VDestructor(signed int /*flags*/)
+{
+
+}
+
+void Mine::VScreenChanged()
+{
+
+}
+
+Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
+{
+    ctor_408240(0);
+
+    SetVTable(this, 0x546164);
+    SetVTable(&field_124_animation, 0x544290);
+
+    field_4_typeId = eMine;
+
+    Animation_Init_424E10(784, 38, 0xDu, Add_Resource_4DC130(ResourceManager::Resource_Animation, 1036), 1, 1u);
+
+    field_118 = 0;
+    field_6_flags.Set(Options::eInteractive);
+    field_6_flags.Set(Options::eCanExplode);
+
+    if (pPath->field_14_scale)
+    {
+        if (pPath->field_14_scale == 1)
+        {
+            field_CC_sprite_scale = FP_FromDouble(0.5);
+            field_20_animation.field_C_render_layer = 16;
+            field_D6_scale = 0;
+        }
+    }
+    else
+    {
+        field_CC_sprite_scale = FP_FromDouble(1);
+        field_20_animation.field_C_render_layer = 35;
+        field_D6_scale = 1;
+    }
+    const int v7 = pPath->field_0_mBase.field_8_top_left.field_0_x + pPath->field_0_mBase.field_C_bottom_right.field_0_x;
+    field_B8_xpos = FP_FromInteger(v7 / 2);
+    const FP v8 = FP_FromInteger(pPath->field_0_mBase.field_8_top_left.field_2_y);
+    field_BC_ypos = v8;
+
+    FP hitY;
+    FP hitX;
+
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        FP_FromInteger(v7 / 2),
+        v8,
+        FP_FromInteger(v7 / 2),
+        v8 + FP_FromInteger(24),
+        &field_100_pCollisionLine,
+        &hitX,
+        &hitY,
+        field_D6_scale != 0 ? 1 : 16) == 1)
+    {
+        field_BC_ypos = hitY;
+    }
+    field_11C_tlv = tlv;
+    field_120_gnframe = sGnFrame_5C1B84;
+    field_124_animation.Init_40A030(400, gObjList_animations_5C1A24, this, 36, 8u, Add_Resource_4DC130(ResourceManager::Resource_Animation, 1040), 1u, 0, 0);
+
+    field_124_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_124_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+
+    field_124_animation.field_C_render_layer = field_20_animation.field_C_render_layer;
+    field_124_animation.field_14_scale = field_CC_sprite_scale;
+    field_124_animation.field_8_r = 128;
+    field_124_animation.field_9_g = 128;
+    field_124_animation.field_A_b = 128;
+
+    field_11A_disabled_resources = pPath->field_16_disabled_resources;
+
+    field_1BC_flags.Clear(Mine_Flags_1BC::e1BC_Bit1);
+    if (pPath->field_18_persists_offscreen & 1)
+    {
+        field_1BC_flags.Set(Mine_Flags_1BC::e1BC_Bit1);
+    }
+
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, 13);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, 1105);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, 300);
+
+    if (!(field_11A_disabled_resources & 1))
+    {
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, 25);
+    }
+    if (!(field_11A_disabled_resources & 2))
+    {
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, 576);
+    }
+
+    FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    field_E4 = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
+    field_EC = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
+    field_6_flags.Set(Options::eInteractive);
+    field_DC_bApplyShadows |= 2u;
+    field_E8 = field_BC_ypos - gridSnap;
+    field_F0_prev_base = field_BC_ypos;
+
+    return this;
+}
+
