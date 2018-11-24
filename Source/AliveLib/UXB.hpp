@@ -28,16 +28,16 @@ struct SaveState_UXB
     WORD field_c_uxb_118;
     WORD field_e_uxb_11a;
     WORD field_10_disabled_resources;
-    WORD field_12_uxb_1c2;
-    WORD field_14_uxb_1c6;
+    WORD field_12_pattern_index;
+    WORD field_14_red_blink_count;
     WORD field_16_is_red;
 };
 ALIVE_ASSERT_SIZEOF(SaveState_UXB, 24);
 
 enum UXB_Flags_1C8
 {
-    e1C8_Bit1 = 0x1,
-    e1C8_Bit2_IsRed = 0x2,
+    e1C8_Bit0 = 0x1,
+    e1C8_Bit1_IsRed = 0x2,
 };
 
 class BaseBomb : BaseAnimatedWithPhysicsGameObject
@@ -61,13 +61,15 @@ class UXB : public BaseAliveGameObject
 public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    /*virtual void VDestructor(signed int flags) override;
-    virtual void VScreenChanged() override;
+    virtual void VDestructor(signed int flags) override;
+    /*virtual void VScreenChanged() override;
     virtual void vnullsub_4DC0F0() override;*/
 
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
 
     EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
+    EXPORT void dtor_4DEF60();
+    EXPORT void dtor_4DEEA0(signed int flags);
     EXPORT void Update_4DF030();
     EXPORT void Render_4DF3D0(int **pOt);
     EXPORT void InitBlinkAnim_4DEED0(AnimationEx *pAnimation);

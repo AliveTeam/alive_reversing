@@ -120,6 +120,11 @@ void UXB::VRender(int ** pOrderingTable)
     Render_4DF3D0(pOrderingTable);
 }
 
+void UXB::VDestructor(signed int flags)
+{
+    dtor_4DEEA0(flags);
+}
+
 UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
 {
     ctor_408240(0);
@@ -137,7 +142,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
     SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.sCurrentLevelId_5C3030);
 
     field_6_flags.Set(BaseGameObject::Options::eInteractive);
-    field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1);
+    field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit0);
     field_118 = 0;
 
     field_1C0_pattern_length = tlv_params->field_10_num_patterns;
@@ -180,7 +185,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
         if (!tlv_params->field_16_state)
         {
             field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
-            field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+            field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             PlaySFX_4DE930(2);
             field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
@@ -201,7 +206,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
         else
         {
             field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
-            field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+            field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
             field_11A = 3;
@@ -260,6 +265,35 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
     return this;
 }
 
+void UXB::dtor_4DEF60()
+{
+    SetVTable(this, 0x547E80);
+
+    if (field_118 != 2 || sGnFrame_5C1B84 < field_124_next_state_frame)
+    {
+        Path::TLV_Reset_4DB8E0(field_120_tlv.all, -1, 0, 0);
+    }
+    else
+    {
+        Path::TLV_Reset_4DB8E0(field_120_tlv.all, -1, 0, 1);
+    }
+
+    field_128_animation.vCleanUp_40C630();
+
+    field_6_flags.Clear(Options::eInteractive);
+
+    dtor_4080B0();
+}
+
+void UXB::dtor_4DEEA0(signed int flags)
+{
+    dtor_4DEF60();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+}
+
 void UXB::Update_4DF030()
 {
     if (field_118)
@@ -290,7 +324,7 @@ void UXB::Update_4DF030()
                 if (!field_1C6_red_blink_count)
                 {
                     field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
-                    field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+                    field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
                 }
             }
             else
@@ -299,7 +333,7 @@ void UXB::Update_4DF030()
                 const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_128_animation.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
                 field_128_animation.Load_Pal_40A530(field_128_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
-                field_1C8_flags.Set(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+                field_1C8_flags.Set(UXB_Flags_1C8::e1C8_Bit1_IsRed);
 
                 field_1C2_pattern_index++;
 
@@ -314,7 +348,7 @@ void UXB::Update_4DF030()
 
             field_128_animation.Set_Animation_Data_409C80(544, 0);
 
-            if (field_1C8_flags.Get(UXB_Flags_1C8::e1C8_Bit2_IsRed))
+            if (field_1C8_flags.Get(UXB_Flags_1C8::e1C8_Bit1_IsRed))
             {
                 PlaySFX_4DE930(Type1SFX::eUXBRed);
             }
@@ -442,11 +476,11 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     pUXB->field_1C2_pattern_index = pSaveState->field_12_pattern_index;
     pUXB->field_1C6_red_blink_count = pSaveState->field_14_red_blink_count;
 
-    pUXB->field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+    pUXB->field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
     
     if (pSaveState->field_16_is_red)
     {
-        pUXB->field_1C8_flags.Set(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+        pUXB->field_1C8_flags.Set(UXB_Flags_1C8::e1C8_Bit1_IsRed);
     }
 
     return sizeof(SaveState_UXB); // 24
@@ -464,7 +498,7 @@ int UXB::GetSaveState_4DC110(BYTE * __pSaveBuffer)
     pSaveState->field_10_disabled_resources = field_11C_disabled_resources;
     pSaveState->field_12_pattern_index = field_1C2_pattern_index;
     pSaveState->field_14_red_blink_count = field_1C6_red_blink_count;
-    pSaveState->field_16_is_red = field_1C8_flags.Get(UXB_Flags_1C8::e1C8_Bit2_IsRed);
+    pSaveState->field_16_is_red = field_1C8_flags.Get(UXB_Flags_1C8::e1C8_Bit1_IsRed);
 
     return sizeof(SaveState_UXB);
 }
