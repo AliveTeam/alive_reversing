@@ -3549,7 +3549,148 @@ void Abe::State_16_LandSoft_45A360()
 
 void Abe::State_17_CrouchIdle_456BC0()
 {
-    NOT_IMPLEMENTED();
+    if (!field_100_pCollisionLine)
+    {
+        field_106_current_state = eAbeStates::jState_98_FallLedgeBegin_455AA0;
+        return;
+    }
+
+    field_118_prev_held = 0;
+    field_11C = 0;
+
+    // Crouching game speak
+    if (sub_453E10())
+    {
+        field_118_prev_held = 0;
+        Event_Broadcast_422BC0(kEventSpeaking, this);
+        return;
+    }
+
+    // Hit bombs/pick up items ?
+    if (sInputKey_DoAction_5550E4 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held)
+    {
+        if (!((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed))
+        {
+            FP gridSize = {};
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+            else
+            {
+                gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+            sub_454090(gridSize + field_B8_xpos, FP_GetExponent(field_BC_ypos - FP_FromInteger(5)), 0);
+        }
+    }
+
+    const DWORD held = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    
+    // Crouching throw stuff
+    if (sInputKey_ThrowItem_5550F4 & held
+        && field_106_current_state == eAbeStates::State_17_CrouchIdle_456BC0
+        && (field_1A2_rock_or_bone_count > 0 || word_5C1BDE))
+    {
+        field_158 = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), FP_FromInteger(0))->field_8_object_id;
+        if (!word_5C112C)
+        {
+            auto pRockCountGraphic = alive_new<Class_544FE4>();
+            if (pRockCountGraphic)
+            {
+                const FP yOff = field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-30));
+                const FP xOff = field_CC_sprite_scale * (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
+                pRockCountGraphic->ctor_431CB0(
+                    field_B8_xpos + xOff,
+                    yOff,
+                    field_20_animation.field_C_render_layer,
+                    field_20_animation.field_14_scale,
+                    field_1A2_rock_or_bone_count,
+                    1);
+            }
+        }
+        
+        field_106_current_state = eAbeStates::State_107_RockThrowCrouchingHold_454410;
+        
+        if (!word_5C1BDE)
+        {
+            field_1A2_rock_or_bone_count--;
+        }
+    }
+    else
+    {
+        // Try to stand up
+        if (held & sInputKey_Up_5550D8 && !Is_Celling_Above_44E8D0())
+        {
+            field_106_current_state = eAbeStates::State_18_CrouchToStand_454600;
+            return;
+        }
+
+        // Crouching farts
+        if (sInputKey_FartRoll_5550F0 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held)
+        {
+            pEventSystem_5BC11C->PushEvent_4218D0(3);
+
+            Abe_SFX_457EC0(7u, 0, 0, this);
+
+            if (field_198_has_evil_fart)
+            {
+                field_198_has_evil_fart = 0;
+                Create_Fart_421D20();
+
+                if (field_10_resources_array.ItemAt(22))
+                {
+                    ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(22));
+                    field_10_resources_array.SetAt(22, nullptr);
+                }
+            }
+            else
+            {
+                const FP scale = field_CC_sprite_scale * FP_FromDouble(0.5);
+                const FP ypos = field_BC_ypos - (FP_FromInteger(6) * field_CC_sprite_scale);
+                FP xpos = FP_FromInteger(10) * field_CC_sprite_scale;
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    xpos += field_B8_xpos;
+                }
+                else
+                {
+                    xpos -= field_B8_xpos;
+                }
+                sub_426C70(xpos, ypos, scale, 3, 32u, 128u, 32u);
+            }
+
+            field_106_current_state = eAbeStates::State_20_454550;
+        }
+        else
+        {
+            // Crouching turns
+            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & sInputKey_Right_5550D0)
+            {
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_106_current_state = eAbeStates::State_37_CrouchTurn_454390;
+                }
+                else
+                {
+                    field_106_current_state = eAbeStates::State_22_RollBegin_4539A0;
+                    field_11C = 0;
+                }
+            }
+
+            if (sInputKey_Left_5550D4 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+            {
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_106_current_state = eAbeStates::State_22_RollBegin_4539A0;
+                    field_11C = 0;
+                }
+                else
+                {
+                    field_106_current_state = eAbeStates::State_37_CrouchTurn_454390;
+                }
+            }
+        }
+    }
 }
 
 void Abe::State_18_CrouchToStand_454600()
@@ -3578,7 +3719,29 @@ void Abe::jState_21_4545E0()
 
 void Abe::State_22_RollBegin_4539A0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+    }
+    else
+    {
+        field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
+    }
+
+    const FP xpos = field_CC_sprite_scale * FP_FromInteger(20);
+    if (Raycast_408750(xpos, field_C4_velx))
+    {
+        Knockback_44E700(1, 1);
+        field_106_current_state = eAbeStates::State_74_455290;
+    }
+    else
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_state = eAbeStates::State_23_RollLoop_453A90;
+        }
+        sub_44E9A0();
+    }
 }
 
 void Abe::State_23_RollLoop_453A90()
@@ -3659,7 +3822,26 @@ void Abe::State_36_Null_45BC50()
 
 void Abe::State_37_CrouchTurn_454390()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame != 0)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+            if (field_108_delayed_state)
+            {
+                field_106_current_state = field_108_delayed_state;
+                field_108_delayed_state = 0;
+            }
+            else
+            {
+                field_106_current_state = eAbeStates::State_17_CrouchIdle_456BC0;
+            }
+        }
+    }
+    else
+    {
+        Abe_SFX_2_457A40(9, 0, 32767, this);
+    }
 }
 
 void Abe::jState_38_RollBegin_453A70()
@@ -3718,7 +3900,23 @@ void Abe::State_44_450500()
 
 void Abe::State_45_SneakBegin_4507A0()
 {
-    NOT_IMPLEMENTED();
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::State_40_SneakLoop_450550;
+    }
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToIdle_44E6B0();
+        sub_408D10(TRUE);
+    }
+    else
+    {
+        sub_44E9A0();
+    }
 }
 
 void Abe::State_46_SneakEnd_450870()
@@ -4349,9 +4547,31 @@ void Abe::PushWall_44E890()
     Abe_SFX_2_457A40(9, 0, 32767, this);
 }
 
-EXPORT void Abe::sub_44E9A0()
+void Abe::sub_44E9A0()
 {
     NOT_IMPLEMENTED();
+}
+
+__int16 Abe::sub_453E10()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+BOOL Abe::Is_Celling_Above_44E8D0()
+{
+    FP hitY = {};
+    FP hitX = {};
+    PathLine* pLine = nullptr;
+    return sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        field_BC_ypos - FP_FromInteger(5),
+        field_B8_xpos,
+        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(45)),
+        &pLine,
+        &hitX,
+        &hitY,
+        field_D6_scale != 0 ? 8 : 128) != 0;
 }
 
 // TODO: Clean up
