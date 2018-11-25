@@ -3,6 +3,11 @@
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
 
+namespace Test
+{
+    void CollisionTests();
+}
+
 enum eLineTypes : BYTE
 {
     eFloor = 0,
@@ -52,7 +57,7 @@ public:
     EXPORT PathLine* Get_Line_At_Idx_418070(__int16 idx);
     EXPORT PathLine* PreviousLine_4180A0(PathLine* pLine);
     EXPORT PathLine* NextLine_418180(PathLine* pLine);
-
+    signed __int16 Raycast_Impl(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask);
 public:
     PathLine* field_0_pArray;
     WORD field_4_current_item_count;

@@ -42,6 +42,7 @@
 #include "VRam.hpp"
 #include "Compression.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "Collisions.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -52,6 +53,7 @@ static void RunTests()
     LPSTR cmdLine = Sys_GetCommandLine_4EE176();
     ::testing::InitGoogleMock(&argCount, &cmdLine);
 
+    Test::CollisionTests();
     Test::VRamTests();
     Test::AnimationTests();
     Test::BmpTests();

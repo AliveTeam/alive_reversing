@@ -115,8 +115,15 @@ inline Fixed_24_8 operator + (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 
 inline Fixed_24_8 operator * (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
 {
+    // Whenever we see alldiv/allmul __PAIR__ and odd 64bit math its likely something like the following.
+
+    // Multiply as 64bit numbers to get more precision in the results
+    unsigned long long left = lhs.fpValue;
+    unsigned long long right = rhs.fpValue;
+    unsigned long long mult = (left * right) / 256;
+
     Fixed_24_8 r;
-    r.fpValue = lhs.fpValue * (rhs.GetExponent());
+    r.fpValue = static_cast<int>(mult);
     return r;
 }
 
@@ -146,7 +153,7 @@ signed __int16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, 
     return 0;
 }
 
-signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
+signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 
@@ -222,7 +229,7 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
             {
                 continue;
             }
-            
+
             if (unknown1 > det)
             {
                 continue;
@@ -234,7 +241,7 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
             {
                 continue;
             }
-            
+
             if (unknown1 < det)
             {
                 continue;
@@ -251,7 +258,7 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
             {
                 continue;
             }
-            
+
             if (unknown2 > det)
             {
                 continue;
@@ -263,7 +270,7 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
             {
                 continue;
             }
-            
+
             if (unknown2 < det)
             {
                 continue;
@@ -282,14 +289,12 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
 
     if (nearestMatch < Fixed_24_8(2))
     {
-        // TODO: Clean up - not sure how this maps on to the operators.. somehow kept getting the wrong results argh! 
+        // TODO: This needs cleaning up
         int xh = x1.fpValue + ((xDiff.fpValue * nearestMatch.fpValue) / 256);
         int yh = y1.fpValue + ((yDiff.fpValue * nearestMatch.fpValue) / 256);
 
-        // TODO: Don't know if removing fractional is correct... but seems to fix issue of Abe falling through floor if attempting to hoist twice at the right most wall
-        // TODO: Need to get a trace of both this and the real function and check this is correct
-        *hitX = FP_NoFractional(FP_FromRaw(xh << 8));
-        *hitY = FP_NoFractional(FP_FromRaw(yh << 8));
+        *hitX = FP_FromRaw(xh << 8);
+        *hitY = FP_FromRaw(yh << 8);
 
         *ppLine = pNearestMatch;
 
@@ -301,15 +306,58 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
     }
 
     *ppLine = nullptr;
-    
+
 
 #if DEVELOPER_MODE
     DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
 #endif
-    
-    //return Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, ppLine, hitX, hitY, modeMask);
 
     return FALSE;
+}
+
+signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
+{
+    PathLine* pLineImpl = nullptr;
+    FP implX = {};
+    FP implY = {};
+    signed __int16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
+
+    if (IsAlive())
+    {
+        PathLine* pLineReal = nullptr;
+        FP realX = {};
+        FP realY = {};
+        signed __int16 ret_real = Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineReal, &realX, &realY, modeMask);
+
+        // TODO: Remove when this is fully re-tested and known to be working
+        if (ret_impl == ret_real)
+        {
+            if (pLineImpl != pLineReal)
+            {
+                ALIVE_FATAL("Line mismatch");
+            }
+
+            if (implX.fpValue != realX.fpValue)
+            {
+                ALIVE_FATAL("X mismatch");
+            }
+
+            if (implY.fpValue != realY.fpValue)
+            {
+                ALIVE_FATAL("Y mismatch");
+            }
+        }
+        else
+        {
+            ALIVE_FATAL("ret mismatch");
+        }
+    }
+
+    *ppLine = pLineImpl;
+    *hitX = implX;
+    *hitY = implY;
+
+    return ret_impl;
 }
 
 PathLine* Collisions::Add_Dynamic_Collision_Line_417FA0(__int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode)
@@ -442,4 +490,58 @@ PathLine* Collisions::NextLine_418180(PathLine* pLine)
         }
     }
     return nullptr;
+}
+
+namespace Test
+{
+    void CollisionTests()
+    {
+        Collisions c;
+        FP x1 = {};
+        FP y1 = {};
+        FP x2 = {};
+        FP y2 = {};
+        PathLine* line = nullptr;
+        FP x = {};
+        FP y = {};
+
+        x1.fpValue = 0x03d99a00;
+        y1.fpValue = 0x014b028f;
+        x2.fpValue = 0x03d99a00;
+        y2.fpValue = 0x023b028f;
+
+        PathLine test = 
+        {
+            0x02bc,
+            0x01cc,
+            0x0659,
+            0x01cc,
+            0,
+            -1,
+            -1,
+            -1,
+            -1,
+            0x039d
+        };
+
+        c.field_0_pArray = reinterpret_cast<PathLine*>(malloc_non_zero_4954F0(1 * sizeof(PathLine)));
+        memcpy(c.field_0_pArray, &test, 1 * sizeof(PathLine));
+        c.field_4_current_item_count = 1;
+        c.field_C_max_count = 1;
+
+        signed int ret = c.Raycast_Impl(x1, y1, x2, y2, &line, &x, &y, 0xF);
+        ASSERT_EQ(TRUE, ret);
+
+        FP expectedX = {};
+        expectedX.fpValue = 0x03d99a00;
+
+        FP expectedY = {};
+        expectedY.fpValue = 0x01cb7200;
+
+        ASSERT_EQ(TRUE, ret);
+        ASSERT_EQ(expectedX, x);
+        ASSERT_EQ(expectedY, y);
+
+        ASSERT_TRUE(memcmp(&test, line, sizeof(PathLine)) == 0);
+    }
 }
