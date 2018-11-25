@@ -3439,7 +3439,26 @@ void Abe::State_5_WalkEndRightFoot_00450080()
 
 void Abe::State_6_WalkBegin_44FEE0()
 {
-    NOT_IMPLEMENTED();
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+    // They hear me walking, they hating
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::State_1_WalkLoop_44FBA0;
+    }
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToIdle_44E6B0();
+    }
+    else
+    {
+        sub_44E9A0();
+    }
 }
 
 void Abe::State_7_45B140()
@@ -3648,9 +3667,28 @@ void Abe::jState_38_RollBegin_453A70()
     NOT_IMPLEMENTED();
 }
 
+// Almost the same as State_6_WalkBegin_44FEE0
 void Abe::State_39_StandingToRun_450D40()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::State_33_RunLoop_4508E0;
+    }
+
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToIdle_44E6B0();
+    }
+    else
+    {
+        sub_44E9A0();
+    }
 }
 
 void Abe::State_40_SneakLoop_450550()
@@ -3760,7 +3798,26 @@ void Abe::State_60_4A3200()
 
 void Abe::State_61_TurnToRun_456530()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    {
+        // Was going to run into something
+        Knockback_44E700(1, 1);
+    }
+    else
+    {
+        sub_44E9A0();
+
+        if (field_106_current_state == eAbeStates::State_61_TurnToRun_456530)
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_106_current_state = eAbeStates::State_33_RunLoop_4508E0;
+            }
+        }
+    }
 }
 
 void Abe::State_62_Punch_454750()
@@ -4290,6 +4347,11 @@ void Abe::PushWall_44E890()
     field_C4_velx = FP_FromInteger(0);
     field_106_current_state = eAbeStates::State_73_PushWall_4553A0;
     Abe_SFX_2_457A40(9, 0, 32767, this);
+}
+
+EXPORT void Abe::sub_44E9A0()
+{
+    NOT_IMPLEMENTED();
 }
 
 // TODO: Clean up
