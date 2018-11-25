@@ -140,6 +140,12 @@ EXPORT PSX_RECT* __stdcall Rect_Clear_418040(PSX_RECT* pRect)
     return pRect;
 }
 
+signed __int16 Collisions::Raycast_Real_417A60(FP /*X1*/, FP /*Y1*/, FP /*X2*/, FP /*Y2*/, PathLine** /*ppLine*/, FP * /*hitX*/, FP * /*hitY*/, unsigned int /*modeMask*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
@@ -295,10 +301,13 @@ signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16,
     }
 
     *ppLine = nullptr;
+    
 
 #if DEVELOPER_MODE
     DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
 #endif
+    
+    //return Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, ppLine, hitX, hitY, modeMask);
 
     return FALSE;
 }

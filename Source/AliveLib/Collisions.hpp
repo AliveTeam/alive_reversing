@@ -28,7 +28,7 @@ struct PathLine
     __int16 field_2_y1;
     __int16 field_4_x2;
     __int16 field_6_y2;
-    __int8 field_8_type;
+    BYTE field_8_type;
     //__int8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
     __int16 field_A_previous;
     __int16 field_C_next;
@@ -46,6 +46,7 @@ public:
     EXPORT Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
     EXPORT void dtor_4189F0();
     EXPORT static void CC Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes);
+    EXPORT signed __int16 Raycast_Real_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask);
     EXPORT signed __int16 Raycast_417A60(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP * hitX, FP * hitY, unsigned int modeMask);
     EXPORT PathLine* Add_Dynamic_Collision_Line_417FA0(__int16 x1, __int16 y1, __int16 x2, __int16 y2, char mode);
     EXPORT PathLine* Get_Line_At_Idx_418070(__int16 idx);

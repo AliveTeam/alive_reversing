@@ -1,9 +1,10 @@
 project(AliveLib VERSION 0.1 LANGUAGES CXX)
 
 add_library(AliveLib
-    ExportHooker.hpp
     stdafx.cpp
     stdafx.h
+    ExportHooker.hpp
+    ExportHooker.cpp
     logger.hpp
     Function.cpp
     Function.hpp
