@@ -1749,8 +1749,6 @@ ALIVE_ASSERT_SIZEOF(Class_544FE4, 0x190);
 
 void Abe::Update_449DC0()
 {
-    NOT_IMPLEMENTED();
-
     if (word_5C1BDA) // Some flag to reset HP?
     {
         field_114_flags.Clear(Flags_114::e114_Bit7);
@@ -1786,7 +1784,7 @@ void Abe::Update_449DC0()
         field_160 = BaseGameObject::Find_Flags_4DC170(field_160);
         field_164 = BaseGameObject::Find_Flags_4DC170(field_164);
 
-        if (!(field_114_flags.Get(Flags_114::e114_Bit8)))
+        if (field_114_flags.Get(Flags_114::e114_Bit8))
         {
             if (!field_170)
             {
@@ -1833,10 +1831,74 @@ void Abe::Update_449DC0()
         field_128.field_12_mood = 3;
     }
 
-    if (!sDDCheat_FlyingEnabled_5C2C08 || sControlledCharacter_5C1B8C != this)
+    // Handle DDCheat mode
+    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
     {
+        Vnull_4081F0();
+
+        field_F8 = field_BC_ypos;
+        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+        field_106_animation_num = eAbeStates::jState_85_Fall_455070;
+        field_100_pCollisionLine = nullptr;
+
+        if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft | eDown | eUp))
+        {
+            field_C4_velx = sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            field_C8_vely = sAbe_yVel_table_545790[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+
+            if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+            {
+                field_C4_velx += sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                field_C4_velx += sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                field_C8_vely += sAbe_yVel_table_545790[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            }
+
+            field_B8_xpos += field_C4_velx;
+            field_BC_ypos += field_C8_vely;
+
+            // Keep within map max min bounds
+            if (field_B8_xpos < FP_FromInteger(0))
+            {
+                field_B8_xpos = FP_FromInteger(0);
+            }
+
+            if (field_BC_ypos < FP_FromInteger(0))
+            {
+                field_BC_ypos = FP_FromInteger(0);
+            }
+
+            // Keep within map max bounds
+            PSX_Point mapSize = {};
+            gMap_5C3030.Get_map_size_480640(&mapSize);
+
+            FP mapWidth = FP_FromInteger(mapSize.field_0_x);
+            if (field_B8_xpos >= mapWidth)
+            {
+                field_B8_xpos = mapWidth - FP_FromDouble(1.0);
+            }
+
+            FP mapHeight = FP_FromInteger(mapSize.field_2_y);
+            if (field_BC_ypos >= mapHeight)
+            {
+                field_BC_ypos = mapHeight - FP_FromDouble(1.0);
+                sub_408C40();
+                return;
+            }
+        }
+        else
+        {
+            field_C4_velx = FP_FromInteger(0);
+            field_C8_vely = FP_FromInteger(0);
+        }
+
+        sub_408C40();
+    }
+    else
+    {
+        // Handle none DDCheat mode
+
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
-    
+
         short state_idx = field_106_animation_num;
 
         // Execute the current state
@@ -1892,261 +1954,191 @@ void Abe::Update_449DC0()
             }
         }
 
-        if (field_128.field_18 < 0 || static_cast<int>(sGnFrame_5C1B84) < field_144)
+        if (field_128.field_18 >= 0 && static_cast<int>(sGnFrame_5C1B84) >= field_144)
         {
-LABEL_75:
-            if (state_idx != field_106_animation_num || field_114_flags.Get(Flags_114::e114_Bit2))
+            if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
+                || (field_106_animation_num == eAbeStates::State_112_Chant_45B1C0)
+                || field_106_animation_num == eAbeStates::State_7_45B140
+                || field_106_animation_num == eAbeStates::State_8_45B160
+                || field_106_animation_num == eAbeStates::State_9_45B180
+                || field_106_animation_num == eAbeStates::State_10_Fart_45B1A0)
             {
-                field_114_flags.Clear(Flags_114::e114_Bit2);
-                if (field_106_animation_num != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5)))
+                if (field_106_animation_num == eAbeStates::State_0_Idle_44EEB0 || field_106_animation_num == eAbeStates::State_12_Null_4569C0)
                 {
-                    field_20_animation.Set_Animation_Data_409C80(
-                        sAbeFrameOffsetTable_554B18[field_106_animation_num],
-                        StateToAnimResource_44AAB0(field_106_animation_num));
-
-                    field_128.field_14 = sGnFrame_5C1B84;
-
-                    if (state_idx == eAbeStates::State_12_Null_4569C0 || state_idx == eAbeStates::State_60_4A3200)
+                    field_114_flags.Set(Flags_114::e114_Bit2);
+                    switch (field_128.field_18)
                     {
-                        field_20_animation.SetFrame_409D50(field_F6);
+                    case 14: // Says "oops"
+                        field_106_animation_num = eAbeStates::State_34_DunnoBegin_44ECF0;
+                        break;
+                    case 5: // Says "grr"
+                        field_106_animation_num = eAbeStates::State_10_Fart_45B1A0;
+                        break;
+                    case 28: // Says "sympathy" (not the sorry sound but the depressed sound)
+                        field_106_animation_num = eAbeStates::State_10_Fart_45B1A0;
+                        break;
+                    default:
+                        field_106_animation_num = eAbeStates::State_9_45B180;
+                        break;
                     }
+                }
+
+                if (field_128.field_18 == 5)
+                {
+                    // Other evil muds laugh at the abe grr
+                    Event_Broadcast_422BC0(kEventMudokonLaugh, sActiveHero_5C1B68);
+                }
+
+                if (field_128.field_18 == 28)
+                {
+                    // This one has another volume for whatever reason
+                    Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 80, 0, this);
+                }
+                else
+                {
+                    Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 0, 0, this);
                 }
             }
 
-            if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit2))
+            field_128.field_18 = -1;
+        }
+
+        if (state_idx != field_106_animation_num || field_114_flags.Get(Flags_114::e114_Bit2))
+        {
+            field_114_flags.Clear(Flags_114::e114_Bit2);
+            if (field_106_animation_num != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5)))
             {
-                field_106_animation_num = field_F4;
                 field_20_animation.Set_Animation_Data_409C80(
                     sAbeFrameOffsetTable_554B18[field_106_animation_num],
                     StateToAnimResource_44AAB0(field_106_animation_num));
 
                 field_128.field_14 = sGnFrame_5C1B84;
-                field_20_animation.SetFrame_409D50(field_F6);
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
-            }
 
-            if (field_128.field_4 <= static_cast<int>(sGnFrame_5C1B84)  && field_10C_health > FP_FromInteger(0))
-            {
-                field_10C_health = FP_FromDouble(1.0);
-            }
-
-            if (field_168)
-            {
-                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+                if (state_idx == eAbeStates::State_12_Null_4569C0 || state_idx == eAbeStates::State_60_4A3200)
                 {
-                    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                    field_20_animation.SetFrame_409D50(field_F6);
+                }
+            }
+        }
+
+        if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit2))
+        {
+            field_106_animation_num = field_F4;
+            field_20_animation.Set_Animation_Data_409C80(
+                sAbeFrameOffsetTable_554B18[field_106_animation_num],
+                StateToAnimResource_44AAB0(field_106_animation_num));
+
+            field_128.field_14 = sGnFrame_5C1B84;
+            field_20_animation.SetFrame_409D50(field_F6);
+            field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
+        }
+
+        if (field_128.field_4 <= static_cast<int>(sGnFrame_5C1B84) && field_10C_health > FP_FromInteger(0))
+        {
+            field_10C_health = FP_FromDouble(1.0);
+        }
+
+        if (field_168)
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+            {
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                {
+                    if (static_cast<int>(sGnFrame_5C1B84) <= field_168)
                     {
-                        if (static_cast<int>(sGnFrame_5C1B84) <= field_168)
+                        if (!(sGnFrame_5C1B84 % 32))
                         {
-                            if (!(sGnFrame_5C1B84 % 32))
+                            int ringType = 0;
+                            if (field_16C)
                             {
-                                int ringType = 0;
-                                if (field_16C)
-                                {
-                                    ringType = 4;
-                                }
-                                else if (field_16E)
-                                {
-                                    ringType = 7;
-                                }
-                                else if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit15))
-                                {
-                                    ringType = 14;
-                                }
-
-                                PSX_RECT rect = {};
-                                GetBoundingRect_424FD0(&rect, 1);
-                                AbilityRing::Factory_482F80((rect.x + rect.w)/ 2, (rect.y + rect.h) / 2, ringType, field_CC_sprite_scale);
-
-                                SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
+                                ringType = 4;
                             }
+                            else if (field_16E)
+                            {
+                                ringType = 7;
+                            }
+                            else if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit15))
+                            {
+                                ringType = 14;
+                            }
+
+                            PSX_RECT rect = {};
+                            GetBoundingRect_424FD0(&rect, 1);
+                            AbilityRing::Factory_482F80((rect.x + rect.w) / 2, (rect.y + rect.h) / 2, ringType, field_CC_sprite_scale);
+
+                            SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (field_168 > 0 && field_16C > 0)
                         {
-                            if (field_168 > 0 && field_16C > 0)
-                            {
-                                Free_Shrykull_Resources_45AA90();
-                            }
-                            field_168 = 0;
+                            Free_Shrykull_Resources_45AA90();
                         }
+                        field_168 = 0;
                     }
                 }
             }
+        }
 
-            
-            Class_545A60* pObj_field_178 = static_cast<Class_545A60*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
-            if (pObj_field_178 && field_170 > 0)
+
+        Class_545A60* pObj_field_178 = static_cast<Class_545A60*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
+        if (pObj_field_178 && field_170 > 0)
+        {
+            if (static_cast<int>(sGnFrame_5C1B84) > field_170)
             {
-                if (static_cast<int>(sGnFrame_5C1B84) > field_170)
+                field_170 = 0;
+                pObj_field_178->sub_45FA30();
+            }
+        }
+
+        if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit16))
+        {
+            if (field_1AE & 1)
+            {
+                if (gMap_5C3030.sCurrentLevelId_5C3030 == 2)
                 {
-                    field_170 = 0;
-                    pObj_field_178->sub_45FA30();
+                    field_168 = sGnFrame_5C1B84 + 200000;
+                    field_16C = 0;
+                    field_16E = 0;
+                    field_1AE &= ~1;
+                    field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16);
+                    field_1AC_flags.Set(Flags_1AC::e1AC_eBit15);
                 }
             }
+        }
 
-            if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit16))
-            {
-                if (field_1AE & 1)
-                {
-                    if (gMap_5C3030.sCurrentLevelId_5C3030 == 2)
-                    {
-                        field_168 = sGnFrame_5C1B84 + 200000;
-                        field_16C = 0;
-                        field_16E = 0;
-                        field_1AE &= ~1;
-                        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16);
-                        field_1AC_flags.Set(Flags_1AC::e1AC_eBit15);
-                    }
-                }
-            }
+        if (Event_Get_422C00(kEventMudokonDied))
+        {
+            field_128.field_18 = 14;
+            field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
-            if (Event_Get_422C00(kEventMudokonDied))
-            {
-                field_128.field_18 = 14;
-                field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+            // Do the death jingle
+            alive_new<MusicTrigger>()->ctor_47FF10(1, 0, 90, 0);
+        }
 
-                // Do the death jingle
-                alive_new<MusicTrigger>()->ctor_47FF10(1, 0, 90, 0);
-            }
+        if (Event_Get_422C00(kEventMudokonComfort))
+        {
+            field_128.field_18 = 8;
+            field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+        }
 
-            if (Event_Get_422C00(kEventMudokonComfort))
-            {
-                field_128.field_18 = 8;
-                field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
-            }
+        if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
+        {
+            field_128.field_18 = 14;
+            field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+        }
 
-            if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
-            {
-                field_128.field_18 = 14;
-                field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
-            }
-
-            if (!(field_1AE & 2))
-            {
-                return;
-            }
-
-          
+        if (field_1AE & 2)
+        {
             field_1AE &= ~2;
             sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = static_cast<short>(field_1B0_save_num);
             Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
             vGetSaveState_457110(reinterpret_cast<BYTE*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
             sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
             Quicksave_4C90D0();
-            return;
-        }
-
-        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
-            || (field_106_animation_num == eAbeStates::State_112_Chant_45B1C0)
-            || field_106_animation_num == eAbeStates::State_7_45B140
-            || field_106_animation_num == eAbeStates::State_8_45B160
-            || field_106_animation_num == eAbeStates::State_9_45B180
-            || field_106_animation_num == eAbeStates::State_10_Fart_45B1A0)
-        {
-LABEL_74:
-            field_128.field_18 = -1;
-            goto LABEL_75;
-        }
-
-        if (field_106_animation_num == eAbeStates::State_0_Idle_44EEB0 || field_106_animation_num == eAbeStates::State_12_Null_4569C0)
-        {
-            field_114_flags.Set(Flags_114::e114_Bit2);
-            switch (field_128.field_18)
-            {
-            case 14:
-                field_106_animation_num = eAbeStates::State_34_DunnoBegin_44ECF0;
-                break;
-            case 5:
-                field_106_animation_num = eAbeStates::State_10_Fart_45B1A0;
-                break;
-            case 28:
-                field_106_animation_num = eAbeStates::State_10_Fart_45B1A0;
-                break;
-            default:
-                field_106_animation_num = eAbeStates::State_9_45B180;
-                break;
-            }
-        }
-
-        if (field_128.field_18 == 5)
-        {
-            Event_Broadcast_422BC0(kEventMudokonLaugh, sActiveHero_5C1B68);
-        }
-
-        if (field_128.field_18 == 28)
-        {
-            Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 80, 0, this);
-        }
-        else
-        {
-            Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 0, 0, this);
-        }
-
-        goto LABEL_74;
-    }
-
-    /*
-    // vcall 23
-    ((void(__thiscall *)(Abe *))this->field_0_VTbl->VAbe.field_0.field_5C)(this);
-    */
-    Vnull_4081F0();
-
-    field_F8 = field_BC_ypos;
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
-    field_106_animation_num = eAbeStates::jState_85_Fall_455070;
-    field_100_pCollisionLine = nullptr;
-
-    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft | eDown | eUp))
-    {
-        field_C4_velx = sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-        field_C8_vely = sAbe_yVel_table_545790[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-        
-        if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
-        {
-            field_C4_velx += sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-            field_C4_velx += sAbe_xVel_table_545770[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-            field_C8_vely += sAbe_yVel_table_545790[(unsigned __int8)sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-        }
-
-        field_B8_xpos += field_C4_velx;
-        field_BC_ypos += field_C8_vely;
-
-        // Keep within map max min bounds
-        if (field_B8_xpos < FP_FromInteger(0))
-        {
-            field_B8_xpos = FP_FromInteger(0);
-        }
-
-        if (field_BC_ypos < FP_FromInteger(0))
-        {
-            field_BC_ypos = FP_FromInteger(0);
-        }
-
-        // Keep within map max bounds
-        PSX_Point mapSize = {};
-        gMap_5C3030.Get_map_size_480640(&mapSize);
-
-        FP mapWidth = FP_FromInteger(mapSize.field_0_x);
-        if (field_B8_xpos >= mapWidth)
-        {
-            field_B8_xpos = mapWidth - FP_FromDouble(1.0);
-        }
-
-        FP mapHeight = FP_FromInteger(mapSize.field_2_y);
-        if (field_BC_ypos >= mapHeight)
-        {
-            field_BC_ypos = mapHeight - FP_FromDouble(1.0);
-            sub_408C40();
-            return;
         }
     }
-    else
-    {
-        field_C4_velx = FP_FromInteger(0);
-        field_C8_vely = FP_FromInteger(0);
-    }
-    
-    sub_408C40();
 }
 
 BaseGameObject* Abe::vsub_44E970(__int16 /*a2*/)
@@ -2724,8 +2716,6 @@ BYTE** Abe::StateToAnimResource_44AAB0(short state)
 
 void Abe::State_0_Idle_44EEB0()
 {
-    NOT_IMPLEMENTED();
-
     if (Input_IsChanting_45F260() && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit6)))
     {
         if (field_168 && field_16C)
