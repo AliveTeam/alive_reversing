@@ -229,9 +229,9 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::vGetBoundingRect_424FD0(PSX_RECT* p
     return GetBoundingRect_424FD0(pRect, pointIdx);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vsub_4253B0(int a2, int a3)
+__int16 BaseAnimatedWithPhysicsGameObject::vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj)
 {
-    return sub_4253B0(a2, a3);
+    return IsObjNearby_4253B0(radius, pObj);
 }
 
 __int16 BaseAnimatedWithPhysicsGameObject::vsub_425420(int a2)
@@ -309,9 +309,16 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pR
     return pRect;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::sub_4253B0(int /*a2*/, int /*a3*/)
+__int16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj)
 {
-    NOT_IMPLEMENTED();
+    FP distance = pObj->field_B8_xpos - field_B8_xpos;
+
+    if (distance < FP_FromInteger(0))
+    {
+        distance = field_B8_xpos - pObj->field_B8_xpos;
+    }
+
+    return distance <= radius;
 }
 
 __int16 BaseAnimatedWithPhysicsGameObject::sub_425420(int /*a2*/)

@@ -32,6 +32,7 @@
 #include "LCDScreen.hpp"
 #include "UXB.hpp"
 #include "Mine.hpp"
+#include "TimedMine.hpp"
 #include "StatsSign.hpp"
 #include "Sfx.hpp"
 #include "ObjectIds.hpp"
@@ -91,6 +92,7 @@ static void InitOtherHooksAndRunTests()
     StatsSign_ForceLink();
     UXB_ForceLink();
     Mine_ForceLink();
+    TimedMine_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

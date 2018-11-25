@@ -41,7 +41,7 @@ void UXB_ForceLink() {
 
 void UXB::InitBlinkAnim_4DEED0(AnimationEx *pAnimation)
 {
-    if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, 1011), 1u, 0, 0))
+    if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, kBombflshResID), 1u, 0, 0))
     {
         pAnimation->field_C_render_layer = field_20_animation.field_C_render_layer;
         pAnimation->field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);

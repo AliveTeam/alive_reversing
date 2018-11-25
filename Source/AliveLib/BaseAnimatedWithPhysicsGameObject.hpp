@@ -40,7 +40,7 @@ public:
     virtual void vsub_424EE0(PSX_Point xy, PSX_Point wh, DynamicArray *pObjList, int startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
-    virtual __int16 vsub_4253B0(int a2, int a3);
+    virtual __int16 vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
     virtual __int16 vsub_425420(int a2);
     virtual __int16 vsub_4254A0(int a2);
     virtual __int16 vsub_425520(int a2);
@@ -49,7 +49,7 @@ public:
     virtual void vnull_4081A0();
 
     EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
-    EXPORT __int16 sub_4253B0(int a2, int a3);
+    EXPORT __int16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
     EXPORT __int16 sub_425420(int a2);
     EXPORT __int16 sub_4254A0(int a2);
     EXPORT __int16 sub_425520(int a2);

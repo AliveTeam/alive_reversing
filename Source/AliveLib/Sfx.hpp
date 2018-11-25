@@ -24,4 +24,5 @@ EXPORT int CC SFX_SfxDefinition_Play_4CA420(SfxDefinition *sfxDef, __int16 volum
 EXPORT int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, int scale);
 EXPORT int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int pitch, int scale);
 EXPORT int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, int scale);
+EXPORT int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, __int16 mode, int scale);
 EXPORT int CC SND_4CA5D0(int a1, int a2, int a3, __int16 vol, __int16 min, __int16 max);

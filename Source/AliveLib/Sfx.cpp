@@ -340,3 +340,26 @@ int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, int scale)
     }
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
+
+int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, __int16 mode, int scale)
+{
+    if (!volume)
+    {
+        volume = sSfxEntries_55C2A0[sfxId].field_3_default_volume;
+    }
+
+    switch (mode)
+    {
+    case 0:
+        return SFX_Play_46FA90(sfxId, volume, scale);
+    case 1:
+    case 2:
+        return SFX_Play_46FA90(sfxId, 2 * volume / 3, scale);
+    case 3:
+        return SFX_Play_46FB10(sfxId, 2 * volume / 3, 2 * volume / 9, scale);
+    case 4:
+        return SFX_Play_46FB10(sfxId, 2 * volume / 9, 2 * volume / 3, scale);
+    default:
+        return 0;
+    }
+}

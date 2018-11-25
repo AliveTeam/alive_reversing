@@ -205,6 +205,22 @@ void BaseAliveGameObject::SetTint_425600(TintEntry * pTintArray, __int16 level_i
     field_D4_b = pTintArray->field_3_b;
 }
 
+signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry * pTintArray, __int16 level_id, int resourceID)
+{
+    SetTint_425600(pTintArray, level_id);
+
+    BYTE ** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
+
+    if (!pPalResource)
+    {
+        return 0;
+    }
+
+    field_20_animation.Load_Pal_40A530(pPalResource, 0);
+    ResourceManager::FreeResource_49C330(pPalResource);
+    return 1;
+}
+
 EXPORT void BaseAliveGameObject::sub_408C40()
 {
      if (sControlledCharacter_5C1B8C == this)

@@ -7,6 +7,7 @@
 #include "LCDScreen.hpp"
 #include "UXB.hpp"
 #include "Mine.hpp"
+#include "TimedMine.hpp"
 #include "StatsSign.hpp"
 #include "BackgroundAnimation.hpp"
 
@@ -69,7 +70,40 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* , Path*, TlvItemInfoUnion, __int16)
 EXPORT void CC Factory_RockSack_4D8040(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
+{ 
+    Path_TimedMine * mine_tlv = reinterpret_cast<Path_TimedMine *>(pTlv);
+
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, loadmode, mine_tlv->field_18_disabled_resources & 1);
+        Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, kSlogBlowResID, loadmode, mine_tlv->field_18_disabled_resources & 2);
+
+        static CompileTimeResourceList<2> sTimedMineResourceList_563368({
+            { ResourceManager::Resource_Animation, kBombResID },
+            { ResourceManager::Resource_Animation, kBombflshResID },
+        });
+
+        static CompileTimeResourceList<3> sExplodeResourceList_56334C({
+            { ResourceManager::Resource_Animation, kAbebombResID },
+            { ResourceManager::Resource_Animation, kDebrisID00 },
+            { ResourceManager::Resource_Animation, kBgexpldResID },
+        });
+
+        Map::LoadResourcesFromList_4DBE70("BOMB.BND", sTimedMineResourceList_563368.AsList(), loadmode, 0);
+        Map::LoadResourcesFromList_4DBE70("EXPLODE.BND", sExplodeResourceList_56334C.AsList(), loadmode, 0);
+    }
+    else
+    {
+        auto pMine = alive_new<TimedMine>();
+        if (pMine)
+        {
+            pMine->ctor_410600(mine_tlv, tlvOffsetLevelIdPathId);
+        }
+    }
+}
+
 EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Slog_4D8B20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
@@ -89,7 +123,7 @@ EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoU
         Map::LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, kAbeblowResID, loadmode, mine_tlv->field_16_disabled_resources & 1);
         Map::LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, kSlogBlowResID, loadmode, mine_tlv->field_16_disabled_resources & 2);
 
-        static CompileTimeResourceList<3> sMineResourceList_56337C({
+        static CompileTimeResourceList<2> sMineResourceList_56337C({
             { ResourceManager::Resource_Animation, kLandmineResID },
             { ResourceManager::Resource_Animation, kMineflshResID },
         });
@@ -115,6 +149,17 @@ EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoU
 
 EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 { 
+    // Use this to force spawn Timed Mines for testing purposes.
+    /*Path_TimedMine dummyData;
+    memcpy(&dummyData, pTlv, sizeof(Path_TLV));
+    dummyData.field_10_id = 1;
+    dummyData.field_12_state = 0;
+    dummyData.field_14_scale = 0;
+    dummyData.field_18_disabled_resources = 0;
+    dummyData.field_16_timeout = 100;
+    Factory_TimedMine_4D87C0(reinterpret_cast<Path_TLV*>(&dummyData), nullptr, tlvOffsetLevelIdPathId, loadmode);
+    return; */
+
     Path_UXB * uxb_tlv = reinterpret_cast<Path_UXB *>(pTlv);
 
     if (loadmode == 1 || loadmode == 2)

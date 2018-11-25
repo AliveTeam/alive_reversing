@@ -12,6 +12,7 @@ public:
         eNone = 0,
         eScreenManager = 6,
         eBackgroundAnimation = 7,
+        eTimedMine = 10,
         eBrewMachine = 13,
         eDDCheat = 19,
         eGrinder = 30,

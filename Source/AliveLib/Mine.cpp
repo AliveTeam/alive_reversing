@@ -20,45 +20,6 @@ void Mine_ForceLink() {
 
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 
-//signed int UXB::IsColliding_4DF630()
-//{
-//    PSX_RECT uxbBound;
-//    vGetBoundingRect_424FD0(&uxbBound, 1);
-//
-//    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
-//    {
-//        BaseAliveGameObject * pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
-//
-//        if (!pObj)
-//        {
-//            break;
-//        }
-//
-//        // e114_Bit6 May be "can set off explosives?"
-//        if (pObj->field_114_flags.Get(e114_Bit6_SetOffExplosives) && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
-//        {
-//            PSX_RECT objBound;
-//            pObj->vGetBoundingRect_424FD0(&objBound, 1);
-//
-//            int objX = FP_GetExponent(pObj->field_B8_xpos);
-//            int objY = FP_GetExponent(pObj->field_BC_ypos);
-//
-//            if (objX > uxbBound.x &&
-//                objX < uxbBound.w &&
-//                objY < uxbBound.h + 5 &&
-//                uxbBound.x <= objBound.w &&
-//                uxbBound.w >= objBound.x &&
-//                uxbBound.h >= objBound.y &&
-//                uxbBound.y <= objBound.h &&
-//                pObj->field_CC_sprite_scale == field_CC_sprite_scale)
-//            {
-//                return 1;
-//            }
-//        }
-//    }
-//
-//    return 0;
-//}
 
 void Mine::VUpdate()
 {
@@ -110,6 +71,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
         field_20_animation.field_C_render_layer = 35;
         field_D6_scale = 1;
     }
+
     const int v7 = pPath->field_0_mBase.field_8_top_left.field_0_x + pPath->field_0_mBase.field_C_bottom_right.field_0_x;
     field_B8_xpos = FP_FromInteger(v7 / 2);
     const FP v8 = FP_FromInteger(pPath->field_0_mBase.field_8_top_left.field_2_y);

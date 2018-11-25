@@ -139,6 +139,8 @@ add_library(AliveLib
     UXB.hpp
     Mine.cpp
     Mine.hpp
+    TimedMine.cpp
+    TimedMine.hpp
     Slurg.cpp
     Slurg.hpp)
 
