@@ -33,8 +33,8 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_100_pCollisionLine = nullptr;
     field_10C_health = FP_FromDouble(1.0);
     field_110 = -1;
-    field_106_animation_num = 0;
-    field_108 = 0;
+    field_106_current_state = 0;
+    field_108_delayed_state = 0;
     field_F4 = 0;
     field_F6 = 0;
     field_F8 = FP_FromInteger(0);

@@ -87,8 +87,8 @@ public:
     Path_TLV* field_FC_pPathTLV;
     PathLine* field_100_pCollisionLine;
     __int16 field_104;
-    __int16 field_106_animation_num;
-    __int16 field_108;
+    __int16 field_106_current_state;
+    __int16 field_108_delayed_state;
     __int16 field_10A;
     FP field_10C_health;
     int field_110;
