@@ -57,7 +57,7 @@ public:
     EXPORT BOOL sub_449D30();
     EXPORT void Free_Shrykull_Resources_45AA90();
 
-    EXPORT BYTE ** StateToAnimResource_44AAB0(signed int state);
+    EXPORT BYTE ** StateToAnimResource_44AAB0(short state);
 
     // States
     EXPORT void State_0_Idle_44EEB0();

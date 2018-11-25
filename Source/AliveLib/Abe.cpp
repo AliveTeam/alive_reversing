@@ -2602,7 +2602,7 @@ void Abe::Free_Shrykull_Resources_45AA90()
     field_10_resources_array.SetAt(27, nullptr);
 }
 
-BYTE** Abe::StateToAnimResource_44AAB0(int state)
+BYTE** Abe::StateToAnimResource_44AAB0(short state)
 {
     short mapped = ResourceIndices::eBasic_0;
     if (state < eAbeStates::State_12_Null_4569C0)
@@ -2689,14 +2689,15 @@ BYTE** Abe::StateToAnimResource_44AAB0(int state)
     {
         mapped = ResourceIndices::eWork_20;
     }
-    else if (state < 130) // Max states
-    {
-        mapped = ResourceIndices::eGas_21;
-    }
     else
     {
-        // Impossible case?
-        mapped = static_cast<short>(state);
+        mapped = ResourceIndices::eGas_21;
+        if (state >= 130) // max states
+        {
+            // Impossible case?
+            LOG_ERROR("State is out of bounds !!! " << state);
+            mapped = static_cast<short>(state);
+        }
     }
 
     if (mapped == field_128.field_10)
