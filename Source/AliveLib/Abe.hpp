@@ -203,6 +203,8 @@ public:
     EXPORT __int16 sub_4569E0();
     EXPORT int sub_44EE10();
     EXPORT __int16 HandleDoAction_455BD0();
+
+    EXPORT void PushWall_44E890();
 public:
     __int16 field_116;
     int field_118_prev_held;

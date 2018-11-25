@@ -23,5 +23,8 @@ void FixedPoint_ForceLink()
 
     ASSERT_EQ(t1.fpValue, 0x10000);
     ASSERT_EQ(t2.fpValue, 0x10000);
-}
 
+    FixedPoint neg = {};
+    neg.fpValue = 20;
+    ASSERT_EQ(-20, (-neg).fpValue);
+}

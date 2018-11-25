@@ -64,6 +64,13 @@ inline FixedPoint operator/(const FixedPoint& lhs, const FixedPoint& rhs)
     return f;
 }
 
+inline FixedPoint operator-(const FixedPoint& value)
+{
+    FixedPoint f = {};
+    f.fpValue = -value.fpValue;
+    return f;
+}
+
 inline bool operator < (const FixedPoint& lhs, const FixedPoint& rhs)
 {
     return lhs.fpValue < rhs.fpValue;
