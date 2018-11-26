@@ -3611,27 +3611,50 @@ void Abe::State_6_WalkBegin_44FEE0()
 
 void Abe::State_7_45B140()
 {
-    NOT_IMPLEMENTED();
+    // TODO: Note jState_11_Speak_40388C omitted
+    State_11_Speak_45B0A0();
 }
 
 void Abe::State_8_45B160()
 {
-    NOT_IMPLEMENTED();
+    // TODO: Note jState_11_Speak_40388C omitted
+    State_11_Speak_45B0A0();
 }
 
 void Abe::State_9_45B180()
 {
-    NOT_IMPLEMENTED();
+    // TODO: Note jState_11_Speak_40388C omitted
+    State_11_Speak_45B0A0();
 }
 
 void Abe::State_10_Fart_45B1A0()
 {
-    NOT_IMPLEMENTED();
+    // TODO: Note jState_11_Speak_40388C omitted
+    State_11_Speak_45B0A0();
 }
 
 void Abe::State_11_Speak_45B0A0()
 {
-    NOT_IMPLEMENTED();
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = DoGameSpeak_45AB70(field_118_prev_held);
+        if (field_106_current_state == -1)
+        {
+            ToIdle_44E6B0();
+            field_118_prev_held = 0;
+        }
+        else
+        {
+            if (field_106_current_state != eAbeStates::State_62_Punch_454750)
+            {
+                Event_Broadcast_422BC0(kEventSpeaking, this);
+            }
+
+            field_114_flags.Set(Flags_114::e114_Bit2);
+            field_118_prev_held = 0;
+        }
+    }
 }
 
 void Abe::State_12_Null_4569C0()
@@ -3707,7 +3730,7 @@ void Abe::State_17_CrouchIdle_456BC0()
     field_11C = 0;
 
     // Crouching game speak
-    if (sub_453E10())
+    if (CrouchingGameSpeak_453E10())
     {
         field_118_prev_held = 0;
         Event_Broadcast_422BC0(kEventSpeaking, this);
@@ -3867,14 +3890,29 @@ void Abe::State_19_StandToCrouch_453DC0()
     }
 }
 
+// TODO: End crouching game speak/fart?
 void Abe::State_20_454550()
 {
-    NOT_IMPLEMENTED();
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::State_17_CrouchIdle_456BC0;
+        
+        CrouchingGameSpeak_453E10();
+
+        if (field_106_current_state == eAbeStates::State_20_454550 || field_106_current_state == eAbeStates::jState_21_4545E0)
+        {
+            Event_Broadcast_422BC0(kEventSpeaking, this);
+        }
+        field_118_prev_held = 0;
+    }
 }
 
 void Abe::jState_21_4545E0()
 {
-    NOT_IMPLEMENTED();
+    // Note j_401389 omitted
+    State_20_454550();
 }
 
 void Abe::State_22_RollBegin_4539A0()
@@ -4728,7 +4766,48 @@ void Abe::State_79_WellInside_45CA60()
 
 void Abe::State_80_WellShotOut_45D150()
 {
-    NOT_IMPLEMENTED();
+    if (field_C8_vely >= FP_FromInteger(0))
+    {
+        State_3_Fall_459B60();
+    }
+    else
+    {
+        field_C8_vely += field_CC_sprite_scale * FP_FromDouble(1.8);
+        
+        field_B8_xpos += field_C4_velx;
+        field_BC_ypos += field_C8_vely;
+
+        sub_408C40();
+
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            nullptr,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
+
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted) ||
+        (field_106_current_state != eAbeStates::State_80_WellShotOut_45D150 && field_106_current_state != eAbeStates::State_77_45D130))
+    {
+        if (field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_20_animation.field_C_render_layer = 13;
+        }
+        else
+        {
+            field_20_animation.field_C_render_layer = 32;
+        }
+
+        field_E0_176_ptr->field_14_flags |= 2u;
+    }
+
+    if (field_106_current_state == eAbeStates::State_84_FallLandDie_45A420)
+    {
+        field_10C_health = FP_FromInteger(1);
+        field_106_current_state = eAbeStates::State_16_LandSoft_45A360;
+    }
 }
 
 void Abe::jState_81_WellBegin_45C7F0()
@@ -5171,10 +5250,86 @@ void Abe::sub_44E9A0()
     NOT_IMPLEMENTED();
 }
 
-__int16 Abe::sub_453E10()
+__int16 Abe::CrouchingGameSpeak_453E10()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+
+    if (sInputKey_GameSpeak2_5550F8 & field_118_prev_held)
+    {
+        pEventSystem_5BC11C->PushEvent_4218D0(10);
+        Abe_SFX_457EC0(4u, 0, 0, this);
+        field_106_current_state = eAbeStates::State_20_454550;
+        return TRUE;
+    }
+    else if (sInputKey_GameSpeak3_555100 & field_118_prev_held)
+    {
+        pEventSystem_5BC11C->PushEvent_4218D0(12);
+        Abe_SFX_457EC0(6u, 0, 0, this);
+        field_106_current_state = eAbeStates::jState_21_4545E0;
+        return TRUE;
+    }
+    else if (field_118_prev_held & sInputKey_GameSpeak1_555104)
+    {
+        pEventSystem_5BC11C->PushEvent_4218D0(9);
+
+        if (field_128.field_12_mood == 5 || field_128.field_12_mood == 6)
+        {
+            Abe_SFX_457EC0(0x13u, 0, 0, this);
+            field_106_current_state = eAbeStates::State_20_454550;
+        }
+        else
+        {
+            if (field_128.field_12_mood == 3)
+            {
+                Abe_SFX_457EC0(0x14u, 0, 0, this);
+            }
+            else
+            {
+                Abe_SFX_457EC0(3u, 0, 0, this);
+            }
+            field_106_current_state = eAbeStates::State_20_454550;
+        }
+        return TRUE;
+    }
+    else if (field_118_prev_held & sInputKey_GameSpeak4_5550FC)
+    {
+        pEventSystem_5BC11C->PushEvent_4218D0(21);
+        Abe_SFX_457EC0(0x19u, 0, 0, this);
+        field_106_current_state = eAbeStates::jState_21_4545E0;
+        return TRUE;
+    }
+    else if (field_118_prev_held & sInputKey_GameSpeak6_555108)
+    {
+        Abe_SFX_457EC0(0x11u, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(23);
+        field_106_current_state = eAbeStates::jState_21_4545E0;
+        return TRUE;
+    }
+    else if (field_118_prev_held & sInputKey_GameSpeak5_55510C)
+    {
+        Abe_SFX_457EC0(5u, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(11);
+        field_106_current_state = eAbeStates::State_20_454550;
+        return TRUE;
+    }
+    else if (field_118_prev_held & sInputKey_GameSpeak8_555110)
+    {
+        Abe_SFX_457EC0(0x1Au, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(22);
+        field_106_current_state = eAbeStates::jState_21_4545E0;
+        return TRUE;
+    }
+    else if (field_118_prev_held & sInputKey_GameSpeak7_555114)
+    {
+        Abe_SFX_457EC0(0x1Cu, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(24);
+        field_106_current_state = eAbeStates::State_20_454550;
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
 }
 
 BOOL Abe::Is_Celling_Above_44E8D0()
@@ -5241,6 +5396,169 @@ __int16 Abe::TryEnterDoor_451220()
     field_B8_xpos = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
     sub_408D10(TRUE);
     return 1;
+}
+
+void Abe::ToDieFinal_458910()
+{
+    Class_545A60* pObj = static_cast<Class_545A60*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
+    if (pObj)
+    {
+        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+        {
+            pObj->sub_45FA50();
+            field_178_invisible_effect_id = -1;
+        }
+    }
+
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
+    field_114_flags.Clear(Flags_114::e114_Bit1);
+    field_106_current_state = eAbeStates::State_57_Dead_4589A0;
+    field_124_gnFrame = 0;
+    field_10C_health = FP_FromInteger(0);
+
+    // Death jingle ?
+    MusicController::sub_47FD60(11, this, 1, 0);
+}
+
+short Abe::DoGameSpeak_45AB70(int input)
+{
+    short nextState = -1;
+    if ((sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & eChant) == eChant)
+    {
+        field_124_gnFrame = sGnFrame_5C1B84 + 90;
+        SND_SEQ_PlaySeq_4CA960(10u, 0, 1);
+        field_120_state = 0;
+        nextState = eAbeStates::State_112_Chant_45B1C0;
+    }
+    else if (sInputKey_GameSpeak2_5550F8 & input)
+    {
+        Abe_SFX_457EC0(4u, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(10);
+        nextState = eAbeStates::State_7_45B140;
+    }
+    else if (input & sInputKey_GameSpeak3_555100)
+    {
+        Abe_SFX_457EC0(6u, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(12);
+        nextState = eAbeStates::State_8_45B160;
+    }
+    else if (input & sInputKey_GameSpeak1_555104)
+    {
+        pEventSystem_5BC11C->PushEvent_4218D0(9);
+        if (field_128.field_12_mood == 5 || field_128.field_12_mood == 6)
+        {
+            Abe_SFX_457EC0(19u, 0, 0, this);
+            nextState = eAbeStates::State_9_45B180;
+        }
+        else
+        {
+            if (field_128.field_12_mood == 3)
+            {
+                Abe_SFX_457EC0(20u, 0, 0, this);
+            }
+            else
+            {
+                Abe_SFX_457EC0(3u, 0, 0, this);
+            }
+            nextState = eAbeStates::State_9_45B180;
+        }
+    }
+    else if (input & sInputKey_GameSpeak4_5550FC)
+    {
+        pEventSystem_5BC11C->PushEvent_4218D0(21);
+        Abe_SFX_457EC0(25u, 0, 0, this);
+        nextState = eAbeStates::State_10_Fart_45B1A0;
+    }
+    else if (sInputKey_GameSpeak6_555108 & input)
+    {
+        Abe_SFX_457EC0(17u, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(23);
+        nextState = eAbeStates::State_9_45B180;
+    }
+    else if (input & sInputKey_GameSpeak5_55510C)
+    {
+        FP gridSize = {};
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+        else
+        {
+            gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+
+        if (FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
+        {
+            nextState = eAbeStates::State_62_Punch_454750;
+        }
+        else if (FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
+        {
+            nextState = eAbeStates::State_62_Punch_454750;
+        }
+        else
+        {
+            // NOTE: Extra check for locks, it must also be being rendered in order to for us to try to hit it
+            BaseAliveGameObject* pObj = FindObjectOfType_425180(Types::eLockedSoul, field_B8_xpos + gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
+            if (pObj && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+            {
+                nextState = eAbeStates::State_62_Punch_454750;
+            }
+            else if (FindObjectOfType_425180(Types::eSlig_125, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
+            {
+                nextState = eAbeStates::State_62_Punch_454750;
+            }
+            else if (FindObjectOfType_425180(Types::eSlig_125, field_B8_xpos + (gridSize *  FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
+            {
+                nextState = eAbeStates::State_62_Punch_454750;
+            }
+            else if (FindObjectOfType_425180(Types::eGlukkon_67, field_B8_xpos + gridSize, field_BC_ypos - FP_FromInteger(5)))
+            {
+                nextState = eAbeStates::State_62_Punch_454750;
+            }
+            else if (FindObjectOfType_425180(Types::eGlukkon_67, field_B8_xpos + (gridSize * FP_FromInteger(2)), field_BC_ypos - FP_FromInteger(5)))
+            {
+                nextState = eAbeStates::State_62_Punch_454750;
+            }
+            else
+            {
+                // Didn't hit anything, just anger
+                Abe_SFX_457EC0(5u, 0, 0, this);
+                pEventSystem_5BC11C->PushEvent_4218D0(11);
+                nextState = eAbeStates::State_8_45B160;
+            }
+        }
+    }
+    else if (input & sInputKey_GameSpeak8_555110)
+    {
+        Abe_SFX_457EC0(26u, 0, 0, this);
+        pEventSystem_5BC11C->PushEvent_4218D0(22);
+        nextState = 7;
+    }
+    else if (input & sInputKey_GameSpeak7_555114)
+    {
+        FP gridSize = {};
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+        else
+        {
+            gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+
+        pEventSystem_5BC11C->PushEvent_4218D0(24);
+        if (FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(40))))
+        {
+            nextState = eAbeStates::State_63_Sorry_454670;
+        }
+        else
+        {
+            Abe_SFX_457EC0(28u, 0, 0, this);
+            nextState = eAbeStates::State_10_Fart_45B1A0; // TODO: Correct but isn't fart in this case ??
+        }
+    }
+
+    return nextState;
 }
 
 // TODO: Clean up

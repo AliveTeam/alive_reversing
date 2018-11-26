@@ -7,11 +7,6 @@ void GameSpeak_ForceLink() { }
 
 ALIVE_VAR(1, 0x5BC11C, GameSpeak*, pEventSystem_5BC11C, nullptr);
 
-GameSpeak::GameSpeak()
-{
-
-}
-
 GameSpeak* GameSpeak::ctor_421820()
 {
     BaseGameObject::BaseGameObject_ctor_4DBFA0(1, 0);
@@ -25,15 +20,13 @@ GameSpeak* GameSpeak::ctor_421820()
     return this;
 }
 
-
 void GameSpeak::dtor_4218A0()
 {
     pEventSystem_5BC11C = nullptr;
     BaseGameObject_dtor_4DBEC0();
 }
 
-
-void GameSpeak::dtor_421870(signed int flags)
+void GameSpeak::vdtor_421870(signed int flags)
 {
     dtor_4218A0();
     if (flags & 1)
@@ -42,15 +35,25 @@ void GameSpeak::dtor_421870(signed int flags)
     }
 }
 
-
 void GameSpeak::VDestructor(signed int flags)
 {
-    dtor_421870(flags);
+    vdtor_421870(flags);
 }
 
 void GameSpeak::VUpdate()
 {
     Update_421920();
+}
+
+void GameSpeak::VRender(int** /*pOrderingTable*/)
+{
+    // Null @ 0x4DBF80
+}
+
+
+void GameSpeak::VScreenChanged()
+{
+    // Null @ 0x421AB0
 }
 
 void GameSpeak::Update_421920()

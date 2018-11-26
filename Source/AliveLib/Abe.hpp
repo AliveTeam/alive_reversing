@@ -205,11 +205,13 @@ public:
     EXPORT __int16 HandleDoAction_455BD0();
     EXPORT void PushWall_44E890();
     EXPORT void sub_44E9A0();
-    EXPORT __int16 sub_453E10();
+    EXPORT __int16 CrouchingGameSpeak_453E10();
     EXPORT BOOL Is_Celling_Above_44E8D0();
     EXPORT void MoveWithVelocity_450FA0(FP velocityX);
     EXPORT __int16 sub_451060();
     EXPORT __int16 TryEnterDoor_451220();
+    EXPORT void ToDieFinal_458910();
+    EXPORT short DoGameSpeak_45AB70(int input);
 public:
     __int16 field_116;
     int field_118_prev_held;
