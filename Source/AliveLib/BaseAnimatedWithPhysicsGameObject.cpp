@@ -244,9 +244,9 @@ __int16 BaseAnimatedWithPhysicsGameObject::vsub_4254A0(int a2)
     return sub_4254A0(a2);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vsub_425520(int a2)
+__int16 BaseAnimatedWithPhysicsGameObject::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    return sub_425520(a2);
+    return OnSameYLevel_425520(pOther);
 }
 
 int BaseAnimatedWithPhysicsGameObject::vsub_425840(unsigned __int16 a2)
@@ -344,9 +344,31 @@ __int16 BaseAnimatedWithPhysicsGameObject::sub_4254A0(int /*a2*/)
     NOT_IMPLEMENTED();
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::sub_425520(int /*a2*/)
+// This is how Scrabs (and probably other stuff) know you are on the same "floor"
+__int16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    NOT_IMPLEMENTED();
+    // Get bounding rects
+    PSX_RECT ourRect = {};
+    GetBoundingRect_424FD0(&ourRect, 1);
+
+    PSX_RECT theirRect = {};
+    pOther->GetBoundingRect_424FD0(&theirRect, 1);
+
+    // Get mid Y of each
+    const int ourMidY = (theirRect.h + theirRect.y) / 2;
+    const int theirMidY = (ourRect.h + ourRect.y) / 2;
+
+    if (ourMidY <= theirRect.h && ourMidY >= theirRect.y)
+    {
+        return TRUE;
+    }
+
+    if (theirMidY > ourRect.h || theirMidY < ourRect.y)
+    {
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
 int BaseAnimatedWithPhysicsGameObject::sub_425840(unsigned __int16 /*a2*/)
