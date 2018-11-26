@@ -5229,19 +5229,16 @@ __int16 Abe::ToLeftRightMovement_44E340()
             field_106_current_state = eAbeStates::State_6_WalkBegin_44FEE0;
         }
 
-        const FP x50 = gridSize * FP_FromInteger(50);
-        if (!Raycast_408750(x50, gridSize))
+        if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize))
         {
-            const FP x20 = gridSize * FP_FromInteger(20);
-            if (!Raycast_408750(x20, gridSize))
+            if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
             {
                 return 1;
             }
         }
 
         // Walking into wall?
-        const FP x20 = gridSize * FP_FromInteger(20);
-        if (Raycast_408750(x20, gridSize))
+        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
         {
             PushWall_44E890();
             return 0;
@@ -5274,19 +5271,16 @@ __int16 Abe::ToLeftRightMovement_44E340()
             field_106_current_state = eAbeStates::State_6_WalkBegin_44FEE0;
         }
 
-        const FP xNeg50 = field_CC_sprite_scale * FP_FromInteger(50);
-        if (!Raycast_408750(xNeg50, -gridSize))
+        if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), -gridSize))
         {
-            const FP xNeg20 = field_CC_sprite_scale * FP_FromInteger(20);
-            if (!Raycast_408750(xNeg20, -gridSize))
+            if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), -gridSize))
             {
                 return 1;
             }
         }
 
         // Walking into wall?
-        const FP xNeg20 = field_CC_sprite_scale * FP_FromInteger(20);
-        if (Raycast_408750(xNeg20, -gridSize))
+        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), -gridSize))
         {
             PushWall_44E890();
             return 0;
