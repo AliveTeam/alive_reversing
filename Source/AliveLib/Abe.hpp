@@ -207,6 +207,9 @@ public:
     EXPORT void sub_44E9A0();
     EXPORT __int16 sub_453E10();
     EXPORT BOOL Is_Celling_Above_44E8D0();
+    EXPORT void MoveWithVelocity_450FA0(FP velocityX);
+    EXPORT __int16 sub_451060();
+    EXPORT __int16 TryEnterDoor_451220();
 public:
     __int16 field_116;
     int field_118_prev_held;

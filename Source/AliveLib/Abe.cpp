@@ -3119,93 +3119,86 @@ void Abe::State_0_Idle_44EEB0()
 void Abe::State_1_WalkLoop_44FBA0()
 {
     field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
     sub_44E9A0();
 
-    if (field_106_current_state == eAbeStates::State_1_WalkLoop_44FBA0)
+    if (field_106_current_state != eAbeStates::State_1_WalkLoop_44FBA0)
     {
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        return;
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
+    }
+    else
+    {
+        field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9);
+    }
+
+    const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+    if (field_20_animation.field_92_current_frame != 2 && field_20_animation.field_92_current_frame != 11)
+    {
+        if (field_20_animation.field_92_current_frame != 5 && field_20_animation.field_92_current_frame != 14)
         {
-            field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(9));
-        }
-        else
-        {
-            field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(9);
-        }
-
-        const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-
-        if (field_20_animation.field_92_current_frame != 2 && field_20_animation.field_92_current_frame != 11)
-        {
-            if (field_20_animation.field_92_current_frame != 5 && field_20_animation.field_92_current_frame != 14)
-            {
-                return;
-            }
-
-            Abe_SFX_2_457A40(1, 0, 32767, this);
-            
-            sub_408D10(TRUE);
-
-            if (sInputKey_Run_5550E8 & pressed)
-            {
-                // Walk to run
-                if (field_20_animation.field_92_current_frame == 5)
-                {
-                    field_106_current_state = eAbeStates::State_49_450200;
-                }
-                else
-                {
-                    field_106_current_state = eAbeStates::State_48_4500A0;
-                }
-            }
-            else if (pressed & sInputKey_Sneak_5550EC)
-            {
-                // Walk to sneak
-                if (field_20_animation.field_92_current_frame != 5)
-                {
-                    field_20_animation.field_92_current_frame = eAbeStates::State_43_450380;
-                }
-                else
-                {
-                    field_20_animation.field_92_current_frame = eAbeStates::State_41_450250;
-
-                }
-            }
             return;
         }
 
-        bool bEndWalking = false;
-        if (field_C4_velx > FP_FromInteger(0) && sInputKey_Left_5550D4 & pressed || 
-            field_C4_velx < FP_FromInteger(0) && sInputKey_Right_5550D0 & pressed)
-        {
-            bEndWalking = true;
-        }
+        Abe_SFX_2_457A40(1, 0, 32767, this);
 
-        if (sInputKey_Hop_5550E0 & field_118_prev_held)
-        {
-            field_108_delayed_state = eAbeStates::State_28_HopMid_451C50;
-            bEndWalking = true;
-        }
+        sub_408D10(TRUE);
 
-        if (bEndWalking)
+        if (sInputKey_Run_5550E8 & pressed)
         {
-            if (field_20_animation.field_92_current_frame == 2)
+            // Walk to run
+            if (field_20_animation.field_92_current_frame == 5)
             {
-                field_106_current_state = eAbeStates::State_5_WalkEndRightFoot_00450080;
+                field_106_current_state = eAbeStates::State_49_450200;
             }
             else
             {
-                field_106_current_state = eAbeStates::State_4_WalkEndLeftFoot_44FFC0;
+                field_106_current_state = eAbeStates::State_48_4500A0;
             }
-
-            field_118_prev_held = 0;
-            return;
         }
-
-        if ((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+        else if (pressed & sInputKey_Sneak_5550EC)
         {
+            // Walk to sneak
+            if (field_20_animation.field_92_current_frame != 5)
+            {
+                field_106_current_state = eAbeStates::State_43_450380;
+            }
+            else
+            {
+                field_106_current_state = eAbeStates::State_41_450250;
+            }
+        }
+        return;
+    }
+
+    // Direction changed
+    bool bEndWalking = false;
+    if ((field_C4_velx > FP_FromInteger(0) && (sInputKey_Left_5550D4 & pressed)) ||
+        (field_C4_velx < FP_FromInteger(0) && (sInputKey_Right_5550D0 & pressed)))
+    {
+        bEndWalking = true;
+    }
+
+    // Hopping
+    if (sInputKey_Hop_5550E0 & field_118_prev_held)
+    {
+        field_108_delayed_state = eAbeStates::State_28_HopMid_451C50;
+        bEndWalking = true;
+    }
+
+    if (!bEndWalking)
+    {
+        if ((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & pressed)
+        {
+            // Check if walking into something
             FP gridSize = {};
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -3220,21 +3213,25 @@ void Abe::State_1_WalkLoop_44FBA0()
             if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), offX) ||
                 Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), offX))
             {
-                field_118_prev_held = 0;
-                field_106_current_state = (field_20_animation.field_92_current_frame == 2) + 4;
-                return;
+                bEndWalking = true;
             }
         }
         else
         {
-            if (field_20_animation.field_92_current_frame == 2)
-            {
-                field_106_current_state = 5;
-            }
-            else
-            {
-                field_106_current_state = 4;
-            }
+            // No longer trying to walk
+            bEndWalking = true;
+        }
+    }
+
+    if (bEndWalking)
+    {
+        if (field_20_animation.field_92_current_frame == 2)
+        {
+            field_106_current_state = eAbeStates::State_5_WalkEndRightFoot_00450080;
+        }
+        else
+        {
+            field_106_current_state = eAbeStates::State_4_WalkEndLeftFoot_44FFC0;
         }
         field_118_prev_held = 0;
     }
@@ -3563,7 +3560,7 @@ void Abe::State_4_WalkEndLeftFoot_44FFC0()
             {
                 field_108_delayed_state = eAbeStates::State_0_Idle_44EEB0;
                 field_106_current_state = eAbeStates::State_27_HopBegin_4521C0;
-                BaseGameObject* pObj = vsub_44E970(2);
+                BaseGameObject* pObj = Vsub_408FD0(2);
                 if (pObj)
                 {
                     field_1A4 = 0;
@@ -3584,7 +3581,8 @@ void Abe::State_4_WalkEndLeftFoot_44FFC0()
 
 void Abe::State_5_WalkEndRightFoot_00450080()
 {
-    NOT_IMPLEMENTED();
+    // TODO Jump func omitted jState_WalkEndLeftFoot_40459
+    State_4_WalkEndLeftFoot_44FFC0();
 }
 
 void Abe::State_6_WalkBegin_44FEE0()
@@ -3845,7 +3843,19 @@ void Abe::State_17_CrouchIdle_456BC0()
 
 void Abe::State_18_CrouchToStand_454600()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 3)
+    {
+        if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (eRight | eLeft))
+        {
+            ToLeftRightMovement_44E340();
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+        field_118_prev_held = 0;
+    }
 }
 
 void Abe::State_19_StandToCrouch_453DC0()
@@ -3906,7 +3916,48 @@ void Abe::State_24_453D00()
 
 void Abe::State_25_RunSlideStop_451330()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        Knockback_44E700(1, 1);
+    }
+    else
+    {
+        MoveWithVelocity_450FA0(FP_FromDouble(0.375));
+
+        if (field_106_current_state == eAbeStates::State_25_RunSlideStop_451330 && !sub_451060() && !TryEnterDoor_451220())
+        {
+            if (field_20_animation.field_92_current_frame != 15)
+            {
+                sub_408D10(FALSE);
+            }
+
+            const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+            if (field_20_animation.field_92_current_frame >= 9)
+            {
+                if (field_20_animation.field_92_current_frame == 15)
+                {
+                    Abe_SFX_2_457A40(0, 0, 32767, this);
+                    sub_408D10(TRUE);
+
+                    if (!ToLeftRightMovement_44E340())
+                    {
+                        ToIdle_44E6B0();
+                    }
+                }
+            }
+            else if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && (sInputKey_Right_5550D0 & pressed)) ||
+                    (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && (sInputKey_Left_5550D4 & pressed)))
+            {
+                field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
+                field_F4 = eAbeStates::State_26_RunTurn_451500;
+                field_F6 = field_20_animation.field_92_current_frame;
+            }
+        }
+    }
 }
 
 void Abe::State_26_RunTurn_451500()
@@ -3946,7 +3997,150 @@ void Abe::State_32_RunJumpLand_453460()
 
 void Abe::State_33_RunLoop_4508E0()
 {
-    NOT_IMPLEMENTED();
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+    }
+    else
+    {
+        field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
+    }
+
+    // Ran into wall?
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) || 
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+        Knockback_44E700(1, 1);
+        return;
+    }
+    
+    sub_44E9A0();
+    
+    if (field_106_current_state != eAbeStates::State_33_RunLoop_4508E0)
+    {
+        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+        return;
+    }
+
+    if (field_20_animation.field_92_current_frame && field_20_animation.field_92_current_frame != 8)
+    {
+        if (field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 12)
+        {
+            Abe_SFX_2_457A40(2, 0, 32767, this);
+            
+            sub_408D10(TRUE);
+
+            const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+            // Turning around?
+            if (field_C4_velx > FP_FromInteger(0) && sInputKey_Left_5550D4 & pressed ||
+                field_C4_velx < FP_FromInteger(0) && sInputKey_Right_5550D0 & pressed)
+            {
+                field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+                field_106_current_state = eAbeStates::State_26_RunTurn_451500;
+                Abe_SFX_2_457A40(4, 0, 32767, this);
+                field_118_prev_held = 0;
+                return;
+            }
+
+            // Run jump
+            if (field_118_prev_held & sInputKey_Hop_5550E0)
+            {
+                BaseGameObject* pObj = Vsub_408FD0(3);
+                if (pObj)
+                {
+                    field_1A4 = 0;
+                    field_1A8 = pObj->field_8_object_id;
+                }
+
+                field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+                field_106_current_state = eAbeStates::State_30_RunJumpBegin_4532E0;
+                field_118_prev_held = 0;
+                return;
+            }
+
+            // Run to roll
+            if (field_118_prev_held & sInputKey_FartRoll_5550F0)
+            {
+                field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+                field_106_current_state = eAbeStates::jState_38_RollBegin_453A70;
+                field_11C = 0;
+                field_118_prev_held = 0;
+                return;
+            }
+
+            if ((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & pressed)
+            {
+                if (pressed & sInputKey_Run_5550E8)
+                {
+                    field_118_prev_held = 0;
+                    return;
+                }
+
+                FP gridSize = {};
+                if (field_C4_velx >= FP_FromInteger(0))
+                {
+                    gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                }
+                else
+                {
+                    gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                }
+
+                // Run to walk and hit wall
+                if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
+                    Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
+                {
+                    Knockback_44E700(1, 1);
+                }
+                else
+                {
+                    // Run to walk
+                    if (field_20_animation.field_92_current_frame != 4)
+                    {
+                        field_106_current_state = eAbeStates::State_50_RunToWalk1_450E20;
+                    }
+                    else
+                    {
+                        field_106_current_state = eAbeStates::State_51_RunToWalk2_450F50;
+                    }
+                }
+            }
+            else
+            {
+                // No longer running or even moving, so slide stop
+                field_106_current_state = eAbeStates::State_25_RunSlideStop_451330;
+                Abe_SFX_2_457A40(4, 0, 32767, this);
+            }
+
+            field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+            field_118_prev_held = 0;
+            return;
+        }
+    }
+    else
+    {
+        sub_408D10(TRUE);
+
+        if (field_118_prev_held & sInputKey_Hop_5550E0)
+        {
+            BaseGameObject* pObj = Vsub_408FD0(3);
+            if (pObj)
+            {
+                field_1A4 = 0;
+                field_1A8 = pObj->field_8_object_id;
+            }
+            field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
+            field_106_current_state = eAbeStates::State_30_RunJumpBegin_4532E0;
+            field_118_prev_held = 0;
+        }
+    }
 }
 
 void Abe::State_34_DunnoBegin_44ECF0()
@@ -4680,6 +4874,7 @@ __int16 Abe::sub_4569E0()
 
 int Abe::sub_44EE10()
 {
+    // Looks for a door object and checks something
     NOT_IMPLEMENTED();
     return 0;
 }
@@ -4722,6 +4917,56 @@ BOOL Abe::Is_Celling_Above_44E8D0()
         &hitX,
         &hitY,
         field_D6_scale != 0 ? 8 : 128) != 0;
+}
+
+void Abe::MoveWithVelocity_450FA0(FP /*velocityX*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 Abe::sub_451060()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Abe::TryEnterDoor_451220()
+{
+    // Can't be entering a door if we're not pressing up
+    if (!(sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed))
+    {
+        return 0;
+    }
+
+    if (field_114_flags.Get(Flags_114::e114_Bit7))
+    {
+        return 0;
+    }
+
+    if (field_20_animation.field_92_current_frame < 4)
+    {
+        return 0;
+    }
+    
+    // Are we actually on a door?
+    Path_TLV* pDoorTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        Path_Door::kType);
+
+    if (!pDoorTlv || !sub_44EE10())
+    {
+        return 0;
+    }
+
+    field_FC_pPathTLV = pDoorTlv;
+    field_120_state = 0;
+    field_106_current_state = eAbeStates::State_114_DoorEnter_459470;
+    field_B8_xpos = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
+    sub_408D10(TRUE);
+    return 1;
 }
 
 // TODO: Clean up
