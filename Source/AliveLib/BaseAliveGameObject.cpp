@@ -98,9 +98,9 @@ unsigned __int16 BaseAliveGameObject::Vnull_408F70()
     return vnull_408F70();
 }
 
-__int16 BaseAliveGameObject::Vsub_4081C0(__int16 a2)
+void BaseAliveGameObject::VUpdateState_4081C0(__int16 state)
 {
-    return vsub_4081C0(a2);
+    vUpdateState_4081C0(state);
 }
 
 int BaseAliveGameObject::Vsub_408320(__int16 a2, __int16 a3, int a4)
@@ -147,10 +147,10 @@ unsigned __int16 BaseAliveGameObject::vnull_408F70()
     return 0;
 }
 
-__int16 BaseAliveGameObject::vsub_4081C0(__int16 /*a2*/)
+void BaseAliveGameObject::vUpdateState_4081C0(__int16 state)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    field_114_flags.Set(Flags_114::e114_Bit2);
+    field_106_current_state = state;
 }
 
 int BaseAliveGameObject::vsub_408320(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/)

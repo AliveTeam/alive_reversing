@@ -223,7 +223,7 @@ public:
     int field_144;
     int field_148;
     int field_14C;
-    int field_150;
+    int field_150_OrbWhirlWind_id;
     int field_154;
     int field_158;
     int field_15C;

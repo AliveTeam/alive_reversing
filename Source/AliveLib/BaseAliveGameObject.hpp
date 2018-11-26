@@ -49,7 +49,7 @@ public:
 
     virtual int Vnull_408F90();
     virtual unsigned __int16 Vnull_408F70();
-    virtual __int16 Vsub_4081C0(__int16 a2);
+    virtual void VUpdateState_4081C0(__int16 state);
     virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);
     virtual __int16 Vsub_408730(int arg0);
     virtual signed __int16 VOn_TLV_Collision_4087F0(Path_TLV* pTlv);
@@ -60,7 +60,7 @@ public:
 protected:
     EXPORT int vnull_408F90();
     EXPORT unsigned __int16 vnull_408F70();
-    EXPORT __int16 vsub_4081C0(__int16 a2);
+    EXPORT void vUpdateState_4081C0(__int16 state);
     EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);
     EXPORT __int16 vsub_408730(int arg0);
     EXPORT signed __int16 vOn_TLV_Collision_4087F0(Path_TLV* pTlv);

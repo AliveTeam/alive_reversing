@@ -590,7 +590,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_1A2_rock_or_bone_count = 0;
     field_158 = -1;
     field_154 = -1;
-    field_150 = -1;
+    field_150_OrbWhirlWind_id = -1;
     field_14C = -1;
     field_148 = -1;
     field_1A8 = -1;
@@ -651,7 +651,7 @@ void Abe::dtor_44B380()
 
     BaseGameObject* pField_148 = sObjectIds_5C1B70.Find_449CF0(field_148);
     BaseGameObject* pField_14C = sObjectIds_5C1B70.Find_449CF0(field_14C);
-    BaseGameObject* pField_150 = sObjectIds_5C1B70.Find_449CF0(field_150);
+    BaseGameObject* pField_150 = sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id);
     BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154);
     BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158);
     BaseGameObject* pField_15C = sObjectIds_5C1B70.Find_449CF0(field_15C);
@@ -686,7 +686,7 @@ void Abe::dtor_44B380()
     if (pField_150)
     {
         pField_150->field_6_flags.Set(BaseGameObject::eDead);
-        field_150 = -1;
+        field_150_OrbWhirlWind_id = -1;
     }
 
     if (pField_154)
@@ -1040,7 +1040,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_128.field_14 = sGnFrame_5C1B84 - pSaveState->dword78;
     sActiveHero_5C1B68->field_148 = pSaveState->dword7C;
     sActiveHero_5C1B68->field_14C = pSaveState->dword80;
-    sActiveHero_5C1B68->field_150 = pSaveState->dword84;
+    sActiveHero_5C1B68->field_150_OrbWhirlWind_id = pSaveState->dword84;
     sActiveHero_5C1B68->field_154 = pSaveState->dword88;
     sActiveHero_5C1B68->field_158 = pSaveState->dword8C;
     sActiveHero_5C1B68->field_15C = pSaveState->dword90;
@@ -1747,6 +1747,30 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Class_544FE4, 0x190);
 
+class Class_5480D4; // TODO
+
+class OrbWhirlWind : public BaseGameObject
+{
+public:
+    // TODO: Virtuals.. pretty much everything else..
+
+    EXPORT void sub_4E4050()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    int field_20;
+    __int16 field_24;
+    __int16 field_26_bUnknown;
+    __int16 field_28_obj_array_idx;
+    //__int16 field_2A; // padding ?
+    Class_5480D4 *field_2C_objArray[16];
+    int field_6C_xpos;
+    int field_70_ypos;
+    int field_74_scale;
+};
+ALIVE_ASSERT_SIZEOF(OrbWhirlWind, 0x78);
+
 void Abe::Update_449DC0()
 {
     if (word_5C1BDA) // Some flag to reset HP?
@@ -1777,7 +1801,7 @@ void Abe::Update_449DC0()
         field_148 = BaseGameObject::Find_Flags_4DC170(field_148);
         field_14C = BaseGameObject::Find_Flags_4DC170(field_14C);
         field_1A8 = BaseGameObject::Find_Flags_4DC170(field_1A8);
-        field_150 = BaseGameObject::Find_Flags_4DC170(field_150);
+        field_150_OrbWhirlWind_id = BaseGameObject::Find_Flags_4DC170(field_150_OrbWhirlWind_id);
         field_154 = BaseGameObject::Find_Flags_4DC170(field_154);
         field_158 = BaseGameObject::Find_Flags_4DC170(field_158);
         field_15C = BaseGameObject::Find_Flags_4DC170(field_15C);
@@ -2153,9 +2177,74 @@ BaseGameObject* Abe::vsub_45A570()
     return nullptr;
 }
 
-void Abe::Knockback_44E700(__int16 /*a2*/, __int16 /*a3*/)
+// TODO :Needs grenade object stub for correct impl
+
+void Abe::Knockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 {
     NOT_IMPLEMENTED();
+
+    OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
+    BaseGameObject* pfield_158 = sObjectIds_5C1B70.Find_449CF0(field_158);
+    BaseGameObject* pfield_164 = sObjectIds_5C1B70.Find_449CF0(field_164);
+    if (sControlledCharacter_5C1B8C == this || field_10C_health <= FP_FromInteger(0))
+    {
+        // Chant music/orb kill ?
+        SND_SEQ_Stop_4CAE60(10u);
+        if (pfield_150)
+        {
+            pfield_150->sub_4E4050();
+            field_150_OrbWhirlWind_id = -1;
+        }
+
+        if (pfield_164)
+        {
+            // TODO: Resolve virtual
+            //(*(void(__thiscall **)(int, signed int))(*(_DWORD *)pfield_164 + 64))(pfield_164, 1);
+            field_164 = -1;
+        }
+
+        if (field_C4_velx > FP_FromInteger(0))
+        {
+            field_B8_xpos -= field_C4_velx;
+        }
+
+        sub_408D10(TRUE);
+
+        field_C4_velx = FP_FromInteger(0);
+
+        if (field_C8_vely < FP_FromInteger(0))
+        {
+            field_C8_vely = FP_FromInteger(0);
+        }
+
+        if (bUnknownSound)
+        {
+            Abe_SFX_457EC0(9u, 0, Math_RandomRange_496AB0(-127, 127), this);
+            Abe_SFX_2_457A40(13, 0, 32767, this);
+        }
+
+        field_106_current_state = 71;
+
+        if (bDelayedAnger)
+        {
+            field_128.field_18 = 5; // anger in..
+            field_144 = sGnFrame_5C1B84 + 27; // 27 ticks
+        }
+
+        if (pfield_158)
+        {
+            // Virtual 29 = GrenadeBase__vsub_448080
+            // TODO
+            /*
+            (*((void(__thiscall **)(BaseGameObject *))&pfield_158->field_0_VTbl->VAbe + 29))(pfield_158);
+            */
+            field_158 = -1;
+            if (!word_5C1BDE)
+            {
+                field_1A2_rock_or_bone_count++;
+            }
+        }
+    }
 }
 
 void Abe::vRender_44B580(int** pOrderingTable)
@@ -2373,11 +2462,11 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
             pSaveState->dword80 = pObj->field_C_objectId;
         }
     }
-    pSaveState->dword84 = field_150;
+    pSaveState->dword84 = field_150_OrbWhirlWind_id;
 
-    if (field_150 != -1)
+    if (field_150_OrbWhirlWind_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_150);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id);
         if (pObj)
         {
             pSaveState->dword84 = pObj->field_C_objectId;
