@@ -4219,27 +4219,159 @@ void Abe::State_39_StandingToRun_450D40()
 
 void Abe::State_40_SneakLoop_450550()
 {
-    NOT_IMPLEMENTED();
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    {
+        ToIdle_44E6B0();
+        sub_408D10(TRUE);
+    }
+    else
+    {
+        sub_44E9A0();
+
+        if (field_106_current_state == eAbeStates::State_40_SneakLoop_450550)
+        {
+            const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+            if (field_20_animation.field_92_current_frame == 3 || field_20_animation.field_92_current_frame == 13)
+            {
+                FP gridSize = {};
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                }
+                else
+                {
+                    gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                }
+                
+                // Hit wall, changed direction or no longer trying to sneak
+                if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
+                    Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize)
+                    || (field_C4_velx > FP_FromInteger(0) && (sInputKey_Left_5550D4 & pressed))
+                    || (field_C4_velx < FP_FromInteger(0) && (sInputKey_Right_5550D0 & pressed))
+                    || !((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & pressed))
+                {
+                    if (field_20_animation.field_92_current_frame != 3)
+                    {
+                        field_106_current_state = eAbeStates::State_46_SneakEnd_450870;
+                    }
+                    else
+                    {
+                        field_106_current_state = eAbeStates::jState_47_SneakEnd_4508C0;
+                    }
+                }
+            }
+            else if (field_20_animation.field_92_current_frame == 6 || field_20_animation.field_92_current_frame == 16)
+            {
+                Abe_SFX_2_457A40(3, 0, 32767, this);
+                sub_408D10(TRUE);
+                if ((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & pressed)
+                {
+                    // Sneak to walk
+                    if (!(pressed & sInputKey_Sneak_5550EC))
+                    {
+                        if (field_20_animation.field_92_current_frame != 6)
+                        {
+                            field_106_current_state = eAbeStates::State_44_450500;
+                        }
+                        else
+                        {
+                            field_106_current_state = eAbeStates::State_42_4503D0;
+                        }
+                    }
+                }
+                field_118_prev_held = 0;
+            }
+        }
+    }
 }
 
+// walk to sneak ??
 void Abe::State_41_450250()
 {
-    NOT_IMPLEMENTED();
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(10));
+    }
+    else
+    {
+        field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(10);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::State_40_SneakLoop_450550;
+    }
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToIdle_44E6B0();
+        sub_408D10(TRUE);
+    }
+    else
+    {
+        sub_44E9A0();
+    }
 }
 
+// TODO: sneak to walk ??
 void Abe::State_42_4503D0()
 {
-    NOT_IMPLEMENTED();
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
+    }
+    else
+    {
+        field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9);
+    }
+    
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::State_1_WalkLoop_44FBA0;
+    }
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToIdle_44E6B0();
+        sub_408D10(TRUE);
+    }
+    else
+    {
+        sub_44E9A0();
+    }
 }
 
 void Abe::State_43_450380()
 {
-    NOT_IMPLEMENTED();
+    State_41_450250();
+
+    if (field_106_current_state == eAbeStates::State_40_SneakLoop_450550)
+    {
+        field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
+        field_106_current_state = eAbeStates::State_43_450380;
+        field_F4 = 40;
+        field_F6 = 10;
+    }
 }
 
 void Abe::State_44_450500()
 {
-    NOT_IMPLEMENTED();
+    State_42_4503D0();
+
+    if (field_106_current_state == eAbeStates::State_1_WalkLoop_44FBA0)
+    {
+        field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
+        field_106_current_state = eAbeStates::State_44_450500;
+        field_F4 = 1;
+        field_F6 = 9;
+    }
 }
 
 void Abe::State_45_SneakBegin_4507A0()
@@ -4265,12 +4397,24 @@ void Abe::State_45_SneakBegin_4507A0()
 
 void Abe::State_46_SneakEnd_450870()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Abe_SFX_2_457A40(3, 0, 32767, this);
+    }
+    
+    sub_44E9A0();
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        sub_408D10(TRUE);
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::jState_47_SneakEnd_4508C0()
 {
-    NOT_IMPLEMENTED();
+    // TODO: Skipped jmp func jAbe::State_SneakEnd_40330F
+    State_46_SneakEnd_450870();
 }
 
 void Abe::State_48_4500A0()
