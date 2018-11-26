@@ -3485,12 +3485,12 @@ void Abe::State_3_Fall_459B60()
 
             PSX_Point xy{ FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_B8_xpos + FP_FromInteger(10)) };
             PSX_Point wh{ FP_GetExponent(field_BC_ypos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10)) };
-            vsub_424EE0(
+            vOnCollisionWith_424EE0(
                 xy,
                 wh,
                 ObjList_5C1B78,
                 1,
-                &BaseAliveGameObject::sub_408BA0);
+               reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection_408BA0)); // Danger danger.. but will probably work.. can't see how else they would have got this to work
         }
             break;
 

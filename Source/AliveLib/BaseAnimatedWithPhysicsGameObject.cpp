@@ -219,9 +219,9 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffs
 
 }
 
-void BaseAnimatedWithPhysicsGameObject::vsub_424EE0(PSX_Point xy, PSX_Point wh, DynamicArray* pObjList, int startingPointIdx, TCollisionCallBack pFn)
+void BaseAnimatedWithPhysicsGameObject::vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)
 {
-    sub_424EE0(xy, wh, pObjList, startingPointIdx, pFn);
+    OnCollisionWith_424EE0(xy, wh, pObjList, startingPointIdx, pFn);
 }
 
 PSX_RECT* BaseAnimatedWithPhysicsGameObject::vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
@@ -234,9 +234,9 @@ __int16 BaseAnimatedWithPhysicsGameObject::vIsObjNearby_4253B0(FP radius, BaseAn
     return IsObjNearby_4253B0(radius, pObj);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vsub_425420(int a2)
+__int16 BaseAnimatedWithPhysicsGameObject::vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    return sub_425420(a2);
+    return IsObj_GettingNear_425420(pObj);
 }
 
 __int16 BaseAnimatedWithPhysicsGameObject::vsub_4254A0(int a2)
@@ -321,9 +321,22 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAni
     return distance <= radius;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::sub_425420(int /*a2*/)
+__int16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    NOT_IMPLEMENTED();
+    if (pOther->field_B8_xpos < field_B8_xpos && pOther->field_C4_velx > field_C4_velx)
+    {
+        // Its before our xpos but its velocity is moving towards our xpos!
+        return TRUE;
+    }
+
+    if (pOther->field_BC_ypos < field_BC_ypos && pOther->field_C8_vely > field_C8_vely)
+    {
+        // Its before our ypos but its velocity is moving towards our ypos!
+        return TRUE;
+    }
+
+    // See ya later slow coach
+    return FALSE;
 }
 
 __int16 BaseAnimatedWithPhysicsGameObject::sub_4254A0(int /*a2*/)
@@ -358,9 +371,38 @@ Map::CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()
     return gMap_5C3030.Is_Rect_In_Current_Camera_480FE0(&rect);
 }
 
-void BaseAnimatedWithPhysicsGameObject::sub_424EE0(PSX_Point /*xy*/, PSX_Point /*wh*/, DynamicArray* /*pObjList*/, int /*startingPointIdx*/, TCollisionCallBack /*pFn*/)
+void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)
 {
-    NOT_IMPLEMENTED();
+    if (!pObjList)
+    {
+        return;
+    }
+
+    for (int i = 0; i < pObjList->Size(); i++)
+    {
+        BaseGameObject* pElement = pObjList->ItemAt(i);
+        if (!pElement)
+        {
+            break;
+        }
+
+        if (pElement->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
+        {
+            BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pElement);
+            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
+            {
+                PSX_RECT bRect = {};
+                pObj->GetBoundingRect_424FD0(&bRect, startingPointIdx);
+                if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x  && wh.field_2_y >= bRect.y && field_D6_scale == pObj->field_D6_scale)
+                {
+                    if (!(this->*(pFn))(pObj))
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 namespace Test

@@ -75,7 +75,7 @@ protected:
     EXPORT __int16 InAirCollision_408810(PathLine **ppPathLine, FP* hitX, FP* hitY, FP velY);
     EXPORT BaseAliveGameObject* FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos);
 public:
-    EXPORT __int16 sub_408BA0(BaseAliveGameObject* pOther);
+    EXPORT __int16 OnTrapDoorIntersection_408BA0(BaseAliveGameObject* pOther);
 public:
     FP field_E4;
     FP field_E8;

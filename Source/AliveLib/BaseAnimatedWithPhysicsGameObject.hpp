@@ -16,9 +16,9 @@ class Shadow;
 
 // NOTE: __single_inheritance required to workaround MSVC code gen bug
 // https://stackoverflow.com/questions/8676879/member-function-pointer-runtime-error-the-value-of-esp-was-not-properly-saved
-class __single_inheritance BaseAliveGameObject;
+class __single_inheritance BaseAnimatedWithPhysicsGameObject;
 
-using TCollisionCallBack = __int16(BaseAliveGameObject::*)(BaseAliveGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
+using TCollisionCallBack = __int16(BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
@@ -37,11 +37,11 @@ public:
 
     EXPORT void Animation_Init_424E10(int frameTableOffset, int maxW, unsigned __int16 maxH, BYTE **ppAnimData, __int16 a6, unsigned __int8 a7);
 
-    virtual void vsub_424EE0(PSX_Point xy, PSX_Point wh, DynamicArray *pObjList, int startingPointIdx, TCollisionCallBack pFn);
+    virtual void vOnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
     // TODO: Just return by value - this is odd optimization the compiler does
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     virtual __int16 vIsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
-    virtual __int16 vsub_425420(int a2);
+    virtual __int16 vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual __int16 vsub_4254A0(int a2);
     virtual __int16 vsub_425520(int a2);
     virtual int vsub_425840(unsigned __int16 a2);
@@ -50,7 +50,7 @@ public:
 
     EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     EXPORT __int16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
-    EXPORT __int16 sub_425420(int a2);
+    EXPORT __int16 IsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT __int16 sub_4254A0(int a2);
     EXPORT __int16 sub_425520(int a2);
     EXPORT int sub_425840(unsigned __int16 a2);
@@ -59,7 +59,7 @@ public:
 
     EXPORT Map::CameraPos Is_In_Current_Camera_424A70();
 
-    EXPORT void sub_424EE0(PSX_Point xy, PSX_Point wh, DynamicArray* pObjList, int startingPointIdx, TCollisionCallBack pFn);
+    EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
 public:
 
     AnimationEx field_20_animation;

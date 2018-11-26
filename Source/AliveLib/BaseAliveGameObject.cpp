@@ -362,7 +362,7 @@ BaseAliveGameObject* BaseAliveGameObject::FindObjectOfType_425180(Types /*typeTo
     return nullptr;
 }
 
-__int16 BaseAliveGameObject::sub_408BA0(BaseAliveGameObject* /*pOther*/)
+__int16 BaseAliveGameObject::OnTrapDoorIntersection_408BA0(BaseAliveGameObject* /*pOther*/)
 {
     NOT_IMPLEMENTED();
     return 0;

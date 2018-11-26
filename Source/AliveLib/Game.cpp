@@ -54,7 +54,7 @@ ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
 ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
 // Arrays of things
-ALIVE_VAR(1, 0x5C1B78, DynamicArray*, ObjList_5C1B78, nullptr);
+ALIVE_VAR(1, 0x5C1B78, DynamicArrayT<BaseGameObject>*, ObjList_5C1B78, nullptr);
 ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
 ALIVE_VAR(1, 0x5C1B80, DynamicArray*, sShadow_dArray_5C1B80, nullptr);
 
@@ -534,7 +534,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
     sGnFrame_5C1B84 = 0;
     sbLoadingInProgress_5C1B96 = 0;
 
-    ObjList_5C1B78 = alive_new<DynamicArray>(); // For trap doors/dynamic platforms?
+    ObjList_5C1B78 = alive_new<DynamicArrayT<BaseGameObject>>(); // For trap doors/dynamic platforms?
     ObjList_5C1B78->ctor_40CA60(20);
 
     ObjList_5BD4D8 = alive_new<DynamicArray>();
