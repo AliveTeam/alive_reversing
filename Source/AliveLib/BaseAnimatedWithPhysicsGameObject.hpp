@@ -44,7 +44,7 @@ public:
     virtual __int16 vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual __int16 vsub_4254A0(int a2);
     virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
-    virtual int vsub_425840(unsigned __int16 a2);
+    virtual void vStackOnObjectsOfType_425840(Types typeToFind);
     virtual void vnull_408180();
     virtual void vnull_4081A0();
 
@@ -53,7 +53,7 @@ public:
     EXPORT __int16 IsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT __int16 sub_4254A0(int a2);
     EXPORT __int16 OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
-    EXPORT int sub_425840(unsigned __int16 a2);
+    EXPORT void StackOnObjectsOfType_425840(Types typeToFind);
     EXPORT void null_408180();
     EXPORT void null_4081A0();
 

@@ -249,9 +249,9 @@ __int16 BaseAnimatedWithPhysicsGameObject::vOnSameYLevel_425520(BaseAnimatedWith
     return OnSameYLevel_425520(pOther);
 }
 
-int BaseAnimatedWithPhysicsGameObject::vsub_425840(unsigned __int16 a2)
+void BaseAnimatedWithPhysicsGameObject::vStackOnObjectsOfType_425840(Types typeToFind)
 {
-    return sub_425840(a2);
+    StackOnObjectsOfType_425840(typeToFind);
 }
 
 void BaseAnimatedWithPhysicsGameObject::vnull_408180()
@@ -371,9 +371,34 @@ __int16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithP
     return TRUE;
 }
 
-int BaseAnimatedWithPhysicsGameObject::sub_425840(unsigned __int16 /*a2*/)
+void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(Types typeToFind)
 {
-    NOT_IMPLEMENTED();
+    // For some reason this isn't const in the real game
+    const __int16 kData[6] =
+    {
+        0, 3, -3, 6, -6, 2
+    };
+
+    int data_idx = 0;
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == typeToFind && pObj != this)
+        {
+            data_idx++;
+            if (data_idx > _countof(kData))
+            {
+                data_idx = 0;
+            }
+        }
+    }
+
+    field_DA_xOffset = FP_GetExponent(FP_FromInteger(kData[data_idx]) * field_CC_sprite_scale);
 }
 
 void BaseAnimatedWithPhysicsGameObject::null_408180()
