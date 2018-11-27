@@ -239,9 +239,9 @@ __int16 BaseAnimatedWithPhysicsGameObject::vIsObj_GettingNear_425420(BaseAnimate
     return IsObj_GettingNear_425420(pObj);
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::vsub_4254A0(int a2)
+__int16 BaseAnimatedWithPhysicsGameObject::vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    return sub_4254A0(a2);
+    return IsFacingMe_4254A0(pOther);
 }
 
 __int16 BaseAnimatedWithPhysicsGameObject::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
@@ -339,9 +339,28 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_425420(BaseAnimated
     return FALSE;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::sub_4254A0(int /*a2*/)
+// Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
+__int16 BaseAnimatedWithPhysicsGameObject::IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    NOT_IMPLEMENTED();
+    if (pOther->field_B8_xpos == field_B8_xpos
+        && pOther->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        // They are in the same spot as us, so they can only be facing us if they are NOT facing the same way.
+        // This seems strange but its what causes muds to keep changing direction if you turn while you are stood in the same grid as them.
+        return TRUE;
+    }
+    else if (pOther->field_B8_xpos > field_B8_xpos && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        // They are to the right of us and facing left
+        return TRUE;
+    }
+    else if (pOther->field_B8_xpos < field_B8_xpos && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        // They are to the left of using and facing right
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 // This is how Scrabs (and probably other stuff) know you are on the same "floor"
