@@ -391,7 +391,7 @@ void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(Types typeTo
         if (pObj->field_4_typeId == typeToFind && pObj != this)
         {
             data_idx++;
-            if (data_idx > _countof(kData))
+            if (data_idx >= _countof(kData))
             {
                 data_idx = 0;
             }
