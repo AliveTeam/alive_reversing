@@ -1,6 +1,40 @@
 #include "stdafx.h"
 #include "FixedPoint.hpp"
+#include "Function.hpp"
 #include <gtest/gtest.h>
+
+EXPORT int CC Math_SquareRoot_Shifted_496E20(unsigned int value, __int16 iterations)
+{
+    NOT_IMPLEMENTED();
+
+    unsigned int value_shifted = value;
+    int ret = 0;
+    int counter = (iterations / 2) + 15;
+    unsigned int tmp = 0;
+    for (int i = 0; i <= counter; i++)
+    {
+        ret *= 2;
+        tmp = (value_shifted >> 30) | 4 * tmp; // Hm.. what?
+        const unsigned int v6 = (2 * ret) + 1;
+        value_shifted *= 4;
+        if (tmp >= v6)
+        {
+            tmp -= v6;
+            ret++;
+        }
+    }
+    return ret;
+}
+
+EXPORT int CC Math_SquareRoot_Int_496E70(int value)
+{
+    return Math_SquareRoot_Shifted_496E20(value, 0); // 15 iterations
+}
+
+EXPORT int CC Math_SquareRoot_FP_496E90(__int16 value)
+{
+    return Math_SquareRoot_Shifted_496E20(value, 16); // 23 iterations (16/2+15)
+}
 
 void FixedPoint_ForceLink()
 {
@@ -27,4 +61,14 @@ void FixedPoint_ForceLink()
     FixedPoint neg = {};
     neg.fpValue = 20;
     ASSERT_EQ(-20, (-neg).fpValue);
+
+    ASSERT_EQ(1, Math_SquareRoot_Int_496E70(1));
+    ASSERT_EQ(1, Math_SquareRoot_Int_496E70(2)); // Actually 1.414
+    ASSERT_EQ(4, Math_SquareRoot_Int_496E70(16));
+    ASSERT_EQ(10, Math_SquareRoot_Int_496E70(100));
+
+    ASSERT_EQ(1*256, Math_SquareRoot_FP_496E90(1));
+    ASSERT_EQ(362, Math_SquareRoot_FP_496E90(2)); // 362/256 = 1.414
+    ASSERT_EQ(4*256, Math_SquareRoot_FP_496E90(16));
+    ASSERT_EQ(10*256, Math_SquareRoot_FP_496E90(100));
 }

@@ -150,3 +150,6 @@ struct FP_Point
     FP field_4_y;
 };
 ALIVE_ASSERT_SIZEOF(FP_Point, 8);
+
+EXPORT int CC Math_SquareRoot_Int_496E70(int value);
+EXPORT int CC Math_SquareRoot_FP_496E90(__int16 value);
