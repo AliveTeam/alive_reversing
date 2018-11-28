@@ -548,149 +548,145 @@ namespace Test
 
 PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, FP distToMove)
 {
-    FP* pXPos2 = pXPos;
     const FP xpos = *pXPos;
-    FP* pYPos2 = pYPos;
-    const FP xDiff = FP_FromInteger(this->field_4_x2 - this->field_0_x1);
     const FP ypos = *pYPos;
-    const int line_y2 = this->field_6_y2;
-    const int pYPosa = this->field_2_y1;
-    const FP line_y_diff_fp = FP_FromInteger(line_y2 - pYPosa);
-    const FP line_y_diff_fp_copy = line_y_diff_fp;
 
-    FP remainderDistance;
-    FP ypos2;
-    FP remainder1;
-    FP remainder2;
+    const FP xDiff = FP_FromInteger(field_4_x2 - field_0_x1);
+    const FP yDiff = FP_FromInteger(field_6_y2 - field_2_y1);
 
-    if (line_y_diff_fp == FP_FromInteger(0))
+    FP xPosRet = {};
+    FP yPosRet = {};
+
+    FP distXOff = {};
+
+    if (yDiff == FP_FromInteger(0))
     {
         if (xDiff >= FP_FromInteger(0))
         {
-            remainderDistance = distToMove + xpos;
-            ypos2 = ypos;
-            remainder1 = remainderDistance;
-            remainder2 = remainderDistance;
+            xPosRet = distToMove + xpos;
+            yPosRet = ypos;
+            distXOff = xPosRet;
         }
         else
         {
-            remainder2 = xpos - distToMove;
-            ypos2 = ypos;
-            remainder1 = remainder2;
+            xPosRet = xpos - distToMove;
+            yPosRet = ypos;
+            distXOff = xPosRet;
         }
         goto LABEL_30;
     }
 
     if (xDiff == FP_FromInteger(0))
     {
-        FP distanceY;
-        if (line_y_diff_fp >= FP_FromInteger(0))
+        FP distanceY = {};
+        if (yDiff >= FP_FromInteger(0))
         {
             distanceY = distToMove + ypos;
-            if (distanceY > FP_FromInteger(line_y2))
+
+            if (distanceY > FP_FromInteger(field_6_y2))
             {
                 PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine_418180(this);
                 if (!pNextLine)
                 {
                     return 0;
                 }
-                const FP  distanceY_fp = distanceY - (FP_FromInteger(field_6_y2));
-                *pXPos2 = FP_FromInteger(pNextLine->field_0_x1);
-                *pYPos2 = FP_FromInteger(pNextLine->field_2_y1);
-                return pNextLine->MoveOnLine_418260(pXPos2, pYPos2, distanceY_fp);
+                *pXPos = FP_FromInteger(pNextLine->field_0_x1);
+                *pYPos = FP_FromInteger(pNextLine->field_2_y1);
+                return pNextLine->MoveOnLine_418260(pXPos, pYPos, distanceY - (FP_FromInteger(field_6_y2)));
             }
-            if (distanceY < FP_FromInteger(pYPosa))
+
+            if (distanceY < FP_FromInteger(field_2_y1))
             {
-                PathLine* pPrevious2 = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
-                if (!pPrevious2)
+                PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+                if (!pPreviousLine)
                 {
                     return 0;
                 }
-                const FP distanceY2 = distanceY - (FP_FromInteger(field_2_y1));
-                *pXPos2 = FP_FromInteger(pPrevious2->field_4_x2);
-                *pYPos2 = FP_FromInteger(pPrevious2->field_6_y2);
-                return pPrevious2->MoveOnLine_418260(pXPos2, pYPos2, distanceY2);
+                *pXPos = FP_FromInteger(pPreviousLine->field_4_x2);
+                *pYPos = FP_FromInteger(pPreviousLine->field_6_y2);
+                return pPreviousLine->MoveOnLine_418260(pXPos, pYPos, distanceY - (FP_FromInteger(field_2_y1)));
             }
         }
         else
         {
             distanceY = ypos - distToMove;
-            if (distanceY < FP_FromInteger(line_y2))
+            if (distanceY < FP_FromInteger(field_6_y2))
             {
-                PathLine* pNextLine_1 = sCollisions_DArray_5C1128->NextLine_418180(this);
-                if (!pNextLine_1)
+                PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine_418180(this);
+                if (!pNextLine)
                 {
                     return 0;
                 }
-                const int line_y2_2 = this->field_6_y2;
-                *pXPos2 = FP_FromInteger(pNextLine_1->field_0_x1);
-                *pYPos2 = FP_FromInteger(pNextLine_1->field_2_y1);
-                return pNextLine_1->MoveOnLine_418260(pXPos2, pYPos2, (FP_FromInteger(line_y2_2)) - distanceY);
+                *pXPos = FP_FromInteger(pNextLine->field_0_x1);
+                *pYPos = FP_FromInteger(pNextLine->field_2_y1);
+                return pNextLine->MoveOnLine_418260(pXPos, pYPos, (FP_FromInteger(field_6_y2)) - distanceY);
             }
 
-            if (distanceY > FP_FromInteger(pYPosa))
+            if (distanceY > FP_FromInteger(field_2_y1))
             {
-                PathLine* pPrevious = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
-                if (!pPrevious)
+                PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+                if (!pPreviousLine)
                 {
                     return 0;
                 }
-                const int line_y1_2 = this->field_2_y1;
-                *pXPos2 = FP_FromInteger(pPrevious->field_4_x2);
-                *pYPos2 = FP_FromInteger(pPrevious->field_6_y2);
-                return pPrevious->MoveOnLine_418260(pXPos2, pYPos2, (FP_FromInteger(line_y1_2)) - distanceY);
+                *pXPos = FP_FromInteger(pPreviousLine->field_4_x2);
+                *pYPos = FP_FromInteger(pPreviousLine->field_6_y2);
+                return pPreviousLine->MoveOnLine_418260(pXPos, pYPos, (FP_FromInteger(field_2_y1)) - distanceY);
             }
         }
-        *pYPos2 = distanceY;
+        *pYPos = distanceY;
         return this;
     }
 
-    FP line_y_diff2 = FP_FromInteger(line_y2 - pYPosa);
-    if (line_y_diff_fp < FP_FromInteger(0))
+    FP yDiff_2 = yDiff;
+    if (yDiff < FP_FromInteger(0))
     {
-        line_y_diff2 = FP_FromInteger(-1 * (line_y2 - pYPosa));
+        yDiff_2 = FP_FromInteger(-1 * (field_6_y2 - field_2_y1));
     }
 
-    FP v23 = xDiff;
+    FP xDiff_2 = xDiff;
     if (xDiff < FP_FromInteger(0))
     {
-        v23 = -xDiff;
+        xDiff_2 = -xDiff;
     }
 
     FP yDiffSquared;
     FP xDiffSquared;
-    FP v24;
-    if (line_y_diff2 + v23 <= FP_FromInteger(180))
+    FP squareRoot;
+
+    if (yDiff_2 + xDiff_2 <= FP_FromInteger(180))
     {
-        yDiffSquared = line_y_diff_fp * line_y_diff_fp;
+        yDiffSquared = yDiff * yDiff;
         xDiffSquared = xDiff * xDiff;
-        v24 = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(yDiffSquared + xDiffSquared)));
+        squareRoot = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(yDiffSquared + xDiffSquared)));
     }
     else
     {
-        v24 = FP_FromInteger(Math_SquareRoot_Int_496E70(FP_GetExponent(xDiff)* FP_GetExponent(xDiff) +
-            FP_GetExponent(line_y_diff_fp) * FP_GetExponent(line_y_diff_fp)));
+        squareRoot = FP_FromInteger(Math_SquareRoot_Int_496E70(FP_GetExponent(xDiff)* FP_GetExponent(xDiff) +
+            FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
     }
 
-    if ((v24 / FP_FromInteger(1)) == FP_FromInteger(0))
+    // Round up to 1
+    if ((squareRoot / FP_FromInteger(1)) == FP_FromInteger(0))
     {
-        v24 = FP_FromInteger(1);
+        squareRoot = FP_FromInteger(1);
     }
 
-    const FP op2g = FP_FromInteger(1) / v24;
+    const FP op2g = FP_FromInteger(1) / squareRoot;
     const FP v26 = xDiff * op2g;
-    remainder1 = (distToMove * v26) + *pXPos2;
-    const FP v27 = line_y_diff_fp_copy * op2g;
+    distXOff = (distToMove * v26) + *pXPos;
+    const FP v27 = yDiff * op2g;
     const FP v28 = distToMove * v27;
-    remainder2 = remainder1;
-    ypos2 = v28 + *pYPos2;
+    xPosRet = distXOff;
+    yPosRet = v28 + *pYPos;
+
 LABEL_30:
-    const FP v29 = FP_FromInteger(this->field_4_x2);
+    const FP lineX2_fp = FP_FromInteger(this->field_4_x2);
     
     int op2b = 0;
-    if (remainder2 - v29 <= FP_FromInteger(0))
+    if (xPosRet - lineX2_fp <= FP_FromInteger(0))
     {
-        op2b = (remainder2 - v29 >= FP_FromInteger(0)) - 1;
+        op2b = (xPosRet - lineX2_fp >= FP_FromInteger(0)) - 1;
     }
     else
     {
@@ -710,27 +706,30 @@ LABEL_30:
     
     if (op2b == v31)
     {
-        PathLine* pNextLine_2 = sCollisions_DArray_5C1128->NextLine_418180(this);
-        if (!pNextLine_2)
+        PathLine* pNextLine = sCollisions_DArray_5C1128->NextLine_418180(this);
+        if (!pNextLine)
         {
             return 0;
         }
+
         const FP v32 = (FP_FromInteger(field_6_y2) - ypos) * (FP_FromInteger(field_6_y2) - ypos);
         const FP v33 = (FP_FromInteger(field_4_x2) - xpos) * (FP_FromInteger(field_4_x2) - xpos);
         const FP v34 = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(v32 + v33)));
-        const FP v35 = (ypos2 - ypos) * (ypos2 - ypos);
-        const FP v36 = (remainder1 - xpos) * (remainder1 - xpos);
+        const FP v35 = (yPosRet - ypos) * (yPosRet - ypos);
+        const FP v36 = (distXOff - xpos) * (distXOff - xpos);
         const FP v37 = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(v35 + v36)));
-        *pXPos2 = FP_FromInteger(pNextLine_2->field_0_x1);
-        *pYPos2 = FP_FromInteger(pNextLine_2->field_2_y1);
-        return pNextLine_2->MoveOnLine_418260(pXPos2, pYPos2, v37 - v34);
+
+        *pXPos = FP_FromInteger(pNextLine->field_0_x1);
+        *pYPos = FP_FromInteger(pNextLine->field_2_y1);
+        return pNextLine->MoveOnLine_418260(pXPos, pYPos, v37 - v34);
     }
-    const FP line_x1 = FP_FromInteger(this->field_0_x1);
+
+    const FP line_x1_fp = FP_FromInteger(field_0_x1);
 
     int op2d = 0;
-    if (remainder2 - line_x1 <= FP_FromInteger(0))
+    if (xPosRet - line_x1_fp <= FP_FromInteger(0))
     {
-        op2d = (remainder2 - line_x1 >= FP_FromInteger(0)) - 1;
+        op2d = (xPosRet - line_x1_fp >= FP_FromInteger(0)) - 1;
     }
     else
     {
@@ -750,22 +749,26 @@ LABEL_30:
 
     if (op2d == v40)
     {
-        PathLine* pPrevious3 = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
-        if (!pPrevious3)
+        PathLine* pPreviousLine = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+        if (!pPreviousLine)
         {
             return 0;
         }
-        const FP a4b = (ypos2 - ypos) * (ypos2 - ypos);
-        const FP v41 = (remainder1 - xpos) * (remainder1 - xpos);
+
+        const FP a4b = (yPosRet - ypos) * (yPosRet - ypos);
+        const FP v41 = (distXOff - xpos) * (distXOff - xpos);
         const FP a4c = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(a4b + v41)));
         const FP v42 = (FP_FromInteger(field_2_y1) - ypos) * (FP_FromInteger(field_2_y1) - ypos);
         const FP v43 = (FP_FromInteger(field_0_x1) - xpos) * (FP_FromInteger(field_0_x1) - xpos);
         const FP v44 = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(v42 + v43)));
-        *pXPos2 = FP_FromInteger(pPrevious3->field_4_x2);
-        *pYPos2 = FP_FromInteger(pPrevious3->field_6_y2);
-        return pPrevious3->MoveOnLine_418260(pXPos2, pYPos2, v44 - a4c);
+
+        *pXPos = FP_FromInteger(pPreviousLine->field_4_x2);
+        *pYPos = FP_FromInteger(pPreviousLine->field_6_y2);
+        return pPreviousLine->MoveOnLine_418260(pXPos, pYPos, v44 - a4c);
     }
-    *pXPos2 = remainder2;
-    *pYPos2 = ypos2;
+
+    *pXPos = xPosRet;
+    *pYPos = yPosRet;
+
     return this;
 }
