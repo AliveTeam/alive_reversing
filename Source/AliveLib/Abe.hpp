@@ -208,8 +208,8 @@ public:
     EXPORT __int16 CrouchingGameSpeak_453E10();
     EXPORT BOOL Is_Celling_Above_44E8D0();
     EXPORT void MoveWithVelocity_450FA0(FP velocityX);
-    EXPORT __int16 sub_451060();
-    EXPORT __int16 TryEnterDoor_451220();
+    EXPORT __int16 RunTryEnterDoor_451220();
+    EXPORT __int16 RunTryEnterWell_451060();
     EXPORT void ToDieFinal_458910();
     EXPORT short DoGameSpeak_45AB70(int input);
 public:

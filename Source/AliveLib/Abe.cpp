@@ -4187,7 +4187,7 @@ void Abe::State_25_RunSlideStop_451330()
     {
         MoveWithVelocity_450FA0(FP_FromDouble(0.375));
 
-        if (field_106_current_state == eAbeStates::State_25_RunSlideStop_451330 && !sub_451060() && !TryEnterDoor_451220())
+        if (field_106_current_state == eAbeStates::State_25_RunSlideStop_451330 && !RunTryEnterWell_451060() && !RunTryEnterDoor_451220())
         {
             if (field_20_animation.field_92_current_frame != 15)
             {
@@ -4221,7 +4221,53 @@ void Abe::State_25_RunSlideStop_451330()
 
 void Abe::State_26_RunTurn_451500()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    {
+        ToKnockback_44E700(1, 1);
+    }
+    else
+    {
+        MoveWithVelocity_450FA0(FP_FromDouble(0.375));
+        if (field_106_current_state == eAbeStates::State_26_RunTurn_451500
+            && !RunTryEnterWell_451060()
+            && !RunTryEnterDoor_451220())
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || sub_408D10(FALSE)) // TODO: Check correctness of this statement
+            {
+                sub_408D10(TRUE);
+
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+                    {
+                        field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
+                        field_106_current_state = eAbeStates::State_52_451710;
+                    }
+                    else
+                    {
+                        field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9);
+                        field_106_current_state = eAbeStates::State_53_451800;
+                    }
+                }
+                else
+                {
+                    if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+                    {
+                        field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+                        field_106_current_state = eAbeStates::State_52_451710;
+                    }
+                    else
+                    {
+                        field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
+                        field_106_current_state = eAbeStates::State_53_451800;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Abe::State_27_HopBegin_4521C0()
@@ -5592,13 +5638,7 @@ void Abe::MoveWithVelocity_450FA0(FP /*velocityX*/)
     NOT_IMPLEMENTED();
 }
 
-__int16 Abe::sub_451060()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-__int16 Abe::TryEnterDoor_451220()
+__int16 Abe::RunTryEnterDoor_451220()
 {
     // Can't be entering a door if we're not pressing up
     if (!(sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed))
@@ -5635,6 +5675,12 @@ __int16 Abe::TryEnterDoor_451220()
     field_B8_xpos = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
     sub_408D10(TRUE);
     return 1;
+}
+
+__int16 Abe::RunTryEnterWell_451060()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 void Abe::ToDieFinal_458910()
