@@ -573,10 +573,8 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, FP distToMove)
             yPosRet = ypos;
             distXOff = xPosRet;
         }
-        goto LABEL_30;
     }
-
-    if (xDiff == FP_FromInteger(0))
+    else if (xDiff == FP_FromInteger(0))
     {
         FP distanceY = {};
         if (yDiff >= FP_FromInteger(0))
@@ -637,50 +635,51 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, FP distToMove)
         *pYPos = distanceY;
         return this;
     }
-
-    FP yDiff_2 = yDiff;
-    if (yDiff < FP_FromInteger(0))
-    {
-        yDiff_2 = FP_FromInteger(-1 * (field_6_y2 - field_2_y1));
-    }
-
-    FP xDiff_2 = xDiff;
-    if (xDiff < FP_FromInteger(0))
-    {
-        xDiff_2 = -xDiff;
-    }
-
-    FP yDiffSquared;
-    FP xDiffSquared;
-    FP squareRoot;
-
-    if (yDiff_2 + xDiff_2 <= FP_FromInteger(180))
-    {
-        yDiffSquared = yDiff * yDiff;
-        xDiffSquared = xDiff * xDiff;
-        squareRoot = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(yDiffSquared + xDiffSquared)));
-    }
     else
     {
-        squareRoot = FP_FromInteger(Math_SquareRoot_Int_496E70(FP_GetExponent(xDiff)* FP_GetExponent(xDiff) +
-            FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
+        FP yDiff_2 = yDiff;
+        if (yDiff < FP_FromInteger(0))
+        {
+            yDiff_2 = FP_FromInteger(-1 * (field_6_y2 - field_2_y1));
+        }
+
+        FP xDiff_2 = xDiff;
+        if (xDiff < FP_FromInteger(0))
+        {
+            xDiff_2 = -xDiff;
+        }
+
+        FP yDiffSquared;
+        FP xDiffSquared;
+        FP squareRoot;
+
+        if (yDiff_2 + xDiff_2 <= FP_FromInteger(180))
+        {
+            yDiffSquared = yDiff * yDiff;
+            xDiffSquared = xDiff * xDiff;
+            squareRoot = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(yDiffSquared + xDiffSquared)));
+        }
+        else
+        {
+            squareRoot = FP_FromInteger(Math_SquareRoot_Int_496E70(FP_GetExponent(xDiff)* FP_GetExponent(xDiff) +
+                FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
+        }
+
+        // Round up to 1
+        if ((squareRoot / FP_FromInteger(1)) == FP_FromInteger(0))
+        {
+            squareRoot = FP_FromInteger(1);
+        }
+
+        const FP op2g = FP_FromInteger(1) / squareRoot;
+        const FP v26 = xDiff * op2g;
+        distXOff = (distToMove * v26) + *pXPos;
+        const FP v27 = yDiff * op2g;
+        const FP v28 = distToMove * v27;
+        xPosRet = distXOff;
+        yPosRet = v28 + *pYPos;
     }
 
-    // Round up to 1
-    if ((squareRoot / FP_FromInteger(1)) == FP_FromInteger(0))
-    {
-        squareRoot = FP_FromInteger(1);
-    }
-
-    const FP op2g = FP_FromInteger(1) / squareRoot;
-    const FP v26 = xDiff * op2g;
-    distXOff = (distToMove * v26) + *pXPos;
-    const FP v27 = yDiff * op2g;
-    const FP v28 = distToMove * v27;
-    xPosRet = distXOff;
-    yPosRet = v28 + *pYPos;
-
-LABEL_30:
     const FP lineX2_fp = FP_FromInteger(this->field_4_x2);
     
     int op2b = 0;
