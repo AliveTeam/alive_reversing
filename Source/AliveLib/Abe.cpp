@@ -2288,7 +2288,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
             field_B8_xpos -= field_C4_velx;
         }
 
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
 
         field_C4_velx = FP_FromInteger(0);
 
@@ -3315,7 +3315,7 @@ void Abe::State_1_WalkLoop_44FBA0()
 
         Abe_SFX_2_457A40(1, 0, 32767, this);
 
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
 
         if (sInputKey_Run_5550E8 & pressed)
         {
@@ -3522,7 +3522,7 @@ void Abe::State_3_Fall_459B60()
             field_B8_xpos = hitX;
             field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
             field_100_pCollisionLine = pPathLine;
-            sub_408D10(TRUE);
+            MapFollowMe_408D10(TRUE);
             field_124_gnFrame = sGnFrame_5C1B84 + 30;
 
             // See if there is a soft landing at our feet (given we known we just hit the floor)
@@ -3673,7 +3673,7 @@ void Abe::State_3_Fall_459B60()
 
         field_B8_xpos = FP_FromInteger((field_FC_pPathTLV->field_8_top_left.field_0_x + field_FC_pPathTLV->field_C_bottom_right.field_0_x) / 2);
 
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
 
         if (!sCollisions_DArray_5C1128->Raycast_417A60(
             field_B8_xpos,
@@ -3719,7 +3719,7 @@ void Abe::State_4_WalkEndLeftFoot_44FFC0()
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            sub_408D10(TRUE);
+            MapFollowMe_408D10(TRUE);
 
             if (field_108_delayed_state == eAbeStates::State_28_HopMid_451C50)
             {
@@ -4150,7 +4150,7 @@ void Abe::State_23_RollLoop_453A90()
             }
             else if (field_20_animation.field_92_current_frame == 0 || field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 8)
             {
-                sub_408D10(TRUE);
+                MapFollowMe_408D10(TRUE);
 
                 if (field_C4_velx > FP_FromInteger(0) && !(sInputKey_Right_5550D0 & pressed) ||
                     field_C4_velx < FP_FromInteger(0) && !(sInputKey_Left_5550D4 & pressed))
@@ -4191,7 +4191,7 @@ void Abe::State_25_RunSlideStop_451330()
         {
             if (field_20_animation.field_92_current_frame != 15)
             {
-                sub_408D10(FALSE);
+                MapFollowMe_408D10(FALSE);
             }
 
             const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
@@ -4200,7 +4200,7 @@ void Abe::State_25_RunSlideStop_451330()
                 if (field_20_animation.field_92_current_frame == 15)
                 {
                     Abe_SFX_2_457A40(0, 0, 32767, this);
-                    sub_408D10(TRUE);
+                    MapFollowMe_408D10(TRUE);
 
                     if (!ToLeftRightMovement_44E340())
                     {
@@ -4235,9 +4235,9 @@ void Abe::State_26_RunTurn_451500()
             && !RunTryEnterWell_451060()
             && !RunTryEnterDoor_451220())
         {
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || sub_408D10(FALSE)) // TODO: Check correctness of this statement
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || MapFollowMe_408D10(FALSE)) // TODO: Check correctness of this statement
             {
-                sub_408D10(TRUE);
+                MapFollowMe_408D10(TRUE);
 
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -4339,7 +4339,7 @@ void Abe::State_33_RunLoop_4508E0()
         {
             Abe_SFX_2_457A40(2, 0, 32767, this);
             
-            sub_408D10(TRUE);
+            MapFollowMe_408D10(TRUE);
 
             const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -4431,7 +4431,7 @@ void Abe::State_33_RunLoop_4508E0()
     }
     else
     {
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
 
         if (field_118_prev_held & sInputKey_Hop_5550E0)
         {
@@ -4527,7 +4527,7 @@ void Abe::State_40_SneakLoop_450550()
     if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         ToIdle_44E6B0();
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
     }
     else
     {
@@ -4569,7 +4569,7 @@ void Abe::State_40_SneakLoop_450550()
             else if (field_20_animation.field_92_current_frame == 6 || field_20_animation.field_92_current_frame == 16)
             {
                 Abe_SFX_2_457A40(3, 0, 32767, this);
-                sub_408D10(TRUE);
+                MapFollowMe_408D10(TRUE);
                 if ((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & pressed)
                 {
                     // Sneak to walk
@@ -4614,7 +4614,7 @@ void Abe::State_41_450250()
         Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
     }
     else
     {
@@ -4645,7 +4645,7 @@ void Abe::State_42_4503D0()
         Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
     }
     else
     {
@@ -4692,7 +4692,7 @@ void Abe::State_45_SneakBegin_4507A0()
         Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
     }
     else
     {
@@ -4711,7 +4711,7 @@ void Abe::State_46_SneakEnd_450870()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
         ToIdle_44E6B0();
     }
 }
@@ -4749,7 +4749,7 @@ void Abe::State_48_4500A0()
         Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
-        sub_408D10(TRUE);
+        MapFollowMe_408D10(TRUE);
     }
     else
     {
@@ -5299,7 +5299,7 @@ void Abe::ToIdle_44E6B0()
     field_106_current_state = eAbeStates::State_0_Idle_44EEB0;
     field_118_prev_held = 0;
     field_11C = 0;
-    sub_408D10(TRUE);
+    MapFollowMe_408D10(TRUE);
 }
 
 __int16 Abe::sub_454090(FP /*fpX*/, int /*fpY*/, int /*a4*/)
@@ -5673,7 +5673,7 @@ __int16 Abe::RunTryEnterDoor_451220()
     field_120_state = 0;
     field_106_current_state = eAbeStates::State_114_DoorEnter_459470;
     field_B8_xpos = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
-    sub_408D10(TRUE);
+    MapFollowMe_408D10(TRUE);
     return 1;
 }
 

@@ -119,7 +119,7 @@ public:
     EXPORT static void CC LoadResource_4DBE00(const char* pFileName, int type, int resourceId, __int16 loadMode, __int16 bDontLoad = FALSE);
     EXPORT static void CC LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager::ResourcesToLoadList* pList, __int16 loadMode, __int16 bDontLoad = FALSE);
 
-    EXPORT signed __int16 Sub_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 kMinus1);
+    EXPORT signed __int16 SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 kMinus1);
 
 private:
     Camera* GetCamera(CameraPos pos);

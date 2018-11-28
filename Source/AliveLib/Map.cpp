@@ -1102,7 +1102,7 @@ void CC Map::LoadResourcesFromList_4DBE70(const char* pFileName, ResourceManager
     }
 }
 
-signed __int16 Map::Sub_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 kMinus1)
+signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 kMinus1)
 {
     Path_ChangeTLV* pPathChangeTLV = nullptr;
     CameraSwapEffects unknown = CameraSwapEffects::eEffect0_InstantChange;

@@ -12,6 +12,39 @@
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
+
+EXPORT int CC SnapToXGrid_449930(FP scale, int x)
+{
+    if (scale == FP_FromDouble(0.5))
+    {
+        int v4 = (x % 375 - 6) % 13;
+        if (v4 >= 7)
+        {
+            return x - v4 + 13;
+        }
+        else
+        {
+            return x - v4;
+        }
+    }
+    else if (scale == FP_FromInteger(1))
+    {
+        int v3 = (x - 12) % 25;
+        if (v3 >= 13)
+        {
+            return x - v3 + 25;
+        }
+        else
+        {
+            return x - v3;
+        }
+    }
+    else
+    {
+        return x;
+    }
+}
+
 EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArraySize)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(resourceArraySize);
@@ -230,25 +263,25 @@ EXPORT void BaseAliveGameObject::sub_408C40()
          case Map::CameraPos::eCamTop:
              if (field_C8_vely < FP_FromInteger(0))
              {
-                 gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapTop, this, -1);
+                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop, this, -1);
              }
              break;
          case Map::CameraPos::eCamBottom:
              if (field_C8_vely > FP_FromInteger(0))
              {
-                 gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapBottom, this, -1);
+                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom, this, -1);
              }
              break;
          case Map::CameraPos::eCamLeft:
              if (field_C4_velx < FP_FromInteger(0))
              {
-                 gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapLeft, this, -1);
+                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft, this, -1);
              }
              break;
          case Map::CameraPos::eCamRight:
              if (field_C4_velx > FP_FromInteger(0))
              {
-                 gMap_5C3030.Sub_4814A0(Map::MapDirections::eMapRight, this, -1);
+                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight, this, -1);
              }
              break;
          case Map::CameraPos::eCamCurrent:
@@ -258,9 +291,37 @@ EXPORT void BaseAliveGameObject::sub_408C40()
      }
 }
 
-__int16 BaseAliveGameObject::sub_408D10(__int16 /*snapToGrid*/)
+__int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
 {
-    NOT_IMPLEMENTED();
+    const int xposSnapped = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
+    if (snapToGrid)
+    {
+        field_B8_xpos = FP_FromInteger(xposSnapped);
+    }
+
+    PSX_Point currentCamXY = {};
+    gMap_5C3030.GetCurrentCamCoords_480680(&currentCamXY);
+
+    // Gone off the left edge of the current screen
+    if (xposSnapped < currentCamXY.field_0_x && (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) || field_C4_velx < FP_FromInteger(0)))
+    {
+        if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft, this, -1))
+        {
+            field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
+            field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+            return 1;
+        }
+    }
+    // Gone off the right edge of the current screen
+    else if (xposSnapped > currentCamXY.field_0_x + 368 && (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) || field_C4_velx > FP_FromInteger(0)))
+    {
+        if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight, this, -1))
+        {
+            field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
+            field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+            return 1;
+        }
+    }
     return 0;
 }
 
