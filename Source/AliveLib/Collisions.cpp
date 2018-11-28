@@ -546,9 +546,256 @@ namespace Test
     }
 }
 
-PathLine* PathLine::MoveOnLine_418260(FP* /*xpos*/, FP* /*ypos*/, FP /*velX*/)
+PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, FP distToMove)
 {
-    NOT_IMPLEMENTED();
-    // TODO: Standalone hack
+    FP *pXPos2; // ebx
+    FP *pYPos2; // edi
+    FP ypos; // ebp
+    int line_y2; // eax
+    FP line_y_diff_fp; // ecx
+    FP remainder2; // edx
+    FP remainderDistance; // eax
+    FP distanceY; // ebp
+    PathLine *pNextLine_1; // eax
+    int line_y2_2; // edx
+    PathLine *pPrevious; // eax
+    int line_y1_2; // edx
+    PathLine *pNextLine; // eax
+    FP distanceY_fp; // ebp
+    PathLine *pPrevious2; // eax
+    FP distanceY2; // ebp
+    FP line_y_diff2; // edx
+    FP v23; // eax
+    FP v24; // ecx
+    FP xDiffSquared; // ax
+    FP v26; // eax
+    FP v27; // eax
+    FP v28; // eax
+    FP v29; // eax
+    int v30; // eax
+    int v31; // eax
+    FP v32; // ST44_2
+    FP v33; // ax
+    FP v34; // ST44_4
+    FP v35; // bp
+    FP v36; // ax
+    FP v37; // eax
+    FP line_x1; // eax
+    int line_x_diff2; // eax
+    int v40; // eax
+    FP v41; // ax
+    FP v42; // bp
+    FP v43; // ax
+    FP v44; // eax
+    FP xpos; // [esp+10h] [ebp-8h]
+    FP line_y_diff_fp_copy; // [esp+14h] [ebp-4h]
+    FP xDiff; // [esp+1Ch] [ebp+4h]
+    FP remainder1; // [esp+1Ch] [ebp+4h]
+    int pYPosa; // [esp+20h] [ebp+8h]
+    FP yDiffSquared; // [esp+20h] [ebp+8h]
+    FP op2g; // [esp+20h] [ebp+8h]
+    int op2b; // [esp+20h] [ebp+8h]
+    PathLine *pNextLine_2; // [esp+20h] [ebp+8h]
+    int op2d; // [esp+20h] [ebp+8h]
+    PathLine *pPrevious3; // [esp+20h] [ebp+8h]
+    FP ypos2; // [esp+24h] [ebp+Ch]
+    FP a4b; // [esp+24h] [ebp+Ch]
+    FP a4c; // [esp+24h] [ebp+Ch]
+
+    pXPos2 = pXPos;
+    xpos = *pXPos;
+    pYPos2 = pYPos;
+    xDiff = FP_FromInteger(this->field_4_x2 - this->field_0_x1);
+    ypos = *pYPos;
+    line_y2 = this->field_6_y2;
+    pYPosa = this->field_2_y1;
+    line_y_diff_fp = FP_FromInteger(line_y2 - pYPosa);
+    line_y_diff_fp_copy = line_y_diff_fp;
+
+    if (line_y_diff_fp == FP_FromInteger(0))
+    {
+        if (xDiff >= FP_FromInteger(0))
+        {
+            remainderDistance = distToMove + xpos;
+            ypos2 = ypos;
+            remainder1 = remainderDistance;
+            remainder2 = remainderDistance;
+        }
+        else
+        {
+            remainder2 = xpos - distToMove;
+            ypos2 = ypos;
+            remainder1 = remainder2;
+        }
+        goto LABEL_30;
+    }
+
+    if (xDiff == FP_FromInteger(0))
+    {
+        if (line_y_diff_fp >= FP_FromInteger(0))
+        {
+            distanceY = distToMove + ypos;
+            if (distanceY > FP_FromInteger(line_y2))
+            {
+                pNextLine = sCollisions_DArray_5C1128->NextLine_418180(this);
+                if (!pNextLine)
+                {
+                    return 0;
+                }
+                distanceY_fp = distanceY - (FP_FromInteger(field_6_y2));
+                *pXPos2 = FP_FromInteger(pNextLine->field_0_x1);
+                *pYPos2 = FP_FromInteger(pNextLine->field_2_y1);
+                return pNextLine->MoveOnLine_418260(pXPos2, pYPos2, distanceY_fp);
+            }
+            if (distanceY < FP_FromInteger(pYPosa))
+            {
+                pPrevious2 = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+                if (!pPrevious2)
+                {
+                    return 0;
+                }
+                distanceY2 = distanceY - (FP_FromInteger(field_2_y1));
+                *pXPos2 = FP_FromInteger(pPrevious2->field_4_x2);
+                *pYPos2 = FP_FromInteger(pPrevious2->field_6_y2);
+                return pPrevious2->MoveOnLine_418260(pXPos2, pYPos2, distanceY2);
+            }
+        }
+        else
+        {
+            distanceY = ypos - distToMove;
+            if (distanceY < FP_FromInteger(line_y2))
+            {
+                pNextLine_1 = sCollisions_DArray_5C1128->NextLine_418180(this);
+                if (!pNextLine_1)
+                {
+                    return 0;
+                }
+                line_y2_2 = this->field_6_y2;
+                *pXPos2 = FP_FromInteger(pNextLine_1->field_0_x1);
+                *pYPos2 = FP_FromInteger(pNextLine_1->field_2_y1);
+                return pNextLine_1->MoveOnLine_418260(pXPos2, pYPos2, (FP_FromInteger(line_y2_2)) - distanceY);
+            }
+
+            if (distanceY > FP_FromInteger(pYPosa))
+            {
+                pPrevious = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+                if (!pPrevious)
+                {
+                    return 0;
+                }
+                line_y1_2 = this->field_2_y1;
+                *pXPos2 = FP_FromInteger(pPrevious->field_4_x2);
+                *pYPos2 = FP_FromInteger(pPrevious->field_6_y2);
+                return pPrevious->MoveOnLine_418260(pXPos2, pYPos2, (FP_FromInteger(line_y1_2)) - distanceY);
+            }
+        }
+        *pYPos2 = distanceY;
+        return this;
+    }
+    line_y_diff2 = FP_FromInteger(line_y2 - pYPosa);
+    if (line_y_diff_fp < FP_FromInteger(0))
+    {
+        line_y_diff2 = FP_FromInteger(-1 * (line_y2 - pYPosa));
+    }
+    v23 = xDiff;
+    if (xDiff < FP_FromInteger(0))
+    {
+        v23 = -xDiff;
+    }
+    if (line_y_diff2 + v23 <= FP_FromInteger(180))
+    {
+        yDiffSquared = line_y_diff_fp * line_y_diff_fp;
+        xDiffSquared = xDiff * xDiff;
+        v24 = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(yDiffSquared + xDiffSquared)));
+    }
+    else
+    {
+        v24 = FP_FromInteger(Math_SquareRoot_Int_496E70(FP_GetExponent(xDiff)* FP_GetExponent(xDiff) +
+            FP_GetExponent(line_y_diff_fp) * FP_GetExponent(line_y_diff_fp)));
+    }
+    if ((v24 / FP_FromInteger(1)) == FP_FromInteger(0))
+    {
+        v24 = FP_FromInteger(1);
+    }
+    op2g = FP_FromInteger(1) / v24;
+    v26 = xDiff * op2g;
+    remainder1 = (distToMove * v26) + *pXPos2;
+    v27 = line_y_diff_fp_copy * op2g;
+    v28 = distToMove * v27;
+    remainder2 = remainder1;
+    ypos2 = v28 + *pYPos2;
+LABEL_30:
+    v29 = FP_FromInteger(this->field_4_x2);
+    if (remainder2 - v29 <= FP_FromInteger(0))
+    {
+        op2b = (remainder2 - v29 >= FP_FromInteger(0)) - 1;
+    }
+    else
+    {
+        op2b = 1;
+    }
+    v30 = this->field_4_x2 - this->field_0_x1;
+    if (v30 <= 0)
+    {
+        v31 = (v30 >= 0) - 1;
+    }
+    else
+    {
+        v31 = 1;
+    }
+    if (op2b == v31)
+    {
+        pNextLine_2 = sCollisions_DArray_5C1128->NextLine_418180(this);
+        if (!pNextLine_2)
+        {
+            return 0;
+        }
+        v32 = (FP_FromInteger(field_6_y2) - ypos) * (FP_FromInteger(field_6_y2) - ypos);
+        v33 = (FP_FromInteger(field_4_x2) - xpos) * (FP_FromInteger(field_4_x2) - xpos);
+        v34 = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(v32 + v33)));
+        v35 = (ypos2 - ypos) * (ypos2 - ypos);
+        v36 = (remainder1 - xpos) * (remainder1 - xpos);
+        v37 = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(v35 + v36)));
+        *pXPos2 = FP_FromInteger(pNextLine_2->field_0_x1);
+        *pYPos2 = FP_FromInteger(pNextLine_2->field_2_y1);
+        return pNextLine_2->MoveOnLine_418260(pXPos2, pYPos2, v37 - v34);
+    }
+    line_x1 = FP_FromInteger(this->field_0_x1);
+    if (remainder2 - line_x1 <= FP_FromInteger(0))
+    {
+        op2d = (remainder2 - line_x1 >= FP_FromInteger(0)) - 1;
+    }
+    else
+    {
+        op2d = 1;
+    }
+    line_x_diff2 = this->field_0_x1 - this->field_4_x2;
+    if (line_x_diff2 <= 0)
+    {
+        v40 = (line_x_diff2 >= 0) - 1;
+    }
+    else
+    {
+        v40 = 1;
+    }
+    if (op2d == v40)
+    {
+        pPrevious3 = sCollisions_DArray_5C1128->PreviousLine_4180A0(this);
+        if (!pPrevious3)
+        {
+            return 0;
+        }
+        a4b = (ypos2 - ypos) * (ypos2 - ypos);
+        v41 = (remainder1 - xpos) * (remainder1 - xpos);
+        a4c = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(a4b + v41)));
+        v42 = (FP_FromInteger(field_2_y1) - ypos) * (FP_FromInteger(field_2_y1) - ypos);
+        v43 = (FP_FromInteger(field_0_x1) - xpos) * (FP_FromInteger(field_0_x1) - xpos);
+        v44 = Math_SquareRoot_FP_496E90(static_cast<short>(FP_GetExponent(v42 + v43)));
+        *pXPos2 = FP_FromInteger(pPrevious3->field_4_x2);
+        *pYPos2 = FP_FromInteger(pPrevious3->field_6_y2);
+        return pPrevious3->MoveOnLine_418260(pXPos2, pYPos2, v44 - a4c);
+    }
+    *pXPos2 = remainder2;
+    *pYPos2 = ypos2;
     return this;
 }
