@@ -91,7 +91,7 @@ public:
     __int16 field_108_delayed_state;
     __int16 field_10A;
     FP field_10C_health;
-    int field_110;
+    int field_110_id;
     BitField16<Flags_114> field_114_flags;
 };
 #pragma pack(pop)

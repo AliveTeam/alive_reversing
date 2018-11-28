@@ -40,6 +40,8 @@ struct PathLine
     __int16 field_E_previous2;
     __int16 field_10_next2;
     __int16 field_12_line_length;
+
+    EXPORT PathLine* MoveOnLine_418260(FP* xpos, FP* ypos, FP velX);
 };
 ALIVE_ASSERT_SIZEOF(PathLine, 0x14);
 

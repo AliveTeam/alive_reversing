@@ -545,3 +545,10 @@ namespace Test
         ASSERT_TRUE(memcmp(&test, line, sizeof(PathLine)) == 0);
     }
 }
+
+PathLine* PathLine::MoveOnLine_418260(FP* /*xpos*/, FP* /*ypos*/, FP /*velX*/)
+{
+    NOT_IMPLEMENTED();
+    // TODO: Standalone hack
+    return this;
+}

@@ -32,7 +32,7 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_FC_pPathTLV = nullptr;
     field_100_pCollisionLine = nullptr;
     field_10C_health = FP_FromDouble(1.0);
-    field_110 = -1;
+    field_110_id = -1;
     field_106_current_state = 0;
     field_108_delayed_state = 0;
     field_F4 = 0;
@@ -51,13 +51,13 @@ EXPORT void BaseAliveGameObject::dtor_4080B0()
 {
     SetVTable(this, 0x544000);
 
-    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_110));
+    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     gBaseAliveGameObjects_5C1B7C->Remove_Item(this);
 
     if (pField_110)
     {
         pField_110->Vnull_4081F0(); // TODO: Passes this ??
-        field_110 = -1;
+        field_110_id = -1;
     }
 
     if (field_10A)

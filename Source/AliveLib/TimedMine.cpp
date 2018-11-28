@@ -109,7 +109,7 @@ TimedMine * TimedMine::ctor_410600(Path_TimedMine * pPath, TlvItemInfoUnion tlv)
     field_DC_bApplyShadows |= 2u;
     field_E8 = field_BC_ypos - gridSnap;
     field_F0_prev_base = field_BC_ypos;
-    field_110 = -1;
+    field_110_id = -1;
 
     return this;
 }
@@ -118,7 +118,7 @@ void TimedMine::Update_410A80()
 {
     NOT_IMPLEMENTED();
 
-    BaseGameObject * v2 = sObjectIds_5C1B70.Find_449CF0(field_110);
+    BaseGameObject * v2 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
 
     if (Event_Get_422C00(kEventDeathReset))
     {

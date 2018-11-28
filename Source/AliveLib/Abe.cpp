@@ -989,7 +989,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_106_current_state = pSaveState->field_34_animation_num;
     sActiveHero_5C1B68->field_108_delayed_state = pSaveState->word36;
     sActiveHero_5C1B68->field_F8 = FP_FromInteger(pSaveState->word38);
-    sActiveHero_5C1B68->field_110 = pSaveState->dword3C;
+    sActiveHero_5C1B68->field_110_id = pSaveState->dword3C;
     sActiveHero_5C1B68->field_120_state = static_cast<WORD>(pSaveState->dword50);
     sActiveHero_5C1B68->field_124_gnFrame = pSaveState->dword54;
     sActiveHero_5C1B68->field_128.field_0_gnFrame = pSaveState->dword58;
@@ -1882,7 +1882,7 @@ void Abe::Update_449DC0()
             field_104 = -1;
         }
 
-        field_110 = BaseGameObject::Find_Flags_4DC170(field_110);
+        field_110_id = BaseGameObject::Find_Flags_4DC170(field_110_id);
         field_148 = BaseGameObject::Find_Flags_4DC170(field_148);
         field_14C = BaseGameObject::Find_Flags_4DC170(field_14C);
         field_1A8 = BaseGameObject::Find_Flags_4DC170(field_1A8);
@@ -2489,11 +2489,11 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
         pSaveState->field_3a_collision_line_id = -1;
     }
     
-    pSaveState->dword3C = field_110;
+    pSaveState->dword3C = field_110_id;
 
-    if (field_110 != -1)
+    if (field_110_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj)
         {
             pSaveState->dword3C = pObj->field_C_objectId;
@@ -2939,7 +2939,7 @@ void Abe::State_0_Idle_44EEB0()
     if (sInputKey_Down_5550DC & pressed)
     {
         // Check for a lift rope (going down)
-        BaseGameObject* pObj_field_110 = sObjectIds_5C1B70.Find_449CF0(field_110);
+        BaseGameObject* pObj_field_110 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj_field_110)
         {
             if (pObj_field_110->field_4_typeId == Types::eType_78)
@@ -3049,7 +3049,7 @@ void Abe::State_0_Idle_44EEB0()
     if (pressed & sInputKey_Up_5550D8)
     {
         // Check for lift rope.. (going up)
-        BaseGameObject* pObj_field_110_2 = sObjectIds_5C1B70.Find_449CF0(field_110);
+        BaseGameObject* pObj_field_110_2 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj_field_110_2)
         {
             if (pObj_field_110_2->field_4_typeId == Types::eType_78)
@@ -5406,7 +5406,87 @@ void Abe::PushWall_44E890()
 
 void Abe::sub_44E9A0()
 {
-    NOT_IMPLEMENTED();
+    const FP oldXPos = field_B8_xpos;
+    if (field_100_pCollisionLine)
+    {
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(
+            &field_B8_xpos,
+            &field_BC_ypos,
+            field_C4_velx);
+    }
+
+    BaseThrowable* pfield_110 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (field_100_pCollisionLine &&  (field_D6_scale != 0 ? 1 : 16) & (1 << field_100_pCollisionLine->field_8_type))
+    {
+        // Handle trap door collision
+        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36) // TODO: Enum type
+        {
+            if (pfield_110)
+            {
+                pfield_110->Vsub_49E350();
+                field_110_id = -1;
+            }
+
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+
+            vOnCollisionWith_424EE0(
+                { bRect.x, bRect.y },
+                { static_cast<short>(bRect.w + 0x50000), static_cast<short>(bRect.h + 0x50000) }, // TODO: Only half are fixed point ??
+                ObjList_5C1B78,
+                1,
+                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+        }
+        else if (pfield_110)
+        {
+            pfield_110->Vsub_49E350();
+            field_110_id = -1;
+        }
+    }
+    else
+    {
+        field_100_pCollisionLine = 0;
+        if (pfield_110)
+        {
+            pfield_110->Vsub_49E350();
+            field_110_id = -1;
+        }
+
+        field_118_prev_held = 0;
+
+        switch (field_106_current_state)
+        {
+        case eAbeStates::State_1_WalkLoop_44FBA0:
+        case eAbeStates::State_6_WalkBegin_44FEE0:
+        case eAbeStates::State_4_WalkEndLeftFoot_44FFC0:
+        case eAbeStates::State_5_WalkEndRightFoot_00450080:
+            field_106_current_state = eAbeStates::State_93_FallLedgeBegin_455970;
+            break;
+        case eAbeStates::State_33_RunLoop_4508E0:
+        case eAbeStates::State_39_StandingToRun_450D40:
+            field_106_current_state = eAbeStates::jState_94_FallLedgeBegin_4559A0;
+            break;
+        case eAbeStates::jState_38_RollBegin_453A70:
+        case eAbeStates::State_22_RollBegin_4539A0:
+        case eAbeStates::State_23_RollLoop_453A90:
+        case eAbeStates::State_24_453D00:
+            field_106_current_state = eAbeStates::jState_98_FallLedgeBegin_455AA0;
+            break;
+        default:
+            field_106_current_state = eAbeStates::jState_95_FallLedgeBegin_4559C0;
+            break;
+        }
+        
+        field_128.field_8 = FP_FromDouble(0.3); // TODO: Check
+        field_B8_xpos = oldXPos + field_C4_velx;
+        field_F8 = field_BC_ypos;
+
+        // TODO: OG bug, dead code due to switch default case ?
+        if (field_106_current_state == eAbeStates::State_71_Knockback_455090 || field_106_current_state == eAbeStates::State_101_KnockForward_455420)
+        {
+            field_128.field_8 = FP_FromDouble(0.67); // TODO: Check
+        }
+    }
 }
 
 __int16 Abe::CrouchingGameSpeak_453E10()
