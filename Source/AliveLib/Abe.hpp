@@ -50,7 +50,7 @@ public:
     EXPORT BaseGameObject* vsub_45A570();
 
     // Non virtuals
-    EXPORT void Knockback_44E700(__int16 a2, __int16 a3);
+    EXPORT void ToKnockback_44E700(__int16 a2, __int16 a3);
     EXPORT int sub_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
@@ -225,7 +225,7 @@ public:
     int field_14C;
     int field_150_OrbWhirlWind_id;
     int field_154;
-    int field_158;
+    int field_158_throwabe_id;
     int field_15C;
     int field_160;
     int field_164;

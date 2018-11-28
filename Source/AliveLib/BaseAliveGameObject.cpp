@@ -93,9 +93,9 @@ int BaseAliveGameObject::Vnull_408F90()
     return vnull_408F90();
 }
 
-unsigned __int16 BaseAliveGameObject::Vnull_408F70()
+unsigned __int16 BaseAliveGameObject::Vnull_408F70(short a1)
 {
-    return vnull_408F70();
+    return vnull_408F70(a1);
 }
 
 void BaseAliveGameObject::VUpdateState_4081C0(__int16 state)
@@ -141,7 +141,7 @@ int BaseAliveGameObject::vnull_408F90()
     return 0;
 }
 
-unsigned __int16 BaseAliveGameObject::vnull_408F70()
+unsigned __int16 BaseAliveGameObject::vnull_408F70(short /*a1*/)
 {
     // Empty
     return 0;

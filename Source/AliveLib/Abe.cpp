@@ -440,7 +440,7 @@ ALIVE_ARY(1, 0x55EF98, TFrameCallBackType, 5, off_55EF98,
     sub_434130
 });
 
-ALIVE_VAR(1, 0x5c1bde, WORD, word_5C1BDE, 0);
+ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
 ALIVE_VAR(1, 0x5c112c, WORD, word_5C112C, 0);
 
 
@@ -588,7 +588,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_20_animation.field_C_render_layer = 32;
     field_198_has_evil_fart = 0;
     field_1A2_rock_or_bone_count = 0;
-    field_158 = -1;
+    field_158_throwabe_id = -1;
     field_154 = -1;
     field_150_OrbWhirlWind_id = -1;
     field_14C = -1;
@@ -653,7 +653,7 @@ void Abe::dtor_44B380()
     BaseGameObject* pField_14C = sObjectIds_5C1B70.Find_449CF0(field_14C);
     BaseGameObject* pField_150 = sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id);
     BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154);
-    BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158);
+    BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158_throwabe_id);
     BaseGameObject* pField_15C = sObjectIds_5C1B70.Find_449CF0(field_15C);
     BaseGameObject* pField_160 = sObjectIds_5C1B70.Find_449CF0(field_160);
     BaseGameObject* pField_178 = sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id);
@@ -697,7 +697,7 @@ void Abe::dtor_44B380()
     if (pField_158)
     {
         pField_158->field_6_flags.Set(BaseGameObject::eDead);
-        field_158 = -1;
+        field_158_throwabe_id = -1;
     }
 
     if (pField_178)
@@ -1042,7 +1042,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_14C = pSaveState->dword80;
     sActiveHero_5C1B68->field_150_OrbWhirlWind_id = pSaveState->dword84;
     sActiveHero_5C1B68->field_154 = pSaveState->dword88;
-    sActiveHero_5C1B68->field_158 = pSaveState->dword8C;
+    sActiveHero_5C1B68->field_158_throwabe_id = pSaveState->dword8C;
     sActiveHero_5C1B68->field_15C = pSaveState->dword90;
     sActiveHero_5C1B68->field_160 = pSaveState->dword94;
     sActiveHero_5C1B68->field_164 = pSaveState->dword98;
@@ -1771,6 +1771,91 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(OrbWhirlWind, 0x78);
 
+// NOTE: This base type must exist but seems to have been decimated by the compiler, so this contains pure virtuals for
+// non common virtuals, and virtuals for common virtuals.
+class BaseThrowable : public BaseAliveGameObject
+{
+public:
+    virtual void vnull_408180() override
+    {
+        vsub_4114D0();
+    }
+
+    // New virtuals for throwables
+    virtual int Vsub_49E460(FP velX, FP velY) = 0;
+    virtual BOOL Vsub_49E350() = 0;
+    virtual BOOL Vsub_49E330() = 0;
+    virtual void Vnull_411490() = 0;
+    virtual __int16 Vsub_448080() = 0;
+
+    virtual void Vsub_4114B0()
+    {
+        vsub_4114B0();
+    }
+
+    EXPORT void vsub_4114B0()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vsub_4114D0()
+    {
+        NOT_IMPLEMENTED();
+    }
+};
+
+class Rock : public BaseThrowable
+{
+public:
+    virtual void VScreenChanged() override
+    {
+        vScreenChanged_49F030();
+    }
+
+    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override
+    {
+        return vGetSaveState_49F9A0(pSaveBuffer);
+    }
+
+    EXPORT void vScreenChanged_49F030()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT int vGetSaveState_49F9A0(BYTE* /*pSaveBuffer*/)
+    {
+        NOT_IMPLEMENTED();
+        return 0;
+    }
+
+private:
+    // TODO: Don't know yet which of these are part of base (if any)
+    __int16 field_116;
+    __int16 field_118_count;
+    __int16 field_11A_bDead;
+    __int16 field_11C_state;
+    __int16 field_11E;
+    int field_120_xpos;
+    int field_124_ypos;
+    int field_128_timer;
+};
+ALIVE_ASSERT_SIZEOF(Rock, 0x12C);
+
+class Grenade : public BaseThrowable
+{
+public:
+};
+
+class Bone : public BaseThrowable
+{
+public:
+};
+
+class Meat : public BaseThrowable
+{
+public:
+};
+
 void Abe::Update_449DC0()
 {
     if (word_5C1BDA) // Some flag to reset HP?
@@ -1803,7 +1888,7 @@ void Abe::Update_449DC0()
         field_1A8 = BaseGameObject::Find_Flags_4DC170(field_1A8);
         field_150_OrbWhirlWind_id = BaseGameObject::Find_Flags_4DC170(field_150_OrbWhirlWind_id);
         field_154 = BaseGameObject::Find_Flags_4DC170(field_154);
-        field_158 = BaseGameObject::Find_Flags_4DC170(field_158);
+        field_158_throwabe_id = BaseGameObject::Find_Flags_4DC170(field_158_throwabe_id);
         field_15C = BaseGameObject::Find_Flags_4DC170(field_15C);
         field_160 = BaseGameObject::Find_Flags_4DC170(field_160);
         field_164 = BaseGameObject::Find_Flags_4DC170(field_164);
@@ -1957,7 +2042,7 @@ void Abe::Update_449DC0()
         if (field_114_flags.Get(Flags_114::e114_Bit1))
         {
             state_idx = field_122;
-            Knockback_44E700(1, 1);
+            ToKnockback_44E700(1, 1);
             if (state_idx != -1)
             {
                 field_106_current_state = state_idx;
@@ -1974,7 +2059,7 @@ void Abe::Update_449DC0()
         {
             if (sub_449D30())
             {
-                Knockback_44E700(1, 0);
+                ToKnockback_44E700(1, 0);
             }
         }
 
@@ -2177,15 +2262,11 @@ BaseGameObject* Abe::vsub_45A570()
     return nullptr;
 }
 
-// TODO :Needs grenade object stub for correct impl
-
-void Abe::Knockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
+void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 {
-    NOT_IMPLEMENTED();
-
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
-    BaseGameObject* pfield_158 = sObjectIds_5C1B70.Find_449CF0(field_158);
-    BaseGameObject* pfield_164 = sObjectIds_5C1B70.Find_449CF0(field_164);
+    BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwabe_id));
+    BaseAliveGameObject* pfield_164 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_164));
     if (sControlledCharacter_5C1B8C == this || field_10C_health <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
@@ -2198,8 +2279,7 @@ void Abe::Knockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (pfield_164)
         {
-            // TODO: Resolve virtual
-            //(*(void(__thiscall **)(int, signed int))(*(_DWORD *)pfield_164 + 64))(pfield_164, 1);
+            pfield_164->Vnull_408F70(1);
             field_164 = -1;
         }
 
@@ -2223,7 +2303,7 @@ void Abe::Knockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
             Abe_SFX_2_457A40(13, 0, 32767, this);
         }
 
-        field_106_current_state = 71;
+        field_106_current_state = eAbeStates::State_71_Knockback_455090;
 
         if (bDelayedAnger)
         {
@@ -2233,13 +2313,9 @@ void Abe::Knockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (pfield_158)
         {
-            // Virtual 29 = GrenadeBase__vsub_448080
-            // TODO
-            /*
-            (*((void(__thiscall **)(BaseGameObject *))&pfield_158->field_0_VTbl->VAbe + 29))(pfield_158);
-            */
-            field_158 = -1;
-            if (!word_5C1BDE)
+            pfield_158->Vsub_4114B0();
+            field_158_throwabe_id = -1;
+            if (!gInfiniteGrenades_5C1BDE)
             {
                 field_1A2_rock_or_bone_count++;
             }
@@ -2477,18 +2553,18 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 
     if (field_154 != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_154);
         if (pObj)
         {
             pSaveState->dword88 = pObj->field_C_objectId;
         }
     }
 
-    pSaveState->dword8C = field_158;
+    pSaveState->dword8C = field_158_throwabe_id;
 
-    if (field_158 != -1)
+    if (field_158_throwabe_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158_throwabe_id);
         if (pObj)
         {
             pSaveState->dword8C = pObj->field_C_objectId;
@@ -3070,7 +3146,7 @@ void Abe::State_0_Idle_44EEB0()
                 BaseAliveGameObject* pMachineButton = FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25)));
                 if (pMachineButton)
                 {
-                    pMachineButton->Vnull_408F70();
+                    pMachineButton->Vnull_408F70(0); // TODO: Is argument correct ??
                     field_106_current_state = eAbeStates::State_88_GrenadeMachineUse_45C510;
                 }
                 else
@@ -3167,9 +3243,9 @@ void Abe::State_0_Idle_44EEB0()
                 field_106_current_state = HandleDoAction_455BD0();
             }
         }
-        else if (field_1A2_rock_or_bone_count > 0 || word_5C1BDE > 0)
+        else if (field_1A2_rock_or_bone_count > 0 || gInfiniteGrenades_5C1BDE)
         {
-            field_158 = Make_Throwable_49AF30(
+            field_158_throwabe_id = Make_Throwable_49AF30(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(40),
                 FP_FromInteger(0))->field_8_object_id;
@@ -3193,7 +3269,7 @@ void Abe::State_0_Idle_44EEB0()
 
             field_106_current_state = eAbeStates::State_104_RockThrowStandingHold_455DF0;
             
-            if (word_5C1BDE == 0)
+            if (!gInfiniteGrenades_5C1BDE)
             {
                 field_1A2_rock_or_bone_count--;
             }
@@ -3500,7 +3576,7 @@ void Abe::State_3_Fall_459B60()
         case eBackGroundWallRight: 
             field_B8_xpos = hitX;
             field_BC_ypos = hitY;
-            Knockback_44E700(1, 1);
+            ToKnockback_44E700(1, 1);
             break;
         }
         return;
@@ -3849,9 +3925,9 @@ void Abe::State_17_CrouchIdle_456BC0()
     // Crouching throw stuff
     if (sInputKey_ThrowItem_5550F4 & held
         && field_106_current_state == eAbeStates::State_17_CrouchIdle_456BC0
-        && (field_1A2_rock_or_bone_count > 0 || word_5C1BDE))
+        && (field_1A2_rock_or_bone_count > 0 || gInfiniteGrenades_5C1BDE))
     {
-        field_158 = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), FP_FromInteger(0))->field_8_object_id;
+        field_158_throwabe_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), FP_FromInteger(0))->field_8_object_id;
         if (!word_5C112C)
         {
             auto pRockCountGraphic = alive_new<Class_544FE4>();
@@ -3871,7 +3947,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         
         field_106_current_state = eAbeStates::State_107_RockThrowCrouchingHold_454410;
         
-        if (!word_5C1BDE)
+        if (!gInfiniteGrenades_5C1BDE)
         {
             field_1A2_rock_or_bone_count--;
         }
@@ -4018,7 +4094,7 @@ void Abe::State_22_RollBegin_4539A0()
     const FP xpos = field_CC_sprite_scale * FP_FromInteger(20);
     if (Raycast_408750(xpos, field_C4_velx))
     {
-        Knockback_44E700(1, 1);
+        ToKnockback_44E700(1, 1);
         field_106_current_state = eAbeStates::State_74_455290;
     }
     else
@@ -4040,7 +4116,7 @@ void Abe::State_23_RollLoop_453A90()
 
     if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
-        Knockback_44E700(1, 1);
+        ToKnockback_44E700(1, 1);
         field_106_current_state = eAbeStates::State_74_455290;
     }
     else
@@ -4105,7 +4181,7 @@ void Abe::State_25_RunSlideStop_451330()
     if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
         Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
-        Knockback_44E700(1, 1);
+        ToKnockback_44E700(1, 1);
     }
     else
     {
@@ -4199,7 +4275,7 @@ void Abe::State_33_RunLoop_4508E0()
         Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
-        Knockback_44E700(1, 1);
+        ToKnockback_44E700(1, 1);
         return;
     }
     
@@ -4280,7 +4356,7 @@ void Abe::State_33_RunLoop_4508E0()
                 if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
                     Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
                 {
-                    Knockback_44E700(1, 1);
+                    ToKnockback_44E700(1, 1);
                 }
                 else
                 {
@@ -4747,7 +4823,7 @@ void Abe::State_61_TurnToRun_456530()
     if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         // Was going to run into something
-        Knockback_44E700(1, 1);
+        ToKnockback_44E700(1, 1);
     }
     else
     {
