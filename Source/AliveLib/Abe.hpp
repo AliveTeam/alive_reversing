@@ -212,6 +212,7 @@ public:
     EXPORT __int16 RunTryEnterWell_451060();
     EXPORT void ToDieFinal_458910();
     EXPORT short DoGameSpeak_45AB70(int input);
+    EXPORT __int16 CanBeDamaged_44BAB0();
 public:
     __int16 field_116;
     int field_118_prev_held;
@@ -268,7 +269,7 @@ public:
         e1AC_Bit2 = 0x2,
         e1AC_Bit3 = 0x4,
         e1AC_Bit4 = 0x8,
-        e1AC_Bit5 = 0x10,
+        e1AC_Bit5_bShrivel = 0x10,
         e1AC_Bit6 = 0x20,
         e1AC_Bit7 = 0x40,
         e1AC_Bit8 = 0x80,

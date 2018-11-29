@@ -605,7 +605,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit6);
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
 
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_bShrivel);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit1);
@@ -1024,10 +1024,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
         }
     }
 
-    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_bShrivel);
     if (pSaveState->byte6D & 1)
     {
-        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
     }
 
     sActiveHero_5C1B68->field_16E = pSaveState->byte6F;
@@ -1078,10 +1078,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 8;
     */
 
-    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_bShrivel);
     if (pSaveState->wordD4 & 0x10)
     {
-        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
     }
 
     sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit6);
@@ -1946,7 +1946,7 @@ void Abe::Update_449DC0()
         Vnull_4081F0();
 
         field_F8 = field_BC_ypos;
-        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5);
+        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_bShrivel);
         field_106_current_state = eAbeStates::jState_85_Fall_455070;
         field_100_pCollisionLine = nullptr;
 
@@ -2115,7 +2115,7 @@ void Abe::Update_449DC0()
         if (state_idx != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
         {
             field_114_flags.Clear(Flags_114::e114_Bit2);
-            if (field_106_current_state != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5)))
+            if (field_106_current_state != eAbeStates::State_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)))
             {
                 field_20_animation.Set_Animation_Data_409C80(
                     sAbeFrameOffsetTable_554B18[field_106_current_state],
@@ -2325,7 +2325,8 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
 void Abe::vRender_44B580(int** pOrderingTable)
 {
-    if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5)))
+    // When in death shrivel don't reset scale else can't shrivel into a black blob
+    if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)))
     {
         field_20_animation.field_14_scale = field_CC_sprite_scale;
     }
@@ -5298,7 +5299,7 @@ void Abe::State_129_PoisonGasDeath_4565C0()
 
 void Abe::ToDie_4588D0()
 {
-    field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
     field_106_current_state = eAbeStates::State_56_4591F0;
     field_124_gnFrame = 0;
     field_10C_health = FP_FromInteger(0);
@@ -5710,7 +5711,7 @@ void Abe::ToDieFinal_458910()
         }
     }
 
-    field_1AC_flags.Set(Flags_1AC::e1AC_Bit5);
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
     field_114_flags.Clear(Flags_114::e114_Bit1);
     field_106_current_state = eAbeStates::State_57_Dead_4589A0;
     field_124_gnFrame = 0;
@@ -5859,6 +5860,37 @@ short Abe::DoGameSpeak_45AB70(int input)
     }
 
     return nextState;
+}
+
+__int16 Abe::CanBeDamaged_44BAB0()
+{
+    switch (field_106_current_state)
+    {
+    case eAbeStates::State_75_Jump_Into_Well_45C7B0:
+    case eAbeStates::State_76_45CA40:
+    case eAbeStates::State_77_45D130:
+    case eAbeStates::State_78_WellBegin_45C810:
+    case eAbeStates::State_79_WellInside_45CA60:
+    case eAbeStates::State_80_WellShotOut_45D150:
+    case eAbeStates::jState_81_WellBegin_45C7F0:
+    case eAbeStates::State_82_45CC80:
+    case eAbeStates::State_83_45CF70:
+    case eAbeStates::State_114_DoorEnter_459470:
+    case eAbeStates::State_115_DoorExit_459A40:
+    case eAbeStates::State_119_45A990:
+    case eAbeStates::State_120_45AB00:
+        return TRUE;
+    }
+
+    // TODO: Unknown what this is checking, condition should probably be inverted
+    if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)) && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) || field_114_flags.Get(Flags_114::e114_Bit7))
+    {
+        return FALSE;
+    }
+    else
+    {
+        return TRUE;
+    }
 }
 
 // TODO: Clean up
