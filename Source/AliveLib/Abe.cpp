@@ -2688,7 +2688,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     return sizeof(Quicksave_Obj_Abe);
 }
 
-__int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject * /*otherObj*/)
+__int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject * /*pFrom*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -3239,7 +3239,7 @@ void Abe::State_0_Idle_44EEB0()
                 field_BC_ypos);
         }
 
-        if (!sub_4569E0())
+        if (!TryEnterMineCar_4569E0())
         {
             if (field_106_current_state == eAbeStates::State_0_Idle_44EEB0)
             {
@@ -5441,7 +5441,7 @@ void CC Abe::Create_Fart_421D20()
     NOT_IMPLEMENTED();
 }
 
-__int16 Abe::sub_4569E0()
+__int16 Abe::TryEnterMineCar_4569E0()
 {
     NOT_IMPLEMENTED();
 }

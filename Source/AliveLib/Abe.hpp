@@ -200,7 +200,7 @@ public:
     EXPORT __int16 ToLeftRightMovement_44E340();
     EXPORT void TryHoist_44ED30();
     EXPORT static void CC Create_Fart_421D20();
-    EXPORT __int16 sub_4569E0();
+    EXPORT __int16 TryEnterMineCar_4569E0();
     EXPORT int sub_44EE10();
     EXPORT __int16 HandleDoAction_455BD0();
     EXPORT void PushWall_44E890();
