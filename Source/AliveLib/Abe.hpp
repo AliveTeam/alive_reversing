@@ -33,7 +33,7 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
-    virtual __int16 Vsub_408730(int arg0) override;
+    virtual __int16 VTakeDamage_408730(BaseAliveGameObject* pFrom) override;
     virtual __int16 VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
     virtual BaseGameObject* Vsub_408FD0(__int16 a2) override;
     virtual int Vnull_4081F0() override;
@@ -44,7 +44,7 @@ public:
     EXPORT void vRender_44B580(int** pOrderingTable);
     EXPORT void vScreenChanged_44D240();
     EXPORT int vGetSaveState_457110(BYTE* pSaveBuffer);
-    EXPORT bool vsub_Kill_44BB50(BaseGameObject *otherObj);
+    EXPORT __int16 vTakeDamage_44BB50(BaseAliveGameObject* pFrom);
     EXPORT __int16 vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
     EXPORT BaseGameObject* vsub_44E970(__int16 a2);
     EXPORT BaseGameObject* vsub_45A570();
@@ -54,7 +54,7 @@ public:
     EXPORT int sub_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
-    EXPORT BOOL sub_449D30();
+    EXPORT BOOL IsStanding_449D30();
     EXPORT void Free_Shrykull_Resources_45AA90();
 
     EXPORT BYTE ** StateToAnimResource_44AAB0(short state);

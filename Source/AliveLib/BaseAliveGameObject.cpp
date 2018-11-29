@@ -141,9 +141,9 @@ int BaseAliveGameObject::Vsub_408320(__int16 a2, __int16 a3, int a4)
     return vsub_408320(a2, a3, a4);
 }
 
-__int16 BaseAliveGameObject::Vsub_408730(int arg0)
+__int16 BaseAliveGameObject::VTakeDamage_408730(BaseAliveGameObject* pFrom)
 {
-    return vsub_408730(arg0);
+    return vTakeDamage_408730(pFrom);
 }
 
 signed __int16 BaseAliveGameObject::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
@@ -192,7 +192,7 @@ int BaseAliveGameObject::vsub_408320(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/)
     return 0;
 }
 
-__int16 BaseAliveGameObject::vsub_408730(int /*arg0*/)
+__int16 BaseAliveGameObject::vTakeDamage_408730(BaseAliveGameObject* /*pFrom*/)
 {
     NOT_IMPLEMENTED();
     return 0;

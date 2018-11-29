@@ -5,8 +5,6 @@
 
 EXPORT int CC Math_SquareRoot_Shifted_496E20(unsigned int value, __int16 iterations)
 {
-    NOT_IMPLEMENTED();
-
     unsigned int value_shifted = value;
     int ret = 0;
     int counter = (iterations / 2) + 15;

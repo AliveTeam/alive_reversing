@@ -57,11 +57,11 @@ EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/
     }
 }
 
-EXPORT void CC Factory_Null_4D6970(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D68A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ContinuePoint_4D6970(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_PathTransition_4D68A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Edge_4D68C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D6930(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_DeathDrop_4D6930(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Door_4D6F00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Shadow_4D7200(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
@@ -110,9 +110,9 @@ EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* , Path*, TlvItemInfoUnion, __int1
 EXPORT void CC Factory_Null_4D69E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ChantSuppressor_4D8D80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6A00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D6A20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_Pulley_4D6A20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Well_4D7E60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_WellExpress_4D7E60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_Mine_4D8890(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {
@@ -195,11 +195,11 @@ EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
 EXPORT void CC Factory_Paramite_4D9190(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MovieHandStone_4D9F50(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D9A80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_PortalExit_4D9A80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_RollingRock_4D9C70(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D6A40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_InvisibleZone_4D6A40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ChantSuppressor_4D9E10(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
@@ -209,14 +209,14 @@ EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* , Path*, TlvItemInfoUnion, __i
 EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Scrab_4D9200(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4DA130(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D6A80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D6AA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ScrabLeftBound_4D6A80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ScrabRightBound_4D6AA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligBoundRight_4D79A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D79D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D6AC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_SligPersist_4D79D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_EnemyStopper_4D6AC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D6A60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ZSligCover_4D6A60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D8A30(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
@@ -281,7 +281,7 @@ EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* , Path*, TlvItemInfoUnion, __
 EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_KillUnsavedMudokons_4DA6E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Null_4D6950(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_SoftLanding_4D6950(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6B00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Water_4DA730(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4DA7C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
@@ -322,11 +322,11 @@ EXPORT void CC Factory_TrainDoor_4D6E90(Path_TLV* , Path*, TlvItemInfoUnion, __i
 const PathFunctionTable kObjectFactory =
 {
     {
-        Factory_Null_4D6970,
-        Factory_Null_4D68A0,
+        Factory_ContinuePoint_4D6970,
+        Factory_PathTransition_4D68A0,
         Factory_Hoist_4D9E90,
         Factory_Edge_4D68C0,
-        Factory_Null_4D6930,
+        Factory_DeathDrop_4D6930,
         Factory_Door_4D6F00,
         Factory_Shadow_4D7200,
         Factory_LiftPoint_4D7250,
@@ -343,19 +343,19 @@ const PathFunctionTable kObjectFactory =
         Factory_Null_4D69E0,
         Factory_ChantSuppressor_4D8D80,
         Factory_Null_4D6A00,
-        Factory_Null_4D6A20,
+        Factory_Pulley_4D6A20,
         Factory_AbeStart_4D9030,
-        Factory_Well_4D7E60,
+        Factory_WellExpress_4D7E60,
         Factory_Mine_4D8890,
         Factory_UXB_4D8960,
         Factory_Paramite_4D9190,
         Factory_MovieHandStone_4D9F50,
         Factory_BirdPortal_4D9AA0,
-        Factory_Null_4D9A80,
+        Factory_PortalExit_4D9A80,
         Factory_TrapDoor_4D9B90,
         Factory_RollingRock_4D9C70,
         Factory_SligBoundLeft_4D7740,
-        Factory_Null_4D6A40,
+        Factory_InvisibleZone_4D6A40,
         Factory_FootSwitch_4D9D00,
         Factory_ChantSuppressor_4D9E10,
         Factory_MotionDetector_4D9E40,
@@ -365,19 +365,19 @@ const PathFunctionTable kObjectFactory =
         Factory_MeatSack_4D8140,
         Factory_Scrab_4D9200,
         Factory_Null_4DA130,
-        Factory_Null_4D6A80,
-        Factory_Null_4D6AA0,
+        Factory_ScrabLeftBound_4D6A80,
+        Factory_ScrabRightBound_4D6AA0,
         Factory_SligBoundRight_4D79A0,
-        Factory_Null_4D79D0,
-        Factory_Null_4D6AC0,
+        Factory_SligPersist_4D79D0,
+        Factory_EnemyStopper_4D6AC0,
         Factory_InvisibleSwitch_4D6E40,
         Factory_Mudokon_4D8EC0,
-        Factory_Null_4D6A60,
+        Factory_ZSligCover_4D6A60,
         Factory_DoorFlame_4D70D0,
         Factory_MovingBomb_4D8A50,
         Factory_Null_4D8A30,
         Factory_MainMenuController_4D6DB0,
-        Factory_4D7160,
+        Factory_4D7160, // switch state related ??
         Factory_Null_4D6AE0,
         Factory_TimerTrigger_4DA0E0,
         Factory_SecurityDoor_4DA150,
@@ -392,12 +392,12 @@ const PathFunctionTable kObjectFactory =
         Factory_Light_4D8590,
         Factory_SlogSpawner_4D8BB0,
         Factory_GasCountdown_4DA480,
-        Factory_4D6C50,
+        Factory_4D6C50, // Remove Shrykull ??
         Factory_GasEmitter_4D8540,
         Factory_SlogHut_4DA500,
         Factory_Glukkon_4DA550,
         Factory_KillUnsavedMudokons_4DA6E0,
-        Factory_Null_4D6950,
+        Factory_SoftLanding_4D6950,
         Factory_Null_4D6B00,
         Factory_Water_4DA730,
         Factory_Null_4DA7C0,

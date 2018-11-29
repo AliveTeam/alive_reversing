@@ -430,17 +430,6 @@ void ShowDebugConsoleMessage(std::string message, float duration)
     ShowDebugConsoleMessage(message, duration, 255, 255, 255);
 }
 
-struct FakeObjStruct
-{
-    int *field_0_VTbl;
-    __int16 field_4_typeId;
-    __int16 field_6_flags;
-    int field_8_flags_ex;
-    int field_C_objectId;
-    int field_10_resources_array;
-    int field_1C_update_delay;
-};
-
 struct DebugConsoleCommand
 {
     std::string command;
@@ -465,18 +454,24 @@ void Command_Test(const std::vector<std::string>& args)
     DEV_CONSOLE_MESSAGE("You called this with " + std::to_string(args.size()) + " arguments", 5);
 }
 
+class FakeMeatGrinder : public UXB
+{
+public:
+    FakeMeatGrinder()
+    {
+        field_4_typeId = BaseGameObject::Types::eGrinder;
+        field_4_typeId = BaseGameObject::Types::eType_109;
+    }
+};
+
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    FakeObjStruct fake;
-    fake.field_4_typeId = 30;
-    sControlledCharacter_5C1B8C->Vsub_408730(reinterpret_cast<int>(&fake));
+    FakeMeatGrinder fakeGrinder;
+    sControlledCharacter_5C1B8C->VTakeDamage_408730(&fakeGrinder);
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
 {
-    FakeObjStruct fake;
-    fake.field_4_typeId = 30;
-
     for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
     {
         BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);

@@ -1221,9 +1221,9 @@ int Abe::GetSaveState_4DC110(BYTE* pSaveBuffer)
     return vGetSaveState_457110(pSaveBuffer);
 }
 
-__int16 Abe::Vsub_408730(int arg0)
+__int16 Abe::VTakeDamage_408730(BaseAliveGameObject* pFrom)
 {
-    return vsub_Kill_44BB50(reinterpret_cast<BaseAliveGameObject*>(arg0));
+    return vTakeDamage_44BB50(pFrom);
 }
 
 __int16 Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
@@ -2057,7 +2057,7 @@ void Abe::Update_449DC0()
 
         if (Event_Get_422C00(kEventScreenShake) && field_10C_health > FP_FromInteger(0))
         {
-            if (sub_449D30())
+            if (IsStanding_449D30())
             {
                 ToKnockback_44E700(1, 0);
             }
@@ -2687,10 +2687,10 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     return sizeof(Quicksave_Obj_Abe);
 }
 
-bool Abe::vsub_Kill_44BB50(BaseGameObject * /*otherObj*/)
+__int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject * /*otherObj*/)
 {
     NOT_IMPLEMENTED();
-    return false;
+    return 0;
 }
 
 __int16 Abe::vOn_TLV_Collision_44B5D0(Path_TLV* /*a2a*/)
@@ -2741,10 +2741,25 @@ void Abe::Free_Resources_44D420()
     NOT_IMPLEMENTED();
 }
 
-EXPORT BOOL Abe::sub_449D30()
+EXPORT BOOL Abe::IsStanding_449D30()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return
+           field_106_current_state == eAbeStates::State_0_Idle_44EEB0
+        || field_106_current_state == eAbeStates::State_2_StandingTurn_451830
+        || field_106_current_state == eAbeStates::State_34_DunnoBegin_44ECF0
+        || field_106_current_state == eAbeStates::State_35_DunnoEnd_44ED10
+        || field_106_current_state == eAbeStates::State_11_Speak_45B0A0
+        || field_106_current_state == eAbeStates::State_7_45B140
+        || field_106_current_state == eAbeStates::State_8_45B160
+        || field_106_current_state == eAbeStates::State_9_45B180
+        || field_106_current_state == eAbeStates::State_10_Fart_45B1A0
+        || field_106_current_state == eAbeStates::State_99_LeverUse_455AC0
+        || field_106_current_state == eAbeStates::State_105_RockThrowStandingThrow_456460
+        || field_106_current_state == eAbeStates::State_104_RockThrowStandingHold_455DF0
+        || field_106_current_state == eAbeStates::State_106_RockThrowStandingEnd_455F20
+        || field_106_current_state == eAbeStates::State_112_Chant_45B1C0
+        || field_106_current_state == eAbeStates::State_113_ChantEnd_45BBE0;
+
 }
 
 void Abe::Free_Shrykull_Resources_45AA90()

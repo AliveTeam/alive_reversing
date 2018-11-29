@@ -40,7 +40,7 @@ enum UXB_Flags_1C8
     e1C8_Bit1_IsRed = 0x2,
 };
 
-class BaseBomb : BaseAnimatedWithPhysicsGameObject
+class BaseBomb : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     /*virtual void VUpdate() override;
