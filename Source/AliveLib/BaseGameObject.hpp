@@ -36,7 +36,7 @@ public:
         eHelpPhone = 68,
         eGrenadeMachine_66 = 66,
         eType_Abe = 69,
-        eType_75 = 75,
+        eInvisibleEffect_75 = 75,
         ePulley = 76,
         eType_78 = 78,
         eResourceManager = 79,

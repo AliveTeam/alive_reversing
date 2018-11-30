@@ -225,9 +225,9 @@ public:
     int field_148;
     int field_14C;
     int field_150_OrbWhirlWind_id;
-    int field_154;
-    int field_158_throwabe_id;
-    int field_15C;
+    int field_154_possesed_object_id;
+    int field_158_throwable_id;
+    int field_15C_pull_rope_id;
     int field_160;
     int field_164;
     int field_168;

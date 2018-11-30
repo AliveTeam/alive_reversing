@@ -588,15 +588,15 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_20_animation.field_C_render_layer = 32;
     field_198_has_evil_fart = 0;
     field_1A2_rock_or_bone_count = 0;
-    field_158_throwabe_id = -1;
-    field_154 = -1;
+    field_158_throwable_id = -1;
+    field_154_possesed_object_id = -1;
     field_150_OrbWhirlWind_id = -1;
     field_14C = -1;
     field_148 = -1;
     field_1A8 = -1;
     field_164 = -1;
     field_160 = -1;
-    field_15C = -1;
+    field_15C_pull_rope_id = -1;
     field_1AE &= ~3u;
 
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -652,9 +652,9 @@ void Abe::dtor_44B380()
     BaseGameObject* pField_148 = sObjectIds_5C1B70.Find_449CF0(field_148);
     BaseGameObject* pField_14C = sObjectIds_5C1B70.Find_449CF0(field_14C);
     BaseGameObject* pField_150 = sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id);
-    BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154);
-    BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158_throwabe_id);
-    BaseGameObject* pField_15C = sObjectIds_5C1B70.Find_449CF0(field_15C);
+    BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id);
+    BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id);
+    BaseGameObject* pField_15C = sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id);
     BaseGameObject* pField_160 = sObjectIds_5C1B70.Find_449CF0(field_160);
     BaseGameObject* pField_178 = sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id);
 
@@ -674,7 +674,7 @@ void Abe::dtor_44B380()
     if (pField_15C)
     {
         pField_15C->field_6_flags.Set(BaseGameObject::eDead);
-        field_15C = -1;
+        field_15C_pull_rope_id = -1;
     }
 
     if (pField_14C)
@@ -691,13 +691,13 @@ void Abe::dtor_44B380()
 
     if (pField_154)
     {
-        field_154 = -1;
+        field_154_possesed_object_id = -1;
     }
 
     if (pField_158)
     {
         pField_158->field_6_flags.Set(BaseGameObject::eDead);
-        field_158_throwabe_id = -1;
+        field_158_throwable_id = -1;
     }
 
     if (pField_178)
@@ -1041,9 +1041,9 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_148 = pSaveState->dword7C;
     sActiveHero_5C1B68->field_14C = pSaveState->dword80;
     sActiveHero_5C1B68->field_150_OrbWhirlWind_id = pSaveState->dword84;
-    sActiveHero_5C1B68->field_154 = pSaveState->dword88;
-    sActiveHero_5C1B68->field_158_throwabe_id = pSaveState->dword8C;
-    sActiveHero_5C1B68->field_15C = pSaveState->dword90;
+    sActiveHero_5C1B68->field_154_possesed_object_id = pSaveState->dword88;
+    sActiveHero_5C1B68->field_158_throwable_id = pSaveState->dword8C;
+    sActiveHero_5C1B68->field_15C_pull_rope_id = pSaveState->dword90;
     sActiveHero_5C1B68->field_160 = pSaveState->dword94;
     sActiveHero_5C1B68->field_164 = pSaveState->dword98;
     sActiveHero_5C1B68->field_178_invisible_effect_id = -1;
@@ -1312,15 +1312,15 @@ EXPORT void CC Pal_Copy_483560(const PSX_Point* pPoint, __int16 w, WORD* pPalDat
     PSX_StoreImage_4F5E90(rect, pPalData);
 }
 
-class Class_545A60 : public BaseGameObject
+class InvisibleEffect : public BaseGameObject
 {
 public:
-    EXPORT Class_545A60* ctor_45F280(Abe* pAbe)
+    EXPORT InvisibleEffect* ctor_45F280(Abe* pAbe)
     {
         BaseGameObject_ctor_4DBFA0(TRUE, 0);
         SetVTable(this, 0x545A60);
 
-        field_4_typeId = BaseGameObject::Types::eType_75;
+        field_4_typeId = BaseGameObject::Types::eInvisibleEffect_75;
 
         field_44_objId = pAbe->field_8_object_id;
 
@@ -1440,7 +1440,7 @@ private:
     char field_49;
     __int16 field_4A_flags;
 };
-ALIVE_ASSERT_SIZEOF(Class_545A60, 0x4C);
+ALIVE_ASSERT_SIZEOF(InvisibleEffect, 0x4C);
 
 class MusicTrigger : public BaseGameObject
 {
@@ -1887,9 +1887,9 @@ void Abe::Update_449DC0()
         field_14C = BaseGameObject::Find_Flags_4DC170(field_14C);
         field_1A8 = BaseGameObject::Find_Flags_4DC170(field_1A8);
         field_150_OrbWhirlWind_id = BaseGameObject::Find_Flags_4DC170(field_150_OrbWhirlWind_id);
-        field_154 = BaseGameObject::Find_Flags_4DC170(field_154);
-        field_158_throwabe_id = BaseGameObject::Find_Flags_4DC170(field_158_throwabe_id);
-        field_15C = BaseGameObject::Find_Flags_4DC170(field_15C);
+        field_154_possesed_object_id = BaseGameObject::Find_Flags_4DC170(field_154_possesed_object_id);
+        field_158_throwable_id = BaseGameObject::Find_Flags_4DC170(field_158_throwable_id);
+        field_15C_pull_rope_id = BaseGameObject::Find_Flags_4DC170(field_15C_pull_rope_id);
         field_160 = BaseGameObject::Find_Flags_4DC170(field_160);
         field_164 = BaseGameObject::Find_Flags_4DC170(field_164);
 
@@ -1900,7 +1900,7 @@ void Abe::Update_449DC0()
                 field_170 = sGnFrame_5C1B84 + 2;
             }
 
-            auto pClass = alive_new<Class_545A60>();
+            auto pClass = alive_new<InvisibleEffect>();
             pClass->ctor_45F280(this);
             field_178_invisible_effect_id = pClass->field_8_object_id;
             pClass->sub_45FA00();
@@ -1929,12 +1929,12 @@ void Abe::Update_449DC0()
         // "Normal" voice
         field_128.field_12_mood = 5;
     }
-    else if (totalAliveSavedMuds >= 0)
+    else if (totalAliveSavedMuds > 0)
     {
         // "Happy" voice
         field_128.field_12_mood = 0;
     }
-    else if (totalAliveSavedMuds <= 0)
+    else if (totalAliveSavedMuds < 0)
     {
         // "Sad" voice
         field_128.field_12_mood = 3;
@@ -2191,7 +2191,7 @@ void Abe::Update_449DC0()
         }
 
 
-        Class_545A60* pObj_field_178 = static_cast<Class_545A60*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
+        InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
         if (pObj_field_178 && field_170 > 0)
         {
             if (static_cast<int>(sGnFrame_5C1B84) > field_170)
@@ -2265,7 +2265,7 @@ BaseGameObject* Abe::vsub_45A570()
 void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
-    BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwabe_id));
+    BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
     BaseAliveGameObject* pfield_164 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_164));
     if (sControlledCharacter_5C1B8C == this || field_10C_health <= FP_FromInteger(0))
     {
@@ -2314,7 +2314,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
         if (pfield_158)
         {
             pfield_158->Vsub_4114B0();
-            field_158_throwabe_id = -1;
+            field_158_throwable_id = -1;
             if (!gInfiniteGrenades_5C1BDE)
             {
                 field_1A2_rock_or_bone_count++;
@@ -2550,33 +2550,33 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
         }
     }
     
-    pSaveState->dword88 = field_154;
+    pSaveState->dword88 = field_154_possesed_object_id;
 
-    if (field_154 != -1)
+    if (field_154_possesed_object_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_154);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id);
         if (pObj)
         {
             pSaveState->dword88 = pObj->field_C_objectId;
         }
     }
 
-    pSaveState->dword8C = field_158_throwabe_id;
+    pSaveState->dword8C = field_158_throwable_id;
 
-    if (field_158_throwabe_id != -1)
+    if (field_158_throwable_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158_throwabe_id);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id);
         if (pObj)
         {
             pSaveState->dword8C = pObj->field_C_objectId;
         }
     }
 
-    pSaveState->dword90 = field_15C;
+    pSaveState->dword90 = field_15C_pull_rope_id;
 
-    if (field_15C != -1)
+    if (field_15C_pull_rope_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_15C);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id);
         if (pObj)
         {
             pSaveState->dword90 = pObj->field_C_objectId;
@@ -3261,7 +3261,7 @@ void Abe::State_0_Idle_44EEB0()
         }
         else if (field_1A2_rock_or_bone_count > 0 || gInfiniteGrenades_5C1BDE)
         {
-            field_158_throwabe_id = Make_Throwable_49AF30(
+            field_158_throwable_id = Make_Throwable_49AF30(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(40),
                 FP_FromInteger(0))->field_8_object_id;
@@ -3943,7 +3943,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         && field_106_current_state == eAbeStates::State_17_CrouchIdle_456BC0
         && (field_1A2_rock_or_bone_count > 0 || gInfiniteGrenades_5C1BDE))
     {
-        field_158_throwabe_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), FP_FromInteger(0))->field_8_object_id;
+        field_158_throwable_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), FP_FromInteger(0))->field_8_object_id;
         if (!word_5C112C)
         {
             auto pRockCountGraphic = alive_new<Class_544FE4>();
@@ -5701,7 +5701,7 @@ __int16 Abe::RunTryEnterWell_451060()
 
 void Abe::ToDieFinal_458910()
 {
-    Class_545A60* pObj = static_cast<Class_545A60*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
+    InvisibleEffect* pObj = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
     if (pObj)
     {
         if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
