@@ -29,7 +29,7 @@ EXPORT int CC Math_SquareRoot_Int_496E70(int value)
     return Math_SquareRoot_Shifted_496E20(value, 0); // 15 iterations
 }
 
-EXPORT FP CC Math_SquareRoot_FP_496E90(__int16 value)
+EXPORT FP CC Math_SquareRoot_FP_496E90(int value)
 {
     return FP_FromRaw(Math_SquareRoot_Shifted_496E20(value, 16)); // 23 iterations (16/2+15)
 }
