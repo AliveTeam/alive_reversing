@@ -2835,7 +2835,7 @@ EXPORT void CC PSX_EMU_Render_G_LineSegment_4F8250(void* pOtPrim1, signed int x0
                 pVRam[xpos >> 16] = (r0_fixed >> 19 << sRedShift_C215C4) | (g0_fixed >> 19 << sGreenShift_C1D180) | (b0_fixed >> 19 << sBlueShift_C19140);
             }
 
-            pVRam += (2 * pitch);
+            pVRam += pitch;
 
             r0_fixed += rDiff;
             b0_fixed += bDiff;
