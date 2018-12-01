@@ -62,7 +62,7 @@ public:
 
         field_6_flags.Set(BaseGameObject::eDrawable);
         field_6_flags.Set(BaseGameObject::eBit08);
-        field_4_typeId = BaseGameObject::Types::eDebugHelper;
+        field_4_typeId = BaseGameObject::Types::eDebugHelper_1001;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(512, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
@@ -272,7 +272,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable);
         field_6_flags.Set(BaseGameObject::eBit08);
-        field_4_typeId = BaseGameObject::Types::eDebugPathRenderer;
+        field_4_typeId = BaseGameObject::Types::eDebugPathRenderer_1003;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(128, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);
@@ -459,7 +459,7 @@ class FakeMeatGrinder : public UXB
 public:
     FakeMeatGrinder()
     {
-        field_4_typeId = BaseGameObject::Types::eGrinder;
+        field_4_typeId = BaseGameObject::Types::eGrinder_30;
         field_4_typeId = BaseGameObject::Types::eType_109;
     }
 };
@@ -627,7 +627,7 @@ void Command_Midi1(const std::vector<std::string>& args)
 
 void Command_SetState(const std::vector<std::string>& args)
 {
-    if (sControlledCharacter_5C1B8C->field_4_typeId != BaseGameObject::eType_Abe)
+    if (sControlledCharacter_5C1B8C->field_4_typeId != BaseGameObject::eType_Abe_69)
     {
         DEV_CONSOLE_MESSAGE_C("Setting state not supported on this object!", 6, 255, 0, 0);
         return;
@@ -682,7 +682,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable);
         field_6_flags.Set(BaseGameObject::eBit08);
-        field_4_typeId = BaseGameObject::Types::eDebugConsole;
+        field_4_typeId = BaseGameObject::Types::eDebugConsole_1002;
         
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
         mFont.ctor_433590(4096 * 2, reinterpret_cast<BYTE*>(mFontPalette), &mFontContext);

@@ -9,7 +9,7 @@ EXPORT Particle* Particle::ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffse
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(this, 0x547858); // vTbl_Particle_547858
-    field_4_typeId = Types::eParticle;
+    field_4_typeId = Types::eParticle_134;
 
     ResourceManager::Inc_Ref_Count_49C310(ppAnimData);
 

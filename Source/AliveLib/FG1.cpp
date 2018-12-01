@@ -47,7 +47,7 @@ void FG1::ctor_499FC0(BYTE** pFG1Res)
     field_6_flags.Set(BaseGameObject::eBit08);
     field_6_flags.Set(BaseGameObject::eDrawable);
 
-    field_4_typeId = Types::eFG1;
+    field_4_typeId = Types::eFG1_101;
 
     field_24_level_id = gMap_5C3030.sCurrentLevelId_5C3030;
     field_26_path_id = gMap_5C3030.sCurrentPathId_5C3032;

@@ -82,7 +82,7 @@ void ResourceManager::Ctor_464910()
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
     SetVTable(this, 0x545EBC); // vTbl_ResourceManager_545EBC
 
-    field_4_typeId = Types::eResourceManager;
+    field_4_typeId = Types::eResourceManager_70;
     field_2C_pFileItem = nullptr;
     field_30_start_sector = 0;
     field_34_num_sectors = 0;

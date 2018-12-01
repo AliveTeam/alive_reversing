@@ -448,7 +448,7 @@ void MusicController::ctor_47EE80()
     field_52_target_volume = 0;
     field_54_music_volume_change_time = 0;
     
-    field_4_typeId = BaseGameObject::Types::eMusicController;
+    field_4_typeId = BaseGameObject::Types::eMusicController_93;
     
     field_20_vol = 100;
     field_22_vol = 127;

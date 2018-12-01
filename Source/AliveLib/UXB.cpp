@@ -136,7 +136,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
     ctor_408240(0);
     SetVTable(this, 0x547E80);
     SetVTable(&field_128_animation, 0x544290);
-    field_4_typeId = eUXB;
+    field_4_typeId = eUXB_143;
 
     auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, 1037);
 
@@ -567,7 +567,7 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     v16 = 0;
     SetVTable(this, 0x544C54);
-    field_4_typeId = eBaseBomb;
+    field_4_typeId = eBaseBomb_46;
 
 
     v6 = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, 300);

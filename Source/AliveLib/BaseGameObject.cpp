@@ -60,7 +60,7 @@ void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed
 
     field_10_resources_array.ctor_40C9E0(resourceArraySize);
     field_1C_update_delay = 0;
-    field_4_typeId = Types::eNone;
+    field_4_typeId = Types::eNone_0;
     field_6_flags.Raw().all = field_6_flags.Raw().all & 0xF80A | BaseGameObject::eUpdatable; // TODO: Refactor
 
     if (bAddToObjectList)

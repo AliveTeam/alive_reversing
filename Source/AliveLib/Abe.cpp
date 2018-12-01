@@ -476,7 +476,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
 
     SetVTable(this, 0x5457BC); // gVTbl_Abe_5457BC
     
-    field_4_typeId = Types::eType_Abe;
+    field_4_typeId = Types::eType_Abe_69;
 
     field_6_flags.Set(BaseGameObject::eBit08);
     field_C_objectId = -65536;
@@ -1460,7 +1460,7 @@ public:
     EXPORT void Init_47FFB0(__int16 type, __int16 a3, __int16 delay)
     {
         field_24_flags &= ~7u;
-        field_4_typeId = BaseGameObject::Types::eMusicTrigger;
+        field_4_typeId = BaseGameObject::Types::eMusicTrigger_94;
         field_28_counter = 0;
 
         switch (type)
@@ -1869,7 +1869,7 @@ public:
         
         SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
         
-        field_4_typeId = Types::eScreenShake;
+        field_4_typeId = Types::eScreenShake_118;
         field_44 = a3;
         field_40 = 16;
         field_42 = a2;
@@ -2638,7 +2638,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 
     Quicksave_Obj_Abe* pSaveState = reinterpret_cast<Quicksave_Obj_Abe*>(pSaveBuffer);
 
-    pSaveState->field_0_id = Types::eType_Abe;
+    pSaveState->field_0_id = Types::eType_Abe_69;
     pSaveState->field_4_xpos = field_B8_xpos;
     pSaveState->field_8_ypos = field_BC_ypos;
     pSaveState->field_c_velx = field_C4_velx;
@@ -6260,7 +6260,7 @@ short Abe::DoGameSpeak_45AB70(int input)
         else
         {
             // NOTE: Extra check for locks, it must also be being rendered in order to for us to try to hit it
-            BaseAliveGameObject* pObj = FindObjectOfType_425180(Types::eLockedSoul, field_B8_xpos + gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
+            BaseAliveGameObject* pObj = FindObjectOfType_425180(Types::eLockedSoul_61, field_B8_xpos + gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
             if (pObj && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
                 nextState = eAbeStates::State_62_Punch_454750;

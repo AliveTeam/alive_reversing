@@ -421,7 +421,7 @@ PauseMenu * PauseMenu::ctor_48FB80()
     sQuicksave_SaveNextFrame_5CA4D8 = 0;
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
-    field_4_typeId = Types::ePauseMenu;
+    field_4_typeId = Types::ePauseMenu_95;
     field_6_flags.Clear(BaseGameObject::eDrawable);
     field_6_flags.Set(BaseGameObject::eBit08);
     word12C_flags &= ~0xE;
@@ -685,7 +685,7 @@ void DestroyAliveObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != BaseGameObject::eType_Abe)
+        if (pObj->field_4_typeId != BaseGameObject::eType_Abe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead);
         }
@@ -704,7 +704,7 @@ void DestroyAllObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != BaseGameObject::Types::eType_Abe)
+        if (pObj->field_4_typeId != BaseGameObject::Types::eType_Abe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead);
         }

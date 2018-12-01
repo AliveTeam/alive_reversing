@@ -40,7 +40,7 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
     field_6_flags.Set(BaseGameObject::eBit08);
     field_6_flags.Set(BaseGameObject::eDrawable);
 
-    field_4_typeId = BaseGameObject::Types::eText;
+    field_4_typeId = BaseGameObject::Types::eText_87;
 
     gObjList_drawables_5C1124->Push_Back(this);
 

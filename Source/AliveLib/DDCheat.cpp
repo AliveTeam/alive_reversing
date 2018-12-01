@@ -148,7 +148,7 @@ DDCheat* DDCheat::ctor_4153C0()
     field_6_flags.Set(BaseGameObject::eBit08);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
     field_3C_flags &= 0xFFF8u;
-    field_4_typeId = Types::eDDCheat;
+    field_4_typeId = Types::eDDCheat_19;
     field_20 = 0;
     field_24_fn_idx = 0;
     field_28 = 0;
@@ -278,7 +278,7 @@ void DDCheat::Update_415780()
             case Types::eSlig_125:
                 sControlledCharacter_5C1B8C->field_106_current_state = 7;
                 break;
-            case Types::eType_Abe:
+            case Types::eType_Abe_69:
                 sControlledCharacter_5C1B8C->field_106_current_state = 3; // eAbeStates::State_3_Fall_459B60
                 break;
             case Types::eScrab_112:
@@ -321,7 +321,7 @@ void DDCheat::Update_415780()
 
             DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_state);
 
-            if (sControlledCharacter_5C1B8C->field_4_typeId == eType_Abe)
+            if (sControlledCharacter_5C1B8C->field_4_typeId == eType_Abe_69)
             {
                 DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_current_state]);
             }

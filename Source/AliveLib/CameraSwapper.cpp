@@ -22,7 +22,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 0);
 
         SetVTable(this, 0x5445C4);
-        field_4_typeId = Types::eScreenClipper;
+        field_4_typeId = Types::eScreenClipper_114;
 
         field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
         field_6_flags.Set(BaseGameObject::eDrawable);
@@ -229,7 +229,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 {
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
 
-    field_4_typeId = Types::eCameraSwapper;
+    field_4_typeId = Types::eCameraSwapper_149;
 
     field_34_pSubObject = nullptr;
 

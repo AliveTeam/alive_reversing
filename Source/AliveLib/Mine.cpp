@@ -48,7 +48,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     SetVTable(this, 0x546164);
     SetVTable(&field_124_animation, 0x544290);
 
-    field_4_typeId = eMine;
+    field_4_typeId = eMine_88;
 
     Animation_Init_424E10(784, 38, 0xDu, Add_Resource_4DC130(ResourceManager::Resource_Animation, 1036), 1, 1u);
 

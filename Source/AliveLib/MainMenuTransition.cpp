@@ -64,7 +64,7 @@ MainMenuTransition* MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeD
 
     SetVTable(this, 0x545EA0); // vTbl_MainMenuTransition_545EA0
 
-    field_4_typeId = Types::eMainMenuTransistion;
+    field_4_typeId = Types::eMainMenuTransistion_116;
 
     gObjList_drawables_5C1124->Push_Back(this);
 
