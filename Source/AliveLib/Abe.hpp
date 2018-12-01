@@ -112,8 +112,8 @@ public:
     EXPORT void State_49_450200();
     EXPORT void State_50_RunToWalk1_450E20();
     EXPORT void State_51_RunToWalk2_450F50();
-    EXPORT void State_52_451710();
-    EXPORT void State_53_451800();
+    EXPORT void State_52_RunTurn_ToRun_451710();
+    EXPORT void State_53_RunTurn_ToWalk_451800();
     EXPORT void State_54_RunJumpLandRun_4538F0();
     EXPORT void State_55_RunJumpLandWalk_453970();
     EXPORT void State_56_4591F0();

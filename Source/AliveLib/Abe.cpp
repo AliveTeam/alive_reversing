@@ -72,8 +72,8 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_49_450200) \
     ENTRY(State_50_RunToWalk1_450E20) \
     ENTRY(State_51_RunToWalk2_450F50) \
-    ENTRY(State_52_451710) \
-    ENTRY(State_53_451800) \
+    ENTRY(State_52_RunTurn_ToRun_451710) \
+    ENTRY(State_53_RunTurn_ToWalk_451800) \
     ENTRY(State_54_RunJumpLandRun_4538F0) \
     ENTRY(State_55_RunJumpLandWalk_453970) \
     ENTRY(State_56_4591F0) \
@@ -217,8 +217,8 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_49_450200,
     &Abe::State_50_RunToWalk1_450E20,
     &Abe::State_51_RunToWalk2_450F50,
-    &Abe::State_52_451710,
-    &Abe::State_53_451800,
+    &Abe::State_52_RunTurn_ToRun_451710,
+    &Abe::State_53_RunTurn_ToWalk_451800,
     &Abe::State_54_RunJumpLandRun_4538F0,
     &Abe::State_55_RunJumpLandWalk_453970,
     &Abe::State_56_4591F0,
@@ -4260,12 +4260,12 @@ void Abe::State_26_RunTurn_451500()
                     if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
                     {
                         field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
-                        field_106_current_state = eAbeStates::State_52_451710;
+                        field_106_current_state = eAbeStates::State_52_RunTurn_ToRun_451710;
                     }
                     else
                     {
                         field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9);
-                        field_106_current_state = eAbeStates::State_53_451800;
+                        field_106_current_state = eAbeStates::State_53_RunTurn_ToWalk_451800;
                     }
                 }
                 else
@@ -4273,12 +4273,12 @@ void Abe::State_26_RunTurn_451500()
                     if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
                     {
                         field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
-                        field_106_current_state = eAbeStates::State_52_451710;
+                        field_106_current_state = eAbeStates::State_52_RunTurn_ToRun_451710;
                     }
                     else
                     {
                         field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
-                        field_106_current_state = eAbeStates::State_53_451800;
+                        field_106_current_state = eAbeStates::State_53_RunTurn_ToWalk_451800;
                     }
                 }
             }
@@ -4832,14 +4832,38 @@ void Abe::State_51_RunToWalk2_450F50()
     }
 }
 
-void Abe::State_52_451710()
+void Abe::State_52_RunTurn_ToRun_451710()
 {
-    NOT_IMPLEMENTED();
+    field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToIdle_44E6B0();
+    }
+    else
+    {
+        sub_44E9A0();
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_state = eAbeStates::State_33_RunLoop_4508E0;
+            field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        }
+    }
 }
 
-void Abe::State_53_451800()
+void Abe::State_53_RunTurn_ToWalk_451800()
 {
-    NOT_IMPLEMENTED();
+    State_52_RunTurn_ToRun_451710();
+
+    if (field_106_current_state == eAbeStates::State_33_RunLoop_4508E0)
+    {
+        field_106_current_state = eAbeStates::State_1_WalkLoop_44FBA0;
+    }
 }
 
 void Abe::State_54_RunJumpLandRun_4538F0()
@@ -5444,6 +5468,7 @@ void CC Abe::Create_Fart_421D20()
 __int16 Abe::TryEnterMineCar_4569E0()
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 int Abe::sub_44EE10()
@@ -5649,9 +5674,31 @@ BOOL Abe::Is_Celling_Above_44E8D0()
         field_D6_scale != 0 ? 8 : 128) != 0;
 }
 
-void Abe::MoveWithVelocity_450FA0(FP /*velocityX*/)
+void Abe::MoveWithVelocity_450FA0(FP velocityX)
 {
-    NOT_IMPLEMENTED();
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        const FP newVelX = field_C4_velx - (field_CC_sprite_scale * velocityX);
+        field_C4_velx = newVelX;
+        if (newVelX < FP_FromInteger(0))
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+    else if (field_C4_velx < FP_FromInteger(0))
+    {
+        const FP newVelX = (field_CC_sprite_scale * velocityX) + field_C4_velx;
+        field_C4_velx = newVelX;
+        if (newVelX > FP_FromInteger(0))
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+
+    if (FP_GetExponent(field_C4_velx))
+    {
+        sub_44E9A0();
+    }
 }
 
 __int16 Abe::RunTryEnterDoor_451220()
