@@ -5073,12 +5073,82 @@ void Abe::State_70_RingRopePull_455AF0()
 
 void Abe::State_71_Knockback_455090()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 12)
+    {
+        sub_44EC10();
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        if (field_100_pCollisionLine)
+        {
+            if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+            {
+                field_C4_velx = FP_FromInteger(0);
+            }
+            
+            MoveWithVelocity_450FA0(FP_FromDouble(0.67));
+
+            if ((gMap_5C3030.sCurrentLevelId_5C3030 == 1 // TODO: Enum
+                || gMap_5C3030.sCurrentLevelId_5C3030 == 8
+                || gMap_5C3030.sCurrentLevelId_5C3030 == 5
+                || gMap_5C3030.sCurrentLevelId_5C3030 == 6
+                || gMap_5C3030.sCurrentLevelId_5C3030 == 9)
+                && field_20_animation.field_92_current_frame == 7)
+            {
+                Abe_SFX_2_457A40(6, 80, -200, this);
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+            }
+        }
+        else
+        {
+            if (field_20_animation.field_92_current_frame >= 6)
+            {
+                field_20_animation.SetFrame_409D50(5);
+            }
+
+            State_3_Fall_459B60();
+
+            if (field_106_current_state == eAbeStates::State_84_FallLandDie_45A420)
+            {
+                field_106_current_state = eAbeStates::State_71_Knockback_455090;
+                SFX_Play_46FA90(0x40u, 85, 0x10000);
+                SND_SEQ_Play_4CAB10(9u, 1, 95, 95);
+            }
+            else if (field_106_current_state == eAbeStates::State_16_LandSoft_45A360)
+            {
+                field_106_current_state = eAbeStates::State_71_Knockback_455090;
+                Abe_SFX_2_457A40(6, 80, -200, this);
+            }
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        if (!(field_114_flags.Get(Flags_114::e114_Bit2)) && (field_100_pCollisionLine || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))))
+        {
+            if (field_10C_health > FP_FromInteger(0) || word_5C1BDA || field_114_flags.Get(Flags_114::e114_Bit7))
+            {
+                field_106_current_state = eAbeStates::State_72_KnockbackGetUp_455340;
+            }
+            else
+            {
+                ToDieFinal_458910();
+            }
+        }
+    }
 }
 
 void Abe::State_72_KnockbackGetUp_455340()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_73_PushWall_4553A0()
@@ -6108,6 +6178,12 @@ __int16 Abe::CanBeDamaged_44BAB0()
     {
         return TRUE;
     }
+}
+
+__int16 Abe::sub_44EC10()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 // TODO: Clean up

@@ -213,6 +213,7 @@ public:
     EXPORT void ToDieFinal_458910();
     EXPORT short DoGameSpeak_45AB70(int input);
     EXPORT __int16 CanBeDamaged_44BAB0();
+    EXPORT __int16 sub_44EC10();
 public:
     __int16 field_116;
     int field_118_prev_held;
