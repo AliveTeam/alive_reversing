@@ -5454,7 +5454,41 @@ void Abe::State_128_TurnWheelEnd_4569A0()
 
 void Abe::State_129_PoisonGasDeath_4565C0()
 {
-    NOT_IMPLEMENTED();
+    // Play various choke/cough/death sounds as the dying animation progresses
+    switch (field_20_animation.field_92_current_frame)
+    {
+    case 0:
+        SFX_Play_46FBA0(81u, 127, 128, 0x10000);
+        break;
+    case 9:
+        SFX_Play_46FBA0(81u, 127, 384, 0x10000);
+        break;
+    case 28:
+        SFX_Play_46FBA0(81u, 127, 640, 0x10000);
+        break;
+    case 32:
+        Abe_SFX_2_457A40(6, 80, 0, this);
+        break;
+    case 50:
+        Abe_SFX_2_457A40(6, 100, -200, this);
+        break;
+    case 53:
+        Abe_SFX_2_457A40(6, 50, -200, this);
+        break;
+    default:
+        break;
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        const int previousValue = field_124_gnFrame;
+        field_124_gnFrame = previousValue - 1;
+        if (previousValue == 0)
+        {
+            ToDieFinal_458910();
+        }
+    }
+
 }
 
 void Abe::ToDie_4588D0()
