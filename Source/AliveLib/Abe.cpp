@@ -2140,20 +2140,20 @@ void Abe::Update_449DC0()
     }
 
     const int totalAliveSavedMuds = sRescuedMudokons_5C1BC2 - sKilledMudokons_5C1BC0;
-    if (totalAliveSavedMuds == 0)
-    {
-        // "Normal" voice
-        field_128.field_12_mood = 5;
-    }
-    else if (totalAliveSavedMuds > 0)
+    if (totalAliveSavedMuds > 0)
     {
         // "Happy" voice
-        field_128.field_12_mood = 0;
+        field_128.field_12_mood = 5;
     }
     else if (totalAliveSavedMuds < 0)
     {
         // "Sad" voice
         field_128.field_12_mood = 3;
+    }
+    else
+    {
+        // "Normal" voice
+        field_128.field_12_mood = 0;
     }
 
     // Handle DDCheat mode
@@ -2231,7 +2231,7 @@ void Abe::Update_449DC0()
         const FP oldYPos = field_BC_ypos;
         (this->*(sAbeStateMachineTable_554910)[state_idx])();
 
-        if (field_114_flags.Get(Flags_114::e114_Bit9) || field_1AC_flags.Get(Flags_1AC::e1AC_Bit6))
+        if (field_114_flags.Get(Flags_114::e114_Bit9) || field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel))
         {
             return;
         }
