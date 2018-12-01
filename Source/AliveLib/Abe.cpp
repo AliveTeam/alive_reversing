@@ -4988,12 +4988,31 @@ void Abe::State_53_RunTurn_ToWalk_451800()
 
 void Abe::State_54_RunJumpLandRun_4538F0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    {
+        ToIdle_44E6B0();
+    }
+    else
+    {
+        sub_44E9A0();
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_state = eAbeStates::State_33_RunLoop_4508E0;
+        }
+    }
 }
 
 void Abe::State_55_RunJumpLandWalk_453970()
 {
-    NOT_IMPLEMENTED();
+    State_54_RunJumpLandRun_4538F0();
+
+    if (field_106_current_state == eAbeStates::State_33_RunLoop_4508E0)
+    {
+        field_106_current_state = eAbeStates::State_1_WalkLoop_44FBA0;
+    }
 }
 
 void Abe::State_56_4591F0()
