@@ -1856,6 +1856,107 @@ class Meat : public BaseThrowable
 public:
 };
 
+class ScreenShake : public BaseGameObject
+{
+public:
+    EXPORT ScreenShake* ctor_4ACF70(__int16 a2, __int16 a3)
+    {
+        BaseGameObject_ctor_4DBFA0(TRUE, 0);
+        field_6_flags.Set(BaseGameObject::eDrawable);
+        
+        SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
+        
+        field_4_typeId = Types::eScreenShake;
+        field_44 = a3;
+        field_40 = 16;
+        field_42 = a2;
+
+        gObjList_drawables_5C1124->Push_Back(this);
+
+        if (!field_42)
+        {
+            return this;
+        }
+
+        if (!field_44)
+        {
+            Event_Broadcast_422BC0(kEventScreenShake, this);
+        }
+
+        return this;
+    }
+
+    EXPORT void dtor_4AD060()
+    {
+        SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
+
+        gObjList_drawables_5C1124->Remove_Item(this);
+        BaseGameObject_dtor_4DBEC0();
+    }
+
+    EXPORT void vUpdate_4AD0E0()
+    {
+        if (field_42)
+        {
+            if (!field_44)
+            {
+                Event_Broadcast_422BC0(kEventScreenShake, this);
+            }
+        }
+
+        if (field_40 > 0)
+        {
+            field_40--;
+        }
+    }
+
+    EXPORT void vdtor_4AD030(signed int flags)
+    {
+        dtor_4AD060();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+    }
+
+    EXPORT void vRender_4AD120(int** /*pOt*/)
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    virtual void VDestructor(signed int flags) override
+    {
+        vdtor_4AD030(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_4AD0E0();
+    }
+
+    virtual void VRender(int** pOt) override
+    {
+        vRender_4AD120(pOt);
+    }
+
+private:
+    int field_20;
+    int field_24;
+    int field_28;
+    int field_2C;
+    int field_30;
+    int field_34;
+    int field_38;
+    int field_3C;
+    __int16 field_40;
+    __int16 field_42;
+    __int16 field_44;
+    __int16 field_46;
+    int field_48;
+};
+ALIVE_ASSERT_SIZEOF(ScreenShake, 0x4C);
+
+
 void Abe::Update_449DC0()
 {
     if (word_5C1BDA) // Some flag to reset HP?
@@ -5078,7 +5179,28 @@ void Abe::State_83_45CF70()
 
 void Abe::State_84_FallLandDie_45A420()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        SFX_Play_46FA90(0x40u, 85, 0x10000);
+        SND_SEQ_Play_4CAB10(9u, 1, 95, 95);
+        auto pShake = alive_new<ScreenShake>();
+        if (pShake)
+        {
+            pShake->ctor_4ACF70(1, 0);
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_124_gnFrame)
+        {
+            ToDieFinal_458910();
+        }
+    }
+
 }
 
 void Abe::jState_85_Fall_455070()
