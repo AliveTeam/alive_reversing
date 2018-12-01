@@ -127,7 +127,7 @@ public:
     };
 
     // Order must match VTable
-    virtual void VDestructor(signed int) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
+    virtual BaseGameObject* VDestructor(signed int) = 0; // Not an actual dtor because the generated compiler code has the param to determine if heap allocated or not
     virtual void VUpdate();
     virtual void VRender(int** pOrderingTable);
     virtual void VScreenChanged();

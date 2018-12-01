@@ -37,15 +37,13 @@ enum Flags_114
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    // gVtbl_BaseAliveGameObject_544000
-
     EXPORT BaseAliveGameObject* ctor_408240(short resourceArraySize);
     EXPORT void dtor_4080B0();
 
-    void dtor_408210(signed int flags);
+    BaseGameObject* vdtor_408210(signed int flags);
 
     virtual void VRender(int** pOrderingTable) override;
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual int Vnull_408F90();
     virtual unsigned __int16 Vnull_408F70(short a1);

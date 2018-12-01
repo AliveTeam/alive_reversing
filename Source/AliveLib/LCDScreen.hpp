@@ -23,16 +23,16 @@ struct Path_LCDScreen
 class LCDScreen : public BaseGameObject
 {
 public:
-    EXPORT LCDScreen * ctor_460680(Path_LCDScreen *params, TlvItemInfoUnion itemInfo);
+    EXPORT LCDScreen* ctor_460680(Path_LCDScreen *params, TlvItemInfoUnion itemInfo);
     EXPORT void Update_460A00();
     EXPORT void Render_460CB0(int **ot);
     EXPORT void vsub_460F10();
     EXPORT void dtor_460920();
-    EXPORT void vdtor_4608F0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4608F0(signed int flags);
 
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
     virtual void vnullsub_4DC0F0() override;
 public:

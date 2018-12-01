@@ -19,14 +19,14 @@ struct Path_StatsSign
 class StatsSign : public BaseGameObject
 {
 public:
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
 
-    EXPORT StatsSign * ctor_47B600(Path_StatsSign *params, TlvItemInfoUnion a3);
+    EXPORT StatsSign* ctor_47B600(Path_StatsSign *params, TlvItemInfoUnion a3);
     EXPORT void dtor_47B7E0();
-    EXPORT void vdtor_47B7B0(signed int flags);
+    EXPORT BaseGameObject* vdtor_47B7B0(signed int flags);
     EXPORT void vUpdate_47B8D0();
     EXPORT void vRender_47B900(int **pOt);
     EXPORT void vScreenChanged_47BC40();

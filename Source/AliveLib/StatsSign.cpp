@@ -29,9 +29,9 @@ ALIVE_VAR(1, 0x5C1BC4, __int16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, char, sStatsSignCurrentArea_5C1A20, 0);
 
 
-void StatsSign::VDestructor(signed int flags)
+BaseGameObject* StatsSign::VDestructor(signed int flags)
 {
-    vdtor_47B7B0(flags);
+    return vdtor_47B7B0(flags);
 }
 
 void StatsSign::VUpdate()
@@ -97,13 +97,14 @@ void StatsSign::dtor_47B7E0()
 }
 
 
-void StatsSign::vdtor_47B7B0(signed int flags)
+BaseGameObject* StatsSign::vdtor_47B7B0(signed int flags)
 {
     dtor_47B7E0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void StatsSign::vUpdate_47B8D0()

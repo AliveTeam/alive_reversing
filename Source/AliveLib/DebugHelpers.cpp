@@ -82,13 +82,14 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
         Destruct();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
     virtual void VUpdate() override
@@ -293,13 +294,14 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
         Destruct();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
     virtual void VUpdate() override
@@ -703,13 +705,14 @@ public:
         gObjList_drawables_5C1124->Remove_Item(this);
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
         Destruct();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
     void ParseCommand(std::string command)
@@ -1569,13 +1572,14 @@ public:
         gObjList_drawables_5C1124->Push_Back(this);
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
         Destruct();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
     virtual void VUpdate() override
@@ -1718,13 +1722,14 @@ public:
 
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
         Destruct();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
     void Destruct()

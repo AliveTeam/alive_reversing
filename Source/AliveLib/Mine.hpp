@@ -31,10 +31,10 @@ class Mine : public BaseAliveGameObject
 public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
 
-    EXPORT Mine * ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
+    EXPORT Mine* ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
     EXPORT void Update_46B5D0();
     EXPORT void Render_46B7A0(int ** pOt);
     EXPORT void ScreenChanged_46BAE0();

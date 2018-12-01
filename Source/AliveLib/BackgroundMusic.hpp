@@ -9,10 +9,10 @@ public:
     EXPORT static void CC Stop_4CB000();
     EXPORT static void CC Play_4CB030();
 
-    EXPORT void ctor_4CB110( __int16 musicId);
+    EXPORT BackgroundMusic* ctor_4CB110( __int16 musicId);
     
-    virtual void VDestructor(signed int flags) override;
-    EXPORT void vdtor_4CB150(signed int flags);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    EXPORT BaseGameObject* vdtor_4CB150(signed int flags);
     EXPORT void dtor_4CB180();
 
     virtual void VUpdate() override;

@@ -74,18 +74,19 @@ EXPORT void BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject
     BaseGameObject_dtor_4DBEC0();
 }
 
-void BaseAnimatedWithPhysicsGameObject::dtor_424A40(signed int flags)
+BaseGameObject* BaseAnimatedWithPhysicsGameObject::vdtor_424A40(signed int flags)
 {
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
-void BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAnimatedWithPhysicsGameObject::VDestructor(signed int flags)
 {
-    dtor_424A40(flags);
+    return vdtor_424A40(flags);
 }
 
 void BaseAnimatedWithPhysicsGameObject::VUpdate()
@@ -476,9 +477,10 @@ namespace Test
     class TestObj : public BaseAnimatedWithPhysicsGameObject
     {
     public:
-        virtual void VDestructor(signed int) override
+        virtual BaseGameObject* VDestructor(signed int) override
         {
             // Stub
+            return this;
         }
     };
 

@@ -12,9 +12,9 @@
 #include <timeapi.h>
 #include "PauseMenu.hpp" // pal_554474
 
-void Text::VDestructor(signed int flags)
+BaseGameObject* Text::VDestructor(signed int flags)
 {
-    vdtor_46AED0(flags);
+    return vdtor_46AED0(flags);
 }
 
 void Text::VUpdate()
@@ -60,13 +60,14 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
     return this;
 }
 
-EXPORT void Text::vdtor_46AED0(signed int flags)
+EXPORT BaseGameObject* Text::vdtor_46AED0(signed int flags)
 {
     dtor_46AF00();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 EXPORT void Text::dtor_46AF00()

@@ -621,7 +621,7 @@ EXPORT void CC Game_Run_466D40()
     gObjList_animations_5C1A24->ctor_40CA60(30);
 
     pResourceManager_5C1BB0 = alive_new<ResourceManager>();
-    pResourceManager_5C1BB0->Ctor_464910();
+    pResourceManager_5C1BB0->ctor_464910();
 
     Init_Sound_DynamicArrays_And_Others_43BDB0();
 

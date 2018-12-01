@@ -58,27 +58,24 @@ CheatEntry sCheatArray_5515F8[4] =
 };
 
 
-void CheatController::ctor_421BD0()
+CheatController* CheatController::ctor_421BD0()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_6_flags.Set(BaseGameObject::eBit08);
     SetVTable(this, 0x544B44);
     field_4_typeId = BaseGameObject::Types::eNone_0;
     field_20 = 0;
+    return this;
 }
 
-CheatController::CheatController()
-{
-    //ctor_421BD0();
-}
-
-void CheatController::dtor_421C10(signed int flags)
+BaseGameObject* CheatController::vdtor_421C10(signed int flags)
 {
     dtor_421C40();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void CheatController::dtor_421C40()
@@ -123,9 +120,9 @@ void CheatController::Update_421C70()
     }
 }
 
-void CheatController::VDestructor(signed int flags)
+BaseGameObject* CheatController::VDestructor(signed int flags)
 {
-    dtor_421C10(flags);
+    return vdtor_421C10(flags);
 }
 
 void CheatController::VUpdate()

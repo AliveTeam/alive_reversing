@@ -86,11 +86,11 @@ class MainMenuTransition;
 class MainMenuController : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT void ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
-    EXPORT void vdtor_4CEF00(signed int flags);
+    EXPORT MainMenuController* ctor_4CE9A0(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
+    EXPORT BaseGameObject* vdtor_4CEF00(signed int flags);
     EXPORT void dtor_4CEF30();
 
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
 

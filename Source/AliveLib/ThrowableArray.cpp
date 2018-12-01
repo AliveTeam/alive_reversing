@@ -37,13 +37,14 @@ void ThrowableArray::dtor_49A6F0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void ThrowableArray::vdtor_49A6C0(signed int flags)
+BaseGameObject* ThrowableArray::vdtor_49A6C0(signed int flags)
 {
     dtor_49A6F0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void ThrowableArray::Remove_49AA00(__int16 count)
@@ -104,9 +105,9 @@ signed int CC ThrowableArray::CreateFromSaveState_49B200(const BYTE* pState)
     return sizeof(ThrowableArray_SaveState);
 }
 
-void ThrowableArray::VDestructor(signed int flags)
+BaseGameObject* ThrowableArray::VDestructor(signed int flags)
 {
-    vdtor_49A6C0(flags);
+    return vdtor_49A6C0(flags);
 }
 
 void ThrowableArray::VUpdate()

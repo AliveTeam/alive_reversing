@@ -270,13 +270,14 @@ void MainMenuTransition::dtor_4642F0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void MainMenuTransition::vdtor_4642C0(signed int flags)
+BaseGameObject* MainMenuTransition::vdtor_4642C0(signed int flags)
 {
     dtor_4642F0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void MainMenuTransition::VRender(int** ot)
@@ -289,7 +290,7 @@ void MainMenuTransition::VUpdate()
     Update_464400();
 }
 
-void MainMenuTransition::VDestructor(signed int flags)
+BaseGameObject* MainMenuTransition::VDestructor(signed int flags)
 {
-    vdtor_4642C0(flags);
+    return vdtor_4642C0(flags);
 }

@@ -28,7 +28,7 @@ public:
 
     EXPORT static signed int CC CreateFromSaveState_44D4F0(const BYTE* a1);
     
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
@@ -39,7 +39,7 @@ public:
     virtual int Vnull_4081F0() override;
 
     // Virtual impls
-    EXPORT void vdtor_44B350(signed int flags);
+    EXPORT BaseGameObject* vdtor_44B350(signed int flags);
     EXPORT void Update_449DC0();
     EXPORT void vRender_44B580(int** pOrderingTable);
     EXPORT void vScreenChanged_44D240();

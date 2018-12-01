@@ -61,13 +61,13 @@ class UXB : public BaseAliveGameObject
 public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
 
     EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
     EXPORT void dtor_4DEF60();
-    EXPORT void dtor_4DEEA0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4DEEA0(signed int flags);
     EXPORT void Update_4DF030();
     EXPORT void Render_4DF3D0(int **pOt);
     EXPORT void ScreenChanged_4DF9C0();

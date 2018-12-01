@@ -18,7 +18,7 @@ public:
 
     EXPORT ThrowableArray* ctor_49A630();
     EXPORT void dtor_49A6F0();
-    EXPORT void vdtor_49A6C0(signed int flags);
+    EXPORT BaseGameObject* vdtor_49A6C0(signed int flags);
     EXPORT void Remove_49AA00(__int16 count);
     EXPORT void vUpdate_49AA50();
     EXPORT signed int vGetSaveState_49B2A0(BYTE* pSaveBuffer);
@@ -26,7 +26,7 @@ public:
     EXPORT void Add_49A7A0(__int16 count);
     EXPORT static signed int CC CreateFromSaveState_49B200(const BYTE* pState);
 
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable);
     virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;

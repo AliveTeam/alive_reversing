@@ -417,12 +417,12 @@ __int16 CC MusicController::sub_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime)
     return -1;
 }
 
-void MusicController::VDestructor(signed int flags)
+BaseGameObject* MusicController::VDestructor(signed int flags)
 {
-    vdtor_47EF20(flags);
+    return vdtor_47EF20(flags);
 }
 
-void MusicController::ctor_47EE80()
+MusicController* MusicController::ctor_47EE80()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5463C0); // vTbl_MusicController_5463C0
@@ -453,15 +453,17 @@ void MusicController::ctor_47EE80()
     field_20_vol = 100;
     field_22_vol = 127;
     field_3C = 1;
+    return this;
 }
 
-void MusicController::vdtor_47EF20(signed int flags)
+BaseGameObject* MusicController::vdtor_47EF20(signed int flags)
 {
     dtor_47EF50();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void MusicController::dtor_47EF50()

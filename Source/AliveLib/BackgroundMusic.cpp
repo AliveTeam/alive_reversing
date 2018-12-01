@@ -23,26 +23,28 @@ void CC BackgroundMusic::Play_4CB030()
     }
 }
 
-void BackgroundMusic::ctor_4CB110(__int16 musicId)
+BackgroundMusic* BackgroundMusic::ctor_4CB110(__int16 musicId)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x54781C); //  vTbl_BackgroundMusic_54781C
     field_20_music_id = musicId;
     sBackgroundMusic_seq_id_560F78 = -1;
+    return this;
 }
 
-void BackgroundMusic::VDestructor(signed int flags)
+BaseGameObject* BackgroundMusic::VDestructor(signed int flags)
 {
-    vdtor_4CB150(flags);
+    return vdtor_4CB150(flags);
 }
 
-void BackgroundMusic::vdtor_4CB150(signed int flags)
+BaseGameObject* BackgroundMusic::vdtor_4CB150(signed int flags)
 {
     dtor_4CB180();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void BackgroundMusic::dtor_4CB180()

@@ -31,7 +31,7 @@ void Mine::VRender(int ** pOrderingTable)
     Render_46B7A0(pOrderingTable);
 }
 
-void Mine::VDestructor(signed int /*flags*/)
+BaseGameObject* Mine::VDestructor(signed int /*flags*/)
 {
     abort();
 }

@@ -67,9 +67,9 @@ void ScreenManager::MoveImage_40EB70()
     PSX_MoveImage_4F5D50(&rect, 0, 0);
 }
 
-void ScreenManager::VDestructor(signed int flags)
+BaseGameObject* ScreenManager::VDestructor(signed int flags)
 {
-    dtor_40E460(flags);
+    return vdtor_40E460(flags);
 }
 
 void ScreenManager::dtor_40E490()
@@ -77,13 +77,14 @@ void ScreenManager::dtor_40E490()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void ScreenManager::dtor_40E460(signed int flags)
+BaseGameObject* ScreenManager::vdtor_40E460(signed int flags)
 {
     dtor_40E490();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx)
@@ -456,7 +457,7 @@ void ScreenManager::DecompressToVRam_40EF60(WORD** ppBits)
     }
 }
 
-void ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
+ScreenManager* ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_20_pCamPos = pCameraOffset;
@@ -467,6 +468,8 @@ void ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset)
     SetVTable(this, 0x5441E4);
 
     Init_40E4B0(ppBits);
+
+    return this;
 }
 
 void ScreenManager::Init_40E4B0(BYTE** ppBits)

@@ -22,15 +22,15 @@ struct Fg1Chunk;
 class FG1 : public BaseGameObject
 {
 public:
-    EXPORT void ctor_499FC0(BYTE** pFg1Res);
+    EXPORT FG1* ctor_499FC0(BYTE** pFg1Res);
 
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
 
     EXPORT void vScreenChanged_49A520();
     EXPORT void vRender_49A3C0(int** pOt);
-    EXPORT void vdtor_49A1E0(signed int flags);
+    EXPORT BaseGameObject* vdtor_49A1E0(signed int flags);
     EXPORT void dtor_49A540();
     EXPORT __int16 Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pBlock);
 

@@ -51,16 +51,16 @@ class PauseMenu : public BaseAnimatedWithPhysicsGameObject
 public:
     struct PauseMenuPage;
 
-    virtual void VDestructor(signed int flags);
+    virtual BaseGameObject* VDestructor(signed int flags);
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
 
     PauseMenu();
 
-    EXPORT PauseMenu * ctor_48FB80();
+    EXPORT PauseMenu* ctor_48FB80();
     EXPORT void dtor_48FCE0();
-    EXPORT void dtor_48FCB0(signed int flags);
+    EXPORT BaseGameObject* vdtor_48FCB0(signed int flags);
 
     EXPORT void Init_491760();
 

@@ -20,15 +20,15 @@ ALIVE_ASSERT_SIZEOF(BackgroundAnimation_TLV, 0x1C);
 class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged();
 
-    EXPORT void ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvItemInfoUnion tlvInfo);
+    EXPORT BackgroundAnimation* ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvItemInfoUnion tlvInfo);
     EXPORT void vUpdate_40D450();
     EXPORT void vScreenChanged_40D550();
     EXPORT void dtor_40D4C0();
-    EXPORT void dtor_40D420(signed int flags);
+    EXPORT BaseGameObject* vdtor_40D420(signed int flags);
 private:
     int field_E4;
     int field_E8;

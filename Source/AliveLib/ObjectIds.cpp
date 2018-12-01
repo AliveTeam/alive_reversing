@@ -148,7 +148,7 @@ namespace Test
     class FakeGameObject : public BaseGameObject
     {
     public:
-        virtual void VDestructor(signed int) override { }
+        virtual BaseGameObject* VDestructor(signed int) override { return this; }
     };
 
     void ObjectIdsTests()

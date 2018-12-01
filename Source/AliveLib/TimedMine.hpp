@@ -31,10 +31,10 @@ class TimedMine : public BaseAliveGameObject
 public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
 
-    EXPORT TimedMine * ctor_410600(Path_TimedMine *pPath, TlvItemInfoUnion tlv);
+    EXPORT TimedMine* ctor_410600(Path_TimedMine *pPath, TlvItemInfoUnion tlv);
     EXPORT void Update_410A80();
     EXPORT void Render_410CD0(int ** pOt);
 

@@ -427,7 +427,7 @@ MainMenuFrameTable sMainMenuFrameTable_561CC8[49] =
     { 889016, 10, 0, 41, 14 }
 };
 
-void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
+MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -550,8 +550,9 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
         sMenuItemCount_561538 = 28;
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
-        return;
+        return this;
     }
+
     if (gMap_5C3030.sCurrentCamId_5C3034 == 30)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
@@ -571,15 +572,17 @@ void MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOff
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
+    return this;
 }
 
-void MainMenuController::vdtor_4CEF00(signed int flags)
+BaseGameObject* MainMenuController::vdtor_4CEF00(signed int flags)
 {
     dtor_4CEF30();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void MainMenuController::dtor_4CEF30()
@@ -600,9 +603,9 @@ void MainMenuController::dtor_4CEF30()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void MainMenuController::VDestructor(signed int flags)
+BaseGameObject* MainMenuController::VDestructor(signed int flags)
 {
-    vdtor_4CEF00(flags);
+    return vdtor_4CEF00(flags);
 }
 
 void MainMenuController::VUpdate()

@@ -9,7 +9,7 @@ void GameSpeak_ForceLink();
 class GameSpeak : public BaseGameObject
 {
 public:
-    virtual void VDestructor(signed int flags);
+    virtual BaseGameObject* VDestructor(signed int flags);
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
@@ -19,7 +19,7 @@ public:
 
     EXPORT GameSpeak* ctor_421820();
     EXPORT void dtor_4218A0();
-    EXPORT void vdtor_421870(signed int flags);
+    EXPORT BaseGameObject* vdtor_421870(signed int flags);
 
 private:
     EXPORT void Update_421920();

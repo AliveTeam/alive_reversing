@@ -71,7 +71,7 @@ EXPORT void CC Game_ShowLoadingIcon_482D80()
     word_5C1BAA = 1;
 }
 
-void ResourceManager::Ctor_464910()
+ResourceManager* ResourceManager::ctor_464910()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -90,15 +90,17 @@ void ResourceManager::Ctor_464910()
     field_3C_pLoadingHeader = nullptr;
     field_42_state = State_Wait_For_Load_Request;
     field_40_seek_attempts = 0;
+    return this;
 }
 
-void ResourceManager::dtor_4649B0(signed int flags)
+BaseGameObject* ResourceManager::vdtor_4649B0(signed int flags)
 {
     dtor_4649E0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void ResourceManager::dtor_4649E0()
@@ -622,9 +624,9 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
     }
 }
 
-void ResourceManager::VDestructor(signed int flags)
+BaseGameObject* ResourceManager::VDestructor(signed int flags)
 {
-    dtor_4649B0(flags);
+    return vdtor_4649B0(flags);
 }
 
 void ResourceManager::VUpdate()

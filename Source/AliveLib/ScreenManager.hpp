@@ -85,7 +85,7 @@ public:
     EXPORT void UnsetDirtyBits_40EDE0(int idx);
     EXPORT void UnsetDirtyBits_FG1_40ED70();
 
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override {}
 
     void process_segment(WORD* aVlcBufferPtr, int xPos);
@@ -95,12 +95,12 @@ public:
 
     EXPORT void DecompressToVRam_40EF60(WORD** ppBits);
 
-    EXPORT void ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset);
+    EXPORT ScreenManager* ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset);
     
     EXPORT void Init_40E4B0(BYTE** ppBits);
    
     EXPORT void dtor_40E490();
-    EXPORT void dtor_40E460(signed int flags);
+    EXPORT BaseGameObject* vdtor_40E460(signed int flags);
     int next_bits();
 
     EXPORT static int CC GetTPage_40F040(char tp, char abr, int* xpos, int* ypos);

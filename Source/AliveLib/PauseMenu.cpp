@@ -386,9 +386,9 @@ EXPORT signed __int16 sub_4A2BC0()
     return 0;
 }
 
-void PauseMenu::VDestructor(signed int flags)
+BaseGameObject* PauseMenu::VDestructor(signed int flags)
 {
-    dtor_48FCB0(flags);
+    return vdtor_48FCB0(flags);
 }
 
 void PauseMenu::VUpdate()
@@ -460,13 +460,14 @@ void PauseMenu::dtor_48FCE0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void PauseMenu::dtor_48FCB0(signed int flags)
+BaseGameObject* PauseMenu::vdtor_48FCB0(signed int flags)
 {
     dtor_48FCE0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void PauseMenu::Init_491760()

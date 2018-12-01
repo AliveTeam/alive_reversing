@@ -12,14 +12,14 @@ public:
     EXPORT CameraSwapper* ctor_4E4CA0(BYTE** ppCamRes, int movieSector, int movieId, char movieFlag, __int16  movieFlags, __int16 movieVol);
     EXPORT CameraSwapper* ctor_4E4DC0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, char movieFlag1, __int16 movieFlags1, __int16 movieVol1, __int16 movieFlag2, __int16 movieFlags2, __int16 movieVol2);
     EXPORT CameraSwapper* ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int movieId1, int moviePos2, int movieId2, int moviePos3, int movieId3, char movieFlag1, __int16  movieFlags1, __int16 movieVol1, __int16 movieFlag2, __int16 movieFlags2, __int16 movieVol2, __int16 moveFlag3, __int16 movieFlags3, __int16 movieVol3);
-    EXPORT void ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos);
+    EXPORT CameraSwapper* ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos);
     EXPORT void dtor_4E5790();
-    EXPORT void vdtor_4E4D90(signed int flags);
+    EXPORT BaseGameObject* vdtor_4E4D90(signed int flags);
     EXPORT void Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect);
     EXPORT void vUpdate_4E5850();
 
     virtual void VUpdate() override;
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
 
 private:

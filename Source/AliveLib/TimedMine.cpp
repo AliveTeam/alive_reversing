@@ -32,7 +32,7 @@ void TimedMine::VRender(int ** pOrderingTable)
     Render_410CD0(pOrderingTable);
 }
 
-void TimedMine::VDestructor(signed int /*flags*/)
+BaseGameObject* TimedMine::VDestructor(signed int /*flags*/)
 {
     abort();
 }

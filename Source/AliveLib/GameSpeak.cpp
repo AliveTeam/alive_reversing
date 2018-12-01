@@ -26,18 +26,19 @@ void GameSpeak::dtor_4218A0()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void GameSpeak::vdtor_421870(signed int flags)
+BaseGameObject* GameSpeak::vdtor_421870(signed int flags)
 {
     dtor_4218A0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
-void GameSpeak::VDestructor(signed int flags)
+BaseGameObject* GameSpeak::VDestructor(signed int flags)
 {
-    vdtor_421870(flags);
+    return vdtor_421870(flags);
 }
 
 void GameSpeak::VUpdate()

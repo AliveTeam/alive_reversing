@@ -102,13 +102,14 @@ EXPORT void BaseAliveGameObject::dtor_4080B0()
 }
 
 
-void BaseAliveGameObject::dtor_408210(signed int flags)
+BaseGameObject* BaseAliveGameObject::vdtor_408210(signed int flags)
 {
     dtor_4080B0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void BaseAliveGameObject::VRender(int** pOrderingTable)
@@ -116,9 +117,9 @@ void BaseAliveGameObject::VRender(int** pOrderingTable)
     Render_424B90(pOrderingTable);
 }
 
-void BaseAliveGameObject::VDestructor(signed int flags)
+BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)
 {
-    dtor_408210(flags);
+    return vdtor_408210(flags);
 }
 
 int BaseAliveGameObject::Vnull_408F90()

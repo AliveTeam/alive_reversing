@@ -121,9 +121,9 @@ void UXB::VRender(int ** pOrderingTable)
     Render_4DF3D0(pOrderingTable);
 }
 
-void UXB::VDestructor(signed int flags)
+BaseGameObject* UXB::VDestructor(signed int flags)
 {
-    dtor_4DEEA0(flags);
+    return vdtor_4DEEA0(flags);
 }
 
 void UXB::VScreenChanged()
@@ -291,13 +291,14 @@ void UXB::dtor_4DEF60()
     dtor_4080B0();
 }
 
-void UXB::dtor_4DEEA0(signed int flags)
+BaseGameObject* UXB::vdtor_4DEEA0(signed int flags)
 {
     dtor_4DEF60();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void UXB::Update_4DF030()

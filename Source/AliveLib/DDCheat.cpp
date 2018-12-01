@@ -184,13 +184,14 @@ void DDCheat::dtor_415530()
 }
 
 
-void DDCheat::dtor_415500(signed int flags)
+BaseGameObject* DDCheat::vdtor_415500(signed int flags)
 {
     dtor_415530();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void DDCheat::AddPropertyEntry_004162C0(const char * text, int unknown, int * valuePtr)
@@ -443,9 +444,9 @@ void DDCheat::Update_415780()
     }
 }
 
-void DDCheat::VDestructor(signed int flags)
+BaseGameObject* DDCheat::VDestructor(signed int flags)
 {
-    dtor_415500(flags);
+    return vdtor_415500(flags);
 }
 
 void DDCheat::VUpdate()

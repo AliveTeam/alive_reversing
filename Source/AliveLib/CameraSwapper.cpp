@@ -40,9 +40,9 @@ public:
         return this;
     }
 
-    virtual void VDestructor(signed int flags)
+    virtual BaseGameObject* VDestructor(signed int flags)
     {
-        vDtor_416E00(flags);
+        return vdtor_416E00(flags);
     }
 
     virtual void VRender(int** ot) override
@@ -80,13 +80,14 @@ public:
         BaseGameObject_dtor_4DBEC0();
     }
 
-    EXPORT void vDtor_416E00(signed int flags)
+    EXPORT BaseGameObject* vdtor_416E00(signed int flags)
     {
         dtor_416E30();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
     EXPORT void Update_Clip_Rect_416EB0(PSX_Point xy, PSX_Point wh)
@@ -182,13 +183,14 @@ CameraSwapper* CameraSwapper::ctor_4E4ED0(BYTE** ppCamRes, int moviePos1, int mo
     return this;
 }
 
-void CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos)
+CameraSwapper* CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects changeEffect, __int16 xpos, __int16 ypos)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
     field_4E_xpos_converted = (40 * xpos) / 23;
     field_50_ypos_converted = ypos;
     Init_4E50C0(ppCamRes, changeEffect);
+    return this;
 }
 
 void CameraSwapper::dtor_4E5790()
@@ -214,13 +216,14 @@ void CameraSwapper::dtor_4E5790()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void CameraSwapper::vdtor_4E4D90(signed int flags)
+BaseGameObject* CameraSwapper::vdtor_4E4D90(signed int flags)
 {
     dtor_4E5790();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 const int kSliceWidth = 8;
@@ -646,9 +649,9 @@ void CameraSwapper::vUpdate_4E5850()
     }
 }
 
-void CameraSwapper::VDestructor(signed int flags)
+BaseGameObject* CameraSwapper::VDestructor(signed int flags)
 {
-    vdtor_4E4D90(flags);
+    return vdtor_4E4D90(flags);
 }
 
 void CameraSwapper::VScreenChanged()

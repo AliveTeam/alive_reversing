@@ -5,9 +5,9 @@
 #include "Events.hpp"
 #include "DDCheat.hpp"
 
-void BackgroundAnimation::VDestructor(signed int flags)
+BaseGameObject* BackgroundAnimation::VDestructor(signed int flags)
 {
-    dtor_40D420(flags);
+    return vdtor_40D420(flags);
 }
 
 void BackgroundAnimation::VUpdate()
@@ -20,7 +20,7 @@ void BackgroundAnimation::VScreenChanged()
     vScreenChanged_40D550();
 }
 
-void BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvItemInfoUnion tlvInfo)
+BackgroundAnimation* BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvItemInfoUnion tlvInfo)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5440F0); // vTbl_BackgroundAnimation_5440F0
@@ -74,6 +74,7 @@ void BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvI
     {
         field_20_animation.field_C_render_layer = 1;
     }
+    return this;
 }
 
 void BackgroundAnimation::vUpdate_40D450()
@@ -101,11 +102,12 @@ void BackgroundAnimation::dtor_40D4C0()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void BackgroundAnimation::dtor_40D420(signed int flags)
+BaseGameObject* BackgroundAnimation::vdtor_40D420(signed int flags)
 {
     dtor_40D4C0();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }

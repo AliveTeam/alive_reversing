@@ -37,7 +37,7 @@ struct FG1ResourceBlockHeader
     Fg1Chunk mChunks;
 };
 
-void FG1::ctor_499FC0(BYTE** pFG1Res)
+FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
 
@@ -111,7 +111,7 @@ void FG1::ctor_499FC0(BYTE** pFG1Res)
 
         case eEndChunk:
         {
-            return;
+            return this;
         }
 
         default:
@@ -120,18 +120,19 @@ void FG1::ctor_499FC0(BYTE** pFG1Res)
     }
 }
 
-void FG1::VDestructor(signed int flags)
+BaseGameObject* FG1::VDestructor(signed int flags)
 {
-    vdtor_49A1E0(flags);
+    return vdtor_49A1E0(flags);
 }
 
-void FG1::vdtor_49A1E0(signed int flags)
+BaseGameObject* FG1::vdtor_49A1E0(signed int flags)
 {
     dtor_49A540();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void FG1::dtor_49A540()

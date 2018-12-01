@@ -17,11 +17,11 @@ public:
     EXPORT void Update_464400();
     EXPORT void Render_464470(int** ot);
     EXPORT void dtor_4642F0();
-    EXPORT void vdtor_4642C0(signed int flags);
+    EXPORT BaseGameObject* vdtor_4642C0(signed int flags);
 
     virtual void VRender(int** ot) override;
     virtual void VUpdate() override;
-    virtual void VDestructor(signed int flags) override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
 private:
     __int16 field_20_current_value;

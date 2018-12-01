@@ -350,13 +350,14 @@ void LCDScreen::dtor_460920()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void LCDScreen::vdtor_4608F0(signed int flags)
+BaseGameObject* LCDScreen::vdtor_4608F0(signed int flags)
 {
     dtor_460920();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void LCDScreen::VUpdate()
@@ -369,9 +370,9 @@ void LCDScreen::VRender(int** pOrderingTable)
     Render_460CB0(pOrderingTable);
 }
 
-void LCDScreen::VDestructor(signed int flags)
+BaseGameObject* LCDScreen::VDestructor(signed int flags)
 {
-    vdtor_4608F0(flags);
+    return vdtor_4608F0(flags);
 }
 
 void LCDScreen::VScreenChanged()

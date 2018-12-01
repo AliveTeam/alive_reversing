@@ -10,9 +10,9 @@ void CreditsController_ForceLink() { }
 ALIVE_VAR(1, 0x5c1b90, __int16, sDoesCreditsControllerExist_5C1B90, false);
 
 
-void CreditsController::VDestructor(signed int flags)
+BaseGameObject* CreditsController::VDestructor(signed int flags)
 {
-    dtor_418A60(flags);
+    return vdtor_418A60(flags);
 }
 
 void CreditsController::VUpdate()
@@ -41,13 +41,14 @@ void CreditsController::dtor_418A90()
     BaseGameObject_dtor_4DBEC0();
 }
 
-void CreditsController::dtor_418A60(signed int flags)
+BaseGameObject* CreditsController::vdtor_418A60(signed int flags)
 {
     dtor_418A90();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 void CreditsController::Update_418AC0()

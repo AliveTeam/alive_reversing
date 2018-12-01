@@ -1196,9 +1196,9 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     return sizeof(Quicksave_Obj_Abe);
 }
 
-void Abe::VDestructor(signed int flags)
+BaseGameObject* Abe::VDestructor(signed int flags)
 {
-    vdtor_44B350(flags);
+    return vdtor_44B350(flags);
 }
 
 void Abe::VUpdate()
@@ -1241,13 +1241,14 @@ int Abe::Vnull_4081F0()
     return reinterpret_cast<int>(vsub_45A570());
 }
 
-void Abe::vdtor_44B350(signed int flags)
+BaseGameObject* Abe::vdtor_44B350(signed int flags)
 {
     dtor_44B380();
     if (flags & 1)
     {
         Mem_Free_495540(this);
     }
+    return this;
 }
 
 const FP sAbe_xVel_table_545770[8] = 
@@ -1402,18 +1403,19 @@ public:
         NOT_IMPLEMENTED();
     }
 
-    EXPORT void vdtor_45F3E0(signed int flags)
+    EXPORT BaseGameObject* vdtor_45F3E0(signed int flags)
     {
         dtor_45F410();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
-        vdtor_45F3E0(flags);
+        return vdtor_45F3E0(flags);
     }
 
     virtual void VUpdate() override
@@ -1445,7 +1447,7 @@ ALIVE_ASSERT_SIZEOF(InvisibleEffect, 0x4C);
 class MusicTrigger : public BaseGameObject
 {
 public:
-    EXPORT void ctor_47FF10(__int16 type, __int16 a3, int /*a4*/, __int16 delay)
+    EXPORT MusicTrigger* ctor_47FF10(__int16 type, __int16 a3, int /*a4*/, __int16 delay)
     {
         BaseGameObject_ctor_4DBFA0(TRUE, 0);
         SetVTable(this, 0x5463DC);
@@ -1455,6 +1457,7 @@ public:
         field_2E = 0;
         field_32 = 0;
         field_20 = -1;
+        return this;
     }
 
     EXPORT void Init_47FFB0(__int16 type, __int16 a3, __int16 delay)
@@ -1510,13 +1513,14 @@ public:
         }
     }
 
-    EXPORT void vdtor_47FEE0(signed int flags)
+    EXPORT BaseGameObject* vdtor_47FEE0(signed int flags)
     {
         dtor_4800C0();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
     EXPORT void dtor_4800C0()
@@ -1580,9 +1584,9 @@ public:
         }
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
-        vdtor_47FEE0(flags);
+        return vdtor_47FEE0(flags);
     }
 
     virtual void VUpdate() override
@@ -1627,9 +1631,9 @@ public:
         return this;
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
-        vdtor_431DE0(flags);
+        return vdtor_431DE0(flags);
     }
 
     EXPORT void dtor_431E10()
@@ -1638,13 +1642,14 @@ public:
         BaseGameObject_dtor_4DBEC0();
     }
 
-    EXPORT void vdtor_431DE0(signed int flags)
+    EXPORT BaseGameObject* vdtor_431DE0(signed int flags)
     {
         dtor_431E10();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
 private:
@@ -1913,13 +1918,14 @@ public:
         }
     }
 
-    EXPORT void vdtor_4AD030(signed int flags)
+    EXPORT BaseGameObject* vdtor_4AD030(signed int flags)
     {
         dtor_4AD060();
         if (flags & 1)
         {
             Mem_Free_495540(this);
         }
+        return this;
     }
 
     EXPORT void vRender_4AD120(int** /*pOt*/)
@@ -1927,9 +1933,9 @@ public:
         NOT_IMPLEMENTED();
     }
 
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
-        vdtor_4AD030(flags);
+        return vdtor_4AD030(flags);
     }
 
     virtual void VUpdate() override
@@ -1962,9 +1968,9 @@ ALIVE_ASSERT_SIZEOF(ScreenShake, 0x4C);
 class TrapDoor : public BaseAliveGameObject
 {
 public:
-    virtual void VDestructor(signed int flags) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
-        vdtor_4DD8A0(flags);
+        return vdtor_4DD8A0(flags);
     }
 
     virtual void VUpdate() override
@@ -1992,9 +1998,10 @@ public:
         return vGetBoundingRect_4DD870(pRect, pointIdx);
     }
 
-    EXPORT void vdtor_4DD8A0(signed int /*flags*/)
+    EXPORT BaseGameObject* vdtor_4DD8A0(signed int /*flags*/)
     {
         NOT_IMPLEMENTED();
+        return this;
     }
 
     EXPORT void vUpdate_4DDA90()
