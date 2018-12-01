@@ -28,7 +28,7 @@ public:
         eType_47 = 47,
         eRockSpawner_48 = 48,
         eFleech_50 = 50,
-        eItemCount_53 = 53,
+        eThrowableTotalIndicator_53 = 53,
         eFlyingSlig_54 = 54,
         eLockedSoul_61 = 61,
         eGreeter_64 = 64,

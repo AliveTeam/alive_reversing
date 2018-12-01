@@ -1622,10 +1622,10 @@ public:
 };
 
 // TODO: Figure out what this is and impl
-class Class_544FE4 : public BaseGameObject
+class ThrowableTotalIndicator : public BaseGameObject
 {
 public:
-    EXPORT Class_544FE4* ctor_431CB0(FP /*xpos*/, FP /*ypos*/, __int16 /*layer*/, FP /*scale*/, __int16 /*count*/, __int16 /*bUnknown*/)
+    EXPORT ThrowableTotalIndicator* ctor_431CB0(FP /*xpos*/, FP /*ypos*/, __int16 /*layer*/, FP /*scale*/, __int16 /*count*/, __int16 /*bUnknown*/)
     {
         NOT_IMPLEMENTED();
         return this;
@@ -1750,7 +1750,7 @@ private:
     __int16 field_18C;
     __int16 field_18E_bUnknown;
 };
-ALIVE_ASSERT_SIZEOF(Class_544FE4, 0x190);
+ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x190);
 
 class Class_5480D4; // TODO
 
@@ -3491,7 +3491,7 @@ void Abe::State_0_Idle_44EEB0()
 
             if (!word_5C112C)
             {
-                Class_544FE4* pThrowable = alive_new<Class_544FE4>();
+                ThrowableTotalIndicator* pThrowable = alive_new<ThrowableTotalIndicator>();
                 if (pThrowable)
                 {
                     const FP xOffSet = (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? FP_FromInteger(-15) : FP_FromInteger(15) * field_CC_sprite_scale;
@@ -4169,7 +4169,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         field_158_throwable_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), FP_FromInteger(0))->field_8_object_id;
         if (!word_5C112C)
         {
-            auto pRockCountGraphic = alive_new<Class_544FE4>();
+            auto pRockCountGraphic = alive_new<ThrowableTotalIndicator>();
             if (pRockCountGraphic)
             {
                 const FP yOff = field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-30));
