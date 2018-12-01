@@ -1303,10 +1303,10 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* /*rect*/, WORD* /*pDa
     return 0;
 }
 
-EXPORT void CC Pal_Copy_483560(const PSX_Point* pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect)
+EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect)
 {
-    rect->x = pPoint->field_0_x;
-    rect->y = pPoint->field_2_y;
+    rect->x = pPoint.field_0_x;
+    rect->y = pPoint.field_2_y;
     rect->w = w;
     rect->h = 1;
     PSX_StoreImage_4F5E90(rect, pPalData);
@@ -1326,14 +1326,14 @@ public:
 
         field_24_pAlloc = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(pAbe->field_20_animation.field_90_pal_depth * sizeof(WORD)));
         Pal_Copy_483560(
-            &pAbe->field_20_animation.field_8C_pal_vram_x,
+            pAbe->field_20_animation.field_8C_pal_vram_x,
             pAbe->field_20_animation.field_90_pal_depth,
             field_24_pAlloc,
             &field_28);
 
         field_30_pPalAlloc = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(pAbe->field_20_animation.field_90_pal_depth * sizeof(WORD)));
         Pal_Copy_483560(
-            &pAbe->field_20_animation.field_8C_pal_vram_x,
+            pAbe->field_20_animation.field_8C_pal_vram_x,
             pAbe->field_20_animation.field_90_pal_depth,
             field_30_pPalAlloc,
             &field_34);

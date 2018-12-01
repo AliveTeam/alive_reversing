@@ -33,7 +33,7 @@ void Mine::VRender(int ** pOrderingTable)
 
 void Mine::VDestructor(signed int /*flags*/)
 {
-
+    abort();
 }
 
 void Mine::VScreenChanged()

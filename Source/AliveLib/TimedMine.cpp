@@ -34,11 +34,12 @@ void TimedMine::VRender(int ** pOrderingTable)
 
 void TimedMine::VDestructor(signed int /*flags*/)
 {
-
+    abort();
 }
 
 void TimedMine::VScreenChanged()
 {
+    abort();
 }
 
 TimedMine * TimedMine::ctor_410600(Path_TimedMine * pPath, TlvItemInfoUnion tlv)
