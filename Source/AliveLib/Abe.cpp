@@ -1841,16 +1841,19 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x12C);
 
+// TODO
 class Grenade : public BaseThrowable
 {
 public:
 };
 
+// TODO
 class Bone : public BaseThrowable
 {
 public:
 };
 
+// TODO
 class Meat : public BaseThrowable
 {
 public:
@@ -1956,6 +1959,118 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ScreenShake, 0x4C);
 
+class TrapDoor : public BaseAliveGameObject
+{
+public:
+    virtual void VDestructor(signed int flags) override
+    {
+        vdtor_4DD8A0(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_4DDA90();
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_4DDDD0(pOrderingTable);
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChanged_4DDE40();
+    }
+
+    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override
+    {
+        return vGetSaveState_4DE050(pSaveBuffer);
+    }
+
+    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override
+    {
+        return vGetBoundingRect_4DD870(pRect, pointIdx);
+    }
+
+    EXPORT void vdtor_4DD8A0(signed int /*flags*/)
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vUpdate_4DDA90()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vRender_4DDDD0(int **ot)
+    {
+        field_B8_xpos += FP_FromInteger(field_13A_xOff);
+        BaseAliveGameObject::VRender(ot);
+        field_B8_xpos -= FP_FromInteger(field_13A_xOff);
+    }
+
+    EXPORT void vScreenChanged_4DDE40()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT int vGetSaveState_4DE050(BYTE*)
+    {
+        NOT_IMPLEMENTED();
+        return 0;
+    }
+
+    EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, int /*not_used*/)
+    {
+        *pRect = field_148_bounding_rect;
+        return pRect;
+    }
+
+    // New virtuals
+    virtual int Vsub_4DDD90(int a1)
+    {
+        return sub_4DDD90(a1);
+    }
+
+    virtual void Vsub_4DDDB0(BaseGameObject* a1)
+    {
+        sub_4DDDB0(a1);
+    }
+
+    EXPORT int sub_4DDD90(int /*a1*/)
+    {
+        NOT_IMPLEMENTED();
+        return 0;
+    }
+
+    EXPORT void sub_4DDDB0(BaseGameObject* /*a1*/)
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    __int16 field_116;
+    __int16 field_118;
+    __int16 field_11A;
+    __int16 field_11C;
+    __int16 field_11E;
+    __int16 field_120;
+    __int16 field_122;
+    PathLine* field_124_pTrapDoorLine;
+    int field_128_pTlv;
+    __int16 field_12C;
+    __int16 field_12E;
+    int field_130;
+    __int16 field_134_switch_idx;
+    __int16 field_136_state;
+    __int16 field_138_switch_state;
+    __int16 field_13A_xOff;
+    __int16 field_13C;
+    __int16 field_13E_set_switch_on_dead;
+    int field_140;
+    int field_144;
+    PSX_RECT field_148_bounding_rect;
+};
+ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);
 
 void Abe::Update_449DC0()
 {
@@ -5338,7 +5453,12 @@ void Abe::State_89_BrewMachineBegin_4584C0()
 
 void Abe::State_90_BrewMachineEnd_4585B0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        field_114_flags.Set(Flags_114::e114_Bit2);
+        field_106_current_state = eAbeStates::State_0_Idle_44EEB0;
+        field_124_gnFrame = 1;
+    }
 }
 
 void Abe::State_91_RingRopePullEnd_4557B0()
@@ -5408,7 +5528,11 @@ void Abe::State_101_KnockForward_455420()
 
 void Abe::State_102_455310()
 {
-    NOT_IMPLEMENTED();
+    State_74_455290();
+    if (field_106_current_state == eAbeStates::State_72_KnockbackGetUp_455340)
+    {
+        field_106_current_state = eAbeStates::jState_103_KnockbackGetUp_455380;
+    }
 }
 
 void Abe::jState_103_KnockbackGetUp_455380()
@@ -5792,7 +5916,7 @@ void Abe::sub_44E9A0()
             field_C4_velx);
     }
 
-    BaseThrowable* pfield_110 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    TrapDoor* pfield_110 = static_cast<TrapDoor*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (field_100_pCollisionLine &&  (field_D6_scale != 0 ? 1 : 16) & (1 << field_100_pCollisionLine->field_8_type))
     {
         // Handle trap door collision
@@ -5800,7 +5924,7 @@ void Abe::sub_44E9A0()
         {
             if (pfield_110)
             {
-                pfield_110->Vsub_49E350();
+                pfield_110->Vsub_4DDDB0(this);
                 field_110_id = -1;
             }
 
@@ -5816,7 +5940,7 @@ void Abe::sub_44E9A0()
         }
         else if (pfield_110)
         {
-            pfield_110->Vsub_49E350();
+            pfield_110->Vsub_4DDDB0(this);
             field_110_id = -1;
         }
     }
@@ -5825,7 +5949,7 @@ void Abe::sub_44E9A0()
         field_100_pCollisionLine = 0;
         if (pfield_110)
         {
-            pfield_110->Vsub_49E350();
+            pfield_110->Vsub_4DDDB0(this);
             field_110_id = -1;
         }
 
