@@ -4287,7 +4287,26 @@ void Abe::State_23_RollLoop_453A90()
 
 void Abe::State_24_453D00()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToKnockback_44E700(1, 1);
+        field_106_current_state = eAbeStates::State_74_455290;
+    }
+    else
+    {
+        sub_44E9A0();
+        if (field_106_current_state == eAbeStates::State_24_453D00)
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                MapFollowMe_408D10(TRUE);
+                field_106_current_state = eAbeStates::State_17_CrouchIdle_456BC0;
+                field_C4_velx = FP_FromInteger(0);
+            }
+        }
+    }
 }
 
 void Abe::State_25_RunSlideStop_451330()
