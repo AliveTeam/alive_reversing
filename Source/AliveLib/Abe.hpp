@@ -230,7 +230,7 @@ public:
     int field_158_throwable_id;
     int field_15C_pull_rope_id;
     int field_160;
-    int field_164;
+    int field_164_wheel_id;
     int field_168;
     __int16 field_16C;
     __int16 field_16E;

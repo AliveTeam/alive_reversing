@@ -594,7 +594,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_14C = -1;
     field_148 = -1;
     field_1A8 = -1;
-    field_164 = -1;
+    field_164_wheel_id = -1;
     field_160 = -1;
     field_15C_pull_rope_id = -1;
     field_1AE &= ~3u;
@@ -706,7 +706,7 @@ void Abe::dtor_44B380()
         field_178_invisible_effect_id = -1;
     }
 
-    field_164 = -1;
+    field_164_wheel_id = -1;
 
     sActiveHero_5C1B68 = spAbe_554D5C;
 
@@ -1045,7 +1045,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_158_throwable_id = pSaveState->dword8C;
     sActiveHero_5C1B68->field_15C_pull_rope_id = pSaveState->dword90;
     sActiveHero_5C1B68->field_160 = pSaveState->dword94;
-    sActiveHero_5C1B68->field_164 = pSaveState->dword98;
+    sActiveHero_5C1B68->field_164_wheel_id = pSaveState->dword98;
     sActiveHero_5C1B68->field_178_invisible_effect_id = -1;
     sActiveHero_5C1B68->field_170 = pSaveState->dword9C;
     sActiveHero_5C1B68->field_174 = pSaveState->wordA0;
@@ -1992,7 +1992,7 @@ void Abe::Update_449DC0()
         field_158_throwable_id = BaseGameObject::Find_Flags_4DC170(field_158_throwable_id);
         field_15C_pull_rope_id = BaseGameObject::Find_Flags_4DC170(field_15C_pull_rope_id);
         field_160 = BaseGameObject::Find_Flags_4DC170(field_160);
-        field_164 = BaseGameObject::Find_Flags_4DC170(field_164);
+        field_164_wheel_id = BaseGameObject::Find_Flags_4DC170(field_164_wheel_id);
 
         if (field_114_flags.Get(Flags_114::e114_Bit8))
         {
@@ -2367,7 +2367,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
-    BaseAliveGameObject* pfield_164 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_164));
+    BaseAliveGameObject* pfield_164 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
     if (sControlledCharacter_5C1B8C == this || field_10C_health <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
@@ -2381,7 +2381,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
         if (pfield_164)
         {
             pfield_164->Vnull_408F70(1);
-            field_164 = -1;
+            field_164_wheel_id = -1;
         }
 
         if (field_C4_velx > FP_FromInteger(0))
@@ -2695,11 +2695,11 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
         }
     }
 
-    pSaveState->dword98 = field_164;
+    pSaveState->dword98 = field_164_wheel_id;
 
-    if (field_164 != -1)
+    if (field_164_wheel_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_164);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id);
         if (pObj)
         {
             pSaveState->dword98 = pObj->field_C_objectId;
@@ -3316,7 +3316,7 @@ void Abe::State_0_Idle_44EEB0()
                     BaseAliveGameObject* pObj_148 = FindObjectOfType_425180(Types::eType_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
                     if (pObj_148)
                     {
-                        field_164 = pObj_148->field_8_object_id;
+                        field_164_wheel_id = pObj_148->field_8_object_id;
                     }
                 }
             }
@@ -5547,7 +5547,16 @@ void Abe::State_125_LiftUseDown_45A7B0()
 
 void Abe::State_126_TurnWheelBegin_456700()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        BaseAliveGameObject* pWheel = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+        if (pWheel)
+        {
+            pWheel->Vnull_408F90();
+        }
+        field_106_current_state = eAbeStates::State_127_TurnWheelLoop_456750;
+        field_120_state = 0;
+    }
 }
 
 void Abe::State_127_TurnWheelLoop_456750()
@@ -5557,7 +5566,10 @@ void Abe::State_127_TurnWheelLoop_456750()
 
 void Abe::State_128_TurnWheelEnd_4569A0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_129_PoisonGasDeath_4565C0()
