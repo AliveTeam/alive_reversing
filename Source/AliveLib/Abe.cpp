@@ -2499,7 +2499,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
             field_164_wheel_id = -1;
         }
 
-        if (field_C4_velx > FP_FromInteger(0))
+        if (field_C4_velx != FP_FromInteger(0))
         {
             field_B8_xpos -= field_C4_velx;
         }
