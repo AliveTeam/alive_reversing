@@ -69,7 +69,7 @@ public:
     EXPORT void State_6_WalkBegin_44FEE0();
     EXPORT void State_7_45B140();
     EXPORT void State_8_45B160();
-    EXPORT void State_9_45B180();
+    EXPORT void State_9_SpeakMovement_45B180();
     EXPORT void State_10_Fart_45B1A0();
     EXPORT void State_11_Speak_45B0A0();
     void State_12_Null_4569C0();
@@ -273,7 +273,7 @@ public:
         e1AC_Bit6 = 0x20,
         e1AC_Bit7 = 0x40,
         e1AC_Bit8 = 0x80,
-        e1AC_Bit9 = 0x100,
+        e1AC_Bit9_bLaughAtChantEnd = 0x100,
         e1AC_Bit10 = 0x200,
         e1AC_Bit11 = 0x400,
         e1AC_Bit12 = 0x800,

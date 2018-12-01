@@ -29,7 +29,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_6_WalkBegin_44FEE0) \
     ENTRY(State_7_45B140) \
     ENTRY(State_8_45B160) \
-    ENTRY(State_9_45B180) \
+    ENTRY(State_9_SpeakMovement_45B180) \
     ENTRY(State_10_Fart_45B1A0) \
     ENTRY(State_11_Speak_45B0A0) \
     ENTRY(State_12_Null_4569C0) \
@@ -174,7 +174,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_6_WalkBegin_44FEE0,
     &Abe::State_7_45B140,
     &Abe::State_8_45B160,
-    &Abe::State_9_45B180,
+    &Abe::State_9_SpeakMovement_45B180,
     &Abe::State_10_Fart_45B1A0,
     &Abe::State_11_Speak_45B0A0,
     &Abe::State_12_Null_4569C0,
@@ -1096,10 +1096,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
         sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
     }
 
-    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit9);
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd);
     if (pSaveState->wordD4 & 0x80)
     {
-        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit9);
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd);
     }
 
     sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_Bit12);
@@ -2069,7 +2069,7 @@ void Abe::Update_449DC0()
                 || (field_106_current_state == eAbeStates::State_112_Chant_45B1C0)
                 || field_106_current_state == eAbeStates::State_7_45B140
                 || field_106_current_state == eAbeStates::State_8_45B160
-                || field_106_current_state == eAbeStates::State_9_45B180
+                || field_106_current_state == eAbeStates::State_9_SpeakMovement_45B180
                 || field_106_current_state == eAbeStates::State_10_Fart_45B1A0)
             {
                 if (field_106_current_state == eAbeStates::State_0_Idle_44EEB0 || field_106_current_state == eAbeStates::State_12_Null_4569C0)
@@ -2087,7 +2087,7 @@ void Abe::Update_449DC0()
                         field_106_current_state = eAbeStates::State_10_Fart_45B1A0;
                         break;
                     default:
-                        field_106_current_state = eAbeStates::State_9_45B180;
+                        field_106_current_state = eAbeStates::State_9_SpeakMovement_45B180;
                         break;
                     }
                 }
@@ -2752,7 +2752,7 @@ EXPORT BOOL Abe::IsStanding_449D30()
         || field_106_current_state == eAbeStates::State_11_Speak_45B0A0
         || field_106_current_state == eAbeStates::State_7_45B140
         || field_106_current_state == eAbeStates::State_8_45B160
-        || field_106_current_state == eAbeStates::State_9_45B180
+        || field_106_current_state == eAbeStates::State_9_SpeakMovement_45B180
         || field_106_current_state == eAbeStates::State_10_Fart_45B1A0
         || field_106_current_state == eAbeStates::State_99_LeverUse_455AC0
         || field_106_current_state == eAbeStates::State_105_RockThrowStandingThrow_456460
@@ -3802,7 +3802,7 @@ void Abe::State_8_45B160()
     State_11_Speak_45B0A0();
 }
 
-void Abe::State_9_45B180()
+void Abe::State_9_SpeakMovement_45B180()
 {
     // TODO: Note jState_11_Speak_40388C omitted
     State_11_Speak_45B0A0();
@@ -5233,7 +5233,21 @@ void Abe::State_112_Chant_45B1C0()
 
 void Abe::State_113_ChantEnd_45BBE0()
 {
-    NOT_IMPLEMENTED();
+    SND_SEQ_Stop_4CAE60(10u);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd))
+        {
+            field_106_current_state = eAbeStates::State_9_SpeakMovement_45B180;
+            Abe_SFX_457EC0(8u, 0, 0, this);
+            field_1AC_flags.Clear(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd);
+        }
+        else
+        {
+            ToIdle_44E6B0();
+        }
+    }
 }
 
 void Abe::State_114_DoorEnter_459470()
@@ -5796,7 +5810,7 @@ short Abe::DoGameSpeak_45AB70(int input)
         if (field_128.field_12_mood == 5 || field_128.field_12_mood == 6)
         {
             Abe_SFX_457EC0(19u, 0, 0, this);
-            nextState = eAbeStates::State_9_45B180;
+            nextState = eAbeStates::State_9_SpeakMovement_45B180;
         }
         else
         {
@@ -5808,7 +5822,7 @@ short Abe::DoGameSpeak_45AB70(int input)
             {
                 Abe_SFX_457EC0(3u, 0, 0, this);
             }
-            nextState = eAbeStates::State_9_45B180;
+            nextState = eAbeStates::State_9_SpeakMovement_45B180;
         }
     }
     else if (input & sInputKey_GameSpeak4_5550FC)
@@ -5821,7 +5835,7 @@ short Abe::DoGameSpeak_45AB70(int input)
     {
         Abe_SFX_457EC0(17u, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(23);
-        nextState = eAbeStates::State_9_45B180;
+        nextState = eAbeStates::State_9_SpeakMovement_45B180;
     }
     else if (input & sInputKey_GameSpeak5_55510C)
     {
