@@ -1814,7 +1814,7 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
     {
         if (isSemiTrans)
         {
-            if (!skipBlackPixels && clut_value == 0)
+            if (skipBlackPixels && clut_value == 0)
             {
                 return false;
             }
@@ -1822,7 +1822,7 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
         }
         else
         {
-            if (!skipBlackPixels && clut_value == 0)
+            if (skipBlackPixels && clut_value == 0)
             {
                 return false;
             }
