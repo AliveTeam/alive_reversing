@@ -2081,6 +2081,42 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);
 
+struct GibPart
+{
+    int field_0;
+    int field_4;
+    int field_8;
+    int field_C;
+    int field_10;
+    int field_14;
+    AnimationEx field_18_anim;
+};
+ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
+
+class Gibs : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT Gibs* ctor_40FB40(int /*a2*/, FP /*xpos*/, FP /*ypos*/, int /*a5*/, int /*a6*/, FP /*scale*/, __int16 /*a8*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    int field_E4;
+    int field_E8;
+    int field_EC;
+    int field_F0;
+    int field_F4;
+    int field_F8;
+    int field_FC;
+    int field_100;
+    GibPart field_104_parts[7];
+    __int16 field_5D4_parts_used_count;
+    __int16 field_5D6_bUnknown;
+};
+ALIVE_ASSERT_SIZEOF(Gibs, 0x5D8);
+
+
 void Abe::Update_449DC0()
 {
     if (word_5C1BDA) // Some flag to reset HP?
@@ -2946,7 +2982,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
     }
 
     field_128.field_4 = sGnFrame_5C1B84 + 180;
-    //bHpAboveZero = field_10C_health > FP_FromInteger(0);
+    __int16 ret = field_10C_health > FP_FromInteger(0);
 
     switch (pFrom->field_4_typeId)
     {
@@ -2978,6 +3014,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
         break;
 
     case Types::eGrinder_30:
+    {
         if (field_10C_health <= FP_FromInteger(0))
         {
             return 0;
@@ -2991,42 +3028,29 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
         field_D2_g = 30;
         field_D0_r = 30;
 
-        /*
-        pGibs = malloc_4954D0(0x5D8u);
+        auto pGibs = alive_new<Gibs>();
+        pGibs->ctor_40FB40(
+            0,
+            field_B8_xpos,
+            field_BC_ypos,
+            0,
+            0,
+            field_CC_sprite_scale,
+            0);
 
-        if (pGibs)
-        {
-            Gibs::ctor_40FB40(
-                pGibs,
-                0,
-                field_B8_xpos,
-                field_BC_ypos,
-                0,
-                0,
-                field_CC_sprite_scale,
-                0);
-        }
-
-        if (word_5CC88C <= 3846)                // unknown vram related?
-        {
-            pGibs2 = malloc_4954D0(0x5D8u);
-            unknown = 6;
-            if (pGibs2)
-            {
-                Gibs::ctor_40FB40(
-                    pGibs2,
-                    0,
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    0,
-                    0,
-                    field_CC_sprite_scale,
-                    0);
-            }
-        }
-        */
+        // Note Check on word_5CC88C <= 3846 appeared always true, removed.
+        auto pMoreGibs = alive_new<Gibs>();
+        pMoreGibs->ctor_40FB40(
+            0,
+            field_B8_xpos,
+            field_BC_ypos,
+            0,
+            0,
+            field_CC_sprite_scale,
+            0);
 
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    }
         break;
 
     case Types::eElectrocute_39:
@@ -3051,22 +3075,15 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
             field_D2_g = 30;
             field_D0_r = 30;
 
-            /*
-            v37 = malloc_4954D0(0x5D8u);
-            unknown = 4;
-            if (v37)
-            {
-                Gibs::ctor_40FB40(
-                    v37,
-                    0,
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    0,
-                    0,
-                    field_CC_sprite_scale,
-                    0);
-            }
-            */
+            auto pGibs = alive_new<Gibs>();
+            pGibs->ctor_40FB40(
+                0,
+                field_B8_xpos,
+                field_BC_ypos,
+                0,
+                0,
+                field_CC_sprite_scale,
+                0);
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_E0_176_ptr->field_14_flags &= ~2u;
@@ -3149,7 +3166,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
             }
 
             /*
-            pbRect = field_0_VTbl->VBaseAliveGameObject.field_1C_vGetBoundingRect_424FD0(
+            pbRect = vGetBoundingRect_424FD0(
                 this,
                 &thisBRect,
                 1);
@@ -3252,14 +3269,14 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
     case Types::eSlog_126:
         if (field_10C_health > FP_FromInteger(0))
         {
-            /*
             field_10C_health = FP_FromInteger(0);
-            PSX_RECT bRect2 = {};
-            vGetBoundingRect_424FD0(&bRect2, 1);
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
 
-            xy2 = { pRect2.x, bRect2.y };
-            wh2 = { pRect2.w, bRect2.h };
+            PSX_Point xy = { bRect.x, bRect.y };
+            PSX_Point wh = { bRect.w, bRect.h };
 
+            /*
             auto blood = alive_new<Blood>();
 
             v31 = Math_FixedPoint_Divide_496B70((SHIWORD(xy2) + SHIWORD(wh2)) << 16, 0x20000);
@@ -3322,42 +3339,40 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
         {
             field_114_flags.Set(Flags_114::e114_Bit2);
             field_10C_health = FP_FromInteger(0);
+
             if (ForceDownIfHoisting_44BA30())
             {
-                // TODO
-                //result = 1;
+                return 1;
+            }
+
+            ToKnockback_44E700(1, 1);
+
+            if (pFrom->field_B8_xpos < field_B8_xpos)
+            {
+                if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+                {
+                    field_106_current_state = eAbeStates::State_101_KnockForward_455420;
+                }
+            }
+
+            if (pFrom->field_B8_xpos > field_B8_xpos)
+            {
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_106_current_state = eAbeStates::State_101_KnockForward_455420;
+                }
+            }
+
+            if (pFrom->field_C4_velx >= FP_FromInteger(0))
+            {
+                field_C4_velx = field_CC_sprite_scale * FP_FromDouble(7.8);
             }
             else
             {
-                ToKnockback_44E700(1, 1);
-
-                if (pFrom->field_B8_xpos < field_B8_xpos)
-                {
-                    if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
-                    {
-                        field_106_current_state = eAbeStates::State_101_KnockForward_455420;
-                    }
-                }
-
-                if (pFrom->field_B8_xpos > field_B8_xpos)
-                {
-                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        field_106_current_state = eAbeStates::State_101_KnockForward_455420;
-                    }
-                }
-
-                if (pFrom->field_C4_velx >= FP_FromInteger(0))
-                {
-                    field_C4_velx = field_CC_sprite_scale * FP_FromDouble(7.8);
-                }
-                else
-                {
-                    field_C4_velx = field_CC_sprite_scale * FP_FromDouble(-7.8);
-                }
-
-                SFX_Play_46FA90(0x40u, 127, 0x10000);
+                field_C4_velx = field_CC_sprite_scale * FP_FromDouble(-7.8);
             }
+
+            SFX_Play_46FA90(0x40u, 127, 0x10000);
         }
         break;
 
@@ -3399,8 +3414,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
         sub_44C980(pFrom);
         if (!(field_114_flags.Get(Flags_114::e114_Bit1)))
         {
-            // TODO
-            //bHpAboveZero = 0;
+            ret = 0;
             field_128.field_18_say = oldSay;
         }
         break;
@@ -3415,10 +3429,8 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
             GiveControlBackToMe_44BA10();
         }
     }
-    // TODO
-    //result = bHpAboveZero;
-    //return result;
-    return 0;
+
+    return ret;
 }
 
 __int16 Abe::vOn_TLV_Collision_44B5D0(Path_TLV* /*a2a*/)
