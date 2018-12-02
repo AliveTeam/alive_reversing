@@ -393,7 +393,7 @@ EXPORT void CC Init_VGA_AndPsxVram_494690()
     rect.top = 0;
     rect.right = 640;
     rect.bottom = 480;
-    BMP_ClearRect_4F1EE0(&sVGA_Bmp1_BD2A20, &rect, 0);
+    BMP_ClearRect_4F1EE0(&sVGA_bmp_primary_BD2A20, &rect, 0);
 
     switch (VGA_GetPixelFormat_4F3EE0())
     {
@@ -516,7 +516,7 @@ EXPORT void CC PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv)
     {
         if (!sPsxDontChangeDispEnv_BD0F21)
         {
-            if (sVGA_Bmp1_BD2A20.field_8_width != 320 || pDispEnv->disp.w != 640)
+            if (sVGA_bmp_primary_BD2A20.field_8_width != 320 || pDispEnv->disp.w != 640)
             {
                 PSX_PutDispEnv_Impl_4F5640(pDispEnv, 1);
             }

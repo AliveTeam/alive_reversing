@@ -2,7 +2,9 @@
 
 bool IsAlive();
 
-#define ALIVE_FATAL(x)  ::MessageBox(NULL, x, "ALIVE Hook fatal error.", MB_ICONERROR | MB_OK); __debugbreak(); abort();
+
+__declspec(noreturn) void ALIVE_FATAL(const char* errMsg);
+
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
 #define EXPORT __declspec(dllexport)
 #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)

@@ -16,7 +16,14 @@ HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle);
 using TWindowHandleType = HWND;
 #endif
 
-void Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title);
+enum class MessageBoxType
+{
+    eStandard,
+    eError,
+};
+
+void Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type = MessageBoxType::eStandard);
+
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char* title);
 POINT Sys_GetScreenMousePos();
 

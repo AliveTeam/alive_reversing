@@ -13,4 +13,4 @@ EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool bFullScreen);
 EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 a4, TSurfaceType** ppSurface);
 EXPORT int VGA_GetPixelFormat_4F3EE0();
 
-ALIVE_VAR_EXTERN(Bitmap, sVGA_Bmp1_BD2A20);
+ALIVE_VAR_EXTERN(Bitmap, sVGA_bmp_primary_BD2A20);

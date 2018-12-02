@@ -99,13 +99,13 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
 
         case eStartCompressedData:
         {
-            ALIVE_FATAL("eStartCompressedData is not in any AE data, impossible!")
+            ALIVE_FATAL("eStartCompressedData is not in any AE data, impossible!");
         }
         break;
 
         case eEndCompressedData:
         {
-            ALIVE_FATAL("eEndCompressedData is not in any AE data, impossible!")
+            ALIVE_FATAL("eEndCompressedData is not in any AE data, impossible!");
         }
         break;
 

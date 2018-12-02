@@ -159,12 +159,44 @@ HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
 }
 #endif
 
-void Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title)
+void Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type)
 {
 #if USE_SDL2
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title, message, windowHandle);
+    const SDL_MessageBoxButtonData buttons[] =
+    {
+        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "OK" },
+    };
+
+    SDL_MessageBoxData data = {};
+    data.title = title;
+    data.message = message;
+    data.numbuttons = 1;
+    data.buttons = buttons;
+    data.window = windowHandle;
+    data.flags = SDL_MESSAGEBOX_ERROR;
+    switch (type)
+    {
+    case MessageBoxType::eStandard:
+        data.flags = SDL_MESSAGEBOX_ERROR;
+        break;
+    case MessageBoxType::eError:
+        data.flags = SDL_MESSAGEBOX_INFORMATION;
+        break;
+    }
+    SDL_ShowMessageBox(&data, nullptr);
+
 #else
-    ::MessageBoxA(windowHandle, message, title, MB_OK);
+    DWORD w32type = MB_OK;
+    switch (type)
+    {
+    case MessageBoxType::eStandard:
+        w32type = MB_OK;
+        break;
+    case MessageBoxType::eError:
+        w32type = MB_OK | MB_ICONERROR;
+        break;
+    }
+    ::MessageBoxA(windowHandle, message, title, w32type);
 #endif
 }
 
@@ -239,8 +271,10 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
 }
 
 #if USE_SDL2
-static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR /*lpWindowName*/, int /*x*/, int /*y*/, int /*nWidth*/, int /*nHeight*/)
+static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
 {
+    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, 0);
+
     return 0;
 }
 #else

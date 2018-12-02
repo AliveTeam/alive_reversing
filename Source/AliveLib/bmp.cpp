@@ -77,7 +77,7 @@ EXPORT HDC CC BMP_Get_DC_4F2150(Bitmap* /*pBmp*/)
 
     return dc;
     */
-    LOG_ERROR("Not implemented");
+    //LOG_ERROR("Not implemented");
     return nullptr;
 }
 
@@ -98,7 +98,7 @@ EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* /*pBmp*/)
 
     return textHeight;
     */
-    LOG_ERROR("Not implemented");
+    //LOG_ERROR("Not implemented");
     return 20;
 }
 
