@@ -145,6 +145,15 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
     return ::DefWindowProcA(hWnd, msg, wParam, lParam);
 }
 
+void SYS_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title)
+{
+#if USE_SDL2
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, message, title, windowHandle);
+#else
+    ::MessageBoxA(windowHandle, message, title, MB_OK);
+#endif
+}
+
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     sInstance_BBB9EC = hInstance;
@@ -174,6 +183,10 @@ EXPORT LPSTR CC Sys_GetCommandLine_4EE176()
 
 EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
 {
+#if USE_SDL2
+    SDL_SetWindowSize(Sys_GetWindowHandle_4EE180(), width, height);
+    SDL_SetWindowPosition(Sys_GetWindowHandle_4EE180(), 0, 0);
+#else
     RECT clientRect = {};
     ::SetWindowPos(Sys_GetWindowHandle_4EE180(), HWND_TOPMOST, 0, 0, width, height, SWP_NOREPOSITION | SWP_NOZORDER);
     ::GetClientRect(Sys_GetWindowHandle_4EE180(), &clientRect);
@@ -181,10 +194,11 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
     {
         ::SetWindowPos(Sys_GetWindowHandle_4EE180(), HWND_TOPMOST, 0, 0, width - clientRect.right + width, height - clientRect.bottom + height, SWP_NOREPOSITION | SWP_NOZORDER);
     }
+#endif
 }
 
 #if USE_SDL2
-static int CC Sys_WindowClass_Register_SDL(LPCSTR lpClassName, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
+static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR /*lpWindowName*/, int /*x*/, int /*y*/, int /*nWidth*/, int /*nHeight*/)
 {
     return 0;
 }

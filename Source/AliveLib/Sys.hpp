@@ -4,11 +4,16 @@
 
 using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
 
+
 #if USE_SDL2
-using TWindowHandleType = void*;
+#include "SDL.h"
+
+using TWindowHandleType = SDL_Window*;
 #else
 using TWindowHandleType = HWND;
 #endif
+
+void SYS_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title);
 
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd);
 EXPORT LPSTR CC Sys_GetCommandLine_4EE176();

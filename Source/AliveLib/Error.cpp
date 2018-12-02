@@ -64,8 +64,10 @@ EXPORT void CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, cons
     {
         sprintf(sErrorTitle_BC03B4, "%s : %ld", msg, lineNum);
     }
-    ::MessageBoxA(Sys_GetHWnd_4F2C70(), sErrorMessage_BBFBA8, sErrorTitle_BC03B4, 0);
+
+    SYS_MessageBox(Sys_GetHWnd_4F2C70(), sErrorMessage_BBFBA8, sErrorTitle_BC03B4);
 }
+
 
 EXPORT void Error_MessageBox_4F2D00(const char* pFileName, int lineNum, const char* formatStr, ...)
 {
@@ -87,7 +89,7 @@ EXPORT void Error_MessageBox_4F2D00(const char* pFileName, int lineNum, const ch
         sprintf(sErrorTitle_BBF6FC, "%s : %ld", pFileName, lineNum);
     }
 
-    ::MessageBoxA(Sys_GetHWnd_4F2C70(), sErrorMsg_BBEEFC, sErrorTitle_BBF6FC, MB_OK);
+    SYS_MessageBox(Sys_GetHWnd_4F2C70(), sErrorMsg_BBEEFC, sErrorTitle_BBF6FC);
 }
 
 EXPORT void Error_WarningMessageBox_4F2D80(const char* pWarningMsg, ...)
@@ -96,7 +98,7 @@ EXPORT void Error_WarningMessageBox_4F2D80(const char* pWarningMsg, ...)
     va_list va;
     va_start(va, pWarningMsg);
     vsprintf(sWarningMsg_BBE6FC, pWarningMsg, va);
-    ::MessageBoxA(Sys_GetHWnd_4F2C70(), sWarningMsg_BBE6FC, "Warning", MB_OK);
+    SYS_MessageBox(Sys_GetHWnd_4F2C70(), sWarningMsg_BBE6FC, "Warning");
 }
 
 EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
