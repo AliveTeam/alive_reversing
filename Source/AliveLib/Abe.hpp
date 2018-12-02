@@ -13,7 +13,7 @@ struct Abe_1BC_20_sub_object
     unsigned __int16 field_10;
     __int16 field_12_mood;
     int field_14;
-    __int16 field_18;
+    __int16 field_18_say;
     __int16 field_1A;
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
@@ -152,7 +152,7 @@ public:
     EXPORT void State_89_BrewMachineBegin_4584C0();
     EXPORT void State_90_BrewMachineEnd_4585B0();
     EXPORT void State_91_RingRopePullEnd_4557B0();
-    EXPORT void State_92_455800();
+    EXPORT void State_92_ForceDown_From_Hoist_455800();
     EXPORT void State_93_FallLedgeBegin_455970();
     EXPORT void jState_94_FallLedgeBegin_4559A0();
     EXPORT void jState_95_FallLedgeBegin_4559C0();
@@ -212,8 +212,10 @@ public:
     EXPORT __int16 RunTryEnterWell_451060();
     EXPORT void ToDieFinal_458910();
     EXPORT short DoGameSpeak_45AB70(int input);
-    EXPORT __int16 CanBeDamaged_44BAB0();
+    EXPORT __int16 CantBeDamaged_44BAB0();
     EXPORT __int16 sub_44EC10();
+    EXPORT __int16 ForceDownIfHoisting_44BA30();
+    EXPORT __int16 sub_44C980(BaseAliveGameObject* pObj);
 public:
     __int16 field_116;
     int field_118_prev_held;

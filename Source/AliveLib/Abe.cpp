@@ -112,7 +112,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_89_BrewMachineBegin_4584C0) \
     ENTRY(State_90_BrewMachineEnd_4585B0) \
     ENTRY(State_91_RingRopePullEnd_4557B0) \
-    ENTRY(State_92_455800) \
+    ENTRY(State_92_ForceDown_From_Hoist_455800) \
     ENTRY(State_93_FallLedgeBegin_455970) \
     ENTRY(jState_94_FallLedgeBegin_4559A0) \
     ENTRY(jState_95_FallLedgeBegin_4559C0) \
@@ -257,7 +257,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_89_BrewMachineBegin_4584C0,
     &Abe::State_90_BrewMachineEnd_4585B0,
     &Abe::State_91_RingRopePullEnd_4557B0,
-    &Abe::State_92_455800,
+    &Abe::State_92_ForceDown_From_Hoist_455800,
     &Abe::State_93_FallLedgeBegin_455970,
     &Abe::jState_94_FallLedgeBegin_4559A0,
     &Abe::jState_95_FallLedgeBegin_4559C0,
@@ -629,7 +629,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_124_gnFrame = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
     field_128.field_12_mood = 0;
-    field_128.field_18 = -1;
+    field_128.field_18_say = -1;
     field_144 = 0;
 
     // Set Abe to be the current player controlled object
@@ -995,7 +995,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_128.field_0_gnFrame = pSaveState->dword58;
     sActiveHero_5C1B68->field_128.field_4 = pSaveState->dword5C;
     sActiveHero_5C1B68->field_128.field_12_mood = pSaveState->word60;
-    sActiveHero_5C1B68->field_128.field_18 = pSaveState->word62;
+    sActiveHero_5C1B68->field_128.field_18_say = pSaveState->word62;
     sActiveHero_5C1B68->field_144 = pSaveState->dword64;
     sActiveHero_5C1B68->field_1A2_rock_or_bone_count = pSaveState->field_6c_rock_bone_count;
     sActiveHero_5C1B68->field_168 = pSaveState->dword68;
@@ -2286,7 +2286,7 @@ void Abe::Update_449DC0()
             }
         }
 
-        if (field_128.field_18 >= 0 && static_cast<int>(sGnFrame_5C1B84) >= field_144)
+        if (field_128.field_18_say >= 0 && static_cast<int>(sGnFrame_5C1B84) >= field_144)
         {
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
                 || (field_106_current_state == eAbeStates::State_112_Chant_45B1C0)
@@ -2298,7 +2298,7 @@ void Abe::Update_449DC0()
                 if (field_106_current_state == eAbeStates::State_0_Idle_44EEB0 || field_106_current_state == eAbeStates::State_12_Null_4569C0)
                 {
                     field_114_flags.Set(Flags_114::e114_Bit2);
-                    switch (field_128.field_18)
+                    switch (field_128.field_18_say)
                     {
                     case 14: // Says "oops"
                         field_106_current_state = eAbeStates::State_34_DunnoBegin_44ECF0;
@@ -2315,24 +2315,24 @@ void Abe::Update_449DC0()
                     }
                 }
 
-                if (field_128.field_18 == 5)
+                if (field_128.field_18_say == 5)
                 {
                     // Other evil muds laugh at the abe grr
                     Event_Broadcast_422BC0(kEventMudokonLaugh, sActiveHero_5C1B68);
                 }
 
-                if (field_128.field_18 == 28)
+                if (field_128.field_18_say == 28)
                 {
                     // This one has another volume for whatever reason
-                    Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 80, 0, this);
+                    Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18_say), 80, 0, this);
                 }
                 else
                 {
-                    Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18), 0, 0, this);
+                    Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18_say), 0, 0, this);
                 }
             }
 
-            field_128.field_18 = -1;
+            field_128.field_18_say = -1;
         }
 
         if (state_idx != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
@@ -2442,7 +2442,7 @@ void Abe::Update_449DC0()
 
         if (Event_Get_422C00(kEventMudokonDied))
         {
-            field_128.field_18 = 14;
+            field_128.field_18_say = 14;
             field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
             // Do the death jingle
@@ -2451,13 +2451,13 @@ void Abe::Update_449DC0()
 
         if (Event_Get_422C00(kEventMudokonComfort))
         {
-            field_128.field_18 = 8;
+            field_128.field_18_say = 8;
             field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
         if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
         {
-            field_128.field_18 = 14;
+            field_128.field_18_say = 14;
             field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
@@ -2530,7 +2530,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (bDelayedAnger)
         {
-            field_128.field_18 = 5; // anger in..
+            field_128.field_18_say = 5; // anger in..
             field_144 = sGnFrame_5C1B84 + 27; // 27 ticks
         }
 
@@ -2573,7 +2573,7 @@ void Abe::vScreenChanged_44D240()
     {
         if (gMap_5C3030.field_A_5C303A_levelId == 1 && !word_5C1BA0)
         {
-            field_128.field_18 = 3;
+            field_128.field_18_say = 3;
             field_144 = sGnFrame_5C1B84 + 35;
         }
 
@@ -2730,7 +2730,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->dword58 = field_128.field_0_gnFrame;
     pSaveState->dword5C = field_128.field_4;
     pSaveState->word60 = field_128.field_12_mood;
-    pSaveState->word62 = field_128.field_18;
+    pSaveState->word62 = field_128.field_18_say;
     pSaveState->dword64 = field_144;
     pSaveState->dword68 = field_168;
     pSaveState->field_6c_rock_bone_count = field_1A2_rock_or_bone_count;
@@ -2911,7 +2911,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     return sizeof(Quicksave_Obj_Abe);
 }
 
-__int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject * /*pFrom*/)
+__int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* /*pFrom*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -5473,7 +5473,7 @@ void Abe::State_91_RingRopePullEnd_4557B0()
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_92_455800()
+void Abe::State_92_ForceDown_From_Hoist_455800()
 {
     NOT_IMPLEMENTED();
 }
@@ -6330,7 +6330,7 @@ short Abe::DoGameSpeak_45AB70(int input)
     return nextState;
 }
 
-__int16 Abe::CanBeDamaged_44BAB0()
+__int16 Abe::CantBeDamaged_44BAB0()
 {
     switch (field_106_current_state)
     {
@@ -6362,6 +6362,33 @@ __int16 Abe::CanBeDamaged_44BAB0()
 }
 
 __int16 Abe::sub_44EC10()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT __int16 Abe::ForceDownIfHoisting_44BA30()
+{
+    if (field_106_current_state != eAbeStates::State_65_LedgeAscend_4548E0 &&
+        field_106_current_state != eAbeStates::State_67_LedgeHang_454E20 &&
+        field_106_current_state != eAbeStates::State_69_LedgeHangWobble_454EF0 &&
+        field_106_current_state != eAbeStates::State_66_LedgeDescend_454970 &&
+        field_106_current_state != eAbeStates::State_68_454B80)
+    {
+        return 0;
+    }
+
+    field_106_current_state = eAbeStates::State_92_ForceDown_From_Hoist_455800;
+
+    field_124_gnFrame = 0;
+
+    field_114_flags.Clear(Flags_114::e114_Bit1);
+    field_114_flags.Set(Flags_114::e114_Bit2);
+
+    return 1;
+}
+
+__int16 Abe::sub_44C980(BaseAliveGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
     return 0;

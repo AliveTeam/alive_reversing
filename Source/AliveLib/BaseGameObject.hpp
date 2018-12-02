@@ -15,7 +15,7 @@ public:
         eTimedMine_10 = 10,
         eBrewMachine_13 = 13,
         eDDCheat_19 = 19,
-        eType_23 = 23,
+        eGasClock_23 = 23,
         eGrinder_30 = 30,
         eLaughingGas_31 = 31,
         eDoor_33 = 33,
