@@ -445,6 +445,8 @@ void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX
         return;
     }
 
+    //LOG_INFO("X " << xy.field_0_x << " Y " << xy.field_2_y << " W " << wh.field_0_x << " H " << wh.field_2_y);
+
     for (int i = 0; i < pObjList->Size(); i++)
     {
         BaseGameObject* pElement = pObjList->ItemAt(i);
