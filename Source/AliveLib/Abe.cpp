@@ -3798,8 +3798,8 @@ void Abe::State_3_Fall_459B60()
 
             field_F4 = 3;
 
-            PSX_Point xy{ FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_B8_xpos + FP_FromInteger(10)) };
-            PSX_Point wh{ FP_GetExponent(field_BC_ypos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10)) };
+            PSX_Point xy{ FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos - FP_FromInteger(10)) };
+            PSX_Point wh{ FP_GetExponent(field_B8_xpos + FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10)) };
             vOnCollisionWith_424EE0(
                 xy,
                 wh,
