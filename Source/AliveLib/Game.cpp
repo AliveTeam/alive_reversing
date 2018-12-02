@@ -116,36 +116,6 @@ EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
     return ::GetDriveTypeA(RootPathName) == DRIVE_CDROM;
 }
 
-EXPORT char CC SYS_PumpMessages_4EE4F4()
-{
-    MSG msg = {};
-    unsigned int paintMessageCount = 0;
-    while (::PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
-    {
-        if (msg.message == WM_QUIT)
-        {
-            return 1;
-        }
-
-        // I guess this stops the game hanging from paint request spam, seems like a hack.
-        if (msg.message == WM_PAINT && ++paintMessageCount >= 10)
-        {
-            break;
-        }
-
-        if (msg.message != WM_SYSKEYDOWN || msg.wParam != 32)
-        {
-            ::TranslateMessage(&msg);
-            ::DispatchMessageA(&msg);
-            if (msg.message == WM_QUIT)
-            {
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
 void DestroyObjects_4A1F20()
 {
     NOT_IMPLEMENTED(); // Todo: double check if this is reversed properly.
@@ -267,7 +237,7 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
     Draw_Debug_Strings_4F2800();
     ++sFrameCount_5CA300;
 
-    if (SYS_PumpMessages_4EE4F4())
+    if (Sys_PumpMessages_4EE4F4())
     {
         byte_BD0F08 = 1;
         exit(0);
@@ -555,7 +525,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
 
 EXPORT void CC SYS_EventsPump_494580()
 {
-    if (SYS_PumpMessages_4EE4F4())
+    if (Sys_PumpMessages_4EE4F4())
     {
         byte_BD0F08 = 1;
         exit(0);

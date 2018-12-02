@@ -36,3 +36,4 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
 EXPORT TWindowHandleType CC Sys_GetWindowHandle_4EE180();
 EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0();
 EXPORT BOOL CC Sys_IsAppActive_4EDF30();
+EXPORT char CC Sys_PumpMessages_4EE4F4();

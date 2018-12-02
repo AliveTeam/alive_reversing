@@ -244,6 +244,48 @@ EXPORT BOOL CC Sys_IsAppActive_4EDF30()
     return sAppIsActivated_BBBA00;
 }
 
+EXPORT char CC Sys_PumpMessages_4EE4F4()
+{
+#if USE_SDL2
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) 
+    {
+        if (event.type == SDL_QUIT)
+        {
+            return 1;
+        }
+    }
+    return 0;
+#else
+    MSG msg = {};
+    unsigned int paintMessageCount = 0;
+    while (::PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
+    {
+        if (msg.message == WM_QUIT)
+        {
+            return 1;
+        }
+
+        // I guess this stops the game hanging from paint request spam, seems like a hack.
+        if (msg.message == WM_PAINT && ++paintMessageCount >= 10)
+        {
+            break;
+        }
+
+        if (msg.message != WM_SYSKEYDOWN || msg.wParam != 32)
+        {
+            ::TranslateMessage(&msg);
+            ::DispatchMessageA(&msg);
+            if (msg.message == WM_QUIT)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+#endif
+}
+
 EXPORT TWindowHandleType CC Sys_GetWindowHandle_4EE180()
 {
     return sHwnd_BBB9F4;
