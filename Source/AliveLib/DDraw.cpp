@@ -260,8 +260,8 @@ EXPORT const char* CC DX_HR_To_String_4F4EC0(HRESULT hr)
 ALIVE_VAR(1, 0xBBC3D4, LPDIRECTDRAW, sDDraw_BBC3D4, nullptr);
 ALIVE_VAR(1, 0xBBC3B0, HWND, sDD_hWnd_BBC3B0, nullptr);
 ALIVE_VAR(1, 0xBBC3DC, LPDIRECTDRAWCLIPPER, sDD_Clipper_BBC3DC, nullptr);
-ALIVE_VAR(1, 0xBBC3C8, LPDIRECTDRAWSURFACE, sDD_Surface1_BBC3C8, nullptr);
-ALIVE_VAR(1, 0xBBC3CC, LPDIRECTDRAWSURFACE, sDD_Surface2_BBC3CC, nullptr);
+ALIVE_VAR(1, 0xBBC3C8, LPDIRECTDRAWSURFACE, sDD_primary_surface_BBC3C8, nullptr);
+ALIVE_VAR(1, 0xBBC3CC, LPDIRECTDRAWSURFACE, sDD_surface_backbuffer_BBC3CC, nullptr);
 ALIVE_VAR(1, 0xBBC3D8, LPDIRECTDRAWPALETTE, sDD_Pal_BBC3D8, nullptr);
 
 ALIVE_VAR(1, 0xBBC3AC, int, sbDD_FlipMode_BBC3AC, 0); // TODO: Make Enum
@@ -278,16 +278,16 @@ EXPORT signed int CC DD_Shutdown_4F0790(int bDestroyDD)
             sDD_Clipper_BBC3DC = nullptr;
         }
 
-        if (sDD_Surface2_BBC3CC)
+        if (sDD_surface_backbuffer_BBC3CC)
         {
-            sDD_Surface2_BBC3CC->Release();
-            sDD_Surface2_BBC3CC = nullptr;
+            sDD_surface_backbuffer_BBC3CC->Release();
+            sDD_surface_backbuffer_BBC3CC = nullptr;
         }
 
-        if (sDD_Surface1_BBC3C8)
+        if (sDD_primary_surface_BBC3C8)
         {
-            sDD_Surface1_BBC3C8->Release();
-            sDD_Surface1_BBC3C8 = nullptr;
+            sDD_primary_surface_BBC3C8->Release();
+            sDD_primary_surface_BBC3C8 = nullptr;
         }
 
         /* Only used in unsupported 8 bpp mode
@@ -447,7 +447,7 @@ EXPORT void CC DD_Blt_4F0170(IDirectDrawSurface* pSourceSurface, LPRECT pSrcRect
 
 EXPORT void CC DD_Flip_4F15D0()
 {
-    if (!sDD_Surface1_BBC3C8 || !sDD_Surface2_BBC3CC)
+    if (!sDD_primary_surface_BBC3C8 || !sDD_surface_backbuffer_BBC3CC)
     {
         return;
     }
@@ -456,7 +456,7 @@ EXPORT void CC DD_Flip_4F15D0()
     if (!sbFullScreen_BBC3BC)
     {
         RECT screenRect = ClientToScreenConvert(sDD_hWnd_BBC3B0);
-        DD_Blt_4F0170(sDD_Surface2_BBC3CC, nullptr, sDD_Surface1_BBC3C8, &screenRect, 0);
+        DD_Blt_4F0170(sDD_surface_backbuffer_BBC3CC, nullptr, sDD_primary_surface_BBC3C8, &screenRect, 0);
         return;
     }
     
@@ -468,7 +468,7 @@ EXPORT void CC DD_Flip_4F15D0()
         {
             for (;;)
             {
-                hr = sDD_Surface1_BBC3C8->Flip(nullptr, 0);
+                hr = sDD_primary_surface_BBC3C8->Flip(nullptr, 0);
                 if (SUCCEEDED(hr))
                 {
                     // TODO / note 0xBBC3C4 appears to be unused
@@ -481,7 +481,7 @@ EXPORT void CC DD_Flip_4F15D0()
                     break;
                 }
 
-                if (DD_RestoreSurfacesIfRequired_4F01D0(DDERR_SURFACELOST, sDD_Surface1_BBC3C8, sDD_Surface2_BBC3CC))
+                if (DD_RestoreSurfacesIfRequired_4F01D0(DDERR_SURFACELOST, sDD_primary_surface_BBC3C8, sDD_surface_backbuffer_BBC3CC))
                 {
                     return;
                 }
@@ -717,7 +717,7 @@ static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
         DDCOLORKEY colourKey = {};
         colourKey.dwColorSpaceLowValue = colourMask;
         colourKey.dwColorSpaceHighValue = colourMask;
-        sDD_Surface2_BBC3CC->SetColorKey(DDCKEY_DESTBLT, &colourKey); // 2
+        sDD_surface_backbuffer_BBC3CC->SetColorKey(DDCKEY_DESTBLT, &colourKey); // 2
     }
 
     if (pixelFormat.dwRGBBitCount != 8)
@@ -730,25 +730,24 @@ static signed int InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
     return 1;
 }
 
-static signed int CreateDDObjects(signed int a1)
+static signed int CreateDDObjects(signed int backBufferCount)
 {
     DDSURFACEDESC surfaceDesc = {};
     surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
-
-    surfaceDesc.dwFlags = 1; // TODO: Set constants
+    surfaceDesc.dwFlags = DDSD_CAPS;
     surfaceDesc.ddsCaps.dwCaps = 512; // TODO: Set constants
 
-    HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_Surface1_BBC3C8, 0);
+    HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_primary_surface_BBC3C8, 0);
     if (FAILED(hr))
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 499, -1, DX_HR_To_String_4F4EC0(hr));
         return 0;
     }
 
-    if (a1 == 2)
+    if (backBufferCount == 2)
     {
-        sDD_Surface2_BBC3CC = DD_Create_Surface_4F0CB0(sDD_Width_BBC3A4, sDD_Height_BBC3A8, 0);
-        if (!sDD_Surface2_BBC3CC)
+        sDD_surface_backbuffer_BBC3CC = DD_Create_Surface_4F0CB0(sDD_Width_BBC3A4, sDD_Height_BBC3A8, 0);
+        if (!sDD_surface_backbuffer_BBC3CC)
         {
             Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 506, -1, DX_HR_To_String_4F4EC0(0));
             return 0;
@@ -769,50 +768,53 @@ static signed int CreateDDObjects(signed int a1)
         return 0;
     }
 
-    hr = sDD_Surface1_BBC3C8->SetClipper(sDD_Clipper_BBC3DC);
+    hr = sDD_primary_surface_BBC3C8->SetClipper(sDD_Clipper_BBC3DC);
     if (FAILED(hr))
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 525, -1, DX_HR_To_String_4F4EC0(hr));
         return 0;
     }
 
-    return InitColourKeyAndPallete(sDD_Surface1_BBC3C8);
+    return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
 }
 
-EXPORT signed int CC DD_Init_4F0840(signed int a1)
+EXPORT signed int CC DD_Init_4F0840(signed int backBufferCount)
 {
     if (!sbFullScreen_BBC3BC)
     {
-        return CreateDDObjects(a1);
+        return CreateDDObjects(backBufferCount);
     }
 
-    if (a1 <= 1)
+    if (backBufferCount <= 1)
     {
-        if (a1 == 1)
+        if (backBufferCount == 1)
         {
             DDSURFACEDESC surfaceDesc = {};
             surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
-            surfaceDesc.dwFlags = 1; // TODO: Set constants
-            surfaceDesc.ddsCaps.dwCaps = 512; // TODO: Set constants
-            const HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_Surface1_BBC3C8, 0);
+            surfaceDesc.dwFlags = DDSD_CAPS;
+            surfaceDesc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
+
+            const HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_primary_surface_BBC3C8, 0);
             if (FAILED(hr))
             {
                 Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 483, -1, DX_HR_To_String_4F4EC0(hr));
                 return 0;
             }
-            sDD_Surface1_BBC3C8->AddRef();
-            sDD_Surface2_BBC3CC = sDD_Surface1_BBC3C8;
-            return InitColourKeyAndPallete(sDD_Surface1_BBC3C8);
+            sDD_primary_surface_BBC3C8->AddRef();
+            sDD_surface_backbuffer_BBC3CC = sDD_primary_surface_BBC3C8;
+            return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
         }
-        return CreateDDObjects(a1);
+        return CreateDDObjects(backBufferCount);
     }
 
     DDSURFACEDESC surfaceDesc = {};
     surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
-    surfaceDesc.dwFlags = 33; // TODO: Set constants
-    surfaceDesc.dwBackBufferCount = a1 - 1;
-    surfaceDesc.ddsCaps.dwCaps = 536; // TODO: Set constants
-    HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_Surface1_BBC3C8, 0);
+    surfaceDesc.dwFlags = DDSD_CAPS | DDSD_BACKBUFFERCOUNT;
+
+    surfaceDesc.dwBackBufferCount = backBufferCount - 1;
+    surfaceDesc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE | DDSCAPS_FLIP | DDSCAPS_COMPLEX;
+    
+    HRESULT hr = sDDraw_BBC3D4->CreateSurface(&surfaceDesc, &sDD_primary_surface_BBC3C8, 0);
     if (FAILED(hr))
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 445, -1, DX_HR_To_String_4F4EC0(hr));
@@ -828,15 +830,15 @@ EXPORT signed int CC DD_Init_4F0840(signed int a1)
         return 0;
     }
 
-    ddCaps.ddsOldCaps.dwCaps = 4;
-    hr = sDD_Surface1_BBC3C8->GetAttachedSurface(&ddCaps.ddsOldCaps, &sDD_Surface2_BBC3CC);
+    ddCaps.ddsOldCaps.dwCaps = DDSCAPS_BACKBUFFER;
+    hr = sDD_primary_surface_BBC3C8->GetAttachedSurface(&ddCaps.ddsOldCaps, &sDD_surface_backbuffer_BBC3CC);
     if (FAILED(hr))
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 470, -1, DX_HR_To_String_4F4EC0(hr));
         return 0;
     }
 
-    return InitColourKeyAndPallete(sDD_Surface1_BBC3C8);
+    return InitColourKeyAndPallete(sDD_primary_surface_BBC3C8);
 }
 
 EXPORT void CC DD_mode_blt1_4F11E0(IDirectDrawSurface* /*pSurface*/, RECT* /*pRect*/, int /*screenMode*/)
@@ -851,7 +853,7 @@ EXPORT void CC DD_mode_blt2_4F0F60(IDirectDrawSurface* /*pSurface*/, RECT* /*pRe
 
 EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, int screenMode)
 {
-    if (sDD_Surface1_BBC3C8 && pSurf)
+    if (sDD_primary_surface_BBC3C8 && pSurf)
     {
         sDD_hWnd_BBC3B0 = Sys_GetHWnd_4F2C70();
 
@@ -859,7 +861,7 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
         {
             DDSURFACEDESC surfaceDesc1 = {};
             surfaceDesc1.dwSize = sizeof(DDSURFACEDESC);
-            HRESULT hr = sDD_Surface1_BBC3C8->GetSurfaceDesc(&surfaceDesc1);
+            HRESULT hr = sDD_primary_surface_BBC3C8->GetSurfaceDesc(&surfaceDesc1);
             if (FAILED(hr))
             {
                 Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\MYDDRAW.C", 1219, -1, DX_HR_To_String_4F4EC0(hr));
@@ -893,7 +895,7 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
             {
                 if (surfaceDesc1.dwWidth != rectW || surfaceDesc1.dwHeight != 2 * rectH)
                 {
-                    DD_Blt_4F0170(pSurf, pRectToUse, sDD_Surface1_BBC3C8, 0, 0);
+                    DD_Blt_4F0170(pSurf, pRectToUse, sDD_primary_surface_BBC3C8, 0, 0);
                 }
                 else
                 {
@@ -908,7 +910,7 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
         else
         {
             RECT screenRect = ClientToScreenConvert(sDD_hWnd_BBC3B0);
-            DD_Blt_4F0170(pSurf, pRect, sDD_Surface1_BBC3C8, &screenRect, 0);
+            DD_Blt_4F0170(pSurf, pRect, sDD_primary_surface_BBC3C8, &screenRect, 0);
         }
     }
 }

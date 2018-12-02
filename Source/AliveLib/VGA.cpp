@@ -33,12 +33,12 @@ ALIVE_VAR(1, 0xBD0BC4, WORD, sVGA_width_BD0BC4, 0);
 
 EXPORT void CC VGA_Shutdown_4F3170()
 {
-    if (sDD_Surface1_BBC3C8)
+    if (sDD_primary_surface_BBC3C8)
     {
         if (!sVGA_own_surfaces_BD0BFA)
         {
-            sDD_Surface1_BBC3C8 = nullptr;
-            sDD_Surface2_BBC3CC = nullptr;
+            sDD_primary_surface_BBC3C8 = nullptr;
+            sDD_surface_backbuffer_BBC3CC = nullptr;
         }
 
         if (sVGA_Bmp0_BD0BD0.field_0_pSurface)
@@ -47,8 +47,8 @@ EXPORT void CC VGA_Shutdown_4F3170()
         }
 
         DD_Shutdown_4F0790(1);
-        sDD_Surface1_BBC3C8 = nullptr;
-        sDD_Surface2_BBC3CC = nullptr;
+        sDD_primary_surface_BBC3C8 = nullptr;
+        sDD_surface_backbuffer_BBC3CC = nullptr;
     }
     
     sVGA_Inited_BC0BB8 = false;
@@ -345,7 +345,7 @@ EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
 }
 
-EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 a4, IDirectDrawSurface** ppSurface)
+EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, IDirectDrawSurface** ppSurface)
 {
     signed int result = 0;
    
@@ -361,23 +361,23 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
         if (ppSurface)
         {
             sVGA_own_surfaces_BD0BFA = false;
-            sDD_Surface1_BBC3C8 = *ppSurface;
-            sDD_Surface2_BBC3CC = *ppSurface;
-            a4 = 1;
+            sDD_primary_surface_BBC3C8 = *ppSurface;
+            sDD_surface_backbuffer_BBC3CC = *ppSurface;
+            backbufferCount = 1;
         }
         else
         {
             sVGA_own_surfaces_BD0BFA = true;
         }
         
-        sVGA_BD0BBC = a4;
+        sVGA_BD0BBC = backbufferCount;
         sVGA_bpp_BD0BF9 = bpp;
         memset(&sVGA_Bmp1_BD2A20, 0, sizeof(sVGA_Bmp1_BD2A20));
         memset(&sVGA_Bmp2_BD2A40, 0, sizeof(sVGA_Bmp2_BD2A40));
         sVGA_height_BD0BEC = height;
         sVGA_width_BD0BC4 = width;
 
-        if (DD_Enable_4F0380(Sys_GetHWnd_4F2C70(), width, height, bpp, a4, 0))
+        if (DD_Enable_4F0380(Sys_GetHWnd_4F2C70(), width, height, bpp, backbufferCount, 0))
         {
             if (!sVGA_IsWindowMode_BD0BF8)
             {
@@ -392,11 +392,11 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
 
             }
 
-            if (!sVGA_own_surfaces_BD0BFA || DD_Init_4F0840(a4))
+            if (!sVGA_own_surfaces_BD0BFA || DD_Init_4F0840(backbufferCount))
             {
                 DDSURFACEDESC surfaceDesc = {};
                 surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
-                if (sDD_Surface1_BBC3C8->GetSurfaceDesc(&surfaceDesc))
+                if (sDD_primary_surface_BBC3C8->GetSurfaceDesc(&surfaceDesc))
                 {
                     Error_PushErrorRecord_4F2920(
                         "C:\\abe2\\code\\POS\\VGA.C",
@@ -406,14 +406,14 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
                 }
                 else
                 {
-                    sVGA_Bmp1_BD2A20.field_0_pSurface = sDD_Surface1_BBC3C8;
+                    sVGA_Bmp1_BD2A20.field_0_pSurface = sDD_primary_surface_BBC3C8;
                     sVGA_Bmp1_BD2A20.field_8_width = surfaceDesc.dwWidth;
                     sVGA_Bmp1_BD2A20.field_10_locked_pitch = surfaceDesc.lPitch;
                     sVGA_Bmp1_BD2A20.field_C_height = surfaceDesc.dwHeight;
                     sVGA_Bmp1_BD2A20.field_14_bpp = static_cast<char>(surfaceDesc.ddpfPixelFormat.dwRGBBitCount);
                     sVGA_Bmp1_BD2A20.field_18_create_flags = 2;
                     memcpy(&sVGA_Bmp2_BD2A40, &sVGA_Bmp1_BD2A20, sizeof(sVGA_Bmp2_BD2A40));
-                    sVGA_Bmp2_BD2A40.field_0_pSurface = sDD_Surface2_BBC3CC;
+                    sVGA_Bmp2_BD2A40.field_0_pSurface = sDD_surface_backbuffer_BBC3CC;
                     sVGA_Inited_BC0BB8 = 1;
 
                     // TODO: Refactor to own function, change if/else chain to early outs
