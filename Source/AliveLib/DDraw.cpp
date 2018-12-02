@@ -494,7 +494,15 @@ EXPORT void CC DD_Flip_4F15D0()
 
 EXPORT int CC DD_SetDisplayMode_4F0730(DWORD width, DWORD height, DWORD bpp)
 {
-    const LONG winStyle = ::GetWindowLongA(Sys_GetHWnd_4F2C70(), GWL_STYLE);
+    // TODO: HACK
+    HWND hwnd;
+#if USE_SDL2
+    hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
+#else
+    hwnd = Sys_GetHWnd_4F2C70();
+#endif
+
+    const LONG winStyle = ::GetWindowLongA(hwnd, GWL_STYLE);
     LONG newWinStyle = 0;
     if (sbFullScreen_BBC3BC)
     {
@@ -855,7 +863,15 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
 {
     if (sDD_primary_surface_BBC3C8 && pSurf)
     {
-        sDD_hWnd_BBC3B0 = Sys_GetHWnd_4F2C70();
+        // TODO: HACK
+        HWND hwnd;
+#if USE_SDL2
+        hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
+#else
+        hwnd = Sys_GetHWnd_4F2C70();
+#endif
+
+        sDD_hWnd_BBC3B0 = hwnd;
 
         if (sbFullScreen_BBC3BC)
         {

@@ -179,6 +179,7 @@ target_link_libraries(AliveLib
     Winmm
     dsound
     xinput
+    ${SDL2_LIBRARIES}
     )
 
 export(TARGETS AliveLib FILE AliveLib.cmake)

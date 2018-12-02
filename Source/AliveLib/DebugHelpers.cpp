@@ -180,15 +180,10 @@ public:
 
     void DrawUI(int** /*pOrderingTable*/)
     {
-        HWND windowHandle = Sys_GetWindowHandle_4EE180();
-        POINT mousePos;
+        POINT mousePos = Sys_GetScreenMousePos();
         bool mouseLeftDown = GetAsyncKeyState(VK_LBUTTON) ? true : false;
-        RECT r;
-        GetClientRect(windowHandle, &r);
-        GetCursorPos(&mousePos);
-        ScreenToClient(windowHandle, &mousePos);
         mousePos.y /= 2;
-        
+
         for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
@@ -769,7 +764,7 @@ public:
             gMap_5C3030.sCurrentPathId_5C3032,
             gMap_5C3030.sCurrentCamId_5C3034);
         sprintf(titleBuffer, "Oddworld Abe's Exoddus DEV MODE - %s", camBuffer);
-        SetWindowText(Sys_GetHWnd_4F2C70(), titleBuffer);
+        Sys_SetWindowText(Sys_GetHWnd_4F2C70(), titleBuffer);
 
         Command_HelperUpdate();
 

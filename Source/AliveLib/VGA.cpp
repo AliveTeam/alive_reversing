@@ -8,14 +8,6 @@
 
 void VGA_ForceLink() {}
 
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
-{
-  //  NOT_IMPLEMENTED();
-    LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
-    return 0;
-}
-#endif
 
 ALIVE_VAR(1, 0xBD0BFA, bool, sVGA_own_surfaces_BD0BFA, false);
 ALIVE_VAR(1, 0xBC0BB8, bool, sVGA_Inited_BC0BB8, false);
@@ -30,6 +22,114 @@ ALIVE_VAR(1, 0xBD0BBC, char, sVGA_BD0BBC, 0);
 ALIVE_VAR(1, 0xBD0BF9, char, sVGA_bpp_BD0BF9, 0);
 ALIVE_VAR(1, 0xBD0BEC, WORD, sVGA_height_BD0BEC, 0);
 ALIVE_VAR(1, 0xBD0BC4, WORD, sVGA_width_BD0BC4, 0);
+
+ALIVE_VAR(1, 0xBD0BF0, int, sbVga_LockedType_BD0BF0, 0); // TODO: Enum
+ALIVE_VAR(1, 0xBD0BC8, HDC, sVga_HDC_BD0BC8, 0);
+ALIVE_VAR(1, 0xBD0BC0, int, sVga_LockPType_BD0BC0, 0);
+ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
+
+#if USE_SDL2
+EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
+{
+    //  NOT_IMPLEMENTED();
+    LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
+    return 0;
+}
+
+EXPORT void CC VGA_Shutdown_4F3170()
+{
+    if (sDD_primary_surface_BBC3C8)
+    {
+        if (!sVGA_own_surfaces_BD0BFA)
+        {
+            sDD_primary_surface_BBC3C8 = nullptr;
+            sDD_surface_backbuffer_BBC3CC = nullptr;
+        }
+
+        if (sVGA_Bmp0_BD0BD0.field_0_pSurface)
+        {
+            Bmp_Free_4F1950(&sVGA_Bmp0_BD0BD0);
+        }
+
+        //DD_Shutdown_4F0790(1);
+        sDD_primary_surface_BBC3C8 = nullptr;
+        sDD_surface_backbuffer_BBC3CC = nullptr;
+    }
+
+    sVGA_Inited_BC0BB8 = false;
+
+    memset(&sVGA_Bmp1_BD2A20, 0, sizeof(sVGA_Bmp1_BD2A20));
+    memset(&sVGA_Bmp2_BD2A40, 0, sizeof(sVGA_Bmp2_BD2A40));
+}
+
+EXPORT bool VGA_IsWindowMode_4F31E0()
+{
+    return sVGA_IsWindowMode_BD0BF8;
+}
+
+EXPORT Bitmap* VGA_GetBitmap_4F3F00()
+{
+    return &sVGA_Bmp1_BD2A20;
+}
+
+EXPORT int VGA_GetPixelFormat_4F3EE0()
+{
+    return sVGA_Bmp1_BD2A20.field_15_pixel_format;
+}
+
+EXPORT int CC VGA_Convert_Colour_4F4DB0(int r, int g, int b)
+{
+    return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
+}
+
+EXPORT signed int CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
+{
+    return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
+}
+
+EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* /*pBmp*/, RECT* /*pRect*/, int /*screenMode*/)
+{
+    // TODO
+}
+
+EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, unsigned __int8 screenMode)
+{
+    VGA_CopyToFront_4F3730(pBmp, pRect, screenMode);
+}
+
+EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
+{
+    VGA_CopyToFront_4F3730(pBmp, pRect, 0);
+}
+
+EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 /*width*/, unsigned __int16 /*height*/, unsigned __int8 /*bpp*/, unsigned __int8 /*backbufferCount*/, TSurfaceType** /*ppSurface*/)
+{
+    // TODO
+    return 0;
+}
+
+EXPORT void VGA_BuffUnlockPtr_4F2FB0()
+{
+    // TODO
+}
+
+EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(int /*always3*/)
+{
+    // TODO
+    return nullptr;
+}
+
+#else
+
+#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
+{
+  //  NOT_IMPLEMENTED();
+    LOG_INFO("Stub"); // Can't be empty func otherwise NOT_IMPLEMENT'ed searcher will look into the next function
+    return 0;
+}
+#endif
+
 
 EXPORT void CC VGA_Shutdown_4F3170()
 {
@@ -345,7 +445,7 @@ EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
 }
 
-EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, IDirectDrawSurface** ppSurface)
+EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
 {
     signed int result = 0;
    
@@ -501,12 +601,6 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
     return result;
 }
 
-ALIVE_VAR(1, 0xBD0BF0, int, sbVga_LockedType_BD0BF0, 0); // TODO: Enum
-ALIVE_VAR(1, 0xBD0BC8, HDC, sVga_HDC_BD0BC8, 0);
-ALIVE_VAR(1, 0xBD0BC0, int, sVga_LockPType_BD0BC0, 0);
-ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
-
-
 EXPORT void VGA_BuffUnlockPtr_4F2FB0()
 {
     if (sbVga_LockedType_BD0BF0)
@@ -574,3 +668,5 @@ EXPORT LPVOID CC VGA_BuffLockPtr_4F30A0(int always3)
     }
     return pLockedBuffer;
 }
+
+#endif

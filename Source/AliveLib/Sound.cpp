@@ -351,7 +351,14 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSam
     }
     else
     {
-        HWND hwnd = Sys_GetHWnd_4F2C70();
+        // TODO: HACK
+        HWND hwnd;
+#if USE_SDL2
+        hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
+#else
+        hwnd = Sys_GetHWnd_4F2C70();
+#endif
+
         if (hwnd)
         {
             if (sDSound_BBC344->SetCooperativeLevel(hwnd, DSSCL_EXCLUSIVE))

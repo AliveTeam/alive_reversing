@@ -4,7 +4,282 @@
 #include "DDraw.hpp"
 #include "Error.hpp"
 
+ALIVE_VAR(1, 0xBC0BB4, unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
+#if USE_SDL2
+
+EXPORT signed int CC BMP_Blt_4F1E50(Bitmap* pDstBmp, int xPos, int yPos, Bitmap* pSrcBmp, LPRECT pRect, int flags)
+{
+    if (flags != 0)
+    {
+        ALIVE_FATAL("Flags not supported");
+    }
+
+    SDL_Rect destRect = { xPos, yPos, 0, 0 };
+    const SDL_Rect srcRect = { pRect->left, pRect->right, pRect->top, pRect->bottom };
+    if (SDL_BlitSurface(pSrcBmp->field_0_pSurface, &srcRect, pDstBmp->field_0_pSurface, &destRect) != 0)
+    {
+        return 0;
+    }
+    return -1;
+}
+
+EXPORT signed int CC BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, DWORD fillColour)
+{
+    const SDL_Rect clearRect = { pRect->left, pRect->right, pRect->top, pRect->bottom };
+    if (SDL_FillRect(pBmp->field_0_pSurface, &clearRect, fillColour /*SDL_MapRGB(pBmp->field_0_pSurface->format, 255, 0, 0)*/) != 0)
+    {
+        return -1;
+    }
+    return 0;
+}
+
+EXPORT void CC BMP_unlock_4F2100(Bitmap* pBmp)
+{
+    if (pBmp->field_4_pLockedPixels && pBmp->field_0_pSurface)
+    {
+        SDL_UnlockSurface(pBmp->field_0_pSurface);
+        pBmp->field_4_pLockedPixels = nullptr;
+    }
+}
+
+
+EXPORT void CC BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc)
+{
+    if (pBmp && hdc)
+    {
+        /*
+        const HRESULT hr = pBmp->field_0_pSurface->ReleaseDC(hdc);
+        if (FAILED(hr))
+        {
+            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 431, -1, DX_HR_To_String_4F4EC0(hr));
+        }
+        */
+        LOG_ERROR("Not implemented");
+    }
+}
+
+EXPORT HDC CC BMP_Get_DC_4F2150(Bitmap* /*pBmp*/)
+{
+    /*
+    if (!pBmp || pBmp->field_4_pLockedPixels || !pBmp->field_0_pSurface)
+    {
+        return nullptr;
+    }
+
+    HDC dc = nullptr;
+    const HRESULT hr = pBmp->field_0_pSurface->GetDC(&dc);
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 412, -1, DX_HR_To_String_4F4EC0(hr));
+        return nullptr;
+    }
+
+    return dc;
+    */
+    LOG_ERROR("Not implemented");
+    return nullptr;
+}
+
+EXPORT LONG CC BMP_Get_Font_Height_4F21F0(Bitmap* /*pBmp*/)
+{
+    /*
+    HDC dc = BMP_Get_DC_4F2150(pBmp);
+    TEXTMETRICA tm = {};
+    GetTextMetricsA(dc, &tm);
+    BMP_Release_DC_4F21A0(pBmp, dc);
+
+    // Invert if negative
+    LONG textHeight = tm.tmHeight;
+    if (tm.tmHeight < 0)
+    {
+        textHeight = -tm.tmHeight;
+    }
+
+    return textHeight;
+    */
+    LOG_ERROR("Not implemented");
+    return 20;
+}
+
+EXPORT signed int CC BMP_New_convert_BPP_4F1CC0(int bpp)
+{
+    signed int converted = 0;
+    switch (bpp)
+    {
+    case 1:
+        converted = 1;
+        break;
+    case 2:
+        converted = 2;
+        break;
+    case 4:
+        converted = 4;
+        break;
+    case 8:
+        converted = 8;
+        break;
+    case 15:
+    case 16:
+    case 115:
+    case 116:
+        converted = 16;
+        break;
+    case 24:
+        converted = 24;
+        break;
+    case 32:
+        converted = 32;
+        break;
+    default:
+        converted = -1;
+        break;
+    }
+    return converted;
+}
+
+EXPORT int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
+{
+    int converted = 0;
+    switch (pBmp->field_15_pixel_format)
+    {
+    case 0xF:
+        converted = (b >> 3) | 4 * (g & 0xF8 | 32 * (r & 0xF8));
+        break;
+    case 0x10:
+        converted = (b >> 3) | 8 * (g & 0xFC | 32 * (r & 0xF8));
+        break;
+    case 0x18:
+    case 0x20:
+        converted = b | ((g | (r << 8)) << 8);
+        break;
+    case 0x73:
+        converted = (r >> 3) | 4 * (g & 0xF8 | 32 * (b & 0xF8));
+        break;
+    case 0x74:
+        converted = (r >> 3) | 8 * (g & 0xFC | 32 * (b & 0xF8));
+        break;
+    case 0x7C:
+    case 0x84:
+        converted = r | ((g | (b << 8)) << 8);
+        break;
+    default:
+        converted = 0;
+        break;
+    }
+    return converted;
+}
+
+EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
+{
+    if (pBmp && pBmp->field_0_pSurface)
+    {
+        if (pBmp->field_4_pLockedPixels)
+        {
+            BMP_unlock_4F2100(pBmp);
+        }
+        SDL_FreeSurface(pBmp->field_0_pSurface);
+        memset(pBmp, 0, sizeof(Bitmap));
+    }
+}
+
+EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
+{
+    if (!pBitmap || !width || !height)
+    {
+        return -1;
+    }
+
+    memset(pBitmap, 0, sizeof(Bitmap));
+
+    const int bpp = BMP_New_convert_BPP_4F1CC0(pixelFormat);
+    if (bpp < 0)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\BMP.C", 170, -1, "BMP_New: bits per pixel not supported");
+        return -1;
+    }
+
+    DWORD bMask = 0;
+    DWORD rMask = 0;
+    DWORD gMask = 0;
+
+    switch (bpp)
+    {
+    case 15:
+        rMask = 0x7C00;
+        gMask = 0x3E0;
+        bMask = 0x1F;
+        break;
+    case 16:
+        rMask = 0xF800;
+        gMask = 0x7E0;
+        bMask = 0x1F;
+        break;
+    case 24:
+    case 32:
+        rMask = 0xFF0000;
+        gMask = 0xFF00;
+        bMask = 0xFF;
+        break;
+    case 115:
+        rMask = 0x1F;
+        gMask = 0x3E0;
+        bMask = 0x7C00;
+        break;
+    case 116:
+        rMask = 0x1F;
+        gMask = 0x7E0;
+        bMask = 0xF800;
+        break;
+    default:
+        ALIVE_FATAL("bbp not supported");
+    }
+
+    pBitmap->field_0_pSurface = SDL_CreateRGBSurface(0, width, height, bpp, rMask, gMask, bMask, 0x0);
+    pBitmap->field_C_height = height;
+    pBitmap->field_8_width = width;
+    pBitmap->field_14_bpp = static_cast<char>(bpp);
+    SDL_LockSurface(pBitmap->field_0_pSurface);
+    pBitmap->field_10_locked_pitch = pBitmap->field_0_pSurface->pitch;
+    SDL_UnlockSurface(pBitmap->field_0_pSurface);
+    pBitmap->field_15_pixel_format = static_cast<char>(pixelFormat);
+    pBitmap->field_18_create_flags = createFlags;
+
+    return 0;
+}
+
+ALIVE_VAR(1, 0xBBC3E8, DDSURFACEDESC, sBmpSurfaceDesc_BBC3E8, {});
+
+EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
+{
+    // Already locked or we don't have a surface
+    if (pBitmap->field_4_pLockedPixels || !pBitmap->field_0_pSurface)
+    {
+        return pBitmap->field_4_pLockedPixels;
+    }
+
+    SDL_LockSurface(pBitmap->field_0_pSurface);
+    pBitmap->field_10_locked_pitch = pBitmap->field_0_pSurface->pitch;
+    pBitmap->field_4_pLockedPixels = pBitmap->field_0_pSurface->pixels;
+    return pBitmap->field_4_pLockedPixels;
+}
+
+EXPORT void CC BMP_Draw_String_4F2230(Bitmap* /*pBmp*/, int /*x*/, int /*y*/, unsigned int /*fgColour*/, int /*bgColour*/, LPCSTR /*lpString*/)
+{
+    // TODO:
+    LOG_ERROR("Not implemented");
+}
+
+
+namespace Test
+{
+    void BmpTests()
+    {
+
+    }
+}
+
+#else
 EXPORT HRESULT CC BMP_New_create_surface_4F1C60(DDSURFACEDESC* pSurfaceDesc, LPDIRECTDRAWSURFACE* ppSurface)
 {
     *ppSurface = nullptr;
@@ -284,8 +559,6 @@ EXPORT void CC Bmp_Free_4F1950(Bitmap* pBmp)
         memset(pBmp, 0, sizeof(Bitmap));
     }
 }
-
-ALIVE_VAR(1, 0xBC0BB4, unsigned __int8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
 EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int pixelFormat, int createFlags)
 {
@@ -708,3 +981,4 @@ namespace Test
         Test_BMP_New_create_surface_4F1C60();
     }
 }
+#endif

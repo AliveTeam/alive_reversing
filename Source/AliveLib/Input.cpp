@@ -404,7 +404,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
         dword_5C98DC = timeStamp - 55;
     }
 
-    if (SYS_IsAppActive_4EDF30())
+    if (Sys_IsAppActive_4EDF30())
     {
         for (int i = 0; i < 256; i++)
         {

@@ -14,9 +14,16 @@ namespace Test
     void BmpTests();
 }
 
+#if USE_SDL2
+#include "SDL.h"
+using TSurfaceType = SDL_Surface;
+#else
+using TSurfaceType = IDirectDrawSurface;
+#endif
+
 struct Bitmap
 {
-    IDirectDrawSurface* field_0_pSurface;
+    TSurfaceType* field_0_pSurface;
     void* field_4_pLockedPixels;
     int field_8_width;
     int field_C_height;

@@ -5,6 +5,10 @@
 #include <assert.h>
 #include "../AliveExe/resource.h"
 
+#if USE_SDL2
+#include "SDL_syswm.h"
+#endif
+
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, TWindowHandleType, sHwnd_BBB9F4, nullptr);
 ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);
@@ -145,12 +149,49 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
     return ::DefWindowProcA(hWnd, msg, wParam, lParam);
 }
 
-void SYS_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title)
+#if USE_SDL2
+HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
+{
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(windowHandle, &wmInfo);
+    return wmInfo.info.win.window;
+}
+#endif
+
+void Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title)
 {
 #if USE_SDL2
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, message, title, windowHandle);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title, message, windowHandle);
 #else
     ::MessageBoxA(windowHandle, message, title, MB_OK);
+#endif
+}
+
+void Sys_SetWindowText(TWindowHandleType windowHandle, const char* title)
+{
+#if USE_SDL2
+    SDL_SetWindowTitle(windowHandle, title);
+#else
+    ::SetWindowText(windowHandle, title);
+#endif
+}
+
+POINT Sys_GetScreenMousePos()
+{
+#if USE_SDL2
+    int x = 0;
+    int y = 0;
+    SDL_GetMouseState(&x, &y);
+    return {x ,y};
+#else
+    HWND windowHandle = Sys_GetWindowHandle_4EE180();
+    POINT mousePos;
+    RECT r;
+    GetClientRect(windowHandle, &r);
+    GetCursorPos(&mousePos);
+    ScreenToClient(windowHandle, &mousePos);
+    return mousePos;
 #endif
 }
 
@@ -166,7 +207,7 @@ EXPORT void CC Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
     sWindowProcFilter_BBB9F8 = pFilter;
 }
 
-EXPORT BOOL CC SYS_IsAppActive_4EDF30()
+EXPORT BOOL CC Sys_IsAppActive_4EDF30()
 {
     return sAppIsActivated_BBBA00;
 }
