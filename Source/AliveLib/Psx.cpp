@@ -403,6 +403,7 @@ EXPORT void CC Init_VGA_AndPsxVram_494690()
     case 15:
         PSX_EMU_SetDispType_4F9960(4);
         break;
+    case 32: // Allow 32bit colour
     case 16:
         PSX_EMU_SetDispType_4F9960(2);
         break;
