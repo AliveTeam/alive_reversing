@@ -22,7 +22,7 @@ enum Flags_114
     e114_Bit1 = 0x1,
     e114_Bit2 = 0x2,
     e114_Bit3 = 0x4,
-    e114_Bit4 = 0x8,
+    e114_Bit4_bPossesed = 0x8,
     e114_Bit5 = 0x10,
     e114_Bit6_SetOffExplosives = 0x20,
     e114_Bit7 = 0x40,
@@ -45,7 +45,7 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual int Vnull_408F90();
+    virtual int VUnPosses_408F90();
     virtual unsigned __int16 Vnull_408F70(short a1);
     virtual void VUpdateState_4081C0(__int16 state);
     virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);

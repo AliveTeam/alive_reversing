@@ -216,6 +216,7 @@ public:
     EXPORT __int16 sub_44EC10();
     EXPORT __int16 ForceDownIfHoisting_44BA30();
     EXPORT __int16 sub_44C980(BaseAliveGameObject* pObj);
+    EXPORT void GiveControlBackToMe_44BA10();
 public:
     __int16 field_116;
     int field_118_prev_held;
