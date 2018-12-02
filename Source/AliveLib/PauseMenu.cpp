@@ -686,7 +686,7 @@ void DestroyAliveObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != BaseGameObject::eType_Abe_69)
+        if (pObj->field_4_typeId != BaseGameObject::Types::eType_Abe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead);
         }
@@ -1120,7 +1120,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != 81
                 && heroState != 82
                 && heroState != 83
-                && (pControlledChar->field_4_typeId != BaseGameObject::eType_45 || LOWORD(pControlledChar->field_124_gnFrame) != 2) // TODO: Why LOWORD only ??
+                && (pControlledChar->field_4_typeId != Types::eType_45 || LOWORD(pControlledChar->field_124_gnFrame) != 2) // TODO: Why LOWORD only ??
                 && pHero->field_1A8 == -1)
             {
                 SND_StopAll_4CB060();

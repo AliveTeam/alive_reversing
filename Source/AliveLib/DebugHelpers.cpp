@@ -161,7 +161,7 @@ public:
                     }
                 }
 
-                std::string text = std::to_string(pBaseGameObject->field_4_typeId);
+                std::string text = std::to_string(static_cast<int>(pBaseGameObject->field_4_typeId));
 
                 mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2) + 1, y + 1, 0, 0, 0, 39, 0, 0, 0, mFontPIndex, FP_FromDouble(1.0), 640, 0);
                 mFontPIndex = mFont.DrawString_4337D0(pOrderingTable, text.c_str(), x - (mFont.MeasureWidth_433700(text.c_str()) / 2), y, 0, 1, 0, 40, 255, 255, 255, mFontPIndex, FP_FromDouble(1.0), 640, 0);
@@ -629,7 +629,7 @@ void Command_Midi1(const std::vector<std::string>& args)
 
 void Command_SetState(const std::vector<std::string>& args)
 {
-    if (sControlledCharacter_5C1B8C->field_4_typeId != BaseGameObject::eType_Abe_69)
+    if (sControlledCharacter_5C1B8C->field_4_typeId != BaseGameObject::Types::eType_Abe_69)
     {
         DEV_CONSOLE_MESSAGE_C("Setting state not supported on this object!", 6, 255, 0, 0);
         return;
@@ -1939,7 +1939,7 @@ std::string EscapeUnknownCharacters(std::string text)
     return output.str();
 }
 
-BaseGameObject * FindObjectOfType(int id)
+BaseGameObject* FindObjectOfType(BaseGameObject::Types id)
 {
     for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
     {

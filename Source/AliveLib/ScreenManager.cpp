@@ -476,7 +476,7 @@ void ScreenManager::Init_40E4B0(BYTE** ppBits)
 {
     field_40_flags |= 0x10000;
 
-    field_4_typeId = BaseGameObject::eScreenManager_6;
+    field_4_typeId = Types::eScreenManager_6;
 
     field_2C_upos = 0;
     field_2E_vpos = 272;

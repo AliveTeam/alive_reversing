@@ -49,7 +49,7 @@ TimedMine * TimedMine::ctor_410600(Path_TimedMine * pPath, TlvItemInfoUnion tlv)
     SetVTable(this, 0x5442A8);
     SetVTable(&field_124_animation, 0x544290);
 
-    field_4_typeId = eTimedMine_10;
+    field_4_typeId = Types::eTimedMine_10;
 
     Animation_Init_424E10(836, 35, 0x11u, BaseGameObject::Add_Resource_4DC130(
         ResourceManager::Resource_Animation,

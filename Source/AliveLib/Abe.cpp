@@ -717,7 +717,7 @@ void Abe::dtor_44B380()
 
 struct Quicksave_Obj_Abe
 {
-    WORD field_0_id;
+    BaseGameObject::Types field_0_id;
     __int16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;

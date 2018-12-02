@@ -322,7 +322,7 @@ void DDCheat::Update_415780()
 
             DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_state);
 
-            if (sControlledCharacter_5C1B8C->field_4_typeId == eType_Abe_69)
+            if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eType_Abe_69)
             {
                 DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_current_state]);
             }
