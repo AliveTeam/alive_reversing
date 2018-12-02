@@ -3053,13 +3053,13 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
     }
         break;
 
-    case Types::eElectrocute_39:
+    case Types::eElectricWall_39:
         Abe_SFX_457EC0(14u, 0, 0, this); // Say Oops
         break;
 
     case Types::eBaseBomb_46:
     case Types::eType_89:
-    case Types::eType_109:
+    case Types::eExplosion_109:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
             if (field_10C_health > FP_FromInteger(0))
@@ -3951,7 +3951,7 @@ void Abe::State_0_Idle_44EEB0()
                 if (bCanUseWheel)
                 {
                     field_106_current_state = eAbeStates::State_126_TurnWheelBegin_456700;
-                    BaseAliveGameObject* pObj_148 = FindObjectOfType_425180(Types::eType_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
+                    BaseAliveGameObject* pObj_148 = FindObjectOfType_425180(Types::eWheel_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
                     if (pObj_148)
                     {
                         field_164_wheel_id = pObj_148->field_8_object_id;

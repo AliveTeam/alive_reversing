@@ -462,7 +462,7 @@ public:
     FakeMeatGrinder()
     {
         field_4_typeId = BaseGameObject::Types::eGrinder_30;
-        field_4_typeId = BaseGameObject::Types::eType_109;
+        field_4_typeId = BaseGameObject::Types::eExplosion_109;
     }
 };
 
