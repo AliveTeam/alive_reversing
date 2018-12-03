@@ -237,7 +237,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::vIsObjNearby_4253B0(FP radius, BaseAn
 
 __int16 BaseAnimatedWithPhysicsGameObject::vIsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    return IsObj_GettingNear_425420(pObj);
+    return IsObj_GettingNear_On_X_425420(pObj);
 }
 
 __int16 BaseAnimatedWithPhysicsGameObject::vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
@@ -322,7 +322,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsObjNearby_4253B0(FP radius, BaseAni
     return distance <= radius;
 }
 
-__int16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pOther)
+__int16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->field_B8_xpos < field_B8_xpos && pOther->field_C4_velx > field_C4_velx)
     {
@@ -330,13 +330,13 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_425420(BaseAnimated
         return TRUE;
     }
 
-    if (pOther->field_BC_ypos < field_BC_ypos && pOther->field_C8_vely > field_C8_vely)
+    if (pOther->field_B8_xpos > field_B8_xpos && pOther->field_B8_xpos < field_B8_xpos)
     {
-        // Its before our ypos but its velocity is moving towards our ypos!
+        // Its after our xpos but its velocity is moving towards our xpos!
         return TRUE;
     }
 
-    // See ya later slow coach
+    // Not heading our way
     return FALSE;
 }
 

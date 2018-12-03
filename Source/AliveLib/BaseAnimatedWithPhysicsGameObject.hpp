@@ -50,7 +50,7 @@ public:
 
     EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     EXPORT __int16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
-    EXPORT __int16 IsObj_GettingNear_425420(BaseAnimatedWithPhysicsGameObject* pOther);
+    EXPORT __int16 IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT __int16 IsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT __int16 OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT void StackOnObjectsOfType_425840(Types typeToFind);
