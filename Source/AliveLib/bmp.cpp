@@ -267,7 +267,7 @@ EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
 EXPORT void CC BMP_Draw_String_4F2230(Bitmap* /*pBmp*/, int /*x*/, int /*y*/, unsigned int /*fgColour*/, int /*bgColour*/, LPCSTR /*lpString*/)
 {
     // TODO:
-    LOG_ERROR("Not implemented");
+    //LOG_ERROR("Not implemented");
 }
 
 
