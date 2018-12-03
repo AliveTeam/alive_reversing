@@ -872,6 +872,8 @@ static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWind
 
     SDL_AddEventWatch(Sys_EventFilter, nullptr);
 
+    SDL_ShowCursor(SDL_DISABLE);
+
     // SDL will not send a window focused message on start up, so default to activated
     sAppIsActivated_BBBA00 = TRUE;
 
