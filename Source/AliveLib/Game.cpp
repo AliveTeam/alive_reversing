@@ -79,8 +79,6 @@ ALIVE_VAR(1, 0x5CA4DC, int, sFrameDiff_5CA4DC, 0);
 ALIVE_VAR(1, 0xC2D03C, int, sNumRenderedPrims_C2D03C, 0);
 ALIVE_VAR(1, 0x5CA300, int, sFrameCount_5CA300, 0);
 
-ALIVE_VAR(1, 0x5CA230, SoundEntry*, sSoundEntry_5CA230, nullptr);
-
 ALIVE_VAR(1, 0x5C1B94, short, word_5C1B94, 0);
 ALIVE_VAR(1, 0x5C2A4C, Abe, stru_5C2A4C, {});
 ALIVE_VAR(1, 0x554D5C, Abe*, spAbe_554D5C, &stru_5C2A4C);
@@ -347,129 +345,6 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
     PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
     //Main_Set_HWND_4F9410(Sys_GetWindowHandle_4EE180()); // Note: Set but never read
     VLC_Tables_Init_496720();
-}
-
-EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    LRESULT ret = 0;
-
-    switch (msg)
-    {
-    case WM_PAINT:
-        {
-            RECT rect = {};
-            PAINTSTRUCT paint = {};
-            BeginPaint(hWnd, &paint);
-            GetClientRect(hWnd, &rect);
-            PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, 0x42u); // TODO: Constants
-            EndPaint(hWnd, &paint);
-            Add_Dirty_Area_4ED970(0, 0, 640, 240);
-        }
-        return 1;
-
-    case WM_CLOSE:
-        sDDraw_BBC3D4->FlipToGDISurface();
-        if (sSoundEntry_5CA230)
-        {
-            LPDIRECTSOUNDBUFFER pDSoundBuffer = sSoundEntry_5CA230->field_4_pDSoundBuffer;
-            if (pDSoundBuffer)
-            {
-                pDSoundBuffer->Stop();
-            }
-        }
-        if (SND_Seq_Table_Valid_4CAFE0())
-        {
-            SND_StopAll_4CB060();
-        }
-
-        ret = -(MessageBoxA(hWnd, "Do you really want to quit?", "Abe's Exoddus 1.0", 0x124u) != 6); // TODO: Constants, refactor negation
-        if (SND_Seq_Table_Valid_4CAFE0())
-        {
-            SND_Restart_4CB0E0();
-        }
-
-        if (!sSoundEntry_5CA230)
-        {
-            return ret;
-        }
-
-        if (!sSoundEntry_5CA230->field_4_pDSoundBuffer)
-        {
-            return ret;
-        }
-
-        sSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
-        return ret;
-
-    case WM_SETCURSOR:
-        SetCursor(0);
-        return -1;
-
-    case WM_NCLBUTTONDOWN:
-        return -1;
-
-    case WM_KEYFIRST:
-        // TODO: Constants for wParam VK's
-        if (wParam == 116)
-        {
-            sQuicksave_SaveNextFrame_5CA4D8 = 1;
-        }
-        else if (wParam == 117)
-        {
-            sQuicksave_LoadNextFrame_5CA4D9 = 1;
-            Input_SetKeyState_4EDD80(117, 1);
-            return 0;
-        }
-        Input_SetKeyState_4EDD80(wParam, 1);
-        return 0;
-
-    case WM_KEYUP:
-        Input_SetKeyState_4EDD80(wParam, 0);
-        return 1;
-
-    case WM_ACTIVATE:
-    case WM_SETFOCUS:
-    case WM_KILLFOCUS:
-    case WM_ENTERMENULOOP:
-    case WM_EXITMENULOOP:
-    case WM_ENTERSIZEMOVE:
-    case WM_EXITSIZEMOVE:
-        Input_InitKeyStateArray_4EDD60();
-        break;
-
-    case WM_INITMENUPOPUP:
-        // TODO: Constants for wParam
-        if ((unsigned int)lParam >> 16)
-        {
-            return -1;
-        }
-        return ret;
-
-    case WM_SYSKEYDOWN:
-        // TODO: Constants for wParam
-        if (wParam == 18 || wParam == 32)
-        {
-            ret = -1;
-        }
-        Input_SetKeyState_4EDD80(wParam, 1);
-        break;
-
-    case WM_SYSKEYUP:
-        // TODO: Constants for wParam
-        if (wParam == 18 || wParam == 32)
-        {
-            ret = -1;
-        }
-        Input_SetKeyState_4EDD80(wParam, 0);
-        break;
-
-    case WM_TIMER:
-        return 1;
-
-    default:
-        return ret;
-    }
-    return ret;
 }
 
 EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)

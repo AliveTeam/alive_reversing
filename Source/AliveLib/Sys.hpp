@@ -6,8 +6,7 @@ using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
 
 
 #if USE_SDL2
-#include "SDL.h"
-
+struct SDL_Window;
 using TWindowHandleType = SDL_Window*;
 
 HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle);
@@ -20,9 +19,17 @@ enum class MessageBoxType
 {
     eStandard,
     eError,
+    eQuestion,
 };
 
-void Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type = MessageBoxType::eStandard);
+enum class MessageBoxButton
+{
+    eOK,
+    eNo,
+    eYes,
+};
+
+MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type = MessageBoxType::eStandard);
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char* title);
 POINT Sys_GetScreenMousePos();
@@ -37,3 +44,4 @@ EXPORT TWindowHandleType CC Sys_GetWindowHandle_4EE180();
 EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0();
 EXPORT BOOL CC Sys_IsAppActive_4EDF30();
 EXPORT char CC Sys_PumpMessages_4EE4F4();
+EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

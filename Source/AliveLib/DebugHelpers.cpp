@@ -769,8 +769,7 @@ public:
         Command_HelperUpdate();
 
         const char key = static_cast<char>(Input_GetLastPressedKey_492610());
-
-        if (GetAsyncKeyState(VK_OEM_3) & 0x1 || GetAsyncKeyState(VK_F9) & 0x1)
+        if (Input_IsVKPressed_4EDD40(VK_OEM_3))
         {
             mCommandLineEnabled = !mCommandLineEnabled;
 
@@ -786,7 +785,7 @@ public:
 
         const char* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-+@#$%^&*()_";
 
-        if (GetAsyncKeyState(VK_UP) & 0x1 && mCommandLineEnabled)
+        if (Input_IsVKPressed_4EDD40(VK_UP) && mCommandLineEnabled)
         {
             mCommandLineInput = mLastCommand;
         }

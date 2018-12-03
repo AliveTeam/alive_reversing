@@ -91,36 +91,48 @@ static SDL_Renderer* gRenderer = nullptr;
 
 EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMode*/)
 {
-    SDL_Rect copyRect = { pRect->left, pRect->top, pRect->right, pRect->bottom };
-    if (SDL_BlitSurface(pBmp->field_0_pSurface, &copyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
+    SDL_Rect copyRect = {};
+    if (pRect)
+    {
+        copyRect = { pRect->left, pRect->top, pRect->right, pRect->bottom };
+    }
+
+    SDL_Rect* pCopyRect = pRect ? &copyRect : nullptr;
+
+    SDL_UnlockSurface(pBmp->field_0_pSurface);
+    SDL_UnlockSurface(sVGA_bmp_primary_BD2A20.field_0_pSurface);
+
+    if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
     {
         // TODO: This will really murder performance
         SDL_Texture* pTexture = SDL_CreateTextureFromSurface(gRenderer, pBmp->field_0_pSurface);
         if (pTexture)
         {
-            SDL_RenderCopy(gRenderer, pTexture, &copyRect, nullptr);
+            SDL_RenderCopy(gRenderer, pTexture, pCopyRect, nullptr);
             SDL_DestroyTexture(pTexture);
         }
+        else
+        {
+            LOG_ERROR("Create texture failure");
+        }
     }
+    else
+    {
+        LOG_ERROR("Blt failure");
+    }
+   
     SDL_RenderPresent(gRenderer);
 }
 
-// Note: Not called
 EXPORT void CC VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, 0);
-
-    SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-    SDL_RenderClear(gRenderer);
-
-    SDL_RenderPresent(gRenderer);
 }
 
 EXPORT void CC VGA_CopyToFront_4F3EB0(Bitmap* pBmp, RECT* pRect, unsigned __int8 screenMode)
 {
     VGA_CopyToFront_4F3730(pBmp, pRect, screenMode);
 }
-
 
 EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __int16 height, unsigned __int8 bpp, unsigned __int8 backbufferCount, TSurfaceType** ppSurface)
 {
