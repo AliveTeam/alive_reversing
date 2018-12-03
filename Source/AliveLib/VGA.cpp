@@ -89,23 +89,20 @@ EXPORT signed int CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
 
 static SDL_Renderer* gRenderer = nullptr;
 
-EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* /*pBmp*/, RECT* /*pRect*/, int /*screenMode*/)
+EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMode*/)
 {
-    // TODO
-   // SDL_Rect copyRect = { pRect->left, pRect->top, pRect->right, pRect->bottom };
-    //if (SDL_BlitSurface(pBmp->field_0_pSurface, &copyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) != 0)
+    SDL_Rect copyRect = { pRect->left, pRect->top, pRect->right, pRect->bottom };
+    if (SDL_BlitSurface(pBmp->field_0_pSurface, &copyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
     {
-
+        // TODO: This will really murder performance
+        SDL_Texture* pTexture = SDL_CreateTextureFromSurface(gRenderer, pBmp->field_0_pSurface);
+        if (pTexture)
+        {
+            SDL_RenderCopy(gRenderer, pTexture, &copyRect, nullptr);
+            SDL_DestroyTexture(pTexture);
+        }
     }
-
-    //SDL_RenderClear(gRenderer);
-    SDL_SetRenderDrawColor(gRenderer, 80, 80, 253, 0);
-    SDL_RenderFillRect(gRenderer, nullptr);
-  
     SDL_RenderPresent(gRenderer);
-
-    //SDL_UpdateWindowSurface(Sys_GetHWnd_4F2C70());
-
 }
 
 // Note: Not called
