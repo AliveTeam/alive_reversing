@@ -141,6 +141,24 @@ add_library(AliveLib
     Mine.hpp
     TimedMine.cpp
     TimedMine.hpp
+    TrapDoor.cpp
+    TrapDoor.hpp
+    MusicTrigger.cpp
+    MusicTrigger.hpp
+    ScreenShake.cpp
+    ScreenShake.hpp
+    InvisibleEffect.cpp
+    InvisibleEffect.hpp
+    Gibs.cpp
+    Gibs.hpp
+    Throwable.cpp
+    Throwable.hpp
+    ThrowableTotalIndicator.hpp
+    ThrowableTotalIndicator.cpp
+    AbilityRing.cpp
+    AbilityRing.hpp
+    OrbWhirlWind.cpp
+    OrbWhirlWind.hpp
     Slurg.cpp
     Slurg.hpp)
 
