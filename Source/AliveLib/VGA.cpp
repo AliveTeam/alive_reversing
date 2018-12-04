@@ -5,6 +5,7 @@
 #include "Function.hpp"
 #include "Error.hpp"
 #include "Sys.hpp"
+#include "PsxRender.hpp"
 
 void VGA_ForceLink() {}
 
@@ -94,7 +95,13 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
     SDL_Rect copyRect = {};
     if (pRect)
     {
-        copyRect = { pRect->left, pRect->top, pRect->right, pRect->bottom };
+        copyRect =
+        { 
+            pRect->left,
+            pRect->top,
+            pRect->right,
+            pRect->bottom 
+        };
     }
 
     SDL_Rect* pCopyRect = pRect ? &copyRect : nullptr;
@@ -108,7 +115,23 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
         SDL_Texture* pTexture = SDL_CreateTextureFromSurface(gRenderer, pBmp->field_0_pSurface);
         if (pTexture)
         {
-            SDL_RenderCopy(gRenderer, pTexture, pCopyRect, nullptr);
+            SDL_Rect* pDst = nullptr;
+            SDL_Rect dst = {};
+            if (pCopyRect)
+            {
+                int w = 0;
+                int h = 0;
+                SDL_GetWindowSize(Sys_GetHWnd_4F2C70(), &w, &h);
+
+                dst.x = sScreenXOffSet_BD30E4;
+                dst.y = sScreenYOffset_BD30A4;
+                dst.w = w;
+                dst.h = h;
+                pDst = &dst;
+            }
+
+            SDL_RenderClear(gRenderer);
+            SDL_RenderCopy(gRenderer, pTexture, pCopyRect, pDst);
             SDL_DestroyTexture(pTexture);
         }
         else
