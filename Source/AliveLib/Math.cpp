@@ -112,3 +112,10 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
 
     return result;
 }
+
+// This seems to have been inline a lot
+char Math_NextRandom()
+{
+    const int idx = sRandomSeed_5D1E10++;
+    return sRandomBytes_546744[idx];
+}

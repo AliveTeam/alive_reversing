@@ -144,7 +144,7 @@ public:
     EXPORT void State_71_Knockback_455090();
     EXPORT void State_72_KnockbackGetUp_455340();
     EXPORT void State_73_PushWall_4553A0();
-    EXPORT void State_74_455290();
+    EXPORT void State_74_Rolling_KnockedBack_455290();
     EXPORT void State_75_Jump_Into_Well_45C7B0();
     EXPORT void State_76_45CA40();
     EXPORT void State_77_45D130();

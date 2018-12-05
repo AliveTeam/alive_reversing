@@ -103,7 +103,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_71_Knockback_455090) \
     ENTRY(State_72_KnockbackGetUp_455340) \
     ENTRY(State_73_PushWall_4553A0) \
-    ENTRY(State_74_455290) \
+    ENTRY(State_74_Rolling_KnockedBack_455290) \
     ENTRY(State_75_Jump_Into_Well_45C7B0) \
     ENTRY(State_76_45CA40) \
     ENTRY(State_77_45D130) \
@@ -248,7 +248,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_71_Knockback_455090,
     &Abe::State_72_KnockbackGetUp_455340,
     &Abe::State_73_PushWall_4553A0,
-    &Abe::State_74_455290,
+    &Abe::State_74_Rolling_KnockedBack_455290,
     &Abe::State_75_Jump_Into_Well_45C7B0,
     &Abe::State_76_45CA40,
     &Abe::State_77_45D130,
@@ -4039,7 +4039,7 @@ void Abe::State_22_RollBegin_4539A0()
     if (Raycast_408750(xpos, field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
-        field_106_current_state = eAbeStates::State_74_455290;
+        field_106_current_state = eAbeStates::State_74_Rolling_KnockedBack_455290;
     }
     else
     {
@@ -4061,7 +4061,7 @@ void Abe::State_23_RollLoop_453A90()
     if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
-        field_106_current_state = eAbeStates::State_74_455290;
+        field_106_current_state = eAbeStates::State_74_Rolling_KnockedBack_455290;
     }
     else
     {
@@ -4119,7 +4119,7 @@ void Abe::State_24_453D00()
     if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
-        field_106_current_state = eAbeStates::State_74_455290;
+        field_106_current_state = eAbeStates::State_74_Rolling_KnockedBack_455290;
     }
     else
     {
@@ -5018,12 +5018,46 @@ void Abe::State_72_KnockbackGetUp_455340()
 
 void Abe::State_73_PushWall_4553A0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+    if (field_20_animation.field_92_current_frame == 10)
+    {
+        if (Math_NextRandom() <= 127)
+        {
+            Abe_SFX_2_457A40(10, 0, 32767, this);
+        }
+    }
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
-void Abe::State_74_455290()
+void Abe::State_74_Rolling_KnockedBack_455290()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 12)
+    {
+        sub_44EC10();
+    }
+
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        if (!(field_114_flags.Get(Flags_114::e114_Bit2)))
+        {
+            if (field_10C_health > FP_FromInteger(0) || word_5C1BDA)
+            {
+                field_106_current_state = eAbeStates::State_72_KnockbackGetUp_455340;
+            }
+            else
+            {
+                ToDieFinal_458910();
+            }
+        }
+    }
+
 }
 
 void Abe::State_75_Jump_Into_Well_45C7B0()
@@ -5140,7 +5174,7 @@ void Abe::State_84_FallLandDie_45A420()
 
 void Abe::jState_85_Fall_455070()
 {
-    NOT_IMPLEMENTED();
+    State_3_Fall_459B60();
 }
 
 void Abe::State_86_HandstoneBegin_45BD00()
@@ -5185,7 +5219,11 @@ void Abe::State_92_ForceDown_From_Hoist_455800()
 
 void Abe::State_93_FallLedgeBegin_455970()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::jState_85_Fall_455070;
+    }
+    State_3_Fall_459B60();
 }
 
 void Abe::jState_94_FallLedgeBegin_4559A0()
@@ -5240,7 +5278,7 @@ void Abe::State_101_KnockForward_455420()
 
 void Abe::State_102_455310()
 {
-    State_74_455290();
+    State_74_Rolling_KnockedBack_455290();
     if (field_106_current_state == eAbeStates::State_72_KnockbackGetUp_455340)
     {
         field_106_current_state = eAbeStates::jState_103_KnockbackGetUp_455380;
