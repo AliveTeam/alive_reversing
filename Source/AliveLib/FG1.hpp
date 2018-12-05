@@ -18,6 +18,7 @@ struct Fg1Block
 ALIVE_ASSERT_SIZEOF(Fg1Block, 0xA8);
 
 struct Fg1Chunk;
+enum class LevelIds : __int16;
 
 class FG1 : public BaseGameObject
 {
@@ -35,7 +36,7 @@ public:
     EXPORT __int16 Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     int field_20;
-    __int16 field_24_level_id;
+    LevelIds field_24_level_id;
     __int16 field_26_path_id;
     __int16 field_28_render_block_count;
     //__int16 field_2A;

@@ -4,6 +4,29 @@
 #include "Factory.hpp"
 #include "Collisions.hpp"
 
+// TODO: Rename to whatever they really are Mines, Necrum etc
+enum class LevelIds : __int16
+{
+    eNone = -1,
+    eMenu_0 = 0,
+    eMines_1 = 1,
+    eNecrum_2 = 2,
+    eMudomoVault_3 = 3,
+    eMudancheeVault_4 = 4,
+    eFeeCoDepot_5 = 5,
+    eBarracks_6 = 6,
+    eMudancheeVault_Ender_7 = 7,
+    eBonewerkz_8 = 8,
+    eBrewery_9 = 9,
+    eBrewery_Ender_10 = 10,
+    eMudomoVault_Ender_11 = 11,
+    eFeeCoDepot_Ender_12 = 12,
+    eBarracks_Ender_13 = 13,
+    eBonewerkz_Ender_14 = 14,
+    e15 = 15,
+    eCredits_16 = 16
+};
+
 struct FmvInfo 
 {
     const char* field_0_pName;
@@ -92,7 +115,7 @@ struct PathRootContainer
 struct PerLvlData
 {
     const char* field_0_display_name;
-    WORD field_4_level;
+    LevelIds field_4_level;
     WORD field_6_path;
     WORD field_8_camera;
     WORD field_A_scale;
@@ -116,13 +139,13 @@ struct SeqDataTable
     SeqDataRecord mData[145];
 };
 
-EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(unsigned __int16 lvlId, unsigned __int16 pathId);
+EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, unsigned __int16 pathId);
 
-EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(unsigned __int16 lvlId, unsigned __int16 fmvId);
+EXPORT FmvInfo* CC Path_Get_FMV_Record_460F70(LevelIds lvlId, unsigned __int16 fmvId);
 
-EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, __int16 levelId, __int16 pathId, __int16 cameraId);
+EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId, __int16 pathId, __int16 cameraId);
 
-const char* CdLvlName(unsigned __int16 lvlId);
+const char* CdLvlName(LevelIds lvlId);
 
 ALIVE_VAR_EXTERN(PathRootContainer, sPathData_559660);
 ALIVE_VAR_EXTERN(SeqDataTable, sSeqData_558D50);

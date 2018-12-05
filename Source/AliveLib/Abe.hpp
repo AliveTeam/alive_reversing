@@ -4,6 +4,16 @@
 #include "FunctionFwd.hpp"
 #include "BitField.hpp"
 
+enum class AbeSay : __int16
+{
+    eNothing = -1,
+    e3 = 3,
+    eAnger_5 = 5,
+    e8 = 8,
+    eOops_14 = 14,
+    eSympathy_28 = 28,
+};
+
 struct Abe_1BC_20_sub_object
 {
     int field_0_gnFrame;
@@ -13,7 +23,7 @@ struct Abe_1BC_20_sub_object
     unsigned __int16 field_10;
     __int16 field_12_mood;
     int field_14;
-    __int16 field_18_say;
+    AbeSay field_18_say;
     __int16 field_1A;
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
@@ -234,9 +244,9 @@ public:
     int field_15C_pull_rope_id;
     int field_160;
     int field_164_wheel_id;
-    int field_168;
-    __int16 field_16C;
-    __int16 field_16E;
+    int field_168_ring_pulse_timer;
+    __int16 field_16C_bHaveShrykull;
+    __int16 field_16E_bHaveInvisiblity;
     int field_170;
     __int16 field_174;
     __int16 field_176;
@@ -283,7 +293,7 @@ public:
         e1AC_Bit12 = 0x800,
         e1AC_eBit13 = 0x1000,
         e1AC_eBit14 = 0x2000,
-        e1AC_eBit15 = 0x4000,
+        e1AC_eBit15_bHaveHealing = 0x4000,
         e1AC_eBit16 = 0x8000,
         e1AC_eBit17 = 0x10000,
         e1AC_eBit18 = 0x20000,

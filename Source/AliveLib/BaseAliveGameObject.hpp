@@ -65,8 +65,8 @@ protected:
     EXPORT char vsub_408A40(__int16 a2);
     EXPORT BaseGameObject* vsub_408FD0(__int16 a2);
     EXPORT int vnull_4081F0();
-    EXPORT void SetTint_425600(TintEntry *pTintArray, __int16 level_id);
-    EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, __int16 level_id, int resourceID);
+    EXPORT void SetTint_425600(TintEntry *pTintArray, LevelIds level_id);
+    EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, LevelIds level_id, int resourceID);
     EXPORT void sub_408C40();
     EXPORT __int16 MapFollowMe_408D10(__int16 snapToGrid);
     EXPORT int Raycast_408750(FP offY, FP offX);

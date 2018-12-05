@@ -8,6 +8,8 @@
 
 struct Prim_Sprt;
 
+enum class LevelIds : __int16;
+
 #pragma pack(push)
 #pragma pack(2)
 class Camera // TODO: May actually just be "ResourceList" ?
@@ -25,7 +27,7 @@ public:
     __int16 field_14_xpos;
     __int16 field_16_ypos;
     __int16 field_18_path;
-    __int16 field_1A_level;
+    LevelIds field_1A_level;
     __int16 field_1C_camera_number;
     char field_1E_cam_name[12];
     int field_2A;

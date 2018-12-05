@@ -66,7 +66,7 @@ public:
     FP field_B8_xpos;
     FP field_BC_ypos;
     __int16 field_C0_path_number;
-    __int16 field_C2_lvl_number;
+    LevelIds field_C2_lvl_number;
     FP field_C4_velx;
     FP field_C8_vely;
     FP field_CC_sprite_scale;

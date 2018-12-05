@@ -20,6 +20,8 @@ class Camera;
 struct PathData;
 struct Path_TLV;
 
+enum class LevelIds : __int16;
+
 enum class CameraSwapEffects : __int16
 {
     eEffect0_InstantChange = 0,
@@ -57,13 +59,13 @@ public:
         eCamNone = 5,   // Not "in" the camera
     };
 
-    __int16 sCurrentLevelId_5C3030;
+    LevelIds sCurrentLevelId_5C3030;
     __int16 sCurrentPathId_5C3032;
     __int16 sCurrentCamId_5C3034;
     __int16 field_6_state;
     __int16 field_8;
 
-    __int16 field_A_5C303A_levelId;
+    LevelIds field_A_5C303A_levelId;
     __int16 field_C_5C303C_pathId;
     __int16 field_E_cameraId;
     CameraSwapEffects field_10_screen_change_effect;
@@ -98,8 +100,7 @@ public:
     EXPORT void sub_480B80();
     EXPORT void sub_480740(__int16 a2);
     EXPORT void sub_481610();
-    EXPORT signed __int16 sub_4811A0(int level, int path, FP xpos, FP ypos);
-    EXPORT void Init_4803F0(__int16 level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange);
+    EXPORT void Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange);
     EXPORT void Shutdown_4804E0();
     EXPORT void Reset_4805D0();
     EXPORT void GoTo_Camera_481890();
@@ -109,10 +110,9 @@ public:
     EXPORT void Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint);
     EXPORT __int16 Get_Path_Unknown_480710();
     EXPORT void Create_FG1s_480F10();
-    EXPORT __int16 Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width);
     EXPORT CameraPos Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect);
-    EXPORT signed __int16 SetActiveCam_480D30(__int16 level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
-    EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, __int16 lvlId);
+    EXPORT signed __int16 SetActiveCam_480D30(LevelIds level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange);
+    EXPORT static BaseGameObject* CC FMV_Camera_Change_482650(BYTE** ppBits, Map* pMap, LevelIds lvlId);
     EXPORT Camera* Create_Camera_4829E0(__int16 xpos, __int16 ypos, int a4);
     EXPORT static void __stdcall Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode);
 
@@ -121,7 +121,20 @@ public:
 
     EXPORT signed __int16 SetActiveCameraDelayed_4814A0(MapDirections direction, BaseAliveGameObject* pObj, __int16 kMinus1);
 
+    // Type safe wrappers as int level is bigger than the enum type size
+    __int16 Is_Point_In_Current_Camera_4810D0(LevelIds level, int path, FP xpos, FP ypos, __int16 width)
+    {
+        return Is_Point_In_Current_Camera_4810D0(static_cast<int>(level), path, xpos, ypos, width);
+    }
+    
+    __int16 sub_4811A0(LevelIds level, int path, FP xpos, FP ypos)
+    {
+        return sub_4811A0(static_cast<int>(level), path, xpos, ypos);
+    }
 private:
+    EXPORT __int16 Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width);
+    EXPORT signed __int16 sub_4811A0(int level, int path, FP xpos, FP ypos);
+
     Camera* GetCamera(CameraPos pos);
 
     void CreateScreenTransistionForTLV(Path_TLV* pTlv);

@@ -89,7 +89,7 @@ void DDCheat::Menu_Teleport_415E20()
     }
     else if (field_38_input_pressed & eGameSpeak2)
     {
-        if (sTeleport_Level_550F5C < 16)
+        if (sTeleport_Level_550F5C < static_cast<int>(LevelIds::eCredits_16))
         {
             ++sTeleport_Level_550F5C;
         }
@@ -118,7 +118,7 @@ void DDCheat::Menu_Teleport_415E20()
     }
     else if (field_38_input_pressed & eSneak)
     {
-        sTeleport_Level_550F5C = gMap_5C3030.sCurrentLevelId_5C3030;
+        sTeleport_Level_550F5C = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
         sTeleport_Path_550F5E = gMap_5C3030.sCurrentPathId_5C3032;
         sTeleport_Cam_550F60 = gMap_5C3030.sCurrentCamId_5C3034;
     }
@@ -126,7 +126,7 @@ void DDCheat::Menu_Teleport_415E20()
     {
         sDDCheat_FlyingEnabled_5C2C08 = true;
         
-        gMap_5C3030.SetActiveCam_480D30(sTeleport_Level_550F5C, sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         field_3C_flags |= 0x4u;
     }
 }
@@ -250,7 +250,7 @@ void DDCheat::Update_415780()
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
                 sActiveHero_5C1B68->field_106_current_state = 3;
                 sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
-                sActiveHero_5C1B68->field_C2_lvl_number = sTeleport_Level_550F5C;
+                sActiveHero_5C1B68->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
                 sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
@@ -258,7 +258,8 @@ void DDCheat::Update_415780()
                 field_3C_flags &= ~0x1;
             }
         }
-        if (gMap_5C3030.sCurrentLevelId_5C3030 && sActiveHero_5C1B68 && activePadPressed & eCheatMode)
+
+        if ((gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & eCheatMode)
         {
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
@@ -305,7 +306,7 @@ void DDCheat::Update_415780()
         {
             DebugStr_4F5560(
                 "\n%sP%dC%d gnframe=%5d",
-                sPathData_559660.paths[gMap_5C3030.sCurrentLevelId_5C3030].field_18_lvl_name,
+                sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_18_lvl_name,
                 gMap_5C3030.sCurrentPathId_5C3032,
                 gMap_5C3030.sCurrentCamId_5C3034,
                 sGnFrame_5C1B84);

@@ -276,7 +276,7 @@ public:
     __int16 field_23A;
     BitField32<Flags> field_23C_T80;
     int field_240_credits_current_cam;
-    __int16 field_244_lvl_id;
+    LevelIds field_244_lvl_id;
     __int16 field_246_path_id;
     __int16 field_248_camera;
     __int16 field_24A_abeXOff;

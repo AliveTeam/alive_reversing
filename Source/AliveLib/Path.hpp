@@ -25,13 +25,15 @@ struct Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_TLV, 0x10);
 
+enum class LevelIds : __int16;
+
 class Path
 {
 public:
     EXPORT void ctor_4DB170();
     EXPORT void dtor_4DB1A0();
     EXPORT void Free_4DB1C0();
-    EXPORT void Init_4DB200(const PathData* pPathData, __int16 level, __int16 path, __int16 cameraId, BYTE** ppPathRes);
+    EXPORT void Init_4DB200(const PathData* pPathData, LevelIds level, __int16 path, __int16 cameraId, BYTE** ppPathRes);
 
 
     EXPORT void Loader_4DB800(__int16 xpos, __int16 ypos, __int16 loadMode, __int16 typeToLoad);
@@ -46,7 +48,7 @@ public:
     EXPORT static void __stdcall TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __int16 cam_x_idx, __int16 cam_y_idx);
 
-    unsigned __int16 field_0_levelId;
+    LevelIds field_0_levelId;
     unsigned __int16 field_2_pathId;
     __int16 field_4_cameraId;
     unsigned __int16 field_6_cams_on_x;

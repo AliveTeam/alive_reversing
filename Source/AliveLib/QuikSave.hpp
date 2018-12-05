@@ -13,10 +13,12 @@ struct Quicksave_PSX_Header
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_PSX_Header, 0x200);
 
+enum class LevelIds : __int16;
+
 struct Quicksave_WorldInfo
 {
     int field_0_gnFrame;
-    __int16 field_4_level;
+    LevelIds field_4_level;
     __int16 field_6_path;
     __int16 field_8_cam;
     __int16 field_A_unknown_1;

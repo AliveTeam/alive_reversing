@@ -582,7 +582,7 @@ void Command_Teleport(const std::vector<std::string>& args)
     }
     short path = static_cast<short>(std::stoi(args[1]));
     short cam = static_cast<short>(std::stoi(args[2]));
-    gMap_5C3030.SetActiveCam_480D30(level, path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
+    gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(level), path, cam, CameraSwapEffects::eEffect5_1_FMV, 0, 0);
     
 
     sHasTeleported = true;

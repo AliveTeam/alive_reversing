@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
+#include "PathData.hpp"
 
 ALIVE_VAR(1, 0x560f78, short, sBackgroundMusic_seq_id_560F78, -1);
 
@@ -61,7 +62,7 @@ void BackgroundMusic::Update_4CB1A0()
 {
     if (field_20_music_id >= 0)
     {
-        if (gMap_5C3030.sCurrentLevelId_5C3030 || gMap_5C3030.sCurrentPathId_5C3032 != 1 || gMap_5C3030.sCurrentCamId_5C3034 != 10)
+        if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone || gMap_5C3030.sCurrentPathId_5C3032 != 1 || gMap_5C3030.sCurrentCamId_5C3034 != 10)
         {
             SND_SEQ_PlaySeq_4CA960(field_20_music_id, 0, 0);
         }

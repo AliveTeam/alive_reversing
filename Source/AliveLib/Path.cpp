@@ -16,7 +16,7 @@ void Path::ctor_4DB170()
     field_6_cams_on_x = 0;
     field_4_cameraId = 0;
     field_2_pathId = 0;
-    field_0_levelId = 0;
+    field_0_levelId = LevelIds::eMenu_0;
 }
 
 void Path::dtor_4DB1A0()
@@ -33,10 +33,10 @@ void Path::Free_4DB1C0()
     field_6_cams_on_x = 0;
     field_4_cameraId = 0;
     field_2_pathId = 0;
-    field_0_levelId = 0;
+    field_0_levelId = LevelIds::eMenu_0;
 }
 
-void Path::Init_4DB200(const PathData* pPathData, __int16 level, __int16 path, __int16 cameraId, BYTE** ppPathRes)
+void Path::Init_4DB200(const PathData* pPathData, LevelIds level, __int16 path, __int16 cameraId, BYTE** ppPathRes)
 {
     ResourceManager::FreeResource_49C330(field_10_ppRes);
     field_10_ppRes = ppPathRes;
@@ -168,7 +168,7 @@ Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_P
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == field_0_levelId && data.parts.pathId == field_2_pathId)
+    if (data.parts.levelId == static_cast<int>(field_0_levelId) && data.parts.pathId == field_2_pathId)
     {
         return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + data.parts.tlvOffset]);
     }
@@ -203,9 +203,9 @@ EXPORT void __stdcall Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_Path
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == gMap_5C3030.sCurrentLevelId_5C3030)
+    if (data.parts.levelId == static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030))
     {
-        const PathBlyRec* pBlyRec = Path_Get_Bly_Record_460F30(data.parts.levelId, data.parts.pathId);
+        const PathBlyRec* pBlyRec = Path_Get_Bly_Record_460F30(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
         BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
         if (ppPathRes)
         {

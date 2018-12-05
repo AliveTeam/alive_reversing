@@ -623,8 +623,8 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_118_prev_held = 0;
     field_F6 = 0;
     field_120_state = 0;
-    field_168 = 0;
-    field_16E = 0;
+    field_168_ring_pulse_timer = 0;
+    field_16E_bHaveInvisiblity = 0;
     field_170 = 0;
     field_174 = 0;
     field_176 = 0;
@@ -632,7 +632,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_124_gnFrame = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
     field_128.field_12_mood = 0;
-    field_128.field_18_say = -1;
+    field_128.field_18_say = AbeSay::eNothing;
     field_144 = 0;
 
     // Set Abe to be the current player controlled object
@@ -725,7 +725,7 @@ struct Quicksave_Obj_Abe
     FP field_c_velx;
     FP field_10_vely;
     WORD field_14_path_number;
-    WORD field_16_lvl_number;
+    LevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
     WORD field_1C_scale;
     WORD field_1e_r;
@@ -757,7 +757,7 @@ struct Quicksave_Obj_Abe
     DWORD dword58;
     DWORD dword5C;
     WORD word60;
-    WORD word62;
+    AbeSay word62;
     DWORD dword64;
     DWORD dword68;
     char field_6c_rock_bone_count;
@@ -1001,10 +1001,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_128.field_18_say = pSaveState->word62;
     sActiveHero_5C1B68->field_144 = pSaveState->dword64;
     sActiveHero_5C1B68->field_1A2_rock_or_bone_count = pSaveState->field_6c_rock_bone_count;
-    sActiveHero_5C1B68->field_168 = pSaveState->dword68;
-    sActiveHero_5C1B68->field_16C = pSaveState->byte6E;
+    sActiveHero_5C1B68->field_168_ring_pulse_timer = pSaveState->dword68;
+    sActiveHero_5C1B68->field_16C_bHaveShrykull = pSaveState->byte6E;
 
-    if (sActiveHero_5C1B68->field_168 && sActiveHero_5C1B68->field_16C)
+    if (sActiveHero_5C1B68->field_168_ring_pulse_timer && sActiveHero_5C1B68->field_16C_bHaveShrykull)
     {
         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(25))
         {
@@ -1033,7 +1033,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
         sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
     }
 
-    sActiveHero_5C1B68->field_16E = pSaveState->byte6F;
+    sActiveHero_5C1B68->field_16E_bHaveInvisiblity = pSaveState->byte6F;
     sActiveHero_5C1B68->field_104 = pSaveState->field_3a_collision_line_id;
 
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);
@@ -1123,10 +1123,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
         sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit14);
     }
 
-    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit15);
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit15_bHaveHealing);
     if (pSaveState->wordD4 & 0x800)
     {
-        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15);
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_bHaveHealing);
     }
 
     sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16);
@@ -1511,7 +1511,7 @@ void Abe::Update_449DC0()
             }
         }
 
-        if (field_128.field_18_say >= 0 && static_cast<int>(sGnFrame_5C1B84) >= field_144)
+        if (field_128.field_18_say != AbeSay::eNothing && static_cast<int>(sGnFrame_5C1B84) >= field_144)
         {
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
                 || (field_106_current_state == eAbeStates::State_112_Chant_45B1C0)
@@ -1525,13 +1525,13 @@ void Abe::Update_449DC0()
                     field_114_flags.Set(Flags_114::e114_Bit2);
                     switch (field_128.field_18_say)
                     {
-                    case 14: // Says "oops"
+                    case AbeSay::eOops_14:
                         field_106_current_state = eAbeStates::State_34_DunnoBegin_44ECF0;
                         break;
-                    case 5: // Says "grr"
+                    case AbeSay::eAnger_5:
                         field_106_current_state = eAbeStates::State_10_Fart_45B1A0;
                         break;
-                    case 28: // Says "sympathy" (not the sorry sound but the depressed sound)
+                    case AbeSay::eSympathy_28:
                         field_106_current_state = eAbeStates::State_10_Fart_45B1A0;
                         break;
                     default:
@@ -1540,13 +1540,13 @@ void Abe::Update_449DC0()
                     }
                 }
 
-                if (field_128.field_18_say == 5)
+                if (field_128.field_18_say == AbeSay::eAnger_5)
                 {
                     // Other evil muds laugh at the abe grr
                     Event_Broadcast_422BC0(kEventMudokonLaugh, sActiveHero_5C1B68);
                 }
 
-                if (field_128.field_18_say == 28)
+                if (field_128.field_18_say == AbeSay::eSympathy_28)
                 {
                     // This one has another volume for whatever reason
                     Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18_say), 80, 0, this);
@@ -1557,7 +1557,7 @@ void Abe::Update_449DC0()
                 }
             }
 
-            field_128.field_18_say = -1;
+            field_128.field_18_say = AbeSay::eNothing;
         }
 
         if (state_idx != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
@@ -1596,28 +1596,28 @@ void Abe::Update_449DC0()
         }
 
         // Draw power up ring "pulse"
-        if (field_168)
+        if (field_168_ring_pulse_timer)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    if (static_cast<int>(sGnFrame_5C1B84) <= field_168)
+                    if (field_168_ring_pulse_timer > static_cast<int>(sGnFrame_5C1B84))
                     {
                         if (!(sGnFrame_5C1B84 % 32))
                         {
-                            int ringType = 0;
-                            if (field_16C)
+                            RingTypes ringType = RingTypes::eExplosive_Pulse_0;
+                            if (field_16C_bHaveShrykull)
                             {
-                                ringType = 4;
+                                ringType = RingTypes::eShrykull_Pulse_Small_4;
                             }
-                            else if (field_16E)
+                            else if (field_16E_bHaveInvisiblity)
                             {
-                                ringType = 7;
+                                ringType = RingTypes::eInvisible_Pulse_Small_7;
                             }
-                            else if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit15))
+                            else if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_bHaveHealing))
                             {
-                                ringType = 14;
+                                ringType = RingTypes::eHealing_Pulse_14;
                             }
 
                             PSX_RECT rect = {};
@@ -1632,11 +1632,11 @@ void Abe::Update_449DC0()
                     }
                     else
                     {
-                        if (field_168 > 0 && field_16C > 0)
+                        if (field_168_ring_pulse_timer > 0 && field_16C_bHaveShrykull > 0)
                         {
                             Free_Shrykull_Resources_45AA90();
                         }
-                        field_168 = 0;
+                        field_168_ring_pulse_timer = 0;
                     }
                 }
             }
@@ -1657,21 +1657,21 @@ void Abe::Update_449DC0()
         {
             if (field_1AE & 1)
             {
-                if (gMap_5C3030.sCurrentLevelId_5C3030 == 2)
+                if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2)
                 {
-                    field_168 = sGnFrame_5C1B84 + 200000;
-                    field_16C = 0;
-                    field_16E = 0;
+                    field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
+                    field_16C_bHaveShrykull = 0;
+                    field_16E_bHaveInvisiblity = 0;
                     field_1AE &= ~1;
                     field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16);
-                    field_1AC_flags.Set(Flags_1AC::e1AC_eBit15);
+                    field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_bHaveHealing);
                 }
             }
         }
 
         if (Event_Get_422C00(kEventMudokonDied))
         {
-            field_128.field_18_say = 14;
+            field_128.field_18_say = AbeSay::eOops_14;
             field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
             // Do the death jingle
@@ -1680,13 +1680,13 @@ void Abe::Update_449DC0()
 
         if (Event_Get_422C00(kEventMudokonComfort))
         {
-            field_128.field_18_say = 8;
+            field_128.field_18_say = AbeSay::e8;
             field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
         if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
         {
-            field_128.field_18_say = 14;
+            field_128.field_18_say = AbeSay::eOops_14;
             field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
@@ -1759,7 +1759,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (bDelayedAnger)
         {
-            field_128.field_18_say = 5; // anger in..
+            field_128.field_18_say = AbeSay::eAnger_5; // anger in..
             field_144 = sGnFrame_5C1B84 + 27; // 27 ticks
         }
 
@@ -1800,16 +1800,16 @@ void Abe::vScreenChanged_44D240()
     // Level has changed?
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
     {
-        if (gMap_5C3030.field_A_5C303A_levelId == 1 && !word_5C1BA0)
+        if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eMines_1 && !word_5C1BA0)
         {
-            field_128.field_18_say = 3;
+            field_128.field_18_say = AbeSay::e3;
             field_144 = sGnFrame_5C1B84 + 35;
         }
 
         // Set the correct tint for this map
         SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_A_5C303A_levelId);
 
-        if (gMap_5C3030.sCurrentLevelId_5C3030)
+        if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone)
         {
             if (field_1A2_rock_or_bone_count > 0)
             {
@@ -1821,28 +1821,28 @@ void Abe::vScreenChanged_44D240()
             
             field_1A2_rock_or_bone_count = 0;
             
-            if (field_168 > 0 && field_16C)
+            if (field_168_ring_pulse_timer > 0 && field_16C_bHaveShrykull)
             {
                 Free_Shrykull_Resources_45AA90();
             }
 
-            field_168 = 0;
+            field_168_ring_pulse_timer = 0;
         }
 
-        if (gMap_5C3030.field_A_5C303A_levelId == 2)
+        if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eNecrum_2)
         {
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == 7)
+            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudancheeVault_Ender_7)
             {
                 field_1AC_flags.Set(Flags_1AC::e1AC_eBit16);
             }
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == 11)
+            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudomoVault_Ender_11)
             {
                 field_1AE |= 1u;
             }
         }
 
-        if (gMap_5C3030.field_A_5C303A_levelId == 16 || gMap_5C3030.field_A_5C303A_levelId == 0)
+        if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eCredits_16 || gMap_5C3030.field_A_5C303A_levelId == LevelIds::eMenu_0)
         {
             // Remove Abe for menu/credits levels?
             field_6_flags.Set(BaseGameObject::eDead);
@@ -1851,8 +1851,8 @@ void Abe::vScreenChanged_44D240()
 
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
     {
-        field_168 = 0;
-        if (gMap_5C3030.sCurrentLevelId_5C3030)
+        field_168_ring_pulse_timer = 0;
+        if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone)
         {
             field_198_has_evil_fart = 0;
         }
@@ -1961,11 +1961,11 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->word60 = field_128.field_12_mood;
     pSaveState->word62 = field_128.field_18_say;
     pSaveState->dword64 = field_144;
-    pSaveState->dword68 = field_168;
+    pSaveState->dword68 = field_168_ring_pulse_timer;
     pSaveState->field_6c_rock_bone_count = field_1A2_rock_or_bone_count;
     //pSaveState->byte6D = (LOBYTE(this->field_1AC_flags) >> 4) & 1;
-    pSaveState->byte6E = static_cast<char>(field_16C);
-    pSaveState->byte6F = static_cast<char>(field_16E);
+    pSaveState->byte6E = static_cast<char>(field_16C_bHaveShrykull);
+    pSaveState->byte6F = static_cast<char>(field_16E_bHaveInvisiblity);
     //pSaveState->word70 = sub_45EF70(field_118_prev_held);
     //pSaveState->word72 = sub_45EF70(field_11C);
     pSaveState->word74 = field_122;
@@ -2147,8 +2147,8 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
     // Stop chant sound music
     SND_SEQ_Stop_4CAE60(10u);
     
-    const __int16 oldSay = field_128.field_18_say;
-    field_128.field_18_say = -1;
+    const AbeSay oldSay = field_128.field_18_say;
+    field_128.field_18_say = AbeSay::eNothing;
 
     OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
     if (pWhirlWind)
@@ -2283,7 +2283,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
 
     case Types::eType_47:
     case Types::eAntiChant_83:
-        field_128.field_18_say = 5;
+        field_128.field_18_say = AbeSay::eAnger_5;
         field_144 = sGnFrame_5C1B84 + 27;
         if (field_106_current_state != eAbeStates::State_123_LiftGrabIdle_45A6A0 &&
             field_106_current_state != eAbeStates::State_124_LiftUseUp_45A780 &&
@@ -2829,7 +2829,7 @@ void Abe::State_0_Idle_44EEB0()
 {
     if (Input_IsChanting_45F260() && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit6)))
     {
-        if (field_168 && field_16C)
+        if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
         {
             field_106_current_state = eAbeStates::State_119_45A990;
             field_120_state = 0;
@@ -4956,11 +4956,11 @@ void Abe::State_71_Knockback_455090()
             
             MoveWithVelocity_450FA0(FP_FromDouble(0.67));
 
-            if ((gMap_5C3030.sCurrentLevelId_5C3030 == 1 // TODO: Enum
-                || gMap_5C3030.sCurrentLevelId_5C3030 == 8
-                || gMap_5C3030.sCurrentLevelId_5C3030 == 5
-                || gMap_5C3030.sCurrentLevelId_5C3030 == 6
-                || gMap_5C3030.sCurrentLevelId_5C3030 == 9)
+            if ((gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1
+                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8
+                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5
+                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6
+                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
                 && field_20_animation.field_92_current_frame == 7)
             {
                 Abe_SFX_2_457A40(6, 80, -200, this);
@@ -6135,7 +6135,7 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
         }
         break;
     case 8u:
-        if (pHero == sActiveHero_5C1B68 && gMap_5C3030.sCurrentLevelId_5C3030 == 10)
+        if (pHero == sActiveHero_5C1B68 && gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
         {
             idx = 10;
         }

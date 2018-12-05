@@ -429,7 +429,7 @@ MusicController* MusicController::ctor_47EE80()
 
     field_6_flags.Set(BaseGameObject::eBit08);
     field_40_flags_and_idx = -1;
-    field_24_currentLevelID = -1;
+    field_24_currentLevelID = LevelIds::eNone;
     field_28_object_id = -1;
     field_2C_flags_and_seq_idx = -1;
     field_42_type = 0;
@@ -773,15 +773,15 @@ void MusicController::sub_47F260()
         case 6: // slog tension 2?
             if (field_42_type == 4)
             {
-                pRecord = &stru_55D2D0[field_24_currentLevelID];
+                pRecord = &stru_55D2D0[static_cast<int>(field_24_currentLevelID)];
             }
             else if (field_42_type == 5)
             {
-                pRecord = &stru_55D39C[field_24_currentLevelID];
+                pRecord = &stru_55D39C[static_cast<int>(field_24_currentLevelID)];
             }
             else if (field_42_type == 6)
             {
-                pRecord = &stru_55D424[field_24_currentLevelID];
+                pRecord = &stru_55D424[static_cast<int>(field_24_currentLevelID)];
             }
             idx = pRecord->field_0;
             field_3C = pRecord->field_1;
@@ -789,14 +789,14 @@ void MusicController::sub_47F260()
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[pRecord->field_0].field_0_idx].field_9, 0);
             break;
         case 7: // chase music
-            pRecord = &stru_55D3E0[field_24_currentLevelID];
+            pRecord = &stru_55D3E0[static_cast<int>(field_24_currentLevelID)];
             idx = pRecord->field_0;
             field_3C = pRecord->field_1;
             field_58_flags = field_58_flags & ~0x10 | 0x10 * (pRecord->field_2 & 1);
             SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[idx].field_0_idx].field_9, 0);
             break;
         case 8: // slig chase?
-            pRecord = &stru_55D314[field_24_currentLevelID];
+            pRecord = &stru_55D314[static_cast<int>(field_24_currentLevelID)];
             field_3C = pRecord->field_1;
             idx = pRecord->field_0;
             field_58_flags = field_58_flags & ~0x10 | 0x10 * (pRecord->field_2 & 1);
@@ -805,9 +805,9 @@ void MusicController::sub_47F260()
         case 9: // slig possesed 
             if (field_58_flags & 0x20)
             {
-                pRecord = &stru_55D358[field_24_currentLevelID];
+                pRecord = &stru_55D358[static_cast<int>(field_24_currentLevelID)];
                 field_3C = pRecord->field_1;
-                idx = stru_55D358[field_24_currentLevelID].field_0;
+                idx = stru_55D358[static_cast<int>(field_24_currentLevelID)].field_0;
                 field_58_flags = field_58_flags & ~0x10 | 0x10 * (pRecord->field_2 & 1);
                 SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[idx].field_0_idx].field_9, 0);
             }
@@ -846,7 +846,7 @@ void MusicController::sub_47F260()
         default: // no change ?
             SetMusicVolumeDelayed_47FB00(field_20_vol, 30);
             field_58_flags |= 0x10u;
-            field_3C = byte_55D468[field_24_currentLevelID];
+            field_3C = byte_55D468[static_cast<int>(field_24_currentLevelID)];
             break;
         }
 
@@ -906,15 +906,15 @@ void MusicController::sub_47F0B0()
             if (field_42_type)
             {
                 random = Math_RandomRange_496AB0(
-                    stru_55D1E0[field_24_currentLevelID].field_0[0].field_2_min,
-                    stru_55D1E0[field_24_currentLevelID].field_0[0].field_3_max);
+                    stru_55D1E0[static_cast<int>(field_24_currentLevelID)].field_0[0].field_2_min,
+                    stru_55D1E0[static_cast<int>(field_24_currentLevelID)].field_0[0].field_3_max);
             }
             else
             {
                 const int calculatedTime = musicTime - field_34_music_start_time;
                 int total = 0;
                 bool found = false;
-                for (const MusicController_Record3_Sub& rec : stru_55D1E0[field_24_currentLevelID].field_0)
+                for (const MusicController_Record3_Sub& rec : stru_55D1E0[static_cast<int>(field_24_currentLevelID)].field_0)
                 {
                     total += rec.field_0;
                     if (rec.field_0 < 0 || calculatedTime < total)
@@ -941,7 +941,7 @@ void MusicController::sub_47F0B0()
             else
             {
                 field_2C_flags_and_seq_idx = stru_55D008[random].field_0_idx;
-                SND_SEQ_Play_4CAB10(field_2C_flags_and_seq_idx, stru_55D1E0[field_24_currentLevelID].field_C, field_50_current_vol, field_50_current_vol);
+                SND_SEQ_Play_4CAB10(field_2C_flags_and_seq_idx, stru_55D1E0[static_cast<int>(field_24_currentLevelID)].field_C, field_50_current_vol, field_50_current_vol);
                 field_30_music_time = sMusicTime_5C3024 + stru_55D008[random].field_2_duration;
             }
         }

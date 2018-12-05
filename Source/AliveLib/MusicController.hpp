@@ -5,6 +5,8 @@
 
 class BaseAliveGameObject;
 
+enum class LevelIds : __int16;
+
 // NOTE: Called MusicEnv in real game (derived from AE PC demo)
 class MusicController : public BaseGameObject
 {
@@ -42,7 +44,7 @@ public:
 private:
     WORD field_20_vol;
     WORD field_22_vol;
-    signed __int16 field_24_currentLevelID;
+    LevelIds field_24_currentLevelID;
     __int16 field_26;
     int field_28_object_id;
     __int16 field_2C_flags_and_seq_idx;

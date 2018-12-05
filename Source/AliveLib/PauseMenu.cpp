@@ -527,7 +527,7 @@ void PauseMenu::Render_490BD0(int ** ot)
 
 EXPORT void PauseMenu::vsub_490D30()
 {
-    if (gMap_5C3030.field_A_5C303A_levelId == 16)
+    if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eCredits_16)
     {
         field_6_flags.Set(BaseGameObject::eDead);
     }
@@ -1031,7 +1031,7 @@ EXPORT void PauseMenu::Page_ReallyQuit_Update_490930()
         }
 
         pPauseMenu_5C9300 = 0;
-        gMap_5C3030.SetActiveCam_480D30(0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         gMap_5C3030.field_CE = 1;
         sCurrentControllerIndex_5C1BBE = 0;
     }

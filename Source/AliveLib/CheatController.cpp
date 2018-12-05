@@ -97,13 +97,13 @@ void CheatController::Update_421C70()
             for (auto i = sCheatArray_5515F8; i->field_0_level_mask; i++)
             {
                 // Bit shift current level for level mask.
-                if ((1 << gMap_5C3030.sCurrentLevelId_5C3030) & i->field_0_level_mask)
+                if ((1 << static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)) & i->field_0_level_mask)
                 {
                     if (held == i->field_8_cheat_code_ary[i->field_C_success_idx])
                     {
                         i->field_C_success_idx++;
 
-                        // Check if we've succesfully entered all cheat code keys.
+                        // Check if we've successfully entered all cheat code keys.
                         if (i->field_C_success_idx >= i->field_4_cheat_code_length)
                         {
                             i->field_C_success_idx = 0;

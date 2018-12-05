@@ -63,11 +63,11 @@ void CreditsController::Update_418AC0()
             if (field_24_camera_number > 22)
             {
                 field_24_camera_number = 1;
-                gMap_5C3030.SetActiveCam_480D30(16, 1, 1, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(16, 2, field_24_camera_number, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, field_24_camera_number, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
             gMap_5C3030.field_CE = 1;
         }
@@ -75,11 +75,11 @@ void CreditsController::Update_418AC0()
         {
             if (field_24_camera_number > 36)
             {
-                gMap_5C3030.SetActiveCam_480D30(0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
             else
             {
-                gMap_5C3030.SetActiveCam_480D30(16, 1, field_24_camera_number, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
+                gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, field_24_camera_number, CameraSwapEffects::eEffect3_TopToBottom, 0, 0);
             }
             gMap_5C3030.field_CE = 1;
         }

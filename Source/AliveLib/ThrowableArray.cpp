@@ -11,7 +11,7 @@ void __stdcall FreeResourceArray_49AEC0(DynamicArray*)
     NOT_IMPLEMENTED();
 }
 
-void CC LoadRockTypes_49AB30(unsigned __int16 /*a1*/, unsigned __int16 /*a2*/)
+void CC LoadRockTypes_49AB30(LevelIds /*a1*/, unsigned __int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
 }
