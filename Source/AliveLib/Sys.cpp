@@ -178,7 +178,7 @@ MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char* mess
         const static SDL_MessageBoxButtonData buttons[] =
         {
             { 0, 0, "No" },
-            { 0, 1, "Yes" },
+            { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Yes" },
         };
 
         data.numbuttons = SDL_arraysize(buttons);

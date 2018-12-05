@@ -1304,6 +1304,8 @@ ALIVE_VAR(1, 0x5c1bda, short, word_5C1BDA, 0);
 
 void Abe::Update_449DC0()
 {
+   // NOT_IMPLEMENTED();
+
     if (word_5C1BDA) // Some flag to reset HP?
     {
         field_114_flags.Clear(Flags_114::e114_Bit7);
@@ -1593,6 +1595,7 @@ void Abe::Update_449DC0()
             field_10C_health = FP_FromDouble(1.0);
         }
 
+        // Draw power up ring "pulse"
         if (field_168)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -1619,7 +1622,10 @@ void Abe::Update_449DC0()
 
                             PSX_RECT rect = {};
                             GetBoundingRect_424FD0(&rect, 1);
-                            AbilityRing::Factory_482F80((rect.x + rect.w) / 2, (rect.y + rect.h) / 2, ringType, field_CC_sprite_scale);
+                            AbilityRing::Factory_482F80(
+                                FP_FromInteger((rect.x + rect.w) / 2),
+                                FP_FromInteger((rect.y + rect.h) / 2),
+                                ringType, field_CC_sprite_scale);
 
                             SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
                         }

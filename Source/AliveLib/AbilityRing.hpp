@@ -7,5 +7,5 @@
 class AbilityRing
 {
 public:
-    EXPORT static BaseGameObject * CC Factory_482F80(int /*xpos*/, int /*ypos*/, int /*type*/, FP /*scale*/);
+    EXPORT static BaseGameObject * CC Factory_482F80(FP /*xpos*/, FP /*ypos*/, int /*type*/, FP /*scale*/);
 };
