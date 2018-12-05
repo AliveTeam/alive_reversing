@@ -625,7 +625,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_120_state = 0;
     field_168_ring_pulse_timer = 0;
     field_16E_bHaveInvisiblity = 0;
-    field_170 = 0;
+    field_170_invisible_timer = 0;
     field_174 = 0;
     field_176 = 0;
     field_178_invisible_effect_id = -1;
@@ -633,7 +633,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_FC_pPathTLV = nullptr;
     field_128.field_12_mood = 0;
     field_128.field_18_say = AbeSay::eNothing;
-    field_144 = 0;
+    field_144_auto_say_timer = 0;
 
     // Set Abe to be the current player controlled object
     sControlledCharacter_5C1B8C = this;
@@ -996,10 +996,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_120_state = static_cast<WORD>(pSaveState->dword50);
     sActiveHero_5C1B68->field_124_gnFrame = pSaveState->dword54;
     sActiveHero_5C1B68->field_128.field_0_gnFrame = pSaveState->dword58;
-    sActiveHero_5C1B68->field_128.field_4 = pSaveState->dword5C;
+    sActiveHero_5C1B68->field_128.field_4_regen_health_timer = pSaveState->dword5C;
     sActiveHero_5C1B68->field_128.field_12_mood = pSaveState->word60;
     sActiveHero_5C1B68->field_128.field_18_say = pSaveState->word62;
-    sActiveHero_5C1B68->field_144 = pSaveState->dword64;
+    sActiveHero_5C1B68->field_144_auto_say_timer = pSaveState->dword64;
     sActiveHero_5C1B68->field_1A2_rock_or_bone_count = pSaveState->field_6c_rock_bone_count;
     sActiveHero_5C1B68->field_168_ring_pulse_timer = pSaveState->dword68;
     sActiveHero_5C1B68->field_16C_bHaveShrykull = pSaveState->byte6E;
@@ -1050,7 +1050,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_160 = pSaveState->dword94;
     sActiveHero_5C1B68->field_164_wheel_id = pSaveState->dword98;
     sActiveHero_5C1B68->field_178_invisible_effect_id = -1;
-    sActiveHero_5C1B68->field_170 = pSaveState->dword9C;
+    sActiveHero_5C1B68->field_170_invisible_timer = pSaveState->dword9C;
     sActiveHero_5C1B68->field_174 = pSaveState->wordA0;
     sActiveHero_5C1B68->field_176 = pSaveState->wordA2;
     sActiveHero_5C1B68->field_17C = pSaveState->byteA4;
@@ -1304,8 +1304,6 @@ ALIVE_VAR(1, 0x5c1bda, short, word_5C1BDA, 0);
 
 void Abe::Update_449DC0()
 {
-   // NOT_IMPLEMENTED();
-
     if (word_5C1BDA) // Some flag to reset HP?
     {
         field_114_flags.Clear(Flags_114::e114_Bit7);
@@ -1343,9 +1341,9 @@ void Abe::Update_449DC0()
 
         if (field_114_flags.Get(Flags_114::e114_Bit8))
         {
-            if (!field_170)
+            if (!field_170_invisible_timer)
             {
-                field_170 = sGnFrame_5C1B84 + 2;
+                field_170_invisible_timer = sGnFrame_5C1B84 + 2;
             }
 
             auto pClass = alive_new<InvisibleEffect>();
@@ -1511,7 +1509,7 @@ void Abe::Update_449DC0()
             }
         }
 
-        if (field_128.field_18_say != AbeSay::eNothing && static_cast<int>(sGnFrame_5C1B84) >= field_144)
+        if (field_128.field_18_say != AbeSay::eNothing && static_cast<int>(sGnFrame_5C1B84) >= field_144_auto_say_timer)
         {
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
                 || (field_106_current_state == eAbeStates::State_112_Chant_45B1C0)
@@ -1590,13 +1588,13 @@ void Abe::Update_449DC0()
             field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
         }
 
-        if (field_128.field_4 <= static_cast<int>(sGnFrame_5C1B84) && field_10C_health > FP_FromInteger(0))
+        if (field_128.field_4_regen_health_timer <= static_cast<int>(sGnFrame_5C1B84) && field_10C_health > FP_FromInteger(0))
         {
             field_10C_health = FP_FromDouble(1.0);
         }
 
         // Draw power up ring "pulse"
-        if (field_168_ring_pulse_timer)
+        if (field_168_ring_pulse_timer > 0)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
@@ -1644,11 +1642,11 @@ void Abe::Update_449DC0()
 
 
         InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
-        if (pObj_field_178 && field_170 > 0)
+        if (pObj_field_178 && field_170_invisible_timer > 0)
         {
-            if (static_cast<int>(sGnFrame_5C1B84) > field_170)
+            if (static_cast<int>(sGnFrame_5C1B84) > field_170_invisible_timer)
             {
-                field_170 = 0;
+                field_170_invisible_timer = 0;
                 pObj_field_178->sub_45FA30();
             }
         }
@@ -1672,7 +1670,7 @@ void Abe::Update_449DC0()
         if (Event_Get_422C00(kEventMudokonDied))
         {
             field_128.field_18_say = AbeSay::eOops_14;
-            field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+            field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
             // Do the death jingle
             alive_new<MusicTrigger>()->ctor_47FF10(1, 0, 90, 0);
@@ -1681,13 +1679,13 @@ void Abe::Update_449DC0()
         if (Event_Get_422C00(kEventMudokonComfort))
         {
             field_128.field_18_say = AbeSay::e8;
-            field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+            field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
         if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
         {
             field_128.field_18_say = AbeSay::eOops_14;
-            field_144 = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
+            field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
         if (field_1AE & 2)
@@ -1760,7 +1758,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
         if (bDelayedAnger)
         {
             field_128.field_18_say = AbeSay::eAnger_5; // anger in..
-            field_144 = sGnFrame_5C1B84 + 27; // 27 ticks
+            field_144_auto_say_timer = sGnFrame_5C1B84 + 27; // 27 ticks
         }
 
         if (pfield_158)
@@ -1803,7 +1801,7 @@ void Abe::vScreenChanged_44D240()
         if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eMines_1 && !word_5C1BA0)
         {
             field_128.field_18_say = AbeSay::e3;
-            field_144 = sGnFrame_5C1B84 + 35;
+            field_144_auto_say_timer = sGnFrame_5C1B84 + 35;
         }
 
         // Set the correct tint for this map
@@ -1957,10 +1955,10 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->dword50 = field_120_state;
     pSaveState->dword54 = field_124_gnFrame;
     pSaveState->dword58 = field_128.field_0_gnFrame;
-    pSaveState->dword5C = field_128.field_4;
+    pSaveState->dword5C = field_128.field_4_regen_health_timer;
     pSaveState->word60 = field_128.field_12_mood;
     pSaveState->word62 = field_128.field_18_say;
-    pSaveState->dword64 = field_144;
+    pSaveState->dword64 = field_144_auto_say_timer;
     pSaveState->dword68 = field_168_ring_pulse_timer;
     pSaveState->field_6c_rock_bone_count = field_1A2_rock_or_bone_count;
     //pSaveState->byte6D = (LOBYTE(this->field_1AC_flags) >> 4) & 1;
@@ -2068,7 +2066,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
         }
     }
 
-    pSaveState->dword9C = field_170;
+    pSaveState->dword9C = field_170_invisible_timer;
     pSaveState->wordA0 = field_174;
     pSaveState->wordA2 = field_176;
     pSaveState->byteA4 = field_17C;
@@ -2172,7 +2170,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
         return 0;
     }
 
-    field_128.field_4 = sGnFrame_5C1B84 + 180;
+    field_128.field_4_regen_health_timer = sGnFrame_5C1B84 + 180;
     __int16 ret = field_10C_health > FP_FromInteger(0);
 
     switch (pFrom->field_4_typeId)
@@ -2284,7 +2282,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
     case Types::eType_47:
     case Types::eAntiChant_83:
         field_128.field_18_say = AbeSay::eAnger_5;
-        field_144 = sGnFrame_5C1B84 + 27;
+        field_144_auto_say_timer = sGnFrame_5C1B84 + 27;
         if (field_106_current_state != eAbeStates::State_123_LiftGrabIdle_45A6A0 &&
             field_106_current_state != eAbeStates::State_124_LiftUseUp_45A780 &&
             field_106_current_state != eAbeStates::State_125_LiftUseDown_45A7B0)
@@ -3500,7 +3498,7 @@ void Abe::State_3_Fall_459B60()
                 // Slam into the floor and break all your bones
                 field_10C_health = FP_FromInteger(0);
                 field_106_current_state = eAbeStates::State_84_FallLandDie_45A420;
-                field_128.field_4 = sGnFrame_5C1B84 + 900;
+                field_128.field_4_regen_health_timer = sGnFrame_5C1B84 + 900;
             }
 
             field_F4 = 3;

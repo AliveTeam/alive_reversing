@@ -17,7 +17,7 @@ enum class AbeSay : __int16
 struct Abe_1BC_20_sub_object
 {
     int field_0_gnFrame;
-    int field_4;
+    int field_4_regen_health_timer;
     FP field_8;
     int field_C;
     unsigned __int16 field_10;
@@ -235,7 +235,7 @@ public:
     __int16 field_122;
     int field_124_gnFrame;
     Abe_1BC_20_sub_object field_128;
-    int field_144;
+    int field_144_auto_say_timer;
     int field_148;
     int field_14C;
     int field_150_OrbWhirlWind_id;
@@ -247,7 +247,7 @@ public:
     int field_168_ring_pulse_timer;
     __int16 field_16C_bHaveShrykull;
     __int16 field_16E_bHaveInvisiblity;
-    int field_170;
+    int field_170_invisible_timer;
     __int16 field_174;
     __int16 field_176;
     int field_178_invisible_effect_id;
