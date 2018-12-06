@@ -969,20 +969,16 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 
     sActiveHero_5C1B68->field_20_animation.field_C_render_layer = pSaveState->byte2C;
     
-    // TODO
-    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame ==
-        *(unsigned __int16 *)&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[sActiveHero_5C1B68->field_20_animation.field_18_frame_table_offset + 2] - 1)
+    AnimationHeader* pAnimHeader = reinterpret_cast<AnimationHeader*>(&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[sActiveHero_5C1B68->field_20_animation.field_18_frame_table_offset]);
+    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame == pAnimHeader->field_2_num_frames - 1)
     {
         sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
-    //FrameInfoHeader* pFrameHeader = sActiveHero_5C1B68->field_20_animation.Get_FrameHeader_40B730(-1);
+    FrameInfoHeader* pFrameInfoHeader = sActiveHero_5C1B68->field_20_animation.Get_FrameHeader_40B730(-1);
+    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+    sActiveHero_5C1B68->field_20_animation.Load_Pal_40A530(sActiveHero_5C1B68->field_20_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
-    /* TODO
-    sActiveHero_5C1B68->field_20_animation.Load_Pal_40A530(
-        sActiveHero_5C1B68->field_20_animation.field_20_ppBlock,
-        *(DWORD *)&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[pFrameHeader->field_0_frame_header_offset]);
-    */
 
     sActiveHero_5C1B68->SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.sCurrentLevelId_5C3030);
     sActiveHero_5C1B68->field_20_animation.field_B_render_mode = 0;
