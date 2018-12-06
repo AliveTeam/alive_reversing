@@ -8,8 +8,9 @@
 ALIVE_VAR(1, 0x560f58, __int16, sSFXPitchVariationEnabled_560F58, true);
 
 //ALIVE_ARY(1, 0x55C2A0, SfxDefinition, 146, sSfxEntries_55C2A0, {
-SfxDefinition sSfxEntries_55C2A0[] = {
-{ 0u, 0u, 66u, 75u, 0, 0 },
+const SfxDefinition sSfxEntries_55C2A0[] = 
+{
+    { 0u, 0u, 66u, 75u, 0, 0 },
     { 0u, 0u, 67u, 75u, 0, 0 },
     { 0u, 0u, 72u, 55u, 0, 0 },
     { 0u, 0u, 73u, 55u, 0, 0 },
@@ -133,7 +134,7 @@ SfxDefinition sSfxEntries_55C2A0[] = {
     { 0u, 6u, 64u, 127u, 0, 0 }
 };
 
-EXPORT void CC SFX_SetPitch_4CA510(SfxDefinition* pSfx, int channelsBits, __int16 pitch)
+EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, __int16 pitch)
 {
     int v3 = 0;
     __int16 v4 = 0;
@@ -210,7 +211,7 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 
     return channelBits;
 }
 
-int CC SFX_SfxDefinition_Play_4CA420(SfxDefinition *sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max)
+int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max)
 {
     if (!volume)
     {
@@ -255,7 +256,7 @@ int CC SFX_SfxDefinition_Play_4CA420(SfxDefinition *sfxDef, __int16 volume, __in
     return midiHandle;
 }
 
-int CC SFX_SfxDefinition_Play_4CA700(SfxDefinition *sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max)
+int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max)
 {
     if (pitch_min == 0x7FFF)
     {

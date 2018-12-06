@@ -306,7 +306,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_129_PoisonGasDeath_4565C0
 };
 
-SfxDefinition sAbeSFXList_555250[41] =
+const SfxDefinition sAbeSFXList_555250[41] =
 {
     { 0u, 0u, 0u, 0u, 0, 0 },
     { 0u, 0u, 0u, 0u, 0, 0 },
@@ -351,7 +351,7 @@ SfxDefinition sAbeSFXList_555250[41] =
     { 0u, 0u, 0u, 0u, 0, 0 }
 };
 
-int sAbeFrameOffsetTable_554B18[130] =
+const int sAbeFrameOffsetTable_554B18[130] =
 {
     58888, 58808, 59064, 58888, 58788, 58748, 58768, 59028, 58992, 58956, 58920, 
     59112, 270240, 269976, 270024, 269928, 269928, 270092, 270060, 269876, 271080, 
@@ -367,7 +367,7 @@ int sAbeFrameOffsetTable_554B18[130] =
     8732, 8772, 22548, 22572, 22464, 22596, 22496, 11856, 11816, 11888, 28824
 };
 
-TintEntry sTintTable_Abe_554D20[15] =
+const TintEntry sTintTable_Abe_554D20[15] =
 {
     { 1, 102u, 102u, 102u },
     { 2, 102u, 102u, 80u },

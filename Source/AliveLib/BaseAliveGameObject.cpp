@@ -224,7 +224,7 @@ int BaseAliveGameObject::vnull_4081F0()
     return 0;
 }
 
-void BaseAliveGameObject::SetTint_425600(TintEntry * pTintArray, LevelIds level_id)
+void BaseAliveGameObject::SetTint_425600(const TintEntry* pTintArray, LevelIds level_id)
 {
     while (pTintArray->field_0_level != static_cast<int>(level_id)) // TODO: HACK in static data its a byte which doesn't match the enum size
     {

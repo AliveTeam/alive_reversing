@@ -318,5 +318,5 @@ ALIVE_VAR_EXTERN(Abe *, sControlledCharacter_5C1B8C);
 
 ALIVE_VAR_EXTERN(short, word_5C1BDA);
 
-extern int sAbeFrameOffsetTable_554B18[130];
+extern const int sAbeFrameOffsetTable_554B18[130];
 extern const char* const sAbeStateNames[130];
