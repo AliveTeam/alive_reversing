@@ -69,7 +69,7 @@ public:
         eType_57 = 57,
         eType_58 = 58,
         eType_59 = 59,
-        eType_60 = 60,
+        eSlapLock_OrbWhirlWind_60 = 60,
         eLockedSoul_61 = 61,
         eDeathBird_62 = 62,
         eType_63 = 63,

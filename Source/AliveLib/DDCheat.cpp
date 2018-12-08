@@ -330,8 +330,8 @@ void DDCheat::Update_415780()
 #else
             DebugStr_4F5560(
                 "\nheroxy=%4d,%4d",
-                sActiveHero_5C1B68->field_B8_xpos.GetExponent(),
-                sActiveHero_5C1B68->field_BC_ypos.GetExponent());
+                FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos),
+                FP_GetExponent(sActiveHero_5C1B68->field_BC_ypos));
 #endif
 
             field_20 = 6;
