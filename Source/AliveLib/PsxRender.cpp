@@ -1492,7 +1492,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
             int width_clip_counter = 0;
             float u_pos = 0.0f;
             int u_width_counter = 0;
-            while (u_width_counter < u_width)
+            while (u_width_counter <= u_width)
             {
                 if (width_clip_counter >= width_clip)
                 {
