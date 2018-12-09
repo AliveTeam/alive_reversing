@@ -364,7 +364,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsFacingMe_4254A0(BaseAnimatedWithPhy
     return FALSE;
 }
 
-// This is how Scrabs (and probably other stuff) know you are on the same "floor"
+// This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
 __int16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     // Get bounding rects
@@ -375,20 +375,20 @@ __int16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithP
     pOther->GetBoundingRect_424FD0(&theirRect, 1);
 
     // Get mid Y of each
-    const int ourMidY = (theirRect.h + theirRect.y) / 2;
-    const int theirMidY = (ourRect.h + ourRect.y) / 2;
+    const int theirMidY = (theirRect.h + theirRect.y) / 2;
+    const int ourMidY = (ourRect.h + ourRect.y) / 2;
+
+    if (theirMidY <= ourRect.h && theirMidY >= ourRect.y)
+    {
+        return TRUE;
+    }
 
     if (ourMidY <= theirRect.h && ourMidY >= theirRect.y)
     {
         return TRUE;
     }
 
-    if (theirMidY > ourRect.h || theirMidY < ourRect.y)
-    {
-        return FALSE;
-    }
-
-    return TRUE;
+    return FALSE;
 }
 
 void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(Types typeToFind)
