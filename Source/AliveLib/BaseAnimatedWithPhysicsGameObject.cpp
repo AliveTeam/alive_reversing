@@ -330,7 +330,7 @@ __int16 BaseAnimatedWithPhysicsGameObject::IsObj_GettingNear_On_X_425420(BaseAni
         return TRUE;
     }
 
-    if (pOther->field_B8_xpos > field_B8_xpos && pOther->field_B8_xpos < field_B8_xpos)
+    if (pOther->field_B8_xpos > field_B8_xpos && pOther->field_C4_velx < field_C4_velx)
     {
         // Its after our xpos but its velocity is moving towards our xpos!
         return TRUE;
