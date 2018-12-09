@@ -4201,7 +4201,56 @@ void Abe::State_26_RunTurn_451500()
 
 void Abe::State_27_HopBegin_4521C0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 9)
+    {
+        // Change velocity at this frame
+        const FP velX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-17) : FP_FromInteger(17);
+
+        field_C4_velx = field_CC_sprite_scale * velX;
+
+        if (field_1A8 == -1)
+        {
+            // Check for hopping into a wall
+            if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+                Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+            {
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                field_C4_velx = FP_FromInteger(0);
+                ToKnockback_44E700(1, 1);
+                return;
+            }
+        }
+        field_B8_xpos += field_C4_velx;
+        sub_408C40();
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_F8 = field_BC_ypos;
+        const FP velX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57);
+        field_C4_velx = velX;
+        field_B8_xpos += velX;
+
+        const FP velY = field_CC_sprite_scale * FP_FromDouble(2.7);
+        field_C8_vely = velY;
+        field_BC_ypos += velY;
+        
+        Vnull_4081F0();
+        
+        field_106_current_state = eAbeStates::State_28_HopMid_451C50;
+        field_100_pCollisionLine = nullptr;
+
+        if (field_1A8 == -1)
+        {
+            BaseGameObject* pObj = Vsub_408FD0(2);
+            if (pObj)
+            {
+                field_1A4 = 0;
+                field_1A8 = pObj->field_8_object_id;
+            }
+        }
+    }
 }
 
 void Abe::State_28_HopMid_451C50()
