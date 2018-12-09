@@ -4265,7 +4265,42 @@ void Abe::State_29_HopLand_4523D0()
 
 void Abe::State_30_RunJumpBegin_4532E0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+    // Check if about to jump into a wall
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(FP_FromInteger(10), field_C4_velx)) // TODO: OG bug, why no scaling?
+    {
+        ToKnockback_44E700(1, 1);
+    }
+    else
+    {
+        field_B8_xpos += field_C4_velx;
+
+        if (field_20_animation.field_92_current_frame == 0)
+        {
+            Abe_SFX_2_457A40(11, 0, 32767, this);
+        }
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_F8 = field_BC_ypos;
+
+            const FP velX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-7.6) : FP_FromDouble(7.6);
+            field_C4_velx = field_CC_sprite_scale * velX;
+
+            const FP velY = field_CC_sprite_scale * FP_FromDouble(-9.6);
+            field_C8_vely = velY;
+            field_BC_ypos += velY;
+
+            Vnull_4081F0();
+
+            field_106_current_state = eAbeStates::State_31_RunJumpMid_452C10;
+            field_100_pCollisionLine = nullptr;
+        }
+    }
+
 }
 
 void Abe::State_31_RunJumpMid_452C10()
