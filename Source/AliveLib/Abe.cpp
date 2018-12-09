@@ -124,11 +124,11 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_91_RingRopePullEnd_4557B0) \
     ENTRY(State_92_ForceDown_From_Hoist_455800) \
     ENTRY(State_93_FallLedgeBegin_455970) \
-    ENTRY(jState_94_FallLedgeBegin_4559A0) \
-    ENTRY(jState_95_FallLedgeBegin_4559C0) \
+    ENTRY(State_94_RunOffEdge_4559A0) \
+    ENTRY(State_95_SneakOffEdge_4559C0) \
     ENTRY(State_96_4559E0) \
     ENTRY(jState_97_FallLedgeBegin_455A80) \
-    ENTRY(jState_98_FallLedgeBegin_455AA0) \
+    ENTRY(State_98_RollOffEdge_455AA0) \
     ENTRY(State_99_LeverUse_455AC0) \
     ENTRY(State_100_455B60) \
     ENTRY(State_101_KnockForward_455420) \
@@ -269,11 +269,11 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_91_RingRopePullEnd_4557B0,
     &Abe::State_92_ForceDown_From_Hoist_455800,
     &Abe::State_93_FallLedgeBegin_455970,
-    &Abe::jState_94_FallLedgeBegin_4559A0,
-    &Abe::jState_95_FallLedgeBegin_4559C0,
+    &Abe::State_94_RunOffEdge_4559A0,
+    &Abe::State_95_SneakOffEdge_4559C0,
     &Abe::State_96_4559E0,
     &Abe::jState_97_FallLedgeBegin_455A80,
-    &Abe::jState_98_FallLedgeBegin_455AA0,
+    &Abe::State_98_RollOffEdge_455AA0,
     &Abe::State_99_LeverUse_455AC0,
     &Abe::State_100_455B60,
     &Abe::State_101_KnockForward_455420,
@@ -3797,7 +3797,7 @@ void Abe::State_17_CrouchIdle_456BC0()
 {
     if (!field_100_pCollisionLine)
     {
-        field_106_current_state = eAbeStates::jState_98_FallLedgeBegin_455AA0;
+        field_106_current_state = eAbeStates::State_98_RollOffEdge_455AA0;
         return;
     }
 
@@ -5192,14 +5192,14 @@ void Abe::State_93_FallLedgeBegin_455970()
     State_3_Fall_459B60();
 }
 
-void Abe::jState_94_FallLedgeBegin_4559A0()
+void Abe::State_94_RunOffEdge_4559A0()
 {
-    NOT_IMPLEMENTED();
+    State_93_FallLedgeBegin_455970();
 }
 
-void Abe::jState_95_FallLedgeBegin_4559C0()
+void Abe::State_95_SneakOffEdge_4559C0()
 {
-    NOT_IMPLEMENTED();
+    State_93_FallLedgeBegin_455970();
 }
 
 void Abe::State_96_4559E0()
@@ -5212,9 +5212,9 @@ void Abe::jState_97_FallLedgeBegin_455A80()
     NOT_IMPLEMENTED();
 }
 
-void Abe::jState_98_FallLedgeBegin_455AA0()
+void Abe::State_98_RollOffEdge_455AA0()
 {
-    NOT_IMPLEMENTED();
+    State_93_FallLedgeBegin_455970();
 }
 
 void Abe::State_99_LeverUse_455AC0()
@@ -5713,16 +5713,16 @@ void Abe::sub_44E9A0()
             break;
         case eAbeStates::State_33_RunLoop_4508E0:
         case eAbeStates::State_39_StandingToRun_450D40:
-            field_106_current_state = eAbeStates::jState_94_FallLedgeBegin_4559A0;
+            field_106_current_state = eAbeStates::State_94_RunOffEdge_4559A0;
             break;
         case eAbeStates::jState_38_RollBegin_453A70:
         case eAbeStates::State_22_RollBegin_4539A0:
         case eAbeStates::State_23_RollLoop_453A90:
         case eAbeStates::State_24_453D00:
-            field_106_current_state = eAbeStates::jState_98_FallLedgeBegin_455AA0;
+            field_106_current_state = eAbeStates::State_98_RollOffEdge_455AA0;
             break;
         default:
-            field_106_current_state = eAbeStates::jState_95_FallLedgeBegin_4559C0;
+            field_106_current_state = eAbeStates::State_95_SneakOffEdge_4559C0;
             break;
         }
         

@@ -164,11 +164,11 @@ public:
     EXPORT void State_91_RingRopePullEnd_4557B0();
     EXPORT void State_92_ForceDown_From_Hoist_455800();
     EXPORT void State_93_FallLedgeBegin_455970();
-    EXPORT void jState_94_FallLedgeBegin_4559A0();
-    EXPORT void jState_95_FallLedgeBegin_4559C0();
+    EXPORT void State_94_RunOffEdge_4559A0();
+    EXPORT void State_95_SneakOffEdge_4559C0();
     EXPORT void State_96_4559E0();
     EXPORT void jState_97_FallLedgeBegin_455A80();
-    EXPORT void jState_98_FallLedgeBegin_455AA0();
+    EXPORT void State_98_RollOffEdge_455AA0();
     EXPORT void State_99_LeverUse_455AC0();
     EXPORT void State_100_455B60();
     EXPORT void State_101_KnockForward_455420();
