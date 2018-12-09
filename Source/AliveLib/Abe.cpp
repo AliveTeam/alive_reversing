@@ -25,6 +25,7 @@
 #include "ThrowableTotalIndicator.hpp"
 #include "AbilityRing.hpp"
 #include "OrbWhirlWind.hpp"
+#include "Blood.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -2136,8 +2137,6 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 
 __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
 {
-    NOT_IMPLEMENTED();
-
     // Stop chant sound music
     SND_SEQ_Stop_4CAE60(10u);
     
@@ -2295,13 +2294,10 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
                 field_BC_ypos - FP_FromInteger(30),
                 FP_FromInteger(0));
 
-            /*
-            rand1 = (sRandomBytes_546744[sRandomSeed_5D1E10] - 127) << 11;
-            rand2 = -2048 * sRandomBytes_546744[(sRandomSeed_5D1E10 + 1)] - 0x20000;
-            sRandomSeed_5D1E10 += 2;
-
-            pThrowable->Vsub_49E460(rand1, rand2); // Random explode time ?
-            */
+            // Random explode time ?
+            const FP rand1 = FP_FromRaw((Math_NextRandom() - 127) << 11); // TODO: Wat?
+            const FP rand2 = (FP_FromDouble(0.03125) * FP_FromRaw(Math_NextRandom())) - FP_FromInteger(2);
+            pThrowable->Vsub_49E460(rand1, rand2);
 
             pThrowable->field_CC_sprite_scale = field_CC_sprite_scale;
             pThrowable->field_D6_scale = field_D6_scale;
@@ -2338,65 +2334,32 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
             
             if (field_10C_health > FP_FromInteger(0))
             {
-                /*
-                hpRandSoundRange = Math_FixedPoint_Divide_496B70(
-                    0x10000 - sActiveHero_5C1B68->field_10C_health,
-                    0x2666);
-                LOWORD(pitchRand) = Math_RandomRange_496AB0(
-                    200 * (hpRandSoundRange / 0x10000),
-                    40 * (5 * (hpRandSoundRange / 0x10000) + 5));
-                */
-                //Abe_SFX_457EC0(9u, 0, pitchRand, this);
+                // The damage sound from a Fleech keeps getting high and higher pitch till death
+                const FP hpRandSoundRange = (FP_FromInteger(1) - sActiveHero_5C1B68->field_10C_health) / FP_FromDouble(0.15);
+                const short pitchRand = Math_RandomRange_496AB0(
+                    200 * (FP_GetExponent(hpRandSoundRange)),
+                    40 * (5 * (FP_GetExponent(hpRandSoundRange)) + 5));
+
+                Abe_SFX_457EC0(9u, 0, pitchRand, this);
                 return 1;
             }
 
-            /*
-            pbRect = vGetBoundingRect_424FD0(
-                this,
-                &thisBRect,
-                1);
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
 
-            xy = *&pbRect->x;
-            wh = *&pbRect->w;
-            if (field_B8_xpos - pFrom->field_B8_xpos < 0)
+            auto pBlood = alive_new<Blood>();
+            if (pBlood)
             {
-                pUnknown = malloc_4954D0(0x130u);
-                unknown = 1;
-                if (pUnknown)
-                {
-                    v20 = Math_FixedPoint_Divide_496B70((xy.field_2_y + wh.field_2_y) << 16, 0x20000);
-                    Blood::ctor_40F0B0(
-                        pUnknown,
-                        field_B8_xpos,
-                        v20,
-                        -1572864,
-                        0,
-                        field_CC_sprite_scale,
-                        50);
-                }
-                pFromCopy = pFrom;
-                unknown = -1;
+                pBlood->ctor_40F0B0(
+                    field_B8_xpos,
+                    // Put YPos in the middle of who is getting damaged
+                    FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2),
+                    // Put the blood on the left or the right depending on where the damage is coming from
+                    FP_FromInteger((field_B8_xpos - pFrom->field_B8_xpos < FP_FromInteger(0))  ? -24 : 24),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    50);
             }
-            else
-            {
-                pUnknown2 = malloc_4954D0(0x130u);
-                unknown = 0;
-                if (pUnknown2)
-                {
-                    v18 = Math_FixedPoint_Divide_496B70((xy.field_2_y + wh.field_2_y) << 16, 0x20000);
-                    Blood::ctor_40F0B0(
-                        pUnknown2,
-                        field_B8_xpos,
-                        v18,
-                        0x180000,
-                        0,
-                        field_CC_sprite_scale,
-                        50);
-                    pFromCopy = pFrom;
-                }
-                unknown = -1;
-            }
-            */
 
             if (ForceDownIfHoisting_44BA30())
             {
@@ -2455,24 +2418,22 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
         if (field_10C_health > FP_FromInteger(0))
         {
             field_10C_health = FP_FromInteger(0);
+
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);
 
-            PSX_Point xy = { bRect.x, bRect.y };
-            PSX_Point wh = { bRect.w, bRect.h };
-
-            /*
-            auto blood = alive_new<Blood>();
-
-            v31 = Math_FixedPoint_Divide_496B70((SHIWORD(xy2) + SHIWORD(wh2)) << 16, 0x20000);
-            blood->ctor_40F0B0(
-                field_B8_xpos,
-                v31,
-                (pFrom->field_C4_velx <= FP_FromInteger(0)) ? FP_FromInteger(-24) : FP_FromInteger(24),
-                0,
-                field_CC_sprite_scale,
-                50);
-            */
+            auto pBlood = alive_new<Blood>();
+            if (pBlood)
+            {
+                pBlood->ctor_40F0B0(
+                    field_B8_xpos,
+                    FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2),
+                    // Put the blood on the left or the right depending on where the damage is coming from
+                    (pFrom->field_C4_velx <= FP_FromInteger(0)) ? FP_FromInteger(-24) : FP_FromInteger(24),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    50);
+            }
 
             if (ForceDownIfHoisting_44BA30())
             {

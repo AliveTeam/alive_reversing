@@ -159,6 +159,8 @@ add_library(AliveLib
     AbilityRing.hpp
     OrbWhirlWind.cpp
     OrbWhirlWind.hpp
+    Blood.cpp
+    Blood.hpp
     Slurg.cpp
     Slurg.hpp)
 
