@@ -3730,7 +3730,16 @@ void Abe::State_12_Null_4569C0()
 
 void Abe::State_13_HoistBegin_452B20()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_F8 = field_BC_ypos;
+        const FP velY = field_CC_sprite_scale * FP_FromInteger(-8);
+        field_C8_vely = velY;
+        field_BC_ypos += velY;
+        Vnull_4081F0();
+        field_106_current_state = eAbeStates::State_14_HoistIdle_452440;
+        field_100_pCollisionLine = nullptr;
+    }
 }
 
 void Abe::State_14_HoistIdle_452440()
@@ -5578,7 +5587,39 @@ __int16 Abe::ToLeftRightMovement_44E340()
 
 void Abe::TryHoist_44ED30()
 {
-    NOT_IMPLEMENTED();
+    field_106_current_state = eAbeStates::State_13_HoistBegin_452B20;
+
+    const FP xpos = field_B8_xpos;
+    const FP ypos = field_BC_ypos - FP_FromInteger(10); // Look up 10 for a hoist
+
+    Path_Hoist* pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(xpos),
+        FP_GetExponent(ypos),
+        FP_GetExponent(xpos),
+        FP_GetExponent(ypos),
+        Path_Hoist::kType));
+
+    if (pHoist)
+    {
+        // Is the hoist on the same layer?
+        Path_Hoist::Scale hoist_scale = pHoist->field_16_scale;
+        if (hoist_scale == Path_Hoist::Scale::eFull && field_D6_scale == 1 ||
+            hoist_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 0)
+        {
+            // Are we facing the explicit direction of the hoist?
+            const Path_Hoist::EdgeType edge_type = pHoist->field_12_edge_type;
+            if (edge_type == Path_Hoist::EdgeType::eRight && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ||
+                edge_type == Path_Hoist::EdgeType::eLeft && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                // No so auto turn around to face it
+                field_108_delayed_state = field_106_current_state;
+                field_106_current_state = eAbeStates::State_2_StandingTurn_451830;
+            }
+
+        }
+
+        field_FC_pPathTLV = pHoist;
+    }
 }
 
 void CC Abe::Create_Fart_421D20()

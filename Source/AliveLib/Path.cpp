@@ -150,10 +150,75 @@ Path_TLV* Path::TLV_First_Of_Type_In_Camera_4DB6D0(unsigned __int16 objectType, 
     return pTlv;
 }
 
-Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 /*xpos*/, __int16 /*ypos*/, __int16 /*width*/, __int16 /*height*/, unsigned __int16 /*objectType*/)
+Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __int16 height, unsigned __int16 objectType)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    // TODO: Can be refactored to use min/max
+    __int16 right = 0;
+    __int16 left = 0;
+
+    if (xpos >= width)
+    {
+        right = width;
+        left = xpos;
+    }
+    else
+    {
+        right = xpos;
+        left = width;
+    }
+
+    __int16 top = 0;
+    __int16 bottom = 0;
+
+    if (ypos >= height)
+    {
+        top = height;
+        bottom = ypos;
+    }
+    else
+    {
+        top = ypos;
+        bottom = height;
+    }
+
+    const int gird_cell_y = (top + bottom) / (2 * field_C_pPathData->field_C_grid_height);
+    const int grid_cell_x = (right + left) / (2 * field_C_pPathData->field_A_grid_width);
+    
+    // Check within map bounds
+    if (grid_cell_x >=field_6_cams_on_x)
+    {
+        return nullptr;
+    }
+
+    if (gird_cell_y >= field_8_cams_on_y)
+    {
+        return nullptr;
+    }
+
+    // Get the offset to where the TLV list starts for this camera cell
+    const int* indexTable = reinterpret_cast<const int*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
+    const int indexTableEntry = indexTable[(grid_cell_x + (gird_cell_y * field_6_cams_on_x))];
+    if (indexTableEntry == -1)
+    {
+        return nullptr;
+    }
+
+    // Iterate all TLVs for this cell till we find one that matches the type and is within the TLV bounding rect
+    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + indexTableEntry]);
+    while (pTlvIter)
+    {
+        if (pTlvIter->field_4_type == objectType
+            && right <= pTlvIter->field_C_bottom_right.field_0_x
+            && left >= pTlvIter->field_8_top_left.field_0_x
+            && bottom >= pTlvIter->field_8_top_left.field_2_y
+            && top <= pTlvIter->field_C_bottom_right.field_2_y)
+        {
+            return pTlvIter;
+        }
+        pTlvIter = Path::Next_TLV_4DB6A0(pTlvIter);
+    }
+
+    return pTlvIter;
 }
 
 Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* /*pTlv*/, FP /*xpos*/, FP /*ypos*/, FP /*w*/, FP /*h*/)
