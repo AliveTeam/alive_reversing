@@ -47,7 +47,7 @@ void IO_Init_494230()
     NOT_IMPLEMENTED();
 }
 
-static bool IsPowerOf2(int i)
+bool IsPowerOf2(int i)
 {
     return !(i & (i - 1));
 }
