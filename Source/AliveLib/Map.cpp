@@ -20,6 +20,7 @@
 #include "CameraSwapper.hpp"
 #include "MainMenu.hpp"
 #include "Events.hpp"
+#include "Movie.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }

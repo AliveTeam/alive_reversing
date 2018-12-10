@@ -154,7 +154,7 @@ public:
         eTrapDoor_142 = 142,
         eUXB_143 = 143,
         eType_144 = 144,
-        eType_145 = 145,
+        eMovie_145 = 145,
         eWeb_146 = 146,
         eType_147 = 147,
         eWheel_148 = 148,

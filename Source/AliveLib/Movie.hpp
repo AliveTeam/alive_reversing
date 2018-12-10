@@ -4,6 +4,9 @@
 
 struct CdlLOC;
 
+EXPORT void CC Get_fmvs_sectors_494460(const char* fmvName1, const char* fmvName2, const char* fmvName3, DWORD* fmvSectorPos1, DWORD* fmvSectorPos2, DWORD* fmvSectorPos3);
+EXPORT void IO_Init_494230();
+
 class Movie : public BaseGameObject
 {
 public:
@@ -16,6 +19,8 @@ public:
     EXPORT void vUpdate_4E0030();
     EXPORT BaseGameObject* vdtor_4DFE80(signed int flags);
 private:
+    EXPORT void DeInit_4E0210();
+
     __int16 field_20;
     __int16 field_22_param5;
     int field_24;
@@ -32,3 +37,5 @@ private:
     char field_47;
 };
 ALIVE_ASSERT_SIZEOF(Movie, 0x48);
+
+ALIVE_VAR_EXTERN(int, sMovie_ref_count_BB4AE4);

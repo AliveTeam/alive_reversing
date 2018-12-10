@@ -37,6 +37,7 @@
 #include "FG1.hpp"
 #include "PsxRender.hpp"
 #include "Slurg.hpp"
+#include "Movie.hpp"
 
 void Game_ForceLink() { }
 
@@ -245,11 +246,6 @@ EXPORT int CC Game_End_Frame_4950F0(DWORD flags)
 }
 
 EXPORT void CC VLC_Tables_Init_496720()
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void IO_Init_494230()
 {
     NOT_IMPLEMENTED();
 }

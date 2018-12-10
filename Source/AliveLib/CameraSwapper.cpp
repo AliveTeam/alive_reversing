@@ -12,7 +12,6 @@
 #include "Sfx.hpp"
 #include "Movie.hpp"
 
-ALIVE_VAR(1, 0xbb4ae4, int, sMovie_ref_count_BB4AE4, 0); // TODO: Move to movie obj when created
 
 class ScreenClipper : public BaseGameObject
 {
