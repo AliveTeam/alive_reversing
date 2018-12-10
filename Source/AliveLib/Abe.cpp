@@ -4232,7 +4232,7 @@ void Abe::State_27_HopBegin_4521C0()
         field_C4_velx = velX;
         field_B8_xpos += velX;
 
-        const FP velY = field_CC_sprite_scale * FP_FromDouble(2.7);
+        const FP velY = field_CC_sprite_scale * FP_FromDouble(-2.7);
         field_C8_vely = velY;
         field_BC_ypos += velY;
         
