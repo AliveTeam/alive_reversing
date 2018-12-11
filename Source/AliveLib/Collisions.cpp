@@ -317,16 +317,20 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
 
 signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
 {
-    PathLine* pLineImpl = nullptr;
-    FP implX = {};
-    FP implY = {};
+    // Take 2 copies of the input before anything changes them, important as the caller can pass in defaults - don't overwrite them if we don't 
+    // find a collision!
+    PathLine* pLineImpl = *ppLine;
+    FP implX = *hitX;
+    FP implY = *hitY;
+
+    PathLine* pLineReal = *ppLine;
+    FP realX = *hitX;
+    FP realY = *hitY;
+
     signed __int16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
 
     if (IsAlive())
     {
-        PathLine* pLineReal = nullptr;
-        FP realX = {};
-        FP realY = {};
         signed __int16 ret_real = Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineReal, &realX, &realY, modeMask);
 
         // TODO: Remove when this is fully re-tested and known to be working
