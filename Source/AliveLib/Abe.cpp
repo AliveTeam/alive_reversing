@@ -4204,9 +4204,9 @@ void Abe::State_27_HopBegin_4521C0()
     if (field_20_animation.field_92_current_frame == 9)
     {
         // Change velocity at this frame
-        const FP velX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-17) : FP_FromInteger(17);
+        const FP velX = field_CC_sprite_scale * (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-17) : FP_FromInteger(17));
 
-        field_C4_velx = field_CC_sprite_scale * velX;
+        field_C4_velx = velX;
 
         if (field_1A8 == -1)
         {
@@ -4228,7 +4228,7 @@ void Abe::State_27_HopBegin_4521C0()
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_F8 = field_BC_ypos;
-        const FP velX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57);
+        const FP velX = field_CC_sprite_scale * (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57));
         field_C4_velx = velX;
         field_B8_xpos += velX;
 
