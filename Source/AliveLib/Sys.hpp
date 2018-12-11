@@ -45,3 +45,7 @@ EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0();
 EXPORT BOOL CC Sys_IsAppActive_4EDF30();
 EXPORT char CC Sys_PumpMessages_4EE4F4();
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+struct SoundEntry;
+
+ALIVE_VAR_EXTERN(SoundEntry*, sSoundEntry_5CA230);

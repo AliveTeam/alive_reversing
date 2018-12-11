@@ -75,9 +75,11 @@ private:
 
 
     void* field_0_file_handle;
+public:
     Masher_Header field_4_ddv_header;
     Masher_VideoHeader field_14_video_header;
     Masher_AudioHeader field_2C_audio_header;
+private:
     void* field_40_video_frame_to_decode;
     unsigned short *field_44_decoded_frame_data_buffer;
     int* field_48_sound_frame_to_decode;
