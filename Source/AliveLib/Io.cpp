@@ -175,3 +175,211 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
         return hFile->field_C_last_api_result;
     }
 }
+
+ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
+
+EXPORT DWORD __stdcall IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
+{
+    MSG msg = {};
+
+    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(lpThreadParameter);
+
+    if (pHandle->field_C_bQuit)
+    {
+        return 0;
+    }
+
+    do
+    {
+        if (GetMessageA(&msg, 0, 0x400u, 0x400u) != -1 && msg.wParam == 4444 && msg.lParam == 5555)
+        {
+            pHandle->field_10_read_ret = fread_520B5C(
+                pHandle->field_4_readBuffer,
+                1u,
+                pHandle->field_8_readSize,
+                pHandle->field_0_hFile) == pHandle->field_8_readSize;
+            SetEvent(pHandle->field_18_hEvent);
+        }
+    } while (!pHandle->field_C_bQuit);
+    return 0;
+}
+
+EXPORT int CC IO_Wait_ASync_4EACF0(void* hFile)
+{
+    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
+
+    DWORD dwRet = WaitForSingleObject(pHandle->field_18_hEvent, 0x3E8u);
+    if (!dwRet)
+    {
+        return pHandle->field_10_read_ret;
+    }
+
+    while (dwRet == 258)
+    {
+        dwRet = WaitForSingleObject(pHandle->field_18_hEvent, 0x3E8u);
+        if (!dwRet)
+        {
+            return pHandle->field_10_read_ret;
+        }
+    }
+    return 0;
+}
+
+EXPORT void CC IO_Close_ASync_4EAD40(void* hFile)
+{
+    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
+    IO_Wait_ASync_4EACF0(pHandle);
+    if (pHandle->field_0_hFile)
+    {
+        fclose_520CBE(pHandle->field_0_hFile);
+    }
+    pHandle->field_C_bQuit = 1;
+    if (pHandle->field_14_hThread)
+    {
+        CloseHandle(pHandle->field_14_hThread);
+    }
+    if (pHandle->field_18_hEvent)
+    {
+        CloseHandle(pHandle->field_18_hEvent);
+    }
+    Mem_Free_495540(pHandle);
+}
+
+EXPORT void* CC IO_Open_ASync_4EADA0(const char* filename)
+{
+    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(malloc_5212C0(sizeof(IO_Movie_Handle)));
+    if (!pHandle)
+    {
+        return nullptr;
+    }
+    pHandle->field_C_bQuit = 0;
+    pHandle->field_14_hThread = CreateThread(0, 0x4000u, IO_ASync_Thread_4EAE20, pHandle, 0, &pHandle->field_1C_ThreadId);
+    pHandle->field_18_hEvent = CreateEventA(0, 1, 1, 0);
+    pHandle->field_10_read_ret = 1;
+    pHandle->field_0_hFile = fopen_520C64(filename, "rb");
+    if (pHandle->field_0_hFile)
+    {
+        return pHandle;
+    }
+
+    IO_Close_ASync_4EAD40(pHandle);
+    return nullptr;
+}
+
+EXPORT BOOL CC IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, DWORD readSize)
+{
+    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
+    if (!IO_Wait_ASync_4EACF0(pHandle))
+    {
+        return FALSE;
+    }
+
+    pHandle->field_4_readBuffer = pBuffer;
+    pHandle->field_8_readSize = readSize;
+    ResetEvent(pHandle->field_18_hEvent);
+
+    while (!PostThreadMessageA(pHandle->field_1C_ThreadId, 0x400u, 0x115Cu, 5555))
+    {
+        Sleep(200u);
+    }
+
+    return TRUE;
+}
+
+EXPORT int CC IO_Sync_ASync_4EAF80(void* hFile, DWORD offset, DWORD origin)
+{
+    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
+    int result = IO_Wait_ASync_4EACF0(pHandle);
+    if (result)
+    {
+        result = fseek_521955(pHandle->field_0_hFile, offset, origin) != 0;
+    }
+    return result;
+}
+
+EXPORT void* CC IO_Open_Sync_4EAEB0(const char* pFileName)
+{
+    return fopen_520C64(pFileName, "rb");
+}
+
+EXPORT void CC IO_Close_Sync_4EAD90(void* pHandle)
+{
+    FILE* hFile = reinterpret_cast<FILE*>(pHandle);
+    if (hFile)
+    {
+        fclose_520CBE(hFile);
+    }
+}
+
+EXPORT BOOL CC IO_Read_Sync_4EAF50(void* pHandle, void* pBuffer, DWORD readSize)
+{
+    FILE* hFile = reinterpret_cast<FILE*>(pHandle);
+    return fread_520B5C(pBuffer, 1u, readSize, hFile) == readSize;
+}
+
+EXPORT int CC IO_Wait_Sync_4EAD30(void*)
+{
+    return 1;
+}
+
+EXPORT BOOL CC IO_Seek_Sync_4EAFC0(void* pHandle, DWORD offset, DWORD origin)
+{
+    FILE* hFile = reinterpret_cast<FILE*>(pHandle);
+    return fseek_521955(hFile, offset, origin) != 0;
+}
+
+EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
+{
+    if (bASync)
+    {
+        sMovie_IO_BBB314.mIO_Open = IO_Open_ASync_4EADA0;
+        sMovie_IO_BBB314.mIO_Close = IO_Close_ASync_4EAD40;
+        sMovie_IO_BBB314.mIO_Read = IO_Read_ASync_4EAED0;
+        sMovie_IO_BBB314.mIO_Wait = IO_Wait_ASync_4EACF0;
+        sMovie_IO_BBB314.mIO_Seek = IO_Sync_ASync_4EAF80;
+    }
+    else
+    {
+        sMovie_IO_BBB314.mIO_Open = IO_Open_Sync_4EAEB0;
+        sMovie_IO_BBB314.mIO_Close = IO_Close_Sync_4EAD90;
+        sMovie_IO_BBB314.mIO_Read = IO_Read_Sync_4EAF50;
+        sMovie_IO_BBB314.mIO_Wait = IO_Wait_Sync_4EAD30;
+        sMovie_IO_BBB314.mIO_Seek = IO_Seek_Sync_4EAFC0;
+    }
+}
+
+EXPORT void* CC IO_fopen_494280(const char* pFileName)
+{
+    return IO_Open_4F2320(pFileName, 5);
+}
+
+EXPORT void CC IO_fclose_4942A0(void* pHandle)
+{
+    if (pHandle)
+    {
+        IO_fclose_4F24E0(reinterpret_cast<IO_Handle*>(pHandle));
+    }
+}
+
+EXPORT BOOL CC IO_request_fread_4942C0(void* pHandle, void* pBuffer, DWORD size)
+{
+    return IO_Read_4F23A0(reinterpret_cast<IO_Handle*>(pHandle), pBuffer, size) == 0;
+}
+
+EXPORT BOOL CC IO_fwait_4942F0(void* pHandle)
+{
+    IO_Handle* hHandle = reinterpret_cast<IO_Handle*>(pHandle);
+    IO_WaitForComplete_4F2510(hHandle);
+    return hHandle->field_C_last_api_result == 0;
+}
+
+EXPORT void IO_Init_494230()
+{
+    // NOTE: These are dead given they are instantly overwritten
+    sMovie_IO_BBB314.mIO_Open = IO_fopen_494280;
+    sMovie_IO_BBB314.mIO_Close = IO_fclose_4942A0;
+    sMovie_IO_BBB314.mIO_Read = IO_request_fread_4942C0;
+    sMovie_IO_BBB314.mIO_Wait = IO_fwait_4942F0;
+
+    IO_Init_SyncOrASync_4EAC80(TRUE);
+}

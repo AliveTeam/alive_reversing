@@ -5,7 +5,6 @@
 struct CdlLOC;
 
 EXPORT void CC Get_fmvs_sectors_494460(const char* fmvName1, const char* fmvName2, const char* fmvName3, DWORD* fmvSectorPos1, DWORD* fmvSectorPos2, DWORD* fmvSectorPos3);
-EXPORT void IO_Init_494230();
 
 class Movie : public BaseGameObject
 {

@@ -161,6 +161,9 @@ add_library(AliveLib
     OrbWhirlWind.hpp
     Blood.cpp
     Blood.hpp
+    Masher.hpp
+    Masher.cpp
+    Types.hpp
     Slurg.cpp
     Slurg.hpp)
 

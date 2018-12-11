@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 //#pragma pack(push)
 //#pragma pack(2)
 struct Tbl1
