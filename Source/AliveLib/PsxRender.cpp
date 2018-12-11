@@ -1427,7 +1427,7 @@ static void Scaled_Poly_FT4_Inline_Texture_Render(
     TfnConvertPixel fnConvertPixel,
     TfnDecompress fnDecompress)
 {
-    if (v_height <= 0)
+    if (v_height <= 0 || width <=0 || height <= 0)
     {
         return;
     }
