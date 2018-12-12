@@ -34,6 +34,34 @@ struct Masher_AudioHeader
 };
 ALIVE_ASSERT_SIZEOF(Masher_AudioHeader, 20);
 
+
+class AudioDecompressor
+{
+public:
+
+    s32 mUsedBits = 0;
+    u32 mWorkBits = 0;
+    s32 mAudioNumChannels = 0;
+    u16* mAudioFrameDataPtr = nullptr;
+
+    static u8 gSndTbl_byte_62EEB0[256];
+
+    AudioDecompressor();
+    static s32 GetSoundTableValue(s16 tblIndex);
+    s16 sub_408F50(s16 a1);
+    s32 ReadNextAudioWord(s32 value);
+    s32 SndRelated_sub_409650();
+    s16 NextSoundBits(u16 numBits);
+    bool SampleMatches(s16& sample, s16 bits);
+    template<class T>
+    void decode_generic(T* outPtr, s32 numSamplesPerFrame, bool isLast);
+    void decode_8bit_audio_frame(u8* outPtr, s32 numSamplesPerFrame, bool isLast);
+    void decode_16bit_audio_frame(u16* outPtr, s32 numSamplesPerFrame, bool isLast);
+    u16* SetupAudioDecodePtrs(u16 *rawFrameBuffer);
+    void SetChannelCount(s32 channelCount);
+    static void init_Snd_tbl();
+};
+
 class Masher
 {
 public:
@@ -47,12 +75,20 @@ public:
     EXPORT int sub_4E6B30();
 
     // Same as 0x52897C in MSGI.exe
-    EXPORT int CC sub_4EAC30();
+    static EXPORT int CC sub_4EAC30(Masher* pMasher);
 
     // Same as 0x528985 in MGSI.exe
     EXPORT void Decode_4EA670();
     EXPORT void MMX_Decode_4E6C60(BYTE* pPixelBuffer);
 
+    // Same as 0x52B015 in MGSI.exe
+    static EXPORT void CC DDV_SND_4ECFD0(int numChannels, int bitsPerSample);
+
+    // Same as 0x52B028 in MGSI.exe
+    static EXPORT void CC DDV_SND_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frameSize);
+
+    // Same as 0x52899C in MGSI.exe
+    static EXPORT void* CC sub_4EAC60(Masher* pMasher);
 private:
     struct Macroblock_RGB_Struct
     {

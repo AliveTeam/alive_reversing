@@ -11,10 +11,12 @@
 #include "Sys.hpp"
 #include "Sound.hpp"
 #include "Masher.hpp"
+#include <timeapi.h>
+#include "DDraw.hpp"
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
-Masher * CC Masher_Alloc_4EAB80(
+EXPORT Masher * CC Masher_Alloc_4EAB80(
     const char* pFileName, 
     Masher_Header** ppMasherHeader, 
     Masher_VideoHeader **ppMasherVideoHeader, 
@@ -36,7 +38,7 @@ Masher * CC Masher_Alloc_4EAB80(
             *ppMasherHeader = &pMasher->field_4_ddv_header;
             *ppMasherVideoHeader = &pMasher->field_14_video_header;
             *ppMasherAudioHeader = &pMasher->field_2C_audio_header;
-            return nullptr;
+            return pMasher;
         }
     }
     else
@@ -55,6 +57,83 @@ EXPORT void CC Masher_DeAlloc_4EAC00(Masher* pMasher)
     }
 }
 
+EXPORT int CC Masher_sub_4EAC20(Masher* pMasher)
+{
+    return pMasher->sub_4E6B30();
+}
+
+EXPORT void CC Masher_MMX_Decode_4EAC40(Masher* pMasher, void* pSurface)
+{
+    pMasher->MMX_Decode_4E6C60((BYTE*)pSurface);
+}
+
+ALIVE_VAR(1, 0x5CA234, bool, bHasAudio_5CA234, false);
+ALIVE_VAR(1, 0x5CA238, BYTE*, pSampleOffsetPtr_5CA238, nullptr);
+ALIVE_VAR(1, 0x5CA23C, int, sFrameInterleaveNum_5CA23C, 0);
+ALIVE_VAR(1, 0x5CA1E4, Masher_Header*, pMasher_header_5CA1E4, nullptr);
+ALIVE_VAR(1, 0x5CA204, Masher_VideoHeader*, pMasher_video_header_5CA204, nullptr);
+ALIVE_VAR(1, 0x5CA1E0, Masher_AudioHeader*, pMasher_audio_header_5CA1E0, nullptr);
+ALIVE_VAR(1, 0x5CA1F4, bool, bAudioAllocated_5CA1F4, false);
+ALIVE_VAR(1, 0x5CA1EC, Masher*, pMasherInstance_5CA1EC, nullptr);
+ALIVE_VAR(1, 0x5CA240, int, gMasher_single_audio_frame_size_5CA240, 0);
+ALIVE_VAR(1, 0x5CA1F0, BYTE*, dword_5CA1F0, nullptr);
+ALIVE_VAR(1, 0x5CA1FC, int, dword_5CA1FC, 0);
+ALIVE_VAR(1, 0x5CA22C, int, dword_5CA22C, 0);
+
+EXPORT char CC DDV_493DF0()
+{
+    BYTE *v0; // eax
+    BYTE *v1; // eax
+
+    if (!bHasAudio_5CA234)
+    {
+        return 1;
+    }
+
+    v0 = 0;
+    pSampleOffsetPtr_5CA238 = 0;
+
+    if (sFrameInterleaveNum_5CA23C >= pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
+    {
+    over_frames:
+        dword_5CA1F0 = v0;
+        if (!bAudioAllocated_5CA1F4)
+        {
+            if (SND_PlayEx_4EF740(&sDDV_SoundEntry_5CA208, 116, 116, 1.0, 0, 1, 100))
+            {
+                bAudioAllocated_5CA1F4 = 1;
+            }
+        }
+        dword_5CA1FC = 0;
+        dword_5CA22C = 0;
+        return 1;
+    }
+
+    while (Masher::sub_4EAC30(pMasherInstance_5CA1EC))
+    {
+        if (!bAudioAllocated_5CA1F4)
+        {
+            v1 = (BYTE *)Masher::sub_4EAC60(pMasherInstance_5CA1EC);
+            if (SND_Reload_4EF1C0(
+                &sDDV_SoundEntry_5CA208,
+                (char*)pSampleOffsetPtr_5CA238,
+                v1,
+                gMasher_single_audio_frame_size_5CA240))
+            {
+                bAudioAllocated_5CA1F4 = 1;
+            }
+        }
+        v0 = (BYTE *)&pSampleOffsetPtr_5CA238[gMasher_single_audio_frame_size_5CA240];
+        ++sFrameInterleaveNum_5CA23C;
+        pSampleOffsetPtr_5CA238 += gMasher_single_audio_frame_size_5CA240;
+        if (sFrameInterleaveNum_5CA23C >= pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
+        {
+            goto over_frames;
+        }
+    }
+    return 0;
+}
+
 EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 {
     NOT_IMPLEMENTED();
@@ -71,12 +150,9 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
     // Replace STR with DDV
     strcpy(strstr(pFileName, ".STR"), ".ddv");
 
-    Masher_Header* pMasher_header_5CA1E4 = nullptr;
-    Masher_VideoHeader* pMasher_video_header_5CA204 = nullptr;
-    Masher_AudioHeader* pMasher_audio_header_5CA1E0 = nullptr;
     int errCode = 0;
 
-    Masher* pMasherInstance_5CA1EC = Masher_Alloc_4EAB80(
+    pMasherInstance_5CA1EC = Masher_Alloc_4EAB80(
         pFileName,
         &pMasher_header_5CA1E4,
         &pMasher_video_header_5CA204,
@@ -153,12 +229,12 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
     }
 
 
-    auto bHasAudio_5CA234 = ((unsigned int)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
-    auto gMasher_single_audio_frame_size_5CA240 = pMasher_audio_header_5CA1E0->field_C_single_audio_frame_size;
+    bHasAudio_5CA234 = ((unsigned int)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
+    gMasher_single_audio_frame_size_5CA240 = pMasher_audio_header_5CA1E0->field_C_single_audio_frame_size;
     auto framesInterleavePlus6 = pMasher_audio_header_5CA1E0->field_10_num_frames_interleave + 6;
-    auto bAudioAllocated_5CA1F4 = 0;
+    bAudioAllocated_5CA1F4 = 0;
     auto sampleLength = gMasher_single_audio_frame_size_5CA240 * framesInterleavePlus6;
-    //auto dword_5CA1F8 = sampleLength;
+    auto dword_5CA1F8 = sampleLength;
 
     if (bHasAudio_5CA234 && pMasher_audio_header_5CA1E0->field_0_audio_format)
     {
@@ -228,40 +304,50 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
     }*/
 
     /*
-    dword_5CA23C = 0;
-    LOBYTE(len) = 0;
-    if (!DDV_493DF0() || !Masher::sub_4EAC20(pMasherInstance_5CA1EC) || !Masher::sub_4EAC20(pMasherInstance_5CA1EC))
+    sFrameInterleaveNum_5CA23C = 0;
+    LOBYTE(len) = 0;*/
+
+    if (!DDV_493DF0() || !Masher_sub_4EAC20(pMasherInstance_5CA1EC) || !Masher_sub_4EAC20(pMasherInstance_5CA1EC))
     {
+        /*
     LABEL_83:
         DD_Flip_4940F0(len);
         goto LABEL_84;
+        */
     }
-    dword_5CA244 = timeGetTime();
-    v23 = dword_5CA23C + 2;
+
+
+    int dword_5CA244 = timeGetTime();
+    //v23 = sFrameInterleaveNum_5CA23C + 2;
+
     while (1)
     {
-        v10 = dword_5CA23C++ + 1;
+        /*
+        v10 = sFrameInterleaveNum_5CA23C++ + 1;
         if ((_BYTE)len && v10 >= v23)
         {
             goto do_no_mmx;
-        }
+        }*/
+
+        DDSURFACEDESC surfaceDesc = {};
         surfaceDesc.dwSize = 108;
-        hr = sDD_Surface2_BBC3CC->lpVtbl->Lock(sDD_Surface2_BBC3CC, 0, &surfaceDesc, 1, 0);
+        HRESULT hr = sDD_surface_backbuffer_BBC3CC->Lock(0, &surfaceDesc, 1, 0);
         if (hr == DDERR_SURFACELOST)
         {
-            if (sDD_Surface2_BBC3CC->lpVtbl->Restore(sDD_Surface2_BBC3CC))
+            if (sDD_surface_backbuffer_BBC3CC->Restore())
             {
-                goto do_no_mmx;
+                //goto do_no_mmx;
             }
-            hr = sDD_Surface2_BBC3CC->lpVtbl->Lock(sDD_Surface2_BBC3CC, 0, &surfaceDesc, 1, 0);
+            hr = sDD_surface_backbuffer_BBC3CC->Lock(0, &surfaceDesc, 1, 0);
         }
+        /*
         if (hr)
         {
         do_no_mmx:
             jMasher::Decode_4EAC50(pMasherInstance_5CA1EC);
             goto skip_mmx;
         }
-        if (sScreenMode_BD146D == 1 && dword_5CA23C < v23)
+        if (sScreenMode_BD146D == 1 && sFrameInterleaveNum_5CA23C < v23)
         {
             v12 = 240;
             v13 = (char *)surfaceDesc.lpSurface + surfaceDesc.lPitch;
@@ -271,59 +357,67 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 memset(v13, 0, 0x500u);
                 v13 += 2 * surfaceDesc.lPitch;
             } while (v12);
-        }
-        Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, (int)surfaceDesc.lpSurface);
-        sDD_Surface2_BBC3CC->lpVtbl->Unlock(sDD_Surface2_BBC3CC, 0);
+        }*/
+        //Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, surfaceDesc.lpSurface);
+        Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, surfaceDesc.lpSurface);
+       
+        sDD_surface_backbuffer_BBC3CC->Unlock(0);
+        /*
     skip_mmx:
+        */
         if (bAudioAllocated_5CA1F4)
         {
             goto LABEL_61;
         }
-        v14 = (BYTE *)Masher::sub_4EAC60(pMasherInstance_5CA1EC);
+        void* v14 = (BYTE *)Masher::sub_4EAC60(pMasherInstance_5CA1EC);
         if (v14)
         {
-            if (!SND_Reload_4EF1C0(&sDDV_SoundEntry_5CA208, dword_5CA238, v14, gMasher_single_audio_frame_size_5CA240))
+            if (!SND_Reload_4EF1C0(&sDDV_SoundEntry_5CA208, (char*)pSampleOffsetPtr_5CA238, (unsigned char*)v14, gMasher_single_audio_frame_size_5CA240))
             {
                 goto LABEL_59;
             }
         }
+        /*
         else if (!SND_Reload_4EF350(
             &sDDV_SoundEntry_5CA208,
-            (unsigned int)dword_5CA238,
+            (unsigned int)pSampleOffsetPtr_5CA238,
             gMasher_single_audio_frame_size_5CA240))
         {
             goto LABEL_59;
         }
+        */
+
         bAudioAllocated_5CA1F4 = 1;
+
     LABEL_59:
-        dword_5CA238 += gMasher_single_audio_frame_size_5CA240;
-        if ((signed int)dword_5CA238 >= dword_5CA1F8)
+        pSampleOffsetPtr_5CA238 += gMasher_single_audio_frame_size_5CA240;
+        if ((signed int)pSampleOffsetPtr_5CA238 >= dword_5CA1F8)
         {
-            dword_5CA238 = 0;
+            pSampleOffsetPtr_5CA238 = 0;
         }
     LABEL_61:
-        if (dword_5CA23C > 15)
+        if (sFrameInterleaveNum_5CA23C > 15)
         {
             break;
         }
-        Input_IsVKPressed_4EDD40(VK_ESCAPE);
-        Input_IsVKPressed_4EDD40(VK_RETURN);
+        //Input_IsVKPressed_4EDD40(VK_ESCAPE);
+        //Input_IsVKPressed_4EDD40(VK_RETURN);
+        /*
     LABEL_66:
         if (!(_BYTE)len)
         {
             DD_Flip_4F15D0();
         }
-        v25 = Masher::sub_4EAC20(pMasherInstance_5CA1EC);
+        */
+        /*int v25 =*/ Masher_sub_4EAC20(pMasherInstance_5CA1EC);
         if (bAudioAllocated_5CA1F4)
         {
-            LOBYTE(len) = 0;
-            while ((signed int)(timeGetTime() - dword_5CA244) <= 1000
-                * dword_5CA23C
-                / pMasher_header_5CA1E4->field_8_frame_rate)
+            while ((signed int)(timeGetTime() - dword_5CA244) <= ((1000 * sFrameInterleaveNum_5CA23C) / pMasher_header_5CA1E4->field_8_frame_rate))
             {
-                ;
+                // Wait for audio to play
             }
         }
+        /*
         else
         {
             dword_5CA1F0 += gMasher_single_audio_frame_size_5CA240;
@@ -341,7 +435,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             LOBYTE(len) = dword_5CA1F0 + 2 * gMasher_single_audio_frame_size_5CA240 + gMasher_single_audio_frame_size_5CA240 < dword_5CA200;
             v17 = 0;
             v22 = dword_5CA1F0 + 2 * gMasher_single_audio_frame_size_5CA240 + gMasher_single_audio_frame_size_5CA240 < dword_5CA200;
-            v18 = 1000 * dword_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate + 2000;
+            v18 = 1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate + 2000;
             if (dword_5CA1F0 >= (unsigned int)dword_5CA200)
             {
                 while (1)
@@ -360,6 +454,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
                         + v20
                         + dword_5CA1F8 * v21;
+
                     if (v17 > 10000)
                     {
                         v17 = 0;
@@ -379,34 +474,40 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             }
         }
     LABEL_81:
+        */
         SYS_EventsPump_494580();
         PSX_VSync_4F6170(0);
+        /*
         if (!v25)
         {
             DDV_493F30();
             goto LABEL_83;
-        }
+        }*/
     }
-    */
 
-    /*
     if (!Input_IsVKPressed_4EDD40(VK_ESCAPE) && !Input_IsVKPressed_4EDD40(VK_RETURN))
     {
-        goto LABEL_66;
+        //goto LABEL_66;
     }
+
     if (sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer)
     {
         SND_Free_4EFA30(&sDDV_SoundEntry_5CA208);
     }
+
+    /*
     DDV_493F30();
     DD_Flip_4F15D0();
     DD_Flip_4940F0(len);
+    */
+
     while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
     {
         SYS_EventsPump_494580();
     }
-LABEL_84:
-*/
+    
+//LABEL_84:
+
     
     /*
     if (sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer)
