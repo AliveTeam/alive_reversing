@@ -454,6 +454,10 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
     {
         if (sPsxEMU_show_vram_BD1465)
         {
+            // NOTE: Slight OG change - still render debug text when debug render vram is enabled
+            RECT rect = {0, 0, 640, 480};
+            PSX_DrawDebugTextBuffers(&sPsxVram_C1D160, rect);
+
             VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
             MIDI_UpdatePlayer_4FDC80();
             return;
