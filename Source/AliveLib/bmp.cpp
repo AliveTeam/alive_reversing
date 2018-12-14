@@ -224,7 +224,7 @@ EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
     return pBitmap->field_4_pLockedPixels;
 }
 
-BYTE sBitmapFont[] =
+const BYTE sBitmapFont[] =
 {
     0x42, 0x4D, 0xFE, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3E, 0x00,
     0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0xF1, 0x02, 0x00, 0x00, 0x0A, 0x00,
@@ -316,7 +316,7 @@ BYTE sBitmapFont[] =
 
 EXPORT void CC BMP_Draw_String_4F2230(Bitmap* pBmp, int x, int y, unsigned int /*fgColour*/, int /*bgColour*/, LPCSTR lpString)
 {
-    SDL_Surface* pFontBmp = SDL_LoadBMP_RW(SDL_RWFromMem(sBitmapFont, sizeof(sBitmapFont)), 1);
+    SDL_Surface* pFontBmp = SDL_LoadBMP_RW(SDL_RWFromConstMem(sBitmapFont, sizeof(sBitmapFont)), SDL_TRUE);
 
     int xpos = 0;
     const int kLetterWidth = 8;

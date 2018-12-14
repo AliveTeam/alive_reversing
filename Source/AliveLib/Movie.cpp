@@ -255,6 +255,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
     if (bHasAudio_5CA234 && pMasher_audio_header_5CA1E0->field_0_audio_format)
     {
+        // Args correct
         SND_New_4EEFF0(
             &sDDV_SoundEntry_5CA208,
             sampleLength,
@@ -263,8 +264,8 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             pMasher_audio_header_5CA1E0->field_0_audio_format & 1 | 6);
     }
     {
-        sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer = nullptr;
-        bAudioAllocated_5CA1F4 = 1;
+       // sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer = nullptr;
+        //bAudioAllocated_5CA1F4 = 1;
     }
     
     DDSURFACEDESC surfaceDesc = {};
@@ -377,13 +378,14 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 v13 += 2 * surfaceDesc.lPitch;
             } while (v12);
         }*/
-
+        /*
         char* v13 = (char *)surfaceDesc.lpSurface;
         for (int y = 0; y < 240; y++)
         {
             memset(v13, 0xFEFE, 0x500u);
             v13 += 2 * surfaceDesc.lPitch;
         }
+        */
 
         //Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, surfaceDesc.lpSurface);
         Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, FAILED(hr) ? nullptr : surfaceDesc.lpSurface);
@@ -401,7 +403,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
         void* pDecompressedAudioFrame = (BYTE *)Masher::sub_4EAC60(pMasherInstance_5CA1EC);
         if (pDecompressedAudioFrame)
         {
-            if (!SND_Reload_4EF1C0(&sDDV_SoundEntry_5CA208, (char*)pSampleOffsetPtr_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240))
+            if (SND_Reload_4EF1C0(&sDDV_SoundEntry_5CA208, (char*)pSampleOffsetPtr_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
             {
                 goto LABEL_59;
             }
@@ -443,6 +445,8 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             {
                 // Wait for audio to play
             }
+            // HACK HACK HACK - this does get reset, but probably not here
+            bAudioAllocated_5CA1F4 = 0;
         }
         else
         {
@@ -503,6 +507,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 */
                 bAudioAllocated_5CA1F4 = 1;
             }
+            abort();
         }
    // LABEL_81:
         
