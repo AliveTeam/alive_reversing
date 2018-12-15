@@ -281,8 +281,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
         // Source DDV has no audio
         bNoAudio_5CA1F4 = 1;
     }
-    
- 
+
     /*
     surfaceDesc_1.dwSize = 108;
     sDD_Surface2_BBC3CC->lpVtbl->GetSurfaceDesc(sDD_Surface2_BBC3CC, &surfaceDesc_1);
@@ -379,10 +378,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 Input_IsVKPressed_4EDD40(VK_RETURN);
             }
 
-            //if (!(_BYTE)remainderLen)
-            {
-                DD_Flip_4F15D0();
-            }
+            DD_Flip_4F15D0();
 
             const int bMoreVideoData = Masher_sub_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
             if (bNoAudio_5CA1F4)
@@ -403,18 +399,11 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 }
 
                 oldBufferPlayPos_5CA22C = soundBufferPlayPos;
-                int dword_5CA200 = gMasher_single_audio_frame_size_5CA240
-                    * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
-                    + soundBufferPlayPos
-                    + sampleLength * dword_5CA1FC;
-                int counter = 0;
 
                 const int maxWait = 1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate + 2000;
-
-                dword_5CA200 = 0;
-                if (total_audio_offset_5CA1F0 >= dword_5CA200)
+                if (total_audio_offset_5CA1F0 >= 0)
                 {
-
+                    int counter = 0;
                     for (;;)
                     {
                         const unsigned int soundPlayingPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
@@ -428,7 +417,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         
                         ++counter;
 
-                        dword_5CA200 = gMasher_single_audio_frame_size_5CA240
+                        const int dword_5CA200 = gMasher_single_audio_frame_size_5CA240
                             * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
                             + soundPlayingPos
                             + sampleLength * dword_5CA1FC;
