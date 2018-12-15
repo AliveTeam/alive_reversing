@@ -161,10 +161,9 @@ EXPORT void CC DD_Flip_4940F0()
     NOT_IMPLEMENTED();
 }
 
-
 EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 {
-    NOT_IMPLEMENTED();
+    //NOT_IMPLEMENTED();
 
     if (!*pMovieName)
     {
@@ -208,14 +207,15 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             strcat(pFileName, "movies\\");
             strcat(pFileName, pMovieName);
             strcpy(strstr(pFileName, ".STR"), ".ddv");
-            /*
-            curCdDriveLetter = sCdRomDrives_5CA488[0];
-            pFileName[0] = sCdRomDrives_5CA488[0];
+
+            char curCdDriveLetter = sCdRomDrives_5CA488[0];
             if (sCdRomDrives_5CA488[0])
             {
-                pCdDriveIter = sCdRomDrives_5CA488;
-                while (1)
+                char* pCdDriveIter = sCdRomDrives_5CA488;
+                while (*pCdDriveIter)
                 {
+                    pFileName[0] = curCdDriveLetter;
+
                     if (curCdDriveLetter != sCdEmu_Path2_C144C0[0])
                     {
                         pMasherInstance_5CA1EC = Masher_Alloc_4EAB80(
@@ -224,30 +224,30 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                             &pMasher_video_header_5CA204,
                             &pMasher_audio_header_5CA1E0,
                             &errCode);
+
                         if (!errCode)
                         {
                             break;
                         }
                     }
+
                     curCdDriveLetter = (pCdDriveIter++)[1];
-                    pFileName[0] = curCdDriveLetter;
-                    if (!curCdDriveLetter)
-                    {
-                        goto LABEL_9;
-                    }
+                }
+
+                if (errCode)
+                {
+                    return 0;
                 }
                 curCdDriveLetter = pFileName[0];
             }
             else
             {
-            LABEL_9:
                 if (errCode)
                 {
                     return 0;
                 }
             }
             sCdEmu_Path2_C144C0[0] = curCdDriveLetter;
-            */
         }
     }
 
@@ -282,19 +282,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
         bNoAudio_5CA1F4 = 1;
     }
 
-    /*
-    surfaceDesc_1.dwSize = 108;
-    sDD_Surface2_BBC3CC->lpVtbl->GetSurfaceDesc(sDD_Surface2_BBC3CC, &surfaceDesc_1);
-    pitch_bytes = surfaceDesc_1.lPitch;
-    if (sRedShift_C215C4 == 11)
-    {
-        if (sGreenShift_C1D180 != 6 || sBlueShift_C19140)
-        {
-            return 1;
-        }
-        Masher_Tables_Init_4EA880(pitch_bytes, 2, v9);
-    }*/
-
+    // NOTE: Call to Masher_Tables_Init_4EA880 as the whole masher code for audio has been replaced
     sFrameInterleaveNum_5CA23C = 0;
 
     if (DDV_493DF0() && Masher_sub_4EAC20(pMasherInstance_5CA1EC) && Masher_sub_4EAC20(pMasherInstance_5CA1EC))
