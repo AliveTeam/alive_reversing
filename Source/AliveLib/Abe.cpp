@@ -2876,7 +2876,7 @@ void Abe::State_0_Idle_44EEB0()
             {
                 return;
             }
-
+            
             // Are we facing the same direction as the hoist edge?
             if ((pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft || field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
              && (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eRight || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))))
@@ -2886,9 +2886,17 @@ void Abe::State_0_Idle_44EEB0()
             }
             else
             {
-                // Otherwise gotta turn around
-                field_108_delayed_state = eAbeStates::State_66_LedgeDescend_454970;
-                field_106_current_state = eAbeStates::State_2_StandingTurn_451830;
+                if (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth)
+                {
+                    // We can hoist down from any side
+                    field_106_current_state = eAbeStates::State_66_LedgeDescend_454970;
+                }
+                else
+                {
+                    // Otherwise gotta turn around
+                    field_108_delayed_state = eAbeStates::State_66_LedgeDescend_454970;
+                    field_106_current_state = eAbeStates::State_2_StandingTurn_451830;
+                }
             }
         }
         else
