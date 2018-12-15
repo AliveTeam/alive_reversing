@@ -74,7 +74,7 @@ EXPORT void CC Masher_MMX_Decode_4EAC40(Masher* pMasher, void* pSurface)
 }
 
 ALIVE_VAR(1, 0x5CA234, bool, bHasAudio_5CA234, false);
-ALIVE_VAR(1, 0x5CA238, BYTE*, pSampleOffsetPtr_5CA238, nullptr);
+ALIVE_VAR(1, 0x5CA238, int, sampleOffsetPos_5CA238, 0);
 ALIVE_VAR(1, 0x5CA23C, int, sFrameInterleaveNum_5CA23C, 0);
 ALIVE_VAR(1, 0x5CA1E4, Masher_Header*, pMasher_header_5CA1E4, nullptr);
 ALIVE_VAR(1, 0x5CA204, Masher_VideoHeader*, pMasher_video_header_5CA204, nullptr);
@@ -82,22 +82,21 @@ ALIVE_VAR(1, 0x5CA1E0, Masher_AudioHeader*, pMasher_audio_header_5CA1E0, nullptr
 ALIVE_VAR(1, 0x5CA1F4, bool, bNoAudio_5CA1F4, false);
 ALIVE_VAR(1, 0x5CA1EC, Masher*, pMasherInstance_5CA1EC, nullptr);
 ALIVE_VAR(1, 0x5CA240, int, gMasher_single_audio_frame_size_5CA240, 0);
-ALIVE_VAR(1, 0x5CA1F0, BYTE*, total_audio_offset_5CA1F0, nullptr);
+ALIVE_VAR(1, 0x5CA1F0, int, total_audio_offset_5CA1F0, 0);
 ALIVE_VAR(1, 0x5CA1FC, int, dword_5CA1FC, 0);
 ALIVE_VAR(1, 0x5CA22C, int, dword_5CA22C, 0);
 
 EXPORT char CC DDV_493DF0()
 {
-    BYTE *v0; // eax
-    BYTE *v1; // eax
+    unsigned int v0; // eax
 
     if (!bHasAudio_5CA234)
     {
         return 1;
     }
 
-    v0 = nullptr;
-    pSampleOffsetPtr_5CA238 = 0;
+    v0 = 0;
+    sampleOffsetPos_5CA238 = 0;
 
     if (sFrameInterleaveNum_5CA23C >= pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
     {
@@ -119,19 +118,19 @@ EXPORT char CC DDV_493DF0()
     {
         if (!bNoAudio_5CA1F4)
         {
-            v1 = (BYTE *)Masher::sub_4EAC60(pMasherInstance_5CA1EC);
+            void* v1 = Masher::sub_4EAC60(pMasherInstance_5CA1EC);
             if (SND_Reload_4EF1C0(
                 &sDDV_SoundEntry_5CA208,
-                (char*)pSampleOffsetPtr_5CA238,
-                v1,
+                sampleOffsetPos_5CA238,
+                (unsigned char*)v1,
                 gMasher_single_audio_frame_size_5CA240))
             {
                 bNoAudio_5CA1F4 = 1;
             }
         }
-        v0 = &pSampleOffsetPtr_5CA238[gMasher_single_audio_frame_size_5CA240];
+        v0 = sampleOffsetPos_5CA238 + gMasher_single_audio_frame_size_5CA240;
         ++sFrameInterleaveNum_5CA23C;
-        pSampleOffsetPtr_5CA238 += gMasher_single_audio_frame_size_5CA240;
+        sampleOffsetPos_5CA238 += gMasher_single_audio_frame_size_5CA240;
         if (sFrameInterleaveNum_5CA23C >= pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
         {
             goto over_frames;
@@ -259,9 +258,8 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
     bHasAudio_5CA234 = ((unsigned int)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
     gMasher_single_audio_frame_size_5CA240 = pMasher_audio_header_5CA1E0->field_C_single_audio_frame_size;
-    auto framesInterleavePlus6 = pMasher_audio_header_5CA1E0->field_10_num_frames_interleave + 6;
-    auto sampleLength = gMasher_single_audio_frame_size_5CA240 * framesInterleavePlus6;
-    auto dword_5CA1F8 = sampleLength;
+    const auto framesInterleavePlus6 = pMasher_audio_header_5CA1E0->field_10_num_frames_interleave + 6;
+    const auto sampleLength = gMasher_single_audio_frame_size_5CA240 * framesInterleavePlus6;
 
     bNoAudio_5CA1F4 = 0;
     if (bHasAudio_5CA234 && pMasher_audio_header_5CA1E0->field_0_audio_format)
@@ -284,8 +282,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
         bNoAudio_5CA1F4 = 1;
     }
     
-    DDSURFACEDESC surfaceDesc = {};
-
+ 
     /*
     surfaceDesc_1.dwSize = 108;
     sDD_Surface2_BBC3CC->lpVtbl->GetSurfaceDesc(sDD_Surface2_BBC3CC, &surfaceDesc_1);
@@ -310,13 +307,14 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             sFrameInterleaveNum_5CA23C++;
 
             // Lock the back buffer
+            DDSURFACEDESC surfaceDesc = {};
             surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
-            HRESULT hr = sDD_surface_backbuffer_BBC3CC->Lock(0, &surfaceDesc, 1, 0);
+            HRESULT hr = sDD_surface_backbuffer_BBC3CC->Lock(nullptr, &surfaceDesc, 1, 0);
             if (hr == DDERR_SURFACELOST)
             {
                 if (SUCCEEDED(sDD_surface_backbuffer_BBC3CC->Restore()))
                 {
-                    hr = sDD_surface_backbuffer_BBC3CC->Lock(0, &surfaceDesc, 1, 0);
+                    hr = sDD_surface_backbuffer_BBC3CC->Lock(nullptr, &surfaceDesc, 1, 0);
                 }
             }
 
@@ -334,7 +332,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 void* pDecompressedAudioFrame = (BYTE *)Masher::sub_4EAC60(pMasherInstance_5CA1EC);
                 if (pDecompressedAudioFrame)
                 {
-                    if (SND_Reload_4EF1C0(&sDDV_SoundEntry_5CA208, (char*)pSampleOffsetPtr_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
+                    if (SND_Reload_4EF1C0(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
                     {
                         // Reload fail
                         bNoAudio_5CA1F4 = 1;
@@ -342,17 +340,17 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 }
                 else if (SND_Reload_4EF350(
                     &sDDV_SoundEntry_5CA208,
-                    (unsigned int)pSampleOffsetPtr_5CA238,
+                    sampleOffsetPos_5CA238,
                     gMasher_single_audio_frame_size_5CA240) < 0)
                 {
                     // Reload fail
                     bNoAudio_5CA1F4 = 1;
                 }
 
-                pSampleOffsetPtr_5CA238 += gMasher_single_audio_frame_size_5CA240;
-                if ((signed int)pSampleOffsetPtr_5CA238 >= dword_5CA1F8)
+                sampleOffsetPos_5CA238 += gMasher_single_audio_frame_size_5CA240;
+                if (sampleOffsetPos_5CA238 >= sampleLength)
                 {
-                    pSampleOffsetPtr_5CA238 = 0;
+                    sampleOffsetPos_5CA238 = 0;
                 }
             }
 
@@ -407,7 +405,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 total_audio_offset_5CA1F0 += gMasher_single_audio_frame_size_5CA240;
                 DWORD soundPos = SND_Get_Sound_Entry_Pos_4EF620(&sDDV_SoundEntry_5CA208);
                 int v16 = dword_5CA1FC;
-                if ((signed int)(dword_5CA22C - soundPos) > dword_5CA1F8 / 2)
+                if ((signed int)(dword_5CA22C - soundPos) > sampleLength / 2)
                 {
                     v16 = dword_5CA1FC++ + 1;
                 }
@@ -415,7 +413,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 int dword_5CA200 = gMasher_single_audio_frame_size_5CA240
                     * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
                     + soundPos
-                    + dword_5CA1F8 * v16;
+                    + sampleLength * v16;
                 int v17 = 0;
                 // len == v22
 
@@ -424,7 +422,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 int v18 = 1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate + 2000;
 
                 dword_5CA200 = 0;
-                if ((int)total_audio_offset_5CA1F0 >= dword_5CA200) // TODO: HAK! Twice int is compared to ptr?
+                if (total_audio_offset_5CA1F0 >= dword_5CA200)
                 {
 
                     for (;;)
@@ -433,7 +431,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         int v20 = v19;
                         int len = dword_5CA22C - v19;
                         int v21 = dword_5CA1FC;
-                        if (len > dword_5CA1F8 / 2)
+                        if (len > sampleLength / 2)
                         {
                             v21 = dword_5CA1FC++ + 1;
                         }
@@ -442,7 +440,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         dword_5CA200 = gMasher_single_audio_frame_size_5CA240
                             * pMasher_audio_header_5CA1E0->field_10_num_frames_interleave
                             + v20
-                            + dword_5CA1F8 * v21;
+                            + sampleLength * v21;
 
                         if (v17 > 10000)
                         {
@@ -455,7 +453,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                             }
                         }
 
-                        if ((unsigned int)total_audio_offset_5CA1F0 < (unsigned int)dword_5CA200)
+                        if (total_audio_offset_5CA1F0 < dword_5CA200)
                         {
                             //LOBYTE(len) = v22;
                             break;

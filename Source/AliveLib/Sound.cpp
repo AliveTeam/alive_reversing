@@ -272,9 +272,9 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3
 }
 
 // TODO: Clean up!
-EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, char* sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
 {
-    const int offsetBytes = (DWORD)sampleOffset * pSnd->field_1D_blockAlign;
+    const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
 
     if (!sDSound_BBC344)
@@ -549,7 +549,7 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
             memcpy(pSnd->field_8_pSoundBuffer, pWaveData, waveDataLen * pSnd->field_1D_blockAlign);
         }
     }
-    return SND_Reload_4EF1C0(pSnd, nullptr, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
+    return SND_Reload_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
 }
 
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)

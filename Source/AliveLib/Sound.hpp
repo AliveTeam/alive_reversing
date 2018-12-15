@@ -20,7 +20,7 @@ EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol);
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq);
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq);
 EXPORT void CC Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
-EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, char* sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount);
+EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount);
 
 struct MIDI_Struct1;
 EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority);
