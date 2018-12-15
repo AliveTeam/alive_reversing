@@ -1118,7 +1118,7 @@ void CC Masher::DDV_SND_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frame
     }
 }
 
-void* CC Masher::sub_4EAC60(Masher* pMasher)
+void* CC Masher::GetDecompressedAudioFrame_4EAC60(Masher* pMasher)
 {
     void* result = nullptr;
     if (pMasher->field_60_bHasAudio

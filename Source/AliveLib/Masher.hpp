@@ -88,7 +88,7 @@ public:
     static EXPORT void CC DDV_SND_4ECFF0(int* pMasherFrame, BYTE* pDecodedFrame, int frameSize);
 
     // Same as 0x52899C in MGSI.exe
-    static EXPORT void* CC sub_4EAC60(Masher* pMasher);
+    static EXPORT void* CC GetDecompressedAudioFrame_4EAC60(Masher* pMasher);
 private:
     struct Macroblock_RGB_Struct
     {

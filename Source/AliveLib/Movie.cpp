@@ -63,7 +63,7 @@ EXPORT void CC Masher_DeAlloc_4EAC00(Masher* pMasher)
     }
 }
 
-EXPORT int CC Masher_sub_4EAC20(Masher* pMasher)
+EXPORT int CC Masher_ReadNextFrame_4EAC20(Masher* pMasher)
 {
     return pMasher->sub_4E6B30();
 }
@@ -86,22 +86,45 @@ ALIVE_VAR(1, 0x5CA1F0, int, total_audio_offset_5CA1F0, 0);
 ALIVE_VAR(1, 0x5CA1FC, int, dword_5CA1FC, 0);
 ALIVE_VAR(1, 0x5CA22C, int, oldBufferPlayPos_5CA22C, 0);
 
-EXPORT char CC DDV_493DF0()
+EXPORT char CC DDV_StartAudio_493DF0()
 {
-    unsigned int v0; // eax
-
     if (!bHasAudio_5CA234)
     {
         return 1;
     }
 
-    v0 = 0;
+    unsigned int audioBufferStartOffset = 0;
     sampleOffsetPos_5CA238 = 0;
+
+    if (sFrameInterleaveNum_5CA23C < pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
+    {
+        while (Masher::sub_4EAC30(pMasherInstance_5CA1EC))
+        {
+            if (!bNoAudio_5CA1F4)
+            {
+                void* pAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
+                if (SND_Reload_4EF1C0(
+                    &sDDV_SoundEntry_5CA208,
+                    sampleOffsetPos_5CA238,
+                    (unsigned char*)pAudioFrame,
+                    gMasher_single_audio_frame_size_5CA240))
+                {
+                    bNoAudio_5CA1F4 = 1;
+                }
+            }
+            audioBufferStartOffset = sampleOffsetPos_5CA238 + gMasher_single_audio_frame_size_5CA240;
+            ++sFrameInterleaveNum_5CA23C;
+            sampleOffsetPos_5CA238 += gMasher_single_audio_frame_size_5CA240;
+            if (sFrameInterleaveNum_5CA23C >= pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
+            {
+                break;
+            }
+        }
+    }
 
     if (sFrameInterleaveNum_5CA23C >= pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
     {
-    over_frames:
-        total_audio_offset_5CA1F0 = v0;
+        total_audio_offset_5CA1F0 = audioBufferStartOffset;
         if (!bNoAudio_5CA1F4)
         {
             if (SND_PlayEx_4EF740(&sDDV_SoundEntry_5CA208, 116, 116, 1.0, 0, 1, 100) < 0)
@@ -114,40 +137,12 @@ EXPORT char CC DDV_493DF0()
         return 1;
     }
 
-    while (Masher::sub_4EAC30(pMasherInstance_5CA1EC))
-    {
-        if (!bNoAudio_5CA1F4)
-        {
-            void* v1 = Masher::sub_4EAC60(pMasherInstance_5CA1EC);
-            if (SND_Reload_4EF1C0(
-                &sDDV_SoundEntry_5CA208,
-                sampleOffsetPos_5CA238,
-                (unsigned char*)v1,
-                gMasher_single_audio_frame_size_5CA240))
-            {
-                bNoAudio_5CA1F4 = 1;
-            }
-        }
-        v0 = sampleOffsetPos_5CA238 + gMasher_single_audio_frame_size_5CA240;
-        ++sFrameInterleaveNum_5CA23C;
-        sampleOffsetPos_5CA238 += gMasher_single_audio_frame_size_5CA240;
-        if (sFrameInterleaveNum_5CA23C >= pMasher_audio_header_5CA1E0->field_10_num_frames_interleave)
-        {
-            goto over_frames;
-        }
-    }
     return 0;
 }
 
 EXPORT void DDV_493F30()
 {
     NOT_IMPLEMENTED();
-}
-
-EXPORT signed int __cdecl Masher_Tables_Init_4EA880(int /*pitch_bytes*/, char /*a2*/, int /*a3*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }
 
 EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* /*pSoundEntry*/)
@@ -163,8 +158,6 @@ EXPORT void CC DD_Flip_4940F0()
 
 EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 {
-    //NOT_IMPLEMENTED();
-
     if (!*pMovieName)
     {
         return 1;
@@ -258,8 +251,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
     bHasAudio_5CA234 = ((unsigned int)pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
     gMasher_single_audio_frame_size_5CA240 = pMasher_audio_header_5CA1E0->field_C_single_audio_frame_size;
-    const auto framesInterleavePlus6 = pMasher_audio_header_5CA1E0->field_10_num_frames_interleave + 6;
-    const auto sampleLength = gMasher_single_audio_frame_size_5CA240 * framesInterleavePlus6;
+    const auto sampleLength = gMasher_single_audio_frame_size_5CA240 * (pMasher_audio_header_5CA1E0->field_10_num_frames_interleave + 6);
 
     bNoAudio_5CA1F4 = 0;
     if (bHasAudio_5CA234 && pMasher_audio_header_5CA1E0->field_0_audio_format)
@@ -285,7 +277,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
     // NOTE: Call to Masher_Tables_Init_4EA880 as the whole masher code for audio has been replaced
     sFrameInterleaveNum_5CA23C = 0;
 
-    if (DDV_493DF0() && Masher_sub_4EAC20(pMasherInstance_5CA1EC) && Masher_sub_4EAC20(pMasherInstance_5CA1EC))
+    if (DDV_StartAudio_493DF0() && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC) && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC))
     {
         const int dword_5CA244 = timeGetTime();
         for (;;)
@@ -315,7 +307,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
             if (!bNoAudio_5CA1F4)
             {
-                void* pDecompressedAudioFrame = (BYTE *)Masher::sub_4EAC60(pMasherInstance_5CA1EC);
+                void* pDecompressedAudioFrame = (BYTE *)Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
                 if (pDecompressedAudioFrame)
                 {
                     if (SND_Reload_4EF1C0(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
@@ -368,7 +360,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
             DD_Flip_4F15D0();
 
-            const int bMoreVideoData = Masher_sub_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
+            const int bMoreFrames = Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
             if (bNoAudio_5CA1F4)
             {
                 while ((signed int)(timeGetTime() - dword_5CA244) <= (1000 * sFrameInterleaveNum_5CA23C / pMasher_header_5CA1E4->field_8_frame_rate))
@@ -432,7 +424,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             SYS_EventsPump_494580();
             PSX_VSync_4F6170(0);
 
-            if (!bMoreVideoData)
+            if (!bMoreFrames)
             {
                 // End of stream
                 DDV_493F30();
