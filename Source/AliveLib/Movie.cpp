@@ -16,12 +16,6 @@
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
-EXPORT signed int __cdecl SND_Reload_4EF350(SoundEntry* /*pSoundEntry*/, unsigned int /*a2*/, unsigned int /*size*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 EXPORT Masher * CC Masher_Alloc_4EAB80(
     const char* pFileName, 
     Masher_Header** ppMasherHeader, 
@@ -143,12 +137,6 @@ EXPORT char CC DDV_StartAudio_493DF0()
 EXPORT void DDV_493F30()
 {
     NOT_IMPLEMENTED();
-}
-
-EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* /*pSoundEntry*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }
 
 EXPORT void CC DD_Flip_4940F0()

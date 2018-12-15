@@ -6,6 +6,9 @@
 
 struct SoundEntry;
 
+
+EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry);
+EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size);
 EXPORT void CC SND_Init_Buffers_4CB480();
 EXPORT void CC SND_SsQuit_4EFD50();
 EXPORT void CC SND_Clear_4CB4B0();

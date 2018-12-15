@@ -36,6 +36,85 @@ ALIVE_ARY(1, 0xBBBD38, int, 127, sVolumeTable_BBBD38, {});
 ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 ALIVE_ARY(1, 0xBBC348, char, 64, sDSoundErrorBuffer_BBC348, {});
 
+
+EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
+{
+    DWORD dwReadPos = 0;
+    DWORD dwWritePos = 0;
+    pSoundEntry->field_4_pDSoundBuffer->GetCurrentPosition(&dwReadPos, &dwWritePos);
+    return dwReadPos / pSoundEntry->field_1D_blockAlign;
+}
+
+EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+{
+    if (!sDSound_BBC344)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 692, -1, "DirectSound not initialized");
+        return -1;
+    }
+
+    const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
+    const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
+    
+    LPVOID pLocked1 = nullptr;
+    DWORD locked1Size = 0;
+
+    LPVOID pLocked2 = nullptr;
+    DWORD locked2Size = 0;
+
+    HRESULT hr = pSoundEntry->field_4_pDSoundBuffer->Lock(
+        alignedOffset,
+        alignedSize,
+        &pLocked1,
+        &locked1Size,
+        &pLocked2,
+        &locked2Size,
+        0);
+
+    if (hr == DSERR_BUFFERLOST)
+    {
+        if (FAILED(pSoundEntry->field_4_pDSoundBuffer->Restore()))
+        {
+            Error_PushErrorRecord_4F2920(
+                "C:\\abe2\\code\\POS\\SND.C",
+                702,
+                -1,
+                "SND_Reload(): Cannot restore the lost ds buffer");
+            return -1;
+        }
+
+        hr = pSoundEntry->field_4_pDSoundBuffer->Lock(
+            alignedOffset,
+            alignedSize,
+            &pLocked1,
+            &locked1Size,
+            &pLocked2,
+            &locked2Size,
+            0);
+    }
+
+    if (FAILED(hr))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 710, -1, "SND_Reload(): Cannot lock the ds buffer");
+        return -1;
+    }
+
+    if (pLocked1)
+    {
+        BYTE* ptr = (BYTE*)pLocked1;
+        memset(ptr, 0, locked1Size);
+    }
+
+    if (pLocked2)
+    {
+        BYTE* ptr = (BYTE*)pLocked2;
+        memset(ptr, 0, locked2Size);
+    }
+
+    pSoundEntry->field_4_pDSoundBuffer->Unlock(pLocked1, locked1Size, pLocked2, locked2Size);
+    return 0;
+}
+
 EXPORT void CC SND_SsQuit_4EFD50()
 {
     if (sDSound_BBC344)
