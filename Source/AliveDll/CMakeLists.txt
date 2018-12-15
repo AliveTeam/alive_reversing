@@ -25,4 +25,8 @@ add_custom_command(TARGET AliveDll
 
 export(TARGETS AliveDll FILE AliveDll.cmake)
 install(TARGETS AliveDll DESTINATION .)
+
 install(FILES "C:\\GOG Games\\Abes Exoddus\\AliveDll.map" DESTINATION ".")
+add_custom_command(TARGET AliveDll POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll")
+INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION ".")
