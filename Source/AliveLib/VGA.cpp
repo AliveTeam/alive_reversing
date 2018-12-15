@@ -106,9 +106,6 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
     SDL_Rect* pCopyRect = pRect ? &copyRect : nullptr;
 
-    SDL_UnlockSurface(pBmp->field_0_pSurface);
-    SDL_UnlockSurface(sVGA_bmp_primary_BD2A20.field_0_pSurface);
-
     if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
     {
         // TODO: This will really murder performance

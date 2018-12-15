@@ -13,6 +13,7 @@
 #include "Masher.hpp"
 #include <timeapi.h>
 #include "DDraw.hpp"
+#include "VGA.hpp"
 
 ALIVE_VAR(1, 0x5ca208, SoundEntry, sDDV_SoundEntry_5CA208, {});
 
@@ -134,6 +135,17 @@ EXPORT char CC DDV_StartAudio_493DF0()
     return 0;
 }
 
+#if USE_SDL2
+EXPORT void DDV_493F30()
+{
+    // Do nothing
+}
+
+EXPORT void CC DD_Flip_4940F0()
+{
+    // Do nothing
+}
+#else
 EXPORT void DDV_493F30()
 {
     NOT_IMPLEMENTED();
@@ -143,14 +155,10 @@ EXPORT void CC DD_Flip_4940F0()
 {
     NOT_IMPLEMENTED();
 }
+#endif
 
-EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
+static Masher* Open_DDV(const char* pMovieName)
 {
-    if (!*pMovieName)
-    {
-        return 1;
-    }
-
     char pFileName[256] = {};
     strcpy(pFileName, sCdEmu_Path1_C14620);
     strcat(pFileName, pMovieName);
@@ -160,7 +168,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
     int errCode = 0;
 
-    pMasherInstance_5CA1EC = Masher_Alloc_4EAB80(
+    Masher* pMasher = Masher_Alloc_4EAB80(
         pFileName,
         &pMasher_header_5CA1E4,
         &pMasher_video_header_5CA204,
@@ -175,7 +183,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
         strcpy(strstr(pFileName, ".STR"), ".ddv");
 
-        pMasherInstance_5CA1EC = Masher_Alloc_4EAB80(
+        pMasher = Masher_Alloc_4EAB80(
             pFileName,
             &pMasher_header_5CA1E4,
             &pMasher_video_header_5CA204,
@@ -199,7 +207,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
                     if (curCdDriveLetter != sCdEmu_Path2_C144C0[0])
                     {
-                        pMasherInstance_5CA1EC = Masher_Alloc_4EAB80(
+                        pMasher = Masher_Alloc_4EAB80(
                             pFileName,
                             &pMasher_header_5CA1E4,
                             &pMasher_video_header_5CA204,
@@ -217,7 +225,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
                 if (errCode)
                 {
-                    return 0;
+                    return nullptr;
                 }
                 curCdDriveLetter = pFileName[0];
             }
@@ -225,11 +233,26 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             {
                 if (errCode)
                 {
-                    return 0;
+                    return nullptr;
                 }
             }
             sCdEmu_Path2_C144C0[0] = curCdDriveLetter;
         }
+    }
+    return pMasher;
+}
+
+EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
+{
+    if (!*pMovieName)
+    {
+        return 1;
+    }
+
+    pMasherInstance_5CA1EC = Open_DDV(pMovieName);
+    if (!pMasherInstance_5CA1EC)
+    {
+        return 0;
     }
 
     while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
@@ -265,6 +288,11 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
     // NOTE: Call to Masher_Tables_Init_4EA880 as the whole masher code for audio has been replaced
     sFrameInterleaveNum_5CA23C = 0;
 
+#if USE_SDL2
+    Bitmap tmpBmp = {};
+    BMP_New_4F1990(&tmpBmp, 640, 480, 15, 0);
+#endif
+
     if (DDV_StartAudio_493DF0() && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC) && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC))
     {
         const int dword_5CA244 = timeGetTime();
@@ -273,6 +301,11 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             sFrameInterleaveNum_5CA23C++;
 
             // Lock the back buffer
+#if USE_SDL2
+            SDL_LockSurface(tmpBmp.field_0_pSurface);
+            Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, tmpBmp.field_0_pSurface->pixels);
+            SDL_UnlockSurface(tmpBmp.field_0_pSurface);
+#else
             DDSURFACEDESC surfaceDesc = {};
             surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
             HRESULT hr = sDD_surface_backbuffer_BBC3CC->Lock(nullptr, &surfaceDesc, 1, 0);
@@ -283,15 +316,15 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                     hr = sDD_surface_backbuffer_BBC3CC->Lock(nullptr, &surfaceDesc, 1, 0);
                 }
             }
-
             // Decompress the frame and "render" it into the back buffer
-            Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, FAILED(hr) ? nullptr : surfaceDesc.lpSurface);
-
+            Masher_MMX_Decode_4EAC40(pMasherInstance_5CA1EC, FAILED(hr) ? nullptr : surfaceDesc.lpSurface);       
             // Unlock the back buffer
+
             if (SUCCEEDED(hr))
             {
                 sDD_surface_backbuffer_BBC3CC->Unlock(0);
             }
+#endif
 
             if (!bNoAudio_5CA1F4)
             {
@@ -328,7 +361,11 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                     }
 
                     DDV_493F30();
+#if USE_SDL2
+                    VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+#else
                     DD_Flip_4F15D0();
+#endif
                     DD_Flip_4940F0();
 
                     while (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN))
@@ -346,7 +383,11 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 Input_IsVKPressed_4EDD40(VK_RETURN);
             }
 
+#if USE_SDL2
+            VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+#else
             DD_Flip_4F15D0();
+#endif
 
             const int bMoreFrames = Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
             if (bNoAudio_5CA1F4)
@@ -416,7 +457,11 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             {
                 // End of stream
                 DDV_493F30();
+#if USE_SDL2
+                VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+#else
                 DD_Flip_4F15D0();
+#endif
                 break;
             }
         }
@@ -434,6 +479,9 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
     Masher_DeAlloc_4EAC00(pMasherInstance_5CA1EC);
     pMasherInstance_5CA1EC = nullptr;
+#if USE_SDL2
+    Bmp_Free_4F1950(&tmpBmp);
+#endif
     return 1;
 }
 
