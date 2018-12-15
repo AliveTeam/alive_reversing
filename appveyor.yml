@@ -13,7 +13,7 @@ build_script:
  - mkdir build
  - cd build
  - cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9
- - msbuild AR.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+ - msbuild AR.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /m
 # - Source\Tests\%configuration%\Tests.exe
  - call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C %configuration%
 
