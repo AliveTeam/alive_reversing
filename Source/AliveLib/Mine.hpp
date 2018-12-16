@@ -29,16 +29,24 @@ enum Mine_Flags_1BC
 class Mine : public BaseAliveGameObject
 {
 public:
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
+    virtual void vnull_408180() override;
+    virtual void vnull_4081A0() override;
+    virtual __int16 VTakeDamage_408730(BaseAliveGameObject* pFrom) override;
 
     EXPORT Mine* ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
+private:
+    EXPORT Mine* vdtor_46B4C0(signed int flags);
+    EXPORT void dtor_46B4F0();
     EXPORT void Update_46B5D0();
     EXPORT void Render_46B7A0(int ** pOt);
     EXPORT void ScreenChanged_46BAE0();
-    
+    EXPORT void vsub_46B880();
+    EXPORT void vsub_46BA40();
+    EXPORT signed __int16 vTakeDamage_46BB20(BaseAliveGameObject* pFrom);
     EXPORT bool IsColliding_46B8C0();
 public:
     BYTE field_116[2];

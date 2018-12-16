@@ -13,9 +13,11 @@
 #include "ScreenManager.hpp"
 #include "Midi.hpp"
 #include "Abe.hpp"
+#include "stdlib.hpp"
 
+void Mine_ForceLink()
+{
 
-void Mine_ForceLink() {
 }
 
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
@@ -31,14 +33,30 @@ void Mine::VRender(int ** pOrderingTable)
     Render_46B7A0(pOrderingTable);
 }
 
-BaseGameObject* Mine::VDestructor(signed int /*flags*/)
+BaseGameObject* Mine::VDestructor(signed int flags)
 {
-    abort();
+    return vdtor_46B4C0(flags);
 }
 
 void Mine::VScreenChanged()
 {
     ScreenChanged_46BAE0();
+}
+
+
+void Mine::vnull_408180()
+{
+    vsub_46B880();
+}
+
+void Mine::vnull_4081A0()
+{
+    vsub_46BA40();
+}
+
+__int16 Mine::VTakeDamage_408730(BaseAliveGameObject* pFrom)
+{
+    return vTakeDamage_46BB20(pFrom);
 }
 
 Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
@@ -137,6 +155,38 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     return this;
 }
 
+Mine* Mine::vdtor_46B4C0(signed int flags)
+{
+    dtor_46B4F0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void Mine::dtor_46B4F0()
+{
+    SetVTable(this, 0x546164); // vTbl_Mine_546164
+    if (field_118 == 1)
+    {
+        Path::TLV_Reset_4DB8E0(field_11C_tlv.all, -1, 0, 1);
+    }
+    else
+    {
+        Path::TLV_Reset_4DB8E0(field_11C_tlv.all, -1, 0, 0);
+    }
+
+    field_124_animation.vCleanUp_40C630();
+    field_6_flags.Clear(BaseGameObject::eInteractive);
+
+    if (sMineSFXOwner_5C3008 == this)
+    {
+        sMineSFXOwner_5C3008 = nullptr;
+    }
+    dtor_4080B0();
+}
+
 void Mine::Update_46B5D0()
 {
     const short onScreen = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -220,6 +270,55 @@ void Mine::ScreenChanged_46BAE0()
     {
         field_6_flags.Set(Options::eDead);
     }
+}
+
+void Mine::vsub_46B880()
+{
+    if (field_118 != 1)
+    {
+        field_118 = 1;
+        field_120_gnframe = sGnFrame_5C1B84 + 5;
+    }
+}
+
+void Mine::vsub_46BA40()
+{
+    auto pBomb = alive_new<BaseBomb>();
+    if (pBomb)
+    {
+        pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+    }
+    field_6_flags.Set(BaseGameObject::eDead);
+    field_118 = 1;
+}
+
+signed __int16 Mine::vTakeDamage_46BB20(BaseAliveGameObject* pFrom)
+{
+    if (field_6_flags.Get(BaseGameObject::eDead))
+    {
+        return 0;
+    }
+
+    switch (pFrom->field_4_typeId)
+    {
+    case BaseGameObject::Types::eGreeter_64:
+    case BaseGameObject::Types::eType_Abe_69:
+    case BaseGameObject::Types::eType_89:
+    case BaseGameObject::Types::eType_104:
+    case BaseGameObject::Types::eExplosion_109:
+    case BaseGameObject::Types::eMudokon_110:
+    case BaseGameObject::Types::eType_121:
+        auto pBomb = alive_new<BaseBomb>();
+        if (pBomb)
+        {
+            pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
+        }
+        field_6_flags.Set(BaseGameObject::eDead);
+        field_118 = 1;
+        field_120_gnframe = sGnFrame_5C1B84;
+        return 1;
+    }
+    return 0;
 }
 
 bool Mine::IsColliding_46B8C0()
