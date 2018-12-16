@@ -684,6 +684,35 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         {
             // "Typing" input
             sLastPressedKey_BD30A0 = sdl_key_to_win32_vkey(event->key.keysym.scancode);
+
+            // Between A-Z
+            if (sLastPressedKey_BD30A0 >= 0x41 && sLastPressedKey_BD30A0 <= 0x5A)
+            {
+                sLastPressedKey_BD30A0 -= 0x41;
+
+                if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CAPS))
+                {
+                    sLastPressedKey_BD30A0 += 'A';
+                }
+                else
+                {
+                    sLastPressedKey_BD30A0 += 'a';
+                }
+            }
+            // Between 0-9
+            else if (sLastPressedKey_BD30A0 >= VK_NUMPAD0 && sLastPressedKey_BD30A0 <= VK_NUMPAD9)
+            {
+                sLastPressedKey_BD30A0 -= VK_NUMPAD0;
+                if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CAPS))
+                {
+                    sLastPressedKey_BD30A0 += '!';
+                }
+                else
+                {
+                    sLastPressedKey_BD30A0 += '0';
+                }
+            }
+
             sIsAKeyDown_BD309C = TRUE;
         }
         else
