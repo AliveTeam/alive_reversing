@@ -242,6 +242,24 @@ static Masher* Open_DDV(const char* pMovieName)
     return pMasher;
 }
 
+static void Render_DDV_Frame(Bitmap& tmpBmp)
+{
+    // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
+    // giving us a nice seamless transistion.
+    SDL_Rect bufferSize = { 0,0, 640, 240 };
+    SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
+
+    if (sPsxEMU_show_vram_BD1465)
+    {
+        VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
+    }
+    else
+    {
+        // Copy to full window/primary buffer
+        VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+    }
+}
+
 EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 {
     if (!*pMovieName)
@@ -362,7 +380,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
                     DDV_493F30();
 #if USE_SDL2
-                    VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+                    Render_DDV_Frame(tmpBmp);
 #else
                     DD_Flip_4F15D0();
 #endif
@@ -384,7 +402,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             }
 
 #if USE_SDL2
-            VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+            Render_DDV_Frame(tmpBmp);
 #else
             DD_Flip_4F15D0();
 #endif
@@ -458,7 +476,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 // End of stream
                 DDV_493F30();
 #if USE_SDL2
-                VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+                Render_DDV_Frame(tmpBmp);
 #else
                 DD_Flip_4F15D0();
 #endif
