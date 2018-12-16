@@ -14,6 +14,7 @@
 #if USE_SDL2
 #include "SDL.h"
 #include "SDL_syswm.h"
+#include "VGA.hpp"
 #endif
 
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
@@ -757,6 +758,15 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         {
             forcedWindowMode = true;
             SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
+            if (sPsxEMU_show_vram_BD1465)
+            {
+                VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
+            }
+            else
+            {
+                RECT rect = { 0,0, 640, 240 };
+                VGA_CopyToFront_4F3710(&sPsxVram_C1D160, &rect);
+            }
         }
 
         const MessageBoxButton button = Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "Abe's Exoddus 1.0", MessageBoxType::eQuestion);
