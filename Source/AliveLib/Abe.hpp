@@ -4,6 +4,8 @@
 #include "FunctionFwd.hpp"
 #include "BitField.hpp"
 
+class PullRingRope;
+
 enum class AbeSay : __int16
 {
     eNothing = -1,
@@ -135,7 +137,7 @@ public:
     EXPORT void State_62_Punch_454750();
     EXPORT void State_63_Sorry_454670();
     EXPORT void State_64_454730();
-    EXPORT void State_65_LedgeAscend_4548E0();
+    EXPORT void State_65_LedgeAscend_End_4548E0();
     EXPORT void State_66_LedgeDescend_454970();
     EXPORT void State_67_LedgeHang_454E20();
     EXPORT void State_68_454B80();
@@ -161,7 +163,7 @@ public:
     EXPORT void State_88_GrenadeMachineUse_45C510();
     EXPORT void State_89_BrewMachineBegin_4584C0();
     EXPORT void State_90_BrewMachineEnd_4585B0();
-    EXPORT void State_91_RingRopePullEnd_4557B0();
+    EXPORT void State_91_FallingFromGrab_4557B0();
     EXPORT void State_92_ForceDown_From_Hoist_455800();
     EXPORT void State_93_FallLedgeBegin_455970();
     EXPORT void State_94_RunOffEdge_4559A0();
@@ -227,6 +229,7 @@ public:
     EXPORT __int16 ForceDownIfHoisting_44BA30();
     EXPORT __int16 sub_44C980(BaseAliveGameObject* pObj);
     EXPORT void GiveControlBackToMe_44BA10();
+    EXPORT PullRingRope* GetPullRope_44D120();
 public:
     __int16 field_116;
     int field_118_prev_held;

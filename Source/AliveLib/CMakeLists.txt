@@ -163,6 +163,10 @@ add_library(AliveLib
     Blood.hpp
     Masher.hpp
     Masher.cpp
+    PullRingRope.hpp
+    PullRingRope.cpp
+    HoistRocksEffect.hpp
+    HoistRocksEffect.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)

@@ -10,6 +10,7 @@
 #include "TimedMine.hpp"
 #include "StatsSign.hpp"
 #include "BackgroundAnimation.hpp"
+#include "HoistRocksEffect.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -59,7 +60,30 @@ EXPORT void CC Factory_MainMenuController_4D6DB0(Path_TLV* pTlv, Path* /*pPath*/
 
 EXPORT void CC Factory_ContinuePoint_4D6970(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_PathTransition_4D68A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
+{
+    Path_Hoist* pHoistTlv = static_cast<Path_Hoist*>(pTlv);
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, 42, loadmode, 0);
+        Map::LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, 357, loadmode, 0);
+    }
+    else if (pHoistTlv->field_10_type == Path_Hoist::Type::eOffScreen)
+    {
+        // Its an off screen hoist so create the falling rocks effect
+        auto pHoistFallingRocks = alive_new<HoistRocksEffect>();
+        if (pHoistFallingRocks)
+        {
+            pHoistFallingRocks->ctor_45D270(pHoistTlv, tlvOffsetLevelIdPathId.all);
+        }
+    }
+    else
+    {
+        Path::TLV_Reset_4DB8E0(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
+}
+
 EXPORT void CC Factory_Edge_4D68C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_DeathDrop_4D6930(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Door_4D6F00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
