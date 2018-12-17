@@ -140,7 +140,7 @@ public:
     EXPORT void State_65_LedgeAscend_End_4548E0();
     EXPORT void State_66_LedgeDescend_454970();
     EXPORT void State_67_LedgeHang_454E20();
-    EXPORT void State_68_454B80();
+    EXPORT void State_68_ToOffScreenHoist_454B80();
     EXPORT void State_69_LedgeHangWobble_454EF0();
     EXPORT void State_70_RingRopePull_455AF0();
     EXPORT void State_71_Knockback_455090();

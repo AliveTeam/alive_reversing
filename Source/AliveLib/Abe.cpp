@@ -99,7 +99,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_65_LedgeAscend_End_4548E0) \
     ENTRY(State_66_LedgeDescend_454970) \
     ENTRY(State_67_LedgeHang_454E20) \
-    ENTRY(State_68_454B80) \
+    ENTRY(State_68_ToOffScreenHoist_454B80) \
     ENTRY(State_69_LedgeHangWobble_454EF0) \
     ENTRY(State_70_RingRopePull_455AF0) \
     ENTRY(State_71_Knockback_455090) \
@@ -244,7 +244,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_65_LedgeAscend_End_4548E0,
     &Abe::State_66_LedgeDescend_454970,
     &Abe::State_67_LedgeHang_454E20,
-    &Abe::State_68_454B80,
+    &Abe::State_68_ToOffScreenHoist_454B80,
     &Abe::State_69_LedgeHangWobble_454EF0,
     &Abe::State_70_RingRopePull_455AF0,
     &Abe::State_71_Knockback_455090,
@@ -3859,7 +3859,7 @@ void Abe::State_14_HoistIdle_452440()
                 if (gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop, this, -1))
                 {
                     sub_4945B0();
-                    field_106_current_state = eAbeStates::State_68_454B80;
+                    field_106_current_state = eAbeStates::State_68_ToOffScreenHoist_454B80;
                     return;
                 }
 
@@ -5254,9 +5254,67 @@ void Abe::State_67_LedgeHang_454E20()
     }
 }
 
-void Abe::State_68_454B80()
+void Abe::State_68_ToOffScreenHoist_454B80()
 {
-    NOT_IMPLEMENTED();
+    BaseGameObject* pfield_110_id = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+
+    // Get the current hoist - even though there is no need to?
+    Path_TLV* pHoist = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        Path_Hoist::kType);
+
+    // Find the hoist we are "connecting" to
+    field_FC_pPathTLV = pHoist;
+    field_BC_ypos -= field_CC_sprite_scale * FP_FromInteger(75);
+    field_E0_176_ptr->field_14_flags |= 1;
+
+    const FP ypos = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y) - (FP_FromInteger(40) * field_CC_sprite_scale);
+    pHoist = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(ypos),
+        Path_Hoist::kType);
+
+    field_FC_pPathTLV = pHoist;
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (pHoist && sCollisions_DArray_5C1128->Raycast_417A60(
+            field_B8_xpos,
+            FP_FromInteger(pHoist->field_8_top_left.field_2_y - 10),
+            field_B8_xpos,
+            FP_FromInteger(pHoist->field_8_top_left.field_2_y + 10),
+            &pLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16))
+    {
+        field_100_pCollisionLine = pLine;
+        field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
+        field_C8_vely = FP_FromInteger(0);
+        if (!pfield_110_id)
+        {
+            if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            {
+                vOnCollisionWith_424EE0(
+                    { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos)},
+                    { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5)) },
+                    ObjList_5C1B78,
+                    1,
+                    (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+            }
+        }
+        field_106_current_state = eAbeStates::State_67_LedgeHang_454E20;
+    }
+    else
+    {
+        field_106_current_state = eAbeStates::State_14_HoistIdle_452440;
+    }
 }
 
 void Abe::State_69_LedgeHangWobble_454EF0()
@@ -6494,7 +6552,7 @@ EXPORT __int16 Abe::ForceDownIfHoisting_44BA30()
         field_106_current_state != eAbeStates::State_67_LedgeHang_454E20 &&
         field_106_current_state != eAbeStates::State_69_LedgeHangWobble_454EF0 &&
         field_106_current_state != eAbeStates::State_66_LedgeDescend_454970 &&
-        field_106_current_state != eAbeStates::State_68_454B80)
+        field_106_current_state != eAbeStates::State_68_ToOffScreenHoist_454B80)
     {
         return 0;
     }
