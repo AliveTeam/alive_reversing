@@ -1073,7 +1073,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != 82
                 && heroState != 83
                 && (sControlledCharacter_5C1B8C->field_4_typeId != Types::eType_45 || LOWORD(sControlledCharacter_5C1B8C->field_124_gnFrame) != 2)
-                && sActiveHero_5C1B68->field_1A8 == -1)
+                && sActiveHero_5C1B68->field_1A8_portal_id == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
                 {
@@ -1121,7 +1121,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != 82
                 && heroState != 83
                 && (pControlledChar->field_4_typeId != Types::eType_45 || LOWORD(pControlledChar->field_124_gnFrame) != 2) // TODO: Why LOWORD only ??
-                && pHero->field_1A8 == -1)
+                && pHero->field_1A8_portal_id == -1)
             {
                 SND_StopAll_4CB060();
                 SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);

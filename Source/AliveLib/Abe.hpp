@@ -230,6 +230,7 @@ public:
     EXPORT __int16 sub_44C980(BaseAliveGameObject* pObj);
     EXPORT void GiveControlBackToMe_44BA10();
     EXPORT PullRingRope* GetPullRope_44D120();
+    EXPORT void IntoPortalStates_451990();
 public:
     __int16 field_116;
     int field_118_prev_held;
@@ -278,7 +279,7 @@ public:
     char field_1A3_throw_direction;
     __int16 field_1A4;
     __int16 field_1A6;
-    int field_1A8;
+    int field_1A8_portal_id;
 
     enum Flags_1AC
     {
