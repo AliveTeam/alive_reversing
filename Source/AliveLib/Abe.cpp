@@ -3753,7 +3753,7 @@ void Abe::State_13_HoistBegin_452B20()
 
 void Abe::State_14_HoistIdle_452440()
 {
-     //sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id); // NOTE: Return never used
+    //sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id); // NOTE: Return never used
     BaseGameObject* pfield_110_id = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     if (Is_Celling_Above_44E8D0())
     {
@@ -3771,29 +3771,29 @@ void Abe::State_14_HoistIdle_452440()
     {
         switch (pLine->field_8_type)
         {
-            case eFloor:
-            case eBackGroundFloor:
-            case 32u: // trap doors ??
-            case 36u:
-            {
-                field_B8_xpos = hitX;
-                field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
+        case eFloor:
+        case eBackGroundFloor:
+        case 32u: // trap doors ??
+        case 36u:
+        {
+            field_B8_xpos = hitX;
+            field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
 
-                MapFollowMe_408D10(1);
+            MapFollowMe_408D10(1);
 
-                field_100_pCollisionLine = pLine;
+            field_100_pCollisionLine = pLine;
 
-                field_106_current_state = eAbeStates::State_15_HoistLand_452BA0;
-                field_F4 = 14; // eAbeStates::State_14_HoistIdle_452440 ??
+            field_106_current_state = eAbeStates::State_15_HoistLand_452BA0;
+            field_F4 = 14; // eAbeStates::State_14_HoistIdle_452440 ??
 
-                vOnCollisionWith_424EE0(
-                    { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_B8_xpos) },
-                    { FP_GetExponent(field_BC_ypos), FP_GetExponent((field_BC_ypos + FP_FromInteger(5))) },
-                    ObjList_5C1B78,
-                    1,
-                    (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
-            }
-            break;
+            vOnCollisionWith_424EE0(
+            { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_B8_xpos) },
+            { FP_GetExponent(field_BC_ypos), FP_GetExponent((field_BC_ypos + FP_FromInteger(5))) },
+                ObjList_5C1B78,
+                1,
+                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+        }
+        break;
         }
         return;
     }
@@ -3811,34 +3811,32 @@ void Abe::State_14_HoistIdle_452440()
         field_15C_pull_rope_id = -1;
     }
 
-    if (field_C8_vely >= FP_FromInteger(0))
+    Path_Hoist* pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        Path_Hoist::kType));
+    field_FC_pPathTLV = pHoist;
+
+    if (field_C8_vely < FP_FromInteger(0))
     {
-        Path_Hoist* pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(field_B8_xpos),
-            FP_GetExponent(field_BC_ypos),
-            FP_GetExponent(field_B8_xpos),
-            FP_GetExponent(field_BC_ypos),
-            Path_Hoist::kType));
+        // Going down and no hoist, can't do anything
+        if (!pHoist)
+        {
+            return;
+        }
 
-        field_FC_pPathTLV = pHoist;
-
-        if (pHoist && FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y -1 * field_FC_pPathTLV->field_8_top_left.field_2_y) <= 
+        // Hoist is too far away
+        if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y) <=
             (field_CC_sprite_scale * FP_FromInteger(90)) && field_20_animation.field_92_current_frame == 0)
         {
             return;
         }
+    }
 
-        if (!pHoist)
-        {
-            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
-                nullptr,
-                field_B8_xpos,
-                field_BC_ypos,
-                field_B8_xpos,
-                field_BC_ypos);
-            return;
-        }
-
+    if (pHoist)
+    {
         // Check hoist in on the same scale/layer
         if ((pHoist->field_16_scale == Path_Hoist::Scale::eFull && field_D6_scale == 1) ||
             (pHoist->field_16_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 0))
@@ -3865,7 +3863,7 @@ void Abe::State_14_HoistIdle_452440()
 
                 Abe_SFX_2_457A40(1, 0, 127, this);
 
-                if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y -1 * field_FC_pPathTLV->field_8_top_left.field_2_y)
+                if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y)
                     >= field_CC_sprite_scale * FP_FromInteger(70))
                 {
                     field_106_current_state = eAbeStates::State_67_LedgeHang_454E20;
@@ -3882,7 +3880,7 @@ void Abe::State_14_HoistIdle_452440()
             else
             {
                 Abe_SFX_2_457A40(1, 0, 127, this);
-                if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y -1 * field_FC_pPathTLV->field_8_top_left.field_2_y) >=
+                if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y) >=
                     field_CC_sprite_scale * FP_FromInteger(70))
                 {
                     field_106_current_state = eAbeStates::State_67_LedgeHang_454E20;
@@ -3913,8 +3911,8 @@ void Abe::State_14_HoistIdle_452440()
                     if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
                     {
                         vOnCollisionWith_424EE0(
-                            { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos) },
-                            { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5)) },
+                        { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos) },
+                        { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos + FP_FromInteger(5)) },
                             ObjList_5C1B78,
                             1,
                             (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
@@ -3927,6 +3925,15 @@ void Abe::State_14_HoistIdle_452440()
                 field_106_current_state = eAbeStates::State_14_HoistIdle_452440;
             }
         }
+    }
+    else
+    {
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            nullptr,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
     }
 }
 
