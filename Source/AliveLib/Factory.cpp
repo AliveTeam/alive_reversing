@@ -66,8 +66,8 @@ EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     Path_Hoist* pHoistTlv = static_cast<Path_Hoist*>(pTlv);
     if (loadmode == 1 || loadmode == 2)
     {
-        Map::LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, 42, loadmode, 0);
-        Map::LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, 357, loadmode, 0);
+        Map::LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadmode, 0);
+        Map::LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, ResourceID::kDrpRockResID, loadmode, 0);
     }
     else if (pHoistTlv->field_10_type == Path_Hoist::Type::eOffScreen)
     {
@@ -84,7 +84,18 @@ EXPORT void CC Factory_Hoist_4D9E90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_Edge_4D68C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_Edge_4D68C0(Path_TLV* /*pTlv*/, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
+{ 
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadmode, 0);
+    }
+    else
+    {
+        Path::TLV_Reset_4DB8E0(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+    }
+}
+
 EXPORT void CC Factory_DeathDrop_4D6930(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Door_4D6F00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Shadow_4D7200(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
