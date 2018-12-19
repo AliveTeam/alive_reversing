@@ -5467,7 +5467,54 @@ void Abe::State_68_ToOffScreenHoist_454B80()
 
 void Abe::State_69_LedgeHangWobble_454EF0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        if (!(field_1AC_flags.Get(Flags_1AC::e1AC_eBit13)))
+        {
+            field_1AC_flags.Set(Flags_1AC::e1AC_eBit13);
+            Abe_SFX_2_457A40(1, 0, 127, this);
+        }
+    }
+    else
+    {
+        if (field_20_animation.field_92_current_frame == 2)
+        {
+            if (!(field_1AC_flags.Get(Flags_1AC::e1AC_eBit13)))
+            {
+                field_1AC_flags.Set(Flags_1AC::e1AC_eBit13);
+                Abe_SFX_457EC0(0x10u, 45, -200, this);
+            }
+        }
+        else
+        {
+            field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13);
+        }
+    }
+    
+    // Going up the ledge on wobble?
+    const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10))
+    {
+        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13);
+        field_106_current_state = eAbeStates::State_65_LedgeAscend_End_4548E0;
+    }
+    // Going down the ledge wobble?
+    else if (pressed & sInputKey_Down_5550DC)
+    {
+        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13);
+        Vnull_4081F0();
+        field_100_pCollisionLine = nullptr;
+        field_106_current_state = eAbeStates::State_91_FallingFromGrab_4557B0;
+        field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
+        field_E0_176_ptr->field_14_flags &= ~1u;
+        field_F8 = field_BC_ypos;
+    }
+    // Now stabilized when wobble anim is done
+    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13);
+        field_106_current_state = eAbeStates::State_67_LedgeHang_454E20;
+    }
 }
 
 void Abe::State_70_RingRopePull_455AF0()
