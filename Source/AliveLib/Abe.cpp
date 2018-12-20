@@ -5383,6 +5383,271 @@ void Abe::State_66_LedgeDescend_454970()
     }
 }
 
+class CircularFade : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+
+private:
+    EXPORT CircularFade* ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 direction, char unknown)
+    {
+        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+
+        field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
+
+        SetVTable(this, 0x547904); // vTbl_CircularFade_547904
+
+        if (direction)
+        {
+            field_1B8_fade_colour = 0;
+        }
+        else
+        {
+            field_1B8_fade_colour = 255;
+        }
+
+        vsub_4CE300(direction, unknown);
+
+        const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
+        field_D4_b = fade_rgb;
+        field_D2_g = fade_rgb;
+        field_D0_r = fade_rgb;
+
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID);
+        Animation_Init_424E10(1536, 57, 32, ppRes, 1, 1u);
+        
+        field_DC_bApplyShadows &= ~1u;
+        
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        field_CC_sprite_scale.fpValue = scale.fpValue * 2;
+        field_20_animation.field_14_scale.fpValue = scale.fpValue * 2;
+
+        field_B8_xpos = xpos;
+        field_BC_ypos = ypos;
+        field_20_animation.field_B_render_mode = 2;
+        field_20_animation.field_C_render_layer = 40;
+        field_D0_r = field_1B8_fade_colour;
+        field_D2_g = field_1B8_fade_colour;
+        field_D4_b = field_1B8_fade_colour;
+
+        Init_SetTPage_4F5B60(&field_198_tPages[0], 0, 0, PSX_getTPage_4F60E0(2, 2, 0, 0));
+        Init_SetTPage_4F5B60(&field_198_tPages[1], 0, 0, PSX_getTPage_4F60E0(2, 2, 0, 0));
+        return this;
+    }
+
+    EXPORT void vRender_4CE3F0(int **pOt)
+    {
+        const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
+
+        field_D4_b = fade_rgb;
+        field_D2_g = fade_rgb;
+        field_D0_r = fade_rgb;
+        field_20_animation.field_8_r = fade_rgb;
+        field_20_animation.field_9_g = fade_rgb;
+        field_20_animation.field_A_b = fade_rgb;
+
+        field_20_animation.vRender_40B820(
+            FP_GetExponent(FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+            FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+            pOt,
+            0,
+            0);
+
+        PSX_RECT frameRect = {};
+        field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+        
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            frameRect.x,
+            frameRect.y,
+            frameRect.w,
+            frameRect.h,
+            pScreenManager_5BB5F4->field_3A_idx);
+
+        --frameRect.h;
+        --frameRect.w;
+
+        if (frameRect.y < 0)
+        {
+            frameRect.y = 0;
+        }
+
+        if (frameRect.x < 0)
+        {
+            frameRect.x = 0;
+        }
+
+        if (frameRect.w >= 640)
+        {
+            frameRect.w = 639;
+        }
+
+        if (frameRect.h >= 240)
+        {
+            frameRect.h = 240;
+        }
+
+        const BYTE fadeColour = static_cast<BYTE>(field_1B8_fade_colour);
+
+        Prim_Tile* pTile1 = &field_F8[gPsxDisplay_5C1130.field_C_buffer_index];
+        Init_Tile(pTile1);
+        SetRGB0(pTile1, fadeColour, fadeColour, fadeColour);
+        SetXY0(pTile1, 0, 0);
+        pTile1->field_14_w = gPsxDisplay_5C1130.field_0_width;
+        pTile1->field_16_h = frameRect.y;
+        Poly_Set_SemiTrans_4F8A60(&pTile1->mBase.header, 1);
+        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pTile1->mBase.header);
+        
+        
+        Prim_Tile* pTile2 = &field_120[gPsxDisplay_5C1130.field_C_buffer_index];
+        Init_Tile(pTile2);
+        SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
+        SetXY0(pTile2, 0, frameRect.y);
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            pTile2->field_14_w = frameRect.x + 1;
+        }
+        else
+        {
+            pTile2->field_14_w = frameRect.x;
+        }
+        pTile2->field_16_h = frameRect.h - frameRect.y;
+        Poly_Set_SemiTrans_4F8A60(&pTile2->mBase.header, 1);
+        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pTile2->mBase.header);
+       
+        Prim_Tile* pTile3 = &field_148[gPsxDisplay_5C1130.field_C_buffer_index];
+        Init_Tile(pTile3);
+        SetRGB0(pTile3, fadeColour, fadeColour, fadeColour);
+        SetXY0(pTile3, frameRect.w, frameRect.y);
+        pTile3->field_14_w = gPsxDisplay_5C1130.field_0_width - frameRect.w;
+        pTile3->field_16_h = frameRect.h - frameRect.y;
+        Poly_Set_SemiTrans_4F8A60(&pTile3->mBase.header, 1);
+        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pTile3->mBase.header);
+
+        Prim_Tile* pTile4 = &field_170[gPsxDisplay_5C1130.field_C_buffer_index];
+        Init_Tile(pTile4);
+        SetRGB0(pTile4, fadeColour, fadeColour, fadeColour);
+        SetXY0(pTile4, 0, frameRect.h);
+        pTile4->field_14_w = gPsxDisplay_5C1130.field_0_width;
+        pTile4->field_16_h = gPsxDisplay_5C1130.field_2_height - frameRect.h;
+        Poly_Set_SemiTrans_4F8A60(&pTile4->mBase.header, 1);
+        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pTile4->mBase.header);
+
+        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &field_198_tPages[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+
+        if (field_1B8_fade_colour < 255)
+        {
+            pScreenManager_5BB5F4->InvalidateRect_40EC10(
+                0,
+                0,
+                gPsxDisplay_5C1130.field_0_width,
+                gPsxDisplay_5C1130.field_2_height);
+        }
+
+        if (field_1B8_fade_colour == 255 && (field_F4_flags & 1) ||
+            field_1B8_fade_colour == 0 && (!(field_F4_flags & 1)))
+        {
+            if (!(field_F4_flags & 2))
+            {
+                field_F4_flags |= 2;
+                --sNum_CamSwappers_5C1B66;
+            }
+
+            if (field_F4_flags & 4)
+            {
+                field_6_flags.Set(BaseGameObject::eDead);
+            }
+        }
+    }
+
+    EXPORT void vUpdate_4CE380()
+    {
+        if (!(field_F4_flags & (0x8 | 0x2)))
+        {
+            field_1B8_fade_colour += field_1BA_speed;
+            if (field_F4_flags & 1)
+            {
+                if (field_1B8_fade_colour > 255)
+                {
+                    field_1B8_fade_colour = 255;
+                }
+            }
+            else if (field_1B8_fade_colour < 0)
+            {
+                field_1B8_fade_colour = 0;
+            }
+        }
+    }
+
+    EXPORT int vsub_4CE300(__int16 direction, char unknown)
+    {
+        ++sNum_CamSwappers_5C1B66;
+
+        field_F4_flags ^= (direction ^ (unsigned __int8)field_F4_flags) & 1;
+        field_F4_flags = (unsigned __int16)(this->field_F4_flags & ~0xE) | 4 * (unknown & 1);
+        if (field_F4_flags & 1)
+        {
+            field_1BA_speed = 12;
+        }
+        else
+        {
+            field_1BA_speed = -12;
+        }
+        return field_F4_flags;
+    }
+
+    EXPORT void vsub_4CE8A0()
+    {
+        // Empty
+    }
+
+    EXPORT int vsub_4CE0B0()
+    {
+        return (field_F4_flags >> 1) & 1; // bit 2
+    }
+
+    EXPORT void dtor_4CE080()
+    {
+        SetVTable(this, 0x547904); // vTbl_CircularFade_547904
+
+        if (!(field_F4_flags & 2))
+        {
+            --sNum_CamSwappers_5C1B66;
+        }
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    }
+
+    EXPORT CircularFade* vdtor_4CE0D0(signed int flags)
+    {
+        dtor_4CE080();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+private:
+    // Never used ?
+    int field_E4[4];
+
+    __int16 field_F4_flags;
+    //__int16 field_F6; // pad?
+    Prim_Tile field_F8[2];
+    Prim_Tile field_120[2];
+    Prim_Tile field_148[2];
+    Prim_Tile field_170[2];
+    Prim_SetTPage field_198_tPages[2];
+    __int16 field_1B8_fade_colour;
+    __int16 field_1BA_speed;
+};
+ALIVE_ASSERT_SIZEOF(CircularFade, 0x1BC);
+
+EXPORT CircularFade* CC Make_Circular_Fade_4CE8C0(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, int /*direction*/, int /*a5*/, char /*a6*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
 void Abe::State_67_LedgeHang_454E20()
 {
     field_E0_176_ptr->field_14_flags |= 1u;
