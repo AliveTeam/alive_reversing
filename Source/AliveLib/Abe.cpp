@@ -4373,7 +4373,8 @@ void Abe::State_26_RunTurn_451500()
             && !RunTryEnterWell_451060()
             && !RunTryEnterDoor_451220())
         {
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || MapFollowMe_408D10(FALSE)) // TODO: Check correctness of this statement
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || 
+                (MapFollowMe_408D10(FALSE) && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 MapFollowMe_408D10(TRUE);
 
