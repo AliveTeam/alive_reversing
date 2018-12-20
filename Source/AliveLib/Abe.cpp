@@ -5387,9 +5387,38 @@ void Abe::State_66_LedgeDescend_454970()
 class CircularFade : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_424A40(flags);
+    }
 
-private:
-    EXPORT CircularFade* ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 direction, char unknown)
+    virtual void VUpdate() override
+    {
+        Update_424AB0();
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        Render_424B90(pOrderingTable);
+    }
+
+    virtual void VScreenChanged() override
+    {
+        // null sub
+    }
+
+    // New virtuals
+    virtual int Vsub_4CE300(__int16 direction, char destroyOnDone)
+    {
+        return vsub_4CE300(direction, destroyOnDone);
+    }
+
+    virtual int Vsub_4CE0B0()
+    {
+        return vsub_4CE0B0();
+    }
+
+    EXPORT CircularFade* ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone)
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
@@ -5406,7 +5435,7 @@ private:
             field_1B8_fade_colour = 255;
         }
 
-        vsub_4CE300(direction, unknown);
+        vsub_4CE300(direction, destroyOnDone);
 
         const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
         field_D4_b = fade_rgb;
@@ -5435,6 +5464,7 @@ private:
         return this;
     }
 
+private:
     EXPORT void vRender_4CE3F0(int **pOt)
     {
         const BYTE fade_rgb = static_cast<BYTE>((field_1B8_fade_colour * 60) / 100);
@@ -5544,16 +5574,16 @@ private:
                 gPsxDisplay_5C1130.field_2_height);
         }
 
-        if (field_1B8_fade_colour == 255 && (field_F4_flags & 1) ||
-            field_1B8_fade_colour == 0 && (!(field_F4_flags & 1)))
+        if (field_1B8_fade_colour == 255 && (field_F4_flags.Get(Flags::eBit1_FadeIn)) ||
+            field_1B8_fade_colour == 0 && (!(field_F4_flags.Get(Flags::eBit1_FadeIn))))
         {
-            if (!(field_F4_flags & 2))
+            if (!(field_F4_flags.Get(Flags::eBit2_Done)))
             {
-                field_F4_flags |= 2;
+                field_F4_flags.Set(Flags::eBit2_Done);
                 --sNum_CamSwappers_5C1B66;
             }
 
-            if (field_F4_flags & 4)
+            if (field_F4_flags.Get(Flags::eBit3_DestroyOnDone))
             {
                 field_6_flags.Set(BaseGameObject::eDead);
             }
@@ -5562,10 +5592,10 @@ private:
 
     EXPORT void vUpdate_4CE380()
     {
-        if (!(field_F4_flags & (0x8 | 0x2)))
+        if ((!field_F4_flags.Get(Flags::eBit4_NeverSet) && !field_F4_flags.Get(Flags::eBit2_Done)))
         {
             field_1B8_fade_colour += field_1BA_speed;
-            if (field_F4_flags & 1)
+            if (field_F4_flags.Get(Flags::eBit1_FadeIn))
             {
                 if (field_1B8_fade_colour > 255)
                 {
@@ -5579,13 +5609,32 @@ private:
         }
     }
 
-    EXPORT int vsub_4CE300(__int16 direction, char unknown)
+    EXPORT int vsub_4CE300(__int16 direction, char destroyOnDone) // TODO: Likely no return
     {
         ++sNum_CamSwappers_5C1B66;
 
-        field_F4_flags ^= (direction ^ (unsigned __int8)field_F4_flags) & 1;
-        field_F4_flags = (unsigned __int16)(this->field_F4_flags & ~0xE) | 4 * (unknown & 1);
-        if (field_F4_flags & 1)
+        if (direction)
+        {
+            field_F4_flags.Set(Flags::eBit1_FadeIn);
+        }
+        else
+        {
+            field_F4_flags.Clear(Flags::eBit1_FadeIn);
+        }
+
+        field_F4_flags.Clear(Flags::eBit2_Done);
+        field_F4_flags.Clear(Flags::eBit4_NeverSet);
+
+        if (destroyOnDone)
+        {
+            field_F4_flags.Set(Flags::eBit3_DestroyOnDone);
+        }
+        else
+        {
+            field_F4_flags.Clear(Flags::eBit3_DestroyOnDone);
+        }
+
+        if (field_F4_flags.Get(Flags::eBit1_FadeIn))
         {
             field_1BA_speed = 12;
         }
@@ -5593,24 +5642,19 @@ private:
         {
             field_1BA_speed = -12;
         }
-        return field_F4_flags;
-    }
-
-    EXPORT void vsub_4CE8A0()
-    {
-        // Empty
+        return field_F4_flags.Raw().all;
     }
 
     EXPORT int vsub_4CE0B0()
     {
-        return (field_F4_flags >> 1) & 1; // bit 2
+        return field_F4_flags.Get(Flags::eBit2_Done);
     }
 
     EXPORT void dtor_4CE080()
     {
         SetVTable(this, 0x547904); // vTbl_CircularFade_547904
 
-        if (!(field_F4_flags & 2))
+        if (!(field_F4_flags.Get(Flags::eBit2_Done)))
         {
             --sNum_CamSwappers_5C1B66;
         }
@@ -5630,8 +5674,14 @@ private:
 private:
     // Never used ?
     int field_E4[4];
-
-    __int16 field_F4_flags;
+    enum Flags
+    {
+        eBit1_FadeIn = 0x1,
+        eBit2_Done = 0x2,
+        eBit3_DestroyOnDone = 0x4,
+        eBit4_NeverSet = 0x8
+    };
+    BitField16<Flags> field_F4_flags;
     //__int16 field_F6; // pad?
     Prim_Tile field_F8[2];
     Prim_Tile field_120[2];
@@ -5643,10 +5693,26 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(CircularFade, 0x1BC);
 
-EXPORT CircularFade* CC Make_Circular_Fade_4CE8C0(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, int /*direction*/, int /*a5*/, char /*a6*/)
+EXPORT CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, __int16 direction, char destroyOnDone, char setBit8)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    auto pFade = alive_new<CircularFade>();
+    if (!pFade)
+    {
+        return nullptr;
+    }
+
+    pFade->ctor_4CE100(xpos, ypos, scale, direction, destroyOnDone);
+
+    if (setBit8)
+    {
+        pFade->field_6_flags.Set(BaseGameObject::eBit08);
+    }
+    else
+    {
+        pFade->field_6_flags.Clear(BaseGameObject::eBit08);
+    }
+
+    return pFade;
 }
 
 void Abe::State_67_LedgeHang_454E20()
