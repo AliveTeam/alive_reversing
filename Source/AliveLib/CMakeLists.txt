@@ -167,6 +167,8 @@ add_library(AliveLib
     PullRingRope.cpp
     HoistRocksEffect.hpp
     HoistRocksEffect.cpp
+    CircularFade.hpp
+    CircularFade.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)
