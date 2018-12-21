@@ -124,7 +124,7 @@ public:
         eScrab_112 = 112,
         eType_113 = 113,
         eScreenClipper_114 = 114,
-        eType_115 = 115,
+        eEffectBase_115 = 115,
         eMainMenuTransistion_116 = 116,
         eType_117 = 117,
         eScreenShake_118 = 118,
