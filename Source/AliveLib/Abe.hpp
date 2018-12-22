@@ -169,7 +169,7 @@ public:
     EXPORT void State_94_RunOffEdge_4559A0();
     EXPORT void State_95_SneakOffEdge_4559C0();
     EXPORT void State_96_HopToFall_4559E0();
-    EXPORT void jState_97_FallLedgeBegin_455A80();
+    EXPORT void State_97_RunJumpFall_455A80();
     EXPORT void State_98_RollOffEdge_455AA0();
     EXPORT void State_99_LeverUse_455AC0();
     EXPORT void State_100_455B60();
