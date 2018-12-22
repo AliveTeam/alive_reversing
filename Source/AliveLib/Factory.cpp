@@ -11,6 +11,7 @@
 #include "StatsSign.hpp"
 #include "BackgroundAnimation.hpp"
 #include "HoistRocksEffect.hpp"
+#include "Alarm.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -341,7 +342,19 @@ EXPORT void CC Factory_MultiSwitchController_4D6C00(Path_TLV* , Path*, TlvItemIn
 EXPORT void CC Factory_StatusLight_4DA7E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ParamiteWeb_4D9120(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_GlukkonPanic_4DAF90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
+{
+    if (loadmode != 1 && loadmode != 2)
+    {
+        auto pAlarm = alive_new<Alarm>();
+        if (pAlarm)
+        {
+            pAlarm->ctor_409300(static_cast<Path_Alarm*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
@@ -457,7 +470,7 @@ const PathFunctionTable kObjectFactory =
         Factory_StatusLight_4DA7E0,
         Factory_SlapLock_4DAF20,
         Factory_ParamiteWeb_4D9120,
-        Factory_GlukkonPanic_4DAF90,
+        Factory_Alarm_4DAF90,
         Factory_FartMachine_4DA2B0,
         Factory_ScrabSpawner_4D9270,
         Factory_NakedSlig_4D95A0,

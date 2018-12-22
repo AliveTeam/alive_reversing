@@ -169,6 +169,14 @@ add_library(AliveLib
     HoistRocksEffect.cpp
     CircularFade.hpp
     CircularFade.cpp
+    EffectBase.hpp
+    EffectBase.cpp
+    Alarm.hpp
+    Alarm.cpp
+    DeathFadeOut.hpp
+    DeathFadeOut.cpp
+    Flash.hpp
+    Flash.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)

@@ -208,5 +208,11 @@ struct Path_Well_Express : public Path_Well_Base
     __int16 pad;
 };
 
+struct Path_Alarm : public Path_TLV
+{
+    short field_10_id;
+    short field_12_duration;
+};
+ALIVE_ASSERT_SIZEOF(Path_Alarm, 0x14);
 
 ALIVE_VAR_EXTERN(Path*, sPath_dword_BB47C0);
