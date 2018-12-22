@@ -5413,7 +5413,6 @@ public:
         return this;
     }
 
-private:
     EXPORT void dtor_4AB8F0()
     {
         SetVTable(this, 0x54700C); // vTbl_EffectBase_54700C
@@ -5421,6 +5420,7 @@ private:
         BaseGameObject_dtor_4DBEC0();
     }
 
+private:
     EXPORT EffectBase* vdtor_4AB8C0(signed int flags)
     {
         dtor_4AB8F0();
@@ -5472,6 +5472,55 @@ protected:
     //__int16 field_76_pad;
 };
 ALIVE_ASSERT_SIZEOF(EffectBase, 0x78);
+
+class Flash : public EffectBase
+{
+public:
+    EXPORT Flash* ctor_428570(__int16 layer, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, int /*not_used*/, unsigned __int8 abr, int time)
+    {
+        ctor_4AB7A0(layer, abr);
+        SetVTable(this, 0x544F0C); // vTbl_Flash_544F0C
+        field_4_typeId = BaseGameObject::Types::eFlash_117;
+        field_6E_b = r;
+        field_70_g = g;
+        field_72_r = b;
+        field_78_flash_time = time + sGnFrame_5C1B84;
+        return this;
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return VDestructor(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_428640();
+    }
+
+private:
+    EXPORT Flash* vdtor_4285F0(signed int flags)
+    {
+        dtor_4AB8F0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+    EXPORT void vUpdate_428640()
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_78_flash_time)
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
+
+    int field_78_flash_time;
+};
+ALIVE_ASSERT_SIZEOF(Flash, 0x7C);
+
 
 void Abe::State_67_LedgeHang_454E20()
 {
