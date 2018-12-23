@@ -4621,7 +4621,7 @@ void Abe::State_28_HopMid_451C50()
         field_FC_pPathTLV = pEdgeTlv;
 
         if (pEdgeTlv && pEdgeTlv->field_12_can_grab && IsSameScaleAsEdge(pEdgeTlv, this) &&
-            ((IsFacingSameDirectionAsEdge(pEdgeTlv, this) || pEdgeTlv->field_10_type == Path_Edge::Type::eBoth) && field_C4_velx > FP_FromInteger(0)))
+            ((IsFacingSameDirectionAsEdge(pEdgeTlv, this) || pEdgeTlv->field_10_type == Path_Edge::Type::eBoth) && field_C4_velx != FP_FromInteger(0)))
         {
             field_B8_xpos = FP_FromInteger((pEdgeTlv->field_8_top_left.field_0_x + pEdgeTlv->field_C_bottom_right.field_0_x) / 2);
 
