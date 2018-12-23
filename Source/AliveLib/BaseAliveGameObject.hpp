@@ -71,7 +71,7 @@ protected:
     EXPORT __int16 MapFollowMe_408D10(__int16 snapToGrid);
     EXPORT int Raycast_408750(FP offY, FP offX);
     EXPORT __int16 InAirCollision_408810(PathLine **ppPathLine, FP* hitX, FP* hitY, FP velY);
-    EXPORT BaseAliveGameObject* FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos);
+    EXPORT BaseGameObject* FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos);
 public:
     EXPORT __int16 OnTrapDoorIntersection_408BA0(BaseAliveGameObject* pOther);
 public:

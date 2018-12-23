@@ -419,7 +419,7 @@ __int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hi
         field_D6_scale != 0 ? 6 : 96);
 }
 
-BaseAliveGameObject* BaseAliveGameObject::FindObjectOfType_425180(Types /*typeToFind*/, FP /*xpos*/, FP /*ypos*/)
+BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(Types /*typeToFind*/, FP /*xpos*/, FP /*ypos*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;

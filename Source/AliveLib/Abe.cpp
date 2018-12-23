@@ -2835,6 +2835,91 @@ static bool IsFacingSameDirectionAsEdge(Path_Edge* pEdge, BaseAliveGameObject* p
     return true;
 }
 
+class BoomMachine : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_445E10(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_445F50();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChange_446020();
+    }
+
+    virtual BOOL Vsub_445DF0()
+    {
+        return vsub_445DF0();
+    }
+
+    virtual BaseGameObject* Vsub_445F00()
+    {
+        return vsub_445F00();
+    }
+private:
+    EXPORT void vUpdate_445F50()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vScreenChange_446020()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT BOOL virtual vsub_445DF0()
+    {
+        NOT_IMPLEMENTED();
+        return 0;
+    }
+
+    EXPORT BaseGameObject* vsub_445F00()
+    {
+        NOT_IMPLEMENTED();
+        return nullptr;
+    }
+
+    EXPORT void dtor_445E40()
+    {
+        SetVTable(this, 0x5455C4); // vTbl_GrenadeMachine_5455C4
+
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_F8);
+        if (pObj)
+        {
+            pObj->field_6_flags.Set(BaseGameObject::eDead);;
+        }
+        Path::TLV_Reset_4DB8E0(field_F4, -1, 0, 0);
+
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    }
+
+    EXPORT BoomMachine* vdtor_445E10(signed int flags)
+    {
+        dtor_445E40();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+private:
+    int field_E4;
+    int field_E8;
+    int field_EC;
+    int field_F0;
+    int field_F4;
+    int field_F8;
+    int field_FC;
+};
+ALIVE_ASSERT_SIZEOF(BoomMachine, 0x100);
+
 void Abe::State_0_Idle_44EEB0()
 {
     if (Input_IsChanting_45F260() && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit6)))
@@ -3099,10 +3184,10 @@ void Abe::State_0_Idle_44EEB0()
 
             case 59:  // 059_Grenade_machine
             {
-                BaseAliveGameObject* pMachineButton = FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25)));
+                BoomMachine* pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25))));
                 if (pMachineButton)
                 {
-                    pMachineButton->Vnull_408F70(0); // TODO: Is argument correct ??
+                    pMachineButton->Vsub_445F00();
                     field_106_current_state = eAbeStates::State_88_GrenadeMachineUse_45C510;
                 }
                 else
@@ -3152,7 +3237,7 @@ void Abe::State_0_Idle_44EEB0()
                 if (bCanUseWheel)
                 {
                     field_106_current_state = eAbeStates::State_126_TurnWheelBegin_456700;
-                    BaseAliveGameObject* pObj_148 = FindObjectOfType_425180(Types::eWheel_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
+                    BaseGameObject* pObj_148 = FindObjectOfType_425180(Types::eWheel_148, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)));
                     if (pObj_148)
                     {
                         field_164_wheel_id = pObj_148->field_8_object_id;
@@ -6922,7 +7007,7 @@ short Abe::DoGameSpeak_45AB70(int input)
         else
         {
             // NOTE: Extra check for locks, it must also be being rendered in order to for us to try to hit it
-            BaseAliveGameObject* pObj = FindObjectOfType_425180(Types::eLockedSoul_61, field_B8_xpos + gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
+            BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eLockedSoul_61, field_B8_xpos + gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale)));
             if (pObj && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
             {
                 nextState = eAbeStates::State_62_Punch_454750;
