@@ -2873,7 +2873,7 @@ void Abe::State_0_Idle_44EEB0()
                 return;
             }
 
-            if (pHoist->field_16_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 0)
+            if (pHoist->field_16_scale == Path_Hoist::Scale::eFull && field_D6_scale == 0)
             {
                 return;
             }
