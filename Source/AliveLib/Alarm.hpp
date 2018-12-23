@@ -26,16 +26,16 @@ private:
     int field_80_duration_timer;
     int field_84_tlvOffsetLevelPathCamId;
     __int16 field_88_switch_id;
-    __int16 field_8A_duration;
+    WORD field_8A_duration;
     int field_8C;
     enum States : __int16
     {
-        eState_0 = 0,
-        eState_1 = 1,
-        eState_2 = 2,
-        eState_3 = 3,
-        eState_4 = 4,
-        eState_5 = 5,
+        eState_0_WaitForSwitchEnable = 0,
+        eState_1_AfterConstructed = 1,
+        eState_2_Enabling = 2,
+        eState_3_OnFlash = 3,
+        eState_4_Disabling = 4,
+        eState_5_Disabled = 5,
     };
     States field_90_state;
     __int16 field_92;

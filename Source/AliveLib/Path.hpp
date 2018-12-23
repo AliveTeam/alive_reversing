@@ -211,7 +211,7 @@ struct Path_Well_Express : public Path_Well_Base
 struct Path_Alarm : public Path_TLV
 {
     short field_10_id;
-    short field_12_duration;
+    WORD field_12_duration;
 };
 ALIVE_ASSERT_SIZEOF(Path_Alarm, 0x14);
 
