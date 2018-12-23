@@ -623,7 +623,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_20_animation.field_B_render_mode = 0;
 
     field_118_prev_held = 0;
-    field_F6 = 0;
+    field_F6_anim_frame = 0;
     field_120_state = 0;
     field_168_ring_pulse_timer = 0;
     field_16E_bHaveInvisiblity = 0;
@@ -1569,7 +1569,7 @@ void Abe::Update_449DC0()
 
                 if (state_idx == eAbeStates::State_12_Null_4569C0 || state_idx == eAbeStates::State_60_4A3200)
                 {
-                    field_20_animation.SetFrame_409D50(field_F6);
+                    field_20_animation.SetFrame_409D50(field_F6_anim_frame);
                 }
             }
         }
@@ -1582,7 +1582,7 @@ void Abe::Update_449DC0()
                 StateToAnimResource_44AAB0(field_106_current_state));
 
             field_128.field_14 = sGnFrame_5C1B84;
-            field_20_animation.SetFrame_409D50(field_F6);
+            field_20_animation.SetFrame_409D50(field_F6_anim_frame);
             field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
         }
 
@@ -3612,7 +3612,7 @@ void Abe::State_3_Fall_459B60()
         {
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
             field_F4 = 65;
-            field_F6 = 12;
+            field_F6_anim_frame = 12;
             field_E0_176_ptr->field_14_flags |= 1u;
         }
     }
@@ -3872,7 +3872,7 @@ void Abe::State_14_HoistIdle_452440()
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
                     field_F4 = 65;
-                    field_F6 = 12;
+                    field_F6_anim_frame = 12;
                 }
                 field_BC_ypos -= field_CC_sprite_scale * FP_FromInteger(75);
                 field_E0_176_ptr->field_14_flags |= 1u;
@@ -3889,7 +3889,7 @@ void Abe::State_14_HoistIdle_452440()
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
                     field_F4 = 65;
-                    field_F6 = 12;
+                    field_F6_anim_frame = 12;
                 }
             }
 
@@ -4351,7 +4351,7 @@ void Abe::State_25_RunSlideStop_451330()
             {
                 field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
                 field_F4 = eAbeStates::State_26_RunTurn_451500;
-                field_F6 = field_20_animation.field_92_current_frame;
+                field_F6_anim_frame = field_20_animation.field_92_current_frame;
             }
         }
     }
@@ -4606,7 +4606,7 @@ void Abe::State_29_HopLand_4523D0()
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_F4 = eAbeStates::State_27_HopBegin_4521C0;
-        field_F6 = 5;
+        field_F6_anim_frame = 5;
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -4656,6 +4656,8 @@ void Abe::State_30_RunJumpBegin_4532E0()
 
 void Abe::State_31_RunJumpMid_452C10()
 {
+   // NOT_IMPLEMENTED();
+
     BaseGameObject* pfield_110_id = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -4790,7 +4792,7 @@ void Abe::State_31_RunJumpMid_452C10()
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
                     field_F4 = eAbeStates::State_65_LedgeAscend_End_4548E0;
-                    field_F6 = 0;
+                    field_F6_anim_frame = 12;
                 }
 
                 if (!pfield_110_id)
@@ -5320,7 +5322,7 @@ void Abe::State_43_450380()
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_106_current_state = eAbeStates::State_43_450380;
         field_F4 = 40;
-        field_F6 = 10;
+        field_F6_anim_frame = 10;
     }
 }
 
@@ -5333,7 +5335,7 @@ void Abe::State_44_450500()
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_106_current_state = eAbeStates::State_44_450500;
         field_F4 = 1;
-        field_F6 = 9;
+        field_F6_anim_frame = 9;
     }
 }
 
@@ -5425,7 +5427,7 @@ void Abe::State_49_450200()
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_106_current_state = eAbeStates::State_49_450200;
         field_F4 = 33;
-        field_F6 = 8;
+        field_F6_anim_frame = 8;
     }
 }
 
@@ -5470,7 +5472,7 @@ void Abe::State_51_RunToWalk2_450F50()
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_106_current_state = eAbeStates::State_51_RunToWalk2_450F50;
         field_F4 = 1;
-        field_F6 = 9;
+        field_F6_anim_frame = 9;
     }
 }
 
