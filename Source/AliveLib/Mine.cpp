@@ -49,9 +49,9 @@ void Mine::vnull_408180()
     vsub_46B880();
 }
 
-void Mine::vnull_4081A0()
+void Mine::vnull_4081A0(BaseGameObject* pFrom)
 {
-    vsub_46BA40();
+    vsub_46BA40(pFrom);
 }
 
 __int16 Mine::VTakeDamage_408730(BaseAliveGameObject* pFrom)
@@ -281,7 +281,7 @@ void Mine::vsub_46B880()
     }
 }
 
-void Mine::vsub_46BA40()
+void Mine::vsub_46BA40(BaseGameObject* /*pFrom*/)
 {
     auto pBomb = alive_new<BaseBomb>();
     if (pBomb)

@@ -46,7 +46,7 @@ public:
     virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual void vStackOnObjectsOfType_425840(Types typeToFind);
     virtual void vnull_408180();
-    virtual void vnull_4081A0();
+    virtual void vnull_4081A0(BaseGameObject* pFrom);
 
     EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     EXPORT __int16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
@@ -55,7 +55,7 @@ public:
     EXPORT __int16 OnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
     EXPORT void StackOnObjectsOfType_425840(Types typeToFind);
     EXPORT void null_408180();
-    EXPORT void null_4081A0();
+    EXPORT void null_4081A0(BaseGameObject* pFrom);
 
     EXPORT Map::CameraPos Is_In_Current_Camera_424A70();
 

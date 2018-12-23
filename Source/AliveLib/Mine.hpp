@@ -34,7 +34,7 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
     virtual void vnull_408180() override;
-    virtual void vnull_4081A0() override;
+    virtual void vnull_4081A0(BaseGameObject* pFrom) override;
     virtual __int16 VTakeDamage_408730(BaseAliveGameObject* pFrom) override;
 
     EXPORT Mine* ctor_46B120(Path_Mine *pPath, TlvItemInfoUnion tlv);
@@ -45,7 +45,7 @@ private:
     EXPORT void Render_46B7A0(int ** pOt);
     EXPORT void ScreenChanged_46BAE0();
     EXPORT void vsub_46B880();
-    EXPORT void vsub_46BA40();
+    EXPORT void vsub_46BA40(BaseGameObject* pFrom);
     EXPORT signed __int16 vTakeDamage_46BB20(BaseAliveGameObject* pFrom);
     EXPORT bool IsColliding_46B8C0();
 public:

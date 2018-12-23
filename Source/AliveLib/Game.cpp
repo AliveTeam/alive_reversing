@@ -711,7 +711,7 @@ EXPORT void CC Game_Main_4949F0()
 
 EXPORT void CC Game_Loop_467230()
 {
-    DebugHelpers_Init(); // Custom helper code
+    //DebugHelpers_Init(); // Custom helper code
 
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;

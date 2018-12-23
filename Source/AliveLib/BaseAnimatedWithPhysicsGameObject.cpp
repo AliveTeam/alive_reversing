@@ -260,9 +260,9 @@ void BaseAnimatedWithPhysicsGameObject::vnull_408180()
     null_408180();
 }
 
-void BaseAnimatedWithPhysicsGameObject::vnull_4081A0()
+void BaseAnimatedWithPhysicsGameObject::vnull_4081A0(BaseGameObject* pFrom)
 {
-    null_4081A0();
+    null_4081A0(pFrom);
 }
 
 PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
@@ -426,7 +426,7 @@ void BaseAnimatedWithPhysicsGameObject::null_408180()
     NOT_IMPLEMENTED();
 }
 
-void BaseAnimatedWithPhysicsGameObject::null_4081A0()
+void BaseAnimatedWithPhysicsGameObject::null_4081A0(BaseGameObject* /*pFrom*/)
 {
     NOT_IMPLEMENTED();
 }
