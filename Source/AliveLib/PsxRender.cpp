@@ -1757,14 +1757,14 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
         ypos_clip = (sPsx_drawenv_clipy_BDCD44 / 16) - polyYPos;
     }
 
-    if ((width > sPsx_drawenv_clipw_BDCD48 / 16) - polyXPos + 1)
+    if (width > (sPsx_drawenv_clipw_BDCD48 / 16) - polyXPos + 1)
     {
-        width_clip = (sPsx_drawenv_clipw_BDCD48 / 16) - (polyXPos + 1);
+        width_clip = (sPsx_drawenv_clipw_BDCD48 / 16) - polyXPos + 1;
     }
 
     if (height > (sPsx_drawenv_cliph_BDCD4C / 16) - polyYPos + 1)
     {
-        height_clip = (sPsx_drawenv_cliph_BDCD4C / 16) - (polyYPos + 1);
+        height_clip = (sPsx_drawenv_cliph_BDCD4C / 16) - polyYPos + 1;
     }
 
     WORD* pVramStartPos = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + (sizeof(WORD) * polyXPos) + (polyYPos * spBitmap_C2D038->field_10_locked_pitch));
@@ -3231,7 +3231,6 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y = any.mPrimClipper->field_E_y;
                 sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w = any.mPrimHeader->header.mRect.w;
                 sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h = any.mPrimHeader->header.mRect.h;
-
                 PSX_SetDrawEnv_Impl_4FE420(
                     16 * any.mPrimClipper->field_C_x,
                     16 * any.mPrimClipper->field_E_y,
