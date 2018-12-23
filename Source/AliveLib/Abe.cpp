@@ -2690,7 +2690,7 @@ BYTE** Abe::StateToAnimResource_44AAB0(short state)
     }
     else if (state < eAbeStates::State_86_HandstoneBegin_45BD00)
     {
-        mapped = ResourceIndices::eFall_7;
+    mapped = ResourceIndices::eFall_7;
     }
     else if (state < eAbeStates::State_91_FallingFromGrab_4557B0)
     {
@@ -2781,6 +2781,60 @@ BYTE** Abe::StateToAnimResource_44AAB0(short state)
     return field_10_resources_array.ItemAt(mapped);
 }
 
+static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
+{
+    if (pHoist->field_16_scale == Path_Hoist::Scale::eFull && pObj->field_D6_scale == 0)
+    {
+        return false;
+    }
+    else if (pHoist->field_16_scale == Path_Hoist::Scale::eHalf && pObj->field_D6_scale == 1)
+    {
+        return false;
+    }
+    return true;
+}
+
+static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
+{
+    if (pEdge->field_14_scale == Path_Edge::Scale::eFull && pObj->field_D6_scale == 0)
+    {
+        return false;
+    }
+    else if (pEdge->field_14_scale == Path_Edge::Scale::eHalf && pObj->field_D6_scale == 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
+{
+    if (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return false;
+    }
+    else if (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+static bool IsFacingSameDirectionAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
+{
+    if (pEdge->field_10_type == Path_Edge::Type::eLeft && !pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return false;
+    }
+    else if (pEdge->field_10_type == Path_Edge::Type::eRight && pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 void Abe::State_0_Idle_44EEB0()
 {
     if (Input_IsChanting_45F260() && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit6)))
@@ -2867,20 +2921,12 @@ void Abe::State_0_Idle_44EEB0()
 
         if (pHoist)
         {
-            // Must match our scale
-            if (pHoist->field_16_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 1)
+            if (!IsSameScaleAsHoist(pHoist, this))
             {
                 return;
             }
 
-            if (pHoist->field_16_scale == Path_Hoist::Scale::eFull && field_D6_scale == 0)
-            {
-                return;
-            }
-            
-            // Are we facing the same direction as the hoist edge?
-            if ((pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft || field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-             && (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eRight || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))))
+            if (IsFacingSameDirectionAsHoist(pHoist, this))
             {
                 // Yeah go down
                 field_106_current_state = eAbeStates::State_66_LedgeDescend_454970;
@@ -3509,63 +3555,27 @@ void Abe::State_3_Fall_459B60()
     bool tryToHang = false;
     if (pEdge)
     {
-        if (!pEdge->field_12_can_grab)
+        if (pEdge->field_12_can_grab && IsSameScaleAsEdge(pEdge, this) && 
+           (IsFacingSameDirectionAsEdge(pEdge, this) || pEdge->field_10_type == Path_Edge::Type::eBoth))
         {
-            return;
+            tryToHang = true;
         }
-
-        // Edge scale must match
-        if (pEdge->field_14_scale != Path_Edge::Scale::eFull && field_D6_scale != 0)
-        {
-            return;
-        }
-        else if (pEdge->field_14_scale != Path_Edge::Scale::eHalf && field_D6_scale != 1)
-        {
-            return;
-        }
-
-        if (pEdge->field_10_type == Path_Edge::Type::eLeft)
-        {
-            if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                // Left but we are facing right
-                return;
-            }
-        }
-        else if (pEdge->field_10_type == Path_Edge::Type::eRight)
-        {
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                // Right but we are facing left
-                return;
-            }
-        }
-        else if (pEdge->field_10_type != Path_Edge::Type::eBoth)
-        {
-            // Some unknown edge type
-            return;
-        }
-
-        tryToHang = true;
     }
 
     // Didn't find and edge to grab so check if falling onto a hoist
     if (!tryToHang)
     {
         // Look down 20 for a hoist
-        FP minus20 = field_CC_sprite_scale * FP_FromInteger(20);
         Path_Hoist* pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
             FP_GetExponent(field_B8_xpos),
-            FP_GetExponent(field_BC_ypos - minus20),
+            FP_GetExponent(field_BC_ypos - field_CC_sprite_scale * FP_FromInteger(20)),
             FP_GetExponent(field_B8_xpos),
-            FP_GetExponent(field_BC_ypos - minus20),
+            FP_GetExponent(field_BC_ypos - field_CC_sprite_scale * FP_FromInteger(20)),
             Path_Hoist::kType));
 
         if (pHoist)
         {
-            // Must match our scale
-            if ((pHoist->field_12_edge_type == Path_Hoist::EdgeType::eRight && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-             || (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))))
+            if (IsFacingSameDirectionAsHoist(pHoist, this) && IsSameScaleAsHoist(pHoist, this))
             {
                 tryToHang = true;
             }
@@ -3837,21 +3847,8 @@ void Abe::State_14_HoistIdle_452440()
 
     if (pHoist)
     {
-        // Check hoist in on the same scale/layer
-        if ((pHoist->field_16_scale == Path_Hoist::Scale::eFull && field_D6_scale == 1) ||
-            (pHoist->field_16_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 0))
+        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth))
         {
-            if (pHoist->field_12_edge_type != Path_Hoist::EdgeType::eRight)
-            {
-                if (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                {
-                    return;
-                }
-            }
-            else if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
-            {
-                return;
-            }
             if (pHoist->field_10_type == Path_Hoist::Type::eOffScreen)
             {
                 if (gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop, this, -1))
@@ -4538,14 +4535,8 @@ void Abe::State_28_HopMid_451C50()
 
         field_FC_pPathTLV = pEdgeTlv;
 
-        if (pEdgeTlv && pEdgeTlv->field_12_can_grab &&
-            (pEdgeTlv->field_14_scale == Path_Edge::Scale::eFull && field_D6_scale == 1 ||
-             pEdgeTlv->field_14_scale == Path_Edge::Scale::eHalf && field_D6_scale == 0) &&
-            (pEdgeTlv->field_10_type == Path_Edge::Type::eLeft && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
-             pEdgeTlv->field_10_type == Path_Edge::Type::eRight && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
-             pEdgeTlv->field_10_type == Path_Edge::Type::eBoth) &&
-             field_C4_velx > FP_FromInteger(0)
-            )
+        if (pEdgeTlv && pEdgeTlv->field_12_can_grab && IsSameScaleAsEdge(pEdgeTlv, this) &&
+            ((IsFacingSameDirectionAsEdge(pEdgeTlv, this) || pEdgeTlv->field_10_type == Path_Edge::Type::eBoth) && field_C4_velx > FP_FromInteger(0)))
         {
             field_B8_xpos = FP_FromInteger((pEdgeTlv->field_8_top_left.field_0_x + pEdgeTlv->field_C_bottom_right.field_0_x) / 2);
 
@@ -4656,7 +4647,7 @@ void Abe::State_30_RunJumpBegin_4532E0()
 
 void Abe::State_31_RunJumpMid_452C10()
 {
-   // NOT_IMPLEMENTED();
+    //NOT_IMPLEMENTED();
 
     BaseGameObject* pfield_110_id = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     Event_Broadcast_422BC0(kEventNoise, this);
@@ -4724,13 +4715,8 @@ void Abe::State_31_RunJumpMid_452C10()
         {
             field_FC_pPathTLV = pHoist;
 
-            if ((pHoist->field_16_scale == Path_Hoist::Scale::eFull && field_D6_scale == 1 ||
-                 pHoist->field_16_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 0) &&
-                (pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
-                 pHoist->field_12_edge_type == Path_Hoist::EdgeType::eRight && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
-                 pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth) &&
-                 pHoist->field_10_type != Path_Hoist::Type::eOffScreen
-                )
+            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth) &&
+                 pHoist->field_10_type != Path_Hoist::Type::eOffScreen)
             {
                 checkCollision = true;
             }
@@ -4748,12 +4734,7 @@ void Abe::State_31_RunJumpMid_452C10()
 
             if (pEdgeTlv && pEdgeTlv->field_12_can_grab)
             {
-                if ((pEdgeTlv->field_14_scale == Path_Edge::Scale::eFull && field_D6_scale == 1 ||
-                     pEdgeTlv->field_14_scale == Path_Edge::Scale::eHalf && field_D6_scale == 0) &&
-                    (pEdgeTlv->field_10_type == Path_Edge::Type::eLeft && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
-                     pEdgeTlv->field_10_type == Path_Edge::Type::eRight && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ||
-                     pEdgeTlv->field_10_type == Path_Edge::Type::eBoth)
-                    )
+                if (IsSameScaleAsEdge(pEdgeTlv, this) && (IsFacingSameDirectionAsEdge(pEdgeTlv, this) || pEdgeTlv->field_10_type == Path_Edge::Type::eBoth))
                 {
                     checkCollision = true;
                 }
@@ -6541,21 +6522,14 @@ void Abe::TryHoist_44ED30()
 
     if (pHoist)
     {
-        // Is the hoist on the same layer?
-        Path_Hoist::Scale hoist_scale = pHoist->field_16_scale;
-        if (hoist_scale == Path_Hoist::Scale::eFull && field_D6_scale == 1 ||
-            hoist_scale == Path_Hoist::Scale::eHalf && field_D6_scale == 0)
+        if (IsSameScaleAsHoist(pHoist, this))
         {
-            // Are we facing the explicit direction of the hoist?
-            const Path_Hoist::EdgeType edge_type = pHoist->field_12_edge_type;
-            if (edge_type == Path_Hoist::EdgeType::eRight && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ||
-                edge_type == Path_Hoist::EdgeType::eLeft && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->field_12_edge_type != Path_Hoist::EdgeType::eBoth)
             {
                 // No so auto turn around to face it
                 field_108_delayed_state = field_106_current_state;
                 field_106_current_state = eAbeStates::State_2_StandingTurn_451830;
             }
-
         }
 
         field_FC_pPathTLV = pHoist;

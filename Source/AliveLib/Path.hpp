@@ -123,8 +123,8 @@ struct Path_Hoist : public Path_TLV
 
     enum class EdgeType : __int16
     {
-        eRight = 0,
-        eLeft = 1,
+        eLeft = 0,
+        eRight = 1,
         eBoth = 2,
     };
     EdgeType field_12_edge_type;
