@@ -3828,8 +3828,8 @@ void Abe::State_14_HoistIdle_452440()
         }
 
         // Hoist is too far away
-        if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y) <=
-            (field_CC_sprite_scale * FP_FromInteger(90)) && field_20_animation.field_92_current_frame == 0)
+        if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y -1 * field_FC_pPathTLV->field_8_top_left.field_2_y) >
+            (field_CC_sprite_scale * FP_FromInteger(90)) || field_20_animation.field_92_current_frame )
         {
             return;
         }
