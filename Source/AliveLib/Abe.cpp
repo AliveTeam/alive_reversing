@@ -1494,7 +1494,7 @@ void Abe::Update_449DC0()
 
             field_108_delayed_state = 0;
             field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
-            field_122 = 0;
+            field_122 = eAbeStates::State_0_Idle_44EEB0;
             field_114_flags.Clear(Flags_114::e114_Bit1);
             field_114_flags.Set(Flags_114::e114_Bit2);
         }
@@ -2250,7 +2250,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
             if (field_10C_health > FP_FromInteger(0))
             {
                 field_114_flags.Set(Flags_114::e114_Bit1);
-                field_122 = 71; // TODO: Also a state, previous state ??
+                field_122 = eAbeStates::State_71_Knockback_455090;
                 field_108_delayed_state = eAbeStates::State_71_Knockback_455090;
             }
 
@@ -2403,7 +2403,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
         Abe_SFX_457EC0(9u, 0, 0, this);
         Abe_SFX_2_457A40(7, 0, 0x7FFF, this);
         field_114_flags.Set(Flags_114::e114_Bit1);
-        field_122 = 101;
+        field_122 = eAbeStates::State_101_KnockForward_455420;
         field_108_delayed_state = eAbeStates::State_101_KnockForward_455420;
         field_10C_health = FP_FromInteger(0);
 
@@ -3513,7 +3513,7 @@ void Abe::State_3_Fall_459B60()
                 field_128.field_4_regen_health_timer = sGnFrame_5C1B84 + 900;
             }
 
-            field_F4 = 3;
+            field_F4 = eAbeStates::State_3_Fall_459B60;
 
             PSX_Point xy{ FP_GetExponent(field_B8_xpos - FP_FromInteger(10)), FP_GetExponent(field_BC_ypos - FP_FromInteger(10)) };
             PSX_Point wh{ FP_GetExponent(field_B8_xpos + FP_FromInteger(10)), FP_GetExponent(field_BC_ypos + FP_FromInteger(10)) };
@@ -3621,7 +3621,7 @@ void Abe::State_3_Fall_459B60()
         else
         {
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
-            field_F4 = 65;
+            field_F4 = eAbeStates::State_65_LedgeAscend_End_4548E0;
             field_F6_anim_frame = 12;
             field_E0_176_ptr->field_14_flags |= 1u;
         }
@@ -3794,7 +3794,7 @@ void Abe::State_14_HoistIdle_452440()
             field_100_pCollisionLine = pLine;
 
             field_106_current_state = eAbeStates::State_15_HoistLand_452BA0;
-            field_F4 = 14; // eAbeStates::State_14_HoistIdle_452440 ??
+            field_F4 = eAbeStates::State_14_HoistIdle_452440;
 
             vOnCollisionWith_424EE0(
             { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_B8_xpos) },
@@ -3868,7 +3868,7 @@ void Abe::State_14_HoistIdle_452440()
                 else
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
-                    field_F4 = 65;
+                    field_F4 = eAbeStates::State_65_LedgeAscend_End_4548E0;
                     field_F6_anim_frame = 12;
                 }
                 field_BC_ypos -= field_CC_sprite_scale * FP_FromInteger(75);
@@ -3885,7 +3885,7 @@ void Abe::State_14_HoistIdle_452440()
                 else
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
-                    field_F4 = 65;
+                    field_F4 = eAbeStates::State_65_LedgeAscend_End_4548E0;
                     field_F6_anim_frame = 12;
                 }
             }
@@ -3941,7 +3941,7 @@ void Abe::State_15_HoistLand_452BA0()
 
     if (field_20_animation.field_92_current_frame == 2)
     {
-        if (field_F4 == 3)
+        if (field_F4 == eAbeStates::State_3_Fall_459B60)
         {
             Abe_SFX_2_457A40(5, 0, 32767, this);
         }
@@ -3972,7 +3972,7 @@ void Abe::State_16_LandSoft_45A360()
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit7);
 
         // Hitting the floor sounds
-        if (field_F4 == 3)
+        if (field_F4 == eAbeStates::State_3_Fall_459B60)
         {
             Abe_SFX_2_457A40(5, 0, 0x7FFF, this);
         }
@@ -5302,7 +5302,7 @@ void Abe::State_43_450380()
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_106_current_state = eAbeStates::State_43_450380;
-        field_F4 = 40;
+        field_F4 = eAbeStates::State_40_SneakLoop_450550;
         field_F6_anim_frame = 10;
     }
 }
@@ -5315,7 +5315,7 @@ void Abe::State_44_450500()
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_106_current_state = eAbeStates::State_44_450500;
-        field_F4 = 1;
+        field_F4 = eAbeStates::State_1_WalkLoop_44FBA0;
         field_F6_anim_frame = 9;
     }
 }
@@ -5407,7 +5407,7 @@ void Abe::State_49_450200()
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_106_current_state = eAbeStates::State_49_450200;
-        field_F4 = 33;
+        field_F4 = eAbeStates::State_33_RunLoop_4508E0;
         field_F6_anim_frame = 8;
     }
 }
@@ -5452,7 +5452,7 @@ void Abe::State_51_RunToWalk2_450F50()
     {
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
         field_106_current_state = eAbeStates::State_51_RunToWalk2_450F50;
-        field_F4 = 1;
+        field_F4 = eAbeStates::State_1_WalkLoop_44FBA0;
         field_F6_anim_frame = 9;
     }
 }
@@ -6086,7 +6086,7 @@ void Abe::State_91_FallingFromGrab_4557B0()
         field_106_current_state = eAbeStates::State_16_LandSoft_45A360;
     }
 
-    field_F4 = 91;
+    field_F4 = eAbeStates::State_91_FallingFromGrab_4557B0;
 }
 
 void Abe::State_92_ForceDown_From_Hoist_455800()
