@@ -2800,7 +2800,7 @@ static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
     {
         return false;
     }
-    else if (pEdge->field_14_scale == Path_Edge::Scale::eHalf && pObj->field_D6_scale == 0)
+    else if (pEdge->field_14_scale == Path_Edge::Scale::eHalf && pObj->field_D6_scale == 1)
     {
         return false;
     }
