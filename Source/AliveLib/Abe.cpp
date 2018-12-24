@@ -7443,6 +7443,8 @@ void Abe::IntoPortalStates_451990()
 // TODO: Clean up
 EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Abe* pHero)
 {
+    NOT_IMPLEMENTED();
+
     //DEV_CONSOLE_PRINTF("Abe SFX: %i", idx);
 
     switch (idx)
