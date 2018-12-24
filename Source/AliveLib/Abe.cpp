@@ -27,6 +27,9 @@
 #include "OrbWhirlWind.hpp"
 #include "Blood.hpp"
 #include "PullRingRope.hpp"
+#include "CircularFade.hpp"
+#include "DeathFadeOut.hpp"
+#include "Movie.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -596,8 +599,8 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_158_throwable_id = -1;
     field_154_possesed_object_id = -1;
     field_150_OrbWhirlWind_id = -1;
-    field_14C = -1;
-    field_148 = -1;
+    field_14C_circular_fade_id = -1;
+    field_148_pFade = -1;
     field_1A8_portal_id = -1;
     field_164_wheel_id = -1;
     field_160 = -1;
@@ -654,8 +657,8 @@ void Abe::dtor_44B380()
 {
     SetVTable(this, 0x5457BC); // gVTbl_Abe_5457BC
 
-    BaseGameObject* pField_148 = sObjectIds_5C1B70.Find_449CF0(field_148);
-    BaseGameObject* pField_14C = sObjectIds_5C1B70.Find_449CF0(field_14C);
+    BaseGameObject* pField_148 = sObjectIds_5C1B70.Find_449CF0(field_148_pFade);
+    BaseGameObject* pField_14C = sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id);
     BaseGameObject* pField_150 = sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id);
     BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id);
     BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id);
@@ -668,7 +671,7 @@ void Abe::dtor_44B380()
     if (pField_148)
     {
         pField_148->field_6_flags.Set(BaseGameObject::eDead);
-        field_148 = -1;
+        field_148_pFade = -1;
     }
 
     if (pField_160)
@@ -685,7 +688,7 @@ void Abe::dtor_44B380()
     if (pField_14C)
     {
         pField_14C->field_6_flags.Set(BaseGameObject::eDead);
-        field_14C = -1;
+        field_14C_circular_fade_id = -1;
     }
 
     if (pField_150)
@@ -1039,8 +1042,8 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_11C = InputObject::Command_To_Raw_45EE40(pSaveState->word72);
     sActiveHero_5C1B68->field_122 = pSaveState->word74;
     sActiveHero_5C1B68->field_128.field_14 = sGnFrame_5C1B84 - pSaveState->dword78;
-    sActiveHero_5C1B68->field_148 = pSaveState->dword7C;
-    sActiveHero_5C1B68->field_14C = pSaveState->dword80;
+    sActiveHero_5C1B68->field_148_pFade = pSaveState->dword7C;
+    sActiveHero_5C1B68->field_14C_circular_fade_id = pSaveState->dword80;
     sActiveHero_5C1B68->field_150_OrbWhirlWind_id = pSaveState->dword84;
     sActiveHero_5C1B68->field_154_possesed_object_id = pSaveState->dword88;
     sActiveHero_5C1B68->field_158_throwable_id = pSaveState->dword8C;
@@ -1051,13 +1054,15 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_170_invisible_timer = pSaveState->dword9C;
     sActiveHero_5C1B68->field_174 = pSaveState->wordA0;
     sActiveHero_5C1B68->field_176 = pSaveState->wordA2;
-    sActiveHero_5C1B68->field_17C = pSaveState->byteA4;
-    sActiveHero_5C1B68->field_180 = pSaveState->dwordA8;
-    sActiveHero_5C1B68->field_184 = pSaveState->wordAC;
-    sActiveHero_5C1B68->field_186 = pSaveState->wordAE;
-    sActiveHero_5C1B68->field_188 = pSaveState->wordB0;
-    sActiveHero_5C1B68->field_18A = pSaveState->wordB2;
-    sActiveHero_5C1B68->field_18C = pSaveState->wordB4;
+
+    sActiveHero_5C1B68->field_17C_cam_idx = pSaveState->byteA4;
+    sActiveHero_5C1B68->field_180_stone_type = pSaveState->dwordA8;
+    sActiveHero_5C1B68->field_184_fmv_id = pSaveState->wordAC;
+    sActiveHero_5C1B68->field_186_to_camera_id[0] = pSaveState->wordAE;
+    sActiveHero_5C1B68->field_186_to_camera_id[1] = pSaveState->wordB0;
+    sActiveHero_5C1B68->field_186_to_camera_id[2] = pSaveState->wordB2;
+    sActiveHero_5C1B68->field_18C_not_used = pSaveState->wordB4;
+
     sActiveHero_5C1B68->field_18E = pSaveState->wordB6;
     sActiveHero_5C1B68->field_190 = pSaveState->wordB8;
     sActiveHero_5C1B68->field_192 = pSaveState->wordBA;
@@ -1066,13 +1071,15 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_198_has_evil_fart = pSaveState->wordC0;
     sActiveHero_5C1B68->field_19A = pSaveState->wordC2;
     sActiveHero_5C1B68->field_19C = pSaveState->wordC4;
-    sActiveHero_5C1B68->field_19E = pSaveState->wordC6;
+    sActiveHero_5C1B68->field_19E_previous_cam_id = pSaveState->wordC6;
     sActiveHero_5C1B68->field_1A0_door_id = pSaveState->wordC8;
     sActiveHero_5C1B68->field_1A3_throw_direction = pSaveState->field_ca_throw_direction;
     sActiveHero_5C1B68->field_1A4 = pSaveState->wordCC;
     sActiveHero_5C1B68->field_1A8_portal_id = pSaveState->dwordD0;
     
     /* TODO: .. only the last one is going to "win" here.. !?
+    // LOWORD(pUnknown->field_20_animation.field_4_flags) ^= ((unsigned __int8)LOWORD(pUnknown->field_20_animation.field_4_flags) ^ LOBYTE(field_20_animation.field_4_flags)) & 0x10;
+    // This is doing unknown->flags |= 0x10 if field_20_animation.field_4_flags)) & 0x10 else unsets it
     sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 1;
     sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 2;
     sActiveHero_5C1B68->field_1AC_flags ^= ((unsigned __int8)sActiveHero_5C1B68->field_1AC_flags ^ LOBYTE(pSaveState->wordD4)) & 4;
@@ -1327,8 +1334,8 @@ void Abe::Update_449DC0()
         }
 
         field_110_id = BaseGameObject::Find_Flags_4DC170(field_110_id);
-        field_148 = BaseGameObject::Find_Flags_4DC170(field_148);
-        field_14C = BaseGameObject::Find_Flags_4DC170(field_14C);
+        field_148_pFade = BaseGameObject::Find_Flags_4DC170(field_148_pFade);
+        field_14C_circular_fade_id = BaseGameObject::Find_Flags_4DC170(field_14C_circular_fade_id);
         field_1A8_portal_id = BaseGameObject::Find_Flags_4DC170(field_1A8_portal_id);
         field_150_OrbWhirlWind_id = BaseGameObject::Find_Flags_4DC170(field_150_OrbWhirlWind_id);
         field_154_possesed_object_id = BaseGameObject::Find_Flags_4DC170(field_154_possesed_object_id);
@@ -1966,22 +1973,22 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     //pSaveState->word72 = sub_45EF70(field_11C);
     pSaveState->word74 = field_122;
     pSaveState->dword78 = sGnFrame_5C1B84 - field_128.field_14;
-    pSaveState->dword7C = field_148;
+    pSaveState->dword7C = field_148_pFade;
     
-    if (field_148 != -1)
+    if (field_148_pFade != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_148);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_148_pFade);
         if (pObj)
         {
             pSaveState->dword7C = pObj->field_C_objectId;
         }
     }
 
-    pSaveState->dword80 = field_14C;
+    pSaveState->dword80 = field_14C_circular_fade_id;
 
-    if (field_14C != -1)
+    if (field_14C_circular_fade_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_14C);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id);
         if (pObj)
         {
             pSaveState->dword80 = pObj->field_C_objectId;
@@ -2067,13 +2074,13 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->dword9C = field_170_invisible_timer;
     pSaveState->wordA0 = field_174;
     pSaveState->wordA2 = field_176;
-    pSaveState->byteA4 = field_17C;
-    pSaveState->dwordA8 = field_180;
-    pSaveState->wordAC = field_184;
-    pSaveState->wordAE = field_186;
-    pSaveState->wordB0 = field_188;
-    pSaveState->wordB2 = field_18A;
-    pSaveState->wordB4 = field_18C;
+    pSaveState->byteA4 = field_17C_cam_idx;
+    pSaveState->dwordA8 = field_180_stone_type;
+    pSaveState->wordAC = field_184_fmv_id;
+    pSaveState->wordAE = field_186_to_camera_id[0];
+    pSaveState->wordB0 = field_186_to_camera_id[1];
+    pSaveState->wordB2 = field_186_to_camera_id[2];
+    pSaveState->wordB4 = field_18C_not_used;
     pSaveState->wordB6 = field_18E;
     pSaveState->wordB8 = field_190;
     pSaveState->wordBA = field_192;
@@ -2082,7 +2089,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->wordC0 = field_198_has_evil_fart;
     pSaveState->wordC2 = field_19A;
     pSaveState->wordC4 = field_19C;
-    pSaveState->wordC6 = field_19E;
+    pSaveState->wordC6 = field_19E_previous_cam_id;
     pSaveState->wordC8 = field_1A0_door_id;
     pSaveState->field_ca_throw_direction = field_1A3_throw_direction;
     pSaveState->wordCC = field_1A4;
@@ -6126,9 +6133,260 @@ void Abe::jState_85_Fall_455070()
     State_3_Fall_459B60();
 }
 
+ALIVE_VAR(1, 0x5c2c68, int, sHandstoneSoundChannels_5C2C68, 0);
+
 void Abe::State_86_HandstoneBegin_45BD00()
 {
-    NOT_IMPLEMENTED();
+    CircularFade* pCircularFade = static_cast<CircularFade*>(sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id));
+    DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_148_pFade));
+
+    switch (field_120_state)
+    {
+    case 0u:
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        {
+            // Add ref
+            ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, TRUE, 0);
+
+            CircularFade* pUnknown = Make_Circular_Fade_4CE8C0(
+                field_B8_xpos,
+                field_BC_ypos,
+                field_CC_sprite_scale,
+                1,
+                0,
+                0);
+
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                pUnknown->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+            else
+            {
+                pUnknown->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            }
+
+            field_14C_circular_fade_id = pUnknown->field_8_object_id;
+            field_120_state = 1;
+            
+            SFX_Play_46FA90(0x54u, 90, 0x10000);
+
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                Path_MovieStone::kType);
+
+            sHandstoneSoundChannels_5C2C68 = SFX_Play_46FBA0(0xCu, 127, -300, 0x10000);
+            
+            int id = 0;
+            Path_MovieStone* pMovieStoneTlv = static_cast<Path_MovieStone*>(field_FC_pPathTLV);
+            if (!pMovieStoneTlv)
+            {
+                Path_HandStone* pHandStoneTlv = static_cast<Path_HandStone*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                    FP_GetExponent(field_B8_xpos),
+                    FP_GetExponent(field_BC_ypos),
+                    FP_GetExponent(field_B8_xpos),
+                    FP_GetExponent(field_BC_ypos),
+                    Path_HandStone::kType));
+
+                field_FC_pPathTLV = pHandStoneTlv;
+
+                if (pHandStoneTlv)
+                {
+                    id = pHandStoneTlv->field_18_trigger_id;
+
+                    field_184_fmv_id = pHandStoneTlv->field_10_scale; // TODO: Never used for this type?
+                    for (int i = 0; i < 3; i++)
+                    {
+                        field_186_to_camera_id[i] = pHandStoneTlv->field_12_camera_ids[i];
+                    }
+                    field_18C_not_used = static_cast<short>(pHandStoneTlv->field_18_trigger_id); // TODO: Never used?
+                }
+            }
+            else
+            {
+                id = pMovieStoneTlv->field_14_id;
+
+                field_184_fmv_id = pMovieStoneTlv->field_10_movie_number;
+                field_186_to_camera_id[0] = pMovieStoneTlv->field_12_scale; // TODO: Never used?
+                field_186_to_camera_id[1] = static_cast<short>(pMovieStoneTlv->field_14_id);    // TODO: Never used?
+            }
+
+            if (field_FC_pPathTLV)
+            {
+                if (id > 1)
+                {
+                    SwitchStates_Set_465FF0(static_cast<short>(id), 1);
+                }
+
+                field_180_stone_type = field_FC_pPathTLV->field_4_type;
+            }
+            else
+            {
+                field_106_current_state = eAbeStates::State_87_HandstoneEnd_45C4F0;
+            }
+        }
+        break;
+
+    case 1u:
+        if (pCircularFade->Vsub_4CE0B0())
+        {
+            if (field_180_stone_type == Path_MovieStone::kType)
+            {
+                pScreenManager_5BB5F4->field_40_flags |= 0x10000;
+
+                FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, field_184_fmv_id);
+                DWORD pos = 0;
+
+                Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
+                sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.sCurrentLevelId_5C3030);
+
+                Movie* pMovie = alive_new<Movie>();
+                if (pMovie)
+                {
+                    pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8, pFmvRec->field_A_volume);
+                }
+                field_120_state = 2;
+            }
+            else if (field_180_stone_type == Path_HandStone::kType)
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_17C_cam_idx = 1;
+                field_120_state = 4;
+                pCircularFade->field_6_flags.Set(BaseGameObject::eDead);
+                field_14C_circular_fade_id = -1;
+                DeathFadeOut* pFade33 = alive_new<DeathFadeOut>();
+                if (pFade33)
+                {
+                    pFade33->ctor_427030(40, 0, 0, 8, 2);
+                }
+ 
+                field_148_pFade = pFade33->field_8_object_id;
+                field_19E_previous_cam_id = gMap_5C3030.sCurrentCamId_5C3034;
+                gMap_5C3030.SetActiveCam_480D30(field_C2_lvl_number, field_C0_path_number, field_186_to_camera_id[0], CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            }
+        }
+        break;
+
+    case 2u:
+        if (sMovie_ref_count_BB4AE4 == 0)
+        {
+            gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+            pScreenManager_5BB5F4->DecompressToVRam_40EF60((unsigned __int16 **)gMap_5C3030.field_2C_5C305C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->field_40_flags |= 0x10000;
+            pCircularFade->Vsub_4CE300(0, 0);
+            field_120_state = 3;
+        }
+        break;
+
+    case 3u:
+        if (pCircularFade->Vsub_4CE0B0())
+        {
+            pCircularFade->field_6_flags.Set(BaseGameObject::eDead);
+            field_14C_circular_fade_id = -1;
+
+            field_106_current_state = eAbeStates::State_87_HandstoneEnd_45C4F0;
+
+            if (sHandstoneSoundChannels_5C2C68)
+            {
+                SND_Stop_Channels_Mask_4CA810(sHandstoneSoundChannels_5C2C68);
+                sHandstoneSoundChannels_5C2C68 = 0;
+            }
+
+            BYTE** ppResToFree = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSpotliteResID, 0, 0);
+            ResourceManager::FreeResource_49C330(ppResToFree);
+        }
+        break;
+
+    case 4u:
+        if (pFade->field_7E_bDone)
+        {
+            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x300000)
+            {
+                pFade->Init_427140(40, 1, 0, 8);
+                field_120_state = 5;
+                SFX_Play_46FA90(0x54u, 90, 0x10000);
+            }
+        }
+        break;
+
+    case 5u:
+        if (pFade->field_7E_bDone)
+        {
+            if (field_17C_cam_idx < 3 && field_186_to_camera_id[field_17C_cam_idx] != 0)
+            {
+                field_120_state = 4;
+              
+                pFade->field_6_flags.Set(BaseGameObject::eDead);
+                pFade = alive_new<DeathFadeOut>();
+
+                if (pFade)
+                {
+                    pFade->ctor_427030(40, 0, 0, 8, 2);
+                }
+                
+                field_148_pFade = pFade->field_8_object_id;
+
+                gMap_5C3030.SetActiveCam_480D30(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_186_to_camera_id[field_17C_cam_idx++],
+                    CameraSwapEffects::eEffect0_InstantChange,
+                    0,
+                    0);
+            }
+            else
+            {
+                field_120_state = 6;
+            }
+        }
+        break;
+
+    case 6u:
+        if (pFade->field_7E_bDone)
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_120_state = 7;
+            gMap_5C3030.SetActiveCam_480D30(
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_19E_previous_cam_id,
+                CameraSwapEffects::eEffect0_InstantChange,
+                0,
+                0);
+        }
+        break;
+
+    case 7u:
+    {
+        pFade->field_6_flags.Set(BaseGameObject::eDead);
+        field_148_pFade = -1;
+
+        CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0, 0, 0);
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            pCircularFade2->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            pCircularFade2->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+
+        field_14C_circular_fade_id = pCircularFade2->field_8_object_id;
+        field_120_state = 3;
+
+        if (sHandstoneSoundChannels_5C2C68)
+        {
+            SND_Stop_Channels_Mask_4CA810(sHandstoneSoundChannels_5C2C68);
+            sHandstoneSoundChannels_5C2C68 = 0;
+        }
+    }
+        break;
+
+    default:
+        return;
+    }
 }
 
 void Abe::State_87_HandstoneEnd_45C4F0()

@@ -215,4 +215,24 @@ struct Path_Alarm : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Alarm, 0x14);
 
+struct Path_MovieStone : public Path_TLV
+{
+    const static unsigned short kType = 27;
+
+    __int16 field_10_movie_number;
+    __int16 field_12_scale;
+    int field_14_id;
+};
+ALIVE_ASSERT_SIZEOF(Path_MovieStone, 0x18);
+
+struct Path_HandStone : public Path_TLV
+{
+    const static unsigned short kType = 61;
+
+    __int16 field_10_scale;
+    __int16 field_12_camera_ids[3];
+    int field_18_trigger_id;
+};
+ALIVE_ASSERT_SIZEOF(Path_HandStone, 0x1C);
+
 ALIVE_VAR_EXTERN(Path*, sPath_dword_BB47C0);
