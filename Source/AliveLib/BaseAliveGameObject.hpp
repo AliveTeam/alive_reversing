@@ -46,7 +46,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual int VUnPosses_408F90();
-    virtual unsigned __int16 Vnull_408F70(short a1);
+    virtual unsigned __int16 Vnull_408F70();
     virtual void VUpdateState_4081C0(__int16 state);
     virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);
     virtual __int16 VTakeDamage_408730(BaseAliveGameObject* pFrom);
@@ -57,7 +57,7 @@ public:
   
 protected:
     EXPORT int vnull_408F90();
-    EXPORT unsigned __int16 vnull_408F70(short a1);
+    EXPORT unsigned __int16 vnull_408F70();
     EXPORT void vUpdateState_4081C0(__int16 state);
     EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);
     EXPORT __int16 vTakeDamage_408730(BaseAliveGameObject* pFrom);

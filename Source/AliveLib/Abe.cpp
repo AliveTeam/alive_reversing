@@ -30,6 +30,7 @@
 #include "CircularFade.hpp"
 #include "DeathFadeOut.hpp"
 #include "Movie.hpp"
+#include "PossessionFlicker.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -475,6 +476,8 @@ EXPORT int CC GridXMidPos_4498F0(FP scale, int unknown)
     // Default to middle of the screen
     return (374 / 2);
 }
+
+ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter_5C1B8C, nullptr);
 
 Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
 {
@@ -1734,7 +1737,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (pfield_164)
         {
-            pfield_164->Vnull_408F70(1);
+            pfield_164->Vnull_408F70();
             field_164_wheel_id = -1;
         }
 
@@ -2593,7 +2596,7 @@ __int16 Abe::vOn_TLV_Collision_44B5D0(Path_TLV* /*a2a*/)
     return 0;
 }
 
-int Abe::sub_44B7B0()
+BaseAliveGameObject* Abe::sub_44B7B0()
 {
 #ifdef STUPID_FUN
     // THIS IS A HACK TO MAKE ABE POSSESS ANYTHING :D
@@ -2622,6 +2625,7 @@ int Abe::sub_44B7B0()
     return 0;
 #else
     NOT_IMPLEMENTED();
+    return nullptr;
 #endif
 }
 
@@ -6560,9 +6564,347 @@ void Abe::State_111_GrabRock_4564A0()
     NOT_IMPLEMENTED();
 }
 
-void Abe::State_112_Chant_45B1C0()
+class Particle;
+
+EXPORT Particle* New_Particle_45BC70(BaseAliveGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+void Abe::State_112_Chant_45B1C0()
+{
+    BaseAliveGameObject* pfield_154 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id));
+    OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
+
+    if (field_120_state != 3 && field_120_state != 4)
+    {
+        SND_SEQ_PlaySeq_4CA960(10u, 0, 0);
+    }
+
+    if (!pfield_150)
+    {
+        field_150_OrbWhirlWind_id = -1;
+    }
+
+    switch (field_120_state)
+    {
+    case 0u:
+    {
+        Event_Broadcast_422BC0(kEventSpeaking, this);
+        Event_Broadcast_422BC0(kEventAbeOhm, this);
+        
+        BaseAliveGameObject* pObj = sub_44B7B0(); // Find a victim
+
+        if (field_168_ring_pulse_timer)
+        {
+            if (!field_16C_bHaveShrykull && !field_16E_bHaveInvisiblity && !(field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_bHaveHealing)))
+            {
+                PSX_RECT bRect = {};
+                vGetBoundingRect_424FD0(&bRect, 1);
+
+                AbilityRing::Factory_482F80(
+                    FP_FromInteger((bRect.x + bRect.w) / 2),
+                    FP_FromInteger((bRect.y + bRect.h) / 2),
+                    RingTypes::eExplosive_Emit_1,
+                    field_CC_sprite_scale);
+
+                field_168_ring_pulse_timer = 0;
+            }
+        }
+
+        if (field_168_ring_pulse_timer)
+        {
+            if (field_16E_bHaveInvisiblity)
+            {
+                field_168_ring_pulse_timer = 0;
+                field_16E_bHaveInvisiblity = 0;
+
+                if (field_170_invisible_timer)
+                {
+                    field_170_invisible_timer = field_170_invisible_timer + field_176;
+                }
+                else
+                {
+                    field_170_invisible_timer = sGnFrame_5C1B84 + field_176;
+                }
+
+                field_174 = 0;
+
+                InvisibleEffect* pInvisible = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
+                if (!pInvisible || pInvisible->field_6_flags.Get(BaseGameObject::eDead))
+                {
+                    pInvisible = alive_new<InvisibleEffect>();
+                    if (pInvisible)
+                    {
+                        pInvisible->ctor_45F280(this);
+                    }
+                    field_178_invisible_effect_id = pInvisible->field_8_object_id;
+                }
+                pInvisible->sub_45F9E0();
+            }
+
+            if (field_168_ring_pulse_timer)
+            {
+                if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_bHaveHealing))
+                {
+                    bool bAliveMudIsInSameScreen = false;
+                    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+                    {
+                        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+                        if (!pObjIter)
+                        {
+                            break;
+                        }
+
+                        if (pObjIter->field_4_typeId == BaseGameObject::Types::eMudokon_110)
+                        {
+                            if (pObjIter->field_114_flags.Get(Flags_114::e114_Bit3)) // TODO: Is sick flag ?
+                            {
+                                if (pObjIter->Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent && pObjIter->field_10C_health > FP_FromInteger(0))
+                                {
+                                    bAliveMudIsInSameScreen = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (bAliveMudIsInSameScreen)
+                    {
+                        PSX_RECT bRect = {};
+                        vGetBoundingRect_424FD0(&bRect, 1);
+
+                        AbilityRing::Factory_482F80(
+                            FP_FromInteger((bRect.x + bRect.w) / 2),
+                            FP_FromInteger((bRect.y + bRect.h) / 2),
+                            RingTypes::eHealing_Emit_12,
+                            field_CC_sprite_scale);
+
+                        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit15_bHaveHealing);
+                        field_168_ring_pulse_timer = 0;
+                    }
+                }
+            }
+        }
+
+        // Stopped chanting?
+        if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || field_20_animation.field_92_current_frame == 3) && !Input_IsChanting_45F260())
+        {
+            field_106_current_state = eAbeStates::State_113_ChantEnd_45BBE0;
+            field_154_possesed_object_id = -1;
+            if (!pfield_150)
+            {
+                pfield_150->sub_4E4050();
+                field_150_OrbWhirlWind_id = -1;
+            }
+            return;
+        }
+
+        if (!(sGnFrame_5C1B84 % 4))
+        {
+            New_Particle_45BC70(this);
+        }
+
+        if (static_cast<int>(sGnFrame_5C1B84) < field_124_gnFrame - 70)
+        {
+            goto LABEL_52;
+        }
+
+        if (pObj)
+        {
+            if (pfield_150)
+            {
+                goto LABEL_52;
+            }
+
+            auto pWhirlWind = alive_new<OrbWhirlWind>();
+            if (pWhirlWind)
+            {
+                const FP yPos = field_BC_ypos- (field_CC_sprite_scale * FP_FromInteger(38));
+                const FP xOff =  field_CC_sprite_scale * ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-4) : FP_FromInteger(4));
+                pWhirlWind->ctor_4E3C90(
+                    xOff + field_B8_xpos,
+                    yPos,
+                    field_CC_sprite_scale,
+                    0);
+            }
+            else
+            {
+                pWhirlWind = 0;
+            }
+            pfield_150 = pWhirlWind;
+            field_150_OrbWhirlWind_id = pWhirlWind->field_8_object_id;
+        }
+        else
+        {
+            field_124_gnFrame = sGnFrame_5C1B84 + 70;
+            if (!pfield_150)
+            {
+                goto LABEL_52;
+            }
+
+            pfield_150->sub_4E4050();
+            pfield_150 = nullptr;
+            field_150_OrbWhirlWind_id = -1;
+        }
+
+    LABEL_52:
+        if ((signed int)sGnFrame_5C1B84 <= field_124_gnFrame)
+        {
+            return;
+        }
+        if (!pObj)
+        {
+            return;
+        }
+        field_154_possesed_object_id = pObj->field_8_object_id;
+        SFX_Play_46FBA0(0x11u, 0, -600, 0x10000);
+        field_120_state = 1;
+        field_124_gnFrame = sGnFrame_5C1B84 + 30;
+
+        PSX_RECT bRect = {};
+        pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+        pfield_150->sub_4E3FD0(
+            FP_FromInteger((bRect.w - bRect.x) / 2),
+            FP_FromInteger((bRect.h - bRect.y) / 2),
+            pObj->field_CC_sprite_scale,
+            pObj);
+
+        auto pClass_544FC8 = alive_new<PossessionFlicker>();
+        if (pClass_544FC8)
+        {
+            pClass_544FC8->ctor_4319E0(sActiveHero_5C1B68, 30, 128, 255, 255);
+        }
+    }
+    return;
+
+    case 1u:
+    {
+        Event_Broadcast_422BC0(kEventSpeaking, this);
+        Event_Broadcast_422BC0(kEventAbeOhm, this);
+
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_gnFrame)
+        {
+            if (!pfield_154 ||
+                pfield_154->field_6_flags.Get(BaseGameObject::eDead) ||
+                pfield_154->field_10C_health <= FP_FromInteger(0) ||
+                pfield_154->Is_In_Current_Camera_424A70() != Map::CameraPos::eCamCurrent)
+            {
+                field_106_current_state = eAbeStates::State_113_ChantEnd_45BBE0;
+                field_154_possesed_object_id = -1;
+                if (pfield_150)
+                {
+                    pfield_150->sub_4E4050();
+                    field_150_OrbWhirlWind_id = -1;
+                }
+            }
+        }
+        else
+        {
+            field_120_state = 2;
+        }
+    }
+        return;
+
+    case 2u:
+    {
+        Event_Broadcast_422BC0(kEventSpeaking, this);
+        Event_Broadcast_422BC0(kEventAbeOhm, this);
+        field_150_OrbWhirlWind_id = -1;
+
+        if (!pfield_154)
+        {
+            goto LABEL_83;
+        }
+
+        if (pfield_154->field_6_flags.Get(BaseGameObject::eDead))
+        {
+            field_154_possesed_object_id = -1;
+        }
+
+        if (pfield_154->field_10C_health <= FP_FromInteger(0))
+        {
+            goto LABEL_83;
+        }
+
+        sControlledCharacter_5C1B8C = pfield_154;
+
+        pfield_154->Vnull_408F70();
+        
+        field_154_possesed_object_id = -1;
+
+        if (sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eSlig_125 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eFlyingSlig_54 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eType_26 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eGlukkon_67)
+        {
+            field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd);
+        }
+
+        auto pFlicker = alive_new<PossessionFlicker>();
+        if (pFlicker)
+        {
+            pFlicker->ctor_4319E0(sControlledCharacter_5C1B8C, 60, 128, 255, 255);
+        }
+        SND_SEQ_Stop_4CAE60(0xAu);
+        SFX_Play_46FBA0(0x11u, 70, 400, 0x10000);
+        field_120_state = 3;
+    }
+        return;
+
+    case 3u:
+    {
+        if (sControlledCharacter_5C1B8C != this)
+        {
+            return;
+        }
+
+        auto pFlicker = alive_new<PossessionFlicker>();
+        if (pFlicker)
+        {
+            pFlicker->ctor_4319E0(sControlledCharacter_5C1B8C, 15, 128, 255, 255);
+        }
+
+        field_120_state = 4;
+        field_124_gnFrame = sGnFrame_5C1B84 + 15;
+    }
+        return;
+
+    case 4u:
+    {
+        if (!(sGnFrame_5C1B84 % 4))
+        {
+            New_Particle_45BC70(this);
+        }
+
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_gnFrame)
+        {
+            return;
+        }
+
+    LABEL_83:
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_state = eAbeStates::State_113_ChantEnd_45BBE0;
+        }
+    }
+        return;
+
+    case 6u:
+    {
+        Event_Broadcast_422BC0(kEventSpeaking, this);
+        Event_Broadcast_422BC0(kEventAbeOhm, this);
+        if (!(sGnFrame_5C1B84 % 4))
+        {
+            New_Particle_45BC70(this);
+        }
+    }
+        return;
+
+    default:
+        return;
+    }
 }
 
 void Abe::State_113_ChantEnd_45BBE0()

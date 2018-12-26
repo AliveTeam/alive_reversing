@@ -626,17 +626,18 @@ void Command_SetState(const std::vector<std::string>& args)
 {
     if (sControlledCharacter_5C1B8C->field_4_typeId != BaseGameObject::Types::eType_Abe_69)
     {
-        DEV_CONSOLE_MESSAGE_C("Setting state not supported on this object!", 6, 255, 0, 0);
+        DEV_CONSOLE_MESSAGE_C("Setting state not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
         return;
     }
 
     __int16  state = static_cast<__int16 >(std::stoi(args[0]));
-    auto resource = sControlledCharacter_5C1B8C->StateToAnimResource_44AAB0(state);
+    Abe* pAbe = static_cast<Abe*>(sControlledCharacter_5C1B8C);
+    auto resource = pAbe->StateToAnimResource_44AAB0(state);
 
     if (resource != nullptr)
     {
-        sControlledCharacter_5C1B8C->field_106_current_state = state;
-        sControlledCharacter_5C1B8C->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[state], resource);
+        pAbe->field_106_current_state = state;
+        pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[state], resource);
         DEV_CONSOLE_PRINTF("Set state to %i", state);
     }
     else
