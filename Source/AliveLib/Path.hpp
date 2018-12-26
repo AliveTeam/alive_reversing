@@ -63,7 +63,7 @@ struct Path_Door : public Path_TLV
 {
     const static unsigned short kType = 5;
 
-    __int16 field_10_level;
+    LevelIds field_10_level;
     __int16 field_12_path;
     __int16 field_14_camera;
     __int16 field_16_scale;

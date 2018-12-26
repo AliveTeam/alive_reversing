@@ -6931,7 +6931,232 @@ void Abe::State_113_ChantEnd_45BBE0()
 
 void Abe::State_114_DoorEnter_459470()
 {
-    NOT_IMPLEMENTED();
+    switch (field_120_state)
+    {
+    case 0u:
+        if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+        {
+            return;
+        }
+        field_120_state = 2;
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 3;
+        return;
+
+    case 2u:
+        if (field_128.field_0_gnFrame > static_cast<int>(sGnFrame_5C1B84))
+        {
+            return;
+        }
+        field_120_state = 3;
+        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 3;
+        return;
+
+    case 3u:
+        if (field_128.field_0_gnFrame <= static_cast<int>(sGnFrame_5C1B84))
+        {
+            field_120_state = 4;
+        }
+        return;
+
+    case 4u:
+    {
+        Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            Path_Door::kType));
+
+        field_FC_pPathTLV = pDoorTlv;
+
+        if (pDoorTlv->field_42_cancel_throwables)
+        {
+            if (field_1A2_rock_or_bone_count > 0 && gpThrowableArray_5D1E2C)
+            {
+                gpThrowableArray_5D1E2C->Remove_49AA00(field_1A2_rock_or_bone_count);
+                field_1A2_rock_or_bone_count = 0;
+            }
+        }
+
+        // An OWI hack.. when both mudomo and mundanchee are done force back to necrum mines
+        bool hackChange = false;
+        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudomoVault_Ender_11)
+        {
+            if (gMap_5C3030.sCurrentPathId_5C3032 == 13 &&
+                gMap_5C3030.sCurrentCamId_5C3034 == 14 &&
+                (field_1AC_flags.Get(Flags_1AC::e1AC_eBit16)) != 0)
+            {
+                hackChange = true;
+            }
+        }
+        else if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudancheeVault_Ender_7)
+        {
+            if (gMap_5C3030.sCurrentPathId_5C3032 == 11 &&
+                gMap_5C3030.sCurrentCamId_5C3034 == 2 &&
+                field_1AE & 1)
+            {
+                hackChange = true;
+            }
+        }
+
+        if (hackChange)
+        {
+            // Plays FMV where the weridos give Abe the drunk mud healing power and then dumps Abe at the portal that leads
+            // back to Necrum mines.
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eNecrum_2, 3, 10, CameraSwapEffects::eEffect5_1_FMV, 22, 0);
+            field_C8_vely = FP_FromInteger(0);
+            field_C4_velx = FP_FromInteger(0);
+            field_B8_xpos = FP_FromInteger(2287);
+            field_BC_ypos = FP_FromInteger(800);
+            field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_106_current_state = eAbeStates::jState_85_Fall_455070;
+            field_CC_sprite_scale = FP_FromInteger(1);
+            field_D6_scale = 1;
+            field_20_animation.field_C_render_layer = 32;
+            return;
+        }
+
+        gMap_5C3030.field_1E_door = 1;
+        __int16 bForceChange = 0;
+        const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pDoorTlv->field_32_wipe_effect];
+        if (effect == CameraSwapEffects::eEffect5_1_FMV || effect == CameraSwapEffects::eEffect11)
+        {
+            bForceChange = 1;
+        }
+
+        gMap_5C3030.SetActiveCam_480D30(
+            pDoorTlv->field_10_level,
+            pDoorTlv->field_12_path,
+            pDoorTlv->field_14_camera,
+            effect,
+            pDoorTlv->field_34_movie_number,
+            bForceChange);
+
+        field_120_state = 5;
+        field_1A0_door_id = pDoorTlv->field_1C_target_door_number;
+    }
+    return;
+
+    case 5u:
+    {
+        gMap_5C3030.field_1E_door = 0;
+        field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
+        field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+
+        Path_Door* pDoorTlv2 = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_Door::kType, 0));
+        field_FC_pPathTLV = pDoorTlv2;
+        Path_Door* pTargetDoorTlv = pDoorTlv2;
+        if (pTargetDoorTlv->field_18_door_number != field_1A0_door_id)
+        {
+            do
+            {
+                Path_Door* pDoorIter = static_cast<Path_Door*>(Path::TLV_Next_Of_Type_4DB720(field_FC_pPathTLV, Path_Door::kType));
+                field_FC_pPathTLV = pDoorIter;
+                pTargetDoorTlv = pDoorIter;
+            } while (pTargetDoorTlv->field_18_door_number != field_1A0_door_id);
+        }
+
+        if (pTargetDoorTlv->field_16_scale == 1)
+        {
+            field_CC_sprite_scale = FP_FromDouble(0.5);
+            field_20_animation.field_C_render_layer = 13;
+            field_D6_scale = 0;
+        }
+        else
+        {
+            field_CC_sprite_scale = FP_FromDouble(1.0);
+            field_20_animation.field_C_render_layer = 32;
+            field_D6_scale = 1;
+        }
+
+        // The door controls which way abe faces when he exits it
+        if (pTargetDoorTlv->field_3E_abe_direction & 1)
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+
+        field_B8_xpos = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_0_x) + 
+                        FP_FromInteger((field_FC_pPathTLV->field_C_bottom_right.field_0_x - field_FC_pPathTLV->field_8_top_left.field_0_x) / 2);
+
+
+        MapFollowMe_408D10(TRUE);
+
+        // TODO: WTF ?? What is this shorthand for?
+        auto unknown = -(field_D6_scale != 0);
+        unknown = unknown & 0x1F;
+        PathLine* pathLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            field_B8_xpos,
+            FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y),
+            field_B8_xpos,
+            FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y),
+            &pathLine,
+            &hitX,
+            &hitY,
+            unknown + 240))
+        {
+            field_100_pCollisionLine = pathLine;
+            field_BC_ypos = hitY;
+        }
+        else
+        {
+            field_100_pCollisionLine = nullptr;
+            field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
+            field_BC_ypos = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y);
+            field_F8 = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y);
+        }
+
+        field_168_ring_pulse_timer = 0;
+        InvisibleEffect* pInvisibleEffect = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
+        if (pInvisibleEffect)
+        {
+            if (!(pInvisibleEffect->field_6_flags.Get(BaseGameObject::eDead)))
+            {
+                pInvisibleEffect->sub_45FA50();
+                field_114_flags.Clear(Flags_114::e114_Bit8);
+                field_178_invisible_effect_id = -1;
+                field_170_invisible_timer = 0;
+            }
+        }
+
+        field_10C_health = FP_FromInteger(1);
+        field_120_state = 6;
+        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 30;
+    }
+        return;
+
+    case 6u:
+        if (field_128.field_0_gnFrame > static_cast<int>(sGnFrame_5C1B84))
+        {
+            return;
+        }
+
+        field_120_state = 0;
+        if (field_100_pCollisionLine)
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_106_current_state = eAbeStates::State_115_DoorExit_459A40;
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            // Abe opens the door and he falls through the floor
+            field_106_current_state = eAbeStates::jState_85_Fall_455070;
+        }
+        return;
+
+    default:
+        return;
+    }
+
 }
 
 void Abe::State_115_DoorExit_459A40()
