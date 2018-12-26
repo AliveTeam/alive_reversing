@@ -296,7 +296,7 @@ public:
         e1AC_eBit13 = 0x1000,
         e1AC_eBit14 = 0x2000,
         e1AC_eBit15_bHaveHealing = 0x4000,
-        e1AC_eBit16 = 0x8000,
+        e1AC_eBit16_bIsMudancheeVault_Ender = 0x8000,
         e1AC_eBit17 = 0x10000,
         e1AC_eBit18 = 0x20000,
         e1AC_eBit19 = 0x40000,
@@ -308,7 +308,14 @@ public:
         e1AC_eBit25 = 0x1000000,
     };
     BitField16<Flags_1AC> field_1AC_flags;
-    __int16 field_1AE;
+
+    enum Flags_1AE
+    {
+        e1AE_Bit1_bIsMudancheeVault_Ender = 0x1,
+        e1AE_Bit2_bDoQuickSave = 0x2,
+    };
+    BitField16<Flags_1AE> field_1AE;
+
     int field_1B0_save_num;
     int field_1B4;
     int field_1B8;

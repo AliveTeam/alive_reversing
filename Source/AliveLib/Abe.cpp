@@ -608,7 +608,9 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_164_wheel_id = -1;
     field_160 = -1;
     field_15C_pull_rope_id = -1;
-    field_1AE &= ~3u;
+
+    field_1AE.Clear(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender);
+    field_1AE.Clear(Flags_1AE::e1AE_Bit2_bDoQuickSave);
 
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
@@ -1137,10 +1139,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
         sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_bHaveHealing);
     }
 
-    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16);
+    sActiveHero_5C1B68->field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender);
     if (pSaveState->wordD4 & 0xE000)
     {
-        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16);
+        sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender);
     }
 
     sActiveHero_5C1B68->field_114_flags.Clear(Flags_114::e114_Bit10);
@@ -1149,10 +1151,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
         sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit10);
     }
 
-    sActiveHero_5C1B68->field_1AE &= ~1;
+    sActiveHero_5C1B68->field_1AE.Clear(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender);
     if ((pSaveState->wordD4 >> 14) & 1)
     {
-        sActiveHero_5C1B68->field_1AE |= 1;
+        sActiveHero_5C1B68->field_1AE.Set(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender);
     }
 
     // TODO: Move to shadow object
@@ -1659,17 +1661,18 @@ void Abe::Update_449DC0()
             }
         }
 
-        if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit16))
+        // After the trials give abe the healing power for the necrum muds
+        if (field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender))
         {
-            if (field_1AE & 1)
+            if (field_1AE.Get(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender))
             {
                 if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2)
                 {
                     field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
                     field_16C_bHaveShrykull = 0;
                     field_16E_bHaveInvisiblity = 0;
-                    field_1AE &= ~1;
-                    field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16);
+                    field_1AE.Clear(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender);
+                    field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender);
                     field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_bHaveHealing);
                 }
             }
@@ -1696,9 +1699,9 @@ void Abe::Update_449DC0()
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
-        if (field_1AE & 2)
+        if (field_1AE.Get(Flags_1AE::e1AE_Bit2_bDoQuickSave))
         {
-            field_1AE &= ~2;
+            field_1AE.Clear(Flags_1AE::e1AE_Bit2_bDoQuickSave);
             sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = static_cast<short>(field_1B0_save_num);
             Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
             vGetSaveState_457110(reinterpret_cast<BYTE*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
@@ -1839,12 +1842,12 @@ void Abe::vScreenChanged_44D240()
         {
             if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudancheeVault_Ender_7)
             {
-                field_1AC_flags.Set(Flags_1AC::e1AC_eBit16);
+                field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender);
             }
 
             if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudomoVault_Ender_11)
             {
-                field_1AE |= 1u;
+                field_1AE.Set(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender);
             }
         }
 
@@ -6985,7 +6988,7 @@ void Abe::State_114_DoorEnter_459470()
         {
             if (gMap_5C3030.sCurrentPathId_5C3032 == 13 &&
                 gMap_5C3030.sCurrentCamId_5C3034 == 14 &&
-                (field_1AC_flags.Get(Flags_1AC::e1AC_eBit16)) != 0)
+                field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender))
             {
                 hackChange = true;
             }
@@ -6994,7 +6997,7 @@ void Abe::State_114_DoorEnter_459470()
         {
             if (gMap_5C3030.sCurrentPathId_5C3032 == 11 &&
                 gMap_5C3030.sCurrentCamId_5C3034 == 2 &&
-                field_1AE & 1)
+                field_1AE.Get(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender))
             {
                 hackChange = true;
             }
