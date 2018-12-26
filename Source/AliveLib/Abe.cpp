@@ -6705,58 +6705,54 @@ void Abe::State_112_Chant_45B1C0()
             New_Particle_45BC70(this);
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) < field_124_gnFrame - 70)
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_124_gnFrame - 70)
         {
-            goto LABEL_52;
-        }
-
-        if (pObj)
-        {
-            if (pfield_150)
+            if (pObj)
             {
-                goto LABEL_52;
-            }
-
-            auto pWhirlWind = alive_new<OrbWhirlWind>();
-            if (pWhirlWind)
-            {
-                const FP yPos = field_BC_ypos- (field_CC_sprite_scale * FP_FromInteger(38));
-                const FP xOff =  field_CC_sprite_scale * ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-4) : FP_FromInteger(4));
-                pWhirlWind->ctor_4E3C90(
-                    xOff + field_B8_xpos,
-                    yPos,
-                    field_CC_sprite_scale,
-                    0);
+                if (!pfield_150)
+                {
+                    auto pWhirlWind = alive_new<OrbWhirlWind>();
+                    if (pWhirlWind)
+                    {
+                        const FP yPos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(38));
+                        const FP xOff = field_CC_sprite_scale * ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-4) : FP_FromInteger(4));
+                        pWhirlWind->ctor_4E3C90(
+                            xOff + field_B8_xpos,
+                            yPos,
+                            field_CC_sprite_scale,
+                            0);
+                    }
+                    else
+                    {
+                        pWhirlWind = 0;
+                    }
+                    pfield_150 = pWhirlWind;
+                    field_150_OrbWhirlWind_id = pWhirlWind->field_8_object_id;
+                }
             }
             else
             {
-                pWhirlWind = 0;
+                field_124_gnFrame = sGnFrame_5C1B84 + 70;
+                if (pfield_150)
+                {
+                    pfield_150->sub_4E4050();
+                    pfield_150 = nullptr;
+                    field_150_OrbWhirlWind_id = -1;
+                }
             }
-            pfield_150 = pWhirlWind;
-            field_150_OrbWhirlWind_id = pWhirlWind->field_8_object_id;
-        }
-        else
-        {
-            field_124_gnFrame = sGnFrame_5C1B84 + 70;
-            if (!pfield_150)
-            {
-                goto LABEL_52;
-            }
-
-            pfield_150->sub_4E4050();
-            pfield_150 = nullptr;
-            field_150_OrbWhirlWind_id = -1;
         }
 
-    LABEL_52:
-        if ((signed int)sGnFrame_5C1B84 <= field_124_gnFrame)
+
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_124_gnFrame)
         {
             return;
         }
+
         if (!pObj)
         {
             return;
         }
+
         field_154_possesed_object_id = pObj->field_8_object_id;
         SFX_Play_46FBA0(0x11u, 0, -600, 0x10000);
         field_120_state = 1;
@@ -6815,7 +6811,11 @@ void Abe::State_112_Chant_45B1C0()
 
         if (!pfield_154)
         {
-            goto LABEL_83;
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_106_current_state = eAbeStates::State_113_ChantEnd_45BBE0;
+            }
+            return;
         }
 
         if (pfield_154->field_6_flags.Get(BaseGameObject::eDead))
@@ -6825,7 +6825,11 @@ void Abe::State_112_Chant_45B1C0()
 
         if (pfield_154->field_10C_health <= FP_FromInteger(0))
         {
-            goto LABEL_83;
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                field_106_current_state = eAbeStates::State_113_ChantEnd_45BBE0;
+            }
+            return;
         }
 
         sControlledCharacter_5C1B8C = pfield_154;
@@ -6883,7 +6887,6 @@ void Abe::State_112_Chant_45B1C0()
             return;
         }
 
-    LABEL_83:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_106_current_state = eAbeStates::State_113_ChantEnd_45BBE0;
