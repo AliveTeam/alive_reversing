@@ -60,7 +60,7 @@ public:
         eRockSpawner_48 = 48,
         eType_49 = 49,
         eFleech_50 = 50,
-        eType_51 = 51,
+        ePossessionFlicker_51 = 51,
         eType_52 = 52,
         eThrowableTotalIndicator_53 = 53,
         eFlyingSlig_54 = 54,

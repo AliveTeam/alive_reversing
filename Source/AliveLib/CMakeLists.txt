@@ -175,6 +175,8 @@ add_library(AliveLib
     Alarm.cpp
     DeathFadeOut.hpp
     DeathFadeOut.cpp
+    PossessionFlicker.hpp
+    PossessionFlicker.cpp
     Flash.hpp
     Flash.cpp
     Types.hpp
