@@ -179,6 +179,8 @@ add_library(AliveLib
     PossessionFlicker.cpp
     Flash.hpp
     Flash.cpp
+    Door.hpp
+    Door.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)
