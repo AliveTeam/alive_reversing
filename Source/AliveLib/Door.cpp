@@ -58,7 +58,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     field_4_typeId = BaseGameObject::Types::eDoor_33;
 
     // HACK/test
-    pTlvData->field_20_start_state = 1;
+    //pTlvData->field_20_start_state = 1;
 
     field_F4_tlvInfo = tlvInfo;
     field_F8_door_type = pTlvData->field_1E_type;
@@ -278,8 +278,8 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         field_20_animation.field_C_render_layer = 25;
     }
 
-    FP* yOff = &field_BC_ypos;
     FP* xOff = &field_B8_xpos;
+    FP* yOff = &field_BC_ypos;
 
     FP tlvXMid = FP_FromInteger((pTlvData->field_8_top_left.field_0_x + pTlvData->field_C_bottom_right.field_0_x) / 2);
     PathLine* pathLine = nullptr;
@@ -294,8 +294,8 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         tlvXMid,
         FP_FromInteger(pTlvData->field_C_bottom_right.field_2_y),
         &pathLine,
-        yOff,
         xOff,
+        yOff,
         v16 + 240))
     {
         // Move up off the line we hit
@@ -488,7 +488,7 @@ void Door::vUpdate_41EBE0()
                         nullptr);
                 }
 
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards);
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             }
             break;
@@ -498,7 +498,7 @@ void Door::vUpdate_41EBE0()
             field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
             if (field_FE_start_state == eClosed && SwitchStates_Get_466020(field_100_switch_id) ||
-                !field_FE_start_state && !SwitchStates_Get_466020(field_100_switch_id))
+                field_FE_start_state == eOpen && !SwitchStates_Get_466020(field_100_switch_id))
             {
                 field_FC_current_state = eOpening;
                 if (gMap_5C3030.field_22 == 108)
@@ -525,7 +525,7 @@ void Door::vUpdate_41EBE0()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_FC_current_state = eOpening;
+                field_FC_current_state = eOpen;
             }
             break;
 
