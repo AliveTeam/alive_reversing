@@ -32,6 +32,7 @@
 #include "Movie.hpp"
 #include "PossessionFlicker.hpp"
 #include "Door.hpp"
+#include "QuikSave.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -5627,7 +5628,237 @@ void Abe::State_56_4591F0()
 
 void Abe::State_57_Dead_4589A0()
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED(); // WIP
+
+    DeathFadeOut* pDeathFade_1 = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_148_pFade));
+    CircularFade* pCircularFade = static_cast<CircularFade*>(sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id));
+
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+
+    if (field_110_id != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+        if (pObj)
+        {
+            if (pObj->field_4_typeId == BaseGameObject::Types::eType_78)
+            {
+                // TODO: Lift
+                /*
+                ((void(__thiscall *)(BaseGameObject *, _DWORD, _DWORD, _DWORD))pObj->field_0_VTbl->VRock.Rock__vsub_49E330)(
+                    pObj,
+                    0,
+                    0,
+                    0);
+                */
+            }
+        }
+        else
+        {
+            field_110_id = -1;
+        }
+    }
+
+    switch (field_124_gnFrame)
+    {
+    case 0:
+        Event_Broadcast_422BC0(kEventShooting | kEventSpeaking, this);
+        Event_Broadcast_422BC0(kEventHeroDying, this);
+        field_128.field_8 = FP_FromInteger(0);
+        field_128.field_C = 0;
+        field_C4_velx = FP_FromInteger(0);
+        field_C8_vely = FP_FromInteger(0);
+        field_118_prev_held = 0;
+        field_124_gnFrame = field_124_gnFrame + 1;
+        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 30;
+        if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4)
+        {
+            /*
+            pBird = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0x100u);
+            if (pBird)
+            {
+                v9 = sRandomBytes_546744[sRandomSeed_5D1E10++] % 10 << 16;
+                v10 = v9 + field_BC_ypos + 983040;
+                v11 = sRandomBytes_546744[sRandomSeed_5D1E10++] % 64;
+                v12 = ((v11 - 32) << 16) + field_B8_xpos;
+                v13 = sRandomBytes_546744[sRandomSeed_5D1E10] % 8;
+                v14 = field_128.field_0_gnFrame;
+                ++sRandomSeed_5D1E10;
+                DeathBirdParticle::ctor_43ECB0(
+                    pBird,
+                    v12,
+                    v10,
+                    v13 + v14 + 60,
+                    1,
+                    field_CC_sprite_scale);
+            }
+            */
+        }
+        else
+        {
+            /*
+            pBird2 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0x100u);
+            if (pBird2)
+            {
+                v16 = sRandomBytes_546744[sRandomSeed_5D1E10++] % 10 << 16;
+                v17 = v16 + field_BC_ypos + 983040;
+                v18 = sRandomBytes_546744[sRandomSeed_5D1E10++] % 64;
+                v19 = ((v18 - 32) << 16) + field_B8_xpos;
+                v20 = sRandomBytes_546744[sRandomSeed_5D1E10] % 8;
+                v21 = field_128.field_0_gnFrame;
+                ++sRandomSeed_5D1E10;
+                DeathBirdParticle::ctor_43ECB0(
+                    pBird2,
+                    v19,
+                    v17,
+                    v20 + v21 + 15,
+                    1,
+                    field_CC_sprite_scale);
+            }
+            */
+        }
+        return;
+
+    case 1:
+        Event_Broadcast_422BC0(kEventHeroDying, this);
+        if (sGnFrame_5C1B84 % 4)
+        {
+            goto LABEL_21;
+        }
+
+        if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4)
+        {
+            /*
+            pBird3 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0x100u);
+            if (!pBird3)
+            {
+                goto LABEL_21;
+            }
+            v24 = sRandomBytes_546744[sRandomSeed_5D1E10] % 10 << 16;
+            v25 = sRandomSeed_5D1E10 + 1;
+            sRandomSeed_5D1E10 = v25;
+            v26 = v24 + field_BC_ypos + 983040;
+            v27 = sRandomBytes_546744[v25] % 64;
+            v28 = v25 + 1;
+            sRandomSeed_5D1E10 = v28;
+            v29 = ((v27 - 32) << 16) + field_B8_xpos;
+            v30 = sRandomBytes_546744[v28] % 8 + field_128.field_0_gnFrame + 60;
+            */
+        }
+        else
+        {
+            /*
+            pBird3 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0x100u);
+            if (!pBird3)
+            {
+                goto LABEL_21;
+            }
+            v31 = sRandomBytes_546744[sRandomSeed_5D1E10] % 10 << 16;
+            v32 = sRandomSeed_5D1E10 + 1;
+            sRandomSeed_5D1E10 = v32;
+            v26 = v31 + field_BC_ypos + 983040;
+            v33 = sRandomBytes_546744[v32] % 64;
+            v28 = v32 + 1;
+            sRandomSeed_5D1E10 = v28;
+            v29 = ((v33 - 32) << 16) + field_B8_xpos;
+            v30 = sRandomBytes_546744[v28] % 8 + field_128.field_0_gnFrame + 15;
+            */
+        }
+        //sRandomSeed_5D1E10 = v28 + 1;
+        //DeathBirdParticle::ctor_43ECB0(pBird3, v29, v26, v30, 0, field_CC_sprite_scale);
+    LABEL_21:
+        field_CC_sprite_scale -= FP_FromDouble(0.008);
+
+        field_D0_r -= 2;
+        field_D2_g -= 2;
+        field_D4_b -= 2;
+
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_128.field_0_gnFrame)
+        {
+            return;
+        }
+
+        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 60;
+
+        if (field_FC_pPathTLV)
+        {
+            if (field_FC_pPathTLV->field_4_type == 4)
+            {
+                field_128.field_0_gnFrame = (sGnFrame_5C1B84 + 60) + 45;
+            }
+        }
+        ++field_124_gnFrame;
+        MusicController::sub_47FD60(11, this, 1, 0);
+        return;
+    case 2:
+        Event_Broadcast_422BC0(kEventHeroDying, this);
+        if ((signed int)sGnFrame_5C1B84 > field_128.field_0_gnFrame)
+        {
+            ++field_124_gnFrame;
+        }
+        return;
+    case 3:
+    {
+        Event_Broadcast_422BC0(kEventHeroDying, this);
+        if (pDeathFade_1)
+        {
+            pDeathFade_1->field_6_flags.Set(BaseGameObject::eDead);
+            field_148_pFade = -1;
+        }
+        auto pDeathFade = alive_new<DeathFadeOut>();
+        if (pDeathFade)
+        {
+            pDeathFade->ctor_427030(40, 1, 0, 8, 2);
+            field_148_pFade = pDeathFade->field_8_object_id;
+        }
+        
+        if (pCircularFade)
+        {
+            pCircularFade->field_6_flags.Set(BaseGameObject::eDead);
+        }
+        ++field_124_gnFrame;
+    }
+        return;
+
+    case 4:
+        Event_Broadcast_422BC0(kEventHeroDying, this);
+        
+        if (!pDeathFade_1->field_7E_bDone)
+        {
+            return;
+        }
+        
+        if (field_10A)
+        {
+            return;
+        }
+
+        Vnull_4081F0();
+        
+        field_100_pCollisionLine = nullptr;
+        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 8;
+        ++field_124_gnFrame;
+        // TODO
+        //dword_5C2C64 = 0; // TODO: Never read ?
+        return;
+
+    case 5:
+        Event_Broadcast_422BC0(kEventDeathReset, this);
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_128.field_0_gnFrame)
+        {
+            return;
+        }
+        Make_Circular_Fade_4CE8C0(
+            FP_FromInteger(sActiveQuicksaveData_BAF7F8.field_204_world_info.field_C_controlled_x),
+            FP_FromInteger(sActiveQuicksaveData_BAF7F8.field_204_world_info.field_E_controlled_y),
+            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_10_controlled_scale != 0 ? FP_FromDouble(1.0): FP_FromDouble(0.5),
+            0,
+            1,
+            1);
+        Quicksave_LoadActive_4C9170();
+        return;
+    default:
+        return;
+    }
 }
 
 void Abe::State_58_DeadPre_4593E0()

@@ -344,7 +344,7 @@ EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave *quicksaveData)
     sAccumulatedObjectCount_5C1BF4 = quicksaveData->field_200_accumulated_obj_count;
     DestroyObjects_4A1F20();
     Events_Reset_422D70();
-    word_5C2FA0 = 1;
+    bSkipGameObjectUpdates_5C2FA0 = 1;
     Quicksave_ReadWorldInfo_4C9490(&quicksaveData->field_204_world_info);
     memcpy(&sSwitchStates_5C1A28, &quicksaveData->field_45C_switch_states, sizeof(SwitchStates));
     gMap_5C3030.field_D8_restore_quick_save = reinterpret_cast<BYTE*>(quicksaveData->field_55C_objects_state_data);

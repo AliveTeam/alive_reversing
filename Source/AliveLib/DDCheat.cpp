@@ -312,18 +312,23 @@ void DDCheat::Update_415780()
             
 
 #if DEVELOPER_MODE
-            DebugStr_4F5560(
-                "\n[obj %i] xy=%.3f,%.3f flags=%x",
-                sControlledCharacter_5C1B8C->field_4_typeId,
-                FP_GetDouble(sControlledCharacter_5C1B8C->field_B8_xpos),
-                FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
-                sControlledCharacter_5C1B8C->field_6_flags);
-
-            DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_state);
-
-            if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eType_Abe_69)
+            if (sActiveHero_5C1B68 && gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMenu_0)
             {
-                DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_current_state]);
+                // HACK When quitting sControlledCharacter_5C1B8C becomes a dangling pointer
+                // probably this should be removed as there is no sane way to check this pointer is still valid
+                DebugStr_4F5560(
+                    "\n[obj %i] xy=%.3f,%.3f flags=%x",
+                    sControlledCharacter_5C1B8C->field_4_typeId,
+                    FP_GetDouble(sControlledCharacter_5C1B8C->field_B8_xpos),
+                    FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
+                    sControlledCharacter_5C1B8C->field_6_flags);
+
+                DebugStr_4F5560("\nLine=%X State=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_state);
+
+                if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eType_Abe_69)
+                {
+                    DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_current_state]);
+                }
             }
 #else
             DebugStr_4F5560(

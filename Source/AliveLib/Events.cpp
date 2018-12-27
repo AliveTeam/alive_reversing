@@ -48,7 +48,7 @@ const char * sEventEnumString[]
     "ScreenShake",
 };
 
-EXPORT void CC Event_Broadcast_422BC0(Event eventType, BaseGameObject* pObject)
+EXPORT void CC Event_Broadcast_422BC0(int eventType, BaseGameObject* pObject)
 {
     sEventPtrs_5BC124.field_0_events[!sEventsToUse_5BC1D4].field_0_event_ptrs[eventType] = pObject;
 

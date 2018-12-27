@@ -63,7 +63,7 @@ ALIVE_VAR(1, 0x5C1B80, DynamicArray*, sShadow_dArray_5C1B80, nullptr);
 ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
 ALIVE_VAR(1, 0x5C1B66, short, sNum_CamSwappers_5C1B66, 0);
 ALIVE_VAR(1, 0x5C2F78, int, dword_5C2F78, 0);
-ALIVE_VAR(1, 0x5C2FA0, short, word_5C2FA0, 0);
+ALIVE_VAR(1, 0x5C2FA0, short, bSkipGameObjectUpdates_5C2FA0, 0);
 
 ALIVE_ARY(1, 0x5CA488, char, 30, sCdRomDrives_5CA488, {});
 ALIVE_VAR(1, 0x5CA4D4, int, dword_5CA4D4, 0);
@@ -720,14 +720,14 @@ EXPORT void CC Game_Loop_467230()
     {
         Events_Reset_Active_422DA0();
         Slurg::Clear_Slurg_Step_Watch_Points_449A90();
-        word_5C2FA0 = 0;
+        bSkipGameObjectUpdates_5C2FA0 = 0;
 
         // Update objects
         for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
 
-            if (!pBaseGameObject || word_5C2FA0)
+            if (!pBaseGameObject || bSkipGameObjectUpdates_5C2FA0)
             {
                 break;
             }

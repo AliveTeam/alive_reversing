@@ -34,7 +34,7 @@ enum Event : __int16
 class BaseGameObject;
 class BaseAnimatedWithPhysicsGameObject;
 
-EXPORT void CC Event_Broadcast_422BC0(Event event, BaseGameObject* pObject);
+EXPORT void CC Event_Broadcast_422BC0(int event, BaseGameObject* pObject);
 EXPORT BaseGameObject* CC Event_Get_422C00(__int16 eventType);
 EXPORT void CC Events_Reset_422D70();
 EXPORT void CC Events_Reset_Active_422DA0();
