@@ -35,7 +35,13 @@ private:
     int field_F0;
 
     int field_F4_tlvInfo;
-
+    enum DoorTypes
+    {
+        eType_0 = 0,
+        eType_1 = 1,
+        eType_2 = 2,
+        eType_3= 3,
+    };
     __int16 field_F8_door_type;
 public:
     __int16 field_FA_door_number;

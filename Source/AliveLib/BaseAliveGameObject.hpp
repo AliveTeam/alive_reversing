@@ -5,6 +5,9 @@
 #include "Animation.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
+// TODO: Move to own file
+EXPORT int CC SnapToXGrid_449930(FP scale, int x);
+
 struct TintEntry
 {
     __int8 field_0_level;
