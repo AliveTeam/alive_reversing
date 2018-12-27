@@ -7473,6 +7473,94 @@ int Abe::sub_44EE10()
     return 1;
 }
 
+class Door : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    enum eStates
+    {
+        eOpen = 0,
+        eClosed = 1,
+        eOpening = 2,
+        eClosing = 3,
+    };
+
+    EXPORT BOOL vIsOpen_41EB00()
+    {
+        return field_FC_current_state == eOpen;
+    }
+
+    EXPORT void vOpen_41EB20()
+    {
+        if (field_FC_current_state != eOpen)
+        {
+            field_FC_current_state = eOpening;
+        }
+    }
+
+    EXPORT void vClose_41EB50()
+    {
+        if (field_FC_current_state != eClosed)
+        {
+            field_FE_start_state = eClosed;
+            field_FC_current_state = eClosing;
+            Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_F4_tlvInfo);
+            pTlv->field_1_unknown = 1;
+        }
+    }
+
+    EXPORT void vSetOpen_41EBA0()
+    {
+        field_FC_current_state = eOpen;
+    }
+
+    EXPORT void vSetClosed_41EBC0()
+    {
+        field_FC_current_state = eClosed;
+    }
+
+    EXPORT void vScreenChange_41F080()
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    EXPORT Door* vdtor_41E9D0(signed int flags)
+    {
+        dtor_41EA00();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+    EXPORT void dtor_41EA00()
+    {
+        NOT_IMPLEMENTED();
+
+        SetVTable(this, 0x5449BC); // vTbl_Door_5449BC
+        Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+        // TODO
+        //dtor_41E130();
+    }
+private:
+    int field_E4;
+    int field_E8;
+    int field_EC;
+    int field_F0;
+    
+    int field_F4_tlvInfo;
+
+    __int16 field_F8_door_type;
+    __int16 field_FA_door_number;
+
+    __int16 field_FC_current_state;
+    __int16 field_FE_start_state;
+
+    __int16 field_100_switch_id;
+    __int16 field_102_hub_ids[8];
+};
+ALIVE_ASSERT_SIZEOF(Door, 0x114);
+
 __int16 Abe::HandleDoAction_455BD0()
 {
     NOT_IMPLEMENTED();
