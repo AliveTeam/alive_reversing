@@ -9,6 +9,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+    virtual void VRender(int** pOrderingTable) override;
 
     EXPORT DeathFadeOut* ctor_427030(__int16 layer, __int16 direction, __int16 destroyOnDone, short speed, char abr);
     EXPORT void Init_427140(__int16 layer, __int16 direction, __int16 destroyOnDone, short speed);

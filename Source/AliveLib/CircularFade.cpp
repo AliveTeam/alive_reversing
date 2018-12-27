@@ -8,17 +8,17 @@
 
 BaseGameObject* CircularFade::VDestructor(signed int flags)
 {
-    return vdtor_424A40(flags);
+    return vdtor_4CE0D0(flags);
 }
 
 void CircularFade::VUpdate()
 {
-    Update_424AB0();
+    vUpdate_4CE380();
 }
 
 void CircularFade::VRender(int** pOrderingTable)
 {
-    Render_424B90(pOrderingTable);
+    vRender_4CE3F0(pOrderingTable);
 }
 
 void CircularFade::VScreenChanged()

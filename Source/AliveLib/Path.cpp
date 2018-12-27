@@ -221,10 +221,89 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(__int16 xpos, __int16 ypos, __int16 width, __i
     return pTlvIter;
 }
 
-Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* /*pTlv*/, FP /*xpos*/, FP /*ypos*/, FP /*w*/, FP /*h*/)
+Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    const int xpos_converted = FP_GetExponent(xpos);
+    const int ypos_converted = FP_GetExponent(ypos);
+    int width_converted = FP_GetExponent(w);
+    int height_converted = FP_GetExponent(h);
+
+    int xyPosValid = 1;
+    if (xpos_converted < 0 || ypos_converted < 0)
+    {
+        xyPosValid = 0;
+    }
+
+    if (width_converted  < 0 || height_converted < 0)
+    {
+        width_converted = xpos_converted;
+        height_converted = ypos_converted;
+    }
+
+    if (!pTlv)
+    {
+        const PathData* pPathData = field_C_pPathData;
+        const int camX = (xpos_converted + width_converted) / (2 * pPathData->field_A_grid_width);
+        const int camY = (ypos_converted + height_converted) / (2 * pPathData->field_C_grid_height);
+
+        if (camX >= field_6_cams_on_x || camY >= field_8_cams_on_y)
+        {
+            return nullptr;
+        }
+
+        if (camX < 0)
+        {
+            return nullptr;
+        }
+
+        if ((ypos_converted + height_converted) / (2 * pPathData->field_C_grid_height) < 0)
+        {
+            return nullptr;
+        }
+
+        BYTE* pPathRes = *field_10_ppRes;
+        // TODO: Refactor to common method
+        const int indexTableEntry = *(int *)&pPathRes[4 * (camX + (field_6_cams_on_x * camY)) + pPathData->field_16_object_indextable_offset];
+        if (indexTableEntry == -1)
+        {
+            return nullptr;
+        }
+
+        pTlv = (Path_TLV *)&pPathRes[pPathData->field_12_object_offset + indexTableEntry];
+        if (!xyPosValid ||
+            xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
+            width_converted >= pTlv->field_8_top_left.field_0_x &&
+            height_converted >= pTlv->field_8_top_left.field_2_y &&
+            ypos_converted <= pTlv->field_C_bottom_right.field_2_y)
+        {
+            return pTlv;
+        }
+    }
+
+    if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+    {
+        return nullptr;
+    }
+
+    while (1)
+    {
+        pTlv = Path::Next_TLV_4DB6A0(pTlv);
+        if (!xyPosValid || 
+            xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
+            width_converted >= pTlv->field_8_top_left.field_0_x &&
+            height_converted >= pTlv->field_8_top_left.field_2_y &&
+            ypos_converted <= pTlv->field_C_bottom_right.field_2_y)
+        {
+            break;
+        }
+
+        if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+        {
+            return nullptr;
+        }
+    }
+
+    return pTlv;
 }
 
 Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_PathId)

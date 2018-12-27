@@ -20,6 +20,11 @@ void DeathFadeOut::VScreenChanged()
     // Empty
 }
 
+void DeathFadeOut::VRender(int** pOrderingTable)
+{
+    vRender_427210(pOrderingTable);
+}
+
 DeathFadeOut* DeathFadeOut::ctor_427030(__int16 layer, __int16 direction, __int16 destroyOnDone, short speed, char abr)
 {
     ctor_4AB7A0(layer, abr);

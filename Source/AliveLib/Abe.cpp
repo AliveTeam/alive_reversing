@@ -6398,7 +6398,10 @@ void Abe::State_86_HandstoneBegin_45BD00()
 
 void Abe::State_87_HandstoneEnd_45C4F0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_88_GrenadeMachineUse_45C510()
@@ -7467,7 +7470,7 @@ int Abe::sub_44EE10()
 {
     // Looks for a door object and checks something
     NOT_IMPLEMENTED();
-    return 0;
+    return 1;
 }
 
 __int16 Abe::HandleDoAction_455BD0()
