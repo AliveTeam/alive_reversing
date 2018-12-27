@@ -110,7 +110,7 @@ public:
     EXPORT void State_35_DunnoEnd_44ED10();
     void State_36_Null_45BC50();
     EXPORT void State_37_CrouchTurn_454390();
-    EXPORT void jState_38_RollBegin_453A70();
+    EXPORT void jState_38_RunToRoll_453A70();
     EXPORT void State_39_StandingToRun_450D40();
     EXPORT void State_40_SneakLoop_450550();
     EXPORT void State_41_450250();

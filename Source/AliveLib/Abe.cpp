@@ -74,7 +74,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_35_DunnoEnd_44ED10) \
     ENTRY(State_36_Null_45BC50) \
     ENTRY(State_37_CrouchTurn_454390) \
-    ENTRY(jState_38_RollBegin_453A70) \
+    ENTRY(jState_38_RunToRoll_453A70) \
     ENTRY(State_39_StandingToRun_450D40) \
     ENTRY(State_40_SneakLoop_450550) \
     ENTRY(State_41_450250) \
@@ -219,7 +219,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_35_DunnoEnd_44ED10,
     &Abe::State_36_Null_45BC50,
     &Abe::State_37_CrouchTurn_454390,
-    &Abe::jState_38_RollBegin_453A70,
+    &Abe::jState_38_RunToRoll_453A70,
     &Abe::State_39_StandingToRun_450D40,
     &Abe::State_40_SneakLoop_450550,
     &Abe::State_41_450250,
@@ -5115,7 +5115,7 @@ void Abe::State_33_RunLoop_4508E0()
             if (field_118_prev_held & sInputKey_FartRoll_5550F0)
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
-                field_106_current_state = eAbeStates::jState_38_RollBegin_453A70;
+                field_106_current_state = eAbeStates::jState_38_RunToRoll_453A70;
                 field_11C = 0;
                 field_118_prev_held = 0;
                 return;
@@ -5234,9 +5234,9 @@ void Abe::State_37_CrouchTurn_454390()
     }
 }
 
-void Abe::jState_38_RollBegin_453A70()
+void Abe::jState_38_RunToRoll_453A70()
 {
-    NOT_IMPLEMENTED();
+    State_22_RollBegin_4539A0();
 }
 
 // Almost the same as State_6_WalkBegin_44FEE0
@@ -7597,7 +7597,7 @@ void Abe::sub_44E9A0()
         case eAbeStates::State_39_StandingToRun_450D40:
             field_106_current_state = eAbeStates::State_94_RunOffEdge_4559A0;
             break;
-        case eAbeStates::jState_38_RollBegin_453A70:
+        case eAbeStates::jState_38_RunToRoll_453A70:
         case eAbeStates::State_22_RollBegin_4539A0:
         case eAbeStates::State_23_RollLoop_453A90:
         case eAbeStates::State_24_453D00:
