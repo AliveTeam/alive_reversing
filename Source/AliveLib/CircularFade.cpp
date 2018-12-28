@@ -300,11 +300,11 @@ CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, __int16 d
 
     if (setBit8)
     {
-        pFade->field_6_flags.Set(BaseGameObject::eBit08);
+        pFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     }
     else
     {
-        pFade->field_6_flags.Clear(BaseGameObject::eBit08);
+        pFade->field_6_flags.Clear(BaseGameObject::eSurviveDeathReset);
     }
 
     return pFade;

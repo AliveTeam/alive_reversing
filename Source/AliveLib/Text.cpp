@@ -37,7 +37,7 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x546148); // vTbl_Text_546148
 
-    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     field_6_flags.Set(BaseGameObject::eDrawable);
 
     field_4_typeId = BaseGameObject::Types::eText_87;

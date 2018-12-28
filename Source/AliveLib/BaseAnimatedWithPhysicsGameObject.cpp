@@ -10,7 +10,12 @@
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
 {
-    LOG_WARNING("Exists only to make things build - func may break behaviour of objects");
+    static bool warned = false;
+    if (!warned)
+    {
+        warned = true;
+        LOG_WARNING("Exists only to make things build - func may break behaviour of objects");
+    }
 }
 
 BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(signed __int16 resourceArraySize)

@@ -61,7 +61,7 @@ public:
         BaseGameObject_ctor_4DBFA0(1, 1);
 
         field_6_flags.Set(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eBit08);
+        field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
         field_4_typeId = BaseGameObject::Types::eDebugHelper_1001;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -267,7 +267,7 @@ public:
 
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eBit08);
+        field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
         field_4_typeId = BaseGameObject::Types::eDebugPathRenderer_1003;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -679,7 +679,7 @@ public:
 
         BaseGameObject_ctor_4DBFA0(1, 1);
         field_6_flags.Set(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eBit08);
+        field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
         field_4_typeId = BaseGameObject::Types::eDebugConsole_1002;
         
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);

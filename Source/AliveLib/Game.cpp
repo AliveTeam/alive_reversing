@@ -118,32 +118,38 @@ EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 
 void DestroyObjects_4A1F20()
 {
-    NOT_IMPLEMENTED(); // Todo: double check if this is reversed properly.
-
-
-    pResourceManager_5C1BB0->LoadingLoop_465590(0);
-
-    for (int p = 2; p; p--)
+    pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+    for (int iterations =0; iterations < 2; iterations++)
     {
-        for (short idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        short idx = 0;
+        
+      
+
+        while (idx < gBaseGameObject_list_BB47C4->Size())
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+            idx++;
+
             if (!pObj)
             {
                 break;
             }
 
-            if (!pObj->field_6_flags.Get(BaseGameObject::eBit08))
+            if (!(pObj->field_6_flags.Get(BaseGameObject::eSurviveDeathReset)))
             {
-                DynamicArrayIter it;
-                it.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-                it.field_4_idx = idx + 1;
+                DynamicArrayIter iter;
+                iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
+                iter.field_4_idx = idx;
+                iter.Remove_At_Iter_40CCA0();
 
-                it.Remove_At_Iter_40CCA0();
                 pObj->VDestructor(1);
+
+                // Don't go forwards as we just removed an item otherwise we'd miss one
+                idx = iter.field_4_idx;
             }
         }
     }
+
 }
 
 EXPORT double CC Calculate_FPS_495250(int frameCount)

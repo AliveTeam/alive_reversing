@@ -427,7 +427,7 @@ MusicController* MusicController::ctor_47EE80()
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5463C0); // vTbl_MusicController_5463C0
 
-    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     field_40_flags_and_idx = -1;
     field_24_currentLevelID = LevelIds::eNone;
     field_28_object_id = -1;

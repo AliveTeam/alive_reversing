@@ -423,7 +423,7 @@ PauseMenu * PauseMenu::ctor_48FB80()
 
     field_4_typeId = Types::ePauseMenu_95;
     field_6_flags.Clear(BaseGameObject::eDrawable);
-    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 

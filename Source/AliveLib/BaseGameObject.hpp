@@ -193,7 +193,7 @@ public:
         eInteractive = 0x080,
 
         // bit 08 = 0x100 = ?
-        eBit08 = 0x100,
+        eSurviveDeathReset = 0x100,
 
         // bit 09 = 0x200 = still update when the camera is changing
         eUpdateDuringCamSwap = 0x200,

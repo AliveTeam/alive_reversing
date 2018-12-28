@@ -569,7 +569,7 @@ void Movie::VScreenChanged()
 
 void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags, __int16 vol)
 {
-    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
 
     field_4_typeId = Types::eMovie_145;

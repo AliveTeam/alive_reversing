@@ -61,7 +61,7 @@ CheatEntry sCheatArray_5515F8[4] =
 CheatController* CheatController::ctor_421BD0()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
-    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     SetVTable(this, 0x544B44);
     field_4_typeId = BaseGameObject::Types::eNone_0;
     field_20 = 0;

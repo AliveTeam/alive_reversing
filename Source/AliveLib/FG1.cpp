@@ -44,7 +44,7 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
     SetVTable(this, 0x5469C8); // vTbl_FG1_5469C8
 
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
-    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     field_6_flags.Set(BaseGameObject::eDrawable);
 
     field_4_typeId = Types::eFG1_101;

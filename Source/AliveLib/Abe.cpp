@@ -491,7 +491,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     
     field_4_typeId = Types::eType_Abe_69;
 
-    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     field_C_objectId = -65536;
 
     Init_GameStates_43BF40();

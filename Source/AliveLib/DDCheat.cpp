@@ -143,7 +143,7 @@ DDCheat* DDCheat::ctor_4153C0()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544518);
-    field_6_flags.Set(BaseGameObject::eBit08);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
     field_3C_flags &= 0xFFF8u;
     field_4_typeId = Types::eDDCheat_19;
