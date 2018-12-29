@@ -338,6 +338,9 @@ void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
 
 ALIVE_VAR(1, 0xBAF7F8, Quicksave, sActiveQuicksaveData_BAF7F8, {});
 ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
+ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
+ALIVE_VAR(1, 0xBB43FC, int, sSelectedSaveIdx_BB43FC, 0);
+ALIVE_VAR(1, 0xBB43E0, signed int, sSaveIdx_dword_BB43E0, 0);
 
 EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave *quicksaveData)
 {
@@ -417,7 +420,87 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);
 }
 
+EXPORT int CC Sort_comparitor_4D42C0(const void *pSaveRecLeft, const void *pSaveRecRight)
+{
+    const int leftTime = reinterpret_cast<const SaveFileRec*>(pSaveRecLeft)->field_20_lastWriteTimeStamp;
+    const int rightTime = reinterpret_cast<const SaveFileRec*>(pSaveRecRight)->field_20_lastWriteTimeStamp;
+
+    if (leftTime <= rightTime)
+    {
+        return leftTime < rightTime;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
 void CC Quicksave_FindSaves_4D4150()
 {
     NOT_IMPLEMENTED();
+
+    int hFind; // esi
+    signed int curIdx; // ebp
+    signed int fileNameLen; // edx
+    signed int saveIdx; // eax
+    int v5; // [esp+4h] [ebp-11Ch]
+    struct _finddata_t findRec; // [esp+8h] [ebp-118h]
+
+    sSaveIdx_dword_BB43E0 = 0;
+    hFind = _findfirst("*.sav", &findRec);
+    v5 = hFind;
+    if (hFind != -1)
+    {
+        while (1)
+        {
+            if (findRec.attrib & FILE_ATTRIBUTE_DIRECTORY)
+            {
+                goto next_file;
+            }
+            curIdx = sSaveIdx_dword_BB43E0;
+            if (sSaveIdx_dword_BB43E0 >= 128)
+            {
+                goto next_file;
+            }
+            fileNameLen = strlen(findRec.name) - 4;
+            if (fileNameLen > 20)
+            {
+                break;
+            }
+            if (fileNameLen > 0)
+            {
+                goto have_save_file;
+            }
+        next_file:
+            if (_findnext(hFind, &findRec) == -1)
+            {
+                _findclose(hFind);
+                goto sort_and_exit;
+            }
+        }
+        fileNameLen = 20;
+    have_save_file:
+        memcpy(&sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0], findRec.name, fileNameLen);
+        hFind = v5;
+        sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0].field_20_lastWriteTimeStamp = static_cast<int>(findRec.time_write);
+        sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0].field_0_fileName[fileNameLen] = 0;
+        sSaveIdx_dword_BB43E0 = curIdx + 1;
+        goto next_file;
+    }
+sort_and_exit:
+    qsort(
+        sSaveFileRecords_BB31D8,
+        sSaveIdx_dword_BB43E0,
+        0x24u,
+        Sort_comparitor_4D42C0);
+    saveIdx = sSelectedSaveIdx_BB43FC;
+    if (sSelectedSaveIdx_BB43FC < 0)
+    {
+        saveIdx = 0;
+        sSelectedSaveIdx_BB43FC = 0;
+    }
+    if (saveIdx >= sSaveIdx_dword_BB43E0)
+    {
+        sSelectedSaveIdx_BB43FC = sSaveIdx_dword_BB43E0 - 1;
+    }
 }
