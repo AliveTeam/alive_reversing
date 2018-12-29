@@ -437,69 +437,51 @@ EXPORT int CC Sort_comparitor_4D42C0(const void *pSaveRecLeft, const void *pSave
 
 void CC Quicksave_FindSaves_4D4150()
 {
-    NOT_IMPLEMENTED();
-
-    int hFind; // esi
-    signed int curIdx; // ebp
-    signed int fileNameLen; // edx
-    signed int saveIdx; // eax
-    int v5; // [esp+4h] [ebp-11Ch]
-    struct _finddata_t findRec; // [esp+8h] [ebp-118h]
-
     sSaveIdx_dword_BB43E0 = 0;
-    hFind = _findfirst("*.sav", &findRec);
-    v5 = hFind;
+
+    _finddata_t findRec = {};
+    intptr_t hFind = _findfirst("*.sav", &findRec);
     if (hFind != -1)
     {
-        while (1)
+        for (;;)
         {
-            if (findRec.attrib & FILE_ATTRIBUTE_DIRECTORY)
+            if (!(findRec.attrib & FILE_ATTRIBUTE_DIRECTORY) && sSaveIdx_dword_BB43E0 < 128)
             {
-                goto next_file;
+                size_t fileNameLen = strlen(findRec.name) - 4;
+                if (fileNameLen > 0)
+                {
+                    // Limit length to prevent buffer overflow
+                    if (fileNameLen > 20)
+                    {
+                        fileNameLen = 20;
+                    }
+
+                    memcpy(&sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0], findRec.name, fileNameLen);
+                    sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0].field_20_lastWriteTimeStamp = static_cast<DWORD>(findRec.time_write); // Chopping off a lot of time stamp resolution here
+                    sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0].field_0_fileName[fileNameLen] = 0;
+                    sSaveIdx_dword_BB43E0++;
+                }
             }
-            curIdx = sSaveIdx_dword_BB43E0;
-            if (sSaveIdx_dword_BB43E0 >= 128)
-            {
-                goto next_file;
-            }
-            fileNameLen = strlen(findRec.name) - 4;
-            if (fileNameLen > 20)
-            {
-                break;
-            }
-            if (fileNameLen > 0)
-            {
-                goto have_save_file;
-            }
-        next_file:
+
             if (_findnext(hFind, &findRec) == -1)
             {
                 _findclose(hFind);
-                goto sort_and_exit;
+                break;
             }
         }
-        fileNameLen = 20;
-    have_save_file:
-        memcpy(&sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0], findRec.name, fileNameLen);
-        hFind = v5;
-        sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0].field_20_lastWriteTimeStamp = static_cast<int>(findRec.time_write);
-        sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0].field_0_fileName[fileNameLen] = 0;
-        sSaveIdx_dword_BB43E0 = curIdx + 1;
-        goto next_file;
     }
-sort_and_exit:
-    qsort(
-        sSaveFileRecords_BB31D8,
-        sSaveIdx_dword_BB43E0,
-        0x24u,
-        Sort_comparitor_4D42C0);
-    saveIdx = sSelectedSaveIdx_BB43FC;
+
+    // Sort all we've found by time stamp, users probably want to load their last save first
+    qsort(sSaveFileRecords_BB31D8, sSaveIdx_dword_BB43E0, sizeof(SaveFileRec), Sort_comparitor_4D42C0);
+
+    // Underflow
     if (sSelectedSaveIdx_BB43FC < 0)
     {
-        saveIdx = 0;
         sSelectedSaveIdx_BB43FC = 0;
     }
-    if (saveIdx >= sSaveIdx_dword_BB43E0)
+
+    // Overflow
+    if (sSelectedSaveIdx_BB43FC >= sSaveIdx_dword_BB43E0)
     {
         sSelectedSaveIdx_BB43FC = sSaveIdx_dword_BB43E0 - 1;
     }

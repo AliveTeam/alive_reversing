@@ -59,7 +59,7 @@ ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 struct SaveFileRec
 {
     char field_0_fileName[32];
-    int field_20_lastWriteTimeStamp;
+    DWORD field_20_lastWriteTimeStamp;
 };
 ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);
 
