@@ -5626,6 +5626,205 @@ void Abe::State_56_4591F0()
     NOT_IMPLEMENTED();
 }
 
+ALIVE_VAR(1, 0x5bc112, short, sSeqPlaying_5BC112, 0);
+
+class Dove : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resourceID, FP xpos, FP ypos, FP scale)
+    {
+        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+        SetVTable(this, 0x544A90); // vTbl_Dove_544A90
+
+        field_4_typeId = BaseGameObject::Types::eBird_35;
+
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
+        Animation_Init_424E10(
+            frameTableOffset,
+            maxW,
+            maxH,
+            ppRes,
+            1,
+            1);
+
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_20_animation.field_14_scale = scale;
+        field_CC_sprite_scale = scale;
+
+        if (scale == FP_FromInteger(1))
+        {
+            field_20_animation.field_C_render_layer = 27;
+        }
+        else
+        {
+            field_20_animation.field_C_render_layer = 8;
+        }
+
+        field_C4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
+        if (field_C4_velx >= FP_FromInteger(0))
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+
+        field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() & 3));
+        field_FE_state = 1;
+        field_FC = 1;
+        field_F4_counter = 0;
+
+        field_B8_xpos = xpos;
+        field_BC_ypos = ypos;
+        field_110 = xpos;
+        field_114 = ypos;
+
+        field_F8_tlvInfo = 0;
+
+        field_20_animation.SetFrame_409D50(Math_NextRandom() & 6);
+        
+        if (sSeqPlaying_5BC112)
+        {
+            return this;
+        }
+        SND_SEQ_PlaySeq_4CA960(17, 0, 1);
+        sSeqPlaying_5BC112 = 1;
+
+        return this;
+    }
+
+
+private:
+    int field_E4[4]; // never used
+    __int16 field_F4_counter;
+    __int16 field_F6;
+    int field_F8_tlvInfo;
+    __int16 field_FC;
+    __int16 field_FE_state;
+    int field_100;
+    int field_104;
+    int field_108;
+    char field_10C;
+    // 3 byte pad
+    FP field_110;
+    FP field_114;
+};
+ALIVE_ASSERT_SIZEOF(Dove, 0x118);
+
+
+class DeathBirdParticle : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT DeathBirdParticle* ctor_43ECB0(FP xpos, FP ypos, int start, __int16 playSound, FP scale)
+    {
+        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+        
+        SetVTable(this, 0x545298); // vTbl_DeathBirdParticle_00545298
+        field_4_typeId = BaseGameObject::Types::eDeathBird_62;
+
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
+        Animation_Init_424E10(9940, 122, 43, ppRes, 1, 1u);
+
+        if (field_6_flags.Get(BaseGameObject::eListAddFailed))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+        else
+        {
+            field_DC_bApplyShadows &= ~1u;
+            field_20_animation.field_B_render_mode = 1;
+            field_CC_sprite_scale = scale;
+            field_20_animation.field_14_scale = scale;
+
+            if (scale <= FP_FromDouble(0.5))
+            {
+                field_20_animation.field_C_render_layer = 17;
+            }
+            else
+            {
+                field_20_animation.field_C_render_layer = 39;
+            }
+
+            field_B8_xpos = xpos;
+            field_BC_ypos = ypos;
+            field_F4_random = Math_NextRandom();
+            field_F8_start = start;
+            field_F5_state = 0;
+            field_FC_playSound = playSound;
+        }
+
+        return this;
+    }
+
+    EXPORT void Update_43EE70()
+    {
+        switch (field_F5_state)
+        {
+        case 0:
+            if (static_cast<int>(sGnFrame_5C1B84) > field_F8_start)
+            {
+                // Death "star"
+                field_20_animation.Set_Animation_Data_409C80(9912, 0);
+                field_F5_state = 1;
+            }
+            break;
+
+        case 1:
+            // Has the Death "star" finished animating?
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                // Yes so magic it into a dove
+                auto pDove = alive_new<Dove>();
+                if (pDove)
+                {
+                    pDove->ctor_41F660(
+                        5516,
+                        41,
+                        20,
+                        60,
+                        field_B8_xpos,
+                        field_BC_ypos - FP_FromInteger(15),
+                        field_CC_sprite_scale);
+                }
+
+                if (pDove->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    pDove->field_B8_xpos += FP_FromInteger(8);
+                }
+                else
+                {
+                    pDove->field_B8_xpos -= FP_FromInteger(8);
+                }
+                
+                pDove->field_CC_sprite_scale = field_CC_sprite_scale;
+                field_6_flags.Set(BaseGameObject::eDead);
+
+                if (field_FC_playSound)
+                {
+                    SFX_Play_46FA90(0xFu, 0, 0x10000);
+                }
+            }
+
+            break;
+        }
+
+        field_B8_xpos += FP_FromInteger(2) * Math_Sine_496DD0(field_F4_random);
+        field_BC_ypos -= FP_FromInteger(2);
+        field_F4_random += 5;
+    }
+
+private:
+    int field_E4[4]; // never used
+    char field_F4_random;
+    char field_F5_state;
+    // 2 byte pad
+    int field_F8_start;
+    __int16 field_FC_playSound;
+    // 2 byte pad
+};
+ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0x100);
+
 void Abe::State_57_Dead_4589A0()
 {
     NOT_IMPLEMENTED(); // WIP
@@ -5642,7 +5841,7 @@ void Abe::State_57_Dead_4589A0()
         {
             if (pObj->field_4_typeId == BaseGameObject::Types::eType_78)
             {
-                // TODO: Lift
+                // TODO: Lift LiftPoint::ctor_461030
                 /*
                 ((void(__thiscall *)(BaseGameObject *, _DWORD, _DWORD, _DWORD))pObj->field_0_VTbl->VRock.Rock__vsub_49E330)(
                     pObj,
@@ -5670,102 +5869,74 @@ void Abe::State_57_Dead_4589A0()
         field_118_prev_held = 0;
         field_124_gnFrame = field_124_gnFrame + 1;
         field_128.field_0_gnFrame = sGnFrame_5C1B84 + 30;
-        if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4)
+        if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4) // TODO: constant
         {
-            /*
-            pBird = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0x100u);
+            auto pBird = alive_new<DeathBirdParticle>();
             if (pBird)
             {
-                v9 = sRandomBytes_546744[sRandomSeed_5D1E10++] % 10 << 16;
-                v10 = v9 + field_BC_ypos + 983040;
-                v11 = sRandomBytes_546744[sRandomSeed_5D1E10++] % 64;
-                v12 = ((v11 - 32) << 16) + field_B8_xpos;
-                v13 = sRandomBytes_546744[sRandomSeed_5D1E10] % 8;
-                v14 = field_128.field_0_gnFrame;
-                ++sRandomSeed_5D1E10;
-                DeathBirdParticle::ctor_43ECB0(
-                    pBird,
-                    v12,
-                    v10,
-                    v13 + v14 + 60,
+                const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_BC_ypos + FP_FromInteger(15);
+                const FP xpos = FP_FromInteger((Math_NextRandom() % 64) - 32) + field_B8_xpos;
+                pBird->ctor_43ECB0(
+                    xpos,
+                    ypos,
+                    (Math_NextRandom() % 8) + field_128.field_0_gnFrame + 60,
                     1,
                     field_CC_sprite_scale);
             }
-            */
         }
         else
         {
-            /*
-            pBird2 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0x100u);
-            if (pBird2)
+            auto pBird = alive_new<DeathBirdParticle>();
+            if (pBird)
             {
-                v16 = sRandomBytes_546744[sRandomSeed_5D1E10++] % 10 << 16;
-                v17 = v16 + field_BC_ypos + 983040;
-                v18 = sRandomBytes_546744[sRandomSeed_5D1E10++] % 64;
-                v19 = ((v18 - 32) << 16) + field_B8_xpos;
-                v20 = sRandomBytes_546744[sRandomSeed_5D1E10] % 8;
-                v21 = field_128.field_0_gnFrame;
-                ++sRandomSeed_5D1E10;
-                DeathBirdParticle::ctor_43ECB0(
-                    pBird2,
-                    v19,
-                    v17,
-                    v20 + v21 + 15,
+                const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_BC_ypos + FP_FromInteger(15);
+                const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + field_B8_xpos;
+                pBird->ctor_43ECB0(
+                    xpos,
+                    ypos,
+                    (Math_NextRandom() % 8) + field_128.field_0_gnFrame + 15,
                     1,
                     field_CC_sprite_scale);
             }
-            */
         }
         return;
 
     case 1:
         Event_Broadcast_422BC0(kEventHeroDying, this);
-        if (sGnFrame_5C1B84 % 4)
+        if (!(sGnFrame_5C1B84 % 4))
         {
-            goto LABEL_21;
+            if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4) // TODO: Constant
+            {
+                auto pBird = alive_new<DeathBirdParticle>();
+                if (pBird)
+                {
+                    const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_BC_ypos + FP_FromInteger(15);
+                    const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + field_B8_xpos;
+                    pBird->ctor_43ECB0(
+                        xpos,
+                        ypos,
+                        (Math_NextRandom() % 8) + field_128.field_0_gnFrame + 60,
+                        0,
+                        field_CC_sprite_scale);
+                }
+            }
+            else
+            {
+                auto pBird = alive_new<DeathBirdParticle>();
+                if (pBird)
+                {
+                    const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + field_BC_ypos + FP_FromInteger(15);
+                    const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + field_B8_xpos;
+                    pBird->ctor_43ECB0(
+                        xpos,
+                        ypos,
+                        (Math_NextRandom() % 8) + field_128.field_0_gnFrame + 15,
+                        0,
+                        field_CC_sprite_scale);
+                }
+            }
         }
 
-        if (field_FC_pPathTLV && field_FC_pPathTLV->field_4_type == 4)
-        {
-            /*
-            pBird3 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0x100u);
-            if (!pBird3)
-            {
-                goto LABEL_21;
-            }
-            v24 = sRandomBytes_546744[sRandomSeed_5D1E10] % 10 << 16;
-            v25 = sRandomSeed_5D1E10 + 1;
-            sRandomSeed_5D1E10 = v25;
-            v26 = v24 + field_BC_ypos + 983040;
-            v27 = sRandomBytes_546744[v25] % 64;
-            v28 = v25 + 1;
-            sRandomSeed_5D1E10 = v28;
-            v29 = ((v27 - 32) << 16) + field_B8_xpos;
-            v30 = sRandomBytes_546744[v28] % 8 + field_128.field_0_gnFrame + 60;
-            */
-        }
-        else
-        {
-            /*
-            pBird3 = (BaseAnimatedWithPhysicsGameObject *)malloc_4954D0(0x100u);
-            if (!pBird3)
-            {
-                goto LABEL_21;
-            }
-            v31 = sRandomBytes_546744[sRandomSeed_5D1E10] % 10 << 16;
-            v32 = sRandomSeed_5D1E10 + 1;
-            sRandomSeed_5D1E10 = v32;
-            v26 = v31 + field_BC_ypos + 983040;
-            v33 = sRandomBytes_546744[v32] % 64;
-            v28 = v32 + 1;
-            sRandomSeed_5D1E10 = v28;
-            v29 = ((v33 - 32) << 16) + field_B8_xpos;
-            v30 = sRandomBytes_546744[v28] % 8 + field_128.field_0_gnFrame + 15;
-            */
-        }
-        //sRandomSeed_5D1E10 = v28 + 1;
-        //DeathBirdParticle::ctor_43ECB0(pBird3, v29, v26, v30, 0, field_CC_sprite_scale);
-    LABEL_21:
         field_CC_sprite_scale -= FP_FromDouble(0.008);
 
         field_D0_r -= 2;

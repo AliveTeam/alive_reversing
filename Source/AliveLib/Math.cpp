@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Math.hpp"
 #include "Function.hpp"
+#include "FixedPoint.hpp"
 
 void Math_ForceLink() { }
 
@@ -113,9 +114,95 @@ EXPORT short CC Math_RandomRange_496AB0(signed short min, signed short max)
     return result;
 }
 
-// This seems to have been inline a lot
-char Math_NextRandom()
+// This seems to have been inlined a lot
+BYTE Math_NextRandom()
 {
-    const int idx = sRandomSeed_5D1E10++;
-    return sRandomBytes_546744[idx];
+    return sRandomBytes_546744[sRandomSeed_5D1E10++];
+}
+
+const WORD sSineTable_5466C4[64] =
+{
+    0,      1633,    3266,    4897,    6525,    8148,    9767,    11380,
+    12985,  14582,   16171,   17749,   19316,   20872,   22414,   23942,
+    25456,  26953,   28434,   29897,   31342,   32767,   34172,   35555,
+    36917,  38255,   39570,   40860,   42125,   43363,   44575,   45758,
+    46914,  48040,   49136,   50202,   51237,   52240,   53210,   54147,
+    55051,  55920,   56754,   57554,   58317,   59044,   59735,   60388,
+    61004,  61582,   62122,   62623,   63085,   63508,   63891,   64235,
+    64539,  64803,   65026,   65209,   65351,   65453,   65514,   65535
+};
+
+EXPORT FP CC Math_Cosine_496CD0(BYTE v)
+{
+    if (v < 64u)
+    {
+        return FP_FromRaw(-sSineTable_5466C4[v]);
+    }
+
+    if (v < 128u)
+    {
+        return FP_FromRaw(-sSineTable_5466C4[127 - v]);
+    }
+
+    if (v < 192u)
+    {
+        return FP_FromRaw(sSineTable_5466C4[v - 128]);
+    }
+
+    return FP_FromRaw(sSineTable_5466C4[255 - v]);
+}
+
+EXPORT FP CC Math_Cosine_496D60(FP fp)
+{
+    if (fp < FP_FromInteger(0))
+    {
+        // TODO: Refactor to something sane
+        fp.fpValue = ((unsigned int)(0xFFFFFF - fp.fpValue) >> 24 << 24) + fp.fpValue;
+    }
+
+    if (fp > FP_FromInteger(255))
+    {
+        // TODO: Refactor to something sane
+        fp.fpValue += 0xFF000000 * ((unsigned int)(fp.fpValue + 0xFFFF) >> 24);
+    }
+
+    return Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(fp)));
+}
+
+EXPORT FP CC Math_Sine_496DF0(FP fp)
+{
+    // May actually be Cosine -> Sine here ?? Damn maths :(
+    return Math_Cosine_496D60(fp + FP_FromInteger(64));
+}
+
+EXPORT FP CC Math_Sine_496DD0(BYTE v)
+{
+    // TODO: Relies on underflow
+    return Math_Cosine_496CD0(v - 64);
+}
+
+namespace Test
+{
+    void Math_Tests()
+    {
+        for (BYTE i = 0; i < 64; i++)
+        {
+            ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[i]), Math_Cosine_496CD0(i));
+        }
+
+        for (BYTE i = 65; i < 128; i++)
+        {
+            ASSERT_EQ(FP_FromRaw(-sSineTable_5466C4[127-i]), Math_Cosine_496CD0(i));
+        }
+
+        for (BYTE i = 128; i < 192; i++)
+        {
+            ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[i - 128]), Math_Cosine_496CD0(i));
+        }
+
+        for (BYTE i = 192; i < 255; i++)
+        {
+            ASSERT_EQ(FP_FromRaw(sSineTable_5466C4[255 - i]), Math_Cosine_496CD0(i));
+        }
+    }
 }

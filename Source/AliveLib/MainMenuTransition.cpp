@@ -46,18 +46,6 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
     { -16,       0,         256, 1 },
 };
 
-EXPORT int CC sub_496DD0(char /*a1*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-EXPORT int CC sub_496CD0(char /*a1*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
 MainMenuTransition* MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
@@ -175,8 +163,8 @@ void MainMenuTransition::Render_464470(int** ot)
     }
 
     int op1 = currentValue << 12;
-    int val1 = sub_496CD0(field_colour_fade_value);
-    int val2 = sub_496DD0(field_colour_fade_value);
+    int val1 = Math_Cosine_496CD0(field_colour_fade_value).fpValue;
+    int val2 = Math_Sine_496DD0(field_colour_fade_value).fpValue;
     int r0g0 = -64 / ((v5 >> 2) + 1);
     for (int i = 0; i < 8; i++)
     {

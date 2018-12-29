@@ -43,6 +43,7 @@
 #include "Compression.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Collisions.hpp"
+#include "Math.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -66,6 +67,7 @@ static void RunTests()
     Test::ObjectIdsTests();
     Test::PsxRenderTests();
     Test::BaseAnimatedWithPhysicsGameObjectTests();
+    Test::Math_Tests();
 }
 
 static void InitOtherHooksAndRunTests()
