@@ -97,3 +97,9 @@ EXPORT void* CC realloc_4F4E80(void* ptr, size_t size)
 {
     return realloc_522335(ptr, size);
 }
+
+EXPORT int CC remove_520B27(LPCSTR lpFileName)
+{
+    STDLIB_FUNCTION();
+    return ::remove(lpFileName);
+}

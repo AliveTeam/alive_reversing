@@ -13,6 +13,7 @@ EXPORT int CC fseek_521955(FILE* stream, int offset, int origin);
 EXPORT size_t CC fread_520B5C(void* ptr, size_t size, size_t count, FILE* stream);
 EXPORT FILE* CC fopen_520C64(const char* filename, const char* mode);
 EXPORT int CC fclose_520CBE(FILE* stream);
+EXPORT int CC remove_520B27(LPCSTR lpFileName);
 
 template<typename T, typename... Args>
 inline T* alive_new(Args&&... args)

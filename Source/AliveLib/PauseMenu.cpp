@@ -1141,7 +1141,7 @@ void PauseMenu::Page_Load_Update_490D50()
             {
                 strcpy(FileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
                 strcat(FileName, ".sav");
-                IO_DeleteFile_520B27(FileName);
+                remove_520B27(FileName);
                 Quicksave_FindSaves_4D4150();
             }
         }

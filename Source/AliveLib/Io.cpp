@@ -383,23 +383,3 @@ EXPORT void IO_Init_494230()
 
     IO_Init_SyncOrASync_4EAC80(TRUE);
 }
-
-int CC IO_DeleteFile_520B27(LPCSTR lpFileName)
-{
-    DWORD v1; // eax
-
-    if (DeleteFileA(lpFileName))
-    {
-        v1 = 0;
-    }
-    else
-    {
-        v1 = GetLastError();
-    }
-    if (!v1)
-    {
-        return 0;
-    }
-    //_dosmaperr(v1);
-    return -1;
-}
