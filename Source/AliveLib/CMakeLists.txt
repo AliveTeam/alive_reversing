@@ -181,6 +181,10 @@ add_library(AliveLib
     Flash.cpp
     Door.hpp
     Door.cpp
+    DeathBirdParticle.hpp
+    DeathBirdParticle.cpp
+    Dove.hpp
+    Dove.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)

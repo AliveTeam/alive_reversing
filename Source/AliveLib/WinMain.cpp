@@ -44,6 +44,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Collisions.hpp"
 #include "Math.hpp"
+#include "Dove.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -101,30 +102,6 @@ static void InitOtherHooksAndRunTests()
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
 ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
-
-ALIVE_VAR(1, 0x5BC100, DynamicArray, stru_5BC100, {}); // Dove particles? Will become more apparent when those objects are reversed
-ALIVE_VAR(1, 0x5BC110, BYTE, byte_5BC110, 0);
-
-EXPORT void CC Static_ctor_dynamic_array_41F3C0()
-{
-    stru_5BC100.ctor_40CA60(3);
-}
-
-EXPORT void CC Static_dtor_dynamic_array_41F400()
-{
-    // Flag to guard against multiple destruction - although seems impossible given its in the table once
-    if (!(byte_5BC110 & 1))
-    {
-        byte_5BC110 |= 1u;
-        stru_5BC100.dtor_40CAD0();
-    }
-}
-
-EXPORT void CC Static_init_dynamic_array_41F3A0()
-{
-    Static_ctor_dynamic_array_41F3C0();
-    atexit(Static_dtor_dynamic_array_41F400);
-}
 
 // Manual calls to construct global static objects when not running as dll/injected into the real game.
 // There are only a very small amount of global static constructors to call.
