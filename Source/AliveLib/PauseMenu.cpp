@@ -1053,101 +1053,112 @@ EXPORT void PauseMenu::Page_ReallyQuit_Update_490930()
 
 void PauseMenu::Page_Load_Update_490D50()
 {
-    NOT_IMPLEMENTED();
+    CHAR saveFileName[40] = {};
 
-    int v1; // ebx
-    int input; // eax
-    FILE *v4; // eax
-    CHAR FileName[40]; // [esp+10h] [ebp-28h]
-
-    v1 = 0;
+    // When F6 is pressed
     if (sQuicksave_LoadNextFrame_5CA4D9)
     {
         Quicksave_LoadActive_4C9170();
         sQuicksave_LoadNextFrame_5CA4D9 = 0;
-        this->word12C_flags &= ~1u;
+        word12C_flags &= ~1u;
     }
-    input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
-    if (input & eUp)
+
+    const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+
+    // Up one save
+    if (inputHeld & eUp)
     {
-        if (sSelectedSaveIdx_BB43FC <= 0)
+        // Don't underflow
+        if (sSelectedSaveIdx_BB43FC > 0)
         {
-            return;
+            sSelectedSaveIdx_BB43FC--;
         }
-        v1 = sSelectedSaveIdx_BB43FC - 1;
-        goto LABEL_6;
+        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        return;
     }
-    if (input & eDown)
+
+    // Down one save
+    if (inputHeld & eDown)
     {
+        // Don't overflow
         if (sSelectedSaveIdx_BB43FC < sSaveIdx_dword_BB43E0 - 1)
         {
-            v1 = sSelectedSaveIdx_BB43FC + 1;
-        LABEL_6:
-            sSelectedSaveIdx_BB43FC = v1;
-        LABEL_7:
-            SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
-            return;
+            sSelectedSaveIdx_BB43FC++;
+        }
+        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        return;
+    }
+
+    // Page up saves
+    if (inputHeld & 0x20000000)
+    {
+        sSelectedSaveIdx_BB43FC -= 4;
+
+        // Don't underflow
+        if (sSelectedSaveIdx_BB43FC < 0)
+        {
+            sSelectedSaveIdx_BB43FC = 0;
+        }
+
+        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        return;
+    }
+
+    // Page down saves
+    if (inputHeld & 0x40000000)
+    {
+        // Don't overflow
+        sSelectedSaveIdx_BB43FC += 4;
+        if (sSelectedSaveIdx_BB43FC > sSaveIdx_dword_BB43E0 - 1)
+        {
+            sSelectedSaveIdx_BB43FC = sSaveIdx_dword_BB43E0 - 1;
+        }
+        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        return;
+    }
+
+    // Load save (enter)
+    if (inputHeld & eUnPause)
+    {
+        field_136 = 0;
+        memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
+        if (sSaveIdx_dword_BB43E0)
+        {
+            strcpy(saveFileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
+            strcat(saveFileName, ".sav");
+            FILE* hFile = fopen_520C64(saveFileName, "rb");
+            if (hFile)
+            {
+                fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
+                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
+                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+                Quicksave_LoadActive_4C9170();
+                word12C_flags &= ~1u;
+                // TODO: OG bug, file handle is leaked
+                fclose_520CBE(hFile);
+            }
+            SFX_Play_46FA90(84u, 90, 0x10000);
         }
     }
-    else
+    // Go back (esc)
+    else if (inputHeld & 0x200000)
     {
-        if (input & 0x20000000)
+        field_136 = 0;
+        memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
+        SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+    }
+    // Delete (del)
+    else if (inputHeld & 0x10000000)
+    {
+        if (sSaveIdx_dword_BB43E0)
         {
-            sSelectedSaveIdx_BB43FC -= 4;
-            if (sSelectedSaveIdx_BB43FC >= 0)
-            {
-                goto LABEL_7;
-            }
-            goto LABEL_6;
-        }
-        if (input & 0x40000000)
-        {
-            sSelectedSaveIdx_BB43FC += 4;
-            if (sSelectedSaveIdx_BB43FC > sSaveIdx_dword_BB43E0 - 1)
-            {
-                sSelectedSaveIdx_BB43FC = sSaveIdx_dword_BB43E0 - 1;
-            }
-            goto LABEL_7;
-        }
-        if (input & eUnPause)
-        {
-            this->field_136 = 0;
-            memcpy(&this->field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(this->field_144_active_menu));
-            if (sSaveIdx_dword_BB43E0)
-            {
-                strcpy(FileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
-                strcat(FileName, ".sav");
-                v4 = fopen_520C64(FileName, "rb");
-                if (v4)
-                {
-                    fread_520B5C(&sActiveQuicksaveData_BAF7F8, 0x2000u, 1u, v4);
-                    sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
-                    sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
-                    Quicksave_LoadActive_4C9170();
-                    this->word12C_flags &= 0xFFFEu;
-                }
-                SFX_Play_46FA90(0x54u, 90, 0x10000);
-            }
-        }
-        else if (input & 0x200000)
-        {
-            this->field_136 = 0;
-            memcpy(&this->field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(this->field_144_active_menu));
-            SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
-        }
-        else if (input & 0x10000000)
-        {
-            if (sSaveIdx_dword_BB43E0)
-            {
-                strcpy(FileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
-                strcat(FileName, ".sav");
-                remove_520B27(FileName);
-                Quicksave_FindSaves_4D4150();
-            }
+            strcpy(saveFileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
+            strcat(saveFileName, ".sav");
+            remove_520B27(saveFileName);
+            Quicksave_FindSaves_4D4150();
         }
     }
 }
-
 
 void PauseMenu::Page_Load_Render_4910A0(int ** ot, PauseMenuPage * mp)
 {
