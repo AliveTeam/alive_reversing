@@ -86,12 +86,12 @@ MainMenuTransition* MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeD
     field_colour_fade_value = 0;
     field_24E_width = 320;
     field_250_k120 = 120;
-    sub_464370(layer, fadeDirection, bKillWhenDone, fadeSpeed);
+    StartTrans_464370(layer, fadeDirection, bKillWhenDone, fadeSpeed);
 
     return this;
 }
 
-void MainMenuTransition::sub_464370(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
+void MainMenuTransition::StartTrans_464370(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed)
 {
     field_24C_layer = layer;
     field_24_fade_direction = fadeDirection;
@@ -143,7 +143,7 @@ void MainMenuTransition::Update_464400()
 
 void MainMenuTransition::Render_464470(int** ot)
 {
-    NOT_IMPLEMENTED(); // TODO
+   // NOT_IMPLEMENTED(); // TODO
 
     int currentValue = field_20_current_value;
     int v4 = (currentValue + 1) >> 4;

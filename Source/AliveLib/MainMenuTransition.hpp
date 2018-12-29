@@ -13,7 +13,7 @@ class MainMenuTransition : public BaseGameObject
 {
 public:
     EXPORT MainMenuTransition* ctor_464110(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 fadeSpeed, char abr);
-    EXPORT void sub_464370(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
+    EXPORT void StartTrans_464370(__int16 layer, __int16 fadeDirection, __int16 bKillWhenDone, __int16 speed);
     EXPORT void Update_464400();
     EXPORT void Render_464470(int** ot);
     EXPORT void dtor_4642F0();

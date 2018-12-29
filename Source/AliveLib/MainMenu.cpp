@@ -1689,7 +1689,7 @@ signed int MainMenuController::sub_4CF640()
 
             if (field_208_transition_obj)
             {
-                field_208_transition_obj->sub_464370(40, 1, 0, 16);
+                field_208_transition_obj->StartTrans_464370(40, 1, 0, 16);
                 field_21E_bChangeScreen = 2;
                 return 1;
             }
@@ -1706,7 +1706,7 @@ signed int MainMenuController::sub_4CF640()
         {
             if (field_208_transition_obj)
             {
-                field_208_transition_obj->sub_464370(40, 1, 0, 16);
+                field_208_transition_obj->StartTrans_464370(40, 1, 0, 16);
                 field_21E_bChangeScreen = 2;
                 return 1;
             }
@@ -1910,7 +1910,7 @@ signed int MainMenuController::sub_4CF640()
 
         if (field_21C_bDoScreenTransistionEffect == 0 || field_21C_bDoScreenTransistionEffect == 2)
         {
-            field_208_transition_obj->sub_464370(40, 0, 0, 16);
+            field_208_transition_obj->StartTrans_464370(40, 0, 0, 16);
         }
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
