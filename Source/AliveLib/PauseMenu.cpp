@@ -11,20 +11,8 @@
 #include "Sound.hpp"
 #include "MainMenu.hpp"
 #include "ThrowableArray.hpp"
-
-// MACROS
-
-#define MENU_OVERRIDE(name) memcpy(_MenuAddress##name##, &sPauseMenuList_##name, sizeof(sPauseMenuList_##name));
-#define MENU_VAR(addr, name) ALIVE_VAR(1, 0x##addr, t_sPauseMenuList_##name, PageEntryList_##name##_##addr, sPauseMenuList_##name);
-
-#define MENU_BEGIN(name) struct t_sPauseMenuList_##name{
-#define MENU_ENTRY(text, x, y, align) PauseMenuPageEntry Menu_##x##y##align = { 2, x, y, 0, text, 0x80, 0x10, 0xFF, align};
-#define MENU_ENTRY_EX(text, x, y, align, r, g, b) PauseMenuPageEntry Menu_##x##y##align##r##g##b = { 2, x, y, 0, text, r, g, b, align};
-#define MENU_END(addr, name) PauseMenuPageEntry MenuEnd = {  0, 0, 0, 0, nullptr, 0, 0, 0, 0 };}; t_sPauseMenuList_##name sPauseMenuList_##name;\
-MENU_VAR(addr, name);\
-void * _MenuAddress##name = reinterpret_cast<void*>(0x##addr);
-
-//
+#include "Io.hpp"
+#include "QuikSave.hpp"
 
 ALIVE_VAR(1, 0x5ca4d8, char, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, char, sQuicksave_LoadNextFrame_5CA4D9, 0);
@@ -43,166 +31,34 @@ ALIVE_ARY(1, 0x554474, BYTE, 32, pal_554474, {
 
 // MENUS
 
-MENU_BEGIN(MainMenu);
-MENU_ENTRY("continue", 184, 48, Centre);
-MENU_ENTRY("quicksave", 184, 70, Centre);
-#if DEVELOPER_MODE
-MENU_ENTRY_EX("developer", 184, 92, Centre, 33, 127, 33);
-#else
-MENU_ENTRY("controls", 184, 92, Centre);
-#endif
-MENU_ENTRY("status", 184, 114, Centre);
-MENU_ENTRY("save", 184, 136, Centre);
-MENU_ENTRY("load", 184, 158, Centre);
-MENU_ENTRY("restart path", 184, 180, Centre);
-MENU_ENTRY("quit", 184, 202, Centre);
-MENU_ENTRY("paused", 184, 16, Centre);
-MENU_ENTRY(sScreenStringBuffer_5C92F0, 280, 16, Left);
-MENU_END(55E1C8, MainMenu);
+//MENU_BEGIN(MainMenu);
+//MENU_ENTRY("continue", 184, 48, Centre);
+//MENU_ENTRY("quicksave", 184, 70, Centre);
+//#if DEVELOPER_MODE
+//MENU_ENTRY_EX("developer", 184, 92, Centre, 33, 127, 33);
+//#else
+//MENU_ENTRY("controls", 184, 92, Centre);
+//#endif
+//MENU_ENTRY("status", 184, 114, Centre);
+//MENU_ENTRY("save", 184, 136, Centre);
+//MENU_ENTRY("load", 184, 158, Centre);
+//MENU_ENTRY("restart path", 184, 180, Centre);
+//MENU_ENTRY("quit", 184, 202, Centre);
+//MENU_ENTRY("paused", 184, 16, Centre);
+//MENU_ENTRY(sScreenStringBuffer_5C92F0, 280, 16, Left);
+//MENU_END(55E1C8, MainMenu);
 
-MENU_BEGIN(Menu_ControlActions);
-MENU_ENTRY_EX("more", 184, 205, Centre, 128, 16, 255);
-MENU_ENTRY_EX("Actions", 184, 20, Centre, 127, 127, 127);
-MENU_ENTRY_EX("\x05+\x03\x04", 180, 50, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x07+\x03\x04", 180, 70, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x09", 180, 90, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x08+\x1a", 180, 110, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x02", 180, 135, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x06", 180, 150, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x01", 180, 173, Right, 160, 160, 160);
-MENU_ENTRY_EX("run", 200, 50, Left, 128, 16, 255);
-MENU_ENTRY_EX("sneak", 200, 70, Left, 128, 16, 255);
-MENU_ENTRY_EX("jump", 200, 90, Left, 128, 16, 255);
-MENU_ENTRY_EX("throw", 200, 110, Left, 128, 16, 255);
-MENU_ENTRY_EX("crouch", 200, 130, Left, 128, 16, 255);
-MENU_ENTRY_EX("action", 200, 150, Left, 128, 16, 255);
-MENU_ENTRY_EX("hoist \x1b zturn", 200, 170, Left, 128, 16, 255);
-MENU_END(55d820, Menu_ControlActions);
-
-MENU_BEGIN(Menu_GameSpeak);
-MENU_ENTRY_EX("more", 184, 205, Centre, 128, 16, 255);
-MENU_ENTRY_EX("GameSpeak", 184, 20, Centre, 127, 127, 127);
-MENU_ENTRY_EX("\x13", 184, 55, Centre, 160, 160, 160);
-MENU_ENTRY_EX("chant", 184, 75, Centre, 128, 16, 255);
-MENU_ENTRY_EX("hello", 110, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("follow me", 110, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("wait", 110, 148, Left, 128, 16, 255);
-MENU_ENTRY_EX("work", 110, 170, Left, 128, 16, 255);
-MENU_ENTRY_EX("anger", 278, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("all 'ya", 278, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("sympathy", 278, 148, Left, 128, 16, 255);
-MENU_ENTRY_EX("stop it!", 278, 170, Left, 128, 16, 255);
-MENU_ENTRY_EX("\x0b", 90, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0c", 90, 126, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0d", 90, 148, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0e", 90, 170, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0f", 260, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x10", 260, 126, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x11", 260, 148, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x12", 260, 170, Right, 160, 160, 160);
-MENU_END(55d930, Menu_GameSpeak);
-
-MENU_BEGIN(Menu_SligSpeak);
-MENU_ENTRY_EX("more", 184, 205, Centre, 128, 16, 255);
-MENU_ENTRY_EX("SligSpeak", 184, 20, Centre, 127, 127, 127);
-MENU_ENTRY_EX("hi", 110, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("here boy", 110, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("freeze", 110, 148, Left, 128, 16, 255);
-MENU_ENTRY_EX("get 'im", 110, 170, Left, 128, 16, 255);
-MENU_ENTRY_EX("s'mo bs", 278, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("bs", 278, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("look out", 278, 148, Left, 128, 16, 255);
-MENU_ENTRY_EX("laugh", 278, 170, Left, 128, 16, 255);
-MENU_ENTRY_EX("\x0b", 90, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0c", 90, 126, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0d", 90, 148, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0e", 90, 170, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0f", 260, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x10", 260, 126, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x11", 260, 148, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x12", 260, 170, Right, 160, 160, 160);
-MENU_END(55da80, Menu_SligSpeak);
-
-MENU_BEGIN(Menu_GlukkonSpeak);
-MENU_ENTRY_EX("more", 184, 205, Centre, 128, 16, 255);
-MENU_ENTRY_EX("GlukkonSpeak", 184, 20, Centre, 127, 127, 127);
-MENU_ENTRY_EX("hey!", 110, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("commere", 110, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("stay here", 110, 148, Left, 128, 16, 255);
-MENU_ENTRY_EX("do it!", 110, 170, Left, 128, 16, 255);
-MENU_ENTRY_EX("kill'em!", 278, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("all o'ya", 278, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("help!", 278, 148, Left, 128, 16, 255);
-MENU_ENTRY_EX("laugh", 278, 170, Left, 128, 16, 255);
-MENU_ENTRY_EX("\x0b", 90, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0c", 90, 126, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0d", 90, 148, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0e", 90, 170, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0f", 260, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x10", 260, 126, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x11", 260, 148, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x12", 260, 170, Right, 160, 160, 160);
-MENU_END(55dbb0, Menu_GlukkonSpeak);
-
-MENU_BEGIN(Menu_ParamiteSpeak);
-MENU_ENTRY_EX("more", 184, 205, Centre, 128, 16, 255);
-MENU_ENTRY_EX("ParamiteSpeak", 184, 20, Centre, 127, 127, 127);
-MENU_ENTRY_EX("howdy", 110, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("c'mon", 110, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("stay", 110, 148, Left, 128, 16, 255);
-MENU_ENTRY_EX("do it", 110, 170, Left, 128, 16, 255);
-MENU_ENTRY_EX("attack", 278, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("all a ya!", 278, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("\x0b", 90, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0c", 90, 126, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0d", 90, 148, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0e", 90, 170, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0f", 260, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x10", 260, 126, Right, 160, 160, 160);
-MENU_END(55dce0, Menu_ParamiteSpeak);
-
-MENU_BEGIN(Menu_ScrabSpeak);
-MENU_ENTRY_EX("exit", 184, 205, Centre, 128, 16, 255);
-MENU_ENTRY_EX("ScrabSpeak", 184, 20, Centre, 127, 127, 127);
-MENU_ENTRY_EX("shred power", 110, 104, Left, 128, 16, 255);
-MENU_ENTRY_EX("howl", 110, 126, Left, 128, 16, 255);
-MENU_ENTRY_EX("\x0b", 90, 104, Right, 160, 160, 160);
-MENU_ENTRY_EX("\x0c", 90, 126, Right, 160, 160, 160);
-MENU_END(55ddd0, Menu_ScrabSpeak);
-
-MENU_BEGIN(Menu_Save);
-MENU_ENTRY_EX("", 184, 120, Centre, 128, 16, 255);
-MENU_ENTRY_EX("Enter   Save", 184, 180, Centre, 128, 16, 255);
-MENU_ENTRY_EX("Esc   Cancel", 184, 205, Centre, 128, 16, 255);
-MENU_END(55e4c8, Menu_Save);
-
-MENU_BEGIN(Menu_ReallyQuit);
-MENU_ENTRY_EX("REALLY QUIT?", 184, 110, Centre, 128, 16, 255);
-MENU_ENTRY_EX("Enter yes   Esc no", 184, 135, Centre, 160, 160, 160);
-MENU_END(55e278, Menu_ReallyQuit);
-
-MENU_BEGIN(Menu_Status);
-MENU_END(55e738, Menu_Status);
-
-MENU_BEGIN(Menu_Load);
-MENU_ENTRY_EX("", 184, 5, Centre, 128, 16, 255);
-MENU_ENTRY_EX("", 184, 30, Centre, 128, 16, 255);
-MENU_ENTRY_EX("", 184, 55, Centre, 128, 16, 255);
-MENU_ENTRY_EX("", 184, 80, Centre, 128, 16, 255);
-MENU_ENTRY_EX("", 184, 105, Centre, 128, 16, 255);
-MENU_ENTRY_EX("", 184, 130, Centre, 128, 16, 255);
-MENU_ENTRY_EX("\x01 \x02 Select    Enter Load    Del Delete", 184, 188, Centre, 128, 16, 255);
-MENU_ENTRY_EX("Esc  Cancel        F6  Load QuikSave", 184, 213, Centre, 128, 16, 255);
-MENU_END(55e3a0, Menu_Load);
-
-//ALIVE_VAR(1, 0x, t_sPauseMenuList_MainMenu, PageEntryList_MainMenu_55E1C8, sPauseMenuList_MainMenu);
-//ALIVE_VAR(1, 0x, t_sPauseMenuList_ReallyQuit, PageEntryList_ReallyQuit_55E278, sPauseMenuList_ReallyQuit);
+// Menu Text Data
 
 PauseMenuPageEntry PauseMenu__PageEntryList_Main_55E1C8[11] =
 {
     { 2, 184, 48, 0, "continue", 128u, 16u, 255u, 1u },
     { 2, 184, 70, 0, "quiksave", 128u, 16u, 255u, 1u },
+#if DEVELOPER_MODE
+    { 2, 184, 92, 0, "developer", 33u, 127u, 33u, 1u },
+#else
     { 2, 184, 92, 0, "controls", 128u, 16u, 255u, 1u },
+#endif
     { 2, 184, 114, 0, "status", 128u, 16u, 255u, 1u },
     { 2, 184, 136, 0, "save", 128u, 16u, 255u, 1u },
     { 2, 184, 158, 0, "load", 128u, 16u, 255u, 1u },
@@ -214,7 +70,169 @@ PauseMenuPageEntry PauseMenu__PageEntryList_Main_55E1C8[11] =
 };
 
 
-PauseMenu::PauseMenuPage sPM_Page_Main = 
+PauseMenuPageEntry PauseMenu__PageEntryList_ControlActions_55d820[17] =
+{
+    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
+    { 1, 184, 20, 0, "Actions", 127, 127, 127, Centre },
+    { 1, 180, 50, 0, "\x05+\x03\x04", 160, 160, 160, Right },
+    { 1, 180, 70, 0, "\x07+\x03\x04", 160, 160, 160, Right },
+    { 1, 180, 90, 0, "\x09", 160, 160, 160, Right },
+    { 1, 180, 110, 0, "\x08+\x1a", 160, 160, 160, Right },
+    { 1, 180, 135, 0, "\x02", 160, 160, 160, Right },
+    { 1, 180, 150, 0, "\x06", 160, 160, 160, Right },
+    { 1, 180, 173, 0, "\x01", 160, 160, 160, Right },
+    { 1, 200, 50, 0, "run", 128, 16, 255, Left },
+    { 1, 200, 70, 0, "sneak", 128, 16, 255, Left },
+    { 1, 200, 90, 0, "jump", 128, 16, 255, Left },
+    { 1, 200, 110, 0, "throw", 128, 16, 255, Left },
+    { 1, 200, 130, 0, "crouch", 128, 16, 255, Left },
+    { 1, 200, 150, 0, "action", 128, 16, 255, Left },
+    { 1, 200, 170, 0, "hoist \x1b zturn", 128, 16, 255, Left },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_GameSpeak_55d930[21] =
+{
+    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
+    { 1, 184, 20, 0, "GameSpeak", 127, 127, 127, Centre },
+    { 1, 184, 55, 0, "\x13", 160, 160, 160, Centre },
+    { 1, 184, 75, 0, "chant", 128, 16, 255, Centre },
+    { 1, 110, 104, 0, "hello", 128, 16, 255, Left },
+    { 1, 110, 126, 0, "follow me", 128, 16, 255, Left },
+    { 1, 110, 148, 0, "wait", 128, 16, 255, Left },
+    { 1, 110, 170, 0, "work", 128, 16, 255, Left },
+    { 1, 278, 104, 0, "anger", 128, 16, 255, Left },
+    { 1, 278, 126, 0, "all 'ya", 128, 16, 255, Left },
+    { 1, 278, 148, 0, "sympathy", 128, 16, 255, Left },
+    { 1, 278, 170, 0, "stop it!", 128, 16, 255, Left },
+    { 1, 90, 104, 0, "\x0b", 160, 160, 160, Right },
+    { 1, 90, 126, 0, "\x0c", 160, 160, 160, Right },
+    { 1, 90, 148, 0, "\x0d", 160, 160, 160, Right },
+    { 1, 90, 170, 0, "\x0e", 160, 160, 160, Right },
+    { 1, 260, 104, 0, "\x0f", 160, 160, 160, Right },
+    { 1, 260, 126, 0, "\x10", 160, 160, 160, Right },
+    { 1, 260, 148, 0, "\x11", 160, 160, 160, Right },
+    { 1, 260, 170, 0, "\x12", 160, 160, 160, Right },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_SligSpeak_55da80[19] =
+{
+    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
+    { 1, 184, 20, 0, "SligSpeak", 127, 127, 127, Centre },
+    { 1, 110, 104, 0, "hi", 128, 16, 255, Left },
+    { 1, 110, 126, 0, "here boy", 128, 16, 255, Left },
+    { 1, 110, 148, 0, "freeze", 128, 16, 255, Left },
+    { 1, 110, 170, 0, "get 'im", 128, 16, 255, Left },
+    { 1, 278, 104, 0, "s'mo bs", 128, 16, 255, Left },
+    { 1, 278, 126, 0, "bs", 128, 16, 255, Left },
+    { 1, 278, 148, 0, "look out", 128, 16, 255, Left },
+    { 1, 278, 170, 0, "laugh", 128, 16, 255, Left },
+    { 1, 90, 104, 0, "\x0b", 160, 160, 160, Right },
+    { 1, 90, 126, 0, "\x0c", 160, 160, 160, Right },
+    { 1, 90, 148, 0, "\x0d", 160, 160, 160, Right },
+    { 1, 90, 170, 0, "\x0e", 160, 160, 160, Right },
+    { 1, 260, 104, 0, "\x0f", 160, 160, 160, Right },
+    { 1, 260, 126, 0, "\x10", 160, 160, 160, Right },
+    { 1, 260, 148, 0, "\x11", 160, 160, 160, Right },
+    { 1, 260, 170, 0, "\x12", 160, 160, 160, Right },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_GlukkonSpeak_55dbb0[19] =
+{
+    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
+    { 1, 184, 20, 0, "GlukkonSpeak", 127, 127, 127, Centre },
+    { 1, 110, 104, 0, "hey!", 128, 16, 255, Left },
+    { 1, 110, 126, 0, "commere", 128, 16, 255, Left },
+    { 1, 110, 148, 0, "stay here", 128, 16, 255, Left },
+    { 1, 110, 170, 0, "do it!", 128, 16, 255, Left },
+    { 1, 278, 104, 0, "kill'em!", 128, 16, 255, Left },
+    { 1, 278, 126, 0, "all o'ya", 128, 16, 255, Left },
+    { 1, 278, 148, 0, "help!", 128, 16, 255, Left },
+    { 1, 278, 170, 0, "laugh", 128, 16, 255, Left },
+    { 1, 90, 104, 0, "\x0b", 160, 160, 160, Right },
+    { 1, 90, 126, 0, "\x0c", 160, 160, 160, Right },
+    { 1, 90, 148, 0, "\x0d", 160, 160, 160, Right },
+    { 1, 90, 170, 0, "\x0e", 160, 160, 160, Right },
+    { 1, 260, 104, 0, "\x0f", 160, 160, 160, Right },
+    { 1, 260, 126, 0, "\x10", 160, 160, 160, Right },
+    { 1, 260, 148, 0, "\x11", 160, 160, 160, Right },
+    { 1, 260, 170, 0, "\x12", 160, 160, 160, Right },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_ParamiteSpeak_55dce0[15] =
+{
+    { 2, 184, 205, 0, "more", 128, 16, 255, Centre },
+    { 1, 184, 20, 0, "ParamiteSpeak", 127, 127, 127, Centre },
+    { 1, 110, 104, 0, "howdy", 128, 16, 255, Left },
+    { 1, 110, 126, 0, "c'mon", 128, 16, 255, Left },
+    { 1, 110, 148, 0, "stay", 128, 16, 255, Left },
+    { 1, 110, 170, 0, "do it", 128, 16, 255, Left },
+    { 1, 278, 104, 0, "attack", 128, 16, 255, Left },
+    { 1, 278, 126, 0, "all a ya!", 128, 16, 255, Left },
+    { 1, 90, 104, 0, "\x0b", 160, 160, 160, Right },
+    { 1, 90, 126, 0, "\x0c", 160, 160, 160, Right },
+    { 1, 90, 148, 0, "\x0d", 160, 160, 160, Right },
+    { 1, 90, 170, 0, "\x0e", 160, 160, 160, Right },
+    { 1, 260, 104, 0, "\x0f", 160, 160, 160, Right },
+    { 1, 260, 126, 0, "\x10", 160, 160, 160, Right },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_ScrabSpeak_55ddd0[7] =
+{
+    { 2, 184, 205, 0, "exit", 128, 16, 255, Centre },
+    { 1, 184, 20, 0, "ScrabSpeak", 127, 127, 127, Centre },
+    { 1, 110, 104, 0, "shred power", 128, 16, 255, Left },
+    { 1, 110, 126, 0, "howl", 128, 16, 255, Left },
+    { 1, 90, 104, 0, "\x0b", 160, 160, 160, Right },
+    { 1, 90, 126, 0, "\x0c", 160, 160, 160, Right },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_Save_55e4c8[4] =
+{
+    { 1, 184, 120, 0, sSaveString_5C931C, 128, 16, 255, Centre },
+    { 1, 184, 180, 0, "Enter   Save", 128, 16, 255, Centre },
+    { 1, 184, 205, 0, "Esc   Cancel", 128, 16, 255, Centre },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_ReallyQuit_55e278[3] =
+{
+    { 1, 184, 110, 0, "REALLY QUIT?", 128, 16, 255, Centre },
+    { 1, 184, 135, 0, "Enter yes   Esc no", 160, 160, 160, Centre },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_Status_55e738[1] =
+{
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+
+// This is a hack because one of the functions modifies this string directly,
+// and leaving it as an inline string literal puts it into read only memory.
+char str_LoadEnterLoadDelDelete[] = "\x01 \x02 Select    Enter Load    Del Delete";
+PauseMenuPageEntry PauseMenu__PageEntryList_Load_55e3a0[9] =
+{
+    { 1, 184, 5, 0, "", 128, 16, 255, Centre },
+    { 1, 184, 30, 0, "", 128, 16, 255, Centre },
+    { 1, 184, 55, 0, "", 128, 16, 255, Centre },
+    { 1, 184, 80, 0, "", 128, 16, 255, Centre },
+    { 1, 184, 105, 0, "", 128, 16, 255, Centre },
+    { 1, 184, 130, 0, "", 128, 16, 255, Centre },
+    { 1, 184, 188, 0, str_LoadEnterLoadDelDelete, 128, 16, 255, Centre },
+    { 1, 184, 213, 0, "Esc  Cancel        F6  Load QuikSave", 128, 16, 255, Centre },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+
+// Menu Pages
+
+PauseMenu::PauseMenuPage sPM_Page_Main_5465B0 =
 {
     &PauseMenu::Page_Main_Update_4903E0,
     &PauseMenu::Page_Base_Render_490A50,
@@ -228,32 +246,11 @@ PauseMenu::PauseMenuPage sPM_Page_Main =
     0u
 };
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ControlsActions_55D820[17] =
-{
-    { 2, 184, 205, 0, "more", 128u, 16u, 255u, 1u },
-    { 1, 184, 20, 0, "Actions", 127u, 127u, 127u, 1u },
-    { 1, 180, 50, 0, "\x5\x2B\x3\x4", 160u, 160u, 160u, 2u },
-    { 1, 180, 70, 0, "\x7\x2B\x3\x4", 160u, 160u, 160u, 2u },
-    { 1, 180, 90, 0, "\t", 160u, 160u, 160u, 2u },
-    { 1, 180, 110, 0, "\x8\x2B\x1A", 160u, 160u, 160u, 2u },
-    { 1, 180, 135, 0, "\x2", 160u, 160u, 160u, 2u },
-    { 1, 180, 150, 0, "\x6", 160u, 160u, 160u, 2u },
-    { 1, 180, 173, 0, "\x1", 160u, 160u, 160u, 2u },
-    { 1, 200, 50, 0, "run", 128u, 16u, 255u, 0u },
-    { 1, 200, 70, 0, "sneak", 128u, 16u, 255u, 0u },
-    { 1, 200, 90, 0, "jump", 128u, 16u, 255u, 0u },
-    { 1, 200, 110, 0, "throw", 128u, 16u, 255u, 0u },
-    { 1, 200, 130, 0, "crouch", 128u, 16u, 255u, 0u },
-    { 1, 200, 150, 0, "action", 128u, 16u, 255u, 0u },
-    { 1, 200, 170, 0, "hoist \x1B zturn", 128u, 16u, 255u, 0u },
-    { 0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
-
-PauseMenu::PauseMenuPage sPM_Page_Controls_Actions =
+PauseMenu::PauseMenuPage sPM_Page_Controls_Actions_546610 =
 {
     &PauseMenu::Page_ControlsActions_Update_48FA60,
     &PauseMenu::Page_Base_Render_490A50,
-    PauseMenu__PageEntryList_ControlsActions_55D820,
+    PauseMenu__PageEntryList_ControlActions_55d820,
     0,
     100u,
     100u,
@@ -262,8 +259,6 @@ PauseMenu::PauseMenuPage sPM_Page_Controls_Actions =
     0u,
     0u
 };
-
-PauseMenuPageEntry PauseMenu__PageEntryList_Save_55E4C8 = { 1, 184, 120, 0, sSaveString_5C931C, 128u, 16u, 255u, 1u };
 
 /*
 PauseMenu::PauseMenuPage sPM_Page_Save =
@@ -281,19 +276,11 @@ PauseMenu::PauseMenuPage sPM_Page_Save =
 };
 */
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ReallyQuit_55E278[3] =
-{
-    { 1, 184, 110, 0, "REALLY QUIT?", 128u, 16u, 255u, 1u },
-    { 1, 184, 135, 0, "Enter yes   Esc no", 160u, 160u, 160u, 1u },
-    { 0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
-};
-
-
-PauseMenu::PauseMenuPage sPM_Page_ReallyQuit =
+PauseMenu::PauseMenuPage sPM_Page_ReallyQuit_5465E0 =
 {
     &PauseMenu::Page_ReallyQuit_Update_490930,
     &PauseMenu::Page_Base_Render_490A50,
-    PauseMenu__PageEntryList_ReallyQuit_55E278,
+    PauseMenu__PageEntryList_ReallyQuit_55e278,
     -1,
     100u,
     100u,
@@ -303,12 +290,23 @@ PauseMenu::PauseMenuPage sPM_Page_ReallyQuit =
     0u
 };
 
+PauseMenu::PauseMenuPage sPM_Page_Load_546628 =
+{
+    &PauseMenu::Page_Load_Update_490D50,
+    &PauseMenu::Page_Load_Render_4910A0,
+    PauseMenu__PageEntryList_Load_55e3a0,
+    0,
+    static_cast<char>(160u),
+    static_cast<char>(160u),
+    static_cast<char>(160u),
+    0u,
+    0u,
+    0u
+};
+
+
 // TODO: SET VALUES
-ALIVE_VAR(1, 0x5465B0, PauseMenu::PauseMenuPage, sPM_Page_Main_5465B0, { sPM_Page_Main });
-ALIVE_VAR(1, 0x546610, PauseMenu::PauseMenuPage, sPM_Page_Controls_Actions_546610, { sPM_Page_Controls_Actions });
-ALIVE_VAR(1, 0x546628, PauseMenu::PauseMenuPage, sPM_Page_Load_546628, {});
 ALIVE_VAR(1, 0x5465F8, PauseMenu::PauseMenuPage, sPM_Page_Status_5465F8, {});
-ALIVE_VAR(1, 0x5465E0, PauseMenu::PauseMenuPage, sPM_Page_ReallyQuit_5465E0, { sPM_Page_ReallyQuit });
 ALIVE_VAR(1, 0x5465C8, PauseMenu::PauseMenuPage, sPM_Page_Save_5465C8, { });
 
 // TODO: Populate
@@ -345,7 +343,16 @@ void DumpMenus()
         std::stringstream menuAddr;
         menuAddr << std::hex << a.address;
         
-        output << "MENU_BEGIN(Menu_" + a.name + ");\n";
+        int count = 0;
+        PauseMenuPageEntry * c = reinterpret_cast<PauseMenuPageEntry *>(a.address);
+
+        while (c->field_8_text)
+        {
+            count++;
+            c++;
+        }
+        
+        output << "PauseMenuPageEntry PauseMenu__PageEntryList_" + a.name + "_" + menuAddr.str() + "[" + std::to_string(count + 1) + "] =\n{\n";
         
         PauseMenuPageEntry * e = reinterpret_cast<PauseMenuPageEntry *>(a.address);
 
@@ -367,13 +374,23 @@ void DumpMenus()
                 alignment = "UnknownAlignment";
                 break;
             }
-            output << "MENU_ENTRY_EX(\"" << EscapeUnknownCharacters(e->field_8_text) << "\", " << e->field_2_x << ", " << e->field_4_y << ", " + alignment + ", " << (int)e->field_C_r << ", " << (int)e->field_D_g << ", " << (int)e->field_E_b << ");\n";
+
+            output << "\t{ ";
+            output << e->field_0_unknown2 << ", ";
+            output << e->field_2_x << ", ";
+            output << e->field_4_y << ", ";
+            output << e->field_6_unknown << ", ";
+            output << "\"" << EscapeUnknownCharacters(e->field_8_text) << "\"" << ", ";
+            output << (int)e->field_C_r << ", ";
+            output << (int)e->field_D_g << ", ";
+            output << (int)e->field_E_b << ", ";
+            output << alignment;
+            output << " },\n";
+
             e++;
         }
 
-        output << "MENU_END(" + menuAddr.str() + ", Menu_" + a.name + ");\n\n";
-
-        output_override << "MENU_OVERRIDE(Menu_" + a.name + ");\n";
+        output << "\t{ 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }\n};\n\n";
     }
 
     std::ofstream fileOut("menu_dump.h");
@@ -750,19 +767,6 @@ void PauseMenu_ForceLink() {
     {
         //DumpMenus();
 
-        // Overwrites game menu lists with ours, so we can see if everything is the same.
-        MENU_OVERRIDE(MainMenu);
-        //MENU_OVERRIDE(Menu_ControlActions);
-        //MENU_OVERRIDE(Menu_GameSpeak);
-        //MENU_OVERRIDE(Menu_SligSpeak);
-        //MENU_OVERRIDE(Menu_GlukkonSpeak);
-        //MENU_OVERRIDE(Menu_ParamiteSpeak);
-        //MENU_OVERRIDE(Menu_ScrabSpeak);
-        //MENU_OVERRIDE(Menu_Save);
-        //MENU_OVERRIDE(Menu_ReallyQuit);
-        //MENU_OVERRIDE(Menu_Status);
-        //MENU_OVERRIDE(Menu_Load);
-
         devTeleportMenuItems.clear();
 
         for (int i = 0; i < 17; i++)
@@ -860,8 +864,6 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp
 
 void PauseMenu::Page_Main_Update_4903E0()
 {
-    //NOT_IMPLEMENTED();
-
     auto inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
 
     if (inputHeld & eDown)
@@ -1047,6 +1049,135 @@ EXPORT void PauseMenu::Page_ReallyQuit_Update_490930()
         gMap_5C3030.field_CE = 1;
         sCurrentControllerIndex_5C1BBE = 0;
     }
+}
+
+void PauseMenu::Page_Load_Update_490D50()
+{
+    NOT_IMPLEMENTED();
+
+    int v1; // ebx
+    int input; // eax
+    FILE *v4; // eax
+    CHAR FileName[40]; // [esp+10h] [ebp-28h]
+
+    v1 = 0;
+    if (sQuicksave_LoadNextFrame_5CA4D9)
+    {
+        Quicksave_LoadActive_4C9170();
+        sQuicksave_LoadNextFrame_5CA4D9 = 0;
+        this->word12C_flags &= ~1u;
+    }
+    input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    if (input & eUp)
+    {
+        if (sSelectedSaveIdx_BB43FC <= 0)
+        {
+            return;
+        }
+        v1 = sSelectedSaveIdx_BB43FC - 1;
+        goto LABEL_6;
+    }
+    if (input & eDown)
+    {
+        if (sSelectedSaveIdx_BB43FC < sSaveIdx_dword_BB43E0 - 1)
+        {
+            v1 = sSelectedSaveIdx_BB43FC + 1;
+        LABEL_6:
+            sSelectedSaveIdx_BB43FC = v1;
+        LABEL_7:
+            SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+            return;
+        }
+    }
+    else
+    {
+        if (input & 0x20000000)
+        {
+            sSelectedSaveIdx_BB43FC -= 4;
+            if (sSelectedSaveIdx_BB43FC >= 0)
+            {
+                goto LABEL_7;
+            }
+            goto LABEL_6;
+        }
+        if (input & 0x40000000)
+        {
+            sSelectedSaveIdx_BB43FC += 4;
+            if (sSelectedSaveIdx_BB43FC > sSaveIdx_dword_BB43E0 - 1)
+            {
+                sSelectedSaveIdx_BB43FC = sSaveIdx_dword_BB43E0 - 1;
+            }
+            goto LABEL_7;
+        }
+        if (input & eUnPause)
+        {
+            this->field_136 = 0;
+            memcpy(&this->field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(this->field_144_active_menu));
+            if (sSaveIdx_dword_BB43E0)
+            {
+                strcpy(FileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
+                strcat(FileName, ".sav");
+                v4 = fopen_520C64(FileName, "rb");
+                if (v4)
+                {
+                    fread_520B5C(&sActiveQuicksaveData_BAF7F8, 0x2000u, 1u, v4);
+                    sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
+                    sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+                    Quicksave_LoadActive_4C9170();
+                    this->word12C_flags &= 0xFFFEu;
+                }
+                SFX_Play_46FA90(0x54u, 90, 0x10000);
+            }
+        }
+        else if (input & 0x200000)
+        {
+            this->field_136 = 0;
+            memcpy(&this->field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(this->field_144_active_menu));
+            SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+        }
+        else if (input & 0x10000000)
+        {
+            if (sSaveIdx_dword_BB43E0)
+            {
+                strcpy(FileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
+                strcat(FileName, ".sav");
+                IO_DeleteFile_520B27(FileName);
+                Quicksave_FindSaves_4D4150();
+            }
+        }
+    }
+}
+
+
+void PauseMenu::Page_Load_Render_4910A0(int ** ot, PauseMenuPage * mp)
+{
+    signed int saveCount = sSaveIdx_dword_BB43E0;
+    int selectedSaveIndex = sSelectedSaveIdx_BB43FC - 2;
+    for (int i = 0; i < 6; i++)
+    {
+        if (i > saveCount)
+        {
+            PauseMenu__PageEntryList_Load_55e3a0[i].field_8_text = "";
+        }
+        else
+        {
+            PauseMenu__PageEntryList_Load_55e3a0[i].field_8_text = sSaveFileRecords_BB31D8[selectedSaveIndex + i].field_0_fileName;
+        }
+    }
+
+    if (saveCount)
+    {
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text[0] = '\x1';
+    }
+    else
+    {
+        PauseMenu__PageEntryList_Load_55e3a0[4].field_8_text = "No Saved Games";
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text[0] = 0;
+    }
+
+    mp->field_C_selected_index = 2;
+
+    Page_Base_Render_490A50(ot, mp);
 }
 
 EXPORT WORD CC sub_4A2B70()
