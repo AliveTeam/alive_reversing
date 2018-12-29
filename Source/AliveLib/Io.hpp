@@ -47,5 +47,6 @@ EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
 EXPORT signed int CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* readBuffer, size_t bytesToRead, int /*notUsed1*/, int /*notUsed2*/, int /*notUsed3*/);
 EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
 EXPORT void IO_Init_494230();
+EXPORT int CC IO_DeleteFile_520B27(LPCSTR lpFileName);
 
 ALIVE_VAR_EXTERN(DWORD, sIoThreadId_BBC558);
