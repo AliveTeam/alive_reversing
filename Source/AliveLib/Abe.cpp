@@ -427,10 +427,207 @@ EXPORT int CC sub_434130(void*, signed __int16*)
     return 1;
 }
 
-EXPORT int CC Abe_SFX_2_457A40(char /*a1*/, int /*a2*/, int /*a3*/, BaseAliveGameObject* /*a4*/)
+const SfxDefinition sSFXList_555160[] =
+{
+    { 0u, 3u, 69u, 60u, -1, 1 },
+    { 0u, 3u, 70u, 60u, -1, 1 },
+    { 0u, 3u, 59u, 67u, -1, 1 },
+    { 0u, 3u, 61u, 67u, -1, 1 },
+    { 0u, 3u, 58u, 52u, -1, 1 },
+    { 0u, 3u, 67u, 45u, -1, 1 },
+    { 0u, 3u, 57u, 60u, -1, 1 },
+    { 0u, 3u, 65u, 50u, -1, 1 },
+    { 0u, 3u, 68u, 60u, -1, 1 },
+    { 0u, 3u, 72u, 70u, -1, 1 },
+    { 0u, 3u, 36u, 50u, -127, 0 },
+    { 0u, 3u, 37u, 50u, -127, 0 },
+    { 0u, 3u, 38u, 50u, -127, 0 },
+    { 0u, 3u, 36u, 55u, 0, 127 },
+    { 0u, 3u, 37u, 55u, 0, 127 },
+    { 0u, 3u, 38u, 55u, 0, 127 },
+    { 0u, 3u, 61u, 50u, -1, 1 },
+    { 0u, 3u, 73u, 127u, -1, 1 },
+    { 0u, 4u, 80u, 127u, -1, 1 },
+    { 0u, 65u, 64u, 60u, -1, 0 },
+    { 0u, 11u, 62u, 60u, -1, 1 },
+    { 0u, 11u, 64u, 60u, -1, 1 },
+    { 0u, 11u, 65u, 50u, -1, 1 },
+    { 0u, 11u, 64u, 50u, -1, 1 },
+    { 0u, 11u, 66u, 50u, -1, 1 },
+    { 0u, 23u, 60u, 90u, 0, 0 },
+    { 0u, 23u, 61u, 90u, 0, 0 },
+    { 0u, 23u, 62u, 90u, 0, 0 },
+    { 0u, 23u, 63u, 90u, 0, 0 },
+    { 0u, 23u, 64u, 90u, 0, 0 }
+};
+
+
+
+EXPORT int CC Abe_SFX_2_457A40(char sfxId, int volume, int pitchMin, BaseAliveGameObject* pAliveObj)
 {
     NOT_IMPLEMENTED();
-    return 0;
+
+    int sndVolume; // edi
+
+    short sndIndex = 0;
+
+    switch (sfxId)
+    {
+    case 0:
+        sndIndex = 11;
+        sndVolume = 40;
+        break;
+    case 1:
+        sndVolume = volume;
+        sndIndex = Math_RandomRange_496AB0(10, 12);
+        if (volume)
+        {
+            break;
+        }
+        sndVolume = Math_RandomRange_496AB0(54, 58);
+        if (pAliveObj)
+        {
+            if (pAliveObj->field_114_flags.Raw().bytes.b0 < 0) // Todo: check this
+            {
+                sndVolume *= 3;
+            }
+        }
+        goto LABEL_19;
+    case 2:
+        sndVolume = volume;
+        sndIndex = Math_RandomRange_496AB0(13, 15);
+        if (volume)
+        {
+            break;
+        }
+        sndVolume = Math_RandomRange_496AB0(66, 70);
+        if (pAliveObj)
+        {
+            if (pAliveObj->field_114_flags.Raw().bytes.b0 < 0) // Todo: check this
+            {
+                sndVolume *= 3;
+            }
+        }
+        goto LABEL_19;
+    case 3:
+        sndIndex = 5;
+        break;
+    case 4:
+        sndIndex = 4;
+        break;
+    case 5:
+        if (volume || !pAliveObj || pAliveObj->field_CC_sprite_scale != FP_FromDouble(0.5))
+        {
+            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[2], static_cast<short>(volume), static_cast<short>(pitchMin), 0x7FFF) | 
+                SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[16], static_cast<short>(volume), static_cast<short>(pitchMin), 0x7FFF);
+        }
+        else
+        {
+            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[2], sSFXList_555160[2].field_3_default_volume / 2, static_cast<short>(pitchMin), 0x7FFF) |
+                SFX_SfxDefinition_Play_4CA420(&sAbeSFXList_555250[16], sSFXList_555160[16].field_3_default_volume / 2, static_cast<short>(pitchMin), 0x7FFF);
+        }
+    case 6:
+        sndIndex = 2;
+        break;
+    case 7:
+        sndIndex = 16;
+        break;
+    case 8:
+        sndIndex = 6;
+        break;
+    case 9:
+    case 0xB:
+        if (pAliveObj && pAliveObj->field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            return SFX_Play_46FA90(0x20u, 20, 0x10000);
+        }
+        else
+        {
+            return SFX_Play_46FA90(0x20u, 35, 0x10000);
+        }
+    case 0xA:
+        sndIndex = 19;
+        break;
+    case 0xC:
+        sndIndex = 25;
+        break;
+    case 0xD:
+        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1
+            || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8
+            || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5
+            || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6
+            || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
+        {
+            sndIndex = 2;
+        }
+        else
+        {
+            sndIndex = 9;
+        }
+        break;
+    case 0xE:
+        sndIndex = 17;
+        break;
+    case 0xF:
+        return 0;
+        break;
+    default:
+        break;
+    }
+
+    sndVolume = volume;
+LABEL_19:
+    if (!sndVolume)
+    {
+        sndVolume = (char)sSFXList_555160[sndIndex].field_3_default_volume;
+    }
+    if (!pAliveObj)
+    {
+        return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(sndVolume), static_cast<short>(pitchMin), 0x7FFF);
+    }
+    if (pAliveObj->field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        sndVolume = 2 * sndVolume / 3;
+    }
+
+    if (pAliveObj != sActiveHero_5C1B68)
+    {
+        switch (gMap_5C3030.sub_4811A0(
+            pAliveObj->field_C2_lvl_number,
+            pAliveObj->field_C0_path_number,
+            pAliveObj->field_B8_xpos,
+            pAliveObj->field_BC_ypos))
+        {
+        case 0:
+            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(sndVolume), static_cast<short>(pitchMin), 0x7FFF);
+        case 1:
+        case 2:
+            return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(2 * sndVolume / 3), static_cast<short>(pitchMin), 0x7FFF);
+        case 3:
+            return SFX_SfxDefinition_Play_4CA700(
+                &sSFXList_555160[sndIndex],
+                static_cast<short>(2 * sndVolume / 9),
+                static_cast<short>(2 * sndVolume / 9),
+                static_cast<short>(pitchMin),
+                0x7FFF);
+            break;
+        case 4:
+            return SFX_SfxDefinition_Play_4CA700(
+                &sSFXList_555160[sndIndex],
+                static_cast<short>(2 * sndVolume / 3),
+                static_cast<short>(2 * sndVolume / 3),
+                static_cast<short>(pitchMin),
+                0x7FFF);
+            break;
+        default:
+            return 0;
+            break;
+        }
+    }
+    else
+    {
+        return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(sndVolume), static_cast<short>(pitchMin), 0x7FFF);
+    }
 }
 
 // Fart/dust cloud particle spawner
