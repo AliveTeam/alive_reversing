@@ -11,7 +11,7 @@ enum class AbeSay : __int16
     eNothing = -1,
     e3 = 3,
     eAnger_5 = 5,
-    e8 = 8,
+    eLaugh_8 = 8,
     eOops_14 = 14,
     eSympathy_28 = 28,
 };

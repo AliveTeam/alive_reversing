@@ -1728,6 +1728,11 @@ void Abe::Update_449DC0()
                 || field_106_current_state == eAbeStates::State_9_SpeakMovement_45B180
                 || field_106_current_state == eAbeStates::State_10_Fart_45B1A0)
             {
+                // Prevents double laugh when blowing up a slig as we prevent saying anything while chanting or various other states
+                field_128.field_18_say = AbeSay::eNothing;
+            }
+            else
+            {
                 if (field_106_current_state == eAbeStates::State_0_Idle_44EEB0 || field_106_current_state == eAbeStates::State_12_Null_4569C0)
                 {
                     field_114_flags.Set(Flags_114::e114_Bit2);
@@ -1763,9 +1768,9 @@ void Abe::Update_449DC0()
                 {
                     Abe_SFX_457EC0(static_cast<unsigned char>(field_128.field_18_say), 0, 0, this);
                 }
-            }
 
-            field_128.field_18_say = AbeSay::eNothing;
+                field_128.field_18_say = AbeSay::eNothing;
+            }
         }
 
         if (state_idx != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
@@ -1889,7 +1894,7 @@ void Abe::Update_449DC0()
 
         if (Event_Get_422C00(kEventMudokonComfort))
         {
-            field_128.field_18_say = AbeSay::e8;
+            field_128.field_18_say = AbeSay::eLaugh_8;
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
@@ -8469,7 +8474,7 @@ void Abe::IntoPortalStates_451990()
 // TODO: Clean up
 EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Abe* pHero)
 {
-    NOT_IMPLEMENTED();
+    //NOT_IMPLEMENTED();
 
     //DEV_CONSOLE_PRINTF("Abe SFX: %i", idx);
 
