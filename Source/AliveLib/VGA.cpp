@@ -128,33 +128,42 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
         {
             SDL_Rect* pDst = nullptr;
             SDL_Rect dst = {};
+
+            int w = 0;
+            int h = 0;
+            SDL_GetWindowSize(Sys_GetHWnd_4F2C70(), &w, &h);
+
+            int renderedWidth = w;
+            int renderedHeight = h;
+
+            if (s_VGA_KeepAspectRatio)
+            {
+                if (w > (h * 1.333))
+                {
+                    renderedWidth = static_cast<int>(h * 1.333);
+                }
+                else
+                {
+                    renderedHeight = static_cast<int>(w * 0.75);
+                }
+            }
+
             if (pCopyRect)
             {
-                int w = 0;
-                int h = 0;
-                SDL_GetWindowSize(Sys_GetHWnd_4F2C70(), &w, &h);
-
-                int renderedWidth = w;
-                int renderedHeight = h;
-
-                if (s_VGA_KeepAspectRatio)
-                {
-                    if (w > (h * 1.333))
-                    {
-                        renderedWidth = static_cast<int>(h * 1.333);
-                    }
-                    else
-                    {
-                        renderedHeight = static_cast<int>(w * 0.75);
-                    }
-                }
-
                 // Make sure our screen shake also sizes with the window.
                 int screenShakeOffsetX = static_cast<int>(sScreenXOffSet_BD30E4 * (renderedWidth / 640.0f));
                 int screenShakeOffsetY = static_cast<int>(sScreenYOffset_BD30A4 * (renderedHeight / 480.0f));
                 
                 dst.x = screenShakeOffsetX + ((w - renderedWidth) / 2);
                 dst.y = screenShakeOffsetY + ((h - renderedHeight) / 2);
+                dst.w = renderedWidth;
+                dst.h = renderedHeight;
+                pDst = &dst;
+            }
+            else
+            {
+                dst.x = (w - renderedWidth) / 2;
+                dst.y = (h - renderedHeight) / 2;
                 dst.w = renderedWidth;
                 dst.h = renderedHeight;
                 pDst = &dst;
