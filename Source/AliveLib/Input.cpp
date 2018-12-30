@@ -450,14 +450,14 @@ std::vector<std::string> Ini_SplitParams(std::string line)
 
 void NewParseSettingsIni()
 {
-    auto abeBuffer = FS::ReadFile("abe2.ini");
-    std::string abeConfig(reinterpret_cast<const char *>(abeBuffer.data()), abeBuffer.size());
+    const auto abeBuffer = FS::ReadFile("abe2.ini");
+    const std::string abeConfig(reinterpret_cast<const char *>(abeBuffer.data()), abeBuffer.size());
     
     auto configSplit = SplitString(abeConfig, '\n');
 
     bool isKeyboardParams = false;
 
-    for (auto o : configSplit)
+    for (auto& o : configSplit)
     {
         if (o.size() == 0) // Skip empty strings
         {
