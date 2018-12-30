@@ -6,6 +6,7 @@
 #include "Error.hpp"
 #include "Sys.hpp"
 #include "PsxRender.hpp"
+#include "Psx.hpp"
 
 void VGA_ForceLink() {}
 
@@ -162,11 +163,14 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
             }
             else
             {
-                dst.x = (w - renderedWidth) / 2;
-                dst.y = (h - renderedHeight) / 2;
-                dst.w = renderedWidth;
-                dst.h = renderedHeight;
-                pDst = &dst;
+                if (!sPsxEMU_show_vram_BD1465)
+                {
+                    dst.x = (w - renderedWidth) / 2;
+                    dst.y = (h - renderedHeight) / 2;
+                    dst.w = renderedWidth;
+                    dst.h = renderedHeight;
+                    pDst = &dst;
+                }
             }
 
             SDL_RenderClear(gRenderer);
