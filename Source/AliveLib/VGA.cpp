@@ -121,8 +121,8 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
                 SDL_GetWindowSize(Sys_GetHWnd_4F2C70(), &w, &h);
 
                 // Make sure our screen shake also sizes with the window.
-                dst.x = sScreenXOffSet_BD30E4 * (w / 640);
-                dst.y = sScreenYOffset_BD30A4 * (h / 480);
+                dst.x = static_cast<int>(sScreenXOffSet_BD30E4 * (w / 640.0f));
+                dst.y = static_cast<int>(sScreenYOffset_BD30A4 * (h / 480.0f));
                 dst.w = w;
                 dst.h = h;
                 pDst = &dst;
