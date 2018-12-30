@@ -31,6 +31,7 @@ ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
 
 // Todo: find a way to configure this using abe2.ini
 bool sKeepAspectRatio = true;
+bool sFilterScreen = true;
 
 #if USE_SDL2
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
@@ -113,6 +114,16 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
     {
         // TODO: This will really murder performance
         SDL_Texture* pTexture = SDL_CreateTextureFromSurface(gRenderer, pBmp->field_0_pSurface);
+
+        if (sFilterScreen)
+        {
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+        }
+        else
+        {
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+        }
+
         if (pTexture)
         {
             SDL_Rect* pDst = nullptr;
