@@ -324,7 +324,7 @@ int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int pitch, int sc
     }
     if (scale == 0x8000)
     {
-        volume /= 3;
+        volume = static_cast<__int16>(volume / 1.5);
     }
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<short>(pitch), static_cast<short>(pitch));
 }
