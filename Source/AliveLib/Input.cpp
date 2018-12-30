@@ -451,7 +451,7 @@ std::vector<std::string> Ini_SplitParams(std::string line)
 void NewParseSettingsIni()
 {
     auto abeBuffer = FS::ReadFile("abe2.ini");
-    std::string abeConfig = std::string(reinterpret_cast<const char *>(abeBuffer.data()));
+    std::string abeConfig(reinterpret_cast<const char *>(abeBuffer.data()), abeBuffer.size());
     
     auto configSplit = SplitString(abeConfig, '\n');
 
