@@ -139,7 +139,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
                 if (s_VGA_KeepAspectRatio)
                 {
-                    if (w > h)
+                    if (w > (h * 1.333))
                     {
                         renderedWidth = static_cast<int>(h * 1.333);
                     }
