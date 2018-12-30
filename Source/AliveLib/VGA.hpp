@@ -14,3 +14,6 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
 EXPORT int VGA_GetPixelFormat_4F3EE0();
 
 ALIVE_VAR_EXTERN(Bitmap, sVGA_bmp_primary_BD2A20);
+
+extern bool s_VGA_KeepAspectRatio;
+extern bool s_VGA_FilterScreen;

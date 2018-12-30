@@ -12,6 +12,7 @@
 #include "PsxRender.hpp"
 #include <timeapi.h>
 #include "Sys.hpp"
+#include "VGA.hpp"
 
 #if XINPUT_SUPPORT
 #include <Xinput.h>
@@ -306,7 +307,7 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
         
 
         XINPUT_VIBRATION vib;
-        USHORT vibLR = vibrationAmount * 65535;
+        USHORT vibLR = static_cast<USHORT>(vibrationAmount * 65535);
 
         vib.wLeftMotorSpeed = vibLR;
         vib.wRightMotorSpeed = vibLR;
@@ -355,9 +356,367 @@ EXPORT void CC Input_491870()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Input_LoadSettingsIni_492D40()
+EXPORT void CC Input_ResetBinding_4925A0(int /*input_command*/, int /*a2*/)
 {
     NOT_IMPLEMENTED();
+}
+
+EXPORT InputCommands CC Input_LoadSettingsIni_GetInputCommand_492B80(const char *pActionName)
+{
+    if (!_strcmpi(pActionName, "run"))
+    {
+        return InputCommands::eRun;
+    }
+    if (!_strcmpi(pActionName, "sneak"))
+    {
+        return InputCommands::eSneak;
+    }
+    if (!_strcmpi(pActionName, "jump"))
+    {
+        return InputCommands::eHop;
+    }
+    if (!_strcmpi(pActionName, "action"))
+    {
+        return InputCommands::eDoAction;
+    }
+    if (!_strcmpi(pActionName, "throw"))
+    {
+        return InputCommands::eThrowItem;
+    }
+    if (!_strcmpi(pActionName, "fart"))
+    {
+        return InputCommands::eFartOrRoll;
+    }
+    if (_strcmpi(pActionName, "speak1"))
+    {
+        return _strcmpi(pActionName, "speak2") != 0 ? static_cast<InputCommands>(0) : static_cast<InputCommands>(0x1000000);
+    }
+    return static_cast<InputCommands>(0x800000);
+}
+
+EXPORT int CC Input_GetGamePadKeyCode_492CA0(const char * /* a1 */)
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT int CC Input_GetKeyboardKeyCode_492CF0(const char * /* a1 */)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+EXPORT void CC Input_SetGamePadBinding_493180(char *pKeyName, int inputCommand)
+{
+    int keyCode = Input_GetGamePadKeyCode_492CA0(pKeyName);
+    if (keyCode >= 0)
+    {
+        Input_ResetBinding_4925A0(inputCommand, 0);
+        sKeyBindings_5C9930[keyCode] = static_cast<InputCommands>(sKeyBindings_5C9930[keyCode] | inputCommand);
+    }
+}
+
+EXPORT void CC Input_SetKeyboardBinding_4931D0(const char *pKeyName, int inputCommand)
+{
+    int keyCode = Input_GetKeyboardKeyCode_492CF0(pKeyName);
+    Input_ResetBinding_4925A0(inputCommand, 1);
+    if (keyCode >= 0)
+    {
+        sKeyboardBindings_5C98E0[keyCode] = static_cast<InputCommands>(sKeyboardBindings_5C98E0[keyCode] | inputCommand);
+    }
+}
+
+std::vector<std::string> Ini_SplitParams(std::string line)
+{
+    auto paramSplit = SplitString(line, '=');
+    for (unsigned int i = 0; i < paramSplit.size(); i++)
+    {
+        if (paramSplit[i].size() == 0)
+        {
+            continue;
+        }
+
+        while (paramSplit[i].size() && paramSplit[i][0] == ' ')
+        {
+            paramSplit[i] = paramSplit[i].substr(1, paramSplit[i].size() - 1);
+        }
+        while (paramSplit[i].size() && (paramSplit[i][paramSplit[i].size() - 1] == ' ' || paramSplit[i][paramSplit[i].size() - 1] == '\r'))
+        {
+            paramSplit[i] = paramSplit[i].substr(0, paramSplit[i].size() - 1);
+        }
+    }
+
+    return paramSplit;
+}
+
+void NewParseSettingsIni()
+{
+    auto abeBuffer = FS::ReadFile("abe2.ini");
+    std::string abeConfig = std::string(reinterpret_cast<const char *>(abeBuffer.data()));
+    
+    auto configSplit = SplitString(abeConfig, '\n');
+
+    bool isKeyboardParams = false;
+
+    for (auto o : configSplit)
+    {
+        if (o.size() == 0) // Skip empty strings
+        {
+            continue;
+        }
+
+        if (o[0] == '[') // Category
+        {
+            if (o[o.size() - 1] == '\r')
+            {
+                o = o.substr(0, o.size() - 1);
+            }
+
+            std::string category = o.substr(1, o.size() - 2);
+            
+            printf("Category: %s\n", category.c_str());
+
+            isKeyboardParams = false;
+
+            // Do Categories
+            if (category == "Keyboard")
+            {
+                isKeyboardParams = true;
+                // This is never reachable on OG because of a bug!
+                /*Input_ResetBinding_4925A0(16, 0);
+                Input_ResetBinding_4925A0(64, 0);
+                Input_ResetBinding_4925A0(256, 0);
+                Input_ResetBinding_4925A0(32, 0);
+                Input_ResetBinding_4925A0(128, 0);
+                Input_ResetBinding_4925A0(512, 0);*/
+            }
+        }
+        else
+        {
+            auto param = Ini_SplitParams(o);
+            
+            if (param.size() == 2)
+            {
+                printf("Value: %s is %s\n", param[0].c_str(), param[1].c_str());
+
+                if (isKeyboardParams)
+                {
+                    InputCommands kbInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
+                    Input_SetKeyboardBinding_4931D0(param[1].c_str(), kbInputCommand);
+                }
+                else
+                {
+                    if (param[0] == "controller")
+                    {
+                        if (param[1] == "Game Pad" || param[1] == "Joystick" ||
+                            param[1] == "GamePad" || param[1] == "Joy stick")
+                        {
+                            sJoystickEnabled_5C9F70 = 1;
+                        }
+                    }
+                    else if (param[0] == "buttons")
+                    {
+                        if (sJoystickNumButtons_5C2EFC && atol(param[1].c_str()) != sJoystickNumButtons_5C2EFC)
+                        {
+                            isKeyboardParams = false;
+                        }
+                        else
+                        {
+                            Input_ResetBinding_4925A0(16, 1);
+                            Input_ResetBinding_4925A0(64, 1);
+                            Input_ResetBinding_4925A0(256, 1);
+                            Input_ResetBinding_4925A0(32, 1);
+                            Input_ResetBinding_4925A0(128, 1);
+                            Input_ResetBinding_4925A0(512, 1);
+                            Input_ResetBinding_4925A0(0x800000, 1);
+                            Input_ResetBinding_4925A0(0x1000000, 1);
+                        }
+                    }
+                    else if (param[0] == "keep_aspect")
+                    {
+                        if (param[1] == "true")
+                        {
+                            s_VGA_KeepAspectRatio = true;
+                        }
+                        else
+                        {
+                            s_VGA_KeepAspectRatio = false;
+                        }
+                    }
+                    else if (param[0] == "filter_screen")
+                    {
+                        if (param[1] == "true")
+                        {
+                            s_VGA_FilterScreen = true;
+                        }
+                        else
+                        {
+                            s_VGA_FilterScreen = false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+EXPORT void CC Input_LoadSettingsIni_492D40()
+{
+    NewParseSettingsIni();
+
+    //return;
+    //NOT_IMPLEMENTED();
+    //FILE *v0; // eax
+    //FILE *v1; // esi
+    //unsigned int v2; // kr04_4
+    //char *equalsPtr; // eax
+    //char *v4; // esi
+    //char v5; // al
+    //char *opt_value; // esi
+    //char *i; // ebp
+    //char j; // al
+    //int v9; // eax
+    //int v10; // edi
+    //int v11; // edi
+    //signed int loadingKeyboard; // [esp+4h] [ebp-40Ch]
+    //FILE *v13; // [esp+Ch] [ebp-404h]
+    //char abeIniBuffer[1024]; // [esp+10h] [ebp-400h]
+
+    //loadingKeyboard = 0;
+    //v0 = fopen("abe2.ini", "r");
+    //v1 = v0;
+    //v13 = v0;
+    //
+
+    //if (v0)
+    //{
+    //    if (fgets(abeIniBuffer, 1024, v0))
+    //    {
+    //        BYTE * filePlaceholder = reinterpret_cast<BYTE*>(&v13);
+
+    //        do
+    //        {
+    //            v2 = strlen(abeIniBuffer) + 1;
+    //            if (filePlaceholder[v2 + 2] < 32)
+    //            {
+    //                filePlaceholder[v2 + 2] = 0;
+    //            }
+
+    //            if (abeIniBuffer[0] == '[') // Is start of ini category ?
+    //            {
+    //                while (filePlaceholder[strlen(abeIniBuffer) + 3] == ' ' || filePlaceholder[strlen(abeIniBuffer) + 3] == ']')
+    //                {
+    //                    filePlaceholder[strlen(abeIniBuffer) + 3] = 0;
+    //                }
+    //                // OG BUG! There is never a time where this matches.
+    //                // The string will always be 'Keyboard]'. Note the ] at the end.
+    //                if (_strcmpi(&abeIniBuffer[1], "Keyboard")) 
+    //                {
+    //                    loadingKeyboard = 1;
+    //                }
+    //                else
+    //                {
+    //                    loadingKeyboard = 0;
+    //                    Input_ResetBinding_4925A0(16, 0);
+    //                    Input_ResetBinding_4925A0(64, 0);
+    //                    Input_ResetBinding_4925A0(256, 0);
+    //                    Input_ResetBinding_4925A0(32, 0);
+    //                    Input_ResetBinding_4925A0(128, 0);
+    //                    Input_ResetBinding_4925A0(512, 0);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                equalsPtr = strchr(abeIniBuffer, '=');
+    //                v4 = equalsPtr;
+    //                if (equalsPtr)
+    //                {
+    //                    *equalsPtr = 0;
+    //                    v5 = equalsPtr[1];
+    //                    opt_value = v4 + 1;
+    //                    for (i = abeIniBuffer; v5 <= 32; v5 = (opt_value++)[1])
+    //                    {
+    //                        if (!v5)
+    //                        {
+    //                            break;
+    //                        }
+    //                    }
+    //                    for (j = abeIniBuffer[0]; j <= 32; j = (i++)[1])
+    //                    {
+    //                        if (!j)
+    //                        {
+    //                            break;
+    //                        }
+    //                    }
+    //                    if (*i)
+    //                    {
+    //                        if (*opt_value)
+    //                        {
+    //                            for (; opt_value[strlen(opt_value) - 1] <= 32; opt_value[strlen(opt_value) - 1] = 0)
+    //                            {
+    //                                ;
+    //                            }
+    //                        }
+    //                        for (; i[strlen(i) - 1] <= 32; i[strlen(i) - 1] = 0)
+    //                        {
+    //                            ;
+    //                        }
+    //                        v9 = Input_LoadSettingsIni_GetInputCommand_492B80(i);
+    //                        if (v9)
+    //                        {
+    //                            if (loadingKeyboard)
+    //                            {
+    //                                if (loadingKeyboard == 1)
+    //                                {
+    //                                    Input_SetKeyboardBinding_4931D0(opt_value, v9);
+    //                                }
+    //                            }
+    //                            else
+    //                            {
+    //                                Input_SetGamePadBinding_493180(opt_value, v9);
+    //                            }
+    //                        }
+    //                        else if (_strcmpi(i, "controller"))
+    //                        {
+    //                            if (!_strcmpi(i, "buttons"))
+    //                            {
+    //                                v11 = sJoystickNumButtons_5C2EFC;
+    //                                if (sJoystickNumButtons_5C2EFC && atol(opt_value) != v11)
+    //                                {
+    //                                    loadingKeyboard = -1;
+    //                                }
+    //                                else
+    //                                {
+    //                                    Input_ResetBinding_4925A0(16, 1);
+    //                                    Input_ResetBinding_4925A0(64, 1);
+    //                                    Input_ResetBinding_4925A0(256, 1);
+    //                                    Input_ResetBinding_4925A0(32, 1);
+    //                                    Input_ResetBinding_4925A0(128, 1);
+    //                                    Input_ResetBinding_4925A0(512, 1);
+    //                                    Input_ResetBinding_4925A0(0x800000, 1);
+    //                                    Input_ResetBinding_4925A0(0x1000000, 1);
+    //                                }
+    //                            }
+    //                        }
+    //                        else
+    //                        {
+    //                            v10 = 0;
+    //                            if (!_strcmpi(opt_value, "Game Pad")
+    //                                || !_strcmpi(opt_value, "Joystick")
+    //                                || !_strcmpi(opt_value, "GamePad")
+    //                                || !_strcmpi(opt_value, "Joy stick"))
+    //                            {
+    //                                v10 = 1;
+    //                            }
+    //                            sJoystickEnabled_5C9F70 = v10;
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //            v1 = v13;
+    //        } while (fgets(abeIniBuffer, 1024, v13));
+    //    }
+    //    fclose(v1);
+    //}
 }
 
 ALIVE_VAR(1, 0x55ebf8, DWORD, dword_55EBF8, 0);
