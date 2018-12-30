@@ -71,7 +71,7 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { VK_SPACE, eHop },
     { 'Z', eThrowItem },
     { 'X', static_cast<InputCommands>(eUnPause | eFartOrRoll) },
-    { VK_ESCAPE, static_cast<InputCommands>(ePause | eCheatMode) },
+    { VK_ESCAPE, static_cast<InputCommands>(ePause | eBack) },
     { VK_RETURN, static_cast<InputCommands>(eUnPause | eFartOrRoll) },
     { VK_TAB, eCheatMode },
     { '1', eGameSpeak1 },
@@ -1338,7 +1338,7 @@ EXPORT int CC Input_Read_Pad_4FA9C0(int padNum)
 
     if (sInputCallbackFunc_BD1870)
     {
-        sLastPad_Input_BD1878 = sInputCallbackFunc_BD1870();
+        sLastPad_Input_BD1878 = sInputCallbackFunc_BD1870(); // usually pointer to Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150
     }
 
     return sLastPad_Input_BD1878;

@@ -59,7 +59,10 @@ MainMenuButton sBtnArray_FrontEnd_560FA0[6] =
     { 0, 0, 0, 0, 0 }
 };
 
-MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[4] =
+// HACK HACK FIX ME - all of these buttons are in one contiguous array in the real game
+// we need to replicate this as the game will access this array with the index of the PREVIOUS screen
+// which will be out of bounds
+MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[40] = 
 {
     { 1, 59, 199, 0, 13912 },
     { 1, 248, 199, 0, 13912 },
@@ -1450,9 +1453,21 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     }
 }
 
-void MainMenuController::tLoadGame_Render_4D44D0(int** /*pOt*/)
+MainMenuText sLoadButtonGraphics[2] =
+{
+    {32, 27, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u},
+    { 331, 204, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u }
+};
+
+void MainMenuController::tLoadGame_Render_4D44D0(int** pOt)
 {
     NOT_IMPLEMENTED();
+
+    int polyIdx = 0;
+    for (auto& menuGraphic : sLoadButtonGraphics)
+    {
+        DrawMenuText_4D20D0(&menuGraphic, pOt, &field_120_font, &polyIdx, 1);
+    }
 }
 
 void MainMenuController::tLoadGame_Load_4D42F0()
