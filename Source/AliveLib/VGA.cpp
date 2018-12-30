@@ -29,6 +29,9 @@ ALIVE_VAR(1, 0xBD0BC8, HDC, sVga_HDC_BD0BC8, 0);
 ALIVE_VAR(1, 0xBD0BC0, int, sVga_LockPType_BD0BC0, 0);
 ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
 
+// Todo: find a way to configure this using abe2.ini
+bool sKeepAspectRatio = true;
+
 #if USE_SDL2
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
@@ -120,11 +123,29 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
                 int h = 0;
                 SDL_GetWindowSize(Sys_GetHWnd_4F2C70(), &w, &h);
 
+                int renderedWidth = w;
+                int renderedHeight = h;
+
+                if (sKeepAspectRatio)
+                {
+                    if (w > h)
+                    {
+                        renderedWidth = static_cast<int>(h * 1.333);
+                    }
+                    else
+                    {
+                        renderedHeight = static_cast<int>(w * 0.75);
+                    }
+                }
+
                 // Make sure our screen shake also sizes with the window.
-                dst.x = static_cast<int>(sScreenXOffSet_BD30E4 * (w / 640.0f));
-                dst.y = static_cast<int>(sScreenYOffset_BD30A4 * (h / 480.0f));
-                dst.w = w;
-                dst.h = h;
+                int screenShakeOffsetX = static_cast<int>(sScreenXOffSet_BD30E4 * (renderedWidth / 640.0f));
+                int screenShakeOffsetY = static_cast<int>(sScreenYOffset_BD30A4 * (renderedHeight / 480.0f));
+                
+                dst.x = screenShakeOffsetX + ((w - renderedWidth) / 2);
+                dst.y = screenShakeOffsetY + ((h - renderedHeight) / 2);
+                dst.w = renderedWidth;
+                dst.h = renderedHeight;
                 pDst = &dst;
             }
 
