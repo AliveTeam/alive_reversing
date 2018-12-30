@@ -487,7 +487,7 @@ EXPORT int CC Abe_SFX_2_457A40(char sfxId, int volume, int pitchMin, BaseAliveGa
         sndVolume = Math_RandomRange_496AB0(54, 58);
         if (pAliveObj)
         {
-            if (pAliveObj->field_114_flags.Raw().bytes.b0 < 0) // Todo: check this
+            if (pAliveObj->field_114_flags.Get(Flags_114::e114_Bit8))
             {
                 sndVolume *= 3;
             }
@@ -503,7 +503,7 @@ EXPORT int CC Abe_SFX_2_457A40(char sfxId, int volume, int pitchMin, BaseAliveGa
         sndVolume = Math_RandomRange_496AB0(66, 70);
         if (pAliveObj)
         {
-            if (pAliveObj->field_114_flags.Raw().bytes.b0 < 0) // Todo: check this
+            if (pAliveObj->field_114_flags.Get(Flags_114::e114_Bit8))
             {
                 sndVolume *= 3;
             }
