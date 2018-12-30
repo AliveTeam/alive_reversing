@@ -7100,7 +7100,7 @@ void Abe::State_112_Chant_45B1C0()
         {
             field_106_current_state = eAbeStates::State_113_ChantEnd_45BBE0;
             field_154_possesed_object_id = -1;
-            if (!pfield_150)
+            if (pfield_150)
             {
                 pfield_150->sub_4E4050();
                 field_150_OrbWhirlWind_id = -1;
