@@ -200,6 +200,17 @@ public:
     EXPORT void tGame_BackStory_Or_NewGame_Load_4D1BA0();
     EXPORT void tGame_BackStory_Or_NewGame_Unload_4D1BE0();
 
+    EXPORT signed int tsub_LoadSave_Input_4D1040(DWORD input);
+    EXPORT signed int tsub_4D0E10(DWORD input);
+    
+    
+    EXPORT signed int tLoadGame_Input_4D3EF0(DWORD input);
+    EXPORT void tLoadGame_Render_4D44D0( int **pOt);
+    
+    EXPORT void tLoadGame_Load_4D42F0();
+
+    EXPORT void tLoadGame_Unload_4D4360();
+
     // "Quit" page load
     EXPORT void Game_Force_Quit_Load_4D1A90();
 

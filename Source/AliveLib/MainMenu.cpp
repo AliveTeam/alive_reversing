@@ -86,6 +86,29 @@ MainMenuButton sBtnArray_Options_561368[4] =
     { 0, 0, 0, 0, 0 }
 };
 
+MainMenuButton sBtnArray_LoadGame_561450[19] =
+{
+    { 1, 32, 62, 0, 13912 },
+    { 3, 331, 239, 0, 13912 },
+    { 0, 0, 0, 0, 0 },
+    { 0, 0, 2, 127, 74 },
+    { 13936, 0, 2, 127, 96 },
+    { 13936, 0, 2, 127, 117 },
+    { 13936, 0, 2, 127, 141 },
+    { 13936, 0, 2, 165, 74 },
+    { 13936, 0, 2, 165, 96 },
+    { 13936, 0, 2, 165, 117 },
+    { 13936, 0, 2, 165, 141 },
+    { 13936, 0, 2, 201, 74 },
+    { 13936, 0, 2, 201, 96 },
+    { 13936, 0, 2, 201, 117 },
+    { 13936, 0, 2, 201, 141 },
+    { 13936, 0, 2, 240, 74 },
+    { 13936, 0, 2, 240, 96 },
+    { 13936, 0, 2, 240, 117 },
+    { 13936, 0, 0, 0, 0 }
+};
+
 
 
 
@@ -164,13 +187,13 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         NULL,
         NULL
     },
-    {
+    { // Load game page
         4,        0,        1000,        1,        0,        2,        0,
-        nullptr, //&MainMenuController::tsub_4D3EF0,
-        nullptr, //&MainMenuController::tsub_Render_4D44D0,
-        nullptr, //&sBtnArray_561450,
-        nullptr, //&MainMenuController::tsub_4D42F0,
-        nullptr, //&MainMenuController::tsub_FreeAllResources_4D4360
+        &MainMenuController::tLoadGame_Input_4D3EF0,
+        &MainMenuController::tLoadGame_Render_4D44D0,
+        sBtnArray_LoadGame_561450,
+        &MainMenuController::tLoadGame_Load_4D42F0,
+        &MainMenuController::tLoadGame_Unload_4D4360
     },
     {
         5,        0,        900,        1,        0,        0,        1,
@@ -222,7 +245,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         22,        0,        0,        0,        -1,        -1,        0,
-        nullptr, //&MainMenuController::tsub_LoadSave_4D1040,
+        &MainMenuController::tsub_LoadSave_Input_4D1040,
         NULL,
         NULL,
         NULL,
@@ -1310,6 +1333,161 @@ void MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0()
         }
     }
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+}
+
+
+signed int MainMenuController::tsub_LoadSave_Input_4D1040(DWORD /*input*/)
+{
+    NOT_IMPLEMENTED();
+
+    return 0;
+}
+
+signed int MainMenuController::tsub_4D0E10(DWORD /*input*/)
+{
+    NOT_IMPLEMENTED();
+
+    return 0;
+}
+
+ALIVE_VAR(1, 0xbb43f0, int, sAnimatingSelectionChange_BB43F0, 0);
+ALIVE_VAR(1, 0xbb43e8, int, sLoadGameSaveIdx_BB43E8, 0);
+
+EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
+{
+    bool indexChanged = false;
+
+    // Escape ?
+    if (input & 0x200000)
+    {
+        // Go back to start page
+        field_23C_T80.Clear(Flags::eBit21);
+        field_23A = 0;
+        return 0x20001;
+    }
+    // Up a single save
+    else if (input & eUp)
+    {
+        if (sLoadGameSaveIdx_BB43E8 > 0 && !sAnimatingSelectionChange_BB43F0)
+        {
+            sLoadGameSaveIdx_BB43E8--;
+            indexChanged = true;
+        }
+    }
+    // Down a single save
+    else if (input & eDown)
+    {
+        if (sLoadGameSaveIdx_BB43E8 < sSaveIdx_dword_BB43E0 - 1 && !sAnimatingSelectionChange_BB43F0)
+        {
+            sLoadGameSaveIdx_BB43E8++;
+            indexChanged = true;
+        }
+    }
+    else if (input & 0x20000000)
+    {
+        // Page up underflow
+        if (sLoadGameSaveIdx_BB43E8 >= 3 && !sAnimatingSelectionChange_BB43F0)
+        {
+            sLoadGameSaveIdx_BB43E8 -= 3;
+            indexChanged = true;
+        }
+        else
+        {
+            sLoadGameSaveIdx_BB43E8 = 0;
+            indexChanged = true;
+        }
+    }
+    else if (input & 0x40000000)
+    {
+        // Page down overflow
+        if (sLoadGameSaveIdx_BB43E8 < sSaveIdx_dword_BB43E0 - 3 && !sAnimatingSelectionChange_BB43F0)
+        {
+            sLoadGameSaveIdx_BB43E8 += 3;
+            indexChanged = true;
+        }
+        else
+        {
+            sLoadGameSaveIdx_BB43E8 = sSaveIdx_dword_BB43E0 -1;
+            indexChanged = true;
+        }
+    }
+
+    if (indexChanged)
+    {
+        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+    }
+
+    if (input & eUnPause)
+    {
+        // No save to load, go back
+        if (sSaveIdx_dword_BB43E0 == 0)
+        {
+            // Go back to start page
+            field_23C_T80.Clear(Flags::eBit21);
+            field_23A = 0;
+            return 0x20001;
+        }
+
+        // Load selected save
+        char filename[40] = {};
+        strcpy(filename, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
+        strcat(filename, ".sav");
+
+        FILE* hFile = fopen_520C64(filename, "rb");
+        if (!hFile)
+        {
+            return 0;
+        }
+        fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
+        fclose_520CBE(hFile);
+
+        field_23C_T80.Set(Flags::eBit21);
+        return 0xFFFF000D;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+void MainMenuController::tLoadGame_Render_4D44D0(int** /*pOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void MainMenuController::tLoadGame_Load_4D42F0()
+{
+    field_23A = 6;
+    field_230_fmv_level_index = 0;
+    field_1FC_button_index = -1;
+    Quicksave_FindSaves_4D4150();
+    sLoadGameSaveIdx_BB43E8 = sSelectedSaveIdx_BB43FC;
+    field_23C_T80.Clear(Flags::eBit15);
+    field_1F4_credits_next_frame = 0;
+}
+
+EXPORT void sub_4A2D40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void MainMenuController::tLoadGame_Unload_4D4360()
+{
+    field_23C_T80.Clear(Flags::eBit15);
+
+    sub_4A2D40();
+
+    if (field_23C_T80.Get(Flags::eBit21))
+    {
+        for (auto& ppRes : field_F4_resources.field_0_resources)
+        {
+            if (field_20_animation.field_20_ppBlock != ppRes)
+            {
+                ResourceManager::FreeResource_49C330(ppRes);
+                ppRes = nullptr;
+            }
+        }
+    }
 }
 
 void MainMenuController::Game_Force_Quit_Load_4D1A90()
