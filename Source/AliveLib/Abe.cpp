@@ -1721,7 +1721,7 @@ void Abe::Update_449DC0()
 
         if (field_128.field_18_say != AbeSay::eNothing && static_cast<int>(sGnFrame_5C1B84) >= field_144_auto_say_timer)
         {
-            if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
+            if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
                 || (field_106_current_state == eAbeStates::State_112_Chant_45B1C0)
                 || field_106_current_state == eAbeStates::State_7_45B140
                 || field_106_current_state == eAbeStates::State_8_45B160
@@ -1729,6 +1729,7 @@ void Abe::Update_449DC0()
                 || field_106_current_state == eAbeStates::State_10_Fart_45B1A0)
             {
                 // Prevents double laugh when blowing up a slig as we prevent saying anything while chanting or various other states
+                // or when abe isn't in the active screen
                 field_128.field_18_say = AbeSay::eNothing;
             }
             else
