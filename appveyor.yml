@@ -12,7 +12,7 @@ clone_folder: c:\ar
 build_script:
  - mkdir build
  - cd build
- - cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 cmake -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER%
+ - cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER%
  - msbuild AR.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /m
 # - Source\Tests\%configuration%\Tests.exe
  - call "C:\Program Files (x86)\cmake\bin\cpack" -G ZIP -C %configuration%
