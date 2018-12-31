@@ -13,5 +13,5 @@ Last working build number: [finding this will greatly reduce time to fix]
 Description of issue:
 [insert description]
 
-Steps to repo:
+Steps to repro:
 [insert repro steps, please also attach a save file too where possible]
