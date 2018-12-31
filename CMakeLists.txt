@@ -10,7 +10,7 @@ endif()
 
 add_custom_target(
     UpdateConfigHeader
-    COMMAND "${CMAKE}" -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
+    COMMAND "${CMAKE}" -DBUILD_NUMBER=${BUILD_NUMBER} -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
 )
 
 find_package(SDL2 REQUIRED)
