@@ -284,10 +284,6 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     FP tlvXMid = FP_FromInteger((pTlvData->field_8_top_left.field_0_x + pTlvData->field_C_bottom_right.field_0_x) / 2);
     PathLine* pathLine = nullptr;
 
-    // TODO: Used else where, figure out meaning
-    int v16 = -(field_D6_scale != 0);
-    v16 = v16 & 0x1F;
-
     if (sCollisions_DArray_5C1128->Raycast_417A60(
         tlvXMid,
         FP_FromInteger(pTlvData->field_8_top_left.field_2_y),
@@ -296,7 +292,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         &pathLine,
         xOff,
         yOff,
-        v16 + 240))
+        (field_D6_scale == 1) ? 15 : 240))
     {
         // Move up off the line we hit
         *yOff -= FP_FromInteger(12) * field_CC_sprite_scale;

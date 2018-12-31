@@ -355,10 +355,6 @@ __int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hi
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
 
-    // TODO: Not sure what is going on here??
-    __int16  inverted_scale = -(field_D6_scale != 0);
-    inverted_scale = inverted_scale & ~0xE0u;
-
     __int16 bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
         oldXPos,
         oldYPos,
@@ -367,7 +363,7 @@ __int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hi
         ppPathLine,
         hitX,
         hitY,
-        inverted_scale + 240);
+        (field_D6_scale == 1) ? 15 : 240);
 
     if (bCollision)
     {

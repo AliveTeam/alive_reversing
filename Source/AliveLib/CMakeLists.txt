@@ -185,6 +185,8 @@ add_library(AliveLib
     DeathBirdParticle.cpp
     Dove.hpp
     Dove.cpp
+    WorkWheel.hpp
+    WorkWheel.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)

@@ -34,6 +34,7 @@
 #include "Door.hpp"
 #include "QuikSave.hpp"
 #include "DeathBirdParticle.hpp"
+#include "WorkWheel.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -1933,7 +1934,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
-    BaseAliveGameObject* pfield_164 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
     if (sControlledCharacter_5C1B8C == this || field_10C_health <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
@@ -1946,7 +1947,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (pfield_164)
         {
-            pfield_164->Vnull_408F70();
+            pfield_164->VStopTurning(1);
             field_164_wheel_id = -1;
         }
 
@@ -7501,9 +7502,6 @@ void Abe::State_114_DoorEnter_459470()
 
         MapFollowMe_408D10(TRUE);
 
-        // TODO: WTF ?? What is this shorthand for?
-        auto unknown = -(field_D6_scale != 0);
-        unknown = unknown & 0x1F;
         PathLine* pathLine = nullptr;
         FP hitX = {};
         FP hitY = {};
@@ -7515,7 +7513,7 @@ void Abe::State_114_DoorEnter_459470()
             &pathLine,
             &hitX,
             &hitY,
-            unknown + 240))
+            (field_D6_scale == 1) ? 15 : 240))
         {
             field_100_pCollisionLine = pathLine;
             field_BC_ypos = hitY;
@@ -7685,10 +7683,10 @@ void Abe::State_126_TurnWheelBegin_456700()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        BaseAliveGameObject* pWheel = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+        WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
         if (pWheel)
         {
-            pWheel->VUnPosses_408F90();
+            pWheel->VStartTurning();
         }
         field_106_current_state = eAbeStates::State_127_TurnWheelLoop_456750;
         field_120_state = 0;

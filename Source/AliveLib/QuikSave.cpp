@@ -11,6 +11,7 @@
 #include "StatsSign.hpp"
 #include "DDCheat.hpp"
 #include "Events.hpp"
+#include "WorkWheel.hpp"
 
 EXPORT int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
@@ -44,7 +45,6 @@ EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED();
 EXPORT int CC Slurg__CreateFromSaveState_4C8DF0(const BYTE*) { NOT_IMPLEMENTED(); return 44; }
 EXPORT int CC TimerTrigger__CreateFromSaveState_4CDF70(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 EXPORT int CC TrapDoor__CreateFromSaveState_4DDED0(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
-EXPORT int CC WorkWheel__CreateFromSaveState_4E3B10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 
 struct QuickSaveRestoreTable
 {
@@ -201,7 +201,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &WorkWheel__CreateFromSaveState_4E3B10,
+    &WorkWheel::CreateFromSaveState_4E3B10,
     nullptr,
     nullptr,
     nullptr,
