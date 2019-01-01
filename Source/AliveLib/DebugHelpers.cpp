@@ -22,6 +22,8 @@
 #include "PsxRender.hpp"
 #include "LvlArchive.hpp"
 #include "UXB.hpp"
+#include "Movie.hpp"
+#include "Text.hpp"
 
 char _devConsoleBuffer[1000];
 
@@ -622,6 +624,25 @@ void Command_Midi1(const std::vector<std::string>& args)
     DEV_CONSOLE_MESSAGE("Played Midi1", 6);
 }
 
+void Command_DDV(const std::vector<std::string>& args)
+{
+    SND_StopAll_4CB060();
+
+    std::string filePath = args[0] + ".STR";
+    while (!DDV_Play_493210(filePath.c_str()))
+    {
+        if (word_5C1BA0)
+        {
+            break;
+        }
+
+        if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[sLevelId_dword_5CA408].field_1C_unused, 1))
+        {
+            break;
+        }
+    }
+}
+
 void Command_SetState(const std::vector<std::string>& args)
 {
     if (sControlledCharacter_5C1B8C->field_4_typeId != BaseGameObject::Types::eType_Abe_69)
@@ -662,6 +683,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
     { "state", 1, Command_SetState, "Sets currently controlled objects state." },
+    { "ddv", 1, Command_DDV, "Plays a ddv" },
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
     { "path_lines", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
     { "grid", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
