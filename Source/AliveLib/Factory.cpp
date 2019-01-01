@@ -14,6 +14,7 @@
 #include "Alarm.hpp"
 #include "Door.hpp"
 #include "WorkWheel.hpp"
+#include "StatusLight.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -439,7 +440,23 @@ EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* , Path*, TlvItemInfoUnion, __int
 EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MultiSwitchController_4D6C00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_StatusLight_4DA7E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_StatusLight_4DA7E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("STATUSLT.BAN", ResourceManager::Resource_Animation, 373, loadmode); // TODO: Id
+    }
+    else
+    {
+        auto pStatusLight = alive_new<StatusLight>();
+        if (pStatusLight)
+        {
+            pStatusLight->ctor_4D5250(static_cast<Path_StatusLight*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ParamiteWeb_4D9120(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 

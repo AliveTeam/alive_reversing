@@ -187,6 +187,8 @@ add_library(AliveLib
     Dove.cpp
     WorkWheel.hpp
     WorkWheel.cpp
+    StatusLight.hpp
+    StatusLight.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)
