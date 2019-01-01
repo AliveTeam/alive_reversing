@@ -177,6 +177,27 @@ static Masher* Open_DDV(const char* pMovieName)
 
     if (errCode)
     {
+#if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
+        // Load movies from a sub folder called "movies"
+        strcpy(pFileName, "");
+        strcat(pFileName, "movies\\");
+        strcat(pFileName, pMovieName);
+
+        strcpy(strstr(pFileName, ".STR"), ".ddv");
+
+        pMasher = Masher_Alloc_4EAB80(
+            pFileName,
+            &pMasher_header_5CA1E4,
+            &pMasher_video_header_5CA204,
+            &pMasher_audio_header_5CA1E0,
+            &errCode);
+
+        if (!errCode)
+        {
+            return pMasher;
+        }
+#endif
+
         strcpy(pFileName, sCdEmu_Path2_C144C0);
         strcat(pFileName, "movies\\");
         strcat(pFileName, pMovieName);

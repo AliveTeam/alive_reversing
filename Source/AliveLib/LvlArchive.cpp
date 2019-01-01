@@ -93,7 +93,21 @@ int LvlArchive::Open_Archive_432E80(const char* fileName)
     field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0_T<LvlHeader_Sub*>(kSectorSize * 5, ResourceManager::BlockAllocMethod::eFirstMatching);
 
     // Open the LVL file
+
+#if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
+    char subdirPath[256];
+    strcpy(subdirPath, "levels");
+    strcat(subdirPath, fileName);
+    int hFile = PSX_CD_OpenFile_4FAE80(subdirPath, 1);
+
+    if (!hFile)
+    {
+        hFile = PSX_CD_OpenFile_4FAE80(fileName, 1);
+    }
+#else
     int hFile = PSX_CD_OpenFile_4FAE80(fileName, 1);
+#endif
+
     if (!hFile)
     {
         return 0;

@@ -198,6 +198,7 @@ target_include_directories(AliveLib PUBLIC
 
 target_compile_definitions(AliveLib PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
+target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
 if (MSVC)
     target_compile_options(AliveLib PRIVATE /W4 /wd4996 /WX /MP)
