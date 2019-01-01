@@ -395,10 +395,17 @@ EXPORT InputCommands CC Input_LoadSettingsIni_GetInputCommand_492B80(const char 
     return static_cast<InputCommands>(0x800000);
 }
 
-EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * /* a1 */)
+EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * keyName)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    for (int i = 0; i < 256; i++)
+    {
+        if (sKeyNames_5C9394[i] && !strcmpi(keyName, sKeyNames_5C9394[i]))
+        {
+            return i;
+        }
+    }
+
+    return -1;
 }
 
 EXPORT int CC Input_GetGamePadCode_492CF0(const char * /* a1 */)
@@ -857,7 +864,7 @@ ALIVE_VAR(1, 0x5c98d8, DWORD, sPrevTimeStamp_5C98D8, 0);
 ALIVE_VAR(1, 0x5c98dc, DWORD, dword_5C98DC, 0);
 ALIVE_VAR(1, 0x5c9f74, DWORD, sPrevious_down_keyboard_keys_5C9F74, 0);
 ALIVE_VAR(1, 0x5c9f78, DWORD, dword_5C9F78, 0);
-ALIVE_VAR(1, 0x5c9794, int, sGamePadBindings_5C9794, 0);
+ALIVE_VAR(1, 0x5c9794, int, sKeyboardBindings_5C9794, 0);
 
 // Temp Hax. Todo: fix up
 EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
@@ -1094,7 +1101,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
     }
 exit_func:
     dword_55EBF8 = converted_input; // never read ?
-    sGamePadBindings_5C9794 = converted_input;
+    sKeyboardBindings_5C9794 = converted_input;
     sPrevious_down_keyboard_keys_5C9F74 = pressed_keyboard_keys;
     return converted_input;
 }
