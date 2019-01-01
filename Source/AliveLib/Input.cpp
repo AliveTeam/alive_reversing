@@ -410,7 +410,7 @@ EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * keyName)
 
 EXPORT int CC Input_GetGamePadCode_492CF0(const char * buttonName )
 {
-    for (int i = 0; i < 256; i++)
+    for (int i = 0; i < 10; i++)
     {
         if (sJoyButtonNames_5C9908[i] && !strcmpi(buttonName, sJoyButtonNames_5C9908[i]))
         {
