@@ -45,8 +45,8 @@ ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
 ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
 ALIVE_ARY(1, 0x5C9908, const char *, 10, sJoyButtonNames_5C9908, {});
-ALIVE_ARY(1, 0x5C9930, InputCommands, 256, sKeyBindings_5C9930, {});
-ALIVE_ARY(1, 0x5C98E0, int, 10, sKeyboardBindings_5C98E0, {});
+ALIVE_ARY(1, 0x5C9930, InputCommands, 256, sKeyboardBindings_5C9930, {});
+ALIVE_ARY(1, 0x5C98E0, int, 10, sGamePadBindings_5C98E0, {});
 ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 
 ALIVE_ARY(1, 0x555708, char, 32, sGamePadStr_555708, { "Game Pad" });
@@ -356,7 +356,7 @@ EXPORT void CC Input_491870()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Input_ResetBinding_4925A0(int /*input_command*/, int /*a2*/)
+EXPORT void CC Input_ResetBinding_4925A0(int /*input_command*/, int /*bIsGamePad*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -394,34 +394,34 @@ EXPORT InputCommands CC Input_LoadSettingsIni_GetInputCommand_492B80(const char 
     return static_cast<InputCommands>(0x800000);
 }
 
-EXPORT int CC Input_GetGamePadKeyCode_492CA0(const char * /* a1 */)
+EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * /* a1 */)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT int CC Input_GetKeyboardKeyCode_492CF0(const char * /* a1 */)
+EXPORT int CC Input_GetGamePadCode_492CF0(const char * /* a1 */)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-EXPORT void CC Input_SetGamePadBinding_493180(char *pKeyName, int inputCommand)
+EXPORT void CC Input_SetKeyboardBinding_493180(const char *pKeyName, int inputCommand)
 {
-    int keyCode = Input_GetGamePadKeyCode_492CA0(pKeyName);
+    int keyCode = Input_GetKeyboardKeyCode_492CA0(pKeyName);
     if (keyCode >= 0)
     {
         Input_ResetBinding_4925A0(inputCommand, 0);
-        sKeyBindings_5C9930[keyCode] = static_cast<InputCommands>(sKeyBindings_5C9930[keyCode] | inputCommand);
+        sKeyboardBindings_5C9930[keyCode] = static_cast<InputCommands>(sKeyboardBindings_5C9930[keyCode] | inputCommand);
     }
 }
 
-EXPORT void CC Input_SetKeyboardBinding_4931D0(const char *pKeyName, int inputCommand)
+EXPORT void CC Input_SetGamePadBinding_4931D0(const char *pButtonName, int inputCommand)
 {
-    int keyCode = Input_GetKeyboardKeyCode_492CF0(pKeyName);
+    int gamePadCode = Input_GetGamePadCode_492CF0(pButtonName);
     Input_ResetBinding_4925A0(inputCommand, 1);
-    if (keyCode >= 0)
+    if (gamePadCode >= 0)
     {
-        sKeyboardBindings_5C98E0[keyCode] = static_cast<InputCommands>(sKeyboardBindings_5C98E0[keyCode] | inputCommand);
+        sGamePadBindings_5C98E0[gamePadCode] = static_cast<InputCommands>(sGamePadBindings_5C98E0[gamePadCode] | inputCommand);
     }
 }
 
@@ -481,13 +481,12 @@ void NewParseSettingsIni()
             if (category == "Keyboard")
             {
                 isKeyboardParams = true;
-                // This is never reachable on OG because of a bug!
-                /*Input_ResetBinding_4925A0(16, 0);
+                Input_ResetBinding_4925A0(16, 0);
                 Input_ResetBinding_4925A0(64, 0);
                 Input_ResetBinding_4925A0(256, 0);
                 Input_ResetBinding_4925A0(32, 0);
                 Input_ResetBinding_4925A0(128, 0);
-                Input_ResetBinding_4925A0(512, 0);*/
+                Input_ResetBinding_4925A0(512, 0);
             }
         }
         else
@@ -501,7 +500,7 @@ void NewParseSettingsIni()
                 if (isKeyboardParams)
                 {
                     InputCommands kbInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
-                    Input_SetKeyboardBinding_4931D0(param[1].c_str(), kbInputCommand);
+                    Input_SetKeyboardBinding_493180(param[1].c_str(), kbInputCommand);
                 }
                 else
                 {
@@ -553,6 +552,11 @@ void NewParseSettingsIni()
                             s_VGA_FilterScreen = false;
                         }
                     }
+                    else
+                    {
+                        InputCommands kbInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
+                        Input_SetGamePadBinding_4931D0(param[1].c_str(), kbInputCommand);
+                    }
                 }
             }
         }
@@ -563,9 +567,8 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
 {
     NewParseSettingsIni();
 
-    //return;
     //NOT_IMPLEMENTED();
-    //FILE *v0; // eax
+    //FILE *hFile_ini; // eax
     //FILE *v1; // esi
     //unsigned int v2; // kr04_4
     //char *equalsPtr; // eax
@@ -575,21 +578,20 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
     //char *i; // ebp
     //char j; // al
     //int v9; // eax
-    //int v10; // edi
     //int v11; // edi
-    //signed int loadingKeyboard; // [esp+4h] [ebp-40Ch]
+    //signed int loadingGamepad; // [esp+4h] [ebp-40Ch]
     //FILE *v13; // [esp+Ch] [ebp-404h]
     //char abeIniBuffer[1024]; // [esp+10h] [ebp-400h]
 
-    //loadingKeyboard = 0;
-    //v0 = fopen("abe2.ini", "r");
-    //v1 = v0;
-    //v13 = v0;
+    //loadingGamepad = 0;
+    //hFile_ini = fopen("abe2.ini", "r");
+    //v1 = hFile_ini;
+    //v13 = hFile_ini;
     //
 
-    //if (v0)
+    //if (hFile_ini)
     //{
-    //    if (fgets(abeIniBuffer, 1024, v0))
+    //    if (fgets(abeIniBuffer, 1024, hFile_ini))
     //    {
     //        BYTE * filePlaceholder = reinterpret_cast<BYTE*>(&v13);
 
@@ -607,15 +609,13 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
     //                {
     //                    filePlaceholder[strlen(abeIniBuffer) + 3] = 0;
     //                }
-    //                // OG BUG! There is never a time where this matches.
-    //                // The string will always be 'Keyboard]'. Note the ] at the end.
     //                if (_strcmpi(&abeIniBuffer[1], "Keyboard")) 
     //                {
-    //                    loadingKeyboard = 1;
+    //                    loadingGamepad = 1;
     //                }
     //                else
     //                {
-    //                    loadingKeyboard = 0;
+    //                    loadingGamepad = 0;
     //                    Input_ResetBinding_4925A0(16, 0);
     //                    Input_ResetBinding_4925A0(64, 0);
     //                    Input_ResetBinding_4925A0(256, 0);
@@ -663,16 +663,16 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
     //                        v9 = Input_LoadSettingsIni_GetInputCommand_492B80(i);
     //                        if (v9)
     //                        {
-    //                            if (loadingKeyboard)
+    //                            if (loadingGamepad)
     //                            {
-    //                                if (loadingKeyboard == 1)
+    //                                if (loadingGamepad == 1)
     //                                {
-    //                                    Input_SetKeyboardBinding_4931D0(opt_value, v9);
+    //                                    Input_SetGamePadBinding_4931D0(opt_value, v9);
     //                                }
     //                            }
     //                            else
     //                            {
-    //                                Input_SetGamePadBinding_493180(opt_value, v9);
+    //                                Input_SetKeyboardBinding_493180(opt_value, v9);
     //                            }
     //                        }
     //                        else if (_strcmpi(i, "controller"))
@@ -682,7 +682,7 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
     //                                v11 = sJoystickNumButtons_5C2EFC;
     //                                if (sJoystickNumButtons_5C2EFC && atol(opt_value) != v11)
     //                                {
-    //                                    loadingKeyboard = -1;
+    //                                    loadingGamepad = -1;
     //                                }
     //                                else
     //                                {
@@ -699,15 +699,13 @@ EXPORT void CC Input_LoadSettingsIni_492D40()
     //                        }
     //                        else
     //                        {
-    //                            v10 = 0;
     //                            if (!_strcmpi(opt_value, "Game Pad")
     //                                || !_strcmpi(opt_value, "Joystick")
     //                                || !_strcmpi(opt_value, "GamePad")
     //                                || !_strcmpi(opt_value, "Joy stick"))
     //                            {
-    //                                v10 = 1;
+    //                                sJoystickEnabled_5C9F70 = 1;
     //                            }
-    //                            sJoystickEnabled_5C9F70 = v10;
     //                        }
     //                    }
     //                }
@@ -767,11 +765,11 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
     {
         for (int i = 0; i < 256; i++)
         {
-            if (sKeyBindings_5C9930[i])
+            if (sKeyboardBindings_5C9930[i])
             {
                 if (Input_IsVKPressed_4EDD40(i))
                 {
-                    pressed_keyboard_keys |= sKeyBindings_5C9930[i];
+                    pressed_keyboard_keys |= sKeyboardBindings_5C9930[i];
                 }
             }
         }
@@ -826,7 +824,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
                     for (int i = 0; i < 10; i++)
                     {
-                        if (sKeyboardBindings_5C98E0[i] & 0x800000) // C ??
+                        if (sGamePadBindings_5C98E0[i] & 0x800000) // C ??
                         {
                             if ((1 << i) & pButtons)
                             {
@@ -835,7 +833,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             }
                         }
 
-                        if (sKeyboardBindings_5C98E0[i] & 0x1000000) // VK_DELETE ??
+                        if (sGamePadBindings_5C98E0[i] & 0x1000000) // VK_DELETE ??
                         {
                             if ((1 << i) & pButtons)
                             {
@@ -898,11 +896,11 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
                 for (int i = 0; i < 10; i++)
                 {
-                    if (sKeyboardBindings_5C98E0[i])
+                    if (sGamePadBindings_5C98E0[i])
                     {
                         if ((1 << i) & buttons)
                         {
-                            pressed_keyboard_keys |= sKeyboardBindings_5C98E0[i];
+                            pressed_keyboard_keys |= sGamePadBindings_5C98E0[i];
                         }
                     }
                 }
@@ -1257,14 +1255,14 @@ EXPORT void CC Input_Init_491BC0()
 #endif
 
     Input_InitJoyStick_460080();
-    memset(sKeyBindings_5C9930, 0, sizeof(*sKeyBindings_5C9930) * 256);
+    memset(sKeyboardBindings_5C9930, 0, sizeof(*sKeyboardBindings_5C9930) * 256);
 
     for (auto kb = sDefaultKeyBindings_55EAD8; kb->key; kb++)
     {
-        sKeyBindings_5C9930[kb->key] = kb->command;
+        sKeyboardBindings_5C9930[kb->key] = kb->command;
     }
 
-    memcpy(sKeyboardBindings_5C98E0, &sInputUnknown_55EA2C, sizeof(sInputUnknown_55EA2C));
+    memcpy(sGamePadBindings_5C98E0, &sInputUnknown_55EA2C, sizeof(sInputUnknown_55EA2C));
     Input_LoadSettingsIni_492D40();
     Input_491870();
     Input_SetCallback_4FA910(Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150);
