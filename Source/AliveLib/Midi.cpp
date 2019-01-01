@@ -199,10 +199,7 @@ struct VabHeader
 };
 ALIVE_ASSERT_SIZEOF(VabHeader, 0x820);
 
-//ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
-// For some reason this gets corrupted in the stack for certain compilers
-// unless it's set to static.
-static VabHeader* spVabHeaders_C13160[4];
+ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
 
 struct VagAtr
 {
@@ -264,7 +261,14 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
     MIDI_UpdatePlayer_4FDC80();
 
     const int vab_id = pVabHeader->field_8_id;
+    assert(vab_id < 4);
     SND_SsVabClose_4FC5B0(vab_id);
+    static VabHeader** g = spVabHeaders_C13160;
+    if (spVabHeaders_C13160 != g)
+    {
+        __debugbreak();
+    }
+
     spVabHeaders_C13160[vab_id] = pVabHeader;
     if (sVagCounts_BE6144[vab_id] > 0)
     {
@@ -565,8 +569,6 @@ EXPORT int CC MIDI_Stop_Existing_Single_Note_4FCFF0(int VabIdAndProgram, int not
             return 0;
         }
     }
-    
-    MIDI_Stop_Channel_4FE010(i);
     return 0;
 }
 
@@ -1275,6 +1277,7 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
     sSoundDatFileHandle_BD1CE0 = fopen_520C64("sounds.dat", "rb");
     sSoundDatIsNull_BD1CE8 = sSoundDatFileHandle_BD1CE0 == nullptr;
 
+    assert(vabId < 4);
     VabHeader* pVabHeader = spVabHeaders_C13160[vabId];
     const int vagCount = sVagCounts_BE6144[vabId];
     for (int i = 0; i < vagCount; i++)
