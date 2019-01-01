@@ -263,12 +263,6 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
     const int vab_id = pVabHeader->field_8_id;
     assert(vab_id < 4);
     SND_SsVabClose_4FC5B0(vab_id);
-    static VabHeader** g = spVabHeaders_C13160;
-    if (spVabHeaders_C13160 != g)
-    {
-        __debugbreak();
-    }
-
     spVabHeaders_C13160[vab_id] = pVabHeader;
     if (sVagCounts_BE6144[vab_id] > 0)
     {

@@ -235,4 +235,12 @@ struct Path_HandStone : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_HandStone, 0x1C);
 
+struct Path_AbeStart :public Path_TLV
+{
+    static constexpr int kType = 22;
+    __int16 field_10_scale;
+    // pad
+};
+ALIVE_ASSERT_SIZEOF(Path_AbeStart, 0x14);
+
 ALIVE_VAR_EXTERN(Path*, sPath_dword_BB47C0);

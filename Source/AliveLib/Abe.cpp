@@ -35,6 +35,7 @@
 #include "QuikSave.hpp"
 #include "DeathBirdParticle.hpp"
 #include "WorkWheel.hpp"
+#include "LevelLoader.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -7695,7 +7696,81 @@ void Abe::State_126_TurnWheelBegin_456700()
 
 void Abe::State_127_TurnWheelLoop_456750()
 {
-    NOT_IMPLEMENTED();
+    enum eStates
+    {
+        eTurningWheel = 0,
+        eCheckForNoLongerTurningWheel = 1,
+        eMapChanging = 2,
+    };
+
+    if (field_120_state == eTurningWheel) // The state we enter the main state at
+    {
+        Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_LevelLoader::kType, 0));
+        if (!pLevelLoader) // TODO: Correct typing
+        {
+            // Must ALSO do logic below in this instance
+            field_120_state = eCheckForNoLongerTurningWheel;
+        }
+        else
+        {
+            if (SwitchStates_Get_466020(pLevelLoader->field_10_id))
+            {
+                field_120_state = eMapChanging;
+                SND_SEQ_Play_4CAB10(31u, 1, 127, 127);
+                auto pMusicTrigger = alive_new<MusicTrigger>();
+                if (pMusicTrigger)
+                {
+                    pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
+                }
+                return;
+            }
+        }
+    }
+
+    if (field_120_state == eCheckForNoLongerTurningWheel)
+    {
+        if (!sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & sInputKey_Up_5550D8)
+        {
+            // Not holding up anymore, stop
+            WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+            if (pWheel)
+            {
+                pWheel->VStopTurning(1);
+            }
+            field_164_wheel_id = -1;
+            field_106_current_state = eAbeStates::State_128_TurnWheelEnd_4569A0;
+        }
+    }
+    else if (field_120_state == eMapChanging)
+    {
+        // This happens for the mines tunnel 1 ender
+        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
+        {
+            // When we've changed from the camera with the wheels to tunnel 2 this forces the falling state into the well
+            // another tasty OWI hack..
+            WorkWheel* pWorkWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+            if (pWorkWheel) // Most likely always nullptr here, maybe the whole "stop wheel" was an inlined func
+            {
+                pWorkWheel->VStopTurning(1);
+            }
+            field_164_wheel_id = -1;
+
+            Path_AbeStart* pPathAbeStart = static_cast<Path_AbeStart*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_AbeStart::kType, 0));
+            field_B8_xpos = FP_FromInteger((pPathAbeStart->field_8_top_left.field_0_x + pPathAbeStart->field_C_bottom_right.field_0_x) / 2);
+            field_BC_ypos = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
+            field_F8 = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
+            // TODO: OG bug, scale not read from the TLV ??
+
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            field_106_current_state = eAbeStates::jState_85_Fall_455070;
+            field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
+        }
+    }
 }
 
 void Abe::State_128_TurnWheelEnd_4569A0()

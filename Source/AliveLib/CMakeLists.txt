@@ -191,6 +191,8 @@ add_library(AliveLib
     StatusLight.cpp
     WheelSyncer.hpp
     WheelSyncer.cpp
+    LevelLoader.hpp
+    LevelLoader.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)

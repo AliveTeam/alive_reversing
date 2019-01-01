@@ -25,6 +25,7 @@ ALIVE_ASSERT_SIZEOF(WorkWheel_SaveState, 0x10);
 
 struct Path_Wheel : public Path_TLV
 {
+    constexpr static int kType = 79;
     __int16 field_10_scale;
     __int16 field_12_id;
     __int16 field_14_duration;
