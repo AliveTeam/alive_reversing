@@ -415,9 +415,35 @@ __int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hi
         field_D6_scale != 0 ? 6 : 96);
 }
 
-BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(Types /*typeToFind*/, FP /*xpos*/, FP /*ypos*/)
+BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos)
 {
-    NOT_IMPLEMENTED();
+    const int xposI = FP_GetExponent(xpos);
+    const int yposI = FP_GetExponent(ypos);
+
+    for (int i=0; i<gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == typeToFind && pObj != this)
+        {
+            auto pCasted = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+            if (pCasted->field_D6_scale == field_D6_scale)
+            {
+                PSX_RECT bRect = {};
+                pCasted->vGetBoundingRect_424FD0(&bRect, 1);
+
+                if (xposI >= bRect.x && xposI <= bRect.w &&
+                    yposI >= bRect.y && yposI <= bRect.h)
+                {
+                    return pObj;
+                }
+            }
+        }
+    }
     return nullptr;
 }
 
