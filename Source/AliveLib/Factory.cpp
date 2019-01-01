@@ -15,6 +15,7 @@
 #include "Door.hpp"
 #include "WorkWheel.hpp"
 #include "StatusLight.hpp"
+#include "WheelSyncer.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -391,7 +392,18 @@ EXPORT void CC Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
     }
 }
 
-EXPORT void CC Factory_WheelSyncer_4DA430(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_WheelSyncer_4DA430(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
+{
+    if (loadmode != 1 && loadmode != 2)
+    {
+        auto pWheelSyncer = alive_new<WheelSyncer>();
+        if (pWheelSyncer)
+        {
+            pWheelSyncer->ctor_466090(static_cast<Path_WheelSyncer*>(pTlv), tlvOffsetLevelIdPathId.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_MusicTrigger_4D71B0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Light_4D8590(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }

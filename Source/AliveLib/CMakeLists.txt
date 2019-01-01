@@ -189,6 +189,8 @@ add_library(AliveLib
     WorkWheel.cpp
     StatusLight.hpp
     StatusLight.cpp
+    WheelSyncer.hpp
+    WheelSyncer.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)
