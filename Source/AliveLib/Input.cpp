@@ -408,10 +408,17 @@ EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * keyName)
     return -1;
 }
 
-EXPORT int CC Input_GetGamePadCode_492CF0(const char * /* a1 */)
+EXPORT int CC Input_GetGamePadCode_492CF0(const char * buttonName )
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    for (int i = 0; i < 256; i++)
+    {
+        if (sJoyButtonNames_5C9908[i] && !strcmpi(buttonName, sJoyButtonNames_5C9908[i]))
+        {
+            return i;
+        }
+    }
+
+    return -1;
 }
 
 EXPORT void CC Input_SetKeyboardBinding_493180(const char *pKeyName, int inputCommand)
