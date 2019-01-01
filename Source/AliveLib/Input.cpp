@@ -398,6 +398,7 @@ EXPORT InputCommands CC Input_LoadSettingsIni_GetInputCommand_492B80(const char 
 EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * /* a1 */)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 EXPORT int CC Input_GetGamePadCode_492CF0(const char * /* a1 */)
