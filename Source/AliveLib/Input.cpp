@@ -13,6 +13,7 @@
 #include <timeapi.h>
 #include "Sys.hpp"
 #include "VGA.hpp"
+#include "StringFormatters.hpp"
 
 #if XINPUT_SUPPORT
 #include <Xinput.h>
@@ -561,6 +562,138 @@ void NewParseSettingsIni()
             }
         }
     }
+}
+
+EXPORT void Input_SaveSettingsIni_492840()
+{
+    int prevJoyState = sJoystickEnabled_5C9F70;
+
+    std::stringstream output;
+
+    output << "[Control Layout]\n";
+
+    if (sJoystickEnabled_5C9F70)
+    {
+        if (sJoystickEnabled_5C9F70 == 1)
+        {
+            output << "controller = Game Pad\n";
+        }
+    }
+    else
+    {
+        output << "controller = Keyboard\n";
+    }
+
+    output << "\n";
+
+    sJoystickEnabled_5C9F70 = 0;
+    output << "[Keyboard]\n";
+
+    const char * btnString = nullptr;
+
+    btnString = Input_GetButtonString_492530("\x5", 0);
+    if (btnString)
+    {
+        output << "run = " << btnString << "\n";
+    }
+    btnString = Input_GetButtonString_492530("\x7", 0);
+    if (btnString)
+    {
+        output << "sneak = " << btnString << "\n";
+    }
+    btnString = Input_GetButtonString_492530("\x9", 0);
+    if (btnString)
+    {
+        output << "jump = " << btnString << "\n";
+    }
+    btnString = Input_GetButtonString_492530("\x6", 0);
+    if (btnString)
+    {
+        output << "action = " << btnString << "\n";
+    }
+    btnString = Input_GetButtonString_492530("\x8", 0);
+    if (btnString)
+    {
+        output << "throw = " << btnString << "\n";
+    }
+    btnString = Input_GetButtonString_492530("\xA", 0);
+    if (btnString)
+    {
+        output << "fart = " << btnString << "\n";
+    }
+
+    sJoystickEnabled_5C9F70 = 1;
+
+    output << "\n";
+
+    output << "[Game Pad]\n";
+    output << "buttons = " << sJoystickNumButtons_5C2EFC << "\n";
+
+    btnString = Input_GetButtonString_492530("\x5", 1);
+    if (btnString)
+    {
+        output << "run = " << btnString << "\n";
+    }
+
+    btnString = Input_GetButtonString_492530("\x7", 1);
+    if (btnString)
+    {
+        output << "sneak = " << btnString << "\n";
+    }
+
+    btnString = Input_GetButtonString_492530("\x9", 1);
+    if (btnString)
+    {
+        output << "jump = " << btnString << "\n";
+    }
+
+    btnString = Input_GetButtonString_492530("\x6", 1);
+    if (btnString)
+    {
+        output << "action = " << btnString << "\n";
+    }
+
+    btnString = Input_GetButtonString_492530("\x8", 1);
+    if (btnString)
+    {
+        output << "throw = " << btnString << "\n";
+    }
+
+    btnString = Input_GetButtonString_492530("\xA", 1);
+    if (btnString)
+    {
+        output << "fart = " << btnString << "\n";
+    }
+
+    btnString = Input_GetButtonString_492530("\x18", 1);
+    if (btnString)
+    {
+        output << "speak1 = " << btnString << "\n";
+    }
+
+    btnString = Input_GetButtonString_492530("\x19", 1);
+    if (btnString)
+    {
+        output << "speak2 = " << btnString << "\n";
+    }
+
+    sJoystickEnabled_5C9F70 = prevJoyState;
+
+    output << "\n";
+
+    // New Renderer Options
+
+    output << "[Graphics]\n";
+    output << "keep_aspect = " << ((s_VGA_KeepAspectRatio) ? "true" : "false") << "\n";
+    output << "filter_screen = " << ((s_VGA_FilterScreen) ? "true" : "false") << "\n";
+
+    /////////////////
+
+    std::ofstream fileOut("abe2.ini");
+    fileOut << output.rdbuf();
+    fileOut.close();
+
+    Input_491870();
 }
 
 EXPORT void CC Input_LoadSettingsIni_492D40()
