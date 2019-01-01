@@ -199,7 +199,10 @@ struct VabHeader
 };
 ALIVE_ASSERT_SIZEOF(VabHeader, 0x820);
 
-ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
+//ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
+// For some reason this gets corrupted in the stack for certain compilers
+// unless it's set to static.
+static VabHeader* spVabHeaders_C13160[4];
 
 struct VagAtr
 {
