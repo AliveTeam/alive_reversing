@@ -17,6 +17,7 @@
 #include "StatusLight.hpp"
 #include "WheelSyncer.hpp"
 #include "LevelLoader.hpp"
+#include "InvisibleSwitch.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -324,7 +325,19 @@ EXPORT void CC Factory_ScrabRightBound_4D6AA0(Path_TLV* , Path*, TlvItemInfoUnio
 EXPORT void CC Factory_SligBoundRight_4D79A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligPersist_4D79D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_EnemyStopper_4D6AC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode != 1 && loadmode != 2)
+    {
+        auto pInvisibleSwitch = alive_new<InvisibleSwitch>();
+        if (pInvisibleSwitch)
+        {
+            pInvisibleSwitch->ctor_45FA70(static_cast<Path_InvisibleSwitch*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ZSligCover_4D6A60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }

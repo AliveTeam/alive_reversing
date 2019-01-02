@@ -193,6 +193,8 @@ add_library(AliveLib
     WheelSyncer.cpp
     LevelLoader.hpp
     LevelLoader.cpp
+    InvisibleSwitch.hpp
+    InvisibleSwitch.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)
