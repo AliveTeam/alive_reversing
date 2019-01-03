@@ -6,6 +6,7 @@
 #include "stdlib.hpp"
 #include "Shadow.hpp"
 #include "ScreenManager.hpp"
+#include "ShadowZone.hpp"
 #include <gmock/gmock.h>
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
@@ -109,11 +110,6 @@ void BaseAnimatedWithPhysicsGameObject::Update_424AB0()
     // Empty
 }
 
-EXPORT void CC ShadowZones_Calculate_Colour_463CE0(int /*xpos*/, int /*ypos*/, __int16 /*scale*/, __int16* /*r*/, __int16* /*g*/, __int16* /*b*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -136,8 +132,8 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
 
             if (field_DC_bApplyShadows & 1)
             {
-                ShadowZones_Calculate_Colour_463CE0(
-                    FP_GetExponent(field_B8_xpos),        // Left side
+                ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                    FP_GetExponent(field_B8_xpos),      // Left side
                     (wh.field_2_y + xy.field_2_y) / 2,  // Middle of Height
                     field_D6_scale,
                     &r,

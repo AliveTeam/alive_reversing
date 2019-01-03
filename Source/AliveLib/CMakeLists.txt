@@ -197,6 +197,10 @@ add_library(AliveLib
     InvisibleSwitch.cpp
     Switch.hpp
     Switch.cpp
+    MultiSwitchController.hpp
+    MultiSwitchController.cpp
+    ShadowZone.hpp
+    ShadowZone.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)

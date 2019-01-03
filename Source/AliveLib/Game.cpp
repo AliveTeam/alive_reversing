@@ -58,7 +58,7 @@ ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 // Arrays of things
 ALIVE_VAR(1, 0x5C1B78, DynamicArrayT<BaseGameObject>*, ObjList_5C1B78, nullptr);
 ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
-ALIVE_VAR(1, 0x5C1B80, DynamicArray*, sShadow_dArray_5C1B80, nullptr);
+ALIVE_VAR(1, 0x5C1B80, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_5C1B80, nullptr);
 
 ALIVE_VAR(1, 0x5C2FE0, short, sBreakGameLoop_5C2FE0, 0);
 ALIVE_VAR(1, 0x5C1B66, short, sNum_CamSwappers_5C1B66, 0);
@@ -405,8 +405,8 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
     ObjList_5BD4D8 = alive_new<DynamicArray>();
     ObjList_5BD4D8->ctor_40CA60(10); // Never seems to be used?
 
-    sShadow_dArray_5C1B80 = alive_new<DynamicArray>();
-    sShadow_dArray_5C1B80->ctor_40CA60(4);
+    sShadowZone_dArray_5C1B80 = alive_new<DynamicArrayT<ShadowZone>>();
+    sShadowZone_dArray_5C1B80->ctor_40CA60(4);
 
     gBaseAliveGameObjects_5C1B7C = alive_new<DynamicArrayT<BaseAliveGameObject>>();
     gBaseAliveGameObjects_5C1B7C->ctor_40CA60(20);
@@ -591,10 +591,10 @@ EXPORT void CC Game_Run_466D40()
         Mem_Free_495540(ObjList_5BD4D8);
     }
 
-    if (sShadow_dArray_5C1B80)
+    if (sShadowZone_dArray_5C1B80)
     {
-        sShadow_dArray_5C1B80->dtor_40CAD0();
-        Mem_Free_495540(sShadow_dArray_5C1B80);
+        sShadowZone_dArray_5C1B80->dtor_40CAD0();
+        Mem_Free_495540(sShadowZone_dArray_5C1B80);
     }
 
     if (gBaseAliveGameObjects_5C1B7C)

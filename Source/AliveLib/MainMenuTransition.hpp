@@ -18,11 +18,12 @@ public:
     EXPORT void Render_464470(int** ot);
     EXPORT void dtor_4642F0();
     EXPORT BaseGameObject* vdtor_4642C0(signed int flags);
+    EXPORT void vScreenChanged_4648D0();
 
     virtual void VRender(int** ot) override;
     virtual void VUpdate() override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
-
+    virtual void VScreenChanged() override;
 private:
     __int16 field_20_current_value;
     __int16 field_22_change_by_speed;

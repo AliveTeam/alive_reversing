@@ -6,6 +6,7 @@
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
 #include "Game.hpp"
+#include "Map.hpp"
 
 struct MainMenu_TransitionData
 {
@@ -143,7 +144,13 @@ void MainMenuTransition::Update_464400()
 
 void MainMenuTransition::Render_464470(int** ot)
 {
-   // NOT_IMPLEMENTED(); // TODO
+    NOT_IMPLEMENTED(); // TODO
+
+    if (IsAlive())
+    {
+        LOG_ERROR("HACK HACK HACK Disabled until polygon clipping is implemented else crashhhhhhh");
+        return;
+    }
 
     int currentValue = field_20_current_value;
     int v4 = (currentValue + 1) >> 4;
@@ -268,6 +275,14 @@ BaseGameObject* MainMenuTransition::vdtor_4642C0(signed int flags)
     return this;
 }
 
+void MainMenuTransition::vScreenChanged_4648D0()
+{
+    if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
+
 void MainMenuTransition::VRender(int** ot)
 {
     Render_464470(ot);
@@ -281,4 +296,9 @@ void MainMenuTransition::VUpdate()
 BaseGameObject* MainMenuTransition::VDestructor(signed int flags)
 {
     return vdtor_4642C0(flags);
+}
+
+void MainMenuTransition::VScreenChanged()
+{
+    vScreenChanged_4648D0();
 }
