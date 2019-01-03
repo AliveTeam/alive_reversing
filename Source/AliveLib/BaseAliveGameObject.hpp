@@ -8,15 +8,6 @@
 // TODO: Move to own file
 EXPORT int CC SnapToXGrid_449930(FP scale, int x);
 
-struct TintEntry
-{
-    __int8 field_0_level;
-    unsigned __int8 field_1_r;
-    unsigned __int8 field_2_g;
-    unsigned __int8 field_3_b;
-};
-ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
-
 struct Path_TLV;
 struct PathLine;
 
@@ -68,7 +59,6 @@ protected:
     EXPORT char vsub_408A40(__int16 a2);
     EXPORT BaseGameObject* vsub_408FD0(__int16 a2);
     EXPORT int vnull_4081F0();
-    EXPORT void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
     EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, LevelIds level_id, int resourceID);
     EXPORT void sub_408C40();
     EXPORT __int16 MapFollowMe_408D10(__int16 snapToGrid);

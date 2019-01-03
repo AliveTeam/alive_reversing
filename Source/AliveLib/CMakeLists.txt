@@ -195,6 +195,8 @@ add_library(AliveLib
     LevelLoader.cpp
     InvisibleSwitch.hpp
     InvisibleSwitch.cpp
+    Switch.hpp
+    Switch.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)

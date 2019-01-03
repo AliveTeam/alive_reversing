@@ -479,6 +479,23 @@ void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX
     }
 }
 
+void BaseAnimatedWithPhysicsGameObject::SetTint_425600(const TintEntry* pTintArray, LevelIds level_id)
+{
+    while (pTintArray->field_0_level != static_cast<int>(level_id)) // TODO: HACK in static data its a byte which doesn't match the enum size
+    {
+        if (pTintArray->field_0_level == static_cast<int>(level_id) || pTintArray->field_0_level == static_cast<int>(LevelIds::eNone))
+        {
+            break;
+        }
+        pTintArray++;
+    }
+
+    field_D0_r = pTintArray->field_1_r;
+    field_D2_g = pTintArray->field_2_g;
+    field_D4_b = pTintArray->field_3_b;
+}
+
+
 namespace Test
 {
     class TestObj : public BaseAnimatedWithPhysicsGameObject

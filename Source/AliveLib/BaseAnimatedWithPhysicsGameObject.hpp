@@ -13,6 +13,14 @@ namespace Test
 
 class Shadow;
 
+struct TintEntry
+{
+    __int8 field_0_level;
+    unsigned __int8 field_1_r;
+    unsigned __int8 field_2_g;
+    unsigned __int8 field_3_b;
+};
+ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 
 // NOTE: __single_inheritance required to workaround MSVC code gen bug
 // https://stackoverflow.com/questions/8676879/member-function-pointer-runtime-error-the-value-of-esp-was-not-properly-saved
@@ -60,6 +68,7 @@ public:
     EXPORT Map::CameraPos Is_In_Current_Camera_424A70();
 
     EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
+    EXPORT void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
 public:
 
     AnimationEx field_20_animation;

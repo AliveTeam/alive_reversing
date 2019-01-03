@@ -18,6 +18,7 @@
 #include "WheelSyncer.hpp"
 #include "LevelLoader.hpp"
 #include "InvisibleSwitch.hpp"
+#include "Switch.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -205,7 +206,24 @@ EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItem
 
 EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Slog_4D8B20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{ 
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("SWITCH1.BAN", ResourceManager::Resource_Animation, ResourceID::kSwitchResID, loadmode);
+        Map::LoadResource_4DBE00("ABEPULL.BAN", ResourceManager::Resource_Animation, ResourceID::kAbepullResID, loadmode);
+    }
+    else
+    {
+        auto pSwitch = alive_new<Switch>();
+        if (pSwitch)
+        {
+            pSwitch->ctor_4D5860(static_cast<Path_Switch*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_Null_4D69E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ChantSuppressor_4D8D80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6A00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
