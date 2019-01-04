@@ -1360,10 +1360,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     }
 
     // TODO: Move to shadow object
-    sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags &= ~2;
+    sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags.Clear(Shadow::Flags::eBit2);
     if ((pSaveState->wordD4 >> 14) & 2)
     {
-        sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags |= 2;
+        sActiveHero_5C1B68->field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit2);
     }
 
     /* TODO: Will wipe out previously set bits ??
@@ -2492,7 +2492,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
                 0);
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_E0_176_ptr->field_14_flags &= ~2u;
+            field_E0_176_ptr->field_14_flags.Clear(Shadow::Flags::eBit2);
         }
         break;
 
@@ -3923,14 +3923,14 @@ void Abe::State_3_Fall_459B60()
             (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y)) >= (field_CC_sprite_scale * FP_FromInteger(70)))
         {
             field_106_current_state = eAbeStates::State_69_LedgeHangWobble_454EF0;
-            field_E0_176_ptr->field_14_flags |= 1u;
+            field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
         }
         else
         {
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit2);
             field_F4 = eAbeStates::State_65_LedgeAscend_End_4548E0;
             field_F6_anim_frame = 12;
-            field_E0_176_ptr->field_14_flags |= 1u;
+            field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
         }
     }
 }
@@ -4179,7 +4179,7 @@ void Abe::State_14_HoistIdle_452440()
                     field_F6_anim_frame = 12;
                 }
                 field_BC_ypos -= field_CC_sprite_scale * FP_FromInteger(75);
-                field_E0_176_ptr->field_14_flags |= 1u;
+                field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
             }
             else
             {
@@ -4222,7 +4222,7 @@ void Abe::State_14_HoistIdle_452440()
                             (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
                     }
                 }
-                field_E0_176_ptr->field_14_flags |= 1u;
+                field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
             }
             else
             {
@@ -4864,7 +4864,7 @@ void Abe::State_28_HopMid_451C50()
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 field_106_current_state = eAbeStates::State_69_LedgeHangWobble_454EF0;
-                field_E0_176_ptr->field_14_flags |= 1u;
+                field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
             }
         }
     }
@@ -5064,7 +5064,7 @@ void Abe::State_31_RunJumpMid_452C10()
 
                 MapFollowMe_408D10(TRUE);
                 field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
-                field_E0_176_ptr->field_14_flags |= 1u;
+                field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
                 field_100_pCollisionLine = pLine;
                 field_108_delayed_state = eAbeStates::State_0_Idle_44EEB0;
                 field_C4_velx = FP_FromInteger(0);
@@ -6103,12 +6103,12 @@ void Abe::State_65_LedgeAscend_End_4548E0()
     else if (curFrameNum == 4)
     {
         Abe_SFX_2_457A40(11, 0, 32767, this);
-        field_E0_176_ptr->field_14_flags &= ~1u;
+        field_E0_176_ptr->field_14_flags.Clear(Shadow::Flags::eBit1);
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Now the ascend is done go back to stand idle
-        field_E0_176_ptr->field_14_flags &= ~1u;
+        field_E0_176_ptr->field_14_flags.Clear(Shadow::Flags::eBit1);
         MapFollowMe_408D10(TRUE);
         ToIdle_44E6B0();
     }
@@ -6120,7 +6120,7 @@ void Abe::State_66_LedgeDescend_454970()
     if (curFrameNum == 2)
     {
         Abe_SFX_2_457A40(11, 0, 32767, this);
-        field_E0_176_ptr->field_14_flags |= 1u;
+        field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
     }
     else if (curFrameNum == 21)
     {
@@ -6155,7 +6155,7 @@ void Abe::State_66_LedgeDescend_454970()
                     field_100_pCollisionLine = pLine;
                     field_BC_ypos = hitY;
                     field_106_current_state = eAbeStates::State_16_LandSoft_45A360;
-                    field_E0_176_ptr->field_14_flags &= ~1u;
+                    field_E0_176_ptr->field_14_flags.Clear(Shadow::Flags::eBit1);
                 }
                 else
                 {
@@ -6172,7 +6172,7 @@ void Abe::State_66_LedgeDescend_454970()
 
 void Abe::State_67_LedgeHang_454E20()
 {
-    field_E0_176_ptr->field_14_flags |= 1u;
+    field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
     const int pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     if (sInputKey_Up_5550D8 & pressed || field_114_flags.Get(Flags_114::e114_Bit10))
     {
@@ -6184,7 +6184,7 @@ void Abe::State_67_LedgeHang_454E20()
         field_100_pCollisionLine = nullptr;
         field_106_current_state = eAbeStates::State_91_FallingFromGrab_4557B0;
         field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
-        field_E0_176_ptr->field_14_flags &= ~1u;
+        field_E0_176_ptr->field_14_flags.Clear(Shadow::Flags::eBit1);
         field_F8 = field_BC_ypos;
     }
 }
@@ -6204,7 +6204,7 @@ void Abe::State_68_ToOffScreenHoist_454B80()
     // Find the hoist we are "connecting" to
     field_FC_pPathTLV = pHoist;
     field_BC_ypos -= field_CC_sprite_scale * FP_FromInteger(75);
-    field_E0_176_ptr->field_14_flags |= 1;
+    field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit1);
 
     const FP ypos = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y) - (FP_FromInteger(40) * field_CC_sprite_scale);
     pHoist = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
@@ -6293,7 +6293,7 @@ void Abe::State_69_LedgeHangWobble_454EF0()
         field_100_pCollisionLine = nullptr;
         field_106_current_state = eAbeStates::State_91_FallingFromGrab_4557B0;
         field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
-        field_E0_176_ptr->field_14_flags &= ~1u;
+        field_E0_176_ptr->field_14_flags.Clear(Shadow::Flags::eBit1);
         field_F8 = field_BC_ypos;
     }
     // Now stabilized when wobble anim is done
@@ -6494,7 +6494,7 @@ void Abe::State_80_WellShotOut_45D150()
             field_20_animation.field_C_render_layer = 32;
         }
 
-        field_E0_176_ptr->field_14_flags |= 2u;
+        field_E0_176_ptr->field_14_flags.Set(Shadow::Flags::eBit2);
     }
 
     if (field_106_current_state == eAbeStates::State_84_FallLandDie_45A420)
