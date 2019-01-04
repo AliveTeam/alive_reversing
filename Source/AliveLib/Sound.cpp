@@ -127,6 +127,7 @@ public:
         fFrequency = 1.0f;
         bIsReleased = false;
         bLoop = false;
+        iChannels = 1;
         fPlaybackPosition = 0;
         eState = AE_SDL_Voice_State::Stopped;
 
@@ -148,13 +149,13 @@ public:
 
     int SetCurrentPosition(int position) // This offset is apparently in bytes
     {
-        fPlaybackPosition = static_cast<float>(position / iBlockAlign);
+        fPlaybackPosition = static_cast<float>(position / iBlockAlign * iChannels);
         return 0;
     }
 
     int GetCurrentPosition(DWORD * readPos, DWORD * writePos)
     {
-        *readPos = static_cast<DWORD>(fPlaybackPosition * iBlockAlign);
+        *readPos = static_cast<DWORD>(fPlaybackPosition * iBlockAlign / iChannels);
         *writePos = 0;
         
         return 0;
@@ -233,11 +234,13 @@ public:
     AE_SDL_Voice_State eState;
     bool bLoop;
     bool bIsReleased;
+    
 
     float fPlaybackPosition;
 
     short * pBuffer;
     int iSampleCount;
+    int iChannels;
     int iBlockAlign;
 };
 
@@ -269,50 +272,75 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
             if (!voice->pBuffer || voice->eState != AE_SDL_Voice_State::Playing || voice->iSampleCount == 0)
                 continue;
 
-            float s = 0;
-
-            switch (gAudioFilterMode)
+            if (voice->iChannels == 2)
             {
-            case AudioFilterMode::NoFilter:
-                s = ((voice->pBuffer[static_cast<int>(voice->fPlaybackPosition)]) / 65535.0f) * voice->fVolume;
-                break;
-            case AudioFilterMode::Linear:
-                const float s1 = voice->pBuffer[static_cast<int>(voice->fPlaybackPosition)] / 65535.0f;
-                const float s2 = voice->pBuffer[(static_cast<int>(voice->fPlaybackPosition) + 1) % voice->iSampleCount] / 65535.0f;
+                tempBuffer[i].left = ((voice->pBuffer[static_cast<int>(voice->fPlaybackPosition)]) / 65535.0f) * voice->fVolume;
+                tempBuffer[i].right = ((voice->pBuffer[static_cast<int>(voice->fPlaybackPosition) + 1]) / 65535.0f) * voice->fVolume;
 
-                s = (s1 + ((s2 - s1) * (voice->fPlaybackPosition - floorf(voice->fPlaybackPosition)))) * voice->fVolume;
-                break;
-            }
+                voice->fPlaybackPosition += voice->fFrequency * 2;
 
-            float leftPan = 1.0f;
-            float rightPan = 1.0f;
-
-            if (voice->fPan < 0)
-            {
-                rightPan = 1.0f - fabs(voice->fPan);
-            }
-            else if (voice->fPan > 0)
-            {
-                leftPan = 1.0f - fabs(voice->fPan);
-            }
-
-            tempBuffer[i].left = s * leftPan;
-            tempBuffer[i].right = s * rightPan;
-
-            voice->fPlaybackPosition += voice->fFrequency;
-
-            if (voice->fPlaybackPosition >= voice->iSampleCount)
-            {
-                if (voice->bLoop)
+                if (voice->fPlaybackPosition >= voice->iSampleCount )
                 {
-                    voice->fPlaybackPosition = 0;
-                }
-                else
-                {
-                    voice->fPlaybackPosition = 0;
-                    voice->eState = AE_SDL_Voice_State::Stopped;
+                    if (voice->bLoop)
+                    {
+                        voice->fPlaybackPosition = 0;
+                    }
+                    else
+                    {
+                        voice->fPlaybackPosition = 0;
+                        voice->eState = AE_SDL_Voice_State::Stopped;
+                    }
                 }
             }
+            else
+            {
+                float s = 0;
+
+                switch (gAudioFilterMode)
+                {
+                case AudioFilterMode::NoFilter:
+                    s = ((voice->pBuffer[static_cast<int>(voice->fPlaybackPosition)]) / 65535.0f) * voice->fVolume;
+                    break;
+                case AudioFilterMode::Linear:
+                    const float s1 = voice->pBuffer[static_cast<int>(voice->fPlaybackPosition)] / 65535.0f;
+                    const float s2 = voice->pBuffer[(static_cast<int>(voice->fPlaybackPosition) + 1) % voice->iSampleCount] / 65535.0f;
+
+                    s = (s1 + ((s2 - s1) * (voice->fPlaybackPosition - floorf(voice->fPlaybackPosition)))) * voice->fVolume;
+                    break;
+                }
+
+                float leftPan = 1.0f;
+                float rightPan = 1.0f;
+
+                if (voice->fPan < 0)
+                {
+                    rightPan = 1.0f - fabs(voice->fPan);
+                }
+                else if (voice->fPan > 0)
+                {
+                    leftPan = 1.0f - fabs(voice->fPan);
+                }
+
+                tempBuffer[i].left = s * leftPan;
+                tempBuffer[i].right = s * rightPan;
+
+                voice->fPlaybackPosition += voice->fFrequency;
+
+                if (voice->fPlaybackPosition >= voice->iSampleCount)
+                {
+                    if (voice->bLoop)
+                    {
+                        voice->fPlaybackPosition = 0;
+                    }
+                    else
+                    {
+                        voice->fPlaybackPosition = 0;
+                        voice->eState = AE_SDL_Voice_State::Stopped;
+                    }
+                }
+            }
+
+            
         }
 
         SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(buffer), reinterpret_cast<Uint8 *>(tempBuffer), gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
@@ -748,7 +776,7 @@ EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffse
 #if USE_SDL2_SOUND
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
-    memcpy(pSnd->field_4_pDSoundBuffer->pBuffer + offsetBytes, pSoundBuffer, bufferSizeBytes);
+    memcpy(reinterpret_cast<Uint8*>(pSnd->field_4_pDSoundBuffer->pBuffer) + offsetBytes, pSoundBuffer, bufferSizeBytes);
     return 0;
 #else
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
@@ -993,7 +1021,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         pDSoundBuffer->iSampleCount = sampleByteSize / 2;
         pDSoundBuffer->pBuffer = new Sint16[sampleByteSize];
         pDSoundBuffer->iBlockAlign = pSnd->field_1D_blockAlign;
-
+        pDSoundBuffer->iChannels = (isStereo & 1) ? 2 : 1;
         pSnd->field_4_pDSoundBuffer = pDSoundBuffer;
 
         pSnd->field_10 = 0;
@@ -1460,7 +1488,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
 
     pDSoundBuffer->Play(0, 0, playFlags);
 
-    return -1;
+    return 0;
 #else
     if (!sDSound_BBC344)
     {
