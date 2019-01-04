@@ -143,7 +143,7 @@ public:
 
     int SetFrequency(int frequency)
     {
-        fFrequency = frequency / (float)gAudioDeviceSpec.freq;
+        fFrequency = frequency / 44100.0f;
         return 0;
     }
 
@@ -248,7 +248,7 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
 {
     StereoSampleFloat * buffer = reinterpret_cast<StereoSampleFloat *>(stream);
     
-    int bufferSamples = (len / sizeof(float) / gAudioDeviceSpec.channels);
+    int bufferSamples = (len / sizeof(StereoSampleFloat));
     memset(stream, 0, len);
 
     // slow, store this somewhere permanantly.
@@ -267,7 +267,7 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
 
         memset(tempBuffer, 0, len);
 
-        for (int i = 0; i < bufferSamples && voice->pBuffer; i++)
+        for (int i = 0; i < bufferSamples && voice->pBuffer; i += gAudioDeviceSpec.channels / 2)
         {
             if (!voice->pBuffer || voice->eState != AE_SDL_Voice_State::Playing || voice->iSampleCount == 0)
                 continue;
