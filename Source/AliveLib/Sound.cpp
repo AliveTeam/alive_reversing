@@ -7,14 +7,368 @@
 #include "Midi.hpp"
 #include "BackgroundMusic.hpp"
 #include <mmeapi.h>
+#include <mutex>
 #include <timeapi.h>
 #include <dsound.h>
 #include "Path.hpp"
 #include "MusicController.hpp"
 
+struct StereoSampleFloat
+{
+    float left;
+    float right;
+};
+
+// REVERB
+
+struct Echo
+{
+    int delay;
+    float volume;
+};
+
+#define REVERB_GRAINS_SIZE 50000
+#define REVERB_ECHO_COUNT 128
+#define REVERB_ROOM_SIZE 1000
+#define REVERB_LOW_PASS 0.5f
+
+Echo mEchos[REVERB_ECHO_COUNT];
+StereoSampleFloat mLastReverbSample[REVERB_ECHO_COUNT];
+
+static StereoSampleFloat mReverbGrains[REVERB_GRAINS_SIZE];
+static int mReverbBufferIndex = 0;
+static StereoSampleFloat sReverbBuffer[1024 * 32];
+static float gReverbMix = 0.05f;
+
+void ReverbInit()
+{
+    for (int i = 1; i < REVERB_ECHO_COUNT + 1; i++)
+    {
+        Echo echo;
+        echo.delay = i * ((REVERB_ROOM_SIZE * 100) / REVERB_ECHO_COUNT) + (rand() % (REVERB_ROOM_SIZE / 2));
+        echo.volume = (powf(static_cast<float>(REVERB_ECHO_COUNT - i), 4.0f) / powf(static_cast<float>(REVERB_ECHO_COUNT), 4.0f)) * (REVERB_ECHO_COUNT / 100.0f);
+
+        mEchos[i] = echo;
+    }
+}
+
+void PushReverbSample(StereoSampleFloat v)
+{
+    mReverbBufferIndex++;
+    if (mReverbBufferIndex >= REVERB_GRAINS_SIZE)
+        mReverbBufferIndex = 0;
+
+    mReverbGrains[mReverbBufferIndex] = v;
+}
+
+inline void UpdateReverb(int index)
+{
+    sReverbBuffer[index].left = 0;
+    sReverbBuffer[index].right = 0;
+
+    for (unsigned int i = 0; i < REVERB_ECHO_COUNT; i++)
+    {
+        const Echo e = mEchos[i];
+
+        if (e.volume <= 0)
+            continue;
+
+        int reverbBufferSampleIndex = ((mReverbBufferIndex - e.delay) + (REVERB_GRAINS_SIZE * 24)) % REVERB_GRAINS_SIZE;
+
+        StereoSampleFloat r;
+        
+        StereoSampleFloat v = mReverbGrains[reverbBufferSampleIndex];
+
+        const float reverbLowPassAmount = (REVERB_LOW_PASS * (static_cast<float>(i) / REVERB_ECHO_COUNT));
+        const float reverbLowPass = 1.0f - reverbLowPassAmount;
+
+        // Low Pass
+        // Slowly become more and more low passed as we go through our reverb echos
+        r.left = mLastReverbSample[i].left + ((v.left - mLastReverbSample[i].left) * reverbLowPass);
+        r.right = mLastReverbSample[i].right + ((v.right - mLastReverbSample[i].right) * reverbLowPass);
+        mLastReverbSample[i] = r;
+        v = r;
+
+        // High Pass - Take our normal audio and negate the low pass.
+        // This creates a high pass.
+        /*v.left -= r.left;
+        v.right -= r.right;*/
+
+        sReverbBuffer[index].left += v.left * e.volume;
+        sReverbBuffer[index].right += v.right * e.volume;
+    }
+}
+
+// SDL Audio Stuff
+class AE_SDL_Voice;
+
+enum AudioFilterMode
+{
+    NoFilter = 0,
+    Linear = 1,
+};
+
+std::vector<AE_SDL_Voice*> sAE_ActiveVoices;
+static SDL_AudioSpec gAudioDeviceSpec;
+static AudioFilterMode gAudioFilterMode = AudioFilterMode::Linear;
+bool gReverbEnabled = true;
+
+std::mutex sVoiceVectorMutex;
+
+
+class AE_SDL_Voice
+{
+
+public:
+    AE_SDL_Voice()
+    {
+        fVolume = 1.0f;
+        fPan = 0;
+        fFrequency = 1.0f;
+        bIsReleased = false;
+        bLoop = false;
+        fPlaybackPosition = 0;
+        eState = AE_SDL_Voice_State::Stopped;
+
+        std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceVectorMutex);
+        sAE_ActiveVoices.push_back(this);
+    }
+
+    int SetVolume(int volume)
+    {
+        fVolume = volume / 127.0f;
+        return 0;
+    }
+
+    int SetFrequency(int frequency)
+    {
+        fFrequency = frequency / (float)gAudioDeviceSpec.freq;
+        return 0;
+    }
+
+    int SetCurrentPosition(int position) // This offset is apparently in bytes
+    {
+        fPlaybackPosition = static_cast<float>(position / iBlockAlign);
+        return 0;
+    }
+
+    int GetCurrentPosition(DWORD * readPos, DWORD * writePos)
+    {
+        *readPos = static_cast<DWORD>(fPlaybackPosition * iBlockAlign);
+        *writePos = 0;
+        
+        return 0;
+    }
+
+    int GetFrequency(DWORD * freq)
+    {
+        *freq = static_cast<DWORD>(fFrequency * gAudioDeviceSpec.freq);
+        return 0;
+    }
+
+    int SetPan(int pan)
+    {
+        fPan = pan / 10000.0f;
+        return 0;
+    }
+
+    void Release()
+    {
+        bIsReleased = true;
+    }
+
+    int GetStatus(DWORD * r)
+    {
+        if (eState == AE_SDL_Voice_State::Playing)
+        {
+            *r |= DSBSTATUS_PLAYING;
+        }
+        if (bLoop)
+        {
+            *r |= DSBSTATUS_LOOPING;
+        }
+        if (bIsReleased)
+        {
+            *r |= DSBSTATUS_TERMINATED;
+        }
+        return 0;
+    }
+
+    void Destroy()
+    {
+        // remove self from global list and
+        // decrement shared mem ptr to audio buffer
+
+        std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceVectorMutex);
+        sAE_ActiveVoices.erase(std::remove(sAE_ActiveVoices.begin(), sAE_ActiveVoices.end(), this), sAE_ActiveVoices.end());
+
+        //delete this; // todo: fix this crash :(
+
+        // todo: delete shared audio buffer.
+    }
+
+    int Play(int /*reserved*/, int /*priority*/, int flags)
+    {
+        fPlaybackPosition = 0;
+        eState = AE_SDL_Voice_State::Playing;
+        if (flags & DSBPLAY_LOOPING)
+        {
+            bLoop = true;
+        }
+        return 0;
+    }
+
+    int Stop()
+    {
+        eState = AE_SDL_Voice_State::Stopped;
+        Destroy();
+        return 0;
+    }
+
+public:
+    float fVolume;
+    float fFrequency;
+    float fPan;
+
+    AE_SDL_Voice_State eState;
+    bool bLoop;
+    bool bIsReleased;
+
+    float fPlaybackPosition;
+
+    short * pBuffer;
+    int iSampleCount;
+    int iBlockAlign;
+};
+
+void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
+{
+    StereoSampleFloat * buffer = reinterpret_cast<StereoSampleFloat *>(stream);
+    
+    int bufferSamples = (len / sizeof(float) / gAudioDeviceSpec.channels);
+    memset(stream, 0, len);
+
+    // slow, store this somewhere permanantly.
+    StereoSampleFloat * tempBuffer = new StereoSampleFloat[bufferSamples];
+
+    int c = 0;
+
+    for (unsigned int v = 0; v < sAE_ActiveVoices.size(); v++)
+    {
+        AE_SDL_Voice * voice = sAE_ActiveVoices[v];
+
+        c++;
+
+        if (!voice->pBuffer || voice->eState != AE_SDL_Voice_State::Playing)
+            continue;
+
+        memset(tempBuffer, 0, len);
+
+        for (int i = 0; i < bufferSamples && voice->pBuffer; i++)
+        {
+            if (!voice->pBuffer || voice->eState != AE_SDL_Voice_State::Playing || voice->iSampleCount == 0)
+                continue;
+
+            float s = 0;
+
+            switch (gAudioFilterMode)
+            {
+            case AudioFilterMode::NoFilter:
+                s = ((voice->pBuffer[static_cast<int>(voice->fPlaybackPosition)]) / 65535.0f) * voice->fVolume;
+                break;
+            case AudioFilterMode::Linear:
+                const float s1 = voice->pBuffer[static_cast<int>(voice->fPlaybackPosition)] / 65535.0f;
+                const float s2 = voice->pBuffer[(static_cast<int>(voice->fPlaybackPosition) + 1) % voice->iSampleCount] / 65535.0f;
+
+                s = (s1 + ((s2 - s1) * (voice->fPlaybackPosition - floorf(voice->fPlaybackPosition)))) * voice->fVolume;
+                break;
+            }
+
+            float leftPan = 1.0f;
+            float rightPan = 1.0f;
+
+            if (voice->fPan < 0)
+            {
+                rightPan = 1.0f - fabs(voice->fPan);
+            }
+            else if (voice->fPan > 0)
+            {
+                leftPan = 1.0f - fabs(voice->fPan);
+            }
+
+            tempBuffer[i].left = s * leftPan;
+            tempBuffer[i].right = s * rightPan;
+
+            voice->fPlaybackPosition += voice->fFrequency;
+
+            if (voice->fPlaybackPosition >= voice->iSampleCount)
+            {
+                if (voice->bLoop)
+                {
+                    voice->fPlaybackPosition = 0;
+                }
+                else
+                {
+                    voice->fPlaybackPosition = 0;
+                    voice->eState = AE_SDL_Voice_State::Stopped;
+                }
+            }
+        }
+
+        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(buffer), reinterpret_cast<Uint8 *>(tempBuffer), gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
+    }
+
+
+    // Destroy and remove any released voices
+    std::vector<AE_SDL_Voice *> voiceGarbage;
+    for (unsigned int v = 0; v < sAE_ActiveVoices.size(); v++)
+    {
+        if (sAE_ActiveVoices[v]->bIsReleased)
+        {
+            voiceGarbage.push_back(sAE_ActiveVoices[v]);
+        }
+    }
+
+    for (auto voice : voiceGarbage)
+    {
+        voice->Destroy();
+    }
+
+    delete[] tempBuffer;
+
+    // Do Reverb Pass
+
+    if (gReverbEnabled)
+    {
+        for (int i = 0; i < bufferSamples; i++)
+        {
+            PushReverbSample(buffer[i]);
+
+            UpdateReverb(i);
+        }
+
+        for (int i = 0; i < bufferSamples; i++)
+        {
+            sReverbBuffer[i].left *= gReverbMix;
+            sReverbBuffer[i].right *= gReverbMix;
+        }
+
+        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(buffer), reinterpret_cast<Uint8 *>(sReverbBuffer), gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
+        // memcpy(buffer, sReverbStream, len); // Uncomment to hear only reverb
+    }
+
+    /*printf("Voice Count: %i - Callback %x %x %i\n", sAE_ActiveVoices.size(), userdata, stream, len);*/
+}
+
+// END SDL STUFF
+
 struct SoundBuffer
 {
+#if USE_SDL2_SOUND
+    AE_SDL_Voice * field_0_pDSoundBuffer;
+#else
     LPDIRECTSOUNDBUFFER field_0_pDSoundBuffer;
+#endif
     int field_4;
     int field_8;
     int field_C;
@@ -47,6 +401,14 @@ EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 
 EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
 {
+#if USE_SDL2_SOUND
+    const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
+    const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
+
+    memset(pSoundEntry->field_4_pDSoundBuffer->pBuffer, 0, pSoundEntry->field_14_buffer_size_bytes);
+
+    return 0;
+#else
     if (!sDSound_BBC344)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 692, -1, "DirectSound not initialized");
@@ -113,10 +475,15 @@ EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffs
 
     pSoundEntry->field_4_pDSoundBuffer->Unlock(pLocked1, locked1Size, pLocked2, locked2Size);
     return 0;
+#endif
 }
 
 EXPORT void CC SND_SsQuit_4EFD50()
 {
+#if USE_SDL2_SOUND
+    // TODO
+    return;
+#else
     if (sDSound_BBC344)
     {
         for (int i = 0; i < 32; i++)
@@ -144,14 +511,19 @@ EXPORT void CC SND_SsQuit_4EFD50()
         sDSound_BBC344->Release();
         sDSound_BBC344 = nullptr;
     }
+#endif
 }
 
 EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
 {
+#if !USE_SDL2_SOUND
     if (!sDSound_BBC344)
     {
         return -1;
     }
+#else
+    pSnd->field_4_pDSoundBuffer->bLoop = false;
+#endif
 
     pSnd->field_10 = 0;
 
@@ -174,11 +546,19 @@ EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
 
 EXPORT void CC SND_InitVolumeTable_4EEF60()
 {
+#if USE_SDL2_SOUND
+    for (int i = 0; i < 127; i++)
+    {
+        sVolumeTable_BBBD38[i] = i;
+    }
+    sVolumeTable_BBBD38[0] = 0;
+#else
     for (int i = 0; i < 127; i++)
     {
         sVolumeTable_BBBD38[i] = static_cast<int>(min(max(log2f((i + 1) / 128.0f) / log2f(2.0f) * 1000.0f, -10000), 0));
     }
     sVolumeTable_BBBD38[0] = -10000;
+#endif
 }
 
 EXPORT void CC SND_Init_WaveFormatEx_4EEA00(WAVEFORMATEX *pWaveFormat, int sampleRate, unsigned __int8 bitsPerSample, int isStereo)
@@ -255,6 +635,12 @@ EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPer
 
 EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSample, int isStereo)
 {
+#if USE_SDL2_SOUND
+    // Cause compile on warning is on
+    printf("SND_CreatePrimarySoundBuffer_4EEEC0: %i %i %i\n", sampleRate, bitsPerSample, isStereo);
+    //
+    return 0;
+#else
     DSBUFFERDESC bufferDesc = {};
     bufferDesc.dwSize = sizeof(DSBUFFERDESC);
     bufferDesc.dwBufferBytes = 0;
@@ -274,10 +660,15 @@ EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSa
 
     sPrimarySoundBuffer_BBC388->Release();
     return -2;
+#endif
 }
 
 EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
 {
+#if USE_SDL2_SOUND
+    printf("SND_Renew_4EEDD0: %x\n", reinterpret_cast<int>(pSnd));
+    return 0; // TODO
+#else
     if (!sDSound_BBC344)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 351, -1, "DirectSound not initialized");
@@ -311,6 +702,7 @@ EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
         pSnd->field_10 = 0;
         return 0;
     }
+#endif
 }
 
 // Never seems to get called?
@@ -353,6 +745,12 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3
 // TODO: Clean up!
 EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
 {
+#if USE_SDL2_SOUND
+    const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
+    const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
+    memcpy(pSnd->field_4_pDSoundBuffer->pBuffer + offsetBytes, pSoundBuffer, bufferSizeBytes);
+    return 0;
+#else
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
 
@@ -411,10 +809,59 @@ EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffse
     pSnd->field_4_pDSoundBuffer->Unlock(leftChannelBuffer, leftChannelSize, rightChannelBuffer, rightChannelSize);
 
     return 0;
+#endif
 }
 
 EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int isStereo)
 {
+#if USE_SDL2_SOUND
+    printf("SND_CreateDS_4EEAA0: %i %i %i\n", sampleRate, bitsPerSample, isStereo);
+    if (!SDL_Init(SDL_INIT_AUDIO))
+    {
+        for (int i = 0; i < SDL_GetNumAudioDrivers(); i++)
+        {
+            printf("SDL Audio Driver %i: %s\n", i, SDL_GetAudioDriver(i));
+        }
+
+        gAudioDeviceSpec.callback = AE_SDL_Audio_Callback;
+        gAudioDeviceSpec.format = AUDIO_F32;
+        gAudioDeviceSpec.channels = 2;
+        gAudioDeviceSpec.freq = 44100;
+        gAudioDeviceSpec.samples = 256;
+        gAudioDeviceSpec.userdata = NULL;
+        
+        if (SDL_OpenAudio(&gAudioDeviceSpec, &gAudioDeviceSpec) < 0) {
+            fprintf(stderr, "Couldn't open SDL audio: %s\n", SDL_GetError());
+        }
+        else
+        {
+            SDL_PauseAudio(0);
+
+            ReverbInit();
+
+            SND_InitVolumeTable_4EEF60();
+
+            if (sLoadedSoundsCount_BBC394)
+            {
+                for (int i = 0; i < 256; i++)
+                {
+                    if (sSoundSamples_BBBF38[i])
+                    {
+                        SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
+                        SND_Reload_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                        if ((i + 1) == sLoadedSoundsCount_BBC394)
+                            break;
+                    }
+                }
+            }
+            sLastNotePlayTime_BBC33C = timeGetTime();
+
+            return 0;
+        }
+    }
+
+    return 0;
+#else
     if (sDSound_BBC344)
     {
         // Already created
@@ -530,10 +977,59 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSam
             return -1;
         }
     }
+#endif
 }
 
 EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
 {
+#if USE_SDL2_SOUND
+    if (sLoadedSoundsCount_BBC394 < 256)
+    {
+        pSnd->field_1D_blockAlign = static_cast<unsigned char>(bitsPerSample * ((isStereo != 0) + 1) / 8);
+        int sampleByteSize = sampleLength * pSnd->field_1D_blockAlign;
+
+        AE_SDL_Voice * pDSoundBuffer = new AE_SDL_Voice();
+        pDSoundBuffer->SetFrequency(sampleRate);
+        pDSoundBuffer->iSampleCount = sampleByteSize / 2;
+        pDSoundBuffer->pBuffer = new Sint16[sampleByteSize];
+        pDSoundBuffer->iBlockAlign = pSnd->field_1D_blockAlign;
+
+        pSnd->field_4_pDSoundBuffer = pDSoundBuffer;
+
+        pSnd->field_10 = 0;
+        unsigned char * bufferData = static_cast<unsigned char *>(malloc_4F4E60(sampleByteSize));
+        pSnd->field_8_pSoundBuffer = bufferData;
+        if (bufferData)
+        {
+            pSnd->field_18_sampleRate = sampleRate;
+            pSnd->field_1C_bitsPerSample = static_cast<char>(bitsPerSample);
+            pSnd->field_C_buffer_size_bytes = sampleByteSize;
+            pSnd->field_14_buffer_size_bytes = sampleByteSize;
+            pSnd->field_20_isStereo = isStereo;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (!sSoundSamples_BBBF38[i])
+                {
+                    sSoundSamples_BBBF38[i] = pSnd;
+                    pSnd->field_0_tableIdx = i;
+                    sLoadedSoundsCount_BBC394++;
+                    return 0;
+                }
+            }
+
+            return 0; // No free spaces left. Should never get here as all calls to Snd_NEW are checked before hand.
+        }
+    }
+    else
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 568, -1, "SND_New: out of samples");
+        return -1;
+    }
+
+    return -1;
+#else
+
     if (!sDSound_BBC344)
     {
         return -1;
@@ -610,6 +1106,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 568, -1, "SND_New: out of samples");
         return -1;
     }
+#endif
 }
 
 EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveDataLen)
@@ -633,8 +1130,14 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
 
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
 {
+#if USE_SDL2_SOUND
+    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
+    AE_SDL_Voice* pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
+#else
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
     IDirectSoundBuffer* pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
+
+#endif
 
     if (!pDSoundBuffer || ((idx ^ pSoundBuffer->field_4) & ~511)) // TODO: Refactor
     {
@@ -647,7 +1150,7 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
     }
 
     DWORD currrentFreqHz = 0;
-    if (SUCCEEDED(pDSoundBuffer->GetFrequency(&currrentFreqHz)))
+    if (!pDSoundBuffer->GetFrequency(&currrentFreqHz))
     {
         DWORD freqHz = static_cast<DWORD>(currrentFreqHz * hzChangeFreq);
         if (freqHz < DSBFREQUENCY_MIN)
@@ -696,13 +1199,29 @@ EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
     }
 
     return fromStatus + 2 * (sLastNotePlayTime_BBC33C + (v6 << 8) - pSoundBuffer->field_C); // << 8 = * 256 ?
-
 }
 
 const DWORD k127_dword_575158 = 127;
 
 EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
 {
+#if USE_SDL2_SOUND
+    AE_SDL_Voice * pSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    if (!pSoundBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
+    {
+        return -1;
+    }
+
+    unsigned int volConverted = (unsigned int)(vol * k127_dword_575158) >> 7; // Conversion used else where
+    if (volConverted > 127)
+    {
+        volConverted = 127;
+    }
+
+    pSoundBuffer->SetVolume(sVolumeTable_BBBD38[120 * volConverted >> 7]);
+
+    return 0;
+#else
     IDirectSoundBuffer* pSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pSoundBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
     {
@@ -716,11 +1235,16 @@ EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
     }
     pSoundBuffer->SetVolume(sVolumeTable_BBBD38[120 * volConverted >> 7]);
     return 0;
+#endif
 }
 
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
 {
+#if USE_SDL2_SOUND
+    AE_SDL_Voice* pDSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+#else
     IDirectSoundBuffer* pDSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+#endif
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
     if (!pDSoundBuffer || (idx ^ pSoundBuffer->field_4) & ~511)
     {
@@ -738,10 +1262,20 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
     }
     pDSoundBuffer->SetFrequency(freqHz);
     return 0;
+
 }
 
 EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
 {
+#if USE_SDL2_SOUND
+    AE_SDL_Voice* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511) // TODO: Same unknown field_4 conversion
+    {
+        return -1;
+    }
+    pBuffer->Stop();
+    return 0;
+#else
     IDirectSoundBuffer* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511) // TODO: Same unknown field_4 conversion
     {
@@ -749,6 +1283,7 @@ EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
     }
     pBuffer->Stop();
     return 0;
+#endif
 }
 
 EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int field8, int field10)
@@ -772,6 +1307,31 @@ EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int field8, int 
 
 EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx)
 {
+#if USE_SDL2_SOUND
+    AE_SDL_Voice* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
+    {
+        return 0;
+    }
+
+    DWORD status = 0;
+    
+    if (pBuffer->bLoop && pBuffer->eState == AE_SDL_Voice_State::Playing)
+    {
+        // Looped
+        return 2;
+}
+    else if (pBuffer->eState == AE_SDL_Voice_State::Playing)
+    {
+        // Playing
+        return status & 1;
+    }
+    else
+    {
+        return 0;
+    }
+
+#else
     IDirectSoundBuffer* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
     {
@@ -790,6 +1350,7 @@ EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx)
         // Playing
         return status & 1;
     }
+#endif
 }
 
 EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
@@ -816,6 +1377,91 @@ EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
 
 EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
 {
+#if USE_SDL2_SOUND
+    if (!pSnd)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 845, -1, "SND_PlayEx: NULL SAMPLE !!!");
+        return -1;
+    }
+
+    AE_SDL_Voice * pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
+
+    if (!pDSoundBuffer)
+    {
+        return -1;
+    }
+
+    sLastNotePlayTime_BBC33C = timeGetTime();
+
+    int panLeft2 = panLeft;
+    int panRight2 = panRight;
+    if (panLeft > panRight)
+    {
+        panRight2 = panLeft;
+    }
+
+    int panRightConverted = 120 * panRight2 * k127_dword_575158 >> 14;// >> 14 = 16384
+    if (panRightConverted < 0)
+    {
+        panRightConverted = 0;
+    }
+    else if (panRightConverted > 127)
+    {
+        panRightConverted = 127;
+    }
+
+    if (pSnd->field_20_isStereo & 2)
+    {
+        pDSoundBuffer->SetFrequency(static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5)); // This freq don't get clamped for some reason
+        pDSoundBuffer->SetVolume(static_cast<int>(sVolumeTable_BBBD38[panRightConverted] / 10000.0f));
+        pDSoundBuffer->SetCurrentPosition(0);
+    }
+    else
+    {
+        SoundBuffer* pSoundBuffer = SND_Get_Sound_Buffer_4EF970(pSnd->field_0_tableIdx, panRightConverted + priority);
+        if (!pSoundBuffer)
+        {
+            return -1;
+        }
+
+        pSoundBuffer->field_0_pDSoundBuffer = new AE_SDL_Voice();
+        memcpy(pSoundBuffer->field_0_pDSoundBuffer, pDSoundBuffer, sizeof(AE_SDL_Voice));
+        pSoundBuffer->field_0_pDSoundBuffer->SetCurrentPosition(0);
+
+        pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
+
+        if (pMidiStru)
+        {
+            pMidiStru->field_0_sound_buffer_field_4 = pSoundBuffer->field_4;
+        }
+    }
+
+    DWORD freqHz = static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5);
+    if (freqHz < DSBFREQUENCY_MIN)
+    {
+        freqHz = DSBFREQUENCY_MIN;
+    }
+    else if (freqHz >= DSBFREQUENCY_MAX)
+    {
+        freqHz = DSBFREQUENCY_MAX;
+    }
+
+    pDSoundBuffer->SetFrequency(freqHz);
+    pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);;
+
+    const int panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
+    pDSoundBuffer->SetPan(panConverted);
+
+    if (playFlags & DSBPLAY_LOOPING)
+    {
+        playFlags = DSBPLAY_LOOPING;
+    }
+
+
+    pDSoundBuffer->Play(0, 0, playFlags);
+
+    return -1;
+#else
     if (!sDSound_BBC344)
     {
         return -1;
@@ -932,6 +1578,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
     }
 
     return -1;
+#endif
 }
 
 EXPORT void CC SND_Init_Buffers_4CB480()

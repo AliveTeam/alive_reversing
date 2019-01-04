@@ -4,8 +4,18 @@
 #include <mmeapi.h>
 #include <dsound.h>
 
-struct SoundEntry;
+enum AE_SDL_Voice_State
+{
+    Stopped = 0,
+    Paused = 1,
+    Playing = 2,
+};
 
+extern bool gReverbEnabled;
+
+class AE_SDL_Voice;
+
+struct SoundEntry;
 
 EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry);
 EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size);
@@ -31,7 +41,11 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
 struct SoundEntry
 {
     int field_0_tableIdx;
+#if USE_SDL2_SOUND
+    AE_SDL_Voice * field_4_pDSoundBuffer;
+#else
     LPDIRECTSOUNDBUFFER field_4_pDSoundBuffer;
+#endif
     BYTE* field_8_pSoundBuffer;
     int field_C_buffer_size_bytes;
     int field_10;

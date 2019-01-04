@@ -319,6 +319,8 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
 
     case WM_CLOSE:
         sDDraw_BBC3D4->FlipToGDISurface();
+
+#if !USE_SDL2_SOUND
         if (sSoundEntry_5CA230)
         {
             LPDIRECTSOUNDBUFFER pDSoundBuffer = sSoundEntry_5CA230->field_4_pDSoundBuffer;
@@ -327,12 +329,16 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
                 pDSoundBuffer->Stop();
             }
         }
+#endif
+
         if (SND_Seq_Table_Valid_4CAFE0())
         {
             SND_StopAll_4CB060();
         }
 
         ret = -(MessageBoxA(hWnd, "Do you really want to quit?", "Abe's Exoddus 1.0", 0x124u) != 6); // TODO: Constants, refactor negation
+
+
         if (SND_Seq_Table_Valid_4CAFE0())
         {
             SND_Restart_4CB0E0();
@@ -348,7 +354,9 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
             return ret;
         }
 
+#if !USE_SDL2_SOUND
         sSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
+#endif
         return ret;
 
     case WM_SETCURSOR:
@@ -769,11 +777,13 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
     {
         if (sSoundEntry_5CA230)
         {
+#if !USE_SDL2_SOUND
             LPDIRECTSOUNDBUFFER pDSoundBuffer = sSoundEntry_5CA230->field_4_pDSoundBuffer;
             if (pDSoundBuffer)
             {
                 pDSoundBuffer->Stop();
             }
+#endif
         }
         if (SND_Seq_Table_Valid_4CAFE0())
         {
@@ -804,10 +814,12 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
             SND_Restart_4CB0E0();
         }
 
+#if !USE_SDL2_SOUND
         if (sSoundEntry_5CA230 && sSoundEntry_5CA230->field_4_pDSoundBuffer)
         {
             sSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
         }
+#endif
 
         if (button == MessageBoxButton::eYes)
         {

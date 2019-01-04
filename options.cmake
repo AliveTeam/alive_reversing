@@ -8,5 +8,6 @@ option(FORCE_DDCHEAT "Force ddcheat mode to be enabled" ON)
 option(LCD_PS1_SPEED "Corrects LCD Screens to move as fast as the original PS1 version of the game." OFF)
 option(XINPUT_SUPPORT "Adds XINPUT support to the game and replaces in game fonts with Xbox Versions." OFF)
 option(USE_SDL2 "Use SDL2 instead of Win32 APIs." ON)
+option(USE_SDL2_SOUND "Use SDL2 for audio." ON)
 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/../Source/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/config.h)
