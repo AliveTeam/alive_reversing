@@ -2273,13 +2273,6 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
     }
 }
 
-EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* pOt)
-{
-    NOT_IMPLEMENTED();
-    return pOt; // Stand alone HACK HACK HACK!
-}
-
-
 EXPORT void CC PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render_Unknown* pSlope, int idx1, int idx2)
 {
     const OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
@@ -2541,6 +2534,7 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
     }
 }
 
+EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* pOt);
 
 EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff, int yoff)
 {
@@ -3882,6 +3876,231 @@ EXPORT void CC PSX_EMU_Render_SPRT_51EF90(__int16 x, __int16 y, int u, int v, BY
     }
 }
 
+
+static OT_Prim stru_BD1D00[7] = {};
+
+EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* pOt)
+{
+    NOT_IMPLEMENTED();
+
+    OT_Prim primLocal = {};
+    primLocal.field_0 = pOt->field_0;
+    primLocal.field_4 = pOt->field_4;
+    primLocal.field_8_r = pOt->field_8_r;
+    primLocal.field_A_b = pOt->field_A_b;
+    primLocal.field_9_g = pOt->field_9_g;
+    primLocal.field_E = pOt->field_E;
+    primLocal.field_B_flags = pOt->field_B_flags;
+    primLocal.field_12_clut = pOt->field_12_clut;
+    primLocal.field_10_tpage = pOt->field_10_tpage;
+
+    // Copy stuff assigned above plus the first vertex, even though first vertex is random data at this point ??
+    memcpy(stru_BD1D00, &primLocal, 60u);
+
+    OT_Prim* pLocal = &primLocal;
+    OT_Prim* result = &primLocal;
+    int idx = 0;
+    OT_Vert* pVerts = nullptr;
+    int idx2 = 0;
+    OT_Vert* pEndVert = nullptr;
+    OT_Vert* pLastVert1 = nullptr;
+    OT_Vert* pLastVert2 = nullptr;
+    bool bClip = false;
+    bool bWasClipped = false;
+    OT_Vert* pTmpVert = nullptr;
+    float floatCopy1 = 0.0f;
+
+    while (1)
+    {
+        pEndVert = &pOt->field_14_verts[pOt->field_C_vert_count];
+        pLastVert1 = &pOt->field_14_verts[pOt->field_C_vert_count - 1];
+        pLastVert2 = &pOt->field_14_verts[pOt->field_C_vert_count - 1];
+
+        switch (idx)
+        {
+        case 0:
+            bClip = pLastVert1->field_0_x0 < sPsx_drawenv_clipx_BDCD40;
+            break;
+
+        case 1:
+            bClip = pLastVert1->field_4_y0 < sPsx_drawenv_clipy_BDCD44;
+            break;
+
+        case 2:
+            bClip = pLastVert1->field_0_x0 > sPsx_drawenv_clipw_BDCD48;
+            break;
+
+        case 3:
+            bClip = pLastVert1->field_4_y0 > sPsx_drawenv_cliph_BDCD4C;
+            break;
+        }
+
+        result->field_C_vert_count = 0;
+        pVerts = pOt->field_14_verts;
+
+        if (pVerts < pEndVert)
+        {
+            const int x0 = pVerts->field_0_x0;
+            const int y0 = pVerts->field_4_y0;
+            int x0_diff = pVerts->field_0_x0 - pLastVert1->field_0_x0;
+            int y0_diff = pVerts->field_4_y0 - pLastVert1->field_4_y0;
+
+            while (1)
+            {
+                switch (idx2)
+                {
+                case 0:
+                    bWasClipped = pVerts->field_0_x0 < sPsx_drawenv_clipx_BDCD40;
+                    if (bClip != bWasClipped)
+                    {
+                        if (pVerts->field_0_x0 == pLastVert1->field_0_x0)
+                        {
+                            x0_diff = 1;
+                        }
+
+                        floatCopy1 = (float)(sPsx_drawenv_clipx_BDCD40 - pVerts->field_0_x0) / (float)x0_diff;
+                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert->field_4_y0 = static_cast<int>(((float)y0_diff * floatCopy1 + (float)pVerts->field_4_y0));
+                        pTmpVert->field_0_x0 = sPsx_drawenv_clipx_BDCD40;
+                        result = pLocal;
+                    }
+                    break;
+
+                case 1:
+                    bWasClipped = pVerts->field_4_y0 < sPsx_drawenv_clipy_BDCD44;
+                    if (bClip != bWasClipped)
+                    {
+                        if (pVerts->field_4_y0 == pLastVert1->field_4_y0)
+                        {
+                            y0_diff = 1;
+                        }
+
+                        floatCopy1 = (float)(sPsx_drawenv_clipy_BDCD44 - pVerts->field_4_y0) / (float)y0_diff;
+                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert->field_0_x0 = static_cast<int>(((float)x0_diff * floatCopy1 + (float)pVerts->field_0_x0));
+                        pTmpVert->field_4_y0 = sPsx_drawenv_clipy_BDCD44;
+                        result = pLocal;
+                    }
+                    break;
+
+                case 2:
+                    bWasClipped = pVerts->field_0_x0 > sPsx_drawenv_clipw_BDCD48;
+                    if (bClip != bWasClipped)
+                    {
+                        if (pVerts->field_0_x0 == pLastVert1->field_0_x0)
+                        {
+                            x0_diff = 1;
+                        }
+                        
+                        floatCopy1 = (float)(sPsx_drawenv_clipw_BDCD48 - pVerts->field_0_x0) / (float)x0_diff;
+                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert->field_4_y0 = static_cast<int>(((float)y0_diff * floatCopy1 + (float)pVerts->field_4_y0));
+                        pTmpVert->field_0_x0 = sPsx_drawenv_clipw_BDCD48;
+                        result = pLocal;
+                    }
+                    break;
+
+                case 3:
+                    bWasClipped = pVerts->field_4_y0 > sPsx_drawenv_cliph_BDCD4C;
+                    if (bClip != bWasClipped)
+                    {
+                        if (pVerts->field_4_y0 == pLastVert1->field_4_y0)
+                        {
+                            y0_diff = 1;
+                        }
+                        
+                        floatCopy1 = (float)(sPsx_drawenv_cliph_BDCD4C - pVerts->field_4_y0) / (float)y0_diff;
+                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert->field_0_x0 = static_cast<int>(((double)x0_diff * floatCopy1 + (double)pVerts->field_0_x0));
+                        pTmpVert->field_4_y0 = sPsx_drawenv_cliph_BDCD4C;
+                        result = pLocal;
+                    }
+                    break;
+                }
+
+                if (bClip != bWasClipped)
+                {
+                    OT_Prim* pOtCopy = pOt;
+                    OT_Vert* pLastVert2Copy = nullptr;
+                    if (pOt->field_B_flags & 4)
+                    {
+                        if (pOt->field_E & 1)
+                        {
+                            pLastVert2Copy = pLastVert2;
+                            pTmpVert->field_14_u = (int)((float)((float)pVerts->field_14_u - (float)pLastVert2->field_14_u) * floatCopy1 + (float)pVerts->field_14_u);
+                            pTmpVert->field_18_v = (int)((float)((float)pVerts->field_18_v - (float)pLastVert2->field_18_v) * floatCopy1 + (float)pVerts->field_18_v);
+                            pTmpVert->field_10 = (int)((float)((float)pVerts->field_10 - (float)pLastVert2->field_10) * floatCopy1 + (float)pVerts->field_10);
+                        }
+                        else
+                        {
+                            pLastVert2Copy = pLastVert2;
+                            pTmpVert->field_14_u = (int)((float)((float)pVerts->field_14_u - (float)pLastVert2->field_14_u) * floatCopy1 + (float)pVerts->field_14_u);
+                            pTmpVert->field_18_v = (int)((float)((float)pVerts->field_18_v - (float)pLastVert2->field_18_v) * floatCopy1 + (float)pVerts->field_18_v);
+                            pOtCopy = pOt;
+                        }
+                    }
+                    else
+                    {
+                        pLastVert2Copy = pLastVert2;
+                    }
+
+                    if (pOtCopy->field_B_flags & 0x10)
+                    {
+                        pTmpVert->field_1C_r = (int)((float)((float)pVerts->field_1C_r - (float)pLastVert2Copy->field_1C_r) * floatCopy1 + (float)pVerts->field_1C_r);
+                        pTmpVert->field_20_g = (int)((float)((float)pVerts->field_20_g - (float)pLastVert2Copy->field_20_g) * floatCopy1 + (float)pVerts->field_20_g);
+                        pTmpVert->field_24_b = (int)((float)((float)pVerts->field_24_b - (float)pLastVert2Copy->field_24_b) * floatCopy1 + (float)pVerts->field_24_b);
+                    }
+
+                    pTmpVert->field_8 = (int)((float)((float)pVerts->field_8 - (float)pLastVert2Copy->field_8) * floatCopy1 + (float)pVerts->field_8);
+                    result = pLocal;
+                }
+
+                if (!bWasClipped)
+                {
+                    memcpy(
+                        &result->field_14_verts[result->field_C_vert_count++],
+                        pVerts,
+                        sizeof(result->field_14_verts[result->field_C_vert_count++]));
+                }
+
+                pLastVert2 = pVerts;
+                ++pVerts;
+                bClip = bWasClipped;
+
+                if (pVerts >= pEndVert)
+                {
+                    break;
+                }
+
+                pLastVert1 = pLastVert2;
+            } // inner loop
+            idx = idx2;
+        }
+
+        OT_Prim * pStaticBackUp = stru_BD1D00;
+
+        if (idx)
+        {
+            pStaticBackUp = pOt;
+        }
+
+        ++idx;
+
+        pOt = result;
+        pLocal = pStaticBackUp;
+
+        idx2 = idx;
+        if (idx >= 4)
+        {
+            return result;
+        }
+
+        result = pStaticBackUp;
+    } // outer loop
+
+    return pOt;
+}
+
 namespace Test
 {
     const BYTE kTestPal[] = 
@@ -4224,12 +4443,21 @@ namespace Test
         prim.field_B_flags = 0x32; // POLY_G3 + semi trans
 
         prim.field_D = 1;
-        prim.field_C_vert_count = 3;
+        prim.field_C_vert_count = 2;
         prim.field_10_tpage = 0x001E;
         prim.field_12_clut = 0x3C00;
 
-        prim.field_14_verts[0].field_0_x0 = 5120;
-        prim.field_14_verts[0].field_4_y0 = 1920;
+        prim.field_14_verts[0].field_0_x0 = 1 * 16;
+        prim.field_14_verts[0].field_4_y0 = 1 * 16;
+
+        prim.field_14_verts[1].field_0_x0 = 320 * 16;
+        prim.field_14_verts[1].field_4_y0 = 120 * 16;
+
+        prim.field_14_verts[2].field_0_x0 = 1 * 16;
+        prim.field_14_verts[2].field_4_y0 = 1 * 16;
+
+        prim.field_14_verts[3].field_0_x0 = 320 * 16;
+        prim.field_14_verts[3].field_4_y0 = 120 * 16;
 
         prim.field_14_verts[0].field_14_u = 1;
         prim.field_14_verts[0].field_18_v = 163;
@@ -4238,35 +4466,23 @@ namespace Test
         prim.field_14_verts[0].field_20_g = 2023424;
         prim.field_14_verts[0].field_24_b = 2088960;
 
-        prim.field_14_verts[1].field_0_x0 = -2752;
-        prim.field_14_verts[1].field_4_y0 = 992;
+        sPsx_drawenv_clipx_BDCD40 = 32 * 16;
+        sPsx_drawenv_clipy_BDCD44 = 32 * 16;
+        sPsx_drawenv_clipw_BDCD48 = 160 * 16;
+        sPsx_drawenv_cliph_BDCD4C = 160 * 16;
 
-        prim.field_14_verts[1].field_14_u = 14;
-        prim.field_14_verts[1].field_18_v = 163;
-
-        prim.field_14_verts[1].field_1C_r = 16384;
-        prim.field_14_verts[1].field_20_g = 16384;
-        prim.field_14_verts[1].field_24_b = 204800;
-
-        prim.field_14_verts[2].field_0_x0 = 2768;
-        prim.field_14_verts[2].field_4_y0 = -128;
-
-        prim.field_14_verts[2].field_14_u = 14;
-        prim.field_14_verts[2].field_18_v = 187;
-
-        prim.field_14_verts[2].field_1C_r = 16384;
-        prim.field_14_verts[2].field_20_g = 16384;
-        prim.field_14_verts[2].field_24_b = 204800;
-
-        sPsx_drawenv_clipx_BDCD40 = 0;
-        sPsx_drawenv_clipy_BDCD44 = 0;
-        sPsx_drawenv_clipw_BDCD48 = 10240;
-        sPsx_drawenv_cliph_BDCD4C = 3840;
-
-        //OT_Prim* pRet = PSX_poly_helper_4FE710(&prim);
-        /*
-        ASSERT_EQ(pRet->field_C_vert_count, 5);
+/*
+        OT_Prim* pRet = PSX_poly_helper_4FE710(&prim);
+        ASSERT_EQ(pRet->field_14_verts[0].field_0_x0, 160 * 16);
+        ASSERT_EQ(pRet->field_14_verts[0].field_4_y0, 120 * 16);
         
+        ASSERT_EQ(pRet->field_14_verts[1].field_0_x0, 320 * 16);
+        ASSERT_EQ(pRet->field_14_verts[1].field_4_y0, 120 * 16);
+
+        */
+
+
+        /*
         std::vector<char> buffer(1024 * 512 * 2);
         Bitmap tmpBmp = {};
         tmpBmp.field_4_pLockedPixels = buffer.data();
