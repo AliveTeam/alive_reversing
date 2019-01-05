@@ -14,12 +14,12 @@ static int mReverbBufferIndex = 0;
 static StereoSampleFloat sReverbBuffer[1024 * 32];
 static float gReverbMix = 0.05f;
 
-void Reverb_Init()
+void Reverb_Init(int sampleRate)
 {
     for (int i = 1; i < REVERB_ECHO_COUNT + 1; i++)
     {
         Echo echo;
-        echo.delay = i * ((REVERB_ROOM_SIZE * 100) / REVERB_ECHO_COUNT) + (rand() % (REVERB_ROOM_SIZE / 2));
+        echo.delay = static_cast<int>((i * ((REVERB_ROOM_SIZE * 100) / REVERB_ECHO_COUNT) + (rand() % (REVERB_ROOM_SIZE / 2))) * sampleRate / 44100.0f);
         echo.volume = (powf(static_cast<float>(REVERB_ECHO_COUNT - i), 4.0f) / powf(static_cast<float>(REVERB_ECHO_COUNT), 4.0f)) * (REVERB_ECHO_COUNT / 100.0f);
 
         mEchos[i] = echo;

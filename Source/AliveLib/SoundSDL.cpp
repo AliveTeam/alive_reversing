@@ -45,6 +45,8 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
             if (pVoice->State.iChannels == 2)
             {
                 // For Stereo buffers. The only time this is played is for FMV's.
+                // Right now, unless the playback device is at 44100 hz, it sounds awful.
+                // TODO: Resampling for stereo
 
                 tempBuffer[i].left = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition)]) / 65535.0f) * pVoice->State.fVolume;
                 tempBuffer[i].right = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition) + 1]) / 65535.0f) * pVoice->State.fVolume;
@@ -423,7 +425,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int /*sampleRate*/, int /*bits
         {
             SDL_PauseAudio(0);
 
-            Reverb_Init();
+            Reverb_Init(gAudioDeviceSpec.freq);
 
             SND_InitVolumeTable_4EEF60();
 
