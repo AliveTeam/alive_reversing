@@ -683,6 +683,34 @@ void Command_Ring(const std::vector<std::string>& args)
     SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
 }
 
+struct DebugKeyBinds
+{
+    std::string key;
+    std::string command;
+};
+
+std::vector<DebugKeyBinds> gDebugKeyBinds;
+
+void Command_Bind(const std::vector<std::string>& args)
+{
+    std::string key = args[0];
+
+    std::string command;
+    for (unsigned int i = 1; i < args.size(); i++)
+    {
+        command += args[i];
+
+        if (i != args.size() - 1)
+            command += " ";
+    }
+
+    gDebugKeyBinds.push_back({ key,command });
+
+    DEV_CONSOLE_PRINTF("Added bind for key %s for command: '%s'", key.c_str(), command.c_str());
+}
+
+
+
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "help", -1, Command_Help, "Shows what you're looking at" },
     { "test", -1, Command_Test, "Is this thing on?" },
@@ -701,6 +729,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
     { "state", 1, Command_SetState, "Sets currently controlled objects state." },
     { "ddv", 1, Command_DDV, "Plays a ddv" },
+    { "bind", -1, Command_Bind, "Binds a key to a command" },
     { "ring", 1, Command_Ring, "Emits a ring" },
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
     { "path_lines", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
@@ -850,8 +879,26 @@ public:
                 Input_EnableInput_4EDDD0();
             }
         }
+        
+        
+#if USE_SDL2
+        static Uint8 keyStatesPrev[256];
+        auto keyStates = SDL_GetKeyboardState(nullptr);
+        
 
-        const char* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-+@#$%^&*()_";
+        for (auto bind : gDebugKeyBinds)
+        {
+            auto scanCode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(bind.key.c_str()));
+            if (keyStates[scanCode] && !keyStatesPrev[scanCode])
+            {
+                ParseCommand(bind.command);
+            }
+        }
+
+        memcpy(keyStatesPrev, keyStates, sizeof(keyStatesPrev));
+#endif
+
+        const char* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_";
 
         if (Input_IsVKPressed_4EDD40(VK_UP) && mCommandLineEnabled)
         {
