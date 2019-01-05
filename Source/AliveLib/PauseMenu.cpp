@@ -732,13 +732,29 @@ void DestroyAllObjects()
 }
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
-    { "Destroy Alive Objs", [](CustomPauseMenu * pm ) { DestroyAliveObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4); } },
+    { "Destroy Alive Objs", [](CustomPauseMenu * pm) { DestroyAliveObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed Alive Objects", 4); } },
     { "Destroy All Objects", [](CustomPauseMenu * pm) { DestroyAllObjects(); pm->ClosePauseMenu(); DEV_CONSOLE_MESSAGE("Destroyed All Objects", 4); } },
-    { "Save All Mudokons", [](CustomPauseMenu * ) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
-    { "Kill All Mudokons", [](CustomPauseMenu * ) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
-    { "Give Rocks", [](CustomPauseMenu * ) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
+    { "Save All Mudokons", [](CustomPauseMenu *) { sRescuedMudokons_5C1BC2 = 300; sKilledMudokons_5C1BC0 = 0; DEV_CONSOLE_MESSAGE("(CHEAT) Saved all Mudokons", 4); } },
+    { "Kill All Mudokons", [](CustomPauseMenu *) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
+    { "Give Rocks", [](CustomPauseMenu *) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
     { "Open All Doors", [](CustomPauseMenu * pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
+    { "Invisible", [](CustomPauseMenu * pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8); } },
+    { "Give Explosive Fart", [](CustomPauseMenu * pm) {
+        DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
+        pm->ClosePauseMenu();
+        sActiveHero_5C1B68->field_198_has_evil_fart = true;
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6017, FALSE, FALSE))
+        {
+            ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
+        }
+        if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
+        {
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6017, TRUE, FALSE)); // TODO: ResId
+        }
+    } },
 });
+
+
 CustomPauseMenu devCheatsMenu(&devCheatsMenuItems, "Cheats");
 
 std::vector<CustomPauseMenuItem> devMenuItems({

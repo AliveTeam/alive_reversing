@@ -135,7 +135,10 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
 
     for (auto voice : voiceGarbage)
     {
-        voice->Destroy();
+        if (voice != nullptr)
+        {
+            voice->Destroy();
+        }
     }
 
     delete[] tempBuffer;

@@ -25,6 +25,7 @@
 #include "UXB.hpp"
 #include "Movie.hpp"
 #include "Text.hpp"
+#include "AbilityRing.hpp"
 
 char _devConsoleBuffer[1000];
 
@@ -668,6 +669,20 @@ void Command_SetState(const std::vector<std::string>& args)
     }
 }
 
+void Command_Ring(const std::vector<std::string>& args)
+{
+    int ringType = std::stoi(args[0]);
+
+    PSX_RECT rect = {};
+    sActiveHero_5C1B68->GetBoundingRect_424FD0(&rect, 1);
+    AbilityRing::Factory_482F80(
+        FP_FromInteger((rect.x + rect.w) / 2),
+        FP_FromInteger((rect.y + rect.h) / 2),
+        static_cast<RingTypes>(ringType), sActiveHero_5C1B68->field_CC_sprite_scale);
+
+    SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
+}
+
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "help", -1, Command_Help, "Shows what you're looking at" },
     { "test", -1, Command_Test, "Is this thing on?" },
@@ -686,6 +701,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
     { "state", 1, Command_SetState, "Sets currently controlled objects state." },
     { "ddv", 1, Command_DDV, "Plays a ddv" },
+    { "ring", 1, Command_Ring, "Emits a ring" },
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
     { "path_lines", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::Enabled, "Path Lines"); }, "Renders path lines on screen" },
     { "grid", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
@@ -781,6 +797,33 @@ public:
 
     virtual void VUpdate() override
     {
+        static bool hasRunAutorun = false;
+        static int autoRunWait = 1;
+        if (!hasRunAutorun && autoRunWait <= 0)
+        {
+            // Runs some commands on game startup
+            auto autoRun = FS::ReadFile("autorun.conf");
+            autoRun.push_back(0);
+
+            if (autoRun.size() > 0)
+            {
+                std::string str = std::string(reinterpret_cast<const char *>(autoRun.data()));
+
+                str.erase(std::remove(str.begin(), str.end(), '\r'), str.end());
+
+                auto lines = SplitString(str, '\n');
+
+                for (auto command : lines)
+                {
+                    ParseCommand(command);
+                }
+            }
+
+            hasRunAutorun = true;
+        }
+
+        autoRunWait--;
+
         char titleBuffer[1000];
         char camBuffer[32];
         Path_Format_CameraName_460FB0(
