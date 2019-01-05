@@ -31,7 +31,7 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
     {
         AE_SDL_Voice * pVoice = sAE_ActiveVoices[v];
 
-        if (!pVoice->pBuffer || pVoice->eState != AE_SDL_Voice_State::Playing)
+        if (!pVoice->pBuffer || pVoice->State.eStatus != AE_SDL_Voice_Status::Playing)
             continue;
 
         // Clear Temp Sample Buffer
@@ -39,29 +39,29 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
 
         for (int i = 0; i < bufferSamples && pVoice->pBuffer; i += gAudioDeviceSpec.channels / 2)
         {
-            if (!pVoice->pBuffer || pVoice->eState != AE_SDL_Voice_State::Playing || pVoice->iSampleCount == 0)
+            if (!pVoice->pBuffer || pVoice->State.eStatus != AE_SDL_Voice_Status::Playing || pVoice->State.iSampleCount == 0)
                 continue;
 
-            if (pVoice->iChannels == 2)
+            if (pVoice->State.iChannels == 2)
             {
                 // For Stereo buffers. The only time this is played is for FMV's.
 
-                tempBuffer[i].left = ((pVoice->pBuffer[static_cast<int>(pVoice->fPlaybackPosition)]) / 65535.0f) * pVoice->fVolume;
-                tempBuffer[i].right = ((pVoice->pBuffer[static_cast<int>(pVoice->fPlaybackPosition) + 1]) / 65535.0f) * pVoice->fVolume;
+                tempBuffer[i].left = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition)]) / 65535.0f) * pVoice->State.fVolume;
+                tempBuffer[i].right = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition) + 1]) / 65535.0f) * pVoice->State.fVolume;
 
-                pVoice->fPlaybackPosition += pVoice->fFrequency * 2;
+                pVoice->State.fPlaybackPosition += pVoice->State.fFrequency * 2;
 
-                if (pVoice->fPlaybackPosition >= pVoice->iSampleCount)
+                if (pVoice->State.fPlaybackPosition >= pVoice->State.iSampleCount)
                 {
-                    if (pVoice->bLoop)
+                    if (pVoice->State.bLoop)
                     {
                         // Restart playback for loop.
-                        pVoice->fPlaybackPosition = 0;
+                        pVoice->State.fPlaybackPosition = 0;
                     }
                     else
                     {
-                        pVoice->fPlaybackPosition = 0;
-                        pVoice->eState = AE_SDL_Voice_State::Stopped;
+                        pVoice->State.fPlaybackPosition = 0;
+                        pVoice->State.eStatus = AE_SDL_Voice_Status::Stopped;
                     }
                 }
             }
@@ -72,44 +72,44 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
                 switch (gAudioFilterMode)
                 {
                 case AudioFilterMode::NoFilter:
-                    s = ((pVoice->pBuffer[static_cast<int>(pVoice->fPlaybackPosition)]) / 65535.0f) * pVoice->fVolume;
+                    s = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition)]) / 65535.0f) * pVoice->State.fVolume;
                     break;
                 case AudioFilterMode::Linear:
-                    const float s1 = pVoice->pBuffer[static_cast<int>(pVoice->fPlaybackPosition)] / 65535.0f;
-                    const float s2 = pVoice->pBuffer[(static_cast<int>(pVoice->fPlaybackPosition) + 1) % pVoice->iSampleCount] / 65535.0f;
+                    const float s1 = reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition)] / 65535.0f;
+                    const float s2 = reinterpret_cast<Sint16*>(pVoice->GetBuffer())[(static_cast<int>(pVoice->State.fPlaybackPosition) + 1) % pVoice->State.iSampleCount] / 65535.0f;
 
-                    s = (s1 + ((s2 - s1) * (pVoice->fPlaybackPosition - floorf(pVoice->fPlaybackPosition)))) * pVoice->fVolume;
+                    s = (s1 + ((s2 - s1) * (pVoice->State.fPlaybackPosition - floorf(pVoice->State.fPlaybackPosition)))) * pVoice->State.fVolume;
                     break;
                 }
 
                 float leftPan = 1.0f;
                 float rightPan = 1.0f;
 
-                if (pVoice->fPan < 0)
+                if (pVoice->State.fPan < 0)
                 {
-                    rightPan = 1.0f - fabs(pVoice->fPan);
+                    rightPan = 1.0f - fabs(pVoice->State.fPan);
                 }
-                else if (pVoice->fPan > 0)
+                else if (pVoice->State.fPan > 0)
                 {
-                    leftPan = 1.0f - fabs(pVoice->fPan);
+                    leftPan = 1.0f - fabs(pVoice->State.fPan);
                 }
 
                 tempBuffer[i].left = s * leftPan;
                 tempBuffer[i].right = s * rightPan;
 
-                pVoice->fPlaybackPosition += pVoice->fFrequency;
+                pVoice->State.fPlaybackPosition += pVoice->State.fFrequency;
 
-                if (pVoice->fPlaybackPosition >= pVoice->iSampleCount)
+                if (pVoice->State.fPlaybackPosition >= pVoice->State.iSampleCount)
                 {
-                    if (pVoice->bLoop)
+                    if (pVoice->State.bLoop)
                     {
                         // Restart playback for loop.
-                        pVoice->fPlaybackPosition = 0;
+                        pVoice->State.fPlaybackPosition = 0;
                     }
                     else
                     {
-                        pVoice->fPlaybackPosition = 0;
-                        pVoice->eState = AE_SDL_Voice_State::Stopped;
+                        pVoice->State.fPlaybackPosition = 0;
+                        pVoice->State.eStatus = AE_SDL_Voice_Status::Stopped;
                     }
                 }
             }
@@ -125,7 +125,7 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
     std::vector<AE_SDL_Voice *> voiceGarbage;
     for (unsigned int v = 0; v < sAE_ActiveVoices.size(); v++)
     {
-        if (sAE_ActiveVoices[v]->bIsReleased)
+        if (sAE_ActiveVoices[v]->State.bIsReleased)
         {
             voiceGarbage.push_back(sAE_ActiveVoices[v]);
         }
@@ -145,19 +145,19 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
         Reverb_Mix(buffer, gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
     }
 
-    /*printf("Voice Count: %i - Callback %x %x %i\n", sAE_ActiveVoices.size(), userdata, stream, len);*/
+    printf("Voice Count: %i\n", sAE_ActiveVoices.size());
 }
 
 AE_SDL_Voice::AE_SDL_Voice()
 {
-    fVolume = 1.0f;
-    fPan = 0;
-    fFrequency = 1.0f;
-    bIsReleased = false;
-    bLoop = false;
-    iChannels = 1;
-    fPlaybackPosition = 0;
-    eState = AE_SDL_Voice_State::Stopped;
+    State.fVolume = 1.0f;
+    State.fPan = 0;
+    State.fFrequency = 1.0f;
+    State.bIsReleased = false;
+    State.bLoop = false;
+    State.iChannels = 1;
+    State.fPlaybackPosition = 0;
+    State.eStatus = AE_SDL_Voice_Status::Stopped;
 
     std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceVectorMutex);
     sAE_ActiveVoices.push_back(this);
@@ -165,25 +165,25 @@ AE_SDL_Voice::AE_SDL_Voice()
 
 int AE_SDL_Voice::SetVolume(int volume)
 {
-    fVolume = volume / 127.0f;
+    State.fVolume = volume / 127.0f;
     return 0;
 }
 
 int AE_SDL_Voice::SetFrequency(int frequency)
 {
-    fFrequency = frequency / 44100.0f;
+    State.fFrequency = frequency / static_cast<float>(gAudioDeviceSpec.freq);
     return 0;
 }
 
 int AE_SDL_Voice::SetCurrentPosition(int position) // This offset is apparently in bytes
 {
-    fPlaybackPosition = static_cast<float>(position / iBlockAlign * iChannels);
+    State.fPlaybackPosition = static_cast<float>(position / State.iBlockAlign * State.iChannels);
     return 0;
 }
 
 int AE_SDL_Voice::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
 {
-    *readPos = static_cast<DWORD>(fPlaybackPosition * iBlockAlign / iChannels);
+    *readPos = static_cast<DWORD>(State.fPlaybackPosition * State.iBlockAlign / State.iChannels);
     *writePos = 0;
 
     return 0;
@@ -191,32 +191,32 @@ int AE_SDL_Voice::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
 
 int AE_SDL_Voice::GetFrequency(DWORD * freq)
 {
-    *freq = static_cast<DWORD>(fFrequency * gAudioDeviceSpec.freq);
+    *freq = static_cast<DWORD>(State.fFrequency * gAudioDeviceSpec.freq);
     return 0;
 }
 
 int AE_SDL_Voice::SetPan(int pan)
 {
-    fPan = pan / 10000.0f;
+    State.fPan = pan / 10000.0f;
     return 0;
 }
 
 void AE_SDL_Voice::Release()
 {
-    bIsReleased = true;
+    State.bIsReleased = true;
 }
 
 int AE_SDL_Voice::GetStatus(DWORD * r)
 {
-    if (eState == AE_SDL_Voice_State::Playing)
+    if (State.eStatus == AE_SDL_Voice_Status::Playing)
     {
         *r |= DSBSTATUS_PLAYING;
     }
-    if (bLoop)
+    if (State.bLoop)
     {
         *r |= DSBSTATUS_LOOPING;
     }
-    if (bIsReleased)
+    if (State.bIsReleased)
     {
         *r |= DSBSTATUS_TERMINATED;
     }
@@ -230,27 +230,37 @@ void AE_SDL_Voice::Destroy()
 
     std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceVectorMutex);
     sAE_ActiveVoices.erase(std::remove(sAE_ActiveVoices.begin(), sAE_ActiveVoices.end(), this), sAE_ActiveVoices.end());
-
-    //delete this; // todo: fix this crash :(
-
-    // todo: delete shared audio buffer.
+    delete this;
 }
 
 int AE_SDL_Voice::Play(int /*reserved*/, int /*priority*/, int flags)
 {
-    fPlaybackPosition = 0;
-    eState = AE_SDL_Voice_State::Playing;
+    State.fPlaybackPosition = 0;
+    State.eStatus = AE_SDL_Voice_Status::Playing;
     if (flags & DSBPLAY_LOOPING)
     {
-        bLoop = true;
+        State.bLoop = true;
     }
     return 0;
 }
 
 int AE_SDL_Voice::Stop()
 {
-    eState = AE_SDL_Voice_State::Stopped;
-    Destroy();
+    State.eStatus = AE_SDL_Voice_Status::Stopped;
+    return 0;
+}
+
+void * AE_SDL_Voice::GetBuffer()
+{
+    return *pBuffer.get();
+}
+
+int AE_SDL_Voice::Duplicate(AE_SDL_Voice ** dupePtr)
+{
+    AE_SDL_Voice * dupe = new AE_SDL_Voice();
+    memcpy(&dupe->State, &this->State, sizeof(AE_SDL_Voice_State));
+    dupe->pBuffer = this->pBuffer;
+    *dupePtr = dupe;
     return 0;
 }
 
@@ -259,13 +269,34 @@ int AE_SDL_Voice::Stop()
 
 EXPORT void CC SND_SsQuit_4EFD50()
 {
-    // TODO. Clean up SDL Here.
+    for (int i = 0; i < 32; i++)
+    {
+        if (sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer)
+        {
+            sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer->Stop();
+            sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer->Release();
+            sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer = nullptr;
+        }
+    }
+
+    for (int i = 0; i < sLoadedSoundsCount_BBC394; i++)
+    {
+        SoundEntry* pEntry = sSoundSamples_BBBF38[i];
+        if (pEntry->field_4_pDSoundBuffer)
+        {
+            pEntry->field_4_pDSoundBuffer->Stop();
+            pEntry->field_4_pDSoundBuffer->Release();
+            pEntry->field_4_pDSoundBuffer = nullptr;
+            pEntry->field_10 = 0;
+        }
+    }
+
     return;
 }
 
 EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
 {
-    pSnd->field_4_pDSoundBuffer->bLoop = false;
+    pSnd->field_4_pDSoundBuffer->State.bLoop = false;
 
     pSnd->field_10 = 0;
 
@@ -300,7 +331,7 @@ EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffs
     const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
     const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
 
-    memset(pSoundEntry->field_4_pDSoundBuffer->pBuffer, 0, pSoundEntry->field_14_buffer_size_bytes);
+    memset(pSoundEntry->field_4_pDSoundBuffer->GetBuffer(), 0, pSoundEntry->field_14_buffer_size_bytes);
 
     return 0;
 }
@@ -315,7 +346,7 @@ EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffse
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
-    memcpy(reinterpret_cast<Uint8*>(pSnd->field_4_pDSoundBuffer->pBuffer) + offsetBytes, pSoundBuffer, bufferSizeBytes);
+    memcpy(reinterpret_cast<Uint8*>(pSnd->field_4_pDSoundBuffer->GetBuffer()) + offsetBytes, pSoundBuffer, bufferSizeBytes);
     return 0;
 }
 
@@ -329,10 +360,10 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
 
         AE_SDL_Voice * pDSoundBuffer = new AE_SDL_Voice();
         pDSoundBuffer->SetFrequency(sampleRate);
-        pDSoundBuffer->iSampleCount = sampleByteSize / 2;
-        pDSoundBuffer->pBuffer = new Sint16[sampleByteSize];
-        pDSoundBuffer->iBlockAlign = pSnd->field_1D_blockAlign;
-        pDSoundBuffer->iChannels = (isStereo & 1) ? 2 : 1;
+        pDSoundBuffer->State.iSampleCount = sampleByteSize / 2;
+        pDSoundBuffer->pBuffer = std::make_shared<void*>(new Sint8[sampleByteSize]);
+        pDSoundBuffer->State.iBlockAlign = pSnd->field_1D_blockAlign;
+        pDSoundBuffer->State.iChannels = (isStereo & 1) ? 2 : 1;
         pSnd->field_4_pDSoundBuffer = pDSoundBuffer;
 
         pSnd->field_10 = 0;
@@ -471,10 +502,9 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
             return -1;
         }
 
-        pSoundBuffer->field_0_pDSoundBuffer = new AE_SDL_Voice();
-        memcpy(pSoundBuffer->field_0_pDSoundBuffer, pDSoundBuffer, sizeof(AE_SDL_Voice));
-        pSoundBuffer->field_0_pDSoundBuffer->SetCurrentPosition(0);
 
+        pDSoundBuffer->Duplicate(&pSoundBuffer->field_0_pDSoundBuffer);
+        pSoundBuffer->field_0_pDSoundBuffer->SetCurrentPosition(0);
         pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
 
         if (pMidiStru)

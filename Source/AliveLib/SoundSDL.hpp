@@ -13,7 +13,7 @@ struct StereoSampleFloat
     float right;
 };
 
-enum AE_SDL_Voice_State
+enum AE_SDL_Voice_Status
 {
     Stopped = 0,
     Paused = 1,
@@ -42,21 +42,30 @@ public:
     void Destroy();
     int Play(int /*reserved*/, int /*priority*/, int flags);
     int Stop();
+    void * GetBuffer();
+    int Duplicate(AE_SDL_Voice ** dupePtr);
 
 public:
-    float fVolume;
-    float fFrequency;
-    float fPan;
+    struct AE_SDL_Voice_State
+    {
+        float fVolume;
+        float fFrequency;
+        float fPan;
 
-    AE_SDL_Voice_State eState;
-    bool bLoop;
-    bool bIsReleased;
-    float fPlaybackPosition;
+        AE_SDL_Voice_Status eStatus;
+        bool bLoop;
+        bool bIsReleased;
+        float fPlaybackPosition;
 
-    short * pBuffer;
-    int iSampleCount;
-    int iChannels;
-    int iBlockAlign;
+        int iSampleCount;
+        int iChannels;
+        int iBlockAlign;
+    };
+
+    AE_SDL_Voice_State State;
+
+    std::shared_ptr<void *> pBuffer;
+    
 };
 
 #endif
