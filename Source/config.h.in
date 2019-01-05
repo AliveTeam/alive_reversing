@@ -2,9 +2,11 @@
 
 #cmakedefine01 DEVELOPER_MODE
 #cmakedefine01 BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
+#cmakedefine01 BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
 #cmakedefine01 FORCE_DDCHEAT
 #cmakedefine01 LCD_PS1_SPEED
 #cmakedefine01 XINPUT_SUPPORT
 #cmakedefine01 RENDER_TEST
 #cmakedefine01 USE_SDL2
+#cmakedefine01 USE_SDL2_SOUND
 #cmakedefine BUILD_NUMBER "@BUILD_NUMBER@"

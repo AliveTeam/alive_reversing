@@ -199,6 +199,10 @@ add_library(AliveLib
     Switch.cpp
     MultiSwitchController.hpp
     MultiSwitchController.cpp
+    Reverb.hpp
+    Reverb.cpp
+    SoundSDL.hpp
+    SoundSDL.cpp
     ShadowZone.hpp
     ShadowZone.cpp
     Types.hpp
@@ -213,7 +217,6 @@ target_include_directories(AliveLib PUBLIC
 target_compile_definitions(AliveLib PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
 target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
-target_compile_definitions(AliveLib PRIVATE "USE_SDL2_SOUND")
 
 if (MSVC)
     target_compile_options(AliveLib PRIVATE /W4 /wd4996 /WX /MP)
