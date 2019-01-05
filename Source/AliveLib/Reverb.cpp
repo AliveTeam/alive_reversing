@@ -14,7 +14,7 @@ static int mReverbBufferIndex = 0;
 static StereoSampleFloat sReverbBuffer[1024 * 32];
 static float gReverbMix = 0.05f;
 
-void ReverbInit()
+void Reverb_Init()
 {
     for (int i = 1; i < REVERB_ECHO_COUNT + 1; i++)
     {
@@ -26,7 +26,7 @@ void ReverbInit()
     }
 }
 
-void PushReverbSample(StereoSampleFloat v)
+void Reverb_PushSample(StereoSampleFloat v)
 {
     mReverbBufferIndex++;
     if (mReverbBufferIndex >= REVERB_GRAINS_SIZE)
@@ -35,7 +35,7 @@ void PushReverbSample(StereoSampleFloat v)
     mReverbGrains[mReverbBufferIndex] = v;
 }
 
-inline void UpdateReverb(int index)
+inline void Reverb_Update(int index)
 {
     sReverbBuffer[index].left = 0;
     sReverbBuffer[index].right = 0;
@@ -77,9 +77,9 @@ void Reverb_Mix(StereoSampleFloat * dst, SDL_AudioFormat format, Uint32 len, int
 {
     for (unsigned int i = 0; i < len / sizeof(StereoSampleFloat); i++)
     {
-        PushReverbSample(dst[i]);
+        Reverb_PushSample(dst[i]);
 
-        UpdateReverb(i);
+        Reverb_Update(i);
     }
 
     for (unsigned int i = 0; i < len / sizeof(StereoSampleFloat); i++)

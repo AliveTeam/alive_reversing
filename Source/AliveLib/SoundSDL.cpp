@@ -392,7 +392,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int /*sampleRate*/, int /*bits
         {
             SDL_PauseAudio(0);
 
-            ReverbInit();
+            Reverb_Init();
 
             SND_InitVolumeTable_4EEF60();
 
