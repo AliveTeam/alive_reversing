@@ -145,7 +145,7 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
         Reverb_Mix(buffer, gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
     }
 
-    printf("Voice Count: %i\n", sAE_ActiveVoices.size());
+    // printf("Voice Count: %i\n", sAE_ActiveVoices.size());
 }
 
 AE_SDL_Voice::AE_SDL_Voice()
