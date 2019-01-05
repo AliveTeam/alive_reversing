@@ -767,40 +767,42 @@ void PauseMenu_ForceLink() {
     {
         //DumpMenus();
 
-        devTeleportMenuItems.clear();
-
-        for (int i = 0; i < 17; i++)
-        {
-            devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu * pm) {
-                const auto levelSelectEntry = gPerLvlData_561700[pm->index];
-                pm->ClosePauseMenu();
-                sActiveHero_5C1B68->field_106_current_state = 3;
-                sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);;
-                sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
-                sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
-                sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
-
-                if (levelSelectEntry.field_A_scale & 1)
-                {
-                    sActiveHero_5C1B68->field_D6_scale = 1;
-                    sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
-                }
-                else
-                {
-                    sActiveHero_5C1B68->field_D6_scale = 0;
-                    sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
-                }
-                
-                sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
-                gMap_5C3030.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
-                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
-                DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
-            } });
-        }
-
-        //devTeleportMenu = CustomPauseMenu(&devTeleportMenuItems, "Level Select");
+        
     }
+
+    devTeleportMenuItems.clear();
+
+    for (int i = 0; i < 17; i++)
+    {
+        devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu * pm) {
+            const auto levelSelectEntry = gPerLvlData_561700[pm->index];
+            pm->ClosePauseMenu();
+            sActiveHero_5C1B68->field_106_current_state = 3;
+            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);;
+            sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
+            sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
+            sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
+
+            if (levelSelectEntry.field_A_scale & 1)
+            {
+                sActiveHero_5C1B68->field_D6_scale = 1;
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
+            }
+            else
+            {
+                sActiveHero_5C1B68->field_D6_scale = 0;
+                sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(0.5);
+            }
+
+            sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
+            gMap_5C3030.SetActiveCam_480D30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+            sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+            sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record_460F30(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+            DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
+        } });
+    }
+
+    //devTeleportMenu = CustomPauseMenu(&devTeleportMenuItems, "Level Select");
 #endif
 }
 
