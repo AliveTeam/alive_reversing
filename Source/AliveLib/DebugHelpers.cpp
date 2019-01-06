@@ -834,7 +834,7 @@ public:
             auto autoRun = FS::ReadFile("autorun.conf");
             autoRun.push_back(0);
 
-            if (autoRun.size() > 0)
+            if (!autoRun.empty())
             {
                 std::string str = std::string(reinterpret_cast<const char *>(autoRun.data()));
 
@@ -886,7 +886,7 @@ public:
         auto keyStates = SDL_GetKeyboardState(nullptr);
         
 
-        for (auto bind : gDebugKeyBinds)
+        for (const auto& bind : gDebugKeyBinds)
         {
             auto scanCode = SDL_GetScancodeFromKey(SDL_GetKeyFromName(bind.key.c_str()));
             if (keyStates[scanCode] && !keyStatesPrev[scanCode])
