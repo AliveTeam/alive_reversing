@@ -842,7 +842,7 @@ public:
 
                 auto lines = SplitString(str, '\n');
 
-                for (auto command : lines)
+                for (auto &command : lines)
                 {
                     ParseCommand(command);
                 }
