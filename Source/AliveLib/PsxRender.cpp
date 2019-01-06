@@ -3898,17 +3898,12 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
     OT_Prim* pLocal = &primLocal;
     OT_Prim* result = &primLocal;
 
-    OT_Vert* pTmpVert = nullptr;
-    OT_Vert* pLastVert2Copy = nullptr;
-    OT_Prim* _pOt = pOt;
-
     int idx = 0;
-    int idx2 = 0;
     while (1)
     {
-        OT_Vert* pLastVert =  &_pOt->field_14_verts[_pOt->field_C_vert_count];
-        OT_Vert* pLastVert1 = &_pOt->field_14_verts[_pOt->field_C_vert_count - 1];
-        OT_Vert* pLastVert2 = &_pOt->field_14_verts[_pOt->field_C_vert_count - 1];
+        OT_Vert* pLastVert =  &pOt->field_14_verts[pOt->field_C_vert_count];
+        OT_Vert* pLastVert1 = &pOt->field_14_verts[pOt->field_C_vert_count - 1];
+        OT_Vert* pLastVert2 = &pOt->field_14_verts[pOt->field_C_vert_count - 1];
         
         bool bClip = false;
         switch (idx)
@@ -3930,7 +3925,7 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
             break;
         }
 
-        OT_Vert* pVerts = _pOt->field_14_verts;
+        OT_Vert* pVerts = pOt->field_14_verts;
         result->field_C_vert_count = 0;
 
         if (pVerts < pLastVert)
@@ -3944,7 +3939,8 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
 
                 bool bWasClipped = false;
                 float scaleFactor = 0.0f;
-                switch (idx2)
+                OT_Vert* pTmpVert = nullptr;
+                switch (idx)
                 {
                 case 0:
                     bWasClipped = pVerts->field_0_x0 < sPsx_drawenv_clipx_BDCD40;
@@ -3957,7 +3953,7 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
 
                         scaleFactor = (float)(sPsx_drawenv_clipx_BDCD40 - pVerts->field_0_x0) / (float)x0_diff;
                         pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
-                        pTmpVert->field_4_y0 = static_cast<int>(((float)y0_diff * scaleFactor + (float)pVerts->field_4_y0));
+                        pTmpVert->field_4_y0 = static_cast<int>(((float)(y0_diff * scaleFactor) + (float)pVerts->field_4_y0));
                         pTmpVert->field_0_x0 = sPsx_drawenv_clipx_BDCD40;
                         result = pLocal;
                     }
@@ -3974,7 +3970,7 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
 
                         scaleFactor = (float)(sPsx_drawenv_clipy_BDCD44 - pVerts->field_4_y0) / (float)y0_diff;
                         pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
-                        pTmpVert->field_0_x0 = static_cast<int>(((float)x0_diff * scaleFactor + (float)pVerts->field_0_x0));
+                        pTmpVert->field_0_x0 = static_cast<int>(((float)(x0_diff * scaleFactor) + (float)pVerts->field_0_x0));
                         pTmpVert->field_4_y0 = sPsx_drawenv_clipy_BDCD44;
                         result = pLocal;
                     }
@@ -3991,7 +3987,7 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
                         
                         scaleFactor = (float)(sPsx_drawenv_clipw_BDCD48 - pVerts->field_0_x0) / (float)x0_diff;
                         pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
-                        pTmpVert->field_4_y0 = static_cast<int>(((float)y0_diff * scaleFactor + (float)pVerts->field_4_y0));
+                        pTmpVert->field_4_y0 = static_cast<int>(((float)(y0_diff * scaleFactor) + (float)pVerts->field_4_y0));
                         pTmpVert->field_0_x0 = sPsx_drawenv_clipw_BDCD48;
                         result = pLocal;
                     }
@@ -4005,14 +4001,10 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
                         {
                             y0_diff = 1;
                         }
-                        
-                        int v1 = sPsx_drawenv_cliph_BDCD4C - pVerts->field_4_y0;
-                        scaleFactor = (float)(v1) / (float)y0_diff;
-                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
 
-                        float v2 = (float)x0_diff * scaleFactor;
-                        float v3 = v2 + (float)pVerts->field_0_x0;
-                        pTmpVert->field_0_x0 =  static_cast<int>(v3);
+                        scaleFactor = (float)(sPsx_drawenv_cliph_BDCD4C - pVerts->field_4_y0) / (float)y0_diff;
+                        pTmpVert = &result->field_14_verts[result->field_C_vert_count++];
+                        pTmpVert->field_0_x0 =  static_cast<int>((float)(x0_diff * scaleFactor) + (float)pVerts->field_0_x0);
                         pTmpVert->field_4_y0 = sPsx_drawenv_cliph_BDCD4C;
                         result = pLocal;
                     }
@@ -4026,32 +4018,28 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
                     {
                         if (pOt->field_E & 1)
                         {
-                            pLastVert2Copy = pLastVert2;
+                            // TODO: Dead branch, u/v is never treated as floats, must have been a union in the real code?
+                            LOG_ERROR("Never expected float flag to be set, bugs ahead");
                             pTmpVert->field_14_u = (int)((float)(pVerts->field_14_u - pLastVert2->field_14_u) * scaleFactor + (float)pVerts->field_14_u);
                             pTmpVert->field_18_v = (int)((float)(pVerts->field_18_v - pLastVert2->field_18_v) * scaleFactor + (float)pVerts->field_18_v);
                             pTmpVert->field_10 = (int)((float)(pVerts->field_10 - pLastVert2->field_10) * scaleFactor + (float)pVerts->field_10);
                         }
                         else
                         {
-                            pLastVert2Copy = pLastVert2;
                             pTmpVert->field_14_u = (int)((float)(pVerts->field_14_u - pLastVert2->field_14_u) * scaleFactor + (float)pVerts->field_14_u);
                             pTmpVert->field_18_v = (int)((float)(pVerts->field_18_v - pLastVert2->field_18_v) * scaleFactor + (float)pVerts->field_18_v);
                             pOtCopy = pOt;
                         }
                     }
-                    else
-                    {
-                        pLastVert2Copy = pLastVert2;
-                    }
 
                     if (pOtCopy->field_B_flags & 0x10)
                     {
-                        pTmpVert->field_1C_r = (int)((float)(pVerts->field_1C_r - pLastVert2Copy->field_1C_r) * scaleFactor + (float)pVerts->field_1C_r);
-                        pTmpVert->field_20_g = (int)((float)(pVerts->field_20_g - pLastVert2Copy->field_20_g) * scaleFactor + (float)pVerts->field_20_g);
-                        pTmpVert->field_24_b = (int)((float)(pVerts->field_24_b - pLastVert2Copy->field_24_b) * scaleFactor + (float)pVerts->field_24_b);
+                        pTmpVert->field_1C_r = (int)((float)(pVerts->field_1C_r - pLastVert2->field_1C_r) * scaleFactor + (float)pVerts->field_1C_r);
+                        pTmpVert->field_20_g = (int)((float)(pVerts->field_20_g - pLastVert2->field_20_g) * scaleFactor + (float)pVerts->field_20_g);
+                        pTmpVert->field_24_b = (int)((float)(pVerts->field_24_b - pLastVert2->field_24_b) * scaleFactor + (float)pVerts->field_24_b);
                     }
 
-                    pTmpVert->field_8 = (int)((float)(pVerts->field_8 - pLastVert2Copy->field_8) * scaleFactor + (float)pVerts->field_8);
+                    pTmpVert->field_8 = (int)((float)(pVerts->field_8 - pLastVert2->field_8) * scaleFactor + (float)pVerts->field_8);
                     result = pLocal;
                 }
 
@@ -4060,11 +4048,11 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
                     memcpy(
                         &result->field_14_verts[result->field_C_vert_count++],
                         pVerts,
-                        sizeof(result->field_14_verts[result->field_C_vert_count++]));
+                        sizeof(OT_Vert));
                 }
 
                 pLastVert2 = pVerts;
-                ++pVerts;
+                pVerts++;
                 bClip = bWasClipped;
 
                 if (pVerts >= pLastVert)
@@ -4074,29 +4062,27 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
 
                 pLastVert1 = pLastVert2;
             } // inner loop
-            idx = idx2;
         }
 
-        OT_Prim * pStaticBackUp = stru_BD1D00;
-
-        if (idx)
+        if (idx > 0)
         {
-            pStaticBackUp = pOt;
+            pLocal = pOt;
+        }
+        else
+        {
+            pLocal = stru_BD1D00;
         }
 
         ++idx;
 
         pOt = result;
-        pLocal = pStaticBackUp;
 
-        idx2 = idx;
         if (idx >= 4)
         {
             return result;
         }
 
-        result = pStaticBackUp;
-        _pOt = pOt;
+        result = pLocal;
     } // outer loop
 }
 
