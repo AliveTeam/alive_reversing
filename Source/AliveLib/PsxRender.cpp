@@ -3876,189 +3876,12 @@ EXPORT void CC PSX_EMU_Render_SPRT_51EF90(__int16 x, __int16 y, int u, int v, BY
     }
 }
 
-
-//static OT_Prim stru_BD1D00[7] = {};
 ALIVE_ARY(1, 0xBD1D00, OT_Prim, 7, stru_BD1D00, {});
 
-#pragma warning( disable : 4731 )
-EXPORT OT_Prim* CC PSX_poly_helper_Real_4FE710(OT_Prim* pOt)
+OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
 {
-    NOT_IMPLEMENTED();
-    return pOt;
-}
-
-void Dump(const char* fileName, const OT_Prim* pPrim, const OT_Prim* pResult)
-{
-    FILE* f = fopen(fileName, "wb");
-
-    fwrite(&sPsx_drawenv_clipx_BDCD40, sizeof(int), 1, f);
-    fwrite(&sPsx_drawenv_clipy_BDCD44, sizeof(int), 1, f);
-    fwrite(&sPsx_drawenv_clipw_BDCD48, sizeof(int), 1, f);
-    fwrite(&sPsx_drawenv_cliph_BDCD4C, sizeof(int), 1, f);
-
-    fwrite(pPrim, sizeof(OT_Prim), 1, f);
-    fwrite(pResult, sizeof(OT_Prim), 1, f);
-    fclose(f);
-}
-
-void Read(const char* fileName, OT_Prim* pPrim, OT_Prim* pResult)
-{
-    FILE* f = fopen(fileName, "rb");
-
-    fread(&sPsx_drawenv_clipx_BDCD40, sizeof(int), 1, f);
-    fread(&sPsx_drawenv_clipy_BDCD44, sizeof(int), 1, f);
-    fread(&sPsx_drawenv_clipw_BDCD48, sizeof(int), 1, f);
-    fread(&sPsx_drawenv_cliph_BDCD4C, sizeof(int), 1, f);
-
-    fread(pPrim, sizeof(OT_Prim), 1, f);
-    fread(pResult, sizeof(OT_Prim), 1, f);
-    fclose(f);
-}
-
-void WipeRandomFields(OT_Prim* pOt)
-{
-    if (!(pOt->field_B_flags & 4))
-    {
-        for (auto& v : pOt->field_14_verts)
-        {
-            v.field_14_u = 0;
-            v.field_18_v = 0;
-        }
-    }
-
-    if (!(pOt->field_B_flags & 0x10))
-    {
-        for (auto& v : pOt->field_14_verts)
-        {
-            v.field_1C_r = 0;
-            v.field_20_g = 0;
-            v.field_24_b = 0;
-        }
-    }
-
-    pOt->field_F = 0;
-    pOt->field_D = 0;
-}
-
-OT_Prim* HackImpl(OT_Prim* pOt)
-{
-/*
-    OT_Prim primLocal;
-    float var_2C4;
-    OT_Prim* pLocal;
-    int idx2;
-    OT_Vert* pLastVert2;
-    char bClipXY;
-
-    __asm
-    {
-        //sub     esp, 732
-        push    ebx
-        mov     ebx, [pOt]
-        push    ebp
-        push    esi
-
-        mov     ecx, [ebx + OT_Prim::field_0]
-        mov[primLocal.field_0], ecx
-
-        mov     edx, [ebx + OT_Prim::field_4]
-        mov[primLocal.field_4], edx
-
-        mov     cl, [ebx + OT_Prim::field_8_r]
-        mov[primLocal.field_8_r], cl
-
-        mov     cl, [ebx + OT_Prim::field_A_b]
-        mov[primLocal.field_A_b], cl
-
-        mov     dl, [ebx + OT_Prim::field_9_g]
-        mov[primLocal.field_9_g], dl
-
-        mov     cl, [ebx + OT_Prim::field_E]
-        mov[primLocal.field_E], cl
-
-        mov     dl, [ebx + OT_Prim::field_B_flags]
-        mov[primLocal.field_B_flags], dl
-
-        mov     cx, [ebx + OT_Prim::field_12_clut]
-        mov[primLocal.field_12_clut], cx
-
-        mov     dx, [ebx + OT_Prim::field_10_tpage]
-        mov[primLocal.field_10_tpage], dx
-
-        //fld[var_2C4]
-        //mov     ebp, [var_2C4]
-        push    edi
-        mov     ecx, 0Fh
-        lea     esi, [primLocal]
-        mov     edi, offset stru_BD1D00
-        lea     eax, [primLocal]
-        rep movsd
-
-        xor     esi, esi
-        mov[pLocal], eax
-        mov[idx2], esi
-        jmp     short loc_4FE796
-
-        loc_4FE796 :
-        xor     ecx, ecx
-        cmp     esi, 3; switch 4 cases
-        mov     cl, [ebx + OT_Prim::field_C_vert_count]
-        lea     edx, [ecx + ecx * 4]
-        lea     ecx, [ebx + edx * 8]
-        lea     edx, [ecx - 14h]
-        mov[pLastVert2], edx
-        ja      short l_default_case; j
-
-        cmp     esi, 0;
-        je      short l_case_0
-        cmp     esi, 1;
-        je      short l_case_1
-        cmp     esi, 2;
-        je      short l_case_2
-        cmp     esi, 3;
-        je      short l_case_3
-
-       l_case_0 :
-        mov     edi, [edx + OT_Vert::field_0_x0]
-        cmp     edi, sPsx_drawenv_clipx_BDCD40
-        setl[bClipXY]
-        jmp     short l_default_case
-
-       l_case_1 :
-        mov     edi, [edx + OT_Vert::field_4_y0]
-        cmp     edi, sPsx_drawenv_clipy_BDCD44
-        setl[bClipXY]
-        jmp     short l_default_case
-
-       l_case_2 :
-        mov     edi, [edx + OT_Vert::field_0_x0]
-        cmp     edi, sPsx_drawenv_clipw_BDCD48
-        setnle[bClipXY]
-        jmp     short l_default_case
-
-       l_case_3 :
-        mov     edi, [edx + OT_Vert::field_4_y0]
-        cmp     edi, sPsx_drawenv_cliph_BDCD4C
-        setnle[bClipXY]
-        jmp     short l_default_case
-
-        l_default_case : 
-        add     ecx, OT_Vert::field_14_u
-        add     ebx, OT_Vert::field_14_u
-        cmp     ebx, ecx
-        mov[var_2C4], ecx
-        mov[eax + OT_Prim::field_C_vert_count], 0
-        //jnb     loc_4FEB85
-    }
-    */
-
-
     OT_Prim primLocal = {};
-    OT_Vert v[8] = {};
-    v[0].field_0_x0 = 0;
 
-    char buffer[360];
-    buffer[0] = 0;
     primLocal.field_0 = pOt->field_0;
     primLocal.field_4 = pOt->field_4;
     primLocal.field_8_r = pOt->field_8_r;
@@ -4209,15 +4032,15 @@ OT_Prim* HackImpl(OT_Prim* pOt)
                         if (pOt->field_E & 1)
                         {
                             pLastVert2Copy = pLastVert2;
-                            pTmpVert->field_14_u = (int)((float)((float)pVerts->field_14_u - (float)pLastVert2->field_14_u) * floatCopy1 + (float)pVerts->field_14_u);
-                            pTmpVert->field_18_v = (int)((float)((float)pVerts->field_18_v - (float)pLastVert2->field_18_v) * floatCopy1 + (float)pVerts->field_18_v);
-                            pTmpVert->field_10 = (int)((float)((float)pVerts->field_10 - (float)pLastVert2->field_10) * floatCopy1 + (float)pVerts->field_10);
+                            pTmpVert->field_14_u = (int)((float)(pVerts->field_14_u - pLastVert2->field_14_u) * floatCopy1 + (float)pVerts->field_14_u);
+                            pTmpVert->field_18_v = (int)((float)(pVerts->field_18_v - pLastVert2->field_18_v) * floatCopy1 + (float)pVerts->field_18_v);
+                            pTmpVert->field_10 = (int)((float)(pVerts->field_10 - pLastVert2->field_10) * floatCopy1 + (float)pVerts->field_10);
                         }
                         else
                         {
                             pLastVert2Copy = pLastVert2;
-                            pTmpVert->field_14_u = (int)((float)((float)pVerts->field_14_u - (float)pLastVert2->field_14_u) * floatCopy1 + (float)pVerts->field_14_u);
-                            pTmpVert->field_18_v = (int)((float)((float)pVerts->field_18_v - (float)pLastVert2->field_18_v) * floatCopy1 + (float)pVerts->field_18_v);
+                            pTmpVert->field_14_u = (int)((float)(pVerts->field_14_u - pLastVert2->field_14_u) * floatCopy1 + (float)pVerts->field_14_u);
+                            pTmpVert->field_18_v = (int)((float)(pVerts->field_18_v - pLastVert2->field_18_v) * floatCopy1 + (float)pVerts->field_18_v);
                             pOtCopy = pOt;
                         }
                     }
@@ -4228,9 +4051,9 @@ OT_Prim* HackImpl(OT_Prim* pOt)
 
                     if (pOtCopy->field_B_flags & 0x10)
                     {
-                        pTmpVert->field_1C_r = (int)((float)((float)pVerts->field_1C_r - (float)pLastVert2Copy->field_1C_r) * floatCopy1 + (float)pVerts->field_1C_r);
-                        pTmpVert->field_20_g = (int)((float)((float)pVerts->field_20_g - (float)pLastVert2Copy->field_20_g) * floatCopy1 + (float)pVerts->field_20_g);
-                        pTmpVert->field_24_b = (int)((float)((float)pVerts->field_24_b - (float)pLastVert2Copy->field_24_b) * floatCopy1 + (float)pVerts->field_24_b);
+                        pTmpVert->field_1C_r = (int)((float)(pVerts->field_1C_r - pLastVert2Copy->field_1C_r) * floatCopy1 + (float)pVerts->field_1C_r);
+                        pTmpVert->field_20_g = (int)((float)(pVerts->field_20_g - pLastVert2Copy->field_20_g) * floatCopy1 + (float)pVerts->field_20_g);
+                        pTmpVert->field_24_b = (int)((float)(pVerts->field_24_b - pLastVert2Copy->field_24_b) * floatCopy1 + (float)pVerts->field_24_b);
                     }
 
                     pTmpVert->field_8 = (int)((float)(pVerts->field_8 - pLastVert2Copy->field_8) * floatCopy1 + (float)pVerts->field_8);
@@ -4280,57 +4103,11 @@ OT_Prim* HackImpl(OT_Prim* pOt)
         result = pStaticBackUp;
         _pOt = pOt;
     } // outer loop
-
- 
-   // return pOt;
 }
 
 EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* pOt)
 {
-    WipeRandomFields(pOt);
-    OT_Prim oldData = *pOt;
-    memset(&stru_BD1D00[0], 0, sizeof(OT_Prim) * 7);
-    OT_Prim* retReal = PSX_poly_helper_Real_4FE710(pOt);
-    WipeRandomFields(retReal);
-    OT_Prim retReal2 = *retReal;
-
-    OT_Prim inputData = oldData;
-    memset(&stru_BD1D00[0], 0, sizeof(OT_Prim) * 7);
-    OT_Prim* retNew = HackImpl(&inputData);
-    WipeRandomFields(retNew);
-    OT_Prim retNew2 = *retNew;
-
-    if (memcmp(&retReal2, &retNew2, sizeof(OT_Prim)) != 0)
-    {
-        //Dump("hack.dat", &oldData, &retNew2);
-        abort();
-    }
-
-    return retReal;
-
-    //TRACE_ENTRYEXIT;
-
-    //NOT_IMPLEMENTED();
-    /*
-    memset(&stru_BD1D00[0], 0, sizeof(OT_Prim) * 7 );
-    WipeRandomFields(pOt);
-
-    OT_Prim prevData = *pOt;
-
-    OT_Prim* pR = PSX_poly_helper_Real_4FE710(pOt);
-    WipeRandomFields(pR);
-
-    if (memcmp(&prevData, pR, sizeof(OT_Prim)) != 0)
-    {
-        static int dumpCounter = 0;
-        dumpCounter++;
-
-        Dump(("clipped_ " + std::to_string(dumpCounter) + ".dat").c_str(), &prevData, pR);
-        LOG_INFO("WROTE DATA");
-    }
-    return pR;
-    */
-
+    return PSX_poly_helper_Impl(pOt);
 }
 
 namespace Test
@@ -4658,152 +4435,6 @@ namespace Test
         ASSERT_EQ(0xFFFE0, PSX_poly_helper_fixed_point_scale_517FA0(0x7FFF0002, 32));
     }
     
-    /*
-    static void Stub_RenderScanLines(WORD* a1, int a2)
-    {
-        a2 = a2;
-    }
-    */
-
-    static void Test_PSX_poly_helper_4FE710()
-    {
-        OT_Prim data;
-        OT_Prim ret;
-        Read("Hack.dat", &data, &ret);
-        PSX_poly_helper_4FE710(&data);
-
-        /*
-        int dumpCounter = 1;
-        for (int i = 0; i < 664; i++)
-        {
-            OT_Prim prevData;
-            OT_Prim pR;
-            Read(("clipped_ " + std::to_string(dumpCounter) + ".dat").c_str(), &prevData, &pR);
-
-            WipeRandomFields(&prevData);
-            OT_Prim* pRet = PSX_poly_helper_4FE710(&prevData);
-            WipeRandomFields(pRet);
-
-            if (memcmp(&pR, pRet, sizeof(OT_Prim)) != 0)
-            {
-                abort();
-            }
-            else
-            {
-                for (int j = 0; j < pR.field_C_vert_count; j++)
-                {
-                    if (memcmp(&pR.field_14_verts[j], &pRet->field_14_verts[j], (sizeof(OT_Vert))) != 0)
-                    {
-                        abort();
-                    }
-                }
-            }
-        }
-        */
-
-        /*
-        OT_Prim prim = {};
-        prim.field_8_r = 247;
-        prim.field_9_g = 247;
-        prim.field_A_b = 247;
-        
-        prim.field_B_flags = 0x32; // POLY_G3 + semi trans
-
-        prim.field_D = 1;
-        prim.field_C_vert_count = 2;
-        prim.field_10_tpage = 0x001E;
-        prim.field_12_clut = 0x3C00;
-
-        prim.field_14_verts[0].field_0_x0 = 1 * 16;
-        prim.field_14_verts[0].field_4_y0 = 1 * 16;
-
-        prim.field_14_verts[1].field_0_x0 = 320 * 16;
-        prim.field_14_verts[1].field_4_y0 = 120 * 16;
-
-        prim.field_14_verts[2].field_0_x0 = 1 * 16;
-        prim.field_14_verts[2].field_4_y0 = 1 * 16;
-
-        prim.field_14_verts[3].field_0_x0 = 320 * 16;
-        prim.field_14_verts[3].field_4_y0 = 120 * 16;
-
-        prim.field_14_verts[0].field_14_u = 1;
-        prim.field_14_verts[0].field_18_v = 163;
-
-        prim.field_14_verts[0].field_1C_r = 2023424;
-        prim.field_14_verts[0].field_20_g = 2023424;
-        prim.field_14_verts[0].field_24_b = 2088960;
-
-        sPsx_drawenv_clipx_BDCD40 = 32 * 16;
-        sPsx_drawenv_clipy_BDCD44 = 32 * 16;
-        sPsx_drawenv_clipw_BDCD48 = 160 * 16;
-        sPsx_drawenv_cliph_BDCD4C = 160 * 16;
-
-        OT_Prim* pRet = nullptr;
-        */
-
-        /*
-        pRet = PSX_poly_helper_4FE710(&prim);
-        ASSERT_EQ(pRet->field_14_verts[0].field_0_x0, 2560);
-        ASSERT_EQ(pRet->field_14_verts[0].field_4_y0, 965);
-        
-        ASSERT_EQ(pRet->field_14_verts[1].field_0_x0, 1345);
-        ASSERT_EQ(pRet->field_14_verts[1].field_4_y0, 512);
-
-
-        prim.field_14_verts[0].field_0_x0 = 320 * 16;
-        prim.field_14_verts[0].field_4_y0 = 320 * 16;
-
-        prim.field_14_verts[1].field_0_x0 = 320 * 16;
-        prim.field_14_verts[1].field_4_y0 = 320 * 16;
-
-        pRet = PSX_poly_helper_4FE710(&prim);
-        ASSERT_EQ(pRet->field_14_verts[0].field_0_x0, 5120);
-        ASSERT_EQ(pRet->field_14_verts[0].field_4_y0, 5120);
-
-        ASSERT_EQ(pRet->field_14_verts[1].field_0_x0, 5120);
-        ASSERT_EQ(pRet->field_14_verts[1].field_4_y0, 5120);
-        */
-
-        // x0 only
-        /*
-        prim.field_14_verts[0].field_0_x0 = 320 * 16;
-        prim.field_14_verts[0].field_4_y0 = 0 * 16;
-
-        prim.field_14_verts[1].field_0_x0 = 3 * 16;
-        prim.field_14_verts[1].field_4_y0 = 3 * 16;
-
-        prim.field_14_verts[2].field_0_x0 = 1 * 16;
-        prim.field_14_verts[2].field_4_y0 = 1 * 16;
-
-        prim.field_14_verts[3].field_0_x0 = 2 * 16;
-        prim.field_14_verts[3].field_4_y0 = 2 * 16;
-
-
-        prim.field_C_vert_count = 2;
-
-        OT_Prim* pTmp = stru_BD1D00;
-        pTmp = pTmp;
-
-        pRet = PSX_poly_helper_4FE710(&prim);
-        */
-        /*
-        ASSERT_EQ(pRet->field_14_verts[0].field_0_x0, 2560);
-        ASSERT_EQ(pRet->field_14_verts[0].field_4_y0, 512);
-
-        ASSERT_EQ(pRet->field_14_verts[1].field_0_x0, 1345);
-        ASSERT_EQ(pRet->field_14_verts[1].field_4_y0, 512);
-        */
-
-        /*
-        std::vector<char> buffer(1024 * 512 * 2);
-        Bitmap tmpBmp = {};
-        tmpBmp.field_4_pLockedPixels = buffer.data();
-        spBitmap_C2D038 = &tmpBmp;
-
-        PSX_Render_Poly_Internal_Generic_517B10(pRet, PSX_poly_GShaded_NoTexture_517E60, Stub_RenderScanLines);
-        */
-    }
-
     void PsxRenderTests()
     {
         Test_PSX_TPage_Change_4F6430();
@@ -4811,7 +4442,6 @@ namespace Test
         Test_PSX_Render_Convert_Polys_To_Internal_Format_4F7110();
         Test_PSX_poly_FShaded_NoTexture_517DF0();
         Test_PSX_poly_helper_fixed_point_scale_517FA0();
-        Test_PSX_poly_helper_4FE710();
         Test_PSX_4Bit_PolyFT4();
         //Test_PSX_8Bit_PolyFT4();
     }
