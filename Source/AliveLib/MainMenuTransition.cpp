@@ -144,13 +144,7 @@ void MainMenuTransition::Update_464400()
 
 void MainMenuTransition::Render_464470(int** ot)
 {
-    NOT_IMPLEMENTED(); // TODO
-
-    if (IsAlive())
-    {
-        LOG_ERROR("HACK HACK HACK Disabled until polygon clipping is implemented else crashhhhhhh");
-        return;
-    }
+    // TODO: The fixed point math/var needs cleaning up/refactoring in here
 
     int currentValue = field_20_current_value;
     int v4 = (currentValue + 1) >> 4;
