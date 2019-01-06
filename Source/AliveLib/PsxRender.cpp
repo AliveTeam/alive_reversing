@@ -96,7 +96,7 @@ struct OT_Prim
     BYTE field_A_b;
     BYTE field_B_flags;
     char field_C_vert_count;
-    char field_D;
+    char field_D_bClip;
     char field_E;
     char field_F;
     __int16 field_10_tpage;
@@ -2097,7 +2097,7 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
 
     OT_Prim* pConverted = off_578330;
     pConverted->field_E = 0;
-    pConverted->field_D = 1;
+    pConverted->field_D_bClip = 1;
     pConverted->field_8_r = any.mPrimHeader->rgb_code.r;
     pConverted->field_9_g = any.mPrimHeader->rgb_code.g;
     pConverted->field_A_b = any.mPrimHeader->rgb_code.b;
@@ -2534,7 +2534,7 @@ EXPORT void CC PSX_Render_Poly_Internal_Generic_517B10(OT_Prim* pPrim, TCalculat
     }
 }
 
-EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* pOt);
+EXPORT OT_Prim* CC PSX_clip_polys_4FE710(OT_Prim* pOt);
 
 EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff, int yoff)
 {
@@ -2554,9 +2554,9 @@ EXPORT void CC PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, int xoff
         prim->field_14_verts[i].field_4_y0 += 16 * yoff;
     }
 
-    if (prim->field_D)
+    if (prim->field_D_bClip)
     {
-        prim = PSX_poly_helper_4FE710(prim);// Another conversion ? Result may be another type
+        prim = PSX_clip_polys_4FE710(prim);
     }
 
     if (prim)
@@ -3878,7 +3878,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_51EF90(__int16 x, __int16 y, int u, int v, BY
 
 ALIVE_ARY(1, 0xBD1D00, OT_Prim, 7, stru_BD1D00, {});
 
-OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
+OT_Prim* PSX_clip_polys_impl(OT_Prim* pOt)
 {
     OT_Prim primLocal = {};
 
@@ -4086,9 +4086,9 @@ OT_Prim* PSX_poly_helper_Impl(OT_Prim* pOt)
     } // outer loop
 }
 
-EXPORT OT_Prim* CC PSX_poly_helper_4FE710(OT_Prim* pOt)
+EXPORT OT_Prim* CC PSX_clip_polys_4FE710(OT_Prim* pOt)
 {
-    return PSX_poly_helper_Impl(pOt);
+    return PSX_clip_polys_impl(pOt);
 }
 
 namespace Test
@@ -4307,7 +4307,7 @@ namespace Test
 
             PSX_Render_Convert_Polys_To_Internal_Format_4F7110(&polyF3, 0, 0);
 
-            ASSERT_EQ(off_578330->field_D, 1);
+            ASSERT_EQ(off_578330->field_D_bClip, 1);
             ASSERT_EQ(off_578330->field_C_vert_count, 3);
 
             ASSERT_EQ(off_578330->field_8_r, R0(&polyF3));
@@ -4337,7 +4337,7 @@ namespace Test
 
             PSX_Render_Convert_Polys_To_Internal_Format_4F7110(&polyFT4, 0, 0);
 
-            ASSERT_EQ(off_578330->field_D, 1);
+            ASSERT_EQ(off_578330->field_D_bClip, 1);
             ASSERT_EQ(off_578330->field_C_vert_count, 4);
 
             ASSERT_EQ(off_578330->field_8_r, R0(&polyFT4));
