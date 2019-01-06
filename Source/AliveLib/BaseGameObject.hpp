@@ -53,7 +53,7 @@ public:
         eType_41 = 41,
         eType_42 = 42,
         eType_43 = 43,
-        eType_44 = 44,
+        eType_44 = 44, // sub_4228D0
         eType_45 = 45,
         eBaseBomb_46 = 46,
         eType_47 = 47,
