@@ -7703,33 +7703,30 @@ void Abe::State_127_TurnWheelLoop_456750()
         eMapChanging = 2,
     };
 
-    if (field_120_state == eTurningWheel) // The state we enter the main state at
+    if (field_120_state == eTurningWheel || field_120_state == eCheckForNoLongerTurningWheel) // The state we enter the main state at
     {
         Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_LevelLoader::kType, 0));
-        if (!pLevelLoader) // TODO: Correct typing
+        if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_id))
         {
-            // Must ALSO do logic below in this instance
-            field_120_state = eCheckForNoLongerTurningWheel;
+            field_120_state = eMapChanging;
+            SND_SEQ_Play_4CAB10(31u, 1, 127, 127);
+            auto pMusicTrigger = alive_new<MusicTrigger>();
+            if (pMusicTrigger)
+            {
+                pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
+            }
+            return;
         }
         else
         {
-            if (SwitchStates_Get_466020(pLevelLoader->field_10_id))
-            {
-                field_120_state = eMapChanging;
-                SND_SEQ_Play_4CAB10(31u, 1, 127, 127);
-                auto pMusicTrigger = alive_new<MusicTrigger>();
-                if (pMusicTrigger)
-                {
-                    pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
-                }
-                return;
-            }
+            // Must ALSO do logic below in this instance
+            field_120_state = eCheckForNoLongerTurningWheel;
         }
     }
 
     if (field_120_state == eCheckForNoLongerTurningWheel)
     {
-        if (!sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & sInputKey_Up_5550D8)
+        if (!(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & sInputKey_Up_5550D8))
         {
             // Not holding up anymore, stop
             WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
