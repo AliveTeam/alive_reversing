@@ -12,7 +12,9 @@
 #include "Reverb.hpp"
 
 static std::vector<AE_SDL_Voice*> sAE_ActiveVoices;
-static std::mutex sVoiceVectorMutex;
+static std::vector<AE_SDL_Voice*> sAE_VoiceBuffer;
+
+static std::mutex sVoiceBufferMutex;
 
 static SDL_AudioSpec gAudioDeviceSpec;
 static AudioFilterMode gAudioFilterMode = AudioFilterMode::Linear;
@@ -24,13 +26,23 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
     int bufferSamples = (len / sizeof(StereoSampleFloat));
     memset(stream, 0, len);
 
+    if (!sAE_VoiceBuffer.empty())
+    {
+        std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceBufferMutex);
+
+        for (AE_SDL_Voice * pVoice : sAE_VoiceBuffer)
+        {
+            sAE_ActiveVoices.push_back(pVoice);
+        }
+
+        sAE_VoiceBuffer.clear();
+    }
+
     // slow, store this somewhere permanantly.
     StereoSampleFloat * tempBuffer = new StereoSampleFloat[bufferSamples];
 
-    for (unsigned int v = 0; v < sAE_ActiveVoices.size(); v++)
+    for (AE_SDL_Voice * pVoice : sAE_ActiveVoices)
     {
-        AE_SDL_Voice * pVoice = sAE_ActiveVoices[v];
-
         if (!pVoice->pBuffer || pVoice->State.eStatus != AE_SDL_Voice_Status::Playing)
             continue;
 
@@ -164,8 +176,8 @@ AE_SDL_Voice::AE_SDL_Voice()
     State.fPlaybackPosition = 0;
     State.eStatus = AE_SDL_Voice_Status::Stopped;
 
-    std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceVectorMutex);
-    sAE_ActiveVoices.push_back(this);
+    std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceBufferMutex);
+    sAE_VoiceBuffer.push_back(this);
 }
 
 int AE_SDL_Voice::SetVolume(int volume)
@@ -233,7 +245,6 @@ void AE_SDL_Voice::Destroy()
     // remove self from global list and
     // decrement shared mem ptr to audio buffer
 
-    std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceVectorMutex);
     sAE_ActiveVoices.erase(std::remove(sAE_ActiveVoices.begin(), sAE_ActiveVoices.end(), this), sAE_ActiveVoices.end());
     delete this;
 }
