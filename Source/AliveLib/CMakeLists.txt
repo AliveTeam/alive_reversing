@@ -205,6 +205,8 @@ add_library(AliveLib
     SoundSDL.cpp
     ShadowZone.hpp
     ShadowZone.cpp
+    Grinder.cpp
+    Grinder.hpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)
