@@ -41,6 +41,10 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
     // slow, store this somewhere permanantly.
     StereoSampleFloat * tempBuffer = new StereoSampleFloat[bufferSamples];
 
+    StereoSampleFloat * noReverbBuffer = new StereoSampleFloat[bufferSamples];
+    memset(noReverbBuffer, 0, len);
+    bool reverbPass = false;
+
     for (AE_SDL_Voice * pVoice : sAE_ActiveVoices)
     {
         if (!pVoice->pBuffer || pVoice->State.eStatus != AE_SDL_Voice_Status::Playing)
@@ -48,7 +52,7 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
 
         // Clear Temp Sample Buffer
         memset(tempBuffer, 0, len);
-
+        
         for (int i = 0; i < bufferSamples && pVoice->pBuffer; i += gAudioDeviceSpec.channels / 2)
         {
             if (!pVoice->pBuffer || pVoice->State.eStatus != AE_SDL_Voice_Status::Playing || pVoice->State.iSampleCount == 0)
@@ -56,6 +60,8 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
 
             if (pVoice->State.iChannels == 2)
             {
+                reverbPass = false; // Todo: determine this with flags in the sound object itself.
+
                 // For Stereo buffers. The only time this is played is for FMV's.
                 // Right now, unless the playback device is at 44100 hz, it sounds awful.
                 // TODO: Resampling for stereo
@@ -81,6 +87,8 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
             }
             else
             {
+                reverbPass = true;
+
                 float s = 0;
 
                 switch (gAudioFilterMode)
@@ -131,7 +139,14 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
 
         }
 
-        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(buffer), reinterpret_cast<Uint8 *>(tempBuffer), gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
+        if (reverbPass)
+        {
+            SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(buffer), reinterpret_cast<Uint8 *>(tempBuffer), gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
+        }
+        else
+        {
+            SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(noReverbBuffer), reinterpret_cast<Uint8 *>(tempBuffer), gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
+        }
     }
 
 
@@ -154,13 +169,18 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
     }
 
     delete[] tempBuffer;
-
+    
     // Do Reverb Pass
 
     if (gReverbEnabled)
     {
         Reverb_Mix(buffer, gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
     }
+
+    // Mix our no reverb buffer
+    SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(buffer), reinterpret_cast<Uint8 *>(noReverbBuffer), gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
+
+    delete[] noReverbBuffer;
 
     // printf("Voice Count: %i\n", sAE_ActiveVoices.size());
 }
