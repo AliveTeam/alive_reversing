@@ -207,6 +207,8 @@ add_library(AliveLib
     ShadowZone.cpp
     Grinder.cpp
     Grinder.hpp
+    Teleporter.cpp
+    Teleporter.hpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)

@@ -46,7 +46,7 @@ private:
     EXPORT Grinder* vdtor_4206A0(signed int flags);
     EXPORT void vScreenChanged_4214B0();
     EXPORT void vRender_4213D0(int** pOt);
-    EXPORT void vsub_4215C0();
+    EXPORT void vStopAudio_4215C0();
     EXPORT int vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/);
 
 private:

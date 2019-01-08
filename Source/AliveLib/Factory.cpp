@@ -22,6 +22,7 @@
 #include "MultiSwitchController.hpp"
 #include "ShadowZone.hpp"
 #include "Grinder.hpp"
+#include "Teleporter.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -501,7 +502,19 @@ EXPORT void CC Factory_LevelLoader_4D6BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 }
 
 EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode != 1 && loadmode != 2)
+    {
+        auto pTeleporter = alive_new<Teleporter>();
+        if (pTeleporter)
+        {
+            pTeleporter->ctor_4DC1E0(static_cast<Path_Teleporter*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_Grinder_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)

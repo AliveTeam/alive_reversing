@@ -266,7 +266,7 @@ void Grinder::VScreenChanged()
 
 void Grinder::VStopAudio()
 {
-    vsub_4215C0();
+    vStopAudio_4215C0();
 }
 
 int Grinder::VGetSaveState(BYTE* pSaveBuffer)
@@ -364,7 +364,7 @@ void Grinder::vRender_4213D0(int** pOt)
     }
 }
 
-void Grinder::vsub_4215C0()
+void Grinder::vStopAudio_4215C0()
 {
     if (field_10C_audio_channels_mask)
     {
