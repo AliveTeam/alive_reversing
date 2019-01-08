@@ -244,7 +244,57 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     return this;
 }
 
-EXPORT void Grinder::vScreenChanged_4214B0()
+BaseGameObject* Grinder::VDestructor(signed int flags)
+{
+    return vdtor_4206A0(flags);
+}
+
+void Grinder::VUpdate()
+{
+    vUpdate_420C50();
+}
+
+void Grinder::VRender(int** pOrderingTable)
+{
+    vRender_4213D0(pOrderingTable);
+}
+
+void Grinder::VScreenChanged()
+{
+    vScreenChanged_4214B0();
+}
+
+void Grinder::vnullsub_4DC0F0()
+{
+    vsub_4215C0();
+}
+
+int Grinder::GetSaveState_4DC110(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_4217B0(pSaveBuffer);
+}
+
+void Grinder::vUpdate_420C50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Grinder::dtor_420B60()
+{
+    NOT_IMPLEMENTED();
+}
+
+Grinder* Grinder::vdtor_4206A0(signed int flags)
+{
+    dtor_420B60();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void Grinder::vScreenChanged_4214B0()
 {
     if (field_F4_state != 0)
     {
@@ -285,4 +335,46 @@ EXPORT void Grinder::vScreenChanged_4214B0()
         field_6_flags.Set(BaseGameObject::eDead);
         return;
     }
+}
+
+void Grinder::vRender_4213D0(int** pOt)
+{
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos,
+        0))
+    {
+        if (field_FA_direction == 0)
+        {
+            field_BC_ypos = field_114_yPos - field_124_xyoff;
+            BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+        }
+        else if (field_FA_direction == 1)
+        {
+            field_B8_xpos = field_110_xPos + field_124_xyoff;
+            BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+        }
+        else if (field_FA_direction == 2)
+        {
+            field_B8_xpos = field_110_xPos - field_124_xyoff;
+            BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+        }
+    }
+}
+
+void Grinder::vsub_4215C0()
+{
+    if (field_10C_audio_channels_mask)
+    {
+        SND_Stop_Channels_Mask_4CA810(field_10C_audio_channels_mask);
+        field_10C_audio_channels_mask = 0;
+    }
+}
+
+int Grinder::vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/)
+{
+    NOT_IMPLEMENTED();
+    return 20;
 }

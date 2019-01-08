@@ -32,8 +32,22 @@ class Grinder : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Grinder* ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo);
+    
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override;
+    virtual void vnullsub_4DC0F0() override;
+    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
 
+private:
+    EXPORT void vUpdate_420C50();
+    EXPORT void dtor_420B60();
+    EXPORT Grinder* vdtor_4206A0(signed int flags);
     EXPORT void vScreenChanged_4214B0();
+    EXPORT void vRender_4213D0(int** pOt);
+    EXPORT void vsub_4215C0();
+    EXPORT int vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/);
 
 private:
     int field_E4_not_used[4];
