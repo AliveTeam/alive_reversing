@@ -31,7 +31,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable);
-    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VScreenChanged() override;
 private:
     __int16 field_20_count;

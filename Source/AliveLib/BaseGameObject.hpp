@@ -214,8 +214,8 @@ public:
     virtual void VUpdate();
     virtual void VRender(int** pOrderingTable);
     virtual void VScreenChanged();
-    virtual void vnullsub_4DC0F0();
-    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer);
+    virtual void VStopAudio();
+    virtual int VGetSaveState(BYTE* pSaveBuffer);
 
     EXPORT void ScreenChanged_4DC0A0();
 

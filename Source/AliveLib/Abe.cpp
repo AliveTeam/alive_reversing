@@ -1431,7 +1431,7 @@ void Abe::VScreenChanged()
     vScreenChanged_44D240();
 }
 
-int Abe::GetSaveState_4DC110(BYTE* pSaveBuffer)
+int Abe::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_457110(pSaveBuffer);
 }

@@ -37,8 +37,8 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
-    virtual void vnullsub_4DC0F0() override;
-    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
+    virtual void VStopAudio() override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
 private:
     EXPORT void vUpdate_420C50();

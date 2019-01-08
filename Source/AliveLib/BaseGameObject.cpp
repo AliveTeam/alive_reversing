@@ -34,12 +34,12 @@ void BaseGameObject::ScreenChanged_4DC0A0()
     }
 }
 
-void BaseGameObject::vnullsub_4DC0F0()
+void BaseGameObject::VStopAudio()
 {
     // Empty 0x4DC0F0
 }
 
-int BaseGameObject::GetSaveState_4DC110(BYTE* /*pSaveBuffer*/)
+int BaseGameObject::VGetSaveState(BYTE* /*pSaveBuffer*/)
 {
     return 0;
 }

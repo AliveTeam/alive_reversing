@@ -28,7 +28,7 @@ void WorkWheel::VScreenChanged()
     vScreenChanged_4E3AD0();
 }
 
-int WorkWheel::GetSaveState_4DC110(BYTE* pSaveBuffer)
+int WorkWheel::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4E3C40(reinterpret_cast<WorkWheel_SaveState*>(pSaveBuffer));
 }

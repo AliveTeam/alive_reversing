@@ -553,7 +553,7 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     return sizeof(SaveState_UXB); // 24
 }
 
-int UXB::GetSaveState_4DC110(BYTE * __pSaveBuffer)
+int UXB::VGetSaveState(BYTE * __pSaveBuffer)
 {
     return GetSaveState_4DFD40(__pSaveBuffer);
 }

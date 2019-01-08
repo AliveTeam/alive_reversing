@@ -35,7 +35,7 @@ EXPORT void CC SND_StopAll_4CB060()
 
         if (!pObj->field_6_flags.Get(BaseGameObject::eDead))
         {
-            pObj->vnullsub_4DC0F0();
+            pObj->VStopAudio();
         }
     }
     MIDI_Stop_All_Channels_4FDFE0();

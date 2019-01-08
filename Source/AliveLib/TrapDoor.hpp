@@ -10,7 +10,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
-    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
 
     EXPORT BaseGameObject* vdtor_4DD8A0(signed int /*flags*/);

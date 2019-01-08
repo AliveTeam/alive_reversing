@@ -380,7 +380,7 @@ void LCDScreen::VScreenChanged()
     vsub_460F10();
 }
 
-void LCDScreen::vnullsub_4DC0F0()
+void LCDScreen::VStopAudio()
 {
     vsub_460F10();
 }

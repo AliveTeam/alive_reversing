@@ -22,7 +22,7 @@ void TrapDoor::VScreenChanged()
     vScreenChanged_4DDE40();
 }
 
-int TrapDoor::GetSaveState_4DC110(BYTE* pSaveBuffer)
+int TrapDoor::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4DE050(pSaveBuffer);
 }

@@ -34,7 +34,7 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
-    virtual void vnullsub_4DC0F0() override;
+    virtual void VStopAudio() override;
 public:
     Prim_PrimClipper field_20_prim_clippers[2][2];
     Font field_60_font;

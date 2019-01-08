@@ -29,7 +29,7 @@ void Rock::VScreenChanged()
     vScreenChanged_49F030();
 }
 
-int Rock::GetSaveState_4DC110(BYTE* pSaveBuffer)
+int Rock::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_49F9A0(pSaveBuffer);
 }

@@ -120,7 +120,7 @@ void ThrowableArray::VRender(int** /*pOrderingTable*/)
     // Empty 0x4DBF80
 }
 
-int ThrowableArray::GetSaveState_4DC110(BYTE* pSaveBuffer)
+int ThrowableArray::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_49B2A0(pSaveBuffer);
 }

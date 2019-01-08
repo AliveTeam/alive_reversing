@@ -31,7 +31,7 @@ class Rock : public BaseThrowable
 {
 public:
     virtual void VScreenChanged() override;
-    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     EXPORT void vScreenChanged_49F030();
     EXPORT int vGetSaveState_49F9A0(BYTE* /*pSaveBuffer*/);

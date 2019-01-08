@@ -63,7 +63,7 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
-    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
     EXPORT void dtor_4DEF60();

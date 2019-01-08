@@ -264,12 +264,12 @@ void Grinder::VScreenChanged()
     vScreenChanged_4214B0();
 }
 
-void Grinder::vnullsub_4DC0F0()
+void Grinder::VStopAudio()
 {
     vsub_4215C0();
 }
 
-int Grinder::GetSaveState_4DC110(BYTE* pSaveBuffer)
+int Grinder::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_4217B0(pSaveBuffer);
 }

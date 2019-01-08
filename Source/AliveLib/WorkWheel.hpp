@@ -41,7 +41,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual int GetSaveState_4DC110(BYTE* pSaveBuffer) override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VStartTurning();
     virtual void VStopTurning(__int16 bResetSwitch);
 
