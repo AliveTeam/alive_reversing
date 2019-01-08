@@ -140,6 +140,18 @@ inline FixedPoint FP_NoFractional(const FixedPoint& fp)
     return nfp;
 }
 
+inline FP FP_Abs(const FP& v)
+{
+    if (v < FP_FromInteger(0))
+    {
+        return FP_FromRaw(-v.fpValue);
+    }
+    else
+    {
+        return v;
+    }
+}
+
 using FP = FixedPoint;
 
 ALIVE_ASSERT_SIZEOF(FP, 0x4);

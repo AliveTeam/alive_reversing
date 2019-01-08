@@ -33,6 +33,7 @@ class Grinder : public BaseAnimatedWithPhysicsGameObject
 public:
     EXPORT Grinder* ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo);
 
+    EXPORT void vScreenChanged_4214B0();
 
 private:
     int field_E4_not_used[4];

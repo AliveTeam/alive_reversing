@@ -5,6 +5,8 @@
 #include "Shadow.hpp"
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"
+#include "Midi.hpp"
+#include "Abe.hpp"
 
 const TintEntry stru_551548[18] =
 {
@@ -240,4 +242,47 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
     return this;
+}
+
+EXPORT void Grinder::vScreenChanged_4214B0()
+{
+    if (field_F4_state != 0)
+    {
+        if (field_128_flags.Get(Flags::eBit6_StartPos))
+        {
+            field_124_xyoff = FP_FromInteger(0);
+        }
+        else
+        {
+            field_124_xyoff = FP_FromInteger(field_F6_width);
+        }
+    }
+
+    // Stop that sound
+    if (field_10C_audio_channels_mask)
+    {
+        SND_Stop_Channels_Mask_4CA810(field_10C_audio_channels_mask);
+        field_10C_audio_channels_mask = 0;
+    }
+
+    // Map changed
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    // More than 1 screen away on X?
+    if (FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos) > FP_FromInteger(375))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    // More than 1 screen away on Y?
+    if (FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos) > FP_FromInteger(260))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
 }
