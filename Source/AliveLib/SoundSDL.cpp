@@ -26,16 +26,18 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
     int bufferSamples = (len / sizeof(StereoSampleFloat));
     memset(stream, 0, len);
 
-    if (!sAE_VoiceBuffer.empty())
+    // Get all our buffered Voices and push them into the main vector.
     {
         std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceBufferMutex);
-
-        for (AE_SDL_Voice * pVoice : sAE_VoiceBuffer)
+        if (!sAE_VoiceBuffer.empty())
         {
-            sAE_ActiveVoices.push_back(pVoice);
-        }
+            for (AE_SDL_Voice * pVoice : sAE_VoiceBuffer)
+            {
+                sAE_ActiveVoices.push_back(pVoice);
+            }
 
-        sAE_VoiceBuffer.clear();
+            sAE_VoiceBuffer.clear();
+        }
     }
 
     // slow, store this somewhere permanantly.
@@ -135,8 +137,6 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
                     }
                 }
             }
-
-
         }
 
         if (reverbPass)
@@ -167,19 +167,18 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
             voice->Destroy();
         }
     }
-
-    delete[] tempBuffer;
     
     // Do Reverb Pass
 
     if (gReverbEnabled)
     {
-        Reverb_Mix(buffer, gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
+        Reverb_Mix(buffer, gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME, gAudioDeviceSpec.channels);
     }
 
     // Mix our no reverb buffer
     SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(buffer), reinterpret_cast<Uint8 *>(noReverbBuffer), gAudioDeviceSpec.format, len, SDL_MIX_MAXVOLUME);
 
+    delete[] tempBuffer;
     delete[] noReverbBuffer;
 
     // printf("Voice Count: %i\n", sAE_ActiveVoices.size());
