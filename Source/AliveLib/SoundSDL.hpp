@@ -64,7 +64,7 @@ public:
 
     AE_SDL_Voice_State State;
 
-    std::shared_ptr<void *> pBuffer;
+    std::shared_ptr<void> pBuffer;
     
 };
 
