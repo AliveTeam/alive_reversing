@@ -166,83 +166,7 @@ ALIVE_VAR(1, 0xC13180, VabUnknown, s512_byte_C13180, {});
 ALIVE_ARY(1, 0xBE6144, BYTE, kMaxVabs, sVagCounts_BE6144, {});
 ALIVE_ARY(1, 0x0BDCD64, BYTE, kMaxVabs, sProgCounts_BDCD64, {});
 
-struct ProgAtr
-{
-    BYTE field_0_num_tones;
-    char field_1_vol;
-    char field_2_priority;
-    char field_3_mode;
-    char field_4_pan;
-    char field_5_reserved0;
-    __int16 field_6_attr;
-    int field_8_reserved1;
-    int field_C_reserved2;
-};
-ALIVE_ASSERT_SIZEOF(ProgAtr, 0x10);
-
-struct VabHeader
-{
-    int field_0_form;
-    int field_4_version;
-    int field_8_id;
-    int field_C_file_size;
-    __int16 field_10_reserved0;
-    __int16 field_12_num_progs;
-    __int16 field_14_num_tones;
-    unsigned __int16 field_16_num_vags;
-    char field_18_master_vol;
-    char field_19_master_pan;
-    char field_1A_attr1;
-    char field_1B_attr2;
-    int field_1C_reserved1;
-    ProgAtr field_20_progs[128];
-};
-ALIVE_ASSERT_SIZEOF(VabHeader, 0x820);
-
 ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
-
-struct VagAtr
-{
-    char field_0_priority;
-    char field_1_mode;
-    char field_2_vol;
-    char field_3_pan;
-    unsigned __int8 field_4_centre;
-    unsigned __int8 field_5_shift;
-    char field_6_min;
-    char field_7_max;
-    char field_8_vibW;
-    char field_9_vibT;
-    char field_A_porW;
-    char field_B_porT;
-    char field_C_pitch_bend_min;
-    char field_D_pitch_bend_max;
-    char field_E_reserved1;
-    char field_F_reserved2;
-    __int16 field_10_adsr1;
-    __int16 field_12_adsr2;
-    __int16 field_14_prog;
-    __int16 field_16_vag;
-    __int16 field_18_reserved[4];
-};
-
-struct Converted_Vag
-{
-    WORD field_0_adsr_attack;
-    WORD field_2_adsr_sustain_level;
-    WORD field_4_adsr_decay;
-    WORD field_6_adsr_release;
-    BYTE field_8_min;
-    BYTE field_9_max;
-    __int16 field_A_shift_cen;
-    BYTE field_C;
-    BYTE field_D_vol;
-    BYTE field_E_priority;
-    BYTE field_F_prog;
-    BYTE field_10_vag;
-    char field_11_pad;
-};
-ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
 
 struct ConvertedVagTable
 {
@@ -312,6 +236,15 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
                 {
                     pData->field_2_adsr_sustain_level = 0;
                 }
+
+#if ORIGINAL_PS1_BEHAVIOR
+                // Stereo Hack.
+                // PC version of the game COMPLETELY ignores tone pans.
+                // This makes it sound very bland and mono. :(
+                // That's okay though, we're gonna stick the pan value in some padding!
+
+                pData->field_11_pad = pVagAttr->field_3_pan;
+#endif
             }
             ++pVagAttr;
         }
@@ -2030,6 +1963,19 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                     {
                         MIDI_Wait_4FCE50();
                     }
+
+#if ORIGINAL_PS1_BEHAVIOR
+                    float pan = (pVagIter->field_11_pad - 64) / (127.0f / 2.0f);
+
+                    if (pan < 0)
+                    {
+                        panRight = static_cast<int>(panRight * ( 1.0f - abs(pan)));
+                    }
+                    else
+                    {
+                        panLeft = static_cast<int>(panLeft * (1.0f - abs(pan)));
+                    }
+#endif
 
                     SND_PlayEx_4EF740(
                         &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
