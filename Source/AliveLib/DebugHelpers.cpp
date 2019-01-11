@@ -26,6 +26,7 @@
 #include "Movie.hpp"
 #include "Text.hpp"
 #include "AbilityRing.hpp"
+#include "MusicController.hpp"
 
 char _devConsoleBuffer[1000];
 
@@ -37,6 +38,7 @@ char g_DebugGlobalFontPalette[32];
 Font_Context g_DebugGlobalFontContext;
 bool g_DebugGlobalFontIsInit = false;
 bool g_EnabledRaycastRendering = false;
+static bool g_DisableMusic = false;
 
 std::vector<RaycastDebug> g_RaycastDebugList;
 
@@ -721,6 +723,7 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "no_frame_skip", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
     { "fps", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
     { "reverb", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&gReverbEnabled, "Reverb"); }, "Toggle Reverb (New Sound Engine)" },
+    { "music", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&g_DisableMusic, "Disable Music"); }, "Disable In Game Music" },
     { "raycast", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&g_EnabledRaycastRendering, "Raycast Debug"); }, "Toggle Raycast Debug" },
     { "verbose_events", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
     { "open_doors", -1, [](const std::vector<std::string>& /*args*/) { Cheat_OpenAllDoors(); }, "Open all doors." },
@@ -736,7 +739,6 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "grid", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&DebugPathRenderer::GridEnabled, "Grid"); }, "Renders grid on screen" },
     { "pcopen", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(reinterpret_cast<bool*>(&sbEnable_PCOpen_5CA4B0), "PCOpen"); }, "Toggles PCOpen" },
 };
-
 //
 
 class DebugConsole : public BaseGameObject
@@ -826,6 +828,11 @@ public:
 
     virtual void VUpdate() override
     {
+        if (g_DisableMusic)
+        {
+            MusicController::EnableMusic_47FE10(FALSE);
+        }
+
         static bool hasRunAutorun = false;
         static int autoRunWait = 1;
         if (!hasRunAutorun && autoRunWait <= 0)
