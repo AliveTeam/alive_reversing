@@ -2016,7 +2016,15 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                     pChannel->field_1C.field_0_seq_idx = static_cast<unsigned char>(vabId);
                     pChannel->field_1C.field_1_program = static_cast<unsigned char>(program);
                     pChannel->field_1C.field_2_note_byte1 = static_cast<unsigned char>(noteKeyNumber);
+
+#if ORIGINAL_PS1_BEHAVIOR
+                    // Uses the correct way of determining the pitch float.
+                    // Almost identical to PS1 versions pitches (at least from PS1 emulators)
+                    // Todo: check real ps1 hardware.
+                    pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)((note >> 8) - (pVagIter->field_A_shift_cen >> 8))));
+#else
                     pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)(note - pVagIter->field_A_shift_cen) * 0.00390625));
+#endif
 
                     if (sMidi_WaitUntil_BD1CF0)
                     {
