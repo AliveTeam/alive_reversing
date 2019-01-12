@@ -16,6 +16,8 @@ private:
     EXPORT void vScreenChanged_4DCE80();
     EXPORT void vUpdate_4DC400();
 private:
+    EXPORT static BaseGameObject* CC Create_obj_4DCEB0();
+
     int field_20_tlvInfo;
     __int16 field_24_global_y1;
     __int16 field_26_global_x1;
@@ -23,7 +25,15 @@ private:
     __int16 field_2A_global_x2;
     int field_2C_switch_state;
    // __int16 field_2E;
-    char field_30_state;
+    enum class States : char
+    {
+        eState_0 = 0,
+        eState_1 = 1,
+        eState_2 = 2,
+        eState_3 = 3,
+        eState_4 = 4,
+    };
+    States field_30_state;
     char field_31;
     __int16 field_32_bDestroySelf;
     Path_Teleporter_Data field_34_mTlvData;

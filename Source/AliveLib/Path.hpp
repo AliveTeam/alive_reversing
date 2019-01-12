@@ -91,7 +91,7 @@ struct Path_Teleporter_Data
     __int16 field_12_target_id;
     __int16 field_14_camera;
     __int16 field_16_path;
-    __int16 field_18_level;
+    LevelIds field_18_level;
     __int16 field_1A_trigger_id;
     __int16 field_1C_scale;
     __int16 field_1E_wipe;
