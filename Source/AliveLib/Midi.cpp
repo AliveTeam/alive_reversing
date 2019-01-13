@@ -1967,6 +1967,17 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
 #if USE_SDL2_SOUND
                     float pan = (pVagIter->field_11_pad - 64) / (127.0f / 2.0f);
 
+                    if (panLeft > panRight)
+                    {
+                        pan -= (1.0f - (panRight / static_cast<float>(panLeft)));
+                    }
+                    else if (panRight > panLeft)
+                    {
+                        pan += (1.0f - (panLeft / static_cast<float>(panRight)));
+                    }
+
+                    pan = min(max(pan, -1), 1);
+
                     SND_Play_SDL(
                         &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
                         ((volume * max(leftVol2, rightVol2) * vagVol * sGlobalVolumeLevel_left_BD1CDC) >> 21) / 127.0f,
