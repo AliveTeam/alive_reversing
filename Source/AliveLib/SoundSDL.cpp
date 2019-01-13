@@ -474,6 +474,74 @@ EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int /*sampleRate*/, int /*bit
     return 0;
 }
 
+int SND_Play_SDL(const SoundEntry* pSnd, float volume, float pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
+{
+    if (!pSnd)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 845, -1, "SND_PlayEx: NULL SAMPLE !!!");
+        return -1;
+    }
+
+    AE_SDL_Voice * pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
+
+    if (!pDSoundBuffer)
+    {
+        return -1;
+    }
+
+    sLastNotePlayTime_BBC33C = timeGetTime();
+
+    if (pSnd->field_20_isStereo & 2)
+    {
+        pDSoundBuffer->SetFrequency(static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5)); // This freq don't get clamped for some reason
+        pDSoundBuffer->State.fVolume = volume;
+        pDSoundBuffer->SetCurrentPosition(0);
+    }
+    else
+    {
+        SoundBuffer* pSoundBuffer = SND_Get_Sound_Buffer_4EF970(pSnd->field_0_tableIdx, priority);
+        if (!pSoundBuffer)
+        {
+            return -1;
+        }
+
+
+        pDSoundBuffer->Duplicate(&pSoundBuffer->field_0_pDSoundBuffer);
+        pSoundBuffer->field_0_pDSoundBuffer->SetCurrentPosition(0);
+        pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
+
+        if (pMidiStru)
+        {
+            pMidiStru->field_0_sound_buffer_field_4 = pSoundBuffer->field_4;
+        }
+    }
+
+    DWORD freqHz = static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5);
+    if (freqHz < DSBFREQUENCY_MIN)
+    {
+        freqHz = DSBFREQUENCY_MIN;
+    }
+    else if (freqHz >= DSBFREQUENCY_MAX)
+    {
+        freqHz = DSBFREQUENCY_MAX;
+    }
+
+    pDSoundBuffer->SetFrequency(freqHz);
+    pDSoundBuffer->State.fVolume = volume;
+
+    pDSoundBuffer->State.fPan = pan;
+
+    if (playFlags & DSBPLAY_LOOPING)
+    {
+        playFlags = DSBPLAY_LOOPING;
+    }
+
+
+    pDSoundBuffer->Play(0, 0, playFlags);
+
+    return 0;
+}
+
 EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
 {
     if (!pSnd)

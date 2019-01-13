@@ -1954,7 +1954,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                     // Uses the correct way of determining the pitch float.
                     // Almost identical to PS1 versions pitches (at least from PS1 emulators)
                     // Todo: check real ps1 hardware.
-                    pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)((note >> 8) - (pVagIter->field_A_shift_cen >> 8))));
+                    pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)((note / 256.0) - (pVagIter->field_A_shift_cen / 256.0))));
 #else
                     pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)(note - pVagIter->field_A_shift_cen) * 0.00390625));
 #endif
@@ -1964,19 +1964,18 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         MIDI_Wait_4FCE50();
                     }
 
-#if ORIGINAL_PS1_BEHAVIOR
+#if USE_SDL2_SOUND
                     float pan = (pVagIter->field_11_pad - 64) / (127.0f / 2.0f);
 
-                    if (pan < 0)
-                    {
-                        panRight = static_cast<int>(panRight * ( 1.0f - abs(pan)));
-                    }
-                    else
-                    {
-                        panLeft = static_cast<int>(panLeft * (1.0f - abs(pan)));
-                    }
-#endif
-
+                    SND_Play_SDL(
+                        &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
+                        ((volume * max(leftVol2, rightVol2) * vagVol * sGlobalVolumeLevel_left_BD1CDC) >> 21) / 127.0f,
+                        pan,
+                        pChannel->field_10_float, // freq
+                        pChannel,
+                        playFlags,
+                        pVagIter->field_E_priority);
+#else
                     SND_PlayEx_4EF740(
                         &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
                         panLeft,
@@ -1985,6 +1984,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         pChannel,
                         playFlags,
                         pVagIter->field_E_priority);
+#endif
 
                     if (program == 4 || program == 5 || program == 8 || program == 23 || program == 24 || program == 25)
                     {

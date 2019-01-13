@@ -1,11 +1,15 @@
 #pragma once
 
 #include "Sound.hpp"
+#include "Midi.hpp"
 
 #if USE_SDL2_SOUND
 #include "FunctionFwd.hpp"
 #include "stdlib.hpp"
 #include "SDL.h"
+
+struct MIDI_Struct1;
+struct SoundEntry;
 
 struct StereoSampleFloat
 {
@@ -67,5 +71,7 @@ public:
     std::shared_ptr<void> pBuffer;
     
 };
+
+int SND_Play_SDL(const SoundEntry* pSnd, float volume, float pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority);
 
 #endif
