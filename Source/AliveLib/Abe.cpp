@@ -37,6 +37,7 @@
 #include "WorkWheel.hpp"
 #include "LevelLoader.hpp"
 #include "Particle.hpp"
+#include "Switch.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -7995,8 +7996,90 @@ int Abe::sub_44EE10()
 
 __int16 Abe::HandleDoAction_455BD0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    NOT_IMPLEMENTED(); // TODO: Need to impl case 59
+
+    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+        nullptr,
+        field_B8_xpos,
+        field_BC_ypos,
+        field_B8_xpos,
+        field_BC_ypos);
+
+    if (!pTlv)
+    {
+        // Why ya trying to use nothing?
+        return eAbeStates::State_34_DunnoBegin_44ECF0;
+    }
+
+    for (;;)
+    {
+        switch (pTlv->field_4_type)
+        {
+        case Path_Well_Local::kType:
+            field_FC_pPathTLV = pTlv;
+            return eAbeStates::State_78_WellBegin_45C810;
+
+        case Path_Switch::kType:
+        {
+            FP xpos = {};
+            FP ypos = {};
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                xpos = field_BC_ypos - FP_FromInteger(5);
+                ypos = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+            else
+            {
+                xpos = field_BC_ypos - FP_FromInteger(5);
+                ypos = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+            }
+
+            Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(BaseGameObject::Types::eLever_139, ypos, xpos));
+            if (!pSwitch || !(pSwitch->Vsub_4D6050(field_B8_xpos < pSwitch->field_B8_xpos)))
+            {
+                return eAbeStates::State_34_DunnoBegin_44ECF0;
+            }
+
+            return eAbeStates::State_99_LeverUse_455AC0;
+        }
+
+        case Path_Well_Express::kType:
+            field_FC_pPathTLV = pTlv;
+            return eAbeStates::State_78_WellBegin_45C810;
+
+        // TODO: Need the Object and TLV structures to impl this case
+        case 59: // 059_Grenade_machine
+        {
+            /*
+            pGrenadeMachine = FindObjectOfType_425180(
+                66,
+                field_B8_xpos,
+                field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25)));
+            if (!pGrenadeMachine || !(pGrenadeMachine->field_3C_vnull_408F90()))
+            {
+                return eAbeStates::State_34_DunnoBegin_44ECF0;
+            }
+            (pGrenadeMachine->field_0_VTbl->VBaseAliveGameObject.field_40_vnull_408F70)(pGrenadeMachine);
+            */
+            return eAbeStates::State_88_GrenadeMachineUse_45C510;
+        }
+
+        default:
+            // Next TLV, exit if we're at the end
+            pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                pTlv,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_B8_xpos,
+                field_BC_ypos);
+
+            if (!pTlv)
+            {
+                return eAbeStates::State_34_DunnoBegin_44ECF0;
+            }
+            continue;
+        }
+    }
 }
 
 void Abe::PushWall_44E890()

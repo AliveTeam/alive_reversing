@@ -8,6 +8,7 @@ enum SwitchOp : __int16;
 
 struct Path_Switch : public Path_TLV
 {
+    static constexpr unsigned short kType = 17;
     SwitchOp field_10_target_action;
     __int16 field_12_scale;
     __int16 field_14_on_sound;
