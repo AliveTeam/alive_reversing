@@ -32,6 +32,7 @@ public:
         Resource_VabBody = 0x42424156,
         Resource_FG1 = 0x20314746,
         Resource_NxtP = 0x5074784E,
+        Resource_Sprx = 0x78727053,
         Resource_DecompressionBuffer = 0x66754244,
     };
 

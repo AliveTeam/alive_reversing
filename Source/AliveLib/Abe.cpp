@@ -36,6 +36,7 @@
 #include "DeathBirdParticle.hpp"
 #include "WorkWheel.hpp"
 #include "LevelLoader.hpp"
+#include "Particle.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -630,13 +631,6 @@ LABEL_19:
     {
         return SFX_SfxDefinition_Play_4CA420(&sSFXList_555160[sndIndex], static_cast<short>(sndVolume), static_cast<short>(pitchMin), 0x7FFF);
     }
-}
-
-// Fart/dust cloud particle spawner
-EXPORT int CC sub_426C70(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, unsigned __int8 /*r*/, unsigned __int8 /*g*/, unsigned __int8 /*b*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }
 
 using TFrameCallBackType = decltype(&sub_434130);
@@ -3301,7 +3295,7 @@ void Abe::State_0_Idle_44EEB0()
                 fartXPos = field_B8_xpos - (FP_FromInteger(12) * field_CC_sprite_scale);
             }
 
-            sub_426C70(fartXPos, fartYPos, fartScale, 3, 32u, 128u, 32u);
+            New_Particles_426C70(fartXPos, fartYPos, fartScale, 3, 32u, 128u, 32u);
         }
 
         field_106_current_state = eAbeStates::State_10_Fart_45B1A0;
@@ -4415,7 +4409,7 @@ void Abe::State_17_CrouchIdle_456BC0()
                 {
                     xpos = field_B8_xpos - (FP_FromInteger(10) * field_CC_sprite_scale);
                 }
-                sub_426C70(xpos, ypos, scale, 3, 32u, 128u, 32u);
+                New_Particles_426C70(xpos, ypos, scale, 3, 32u, 128u, 32u);
             }
 
             field_106_current_state = eAbeStates::State_20_454550;

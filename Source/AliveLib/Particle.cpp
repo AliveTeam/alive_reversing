@@ -1,4 +1,4 @@
-    #include "stdafx.h"
+#include "stdafx.h"
 #include "Particle.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
@@ -62,4 +62,86 @@ void Particle::VUpdate()
 BaseGameObject* Particle::VDestructor(signed int flags)
 {
     return vdtor_4CC5D0(flags);
+}
+
+EXPORT Particle* CC New_Particle_426F40(FP xpos, FP ypos, FP scale)
+{
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID, FALSE, FALSE);
+    auto pParticle = alive_new<Particle>();
+
+    if (!pParticle)
+    {
+        return nullptr;
+    }
+
+    pParticle->ctor_4CC4C0(xpos, ypos, 9912, 122, 43, ppRes);
+    pParticle->field_20_animation.field_B_render_mode = 1;
+    pParticle->field_CC_sprite_scale = FP_FromRaw(scale.fpValue * 2);
+
+    if (scale == FP_FromInteger(1))
+    {
+        pParticle->field_20_animation.field_C_render_layer = 39;
+    }
+    else
+    {
+        pParticle->field_20_animation.field_C_render_layer = 17;
+    }
+
+    pParticle->field_DC_bApplyShadows &= ~1u;
+
+    return pParticle;
+}
+
+EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velY, FP velX, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g)
+{
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 312, 0, 0);
+    auto pParticle = alive_new<Particle>();
+    if (!pParticle)
+    {
+        return nullptr;
+    }
+
+    pParticle->ctor_4CC4C0(xpos, ypos, 1632, 39, 21, ppRes);
+    pParticle->field_D0_r = r;
+    pParticle->field_D4_b = g;
+    pParticle->field_D2_g = b;
+
+    pParticle->field_C8_vely = velX;
+    pParticle->field_C4_velx = velY;
+
+    pParticle->field_DC_bApplyShadows &= ~1u;
+
+    pParticle->field_20_animation.field_B_render_mode = 1;
+
+    if (layer != 0)
+    {
+        pParticle->field_20_animation.field_C_render_layer = layer;
+    }
+    else
+    {
+        if (scale == FP_FromInteger(1))
+        {
+            pParticle->field_20_animation.field_C_render_layer = 36;
+        }
+        else
+        {
+            pParticle->field_20_animation.field_C_render_layer = 17;
+        }
+    }
+
+    pParticle->field_CC_sprite_scale = scale;
+
+    return pParticle;
+}
+
+EXPORT Particle* CC New_Particle_426BE0(FP xpos, FP ypos, FP scale, __int16 layer)
+{
+    return New_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
+}
+
+// Fart/dust cloud particle spawner
+EXPORT Particle* CC New_Particles_426C70(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
 }

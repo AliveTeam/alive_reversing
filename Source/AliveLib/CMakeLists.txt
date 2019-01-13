@@ -209,6 +209,8 @@ add_library(AliveLib
     Grinder.hpp
     Teleporter.cpp
     Teleporter.hpp
+    Spark.cpp
+    Spark.hpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)
