@@ -186,7 +186,7 @@ CameraSwapper* CameraSwapper::ctor_4E5000(BYTE** ppCamRes, CameraSwapEffects cha
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x5480E4); // vTbl_CameraSwapper_5480E4
-    field_4E_xpos_converted = (40 * xpos) / 23;
+    field_4E_xpos_converted = PsxToPCX(xpos);
     field_50_ypos_converted = ypos;
     Init_4E50C0(ppCamRes, changeEffect);
     return this;

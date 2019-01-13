@@ -3,6 +3,15 @@
 #include "FunctionFwd.hpp"
 #include "Psx.hpp"
 
+// 368*40/23 =640
+// This seems to convert from PSX coordinate space to PC coordinate space
+// anywhere you see this calc replace it with this function
+template<class T>
+inline T PsxToPCX(T x)
+{
+    return static_cast<T>((40 * x) / 23);
+}
+
 class PSX_Display_Buffer
 {
 public:

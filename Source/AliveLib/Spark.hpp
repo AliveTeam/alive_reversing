@@ -13,8 +13,8 @@ struct SparkRes
     FP field_C_y1;
     BYTE field_10_ang;
     // 3 byte pad
-    FP field_14_fp;
-    FP field_18_fp;
+    FP field_14_radius;
+    FP field_18_len;
     Line_G2 field_1C_pLineG2s[2];
 };
 ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
@@ -22,14 +22,13 @@ ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 class Spark : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_4CBE30(flags);
-    }
-
-    EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max, __int16 a8);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max, __int16 type);
 private:
     EXPORT void vUpdate_4CBEF0();
+    EXPORT void vRender_4CC050(int** ppOt);
     EXPORT void vScreenChange_4CC4A0();
     EXPORT Spark* vdtor_4CBE30(signed int flags);
     EXPORT void dtor_4CBE60();
@@ -47,7 +46,7 @@ private:
     __int16 field_5C_count;
     //__int16 field_5E_pad;
     int field_60_timer;
-    __int16 field_64_ctor_arg;
+    __int16 field_64_type;
     //__int16 field_66_pad;
 };
 ALIVE_ASSERT_SIZEOF(Spark, 0x68);

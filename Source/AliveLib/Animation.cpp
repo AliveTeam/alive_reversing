@@ -162,8 +162,8 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
         field_84_vram_rect.y = 0;
     }
 
-    const short xpos_unknown = static_cast<short>(40 * xpos / 23);
-    const short width_unknown = static_cast<short>(40 * width / 23);
+    const short xpos_unknown =  static_cast<short>(PsxToPCX(xpos));
+    const short width_unknown = static_cast<short>(PsxToPCX(width));
 
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {

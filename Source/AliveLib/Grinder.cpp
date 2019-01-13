@@ -282,6 +282,7 @@ void Grinder::vUpdate_420C50()
 void Grinder::dtor_420B60()
 {
     NOT_IMPLEMENTED();
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 Grinder* Grinder::vdtor_4206A0(signed int flags)

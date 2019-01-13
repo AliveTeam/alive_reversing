@@ -2497,7 +2497,7 @@ void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Font
     short text_xpos = 0;
     if (array->field_C_align == 1)
     {
-        text_xpos = static_cast<short>((40 * array_field_x) / 23);
+        text_xpos = static_cast<short>(PsxToPCX(array_field_x));
     }
     else
     {
@@ -2507,7 +2507,7 @@ void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Font
         {
             halfFontWidth = -fontWidth;
         }
-        text_xpos = static_cast<short>((strlen(textBuffer)) + ((40 * (halfFontWidth + array_field_x)) / 23));
+        text_xpos = static_cast<short>(strlen(textBuffer) + PsxToPCX(halfFontWidth + array_field_x));
     }
 
     const FP text_ypos = FP_FromInteger(-10) * fontScale; // -655360

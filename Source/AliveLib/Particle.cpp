@@ -134,7 +134,7 @@ EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velY, FP velX, FP s
     return pParticle;
 }
 
-EXPORT Particle* CC New_Particle_426BE0(FP xpos, FP ypos, FP scale, __int16 layer)
+EXPORT Particle* CC New_Chant_Particle_426BE0(FP xpos, FP ypos, FP scale, __int16 layer)
 {
     return New_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
 }

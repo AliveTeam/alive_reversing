@@ -220,6 +220,7 @@ void MainMenuTransition::Render_464470(int** ot)
         int v23 = Math_FixedPoint_Multiply_496C50(v20, val1);
         int x1 = Math_FixedPoint_Multiply_496C50(v36, val2) - v23;
         int v25 = Math_FixedPoint_Multiply_496C50(op1, y1);
+        // TODO: Use PsxToPCX
         x1 = this->field_24E_width + 40 * ((signed int)Math_FixedPoint_Multiply_496C50(x1, v25) >> 16) / 23; // LOWORD
         int v26 = Math_FixedPoint_Multiply_496C50(v38, val2);
         int v27 = v26 + Math_FixedPoint_Multiply_496C50(v36, val1);
