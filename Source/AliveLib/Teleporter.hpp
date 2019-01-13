@@ -10,6 +10,7 @@ public:
     EXPORT Teleporter* ctor_4DC1E0(Path_Teleporter* pTlv, DWORD tlvInfo);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 private:
     EXPORT Teleporter* vdtor_4DC350(signed int flags);
     EXPORT void dtor_4DC380();
@@ -27,11 +28,10 @@ private:
    // __int16 field_2E;
     enum class States : char
     {
-        eState_0 = 0,
-        eState_1 = 1,
-        eState_2 = 2,
-        eState_3 = 3,
-        eState_4 = 4,
+        eState_WaitForSwitchOn_0 = 0,
+        eState_Into_Teleporter_1 = 1,
+        eState_Teleporting_2 = 2,
+        eState_Out_of_teleporter_4 = 4,
     };
     States field_30_state;
     char field_31;
@@ -40,7 +40,7 @@ private:
     __int16 field_4A;
     Path_Teleporter* field_4C_pTlv;
     int field_50_objId;
-    __int16 field_54;
+    __int16 field_54_effect_created;
     __int16 field_56;
 };
 ALIVE_ASSERT_SIZEOF(Teleporter, 0x58);

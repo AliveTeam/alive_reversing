@@ -29,10 +29,10 @@ Teleporter* Teleporter::ctor_4DC1E0(Path_Teleporter* pTlv, DWORD tlvInfo)
 
     field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id);
 
-    field_54 = 0;
+    field_54_effect_created = 0;
 
     field_32_bDestroySelf = 0;
-    field_30_state = States::eState_0;
+    field_30_state = States::eState_WaitForSwitchOn_0;
     field_50_objId = -1;
 
     return this;
@@ -46,6 +46,11 @@ BaseGameObject* Teleporter::VDestructor(signed int flags)
 void Teleporter::VUpdate()
 {
     vUpdate_4DC400();
+}
+
+void Teleporter::VScreenChanged()
+{
+    vScreenChanged_4DCE80();
 }
 
 Teleporter* Teleporter::vdtor_4DC350(signed int flags)
@@ -120,7 +125,7 @@ void Teleporter::vUpdate_4DC400()
     PSX_Point abeSpawnPos = {};
     switch (field_30_state)
     {
-    case States::eState_0:
+    case States::eState_WaitForSwitchOn_0:
     {
         if (field_32_bDestroySelf)
         {
@@ -149,7 +154,7 @@ void Teleporter::vUpdate_4DC400()
             return;
         }
 
-        field_30_state = States::eState_1;
+        field_30_state = States::eState_Into_Teleporter_1;
         field_50_objId = Teleporter::Create_obj_4DCEB0()->field_8_object_id;
 
         SFX_Play_46FBA0(49u, 60, -400, 0x10000);
@@ -184,73 +189,70 @@ void Teleporter::vUpdate_4DC400()
     }
         return;
 
-    case States::eState_1:
+    case States::eState_Into_Teleporter_1:
     {
-        if (!pObj)
+        if (pObj)
         {
-            goto LABEL_56;
-        }
-
-        /* WRONG TYPE and wrong virtual
-        if (((int(*)(BaseGameObject *))pObj->field_0_VTbl->VBaseAliveGameObject.field_1C_vGetBoundingRect_424FD0)(pObj) || field_54)
-        {
-            goto LABEL_55;
-        }*/
-
-        if (field_34_mTlvData.field_1C_scale)
-        {
-            New_Particles_426C70(
-                sControlledCharacter_5C1B8C->field_B8_xpos,
-                sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
-                sControlledCharacter_5C1B8C->field_CC_sprite_scale,
-                3,
-                128u,
-                128u,
-                128u);
-
-            auto pParticleBurst = alive_new<ParticleBurst>();
-            if (pParticleBurst)
+            /* WRONG TYPE and wrong virtual
+            if (((int(*)(BaseGameObject *))pObj->field_0_VTbl->VBaseAliveGameObject.field_1C_vGetBoundingRect_424FD0)(pObj) || field_54_effect_created)
             {
-                pParticleBurst->ctor_41CF50(
+                goto LABEL_55;
+            }*/
+
+            if (field_34_mTlvData.field_1C_scale)
+            {
+                New_Particles_426C70(
                     sControlledCharacter_5C1B8C->field_B8_xpos,
                     sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
-                    9u,
-                    FP_FromDouble(0.5),
+                    sControlledCharacter_5C1B8C->field_CC_sprite_scale,
                     3,
-                    9);
-            }
-        }
-        else
-        {
-            New_Particles_426C70(
-                sControlledCharacter_5C1B8C->field_B8_xpos,
-                sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
-                sControlledCharacter_5C1B8C->field_CC_sprite_scale,
-                3,
-                128u,
-                128u,
-                128u);
+                    128u,
+                    128u,
+                    128u);
 
-            auto pParticleBurst = alive_new<ParticleBurst>();
-            if (pParticleBurst)
+                auto pParticleBurst = alive_new<ParticleBurst>();
+                if (pParticleBurst)
+                {
+                    pParticleBurst->ctor_41CF50(
+                        sControlledCharacter_5C1B8C->field_B8_xpos,
+                        sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
+                        9u,
+                        FP_FromDouble(0.5),
+                        3,
+                        9);
+                }
+            }
+            else
             {
-                pParticleBurst->ctor_41CF50(
+                New_Particles_426C70(
                     sControlledCharacter_5C1B8C->field_B8_xpos,
                     sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
-                    9u,
-                    FP_FromInteger(1),
+                    sControlledCharacter_5C1B8C->field_CC_sprite_scale,
                     3,
-                    9);
+                    128u,
+                    128u,
+                    128u);
+
+                auto pParticleBurst = alive_new<ParticleBurst>();
+                if (pParticleBurst)
+                {
+                    pParticleBurst->ctor_41CF50(
+                        sControlledCharacter_5C1B8C->field_B8_xpos,
+                        sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
+                        9u,
+                        FP_FromInteger(1),
+                        3,
+                        9);
+                }
+            }
+
+            field_54_effect_created = 1;
+            //LABEL_55:
+            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+            {
+                return;
             }
         }
-
-        field_54 = 1;
-        //LABEL_55:
-        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
-        {
-            return;
-        }
-    LABEL_56:
 
         sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
@@ -273,11 +275,11 @@ void Teleporter::vUpdate_4DC400()
 
         sControlledCharacter_5C1B8C->field_1C_update_delay = 3;
         sActiveHero_5C1B68->field_1A0_door_id = field_34_mTlvData.field_12_target_id;
-        field_30_state = States::eState_2;
+        field_30_state = States::eState_Teleporting_2;
     }
         return;
 
-    case States::eState_2:
+    case States::eState_Teleporting_2:
     {
         gMap_5C3030.field_20 = 0;
         Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_Teleporter::kType, 0));
@@ -286,6 +288,7 @@ void Teleporter::vUpdate_4DC400()
 
         if (tlvData.field_10_id != field_34_mTlvData.field_12_target_id)
         {
+            // TODO: Inf loops atm
             while (1)
             {
                 pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type_4DB720(pTeleporterTlv, Path_Teleporter::kType));
@@ -299,8 +302,10 @@ void Teleporter::vUpdate_4DC400()
                 pTeleporterTlv = pTeleporterTlvNext;
             }
         }
-        //SFX_Play_46FBA0(0x31u, 60, -300, tlvData.field_1C_scale != 0 ? 0x8000 : 0x10000);
+        
+        SFX_Play_46FBA0(0x31u, 60, -300, tlvData.field_1C_scale != 0 ? 0x8000 : 0x10000);
         gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+        
         /*
         v14 = *(_DWORD *)&tlvData.field_22_eletric_x - *(_DWORD *)&abeSpawnPos;
         v32 = *(_DWORD *)&tlvData.field_22_eletric_x - *(_DWORD *)&abeSpawnPos;
@@ -398,15 +403,15 @@ void Teleporter::vUpdate_4DC400()
             sControlledCharacter_5C1B8C->field_BC_ypos = pTeleporterTlvNext->field_8_top_left.field_2_y << 16;
             sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
         }*/
-        field_30_state = States::eState_4;
+        field_30_state = States::eState_Out_of_teleporter_4;
     }
         return;
 
-    case States::eState_4:
+    case States::eState_Out_of_teleporter_4:
     {
+        // Visual effects
         PSX_RECT bRect = {};
         sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&bRect, 1);
-
         const FP yOff = sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60);
         New_Particle_426F40(
             FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -441,11 +446,12 @@ void Teleporter::vUpdate_4DC400()
                     9);
             }
         }
-        field_54 = 0;
+
+        field_54_effect_created = 0;
         sControlledCharacter_5C1B8C->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
         sControlledCharacter_5C1B8C->field_114_flags.Clear(Flags_114::e114_Bit10);
         field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id);
-        field_30_state = States::eState_0;
+        field_30_state = States::eState_WaitForSwitchOn_0;
     }
         break;
 
