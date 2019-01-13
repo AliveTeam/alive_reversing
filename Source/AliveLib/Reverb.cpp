@@ -73,9 +73,9 @@ inline void Reverb_Update(int index)
     }
 }
 
-void Reverb_Mix(StereoSampleFloat * dst, SDL_AudioFormat format, Uint32 len, int volume, int channels)
+void Reverb_Mix(StereoSampleFloat * dst, SDL_AudioFormat format, Uint32 len, int volume)
 {
-    for (unsigned int i = 0; i < len / sizeof(StereoSampleFloat); i+= channels / 2)
+    for (unsigned int i = 0; i < len / sizeof(StereoSampleFloat); i++)
     {
         Reverb_PushSample(dst[i]);
 
