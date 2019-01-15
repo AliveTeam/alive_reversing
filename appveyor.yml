@@ -23,6 +23,7 @@ install:
  - 7z x SDL2-devel-2.0.9-VC.zip
 
 artifacts:
+ - path: '**\*.pdb'
  - path: build\*.zip
    name: AR-$(configuration)-$(APPVEYOR_REPO_COMMIT)
 
