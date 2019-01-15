@@ -545,7 +545,7 @@ EXPORT void SND_Stop_All_Seqs_4CA850()
     sSeqsPlaying_count_word_BB2E3C = 0;
     for (short i = 0; i < 16; i++)
     {
-        if (sSeq_Ids_word_BB2354.ids[i] > 0)
+        if (sSeq_Ids_word_BB2354.ids[i] >= 0)
         {
             if (MIDI_SsIsEos_4FDA80(i, 0))
             {
@@ -562,7 +562,7 @@ EXPORT void SND_SsSeqClose_4CA8E0()
 {
     for (short i = 0; i < 16; i++)
     {
-        if (sSeq_Ids_word_BB2354.ids[i] > 0)
+        if (sSeq_Ids_word_BB2354.ids[i] >= 0)
         {
             if (!MIDI_SsIsEos_4FDA80(i, 0))
             {
