@@ -402,13 +402,14 @@ void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWO
 
 void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, ResourceManager::ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, __int16 addUseCount)
 {
-    if (!(pTypeAndIdList->field_0_count & ~0x80000000)) // Already loaded flag ??
+    // Already loaded flag ??
+    if (!(pTypeAndIdList->field_0_count & ~0x80000000))
     {
         return;
     }
 
     // Check if all resources are already loaded
-    bool failedToFindAResource = false;
+    bool allResourcesLoaded = true;
     for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
     {
         if (!GetLoadedResource_49C2A0(
@@ -417,13 +418,13 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
             0, 0))
         {
             // A resource we need is missing
-            failedToFindAResource = true;
+            allResourcesLoaded = false;
             break;
         }
     }
 
     // All resources that we required are already loaded
-    if (!failedToFindAResource)
+    if (allResourcesLoaded)
     {
         for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
         {
@@ -456,12 +457,18 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
 
     // Create a new record or use the one we found
     auto pNewFileRec = pFoundFileRecord ? pFoundFileRecord : alive_new<ResourceManager_FileRecord_1C>();
-    pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);  // TODO: De-inline ctor
-    pNewFileRec->field_0_fileName = reinterpret_cast<char*>(malloc_non_zero_4954F0(strlen(pFileName) + 1));
-    strcpy(pNewFileRec->field_0_fileName, pFileName);
-    pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
-    pNewFileRec->field_8_type = 0;
-    pNewFileRec->field_C_id = 0;
+    if (!pFoundFileRecord)
+    {
+        // Only do ctor stuff if we created a new record
+
+        // TODO: De-inline ctor
+        pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
+        pNewFileRec->field_0_fileName = reinterpret_cast<char*>(malloc_non_zero_4954F0(strlen(pFileName) + 1));
+        strcpy(pNewFileRec->field_0_fileName, pFileName);
+        pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
+        pNewFileRec->field_8_type = 0;
+        pNewFileRec->field_C_id = 0;
+    }
 
     // Create a file part record for each item
     for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
