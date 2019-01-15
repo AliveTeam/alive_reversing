@@ -316,6 +316,10 @@ void Grinder::vScreenChanged_4214B0()
         field_10C_audio_channels_mask = 0;
     }
 
+    // Seems the real function does this, but then always kill object at the end!
+    // So it appears drills where supposed to survive for up to 1 screen away.
+
+    /*
     // Map changed
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
     {
@@ -336,6 +340,9 @@ void Grinder::vScreenChanged_4214B0()
         field_6_flags.Set(BaseGameObject::eDead);
         return;
     }
+    */
+
+    field_6_flags.Set(BaseGameObject::eDead);
 }
 
 void Grinder::vRender_4213D0(int** pOt)
