@@ -9,15 +9,15 @@
 
 void UXB_ForceLink();
 
-struct Path_UXB
+struct Path_UXB : public Path_TLV
 {
-    Path_TLV field_0_mBase;
     __int16 field_10_num_patterns;
     __int16 field_12_pattern;
     __int16 field_14_scale;
     __int16 field_16_state;
     int field_18_disabled_resources;
 };
+ALIVE_ASSERT_SIZEOF(Path_UXB, 0x1c);
 
 struct SaveState_UXB
 {

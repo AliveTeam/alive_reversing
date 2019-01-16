@@ -131,18 +131,18 @@ void UXB::VScreenChanged()
     ScreenChanged_4DF9C0();
 }
 
-UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
+UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 {
     ctor_408240(0);
-    SetVTable(this, 0x547E80);
     SetVTable(&field_128_animation, 0x544290);
+    SetVTable(this, 0x547E80);
     field_4_typeId = Types::eUXB_143;
 
     auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, 1037);
 
-    Animation_Init_424E10(8048, 59, 0x13u, pResource, 1, 1u);
+    Animation_Init_424E10(8048, 59, 19, pResource, 1, 1u);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit7);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 0;
 
     SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.sCurrentLevelId_5C3030);
@@ -186,7 +186,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
 
     InitBlinkAnim_4DEED0(&field_128_animation);
 
-    if ((tlv_params->field_0_mBase.field_0_flags.Raw().all & 0xFF00) == 256) // Checking if 9th bit is set?
+    if (tlv_params->field_1_unknown) // Stores the actived/deactivated state for UXB
     {
         if (!tlv_params->field_16_state)
         {
@@ -220,20 +220,18 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
         }
     }
 
-    const FP x_middle = FP_FromInteger((tlv_params->field_0_mBase.field_8_top_left.field_0_x + tlv_params->field_0_mBase.field_C_bottom_right.field_0_x) / 2);
+    FP hitX = {};
+    FP hitY = {};
 
-    FP hitX;
-    FP hitY;
-
-    field_B8_xpos = x_middle;
-    field_BC_ypos = FP_FromInteger(tlv_params->field_0_mBase.field_8_top_left.field_2_y);
+    field_B8_xpos = FP_FromInteger((tlv_params->field_8_top_left.field_0_x + tlv_params->field_C_bottom_right.field_0_x) / 2);
+    field_BC_ypos = FP_FromInteger(tlv_params->field_8_top_left.field_2_y);
 
     // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-        x_middle,
-        FP_FromInteger(tlv_params->field_0_mBase.field_8_top_left.field_2_y),
-        x_middle,
-        FP_FromInteger(tlv_params->field_0_mBase.field_8_top_left.field_2_y + 24),
+        field_B8_xpos,
+        FP_FromInteger(tlv_params->field_8_top_left.field_2_y),
+        field_B8_xpos,
+        FP_FromInteger(tlv_params->field_8_top_left.field_2_y + 24),
         &field_100_pCollisionLine,
         &hitX,
         &hitY,
@@ -260,7 +258,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
         Add_Resource_4DC130(ResourceManager::Resource_Animation, kSlogBlowResID);
     }
 
-    FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     field_E4 = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
     field_EC = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
     field_6_flags.Set(Options::eInteractive);
