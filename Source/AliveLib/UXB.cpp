@@ -13,7 +13,7 @@
 #include "Midi.hpp"
 #include "Abe.hpp"
 
-TintEntry sTintMap_UXB_563A3C[19] =
+const TintEntry sTintMap_UXB_563A3C[19] =
 {
     { 1, 127u, 127u, 127u },
     { 2, 137u, 137u, 137u },
@@ -149,7 +149,7 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
 
     field_6_flags.Set(BaseGameObject::Options::eInteractive);
     field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit0);
-    field_118 = 0;
+    field_118_state = 0;
 
     field_1C0_pattern_length = tlv_params->field_10_num_patterns;
     if (tlv_params->field_10_num_patterns < 1 || tlv_params->field_10_num_patterns > 4)
@@ -195,19 +195,19 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             PlaySFX_4DE930(2);
             field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
-            field_118 = 3;
-            field_11A = 0;
+            field_118_state = 3;
+            field_11A_starting_state = 0;
         }
         else
         {
-            field_11A = 3;
+            field_11A_starting_state = 3;
         }
     }
     else
     {
         if (!tlv_params->field_16_state)
         {
-            field_11A = 0;
+            field_11A_starting_state = 0;
         }
         else
         {
@@ -215,25 +215,25 @@ UXB * UXB::ctor_4DE9A0(Path_UXB * tlv_params, TlvItemInfoUnion itemInfo)
             field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
-            field_11A = 3;
-            field_118 = 3;
+            field_11A_starting_state = 3;
+            field_118_state = 3;
         }
     }
 
-    const auto x_middle = FP_FromInteger<int>((tlv_params->field_0_mBase.field_8_top_left.field_0_x + tlv_params->field_0_mBase.field_C_bottom_right.field_0_x) / 2);
+    const FP x_middle = FP_FromInteger((tlv_params->field_0_mBase.field_8_top_left.field_0_x + tlv_params->field_0_mBase.field_C_bottom_right.field_0_x) / 2);
 
     FP hitX;
     FP hitY;
 
     field_B8_xpos = x_middle;
-    field_BC_ypos = FP_FromInteger<int>(tlv_params->field_0_mBase.field_8_top_left.field_2_y);
+    field_BC_ypos = FP_FromInteger(tlv_params->field_0_mBase.field_8_top_left.field_2_y);
 
     // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions_DArray_5C1128->Raycast_417A60(
         x_middle,
-        FP_FromInteger<int>(tlv_params->field_0_mBase.field_8_top_left.field_2_y),
+        FP_FromInteger(tlv_params->field_0_mBase.field_8_top_left.field_2_y),
         x_middle,
-        FP_FromInteger<int>(tlv_params->field_0_mBase.field_8_top_left.field_2_y + 24),
+        FP_FromInteger(tlv_params->field_0_mBase.field_8_top_left.field_2_y + 24),
         &field_100_pCollisionLine,
         &hitX,
         &hitY,
@@ -275,7 +275,7 @@ void UXB::dtor_4DEF60()
 {
     SetVTable(this, 0x547E80);
 
-    if (field_118 != 2 || sGnFrame_5C1B84 < field_124_next_state_frame)
+    if (field_118_state != 2 || sGnFrame_5C1B84 < field_124_next_state_frame)
     {
         Path::TLV_Reset_4DB8E0(field_120_tlv.all, -1, 0, 0);
     }
@@ -303,9 +303,10 @@ BaseGameObject* UXB::vdtor_4DEEA0(signed int flags)
 
 void UXB::Update_4DF030()
 {
-    if (field_118)
+    // TODO: Restore switch/case for state + add typed enum
+    if (field_118_state)
     {
-        const int v3 = field_118 - 1;
+        const int v3 = field_118_state - 1;
         if (v3)
         {
             if (v3 == 1 && sGnFrame_5C1B84 >= field_124_next_state_frame)
@@ -320,7 +321,7 @@ void UXB::Update_4DF030()
         }
         else if (IsColliding_4DF630())
         {
-            field_118 = 2;
+            field_118_state = 2;
             field_124_next_state_frame = sGnFrame_5C1B84 + 2;
         }
         else if (field_124_next_state_frame <= sGnFrame_5C1B84)
@@ -364,7 +365,7 @@ void UXB::Update_4DF030()
                 PlaySFX_4DE930(Type1SFX::eUXBGreen);
             }
 
-            field_118 = 0;
+            field_118_state = 0;
             field_124_next_state_frame = sGnFrame_5C1B84 + 10; // UXB change color delay
         }
     }
@@ -372,24 +373,24 @@ void UXB::Update_4DF030()
     {
         if (IsColliding_4DF630())
         {
-            field_118 = 2;
+            field_118_state = 2;
             field_124_next_state_frame = sGnFrame_5C1B84 + 2;
         }
         else if (field_124_next_state_frame <= sGnFrame_5C1B84)
         {
-            field_118 = 1;
+            field_118_state = 1;
             field_128_animation.Set_Animation_Data_409C80(556, 0);
             field_124_next_state_frame = sGnFrame_5C1B84 + 2;
         }
     }
 
-    if (field_118 != 2)
+    if (field_118_state != 2)
     {
         if (Event_Get_422C00(kEventDeathReset))
         {
-            if (field_11A != 3 || field_118 == 3)
+            if (field_11A_starting_state != 3 || field_118_state == 3)
             {
-                if (field_11A || field_118 != 3)
+                if (field_11A_starting_state || field_118_state != 3)
                 {
                     Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
                 }
@@ -442,29 +443,16 @@ void UXB::Render_4DF3D0(int ** pOt)
 
 void UXB::ScreenChanged_4DF9C0()
 {
-    ScreenChanged_4DC0A0();
+    BaseGameObject::VScreenChanged();
 
-    FP x_distance = sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos;
-
-    // This is pretty much the same as using Abs()
-    if (x_distance < FP_FromInteger(0))
-    {
-        x_distance = field_B8_xpos - sControlledCharacter_5C1B8C->field_B8_xpos;
-    }
-
-    FP y_distance = sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos;
-
-    // This is pretty much the same as using Abs()
-    if (y_distance < FP_FromInteger(0))
-    {
-        y_distance = field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos;
-    }
+    const FP x_distance = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
+    const FP y_distance = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
 
     if (y_distance > FP_FromInteger(520) || x_distance > FP_FromInteger(750))
     {
-        if (field_11A != 3 || field_118 == 3)
+        if (field_11A_starting_state != 3 || field_118_state == 3)
         {
-            if (field_11A || field_118 != 3)
+            if (field_11A_starting_state || field_118_state != 3)
             {
                 Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
                 field_6_flags.Set(Options::eDead);
@@ -490,8 +478,8 @@ int UXB::GetSaveState_4DFD40(BYTE * __pSaveBuffer)
     pSaveState->field_0_id = 143;
     pSaveState->field_4_tlv = field_120_tlv;
     pSaveState->field_8_next_state_frame = field_124_next_state_frame;
-    pSaveState->field_c_uxb_118 = field_118;
-    pSaveState->field_e_uxb_11a = field_11A;
+    pSaveState->field_c_uxb_118 = field_118_state;
+    pSaveState->field_e_uxb_11a = field_11A_starting_state;
     pSaveState->field_10_disabled_resources = field_11C_disabled_resources;
     pSaveState->field_12_pattern_index = field_1C2_pattern_index;
     pSaveState->field_14_red_blink_count = field_1C6_red_blink_count;
@@ -537,8 +525,8 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
     }
 
     pUXB->field_124_next_state_frame = pSaveState->field_8_next_state_frame;
-    pUXB->field_118 = pSaveState->field_c_uxb_118;
-    pUXB->field_11A = pSaveState->field_e_uxb_11a;
+    pUXB->field_118_state = pSaveState->field_c_uxb_118;
+    pUXB->field_11A_starting_state = pSaveState->field_e_uxb_11a;
     pUXB->field_11C_disabled_resources = pSaveState->field_10_disabled_resources;
     pUXB->field_1C2_pattern_index = pSaveState->field_12_pattern_index;
     pUXB->field_1C6_red_blink_count = pSaveState->field_14_red_blink_count;

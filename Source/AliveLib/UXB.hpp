@@ -79,8 +79,8 @@ public:
     EXPORT static int CC CreateFromSaveState_4DFAE0(const BYTE*);
 public:
     BYTE gap116[2];
-    WORD field_118;
-    WORD field_11A;
+    WORD field_118_state;
+    WORD field_11A_starting_state;
     WORD field_11C_disabled_resources;
     BYTE gap11E[2];
     TlvItemInfoUnion field_120_tlv;
