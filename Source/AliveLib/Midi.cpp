@@ -23,7 +23,7 @@ EXPORT void CC SND_StopAll_4CB060()
 {
     MusicController::EnableMusic_47FE10(FALSE);
     BackgroundMusic::Stop_4CB000();
-    SND_Clear_4CB4B0();
+    SND_Reset_Ambiance_4CB4B0();
     SND_Stop_All_Seqs_4CA850();
     for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {

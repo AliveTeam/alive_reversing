@@ -43,9 +43,9 @@ ALIVE_ASSERT_SIZEOF(SoundBuffer, 0x14);
 
 EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry);
 EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size);
-EXPORT void CC SND_Init_Buffers_4CB480();
+EXPORT void CC SND_Init_Ambiance_4CB480();
 EXPORT void CC SND_SsQuit_4EFD50();
-EXPORT void CC SND_Clear_4CB4B0();
+EXPORT void CC SND_Reset_Ambiance_4CB4B0();
 EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int isStereo);
 EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo);
 EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveDataLen);

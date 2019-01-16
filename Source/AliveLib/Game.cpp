@@ -413,7 +413,7 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_43BDB0()
 
     ResourceManager::Init_49BCE0();
     SND_Init_4CA1F0();
-    SND_Init_Buffers_4CB480();
+    SND_Init_Ambiance_4CB480();
     MusicController::Create_47FC40();
     Init_GameStates_43BF40(); // Init other vars + switch states
 }
@@ -612,7 +612,7 @@ EXPORT void CC Game_Run_466D40()
     pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
     MusicController::Shutdown_47FD20();
 
-    SND_Clear_4CB4B0();
+    SND_Reset_Ambiance_4CB4B0();
     SND_Shutdown_4CA280();
     PSX_CdControlB_4FB320(8, 0, 0);
     PSX_ResetCallBack_4FAA20();

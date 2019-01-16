@@ -186,7 +186,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     InitBlinkAnim_4DEED0(&field_128_animation);
 
-    if (tlv_params->field_1_unknown) // Stores the actived/deactivated state for UXB
+    if (tlv_params->field_1_unknown) // Stores the activated/deactivated state for UXB
     {
         if (!tlv_params->field_16_state)
         {

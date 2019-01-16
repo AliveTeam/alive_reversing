@@ -932,19 +932,122 @@ EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
     return SND_Recycle_Sound_Buffer_4EF9C0(idx, tableIdx, field10);
 }
 
-EXPORT void CC SND_Init_Buffers_4CB480()
+class ScopedSeq
 {
-    // Note: Not empty in real but does nothing
+public:
+    EXPORT ScopedSeq* ctor_4CB210(char /*ambianceId*/, __int16 /*direction*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+    virtual ScopedSeq* VDestructor(signed int flags)
+    {
+        return vdtor_4CB410(flags);
+    }
+
+private:
+    EXPORT ScopedSeq* vdtor_4CB410(signed int flags)
+    {
+        dtor_4CB440();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+    EXPORT void dtor_4CB440()
+    {
+        SetVTable(this, 0x547838);
+
+        if (field_4_seq_id != 0)
+        {
+            SND_SEQ_Stop_4CAE60(field_4_seq_id);
+        }
+
+        if (field_8_channel_mask)
+        {
+            SND_Stop_Channels_Mask_4CA810(field_8_channel_mask);
+        }
+    }
+
+
+private:
+    __int16 field_4_seq_id;
+    __int16 field_6;
+    int field_8_channel_mask;
+};
+ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);
+
+struct Sound_Ambiance
+{
+    int field_0;
+    int field_4;
+    ScopedSeq* field_8_pScopedSeq;
+};
+ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);
+
+struct Sound_Ambiance_Array
+{
+    Sound_Ambiance mArray[8];
+};
+
+ALIVE_VAR(1, 0xBB3078, Sound_Ambiance_Array, stru_BB3078, {});
+ALIVE_VAR(1, 0xBB30D8, Sound_Ambiance_Array, stru_BB30D8, {});
+ALIVE_VAR(1, 0xBB3138, Sound_Ambiance_Array, stru_BB3138, {});
+
+EXPORT void CC SND_Init_Ambiance_4CB480()
+{
+    for (auto& amb : stru_BB3078.mArray)
+    {
+        amb.field_8_pScopedSeq = nullptr;
+    }
+
+    for (auto& amb : stru_BB30D8.mArray)
+    {
+        amb.field_8_pScopedSeq = nullptr;
+    }
+
+    for (auto& amb : stru_BB3138.mArray)
+    {
+        amb.field_8_pScopedSeq = nullptr;
+    }
 }
 
-EXPORT void CC SND_Clear_4CB4B0()
+EXPORT void CC SND_Reset_Ambiance_4CB4B0()
 {
-    // Note: Not empty in real but does nothing
+    for (auto& amb : stru_BB3078.mArray)
+    {
+        if (amb.field_8_pScopedSeq)
+        {
+            amb.field_8_pScopedSeq->VDestructor(1);
+            amb.field_8_pScopedSeq = nullptr;
+        }
+    }
+
+    for (auto& amb : stru_BB30D8.mArray)
+    {
+        if (amb.field_8_pScopedSeq)
+        {
+            amb.field_8_pScopedSeq->VDestructor(1);
+            amb.field_8_pScopedSeq = nullptr;
+        }
+    }
+
+    for (auto& amb : stru_BB3138.mArray)
+    {
+        if (amb.field_8_pScopedSeq)
+        {
+            amb.field_8_pScopedSeq->VDestructor(1);
+            amb.field_8_pScopedSeq = nullptr;
+        }
+    }
 }
 
 EXPORT void CC Start_Sounds_For_Objects_In_Near_Cameras_4CBB60()
 {
-    SND_Clear_4CB4B0();
+    SND_Reset_Ambiance_4CB4B0();
     Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(3, -1, 0);    // left
     Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(4, 1, 0);     // right
     Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(1, 0, -1);    // bottom
