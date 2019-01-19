@@ -457,6 +457,10 @@ EXPORT void CC Game_Free_LoadingIcon_482D40()
     }
 }
 
+#if DEVELOPER_MODE
+extern bool gBootToLoadScreen;
+#endif
+
 EXPORT void CC Game_Run_466D40()
 {
     // Begin start up
@@ -511,11 +515,16 @@ EXPORT void CC Game_Run_466D40()
     camera.dtor_480E00();
 
     Input_Init_491BC0();
+    short cameraId = 25;
 #if DEVELOPER_MODE
-    gMap_5C3030.Init_4803F0(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-#else
-    gMap_5C3030.Init_4803F0(LevelIds::eMenu_0, 1, 25, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+    if (GetKeyState(VK_LSHIFT) >= 0)
+    {
+        gBootToLoadScreen = true;
+        cameraId = 1;
+    }
 #endif
+    gMap_5C3030.Init_4803F0(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+
     DDCheat_Allocate_415320();
     pEventSystem_5BC11C = alive_new<GameSpeak>();
     pEventSystem_5BC11C->ctor_421820();
@@ -524,28 +533,6 @@ EXPORT void CC Game_Run_466D40()
     pCheatController_5BC120->ctor_421BD0();
 
     Game_Init_LoadingIcon_482CD0();
-    
-#if DEVELOPER_MODE
-    // LOAD DEBUG SAVE //
-    // If debug.sav exists, load it before game start.
-    // Makes debugging in game stuff a lot faster.
-    // NOTE: Hold left shift during boot to skip this.
-    std::ifstream debugSave("debug.sav");
-
-    if (!debugSave.fail() && GetKeyState(VK_LSHIFT) >= 0)
-    {
-        debugSave.read((char*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
-        Quicksave_LoadActive_4C9170();
-        debugSave.close();
-        if (pPauseMenu_5C9300 == nullptr)
-        {
-            pPauseMenu_5C9300 = alive_new<PauseMenu>();
-            pPauseMenu_5C9300->ctor_48FB80();
-            pPauseMenu_5C9300->field_1C_update_delay = 0;
-        }
-    }
-    /////////////////////////
-#endif
 
     // Main loop start
     Game_Loop_467230();

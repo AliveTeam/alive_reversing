@@ -339,8 +339,8 @@ void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
 ALIVE_VAR(1, 0xBAF7F8, Quicksave, sActiveQuicksaveData_BAF7F8, {});
 ALIVE_VAR(1, 0x5C1BF4, int, sAccumulatedObjectCount_5C1BF4, 0);
 ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
-ALIVE_VAR(1, 0xBB43FC, int, sSelectedSaveIdx_BB43FC, 0);
-ALIVE_VAR(1, 0xBB43E0, signed int, sSaveIdx_dword_BB43E0, 0);
+ALIVE_VAR(1, 0xBB43FC, int, sSavedGameToLoadIdx_BB43FC, 0);
+ALIVE_VAR(1, 0xBB43E0, signed int, sTotalSaveFilesCount_BB43E0, 0);
 
 EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave *quicksaveData)
 {
@@ -437,7 +437,7 @@ EXPORT int CC Sort_comparitor_4D42C0(const void *pSaveRecLeft, const void *pSave
 
 void CC Quicksave_FindSaves_4D4150()
 {
-    sSaveIdx_dword_BB43E0 = 0;
+    sTotalSaveFilesCount_BB43E0 = 0;
 
     _finddata_t findRec = {};
     intptr_t hFind = _findfirst("*.sav", &findRec);
@@ -445,7 +445,7 @@ void CC Quicksave_FindSaves_4D4150()
     {
         for (;;)
         {
-            if (!(findRec.attrib & FILE_ATTRIBUTE_DIRECTORY) && sSaveIdx_dword_BB43E0 < 128)
+            if (!(findRec.attrib & FILE_ATTRIBUTE_DIRECTORY) && sTotalSaveFilesCount_BB43E0 < 128)
             {
                 size_t fileNameLen = strlen(findRec.name) - 4;
                 if (fileNameLen > 0)
@@ -456,10 +456,10 @@ void CC Quicksave_FindSaves_4D4150()
                         fileNameLen = 20;
                     }
 
-                    memcpy(&sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0], findRec.name, fileNameLen);
-                    sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0].field_20_lastWriteTimeStamp = static_cast<DWORD>(findRec.time_write); // Chopping off a lot of time stamp resolution here
-                    sSaveFileRecords_BB31D8[sSaveIdx_dword_BB43E0].field_0_fileName[fileNameLen] = 0;
-                    sSaveIdx_dword_BB43E0++;
+                    memcpy(&sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0], findRec.name, fileNameLen);
+                    sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0].field_20_lastWriteTimeStamp = static_cast<DWORD>(findRec.time_write); // Chopping off a lot of time stamp resolution here
+                    sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0].field_0_fileName[fileNameLen] = 0;
+                    sTotalSaveFilesCount_BB43E0++;
                 }
             }
 
@@ -472,17 +472,17 @@ void CC Quicksave_FindSaves_4D4150()
     }
 
     // Sort all we've found by time stamp, users probably want to load their last save first
-    qsort(sSaveFileRecords_BB31D8, sSaveIdx_dword_BB43E0, sizeof(SaveFileRec), Sort_comparitor_4D42C0);
+    qsort(sSaveFileRecords_BB31D8, sTotalSaveFilesCount_BB43E0, sizeof(SaveFileRec), Sort_comparitor_4D42C0);
 
     // Underflow
-    if (sSelectedSaveIdx_BB43FC < 0)
+    if (sSavedGameToLoadIdx_BB43FC < 0)
     {
-        sSelectedSaveIdx_BB43FC = 0;
+        sSavedGameToLoadIdx_BB43FC = 0;
     }
 
     // Overflow
-    if (sSelectedSaveIdx_BB43FC >= sSaveIdx_dword_BB43E0)
+    if (sSavedGameToLoadIdx_BB43FC >= sTotalSaveFilesCount_BB43E0)
     {
-        sSelectedSaveIdx_BB43FC = sSaveIdx_dword_BB43E0 - 1;
+        sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
     }
 }

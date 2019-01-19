@@ -240,7 +240,7 @@ public:
         eBit14 = 0x2000,
         eBit15 = 0x4000,
         eBit16 = 0x8000,
-        eBit17 = 0x10000,
+        eBit17_bDisableChangingSelection = 0x10000,
         eBit18 = 0x20000,
         eBit19 = 0x40000,
         eBit20 = 0x80000,
@@ -312,10 +312,10 @@ using TFnUnLoad = void (MainMenuController::*)();
 struct MainMenuPage
 {
     __int16 field_0_cam_id;
-    __int16 field_2;
-    int field_4;
-    __int16 field_8;
-    __int16 field_A_bDoScreenTransistionEffect;
+    __int16 field_2_pad;
+    int field_4_time_out;
+    __int16 field_8_next_idx;
+    __int16 field_A_transistion_effect;
     __int16 field_C_target_camera;
     __int16 field_E_show_character;
     TFnInput field_10_fn_update;

@@ -1087,9 +1087,9 @@ void PauseMenu::Page_Load_Update_490D50()
     if (inputHeld & eUp)
     {
         // Don't underflow
-        if (sSelectedSaveIdx_BB43FC > 0)
+        if (sSavedGameToLoadIdx_BB43FC > 0)
         {
-            sSelectedSaveIdx_BB43FC--;
+            sSavedGameToLoadIdx_BB43FC--;
         }
         SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
         return;
@@ -1099,9 +1099,9 @@ void PauseMenu::Page_Load_Update_490D50()
     if (inputHeld & eDown)
     {
         // Don't overflow
-        if (sSelectedSaveIdx_BB43FC < sSaveIdx_dword_BB43E0 - 1)
+        if (sSavedGameToLoadIdx_BB43FC < sTotalSaveFilesCount_BB43E0 - 1)
         {
-            sSelectedSaveIdx_BB43FC++;
+            sSavedGameToLoadIdx_BB43FC++;
         }
         SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
         return;
@@ -1110,12 +1110,12 @@ void PauseMenu::Page_Load_Update_490D50()
     // Page up saves
     if (inputHeld & 0x20000000)
     {
-        sSelectedSaveIdx_BB43FC -= 4;
+        sSavedGameToLoadIdx_BB43FC -= 4;
 
         // Don't underflow
-        if (sSelectedSaveIdx_BB43FC < 0)
+        if (sSavedGameToLoadIdx_BB43FC < 0)
         {
-            sSelectedSaveIdx_BB43FC = 0;
+            sSavedGameToLoadIdx_BB43FC = 0;
         }
 
         SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
@@ -1126,10 +1126,10 @@ void PauseMenu::Page_Load_Update_490D50()
     if (inputHeld & 0x40000000)
     {
         // Don't overflow
-        sSelectedSaveIdx_BB43FC += 4;
-        if (sSelectedSaveIdx_BB43FC > sSaveIdx_dword_BB43E0 - 1)
+        sSavedGameToLoadIdx_BB43FC += 4;
+        if (sSavedGameToLoadIdx_BB43FC > sTotalSaveFilesCount_BB43E0 - 1)
         {
-            sSelectedSaveIdx_BB43FC = sSaveIdx_dword_BB43E0 - 1;
+            sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
         }
         SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
         return;
@@ -1140,9 +1140,9 @@ void PauseMenu::Page_Load_Update_490D50()
     {
         field_136 = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
-        if (sSaveIdx_dword_BB43E0)
+        if (sTotalSaveFilesCount_BB43E0)
         {
-            strcpy(saveFileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
+            strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
             strcat(saveFileName, ".sav");
             FILE* hFile = fopen_520C64(saveFileName, "rb");
             if (hFile)
@@ -1168,9 +1168,9 @@ void PauseMenu::Page_Load_Update_490D50()
     // Delete (del)
     else if (inputHeld & 0x10000000)
     {
-        if (sSaveIdx_dword_BB43E0)
+        if (sTotalSaveFilesCount_BB43E0)
         {
-            strcpy(saveFileName, sSaveFileRecords_BB31D8[sSelectedSaveIdx_BB43FC].field_0_fileName);
+            strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
             strcat(saveFileName, ".sav");
             remove_520B27(saveFileName);
             Quicksave_FindSaves_4D4150();
@@ -1180,8 +1180,8 @@ void PauseMenu::Page_Load_Update_490D50()
 
 void PauseMenu::Page_Load_Render_4910A0(int ** ot, PauseMenuPage * mp)
 {
-    signed int saveCount = sSaveIdx_dword_BB43E0;
-    int selectedSaveIndex = sSelectedSaveIdx_BB43FC - 2;
+    signed int saveCount = sTotalSaveFilesCount_BB43E0;
+    int selectedSaveIndex = sSavedGameToLoadIdx_BB43FC - 2;
     for (int i = 0; i < 6; i++)
     {
         if (i > saveCount)
