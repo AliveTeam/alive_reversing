@@ -27,6 +27,7 @@
 #include "Text.hpp"
 #include "AbilityRing.hpp"
 #include "MusicController.hpp"
+#include "QuikSave.hpp"
 
 char _devConsoleBuffer[1000];
 
@@ -628,6 +629,27 @@ void Command_Midi1(const std::vector<std::string>& args)
     DEV_CONSOLE_MESSAGE("Played Midi1", 6);
 }
 
+void Command_LoadSave(const std::vector<std::string>& args)
+{
+	
+	std::string filePath = args[0] + ".sav";
+
+	std::ifstream saveFile(filePath.c_str());
+
+	if (!saveFile.fail())
+	{
+		saveFile.read((char*)&sActiveQuicksaveData_BAF7F8, sizeof(sActiveQuicksaveData_BAF7F8));
+		Quicksave_LoadActive_4C9170();
+		saveFile.close();
+		DEV_CONSOLE_PRINTF("Loaded Save %s", filePath.c_str());
+	}
+	else
+	{
+		DEV_CONSOLE_PRINTF("Failed to load save %s", filePath.c_str());
+	}
+	
+}
+
 void Command_DDV(const std::vector<std::string>& args)
 {
     SND_StopAll_4CB060();
@@ -731,7 +753,8 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
     { "state", 1, Command_SetState, "Sets currently controlled objects state." },
-    { "ddv", 1, Command_DDV, "Plays a ddv" },
+	{ "ddv", 1, Command_DDV, "Plays a ddv" },
+	{ "loadsave", 1, Command_LoadSave, "Loads a Save" },
     { "bind", -1, Command_Bind, "Binds a key to a command" },
     { "ring", 1, Command_Ring, "Emits a ring" },
     { "midi1", 1, Command_Midi1, "Play sound using midi func 1" },
