@@ -1647,6 +1647,8 @@ render_text_rows:
     int maxSaveIdx = 2;
     int polyIdx = 0;
 
+    sSavedGameToLoadIdx_BB43FC = sSelectedSavedGameIdx_BB43E8;
+
     for (i = start; start <= end; i = start)
     {
         int recIdx = maxSaveIdx + start;
@@ -1706,7 +1708,7 @@ render_text_rows:
                     640,
                     0);
             }
-            /*
+            
             v18 = field_120_font.DrawString_4337D0(
                 pOt,
                 this->field_234_pStr,
@@ -1723,7 +1725,7 @@ render_text_rows:
                 FP_FromInteger(1),
                 640,
                 0);
-                */
+                
             maxSaveIdx = sSelectedSavedGameIdx_BB43E8;
             start = i;
             polyIdx = v18;
