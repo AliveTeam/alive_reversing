@@ -131,6 +131,11 @@ void UXB::VScreenChanged()
     ScreenChanged_4DF9C0();
 }
 
+__int16 UXB::VTakeDamage_408730(BaseAliveGameObject* pFrom)
+{
+    return vTakeDamage_4DF850(pFrom);
+}
+
 UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 {
     ctor_408240(0);
@@ -267,6 +272,99 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     field_F0_prev_base = field_BC_ypos;
 
     return this;
+}
+
+
+EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
+{
+    if (field_118_state != 2)
+    {
+        if (field_118_state != 3 || field_124_next_state_frame > sGnFrame_5C1B84)
+        {
+            if (field_1C6_red_blink_count)
+            {
+                field_118_state = 2;
+                field_124_next_state_frame = sGnFrame_5C1B84 + 2;
+            }
+            else
+            {
+                field_128_animation.Set_Animation_Data_409C80(544, 0);
+                PlaySFX_4DE930(2u);
+                field_20_animation.Set_Animation_Data_409C80(8120, 0);
+                field_118_state = 3;
+                field_124_next_state_frame = sGnFrame_5C1B84 + 10;
+            }
+        }
+        else
+        {
+            field_118_state = 0;
+            field_1C_update_delay = 6;
+            field_20_animation.Set_Animation_Data_409C80(8048, 0);
+            PlaySFX_4DE930(3u);
+        }
+    }
+}
+
+void UXB::vsub_4DF7B0(BaseGameObject* /*pFrom*/)
+{
+    auto pBomb = alive_new<BaseBomb>();
+    if (pBomb)
+    {
+        pBomb->ctor_423E70(
+            field_B8_xpos,
+            field_BC_ypos,
+            0,
+            field_CC_sprite_scale);
+    }
+
+    field_118_state = 2;
+    field_6_flags.Set(BaseGameObject::eDead);
+    field_124_next_state_frame = sGnFrame_5C1B84;
+}
+
+__int16 UXB::vTakeDamage_4DF850(BaseAliveGameObject* pFrom)
+{
+    if (field_6_flags.Get(BaseGameObject::eDead))
+    {
+        return 0;
+    }
+
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eType_Abe_69:
+    case Types::eMudokon_110:
+        if (field_118_state == 3)
+        {
+            return 0;
+        }
+        break;
+
+    case Types::eType_89:
+    case Types::eType_104:
+    case Types::eExplosion_109:
+    case Types::eType_121:
+        break;
+
+    default:
+        return 0;
+    }
+
+    field_6_flags.Set(BaseGameObject::eDead);
+
+    auto pMem = alive_new<BaseBomb>();
+    if (pMem)
+    {
+        pMem->ctor_423E70(
+            field_B8_xpos,
+            field_BC_ypos,
+            0,
+            field_CC_sprite_scale);
+    }
+    
+    field_118_state = 2;
+    field_124_next_state_frame = sGnFrame_5C1B84;
+
+    return 1;
 }
 
 void UXB::dtor_4DEF60()
@@ -542,6 +640,16 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
 int UXB::VGetSaveState(BYTE * __pSaveBuffer)
 {
     return GetSaveState_4DFD40(__pSaveBuffer);
+}
+
+void UXB::VOnPickUpOrSlapped()
+{
+    vOnPickUpOrSlapped_4DF540();
+}
+
+void UXB::vnull_4081A0(BaseGameObject* pFrom)
+{
+    vsub_4DF7B0(pFrom);
 }
 
 BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)

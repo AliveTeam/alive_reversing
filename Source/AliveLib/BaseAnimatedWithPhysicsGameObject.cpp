@@ -256,9 +256,9 @@ void BaseAnimatedWithPhysicsGameObject::vStackOnObjectsOfType_425840(Types typeT
     StackOnObjectsOfType_425840(typeToFind);
 }
 
-void BaseAnimatedWithPhysicsGameObject::vnull_408180()
+void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()
 {
-    null_408180();
+    vOnPickUpOrSlapped_408180();
 }
 
 void BaseAnimatedWithPhysicsGameObject::vnull_4081A0(BaseGameObject* pFrom)
@@ -422,7 +422,7 @@ void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(Types typeTo
     field_DA_xOffset = FP_GetExponent(FP_FromInteger(kData[data_idx]) * field_CC_sprite_scale);
 }
 
-void BaseAnimatedWithPhysicsGameObject::null_408180()
+void BaseAnimatedWithPhysicsGameObject::vOnPickUpOrSlapped_408180()
 {
     NOT_IMPLEMENTED();
 }

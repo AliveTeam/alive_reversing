@@ -12,7 +12,7 @@ EXPORT BaseThrowable* __stdcall Make_Throwable_49AF30(FP /*xpos*/, FP /*ypos*/, 
 class BaseThrowable : public BaseAliveGameObject
 {
 public:
-    virtual void vnull_408180() override;
+    virtual void VOnPickUpOrSlapped() override;
 
     // New virtuals for throwables
     virtual int Vsub_49E460(FP velX, FP velY) = 0;
@@ -24,7 +24,7 @@ public:
     virtual void Vsub_4114B0();
 
     EXPORT void vsub_4114B0();
-    EXPORT void vsub_4114D0();
+    EXPORT void vOnPickUpOrSlapped_4114D0();
 };
 
 class Rock : public BaseThrowable

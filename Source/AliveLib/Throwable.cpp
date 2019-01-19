@@ -2,9 +2,9 @@
 #include "Throwable.hpp"
 #include "Function.hpp"
 
-void BaseThrowable::vnull_408180()
+void BaseThrowable::VOnPickUpOrSlapped()
 {
-    vsub_4114D0();
+    vOnPickUpOrSlapped_4114D0();
 }
 
 void BaseThrowable::Vsub_4114B0()
@@ -17,7 +17,7 @@ EXPORT void BaseThrowable::vsub_4114B0()
     NOT_IMPLEMENTED();
 }
 
-EXPORT void BaseThrowable::vsub_4114D0()
+EXPORT void BaseThrowable::vOnPickUpOrSlapped_4114D0()
 {
     NOT_IMPLEMENTED();
 }

@@ -59,13 +59,21 @@ ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);
 class UXB : public BaseAliveGameObject
 {
 public:
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual void VOnPickUpOrSlapped() override;
+    virtual void vnull_4081A0(BaseGameObject* pFrom) override;
+    virtual __int16 VTakeDamage_408730(BaseAliveGameObject* pFrom) override;
 
     EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
+    EXPORT static int CC CreateFromSaveState_4DFAE0(const BYTE*);
+private:
+    EXPORT void vOnPickUpOrSlapped_4DF540();
+    EXPORT void vsub_4DF7B0(BaseGameObject* pFrom);
+    EXPORT __int16 vTakeDamage_4DF850(BaseAliveGameObject* pFrom);
     EXPORT void dtor_4DEF60();
     EXPORT BaseGameObject* vdtor_4DEEA0(signed int flags);
     EXPORT void Update_4DF030();
@@ -75,9 +83,7 @@ public:
     EXPORT void InitBlinkAnim_4DEED0(AnimationEx *pAnimation);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
     EXPORT signed int IsColliding_4DF630();
-
-    EXPORT static int CC CreateFromSaveState_4DFAE0(const BYTE*);
-public:
+private:
     BYTE gap116[2];
     WORD field_118_state;
     WORD field_11A_starting_state;

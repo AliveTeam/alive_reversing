@@ -38,6 +38,7 @@
 #include "LevelLoader.hpp"
 #include "Particle.hpp"
 #include "Switch.hpp"
+#include "Throwable.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -142,7 +143,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_97_RunJumpFall_455A80) \
     ENTRY(State_98_RollOffEdge_455AA0) \
     ENTRY(State_99_LeverUse_455AC0) \
-    ENTRY(State_100_455B60) \
+    ENTRY(State_100_Slap_Bomb_455B60) \
     ENTRY(State_101_KnockForward_455420) \
     ENTRY(State_102_455310) \
     ENTRY(jState_103_KnockbackGetUp_455380) \
@@ -287,7 +288,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_97_RunJumpFall_455A80,
     &Abe::State_98_RollOffEdge_455AA0,
     &Abe::State_99_LeverUse_455AC0,
-    &Abe::State_100_455B60,
+    &Abe::State_100_Slap_Bomb_455B60,
     &Abe::State_101_KnockForward_455420,
     &Abe::State_102_455310,
     &Abe::jState_103_KnockbackGetUp_455380,
@@ -647,7 +648,7 @@ ALIVE_ARY(1, 0x55EF98, TFrameCallBackType, 5, off_55EF98,
 });
 
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
-ALIVE_VAR(1, 0x5c112c, WORD, word_5C112C, 0);
+ALIVE_VAR(1, 0x5c112c, WORD, bThrowableIndicatorExists_5C112C, 0);
 
 
 enum AbeResources
@@ -803,7 +804,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_148_pFade = -1;
     field_1A8_portal_id = -1;
     field_164_wheel_id = -1;
-    field_160 = -1;
+    field_160_slapable_or_pick_item_id = -1;
     field_15C_pull_rope_id = -1;
 
     field_1AE.Clear(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender);
@@ -865,7 +866,7 @@ void Abe::dtor_44B380()
     BaseGameObject* pField_154 = sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id);
     BaseGameObject* pField_158 = sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id);
     BaseGameObject* pField_15C = sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id);
-    BaseGameObject* pField_160 = sObjectIds_5C1B70.Find_449CF0(field_160);
+    BaseGameObject* pField_160 = sObjectIds_5C1B70.Find_449CF0(field_160_slapable_or_pick_item_id);
     BaseGameObject* pField_178 = sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id);
 
     SND_SEQ_Stop_4CAE60(0xAu);
@@ -878,7 +879,7 @@ void Abe::dtor_44B380()
 
     if (pField_160)
     {
-        field_160 = -1;
+        field_160_slapable_or_pick_item_id = -1;
     }
 
     if (pField_15C)
@@ -1250,7 +1251,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_154_possesed_object_id = pSaveState->dword88;
     sActiveHero_5C1B68->field_158_throwable_id = pSaveState->dword8C;
     sActiveHero_5C1B68->field_15C_pull_rope_id = pSaveState->dword90;
-    sActiveHero_5C1B68->field_160 = pSaveState->dword94;
+    sActiveHero_5C1B68->field_160_slapable_or_pick_item_id = pSaveState->dword94;
     sActiveHero_5C1B68->field_164_wheel_id = pSaveState->dword98;
     sActiveHero_5C1B68->field_178_invisible_effect_id = -1;
     sActiveHero_5C1B68->field_170_invisible_timer = pSaveState->dword9C;
@@ -1543,7 +1544,7 @@ void Abe::Update_449DC0()
         field_154_possesed_object_id = BaseGameObject::Find_Flags_4DC170(field_154_possesed_object_id);
         field_158_throwable_id = BaseGameObject::Find_Flags_4DC170(field_158_throwable_id);
         field_15C_pull_rope_id = BaseGameObject::Find_Flags_4DC170(field_15C_pull_rope_id);
-        field_160 = BaseGameObject::Find_Flags_4DC170(field_160);
+        field_160_slapable_or_pick_item_id = BaseGameObject::Find_Flags_4DC170(field_160_slapable_or_pick_item_id);
         field_164_wheel_id = BaseGameObject::Find_Flags_4DC170(field_164_wheel_id);
 
         if (field_114_flags.Get(Flags_114::e114_Bit8))
@@ -2247,11 +2248,11 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
         }
     }
 
-    pSaveState->dword94 = field_160;
+    pSaveState->dword94 = field_160_slapable_or_pick_item_id;
 
-    if (field_160 != -1)
+    if (field_160_slapable_or_pick_item_id != -1)
     {
-        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_160);
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_160_slapable_or_pick_item_id);
         if (pObj)
         {
             pSaveState->dword94 = pObj->field_C_objectId;
@@ -2917,7 +2918,7 @@ BYTE** Abe::StateToAnimResource_44AAB0(short state)
     {
         mapped = ResourceIndices::eEdge_13;
     }
-    else if (state < eAbeStates::State_100_455B60)
+    else if (state < eAbeStates::State_100_Slap_Bomb_455B60)
     {
         mapped = ResourceIndices::ePull_2;
     }
@@ -3508,7 +3509,7 @@ void Abe::State_0_Idle_44EEB0()
                 field_BC_ypos - FP_FromInteger(40),
                 FP_FromInteger(0))->field_8_object_id;
 
-            if (!word_5C112C)
+            if (!bThrowableIndicatorExists_5C112C)
             {
                 ThrowableTotalIndicator* pThrowable = alive_new<ThrowableTotalIndicator>();
                 if (pThrowable)
@@ -4334,7 +4335,7 @@ void Abe::State_17_CrouchIdle_456BC0()
             {
                 gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
-            sub_454090(gridSize + field_B8_xpos, FP_GetExponent(field_BC_ypos - FP_FromInteger(5)), 0);
+            PickUpThrowabe_Or_PressBomb_454090(gridSize + field_B8_xpos, FP_GetExponent(field_BC_ypos - FP_FromInteger(5)), 0);
         }
     }
 
@@ -4346,7 +4347,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         && (field_1A2_rock_or_bone_count > 0 || gInfiniteGrenades_5C1BDE))
     {
         field_158_throwable_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), FP_FromInteger(0))->field_8_object_id;
-        if (!word_5C112C)
+        if (!bThrowableIndicatorExists_5C112C)
         {
             auto pRockCountGraphic = alive_new<ThrowableTotalIndicator>();
             if (pRockCountGraphic)
@@ -4468,7 +4469,7 @@ void Abe::State_19_StandToCrouch_453DC0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        sub_454090(field_B8_xpos, FP_GetExponent(field_BC_ypos - FP_FromInteger(5)), 1);
+        PickUpThrowabe_Or_PressBomb_454090(field_B8_xpos, FP_GetExponent(field_BC_ypos - FP_FromInteger(5)), 1);
         field_106_current_state = eAbeStates::State_17_CrouchIdle_456BC0;
     }
 }
@@ -6911,9 +6912,23 @@ void Abe::State_99_LeverUse_455AC0()
     }
 }
 
-void Abe::State_100_455B60()
+void Abe::State_100_Slap_Bomb_455B60()
 {
-    NOT_IMPLEMENTED();
+    BaseAliveGameObject* pItem = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_160_slapable_or_pick_item_id));
+    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame >= 6)
+    {
+        if (pItem)
+        {
+            pItem->VOnPickUpOrSlapped();
+            field_160_slapable_or_pick_item_id = -1;
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::State_17_CrouchIdle_456BC0;
+    }
+
 }
 
 void Abe::State_101_KnockForward_455420()
@@ -7833,10 +7848,94 @@ void Abe::ToIdle_44E6B0()
     MapFollowMe_408D10(TRUE);
 }
 
-__int16 Abe::sub_454090(FP /*fpX*/, int /*fpY*/, int /*a4*/)
+void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    BaseAliveGameObject* pSlapableOrCollectable = nullptr;
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_6_flags.Get(BaseGameObject::eInteractive))
+        {
+            BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+            if (fpX >= pAliveObj->field_E4 && fpX <= pAliveObj->field_EC)
+            {
+                const FP yPos = FP_FromInteger(fpY);
+                if (yPos >= pAliveObj->field_E8 && yPos <= pAliveObj->field_F0_prev_base)
+                {
+                    pSlapableOrCollectable = pAliveObj;
+                    field_160_slapable_or_pick_item_id = pAliveObj->field_8_object_id;
+                }
+            }
+        }
+    }
+
+    if (pSlapableOrCollectable)
+    {
+        bool trySlapOrCollect = false;
+        switch (pSlapableOrCollectable->field_4_typeId)
+        {
+        case Types::eTimedMine_10:
+        case Types::eUXB_143:
+            field_106_current_state = eAbeStates::State_100_Slap_Bomb_455B60;
+            if (bStandToCrouch)
+            {
+                field_160_slapable_or_pick_item_id = -1;
+            }
+            trySlapOrCollect = true;
+            break;
+
+        case Types::eBone_11:
+        case Types::eGrenade_65:
+        case Types::eMeat_84:
+        case Types::eRock_105:
+            field_106_current_state = eAbeStates::State_111_GrabRock_4564A0;
+            field_1A2_rock_or_bone_count += static_cast<char>(static_cast<BaseThrowable*>(pSlapableOrCollectable)->Vsub_448080()); // TOOD: Check types are correct
+            if (!bThrowableIndicatorExists_5C112C)
+            {
+                auto pThrowableIndicator = alive_new<ThrowableTotalIndicator>();
+                if (pThrowableIndicator)
+                {
+                    FP yoff = (field_CC_sprite_scale * FP_FromInteger(-30)) + field_BC_ypos;
+                    FP xoff = field_CC_sprite_scale * FP_FromInteger(0);
+                    pThrowableIndicator->ctor_431CB0(
+                        xoff + field_B8_xpos,
+                        yoff,
+                        field_20_animation.field_C_render_layer,
+                        field_20_animation.field_14_scale,
+                        field_1A2_rock_or_bone_count,
+                        1);
+                }
+            }
+            trySlapOrCollect = true;
+            break;
+
+        case Types::eMine_88:
+            field_160_slapable_or_pick_item_id = -1;
+            trySlapOrCollect = true;
+            break;
+        default:
+            break;
+        }
+
+        if (trySlapOrCollect)
+        {
+            if (field_106_current_state == eAbeStates::State_111_GrabRock_4564A0)
+            {
+                if (bStandToCrouch)
+                {
+                    SFX_Play_46FA90(28u, 0, field_CC_sprite_scale.fpValue);
+                    pSlapableOrCollectable->VOnPickUpOrSlapped();
+                    field_160_slapable_or_pick_item_id = -1;
+                    field_106_current_state = eAbeStates::State_17_CrouchIdle_456BC0;
+                }
+            }
+        }
+    }
 }
 
 void Abe::Get_Shrykull_Resources_45AA20()

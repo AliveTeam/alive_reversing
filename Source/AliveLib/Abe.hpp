@@ -172,7 +172,7 @@ public:
     EXPORT void State_97_RunJumpFall_455A80();
     EXPORT void State_98_RollOffEdge_455AA0();
     EXPORT void State_99_LeverUse_455AC0();
-    EXPORT void State_100_455B60();
+    EXPORT void State_100_Slap_Bomb_455B60();
     EXPORT void State_101_KnockForward_455420();
     EXPORT void State_102_455310();
     EXPORT void jState_103_KnockbackGetUp_455380();
@@ -207,7 +207,7 @@ public:
 
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
-    EXPORT __int16 sub_454090(FP fpX, int fpY, int a4);
+    EXPORT void PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch);
     EXPORT void Get_Shrykull_Resources_45AA20();
     EXPORT __int16 ToLeftRightMovement_44E340();
     EXPORT void TryHoist_44ED30();
@@ -246,7 +246,7 @@ public:
     int field_154_possesed_object_id;
     int field_158_throwable_id;
     int field_15C_pull_rope_id;
-    int field_160;
+    int field_160_slapable_or_pick_item_id;
     int field_164_wheel_id;
     int field_168_ring_pulse_timer;
     __int16 field_16C_bHaveShrykull;

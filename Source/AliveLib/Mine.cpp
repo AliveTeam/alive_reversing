@@ -44,9 +44,9 @@ void Mine::VScreenChanged()
 }
 
 
-void Mine::vnull_408180()
+void Mine::VOnPickUpOrSlapped()
 {
-    vsub_46B880();
+    vOnPickUpOrSlapped_46B880();
 }
 
 void Mine::vnull_4081A0(BaseGameObject* pFrom)
@@ -272,7 +272,7 @@ void Mine::ScreenChanged_46BAE0()
     }
 }
 
-void Mine::vsub_46B880()
+void Mine::vOnPickUpOrSlapped_46B880()
 {
     if (field_118 != 1)
     {
