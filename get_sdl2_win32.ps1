@@ -11,7 +11,7 @@ If(!(test-path build\SDL2))
     Write-Host Creating build\SDL2
     New-Item -ItemType Directory -Force -Path build\SDL2
     Write-Host Download ZIP
-    Invoke-WebRequest -Uri 'https://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip' -OutFile 'build\SDL2.zip'
+    Invoke-WebRequest -Uri 'https://www.libsdl.org/release/SDL2-devel-2.0.8-VC.zip' -OutFile 'build\SDL2.zip'
     Write-Host Extract zip
     Unzip "build\SDL2.zip" "build\SDL2"
 }
