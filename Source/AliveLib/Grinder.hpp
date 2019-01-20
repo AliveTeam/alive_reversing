@@ -48,10 +48,18 @@ private:
     EXPORT void vRender_4213D0(int** pOt);
     EXPORT void vStopAudio_4215C0();
     EXPORT int vGetSaveState_4217B0(BYTE* /*pSaveBuffer*/);
-
+    EXPORT void EmitSparks_4206D0();
+    EXPORT __int16 DamageTouchingObjects_421060();
 private:
     int field_E4_not_used[4];
-    __int16 field_F4_state;
+    enum class States : __int16
+    {
+        State_0 = 0,
+        State_1 = 1,
+        State_2 = 2,
+        State_3 = 3,
+    };
+    States field_F4_state;
     __int16 field_F6_width;
     __int16 field_F8_id;
     __int16 field_FA_direction;
