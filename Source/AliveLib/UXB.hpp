@@ -66,14 +66,14 @@ public:
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void vnull_4081A0(BaseGameObject* pFrom) override;
-    virtual __int16 VTakeDamage_408730(BaseAliveGameObject* pFrom) override;
+    virtual __int16 VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom) override;
 
     EXPORT UXB * ctor_4DE9A0(Path_UXB *params, TlvItemInfoUnion itemInfo);
     EXPORT static int CC CreateFromSaveState_4DFAE0(const BYTE*);
 private:
     EXPORT void vOnPickUpOrSlapped_4DF540();
     EXPORT void vsub_4DF7B0(BaseGameObject* pFrom);
-    EXPORT __int16 vTakeDamage_4DF850(BaseAliveGameObject* pFrom);
+    EXPORT __int16 vTakeDamage_4DF850(BaseAnimatedWithPhysicsGameObject* pFrom);
     EXPORT void dtor_4DEF60();
     EXPORT BaseGameObject* vdtor_4DEEA0(signed int flags);
     EXPORT void Update_4DF030();

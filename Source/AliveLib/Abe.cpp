@@ -1432,7 +1432,7 @@ int Abe::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_457110(pSaveBuffer);
 }
 
-__int16 Abe::VTakeDamage_408730(BaseAliveGameObject* pFrom)
+__int16 Abe::VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom)
 {
     return vTakeDamage_44BB50(pFrom);
 }
@@ -2353,7 +2353,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     return sizeof(Quicksave_Obj_Abe);
 }
 
-__int16 Abe::vTakeDamage_44BB50(BaseAliveGameObject* pFrom)
+__int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
 {
     // Stop chant sound music
     SND_SEQ_Stop_4CAE60(10u);
@@ -8664,7 +8664,7 @@ EXPORT __int16 Abe::ForceDownIfHoisting_44BA30()
     return 1;
 }
 
-__int16 Abe::sub_44C980(BaseAliveGameObject* /*pObj*/)
+__int16 Abe::sub_44C980(BaseAnimatedWithPhysicsGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
     return 0;

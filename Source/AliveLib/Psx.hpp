@@ -20,6 +20,14 @@ inline bool operator == (const PSX_RECT& lhs, const PSX_RECT& rhs)
         (lhs.h == rhs.h);
 }
 
+inline bool RectsOverlap(const PSX_RECT& r1, const PSX_RECT& r2)
+{
+   return !(r2.x > r1.w ||
+            r2.w < r1.x ||
+            r2.y > r1.h ||
+            r2.h < r1.y);
+}
+
 struct PSX_Point
 {
     short field_0_x;

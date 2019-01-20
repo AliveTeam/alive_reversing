@@ -10,6 +10,7 @@
 #include "Events.hpp"
 #include "Game.hpp"
 #include "Spark.hpp"
+#include "Blood.hpp"
 
 const TintEntry stru_551548[18] =
 {
@@ -697,6 +698,102 @@ void Grinder::EmitSparks_4206D0()
 
 __int16 Grinder::DamageTouchingObjects_421060()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    PSX_RECT grinderRect = {};
+    vGetBoundingRect_424FD0(&grinderRect, 1);
+
+    if (field_FA_direction == GrinderDirection::eDown_0)
+    {
+        grinderRect.y += 16;
+    }
+
+    BaseAliveGameObject* pFound = nullptr;
+    for (int i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            return 0;
+        }
+
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) || pObj->field_4_typeId == BaseGameObject::Types::eRockSpawner_48)
+        {
+            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
+            {
+                if (pObj->field_4_typeId != Types::eMeat_84 &&
+                    pObj->field_4_typeId != Types::eType_45 && 
+                    (pObj->field_4_typeId != Types::eType_Abe_69 || pObj->field_106_current_state != 68)) // State_68_ToOffScreenHoist_454B80 ??
+                {
+                    PSX_RECT objRect = {};
+                    pObj->vGetBoundingRect_424FD0(&objRect, 1);
+
+                    if (RectsOverlap(grinderRect, objRect) &&
+                        pObj->field_D6_scale == field_D6_scale &&
+                        pObj->field_10C_health > FP_FromInteger(0))
+                    {
+                        if (pObj->field_B8_xpos + FP_FromInteger(3) >= FP_FromInteger(grinderRect.x) &&
+                            pObj->field_B8_xpos - FP_FromInteger(3) <= FP_FromInteger(grinderRect.w))
+                        {
+                            pFound = pObj;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        pObj = nullptr;
+    }
+
+    if (!pFound)
+    {
+        return 0;
+    }
+
+    if (!pFound->VTakeDamage_408730(this))
+    {
+        return 1;
+    }
+
+    auto pBlood = alive_new<Blood>();
+    if (pBlood)
+    {
+        pBlood->ctor_40F0B0(
+            pFound->field_B8_xpos,
+            FP_FromInteger(grinderRect.h - 10),
+            FP_FromInteger(-5),
+            FP_FromInteger(5),
+            field_CC_sprite_scale,
+            50);
+    }
+
+    auto pBlood2 = alive_new<Blood>();
+    if (pBlood2)
+    {
+        pBlood2->ctor_40F0B0(
+            pFound->field_B8_xpos,
+            FP_FromInteger(grinderRect.h - 10),
+            FP_FromInteger(0),
+            FP_FromInteger(5),
+            field_CC_sprite_scale,
+            50);
+    }
+
+    auto pBlood3 = alive_new<Blood>();
+    if (pBlood3)
+    {
+        pBlood3->ctor_40F0B0(
+            pFound->field_B8_xpos,
+            FP_FromInteger(grinderRect.h - 10),
+            FP_FromInteger(5),
+            FP_FromInteger(5),
+            field_CC_sprite_scale,
+            50);
+    }
+
+    SFX_Play_46FBA0(99u, 127, -500, 0x10000);
+    SFX_Play_46FA90(64u, 127, 0x10000);
+    SFX_Play_46FBA0(64u, 127, -700, 0x10000);
+
+    return 1;
+
 }

@@ -43,7 +43,7 @@ public:
     virtual unsigned __int16 Vnull_408F70();
     virtual void VUpdateState_4081C0(__int16 state);
     virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);
-    virtual __int16 VTakeDamage_408730(BaseAliveGameObject* pFrom);
+    virtual __int16 VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom);
     virtual signed __int16 VOn_TLV_Collision_4087F0(Path_TLV* pTlv);
     virtual char Vsub_408A40(__int16 a2);
     virtual BaseGameObject* Vsub_408FD0(__int16 a2);
@@ -54,7 +54,7 @@ protected:
     EXPORT unsigned __int16 vnull_408F70();
     EXPORT void vUpdateState_4081C0(__int16 state);
     EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);
-    EXPORT __int16 vTakeDamage_408730(BaseAliveGameObject* pFrom);
+    EXPORT __int16 vTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom);
     EXPORT signed __int16 vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
     EXPORT char vsub_408A40(__int16 a2);
     EXPORT BaseGameObject* vsub_408FD0(__int16 a2);
