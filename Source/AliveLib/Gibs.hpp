@@ -5,29 +5,37 @@
 
 struct GibPart
 {
-    int field_0;
-    int field_4;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
+    FP field_0_x;
+    FP field_4_y;
+    FP field_8_z;
+    FP field_C_dx;
+    FP field_10_dy;
+    FP field_14_dz;
     AnimationEx field_18_anim;
 };
 ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 
+struct Gib_Data
+{
+    int field_0_head;
+    int field_4_arm;
+    int field_8_body;
+    int field_C_max_w;
+    int field_10_max_h;
+    int field_14_resource_id;
+};
+ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
+
 class Gibs : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Gibs* ctor_40FB40(int /*a2*/, FP /*xpos*/, FP /*ypos*/, int /*a5*/, int /*a6*/, FP /*scale*/, __int16 /*a8*/);
+    EXPORT Gibs* ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bUnknown);
 
-    int field_E4;
-    int field_E8;
-    int field_EC;
-    int field_F0;
-    int field_F4;
-    int field_F8;
-    int field_FC;
-    int field_100;
+    int field_E4_not_used[4];
+    const Gib_Data* field_F4_pGibData;
+    FP field_F8_z;
+    FP field_FC_dz;
+    int field_100_timer;
     GibPart field_104_parts[7];
     __int16 field_5D4_parts_used_count;
     __int16 field_5D6_bUnknown;

@@ -6,6 +6,8 @@
 
 class PullRingRope;
 
+extern const TintEntry sTintTable_Abe_554D20[15];
+
 enum class AbeSay : __int16
 {
     eNothing = -1,
