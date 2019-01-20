@@ -4,6 +4,8 @@
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "Math.hpp"
+#include "stdlib.hpp"
+#include "ScreenManager.hpp"
 
 const TintEntry stru_55C744[19] =
 {
@@ -45,21 +47,12 @@ const Gib_Data kGibData_550D78[11] =
 
 ALIVE_VAR(1, 0x550e80, short, word_550E80, 13);
 
-
-EXPORT FP CC Random_40FAF0(FP /*scale*/)
+EXPORT FP CC Random_40FAF0(FP scale)
 {
-    NOT_IMPLEMENTED();
-
-    /*
-    signed int v1; // eax
-
-    v1 = (sRandomBytes_546744[sRandomSeed_5D1E10++] - 128) << word_550E80;
-    return Math_FixedPoint_Multiply_496C50(v1, scale);
-    */
-    return FP_FromInteger(0);
+    return FP_FromRaw((Math_NextRandom() - 128) << word_550E80) * scale;
 }
 
-EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bUnknown)
+EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bMakeSmaller)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     
@@ -73,6 +66,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, field_F4_pGibData->field_14_resource_id);
     
     BYTE** ppRes = nullptr;
+    // TODO: Enum for gib types
     if (gibType == 4)
     {
         ppRes = Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kMudblindResID);
@@ -116,12 +110,12 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    field_5D6_bUnknown = bUnknown;
+    field_5D6_bMakeSmaller = bMakeSmaller;
     field_C4_velx = xOff + Random_40FAF0(scale);
 
     // OG Bug? WTF?? Looks like somehow they didn't condition this param correctly
     // because field_C8_vely and field_FC_dz are always overwritten
-    if (field_5D6_bUnknown == 0)
+    if (field_5D6_bMakeSmaller == 0)
     {
         field_C8_vely = yOff + Random_40FAF0(scale);
         field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
@@ -208,7 +202,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
 
         pPart->field_C_dx = xOff + Random_40FAF0(scale);
 
-        if (field_5D6_bUnknown)
+        if (field_5D6_bMakeSmaller)
         {
             pPart->field_10_dy = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
             pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
@@ -230,4 +224,146 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     }
 
     return this;
+}
+
+BaseGameObject* Gibs::VDestructor(signed int flags)
+{
+    return vdtor_410100(flags);
+}
+
+void Gibs::VUpdate()
+{
+    vUpdate_410210();
+}
+
+void Gibs::VRender(int** pOrderingTable)
+{
+    vRender_4103A0(pOrderingTable);
+}
+
+void Gibs::dtor_410170()
+{
+    SetVTable(this, 0x544248); // vTbl_Gibs_544248
+
+    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    {
+        field_104_parts[i].field_18_anim.vCleanUp_40C630();
+    }
+
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+}
+
+Gibs* Gibs::vdtor_410100(signed int flags)
+{
+    dtor_410170();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void Gibs::vUpdate_410210()
+{
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
+    field_F8_z += field_FC_dz;
+
+    field_C8_vely += FP_FromDouble(0.25);
+
+    if (field_F8_z + FP_FromInteger(100) < FP_FromInteger(15))
+    {
+        const FP dz = -field_FC_dz;
+        field_FC_dz = dz;
+        field_F8_z += dz;
+    }
+
+    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    {
+        field_104_parts[i].field_0_x += field_104_parts[i].field_C_dx;
+        field_104_parts[i].field_4_y += field_104_parts[i].field_10_dy;
+        field_104_parts[i].field_8_z += field_104_parts[i].field_14_dz;
+
+        field_104_parts[i].field_10_dy += FP_FromDouble(0.25);
+
+        if (field_104_parts[i].field_8_z + FP_FromInteger(100) < FP_FromInteger(15))
+        {
+            const FP dz = -field_104_parts[i].field_14_dz;
+            field_104_parts[i].field_14_dz = dz;
+            field_104_parts[i].field_8_z += dz;
+        }
+    }
+
+    if (static_cast<int>(sGnFrame_5C1B84) > field_100_timer)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
+
+EXPORT void Gibs::vRender_4103A0(int** ot)
+{
+    if (sNum_CamSwappers_5C1B66 > 0)
+    {
+        // Don't do anything during screen change
+        return;
+    }
+
+    field_CC_sprite_scale = FP_FromInteger(100) / (field_F8_z + FP_FromInteger(100));
+    if (field_5D6_bMakeSmaller)
+    {
+        field_CC_sprite_scale /= FP_FromInteger(2);
+    }
+
+    // Head part rendering
+    BaseAnimatedWithPhysicsGameObject::VRender(ot);
+
+    const FP_Point* pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
+    const FP camXPos = pCamPos->field_0_x;
+    const FP camYPos = pCamPos->field_4_y;
+
+    for (int i = 0; i < field_5D4_parts_used_count; i++)
+    {
+        // Part is within camera X?
+        if (field_104_parts[i].field_0_x >= camXPos &&
+            field_104_parts[i].field_0_x <= camXPos + FP_FromInteger(640))
+        {
+            // Part is within camera Y?
+            if (field_104_parts[i].field_4_y >= camYPos && 
+                field_104_parts[i].field_4_y <= camYPos + FP_FromInteger(240))
+            {
+                field_104_parts[i].field_18_anim.field_14_scale = FP_FromInteger(100) / (field_104_parts[i].field_8_z + FP_FromInteger(100));
+
+                if (field_5D6_bMakeSmaller)
+                {
+                    field_104_parts[i].field_18_anim.field_14_scale /= FP_FromInteger(2);
+                }
+
+                if (field_104_parts[i].field_18_anim.field_14_scale < FP_FromInteger(1))
+                {
+                    field_104_parts[i].field_18_anim.field_C_render_layer = 17;
+                }
+                else
+                {
+                    field_104_parts[i].field_18_anim.field_C_render_layer = 37;
+                }
+
+                if (field_104_parts[i].field_18_anim.field_14_scale <= FP_FromInteger(1))
+                {
+                    const int xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
+                    const int ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
+
+                    field_104_parts[i].field_18_anim.vRender_40B820(xpos, ypos, ot, 0, 0);
+
+                    PSX_RECT frameRect = {};
+                    field_104_parts[i].field_18_anim.Get_Frame_Rect_409E10(&frameRect);
+                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                        frameRect.x,
+                        frameRect.y,
+                        frameRect.w,
+                        frameRect.h,
+                        pScreenManager_5BB5F4->field_3A_idx);
+                }
+            }
+        }
+    }
 }
