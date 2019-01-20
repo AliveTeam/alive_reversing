@@ -61,8 +61,6 @@ EXPORT FP CC Random_40FAF0(FP /*scale*/)
 
 EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 bUnknown)
 {
-    NOT_IMPLEMENTED();
-
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     
     for (GibPart& part : field_104_parts)
@@ -126,13 +124,13 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     if (field_5D6_bUnknown == 0)
     {
         field_C8_vely = yOff + Random_40FAF0(scale);
-        field_FC_dz = -FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
+        field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
     }
 
     word_550E80 = 12;
 
     field_C8_vely = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
-    field_FC_dz = -FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
+    field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
 
     if (gibType != 0)
     {
@@ -155,7 +153,6 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     field_5D4_parts_used_count = 4;
     
     GibPart* pPart = &field_104_parts[0];
-//    int* pPartOffset = (int*)&this->field_104_parts[0].field_18_anim.field_14_scale;
     for (short i = 0; i < field_5D4_parts_used_count; i++)
     {
         if (i < 2)
@@ -197,9 +194,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
             }
         }
 
-        //*(pPartOffset - 4) = 0xdeadbeef;
-        //pPart->field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
-        pPart->field_18_anim.field_4_flags.Raw().all = field_20_animation.field_C_render_layer;
+        pPart->field_18_anim.field_C_render_layer = field_20_animation.field_C_render_layer;
         pPart->field_18_anim.field_14_scale = scale;
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
 
@@ -216,12 +211,12 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
         if (field_5D6_bUnknown)
         {
             pPart->field_10_dy = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
-            pPart->field_14_dz = -FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
+            pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
         }
         else
         {
             pPart->field_10_dy = yOff + Random_40FAF0(scale);
-            pPart->field_14_dz = -FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
+            pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
         }
 
         pPart->field_18_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
