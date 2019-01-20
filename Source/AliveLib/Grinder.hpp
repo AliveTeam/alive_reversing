@@ -60,7 +60,7 @@ public:
     virtual void VStopAudio() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
-    static signed int CC CreateFromSaveState_421600(const BYTE* pData);
+    EXPORT static signed int CC CreateFromSaveState_421600(const BYTE* pData);
 private:
     EXPORT void vUpdate_420C50();
     EXPORT void dtor_420B60();

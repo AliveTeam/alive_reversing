@@ -18,7 +18,6 @@ EXPORT int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { NOT_IMPLEMENT
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
-EXPORT int CC Grinder__CreateFromSaveState_421600(const BYTE*) { NOT_IMPLEMENTED(); return 20; }
 EXPORT int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { NOT_IMPLEMENTED(); return 180; }
 EXPORT int CC FlyingSlig__CreateFromSaveState_437E40(const BYTE*) { NOT_IMPLEMENTED(); return 172; }
