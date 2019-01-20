@@ -9,6 +9,7 @@
 #include "Abe.hpp"
 #include "Events.hpp"
 #include "Game.hpp"
+#include "Spark.hpp"
 
 const TintEntry stru_551548[18] =
 {
@@ -84,16 +85,16 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     field_FA_direction = tlvData.field_26_direction;
     if (tlvData.field_24_start_position & 1)
     {
-        field_128_flags.Set(Flags::eBit6_StartPos);
+        field_128_flags.Set(Flags::eBit6_StartPosIsBottom);
     }
     else
     {
-        field_128_flags.Clear(Flags::eBit6_StartPos);
+        field_128_flags.Clear(Flags::eBit6_StartPosIsBottom);
     }
 
     if (field_128_flags.Get(Flags::eBit2_StartOn))
     {
-        if (field_128_flags.Get(Flags::eBit6_StartPos))
+        if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
             field_F4_state = GrinderStates::State_2_GoingUp;
         }
@@ -112,7 +113,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
 
     switch (field_FA_direction)
     {
-    case 0:
+    case GrinderDirection::eDown_0:
         field_110_xPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
         field_B8_xpos = field_110_xPos;
         field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
@@ -127,7 +128,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         }
 
         field_F6_width = pTlv->field_C_bottom_right.field_2_y - pTlv->field_8_top_left.field_2_y;
-        if (field_128_flags.Get(Flags::eBit6_StartPos))
+        if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
             field_124_xyoff = FP_FromInteger(0);
         }
@@ -138,7 +139,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         field_BC_ypos = field_114_yPos - field_124_xyoff;
         break;
 
-    case 1:
+    case GrinderDirection::eRight_1:
         field_110_xPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
         field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
         field_BC_ypos = field_114_yPos;
@@ -153,7 +154,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         }
 
         field_F6_width = pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x;
-        if (field_128_flags.Get(Flags::eBit6_StartPos))
+        if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
             field_124_xyoff = FP_FromInteger(0);
         }
@@ -164,7 +165,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         field_B8_xpos = field_124_xyoff + field_110_xPos;
         break;
 
-    case 2:
+    case GrinderDirection::eLeft_2:
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
 
         field_110_xPos = FP_FromInteger(pTlv->field_C_bottom_right.field_0_x - 12);
@@ -181,7 +182,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
         }
 
         field_F6_width = pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x;
-        if (field_128_flags.Get(Flags::eBit6_StartPos))
+        if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
             field_124_xyoff = FP_FromInteger(0);
         }
@@ -496,7 +497,7 @@ void Grinder::vScreenChanged_4214B0()
 {
     if (field_F4_state != GrinderStates::State_0_Restart_Cycle)
     {
-        if (field_128_flags.Get(Flags::eBit6_StartPos))
+        if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
             field_124_xyoff = FP_FromInteger(0);
         }
@@ -591,7 +592,107 @@ int Grinder::vGetSaveState_4217B0(BYTE* pSaveBuffer)
 
 void Grinder::EmitSparks_4206D0()
 {
-    NOT_IMPLEMENTED();
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        int speed = 0;
+        if (field_F4_state == GrinderStates::State_1_Going_Down)
+        {
+            speed = -FP_GetExponent(field_11C_speed2 - FP_FromInteger(2));
+        }
+        else if (field_F4_state == GrinderStates::State_2_GoingUp)
+        {
+            speed = FP_GetExponent(field_11C_speed2);
+        }
+
+        // 1 in 6 chance of sparks
+        if (Math_RandomRange_496AB0(0, 6) == 0)
+        {
+            if (field_FA_direction == GrinderDirection::eRight_1)
+            {
+                auto pSpark1 = alive_new<Spark>();
+                if (pSpark1)
+                {
+                    pSpark1->ctor_4CBBB0(
+                        field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                        field_CC_sprite_scale,
+                        6u,
+                        50,
+                        205,
+                        0);
+                }
+
+                auto pSpark2 = alive_new<Spark>();
+                if (pSpark2)
+                {
+                    pSpark2->ctor_4CBBB0(
+                        field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                        field_CC_sprite_scale,
+                        6u,
+                        50,
+                        205,
+                        0);
+                }
+            }
+            else if (field_FA_direction == GrinderDirection::eLeft_2)
+            {
+                auto pSpark1 = alive_new<Spark>();
+                if (pSpark1)
+                {
+                    pSpark1->ctor_4CBBB0(
+                        field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                        field_CC_sprite_scale,
+                        6u,
+                        50,
+                        205,
+                        0);
+                }
+
+                auto pSpark2 = alive_new<Spark>();
+                if (pSpark2)
+                {
+                    pSpark2->ctor_4CBBB0(
+                        field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(12)),
+                        field_CC_sprite_scale,
+                        6u,
+                        50,
+                        205,
+                        0);
+                }
+            }
+            else if (field_FA_direction == GrinderDirection::eDown_0)
+            {
+                auto pSpark1 = alive_new<Spark>();
+                if (pSpark1)
+                {
+                    pSpark1->ctor_4CBBB0(
+                        field_B8_xpos,
+                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(22)) - FP_FromInteger(speed),
+                        field_CC_sprite_scale,
+                        6u,
+                        50,
+                        205,
+                        0);
+                }
+
+                auto pSpark2 = alive_new<Spark>();
+                if (pSpark2)
+                {
+                    pSpark2->ctor_4CBBB0(
+                        field_B8_xpos,
+                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(4)) - FP_FromInteger(speed),
+                        field_CC_sprite_scale,
+                        6u,
+                        50,
+                        205,
+                        0);
+                }
+            }
+        }
+    }
 }
 
 __int16 Grinder::DamageTouchingObjects_421060()

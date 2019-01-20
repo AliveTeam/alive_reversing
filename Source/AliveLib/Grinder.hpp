@@ -14,13 +14,13 @@ enum class GrinderDirection : __int16
 
 struct Path_Grinder_Data
 {
-    __int16 field_10_scale;
+    __int16 field_10_scale; // TODO: Enum
     __int16 field_12_min_off_time;
     __int16 field_14_max_off_time;
     __int16 field_16_id;
-    __int16 field_18_behavior;
+    __int16 field_18_behavior; // TODO: Enum
     __int16 field_1A_speed;
-    __int16 field_1C_start_state;
+    __int16 field_1C_start_state; // TODO: Enum
     __int16 field_1E_off_speed;
     __int16 field_20_min_off_time2;
     __int16 field_22_max_off_time2;
@@ -104,7 +104,7 @@ private:
         eBit3_UseId = 0x4,
         eBit4_Toggle = 0x8,
         eBit5 = 0x10,
-        eBit6_StartPos = 0x20,
+        eBit6_StartPosIsBottom = 0x20,
     };
     BitField16<Flags> field_128_flags;
     __int16 field_12A_pad;
