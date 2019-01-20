@@ -22,6 +22,26 @@ struct Path_Grinder_Data
 };
 ALIVE_ASSERT_SIZEOF(Path_Grinder_Data, 0x18);
 
+enum class GrinderStates : __int16
+{
+    State_0_Restart_Cycle = 0,
+    State_1_Going_Down = 1,
+    State_2_GoingUp = 2,
+};
+
+struct Grinder_State
+{
+    __int16 field_0;
+    //__int16 field_2_padding;
+    int field_4;
+    int field_8_tlvInfo;
+    int field_C_off_timer;
+    GrinderStates field_10_state;
+    __int16 field_12_xyoff;
+};
+ALIVE_ASSERT_SIZEOF(Grinder_State, 0x14);
+
+
 struct Path_Grinder : public Path_TLV
 {
     Path_Grinder_Data field_10_data;
@@ -40,6 +60,7 @@ public:
     virtual void VStopAudio() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
+    static signed int CC CreateFromSaveState_421600(const BYTE* pData);
 private:
     EXPORT void vUpdate_420C50();
     EXPORT void dtor_420B60();
@@ -52,14 +73,7 @@ private:
     EXPORT __int16 DamageTouchingObjects_421060();
 private:
     int field_E4_not_used[4];
-    enum class States : __int16
-    {
-        State_0 = 0,
-        State_1 = 1,
-        State_2 = 2,
-        State_3 = 3,
-    };
-    States field_F4_state;
+    GrinderStates field_F4_state;
     __int16 field_F6_width;
     __int16 field_F8_id;
     __int16 field_FA_direction;

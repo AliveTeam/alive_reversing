@@ -12,6 +12,7 @@
 #include "DDCheat.hpp"
 #include "Events.hpp"
 #include "WorkWheel.hpp"
+#include "Grinder.hpp"
 
 EXPORT int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
@@ -83,7 +84,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &Grinder__CreateFromSaveState_421600,
+    &Grinder::CreateFromSaveState_421600,
     nullptr,
     nullptr,
     nullptr,
