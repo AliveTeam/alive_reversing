@@ -1,8 +1,11 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
+
+#if !USE_SDL2_SOUND
 #include <mmeapi.h>
 #include <dsound.h>
+#endif
 
 #include "SoundSDL.hpp"
 

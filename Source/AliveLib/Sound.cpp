@@ -9,16 +9,18 @@
 #include <mmeapi.h>
 #include <mutex>
 #include <timeapi.h>
-#include <dsound.h>
 #include "Path.hpp"
 #include "MusicController.hpp"
 
 
 bool gReverbEnabled = true;
 
+#if !USE_SDL2_SOUND
 ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
-ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);
+#endif
+
+ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbbab0, char, sPrimarySoundBufferChannels_BBBAB0, 0);
 ALIVE_VAR(1, 0xbbc338, char, sPrimarySoundBufferBitsPerSample_BBC338, 0);
 ALIVE_VAR(1, 0xbbc340, int, sPrimarySoundBufferSampleRate_BBC340, 0);

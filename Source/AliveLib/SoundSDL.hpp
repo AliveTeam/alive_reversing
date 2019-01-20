@@ -8,6 +8,20 @@
 #include "stdlib.hpp"
 #include "SDL.h"
 
+#define DSBSTATUS_PLAYING           0x00000001
+#define DSBSTATUS_BUFFERLOST        0x00000002
+#define DSBSTATUS_LOOPING           0x00000004
+#define DSBSTATUS_TERMINATED        0x00000020
+
+#define DSBPAN_LEFT                 -10000
+#define DSBPAN_CENTER               0
+#define DSBPAN_RIGHT                10000
+
+#define DSBPLAY_LOOPING             0x00000001
+
+#define DSBFREQUENCY_MIN            100
+#define DSBFREQUENCY_MAX            200000
+
 struct MIDI_Struct1;
 struct SoundEntry;
 
