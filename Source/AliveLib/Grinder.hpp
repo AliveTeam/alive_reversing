@@ -5,6 +5,13 @@
 #include "BitField.hpp"
 #include "FunctionFwd.hpp"
 
+enum class GrinderDirection : __int16
+{
+    eDown_0 = 0,
+    eRight_1 = 1,
+    eLeft_2 = 2,
+};
+
 struct Path_Grinder_Data
 {
     __int16 field_10_scale;
@@ -18,7 +25,7 @@ struct Path_Grinder_Data
     __int16 field_20_min_off_time2;
     __int16 field_22_max_off_time2;
     __int16 field_24_start_position;
-    __int16 field_26_direction;
+    GrinderDirection field_26_direction;
 };
 ALIVE_ASSERT_SIZEOF(Path_Grinder_Data, 0x18);
 
@@ -76,7 +83,7 @@ private:
     GrinderStates field_F4_state;
     __int16 field_F6_width;
     __int16 field_F8_id;
-    __int16 field_FA_direction;
+    GrinderDirection field_FA_direction;
     __int16 field_FC_min_off_time;
     __int16 field_FE_max_off_time;
     __int16 field_100_min_off_time2;

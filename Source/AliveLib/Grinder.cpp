@@ -305,16 +305,16 @@ signed int CC Grinder::CreateFromSaveState_421600(const BYTE* pData)
 
     if (pState->field_10_state != GrinderStates::State_0_Restart_Cycle)
     {
-        if (pGrinder->field_FA_direction)
+        switch (pGrinder->field_FA_direction)
         {
-            if (pGrinder->field_FA_direction > 0 && pGrinder->field_FA_direction <= 2)
-            {
-                pGrinder->field_20_animation.Set_Animation_Data_409C80(6712, 0);
-            }
-        }
-        else
-        {
+        case GrinderDirection::eDown_0:
             pGrinder->field_20_animation.Set_Animation_Data_409C80(6688, 0);
+            break;
+
+        case GrinderDirection::eRight_1:
+        case GrinderDirection::eLeft_2:
+            pGrinder->field_20_animation.Set_Animation_Data_409C80(6712, 0);
+            break;
         }
     }
 
@@ -339,20 +339,18 @@ void Grinder::vUpdate_420C50()
         {
             if (!(field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_id) == (field_128_flags.Get(Flags::eBit1))))
             {
-                // TODO: Add enum/refactor all usage of direction
-                __int16 direction = field_FA_direction;
                 field_F4_state = GrinderStates::State_1_Going_Down;
-                if (direction)
+
+                switch (field_FA_direction)
                 {
-                    __int16 directionM1 = direction - 1;
-                    if (!directionM1 || directionM1 == 1)
-                    {
-                        field_20_animation.Set_Animation_Data_409C80(6712, 0);
-                    }
-                }
-                else
-                {
+                case GrinderDirection::eDown_0:
                     field_20_animation.Set_Animation_Data_409C80(6688, 0);
+                    break;
+
+                case GrinderDirection::eRight_1:
+                case GrinderDirection::eLeft_2:
+                    field_20_animation.Set_Animation_Data_409C80(6712, 0);
+                    break;
                 }
 
                 field_128_flags.Clear(Flags::eBit5);
@@ -367,27 +365,20 @@ void Grinder::vUpdate_420C50()
             FP_GetExponent(field_120_off_speed) &&
             field_108_off_timer <= static_cast<int>(sGnFrame_5C1B84))
         {
-            __int16 direction3 = field_FA_direction;
-            field_F4_state = GrinderStates::State_1_Going_Down;
-            if (direction3)
+            switch (field_FA_direction)
             {
-                __int16 directionM12 = direction3 - 1;
-                if (directionM12)
-                {
-                    if (directionM12 == 1)
-                    {
-                        field_20_animation.Set_Animation_Data_409C80(6712, 0);
-                        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);;
-                    }
-                }
-                else
-                {
-                    field_20_animation.Set_Animation_Data_409C80(6712, 0);
-                }
-            }
-            else
-            {
+            case GrinderDirection::eDown_0:
                 field_20_animation.Set_Animation_Data_409C80(6688, 0);
+                break;
+
+            case GrinderDirection::eRight_1:
+                field_20_animation.Set_Animation_Data_409C80(6712, 0);
+                break;
+
+            case GrinderDirection::eLeft_2:
+                field_20_animation.Set_Animation_Data_409C80(6712, 0);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                break;
             }
 
             field_128_flags.Set(Flags::eBit5);
@@ -433,7 +424,7 @@ void Grinder::vUpdate_420C50()
 
             field_108_off_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(min_off, max_off);
 
-            if (field_FA_direction == 0)
+            if (field_FA_direction == GrinderDirection::eDown_0)
             {
                 field_20_animation.Set_Animation_Data_409C80(6676, 0);
             }
@@ -560,17 +551,17 @@ void Grinder::vRender_4213D0(int** pOt)
         field_BC_ypos,
         0))
     {
-        if (field_FA_direction == 0)
+        if (field_FA_direction == GrinderDirection::eDown_0)
         {
             field_BC_ypos = field_114_yPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(pOt);
         }
-        else if (field_FA_direction == 1)
+        else if (field_FA_direction == GrinderDirection::eRight_1)
         {
             field_B8_xpos = field_110_xPos + field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(pOt);
         }
-        else if (field_FA_direction == 2)
+        else if (field_FA_direction == GrinderDirection::eLeft_2)
         {
             field_B8_xpos = field_110_xPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(pOt);
