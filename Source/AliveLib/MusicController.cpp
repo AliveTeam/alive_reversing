@@ -2,7 +2,7 @@
 #include "MusicController.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 #include "Midi.hpp"
 #include "Events.hpp"
 #include "Abe.hpp"

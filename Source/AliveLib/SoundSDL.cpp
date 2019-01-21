@@ -7,7 +7,7 @@
 #include "Error.hpp"
 #include "Midi.hpp"
 #include <mutex>
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 
 #include "Reverb.hpp"
 

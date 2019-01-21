@@ -10,7 +10,7 @@
 #include "Io.hpp"
 #include "Game.hpp" // sIOSyncReads_BD2A5C, sCdRomDrives_5CA488
 #include "PsxRender.hpp"
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 #include <gmock/gmock.h>
 
 void Psx_ForceLink() {}

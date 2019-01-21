@@ -12,7 +12,7 @@
 #include "Abe.hpp"
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 #include <gmock/gmock.h>
 
 void Midi_ForceLink() { }

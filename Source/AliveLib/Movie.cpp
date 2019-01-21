@@ -11,7 +11,7 @@
 #include "Sys.hpp"
 #include "Sound.hpp"
 #include "Masher.hpp"
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 #include "DDraw.hpp"
 #include "VGA.hpp"
 

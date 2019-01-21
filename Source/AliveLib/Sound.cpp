@@ -8,7 +8,7 @@
 #include "BackgroundMusic.hpp"
 #include <mmeapi.h>
 #include <mutex>
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 #include "Path.hpp"
 #include "MusicController.hpp"
 

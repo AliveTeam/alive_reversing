@@ -11,7 +11,7 @@
 #include "VRam.hpp"
 #include "DebugHelpers.hpp"
 #include "PsxRender.hpp"
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 

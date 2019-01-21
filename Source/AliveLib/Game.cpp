@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "WinAPISupport.hpp"
 #include "Game.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
@@ -16,7 +17,6 @@
 #include "Animation.hpp"
 #include "stdlib.hpp"
 #include "PauseMenu.hpp"
-#include <timeapi.h>
 #include "GameSpeak.hpp"
 #include "PathData.hpp"
 #include "DDCheat.hpp"
@@ -645,6 +645,9 @@ EXPORT void CC Game_Shutdown_4F2C30()
 
 EXPORT signed int TMR_Init_4EDE20()
 {
+#if USE_SDL2
+	return 0;
+#else
     struct timecaps_tag ptc = {};
     if (::timeGetDevCaps(&ptc, sizeof(timecaps_tag)))
     {
@@ -656,6 +659,7 @@ EXPORT signed int TMR_Init_4EDE20()
     // This makes timers as accurate as possible increasing cpu/power usage as a trade off
     ::timeBeginPeriod(ptc.wPeriodMin);
     return 0;
+#endif
 }
 
 EXPORT signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)

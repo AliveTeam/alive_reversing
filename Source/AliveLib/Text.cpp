@@ -9,7 +9,7 @@
 #include "Input.hpp"
 #include "Midi.hpp"
 #include "Sound.hpp"
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 #include "PauseMenu.hpp" // pal_554474
 
 BaseGameObject* Text::VDestructor(signed int flags)

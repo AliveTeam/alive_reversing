@@ -10,7 +10,7 @@
 #include <joystickapi.h>
 #include "Events.hpp"
 #include "PsxRender.hpp"
-#include <timeapi.h>
+#include "WinAPISupport.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "StringFormatters.hpp"
