@@ -437,7 +437,7 @@ void Grinder::vUpdate_420C50()
 
             if (field_128_flags.Get(Flags::eBit4_Toggle))
             {
-                SwitchStates_Set_465FF0(field_F8_id, field_128_flags.Get(Flags::eBit1)); // TODO: Check correct way around
+                SwitchStates_Set_465FF0(field_F8_id, !field_128_flags.Get(Flags::eBit1));
             }
         }
 
