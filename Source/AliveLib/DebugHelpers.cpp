@@ -28,6 +28,7 @@
 #include "AbilityRing.hpp"
 #include "MusicController.hpp"
 #include "QuikSave.hpp"
+#include "PauseMenu.hpp"
 
 char _devConsoleBuffer[1000];
 
@@ -631,7 +632,13 @@ void Command_Midi1(const std::vector<std::string>& args)
 
 void Command_LoadSave(const std::vector<std::string>& args)
 {
-	
+	if (pPauseMenu_5C9300 == nullptr)
+	{
+		pPauseMenu_5C9300 = alive_new<PauseMenu>();
+		pPauseMenu_5C9300->ctor_48FB80();
+		pPauseMenu_5C9300->field_1C_update_delay = 0;
+	}
+
 	std::string filePath = args[0] + ".sav";
 
 	std::ifstream saveFile(filePath.c_str());
