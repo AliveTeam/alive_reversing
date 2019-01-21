@@ -5,6 +5,7 @@
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
+#include "PsxDisplay.hpp"
 
 BaseGameObject* Blood::VDestructor(signed int flags)
 {
@@ -194,8 +195,10 @@ void Blood::vUpdate_40F650()
         for (int i=0; i<field_122_to_render_count; i++)
         {
             field_F8_pResBuf[i].field_C_offy += FP_FromDouble(1.8);
+
             field_F8_pResBuf[i].field_8_offx = field_F8_pResBuf[i].field_8_offx * FP_FromDouble(0.9);
             field_F8_pResBuf[i].field_C_offy = field_F8_pResBuf[i].field_C_offy * FP_FromDouble(0.9);
+            
             field_F8_pResBuf[i].field_0_x += field_F8_pResBuf[i].field_8_offx;
             field_F8_pResBuf[i].field_4_y += field_F8_pResBuf[i].field_C_offy;
         }
@@ -204,9 +207,92 @@ void Blood::vUpdate_40F650()
     field_128_timer++;
 }
 
-void Blood::vRender_40F780(int** /*pOrderingTable*/)
+void Blood::vRender_40F780(int** pOt)
 {
-    NOT_IMPLEMENTED();
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos,
+        0))
+    {
+        PSX_Point xy = { 32767, 32767 };
+        PSX_Point wh = { -32767, -32767 };
+
+        for (int i = 0; i < field_122_to_render_count; i++)
+        {
+            BloodParticle* pParticle = &field_F8_pResBuf[i];
+            Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_5C1130.field_C_buffer_index];
+
+            BYTE u0 = field_20_animation.field_84_vram_rect.x & 63;
+            if (field_11C_texture_mode == 1)
+            {
+                u0 *= 2;
+            }
+            else if (field_11C_texture_mode == 0)
+            {
+                u0 *= 4;
+            }
+            
+            SetUV0(pSprt, u0, field_20_animation.field_84_vram_rect.y & 0xFF);
+
+            FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset]);
+
+            pSprt->field_14_w = pFrameHeader->field_4_width - 1;
+            pSprt->field_16_h = pFrameHeader->field_5_height - 1;
+
+            const short x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
+            const short y0 = FP_GetExponent(pParticle->field_4_y);
+
+            SetXY0(pSprt, x0, y0);
+
+            if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit16_bBlending))
+            {
+                SetRGB0(pSprt, field_20_animation.field_8_r, field_20_animation.field_9_g, field_20_animation.field_A_b);
+            }
+
+            OrderingTable_Add_4F8AA0(
+                &pOt[field_12C_render_layer],
+                &pSprt->mBase.header);
+
+            if (x0 < xy.field_0_x)
+            {
+                xy.field_0_x = x0;
+            }
+
+            if (x0 > wh.field_0_x)
+            {
+                wh.field_0_x = x0;
+            }
+
+            if (y0 < xy.field_2_y)
+            {
+                xy.field_2_y = y0;
+            }
+
+            if (y0 > wh.field_2_y)
+            {
+                wh.field_2_y = y0;
+            }
+        }
+        
+        const int tpage = PSX_getTPage_4F60E0(
+            static_cast<char>(field_11C_texture_mode),
+            0,
+            field_20_animation.field_84_vram_rect.x,
+            field_20_animation.field_84_vram_rect.y);
+
+        Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
+        Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<short>(tpage));
+        OrderingTable_Add_4F8AA0(&pOt[field_12C_render_layer], &pTPage->mBase);
+
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            (xy.field_0_x - 12),
+            (xy.field_2_y - 12),
+            (wh.field_0_x + 12),
+            (wh.field_2_y + 12),
+            pScreenManager_5BB5F4->field_3A_idx);
+    }
 }
 
 void Blood::vScreenChanged_40FAD0()
