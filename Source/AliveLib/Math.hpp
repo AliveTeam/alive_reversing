@@ -19,3 +19,5 @@ namespace Test
 {
     void Math_Tests();
 }
+
+ALIVE_ARY_EXTERN(unsigned char, 256, sRandomBytes_546744);
