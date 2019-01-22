@@ -85,6 +85,130 @@ BaseGameObject* CC Teleporter::Create_obj_4DCEB0()
     return nullptr;
 }
 
+// Overwrites a pallete 8 colours at a time one per update
+class PalleteOverwriter : public BaseGameObject
+{
+public:
+    EXPORT PalleteOverwriter* ctor_4228D0(PSX_Point palXY, __int16 palDepth, __int16 colour)
+    {
+        colour = 0;
+
+        BaseGameObject_ctor_4DBFA0(FALSE, 0);
+
+        SetVTable(this, 0x544BC4); // vTbl_Class_544BC4
+
+        field_4_typeId = Types::eType_44;
+
+        gObjList_drawables_5C1124->Push_Back(this);
+
+        field_20_pal_xy = palXY;
+        field_24_pal_colours_count = palDepth;
+
+        field_6_flags.Set(BaseGameObject::eDrawable);
+
+        for (auto& palBufferEntry : field_B8_palBuffer)
+        {
+            palBufferEntry = colour;
+        }
+
+        field_CA_pal_w = 8;
+        field_C8_pal_x_index = 1;
+        field_CC_bFirstUpdate = 1;
+        field_CE_bDone = FALSE;
+
+        return this;
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_422A70();
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_422B30(pOrderingTable);
+    }
+
+    virtual void VScreenChanged() override
+    {
+        // Stayin' alive
+    }
+
+private:
+    EXPORT void vUpdate_422A70()
+    {
+        if (field_CC_bFirstUpdate || field_CE_bDone)
+        {
+            // First time round or when done do nothing
+            field_CC_bFirstUpdate = FALSE;
+        }
+        else
+        {
+            if (field_C8_pal_x_index == field_24_pal_colours_count - 1)
+            {
+                // Got to the end
+                field_CE_bDone = TRUE;
+            }
+            else
+            {
+                field_C8_pal_x_index += 8;
+
+                if (field_C8_pal_x_index >= field_24_pal_colours_count - 1)
+                {
+                    field_C8_pal_x_index = field_24_pal_colours_count - 1;
+                }
+
+                if (field_C8_pal_x_index + field_CA_pal_w >= field_24_pal_colours_count - 1)
+                {
+                    field_CA_pal_w = field_24_pal_colours_count - field_C8_pal_x_index;
+                }
+            }
+        }
+    }
+
+    EXPORT void dtor_4229F0()
+    {
+        SetVTable(this, 0x544BC4); // vTbl_Class_544BC4
+        gObjList_drawables_5C1124->Remove_Item(this);
+        BaseGameObject_dtor_4DBEC0();
+    }
+
+    EXPORT PalleteOverwriter* vdtor_4229C0(signed int flags)
+    {
+        dtor_4229F0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+    EXPORT void vRender_422B30(int** /*pOt*/)
+    {
+        if (!field_CE_bDone)
+        {
+            PSX_RECT rect  = {};
+            rect.y = field_20_pal_xy.field_2_y;
+            rect.x = field_20_pal_xy.field_0_x + field_C8_pal_x_index;
+            rect.w = field_CA_pal_w;
+            rect.h = 1;
+            PSX_LoadImage16_4F5E20(&rect, reinterpret_cast<BYTE*>(&field_B8_palBuffer[0]));
+        }
+    }
+
+private:
+    PSX_Point field_20_pal_xy;
+    short field_24_pal_colours_count;
+    // pad
+    int field_28_not_used[36]; // TODO: Probably something used in PSX but not PC?
+    __int16 field_B8_palBuffer[8];
+    __int16 field_C8_pal_x_index;
+    __int16 field_CA_pal_w;
+    __int16 field_CC_bFirstUpdate;
+    __int16 field_CE_bDone;
+};
+ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
+
 class ParticleBurst : public BaseAnimatedWithPhysicsGameObject
 {
 public:
