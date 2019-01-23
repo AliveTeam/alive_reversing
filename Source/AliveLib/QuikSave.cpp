@@ -13,6 +13,7 @@
 #include "Events.hpp"
 #include "WorkWheel.hpp"
 #include "Grinder.hpp"
+#include "ScreenManager.hpp"
 
 EXPORT int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
@@ -367,9 +368,19 @@ EXPORT void CC Quicksave_LoadActive_4C9170()
     Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData_BAF7F8);
 }
 
-void CC Quicksave_4C90D0()
+EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* /*pSave*/)
 {
     NOT_IMPLEMENTED();
+}
+
+void CC Quicksave_4C90D0()
+{
+    Game_ShowLoadingIcon_482D80();
+    pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, 0);
+    pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, 1);
+    pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, 2);
+    Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, gMap_5C3030.sCurrentPathId_5C3032);
+    Quicksave_SaveToMemory_4C91A0(&sActiveQuicksaveData_BAF7F8);
 }
 
 void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
