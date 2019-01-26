@@ -215,6 +215,8 @@ add_library(AliveLib
     Leaf.cpp
     Well.hpp
     Well.cpp
+    Water.hpp
+    Water.cpp
 	WinAPISupport.hpp
 	WinAPISupport.cpp
     Types.hpp

@@ -24,6 +24,7 @@
 #include "Grinder.hpp"
 #include "Teleporter.hpp"
 #include "Well.hpp"
+#include "Water.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -487,7 +488,24 @@ EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* , Path*, TlvItemInfoUnion, __int
 EXPORT void CC Factory_KillUnsavedMudokons_4DA6E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SoftLanding_4D6950(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6B00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Water_4DA730(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Water_4DA730(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode == 1 || loadmode == 2)
+    {
+        Map::LoadResource_4DBE00("WDROP.BAN", ResourceManager::Resource_Animation, ResourceID::kWdropResID, loadmode);
+        Map::LoadResource_4DBE00("SPLASH.BAN", ResourceManager::Resource_Animation, ResourceID::kSplashResID, loadmode);
+    }
+    else
+    {
+        auto pWater = alive_new<Water>();
+        if (pWater)
+        {
+            pWater->ctor_4E02C0(static_cast<Path_Water*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_Null_4DA7C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv , Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)

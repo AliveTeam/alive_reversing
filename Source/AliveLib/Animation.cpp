@@ -84,7 +84,7 @@ void AnimationEx::DecompressFrame()
     {
     case 0:
         // No compression, load the data directly into frame buffer
-        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
+        field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
         PSX_LoadImage_4F5FB0(&vram_rect, reinterpret_cast<const BYTE*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
         break;
 
@@ -94,7 +94,7 @@ void AnimationEx::DecompressFrame()
         break;
 
     case 2:
-        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
+        field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
         if (EnsureDecompressionBuffer())
         {
             // TODO: Refactor structure to get pixel data
@@ -108,7 +108,7 @@ void AnimationEx::DecompressFrame()
         break;
 
     case 3:
-        if (field_4_flags.Get(AnimFlags::eBit25_NotUsedMode))
+        if (field_4_flags.Get(AnimFlags::eBit25_bDecompressDone))
         {
             if (EnsureDecompressionBuffer())
             {
@@ -130,7 +130,7 @@ void AnimationEx::DecompressFrame()
         break;
 
     case 6:
-        if (field_4_flags.Get(AnimFlags::eBit25_NotUsedMode))
+        if (field_4_flags.Get(AnimFlags::eBit25_bDecompressDone))
         {
             if (EnsureDecompressionBuffer())
             {
@@ -155,7 +155,7 @@ inline short FP_AdjustedToInteger(FP fp, FP adjustment)
 
 void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height)
 {
-    if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_NotUsedMode)))
+    if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_bDecompressDone)))
     {
         Vram_free_495A60({ field_84_vram_rect.x, field_84_vram_rect.y }, { field_84_vram_rect.w, field_84_vram_rect.h });
         field_84_vram_rect.x = 0;
@@ -800,10 +800,10 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
         }
     }
 
-    field_4_flags.Clear(AnimFlags::eBit25_NotUsedMode);
+    field_4_flags.Clear(AnimFlags::eBit25_bDecompressDone);
     if (b256Pal)
     {
-        field_4_flags.Set(AnimFlags::eBit25_NotUsedMode);
+        field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
     }
 
     if (field_4_flags.Get(AnimFlags::eBit17)==true && field_4_flags.Get(AnimFlags::eBit24) == false)

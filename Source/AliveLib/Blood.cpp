@@ -38,7 +38,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBloodropResID);
     Animation_Init_424E10(308, 11, 7, ppRes, 1, 1);
 
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit25_NotUsedMode); // TODO: This must be wrong ??
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit25_bDecompressDone);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_8_r = 127;
     field_20_animation.field_9_g = 127;

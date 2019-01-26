@@ -146,7 +146,7 @@ enum AnimFlags
     // Bit 24 = Display vram ?
     eBit24 = 0x800000,
 
-    eBit25_NotUsedMode = 0x1000000,
+    eBit25_bDecompressDone = 0x1000000,
 
     // Bit 26-32 = nothing ?
 };
