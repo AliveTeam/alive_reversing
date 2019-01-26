@@ -10,21 +10,21 @@ namespace Test
 
 enum eLineTypes : BYTE
 {
-    eFloor = 0,
-    eWallLeft = 1,
-    eWallRight = 2,
-    eCeiling = 3,
-    eBackGroundFloor = 4,
-    eBackGroundWallLeft = 5,
-    eBackGroundWallRight = 6,
-    eBackGroundCeiling = 7,
-    eTrackLine = 8,
-    eArt = 9,
-    eBulletWall = 10,
-    eMineCarFloor = 11,
-    eMineCarWall = 12,
-    eMineCarCeiling = 13,
-    eFlyingSligCeiling = 17,
+    eFloor_0 = 0,
+    eWallLeft_1 = 1,
+    eWallRight_2 = 2,
+    eCeiling_3 = 3,
+    eBackGroundFloor_4 = 4,
+    eBackGroundWallLeft_5 = 5,
+    eBackGroundWallRight_6 = 6,
+    eBackGroundCeiling_7 = 7,
+    eTrackLine_8 = 8,
+    eArt_9 = 9,
+    eBulletWall_10 = 10,
+    eMineCarFloor_11 = 11,
+    eMineCarWall_12 = 12,
+    eMineCarCeiling_13 = 13,
+    eFlyingSligCeiling_17 = 17,
 };
 
 struct PathLine

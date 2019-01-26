@@ -3773,8 +3773,8 @@ void Abe::State_3_Fall_459B60()
     {
         switch (pPathLine->field_8_type)
         {
-        case eFloor:
-        case eBackGroundFloor:
+        case eFloor_0:
+        case eBackGroundFloor_4:
         case 32u: // TODO: These type are never seen, internal only ??
         case 36u:
         {
@@ -3829,10 +3829,10 @@ void Abe::State_3_Fall_459B60()
         }
             break;
 
-        case eWallLeft:
-        case eWallRight: 
-        case eBackGroundWallLeft:
-        case eBackGroundWallRight: 
+        case eWallLeft_1:
+        case eWallRight_2: 
+        case eBackGroundWallLeft_5:
+        case eBackGroundWallRight_6: 
             field_B8_xpos = hitX;
             field_BC_ypos = hitY;
             ToKnockback_44E700(1, 1);
@@ -4084,8 +4084,8 @@ void Abe::State_14_HoistIdle_452440()
     {
         switch (pLine->field_8_type)
         {
-        case eFloor:
-        case eBackGroundFloor:
+        case eFloor_0:
+        case eBackGroundFloor_4:
         case 32u: // trap doors ??
         case 36u:
         {
@@ -4981,8 +4981,8 @@ void Abe::State_31_RunJumpMid_452C10()
     {
         switch (pLine->field_8_type)
         {
-        case eLineTypes::eFloor:
-        case eLineTypes::eBackGroundFloor:
+        case eLineTypes::eFloor_0:
+        case eLineTypes::eBackGroundFloor_4:
         case 32u:
         case 36u:
             field_100_pCollisionLine = pLine;

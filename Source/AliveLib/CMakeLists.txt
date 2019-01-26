@@ -211,6 +211,8 @@ add_library(AliveLib
     Teleporter.hpp
     Spark.cpp
     Spark.hpp
+    Leaf.hpp
+    Leaf.cpp
 	WinAPISupport.hpp
 	WinAPISupport.cpp
     Types.hpp
