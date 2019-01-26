@@ -7,6 +7,7 @@ class Leaf : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Leaf* ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 private:

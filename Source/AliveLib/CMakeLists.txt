@@ -213,6 +213,8 @@ add_library(AliveLib
     Spark.hpp
     Leaf.hpp
     Leaf.cpp
+    Well.hpp
+    Well.cpp
 	WinAPISupport.hpp
 	WinAPISupport.cpp
     Types.hpp

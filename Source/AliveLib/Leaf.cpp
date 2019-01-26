@@ -63,6 +63,11 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     return this;
 }
 
+BaseGameObject* Leaf::VDestructor(signed int flags)
+{
+    return vdtor_4E32E0(flags);
+}
+
 void Leaf::VUpdate()
 {
     vUpdate_4E3330();
@@ -102,7 +107,7 @@ void Leaf::vUpdate_4E3330()
         &hitY,
         eLineTypes::eFlyingSligCeiling_17); // TODO: Must be another set of constants, this makes no sense ??
 
-                                            // Hit the floor, die but only if in background..
+    // Hit the floor, die but only if in background..
     if (bCollision && field_CC_sprite_scale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)
     {
         field_6_flags.Set(BaseGameObject::eDead);

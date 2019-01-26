@@ -191,21 +191,20 @@ struct Path_Well_Local : public Path_Well_Base
 struct Path_Well_Express : public Path_Well_Base
 {
     static constexpr unsigned short kType = 23;
-
     __int16 field_18_exit_x;
     __int16 field_1A_exit_y;
     __int16 field_1C_off_level;
     __int16 field_1E_off_path;
     __int16 field_20_off_camera;
-    __int16 field_22_on_level;
-    __int16 field_24_on_path;
-    __int16 field_26_on_camera;
-    __int16 field_28_target_well;
-    __int16 field_2A_emit_leaves;
-    __int16 field_2C_leaf_x;
-    __int16 field_2E_leaf_y;
-    __int16 field_30_movie_id;
-    __int16 pad;
+    __int16 field_22_off_well_id;
+    __int16 field_24_on_level;
+    __int16 field_26_on_path;
+    __int16 field_28_on_camera;
+    __int16 field_2A_on_well_id;
+    __int16 field_2C_emit_leaves;
+    __int16 field_2E_leaf_x;
+    __int16 field_30_leaf_y;
+    __int16 field_32_movie_id;
 };
 
 struct Path_Alarm : public Path_TLV

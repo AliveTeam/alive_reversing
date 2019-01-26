@@ -156,7 +156,7 @@ public:
         eType_144 = 144,
         eMovie_145 = 145,
         eWeb_146 = 146,
-        eType_147 = 147,
+        eWell_147 = 147,
         eWheel_148 = 148,
         eCameraSwapper_149 = 149,
         eType_150 = 150,
