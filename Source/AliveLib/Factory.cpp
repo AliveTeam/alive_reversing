@@ -25,6 +25,7 @@
 #include "Teleporter.hpp"
 #include "Well.hpp"
 #include "Water.hpp"
+#include "SlamDoor.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -530,7 +531,34 @@ EXPORT void CC Factory_LaughingGas_4DA870(Path_TLV* , Path*, TlvItemInfoUnion, _
 EXPORT void CC Factory_FlyingSlig_4D92E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Slurgs_4DA950(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode == 1 || loadmode == 2)
+    {
+        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        {
+        case LevelIds::eNecrum_2:
+        case LevelIds::eMudomoVault_3:
+        case LevelIds::eMudancheeVault_4:
+        case LevelIds::eMudancheeVault_Ender_7:
+        case LevelIds::eMudomoVault_Ender_11:
+            Map::LoadResource_4DBE00("SLAMVLTS.BAN", 'minA', 2020, loadmode, 0);
+            break;
+        default:
+            Map::LoadResource_4DBE00("SLAM.BAN", 'minA', 2020, loadmode, 0);
+            break;
+        }
+    }
+    else
+    {
+        auto pSlamDoor = alive_new<SlamDoor>();
+        if (pSlamDoor)
+        {
+            pSlamDoor->ctor_4AF700(static_cast<Path_SlamDoor*>(pTlv), tlvInfo);
+        }
+    }
+}
 
 EXPORT void CC Factory_LevelLoader_4D6BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
 {

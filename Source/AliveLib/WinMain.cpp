@@ -45,6 +45,7 @@
 #include "Collisions.hpp"
 #include "Math.hpp"
 #include "Dove.hpp"
+#include "SlamDoor.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -98,6 +99,7 @@ static void InitOtherHooksAndRunTests()
     UXB_ForceLink();
     Mine_ForceLink();
     TimedMine_ForceLink();
+    SlamDoor_ForceLink();
 }
 
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);

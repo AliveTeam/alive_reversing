@@ -211,6 +211,8 @@ add_library(AliveLib
     Teleporter.hpp
     Spark.cpp
     Spark.hpp
+	SlamDoor.hpp
+	SlamDoor.cpp
     Leaf.hpp
     Leaf.cpp
     Well.hpp
