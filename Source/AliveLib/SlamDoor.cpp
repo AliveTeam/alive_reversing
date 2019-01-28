@@ -129,8 +129,8 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
         field_D8_yOffset = FP_GetExponent(field_CC_sprite_scale * FP_FromDouble(-68.0));
     }
 
-    bool switchState = static_cast<bool>(SwitchStates_Get_466020(field_128_switch_id));
-    bool bitIsOpen = field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open);
+    int switchState = SwitchStates_Get_466020(field_128_switch_id);
+    int bitIsOpen = static_cast<int>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
 
     if (switchState == bitIsOpen)
     {
