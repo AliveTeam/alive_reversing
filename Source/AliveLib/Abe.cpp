@@ -2760,7 +2760,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
         }
         break;
 
-    case Types::eGate_122:
+    case Types::eSlamDoor_122:
         if (field_10C_health > FP_FromInteger(0))
         {
             ToKnockback_44E700(1, 1);

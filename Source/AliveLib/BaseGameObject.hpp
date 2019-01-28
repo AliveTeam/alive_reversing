@@ -131,7 +131,7 @@ public:
         eType_119 = 119,
         eType_120 = 120,
         eType_121 = 121,
-        eGate_122 = 122,
+        eSlamDoor_122 = 122,
         eType_123 = 123,
         eSnoozParticle_124 = 124,
         eSlig_125 = 125,
