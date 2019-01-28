@@ -6,12 +6,12 @@
 
 struct Water_Res
 {
-    int field_0_xpos;
-    int field_4_ypos;
-    int field_8_zpos;
-    int field_C_delta_x;
-    int field_10_delta_y;
-    int field_14_delta_z;
+    FP field_0_xpos;
+    FP field_4_ypos;
+    FP field_8_zpos;
+    FP field_C_delta_x;
+    FP field_10_delta_y;
+    FP field_14_delta_z;
     __int16 field_18_enabled;
     __int16 field_1A_splash_time;
     __int16 field_1C_state;
@@ -41,29 +41,50 @@ class Water : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Water* ctor_4E02C0(Path_Water* pTlv, int tlvInfo);
-
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override;
+    virtual void VStopAudio() override;
+private:
+    EXPORT void dtor_4E0880();
+    EXPORT Water* vdtor_4E0850(signed int flags);
+    EXPORT void vScreenChanged_4E1780();
+    EXPORT void vStopAudio_4E1800();
+    EXPORT void Disable_Water_Particle_4E0B10(__int16 idx);
+    EXPORT void Add_Water_Particle_4E09A0();
+    EXPORT void vUpdate_4E0B50();
+    EXPORT void vRender_4E1440(int** pOt);
 private:
     int field_E4_not_used[4];
     BYTE** field_F4_ppWaterRes;
     Water_Res *field_F8_pWaterRes;
-    __int16 field_FC_state;
+    enum class State : __int16
+    {
+        WaitForEnable_0 = 0,
+        State_1 = 1,
+        State_2 = 2,
+        State_3 = 3,
+        State_4 = 4,
+    };
+    State field_FC_state;
     __int16 field_FE_texture_mode;
     __int16 field_100_screen_x;
     __int16 field_102_screen_y;
     PSX_Point field_104_top_left;
     PSX_Point field_108_bottom_right;
-    __int16 field_10C_update_count;
+    __int16 field_10C_particle_count;
     __int16 field_10E_current_particle_idx;
-    __int16 field_110_radius;
-    __int16 field_112_centre;
+    __int16 field_110_current_drops;
+    //__int16 field_112_pad;
     int field_114_tlvInfo;
     FP field_118_radius;
     FP field_11C_centre;
     __int16 field_120_frame_width;
     __int16 field_122_frame_height;
     Path_Water_Data field_124_tlv_data;
-    int field_130_splash_x_vel;
-    int field_134_emit_x_vel;
+    FP field_130_splash_x_vel;
+    FP field_134_emit_x_vel;
     __int16 field_138_splash_time;
     //__int16 field_13A_pad;
     int field_13C_not_in_camera_count;
