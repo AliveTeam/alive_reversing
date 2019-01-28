@@ -91,17 +91,17 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit5_Delete);
     }
 
-    int currentLevelId = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
+    const int currentLevelId = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
 
     Animation_Init_424E10(
         sSlamDoorData_547168[currentLevelId].field_8_frameTableOffset,
         sSlamDoorData_547168[currentLevelId].field_C_maxH,
         sSlamDoorData_547168[currentLevelId].field_E_maxW,
-        Add_Resource_4DC130('minA', 2020),
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, 2020),
         1,
         1u);
 
-    field_4_typeId = Types::eGate_122;
+    field_4_typeId = Types::eSlamDoor_122;
 
     field_B8_xpos = FP_FromInteger(((pTlv->field_8_top_left.field_0_x
         + pTlv->field_C_bottom_right.field_0_x)
