@@ -18,6 +18,7 @@ private:
     EXPORT void vUpdate_4DC400();
 private:
     EXPORT static BaseGameObject* CC Create_obj_4DCEB0();
+    void SpawnRingSparks();
 
     int field_20_tlvInfo;
     __int16 field_24_global_y1;

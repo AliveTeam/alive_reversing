@@ -241,13 +241,42 @@ const PSX_Point kSparkOffs_563988[8] =
     { 0, 0 }
 };
 
+void Teleporter::SpawnRingSparks()
+{
+    PSX_Point abeSpawnPos = {};
+    gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+
+    const short xOrg = field_34_mTlvData.field_22_eletric_x - abeSpawnPos.field_0_x;
+    const short yOrg = field_34_mTlvData.field_24_electric_y - abeSpawnPos.field_2_y;
+
+    for (auto& sparkOffs : kSparkOffs_563988)
+    {
+        int sparkX = 0;
+        int sparkY = 0;
+        if (field_34_mTlvData.field_1C_scale)
+        {
+            sparkX = xOrg + (sparkOffs.field_0_x / 2);
+            sparkY = yOrg + (sparkOffs.field_2_y / 2);
+        }
+        else
+        {
+            sparkX = xOrg + (sparkOffs.field_0_x);
+            sparkY = yOrg + (sparkOffs.field_2_y);
+        }
+
+        auto pSpark = alive_new<Spark>();
+        if (pSpark)
+        {
+            pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, 1);
+        }
+    }
+}
 
 void Teleporter::vUpdate_4DC400()
 {
     NOT_IMPLEMENTED();
 
     BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_50_objId));
-    PSX_Point abeSpawnPos = {};
     switch (field_30_state)
     {
     case States::eState_WaitForSwitchOn_0:
@@ -284,95 +313,79 @@ void Teleporter::vUpdate_4DC400()
 
         SFX_Play_46FBA0(49u, 60, -400, 0x10000);
         sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10);
-
-        gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
-
-        short xOrg = field_34_mTlvData.field_22_eletric_x - abeSpawnPos.field_0_x;
-        short yOrg = field_34_mTlvData.field_24_electric_y - abeSpawnPos.field_2_y;
-
-        for (auto& sparkOffs : kSparkOffs_563988)
-        {
-            int sparkX = 0;
-            int sparkY = 0;
-            if (field_34_mTlvData.field_1C_scale)
-            {
-                sparkX = xOrg + (sparkOffs.field_0_x / 2);
-                sparkY = yOrg + (sparkOffs.field_2_y / 2);
-            }
-            else
-            {
-                sparkX = xOrg + (sparkOffs.field_0_x);
-                sparkY = yOrg + (sparkOffs.field_2_y);
-            }
-
-            auto pSpark = alive_new<Spark>();
-            if (pSpark)
-            {
-                pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, 1);
-            }
-        }
+        
+        SpawnRingSparks();
     }
-        return;
+    break;
 
     case States::eState_Into_Teleporter_1:
     {
         if (pObj)
         {
-            /* WRONG TYPE and wrong virtual
+            /* WRONG TYPE and wrong virtual, virtual is the idx of whatever is returned from Create_obj_4DCEB0
             if (((int(*)(BaseGameObject *))pObj->field_0_VTbl->VBaseAliveGameObject.field_1C_vGetBoundingRect_424FD0)(pObj) || field_54_effect_created)
             {
-                goto LABEL_55;
+                if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+                {
+                    return;
+                }
             }*/
 
-            if (field_34_mTlvData.field_1C_scale)
+            // Only create the effects once (disable this if you like a crazy amount of sparks and things)
+            if (!field_54_effect_created)
             {
-                New_Particles_426C70(
-                    sControlledCharacter_5C1B8C->field_B8_xpos,
-                    sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
-                    sControlledCharacter_5C1B8C->field_CC_sprite_scale,
-                    3,
-                    128u,
-                    128u,
-                    128u);
-
-                auto pParticleBurst = alive_new<ParticleBurst>();
-                if (pParticleBurst)
+                // Spawn the falling "red" sparks from Abe's feet that appear after you enter the teleporter
+                if (field_34_mTlvData.field_1C_scale)
                 {
-                    pParticleBurst->ctor_41CF50(
+                    // Steam/smoke effect at Abe's body
+                    New_Particles_426C70(
                         sControlledCharacter_5C1B8C->field_B8_xpos,
                         sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
-                        9u,
-                        FP_FromDouble(0.5),
+                        sControlledCharacter_5C1B8C->field_CC_sprite_scale,
                         3,
-                        9);
-                }
-            }
-            else
-            {
-                New_Particles_426C70(
-                    sControlledCharacter_5C1B8C->field_B8_xpos,
-                    sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
-                    sControlledCharacter_5C1B8C->field_CC_sprite_scale,
-                    3,
-                    128u,
-                    128u,
-                    128u);
+                        128u,
+                        128u,
+                        128u);
 
-                auto pParticleBurst = alive_new<ParticleBurst>();
-                if (pParticleBurst)
+                    auto pParticleBurst = alive_new<ParticleBurst>();
+                    if (pParticleBurst)
+                    {
+                        pParticleBurst->ctor_41CF50(
+                            sControlledCharacter_5C1B8C->field_B8_xpos,
+                            sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
+                            9u,
+                            FP_FromDouble(0.5),
+                            3,
+                            9);
+                    }
+                }
+                else
                 {
-                    pParticleBurst->ctor_41CF50(
+                    // Steam/smoke effect at Abe's body
+                    New_Particles_426C70(
                         sControlledCharacter_5C1B8C->field_B8_xpos,
                         sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
-                        9u,
-                        FP_FromInteger(1),
+                        sControlledCharacter_5C1B8C->field_CC_sprite_scale,
                         3,
-                        9);
+                        128u,
+                        128u,
+                        128u);
+
+                    auto pParticleBurst = alive_new<ParticleBurst>();
+                    if (pParticleBurst)
+                    {
+                        pParticleBurst->ctor_41CF50(
+                            sControlledCharacter_5C1B8C->field_B8_xpos,
+                            sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
+                            9u,
+                            FP_FromInteger(1),
+                            3,
+                            9);
+                    }
                 }
+                field_54_effect_created = 1;
             }
 
-            field_54_effect_created = 1;
-            //LABEL_55:
             if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
             {
                 return;
@@ -402,147 +415,101 @@ void Teleporter::vUpdate_4DC400()
         sActiveHero_5C1B68->field_1A0_door_id = field_34_mTlvData.field_12_target_id;
         field_30_state = States::eState_Teleporting_2;
     }
-        return;
+    break;
 
     case States::eState_Teleporting_2:
     {
         gMap_5C3030.field_20 = 0;
-        Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_Teleporter::kType, 0));
-        Path_Teleporter* pTeleporterTlvNext = pTeleporterTlv;
-        Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
 
+        Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_Teleporter::kType, 0));
+        Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
         if (tlvData.field_10_id != field_34_mTlvData.field_12_target_id)
         {
-            // TODO: Inf loops atm
-            while (1)
+            while (pTeleporterTlv)
             {
                 pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type_4DB720(pTeleporterTlv, Path_Teleporter::kType));
-                tlvData = pTeleporterTlvNext->field_10_data;
+                tlvData = pTeleporterTlv->field_10_data;
 
                 if (tlvData.field_10_id == field_34_mTlvData.field_12_target_id)
                 {
                     break;
                 }
-
-                pTeleporterTlv = pTeleporterTlvNext;
             }
         }
         
         SFX_Play_46FBA0(0x31u, 60, -300, tlvData.field_1C_scale != 0 ? 0x8000 : 0x10000);
-        gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
-        
-        /*
-        v14 = *(_DWORD *)&tlvData.field_22_eletric_x - *(_DWORD *)&abeSpawnPos;
-        v32 = *(_DWORD *)&tlvData.field_22_eletric_x - *(_DWORD *)&abeSpawnPos;
-        v15 = *(_DWORD *)&tlvData.field_24_electric_y - *(_DWORD *)((char *)&abeSpawnPos + 2);
-        v16 = &unk_56398A;
-        for (j = *(_DWORD *)&tlvData.field_24_electric_y - *(_DWORD *)((char *)&abeSpawnPos + 2); ; v15 = j)
-        {
-            if (tlvData.field_1C_scale)
-            {
-                v17 = v14 + (signed __int16)*(v16 - 1) / 2;
-                v14 = v15 + (signed __int16)*v16 / 2;
-            }
-            else
-            {
-                LOWORD(v17) = v14 + *(v16 - 1);
-                LOWORD(v14) = v15 + *v16;
-            }
-            pSpark = (BaseGameObject *)malloc_4954D0(0x68u);
-            xy = (PSX_Point)pSpark;
-            if (pSpark)
-            {
-                Spark::ctor_4CBBB0(pSpark, (signed __int16)v17 << 16, (signed __int16)v14 << 16, 0x10000, 9, -31, 159, 1);
-                this = v31;
-            }
-            v16 += 2;
-            not_used = -1;
-            if ((signed int)v16 >= (signed int)&unk_5639A6)
-            {
-                break;
-            }
-            v14 = v32;
-        }*/
-        /*
-        pChar2 = sControlledCharacter_5C1B8C;
+        SpawnRingSparks();
+
         if (tlvData.field_1C_scale)
         {
             if (sControlledCharacter_5C1B8C->field_D6_scale == 1)
             {
-                sControlledCharacter_5C1B8C->field_C4_velx = Math_FixedPoint_Multiply_496C50(
-                    sControlledCharacter_5C1B8C->field_C4_velx,
-                    0x8000);
-                sControlledCharacter_5C1B8C->field_C8_vely = Math_FixedPoint_Multiply_496C50(
-                    sControlledCharacter_5C1B8C->field_C8_vely,
-                    0x8000);
-                pChar2 = sControlledCharacter_5C1B8C;
+                sControlledCharacter_5C1B8C->field_C4_velx *= FP_FromDouble(0.5);
+                sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromDouble(0.5);
             }
-            pChar2->field_CC_sprite_scale = 0x8000;
+            sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromDouble(0.5);
             sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = 13;
             sControlledCharacter_5C1B8C->field_D6_scale = 0;
         }
         else
         {
-            if (!sControlledCharacter_5C1B8C->field_D6_scale)
+            if (sControlledCharacter_5C1B8C->field_D6_scale == 0)
             {
-                sControlledCharacter_5C1B8C->field_C4_velx = Math_FixedPoint_Multiply_496C50(
-                    sControlledCharacter_5C1B8C->field_C4_velx,
-                    0x20000);
-                sControlledCharacter_5C1B8C->field_C8_vely = Math_FixedPoint_Multiply_496C50(
-                    sControlledCharacter_5C1B8C->field_C8_vely,
-                    0x20000);
-                pChar2 = sControlledCharacter_5C1B8C;
+                sControlledCharacter_5C1B8C->field_C4_velx *= FP_FromInteger(2);
+                sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromInteger(2);
             }
-            pChar2->field_CC_sprite_scale = 0x10000;
+            sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromInteger(1);
             sControlledCharacter_5C1B8C->field_20_animation.field_C_render_layer = 32;
             sControlledCharacter_5C1B8C->field_D6_scale = 1;
         }
-        sControlledCharacter_5C1B8C->field_B8_xpos = (pTeleporterTlvNext->field_8_top_left.field_0_x << 16)
-            + ((pTeleporterTlvNext->field_C_bottom_right.field_0_x
-                - pTeleporterTlvNext->field_8_top_left.field_0_x)
-                / 2 << 16);
 
-        MapFollowMe_408D10(TRUE);
-        */
+        // XPos = TLV xpos + TLV middle point
+        sControlledCharacter_5C1B8C->field_B8_xpos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_0_x) +
+            FP_FromInteger((pTeleporterTlv->field_C_bottom_right.field_0_x - pTeleporterTlv->field_8_top_left.field_0_x) / 2);
 
-        /*
-        lineType = -(sControlledCharacter_5C1B8C->field_D6_scale != 0);
-        LOBYTE(lineType) = lineType & 0x1F;
-        if (Collisions::Raycast_417A60(
-            sCollisions_DArray_5C1128,
+        sControlledCharacter_5C1B8C->MapFollowMe_408D10(TRUE);
+
+        const BYTE lineType = sControlledCharacter_5C1B8C->field_D6_scale == 0 ? 0xF0 : 0x1F;
+
+        PathLine* pPathLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
             sControlledCharacter_5C1B8C->field_B8_xpos,
-            pTeleporterTlvNext->field_8_top_left.field_2_y << 16,
+            FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y),
             sControlledCharacter_5C1B8C->field_B8_xpos,
-            pTeleporterTlvNext->field_C_bottom_right.field_2_y << 16,
+            FP_FromInteger(pTeleporterTlv->field_C_bottom_right.field_2_y),
             &pPathLine,
             &hitX,
             &hitY,
-            lineType + 0xF0))
+            lineType))
         {
             sControlledCharacter_5C1B8C->field_100_pCollisionLine = pPathLine;
             sControlledCharacter_5C1B8C->field_BC_ypos = hitY;
         }
         else
         {
-            sControlledCharacter_5C1B8C->field_100_pCollisionLine = 0;
-            sControlledCharacter_5C1B8C->field_BC_ypos = pTeleporterTlvNext->field_8_top_left.field_2_y << 16;
+            sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
+            sControlledCharacter_5C1B8C->field_BC_ypos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y);
             sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
-        }*/
+        }
         field_30_state = States::eState_Out_of_teleporter_4;
     }
-        return;
+    break;
 
     case States::eState_Out_of_teleporter_4:
     {
         // Visual effects
         PSX_RECT bRect = {};
         sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&bRect, 1);
-        const FP yOff = sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60);
+
+        // White flash in the middle of Abe's body
         New_Particle_426F40(
             FP_FromInteger((bRect.x + bRect.w) / 2),
-            FP_FromInteger((bRect.y + bRect.h) / 2) + yOff,
+            FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60)),
             sControlledCharacter_5C1B8C->field_CC_sprite_scale);
 
+        // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination
         if (sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
             auto pParticleBurst = alive_new<ParticleBurst>();
@@ -578,9 +545,6 @@ void Teleporter::vUpdate_4DC400()
         field_2C_switch_state = SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id);
         field_30_state = States::eState_WaitForSwitchOn_0;
     }
-        break;
-
-    default:
-        return;
+    break;
     }
 }
