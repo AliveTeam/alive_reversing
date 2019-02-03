@@ -520,6 +520,14 @@ inline short GetClut(T* prim)
     return prim->mUv.tpage_clut_pad;
 }
 
+template<class T>
+inline void SetXYWH(T pPoly, short x, short y, short w, short h)
+{
+    SetXY0(pPoly, x, y);
+    SetXY1(pPoly, x + w, y);
+    SetXY2(pPoly, x, y + h);
+    SetXY3(pPoly, x + w, y + h);
+}
 
 void PolyF3_Init(Poly_F3* pPoly);
 void PolyFT3_Init(Poly_FT3* pPoly);

@@ -543,8 +543,6 @@ void Water::vUpdate_4E0B50()
 
 void Water::vRender_4E1440(int** pOt)
 {
-    NOT_IMPLEMENTED();
-
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
         field_C2_lvl_number,
         field_C0_path_number,
@@ -604,16 +602,11 @@ void Water::vRender_4E1440(int** pOt)
 
                 Poly_FT4* pPoly = &pWaterRes->field_20_polys[gPsxDisplay_5C1130.field_C_buffer_index];
 
+                // Clear out the data pointer hack
                 pPoly->mVerts[1].mUv.tpage_clut_pad = 0;
-                //SetTPage(pPoly, 0);
+                pPoly->mVerts[2].mUv.tpage_clut_pad = 0;
 
-                SetClut(pPoly, 0);
-
-                SetXY0(pPoly, polyX,         polyY);
-                SetXY1(pPoly, width + polyX, polyY);
-                SetXY2(pPoly, polyX,         polyY + height);
-                SetXY3(pPoly, width + polyX, polyY + height);
-
+                SetXYWH(pPoly, polyX, polyY, width, height);
                 OrderingTable_Add_4F8AA0(&pOt[39], &pPoly->mBase.header);
 
                 if (polyX < xMin)
