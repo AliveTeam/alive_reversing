@@ -8,6 +8,7 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
+#include "PsxDisplay.hpp"
 
 Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
 {
@@ -540,7 +541,106 @@ void Water::vUpdate_4E0B50()
     }
 }
 
-void Water::vRender_4E1440(int** /*pOt*/)
+void Water::vRender_4E1440(int** pOt)
 {
     NOT_IMPLEMENTED();
+
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos,
+        0))
+    {
+        short xMin = 32767;
+        short wMax = -32767;
+
+        short yMin = 32767;
+        short hMax = -32767;
+
+        for (int i=0; i < field_124_tlv_data.field_10_max_drops; i++)
+        {
+            Water_Res* pWaterRes = &field_F8_pWaterRes[i];
+            if (pWaterRes->field_18_enabled)
+            {
+                const short polyX = PsxToPCX(FP_GetExponent(pWaterRes->field_0_xpos));
+                const short polyY = FP_GetExponent((FP_FromRaw(pWaterRes->field_8_zpos.fpValue / 2)) + pWaterRes->field_4_ypos);
+                const short width = field_120_frame_width - 1;
+
+                short height;
+                if (pWaterRes->field_1C_state == 2)
+                {
+                    height = field_122_frame_height;
+                }
+                else
+                {
+                    int frame_height;
+                    FP dy;
+                    if (pWaterRes->field_10_delta_y <= FP_FromInteger(0))
+                    {
+                        dy = -pWaterRes->field_10_delta_y;
+                        frame_height = field_122_frame_height;
+                    }
+                    else
+                    {
+                        frame_height = field_122_frame_height;
+                        dy = pWaterRes->field_10_delta_y;
+                    }
+
+                    height = FP_GetExponent((FP_FromInteger(frame_height) * dy) * FP_FromDouble(0.75)) - 1;
+                    if (height <= field_122_frame_height)
+                    {
+                        height = field_122_frame_height;
+                    }
+                }
+
+                if (pWaterRes->field_1C_state == 0)
+                {
+                    if ((height + polyY) > field_108_bottom_right.field_2_y)
+                    {
+                        height = field_108_bottom_right.field_2_y - polyY;
+                    }
+                }
+
+                Poly_FT4* pPoly = &pWaterRes->field_20_polys[gPsxDisplay_5C1130.field_C_buffer_index];
+
+                pPoly->mVerts[1].mUv.tpage_clut_pad = 0;
+                //SetTPage(pPoly, 0);
+
+                SetClut(pPoly, 0);
+
+                SetXY0(pPoly, polyX,         polyY);
+                SetXY1(pPoly, width + polyX, polyY);
+                SetXY2(pPoly, polyX,         polyY + height);
+                SetXY3(pPoly, width + polyX, polyY + height);
+
+                OrderingTable_Add_4F8AA0(&pOt[39], &pPoly->mBase.header);
+
+                if (polyX < xMin)
+                {
+                    xMin = polyX;
+                }
+                if (polyX > wMax)
+                {
+                    wMax = polyX;
+                }
+                if (polyY < yMin)
+                {
+                    yMin = polyY;
+                }
+                if (polyY > hMax)
+                {
+                    hMax = polyY + height;
+                }
+            }
+        }
+
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            xMin - 6,
+            yMin - 6,
+            wMax + 6,
+            hMax + 6,
+            pScreenManager_5BB5F4->field_3A_idx);
+    }
+
 }
