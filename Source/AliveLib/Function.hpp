@@ -1,15 +1,8 @@
 #pragma once
 
 #include <windows.h>
-#include <ostream>
-#include <map>
-#include <memory>
-#include <fstream>
-#include <set>
-#include <vector>
 #include <type_traits>
 #include "logger.hpp"
-#include "detours.h"
 #include "FunctionFwd.hpp"
 
 #define NOT_IMPLEMENTED() { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } static bool __done__ = false; if (!__done__) { __done__ = true; LOG_WARNING("Not implemented"); }
@@ -37,41 +30,8 @@ TypeName LocalVar_##VarName = Value;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalVar_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\
 TypeName& VarName = (Redirect && IsAlive()) ? *reinterpret_cast<TypeName*>(Addr) : LocalVar_##VarName;
 
-template<class T>
-inline void DoDetour(DWORD addr, T func)
-{
-    LONG err = DetourTransactionBegin();
-
-    if (err != NO_ERROR)
-    {
-        abort();
-    }
-
-    err = DetourUpdateThread(GetCurrentThread());
-
-    if (err != NO_ERROR)
-    {
-        abort();
-    }
-
-    err = DetourAttach(&(PVOID&)addr, (PVOID)func);
-    if (err != NO_ERROR)
-    {
-        abort();
-    }
-
-    err = DetourTransactionCommit();
-    if (err != NO_ERROR)
-    {
-        abort();
-    }
-}
-
-
-#define ALIVE_REDIRECT(addr, func) DoDetour((DWORD)addr, func)
 
 void CheckVars();
-
 
 class ScopedDetour
 {
@@ -79,54 +39,17 @@ public:
     template<class T, class Y>
     ScopedDetour(T src, Y dst)
     {
-        auto applyDetour = [this]()
-        {
-            return DetourAttach(&(PVOID&)mReal, (PVOID)mDst);
-        };
         mReal = (PVOID)src;
         mDst = (PVOID)dst;
-        DoDetour(applyDetour);
+        Construct();
     }
 
-    ~ScopedDetour()
-    {
-        auto removeDetour = [this]()
-        {
-            return  DetourDetach(&(PVOID&)mReal, (PVOID)mDst);
-        };
-        DoDetour(removeDetour);
-    }
+    ~ScopedDetour();
 
 private:
-    template<class T>
-    void DoDetour(T fn)
-    {
-        LONG err = DetourTransactionBegin();
+    void Construct();
 
-        if (err != NO_ERROR)
-        {
-            abort();
-        }
-
-        err = DetourUpdateThread(GetCurrentThread());
-
-        if (err != NO_ERROR)
-        {
-            abort();
-        }
-
-        err = fn();
-        if (err != NO_ERROR)
-        {
-            abort();
-        }
-
-        err = DetourTransactionCommit();
-        if (err != NO_ERROR)
-        {
-            abort();
-        }
-    }
+    static void DoDetour(bool attach, PVOID* ppPointer, PVOID detour);
 
     void* mReal;
     void* mDst;
@@ -136,24 +59,12 @@ private:
 
 extern bool gVTableHack;
 
-inline void SetVTable(void* thisPtr, DWORD vTable)
-{
-    if (IsAlive() && gVTableHack)
-    {
-        *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
-    }
-}
+void SetVTable(void* thisPtr, DWORD vTable);
 
 class DisableVTableHack
 {
 public:
-    DisableVTableHack()
-    {
-        gVTableHack = false;
-    }
+    DisableVTableHack();
 
-    ~DisableVTableHack()
-    {
-        gVTableHack = true;
-    }
+    ~DisableVTableHack();
 };

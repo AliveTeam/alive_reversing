@@ -3,8 +3,17 @@
 #include <set>
 #include <fstream>
 #include "Sys.hpp"
+#include "detours.h"
 
 bool gVTableHack = true;
+
+void SetVTable(void* thisPtr, DWORD vTable)
+{
+    if (IsAlive() && gVTableHack)
+    {
+        *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
+    }
+}
 
 __declspec(noreturn) void ALIVE_FATAL(const char* errMsg)
 {
@@ -74,4 +83,53 @@ bool operator < (const TVarInfo& lhs, const TVarInfo& rhs)
 AliveVar::AliveVar(const char* name, DWORD addr, DWORD sizeInBytes, bool isPointerType, bool isConstData)
 {
     Vars().insert({ addr, sizeInBytes, isPointerType, isConstData, name });
+}
+
+ScopedDetour::~ScopedDetour()
+{
+    DoDetour(false, &(PVOID&)mReal, (PVOID)mDst);
+}
+
+void ScopedDetour::Construct()
+{
+    DoDetour(true, &(PVOID&)mReal, (PVOID)mDst);
+}
+
+void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
+{
+    LONG err = DetourTransactionBegin();
+
+    if (err != NO_ERROR)
+    {
+        abort();
+    }
+
+    err = DetourUpdateThread(GetCurrentThread());
+
+    if (err != NO_ERROR)
+    {
+        abort();
+    }
+
+    err = attach ? DetourAttach(ppPointer, detour) : DetourDetach(ppPointer, detour);
+    if (err != NO_ERROR)
+    {
+        abort();
+    }
+
+    err = DetourTransactionCommit();
+    if (err != NO_ERROR)
+    {
+        abort();
+    }
+}
+
+DisableVTableHack::DisableVTableHack()
+{
+    gVTableHack = false;
+}
+
+DisableVTableHack::~DisableVTableHack()
+{
+    gVTableHack = true;
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "detours.h"
 #include <assert.h>
 #include <vector>
 #include <set>
@@ -14,6 +13,7 @@ public:
     explicit ExportHooker(HINSTANCE instance);
 
     void Apply(bool saveImplementedFuncs = false);
+    void OnExport(PCHAR pszName, PVOID pCode);
 
 private:
     void LoadDisabledHooks();
@@ -28,24 +28,10 @@ private:
         std::string mExportedFunctionName;
         std::string mUnMangledFunctioName;
 
-        const std::string& Name()
-        {
-            if (!mUnMangledFunctioName.empty())
-            {
-                return mUnMangledFunctioName;
-            }
-            return mExportedFunctionName;
-        }
+        const std::string& Name();
     };
 
     static ExportInformation GetExportInformation(PVOID pExportedFunctionAddress, const std::string& exportedFunctionName);
-
-    void OnExport(PCHAR pszName, PVOID pCode);
-
-    static BOOL CALLBACK EnumExports(PVOID pContext,
-        ULONG /*nOrdinal*/,
-        PCHAR pszName,
-        PVOID pCode);
 
     HINSTANCE mhInstance = nullptr;
     struct Export

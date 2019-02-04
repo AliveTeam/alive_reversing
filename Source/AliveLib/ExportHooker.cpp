@@ -1,9 +1,30 @@
 #include "stdafx.h"
 #include "ExportHooker.hpp"
+#include "detours.h"
 
 ExportHooker::ExportHooker(HINSTANCE instance) : mhInstance(instance)
 {
     mExports.reserve(5000);
+}
+
+
+static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszName, PVOID pCode)
+{
+    if (pszName && pCode)
+    {
+        // Resolve 1 level long jumps, not using DetourCodeFromPointer
+        // as it appears to have a bug where it checks for 0xeb before 0xe9 and so
+        // won't skip jmps that start with long jmps.
+        BYTE* pbCode = (BYTE*)pCode;
+        if (pbCode[0] == 0xe9)
+        {
+            // jmp +imm32
+            PBYTE pbNew = pbCode + 5 + *(DWORD *)&pbCode[1];
+            pCode = pbNew;
+        }
+        reinterpret_cast<ExportHooker*>(pContext)->OnExport(pszName, pCode);
+    }
+    return TRUE;
 }
 
 void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
@@ -313,21 +334,11 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
     LOG_WARNING(pszName << " was not hooked");
 }
 
-BOOL CALLBACK ExportHooker::EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszName, PVOID pCode)
+const std::string& ExportHooker::ExportInformation::Name()
 {
-    if (pszName && pCode)
+    if (!mUnMangledFunctioName.empty())
     {
-        // Resolve 1 level long jumps, not using DetourCodeFromPointer
-        // as it appears to have a bug where it checks for 0xeb before 0xe9 and so
-        // won't skip jmps that start with long jmps.
-        BYTE* pbCode = (BYTE*)pCode;
-        if (pbCode[0] == 0xe9)
-        {
-            // jmp +imm32
-            PBYTE pbNew = pbCode + 5 + *(DWORD *)&pbCode[1];
-            pCode = pbNew;
-        }
-        reinterpret_cast<ExportHooker*>(pContext)->OnExport(pszName, pCode);
+        return mUnMangledFunctioName;
     }
-    return TRUE;
+    return mExportedFunctionName;
 }
