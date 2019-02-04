@@ -1,13 +1,16 @@
 #include "stdafx.h"
 #include "ExportHooker.hpp"
+
+#ifdef _WIN32
 #include "detours.h"
+#endif
 
 ExportHooker::ExportHooker(HINSTANCE instance) : mhInstance(instance)
 {
     mExports.reserve(5000);
 }
 
-
+#ifdef _WIN32
 static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszName, PVOID pCode)
 {
     if (pszName && pCode)
@@ -26,9 +29,11 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
     }
     return TRUE;
 }
+#endif
 
 void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 {
+#ifdef _WIN32
     CheckVars(); // Check for dup vars or vars that overlap in address space
 
     if (!DetourEnumerateExports(mhInstance, this, EnumExports))
@@ -60,6 +65,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
         LoadDisabledHooks();
         ProcessExports();
     }
+#endif
 }
 
 void ExportHooker::LoadDisabledHooks()
@@ -82,6 +88,7 @@ void ExportHooker::LoadDisabledHooks()
 void ExportHooker::ProcessExports()
 {
     TRACE_ENTRYEXIT;
+#ifdef _WIN32
     LONG err = DetourTransactionBegin();
 
     if (err != NO_ERROR)
@@ -178,6 +185,7 @@ void ExportHooker::ProcessExports()
     {
         ALIVE_FATAL("DetourTransactionCommit failed");
     }
+#endif
 }
 
 bool ExportHooker::IsHexDigit(char letter)
@@ -193,6 +201,7 @@ bool ExportHooker::IsHexDigit(char letter)
 ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExportedFunctionAddress, const std::string& exportedFunctionName)
 {
     ExportInformation info = {};
+#ifdef _WIN32
     info.mIsImplemented = false;
     info.mExportedFunctionName = exportedFunctionName;
 
@@ -247,11 +256,13 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
         }
     }
     info.mIsImplemented = true; // Didn't find not impl instruction pattern
+#endif
     return info;
 }
 
 void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
 {
+#ifdef _WIN32
     std::string exportedFunctionName(pszName);
     auto underScorePos = exportedFunctionName.find_first_of('_');
     while (underScorePos != std::string::npos)
@@ -332,6 +343,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
         underScorePos = exportedFunctionName.find('_', underScorePos + 1);
     }
     LOG_WARNING(pszName << " was not hooked");
+#endif
 }
 
 const std::string& ExportHooker::ExportInformation::Name()

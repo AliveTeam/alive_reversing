@@ -1,21 +1,23 @@
 project(Deps VERSION 0.1 LANGUAGES C CXX)
 
-# Detours lib
-add_library(Detours
-    Detours/src/detours.cpp
-    Detours/src/disasm.cpp
-    Detours/src/image.cpp
-    Detours/src/modules.cpp
-    )
+if (WIN32)
+    # Detours lib
+    add_library(Detours
+        Detours/src/detours.cpp
+        Detours/src/disasm.cpp
+        Detours/src/image.cpp
+        Detours/src/modules.cpp
+        )
 
-target_compile_definitions(Detours PRIVATE "DETOURS_X86" "DETOURS_32BIT")
+    target_compile_definitions(Detours PRIVATE "DETOURS_X86" "DETOURS_32BIT")
 
-target_include_directories(Detours PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Detours/src>
-    $<INSTALL_INTERFACE:Detours/src>)
+    target_include_directories(Detours PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Detours/src>
+        $<INSTALL_INTERFACE:Detours/src>)
 
-set_property(TARGET Detours PROPERTY FOLDER "3rdParty")
-export(TARGETS Detours FILE Detours.cmake)
+    set_property(TARGET Detours PROPERTY FOLDER "3rdParty")
+    export(TARGETS Detours FILE Detours.cmake)
+endif()
 
 # EasyLogging++ lib
 add_library(EasyLogging++

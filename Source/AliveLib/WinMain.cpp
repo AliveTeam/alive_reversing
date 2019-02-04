@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "WinMain.hpp"
-#include <windows.h>
 #include "logger.hpp"
 #include "Function.hpp"
 #include "Primitives.hpp"

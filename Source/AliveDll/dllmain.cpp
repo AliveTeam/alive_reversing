@@ -1,4 +1,3 @@
-#include <windows.h>
 #include "logger.hpp"
 #include "Function.hpp"
 #include "ExportHooker.hpp"
@@ -10,7 +9,7 @@ bool IsAlive()
 
 extern "C"
 {
-    __declspec(dllexport) void __cdecl ForceThisDllToLoadInExoddusExe()
+    EXPORT void CC ForceThisDllToLoadInExoddusExe()
     {
         // Never called because:
         // The patched Exoddsue.exe loads this Dll and its WinMain calls this function but:

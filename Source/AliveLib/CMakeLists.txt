@@ -8,6 +8,7 @@ add_library(AliveLib
     logger.hpp
     Function.cpp
     Function.hpp
+    FunctionFwd.hpp
     Input.cpp
     Input.hpp
     DynamicArray.cpp

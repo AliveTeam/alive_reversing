@@ -1,6 +1,5 @@
 #pragma once
 
-#include <windows.h>
 #include <type_traits>
 #include "logger.hpp"
 #include "FunctionFwd.hpp"
