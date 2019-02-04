@@ -322,6 +322,8 @@ private:
     EXPORT void vUpdate_4E6240()
     {
         NOT_IMPLEMENTED();
+        // standalone hack
+        field_6_flags.Set(BaseGameObject::eDead);
     }
 
     EXPORT void vSub_4E6150()
