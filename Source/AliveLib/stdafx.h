@@ -24,6 +24,19 @@ using LPVOID = void*;
 using HINSTANCE = void*;
 using DWORD = unsigned int;
 using PCHAR = char*;
+using BOOL = long;
+using LONG = long;
+using LPSTR = char*;
+using LPCSTR = const char*;
+
+struct POINT
+{
+    LONG x;
+    LONG y;
+};
+
+#define LRESULT
+
 #endif
 
 #include <iostream>

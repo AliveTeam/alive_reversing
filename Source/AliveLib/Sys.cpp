@@ -19,7 +19,9 @@
 
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, TWindowHandleType, sHwnd_BBB9F4, nullptr);
+#if _WIN32
 ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);
+#endif
 ALIVE_VAR(1, 0xBBB9E8, LPSTR, sCommandLine_BBB9E8, nullptr);
 ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
 ALIVE_VAR(1, 0xBBB9FC, int, sCmdShow_BBB9FC, 0);
@@ -158,6 +160,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
 }
 
 #if USE_SDL2
+#if _WIN32
 HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
 {
     SDL_SysWMinfo wmInfo;
@@ -165,6 +168,7 @@ HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
     SDL_GetWindowWMInfo(windowHandle, &wmInfo);
     return wmInfo.info.win.window;
 }
+#endif
 #endif
 
 MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char* message, const char* title, MessageBoxType type)
@@ -292,13 +296,16 @@ void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
     sCommandLine_BBB9E8 = lpCmdLine;
 }
 
+#if _WIN32
 EXPORT void CC Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
 {
     sWindowProcFilter_BBB9F8 = pFilter;
 }
+#endif
 
 ALIVE_VAR(1, 0x5CA230, SoundEntry*, sSoundEntry_5CA230, nullptr);
 
+#if _WIN32
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
@@ -428,6 +435,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
     }
     return ret;
 }
+#endif
 
 #if USE_SDL2
 static int sdl_key_to_win32_vkey(SDL_Scancode key)
