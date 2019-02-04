@@ -671,6 +671,13 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
     // Note: Removed width == 32 optimization case.
 }
 
+EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* /*rect*/, WORD* /*pData*/)
+{
+    // TODO
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, BYTE* pData)
 {
     const unsigned int pixelCount = pRect->w * pRect->h;

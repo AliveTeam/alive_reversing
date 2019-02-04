@@ -2,24 +2,8 @@
 #include "InvisibleEffect.hpp"
 #include "Function.hpp"
 #include "Abe.hpp"
+#include "VRam.hpp"
 #include "stdlib.hpp"
-
-// TODO: Move to Psx.cpp
-EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* /*rect*/, WORD* /*pData*/)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-// TODO: Move to VRam.cpp
-EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect)
-{
-    rect->x = pPoint.field_0_x;
-    rect->y = pPoint.field_2_y;
-    rect->w = w;
-    rect->h = 1;
-    PSX_StoreImage_4F5E90(rect, pPalData);
-}
 
 EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(Abe* pAbe)
 {

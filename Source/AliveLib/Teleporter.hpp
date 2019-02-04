@@ -4,6 +4,8 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
+class Class_548100;
+
 class Teleporter : public BaseGameObject
 {
 public:
@@ -17,7 +19,7 @@ private:
     EXPORT void vScreenChanged_4DCE80();
     EXPORT void vUpdate_4DC400();
 private:
-    EXPORT static BaseGameObject* CC Create_obj_4DCEB0();
+    EXPORT static Class_548100* CC Create_obj_4DCEB0();
     void SpawnRingSparks();
 
     int field_20_tlvInfo;

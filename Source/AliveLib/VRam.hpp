@@ -18,6 +18,8 @@ EXPORT BOOL CC Vram_rects_overlap_4959E0(const PSX_RECT* pRect1, const PSX_RECT*
 
 EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16 width, unsigned __int16 height);
 
+EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect);
+
 namespace Test
 {
     void VRamTests();

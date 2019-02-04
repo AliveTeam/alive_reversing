@@ -364,6 +364,15 @@ EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16
     }
 }
 
+EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect)
+{
+    rect->x = pPoint.field_0_x;
+    rect->y = pPoint.field_2_y;
+    rect->w = w;
+    rect->h = 1;
+    PSX_StoreImage_4F5E90(rect, pPalData);
+}
+
 using namespace ::testing;
 
 namespace Test
