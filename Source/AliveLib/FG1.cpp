@@ -170,13 +170,7 @@ __int16 FG1::Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pB
         SetXY2(pPoly, pChunk->field_4_xpos,                          pChunk->field_6_ypos + pChunk->field_A_height);
         SetXY3(pPoly, pChunk->field_4_xpos + pChunk->field_8_width,  pChunk->field_6_ypos + pChunk->field_A_height);
 
-        // Store the pointer to the bit field data - this gets used by the lowest level software rendering func
-        // TODO: OG game hack
-        // TODO: 64bit fail
-        signed int ptr_first_half = (signed int)pBlock->field_68_array_of_height >> 16;
-        __int16 ptr_second_half = (WORD)(signed int)(pBlock->field_68_array_of_height);
-        pPoly->mVerts[1].mUv.tpage_clut_pad = ptr_second_half;
-        pPoly->mVerts[2].mUv.tpage_clut_pad = static_cast<WORD>(ptr_first_half);
+        SetPrimExtraPointerHack(pPoly, pBlock->field_68_array_of_height);
     }
     return 1;
 }

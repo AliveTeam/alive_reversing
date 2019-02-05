@@ -330,9 +330,7 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
 
     if (pFrameHeader->field_7_compression_type == 3 || pFrameHeader->field_7_compression_type == 6)
     {
-        // Storing a pointer as 2 words to the compressed frame data ??
-        pPoly->mVerts[1].mUv.tpage_clut_pad = (WORD)(unsigned int)&pFrameHeader->field_8_width2 >> 0;
-        pPoly->mVerts[2].mUv.tpage_clut_pad = (unsigned int)&pFrameHeader->field_8_width2 >> 16;
+        SetPrimExtraPointerHack(pPoly, &pFrameHeader->field_8_width2);
     }
     else
     {
@@ -629,11 +627,13 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
     
     // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
     // TODO: Remove it in the future when proven to be not required?
+#ifdef _MSC_VER
     if (reinterpret_cast<DWORD>(pFrame) & 3)
     {
         FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_5440AC;
         return Unknown;
     }
+#endif
 
     return pFrame;
 
