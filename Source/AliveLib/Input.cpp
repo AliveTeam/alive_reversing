@@ -1,19 +1,21 @@
 #include "stdafx.h"
 #include "Input.hpp"
-#include <windows.h>
 #include "logger.hpp"
 #include "Function.hpp"
 #include "easylogging++.h"
 #include "Game.hpp"
 #include "Sys.hpp"
 #include "DebugHelpers.hpp"
-#include <joystickapi.h>
 #include "Events.hpp"
 #include "PsxRender.hpp"
 #include "WinAPISupport.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "StringFormatters.hpp"
+
+#if _WIN32
+#include <joystickapi.h>
+#endif
 
 #if XINPUT_SUPPORT
 #include <Xinput.h>
@@ -32,8 +34,10 @@ ALIVE_VAR(1, 0x5c2edc, int, sJoystickCapFlags_5C2EDC, 0);
 ALIVE_VAR(1, 0x5c2ee0, bool, sJoyStateIsInit_5C2EE0, 0);
 ALIVE_VAR(1, 0x5c2eec, int, sJoyLastTick_5C2EEC, 0);
 ALIVE_VAR(1, 0x5C2EF8, int, sGamepadCapFlags_5C2EF8, 0);
+#if _WIN32
 ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
 ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
+#endif
 ALIVE_VAR(1, 0x5c2f00, UINT, sJoyID_5C2F00, 0);
 
 ALIVE_ARY(1, 0xBD2F60, unsigned char, 256, sInputKeyStates_BD2F60, {});
@@ -114,6 +118,7 @@ EXPORT void CC Input_AutoRun_45FF60(float /*x*/, float /*y*/, DWORD* /*buttons*/
     NOT_IMPLEMENTED();
 }
 
+#if _WIN32
 void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
 {
     if (!sJoystickEnabled_5C2EF4)
@@ -214,14 +219,15 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
     }
 
     // Clamp all our stick values
-    *pX1 = min(1.0f, max(-1.0f, *pX1));
-    *pY1 = min(1.0f, max(-1.0f, *pY1));
-    *pX2 = min(1.0f, max(-1.0f, *pX2));
-    *pY2 = min(1.0f, max(-1.0f, *pY2));
+    *pX1 = std::min(1.0f, std::max(-1.0f, *pX1));
+    *pY1 = std::min(1.0f, std::max(-1.0f, *pY1));
+    *pX2 = std::min(1.0f, std::max(-1.0f, *pX2));
+    *pY2 = std::min(1.0f, std::max(-1.0f, *pY2));
 
     *pButtons = sJoystickInfo_5C2EA8.dwButtons;
     Input_AutoRun_45FF60(*pX2, *pY2, pButtons);
 }
+#endif
 
 #if XINPUT_SUPPORT
 void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
@@ -326,7 +332,9 @@ EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, floa
 #if XINPUT_SUPPORT
     Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
 #else
-    Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
+    #if _WIN32
+        Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
+    #endif
 #endif
 }
 
@@ -909,6 +917,11 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
         dword_5C98DC = timeStamp - 55;
     }
 
+    float pX1 = 0.0f;
+    float pY1 = 0.0f;
+    float pY2 = 0.0f;
+    float pX2 = 0.0f;
+
     if (Sys_IsAppActive_4EDF30())
     {
         for (int i = 0; i < 256; i++)
@@ -928,10 +941,6 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
             goto no_joystick;
         }
 
-        float pX1 = 0.0f;
-        float pY1 = 0.0f;
-        float pY2 = 0.0f;
-        float pX2 = 0.0f;
         Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
         
         if ((sGamepadCapFlags_5C2EF8 & eAutoRun) == 1 && sJoystickNumButtons_5C2EFC <= 4 && fabs(pX1) >= 0.75f)// Auto sprint
@@ -1168,7 +1177,7 @@ EXPORT void CC Input_45FDF0(float x, float y, int a3, bool cap_has_r)
 EXPORT void Input_InitJoyStick_460080()
 {
     sJoystickEnabled_5C2EF4 = false;
-
+#if _WIN32
     for (DWORD i = 0; i < joyGetNumDevs(); i++)
     {
         if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, 0x194u))
@@ -1241,6 +1250,7 @@ EXPORT void Input_InitJoyStick_460080()
     }
 
     DEV_CONSOLE_PRINTF("Joystick Initialized: Buttons: %i", sJoystickNumButtons_5C2EFC);
+#endif
 }
 
 EXPORT void CC Input_Init_491BC0()
@@ -1289,7 +1299,7 @@ EXPORT void CC Input_Init_491BC0()
     sAllowedGameKeys_5C9D30['X'] = 1;
     sAllowedGameKeys_5C9D30['Y'] = 1;
     sAllowedGameKeys_5C9D30['Z'] = 1;
-    sAllowedGameKeys_5C9D30[WM_COMPAREITEM] = 1;
+    sAllowedGameKeys_5C9D30['9'] = 1;
     sAllowedGameKeys_5C9D30[VK_SEPARATOR] = 1;
     sAllowedGameKeys_5C9D30[VK_DECIMAL] = 1;
     sAllowedGameKeys_5C9D30[0] = 1;

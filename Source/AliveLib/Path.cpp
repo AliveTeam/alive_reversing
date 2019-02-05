@@ -118,7 +118,7 @@ Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera_4DB610(__int16 cam_x_idx, __i
     return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + indexTableEntry]);
 }
 
-Path_TLV* __stdcall Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
+Path_TLV* CCSTD Path::Next_TLV_4DB6A0(Path_TLV* pTlv)
 {
     if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
     {
@@ -322,7 +322,7 @@ Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_P
     }
 }
 
-Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
+Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
 {
     pTlv = Path::Next_TLV_4DB6A0(pTlv);
     if (!pTlv)
@@ -342,7 +342,7 @@ Path_TLV* __stdcall Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int
     return pTlv;
 }
 
-EXPORT void __stdcall Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
+EXPORT void CCSTD Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2)
 {
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;

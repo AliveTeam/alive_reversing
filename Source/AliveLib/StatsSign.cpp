@@ -169,7 +169,7 @@ void StatsSign::vRender_47B900(int ** pOt)
             FP_FromDouble(1.0),
             field_104_position_x + font4Width,
             flickerAmount);
-        maxWidth = max(font4Width, maxWidth);
+        maxWidth = std::max(font4Width, maxWidth);
 
         // Saved Mudokons
         sprintf(text, "%3d", sRescuedMudokons_5C1BC2);
@@ -190,7 +190,7 @@ void StatsSign::vRender_47B900(int ** pOt)
             FP_FromDouble(1.0),
             field_104_position_x + font2Width,
             flickerAmount);
-        maxWidth = max(font2Width, maxWidth);
+        maxWidth = std::max(font2Width, maxWidth);
 
         // Killed mudokons
         sprintf(text, "%3d", sKilledMudokons_5C1BC0);
@@ -211,7 +211,7 @@ void StatsSign::vRender_47B900(int ** pOt)
             FP_FromDouble(1.0),
             field_104_position_x + font1Width,
             flickerAmount);
-        maxWidth = max(font1Width, maxWidth);
+        maxWidth = std::max(font1Width, maxWidth);
 
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             static_cast<int>(field_104_position_x / 0.575f),

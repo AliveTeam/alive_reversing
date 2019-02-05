@@ -223,7 +223,7 @@ public:
     EXPORT void BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed __int16 resourceArraySize);
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
-    EXPORT static int __stdcall Find_Flags_4DC170(int objectId);
+    EXPORT static int CCSTD Find_Flags_4DC170(int objectId);
 public:
     Types field_4_typeId;
     BitField16<Options> field_6_flags;

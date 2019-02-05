@@ -6,7 +6,7 @@
 
 ALIVE_VAR(1, 0x5d1e2c, ThrowableArray*, gpThrowableArray_5D1E2C, nullptr);
 
-void __stdcall FreeResourceArray_49AEC0(DynamicArray*)
+void CCSTD FreeResourceArray_49AEC0(DynamicArray*)
 {
     NOT_IMPLEMENTED();
 }

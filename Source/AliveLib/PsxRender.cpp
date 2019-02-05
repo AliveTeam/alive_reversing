@@ -1076,7 +1076,7 @@ EXPORT void CC Add_Dirty_Area_4ED970(int /*x*/, int /*y*/, int /*w*/, int /*h*/)
 template <typename T>
 T clip(const T& n, const T& lower, const T& upper) 
 {
-    return max(lower, min(n, upper));
+    return std::max(lower, std::min(n, upper));
 }
 
 // Note: Assumes bounds checked before hand
@@ -1203,7 +1203,7 @@ EXPORT signed int CC PSX_OT_Idx_From_Ptr_4F6A40(int** ot)
     return -1;
 }
 
-EXPORT void __cdecl PSX_4F6ED0(WORD* /*pVRam*/, int /*width*/, int /*height*/, int /*r*/, int /*g*/, int /*b*/, int /*pitch*/)
+EXPORT void CC PSX_4F6ED0(WORD* /*pVRam*/, int /*width*/, int /*height*/, int /*r*/, int /*g*/, int /*b*/, int /*pitch*/)
 {
     NOT_IMPLEMENTED();
 }

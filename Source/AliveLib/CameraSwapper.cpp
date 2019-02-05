@@ -91,11 +91,11 @@ public:
 
     EXPORT void Update_Clip_Rect_416EB0(PSX_Point xy, PSX_Point wh)
     {
-        field_40_rect.x = min(xy.field_0_x, field_40_rect.x);
-        field_40_rect.y = min(xy.field_2_y, field_40_rect.y);
+        field_40_rect.x = std::min(xy.field_0_x, field_40_rect.x);
+        field_40_rect.y = std::min(xy.field_2_y, field_40_rect.y);
 
-        field_40_rect.w = max(wh.field_0_x, field_40_rect.w);
-        field_40_rect.h = max(wh.field_2_y, field_40_rect.h);
+        field_40_rect.w = std::max(wh.field_0_x, field_40_rect.w);
+        field_40_rect.h = std::max(wh.field_2_y, field_40_rect.h);
     }
 
 private:

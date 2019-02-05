@@ -25,7 +25,7 @@ ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_
 ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);
 
 // TODO: Move to own file
-EXPORT void __stdcall sub_465BC0(int /*a1*/)
+EXPORT void CCSTD sub_465BC0(int /*a1*/)
 {
     NOT_IMPLEMENTED();
 }

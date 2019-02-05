@@ -2135,7 +2135,7 @@ void MainMenuController::Update_4CF010()
     }
 }
 
-int __stdcall MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
+int CCSTD MainMenuController::GetPageIndexFromCam_4D05A0(int camId)
 {
     for (int i = 0; i < 24; i++)
     {

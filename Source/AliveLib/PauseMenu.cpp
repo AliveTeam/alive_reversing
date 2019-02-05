@@ -587,7 +587,7 @@ public:
 
         int o = 0;
         int size = entries->size();
-        for (int i = scrollDownIndex; i < min(size, scrollDownIndex + 7); i++)
+        for (int i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
         {
             const auto item = (*entries)[i];
             compiledEntries.push_back({ 0, 184, (short)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });

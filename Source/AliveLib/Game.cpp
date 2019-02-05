@@ -182,17 +182,17 @@ EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, int x, int y, float fps)
     Add_Dirty_Area_4ED970(0, 0, 97, 32);
 }
 
-EXPORT void __cdecl sub_4FBA20()
+EXPORT void CC sub_4FBA20()
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __cdecl CheckShiftCapslock_4953B0()
+EXPORT void CC CheckShiftCapslock_4953B0()
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __cdecl Draw_Debug_Strings_4F2800()
+EXPORT void CC Draw_Debug_Strings_4F2800()
 {
     NOT_IMPLEMENTED();
 }

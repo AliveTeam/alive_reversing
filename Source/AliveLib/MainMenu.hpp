@@ -97,7 +97,7 @@ public:
     EXPORT void Render_4CF4C0(int **ot);
     EXPORT void Update_4CF010();
 
-    EXPORT static int __stdcall GetPageIndexFromCam_4D05A0(int camId);
+    EXPORT static int CCSTD GetPageIndexFromCam_4D05A0(int camId);
 
     enum AnimIds
     {

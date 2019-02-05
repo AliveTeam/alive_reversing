@@ -89,11 +89,11 @@ BaseGameObject* ScreenManager::vdtor_40E460(signed int flags)
 
 void ScreenManager::InvalidateRect_40EC90(int x, int y, signed int width, signed int height, int idx)
 {
-    x = max(x, 0);
-    y = max(y, 0);
+    x = std::max(x, 0);
+    y = std::max(y, 0);
 
-    width = min(width, 639);
-    height = min(height, 239);
+    width = std::min(width, 639);
+    height = std::min(height, 239);
 
     for (int tileX = x / 32; tileX <= width / 32; tileX++)
     {

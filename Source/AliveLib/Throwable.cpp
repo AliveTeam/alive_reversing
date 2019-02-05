@@ -45,7 +45,7 @@ EXPORT int Rock::vGetSaveState_49F9A0(BYTE* /*pSaveBuffer*/)
     return 0;
 }
 
-EXPORT BaseThrowable* __stdcall Make_Throwable_49AF30(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
+EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
 {
     NOT_IMPLEMENTED();
     return nullptr;

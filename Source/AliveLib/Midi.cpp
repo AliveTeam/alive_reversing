@@ -226,10 +226,10 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
 
                 float sustain_level = static_cast<float>((2 * (~(unsigned __int8)pVagAttr->field_10_adsr1 & 0xF)));
 
-                pData->field_0_adsr_attack = min(static_cast<WORD>((powf(2.0f, ((pVagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), 32767);
+                pData->field_0_adsr_attack = std::min(static_cast<WORD>((powf(2.0f, ((pVagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<WORD>(32767));
                 pData->field_4_adsr_decay = static_cast<WORD>((((pVagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
-                pData->field_2_adsr_sustain_level = min(static_cast<WORD>((sustain_level / 15.0f) * 600.0), 32767);
-                pData->field_6_adsr_release = min(static_cast<WORD>(pow(2, pVagAttr->field_12_adsr2 & 0x1F) * 0.045f), 32767);
+                pData->field_2_adsr_sustain_level = std::min(static_cast<WORD>((sustain_level / 15.0f) * 600.0), static_cast<WORD>(32767));
+                pData->field_6_adsr_release = std::min(static_cast<WORD>(pow(2, pVagAttr->field_12_adsr2 & 0x1F) * 0.045f), static_cast<WORD>(32767));
 
                 // If decay is at max, then nothing should play. So mute sustain too ?
                 if (pData->field_4_adsr_decay == 16)
@@ -1144,7 +1144,7 @@ struct VabBodyRecord
 ALIVE_VAR(1, 0xbd1ce0, FILE *, sSoundDatFileHandle_BD1CE0, nullptr);
 
 // TODO: Reverse/refactor properly
-EXPORT DWORD *__cdecl SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
+EXPORT DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
 {
     VabBodyRecord *ret; // ecx
 
@@ -1157,7 +1157,7 @@ EXPORT DWORD *__cdecl SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHead
 }
 
 // TODO: Reverse/refactor properly
-EXPORT int __cdecl SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
+EXPORT int CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
 {
     int result; // eax
 
@@ -1169,13 +1169,13 @@ EXPORT int __cdecl SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, Va
 }
 
 // TODO: Reverse/refactor properly
-EXPORT int __cdecl sub_4FC440(VabHeader *pVabHeader, int pVabBody, int idx)
+EXPORT int CC sub_4FC440(VabHeader *pVabHeader, int pVabBody, int idx)
 {
     return *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, (VabBodyRecord *)pVabBody, idx) - 1);// -1 = field_4_unused
 }
 
 // TODO: Reverse/refactor properly
-EXPORT BOOL __cdecl sub_4FC470(VabHeader *pVabHeader, int pVabBody, int idx)
+EXPORT BOOL CC sub_4FC470(VabHeader *pVabHeader, int pVabBody, int idx)
 {
     return sub_4FC440(pVabHeader, pVabBody, idx) < 0;
 }
@@ -1466,7 +1466,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     char *v32; // ebx
     unsigned __int8 v33; // cl
     int v34; // eax
-    void(__cdecl *pFn)(int, DWORD, DWORD); // eax
+    void(CC *pFn)(int, DWORD, DWORD); // eax
     BYTE *v36; // eax
     char v37; // al
     int v38; // eax
@@ -1709,7 +1709,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                 }
                 break;
             case 40:
-                pFn = (void(__cdecl *)(int, DWORD, DWORD))sMidiStruct2Ary32_C13400.table[idx2].field_20_fn_ptr;
+                pFn = (void(CC *)(int, DWORD, DWORD))sMidiStruct2Ary32_C13400.table[idx2].field_20_fn_ptr;
                 if (pFn)
                 {
                     pFn(idx, 0, BYTE2(cmd));
@@ -1976,11 +1976,11 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         pan += (1.0f - (panLeft / static_cast<float>(panRight)));
                     }
 
-                    pan = min(max(pan, -1), 1);
+                    pan = std::min(std::max(pan, -1.0f), 1.0f);
 
                     SND_Play_SDL(
                         &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
-                        ((volume * max(leftVol2, rightVol2) * vagVol * sGlobalVolumeLevel_left_BD1CDC) >> 21) / 127.0f,
+                        ((volume * std::max(leftVol2, rightVol2) * vagVol * sGlobalVolumeLevel_left_BD1CDC) >> 21) / 127.0f,
                         pan,
                         pChannel->field_10_float, // freq
                         pChannel,

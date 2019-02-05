@@ -348,12 +348,12 @@ void Map::Reset_4805D0()
     field_D8_restore_quick_save = 0;
 }
 
-EXPORT void __stdcall sub_465800(int)
+EXPORT void CCSTD sub_465800(int)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void __cdecl sub_4C9A30()
+EXPORT void CC sub_4C9A30()
 {
     NOT_IMPLEMENTED();
 }
@@ -1049,7 +1049,7 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
     return newCamera;
 }
 
-void __stdcall Map::Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode)
+void CCSTD Map::Load_Path_Items_482C10(Camera* pCamera, __int16 loadMode)
 {
     if (!pCamera)
     {

@@ -70,7 +70,7 @@ ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 
 struct PSX_RECT;
 
-EXPORT PSX_RECT* __stdcall Rect_Clear_418040(PSX_RECT* pRect);
+EXPORT PSX_RECT* CCSTD Rect_Clear_418040(PSX_RECT* pRect);
 
 using TCollisionsFactory = decltype(&Collisions::Factory_4188A0);
 

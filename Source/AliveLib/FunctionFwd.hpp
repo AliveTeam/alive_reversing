@@ -6,12 +6,19 @@ bool IsAlive();
 #define NO_RETURN __declspec(noreturn)
 #define EXPORT __declspec(dllexport)
 #define CC __cdecl
+#define CCSTD __stdcall
 #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
 #else
 #define NO_RETURN
 #define EXPORT
 #define CC
+#define CCSTD
 #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize)
+
+// Replace with a function that actually exists but does the same thing
+#define strcmpi strcasecmp
+#define _strcmpi strcasecmp
+
 #endif
 
 NO_RETURN void ALIVE_FATAL(const char* errMsg);

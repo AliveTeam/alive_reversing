@@ -95,7 +95,7 @@ EXPORT void BaseGameObject::BaseGameObject_dtor_4DBEC0()
     field_10_resources_array.dtor_40CAD0();
 }
 
-EXPORT int __stdcall BaseGameObject::Find_Flags_4DC170(int objectId)
+EXPORT int CCSTD BaseGameObject::Find_Flags_4DC170(int objectId)
 {
     if (objectId != -1)
     {

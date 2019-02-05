@@ -134,7 +134,7 @@ inline Fixed_24_8 operator / (const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-EXPORT PSX_RECT* __stdcall Rect_Clear_418040(PSX_RECT* pRect)
+EXPORT PSX_RECT* CCSTD Rect_Clear_418040(PSX_RECT* pRect)
 {
     if (!pRect)
     {
@@ -165,11 +165,11 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
     Fixed_24_8 y1(Y1_16_16);
     Fixed_24_8 y2(Y2_16_16);
 
-    int minX = min(x1, x2).GetExponent();
-    int maxX = max(x1, x2).GetExponent();
+    int minX = std::min(x1, x2).GetExponent();
+    int maxX = std::max(x1, x2).GetExponent();
 
-    int minY = min(y1, y2).GetExponent();
-    int maxY = max(y1, y2).GetExponent();
+    int minY = std::min(y1, y2).GetExponent();
+    int maxY = std::max(y1, y2).GetExponent();
 
     Fixed_24_8 xDiff = x2 - x1;
     Fixed_24_8 yDiff = y2 - y1;
@@ -190,22 +190,22 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
             continue;
         }
 
-        if (min(pLine->field_0_x1, pLine->field_4_x2) > maxX)
+        if (std::min(pLine->field_0_x1, pLine->field_4_x2) > maxX)
         {
             continue;
         }
 
-        if (max(pLine->field_0_x1, pLine->field_4_x2) < minX)
+        if (std::max(pLine->field_0_x1, pLine->field_4_x2) < minX)
         {
             continue;
         }
 
-        if (min(pLine->field_2_y1, pLine->field_6_y2) > maxY)
+        if (std::min(pLine->field_2_y1, pLine->field_6_y2) > maxY)
         {
             continue;
         }
 
-        if (max(pLine->field_2_y1, pLine->field_6_y2) < minY)
+        if (std::max(pLine->field_2_y1, pLine->field_6_y2) < minY)
         {
             continue;
         }
