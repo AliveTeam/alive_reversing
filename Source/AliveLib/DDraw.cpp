@@ -4,6 +4,8 @@
 #include "Error.hpp"
 #include "Sys.hpp"
 
+#if _WIN32
+
 RECT ClientToScreenConvert(HWND hwnd)
 {
     RECT rect = {};
@@ -930,3 +932,4 @@ EXPORT void CC DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRe
         }
     }
 }
+#endif

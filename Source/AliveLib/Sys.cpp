@@ -43,6 +43,7 @@ EXPORT BOOL CC Sys_IsAnyKeyDown_4EDDF0()
     return sIsAKeyDown_BD309C;
 }
 
+#if _WIN32
 EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
@@ -158,6 +159,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
     }
     return ::DefWindowProcA(hWnd, msg, wParam, lParam);
 }
+#endif
 
 #if USE_SDL2
 #if _WIN32

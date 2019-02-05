@@ -102,7 +102,7 @@ public:
 
 public:
     byte gapE4[16];
-    Font field_F4_font;
+    Alive::Font field_F4_font;
     __int16 word12C_flags;
     __int16 field_12E_selected_glow;
     __int16 field_130;

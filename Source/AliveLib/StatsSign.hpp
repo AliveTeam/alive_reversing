@@ -31,10 +31,10 @@ public:
     EXPORT void vRender_47B900(int **pOt);
     EXPORT void vScreenChanged_47BC40();
 public:
-    Font field_20_font1;
-    Font field_58_font2;
-    Font field_90_font3;
-    Font field_C8_font4;
+    Alive::Font field_20_font1;
+    Alive::Font field_58_font2;
+    Alive::Font field_90_font3;
+    Alive::Font field_C8_font4;
     int field_100_objectId;
     __int16 field_104_position_x;
     __int16 field_106_position_y;

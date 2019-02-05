@@ -2762,7 +2762,7 @@ void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
 const char byte_55EE00[2] = { '\x18', '\0' };
 const char byte_55EDEC[2] = { '\x19', '\0' };
 
-void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Font* font, int* polyIndex, char op2)
+void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Alive::Font* font, int* polyIndex, char op2)
 {
     const bool bCancel = strstr(array->field_8_text, byte_55EE00) != 0; // cancel
     const bool bEndOfMedium = strstr(array->field_8_text, byte_55EDEC) != 0; // end of medium

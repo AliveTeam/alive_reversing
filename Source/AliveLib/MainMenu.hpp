@@ -153,7 +153,7 @@ public:
     EXPORT void sub_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);
-    EXPORT static void DrawMenuText_4D20D0(MainMenuText *array, int **ot, Font *font, int *polyIndex, char a5);
+    EXPORT static void DrawMenuText_4D20D0(MainMenuText *array, int **ot, Alive::Font *font, int *polyIndex, char a5);
 
     // Page Functions
     EXPORT void t_Render_Abe_Speak_4D2060(int** ot);
@@ -255,7 +255,7 @@ public:
     int field_E4[3];
     int field_F0;
     MainMenuControllerResources field_F4_resources;
-    Font field_120_font;
+    Alive::Font field_120_font;
     AnimationEx field_158_animation;
     int field_1F0;
     int field_1F4_credits_next_frame;

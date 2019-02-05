@@ -62,7 +62,7 @@ EXPORT void CC Error_DisplayMessageBox_4F2C80(const char* msg, int lineNum, cons
     }
     else
     {
-        sprintf(sErrorTitle_BC03B4, "%s : %ld", msg, lineNum);
+        sprintf(sErrorTitle_BC03B4, "%s : %d", msg, lineNum);
     }
 
     Sys_MessageBox(Sys_GetHWnd_4F2C70(), sErrorMessage_BBFBA8, sErrorTitle_BC03B4);
@@ -86,7 +86,7 @@ EXPORT void Error_MessageBox_4F2D00(const char* pFileName, int lineNum, const ch
     else
     {
         // Else format in the line number after the file name
-        sprintf(sErrorTitle_BBF6FC, "%s : %ld", pFileName, lineNum);
+        sprintf(sErrorTitle_BBF6FC, "%s : %d", pFileName, lineNum);
     }
 
     Sys_MessageBox(Sys_GetHWnd_4F2C70(), sErrorMsg_BBEEFC, sErrorTitle_BBF6FC);
@@ -117,8 +117,8 @@ EXPORT void CC Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
             allocatedString[0] = 0;
             for (int i = sErrorIndex_BBC564 - 1; i >= 0; i--)
             {
-                char buffer[256] = {};
-                sprintf(buffer, "%4ld %s: %s\n",
+                char buffer[256*4] = {};
+                sprintf(buffer, "%4d %s: %s\n",
                     sErrors_BBC570[sErrorIndex_BBC564].field_104_line_num,
                     sErrors_BBC570[sErrorIndex_BBC564].field_108_pSourceFileName,
                     sErrors_BBC570[sErrorIndex_BBC564].field_4_str);

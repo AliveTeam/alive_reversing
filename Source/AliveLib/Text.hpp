@@ -17,7 +17,7 @@ public:
     EXPORT void SetYPos_46AFB0(int /*not_used*/, __int16 ypos);
     EXPORT void Render_46AFD0(int** pOt);
 private:
-    Font field_20_font;
+    Alive::Font field_20_font;
     __int16 field_58_k0;
     __int16 field_5A_k4;
     __int16 field_5C_xpos;

@@ -43,6 +43,7 @@ EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 
 EXPORT void CC VGA_Shutdown_4F3170()
 {
+#if _WIN32
     if (sDD_primary_surface_BBC3C8)
     {
         if (!sVGA_own_surfaces_BD0BFA)
@@ -51,6 +52,7 @@ EXPORT void CC VGA_Shutdown_4F3170()
             sDD_surface_backbuffer_BBC3CC = nullptr;
         }
 
+        // TODO: Leak in SDL2 as this won't ever be hit ??
         if (sVGA_Bmp0_BD0BD0.field_0_pSurface)
         {
             Bmp_Free_4F1950(&sVGA_Bmp0_BD0BD0);
@@ -60,6 +62,7 @@ EXPORT void CC VGA_Shutdown_4F3170()
         sDD_primary_surface_BBC3C8 = nullptr;
         sDD_surface_backbuffer_BBC3CC = nullptr;
     }
+#endif
 
     sVGA_Inited_BC0BB8 = false;
 

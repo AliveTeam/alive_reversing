@@ -26,13 +26,14 @@ using HINSTANCE = void*;
 using DWORD = unsigned int;
 using PCHAR = char*;
 using BOOL = long;
-using LONG = long;
+using LONG = int;
 using LPSTR = char*;
 using LPCSTR = const char*;
 using BYTE = unsigned char;
 using WORD = unsigned short int;
 using HDC = void*;
 using UINT = unsigned int;
+using byte = unsigned char;
 
 #define __int64 long long
 #define __int32 int
@@ -70,7 +71,30 @@ struct POINT
 #define VK_NUMPAD8        0x68
 #define VK_NUMPAD9        0x69
 
+#define VK_F1             0x70
 #define VK_F2             0x71
+#define VK_F3             0x72
+#define VK_F4             0x73
+#define VK_F5             0x74
+#define VK_F6             0x75
+#define VK_F7             0x76
+#define VK_F8             0x77
+#define VK_F9             0x78
+#define VK_F10            0x79
+#define VK_F11            0x7A
+#define VK_F12            0x7B
+
+#define VK_OEM_3 0xC0 
+#define VK_OEM_COMMA 0xBC 
+#define VK_OEM_PERIOD 0xBE 
+#define VK_OEM_102 0xE2 
+#define VK_CAPITAL 0x14
+#define VK_PRINT 0x2A
+#define VK_SCROLL 0x91
+#define VK_PAUSE 0x13
+#define VK_LWIN 0x5B
+#define VK_RWIN 0x5C
+
 #define VK_ESCAPE         0x1B
 #define VK_TAB 0x09
 #define VK_LEFT 0x25

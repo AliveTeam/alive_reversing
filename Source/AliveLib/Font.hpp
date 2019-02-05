@@ -57,29 +57,32 @@ struct Font_Context
 };
 ALIVE_ASSERT_SIZEOF(Font_Context, 0x10);
 
-
-struct Font
+// In a space space otherwise it conflicts with the Font structure in x11.h on Linux brought in by SDL2's header
+namespace Alive
 {
-public:
-    Font();
-    Font(int maxCharLength, BYTE *palette, Font_Context *fontContext);
+    struct Font
+    {
+    public:
+        Font();
+        Font(int maxCharLength, BYTE *palette, Font_Context *fontContext);
 
-    EXPORT void ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontContext);
-    EXPORT void dtor_433540();
-    EXPORT int DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, __int16 colorRandomRange);
-    EXPORT int MeasureWidth_433700(const char * text);
-    EXPORT int MeasureWidth_4336C0(const char *text, FP scale);
-    EXPORT int MeasureWidth_433630(unsigned char character);
-    EXPORT const char * SliceText_433BD0(const char *text, int left, FP scale, int right);
-public:
-    byte gap0[32];
-    BYTE **field_20_fnt_poly_block_ptr;
-    Poly_FT4 *field_24_fnt_poly_array;
-    PSX_RECT field_28_palette_rect;
-    int field_30_poly_count;
-    Font_Context *field_34_font_context;
-};
-ALIVE_ASSERT_SIZEOF(Font, 0x38);
+        EXPORT void ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontContext);
+        EXPORT void dtor_433540();
+        EXPORT int DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, __int16 colorRandomRange);
+        EXPORT int MeasureWidth_433700(const char * text);
+        EXPORT int MeasureWidth_4336C0(const char *text, FP scale);
+        EXPORT int MeasureWidth_433630(unsigned char character);
+        EXPORT const char * SliceText_433BD0(const char *text, int left, FP scale, int right);
+    public:
+        byte gap0[32];
+        BYTE **field_20_fnt_poly_block_ptr;
+        Poly_FT4 *field_24_fnt_poly_array;
+        PSX_RECT field_28_palette_rect;
+        int field_30_poly_count;
+        Font_Context *field_34_font_context;
+    };
+    ALIVE_ASSERT_SIZEOF(Font, 0x38);
+}
 
 ALIVE_VAR_EXTERN(__int16, sFontType2LoadCount_5BC5E8);
 ALIVE_VAR_EXTERN(byte, sFontDrawScreenSpace_5CA4B4);

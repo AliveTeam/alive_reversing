@@ -34,7 +34,7 @@ char _devConsoleBuffer[1000];
 
 bool sDebugEnabled_VerboseEvents = false;
 
-Font g_DebugGlobalFont;
+Alive::Font g_DebugGlobalFont;
 int g_DebugGlobalFontPolyIndex = 0;
 char g_DebugGlobalFontPalette[32];
 Font_Context g_DebugGlobalFontContext;
@@ -260,7 +260,7 @@ public:
     }
 
     int mFontPIndex = 0;
-    Font mFont;
+    Alive::Font mFont;
     char mFontPalette[32];
     Font_Context mFontContext;
 };
@@ -403,7 +403,7 @@ public:
         }
     }
 
-    Font mFont;
+    Alive::Font mFont;
     char mFontPalette[32];
     Font_Context mFontContext;
 };
@@ -1032,7 +1032,7 @@ public:
         }
     }
 
-    Font mFont;
+    Alive::Font mFont;
     char mFontPalette[32];
     Font_Context mFontContext;
 
