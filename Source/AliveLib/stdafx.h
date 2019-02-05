@@ -28,7 +28,20 @@ using BOOL = long;
 using LONG = long;
 using LPSTR = char*;
 using LPCSTR = const char*;
+using __int16 = short int;
+using BYTE = unsigned char;
+using WORD = unsigned short int;
+using HDC = void*;
 
+struct RECT
+{
+    LONG left;
+    LONG top;
+    LONG right;
+    LONG bottom;
+};
+
+using LPRECT = RECT*;
 struct POINT
 {
     LONG x;

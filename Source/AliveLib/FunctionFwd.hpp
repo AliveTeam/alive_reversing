@@ -6,17 +6,18 @@ bool IsAlive();
 #define NO_RETURN __declspec(noreturn)
 #define EXPORT __declspec(dllexport)
 #define CC __cdecl
+#define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
 #else
 #define NO_RETURN
 #define EXPORT
 #define CC
+#define ALIVE_ASSERT_SIZEOF(structureName, expectedSize)
 #endif
 
 NO_RETURN void ALIVE_FATAL(const char* errMsg);
 
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
-#define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
-#define ALIVE_COUNTOF(x) _countof(x)
+#define ALIVE_COUNTOF(x) (sizeof(x)/sizeof(*(x)))
 #define BYTEn(x, n)   (*((BYTE*)&(x)+n))
 #define BYTE0(x)   BYTEn(x,  0)
 #define BYTE1(x)   BYTEn(x,  1)

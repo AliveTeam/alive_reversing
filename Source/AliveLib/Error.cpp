@@ -28,8 +28,8 @@ EXPORT void CC Error_PushErrorRecord_4F2920(const char* pSourceFileName, int lin
     }
 
     // Copy in the message and explicit null terminate it
-    strncpy(sErrors_BBC570[sErrorIndex_BBC564].field_4_str, errMsg, sizeof(ErrorData::field_4_str));
-    sErrors_BBC570[sErrorIndex_BBC564].field_4_str[ALIVE_COUNTOF(ErrorData::field_4_str) - 1] = 0;
+    strncpy(sErrors_BBC570[sErrorIndex_BBC564].field_4_str, errMsg, sizeof(sErrors_BBC570[sErrorIndex_BBC564].field_4_str));
+    sErrors_BBC570[sErrorIndex_BBC564].field_4_str[ALIVE_COUNTOF(sErrors_BBC570[sErrorIndex_BBC564].field_4_str) - 1] = 0;
 
     sErrors_BBC570[sErrorIndex_BBC564].field_0_minusOne = minusOne;
     sErrors_BBC570[sErrorIndex_BBC564].field_104_line_num = lineNumber;

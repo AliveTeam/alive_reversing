@@ -5,7 +5,7 @@
 
 void DynamicArray_ForceLink() { }
 
-DynamicArray* DynamicArray::ctor_40CA60(signed __int16 startingSize)
+DynamicArray* DynamicArray::ctor_40CA60(__int16 startingSize)
 {
     if (startingSize == 0)
     {
@@ -25,7 +25,7 @@ DynamicArray* DynamicArray::ctor_40CA60(signed __int16 startingSize)
     return this;
 }
 
-DynamicArray* DynamicArray::ctor_40C9E0(signed __int16 startingSize)
+DynamicArray* DynamicArray::ctor_40C9E0(__int16 startingSize)
 {
     ctor_40CA60(startingSize);
     for (int i = 0; i < startingSize; i++)
@@ -40,7 +40,7 @@ void DynamicArray::dtor_40CAD0()
     Mem_Free_495560(field_0_array);
 }
 
-signed __int16 DynamicArray::Push_Back_40CAF0(void* pValue)
+__int16 DynamicArray::Push_Back_40CAF0(void* pValue)
 {
     if (!field_0_array)
     {
@@ -60,7 +60,7 @@ signed __int16 DynamicArray::Push_Back_40CAF0(void* pValue)
     return 1;
 }
 
-signed __int16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
+__int16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
 {
     DynamicArrayIter arrayIter;
     arrayIter.field_0_pDynamicArray = this;
@@ -84,7 +84,7 @@ signed __int16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
     return 0;
 }
 
-signed __int16 DynamicArray::Expand_40CBE0(__int16 expandSize)
+__int16 DynamicArray::Expand_40CBE0(__int16 expandSize)
 {
     // Calculate new size and allocate buffer
     const __int16 newSize = field_6_max_size + expandSize;
