@@ -3242,7 +3242,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             case 0x83: // TODO: unknown
                 // Unlock because move image will lock + unlock again
                 BMP_unlock_4F2100(&sPsxVram_C1D160);
-                PSX_MoveImage_4F5D50((PSX_RECT *)(pOtItem + 5), (int)pOtItem[3], (int)pOtItem[4]);
+                PSX_MoveImage_4F5D50(any.mMoveImage->mpRect, any.mMoveImage->xPos, any.mMoveImage->yPos);
 
                 // Hence lock again after move image
                 if (BMP_Lock_4F1FF0(&sPsxVram_C1D160))
@@ -3258,7 +3258,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 
             case 0x84: // TODO: unknown
                 // Appears for gas..
-                PSX_84_4F7B80((int)pOtItem[3], (int)pOtItem[4], (int)pOtItem[5], (int)pOtItem[6], (int)pOtItem[7]);
+                PSX_84_4F7B80(any.mGas->unknown1, any.mGas->unknown2, any.mGas->unknown3, any.mGas->unknown4, any.mGas->unknown5);
                 break;
             default:
                 DrawOTag_HandlePrimRendering(any, drawEnv_of0, drawEnv_of1);

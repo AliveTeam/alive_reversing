@@ -81,7 +81,9 @@ EXPORT void CC SND_CallBack_4020A4()
     // Stub
 }
 
-EXPORT void CC SND_Set_VSyncCallback_4F8C40(void*)
+using TVSyncCallBackFn = void(CC *)();
+
+EXPORT void CC SND_Set_VSyncCallback_4F8C40(TVSyncCallBackFn)
 {
     // Stub
 }
@@ -1169,13 +1171,13 @@ EXPORT int CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, VabBody
 }
 
 // TODO: Reverse/refactor properly
-EXPORT int CC sub_4FC440(VabHeader *pVabHeader, int pVabBody, int idx)
+EXPORT int CC sub_4FC440(VabHeader *pVabHeader, VabBodyRecord* pVabBody, int idx)
 {
-    return *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, (VabBodyRecord *)pVabBody, idx) - 1);// -1 = field_4_unused
+    return *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx) - 1);// -1 = field_4_unused
 }
 
 // TODO: Reverse/refactor properly
-EXPORT BOOL CC sub_4FC470(VabHeader *pVabHeader, int pVabBody, int idx)
+EXPORT BOOL CC sub_4FC470(VabHeader *pVabHeader, VabBodyRecord* pVabBody, int idx)
 {
     return sub_4FC440(pVabHeader, pVabBody, idx) < 0;
 }
@@ -1219,7 +1221,7 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
 
 
         int sampleLen = SND_SoundsDat_Get_Sample_Len_4FC400(pVabHeader, pVabBody, i);
-        if (sampleLen < 4000 && !sub_4FC470(pVabHeader, (int)pVabBody, i))
+        if (sampleLen < 4000 && !sub_4FC470(pVabHeader, pVabBody, i))
         {
             sampleLen *= 2;
         }
@@ -1227,7 +1229,7 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
         if (sampleLen > 0)
         {
             // Find matching converted vag to set field_C / field_6_adsr
-            const int unused_field = sub_4FC470(pVabHeader, (int)pVabBody, i);
+            const int unused_field = sub_4FC470(pVabHeader, pVabBody, i);
             const BYTE unused_copy = unused_field != 0 ? 4 : 0;
             for (int prog = 0; prog < 128; prog++)
             {
@@ -1454,7 +1456,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     MIDI_Struct1_Sub *pSubChan2; // esi
     char v21; // bl
     char channelIdx_1; // cl
-    int v23; // edx
+    
     signed int v24; // esi
     __int16 channelIdx; // di
     MIDI_Struct1_Sub *pSubChan1; // esi
@@ -1631,7 +1633,8 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                     v18[2],
                     v16 >> 16);
                 channelIdx_1 = 0;
-                v23 = (int)&sMidi_Channels_C14080.channels[0].field_1C.field_E;
+                BYTE* v23; // edx
+                v23 = (BYTE*)&sMidi_Channels_C14080.channels[0].field_1C.field_E;
                 v24 = 24;
                 do
                 {

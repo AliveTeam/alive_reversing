@@ -15,7 +15,7 @@ public:
     EXPORT static void CC SetBaseTimeStamp_47FD00();
     EXPORT static void CC Shutdown_47FD20();
     EXPORT static void CC UpdateMusicTime_47F8B0();
-    EXPORT static __int16 CC MusicController::sub_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime);
+    EXPORT static __int16 CC sub_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     EXPORT MusicController* ctor_47EE80();

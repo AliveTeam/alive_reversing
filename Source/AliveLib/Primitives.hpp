@@ -318,6 +318,23 @@ enum PrimTypeCodes
     eLineG4 = 0x5C
 };
 
+struct Prim_MoveImage
+{
+    int xPos;
+    int yPos;
+    PSX_RECT* mpRect;
+};
+
+// Could be used for other stuff but only seen for gas so far
+struct Prim_GasEffect
+{
+    int unknown1;
+    int unknown2;
+    int unknown3;
+    int unknown4;
+    int unknown5;
+};
+
 union PrimAny
 {
     void* mVoid;
@@ -356,6 +373,9 @@ union PrimAny
     Line_G2* mLineG2;
     Line_G3* mLineG3;
     Line_G4* mLineG4;
+
+    Prim_MoveImage* mMoveImage;
+    Prim_GasEffect* mGas;
 };
 ALIVE_ASSERT_SIZEOF(PrimAny, sizeof(void*));
 

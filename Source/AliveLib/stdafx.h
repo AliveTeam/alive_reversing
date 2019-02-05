@@ -34,6 +34,7 @@ using WORD = unsigned short int;
 using HDC = void*;
 using UINT = unsigned int;
 using byte = unsigned char;
+using HANDLE = void*;
 
 #define __int64 long long
 #define __int32 int
@@ -116,6 +117,9 @@ struct POINT
 #define VK_DECIMAL 0x6E
 #define VK_RETURN 0x0D
 
+#define WINAPI
+#define DWORD_PTR DWORD
+#define LOBYTE(w) ((BYTE)(((DWORD_PTR)(w)) & 0xff))
 #endif
 
 #include <iostream>

@@ -807,7 +807,7 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
     if (mode == 1) // Ignore Frame cap
     {
         sVSync_Unused_578325 = 1;
-        const int v3 = (signed int)((unsigned __int64)(1172812403i64 * (signed int)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
+        const int v3 = (signed int)((unsigned __int64)(1172812403ULL * (signed int)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
         return (v3 >> 31) + v3;
     }
     else if (mode < 0) // Nope.
