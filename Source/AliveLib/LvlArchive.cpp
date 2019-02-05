@@ -166,7 +166,7 @@ LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
     }
 
     int fileRecordIndex = 0;
-    while (strncmp(field_0_0x2800_res->field_10_file_recs[fileRecordIndex].field_0_file_name, pFileName, _countof(LvlFileRecord::field_0_file_name)))
+    while (strncmp(field_0_0x2800_res->field_10_file_recs[fileRecordIndex].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)))
     {
         fileRecordIndex++;
         if (fileRecordIndex >= field_0_0x2800_res->field_0_num_files)

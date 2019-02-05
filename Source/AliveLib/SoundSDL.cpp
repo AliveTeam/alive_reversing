@@ -358,7 +358,7 @@ EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffs
 
 EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
 {
-    printf("SND_Renew_4EEDD0: %x\n", reinterpret_cast<int>(pSnd));
+    printf("SND_Renew_4EEDD0: %p\n", pSnd);
     return 0; // TODO
 }
 

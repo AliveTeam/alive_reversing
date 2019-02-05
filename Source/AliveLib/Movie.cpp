@@ -660,7 +660,7 @@ void Movie::vUpdate_4E0030()
             }
         }
 
-        if (++sMovieNameIdx_5CA4C4 == _countof(sMovieNames_5CA348.mNames))
+        if (++sMovieNameIdx_5CA4C4 == ALIVE_COUNTOF(sMovieNames_5CA348.mNames))
         {
             sMovieNameIdx_5CA4C4 = 0;
         }

@@ -543,10 +543,10 @@ EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
         case LevelIds::eMudancheeVault_4:
         case LevelIds::eMudancheeVault_Ender_7:
         case LevelIds::eMudomoVault_Ender_11:
-            Map::LoadResource_4DBE00("SLAMVLTS.BAN", 'minA', 2020, loadmode, 0);
+            Map::LoadResource_4DBE00("SLAMVLTS.BAN", ResourceManager::Resource_Animation, ResourceID::kSlamResID, loadmode);
             break;
         default:
-            Map::LoadResource_4DBE00("SLAM.BAN", 'minA', 2020, loadmode, 0);
+            Map::LoadResource_4DBE00("SLAM.BAN", ResourceManager::Resource_Animation, ResourceID::kSlamResID, loadmode);
             break;
         }
     }

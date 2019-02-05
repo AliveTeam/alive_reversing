@@ -6,7 +6,9 @@
 #include "Sys.hpp"
 #include "Midi.hpp"
 #include "BackgroundMusic.hpp"
+#if !USE_SDL2_SOUND
 #include <mmeapi.h>
+#endif
 #include <mutex>
 #include "WinAPISupport.hpp"
 #include "Path.hpp"

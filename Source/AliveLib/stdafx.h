@@ -35,6 +35,7 @@ using HDC = void*;
 using UINT = unsigned int;
 using byte = unsigned char;
 using HANDLE = void*;
+using CHAR = char;
 
 #define __int64 long long
 #define __int32 int
@@ -116,10 +117,15 @@ struct POINT
 #define VK_SEPARATOR 0x6C
 #define VK_DECIMAL 0x6E
 #define VK_RETURN 0x0D
+#define VK_LSHIFT 0xA0
+#define VK_LBUTTON 0x01
+#define VK_LCONTROL 0xA2
 
 #define WINAPI
 #define DWORD_PTR DWORD
 #define LOBYTE(w) ((BYTE)(((DWORD_PTR)(w)) & 0xff))
+#define LOWORD(l) ((WORD)(((DWORD_PTR)(l)) & 0xffff))
+
 #endif
 
 #include <iostream>

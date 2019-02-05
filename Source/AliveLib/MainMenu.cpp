@@ -2768,7 +2768,7 @@ void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Aliv
     const bool bEndOfMedium = strstr(array->field_8_text, byte_55EDEC) != 0; // end of medium
 
     char textBuffer[32] = {};
-    String_FormatString_4969D0(array->field_8_text, textBuffer, _countof(textBuffer), array->field_14 == 0);
+    String_FormatString_4969D0(array->field_8_text, textBuffer, ALIVE_COUNTOF(textBuffer), array->field_14 == 0);
     
     if (op2)
     {

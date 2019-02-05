@@ -208,8 +208,6 @@ EXPORT signed int CC BMP_New_4F1990(Bitmap* pBitmap, int width, int height, int 
     return 0;
 }
 
-ALIVE_VAR(1, 0xBBC3E8, DDSURFACEDESC, sBmpSurfaceDesc_BBC3E8, {});
-
 EXPORT LPVOID CC BMP_Lock_4F1FF0(Bitmap* pBitmap)
 {
     // Already locked or we don't have a surface

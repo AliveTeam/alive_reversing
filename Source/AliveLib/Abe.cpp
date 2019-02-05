@@ -1447,9 +1447,9 @@ BaseGameObject* Abe::Vsub_408FD0(__int16 a2)
     return vsub_44E970(a2);
 }
 
-int Abe::Vnull_4081F0()
+BaseGameObject* Abe::Vnull_4081F0()
 {
-    return reinterpret_cast<int>(vsub_45A570());
+    return vsub_45A570();
 }
 
 BaseGameObject* Abe::vdtor_44B350(signed int flags)
@@ -8794,8 +8794,8 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
             // TODO: Deoptimise math
             SFX_SfxDefinition_Play_4CA700(
                 &sAbeSFXList_555250[idx],
-                ((unsigned int)((unsigned __int64)(2863311532i64 * (signed __int16)volume) >> 32) >> 31)
-                + ((unsigned __int64)(2863311532i64 * (signed __int16)volume) >> 32),
+                ((unsigned int)((unsigned __int64)(2863311532ULL * (signed __int16)volume) >> 32) >> 31)
+                + ((unsigned __int64)(2863311532ULL * (signed __int16)volume) >> 32),
                 2 * (signed __int16)volume / 9,
                 static_cast<short>(pitch), static_cast<short>(pitch));
             break;
@@ -8803,8 +8803,8 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ab
             // TODO: Deoptimise math
             SFX_SfxDefinition_Play_4CA700(
                 &sAbeSFXList_555250[idx],
-                ((unsigned int)((unsigned __int64)(1908874354i64 * (signed __int16)volume) >> 32) >> 31)
-                + ((signed int)((unsigned __int64)(1908874354i64 * (signed __int16)volume) >> 32) >> 1),
+                ((unsigned int)((unsigned __int64)(1908874354ULL * (signed __int16)volume) >> 32) >> 31)
+                + ((signed int)((unsigned __int64)(1908874354ULL * (signed __int16)volume) >> 32) >> 1),
                 2 * (signed __int16)volume / 3,
                 static_cast<short>(pitch), static_cast<short>(pitch));
             break;

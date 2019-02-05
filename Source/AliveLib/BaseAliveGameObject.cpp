@@ -163,7 +163,7 @@ BaseGameObject* BaseAliveGameObject::Vsub_408FD0(__int16 a2)
     return vsub_408FD0(a2);
 }
 
-int BaseAliveGameObject::Vnull_4081F0()
+BaseGameObject* BaseAliveGameObject::Vnull_4081F0()
 {
     return vnull_4081F0();
 }
@@ -218,10 +218,10 @@ BaseGameObject* BaseAliveGameObject::vsub_408FD0(__int16 /*a2*/)
     return nullptr;
 }
 
-int BaseAliveGameObject::vnull_4081F0()
+BaseGameObject* BaseAliveGameObject::vnull_4081F0()
 {
     // Empty
-    return 0;
+    return nullptr;
 }
 
 signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry * pTintArray, LevelIds level_id, int resourceID)

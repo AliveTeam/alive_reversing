@@ -1023,7 +1023,7 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
 
     // Copy in the camera name from the Path resource and append .CAM
     memset(newCamera->field_1E_cam_name, 0, sizeof(newCamera->field_1E_cam_name));
-    strncpy(newCamera->field_1E_cam_name, pCamName->name, _countof(CameraName::name));
+    strncpy(newCamera->field_1E_cam_name, pCamName->name, ALIVE_COUNTOF(CameraName::name));
     strcat(newCamera->field_1E_cam_name, ".CAM");
 
     newCamera->field_14_xpos = xpos;
