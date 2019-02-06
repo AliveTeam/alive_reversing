@@ -63,8 +63,8 @@ void AE_SDL_Audio_Generate(StereoSampleFloat * pSampleBuffer, int sampleBufferCo
                                     // Right now, unless the playback device is at 44100 hz, it sounds awful.
                                     // TODO: Resampling for stereo
 
-                tempBuffer[i].left = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition)]) / 65535.0f) * pVoice->State.fVolume;
-                tempBuffer[i].right = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition) + 1]) / 65535.0f) * pVoice->State.fVolume;
+                tempBuffer[i].left = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data())[static_cast<int>(pVoice->State.fPlaybackPosition)]) / 65535.0f) * pVoice->State.fVolume;
+                tempBuffer[i].right = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data())[static_cast<int>(pVoice->State.fPlaybackPosition) + 1]) / 65535.0f) * pVoice->State.fVolume;
 
                 pVoice->State.fPlaybackPosition += pVoice->State.fFrequency * 2;
             }
@@ -77,11 +77,11 @@ void AE_SDL_Audio_Generate(StereoSampleFloat * pSampleBuffer, int sampleBufferCo
                 switch (gAudioFilterMode)
                 {
                 case AudioFilterMode::NoFilter:
-                    s = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition)]) / 65535.0f) * pVoice->State.fVolume;
+                    s = ((reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data())[static_cast<int>(pVoice->State.fPlaybackPosition)]) / 65535.0f) * pVoice->State.fVolume;
                     break;
                 case AudioFilterMode::Linear:
-                    const float s1 = reinterpret_cast<Sint16*>(pVoice->GetBuffer())[static_cast<int>(pVoice->State.fPlaybackPosition)] / 65535.0f;
-                    const float s2 = reinterpret_cast<Sint16*>(pVoice->GetBuffer())[(static_cast<int>(pVoice->State.fPlaybackPosition) + 1) % pVoice->State.iSampleCount] / 65535.0f;
+                    const float s1 = reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data())[static_cast<int>(pVoice->State.fPlaybackPosition)] / 65535.0f;
+                    const float s2 = reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data())[(static_cast<int>(pVoice->State.fPlaybackPosition) + 1) % pVoice->State.iSampleCount] / 65535.0f;
 
                     s = (s1 + ((s2 - s1) * (pVoice->State.fPlaybackPosition - floorf(pVoice->State.fPlaybackPosition)))) * pVoice->State.fVolume;
                     break;
@@ -270,7 +270,7 @@ int AE_SDL_Voice::Stop()
     return 0;
 }
 
-void * AE_SDL_Voice::GetBuffer()
+std::vector<BYTE>* AE_SDL_Voice::GetBuffer()
 {
     return pBuffer.get();
 }
@@ -351,7 +351,7 @@ EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffs
     const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
     const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
 
-    memset(pSoundEntry->field_4_pDSoundBuffer->GetBuffer(), 0, pSoundEntry->field_14_buffer_size_bytes);
+    memset(pSoundEntry->field_4_pDSoundBuffer->GetBuffer()->data(), 0, pSoundEntry->field_14_buffer_size_bytes);
 
     return 0;
 }
@@ -366,7 +366,7 @@ EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffse
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
-    memcpy(reinterpret_cast<Uint8*>(pSnd->field_4_pDSoundBuffer->GetBuffer()) + offsetBytes, pSoundBuffer, bufferSizeBytes);
+    memcpy(reinterpret_cast<Uint8*>(pSnd->field_4_pDSoundBuffer->GetBuffer()->data()) + offsetBytes, pSoundBuffer, bufferSizeBytes);
     return 0;
 }
 
@@ -380,7 +380,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         AE_SDL_Voice * pDSoundBuffer = new AE_SDL_Voice();
         pDSoundBuffer->SetFrequency(sampleRate);
         pDSoundBuffer->State.iSampleCount = sampleByteSize / 2;
-        pDSoundBuffer->pBuffer = std::shared_ptr<void>(reinterpret_cast<void*>(new Sint8[sampleByteSize]));
+        pDSoundBuffer->pBuffer = std::make_shared<std::vector<BYTE>>(std::vector<BYTE>(sampleByteSize));
         pDSoundBuffer->State.iBlockAlign = pSnd->field_1D_blockAlign;
         pDSoundBuffer->State.iChannels = (isStereo & 1) ? 2 : 1;
         pSnd->field_4_pDSoundBuffer = pDSoundBuffer;
