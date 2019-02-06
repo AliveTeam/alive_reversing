@@ -273,7 +273,7 @@ EXPORT int CC PSX_getClut_4F6350(int x, int y)
     return (y << 6) | (x >> 4) & 63;
 }
 
-void SetPrimExtraPointerHack(Poly_FT4* pPoly, void* ptr)
+void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr)
 {
     // Store the pointer to the bit field data - this gets used by the lowest level software rendering func
     // TODO: OG game hack

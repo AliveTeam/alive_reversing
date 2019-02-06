@@ -291,6 +291,15 @@ POINT Sys_GetScreenMousePos()
 #endif
 }
 
+bool Sys_IsMouseButtonDown(MouseButtons button)
+{
+    if (button == MouseButtons::eRight)
+    {
+        return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_RIGHT));
+    }
+    return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT));
+}
+
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     sInstance_BBB9EC = hInstance;

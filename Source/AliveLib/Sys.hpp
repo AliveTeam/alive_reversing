@@ -34,6 +34,12 @@ MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char* mess
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char* title);
 POINT Sys_GetScreenMousePos();
+enum class MouseButtons
+{
+    eLeft,
+    eRight
+};
+bool Sys_IsMouseButtonDown(MouseButtons button);
 
 void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, int nShowCmd);
 EXPORT LPSTR CC Sys_GetCommandLine_4EE176();

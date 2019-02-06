@@ -189,7 +189,7 @@ public:
     void DrawUI(int** /*pOrderingTable*/)
     {
         POINT mousePos = Sys_GetScreenMousePos();
-        bool mouseLeftDown = GetAsyncKeyState(VK_LBUTTON) ? true : false;
+        bool mouseLeftDown = Sys_IsMouseButtonDown(MouseButtons::eLeft);
         mousePos.y /= 2;
 
         for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
@@ -1971,8 +1971,7 @@ private:
             SetUV3(&mPolyFT4[i], 2, 4);
 
             const void* ptr = &kTestImageCompressed[0];
-            mPolyFT4[i].mVerts[1].mUv.tpage_clut_pad = (WORD)(unsigned int)ptr >> 0;
-            mPolyFT4[i].mVerts[2].mUv.tpage_clut_pad = (unsigned int)ptr >> 16;
+            SetPrimExtraPointerHack(&mPolyFT4[i], ptr);
         }
     }
 
@@ -1984,7 +1983,7 @@ private:
 void DebugHelpers_Init() 
 {
 #if DEVELOPER_MODE
-    if (GetKeyState(VK_LCONTROL) < 0)
+    if (Input_IsVKPressed_4EDD40(VK_LCONTROL))
     {
         return;
     }
