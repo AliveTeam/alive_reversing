@@ -51,10 +51,6 @@ ALIVE_VAR(1, 0x5C1B84, unsigned int, sGnFrame_5C1B84, 0);
 // Timer
 ALIVE_VAR(1, 0xBBB9D4, DWORD, sTimer_period_BBB9D4, 0);
 
-// I/O
-ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
-ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
-
 // Arrays of things
 ALIVE_VAR(1, 0x5C1B78, DynamicArrayT<BaseGameObject>*, ObjList_5C1B78, nullptr);
 ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
@@ -112,10 +108,14 @@ FP CC ScaleToGridSize_4498B0(FP scaleFP)
 
 EXPORT bool CC Is_Cd_Rom_Drive_495470(CHAR driveLetter)
 {
+#if _WIN32
     CHAR RootPathName[4] = {};
     strcpy(RootPathName, "C:\\");
     RootPathName[0] = driveLetter;
     return ::GetDriveTypeA(RootPathName) == DRIVE_CDROM;
+#else
+    return false;
+#endif
 }
 
 void DestroyObjects_4A1F20()
@@ -517,11 +517,13 @@ EXPORT void CC Game_Run_466D40()
     Input_Init_491BC0();
     short cameraId = 25;
 #if DEVELOPER_MODE
+#if _WIN32
     if (GetKeyState(VK_LSHIFT) >= 0)
     {
         gBootToLoadScreen = true;
         cameraId = 1;
     }
+#endif
 #endif
     gMap_5C3030.Init_4803F0(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
 
@@ -618,15 +620,6 @@ EXPORT void CC Game_ExitGame_4954B0()
     PSX_EMU_VideoDeAlloc_4FA010();
 }
 
-EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0()
-{
-    if (sIoThreadHandle_BBC55C)
-    {
-        ::CloseHandle(sIoThreadHandle_BBC55C);
-        sIoThreadHandle_BBC55C = nullptr;
-    }
-}
-
 EXPORT void CC Game_Shutdown_4F2C30()
 {
     if (sGame_OnExitCallback_BBFB00)
@@ -676,19 +669,9 @@ EXPORT signed int CC Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfac
     Input_InitKeyStateArray_4EDD60();
     TMR_Init_4EDE20();
 
-    if (!sIoThreadHandle_BBC55C)
+    if (!IO_CreateThread())
     {
-        sIoThreadHandle_BBC55C = ::CreateThread(
-            0,
-            0x4000u,
-            FS_IOThread_4F25A0,
-            0,
-            0,
-            &sIoThreadId_BBC558);
-        if (!sIoThreadHandle_BBC55C)
-        {
-            return -1;
-        }
+        return -1;
     }
 
     if (strstr(Sys_GetCommandLine_4EE176(), "-syncread"))
@@ -709,8 +692,9 @@ EXPORT void CC Game_Main_4949F0()
     
     Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine_4EE176(), Sys_GetCommandLine_4EE176());
     Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
+#if _WIN32
     Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
-    
+#endif
     // Only returns once the engine is shutting down
     Game_Run_466D40();
 

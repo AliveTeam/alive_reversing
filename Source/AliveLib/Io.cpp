@@ -9,6 +9,9 @@ ALIVE_VAR(1, 0xBBC4C0, std::atomic<int>, sIO_Thread_Operation_BBC4C0, {});
 ALIVE_VAR(1, 0xBBC4C8, std::atomic<size_t>, sIO_BytesToRead_BBC4C8, {});
 ALIVE_VAR(1, 0xBBC558, DWORD, sIoThreadId_BBC558, 0);
 
+// I/O
+ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
+ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
 EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
 {
@@ -382,4 +385,32 @@ EXPORT void IO_Init_494230()
     sMovie_IO_BBB314.mIO_Wait = IO_fwait_4942F0;
 
     IO_Init_SyncOrASync_4EAC80(TRUE);
+}
+
+EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0()
+{
+    if (sIoThreadHandle_BBC55C)
+    {
+        ::CloseHandle(sIoThreadHandle_BBC55C);
+        sIoThreadHandle_BBC55C = nullptr;
+    }
+}
+
+bool IO_CreateThread()
+{
+    if (!sIoThreadHandle_BBC55C)
+    {
+        sIoThreadHandle_BBC55C = ::CreateThread(
+            0,
+            0x4000u,
+            FS_IOThread_4F25A0,
+            0,
+            0,
+            &sIoThreadId_BBC558);
+        if (!sIoThreadHandle_BBC55C)
+        {
+            return false;
+        }
+    }
+    return true;
 }

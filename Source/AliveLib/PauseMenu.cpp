@@ -565,7 +565,7 @@ std::vector<CustomPauseMenu *> customMenuStack;
 class CustomPauseMenu
 {
 public:
-    CustomPauseMenu(std::vector<CustomPauseMenuItem> * items, char * titleStr)
+    CustomPauseMenu(std::vector<CustomPauseMenuItem> * items, const char * titleStr)
     {
         entries = items;
         title = std::string(titleStr);
@@ -1196,12 +1196,12 @@ void PauseMenu::Page_Load_Render_4910A0(int ** ot, PauseMenuPage * mp)
 
     if (saveCount)
     {
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text[0] = '\x1';
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = "\x1";
     }
     else
     {
         PauseMenu__PageEntryList_Load_55e3a0[4].field_8_text = "No Saved Games";
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text[0] = 0;
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = 0;
     }
 
     mp->field_C_selected_index = 2;

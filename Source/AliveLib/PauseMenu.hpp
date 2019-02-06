@@ -38,7 +38,7 @@ struct PauseMenuPageEntry
     __int16 field_2_x;
     __int16 field_4_y;
     __int16 field_6_unknown;
-    char *field_8_text;
+    const char *field_8_text;
     unsigned char field_C_r;
     unsigned char field_D_g;
     unsigned char field_E_b;
