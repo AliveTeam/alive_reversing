@@ -42,7 +42,10 @@ enable_testing()
 add_subdirectory(3rdParty)
 add_subdirectory(Source/AliveLib)
 add_subdirectory(Source/AliveExe)
-add_subdirectory(Source/AliveDll)
+
+if (NOT WIN32)
+    add_subdirectory(Source/AliveDll)
+endif()
 
 add_dependencies(AliveLib UpdateConfigHeader)
 

@@ -255,13 +255,19 @@ target_compile_features(AliveLib
     PRIVATE cxx_auto_type
     PRIVATE cxx_variadic_templates)
 
+if (WIN32)
+    set(WIN32_LIBS
+        Detours
+        Winmm
+        dsound
+        xinput
+    )
+endif()
+
 target_link_libraries(AliveLib
-    Detours
     EasyLogging++
     googletest
-    Winmm
-    dsound
-    xinput
+    ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
     )
 
