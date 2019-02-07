@@ -122,6 +122,7 @@ struct POINT
 #define VK_LCONTROL 0xA2
 
 #define WINAPI
+#define CALLBACK
 #define DWORD_PTR DWORD
 #define LOBYTE(w) ((BYTE)(((DWORD_PTR)(w)) & 0xff))
 #define LOWORD(l) ((WORD)(((DWORD_PTR)(l)) & 0xffff))
