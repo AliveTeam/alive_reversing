@@ -43,7 +43,7 @@ add_subdirectory(3rdParty)
 add_subdirectory(Source/AliveLib)
 add_subdirectory(Source/AliveExe)
 
-if (NOT WIN32)
+if (WIN32)
     add_subdirectory(Source/AliveDll)
 endif()
 
