@@ -770,7 +770,7 @@ EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* p
             break;
         }
 
-        *pNormalizedIter = static_cast<char>(*fileNameIter);
+        *pNormalizedIter = static_cast<char>(tolower(*fileNameIter));
 
         ++fileNameIter;
         ++pNormalizedIter;

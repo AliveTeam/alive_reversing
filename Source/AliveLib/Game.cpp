@@ -524,6 +524,7 @@ EXPORT void CC Game_Run_466D40()
     }
 #endif
 #endif
+
     gMap_5C3030.Init_4803F0(LevelIds::eMenu_0, 1, cameraId, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
 
     DDCheat_Allocate_415320();

@@ -163,7 +163,7 @@ static Masher* Open_DDV(const char* pMovieName)
     strcat(pFileName, pMovieName);
 
     // Replace STR with DDV
-    strcpy(strstr(pFileName, ".STR"), ".ddv");
+    strcpy(strstr(pFileName, ".STR"), ".DDV");
 
     int errCode = 0;
 
@@ -173,6 +173,24 @@ static Masher* Open_DDV(const char* pMovieName)
         &pMasher_video_header_5CA204,
         &pMasher_audio_header_5CA1E0,
         &errCode);
+
+    if (errCode)
+    {
+#if! _WIN32
+        const size_t len = strlen(pFileName);
+        for (size_t i=0; i<len; i++)
+        {
+            pFileName[i] = static_cast<char>(tolower(pFileName[i]));
+        }
+
+        pMasher = Masher_Alloc_4EAB80(
+                pFileName,
+                &pMasher_header_5CA1E4,
+                &pMasher_video_header_5CA204,
+                &pMasher_audio_header_5CA1E0,
+                &errCode);
+#endif
+    }
 
     if (errCode)
     {

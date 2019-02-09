@@ -2470,9 +2470,11 @@ signed int MainMenuController::sub_4CF640()
 LABEL_74:
     if (field_1FC_button_index != -1)
     {
+
         field_158_animation.Set_Animation_Data_409C80(
             sMainMenuPages_561960[field_218_target_page_index].field_18_buttons[field_218_target_page_index].field_8_anim_frame_offset,
             nullptr);
+
     }
 
 LABEL_76:
