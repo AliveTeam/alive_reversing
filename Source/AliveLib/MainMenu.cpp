@@ -21,6 +21,7 @@
 #include "Path.hpp"
 #include "Abe.hpp"
 #include "PauseMenu.hpp"
+#include "Io.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -2234,9 +2235,7 @@ signed int MainMenuController::sub_4CF640()
             strcpy(buffer, sCdEmu_Path2_C144C0);
             strcat(buffer, "movies");
 
-            WIN32_FIND_DATA sFindData = {};
-            HANDLE hFind = FindFirstFile(buffer, &sFindData);
-            if (hFind == INVALID_HANDLE_VALUE)
+            if (!IO_DirectoryExists(buffer))
             {
                 // Can't enumerate anything at all in path 2, try path 3
                 strcpy(buffer, sCdEmu_Path3_C145A0);
@@ -2254,8 +2253,7 @@ signed int MainMenuController::sub_4CF640()
                 }
 
                 buffer[0] = sCdRomDrives_5CA488[i];
-                hFind = FindFirstFile(buffer, &sFindData);
-                if (hFind != INVALID_HANDLE_VALUE)
+                if (IO_DirectoryExists(buffer))
                 {
                     // Found a valid drive
                     break;
@@ -2270,11 +2268,6 @@ signed int MainMenuController::sub_4CF640()
                 // You will probably always see this given that the CD drive with the game in it
                 // usually isn't there.
                 Display_Full_Screen_Message_Blocking_465820(1, 3);
-            }
-
-            if (hFind != INVALID_HANDLE_VALUE)
-            {
-                FindClose(hFind);
             }
 
             // Find the record for GTILOGO.STR

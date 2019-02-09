@@ -414,3 +414,37 @@ bool IO_CreateThread()
     }
     return true;
 }
+
+bool IO_DirectoryExists(const char* pDirName)
+{
+    WIN32_FIND_DATA sFindData = {};
+    HANDLE hFind = FindFirstFile(pDirName, &sFindData);
+    if (hFind == INVALID_HANDLE_VALUE)
+    {
+        return false;
+    }
+    FindClose(hFind);
+    return true;
+}
+
+void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb)
+{
+    _finddata_t findRec = {};
+    intptr_t hFind = _findfirst(fileName, &findRec);
+    if (hFind != -1)
+    {
+        for (;;)
+        {
+            if (!(findRec.attrib & FILE_ATTRIBUTE_DIRECTORY))
+            {
+                cb(findRec.name, static_cast<DWORD>(findRec.time_write)); // TODO: Chopping off a lot of time stamp resolution here
+            }
+
+            if (_findnext(hFind, &findRec) == -1)
+            {
+                break;
+            }
+        }
+        _findclose(hFind);
+    }
+}

@@ -51,5 +51,9 @@ EXPORT void IO_Init_494230();
 
 EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0();
 bool IO_CreateThread();
+bool IO_DirectoryExists(const char* pDirName);
+
+using TEnumCallBack = void(const char*, DWORD);
+void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb);
 
 ALIVE_VAR_EXTERN(DWORD, sIoThreadId_BBC558);

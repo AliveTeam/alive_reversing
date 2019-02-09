@@ -23,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #else
 
 using DWORD = unsigned int;
-using LPSTR = const char*;
+using LPSTR = char*;
 using HINSTANCE = void*;
 
 #define CALLBACK

@@ -14,6 +14,7 @@
 #include "WorkWheel.hpp"
 #include "Grinder.hpp"
 #include "ScreenManager.hpp"
+#include "Io.hpp"
 
 EXPORT int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
@@ -450,37 +451,29 @@ void CC Quicksave_FindSaves_4D4150()
 {
     sTotalSaveFilesCount_BB43E0 = 0;
 
-    _finddata_t findRec = {};
-    intptr_t hFind = _findfirst("*.sav", &findRec);
-    if (hFind != -1)
+    IO_EnumerateDirectory("*.sav", [](const char* fileName, DWORD lastWriteTime)
     {
-        for (;;)
+        if (sTotalSaveFilesCount_BB43E0 < 128)
         {
-            if (!(findRec.attrib & FILE_ATTRIBUTE_DIRECTORY) && sTotalSaveFilesCount_BB43E0 < 128)
+            size_t fileNameLen = strlen(fileName) - 4;
+            if (fileNameLen > 0)
             {
-                size_t fileNameLen = strlen(findRec.name) - 4;
-                if (fileNameLen > 0)
+                // Limit length to prevent buffer overflow
+                if (fileNameLen > 20)
                 {
-                    // Limit length to prevent buffer overflow
-                    if (fileNameLen > 20)
-                    {
-                        fileNameLen = 20;
-                    }
-
-                    memcpy(&sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0], findRec.name, fileNameLen);
-                    sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0].field_20_lastWriteTimeStamp = static_cast<DWORD>(findRec.time_write); // Chopping off a lot of time stamp resolution here
-                    sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0].field_0_fileName[fileNameLen] = 0;
-                    sTotalSaveFilesCount_BB43E0++;
+                    fileNameLen = 20;
                 }
-            }
 
-            if (_findnext(hFind, &findRec) == -1)
-            {
-                _findclose(hFind);
-                break;
+                SaveFileRec* pRec = &sSaveFileRecords_BB31D8[sTotalSaveFilesCount_BB43E0];
+                memcpy(pRec->field_0_fileName, fileName, fileNameLen);
+                pRec->field_0_fileName[fileNameLen] = 0;
+
+                pRec->field_20_lastWriteTimeStamp = lastWriteTime;
+                sTotalSaveFilesCount_BB43E0++;
             }
         }
-    }
+
+    });
 
     // Sort all we've found by time stamp, users probably want to load their last save first
     qsort(sSaveFileRecords_BB31D8, sTotalSaveFilesCount_BB43E0, sizeof(SaveFileRec), Sort_comparitor_4D42C0);
