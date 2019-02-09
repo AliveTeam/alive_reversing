@@ -13,7 +13,7 @@ before_install:
 
 # Download, make and install SDL2-2.0.8 (stable)
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -L https://www.libsdl.org/release/SDL2-2.0.8.tar.gz | tar xz; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then cd SDL2-2.0.8  fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then cd SDL2-2.0.8; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ./configure; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then make -j2; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo make install; fi
