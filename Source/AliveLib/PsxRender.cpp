@@ -3197,7 +3197,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
     int** pOtItem = pOT;
     while (pOtItem)
     {
-        if (pOtItem == (int **)-1)
+        if (pOtItem == reinterpret_cast<int**>(0xFFFFFFFF))
         {
             break;
         }

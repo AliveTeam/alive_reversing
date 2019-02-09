@@ -46,6 +46,9 @@ ALIVE_ASSERT_SIZEOF(Prim_RGB, 0x4);
 struct PrimHeader
 {
     int* tag;
+#if !_WIN32
+    void* hackPtr;
+#endif
     PrimHeaderPart header;
     Prim_RGB rgb_code;
 };

@@ -32,8 +32,12 @@ using HINSTANCE = void*;
 
 int main()
 {
+    // In the real game these are called before main, but shouldn't really matter in this case
+    Static_Inits();
+
     // TOOD: Convert command line arguments to what WinMain_4EE631 expects
-    return WinMain_4EE631(0, 0, 0, 1);
+    char cmdArgsHack[2] = "";
+    return WinMain_4EE631(0, 0, cmdArgsHack, 1);
 }
 #endif
 

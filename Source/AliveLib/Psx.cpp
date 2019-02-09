@@ -254,6 +254,12 @@ EXPORT signed int CC PSX_CD_Add_EMU_Path_4FAC00(const char* /*filePath*/)
     return 0;
 }
 
+#if _WIN32
+const char kDirChar[] = "\\";
+#else
+const char kDirChar[] = "/";
+#endif
+
 EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, const char* pPath2, const char* pPath3)
 {
     if (pPath1)
@@ -264,9 +270,9 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, c
         }
         strcpy(sCdEmu_Path1_C14620, pPath1);
         PSX_CD_Add_EMU_Path_4FAC00(sCdEmu_Path1_C14620);
-        if (sCdEmu_Path1_C14620[strlen(sCdEmu_Path1_C14620) - 1] != '\\')
+        if (sCdEmu_Path1_C14620[strlen(sCdEmu_Path1_C14620) - 1] != kDirChar[0])
         {
-            strcat(sCdEmu_Path1_C14620, "\\");
+            strcat(sCdEmu_Path1_C14620, kDirChar);
         }
     }
 
@@ -278,9 +284,9 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, c
         }
         strcpy(sCdEmu_Path2_C144C0, pPath2);
         PSX_CD_Add_EMU_Path_4FAC00(sCdEmu_Path2_C144C0);
-        if (sCdEmu_Path2_C144C0[strlen(sCdEmu_Path2_C144C0) - 1] != '\\')
+        if (sCdEmu_Path2_C144C0[strlen(sCdEmu_Path2_C144C0) - 1] != kDirChar[0])
         {
-            strcat(sCdEmu_Path2_C144C0, "\\");
+            strcat(sCdEmu_Path2_C144C0, kDirChar);
         }
     }
 
@@ -292,9 +298,9 @@ EXPORT signed int CC PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(const char* pPath1, c
         }
         strcpy(sCdEmu_Path3_C145A0, pPath3);
         PSX_CD_Add_EMU_Path_4FAC00(sCdEmu_Path3_C145A0);
-        if (sCdEmu_Path3_C145A0[strlen(sCdEmu_Path3_C145A0) - 1] != '\\')
+        if (sCdEmu_Path3_C145A0[strlen(sCdEmu_Path3_C145A0) - 1] != kDirChar[0])
         {
-            strcat(sCdEmu_Path3_C145A0, "\\");
+            strcat(sCdEmu_Path3_C145A0, kDirChar);
         }
     }
 
@@ -764,7 +770,8 @@ EXPORT void CC PSX_CD_Normalize_FileName_4FAD90(char* pNormalized, const char* p
             break;
         }
 
-        *pNormalizedIter = static_cast<char>(tolower(*fileNameIter));
+        *pNormalizedIter = static_cast<char>(*fileNameIter);
+
         ++fileNameIter;
         ++pNormalizedIter;
     } 
