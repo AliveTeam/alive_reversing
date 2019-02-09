@@ -11,6 +11,9 @@ ALIVE_VAR(1, 0xBD146C, BYTE, byte_BD146C, 0);
 static void SetCode(PrimHeader* pPrim, BYTE code)
 {
     pPrim->rgb_code.code_or_pad = code;
+#if !_WIN32 || _WIN64
+    pPrim->hackPtr = nullptr;
+#endif
 }
 static void SetUnknown(PrimHeader* pPrim)
 {
@@ -275,7 +278,7 @@ EXPORT int CC PSX_getClut_4F6350(int x, int y)
 
 void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr)
 {
-#if _WIN32
+#if _WIN32 && !_WIN64
     // Store the pointer to the bit field data - this gets used by the lowest level software rendering func
     // TODO: OG game hack
     // TODO: 64bit fail
@@ -286,6 +289,15 @@ void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr)
     pPoly->mVerts[1].mUv.tpage_clut_pad = ptr_second_half;
     pPoly->mVerts[2].mUv.tpage_clut_pad = static_cast<WORD>(ptr_first_half);
 #else
-    pPoly->mBase.header.hackPtr = (void*)ptr;
+    pPoly->mBase.header.hackPtr = ptr;
+#endif
+}
+
+const void* GetPrimExtraPointerHack(Poly_FT4* pPoly)
+{
+#if _WIN32 && !_WIN64
+    return reinterpret_cast<void*>(pPoly->mVerts[1].mUv.tpage_clut_pad + (pPoly->mVerts[2].mUv.tpage_clut_pad << 16));
+#else
+    return pPoly->mBase.header.hackPtr;
 #endif
 }

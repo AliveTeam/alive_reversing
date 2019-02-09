@@ -44,7 +44,7 @@ EXPORT Text* Text::ctor_46ADA0(const char* pMessage, int renderCount, int bShado
 
     gObjList_drawables_5C1124->Push_Back(this);
 
-    field_20_font.ctor_433590((bShadow + 1) * strlen(pMessage), pal_554474, &sFont1Context_5BC5C8);
+    field_20_font.ctor_433590(static_cast<int>((bShadow + 1) * strlen(pMessage)), pal_554474, &sFont1Context_5BC5C8);
 
     field_5C_xpos = static_cast<short>(field_20_font.MeasureWidth_433700(pMessage));
     field_5E_ypos = 0;

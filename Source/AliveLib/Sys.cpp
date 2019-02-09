@@ -134,7 +134,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
         break;
 
     case WM_ACTIVATEAPP:
-        sAppIsActivated_BBBA00 = wParam;
+        sAppIsActivated_BBBA00 = static_cast<BOOL>(wParam);
         break;
 
     case WM_KEYDOWN:
@@ -145,7 +145,7 @@ EXPORT LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam
             BYTE KeyState[256] = {};
             ::GetKeyboardState(KeyState);
 
-            const UINT vKey = wParam;
+            const UINT vKey = static_cast<UINT>(wParam);
             const UINT scanCode = HIWORD(lParam);
             char translated[4] = {};
             // TODO: can be negative but is never checked
@@ -399,11 +399,11 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
             Input_SetKeyState_4EDD80(117, 1);
             return 0;
         }
-        Input_SetKeyState_4EDD80(wParam, 1);
+        Input_SetKeyState_4EDD80(static_cast<int>(wParam), 1);
         return 0;
 
     case WM_KEYUP:
-        Input_SetKeyState_4EDD80(wParam, 0);
+        Input_SetKeyState_4EDD80(static_cast<int>(wParam), 0);
         return 1;
 
     case WM_ACTIVATE:
@@ -430,7 +430,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         {
             ret = -1;
         }
-        Input_SetKeyState_4EDD80(wParam, 1);
+        Input_SetKeyState_4EDD80(static_cast<int>(wParam), 1);
         break;
 
     case WM_SYSKEYUP:
@@ -439,7 +439,7 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         {
             ret = -1;
         }
-        Input_SetKeyState_4EDD80(wParam, 0);
+        Input_SetKeyState_4EDD80(static_cast<int>(wParam), 0);
         break;
 
     case WM_TIMER:

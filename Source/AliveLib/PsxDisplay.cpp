@@ -147,7 +147,7 @@ EXPORT int CC DebugFont_Printf_4F8B60(int idx, const char* formatStr, ...)
     char buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
     strncat(sTexts_C27640[idx].field_9_text.field_0_src_txt, buffer, sTexts_C27640[idx].field_4_max_len);
-    return strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt);
+    return static_cast<int>(strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt));
 }
 
 EXPORT void CC DebugFont_Flush_4DD050()

@@ -111,7 +111,7 @@ struct MIDI_Struct2
     int field_14;
     int field_18;
     BYTE *field_1C_pSeqData;
-    int field_20_fn_ptr;
+    void* field_20_fn_ptr;
     BYTE *field_24_loop_start;
     __int16 field_seq_idx;
     unsigned char field_2A;

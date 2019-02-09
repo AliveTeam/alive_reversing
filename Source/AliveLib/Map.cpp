@@ -268,6 +268,7 @@ void Map::sub_481610()
 signed __int16 Map::sub_4811A0(int /*level*/, int /*path*/, FP /*xpos*/, FP /*ypos*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange)

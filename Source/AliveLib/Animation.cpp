@@ -334,8 +334,7 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
     }
     else
     {
-        pPoly->mVerts[1].mUv.tpage_clut_pad = 0;
-        pPoly->mVerts[2].mUv.tpage_clut_pad = 0;
+        SetPrimExtraPointerHack(pPoly, nullptr);
     }
 
     OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
@@ -627,7 +626,7 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
     
     // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
     // TODO: Remove it in the future when proven to be not required?
-#ifdef _MSC_VER
+#ifdef _MSC_VER && !_WIN64
     if (reinterpret_cast<DWORD>(pFrame) & 3)
     {
         FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_5440AC;

@@ -46,8 +46,8 @@ ALIVE_ASSERT_SIZEOF(Prim_RGB, 0x4);
 struct PrimHeader
 {
     int* tag;
-#if !_WIN32
-    void* hackPtr;
+#if !_WIN32 || _WIN64
+    const void* hackPtr;
 #endif
     PrimHeaderPart header;
     Prim_RGB rgb_code;
@@ -594,5 +594,6 @@ EXPORT int CC PSX_getTPage_4F60E0(char tp, char abr, int x, __int16 y);
 EXPORT int CC PSX_getClut_4F6350(int x, int y);
 
 void SetPrimExtraPointerHack(Poly_FT4* pPoly, const void* ptr);
+const void* GetPrimExtraPointerHack(Poly_FT4* pPoly);
 
 ALIVE_VAR_EXTERN(BYTE, byte_BD146C);

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ExportHooker.hpp"
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
 #include "detours.h"
 #endif
 
@@ -10,7 +10,7 @@ ExportHooker::ExportHooker(HINSTANCE instance) : mhInstance(instance)
     mExports.reserve(5000);
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
 static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszName, PVOID pCode)
 {
     if (pszName && pCode)
@@ -33,7 +33,7 @@ static BOOL CALLBACK EnumExports(PVOID pContext, ULONG /*nOrdinal*/, PCHAR pszNa
 
 void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
     CheckVars(); // Check for dup vars or vars that overlap in address space
 
     if (!DetourEnumerateExports(mhInstance, this, EnumExports))
@@ -88,7 +88,7 @@ void ExportHooker::LoadDisabledHooks()
 void ExportHooker::ProcessExports()
 {
     TRACE_ENTRYEXIT;
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
     LONG err = DetourTransactionBegin();
 
     if (err != NO_ERROR)
@@ -201,7 +201,7 @@ bool ExportHooker::IsHexDigit(char letter)
 ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExportedFunctionAddress, const std::string& exportedFunctionName)
 {
     ExportInformation info = {};
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
     info.mIsImplemented = false;
     info.mExportedFunctionName = exportedFunctionName;
 
@@ -262,7 +262,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
 
 void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
 {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
     std::string exportedFunctionName(pszName);
     auto underScorePos = exportedFunctionName.find_first_of('_');
     while (underScorePos != std::string::npos)

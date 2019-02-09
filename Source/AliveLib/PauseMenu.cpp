@@ -586,7 +586,7 @@ public:
         }
 
         int o = 0;
-        int size = entries->size();
+        int size = static_cast<int>(entries->size());
         for (int i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
         {
             const auto item = (*entries)[i];
@@ -632,7 +632,9 @@ public:
         if (input & eDown)
         {
             if (++index >= static_cast<int>(entries->size()))
+            {
                 index = 0;
+            }
             SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
 
             CompileEntries();
@@ -640,7 +642,9 @@ public:
         else if (input & eUp)
         {
             if (--index < 0)
-                index = entries->size() - 1;
+            {
+                index = static_cast<int>(entries->size()) - 1;
+            }
             SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
 
             CompileEntries();

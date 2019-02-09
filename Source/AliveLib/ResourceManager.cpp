@@ -950,12 +950,14 @@ signed __int16 CC ResourceManager::Move_Resources_To_DArray_49C1C0(BYTE** ppRes,
         if (pItemToAdd->field_4_pNext)
         {
             // Size of next item - location of current res
-            pHeader->field_0_size = pItemToAdd->field_4_pNext->field_0_ptr - (BYTE*)pHeader - sizeof(Header);
+            // TODO 64bit warning
+            pHeader->field_0_size = static_cast<DWORD>(pItemToAdd->field_4_pNext->field_0_ptr - (BYTE*)pHeader - sizeof(Header));
         }
         else
         {
             // Isn't a next item so use ptr to end of heap - location of current res
-            pHeader->field_0_size = spResourceHeapEnd_AB49F8 - (BYTE *)pHeader;
+            // TODO: 64bit warning
+            pHeader->field_0_size = static_cast<DWORD>(spResourceHeapEnd_AB49F8 - (BYTE *)pHeader);
         }
         sManagedMemoryUsedSize_AB4A04 -= pHeader->field_0_size;
     }
@@ -1092,7 +1094,7 @@ void CC ResourceManager::Reclaim_Memory_49C470(unsigned int sizeToReclaim)
                     BYTE* pDataStart = pNext->field_0_ptr - sizeof(Header);
                     if (sizeToMove > 0)
                     {
-                        const unsigned int offset = (char *)pCurrentHeader - (char *)pNextHeader;
+                        const size_t offset = (char *)pCurrentHeader - (char *)pNextHeader;
                         memmove(pDataStart + offset, pDataStart, sizeToMove);
                     }
 

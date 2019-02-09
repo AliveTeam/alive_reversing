@@ -1958,7 +1958,7 @@ EXPORT void CC PSX_Render_PolyFT4_16bit_517990(OT_Prim* pPrim, int width, int he
         for (int yIter = 0; yIter < height_clipped; yIter++)
         {
             DWORD bitMask = (*pFg1Data) >> skipBits;
-            int dst_off = pSrc - pDst;
+            size_t dst_off = pSrc - pDst;
             for (int xIter = 0; xIter < width; xIter++)
             {
                 if (bitMask & 1)
@@ -2150,7 +2150,8 @@ EXPORT OT_Prim* CC PSX_Render_Convert_Polys_To_Internal_Format_4F7110(void* pDat
         // TODO: 64bit - can't fit 64bits of data into 32
         // TODO: This seems to be set by Animation::vRender and its a pointer to type 3 or 6 compressed frame data
         // It can also be set by FG1 rendering in which case a its a pointer to FG1 data.
-        const void* pAnimOrFG1Data = reinterpret_cast<void*>(pPoly->mVerts[1].mUv.tpage_clut_pad + (pPoly->mVerts[2].mUv.tpage_clut_pad << 16));
+        
+        const void* pAnimOrFG1Data = GetPrimExtraPointerHack(pPoly);
         if (pAnimOrFG1Data)
         {
             const int xoffConverted = 16 * xoff;
