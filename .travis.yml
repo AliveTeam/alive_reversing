@@ -7,6 +7,7 @@ language: cpp
 before_install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get -qq update; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -y cmake; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -qq libegl1-mesa-dev libgles2-mesa-dev; fi  # workaround https://github.com/travis-ci/travis-ci/issues/9065
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libsdl2-dev; fi
 
 #- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
@@ -15,8 +16,8 @@ before_install:
 script: 
 - $CXX --version
 
-- cmake --version; fi
+- cmake --version
 - mkdir build
 - cd build
 - cmake -G"Unix Makefiles" ..
-- make -j2; fi
+- make -j2
