@@ -19,8 +19,8 @@ before_install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo make install; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then cd ..; fi
 
-#- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
-- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew upgrade cmake; fi
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then export HOMEBREW_NO_AUTO_UPDATE=1; fi
+#- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew upgrade cmake; fi
 - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install sdl2; fi
 
 script: 
