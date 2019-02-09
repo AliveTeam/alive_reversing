@@ -8,7 +8,15 @@ before_install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get -qq update; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -y cmake; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -qq libegl1-mesa-dev libgles2-mesa-dev; fi  # workaround https://github.com/travis-ci/travis-ci/issues/9065
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libsdl2-dev; fi
+# This version in the repo is too old
+#- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libsdl2-dev; fi
+
+# Download, make and install SDL2-2.0.8 (stable)
+- if [ "$TRAVIS_OS_NAME" == "linux" ] curl -L https://www.libsdl.org/release/SDL2-2.0.8.tar.gz | tar xz; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ] cd SDL2-2.0.8  fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ] ./configure; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ] make -j2; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ] sudo make install; fi
 
 #- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
 - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install sdl2; fi
