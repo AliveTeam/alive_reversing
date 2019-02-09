@@ -22,7 +22,7 @@ class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VScreenChanged();
+    virtual void VScreenChanged() override;
 
     EXPORT BackgroundAnimation* ctor_40D270(BackgroundAnimation_TLV* pPathParams, TlvItemInfoUnion tlvInfo);
     EXPORT void vUpdate_40D450();

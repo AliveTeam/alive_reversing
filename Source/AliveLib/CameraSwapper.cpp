@@ -39,7 +39,7 @@ public:
         return this;
     }
 
-    virtual BaseGameObject* VDestructor(signed int flags)
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
         return vdtor_416E00(flags);
     }
@@ -49,8 +49,8 @@ public:
         vRender_416F70(ot);
     }
 
-    virtual void VScreenChanged() {}
-    virtual void VUpdate() { }
+    virtual void VScreenChanged() override {}
+    virtual void VUpdate() override { }
 
     void vRender_416F70(int** ot)
     {
@@ -468,7 +468,7 @@ void CameraSwapper::vUpdate_4E5850()
         }
 
         pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(xpos, 0, width, gPsxDisplay_5C1130.field_2_height);
-        field_34_pSubObject->Update_Clip_Rect_416EB0({ xpos, 0 }, { width + 1, gPsxDisplay_5C1130.field_2_height });
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ xpos, 0 }, { static_cast<short>(width + 1), gPsxDisplay_5C1130.field_2_height });
     }
     break;
 
@@ -504,8 +504,8 @@ void CameraSwapper::vUpdate_4E5850()
         const short xpos = field_56_slice_width * field_3A_current_slice;
         const short halfDisplayWidth = gPsxDisplay_5C1130.field_0_width / 2;
 
-        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(halfDisplayWidth - xpos, 0, xpos + halfDisplayWidth, gPsxDisplay_5C1130.field_2_height);
-        field_34_pSubObject->Update_Clip_Rect_416EB0({ halfDisplayWidth - xpos, 0 }, { xpos + halfDisplayWidth + 1,  gPsxDisplay_5C1130.field_2_height });
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(static_cast<short>(halfDisplayWidth - xpos), 0, static_cast<short>(xpos + halfDisplayWidth), gPsxDisplay_5C1130.field_2_height);
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ static_cast<short>(halfDisplayWidth - xpos), 0 }, { static_cast<short>(xpos + halfDisplayWidth + 1),  gPsxDisplay_5C1130.field_2_height });
     }
     break;
 
@@ -522,8 +522,8 @@ void CameraSwapper::vUpdate_4E5850()
         const short ypos = field_56_slice_width * field_3A_current_slice;
         const short halfDisplayHeight = gPsxDisplay_5C1130.field_2_height / 2;
 
-        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, halfDisplayHeight - ypos, 640, halfDisplayHeight + ypos);
-        field_34_pSubObject->Update_Clip_Rect_416EB0({ 0, halfDisplayHeight - ypos }, { 640, halfDisplayHeight + ypos });
+        pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, static_cast<short>(halfDisplayHeight - ypos), 640, static_cast<short>(halfDisplayHeight + ypos));
+        field_34_pSubObject->Update_Clip_Rect_416EB0({ 0,  static_cast<short>(halfDisplayHeight - ypos) }, { 640,  static_cast<short>(halfDisplayHeight + ypos) });
     }
     break;
 

@@ -19,7 +19,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    virtual void VScreenChanged();
+    virtual void VScreenChanged() override;
 
     EXPORT Blood* ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 count);
 private:

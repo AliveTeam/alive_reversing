@@ -8215,8 +8215,8 @@ void Abe::sub_44E9A0()
             vGetBoundingRect_424FD0(&bRect, 1);
 
             vOnCollisionWith_424EE0(
-                { bRect.x, bRect.y + 5 },
-                { bRect.w + 5, bRect.h + 5 },
+                { bRect.x, static_cast<short>(bRect.y + 5) },
+                { static_cast<short>(bRect.w + 5), static_cast<short>(bRect.h + 5) },
                 ObjList_5C1B78,
                 1,
                 (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
