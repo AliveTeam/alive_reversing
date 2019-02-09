@@ -10,7 +10,7 @@
 #include "Io.hpp"
 #include "Game.hpp" // sIOSyncReads_BD2A5C, sCdRomDrives_5CA488
 #include "PsxRender.hpp"
-#include "WinAPISupport.hpp"
+#include "Sys.hpp"
 #include <gmock/gmock.h>
 
 void Psx_ForceLink() {}
@@ -797,7 +797,7 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
     sVSync_Unused_578325 = 0;
     MIDI_UpdatePlayer_4FDC80();
 
-    const int currentTime = timeGetTime();
+    const int currentTime = SYS_GetTicks();
 
     if (!sVSyncLastMillisecond_BD0F2C)
     {
@@ -826,7 +826,7 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
 
             do
             {
-                timeSinceLastFrame = timeGetTime() - sVSyncLastMillisecond_BD0F2C;
+                timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
                 MIDI_UpdatePlayer_4FDC80();
             } while (timeSinceLastFrame < 1000 * mode / 60);
 

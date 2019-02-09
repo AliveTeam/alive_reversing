@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "WinAPISupport.hpp"
 #include "Game.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
@@ -156,8 +155,8 @@ void DestroyObjects_4A1F20()
 
 EXPORT double CC Calculate_FPS_495250(int frameCount)
 {
-    static DWORD sLastTime_5CA338 = timeGetTime() - 500;
-    const DWORD curTime = timeGetTime();
+    static DWORD sLastTime_5CA338 = SYS_GetTicks() - 500;
+    const DWORD curTime = SYS_GetTicks();
     const int timeDiff = curTime - sLastTime_5CA338;
 
     if (static_cast<signed int>((curTime - sLastTime_5CA338)) < 500)

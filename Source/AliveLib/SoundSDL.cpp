@@ -7,9 +7,8 @@
 #include "Error.hpp"
 #include "Midi.hpp"
 #include <mutex>
-#include "WinAPISupport.hpp"
-
 #include "Reverb.hpp"
+#include "Sys.hpp"
 
 static std::vector<AE_SDL_Voice*> sAE_ActiveVoices;
 static std::vector<AE_SDL_Voice*> sAE_VoiceBuffer;
@@ -459,7 +458,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int /*sampleRate*/, int /*bits
                     }
                 }
             }
-            sLastNotePlayTime_BBC33C = timeGetTime();
+            sLastNotePlayTime_BBC33C = SYS_GetTicks();
 
             return 0;
         }
@@ -488,7 +487,7 @@ int SND_Play_SDL(const SoundEntry* pSnd, float volume, float pan, float freq, MI
         return -1;
     }
 
-    sLastNotePlayTime_BBC33C = timeGetTime();
+    sLastNotePlayTime_BBC33C = SYS_GetTicks();
 
     if (pSnd->field_20_isStereo & 2)
     {
@@ -556,7 +555,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
         return -1;
     }
 
-    sLastNotePlayTime_BBC33C = timeGetTime();
+    sLastNotePlayTime_BBC33C = SYS_GetTicks();
 
     int panLeft2 = panLeft;
     int panRight2 = panRight;

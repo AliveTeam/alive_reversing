@@ -8,7 +8,6 @@
 #include "DebugHelpers.hpp"
 #include "Events.hpp"
 #include "PsxRender.hpp"
-#include "WinAPISupport.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "StringFormatters.hpp"
@@ -907,7 +906,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
     else
     {
         sFlags_5C9390 |= 1u;
-        timeStamp = timeGetTime() - 55;
+        timeStamp = SYS_GetTicks() - 55;
         sPrevTimeStamp_5C98D8 = timeStamp;
     }
 
@@ -1071,7 +1070,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             dword_5C9F78 = sGamepadCapFlags_5C2EF8 & eAutoRun;
                             if (!(sPrevious_down_keyboard_keys_5C9F74 & (eRight | eLeft)))
                             {
-                                currentTime = timeGetTime();
+                                currentTime = SYS_GetTicks();
                                 if ((unsigned int)(sPrevTimeStamp_5C98D8 - dword_5C98DC) <= 220 && currentTime - sPrevTimeStamp_5C98D8 <= 220)
                                 {
                                     dword_5C9F78 = 1;
@@ -1080,7 +1079,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             }
                             if (!(pressed_keyboard_keys & (eRight | eLeft)))
                             {
-                                sPrevTimeStamp_5C98D8 = timeGetTime();
+                                sPrevTimeStamp_5C98D8 = SYS_GetTicks();
                             }
                         }
                     }

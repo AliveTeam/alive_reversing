@@ -11,7 +11,7 @@
 #include "VRam.hpp"
 #include "DebugHelpers.hpp"
 #include "PsxRender.hpp"
-#include "WinAPISupport.hpp"
+#include "Sys.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
 
@@ -22,7 +22,7 @@ EXPORT void CC PSX_Calc_FrameSkip_4945D0()
     static DWORD sPreviousTime_5CA4C8 = 0;
     static DWORD sLastTicks_5CA4CC = 0;
 
-    const DWORD currentTime = timeGetTime();
+    const DWORD currentTime = SYS_GetTicks();
     const int ticks = currentTime - sPreviousTime_5CA4C8 - delta_time_ring_buffer_5CA310[0] + sLastTicks_5CA4CC;
     
     // Move all elements down one, so the the last value is "empty"

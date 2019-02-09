@@ -9,8 +9,8 @@
 #include "Input.hpp"
 #include "Midi.hpp"
 #include "Sound.hpp"
-#include "WinAPISupport.hpp"
 #include "PauseMenu.hpp" // pal_554474
+#include "Sys.hpp"
 
 BaseGameObject* Text::VDestructor(signed int flags)
 {
@@ -232,7 +232,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
         SND_StopAll_4CB060();
     }
 
-    DWORD displayForMsecs = timeGetTime() + 1000;
+    DWORD displayForMsecs = SYS_GetTicks() + 1000;
 
     if (messageType == 3)
     {
@@ -240,7 +240,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
     }
 
     char bQuitViaEnterOrTimeOut = 1;
-    if (timeGetTime() < displayForMsecs)
+    if (SYS_GetTicks() < displayForMsecs)
     {
         bool waitReturn = true;
         while (!Input_IsVKPressed_4EDD40(VK_RETURN))
@@ -264,7 +264,7 @@ EXPORT char CC Display_Full_Screen_Message_Blocking_465820(int /*not_used*/, int
 
             SYS_EventsPump_494580();
 
-            if (timeGetTime() >= displayForMsecs)
+            if (SYS_GetTicks() >= displayForMsecs)
             {
                 waitReturn = false;
                 break;

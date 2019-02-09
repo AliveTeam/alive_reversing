@@ -10,7 +10,6 @@
 #include <mmeapi.h>
 #endif
 #include <mutex>
-#include "WinAPISupport.hpp"
 #include "Path.hpp"
 #include "MusicController.hpp"
 

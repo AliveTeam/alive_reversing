@@ -12,7 +12,7 @@
 #include "Abe.hpp"
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
-#include "WinAPISupport.hpp"
+#include "Sys.hpp"
 #include <gmock/gmock.h>
 
 void Midi_ForceLink() { }
@@ -326,7 +326,7 @@ ALIVE_VAR(1, 0xbd1cec, unsigned int, sMidiTime_BD1CEC, 0);
 EXPORT void CC PSX_SsStart_4FC320()
 {
     sMidi_Inited_dword_BD1CF4 = 1;
-    sMidiTime_BD1CEC = timeGetTime();
+    sMidiTime_BD1CEC = SYS_GetTicks();
 }
 
 EXPORT void CC PSX_SsSetMVol_4FC360(__int16 left, __int16 right)
@@ -860,7 +860,7 @@ ALIVE_VAR(1, 0xbd1cf0, DWORD, sMidi_WaitUntil_BD1CF0, 0);
 
 EXPORT void CC MIDI_Wait_4FCE50()
 {
-    while (timeGetTime() < sMidi_WaitUntil_BD1CF0)
+    while (SYS_GetTicks() < sMidi_WaitUntil_BD1CF0)
     {
 
     }
@@ -1764,7 +1764,7 @@ EXPORT void CC MIDI_UpdatePlayer_4FDC80()
 {
     if (!sbDisableSeqs_BD1CE4)
     {
-        const DWORD currentTime = timeGetTime();
+        const DWORD currentTime = SYS_GetTicks();
         sMidiTime_BD1CEC = currentTime;
         // First time or 30 passed?
         if (sLastTime_578E20 == 0xFFFFFFFF || (signed int)(currentTime - sLastTime_578E20) >= 30)
@@ -2002,7 +2002,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
 
                     if (program == 4 || program == 5 || program == 8 || program == 23 || program == 24 || program == 25)
                     {
-                        sMidi_WaitUntil_BD1CF0 = timeGetTime() + 10;
+                        sMidi_WaitUntil_BD1CF0 = SYS_GetTicks() + 10;
                     }
 
                     usedChannelBits |= (1 << midiChannel);

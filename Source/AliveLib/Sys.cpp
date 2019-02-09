@@ -17,6 +17,10 @@
 #include "VGA.hpp"
 #endif
 
+#if _WIN32
+#include <timeapi.h>
+#endif
+
 ALIVE_VAR(1, 0xBBBA00, BOOL, sAppIsActivated_BBBA00, FALSE);
 ALIVE_VAR(1, 0xBBB9F4, TWindowHandleType, sHwnd_BBB9F4, nullptr);
 #if _WIN32
@@ -1023,4 +1027,9 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
 #else
     return Sys_WindowClass_Register_Win32(lpClassName, lpWindowName, x, y, nWidth, nHeight);
 #endif
+}
+
+DWORD SYS_GetTicks()
+{
+    return timeGetTime();
 }

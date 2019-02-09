@@ -2,13 +2,13 @@
 #include "MusicController.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include "WinAPISupport.hpp"
 #include "Midi.hpp"
 #include "Events.hpp"
 #include "Abe.hpp"
 #include "Map.hpp"
 #include "ObjectIds.hpp"
 #include "PathData.hpp"
+#include "Sys.hpp"
 
 ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
 ALIVE_VAR(1, 0x5C301C, DWORD, sMusicControllerBaseTimeStamp_5C301C, 0);
@@ -362,12 +362,12 @@ int CC MusicController::Create_47FC40()
 
 void CC MusicController::SetBaseTimeStamp_47FD00()
 {
-    sMusicControllerBaseTimeStamp_5C301C = timeGetTime();
+    sMusicControllerBaseTimeStamp_5C301C = SYS_GetTicks();
 }
 
 void CC MusicController::UpdateMusicTime_47F8B0()
 {
-    sMusicTime_5C3024 = (3 * timeGetTime() - 3 * sMusicControllerBaseTimeStamp_5C301C) / 100;
+    sMusicTime_5C3024 = (3 * SYS_GetTicks() - 3 * sMusicControllerBaseTimeStamp_5C301C) / 100;
 }
 
 void CC MusicController::Shutdown_47FD20()
