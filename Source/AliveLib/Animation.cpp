@@ -626,7 +626,7 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
     
     // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
     // TODO: Remove it in the future when proven to be not required?
-#ifdef _MSC_VER && !_WIN64
+#if defined(_MSC_VER) && !defined(_WIN64)
     if (reinterpret_cast<DWORD>(pFrame) & 3)
     {
         FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_5440AC;
