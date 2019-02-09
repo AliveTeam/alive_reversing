@@ -15,7 +15,10 @@ endif()
 
 target_compile_definitions(AliveDll PRIVATE "_CRT_SECURE_NO_WARNINGS")
 
-target_link_libraries(AliveDll Detours AliveLib)
+target_link_libraries(AliveDll AliveLib)
+if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+   target_link_libraries(AliveDll Detours)
+endif()
 
 add_custom_command(TARGET AliveDll
                    POST_BUILD

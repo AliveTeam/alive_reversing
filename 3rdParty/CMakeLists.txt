@@ -1,6 +1,6 @@
 project(Deps VERSION 0.1 LANGUAGES C CXX)
 
-if (WIN32)
+if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
     # Detours lib
     add_library(Detours
         Detours/src/detours.cpp

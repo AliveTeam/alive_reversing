@@ -234,7 +234,11 @@ target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE"
 target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
 if (MSVC)
-    target_compile_options(AliveLib PRIVATE /W4 /wd4996 /WX /MP)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+        target_compile_options(AliveLib PRIVATE /W4 /wd4996 /WX /MP)
+    else()
+        target_compile_options(AliveLib PRIVATE /W4 /wd4996 /MP)
+    endif()
 
     set_target_properties(AliveLib PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
     set_target_properties(AliveLib PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
@@ -255,11 +259,14 @@ target_compile_features(AliveLib
 
 if (WIN32)
     set(WIN32_LIBS
-        Detours
         Winmm
         dsound
         xinput
     )
+endif()
+
+if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+    set(WIN32_LIBS ${WIN32_LIBS} Detours)
 endif()
 
 target_link_libraries(AliveLib
