@@ -339,7 +339,7 @@ void Font_Context::LoadFontType_433400(short resourceID)
     field_C_resource_id = resourceID;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    PSX_RECT rect = { field_0_rect.x, field_0_rect.y, fontFile->field_0_width / 4, fontFile->field_2_height };
+    PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     if (fontFile->field_4_color_depth == 16)
     {
@@ -398,7 +398,7 @@ void Font_Context::LoadFontTypeCustom(File_Font * fontFile, Font_AtlasEntry * fo
     field_C_resource_id = 0xff;
 
     Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    PSX_RECT rect = { field_0_rect.x, field_0_rect.y, fontFile->field_0_width / 4, fontFile->field_2_height };
+    PSX_RECT rect = { field_0_rect.x, field_0_rect.y, static_cast<short>(fontFile->field_0_width / 4), fontFile->field_2_height };
 
     if (pPaletteOut)
     {

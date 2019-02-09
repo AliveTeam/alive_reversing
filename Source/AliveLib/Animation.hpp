@@ -208,7 +208,7 @@ public:
     EXPORT virtual signed __int16 vCleanUp_40C630() override;
 
     EXPORT void vDecode2_40B200();
-    EXPORT void vDecode_40AC90();
+    EXPORT virtual void vDecode_40AC90() override;
     bool DecodeCommon();
 
     EXPORT void Invoke_CallBacks_40B7A0();

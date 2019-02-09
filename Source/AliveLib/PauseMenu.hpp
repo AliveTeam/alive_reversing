@@ -51,7 +51,7 @@ class PauseMenu : public BaseAnimatedWithPhysicsGameObject
 public:
     struct PauseMenuPage;
 
-    virtual BaseGameObject* VDestructor(signed int flags);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;

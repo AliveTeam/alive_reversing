@@ -10,10 +10,11 @@ void CreditsController_ForceLink();
 class CreditsController : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
 
     EXPORT CreditsController* ctor_418A10(int a2, int a3);
+private:
     EXPORT void dtor_418A90();
     EXPORT BaseGameObject* vdtor_418A60(signed int flags);
     EXPORT void Update_418AC0();
