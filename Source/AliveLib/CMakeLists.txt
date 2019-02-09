@@ -220,8 +220,6 @@ add_library(AliveLib
     Well.cpp
     Water.hpp
     Water.cpp
-	WinAPISupport.hpp
-	WinAPISupport.cpp
     Types.hpp
     Slurg.cpp
     Slurg.hpp)
