@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "text.hpp"
+#include "Text.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "FixedPoint.hpp"
