@@ -3,6 +3,10 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 
+#if !_WIN32
+#include <dirent.h>
+#endif
+
 ALIVE_VAR(1, 0xBBC4BC, std::atomic<IO_Handle*>, sIOHandle_BBC4BC, {});
 ALIVE_VAR(1, 0xBBC4C4, std::atomic<void*>, sIO_ReadBuffer_BBC4C4, {});
 ALIVE_VAR(1, 0xBBC4C0, std::atomic<int>, sIO_Thread_Operation_BBC4C0, {});
@@ -57,13 +61,16 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
 
 EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile)
 {
+#if _WIN32
     if (hFile && hFile->field_10_bDone)
     {
         do
         {
+
             Sleep(0);
         } while (hFile->field_10_bDone);
     }
+#endif
 }
 
 EXPORT int CC IO_Seek_4F2490(IO_Handle* hFile, int offset, int origin)
@@ -90,6 +97,7 @@ EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile)
     }
 }
 
+#if _WIN32
 EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
 {
     while (1)
@@ -149,6 +157,7 @@ EXPORT signed int CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, v
     //sIO_NotUsed3_dword_BBC4D4 = notUsed3;
     return 0;
 }
+#endif
 
 EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
 {
@@ -157,6 +166,7 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
         return -1;
     }
 
+#if _WIN32
     if (hFile->field_0_flags & 4) // ASync flag
     {
         IO_WaitForComplete_4F2510(hFile);
@@ -165,6 +175,7 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
         return 0;
     }
     else
+#endif
     {
         if (fread(pBuffer, 1u, bytesCount, hFile->field_8_hFile) == bytesCount)
         {
@@ -181,6 +192,7 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
 
 ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
 
+#if _WIN32
 EXPORT DWORD CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
 {
     MSG msg = {};
@@ -281,7 +293,7 @@ EXPORT BOOL CC IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, DWORD readSize)
     pHandle->field_8_readSize = readSize;
     ResetEvent(pHandle->field_18_hEvent);
 
-    while (!PostThreadMessageA(pHandle->field_1C_ThreadId, 0x400u, 0x115Cu, 5555))
+    while (!PostThreadMessageA(pHandle->field_1C_ThreadId, 0x400u, 4444, 5555))
     {
         Sleep(200u);
     }
@@ -299,6 +311,7 @@ EXPORT int CC IO_Sync_ASync_4EAF80(void* hFile, DWORD offset, DWORD origin)
     }
     return result;
 }
+#endif
 
 EXPORT void* CC IO_Open_Sync_4EAEB0(const char* pFileName)
 {
@@ -320,7 +333,7 @@ EXPORT BOOL CC IO_Read_Sync_4EAF50(void* pHandle, void* pBuffer, DWORD readSize)
     return fread_520B5C(pBuffer, 1u, readSize, hFile) == readSize;
 }
 
-EXPORT int CC IO_Wait_Sync_4EAD30(void*)
+EXPORT BOOL CC IO_Wait_Sync_4EAD30(void*)
 {
     return 1;
 }
@@ -331,8 +344,10 @@ EXPORT BOOL CC IO_Seek_Sync_4EAFC0(void* pHandle, DWORD offset, DWORD origin)
     return fseek_521955(hFile, offset, origin) != 0;
 }
 
+
 EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
 {
+#if _WIN32
     if (bASync)
     {
         sMovie_IO_BBB314.mIO_Open = IO_Open_ASync_4EADA0;
@@ -342,6 +357,8 @@ EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
         sMovie_IO_BBB314.mIO_Seek = IO_Sync_ASync_4EAF80;
     }
     else
+#endif
+    // Don't support ASync on non Windows
     {
         sMovie_IO_BBB314.mIO_Open = IO_Open_Sync_4EAEB0;
         sMovie_IO_BBB314.mIO_Close = IO_Close_Sync_4EAD90;
@@ -389,15 +406,18 @@ EXPORT void IO_Init_494230()
 
 EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0()
 {
+#if _WIN32
     if (sIoThreadHandle_BBC55C)
     {
         ::CloseHandle(sIoThreadHandle_BBC55C);
         sIoThreadHandle_BBC55C = nullptr;
     }
+#endif
 }
 
 bool IO_CreateThread()
 {
+#if _WIN32
     if (!sIoThreadHandle_BBC55C)
     {
         sIoThreadHandle_BBC55C = ::CreateThread(
@@ -412,11 +432,13 @@ bool IO_CreateThread()
             return false;
         }
     }
+#endif
     return true;
 }
 
 bool IO_DirectoryExists(const char* pDirName)
 {
+#if _WIN32
     WIN32_FIND_DATA sFindData = {};
     HANDLE hFind = FindFirstFile(pDirName, &sFindData);
     if (hFind == INVALID_HANDLE_VALUE)
@@ -425,10 +447,79 @@ bool IO_DirectoryExists(const char* pDirName)
     }
     FindClose(hFind);
     return true;
+#else
+    DIR* dir = opendir(pDirName);
+    if (dir)
+    {
+        closedir(dir);
+        return true;
+    }
+    return false;
+#endif
 }
+
+#if !_WIN32
+#include <string>
+#include <regex>
+
+static void replace_all(std::string& input, char find, const char replace)
+{
+    size_t pos = 0;
+    while ((pos = input.find(find, pos)) != std::string::npos)
+    {
+        input.replace(pos, 1, 1, replace);
+        pos += 1;
+    }
+}
+
+static void replace_all(std::string& input, const std::string& find, const std::string& replace)
+{
+    size_t pos = 0;
+    while ((pos = input.find(find, pos)) != std::string::npos)
+    {
+        input.replace(pos, find.length(), replace);
+        pos += replace.length();
+    }
+}
+
+static void EscapeRegex(std::string& regex)
+{
+    replace_all(regex, "\\", "\\\\");
+    replace_all(regex, "^", "\\^");
+    replace_all(regex, ".", "\\.");
+    replace_all(regex, "$", "\\$");
+    replace_all(regex, "|", "\\|");
+    replace_all(regex, "(", "\\(");
+    replace_all(regex, ")", "\\)");
+    replace_all(regex, "[", "\\[");
+    replace_all(regex, "]", "\\]");
+    replace_all(regex, "*", "\\*");
+    replace_all(regex, "+", "\\+");
+    replace_all(regex, "?", "\\?");
+    replace_all(regex, "/", "\\/");
+}
+
+static bool WildCardMatcher(const std::string& text, std::string wildcardPattern, bool caseSensitive)
+{
+    // Escape all regex special chars
+    EscapeRegex(wildcardPattern);
+
+    // Convert chars '*?' back to their regex equivalents
+    replace_all(wildcardPattern, "\\?", ".");
+    replace_all(wildcardPattern, "\\*", ".*");
+
+    std::regex pattern(wildcardPattern,
+        caseSensitive ?
+        std::regex_constants::ECMAScript :
+        std::regex_constants::ECMAScript | std::regex_constants::icase);
+
+    return std::regex_match(text, pattern);
+}
+#endif
 
 void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb)
 {
+#if _WIN32
     _finddata_t findRec = {};
     intptr_t hFind = _findfirst(fileName, &findRec);
     if (hFind != -1)
@@ -447,4 +538,33 @@ void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb)
         }
         _findclose(hFind);
     }
+#else
+    DIR* dir(opendir("."));
+    if (dir)
+    {
+        dirent* ent = nullptr;
+        do
+        {
+            ent = readdir(dir);
+            if (ent)
+            {
+                const std::string itemName = ent->d_name;
+                const std::string strFilter(fileName);
+                if (WildCardMatcher(itemName, strFilter, true))
+                {
+                    struct stat statbuf;
+                    if (stat(( + "./" + itemName).c_str(), &statbuf) == 0)
+                    {
+                        const bool isFile = !S_ISDIR(statbuf.st_mode);
+                        if (isFile)
+                        {
+                            cb(itemName.c_str(), statbuf.st_mtime);
+                        }
+                    }
+                }
+            }
+        } while (ent);
+        closedir(dir);
+    }
+#endif
 }

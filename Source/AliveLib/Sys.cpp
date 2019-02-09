@@ -1031,5 +1031,9 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
 
 DWORD SYS_GetTicks()
 {
+#if USE_SDL2
+    return SDL_GetTicks();
+#else
     return timeGetTime();
+#endif
 }

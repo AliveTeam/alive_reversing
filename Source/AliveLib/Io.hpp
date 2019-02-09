@@ -32,7 +32,7 @@ struct Movie_IO
 {
     void(CC* mIO_Close)(void* pHandle);
     BOOL(CC* mIO_Wait)(void* pHandle);
-    int(CC* mIO_Seek)(void* pHandle, DWORD offset, DWORD origin);
+    BOOL(CC* mIO_Seek)(void* pHandle, DWORD offset, DWORD origin);
     void* (CC* mIO_Open)(const char* pFileName);
     BOOL(CC* mIO_Read)(void* pHandle, void* pBuffer, DWORD size);
 };
