@@ -1145,16 +1145,20 @@ struct VabBodyRecord
 
 ALIVE_VAR(1, 0xbd1ce0, FILE *, sSoundDatFileHandle_BD1CE0, nullptr);
 
-// TODO: Reverse/refactor properly
-EXPORT DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pVabBody, int idx)
+EXPORT DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pBodyRecords, int idx)
 {
-    VabBodyRecord *ret; // ecx
 
-    ret = pVabBody;
     if (!pVabHeader || idx < 0)
-        return 0;
+    {
+        return nullptr;
+    }
+
+    VabBodyRecord* ret = pBodyRecords;
     if (idx - 1 >= 0)
-        ret = (VabBodyRecord *)((char *)pVabBody + 4 * (3 * (idx - 1) + 3));
+    {
+        ret = &pBodyRecords[idx];
+    }
+
     return &ret->field_8_fileOffset;
 }
 
@@ -1164,9 +1168,13 @@ EXPORT int CC SND_SoundsDat_Get_Sample_Len_4FC400(VabHeader *pVabHeader, VabBody
     int result; // eax
 
     if (pVabHeader && idx >= 0)
+    {
         result = (signed int)(8 * *(SND_SoundsDat_Get_Sample_Offset_4FC3D0(pVabHeader, pVabBody, idx) - 2)) / 16;// -2 = field_0_length_or_duration
+    }
     else
+    {
         result = -1;
+    }
     return result;
 }
 
