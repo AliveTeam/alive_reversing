@@ -95,9 +95,9 @@ EXPORT void SsVabTransCompleted_4FE060(int)
 
 struct MIDI_3_Bytes
 {
-    char field_0;
-    char field_1;
-    char field_2_not_inited;
+    char field_0_program;
+    char field_1_left_vol;
+    char field_2_right_vol;
 };
 ALIVE_ASSERT_SIZEOF(MIDI_3_Bytes, 3);
 
@@ -121,8 +121,10 @@ struct MIDI_Struct2
     __int16 field_2E;
     char field_30;
     char field_31;
-    char field_32;
-    MIDI_3_Bytes field_33[16];
+    MIDI_3_Bytes field_32[16];
+   // char field_32;
+    //MIDI_3_Bytes field_33[16];
+    char field_62;
     char field_63;
 };
 ALIVE_ASSERT_SIZEOF(MIDI_Struct2, 100);
@@ -298,8 +300,8 @@ static void SND_ResetData()
     {
         for (int j = 0; j < 16; j++)
         {
-            sMidiStruct2Ary32_C13400.table[i].field_33[j].field_0 = 112;
-            sMidiStruct2Ary32_C13400.table[i].field_33[j].field_1 = 64;
+            sMidiStruct2Ary32_C13400.table[i].field_32[j].field_1_left_vol = 112;
+            sMidiStruct2Ary32_C13400.table[i].field_32[j].field_2_right_vol = 64;
         }
     }
 }
@@ -942,8 +944,8 @@ EXPORT __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx)
     memset(&sMidiStruct2Ary32_C13400.table[freeIdx], 0, sizeof(MIDI_Struct2));
     for (int i = 0; i < 16; i++)
     {
-        sMidiStruct2Ary32_C13400.table[freeIdx].field_33[i].field_0 = 112;
-        sMidiStruct2Ary32_C13400.table[freeIdx].field_33[i].field_1 = 64;
+        sMidiStruct2Ary32_C13400.table[freeIdx].field_32[i].field_1_left_vol = 112;
+        sMidiStruct2Ary32_C13400.table[freeIdx].field_32[i].field_2_right_vol = 64;
     }
 
     // Set data based on SEQ header
@@ -1459,7 +1461,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     unsigned int cmd; // ebx
     unsigned int v16; // eax
     int v17; // ecx
-    char *v18; // ecx
+    MIDI_3_Bytes  *v18; // ecx
     signed int v19; // ebx
     MIDI_Struct1_Sub *pSubChan2; // esi
     char v21; // bl
@@ -1470,9 +1472,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     unsigned __int8 refCount1; // dl
     MIDI_Struct1_Sub *pSub1; // esi
     int v29; // edi
-    int v30; // ecx
     __int16 v31 = 0; // bp
-    char *v32; // ebx
     unsigned __int8 v33; // cl
     int v34; // eax
     void(CC *pFn)(int, DWORD, DWORD); // eax
@@ -1482,10 +1482,11 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     unsigned int v39; // ecx
     unsigned int v40; // edi
     int v42; // [esp+14h] [ebp-1Ch]
-    char *v43; // [esp+18h] [ebp-18h]
+    MIDI_3_Bytes *v43; // [esp+18h] [ebp-18h]
     int v45; // [esp+20h] [ebp-10h]
-    int v46; // [esp+2Ch] [ebp-4h]
+    int leftVol; // [esp+2Ch] [ebp-4h]
     int v47; // [esp+2Ch] [ebp-4h]
+    MIDI_3_Bytes* v32;
 
     idx2 = idx;
     pCtx = &sMidiStruct2Ary32_C13400.table[idx];
@@ -1578,15 +1579,14 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
         case 0x80u:                               // Note off
           
             v29 = v16 & 15;
-            v30 = idx2 * 100 + 2 * v29;
-            v32 = &sMidiStruct2Ary32_C13400.table[0].field_32 + v29 + v30;
+            v32 = &sMidiStruct2Ary32_C13400.table[idx2].field_32[v29];
             for (int i = 0; i < 24; i++)
             {
                 pSub1 = &sMidi_Channels_C14080.channels[i].field_1C;
                 if (pSub1->field_3)
                 {
                     if (pSub1->field_0_seq_idx == sMidiStruct2Ary32_C13400.table[idx].field_seq_idx
-                        && pSub1->field_1_program == *v32
+                        && pSub1->field_1_program == v32->field_0_program // or field_2_not_inited ??
                         && pSub1->field_C == v29 + 16 * idx
                         && pSub1->field_2_note_byte1 == BYTE1(v16))
                     {
@@ -1606,9 +1606,9 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
         case 0x90u:                               // Note on
             v17 = v16 & 15;
             v45 = v17;
-            v18 = &sMidiStruct2Ary32_C13400.table[0].field_32 + 2 * v17 + v17 + idx2 * 100;
+            v18 = &sMidiStruct2Ary32_C13400.table[idx2].field_32[v17];
             v43 = v18;
-            v46 = (signed __int16)((unsigned int)(v18[1] * sMidiStruct2Ary32_C13400.table[idx2].field_C_volume) >> 7);
+            leftVol = (signed __int16)((unsigned int)(v18->field_1_left_vol * sMidiStruct2Ary32_C13400.table[idx2].field_C_volume) >> 7);
             if (v16 >> 16)
             {
                 v19 = 0;
@@ -1618,7 +1618,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                     pSubChan2 = &sMidi_Channels_C14080.channels[i].field_1C;
                     if (pSubChan2->field_3
                         && pSubChan2->field_0_seq_idx == sMidiStruct2Ary32_C13400.table[idx2].field_seq_idx
-                        && pSubChan2->field_1_program == *v18
+                        && pSubChan2->field_1_program == v18->field_0_program
                         && pSubChan2->field_C == v45 + 16 * idx)
                     {
                         if (pSubChan2->field_2_note_byte1 == BYTE1(v16) && pSubChan2->field_E > v19)
@@ -1632,10 +1632,10 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                 v21 = static_cast<char>(v19 + 1);
                 v47 = MIDI_PlayerPlayMidiNote_4FCE80(
                     sMidiStruct2Ary32_C13400.table[idx2].field_seq_idx,
-                    *v18,
+                    v18->field_0_program,
                     v16 & 0xFF00,
-                    v46,
-                    v18[2],
+                    leftVol,
+                    v18->field_2_right_vol,
                     v16 >> 16);
                 channelIdx_1 = 0;
 
@@ -1658,7 +1658,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                     if (pSubChan1->field_3)
                     {
                         if (pSubChan1->field_0_seq_idx == sMidiStruct2Ary32_C13400.table[idx2].field_seq_idx
-                            && pSubChan1->field_1_program == *v18
+                            && pSubChan1->field_1_program == v18->field_0_program
                             && pSubChan1->field_C == v45 + 16 * idx
                             && pSubChan1->field_2_note_byte1 == BYTE1(v16))
                         {
@@ -1722,13 +1722,19 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
             }
             sControllerValue_BD1CFC = 0;
             break;
+
         case 0xC0u:                               // Program change
-            *(&sMidiStruct2Ary32_C13400.table[0].field_32 + 2 * (v16 & 0xF) + (v16 & 0xF) + idx2 * 100) = BYTE1(v16);
-            break;
+        {
+            sMidiStruct2Ary32_C13400.table[idx2].field_32[v16 & 0xF].field_0_program = BYTE1(v16);
+        }
+        break;
+
         case 0xE0u:                               // Pitch bend
+        {
             MIDI_PitchBend_4FDEC0(
-                *(&sMidiStruct2Ary32_C13400.table[0].field_32 + 2 * (v16 & 0xF) + (v16 & 0xF) + idx2 * 100),
-             static_cast<short>( ((v16 >> 8) - 0x4000) >> 4));
+                sMidiStruct2Ary32_C13400.table[idx2].field_32[v16 & 0xF].field_0_program,
+                static_cast<short>(((v16 >> 8) - 0x4000) >> 4));
+        }
             break;
         default:
             break;
