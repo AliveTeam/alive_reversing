@@ -1467,7 +1467,6 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     char v21; // bl
     char channelIdx_1; // cl
     
-    __int16 channelIdx; // di
     MIDI_Struct1_Sub *pSubChan1; // esi
     unsigned __int8 refCount1; // dl
     MIDI_Struct1_Sub *pSub1; // esi
