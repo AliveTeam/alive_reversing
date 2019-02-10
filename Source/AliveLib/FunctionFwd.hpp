@@ -7,7 +7,11 @@ bool IsAlive();
 #define EXPORT __declspec(dllexport)
 #define CC __cdecl
 #define CCSTD __stdcall
+#if _WIN64
+#define ALIVE_ASSERT_SIZEOF(structureName, expectedSize)
+#else
 #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
+#endif
 #else
 #define NO_RETURN
 #define EXPORT

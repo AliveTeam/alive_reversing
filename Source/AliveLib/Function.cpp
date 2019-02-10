@@ -4,7 +4,7 @@
 #include <fstream>
 #include "Sys.hpp"
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
 #include "detours.h"
 #endif
 
@@ -12,10 +12,12 @@ bool gVTableHack = true;
 
 void SetVTable(void* thisPtr, DWORD vTable)
 {
+#if !_WIN64
     if (IsAlive() && gVTableHack)
     {
         *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
     }
+#endif
 }
 
 NO_RETURN void ALIVE_FATAL(const char* errMsg)
@@ -100,7 +102,7 @@ void ScopedDetour::Construct()
 
 void ScopedDetour::DoDetour(bool attach, PVOID* ppPointer, PVOID detour)
 {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
     LONG err = DetourTransactionBegin();
 
     if (err != NO_ERROR)
