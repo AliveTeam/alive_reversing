@@ -15,7 +15,7 @@ struct BackgroundAnimation_TLV : public Path_TLV
     __int16 field_18_id;
     unsigned __int16 field_1A_layer;
 };
-ALIVE_ASSERT_SIZEOF(BackgroundAnimation_TLV, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(BackgroundAnimation_TLV, 0x1C);
 
 class BackgroundAnimation : public BaseAnimatedWithPhysicsGameObject
 {

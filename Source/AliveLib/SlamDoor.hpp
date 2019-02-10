@@ -25,7 +25,7 @@ struct Path_SlamDoor : public Path_TLV
     __int16 field_18_delete;
     __int16 field_1A_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_SlamDoor, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 
 class SlamDoor : public BaseAliveGameObject
 {

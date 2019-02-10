@@ -35,7 +35,7 @@ struct Path_Water : public Path_TLV
 {
     Path_Water_Data field_10_data;
 };
-ALIVE_ASSERT_SIZEOF(Path_Water, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
 
 class Water : public BaseAnimatedWithPhysicsGameObject
 {

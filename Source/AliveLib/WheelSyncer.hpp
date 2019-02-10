@@ -14,7 +14,7 @@ struct Path_WheelSyncer : public Path_TLV
     __int16 field_1C_id5;
     __int16 field_1E_id6;
 };
-ALIVE_ASSERT_SIZEOF(Path_WheelSyncer, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WheelSyncer, 0x20);
 
 class WheelSyncer : public BaseGameObject
 {

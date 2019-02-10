@@ -17,7 +17,7 @@ struct Path_UXB : public Path_TLV
     __int16 field_16_state;
     int field_18_disabled_resources;
 };
-ALIVE_ASSERT_SIZEOF(Path_UXB, 0x1c);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 
 struct SaveState_UXB
 {
@@ -32,7 +32,7 @@ struct SaveState_UXB
     WORD field_14_red_blink_count;
     WORD field_16_is_red;
 };
-ALIVE_ASSERT_SIZEOF(SaveState_UXB, 24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SaveState_UXB, 24);
 
 enum UXB_Flags_1C8
 {

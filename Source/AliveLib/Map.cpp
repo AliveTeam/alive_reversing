@@ -42,7 +42,7 @@ struct Path_ChangeTLV : public Path_TLV
     __int16 field_18_wipe;
     __int16 field_1A_scale;
 };
-ALIVE_ASSERT_SIZEOF(Path_ChangeTLV, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChangeTLV, 0x1C);
 
 const unsigned short Path_ChangeTLV::kType = 1;
 

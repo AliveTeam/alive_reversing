@@ -18,7 +18,7 @@ struct Path_Switch : public Path_TLV
     __int16 field_1C_persist_offscreen;
     __int16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_Switch, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Switch, 0x20);
 
 class Switch : public BaseAnimatedWithPhysicsGameObject
 {

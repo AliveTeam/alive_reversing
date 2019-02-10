@@ -16,7 +16,7 @@ public:
         short field_0_never_used;
         short field_2_item_count;
     };
-    ALIVE_ASSERT_SIZEOF(ThrowableArray_SaveState, 0x4);
+    ALIVE_ASSERT_SIZEOF_ALWAYS(ThrowableArray_SaveState, 0x4);
 
     EXPORT ThrowableArray* ctor_49A630();
     EXPORT void dtor_49A6F0();

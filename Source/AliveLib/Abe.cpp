@@ -1015,7 +1015,7 @@ struct Quicksave_Obj_Abe
     WORD wordD4;
     WORD wordD6;
 };
-ALIVE_ASSERT_SIZEOF(Quicksave_Obj_Abe, 216);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_Abe, 216);
 
 const char* sAbe_ResNames_545830[22] =
 {

@@ -16,7 +16,7 @@ struct Path_LevelLoader : public Path_TLV
     __int16 field_18_movie;
     //__int16 field_1A; // pad
 };
-ALIVE_ASSERT_SIZEOF(Path_LevelLoader, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
 
 class LevelLoader : public BaseGameObject
 {

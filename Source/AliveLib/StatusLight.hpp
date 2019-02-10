@@ -15,7 +15,7 @@ struct Path_StatusLight : public Path_TLV
     __int16 field_1C_id5;
     __int16 field_1E_snap_to_grid;
 };
-ALIVE_ASSERT_SIZEOF(Path_StatusLight, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
 
 class StatusLight : public BaseAnimatedWithPhysicsGameObject
 {

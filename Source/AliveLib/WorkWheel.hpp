@@ -21,7 +21,7 @@ struct WorkWheel_SaveState
     WheelStates field_C_state;
     __int16 field_E; // not used ?
 };
-ALIVE_ASSERT_SIZEOF(WorkWheel_SaveState, 0x10);
+ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 
 struct Path_Wheel : public Path_TLV
 {
@@ -33,7 +33,7 @@ struct Path_Wheel : public Path_TLV
     __int16 field_18_off_when_stopped;
     // pad
 };
-ALIVE_ASSERT_SIZEOF(Path_Wheel, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Wheel, 0x1C);
 
 class WorkWheel : public BaseAnimatedWithPhysicsGameObject
 {

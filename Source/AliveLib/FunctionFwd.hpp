@@ -25,6 +25,9 @@ bool IsAlive();
 
 #endif
 
+#define ALIVE_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
+
+
 NO_RETURN void ALIVE_FATAL(const char* errMsg);
 
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");

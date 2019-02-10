@@ -23,7 +23,7 @@ struct Path_TLV
     PSX_Point field_8_top_left;
     PSX_Point field_C_bottom_right;
 };
-ALIVE_ASSERT_SIZEOF(Path_TLV, 0x10);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TLV, 0x10);
 
 enum class LevelIds : __int16;
 
@@ -83,7 +83,7 @@ struct Path_Door : public Path_TLV
     __int16 field_40_close_after_use;
     __int16 field_42_cancel_throwables;
 };
-ALIVE_ASSERT_SIZEOF(Path_Door, 0x44);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x44);
 
 struct Path_Teleporter_Data
 {
@@ -99,7 +99,7 @@ struct Path_Teleporter_Data
     __int16 field_22_eletric_x;
     __int16 field_24_electric_y;
 };
-ALIVE_ASSERT_SIZEOF(Path_Teleporter_Data, 0x16);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter_Data, 0x16);
 
 struct Path_Teleporter : public Path_TLV
 {
@@ -107,7 +107,7 @@ struct Path_Teleporter : public Path_TLV
     Path_Teleporter_Data field_10_data;
     __int16 field_26_pad; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
 };
-ALIVE_ASSERT_SIZEOF(Path_Teleporter, 0x28); // 0x10 for base
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter, 0x28); // 0x10 for base
 
 struct Path_Hoist : public Path_TLV
 {
@@ -138,6 +138,7 @@ struct Path_Hoist : public Path_TLV
     };
     Scale field_16_scale;
 };
+// TODO: Size
 
 struct Path_Edge : public Path_TLV
 {
@@ -159,12 +160,14 @@ struct Path_Edge : public Path_TLV
     };
     Scale field_14_scale;
 };
+// TODO: Size
 
 struct Path_SoftLanding : public Path_TLV
 {
     static constexpr unsigned short kType = 75;
     int field_10_id;
 };
+// TODO: Size
 
 struct Path_Well_Base : public Path_TLV
 {
@@ -173,6 +176,7 @@ struct Path_Well_Base : public Path_TLV
     __int16 field_4_well_id;
     __int16 field_6_res_id;
 };
+// TODO: Size
 
 struct Path_Well_Local : public Path_Well_Base
 {
@@ -187,6 +191,7 @@ struct Path_Well_Local : public Path_Well_Base
     __int16 field_24_leaf_y;
     __int16 field_26;
 };
+// TODO: Size
 
 struct Path_Well_Express : public Path_Well_Base
 {
@@ -206,13 +211,14 @@ struct Path_Well_Express : public Path_Well_Base
     __int16 field_30_leaf_y;
     __int16 field_32_movie_id;
 };
+// TODO: Size
 
 struct Path_Alarm : public Path_TLV
 {
     short field_10_id;
     WORD field_12_duration;
 };
-ALIVE_ASSERT_SIZEOF(Path_Alarm, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);
 
 struct Path_MovieStone : public Path_TLV
 {
@@ -222,7 +228,7 @@ struct Path_MovieStone : public Path_TLV
     __int16 field_12_scale;
     int field_14_id;
 };
-ALIVE_ASSERT_SIZEOF(Path_MovieStone, 0x18);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);
 
 struct Path_HandStone : public Path_TLV
 {
@@ -232,7 +238,7 @@ struct Path_HandStone : public Path_TLV
     __int16 field_12_camera_ids[3];
     int field_18_trigger_id;
 };
-ALIVE_ASSERT_SIZEOF(Path_HandStone, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HandStone, 0x1C);
 
 struct Path_AbeStart :public Path_TLV
 {
@@ -240,6 +246,6 @@ struct Path_AbeStart :public Path_TLV
     __int16 field_10_scale;
     // pad
 };
-ALIVE_ASSERT_SIZEOF(Path_AbeStart, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_AbeStart, 0x14);
 
 ALIVE_VAR_EXTERN(Path*, sPath_dword_BB47C0);

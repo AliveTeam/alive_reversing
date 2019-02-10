@@ -22,7 +22,7 @@ struct Path_ShadowZone : public Path_TLV
     ShadowZoneScale field_1C_scale;
     //__int16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_ShadowZone, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x20);
 
 enum class LevelIds : __int16;
 

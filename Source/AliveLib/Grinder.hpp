@@ -46,14 +46,14 @@ struct Grinder_State
     GrinderStates field_10_state;
     __int16 field_12_xyoff;
 };
-ALIVE_ASSERT_SIZEOF(Grinder_State, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Grinder_State, 0x14);
 
 
 struct Path_Grinder : public Path_TLV
 {
     Path_Grinder_Data field_10_data;
 };
-ALIVE_ASSERT_SIZEOF(Path_Grinder, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Grinder, 0x28);
 
 class Grinder : public BaseAnimatedWithPhysicsGameObject
 {
