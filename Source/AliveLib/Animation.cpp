@@ -660,7 +660,7 @@ WORD AnimationEx::Get_Frame_Count_40AC70()
     return pHead->field_2_num_frames;
 }
 
-signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, void *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
