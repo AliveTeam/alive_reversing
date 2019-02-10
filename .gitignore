@@ -6,4 +6,4 @@ Output
 *.ipch
 *.log
 *.db
-build
+**/build*
