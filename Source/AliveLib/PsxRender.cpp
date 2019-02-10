@@ -3261,6 +3261,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 // Appears for gas..
                 PSX_84_4F7B80(any.mGas->unknown1, any.mGas->unknown2, any.mGas->unknown3, any.mGas->unknown4, any.mGas->unknown5);
                 break;
+
             default:
                 DrawOTag_HandlePrimRendering(any, drawEnv_of0, drawEnv_of1);
                 break;

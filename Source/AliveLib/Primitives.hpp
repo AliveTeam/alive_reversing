@@ -323,6 +323,7 @@ enum PrimTypeCodes
 
 struct Prim_MoveImage
 {
+    PrimHeader mPrimHeader;
     int xPos;
     int yPos;
     PSX_RECT* mpRect;
@@ -331,6 +332,7 @@ struct Prim_MoveImage
 // Could be used for other stuff but only seen for gas so far
 struct Prim_GasEffect
 {
+    PrimHeader mPrimHeader;
     int unknown1;
     int unknown2;
     int unknown3;
