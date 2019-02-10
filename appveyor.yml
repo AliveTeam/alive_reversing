@@ -12,6 +12,8 @@ clone_folder: c:\ar
 build_script:
  - mkdir build
  - cd build
+ - echo %platform%
+ - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
  - if %platform%==X64 (cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -G "Visual Studio 14 2015 Win64")
  - if %platform%==x86 (cmake .. -DSDL2_DIR=C:\ar\SDL2-2.0.9 -DBUILD_NUMBER=%APPVEYOR_BUILD_NUMBER% -G "Visual Studio 14 2015")
  - msbuild AR.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /m
