@@ -1651,8 +1651,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
             }
             else
             {
-                channelIdx = 0;
-                for (int i = 0; i < 24; i++)
+                for (short i = 0; i < 24; i++)
                 {
                     pSubChan1 = &sMidi_Channels_C14080.channels[i].field_1C;
                     if (pSubChan1->field_3)
@@ -1666,7 +1665,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                             pSubChan1->field_E = refCount1;
                             if (!refCount1)
                             {
-                                MIDI_Stop_Channel_4FE010(channelIdx);
+                                MIDI_Stop_Channel_4FE010(i);
                                 BYTE1(v16) = BYTE1(v42);
                                 v18 = v43;
                                 pSubChan1->field_C = 0;
