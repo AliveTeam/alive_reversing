@@ -50,7 +50,11 @@ ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
 ALIVE_VAR(1, 0xbb4414, void *, pDemosOrFmvs_BB4414, 0);
 ALIVE_VAR(1, 0x5c2f68, const char, byte_5C2F68, 0);
 
-MainMenuButton sBtnArray_FrontEnd_560FA0[6] =
+// HACK HACK FIX ME - all of these buttons are in one contiguous array in the real game
+// we need to replicate this as the game will access this array with the index of the PREVIOUS screen
+// which will be out of bounds
+
+MainMenuButton sBtnArray_FrontEnd_560FA0[] =
 {
     { 1, 33, 82, 0, 13912 },
     { 1, 32, 104, 0, 13912 },
@@ -60,10 +64,23 @@ MainMenuButton sBtnArray_FrontEnd_560FA0[6] =
     { 0, 0, 0, 0, 0 }
 };
 
-// HACK HACK FIX ME - all of these buttons are in one contiguous array in the real game
-// we need to replicate this as the game will access this array with the index of the PREVIOUS screen
-// which will be out of bounds
-MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[40] = 
+MainMenuButton stru_560FE8[] =
+{
+    { 3, 34, 65, 0, 13912 },
+    { 0, 0, 0, 0, 0 },
+    { 2, 51, 119, 0, 13912 },
+    { 2, 46, 151, 0, 13912 },
+    { 2, 46, 182, 0, 13912 },
+    { 2, 55, 211, 0, 13912 },
+    { 2, 314, 119, 0, 13912 },
+    { 2, 323, 151, 0, 13912 },
+    { 2, 323, 182, 0, 13912 },
+    { 2, 317, 211, 0, 13912 },
+    { 3, 166, 240, 0, 13924 },
+    { 0, 0, 0, 0, 0 }
+};
+
+MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[] = 
 {
     { 1, 59, 199, 0, 13912 },
     { 1, 248, 199, 0, 13912 },
@@ -71,7 +88,7 @@ MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[40] =
     { 0, 0, 0, 0, 0 }
 };
 
-MainMenuButton sBtnArray_Gamespeak_561310[7] =
+MainMenuButton sBtnArray_Gamespeak_561310[] =
 {
     { 1, 153, 122, 0, 13912 },
     { 1, 153, 143, 0, 13912 },
@@ -82,7 +99,7 @@ MainMenuButton sBtnArray_Gamespeak_561310[7] =
     { 0, 0, 0, 0, 0 }
 };
 
-MainMenuButton sBtnArray_Options_561368[4] =
+MainMenuButton sBtnArray_Options_561368[] =
 {
     { 1, 33, 62, 0, 13912 },
     { 1, 336, 61, 0, 13912 },
@@ -90,29 +107,27 @@ MainMenuButton sBtnArray_Options_561368[4] =
     { 0, 0, 0, 0, 0 }
 };
 
-MainMenuButton sBtnArray_LoadGame_561450[19] =
+MainMenuButton stru_5613C8[] =
+{
+    { 1, 33, 62, 0, 13912 },
+    { 1, 336, 60, 0, 13912 },
+    { 3, 331, 240, 0, 13912 },
+    { 0, 0, 0, 0, 0 }
+};
+
+MainMenuButton stru_5613F8[] =
+{ 
+    { 1, 31, 62, 0, 13912 },
+    { 3, 331, 240, 0, 13912 },
+    { 0, 0, 0, 0, 0 }
+};
+
+MainMenuButton sBtnArray_LoadGame_561450[] =
 {
     { 1, 32, 62, 0, 13912 },
     { 3, 331, 239, 0, 13912 },
     { 0, 0, 0, 0, 0 },
-    { 0, 0, 2, 127, 74 },
-    { 13936, 0, 2, 127, 96 },
-    { 13936, 0, 2, 127, 117 },
-    { 13936, 0, 2, 127, 141 },
-    { 13936, 0, 2, 165, 74 },
-    { 13936, 0, 2, 165, 96 },
-    { 13936, 0, 2, 165, 117 },
-    { 13936, 0, 2, 165, 141 },
-    { 13936, 0, 2, 201, 74 },
-    { 13936, 0, 2, 201, 96 },
-    { 13936, 0, 2, 201, 117 },
-    { 13936, 0, 2, 201, 141 },
-    { 13936, 0, 2, 240, 74 },
-    { 13936, 0, 2, 240, 96 },
-    { 13936, 0, 2, 240, 117 },
-    { 13936, 0, 0, 0, 0 }
 };
-
 
 
 
@@ -203,7 +218,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         5,        0,        900,        1,        0,        0,        1,
         nullptr, //&MainMenuController::tsub_4D48C0,
         NULL,
-        nullptr, //&sBtnArray_5613C8,
+        stru_5613C8,
         NULL,
         NULL
     },
@@ -211,7 +226,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         11,        0,        1800,        5,        0,        1,        0,
         nullptr, //&MainMenuController::tsub_Input_Check_4D49B0,
         NULL,
-        nullptr, //&sBtnArray_5613F8,
+        stru_5613F8,
         NULL,
         NULL
     },
@@ -219,7 +234,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         6,        0,        0,        1,        0,        0,        0,
         nullptr, //&MainMenuController::Page_FMV_Level_Update_4D4AB0,
         nullptr, //&MainMenuController::tsub_Render_4D4F30,
-        nullptr, //&sBtnArray_560FE8,
+        stru_560FE8,
         nullptr, //&MainMenuController::t_Unload_AbeSpeak_Res_4D49F0,
         nullptr, //&MainMenuController::t_Load_AbeSpeak_Res_4D4A20
     },
@@ -227,7 +242,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         31,        0,        0,        1,        0,        0,        0,
         nullptr, //&MainMenuController::Page_FMV_Level_Update_4D4AB0,
         nullptr, //&MainMenuController::tsub_Render_4D4F30,
-        nullptr, //&sBtnArray_560FE8,
+        stru_560FE8,
         NULL,
         NULL
     },
