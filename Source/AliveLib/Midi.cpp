@@ -1457,7 +1457,6 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
     char v21; // bl
     char channelIdx_1; // cl
     
-    signed int v24; // esi
     __int16 channelIdx; // di
     MIDI_Struct1_Sub *pSubChan1; // esi
     unsigned __int8 refCount1; // dl
@@ -1633,20 +1632,16 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                     v18[2],
                     v16 >> 16);
                 channelIdx_1 = 0;
-                BYTE* v23; // edx
-                v23 = (BYTE*)&sMidi_Channels_C14080.channels[0].field_1C.field_E;
-                v24 = 24;
-                do
+
+                for (int i=0; i<24; i++)
                 {
                     if ((1 << channelIdx_1) & v47)
                     {
-                        *(WORD *)(v23 - 2) = static_cast<WORD>(16 * idx + (v42 & 0xF));
-                        *(BYTE *)v23 = v21;
+                        sMidi_Channels_C14080.channels[i].field_1C.field_C = static_cast<WORD>(16 * idx + (v42 & 0xF));
+                        sMidi_Channels_C14080.channels[i].field_1C.field_E = v21;
                     }
                     ++channelIdx_1;
-                    v23 += 0x2C;
-                    --v24;
-                } while (v24);
+                }
             }
             else
             {
