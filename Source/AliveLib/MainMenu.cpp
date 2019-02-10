@@ -1996,7 +1996,9 @@ void MainMenuController::HandleMainMenuUpdate()
         return;
     }
 
-    const auto currentCamId = sMainMenuPages_561960[field_214_page_index].field_0_cam_id;
+    MainMenuPage* pPage = &sMainMenuPages_561960[field_214_page_index];
+
+    const auto currentCamId = pPage->field_0_cam_id;
     if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed && currentCamId != 25  && currentCamId != 20 && currentCamId != 23)
     {
         field_1F8_page_timeout = 0;
@@ -2008,22 +2010,20 @@ void MainMenuController::HandleMainMenuUpdate()
 
     auto v8 = 0;
 
-    if (sMainMenuPages_561960[field_214_page_index].field_4_time_out <= 0 ||
-        sMainMenuPages_561960[field_214_page_index].field_8_next_idx <= 0 ||
-        field_1F8_page_timeout <= sMainMenuPages_561960[field_214_page_index].field_4_time_out)
+    if (pPage->field_4_time_out <= 0 ||
+        pPage->field_8_next_idx <= 0 ||
+        field_1F8_page_timeout <= pPage->field_4_time_out)
     {
-        auto pageBtns = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
-        auto inputHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+        const MainMenuButton* btnArray = pPage->field_18_buttons;
+        const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
 
-        if (pageBtns)
+        if (btnArray)
         {
-            auto btnArray = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
-
             if (field_1FC_button_index != -1)
             {
                 if (inputHeld & (eLeft | eUp))
                 {
-                    if (sMainMenuPages_561960[field_214_page_index].field_0_cam_id != 4)
+                    if (pPage->field_0_cam_id != 4)
                     {
                         for (;;)
                         {
@@ -2044,15 +2044,14 @@ void MainMenuController::HandleMainMenuUpdate()
                         }
                     }
 
-                    field_158_animation.Set_Animation_Data_409C80(
-                        sMainMenuPages_561960[field_214_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
+                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
 
                     SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
                 }
 
                 if (inputHeld & (eRight | eDown))
                 {
-                    if (sMainMenuPages_561960[field_214_page_index].field_0_cam_id != 4)
+                    if (pPage->field_0_cam_id != 4)
                     {
                         for (;;)
                         {
@@ -2069,9 +2068,7 @@ void MainMenuController::HandleMainMenuUpdate()
                         }
                     }
 
-                    field_158_animation.Set_Animation_Data_409C80(
-                        sMainMenuPages_561960[field_214_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
-                        0);
+                    field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
                     SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
                 }
             }
@@ -2087,13 +2084,13 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
 
-        if (!sMainMenuPages_561960[field_214_page_index].field_10_fn_update)
+        if (!pPage->field_10_fn_update)
         {
             return;
         }
 
         // Todo: change all field_10_fn_update function types to unsigned.
-        const unsigned int pageUpdateRet = (this->*(sMainMenuPages_561960[field_214_page_index].field_10_fn_update))(inputHeld);
+        const unsigned int pageUpdateRet = (this->*(pPage->field_10_fn_update))(inputHeld);
 
         if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == static_cast<unsigned int>(gMap_5C3030.sCurrentCamId_5C3034))
         {
@@ -2105,7 +2102,7 @@ void MainMenuController::HandleMainMenuUpdate()
         // The return variable of page update seems to have multiple bits of data masked.
         auto v19 = (pageUpdateRet >> 16) & 0xFF;
         field_21A_target_cam = static_cast<short>(v19);
-        if (v19 == 255)
+        if (v19 == 0xFF)
         {
             field_21A_target_cam = -1;
         }
@@ -2114,9 +2111,9 @@ void MainMenuController::HandleMainMenuUpdate()
     else
     {
         field_1F8_page_timeout = 0;
-        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(sMainMenuPages_561960[field_214_page_index].field_8_next_idx));
-        field_21A_target_cam = sMainMenuPages_561960[field_214_page_index].field_C_target_camera;
-        v8 = sMainMenuPages_561960[field_214_page_index].field_A_transistion_effect;
+        field_218_target_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(pPage->field_8_next_idx));
+        field_21A_target_cam = pPage->field_C_target_camera;
+        v8 = pPage->field_A_transistion_effect;
     }
 
     field_21C_bDoScreenTransistionEffect = static_cast<short>(v8);
@@ -2487,7 +2484,7 @@ LABEL_74:
     {
 
         field_158_animation.Set_Animation_Data_409C80(
-            sMainMenuPages_561960[field_218_target_page_index].field_18_buttons[field_218_target_page_index].field_8_anim_frame_offset,
+            sMainMenuPages_561960[field_218_target_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
             nullptr);
 
     }
