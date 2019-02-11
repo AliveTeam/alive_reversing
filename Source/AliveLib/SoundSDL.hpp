@@ -80,7 +80,7 @@ public:
         int iBlockAlign;
     };
 
-    AE_SDL_Voice_State State;
+    AE_SDL_Voice_State mState;
 
     std::shared_ptr<std::vector<BYTE>> pBuffer;
     

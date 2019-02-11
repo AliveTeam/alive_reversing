@@ -12,9 +12,9 @@
 extern bool gReverbEnabled;
 
 #if USE_SDL2_SOUND
-typedef class AE_SDL_Voice AE_BUFFERTYPE;
+using AE_BUFFERTYPE = class AE_SDL_Voice;
 #else
-typedef struct IDirectSoundBuffer AE_BUFFERTYPE;
+using AE_BUFFERTYPE = struct IDirectSoundBuffer;
 #endif
 
 struct SoundEntry
