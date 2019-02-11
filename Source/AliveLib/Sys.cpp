@@ -1032,7 +1032,9 @@ EXPORT int CC Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindo
 DWORD SYS_GetTicks()
 {
 #if USE_SDL2
-    return SDL_GetTicks();
+    // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
+    // the tick returned is a lot faster on some machines.
+    return SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000);
 #else
     return timeGetTime();
 #endif
