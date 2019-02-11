@@ -44,7 +44,9 @@ void AE_SDL_Audio_Generate(StereoSampleFloat * pSampleBuffer, int sampleBufferCo
     for (AE_SDL_Voice * pVoice : sAE_ActiveVoices)
     {
         if (!pVoice->pBuffer || pVoice->mState.eStatus != AE_SDL_Voice_Status::Playing)
+        {
             continue;
+        }
 
         // Clear Temp Sample Buffer
         memset(tempBuffer, 0, sampleBufferCount * sizeof(StereoSampleFloat));
@@ -432,7 +434,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int /*sampleRate*/, int /*bits
         gAudioDeviceSpec.format = AUDIO_F32;
         gAudioDeviceSpec.channels = 2;
         gAudioDeviceSpec.freq = 44100;
-        gAudioDeviceSpec.samples = 128;
+        gAudioDeviceSpec.samples = 512;
         gAudioDeviceSpec.userdata = NULL;
 
         if (SDL_OpenAudio(&gAudioDeviceSpec, NULL) < 0) {
