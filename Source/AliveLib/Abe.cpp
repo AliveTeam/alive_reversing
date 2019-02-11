@@ -8520,7 +8520,55 @@ __int16 Abe::RunTryEnterDoor_451220()
 
 __int16 Abe::RunTryEnterWell_451060()
 {
-    NOT_IMPLEMENTED();
+    if (!(sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed) ||
+        field_114_flags.Get(Flags_114::e114_Bit7) ||
+        field_20_animation.field_92_current_frame < 4)
+    {
+        return 0;
+    }
+
+    Path_Well_Local* pWellLocal = static_cast<Path_Well_Local*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        Path_Well_Local::kType));
+    if (pWellLocal)
+    {
+        if (!(field_114_flags.Get(Flags_114::e114_Bit10)))
+        {
+            if ((pWellLocal->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
+                (pWellLocal->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
+            {
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+                field_FC_pPathTLV = pWellLocal;
+                field_106_current_state = eAbeStates::State_78_WellBegin_45C810;
+                return 1;
+            }
+        }
+    }
+
+    Path_Well_Express* pWellExpress = static_cast<Path_Well_Express*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        Path_Well_Express::kType));
+    if (pWellExpress)
+    {
+        if (!(field_114_flags.Get(Flags_114::e114_Bit10)))
+        {
+            if ((pWellExpress->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
+                (pWellExpress->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
+            {
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+                field_FC_pPathTLV = pWellExpress;
+                field_106_current_state = eAbeStates::jState_81_WellBegin_45C7F0;
+                return 1;
+            }
+        }
+    }
+
     return 0;
 }
 
