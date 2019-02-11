@@ -153,10 +153,10 @@ public:
     EXPORT void State_76_45CA40();
     EXPORT void State_77_45D130();
     EXPORT void State_78_WellBegin_45C810();
-    EXPORT void State_79_WellInside_45CA60();
+    EXPORT void State_79_Inside_Of_A_Well_Local_45CA60();
     EXPORT void State_80_WellShotOut_45D150();
     EXPORT void jState_81_WellBegin_45C7F0();
-    EXPORT void State_82_45CC80();
+    EXPORT void State_82_Inside_Of_A_Well_Express_45CC80();
     EXPORT void State_83_45CF70();
     EXPORT void State_84_FallLandDie_45A420();
     EXPORT void jState_85_Fall_455070();
@@ -205,8 +205,10 @@ public:
     EXPORT void State_128_TurnWheelEnd_4569A0();
     EXPORT void State_129_PoisonGasDeath_4565C0();
 
-    // End states
+    EXPORT void jState_81_WellBegin_4017F8();
 
+    // End states
+    
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
     EXPORT void PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch);

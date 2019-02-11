@@ -122,10 +122,10 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_76_45CA40) \
     ENTRY(State_77_45D130) \
     ENTRY(State_78_WellBegin_45C810) \
-    ENTRY(State_79_WellInside_45CA60) \
+    ENTRY(State_79_Inside_Of_A_Well_Local_45CA60) \
     ENTRY(State_80_WellShotOut_45D150) \
     ENTRY(jState_81_WellBegin_45C7F0) \
-    ENTRY(State_82_45CC80) \
+    ENTRY(State_82_Inside_Of_A_Well_Express_45CC80) \
     ENTRY(State_83_45CF70) \
     ENTRY(State_84_FallLandDie_45A420) \
     ENTRY(jState_85_Fall_455070) \
@@ -267,10 +267,10 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_76_45CA40,
     &Abe::State_77_45D130,
     &Abe::State_78_WellBegin_45C810,
-    &Abe::State_79_WellInside_45CA60,
+    &Abe::State_79_Inside_Of_A_Well_Local_45CA60,
     &Abe::State_80_WellShotOut_45D150,
     &Abe::jState_81_WellBegin_45C7F0,
-    &Abe::State_82_45CC80,
+    &Abe::State_82_Inside_Of_A_Well_Express_45CC80,
     &Abe::State_83_45CF70,
     &Abe::State_84_FallLandDie_45A420,
     &Abe::jState_85_Fall_455070,
@@ -1996,7 +1996,7 @@ void Abe::vRender_44B580(int** pOrderingTable)
         field_20_animation.field_14_scale = field_CC_sprite_scale;
     }
 
-    if (field_106_current_state != eAbeStates::State_79_WellInside_45CA60 && field_106_current_state != eAbeStates::State_82_45CC80 && field_106_current_state != eAbeStates::State_76_45CA40)
+    if (field_106_current_state != eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60 && field_106_current_state != eAbeStates::State_82_Inside_Of_A_Well_Express_45CC80 && field_106_current_state != eAbeStates::State_76_45CA40)
     {
         Render_424B90(pOrderingTable);
     }
@@ -6431,7 +6431,17 @@ void Abe::State_74_Rolling_KnockedBack_455290()
 
 void Abe::State_75_Jump_Into_Well_45C7B0()
 {
-    NOT_IMPLEMENTED();
+    field_E0_176_ptr->field_14_flags.Clear(Shadow::eBit2);
+
+    if (field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        field_20_animation.field_C_render_layer = 3;
+    }
+    else
+    {
+        field_20_animation.field_C_render_layer = 22;
+    }
+    jState_81_WellBegin_4017F8();
 }
 
 void Abe::State_76_45CA40()
@@ -6446,10 +6456,76 @@ void Abe::State_77_45D130()
 
 void Abe::State_78_WellBegin_45C810()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame > 10)
+    {
+        field_E0_176_ptr->field_14_flags.Clear(Shadow::eBit2);
+
+        // Get a local well
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            Path_Well_Local::kType);
+
+        if (!field_FC_pPathTLV)
+        {
+            // No local well, must be an express well
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                Path_Well_Express::kType);
+        }
+
+        const short xpos = FP_GetExponent(field_B8_xpos);
+        const short tlv_mid_x = (field_FC_pPathTLV->field_8_top_left.field_0_x + field_FC_pPathTLV->field_C_bottom_right.field_0_x) / 2;
+        if (xpos > tlv_mid_x)
+        {
+            field_B8_xpos -= FP_FromInteger(1) * field_CC_sprite_scale;
+        }
+        else if (xpos < tlv_mid_x)
+        {
+            field_B8_xpos += FP_FromInteger(1) * field_CC_sprite_scale;
+        }
+    }
+
+    if (field_20_animation.field_92_current_frame == 11)
+    {
+        if (field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_20_animation.field_C_render_layer = 3;
+        }
+        else
+        {
+            field_20_animation.field_C_render_layer = 22;
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_124_gnFrame = 15;
+
+        SFX_Play_46FA90(21u, 0, field_CC_sprite_scale.fpValue);
+
+        if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            Path_Well_Express::kType))
+        {
+            field_106_current_state = eAbeStates::State_82_Inside_Of_A_Well_Express_45CC80;
+        }
+        else
+        {
+            field_106_current_state = eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60;
+        }
+    }
 }
 
-void Abe::State_79_WellInside_45CA60()
+void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
 {
     NOT_IMPLEMENTED();
 }
@@ -6502,10 +6578,10 @@ void Abe::State_80_WellShotOut_45D150()
 
 void Abe::jState_81_WellBegin_45C7F0()
 {
-    NOT_IMPLEMENTED();
+    jState_81_WellBegin_4017F8();
 }
 
-void Abe::State_82_45CC80()
+void Abe::State_82_Inside_Of_A_Well_Express_45CC80()
 {
     NOT_IMPLEMENTED();
 }
@@ -7827,6 +7903,11 @@ void Abe::State_129_PoisonGasDeath_4565C0()
 
 }
 
+void Abe::jState_81_WellBegin_4017F8()
+{
+    State_78_WellBegin_45C810();
+}
+
 void Abe::ToDie_4588D0()
 {
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
@@ -8614,10 +8695,10 @@ __int16 Abe::CantBeDamaged_44BAB0()
     case eAbeStates::State_76_45CA40:
     case eAbeStates::State_77_45D130:
     case eAbeStates::State_78_WellBegin_45C810:
-    case eAbeStates::State_79_WellInside_45CA60:
+    case eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60:
     case eAbeStates::State_80_WellShotOut_45D150:
     case eAbeStates::jState_81_WellBegin_45C7F0:
-    case eAbeStates::State_82_45CC80:
+    case eAbeStates::State_82_Inside_Of_A_Well_Express_45CC80:
     case eAbeStates::State_83_45CF70:
     case eAbeStates::State_114_DoorEnter_459470:
     case eAbeStates::State_115_DoorExit_459A40:
