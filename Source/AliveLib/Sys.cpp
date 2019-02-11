@@ -1034,7 +1034,7 @@ DWORD SYS_GetTicks()
 #if USE_SDL2
     // Using this instead of SDL_GetTicks resolves a weird x64 issue on windows where
     // the tick returned is a lot faster on some machines.
-    return SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000);
+    return static_cast<DWORD>(SDL_GetPerformanceCounter() / (SDL_GetPerformanceFrequency() / 1000));
 #else
     return timeGetTime();
 #endif
