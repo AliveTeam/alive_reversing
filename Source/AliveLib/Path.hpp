@@ -240,11 +240,11 @@ struct Path_HandStone : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HandStone, 0x1C);
 
-struct Path_AbeStart :public Path_TLV
+struct Path_AbeStart : public Path_TLV
 {
     static constexpr int kType = 22;
-    __int16 field_10_scale;
-    // pad
+    __int16 field_10_xpos;
+    __int16 field_12_ypos;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_AbeStart, 0x14);
 

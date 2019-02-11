@@ -27,6 +27,8 @@
 #include "Water.hpp"
 #include "SlamDoor.hpp"
 #include "MusicTrigger.hpp"
+#include "PauseMenu.hpp"
+#include "Abe.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -267,7 +269,32 @@ EXPORT void CC Factory_Null_4D69E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16)
 EXPORT void CC Factory_ChantSuppressor_4D8D80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6A00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Pulley_4D6A20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_AbeStart_4D9030(Path_TLV* pTlv, Path*, TlvItemInfoUnion, __int16 loadmode)
+{
+    if (loadmode != 1 && loadmode != 2 && !word_5C1BA0)
+    {
+        if (!pPauseMenu_5C9300)
+        {
+            pPauseMenu_5C9300 = alive_new<PauseMenu>();
+            if (pPauseMenu_5C9300)
+            {
+                pPauseMenu_5C9300->ctor_48FB80();
+            }
+        }
+
+        if (sActiveHero_5C1B68 == spAbe_554D5C)
+        {
+            sActiveHero_5C1B68 = alive_new<Abe>();
+            if (sActiveHero_5C1B68)
+            {
+                sActiveHero_5C1B68->ctor_44AD10(58808, 85, 57, 55);
+                sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
+                sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+            }
+        }
+    }
+}
 
 EXPORT void CC Factory_WellExpress_4D7E60(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {
