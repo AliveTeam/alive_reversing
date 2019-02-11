@@ -33,7 +33,7 @@ public:
     EXPORT void vRender_49A3C0(int** pOt);
     EXPORT BaseGameObject* vdtor_49A1E0(signed int flags);
     EXPORT void dtor_49A540();
-    EXPORT __int16 Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pBlock);
+    EXPORT __int16 Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
     int field_20;
     LevelIds field_24_level_id;

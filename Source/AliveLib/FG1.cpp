@@ -143,7 +143,7 @@ void FG1::dtor_49A540()
     BaseGameObject_dtor_4DBEC0();
 }
 
-__int16 FG1::Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pBlock)
+__int16 FG1::Convert_Chunk_To_Render_Block_49A210(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
     // Map the layer from FG1 internal to OT layer
     pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_5469BC[pChunk->field_2_layer];
@@ -151,26 +151,20 @@ __int16 FG1::Convert_Chunk_To_Render_Block_49A210(Fg1Chunk* pChunk, Fg1Block* pB
     // Copy in the bits that represent the see through pixels
     memcpy(pBlock->field_68_array_of_height, &pChunk[1], pChunk->field_A_height * sizeof(DWORD));
 
-    // Ensure polys are zero inited
-    pBlock->field_0_polys[0] = {};
-    pBlock->field_0_polys[1] = {};
-
-    for (int i=0; i<2; i++)
+    for (Poly_FT4& rPoly : pBlock->field_0_polys)
     {
-        Poly_FT4* pPoly = &pBlock->field_0_polys[i];
-        PolyFT4_Init_4F8870(pPoly);
+        rPoly = {};
 
-        Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, 0);
-        Poly_Set_Blending_4F8A20(&pPoly->mBase.header, 1);
+        PolyFT4_Init_4F8870(&rPoly);
 
-        SetTPage(pPoly, static_cast<WORD>(PSX_getTPage_4F60E0(2, 0, 0, 0)));
+        Poly_Set_SemiTrans_4F8A60(&rPoly.mBase.header, FALSE);
+        Poly_Set_Blending_4F8A20(&rPoly.mBase.header, TRUE);
 
-        SetXY0(pPoly, pChunk->field_4_xpos,                          pChunk->field_6_ypos);
-        SetXY1(pPoly, pChunk->field_4_xpos + pChunk->field_8_width,  pChunk->field_6_ypos);
-        SetXY2(pPoly, pChunk->field_4_xpos,                          pChunk->field_6_ypos + pChunk->field_A_height);
-        SetXY3(pPoly, pChunk->field_4_xpos + pChunk->field_8_width,  pChunk->field_6_ypos + pChunk->field_A_height);
+        SetTPage(&rPoly, static_cast<WORD>(PSX_getTPage_4F60E0(2, 0, 0, 0)));
 
-        SetPrimExtraPointerHack(pPoly, pBlock->field_68_array_of_height);
+        SetXYWH(&rPoly, pChunk->field_4_xpos, pChunk->field_6_ypos, pChunk->field_8_width, pChunk->field_A_height);
+
+        SetPrimExtraPointerHack(&rPoly, pBlock->field_68_array_of_height);
     }
     return 1;
 }
