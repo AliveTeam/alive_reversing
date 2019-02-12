@@ -81,8 +81,8 @@ public:
     EXPORT void State_4_WalkEndLeftFoot_44FFC0();
     EXPORT void State_5_WalkEndRightFoot_00450080();
     EXPORT void State_6_WalkBegin_44FEE0();
-    EXPORT void State_7_45B140();
-    EXPORT void State_8_45B160();
+    EXPORT void State_7_Speak_45B140();
+    EXPORT void State_8_Speak_45B160();
     EXPORT void State_9_SpeakMovement_45B180();
     EXPORT void State_10_Fart_45B1A0();
     EXPORT void State_11_Speak_45B0A0();

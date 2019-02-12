@@ -50,8 +50,8 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_4_WalkEndLeftFoot_44FFC0) \
     ENTRY(State_5_WalkEndRightFoot_00450080) \
     ENTRY(State_6_WalkBegin_44FEE0) \
-    ENTRY(State_7_45B140) \
-    ENTRY(State_8_45B160) \
+    ENTRY(State_7_Speak_45B140) \
+    ENTRY(State_8_Speak_45B160) \
     ENTRY(State_9_SpeakMovement_45B180) \
     ENTRY(State_10_Fart_45B1A0) \
     ENTRY(State_11_Speak_45B0A0) \
@@ -195,8 +195,8 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_4_WalkEndLeftFoot_44FFC0,
     &Abe::State_5_WalkEndRightFoot_00450080,
     &Abe::State_6_WalkBegin_44FEE0,
-    &Abe::State_7_45B140,
-    &Abe::State_8_45B160,
+    &Abe::State_7_Speak_45B140,
+    &Abe::State_8_Speak_45B160,
     &Abe::State_9_SpeakMovement_45B180,
     &Abe::State_10_Fart_45B1A0,
     &Abe::State_11_Speak_45B0A0,
@@ -1721,8 +1721,8 @@ void Abe::Update_449DC0()
         {
             if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
                 || (field_106_current_state == eAbeStates::State_112_Chant_45B1C0)
-                || field_106_current_state == eAbeStates::State_7_45B140
-                || field_106_current_state == eAbeStates::State_8_45B160
+                || field_106_current_state == eAbeStates::State_7_Speak_45B140
+                || field_106_current_state == eAbeStates::State_8_Speak_45B160
                 || field_106_current_state == eAbeStates::State_9_SpeakMovement_45B180
                 || field_106_current_state == eAbeStates::State_10_Fart_45B1A0)
             {
@@ -2854,8 +2854,8 @@ EXPORT BOOL Abe::IsStanding_449D30()
         || field_106_current_state == eAbeStates::State_34_DunnoBegin_44ECF0
         || field_106_current_state == eAbeStates::State_35_DunnoEnd_44ED10
         || field_106_current_state == eAbeStates::State_11_Speak_45B0A0
-        || field_106_current_state == eAbeStates::State_7_45B140
-        || field_106_current_state == eAbeStates::State_8_45B160
+        || field_106_current_state == eAbeStates::State_7_Speak_45B140
+        || field_106_current_state == eAbeStates::State_8_Speak_45B160
         || field_106_current_state == eAbeStates::State_9_SpeakMovement_45B180
         || field_106_current_state == eAbeStates::State_10_Fart_45B1A0
         || field_106_current_state == eAbeStates::State_99_LeverUse_455AC0
@@ -3997,13 +3997,13 @@ void Abe::State_6_WalkBegin_44FEE0()
     }
 }
 
-void Abe::State_7_45B140()
+void Abe::State_7_Speak_45B140()
 {
     // TODO: Note jState_11_Speak_40388C omitted
     State_11_Speak_45B0A0();
 }
 
-void Abe::State_8_45B160()
+void Abe::State_8_Speak_45B160()
 {
     // TODO: Note jState_11_Speak_40388C omitted
     State_11_Speak_45B0A0();
@@ -8823,13 +8823,13 @@ short Abe::DoGameSpeak_45AB70(int input)
     {
         Abe_SFX_457EC0(4u, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(10);
-        nextState = eAbeStates::State_7_45B140;
+        nextState = eAbeStates::State_7_Speak_45B140;
     }
     else if (input & sInputKey_GameSpeak3_555100)
     {
         Abe_SFX_457EC0(6u, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(12);
-        nextState = eAbeStates::State_8_45B160;
+        nextState = eAbeStates::State_8_Speak_45B160;
     }
     else if (input & sInputKey_GameSpeak1_555104)
     {
@@ -8913,7 +8913,7 @@ short Abe::DoGameSpeak_45AB70(int input)
                 // Didn't hit anything, just anger
                 Abe_SFX_457EC0(5u, 0, 0, this);
                 pEventSystem_5BC11C->PushEvent_4218D0(11);
-                nextState = eAbeStates::State_8_45B160;
+                nextState = eAbeStates::State_8_Speak_45B160;
             }
         }
     }
