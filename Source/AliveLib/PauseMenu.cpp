@@ -1248,7 +1248,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != 81
                 && heroState != 82
                 && heroState != 83
-                && (sControlledCharacter_5C1B8C->field_4_typeId != Types::eType_45 || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_gnFrame) != 2) // TODO: Cast seems wrong, missing intermediate base class??
+                && (sControlledCharacter_5C1B8C->field_4_typeId != Types::eType_45_EvilFart || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_gnFrame) != 2) // TODO: Cast seems wrong, missing intermediate base class??
                 && sActiveHero_5C1B68->field_1A8_portal_id == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
@@ -1296,7 +1296,7 @@ void PauseMenu::Update_48FD80()
                 && heroState != 81
                 && heroState != 82
                 && heroState != 83
-                && (pControlledChar->field_4_typeId != Types::eType_45 || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_gnFrame) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
+                && (pControlledChar->field_4_typeId != Types::eType_45_EvilFart || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_gnFrame) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
                 && pHero->field_1A8_portal_id == -1)
             {
                 SND_StopAll_4CB060();

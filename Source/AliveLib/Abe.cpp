@@ -160,7 +160,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_114_DoorEnter_459470) \
     ENTRY(State_115_DoorExit_459A40) \
     ENTRY(State_116_MineCarEnter_458780) \
-    ENTRY(State_117_4587C0) \
+    ENTRY(State_117_In_MineCar_4587C0) \
     ENTRY(State_118_MineCarExit_458890) \
     ENTRY(State_119_45A990) \
     ENTRY(State_120_45AB00) \
@@ -305,7 +305,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_114_DoorEnter_459470,
     &Abe::State_115_DoorExit_459A40,
     &Abe::State_116_MineCarEnter_458780,
-    &Abe::State_117_4587C0,
+    &Abe::State_117_In_MineCar_4587C0,
     &Abe::State_118_MineCarExit_458890,
     &Abe::State_119_45A990,
     &Abe::State_120_45AB00,
@@ -2803,37 +2803,93 @@ __int16 Abe::vOn_TLV_Collision_44B5D0(Path_TLV* /*a2a*/)
     return 0;
 }
 
-BaseAliveGameObject* Abe::sub_44B7B0()
+BaseAliveGameObject* Abe::FindObjectToPosses_44B7B0()
 {
-#ifdef STUPID_FUN
-    // THIS IS A HACK TO MAKE ABE POSSESS ANYTHING :D
-    for (int baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
+    BaseAliveGameObject* pTargetObj = nullptr;
+    BaseAliveGameObject* pInRangeFart = nullptr;
+    BaseAliveGameObject* pInRangeGlukkon = nullptr;
+
+    short maxDistance = 32767;
+    FP lastScale = {};
+    for (int i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
-        BaseAliveGameObject* pBaseGameObject = reinterpret_cast<BaseAliveGameObject*>(gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx));
-        if (!pBaseGameObject)
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
         {
             break;
         }
 
-        if (pBaseGameObject->field_4_typeId == 83)
+        if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
         {
-            pBaseGameObject->field_6_flags |= 4;
-        }
+            switch (pObj->field_4_typeId)
+            {
+            // Third priority
+            case Types::eCrawlingSlig_26:
+            case Types::eFlyingSlig_54:
+            case Types::eParamite_96:
+            case Types::eScrab_112:
+            case Types::eSlig_125:
+                if (pObj->Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent && pObj->field_10C_health > FP_FromInteger(0))
+                {
+                    const short distance = static_cast<short>(Math_Distance_496EB0(
+                        FP_GetExponent(field_B8_xpos),
+                        FP_GetExponent(field_BC_ypos),
+                        FP_GetExponent(pObj->field_B8_xpos),
+                        FP_GetExponent(pObj->field_BC_ypos)));
 
-        PSX_Point currentScreenCoords;
-        gMap_5C3030.GetCurrentCamCoords_480680(&currentScreenCoords);
-        if (pBaseGameObject != sActiveHero_5C1B68 && pBaseGameObject->field_6_flags & BaseGameObject::eIsBaseAliveGameObject &&
-            pBaseGameObject->field_B8_xpos.GetExponent() > currentScreenCoords.field_0_x && pBaseGameObject->field_B8_xpos.GetExponent() < currentScreenCoords.field_0_x + 350
-            && pBaseGameObject->field_BC_ypos.GetExponent() > currentScreenCoords.field_2_y && pBaseGameObject->field_BC_ypos.GetExponent() < currentScreenCoords.field_2_y + 240)
-        {
-            return (int)pBaseGameObject;
+                    if (lastScale == field_CC_sprite_scale)
+                    {
+                        if (pObj->field_CC_sprite_scale == field_CC_sprite_scale && distance < maxDistance)
+                        {
+                            pTargetObj = pObj;
+                            maxDistance = distance;
+                        }
+                    }
+                    else if (pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+                    {
+                        pTargetObj = pObj;
+                        maxDistance = distance;
+                        lastScale = pObj->field_CC_sprite_scale;
+                    }
+                    else if (distance < maxDistance)
+                    {
+                        pTargetObj = pObj;
+                        maxDistance = distance;
+                        lastScale = pObj->field_CC_sprite_scale;
+                    }
+                }
+                break;
+
+            // First priority
+            case Types::eType_45_EvilFart:
+                pInRangeFart = pObj;
+                break;
+
+            // Second priority
+            case Types::eGlukkon_67:
+                if (pObj->Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent)
+                {
+                    pInRangeGlukkon = pObj;
+                }
+                break;
+
+            default:
+                continue;
+            }
         }
     }
-    return 0;
-#else
-    NOT_IMPLEMENTED();
-    return nullptr;
-#endif
+
+    if (pInRangeFart)
+    {
+        return pInRangeFart;
+    }
+
+    if (pInRangeGlukkon)
+    {
+        return pInRangeGlukkon;
+    }
+
+    return pTargetObj;
 }
 
 void Abe::Load_Basic_Resources_44D460()
@@ -6037,7 +6093,16 @@ void Abe::State_57_Dead_4589A0()
 
 void Abe::State_58_DeadPre_4593E0()
 {
-    NOT_IMPLEMENTED();
+    if (field_120_state == 1)
+    {
+        field_106_current_state = eAbeStates::State_57_Dead_4589A0;
+        field_124_gnFrame = 2;
+        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 60;
+    }
+    else
+    {
+        Event_Broadcast_422BC0(kEventHeroDying, this);
+    }
 }
 
 void Abe::State_59_Null_459450()
@@ -7311,7 +7376,7 @@ void Abe::State_112_Chant_45B1C0()
         Event_Broadcast_422BC0(kEventSpeaking, this);
         Event_Broadcast_422BC0(kEventAbeOhm, this);
         
-        BaseAliveGameObject* pObj = sub_44B7B0(); // Find a victim
+        BaseAliveGameObject* pObj = FindObjectToPosses_44B7B0(); // Find a victim
 
         if (field_168_ring_pulse_timer)
         {
@@ -7376,7 +7441,7 @@ void Abe::State_112_Chant_45B1C0()
 
                         if (pObjIter->field_4_typeId == BaseGameObject::Types::eMudokon_110)
                         {
-                            if (pObjIter->field_114_flags.Get(Flags_114::e114_Bit3)) // TODO: Is sick flag ?
+                            if (pObjIter->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Is sick flag ?
                             {
                                 if (pObjIter->Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent && pObjIter->field_10C_health > FP_FromInteger(0))
                                 {
@@ -7557,7 +7622,7 @@ void Abe::State_112_Chant_45B1C0()
 
         if (sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eSlig_125 ||
             sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eFlyingSlig_54 ||
-            sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eType_26 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eCrawlingSlig_26 ||
             sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eGlukkon_67)
         {
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd);
@@ -7928,10 +7993,19 @@ void Abe::State_115_DoorExit_459A40()
 
 void Abe::State_116_MineCarEnter_458780()
 {
-    NOT_IMPLEMENTED();
+    if (field_120_state == 0)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+            field_120_state = 1;
+            field_106_current_state = eAbeStates::State_117_In_MineCar_4587C0;
+        }
+    }
 }
 
-void Abe::State_117_4587C0()
+void Abe::State_117_In_MineCar_4587C0()
 {
     NOT_IMPLEMENTED();
 }

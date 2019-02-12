@@ -182,6 +182,30 @@ EXPORT FP CC Math_Sine_496DD0(BYTE v)
     return Math_Cosine_496CD0(v - 64);
 }
 
+int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2)
+{
+    int dx = x1 - x2;
+    if (dx < 0)
+    {
+        dx = x2 - x1;
+    }
+
+    int dy = y1 - y2;
+    if (y1 - y2 < 0)
+    {
+        dy = y2 - y1;
+    }
+
+    if (dx <= dy)
+    {
+        return dy + dx / 2;
+    }
+    else
+    {
+        return dx + dy / 2;
+    }
+}
+
 namespace Test
 {
     void Math_Tests()

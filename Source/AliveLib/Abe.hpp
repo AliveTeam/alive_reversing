@@ -65,7 +65,7 @@ public:
 
     // Non virtuals
     EXPORT void ToKnockback_44E700(__int16 a2, __int16 a3);
-    EXPORT BaseAliveGameObject* sub_44B7B0();
+    EXPORT BaseAliveGameObject* FindObjectToPosses_44B7B0();
     EXPORT void Load_Basic_Resources_44D460();
     EXPORT void Free_Resources_44D420();
     EXPORT BOOL IsStanding_449D30();
@@ -191,7 +191,7 @@ public:
     EXPORT void State_114_DoorEnter_459470();
     EXPORT void State_115_DoorExit_459A40();
     EXPORT void State_116_MineCarEnter_458780();
-    EXPORT void State_117_4587C0();
+    EXPORT void State_117_In_MineCar_4587C0();
     EXPORT void State_118_MineCarExit_458890();
     EXPORT void State_119_45A990();
     EXPORT void State_120_45AB00();

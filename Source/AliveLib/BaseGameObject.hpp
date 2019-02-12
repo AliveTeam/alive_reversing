@@ -35,7 +35,7 @@ public:
         eGasClock_23 = 23,
         eType_24 = 24,
         eType_25 = 25,
-        eType_26 = 26,
+        eCrawlingSlig_26 = 26,
         eType_27 = 27,
         eType_28 = 28,
         eParticleBurst_29 = 29,
@@ -54,7 +54,7 @@ public:
         eType_42 = 42,
         eType_43 = 43,
         eType_44 = 44, // sub_4228D0
-        eType_45 = 45,
+        eType_45_EvilFart = 45,
         eBaseBomb_46 = 46,
         eType_47 = 47,
         eRockSpawner_48 = 48,
