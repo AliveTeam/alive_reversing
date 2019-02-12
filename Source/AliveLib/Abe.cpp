@@ -6527,7 +6527,79 @@ void Abe::State_78_WellBegin_45C810()
 
 void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
 {
-    NOT_IMPLEMENTED();
+    const int gnFrame = field_124_gnFrame;
+    field_124_gnFrame = gnFrame - 1;
+    if (!gnFrame)
+    {
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            Path_Well_Local::kType);
+
+        if (!field_FC_pPathTLV)
+        {
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                Path_Well_Express::kType);
+        }
+
+        field_128.field_8 = FP_FromInteger(0);
+        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_Fall_To_Well);
+
+        Path_Well_Base* pBaseWell = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
+        if (pBaseWell->field_4_type == Path_Well_Express::kType && !SwitchStates_Get_466020(pBaseWell->field_2_trigger_id))
+        {
+            Path_Well_Express* pExpress = static_cast<Path_Well_Express*>(pBaseWell);
+            sub_45C530(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                pExpress->field_18_exit_x, // TODO: Overlaps with pLocal->field_18_off_dx make part of well base ??
+                pExpress->field_1A_exit_y);
+        }
+        else
+        {
+            Path_Well_Local* pLocal = static_cast<Path_Well_Local*>(pBaseWell);
+            sub_45C530(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                pLocal->field_1C_on_dx,
+                pLocal->field_1E_on_dy);
+        }
+
+        MapFollowMe_408D10(TRUE);
+        
+        field_BC_ypos += field_C8_vely;
+
+        if (field_C4_velx >= FP_FromInteger(0))
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+        
+        SFX_Play_46FA90(0x14u, 0, field_CC_sprite_scale.fpValue);
+
+        ++field_106_current_state;
+        field_F8 = field_BC_ypos;
+
+        if (field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            field_20_animation.field_C_render_layer = 3;
+        }
+        else
+        {
+            field_20_animation.field_C_render_layer = 22;
+        }
+
+        field_100_pCollisionLine = nullptr;
+    }
 }
 
 void Abe::State_80_WellShotOut_45D150()
@@ -6665,7 +6737,73 @@ void Abe::State_82_Inside_Of_A_Well_Express_45CC80()
 
 void Abe::State_83_Shoot_Out_Of_A_Well_45CF70()
 {
-    NOT_IMPLEMENTED();
+    PSX_Point camPos = {};
+    gMap_5C3030.GetCurrentCamCoords_480680(&camPos);
+
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+    Path_TLV* pTlvIter = nullptr;
+    Path_Well_Base* pWell = nullptr;
+    for (;;)
+    {
+        pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pTlvIter,
+            FP_FromInteger(camPos.field_0_x),
+            FP_FromInteger(camPos.field_2_y),
+            FP_FromInteger(camPos.field_0_x + 368),
+            FP_FromInteger(camPos.field_2_y + 240));
+
+        // At the end, exit.
+        if (!pTlvIter)
+        {
+            break;
+        }
+
+        // Is it a well?
+        if (pTlvIter->field_4_type == Path_Well_Local::kType || pTlvIter->field_4_type == Path_Well_Express::kType)
+        {
+            // Is it the target of the previous well?
+            Path_Well_Base* pWellBase = static_cast<Path_Well_Base*>(pTlvIter);
+            if (pWellBase->field_4_well_id == field_1A0_door_id)
+            {
+                pWell = pWellBase;
+                break;
+            }
+        }
+    }
+
+    field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+
+    if (pWell)
+    {
+        if (pWell->field_0_scale == 1)
+        {
+            field_CC_sprite_scale = FP_FromDouble(0.5);
+            field_D6_scale = 0;
+        }
+        else
+        {
+            field_CC_sprite_scale = FP_FromInteger(1);
+            field_D6_scale = 1;
+        }
+
+        field_B8_xpos = FP_FromInteger((pWell->field_8_top_left.field_0_x + pWell->field_C_bottom_right.field_0_x) / 2);
+        field_BC_ypos = FP_FromInteger(pWell->field_C_bottom_right.field_2_y);
+        
+        field_FC_pPathTLV = pWell;
+
+        field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_Fall_To_Well);
+        field_106_current_state = eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60;
+    }
+    else
+    {
+        field_B8_xpos = FP_FromInteger(camPos.field_0_x + 184);
+        field_BC_ypos = FP_FromInteger(camPos.field_2_y + 80);
+        field_C4_velx = field_CC_sprite_scale * FP_FromDouble(-2.68);
+        field_C8_vely = field_CC_sprite_scale * FP_FromInteger(-15);
+    }
+
 }
 
 void Abe::State_84_FallLandDie_45A420()
@@ -8920,6 +9058,11 @@ PullRingRope* Abe::GetPullRope_44D120()
 }
 
 void Abe::IntoPortalStates_451990()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Abe::sub_45C530(short /*x1*/, short /*y1*/, short /*x2*/, short /*y2*/)
 {
     NOT_IMPLEMENTED();
 }
