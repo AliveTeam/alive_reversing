@@ -157,7 +157,7 @@ public:
     EXPORT void State_80_WellShotOut_45D150();
     EXPORT void jState_81_WellBegin_45C7F0();
     EXPORT void State_82_Inside_Of_A_Well_Express_45CC80();
-    EXPORT void State_83_45CF70();
+    EXPORT void State_83_Shoot_Out_Of_A_Well_45CF70();
     EXPORT void State_84_FallLandDie_45A420();
     EXPORT void jState_85_Fall_455070();
     EXPORT void State_86_HandstoneBegin_45BD00();
@@ -273,9 +273,9 @@ public:
     __int16 field_194;
     __int16 field_196;
     __int16 field_198_has_evil_fart;
-    __int16 field_19A;
-    __int16 field_19C;
-    __int16 field_19E_previous_cam_id;
+    LevelIds field_19A_to_level;
+    __int16 field_19C_to_path;
+    __int16 field_19E_to_camera;
     __int16 field_1A0_door_id;
     char field_1A2_rock_or_bone_count;
     char field_1A3_throw_direction;
@@ -287,7 +287,7 @@ public:
     {
         e1AC_Bit1 = 0x1,
         e1AC_Bit2 = 0x2,
-        e1AC_Bit3 = 0x4,
+        e1AC_Bit3_Fall_To_Well = 0x4,
         e1AC_Bit4 = 0x8,
         e1AC_Bit5_bShrivel = 0x10,
         e1AC_Bit6 = 0x20,

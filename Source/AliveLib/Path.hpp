@@ -198,11 +198,11 @@ struct Path_Well_Express : public Path_Well_Base
     static constexpr unsigned short kType = 23;
     __int16 field_18_exit_x;
     __int16 field_1A_exit_y;
-    __int16 field_1C_off_level;
+    LevelIds field_1C_off_level;
     __int16 field_1E_off_path;
     __int16 field_20_off_camera;
     __int16 field_22_off_well_id;
-    __int16 field_24_on_level;
+    LevelIds field_24_on_level;
     __int16 field_26_on_path;
     __int16 field_28_on_camera;
     __int16 field_2A_on_well_id;

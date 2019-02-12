@@ -126,7 +126,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_80_WellShotOut_45D150) \
     ENTRY(jState_81_WellBegin_45C7F0) \
     ENTRY(State_82_Inside_Of_A_Well_Express_45CC80) \
-    ENTRY(State_83_45CF70) \
+    ENTRY(State_83_Shoot_Out_Of_A_Well_45CF70) \
     ENTRY(State_84_FallLandDie_45A420) \
     ENTRY(jState_85_Fall_455070) \
     ENTRY(State_86_HandstoneBegin_45BD00) \
@@ -271,7 +271,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_80_WellShotOut_45D150,
     &Abe::jState_81_WellBegin_45C7F0,
     &Abe::State_82_Inside_Of_A_Well_Express_45CC80,
-    &Abe::State_83_45CF70,
+    &Abe::State_83_Shoot_Out_Of_A_Well_45CF70,
     &Abe::State_84_FallLandDie_45A420,
     &Abe::jState_85_Fall_455070,
     &Abe::State_86_HandstoneBegin_45BD00,
@@ -817,7 +817,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
 
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_bShrivel);
-    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_Fall_To_Well);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
     field_1AC_flags.Clear(Flags_1AC::e1AC_Bit1);
 
@@ -1003,7 +1003,7 @@ struct Quicksave_Obj_Abe
     WORD wordBC;
     WORD wordBE;
     WORD wordC0;
-    WORD wordC2;
+    LevelIds wordC2;
     WORD wordC4;
     WORD wordC6;
     WORD wordC8;
@@ -1272,9 +1272,9 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_194 = pSaveState->wordBC;
     sActiveHero_5C1B68->field_196 = pSaveState->wordBE;
     sActiveHero_5C1B68->field_198_has_evil_fart = pSaveState->wordC0;
-    sActiveHero_5C1B68->field_19A = pSaveState->wordC2;
-    sActiveHero_5C1B68->field_19C = pSaveState->wordC4;
-    sActiveHero_5C1B68->field_19E_previous_cam_id = pSaveState->wordC6;
+    sActiveHero_5C1B68->field_19A_to_level = pSaveState->wordC2;
+    sActiveHero_5C1B68->field_19C_to_path = pSaveState->wordC4;
+    sActiveHero_5C1B68->field_19E_to_camera = pSaveState->wordC6;
     sActiveHero_5C1B68->field_1A0_door_id = pSaveState->wordC8;
     sActiveHero_5C1B68->field_1A3_throw_direction = pSaveState->field_ca_throw_direction;
     sActiveHero_5C1B68->field_1A4 = pSaveState->wordCC;
@@ -2297,9 +2297,9 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->wordBC = field_194;
     pSaveState->wordBE = field_196;
     pSaveState->wordC0 = field_198_has_evil_fart;
-    pSaveState->wordC2 = field_19A;
-    pSaveState->wordC4 = field_19C;
-    pSaveState->wordC6 = field_19E_previous_cam_id;
+    pSaveState->wordC2 = field_19A_to_level;
+    pSaveState->wordC4 = field_19C_to_path;
+    pSaveState->wordC6 = field_19E_to_camera;
     pSaveState->wordC8 = field_1A0_door_id;
     pSaveState->field_ca_throw_direction = field_1A3_throw_direction;
     pSaveState->wordCC = field_1A4;
@@ -3367,7 +3367,7 @@ void Abe::State_0_Idle_44EEB0()
                     break;
                 }
 
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_Fall_To_Well);
                 field_FC_pPathTLV = pTlv;
                 field_106_current_state = eAbeStates::State_78_WellBegin_45C810;
             }
@@ -3387,7 +3387,7 @@ void Abe::State_0_Idle_44EEB0()
                     break;
                 }
 
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_Fall_To_Well);
                 field_FC_pPathTLV = pTlv;
                 field_106_current_state = eAbeStates::jState_81_WellBegin_45C7F0;
             }
@@ -3760,7 +3760,7 @@ void Abe::State_3_Fall_459B60()
                 if ((pWellBase->field_0_scale == 0 && field_CC_sprite_scale == FP_FromDouble(1.0))
                  || (pWellBase->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
                 {
-                    field_1AC_flags.Set(Flags_1AC::e1AC_Bit3);
+                    field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_Fall_To_Well);
                     field_106_current_state = eAbeStates::State_75_Jump_Into_Well_45C7B0;
                     return;
                 }
@@ -6583,10 +6583,87 @@ void Abe::jState_81_WellBegin_45C7F0()
 
 void Abe::State_82_Inside_Of_A_Well_Express_45CC80()
 {
-    NOT_IMPLEMENTED();
+    field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        Path_Well_Local::kType);
+
+    if (!field_FC_pPathTLV)
+    {
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            Path_Well_Express::kType);
+    }
+
+    Path_Well_Express* pExpressWell = static_cast<Path_Well_Express*>(field_FC_pPathTLV);
+    if (SwitchStates_Get_466020(pExpressWell->field_2_trigger_id))
+    {
+        field_19A_to_level = pExpressWell->field_24_on_level;
+        field_19C_to_path = pExpressWell->field_26_on_path;
+        field_19E_to_camera = pExpressWell->field_28_on_camera;
+        field_1A0_door_id = pExpressWell->field_2A_on_well_id;
+    }
+    else
+    {
+        field_19A_to_level = pExpressWell->field_1C_off_level;
+        field_19C_to_path = pExpressWell->field_1E_off_path;
+        field_19E_to_camera = pExpressWell->field_20_off_camera;
+        field_1A0_door_id = pExpressWell->field_22_off_well_id;
+    }
+
+    field_128.field_8 = FP_FromInteger(0);
+    field_F8 = field_BC_ypos;
+
+    if (field_19A_to_level != gMap_5C3030.sCurrentLevelId_5C3030|| 
+        field_19C_to_path != gMap_5C3030.sCurrentPathId_5C3032||
+        field_19E_to_camera != gMap_5C3030.sCurrentCamId_5C3034)
+    {
+        field_124_gnFrame = 1;
+
+        if (pExpressWell->field_32_movie_id)
+        {
+            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::eEffect5_1_FMV, pExpressWell->field_32_movie_id, 0);
+        }
+        else
+        {
+            gMap_5C3030.SetActiveCam_480D30(field_19A_to_level, field_19C_to_path, field_19E_to_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        }
+
+        // FeeCo hack!
+        if (field_19A_to_level == LevelIds::eFeeCoDepot_5 && field_19C_to_path == 1 && field_19E_to_camera == 1)
+        {
+            field_C8_vely = FP_FromInteger(0);
+            field_C4_velx = FP_FromInteger(0);
+            field_B8_xpos = FP_FromInteger(1187);
+            field_BC_ypos = FP_FromInteger(270);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
+            field_106_current_state = eAbeStates::jState_85_Fall_455070;
+            field_20_animation.field_C_render_layer = 32;
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_106_current_state = eAbeStates::State_83_Shoot_Out_Of_A_Well_45CF70;
+        }
+    }
+    else
+    {
+        State_83_Shoot_Out_Of_A_Well_45CF70();
+        field_BC_ypos -= field_C8_vely * field_CC_sprite_scale;
+        field_C8_vely = FP_FromInteger(0);
+        field_C4_velx = FP_FromInteger(0);
+        field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_Fall_To_Well);
+        field_106_current_state = eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60;
+    }
 }
 
-void Abe::State_83_45CF70()
+void Abe::State_83_Shoot_Out_Of_A_Well_45CF70()
 {
     NOT_IMPLEMENTED();
 }
@@ -6752,7 +6829,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 }
  
                 field_148_pFade = pFade33->field_8_object_id;
-                field_19E_previous_cam_id = gMap_5C3030.sCurrentCamId_5C3034;
+                field_19E_to_camera = gMap_5C3030.sCurrentCamId_5C3034;
                 gMap_5C3030.SetActiveCam_480D30(field_C2_lvl_number, field_C0_path_number, field_186_to_camera_id[0], CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
         }
@@ -6840,7 +6917,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
             gMap_5C3030.SetActiveCam_480D30(
                 field_C2_lvl_number,
                 field_C0_path_number,
-                field_19E_previous_cam_id,
+                field_19E_to_camera,
                 CameraSwapEffects::eEffect0_InstantChange,
                 0,
                 0);
@@ -8540,7 +8617,7 @@ __int16 Abe::RunTryEnterWell_451060()
             if ((pWellLocal->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
                 (pWellLocal->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
             {
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_Fall_To_Well);
                 field_FC_pPathTLV = pWellLocal;
                 field_106_current_state = eAbeStates::State_78_WellBegin_45C810;
                 return 1;
@@ -8561,7 +8638,7 @@ __int16 Abe::RunTryEnterWell_451060()
             if ((pWellExpress->field_0_scale == 0 && field_CC_sprite_scale == FP_FromInteger(1)) ||
                 (pWellExpress->field_0_scale == 1 && field_CC_sprite_scale == FP_FromDouble(0.5)))
             {
-                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3);
+                field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_Fall_To_Well);
                 field_FC_pPathTLV = pWellExpress;
                 field_106_current_state = eAbeStates::jState_81_WellBegin_45C7F0;
                 return 1;
@@ -8747,7 +8824,7 @@ __int16 Abe::CantBeDamaged_44BAB0()
     case eAbeStates::State_80_WellShotOut_45D150:
     case eAbeStates::jState_81_WellBegin_45C7F0:
     case eAbeStates::State_82_Inside_Of_A_Well_Express_45CC80:
-    case eAbeStates::State_83_45CF70:
+    case eAbeStates::State_83_Shoot_Out_Of_A_Well_45CF70:
     case eAbeStates::State_114_DoorEnter_459470:
     case eAbeStates::State_115_DoorExit_459A40:
     case eAbeStates::State_119_45A990:
