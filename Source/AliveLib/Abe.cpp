@@ -6555,7 +6555,7 @@ void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
         if (pBaseWell->field_4_type == Path_Well_Express::kType && !SwitchStates_Get_466020(pBaseWell->field_2_trigger_id))
         {
             Path_Well_Express* pExpress = static_cast<Path_Well_Express*>(pBaseWell);
-            sub_45C530(
+            Calc_Well_Velocity_45C530(
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
                 pExpress->field_18_exit_x, // TODO: Overlaps with pLocal->field_18_off_dx make part of well base ??
@@ -6564,7 +6564,7 @@ void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
         else
         {
             Path_Well_Local* pLocal = static_cast<Path_Well_Local*>(pBaseWell);
-            sub_45C530(
+            Calc_Well_Velocity_45C530(
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
                 pLocal->field_1C_on_dx,
@@ -9062,9 +9062,76 @@ void Abe::IntoPortalStates_451990()
     NOT_IMPLEMENTED();
 }
 
-void Abe::sub_45C530(short /*x1*/, short /*y1*/, short /*x2*/, short /*y2*/)
+void Abe::Calc_Well_Velocity_45C530(short x1, short y1, short x2, short y2)
 {
-    NOT_IMPLEMENTED();
+    PSX_Point abeSpawnPos = {};
+    gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
+
+    const FP gravity = field_CC_sprite_scale == FP_FromInteger(1) ? FP_FromDouble(1.8) : FP_FromDouble(0.9);
+    const FP xd = FP_FromInteger(x2 - x1);
+    FP v16 = {};
+    if (y2 > 0)
+    {
+        const int y1Offset = abeSpawnPos.field_2_y + y1;
+        if (y2 > y1Offset)
+        {
+            const FP yd = FP_FromInteger(y2 - y1Offset);
+            FP v10 = {};
+            if (yd <= (FP_FromInteger(41) * field_CC_sprite_scale))
+            {
+                v10 = FP_FromInteger(0);
+            }
+            else
+            {
+                v10 = yd - (FP_FromInteger(41) * field_CC_sprite_scale);
+            }
+
+            const FP v11 = FP_FromInteger(20) * field_CC_sprite_scale;
+            FP v12 = (v10 / v11) + FP_FromDouble(20.01);
+            if (x2 > 0)
+            {
+                field_C4_velx = (xd - FP_FromInteger(abeSpawnPos.field_0_x)) / v12;
+            }
+            else
+            {
+                field_C4_velx = FP_FromDouble(2.796) * field_CC_sprite_scale;
+            }
+            FP v14 = field_CC_sprite_scale;
+            field_C8_vely = FP_FromDouble(-16.1) * v14;
+            return;
+        }
+
+        const int v15 = y1Offset - y2;
+        if (v15 >= 0)
+        {
+            v16 = FP_FromInteger(v15);
+        }
+        else
+        {
+            v16 = FP_FromInteger(y2 - y1Offset);
+        }
+    }
+    else
+    {
+        v16 = FP_FromInteger(0);
+    }
+
+    const FP v17 = (FP_FromInteger(80) * field_CC_sprite_scale) + v16;
+    const FP v18 = FP_FromInteger(8) * gravity;
+    const FP v20 = Math_SquareRoot_FP_496E90(((v18 * v17) + (gravity * gravity)).fpValue);
+    field_C8_vely = (v20 - gravity) * FP_FromDouble(0.5);
+
+    const FP v22 = field_C8_vely / gravity;
+    field_C8_vely = -field_C8_vely;
+
+    if (x2 > 0)
+    {
+        field_C4_velx = (xd - FP_FromInteger(abeSpawnPos.field_0_x)) / (v22 + FP_FromDouble(8.9));
+    }
+    else
+    {
+        field_C4_velx = FP_FromDouble(2.796) * field_CC_sprite_scale;
+    }
 }
 
 // TODO: Clean up

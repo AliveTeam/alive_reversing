@@ -235,7 +235,7 @@ public:
     EXPORT void GiveControlBackToMe_44BA10();
     EXPORT PullRingRope* GetPullRope_44D120();
     EXPORT void IntoPortalStates_451990();
-    EXPORT void sub_45C530(short x1, short y1, short x2, short y2);
+    EXPORT void Calc_Well_Velocity_45C530(short x1, short y1, short x2, short y2);
 public:
     __int16 field_116;
     int field_118_prev_held;
