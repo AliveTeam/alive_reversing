@@ -3257,7 +3257,7 @@ void Abe::State_0_Idle_44EEB0()
         BaseGameObject* pObj_field_110 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj_field_110)
         {
-            if (pObj_field_110->field_4_typeId == Types::eType_78)
+            if (pObj_field_110->field_4_typeId == Types::eLiftPoint_78)
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_x1 + field_100_pCollisionLine->field_4_x2) / 2);
@@ -3367,7 +3367,7 @@ void Abe::State_0_Idle_44EEB0()
         BaseGameObject* pObj_field_110_2 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj_field_110_2)
         {
-            if (pObj_field_110_2->field_4_typeId == Types::eType_78)
+            if (pObj_field_110_2->field_4_typeId == Types::eLiftPoint_78)
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_x1 + field_100_pCollisionLine->field_4_x2) / 2);
@@ -5898,7 +5898,7 @@ void Abe::State_57_Dead_4589A0()
         BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
         if (pObj)
         {
-            if (pObj->field_4_typeId == BaseGameObject::Types::eType_78)
+            if (pObj->field_4_typeId == BaseGameObject::Types::eLiftPoint_78)
             {
                 // TODO: Lift LiftPoint::ctor_461030
                 /*

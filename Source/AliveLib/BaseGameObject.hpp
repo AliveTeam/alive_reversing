@@ -87,7 +87,7 @@ public:
         eInvisibleEffect_75 = 75,
         ePulley_76 = 76,
         eType_77 = 77,
-        eType_78 = 78,
+        eLiftPoint_78 = 78,
         eResourceManager_70 = 79,
         eSligGetPantsOrWings_80 = 80,
         eType_81 = 81,
