@@ -681,7 +681,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     field_4_flags.Clear(AnimFlags::eBit1);
     field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     field_4_flags.Clear(AnimFlags::eBit6_FlipY);
-    field_4_flags.Clear(AnimFlags::eBit7);
+    field_4_flags.Clear(AnimFlags::eBit7_SwapXY);
     field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_4_flags.Set(AnimFlags::eBit3_Render);
 

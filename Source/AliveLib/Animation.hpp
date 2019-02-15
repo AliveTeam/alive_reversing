@@ -93,7 +93,7 @@ enum AnimFlags
     eBit6_FlipY = 0x20,
 
     // Bit 7 = loop
-    eBit7 = 0x40,
+    eBit7_SwapXY = 0x40,
 
     // Bit 8 = ?
     eBit8_Loop = 0x80,
