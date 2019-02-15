@@ -36,6 +36,7 @@ public:
         Resource_Blood = 0x64756C42,
         Resource_Water = 0x72746157,
         Resource_DecompressionBuffer = 0x66754244,
+        Resource_Rope = 0x65706F52,
     };
 
     enum ResourceHeaderFlags : __int16

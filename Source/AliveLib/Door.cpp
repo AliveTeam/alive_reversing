@@ -684,8 +684,148 @@ private:
         field_68_anim_ptr = nullptr;
     }
 
+public:
     Poly_FT4 field_10_polys[2];
     AnimationEx* field_68_anim_ptr;
     FP field_6C_scale;
 };
 ALIVE_ASSERT_SIZEOF(Rope_Segment, 0x70);
+
+const TintEntry stru_55FD68[18] =
+{
+    { 1u, 127u, 127u, 127u },
+    { 2u, 127u, 127u, 127u },
+    { 3u, 127u, 127u, 127u },
+    { 4u, 127u, 127u, 127u },
+    { 5u, 127u, 127u, 127u },
+    { 6u, 127u, 127u, 127u },
+    { 7u, 127u, 127u, 127u },
+    { 8u, 127u, 127u, 127u },
+    { 9u, 127u, 127u, 127u },
+    { 10u, 127u, 127u, 127u },
+    { 11u, 127u, 127u, 127u },
+    { 12u, 127u, 127u, 127u },
+    { 13u, 127u, 127u, 127u },
+    { 14u, 127u, 127u, 127u },
+    { -1, 127u, 127u, 127u },
+    { 0u, 0u, 0u, 0u },
+    { 0u, 0u, 0u, 0u },
+    { 0u, 0u, 0u, 0u }
+};
+
+
+class LiftRope : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT LiftRope* ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bottom, FP scale)
+    {
+        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+        SetVTable(this, 0x546C70); // vTbl_LiftRope_00546C70
+
+        field_4_typeId = Types::eLiftRope_108;
+
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kRopesResID);
+        Animation_Init_424E10(748, 9, 16, ppRes, 1, 1);
+        SetTint_425600(stru_55FD68, gMap_5C3030.sCurrentLevelId_5C3030);
+
+        field_20_animation.field_14_scale = scale;
+        field_CC_sprite_scale = scale;
+
+        if (scale == FP_FromInteger(1))
+        {
+            field_F6_rope_length = 15;
+            field_20_animation.field_C_render_layer = 24;
+            field_D6_scale = 1;
+        }
+        else
+        {
+            field_F6_rope_length = 7;
+            field_20_animation.field_C_render_layer = 5;
+            field_20_animation.field_14_scale = FP_FromDouble(0.7);
+            field_CC_sprite_scale = FP_FromDouble(0.7);
+            field_D6_scale = 0;
+        };
+
+        field_20_animation.field_8_r = static_cast<BYTE>(field_D0_r);
+        field_20_animation.field_9_g = static_cast<BYTE>(field_D2_g);
+        field_20_animation.field_A_b = static_cast<BYTE>(field_D4_b);
+
+        field_102_top = top;
+        field_106_bottom = bottom;
+        field_100_left = left;
+        field_104_right = left;
+
+        field_B8_xpos = FP_FromInteger(left);
+        field_BC_ypos = FP_FromInteger(bottom);
+        
+        field_F4_rope_segment_count = (240 / field_F6_rope_length) + 1; // psx screen height
+
+        field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(Rope_Segment));
+        field_FC_pRopeRes = reinterpret_cast<Rope_Segment*>(*field_F8_ppRopeRes);
+
+
+        for (int i = 0; i < field_F4_rope_segment_count; i++)
+        {
+            Rope_Segment* pSegment = &field_FC_pRopeRes[i];
+            SetVTable(pSegment, 0x5447CC); // vTbl_RopeSegment_5447CC
+            pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
+            pSegment->field_68_anim_ptr = &field_20_animation;
+            pSegment->field_C_render_layer = field_20_animation.field_C_render_layer;
+            pSegment->field_6C_scale = scale;
+            pSegment->field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pSegment->field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        }
+
+        return this;
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_4A0D80(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        // nullsub@4A11E0
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_4A0E30(pOrderingTable);
+    }
+
+private:
+    EXPORT void dtor_4A0DB0()
+    {
+        SetVTable(this, 0x546C70); // vTbl_LiftRope_00546C70
+        ResourceManager::FreeResource_49C330(field_F8_ppRopeRes);
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    }
+
+    EXPORT LiftRope* vdtor_4A0D80(signed int flags)
+    {
+        dtor_4A0DB0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+    EXPORT void vRender_4A0E30(int** /*pOt*/)
+    {
+        NOT_IMPLEMENTED();
+    }
+
+private:
+    int field_E4_not_used[4];
+    __int16 field_F4_rope_segment_count;
+    __int16 field_F6_rope_length;
+    BYTE **field_F8_ppRopeRes;
+    Rope_Segment* field_FC_pRopeRes;
+    __int16 field_100_left;
+    __int16 field_102_top;
+    __int16 field_104_right;
+    __int16 field_106_bottom;
+};
+ALIVE_ASSERT_SIZEOF(LiftRope, 0x108);
