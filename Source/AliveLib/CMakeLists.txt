@@ -221,6 +221,8 @@ add_library(AliveLib
     Water.hpp
     Water.cpp
     Types.hpp
+    Rope.hpp
+    Rope.cpp
     Slurg.cpp
     Slurg.hpp)
 
