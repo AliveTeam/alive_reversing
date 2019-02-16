@@ -243,7 +243,7 @@ void ResourceManager::OnResourceLoaded_464CE0()
 
             if (!ppRes)
             {
-                LOG_ERROR("Should never happen!");
+                LOG_ERROR("File part not found id " << pFilePart->field_4_id << " type " << pFilePart->field_0_type);
                 ALIVE_FATAL("File part not found");
             }
 
