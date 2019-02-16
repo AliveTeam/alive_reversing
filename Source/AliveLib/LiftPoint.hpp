@@ -9,6 +9,8 @@ class PlatformBase : public BaseAliveGameObject
 protected:
     EXPORT void AddDynamicCollision_4971C0(int maxW, int maxH, unsigned __int16 frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* pMap, int tlvInfo);
 
+    EXPORT void dtor_4973E0();
+
 protected:
     __int16 field_116;
     int field_118_count;
@@ -50,6 +52,7 @@ public:
 private:
     EXPORT void sub_462C80();
 
+    EXPORT void dtor_4624E0();
 private:
     __int16 field_12C;
     __int16 field_12E;

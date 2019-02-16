@@ -5,6 +5,7 @@
 #include "Collisions.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"
+#include "ObjectIds.hpp"
 
 struct LiftPointData
 {
@@ -65,6 +66,22 @@ const TintEntry sLiftTints_55BF50[18] =
 void PlatformBase::AddDynamicCollision_4971C0(int /*maxW*/, int /*maxH*/, unsigned __int16 /*frameTableOffset*/, BYTE** /*ppAnimData*/, Path_TLV* /*pTlv*/, Map* /*pMap*/, int /*tlvInfo*/)
 {
     NOT_IMPLEMENTED();
+}
+
+void PlatformBase::dtor_4973E0()
+{
+    SetVTable(this, 0x546890); // vTbl_PlatformBase_546890
+    ObjList_5C1B78->Remove_Item(this);
+
+    if (field_124_pCollisionLine)
+    {
+        if (gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number && gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number)
+        {
+            Rect_Clear_418040(&field_124_pCollisionLine->field_0_rect);
+        }
+    }
+
+    dtor_4080B0();
 }
 
 LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
@@ -199,8 +216,8 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
             field_134_rope2_id = pRope2->field_8_object_id;
         }
 
-        pRope2->field_106_bottom = FP_GetExponent((k25 * field_CC_sprite_scale) + FP_FromInteger(field_124_pCollisionLine->field_2_y1));
-        pRope1->field_106_bottom = FP_GetExponent((k25 * field_CC_sprite_scale) + FP_FromInteger(field_124_pCollisionLine->field_2_y1));
+        pRope2->field_106_bottom = FP_GetExponent((k25 * field_CC_sprite_scale) + FP_FromInteger(field_124_pCollisionLine->field_0_rect.y));
+        pRope1->field_106_bottom = FP_GetExponent((k25 * field_CC_sprite_scale) + FP_FromInteger(field_124_pCollisionLine->field_0_rect.y));
 
         const FP v28 = field_BC_ypos * FP_FromDouble(1.5);
         const FP v29 = FP_FromRaw(FP_GetExponent(v28 * field_CC_sprite_scale) % FP_FromInteger(pRope2->field_F6_rope_length).fpValue);
@@ -248,4 +265,48 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
 void LiftPoint::sub_462C80()
 {
     NOT_IMPLEMENTED();
+}
+
+void LiftPoint::dtor_4624E0()
+{
+    SetVTable(this, 0x545CC0); // vTbl_LiftPoint_545CC0
+
+    BaseGameObject* pRope2 = sObjectIds_5C1B70.Find_449CF0(field_134_rope2_id);
+    BaseGameObject* pRope1 = sObjectIds_5C1B70.Find_449CF0(field_138_rope1_id);
+    if (pRope2)
+    {
+        pRope2->field_6_flags.Set(BaseGameObject::eDead);
+        field_134_rope2_id = -1;
+    }
+
+    if (pRope1)
+    {
+        pRope1->field_6_flags.Set(BaseGameObject::eDead);
+        field_138_rope1_id = -1;
+    }
+
+    Path::TLV_Reset_4DB8E0(field_128_tlvInfo, -1, 0, 0);
+
+    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_CC_sprite_scale * FP_FromInteger(30)),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (field_CC_sprite_scale * FP_FromInteger(30))),
+        Path_LiftPoint::kType);
+
+    if (pTlv)
+    {
+        pTlv->field_1_unknown &= ~3;
+    }
+
+    field_13C_pulleyAnim.vCleanUp_40C630();
+
+    if (field_280_flags.Get(LiftFlags::eBit4))
+    {
+        field_1D4_anim2.vCleanUp_40C630();
+    }
+
+    ResourceManager::FreeResource_49C330(field_274_ppRes);
+
+    dtor_4973E0();
 }

@@ -3260,7 +3260,7 @@ void Abe::State_0_Idle_44EEB0()
             if (pObj_field_110->field_4_typeId == Types::eLiftPoint_78)
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
-                const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_x1 + field_100_pCollisionLine->field_4_x2) / 2);
+                const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_rect.x + field_100_pCollisionLine->field_0_rect.w) / 2);
                 const FP xPosToMidLiftPlatformDistance = (field_B8_xpos - liftPlatformXMidPoint) >= FP_FromInteger(0) ? field_B8_xpos - liftPlatformXMidPoint : liftPlatformXMidPoint - field_B8_xpos;
                 if (xPosToMidLiftPlatformDistance < halfGrid)
                 {
@@ -3370,7 +3370,7 @@ void Abe::State_0_Idle_44EEB0()
             if (pObj_field_110_2->field_4_typeId == Types::eLiftPoint_78)
             {
                 const FP halfGrid = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2);
-                const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_x1 + field_100_pCollisionLine->field_4_x2) / 2);
+                const FP liftPlatformXMidPoint = FP_FromInteger((field_100_pCollisionLine->field_0_rect.x + field_100_pCollisionLine->field_0_rect.w) / 2);
                 const FP xPosToMidLiftPlatformDistance = (field_B8_xpos - liftPlatformXMidPoint >= FP_FromInteger(0)) ? field_B8_xpos - liftPlatformXMidPoint : liftPlatformXMidPoint - field_B8_xpos;
                 if (xPosToMidLiftPlatformDistance < halfGrid)
                 {

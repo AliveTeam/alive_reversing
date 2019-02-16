@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "FixedPoint.hpp"
+#include "Psx.hpp"
 
 namespace Test
 {
@@ -29,10 +30,7 @@ enum eLineTypes : BYTE
 
 struct PathLine
 {
-    __int16 field_0_x1;
-    __int16 field_2_y1;
-    __int16 field_4_x2;
-    __int16 field_6_y2;
+    PSX_RECT field_0_rect;
     BYTE field_8_type;
     //__int8 field_9_padding; // Mode is 1 byte, but compiler aligned it to 2
     __int16 field_A_previous;

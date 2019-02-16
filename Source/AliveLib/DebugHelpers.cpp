@@ -389,10 +389,10 @@ public:
                 {
                     layer = 23;
                 }
-                DEV::DebugDrawLine(pOrderingTable, layer, l->field_0_x1, l->field_2_y1, l->field_4_x2, l->field_6_y2, color.r, color.g, color.b, true, false);
+                DEV::DebugDrawLine(pOrderingTable, layer, l->field_0_rect.x, l->field_0_rect.y, l->field_0_rect.w, l->field_0_rect.h, color.r, color.g, color.b, true, false);
 
-                short id_x = l->field_0_x1 - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
-                short id_y = l->field_2_y1 - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
+                short id_x = l->field_0_rect.x - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
+                short id_y = l->field_0_rect.y - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_4_y);
 
                 if (id_x > 0 && id_x <= 640 && id_y > 0 && id_y <= 240)
                 {
