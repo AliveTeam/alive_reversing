@@ -32,6 +32,7 @@ enum class LiftPointStopType : __int16
 
 struct Path_LiftPoint : public Path_TLV
 {
+    constexpr static auto kType = 7;
     __int16 field_10_id;
     __int16 field_12_bstart_point;
     __int16 field_14_lift_type; // TODO: Enum
@@ -62,7 +63,9 @@ private:
     __int16 field_26E;
     int field_270;
     BYTE** field_274_ppRes;
+public:
     char field_278_lift_point_id;
+private:
     char field_279;
     __int16 field_27A;
     Path_TLV* field_27C_pTlv;

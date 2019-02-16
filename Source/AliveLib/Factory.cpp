@@ -29,6 +29,7 @@
 #include "MusicTrigger.hpp"
 #include "PauseMenu.hpp"
 #include "Abe.hpp"
+#include "LiftPoint.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -185,7 +186,152 @@ EXPORT void CC Factory_Shadow_4D7200(Path_TLV* pTlv, Path* pPath, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+static void LoadLiftPointResources(const char* ropeBan, const char* liftBan, __int16 loadMode)
+{
+    static CompileTimeResourceList<2> kResources({
+        { ResourceManager::Resource_Animation, ResourceID::kRopesResID },
+        { ResourceManager::Resource_Animation, ResourceID::kLiftResID },
+    });
+
+    gMap_5C3030.LoadResource_4DBE00(ropeBan, ResourceManager::Resource_Animation, ResourceID::kRopesResID, loadMode);
+    gMap_5C3030.LoadResourcesFromList_4DBE70(liftBan, kResources.AsList(), loadMode);
+}
+
+EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("ABELIFT.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, loadMode);
+        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        {
+        case LevelIds::eNecrum_2:
+            LoadLiftPointResources("NECROPE.BAN", "NELIFT.BND", loadMode);
+            break;
+
+        case LevelIds::eMudomoVault_3:
+        case LevelIds::eMudomoVault_Ender_11:
+            LoadLiftPointResources("NECROPE.BAN", "PVLIFT.BND", loadMode);
+            break;
+
+        case LevelIds::eMudancheeVault_4:
+        case LevelIds::eMudancheeVault_Ender_7:
+            LoadLiftPointResources("NECROPE.BAN", "SVLIFT.BND", loadMode);
+            break;
+
+        case LevelIds::eFeeCoDepot_5:
+        case LevelIds::eFeeCoDepot_Ender_12:
+            LoadLiftPointResources("NECROPE.BAN", "FDLIFT.BND", loadMode);
+            break;
+
+        case LevelIds::eBarracks_6:
+        case LevelIds::eBarracks_Ender_13:
+            LoadLiftPointResources("ROPES.BAN", "BALIFT.BND", loadMode);
+            break;
+
+        case LevelIds::eBonewerkz_8:
+        case LevelIds::eBonewerkz_Ender_14:
+            LoadLiftPointResources("ROPES.BAN", "BWLIFT.BND", loadMode);
+            break;
+
+        case LevelIds::eBrewery_9:
+        case LevelIds::eBrewery_Ender_10:
+            LoadLiftPointResources("ROPES.BAN", "BRLIFT.BND", loadMode);
+            break;
+
+        default:
+            LoadLiftPointResources("ROPES.BAN", "MILIFT.BND", loadMode);
+            break;
+        }
+    }
+    else
+    {
+        Path_LiftPoint* pLiftTlv = static_cast<Path_LiftPoint*>(pTlv);
+        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)) && pObj->field_4_typeId == BaseGameObject::Types::eLiftPoint_78)
+            {
+                // Is there already an existing LiftPoint object for this TLV?
+                LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
+                const short xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
+                if (pTlv->field_8_top_left.field_0_x <= xpos && 
+                    xpos <= pTlv->field_C_bottom_right.field_0_x &&
+                    pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_id && 
+                    pLiftPoint->field_C2_lvl_number == gMap_5C3030.sCurrentLevelId_5C3030 && 
+                    pLiftPoint->field_C0_path_number == gMap_5C3030.sCurrentPathId_5C3032)
+                {
+                    // Yes so just reset its data
+                    Path::TLV_Reset_4DB8E0(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                    return;
+                }
+            }
+        }
+
+        // TODO: Meaning of the data in field_1_unknown for lift point
+        if (pLiftTlv->field_1_unknown & 2 || pLiftTlv->field_1_unknown != 0 && pLiftTlv->field_12_bstart_point)
+        {
+            auto pLiftPoint = alive_new<LiftPoint>();
+            if (pLiftPoint)
+            {
+                pLiftPoint->ctor_461030(pLiftTlv, tlvOffsetLevelIdPathId.all);
+            }
+        }
+        else
+        {
+            // Find out where to create the lift point
+            short pointNumber = 1;
+            while (pointNumber < 8)
+            {
+                Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(
+                    0,
+                    pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
+
+                while (pTlvIter)
+                {
+                    if (pTlvIter->field_4_type == Path_LiftPoint::kType)
+                    {
+                        Path_LiftPoint* pLiftPointIter = static_cast<Path_LiftPoint*>(pTlvIter);
+
+                        const int tlvX = pTlv->field_8_top_left.field_0_x;
+                        const int absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ? 
+                            pTlvIter->field_8_top_left.field_0_x - tlvX : 
+                            tlvX - pTlvIter->field_8_top_left.field_0_x;
+
+                        if (absX < 5 && 
+                            pLiftPointIter->field_10_id == pLiftTlv->field_10_id && 
+                            (pLiftPointIter->field_1_unknown & 2 || pLiftPointIter->field_1_unknown == 0) &&
+                            pLiftPointIter->field_12_bstart_point)
+                        {
+
+                            auto pLiftPoint = alive_new<LiftPoint>();
+                            if (pLiftPoint)
+                            {
+                                pLiftPoint->ctor_461030(pLiftPointIter, tlvOffsetLevelIdPathId.all);
+                            }
+                            return;
+                        }
+                    }
+
+                    pTlvIter = Path::Next_TLV_4DB6A0(pTlvIter);
+                }
+                pointNumber++;
+            }
+
+            // Default to original
+            auto pLiftPoint = alive_new<LiftPoint>();
+            if (pLiftPoint)
+            {
+                pLiftPoint->ctor_461030(pLiftTlv, tlvOffsetLevelIdPathId.all);
+            }
+        }
+    }
+}
 
 EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {
