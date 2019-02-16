@@ -12,9 +12,16 @@ struct TlvOffsetLevelIdPathId
     BYTE pathId;
 };
 
+struct TlvOffsetCombinedLevelIdPathId
+{
+    WORD tlvOffset;
+    WORD levelIdPathId;
+};
+
 union TlvItemInfoUnion
 {
     DWORD all;
+    TlvOffsetCombinedLevelIdPathId combined;
     TlvOffsetLevelIdPathId parts;
 };
 ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);

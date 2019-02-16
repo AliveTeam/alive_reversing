@@ -322,6 +322,15 @@ Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_P
     }
 }
 
+Path_TLV* Path::sub_4DB7C0(Path_TLV* pTlv)
+{
+    NOT_IMPLEMENTED();
+
+    // TODO: WTF?? Getting the offset number of the TLV from the Path block??
+
+    return pTlv;
+}
+
 Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)
 {
     pTlv = Path::Next_TLV_4DB6A0(pTlv);

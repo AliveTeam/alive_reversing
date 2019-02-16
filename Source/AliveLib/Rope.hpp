@@ -19,6 +19,7 @@ private:
 private:
     int field_E4_not_used[4];
     __int16 field_F4_rope_segment_count;
+public:
     __int16 field_F6_rope_length;
     BYTE **field_F8_ppRopeRes;
     RopeSegment* field_FC_pRopeRes;
