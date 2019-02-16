@@ -298,8 +298,6 @@ Rope* Rope::vdtor_4A0D80(signed int flags)
 
 EXPORT void Rope::vRender_4A0E30(int** pOt)
 {
-    NOT_IMPLEMENTED();
-
     PSX_Point camPos = {};
     gMap_5C3030.GetCurrentCamCoords_480680(&camPos);
     // In the current level/map?
@@ -321,7 +319,7 @@ EXPORT void Rope::vRender_4A0E30(int** pOt)
             }
 
             short screenX = FP_GetExponent(field_B8_xpos - camXPos);
-            short screenY = FP_GetExponent(field_BC_ypos - camYPos);
+            short screenY = ypos - FP_GetExponent(camYPos);
 
             if (screenY > 240)
             {
