@@ -4,6 +4,8 @@
 #include "PsxDisplay.hpp"
 #include "Animation.hpp"
 #include "stdlib.hpp"
+#include "ScreenManager.hpp"
+#include "ShadowZone.hpp"
 
 class RopeSegment : public Animation
 {
@@ -172,6 +174,34 @@ const TintEntry stru_55FD68[18] =
     { 0u, 0u, 0u, 0u }
 };
 
+EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* /*pPoly*/, int /*minY*/, int /*maxY*/)
+{
+    NOT_IMPLEMENTED();
+
+    /*
+    __int16 y3 = pPoly->mVerts[2].mVert.y;
+    __int16 polyY =  pPoly->mBase.field_C.y;
+    int d1 = minY - polyY;
+    int polyHeight = y3 - polyY;
+    if (minY - polyY > 0 && d1 <= polyHeight)
+    {
+        pPoly->mVerts[0].mVert.y += d1;
+        pPoly->mUv.v += d1;
+        pPoly->mVerts[0].mUv.v += d1;
+        pPoly->mBase.field_C.y = d1 + polyY;
+    }
+
+    int d2 = y3 - maxY;
+    if (d2 > 0 && d2 <= polyHeight)
+    {
+        char v8 = pPoly->mVerts[2].mUv.v;
+        pPoly->mVerts[1].mVert.y -= d2;
+        pPoly->mVerts[2].mVert.y = y3 - d2;
+        pPoly->mVerts[1].mUv.v -= d2;
+        pPoly->mVerts[2].mUv.v = v8 - d2;
+    }*/
+}
+
 Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bottom, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
@@ -266,7 +296,93 @@ Rope* Rope::vdtor_4A0D80(signed int flags)
     return this;
 }
 
-EXPORT void Rope::vRender_4A0E30(int** /*pOt*/)
+EXPORT void Rope::vRender_4A0E30(int** pOt)
 {
     NOT_IMPLEMENTED();
+
+    PSX_Point camPos = {};
+    gMap_5C3030.GetCurrentCamCoords_480680(&camPos);
+    // In the current level/map?
+    if (field_C2_lvl_number == gMap_5C3030.sCurrentLevelId_5C3030 && field_C0_path_number == gMap_5C3030.sCurrentPathId_5C3032)
+    {
+        // In the current camera x range?
+        if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))
+        {
+            const FP camYPos = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+            const FP camXPos = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
+
+            __int16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
+            __int16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
+
+            __int16 ypos = FP_GetExponent(field_BC_ypos);
+            if (ypos > field_106_bottom)
+            {
+                ypos = field_106_bottom + ((ypos - field_106_bottom) % field_F6_rope_length);
+            }
+
+            short screenX = FP_GetExponent(field_B8_xpos - camXPos);
+            short screenY = FP_GetExponent(field_BC_ypos - camYPos);
+
+            if (screenY > 240)
+            {
+                screenY = (screenY % field_F6_rope_length) + 240;
+                ypos = FP_GetExponent(camYPos + (FP_FromInteger(screenY)));
+            }
+
+            if (minY < 0)
+            {
+                minY = 0;
+            }
+
+            if (maxY > 240)
+            {
+                maxY = 240;
+            }
+
+            field_20_animation.vRender_40B820(640, 240, pOt, 0, 0);
+
+            if (screenY >= minY)
+            {
+                for (int idx = 0; idx < field_F4_rope_segment_count; idx++)
+                {
+                    // Apply shadow to the segments colour
+                    short r = field_D0_r;
+                    short g = field_D2_g;
+                    short b = field_D4_b;
+
+                    ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                        FP_GetExponent(field_B8_xpos),
+                        ypos - (idx * field_F6_rope_length),
+                        field_D6_scale,
+                        &r,
+                        &g,
+                        &b);
+
+                    field_FC_pRopeRes[idx].field_8_r = static_cast<BYTE>(r);
+                    field_FC_pRopeRes[idx].field_9_g = static_cast<BYTE>(g);
+                    field_FC_pRopeRes[idx].field_A_b = static_cast<BYTE>(b);
+
+                    // Render the segment
+                    PSX_RECT rect = {};
+                    field_FC_pRopeRes[idx].vRender_40B820(screenX, screenY, pOt, 0, 0);
+                    field_FC_pRopeRes[idx].GetRenderedSize_40C980(&rect);
+                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                        rect.x,
+                        rect.y,
+                        rect.w,
+                        rect.h,
+                        pScreenManager_5BB5F4->field_3A_idx);
+
+                    ClipPoly_Vertically_4A09E0(&field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
+
+                    screenY -= field_F6_rope_length;
+
+                    if (screenY < minY)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
