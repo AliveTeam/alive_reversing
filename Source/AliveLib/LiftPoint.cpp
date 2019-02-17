@@ -7,6 +7,8 @@
 #include "Game.hpp"
 #include "ObjectIds.hpp"
 #include "Abe.hpp"
+#include "ShadowZone.hpp"
+#include "ScreenManager.hpp"
 
 struct LiftPointData
 {
@@ -315,6 +317,11 @@ BaseGameObject* LiftPoint::VDestructor(signed int flags)
     return vdtor_4619D0(flags);
 }
 
+void LiftPoint::VRender(int** pOrderingTable)
+{
+    vRender_462730(pOrderingTable);
+}
+
 void LiftPoint::VScreenChanged()
 {
     vScreenChanged_463020();
@@ -353,6 +360,124 @@ EXPORT void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, int /*not_used*/)
     if (FP_GetExponent(xSpeed) || FP_GetExponent(ySpeed))
     {
         field_12C |= 1u;
+    }
+}
+
+void LiftPoint::vRender_462730(int** pOt)
+{
+    // Renders the pulley, lift platform and lift platform wheel
+
+    // In the current level/map?
+    if (field_C2_lvl_number == gMap_5C3030.sCurrentLevelId_5C3030 &&
+        field_C0_path_number == gMap_5C3030.sCurrentPathId_5C3032)
+    {
+        // Within the current camera X bounds?
+        PSX_Point camPos = {};
+        gMap_5C3030.GetCurrentCamCoords_480680(&camPos);
+
+        if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 640))
+        {
+            short r = field_D0_r;
+            short g = field_D2_g;
+            short b = field_D4_b;
+
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                FP_GetExponent(field_B8_xpos),
+                (bRect.h + bRect.y) / 2,
+                field_D6_scale,
+                &r,
+                &g,
+                &b);
+
+            field_13C_pulleyAnim.field_8_r = static_cast<BYTE>(r);
+            field_13C_pulleyAnim.field_9_g = static_cast<BYTE>(g);
+            field_13C_pulleyAnim.field_A_b = static_cast<BYTE>(b);
+
+            if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent)
+            {
+                field_13C_pulleyAnim.vRender_40B820(
+                    FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
+                    FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
+                    pOt,
+                    0,
+                    0);
+
+                PSX_RECT frameRect = {};
+                field_13C_pulleyAnim.Get_Frame_Rect_409E10(&frameRect);
+                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    frameRect.x,
+                    frameRect.y,
+                    frameRect.w,
+                    frameRect.h,
+                    pScreenManager_5BB5F4->field_3A_idx);
+            }
+
+            if (field_280_flags.Get(LiftFlags::eBit4))
+            {
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    FP_FromInteger(field_26C),
+                    FP_FromInteger(field_26E),
+                    0))
+                {
+                    r = field_D0_r;
+                    g = field_D2_g;
+                    b = field_D4_b;
+
+                    ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                        field_26C,
+                        field_26E,
+                        field_D6_scale,
+                        &r,
+                        &g,
+                        &b);
+
+                    field_1D4_anim2.field_8_r = static_cast<BYTE>(r);
+                    field_1D4_anim2.field_9_g = static_cast<BYTE>(g);
+                    field_1D4_anim2.field_A_b = static_cast<BYTE>(b);
+
+                    field_1D4_anim2.vRender_40B820(
+                        FP_GetExponent(FP_FromInteger(field_26C) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                        FP_GetExponent(FP_FromInteger(field_26E) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                        pOt,
+                        0,
+                        0);
+
+                    PSX_RECT frameRect = {};
+                    field_1D4_anim2.Get_Frame_Rect_409E10(&frameRect);
+                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                        frameRect.x,
+                        frameRect.y,
+                        frameRect.w,
+                        frameRect.h,
+                        pScreenManager_5BB5F4->field_3A_idx);
+                }
+            }
+
+            BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+
+            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent)
+            {
+                field_13C_pulleyAnim.vRender_40B820(
+                    FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
+                    FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) *field_CC_sprite_scale)),
+                    pOt,
+                    0,
+                    0);
+
+                PSX_RECT frameRect = {};
+                field_13C_pulleyAnim.Get_Frame_Rect_409E10(&frameRect);
+                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    frameRect.x,
+                    frameRect.y,
+                    frameRect.w,
+                    frameRect.h,
+                    pScreenManager_5BB5F4->field_3A_idx);
+            }
+        }
     }
 }
 
