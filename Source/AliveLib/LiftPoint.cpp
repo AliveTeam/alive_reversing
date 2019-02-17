@@ -385,8 +385,6 @@ static void LoadLiftResourceBans(const char* pRopeBanName, const char* pLiftBanN
 
 int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
 {
-    NOT_IMPLEMENTED();
-
     const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
 
     Path_LiftPoint* pTlv = static_cast<Path_LiftPoint*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_C_tlvInfo));
@@ -446,58 +444,86 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
     pLiftPoint->field_BC_ypos = pState->field_8_ypos;
     pLiftPoint->SyncCollisionLinePosition_4974E0();
 
-    /*
     Rope* pRope2 = static_cast<Rope*>(sObjectIds_5C1B70.Find_449CF0(pLiftPoint->field_134_rope2_id));
     Rope* pRope1 = static_cast<Rope*>(sObjectIds_5C1B70.Find_449CF0(pLiftPoint->field_138_rope1_id));
 
-    pRope2->field_106_bottom = (signed int)((pLiftPoint->field_0_mBase.field_124_pCollisionLine->field_2_y1 << 16)
-        + Math_FixedPoint_Multiply_496C50(
-            1638400,
-            pLiftPoint->field_0_mBase.field_0_mBase.field_0_mBase.field_CC_sprite_scale))
-        / 0x10000;
-
-    pRope1->field_106_bottom = (signed int)((pLiftPoint->field_0_mBase.field_124_pCollisionLine->field_2_y1 << 16)
-        + Math_FixedPoint_Multiply_496C50(
-            1638400,
-            pLiftPoint->field_0_mBase.field_0_mBase.field_0_mBase.field_CC_sprite_scale))
-        / 0x10000;
-    */
+    pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->field_CC_sprite_scale));
+    pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->field_CC_sprite_scale));
 
     if (pLiftPoint->field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
     {
-        /*
-        pRope2->field_102_top = (signed int)(((unsigned __int16)v2->field_26E << 16)
-            + Math_FixedPoint_Multiply_496C50(
-                -1245184,
-                v2->field_0_mBase.field_0_mBase.field_0_mBase.field_CC_sprite_scale))
-            / 0x10000;
-        pRope1->field_102_top = (signed int)(((unsigned __int16)v2->field_26E << 16)
-            + Math_FixedPoint_Multiply_496C50(
-                -1245184,
-                v2->field_0_mBase.field_0_mBase.field_0_mBase.field_CC_sprite_scale))
-            / 0x10000;
-        */
+        pRope2->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->field_CC_sprite_scale);
+        pRope1->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->field_CC_sprite_scale);
     }
 
-    /*
-    v2->field_0_mBase.field_128_tlvInfo = pState->field_C_tlvInfo;
-    v2->field_27C_pTlv = pState->field_10_pTlv;
-    v2->field_270 = pState->field_14;
-    v2->field_130_state = pState->field_18;
-    v7 = v2->field_280_flags & ~1;
-    v2->field_12C ^= (LOBYTE(pState->field_1A) ^ (unsigned __int8)v2->field_12C) & 1;
-    v8 = v7 | (LOBYTE(pState->field_1A) >> 1) & 1;
-    v2->field_280_flags = v8;
-    v9 = v8 & ~2 | (LOBYTE(pState->field_1A) >> 1) & 2;
-    v2->field_280_flags = v9;
-    v10 = v9 & ~4 | (LOBYTE(pState->field_1A) >> 1) & 4;
-    v2->field_280_flags = v10;
-    v11 = v10 ^ (LOBYTE(pState->field_1A) ^ (unsigned __int8)v10) & 0x10;
-    v2->field_280_flags = v11;
-    v12 = v11 ^ (LOBYTE(pState->field_1A) ^ (unsigned __int8)v11) & 0x20;
-    v2->field_280_flags = v12;
-    v2->field_280_flags = v12 ^ (LOBYTE(pState->field_1A) ^ (unsigned __int8)v12) & 0x40;
-    */
+    pLiftPoint->field_128_tlvInfo = pState->field_C_tlvInfo;
+    pLiftPoint->field_27C_pTlv = pState->field_10_pTlv;
+    pLiftPoint->field_270_floorYLevel = pState->field_14;
+    pLiftPoint->field_130_lift_point_stop_type = pState->field_18;
+
+    if (pState->field_1A.Get(LiftPoint_State::eBit1))
+    {
+        pLiftPoint->field_12C_bMoving |= 1;
+    }
+    else
+    {
+        pLiftPoint->field_12C_bMoving &= ~1;
+    }
+
+    if (pState->field_1A.Get(LiftPoint_State::eBit2))
+    {
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
+    }
+    else
+    {
+        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
+    }
+
+    if (pState->field_1A.Get(LiftPoint_State::eBit3))
+    {
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
+    }
+    else
+    {
+        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit2_bMiddleFloor);
+    }
+
+    if (pState->field_1A.Get(LiftPoint_State::eBit4))
+    {
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
+    }
+    else
+    {
+        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit3_bBottomFloor);
+    }
+
+    if (pState->field_1A.Get(LiftPoint_State::eBit5))
+    {
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel);
+    }
+    else
+    {
+        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
+    }
+
+
+    if (pState->field_1A.Get(LiftPoint_State::eBit6))
+    {
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit6);
+    }
+    else
+    {
+        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit6);
+    }
+
+    if (pState->field_1A.Get(LiftPoint_State::eBit7))
+    {
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor);
+    }
+    else
+    {
+        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit7_KeepOnMiddleFloor);
+    }
 
     if (pState->field_10_pTlv == pState->field_C_tlvInfo)
     {
@@ -510,8 +536,8 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
         return sizeof(LiftPoint_State);
     }
 
-    //Path_TLV* v15 = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(v14);
-    //v15->field_1_unknown = 3;
+    Path_TLV* pTlv2 = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_10_pTlv);
+    pTlv2->field_1_unknown = 3;
     return sizeof(LiftPoint_State);
 }
 

@@ -9,7 +9,7 @@ public:
         mData.all ^= value;
     }
 
-    bool Get(EnumType value)
+    bool Get(EnumType value) const
     {
         return !!(mData.all & value);
     }
