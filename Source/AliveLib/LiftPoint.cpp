@@ -144,6 +144,30 @@ void PlatformBase::SyncCollisionLinePosition_4974E0()
     field_124_pCollisionLine->field_0_rect.h = FP_GetExponent(field_BC_ypos + FP_FromInteger(field_122));
 }
 
+void PlatformBase::vRemoveCount_4975E0(int /*not_used*/)
+{
+    --field_118_count;
+}
+
+EXPORT void PlatformBase::vAddCount_4975B0(int /*not_used*/)
+{
+    ++field_118_count;
+    if (field_124_pCollisionLine)
+    {
+        SyncCollisionLinePosition_4974E0();
+    }
+}
+
+PlatformBase* PlatformBase::vdtor_4974B0(signed int flags)
+{
+    dtor_4973E0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
 LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
 {
     ctor_408240(0);

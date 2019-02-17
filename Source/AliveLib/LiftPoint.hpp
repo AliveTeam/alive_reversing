@@ -6,12 +6,20 @@
 
 class PlatformBase : public BaseAliveGameObject
 {
+    // TODO: Virtuals
 protected:
     EXPORT void AddDynamicCollision_4971C0(int maxW, int maxH, unsigned __int16 frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* pMap, int tlvInfo);
 
     EXPORT void dtor_4973E0();
 
     EXPORT void SyncCollisionLinePosition_4974E0();
+
+    EXPORT void vRemoveCount_4975E0(int not_used);
+
+    EXPORT void vAddCount_4975B0(int not_used);
+
+    EXPORT PlatformBase* vdtor_4974B0(signed int flags);
+
 protected:
     __int16 field_116;
     int field_118_count;
@@ -59,6 +67,8 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+
+    // TODO: Virtuals
 
 private:
     EXPORT void vKeepOnMiddleFloor_461870();
