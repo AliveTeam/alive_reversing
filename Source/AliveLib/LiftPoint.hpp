@@ -61,17 +61,19 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    EXPORT void vsub_461870();
-    EXPORT BOOL vsub_461890();
-    EXPORT BOOL vsub_4618C0();
-    EXPORT BOOL vsub_4618F0();
-    EXPORT int vsub_4619B0();
+    EXPORT void vKeepOnMiddleFloor_461870();
+    EXPORT BOOL vOnTopFloor_461890();
+    EXPORT BOOL vOnMiddleFloor_4618C0();
+    EXPORT BOOL vOnBottomFloor_4618F0();
+    EXPORT BOOL vOnAnyFloor_461920();
+    EXPORT BOOL vOnAFloorLiftMoverCanUse_461960();
+    EXPORT BOOL vMovingToFloorLevel_4619B0();
     EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, int not_used);
     EXPORT void vRender_462730(int **pOt);
     EXPORT void vUpdate_461AE0();
     EXPORT void sub_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
-    EXPORT void vsub_461A00(__int16 arg0, Path_TLV* a2a);
+    EXPORT void vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv);
 
 private:
     EXPORT void CreatePulleyIfExists_462C80();
@@ -106,7 +108,7 @@ private:
         eBit4_bHasPulley = 0x8,
         eBit5_bMoveToFloorLevel = 0x10,
         eBit6 = 0x20,
-        eBit7 = 0x40,
+        eBit7_KeepOnMiddleFloor = 0x40,
         eBit8_bIgnoreLiftMover = 0x80,
     };
     BitField16<LiftFlags> field_280_flags;

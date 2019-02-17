@@ -309,7 +309,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
             break;
         }
 
-        field_280_flags.Clear(LiftFlags::eBit7);
+        field_280_flags.Clear(LiftFlags::eBit7_KeepOnMiddleFloor);
         field_280_flags.Set(LiftFlags::eBit6);
     }
     else
@@ -339,27 +339,38 @@ void LiftPoint::VScreenChanged()
     vScreenChanged_463020();
 }
 
-void LiftPoint::vsub_461870()
+void LiftPoint::vKeepOnMiddleFloor_461870()
 {
-    field_280_flags.Set(LiftFlags::eBit7);
+    field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor);
 }
 
-BOOL LiftPoint::vsub_461890()
+BOOL LiftPoint::vOnTopFloor_461890()
 {
     return field_280_flags.Get(LiftFlags::eBit1_bTopFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-BOOL LiftPoint::vsub_4618C0()
+BOOL LiftPoint::vOnMiddleFloor_4618C0()
 {
     return field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-BOOL LiftPoint::vsub_4618F0()
+BOOL LiftPoint::vOnBottomFloor_4618F0()
 {
     return field_280_flags.Get(LiftFlags::eBit3_bBottomFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-int LiftPoint::vsub_4619B0()
+BOOL LiftPoint::vOnAnyFloor_461920()
+{
+    return vOnBottomFloor_4618F0() || vOnTopFloor_461890() || vOnMiddleFloor_4618C0();
+}
+
+BOOL LiftPoint::vOnAFloorLiftMoverCanUse_461960()
+{
+    // Top or bottom floor can still be activated by the lift mover?
+    return (vOnMiddleFloor_4618C0() && field_280_flags.Get(LiftFlags::eBit8_bIgnoreLiftMover)) || vOnTopFloor_461890() || vOnBottomFloor_4618F0();
+}
+
+BOOL LiftPoint::vMovingToFloorLevel_4619B0()
 {
     return field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel);
 }
@@ -630,7 +641,7 @@ void LiftPoint::vUpdate_461AE0()
                 }
                 else if (field_C8_vely + lineY <= FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y))
                 {
-                    vsub_461A00(field_280_flags.Get(LiftFlags::eBit1_bTopFloor), pLiftTlv);
+                    vStayOnFloor_461A00(field_280_flags.Get(LiftFlags::eBit1_bTopFloor), pLiftTlv);
                     field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
                 }
                 break;
@@ -660,7 +671,7 @@ void LiftPoint::vUpdate_461AE0()
                 }
                 else if (lineY + field_C8_vely >= FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y))
                 {
-                    vsub_461A00(field_280_flags.Get(LiftFlags::eBit3_bBottomFloor), pLiftTlv);
+                    vStayOnFloor_461A00(field_280_flags.Get(LiftFlags::eBit3_bBottomFloor), pLiftTlv);
                     field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
                 }
                 break;
@@ -673,10 +684,10 @@ void LiftPoint::vUpdate_461AE0()
                 }
                 else
                 {
-                    if (field_280_flags.Get(LiftFlags::eBit7))
+                    if (field_280_flags.Get(LiftFlags::eBit7_KeepOnMiddleFloor))
                     {
-                        vsub_461A00(field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor), pLiftTlv);
-                        field_280_flags.Clear(LiftFlags::eBit7);
+                        vStayOnFloor_461A00(field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor), pLiftTlv);
+                        field_280_flags.Clear(LiftFlags::eBit7_KeepOnMiddleFloor);
                     }
 
                     if (field_C8_vely == FP_FromInteger(0))
@@ -791,9 +802,23 @@ void CCSTD LiftPoint::sub_461000(Path_TLV* pTlv)
     pTlv->field_1_unknown |= 1;
 }
 
-void LiftPoint::vsub_461A00(__int16 /*arg0*/, Path_TLV* /*a2a*/)
+void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
 {
-    NOT_IMPLEMENTED();
+    if (!floor)
+    {
+        field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -field_120);
+        SFX_Play_46FA90(0x1Eu, 0, 0x10000);
+        SFX_Play_46FBA0(0x1Eu, 80, -2000, 0x10000);
+    }
+
+    field_12C_bMoving &= ~1;
+    pTlv->field_1_unknown = 3;
+    field_27C_pTlv = sPath_dword_BB47C0->sub_4DB7C0(pTlv);
+    pTlv->field_10_id = field_278_lift_point_id;
+    field_C8_vely = FP_FromInteger(0);
+
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 }
 
 void LiftPoint::CreatePulleyIfExists_462C80()
