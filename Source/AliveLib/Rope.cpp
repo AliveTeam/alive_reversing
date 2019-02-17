@@ -20,7 +20,7 @@ public:
         vRender_40C690(xpos, ypos, pOt, width, height);
     }
 
-    virtual signed __int16 vCleanUp_40C630() override
+    virtual void vCleanUp_40C630() override
     {
         vCleanUp_40C9C0();
     }
@@ -248,10 +248,10 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
     field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(RopeSegment));
     field_FC_pRopeRes = reinterpret_cast<RopeSegment*>(*field_F8_ppRopeRes);
 
-
     for (int i = 0; i < field_F4_rope_segment_count; i++)
     {
         RopeSegment* pSegment = &field_FC_pRopeRes[i];
+        pSegment = new (pSegment) RopeSegment(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
         SetVTable(pSegment, 0x5447CC); // vTbl_RopeSegment_5447CC
         pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
         pSegment->field_68_anim_ptr = &field_20_animation;

@@ -340,11 +340,11 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
     OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
 }
 
-signed __int16 AnimationEx::vCleanUp_40C630()
+void AnimationEx::vCleanUp_40C630()
 {
     gObjList_animations_5C1A24->Remove_Item(this);
     Animation_Pal_Free_40C4C0();
-    return ResourceManager::FreeResource_49C330(field_24_dbuf);
+    ResourceManager::FreeResource_49C330(field_24_dbuf);
 }
 
 void AnimationEx::vDecode2_40B200()

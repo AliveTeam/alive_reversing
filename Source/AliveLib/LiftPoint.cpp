@@ -63,9 +63,56 @@ const TintEntry sLiftTints_55BF50[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-void PlatformBase::AddDynamicCollision_4971C0(int /*maxW*/, int /*maxH*/, unsigned __int16 /*frameTableOffset*/, BYTE** /*ppAnimData*/, Path_TLV* /*pTlv*/, Map* /*pMap*/, int /*tlvInfo*/)
+void PlatformBase::AddDynamicCollision_4971C0(int maxW, int maxH, unsigned __int16 frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* /*pMap*/, int tlvInfo)
 {
-    NOT_IMPLEMENTED();
+    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    
+    field_128_tlvInfo = tlvInfo;
+
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+
+    field_118_count = 0;
+    Animation_Init_424E10(
+        maxW,
+        maxH,
+        frameTableOffset,
+        ppAnimData,
+        1,
+        1);
+
+    if (field_CC_sprite_scale == FP_FromInteger(1))
+    {
+        field_20_animation.field_C_render_layer = 25;
+        field_D6_scale = 1;
+    }
+    else
+    {
+        field_20_animation.field_C_render_layer = 6;
+        field_D6_scale = 0;
+    }
+
+    FrameInfoHeader* pFrameHeader = field_20_animation.Get_FrameHeader_40B730(0);
+    field_BC_ypos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_CC_sprite_scale);
+    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+
+    field_124_pCollisionLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line_417FA0(
+        pTlv->field_8_top_left.field_0_x,
+        pTlv->field_8_top_left.field_2_y,
+        pTlv->field_C_bottom_right.field_0_x,
+        pTlv->field_8_top_left.field_2_y,
+        32);
+
+    field_11C = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - field_B8_xpos);
+    field_11E = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - field_B8_xpos);
+    field_120 = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - field_BC_ypos);
+    field_122 = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - field_BC_ypos);
+
+    if (!ObjList_5C1B78->Push_Back(this))
+    {
+        field_6_flags.Set(Options::eListAddFailed);
+    }
 }
 
 void PlatformBase::dtor_4973E0()
