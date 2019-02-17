@@ -44,6 +44,11 @@ struct Path_LiftPoint : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
 
+struct Path_Pulley : public Path_TLV
+{
+    constexpr static auto kType = 21;
+};
+
 class LiftPoint : public PlatformBase
 {
 public:
@@ -63,7 +68,7 @@ private:
     EXPORT void vRender_462730(int **pOt);
 
 private:
-    EXPORT void sub_462C80();
+    EXPORT void CreatePulleyIfExists_462C80();
     EXPORT void vScreenChanged_463020();
     EXPORT LiftPoint* vdtor_4619D0(signed int flags);
     EXPORT void dtor_4624E0();
@@ -75,10 +80,10 @@ private:
     __int16 field_132;
     int field_134_rope2_id;
     int field_138_rope1_id;
-    AnimationEx field_13C_pulleyAnim;
-    AnimationEx field_1D4_anim2;
-    __int16 field_26C;
-    __int16 field_26E;
+    AnimationEx field_13C_lift_wheel;
+    AnimationEx field_1D4_pulley_anim;
+    __int16 field_26C_pulley_xpos;
+    __int16 field_26E_pulley_ypos;
     int field_270;
     BYTE** field_274_ppRes;
 public:
@@ -92,7 +97,7 @@ private:
         eBit1_bTopFloor = 0x1,
         eBit2_bMiddleFloor = 0x2,
         eBit3_bBottomFloor = 0x4,
-        eBit4 = 0x8,
+        eBit4_bHasPulley = 0x8,
         eBit5 = 0x10,
         eBit6 = 0x20,
         eBit7 = 0x40,
