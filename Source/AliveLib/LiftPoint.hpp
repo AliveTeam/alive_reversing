@@ -49,8 +49,15 @@ class LiftPoint : public PlatformBase
 public:
     EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, int tlvInfo);
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    virtual void VScreenChanged() override;
 private:
     EXPORT void sub_462C80();
+
+    EXPORT void vScreenChanged_463020();
+
+    EXPORT LiftPoint* vdtor_4619D0(signed int flags);
 
     EXPORT void dtor_4624E0();
 private:

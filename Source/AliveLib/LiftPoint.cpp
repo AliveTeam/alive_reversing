@@ -6,6 +6,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "ObjectIds.hpp"
+#include "Abe.hpp"
 
 struct LiftPointData
 {
@@ -309,9 +310,55 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     return this;
 }
 
+BaseGameObject* LiftPoint::VDestructor(signed int flags)
+{
+    return vdtor_4619D0(flags);
+}
+
+void LiftPoint::VScreenChanged()
+{
+    vScreenChanged_463020();
+}
+
 void LiftPoint::sub_462C80()
 {
     NOT_IMPLEMENTED();
+}
+
+void LiftPoint::vScreenChanged_463020()
+{
+    if (sActiveHero_5C1B68)
+    {
+        FP xd = FP_Abs(field_B8_xpos - sActiveHero_5C1B68->field_B8_xpos);
+        if (xd <= FP_FromInteger(375))
+        {
+            if (field_274_ppRes == nullptr)
+            {
+                field_274_ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, TRUE, FALSE);
+            }
+        }
+        else
+        {
+            ResourceManager::FreeResource_49C330(field_274_ppRes);
+            field_274_ppRes = nullptr;
+        }
+    }
+
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
+        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
+
+LiftPoint* LiftPoint::vdtor_4619D0(signed int flags)
+{
+    dtor_4624E0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
 }
 
 void LiftPoint::dtor_4624E0()
