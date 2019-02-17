@@ -71,7 +71,7 @@ private:
     EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, int not_used);
     EXPORT void vRender_462730(int **pOt);
     EXPORT void vUpdate_461AE0();
-    EXPORT void sub_497600(FP xVelocity);
+    EXPORT void MoveObjectsOnLift_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
     EXPORT void vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv);
 

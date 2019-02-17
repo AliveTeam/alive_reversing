@@ -727,7 +727,7 @@ void LiftPoint::vUpdate_461AE0()
             sub_4974E0();
         }
 
-        sub_497600(field_C4_velx);
+        MoveObjectsOnLift_497600(field_C4_velx);
     }
     
     Rope* pRope2 = static_cast<Rope*>(sObjectIds_5C1B70.Find_449CF0(field_134_rope2_id));
@@ -791,9 +791,41 @@ void LiftPoint::vUpdate_461AE0()
     }
 }
 
-void LiftPoint::sub_497600(FP /*xVelocity*/)
+void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
 {
-    NOT_IMPLEMENTED();
+    for (int i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        BaseGameObject* pThingBeingUsedByObject = sObjectIds_5C1B70.Find_449CF0(pObj->field_110_id);
+        if (pThingBeingUsedByObject == this)
+        {
+            if (pObj == sControlledCharacter_5C1B8C)
+            {
+                const FP oldVelY = pObj->field_C8_vely;
+                pObj->field_C8_vely = field_C8_vely;
+                pObj->sub_408C40();
+                pObj->field_C8_vely = oldVelY;
+            }
+
+            pObj->field_B8_xpos += xVelocity;
+            pObj->field_BC_ypos = FP_FromInteger(field_124_pCollisionLine->field_0_rect.y);
+
+            
+            if (!pObj->field_6_flags.Get(BaseGameObject::eInteractive))
+            {
+                pObj->field_E4 = pObj->field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                pObj->field_EC = pObj->field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                pObj->field_F0_prev_base = pObj->field_BC_ypos;
+                pObj->field_E8 = pObj->field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+        }
+    }
+
 }
 
 void CCSTD LiftPoint::sub_461000(Path_TLV* pTlv)

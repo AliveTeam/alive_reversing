@@ -60,6 +60,7 @@ protected:
     EXPORT BaseGameObject* vsub_408FD0(__int16 a2);
     EXPORT BaseGameObject* vnull_4081F0();
     EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, LevelIds level_id, int resourceID);
+public:
     EXPORT void sub_408C40();
 public:
     EXPORT __int16 MapFollowMe_408D10(__int16 snapToGrid);
