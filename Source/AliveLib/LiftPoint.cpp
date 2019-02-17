@@ -320,6 +320,42 @@ void LiftPoint::VScreenChanged()
     vScreenChanged_463020();
 }
 
+void LiftPoint::vsub_461870()
+{
+    field_280_flags.Set(LiftFlags::eBit7);
+}
+
+BOOL LiftPoint::vsub_461890()
+{
+    return field_280_flags.Get(LiftFlags::eBit1_bTopFloor) && !(field_280_flags.Get(LiftFlags::eBit5));
+}
+
+BOOL LiftPoint::vsub_4618C0()
+{
+    return field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor) && !(field_280_flags.Get(LiftFlags::eBit5));
+}
+
+BOOL LiftPoint::vsub_4618F0()
+{
+    return field_280_flags.Get(LiftFlags::eBit3_bBottomFloor) && !(field_280_flags.Get(LiftFlags::eBit5));
+}
+
+int LiftPoint::vsub_4619B0()
+{
+    return field_280_flags.Get(LiftFlags::eBit5);
+}
+
+EXPORT void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, int /*not_used*/)
+{
+    field_C4_velx = xSpeed * field_CC_sprite_scale;
+    field_C8_vely = ySpeed * field_CC_sprite_scale;
+
+    if (FP_GetExponent(xSpeed) || FP_GetExponent(ySpeed))
+    {
+        field_12C |= 1u;
+    }
+}
+
 void LiftPoint::sub_462C80()
 {
     NOT_IMPLEMENTED();

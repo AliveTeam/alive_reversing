@@ -50,16 +50,22 @@ public:
     EXPORT LiftPoint* ctor_461030(Path_LiftPoint* pTlv, int tlvInfo);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
-
     virtual void VScreenChanged() override;
+
+private:
+    EXPORT void vsub_461870();
+    EXPORT BOOL vsub_461890();
+    EXPORT BOOL vsub_4618C0();
+    EXPORT BOOL vsub_4618F0();
+    EXPORT int vsub_4619B0();
+    EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, int not_used);
+
 private:
     EXPORT void sub_462C80();
-
     EXPORT void vScreenChanged_463020();
-
     EXPORT LiftPoint* vdtor_4619D0(signed int flags);
-
     EXPORT void dtor_4624E0();
+
 private:
     __int16 field_12C;
     __int16 field_12E;
