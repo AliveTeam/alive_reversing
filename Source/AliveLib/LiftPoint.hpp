@@ -71,6 +71,7 @@ private:
     EXPORT void vUpdate_461AE0();
     EXPORT void sub_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
+    EXPORT void vsub_461A00(__int16 arg0, Path_TLV* a2a);
 
 private:
     EXPORT void CreatePulleyIfExists_462C80();
@@ -79,7 +80,7 @@ private:
     EXPORT void dtor_4624E0();
 
 private:
-    __int16 field_12C;
+    __int16 field_12C_bMoving;
     __int16 field_12E;
     LiftPointStopType field_130_lift_point_stop_type;
     __int16 field_132;
@@ -89,7 +90,7 @@ private:
     AnimationEx field_1D4_pulley_anim;
     __int16 field_26C_pulley_xpos;
     __int16 field_26E_pulley_ypos;
-    FP field_270;
+    FP field_270_floorYLevel;
     BYTE** field_274_ppRes;
 public:
     char field_278_lift_point_id;
@@ -103,7 +104,7 @@ private:
         eBit2_bMiddleFloor = 0x2,
         eBit3_bBottomFloor = 0x4,
         eBit4_bHasPulley = 0x8,
-        eBit5 = 0x10,
+        eBit5_bMoveToFloorLevel = 0x10,
         eBit6 = 0x20,
         eBit7 = 0x40,
         eBit8_bIgnoreLiftMover = 0x80,
