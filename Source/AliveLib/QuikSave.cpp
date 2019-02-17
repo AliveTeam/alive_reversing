@@ -15,6 +15,7 @@
 #include "Grinder.hpp"
 #include "ScreenManager.hpp"
 #include "Io.hpp"
+#include "LiftPoint.hpp"
 
 EXPORT int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
@@ -31,7 +32,6 @@ EXPORT int CC Greeter__CreateFromSaveState_446040(const BYTE*) { NOT_IMPLEMENTED
 EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { NOT_IMPLEMENTED(); return 144; }
 EXPORT int CC SligSpawner__CreateFromSaveState_409B10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
-EXPORT int CC LiftPoint__CreateFromSaveState_4630F0(const BYTE*) { NOT_IMPLEMENTED(); return 28; }
 EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
 EXPORT int CC CreateFromSaveState_46A9E0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC MineCar__CreateFromSaveState_467740(const BYTE*) { NOT_IMPLEMENTED(); return 104; }
@@ -133,7 +133,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &LiftPoint__CreateFromSaveState_4630F0,
+    &LiftPoint::CreateFromSaveState_4630F0,
     nullptr,
     nullptr,
     &Mudokon__CreateFromSaveState_4717C0,

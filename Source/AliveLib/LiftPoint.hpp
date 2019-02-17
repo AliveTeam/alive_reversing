@@ -58,6 +58,31 @@ struct Path_Pulley : public Path_TLV
     constexpr static auto kType = 21;
 };
 
+struct LiftPoint_State
+{
+    BaseGameObject::Types field_0;
+    __int16 field_2;
+    FP field_4_xpos;
+    FP field_8_ypos;
+    int field_C_tlvInfo;
+    int field_10_pTlv;
+    FP field_14;
+    LiftPointStopType field_18;
+    enum Flags
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+        eBit6 = 0x20,
+        eBit7 = 0x40,
+        eBit8 = 0x80,
+    };
+    BitField16<Flags> field_1A;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
+
 class LiftPoint : public PlatformBase
 {
 public:
@@ -67,8 +92,9 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
-    // TODO: Virtuals
+    EXPORT static int CC CreateFromSaveState_4630F0(const BYTE* pData);
 
 private:
     EXPORT void vKeepOnMiddleFloor_461870();
@@ -84,6 +110,7 @@ private:
     EXPORT void MoveObjectsOnLift_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
     EXPORT void vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv);
+    EXPORT signed int vGetSaveState_4637D0(LiftPoint_State *pState);
 
 private:
     EXPORT void CreatePulleyIfExists_462C80();
