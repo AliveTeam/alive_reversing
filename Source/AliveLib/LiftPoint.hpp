@@ -11,7 +11,7 @@ protected:
 
     EXPORT void dtor_4973E0();
 
-    EXPORT void sub_4974E0();
+    EXPORT void SyncCollisionLinePosition_4974E0();
 protected:
     __int16 field_116;
     int field_118_count;

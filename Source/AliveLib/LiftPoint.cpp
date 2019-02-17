@@ -136,9 +136,12 @@ void PlatformBase::dtor_4973E0()
     dtor_4080B0();
 }
 
-void PlatformBase::sub_4974E0()
+void PlatformBase::SyncCollisionLinePosition_4974E0()
 {
-    NOT_IMPLEMENTED();
+    field_124_pCollisionLine->field_0_rect.x = FP_GetExponent(FP_FromInteger(field_11C) + field_B8_xpos);
+    field_124_pCollisionLine->field_0_rect.w = FP_GetExponent(FP_FromInteger(field_11E) + field_B8_xpos);
+    field_124_pCollisionLine->field_0_rect.y = FP_GetExponent(field_BC_ypos + FP_FromInteger(field_120));
+    field_124_pCollisionLine->field_0_rect.h = FP_GetExponent(field_BC_ypos + FP_FromInteger(field_122));
 }
 
 LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
@@ -724,7 +727,7 @@ void LiftPoint::vUpdate_461AE0()
 
         if (field_124_pCollisionLine)
         {
-            sub_4974E0();
+            SyncCollisionLinePosition_4974E0();
         }
 
         MoveObjectsOnLift_497600(field_C4_velx);
