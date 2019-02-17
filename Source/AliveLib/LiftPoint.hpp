@@ -11,6 +11,7 @@ protected:
 
     EXPORT void dtor_4973E0();
 
+    EXPORT void sub_4974E0();
 protected:
     __int16 field_116;
     int field_118_count;
@@ -56,6 +57,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VRender(int** pOrderingTable) override;
+    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
@@ -66,6 +68,9 @@ private:
     EXPORT int vsub_4619B0();
     EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, int not_used);
     EXPORT void vRender_462730(int **pOt);
+    EXPORT void vUpdate_461AE0();
+    EXPORT void sub_497600(FP xVelocity);
+    EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);
 
 private:
     EXPORT void CreatePulleyIfExists_462C80();
@@ -84,14 +89,14 @@ private:
     AnimationEx field_1D4_pulley_anim;
     __int16 field_26C_pulley_xpos;
     __int16 field_26E_pulley_ypos;
-    int field_270;
+    FP field_270;
     BYTE** field_274_ppRes;
 public:
     char field_278_lift_point_id;
 private:
     char field_279;
     __int16 field_27A;
-    Path_TLV* field_27C_pTlv;
+    int field_27C_pTlv;
     enum LiftFlags
     {
         eBit1_bTopFloor = 0x1,
@@ -101,6 +106,7 @@ private:
         eBit5 = 0x10,
         eBit6 = 0x20,
         eBit7 = 0x40,
+        eBit8_bIgnoreLiftMover = 0x80,
     };
     BitField16<LiftFlags> field_280_flags;
     __int16 field_282;
