@@ -68,7 +68,7 @@ public:
 
     EXPORT static int CC CreateFromSaveState_4630F0(const BYTE* pData);
 
-private:
+public:
     EXPORT void vKeepOnMiddleFloor_461870();
     EXPORT BOOL vOnTopFloor_461890();
     EXPORT BOOL vOnMiddleFloor_4618C0();
@@ -76,10 +76,10 @@ private:
     EXPORT BOOL vOnAnyFloor_461920();
     EXPORT BOOL vOnAFloorLiftMoverCanUse_461960();
     EXPORT BOOL vMovingToFloorLevel_4619B0();
-public:
+
     EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, int not_used);
 private:
-    EXPORT void vRender_462730(int **pOt);
+    EXPORT void vRender_462730(int** pOt);
     EXPORT void vUpdate_461AE0();
     EXPORT void MoveObjectsOnLift_497600(FP xVelocity);
     EXPORT static void CCSTD sub_461000(Path_TLV* pTlv);

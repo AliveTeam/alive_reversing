@@ -48,7 +48,7 @@ public:
     virtual signed __int16 VOn_TLV_Collision_4087F0(Path_TLV* pTlv);
     virtual char Vsub_408A40(__int16 a2);
     virtual BaseGameObject* Vsub_408FD0(__int16 a2);
-    virtual BaseGameObject* Vnull_4081F0();
+    virtual void Vnull_4081F0();
   
 protected:
     EXPORT int vnull_408F90();
@@ -59,7 +59,7 @@ protected:
     EXPORT signed __int16 vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
     EXPORT char vsub_408A40(__int16 a2);
     EXPORT BaseGameObject* vsub_408FD0(__int16 a2);
-    EXPORT BaseGameObject* vnull_4081F0();
+    EXPORT void vnull_4081F0();
     EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, LevelIds level_id, int resourceID);
 public:
     EXPORT void sub_408C40();

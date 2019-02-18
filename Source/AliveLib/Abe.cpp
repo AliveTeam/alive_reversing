@@ -1448,9 +1448,9 @@ BaseGameObject* Abe::Vsub_408FD0(__int16 a2)
     return vsub_44E970(a2);
 }
 
-BaseGameObject* Abe::Vnull_4081F0()
+void Abe::Vnull_4081F0()
 {
-    return vsub_45A570();
+    vsub_45A570();
 }
 
 BaseGameObject* Abe::vdtor_44B350(signed int flags)
@@ -1922,10 +1922,28 @@ BaseGameObject* Abe::vsub_44E970(__int16 /*a2*/)
     return nullptr;
 }
 
-BaseGameObject* Abe::vsub_45A570()
+void Abe::vsub_45A570()
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+    if (pPlatform)
+    {
+        if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)))
+        {
+            VUpdateState_4081C0(eAbeStates::State_93_FallLedgeBegin_455970);
+        }
+
+        pPlatform->VRemove(this);
+
+        field_110_id = -1;
+        field_F8 = field_BC_ypos;
+
+        if (pWheel)
+        {
+            pWheel->VStopTurning(FALSE);
+        }
+    }
 }
 
 void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
@@ -8054,7 +8072,38 @@ void Abe::State_122_LiftGrabEnd_45A670()
 
 void Abe::State_123_LiftGrabIdle_45A6A0()
 {
-    NOT_IMPLEMENTED();
+    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+
+    FollowLift_45A500();
+
+    if (pLiftPoint)
+    {
+        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+    }
+
+    field_C8_vely = FP_FromInteger(0);
+
+    const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    if (sInputKey_Up_5550D8 & pressed)
+    {
+        if (!pLiftPoint->vOnTopFloor_461890())
+        {
+            field_106_current_state = eAbeStates::State_124_LiftUseUp_45A780;
+        }
+    }
+    else if (pressed & sInputKey_Down_5550DC)
+    {
+        if (!pLiftPoint->vOnBottomFloor_4618F0())
+        {
+            field_106_current_state = eAbeStates::State_125_LiftUseDown_45A7B0;
+        }
+    }
+    else if (pLiftPoint->vOnAnyFloor_461920())
+    {
+        // You ain't letting go unless you are on a floor where you can walk off..
+        field_106_current_state = eAbeStates::State_122_LiftGrabEnd_45A670;
+    }
+
 }
 
 void Abe::State_124_LiftUseUp_45A780()
@@ -9217,6 +9266,21 @@ void Abe::Calc_Well_Velocity_45C530(short x1, short y1, short x2, short y2)
     else
     {
         field_C4_velx = FP_FromDouble(2.796) * field_CC_sprite_scale;
+    }
+}
+
+void Abe::FollowLift_45A500()
+{
+    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pLift)
+    {
+        field_C8_vely = pLift->field_C8_vely;
+        if (pLift->field_6_flags.Get(BaseGameObject::eDead))
+        {
+            Vnull_4081F0();
+            field_1AC_flags.Set(Flags_1AC::e1AC_Bit1);
+        }
+        sub_408C40();
     }
 }
 
