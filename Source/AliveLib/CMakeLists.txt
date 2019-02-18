@@ -223,6 +223,8 @@ add_library(AliveLib
     Types.hpp
     Rope.hpp
     Rope.cpp
+    PlatformBase.hpp
+    PlatformBase.cpp
     LiftPoint.cpp
     LiftPoint.hpp
     Slurg.cpp

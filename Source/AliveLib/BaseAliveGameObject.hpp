@@ -10,6 +10,7 @@ EXPORT int CC SnapToXGrid_449930(FP scale, int x);
 
 struct Path_TLV;
 struct PathLine;
+class PlatformBase;
 
 enum Flags_114
 {
@@ -69,7 +70,7 @@ protected:
     EXPORT __int16 InAirCollision_408810(PathLine **ppPathLine, FP* hitX, FP* hitY, FP velY);
     EXPORT BaseGameObject* FindObjectOfType_425180(Types typeToFind, FP xpos, FP ypos);
 public:
-    EXPORT __int16 OnTrapDoorIntersection_408BA0(BaseAliveGameObject* pOther);
+    EXPORT __int16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
 public:
     FP field_E4;
     FP field_E8;

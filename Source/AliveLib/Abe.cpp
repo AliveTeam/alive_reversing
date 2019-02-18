@@ -39,6 +39,7 @@
 #include "Particle.hpp"
 #include "Switch.hpp"
 #include "Throwable.hpp"
+#include "LiftPoint.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -8032,7 +8033,18 @@ void Abe::State_120_45AB00()
 
 void Abe::State_121_LiftGrabBegin_45A600()
 {
-    NOT_IMPLEMENTED();
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pLiftPoint)
+    {
+        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+    }
+
+    field_C8_vely = FP_FromInteger(0);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_state = eAbeStates::State_123_LiftGrabIdle_45A6A0;
+    }
 }
 
 void Abe::State_122_LiftGrabEnd_45A670()

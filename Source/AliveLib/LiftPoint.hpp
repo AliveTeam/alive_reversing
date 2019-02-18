@@ -1,36 +1,8 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "PlatformBase.hpp"
 #include "Path.hpp"
-
-class PlatformBase : public BaseAliveGameObject
-{
-    // TODO: Virtuals
-protected:
-    EXPORT void AddDynamicCollision_4971C0(int maxW, int maxH, unsigned __int16 frameTableOffset, BYTE** ppAnimData, Path_TLV* pTlv, Map* pMap, int tlvInfo);
-
-    EXPORT void dtor_4973E0();
-
-    EXPORT void SyncCollisionLinePosition_4974E0();
-
-    EXPORT void vRemoveCount_4975E0(int not_used);
-
-    EXPORT void vAddCount_4975B0(int not_used);
-
-    EXPORT PlatformBase* vdtor_4974B0(signed int flags);
-
-protected:
-    __int16 field_116;
-    int field_118_count;
-    __int16 field_11C;
-    __int16 field_11E;
-    __int16 field_120;
-    __int16 field_122;
-    PathLine* field_124_pCollisionLine;
-    int field_128_tlvInfo;
-};
-ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);
 
 enum class LiftPointStopType : __int16
 {
@@ -104,7 +76,9 @@ private:
     EXPORT BOOL vOnAnyFloor_461920();
     EXPORT BOOL vOnAFloorLiftMoverCanUse_461960();
     EXPORT BOOL vMovingToFloorLevel_4619B0();
+public:
     EXPORT void vMove_4626A0(FP xSpeed, FP ySpeed, int not_used);
+private:
     EXPORT void vRender_462730(int **pOt);
     EXPORT void vUpdate_461AE0();
     EXPORT void MoveObjectsOnLift_497600(FP xVelocity);

@@ -10,6 +10,7 @@
 #include "Abe.hpp"
 #include "Collisions.hpp"
 #include "PathData.hpp"
+#include "PlatformBase.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
@@ -431,8 +432,20 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_425180(Types typeToFind, F
     return nullptr;
 }
 
-__int16 BaseAliveGameObject::OnTrapDoorIntersection_408BA0(BaseAliveGameObject* /*pOther*/)
+__int16 BaseAliveGameObject::OnTrapDoorIntersection_408BA0(PlatformBase* pPlatform)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    PSX_RECT bRect = {};
+    pPlatform->vGetBoundingRect_424FD0(&bRect, 1);
+
+    if (FP_GetExponent(field_B8_xpos) < bRect.x ||
+        FP_GetExponent(field_B8_xpos) > bRect.w ||
+        FP_GetExponent(field_BC_ypos) > bRect.h)
+    {
+        return 1;
+    }
+
+    pPlatform->VAdd(this);
+
+    field_110_id = pPlatform->field_8_object_id;
+    return 1;
 }
