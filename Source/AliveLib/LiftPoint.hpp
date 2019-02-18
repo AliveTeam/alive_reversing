@@ -92,8 +92,9 @@ private:
     EXPORT LiftPoint* vdtor_4619D0(signed int flags);
     EXPORT void dtor_4624E0();
 
-private:
+public:
     __int16 field_12C_bMoving;
+private:
     __int16 field_12E;
     LiftPointStopType field_130_lift_point_stop_type;
     __int16 field_132;

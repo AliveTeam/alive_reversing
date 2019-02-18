@@ -36,7 +36,9 @@ private:
     __int16 field_122;
     PathLine* field_124_pTrapDoorLine;
     int field_128_pTlv;
+public:
     __int16 field_12C;
+private:
     __int16 field_12E;
     int field_130;
     __int16 field_134_switch_idx;

@@ -237,6 +237,10 @@ public:
     EXPORT void IntoPortalStates_451990();
     EXPORT void Calc_Well_Velocity_45C530(short x1, short y1, short x2, short y2);
     EXPORT void FollowLift_45A500();
+
+    EXPORT short MoveLiftUpOrDown_45A7E0(FP yVelocity);
+
+
 public:
     __int16 field_116;
     int field_118_prev_held;

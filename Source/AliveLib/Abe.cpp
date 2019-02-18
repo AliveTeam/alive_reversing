@@ -8067,7 +8067,11 @@ void Abe::State_121_LiftGrabBegin_45A600()
 
 void Abe::State_122_LiftGrabEnd_45A670()
 {
-    NOT_IMPLEMENTED();
+    field_C8_vely = FP_FromInteger(0);
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_123_LiftGrabIdle_45A6A0()
@@ -8108,12 +8112,12 @@ void Abe::State_123_LiftGrabIdle_45A6A0()
 
 void Abe::State_124_LiftUseUp_45A780()
 {
-    NOT_IMPLEMENTED();
+    field_106_current_state = MoveLiftUpOrDown_45A7E0(FP_FromInteger(-4));
 }
 
 void Abe::State_125_LiftUseDown_45A7B0()
 {
-    NOT_IMPLEMENTED();
+    field_106_current_state = MoveLiftUpOrDown_45A7E0(FP_FromInteger(4));
 }
 
 void Abe::State_126_TurnWheelBegin_456700()
@@ -9282,6 +9286,73 @@ void Abe::FollowLift_45A500()
         }
         sub_408C40();
     }
+}
+
+short Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
+{
+    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (!pLiftPoint)
+    {
+        return eAbeStates::State_123_LiftGrabIdle_45A6A0;
+    }
+
+    pLiftPoint->vMove_4626A0(FP_FromInteger(0), yVelocity, 0);
+    FollowLift_45A500();
+
+    if (sControlledCharacter_5C1B8C == this && 
+        !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)) && 
+        field_20_animation.field_92_current_frame != 5)
+    {
+        return field_106_current_state;
+    }
+
+    if (yVelocity >= FP_FromInteger(0))
+    {
+        if (yVelocity > FP_FromInteger(0))
+        {
+            if (pLiftPoint->vOnBottomFloor_4618F0())
+            {
+                return eAbeStates::State_123_LiftGrabIdle_45A6A0;
+            }
+
+            const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+            if (sInputKey_Down_5550DC & pressed)
+            {
+                return eAbeStates::State_125_LiftUseDown_45A7B0;
+            }
+
+            if (pressed & sInputKey_Up_5550D8)
+            {
+                return eAbeStates::State_124_LiftUseUp_45A780;
+            }
+        }
+    }
+    else
+    {
+        if (pLiftPoint->vOnTopFloor_461890())
+        {
+            return eAbeStates::State_123_LiftGrabIdle_45A6A0;
+        }
+
+        const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+        if (sInputKey_Up_5550D8 & pressed)
+        {
+            return eAbeStates::State_124_LiftUseUp_45A780;
+        }
+
+        if (pressed & sInputKey_Down_5550DC)
+        {
+            return eAbeStates::State_125_LiftUseDown_45A7B0;
+        }
+    }
+
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed  && pLiftPoint->vOnAnyFloor_461920() && !(pLiftPoint->field_12C_bMoving & 1))
+    {
+        return eAbeStates::State_122_LiftGrabEnd_45A670;
+    }
+    
+    pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+    return eAbeStates::State_123_LiftGrabIdle_45A6A0;
 }
 
 // TODO: Clean up

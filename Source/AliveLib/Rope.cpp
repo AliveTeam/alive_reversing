@@ -174,32 +174,26 @@ const TintEntry stru_55FD68[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* /*pPoly*/, int /*minY*/, int /*maxY*/)
+EXPORT void CC ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, int minY, int maxY)
 {
-    NOT_IMPLEMENTED();
-
-    /*
-    __int16 y3 = pPoly->mVerts[2].mVert.y;
-    __int16 polyY =  pPoly->mBase.field_C.y;
-    int d1 = minY - polyY;
-    int polyHeight = y3 - polyY;
-    if (minY - polyY > 0 && d1 <= polyHeight)
+    const int d1 = minY - Y0(pPoly);
+    const short polyHeight = Y3(pPoly) - Y0(pPoly);
+    if (minY - Y0(pPoly) > 0 && d1 <= polyHeight)
     {
-        pPoly->mVerts[0].mVert.y += d1;
-        pPoly->mUv.v += d1;
-        pPoly->mVerts[0].mUv.v += d1;
-        pPoly->mBase.field_C.y = d1 + polyY;
+        SetXY1(pPoly, X1(pPoly), Y1(pPoly) + (short)d1);
+        SetUV0(pPoly, U0(pPoly), V0(pPoly) + (BYTE)d1);
+        SetUV1(pPoly, U1(pPoly), V1(pPoly) + (BYTE)d1);
+        SetXY0(pPoly, X0(pPoly), Y0(pPoly) + (short)d1);
     }
 
-    int d2 = y3 - maxY;
+    const int d2 = Y3(pPoly) - maxY;
     if (d2 > 0 && d2 <= polyHeight)
     {
-        char v8 = pPoly->mVerts[2].mUv.v;
-        pPoly->mVerts[1].mVert.y -= d2;
-        pPoly->mVerts[2].mVert.y = y3 - d2;
-        pPoly->mVerts[1].mUv.v -= d2;
-        pPoly->mVerts[2].mUv.v = v8 - d2;
-    }*/
+        SetXY2(pPoly, X2(pPoly), Y2(pPoly) - (short)d2);
+        SetXY3(pPoly, X3(pPoly), Y3(pPoly) - (short)d2);
+        SetUV2(pPoly, U2(pPoly), V2(pPoly) - (BYTE)d1);
+        SetUV3(pPoly, U3(pPoly), V3(pPoly) - (BYTE)d1);
+    }
 }
 
 Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bottom, FP scale)
