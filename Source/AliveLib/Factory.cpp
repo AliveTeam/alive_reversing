@@ -275,13 +275,14 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
         }
 
         // TODO: Meaning of the data in field_1_unknown for lift point
-        if (pLiftTlv->field_1_unknown & 2 || pLiftTlv->field_1_unknown != 0 && pLiftTlv->field_12_bstart_point)
+        if (pLiftTlv->field_1_unknown & 2 || (pLiftTlv->field_1_unknown == 0) && pLiftTlv->field_12_bstart_point)
         {
             auto pLiftPoint = alive_new<LiftPoint>();
             if (pLiftPoint)
             {
                 pLiftPoint->ctor_461030(pLiftTlv, tlvOffsetLevelIdPathId.all);
             }
+            return;
         }
         else
         {

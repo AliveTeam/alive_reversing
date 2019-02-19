@@ -107,7 +107,7 @@ private:
     FP field_270_floorYLevel;
     BYTE** field_274_ppRes;
 public:
-    char field_278_lift_point_id;
+    BYTE field_278_lift_point_id;
 private:
     char field_279;
     __int16 field_27A;
