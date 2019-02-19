@@ -16,8 +16,8 @@
 #include "ScreenManager.hpp"
 #include "Io.hpp"
 #include "LiftPoint.hpp"
+#include "LiftMover.hpp"
 
-EXPORT int CC LiftMover__CreateFromSaveState_40D180(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
@@ -64,7 +64,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &LiftMover__CreateFromSaveState_40D180,
+    &LiftMover::CreateFromSaveState_40D180,
     nullptr,
     &CreateFromSaveState_412C10,
     nullptr,

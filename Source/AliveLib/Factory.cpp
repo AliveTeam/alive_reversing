@@ -31,6 +31,7 @@
 #include "Abe.hpp"
 #include "LiftPoint.hpp"
 #include "PullRingRope.hpp"
+#include "LiftMover.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -585,7 +586,19 @@ EXPORT void CC Factory_ChantSuppressor_4D9E10(Path_TLV* , Path*, TlvItemInfoUnio
 EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode != 1 && loadmode != 2)
+    {
+        auto pLiftMover = alive_new<LiftMover>();
+        if (pLiftMover)
+        {
+            pLiftMover->ctor_40CCD0(static_cast<Path_LiftMover*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Scrab_4D9200(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4DA130(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }

@@ -227,6 +227,8 @@ add_library(AliveLib
     PlatformBase.cpp
     LiftPoint.cpp
     LiftPoint.hpp
+    LiftMover.cpp
+    LiftMover.hpp
     Slurg.cpp
     Slurg.hpp)
 

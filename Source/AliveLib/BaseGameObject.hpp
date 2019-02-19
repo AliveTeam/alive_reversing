@@ -18,7 +18,7 @@ public:
         eScreenManager_6 = 6,
         eBackgroundAnimation_7 = 7,
         eType_8 = 8,
-        eType_9 = 9,
+        eLiftMover_9 = 9,
         eTimedMine_10 = 10,
         eBone_11 = 11,
         eType_12 = 12,
