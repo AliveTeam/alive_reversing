@@ -40,6 +40,7 @@
 #include "Switch.hpp"
 #include "Throwable.hpp"
 #include "LiftPoint.hpp"
+#include "PullRingRope.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -114,7 +115,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_67_LedgeHang_454E20) \
     ENTRY(State_68_ToOffScreenHoist_454B80) \
     ENTRY(State_69_LedgeHangWobble_454EF0) \
-    ENTRY(State_70_RingRopePull_455AF0) \
+    ENTRY(State_70_RingRopePullHang_455AF0) \
     ENTRY(State_71_Knockback_455090) \
     ENTRY(State_72_KnockbackGetUp_455340) \
     ENTRY(State_73_PushWall_4553A0) \
@@ -259,7 +260,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_67_LedgeHang_454E20,
     &Abe::State_68_ToOffScreenHoist_454B80,
     &Abe::State_69_LedgeHangWobble_454EF0,
-    &Abe::State_70_RingRopePull_455AF0,
+    &Abe::State_70_RingRopePullHang_455AF0,
     &Abe::State_71_Knockback_455090,
     &Abe::State_72_KnockbackGetUp_455340,
     &Abe::State_73_PushWall_4553A0,
@@ -4191,7 +4192,7 @@ void Abe::State_14_HoistIdle_452440()
     {
         if (pPullRope->VPull_49BBD0(this))
         {
-            field_106_current_state = eAbeStates::State_70_RingRopePull_455AF0;
+            field_106_current_state = eAbeStates::State_70_RingRopePullHang_455AF0;
             field_108_delayed_state = eAbeStates::State_0_Idle_44EEB0;
             field_15C_pull_rope_id = pPullRope->field_8_object_id;
             return;
@@ -4216,7 +4217,7 @@ void Abe::State_14_HoistIdle_452440()
         }
 
         // Hoist is too far away
-        if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y -1 * field_FC_pPathTLV->field_8_top_left.field_2_y) >
+        if (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y + -field_FC_pPathTLV->field_8_top_left.field_2_y) >
             (field_CC_sprite_scale * FP_FromInteger(90)) || field_20_animation.field_92_current_frame )
         {
             return;
@@ -6384,9 +6385,21 @@ void Abe::State_69_LedgeHangWobble_454EF0()
     }
 }
 
-void Abe::State_70_RingRopePull_455AF0()
+void Abe::State_70_RingRopePullHang_455AF0()
 {
-    NOT_IMPLEMENTED();
+    PullRingRope* pPullRing = static_cast<PullRingRope*>(sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id));
+    if (pPullRing)
+    {
+        if (!pPullRing->Vsub_49BC90())
+        {
+            return;
+        }
+        pPullRing->Vsub_49B610();
+    }
+
+    field_15C_pull_rope_id = -1;
+    field_C8_vely = FP_FromInteger(0);
+    field_106_current_state = eAbeStates::State_91_FallingFromGrab_4557B0;
 }
 
 void Abe::State_71_Knockback_455090()

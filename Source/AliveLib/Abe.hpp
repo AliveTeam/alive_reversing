@@ -144,7 +144,7 @@ public:
     EXPORT void State_67_LedgeHang_454E20();
     EXPORT void State_68_ToOffScreenHoist_454B80();
     EXPORT void State_69_LedgeHangWobble_454EF0();
-    EXPORT void State_70_RingRopePull_455AF0();
+    EXPORT void State_70_RingRopePullHang_455AF0();
     EXPORT void State_71_Knockback_455090();
     EXPORT void State_72_KnockbackGetUp_455340();
     EXPORT void State_73_PushWall_4553A0();
