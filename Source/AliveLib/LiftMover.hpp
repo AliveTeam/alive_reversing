@@ -4,6 +4,8 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
+class LiftPoint;
+
 struct LiftMover_State
 {
     __int16 field_0_type;
@@ -38,6 +40,7 @@ private:
     EXPORT void dtor_40CDA0();
     EXPORT LiftMover* vdtor_40CD70(signed int flags);
     EXPORT int vGetSaveState_40D240(LiftMover_State* pState);
+    EXPORT LiftPoint* GetLiftPoint_40D0F0();
 
 private:
     __int16 field_20_enabled_by_switch_id;

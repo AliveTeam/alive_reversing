@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "LiftMover.hpp"
 #include "Function.hpp"
+#include "BaseAliveGameObject.hpp"
+#include "LiftPoint.hpp"
 #include "stdlib.hpp"
 
 EXPORT LiftMover* LiftMover::ctor_40CCD0(Path_LiftMover* pTlv, int tlvInfo)
@@ -93,4 +95,27 @@ int LiftMover::vGetSaveState_40D240(LiftMover_State* pState)
     pState->field_4_tlvInfo = field_24_tlvInfo;
     pState->field_8_state = field_30_state;
     return sizeof(LiftMover_State);
+}
+
+LiftPoint* LiftMover::GetLiftPoint_40D0F0()
+{
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eLiftPoint_78)
+        {
+            LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
+            if (field_22_target_lift_point_id == pLift->field_278_lift_point_id)
+            {
+                field_28_lift_id = pObj->field_8_object_id;
+                return pLift;
+            }
+        }
+    }
+    return nullptr;
 }
