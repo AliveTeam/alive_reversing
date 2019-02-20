@@ -23,8 +23,8 @@ endif()
 if (MSVC)
     add_custom_command(TARGET AliveDll
                        POST_BUILD
-                       COMMAND echo f | xcopy /s /y "$(OutDir)$(TargetName)$(TargetExt)" "C:\\GOG Games\\Abes Exoddus\\AliveDll.dll"
-                       COMMAND echo f | xcopy /s /y "$(OutDir)$(TargetName).map" "C:\\GOG Games\\Abes Exoddus\\AliveDll.map"
+                       COMMAND echo f | copy /y "$(OutDir)$(TargetName)$(TargetExt)" "C:\\GOG Games\\Abes Exoddus\\AliveDll.dll"
+                       COMMAND echo f | copy /y "$(OutDir)$(TargetName).map" "C:\\GOG Games\\Abes Exoddus\\AliveDll.map"
                        COMMENT "Copying to game dir")
 endif()
 
