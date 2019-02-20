@@ -948,7 +948,8 @@ static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWind
 
     SDL_ShowCursor(SDL_DISABLE);
 
-    SDL_SetWindowInputFocus(sHwnd_BBB9F4);
+    // Bring to front and give input focus
+    SDL_RaiseWindow(sHwnd_BBB9F4);
 
     // SDL will not send a window focused message on start up, so default to activated
     sAppIsActivated_BBBA00 = TRUE;
