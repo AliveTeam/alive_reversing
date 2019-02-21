@@ -32,6 +32,7 @@
 #include "LiftPoint.hpp"
 #include "PullRingRope.hpp"
 #include "LiftMover.hpp"
+#include "TrapDoor.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -577,7 +578,37 @@ EXPORT void CC Factory_MovieHandStone_4D9F50(Path_TLV* , Path*, TlvItemInfoUnion
 
 EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_PortalExit_4D9A80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path* , TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode == 1 || loadmode == 2)
+    {
+        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        {
+        case LevelIds::eMudomoVault_3:
+        case LevelIds::eMudancheeVault_4:
+        case LevelIds::eMudancheeVault_Ender_7:
+        case LevelIds::eMudomoVault_Ender_11:
+            gMap_5C3030.LoadResource_4DBE00("VLTSTRAP.BAN", ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, loadmode);
+            break;
+
+        default:
+            gMap_5C3030.LoadResource_4DBE00("TRAPDOOR.BAN", ResourceManager::Resource_Animation, ResourceID::kP6c1trapResID, loadmode);
+            break;
+        }
+    }
+    else
+    {
+        auto pTrapDoor = alive_new<TrapDoor>();
+        if (pTrapDoor)
+        {
+            // TODO: OG bug - actually passes Path* instead of Map* .. probably works because this parameter never gets used!
+            pTrapDoor->ctor_4DD570(static_cast<Path_TrapDoor*>(pTlv), &gMap_5C3030, tlvInfo.all);
+        }
+    }
+
+}
+
 EXPORT void CC Factory_RollingRock_4D9C70(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_InvisibleZone_4D6A40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }

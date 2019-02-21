@@ -17,6 +17,7 @@
 #include "Io.hpp"
 #include "LiftPoint.hpp"
 #include "LiftMover.hpp"
+#include "TrapDoor.hpp"
 
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -46,7 +47,6 @@ EXPORT int CC Slig__CreateFromSaveState_4B3B50(const BYTE*) { NOT_IMPLEMENTED();
 EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 EXPORT int CC Slurg__CreateFromSaveState_4C8DF0(const BYTE*) { NOT_IMPLEMENTED(); return 44; }
 EXPORT int CC TimerTrigger__CreateFromSaveState_4CDF70(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
-EXPORT int CC TrapDoor__CreateFromSaveState_4DDED0(const BYTE*) { NOT_IMPLEMENTED(); return 12; }
 
 struct QuickSaveRestoreTable
 {
@@ -197,7 +197,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &TrapDoor__CreateFromSaveState_4DDED0,
+    &TrapDoor::CreateFromSaveState_4DDED0,
     &UXB::CreateFromSaveState_4DFAE0,
     nullptr,
     nullptr,

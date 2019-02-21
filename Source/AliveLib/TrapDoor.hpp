@@ -2,6 +2,37 @@
 
 #include "FunctionFwd.hpp"
 #include "PlatformBase.hpp"
+#include "Path.hpp"
+
+struct Path_TrapDoor : public Path_TLV
+{
+    __int16 field_10_id;
+    __int16 field_12_start_state;
+    __int16 field_14_self_closing;
+    __int16 field_16_scale;
+    __int16 field_18_des_level;
+    __int16 field_1A_direction;
+    __int16 field_1C_anim_offset;
+    __int16 field_1E_stay_open_time;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x20);
+
+enum class TrapDoorState : __int16
+{
+    eState_0 = 0,
+    eState_1 = 1,
+    eState_2 = 2,
+    eState_3 = 3,
+};
+
+struct TrapDoor_State
+{
+    BaseGameObject::Types field_0_type;
+    TrapDoorState field_2_state;
+    int field_4_open_time;
+    int field_8_tlvInfo;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 
 class TrapDoor : public PlatformBase
 {
@@ -13,16 +44,20 @@ public:
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
 
+    virtual void VAdd(BaseAliveGameObject* pObj) override;
+    virtual void VRemove(BaseAliveGameObject* pObj) override;
+
+    EXPORT TrapDoor* ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvInfo);
+    EXPORT static signed int CC CreateFromSaveState_4DDED0(const BYTE* pData);
+
+private:
     EXPORT BaseGameObject* vdtor_4DD8A0(signed int flags);
     EXPORT void vUpdate_4DDA90();
     EXPORT void vRender_4DDDD0(int **ot);
     EXPORT void vScreenChanged_4DDE40();
-    EXPORT int vGetSaveState_4DE050(BYTE*);
+    EXPORT int vGetSaveState_4DE050(TrapDoor_State* pState);
     EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, int /*not_used*/);
 
-    virtual void VAdd(BaseAliveGameObject* pObj) override;
-
-    virtual void VRemove(BaseAliveGameObject* pObj) override;
 private:
 
     EXPORT void vAdd_4DDD90(BaseAliveGameObject* pObj);
@@ -39,7 +74,7 @@ private:
     __int16 field_12E;
     int field_130_stay_open_time2;
     __int16 field_134_switch_idx;
-    __int16 field_136_state;
+    TrapDoorState field_136_state;
     __int16 field_138_switch_state;
     __int16 field_13A_xOff;
     __int16 field_13C_stay_open_time;
