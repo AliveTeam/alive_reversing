@@ -1449,9 +1449,9 @@ BaseGameObject* Abe::Vsub_408FD0(__int16 a2)
     return vsub_44E970(a2);
 }
 
-void Abe::Vnull_4081F0()
+void Abe::VOnTrapDoorOpen()
 {
-    vsub_45A570();
+    vOnTrapDoorOpen_45A570();
 }
 
 BaseGameObject* Abe::vdtor_44B350(signed int flags)
@@ -1599,7 +1599,7 @@ void Abe::Update_449DC0()
     // Handle DDCheat mode
     if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
     {
-        Vnull_4081F0();
+        VOnTrapDoorOpen();
 
         field_F8 = field_BC_ypos;
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_bShrivel);
@@ -1923,7 +1923,7 @@ BaseGameObject* Abe::vsub_44E970(__int16 /*a2*/)
     return nullptr;
 }
 
-void Abe::vsub_45A570()
+void Abe::vOnTrapDoorOpen_45A570()
 {
     // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
@@ -4134,7 +4134,7 @@ void Abe::State_13_HoistBegin_452B20()
         const FP velY = field_CC_sprite_scale * FP_FromInteger(-8);
         field_C8_vely = velY;
         field_BC_ypos += velY;
-        Vnull_4081F0();
+        VOnTrapDoorOpen();
         field_106_current_state = eAbeStates::State_14_HoistIdle_452440;
         field_100_pCollisionLine = nullptr;
     }
@@ -4822,7 +4822,7 @@ void Abe::State_27_HopBegin_4521C0()
         field_C8_vely = velY;
         field_BC_ypos += velY;
         
-        Vnull_4081F0();
+        VOnTrapDoorOpen();
         
         field_106_current_state = eAbeStates::State_28_HopMid_451C50;
         field_100_pCollisionLine = nullptr;
@@ -5015,7 +5015,7 @@ void Abe::State_30_RunJumpBegin_4532E0()
             field_C8_vely = velY;
             field_BC_ypos += velY;
 
-            Vnull_4081F0();
+            VOnTrapDoorOpen();
 
             field_106_current_state = eAbeStates::State_31_RunJumpMid_452C10;
             field_100_pCollisionLine = nullptr;
@@ -6082,7 +6082,7 @@ void Abe::State_57_Dead_4589A0()
             return;
         }
 
-        Vnull_4081F0();
+        VOnTrapDoorOpen();
         
         field_100_pCollisionLine = nullptr;
         field_128.field_0_gnFrame = sGnFrame_5C1B84 + 8;
@@ -6261,7 +6261,7 @@ void Abe::State_67_LedgeHang_454E20()
     }
     else if (pressed & sInputKey_Down_5550DC)
     {
-        Vnull_4081F0();
+        VOnTrapDoorOpen();
         field_100_pCollisionLine = nullptr;
         field_106_current_state = eAbeStates::State_91_FallingFromGrab_4557B0;
         field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
@@ -6370,7 +6370,7 @@ void Abe::State_69_LedgeHangWobble_454EF0()
     else if (pressed & sInputKey_Down_5550DC)
     {
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit13);
-        Vnull_4081F0();
+        VOnTrapDoorOpen();
         field_100_pCollisionLine = nullptr;
         field_106_current_state = eAbeStates::State_91_FallingFromGrab_4557B0;
         field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
@@ -8655,7 +8655,7 @@ void Abe::sub_44E9A0()
         {
             if (pfield_110)
             {
-                pfield_110->Vsub_4DDDB0(this);
+                pfield_110->VRemove(this);
                 field_110_id = -1;
             }
 
@@ -8671,7 +8671,7 @@ void Abe::sub_44E9A0()
         }
         else if (pfield_110)
         {
-            pfield_110->Vsub_4DDDB0(this);
+            pfield_110->VRemove(this);
             field_110_id = -1;
         }
     }
@@ -8680,7 +8680,7 @@ void Abe::sub_44E9A0()
         field_100_pCollisionLine = 0;
         if (pfield_110)
         {
-            pfield_110->Vsub_4DDDB0(this);
+            pfield_110->VRemove(this);
             field_110_id = -1;
         }
 
@@ -9294,7 +9294,7 @@ void Abe::FollowLift_45A500()
         field_C8_vely = pLift->field_C8_vely;
         if (pLift->field_6_flags.Get(BaseGameObject::eDead))
         {
-            Vnull_4081F0();
+            VOnTrapDoorOpen();
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit1);
         }
         sub_408C40();

@@ -50,7 +50,7 @@ public:
     virtual __int16 VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom) override;
     virtual __int16 VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
     virtual BaseGameObject* Vsub_408FD0(__int16 a2) override;
-    virtual void Vnull_4081F0() override;
+    virtual void VOnTrapDoorOpen() override;
 
     // Virtual impls
     EXPORT BaseGameObject* vdtor_44B350(signed int flags);
@@ -61,7 +61,7 @@ public:
     EXPORT __int16 vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom);
     EXPORT __int16 vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
     EXPORT BaseGameObject* vsub_44E970(__int16 a2);
-    EXPORT void vsub_45A570();
+    EXPORT void vOnTrapDoorOpen_45A570();
 
     // Non virtuals
     EXPORT void ToKnockback_44E700(__int16 a2, __int16 a3);

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
-#include "BaseAliveGameObject.hpp"
+#include "PlatformBase.hpp"
 
-class TrapDoor : public BaseAliveGameObject
+class TrapDoor : public PlatformBase
 {
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
@@ -13,42 +13,39 @@ public:
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
 
-    EXPORT BaseGameObject* vdtor_4DD8A0(signed int /*flags*/);
+    EXPORT BaseGameObject* vdtor_4DD8A0(signed int flags);
     EXPORT void vUpdate_4DDA90();
     EXPORT void vRender_4DDDD0(int **ot);
     EXPORT void vScreenChanged_4DDE40();
     EXPORT int vGetSaveState_4DE050(BYTE*);
     EXPORT PSX_RECT* vGetBoundingRect_4DD870(PSX_RECT* pRect, int /*not_used*/);
 
-    // New virtuals
-    virtual int Vsub_4DDD90(int a1);
-    virtual void Vsub_4DDDB0(BaseGameObject* a1);
+    virtual void VAdd(BaseAliveGameObject* pObj) override;
 
-    EXPORT int sub_4DDD90(int /*a1*/);
-    EXPORT void sub_4DDDB0(BaseGameObject* /*a1*/);
+    virtual void VRemove(BaseAliveGameObject* pObj) override;
 private:
-    __int16 field_116;
-    __int16 field_118;
-    __int16 field_11A;
-    __int16 field_11C;
-    __int16 field_11E;
-    __int16 field_120;
-    __int16 field_122;
-    PathLine* field_124_pTrapDoorLine;
-    int field_128_pTlv;
-public:
+
+    EXPORT void vAdd_4DDD90(BaseAliveGameObject* pObj);
+    EXPORT void vRemove_4DDDB0(BaseAliveGameObject* pObj);
+
+    EXPORT void Add_To_Collisions_Array_4DDA20();
+
+    EXPORT void Open_4DD960();
+
+    EXPORT void dtor_4DD8D0();
+
+private:
     __int16 field_12C;
-private:
     __int16 field_12E;
-    int field_130;
+    int field_130_stay_open_time2;
     __int16 field_134_switch_idx;
     __int16 field_136_state;
     __int16 field_138_switch_state;
     __int16 field_13A_xOff;
-    __int16 field_13C;
+    __int16 field_13C_stay_open_time;
     __int16 field_13E_set_switch_on_dead;
-    int field_140;
-    int field_144;
+    FP field_140_x;
+    FP field_144_y;
     PSX_RECT field_148_bounding_rect;
 };
 ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);

@@ -91,7 +91,7 @@ EXPORT void BaseAliveGameObject::dtor_4080B0()
 
     if (pField_110)
     {
-        pField_110->Vnull_4081F0(); // TODO: Passes this ??
+        pField_110->VOnTrapDoorOpen();
         field_110_id = -1;
     }
 
@@ -164,9 +164,9 @@ BaseGameObject* BaseAliveGameObject::Vsub_408FD0(__int16 a2)
     return vsub_408FD0(a2);
 }
 
-void BaseAliveGameObject::Vnull_4081F0()
+void BaseAliveGameObject::VOnTrapDoorOpen()
 {
-    vnull_4081F0();
+    vOnTrapDoorOpen_4081F0();
 }
 
 // =======
@@ -219,7 +219,7 @@ BaseGameObject* BaseAliveGameObject::vsub_408FD0(__int16 /*a2*/)
     return nullptr;
 }
 
-void BaseAliveGameObject::vnull_4081F0()
+void BaseAliveGameObject::vOnTrapDoorOpen_4081F0()
 {
     // Empty
 }
