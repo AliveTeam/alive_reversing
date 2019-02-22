@@ -3457,7 +3457,7 @@ void Abe::State_0_Idle_44EEB0()
                 }
 
                 // Bail if scale doesn't match
-                Path_Well_Express* pWell = static_cast<Path_Well_Express*>(pTlv);
+                Path_Well_Base* pWell = static_cast<Path_Well_Base*>(pTlv);
                 if ((pWell->field_0_scale != 0 || field_CC_sprite_scale != FP_FromDouble(1.0)) && (pWell->field_0_scale != 1 || field_CC_sprite_scale != FP_FromDouble(0.5)))
                 {
                     break;
@@ -6649,23 +6649,26 @@ void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_Fall_To_Well);
 
         Path_Well_Base* pBaseWell = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
-        if (pBaseWell->field_4_type == Path_Well_Express::kType && !SwitchStates_Get_466020(pBaseWell->field_2_trigger_id))
+        if (pBaseWell->field_4_type == Path_Well_Express::kType)
         {
-            Path_Well_Express* pExpress = static_cast<Path_Well_Express*>(pBaseWell);
-            Calc_Well_Velocity_45C530(
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
-                pExpress->field_18_exit_x, // TODO: Overlaps with pLocal->field_18_off_dx make part of well base ??
-                pExpress->field_1A_exit_y);
-        }
-        else
-        {
-            Path_Well_Local* pLocal = static_cast<Path_Well_Local*>(pBaseWell);
-            Calc_Well_Velocity_45C530(
-                FP_GetExponent(field_B8_xpos),
-                FP_GetExponent(field_BC_ypos),
-                pLocal->field_1C_on_dx,
-                pLocal->field_1E_on_dy);
+            // TODO: WAT? We know its a well express but have to use it as well local.. I don't even..
+            Path_Well_Local* pExpress = static_cast<Path_Well_Local*>(pBaseWell);
+            if (!SwitchStates_Get_466020(pBaseWell->field_2_trigger_id))
+            {
+                Calc_Well_Velocity_45C530(
+                    FP_GetExponent(field_B8_xpos),
+                    FP_GetExponent(field_BC_ypos),
+                    pExpress->field_1C_on_dx,
+                    pExpress->field_1C_on_dx);
+            }
+            else
+            {
+                Calc_Well_Velocity_45C530(
+                    FP_GetExponent(field_B8_xpos),
+                    FP_GetExponent(field_BC_ypos),
+                    pExpress->field_18_off_dx,
+                    pExpress->field_18_off_dx);
+            }
         }
 
         MapFollowMe_408D10(TRUE);
