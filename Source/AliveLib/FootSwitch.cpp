@@ -1,6 +1,14 @@
 #include "stdafx.h"
 #include "FootSwitch.hpp"
 #include "stdlib.hpp"
+#include "Spark.hpp"
+#include "ParticleBurst.hpp"
+#include "PathData.hpp"
+#include "BaseAliveGameObject.hpp"
+#include "ObjectIds.hpp"
+#include "SwitchStates.hpp"
+#include "Sfx.hpp"
+#include "Abe.hpp"
 #include "Function.hpp"
 
 const TintEntry sFootSwitchTints_5639F4[18] =
@@ -85,7 +93,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     field_FC_action = pTlv->field_14_action;
     field_FE_trigger_by = pTlv->field_16_trigger_by;
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_F8_state = 0;
+    field_F8_state = States::eWaitForStepOnMe_0;
     field_DC_bApplyShadows |= 2u;
     field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
     field_104_bUnknown = 0;
@@ -134,5 +142,175 @@ void FootSwitch::vScreenChanged_4DE650()
 
 void FootSwitch::vUpdate_4DE270()
 {
-    NOT_IMPLEMENTED();
+    auto pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_100_obj_id));
+    if (field_106_bFindStander)
+    {
+        field_106_bFindStander = FALSE;
+        pLastStoodOnMe = WhoIsStoodOnMe_4DE700();
+        if (pLastStoodOnMe)
+        {
+            field_100_obj_id = pLastStoodOnMe->field_8_object_id;
+            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_frameTableOffset, nullptr);
+            field_F8_state = States::eWaitForGetOffMe_1;
+        }
+    }
+
+    if (field_F8_state == States::eWaitForStepOnMe_0)
+    {
+        auto pStoodOnMeNow = WhoIsStoodOnMe_4DE700();
+        if (pStoodOnMeNow)
+        {
+            field_100_obj_id = pStoodOnMeNow->field_8_object_id;
+
+            SwitchStates_Do_Operation_465F00(field_FA_id, field_FC_action);
+            field_F8_state = States::eWaitForGetOffMe_1;
+
+            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_frameTableOffset, nullptr);
+
+            auto pParticleBurst = alive_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_41CF50(
+                    field_B8_xpos,
+                    field_BC_ypos + FP_FromInteger(10),
+                    3,
+                    field_CC_sprite_scale,
+                    3,
+                    9);
+            }
+
+            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1 ||
+                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
+                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
+                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
+                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
+            {
+                SFX_Play_46FBA0(0x50u, 30, 400, 0x10000);
+                SFX_Play_46FBA0(0x4Cu, 60, 800, 0x10000);
+            }
+            else
+            {
+                SFX_Play_46FA90(0x37u, 0, 0x10000);
+            }
+
+        }
+
+        if (field_20_animation.field_92_current_frame == 0)
+        {
+            field_104_bUnknown = 1;
+            return;
+        }
+
+        if (field_104_bUnknown)
+        {
+            auto pSpark = alive_new<Spark>();
+            if (pSpark)
+            {
+                pSpark->ctor_4CBBB0(
+                    field_B8_xpos,
+                    field_BC_ypos + (field_CC_sprite_scale *  FP_FromInteger(6)),
+                    field_CC_sprite_scale,
+                    10,
+                    100,
+                    255,
+                    0);
+            }
+
+            auto pParticleBurst = alive_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_41CF50(
+                    field_B8_xpos,
+                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(10)),
+                    1,
+                    field_CC_sprite_scale,
+                    3,
+                    9);
+            }
+
+            field_104_bUnknown = 0;
+        }
+
+        if (field_20_animation.field_92_current_frame == 0)
+        {
+            field_104_bUnknown = 1;
+        }
+    }
+    else if (field_F8_state == States::eWaitForGetOffMe_1)
+    {
+        PSX_RECT bRect = {};
+        vGetBoundingRect_424FD0(&bRect, 1);
+
+        // Have they left the switch or died?
+        if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
+            pLastStoodOnMe->field_B8_xpos < FP_FromInteger(bRect.x) ||
+            pLastStoodOnMe->field_B8_xpos > FP_FromInteger(bRect.w) ||
+            pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead))
+        {
+            field_F8_state = States::eWaitForStepOnMe_0;
+            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0_frameTableOffset, nullptr);
+            field_100_obj_id = -1;
+        }
+    }
+
+}
+
+BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
+{
+    PSX_RECT bRectSwitch = {};
+    vGetBoundingRect_424FD0(&bRectSwitch, 1);
+    bRectSwitch.y -= 3;
+
+    if (field_FE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
+    {
+        for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+            {
+                auto* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+
+                PSX_RECT bRect = {};
+                pAliveObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+                const int xpos = FP_GetExponent(pAliveObj->field_B8_xpos);
+
+                if (xpos > bRectSwitch.x &&
+                    xpos < bRectSwitch.w &&
+                    bRectSwitch.x <= bRect.w &&
+                    bRectSwitch.w >= bRect.x &&
+                    bRectSwitch.h >= bRect.y &&
+                    bRectSwitch.y <= bRect.h &&
+                    pAliveObj->field_D6_scale == field_D6_scale)
+                {
+                    return pAliveObj;
+                }
+            }
+        }
+    }
+    else
+    {
+        PSX_RECT bRect = {};
+        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
+
+        const int xpos = FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos);
+
+        if (xpos > bRectSwitch.x &&
+            xpos < bRectSwitch.w &&
+            bRectSwitch.x <= bRect.w &&
+            bRectSwitch.w >= bRect.x &&
+            bRectSwitch.h >= bRect.y &&
+            bRectSwitch.y <= bRect.h &&
+            sActiveHero_5C1B68->field_D6_scale == field_D6_scale)
+        {
+            return sActiveHero_5C1B68;
+        }
+    }
+
+    return nullptr;
 }

@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-enum SwitchOp : __int16;
+enum class SwitchOp : __int16;
 
 struct Path_Switch : public Path_TLV
 {

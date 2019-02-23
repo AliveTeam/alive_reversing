@@ -82,7 +82,7 @@ void InvisibleSwitch::vUpdate_45FBA0()
     else if (field_38_state == States::eState_WaitForTrigger_0)
     {
         // If not trying to turn off the target and the state is set
-        if (field_22_action != eSetFalse_1 || SwitchStates_Get_466020(field_20_id))
+        if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get_466020(field_20_id))
         {
             // Within X bounds?
             const FP charXPos = sControlledCharacter_5C1B8C->field_B8_xpos;

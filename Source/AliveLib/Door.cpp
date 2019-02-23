@@ -165,11 +165,11 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
             SwitchStates_Get_466020(field_102_hub_ids[6]) &&
             SwitchStates_Get_466020(field_102_hub_ids[7]))
         {
-            SwitchStates_Do_Operation_465F00(field_100_switch_id, eSetTrue_0);
+            SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetTrue_0);
         }
         else
         {
-            SwitchStates_Do_Operation_465F00(field_100_switch_id, eSetFalse_1);
+            SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetFalse_1);
         }
     }
 
@@ -457,11 +457,11 @@ void Door::vUpdate_41EBE0()
                         pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
                     }
                 }
-                SwitchStates_Do_Operation_465F00(field_100_switch_id, eSetTrue_0);
+                SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetTrue_0);
             }
             else
             {
-                SwitchStates_Do_Operation_465F00(field_100_switch_id, eSetFalse_1);
+                SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetFalse_1);
             }
         }
         switch (field_FC_current_state)

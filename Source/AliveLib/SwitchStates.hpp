@@ -9,7 +9,7 @@ EXPORT void CC SwitchStates_Set_465FF0(unsigned __int16 idx, char value);
 EXPORT int CC SwitchStates_Get_466020(unsigned __int16 idx);
 EXPORT void CC SwitchStates_Add_466060(unsigned __int16 idx, char value);
 
-enum SwitchOp : __int16
+enum class SwitchOp : __int16
 {
     eSetTrue_0 = 0,
     eSetFalse_1 = 1,

@@ -4,12 +4,20 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
+enum class SwitchOp : __int16;
+
+enum class FootSwitchTriggerBy : __int16
+{
+    eOnlyAbe_0 = 1,
+    eAnyone_1 = 1,
+};
+
 struct Path_FootSwitch : public Path_TLV
 {
     __int16 field_10_id;
     __int16 field_12_scale;
-    __int16 field_14_action;
-    __int16 field_16_trigger_by;
+    SwitchOp field_14_action;
+    FootSwitchTriggerBy field_16_trigger_by;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FootSwitch, 0x18);
 
@@ -21,6 +29,7 @@ struct FootSwitch_Data
     __int16 field_A_frameTableOffset;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FootSwitch_Data, 0xC);
+
 
 class FootSwitch : public BaseAnimatedWithPhysicsGameObject
 {
@@ -36,14 +45,19 @@ private:
     EXPORT void dtor_4DE670();
     EXPORT void vScreenChanged_4DE650();
     EXPORT void vUpdate_4DE270();
-
+    EXPORT BaseAliveGameObject* WhoIsStoodOnMe_4DE700();
 private:
     int field_E4_not_used[4];
     int field_F4_tlvInfo;
-    __int16 field_F8_state;
+    enum class States : __int16
+    {
+        eWaitForStepOnMe_0 = 0,
+        eWaitForGetOffMe_1 = 1,
+    };
+    States field_F8_state;
     __int16 field_FA_id;
-    __int16 field_FC_action;
-    __int16 field_FE_trigger_by;
+    SwitchOp field_FC_action;
+    FootSwitchTriggerBy field_FE_trigger_by;
     int field_100_obj_id;
     __int16 field_104_bUnknown;
     __int16 field_106_bFindStander;

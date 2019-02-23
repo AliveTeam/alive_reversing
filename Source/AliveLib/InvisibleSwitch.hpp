@@ -5,7 +5,7 @@
 #include "Path.hpp"
 #include "Psx.hpp"
 
-enum SwitchOp : __int16;
+enum class SwitchOp : __int16;
 
 struct Path_InvisibleSwitch : public Path_TLV
 {

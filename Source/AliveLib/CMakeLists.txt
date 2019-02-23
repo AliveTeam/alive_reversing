@@ -233,6 +233,8 @@ add_library(AliveLib
     TimerTrigger.hpp
     FootSwitch.cpp
     FootSwitch.hpp
+    ParticleBurst.cpp
+    ParticleBurst.hpp
     Slurg.cpp
     Slurg.hpp)
 
