@@ -4164,27 +4164,28 @@ void Abe::State_14_HoistIdle_452440()
         case eBackGroundFloor_4:
         case 32u: // trap doors ??
         case 36u:
-        {
-            field_B8_xpos = hitX;
-            field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
+            {
+                field_B8_xpos = hitX;
+                field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
 
-            MapFollowMe_408D10(1);
+                MapFollowMe_408D10(1);
 
-            field_100_pCollisionLine = pLine;
+                field_100_pCollisionLine = pLine;
 
-            field_106_current_state = eAbeStates::State_15_HoistLand_452BA0;
-            field_F4 = eAbeStates::State_14_HoistIdle_452440;
+                field_106_current_state = eAbeStates::State_15_HoistLand_452BA0;
+                field_F4 = eAbeStates::State_14_HoistIdle_452440;
 
-            vOnCollisionWith_424EE0(
-            { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_B8_xpos) },
-            { FP_GetExponent(field_BC_ypos), FP_GetExponent((field_BC_ypos + FP_FromInteger(5))) },
-                ObjList_5C1B78,
-                1,
-                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
-        }
-        break;
+                vOnCollisionWith_424EE0(
+                { FP_GetExponent(field_B8_xpos), FP_GetExponent(field_BC_ypos) },
+                { FP_GetExponent(field_B8_xpos), FP_GetExponent((field_BC_ypos + FP_FromInteger(5))) },
+                    ObjList_5C1B78,
+                    1,
+                    (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+            }
+            break;
         }
         return;
+
     }
 
     PullRingRope* pPullRope = GetPullRope_44D120();
