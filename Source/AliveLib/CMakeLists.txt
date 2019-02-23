@@ -231,6 +231,8 @@ add_library(AliveLib
     LiftMover.hpp
     TimerTrigger.cpp
     TimerTrigger.hpp
+    FootSwitch.cpp
+    FootSwitch.hpp
     Slurg.cpp
     Slurg.hpp)
 

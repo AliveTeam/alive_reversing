@@ -35,6 +35,7 @@
 #include "TrapDoor.hpp"
 #include "TimerTrigger.hpp"
 #include "CreditsController.hpp"
+#include "FootSwitch.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -614,7 +615,37 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path* , TlvItemInfoUnion 
 EXPORT void CC Factory_RollingRock_4D9C70(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_InvisibleZone_4D6A40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode == 1 || loadmode == 2)
+    {
+        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        {
+        case LevelIds::eMudomoVault_3:
+        case LevelIds::eMudancheeVault_4:
+        case LevelIds::eMudancheeVault_Ender_7:
+        case LevelIds::eMudomoVault_Ender_11:
+            Map::LoadResource_4DBE00("VLTTRIGR.BAN", ResourceManager::Resource_Animation, ResourceID::kTriggerResID, loadmode);
+            break;
+        case LevelIds::eBonewerkz_8:
+            Map::LoadResource_4DBE00("BWTRIGGR.BAN", ResourceManager::Resource_Animation, ResourceID::kTriggerResID, loadmode);
+            break;
+        default:
+            Map::LoadResource_4DBE00("TRIGGER.BAN", ResourceManager::Resource_Animation, ResourceID::kTriggerResID, loadmode);
+            break;
+        }
+    }
+    else
+    {
+        auto pFootSwitch = alive_new<FootSwitch>();
+        if (pFootSwitch)
+        {
+            pFootSwitch->ctor_4DE090(static_cast<Path_FootSwitch*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_ChantSuppressor_4D9E10(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
