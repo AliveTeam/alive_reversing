@@ -34,6 +34,7 @@
 #include "LiftMover.hpp"
 #include "TrapDoor.hpp"
 #include "TimerTrigger.hpp"
+#include "CreditsController.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -715,7 +716,18 @@ EXPORT void CC Factory_HandStone_4D9FA0(Path_TLV*, Path*, TlvItemInfoUnion tlvOf
     }
 }
 
-EXPORT void CC Factory_CreditsController_4D6D60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_CreditsController_4D6D60(Path_TLV* pTlv , Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{ 
+    if (loadmode != 1 && loadmode != 2 && !sDoesCreditsControllerExist_5C1B90)
+    {
+        auto pCreditsController = alive_new<CreditsController>();
+        if (pCreditsController)
+        {
+            pCreditsController->ctor_418A10(pTlv, tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_Null_4D6910(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_StatusBoard_4DA3C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)

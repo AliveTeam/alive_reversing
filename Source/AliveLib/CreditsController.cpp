@@ -5,8 +5,6 @@
 #include "Game.hpp"
 #include "Map.hpp"
 
-void CreditsController_ForceLink() { }
-
 ALIVE_VAR(1, 0x5c1b90, __int16, sDoesCreditsControllerExist_5C1B90, false);
 
 
@@ -22,7 +20,7 @@ void CreditsController::VUpdate()
 
 constexpr int kShowCreditScreenForTicks = 160;
 
-CreditsController * CreditsController::ctor_418A10(int /*a2*/, int /*a3*/)
+CreditsController * CreditsController::ctor_418A10(Path_TLV* /*pTlv*/, int /*tlvInfo*/)
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544618);

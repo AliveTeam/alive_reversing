@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 
-void CreditsController_ForceLink();
+struct Path_TLV;
 
 #pragma pack(push)
 #pragma pack(2)
@@ -13,7 +13,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
 
-    EXPORT CreditsController* ctor_418A10(int a2, int a3);
+    EXPORT CreditsController* ctor_418A10(Path_TLV* pTlv, int tlvInfo);
 private:
     EXPORT void dtor_418A90();
     EXPORT BaseGameObject* vdtor_418A60(signed int flags);

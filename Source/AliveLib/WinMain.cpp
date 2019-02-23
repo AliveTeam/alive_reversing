@@ -20,7 +20,6 @@
 #include "easylogging++.h"
 #include <gmock/gmock.h>
 #include "Function.hpp"
-#include "CreditsController.hpp"
 #include "Font.hpp"
 #include "FixedPoint.hpp"
 #include "Events.hpp"
@@ -84,7 +83,6 @@ static void InitOtherHooksAndRunTests()
     GameSpeak_ForceLink();
     DDCheat_ForceLink();
     Map_ForceLink();
-    CreditsController_ForceLink();
     PauseMenu_ForceLink();
     Font_ForceLink();
     Primitives_ForceLink();
