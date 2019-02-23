@@ -229,6 +229,8 @@ add_library(AliveLib
     LiftPoint.hpp
     LiftMover.cpp
     LiftMover.hpp
+    TimerTrigger.cpp
+    TimerTrigger.hpp
     Slurg.cpp
     Slurg.hpp)
 

@@ -33,6 +33,7 @@
 #include "PullRingRope.hpp"
 #include "LiftMover.hpp"
 #include "TrapDoor.hpp"
+#include "TimerTrigger.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -658,7 +659,19 @@ EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* , Path*, TlvItemInfoUnion, __
 EXPORT void CC Factory_Null_4D8A30(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_4D7160(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6AE0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode != 1 && loadmode != 2)
+    {
+        auto pTimerTrigger = alive_new<TimerTrigger>();
+        if (pTimerTrigger)
+        {
+            pTimerTrigger->ctor_4CDC20(static_cast<Path_TimerTrigger*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 

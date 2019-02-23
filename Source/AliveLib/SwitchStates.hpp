@@ -11,11 +11,11 @@ EXPORT void CC SwitchStates_Add_466060(unsigned __int16 idx, char value);
 
 enum SwitchOp : __int16
 {
-    eSetTrue = 0,
-    eSetFalse = 1,
-    eToggle = 2,
-    eIncrement = 3,
-    eDecrement = 4,
+    eSetTrue_0 = 0,
+    eSetFalse_1 = 1,
+    eToggle_2 = 2,
+    eIncrement_3 = 3,
+    eDecrement_4 = 4,
 };
 
 EXPORT void CC SwitchStates_Do_Operation_465F00(signed __int16 idx, SwitchOp operation);

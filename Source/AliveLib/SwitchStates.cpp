@@ -45,15 +45,15 @@ EXPORT void CC SwitchStates_Do_Operation_465F00(signed __int16 idx, SwitchOp ope
     {
         switch (operation)
         {
-        case SwitchOp::eSetTrue:
+        case SwitchOp::eSetTrue_0:
             SwitchStates_Set_465FF0(idx, 1);
             break;
 
-        case SwitchOp::eSetFalse:
+        case SwitchOp::eSetFalse_1:
             SwitchStates_Set_465FF0(idx, 0);
             break;
 
-        case SwitchOp::eToggle:
+        case SwitchOp::eToggle_2:
             if (SwitchStates_Get_466020(idx))
             {
                 // Its on, so turn off
@@ -66,11 +66,11 @@ EXPORT void CC SwitchStates_Do_Operation_465F00(signed __int16 idx, SwitchOp ope
             }
             break;
 
-        case SwitchOp::eIncrement:
+        case SwitchOp::eIncrement_3:
             SwitchStates_Add_466060(idx, 1);
             break;
 
-        case SwitchOp::eDecrement:
+        case SwitchOp::eDecrement_4:
             SwitchStates_Add_466060(idx, -1);
             break;
         }
