@@ -38,14 +38,14 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, DWOR
     
     field_28_centre_x = field_30_mid_x + pTlv->field_8_top_left.field_0_x;
     field_2C_centre_mid_x = field_30_mid_x - 75;
-    if (field_30_mid_x < 0)
+    if (field_2C_centre_mid_x < 0)
     {
         field_2C_centre_mid_x = 0;
     }
 
     field_2A_center_y = field_32_mid_y + pTlv->field_8_top_left.field_2_y;
     field_2E_centre_mid_y = field_32_mid_y - 75;
-    if (field_32_mid_y - 75 < 0)
+    if (field_2E_centre_mid_y < 0)
     {
         field_2E_centre_mid_y = 0;
     }
