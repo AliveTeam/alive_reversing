@@ -3,6 +3,10 @@
 #include "Math.hpp"
 #include "Game.hpp"
 #include "Function.hpp"
+#include "Events.hpp"
+#include "Sfx.hpp"
+#include "ScreenManager.hpp"
+#include "Map.hpp"
 #include "stdlib.hpp"
 
 struct ParticleBurst_Item
@@ -31,6 +35,14 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
         unknown_count1 = unknown_count1 / 2;
     }
 
+    // 0 = Falling rocks
+    // 1 = sticks ??
+    // 2 = big purple sparks
+    // 3 = big red/orange sparks
+    // 4 = not a valid type
+    // 5 = green sparks
+    // 6 = small purple sparks
+
     if (a7 > 13)
     {
         a7 = 13;
@@ -57,19 +69,19 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
         switch (field_104_type)
         {
         case 0:
-            Animation_Init_424E10(6484, 71, 36, Add_Resource_4DC130(ResourceManager::Resource_Animation, 1105), 1, 1u);
+            Animation_Init_424E10(6484, 71, 36, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00), 1, 1u);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
 
         case 1:
-            Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, 358), 1, 1u);
+            Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kStickResID), 1, 1u);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
 
         case 2:
-            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, 349), 1, 1u);
+            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             field_20_animation.field_B_render_mode = 1;
@@ -78,7 +90,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
         case 3:
         case 5:
         case 6:
-            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, 349), 1, 1u);
+            Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
             field_20_animation.field_B_render_mode = 1;
             field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -231,13 +243,213 @@ void ParticleBurst::dtor_41D510()
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
-void ParticleBurst::vRender_41D7B0(int** /*pOt*/)
+void ParticleBurst::vRender_41D7B0(int** pOt)
 {
-    NOT_IMPLEMENTED();
+    bool bFirst = true;
+    if (sNum_CamSwappers_5C1B66 == 0)
+    {
+        field_20_animation.field_14_scale = field_CC_sprite_scale;
+        const FP camX = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
+        const FP camY = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+      
+        for (int i = 0; i < field_FC_count; i++)
+        {
+            if (field_F8_pRes[i].field_0_x < camX)
+            {
+                continue;
+            }
+
+            if (field_F8_pRes[i].field_0_x > camX + FP_FromInteger(640))
+            {
+                continue;
+            }
+
+            if (field_F8_pRes[i].field_4_y < camY)
+            {
+                continue;
+            }
+            
+            if (field_F8_pRes[i].field_4_y > camY + FP_FromInteger(240))
+            {
+                continue;
+            }
+
+            const FP zPos = field_F8_pRes[i].field_8_z;
+
+            // TODO: Much duplicated code in each branch
+            if (bFirst)
+            {
+                field_20_animation.field_14_scale =  FP_FromInteger(100) /  (zPos + FP_FromInteger(300));
+                field_20_animation.field_14_scale *= field_CC_sprite_scale;
+                field_20_animation.field_14_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
+
+                if (field_20_animation.field_14_scale <= FP_FromInteger(1))
+                {
+                    field_20_animation.vRender_40B820(
+                        FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
+                        FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
+                        pOt,
+                        0,
+                        0);
+                    
+                    bFirst = false;
+
+                    PSX_RECT frameRect = {};
+                    field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+                    if (field_106_count == 9)
+                    {
+                        if (field_20_animation.field_8_r > 5)
+                        {
+                            field_20_animation.field_8_r -= 6;
+                        }
+                        else
+                        {
+                            field_20_animation.field_8_r = 0;
+                        }
+
+                        if (field_20_animation.field_9_g > 5)
+                        {
+                            field_20_animation.field_9_g -= 6;
+                        }
+                        else
+                        {
+                            field_20_animation.field_9_g = 0;
+                        }
+
+                        if (field_20_animation.field_A_b > 5)
+                        {
+                            field_20_animation.field_A_b -= 6;
+                        }
+                        else
+                        {
+                            field_20_animation.field_A_b = 0;
+                        }
+                    }
+                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                        frameRect.x,
+                        frameRect.y,
+                        frameRect.w,
+                        frameRect.h,
+                        pScreenManager_5BB5F4->field_3A_idx);
+                }
+            }
+            else
+            {
+                field_F8_pRes[i].field_18_anim.field_6C_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
+                field_F8_pRes[i].field_18_anim.field_6C_scale *= field_CC_sprite_scale;
+                field_F8_pRes[i].field_18_anim.field_6C_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
+
+                if (field_F8_pRes[i].field_18_anim.field_6C_scale <= FP_FromInteger(1))
+                {
+                    field_F8_pRes[i].field_18_anim.vRender_40B820(
+                        FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
+                        FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
+                        pOt,
+                        0,
+                        0);
+                    
+                    PSX_RECT frameRect = {};
+                    field_F8_pRes[i].field_18_anim.GetRenderedSize_40C980(&frameRect);
+
+                    if (field_106_count == 9)
+                    {
+                        if (field_F8_pRes[i].field_18_anim.field_8_r > 5)
+                        {
+                            field_F8_pRes[i].field_18_anim.field_8_r -= 6;
+                        }
+                        else
+                        {
+                            field_F8_pRes[i].field_18_anim.field_8_r = 0;
+                        }
+
+                        if (field_F8_pRes[i].field_18_anim.field_9_g > 5)
+                        {
+                            field_F8_pRes[i].field_18_anim.field_9_g -= 6;
+                        }
+                        else
+                        {
+                            field_F8_pRes[i].field_18_anim.field_9_g = 0;
+                        }
+
+                        if (field_F8_pRes[i].field_18_anim.field_A_b > 5)
+                        {
+                            field_F8_pRes[i].field_18_anim.field_A_b -= 6;
+                        }
+                        else
+                        {
+                            field_F8_pRes[i].field_18_anim.field_A_b = 0;
+                        }
+
+                    }
+                    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                        frameRect.x,
+                        frameRect.y,
+                        frameRect.w,
+                        frameRect.h,
+                        pScreenManager_5BB5F4->field_3A_idx);
+                }
+            }
+        }
+    }
 }
 
 void ParticleBurst::vUpdate_41D590()
 {
-    NOT_IMPLEMENTED();
-}
+    const int v3 = field_CC_sprite_scale != FP_FromInteger(1) ? 2 : 4;
+    for (int i = 0; i < field_FC_count; i++)
+    {
+        field_F8_pRes[i].field_0_x += field_F8_pRes[i].field_C_x_speed;
+        field_F8_pRes[i].field_4_y += field_F8_pRes[i].field_10_y_speed;
+        field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
 
+        field_F8_pRes[i].field_10_y_speed += FP_FromDouble(0.25);
+
+        if (field_106_count == 9)
+        {
+            if ((sGnFrame_5C1B84 + i) & v3)
+            {
+                field_F8_pRes[i].field_0_x -= FP_FromInteger(1);
+            }
+            else
+            {
+                field_F8_pRes[i].field_0_x += FP_FromInteger(1);
+            }
+        }
+
+        if (field_F8_pRes[i].field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
+        {
+            field_F8_pRes[i].field_14_z_speed = -field_F8_pRes[i].field_14_z_speed;
+            field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
+
+            // TODO: Never used by OG ??
+            //Math_RandomRange_496AB0(-64, 46);
+
+            // TODO: This might be wrong
+            const short volume = static_cast<short>(Math_RandomRange_496AB0(-10, 10) + ((field_100_timer - sGnFrame_5C1B84) / 91) + 25);
+
+            const BYTE next_rand = Math_NextRandom();
+            if (next_rand < 43)
+            {
+                SFX_Play_46FC20(27u, volume, 3, 0x10000);
+            }
+            else if (next_rand >= 85)
+            {
+                SFX_Play_46FC20(27u, volume, 4, 0x10000);
+            }
+            else
+            {
+                SFX_Play_46FC20(27u, volume, 0, 0x10000);
+            }
+        }
+    }
+
+    if (static_cast<int>(sGnFrame_5C1B84) > field_100_timer)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
