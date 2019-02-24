@@ -87,8 +87,6 @@ class PalleteOverwriter : public BaseGameObject
 public:
     EXPORT PalleteOverwriter* ctor_4228D0(PSX_Point palXY, __int16 palDepth, __int16 colour)
     {
-        colour = 0;
-
         BaseGameObject_ctor_4DBFA0(FALSE, 0);
 
         SetVTable(this, 0x544BC4); // vTbl_Class_544BC4
