@@ -7,151 +7,6 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 
-class RopeSegment : public AnimationBase
-{
-public:
-    virtual void vDecode_40AC90() override
-    {
-        // VNull_409C20
-    }
-
-    virtual void vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height) override
-    {
-        vRender_40C690(xpos, ypos, pOt, width, height);
-    }
-
-    virtual void vCleanUp_40C630() override
-    {
-        vCleanUp_40C9C0();
-    }
-
-    EXPORT void GetRenderedSize_40C980(PSX_RECT* pRect)
-    {
-        Poly_FT4_Get_Rect_409DA0(pRect, &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index]);
-    }
-
-private:
-    EXPORT void vRender_40C690(int xpos, int width, int** pOt, int /*width*/, int /*height*/)
-    {
-        Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index];
-        if (field_4_flags.Get(AnimFlags::eBit3_Render))
-        {
-            // Copy from animation to local
-            *pPoly = field_68_anim_ptr->field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
-            FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader_40B730(-1);
-
-            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit22_DeadMode))
-            {
-                ALIVE_FATAL("Impossible branch");
-            }
-
-            FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_68_anim_ptr->field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-
-            int frameH = pFrameHeader->field_5_height;
-            int frameW = pFrameHeader->field_4_width;
-
-            int frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
-            int frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
-
-            if (field_6C_scale != FP_FromInteger(1))
-            {
-                frameOffX = FP_GetExponent((FP_FromInteger(frameOffX) * field_6C_scale));
-                frameOffY = FP_GetExponent((FP_FromInteger(frameOffY) * field_6C_scale));
-
-                frameH = FP_GetExponent(FP_FromInteger(frameH) * field_6C_scale);
-                frameW = FP_GetExponent((FP_FromInteger(frameW) * field_6C_scale));
-            }
-
-            int polyX = 0;
-            int polyY = 0;
-            int xConverted = PsxToPCX(xpos);
-            if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit7_SwapXY))
-            {
-                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
-                {
-                    if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        polyX = xConverted - frameOffY - frameH;
-                    }
-                    else
-                    {
-                        polyX = frameOffY + xConverted;
-                    }
-                    polyY = frameOffX + width;
-                }
-                else
-                {
-                    if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                    {
-                        polyX = xConverted - frameOffY - frameH;
-                    }
-                    else
-                    {
-                        polyX = frameOffY + xConverted;
-                    }
-                    polyY = width - frameOffX - frameW;
-                }
-            }
-            else if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit6_FlipY))
-            {
-                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                {
-                    polyX = xConverted - frameOffX - frameW;
-                }
-                else
-                {
-                    polyX = frameOffX + xConverted;
-                }
-                polyY = width - frameOffY - frameH;
-            }
-            else
-            {
-                if (field_68_anim_ptr->field_4_flags.Get(AnimFlags::eBit5_FlipX))
-                {
-                    polyX = xConverted - frameOffX - frameW;
-                }
-                else
-                {
-                    polyX = frameOffX + xConverted;
-                }
-                polyY = frameOffY + width;
-            }
-
-            if (!field_4_flags.Get(AnimFlags::eBit16_bBlending))
-            {
-                SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
-            }
-
-            SetXYWH(pPoly,
-                static_cast<short>(polyX),
-                static_cast<short>(polyY),
-                static_cast<short>(frameW - 1),
-                static_cast<short>(frameH - 1));
-
-            if (pFrameHeader->field_7_compression_type == 3 || pFrameHeader->field_7_compression_type == 6)
-            {
-                SetPrimExtraPointerHack(pPoly, &pFrameHeader->field_8_width2);
-            }
-            else
-            {
-                SetPrimExtraPointerHack(pPoly, nullptr);
-            }
-            OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
-        }
-    }
-
-    EXPORT void vCleanUp_40C9C0()
-    {
-        field_68_anim_ptr = nullptr;
-    }
-
-public:
-    Poly_FT4 field_10_polys[2];
-    Animation* field_68_anim_ptr;
-    FP field_6C_scale;
-};
-ALIVE_ASSERT_SIZEOF(RopeSegment, 0x70);
-
 const TintEntry stru_55FD68[18] =
 {
     { 1u, 127u, 127u, 127u },
@@ -239,13 +94,13 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
 
     field_F4_rope_segment_count = (240 / field_F6_rope_length) + 1; // psx screen height
 
-    field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(RopeSegment));
-    field_FC_pRopeRes = reinterpret_cast<RopeSegment*>(*field_F8_ppRopeRes);
+    field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(AnimationUnknown));
+    field_FC_pRopeRes = reinterpret_cast<AnimationUnknown*>(*field_F8_ppRopeRes);
 
     for (int i = 0; i < field_F4_rope_segment_count; i++)
     {
-        RopeSegment* pSegment = &field_FC_pRopeRes[i];
-        pSegment = new (pSegment) RopeSegment(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
+        AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
+        pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
         SetVTable(pSegment, 0x5447CC); // vTbl_RopeSegment_5447CC
         pSegment->field_4_flags.Set(AnimFlags::eBit3_Render);
         pSegment->field_68_anim_ptr = &field_20_animation;

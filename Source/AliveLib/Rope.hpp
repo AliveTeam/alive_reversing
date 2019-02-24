@@ -3,7 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-class RopeSegment;
+class AnimationUnknown;
 
 class Rope : public BaseAnimatedWithPhysicsGameObject
 {
@@ -22,7 +22,7 @@ private:
 public:
     __int16 field_F6_rope_length;
     BYTE **field_F8_ppRopeRes;
-    RopeSegment* field_FC_pRopeRes;
+    AnimationUnknown* field_FC_pRopeRes;
     __int16 field_100_left;
     __int16 field_102_top;
     __int16 field_104_right;
