@@ -12,7 +12,7 @@ struct HoistRockParticle
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_yVel;
-    AnimationEx field_10_mAnim;
+    Animation field_10_mAnim;
 };
 ALIVE_ASSERT_SIZEOF(HoistRockParticle, 0xA8);
 

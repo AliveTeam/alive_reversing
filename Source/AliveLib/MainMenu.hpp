@@ -148,7 +148,7 @@ public:
     };
 
     EXPORT void Set_Anim_4D05E0(__int16 a2, __int16 a3 = 0);
-    EXPORT void Load_Anim_Pal_4D06A0(AnimationEx* pAnim);
+    EXPORT void Load_Anim_Pal_4D06A0(Animation* pAnim);
     EXPORT signed int sub_4CF640();
     EXPORT void sub_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
@@ -256,7 +256,7 @@ public:
     int field_F0;
     MainMenuControllerResources field_F4_resources;
     Alive::Font field_120_font;
-    AnimationEx field_158_animation;
+    Animation field_158_animation;
     int field_1F0;
     int field_1F4_credits_next_frame;
     int field_1F8_page_timeout; // Timer for starting demos automatically / backing out of menus

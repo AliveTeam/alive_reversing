@@ -373,7 +373,7 @@ EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 }
 
 
-ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<Animation>*, gObjList_animations_5C1A24, nullptr);
+ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<AnimationBase>*, gObjList_animations_5C1A24, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 
 EXPORT void CC Init_GameStates_43BF40()
@@ -485,7 +485,7 @@ EXPORT void CC Game_Run_466D40()
     gFG1List_5D1E28->ctor_40CA60(4);
 
 
-    gObjList_animations_5C1A24 = alive_new<DynamicArrayT<Animation>>();
+    gObjList_animations_5C1A24 = alive_new<DynamicArrayT<AnimationBase>>();
     gObjList_animations_5C1A24->ctor_40CA60(30);
 
     pResourceManager_5C1BB0 = alive_new<ResourceManager>();
@@ -758,7 +758,7 @@ EXPORT void CC Game_Loop_467230()
         // Animate everything
         if (sNum_CamSwappers_5C1B66 <= 0)
         {
-            Animation::AnimateAll_40AC20(gObjList_animations_5C1A24);
+            AnimationBase::AnimateAll_40AC20(gObjList_animations_5C1A24);
         }
 
         int** pOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;

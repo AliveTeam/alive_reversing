@@ -75,7 +75,7 @@ public:
     EXPORT void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
 public:
 
-    AnimationEx field_20_animation;
+    Animation field_20_animation;
     FP field_B8_xpos;
     FP field_BC_ypos;
     __int16 field_C0_path_number;

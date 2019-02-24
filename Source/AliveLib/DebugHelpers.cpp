@@ -110,7 +110,7 @@ public:
         // Dont kill!
     }
 
-    static bool IsInAnimationList(Animation* toFind)
+    static bool IsInAnimationList(AnimationBase* toFind)
     {
         for (int i = 0; i < gObjList_animations_5C1A24->Size(); i++)
         {
@@ -1976,7 +1976,7 @@ private:
     }
 
     BYTE** mAnimRes[5];
-    AnimationEx mAnim[5];
+    Animation mAnim[5];
     Poly_FT4 mPolyFT4[1];
 };
 

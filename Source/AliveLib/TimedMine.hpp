@@ -38,7 +38,7 @@ public:
     EXPORT void Update_410A80();
     EXPORT void Render_410CD0(int ** pOt);
 
-    EXPORT void InitBlinkAnimation_4108E0(AnimationEx *pAnim);
+    EXPORT void InitBlinkAnimation_4108E0(Animation *pAnim);
     EXPORT void sub_411100();
 public:
     BYTE gap116[2];
@@ -46,7 +46,7 @@ public:
     WORD field_11A_explode_timeout;
     DWORD field_11C_tlv;
     unsigned int field_120_gnframe;
-    AnimationEx field_124_animation;
+    Animation field_124_animation;
     unsigned int field_1BC;
     unsigned int field_1C0;
     BitField32<TimedMine_Flags_1C4> field_1C4_flags;

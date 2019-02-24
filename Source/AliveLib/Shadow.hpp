@@ -26,6 +26,6 @@ public:
         eBit2 = 0x2,
     };
     BitField32<Flags> field_14_flags;
-    AnimationEx field_18_animation;
+    Animation field_18_animation;
 };
 ALIVE_ASSERT_SIZEOF(Shadow, 0xB0);

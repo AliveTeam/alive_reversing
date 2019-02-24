@@ -39,7 +39,7 @@ const TintEntry sTintMap_UXB_563A3C[19] =
 void UXB_ForceLink() {
 }
 
-void UXB::InitBlinkAnim_4DEED0(AnimationEx *pAnimation)
+void UXB::InitBlinkAnim_4DEED0(Animation *pAnimation)
 {
     if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, kBombflshResID), 1u, 0, 0))
     {

@@ -7,7 +7,7 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 
-class RopeSegment : public Animation
+class RopeSegment : public AnimationBase
 {
 public:
     virtual void vDecode_40AC90() override
@@ -147,7 +147,7 @@ private:
 
 public:
     Poly_FT4 field_10_polys[2];
-    AnimationEx* field_68_anim_ptr;
+    Animation* field_68_anim_ptr;
     FP field_6C_scale;
 };
 ALIVE_ASSERT_SIZEOF(RopeSegment, 0x70);

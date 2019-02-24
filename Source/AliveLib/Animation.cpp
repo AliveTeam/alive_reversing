@@ -8,12 +8,12 @@
 #include "PsxDisplay.hpp"
 #include <gmock/gmock.h>
 
-void Animation::vDecode_40AC90()
+void AnimationBase::vDecode_40AC90()
 {
     ALIVE_FATAL("Should never be called");
 }
 
-bool AnimationEx::EnsureDecompressionBuffer()
+bool Animation::EnsureDecompressionBuffer()
 {
     if (!field_24_dbuf)
     {
@@ -22,7 +22,7 @@ bool AnimationEx::EnsureDecompressionBuffer()
     return field_24_dbuf != nullptr;
 }
 
-void AnimationEx::DecompressFrame()
+void Animation::DecompressFrame()
 {
     if (field_4_flags.Get(AnimFlags::eBit11_bToggle_Bit10))
     {
@@ -153,7 +153,7 @@ inline short FP_AdjustedToInteger(FP fp, FP adjustment)
     return FP_GetExponent(fp + adjustment);
 }
 
-void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height)
+void Animation::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, signed int height)
 {
     if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(field_4_flags.Get(AnimFlags::eBit25_bDecompressDone)))
     {
@@ -340,19 +340,19 @@ void AnimationEx::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, s
     OrderingTable_Add_4F8AA0(&pOt[field_C_render_layer], &pPoly->mBase.header);
 }
 
-void AnimationEx::vCleanUp_40C630()
+void Animation::vCleanUp_40C630()
 {
     gObjList_animations_5C1A24->Remove_Item(this);
     Animation_Pal_Free_40C4C0();
     ResourceManager::FreeResource_49C330(field_24_dbuf);
 }
 
-void AnimationEx::vDecode2_40B200()
+void Animation::vDecode2_40B200()
 {
     ALIVE_FATAL("Impossible - this kind of anim data don't exist");
 }
 
-void AnimationEx::vDecode_40AC90()
+void Animation::vDecode_40AC90()
 {
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {
@@ -367,7 +367,7 @@ void AnimationEx::vDecode_40AC90()
     }
 }
 
-bool AnimationEx::DecodeCommon()
+bool Animation::DecodeCommon()
 {
     if (!field_20_ppBlock)
     {
@@ -453,7 +453,7 @@ bool AnimationEx::DecodeCommon()
     return true;
 }
 
-void AnimationEx::Invoke_CallBacks_40B7A0()
+void Animation::Invoke_CallBacks_40B7A0()
 {
     if (!field_20_ppBlock || !field_1C_fn_ptr_array)
     {
@@ -477,20 +477,20 @@ void AnimationEx::Invoke_CallBacks_40B7A0()
     }
 }
 
-void Animation::vRender_40B820(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, signed int /*height*/)
+void AnimationBase::vRender_40B820(int /*xpos*/, int /*ypos*/, int** /*pOt*/, __int16 /*width*/, signed int /*height*/)
 {
     ALIVE_FATAL("Should never be called");
 //    return 0;
 }
 
-char Animation::Animation_v_40BEE0(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/, __int16 /*a5*/, __int16 /*op1*/)
+char AnimationBase::Animation_v_40BEE0(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/, __int16 /*a5*/, __int16 /*op1*/)
 {
     NOT_IMPLEMENTED();
     LOG_INFO("Animation_v_40BEE0");
     return 0;
 }
 
-signed __int16 AnimationEx::Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes)
+signed __int16 Animation::Set_Animation_Data_409C80(int frameTableOffset, BYTE** pAnimRes)
 {
     if (pAnimRes)
     {
@@ -534,7 +534,7 @@ signed __int16 AnimationEx::Set_Animation_Data_409C80(int frameTableOffset, BYTE
     return 1;
 }
 
-void AnimationEx::Animation_Pal_Free_40C4C0()
+void Animation::Animation_Pal_Free_40C4C0()
 {
     if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
     {
@@ -558,11 +558,11 @@ void AnimationEx::Animation_Pal_Free_40C4C0()
     }
 }
 
-void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
+void CC AnimationBase::AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnims)
 {
     for (auto i = 0; i < pAnims->Size(); i++)
     {
-        Animation* pAnim = pAnims->ItemAt(i);
+        AnimationBase* pAnim = pAnims->ItemAt(i);
         if (!pAnim)
         {
             break;
@@ -584,7 +584,7 @@ void CC Animation::AnimateAll_40AC20(DynamicArrayT<Animation>* pAnims)
     }
 }
 
-void AnimationEx::SetFrame_409D50(__int16 newFrame)
+void Animation::SetFrame_409D50(__int16 newFrame)
 {
     if (field_20_ppBlock)
     {
@@ -607,7 +607,7 @@ void AnimationEx::SetFrame_409D50(__int16 newFrame)
 
 ALIVE_VAR(1, 0x5440AC, FrameInfoHeader, sBlankFrameInfoHeader_5440AC, {});
 
-FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
+FrameInfoHeader* Animation::Get_FrameHeader_40B730(__int16 frame)
 {
     if (!field_20_ppBlock)
     {
@@ -638,7 +638,7 @@ FrameInfoHeader* AnimationEx::Get_FrameHeader_40B730(__int16 frame)
 
 }
 
-void AnimationEx::Get_Frame_Rect_409E10(PSX_RECT* pRect)
+void Animation::Get_Frame_Rect_409E10(PSX_RECT* pRect)
 {
     NOT_IMPLEMENTED();
 
@@ -654,13 +654,13 @@ void AnimationEx::Get_Frame_Rect_409E10(PSX_RECT* pRect)
     // TODO: Impl
 }
 
-WORD AnimationEx::Get_Frame_Count_40AC70()
+WORD Animation::Get_Frame_Count_40AC70()
 {
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset);  // TODO: Make getting offset to animation header cleaner
     return pHead->field_2_num_frames;
 }
 
-signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
+signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*animList*/, BaseGameObject *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 bFlag_17, signed int b_StartingAlternationState, char bEnable_flag10_alternating)
 {
     field_4_flags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     field_4_flags.Set(AnimFlags::eBit21);
@@ -843,7 +843,7 @@ signed __int16 AnimationEx::Init_40A030(int frameTableOffset, DynamicArray* /*an
     return 1;
 }
 
-void AnimationEx::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
+void Animation::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
 {
     if (!pAnimData)
     {
@@ -880,7 +880,7 @@ namespace Test
 
     static void RenderTest()
     {
-        AnimationEx anim;
+        Animation anim;
         anim.field_84_vram_rect.x = 0;
         anim.field_84_vram_rect.y = 0;
         anim.field_4_flags.Raw().all = 0;

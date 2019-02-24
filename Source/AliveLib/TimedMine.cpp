@@ -210,7 +210,7 @@ void TimedMine::Render_410CD0(int ** pOt)
     }
 }
 
-void TimedMine::InitBlinkAnimation_4108E0(AnimationEx * pAnimation)
+void TimedMine::InitBlinkAnimation_4108E0(Animation * pAnimation)
 {
     if (pAnimation->Init_40A030(544, gObjList_animations_5C1A24, this, 36, 0x15u, Add_Resource_4DC130(ResourceManager::Resource_Animation, kBombflshResID), 1u, 0, 0))
     {

@@ -151,7 +151,7 @@ enum AnimFlags
     // Bit 26-32 = nothing ?
 };
 
-class Animation
+class AnimationBase
 {
 public:
     // TODO: Virtuals must be on the base type, yet there is only 1 vtable pointing to derived ?
@@ -164,7 +164,7 @@ public:
     //EXPORT virtual __int16 Animationv_40B200();
     EXPORT virtual char Animation_v_40BEE0(__int16 a2, __int16 a3, int a4, __int16 a5, __int16 op1);
 
-    EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<Animation>* pAnimations);
+    EXPORT static void CC AnimateAll_40AC20(DynamicArrayT<AnimationBase>* pAnimations);
 
     BitField32<AnimFlags> field_4_flags;
     BYTE field_8_r;
@@ -174,7 +174,7 @@ public:
     WORD field_C_render_layer;
     WORD field_E_frame_change_counter;
 };
-ALIVE_ASSERT_SIZEOF(Animation, 0x10);
+ALIVE_ASSERT_SIZEOF(AnimationBase, 0x10);
 
 struct BanHeader
 {
@@ -195,7 +195,7 @@ struct FrameHeader
     WORD mHeight2;
 };
 
-class AnimationEx : public Animation
+class Animation : public AnimationBase
 {
 public:
     EXPORT signed __int16 Set_Animation_Data_409C80(int frameTableOffset, BYTE **pAnimRes);
@@ -240,4 +240,4 @@ public:
     //EXPORT void Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY);
     EXPORT void Load_Pal_40A530(BYTE** pAnimData, int palOffset);
 };
-ALIVE_ASSERT_SIZEOF(AnimationEx, 0x98);
+ALIVE_ASSERT_SIZEOF(Animation, 0x98);

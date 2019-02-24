@@ -80,7 +80,7 @@ private:
     EXPORT void Render_4DF3D0(int **pOt);
     EXPORT void ScreenChanged_4DF9C0();
     EXPORT int GetSaveState_4DFD40(BYTE* pSaveBuffer);
-    EXPORT void InitBlinkAnim_4DEED0(AnimationEx *pAnimation);
+    EXPORT void InitBlinkAnim_4DEED0(Animation *pAnimation);
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
     EXPORT signed int IsColliding_4DF630();
 private:
@@ -91,7 +91,7 @@ private:
     BYTE gap11E[2];
     TlvItemInfoUnion field_120_tlv;
     DWORD field_124_next_state_frame;
-    AnimationEx field_128_animation;
+    Animation field_128_animation;
     WORD field_1C0_pattern_length;
     WORD field_1C2_pattern_index;
     WORD field_1C4_pattern;

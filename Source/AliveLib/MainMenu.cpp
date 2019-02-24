@@ -2170,7 +2170,7 @@ void MainMenuController::Set_Anim_4D05E0(__int16 a2, __int16 a3)
     }
 }
 
-void MainMenuController::Load_Anim_Pal_4D06A0(AnimationEx* pAnim)
+void MainMenuController::Load_Anim_Pal_4D06A0(Animation* pAnim)
 {
     // TODO: If this is duplicated a lot it can be moved to a helper
     const FrameInfoHeader* pFrameInfo = pAnim->Get_FrameHeader_40B730(0);

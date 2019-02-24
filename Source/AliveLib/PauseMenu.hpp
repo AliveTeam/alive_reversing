@@ -116,7 +116,7 @@ public:
     __int16 field_140;
     __int16 field_142;
     PauseMenu::PauseMenuPage field_144_active_menu;
-    AnimationEx field_158_animation;
+    Animation field_158_animation;
     Prim_SetTPage field_1F0[2];
     Poly_F4 field_210[2];
     Prim_SetTPage field_248[2]; // Not used ??

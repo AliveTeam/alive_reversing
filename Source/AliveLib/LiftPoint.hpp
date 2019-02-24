@@ -100,8 +100,8 @@ private:
     __int16 field_132;
     int field_134_rope2_id;
     int field_138_rope1_id;
-    AnimationEx field_13C_lift_wheel;
-    AnimationEx field_1D4_pulley_anim;
+    Animation field_13C_lift_wheel;
+    Animation field_1D4_pulley_anim;
     __int16 field_26C_pulley_xpos;
     __int16 field_26E_pulley_ypos;
     FP field_270_floorYLevel;
