@@ -374,19 +374,19 @@ const PSX_Point kSparkOffs_563988[8] =
     { 0, 0 }
 };
 
-void Teleporter::SpawnRingSparks()
+void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
 {
     PSX_Point abeSpawnPos = {};
     gMap_5C3030.Get_Abe_Spawn_Pos_4806D0(&abeSpawnPos);
 
-    const short xOrg = field_34_mTlvData.field_22_eletric_x - abeSpawnPos.field_0_x;
-    const short yOrg = field_34_mTlvData.field_24_electric_y - abeSpawnPos.field_2_y;
+    const short xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.field_0_x;
+    const short yOrg = pTlvData->field_24_electric_y - abeSpawnPos.field_2_y;
 
     for (auto& sparkOffs : kSparkOffs_563988)
     {
         int sparkX = 0;
         int sparkY = 0;
-        if (field_34_mTlvData.field_1C_scale)
+        if (pTlvData->field_1C_scale)
         {
             sparkX = xOrg + (sparkOffs.field_0_x / 2);
             sparkY = yOrg + (sparkOffs.field_2_y / 2);
@@ -445,7 +445,7 @@ void Teleporter::vUpdate_4DC400()
         SFX_Play_46FBA0(49u, 60, -400, 0x10000);
         sControlledCharacter_5C1B8C->field_114_flags.Set(Flags_114::e114_Bit10);
         
-        SpawnRingSparks();
+        SpawnRingSparks(&field_34_mTlvData);
     }
     break;
 
@@ -568,7 +568,7 @@ void Teleporter::vUpdate_4DC400()
         }
         
         SFX_Play_46FBA0(0x31u, 60, -300, tlvData.field_1C_scale != 0 ? 0x8000 : 0x10000);
-        SpawnRingSparks();
+        SpawnRingSparks(&tlvData);
 
         if (tlvData.field_1C_scale)
         {

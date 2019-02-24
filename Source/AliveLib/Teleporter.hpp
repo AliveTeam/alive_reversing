@@ -20,7 +20,7 @@ private:
     EXPORT void vUpdate_4DC400();
 private:
     EXPORT static Class_548100* CC Create_obj_4DCEB0();
-    void SpawnRingSparks();
+    void SpawnRingSparks(Path_Teleporter_Data* pTlvData);
 
     int field_20_tlvInfo;
     __int16 field_24_global_y1;
