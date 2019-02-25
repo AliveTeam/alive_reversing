@@ -29,9 +29,9 @@ EXPORT int CC Math_SquareRoot_Int_496E70(int value)
     return Math_SquareRoot_Shifted_496E20(value, 0); // 15 iterations
 }
 
-EXPORT FP CC Math_SquareRoot_FP_496E90(int value)
+EXPORT FP CC Math_SquareRoot_FP_496E90(FP value)
 {
-    return FP_FromRaw(Math_SquareRoot_Shifted_496E20(value, 16)); // 23 iterations (16/2+15)
+    return FP_FromRaw(Math_SquareRoot_Shifted_496E20(value.fpValue, 16)); // 23 iterations (16/2+15)
 }
 
 void FixedPoint_ForceLink()
@@ -65,8 +65,8 @@ void FixedPoint_ForceLink()
     ASSERT_EQ(4, Math_SquareRoot_Int_496E70(16));
     ASSERT_EQ(10, Math_SquareRoot_Int_496E70(100));
     
-    ASSERT_EQ(FP_FromRaw(1*256), Math_SquareRoot_FP_496E90(1));
-    ASSERT_EQ(FP_FromRaw(362), Math_SquareRoot_FP_496E90(2)); // 362/256 = 1.414 these are actually 24:8 fixed point, or just 8 bits in this instance ?
-    ASSERT_EQ(FP_FromRaw(4*256), Math_SquareRoot_FP_496E90(16));
-    ASSERT_EQ(FP_FromRaw(10*256), Math_SquareRoot_FP_496E90(100));
+    ASSERT_EQ(FP_FromRaw(1*256), Math_SquareRoot_FP_496E90(FP_FromRaw(1)));
+    ASSERT_EQ(FP_FromRaw(362), Math_SquareRoot_FP_496E90(FP_FromRaw(2))); // 362/256 = 1.414 these are actually 24:8 fixed point, or just 8 bits in this instance ?
+    ASSERT_EQ(FP_FromRaw(4*256), Math_SquareRoot_FP_496E90(FP_FromRaw(16)));
+    ASSERT_EQ(FP_FromRaw(10*256), Math_SquareRoot_FP_496E90(FP_FromRaw(100)));
 }

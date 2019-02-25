@@ -9282,7 +9282,7 @@ void Abe::Calc_Well_Velocity_45C530(short x1, short y1, short x2, short y2)
 
     const FP v17 = (FP_FromInteger(80) * field_CC_sprite_scale) + v16;
     const FP v18 = FP_FromInteger(8) * gravity;
-    const FP v20 = Math_SquareRoot_FP_496E90(((v18 * v17) + (gravity * gravity)).fpValue);
+    const FP v20 = Math_SquareRoot_FP_496E90(((v18 * v17) + (gravity * gravity)));
     field_C8_vely = (v20 - gravity) * FP_FromDouble(0.5);
 
     const FP v22 = field_C8_vely / gravity;

@@ -164,4 +164,4 @@ struct FP_Point
 ALIVE_ASSERT_SIZEOF(FP_Point, 8);
 
 EXPORT int CC Math_SquareRoot_Int_496E70(int value);
-EXPORT FP CC Math_SquareRoot_FP_496E90(int value);
+EXPORT FP CC Math_SquareRoot_FP_496E90(FP value);

@@ -666,9 +666,9 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
 
         if (yDiff_2 + xDiff_2 <= FP_FromInteger(180))
         {
-            squareRoot = Math_SquareRoot_FP_496E90(FP_GetExponent(
+            squareRoot = Math_SquareRoot_FP_496E90(
                 (yDiff * yDiff) + 
-                (xDiff * xDiff)));
+                (xDiff * xDiff));
         }
         else
         {
@@ -699,13 +699,13 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
             return nullptr;
         }
 
-        const FP root1 = Math_SquareRoot_FP_496E90(FP_GetExponent(
+        const FP root1 = Math_SquareRoot_FP_496E90(
             (FP_FromInteger(field_0_rect.h) - ypos) * (FP_FromInteger(field_0_rect.h) - ypos) +
-            (FP_FromInteger(field_0_rect.w) - xpos) * (FP_FromInteger(field_0_rect.w) - xpos)));
+            (FP_FromInteger(field_0_rect.w) - xpos) * (FP_FromInteger(field_0_rect.w) - xpos));
 
-        const FP root2 = Math_SquareRoot_FP_496E90(FP_GetExponent(
+        const FP root2 = Math_SquareRoot_FP_496E90(
             ((yPosRet - ypos) * (yPosRet - ypos)) + 
-            ((xPosRet - xpos) * (xPosRet - xpos))));
+            ((xPosRet - xpos) * (xPosRet - xpos)));
 
         *pXPos = FP_FromInteger(pNextLine->field_0_rect.x);
         *pYPos = FP_FromInteger(pNextLine->field_0_rect.y);
@@ -724,13 +724,13 @@ PathLine* PathLine::MoveOnLine_418260(FP* pXPos, FP* pYPos, const FP distToMove)
             return nullptr;
         }
 
-        const FP root1 = Math_SquareRoot_FP_496E90(FP_GetExponent(
+        const FP root1 = Math_SquareRoot_FP_496E90(
             (yPosRet - ypos) * (yPosRet - ypos) + 
-            (xPosRet - xpos) * (xPosRet - xpos)));
+            (xPosRet - xpos) * (xPosRet - xpos));
 
-        const FP root2 = Math_SquareRoot_FP_496E90(FP_GetExponent(
+        const FP root2 = Math_SquareRoot_FP_496E90(
               (FP_FromInteger(field_0_rect.y) - ypos) * (FP_FromInteger(field_0_rect.y) - ypos)
-            + (FP_FromInteger(field_0_rect.x) - xpos) * (FP_FromInteger(field_0_rect.x) - xpos)));
+            + (FP_FromInteger(field_0_rect.x) - xpos) * (FP_FromInteger(field_0_rect.x) - xpos));
 
         *pXPos = FP_FromInteger(pPreviousLine->field_0_rect.w);
         *pYPos = FP_FromInteger(pPreviousLine->field_0_rect.h);
