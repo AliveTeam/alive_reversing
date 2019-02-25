@@ -2660,41 +2660,99 @@ EXPORT char CC PSX_Calc_LineSegment_Clip_Edges_4FE460(int x, int y)
 
 EXPORT void CC PSX_Clip_LineSegment_Against_DrawEnv_4FE640(int* pX, int* pY, int xDiff, int yDiff, char clipEdges)
 {
+   // NOT_IMPLEMENTED();
+
     if (clipEdges & LineSegmentClipEdges::eLeft)
     {
-        const int newY = (yDiff * (sPsx_drawenv_clipx_BDCD40 - *pX)) / (xDiff + *pY);
+        const int newY = yDiff * ((sPsx_drawenv_clipx_BDCD40 - *pX) / xDiff) + *pY;
         *pX = sPsx_drawenv_clipx_BDCD40;
         *pY = newY;
-        clipEdges = PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, *pY);
+        clipEdges = PSX_Calc_LineSegment_Clip_Edges_4FE460(sPsx_drawenv_clipx_BDCD40, *pY);
     }
     else if (clipEdges & LineSegmentClipEdges::eRight)
     {
-        const int newY = (yDiff * (sPsx_drawenv_clipw_BDCD48 - *pX)) / (xDiff + *pY);
+        const int newY = yDiff * ((sPsx_drawenv_clipw_BDCD48 - *pX) / xDiff) + *pY;
         *pX = sPsx_drawenv_clipw_BDCD48;
         *pY = newY;
-        clipEdges = PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, *pY);
+        clipEdges = PSX_Calc_LineSegment_Clip_Edges_4FE460(sPsx_drawenv_clipw_BDCD48, *pY);
     }
 
     if (clipEdges & LineSegmentClipEdges::eBottom)
     {
-        const int newX = (xDiff * (sPsx_drawenv_clipy_BDCD44 - *pY)) / (yDiff + *pX);
+        const int newX = xDiff * ((sPsx_drawenv_clipy_BDCD44 - *pY) / yDiff) + *pX;
         *pY = sPsx_drawenv_clipy_BDCD44;
         *pX = newX;
-        PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, *pY);
+        PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, sPsx_drawenv_clipy_BDCD44);
     }
     else if (clipEdges & LineSegmentClipEdges::eTop)
     {
-        const int newX = (xDiff * (sPsx_drawenv_cliph_BDCD4C - *pY)) / (yDiff + *pX);
+        const int newX = xDiff * ((sPsx_drawenv_cliph_BDCD4C - *pY) / yDiff) + *pX;
         *pY = sPsx_drawenv_cliph_BDCD4C;
         *pX = newX;
-        PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, *pY);
+        PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX, sPsx_drawenv_cliph_BDCD4C);
     }
 }
 
-EXPORT char CC PSX_Clip_Line_Segments_4FE4F0(int* /*pX0*/, int* /*pY0*/, int* /*pX1*/, int* /*pY1*/)
+EXPORT char CC PSX_Clip_Line_Segments_4FE4F0(int* pX0, int* pY0, int* pX1, int* pY1)
 {
-    NOT_IMPLEMENTED();
-    // TODO: Standalone hack hack hack!
+    const int y0_fixed = 16 * *pY0;
+    const int x1_fixed = 16 * *pX1;
+    const int x0_fixed = 16 * *pX0;
+    const int y1_fixed = 16 * *pY1;
+
+    *pX1 = x1_fixed;
+    *pY0 = y0_fixed;
+    *pY1 = y1_fixed;
+    *pX0 = x0_fixed;
+    
+    int x_diff_fixed = x1_fixed - x0_fixed;
+    int y_diff_fixed = y1_fixed - y0_fixed;
+    
+    char xy0_clip = PSX_Calc_LineSegment_Clip_Edges_4FE460(x0_fixed, y0_fixed);
+    char xy1_clip = PSX_Calc_LineSegment_Clip_Edges_4FE460(x1_fixed, y1_fixed);
+  
+    if (xy1_clip & xy0_clip)
+    {
+        return 0;
+    }
+
+    while (1)
+    {
+        bool clip = true;
+        if (xy0_clip)
+        {
+            PSX_Clip_LineSegment_Against_DrawEnv_4FE640(pX0, pY0, x_diff_fixed, y_diff_fixed, xy0_clip);
+            if (!xy1_clip)
+            {
+                clip = false;
+            }
+        }
+        else
+        {
+            if (!xy1_clip)
+            {
+                break;
+            }
+        }
+
+        if (clip)
+        {
+            PSX_Clip_LineSegment_Against_DrawEnv_4FE640(pX1, pY1, x_diff_fixed, y_diff_fixed, xy1_clip);
+        }
+
+        xy0_clip = PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX0, *pY0);
+        xy1_clip = PSX_Calc_LineSegment_Clip_Edges_4FE460(*pX1, *pY1);
+        if (xy1_clip & xy0_clip)
+        {
+            return 0;
+        }
+    }
+
+    *pX0 /= 16;
+    *pY0 /= 16;
+    *pX1 /= 16;
+    *pY1 /= 16;
+
     return 1;
 }
 
