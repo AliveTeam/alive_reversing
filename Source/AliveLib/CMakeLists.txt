@@ -235,6 +235,8 @@ add_library(AliveLib
     FootSwitch.hpp
     ParticleBurst.cpp
     ParticleBurst.hpp
+    FartMachine.cpp
+    FartMachine.hpp
     Slurg.cpp
     Slurg.hpp)
 

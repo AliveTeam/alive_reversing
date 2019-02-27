@@ -41,6 +41,7 @@
 #include "Throwable.hpp"
 #include "LiftPoint.hpp"
 #include "PullRingRope.hpp"
+#include "FartMachine.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -7217,7 +7218,45 @@ void Abe::State_88_GrenadeMachineUse_45C510()
 
 void Abe::State_89_BrewMachineBegin_4584C0()
 {
-    NOT_IMPLEMENTED();
+    if (field_120_state > 0 && field_120_state <= 36u)
+    {
+        if (field_120_state <= 36u)
+        {
+            if (field_120_state > 11u && !((field_120_state - 12) % 6))
+            {
+                SFX_Play_46FBA0(119u, 0, 32 * field_120_state, 0x10000);
+            }
+            field_120_state++;
+        }
+        else
+        {
+            field_106_current_state = eAbeStates::State_90_BrewMachineEnd_4585B0;
+        }
+    }
+    else if (field_20_animation.field_92_current_frame == 8)
+    {
+        if (GetEvilFart_4585F0(FALSE))
+        {
+            SFX_Play_46FA90(116u, 0, 0x10000);
+        }
+        else
+        {
+            SFX_Play_46FA90(118u, 0, 0x10000);
+        }
+    }
+    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (GetEvilFart_4585F0(TRUE))
+        {
+            SFX_Play_46FA90(117u, 0, 0x10000);
+            field_120_state = 1;
+        }
+        else
+        {
+            field_106_current_state = eAbeStates::State_90_BrewMachineEnd_4585B0;
+        }
+    }
+
 }
 
 void Abe::State_90_BrewMachineEnd_4585B0()
@@ -9378,6 +9417,58 @@ short Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
     
     pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
     return eAbeStates::State_123_LiftGrabIdle_45A6A0;
+}
+
+__int16 Abe::GetEvilFart_4585F0(__int16 bDontLoad)
+{
+    PSX_RECT abeRect = {};
+    vGetBoundingRect_424FD0(&abeRect, 1);
+
+    FartMachine* pBrewMachine = nullptr;
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            return 0;
+        }
+
+        if (pObj->field_4_typeId == Types::eBrewMachine_13)
+        {
+            pBrewMachine = static_cast<FartMachine*>(pObj);
+
+            PSX_RECT bRect = {};
+            pBrewMachine->vGetBoundingRect_424FD0(&bRect, 1);
+
+            if (PSX_Rects_overlap_4FA0B0(&abeRect, &bRect) &&
+                pBrewMachine->field_CC_sprite_scale == field_CC_sprite_scale &&
+                pBrewMachine->field_144_total_brew_count > 0 &&
+                field_198_has_evil_fart == FALSE)
+            {
+                break;
+            }
+
+            pBrewMachine = nullptr;
+        }
+    }
+
+    if (!pBrewMachine)
+    {
+        return 0;
+    }
+
+    if (!bDontLoad)
+    {
+        return 1;
+    }
+
+    field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6017, TRUE, FALSE));
+    field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 25, TRUE, FALSE));
+    field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 301, TRUE, FALSE));
+    pBrewMachine->field_144_total_brew_count--;
+    field_198_has_evil_fart = TRUE;
+
+    return 1;
 }
 
 // TODO: Clean up

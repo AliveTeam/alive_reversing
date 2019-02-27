@@ -241,6 +241,8 @@ public:
     EXPORT short MoveLiftUpOrDown_45A7E0(FP yVelocity);
 
 
+    EXPORT __int16 GetEvilFart_4585F0(__int16 bDontLoad);
+
 public:
     __int16 field_116;
     int field_118_prev_held;
