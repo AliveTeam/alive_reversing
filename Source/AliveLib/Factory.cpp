@@ -37,6 +37,7 @@
 #include "CreditsController.hpp"
 #include "FootSwitch.hpp"
 #include "FartMachine.hpp"
+#include "FallingItem.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -363,7 +364,36 @@ EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
 
 EXPORT void CC Factory_Dove_4D7E90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_RockSack_4D8040(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+{
+    if (loadmode == 1 || loadmode == 2)
+    {
+        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8)
+        {
+            gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, 2007, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, 358, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadmode);
+        }
+        else
+        {
+            gMap_5C3030.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, 2007, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, 358, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadmode);
+            gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, 1105, loadmode);
+        }
+    }
+    else
+    {
+        auto pFallingItem = alive_new<FallingItem>();
+        if (pFallingItem)
+        {
+            pFallingItem->ctor_4272C0(static_cast<Path_FallingItem*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {

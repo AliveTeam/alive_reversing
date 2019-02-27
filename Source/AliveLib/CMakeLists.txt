@@ -237,6 +237,8 @@ add_library(AliveLib
     ParticleBurst.hpp
     FartMachine.cpp
     FartMachine.hpp
+    FallingItem.cpp
+    FallingItem.hpp
     Slurg.cpp
     Slurg.hpp)
 
