@@ -1051,8 +1051,8 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     }
 
     // Calculate pulley position
-    const FP k13_scaled = FP_FromInteger(13) / field_CC_sprite_scale;
-    const FP kM10_scaled = FP_FromInteger(-10) / field_CC_sprite_scale;
+    const FP k13_scaled = FP_FromInteger(13) * field_CC_sprite_scale;
+    const FP kM10_scaled = FP_FromInteger(-10) * field_CC_sprite_scale;
 
     field_26C_pulley_xpos = FP_GetExponent(((kM10_scaled + k13_scaled) / FP_FromInteger(2)) + FP_NoFractional(field_B8_xpos));
     field_26E_pulley_ypos = pFound->field_8_top_left.field_2_y;
