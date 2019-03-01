@@ -229,7 +229,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 
         case LevelIds::eFeeCoDepot_5:
         case LevelIds::eFeeCoDepot_Ender_12:
-            LoadLiftPointResources("NECROPE.BAN", "FDLIFT.BND", loadMode);
+            LoadLiftPointResources("ROPES.BAN", "FDLIFT.BND", loadMode);
             break;
 
         case LevelIds::eBarracks_6:
