@@ -1836,7 +1836,7 @@ void Abe::Update_449DC0()
                             }
 
                             PSX_RECT rect = {};
-                            GetBoundingRect_424FD0(&rect, 1);
+                            vGetBoundingRect_424FD0(&rect, 1);
                             AbilityRing::Factory_482F80(
                                 FP_FromInteger((rect.x + rect.w) / 2),
                                 FP_FromInteger((rect.y + rect.h) / 2),
@@ -2481,7 +2481,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
         break;
 
     case Types::eBaseBomb_46:
-    case Types::eType_89:
+    case Types::eMineCar_89:
     case Types::eExplosion_109:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {

@@ -705,7 +705,7 @@ void Command_Ring(const std::vector<std::string>& args)
     int ringType = std::stoi(args[0]);
 
     PSX_RECT rect = {};
-    sActiveHero_5C1B68->GetBoundingRect_424FD0(&rect, 1);
+    sActiveHero_5C1B68->vGetBoundingRect_424FD0(&rect, 1);
     AbilityRing::Factory_482F80(
         FP_FromInteger((rect.x + rect.w) / 2),
         FP_FromInteger((rect.y + rect.h) / 2),

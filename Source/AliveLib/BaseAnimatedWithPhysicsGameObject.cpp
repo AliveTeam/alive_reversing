@@ -554,7 +554,7 @@ namespace Test
 
         {
             PSX_RECT bRect = {};
-            t.GetBoundingRect_424FD0(&bRect, 2); // kinda sorta changes the frame to use ??
+            t.vGetBoundingRect_424FD0(&bRect, 2); // kinda sorta changes the frame to use ??
             PSX_RECT expected = { 33, 45, 3, 5 };
             ASSERT_EQ(bRect, expected);
         }
@@ -563,7 +563,7 @@ namespace Test
 
         {
             PSX_RECT bRect = {};
-            t.GetBoundingRect_424FD0(&bRect, 1);
+            t.vGetBoundingRect_424FD0(&bRect, 1);
             PSX_RECT expected = { (10 * 2) + 3, (20 * 2) + 5, (30 * 2) + 3, (40 * 2) + 5 };
             ASSERT_EQ(bRect, expected);
         }
@@ -571,7 +571,7 @@ namespace Test
         {
             t.field_20_animation.field_4_flags.Set(AnimFlags::eBit6_FlipY);
             PSX_RECT bRect = {};
-            t.GetBoundingRect_424FD0(&bRect, 1);
+            t.vGetBoundingRect_424FD0(&bRect, 1);
             PSX_RECT expected = { (10 * 2) + 3, -(40 * 2) + 5, (30 * 2) + 3, -(20 * 2) + 5  };
             ASSERT_EQ(bRect, expected);
         }
@@ -580,7 +580,7 @@ namespace Test
             t.field_20_animation.field_4_flags.Clear(AnimFlags::eBit6_FlipY);
             t.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
             PSX_RECT bRect = {};
-            t.GetBoundingRect_424FD0(&bRect, 1);
+            t.vGetBoundingRect_424FD0(&bRect, 1);
             PSX_RECT expected = { -(30 * 2) + 3, (20 * 2) + 5, -(10 * 2) + 3, (40 * 2) + 5 };
             ASSERT_EQ(bRect, expected);
         }

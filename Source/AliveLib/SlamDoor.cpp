@@ -350,7 +350,7 @@ void SlamDoor::vUpdate_4AFD50()
 
             this->field_120_pCollisionLine_5_1 = pPathLine;
             PSX_RECT v35;
-            v27 = GetBoundingRect_424FD0(
+            v27 = vGetBoundingRect_424FD0(
                 &v35,
                 1);
             if (this->field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
@@ -372,7 +372,7 @@ void SlamDoor::vUpdate_4AFD50()
                 {
                     if (pObj->field_4_typeId != Types::eSlamDoor_122)
                     {
-                        v30 = pObj->GetBoundingRect_424FD0(
+                        v30 = pObj->vGetBoundingRect_424FD0(
                             &bRect,
                             1);
 
@@ -403,7 +403,7 @@ void SlamDoor::vUpdate_4AFD50()
     }
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
     {
-        v6 = this->GetBoundingRect_424FD0(
+        v6 = this->vGetBoundingRect_424FD0(
             &bRect,
             1);
         v7 = *(PSX_Point *)&v6->x;
@@ -430,7 +430,7 @@ void SlamDoor::vUpdate_4AFD50()
             {
                 if (pObj->field_4_typeId != Types::eSlamDoor_122 && pObj->field_4_typeId != Types::eGrenade_65)
                 {
-                    v11 = pObj->GetBoundingRect_424FD0(
+                    v11 = pObj->vGetBoundingRect_424FD0(
                         &bRect,
                         1);
 

@@ -98,7 +98,7 @@ public:
         eType_86 = 86,
         eText_87 = 87,
         eMine_88 = 88,
-        eType_89 = 89,
+        eMineCar_89 = 89,
         eType_90 = 90,
         eGreeterBody_91 = 91,
         eType_92 = 92,

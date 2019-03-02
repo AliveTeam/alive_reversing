@@ -339,7 +339,7 @@ __int16 UXB::vTakeDamage_4DF850(BaseAnimatedWithPhysicsGameObject* pFrom)
         }
         break;
 
-    case Types::eType_89:
+    case Types::eMineCar_89:
     case Types::eType_104:
     case Types::eExplosion_109:
     case Types::eType_121:

@@ -60,6 +60,7 @@ public:
     virtual void VOnPickUpOrSlapped();
     virtual void vnull_4081A0(BaseGameObject* pFrom);
 
+private:
     EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
     EXPORT __int16 IsObjNearby_4253B0(FP radius, BaseAnimatedWithPhysicsGameObject * pObj);
     EXPORT __int16 IsObj_GettingNear_On_X_425420(BaseAnimatedWithPhysicsGameObject* pOther);
@@ -68,7 +69,7 @@ public:
     EXPORT void StackOnObjectsOfType_425840(Types typeToFind);
     EXPORT void vOnPickUpOrSlapped_408180();
     EXPORT void null_4081A0(BaseGameObject* pFrom);
-
+public:
     EXPORT Map::CameraPos Is_In_Current_Camera_424A70();
 
     EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);

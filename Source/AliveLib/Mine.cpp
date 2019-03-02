@@ -303,7 +303,7 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseAnimatedWithPhysicsGameObject* pFrom
     {
     case BaseGameObject::Types::eGreeter_64:
     case BaseGameObject::Types::eType_Abe_69:
-    case BaseGameObject::Types::eType_89:
+    case BaseGameObject::Types::eMineCar_89:
     case BaseGameObject::Types::eType_104:
     case BaseGameObject::Types::eExplosion_109:
     case BaseGameObject::Types::eMudokon_110:
