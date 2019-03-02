@@ -38,6 +38,7 @@
 #include "FootSwitch.hpp"
 #include "FartMachine.hpp"
 #include "FallingItem.hpp"
+#include "MineCar.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -959,7 +960,29 @@ EXPORT void CC Factory_Grinder_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 
 EXPORT void CC Factory_ColorfulMeter_4DAC60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_FlyingSligSpawner_4D9440(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        // TODO: Ids
+        gMap_5C3030.LoadResource_4DBE00("BAYROLL.BAN", ResourceManager::Resource_Animation, 6013, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("ABECAR.BAN", ResourceManager::Resource_Animation, 113, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, 0);
+    }
+    else
+    {
+        auto pMineCar = alive_new<MineCar>();
+        if (pMineCar)
+        {
+            pMineCar->ctor_46BC80(static_cast<Path_MineCar*>(pTlv), tlvInfo.all, 0, 0, 0);
+        }
+    }
+
+}
+
 EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 

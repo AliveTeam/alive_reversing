@@ -3,10 +3,13 @@
 #include "BaseAliveGameObject.hpp"
 #include "FunctionFwd.hpp"
 #include "BitField.hpp"
+#include "Input.hpp"
 
 class PullRingRope;
 
 extern const TintEntry sTintTable_Abe_554D20[15];
+
+extern const InputCommands sInputKey_ThrowItem_5550F4;
 
 enum class AbeSay : __int16
 {

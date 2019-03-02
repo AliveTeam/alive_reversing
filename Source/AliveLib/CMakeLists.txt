@@ -239,6 +239,8 @@ add_library(AliveLib
     FartMachine.hpp
     FallingItem.cpp
     FallingItem.hpp
+    MineCar.cpp
+    MineCar.hpp
     Slurg.cpp
     Slurg.hpp)
 
