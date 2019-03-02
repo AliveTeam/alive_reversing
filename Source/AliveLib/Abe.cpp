@@ -42,6 +42,7 @@
 #include "LiftPoint.hpp"
 #include "PullRingRope.hpp"
 #include "FartMachine.hpp"
+#include "MineCar.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -8090,7 +8091,32 @@ void Abe::State_116_MineCarEnter_458780()
 
 void Abe::State_117_In_MineCar_4587C0()
 {
-    NOT_IMPLEMENTED();
+    if (sInputKey_DoAction_5550E4 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+    {
+        auto pMineCar = static_cast<MineCar*>(sControlledCharacter_5C1B8C);
+        if (pMineCar->field_11C_state == 1 && pMineCar->field_1BC == 3)
+        {
+            PathLine* pLine = nullptr;
+            FP hitX = {};
+            FP hitY = {};
+            if (sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(2),
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(2),
+                &pLine,
+                &hitX,
+                &hitY,
+                field_D6_scale != 0 ? 1 : 16))
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+                field_106_current_state = eAbeStates::State_118_MineCarExit_458890;
+            }
+        }
+    }
+
 }
 
 void Abe::State_118_MineCarExit_458890()
@@ -8581,7 +8607,44 @@ void CC Abe::Create_Fart_421D20()
 
 __int16 Abe::TryEnterMineCar_4569E0()
 {
-    NOT_IMPLEMENTED();
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & sInputKey_Up_5550D8)
+    {
+        for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+        {
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+            {
+                PSX_RECT abeRect = {};
+                vGetBoundingRect_424FD0(&abeRect, 1);
+
+                PSX_RECT mineCarRect = {};
+                pObj->vGetBoundingRect_424FD0(&mineCarRect, 1);
+
+                if (PSX_Rects_overlap_no_adjustment(&abeRect, &mineCarRect) &&
+                    pObj->field_CC_sprite_scale == field_CC_sprite_scale && 
+                    pObj->field_4_typeId == Types::eMineCar_89)
+                {
+                    const FP distanceCheck = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5);
+                    if (field_B8_xpos - pObj->field_B8_xpos < distanceCheck)
+                    {
+                        if (pObj->field_B8_xpos - field_B8_xpos < distanceCheck)
+                        {
+                            field_120_state = 0;
+                            field_106_current_state = eAbeStates::State_116_MineCarEnter_458780;
+                            field_B8_xpos = FP_FromInteger((mineCarRect.x + mineCarRect.w) / 2);
+                            MapFollowMe_408D10(TRUE);
+                            return 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
     return 0;
 }
 

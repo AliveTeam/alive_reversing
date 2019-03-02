@@ -6,6 +6,8 @@
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "Midi.hpp"
+#include "ShadowZone.hpp"
+#include "ScreenManager.hpp"
 #include "Function.hpp"
 
 MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /*a5*/, int /*a6*/)
@@ -194,4 +196,54 @@ __int16 MineCar::CheckCollision_46F730(FP hitX, FP hitY)
 void MineCar::vUpdate_46C010()
 {
     NOT_IMPLEMENTED();
+}
+
+void MineCar::vRender_46E760(int** pOt)
+{
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        short r = field_D2_g;
+        short g = field_D0_r;
+        short b = field_D4_b;
+        
+        PSX_RECT bRect = {};
+        vGetBoundingRect_424FD0(&bRect, 1);
+
+        if (field_DC_bApplyShadows & 1)
+        {
+           ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                FP_GetExponent(field_B8_xpos),
+                (bRect.h + bRect.y) / 2,
+                field_D6_scale,
+                &r,
+                &g,
+                &b);
+        }
+
+        field_124_anim.field_8_r = static_cast<BYTE>(r);
+        field_124_anim.field_9_g = static_cast<BYTE>(g);
+        field_124_anim.field_A_b = static_cast<BYTE>(b);
+
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos + FP_FromInteger(30), field_BC_ypos, 0)|| 
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)), 0) ||
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos - FP_FromInteger(30), field_BC_ypos, 0))
+        {
+            field_124_anim.vRender_40B820(
+                FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                pOt,
+                0,
+                0);
+        }
+
+        PSX_RECT frameRect = {};
+        field_124_anim.Get_Frame_Rect_409E10(&frameRect);
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            frameRect.x,
+            frameRect.y,
+            frameRect.w,
+            frameRect.h,
+            pScreenManager_5BB5F4->field_3A_idx);
+        BaseAnimatedWithPhysicsGameObject::VRender(pOt);
+    }
 }

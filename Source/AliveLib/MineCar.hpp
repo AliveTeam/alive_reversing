@@ -26,9 +26,9 @@ public:
         vUpdate_46C010();
     }
 
-    virtual void VRender(int** /*pOrderingTable*/) override
+    virtual void VRender(int** pOrderingTable) override
     {
-        // TODO
+        vRender_46E760(pOrderingTable);
     }
 
     virtual void VScreenChanged() override
@@ -69,15 +69,22 @@ private:
     EXPORT __int16 CheckCollision_46F730(FP hitX, FP hitY);
 
     EXPORT void vUpdate_46C010();
+
+    EXPORT void vRender_46E760(int **pOt);
+
 private:
     __int16 field_116_pad;
     int field_118_tlvInfo;
+public:
     __int16 field_11C_state;
+private:
     __int16 field_11E_scale;
     __int16 field_120_max_damage;
     __int16 field_122;
     Animation field_124_anim;
+public:
     __int16 field_1BC;
+private:
     __int16 field_1BE;
     __int16 field_1C0;
     __int16 field_1C2;
