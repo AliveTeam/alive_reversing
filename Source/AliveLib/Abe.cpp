@@ -103,7 +103,7 @@ using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
     ENTRY(State_53_RunTurn_ToWalk_451800) \
     ENTRY(State_54_RunJumpLandRun_4538F0) \
     ENTRY(State_55_RunJumpLandWalk_453970) \
-    ENTRY(State_56_4591F0) \
+    ENTRY(State_56_FallAndCrunchDeath_4591F0) \
     ENTRY(State_57_Dead_4589A0) \
     ENTRY(State_58_DeadPre_4593E0) \
     ENTRY(State_59_Null_459450) \
@@ -248,7 +248,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_53_RunTurn_ToWalk_451800,
     &Abe::State_54_RunJumpLandRun_4538F0,
     &Abe::State_55_RunJumpLandWalk_453970,
-    &Abe::State_56_4591F0,
+    &Abe::State_56_FallAndCrunchDeath_4591F0,
     &Abe::State_57_Dead_4589A0,
     &Abe::State_58_DeadPre_4593E0,
     &Abe::State_59_Null_459450,
@@ -1441,9 +1441,9 @@ __int16 Abe::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_44BB50(pFrom);
 }
 
-__int16 Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
+void Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
 {
-    return vOn_TLV_Collision_44B5D0(pTlv);
+    vOn_TLV_Collision_44B5D0(pTlv);
 }
 
 BaseGameObject* Abe::Vsub_408FD0(__int16 a2)
@@ -2825,10 +2825,40 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     return ret;
 }
 
-__int16 Abe::vOn_TLV_Collision_44B5D0(Path_TLV* /*a2a*/)
+void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
 {
     NOT_IMPLEMENTED();
-    return 0;
+
+    for (; pTlv;  pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pTlv,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos))
+    {
+        if (pTlv->field_4_type == 0)
+        {
+
+        }
+        else if (pTlv->field_4_type == Path_DeathDrop::kType)
+        {
+            if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89 || gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMines_1)
+            {
+                Abe_SFX_457EC0(15, 0, 0, this);
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                Event_Broadcast_422BC0(kEventLoudNoise, this);
+                Event_Broadcast_422BC0(kEventSpeaking, this);
+                ToDie_4588D0();
+            }
+        }
+        else if (pTlv->field_4_type == 76)
+        {
+
+        }
+
+    }
+
 }
 
 BaseAliveGameObject* Abe::FindObjectToPosses_44B7B0()
@@ -5908,9 +5938,38 @@ void Abe::State_55_RunJumpLandWalk_453970()
     }
 }
 
-void Abe::State_56_4591F0()
+void Abe::State_56_FallAndCrunchDeath_4591F0()
 {
-    NOT_IMPLEMENTED();
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+    if (field_124_gnFrame == 0)
+    {
+        field_128.field_8 = FP_FromInteger(0);
+        field_128.field_C = 0;
+        field_C4_velx = FP_FromInteger(0);
+        field_C8_vely = FP_FromInteger(0);
+        field_128.field_0_gnFrame = sGnFrame_5C1B84 + 90;
+        field_124_gnFrame++;
+    }
+    else if (field_124_gnFrame == 1)
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) == field_128.field_0_gnFrame - 30)
+        {
+            SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+        }
+        else if (static_cast<int>(sGnFrame_5C1B84) == field_128.field_0_gnFrame - 24)
+        {
+            SFX_Play_46FA90(64u, 85, 0x10000);
+            auto pShake = alive_new<ScreenShake>();
+            if (pShake)
+            {
+                pShake->ctor_4ACF70(1, 0);
+            }
+        }
+        else if (static_cast<int>(sGnFrame_5C1B84) >= field_128.field_0_gnFrame)
+        {
+            ToDieFinal_458910();
+        }
+    }
 }
 
 void Abe::State_57_Dead_4589A0()
@@ -8361,7 +8420,7 @@ void Abe::jState_81_WellBegin_4017F8()
 void Abe::ToDie_4588D0()
 {
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
-    field_106_current_state = eAbeStates::State_56_4591F0;
+    field_106_current_state = eAbeStates::State_56_FallAndCrunchDeath_4591F0;
     field_124_gnFrame = 0;
     field_10C_health = FP_FromInteger(0);
     MusicController::sub_47FD60(0, this, 1, 0);

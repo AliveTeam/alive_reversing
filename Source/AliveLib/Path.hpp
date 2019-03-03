@@ -172,6 +172,12 @@ struct Path_SoftLanding : public Path_TLV
 };
 // TODO: Size
 
+struct Path_DeathDrop : public Path_TLV
+{
+    static constexpr unsigned short kType = 4;
+};
+// TODO: Size
+
 struct Path_Well_Base : public Path_TLV
 {
     __int16 field_0_scale;
