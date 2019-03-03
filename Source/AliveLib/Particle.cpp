@@ -28,7 +28,7 @@ EXPORT Particle* Particle::ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffse
 
     field_BC_ypos = ypos;
     field_B8_xpos = xpos;
-    field_F4_scale_amount = 0;
+    field_F4_scale_amount = FP_FromInteger(0);
     return this;
 }
 
@@ -36,7 +36,7 @@ EXPORT void Particle::vUpdate_4CC620()
 {
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
-    field_CC_sprite_scale.fpValue += field_F4_scale_amount;
+    field_CC_sprite_scale += field_F4_scale_amount;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -140,8 +140,47 @@ EXPORT Particle* CC New_Chant_Particle_426BE0(FP xpos, FP ypos, FP scale, __int1
 }
 
 // Fart/dust cloud particle spawner
-EXPORT Particle* CC New_Particles_426C70(FP /*xpos*/, FP /*ypos*/, FP /*scale*/, __int16 /*count*/, BYTE /*r*/, BYTE /*g*/, BYTE /*b*/)
+EXPORT void CC New_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, BYTE r, BYTE g, BYTE b)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    FP velYCounter = {};
+    for (int i=0; i < count; i++)
+    {
+        FP randX = (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) * scale) + xpos;
+        FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
+        BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 354, 0, 0);
+        auto pParticle = alive_new<Particle>();
+        if (pParticle)
+        {
+            pParticle->ctor_4CC4C0(randX, particleY, 5084, 61, 44, ppRes);
+            pParticle->field_DC_bApplyShadows &= ~1u;
+            pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+            pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+            pParticle->field_20_animation.field_B_render_mode = 3;
+
+            pParticle->field_D0_r = r;
+            pParticle->field_D2_g = g;
+            pParticle->field_D4_b = b;
+
+            pParticle->field_C4_velx = (scale * FP_FromInteger(Math_RandomRange_496AB0(-10, 10))) / FP_FromInteger(10);
+            pParticle->field_C8_vely = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange_496AB0(50, 50))) / FP_FromInteger(100);
+            pParticle->field_CC_sprite_scale = scale;
+
+            if (scale == FP_FromInteger(1))
+            {
+                pParticle->field_20_animation.field_C_render_layer = 36;
+            }
+            else
+            {
+                pParticle->field_20_animation.field_C_render_layer = 17;
+            }
+
+            pParticle->field_F4_scale_amount = scale * FP_FromDouble(0.03);
+            pParticle->field_20_animation.field_10_frame_delay = static_cast<WORD>((i + 3) / 2);
+            if (Math_NextRandom() < 127)
+            {
+                pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+        }
+        velYCounter -= FP_FromInteger(1);
+    }
 }
