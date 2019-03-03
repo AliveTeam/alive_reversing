@@ -16,14 +16,14 @@ private:
     __int16 field_2_y1;
     __int16 field_4_x2;
     __int16 field_6_y2;
-    int field_8_xpos;
-    int field_C_ypos;
-    int field_10_scale;
+    FP field_8_xpos;
+    FP field_C_ypos;
+    FP field_10_scale;
 public:
     enum Flags
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
+        eBit1_ShadowAtBottom = 0x1,
+        eBit2_Enabled = 0x2,
     };
     BitField32<Flags> field_14_flags;
     Animation field_18_animation;
