@@ -56,49 +56,6 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
 
-    class RawHandle
-    {
-    public:
-        RawHandle() : mResource(nullptr) { }
-        explicit RawHandle(BYTE* res) : mResource(res) {}
-        Header* GetHeader() { return reinterpret_cast<Header*>((mResource - sizeof(Header))); }
-        bool Valid() const { return mResource != nullptr; }
-    private:
-        BYTE* mResource = nullptr;
-    };
-
-    class BaseHandle
-    {
-    public:
-        BaseHandle() : mResource(nullptr) { }
-        explicit BaseHandle(BYTE** res) : mResource(res) {}
-        Header* GetHeader() { return reinterpret_cast<Header*>((*mResource - sizeof(Header))); }
-        RawHandle ToRawHandle() { return RawHandle(*mResource); }
-        bool Valid() const { return mResource != nullptr; }
-        void Clear() { mResource = nullptr; }
-        BYTE** RawResource() { return mResource; }
-    protected:
-        BYTE** mResource;
-    };
-
-    template<class T>
-    class Handle : public BaseHandle
-    {
-    public:
-        using BaseHandle::BaseHandle;
-
-        T operator ->()
-        {
-            // TODO: Can assert on GetHeader()->field_8_type matching T
-            return reinterpret_cast<T>(*mResource);
-        }
-
-        T operator & ()
-        {
-            return reinterpret_cast<T>(*mResource);
-        }
-    };
-
     struct ResourcesToLoadList_Entry
     {
         DWORD field_0_type;
@@ -199,13 +156,6 @@ public:
     EXPORT static void CC Free_Resource_Of_Type_49C6B0(DWORD type);
     EXPORT static void CC NoEffect_49C700();
 
-    // Helper to avoid casting raw types
-    template<class T>
-    static Handle<T> CC Allocate_New_Block_49BFB0_T(int sizeBytes, BlockAllocMethod allocMethod)
-    {
-        BYTE** block = Allocate_New_Block_49BFB0(sizeBytes, allocMethod);
-        return Handle<T>(block);
-    }
 
 private:
 

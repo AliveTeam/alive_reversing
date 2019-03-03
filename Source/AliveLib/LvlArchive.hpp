@@ -42,7 +42,7 @@ public:
     EXPORT int Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer);
     EXPORT int Free_433130();
 private:
-    ResourceManager::Handle<LvlHeader_Sub*> field_0_0x2800_res;
+    BYTE** field_0_0x2800_res;
 public:
     DWORD field_4;
 };

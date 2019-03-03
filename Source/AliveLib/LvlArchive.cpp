@@ -79,10 +79,10 @@ int LvlArchive::Read_File_4330A0(LvlFileRecord* hFile, void* pBuffer)
 int LvlArchive::Free_433130()
 {
     // Strangely the emulated CD file isn't closed, but the next CD open file will close it anyway..
-    if (field_0_0x2800_res.Valid())
+    if (field_0_0x2800_res)
     {
-        ResourceManager::FreeResource_49C330(field_0_0x2800_res.RawResource());
-        field_0_0x2800_res.Clear();
+        ResourceManager::FreeResource_49C330(field_0_0x2800_res);
+        field_0_0x2800_res = nullptr;
     }
     return 0;
 }
@@ -90,7 +90,7 @@ int LvlArchive::Free_433130()
 int LvlArchive::Open_Archive_432E80(const char* fileName)
 {
     // Allocate space for LVL archive header
-    field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0_T<LvlHeader_Sub*>(kSectorSize * 5, ResourceManager::BlockAllocMethod::eFirstMatching);
+    field_0_0x2800_res = ResourceManager::Allocate_New_Block_49BFB0(kSectorSize * 5, ResourceManager::BlockAllocMethod::eFirstMatching);
 
     // Open the LVL file
 
@@ -120,7 +120,7 @@ int LvlArchive::Open_Archive_432E80(const char* fileName)
     PSX_CD_File_Seek_4FB1E0(2, &cdLoc);
 
     // Read the header
-    ResourceManager::Header* pResHeader = field_0_0x2800_res.GetHeader();
+    ResourceManager::Header* pResHeader = ResourceManager::Get_Header_49C410(field_0_0x2800_res);
     int bOk = PSX_CD_File_Read_4FB210(5, pResHeader);
     if (PSX_CD_FileIOWait_4FB260(0) == -1)
     {
@@ -160,20 +160,21 @@ LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
         ++sTotalOpenedFilesCount_551D28;
     }
 
-    if (!field_0_0x2800_res->field_0_num_files)
+    auto pHeader = reinterpret_cast<LvlHeader_Sub*>(*field_0_0x2800_res);
+    if (!pHeader->field_0_num_files)
     {
         return nullptr;
     }
 
     int fileRecordIndex = 0;
-    while (strncmp(field_0_0x2800_res->field_10_file_recs[fileRecordIndex].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)))
+    while (strncmp(pHeader->field_10_file_recs[fileRecordIndex].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)))
     {
         fileRecordIndex++;
-        if (fileRecordIndex >= field_0_0x2800_res->field_0_num_files)
+        if (fileRecordIndex >= pHeader->field_0_num_files)
         {
             LOG_ERROR("Couldn't find " << pFileName << " in LVL");
             return nullptr;
         }
     }
-    return &field_0_0x2800_res->field_10_file_recs[fileRecordIndex];
+    return &pHeader->field_10_file_recs[fileRecordIndex];
 }

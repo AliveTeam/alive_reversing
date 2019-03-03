@@ -1029,7 +1029,7 @@ signed __int16 CC ResourceManager::FreeResource_Impl_49C360(BYTE* handle)
 
 ResourceManager::Header* CC ResourceManager::Get_Header_49C410(BYTE** ppRes)
 {
-    return BaseHandle(ppRes).GetHeader();
+    return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
 }
 
 void CC ResourceManager::Reclaim_Memory_49C470(unsigned int sizeToReclaim)
