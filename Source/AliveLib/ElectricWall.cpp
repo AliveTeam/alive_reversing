@@ -160,8 +160,8 @@ void ElectricWall::vUpdate_422030()
         
         const PSX_RECT bRectBigger = 
         {
-            bRect.x + 5,
-            bRect.w + 5,
+            static_cast<short>(bRect.x + 5),
+            static_cast<short>(bRect.w + 5),
             FP_GetExponent(field_B8_xpos - FP_FromInteger(4)),
             FP_GetExponent(field_B8_xpos + FP_FromInteger(4))
         };
