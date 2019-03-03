@@ -1226,7 +1226,7 @@ void PauseMenu::Update_48FD80()
     Abe* pHero = sActiveHero_5C1B68;
     BaseAliveGameObject* pControlledChar = nullptr;
     
-    if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7))
+    if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         pControlledChar = sControlledCharacter_5C1B8C;
     }
@@ -1280,7 +1280,7 @@ void PauseMenu::Update_48FD80()
     if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::ePause)
     {
         if (pHero->field_10C_health > FP_FromInteger(0)
-            && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7))
+            && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10)))
         {
             const short heroState = pHero->field_106_current_state;

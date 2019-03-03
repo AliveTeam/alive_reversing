@@ -241,6 +241,8 @@ add_library(AliveLib
     FallingItem.hpp
     MineCar.cpp
     MineCar.hpp
+    ElectricWall.cpp
+    ElectricWall.hpp
     Slurg.cpp
     Slurg.hpp)
 

@@ -1135,10 +1135,10 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
     sActiveHero_5C1B68->field_D6_scale = pSaveState->field_1C_scale;
 
-    sActiveHero_5C1B68->field_114_flags.Clear(Flags_114::e114_Bit7);
+    sActiveHero_5C1B68->field_114_flags.Clear(Flags_114::e114_Bit7_Electrocuted);
     if (pSaveState->word40 & 1)
     {
-        sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit7);
+        sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
     }
 
     sActiveHero_5C1B68->field_114_flags.Clear(Flags_114::e114_Bit8);
@@ -1518,7 +1518,7 @@ void Abe::Update_449DC0()
 {
     if (word_5C1BDA) // Some flag to reset HP?
     {
-        field_114_flags.Clear(Flags_114::e114_Bit7);
+        field_114_flags.Clear(Flags_114::e114_Bit7_Electrocuted);
         field_10C_health = FP_FromDouble(1.0);
     }
 
@@ -3416,7 +3416,7 @@ void Abe::State_0_Idle_44EEB0()
             switch (pTlv->field_4_type)
             {
             case Path_Door::kType:
-                if (!sub_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7))
+                if (!sub_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
                 {
                     if (sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held) // OG bug, already checked ??
                     {
@@ -6462,7 +6462,7 @@ void Abe::State_71_Knockback_455090()
     {
         if (!(field_114_flags.Get(Flags_114::e114_Bit2)) && (field_100_pCollisionLine || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))))
         {
-            if (field_10C_health > FP_FromInteger(0) || word_5C1BDA || field_114_flags.Get(Flags_114::e114_Bit7))
+            if (field_10C_health > FP_FromInteger(0) || word_5C1BDA || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             {
                 field_106_current_state = eAbeStates::State_72_KnockbackGetUp_455340;
             }
@@ -8968,7 +8968,7 @@ __int16 Abe::RunTryEnterDoor_451220()
         return 0;
     }
 
-    if (field_114_flags.Get(Flags_114::e114_Bit7))
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return 0;
     }
@@ -9002,7 +9002,7 @@ __int16 Abe::RunTryEnterDoor_451220()
 __int16 Abe::RunTryEnterWell_451060()
 {
     if (!(sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed) ||
-        field_114_flags.Get(Flags_114::e114_Bit7) ||
+        field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) ||
         field_20_animation.field_92_current_frame < 4)
     {
         return 0;
@@ -9237,7 +9237,7 @@ __int16 Abe::CantBeDamaged_44BAB0()
     }
 
     // TODO: Unknown what this is checking, condition should probably be inverted
-    if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)) && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) || field_114_flags.Get(Flags_114::e114_Bit7))
+    if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)) && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return FALSE;
     }

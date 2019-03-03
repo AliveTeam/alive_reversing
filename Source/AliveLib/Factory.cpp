@@ -39,6 +39,7 @@
 #include "FartMachine.hpp"
 #include "FallingItem.hpp"
 #include "MineCar.hpp"
+#include "ElectricWall.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -681,7 +682,23 @@ EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 EXPORT void CC Factory_ChantSuppressor_4D9E10(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("ELECWALL.BAN", ResourceManager::Resource_Animation, ResourceID::kElecwallResID, loadMode);
+    }
+    else
+    {
+        auto pElectricWall = alive_new<ElectricWall>();
+        if (pElectricWall)
+        {
+            pElectricWall->ctor_421DA0(static_cast<Path_ElectricWall*>(pTlv), tlvInfo.all);
+        }
+    }
+
+}
 
 EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
 {

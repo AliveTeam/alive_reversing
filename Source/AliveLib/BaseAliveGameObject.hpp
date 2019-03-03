@@ -20,7 +20,7 @@ enum Flags_114
     e114_Bit4_bPossesed = 0x8,
     e114_Bit5 = 0x10,
     e114_Bit6_SetOffExplosives = 0x20,
-    e114_Bit7 = 0x40,
+    e114_Bit7_Electrocuted = 0x40,
     e114_Bit8 = 0x80,
     e114_Bit9 = 0x100,
     e114_Bit10 = 0x200,
