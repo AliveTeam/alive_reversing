@@ -243,6 +243,8 @@ add_library(AliveLib
     MineCar.hpp
     ElectricWall.cpp
     ElectricWall.hpp
+    Electrocute.cpp
+    Electrocute.hpp
     Slurg.cpp
     Slurg.hpp)
 

@@ -8,6 +8,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Flash.hpp"
 #include "Abe.hpp"
+#include "Electrocute.hpp"
 #include "Function.hpp"
 
 const __int16 sElecticWallFrames_55165C[6] = { 0, 6, 10, 18, 22, 0 };
@@ -105,8 +106,6 @@ void ElectricWall::vScreenChanged_422530()
 
 void ElectricWall::vUpdate_422030()
 {
-    NOT_IMPLEMENTED();
-
     const __int16 soundDirection = gMap_5C3030.sub_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
@@ -158,13 +157,11 @@ void ElectricWall::vUpdate_422030()
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
         
-        const PSX_RECT bRectBigger = 
-        {
-            static_cast<short>(bRect.x + 5),
-            static_cast<short>(bRect.w + 5),
-            FP_GetExponent(field_B8_xpos - FP_FromInteger(4)),
-            FP_GetExponent(field_B8_xpos + FP_FromInteger(4))
-        };
+        PSX_RECT bRectBigger;
+        bRectBigger.x = FP_GetExponent(field_B8_xpos - FP_FromInteger(4));
+        bRectBigger.y = static_cast<short>(bRect.y + 5);
+        bRectBigger.w = FP_GetExponent(field_B8_xpos + FP_FromInteger(4));
+        bRectBigger.h = static_cast<short>(bRect.h + 5);
 
         for (int i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
@@ -214,14 +211,11 @@ void ElectricWall::vUpdate_422030()
                         {
                             pObj->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
 
-                            // TODO
-                            /*
-                            auto v11 = alive_new<Class_548100>();
-                            if (v11)
+                            auto pElectrocute = alive_new<Electrocute>();
+                            if (pElectrocute)
                             {
-                                v11->ctor_4E5E80(pObj, 1, 1);
+                                pElectrocute->ctor_4E5E80(pObj, 1, 1);
                             }
-                            */
 
                             pObj->VTakeDamage_408730(this);
 

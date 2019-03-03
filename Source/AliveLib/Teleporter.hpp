@@ -4,7 +4,7 @@
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
-class Class_548100;
+class Electrocute;
 
 class Teleporter : public BaseGameObject
 {
@@ -19,7 +19,7 @@ private:
     EXPORT void vScreenChanged_4DCE80();
     EXPORT void vUpdate_4DC400();
 private:
-    EXPORT static Class_548100* CC Create_obj_4DCEB0();
+    EXPORT static Electrocute* CC Create_ElectrocuteEffect_4DCEB0();
     void SpawnRingSparks(Path_Teleporter_Data* pTlvData);
 
     int field_20_tlvInfo;

@@ -18,7 +18,7 @@ Flash* Flash::ctor_428570(__int16 layer, unsigned __int8 r, unsigned __int8 g, u
 
 BaseGameObject* Flash::VDestructor(signed int flags)
 {
-    return VDestructor(flags);
+    return vdtor_4285F0(flags);
 }
 
 void Flash::VUpdate()
