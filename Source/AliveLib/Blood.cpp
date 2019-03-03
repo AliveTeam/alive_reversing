@@ -123,8 +123,8 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
                 SetClut(pSprt,
                     static_cast<short>(
                         PSX_getClut_4F6350(
-                            field_20_animation.field_8C_pal_vram_x.field_0_x,
-                            field_20_animation.field_8C_pal_vram_x.field_2_y)));
+                            field_20_animation.field_8C_pal_vram_xy.field_0_x,
+                            field_20_animation.field_8C_pal_vram_xy.field_2_y)));
 
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = frameW - 1;

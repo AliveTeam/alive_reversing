@@ -117,8 +117,8 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
                 Poly_Set_Blending_4F8A20(&pPoly->mBase.header, TRUE);
 
                 const int clut = PSX_getClut_4F6350(
-                    field_20_animation.field_8C_pal_vram_x.field_0_x,
-                    field_20_animation.field_8C_pal_vram_x.field_2_y);
+                    field_20_animation.field_8C_pal_vram_xy.field_0_x,
+                    field_20_animation.field_8C_pal_vram_xy.field_2_y);
 
                 SetClut(pPoly, static_cast<short>(clut));
                 SetTPage(pPoly, static_cast<short>(tPage));
@@ -133,8 +133,8 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
             field_102_screen_y = FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
 
             PSX_RECT rect = {};
-            rect.y = field_20_animation.field_8C_pal_vram_x.field_2_y;
-            rect.x = field_20_animation.field_8C_pal_vram_x.field_0_x + 1;
+            rect.y = field_20_animation.field_8C_pal_vram_xy.field_2_y;
+            rect.x = field_20_animation.field_8C_pal_vram_xy.field_0_x + 1;
             rect.w = 1;
             rect.h = 1;
 

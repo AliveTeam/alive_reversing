@@ -47,7 +47,7 @@ public:
         return 0;
     }
 
-    virtual __int16 VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* /*pFrom*/) override
+    virtual __int16 VTakeDamage_408730(BaseGameObject* /*pFrom*/) override
     {
         // TODO
         return 0;

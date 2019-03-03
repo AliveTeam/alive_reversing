@@ -225,7 +225,7 @@ public:
     Poly_FT4 field_2C_ot_data[2];
 
     PSX_RECT field_84_vram_rect;
-    PSX_Point field_8C_pal_vram_x;
+    PSX_Point field_8C_pal_vram_xy;
 
     __int16 field_90_pal_depth;
     __int16 field_92_current_frame;

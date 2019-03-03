@@ -159,7 +159,7 @@ public:
         eWell_147 = 147,
         eWheel_148 = 148,
         eCameraSwapper_149 = 149,
-        eType_150 = 150,
+        eElectrocute_150 = 150,
 
         eDebugHelper_1001 = 1001, // NOTE: Not part of the original game - a debug helper only
         eDebugConsole_1002 = 1002,

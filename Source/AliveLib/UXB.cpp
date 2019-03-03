@@ -131,7 +131,7 @@ void UXB::VScreenChanged()
     ScreenChanged_4DF9C0();
 }
 
-__int16 UXB::VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom)
+__int16 UXB::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_4DF850(pFrom);
 }
@@ -322,7 +322,7 @@ void UXB::vsub_4DF7B0(BaseGameObject* /*pFrom*/)
     field_124_next_state_frame = sGnFrame_5C1B84;
 }
 
-__int16 UXB::vTakeDamage_4DF850(BaseAnimatedWithPhysicsGameObject* pFrom)
+__int16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead))
     {

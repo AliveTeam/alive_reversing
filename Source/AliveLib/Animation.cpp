@@ -232,7 +232,7 @@ void Animation::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, sig
     Poly_Set_Blending_4F8A20(&pPoly->mBase.header, field_4_flags.Get(AnimFlags::eBit16_bBlending));
     SetRGB0(pPoly, field_8_r, field_9_g, field_A_b);
     SetTPage(pPoly, static_cast<WORD>(PSX_getTPage_4F60E0(textureMode, field_B_render_mode, field_84_vram_rect.x, field_84_vram_rect.y)));
-    SetClut(pPoly, static_cast<WORD>(PSX_getClut_4F6350(field_8C_pal_vram_x.field_0_x, field_8C_pal_vram_x.field_2_y)));
+    SetClut(pPoly, static_cast<WORD>(PSX_getClut_4F6350(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
 
     BYTE u1 = field_84_vram_rect.x & 63;
     if (textureMode == 1)
@@ -552,7 +552,7 @@ void Animation::Animation_Pal_Free_40C4C0()
 
         if (field_90_pal_depth > 0 && field_4_flags.Get(AnimFlags::eBit17))
         {
-            Pal_free_483390(field_8C_pal_vram_x, field_90_pal_depth);
+            Pal_free_483390(field_8C_pal_vram_xy, field_90_pal_depth);
         }
 
     }
@@ -816,8 +816,8 @@ signed __int16 Animation::Init_40A030(int frameTableOffset, DynamicArray* /*anim
             return 0;
         }
 
-        field_8C_pal_vram_x.field_0_x = rect.x;
-        field_8C_pal_vram_x.field_2_y = rect.y;
+        field_8C_pal_vram_xy.field_0_x = rect.x;
+        field_8C_pal_vram_xy.field_2_y = rect.y;
         field_90_pal_depth = pal_depth;
 
         rect.w = pal_depth;
@@ -853,8 +853,8 @@ void Animation::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
     }
 
     PSX_RECT rect = {};
-    rect.x = field_8C_pal_vram_x.field_0_x;
-    rect.y = field_8C_pal_vram_x.field_2_y;
+    rect.x = field_8C_pal_vram_xy.field_0_x;
+    rect.y = field_8C_pal_vram_xy.field_2_y;
     rect.w = field_90_pal_depth; // 16, 64, 256
     rect.h = 1;
 

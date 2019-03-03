@@ -1052,7 +1052,7 @@ EXPORT int CC PSX_EMU_SetDispType_4F9960(int dispType)
 }
 
 
-EXPORT void CC PSX_Pal_Conversion_4F98D0(WORD* pDataToConvert, WORD* pConverted, unsigned int size)
+EXPORT void CC PSX_Pal_Conversion_4F98D0(const WORD* pDataToConvert, WORD* pConverted, unsigned int size)
 {
     if (sVGA_DisplayType_BD1468 == 5)
     {

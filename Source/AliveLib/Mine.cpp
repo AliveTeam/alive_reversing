@@ -54,7 +54,7 @@ void Mine::vnull_4081A0(BaseGameObject* pFrom)
     vsub_46BA40(pFrom);
 }
 
-__int16 Mine::VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom)
+__int16 Mine::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_46BB20(pFrom);
 }
@@ -292,7 +292,7 @@ void Mine::vsub_46BA40(BaseGameObject* /*pFrom*/)
     field_118 = 1;
 }
 
-signed __int16 Mine::vTakeDamage_46BB20(BaseAnimatedWithPhysicsGameObject* pFrom)
+signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead))
     {

@@ -18,7 +18,7 @@ public:
     virtual void VSub_4E6150();
     virtual int VSub_4E6630();
 
-    EXPORT Electrocute* ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b1, __int16 b2);
+    EXPORT Electrocute* ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b1, __int16 bKillTarget);
 
 private:
     EXPORT Electrocute* vdtor_4E6060(signed int flags);
@@ -35,7 +35,7 @@ private:
     __int16 field_28_b;
     __int16 field_2A_pad; // NOTE: Crashes if commented out - why?
     __int16 field_2C_bKillTarget;
-    __int16 field_2E_count;
+    __int16 field_2E_overwriter_count;
     PalleteOverwriter* field_30_pPalOverwriters[3];
     __int16 field_3C_b1;
     __int16 field_3E;

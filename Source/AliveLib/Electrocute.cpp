@@ -39,6 +39,11 @@ public:
         return this;
     }
 
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_4229C0(flags);
+    }
+
     virtual void VUpdate() override
     {
         vUpdate_422A70();
@@ -125,6 +130,7 @@ private:
     __int16 field_C8_pal_x_index;
     __int16 field_CA_pal_w;
     __int16 field_CC_bFirstUpdate;
+public:
     __int16 field_CE_bDone;
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
@@ -159,13 +165,13 @@ EXPORT Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 
     SetVTable(this, 0x548100); // vTbl_Class_548100
-    field_4_typeId = Types::eType_150;
+    field_4_typeId = Types::eElectrocute_150;
 
     field_20_target_obj_id = pTargetObj->field_8_object_id;
     field_44_state = 0;
     field_3C_b1 = b1;
     field_2C_bKillTarget = bKillTarget;
-    field_2E_count = b1 ? 3 : 2;
+    field_2E_overwriter_count = b1 ? 3 : 2;
     field_40_pPalData = nullptr;
 
     switch (pTargetObj->field_4_typeId)
@@ -176,7 +182,7 @@ EXPORT Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __
     case Types::eSlig_125:
         field_40_pPalData = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(sizeof(WORD) * pTargetObj->field_20_animation.field_90_pal_depth));
         Pal_Copy_483560(
-            pTargetObj->field_20_animation.field_8C_pal_vram_x,
+            pTargetObj->field_20_animation.field_8C_pal_vram_xy,
             pTargetObj->field_20_animation.field_90_pal_depth,
             field_40_pPalData,
             &field_4C_pal_rect);
@@ -209,7 +215,7 @@ EXPORT void Electrocute::dtor_4E6090()
 {
     SetVTable(this, 0x548100); // vTbl_Class_548100
 
-    for (int i = 0; i < field_2E_count; i++)
+    for (int i = 0; i < field_2E_overwriter_count; i++)
     {
         if (field_30_pPalOverwriters[i])
         {
@@ -238,11 +244,143 @@ EXPORT void Electrocute::vScreenChanged_4E65E0()
     }
 }
 
+EXPORT unsigned int CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bOpaque)
+{
+    return (bOpaque != 0 ? 0x8000 : 0) + ((unsigned int)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
+}
+
+EXPORT void CC Pal_Set_483510(const PSX_Point* xy, __int16 w, const BYTE* palData, PSX_RECT* rect)
+{
+    rect->x = xy->field_0_x;
+    rect->y = xy->field_2_y;
+    rect->w = w;
+    rect->h = 1;
+    PSX_LoadImage16_4F5E20(rect, palData);
+}
+
 EXPORT void Electrocute::vUpdate_4E6240()
 {
-    NOT_IMPLEMENTED();
-    // standalone hack
-    field_6_flags.Set(BaseGameObject::eDead);
+    BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
+    if (!pTargetObj || pTargetObj->field_6_flags.Get(BaseGameObject::eDead))
+    {
+        VSub_4E6150();
+    }
+    else
+    {
+        switch (field_44_state)
+        {
+        case 0:
+            if (pTargetObj->field_4_typeId == Types::eType_Abe_69)
+            {
+                field_28_b = 127;
+                field_26_g = 127;
+                field_24_r = 127;
+            }
+            else
+            {
+                field_24_r = pTargetObj->field_D0_r;
+                field_26_g = pTargetObj->field_D2_g;
+                field_28_b = pTargetObj->field_D4_b;
+            }
+            
+            pTargetObj->field_114_flags.Set(Flags_114::e114_Bit11);
+
+            pTargetObj->field_D4_b = 255;
+            pTargetObj->field_D2_g = 255;
+            pTargetObj->field_D0_r = 255;
+            field_44_state = 1;
+            break;
+
+        case 1:
+            field_30_pPalOverwriters[0] = alive_new<PalleteOverwriter>();
+            if (field_30_pPalOverwriters[0])
+            {
+                field_30_pPalOverwriters[0]->ctor_4228D0(
+                    pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                    pTargetObj->field_20_animation.field_90_pal_depth,
+                    static_cast<short>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
+            }
+
+            field_30_pPalOverwriters[1] = alive_new<PalleteOverwriter>();
+            if (field_30_pPalOverwriters[1])
+            {
+                field_30_pPalOverwriters[1]->ctor_4228D0(
+                    pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                    pTargetObj->field_20_animation.field_90_pal_depth,
+                    static_cast<short>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
+
+                field_30_pPalOverwriters[1]->field_1C_update_delay = 4;
+            }
+
+            if (field_3C_b1)
+            {
+                field_30_pPalOverwriters[2] = alive_new<PalleteOverwriter>();
+                if (field_30_pPalOverwriters[2])
+                {
+                    field_30_pPalOverwriters[2]->ctor_4228D0(
+                        pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                        pTargetObj->field_20_animation.field_90_pal_depth,
+                        static_cast<short>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
+
+                    field_30_pPalOverwriters[2]->field_1C_update_delay = 8;
+                }
+            }
+
+            field_44_state = 2;
+            break;
+
+        case 2:
+        {
+            PalleteOverwriter* v13 = field_30_pPalOverwriters[field_2E_overwriter_count - 1];
+            if (!v13 || v13->field_CE_bDone)
+            {
+                if (field_40_pPalData)
+                {
+                    Pal_Set_483510(
+                        &pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                        pTargetObj->field_20_animation.field_90_pal_depth,
+                        reinterpret_cast<const BYTE*>(field_40_pPalData),
+                        &field_4C_pal_rect);
+                }
+
+                if (field_2C_bKillTarget)
+                {
+                    pTargetObj->VTakeDamage_408730(this);
+                }
+                else
+                {
+                    pTargetObj->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                }
+
+                pTargetObj->field_D0_r = field_24_r;
+                pTargetObj->field_D2_g = field_26_g;
+                pTargetObj->field_D4_b = field_28_b;
+
+                pTargetObj->field_114_flags.Clear(Flags_114::e114_Bit11);
+
+                field_20_target_obj_id = -1;
+                field_44_state = 3;
+            }
+        }
+            break;
+
+        case 3:
+            field_6_flags.Set(BaseGameObject::eDead);
+            break;
+
+        default:
+            break;
+        }
+
+        for (int i = 0; i < field_2E_overwriter_count; i++)
+        {
+            if (field_30_pPalOverwriters[i])
+            {
+                field_30_pPalOverwriters[i]->VUpdate();
+            }
+        }
+    }
+
 }
 
 EXPORT void Electrocute::vSub_4E6150()

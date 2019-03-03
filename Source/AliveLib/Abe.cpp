@@ -1436,7 +1436,7 @@ int Abe::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_457110(pSaveBuffer);
 }
 
-__int16 Abe::VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom)
+__int16 Abe::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_44BB50(pFrom);
 }
@@ -2375,7 +2375,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     return sizeof(Quicksave_Obj_Abe);
 }
 
-__int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
+__int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 {
     // Stop chant sound music
     SND_SEQ_Stop_4CAE60(10u);
@@ -2564,6 +2564,8 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
     case Types::eFleech_50:
         if (field_10C_health > FP_FromInteger(0))
         {
+            auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
+
             field_10C_health -= FP_FromDouble(0.15075); // Yes it has to be this accurate to match
 
             if (field_10C_health < FP_FromInteger(0))
@@ -2595,7 +2597,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
                     // Put YPos in the middle of who is getting damaged
                     FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2),
                     // Put the blood on the left or the right depending on where the damage is coming from
-                    FP_FromInteger((field_B8_xpos - pFrom->field_B8_xpos < FP_FromInteger(0))  ? -24 : 24),
+                    FP_FromInteger((field_B8_xpos - pAliveObj->field_B8_xpos < FP_FromInteger(0))  ? -24 : 24),
                     FP_FromInteger(0),
                     field_CC_sprite_scale,
                     50);
@@ -2609,17 +2611,17 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
             ToKnockback_44E700(1, 1);
             field_114_flags.Set(Flags_114::e114_Bit2);
 
-            if (pFrom->field_B8_xpos < field_B8_xpos && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (pAliveObj->field_B8_xpos < field_B8_xpos && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_106_current_state = eAbeStates::State_101_KnockForward_455420;
             }
 
-            if (pFrom->field_B8_xpos > field_B8_xpos && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+            if (pAliveObj->field_B8_xpos > field_B8_xpos && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
             {
                 field_106_current_state = eAbeStates::State_101_KnockForward_455420;
             }
 
-            if (pFrom->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (pAliveObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_C4_velx = field_CC_sprite_scale * FP_FromDouble(-7.8);
             }
@@ -2657,6 +2659,8 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
     case Types::eSlog_126:
         if (field_10C_health > FP_FromInteger(0))
         {
+            auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
+
             field_10C_health = FP_FromInteger(0);
 
             PSX_RECT bRect = {};
@@ -2669,7 +2673,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
                     field_B8_xpos,
                     FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2),
                     // Put the blood on the left or the right depending on where the damage is coming from
-                    (pFrom->field_C4_velx <= FP_FromInteger(0)) ? FP_FromInteger(-24) : FP_FromInteger(24),
+                    (pAliveObj->field_C4_velx <= FP_FromInteger(0)) ? FP_FromInteger(-24) : FP_FromInteger(24),
                     FP_FromInteger(0),
                     field_CC_sprite_scale,
                     50);
@@ -2683,7 +2687,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
             ToKnockback_44E700(1, 1);
             field_114_flags.Set(Flags_114::e114_Bit2);
 
-            if (pFrom->field_B8_xpos < field_B8_xpos)
+            if (pAliveObj->field_B8_xpos < field_B8_xpos)
             {
                 if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                 {
@@ -2691,7 +2695,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
                 }
             }
 
-            if (pFrom->field_B8_xpos > field_B8_xpos)
+            if (pAliveObj->field_B8_xpos > field_B8_xpos)
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -2699,7 +2703,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
                 }
             }
 
-            if (pFrom->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            if (pAliveObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_C4_velx = field_CC_sprite_scale * FP_FromDouble(-7.8);
             }
@@ -2723,6 +2727,8 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
     case Types::eType_107:
         if (field_10C_health > FP_FromInteger(0))
         {
+            auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
+
             field_114_flags.Set(Flags_114::e114_Bit2);
             field_10C_health = FP_FromInteger(0);
 
@@ -2733,7 +2739,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
 
             ToKnockback_44E700(1, 1);
 
-            if (pFrom->field_B8_xpos < field_B8_xpos)
+            if (pAliveObj->field_B8_xpos < field_B8_xpos)
             {
                 if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                 {
@@ -2741,7 +2747,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
                 }
             }
 
-            if (pFrom->field_B8_xpos > field_B8_xpos)
+            if (pAliveObj->field_B8_xpos > field_B8_xpos)
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -2749,7 +2755,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
                 }
             }
 
-            if (pFrom->field_C4_velx >= FP_FromInteger(0))
+            if (pAliveObj->field_C4_velx >= FP_FromInteger(0))
             {
                 field_C4_velx = field_CC_sprite_scale * FP_FromDouble(7.8);
             }
@@ -2791,7 +2797,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseAnimatedWithPhysicsGameObject* pFrom)
         }
         break;
 
-    case Types::eType_150:
+    case Types::eElectrocute_150:
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         ToDieFinal_458910();
         break;
@@ -9274,7 +9280,7 @@ EXPORT __int16 Abe::ForceDownIfHoisting_44BA30()
     return 1;
 }
 
-__int16 Abe::sub_44C980(BaseAnimatedWithPhysicsGameObject* /*pObj*/)
+__int16 Abe::sub_44C980(BaseGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
     return 0;

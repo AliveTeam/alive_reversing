@@ -144,7 +144,7 @@ int BaseAliveGameObject::Vsub_408320(__int16 a2, __int16 a3, int a4)
     return vsub_408320(a2, a3, a4);
 }
 
-__int16 BaseAliveGameObject::VTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* pFrom)
+__int16 BaseAliveGameObject::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_408730(pFrom);
 }
@@ -195,7 +195,7 @@ int BaseAliveGameObject::vsub_408320(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/)
     return 0;
 }
 
-__int16 BaseAliveGameObject::vTakeDamage_408730(BaseAnimatedWithPhysicsGameObject* /*pFrom*/)
+__int16 BaseAliveGameObject::vTakeDamage_408730(BaseGameObject* /*pFrom*/)
 {
     NOT_IMPLEMENTED();
     return 0;

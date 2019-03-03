@@ -684,7 +684,7 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* /*rect*/, WORD* /*pDa
     return 0;
 }
 
-EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, BYTE* pData)
+EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
 {
     const unsigned int pixelCount = pRect->w * pRect->h;
     WORD* pConversionBuffer = reinterpret_cast<WORD*>(malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
@@ -694,7 +694,7 @@ EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, BYTE* pData)
         return PSX_LoadImage_4F5FB0(pRect, pData);
     }
 
-    PSX_Pal_Conversion_4F98D0(reinterpret_cast<WORD*>(pData), pConversionBuffer, pixelCount);
+    PSX_Pal_Conversion_4F98D0(reinterpret_cast<const WORD*>(pData), pConversionBuffer, pixelCount);
     const auto loadImageRet = PSX_LoadImage_4F5FB0(pRect, reinterpret_cast<BYTE*>(pConversionBuffer));
     mem_free_4F4EA0(pConversionBuffer);
     return loadImageRet;
