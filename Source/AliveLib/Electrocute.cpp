@@ -150,9 +150,9 @@ void Electrocute::VScreenChanged()
     vScreenChanged_4E65E0();
 }
 
-void Electrocute::VSub_4E6150()
+void Electrocute::VStop_4E6150()
 {
-    vSub_4E6150();
+    vStop_4E6150();
 }
 
 int Electrocute::VSub_4E6630()
@@ -160,7 +160,7 @@ int Electrocute::VSub_4E6630()
     return vSub_4E6630();
 }
 
-EXPORT Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b1, __int16 bKillTarget)
+Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 bExtraOverwriter, __int16 bKillTarget)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 
@@ -169,9 +169,9 @@ EXPORT Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __
 
     field_20_target_obj_id = pTargetObj->field_8_object_id;
     field_44_state = 0;
-    field_3C_b1 = b1;
+    field_3C_extraOverwriter = bExtraOverwriter;
     field_2C_bKillTarget = bKillTarget;
-    field_2E_overwriter_count = b1 ? 3 : 2;
+    field_2E_overwriter_count = bExtraOverwriter ? 3 : 2;
     field_40_pPalData = nullptr;
 
     switch (pTargetObj->field_4_typeId)
@@ -201,7 +201,7 @@ EXPORT Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __
     return this;
 }
 
-EXPORT Electrocute* Electrocute::vdtor_4E6060(signed int flags)
+Electrocute* Electrocute::vdtor_4E6060(signed int flags)
 {
     dtor_4E6090();
     if (flags & 1)
@@ -211,7 +211,7 @@ EXPORT Electrocute* Electrocute::vdtor_4E6060(signed int flags)
     return this;
 }
 
-EXPORT void Electrocute::dtor_4E6090()
+void Electrocute::dtor_4E6090()
 {
     SetVTable(this, 0x548100); // vTbl_Class_548100
 
@@ -234,13 +234,13 @@ EXPORT void Electrocute::dtor_4E6090()
     BaseGameObject_dtor_4DBEC0();
 }
 
-EXPORT void Electrocute::vScreenChanged_4E65E0()
+void Electrocute::vScreenChanged_4E65E0()
 {
     BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
     // If the map has changed or target we are tracking has died then..
     if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() || (pTargetObj && pTargetObj->field_6_flags.Get(BaseGameObject::eDead)))
     {
-        VSub_4E6150();
+        VStop_4E6150();
     }
 }
 
@@ -258,12 +258,12 @@ EXPORT void CC Pal_Set_483510(const PSX_Point* xy, __int16 w, const BYTE* palDat
     PSX_LoadImage16_4F5E20(rect, palData);
 }
 
-EXPORT void Electrocute::vUpdate_4E6240()
+void Electrocute::vUpdate_4E6240()
 {
     BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
     if (!pTargetObj || pTargetObj->field_6_flags.Get(BaseGameObject::eDead))
     {
-        VSub_4E6150();
+        VStop_4E6150();
     }
     else
     {
@@ -312,7 +312,7 @@ EXPORT void Electrocute::vUpdate_4E6240()
                 field_30_pPalOverwriters[1]->field_1C_update_delay = 4;
             }
 
-            if (field_3C_b1)
+            if (field_3C_extraOverwriter)
             {
                 field_30_pPalOverwriters[2] = alive_new<PalleteOverwriter>();
                 if (field_30_pPalOverwriters[2])
@@ -383,13 +383,61 @@ EXPORT void Electrocute::vUpdate_4E6240()
 
 }
 
-EXPORT void Electrocute::vSub_4E6150()
+void Electrocute::vStop_4E6150()
 {
-    NOT_IMPLEMENTED();
+    for (int i=0; i < field_2E_overwriter_count; i++)
+    {
+        if (field_30_pPalOverwriters[i])
+        {
+            field_30_pPalOverwriters[i]->VDestructor(1);
+            field_30_pPalOverwriters[i] = nullptr;
+        }
+    }
+
+    field_6_flags.Set(BaseGameObject::eDead);
+
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
+    if (pTarget)
+    {
+        if (field_40_pPalData)
+        {
+            Pal_Set_483510(
+                &pTarget->field_20_animation.field_8C_pal_vram_xy,
+                pTarget->field_20_animation.field_90_pal_depth,
+                reinterpret_cast<const BYTE*>(field_40_pPalData),
+                &field_4C_pal_rect);
+
+            pTarget->field_D0_r = field_24_r;
+            pTarget->field_D2_g = field_26_g;
+            pTarget->field_D4_b = field_28_b;
+
+            pTarget->field_114_flags.Clear(Flags_114::e114_Bit11);
+        }
+
+        pTarget->VTakeDamage_408730(this);
+        field_20_target_obj_id = -1;
+    }
+
 }
 
-EXPORT int Electrocute::vSub_4E6630()
+int Electrocute::vSub_4E6630()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    int counter = field_2E_overwriter_count - 1;
+    if (counter < 0)
+    {
+        return 0;
+    }
+
+    PalleteOverwriter** pIter = &field_30_pPalOverwriters[counter];
+    while (!*pIter || !(*pIter)->field_CE_bDone)
+    {
+        --counter;
+        --pIter;
+        if (counter < 0)
+        {
+            return 0;
+        }
+    }
+
+    return counter + 1;
 }

@@ -15,17 +15,17 @@ public:
     virtual void VScreenChanged() override;
 
     // New virtuals
-    virtual void VSub_4E6150();
+    virtual void VStop_4E6150();
     virtual int VSub_4E6630();
 
-    EXPORT Electrocute* ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b1, __int16 bKillTarget);
+    EXPORT Electrocute* ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 bExtraOverwriter, __int16 bKillTarget);
 
 private:
     EXPORT Electrocute* vdtor_4E6060(signed int flags);
     EXPORT void dtor_4E6090();
     EXPORT void vScreenChanged_4E65E0();
     EXPORT void vUpdate_4E6240();
-    EXPORT void vSub_4E6150();
+    EXPORT void vStop_4E6150();
     EXPORT int vSub_4E6630();
 
 private:
@@ -37,7 +37,7 @@ private:
     __int16 field_2C_bKillTarget;
     __int16 field_2E_overwriter_count;
     PalleteOverwriter* field_30_pPalOverwriters[3];
-    __int16 field_3C_b1;
+    __int16 field_3C_extraOverwriter;
     __int16 field_3E;
     WORD* field_40_pPalData;
     __int16 field_44_state;
