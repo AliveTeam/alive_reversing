@@ -11,6 +11,7 @@
 #include "Game.hpp" // sIOSyncReads_BD2A5C, sCdRomDrives_5CA488
 #include "PsxRender.hpp"
 #include "Sys.hpp"
+#include "PsxRender.hpp"
 #include <gmock/gmock.h>
 
 void Psx_ForceLink() {}
@@ -677,11 +678,49 @@ EXPORT int CC PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const BYTE* pData)
     // Note: Removed width == 32 optimization case.
 }
 
-EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* /*rect*/, WORD* /*pData*/)
+EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
 {
-    // TODO
-    NOT_IMPLEMENTED();
-    return 0;
+    if (!PSX_Rect_IsInFrameBuffer_4FA050(rect))
+    {
+        return 0;
+    }
+
+    if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
+    {
+        Error_PushErrorRecord_4F2920(
+            "C:\\abe2\\code\\PSXEmu\\LIBGPU.C",
+            628,
+            -1,
+            "StoreImage: can't lock the _psxemu_videomem"); // OG bug, name is wrong
+        return 1;
+    }
+
+    WORD* pDstIter = pData;
+
+    // TODO: Refactor
+    const WORD* pVramIter = (const WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
+    const WORD* pVramEnd = &pVramIter[1024 * rect->h - 1024 + rect->w];
+    int lineRemainder = 1024 - rect->w;
+    for (int count = 1024 - rect->w; pVramIter < pVramEnd; pVramIter += lineRemainder)
+    {
+        const WORD* pLineStart = &pVramIter[rect->w];
+        while (pVramIter < pLineStart)
+        {
+            const WORD vram_pixel = *pVramIter;
+            ++pVramIter;
+            // Convert and store pixel value
+            *(pDstIter) =
+                ((unsigned int)vram_pixel >> sRedShift_C215C4) & 0x1F
+                | 32 * (((unsigned int)vram_pixel >> sGreenShift_C1D180) & 0x1F
+                    | 32 * (((unsigned int)vram_pixel >> sBlueShift_C19140) & 0x1F
+                        | 32 * ((unsigned int)vram_pixel >> sSemiTransShift_C215C0)));
+
+            ++pDstIter;
+            lineRemainder = count;
+        }
+    }
+    BMP_unlock_4F2100(&sPsxVram_C1D160);
+    return 1;
 }
 
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)

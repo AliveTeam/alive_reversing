@@ -26,3 +26,8 @@ void Psx_Render_Float_Table_Init();
 
 ALIVE_VAR_EXTERN(int, sScreenXOffSet_BD30E4);
 ALIVE_VAR_EXTERN(int, sScreenYOffset_BD30A4);
+
+ALIVE_VAR_EXTERN(DWORD, sSemiTransShift_C215C0);
+ALIVE_VAR_EXTERN(DWORD, sRedShift_C215C4);
+ALIVE_VAR_EXTERN(DWORD, sGreenShift_C1D180);
+ALIVE_VAR_EXTERN(DWORD, sBlueShift_C19140);
