@@ -492,7 +492,7 @@ void Map::GoTo_Camera_481890()
         // Get pointer to each PATH
         for (int i = 1; i <= pathData.field_1A_num_paths; ++i)
         {
-            field_54_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, 1, 0);
+            field_54_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
         }
 
         if (field_A_5C303A_levelId == sCurrentLevelId_5C3030)

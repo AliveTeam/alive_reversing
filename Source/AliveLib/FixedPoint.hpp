@@ -1,7 +1,6 @@
 #pragma once
 
 #include "FunctionFwd.hpp"
-#include "stdafx.h"
 #include "Math.hpp"
 
 void FixedPoint_ForceLink();

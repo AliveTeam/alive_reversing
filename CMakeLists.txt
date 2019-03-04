@@ -45,6 +45,7 @@ enable_testing()
 add_subdirectory(3rdParty)
 add_subdirectory(Source/AliveLib)
 add_subdirectory(Source/AliveExe)
+add_subdirectory(Source/Tools)
 
 if (WIN32)
     add_subdirectory(Source/AliveDll)

@@ -57,3 +57,4 @@ using TEnumCallBack = void(const char*, DWORD);
 void IO_EnumerateDirectory(const char* fileName, TEnumCallBack cb);
 
 ALIVE_VAR_EXTERN(DWORD, sIoThreadId_BBC558);
+ALIVE_VAR_EXTERN(BOOL, sIOSyncReads_BD2A5C);

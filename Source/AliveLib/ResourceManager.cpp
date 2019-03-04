@@ -172,7 +172,11 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
         if (PSX_CD_File_Read_4FB210(field_34_num_sectors, field_3C_pLoadingHeader))
         {
             field_42_state = State_Wait_For_Read_Complete;
-            // Note: Skipping State_Wait_For_Read_Complete till next tick
+            const int bWaitRet = PSX_CD_FileIOWait_4FB260(1);
+            if (bWaitRet <= 0)
+            {
+                field_42_state = bWaitRet != -1 ? State_File_Read_Completed : State_Seek_To_File;
+            }
         }
         else
         {

@@ -20,7 +20,7 @@
 // we call the games stdlib function due to being marked as not implemented. Then in the standalone exe we have to run whatever impl we have which
 // is a forward call to the matching stdlib function. We use this instead of NOT_IMPLEMENTED() to highlite this odd corner case and so that we do not
 // get log spam about stdlib functions not being implemented.
-#define STDLIB_FUNCTION() { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop }
+#define STDLIB_FUNCTION() { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; if (IsAlive()) { __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } }
 #endif
 
 #else
