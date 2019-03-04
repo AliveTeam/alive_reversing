@@ -249,10 +249,10 @@ EXPORT unsigned int CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bO
     return (bOpaque != 0 ? 0x8000 : 0) + ((unsigned int)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
-EXPORT void CC Pal_Set_483510(const PSX_Point* xy, __int16 w, const BYTE* palData, PSX_RECT* rect)
+EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* rect)
 {
-    rect->x = xy->field_0_x;
-    rect->y = xy->field_2_y;
+    rect->x = xy.field_0_x;
+    rect->y = xy.field_2_y;
     rect->w = w;
     rect->h = 1;
     PSX_LoadImage16_4F5E20(rect, palData);
@@ -337,7 +337,7 @@ void Electrocute::vUpdate_4E6240()
                 if (field_40_pPalData)
                 {
                     Pal_Set_483510(
-                        &pTargetObj->field_20_animation.field_8C_pal_vram_xy,
+                        pTargetObj->field_20_animation.field_8C_pal_vram_xy,
                         pTargetObj->field_20_animation.field_90_pal_depth,
                         reinterpret_cast<const BYTE*>(field_40_pPalData),
                         &field_4C_pal_rect);
@@ -402,7 +402,7 @@ void Electrocute::vStop_4E6150()
         if (field_40_pPalData)
         {
             Pal_Set_483510(
-                &pTarget->field_20_animation.field_8C_pal_vram_xy,
+                pTarget->field_20_animation.field_8C_pal_vram_xy,
                 pTarget->field_20_animation.field_90_pal_depth,
                 reinterpret_cast<const BYTE*>(field_40_pPalData),
                 &field_4C_pal_rect);
