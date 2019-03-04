@@ -6,7 +6,8 @@ add_executable(AliveExe WIN32
 
 target_include_directories(AliveExe PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:include>)
+    $<INSTALL_INTERFACE:include>
+    PRIVATE ${CMAKE_BINARY_DIR})
 
 target_compile_features(AliveExe
     PRIVATE cxx_auto_type

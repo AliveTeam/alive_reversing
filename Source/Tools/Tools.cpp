@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <SDL.h>
 #include "Function.hpp"
 #include "LvlArchive.hpp"
@@ -8,7 +9,8 @@
 #include "BaseGameObject.hpp"
 #include "stdlib.hpp"
 #include "FG1.hpp"
-
+#include "Map.hpp"
+#include "Path.hpp"
 
 #if _WIN32
 #include "ExportHooker.hpp"
@@ -81,6 +83,18 @@ int main(int argc, char* argv[])
                 {
                     ALIVE_FATAL("Path resource not found");
                 }
+
+                gMap_5C3030.field_D2_cam_y_idx = 0;
+                gMap_5C3030.field_D2_cam_y_idx = 0;
+
+                Path path;
+                path.ctor_4DB170();
+                path.Init_4DB200(pathData.field_0_pBlyArrayPtr[i].field_4_pPathData, static_cast<LevelIds>(i), 0, 0, ppRes);
+
+                Path_TLV* pTlv = path.Get_First_TLV_For_Offsetted_Camera_4DB610(0, 0);
+
+                path.dtor_4DB1A0();
+
             }
         }
     }

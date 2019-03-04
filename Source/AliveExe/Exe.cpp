@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <iostream>
 
 #if _WIN32
@@ -21,12 +22,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }
 #else
-
-using DWORD = unsigned int;
-using LPSTR = char*;
-using HINSTANCE = void*;
-
-#define CALLBACK
 
 #include "WinMain.hpp"
 
