@@ -1,5 +1,4 @@
-add_executable(Tools WIN32 
-    Tools.cpp)
+add_executable(Tools Tools.cpp)
 
 target_include_directories(Tools PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

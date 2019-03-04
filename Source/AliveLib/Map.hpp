@@ -38,6 +38,12 @@ enum class CameraSwapEffects : __int16
     eEffect11 = 11                  // Unknown, has special handing in the map object
 };
 
+struct CameraName
+{
+    char name[8];
+};
+ALIVE_ASSERT_SIZEOF(CameraName, 8);
+
 class Map
 {
 public:

@@ -56,6 +56,8 @@ int main(int argc, char* argv[])
     //Init_Sound_DynamicArrays_And_Others_43BDB0();
 
     ResourceManager::Init_49BCE0();
+    
+    const int typeToFind = 0;
 
     for (const PathRoot& pathData : sPathData_559660.paths)
     {
@@ -90,11 +92,26 @@ int main(int argc, char* argv[])
                 Path path;
                 path.ctor_4DB170();
                 path.Init_4DB200(pathData.field_0_pBlyArrayPtr[i].field_4_pPathData, static_cast<LevelIds>(i), 0, 0, ppRes);
+                for (int x = 0; x < path.field_6_cams_on_x; x++)
+                {
+                    for (int y = 0; y < path.field_8_cams_on_y; y++)
+                    {
+                        Path_TLV* pTlv = path.Get_First_TLV_For_Offsetted_Camera_4DB610(x, y);
+                        while (pTlv)
+                        {
+                            if (pTlv->field_4_type == typeToFind)
+                            {
+                                BYTE* pRes = *ppRes;
+                                CameraName* pCamName = reinterpret_cast<CameraName*>(&pRes[(x + (y * path.field_6_cams_on_x)) * sizeof(CameraName)]);
 
-                Path_TLV* pTlv = path.Get_First_TLV_For_Offsetted_Camera_4DB610(0, 0);
+                                std::cout << "Found in LVL " << lvlName << " path number " << i  << " in camera " << std::string(pCamName->name, 8) << std::endl;
+                            }
+                            pTlv = Path::Next_TLV_4DB6A0(pTlv);
+                        }
+                    }
+                }
 
                 path.dtor_4DB1A0();
-
             }
         }
     }

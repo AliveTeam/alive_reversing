@@ -5,7 +5,6 @@
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "LvlArchive.hpp"
-#include "PathData.hpp"
 #include "Midi.hpp"
 #include "SwitchStates.hpp"
 #include "Game.hpp"
@@ -62,13 +61,6 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[12]
     CameraSwapEffects::eEffect0_InstantChange,
     CameraSwapEffects::eEffect0_InstantChange
 };
-
-
-struct CameraName
-{
-    char name[8];
-};
-ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
 EXPORT void CC static_map_construct_4802F0()
 {
