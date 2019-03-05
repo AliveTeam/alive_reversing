@@ -663,7 +663,7 @@ void LiftPoint::vUpdate_461AE0()
 
             if (pTlvIter)
             {
-                while (pTlvIter->field_4_type != Path_LiftPoint::kType)
+                while (pTlvIter->field_4_type != TlvTypes::LiftPoint_7)
                 {
                     pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
                         pTlvIter,
@@ -679,7 +679,7 @@ void LiftPoint::vUpdate_461AE0()
                 }
             }
 
-            Path_LiftPoint* pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
+            auto pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
             if (pLiftTlv)
             {
                 field_130_lift_point_stop_type = pLiftTlv->field_16_lift_point_stop_type;
@@ -1019,7 +1019,7 @@ void LiftPoint::CreatePulleyIfExists_462C80()
         Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(xCamIdx, yCamIdx - gMap_5C3030.field_D2_cam_y_idx);
         while (pTlvIter)
         {
-            if (pTlvIter->field_4_type == Path_Pulley::kType)
+            if (pTlvIter->field_4_type == TlvTypes::Pulley_21)
             {
                 const FP left = FP_FromInteger(field_124_pCollisionLine->field_0_rect.x) + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
                 if (left <= FP_FromInteger(pTlvIter->field_8_top_left.field_0_x))
@@ -1032,7 +1032,7 @@ void LiftPoint::CreatePulleyIfExists_462C80()
                     }
                 }
             }
-            pTlvIter = Path::TLV_Next_Of_Type_4DB720(pTlvIter, Path_Pulley::kType);
+            pTlvIter = Path::TLV_Next_Of_Type_4DB720(pTlvIter, TlvTypes::Pulley_21);
         }
 
         if (pFound)
@@ -1154,7 +1154,7 @@ void LiftPoint::dtor_4624E0()
         FP_GetExponent(field_CC_sprite_scale * FP_FromInteger(30)),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (field_CC_sprite_scale * FP_FromInteger(30))),
-        Path_LiftPoint::kType);
+        TlvTypes::LiftPoint_7);
 
     if (pTlv)
     {

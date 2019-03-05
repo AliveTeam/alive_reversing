@@ -305,9 +305,9 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 
                 while (pTlvIter)
                 {
-                    if (pTlvIter->field_4_type == Path_LiftPoint::kType)
+                    if (pTlvIter->field_4_type == TlvTypes::LiftPoint_7)
                     {
-                        Path_LiftPoint* pLiftPointIter = static_cast<Path_LiftPoint*>(pTlvIter);
+                        auto pLiftPointIter = static_cast<Path_LiftPoint*>(pTlvIter);
 
                         const int tlvX = pTlv->field_8_top_left.field_0_x;
                         const int absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ? 

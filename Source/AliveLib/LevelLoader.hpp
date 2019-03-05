@@ -8,7 +8,6 @@ enum class LevelIds : __int16;
 
 struct Path_LevelLoader : public Path_TLV
 {
-    static constexpr int kType = 86;
     __int16 field_10_id;
     LevelIds field_12_dest_level;
     __int16 field_14_dest_path;

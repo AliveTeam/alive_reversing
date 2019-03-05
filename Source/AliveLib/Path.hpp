@@ -14,12 +14,128 @@ enum TLV_Flags
     eBit3_End_TLV_List = 0x4,
 };
 
+enum TlvTypes 
+{
+    ContinuePoint_0,
+    PathTransition_1,
+    Hoist_2,
+    Edge_3,
+    DeathDrop_4,
+    Door_5,
+    Shadow_6,
+    LiftPoint_7,
+    LocalWell_8,
+    Dove_9,
+    RockSack_10,
+    FallingItem_11,
+    PullRingRope_12,
+    BackgroundAnimation_13,
+    TimedMine_14,
+    Slig_15,
+    Slog_16,
+    Switch_17,
+    Null_18,
+    ChantSuppressor_19,
+    Null_20,
+    Pulley_21,
+    AbeStart_22,
+    WellExpress_23,
+    Mine_24,
+    UXB_25,
+    Paramite_26,
+    MovieHandStone_27,
+    BirdPortal_28,
+    PortalExit_29,
+    TrapDoor_30,
+    RollingRock_31,
+    SligBoundLeft_32,
+    InvisibleZone_33,
+    FootSwitch_34,
+    ChantSuppressor_35,
+    MotionDetector_36,
+    SligSpawner_37,
+    ElectricWall_38,
+    LiftMover_39,
+    MeatSack_40,
+    Scrab_41,
+    Null_42,
+    ScrabLeftBound_43,
+    ScrabRightBound_44,
+    SligBoundRight_45,
+    SligPersist_46,
+    EnemyStopper_47,
+    InvisibleSwitch_48,
+    Mudokon_49,
+    ZSligCover_50,
+    DoorFlame_51,
+    MovingBomb_52,
+    Null_53,
+    MainMenuController_54,
+    Unknown_55,
+    Null_56,
+    TimerTrigger_57,
+    SecurityDoor_58,
+    GrenadeMachine_59,
+    LCD_60,
+    HandStone_61,
+    CreditsController_62,
+    Null_63,
+    StatusBoard_64,
+    WheelSyncer_65,
+    MusicTrigger_66,
+    Light_67,
+    SlogSpawner_68,
+    GasCountdown_69,
+    Unknown_70,
+    GasEmitter_71,
+    SlogHut_72,
+    Glukkon_73,
+    KillUnsavedMudokons_74,
+    SoftLanding_75,
+    Null_76,
+    Water_77,
+    Null_78,
+    WorkWheel_79,
+    Null_80,
+    LaughingGas_81,
+    FlyingSlig_82,
+    Fleech_83,
+    Slurgs_84,
+    SlamDoor_85,
+    LevelLoader_86,
+    DemoSpawnPoint_87,
+    Teleporter_88,
+    SlurgSpawner_89,
+    Grinder_90,
+    ColorfulMeter_91,
+    FlyingSligSpawner_92,
+    MineCar_93,
+    BoneBag_94,
+    ExplosionSet_95,
+    MultiSwitchController_96,
+    StatusLight_97,
+    SlapLock_98,
+    ParamiteWeb_99,
+    Alarm_100,
+    FartMachine_101,
+    ScrabSpawner_102,
+    NakedSlig_103,
+    SligGetPants_104,
+    SligGetWings_105,
+    Greeter_106,
+    NakedSligButton_107,
+    GlukkonSwitch_108,
+    DoorBlocker_109,
+    TorturedMudokon_110,
+    TrainDoor_111,
+};
+
 struct Path_TLV
 {
     BitField8<TLV_Flags> field_0_flags;
     BYTE field_1_unknown;
     __int16 field_2_length;
-    int field_4_type;
+    TlvTypes field_4_type;
     PSX_Point field_8_top_left;
     PSX_Point field_C_bottom_right;
 };
@@ -64,8 +180,6 @@ ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
 struct Path_Door : public Path_TLV
 {
-    const static unsigned short kType = 5;
-
     LevelIds field_10_level;
     __int16 field_12_path;
     __int16 field_14_camera;
@@ -106,7 +220,6 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter_Data, 0x16);
 
 struct Path_Teleporter : public Path_TLV
 {
-    static constexpr unsigned short kType = 88;
     Path_Teleporter_Data field_10_data;
     __int16 field_26_pad; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
 };
@@ -114,8 +227,6 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter, 0x28); // 0x10 for base
 
 struct Path_Hoist : public Path_TLV
 {
-    static constexpr unsigned short kType = 2;
-
     enum class Type : __int16
     {
         eNextFloor = 0,
@@ -145,8 +256,6 @@ struct Path_Hoist : public Path_TLV
 
 struct Path_Edge : public Path_TLV
 {
-    static constexpr unsigned short kType = 3;
-
     enum class Type : __int16
     {
         eLeft = 0,
@@ -167,16 +276,10 @@ struct Path_Edge : public Path_TLV
 
 struct Path_SoftLanding : public Path_TLV
 {
-    static constexpr unsigned short kType = 75;
     int field_10_id;
 };
 // TODO: Size
 
-struct Path_DeathDrop : public Path_TLV
-{
-    static constexpr unsigned short kType = 4;
-};
-// TODO: Size
 
 struct Path_Well_Base : public Path_TLV
 {
@@ -189,8 +292,6 @@ struct Path_Well_Base : public Path_TLV
 
 struct Path_Well_Local : public Path_Well_Base
 {
-    static constexpr unsigned short kType = 8;
-
     __int16 field_18_off_dx;
     __int16 field_1A_off_dy;
     __int16 field_1C_on_dx;
@@ -204,7 +305,6 @@ struct Path_Well_Local : public Path_Well_Base
 
 struct Path_Well_Express : public Path_Well_Base
 {
-    static constexpr unsigned short kType = 23;
     __int16 field_18_exit_x;
     __int16 field_1A_exit_y;
     LevelIds field_1C_off_level;
@@ -231,8 +331,6 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);
 
 struct Path_MovieStone : public Path_TLV
 {
-    const static unsigned short kType = 27;
-
     __int16 field_10_movie_number;
     __int16 field_12_scale;
     int field_14_id;
@@ -241,8 +339,6 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);
 
 struct Path_HandStone : public Path_TLV
 {
-    const static unsigned short kType = 61;
-
     __int16 field_10_scale;
     __int16 field_12_camera_ids[3];
     int field_18_trigger_id;
@@ -251,7 +347,6 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HandStone, 0x1C);
 
 struct Path_AbeStart : public Path_TLV
 {
-    static constexpr int kType = 22;
     __int16 field_10_xpos;
     __int16 field_12_ypos;
 };

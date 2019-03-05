@@ -17,7 +17,7 @@ Well* Well::ctor_4E2BE0(Path_Well_Base* pTlv, FP xpos, FP ypos, int tlvInfo)
     SetVTable(this, 0x547FE8); // vTbl_ExpressWell_547FE8
     field_4_typeId = Types::eWell_147;
 
-    if (pTlv->field_4_type == Path_Well_Local::kType)
+    if (pTlv->field_4_type == TlvTypes::LocalWell_8)
     {
         WellLocal_Init_4E2CD0(static_cast<Path_Well_Local*>(pTlv), xpos, ypos);
     }

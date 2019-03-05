@@ -155,7 +155,7 @@ void Teleporter::vUpdate_4DC400()
             FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos),
             FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos),
             FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos),
-            Path_Teleporter::kType))
+            TlvTypes::Teleporter_88))
         {
             return;
         }
@@ -277,13 +277,13 @@ void Teleporter::vUpdate_4DC400()
     {
         gMap_5C3030.field_20 = 0;
 
-        Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_Teleporter::kType, 0));
+        Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Teleporter_88, 0));
         Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
         if (tlvData.field_10_id != field_34_mTlvData.field_12_target_id)
         {
             while (pTeleporterTlv)
             {
-                pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type_4DB720(pTeleporterTlv, Path_Teleporter::kType));
+                pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type_4DB720(pTeleporterTlv, TlvTypes::Teleporter_88));
                 tlvData = pTeleporterTlv->field_10_data;
 
                 if (tlvData.field_10_id == field_34_mTlvData.field_12_target_id)

@@ -2836,11 +2836,11 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
             field_B8_xpos,
             field_BC_ypos))
     {
-        if (pTlv->field_4_type == 0)
+        if (pTlv->field_4_type == TlvTypes::ContinuePoint_0)
         {
 
         }
-        else if (pTlv->field_4_type == Path_DeathDrop::kType)
+        else if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
             if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89 || gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMines_1)
             {
@@ -2852,7 +2852,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
                 ToDie_4588D0();
             }
         }
-        else if (pTlv->field_4_type == 76)
+        else if (pTlv->field_4_type == TlvTypes::Null_76)
         {
 
         }
@@ -3334,7 +3334,7 @@ void Abe::State_0_Idle_44EEB0()
             FP_GetExponent(field_BC_ypos) + 16,
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos) + 16,
-            Path_Hoist::kType));
+            TlvTypes::Hoist_2));
 
         if (pHoist)
         {
@@ -3451,7 +3451,7 @@ void Abe::State_0_Idle_44EEB0()
         {
             switch (pTlv->field_4_type)
             {
-            case Path_Door::kType:
+            case TlvTypes::Door_5:
                 if (!sub_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
                 {
                     if (sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held) // OG bug, already checked ??
@@ -3467,7 +3467,7 @@ void Abe::State_0_Idle_44EEB0()
                 }
                 return;
                 
-            case Path_Well_Local::kType:
+            case TlvTypes::LocalWell_8:
             {
                 if (field_114_flags.Get(Flags_114::e114_Bit10))
                 {
@@ -3487,7 +3487,7 @@ void Abe::State_0_Idle_44EEB0()
             }
             return;
                 
-            case Path_Well_Express::kType:
+            case TlvTypes::WellExpress_23:
             {
                 if (field_114_flags.Get(Flags_114::e114_Bit10))
                 {
@@ -3507,14 +3507,14 @@ void Abe::State_0_Idle_44EEB0()
             }
             return;
                 
-            case 27: // 027_Movie_stone
-            case 61: // 061_Hand_stone
+            case TlvTypes::MovieHandStone_27:
+            case TlvTypes::HandStone_61:
                 field_FC_pPathTLV = pTlv;
                 field_106_current_state = eAbeStates::State_86_HandstoneBegin_45BD00;
                 field_120_state = 0;
                 return;
 
-            case 59:  // 059_Grenade_machine
+            case TlvTypes::GrenadeMachine_59:
             {
                 BoomMachine* pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25))));
                 if (pMachineButton)
@@ -3529,7 +3529,7 @@ void Abe::State_0_Idle_44EEB0()
             }
             break;
                 
-            case 79:  // 079_Wheel
+            case TlvTypes::WorkWheel_79:
             {
                 bool bCanUseWheel = true;
                 for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
@@ -3578,7 +3578,7 @@ void Abe::State_0_Idle_44EEB0()
             }
             break;
             
-            case 101: // 101_Fart_machine
+            case TlvTypes::FartMachine_101:
                 field_106_current_state = eAbeStates::State_89_BrewMachineBegin_4584C0;
                 field_120_state = 0;
                 break;
@@ -3849,7 +3849,7 @@ void Abe::State_3_Fall_459B60()
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        Path_Well_Local::kType);
+        TlvTypes::LocalWell_8);
 
     if (!field_FC_pPathTLV)
     {
@@ -3859,7 +3859,7 @@ void Abe::State_3_Fall_459B60()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            Path_Well_Express::kType);
+            TlvTypes::WellExpress_23);
     }
 
     // Handle falling into a well
@@ -3867,7 +3867,7 @@ void Abe::State_3_Fall_459B60()
     {
         if (field_10C_health > FP_FromInteger(0))
         {
-            if (field_FC_pPathTLV->field_4_type == Path_Well_Local::kType || field_FC_pPathTLV->field_4_type == Path_Well_Express::kType)
+            if (field_FC_pPathTLV->field_4_type == TlvTypes::LocalWell_8 || field_FC_pPathTLV->field_4_type == TlvTypes::WellExpress_23)
             {
                 // The well must be on the same scale/layer
                 Path_Well_Base* pWellBase = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
@@ -3905,7 +3905,7 @@ void Abe::State_3_Fall_459B60()
                     FP_GetExponent(field_BC_ypos),
                     FP_GetExponent(field_B8_xpos),
                     FP_GetExponent(field_BC_ypos),
-                    Path_SoftLanding::kType));
+                    TlvTypes::SoftLanding_75));
 
             if (pSoftLanding)
             {
@@ -3966,7 +3966,7 @@ void Abe::State_3_Fall_459B60()
         FP_GetExponent(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(75))),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        Path_Edge::kType));
+        TlvTypes::Edge_3));
 
     field_FC_pPathTLV = pEdge;
     bool tryToHang = false;
@@ -3988,7 +3988,7 @@ void Abe::State_3_Fall_459B60()
             FP_GetExponent(field_BC_ypos - field_CC_sprite_scale * FP_FromInteger(20)),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos - field_CC_sprite_scale * FP_FromInteger(20)),
-            Path_Hoist::kType));
+            TlvTypes::Hoist_2));
 
         if (pHoist)
         {
@@ -4029,7 +4029,7 @@ void Abe::State_3_Fall_459B60()
         field_100_pCollisionLine = pPathLine;
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);
-        if (field_FC_pPathTLV->field_4_type != Path_Hoist::kType ||
+        if (field_FC_pPathTLV->field_4_type != TlvTypes::Hoist_2 ||
             (FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y)) >= (field_CC_sprite_scale * FP_FromInteger(70)))
         {
             field_106_current_state = eAbeStates::State_69_LedgeHangWobble_454EF0;
@@ -4244,7 +4244,7 @@ void Abe::State_14_HoistIdle_452440()
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        Path_Hoist::kType));
+        TlvTypes::Hoist_2));
     field_FC_pPathTLV = pHoist;
 
     if (field_C8_vely < FP_FromInteger(0))
@@ -4949,7 +4949,7 @@ void Abe::State_28_HopMid_451C50()
             FP_GetExponent(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(75))),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            Path_Edge::kType));
+            TlvTypes::Edge_3));
 
         field_FC_pPathTLV = pEdgeTlv;
 
@@ -5124,7 +5124,7 @@ void Abe::State_31_RunJumpMid_452C10()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos - field_C4_velx),
             FP_GetExponent(field_BC_ypos),
-            Path_Hoist::kType));
+            TlvTypes::Hoist_2));
 
         field_FC_pPathTLV = pHoist;
 
@@ -5146,7 +5146,7 @@ void Abe::State_31_RunJumpMid_452C10()
                 FP_GetExponent(field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60))),
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
-                Path_Edge::kType));
+                TlvTypes::Edge_3));
 
             field_FC_pPathTLV = pEdgeTlv;
 
@@ -5181,7 +5181,7 @@ void Abe::State_31_RunJumpMid_452C10()
                 field_C4_velx = FP_FromInteger(0);
                 field_C8_vely = FP_FromInteger(0);
 
-                if (field_FC_pPathTLV->field_4_type != Path_Hoist::kType ||
+                if (field_FC_pPathTLV->field_4_type != TlvTypes::Hoist_2 ||
                     FP_FromInteger(field_FC_pPathTLV->field_C_bottom_right.field_2_y - 1 * field_FC_pPathTLV->field_8_top_left.field_2_y) >=
                     field_CC_sprite_scale * FP_FromInteger(70))
                 {
@@ -6278,7 +6278,7 @@ void Abe::State_66_LedgeDescend_454970()
             FP_GetExponent(field_BC_ypos + FP_FromInteger(16)),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos + FP_FromInteger(16)),
-            Path_Hoist::kType));
+            TlvTypes::Hoist_2));
 
         if (pHoist)
         {
@@ -6348,7 +6348,7 @@ void Abe::State_68_ToOffScreenHoist_454B80()
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        Path_Hoist::kType);
+        TlvTypes::Hoist_2);
 
     // Find the hoist we are "connecting" to
     field_FC_pPathTLV = pHoist;
@@ -6361,7 +6361,7 @@ void Abe::State_68_ToOffScreenHoist_454B80()
         FP_GetExponent(ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(ypos),
-        Path_Hoist::kType);
+        TlvTypes::Hoist_2);
 
     field_FC_pPathTLV = pHoist;
 
@@ -6631,7 +6631,7 @@ void Abe::State_78_WellBegin_45C810()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            Path_Well_Local::kType);
+            TlvTypes::LocalWell_8);
 
         if (!field_FC_pPathTLV)
         {
@@ -6641,7 +6641,7 @@ void Abe::State_78_WellBegin_45C810()
                 FP_GetExponent(field_BC_ypos),
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
-                Path_Well_Express::kType);
+                TlvTypes::WellExpress_23);
         }
 
         const short xpos = FP_GetExponent(field_B8_xpos);
@@ -6679,7 +6679,7 @@ void Abe::State_78_WellBegin_45C810()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            Path_Well_Express::kType))
+            TlvTypes::WellExpress_23))
         {
             field_106_current_state = eAbeStates::State_82_Inside_Of_A_Well_Express_45CC80;
         }
@@ -6701,7 +6701,7 @@ void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            Path_Well_Local::kType);
+            TlvTypes::LocalWell_8);
 
         if (!field_FC_pPathTLV)
         {
@@ -6710,14 +6710,14 @@ void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
                 FP_GetExponent(field_BC_ypos),
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
-                Path_Well_Express::kType);
+                TlvTypes::WellExpress_23);
         }
 
         field_128.field_8 = FP_FromInteger(0);
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_Fall_To_Well);
 
         Path_Well_Base* pBaseWell = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
-        if (pBaseWell->field_4_type == Path_Well_Local::kType)
+        if (pBaseWell->field_4_type == TlvTypes::LocalWell_8)
         {
             Path_Well_Local* pLocal = static_cast<Path_Well_Local*>(pBaseWell);
             if (SwitchStates_Get_466020(pBaseWell->field_2_trigger_id))
@@ -6737,7 +6737,7 @@ void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
                     pLocal->field_1A_off_dy);
             }
         }
-        else if (pBaseWell->field_4_type == Path_Well_Express::kType)
+        else if (pBaseWell->field_4_type == TlvTypes::WellExpress_23)
         {
             Path_Well_Express* pExpress = static_cast<Path_Well_Express*>(pBaseWell);
             Calc_Well_Velocity_45C530(
@@ -6836,7 +6836,7 @@ void Abe::State_82_Inside_Of_A_Well_Express_45CC80()
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        Path_Well_Local::kType);
+        TlvTypes::LocalWell_8);
 
     if (!field_FC_pPathTLV)
     {
@@ -6845,7 +6845,7 @@ void Abe::State_82_Inside_Of_A_Well_Express_45CC80()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            Path_Well_Express::kType);
+            TlvTypes::WellExpress_23);
     }
 
     Path_Well_Express* pExpressWell = static_cast<Path_Well_Express*>(field_FC_pPathTLV);
@@ -6936,7 +6936,7 @@ void Abe::State_83_Shoot_Out_Of_A_Well_45CF70()
         }
 
         // Is it a well?
-        if (pTlvIter->field_4_type == Path_Well_Local::kType || pTlvIter->field_4_type == Path_Well_Express::kType)
+        if (pTlvIter->field_4_type == TlvTypes::LocalWell_8 || pTlvIter->field_4_type == TlvTypes::WellExpress_23)
         {
             // Is it the target of the previous well?
             Path_Well_Base* pWellBase = static_cast<Path_Well_Base*>(pTlvIter);
@@ -7055,7 +7055,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 FP_GetExponent(field_BC_ypos),
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
-                Path_MovieStone::kType);
+                TlvTypes::MovieHandStone_27);
 
             sHandstoneSoundChannels_5C2C68 = SFX_Play_46FBA0(0xCu, 127, -300, 0x10000);
             
@@ -7068,7 +7068,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                     FP_GetExponent(field_BC_ypos),
                     FP_GetExponent(field_B8_xpos),
                     FP_GetExponent(field_BC_ypos),
-                    Path_HandStone::kType));
+                    TlvTypes::HandStone_61));
 
                 field_FC_pPathTLV = pHandStoneTlv;
 
@@ -7112,7 +7112,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
     case 1u:
         if (pCircularFade->Vsub_4CE0B0())
         {
-            if (field_180_stone_type == Path_MovieStone::kType)
+            if (field_180_stone_type == TlvTypes::MovieHandStone_27)
             {
                 pScreenManager_5BB5F4->field_40_flags |= 0x10000;
 
@@ -7129,7 +7129,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 }
                 field_120_state = 2;
             }
-            else if (field_180_stone_type == Path_HandStone::kType)
+            else if (field_180_stone_type == TlvTypes::HandStone_61)
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 field_17C_cam_idx = 1;
@@ -7897,7 +7897,7 @@ void Abe::State_114_DoorEnter_459470()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            Path_Door::kType));
+            TlvTypes::Door_5));
 
         field_FC_pPathTLV = pDoorTlv;
 
@@ -7976,14 +7976,14 @@ void Abe::State_114_DoorEnter_459470()
         field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
         field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
 
-        Path_Door* pDoorTlv2 = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_Door::kType, 0));
+        Path_Door* pDoorTlv2 = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Door_5, 0));
         field_FC_pPathTLV = pDoorTlv2;
         Path_Door* pTargetDoorTlv = pDoorTlv2;
         if (pTargetDoorTlv->field_18_door_number != field_1A0_door_id)
         {
             do
             {
-                Path_Door* pDoorIter = static_cast<Path_Door*>(Path::TLV_Next_Of_Type_4DB720(field_FC_pPathTLV, Path_Door::kType));
+                Path_Door* pDoorIter = static_cast<Path_Door*>(Path::TLV_Next_Of_Type_4DB720(field_FC_pPathTLV, TlvTypes::Door_5));
                 field_FC_pPathTLV = pDoorIter;
                 pTargetDoorTlv = pDoorIter;
             } while (pTargetDoorTlv->field_18_door_number != field_1A0_door_id);
@@ -8097,7 +8097,7 @@ void Abe::State_115_DoorExit_459A40()
             FP_GetExponent(field_BC_ypos),
             FP_GetExponent(field_B8_xpos),
             FP_GetExponent(field_BC_ypos),
-            Path_Door::kType))->field_40_close_after_use)
+            TlvTypes::Door_5))->field_40_close_after_use)
         {
             // TODO: Ret ignored even in real ??
             FindObjectOfType_425180(
@@ -8300,7 +8300,7 @@ void Abe::State_127_TurnWheelLoop_456750()
 
     if (field_120_state == eTurningWheel || field_120_state == eCheckForNoLongerTurningWheel) // The state we enter the main state at
     {
-        Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_LevelLoader::kType, 0));
+        Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::LevelLoader_86, 0));
         if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_id))
         {
             field_120_state = eMapChanging;
@@ -8345,14 +8345,14 @@ void Abe::State_127_TurnWheelLoop_456750()
         {
             // When we've changed from the camera with the wheels to tunnel 2 this forces the falling state into the well
             // another tasty OWI hack..
-            WorkWheel* pWorkWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+            auto pWorkWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
             if (pWorkWheel) // Most likely always nullptr here, maybe the whole "stop wheel" was an inlined func
             {
                 pWorkWheel->VStopTurning(1);
             }
             field_164_wheel_id = -1;
 
-            Path_AbeStart* pPathAbeStart = static_cast<Path_AbeStart*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(Path_AbeStart::kType, 0));
+            auto pPathAbeStart = static_cast<Path_AbeStart*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::AbeStart_22, 0));
             field_B8_xpos = FP_FromInteger((pPathAbeStart->field_8_top_left.field_0_x + pPathAbeStart->field_C_bottom_right.field_0_x) / 2);
             field_BC_ypos = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
             field_F8 = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
@@ -8647,7 +8647,7 @@ void Abe::TryHoist_44ED30()
         FP_GetExponent(ypos),
         FP_GetExponent(xpos),
         FP_GetExponent(ypos),
-        Path_Hoist::kType));
+        TlvTypes::Hoist_2));
 
     if (pHoist)
     {
@@ -8741,11 +8741,11 @@ __int16 Abe::HandleDoAction_455BD0()
     {
         switch (pTlv->field_4_type)
         {
-        case Path_Well_Local::kType:
+        case TlvTypes::LocalWell_8:
             field_FC_pPathTLV = pTlv;
             return eAbeStates::State_78_WellBegin_45C810;
 
-        case Path_Switch::kType:
+        case TlvTypes::Switch_17:
         {
             FP xpos = {};
             FP ypos = {};
@@ -8769,12 +8769,12 @@ __int16 Abe::HandleDoAction_455BD0()
             return eAbeStates::State_99_LeverUse_455AC0;
         }
 
-        case Path_Well_Express::kType:
+        case TlvTypes::WellExpress_23:
             field_FC_pPathTLV = pTlv;
             return eAbeStates::State_78_WellBegin_45C810;
 
         // TODO: Need the Object and TLV structures to impl this case
-        case 59: // 059_Grenade_machine
+        case TlvTypes::GrenadeMachine_59:
         {
             /*
             pGrenadeMachine = FindObjectOfType_425180(
@@ -9049,7 +9049,7 @@ __int16 Abe::RunTryEnterDoor_451220()
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        Path_Door::kType);
+        TlvTypes::Door_5);
 
     if (!pDoorTlv || !sub_44EE10())
     {
@@ -9078,7 +9078,7 @@ __int16 Abe::RunTryEnterWell_451060()
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        Path_Well_Local::kType));
+        TlvTypes::LocalWell_8));
     if (pWellLocal)
     {
         if (!(field_114_flags.Get(Flags_114::e114_Bit10)))
@@ -9099,7 +9099,7 @@ __int16 Abe::RunTryEnterWell_451060()
         FP_GetExponent(field_BC_ypos),
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
-        Path_Well_Express::kType));
+        TlvTypes::WellExpress_23));
     if (pWellExpress)
     {
         if (!(field_114_flags.Get(Flags_114::e114_Bit10)))

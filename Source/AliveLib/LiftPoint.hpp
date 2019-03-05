@@ -15,7 +15,6 @@ enum class LiftPointStopType : __int16
 
 struct Path_LiftPoint : public Path_TLV
 {
-    constexpr static auto kType = 7;
     __int16 field_10_id;
     __int16 field_12_bstart_point;
     __int16 field_14_lift_type; // TODO: Enum
@@ -24,11 +23,6 @@ struct Path_LiftPoint : public Path_TLV
     __int16 field_1A_bIgnore_lift_mover;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
-
-struct Path_Pulley : public Path_TLV
-{
-    constexpr static auto kType = 21;
-};
 
 struct LiftPoint_State
 {
