@@ -314,24 +314,24 @@ ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40, {});
 
 struct DumpEntry
 {
-    int address;
+    void* address;
     std::string name;
 };
 
 void DumpMenus()
 {
     std::vector<DumpEntry> menuListArrays;
-    menuListArrays.push_back({ 0x55D820, "ControlActions" });
-    menuListArrays.push_back({ 0x55D930, "GameSpeak" });
-    menuListArrays.push_back({ 0x55DA80, "SligSpeak" });
-    menuListArrays.push_back({ 0x55DBB0, "GlukkonSpeak" });
-    menuListArrays.push_back({ 0x55DCE0, "ParamiteSpeak" });
-    menuListArrays.push_back({ 0x55DDD0, "ScrabSpeak" });
+    menuListArrays.push_back({ (void*)0x55D820, "ControlActions" });
+    menuListArrays.push_back({ (void*)0x55D930, "GameSpeak" });
+    menuListArrays.push_back({ (void*)0x55DA80, "SligSpeak" });
+    menuListArrays.push_back({ (void*)0x55DBB0, "GlukkonSpeak" });
+    menuListArrays.push_back({ (void*)0x55DCE0, "ParamiteSpeak" });
+    menuListArrays.push_back({ (void*)0x55DDD0, "ScrabSpeak" });
 
-    menuListArrays.push_back({ 0x55E4C8, "Save" });
-    menuListArrays.push_back({ 0x55E278, "ReallyQuit" });
-    menuListArrays.push_back({ 0x55E738, "Status" });
-    menuListArrays.push_back({ 0x55E3A0, "Load" });
+    menuListArrays.push_back({ (void*)0x55E4C8, "Save" });
+    menuListArrays.push_back({ (void*)0x55E278, "ReallyQuit" });
+    menuListArrays.push_back({ (void*)0x55E738, "Status" });
+    menuListArrays.push_back({ (void*)0x55E3A0, "Load" });
 
     // menuListArrays.push_back({ 0x55DDD0, "" });
 
