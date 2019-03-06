@@ -1910,7 +1910,7 @@ void Abe::Update_449DC0()
         if (field_1AE.Get(Flags_1AE::e1AE_Bit2_bDoQuickSave))
         {
             field_1AE.Clear(Flags_1AE::e1AE_Bit2_bDoQuickSave);
-            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = static_cast<short>(field_1B0_save_num);
+            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_unknown_1 = field_1B0_save_num;
             Quicksave_SaveWorldInfo_4C9310(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
             vGetSaveState_457110(reinterpret_cast<BYTE*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
             sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
@@ -2825,6 +2825,13 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     return ret;
 }
 
+struct Path_ContinuePoint : public Path_TLV
+{
+    __int16 field_10_scale;
+    __int16 field_12_save_file_id;
+};
+
+
 void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
 {
     NOT_IMPLEMENTED();
@@ -2838,7 +2845,18 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
     {
         if (pTlv->field_4_type == TlvTypes::ContinuePoint_0)
         {
-
+            auto pContinuePoint = static_cast<Path_ContinuePoint*>(pTlv);
+            if (pContinuePoint->field_1_unknown == 0)
+            {
+                if ((pContinuePoint->field_10_scale != 1 || field_CC_sprite_scale == FP_FromInteger(1)) &&
+                    (pContinuePoint->field_10_scale != 2 || field_CC_sprite_scale == FP_FromDouble(0.5)) 
+                    && field_10C_health > FP_FromInteger(0) && !(field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)))
+                {
+                    pContinuePoint->field_1_unknown = 1;
+                    field_1AE.Set(Flags_1AE::e1AE_Bit2_bDoQuickSave);
+                    field_1B0_save_num = pContinuePoint->field_12_save_file_id;
+                }
+            }
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {

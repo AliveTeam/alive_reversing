@@ -331,7 +331,9 @@ public:
     };
     BitField16<Flags_1AE> field_1AE;
 
-    int field_1B0_save_num;
+    __int16 field_1B0_save_num;
+    // pad __int16
+
     int field_1B4;
     int field_1B8;
 };
