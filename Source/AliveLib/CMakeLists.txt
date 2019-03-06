@@ -1,9 +1,7 @@
 project(AliveLib VERSION 0.1 LANGUAGES CXX)
 
-add_library(AliveLib
-    stdafx.cpp
-    stdafx.h
-    ExportHooker.hpp
+SET(AliveLibSrc
+ExportHooker.hpp
     ExportHooker.cpp
     logger.hpp
     Function.cpp
@@ -246,7 +244,12 @@ add_library(AliveLib
     Electrocute.cpp
     Electrocute.hpp
     Slurg.cpp
-    Slurg.hpp)
+    Slurg.hpp
+)
+
+ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibSrc)
+
+add_library(AliveLib ${AliveLibSrc})
 
 target_include_directories(AliveLib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -267,9 +270,6 @@ if (MSVC)
     set_target_properties(AliveLib PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
     set_target_properties(AliveLib PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
 endif()
-
-
-SET_TARGET_PRECOMPILED_HEADER(AliveLib stdafx.h stdafx.cpp)
 
 target_compile_features(AliveLib
     PRIVATE cxx_strong_enums
