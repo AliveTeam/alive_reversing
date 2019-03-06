@@ -1,4 +1,5 @@
 Output
+.vs
 *.opensdf
 *.sdf
 *.suo
@@ -7,3 +8,5 @@ Output
 *.log
 *.db
 **/build*
+Source/AliveLib/config.h
+CMakeSettings.json

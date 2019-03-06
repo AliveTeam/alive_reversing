@@ -13,7 +13,8 @@ endif()
 
 add_custom_target(
     UpdateConfigHeader
-    COMMAND "${CMAKE}" -DBUILD_NUMBER=${BUILD_NUMBER} -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
+    COMMAND "${CMAKE}" -D BUILD_NUMBER=${BUILD_NUMBER} -P ${CMAKE_CURRENT_SOURCE_DIR}/options.cmake
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 find_package(SDL2 REQUIRED)
@@ -29,6 +30,7 @@ set(CompilerFlags
         )
 foreach(CompilerFlag ${CompilerFlags})
   string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+  string(REPLACE "/W3" "" ${CompilerFlag} "${${CompilerFlag}}")
 endforeach()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
