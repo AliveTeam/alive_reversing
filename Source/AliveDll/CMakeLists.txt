@@ -20,7 +20,9 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
    target_link_libraries(AliveDll Detours)
 endif()
 
-if (MSVC)
+# Ninja will die when it sees $(OutDir) as it does not understand what it means, therefore if using msvc only
+# use these vars if its msvc and a native vcxproj.
+if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     add_custom_command(TARGET AliveDll
                        POST_BUILD
                        COMMAND if not exist  "C:\\GOG Games\\Abes Exoddus" mkdir "C:\\GOG Games\\Abes Exoddus"
@@ -34,7 +36,7 @@ install(TARGETS AliveDll DESTINATION .)
 
 install(FILES "C:\\GOG Games\\Abes Exoddus\\AliveDll.map" DESTINATION ".")
 
-if (MSVC)
+if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
         add_custom_command(TARGET AliveDll POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll")
