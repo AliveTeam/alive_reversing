@@ -6020,8 +6020,6 @@ void Abe::State_56_FallAndCrunchDeath_4591F0()
 
 void Abe::State_57_Dead_4589A0()
 {
-    NOT_IMPLEMENTED(); // WIP
-
     DeathFadeOut* pDeathFade_1 = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_148_pFade));
     CircularFade* pCircularFade = static_cast<CircularFade*>(sObjectIds_5C1B70.Find_449CF0(field_14C_circular_fade_id));
 
@@ -6030,23 +6028,13 @@ void Abe::State_57_Dead_4589A0()
     if (field_110_id != -1)
     {
         BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
-        if (pObj)
-        {
-            if (pObj->field_4_typeId == BaseGameObject::Types::eLiftPoint_78)
-            {
-                // TODO: Lift LiftPoint::ctor_461030
-                /*
-                ((void(__thiscall *)(BaseGameObject *, _DWORD, _DWORD, _DWORD))pObj->field_0_VTbl->VRock.Rock__vsub_49E330)(
-                    pObj,
-                    0,
-                    0,
-                    0);
-                */
-            }
-        }
-        else
+        if (!pObj)
         {
             field_110_id = -1;
+        }
+        else if (pObj->field_4_typeId == BaseGameObject::Types::eLiftPoint_78)
+        {
+            static_cast<LiftPoint*>(pObj)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
         }
     }
 
