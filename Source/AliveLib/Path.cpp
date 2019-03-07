@@ -411,3 +411,8 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __i
         pTlv = Next_TLV_4DB6A0(pTlv);
     }
 }
+
+EXPORT void CCSTD Path::Res_Free_4DBCF0(unsigned __int16 /*pathId*/)
+{
+    NOT_IMPLEMENTED();
+}

@@ -167,6 +167,8 @@ public:
     EXPORT static void CCSTD TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
     EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __int16 cam_x_idx, __int16 cam_y_idx);
 
+    EXPORT static void CCSTD Res_Free_4DBCF0(unsigned __int16 pathId);
+
     LevelIds field_0_levelId;
     unsigned __int16 field_2_pathId;
     __int16 field_4_cameraId;

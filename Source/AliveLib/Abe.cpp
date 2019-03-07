@@ -2831,11 +2831,20 @@ struct Path_ContinuePoint : public Path_TLV
     __int16 field_12_save_file_id;
 };
 
+struct Path_Type_76 : public Path_TLV
+{
+    __int16 field_10_set_switches;
+    __int16 field_12_start_id;
+    __int16 field_14_end_id;
+    __int16 field_16_skip_id;
+    __int16 field_18_free_path_res;
+    __int16 field_1A_path_to_free_id;
+    __int16 field_1C_bEnabled;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Type_76, 0x1E+2);
 
 void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
 {
-    NOT_IMPLEMENTED();
-
     for (; pTlv;  pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             pTlv,
             field_B8_xpos,
@@ -2872,6 +2881,25 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::Null_76)
         {
+            auto pUnknown = static_cast<Path_Type_76*>(pTlv);
+            if (pUnknown->field_1_unknown == 0 || pUnknown->field_1C_bEnabled)
+            {
+                pUnknown->field_1_unknown = 1;
+                if (pUnknown->field_10_set_switches)
+                {
+                    for (short i = pUnknown->field_12_start_id; i <= pUnknown->field_14_end_id; i++)
+                    {
+                        if (i != pUnknown->field_16_skip_id && i > 1)
+                        {
+                            SwitchStates_Set_465FF0(i, 0);
+                        }
+                    }
+                }
+                if (pUnknown->field_18_free_path_res)
+                {
+                    Path::Res_Free_4DBCF0(pUnknown->field_1A_path_to_free_id);
+                }
+            }
 
         }
 
