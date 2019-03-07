@@ -2841,7 +2841,7 @@ struct Path_Type_76 : public Path_TLV
     __int16 field_1A_path_to_free_id;
     __int16 field_1C_bEnabled;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Type_76, 0x1E+2);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Type_76, 0x20);
 
 void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
 {
