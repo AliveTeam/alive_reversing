@@ -43,6 +43,7 @@
 #include "PullRingRope.hpp"
 #include "FartMachine.hpp"
 #include "MineCar.hpp"
+#include "EvilFart.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -8701,7 +8702,8 @@ void Abe::TryHoist_44ED30()
 
 void CC Abe::Create_Fart_421D20()
 {
-    NOT_IMPLEMENTED();
+    auto pFart = alive_new<EvilFart>();
+    pFart->ctor_422E30();
 }
 
 __int16 Abe::TryEnterMineCar_4569E0()

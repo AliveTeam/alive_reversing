@@ -243,6 +243,8 @@ ExportHooker.hpp
     ElectricWall.hpp
     Electrocute.cpp
     Electrocute.hpp
+    EvilFart.cpp
+    EvilFart.hpp
     Slurg.cpp
     Slurg.hpp
 )
