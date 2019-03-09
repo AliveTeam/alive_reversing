@@ -463,9 +463,27 @@ void SlamDoor::vUpdate_4AFD50()
     }
 }
 
-void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAnimatedWithPhysicsGameObject * /*pObj*/, __int16 /*a3*/, __int16 /*a4*/)
+void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject * pObj, __int16 a3, __int16 a4)
 {
-    NOT_IMPLEMENTED();
+    if (FP_GetExponent(pObj->field_B8_xpos) - a3 >= a4 - FP_GetExponent(pObj->field_B8_xpos))
+    {
+        pObj->field_B8_xpos = (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5)) + FP_FromDouble(1.0) + pObj->field_B8_xpos;
+    }
+    else
+    {
+        pObj->field_B8_xpos = pObj->field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5));
+    }
+
+    if (pObj->field_4_typeId == Types::eType_81 || pObj->field_4_typeId == Types::eMudokon_110 || pObj->field_4_typeId == Types::eType_Abe_69)
+    {
+        pObj->VTakeDamage_408730(this);
+    }
+
+    if (pObj->field_4_typeId == Types::eBone_11)
+    {
+        pObj->field_C8_vely = FP_FromInteger(-7);
+        pObj->field_C4_velx = -pObj->field_C4_velx;
+    }
 }
 
 void SlamDoor_ForceLink()
