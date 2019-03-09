@@ -8,6 +8,9 @@ class EvilFart : public BaseAliveGameObject
 public:
     EXPORT EvilFart* ctor_422E30();
 private:
+    EXPORT void InputControlFart_423BB0();
+
+private:
     __int16 field_116_pad;
     __int16 field_118_bFartCountDown;
     __int16 field_11A_isNotChanting;

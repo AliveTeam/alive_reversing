@@ -81,3 +81,68 @@ EvilFart* EvilFart::ctor_422E30()
 
     return this;
 }
+
+void EvilFart::InputControlFart_423BB0()
+{
+    const FP kFartSpeed = FP_FromDouble(0.2);
+    const DWORD pressedKeys = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+    if (sInputKey_Right_5550D0 & pressedKeys)
+    {
+        if (field_C4_velx < FP_FromInteger(4))
+        {
+            field_C4_velx += kFartSpeed;
+        }
+    }
+
+    if (sInputKey_Left_5550D4 & pressedKeys)
+    {
+        if (field_C4_velx > FP_FromInteger(-4))
+        {
+            field_C4_velx -= kFartSpeed;
+        }
+    }
+
+    if (sInputKey_Down_5550DC & pressedKeys)
+    {
+        if (field_C8_vely < FP_FromInteger(4))
+        {
+            field_C8_vely += kFartSpeed;
+        }
+    }
+
+    if (sInputKey_Up_5550D8 & pressedKeys)
+    {
+        if (field_C8_vely > FP_FromInteger(-4))
+        {
+            field_C8_vely -= kFartSpeed;
+        }
+    }
+
+    if (!(pressedKeys & sInputKey_Right_5550D0) && !(pressedKeys & sInputKey_Left_5550D4))
+    {
+
+        if (field_C4_velx > FP_FromInteger(0))
+        {
+            field_C4_velx -= kFartSpeed;
+        }
+
+        if (field_C4_velx < FP_FromInteger(0))
+        {
+            field_C4_velx += kFartSpeed;
+        }
+    }
+
+    if (!(pressedKeys & sInputKey_Up_5550D8) && !(pressedKeys & sInputKey_Down_5550DC))
+    {
+        if (field_C8_vely > FP_FromInteger(0))
+        {
+            field_C8_vely -= kFartSpeed;
+        }
+
+        if (field_C8_vely < FP_FromInteger(0))
+        {
+            field_C8_vely += kFartSpeed;
+        }
+    }
+}

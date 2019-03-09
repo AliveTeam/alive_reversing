@@ -9,7 +9,24 @@ class PullRingRope;
 
 extern const TintEntry sTintTable_Abe_554D20[15];
 
+extern const InputCommands sInputKey_Right_5550D0;
+extern const InputCommands sInputKey_Left_5550D4;
+extern const InputCommands sInputKey_Up_5550D8;
+extern const InputCommands sInputKey_Down_5550DC;
+extern const InputCommands sInputKey_Hop_5550E0;
+extern const InputCommands sInputKey_DoAction_5550E4;
+extern const InputCommands sInputKey_Run_5550E8;
+extern const InputCommands sInputKey_Sneak_5550EC;
+extern const InputCommands sInputKey_FartRoll_5550F0;
 extern const InputCommands sInputKey_ThrowItem_5550F4;
+extern const InputCommands sInputKey_GameSpeak2_5550F8;
+extern const InputCommands sInputKey_GameSpeak4_5550FC;
+extern const InputCommands sInputKey_GameSpeak3_555100;
+extern const InputCommands sInputKey_GameSpeak1_555104;
+extern const InputCommands sInputKey_GameSpeak6_555108;
+extern const InputCommands sInputKey_GameSpeak5_55510C;
+extern const InputCommands sInputKey_GameSpeak8_555110;
+extern const InputCommands sInputKey_GameSpeak7_555114;
 
 enum class AbeSay : __int16
 {
