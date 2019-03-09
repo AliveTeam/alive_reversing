@@ -15,7 +15,7 @@ private:
     __int16 field_11E_path;
     __int16 field_120_level;
     __int16 field_122_camera;
-    __int16 field_124_bUnknown;
+    __int16 field_124_bPlayerControlled;
     __int16 field_126_pad;
     int field_128_timer;
     int field_12C_timer;

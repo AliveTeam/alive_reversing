@@ -33,11 +33,11 @@ EvilFart* EvilFart::ctor_422E30()
 
     if (sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B8_xpos = (FP_FromInteger(12) * field_CC_sprite_scale) + sActiveHero_5C1B68->field_B8_xpos;
+        field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos + (FP_FromInteger(12) * field_CC_sprite_scale);
     }
     else
     {
-        field_B8_xpos = (FP_FromInteger(12) * field_CC_sprite_scale) - sActiveHero_5C1B68->field_B8_xpos;
+        field_B8_xpos = sActiveHero_5C1B68->field_B8_xpos - (FP_FromInteger(12) * field_CC_sprite_scale);
     }
 
     field_BC_ypos = (field_CC_sprite_scale * FP_FromInteger(22)) + sActiveHero_5C1B68->field_BC_ypos;
@@ -68,7 +68,7 @@ EvilFart* EvilFart::ctor_422E30()
     field_D2_g = 128;
     field_D4_b = 32;
 
-    field_124_bUnknown = 0;
+    field_124_bPlayerControlled = 0;
     field_118_bFartCountDown = 0;
 
     field_C4_velx = FP_FromInteger(0);
