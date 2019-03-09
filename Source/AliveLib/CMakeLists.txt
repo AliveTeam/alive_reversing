@@ -249,6 +249,8 @@ ExportHooker.hpp
     GasEmitter.hpp
     DemoPlayback.cpp
     DemoPlayback.hpp
+    ChantSuppressor.cpp
+    ChantSuppressor.hpp
     Slurg.cpp
     Slurg.hpp
 )
