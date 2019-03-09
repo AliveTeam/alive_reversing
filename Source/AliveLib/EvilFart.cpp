@@ -2,6 +2,7 @@
 #include "EvilFart.hpp"
 #include "Abe.hpp"
 #include "Collisions.hpp"
+#include "stdlib.hpp"
 #include "Function.hpp"
 
 EvilFart* EvilFart::ctor_422E30()
@@ -145,4 +146,58 @@ void EvilFart::InputControlFart_423BB0()
             field_C8_vely += kFartSpeed;
         }
     }
+}
+
+void EvilFart::vOnPossesed_423DA0()
+{
+    field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+
+    field_11C_k900 = 900;
+    
+    field_20_animation.field_B_render_mode = 1;
+
+    field_120_level = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_11E_path = gMap_5C3030.sCurrentPathId_5C3032;
+    field_122_camera = gMap_5C3030.sCurrentCamId_5C3034;
+
+    sControlledCharacter_5C1B8C = this;
+
+    field_124_bPlayerControlled = 1;
+    field_11A_isNotChanting = 1;
+
+    field_D2_g = 128;
+    field_D0_r = 32;
+    field_D4_b = 32;
+}
+
+signed __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
+{
+    if (field_6_flags.Get(BaseGameObject::eDead))
+    {
+        return 0;
+    }
+
+    if (pFrom->field_4_typeId == Types::eElectricWall_39)
+    {
+        field_11C_k900 = 0;
+    }
+
+    return 1;
+}
+
+void EvilFart::dtor_423D80()
+{
+    SetVTable(this, 0x544BE0);
+    dtor_4080B0();
+}
+
+EvilFart* EvilFart::vdtor_4230D0(signed int flags)
+{
+    dtor_423D80();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
 }
