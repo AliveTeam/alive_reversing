@@ -40,6 +40,7 @@
 #include "FallingItem.hpp"
 #include "MineCar.hpp"
 #include "ElectricWall.hpp"
+#include "GasEmitter.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -852,7 +853,19 @@ EXPORT void CC Factory_Light_4D8590(Path_TLV* , Path*, TlvItemInfoUnion, __int16
 EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_4D6C50(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{ 
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pGasEmitter = alive_new<GasEmitter>();
+        if (pGasEmitter)
+        {
+            pGasEmitter->ctor_43CAA0(static_cast<Path_GasEmitter*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_KillUnsavedMudokons_4DA6E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }

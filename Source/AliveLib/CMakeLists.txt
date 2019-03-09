@@ -245,6 +245,8 @@ ExportHooker.hpp
     Electrocute.hpp
     EvilFart.cpp
     EvilFart.hpp
+    GasEmitter.cpp
+    GasEmitter.hpp
     Slurg.cpp
     Slurg.hpp
 )
