@@ -107,7 +107,7 @@ public:
         ePauseMenu_95 = 95,
         eParamite_96 = 96,
         eType_97 = 97,
-        eType_98 = 98,
+        eDemoPlayback_98 = 98,
         eBirdPortal_99 = 99,
         eType_100 = 100,
         eFG1_101 = 101, 

@@ -41,6 +41,7 @@
 #include "MineCar.hpp"
 #include "ElectricWall.hpp"
 #include "GasEmitter.hpp"
+#include "DemoPlayback.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -954,7 +955,19 @@ EXPORT void CC Factory_LevelLoader_4D6BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV* , Path*, TlvItemInfoUnion, __int16 loadMode)
+{ 
+    if (loadMode != 1 && loadMode != 2)
+    {
+        if (word_5C1BA0)
+        {
+            if (!sDemoObj_dword_5D1E20)
+            {
+                alive_new<DemoPlayback>();
+            }
+        }
+    }
+}
 
 EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
 {

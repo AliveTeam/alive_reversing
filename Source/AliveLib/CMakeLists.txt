@@ -247,6 +247,8 @@ ExportHooker.hpp
     EvilFart.hpp
     GasEmitter.cpp
     GasEmitter.hpp
+    DemoPlayback.cpp
+    DemoPlayback.hpp
     Slurg.cpp
     Slurg.hpp
 )
