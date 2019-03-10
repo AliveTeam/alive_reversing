@@ -209,48 +209,6 @@ private:
 
         switch (field_20_animation.field_92_current_frame)
         {
-        case 1:
-        {
-            BYTE** ppRes = field_F4_bSmall ?
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID) :
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
-
-            if (ppRes)
-            {
-                auto pParticle = alive_new<Particle>();
-                if (pParticle)
-                {
-                    pParticle->ctor_4CC4C0(
-                        field_B8_xpos,
-                        field_BC_ypos,
-                        field_F4_bSmall ? 14108 : 51156,
-                        202, // Same size for both for some reason
-                        91,
-                        ppRes);
-
-                    if (pParticle->field_6_flags.Get(BaseGameObject::eListAddFailed))
-                    {
-                        pParticle->field_6_flags.Set(BaseGameObject::eDead);
-                    }
-
-                    pParticle->field_DC_bApplyShadows &= ~1u;
-                    pParticle->field_20_animation.field_B_render_mode = 1;
-
-                    if (field_20_animation.field_92_current_frame == 3)
-                    {
-                        pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-                        pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.5);
-                    }
-                    else
-                    {
-                        pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-                        pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.25);
-                    }
-                }
-            }
-        }
-        break;
-
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC);
             rect.w = FP_GetExponent(FP_FromInteger(20) * field_FC);
@@ -264,13 +222,7 @@ private:
             auto pParticleBurst = alive_new<ParticleBurst>();
             if (pParticleBurst)
             {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    field_F4_bSmall ? 6 : 20,
-                    field_F8_scale,
-                    3,
-                    13);
+                pParticleBurst->ctor_41CF50(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 6 : 20, field_F8_scale, 3, field_F4_bSmall ? 11 : 13);
             }
 
             auto pFlash = alive_new<Flash>();
@@ -309,13 +261,7 @@ private:
             auto pParticleBurst = alive_new<ParticleBurst>();
             if (pParticleBurst)
             {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    field_F4_bSmall ? 6 : 20,
-                    field_F8_scale,
-                    3,
-                    13);
+                pParticleBurst->ctor_41CF50(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 6 : 20, field_F8_scale, 3, field_F4_bSmall ? 11 : 13);
             }
 
             auto pFlash = alive_new<Flash>();
@@ -339,6 +285,43 @@ private:
             else
             {
                 field_CC_sprite_scale -= FP_FromDouble(0.2);
+            }
+        }
+
+        if (field_20_animation.field_92_current_frame == 1)
+        {
+            BYTE** ppRes = field_F4_bSmall ?
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID) :
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+            if (ppRes)
+            {
+                auto pParticle = alive_new<Particle>();
+                if (pParticle)
+                {
+                    pParticle->ctor_4CC4C0(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 14108 : 51156,
+                        202, // Same size for both for some reason
+                        91,
+                        ppRes);
+
+                    if (pParticle->field_6_flags.Get(BaseGameObject::eListAddFailed))
+                    {
+                        pParticle->field_6_flags.Set(BaseGameObject::eDead);
+                    }
+
+                    pParticle->field_DC_bApplyShadows &= ~1u;
+                    pParticle->field_20_animation.field_B_render_mode = 1;
+
+                    if (field_20_animation.field_92_current_frame == 3)
+                    {
+                        pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                        pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.5);
+                    }
+                    else
+                    {
+                        pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                        pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.25);
+                    }
+                }
             }
         }
 
