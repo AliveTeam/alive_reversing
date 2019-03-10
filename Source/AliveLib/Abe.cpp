@@ -44,6 +44,7 @@
 #include "FartMachine.hpp"
 #include "MineCar.hpp"
 #include "EvilFart.hpp"
+#include "Particle.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -7532,10 +7533,11 @@ void Abe::State_111_GrabRock_4564A0()
 
 class Particle;
 
-EXPORT Particle* New_Particle_45BC70(BaseAliveGameObject* /*pObj*/)
+EXPORT void New_Particle_45BC70(BaseAliveGameObject* pObj)
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    const FP ypos = pObj->field_BC_ypos - (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(30, 60)));
+    const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + pObj->field_B8_xpos;
+    New_Chant_Particle_426BE0(xpos, ypos, pObj->field_CC_sprite_scale, 0);
 }
 
 void Abe::State_112_Chant_45B1C0()
