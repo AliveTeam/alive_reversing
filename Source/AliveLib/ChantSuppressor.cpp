@@ -122,20 +122,21 @@ ALIVE_VAR(1, 0x5C1BB6, short, word_5C1BB6, 0);
 class Explosion : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Explosion* ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bUnknown)
+    EXPORT Explosion* ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x546CB8);
         field_4_typeId = Types::eExplosion_109;
 
-        if (bUnknown)
+        field_F4_bSmall = bSmall;
+        if (field_F4_bSmall)
         {
-            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 372);
+            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID);
             Animation_Init_424E10(14108, 99, 46, ppRes, 1, 1);
         }
         else
         {
-            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 301);
+            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
             Animation_Init_424E10(51156, 202, 91, ppRes, 1, 1);
         }
 
@@ -144,9 +145,8 @@ public:
         field_F8_scale = scale;
         field_D6_scale = scale == FP_FromInteger(1);
         field_CC_sprite_scale = scale * FP_FromInteger(2);
-        field_F4_bUnknown = bUnknown;
-
-        if (bUnknown)
+       
+        if (field_F4_bSmall)
         {
             field_FC = scale * FP_FromDouble(0.5);
         }
@@ -161,7 +161,7 @@ public:
         auto pScreenShake = alive_new<ScreenShake>();
         if (pScreenShake)
         {
-            pScreenShake->ctor_4ACF70(word_5C1BB6 ? 0 : 1, field_F4_bUnknown);
+            pScreenShake->ctor_4ACF70(word_5C1BB6 ? 0 : 1, field_F4_bSmall);
         }
 
         PSX_RECT rect = {};
@@ -211,9 +211,9 @@ private:
         {
         case 1:
         {
-            BYTE** ppRes = field_F4_bUnknown ?
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, 301) :
-                Add_Resource_4DC130(ResourceManager::Resource_Animation, 372);
+            BYTE** ppRes = field_F4_bSmall ?
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID) :
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
 
             if (ppRes)
             {
@@ -223,8 +223,8 @@ private:
                     pParticle->ctor_4CC4C0(
                         field_B8_xpos,
                         field_BC_ypos,
-                        field_F4_bUnknown ? 14108 : 51156,
-                        202,
+                        field_F4_bSmall ? 14108 : 51156,
+                        202, // Same size for both for some reason
                         91,
                         ppRes);
 
@@ -267,7 +267,7 @@ private:
                 pParticleBurst->ctor_41CF50(
                     field_B8_xpos,
                     field_BC_ypos,
-                    field_F4_bUnknown ? 0x14 : 6,
+                    field_F4_bSmall ? 6 : 20,
                     field_F8_scale,
                     3,
                     13);
@@ -312,7 +312,7 @@ private:
                 pParticleBurst->ctor_41CF50(
                     field_B8_xpos,
                     field_BC_ypos,
-                    field_F4_bUnknown ? 20 : 6,
+                    field_F4_bSmall ? 6 : 20,
                     field_F8_scale,
                     3,
                     13);
@@ -332,7 +332,7 @@ private:
 
         if (field_20_animation.field_92_current_frame > 9)
         {
-            if (field_F4_bUnknown)
+            if (field_F4_bSmall)
             {
                 field_CC_sprite_scale -= FP_FromDouble(0.065);
             }
@@ -372,16 +372,9 @@ private:
     }
 
 private:
-    __int16 field_E4;
-    __int16 field_E6;
-    __int16 field_E8;
-    __int16 field_EA;
-    __int16 field_EC;
-    __int16 field_EE;
-    __int16 field_F0;
-    __int16 field_F2;
-    __int16 field_F4_bUnknown;
-    __int16 field_F6;
+    int field_E4_not_used[4];
+    __int16 field_F4_bSmall;
+    //__int16 field_F6_pad;
     FP field_F8_scale;
     FP field_FC;
 };
