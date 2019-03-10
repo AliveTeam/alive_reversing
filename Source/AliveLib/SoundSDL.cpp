@@ -434,7 +434,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int /*sampleRate*/, int /*bits
         gAudioDeviceSpec.format = AUDIO_F32;
         gAudioDeviceSpec.channels = 2;
         gAudioDeviceSpec.freq = 44100;
-        gAudioDeviceSpec.samples = 512;
+        gAudioDeviceSpec.samples = 128;
         gAudioDeviceSpec.userdata = NULL;
 
         if (SDL_OpenAudio(&gAudioDeviceSpec, NULL) < 0) {
@@ -442,9 +442,9 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int /*sampleRate*/, int /*bits
         }
         else
         {
-            SDL_PauseAudio(0);
-
             Reverb_Init(gAudioDeviceSpec.freq);
+
+            SDL_PauseAudio(0);
 
             SND_InitVolumeTable_4EEF60();
 
