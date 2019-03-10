@@ -57,7 +57,7 @@ Leaf* Leaf::ctor_4E3120(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     }
 
     const short randRightVol = Math_RandomRange_496AB0(-900, -700);
-    SFX_Play_46FBA0(22u, (3 * randLeftVol) / 4, randRightVol, 0x10000);
+    SFX_Play_46FBA0(22u, (3 * randLeftVol) / 4, randRightVol);
     field_1C_update_delay = 1;
 
     return this;

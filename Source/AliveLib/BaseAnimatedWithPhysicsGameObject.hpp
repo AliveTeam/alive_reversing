@@ -70,7 +70,7 @@ private:
     EXPORT void vOnPickUpOrSlapped_408180();
     EXPORT void null_4081A0(BaseGameObject* pFrom);
 public:
-    EXPORT Map::CameraPos Is_In_Current_Camera_424A70();
+    EXPORT CameraPos Is_In_Current_Camera_424A70();
 
     EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
     EXPORT void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);

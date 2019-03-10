@@ -215,7 +215,7 @@ void Mine::Update_46B5D0()
         {
             if (onScreen)
             {
-                SFX_Play_46FA90(3u, 35, 0x10000);
+                SFX_Play_46FA90(3u, 35);
                 sMineSFXOwner_5C3008 = this;
             }
             else

@@ -155,8 +155,8 @@ void TimedMine::Update_410A80()
         {
             FP v10 = field_BC_ypos;
             field_1BC = sGnFrame_5C1B84;
-            signed short v11 = gMap_5C3030.sub_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, v10);
-            SFX_Play_46FC20(2u, 50, v11, 0x10000);
+            const CameraPos soundDir = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, v10);
+            SFX_Play_46FC20(2u, 50, soundDir);
 
             if (((field_120_gnframe - sGnFrame_5C1B84) & 0xFFFFFFF8) >= 144)
             {

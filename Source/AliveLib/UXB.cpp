@@ -67,7 +67,7 @@ void UXB::PlaySFX_4DE930(unsigned __int8 sfxIdx)
         this->field_BC_ypos,
         0))
     {
-        SFX_Play_46FA90(sfxIdx, 35, 0x10000);
+        SFX_Play_46FA90(sfxIdx, 35);
     }
 }
 

@@ -224,19 +224,19 @@ void Map::sub_481610()
     {
         switch (field_14_direction)
         {
-        case MapDirections::eMapLeft:
+        case MapDirections::eMapLeft_0:
             field_D0_cam_x_idx--;
             field_10_screen_change_effect = CameraSwapEffects::eEffect2_RightToLeft;
             break;
-        case MapDirections::eMapRight:
+        case MapDirections::eMapRight_1:
             field_D0_cam_x_idx++;
             field_10_screen_change_effect = CameraSwapEffects::eEffect1_LeftToRight;
             break;
-        case MapDirections::eMapTop:
+        case MapDirections::eMapTop_2:
             field_D2_cam_y_idx--;
             field_10_screen_change_effect = CameraSwapEffects::eEffect4_BottomToTop;
             break;
-        case MapDirections::eMapBottom:
+        case MapDirections::eMapBottom_3:
             field_D2_cam_y_idx++;
             field_10_screen_change_effect = CameraSwapEffects::eEffect3_TopToBottom;
             break;
@@ -257,10 +257,73 @@ void Map::sub_481610()
     }
 }
 
-signed __int16 Map::sub_4811A0(int /*level*/, int /*path*/, FP /*xpos*/, FP /*ypos*/)
+CameraPos Map::GetDirection_4811A0(int level, int path, FP xpos, FP ypos)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (level != static_cast<int>(sCurrentLevelId_5C3030))
+    {
+        return CameraPos::eCamInvalid_m1;
+    }
+
+    if (path != sCurrentPathId_5C3032)
+    {
+        return CameraPos::eCamInvalid_m1;
+    }
+
+    PSX_RECT rect = {};
+    rect.x = FP_GetExponent(xpos);
+    rect.w = FP_GetExponent(xpos);
+    rect.y = FP_GetExponent(ypos);
+    rect.h = FP_GetExponent(ypos);
+
+    CameraPos ret = Is_Rect_In_Current_Camera_480FE0(&rect);
+
+    PSX_RECT camWorldRect = {};
+    if (!Get_Camera_World_Rect_481410(ret, &camWorldRect))
+    {
+        return CameraPos::eCamInvalid_m1;
+    }
+
+    const FP x = FP_FromInteger(camWorldRect.x);
+    const FP y = FP_FromInteger(camWorldRect.y);
+    const FP w = FP_FromInteger(camWorldRect.w);
+    const FP h = FP_FromInteger(camWorldRect.h);
+
+    switch (ret)
+    {
+    case CameraPos::eCamCurrent_0:
+        return ret;
+
+    case CameraPos::eCamTop_1:
+        if (ypos < y  || xpos < x || xpos > w)
+        {
+            return CameraPos::eCamInvalid_m1;
+        }
+        return ypos > h ? CameraPos::eCamCurrent_0 : ret;
+
+    case CameraPos::eCamBottom_2:
+        if (ypos > h || xpos < x || xpos > w)
+        {
+            return CameraPos::eCamInvalid_m1;
+        }
+        return ypos < y ? CameraPos::eCamCurrent_0 : ret;
+
+    case CameraPos::eCamLeft_3:
+        if (xpos < x || ypos < y || ypos > h)
+        {
+            return CameraPos::eCamInvalid_m1;
+        }
+        return xpos > w ? CameraPos::eCamCurrent_0 : ret;
+
+    case CameraPos::eCamRight_4:
+        if (xpos > w || ypos < y || ypos > h)
+        {
+            return CameraPos::eCamInvalid_m1;
+        }
+        return xpos < x ? CameraPos::eCamCurrent_0 : ret;
+
+    default:
+        return CameraPos::eCamInvalid_m1;
+    }
 }
 
 void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange)
@@ -807,6 +870,39 @@ void Map::Create_FG1s_480F10()
     }
 }
 
+signed __int16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect)
+{
+    if (camIdx < CameraPos::eCamCurrent_0)
+    {
+        return 0;
+    }
+
+    if (camIdx > CameraPos::eCamRight_4)
+    {
+        return 0;
+    }
+
+    Camera* pCamera = field_2C_5C305C_camera_array[static_cast<int>(camIdx)];
+    if (!pCamera)
+    {
+        return 0;
+    }
+
+    if (!pRect)
+    {
+        return 1;
+    }
+
+    const __int16 xpos = pCamera->field_14_xpos * field_D4_ptr->field_A_grid_width;
+    const __int16 ypos = pCamera->field_16_ypos * field_D4_ptr->field_C_grid_height;
+
+    pRect->x = xpos;
+    pRect->y = ypos;
+    pRect->w = xpos + 368;
+    pRect->h = ypos + 240;
+    return 1;
+}
+
 __int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width)
 {
     const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
@@ -820,15 +916,15 @@ __int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP 
     rect.w = FP_GetExponent(calculated_width + xpos);
     rect.y = FP_GetExponent(ypos);
     rect.h = FP_GetExponent(ypos);
-    return Is_Rect_In_Current_Camera_480FE0(&rect) == CameraPos::eCamCurrent;
+    return Is_Rect_In_Current_Camera_480FE0(&rect) == CameraPos::eCamCurrent_0;
 }
 
 
-EXPORT Map::CameraPos Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
+EXPORT CameraPos Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        return CameraPos::eCamNone;
+        return CameraPos::eCamNone_5;
     }
 
     const int camX = FP_GetExponent(field_24_camera_offset.field_0_x);
@@ -836,27 +932,27 @@ EXPORT Map::CameraPos Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
 
     if (pRect->x > (camX + 368))
     {
-        return CameraPos::eCamRight;
+        return CameraPos::eCamRight_4;
     }
 
     if (pRect->y > (camY + 240))
     {
-        return CameraPos::eCamBottom;
+        return CameraPos::eCamBottom_2;
     }
 
     if (pRect->w >= camX)
     {
         if (pRect->h < camY)     // return 1 or 0
         {
-            return CameraPos::eCamTop;
+            return CameraPos::eCamTop_1;
         }
         else
         {
-            return CameraPos::eCamCurrent;
+            return CameraPos::eCamCurrent_0;
         }
     }
 
-    return CameraPos::eCamLeft;
+    return CameraPos::eCamLeft_3;
 }
 
 signed __int16 Map::SetActiveCam_480D30(LevelIds level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)
@@ -1131,26 +1227,26 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
     {
          switch (direction)
          {
-         case MapDirections::eMapLeft:
-             if (!GetCamera(CameraPos::eCamLeft))
+         case MapDirections::eMapLeft_0:
+             if (!GetCamera(CameraPos::eCamLeft_3))
              {
                  return 0;
              }
              break;
-         case MapDirections::eMapRight:
-             if (!GetCamera(CameraPos::eCamRight))
+         case MapDirections::eMapRight_1:
+             if (!GetCamera(CameraPos::eCamRight_4))
              {
                  return 0;
              }
              break;
-         case MapDirections::eMapBottom:
-             if (!GetCamera(CameraPos::eCamBottom))
+         case MapDirections::eMapBottom_3:
+             if (!GetCamera(CameraPos::eCamBottom_2))
              {
                  return 0;
              }
              break;
-         case MapDirections::eMapTop:
-             if (!GetCamera(CameraPos::eCamTop))
+         case MapDirections::eMapTop_2:
+             if (!GetCamera(CameraPos::eCamTop_1))
              {
                  return 0;
              }

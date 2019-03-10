@@ -621,7 +621,7 @@ public:
     void ClosePauseMenu()
     {
         pPauseMenu_5C9300->word12C_flags &= ~1;
-        SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+        SFX_Play_46FBA0(0x11u, 40, 2400);
         SND_Restart_4CB0E0();
         customMenuStack.clear();
     }
@@ -635,7 +635,7 @@ public:
             {
                 index = 0;
             }
-            SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
+            SFX_Play_46FBA0(0x34u, 45, 400);
 
             CompileEntries();
         }
@@ -645,19 +645,19 @@ public:
             {
                 index = static_cast<int>(entries->size()) - 1;
             }
-            SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
+            SFX_Play_46FBA0(0x34u, 45, 400);
 
             CompileEntries();
         }
         else if (input & 0x200000)
         {
-            SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+            SFX_Play_46FBA0(0x11u, 40, 2400);
             GoBack(pm);
         }
         else if (input & eUnPause)
         {
             (*entries)[index].callback(this);
-            SFX_Play_46FA90(0x54u, 90, 0x10000);
+            SFX_Play_46FA90(0x54u, 90);
         }
 
         pm->field_144_active_menu.field_C_selected_index = static_cast<short>(index - scrollDownIndex);
@@ -894,7 +894,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             field_134_Index_Main = 0;
         }
-        SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 45, 400);
     }
     if (inputHeld & eUp)
     {
@@ -902,7 +902,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
             field_134_Index_Main = 7;
         }
-        SFX_Play_46FBA0(0x34u, 45, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 45, 400);
     }
 
     field_144_active_menu.field_C_selected_index = field_134_Index_Main;
@@ -910,7 +910,7 @@ void PauseMenu::Page_Main_Update_4903E0()
     if (inputHeld & 0x200000)
     {
         word12C_flags &= 0xFFFEu;
-        SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+        SFX_Play_46FBA0(0x11u, 40, 2400);
         SND_Restart_4CB0E0();
     }
     else if (inputHeld & eUnPause)
@@ -919,12 +919,12 @@ void PauseMenu::Page_Main_Update_4903E0()
         {
         case 0:
             word12C_flags &= 0xFFFEu;
-            SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+            SFX_Play_46FBA0(0x11u, 40, 2400);
             SND_Restart_4CB0E0();
             return;
         case 1:
             word12C_flags &= 0xFFFEu;
-            SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+            SFX_Play_46FBA0(0x11u, 40, 2400);
             SND_Restart_4CB0E0();
             Quicksave_4C90D0();
             return;
@@ -944,7 +944,7 @@ void PauseMenu::Page_Main_Update_4903E0()
         case 4:
             field_136 = 5;
             memcpy(&field_144_active_menu, &sPM_Page_Save_5465C8, sizeof(field_144_active_menu));
-            SFX_Play_46FA90(0x54u, 90, 0x10000);
+            SFX_Play_46FA90(0x54u, 90);
             field_13C = 0;
             word12C_flags &= 0xFFF5u;
             field_13E = -1;
@@ -964,7 +964,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             Quicksave_FindSaves_4D4150();
             field_136 = 4;
             memcpy(&field_144_active_menu, &sPM_Page_Load_546628, sizeof(field_144_active_menu));
-            SFX_Play_46FA90(0x54u, 90, 0x10000);
+            SFX_Play_46FA90(0x54u, 90);
             word12C_flags &= 0xFFF5;
             field_13C = 0;
             word12C_flags |= 0x400;
@@ -1001,7 +1001,7 @@ void PauseMenu::Page_Main_Update_4903E0()
                 gpThrowableArray_5D1E2C->Add_49A7A0(sActiveHero_5C1B68->field_1A2_rock_or_bone_count);
             }
             word12C_flags &= 0xFFFEu;
-            SFX_Play_46FBA0(0x11u, 40, 3400, 0x10000);
+            SFX_Play_46FBA0(0x11u, 40, 3400);
             SND_Restart_4CB0E0();
         case 7:
             field_136 = 2;
@@ -1012,7 +1012,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             return;
         }
 
-        SFX_Play_46FA90(0x54u, 90, 0x10000);
+        SFX_Play_46FA90(0x54u, 90);
     }
 }
 
@@ -1022,7 +1022,7 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
     {
         field_136 = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
-        SFX_Play_46FBA0(17u, 40, 2400, 0x10000);
+        SFX_Play_46FBA0(17u, 40, 2400);
     }
 
     if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x100000)
@@ -1031,14 +1031,14 @@ void PauseMenu::Page_ControlsActions_Update_48FA60()
         if (prev < 6)
         {
             field_144_active_menu.field_8_menu_items = sControlActionsPages_55DE40[prev];
-            SFX_Play_46FA90(84u, 90, 0x10000);
+            SFX_Play_46FA90(84u, 90);
         }
         else
         {
             field_138 = 0;
             field_136 = 0;
             memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
-            SFX_Play_46FBA0(17u, 40, 2400, 0x10000);
+            SFX_Play_46FBA0(17u, 40, 2400);
         }
     }
 }
@@ -1049,13 +1049,13 @@ EXPORT void PauseMenu::Page_ReallyQuit_Update_490930()
     {
         field_136 = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
-        SFX_Play_46FBA0(17u, 40, 2400, 0x10000);
+        SFX_Play_46FBA0(17u, 40, 2400);
     }
 
     if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 0x100000)
     {
         word12C_flags &= ~1u;
-        SFX_Play_46FBA0(17u, 40, 2400, 0x10000);
+        SFX_Play_46FBA0(17u, 40, 2400);
 
         if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
         {
@@ -1095,7 +1095,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC--;
         }
-        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 35, 400);
         return;
     }
 
@@ -1107,7 +1107,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC++;
         }
-        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 35, 400);
         return;
     }
 
@@ -1122,7 +1122,7 @@ void PauseMenu::Page_Load_Update_490D50()
             sSavedGameToLoadIdx_BB43FC = 0;
         }
 
-        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 35, 400);
         return;
     }
 
@@ -1135,7 +1135,7 @@ void PauseMenu::Page_Load_Update_490D50()
         {
             sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
         }
-        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 35, 400);
         return;
     }
 
@@ -1159,7 +1159,7 @@ void PauseMenu::Page_Load_Update_490D50()
                 // TODO: OG bug, file handle is leaked
                 fclose_520CBE(hFile);
             }
-            SFX_Play_46FA90(84u, 90, 0x10000);
+            SFX_Play_46FA90(84u, 90);
         }
     }
     // Go back (esc)
@@ -1167,7 +1167,7 @@ void PauseMenu::Page_Load_Update_490D50()
     {
         field_136 = 0;
         memcpy(&field_144_active_menu, &sPM_Page_Main_5465B0, sizeof(field_144_active_menu));
-        SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+        SFX_Play_46FBA0(0x11u, 40, 2400);
     }
     // Delete (del)
     else if (inputHeld & 0x10000000)
@@ -1300,7 +1300,7 @@ void PauseMenu::Update_48FD80()
                 && pHero->field_1A8_portal_id == -1)
             {
                 SND_StopAll_4CB060();
-                SFX_Play_46FBA0(0x11u, 40, 2400, 0x10000);
+                SFX_Play_46FBA0(0x11u, 40, 2400);
                 sub_4A2B70();
                 field_6_flags.Set(BaseGameObject::eDrawable);
                 field_134_Index_Main = 0;

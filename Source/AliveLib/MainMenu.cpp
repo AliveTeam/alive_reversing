@@ -1456,7 +1456,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
 
     if (indexChanged)
     {
-        SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+        SFX_Play_46FBA0(0x34u, 35, 400);
     }
 
     if (input & eUnPause)
@@ -2046,7 +2046,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
                     field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
 
-                    SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+                    SFX_Play_46FBA0(0x34u, 35, 400);
                 }
 
                 if (inputHeld & (eRight | eDown))
@@ -2069,7 +2069,7 @@ void MainMenuController::HandleMainMenuUpdate()
                     }
 
                     field_158_animation.Set_Animation_Data_409C80(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset, 0);
-                    SFX_Play_46FBA0(0x34u, 35, 400, 0x10000);
+                    SFX_Play_46FBA0(0x34u, 35, 400);
                 }
             }
         }

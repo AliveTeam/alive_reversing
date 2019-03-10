@@ -3,6 +3,11 @@
 #include "Abe.hpp"
 #include "Collisions.hpp"
 #include "stdlib.hpp"
+#include "Events.hpp"
+#include "Game.hpp"
+#include "ThrowableTotalIndicator.hpp"
+#include "Particle.hpp"
+#include "Midi.hpp"
 #include "Function.hpp"
 
 EvilFart* EvilFart::ctor_422E30()
@@ -184,6 +189,11 @@ signed __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
     }
 
     return 1;
+}
+
+void EvilFart::vUpdate_423100()
+{
+    NOT_IMPLEMENTED();
 }
 
 void EvilFart::dtor_423D80()

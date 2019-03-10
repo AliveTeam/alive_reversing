@@ -321,7 +321,7 @@ void Water::vUpdate_4E0B50()
 
     if (field_13C_not_in_camera_count <= 90)
     {
-        const signed __int16 soundDir = gMap_5C3030.sub_4811A0(
+        const CameraPos soundDir = gMap_5C3030.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
@@ -339,7 +339,7 @@ void Water::vUpdate_4E0B50()
             {
                 field_FC_state = State::State_2;
                 field_140_time_on = sGnFrame_5C1B84 + field_124_tlv_data.field_1A_timeout;
-                field_144_sound_channels = SFX_Play_46FC20(95u, 40, soundDir, 0x10000);
+                field_144_sound_channels = SFX_Play_46FC20(95u, 40, soundDir);
             }
             break;
 
@@ -351,7 +351,7 @@ void Water::vUpdate_4E0B50()
 
             if (field_110_current_drops > 3 && !field_144_sound_channels)
             {
-                field_144_sound_channels = SFX_Play_46FC20(95u, 40, soundDir, 0x10000);
+                field_144_sound_channels = SFX_Play_46FC20(95u, 40, soundDir);
             }
 
             if (field_110_current_drops < (signed __int16)(field_124_tlv_data.field_10_max_drops >> 5))
@@ -376,7 +376,7 @@ void Water::vUpdate_4E0B50()
             field_110_current_drops = Math_NextRandom() % (field_124_tlv_data.field_10_max_drops >> 4);
             if (field_110_current_drops > 3 && !field_144_sound_channels)
             {
-                field_144_sound_channels = SFX_Play_46FC20(95u, 40, soundDir, 0x10000);
+                field_144_sound_channels = SFX_Play_46FC20(95u, 40, soundDir);
             }
 
             for (int i = 0; i < field_110_current_drops; i++)
@@ -422,7 +422,7 @@ void Water::vUpdate_4E0B50()
             {
                 SND_Stop_Channels_Mask_4CA810(field_144_sound_channels);
                 field_144_sound_channels = 0;
-                SFX_Play_46FC20(0x60u, 40, soundDir, 0x10000);
+                SFX_Play_46FC20(0x60u, 40, soundDir);
                 field_FC_state = State::State_4;
             }
             break;
@@ -456,7 +456,7 @@ void Water::vUpdate_4E0B50()
             {
                 field_110_current_drops = 0;
                 field_FC_state = State::State_1;
-                SFX_Play_46FC20(94u, 40, soundDir, 0x10000);
+                SFX_Play_46FC20(94u, 40, soundDir);
             }
             break;
 

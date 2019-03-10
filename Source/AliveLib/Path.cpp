@@ -399,7 +399,7 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(__int16 /*type*/, Path_TLV* /*pTlv*/)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC Start_Exploision_sounds_4CBA70(__int16 /*direction*/, unsigned __int8 /*kZero*/)
+EXPORT void CC Start_Exploision_sounds_4CBA70(CameraPos /*direction*/, unsigned __int8 /*kZero*/)
 {
     NOT_IMPLEMENTED();
 }

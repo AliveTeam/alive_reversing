@@ -279,7 +279,7 @@ void LCDScreen::Update_460A00()
         {
             if (field_2A8_play_sound_toggle)
             {
-                SFX_Play_46FA90(73u, 0, 0x10000);
+                SFX_Play_46FA90(73u, 0);
             }
         }
     }

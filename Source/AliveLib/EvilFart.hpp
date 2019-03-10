@@ -16,6 +16,7 @@ private:
 
     EXPORT signed __int16 VTakeDamage_423B70(BaseGameObject* pFrom);
 
+    EXPORT void vUpdate_423100();
 
     EXPORT void dtor_423D80();
 

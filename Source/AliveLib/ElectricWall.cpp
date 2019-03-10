@@ -98,7 +98,7 @@ void ElectricWall::vScreenChanged_422530()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
-        gMap_5C3030.sub_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) < 0)
+        gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) == CameraPos::eCamInvalid_m1)
     {
         field_6_flags.Set(BaseGameObject::eDead);
     }
@@ -106,7 +106,7 @@ void ElectricWall::vScreenChanged_422530()
 
 void ElectricWall::vUpdate_422030()
 {
-    const __int16 soundDirection = gMap_5C3030.sub_4811A0(
+    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
         field_B8_xpos,
@@ -150,7 +150,7 @@ void ElectricWall::vUpdate_422030()
         // Play sound every so often
         if (static_cast<int>(sGnFrame_5C1B84) >= field_FC_sound_timer)
         {
-            SFX_Play_46FC20(0x29u, 45, soundDirection, field_CC_sprite_scale.fpValue);
+            SFX_Play_46FC20(0x29u, 45, soundDirection, field_CC_sprite_scale);
             field_FC_sound_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(24, 40);
         }
 
@@ -200,7 +200,7 @@ void ElectricWall::vUpdate_422030()
                             if (RectsOverlap(bRectBigger, objRect) && pObj->field_10C_health > FP_FromInteger(0))
                             {
                                 // When near play the buzzing sound
-                                SFX_Play_46FC20(0x28u, 45, soundDirection, field_CC_sprite_scale.fpValue);
+                                SFX_Play_46FC20(0x28u, 45, soundDirection, field_CC_sprite_scale);
                             }
                         }
                     }
@@ -219,7 +219,7 @@ void ElectricWall::vUpdate_422030()
 
                             pObj->VTakeDamage_408730(this);
 
-                            SFX_Play_46FC20(39u, 127, soundDirection, field_CC_sprite_scale.fpValue);
+                            SFX_Play_46FC20(39u, 127, soundDirection, field_CC_sprite_scale);
 
                             auto pFlash = alive_new<Flash>();
                             if (pFlash)

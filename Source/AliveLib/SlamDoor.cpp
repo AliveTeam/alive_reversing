@@ -263,8 +263,8 @@ void SlamDoor::vUpdate_4AFD50()
                 {
                     this->field_6_flags.Set(Options::eDead);
                 }
-                SFX_Play_46FBA0(0x39u, 100, 900, 0x10000);
-                SFX_Play_46FBA0(0x39u, 100, -100, 0x10000);
+                SFX_Play_46FBA0(0x39u, 100, 900);
+                SFX_Play_46FBA0(0x39u, 100, -100);
                 this->field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3);
             }
         }
@@ -277,8 +277,8 @@ void SlamDoor::vUpdate_4AFD50()
             if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3))
             {
                 field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3);
-                SFX_Play_46FBA0(0x39u, 100, 900, 0x10000);
-                SFX_Play_46FBA0(0x39u, 100, -100, 0x10000);
+                SFX_Play_46FBA0(0x39u, 100, 900);
+                SFX_Play_46FBA0(0x39u, 100, -100);
             }
         }
     }

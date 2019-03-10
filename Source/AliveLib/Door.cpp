@@ -405,8 +405,8 @@ void Door::PlaySound_41EA90()
         volume = 90;
     }
 
-    SFX_Play_46FBA0(0x39u, volume, 900, 0x10000);
-    SFX_Play_46FBA0(0x39u, volume, 0, 0x10000);
+    SFX_Play_46FBA0(0x39u, volume, 900);
+    SFX_Play_46FBA0(0x39u, volume, 0);
 }
 
 void Door::dtor_41EA00()

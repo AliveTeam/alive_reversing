@@ -151,7 +151,7 @@ void Switch::vUpdate_4D5C00()
     {
         if (field_20_animation.field_92_current_frame == 3)
         {
-            SFX_Play_46FA90(0x3Fu, 0, 0x10000);
+            SFX_Play_46FA90(0x3Fu, 0);
         }
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -166,7 +166,7 @@ void Switch::vUpdate_4D5C00()
                 || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9
                 || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
             {
-                SFX_Play_46FBA0(0x50u, 30, 400, 0x10000);
+                SFX_Play_46FBA0(0x50u, 30, 400);
             }
 
             field_F8_state = 2;
@@ -204,35 +204,35 @@ void Switch::vUpdate_4D5C00()
                     switch (field_104_on_sound)
                     {
                     case 1:
-                        SFX_Play_46FB10(0x14u, 80 * volLeft + 25, 80 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0x14u, 80 * volLeft + 25, 80 * volRight + 25);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
 
                     case 2:
-                        SFX_Play_46FB10(0xBu, 100 * volLeft + 25, 100 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0xBu, 100 * volLeft + 25, 100 * volRight + 25);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
 
                     case 3:
-                        SFX_Play_46FB10(0x39u, 75 * volLeft + 15, 75 * volRight + 15, 0x10000);
+                        SFX_Play_46FB10(0x39u, 75 * volLeft + 15, 75 * volRight + 15);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
 
                     case 4:
-                        SFX_Play_46FB10(0x31u, 35 * volLeft + 25, 35 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0x31u, 35 * volLeft + 25, 35 * volRight + 25);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
 
                     case 5:
-                        SFX_Play_46FB10(0x30u, 35 * volLeft + 25, 35 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0x30u, 35 * volLeft + 25, 35 * volRight + 25);
                         return;
 
                     case 6:
-                        SFX_Play_46FB10(0x1Eu, 35 * volLeft + 25, 35 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0x1Eu, 35 * volLeft + 25, 35 * volRight + 25);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
@@ -246,35 +246,35 @@ void Switch::vUpdate_4D5C00()
                     switch (field_106_off_sound)
                     {
                     case 1:
-                        SFX_Play_46FB10(0x14u, 80 * volLeft + 25, 80 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0x14u, 80 * volLeft + 25, 80 * volRight + 25);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
 
                     case 2:
-                        SFX_Play_46FB10(0xBu, 110 * volLeft + 25, 110 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0xBu, 110 * volLeft + 25, 110 * volRight + 25);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
 
                     case 3:
-                        SFX_Play_46FB10(0x39u, 75 * volLeft + 15, 75 * volRight + 15, 0x10000);
+                        SFX_Play_46FB10(0x39u, 75 * volLeft + 15, 75 * volRight + 15);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
 
                     case 4:
-                        SFX_Play_46FB10(0x31u, 80 * volLeft + 25, 80 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0x31u, 80 * volLeft + 25, 80 * volRight + 25);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;
 
                     case 5:
-                        SFX_Play_46FB10(0x30u, 35 * volLeft + 75, 35 * volRight + 75, 0x10000);
+                        SFX_Play_46FB10(0x30u, 35 * volLeft + 75, 35 * volRight + 75);
                         break;
 
                     case 6:
-                        SFX_Play_46FB10(0x1Eu, 35 * volLeft + 25, 35 * volRight + 25, 0x10000);
+                        SFX_Play_46FB10(0x1Eu, 35 * volLeft + 25, 35 * volRight + 25);
                         Event_Broadcast_422BC0(kEventNoise, this);
                         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
                         break;

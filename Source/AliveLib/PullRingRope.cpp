@@ -172,7 +172,7 @@ void PullRingRope::vUpdate_49B720()
     case State::eState_1:
         if (field_20_animation.field_92_current_frame == 2)
         {
-            SFX_Play_46FA90(56u, 0, 0x10000);
+            SFX_Play_46FA90(56u, 0);
         }
 
         field_BC_ypos += field_C8_vely;
@@ -191,7 +191,7 @@ void PullRingRope::vUpdate_49B720()
                 gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
                 gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
             {
-                SFX_Play_46FA90(0x50u, 0, 0x10000);
+                SFX_Play_46FA90(0x50u, 0);
             }
         }
         break;
@@ -227,13 +227,13 @@ void PullRingRope::vUpdate_49B720()
                     switch (field_106_on_sound)
                     {
                     case 1:
-                        SFX_Play_46FB10(20u, 60 * leftVol + 10, 60 * rightVol + 10, 0x10000);
+                        SFX_Play_46FB10(20u, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
                     case 2:
-                        SFX_Play_46FB10(8u, 60 * leftVol + 10, 60 * rightVol + 10, 0x10000);
+                        SFX_Play_46FB10(8u, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
                     case 3:
-                        SFX_Play_46FB10(57u, 75 * leftVol + 15, 75 * rightVol + 15, 0x10000);
+                        SFX_Play_46FB10(57u, 75 * leftVol + 15, 75 * rightVol + 15);
                         break;
                     }
                 }
@@ -242,13 +242,13 @@ void PullRingRope::vUpdate_49B720()
                     switch (field_108_off_sound)
                     {
                     case 1:
-                        SFX_Play_46FB10(20u, 60 * leftVol + 10, 60 * rightVol + 10, 0x10000);
+                        SFX_Play_46FB10(20u, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
                     case 2:
-                        SFX_Play_46FB10(8u, 60 * leftVol + 10, 60 * rightVol + 10, 0x10000);
+                        SFX_Play_46FB10(8u, 60 * leftVol + 10, 60 * rightVol + 10);
                         break;
                     case 3:
-                        SFX_Play_46FB10(57u, 75 * leftVol + 15, 75 * rightVol + 15, 0x10000);
+                        SFX_Play_46FB10(57u, 75 * leftVol + 15, 75 * rightVol + 15);
                         break;
                     }
                 }
@@ -296,7 +296,7 @@ __int16 PullRingRope::vPull_49BBD0(BaseGameObject* pObj)
     field_C8_vely = FP_FromInteger(2) * field_CC_sprite_scale;
     field_F4_stay_in_state_ticks = 6;
     field_20_animation.Set_Animation_Data_409C80(3060, 0);
-    SFX_Play_46FA90(56u, 0, 0x10000);
+    SFX_Play_46FA90(56u, 0);
     return 1;
 
 }

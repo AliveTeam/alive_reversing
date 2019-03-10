@@ -117,7 +117,7 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
         // Only render if in the active level, path and camera
         if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number
             && gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number
-            && Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent)
+            && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
             field_20_animation.field_14_scale = field_CC_sprite_scale;
 
@@ -432,7 +432,7 @@ void BaseAnimatedWithPhysicsGameObject::null_4081A0(BaseGameObject* /*pFrom*/)
     NOT_IMPLEMENTED();
 }
 
-Map::CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()
+CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()
 {
     PSX_RECT rect = {};
     vGetBoundingRect_424FD0(&rect, 1);

@@ -112,7 +112,7 @@ void MainMenuTransition::StartTrans_464370(__int16 layer, __int16 fadeDirection,
     if (fadeDirection)
     {
         field_22_change_by_speed = speed;
-        SFX_Play_46FA90(7u, 0, 0x10000);
+        SFX_Play_46FA90(7u, 0);
     }
     else
     {

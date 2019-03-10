@@ -520,7 +520,7 @@ void LiftPoint::vRender_462730(int** pOt)
             field_13C_lift_wheel.field_9_g = static_cast<BYTE>(g);
             field_13C_lift_wheel.field_A_b = static_cast<BYTE>(b);
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent)
+            if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.vRender_40B820(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
@@ -585,7 +585,7 @@ void LiftPoint::vRender_462730(int** pOt)
             // The base animation is the actual lift/platform itself
             BaseAnimatedWithPhysicsGameObject::VRender(pOt);
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == Map::CameraPos::eCamCurrent)
+            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.vRender_40B820(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
@@ -644,8 +644,8 @@ void LiftPoint::vUpdate_461AE0()
                 field_C8_vely = FP_FromInteger(0);
                 field_12C_bMoving &= ~1u;
                 field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
-                SFX_Play_46FA90(0x1Eu, 0, 0x10000);
-                SFX_Play_46FBA0(0x1Eu, 80, -2000, 0x10000);
+                SFX_Play_46FA90(0x1Eu, 0);
+                SFX_Play_46FBA0(0x1Eu, 80, -2000);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             }
@@ -878,12 +878,12 @@ void LiftPoint::vUpdate_461AE0()
     {
         if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate))
         {
-            SFX_Play_46FA90(0x1Fu, 0, 0x10000);
+            SFX_Play_46FA90(0x1Fu, 0);
         }
     }
     else if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate) && sGnFrame_5C1B84 & 1)
     {
-        SFX_Play_46FA90(0x1Fu, 0, 0x10000);
+        SFX_Play_46FA90(0x1Fu, 0);
     }
 
     if ((field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 || field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032 || Event_Get_422C00(kEventDeathReset)) 
@@ -941,8 +941,8 @@ void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
     if (!floor)
     {
         field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -field_120);
-        SFX_Play_46FA90(0x1Eu, 0, 0x10000);
-        SFX_Play_46FBA0(0x1Eu, 80, -2000, 0x10000);
+        SFX_Play_46FA90(0x1Eu, 0);
+        SFX_Play_46FBA0(0x1Eu, 80, -2000);
     }
 
     field_12C_bMoving &= ~1;

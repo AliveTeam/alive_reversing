@@ -104,12 +104,12 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
             field_F4_state = GrinderStates::State_1_Going_Down;
         }
 
-        const __int16 direction = gMap_5C3030.sub_4811A0(
+        const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_B8_xpos,
             field_BC_ypos);
-        field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, direction, 0x10000);
+        field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, direction);
     }
 
     switch (field_FA_direction)
@@ -333,7 +333,7 @@ void Grinder::vUpdate_420C50()
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    const __int16 soundDirection = gMap_5C3030.sub_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
 
     if (field_F4_state == GrinderStates::State_0_Restart_Cycle)
     {
@@ -357,7 +357,7 @@ void Grinder::vUpdate_420C50()
 
                 field_128_flags.Clear(Flags::eBit5);
                 field_11C_speed2 = field_118_speed;
-                field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection, 0x10000);
+                field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
                 return;
             }
         }
@@ -386,7 +386,7 @@ void Grinder::vUpdate_420C50()
             field_128_flags.Set(Flags::eBit5);
             field_11C_speed2 = field_120_off_speed;
 
-            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection, 0x10000);
+            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
             return;
         }
     }
@@ -394,7 +394,7 @@ void Grinder::vUpdate_420C50()
     {
         if (!field_10C_audio_channels_mask)
         {
-            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection, 0x10000);
+            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
         }
 
         DamageTouchingObjects_421060();
@@ -409,7 +409,7 @@ void Grinder::vUpdate_420C50()
             }
 
             field_F4_state = GrinderStates::State_0_Restart_Cycle;
-            SFX_Play_46FC20(0x63u, 50, soundDirection, 0x10000);
+            SFX_Play_46FC20(0x63u, 50, soundDirection);
 
             short max_off = 0;
             short min_off = 0;
@@ -447,7 +447,7 @@ void Grinder::vUpdate_420C50()
     {
         if (!field_10C_audio_channels_mask)
         {
-            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection, 0x10000);
+            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
         }
 
         DamageTouchingObjects_421060();
@@ -455,7 +455,7 @@ void Grinder::vUpdate_420C50()
         if (field_124_xyoff <= FP_FromInteger(0))
         {
             field_F4_state = GrinderStates::State_2_GoingUp;
-            SFX_Play_46FC20(0x63u, 50, soundDirection, 0x10000);
+            SFX_Play_46FC20(0x63u, 50, soundDirection);
         }
 
         EmitSparks_4206D0();
@@ -790,9 +790,9 @@ __int16 Grinder::DamageTouchingObjects_421060()
             50);
     }
 
-    SFX_Play_46FBA0(99u, 127, -500, 0x10000);
-    SFX_Play_46FA90(64u, 127, 0x10000);
-    SFX_Play_46FBA0(64u, 127, -700, 0x10000);
+    SFX_Play_46FBA0(99u, 127, -500);
+    SFX_Play_46FA90(64u, 127);
+    SFX_Play_46FBA0(64u, 127, -700);
 
     return 1;
 

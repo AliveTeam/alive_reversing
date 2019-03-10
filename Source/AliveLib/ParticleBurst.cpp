@@ -430,15 +430,15 @@ void ParticleBurst::vUpdate_41D590()
             const BYTE next_rand = Math_NextRandom();
             if (next_rand < 43)
             {
-                SFX_Play_46FC20(27u, volume, 3, 0x10000);
+                SFX_Play_46FC20(27u, volume, CameraPos::eCamLeft_3);
             }
             else if (next_rand >= 85)
             {
-                SFX_Play_46FC20(27u, volume, 4, 0x10000);
+                SFX_Play_46FC20(27u, volume, CameraPos::eCamRight_4);
             }
             else
             {
-                SFX_Play_46FC20(27u, volume, 0, 0x10000);
+                SFX_Play_46FC20(27u, volume, CameraPos::eCamCurrent_0);
             }
         }
     }

@@ -187,13 +187,13 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
 
-            const signed __int16 direction = gMap_5C3030.sub_4811A0(
+            const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
                 gMap_5C3030.sCurrentLevelId_5C3030,
                 gMap_5C3030.sCurrentPathId_5C3032,
                 FP_FromInteger(pTlv->field_8_top_left.field_0_x),
                 FP_FromInteger(pTlv->field_8_top_left.field_2_y));
 
-            if (direction == 3)
+            if (direction == CameraPos::eCamLeft_3)
             {
                 auto pGibs = alive_new<Gibs>();
                 if (pGibs)
@@ -201,7 +201,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
                     pGibs->ctor_40FB40(1, field_B8_xpos + FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
                 }
             }
-            else if (direction == 4)
+            else if (direction == CameraPos::eCamRight_4)
             {
                 auto pGibs = alive_new<Gibs>();
                 if (pGibs)

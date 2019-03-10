@@ -357,11 +357,11 @@ void ChantSuppressor::vUpdate_4665A0()
                 const int timerFrame = field_120_timer - sGnFrame_5C1B84;
                 if (timerFrame == 4)
                 {
-                    SFX_Play_46FA90(0x31u, 0, field_CC_sprite_scale.fpValue);
+                    SFX_Play_46FA90(0x31u, 0, field_CC_sprite_scale);
                 }
                 else if (timerFrame == 1)
                 {
-                    SFX_Play_46FA90(0x32u, 0, field_CC_sprite_scale.fpValue);
+                    SFX_Play_46FA90(0x32u, 0, field_CC_sprite_scale);
                 }
 
                 if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
@@ -457,11 +457,11 @@ void ChantSuppressor::vUpdate_4665A0()
 
             if (field_CC_sprite_scale == FP_FromDouble(0.5))
             {
-                field_124_sound_channels_mask = SFX_Play_46FBA0(48, 35, 720, 0x8000);
+                field_124_sound_channels_mask = SFX_Play_46FBA0(48, 35, 720, field_CC_sprite_scale);
             }
             else
             {
-                field_124_sound_channels_mask = SFX_Play_46FBA0(48, 55, 700, field_CC_sprite_scale.fpValue);
+                field_124_sound_channels_mask = SFX_Play_46FBA0(48, 55, 700, field_CC_sprite_scale);
             }
         }
 

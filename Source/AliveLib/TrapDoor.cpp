@@ -249,7 +249,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    const signed __int16 mode = gMap_5C3030.sub_4811A0(field_C2_lvl_number, field_C0_path_number, field_140_x, field_144_y);
+    const CameraPos direction = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_140_x, field_144_y);
 
     switch (field_136_state)
     {
@@ -270,8 +270,8 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
                 gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9 ||
                 gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
             {
-                SFX_Play_46FC20(0x50u, 45, mode, 0x10000);
-                SFX_Play_46FC20(0x4Cu, 90, mode, 0x10000);
+                SFX_Play_46FC20(0x50u, 45, direction);
+                SFX_Play_46FC20(0x4Cu, 90, direction);
             }
         }
         break;
@@ -279,7 +279,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
     case TrapDoorState::eState_1:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_46FC20(0x2Bu, 70, mode, 0x10000);
+            SFX_Play_46FC20(0x2Bu, 70, direction);
             field_136_state = TrapDoorState::eState_2;
             field_130_stay_open_time2 = field_13C_stay_open_time;
         }
@@ -304,8 +304,8 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
                 gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9 ||
                 gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
             {
-                SFX_Play_46FC20(0x4Eu, 60, mode, 0x10000);
-                SFX_Play_46FC20(0x4Du, 90, mode, 0x10000);
+                SFX_Play_46FC20(0x4Eu, 60, direction);
+                SFX_Play_46FC20(0x4Du, 90, direction);
             }
         }
         break;
@@ -313,7 +313,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
     case TrapDoorState::eState_3:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_46FC20(0x2Au, 70, mode, 0x10000);
+            SFX_Play_46FC20(0x2Au, 70, direction);
             Add_To_Collisions_Array_4DDA20();
             field_136_state = TrapDoorState::eState_0;
             SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);

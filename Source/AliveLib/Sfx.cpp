@@ -305,9 +305,9 @@ int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLef
     return midiHandle;
 }
 
-int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, int scale)
+int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, FP scale)
 {
-    if (scale == 0x8000)
+    if (scale == FP_FromDouble(0.5))
     {
         leftVol = 2 * leftVol / 3;
         rightVol = 2 * rightVol / 3;
@@ -316,49 +316,49 @@ int CC SFX_Play_46FB10(unsigned __int8 sfxId, int leftVol, int rightVol, int sca
     return SFX_SfxDefinition_Play_4CA700(&sSfxEntries_55C2A0[sfxId], static_cast<short>(leftVol), static_cast<short>(rightVol), 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int pitch, int scale)
+int CC SFX_Play_46FBA0(unsigned __int8 sfxIdx, __int16 volume, int pitch, FP scale)
 {
     if (!volume)
     {
         volume = (char)sSfxEntries_55C2A0[sfxIdx].field_3_default_volume;
     }
-    if (scale == 0x8000)
+    if (scale == FP_FromDouble(0.5))
     {
         volume = static_cast<__int16>(volume / 1.5);
     }
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<short>(pitch), static_cast<short>(pitch));
 }
 
-int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, int scale)
+int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, FP scale)
 {
     if (!volume)
     {
         volume = sSfxEntries_55C2A0[sfxIdx].field_3_default_volume;
     }
-    if (scale == 0x8000)
+    if (scale == FP_FromDouble(0.5))
     {
         volume /= 3;
     }
     return SFX_SfxDefinition_Play_4CA420(&sSfxEntries_55C2A0[sfxIdx], volume, 0x7FFF, 0x7FFF);
 }
 
-int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, __int16 mode, int scale)
+int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, CameraPos direction, FP scale)
 {
     if (!volume)
     {
         volume = sSfxEntries_55C2A0[sfxId].field_3_default_volume;
     }
 
-    switch (mode)
+    switch (direction)
     {
-    case 0:
+    case CameraPos::eCamCurrent_0:
         return SFX_Play_46FA90(sfxId, volume, scale);
-    case 1:
-    case 2:
+    case CameraPos::eCamTop_1:
+    case CameraPos::eCamBottom_2:
         return SFX_Play_46FA90(sfxId, 2 * volume / 3, scale);
-    case 3:
+    case CameraPos::eCamLeft_3:
         return SFX_Play_46FB10(sfxId, 2 * volume / 3, 2 * volume / 9, scale);
-    case 4:
+    case CameraPos::eCamRight_4:
         return SFX_Play_46FB10(sfxId, 2 * volume / 9, 2 * volume / 3, scale);
     default:
         return 0;

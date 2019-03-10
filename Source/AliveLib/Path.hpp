@@ -180,7 +180,9 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
-EXPORT void CC Start_Exploision_sounds_4CBA70(__int16 direction, unsigned __int8 kZero);
+enum class CameraPos : __int16;
+
+EXPORT void CC Start_Exploision_sounds_4CBA70(CameraPos direction, unsigned __int8 kZero);
 
 struct Path_Door : public Path_TLV
 {

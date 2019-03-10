@@ -44,25 +44,26 @@ struct CameraName
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
+enum class CameraPos : __int16
+{
+    eCamInvalid_m1 = -1,
+    eCamCurrent_0 = 0,
+    eCamTop_1 = 1,
+    eCamBottom_2 = 2,
+    eCamLeft_3 = 3,
+    eCamRight_4 = 4,
+    eCamNone_5 = 5,   // Not "in" the camera
+};
+
 class Map
 {
 public:
     enum class MapDirections : __int16
     {
-        eMapLeft = 0,
-        eMapRight = 1,
-        eMapTop = 2,
-        eMapBottom = 3,
-    };
-
-    enum class CameraPos : __int16
-    {
-        eCamCurrent = 0,
-        eCamTop = 1,
-        eCamBottom = 2,
-        eCamLeft = 3,
-        eCamRight = 4,
-        eCamNone = 5,   // Not "in" the camera
+        eMapLeft_0 = 0,
+        eMapRight_1 = 1,
+        eMapTop_2 = 2,
+        eMapBottom_3 = 3,
     };
 
     LevelIds sCurrentLevelId_5C3030;
@@ -133,13 +134,15 @@ public:
         return Is_Point_In_Current_Camera_4810D0(static_cast<int>(level), path, xpos, ypos, width);
     }
     
-    __int16 sub_4811A0(LevelIds level, int path, FP xpos, FP ypos)
+    CameraPos GetDirection_4811A0(LevelIds level, int path, FP xpos, FP ypos)
     {
-        return sub_4811A0(static_cast<int>(level), path, xpos, ypos);
+        return GetDirection_4811A0(static_cast<int>(level), path, xpos, ypos);
     }
 private:
+    EXPORT signed __int16 Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect);
+
     EXPORT __int16 Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width);
-    EXPORT signed __int16 sub_4811A0(int level, int path, FP xpos, FP ypos);
+    EXPORT CameraPos GetDirection_4811A0(int level, int path, FP xpos, FP ypos);
 
     Camera* GetCamera(CameraPos pos);
 

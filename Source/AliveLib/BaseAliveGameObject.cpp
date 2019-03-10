@@ -245,32 +245,36 @@ EXPORT void BaseAliveGameObject::sub_408C40()
      {
          switch (Is_In_Current_Camera_424A70())
          {
-         case Map::CameraPos::eCamTop:
+         case CameraPos::eCamTop_1:
              if (field_C8_vely < FP_FromInteger(0))
              {
-                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop, this, -1);
+                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapTop_2, this, -1);
              }
              break;
-         case Map::CameraPos::eCamBottom:
+
+         case CameraPos::eCamBottom_2:
              if (field_C8_vely > FP_FromInteger(0))
              {
-                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom, this, -1);
+                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapBottom_3, this, -1);
              }
              break;
-         case Map::CameraPos::eCamLeft:
+
+         case CameraPos::eCamLeft_3:
              if (field_C4_velx < FP_FromInteger(0))
              {
-                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft, this, -1);
+                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1);
              }
              break;
-         case Map::CameraPos::eCamRight:
+
+         case CameraPos::eCamRight_4:
              if (field_C4_velx > FP_FromInteger(0))
              {
-                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight, this, -1);
+                 gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1);
              }
              break;
-         case Map::CameraPos::eCamCurrent:
-         case Map::CameraPos::eCamNone:
+
+         case CameraPos::eCamCurrent_0:
+         case CameraPos::eCamNone_5:
              return;
          }
      }
@@ -290,7 +294,7 @@ __int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
     // Gone off the left edge of the current screen
     if (xposSnapped < currentCamXY.field_0_x && (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) || field_C4_velx < FP_FromInteger(0)))
     {
-        if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft, this, -1))
+        if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1))
         {
             field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
             field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
@@ -300,7 +304,7 @@ __int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
     // Gone off the right edge of the current screen
     else if (xposSnapped > currentCamXY.field_0_x + 368 && (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) || field_C4_velx > FP_FromInteger(0)))
     {
-        if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight, this, -1))
+        if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1))
         {
             field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
             field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;

@@ -625,7 +625,7 @@ void Command_Midi1(const std::vector<std::string>& args)
 {
     const unsigned __int8 arg1 = static_cast<unsigned __int8>(std::stoi(args[0]));
 
-    SFX_Play_46FA90(arg1, 0, 0x10000);
+    SFX_Play_46FA90(arg1, 0);
 
     DEV_CONSOLE_MESSAGE("Played Midi1", 6);
 }
@@ -711,7 +711,7 @@ void Command_Ring(const std::vector<std::string>& args)
         FP_FromInteger((rect.y + rect.h) / 2),
         static_cast<RingTypes>(ringType), sActiveHero_5C1B68->field_CC_sprite_scale);
 
-    SFX_Play_46FBA0(0x11u, 25, 2650, 0x10000);
+    SFX_Play_46FBA0(0x11u, 25, 2650);
 }
 
 struct DebugKeyBinds
