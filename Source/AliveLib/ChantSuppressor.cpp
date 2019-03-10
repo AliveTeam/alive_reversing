@@ -4,6 +4,10 @@
 #include "stdlib.hpp"
 #include "Gibs.hpp"
 #include "ScreenShake.hpp"
+#include "Events.hpp"
+#include "Flash.hpp"
+#include "ParticleBurst.hpp"
+#include "Particle.hpp"
 #include "Function.hpp"
 
 class Class_544534 : public BaseAnimatedWithPhysicsGameObject
@@ -113,16 +117,6 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Class_544534, 0xFC);
 
-struct Explosion_Unknown
-{
-    __int16 field_0;
-    __int16 field_2;
-    __int16 field_4;
-    __int16 field_6;
-    int field_8;
-};
-ALIVE_ASSERT_SIZEOF(Explosion_Unknown, 0xC);
-
 ALIVE_VAR(1, 0x5C1BB6, short, word_5C1BB6, 0);
 
 class Explosion : public BaseAnimatedWithPhysicsGameObject
@@ -170,13 +164,13 @@ public:
             pScreenShake->ctor_4ACF70(word_5C1BB6 ? 0 : 1, field_F4_bUnknown);
         }
 
-        Explosion_Unknown v12 = {};
-        v12.field_0 = FP_GetExponent(FP_FromInteger(-10) * field_FC);
-        v12.field_4 = FP_GetExponent(FP_FromInteger(10) * field_FC);
-        v12.field_2 = FP_GetExponent(FP_FromInteger(-10) * field_FC);
-        v12.field_6 = FP_GetExponent(FP_FromInteger(10) * field_FC);
+        PSX_RECT rect = {};
+        rect.x = FP_GetExponent(FP_FromInteger(-10) * field_FC);
+        rect.y = FP_GetExponent(FP_FromInteger(10) * field_FC);
+        rect.w = FP_GetExponent(FP_FromInteger(-10) * field_FC);
+        rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC);
 
-        DealBlastDamage_4A1BD0(&v12);
+        DealBlastDamage_4A1BD0(&rect);
 
         SND_SEQ_PlaySeq_4CA960(14, 1, 1);
 
@@ -200,14 +194,158 @@ public:
 
 private:
 
-    EXPORT void DealBlastDamage_4A1BD0(Explosion_Unknown*)
+    EXPORT void DealBlastDamage_4A1BD0(PSX_RECT*)
     {
         NOT_IMPLEMENTED();
     }
 
     EXPORT void vUpdate_4A1510()
     {
-        NOT_IMPLEMENTED();
+        Event_Broadcast_422BC0(kEventShooting, this);
+        Event_Broadcast_422BC0(kEventLoudNoise, this);
+        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+
+        PSX_RECT rect = {};
+
+        switch (field_20_animation.field_92_current_frame)
+        {
+        case 1:
+        {
+            BYTE** ppRes = field_F4_bUnknown ?
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, 301) :
+                Add_Resource_4DC130(ResourceManager::Resource_Animation, 372);
+
+            if (ppRes)
+            {
+                auto pParticle = alive_new<Particle>();
+                if (pParticle)
+                {
+                    pParticle->ctor_4CC4C0(
+                        field_B8_xpos,
+                        field_BC_ypos,
+                        field_F4_bUnknown ? 14108 : 51156,
+                        202,
+                        91,
+                        ppRes);
+
+                    if (pParticle->field_6_flags.Get(BaseGameObject::eListAddFailed))
+                    {
+                        pParticle->field_6_flags.Set(BaseGameObject::eDead);
+                    }
+
+                    pParticle->field_DC_bApplyShadows &= ~1u;
+                    pParticle->field_20_animation.field_B_render_mode = 1;
+
+                    if (field_20_animation.field_92_current_frame == 3)
+                    {
+                        pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+                        pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.5);
+                    }
+                    else
+                    {
+                        pParticle->field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+                        pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.25);
+                    }
+                }
+            }
+        }
+        break;
+
+        case 2:
+            rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC);
+            rect.w = FP_GetExponent(FP_FromInteger(20) * field_FC);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_FC);
+            rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC);
+            DealBlastDamage_4A1BD0(&rect);
+            break;
+
+        case 3:
+        {
+            auto pParticleBurst = alive_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_41CF50(
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    field_F4_bUnknown ? 0x14 : 6,
+                    field_F8_scale,
+                    3,
+                    13);
+            }
+
+            auto pFlash = alive_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 3u, 1);
+            }
+        }
+        break;
+
+        case 4:
+        {
+            auto pFlash = alive_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 1, 1);
+            }
+            rect.x = FP_GetExponent(FP_FromInteger(-38) * field_FC);
+            rect.w = FP_GetExponent(FP_FromInteger(38) * field_FC);
+            rect.y = FP_GetExponent(FP_FromInteger(-38) * field_FC);
+            rect.h = FP_GetExponent(FP_FromInteger(19) * field_FC);
+            DealBlastDamage_4A1BD0(&rect);
+        }
+        break;
+
+        case 6:
+            rect.x = FP_GetExponent(FP_FromInteger(-60) * field_FC);
+            rect.w = FP_GetExponent(FP_FromInteger(60) * field_FC);
+            rect.y = FP_GetExponent(FP_FromInteger(-60) * field_FC);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * field_FC);
+            DealBlastDamage_4A1BD0(&rect);
+            break;
+
+        case 8:
+        {
+            auto pParticleBurst = alive_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_41CF50(
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    field_F4_bUnknown ? 20 : 6,
+                    field_F8_scale,
+                    3,
+                    13);
+            }
+
+            auto pFlash = alive_new<Flash>();
+            if (pFlash)
+            {
+                pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 3u, 1);
+            }
+        }
+        break;
+
+        default:
+            break;
+        }
+
+        if (field_20_animation.field_92_current_frame > 9)
+        {
+            if (field_F4_bUnknown)
+            {
+                field_CC_sprite_scale -= FP_FromDouble(0.065);
+            }
+            else
+            {
+                field_CC_sprite_scale -= FP_FromDouble(0.2);
+            }
+        }
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
     }
 
     EXPORT void vScreenChanged_4A1EE0()
