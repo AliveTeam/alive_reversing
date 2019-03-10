@@ -8,6 +8,10 @@
 #include "Flash.hpp"
 #include "ParticleBurst.hpp"
 #include "Particle.hpp"
+#include "Abe.hpp"
+#include "PossessionFlicker.hpp"
+#include "Game.hpp"
+#include "Sfx.hpp"
 #include "Function.hpp"
 
 class Class_544534 : public BaseAnimatedWithPhysicsGameObject
@@ -488,6 +492,69 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Explosion, 0x100);
 
+class ZapLine : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT ZapLine* ctor_4CC690(FP /*xpos*/, FP /*ypos*/, FP /*a4*/, FP /*a5*/, __int16 /*a6*/, signed __int16 /*type*/, __int16 /*layer*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+private:
+    __int16 field_E4;
+    __int16 field_E6;
+    __int16 field_E8;
+    __int16 field_EA;
+    __int16 field_EC;
+    __int16 field_EE;
+    __int16 field_F0;
+    __int16 field_F2;
+    __int16 field_F4_state;
+    __int16 field_F6;
+    int field_F8_ppRes;
+    __int16 field_FC_tPage_p8;
+    __int16 field_FE;
+    __int16 field_100;
+    __int16 field_102;
+    __int16 field_104;
+    __int16 field_106;
+    __int16 field_108;
+    __int16 field_10A;
+    __int16 field_10C;
+    __int16 field_10E;
+    __int16 field_110;
+    __int16 field_112;
+    __int16 field_114;
+    __int16 field_116;
+    __int16 field_118;
+    __int16 field_11A;
+    __int16 field_11C;
+    __int16 field_11E;
+    __int16 field_120;
+    __int16 field_122;
+    __int16 field_124;
+    __int16 field_126;
+    __int16 field_128;
+    __int16 field_12A_type;
+    __int16 field_12C;
+    __int16 field_12E_count;
+    __int16 field_130_count;
+    __int16 field_132_total_count;
+    void *field_134_pSprts;
+    int field_138_buf1;
+    int field_13C_buf2;
+    int field_140_buf3;
+    __int16 field_144;
+    __int16 field_146;
+    __int16 field_148;
+    __int16 field_14A;
+    __int16 field_14C;
+    __int16 field_14E;
+    __int16 field_150;
+    __int16 field_152;
+};
+ALIVE_ASSERT_SIZEOF(ZapLine, 0x154);
 
 const TintEntry sChantOrbTints_55C1EC[18] =
 {
@@ -551,7 +618,7 @@ ChantSuppressor* ChantSuppressor::ctor_466350(Path_ChantSuppressor* pTlv, int tl
     return this;
 }
 
-ChantSuppressor* ChantSuppressor::vdtor_4664B0(char flags)
+ChantSuppressor* ChantSuppressor::vdtor_4664B0(signed int flags)
 {
     dtor_4664E0();
     if (flags & 1)
@@ -624,4 +691,159 @@ signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
     }
 
     return 1;
+}
+
+void ChantSuppressor::vUpdate_4665A0()
+{
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (field_11C_state)
+    {
+        const int stateM1 = field_11C_state - 1;
+        if (stateM1)
+        {
+            if (stateM1 == 1)
+            {
+                if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 5 || static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 1)
+                {
+                    auto pFlash1 = alive_new<Flash>();
+                    if (pFlash1)
+                    {
+                        pFlash1->ctor_428570(39, 255, 0, 0, 1, 3, 1);
+                    }
+                }
+                if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 4)
+                {
+                    auto pFlash2 = alive_new<Flash>();
+                    if (pFlash2)
+                    {
+                        pFlash2->ctor_428570(39, 255, 0, 0, 1, 1, 1);
+                    }
+                }
+
+                const int timerFrame = field_120_timer - sGnFrame_5C1B84;
+                if (timerFrame == 4)
+                {
+                    SFX_Play_46FA90(0x31u, 0, field_CC_sprite_scale.fpValue);
+                }
+                else if (timerFrame == 1)
+                {
+                    SFX_Play_46FA90(0x32u, 0, field_CC_sprite_scale.fpValue);
+                }
+
+                if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+                {
+                    field_11C_state = 0;
+                }
+            }
+        }
+        else if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+        {
+            PSX_RECT bRect = {};
+            sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
+
+            const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
+            const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
+
+            auto pZapLine = alive_new<ZapLine>();
+            if (pZapLine)
+            {
+                pZapLine->ctor_4CC690(
+                    field_B8_xpos,
+                    field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale),
+                    xpos,
+                    ypos,
+                    8,
+                    0,
+                    28);
+            }
+
+            auto v14 = alive_new<PossessionFlicker>();
+            if (v14)
+            {
+                v14->ctor_4319E0(sActiveHero_5C1B68, 8, 255, 100, 100);
+            }
+
+            if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
+            {
+                sActiveHero_5C1B68->VTakeDamage_408730(this);
+            }
+
+            field_120_timer = sGnFrame_5C1B84 + 8;
+            field_11C_state = 2;
+
+            auto pScreenShake = alive_new<ScreenShake>();
+            if (pScreenShake)
+            {
+                pScreenShake->ctor_4ACF70(1, 0);
+            }
+
+            auto pUnknownObj = alive_new<Class_544534>();
+            if (pUnknownObj)
+            {
+                pUnknownObj->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+
+                pUnknownObj->field_D2_g = 65;
+                pUnknownObj->field_D4_b = 65;
+                pUnknownObj->field_D0_r = 255;
+            }
+
+            auto pUnknownObj2 = alive_new<Class_544534>();
+            if (pUnknownObj2)
+            {
+                pUnknownObj2->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+
+                pUnknownObj2->field_D2_g = 65;
+                pUnknownObj2->field_D4_b = 65;
+                pUnknownObj2->field_D0_r = 255;
+            }
+
+            for (int i = 0; i < 9; i++)
+            {
+                auto pUnknownObj4 = alive_new<Class_544534>();
+                if (pUnknownObj4)
+                {
+                    pUnknownObj4->ctor_416390(xpos, ypos, field_CC_sprite_scale);
+                    pUnknownObj4->field_D2_g = 65;
+                    pUnknownObj4->field_D4_b = 65;
+                    pUnknownObj4->field_D0_r = 255;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (field_20_animation.field_92_current_frame == 2 ||
+            field_20_animation.field_92_current_frame == 6 ||
+            field_20_animation.field_92_current_frame == 10)
+        {
+            if (field_124_sound_channels_mask)
+            {
+                SND_Stop_Channels_Mask_4CA810(field_124_sound_channels_mask);
+            }
+
+            if (field_CC_sprite_scale == FP_FromDouble(0.5))
+            {
+                field_124_sound_channels_mask = SFX_Play_46FBA0(48, 35, 720, 0x8000);
+            }
+            else
+            {
+                field_124_sound_channels_mask = SFX_Play_46FBA0(48, 55, 700, field_CC_sprite_scale.fpValue);
+            }
+        }
+
+        if (Event_Get_422C00(kEventAbeOhm))
+        {
+            if (!sActiveHero_5C1B68->field_168_ring_pulse_timer ||
+                !sActiveHero_5C1B68->field_16C_bHaveShrykull ||
+                sActiveHero_5C1B68->field_CC_sprite_scale != FP_FromInteger(1))
+            {
+                field_11C_state = 1;
+                field_120_timer = sGnFrame_5C1B84 + 20;
+            }
+        }
+    }
 }

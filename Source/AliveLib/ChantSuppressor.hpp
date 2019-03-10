@@ -16,14 +16,41 @@ class ChantSuppressor : public BaseAliveGameObject
 public:
     EXPORT ChantSuppressor* ctor_466350(Path_ChantSuppressor* pTlv, int tlvInfo);
 
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_4664B0(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_4665A0();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChanged_466D20();
+    }
+
+    virtual void vnull_4081A0(BaseGameObject* /*pFrom*/) override
+    {
+        // Empty
+    }
+
+    virtual signed __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
+    {
+        return vTakeDamage_466BB0(pFrom);
+    }
+
 private:
-    EXPORT ChantSuppressor* vdtor_4664B0(char flags);
+    EXPORT ChantSuppressor* vdtor_4664B0(signed int flags);
 
     EXPORT void dtor_4664E0();
 
     EXPORT void vScreenChanged_466D20();
 
     EXPORT signed __int16 vTakeDamage_466BB0(BaseGameObject* pFrom);
+
+    EXPORT void vUpdate_4665A0();
 
 private:
     __int16 field_116;
