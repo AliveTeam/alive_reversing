@@ -119,6 +119,51 @@ ALIVE_ASSERT_SIZEOF(Class_544534, 0xFC);
 
 ALIVE_VAR(1, 0x5C1BB6, short, word_5C1BB6, 0);
 
+struct Path_Slig : public Path_TLV
+{
+    __int16 field_10_scale;
+    // TODO: Check these - GameEnder is probably only AO for instance ?
+    enum class StartState : __int16
+    {
+        Listening_0 = 0,
+        Paused_1 = 1,
+        Sleeping_2 = 2,
+        Chase_3 = 3,
+        RunOffScreen_4 = 4,
+        GameEnder_5 = 5,
+    };
+    StartState field_12_start_state;
+    __int16 field_14_pause_time;
+    __int16 field_16_pause_left_min;
+    __int16 field_18_pause_left_max;
+    __int16 field_1A_pause_right_min;
+    __int16 field_1C_pause_right_max;
+    __int16 field_1E_chal_number;
+    __int16 field_20_chal_timer;
+    __int16 field_22_num_times_to_shoot;
+    __int16 field_24_unknown;
+    __int16 field_26_code1;
+    __int16 field_28_code2;
+    __int16 field_2A_chase_abe;
+    __int16 field_2C_start_direction;
+    __int16 field_2E_panic_timeout;
+    __int16 field_30_num_panic_sounds;
+    __int16 field_32_panic_sound_timeout;
+    __int16 field_34_stop_chase_delay;
+    __int16 field_36_time_to_wait_before_chase;
+    __int16 field_38_slig_id;
+    __int16 field_3A_listen_time;
+    __int16 field_3C_percent_say_what;
+    __int16 field_3E_percent_beat_mud;
+    __int16 field_40_talk_to_abe;
+    __int16 field_42_dont_shoot;
+    __int16 field_44_stay_awake;
+    __int16 field_46_disable_resources;
+    __int16 field_48_noise_wake_up_distance;
+    __int16 field_4A_id;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x4C);
+
 class Explosion : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -194,9 +239,89 @@ public:
 
 private:
 
-    EXPORT void DealBlastDamage_4A1BD0(PSX_RECT*)
+    EXPORT void DealBlastDamage_4A1BD0(PSX_RECT* pRect)
     {
-        NOT_IMPLEMENTED();
+        if (!gBaseAliveGameObjects_5C1B7C)
+        {
+            return;
+        }
+
+        PSX_RECT expandedRect = {};
+        expandedRect.x = std::min(pRect->x, pRect->w);
+        expandedRect.w = std::max(pRect->x, pRect->w);
+
+        expandedRect.y = std::min(pRect->y, pRect->h);
+        expandedRect.h = std::max(pRect->y, pRect->h);
+
+        expandedRect.x += FP_GetExponent(field_B8_xpos);
+        expandedRect.w += FP_GetExponent(field_B8_xpos);
+
+        expandedRect.y += FP_GetExponent(field_BC_ypos);
+        expandedRect.h += FP_GetExponent(field_BC_ypos);
+
+        for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+        {
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+            {
+                PSX_RECT boundRect = {};
+                pObj->vGetBoundingRect_424FD0(&boundRect, 1);
+
+                if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && /*boundRect.x <= expandedRect.w &&
+                    boundRect.w >= expandedRect.x && 
+                    boundRect.h >= expandedRect.y && 
+                    boundRect.y <= expandedRect.h &&*/
+                    field_D6_scale == pObj->field_D6_scale)
+                {
+                    pObj->VTakeDamage_408730(this);
+                }
+            }
+        }
+
+        auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            expandedRect.x,
+            expandedRect.y,
+            expandedRect.w,
+            expandedRect.h,
+            TlvTypes::Slig_15));
+
+        if (pTlv)
+        {
+            if (!pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown) && pTlv->field_12_start_state == Path_Slig::StartState::Sleeping_2)
+            {
+                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+
+               const signed __int16 direction = gMap_5C3030.sub_4811A0(
+                    gMap_5C3030.sCurrentLevelId_5C3030,
+                    gMap_5C3030.sCurrentPathId_5C3032,
+                    FP_FromInteger(pTlv->field_8_top_left.field_0_x),
+                    FP_FromInteger(pTlv->field_8_top_left.field_2_y));
+
+                if (direction == 3)
+                {
+                    auto pGibs = alive_new<Gibs>();
+                    if (pGibs)
+                    {
+                        pGibs->ctor_40FB40(1, field_B8_xpos + FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                    }
+                }
+                else if (direction == 4)
+                {
+                    auto pGibs = alive_new<Gibs>();
+                    if (pGibs)
+                    {
+                        pGibs->ctor_40FB40(1, field_B8_xpos - FP_FromInteger(656), field_BC_ypos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                    }
+                }
+
+                Start_Exploision_sounds_4CBA70(direction, 0);
+            }
+        }
     }
 
     EXPORT void vUpdate_4A1510()
