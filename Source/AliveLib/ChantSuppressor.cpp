@@ -3,6 +3,7 @@
 #include "Midi.hpp"
 #include "stdlib.hpp"
 #include "Gibs.hpp"
+#include "ScreenShake.hpp"
 #include "Function.hpp"
 
 class Class_544534 : public BaseAnimatedWithPhysicsGameObject
@@ -112,6 +113,143 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Class_544534, 0xFC);
 
+struct Explosion_Unknown
+{
+    __int16 field_0;
+    __int16 field_2;
+    __int16 field_4;
+    __int16 field_6;
+    int field_8;
+};
+ALIVE_ASSERT_SIZEOF(Explosion_Unknown, 0xC);
+
+ALIVE_VAR(1, 0x5C1BB6, short, word_5C1BB6, 0);
+
+class Explosion : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT Explosion* ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bUnknown)
+    {
+        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+        SetVTable(this, 0x546CB8);
+        field_4_typeId = Types::eExplosion_109;
+
+        if (bUnknown)
+        {
+            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 372);
+            Animation_Init_424E10(14108, 99, 46, ppRes, 1, 1);
+        }
+        else
+        {
+            BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 301);
+            Animation_Init_424E10(51156, 202, 91, ppRes, 1, 1);
+        }
+
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame);
+        field_20_animation.field_B_render_mode = 1;
+        field_F8_scale = scale;
+        field_D6_scale = scale == FP_FromInteger(1);
+        field_CC_sprite_scale = scale * FP_FromInteger(2);
+        field_F4_bUnknown = bUnknown;
+
+        if (bUnknown)
+        {
+            field_FC = scale * FP_FromDouble(0.5);
+        }
+        else
+        {
+            field_FC = scale;
+        }
+        field_DC_bApplyShadows &= ~1u;
+        field_B8_xpos = xpos;
+        field_BC_ypos = ypos;
+
+        auto pScreenShake = alive_new<ScreenShake>();
+        if (pScreenShake)
+        {
+            pScreenShake->ctor_4ACF70(word_5C1BB6 ? 0 : 1, field_F4_bUnknown);
+        }
+
+        Explosion_Unknown v12 = {};
+        v12.field_0 = FP_GetExponent(FP_FromInteger(-10) * field_FC);
+        v12.field_4 = FP_GetExponent(FP_FromInteger(10) * field_FC);
+        v12.field_2 = FP_GetExponent(FP_FromInteger(-10) * field_FC);
+        v12.field_6 = FP_GetExponent(FP_FromInteger(10) * field_FC);
+
+        DealBlastDamage_4A1BD0(&v12);
+
+        SND_SEQ_PlaySeq_4CA960(14, 1, 1);
+
+        return this;
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_4A14C0(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_4A1510();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChanged_4A1EE0();
+    }
+
+private:
+
+    EXPORT void DealBlastDamage_4A1BD0(Explosion_Unknown*)
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vUpdate_4A1510()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vScreenChanged_4A1EE0()
+    {
+        if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
+
+    EXPORT void dtor_4A14F0()
+    {
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    }
+
+    EXPORT Explosion* vdtor_4A14C0(signed int flags)
+    {
+        dtor_4A14F0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+private:
+    __int16 field_E4;
+    __int16 field_E6;
+    __int16 field_E8;
+    __int16 field_EA;
+    __int16 field_EC;
+    __int16 field_EE;
+    __int16 field_F0;
+    __int16 field_F2;
+    __int16 field_F4_bUnknown;
+    __int16 field_F6;
+    FP field_F8_scale;
+    FP field_FC;
+};
+ALIVE_ASSERT_SIZEOF(Explosion, 0x100);
+
+
 const TintEntry sChantOrbTints_55C1EC[18] =
 {
     { 1u, 127u, 127u, 127u },
@@ -212,8 +350,6 @@ void ChantSuppressor::vScreenChanged_466D20()
 
 signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
 {
-    NOT_IMPLEMENTED();
-
     if (field_6_flags.Get(BaseGameObject::eDead))
     {
         return 0;
@@ -224,7 +360,6 @@ signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
 
     if (pFrom->field_4_typeId == Types::eMineCar_89 || pFrom->field_4_typeId == Types::eType_104 || pFrom->field_4_typeId == Types::eType_121)
     {
-        /* TODO
         auto pExplosionMem = alive_new<Explosion>();
         if (pExplosionMem)
         {
@@ -234,7 +369,6 @@ signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
                 field_CC_sprite_scale,
                 0);
         }
-        */
 
         auto pGibsMem = alive_new<Gibs>();
         if (pGibsMem)
