@@ -10,7 +10,7 @@
 
 const int ReverbEchos = 24;
 static StereoSampleFloat sReverbBuffer[1024 * 32];
-static float gReverbMix = 0.05f;
+const float gReverbMix = 1.0f / ReverbEchos;
 
 class FeedbackBuffer
 {
