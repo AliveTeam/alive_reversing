@@ -251,6 +251,8 @@ ExportHooker.hpp
     DemoPlayback.hpp
     ChantSuppressor.cpp
     ChantSuppressor.hpp
+    Explosion.hpp
+    Explosion.cpp
     Slurg.cpp
     Slurg.hpp
 )
