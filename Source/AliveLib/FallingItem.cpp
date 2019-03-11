@@ -376,7 +376,7 @@ EXPORT void FallingItem::vUpdate_427780()
                     field_BC_ypos,
                     0x14u,
                     field_CC_sprite_scale,
-                    1,
+                    BurstType::eSticks_1,
                     13);
             }
 
@@ -406,7 +406,7 @@ EXPORT void FallingItem::vUpdate_427780()
                     field_BC_ypos,
                     25,
                     field_CC_sprite_scale,
-                    0,
+                    BurstType::eFallingRocks_0,
                     13);
             }
         }

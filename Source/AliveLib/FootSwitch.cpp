@@ -175,7 +175,7 @@ void FootSwitch::vUpdate_4DE270()
                     field_BC_ypos + FP_FromInteger(10),
                     3,
                     field_CC_sprite_scale,
-                    3,
+                    BurstType::eBigRedSparks_3,
                     9);
             }
 
@@ -224,7 +224,7 @@ void FootSwitch::vUpdate_4DE270()
                     field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(10)),
                     1,
                     field_CC_sprite_scale,
-                    3,
+                    BurstType::eBigRedSparks_3,
                     9);
             }
 

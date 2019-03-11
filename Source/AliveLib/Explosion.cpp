@@ -259,7 +259,7 @@ void Explosion::vUpdate_4A1510()
         auto pParticleBurst = alive_new<ParticleBurst>();
         if (pParticleBurst)
         {
-            pParticleBurst->ctor_41CF50(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 6 : 20, field_F8_scale, 3, field_F4_bSmall ? 11 : 13);
+            pParticleBurst->ctor_41CF50(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
         }
 
         auto pFlash = alive_new<Flash>();

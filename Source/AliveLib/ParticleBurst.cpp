@@ -22,7 +22,7 @@ struct ParticleBurst_Item
 ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
 
-ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown_count1, FP scale, __int16 type, signed __int16 a7)
+ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown_count1, FP scale, BurstType type, signed __int16 a7)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x5447DC);
@@ -33,15 +33,6 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
     if (unknown_count1 == 5 || unknown_count1 - 5 < 0)
     {
         unknown_count1 = unknown_count1 / 2;
-    }
-
-    // 0 = Falling rocks
-    // 1 = sticks ??
-    // 2 = big purple sparks
-    // 3 = big red/orange sparks
-    // 4 = not a valid type
-    // 5 = green sparks
-    // 6 = small purple sparks
 
     if (a7 > 13)
     {
@@ -68,40 +59,40 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
         field_104_type = type;
         switch (field_104_type)
         {
-        case 0:
+        case BurstType::eFallingRocks_0:
             Animation_Init_424E10(6484, 71, 36, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDebrisID00), 1, 1u);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
 
-        case 1:
+        case BurstType::eSticks_1:
             Animation_Init_424E10(1704, 49, 29, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kStickResID), 1, 1u);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             break;
 
-        case 2:
+        case BurstType::eBigPurpleSparks_2:
             Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending);
             field_20_animation.field_B_render_mode = 1;
             break;
 
-        case 3:
-        case 5:
-        case 6:
+        case BurstType::eBigRedSparks_3:
+        case BurstType::eGreenSparks_5:
+        case BurstType::eSmallPurpleSparks_6:
             Animation_Init_424E10(9912, 122, 43, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID), 1, 1u);
             field_20_animation.field_B_render_mode = 1;
             field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
 
-            if (field_104_type == 3)
+            if (field_104_type == BurstType::eBigRedSparks_3)
             {
                 field_20_animation.field_8_r = 254;
                 field_20_animation.field_9_g = 148;
                 field_20_animation.field_A_b = 18;
             }
-            else if (field_104_type == 6)
+            else if (field_104_type == BurstType::eSmallPurpleSparks_6)
             {
                 field_20_animation.field_8_r = 127;
                 field_20_animation.field_9_g = 127;
@@ -170,7 +161,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
 
                 }
 
-                if (type == 2)
+                if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {

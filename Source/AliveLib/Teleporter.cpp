@@ -211,7 +211,7 @@ void Teleporter::vUpdate_4DC400()
                             sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9), // 18/2
                             9u,
                             FP_FromDouble(0.5),
-                            3,
+                            BurstType::eBigRedSparks_3,
                             9);
                     }
                 }
@@ -235,7 +235,7 @@ void Teleporter::vUpdate_4DC400()
                             sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
                             9u,
                             FP_FromInteger(1),
-                            3,
+                            BurstType::eBigRedSparks_3,
                             9);
                     }
                 }
@@ -376,7 +376,7 @@ void Teleporter::vUpdate_4DC400()
                     sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(9),
                     6u,
                     FP_FromDouble(0.5),
-                    3,
+                    BurstType::eBigRedSparks_3,
                     9);
             }
         }
@@ -390,7 +390,7 @@ void Teleporter::vUpdate_4DC400()
                     sControlledCharacter_5C1B8C->field_BC_ypos - FP_FromInteger(18),
                     6u,
                     FP_FromInteger(1),
-                    3,
+                    BurstType::eBigRedSparks_3,
                     9);
             }
         }
