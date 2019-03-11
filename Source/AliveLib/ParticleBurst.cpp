@@ -33,6 +33,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
     if (unknown_count1 == 5 || unknown_count1 - 5 < 0)
     {
         unknown_count1 = unknown_count1 / 2;
+    }
 
     if (a7 > 13)
     {
