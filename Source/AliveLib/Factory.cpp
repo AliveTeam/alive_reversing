@@ -994,7 +994,8 @@ EXPORT void CC Factory_DemoSpawnPoint_4D6990(Path_TLV* , Path*, TlvItemInfoUnion
         {
             if (!sDemoObj_dword_5D1E20)
             {
-                alive_new<DemoPlayback>();
+                auto pDemoPlayback = alive_new<DemoPlayback>();
+                pDemoPlayback->ctor();
             }
         }
     }
