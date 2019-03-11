@@ -163,10 +163,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
             PSX_RECT boundRect = {};
             pObj->vGetBoundingRect_424FD0(&boundRect, 1);
 
-            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && /*boundRect.x <= expandedRect.w &&
-                                                                              boundRect.w >= expandedRect.x &&
-                                                                              boundRect.h >= expandedRect.y &&
-                                                                              boundRect.y <= expandedRect.h &&*/
+            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) &&
                 field_D6_scale == pObj->field_D6_scale)
             {
                 pObj->VTakeDamage_408730(this);
@@ -233,22 +230,6 @@ void Explosion::vUpdate_4A1510()
         DealBlastDamage_4A1BD0(&rect);
         break;
 
-    case 3:
-    {
-        auto pParticleBurst = alive_new<ParticleBurst>();
-        if (pParticleBurst)
-        {
-            pParticleBurst->ctor_41CF50(field_B8_xpos, field_BC_ypos, field_F4_bSmall ? 6 : 20, field_F8_scale, 3, field_F4_bSmall ? 11 : 13);
-        }
-
-        auto pFlash = alive_new<Flash>();
-        if (pFlash)
-        {
-            pFlash->ctor_428570(39, 255u, 255u, 255u, 1, 3u, 1);
-        }
-    }
-    break;
-
     case 4:
     {
         auto pFlash = alive_new<Flash>();
@@ -264,6 +245,7 @@ void Explosion::vUpdate_4A1510()
     }
     break;
 
+    case 3:
     case 6:
         rect.x = FP_GetExponent(FP_FromInteger(-60) * field_FC);
         rect.w = FP_GetExponent(FP_FromInteger(60) * field_FC);
@@ -296,7 +278,7 @@ void Explosion::vUpdate_4A1510()
     {
         if (field_F4_bSmall)
         {
-            field_CC_sprite_scale -= FP_FromDouble(0.065);
+            field_CC_sprite_scale -= FP_FromDouble(0.066);
         }
         else
         {
