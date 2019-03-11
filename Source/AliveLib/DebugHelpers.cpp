@@ -935,7 +935,7 @@ public:
         memcpy(keyStatesPrev, keyStates, sizeof(keyStatesPrev));
 #endif
 
-        const char* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_";
+        const char* allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .!-+@#$%^&*()_\"'";
 
         if (Input_IsVKPressed_4EDD40(VK_UP) && mCommandLineEnabled)
         {

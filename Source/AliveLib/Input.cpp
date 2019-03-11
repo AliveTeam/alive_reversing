@@ -5,6 +5,7 @@
 #include "easylogging++.h"
 #include "Game.hpp"
 #include "Sys.hpp"
+#include "Sound.hpp"
 #include "DebugHelpers.hpp"
 #include "Events.hpp"
 #include "PsxRender.hpp"
@@ -575,6 +576,17 @@ void NewParseSettingsIni()
                             s_VGA_FilterScreen = false;
                         }
                     }
+                    else if (param[0] == "reverb")
+                    {
+                        if (param[1] == "true")
+                        {
+                            gReverbEnabled = true;
+                        }
+                        else
+                        {
+                            gReverbEnabled = false;
+                        }
+                    }
                     else
                     {
                         InputCommands kbInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
@@ -705,9 +717,10 @@ EXPORT void Input_SaveSettingsIni_492840()
 
     // New Renderer Options
 
-    output << "[Graphics]\n";
+    output << "[ALIVE]\n";
     output << "keep_aspect = " << ((s_VGA_KeepAspectRatio) ? "true" : "false") << "\n";
     output << "filter_screen = " << ((s_VGA_FilterScreen) ? "true" : "false") << "\n";
+    output << "reverb = " << ((gReverbEnabled) ? "true" : "false") << "\n";
 
     /////////////////
 

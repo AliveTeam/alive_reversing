@@ -13,6 +13,7 @@
 #include "ThrowableArray.hpp"
 #include "Io.hpp"
 #include "QuikSave.hpp"
+#include "VGA.hpp"
 
 ALIVE_VAR(1, 0x5ca4d8, char, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, char, sQuicksave_LoadNextFrame_5CA4D9, 0);
@@ -572,7 +573,7 @@ public:
         CompileEntries();
     }
 
-    void CompileEntries()
+    virtual void CompileEntries()
     {
         compiledEntries.clear();
 
@@ -586,12 +587,16 @@ public:
         }
 
         int o = 0;
-        int size = static_cast<int>(entries->size());
-        for (int i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
+        int size = 0;
+        if (entries != nullptr)
         {
-            const auto item = (*entries)[i];
-            compiledEntries.push_back({ 0, 184, (short)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });
-            o++;
+            size = static_cast<int>(entries->size());
+            for (int i = scrollDownIndex; i < std::min(size, scrollDownIndex + 7); i++)
+            {
+                const auto item = (*entries)[i];
+                compiledEntries.push_back({ 0, 184, (short)(57 + (22 * o)), 0, (char*)item.text, 0x80, 0x10, 0xFF, Centre });
+                o++;
+            }
         }
         compiledEntries.push_back({ 0, 184, 16, 0, (char*)title.c_str(), 127, 127, 127, Centre });
         if (size > 7 && index < size - 2)
@@ -658,6 +663,7 @@ public:
         {
             (*entries)[index].callback(this);
             SFX_Play_46FA90(0x54u, 90);
+            CompileEntries();
         }
 
         pm->field_144_active_menu.field_C_selected_index = static_cast<short>(index - scrollDownIndex);
@@ -692,6 +698,40 @@ public:
     std::string title;
     std::vector<PauseMenuPageEntry> compiledEntries;
     PauseMenu::PauseMenuPage mMenuPage;
+};
+
+std::vector<CustomPauseMenuItem> optionMenuItems({});
+
+std::string optionMenuStr_SoundChannels;
+std::string optionMenuStr_SoundReverb;
+std::string optionMenuStr_WindowMode;
+std::string optionMenuStr_AspectRatio;
+std::string optionMenuStr_WindowFilterMode;
+
+class OptionsMenu : public CustomPauseMenu
+{
+public:
+    OptionsMenu() : CustomPauseMenu(&optionMenuItems, "Options")
+    {
+    }
+
+    virtual void CompileEntries() override
+    {
+        optionMenuItems.clear();
+
+        optionMenuStr_SoundReverb = "Reverb: " + std::string((gReverbEnabled) ? "On" : "Off");
+        optionMenuStr_AspectRatio = "Aspect Ratio: " + std::string((s_VGA_KeepAspectRatio) ? "Keep" : "Stretch");
+        optionMenuStr_WindowFilterMode = "Screen Filter: " + std::string((s_VGA_FilterScreen) ? "On" : "Off");
+        
+        //optionMenuItems.push_back({ optionMenuStr_SoundChannels.c_str(), [](CustomPauseMenu *) { } });
+        optionMenuItems.push_back({ optionMenuStr_SoundReverb.c_str(), [](CustomPauseMenu *) { gReverbEnabled = !gReverbEnabled; Input_SaveSettingsIni_492840(); } });
+        //optionMenuItems.push_back({ optionMenuStr_WindowMode.c_str(), [](CustomPauseMenu *) {} });
+        optionMenuItems.push_back({ optionMenuStr_AspectRatio.c_str(), [](CustomPauseMenu *) { s_VGA_KeepAspectRatio = !s_VGA_KeepAspectRatio; Input_SaveSettingsIni_492840(); } });
+        optionMenuItems.push_back({ optionMenuStr_WindowFilterMode.c_str(), [](CustomPauseMenu *) { s_VGA_FilterScreen = !s_VGA_FilterScreen; Input_SaveSettingsIni_492840(); } });
+
+
+        CustomPauseMenu::CompileEntries();
+    }
 };
 
 std::vector<CustomPauseMenuItem> devTeleportMenuItems;
@@ -761,7 +801,10 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
 
 CustomPauseMenu devCheatsMenu(&devCheatsMenuItems, "Cheats");
 
+OptionsMenu optionsMenu;
+
 std::vector<CustomPauseMenuItem> devMenuItems({
+    { "Options", [](CustomPauseMenu *) { optionsMenu.Activate(); } },
     { "Cheats", [](CustomPauseMenu * ) { devCheatsMenu.Activate(); } },
     { "Level Select", [](CustomPauseMenu * ) { devTeleportMenu.Activate(); } },
 });
