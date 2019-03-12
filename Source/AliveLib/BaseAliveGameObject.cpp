@@ -11,6 +11,7 @@
 #include "Collisions.hpp"
 #include "PathData.hpp"
 #include "PlatformBase.hpp"
+#include "Game.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
@@ -154,9 +155,9 @@ void BaseAliveGameObject::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4087F0(pTlv);
 }
 
-char BaseAliveGameObject::Vsub_408A40(__int16 a2)
+void BaseAliveGameObject::VCheckCollisionLineStillValid_408A40(__int16 distance)
 {
-    return vsub_408A40(a2);
+    vCheckCollisionLineStillValid_408A40(distance);
 }
 
 BaseGameObject* BaseAliveGameObject::Vsub_408FD0(__int16 a2)
@@ -206,10 +207,59 @@ void BaseAliveGameObject::vOn_TLV_Collision_4087F0(Path_TLV* /*pTlv*/)
     // Empty
 }
 
-char BaseAliveGameObject::vsub_408A40(__int16 /*a2*/)
+void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (!field_100_pCollisionLine)
+    {
+        return;
+    }
+
+    if (pPlatform)
+    {
+        field_110_id = -1;
+        pPlatform->VRemove(this);
+    }
+
+    const FP distanceFp = FP_FromInteger(distance);
+    const FP yTop = field_BC_ypos + distanceFp;
+    const FP yBottom = field_BC_ypos - distanceFp;
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        yBottom,
+        field_B8_xpos,
+        yTop,
+        &pLine,
+        &hitX,
+        &hitY,
+        field_D6_scale == 1 ? 0x0F : 0xF0))
+    {
+        field_100_pCollisionLine = pLine;
+        field_BC_ypos = hitY;
+
+        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        {
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+
+            PSX_Point xy = { bRect.x, bRect.y };
+            PSX_Point wh = { bRect.w, bRect.h };
+            xy.field_2_y += 5;
+            wh.field_2_y += 5;
+
+            vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+        }
+    }
+    else
+    {
+        field_100_pCollisionLine = nullptr;
+    }
+    
 }
 
 BaseGameObject* BaseAliveGameObject::vsub_408FD0(__int16 /*a2*/)

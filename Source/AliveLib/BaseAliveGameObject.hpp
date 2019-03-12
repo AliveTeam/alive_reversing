@@ -46,7 +46,7 @@ public:
     virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom);
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv);
-    virtual char Vsub_408A40(__int16 a2);
+    virtual void VCheckCollisionLineStillValid_408A40(__int16 distance);
     virtual BaseGameObject* Vsub_408FD0(__int16 a2);
     virtual void VOnTrapDoorOpen();
   
@@ -57,7 +57,7 @@ protected:
     EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);
     EXPORT __int16 vTakeDamage_408730(BaseGameObject* pFrom);
     EXPORT void vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
-    EXPORT char vsub_408A40(__int16 a2);
+    EXPORT void vCheckCollisionLineStillValid_408A40(__int16 distance);
     EXPORT BaseGameObject* vsub_408FD0(__int16 a2);
     EXPORT void vOnTrapDoorOpen_4081F0();
     EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, LevelIds level_id, int resourceID);

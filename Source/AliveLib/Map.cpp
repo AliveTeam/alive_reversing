@@ -718,7 +718,7 @@ void Map::GoTo_Camera_481890()
         {
             if (sCurrentPathId_5C3032 == sActiveHero_5C1B68->field_C0_path_number)
             {
-                sActiveHero_5C1B68->Vsub_408A40(10);
+                sActiveHero_5C1B68->VCheckCollisionLineStillValid_408A40(10);
             }
         }
     }

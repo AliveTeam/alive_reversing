@@ -2793,7 +2793,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         if (field_10C_health > FP_FromInteger(0))
         {
             ToKnockback_44E700(1, 1);
-            Vsub_408A40(5);
+            VCheckCollisionLineStillValid_408A40(5);
             field_114_flags.Set(Flags_114::e114_Bit2);
         }
         break;
