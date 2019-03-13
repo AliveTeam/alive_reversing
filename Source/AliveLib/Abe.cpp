@@ -653,7 +653,6 @@ ALIVE_ARY(1, 0x55EF98, TFrameCallBackType, 5, off_55EF98,
 });
 
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
-ALIVE_VAR(1, 0x5c112c, WORD, bThrowableIndicatorExists_5C112C, 0);
 
 
 enum AbeResources
