@@ -3,6 +3,8 @@
 #include "Function.hpp"
 #include "Game.hpp"
 #include "Events.hpp"
+#include "ScreenManager.hpp"
+#include "PsxDisplay.hpp"
 #include "stdlib.hpp"
 
 ALIVE_VAR(1, 0x5c112c, WORD, bThrowableIndicatorExists_5C112C, 0);
@@ -96,7 +98,7 @@ const __int16 kNum_9_551AC8[17] =
 
 const __int16 kInfinity_551AEC[25] =
 {
-  6,
+   6,
   -3,  -2,  -5,  0,
   -5,   1,  -3,  3,
   -2,   3,   2, -2,
@@ -167,11 +169,11 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
 
     if (count < 0 || count > 9)
     {
-        field_48_count = 10;
+        field_48_num_to_show = 10;
     }
     else
     {
-        field_48_count = count;
+        field_48_num_to_show = count;
     }
 
     if (bFade)
@@ -185,6 +187,21 @@ ThrowableTotalIndicator* ThrowableTotalIndicator::ctor_431CB0(FP xpos, FP ypos, 
 BaseGameObject* ThrowableTotalIndicator::VDestructor(signed int flags)
 {
     return vdtor_431DE0(flags);
+}
+
+void ThrowableTotalIndicator::VScreenChanged()
+{
+    vScreenChanged_4323E0();
+}
+
+void ThrowableTotalIndicator::VUpdate()
+{
+    vUpdate_431EA0();
+}
+
+void ThrowableTotalIndicator::VRender(int** pOrderingTable)
+{
+    vRender_432070(pOrderingTable);
 }
 
 void ThrowableTotalIndicator::dtor_431E10()
@@ -282,4 +299,52 @@ void ThrowableTotalIndicator::vUpdate_431EA0()
         field_2C_cur_ypos += field_34_yspeed;
         break;
     }
+}
+
+void ThrowableTotalIndicator::vRender_432070(int** pOt)
+{
+    if (*kNumbersArray_551B20[field_48_num_to_show] <= 0)
+    {
+        return;
+    }
+
+    const FP camX = FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+    const FP camY = FP_NoFractional(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+
+    short xpos = 0;
+    short ypos = 0;
+
+    for (short counter = 0; counter < kNumbersArray_551B20[field_48_num_to_show][0]; counter++)
+    {
+        xpos = PsxToPCX(FP_GetExponent((field_28_cur_xpos - camX) - FP_FromInteger(11)));
+        ypos = FP_GetExponent(field_2C_cur_ypos - camY);
+        const FP x0 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 1]) * field_38_scale;
+        const FP y0 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 2]) * field_38_scale;
+        const FP x1 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 3]) * field_38_scale;
+        const FP y1 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 4]) * field_38_scale;
+        Line_G2* pLine = &field_4C_prims[gPsxDisplay_5C1130.field_C_buffer_index][counter];
+
+        LineG2_Init(pLine);
+
+        SetXY0(pLine, xpos + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
+        SetXY1(pLine, xpos + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
+
+        SetRGB0(pLine, field_42_r & 0xFF, field_44_g & 0xFF, field_46_b & 0xFF);
+        SetRGB1(pLine, field_42_r & 0xFF, field_44_g & 0xFF, field_46_b & 0xFF);
+
+        Poly_Set_SemiTrans_4F8A60(&pLine->mBase.header, TRUE);
+        OrderingTable_Add_4F8AA0(&pOt[field_40_layer], &pLine->mBase.header);
+    }
+
+    Prim_SetTPage* pTPage = &field_16C_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
+    Init_SetTPage_4F5B60(pTPage, 1, 0, PSX_getTPage_4F60E0(0, 1, 0, 0));
+
+    OrderingTable_Add_4F8AA0(&pOt[field_40_layer], &pTPage->mBase);
+
+    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        xpos + 8,
+        ypos - 8,
+        xpos - 8,
+        ypos + 8,
+        pScreenManager_5BB5F4->field_3A_idx);
 }
