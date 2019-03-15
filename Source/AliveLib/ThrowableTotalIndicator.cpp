@@ -316,7 +316,10 @@ void ThrowableTotalIndicator::vRender_432070(int** pOt)
 
     for (short counter = 0; counter < kNumbersArray_551B20[field_48_num_to_show][0]; counter++)
     {
-        xpos = PsxToPCX(FP_GetExponent((field_28_cur_xpos - camX) - FP_FromInteger(11)));
+        // return static_cast<T>(((40 * x) + 11) / 23);
+        // Can't use PsxToPCX as this deals with FP's and it adds 11 before the divide ??
+
+        xpos = FP_GetExponent(((field_28_cur_xpos - camX) * FP_FromInteger(40) + FP_FromInteger(11)) / FP_FromInteger(23));
         ypos = FP_GetExponent(field_2C_cur_ypos - camY);
         const FP x0 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 1]) * field_38_scale;
         const FP y0 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 2]) * field_38_scale;
@@ -342,9 +345,9 @@ void ThrowableTotalIndicator::vRender_432070(int** pOt)
     OrderingTable_Add_4F8AA0(&pOt[field_40_layer], &pTPage->mBase);
 
     pScreenManager_5BB5F4->InvalidateRect_40EC90(
-        xpos + 8,
-        ypos - 8,
         xpos - 8,
+        ypos - 8,
+        xpos + 8,
         ypos + 8,
         pScreenManager_5BB5F4->field_3A_idx);
 }
