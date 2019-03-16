@@ -3674,7 +3674,7 @@ void Abe::State_0_Idle_44EEB0()
                 ThrowableTotalIndicator* pThrowable = alive_new<ThrowableTotalIndicator>();
                 if (pThrowable)
                 {
-                    const FP xOffSet = (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? FP_FromInteger(-15) : FP_FromInteger(15) * field_CC_sprite_scale;
+                    const FP xOffSet = ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? FP_FromInteger(15) : FP_FromInteger(-15)) * field_CC_sprite_scale;
 
                     pThrowable->ctor_431CB0(
                         field_B8_xpos + xOffSet,
