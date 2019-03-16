@@ -43,6 +43,7 @@
 #include "GasEmitter.hpp"
 #include "DemoPlayback.hpp"
 #include "ChantSuppressor.hpp"
+#include "Greeter.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1130,7 +1131,30 @@ EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* , Path*, TlvItemInfoUnion, 
 EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{ 
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("MFLARE.BAN", ResourceManager::Resource_Animation, 6002, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("MOTION.BAN", ResourceManager::Resource_Animation, 6001, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("GREETER.BAN", ResourceManager::Resource_Animation, 307, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, 355, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode, 0);
+    }
+    else
+    {
+        auto pGreeter = alive_new<Greeter>();
+        if (pGreeter)
+        {
+            pGreeter->ctor_4465B0(static_cast<Path_Greeter*>(pTlv), tlvInfo.all);
+        }
+    }
+
+}
+
 EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }

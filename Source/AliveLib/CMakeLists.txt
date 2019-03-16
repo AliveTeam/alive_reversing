@@ -253,6 +253,8 @@ ExportHooker.hpp
     ChantSuppressor.hpp
     Explosion.hpp
     Explosion.cpp
+    Greeter.hpp
+    Greeter.cpp
     Slurg.cpp
     Slurg.hpp
 )
