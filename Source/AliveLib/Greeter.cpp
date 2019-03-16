@@ -8,7 +8,7 @@
 
 struct MotionDetector : public BaseAnimatedWithPhysicsGameObject
 {
-    EXPORT MotionDetector* MotionDetector::ctor_4683B0(int /*pTlv*/, int /*tlvInfo*/, BaseAnimatedWithPhysicsGameObject* /*pOwner*/)
+    EXPORT MotionDetector* ctor_4683B0(int /*pTlv*/, int /*tlvInfo*/, BaseAnimatedWithPhysicsGameObject* /*pOwner*/)
     {
         return this;
     }
