@@ -6,12 +6,14 @@
 #include "stdlib.hpp"
 #include "Gibs.hpp"
 #include "Explosion.hpp"
+#include "ObjectIds.hpp"
 #include "Function.hpp"
 
 struct MotionDetector : public BaseAnimatedWithPhysicsGameObject
 {
     EXPORT MotionDetector* ctor_4683B0(int /*pTlv*/, int /*tlvInfo*/, BaseAnimatedWithPhysicsGameObject* /*pOwner*/)
     {
+        NOT_IMPLEMENTED();
         return this;
     }
 
@@ -77,7 +79,7 @@ struct MotionDetector : public BaseAnimatedWithPhysicsGameObject
     __int16 field_178;
     __int16 field_17A;
 };
-// 17c
+ALIVE_ASSERT_SIZEOF(MotionDetector, 0x17C);
 
 EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
 {
@@ -120,10 +122,8 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     field_12E = 1;
     field_118_tlvInfo = tlvInfo;
 
-    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x / 2);
+    field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
-
-    int lineType = field_D6_scale != 0 ? 0xFFFFFFF1 : 0;// probably just 0xF1
 
     FP hitX = {};
     FP hitY = {};
@@ -135,7 +135,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
         &field_100_pCollisionLine,
         &hitX,
         &hitY,
-        lineType + 0x10) == 1)
+        field_D6_scale ? 1 : 16))
     {
         field_BC_ypos = hitY;
     }
@@ -157,6 +157,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     Add_Resource_4DC130(ResourceManager::Resource_Animation, 25);
 
     field_12C = 0;
+
     field_E0_176_ptr = alive_new<Shadow>();
     if (field_E0_176_ptr)
     {
@@ -167,6 +168,27 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     field_130 = 0;
 
     return this;
+}
+
+EXPORT void Greeter::dtor_4468E0()
+{
+    SetVTable(this, 0x54566C);
+
+    if (field_12E)
+    {
+        Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
+    }
+    else
+    {
+        Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 1);
+    }
+
+    BaseGameObject* pMotionDetector = sObjectIds_5C1B70.Find_449CF0(field_11C_motionDetectorId);
+    if (pMotionDetector)
+    {
+        pMotionDetector->field_6_flags.Set(BaseGameObject::eDead);
+    }
+    dtor_4080B0();
 }
 
 EXPORT void Greeter::BlowUp_447E50()

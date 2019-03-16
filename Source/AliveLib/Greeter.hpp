@@ -57,6 +57,8 @@ public:
     EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, int tlvInfo);
 
 private:
+    EXPORT void dtor_4468E0();
+
     EXPORT void BlowUp_447E50();
 
 private:
