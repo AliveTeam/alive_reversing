@@ -4,6 +4,8 @@
 #include "Game.hpp"
 #include "Shadow.hpp"
 #include "stdlib.hpp"
+#include "Gibs.hpp"
+#include "Explosion.hpp"
 #include "Function.hpp"
 
 struct MotionDetector : public BaseAnimatedWithPhysicsGameObject
@@ -165,4 +167,35 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     field_130 = 0;
 
     return this;
+}
+
+EXPORT void Greeter::BlowUp_447E50()
+{
+    field_10C_health = FP_FromInteger(0);
+    
+    auto pExplosion = alive_new<Explosion>();
+    if (pExplosion)
+    {
+        pExplosion->ctor_4A1200(
+            field_B8_xpos,
+            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
+            field_CC_sprite_scale,
+            0);
+    }
+
+    auto pGibs = alive_new<Gibs>();
+    if (pGibs)
+    {
+        pGibs->ctor_40FB40(
+            5,
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(50),
+            FP_FromInteger(0),
+            FP_FromInteger(0),
+            field_CC_sprite_scale,
+            0);
+    }
+
+    field_6_flags.Set(BaseGameObject::eDead);
+    field_12E = 0;
 }
