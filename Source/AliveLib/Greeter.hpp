@@ -76,4 +76,4 @@ private:
     __int16 field_140;
     __int16 field_142;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter, 0x144);
+ALIVE_ASSERT_SIZEOF(Greeter, 0x144);
