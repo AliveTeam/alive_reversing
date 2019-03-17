@@ -289,6 +289,36 @@ signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry * pT
     return 1;
 }
 
+BOOL BaseAliveGameObject::Check_Collision_Unknown_408E90(__int16 direction, __int16 distance)
+{
+    const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+
+    FP xLoc = {};
+    if (direction == 1)
+    {
+        xLoc = -(gridSize * FP_FromInteger(distance));
+    }
+    else
+    {
+        xLoc = gridSize * FP_FromInteger(distance);;
+    }
+
+    const FP xPosSnapped = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    return sCollisions_DArray_5C1128->Raycast_417A60(
+        xLoc + xPosSnapped,
+        field_BC_ypos - FP_FromInteger(4),
+        xLoc + xPosSnapped,
+        field_BC_ypos + FP_FromInteger(4),
+        &pLine,
+        &hitX,
+        &hitY,
+        field_D6_scale != 0 ? 0xF : 0xF0) == 0;
+}
+
 EXPORT void BaseAliveGameObject::sub_408C40()
 {
      if (sControlledCharacter_5C1B8C == this)

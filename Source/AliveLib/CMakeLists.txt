@@ -255,6 +255,8 @@ ExportHooker.hpp
     Explosion.cpp
     Greeter.hpp
     Greeter.cpp
+    ZapLine.hpp
+    ZapLine.cpp
     Slurg.cpp
     Slurg.hpp
 )

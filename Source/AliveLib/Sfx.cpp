@@ -364,3 +364,45 @@ int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, CameraPos directio
         return 0;
     }
 }
+
+const SfxDefinition stru_560868[21] =
+{
+    { 0u, 25u, 60u, 127u, 0, 0 },
+    { 0u, 25u, 62u, 127u, 0, 0 },
+    { 0u, 25u, 61u, 115u, 0, 0 },
+    { 0u, 25u, 38u, 120u, 0, 0 },
+    { 0u, 25u, 63u, 127u, 0, 0 },
+    { 0u, 25u, 66u, 127u, 0, 0 },
+    { 0u, 25u, 37u, 127u, 0, 0 },
+    { 0u, 25u, 67u, 127u, 0, 0 },
+    { 0u, 25u, 57u, 127u, 0, 0 },
+    { 0u, 25u, 58u, 127u, 0, 0 },
+    { 0u, 25u, 59u, 127u, 0, 0 },
+    { 0u, 25u, 39u, 127u, 0, 0 },
+    { 0u, 25u, 64u, 127u, 0, 0 },
+    { 0u, 25u, 65u, 127u, 0, 0 },
+    { 0u, 25u, 68u, 127u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 }
+};
+
+EXPORT signed __int16 CC sub_4C01B0(BaseAnimatedWithPhysicsGameObject* /*pObj*/, __int16 /*volLeft*/, const SfxDefinition* /*pSfx*/, __int16* /*pLeftVol*/, __int16* /*pRightVol*/)
+{
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+void CC Sfx_4C04F0(__int16 effectId, __int16 volLeft, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
+{
+    const SfxDefinition* pEffect = &stru_560868[effectId];
+
+    __int16 volRight = 0;
+    if (sub_4C01B0(pObj, volLeft, &stru_560868[effectId], &volLeft, &volRight))
+    {
+        SFX_SfxDefinition_Play_4CA700(pEffect, volLeft, effectId, pitch_min, pitch_min);
+    }
+}

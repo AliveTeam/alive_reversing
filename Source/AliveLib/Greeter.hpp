@@ -57,9 +57,27 @@ public:
     EXPORT Greeter* ctor_4465B0(Path_Greeter* pTlv, int tlvInfo);
 
 private:
+    EXPORT Greeter* vdtor_4468B0(signed int flags);
+
+    EXPORT void vScreenChanged_447DD0();
+
     EXPORT void dtor_4468E0();
 
     EXPORT void BlowUp_447E50();
+
+    EXPORT void ChangeDirection_447BD0();
+
+    EXPORT void BounceBackFromShot_447B10();
+
+    EXPORT void HandleRollingAlong_447860();
+
+    EXPORT signed __int16 vTakeDamage_447C20(BaseGameObject* pFrom);
+    
+    EXPORT void vsub_447DB0(BaseGameObject* pFrom);
+
+    EXPORT void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
+
+    EXPORT void RandomishSpeak_447A70(__int16 effect);
 
 private:
     __int16 field_116;

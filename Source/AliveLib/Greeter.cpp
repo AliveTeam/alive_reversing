@@ -7,6 +7,12 @@
 #include "Gibs.hpp"
 #include "Explosion.hpp"
 #include "ObjectIds.hpp"
+#include "Abe.hpp"
+#include "Sfx.hpp"
+#include "ScreenShake.hpp"
+#include "ParticleBurst.hpp"
+#include "Electrocute.hpp"
+#include "ZapLine.hpp"
 #include "Function.hpp"
 
 struct MotionDetector : public BaseAnimatedWithPhysicsGameObject
@@ -170,7 +176,39 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     return this;
 }
 
-EXPORT void Greeter::dtor_4468E0()
+Greeter* Greeter::vdtor_4468B0(signed int flags)
+{
+    dtor_4468E0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void Greeter::vScreenChanged_447DD0()
+{
+    BaseGameObject::VScreenChanged();
+
+    if (sControlledCharacter_5C1B8C)
+    {
+        const FP xDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
+        if (xDistFromPlayer > FP_FromInteger(356))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos  - field_BC_ypos);
+        if (yDistFromPlayer > FP_FromInteger(240))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+    }
+}
+
+void Greeter::dtor_4468E0()
 {
     SetVTable(this, 0x54566C);
 
@@ -220,4 +258,264 @@ EXPORT void Greeter::BlowUp_447E50()
 
     field_6_flags.Set(BaseGameObject::eDead);
     field_12E = 0;
+}
+
+void Greeter::ChangeDirection_447BD0()
+{
+    field_13C_state = 1;
+    field_C4_velx = FP_FromInteger(0);
+    field_20_animation.Set_Animation_Data_409C80(50072, nullptr);
+    field_124_last_turn_time = sGnFrame_5C1B84;
+}
+
+void Greeter::BounceBackFromShot_447B10()
+{
+    field_13C_state = 5;
+   
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = FP_FromInteger(-2);
+    }
+    else
+    {
+        field_C4_velx = FP_FromInteger(2);
+    }
+
+    field_13E = 0;
+    field_140 = 0;
+
+    field_20_animation.Set_Animation_Data_409C80(50236, nullptr);
+
+    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+    SFX_Play_46FC20(121, 0, soundDirection, field_CC_sprite_scale);
+}
+
+void Greeter::HandleRollingAlong_447860()
+{
+    for (Path_TLV* pTlv = field_138_pTlv; pTlv; 
+        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
+            field_C4_velx + field_B8_xpos + field_C4_velx,
+            field_C8_vely + field_BC_ypos + field_C8_vely,
+            field_C4_velx + field_B8_xpos + field_C4_velx,
+            field_C8_vely + field_BC_ypos + field_C8_vely))
+    {
+        switch (pTlv->field_4_type)
+        {
+        case DeathDrop_4:
+            BlowUp_447E50();
+            break;
+
+        case ScrabLeftBound_43: 
+            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))  && field_13C_state == 0)
+            {
+                ChangeDirection_447BD0();
+            }
+            break;
+
+        case ScrabRightBound_44:
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == 0)
+            {
+                ChangeDirection_447BD0();
+            }
+            break;
+
+        case EnemyStopper_47:
+            if (field_13C_state != 7)
+            {
+                ChangeDirection_447BD0();
+            }
+            break;
+
+        default:
+            continue;
+        }
+    }
+
+    if (field_13C_state == 0)
+    {
+        if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_Collision_Unknown_408E90(0, 1)) ||
+            Raycast_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3)) ||
+            (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && Check_Collision_Unknown_408E90(1, 1)))
+        {
+            ChangeDirection_447BD0();
+        }
+    }
+
+    if (field_13C_state == 4)
+    {
+        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3))) // TODO: OG bug, raw * 3 here ??
+        {
+            BounceBackFromShot_447B10();
+        }
+    }
+}
+
+EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
+{
+    if (field_6_flags.Get(BaseGameObject::eDead) || FP_GetExponent(field_10C_health) == 0)
+    {
+        return 0;
+    }
+
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eGrinder_30:
+    case Types::eBaseBomb_46:
+    case Types::eRockSpawner_48:
+    case Types::eType_86:
+    case Types::eMineCar_89:
+    case Types::eType_107:
+    case Types::eExplosion_109:
+        BlowUp_447E50();
+        return 1;
+
+    case Types::eSlamDoor_122:
+        BounceBackFromShot_447B10();
+        return 1;
+
+    case Types::eElectrocute_150:
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        BlowUp_447E50();
+        return 1;
+
+    default:
+        LOG_WARNING("This might be wrong - greeter default damage case, can this only be a slig ??");
+        if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+
+        if (++field_12C <= 10)
+        {
+            BounceBackFromShot_447B10();
+        }
+        else
+        {
+            BlowUp_447E50();
+        }
+        return 1;
+    }
+}
+
+void Greeter::vsub_447DB0(BaseGameObject* /*pFrom*/)
+{
+    BounceBackFromShot_447B10();
+}
+
+void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
+{
+    auto pScreenShake = alive_new<ScreenShake>();
+    if (pScreenShake)
+    {
+        pScreenShake->ctor_4ACF70(0, 0);
+    }
+
+    auto pZapLine = alive_new<ZapLine>();
+    if (pZapLine)
+    {
+        pZapLine->ctor_4CC690(
+            field_B8_xpos,
+            field_BC_ypos - (FP_FromInteger(20) * field_CC_sprite_scale),
+            xpos,
+            ypos,
+            8,
+            0,
+            28);
+    }
+
+    auto pZapLine2 = alive_new<ZapLine>();
+    if (pZapLine2)
+    {
+        pZapLine2->ctor_4CC690(
+            field_B8_xpos,
+            field_BC_ypos,
+            xpos,
+            ypos,
+            8,
+            0,
+            28);
+    }
+
+    auto pZapLine3 = alive_new<ZapLine>();
+    if (pZapLine3)
+    {
+        pZapLine3->ctor_4CC690(
+            field_B8_xpos,
+            field_BC_ypos - (FP_FromInteger(50) * field_CC_sprite_scale),
+            xpos,
+            ypos,
+            8,
+            0,
+            28);
+    }
+
+    auto pParticleBurst = alive_new<ParticleBurst>();
+    if (pParticleBurst)
+    {
+        pParticleBurst->ctor_41CF50(
+            xpos,
+            ypos,
+            10,
+            field_CC_sprite_scale,
+            BurstType::eBigRedSparks_3,
+            11);
+    }
+
+    auto pParticleBurst2 = alive_new<ParticleBurst>();
+    if (pParticleBurst2)
+    {
+        pParticleBurst2->ctor_41CF50(
+            field_B8_xpos,
+            field_BC_ypos - (FP_FromInteger(10) * field_CC_sprite_scale),
+            10,
+            field_CC_sprite_scale,
+            BurstType::eBigRedSparks_3,
+            11);
+    }
+
+    pTarget->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
+
+    auto pElectrocute = alive_new<Electrocute>();
+    if (pElectrocute)
+    {
+        pElectrocute->ctor_4E5E80(pTarget, TRUE, TRUE);
+    }
+
+    pTarget->VTakeDamage_408730(this);
+
+    const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos);
+
+    SFX_Play_46FC20(49, 0, soundDirection, field_CC_sprite_scale);
+    SFX_Play_46FC20(50, 0, soundDirection, field_CC_sprite_scale);
+    
+    RandomishSpeak_447A70(3);
+
+    field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
+    field_13E = 0;
+    field_140 = 0;
+}
+
+void Greeter::RandomishSpeak_447A70(__int16 effect)
+{
+    field_13C_state = 2;
+    field_C4_velx = FP_FromInteger(0);
+    field_20_animation.Set_Animation_Data_409C80(50104, nullptr);
+    field_120 = sGnFrame_5C1B84 + 25;
+
+    if (effect == 1000)
+    {
+        Sfx_4C04F0(static_cast<int>(sGnFrame_5C1B84 % 4), 100, 700, this);
+    }
+    else
+    {
+        Sfx_4C04F0(effect, 100, 700, this);
+    }
 }
