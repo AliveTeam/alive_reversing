@@ -964,7 +964,7 @@ private:
     {
         SetVTable(this, 0x547838);
 
-        if (field_4_seq_id != 0)
+        if (field_4_seq_id >= 0)
         {
             SND_SEQ_Stop_4CAE60(field_4_seq_id);
         }
