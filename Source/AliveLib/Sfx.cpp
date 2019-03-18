@@ -396,13 +396,16 @@ EXPORT signed __int16 CC sub_4C01B0(BaseAnimatedWithPhysicsGameObject* /*pObj*/,
     return 1;
 }
 
-void CC Sfx_4C04F0(__int16 effectId, __int16 volLeft, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
+void CC Sfx_4C04F0(__int16 effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    const SfxDefinition* pEffect = &stru_560868[effectId];
+    const int idx = effectId & 0xFF;
+    assert(idx < ALIVE_COUNTOF(stru_560868));
+    const SfxDefinition* pEffect = &stru_560868[idx];
 
+    __int16 volLeft = 0;
     __int16 volRight = 0;
-    if (sub_4C01B0(pObj, volLeft, &stru_560868[effectId], &volLeft, &volRight))
+    if (sub_4C01B0(pObj, defaultVol, pEffect, &volLeft, &volRight))
     {
-        SFX_SfxDefinition_Play_4CA700(pEffect, volLeft, effectId, pitch_min, pitch_min);
+        SFX_SfxDefinition_Play_4CA700(pEffect, volLeft, volRight, pitch_min, pitch_min);
     }
 }
