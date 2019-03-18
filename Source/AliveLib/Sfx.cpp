@@ -390,13 +390,85 @@ const SfxDefinition stru_560868[21] =
     { 0u, 0u, 0u, 0u, 0, 0 }
 };
 
-EXPORT signed __int16 CC sub_4C01B0(BaseAnimatedWithPhysicsGameObject* /*pObj*/, __int16 /*volLeft*/, const SfxDefinition* /*pSfx*/, __int16* /*pLeftVol*/, __int16* /*pRightVol*/)
+EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, __int16 defaultVol, const SfxDefinition* pSfx, __int16* pLeftVol, __int16* pRightVol)
 {
-    NOT_IMPLEMENTED();
-    return 1;
+    if (defaultVol == 0)
+    {
+        defaultVol = pSfx->field_3_default_volume;
+    }
+
+    if (pObj)
+    {
+        FP yOff = {};
+        if (pObj->field_4_typeId == BaseGameObject::Types::eFlyingSlig_54)
+        {
+            yOff = FP_FromInteger(20); // 0xffec0000 
+        }
+
+        const CameraPos dir = gMap_5C3030.GetDirection_4811A0(
+            pObj->field_C2_lvl_number, pObj->field_C0_path_number,
+            pObj->field_B8_xpos,  pObj->field_BC_ypos - yOff);
+
+        if (pObj->field_CC_sprite_scale != FP_FromInteger(1))
+        {
+            // Background layer stuff isn't as loud
+            defaultVol = (2 * defaultVol) / 3;
+        }
+
+        PSX_RECT camRect = {};
+        gMap_5C3030.Get_Camera_World_Rect_481410(dir, &camRect);
+
+        const int volScaler = defaultVol / 3;
+        switch (dir)
+        {
+        case CameraPos::eCamCurrent_0:
+            *pRightVol = defaultVol;
+            *pLeftVol = defaultVol;
+            return 1;
+
+        case CameraPos::eCamTop_1:
+            *pRightVol = defaultVol - FP_GetExponent((FP_FromInteger(camRect.h) - pObj->field_BC_ypos) / FP_FromInteger(240) * FP_FromInteger(-defaultVol * volScaler));
+            *pLeftVol = *pRightVol;
+            return 1;
+
+        case CameraPos::eCamBottom_2:
+        {
+            const FP tmpVol = (pObj->field_BC_ypos - FP_FromInteger(camRect.y)) / FP_FromInteger(240);
+            defaultVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(-defaultVol * volScaler));
+            *pRightVol = defaultVol;
+            *pLeftVol = defaultVol;
+        }
+        return 1;
+
+        case CameraPos::eCamLeft_3:
+        {
+            const FP tmpVol = (FP_FromInteger(camRect.w) - pObj->field_B8_xpos) / FP_FromInteger(368);
+            *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(-defaultVol * volScaler));
+            *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol));
+        }
+        return 1;
+
+        case CameraPos::eCamRight_4:
+        {
+            const FP tmpVol = (pObj->field_B8_xpos - FP_FromInteger(camRect.x)) / FP_FromInteger(368);
+            *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol));
+            *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(-defaultVol * volScaler));
+        }
+        return 1;
+
+        default:
+            return 0;
+        }
+    }
+    else
+    {
+        *pRightVol = defaultVol;
+        *pLeftVol = defaultVol;
+        return 1;
+    }
 }
 
-void CC Sfx_4C04F0(__int16 effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
+void CC Sfx_Slig_4C04F0(__int16 effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     const int idx = effectId & 0xFF;
     assert(idx < ALIVE_COUNTOF(stru_560868));
@@ -404,7 +476,7 @@ void CC Sfx_4C04F0(__int16 effectId, __int16 defaultVol, __int16 pitch_min, Base
 
     __int16 volLeft = 0;
     __int16 volRight = 0;
-    if (sub_4C01B0(pObj, defaultVol, pEffect, &volLeft, &volRight))
+    if (Calc_Slig_Sound_Direction_4C01B0(pObj, defaultVol, pEffect, &volLeft, &volRight))
     {
         SFX_SfxDefinition_Play_4CA700(pEffect, volLeft, volRight, pitch_min, pitch_min);
     }

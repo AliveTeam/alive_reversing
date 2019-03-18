@@ -138,9 +138,9 @@ public:
     {
         return GetDirection_4811A0(static_cast<int>(level), path, xpos, ypos);
     }
-private:
-    EXPORT signed __int16 Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect);
 
+    EXPORT signed __int16 Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRect);
+private:
     EXPORT __int16 Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width);
     EXPORT CameraPos GetDirection_4811A0(int level, int path, FP xpos, FP ypos);
 

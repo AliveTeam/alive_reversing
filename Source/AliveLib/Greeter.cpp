@@ -512,10 +512,10 @@ void Greeter::RandomishSpeak_447A70(__int16 effect)
 
     if (effect == 1000)
     {
-        Sfx_4C04F0(static_cast<int>(sGnFrame_5C1B84 % 4), 100, 700, this);
+        Sfx_Slig_4C04F0(static_cast<int>(sGnFrame_5C1B84 % 4), 100, 700, this);
     }
     else
     {
-        Sfx_4C04F0(effect, 100, 700, this);
+        Sfx_Slig_4C04F0(effect, 100, 700, this);
     }
 }
