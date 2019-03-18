@@ -427,14 +427,14 @@ EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysic
             return 1;
 
         case CameraPos::eCamTop_1:
-            *pRightVol = defaultVol - FP_GetExponent((FP_FromInteger(camRect.h) - pObj->field_BC_ypos) / FP_FromInteger(240) * FP_FromInteger(-defaultVol * volScaler));
+            *pRightVol = defaultVol - FP_GetExponent((FP_FromInteger(camRect.h) - pObj->field_BC_ypos) / FP_FromInteger(240) * FP_FromInteger(defaultVol - 1 * volScaler));
             *pLeftVol = *pRightVol;
             return 1;
 
         case CameraPos::eCamBottom_2:
         {
             const FP tmpVol = (pObj->field_BC_ypos - FP_FromInteger(camRect.y)) / FP_FromInteger(240);
-            defaultVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(-defaultVol * volScaler));
+            defaultVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol - 1 * volScaler));
             *pRightVol = defaultVol;
             *pLeftVol = defaultVol;
         }
@@ -443,7 +443,7 @@ EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysic
         case CameraPos::eCamLeft_3:
         {
             const FP tmpVol = (FP_FromInteger(camRect.w) - pObj->field_B8_xpos) / FP_FromInteger(368);
-            *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(-defaultVol * volScaler));
+            *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol - 1 * volScaler));
             *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol));
         }
         return 1;
@@ -452,7 +452,7 @@ EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysic
         {
             const FP tmpVol = (pObj->field_B8_xpos - FP_FromInteger(camRect.x)) / FP_FromInteger(368);
             *pLeftVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol));
-            *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(-defaultVol * volScaler));
+            *pRightVol = defaultVol - FP_GetExponent(tmpVol * FP_FromInteger(defaultVol - 1 * volScaler));
         }
         return 1;
 

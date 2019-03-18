@@ -79,6 +79,10 @@ private:
 
     EXPORT void RandomishSpeak_447A70(__int16 effect);
 
+    EXPORT BOOL ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
+
+    EXPORT BaseAliveGameObject* GetMudToZap_447690();
+
 private:
     __int16 field_116;
     int field_118_tlvInfo;

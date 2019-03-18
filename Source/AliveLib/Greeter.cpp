@@ -519,3 +519,57 @@ void Greeter::RandomishSpeak_447A70(__int16 effect)
         Sfx_Slig_4C04F0(effect, 100, 700, this);
     }
 }
+
+BOOL Greeter::ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem)
+{
+    PSX_RECT usRect = {};
+    vGetBoundingRect_424FD0(&usRect, 1);
+
+    PSX_RECT bRectThem = {};
+    pThem->vGetBoundingRect_424FD0(&bRectThem, 1);
+
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* pLine = nullptr;
+    return sCollisions_DArray_5C1128->Raycast_417A60(
+        pUs->field_B8_xpos,
+        FP_FromInteger(usRect.h + 0xFFE7),
+        pThem->field_B8_xpos,
+        FP_FromInteger(bRectThem.h + 0xFFE7),
+        &pLine,
+        &hitX,
+        &hitY,
+        pUs->field_D6_scale != 0 ? 6 : 0x60) == 1;
+}
+
+BaseAliveGameObject* Greeter::GetMudToZap_447690()
+{
+    for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == BaseGameObject::Types::eMudokon_110)
+        {
+            PSX_RECT bRect = {};
+            pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+            const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
+            const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
+
+            if (xMid - field_B8_xpos < (field_CC_sprite_scale * FP_FromInteger(60)) &&
+                field_B8_xpos - xMid < (field_CC_sprite_scale * FP_FromInteger(60)) &&
+                yMid - (field_BC_ypos - FP_FromInteger(4)) < (field_CC_sprite_scale * FP_FromInteger(60))&&
+                field_BC_ypos - FP_FromInteger(4) - yMid < (field_CC_sprite_scale * FP_FromInteger(60)) &&
+                !(sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) && 
+                !ZapIsNotBlocked_447240(this, pObj))
+            {
+                return pObj;
+            }
+        }
+    }
+    return nullptr;
+}
