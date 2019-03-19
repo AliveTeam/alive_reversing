@@ -40,6 +40,8 @@ public:
 
     EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject *pObj, __int16 a3, __int16 a4);
 
+    EXPORT static int CC CreateFromSaveState_4C08B0(const BYTE*);
+
 public:
     __int16 field_116;
     BitField16<SlamDoor_Flags_118> field_118_flags;

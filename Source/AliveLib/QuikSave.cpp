@@ -19,6 +19,7 @@
 #include "LiftMover.hpp"
 #include "TrapDoor.hpp"
 #include "TimerTrigger.hpp"
+#include "SlamDoor.hpp"
 
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -43,7 +44,6 @@ EXPORT int CC AbilityRing__CreateFromSaveState_49DF90(const BYTE*) { NOT_IMPLEME
 EXPORT int CC Rock__CreateFromSaveState_49F720(const BYTE*) { NOT_IMPLEMENTED(); return 56; }
 EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED(); return 160; }
 EXPORT int CC ScrabSpawner__CreateFromSaveState_4ABEB0(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
-EXPORT int CC SlamDoor__CreateFromSaveState_4C08B0(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC Slig__CreateFromSaveState_4B3B50(const BYTE*) { NOT_IMPLEMENTED(); return 164; }
 EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 EXPORT int CC Slurg__CreateFromSaveState_4C8DF0(const BYTE*) { NOT_IMPLEMENTED(); return 44; }
@@ -177,7 +177,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &SlamDoor__CreateFromSaveState_4C08B0,
+    &SlamDoor::CreateFromSaveState_4C08B0,
     nullptr,
     nullptr,
     &Slig__CreateFromSaveState_4B3B50,

@@ -60,6 +60,11 @@ TintEntry sSlamDoorTints_5603B0[18] =
     { 0, 0, 0, 0 }
 };
 
+struct Quicksave_Obj_SlamDoor
+{
+    BaseGameObject::Types field_0_id;
+    TlvItemInfoUnion field_4_tlv;
+};
 
 BaseGameObject * SlamDoor::VDestructor(signed int flags)
 {
@@ -505,6 +510,36 @@ void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject * pObj, __int16 a3
         pObj->field_C8_vely = FP_FromInteger(-7);
         pObj->field_C4_velx = -pObj->field_C4_velx;
     }
+}
+
+int CC SlamDoor::CreateFromSaveState_4C08B0(const BYTE * pData)
+{
+    const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 2020, 0, 0))
+    {
+        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        {
+        case LevelIds::eNecrum_2:
+        case LevelIds::eMudomoVault_3:
+        case LevelIds::eMudancheeVault_4:
+        case LevelIds::eMudancheeVault_Ender_7:
+        case LevelIds::eMudomoVault_Ender_11:
+            ResourceManager::LoadResourceFile_49C170("SLAMVLTS.BAN", nullptr);
+            break;
+        default:
+            ResourceManager::LoadResourceFile_49C170("SLAM.BAN", nullptr);
+            break;
+        }
+    }
+
+    SlamDoor * pSlamDoor = alive_new<SlamDoor>();
+    if (pSlamDoor)
+    {
+        pSlamDoor->ctor_4AF700(static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlv.all)), pSaveState->field_4_tlv);
+    }
+
+    return 8;
 }
 
 void SlamDoor_ForceLink()
