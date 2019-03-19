@@ -603,8 +603,6 @@ BaseAliveGameObject* Greeter::GetMudToZap_447690()
 
 void Greeter::vUpdate_4469B0()
 {
-    NOT_IMPLEMENTED();
-
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead);
