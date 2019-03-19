@@ -162,17 +162,15 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
         field_BC_ypos = hitY;
     }
 
-    FP v15;
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        v15 = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(field_B8_xpos));
+        field_124_x1 = FP_GetExponent((ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(field_B8_xpos)));
     }
     else
     {
-        v15 = FP_FromInteger(FP_GetExponent(field_B8_xpos)) - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromDouble(2.0));
+        field_124_x1 = FP_GetExponent(FP_FromInteger(FP_GetExponent(field_B8_xpos)) - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromDouble(2.0)));
     }
 
-    field_124_x1 = FP_GetExponent(v15);
     field_126_y1 = FP_GetExponent(field_BC_ypos);
 
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
@@ -263,8 +261,6 @@ void SlamDoor::dtor_4B0620()
 
 void SlamDoor::vUpdate_4AFD50()
 {
-    NOT_IMPLEMENTED();
-
     PSX_RECT bRect;
 
     if (Event_Get_422C00(kEventDeathReset))
@@ -307,12 +303,8 @@ void SlamDoor::vUpdate_4AFD50()
 
     if (stateUnchanged != field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
     {
-        // TODO: figure out and optimize this
-        this->field_118_flags.Raw().all = field_118_flags.Raw().all 
-            & ~4 
-            ^ (LOBYTE(field_118_flags.Raw().all) 
-                & ~0xFF04u 
-                ^ (unsigned __int8)~(LOBYTE(field_118_flags.Raw().all) & ~4)) & 1;
+        field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit3);
+        field_118_flags.Toggle(SlamDoor_Flags_118::e118_Bit1);
 
         if (stateUnchanged)
         {
@@ -391,7 +383,6 @@ void SlamDoor::vUpdate_4AFD50()
                             &bRect,
                             1);
 
-                        // Todo: check this strange shit
                         if (pBoundRect->y <= objBounds->w
                             && pBoundRect->w >= (objBounds->x + 3)
                             && pBoundRect->w >= objBounds->y
