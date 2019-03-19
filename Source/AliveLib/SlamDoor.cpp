@@ -71,6 +71,11 @@ BaseGameObject * SlamDoor::VDestructor(signed int flags)
     return vdtor_4AFD20(flags);
 }
 
+int SlamDoor::VGetSaveState(BYTE * pSaveBuffer)
+{
+    return vGetSaveState_4C09D0(pSaveBuffer);
+}
+
 void SlamDoor::VUpdate()
 {
     vUpdate_4AFD50();
@@ -489,6 +494,16 @@ void SlamDoor::vUpdate_4AFD50()
     }
 }
 
+int SlamDoor::vGetSaveState_4C09D0(BYTE * pSaveBuffer)
+{
+    Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<Quicksave_Obj_SlamDoor*>(pSaveBuffer);
+
+    pSaveState->field_0_id = Types::eSlamDoor_122;
+    pSaveState->field_4_tlv = field_12C_tlvInfo;
+
+    return sizeof(Quicksave_Obj_SlamDoor);
+}
+
 void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject * pObj, __int16 a3, __int16 a4)
 {
     if (FP_GetExponent(pObj->field_B8_xpos) - a3 >= a4 - FP_GetExponent(pObj->field_B8_xpos))
@@ -539,7 +554,7 @@ int CC SlamDoor::CreateFromSaveState_4C08B0(const BYTE * pData)
         pSlamDoor->ctor_4AF700(static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlv.all)), pSaveState->field_4_tlv);
     }
 
-    return 8;
+    return sizeof(Quicksave_Obj_SlamDoor);
 }
 
 void SlamDoor_ForceLink()
