@@ -65,6 +65,7 @@ struct Quicksave_Obj_SlamDoor
     BaseGameObject::Types field_0_id;
     TlvItemInfoUnion field_4_tlv;
 };
+ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
 BaseGameObject * SlamDoor::VDestructor(signed int flags)
 {

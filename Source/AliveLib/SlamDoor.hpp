@@ -35,16 +35,16 @@ public:
     virtual void VUpdate() override;
 
     EXPORT SlamDoor* ctor_4AF700(Path_SlamDoor * tlv_params, TlvItemInfoUnion tlvInfo);
+    EXPORT static int CC CreateFromSaveState_4C08B0(const BYTE*);
+
+private:
     EXPORT void dtor_4B0620();
     EXPORT SlamDoor * vdtor_4AFD20(signed int flags);
     EXPORT void vUpdate_4AFD50();
     EXPORT int vGetSaveState_4C09D0(BYTE* pSaveBuffer);
-
     EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject *pObj, __int16 a3, __int16 a4);
 
-    EXPORT static int CC CreateFromSaveState_4C08B0(const BYTE*);
-
-public:
+private:
     __int16 field_116;
     BitField16<SlamDoor_Flags_118> field_118_flags;
     __int16 field_11A;
