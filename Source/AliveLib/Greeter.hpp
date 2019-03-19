@@ -90,7 +90,18 @@ private:
     __int16 field_132;
     FP field_134_speed;
     Path_TLV* field_138_pTlv;
-    __int16 field_13C_state;
+    enum class States : __int16
+    {
+        eState_0,
+        eState_1,
+        eState_2,
+        eState_3,
+        eState_4,
+        eState_5,
+        eState_6,
+        eState_7
+    };
+    States field_13C_state;
     __int16 field_13E;
     __int16 field_140;
     __int16 field_142;

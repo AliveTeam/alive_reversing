@@ -125,7 +125,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     }
 
     field_134_speed = FP_FromInteger(pTlv->field_12_motion_detector_speed);
-    field_13C_state = 0;
+    field_13C_state = States::eState_0;
     field_12E = 1;
     field_118_tlvInfo = tlvInfo;
 
@@ -288,7 +288,7 @@ EXPORT void Greeter::BlowUp_447E50()
 
 void Greeter::ChangeDirection_447BD0()
 {
-    field_13C_state = 1;
+    field_13C_state = States::eState_1;
     field_C4_velx = FP_FromInteger(0);
     field_20_animation.Set_Animation_Data_409C80(50072, nullptr);
     field_124_last_turn_time = sGnFrame_5C1B84;
@@ -296,7 +296,7 @@ void Greeter::ChangeDirection_447BD0()
 
 void Greeter::BounceBackFromShot_447B10()
 {
-    field_13C_state = 5;
+    field_13C_state = States::eState_5;
    
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -332,21 +332,21 @@ void Greeter::HandleRollingAlong_447860()
             break;
 
         case ScrabLeftBound_43: 
-            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))  && field_13C_state == 0)
+            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))  && field_13C_state == States::eState_0)
             {
                 ChangeDirection_447BD0();
             }
             break;
 
         case ScrabRightBound_44:
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == 0)
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == States::eState_0)
             {
                 ChangeDirection_447BD0();
             }
             break;
 
         case EnemyStopper_47:
-            if (field_13C_state != 7)
+            if (field_13C_state != States::eState_7)
             {
                 ChangeDirection_447BD0();
             }
@@ -357,7 +357,7 @@ void Greeter::HandleRollingAlong_447860()
         }
     }
 
-    if (field_13C_state == 0)
+    if (field_13C_state == States::eState_0)
     {
         if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_Collision_Unknown_408E90(0, 1)) ||
             Raycast_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3)) ||
@@ -367,7 +367,7 @@ void Greeter::HandleRollingAlong_447860()
         }
     }
 
-    if (field_13C_state == 4)
+    if (field_13C_state == States::eState_4)
     {
         if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3))) // TODO: OG bug, raw * 3 here ??
         {
@@ -405,7 +405,8 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
         return 1;
 
     default:
-        LOG_WARNING("This might be wrong - greeter default damage case, can this only be a slig ??");
+        // Seems that this can be eElectricWall_39 - maybe others ??
+        LOG_WARNING("This might be wrong - greeter default damage case, can this only be a slig ?? type is " << static_cast<int>(pFrom->field_4_typeId));
         if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
@@ -531,7 +532,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
 void Greeter::RandomishSpeak_447A70(__int16 effect)
 {
-    field_13C_state = 2;
+    field_13C_state = States::eState_2;
     field_C4_velx = FP_FromInteger(0);
     field_20_animation.Set_Animation_Data_409C80(50104, nullptr);
     field_120 = sGnFrame_5C1B84 + 25;
@@ -611,10 +612,10 @@ void Greeter::vUpdate_4469B0()
 
     switch (field_13C_state)
     {
-    case 0:
+    case States::eState_0:
         if (!((sGnFrame_5C1B84 - field_124_last_turn_time) % 14))
         {
-            CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+            const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -628,11 +629,13 @@ void Greeter::vUpdate_4469B0()
             field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(3));
             if (!field_13E == 0)
             {
-                goto talk;
+                RandomishSpeak_447A70(0);
+                field_13C_state = States::eState_3;
             }
-            if (field_140)
+            else if (field_140)
             {
-                goto change_dir;
+                ChangeDirection_447BD0();
+                field_13C_state = States::eState_6;
             }
         }
         else
@@ -640,110 +643,65 @@ void Greeter::vUpdate_4469B0()
             field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(3));
             if (!field_140 == 0)
             {
-            talk:
                 RandomishSpeak_447A70(0);
-                field_13C_state = 3;
-                goto LABEL_14;
+                field_13C_state = States::eState_3;
             }
-
-            if (field_13E)
+            else if (field_13E)
             {
-            change_dir:
                 ChangeDirection_447BD0();
-                field_13C_state = 6;
-                goto LABEL_14;
+                field_13C_state = States::eState_6;
             }
         }
 
-    LABEL_14:
         if (static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
         {
             RandomishSpeak_447A70(1000);
         }
-    LABEL_34:
-        if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
-        {
-            if (field_13C_state == 7)
-            {
-                goto LABEL_39;
-            }
-            FP xpos = field_C4_velx
-                + field_C4_velx
-                + field_C4_velx
-                + field_C4_velx
-                + field_B8_xpos;
-            FP ypos = field_C8_vely
-                + field_BC_ypos
-                + field_C8_vely;
-            field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(nullptr, xpos, ypos, xpos, ypos);
-            HandleRollingAlong_447860();
-        }
-        if (field_13C_state == 7)
-        {
-        LABEL_39:
-            field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
-                nullptr,
-                field_B8_xpos,
-                field_BC_ypos,
-                field_B8_xpos,
-                field_BC_ypos);
-            HandleRollingAlong_447860();
-            if (field_13C_state == 7)
-            {
-                goto LABEL_42;
-            }
-        }
+        break;
 
-        if (Check_Collision_Unknown_408E90(0, 0))
-        {
-            field_13C_state = 7;
-            field_20_animation.Set_Animation_Data_409C80(50212, 0);
-        }
-    LABEL_42:
-        if (field_13C_state == 7)
-        {
-            return;
-        }
-        field_B8_xpos += field_C4_velx;
-        field_BC_ypos += field_C8_vely;
-        return;
-
-    case 1:
+    case States::eState_1:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_13C_state = 0;
+            field_13C_state = States::eState_0;
             field_20_animation.Set_Animation_Data_409C80(50028, 0);
             field_C8_vely = FP_FromInteger(0);
             field_13E = 0;
             field_140 = 0;
-            goto LABEL_53;
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            }
+            else
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
         }
-        goto LABEL_34;
+        break;
 
-    case 2:
+    case States::eState_2:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_130 = 0;
-            field_13C_state = 0;
+            field_13C_state = States::eState_0;
             field_20_animation.Set_Animation_Data_409C80(50028, 0);
             field_C8_vely = FP_FromInteger(0);
             field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
         }
-        goto LABEL_34;
+        break;
 
-    case 3:
+    case States::eState_3:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_130 = 1;
-            field_13C_state = 4;
+            field_13C_state = States::eState_4;
             field_20_animation.Set_Animation_Data_409C80(50144, 0);
             field_C8_vely = FP_FromInteger(0);
         }
-        goto LABEL_34;
+        break;
 
-    case 4:
+    case States::eState_4:
     {
-        if (!((signed int)sGnFrame_5C1B84 % 8))
+        if (!(sGnFrame_5C1B84 % 8))
         {
             const CameraPos soundDirection2 = gMap_5C3030.GetDirection_4811A0(
                 field_C2_lvl_number,
@@ -761,7 +719,6 @@ void Greeter::vUpdate_4469B0()
 
         PSX_RECT bRect = {};
         sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
-
 
         const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
         const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
@@ -790,10 +747,9 @@ void Greeter::vUpdate_4469B0()
         {
             ZapTarget_447320(midX, midY, sActiveHero_5C1B68);
         }
-    }
-        goto LABEL_34;
+    } break;
 
-    case 5:
+    case States::eState_5:
         if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(40), FP_FromRaw(3 * field_C4_velx.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
         {
             field_C4_velx = FP_FromInteger(0);
@@ -804,14 +760,13 @@ void Greeter::vUpdate_4469B0()
             RandomishSpeak_447A70(9);
             field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
         }
-        goto LABEL_34;
+        break;
 
-    case 6:
+    case States::eState_6:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             RandomishSpeak_447A70(0);
-            field_13C_state = 3;
-        LABEL_53:
+            field_13C_state = States::eState_3;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -821,9 +776,9 @@ void Greeter::vUpdate_4469B0()
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
             }
         }
-        goto LABEL_34;
+        break;
 
-    case 7:
+    case States::eState_7:
     {
         FP hitX = {};
         FP hitY = {};
@@ -847,19 +802,69 @@ void Greeter::vUpdate_4469B0()
                 field_C8_vely = FP_FromInteger(0);
                 if (field_130 == 0)
                 {
-                    field_13C_state = 0;
+                    field_13C_state = States::eState_0;
                     field_20_animation.Set_Animation_Data_409C80(50028, nullptr);
                 }
                 else
                 {
-                    field_13C_state = 4;
+                    field_13C_state = States::eState_4;
                     field_20_animation.Set_Animation_Data_409C80(50144, nullptr);
                 }
             }
         }
-    }
-        goto LABEL_34;
+    }  break;
+
     default:
-        goto LABEL_34;
+        break;
+    }
+
+    if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
+    {
+        if (field_13C_state != States::eState_7)
+        {
+            const FP xpos = field_C4_velx
+                + field_C4_velx
+                + field_C4_velx
+                + field_C4_velx
+                + field_B8_xpos;
+
+            const FP ypos = field_C8_vely
+                + field_BC_ypos
+                + field_C8_vely;
+
+            field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(nullptr, xpos, ypos, xpos, ypos);
+            HandleRollingAlong_447860();
+        }
+    }
+
+    bool collisionCheck = true;
+    if (field_13C_state == States::eState_7)
+    {
+        field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            nullptr,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
+        HandleRollingAlong_447860();
+        if (field_13C_state == States::eState_7)
+        {
+            collisionCheck = false;
+        }
+    }
+
+    if (collisionCheck)
+    {
+        if (Check_Collision_Unknown_408E90(0, 0))
+        {
+            field_13C_state = States::eState_7;
+            field_20_animation.Set_Animation_Data_409C80(50212, 0);
+        }
+    }
+
+    if (field_13C_state != States::eState_7)
+    {
+        field_B8_xpos += field_C4_velx;
+        field_BC_ypos += field_C8_vely;
     }
 }
