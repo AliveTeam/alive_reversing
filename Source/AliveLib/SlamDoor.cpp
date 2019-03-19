@@ -61,6 +61,11 @@ TintEntry sSlamDoorTints_5603B0[18] =
 };
 
 
+BaseGameObject * SlamDoor::VDestructor(signed int flags)
+{
+    return vdtor_4AFD20(flags);
+}
+
 void SlamDoor::VUpdate()
 {
     vUpdate_4AFD50();
@@ -257,6 +262,16 @@ void SlamDoor::dtor_4B0620()
     }
 
     dtor_4080B0();
+}
+
+SlamDoor * SlamDoor::vdtor_4AFD20(signed int flags)
+{
+    dtor_4B0620();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
 }
 
 void SlamDoor::vUpdate_4AFD50()
