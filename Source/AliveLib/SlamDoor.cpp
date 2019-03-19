@@ -239,6 +239,28 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
     return this;
 }
 
+void SlamDoor::dtor_4B0620()
+{
+    SetVTable(this, 0x547288);
+
+    if (!(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete)) || field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
+    {
+        Path::TLV_Reset_4DB8E0(field_12C_tlvInfo.all, -1, 0, 0);
+    }
+
+    if (field_11C_pCollisionLine_6_2)
+    {
+        Rect_Clear_418040(&field_11C_pCollisionLine_6_2->field_0_rect);
+    }
+
+    if (field_120_pCollisionLine_5_1)
+    {
+        Rect_Clear_418040(&field_120_pCollisionLine_5_1->field_0_rect);
+    }
+
+    dtor_4080B0();
+}
+
 void SlamDoor::vUpdate_4AFD50()
 {
     NOT_IMPLEMENTED();

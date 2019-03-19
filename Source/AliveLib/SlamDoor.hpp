@@ -34,6 +34,7 @@ public:
     virtual void VUpdate() override;
 
     EXPORT SlamDoor* ctor_4AF700(Path_SlamDoor * tlv_params, TlvItemInfoUnion tlvInfo);
+    EXPORT void dtor_4B0620();
     EXPORT void vUpdate_4AFD50();
 
     EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject *pObj, __int16 a3, __int16 a4);
