@@ -7,6 +7,7 @@
 #include "Shadow.hpp"
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
+#include "BaseAliveGameObject.hpp"
 #include <gmock/gmock.h>
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
@@ -430,6 +431,68 @@ void BaseAnimatedWithPhysicsGameObject::vOnPickUpOrSlapped_408180()
 void BaseAnimatedWithPhysicsGameObject::null_4081A0(BaseGameObject* /*pFrom*/)
 {
     NOT_IMPLEMENTED();
+}
+
+void BaseAnimatedWithPhysicsGameObject::DealDamageRect_4247A0(PSX_RECT * pRect)
+{
+    NOT_IMPLEMENTED();
+
+    if (gBaseAliveGameObjects_5C1B7C)
+    {
+        int w1 = pRect->w;
+        int w2 = pRect->w;
+        if (pRect->x <= w1)
+        {
+            w2 = pRect->x;
+        }
+        int w3 = pRect->w;
+        if (w1 <= pRect->x)
+        {
+            w3 = pRect->x;
+        }
+        int y1 = pRect->y;
+        int h1 = pRect->h;
+        int h2 = pRect->h;
+        if (y1 <= h1)
+        {
+            h2 = pRect->y;
+        }
+        int h3 = pRect->h;
+        if (h1 <= y1)
+        {
+            h3 = pRect->y;
+        }
+        int xposInt = FP_GetExponent(field_B8_xpos);
+        int xposOffW2 = xposInt + w2;
+        int xposOffW3 = xposInt + w3;
+        int yposInt = FP_GetExponent(field_BC_ypos);
+        int yposOffH2 = yposInt + h2;
+        int yposOffH3 = yposInt + h3;
+
+        for (int baseObjIdx = 0; baseObjIdx < gBaseAliveGameObjects_5C1B7C->Size(); baseObjIdx++)
+        {
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(baseObjIdx);
+
+            if (!pObj)
+            {
+                break;
+            }
+
+            int xposInt2 = FP_GetExponent(field_B8_xpos);
+
+            if (xposInt2 >= xposOffW2 && xposInt2 <= xposOffW3)
+            {
+                int yposInt2 = FP_GetExponent(field_BC_ypos);
+
+                if (yposInt2 >= yposOffH2
+                    && yposInt2 <= yposOffH3
+                    && this->field_CC_sprite_scale == (pObj->field_CC_sprite_scale * FP_FromDouble(2.75)))
+                {
+                    pObj->VTakeDamage_408730(this);
+                }
+            }
+        }
+    }
 }
 
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()

@@ -707,12 +707,15 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
                 13);
         }*/
     }
-    
-    /*v12 = (signed int)Math_FixedPoint_Multiply_496C50(-655360, this->field_f4_scale) / 0x10000;
-    v14 = (signed int)Math_FixedPoint_Multiply_496C50(655360, this->field_f4_scale) / 0x10000;
-    v13 = (signed int)Math_FixedPoint_Multiply_496C50(-655360, this->field_f4_scale) / 0x10000;
-    v15 = (signed int)Math_FixedPoint_Multiply_496C50(655360, this->field_f4_scale) / 0x10000;
-    BaseAnimatedWithPhysicsGameObject::sub_4247A0(this, &v12);*/
+     
+    PSX_RECT damageRect = {
+        FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
+        FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
+        FP_GetExponent(FP_FromInteger(10) * field_f4_scale),
+        FP_GetExponent(FP_FromInteger(10) * field_f4_scale)
+    };
+
+    DealDamageRect_4247A0(&damageRect);
 
     static int dword_5BC1FC = 0;
     dword_5BC1FC = (dword_5BC1FC + 1) % 2;
