@@ -9,26 +9,26 @@
 #include "PathData.hpp"
 #include "SwitchStates.hpp"
 
-const TintEntry stru_563228[18] =
+const TintEntry kSwitchTints_563228[18] =
 {
-    { '\x01', 127u, 127u, 127u },
-    { '\x02', 127u, 127u, 127u },
-    { '\x03', 127u, 127u, 127u },
-    { '\x04', 127u, 127u, 127u },
-    { '\x05', 127u, 127u, 127u },
-    { '\x06', 127u, 127u, 127u },
-    { '\a', 127u, 127u, 127u },
-    { '\b', 127u, 127u, 127u },
-    { '\t', 127u, 127u, 127u },
-    { '\n', 127u, 127u, 127u },
-    { '\v', 127u, 127u, 127u },
-    { '\f', 127u, 127u, 127u },
-    { '\r', 127u, 127u, 127u },
-    { '\x0E', 127u, 127u, 127u },
-    { '\xFF', 127u, 127u, 127u },
-    { '\0', 0u, 0u, 0u },
-    { '\0', 0u, 0u, 0u },
-    { '\0', 0u, 0u, 0u }
+    { 1, 127u, 127u, 127u },
+    { 2, 127u, 127u, 127u },
+    { 3, 127u, 127u, 127u },
+    { 4, 127u, 127u, 127u },
+    { 5, 127u, 127u, 127u },
+    { 6, 127u, 127u, 127u },
+    { 7, 127u, 127u, 127u },
+    { 8, 127u, 127u, 127u },
+    { 9, 127u, 127u, 127u },
+    { 10, 127u, 127u, 127u },
+    { 11, 127u, 127u, 127u },
+    { 12, 127u, 127u, 127u },
+    { 13, 127u, 127u, 127u },
+    { 14, 127u, 127u, 127u },
+    { -1, 127u, 127u, 127u },
+    { 0, 0u, 0u, 0u },
+    { 0, 0u, 0u, 0u },
+    { 0, 0u, 0u, 0u }
 };
 
 BaseGameObject* Switch::VDestructor(signed int flags)
@@ -79,7 +79,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
         field_D6_scale = 1;
     }
 
-    SetTint_425600(&stru_563228[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&kSwitchTints_563228[0], gMap_5C3030.sCurrentLevelId_5C3030);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);

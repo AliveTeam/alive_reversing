@@ -12,26 +12,26 @@
 #include "Spark.hpp"
 #include "Blood.hpp"
 
-const TintEntry stru_551548[18] =
+const TintEntry kGrinderTints_551548[18] =
 {
-    { '\x01', 127u, 127u, 127u },
-    { '\x02', 137u, 137u, 137u },
-    { '\x03', 127u, 127u, 127u },
-    { '\x04', 127u, 127u, 127u },
-    { '\x05', 127u, 127u, 127u },
-    { '\x06', 127u, 127u, 127u },
-    { '\a', 127u, 127u, 127u },
-    { '\b', 127u, 127u, 127u },
-    { '\t', 127u, 127u, 127u },
-    { '\n', 127u, 127u, 127u },
-    { '\v', 127u, 127u, 127u },
-    { '\f', 127u, 127u, 127u },
-    { '\r', 127u, 127u, 127u },
-    { '\x0E', 127u, 127u, 127u },
-    { '\xFF', 127u, 127u, 127u },
-    { '\0', 0u, 0u, 0u },
-    { '\0', 0u, 0u, 0u },
-    { '\0', 0u, 0u, 0u }
+    { 1, 127u, 127u, 127u },
+    { 2, 137u, 137u, 137u },
+    { 3, 127u, 127u, 127u },
+    { 4, 127u, 127u, 127u },
+    { 5, 127u, 127u, 127u },
+    { 6, 127u, 127u, 127u },
+    { 7, 127u, 127u, 127u },
+    { 8, 127u, 127u, 127u },
+    { 9, 127u, 127u, 127u },
+    { 10, 127u, 127u, 127u },
+    { 11, 127u, 127u, 127u },
+    { 12, 127u, 127u, 127u },
+    { 13, 127u, 127u, 127u },
+    { 14, 127u, 127u, 127u },
+    { -1, 127u, 127u, 127u },
+    { 0, 0u, 0u, 0u },
+    { 0, 0u, 0u, 0u },
+    { 0, 0u, 0u, 0u }
 };
 
 
@@ -47,7 +47,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 0;
 
-    SetTint_425600(stru_551548, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(kGrinderTints_551548, gMap_5C3030.sCurrentLevelId_5C3030);
     Path_Grinder_Data tlvData = pTlv->field_10_data;
 
     field_128_flags.Clear(Flags::eBit2_StartOn);

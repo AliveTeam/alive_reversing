@@ -7,7 +7,7 @@
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
 
-const TintEntry stru_55C744[19] =
+const TintEntry kGibTints_55C744[19] =
 {
     { 1, 87u, 103u, 67u },
     { 2, 87u, 103u, 67u },
@@ -130,7 +130,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     {
         if (gibType == 3)
         {
-            SetTint_425600(stru_55C744, gMap_5C3030.sCurrentLevelId_5C3030);
+            SetTint_425600(kGibTints_55C744, gMap_5C3030.sCurrentLevelId_5C3030);
         }
         else if (gibType == 4)
         {

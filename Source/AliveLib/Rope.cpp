@@ -7,7 +7,7 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 
-const TintEntry stru_55FD68[18] =
+const TintEntry kRopeTints_55FD68[18] =
 {
     { 1u, 127u, 127u, 127u },
     { 2u, 127u, 127u, 127u },
@@ -62,7 +62,7 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kRopesResID);
     Animation_Init_424E10(748, 9, 16, ppRes, 1, 1);
-    SetTint_425600(stru_55FD68, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(kRopeTints_55FD68, gMap_5C3030.sCurrentLevelId_5C3030);
 
     field_20_animation.field_14_scale = scale;
     field_CC_sprite_scale = scale;
