@@ -12,6 +12,7 @@
 #include "ScreenManager.hpp"
 #include "Midi.hpp"
 #include "Abe.hpp"
+#include "BaseBomb.hpp"
 
 const TintEntry sTintMap_UXB_563A3C[19] =
 {
@@ -650,76 +651,4 @@ void UXB::VOnPickUpOrSlapped()
 void UXB::vnull_4081A0(BaseGameObject* pFrom)
 {
     vsub_4DF7B0(pFrom);
-}
-
-BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
-{
-    NOT_IMPLEMENTED();
-
-    BYTE **v6; // eax
-    int v16; // [esp+18h] [ebp-4h]
-
-    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-    v16 = 0;
-    SetVTable(this, 0x544C54);
-    field_4_typeId = Types::eBaseBomb_46;
-
-
-    v6 = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, 300);
-    Animation_Init_424E10(51588, 214, 0x31u, v6, 1, 1u);
-    field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
-    field_20_animation.field_4_flags.Set(AnimFlags::eBit24);
-    field_20_animation.field_B_render_mode = 1;
-    field_20_animation.field_A_b = 128;
-    field_20_animation.field_9_g = 128;
-    field_20_animation.field_8_r = 128;
-    this->field_f4_scale = scale;
-    if (scale == FP_FromDouble(1.0))
-    {
-        field_20_animation.field_C_render_layer = 36;
-    }
-    else
-    {
-        field_20_animation.field_C_render_layer = 17;
-    }
-    field_DC_bApplyShadows &= 0xFFFEu;
-    field_CC_sprite_scale = scale * FP_FromDouble(2.75);
-    field_B8_xpos = x;
-    field_BC_ypos = y;
-
-    /*v8 = (BaseGameObject *)malloc_4954D0(0x48u);
-    if (v8)
-    {
-        ScreenShake::ctor_4ACF70(v8, 1, 0);
-    }*/
-    if (word_5CC88C <= 3846)
-    {
-        /*v9 = malloc_4954D0(0x108u);
-        if (v9)
-        {
-            sub_41CF50(
-                v9,
-                this->field_0_base.field_B8_xpos,
-                this->field_0_base.field_BC_ypos,
-                35,
-                this->field_f4_scale,
-                0,
-                13);
-        }*/
-    }
-     
-    PSX_RECT damageRect = {
-        FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_f4_scale)
-    };
-
-    DealDamageRect_4247A0(&damageRect);
-
-    static int dword_5BC1FC = 0;
-    dword_5BC1FC = (dword_5BC1FC + 1) % 2;
-    SND_SEQ_PlaySeq_4CA960(static_cast<short>(14 +  dword_5BC1FC), 1, 1);
-
-    return this;
 }

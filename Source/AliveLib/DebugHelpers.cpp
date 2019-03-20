@@ -29,6 +29,7 @@
 #include "MusicController.hpp"
 #include "QuikSave.hpp"
 #include "PauseMenu.hpp"
+#include "BaseBomb.hpp"
 
 char _devConsoleBuffer[1000];
 

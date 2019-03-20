@@ -239,6 +239,8 @@ ExportHooker.hpp
     FallingItem.hpp
     MineCar.cpp
     MineCar.hpp
+	BaseBomb.cpp
+    BaseBomb.hpp
     ElectricWall.cpp
     ElectricWall.hpp
     Electrocute.cpp

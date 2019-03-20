@@ -14,6 +14,7 @@
 #include "Midi.hpp"
 #include "Abe.hpp"
 #include "ObjectIds.hpp"
+#include "BaseBomb.hpp"
 
 TintEntry sTimedMineTint_550EB8[1] = { { -1, 127u, 127u, 127u } };
 

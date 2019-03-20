@@ -40,22 +40,6 @@ enum UXB_Flags_1C8
     e1C8_Bit1_IsRed = 0x2,
 };
 
-class BaseBomb : public BaseAnimatedWithPhysicsGameObject
-{
-public:
-    /*virtual void VUpdate() override;
-    virtual void VRender(int** pOrderingTable) override;*/
-    /*virtual void VDestructor(signed int flags) override; */
-
-    EXPORT BaseBomb * ctor_423E70(FP x, FP y, int unused, FP scale);
-
-public:
-
-    BYTE field_E4[16];
-    FP field_f4_scale;
-};
-ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);
-
 class UXB : public BaseAliveGameObject
 {
 public:

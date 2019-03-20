@@ -14,6 +14,7 @@
 #include "Midi.hpp"
 #include "Abe.hpp"
 #include "stdlib.hpp"
+#include "BaseBomb.hpp"
 
 void Mine_ForceLink()
 {
