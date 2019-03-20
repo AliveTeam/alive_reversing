@@ -56,10 +56,10 @@ const MusicController_Record3 stru_55D1E0[17] =
 
 struct MusicController_Record
 {
-    char field_0;
-    char field_1;
-    char field_2;
-    char field_3;
+    signed char field_0;
+    signed char field_1;
+    signed char field_2;
+    signed char field_3;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record, 0x4);
 
