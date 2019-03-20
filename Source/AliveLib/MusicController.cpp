@@ -16,9 +16,9 @@ ALIVE_VAR(1, 0x5c3024, DWORD, sMusicTime_5C3024, 0);
 
 struct MusicController_Record3_Sub
 {
-    __int16 field_0;
-    char field_2_min;
-    char field_3_max;
+    signed __int16 field_0;
+    signed __int8 field_2_min;
+    signed __int8 field_3_max;
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record3_Sub, 4);
 
