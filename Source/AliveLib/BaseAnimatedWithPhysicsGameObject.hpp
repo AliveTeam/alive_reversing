@@ -15,7 +15,7 @@ class Shadow;
 
 struct TintEntry
 {
-    __int8 field_0_level;
+    signed __int8 field_0_level;
     unsigned __int8 field_1_r;
     unsigned __int8 field_2_g;
     unsigned __int8 field_3_b;

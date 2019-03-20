@@ -40,7 +40,7 @@ using CHAR = char;
 #define __int64 long long
 #define __int32 int
 #define __int16 short
-#define __int8 signed char
+#define __int8 char
 
 #define TRUE 1
 #define FALSE 0
