@@ -71,8 +71,8 @@ EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(signed int flags)
 
 struct ScreenOffset
 {
-    char field_0_x;
-    char field_1_y;
+    signed char field_0_x;
+    signed char field_1_y;
 };
 
 const ScreenOffset sShakeOffsets_560388[16] =
