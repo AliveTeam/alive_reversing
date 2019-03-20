@@ -44,6 +44,7 @@
 #include "DemoPlayback.hpp"
 #include "ChantSuppressor.hpp"
 #include "Greeter.hpp"
+#include "MotionDetector.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -714,7 +715,18 @@ EXPORT void CC Factory_ChantSuppressor_WithArms_4D9E10(Path_TLV* pTlv, Path* pPa
     Factory_ChantSuppressor_Orb_4D8D80(pTlv, pPath, tlvInfo, loadMode);
 }
 
-EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pMotionDetector = alive_new<MotionDetector>();
+        if (pMotionDetector)
+        {
+            pMotionDetector->ctor_4683B0(static_cast<Path_MotionDetector*>(pTlv), tlvInfo.all, nullptr);
+        }
+    }
+}
+
 EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)

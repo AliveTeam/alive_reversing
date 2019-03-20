@@ -14,79 +14,8 @@
 #include "Electrocute.hpp"
 #include "ZapLine.hpp"
 #include "Events.hpp"
+#include "MotionDetector.hpp"
 #include "Function.hpp"
-
-struct MotionDetector : public BaseAnimatedWithPhysicsGameObject
-{
-    EXPORT MotionDetector* ctor_4683B0(int /*pTlv*/, int /*tlvInfo*/, BaseAnimatedWithPhysicsGameObject* /*pOwner*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    int field_E4_not_used[4];
-    int field_F4;
-    int field_F8_laser_id;
-    int field_FC_owner_id;
-    __int16 field_100;
-    __int16 field_102;
-    __int16 field_104;
-    __int16 field_106;
-    __int16 field_108;
-    __int16 field_10A;
-    __int16 field_10C;
-    __int16 field_10E;
-    __int16 field_110;
-    __int16 field_112;
-    int field_114;
-    int field_118;
-    int field_11C;
-    int field_120;
-    __int16 field_124;
-    __int16 field_126;
-    __int16 field_128;
-    __int16 field_12A;
-    __int16 field_12C;
-    __int16 field_12E;
-    __int16 field_130;
-    __int16 field_132;
-    __int16 field_134;
-    __int16 field_136;
-    __int16 field_138;
-    __int16 field_13A;
-    __int16 field_13C;
-    __int16 field_13E;
-    __int16 field_140;
-    __int16 field_142;
-    __int16 field_144;
-    __int16 field_146;
-    __int16 field_148;
-    __int16 field_14A;
-    __int16 field_14C;
-    __int16 field_14E;
-    __int16 field_150;
-    __int16 field_152;
-    __int16 field_154;
-    __int16 field_156;
-    __int16 field_158;
-    __int16 field_15A;
-    __int16 field_15C;
-    __int16 field_15E;
-    __int16 field_160;
-    __int16 field_162;
-    __int16 field_164;
-    __int16 field_166;
-    __int16 field_168;
-    __int16 field_16A;
-    __int16 field_16C;
-    __int16 field_16E;
-    __int16 field_170;
-    __int16 field_172;
-    int field_174;
-    __int16 field_178;
-    __int16 field_17A;
-};
-ALIVE_ASSERT_SIZEOF(MotionDetector, 0x17C);
 
 EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
 {

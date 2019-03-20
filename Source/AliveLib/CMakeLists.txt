@@ -257,6 +257,8 @@ ExportHooker.hpp
     Greeter.cpp
     ZapLine.hpp
     ZapLine.cpp
+    MotionDetector.hpp
+    MotionDetector.cpp
     Slurg.cpp
     Slurg.hpp
 )
