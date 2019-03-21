@@ -9,7 +9,7 @@
 // Reference https://www.vegardno.net/2016/05/writing-reverb-filter-from-first.html
 
 const int ReverbEchos = 24;
-static StereoSampleFloat sReverbBuffer[1024 * 32];
+static StereoSample_S16 sReverbBuffer[1024 * 32];
 const float gReverbMix = 1.0f / ReverbEchos;
 
 class FeedbackBuffer
@@ -18,7 +18,7 @@ public:
     FeedbackBuffer(int samples)
     {
         iSamples = samples;
-        pBuffer = new StereoSampleFloat[samples];
+        pBuffer = new StereoSample_S32[samples];
         for (int i = 0; i < samples; i++)
         {
             pBuffer[i].left = 0;
@@ -33,9 +33,9 @@ public:
 
     int idx = 0;
     int iSamples;
-    StereoSampleFloat * pBuffer;
+    StereoSample_S32 * pBuffer;
 
-    inline void PushSample(StereoSampleFloat s)
+    inline void PushSample(StereoSample_S16 s)
     {
         pBuffer[idx].left += s.left;
         pBuffer[idx].right += s.right;
@@ -48,11 +48,11 @@ public:
         }
     }
 
-    inline StereoSampleFloat GetSample()
+    inline StereoSample_S32 GetSample()
     {
-        const StereoSampleFloat f = pBuffer[idx];
-        pBuffer[idx].left *= 0.88f;
-        pBuffer[idx].right *= 0.88f;
+        const StereoSample_S32 f = pBuffer[idx];
+        pBuffer[idx].left -= pBuffer[idx].left / 10;
+        pBuffer[idx].right -= pBuffer[idx].right / 10;
         return f;
     }
 };
@@ -69,7 +69,7 @@ void Reverb_Init(int sampleRate)
     }
 }
 
-inline void Reverb_PushSample(StereoSampleFloat v)
+inline void Reverb_PushSample(StereoSample_S16 v)
 {
     const size_t feedbackArySize = feedbackBuffers.size();
     FeedbackBuffer ** feedbackAry = feedbackBuffers.data();
@@ -89,25 +89,23 @@ inline void Reverb_Update(int index)
 
     for (unsigned int i = 0; i < feedbackArySize; i++)
     {
-        float volume = 1.0f;
+        StereoSample_S32 v = feedbackAry[i]->GetSample();
 
-        StereoSampleFloat v = feedbackAry[i]->GetSample();
-
-        sReverbBuffer[index].left += v.left * volume * gReverbMix;
-        sReverbBuffer[index].right += v.right * volume * gReverbMix;
+        sReverbBuffer[index].left += static_cast<signed short>(v.left * gReverbMix);
+        sReverbBuffer[index].right += static_cast<signed short>(v.right * gReverbMix);
     }
 }
 
-void Reverb_Mix(StereoSampleFloat * dst, SDL_AudioFormat format, Uint32 len, int volume)
+void Reverb_Mix(StereoSample_S16 * dst, SDL_AudioFormat format, Uint32 len, int volume)
 {
-    for (unsigned int i = 0; i < len / sizeof(StereoSampleFloat); i++)
+    for (unsigned int i = 0; i < len / sizeof(StereoSample_S16); i++)
     {
         Reverb_PushSample(dst[i]);
         Reverb_Update(i);
     }
 
     SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(dst), reinterpret_cast<Uint8 *>(sReverbBuffer), format, len, volume);
-    //memcpy(dst, sReverbBuffer, len); // Uncomment to hear only reverb
+    // memcpy(dst, sReverbBuffer, len); // Uncomment to hear only reverb
 }
 
 #endif

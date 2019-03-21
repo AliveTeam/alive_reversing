@@ -25,11 +25,16 @@
 struct MIDI_Struct1;
 struct SoundEntry;
 
-struct StereoSampleFloat
+template <typename T>
+struct StereoSample
 {
-    float left;
-    float right;
+    T left;
+    T right;
 };
+
+typedef StereoSample<signed short> StereoSample_S16;
+typedef StereoSample<signed int> StereoSample_S32;
+typedef StereoSample<float> StereoSample_F32;
 
 enum AE_SDL_Voice_Status
 {
