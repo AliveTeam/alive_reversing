@@ -25,6 +25,13 @@ public:
     EXPORT MotionDetector* ctor_4683B0(Path_MotionDetector* pTlv, int tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
 
 private:
+    EXPORT MotionDetector* vdtor_468850(signed int flags);
+
+    EXPORT void dtor_468880();
+
+    EXPORT void vScreenChanged_469460();
+
+private:
     int field_E4_not_used[4];
     int field_F4_tlvInfo;
     int field_F8_laser_id;
@@ -38,10 +45,10 @@ private:
     __int16 field_10E_bUnknown;
     __int16 field_110_bDontComeBack;
     __int16 field_112_pad;
-    int field_114_x1_fp;
-    int field_118_x2_fp;
-    int field_11C_y1_fp;
-    int field_120_y2_fp;
+    FP field_114_x1_fp;
+    FP field_118_x2_fp;
+    FP field_11C_y1_fp;
+    FP field_120_y2_fp;
     Poly_F3 field_124_prims[2];
     Prim_SetTPage field_154_tPage[2];
     int field_174_speed_x256;
