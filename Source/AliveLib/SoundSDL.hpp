@@ -72,6 +72,8 @@ public:
     struct AE_SDL_Voice_State
     {
         float fVolume;
+        bool bVolDirty;
+        float fVolumeTarget;
         float fFrequency;
         float fPan;
 

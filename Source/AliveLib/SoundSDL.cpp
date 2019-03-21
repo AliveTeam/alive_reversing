@@ -87,6 +87,8 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
                 continue;
             }
 
+            pVoice->mState.fVolume = pVoice->mState.fVolume + ((pVoice->mState.fVolumeTarget - pVoice->mState.fVolume) * 0.05f);
+
             if (pVoice->mState.iChannels == 2)
             {
                 reverbPass = false; // Todo: determine this with flags in the sound object itself.
@@ -271,7 +273,9 @@ void AE_SDL_AudioShutdown()
 
 AE_SDL_Voice::AE_SDL_Voice()
 {
-    mState.fVolume = 1.0f;
+    mState.fVolume = 0.0f;
+    mState.fVolumeTarget = 1.0f;
+    mState.bVolDirty = false;
     mState.fPan = 0;
     mState.fFrequency = 1.0f;
     mState.bIsReleased = false;
@@ -286,7 +290,15 @@ AE_SDL_Voice::AE_SDL_Voice()
 
 int AE_SDL_Voice::SetVolume(int volume)
 {
-    mState.fVolume = volume / 127.0f;
+    mState.fVolumeTarget = volume / 127.0f;
+
+    if (!mState.bVolDirty)
+    {
+        mState.fVolume = mState.fVolumeTarget;
+    }
+
+    mState.bVolDirty = true;
+
     return 0;
 }
 
@@ -577,7 +589,7 @@ int SND_Play_SDL(const SoundEntry* pSnd, float volume, float pan, float freq, MI
     }
 
     pBufferToUse->SetFrequency(freqHz);
-    pBufferToUse->mState.fVolume = volume;
+    pBufferToUse->SetVolume(static_cast<int>(volume * 127));
 
     pBufferToUse->mState.fPan = pan;
 
