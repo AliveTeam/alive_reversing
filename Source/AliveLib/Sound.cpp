@@ -14,7 +14,7 @@
 #include "MusicController.hpp"
 
 
-bool gReverbEnabled = true;
+bool gReverbEnabled = false;
 
 #if !USE_SDL2_SOUND
 ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
