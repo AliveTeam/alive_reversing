@@ -31,7 +31,7 @@ public:
 private:
     EXPORT MotionDetectorLaser* vdtor_468360(signed int flags)
     {
-        BaseGameObject_dtor_4DBEC0();
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
         if (flags & 1)
         {
             Mem_Free_495540(this);
