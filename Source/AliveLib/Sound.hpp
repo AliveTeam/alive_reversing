@@ -10,6 +10,7 @@
 #include "SoundSDL.hpp"
 
 extern bool gReverbEnabled;
+extern bool gAudioStereo;
 
 #if USE_SDL2_SOUND
 using AE_BUFFERTYPE = class AE_SDL_Voice;

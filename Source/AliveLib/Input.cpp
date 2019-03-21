@@ -472,6 +472,20 @@ std::vector<std::string> Ini_SplitParams(std::string line)
     return paramSplit;
 }
 
+struct IniCustomSaveEntry
+{
+    const char * name;
+    void * data;
+    bool isBool;
+};
+
+std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
+    { "keep_aspect", &s_VGA_KeepAspectRatio, true },
+    { "filter_screen", &s_VGA_FilterScreen, true },
+    { "reverb", &gReverbEnabled, true },
+    { "audio_stereo", &gAudioStereo, true },
+};
+
 void NewParseSettingsIni()
 {
     const auto abeBuffer = FS::ReadFile("abe2.ini");
@@ -554,43 +568,42 @@ void NewParseSettingsIni()
                             Input_ResetBinding_4925A0(0x1000000, 1);
                         }
                     }
-                    else if (param[0] == "keep_aspect")
-                    {
-                        if (param[1] == "true")
-                        {
-                            s_VGA_KeepAspectRatio = true;
-                        }
-                        else
-                        {
-                            s_VGA_KeepAspectRatio = false;
-                        }
-                    }
-                    else if (param[0] == "filter_screen")
-                    {
-                        if (param[1] == "true")
-                        {
-                            s_VGA_FilterScreen = true;
-                        }
-                        else
-                        {
-                            s_VGA_FilterScreen = false;
-                        }
-                    }
-                    else if (param[0] == "reverb")
-                    {
-                        if (param[1] == "true")
-                        {
-                            gReverbEnabled = true;
-                        }
-                        else
-                        {
-                            gReverbEnabled = false;
-                        }
-                    }
                     else
                     {
-                        InputCommands kbInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
-                        Input_SetGamePadBinding_4931D0(param[1].c_str(), kbInputCommand);
+                        bool foundConfig = false;
+                        // custom config loader code
+                        {
+                            for (auto s : gCustomSaveEntries)
+                            {
+                                if (param[0] == s.name)
+                                {
+                                    if (s.isBool)
+                                    {
+                                        if (param[1] == "true")
+                                        {
+                                            *reinterpret_cast<bool*>(s.data) = true;
+                                        }
+                                        else
+                                        {
+                                            *reinterpret_cast<bool*>(s.data) = false;
+                                        }
+                                    }
+                                    else // int
+                                    {
+                                        *reinterpret_cast<int*>(s.data) = atoi(param[1].c_str());
+                                    }
+
+                                    foundConfig = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!foundConfig)
+                        {
+                            InputCommands kbInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
+                            Input_SetGamePadBinding_4931D0(param[1].c_str(), kbInputCommand);
+                        }
                     }
                 }
             }
@@ -718,9 +731,18 @@ EXPORT void Input_SaveSettingsIni_492840()
     // New Renderer Options
 
     output << "[ALIVE]\n";
-    output << "keep_aspect = " << ((s_VGA_KeepAspectRatio) ? "true" : "false") << "\n";
-    output << "filter_screen = " << ((s_VGA_FilterScreen) ? "true" : "false") << "\n";
-    output << "reverb = " << ((gReverbEnabled) ? "true" : "false") << "\n";
+
+    for (auto s : gCustomSaveEntries)
+    {
+        if (s.isBool)
+        {
+            output << s.name << " = " << ((*reinterpret_cast<int*>(s.data) > 0) ? "true" : "false") << "\n";
+        }
+        else
+        {
+            output << s.name << " = " << *reinterpret_cast<int*>(s.data) << "\n";
+        }
+    }
 
     /////////////////
 

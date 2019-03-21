@@ -15,6 +15,7 @@
 
 
 bool gReverbEnabled = false;
+bool gAudioStereo = true;
 
 #if !USE_SDL2_SOUND
 ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);

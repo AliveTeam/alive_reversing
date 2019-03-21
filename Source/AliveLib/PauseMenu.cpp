@@ -702,7 +702,7 @@ public:
 
 std::vector<CustomPauseMenuItem> optionMenuItems({});
 
-std::string optionMenuStr_SoundChannels;
+std::string optionMenuStr_SoundStereo;
 std::string optionMenuStr_SoundReverb;
 std::string optionMenuStr_WindowMode;
 std::string optionMenuStr_AspectRatio;
@@ -719,11 +719,12 @@ public:
     {
         optionMenuItems.clear();
 
+        optionMenuStr_SoundStereo = "Sound Mode: " + std::string((gAudioStereo) ? "Stereo" : "Mono");
         optionMenuStr_SoundReverb = "Reverb: " + std::string((gReverbEnabled) ? "On" : "Off");
         optionMenuStr_AspectRatio = "Aspect Ratio: " + std::string((s_VGA_KeepAspectRatio) ? "Keep" : "Stretch");
         optionMenuStr_WindowFilterMode = "Screen Filter: " + std::string((s_VGA_FilterScreen) ? "On" : "Off");
         
-        //optionMenuItems.push_back({ optionMenuStr_SoundChannels.c_str(), [](CustomPauseMenu *) { } });
+        optionMenuItems.push_back({ optionMenuStr_SoundStereo.c_str(), [](CustomPauseMenu *) { gAudioStereo = !gAudioStereo; Input_SaveSettingsIni_492840();  } });
         optionMenuItems.push_back({ optionMenuStr_SoundReverb.c_str(), [](CustomPauseMenu *) { gReverbEnabled = !gReverbEnabled; Input_SaveSettingsIni_492840(); } });
         //optionMenuItems.push_back({ optionMenuStr_WindowMode.c_str(), [](CustomPauseMenu *) {} });
         optionMenuItems.push_back({ optionMenuStr_AspectRatio.c_str(), [](CustomPauseMenu *) { s_VGA_KeepAspectRatio = !s_VGA_KeepAspectRatio; Input_SaveSettingsIni_492840(); } });

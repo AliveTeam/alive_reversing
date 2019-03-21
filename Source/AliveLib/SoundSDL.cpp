@@ -123,13 +123,22 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
                 float leftPan = 1.0f;
                 float rightPan = 1.0f;
 
-                if (pVoice->mState.fPan < 0)
+                if (gAudioStereo)
                 {
-                    rightPan = 1.0f - fabs(pVoice->mState.fPan);
+                    if (pVoice->mState.fPan < 0)
+                    {
+                        rightPan = 1.0f - fabs(pVoice->mState.fPan);
+                    }
+                    else if (pVoice->mState.fPan > 0)
+                    {
+                        leftPan = 1.0f - fabs(pVoice->mState.fPan);
+                    }
                 }
-                else if (pVoice->mState.fPan > 0)
+                else
                 {
-                    leftPan = 1.0f - fabs(pVoice->mState.fPan);
+                    float r = (leftPan + rightPan) * 0.5f;
+                    leftPan = r;
+                    rightPan = r;
                 }
 
                 pTempSoundBuffer[i].left = static_cast<signed short>(s * leftPan * pVoice->mState.fVolume);
