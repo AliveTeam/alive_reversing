@@ -484,6 +484,7 @@ std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     { "filter_screen", &s_VGA_FilterScreen, true },
     { "reverb", &gReverbEnabled, true },
     { "audio_stereo", &gAudioStereo, true },
+    { "debug_mode", &gDebugHelpersEnabled , true},
 };
 
 void NewParseSettingsIni()

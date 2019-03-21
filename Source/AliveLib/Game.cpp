@@ -89,7 +89,7 @@ ALIVE_VAR(1, 0x5C2F70, DWORD, dword_5C2F70, 0);
 
 ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
 
-static bool gDebugHelpersEnabled = false;
+bool gDebugHelpersEnabled = false;
 
 FP CC ScaleToGridSize_4498B0(FP scaleFP)
 {
@@ -534,6 +534,11 @@ EXPORT void CC Game_Run_466D40()
     pCheatController_5BC120 = alive_new<CheatController>();
     pCheatController_5BC120->ctor_421BD0();
 
+    if (gDebugHelpersEnabled)
+    {
+        DebugHelpers_Init(); // Custom helper code
+    }
+
     Game_Init_LoadingIcon_482CD0();
 
     // Main loop start
@@ -709,11 +714,6 @@ EXPORT void CC Game_Main_4949F0()
 
 EXPORT void CC Game_Loop_467230()
 {
-    if (gDebugHelpersEnabled)
-    {
-        DebugHelpers_Init(); // Custom helper code
-    }
-
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;
     bool bPauseMenuObjectFound = false;

@@ -37,3 +37,5 @@ ALIVE_VAR_EXTERN(class Abe*, spAbe_554D5C);
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, ObjList_5C1B78);
 class ShadowZone;
 ALIVE_VAR_EXTERN(DynamicArrayT<ShadowZone>*, sShadowZone_dArray_5C1B80);
+
+extern bool gDebugHelpersEnabled;
