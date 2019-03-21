@@ -4,10 +4,20 @@ import math
 # BYTE1 = + 00
 # BYTE2 = + 0000
 
-num = 6
+def twos_complement(value, bitWidth):
+    if value >= 2**bitWidth:
+        # This catches when someone tries to give a value that is out of range
+        raise ValueError("Value: {} out of range of {}-bit value.".format(value, bitWidth))
+    else:
+        return value - int((value << 1) & 2**bitWidth)
+    
+num = 65534
 numAsBinaryString = bin(num)[2:]
 
-fp = 0x80000
+# 0x1CCCC =1.8
+fp = 0x140000
+
+print "2's comp: " + str(twos_complement(num, 16))
 
 print "Converting " + hex(num) + " bits " + numAsBinaryString
 
