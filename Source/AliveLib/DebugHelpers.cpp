@@ -516,7 +516,7 @@ void Command_HelperUpdate()
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
-        sActiveHero_5C1B68->field_106_current_state = 3;
+        sActiveHero_5C1B68->field_106_current_state = eAbeStates::State_3_Fall_459B60;
         sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7);
         sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
         sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;

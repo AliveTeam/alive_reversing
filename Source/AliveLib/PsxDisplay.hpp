@@ -7,9 +7,9 @@
 // This seems to convert from PSX coordinate space to PC coordinate space
 // anywhere you see this calc replace it with this function
 template<class T>
-inline T PsxToPCX(T x)
+inline T PsxToPCX(T x, int addToX = 0)
 {
-    return static_cast<T>((40 * x) / 23);
+    return static_cast<T>(((40 * x) + static_cast<T>(addToX)) / 23);
 }
 
 class PSX_Display_Buffer

@@ -188,7 +188,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     }
 
     // TODO: Expose abe enums
-    if ((sActiveHero_5C1B68->field_106_current_state == 114 || sActiveHero_5C1B68->field_106_current_state == 115)
+    if ((sActiveHero_5C1B68->field_106_current_state == eAbeStates::State_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_state == eAbeStates::State_115_DoorExit_459A40)
         && field_FC_current_state == 1
         && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
     {
@@ -426,7 +426,7 @@ void Door::vUpdate_41EBE0()
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    if (sActiveHero_5C1B68->field_106_current_state == 114 || sActiveHero_5C1B68->field_106_current_state == 115)
+    if (sActiveHero_5C1B68->field_106_current_state == eAbeStates::State_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_state == eAbeStates::State_115_DoorExit_459A40)
     {
         if (field_FC_current_state == eClosed && field_FA_door_number == sActiveHero_5C1B68->field_1A0_door_id)
         {

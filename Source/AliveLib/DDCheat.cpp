@@ -279,7 +279,7 @@ void DDCheat::Update_415780()
                 sControlledCharacter_5C1B8C->field_106_current_state = 7;
                 break;
             case Types::eType_Abe_69:
-                sControlledCharacter_5C1B8C->field_106_current_state = 3; // eAbeStates::State_3_Fall_459B60
+                sControlledCharacter_5C1B8C->field_106_current_state = eAbeStates::State_3_Fall_459B60;
                 break;
             case Types::eScrab_112:
                 sControlledCharacter_5C1B8C->field_106_current_state = 8;

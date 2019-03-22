@@ -841,7 +841,7 @@ void PauseMenu_ForceLink() {
         devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu * pm) {
             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
             pm->ClosePauseMenu();
-            sActiveHero_5C1B68->field_106_current_state = 3;
+            sActiveHero_5C1B68->field_106_current_state = eAbeStates::State_3_Fall_459B60;
             sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);;
             sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
             sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
@@ -1280,18 +1280,18 @@ void PauseMenu::Update_48FD80()
         if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10)))
         {
             const __int16 heroState = sActiveHero_5C1B68->field_106_current_state;
-            if (heroState != 86
-                && heroState != 119
-                && heroState != 120
-                && heroState != 75
-                && heroState != 76
-                && heroState != 77
-                && heroState != 78
-                && heroState != 79
-                && heroState != 80
-                && heroState != 81
-                && heroState != 82
-                && heroState != 83
+            if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
+                && heroState != eAbeStates::State_119_45A990
+                && heroState != eAbeStates::State_120_45AB00
+                && heroState != eAbeStates::State_75_Jump_Into_Well_45C7B0
+                && heroState != eAbeStates::State_76_45CA40
+                && heroState != eAbeStates::State_77_45D130
+                && heroState != eAbeStates::State_78_WellBegin_45C810
+                && heroState != eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60
+                && heroState != eAbeStates::State_80_WellShotOut_45D150
+                && heroState != eAbeStates::jState_81_WellBegin_45C7F0
+                && heroState != eAbeStates::State_82_Inside_Of_A_Well_Express_45CC80
+                && heroState != eAbeStates::State_83_Shoot_Out_Of_A_Well_45CF70
                 && (sControlledCharacter_5C1B8C->field_4_typeId != Types::eType_45_EvilFart || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_gnFrame) != 2) // TODO: Cast seems wrong, missing intermediate base class??
                 && sActiveHero_5C1B68->field_1A8_portal_id == -1)
             {
@@ -1328,18 +1328,18 @@ void PauseMenu::Update_48FD80()
             && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10)))
         {
             const short heroState = pHero->field_106_current_state;
-            if (heroState != 86
-                && heroState != 119
-                && heroState != 120
-                && heroState != 75
-                && heroState != 76
-                && heroState != 77
-                && heroState != 78
-                && heroState != 79
-                && heroState != 80
-                && heroState != 81
-                && heroState != 82
-                && heroState != 83
+            if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
+                && heroState != eAbeStates::State_119_45A990
+                && heroState != eAbeStates::State_120_45AB00
+                && heroState != eAbeStates::State_75_Jump_Into_Well_45C7B0
+                && heroState != eAbeStates::State_76_45CA40
+                && heroState != eAbeStates::State_77_45D130
+                && heroState != eAbeStates::State_78_WellBegin_45C810
+                && heroState != eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60
+                && heroState != eAbeStates::State_80_WellShotOut_45D150
+                && heroState != eAbeStates::jState_81_WellBegin_45C7F0
+                && heroState != eAbeStates::State_82_Inside_Of_A_Well_Express_45CC80
+                && heroState != eAbeStates::State_83_Shoot_Out_Of_A_Well_45CF70
                 && (pControlledChar->field_4_typeId != Types::eType_45_EvilFart || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_gnFrame) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
                 && pHero->field_1A8_portal_id == -1)
             {

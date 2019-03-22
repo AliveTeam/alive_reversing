@@ -31,6 +31,10 @@ private:
 
     EXPORT void vScreenChanged_469460();
 
+    EXPORT void vRender_469120(int** pOt);
+
+    EXPORT signed __int16 IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
+
 private:
     int field_E4_not_used[4];
     int field_F4_tlvInfo;
@@ -52,7 +56,7 @@ private:
     Poly_F3 field_124_prims[2];
     Prim_SetTPage field_154_tPage[2];
     int field_174_speed_x256;
-    __int16 field_178;
+    __int16 field_178_bObjectInLaser;
     __int16 field_17A_pad;
 };
 ALIVE_ASSERT_SIZEOF(MotionDetector, 0x17C);
