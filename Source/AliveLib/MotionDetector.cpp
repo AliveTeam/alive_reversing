@@ -187,6 +187,26 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
 }
 
 
+BaseGameObject* MotionDetector::VDestructor(signed int flags)
+{
+    return vdtor_468850(flags);
+}
+
+void MotionDetector::VUpdate()
+{
+    vUpdate_468A90();
+}
+
+void MotionDetector::VRender(int** pOrderingTable)
+{
+    vRender_469120(pOrderingTable);
+}
+
+void MotionDetector::VScreenChanged()
+{
+    vScreenChanged_469460();
+}
+
 MotionDetector* MotionDetector::vdtor_468850(signed int flags)
 {
     dtor_468880();

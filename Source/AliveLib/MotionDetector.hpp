@@ -23,7 +23,10 @@ class MotionDetector : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT MotionDetector* ctor_4683B0(Path_MotionDetector* pTlv, int tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
-
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override;
 private:
     EXPORT MotionDetector* vdtor_468850(signed int flags);
     EXPORT void dtor_468880();
