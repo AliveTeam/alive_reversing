@@ -1971,22 +1971,22 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                     }
 
 #if USE_SDL2_SOUND
-                    float pan = (pVagIter->field_11_pad - 64) / (127.0f / 2.0f);
+                    signed int pan = ((pVagIter->field_11_pad) * (20000 / 127)) - 5000;
 
                     if (panLeft > panRight)
                     {
-                        pan -= (1.0f - (panRight / static_cast<float>(panLeft)));
+                        pan -= static_cast<signed int>((1.0f - (panRight / static_cast<float>(panLeft))) * 10000);
                     }
                     else if (panRight > panLeft)
                     {
-                        pan += (1.0f - (panLeft / static_cast<float>(panRight)));
+                        pan += static_cast<signed int>((1.0f - (panLeft / static_cast<float>(panRight))) * 10000);
                     }
 
-                    pan = std::min(std::max(pan, -1.0f), 1.0f);
+                    pan = std::min(std::max(pan, -10000), 10000);
 
                     SND_Play_SDL(
                         &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
-                        ((volume * std::max(leftVol2, rightVol2) * vagVol * sGlobalVolumeLevel_left_BD1CDC) >> 21) / 127.0f,
+                        ((volume * std::max(leftVol2, rightVol2) * vagVol * sGlobalVolumeLevel_left_BD1CDC) >> 21),
                         pan,
                         pChannel->field_10_float, // freq
                         pChannel,

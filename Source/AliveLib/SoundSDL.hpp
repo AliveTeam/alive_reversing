@@ -59,7 +59,7 @@ public:
     int SetCurrentPosition(int position);
     int GetCurrentPosition(DWORD * readPos, DWORD * writePos);
     int GetFrequency(DWORD * freq);
-    int SetPan(int pan);
+    int SetPan(signed int pan);
     void Release();
     int GetStatus(DWORD * r);
     void Destroy();
@@ -71,11 +71,11 @@ public:
 public:
     struct AE_SDL_Voice_State
     {
-        float fVolume;
+        int iVolume;
         bool bVolDirty;
-        float fVolumeTarget;
+        int iVolumeTarget;
         float fFrequency;
-        float fPan;
+        signed int iPan;
 
         AE_SDL_Voice_Status eStatus;
         bool bLoop;
@@ -93,6 +93,6 @@ public:
     
 };
 
-int SND_Play_SDL(const SoundEntry* pSnd, float volume, float pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority);
+int SND_Play_SDL(const SoundEntry* pSnd, int volume, signed int pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority);
 
 #endif

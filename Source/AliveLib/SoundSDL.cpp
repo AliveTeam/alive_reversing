@@ -87,7 +87,14 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
                 continue;
             }
 
-            pVoice->mState.fVolume = pVoice->mState.fVolume + ((pVoice->mState.fVolumeTarget - pVoice->mState.fVolume) * 0.05f);
+            if (pVoice->mState.iVolume < pVoice->mState.iVolumeTarget)
+            {
+                pVoice->mState.iVolume++;
+            }
+            else if (pVoice->mState.iVolume > pVoice->mState.iVolumeTarget)
+            {
+                pVoice->mState.iVolume--;
+            }
 
             if (pVoice->mState.iChannels == 2)
             {
@@ -98,8 +105,8 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
                                     // TODO: Resampling for stereo
 
                 StereoSample_S16 pSample = reinterpret_cast<StereoSample_S16*>(pVoice->GetBuffer()->data())[static_cast<int>(pVoice->mState.fPlaybackPosition)];
-                pTempSoundBuffer[i].left = static_cast<signed short>(pSample.left * pVoice->mState.fVolume);
-                pTempSoundBuffer[i].right = static_cast<signed short>(pSample.right * pVoice->mState.fVolume);
+                pTempSoundBuffer[i].left = static_cast<signed short>((pSample.left * pVoice->mState.iVolume) / 127);
+                pTempSoundBuffer[i].right = static_cast<signed short>((pSample.right * pVoice->mState.iVolume) / 127);
 
                 pVoice->mState.fPlaybackPosition += pVoice->mState.fFrequency;
             }
@@ -122,29 +129,29 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
                     break;
                 }
 
-                float leftPan = 1.0f;
-                float rightPan = 1.0f;
+                signed int leftPan = 10000;
+                signed int rightPan = 10000;
 
                 if (gAudioStereo)
                 {
-                    if (pVoice->mState.fPan < 0)
+                    if (pVoice->mState.iPan < 0)
                     {
-                        rightPan = 1.0f - fabs(pVoice->mState.fPan);
+                        rightPan = 10000 - abs(pVoice->mState.iPan);
                     }
-                    else if (pVoice->mState.fPan > 0)
+                    else if (pVoice->mState.iPan > 0)
                     {
-                        leftPan = 1.0f - fabs(pVoice->mState.fPan);
+                        leftPan = 10000 - abs(pVoice->mState.iPan);
                     }
                 }
                 else
                 {
-                    float r = (leftPan + rightPan) * 0.5f;
+                    signed int r = (leftPan + rightPan) / 2;
                     leftPan = r;
                     rightPan = r;
                 }
 
-                pTempSoundBuffer[i].left = static_cast<signed short>(s * leftPan * pVoice->mState.fVolume);
-                pTempSoundBuffer[i].right = static_cast<signed short>(s * rightPan * pVoice->mState.fVolume);
+                pTempSoundBuffer[i].left = static_cast<signed short>((((s * leftPan) / 10000) * pVoice->mState.iVolume) / 127);
+                pTempSoundBuffer[i].right = static_cast<signed short>((((s * rightPan) / 10000) * pVoice->mState.iVolume) / 127);
 
                 pVoice->mState.fPlaybackPosition += pVoice->mState.fFrequency;
             }
@@ -273,10 +280,10 @@ void AE_SDL_AudioShutdown()
 
 AE_SDL_Voice::AE_SDL_Voice()
 {
-    mState.fVolume = 0.0f;
-    mState.fVolumeTarget = 1.0f;
+    mState.iVolume = 0;
+    mState.iVolumeTarget = 127;
     mState.bVolDirty = false;
-    mState.fPan = 0;
+    mState.iPan = 0;
     mState.fFrequency = 1.0f;
     mState.bIsReleased = false;
     mState.bLoop = false;
@@ -290,11 +297,11 @@ AE_SDL_Voice::AE_SDL_Voice()
 
 int AE_SDL_Voice::SetVolume(int volume)
 {
-    mState.fVolumeTarget = volume / 127.0f;
+    mState.iVolumeTarget = volume;
 
     if (!mState.bVolDirty)
     {
-        mState.fVolume = mState.fVolumeTarget;
+        mState.iVolume = mState.iVolumeTarget;
     }
 
     mState.bVolDirty = true;
@@ -328,9 +335,9 @@ int AE_SDL_Voice::GetFrequency(DWORD * freq)
     return 0;
 }
 
-int AE_SDL_Voice::SetPan(int pan)
+int AE_SDL_Voice::SetPan(signed int pan)
 {
-    mState.fPan = pan / 10000.0f;
+    mState.iPan = pan;
     return 0;
 }
 
@@ -543,7 +550,7 @@ EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int /*sampleRate*/, int /*bit
     return 0;
 }
 
-int SND_Play_SDL(const SoundEntry* pSnd, float volume, float pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
+int SND_Play_SDL(const SoundEntry* pSnd, int volume, signed int pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
 {
     if (!pSnd)
     {
@@ -589,9 +596,8 @@ int SND_Play_SDL(const SoundEntry* pSnd, float volume, float pan, float freq, MI
     }
 
     pBufferToUse->SetFrequency(freqHz);
-    pBufferToUse->SetVolume(static_cast<int>(volume * 127));
-
-    pBufferToUse->mState.fPan = pan;
+    pBufferToUse->SetVolume(volume);
+    pBufferToUse->SetPan(pan);
 
     if (playFlags & DSBPLAY_LOOPING)
     {
