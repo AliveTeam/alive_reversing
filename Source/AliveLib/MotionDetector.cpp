@@ -8,6 +8,10 @@
 #include "BaseAliveGameObject.hpp"
 #include "DDCheat.hpp"
 #include "Abe.hpp"
+#include "Events.hpp"
+#include "Greeter.hpp"
+#include "Sfx.hpp"
+#include "Alarm.hpp"
 #include "Function.hpp"
 
 class MotionDetectorLaser : public BaseAnimatedWithPhysicsGameObject
@@ -103,12 +107,12 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
             field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
         }
 
-        field_174_speed_x256 = (unsigned __int16)pTlv->field_16_speed_x256 << 8;
+        field_174_speed = FP_FromRaw((unsigned __int16)pTlv->field_16_speed_x256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
         if (pTlv->field_18_start_on)
         {
-            field_100_state = 2;
+            field_100_state = States::eState_2_Go_Left;
             pLaser = alive_new<MotionDetectorLaser>();
             if (pLaser)
             {
@@ -117,7 +121,7 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
         }
         else
         {
-            field_100_state = 0;
+            field_100_state = States::eState_0_Go_Right;
             pLaser = alive_new<MotionDetectorLaser>();
             if (pLaser)
             {
@@ -165,8 +169,8 @@ MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvIn
     field_B8_xpos = pOwner->field_B8_xpos;
     field_BC_ypos = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
 
-    field_174_speed_x256 = 0x20000;
-    field_100_state = 0;
+    field_174_speed = FP_FromInteger(2);
+    field_100_state = States::eState_0_Go_Right;
 
     auto pLaserMem = alive_new<MotionDetectorLaser>();
     if (pLaserMem)
@@ -328,4 +332,183 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
     }
 
     return 1;
+}
+
+void MotionDetector::vUpdate_468A90()
+{
+    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find_449CF0(field_F8_laser_id));
+    Greeter* pOwner = static_cast<Greeter*>(sObjectIds_5C1B70.Find_449CF0(field_FC_owner_id));
+
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (!sNum_CamSwappers_5C1B66)
+    {
+        if (!pOwner)
+        {
+            // A laser not part of greeter and disabled, do nothing.
+            if (SwitchStates_Get_466020(field_108_disable_id))
+            {
+                pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                return;
+            }
+            pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+        }
+
+        PSX_RECT bLaserRect = {};
+        pLaser->vGetBoundingRect_424FD0(&bLaserRect, 1);
+
+        field_178_bObjectInLaser = 0;
+
+        for (int idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+        {
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_4_typeId != Types::eTimedMine_10 && (pObj->field_4_typeId == Types::eType_Abe_69 || pObj->field_4_typeId == Types::eMudokon_110 || !pOwner))
+            {
+                PSX_RECT objRect = {};
+                pObj->vGetBoundingRect_424FD0(&objRect, 1);
+
+                // Can't use PSX_Rects_overlap_no_adjustment because its checking <= and adjusting x/y
+                if (bLaserRect.x <= (objRect.w - 8)
+                    && bLaserRect.w >= (objRect.x + 8)
+                    && bLaserRect.h >= objRect.y
+                    && bLaserRect.y <= objRect.h
+                    && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+                {
+                    if (pObj == sActiveHero_5C1B68)
+                    {
+                        if (sGnFrame_5C1B84 % 2)
+                        {
+                            SFX_Play_46FA90(50, 45);
+                        }
+                    }
+
+                    if (IsInLaser_468980(pObj, pOwner))
+                    {
+                        field_178_bObjectInLaser = 1;
+                        
+                        if (pOwner == nullptr)
+                        {
+                            // Trigger alarms if its not already blasting
+                            if (alarmInstanceCount_5C1BB4 == 0)
+                            {
+                                auto pAlarmMem = alive_new<Alarm>();
+                                if (pAlarmMem)
+                                {
+                                    pAlarmMem->ctor_4091F0(field_10C_alarm_ticks, field_10A_alarm_id, 0, 39);
+                                }
+
+                                if (pObj == sActiveHero_5C1B68 && pObj->field_10C_health > FP_FromInteger(0))
+                                {
+                                    Abe_SFX_457EC0(14, 0, 0, 0);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Tell greeter to KILL
+                            if (pLaser->field_B8_xpos <= pOwner->field_B8_xpos)
+                            {
+                                pOwner->field_13E_targetOnLeft = 1;
+                            }
+                            else
+                            {
+                                pOwner->field_140_targetOnRight = 1;
+                            }
+
+                            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                            pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (pOwner)
+        {
+            field_B8_xpos = pOwner->field_B8_xpos;
+            field_BC_ypos = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
+
+            pLaser->field_B8_xpos += pOwner->field_C4_velx;
+
+            field_114_x1_fp = pOwner->field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(75));
+            field_11C_y1_fp = (field_CC_sprite_scale * FP_FromInteger(75)) + pOwner->field_B8_xpos;
+            field_118_x2_fp = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
+            field_120_y2_fp = pOwner->field_BC_ypos;
+
+            if (pOwner->field_13C_state == Greeter::States::eState_0 || pOwner->field_13C_state == Greeter::States::eState_1)
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                pLaser->field_BC_ypos = pOwner->field_BC_ypos;
+            }
+
+            if (pOwner->field_13C_state == Greeter::States::eState_4 || pOwner->field_13C_state == Greeter::States::eState_6)
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            }
+        }
+
+        switch (field_100_state)
+        {
+        case States::eState_0_Go_Right:
+            if (pLaser->field_B8_xpos >= field_11C_y1_fp)
+            {
+                field_100_state = States::eState_1_Wait_Then_Go_Left;
+                field_104_timer = sGnFrame_5C1B84 + 15;
+                const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_B8_xpos,
+                    field_BC_ypos);
+                SFX_Play_46FC20(52, 0, soundDirection, field_CC_sprite_scale);
+            }
+            else
+            {
+                pLaser->field_B8_xpos += field_174_speed;
+            }
+            break;
+
+        case States::eState_1_Wait_Then_Go_Left:
+            if (static_cast<int>(sGnFrame_5C1B84) > field_104_timer)
+            {
+                field_100_state = States::eState_2_Go_Left;
+            }
+            break;
+
+        case States::eState_2_Go_Left:
+            if (pLaser->field_B8_xpos <= field_114_x1_fp)
+            {
+                field_100_state = States::eState_3_Wait_Then_Go_Right;
+                field_104_timer = sGnFrame_5C1B84 + 15;
+                const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_B8_xpos,
+                    field_BC_ypos);
+                SFX_Play_46FC20(52, 0, soundDirection, field_CC_sprite_scale);
+            }
+            else
+            {
+                pLaser->field_B8_xpos -= field_174_speed;
+            }
+            break;
+
+        case States::eState_3_Wait_Then_Go_Right:
+            if (static_cast<int>(sGnFrame_5C1B84) > field_104_timer)
+            {
+                field_100_state = States::eState_0_Go_Right;
+            }
+            break;
+        }
+    }
 }

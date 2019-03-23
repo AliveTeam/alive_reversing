@@ -90,6 +90,7 @@ private:
     __int16 field_132;
     FP field_134_speed;
     Path_TLV* field_138_pTlv;
+public:
     enum class States : __int16
     {
         eState_0,
@@ -102,8 +103,9 @@ private:
         eState_7
     };
     States field_13C_state;
-    __int16 field_13E;
-    __int16 field_140;
+    __int16 field_13E_targetOnLeft;
+    __int16 field_140_targetOnRight;
+private:
     __int16 field_142;
 };
 ALIVE_ASSERT_SIZEOF(Greeter, 0x144);

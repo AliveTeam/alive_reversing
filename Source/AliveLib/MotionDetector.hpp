@@ -26,21 +26,28 @@ public:
 
 private:
     EXPORT MotionDetector* vdtor_468850(signed int flags);
-
     EXPORT void dtor_468880();
-
     EXPORT void vScreenChanged_469460();
-
     EXPORT void vRender_469120(int** pOt);
-
     EXPORT signed __int16 IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
+    EXPORT void vUpdate_468A90();
 
 private:
     int field_E4_not_used[4];
     int field_F4_tlvInfo;
     int field_F8_laser_id;
     int field_FC_owner_id;
-    __int16 field_100_state;
+
+    enum class States : __int16
+    {
+        eState_0_Go_Right = 0,
+        eState_1_Wait_Then_Go_Left = 1,
+        eState_2_Go_Left = 2,
+        eState_3_Wait_Then_Go_Right = 3
+    };
+
+    States field_100_state;
+
     __int16 field_102_pad;
     int field_104_timer;
     __int16 field_108_disable_id;
@@ -55,7 +62,7 @@ private:
     FP field_120_y2_fp;
     Poly_F3 field_124_prims[2];
     Prim_SetTPage field_154_tPage[2];
-    int field_174_speed_x256;
+    FP field_174_speed;
     __int16 field_178_bObjectInLaser;
     __int16 field_17A_pad;
 };

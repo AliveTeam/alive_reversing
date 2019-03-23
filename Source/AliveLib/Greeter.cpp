@@ -83,8 +83,8 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
         field_11C_motionDetectorId = pMotionDetctor->field_8_object_id;
     }
 
-    field_140 = 0;
-    field_13E = 0;
+    field_140_targetOnRight = 0;
+    field_13E_targetOnLeft = 0;
     
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(70, 210);
 
@@ -236,8 +236,8 @@ void Greeter::BounceBackFromShot_447B10()
         field_C4_velx = FP_FromInteger(2);
     }
 
-    field_13E = 0;
-    field_140 = 0;
+    field_13E_targetOnLeft = 0;
+    field_140_targetOnRight = 0;
 
     field_20_animation.Set_Animation_Data_409C80(50236, nullptr);
 
@@ -455,8 +455,8 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
     RandomishSpeak_447A70(3);
 
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
-    field_13E = 0;
-    field_140 = 0;
+    field_13E_targetOnLeft = 0;
+    field_140_targetOnRight = 0;
 }
 
 void Greeter::RandomishSpeak_447A70(__int16 effect)
@@ -554,12 +554,12 @@ void Greeter::vUpdate_4469B0()
         if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) == 0)
         {
             field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(3));
-            if (!field_13E == 0)
+            if (!field_13E_targetOnLeft == 0)
             {
                 RandomishSpeak_447A70(0);
                 field_13C_state = States::eState_3;
             }
-            else if (field_140)
+            else if (field_140_targetOnRight)
             {
                 ChangeDirection_447BD0();
                 field_13C_state = States::eState_6;
@@ -568,12 +568,12 @@ void Greeter::vUpdate_4469B0()
         else
         {
             field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(3));
-            if (!field_140 == 0)
+            if (!field_140_targetOnRight == 0)
             {
                 RandomishSpeak_447A70(0);
                 field_13C_state = States::eState_3;
             }
-            else if (field_13E)
+            else if (field_13E_targetOnLeft)
             {
                 ChangeDirection_447BD0();
                 field_13C_state = States::eState_6;
@@ -592,8 +592,8 @@ void Greeter::vUpdate_4469B0()
             field_13C_state = States::eState_0;
             field_20_animation.Set_Animation_Data_409C80(50028, 0);
             field_C8_vely = FP_FromInteger(0);
-            field_13E = 0;
-            field_140 = 0;
+            field_13E_targetOnLeft = 0;
+            field_140_targetOnRight = 0;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
