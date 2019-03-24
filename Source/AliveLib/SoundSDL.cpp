@@ -13,6 +13,7 @@
 const int gSoundBufferSamples = 512;
 const int gVoiceArraySize = 1024;
 static int gCurrentSoundBufferSize = 0;
+const int gMixVolume = 127;
 
 static std::vector<AE_SDL_Voice*> sAE_ActiveVoices;
 static std::vector<AE_SDL_Voice*> sAE_VoiceBuffer;
@@ -173,11 +174,11 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
 
         if (reverbPass)
         {
-            SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(pTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), SDL_MIX_MAXVOLUME);
+            SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(pTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
         }
         else
         {
-            SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pNoReverbBuffer), reinterpret_cast<Uint8 *>(pTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), SDL_MIX_MAXVOLUME);
+            SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pNoReverbBuffer), reinterpret_cast<Uint8 *>(pTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
         }
     }
 
@@ -204,11 +205,11 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
 
     if (gReverbEnabled)
     {
-        Reverb_Mix(pSampleBuffer, AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), SDL_MIX_MAXVOLUME);
+        Reverb_Mix(pSampleBuffer, AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), gMixVolume);
     }
 
     // Mix our no reverb buffer
-    SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(pNoReverbBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), SDL_MIX_MAXVOLUME);
+    SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(pNoReverbBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), gMixVolume);
 
     //delete[] tempBuffer;
     //delete[] noReverbBuffer;
