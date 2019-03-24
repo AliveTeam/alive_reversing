@@ -76,6 +76,7 @@ public:
         int iVolumeTarget;
         float fFrequency;
         signed int iPan;
+        Uint64 iPlayTime;
 
         AE_SDL_Voice_Status eStatus;
         bool bLoop;

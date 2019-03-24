@@ -10,7 +10,7 @@
 #include "Reverb.hpp"
 #include "Sys.hpp"
 
-const int gSoundBufferSamples = 512;
+const int gSoundBufferSamples = 1024;
 const int gVoiceArraySize = 1024;
 static int gCurrentSoundBufferSize = 0;
 const int gMixVolume = 127;
@@ -25,6 +25,8 @@ static StereoSample_S16 * pNoReverbBuffer;
 
 void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCount)
 {
+    DWORD startSample = (SYS_GetTicks() * 44100) / 1000;
+
     // Get all our buffered Voices and push them into the main vector.
     {
         const size_t voiceBufferSize = sAE_VoiceBuffer.size();
@@ -81,6 +83,11 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
         for (int i = 0; i < sampleBufferCount && pVoice->pBuffer; i++)
         {
             if (!pVoice->pBuffer || pVoice->mState.eStatus != AE_SDL_Voice_Status::Playing || pVoice->mState.iSampleCount == 0)
+            {
+                continue;
+            }
+
+            if (pVoice->mState.iPlayTime > startSample + i)
             {
                 continue;
             }
@@ -216,6 +223,16 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
 {
     memset(stream, 0, len);
     AE_SDL_Audio_Generate(reinterpret_cast<StereoSample_S16 *>(stream), len / sizeof(StereoSample_S16));
+
+    // Frag code    
+    /*const int lenStereo = len / sizeof(StereoSample_S16);
+    const int fragSize = 128;
+    const int fragments = lenStereo / fragSize;
+
+    for (int i = 0; i < fragments; i++)
+    {
+        AE_SDL_Audio_Generate(reinterpret_cast<StereoSample_S16 *>(stream + (i * fragSize * sizeof(StereoSample_S16))), fragSize);
+    }*/
 }
 
 signed int AE_SDL_AudioInit()
@@ -286,6 +303,7 @@ AE_SDL_Voice::AE_SDL_Voice()
     mState.iVolume = 0;
     mState.iVolumeTarget = 127;
     mState.bVolDirty = false;
+    mState.iPlayTime = 0;
     mState.iPan = 0;
     mState.fFrequency = 1.0f;
     mState.bIsReleased = false;
@@ -385,6 +403,9 @@ int AE_SDL_Voice::Play(int /*reserved*/, int /*priority*/, int flags)
     {
         mState.bLoop = true;
     }
+
+    mState.iPlayTime = ((SYS_GetTicks() * 44100) / 1000) + gSoundBufferSamples;
+
     return 0;
 }
 
