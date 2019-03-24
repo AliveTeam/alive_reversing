@@ -58,19 +58,16 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
         pScreenShake->ctor_4ACF70(1, 0);
     }
 
-    if (word_5CC88C <= 3846)
+    ParticleBurst * pParticleBurst2 = alive_new<ParticleBurst>();
+    if (pParticleBurst2)
     {
-        ParticleBurst * pParticleBurst = alive_new<ParticleBurst>();
-        if (pParticleBurst)
-        {
-            pParticleBurst->ctor_41CF50(
-                this->field_B8_xpos,
-                this->field_BC_ypos,
-                0x23u,
-                this->field_f4_scale,
-                BurstType::eFallingRocks_0,
-                13);
-        }
+        pParticleBurst2->ctor_41CF50(
+            this->field_B8_xpos,
+            this->field_BC_ypos,
+            0x23u,
+            this->field_f4_scale,
+            BurstType::eFallingRocks_0,
+            13);
     }
 
     PSX_RECT damageRect = {
@@ -92,9 +89,6 @@ BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
 void BaseBomb::vUpdate_424180()
 {
     PSX_RECT Rect;
-    Flash * pFlash1 = nullptr;
-    Flash * pFlash2 = nullptr;
-    Flash * pFlash3 = nullptr;
 
     Event_Broadcast_422BC0(kEventShooting, this);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
@@ -128,26 +122,24 @@ void BaseBomb::vUpdate_424180()
 
         break;
     case 3:
-        if (word_5CC88C <= 3846)
+    {
+        ParticleBurst * pParticleBurst = alive_new<ParticleBurst>();
+        if (pParticleBurst)
         {
-            ParticleBurst * pParticleBurst = alive_new<ParticleBurst>();
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    0x14u,
-                    field_CC_sprite_scale,
-                    BurstType::eBigRedSparks_3,
-                    13);
-            }
+            pParticleBurst->ctor_41CF50(
+                field_B8_xpos,
+                field_BC_ypos,
+                0x14u,
+                field_CC_sprite_scale,
+                BurstType::eBigRedSparks_3,
+                13);
         }
 
-        pFlash3 = alive_new<Flash>();
+        Flash * pFlash = alive_new<Flash>();
 
-        if (pFlash3)
+        if (pFlash)
         {
-            pFlash3->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 3u, 1);
+            pFlash->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 3u, 1);
         }
 
         Rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
@@ -158,45 +150,46 @@ void BaseBomb::vUpdate_424180()
         DealDamageRect_4247A0(&Rect);
 
         break;
+    }
     case 4:
-        pFlash1 = alive_new<Flash>();
+    {
+        Flash * pFlash = alive_new<Flash>();
 
-        if (pFlash1)
+        if (pFlash)
         {
-            pFlash1->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 1u, 1);
+            pFlash->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 1u, 1);
         }
 
         break;
-
+    }
     case 7:
-        if (word_5CC88C <= 3846)
-        {
-            ParticleBurst * pParticleBurst = alive_new<ParticleBurst>();
+    {
+        ParticleBurst * pParticleBurst = alive_new<ParticleBurst>();
 
-            if (pParticleBurst)
-            {
-                pParticleBurst->ctor_41CF50(
-                    field_B8_xpos,
-                    field_BC_ypos,
-                    0x14u,
-                    field_CC_sprite_scale,
-                    BurstType::eBigRedSparks_3,
-                    13);
-            }
+        if (pParticleBurst)
+        {
+            pParticleBurst->ctor_41CF50(
+                field_B8_xpos,
+                field_BC_ypos,
+                0x14u,
+                field_CC_sprite_scale,
+                BurstType::eBigRedSparks_3,
+                13);
         }
 
-        pFlash2 = alive_new<Flash>();
+        Flash * pFlash = alive_new<Flash>();
 
-        if (pFlash2)
+        if (pFlash)
         {
-            pFlash2->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 3u, 1);
+            pFlash->ctor_428570(39, 0xFFu, 0xFFu, 0xFFu, 1, 3u, 1);
         }
 
         break;
+    }
     default:
         break;
     }
-    if (field_20_animation.field_92_current_frame == 3 && word_5CC88C <= 3846)
+    if (field_20_animation.field_92_current_frame == 3)
     {
         BYTE** pResourceAnim1 = Add_Resource_4DC130(
             ResourceManager::Resource_Animation,
@@ -222,8 +215,9 @@ void BaseBomb::vUpdate_424180()
         }
     }
 
-    if (field_6_flags.Get(Options::eBit11))
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
+        // Time to die
         field_6_flags.Set(Options::eDead);
     }
 }
