@@ -239,6 +239,11 @@ signed int AE_SDL_AudioInit()
         }
         else
         {
+            printf("-----------------------------\n");
+            printf("Audio Device opened, got specs:\n");
+            printf("Channels: %i\nFormat: %X\nFreq: %i\nPadding: %i\nSamples: %i\nSize: %i\nSilence: %i\n",
+                gAudioDeviceSpec.channels, gAudioDeviceSpec.format, gAudioDeviceSpec.freq, gAudioDeviceSpec.padding, gAudioDeviceSpec.samples, gAudioDeviceSpec.size, gAudioDeviceSpec.silence);
+            printf("-----------------------------\n");
             // Reserve in our vector to prevent allocations
             sAE_ActiveVoices.reserve(gVoiceArraySize);
             sAE_VoiceBuffer.reserve(gVoiceArraySize);
