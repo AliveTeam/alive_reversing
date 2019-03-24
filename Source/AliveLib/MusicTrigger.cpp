@@ -34,7 +34,7 @@ EXPORT MusicTrigger* MusicTrigger::ctor_47FF10(__int16 type, __int16 enabledBy, 
 EXPORT void MusicTrigger::Init_47FFB0(__int16 type, __int16 enabledBy, __int16 delay)
 {
     field_24_flags &= ~7u;
-    field_4_typeId = BaseGameObject::Types::eMusicTrigger_94;
+    field_4_typeId = Types::eMusicTrigger_94;
     field_28_counter = 0;
 
     switch (type)

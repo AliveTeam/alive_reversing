@@ -141,6 +141,18 @@ BaseGameObject* ObjectIds::Find_449CF0(TObjectId_KeyType idToFind)
 }
 
 #include "BaseGameObject.hpp"
+
+BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, Types type)
+{
+    BaseGameObject* pItem = Find_449CF0(idToFind);
+    if (pItem && pItem->field_4_typeId != type)
+    {
+        LOG_ERROR("Expected type " << static_cast<int>(type) << " for object with id " << idToFind << " but got " << static_cast<int>(pItem->field_4_typeId));
+        ALIVE_FATAL("Wrong type!");
+    }
+    return pItem;
+}
+
 #include <gmock/gmock.h>
 
 namespace Test
@@ -157,24 +169,26 @@ namespace Test
         ids.ctor_449AE0(101);
 
         FakeGameObject p;
+        p.field_4_typeId = Types::eAlarm_1;
         ids.Insert_449C10(1, &p);
 
-        ASSERT_EQ(&p, ids.Find_449CF0(1));
+        ASSERT_EQ(&p, ids.Find(1, Types::eAlarm_1));
 
         FakeGameObject p2;
+        p2.field_4_typeId = Types::eAlarm_1;
         ids.Insert_449C10(1, &p2);
 
-        ASSERT_EQ(&p2, ids.Find_449CF0(1));
+        ASSERT_EQ(&p2, ids.Find(1, Types::eAlarm_1));
 
         ids.Remove_449C60(1);
 
-        ASSERT_EQ(&p, ids.Find_449CF0(1));
+        ASSERT_EQ(&p, ids.Find(1, Types::eAlarm_1));
 
         ids.Remove_449C60(1);
 
-        ASSERT_EQ(nullptr, ids.Find_449CF0(1));
+        ASSERT_EQ(nullptr, ids.Find(1, Types::eAlarm_1));
 
-        ASSERT_EQ(nullptr, ids.Find_449CF0(9999));
+        ASSERT_EQ(nullptr, ids.Find(9999, Types::eAlarm_1));
 
         for (int i = 0; i < 3000; i++)
         {

@@ -16,6 +16,9 @@ struct ObjectId_Record
 };
 ALIVE_ASSERT_SIZEOF(ObjectId_Record, 0xC);
 
+class BaseGameObject;
+enum class Types : __int16;
+
 class ObjectIds
 {
 public:
@@ -26,7 +29,12 @@ public:
     EXPORT ObjectId_Record* Find_By_Id_449BC0(TObjectId_KeyType idToFind, ObjectId_Record** ppLastMatch);
     EXPORT void Insert_449C10(TObjectId_KeyType objCount, BaseGameObject* pGameObj);
     EXPORT signed __int16 Remove_449C60(TObjectId_KeyType idToRemove);
+
+    // Use the "checked" Find() so the types are verified where possible (i.e its to a specific single derived type
     EXPORT BaseGameObject* Find_449CF0(TObjectId_KeyType idToFind);
+public:
+    BaseGameObject* Find(TObjectId_KeyType idToFind, Types type);
+
 private:
     unsigned int field_0_buffer_size;
     ObjectId_Record** field_4_pBuffer;

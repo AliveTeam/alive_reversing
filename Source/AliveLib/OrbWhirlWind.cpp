@@ -11,11 +11,12 @@ BaseGameObject* OrbWhirlWind::VDestructor(signed int flags)
 
 OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bUnknown)
 {
+    field_4_typeId = Types::eNone_0;
+
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
 
     SetVTable(this, 0x5480B8); // vTbl_OrbWhirlWind_5480B8
 
-    field_4_typeId = BaseGameObject::Types::eNone_0;
 
     field_6C_xpos = xpos;
     field_70_ypos = ypos;

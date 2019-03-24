@@ -55,7 +55,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
     SetVTable(this, 0x5449BC); // vTbl_Door_5449BC
-    field_4_typeId = BaseGameObject::Types::eDoor_33;
+    field_4_typeId = Types::eDoor_33;
 
     // HACK/test
     //pTlvData->field_20_start_state = 1;

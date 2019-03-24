@@ -508,7 +508,7 @@ BaseAliveGameObject* Greeter::GetMudToZap_447690()
             break;
         }
 
-        if (pObj->field_4_typeId == BaseGameObject::Types::eMudokon_110)
+        if (pObj->field_4_typeId == Types::eMudokon_110)
         {
             PSX_RECT bRect = {};
             pObj->vGetBoundingRect_424FD0(&bRect, 1);

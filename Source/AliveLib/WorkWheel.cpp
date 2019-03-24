@@ -49,7 +49,7 @@ WorkWheel* WorkWheel::ctor_4E35D0(Path_Wheel* pTlv, int tlvInfo)
 
     SetVTable(this, 0x548064); // vTbl_WorkWheel_548064
 
-    field_4_typeId = BaseGameObject::Types::eWheel_148;
+    field_4_typeId = Types::eWheel_148;
 
     field_C_objectId = tlvInfo;
 

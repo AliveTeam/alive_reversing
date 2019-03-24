@@ -337,3 +337,4 @@ ALIVE_VAR_EXTERN(char, sEnableCheatFMV_5C1BEC);
 ALIVE_VAR_EXTERN(PerPathMudStats, sSavedKilledMudsPerPath_5C1B50);
 ALIVE_VAR_EXTERN(byte, byte_5C1B64);
 ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
+ALIVE_VAR_EXTERN(int, sGameStartedFrame_5C1B88);

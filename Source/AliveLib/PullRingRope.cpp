@@ -142,7 +142,7 @@ void PullRingRope::dtor_49B660()
 
     Path::TLV_Reset_4DB8E0(field_110_tlvInfo, -1, 0, 0);
     
-    BaseGameObject* pRope = sObjectIds_5C1B70.Find_449CF0(field_F8_rope_id);
+    BaseGameObject* pRope = sObjectIds_5C1B70.Find(field_F8_rope_id, Types::ePullRope_103);
     if (pRope)
     {
         pRope->field_6_flags.Set(BaseGameObject::eDead);
@@ -154,7 +154,7 @@ void PullRingRope::dtor_49B660()
 void PullRingRope::vUpdate_49B720()
 {
     BaseAliveGameObject* pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_FC_ring_puller_id));
-    Rope* pRope = static_cast<Rope*>(sObjectIds_5C1B70.Find_449CF0(field_F8_rope_id));
+    Rope* pRope = static_cast<Rope*>(sObjectIds_5C1B70.Find(field_F8_rope_id, Types::ePullRope_103));
     
     if (Event_Get_422C00(kEventDeathReset))
     {

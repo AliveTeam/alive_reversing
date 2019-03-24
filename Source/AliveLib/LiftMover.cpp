@@ -72,7 +72,7 @@ int LiftMover::VGetSaveState(BYTE* pSaveBuffer)
 
 void LiftMover::vUpdate_40CE20()
 {
-    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_28_lift_id));
+    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find(field_28_lift_id, Types::eLiftPoint_78));
     if (field_32_bMoveInProgress)
     {
         pLift = GetLiftPoint_40D0F0();

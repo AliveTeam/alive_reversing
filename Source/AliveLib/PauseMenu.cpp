@@ -511,7 +511,7 @@ void PauseMenu::Init_491760()
     }
 }
 
-EXPORT void CC sub_4C9870()
+EXPORT void CC RestartPath_4C9870()
 {
     NOT_IMPLEMENTED();
 }
@@ -748,7 +748,7 @@ void DestroyAliveObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != BaseGameObject::Types::eType_Abe_69)
+        if (pObj->field_4_typeId != Types::eType_Abe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead);
         }
@@ -767,7 +767,7 @@ void DestroyAllObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != BaseGameObject::Types::eType_Abe_69)
+        if (pObj->field_4_typeId != Types::eType_Abe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead);
         }
@@ -936,15 +936,15 @@ void PauseMenu::Page_Main_Update_4903E0()
     {
         if (++field_134_Index_Main > 7)
         {
-            field_134_Index_Main = 0;
+            field_134_Index_Main = MainPages::ePage_Continue_0;
         }
         SFX_Play_46FBA0(0x34u, 45, 400);
     }
     if (inputHeld & eUp)
     {
-        if (--field_134_Index_Main < 0)
+        if (--field_134_Index_Main < MainPages::ePage_Continue_0)
         {
-            field_134_Index_Main = 7;
+            field_134_Index_Main = MainPages::ePage_Quit_7;
         }
         SFX_Play_46FBA0(0x34u, 45, 400);
     }
@@ -961,18 +961,20 @@ void PauseMenu::Page_Main_Update_4903E0()
     {
         switch (field_134_Index_Main)
         {
-        case 0:
+        case MainPages::ePage_Continue_0:
             word12C_flags &= 0xFFFEu;
             SFX_Play_46FBA0(0x11u, 40, 2400);
             SND_Restart_4CB0E0();
             return;
-        case 1:
+
+        case MainPages::ePage_QuickSave_1:
             word12C_flags &= 0xFFFEu;
             SFX_Play_46FBA0(0x11u, 40, 2400);
             SND_Restart_4CB0E0();
             Quicksave_4C90D0();
             return;
-        case 2:
+
+        case MainPages::ePage_2:
 #if DEVELOPER_MODE
             devMenu.Activate();
 #else
@@ -981,11 +983,13 @@ void PauseMenu::Page_Main_Update_4903E0()
             field_138 = 0;
 #endif
             break;
-        case 3:
+
+        case MainPages::ePage_Status_3:
             field_136 = 3;
             memcpy(&field_144_active_menu, &sPM_Page_Status_5465F8, sizeof(field_144_active_menu));
             break;
-        case 4:
+
+        case MainPages::ePage_Save_4:
             field_136 = 5;
             memcpy(&field_144_active_menu, &sPM_Page_Save_5465C8, sizeof(field_144_active_menu));
             SFX_Play_46FA90(0x54u, 90);
@@ -1004,7 +1008,8 @@ void PauseMenu::Page_Main_Update_4903E0()
             strcat(sSaveString_5C931C, "\x03");
             Input_DisableInput_4EDDC0();
             return;
-        case 5:
+
+        case MainPages::ePage_Load_5:
             Quicksave_FindSaves_4D4150();
             field_136 = 4;
             memcpy(&field_144_active_menu, &sPM_Page_Load_546628, sizeof(field_144_active_menu));
@@ -1015,9 +1020,10 @@ void PauseMenu::Page_Main_Update_4903E0()
             field_13E = -1;
             field_13A = 0;
             return;
-        case 6:
+
+        case MainPages::ePage_RestartPath_6:
             DestroyObjects_4A1F20();
-            sub_4C9870();
+            RestartPath_4C9870();
             sSwitchStates_5C1A28 = sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states;
             Abe::CreateFromSaveState_44D4F0(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
             Quicksave_ReadWorldInfo_4C9490(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
@@ -1047,11 +1053,13 @@ void PauseMenu::Page_Main_Update_4903E0()
             word12C_flags &= 0xFFFEu;
             SFX_Play_46FBA0(0x11u, 40, 3400);
             SND_Restart_4CB0E0();
-        case 7:
+
+        case MainPages::ePage_Quit_7:
             field_136 = 2;
             memcpy(&field_144_active_menu, &sPM_Page_ReallyQuit_5465E0, sizeof(field_144_active_menu));
-            field_134_Index_Main = 0;
+            field_134_Index_Main = MainPages::ePage_Continue_0;
             break;
+
         default:
             return;
         }
@@ -1347,7 +1355,7 @@ void PauseMenu::Update_48FD80()
                 SFX_Play_46FBA0(0x11u, 40, 2400);
                 sub_4A2B70();
                 field_6_flags.Set(BaseGameObject::eDrawable);
-                field_134_Index_Main = 0;
+                field_134_Index_Main = MainPages::ePage_Continue_0;
                 field_136 = 0;
                 word12C_flags = word12C_flags & ~8 | 1;
                 field_12E_selected_glow = 40;

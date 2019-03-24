@@ -10,7 +10,7 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(Abe* pAbe)
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x545A60);
 
-    field_4_typeId = BaseGameObject::Types::eInvisibleEffect_75;
+    field_4_typeId = Types::eInvisibleEffect_75;
 
     field_44_objId = pAbe->field_8_object_id;
 

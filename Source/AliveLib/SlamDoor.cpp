@@ -62,7 +62,7 @@ TintEntry sSlamDoorTints_5603B0[18] =
 
 struct Quicksave_Obj_SlamDoor
 {
-    BaseGameObject::Types field_0_id;
+    Types field_0_id;
     TlvItemInfoUnion field_4_tlv;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);

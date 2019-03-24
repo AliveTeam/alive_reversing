@@ -259,7 +259,7 @@ void MotionDetector::vRender_469120(int** pOt)
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find_449CF0(field_F8_laser_id));
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find(field_F8_laser_id, Types::eRedLaser_111));
         PSX_RECT bLaserRect = {};
         pLaser->vGetBoundingRect_424FD0(&bLaserRect, 1);
 
@@ -304,7 +304,7 @@ void MotionDetector::vRender_469120(int** pOt)
 
 signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
 {
-    if (pWho->field_4_typeId == BaseGameObject::Types::eType_Abe_69)
+    if (pWho->field_4_typeId == Types::eType_Abe_69)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
         if (pWho->field_106_current_state == eAbeStates::State_0_Idle_44EEB0 ||
@@ -319,7 +319,7 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
             return 0;
         }
     }
-    else if (pWho->field_4_typeId == BaseGameObject::Types::eMudokon_110)
+    else if (pWho->field_4_typeId == Types::eMudokon_110)
     {
         // For some reason when ddcheat is on muds are also invincible to lasers?
         if (sDDCheat_FlyingEnabled_5C2C08)
@@ -345,7 +345,7 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
         return 0;
     }
 
-    if (pOwner && (pWho->field_4_typeId != BaseGameObject::Types::eMudokon_110 && pWho->field_4_typeId != BaseGameObject::Types::eType_Abe_69))
+    if (pOwner && (pWho->field_4_typeId != Types::eMudokon_110 && pWho->field_4_typeId != Types::eType_Abe_69))
     {
         // If there is an owner (such as a greeter) then only muds and abe can set off the beam?
         return 0;
@@ -356,8 +356,8 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
 
 void MotionDetector::vUpdate_468A90()
 {
-    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find_449CF0(field_F8_laser_id));
-    Greeter* pOwner = static_cast<Greeter*>(sObjectIds_5C1B70.Find_449CF0(field_FC_owner_id));
+    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find(field_F8_laser_id, Types::eRedLaser_111));
+    Greeter* pOwner = static_cast<Greeter*>(sObjectIds_5C1B70.Find(field_FC_owner_id, Types::eGreeter_64));
 
     if (Event_Get_422C00(kEventDeathReset))
     {

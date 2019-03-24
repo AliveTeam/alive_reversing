@@ -1212,11 +1212,17 @@ EXPORT void CC Input_45FDF0(float x, float y, int a3, bool cap_has_r)
 
 EXPORT void Input_InitJoyStick_460080()
 {
+    // Added because sometimes joyGetDevCapsA hangs on Win10 1809.
+    // Not too worried about this given all of this will be replaced with SDL2 at some point.
+    TRACE_ENTRYEXIT;
+
     sJoystickEnabled_5C2EF4 = false;
 #if _WIN32
-    for (DWORD i = 0; i < joyGetNumDevs(); i++)
+    const DWORD count = joyGetNumDevs();
+    for (DWORD i = 0; i < count; i++)
     {
-        if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, 0x194u))
+        LOG_INFO("Calling joyGetDevCapsA for " << i << " of " << count);
+        if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, sizeof(tagJOYCAPSA)))
         {
             sJoystickEnabled_5C2EF4 = true;
             sJoyID_5C2F00 = i;

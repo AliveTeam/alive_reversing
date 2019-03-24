@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
 
 struct LiftPoint_State
 {
-    BaseGameObject::Types field_0;
+    Types field_0;
     __int16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;

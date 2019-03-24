@@ -270,7 +270,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                 break;
             }
 
-            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)) && pObj->field_4_typeId == BaseGameObject::Types::eLiftPoint_78)
+            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)) && pObj->field_4_typeId == Types::eLiftPoint_78)
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);

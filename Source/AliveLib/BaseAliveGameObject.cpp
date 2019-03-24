@@ -209,7 +209,6 @@ void BaseAliveGameObject::vOn_TLV_Collision_4087F0(Path_TLV* /*pTlv*/)
 
 void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
 {
-    
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (!field_100_pCollisionLine)
     {

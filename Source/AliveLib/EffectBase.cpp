@@ -21,7 +21,7 @@ EffectBase* EffectBase::ctor_4AB7A0(__int16 layer, char abr)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x54700C); // vTbl_EffectBase_54700C
-    field_4_typeId = BaseGameObject::Types::eEffectBase_115;
+    field_4_typeId = Types::eEffectBase_115;
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable);
     field_20_path_id = gMap_5C3030.sCurrentPathId_5C3032;

@@ -792,7 +792,7 @@ void Abe::dtor_44B380()
 
 struct Quicksave_Obj_Abe
 {
-    BaseGameObject::Types field_0_id;
+    Types field_0_id;
     __int16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -1721,7 +1721,7 @@ void Abe::Update_449DC0()
         }
 
 
-        InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id));
+        InvisibleEffect* pObj_field_178 = static_cast<InvisibleEffect*>(sObjectIds_5C1B70.Find(field_178_invisible_effect_id, Types::eInvisibleEffect_75));
         if (pObj_field_178 && field_170_invisible_timer > 0)
         {
             if (static_cast<int>(sGnFrame_5C1B84) > field_170_invisible_timer)
@@ -1791,7 +1791,7 @@ void Abe::vOnTrapDoorOpen_45A570()
 {
     // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
-    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find(field_164_wheel_id, Types::eWheel_148));
     if (pPlatform)
     {
         if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)))
@@ -1815,7 +1815,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
-    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_164_wheel_id));
+    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find(field_164_wheel_id, Types::eWheel_148));
     if (sControlledCharacter_5C1B8C == this || field_10C_health <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
@@ -5894,7 +5894,7 @@ void Abe::State_57_Dead_4589A0()
         {
             field_110_id = -1;
         }
-        else if (pObj->field_4_typeId == BaseGameObject::Types::eLiftPoint_78)
+        else if (pObj->field_4_typeId == Types::eLiftPoint_78)
         {
             static_cast<LiftPoint*>(pObj)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
         }
@@ -7485,7 +7485,7 @@ void Abe::State_112_Chant_45B1C0()
                             break;
                         }
 
-                        if (pObjIter->field_4_typeId == BaseGameObject::Types::eMudokon_110)
+                        if (pObjIter->field_4_typeId == Types::eMudokon_110)
                         {
                             if (pObjIter->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Is sick flag ?
                             {
@@ -7666,10 +7666,10 @@ void Abe::State_112_Chant_45B1C0()
         
         field_154_possesed_object_id = -1;
 
-        if (sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eSlig_125 ||
-            sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eFlyingSlig_54 ||
-            sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eCrawlingSlig_26 ||
-            sControlledCharacter_5C1B8C->field_4_typeId == BaseGameObject::Types::eGlukkon_67)
+        if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eSlig_125 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == Types::eFlyingSlig_54 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == Types::eCrawlingSlig_26 ||
+            sControlledCharacter_5C1B8C->field_4_typeId == Types::eGlukkon_67)
         {
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd);
         }
@@ -7998,7 +7998,7 @@ void Abe::State_115_DoorExit_459A40()
         {
             // TODO: Ret ignored even in real ??
             FindObjectOfType_425180(
-                BaseGameObject::Types::eDoor_33,
+                Types::eDoor_33,
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(5));
 
@@ -8011,7 +8011,7 @@ void Abe::State_115_DoorExit_459A40()
                     break;
                 }
 
-                if (pObj->field_4_typeId == BaseGameObject::Types::eDoor_33)
+                if (pObj->field_4_typeId == Types::eDoor_33)
                 {
                     Door* pDoor = static_cast<Door*>(pObj);
                     if (pDoor->field_FA_door_number == field_1A0_door_id)
@@ -8658,7 +8658,7 @@ __int16 Abe::HandleDoAction_455BD0()
                 ypos = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
             }
 
-            Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(BaseGameObject::Types::eLever_139, ypos, xpos));
+            Switch* pSwitch = static_cast<Switch*>(FindObjectOfType_425180(Types::eLever_139, ypos, xpos));
             if (!pSwitch || !(pSwitch->Vsub_4D6050(field_B8_xpos < pSwitch->field_B8_xpos)))
             {
                 return eAbeStates::State_34_DunnoBegin_44ECF0;
@@ -9260,7 +9260,7 @@ PullRingRope* Abe::GetPullRope_44D120()
         }
 
         // Find a rope
-        if (pObj->field_4_typeId == BaseGameObject::Types::ePullRope_103)
+        if (pObj->field_4_typeId == Types::ePullRope_103)
         {
             // Is it on the same scale as us?
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);

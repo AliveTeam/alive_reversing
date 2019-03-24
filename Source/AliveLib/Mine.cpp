@@ -302,13 +302,13 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case BaseGameObject::Types::eGreeter_64:
-    case BaseGameObject::Types::eType_Abe_69:
-    case BaseGameObject::Types::eMineCar_89:
-    case BaseGameObject::Types::eType_104:
-    case BaseGameObject::Types::eExplosion_109:
-    case BaseGameObject::Types::eMudokon_110:
-    case BaseGameObject::Types::eType_121:
+    case Types::eGreeter_64:
+    case Types::eType_Abe_69:
+    case Types::eMineCar_89:
+    case Types::eType_104:
+    case Types::eExplosion_109:
+    case Types::eMudokon_110:
+    case Types::eType_121:
         auto pBomb = alive_new<BaseBomb>();
         if (pBomb)
         {

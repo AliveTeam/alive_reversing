@@ -36,7 +36,7 @@ Dove* Dove::ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resour
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544A90); // vTbl_Dove_544A90
 
-    field_4_typeId = BaseGameObject::Types::eBird_35;
+    field_4_typeId = Types::eBird_35;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
     Animation_Init_424E10(

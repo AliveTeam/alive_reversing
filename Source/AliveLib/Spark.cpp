@@ -31,7 +31,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
     field_6_flags.Set(BaseGameObject::eDrawable);
 
     SetVTable(this, 0x54783C); // vTbl_Spark_54783C
-    field_4_typeId = BaseGameObject::Types::eNone_0;
+    field_4_typeId = Types::eNone_0;
 
     gObjList_drawables_5C1124->Push_Back(this);
 

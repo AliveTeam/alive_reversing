@@ -26,7 +26,7 @@ PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyF
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x544FC8); // vTbl_PossessionFlicker_544FC8
 
-    field_4_typeId = BaseGameObject::Types::ePossessionFlicker_51;
+    field_4_typeId = Types::ePossessionFlicker_51;
     field_30_obj_id = pToApplyFlicker->field_8_object_id;
 
     // Check if another PossessionFlicker is already applying flicker to pToApplyFlicker
@@ -39,7 +39,7 @@ PossessionFlicker* PossessionFlicker::ctor_4319E0(BaseAliveGameObject* pToApplyF
         }
 
         if (pObj != this &&
-            pObj->field_4_typeId == BaseGameObject::Types::ePossessionFlicker_51 &&
+            pObj->field_4_typeId == Types::ePossessionFlicker_51 &&
             static_cast<PossessionFlicker*>(pObj)->ObjectId() == field_30_obj_id)
         {
             // It is to don't store the id, first update will destroy this object

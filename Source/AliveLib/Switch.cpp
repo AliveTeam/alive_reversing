@@ -56,7 +56,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x547A5C);
 
-    field_4_typeId = BaseGameObject::Types::eLever_139;
+    field_4_typeId = Types::eLever_139;
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSwitchResID);
     Animation_Init_424E10(5696, 66, 40, ppRes, 1, 1);
 

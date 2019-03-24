@@ -1126,7 +1126,7 @@ void MainMenuController::Page_Front_Render_4D24B0(int** ot)
 }
 
 ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
-ALIVE_VAR(1, 0x5c1b88, int, dword_5C1B88, 0);
+ALIVE_VAR(1, 0x5c1b88, int, sGameStartedFrame_5C1B88, 0);
 
 signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
 {
@@ -1332,7 +1332,7 @@ EXPORT signed int MainMenuController::tGame_BackStory_Or_NewGame_Input_4D1C60(DW
         else if (field_1FC_button_index == 1) // Start game
         {
             sCurrentControllerIndex_5C1BBE = 0;
-            dword_5C1B88 = sGnFrame_5C1B84;
+            sGameStartedFrame_5C1B88 = sGnFrame_5C1B84;
             return 0xFFFF000D;
         }
     }

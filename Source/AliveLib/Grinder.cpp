@@ -40,7 +40,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
     SetVTable(this, 0x544AD8);
 
-    field_4_typeId = BaseGameObject::Types::eGrinder_30;
+    field_4_typeId = Types::eGrinder_30;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6004); // TODO: Id
     Animation_Init_424E10(6676, 65, 33, ppRes, 1, 1);
@@ -715,7 +715,7 @@ __int16 Grinder::DamageTouchingObjects_421060()
             return 0;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) || pObj->field_4_typeId == BaseGameObject::Types::eRockSpawner_48)
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) || pObj->field_4_typeId == Types::eRockSpawner_48)
         {
             if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
             {

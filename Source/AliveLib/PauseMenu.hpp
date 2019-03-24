@@ -107,7 +107,20 @@ public:
     __int16 field_12E_selected_glow;
     __int16 field_130;
     __int16 field_132;
-    __int16 field_134_Index_Main;
+
+    enum MainPages : __int16
+    {
+        ePage_Continue_0 = 0,
+        ePage_QuickSave_1 = 1,
+        ePage_2 = 2,
+        ePage_Status_3 = 3,
+        ePage_Save_4 = 4,
+        ePage_Load_5 = 5,
+        ePage_RestartPath_6 = 6,
+        ePage_Quit_7 = 7,
+    };
+
+    /*MainPages*/ __int16 field_134_Index_Main;
     __int16 field_136;
     __int16 field_138;
     __int16 field_13A;
