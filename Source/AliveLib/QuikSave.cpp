@@ -369,9 +369,147 @@ EXPORT void CC Quicksave_LoadActive_4C9170()
     Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData_BAF7F8);
 }
 
-EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* /*pSave*/)
+EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE*)
 {
     NOT_IMPLEMENTED();
+}
+
+static void WriteChars(char*& pDst, BYTE v1, BYTE v2)
+{
+    *pDst = v1;
+    pDst++;
+
+    *pDst = v2;
+    pDst++;
+}
+
+void CC MEMCARD_Write_SJISC_String_4A2770(char* src, char* dst, int srcLength)
+{
+    while (srcLength > 0)
+    {
+        const char srcChar = *src;
+        if (*src >= 'A' && srcChar <= 'Z')
+        {
+            WriteChars(dst, 0x82, *src + 0x1F);
+        }
+        else if (srcChar >= 'a' && srcChar <= 'z')
+        {
+            WriteChars(dst, 0x82, *src + 0x20);
+        }
+        else if (srcChar < '0' || srcChar > '9')
+        {
+            if (srcChar == ':')
+            {
+                WriteChars(dst, 0x81, 0x46);
+            }
+            else
+            {
+                if (srcChar == '"')
+                {
+                    WriteChars(dst, 0x81, 0x67);
+                }
+                else
+                {
+                    WriteChars(dst, 0x81, 0x40);
+                }
+            }
+        }
+        else
+        {
+            WriteChars(dst, 0x82, *src + 0x1F);
+        }
+        src++;
+        srcLength--;
+    }
+}
+
+EXPORT void CC MEMCARD_Generate_Timestamp_String_4A21F0(char *pStr)
+{
+    sprintf(pStr, "%03d:%02d",
+        (signed int)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 / 60 % 1000,
+        (signed int)(sGnFrame_5C1B84 - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
+}
+
+EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(char* dst)
+{
+    char gameTimeStr[12] = {};
+    MEMCARD_Generate_Timestamp_String_4A21F0(gameTimeStr);
+
+    const size_t len = strlen(gameTimeStr);
+    for (size_t idx = 0; idx < len; idx++)
+    {
+        // More SJISC conversion ?
+        const char strChar = gameTimeStr[idx];
+        if (strChar == ' ')
+        {
+            dst[2 * idx] = 0x81u;
+            dst[2 * idx + 1] = 0x40;
+        }
+        else if (strChar == ':')
+        {
+            dst[2 * idx] = 0x81u;
+            dst[2 * idx + 1] = 0x46;
+        }
+        else
+        {
+            dst[2 * idx] = 0x82u;
+            dst[2 * idx + 1] = strChar + 0x1F;
+        }
+    }
+}
+
+EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
+{
+    NOT_IMPLEMENTED();
+
+    if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
+    {
+        pSave->field_200_accumulated_obj_count = sAccumulatedObjectCount_5C1BF4;
+
+        /* TODO: PSX Save headers ??
+        pUnk = &unk_BB19F8;
+        if (!word_5C1BBC)
+        {
+            pUnk = &unk_BB17F8;
+        }
+
+        memcpy(pSave, pUnk, 512);
+        */
+
+        MEMCARD_Write_Timestamp_SJISC_String_4A2290(&pSave->field_0_header.field_0_frame_1_name[50]);
+
+        char src[12] = {};
+        sprintf(src, "%2sP%02dC%02d", 
+            sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_18_lvl_name,
+            gMap_5C3030.sCurrentPathId_5C3032,
+            gMap_5C3030.sCurrentCamId_5C3034);
+        MEMCARD_Write_SJISC_String_4A2770(src, &pSave->field_0_header.field_0_frame_1_name[32], 8);
+        Quicksave_SaveWorldInfo_4C9310(&pSave->field_204_world_info);
+        pSave->field_45C_switch_states = sSwitchStates_5C1A28;
+
+        BYTE* pDataIter = pSave->field_55C_objects_state_data;
+        for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+            {
+                pDataIter += pObj->VGetSaveState(pDataIter);
+            }
+        }
+
+        // Write a DWORD of 0
+        pDataIter[0] = 0;
+        pDataIter[1] = 0;
+        pDataIter[2] = 0;
+        pDataIter[3] = 0;
+
+        Quicksave_SaveBlyData_4C9660(pDataIter + 4);
+    }
 }
 
 void CC Quicksave_4C90D0()
