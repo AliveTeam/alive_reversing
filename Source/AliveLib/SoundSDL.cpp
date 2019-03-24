@@ -18,8 +18,6 @@ const int gMixVolume = 127;
 static std::vector<AE_SDL_Voice*> sAE_ActiveVoices;
 static std::vector<AE_SDL_Voice*> sAE_VoiceBuffer;
 
-static std::mutex sVoiceBufferMutex;
-
 static SDL_AudioSpec gAudioDeviceSpec = {};
 static AudioFilterMode gAudioFilterMode = AudioFilterMode::Linear;
 static StereoSample_S16 * pTempSoundBuffer;
@@ -29,7 +27,6 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
 {
     // Get all our buffered Voices and push them into the main vector.
     {
-        std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceBufferMutex);
         const size_t voiceBufferSize = sAE_VoiceBuffer.size();
         AE_SDL_Voice ** voiceBufferArray = sAE_VoiceBuffer.data();
         if (voiceBufferSize > 0)
@@ -292,8 +289,9 @@ AE_SDL_Voice::AE_SDL_Voice()
     mState.fPlaybackPosition = 0;
     mState.eStatus = AE_SDL_Voice_Status::Stopped;
 
-    std::unique_lock<std::mutex> sVoiceVectorLock(sVoiceBufferMutex);
+    SDL_LockAudio();
     sAE_VoiceBuffer.push_back(this);
+    SDL_UnlockAudio();
 }
 
 int AE_SDL_Voice::SetVolume(int volume)
