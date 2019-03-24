@@ -19,6 +19,7 @@
 
 #if XINPUT_SUPPORT
 #include <Xinput.h>
+#include <algorithm>
 #endif
 
 #define INPUT_IMPL true
@@ -301,11 +302,11 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
         // 9 Start
 
         static float vibrationAmount = 0.0f;
-        int screenShake = max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
+        int screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
 
         if (screenShake > 0)
         {
-            vibrationAmount = min(screenShake, 30) / 30.0f;
+            vibrationAmount = std::min(screenShake, 30) / 30.0f;
         }
         else if (Event_Get_422C00(kEventScreenShake))
         {
@@ -321,7 +322,7 @@ void Input_XINPUT(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButton
         XInputSetState(0, &vib);
 
         vibrationAmount -= 0.2f;
-        vibrationAmount = max(0, vibrationAmount);
+        vibrationAmount = std::max(0.0f, vibrationAmount);
     }
 }
 #endif
