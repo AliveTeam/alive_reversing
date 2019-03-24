@@ -115,16 +115,30 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
     if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
     {
-        // TODO: This will really murder performance
-        SDL_Texture* pTexture = SDL_CreateTextureFromSurface(gRenderer, pBmp->field_0_pSurface);
+        static SDL_Texture* pTexture = SDL_CreateTexture(gRenderer, pBmp->field_0_pSurface->format->format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
+        SDL_UpdateTexture(pTexture, nullptr, pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch);
 
-        if (s_VGA_FilterScreen)
+        static bool prevFilterScreenValue = !s_VGA_FilterScreen;
+        static int prevWidth = pBmp->field_0_pSurface->w;
+        static int prevHeight = pBmp->field_0_pSurface->h;
+
+        if (prevFilterScreenValue != s_VGA_FilterScreen || prevWidth != pBmp->field_0_pSurface->w || prevHeight != pBmp->field_0_pSurface->h)
         {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-        }
-        else
-        {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+            prevFilterScreenValue = s_VGA_FilterScreen;
+            prevWidth = pBmp->field_0_pSurface->w;
+            prevHeight = pBmp->field_0_pSurface->h;
+
+            if (s_VGA_FilterScreen)
+            {
+                SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+            }
+            else
+            {
+                SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+            }
+
+            SDL_DestroyTexture(pTexture);
+            pTexture = SDL_CreateTexture(gRenderer, pBmp->field_0_pSurface->format->format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
         }
 
         if (pTexture)
@@ -177,7 +191,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
             SDL_RenderClear(gRenderer);
             SDL_RenderCopy(gRenderer, pTexture, pCopyRect, pDst);
-            SDL_DestroyTexture(pTexture);
+            //SDL_DestroyTexture(pTexture);
         }
         else
         {
