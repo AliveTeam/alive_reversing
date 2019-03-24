@@ -1957,10 +1957,17 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                     pChannel->field_1C.field_2_note_byte1 = static_cast<unsigned char>(noteKeyNumber);
 
 #if ORIGINAL_PS1_BEHAVIOR
+
+                    // Note: 1.059463094359 is the 12th root of 2.
+                    // https://en.wikipedia.org/wiki/Twelfth_root_of_two
+
                     // Uses the correct way of determining the pitch float.
                     // Almost identical to PS1 versions pitches (at least from PS1 emulators)
                     // Todo: check real ps1 hardware.
                     pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)((note / 256.0) - (pVagIter->field_A_shift_cen / 256.0))));
+
+                    // This way seems to be more accurate to ps1 sound, but its actually not correct. So ps1 was limited because floats?
+                    // pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)((note / 256) - (pVagIter->field_A_shift_cen / 256))));
 #else
                     pChannel->field_10_float = static_cast<float>(pow(1.059463094359, (double)(note - pVagIter->field_A_shift_cen) * 0.00390625));
 #endif
@@ -1971,7 +1978,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                     }
 
 #if USE_SDL2_SOUND
-                    signed int pan = ((pVagIter->field_11_pad) * (20000 / 127)) - 5000;
+                    signed int pan = ((pVagIter->field_11_pad) * (20000 / 127)) - 10000;
 
                     if (panLeft > panRight)
                     {
