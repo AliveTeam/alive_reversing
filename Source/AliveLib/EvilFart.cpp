@@ -379,22 +379,26 @@ void EvilFart::vUpdate_423100()
         InputControlFart_423BB0();
         sub_408C40();
 
-        /*
-        v33 = 196608;
+        
+        FP v33 = FP_FromInteger(3);
         if (field_C4_velx < FP_FromInteger(0))
         {
-            v33 = -196608;
-        }
-        v34 = 196608;
-        if (field_C8_vely < FP_FromInteger(0))
-        {
-            v34 = -196608;
+            v33 = FP_FromInteger(-3);
         }
 
-        v35 = v34 + field_BC_ypos + field_C8_vely - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
-        X2 = v33 + field_B8_xpos + field_C4_velx;
-        v36 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
+        FP v34 = FP_FromInteger(3);
+        if (field_C8_vely < FP_FromInteger(0))
+        {
+            v34 = FP_FromInteger(-3);
+        }
+
+        const FP v35 = v34 + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54));
+        const FP X2 = v33 + field_B8_xpos + field_C4_velx;
+        const FP v36 = (field_CC_sprite_scale * FP_FromInteger(54));
         
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
         if (sCollisions_DArray_5C1128->Raycast_417A60(
             field_B8_xpos,
             field_BC_ypos - v36,
@@ -412,9 +416,9 @@ void EvilFart::vUpdate_423100()
             field_B8_xpos += field_C4_velx;
         }
 
-        v37 = v34 + field_BC_ypos + field_C8_vely - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
-        v38 = field_B8_xpos + field_C4_velx + v33;
-        v39 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
+        const FP v37 = v34 + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54));
+        const FP v38 = field_B8_xpos + field_C4_velx + v33;
+        const FP v39 = (field_CC_sprite_scale * FP_FromInteger(54));
 
         if (sCollisions_DArray_5C1128->Raycast_417A60(
             field_B8_xpos,
@@ -438,8 +442,7 @@ void EvilFart::vUpdate_423100()
             field_11A_isNotChanting = 0;
         }
 
-        BYTE1(field_20_animation.field_4_flags) |= 0x40u;
-        */
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
         field_20_animation.field_B_render_mode = 1;
         if (field_C4_velx == FP_FromInteger(0) && field_C8_vely == FP_FromInteger(0))
@@ -481,22 +484,18 @@ void EvilFart::vUpdate_423100()
         {
             return;
         }
-        /*
-        v15 = Math_RandomRange_496AB0(-20, 20);
-        v16 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 0x360000);
-        v17 = Math_RandomRange_496AB0(-20, 10);
-        v18 = Math_FixedPoint_Multiply_496C50(
-            field_CC_sprite_scale,
-            (signed __int16)(((((signed int)((v17 << 16) - v16) >> 31) & 0xFFFF) + (v17 << 16) - v16) >> 16) << 16)
-            + field_BC_ypos;
-        v19 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, v15 << 16);
+        
+        const short v15 = Math_RandomRange_496AB0(-20, 20);
+        const FP v16 = (field_CC_sprite_scale * FP_FromInteger(54));
+        const short v17 = Math_RandomRange_496AB0(-20, 10);
+        const FP v18 = (field_CC_sprite_scale * FP_NoFractional(FP_FromInteger(v17) - v16) + (FP_FromInteger(v17) - v16)) + field_BC_ypos;
+        const FP v19 = (field_CC_sprite_scale * FP_FromInteger(v15));
 
         New_Chant_Particle_426BE0(
             v19 + field_B8_xpos,
             v18,
             field_CC_sprite_scale,
             0);
-        */
     }
 
     if (!field_118_bFartCountDown && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
