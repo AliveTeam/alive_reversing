@@ -142,7 +142,7 @@ void PullRingRope::dtor_49B660()
 
     Path::TLV_Reset_4DB8E0(field_110_tlvInfo, -1, 0, 0);
     
-    BaseGameObject* pRope = sObjectIds_5C1B70.Find(field_F8_rope_id, Types::ePullRope_103);
+    BaseGameObject* pRope = sObjectIds_5C1B70.Find(field_F8_rope_id, Types::eLiftRope_108);
     if (pRope)
     {
         pRope->field_6_flags.Set(BaseGameObject::eDead);
