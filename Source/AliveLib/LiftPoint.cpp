@@ -469,7 +469,7 @@ BOOL LiftPoint::vOnAnyFloor_461920()
 BOOL LiftPoint::vOnAFloorLiftMoverCanUse_461960()
 {
     // Top or bottom floor can still be activated by the lift mover?
-    return (vOnMiddleFloor_4618C0() && field_280_flags.Get(LiftFlags::eBit8_bIgnoreLiftMover)) || vOnTopFloor_461890() || vOnBottomFloor_4618F0();
+    return (vOnMiddleFloor_4618C0() && !field_280_flags.Get(LiftFlags::eBit8_bIgnoreLiftMover)) || vOnBottomFloor_4618F0() || vOnTopFloor_461890();
 }
 
 BOOL LiftPoint::vMovingToFloorLevel_4619B0()
