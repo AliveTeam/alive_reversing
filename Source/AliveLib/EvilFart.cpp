@@ -284,11 +284,7 @@ void EvilFart::vUpdate_423100()
         v42 = 0x8000;
         field_D0_r = (signed int)(0x800000 - v43) / 0x10000;
     LABEL_75:
-        field_D2_g = (signed int)(Math_FixedPoint_Multiply_496C50(
-            v42,
-            field_11C_k900 << 16)
-            + 0x260000)
-            / 0x10000;
+        field_D2_g = (signed int)(Math_FixedPoint_Multiply_496C50(v42, field_11C_k900 << 16) + 0x260000) / 0x10000;
         */
         return;
     }
@@ -301,20 +297,23 @@ void EvilFart::vUpdate_423100()
             if (!(sGnFrame_5C1B84 % 3))
             {
                 /*
-                velY1 = field_C8_vely;
-                velY2 = field_C8_vely;
-                if (velY1 < 0)
+                FP velY1 = field_C8_vely;
+                FP velY2 = field_C8_vely;
+
+                if (velY1 < FP_FromInteger(0))
                 {
                     velY2 = -velY2;
                 }
-                velX2 = field_C4_velx;
-                if (velX1 < 0)
+                FP velX2 = field_C4_velx;
+
+                if (velX1 < FP_FromInteger(0))
                 {
                     velX2 = -velX1;
                 }
+
                 if (velX2 <= velY2)
                 {
-                    if (velY1 >= 0)
+                    if (velY1 >= FP_FromInteger(0))
                     {
                         pVel = &field_C8_vely;
                     }
@@ -324,7 +323,7 @@ void EvilFart::vUpdate_423100()
                         pVel = &X2;
                     }
                 }
-                else if (velX1 >= 0)
+                else if (velX1 >= FP_FromInteger(0))
                 {
                     pVel = &field_C4_velx;
                 }
@@ -333,34 +332,30 @@ void EvilFart::vUpdate_423100()
                     X2 = -velX1;
                     pVel = &X2;
                 }
-                v28 = Math_FixedPoint_Multiply_496C50(*pVel, 0xFA0000);
-                v29 = Math_FixedPoint_Multiply_496C50(0x8000, field_CC_sprite_scale);
-                v30 = Math_FixedPoint_Multiply_496C50(
-                    field_BC_ypos - 3604480,
-                    field_CC_sprite_scale);
-                v31 = Math_FixedPoint_Multiply_496C50(
-                    field_B8_xpos,
-                    field_CC_sprite_scale);
+
+                const FP v28 = (*pVel * FP_FromInteger(250));
+                */
+                const FP v29 = (FP_FromDouble(0.5) * field_CC_sprite_scale);
+                const FP v30 = (field_BC_ypos - FP_FromInteger(55)) * field_CC_sprite_scale;
+                const FP v31 = (field_B8_xpos * field_CC_sprite_scale);
 
                 New_Particles_426C70(
                     v31,
                     v30,
                     v29,
                     3,
-                    field_D0_r,
-                    field_D2_g,
+                    static_cast<BYTE>(field_D0_r),
+                    static_cast<BYTE>(field_D2_g),
                     0x20u);
-                */
+                
 
                 if (field_130_sound_channels)
                 {
                     SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
                 }
 
-                /*
-                Abe_SFX_457EC0(7u, 50, (v28 >> 16) - 2000, 0);
-                field_130_sound_channels = v32;
-                */
+                //Abe_SFX_457EC0(7, 50, FP_GetExponent(v28) - 2000, nullptr);
+                //field_130_sound_channels = v32;
             }
         }
         else
