@@ -197,14 +197,13 @@ void EvilFart::vUpdate_423100()
 {
     NOT_IMPLEMENTED();
 
-    /*
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    if (sActiveHero_5C1B68->field_106_current_state == 86 // State_86_HandstoneBegin_45BD00
-        || (v2 = field_11C_k900, field_11C_k900 = v2 - 1, v2))
+    /*
+    if (sActiveHero_5C1B68->field_106_current_state == eAbeStates::State_86_HandstoneBegin_45BD00  || (v2 = field_11C_k900, field_11C_k900 = v2 - 1, v2))
     {
     LABEL_11:
         if (!field_118_bFartCountDown)
@@ -213,6 +212,7 @@ void EvilFart::vUpdate_423100()
         }
         goto LABEL_12;
     }
+    */
 
     if (!field_118_bFartCountDown)
     {
@@ -236,17 +236,17 @@ void EvilFart::vUpdate_423100()
         {
             field_6_flags.Set(BaseGameObject::eDead);
         }
-        goto LABEL_11;
+        //goto LABEL_11;
     }
 
-LABEL_12:
-    if (sGnFrame_5C1B84 > field_12C_timer)
+//LABEL_12:
+    if (static_cast<int>(sGnFrame_5C1B84) > field_12C_timer)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_6_flags.Set(BaseGameObject::eDead);
         gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
     }
-LABEL_14:
+//LABEL_14:
 
     const __int16 k900Value = field_11C_k900;
     if (k900Value < 251 && !(k900Value % 50))
@@ -255,33 +255,31 @@ LABEL_14:
         {
             if (!field_118_bFartCountDown)
             {
+                /*
                 auto pIndicatorMem = alive_new<ThrowableTotalIndicator>();
                 if (pIndicatorMem)
                 {
-                    v11 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 0x320000);
                     pIndicatorMem->ctor_431CB0(
                         field_B8_xpos,
-                        field_BC_ypos - v11,
+                        field_BC_ypos - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 0x320000),
                         field_20_animation.field_C_render_layer,
                         field_20_animation.field_14_scale,
                         ((unsigned int)((unsigned __int64)(1374389535i64 * field_11C_k900) >> 32) >> 31)
                         + ((signed int)((unsigned __int64)(1374389535i64 * field_11C_k900) >> 32) >> 4),
                         1);
                 }
-                v12 = field_CC_sprite_scale;
-                hack1 = -1;
-                fartPitch = Math_FixedPoint_Multiply_496C50(v12, 0x320000);
-                v14 = field_BC_ypos - fartPitch;
-                LOWORD(fartPitch) = 300 - field_11C_k900;
-                field_BC_ypos = v14;
-                Abe_SFX_457EC0(7u, 0, 10 * fartPitch, this);
+
+                field_BC_ypos = field_BC_ypos - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 0x320000);
+                Abe_SFX_457EC0(7, 0, 10 * (300 - field_11C_k900), this);
                 field_BC_ypos += Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale,  0x320000);
+                */
             }
         }
     }
 
     if (!field_124_bPlayerControlled)
     {
+        /*
         v43 = Math_FixedPoint_Multiply_496C50(0x8000, field_11C_k900 << 16);
         v42 = 0x8000;
         field_D0_r = (signed int)(0x800000 - v43) / 0x10000;
@@ -291,17 +289,18 @@ LABEL_14:
             field_11C_k900 << 16)
             + 0x260000)
             / 0x10000;
+        */
         return;
     }
 
     if (field_124_bPlayerControlled == 1)
     {
-        velX1 = field_C4_velx;
-        if (field_C4_velx / 0x10000
-            || field_C8_vely / 0x10000)
+        //velX1 = field_C4_velx;
+        if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
         {
-            if (!((signed int)sGnFrame_5C1B84 % 3))
+            if (!(sGnFrame_5C1B84 % 3))
             {
+                /*
                 velY1 = field_C8_vely;
                 velY2 = field_C8_vely;
                 if (velY1 < 0)
@@ -351,14 +350,17 @@ LABEL_14:
                     field_D0_r,
                     field_D2_g,
                     0x20u);
+                */
 
                 if (field_130_sound_channels)
                 {
                     SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
                 }
 
+                /*
                 Abe_SFX_457EC0(7u, 50, (v28 >> 16) - 2000, 0);
                 field_130_sound_channels = v32;
+                */
             }
         }
         else
@@ -368,16 +370,16 @@ LABEL_14:
                 SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
                 field_130_sound_channels = 0;
             }
-            if (!((signed int)sGnFrame_5C1B84 % 30) && !Math_RandomRange_496AB0(0, 1))
+            if (!(sGnFrame_5C1B84 % 30) && !Math_RandomRange_496AB0(0, 1))
             {
-                LOWORD(v23) = Math_RandomRange_496AB0(-1500, -2000);
-                Abe_SFX_457EC0(7u, 50, v23, 0);
+                Abe_SFX_457EC0(7, 50, Math_RandomRange_496AB0(-1500, -2000), nullptr);
             }
         }
         
         InputControlFart_423BB0();
         sub_408C40();
 
+        /*
         v33 = 196608;
         if (field_C4_velx < FP_FromInteger(0))
         {
@@ -389,10 +391,7 @@ LABEL_14:
             v34 = -196608;
         }
 
-        v35 = v34
-            + field_BC_ypos
-            + field_C8_vely
-            - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
+        v35 = v34 + field_BC_ypos + field_C8_vely - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
         X2 = v33 + field_B8_xpos + field_C4_velx;
         v36 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
         
@@ -413,10 +412,7 @@ LABEL_14:
             field_B8_xpos += field_C4_velx;
         }
 
-        v37 = v34
-            + field_BC_ypos
-            + field_C8_vely
-            - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
+        v37 = v34 + field_BC_ypos + field_C8_vely - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
         v38 = field_B8_xpos + field_C4_velx + v33;
         v39 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3538944);
 
@@ -443,8 +439,10 @@ LABEL_14:
         }
 
         BYTE1(field_20_animation.field_4_flags) |= 0x40u;
+        */
+
         field_20_animation.field_B_render_mode = 1;
-        if (!field_C4_velx && !field_C8_vely)
+        if (field_C4_velx == FP_FromInteger(0) && field_C8_vely == FP_FromInteger(0))
         {
             if (Input_IsChanting_45F260())
             {
@@ -457,10 +455,12 @@ LABEL_14:
                 }
             }
         }
+        /*
         v41 = Math_FixedPoint_Multiply_496C50(6553, field_11C_k900 << 16);
         v42 = 6553;
         field_D0_r = (signed int)(0x800000 - v41) / 0x10000;
         goto LABEL_75;
+        */
     }
 
     if (field_124_bPlayerControlled != 2)
@@ -474,12 +474,14 @@ LABEL_14:
         return;
     }
 
-    if (!((signed int)sGnFrame_5C1B84 % 4))
+    
+    if (!(sGnFrame_5C1B84 % 4))
     {
         if (field_118_bFartCountDown)
         {
             return;
         }
+        /*
         v15 = Math_RandomRange_496AB0(-20, 20);
         v16 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 0x360000);
         v17 = Math_RandomRange_496AB0(-20, 10);
@@ -494,9 +496,10 @@ LABEL_14:
             v18,
             field_CC_sprite_scale,
             0);
+        */
     }
 
-    if (!field_118_bFartCountDown && sGnFrame_5C1B84 > field_128_timer)
+    if (!field_118_bFartCountDown && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
     {
         auto pExplosionMem2 = alive_new<Explosion>();
         if (pExplosionMem2)
@@ -511,7 +514,6 @@ LABEL_14:
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_118_bFartCountDown = 1;
     }
-    */
 }
 
 void EvilFart::dtor_423D80()
