@@ -263,6 +263,8 @@ ExportHooker.hpp
     MotionDetector.cpp
     Slurg.cpp
     Slurg.hpp
+    FlyingSlig.cpp
+    FlyingSlig.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibSrc)

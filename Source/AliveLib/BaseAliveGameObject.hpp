@@ -84,7 +84,7 @@ public:
     FP field_F8;
     Path_TLV* field_FC_pPathTLV;
     PathLine* field_100_pCollisionLine;
-    __int16 field_104;
+    __int16 field_104_collision_line_type;
     __int16 field_106_current_state;
     __int16 field_108_delayed_state;
     __int16 field_10A;

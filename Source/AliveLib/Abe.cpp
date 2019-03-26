@@ -1104,7 +1104,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     }
 
     sActiveHero_5C1B68->field_16E_bHaveInvisiblity = pSaveState->byte6F;
-    sActiveHero_5C1B68->field_104 = pSaveState->field_3a_collision_line_id;
+    sActiveHero_5C1B68->field_104_collision_line_type = pSaveState->field_3a_collision_line_id;
 
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);
     sActiveHero_5C1B68->field_118_prev_held = InputObject::Command_To_Raw_45EE40(pSaveState->word70);
@@ -1387,7 +1387,7 @@ void Abe::Update_449DC0()
     if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
         field_114_flags.Clear(Flags_114::e114_Bit9);
-        if (field_104 != -1)
+        if (field_104_collision_line_type != -1)
         {
             sCollisions_DArray_5C1128->Raycast_417A60(
                 field_B8_xpos,
@@ -1397,9 +1397,9 @@ void Abe::Update_449DC0()
                 &field_100_pCollisionLine,
                 &field_B8_xpos,
                 &field_BC_ypos,
-                1 << field_104);
+                1 << field_104_collision_line_type);
 
-            field_104 = -1;
+            field_104_collision_line_type = -1;
         }
 
         field_110_id = BaseGameObject::Find_Flags_4DC170(field_110_id);
