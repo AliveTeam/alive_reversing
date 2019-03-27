@@ -61,7 +61,7 @@ enum class Types : __int16
     eType_52 = 52,
     eThrowableTotalIndicator_53 = 53,
     eFlyingSlig_54 = 54,
-    eType_55 = 55,
+    eFlyingSligSpawner_55 = 55,
     eFootSwitch_56 = 56,
     eType_57 = 57,
     eType_58 = 58,

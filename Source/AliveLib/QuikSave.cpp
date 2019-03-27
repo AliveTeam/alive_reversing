@@ -20,6 +20,7 @@
 #include "TrapDoor.hpp"
 #include "TimerTrigger.hpp"
 #include "SlamDoor.hpp"
+#include "FlyingSlig.hpp"
 
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -27,7 +28,6 @@ EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENT
 EXPORT int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { NOT_IMPLEMENTED(); return 180; }
 EXPORT int CC FlyingSlig__CreateFromSaveState_437E40(const BYTE*) { NOT_IMPLEMENTED(); return 172; }
-EXPORT int CC FlyingSligSpawner__CreateFromSaveState_43B690(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 EXPORT int CC CreateFromSaveState_43BD10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 EXPORT int CC CreateFromSaveState_43DC20(const BYTE*) { NOT_IMPLEMENTED(); return 4; }
 EXPORT int CC SlapLock__CreateFromSaveState_43EA00(const BYTE*) { NOT_IMPLEMENTED(); return 24; }
@@ -110,7 +110,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     &FlyingSlig__CreateFromSaveState_437E40,
-    &FlyingSligSpawner__CreateFromSaveState_43B690,
+    &FlyingSligSpawner::CreateFromSaveState_43B690,
     nullptr,
     &CreateFromSaveState_43BD10,
     nullptr,
