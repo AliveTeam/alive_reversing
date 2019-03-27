@@ -12,16 +12,16 @@ struct Path_FlyingSlig_Data
     __int16 field_6_patrol_pause_min;
     __int16 field_8_patrol_pause_max;
     __int16 field_A_direction;
-    __int16 field_C_give_up_chase_delay;
-    __int16 field_E_prechase_delay;
-    __int16 field_10_slig_id;
-    __int16 field_12_listen_time;
-    __int16 field_14_trigger_id;
-    __int16 field_16_grenade_delay;
-    __int16 field_18_max_velocity;
-    __int16 field_1A_launch_id;
-    __int16 field_1C_persistant;
-    __int16 field_1E_unknown;
+    __int16 field_C_panic_delay;
+    __int16 field_E_give_up_chase_delay;
+    __int16 field_10_prechase_delay;
+    __int16 field_12_slig_id;
+    __int16 field_14_listen_time;
+    __int16 field_16_trigger_id;
+    __int16 field_18_grenade_delay;
+    __int16 field_1A_max_velocity;
+    __int16 field_1C_launch_id;
+    __int16 field_1E_persistant;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig_Data, 0x20);
 
@@ -30,6 +30,30 @@ struct Path_FlyingSlig : public Path_TLV
     Path_FlyingSlig_Data field_10_data;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig, 0x30);
+
+struct Path_FlyingSligSpawner
+{
+    Path_TLV field_0_mBase;
+    Path_FlyingSlig_Data field_10;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig, 0x30);
+
+class FlyingSligSpawner : public BaseGameObject
+{
+public:
+    EXPORT FlyingSligSpawner* ctor_433D50(Path_FlyingSligSpawner* pTlv, int tlvInfo);
+
+private:
+    int field_20_tlvInfo;
+    int field_24_spawned_slig_id;
+    __int16 field_28_trigger_id;
+    __int16 field_2A_pad;
+    Path_TLV field_2C_tlv_header;
+    int field_3C_bSpawned;
+    __int16 field_40_check_spawned;
+    __int16 field_42_pad;
+};
+ALIVE_ASSERT_SIZEOF(FlyingSligSpawner, 0x44);
 
 class FlyingSlig : public BaseAliveGameObject
 {

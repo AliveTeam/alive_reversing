@@ -99,9 +99,9 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
         field_14C_hi_pause_timer = sGnFrame_5C1B84 + 1;
     }
 
-    field_2A8 = FP_FromInteger(field_118_data.field_10_data.field_1A_launch_id) * field_CC_sprite_scale;
-    field_2AC = FP_FromInteger(-field_118_data.field_10_data.field_1A_launch_id) * field_CC_sprite_scale;
-    field_2B0 = FP_FromInteger(field_118_data.field_10_data.field_1A_launch_id) * field_CC_sprite_scale;
+    field_2A8 = FP_FromInteger(field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
+    field_2AC = FP_FromInteger(-field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
+    field_2B0 = FP_FromInteger(field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
     field_2B4 = FP_FromDouble(0.4) * field_CC_sprite_scale;
     field_2B8 = FP_FromDouble(0.4) * field_CC_sprite_scale;
 
@@ -241,4 +241,28 @@ __int16 FlyingSlig::sub_436A90()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+FlyingSligSpawner* FlyingSligSpawner::ctor_433D50(Path_FlyingSligSpawner* pTlv, int tlvInfo)
+{
+    BaseGameObject_ctor_4DBFA0(TRUE, 0);
+    SetVTable(this, 0x545090);
+
+    field_4_typeId  = Types::eType_55;
+
+    if (tlvInfo != -1)
+    {
+        field_C_objectId = tlvInfo;
+    }
+
+    field_20_tlvInfo = tlvInfo;
+
+    field_2C_tlv_header = pTlv->field_0_mBase;
+
+    field_40_check_spawned &= ~2u;
+    field_28_trigger_id = pTlv->field_10.field_16_trigger_id;
+    field_3C_bSpawned = 0;
+    field_24_spawned_slig_id = -1;
+
+    return this;
 }
