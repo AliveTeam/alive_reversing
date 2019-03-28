@@ -46,6 +46,7 @@
 #include "Greeter.hpp"
 #include "MotionDetector.hpp"
 #include "FlyingSlig.hpp"
+#include "FlyingSligSpawner.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList

@@ -239,7 +239,7 @@ ExportHooker.hpp
     FallingItem.hpp
     MineCar.cpp
     MineCar.hpp
-	BaseBomb.cpp
+    BaseBomb.cpp
     BaseBomb.hpp
     ElectricWall.cpp
     ElectricWall.hpp
@@ -265,6 +265,8 @@ ExportHooker.hpp
     Slurg.hpp
     FlyingSlig.cpp
     FlyingSlig.hpp
+    FlyingSligSpawner.cpp
+    FlyingSligSpawner.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibSrc)
