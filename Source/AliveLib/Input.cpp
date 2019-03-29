@@ -185,8 +185,6 @@ EXPORT void CC Input_AutoRun_45FF60(float /*x*/, float /*y*/, DWORD* /*buttons*/
             if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 32)
                 *pButtons |= (1 << 7);
 
-            printf("GAMEPAD: %X\n", *pButtons);
-
             // 0 Square
             // 1 Cross
             // 2 Circle
