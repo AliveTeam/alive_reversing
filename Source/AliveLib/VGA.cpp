@@ -34,6 +34,10 @@ bool s_VGA_KeepAspectRatio = false;
 bool s_VGA_FilterScreen = false;
 
 #if USE_SDL2
+
+static SDL_Renderer* gRenderer = nullptr;
+static SDL_Texture* pScreenTexture = nullptr;
+
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
     //  NOT_IMPLEMENTED();
@@ -63,6 +67,8 @@ EXPORT void CC VGA_Shutdown_4F3170()
         sDD_surface_backbuffer_BBC3CC = nullptr;
     }
 #endif
+
+    SDL_DestroyTexture(pScreenTexture);
 
     sVGA_Inited_BC0BB8 = false;
 
@@ -95,8 +101,6 @@ EXPORT signed int CC VGA_ClearRect_4F4CF0(RECT* pRect, DWORD fillColour)
     return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
-static SDL_Renderer* gRenderer = nullptr;
-
 EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMode*/)
 {
     SDL_Rect copyRect = {};
@@ -115,8 +119,10 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
 
     if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
     {
-        static SDL_Texture* pTexture = SDL_CreateTexture(gRenderer, pBmp->field_0_pSurface->format->format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
-        SDL_UpdateTexture(pTexture, nullptr, pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch);
+        if (pScreenTexture == nullptr)
+        {
+            pScreenTexture = SDL_CreateTexture(gRenderer, pBmp->field_0_pSurface->format->format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
+        }
 
         static bool prevFilterScreenValue = !s_VGA_FilterScreen;
         static int prevWidth = pBmp->field_0_pSurface->w;
@@ -137,11 +143,13 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
                 SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
             }
 
-            SDL_DestroyTexture(pTexture);
-            pTexture = SDL_CreateTexture(gRenderer, pBmp->field_0_pSurface->format->format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
+            SDL_DestroyTexture(pScreenTexture);
+            pScreenTexture = SDL_CreateTexture(gRenderer, pBmp->field_0_pSurface->format->format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
         }
 
-        if (pTexture)
+        SDL_UpdateTexture(pScreenTexture, nullptr, pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch);
+
+        if (pScreenTexture)
         {
             SDL_Rect* pDst = nullptr;
             SDL_Rect dst = {};
@@ -190,8 +198,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
             }
 
             SDL_RenderClear(gRenderer);
-            SDL_RenderCopy(gRenderer, pTexture, pCopyRect, pDst);
-            //SDL_DestroyTexture(pTexture);
+            SDL_RenderCopy(gRenderer, pScreenTexture, pCopyRect, pDst);
         }
         else
         {
