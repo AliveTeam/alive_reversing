@@ -122,6 +122,9 @@ struct InputBinding
 enum GamepadOptionFlags
 {
     eAutoRun = 0x1,
+    eHasDPad = 0x2,
+    eUnknown_3 = 0x4,
+    eUnknown_4 = 0x8,
 };
 
 class InputObject

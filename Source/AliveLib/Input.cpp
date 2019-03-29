@@ -17,6 +17,11 @@
 #include <joystickapi.h>
 #endif
 
+#if USE_SDL2
+static SDL_GameController* pSDLController = nullptr;
+static SDL_Haptic* pSDLControllerHaptic = nullptr;
+#endif
+
 #if XINPUT_SUPPORT
 #include <Xinput.h>
 #include <algorithm>
@@ -118,6 +123,105 @@ EXPORT void CC Input_AutoRun_45FF60(float /*x*/, float /*y*/, DWORD* /*buttons*/
 {
     NOT_IMPLEMENTED();
 }
+
+#if USE_SDL2
+    void Input_GetJoyState_SDL(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
+    {
+        float deadzone = 0.2f;
+
+        *pButtons = 0;
+        *pX1 = 0;
+        *pY1 = 0;
+        *pX2 = 0;
+        *pY2 = 0;
+
+        if (pSDLController != nullptr)
+        {
+            sJoystickNumButtons_5C2EFC = SDL_JoystickNumButtons(SDL_GameControllerGetJoystick(pSDLController));
+            sGamepadCapFlags_5C2EF8 = 0xFFFF;
+
+            float f_LX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTX) / 32767.0f;
+            float f_LY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_LEFTY) / 32767.0f;
+
+            float f_RX = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTX) / 32767.0f;
+            float f_RY = SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_RIGHTY) / 32767.0f;
+
+            // Joysticks
+            if (abs(f_LX) > deadzone)
+                *pX1 = f_LX;
+            if (abs(f_LY) > deadzone)
+                *pY1 = f_LY;
+
+            if (abs(f_RX) > deadzone)
+                *pX2 = f_RX;
+            if (abs(f_RY) > deadzone)
+                *pY2 = f_RY;
+
+            // DPad Movement
+            if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
+                *pX1 = 1;
+            else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_LEFT))
+                *pX1 = -1;
+            if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_UP))
+                *pY1 = -1;
+            else if (SDL_GameControllerGetButton(pSDLController, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
+                *pY1 = 1;
+
+            
+#define M_SDLGAMEPAD_BIND(BIT, PAD_BUTTON){if (SDL_GameControllerGetButton(pSDLController, PAD_BUTTON) == 1) {*pButtons |= (1 << BIT);} }
+
+
+            M_SDLGAMEPAD_BIND(0, SDL_CONTROLLER_BUTTON_X);
+            M_SDLGAMEPAD_BIND(1, SDL_CONTROLLER_BUTTON_A);
+            M_SDLGAMEPAD_BIND(2, SDL_CONTROLLER_BUTTON_B);
+            M_SDLGAMEPAD_BIND(3, SDL_CONTROLLER_BUTTON_Y);
+            M_SDLGAMEPAD_BIND(4, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+            M_SDLGAMEPAD_BIND(5, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+            M_SDLGAMEPAD_BIND(8, SDL_CONTROLLER_BUTTON_BACK);
+            M_SDLGAMEPAD_BIND(9, SDL_CONTROLLER_BUTTON_START);
+
+            if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 32)
+                *pButtons |= (1 << 6);
+            if (SDL_GameControllerGetAxis(pSDLController, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 32)
+                *pButtons |= (1 << 7);
+
+            printf("GAMEPAD: %X\n", *pButtons);
+
+            // 0 Square
+            // 1 Cross
+            // 2 Circle
+            // 3 Triangle
+            // 4 L1
+            // 5 R1
+            // 6 L2
+            // 7 R2
+            // 8 Back
+            // 9 Start
+
+            static float vibrationAmount = 0.0f;
+            int screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
+
+            if (screenShake > 0)
+            {
+                vibrationAmount = std::min(screenShake, 30) / 30.0f;
+            }
+            else if (Event_Get_422C00(kEventScreenShake))
+            {
+                vibrationAmount = 1.0f;
+            }
+
+
+
+            if (pSDLControllerHaptic != nullptr)
+            {
+                SDL_HapticRumblePlay(pSDLControllerHaptic, vibrationAmount, 200);
+            }
+
+            vibrationAmount -= 0.2f;
+            vibrationAmount = std::max(0.0f, vibrationAmount);
+        }
+    }
+#endif
 
 #if _WIN32
 void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWORD *pButtons)
@@ -333,7 +437,9 @@ EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, floa
 #if XINPUT_SUPPORT
     Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
 #else
-    #if _WIN32
+#if USE_SDL2
+        Input_GetJoyState_SDL(pX1, pY1, pX2, pY2, pButtons);
+    #elif _WIN32
         Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
     #endif
 #endif
@@ -1217,7 +1323,35 @@ EXPORT void Input_InitJoyStick_460080()
     TRACE_ENTRYEXIT;
 
     sJoystickEnabled_5C2EF4 = false;
-#if _WIN32
+#if USE_SDL2
+    if (!SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER))
+    {
+        DEV_CONSOLE_PRINTF("SDL GamePads: %i", SDL_NumJoysticks());
+        for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+            if (SDL_IsGameController(i)) {
+                pSDLController = SDL_GameControllerOpen(i);
+                if (pSDLController) {
+                    sJoystickEnabled_5C2EF4 = true;
+                    pSDLControllerHaptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(pSDLController));
+                    if (SDL_HapticRumbleInit(pSDLControllerHaptic) < 0)
+                    {
+                        printf("Warning: Unable to initialize rumble! SDL Error: %s\n", SDL_GetError());
+                    }
+                    strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
+                    break;
+                }
+                else {
+                    printf("Could not open SDL GamePad %i: %s\n", i, SDL_GetError());
+                }
+            }
+        }
+    }
+    else
+    {
+        DEV_CONSOLE_PRINTF("Failed to INIT SDL Gamepad Input");
+        printf("Failed to INIT SDL Gamepad Input\n");
+    }
+#elif _WIN32
     const DWORD count = joyGetNumDevs();
     for (DWORD i = 0; i < count; i++)
     {
@@ -1260,21 +1394,21 @@ EXPORT void Input_InitJoyStick_460080()
 
     if (joyFlags & 8)
     {
-        sGamepadCapFlags_5C2EF8 |= 4;
+        sGamepadCapFlags_5C2EF8 |= eUnknown_3;
     }
     if (joyFlags & 4)
     {
-        sGamepadCapFlags_5C2EF8 |= 8;
+        sGamepadCapFlags_5C2EF8 |= eUnknown_4;
     }
     if (joyFlags & 0x40)
     {
-        sGamepadCapFlags_5C2EF8 |= 2;
+        sGamepadCapFlags_5C2EF8 |= eHasDPad;
     }
     sJoystickNumButtons_5C2EFC = sJoystickCaps_5C2D10.wNumButtons;
     if (sJoystickCaps_5C2D10.wNumButtons <= 2
         || sJoystickCaps_5C2D10.wNumButtons > 4 && sJoystickCaps_5C2D10.wNumAxes > 2)
     {
-        sGamepadCapFlags_5C2EF8 |= 1u;
+        sGamepadCapFlags_5C2EF8 |= eAutoRun;
     }
     if (sJoystickCaps_5C2D10.wNumButtons == 4)
     {
@@ -1441,6 +1575,17 @@ EXPORT void CC Input_Init_491BC0()
     sJoyButtonNames_5C9908[8] = "";
     sJoyButtonNames_5C9908[9] = "";
     */
+#elif USE_SDL2
+    sJoyButtonNames_5C9908[0] = "X";
+    sJoyButtonNames_5C9908[1] = "A";
+    sJoyButtonNames_5C9908[2] = "B";
+    sJoyButtonNames_5C9908[3] = "Y";
+    sJoyButtonNames_5C9908[4] = "LB";
+    sJoyButtonNames_5C9908[5] = "RB";
+    sJoyButtonNames_5C9908[6] = "LT";
+    sJoyButtonNames_5C9908[7] = "RT";
+    sJoyButtonNames_5C9908[8] = "";
+    sJoyButtonNames_5C9908[9] = "";
 #else
     sJoyButtonNames_5C9908[0] = "B1";
     sJoyButtonNames_5C9908[1] = "B2";
