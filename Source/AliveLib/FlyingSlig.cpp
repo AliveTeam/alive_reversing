@@ -10,6 +10,9 @@
 #include "ObjectIds.hpp"
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
+#include "Abe.hpp"
+#include "Map.hpp"
+#include "MusicController.hpp"
 
 using TFlyingSligFn2 = TFlyingSligFn;
 
@@ -67,8 +70,6 @@ ALIVE_ARY(1, 0x5523A0, TFlyingSligFn2, 26, sFlyingSlig_fns2_5523A0,
 
 FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 {
-    NOT_IMPLEMENTED();
-
     //BaseCtor_4340B0(9); // Omitted for direct call
     ctor_408240(9);
 
@@ -232,6 +233,67 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
         field_E0_176_ptr->ctor_4AC990();
     }
     return this;
+}
+
+void FlyingSlig::dtor_434990()
+{
+    SetVTable(this, 0x545120);
+
+    if (sControlledCharacter_5C1B8C == this)
+    {
+        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        MusicController::sub_47FD60(0, this, 0, 0);
+        if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
+        {
+            gMap_5C3030.SetActiveCam_480D30(
+                field_2A0_abe_level,
+                field_2A2_abe_path,
+                field_2A4_abe_camera, 
+                CameraSwapEffects::eEffect0_InstantChange,
+                0,
+                0);
+        }
+    }
+
+    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_148_tlvInfo);
+    if (pTlv)
+    {
+        if (pTlv->field_4_type != TlvTypes::SligGetWings_105 && pTlv->field_4_type != TlvTypes::FlyingSligSpawner_92)
+        {
+            if (field_10C_health <= FP_FromInteger(0))
+            {
+                Path::TLV_Reset_4DB8E0(field_148_tlvInfo, -1, 0, 1);
+            }
+            else
+            {
+                Path::TLV_Reset_4DB8E0(field_148_tlvInfo, -1, 0, 0);
+            }
+        }
+    }
+
+    BaseAliveGameObject::dtor_4080B0();
+}
+
+FlyingSlig* FlyingSlig::vdtor_434870(signed int flags)
+{
+    dtor_434990();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void FlyingSlig::vScreenChanged_434C10()
+{
+    if ((gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
+        gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
+        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId) &&
+        (this != sControlledCharacter_5C1B8C ||
+        field_17E_flags.Get(Flags_17E::eBit13_Persistant)))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
 }
 
 void FlyingSlig::vUpdate_434AD0()

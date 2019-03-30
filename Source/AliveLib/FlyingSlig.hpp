@@ -5,6 +5,8 @@
 #include "Path.hpp"
 #include "FlyingSligSpawner.hpp"
 
+enum class LevelIds : __int16;
+
 class FlyingSlig;
 
 using TFlyingSligFn = void(FlyingSlig::*)(void);
@@ -14,7 +16,31 @@ class FlyingSlig : public BaseAliveGameObject
 public:
     EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo);
 
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_434870(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_434AD0();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChanged_434C10();
+    }
+
+    // TODO: Remaining virtuals
+
 private:
+
+    EXPORT void dtor_434990();
+
+    EXPORT FlyingSlig* vdtor_434870(signed int flags);
+
+    EXPORT void vScreenChanged_434C10();
+
 
     EXPORT void vUpdate_434AD0();
     EXPORT __int16 sub_436A90();
@@ -161,7 +187,7 @@ private:
     FP field_294_nextXPos;
     FP field_298_nextYPos;
     TFlyingSligFn field_29C_pTable1;
-    __int16 field_2A0_abe_level;
+    LevelIds field_2A0_abe_level;
     __int16 field_2A2_abe_path;
     __int16 field_2A4_abe_camera;
     __int16 field_2A6;
