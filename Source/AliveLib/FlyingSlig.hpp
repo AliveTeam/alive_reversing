@@ -21,9 +21,53 @@ private:
     EXPORT void sub_4348A0();
     EXPORT void sub_4396E0();
 
+public:
+
     EXPORT void state_0_0_4355B0();
+    EXPORT void state_0_1_Dead_4364E0();
+    EXPORT void state_0_2_4356D0();
+    EXPORT void state_0_3_435750();
+    EXPORT void state_0_4_435BC0();
+    EXPORT void state_0_5_435820();
+    EXPORT void state_0_6_435940();
+    EXPORT void state_0_7_435990();
+    EXPORT void state_0_8_435AC0();
+    EXPORT void state_0_9_435E40();
+    EXPORT void state_0_10_435F10();
+    EXPORT void state_0_11_435FD0();
+    EXPORT void state_0_12_PlayerControlled_436040();
+    EXPORT void state_0_13_4360F0();
+    EXPORT void state_0_14_ChantShake_436180();
+    EXPORT void state_0_15_4362C0();
+    EXPORT void state_0_16_4355E0();
+public:
 
     EXPORT void state_1_0_4385E0();
+    EXPORT void state_1_1_4386A0();
+    EXPORT void state_1_2_4388B0();
+    EXPORT void state_1_3_438AA0();
+    EXPORT void state_1_4_438CC0();
+    EXPORT void state_1_5_438DD0();
+    EXPORT void state_1_6_439030();
+    EXPORT void state_1_7_439150();
+    EXPORT void state_1_8_Speak_4391D0();
+    EXPORT void state_1_9_nullsub_33();
+    EXPORT void state_1_10_4387D0();
+    EXPORT void state_1_11_438E40();
+    EXPORT void state_1_12_438B10();
+    EXPORT void state_1_13_438F60();
+    EXPORT void state_1_14_438BF0();
+    EXPORT void state_1_15_4387F0();
+    EXPORT void state_1_16_438730();
+    EXPORT void state_1_17_438B80();
+    EXPORT void state_1_18_438C90();
+    EXPORT void state_1_19_4390D0();
+    EXPORT void state_1_20_439110();
+    EXPORT void state_1_21_438EB0();
+    EXPORT void state_1_22_438EE0();
+    EXPORT void state_1_23_438F20();
+    EXPORT void state_1_24_438D60();
+    EXPORT void state_1_25_4389E0();
 private:
     __int16 field_116_pad;
     Path_FlyingSlig field_118_data;

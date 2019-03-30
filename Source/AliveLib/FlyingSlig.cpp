@@ -13,8 +13,57 @@
 
 using TFlyingSligFn2 = TFlyingSligFn;
 
-ALIVE_ARY(1, 0x5523A0, TFlyingSligFn2, 25, sFlyingSlig_fns2_5523A0, {});
+ALIVE_ARY(1, 0x552350, TFlyingSligFn2, 25, sFlyingSlig_fns1_552350,
+{
+    &FlyingSlig::state_0_0_4355B0,
+    &FlyingSlig::state_0_1_Dead_4364E0,
+    &FlyingSlig::state_0_2_4356D0,
+    &FlyingSlig::state_0_3_435750,
+    &FlyingSlig::state_0_4_435BC0,
+    &FlyingSlig::state_0_5_435820,
+    &FlyingSlig::state_0_6_435940,
+    &FlyingSlig::state_0_7_435990,
+    &FlyingSlig::state_0_8_435AC0,
+    &FlyingSlig::state_0_9_435E40,
+    &FlyingSlig::state_0_10_435F10,
+    &FlyingSlig::state_0_11_435FD0,
+    &FlyingSlig::state_0_12_PlayerControlled_436040,
+    &FlyingSlig::state_0_13_4360F0,
+    &FlyingSlig::state_0_14_ChantShake_436180,
+    &FlyingSlig::state_0_15_4362C0,
+    &FlyingSlig::state_0_1_Dead_4364E0,
+    &FlyingSlig::state_0_16_4355E0,
+});
 
+ALIVE_ARY(1, 0x5523A0, TFlyingSligFn2, 26, sFlyingSlig_fns2_5523A0,
+{
+    &FlyingSlig::state_1_0_4385E0,
+    &FlyingSlig::state_1_1_4386A0,
+    &FlyingSlig::state_1_2_4388B0,
+    &FlyingSlig::state_1_3_438AA0,
+    &FlyingSlig::state_1_4_438CC0,
+    &FlyingSlig::state_1_5_438DD0,
+    &FlyingSlig::state_1_6_439030,
+    &FlyingSlig::state_1_7_439150,
+    &FlyingSlig::state_1_8_Speak_4391D0,
+    &FlyingSlig::state_1_9_nullsub_33,
+    &FlyingSlig::state_1_10_4387D0,
+    &FlyingSlig::state_1_11_438E40,
+    &FlyingSlig::state_1_12_438B10,
+    &FlyingSlig::state_1_13_438F60,
+    &FlyingSlig::state_1_14_438BF0,
+    &FlyingSlig::state_1_15_4387F0,
+    &FlyingSlig::state_1_16_438730,
+    &FlyingSlig::state_1_17_438B80,
+    &FlyingSlig::state_1_18_438C90,
+    &FlyingSlig::state_1_19_4390D0,
+    &FlyingSlig::state_1_20_439110,
+    &FlyingSlig::state_1_21_438EB0,
+    &FlyingSlig::state_1_22_438EE0,
+    &FlyingSlig::state_1_23_438F20,
+    &FlyingSlig::state_1_24_438D60,
+    &FlyingSlig::state_1_25_4389E0,
+});
 
 FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 {
@@ -232,13 +281,41 @@ void FlyingSlig::vUpdate_434AD0()
         field_B8_xpos = field_294_nextXPos;
         field_BC_ypos = field_298_nextYPos;
 
+        // 0x4046bf = patrol + ends on FREEZE
+        // 0x4028a6 = idle/still + ends on FREEZE
+        // 0x403dbe = blow up on next chant of any duration
+        // 0x402abd = dead, just gets destroyed after a timer
+        // 0x404480 = under player control
+        // 0x40241e = very fast rapid shake ??
+        // 0x4013a2 = idle - music change on spot abe
+        // 
+
+        // static int oldPtrV = 0x4028a6;
         /*
         int ptrV = 0;
         memcpy(&ptrV, &field_29C_pTable1, sizeof(void*));
-        LOG_INFO("Addr = " << std::hex << ptrV);
+        if (oldPtrV != ptrV)
+        {
+            oldPtrV = ptrV;
+            LOG_INFO("Addr = " << std::hex << ptrV);
+        }
         */
+        //memcpy(&field_29C_pTable1, &oldPtrV, sizeof(void*));
 
         (this->*(field_29C_pTable1))();
+        /*
+        0 = idle
+        1 = flying
+        2 = turn around
+        3 = go down
+        4 = rapid turn ??
+        5 = go up
+        6 = rapid turn ??
+        7 = speak
+        8 = ??
+        9 = 
+        10 = 
+        */
         (this->*(sFlyingSlig_fns2_5523A0)[field_106_current_state])();
         sub_4396E0();
     }
@@ -259,7 +336,212 @@ void FlyingSlig::state_0_0_4355B0()
     NOT_IMPLEMENTED();
 }
 
+void FlyingSlig::state_0_1_Dead_4364E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_2_4356D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_3_435750()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_4_435BC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_5_435820()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_6_435940()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_7_435990()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_8_435AC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_9_435E40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_10_435F10()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_11_435FD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_12_PlayerControlled_436040()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_13_4360F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_14_ChantShake_436180()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_15_4362C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_0_16_4355E0()
+{
+    NOT_IMPLEMENTED();
+}
+
 void FlyingSlig::state_1_0_4385E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_1_4386A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_2_4388B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_3_438AA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_4_438CC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_5_438DD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_6_439030()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_7_439150()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_8_Speak_4391D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_9_nullsub_33()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_10_4387D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_11_438E40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_12_438B10()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_13_438F60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_14_438BF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_15_4387F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_16_438730()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_17_438B80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_18_438C90()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_19_4390D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_20_439110()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_21_438EB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_22_438EE0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_23_438F20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_24_438D60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::state_1_25_4389E0()
 {
     NOT_IMPLEMENTED();
 }
