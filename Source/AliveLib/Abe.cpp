@@ -268,38 +268,6 @@ const TintEntry sTintTable_Abe_554D20[15] =
     { -1, 102u, 102u, 102u }
 };
 
-// Frame call backs ??
-EXPORT int CC sub_455F40(void*, signed __int16*)
-{
-    return 1;
-}
-
-EXPORT int CC sub_455F60(void*, signed __int16*)
-{
-    return 1;
-}
-
-EXPORT int CC sub_455F80(void*, signed __int16*)
-{
-    // Does ray casting checks?
-    NOT_IMPLEMENTED();
-    return 1;
-}
-
-EXPORT int CC sub_4561B0(void*, signed __int16*)
-{
-    // Slurg squish check/particles?
-    NOT_IMPLEMENTED();
-    return 1;
-}
-
-EXPORT int CC sub_434130(void*, signed __int16*)
-{
-    // ??
-    NOT_IMPLEMENTED();
-    return 1;
-}
-
 const SfxDefinition sSFXList_555160[] =
 {
     { 0u, 3u, 69u, 60u, -1, 1 },
@@ -502,20 +470,7 @@ LABEL_19:
     }
 }
 
-using TFrameCallBackType = decltype(&sub_434130);
-
-// TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks_40B7A0
-ALIVE_ARY(1, 0x55EF98, TFrameCallBackType, 5, off_55EF98,
-{
-    sub_455F40,
-    sub_455F60,
-    sub_455F80,
-    sub_4561B0,
-    sub_434130
-});
-
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
-
 
 enum AbeResources
 {
@@ -643,7 +598,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
         1,
         1u);
 
-    field_20_animation.field_1C_fn_ptr_array = off_55EF98;
+    field_20_animation.field_1C_fn_ptr_array = kAbe_Anim_Frame_Fns_55EF98;
 
     PSX_Point point = {};
     gMap_5C3030.GetCurrentCamCoords_480680(&point);

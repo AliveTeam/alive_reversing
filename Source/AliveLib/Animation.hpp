@@ -7,6 +7,14 @@
 #include "Primitives.hpp"
 #include "FixedPoint.hpp"
 
+using TFrameCallBackType = int(CC *)(void *, __int16 *);
+
+extern TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5];
+extern TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4];
+extern TFrameCallBackType kSlog_Anim_Frame_Fns_55EFBC[2];
+extern TFrameCallBackType kFlyingSlig_Anim_Frames_Fns_55EFC4[3];
+extern TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3];
+
 namespace Test
 {
     void AnimationTests();

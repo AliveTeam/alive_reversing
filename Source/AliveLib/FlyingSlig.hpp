@@ -48,7 +48,24 @@ private:
     __int16 field_178;
     __int16 field_17A;
     __int16 field_17C;
-    __int16 field_17E_flags;
+
+    enum Flags_17E
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+        eBit6 = 0x20,
+        eBit7 = 0x40,
+        eBit8 = 0x80,
+        eBit9 = 0x100,
+        eBit10 = 0x200,
+        eBit11 = 0x400,
+        eBit12 = 0x800,
+        eBit13_Persistant = 0x1000,
+    };
+    BitField16<Flags_17E> field_17E_flags;
     __int16 field_180;
     __int16 field_182;
     int field_184;

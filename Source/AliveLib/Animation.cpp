@@ -8,6 +8,96 @@
 #include "PsxDisplay.hpp"
 #include <gmock/gmock.h>
 
+
+// Frame call backs ??
+EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)
+{
+    return 1;
+}
+
+EXPORT int CC Animation_OnFrame_Null_455F60(void*, signed __int16*)
+{
+    return 1;
+}
+
+EXPORT int CC Animation_OnFrame_Abe_455F80(void*, signed __int16*)
+{
+    // Does ray casting checks?
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+EXPORT int CC Animation_OnFrame_Common_4561B0(void*, signed __int16*)
+{
+    // Slurg squish check/particles?
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+EXPORT int CC Animation_OnFrame_Common_434130(void*, signed __int16*)
+{
+    // ??
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+EXPORT int CC Animation_OnFrame_Slig_4C0600(void*, signed __int16*)
+{
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+EXPORT int CC Animation_OnFrame_Slog_4C3030(void*, signed __int16*)
+{
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+EXPORT int CC Animation_OnFrame_Fleech_449A60(void*, signed __int16*)
+{
+    NOT_IMPLEMENTED();
+    return 1;
+}
+
+// TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks_40B7A0
+TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5] =
+{
+    Animation_OnFrame_Common_Null_455F40,
+    Animation_OnFrame_Null_455F60,
+    Animation_OnFrame_Abe_455F80,
+    Animation_OnFrame_Common_4561B0,
+    Animation_OnFrame_Common_434130
+};
+
+TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4] =
+{
+    Animation_OnFrame_Common_Null_455F40,
+    Animation_OnFrame_Null_455F60,
+    Animation_OnFrame_Slig_4C0600,
+    Animation_OnFrame_Common_4561B0
+};
+
+TFrameCallBackType kSlog_Anim_Frame_Fns_55EFBC[2] =
+{
+    Animation_OnFrame_Slog_4C3030,
+    Animation_OnFrame_Null_455F60
+};
+
+TFrameCallBackType kFlyingSlig_Anim_Frames_Fns_55EFC4[3] =
+{
+    Animation_OnFrame_Common_Null_455F40,
+    Animation_OnFrame_Null_455F60,
+    Animation_OnFrame_Common_434130
+};
+
+TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3] =
+{
+    Animation_OnFrame_Common_Null_455F40,
+    Animation_OnFrame_Null_455F60,
+    Animation_OnFrame_Fleech_449A60
+};
+
+
 void AnimationBase::vDecode_40AC90()
 {
     ALIVE_FATAL("Should never be called");

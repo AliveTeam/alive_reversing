@@ -15,6 +15,7 @@ using TFlyingSligFn2 = TFlyingSligFn;
 
 ALIVE_ARY(1, 0x5523A0, TFlyingSligFn2, 25, sFlyingSlig_fns2_5523A0, {});
 
+
 FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 {
     NOT_IMPLEMENTED();
@@ -36,15 +37,15 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_4_typeId = Types::eFlyingSlig_54;
 
     // TODO: Resource Ids
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 450, 1, 0));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 423, 1, 0));
-    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6005, 1, 0));
-    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 372, 1, 0));
-    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 365, 1, 0));
-    field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 25, 1, 0));
-    field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 319, 1, 0));
-    field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 305, 1, 0));
-    field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 576, 1, 0));
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 450, TRUE, FALSE));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 423, TRUE, FALSE));
+    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6005, TRUE, FALSE));
+    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 372, TRUE, FALSE));
+    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 365, TRUE, FALSE));
+    field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 25, TRUE, FALSE));
+    field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 319, TRUE, FALSE));
+    field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 305, TRUE, FALSE));
+    field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 576, TRUE, FALSE));
 
     Animation_Init_424E10(
         116888,
@@ -56,8 +57,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 
     field_15E = 0;
 
-    // TODO
-    //field_20_animation.field_1C_fn_ptr_array = kFlyingSlig_Anim_Frames_Fns_55EFC4;
+    field_20_animation.field_1C_fn_ptr_array = kFlyingSlig_Anim_Frames_Fns_55EFC4;
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -72,8 +72,14 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_150 = 0;
     field_154 = 0;
 
-    // TODO: Flags obj
-    field_17E_flags &= ~0x3F1u;
+    field_17E_flags.Clear(Flags_17E::eBit1);
+    field_17E_flags.Clear(Flags_17E::eBit5);
+    field_17E_flags.Clear(Flags_17E::eBit6);
+    field_17E_flags.Clear(Flags_17E::eBit7);
+    field_17E_flags.Clear(Flags_17E::eBit8);
+    field_17E_flags.Clear(Flags_17E::eBit9);
+    field_17E_flags.Clear(Flags_17E::eBit10);
+
     field_158_obj_id = -1;
 
     field_288 = 0;
@@ -111,14 +117,13 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_2B4 = FP_FromDouble(0.4) * field_CC_sprite_scale;
     field_2B8 = FP_FromDouble(0.4) * field_CC_sprite_scale;
 
-    // TODO: Check order is correct
     if (field_118_data.field_10_data.field_A_direction == 0)
     {
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     }
 
     if (field_118_data.field_10_data.field_0_scale == 1)
@@ -136,10 +141,10 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 
     field_118_data.field_10_data.field_1E_persistant;
 
-    field_17E_flags &= ~0x1000;
+    field_17E_flags.Clear(Flags_17E::eBit13_Persistant);
     if (field_118_data.field_10_data.field_1E_persistant)
     {
-        field_17E_flags |= 0x1000;
+        field_17E_flags.Set(Flags_17E::eBit13_Persistant);
     }
 
     field_17C |= field_118_data.field_10_data.field_1E_persistant;
@@ -226,6 +231,12 @@ void FlyingSlig::vUpdate_434AD0()
     {
         field_B8_xpos = field_294_nextXPos;
         field_BC_ypos = field_298_nextYPos;
+
+        /*
+        int ptrV = 0;
+        memcpy(&ptrV, &field_29C_pTable1, sizeof(void*));
+        LOG_INFO("Addr = " << std::hex << ptrV);
+        */
 
         (this->*(field_29C_pTable1))();
         (this->*(sFlyingSlig_fns2_5523A0)[field_106_current_state])();
