@@ -47,6 +47,7 @@
 #include "MotionDetector.hpp"
 #include "FlyingSlig.hpp"
 #include "FlyingSligSpawner.hpp"
+#include "Mudokon.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -781,7 +782,57 @@ EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* pTlv, Path*, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    auto pMudTlv = static_cast<Path_Mudokon*>(pTlv);
+    if (loadMode == 1 || loadMode == 2)
+    {
+        // TODO: Ids
+        gMap_5C3030.LoadResource_4DBE00("ABEBSIC1.BAN", ResourceManager::Resource_Animation, 55, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("ABEKNFD.BAN", ResourceManager::Resource_Animation, 27, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("ABEKNBK.BAN", ResourceManager::Resource_Animation, 26, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("ABEEDGE.BAN", ResourceManager::Resource_Animation, 43, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("MUDIDLE.BAN", ResourceManager::Resource_Animation, 512, loadMode);
+
+        static CompileTimeResourceList<5> kPalResources(
+        {
+            { ResourceManager::Resource_Palt, 530 },
+            { ResourceManager::Resource_Palt, 531 },
+            { ResourceManager::Resource_Palt, 532 },
+            { ResourceManager::Resource_Palt, 533 },
+            { ResourceManager::Resource_Palt, 534 }
+        });
+
+        gMap_5C3030.LoadResourcesFromList_4DBE70("MUDPAL.BND", kPalResources.AsList(), loadMode, 0);
+        if (pMudTlv->field_12_state == Mud_State::eChisle_0)
+        {
+            gMap_5C3030.LoadResource_4DBE00("MUDCHSL.BAN", ResourceManager::Resource_Animation, 511, loadMode);
+        }
+        else
+        {
+            gMap_5C3030.LoadResource_4DBE00("MUDSCRUB.BAN", ResourceManager::Resource_Animation, 510, loadMode);
+        }
+
+        static CompileTimeResourceList<2> kResources(
+        {
+            { ResourceManager::Resource_Animation, 514 },
+            { ResourceManager::Resource_Animation, 517 }  // TODO: Another block of 3 after this exists that is never used ??
+        });
+
+        gMap_5C3030.LoadResourcesFromList_4DBE70("MUDWORK.BND", kResources.AsList(), loadMode);
+    }
+    else
+    {
+        auto pMud = alive_new<Mudokon>();
+        if (pMud)
+        {
+            pMud->ctor_474F30(pMudTlv, tlvInfo.all);
+        }
+    }
+
+}
+
 EXPORT void CC Factory_ZSligCover_4D6A60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }

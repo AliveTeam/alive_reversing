@@ -24,6 +24,18 @@ public:
         mData.all |= value;
     }
 
+    void Set(EnumType value, bool set)
+    {
+        if (set)
+        {
+            Set(value);
+        }
+        else
+        {
+            Clear(value);
+        }
+    }
+
     DataType& Raw()
     {
         return mData;

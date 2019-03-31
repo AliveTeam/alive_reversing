@@ -271,8 +271,8 @@ void EvilFart::vUpdate_423100()
 
                 field_BC_ypos = field_BC_ypos - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 0x320000);
                 Abe_SFX_457EC0(7, 0, 10 * (300 - field_11C_k900), this);
-                field_BC_ypos += Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale,  0x320000);
                 */
+                field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(50);
             }
         }
     }

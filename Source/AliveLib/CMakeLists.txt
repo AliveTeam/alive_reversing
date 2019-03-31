@@ -267,6 +267,8 @@ ExportHooker.hpp
     FlyingSlig.hpp
     FlyingSligSpawner.cpp
     FlyingSligSpawner.hpp
+    Mudokon.cpp
+    Mudokon.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibSrc)
