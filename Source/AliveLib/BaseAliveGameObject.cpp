@@ -318,6 +318,46 @@ BOOL BaseAliveGameObject::Check_Collision_Unknown_408E90(__int16 direction, __in
         field_D6_scale != 0 ? 0xF : 0xF0) == 0;
 }
 
+BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(int idToFind, Types typeToFind, FP xpos, FP ypos)
+{
+    const short xposD = FP_GetExponent(xpos);
+    const short yposD = FP_GetExponent(ypos);
+
+    BOOL bFound = FALSE;
+    for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == typeToFind && pObj != this)
+        {
+            if (pObj->field_8_object_id == idToFind)
+            {
+                // So that we pick the one AFTER this
+                bFound = TRUE;
+            }
+            else if (bFound)
+            {
+                PSX_RECT bRect = {};
+                BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+                pAliveObj->vGetBoundingRect_424FD0(&bRect, 1);
+                // TODO: Similar to PSX_Rects_overlap_no_adjustment
+                if (xposD >= bRect.x &&
+                    xposD <= bRect.w &&
+                    yposD >= bRect.y &&
+                    yposD <= bRect.h)
+                {
+                    return pAliveObj;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
 EXPORT void BaseAliveGameObject::sub_408C40()
 {
      if (sControlledCharacter_5C1B8C == this)

@@ -45,6 +45,7 @@
 #include "MineCar.hpp"
 #include "EvilFart.hpp"
 #include "Particle.hpp"
+#include "Mudokon.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -6080,7 +6081,64 @@ void Abe::State_61_TurnToRun_456530()
 
 void Abe::State_62_Punch_454750()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 5)
+    {
+        FP gridSize = {};
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            gridSize = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+        else
+        {
+            gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+        }
+
+        const FP kFP5 = FP_FromInteger(5);
+        BaseGameObject* pSlapTarget = FindObjectOfType_425180(Types::eMudokon_110, gridSize, field_BC_ypos - kFP5);
+        while (pSlapTarget)
+        {
+            // Is it in a state where we can slap it?
+            const __int16 mud_state = static_cast<Mudokon*>(pSlapTarget)->field_106_current_state;
+            if (mud_state != 46 && mud_state != 47)
+            {
+                // Can slap, so exit
+                break;
+            }
+
+            // Try to get the next "stacked" mud - e.g if we have like 20 muds on 1 grid block this will iterate through them
+            pSlapTarget = GetStackedSlapTarget_425290(pSlapTarget->field_8_object_id, Types::eMudokon_110, gridSize, field_BC_ypos - kFP5);
+        }
+
+        if (!pSlapTarget)
+        {
+            pSlapTarget = FindObjectOfType_425180(Types::eLockedSoul_61, gridSize, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
+        }
+
+        if (!pSlapTarget)
+        {
+            pSlapTarget = FindObjectOfType_425180(Types::eSlig_125, gridSize, field_BC_ypos - kFP5);
+        }
+
+        if (!pSlapTarget)
+        {
+            pSlapTarget = FindObjectOfType_425180(Types::eSlig_125, field_B8_xpos, field_BC_ypos - kFP5);
+        }
+
+        if (!pSlapTarget)
+        {
+            pSlapTarget = FindObjectOfType_425180(Types::eGlukkon_67, gridSize, field_BC_ypos - kFP5);
+        }
+
+        if (pSlapTarget)
+        {
+            static_cast<BaseAliveGameObject*>(pSlapTarget)->VTakeDamage_408730(this);
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_63_Sorry_454670()

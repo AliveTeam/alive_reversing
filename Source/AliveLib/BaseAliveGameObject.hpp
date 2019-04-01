@@ -64,6 +64,9 @@ protected:
 
     EXPORT BOOL Check_Collision_Unknown_408E90(__int16 direction, __int16 distance);
 
+    EXPORT BaseAliveGameObject* GetStackedSlapTarget_425290(int idToFind, Types typeToFind, FP xpos, FP ypos);
+
+
 public:
     EXPORT void sub_408C40();
 public:
