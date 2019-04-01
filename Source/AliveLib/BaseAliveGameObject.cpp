@@ -127,7 +127,7 @@ BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)
 
 int BaseAliveGameObject::VUnPosses_408F90()
 {
-    return vnull_408F90();
+    return vUnPosses_408F90();
 }
 
 unsigned __int16 BaseAliveGameObject::Vnull_408F70()
@@ -172,7 +172,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
 
 // =======
 
-int BaseAliveGameObject::vnull_408F90()
+int BaseAliveGameObject::vUnPosses_408F90()
 {
     // Empty
     return 0;

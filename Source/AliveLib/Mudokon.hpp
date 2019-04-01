@@ -67,7 +67,7 @@ private:
 
 private:
     __int16 field_116;
-    FP field_118;
+    int field_118;
     int field_11C;
     __int16 field_120_angry_trigger;
     __int16 field_122;
@@ -93,7 +93,7 @@ private:
     int field_158_obj_id;
     __int16 field_15C;
     __int16 field_15E;
-    __int16 field_160;
+    __int16 field_160_delayed_speak;
     __int16 field_162;
     int field_164_ring_timeout;
     __int16 field_168;
@@ -103,7 +103,7 @@ private:
         eBit1 = 0x1,
         eBit2_save_state = 0x2,
         eBit3 = 0x4,
-        eBit4 = 0x8,
+        eBit4_blind = 0x8,
         eBit5 = 0x10,
         eBit6 = 0x20,
         eBit7 = 0x40,

@@ -516,7 +516,7 @@ void SlamDoor::ClearInsideSlamDoor_4B0530(BaseAliveGameObject * pObj, __int16 a3
         pObj->field_B8_xpos = pObj->field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5));
     }
 
-    if (pObj->field_4_typeId == Types::eType_81 || pObj->field_4_typeId == Types::eMudokon_110 || pObj->field_4_typeId == Types::eType_Abe_69)
+    if (pObj->field_4_typeId == Types::eMudokon2_81 || pObj->field_4_typeId == Types::eMudokon_110 || pObj->field_4_typeId == Types::eType_Abe_69)
     {
         pObj->VTakeDamage_408730(this);
     }

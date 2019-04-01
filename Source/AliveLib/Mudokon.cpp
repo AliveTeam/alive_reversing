@@ -5,6 +5,8 @@
 #include "stdlib.hpp"
 #include "Collisions.hpp"
 #include "Game.hpp"
+#include "Events.hpp"
+#include "Abe.hpp"
 
 const TintEntry kMudTints_55C744[18] =
 {
@@ -28,17 +30,21 @@ const TintEntry kMudTints_55C744[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-const __int16 word_55CF08[6] =
+const __int16 word_55CF08[8] =
 {
     0,
     1,
     3,
     6,
     7,
+    0,
+    0,
 };
 
 Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 {
+    //NOT_IMPLEMENTED();
+
     ctor_408240(18);
 
     field_154 = 0;
@@ -50,7 +56,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_11C = -1;
     field_12C = -1;
     field_158_obj_id = -1;
-    field_4_typeId = Types::eType_81; // TODO: Set to 110 later, what is 81 ??
+    field_4_typeId = Types::eMudokon2_81; // TODO: Set to 110 later, what is 81 ??
     field_C_objectId = tlvInfo;
     field_194 = 0;
     field_18E_fns1_idx = 0;
@@ -76,7 +82,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     field_16A_flags.Clear(Flags::eBit2_save_state);
     field_16A_flags.Clear(Flags::eBit3);
-    field_16A_flags.Set(Flags::eBit4, pTlv->field_22_bBlind & 1);
+    field_16A_flags.Set(Flags::eBit4_blind, pTlv->field_22_bBlind & 1);
     field_16A_flags.Clear(Flags::eBit5);
     field_16A_flags.Clear(Flags::eBit6);
     field_16A_flags.Clear(Flags::eBit7);
@@ -151,7 +157,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_10_resources_array.SetAt(16, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 533, TRUE, FALSE));
     field_10_resources_array.SetAt(17, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 534, TRUE, FALSE));
 
-    if (field_16A_flags.Get(Flags::eBit4))
+    if (field_16A_flags.Get(Flags::eBit4_blind))
     {
         SetPal_4772D0(0);
     }
@@ -198,9 +204,8 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    const FP tlvXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     const short bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
-        tlvXPos,
+        FP_FromInteger(pTlv->field_8_top_left.field_0_x),
         FP_FromInteger(pTlv->field_8_top_left.field_2_y),
         FP_FromInteger(pTlv->field_C_bottom_right.field_0_x),
         FP_FromInteger(pTlv->field_C_bottom_right.field_2_y),
@@ -236,9 +241,10 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     field_16A_flags.Set(Flags::eBit1);
     field_190 = 0;
-    field_118 = tlvXPos;
+    field_118 = field_C_objectId;
+
     field_128 = 0;
-    field_160 = -1;
+    field_160_delayed_speak = -1;
     field_162 = field_DA_xOffset;
     
     field_E0_176_ptr = alive_new<Shadow>();
@@ -255,6 +261,151 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 void Mudokon::vUpdate_4757A0()
 {
     NOT_IMPLEMENTED();
+
+    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    {
+        field_114_flags.Clear(Flags_114::e114_Bit9);
+        if (field_104_collision_line_type != -1)
+        {
+            sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(20),
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(20),
+                &field_100_pCollisionLine,
+                &field_B8_xpos,
+                &field_BC_ypos,
+                1 << field_104_collision_line_type);
+
+            if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            {
+                PSX_RECT v26 = {};
+                vGetBoundingRect_424FD0(&v26, 1);
+
+                vOnCollisionWith_424EE0(
+                    { static_cast<short>(v26.x + 0x50000), v26.y }, // TODO: WTF? Isn't fixed point ??
+                    { static_cast<short>(v26.w + 0x50000), v26.h }, ObjList_5C1B78,
+                    1,
+                    (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+            }
+        }
+
+        field_104_collision_line_type = 0;
+
+        if (field_11C != -1)
+        {
+            for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            {
+                BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                if (!pObj)
+                {
+                    break;
+                }
+
+                if (pObj->field_C_objectId == field_11C)
+                {
+                    field_11C = pObj->field_8_object_id;
+                    //word_5C3012++;
+                    field_16C |= 4u;
+                    if (field_18E_fns1_idx == 6 && field_190 == 3)
+                    {
+                        // push event ??
+                        //((void(__stdcall *)(signed int))v10->field_0_VTbl->VBaseAliveGameObject.field_18_vOnCollisionWith_424EE0)(1);
+                        field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                    }
+                    break;
+                }
+            }
+        }
+
+        if (field_158_obj_id != -1)
+        {
+            for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+            {
+                BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                if (!pObj)
+                {
+                    break;
+                }
+
+                if (pObj->field_C_objectId == field_158_obj_id)
+                {
+                    field_158_obj_id = pObj->field_8_object_id;
+                    static_cast<BaseAliveGameObject*>(pObj)->VUnPosses_408F90();
+                    break;
+                }
+            }
+        }
+    }
+
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    else
+    {
+        FP v15 = field_B8_xpos- sControlledCharacter_5C1B8C->field_B8_xpos;
+        if (v15 < FP_FromInteger(0))
+        {
+            v15 = sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos;
+        }
+        if (v15 > FP_FromInteger(750))
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            return;
+        }
+
+        FP v16 = field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos;
+        if (v16 < FP_FromInteger(0))
+        {
+            v16 = sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos;
+        }
+        if (v16 > FP_FromInteger(520))
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        }
+        else
+        {
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            }
+
+            const __int16 oldState = field_106_current_state;
+            //field_190 = sMudokon_fns1_55CDF0[field_18E_fns1_idx]();
+            FP oldXPos = field_B8_xpos;
+            FP oldYPos = field_BC_ypos;
+            //sMudokon_fns2_55CE18[field_106_current_state]();
+            FP curXPos = field_B8_xpos;
+
+            if (oldXPos != curXPos || oldYPos != field_BC_ypos)
+            {
+                field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                    nullptr,
+                    curXPos,
+                    field_BC_ypos,
+                    curXPos,
+                    field_BC_ypos);
+                //field_0_VTbl->VBaseAliveGameObject.field_50_VOn_TLV_Collision_4087F0(v22);
+            }
+
+            if (oldState != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
+            {
+                field_114_flags.Clear(Flags_114::e114_Bit2);
+                //field_0_VTbl->VLiftPoint.PlatformBase__vsub_4975B0();
+            }
+            else if (field_192)
+            {
+                field_106_current_state = field_F4;
+                //field_0_VTbl->VLiftPoint.PlatformBase__vsub_4975B0();
+                field_20_animation.SetFrame_409D50(field_F6_anim_frame);
+                field_192 = 0;
+            }
+        }
+    }
 }
 
 void Mudokon::SetPal_4772D0(__int16 palType)
@@ -262,7 +413,7 @@ void Mudokon::SetPal_4772D0(__int16 palType)
     switch (palType)
     {
     case 0:
-        if (field_16A_flags.Get(Flags::eBit4))
+        if (field_16A_flags.Get(Flags::eBit4_blind))
         {
             field_D0_r = 63;
             field_D2_g = 63;

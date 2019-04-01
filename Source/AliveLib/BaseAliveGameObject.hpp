@@ -51,7 +51,7 @@ public:
     virtual void VOnTrapDoorOpen();
   
 protected:
-    EXPORT int vnull_408F90();
+    EXPORT int vUnPosses_408F90();
     EXPORT unsigned __int16 vnull_408F70();
     EXPORT void vUpdateState_4081C0(__int16 state);
     EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);

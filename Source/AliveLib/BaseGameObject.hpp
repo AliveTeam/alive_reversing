@@ -87,7 +87,7 @@ enum class Types : __int16
     eLiftPoint_78 = 78,
     eResourceManager_70 = 79,
     eSligGetPantsOrWings_80 = 80,
-    eType_81 = 81,
+    eMudokon2_81 = 81,
     eType_82 = 82,
     eAntiChant_83 = 83,
     eMeat_84 = 84,
