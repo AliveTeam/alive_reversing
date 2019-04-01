@@ -43,8 +43,6 @@ const __int16 word_55CF08[8] =
 
 Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 {
-    //NOT_IMPLEMENTED();
-
     ctor_408240(18);
 
     field_154 = 0;

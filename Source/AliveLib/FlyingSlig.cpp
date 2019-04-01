@@ -117,7 +117,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_14C_hi_pause_timer = 0;
     field_DC_bApplyShadows |= 2u;
 
-    field_15C = 45 * (Math_NextRandom() % 5 - 2);
+    field_15C = 45 * ((Math_NextRandom() % 5) - 2);
 
     field_150 = 0;
     field_154 = 0;
@@ -156,7 +156,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     {
         field_14C_hi_pause_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_4_hi_pause_time;
     }
-    else
+    else if (field_118_data.field_10_data.field_2_state == 0)
     {
         field_14C_hi_pause_timer = sGnFrame_5C1B84 + 1;
     }
@@ -167,14 +167,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_2B4 = FP_FromDouble(0.4) * field_CC_sprite_scale;
     field_2B8 = FP_FromDouble(0.4) * field_CC_sprite_scale;
 
-    if (field_118_data.field_10_data.field_A_direction == 0)
-    {
-        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-    }
-    else
-    {
-        field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-    }
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_118_data.field_10_data.field_A_direction == 0);
 
     if (field_118_data.field_10_data.field_0_scale == 1)
     {
@@ -189,15 +182,9 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
         field_D6_scale = 1;
     }
 
-    field_118_data.field_10_data.field_1E_persistant;
+    field_17E_flags.Set(Flags_17E::eBit13_Persistant, field_118_data.field_10_data.field_1E_persistant & 1);
 
-    field_17E_flags.Clear(Flags_17E::eBit13_Persistant);
-    if (field_118_data.field_10_data.field_1E_persistant)
-    {
-        field_17E_flags.Set(Flags_17E::eBit13_Persistant);
-    }
-
-    field_17C |= field_118_data.field_10_data.field_1E_persistant;
+    field_17C_launch_id |= field_118_data.field_10_data.field_1C_launch_id;
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);

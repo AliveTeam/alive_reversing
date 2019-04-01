@@ -117,7 +117,7 @@ private:
     __int16 field_176;
     __int16 field_178;
     __int16 field_17A;
-    __int16 field_17C;
+    __int16 field_17C_launch_id;
 
     enum Flags_17E
     {
