@@ -25,7 +25,7 @@ enum class Mud_Direction : __int16
     eRight_1 = 1,
 };
 
-enum class Mud_Emotion : __int16
+enum class Mud_TLV_Emotion : __int16
 {
     eNormal_0 = 0,
     eAngry_1 = 1,
@@ -44,7 +44,7 @@ struct Path_Mudokon : public Path_TLV
     __int16 field_1A_bDeaf;
     __int16 field_1C_disabled_resources;
     __int16 field_1E_save_state;
-    Mud_Emotion field_20_emotion;
+    Mud_TLV_Emotion field_20_emotion;
     __int16 field_22_bBlind;
     __int16 field_24_angry_trigger;
     __int16 field_26_stop_trigger;
@@ -54,6 +54,15 @@ struct Path_Mudokon : public Path_TLV
     __int16 field_2E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x30);
+
+enum class Mud_Emotion : __int16
+{
+    eNormal_0 = 0,
+    eAngry_1 = 1,
+    eSad_3 = 3,
+    eWired_6 = 6,
+    eSick_7 = 7
+};
 
 class Mudokon : public BaseAliveGameObject
 {
@@ -137,7 +146,7 @@ private:
     __int16 field_17A_rescue_id;
     __int16 field_17C;
     __int16 field_17E;
-    __int16 field_180_emo_tbl;
+    Mud_Emotion field_180_emo_tbl;
     __int16 field_182;
     __int16 field_184;
     __int16 field_186;

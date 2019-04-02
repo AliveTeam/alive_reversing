@@ -30,19 +30,36 @@ const TintEntry kMudTints_55C744[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-const __int16 word_55CF08[8] =
+// This is used rather than the un-typesafe word_55CF08 array
+static Mud_Emotion TLV_Emo_To_Internal_Emo(Mud_TLV_Emotion emo)
 {
-    0,
-    1,
-    3,
-    6,
-    7,
-    0,
-    0,
-};
+    switch (emo)
+    {
+    case Mud_TLV_Emotion::eNormal_0:
+        return Mud_Emotion::eNormal_0;
+
+    case Mud_TLV_Emotion::eAngry_1:
+        return Mud_Emotion::eAngry_1;
+
+    case Mud_TLV_Emotion::eSad_2:
+        return Mud_Emotion::eSad_3;
+
+    case Mud_TLV_Emotion::eWired_3:
+        return Mud_Emotion::eWired_6;
+
+    case Mud_TLV_Emotion::eSick_4:
+        return Mud_Emotion::eSick_7;
+
+    default:
+        LOG_ERROR("Don't know about emo type " << static_cast<int>(emo));
+        ALIVE_FATAL("Unknown emo");
+    }
+}
 
 Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 {
+    //NOT_IMPLEMENTED();
+
     ctor_408240(18);
 
     field_154 = 0;
@@ -91,7 +108,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_16A_flags.Clear(Flags::eBit13);
     field_16A_flags.Clear(Flags::eBit14);
 
-    field_180_emo_tbl = word_55CF08[static_cast<int>(pTlv->field_20_emotion) & ALIVE_COUNTOF(word_55CF08)]; // TODO: Couple more entries in here, why?
+    field_180_emo_tbl = TLV_Emo_To_Internal_Emo(pTlv->field_20_emotion);
     field_188 = 0;
     field_182 = -1;
     field_120_angry_trigger = pTlv->field_24_angry_trigger;
@@ -112,7 +129,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     case Mud_State::eAngryWorker_2:
         field_18E_fns1_idx = 8;
-        field_180_emo_tbl = 1;
+        field_180_emo_tbl = Mud_Emotion::eAngry_1;
         field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 510, TRUE, FALSE));
         break;
 
@@ -137,7 +154,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
         break;
     }
 
-    if (field_180_emo_tbl == 6)
+    if (field_180_emo_tbl == Mud_Emotion::eWired_6)
     {
         field_18E_fns1_idx = 4;
     }
@@ -162,7 +179,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_14_direction == Mud_Direction::eLeft_0);
 
-    field_4_typeId = Types::eMudokon_110;
+   // field_4_typeId = Types::eMudokon_110;
 
     field_13C_voice_pitch = pTlv->field_16_voice_pitch;
     field_17A_rescue_id = pTlv->field_18_rescue_id;
@@ -176,7 +193,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     vStackOnObjectsOfType_425840(Types::eMudokon_110);
 
-    if (field_180_emo_tbl == 7)
+    if (field_180_emo_tbl == Mud_Emotion::eSick_7)
     {
         field_18E_fns1_idx = 9;
         field_114_flags.Set(Flags_114::e114_Bit2);
