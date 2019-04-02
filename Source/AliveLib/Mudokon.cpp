@@ -58,8 +58,6 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(Mud_TLV_Emotion emo)
 
 Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 {
-    //NOT_IMPLEMENTED();
-
     ctor_408240(18);
 
     field_154 = 0;
@@ -179,7 +177,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_14_direction == Mud_Direction::eLeft_0);
 
-   // field_4_typeId = Types::eMudokon_110;
+    field_4_typeId = Types::eMudokon_110;
 
     field_13C_voice_pitch = pTlv->field_16_voice_pitch;
     field_17A_rescue_id = pTlv->field_18_rescue_id;
