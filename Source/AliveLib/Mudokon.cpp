@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "Events.hpp"
 #include "Abe.hpp"
+#include "AbilityRing.hpp"
 
 const TintEntry kMudTints_55C744[18] =
 {
@@ -72,7 +73,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_4_typeId = Types::eMudokon2_81; // TODO: Set to 110 later, what is 81 ??
     field_C_objectId = tlvInfo;
     field_194 = 0;
-    field_18E_fns1_idx = 0;
+    field_18E_ai_state = Mud_AI_State::eGiveRings_0;
     field_190 = 0;
     field_108_delayed_state = -1;
     field_192 = 0;
@@ -116,17 +117,17 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     switch (pTlv->field_12_state)
     {
     case Mud_State::eChisle_0:
-        field_18E_fns1_idx = 1;
+        field_18E_ai_state = Mud_AI_State::eChisle_1;
         field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 511, TRUE, FALSE));
         break;
 
     case Mud_State::eScrub_1:
-        field_18E_fns1_idx = 2;
+        field_18E_ai_state = Mud_AI_State::eScrub_2;
         field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 510, TRUE, FALSE));
         break;
 
     case Mud_State::eAngryWorker_2:
-        field_18E_fns1_idx = 8;
+        field_18E_ai_state = Mud_AI_State::eAngryWorker_8;
         field_180_emo_tbl = Mud_Emotion::eAngry_1;
         field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 510, TRUE, FALSE));
         break;
@@ -135,16 +136,16 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     case Mud_State::eHealthRingGiver_4:
         if (pTlv->field_12_state == Mud_State::eDamageRingGiver_3)
         {
-            field_168 = 2;
+            field_168_ring_type = RingTypes::eExplosive_Emit_Effect_2;
         }
         else
         {
-            field_168 = 11;
+            field_168_ring_type = RingTypes::eHealing_Emit_Effect_11;
         }
         field_164_ring_timeout = pTlv->field_2A_ring_timeout;
         field_16A_flags.Set(Flags::eBit16_instant_power_up, pTlv->field_2C_bInstant_power_up & 1);
         field_16C &= ~1;
-        field_18E_fns1_idx = 0;
+        field_18E_ai_state = Mud_AI_State::eGiveRings_0;
         field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 48, TRUE, FALSE));
         break;
 
@@ -154,7 +155,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     if (field_180_emo_tbl == Mud_Emotion::eWired_6)
     {
-        field_18E_fns1_idx = 4;
+        field_18E_ai_state = Mud_AI_State::eWired_4;
     }
 
     field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 514, TRUE, FALSE));
@@ -193,7 +194,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     if (field_180_emo_tbl == Mud_Emotion::eSick_7)
     {
-        field_18E_fns1_idx = 9;
+        field_18E_ai_state = Mud_AI_State::eSick_9;
         field_114_flags.Set(Flags_114::e114_Bit2);
         field_106_current_state = 15;
     }
@@ -247,7 +248,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_20_animation.field_1C_fn_ptr_array = kAbe_Anim_Frame_Fns_55EF98;
     field_F8 = field_BC_ypos;
 
-    if (field_18E_fns1_idx == 2 || field_18E_fns1_idx == 1)
+    if (field_18E_ai_state == Mud_AI_State::eScrub_2 || field_18E_ai_state == Mud_AI_State::eChisle_1)
     {
         MapFollowMe_408D10(TRUE);
     }
@@ -320,7 +321,7 @@ void Mudokon::vUpdate_4757A0()
                     field_11C = pObj->field_8_object_id;
                     //word_5C3012++;
                     field_16C |= 4u;
-                    if (field_18E_fns1_idx == 6 && field_190 == 3)
+                    if (field_18E_ai_state == Mud_AI_State::eState_6 && field_190 == 3)
                     {
                         // push event ??
                         //((void(__stdcall *)(signed int))v10->field_0_VTbl->VBaseAliveGameObject.field_18_vOnCollisionWith_424EE0)(1);

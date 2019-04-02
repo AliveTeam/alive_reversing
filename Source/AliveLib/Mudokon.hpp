@@ -4,6 +4,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
+enum class RingTypes : __int16;
+
 enum class TLV_Scale : __int16
 {
     Full_0 = 0,
@@ -64,6 +66,20 @@ enum class Mud_Emotion : __int16
     eSick_7 = 7
 };
 
+enum class Mud_AI_State : unsigned __int16
+{
+    eGiveRings_0 = 0,
+    eChisle_1 = 1,
+    eScrub_2 = 2,
+    eState_3 = 3,
+    eWired_4 = 4,
+    eState_5 = 5,
+    eState_6 = 6,
+    eState_7 = 7,
+    eAngryWorker_8 = 8,
+    eSick_9 = 9,
+};
+
 class Mudokon : public BaseAliveGameObject
 {
 public:
@@ -105,7 +121,7 @@ private:
     __int16 field_160_delayed_speak;
     __int16 field_162;
     int field_164_ring_timeout;
-    __int16 field_168;
+    RingTypes field_168_ring_type;
 
     enum Flags
     {
@@ -152,7 +168,7 @@ private:
     __int16 field_186;
     WORD* field_188;
     __int16 field_18C;
-    unsigned __int16 field_18E_fns1_idx;
+    Mud_AI_State field_18E_ai_state;
     unsigned __int16 field_190;
     __int16 field_192;
     int field_194;

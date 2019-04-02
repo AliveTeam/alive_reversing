@@ -5,7 +5,7 @@
 #include "FixedPoint.hpp"
 
 
-enum class RingTypes : int
+enum class RingTypes : __int16
 {
     // Red rings
     eExplosive_Pulse_0 = 0,
