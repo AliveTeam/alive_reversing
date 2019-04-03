@@ -13,7 +13,6 @@
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
 #include "Sys.hpp"
-#include <gmock/gmock.h>
 
 void Midi_ForceLink() { }
 

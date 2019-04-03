@@ -2,7 +2,6 @@
 #include "Input.hpp"
 #include "logger.hpp"
 #include "Function.hpp"
-#include "easylogging++.h"
 #include "Game.hpp"
 #include "Sys.hpp"
 #include "Sound.hpp"

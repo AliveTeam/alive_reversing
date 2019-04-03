@@ -8,7 +8,6 @@
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
 #include "BaseAliveGameObject.hpp"
-#include <gmock/gmock.h>
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
 {
