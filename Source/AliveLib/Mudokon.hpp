@@ -71,11 +71,11 @@ enum class Mud_AI_State : unsigned __int16
     eGiveRings_0 = 0,
     eChisle_1 = 1,
     eScrub_2 = 2,
-    eState_3 = 3,
+    eState_3 = 3, // wheel or portal ??
     eWired_4 = 4,
-    eState_5 = 5,
-    eState_6 = 6,
-    eState_7 = 7,
+    eShrivelDeath_5 = 5,
+    eAlertedByHello_6 = 6,
+    eFallAndSmackDeath_7 = 7,
     eAngryWorker_8 = 8,
     eSick_9 = 9,
 };
@@ -89,6 +89,22 @@ private:
     EXPORT void vUpdate_4757A0();
 
     EXPORT void SetPal_4772D0(__int16 palType);
+
+    EXPORT void vOnTrapDoorOpen_472350();
+
+public: // AI states
+    EXPORT __int16 AI_Give_rings_0_470C10();
+    EXPORT __int16 AI_Chisel_1_47C5F0();
+    EXPORT __int16 AI_Scrub_2_47D270();
+    EXPORT __int16 AI_State_3_47E0D0();
+    EXPORT __int16 AI_Wired_4_477B40();
+    EXPORT __int16 AI_ShrivelDeath_5_4714A0();
+    EXPORT __int16 AI_HelloAlerted_6_47A560();
+    EXPORT __int16 AI_FallAndSmackDeath_7_471600();
+    EXPORT __int16 AI_AngryWorker_8_47E910();
+    EXPORT __int16 AI_Sick_9_47A910();
+
+
 
 private:
     __int16 field_116;

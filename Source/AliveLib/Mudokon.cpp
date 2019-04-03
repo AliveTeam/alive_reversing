@@ -8,6 +8,8 @@
 #include "Events.hpp"
 #include "Abe.hpp"
 #include "AbilityRing.hpp"
+#include "ObjectIds.hpp"
+#include "PlatformBase.hpp"
 
 const TintEntry kMudTints_55C744[18] =
 {
@@ -29,6 +31,40 @@ const TintEntry kMudTints_55C744[18] =
     { 0u, 0u, 0u, 0u },
     { 0u, 0u, 0u, 0u },
     { 0u, 0u, 0u, 0u }
+};
+
+#define MUD_STATES_ENUM(ENTRY) \
+    ENTRY(AI_Give_rings_0_470C10) \
+    ENTRY(AI_Chisel_1_47C5F0) \
+    ENTRY(AI_Scrub_2_47D270) \
+    ENTRY(AI_State_3_47E0D0) \
+    ENTRY(AI_Wired_4_477B40) \
+    ENTRY(AI_ShrivelDeath_5_4714A0) \
+    ENTRY(AI_HelloAlerted_6_47A560) \
+    ENTRY(AI_FallAndSmackDeath_7_471600) \
+    ENTRY(AI_AngryWorker_8_47E910) \
+    ENTRY(AI_Sick_9_47A910)
+
+#define MAKE_STRINGS(VAR) #VAR,
+const char* const sMudStateNames[130] =
+{
+    MUD_STATES_ENUM(MAKE_STRINGS)
+};
+
+using TMudStateFunction = decltype(&Mudokon::AI_Give_rings_0_470C10);
+
+const TMudStateFunction sMudokon_fns1_55CDF0[10] =
+{
+    &Mudokon::AI_Give_rings_0_470C10,
+    &Mudokon::AI_Chisel_1_47C5F0,
+    &Mudokon::AI_Scrub_2_47D270,
+    &Mudokon::AI_State_3_47E0D0,
+    &Mudokon::AI_Wired_4_477B40,
+    &Mudokon::AI_ShrivelDeath_5_4714A0,
+    &Mudokon::AI_HelloAlerted_6_47A560,
+    &Mudokon::AI_FallAndSmackDeath_7_471600,
+    &Mudokon::AI_AngryWorker_8_47E910,
+    &Mudokon::AI_Sick_9_47A910
 };
 
 // This is used rather than the un-typesafe word_55CF08 array
@@ -293,12 +329,12 @@ void Mudokon::vUpdate_4757A0()
 
             if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
             {
-                PSX_RECT v26 = {};
-                vGetBoundingRect_424FD0(&v26, 1);
+                PSX_RECT bRect = {};
+                vGetBoundingRect_424FD0(&bRect, 1);
 
                 vOnCollisionWith_424EE0(
-                    { static_cast<short>(v26.x + 0x50000), v26.y }, // TODO: WTF? Isn't fixed point ??
-                    { static_cast<short>(v26.w + 0x50000), v26.h }, ObjList_5C1B78,
+                { static_cast<short>(bRect.x + 0x50000), bRect.y }, // TODO: WTF? Isn't fixed point ??
+                { static_cast<short>(bRect.w + 0x50000), bRect.h }, ObjList_5C1B78,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
             }
@@ -319,12 +355,12 @@ void Mudokon::vUpdate_4757A0()
                 if (pObj->field_C_objectId == field_11C)
                 {
                     field_11C = pObj->field_8_object_id;
-                    //word_5C3012++;
+                    //word_5C3012++; // TODO
                     field_16C |= 4u;
-                    if (field_18E_ai_state == Mud_AI_State::eState_6 && field_190 == 3)
+                    if (field_18E_ai_state == Mud_AI_State::eAlertedByHello_6 && field_190 == 3)
                     {
                         // push event ??
-                        //((void(__stdcall *)(signed int))v10->field_0_VTbl->VBaseAliveGameObject.field_18_vOnCollisionWith_424EE0)(1);
+                        //((void(__stdcall *)(signed int))v10->field_0_VTbl->VBaseAliveGameObject.field_18_vOnCollisionWith_424EE0)(1); // TODO
                         field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
                     }
                     break;
@@ -355,70 +391,59 @@ void Mudokon::vUpdate_4757A0()
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead);
+        return;
     }
-    else
+
+    const FP xDistFromPlayer = FP_Abs(field_B8_xpos - sControlledCharacter_5C1B8C->field_B8_xpos);
+    if (xDistFromPlayer > FP_FromInteger(750))
     {
-        FP v15 = field_B8_xpos- sControlledCharacter_5C1B8C->field_B8_xpos;
-        if (v15 < FP_FromInteger(0))
-        {
-            v15 = sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos;
-        }
-        if (v15 > FP_FromInteger(750))
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            return;
-        }
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        return;
+    }
 
-        FP v16 = field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos;
-        if (v16 < FP_FromInteger(0))
-        {
-            v16 = sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos;
-        }
-        if (v16 > FP_FromInteger(520))
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        }
-        else
-        {
-            if (field_10C_health > FP_FromInteger(0))
-            {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            }
+    const FP yDistanceFromPlayer = FP_Abs(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos);
+    if (yDistanceFromPlayer > FP_FromInteger(520))
+    {
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        return;
+    }
 
-            const __int16 oldState = field_106_current_state;
-            //field_190 = sMudokon_fns1_55CDF0[field_18E_fns1_idx]();
-            FP oldXPos = field_B8_xpos;
-            FP oldYPos = field_BC_ypos;
-            //sMudokon_fns2_55CE18[field_106_current_state]();
-            FP curXPos = field_B8_xpos;
+    if (field_10C_health > FP_FromInteger(0))
+    {
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+    }
 
-            if (oldXPos != curXPos || oldYPos != field_BC_ypos)
-            {
-                field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
-                    nullptr,
-                    curXPos,
-                    field_BC_ypos,
-                    curXPos,
-                    field_BC_ypos);
-                //field_0_VTbl->VBaseAliveGameObject.field_50_VOn_TLV_Collision_4087F0(v22);
-            }
+    const __int16 oldState = field_106_current_state;
+    field_190 = (this->*sMudokon_fns1_55CDF0[static_cast<int>(field_18E_ai_state)])();
+    FP oldXPos = field_B8_xpos;
+    FP oldYPos = field_BC_ypos;
+    //sMudokon_fns2_55CE18[field_106_current_state](); // TODO
 
-            if (oldState != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
-            {
-                field_114_flags.Clear(Flags_114::e114_Bit2);
-                //field_0_VTbl->VLiftPoint.PlatformBase__vsub_4975B0();
-            }
-            else if (field_192)
-            {
-                field_106_current_state = field_F4;
-                //field_0_VTbl->VLiftPoint.PlatformBase__vsub_4975B0();
-                field_20_animation.SetFrame_409D50(field_F6_anim_frame);
-                field_192 = 0;
-            }
-        }
+    if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
+    {
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            nullptr,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
+        VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
+    }
+
+    if (oldState != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
+    {
+        field_114_flags.Clear(Flags_114::e114_Bit2);
+        // vUpdateAnimRes_474D80(); TODO
+    }
+    else if (field_192)
+    {
+        field_106_current_state = field_F4;
+        // vOnTrapDoorOpen_472350(); TODO
+        field_20_animation.SetFrame_409D50(field_F6_anim_frame);
+        field_192 = 0;
     }
 }
 
@@ -480,4 +505,81 @@ void Mudokon::SetPal_4772D0(__int16 palType)
     default:
         return;
     }
+}
+
+void Mudokon::vOnTrapDoorOpen_472350()
+{
+    NOT_IMPLEMENTED();
+
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pPlatform)
+    {
+        if (!field_114_flags.Get(Flags_114::e114_Bit1))
+        {
+            VUpdateState_4081C0(48);
+        }
+
+        pPlatform->VRemove(this);
+        field_110_id = -1;
+    }
+}
+
+__int16 Mudokon::AI_Give_rings_0_470C10()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_Chisel_1_47C5F0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_Scrub_2_47D270()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_State_3_47E0D0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_Wired_4_477B40()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_ShrivelDeath_5_4714A0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_HelloAlerted_6_47A560()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_FallAndSmackDeath_7_471600()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_AngryWorker_8_47E910()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Mudokon::AI_Sick_9_47A910()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
