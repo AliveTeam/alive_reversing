@@ -41,6 +41,7 @@ void DebugAddRaycast(RaycastDebug rc);
 namespace FS
 {
     std::vector<BYTE> ReadFile(std::string filePath);
+    std::string GetPrefPath();
 }
 
 namespace DEV

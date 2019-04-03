@@ -2013,6 +2013,14 @@ std::vector<BYTE> FS::ReadFile(std::string filePath)
     return v;
 }
 
+std::string FS::GetPrefPath()
+{
+    char * prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");
+    std::string str = std::string(prefPath);
+    SDL_free(prefPath);
+    return str;
+}
+
 std::vector<std::string> SplitString(const std::string& s, char seperator)
 {
     std::vector<std::string> output;
