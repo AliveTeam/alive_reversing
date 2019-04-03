@@ -46,6 +46,13 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
         }
     }
 
+#if MOBILE
+    if (strlen(fileName) >= 3 && fileName[0] == '.' && fileName[1] == '\\')
+    {
+        fileName += 2;
+    }
+#endif
+
 #if USE_SDL2_IO
     pHandle->field_8_hFile = SDL_RWFromFile(fileName, mode);
 #else
