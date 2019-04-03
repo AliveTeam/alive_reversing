@@ -10,7 +10,7 @@
 #include "Reverb.hpp"
 #include "Sys.hpp"
 
-const int gSoundBufferSamples = 1024;
+static int gSoundBufferSamples = 1024;
 const int gVoiceArraySize = 1024;
 static int gCurrentSoundBufferSize = 0;
 const int gMixVolume = 127;
@@ -264,6 +264,8 @@ signed int AE_SDL_AudioInit()
             // Reserve in our vector to prevent allocations
             sAE_ActiveVoices.reserve(gVoiceArraySize);
             sAE_VoiceBuffer.reserve(gVoiceArraySize);
+
+            gSoundBufferSamples = gAudioDeviceSpec.samples;
 
             Reverb_Init(gAudioDeviceSpec.freq);
 
