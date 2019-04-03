@@ -1475,7 +1475,22 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         strcpy(filename, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
         strcat(filename, ".sav");
 
+#if USE_SDL2_IO
+        std::string strPath = FS::GetPrefPath() + filename;
+        SDL_RWops* hFile = SDL_RWFromFile(strPath.c_str(), "rb");
+
+        if (!hFile)
+        {
+            return 0;
+        }
+        hFile->read(hFile, &sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u);
+        hFile->close(hFile);
+
+        field_23C_T80.Set(Flags::eBit21);
+        return 0xFFFF000D;
+#else
         FILE* hFile = fopen_520C64(filename, "rb");
+
         if (!hFile)
         {
             return 0;
@@ -1485,6 +1500,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
 
         field_23C_T80.Set(Flags::eBit21);
         return 0xFFFF000D;
+#endif
     }
     else
     {

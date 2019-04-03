@@ -3,11 +3,21 @@
 #include "FunctionFwd.hpp"
 #include <atomic>
 
+#if USE_SDL2
+#include "SDL.h"
+#endif
+
+#if USE_SDL2_IO
+using IO_FileHandleType = struct SDL_RWops*;
+#else
+using IO_FileHandleType = struct FILE*;
+#endif
+
 struct IO_Handle
 {
     int field_0_flags;
     int field_4;
-    FILE* field_8_hFile;
+    IO_FileHandleType field_8_hFile;
     int field_C_last_api_result;
     std::atomic<bool> field_10_bDone; // Note: OG bug - appears to be no thread sync on this
     HANDLE field_14_hThread;
@@ -17,7 +27,7 @@ ALIVE_ASSERT_SIZEOF(IO_Handle, 0x1C);
 
 struct IO_Movie_Handle
 {
-    FILE* field_0_hFile;
+    IO_FileHandleType field_0_hFile;
     void* field_4_readBuffer;
     DWORD field_8_readSize;
     std::atomic<bool> field_C_bQuit;
