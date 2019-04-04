@@ -248,7 +248,7 @@ signed int AE_SDL_AudioInit()
         gAudioDeviceSpec.format = AUDIO_S16;
         gAudioDeviceSpec.channels = 2;
         gAudioDeviceSpec.freq = 44100;
-        gAudioDeviceSpec.samples = gSoundBufferSamples;
+        gAudioDeviceSpec.samples = static_cast<Uint16>(gSoundBufferSamples);
         gAudioDeviceSpec.userdata = NULL;
 
         if (SDL_OpenAudio(&gAudioDeviceSpec, NULL) < 0) {
