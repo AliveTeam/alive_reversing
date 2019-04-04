@@ -1200,8 +1200,14 @@ EXPORT int CC SND_SoundsDat_Read_4FC4E0(VabHeader *pVabHeader, VabBodyRecord *pV
         return 0;
     }
 
+#if USE_SDL2_IO
+    ((SDL_RWops*)sSoundDatFileHandle_BD1CE0)->seek((SDL_RWops*)sSoundDatFileHandle_BD1CE0, sampleOffset, 0);
+    ((SDL_RWops*)sSoundDatFileHandle_BD1CE0)->read((SDL_RWops*)sSoundDatFileHandle_BD1CE0, pBuffer, 2 * sampleLen, 1u);
+#else
     fseek_521955(sSoundDatFileHandle_BD1CE0, sampleOffset, 0);
     fread_520B5C(pBuffer, 2 * sampleLen, 1u, sSoundDatFileHandle_BD1CE0);
+#endif
+
     return sampleLen;
 }
 
@@ -1212,7 +1218,11 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
         return;
     }
 
+#if USE_SDL2_IO
+    sSoundDatFileHandle_BD1CE0 = (FILE*)SDL_RWFromFile("sounds.dat", "rb");
+#else
     sSoundDatFileHandle_BD1CE0 = fopen_520C64("sounds.dat", "rb");
+#endif
     sSoundDatIsNull_BD1CE8 = sSoundDatFileHandle_BD1CE0 == nullptr;
 
     assert(vabId < 4);
@@ -1278,7 +1288,11 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
 
     if (sSoundDatFileHandle_BD1CE0)
     {
+#if USE_SDL2_IO
+        ((SDL_RWops*)sSoundDatFileHandle_BD1CE0)->close((SDL_RWops*)sSoundDatFileHandle_BD1CE0);
+#else
         fclose_520CBE(sSoundDatFileHandle_BD1CE0);
+#endif
         sSoundDatFileHandle_BD1CE0 = nullptr;
     }
 }

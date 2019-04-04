@@ -940,7 +940,19 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
 #if USE_SDL2
 static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
 {
+#if __ANDROID__
+    SDL_Rect gScreenRect = { 0, 0, 640, 480 };
+    SDL_DisplayMode displayMode;
+    if( SDL_GetCurrentDisplayMode( 0, &displayMode ) == 0 )
+    {
+        gScreenRect.w = displayMode.w;
+        gScreenRect.h = displayMode.h;
+    }
+
+    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN);
+#else
     sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE);
+#endif
 
     Input_InitKeyStateArray_4EDD60();
 

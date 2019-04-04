@@ -25,7 +25,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 #include "WinMain.hpp"
 
+#if __ANDROID__
+extern "C" __attribute__((visibility("default"))) int SDL_main(int argc, char** argv)
+#else
 int main()
+#endif
 {
     // In the real game these are called before main, but shouldn't really matter in this case
     Static_Inits();
