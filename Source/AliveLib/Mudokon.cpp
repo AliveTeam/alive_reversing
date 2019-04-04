@@ -10,6 +10,7 @@
 #include "AbilityRing.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
+#include "DDCheat.hpp"
 
 const TintEntry kMudTints_55C744[18] =
 {
@@ -33,7 +34,7 @@ const TintEntry kMudTints_55C744[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-#define MUD_STATES_ENUM(ENTRY) \
+#define MUD_AI_STATES_ENUM(ENTRY) \
     ENTRY(AI_Give_rings_0_470C10) \
     ENTRY(AI_Chisel_1_47C5F0) \
     ENTRY(AI_Scrub_2_47D270) \
@@ -46,14 +47,14 @@ const TintEntry kMudTints_55C744[18] =
     ENTRY(AI_Sick_9_47A910)
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char* const sMudStateNames[130] =
+const char* const sMudStateNames[10] =
 {
-    MUD_STATES_ENUM(MAKE_STRINGS)
+    MUD_AI_STATES_ENUM(MAKE_STRINGS)
 };
 
-using TMudStateFunction = decltype(&Mudokon::AI_Give_rings_0_470C10);
+using TMudAIStateFunction = decltype(&Mudokon::AI_Give_rings_0_470C10);
 
-const TMudStateFunction sMudokon_fns1_55CDF0[10] =
+const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] =
 {
     &Mudokon::AI_Give_rings_0_470C10,
     &Mudokon::AI_Chisel_1_47C5F0,
@@ -66,6 +67,10 @@ const TMudStateFunction sMudokon_fns1_55CDF0[10] =
     &Mudokon::AI_AngryWorker_8_47E910,
     &Mudokon::AI_Sick_9_47A910
 };
+
+using TMudStateFunction = decltype(&Mudokon::vUpdateAnimRes_474D80); // TODO: Use an actual state func
+ALIVE_ARY(1, 0x55CE18, TMudStateFunction, 60, sMudokon_fns2_55CE18, {});
+
 
 // This is used rather than the un-typesafe word_55CF08 array
 static Mud_Emotion TLV_Emo_To_Internal_Emo(Mud_TLV_Emotion emo)
@@ -416,11 +421,84 @@ void Mudokon::vUpdate_4757A0()
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     }
 
+    DDCheat::DebugStr_4F5560("Motion = %d BrainState = %d\n", field_106_current_state, static_cast<int>(field_18E_ai_state));
+
     const __int16 oldState = field_106_current_state;
-    field_190 = (this->*sMudokon_fns1_55CDF0[static_cast<int>(field_18E_ai_state)])();
+    field_190 = (this->*sMudokon_AI_Table_55CDF0[static_cast<int>(field_18E_ai_state)])();
     FP oldXPos = field_B8_xpos;
     FP oldYPos = field_BC_ypos;
-    //sMudokon_fns2_55CE18[field_106_current_state](); // TODO
+
+    enum MudMotions : short
+    {
+        eStandIdle_0 = 0,
+        eWalking_1 = 1,
+        eTurnAroundStanding = 2,
+        eSpeak1_3 = 3,
+        eSpeak2_4 = 4,
+        eSpeak3_5 = 5,
+        eWalkingToStand = 8,  // ??
+        eWalking_Mid = 9, // ??
+        ePullLever_10 = 10,
+        eChisel_11 = 11,
+        eStartChisel_12 = 12,
+        eStopChisel_13 = 13,
+        e_14 = 14,
+        eCrouchIdle_15 = 15,
+        eCrouchTurn_16 = 16,
+        eStandToCrouch_17 = 17,
+        eCrouchToStand_18 = 18,
+        eToRunUnknown1_19 = 19,
+        eToRunUnknown2_20 = 20,
+        eRunning_21 = 21,
+        eWalkToRunUnknown1_22 = 22,
+        eWalkToRunUnknown2_23 = 23,
+        eRunSlideStop_24 = 24,
+        eRunSlideTurn_25 = 25,
+        eRunTurn_26 = 26,
+        eSneaking_27 = 27,
+        eWalkToSneak1_28 = 28,
+        eWalkToSneak2_29 = 29,
+        eSneakToWalk_30 = 30,
+        eSneakWalkUnknown_31 = 31,
+        eSneakStepUnknown_32 = 32,
+        eSneakStopUnknown1_33 = 33,
+        eSneakStopUnknown2_34 = 34,
+        eJumpStartUnknown_35 = 35,
+        eJumpMidUnknown_36 = 36,
+        eWalkToRun_37 = 37,
+        eSlap_38 = 38,
+        eStartHoistJumpUp_39 = 39,
+        eHoistFallToFloor_40 = 40,
+        eHitFloorStanding1_41 = 41,
+        eHitFloorStanding2_42 = 42,
+        eStandToDunno = 43,
+        eDunnoToStand = 44, // or also idle stand ??
+        eKnockForward_45 = 45, // from shot/slig beat
+        eStandToKnockBack = 46,
+        eKnockBackToStand = 47,
+        eLandStandingUnknown1_48 = 48,
+        eLandStandingUnknown2_49 = 49,
+        eChanting_50 = 50,
+        eToChant_51 = 51,
+        eToDuck_52 = 52,
+        eDuck_53 = 53,
+        eDuckToCrouch_54 = 54,
+        eDuckKnockBack_55 = 55, // smashed on the head while ducking
+        eSlapOwnHead_56 = 56,
+        e_57 = 57,
+        e_58 = 58,
+        e_59 = 59,
+        e_60 = 60
+    };
+
+    //field_106_current_state = MudMotions::eSlapOwnHead_56;
+
+    (this->*sMudokon_fns2_55CE18[field_106_current_state])();
+
+    if (oldState != field_106_current_state)
+    {
+        LOG_INFO("state = " << field_106_current_state);
+    }
 
     if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
     {
@@ -436,12 +514,12 @@ void Mudokon::vUpdate_4757A0()
     if (oldState != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
     {
         field_114_flags.Clear(Flags_114::e114_Bit2);
-        // vUpdateAnimRes_474D80(); TODO
+        vUpdateAnimRes_474D80();
     }
     else if (field_192)
     {
         field_106_current_state = field_F4;
-        // vOnTrapDoorOpen_472350(); TODO
+        vOnTrapDoorOpen_472350();
         field_20_animation.SetFrame_409D50(field_F6_anim_frame);
         field_192 = 0;
     }
@@ -522,6 +600,11 @@ void Mudokon::vOnTrapDoorOpen_472350()
         pPlatform->VRemove(this);
         field_110_id = -1;
     }
+}
+
+void Mudokon::vUpdateAnimRes_474D80()
+{
+    NOT_IMPLEMENTED();
 }
 
 __int16 Mudokon::AI_Give_rings_0_470C10()
