@@ -91,7 +91,8 @@ private:
     EXPORT void SetPal_4772D0(__int16 palType);
 
     EXPORT void vOnTrapDoorOpen_472350();
-
+public:
+    EXPORT void vUpdateAnimRes_474D80();
 public: // AI states
     EXPORT __int16 AI_Give_rings_0_470C10();
     EXPORT __int16 AI_Chisel_1_47C5F0();
@@ -104,6 +105,7 @@ public: // AI states
     EXPORT __int16 AI_AngryWorker_8_47E910();
     EXPORT __int16 AI_Sick_9_47A910();
 
+public: // Motion states
 
 
 private:
