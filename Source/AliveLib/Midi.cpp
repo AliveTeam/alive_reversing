@@ -13,6 +13,7 @@
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
 #include "Sys.hpp"
+#include "Io.hpp"
 
 void Midi_ForceLink() { }
 
@@ -1144,7 +1145,7 @@ struct VabBodyRecord
     DWORD field_8_fileOffset;
 };
 
-ALIVE_VAR(1, 0xbd1ce0, FILE *, sSoundDatFileHandle_BD1CE0, nullptr);
+ALIVE_VAR(1, 0xbd1ce0, IO_FileHandleType, sSoundDatFileHandle_BD1CE0, nullptr);
 
 EXPORT DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pBodyRecords, int idx)
 {
@@ -1200,13 +1201,8 @@ EXPORT int CC SND_SoundsDat_Read_4FC4E0(VabHeader *pVabHeader, VabBodyRecord *pV
         return 0;
     }
 
-#if USE_SDL2_IO
-    ((SDL_RWops*)sSoundDatFileHandle_BD1CE0)->seek((SDL_RWops*)sSoundDatFileHandle_BD1CE0, sampleOffset, 0);
-    ((SDL_RWops*)sSoundDatFileHandle_BD1CE0)->read((SDL_RWops*)sSoundDatFileHandle_BD1CE0, pBuffer, 2 * sampleLen, 1u);
-#else
-    fseek_521955(sSoundDatFileHandle_BD1CE0, sampleOffset, 0);
-    fread_520B5C(pBuffer, 2 * sampleLen, 1u, sSoundDatFileHandle_BD1CE0);
-#endif
+    IO_Seek(sSoundDatFileHandle_BD1CE0, sampleOffset, 0);
+    IO_Read(sSoundDatFileHandle_BD1CE0, pBuffer, 2 * sampleLen, 1u);
 
     return sampleLen;
 }
@@ -1218,11 +1214,7 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
         return;
     }
 
-#if USE_SDL2_IO
-    sSoundDatFileHandle_BD1CE0 = (FILE*)SDL_RWFromFile("sounds.dat", "rb");
-#else
-    sSoundDatFileHandle_BD1CE0 = fopen_520C64("sounds.dat", "rb");
-#endif
+    sSoundDatFileHandle_BD1CE0 = IO_Open("sounds.dat", "rb");
     sSoundDatIsNull_BD1CE8 = sSoundDatFileHandle_BD1CE0 == nullptr;
 
     assert(vabId < 4);
@@ -1288,11 +1280,7 @@ EXPORT void CC SND_LoadSoundDat_4FC840(VabBodyRecord* pVabBody, __int16 vabId)
 
     if (sSoundDatFileHandle_BD1CE0)
     {
-#if USE_SDL2_IO
-        ((SDL_RWops*)sSoundDatFileHandle_BD1CE0)->close((SDL_RWops*)sSoundDatFileHandle_BD1CE0);
-#else
-        fclose_520CBE(sSoundDatFileHandle_BD1CE0);
-#endif
+        IO_Close(sSoundDatFileHandle_BD1CE0);
         sSoundDatFileHandle_BD1CE0 = nullptr;
     }
 }

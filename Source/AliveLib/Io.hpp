@@ -58,6 +58,11 @@ EXPORT signed int CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, v
 EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
 EXPORT void IO_Init_494230();
 
+IO_FileHandleType IO_Open(const char* fileName, const char * mode);
+int IO_Seek(IO_FileHandleType pHandle, int offset, int origin);
+int IO_Close(IO_FileHandleType pHandle);
+size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum);
+
 
 EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0();
 bool IO_CreateThread();

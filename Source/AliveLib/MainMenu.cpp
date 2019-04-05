@@ -1477,30 +1477,21 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
 
 #if USE_SDL2_IO
         std::string strPath = FS::GetPrefPath() + filename;
-        SDL_RWops* hFile = SDL_RWFromFile(strPath.c_str(), "rb");
-
-        if (!hFile)
-        {
-            return 0;
-        }
-        hFile->read(hFile, &sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u);
-        hFile->close(hFile);
-
-        field_23C_T80.Set(Flags::eBit21);
-        return 0xFFFF000D;
+        IO_FileHandleType hFile = IO_Open(strPath.c_str(), "rb");
 #else
-        FILE* hFile = fopen_520C64(filename, "rb");
+        IO_FileHandleType hFile = IO_Open(filename, "rb");
+#endif
 
         if (!hFile)
         {
             return 0;
         }
-        fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-        fclose_520CBE(hFile);
+
+        IO_Read(hFile, &sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u);
+        IO_Close(hFile);
 
         field_23C_T80.Set(Flags::eBit21);
         return 0xFFFF000D;
-#endif
     }
     else
     {

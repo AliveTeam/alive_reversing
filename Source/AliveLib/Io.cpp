@@ -24,7 +24,7 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
 #if USE_SDL2_IO
     return SDL_RWFromFile(fileName, mode);
 #else
-    return fopen(fileName, mode);
+    return fopen_520C64(fileName, mode);
 #endif
 }
 
@@ -33,7 +33,7 @@ int IO_Seek(IO_FileHandleType pHandle, int offset, int origin)
 #if USE_SDL2_IO
     return static_cast<int>(pHandle->seek(pHandle, offset, origin));
 #else
-    return fseek(pHandle, offset, origin);
+    return fseek_521955(pHandle, offset, origin);
 #endif
 }
 
@@ -42,7 +42,7 @@ int IO_Close(IO_FileHandleType pHandle)
 #if USE_SDL2_IO
     return pHandle->close(pHandle);
 #else
-    return fclose(pHandle);
+    return fclose_520CBE(pHandle);
 #endif
 }
 
@@ -51,7 +51,7 @@ size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum)
 #if USE_SDL2_IO
     return pHandle->read(pHandle, ptr, size, maxnum);
 #else
-    return fread(ptr, size, maxnum, pHandle);
+    return fread_520B5C(ptr, size, maxnum, pHandle);
 #endif
 }
 
@@ -313,11 +313,8 @@ EXPORT void* CC IO_Open_ASync_4EADA0(const char* filename)
     pHandle->field_18_hEvent = CreateEventA(0, 1, 1, 0);
     pHandle->field_10_read_ret = 1;
 
-#if USE_SDL2_IO
-    pHandle->field_0_hFile = SDL_RWFromFile(filename, "rb");
-#else
-    pHandle->field_0_hFile = fopen_520C64(filename, "rb");
-#endif
+    
+    pHandle->field_0_hFile = IO_Open(filename, "rb");
     
     if (pHandle->field_0_hFile)
     {
@@ -362,11 +359,7 @@ EXPORT int CC IO_Sync_ASync_4EAF80(void* hFile, DWORD offset, DWORD origin)
 
 EXPORT void* CC IO_Open_Sync_4EAEB0(const char* pFileName)
 {
-#if USE_SDL2_IO
-    return SDL_RWFromFile(pFileName, "rb");
-#else
-    return fopen_520C64(pFileName, "rb");
-#endif
+    return IO_Open(pFileName, "rb");
 }
 
 EXPORT void CC IO_Close_Sync_4EAD90(void* pHandle)
