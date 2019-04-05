@@ -949,7 +949,7 @@ static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWind
         gScreenRect.h = displayMode.h;
     }
 
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN);
+    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN);
 #else
     sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE);
 #endif

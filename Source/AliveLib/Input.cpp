@@ -11,6 +11,7 @@
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "StringFormatters.hpp"
+#include "TouchController.hpp"
 
 #if _WIN32
 #include <joystickapi.h>
@@ -435,7 +436,14 @@ EXPORT void CC Input_GetJoyState_460280(float *pX1, float *pY1, float *pX2, floa
     Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
 #else
 #if USE_SDL2
+#if MOBILE
+    if (!gTouchController->GetGamePadData(pX1, pY1, pX2, pY2, pButtons))
+    {
         Input_GetJoyState_SDL(pX1, pY1, pX2, pY2, pButtons);
+    }
+#else
+    Input_GetJoyState_SDL(pX1, pY1, pX2, pY2, pButtons);
+#endif
     #elif _WIN32
         Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
     #endif
@@ -1334,6 +1342,10 @@ EXPORT void Input_InitJoyStick_460080()
     // Not too worried about this given all of this will be replaced with SDL2 at some point.
     TRACE_ENTRYEXIT;
 
+#if MOBILE
+    gTouchController->Init();
+#endif
+
     sJoystickEnabled_5C2EF4 = false;
 #if USE_SDL2
     if (!SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER))
@@ -1696,6 +1708,10 @@ EXPORT int CC Input_Read_Pad_4FA9C0(int padNum)
         sLastPad_Input_BD1878 = sInputCallbackFunc_BD1870(); // usually pointer to Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150
     }
 
+#if MOBILE
+    gTouchController->Update();
+#endif
+
     return sLastPad_Input_BD1878;
 }
 
@@ -1925,5 +1941,7 @@ DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
 
 void CC InputObject::ShutDown_45F020()
 {
-    // Empty
+#if MOBILE
+    gTouchController->Close();
+#endif
 }

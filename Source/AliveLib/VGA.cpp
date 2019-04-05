@@ -7,6 +7,7 @@
 #include "Sys.hpp"
 #include "PsxRender.hpp"
 #include "Psx.hpp"
+#include "TouchController.hpp"
 
 void VGA_ForceLink() {}
 
@@ -37,7 +38,6 @@ bool s_VGA_FilterScreen = false;
 
 static SDL_Renderer* gRenderer = nullptr;
 static SDL_Texture* pScreenTexture = nullptr;
-
 EXPORT signed int CC VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
     //  NOT_IMPLEMENTED();
@@ -197,6 +197,7 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
                 }
             }
 
+            SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
             SDL_RenderCopy(gRenderer, pScreenTexture, pCopyRect, pDst);
         }
@@ -209,6 +210,13 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
     {
         LOG_ERROR("Blt failure");
     }
+
+#if MOBILE
+    if (gTouchController != nullptr)
+    {
+        gTouchController->Render();
+    }
+#endif
    
     SDL_RenderPresent(gRenderer);
 }
