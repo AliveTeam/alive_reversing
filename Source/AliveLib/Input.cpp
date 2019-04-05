@@ -601,11 +601,7 @@ std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
 
 void NewParseSettingsIni()
 {
-#if USE_SDL2_IO
     const auto abeBuffer = FS::ReadFile(FS::GetPrefPath() + "abe2.ini");
-#else
-    const auto abeBuffer = FS::ReadFile("abe2.ini");
-#endif
     
     const std::string abeConfig(reinterpret_cast<const char *>(abeBuffer.data()), abeBuffer.size());
     
@@ -868,12 +864,8 @@ EXPORT void Input_SaveSettingsIni_492840()
 
     /////////////////
 
-#if USE_SDL2_IO
     std::string strPath = FS::GetPrefPath() + "abe2.ini";
     std::ofstream fileOut(strPath.c_str());
-#else
-    std::ofstream fileOut("abe2.ini");
-#endif
     
     fileOut << output.rdbuf();
     fileOut.close();

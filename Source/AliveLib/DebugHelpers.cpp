@@ -2015,10 +2015,14 @@ std::vector<BYTE> FS::ReadFile(std::string filePath)
 
 std::string FS::GetPrefPath()
 {
+#if MOBILE
     char * prefPath = SDL_GetPrefPath("Oddworld", "Abes Exoddus");
     std::string str = std::string(prefPath);
     SDL_free(prefPath);
     return str;
+#else
+    return "";
+#endif
 }
 
 std::vector<std::string> SplitString(const std::string& s, char seperator)

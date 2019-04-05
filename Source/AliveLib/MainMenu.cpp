@@ -1475,12 +1475,8 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         strcpy(filename, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
         strcat(filename, ".sav");
 
-#if USE_SDL2_IO
         std::string strPath = FS::GetPrefPath() + filename;
         IO_FileHandleType hFile = IO_Open(strPath.c_str(), "rb");
-#else
-        IO_FileHandleType hFile = IO_Open(filename, "rb");
-#endif
 
         if (!hFile)
         {
