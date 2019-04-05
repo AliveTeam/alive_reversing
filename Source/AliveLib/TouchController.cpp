@@ -288,5 +288,5 @@ void TouchController::setState(TouchControllerButton b, bool s)
 
 bool TouchController::getState(TouchControllerButton b)
 {
-    return state & (1 << b);
+    return (state & (1 << b)) > 0;
 }
