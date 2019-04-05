@@ -84,12 +84,10 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
         }
     }
 
-#if __ANDROID__
-    if (strlen(fileName) >= 3 && fileName[0] == '.' && fileName[1] == '/')
+    if (strlen(fileName) >= 3 && fileName[0] == '.' && (fileName[1] == '/' || fileName[1] == '\\'))
     {
         fileName += 2;
     }
-#endif
 
     pHandle->field_8_hFile = IO_Open(fileName, mode);
 
