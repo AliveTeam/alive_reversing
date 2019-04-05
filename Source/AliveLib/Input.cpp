@@ -719,6 +719,10 @@ void NewParseSettingsIni()
             }
         }
     }
+
+#if __ANDROID__
+    sJoystickEnabled_5C9F70 = 1;
+#endif
 }
 
 EXPORT void Input_SaveSettingsIni_492840()
