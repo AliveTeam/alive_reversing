@@ -17,6 +17,44 @@ ALIVE_VAR(1, 0xBBC558, DWORD, sIoThreadId_BBC558, 0);
 ALIVE_VAR(1, 0xBD2A5C, BOOL, sIOSyncReads_BD2A5C, FALSE);
 ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 
+
+// SDL/C IO Wrappers
+IO_FileHandleType IO_Open(const char* fileName, const char * mode)
+{
+#if USE_SDL2_IO
+    return SDL_RWFromFile(fileName, mode);
+#else
+    return fopen(fileName, mode);
+#endif
+}
+
+int IO_Seek(IO_FileHandleType pHandle, int offset, int origin)
+{
+#if USE_SDL2_IO
+    return static_cast<int>(pHandle->seek(pHandle, offset, origin));
+#else
+    return fseek(pHandle, offset, origin);
+#endif
+}
+
+int IO_Close(IO_FileHandleType pHandle)
+{
+#if USE_SDL2_IO
+    return pHandle->close(pHandle);
+#else
+    return fclose(pHandle);
+#endif
+}
+
+size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum)
+{
+#if USE_SDL2_IO
+    return pHandle->read(pHandle, ptr, size, maxnum);
+#else
+    return fread(ptr, size, maxnum, pHandle);
+#endif
+}
+
 EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
 {
     IO_Handle* pHandle = reinterpret_cast<IO_Handle*>(malloc_4F4E60(sizeof(IO_Handle)));
@@ -53,11 +91,7 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
     }
 #endif
 
-#if USE_SDL2_IO
-    pHandle->field_8_hFile = SDL_RWFromFile(fileName, mode);
-#else
-    pHandle->field_8_hFile = fopen(fileName, mode);
-#endif
+    pHandle->field_8_hFile = IO_Open(fileName, mode);
 
     if (pHandle->field_8_hFile)
     {
@@ -97,11 +131,7 @@ EXPORT int CC IO_Seek_4F2490(IO_Handle* hFile, int offset, int origin)
         origin = 0;
     }
 
-#if USE_SDL2_IO
-    return static_cast<int>(hFile->field_8_hFile->seek(hFile->field_8_hFile, offset, origin));
-#else
-    return fseek(hFile->field_8_hFile, offset, origin);
-#endif
+    return IO_Seek(hFile->field_8_hFile, offset, origin);
 }
 
 EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile)
@@ -109,13 +139,7 @@ EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile)
     if (hFile)
     {
         IO_WaitForComplete_4F2510(hFile);
-
-#if USE_SDL2_IO
-        hFile->field_8_hFile->close(hFile->field_8_hFile);
-#else
-        fclose(hFile->field_8_hFile);
-#endif
-        
+        IO_Close(hFile->field_8_hFile);
         mem_free_4F4EA0(hFile);
     }
 }
@@ -146,11 +170,7 @@ EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
             sIO_Thread_Operation_BBC4C0 = 0;
         }
 
-#if USE_SDL2_IO
-        if (sIOHandle_BBC4BC.load()->field_8_hFile->read(sIOHandle_BBC4BC.load()->field_8_hFile, sIO_ReadBuffer_BBC4C4, 1u, sIO_BytesToRead_BBC4C8) == sIO_BytesToRead_BBC4C8)
-#else
-        if (fread(sIO_ReadBuffer_BBC4C4, 1u, sIO_BytesToRead_BBC4C8, sIOHandle_BBC4BC.load()->field_8_hFile) == sIO_BytesToRead_BBC4C8)
-#endif
+        if (IO_Read(sIOHandle_BBC4BC.load()->field_8_hFile, sIO_ReadBuffer_BBC4C4, 1u, sIO_BytesToRead_BBC4C8) == sIO_BytesToRead_BBC4C8)
         {
             sIOHandle_BBC4BC.load()->field_C_last_api_result = 0;
         }
@@ -204,11 +224,7 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
     else
 #endif
     {
-#if USE_SDL2_IO
-        if (hFile->field_8_hFile->read(hFile->field_8_hFile, pBuffer, 1u, bytesCount) == bytesCount)
-#else
-        if (fread(pBuffer, 1u, bytesCount, hFile->field_8_hFile) == bytesCount)
-#endif
+        if (IO_Read(hFile->field_8_hFile, pBuffer, 1u, bytesCount) == bytesCount)
         {
             hFile->field_C_last_api_result = 0;
         }
@@ -239,19 +255,7 @@ EXPORT DWORD CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
     {
         if (GetMessageA(&msg, 0, 0x400u, 0x400u) != -1 && msg.wParam == 4444 && msg.lParam == 5555)
         {
-#if USE_SDL2_IO
-            pHandle->field_10_read_ret = pHandle->field_0_hFile->read(
-                pHandle->field_0_hFile,
-                pHandle->field_4_readBuffer,
-                1u,
-                pHandle->field_8_readSize) == pHandle->field_8_readSize;
-#else
-            pHandle->field_10_read_ret = fread_520B5C(
-                pHandle->field_4_readBuffer,
-                1u,
-                pHandle->field_8_readSize,
-                pHandle->field_0_hFile) == pHandle->field_8_readSize;
-#endif
+            pHandle->field_10_read_ret = IO_Read(pHandle->field_0_hFile, pHandle->field_4_readBuffer, 1u, pHandle->field_8_readSize) == pHandle->field_8_readSize;
             SetEvent(pHandle->field_18_hEvent);
         }
     } while (!pHandle->field_C_bQuit);
@@ -285,11 +289,7 @@ EXPORT void CC IO_Close_ASync_4EAD40(void* hFile)
     IO_Wait_ASync_4EACF0(pHandle);
     if (pHandle->field_0_hFile)
     {
-#if USE_SDL2_IO
-        pHandle->field_0_hFile->close(pHandle->field_0_hFile);
-#else
-        fclose_520CBE(pHandle->field_0_hFile);
-#endif
+        IO_Close(pHandle->field_0_hFile);
     }
     pHandle->field_C_bQuit = 1;
     if (pHandle->field_14_hThread)
@@ -356,11 +356,7 @@ EXPORT int CC IO_Sync_ASync_4EAF80(void* hFile, DWORD offset, DWORD origin)
     int result = IO_Wait_ASync_4EACF0(pHandle);
     if (result)
     {
-#if USE_SDL2_IO
-        result = pHandle->field_0_hFile->seek(pHandle->field_0_hFile, offset, origin) != 0;
-#else
-        result = fseek_521955(pHandle->field_0_hFile, offset, origin) != 0;
-#endif
+        result = IO_Seek(pHandle->field_0_hFile, offset, origin) != 0;
     }
     return result;
 }
@@ -380,24 +376,14 @@ EXPORT void CC IO_Close_Sync_4EAD90(void* pHandle)
     IO_FileHandleType hFile = reinterpret_cast<IO_FileHandleType>(pHandle);
     if (hFile)
     {
-#if USE_SDL2_IO
-        hFile->close(hFile);
-#else
-        fclose_520CBE(hFile);
-#endif   
+        IO_Close(hFile);
     }
 }
 
 EXPORT BOOL CC IO_Read_Sync_4EAF50(void* pHandle, void* pBuffer, DWORD readSize)
 {
     IO_FileHandleType hFile = reinterpret_cast<IO_FileHandleType>(pHandle);
-
-#if USE_SDL2_IO
-    return hFile->read(hFile, pBuffer, 1u, readSize) == readSize;
-#else
-    return fread_520B5C(pBuffer, 1u, readSize, hFile) == readSize;
-#endif
-    
+    return IO_Read(hFile, pBuffer, 1u, readSize) == readSize;
 }
 
 EXPORT BOOL CC IO_Wait_Sync_4EAD30(void*)
@@ -408,12 +394,7 @@ EXPORT BOOL CC IO_Wait_Sync_4EAD30(void*)
 EXPORT BOOL CC IO_Seek_Sync_4EAFC0(void* pHandle, DWORD offset, DWORD origin)
 {
     IO_FileHandleType hFile = reinterpret_cast<IO_FileHandleType>(pHandle);
-
-#if USE_SDL2_IO
-    return hFile->seek(hFile, offset, origin) != 0;
-#else
-    return fseek_521955(hFile, offset, origin) != 0;
-#endif
+    return IO_Seek(hFile, offset, origin) != 0;
 }
 
 
