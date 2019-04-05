@@ -21,6 +21,11 @@ ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
 // SDL/C IO Wrappers
 IO_FileHandleType IO_Open(const char* fileName, const char * mode)
 {
+    if (strlen(fileName) >= 3 && fileName[0] == '.' && (fileName[1] == '/' || fileName[1] == '\\'))
+    {
+        fileName += 2;
+    }
+
 #if USE_SDL2_IO
     return SDL_RWFromFile(fileName, mode);
 #else
@@ -82,11 +87,6 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
             // Somehow it can also be passed as string?? I don't think this case ever happens
             mode = (const char *)modeFlag;
         }
-    }
-
-    if (strlen(fileName) >= 3 && fileName[0] == '.' && (fileName[1] == '/' || fileName[1] == '\\'))
-    {
-        fileName += 2;
     }
 
     pHandle->field_8_hFile = IO_Open(fileName, mode);
