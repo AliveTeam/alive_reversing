@@ -1943,5 +1943,6 @@ void CC InputObject::ShutDown_45F020()
 {
 #if MOBILE
     gTouchController->Close();
+    gTouchController = nullptr;
 #endif
 }
