@@ -10,4 +10,6 @@
 #cmakedefine01 RENDER_TEST
 #cmakedefine01 USE_SDL2
 #cmakedefine01 USE_SDL2_SOUND
+#cmakedefine01 USE_SDL2_IO
+#cmakedefine01 MOBILE
 #cmakedefine BUILD_NUMBER "@BUILD_NUMBER@"

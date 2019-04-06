@@ -269,6 +269,8 @@ ExportHooker.hpp
     FlyingSligSpawner.hpp
     Mudokon.cpp
     Mudokon.hpp
+    TouchController.cpp
+    TouchController.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibSrc)

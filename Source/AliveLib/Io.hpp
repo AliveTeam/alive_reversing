@@ -3,11 +3,21 @@
 #include "FunctionFwd.hpp"
 #include <atomic>
 
+#if USE_SDL2
+#include "SDL.h"
+#endif
+
+#if USE_SDL2_IO
+using IO_FileHandleType = struct SDL_RWops*;
+#else
+using IO_FileHandleType = struct FILE*;
+#endif
+
 struct IO_Handle
 {
     int field_0_flags;
     int field_4;
-    FILE* field_8_hFile;
+    IO_FileHandleType field_8_hFile;
     int field_C_last_api_result;
     std::atomic<bool> field_10_bDone; // Note: OG bug - appears to be no thread sync on this
     HANDLE field_14_hThread;
@@ -17,7 +27,7 @@ ALIVE_ASSERT_SIZEOF(IO_Handle, 0x1C);
 
 struct IO_Movie_Handle
 {
-    FILE* field_0_hFile;
+    IO_FileHandleType field_0_hFile;
     void* field_4_readBuffer;
     DWORD field_8_readSize;
     std::atomic<bool> field_C_bQuit;
@@ -47,6 +57,11 @@ EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
 EXPORT signed int CC IO_Issue_ASync_Read_4F2430(IO_Handle *hFile, int always3, void* readBuffer, size_t bytesToRead, int /*notUsed1*/, int /*notUsed2*/, int /*notUsed3*/);
 EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
 EXPORT void IO_Init_494230();
+
+IO_FileHandleType IO_Open(const char* fileName, const char * mode);
+int IO_Seek(IO_FileHandleType pHandle, int offset, int origin);
+int IO_Close(IO_FileHandleType pHandle);
+size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum);
 
 
 EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0();

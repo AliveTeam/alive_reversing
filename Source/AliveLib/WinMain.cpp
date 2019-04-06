@@ -17,8 +17,6 @@
 #include "PauseMenu.hpp"
 #include "Map.hpp"
 #include "PsxDisplay.hpp"
-#include "easylogging++.h"
-#include <gmock/gmock.h>
 #include "Function.hpp"
 #include "Font.hpp"
 #include "FixedPoint.hpp"
