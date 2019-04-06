@@ -11,6 +11,9 @@
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "DDCheat.hpp"
+#include "WorkWheel.hpp"
+
+ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
 const TintEntry kMudTints_55C744[18] =
 {
@@ -47,7 +50,7 @@ const TintEntry kMudTints_55C744[18] =
     ENTRY(AI_Sick_9_47A910)
 
 #define MAKE_STRINGS(VAR) #VAR,
-const char* const sMudStateNames[10] =
+const char* const sMudAiStateNames[10] =
 {
     MUD_AI_STATES_ENUM(MAKE_STRINGS)
 };
@@ -135,9 +138,9 @@ const char* const sMudMotionStateNames[60] =
     MUD_MOTION_STATES_ENUM(MAKE_STRINGS)
 };
 
-using TMudStateFunction = decltype(&Mudokon::vUpdateAnimRes_474D80); // TODO: Use an actual state func
+using TMudStateFunction = decltype(&Mudokon::StandIdle_0_4724E0);
 
-ALIVE_ARY(1, 0x55CE18, TMudStateFunction, 60, sMudokon_fns2_55CE18, 
+ALIVE_ARY(1, 0x55CE18, TMudStateFunction, 60, sMudokon_motion_states_55CE18, 
 {
     &Mudokon::StandIdle_0_4724E0,
     &Mudokon::Walking_1_4728B0,
@@ -238,14 +241,14 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     SetVTable(this, 0x5462E4);
 
-    field_11C = -1;
+    field_11C_bird_portal_id = -1;
     field_12C = -1;
-    field_158_obj_id = -1;
+    field_158_wheel_id = -1;
     field_4_typeId = Types::eMudokon2_81; // TODO: Set to 110 later, what is 81 ??
     field_C_objectId = tlvInfo;
     field_194 = 0;
     field_18E_ai_state = Mud_AI_State::eGiveRings_0;
-    field_190 = 0;
+    field_190_sub_state = 0;
     field_108_delayed_state = -1;
     field_192 = 0;
     field_13C_voice_pitch = 0;
@@ -425,7 +428,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     }
 
     field_16A_flags.Set(Flags::eBit1);
-    field_190 = 0;
+    field_190_sub_state = 0;
     field_118 = field_C_objectId;
 
     field_128 = 0;
@@ -468,8 +471,9 @@ void Mudokon::vUpdate_4757A0()
                 vGetBoundingRect_424FD0(&bRect, 1);
 
                 vOnCollisionWith_424EE0(
-                { static_cast<short>(bRect.x + 0x50000), bRect.y }, // TODO: WTF? Isn't fixed point ??
-                { static_cast<short>(bRect.w + 0x50000), bRect.h }, ObjList_5C1B78,
+                    { static_cast<short>(bRect.x + 5), bRect.y },
+                    { static_cast<short>(bRect.w + 5), bRect.h }, 
+                    ObjList_5C1B78,
                     1,
                     (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
             }
@@ -477,7 +481,7 @@ void Mudokon::vUpdate_4757A0()
 
         field_104_collision_line_type = 0;
 
-        if (field_11C != -1)
+        if (field_11C_bird_portal_id != -1)
         {
             for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
@@ -487,12 +491,12 @@ void Mudokon::vUpdate_4757A0()
                     break;
                 }
 
-                if (pObj->field_C_objectId == field_11C)
+                if (pObj->field_C_objectId == field_11C_bird_portal_id)
                 {
-                    field_11C = pObj->field_8_object_id;
-                    //word_5C3012++; // TODO
+                    field_11C_bird_portal_id = pObj->field_8_object_id;
+                    word_5C3012++;
                     field_16C |= 4u;
-                    if (field_18E_ai_state == Mud_AI_State::eAlertedByHello_6 && field_190 == 3)
+                    if (field_18E_ai_state == Mud_AI_State::eAlertedByHello_6 && field_190_sub_state == 3)
                     {
                         // push event ??
                         //((void(__stdcall *)(signed int))v10->field_0_VTbl->VBaseAliveGameObject.field_18_vOnCollisionWith_424EE0)(1); // TODO
@@ -503,7 +507,7 @@ void Mudokon::vUpdate_4757A0()
             }
         }
 
-        if (field_158_obj_id != -1)
+        if (field_158_wheel_id != -1)
         {
             for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
             {
@@ -513,10 +517,10 @@ void Mudokon::vUpdate_4757A0()
                     break;
                 }
 
-                if (pObj->field_C_objectId == field_158_obj_id)
+                if (pObj->field_C_objectId == field_158_wheel_id)
                 {
-                    field_158_obj_id = pObj->field_8_object_id;
-                    static_cast<BaseAliveGameObject*>(pObj)->VUnPosses_408F90();
+                    field_158_wheel_id = pObj->field_8_object_id;
+                    static_cast<WorkWheel*>(pObj)->VStartTurning();
                     break;
                 }
             }
@@ -551,19 +555,14 @@ void Mudokon::vUpdate_4757A0()
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     }
 
-    DDCheat::DebugStr_4F5560("Motion = %d BrainState = %d\n", field_106_current_state, static_cast<int>(field_18E_ai_state));
+    //DDCheat::DebugStr_4F5560("\nMotion = %s BrainState = %s\n", sMudMotionStateNames[field_106_current_state], sMudAiStateNames[static_cast<int>(field_18E_ai_state)]);
 
-    const __int16 oldState = field_106_current_state;
-    field_190 = (this->*sMudokon_AI_Table_55CDF0[static_cast<int>(field_18E_ai_state)])();
-    FP oldXPos = field_B8_xpos;
-    FP oldYPos = field_BC_ypos;
+    const __int16 oldMotion = field_106_current_state;
+    field_190_sub_state = (this->*sMudokon_AI_Table_55CDF0[static_cast<int>(field_18E_ai_state)])();
+    const FP oldXPos = field_B8_xpos;
+    const FP oldYPos = field_BC_ypos;
 
-    (this->*sMudokon_fns2_55CE18[field_106_current_state])();
-
-    if (oldState != field_106_current_state)
-    {
-        LOG_INFO("state = " << field_106_current_state);
-    }
+    (this->*sMudokon_motion_states_55CE18[field_106_current_state])();
 
     if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
     {
@@ -576,7 +575,7 @@ void Mudokon::vUpdate_4757A0()
         VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
     }
 
-    if (oldState != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
+    if (oldMotion != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
     {
         field_114_flags.Clear(Flags_114::e114_Bit2);
         vUpdateAnimRes_474D80();
