@@ -106,7 +106,63 @@ public: // AI states
     EXPORT __int16 AI_Sick_9_47A910();
 
 public: // Motion states
-
+   EXPORT void StandIdle_0_4724E0();
+   EXPORT void Walking_1_4728B0();
+   EXPORT void TurnAroundStanding_2_472BF0();
+   EXPORT void Speak_Generic_472FA0();
+   EXPORT void StandToWalk_7_472AB0();
+   EXPORT void WalkingToStand_8_472B30();
+   EXPORT void jWalkingToStand_8_472BD0();
+   EXPORT void PullLever_10_473020();
+   EXPORT void Chisel_11_4732D0();
+   EXPORT void StartChisel_12_473500();
+   EXPORT void StopChisel_13_473530();
+   EXPORT void CrouchScrub_14_473560();
+   EXPORT void CrouchIdle_15_474040();
+   EXPORT void CrouchTurn_16_4740E0();
+   EXPORT void StandToCrouch_17_474120();
+   EXPORT void CrouchToStand_18_474150();
+   EXPORT void StandingToRun1_19_473600();
+   EXPORT void StandingToRun2_20_4736D0();
+   EXPORT void Running_21_473720();
+   EXPORT void RunToWalk1_22_4738E0();
+   EXPORT void RunToWalk2_23_4739B0();
+   EXPORT void RunSlideStop_24_473A00();
+   EXPORT void RunSlideTurn_25_473AA0();
+   EXPORT void RunTurn_26_473BB0();
+   EXPORT void Sneaking_27_473C40();
+   EXPORT void WalkToSneak1_28_473D60();
+   EXPORT void SneakingToWalk_29_473E20();
+   EXPORT void WalkToSneak2_30_473EE0();
+   EXPORT void SneakingToWalk2_31_473F30();
+   EXPORT void StandToSneaking_32_473F80();
+   EXPORT void SneakingToStand1_33_473FF0();
+   EXPORT void SneakingToStand2_34_474020();
+   EXPORT void JumpStart_35_474460();
+   EXPORT void JumpMid_36_474570();
+   EXPORT void WalkToRun_37_4749A0();
+   EXPORT void Slap_38_474AA0();
+   EXPORT void StartHoistJumpUp_39_4748E0();
+   EXPORT void HoistFallToFloor_40_474780();
+   EXPORT void HitFloorStanding1_41_474960();
+   EXPORT void HitFloorStanding2_42_4743F0();
+   EXPORT void StandToDunno_43_472790();
+   EXPORT void DunnoToStand_44_4727B0();
+   EXPORT void KnockForward_45_474180();
+   EXPORT void StandToKnockBack_46_4742A0();
+   EXPORT void KnockBackToStand_47_474380();
+   EXPORT void FallLedgeBegin_48_4743C0();
+   EXPORT void Fall_49_472C60();
+   EXPORT void Chanting_50_473040();
+   EXPORT void ToChant_51_4730D0();
+   EXPORT void ToDuck_52_474A20();
+   EXPORT void Duck_53_474A40();
+   EXPORT void DuckToCrouch_54_474A80();
+   EXPORT void DuckKnockBack_55_474250();
+   EXPORT void SlapOwnHead_56_4727D0();
+   EXPORT void TurnWheelBegin_57_474C00();
+   EXPORT void TurnWheelLoop_58_474CC0();
+   EXPORT void TurnWheelEnd_59_474D30();
 
 private:
     __int16 field_116;

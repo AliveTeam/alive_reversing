@@ -68,8 +68,138 @@ const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] =
     &Mudokon::AI_Sick_9_47A910
 };
 
+#define MUD_MOTION_STATES_ENUM(ENTRY) \
+    ENTRY(StandIdle_0_4724E0) \
+    ENTRY(Walking_1_4728B0) \
+    ENTRY(TurnAroundStanding_2_472BF0) \
+    ENTRY(Speak_Generic_472FA0) \
+    ENTRY(Speak_Generic_472FA0) \
+    ENTRY(Speak_Generic_472FA0) \
+    ENTRY(Speak_Generic_472FA0) \
+    ENTRY(StandToWalk_7_472AB0) \
+    ENTRY(WalkingToStand_8_472B30) \
+    ENTRY(jWalkingToStand_8_472BD0) \
+    ENTRY(PullLever_10_473020) \
+    ENTRY(Chisel_11_4732D0) \
+    ENTRY(StartChisel_12_473500) \
+    ENTRY(StopChisel_13_473530) \
+    ENTRY(CrouchScrub_14_473560) \
+    ENTRY(CrouchIdle_15_474040) \
+    ENTRY(CrouchTurn_16_4740E0) \
+    ENTRY(StandToCrouch_17_474120) \
+    ENTRY(CrouchToStand_18_474150) \
+    ENTRY(StandingToRun1_19_473600) \
+    ENTRY(StandingToRun2_20_4736D0) \
+    ENTRY(Running_21_473720) \
+    ENTRY(RunToWalk1_22_4738E0) \
+    ENTRY(RunToWalk2_23_4739B0) \
+    ENTRY(RunSlideStop_24_473A00) \
+    ENTRY(RunSlideTurn_25_473AA0) \
+    ENTRY(RunTurn_26_473BB0) \
+    ENTRY(Sneaking_27_473C40) \
+    ENTRY(WalkToSneak1_28_473D60) \
+    ENTRY(SneakingToWalk_29_473E20) \
+    ENTRY(WalkToSneak2_30_473EE0) \
+    ENTRY(SneakingToWalk2_31_473F30) \
+    ENTRY(StandToSneaking_32_473F80) \
+    ENTRY(SneakingToStand1_33_473FF0) \
+    ENTRY(SneakingToStand2_34_474020) \
+    ENTRY(JumpStart_35_474460) \
+    ENTRY(JumpMid_36_474570) \
+    ENTRY(WalkToRun_37_4749A0) \
+    ENTRY(Slap_38_474AA0) \
+    ENTRY(StartHoistJumpUp_39_4748E0) \
+    ENTRY(HoistFallToFloor_40_474780) \
+    ENTRY(HitFloorStanding1_41_474960) \
+    ENTRY(HitFloorStanding2_42_4743F0) \
+    ENTRY(StandToDunno_43_472790) \
+    ENTRY(DunnoToStand_44_4727B0) \
+    ENTRY(KnockForward_45_474180) \
+    ENTRY(StandToKnockBack_46_4742A0) \
+    ENTRY(KnockBackToStand_47_474380) \
+    ENTRY(FallLedgeBegin_48_4743C0) \
+    ENTRY(Fall_49_472C60) \
+    ENTRY(Chanting_50_473040) \
+    ENTRY(ToChant_51_4730D0) \
+    ENTRY(ToDuck_52_474A20) \
+    ENTRY(Duck_53_474A40) \
+    ENTRY(DuckToCrouch_54_474A80) \
+    ENTRY(DuckKnockBack_55_474250) \
+    ENTRY(SlapOwnHead_56_4727D0) \
+    ENTRY(TurnWheelBegin_57_474C00) \
+    ENTRY(TurnWheelLoop_58_474CC0) \
+    ENTRY(TurnWheelEnd_59_474D30)
+
+const char* const sMudMotionStateNames[60] =
+{
+    MUD_MOTION_STATES_ENUM(MAKE_STRINGS)
+};
+
 using TMudStateFunction = decltype(&Mudokon::vUpdateAnimRes_474D80); // TODO: Use an actual state func
-ALIVE_ARY(1, 0x55CE18, TMudStateFunction, 60, sMudokon_fns2_55CE18, {});
+
+ALIVE_ARY(1, 0x55CE18, TMudStateFunction, 60, sMudokon_fns2_55CE18, 
+{
+    &Mudokon::StandIdle_0_4724E0,
+    &Mudokon::Walking_1_4728B0,
+    &Mudokon::TurnAroundStanding_2_472BF0,
+    &Mudokon::Speak_Generic_472FA0,
+    &Mudokon::Speak_Generic_472FA0,
+    &Mudokon::Speak_Generic_472FA0,
+    &Mudokon::Speak_Generic_472FA0,
+    &Mudokon::StandToWalk_7_472AB0,
+    &Mudokon::WalkingToStand_8_472B30,
+    &Mudokon::jWalkingToStand_8_472BD0,
+    &Mudokon::PullLever_10_473020,
+    &Mudokon::Chisel_11_4732D0,
+    &Mudokon::StartChisel_12_473500,
+    &Mudokon::StopChisel_13_473530,
+    &Mudokon::CrouchScrub_14_473560,
+    &Mudokon::CrouchIdle_15_474040,
+    &Mudokon::CrouchTurn_16_4740E0,
+    &Mudokon::StandToCrouch_17_474120,
+    &Mudokon::CrouchToStand_18_474150,
+    &Mudokon::StandingToRun1_19_473600,
+    &Mudokon::StandingToRun2_20_4736D0,
+    &Mudokon::Running_21_473720,
+    &Mudokon::RunToWalk1_22_4738E0,
+    &Mudokon::RunToWalk2_23_4739B0,
+    &Mudokon::RunSlideStop_24_473A00,
+    &Mudokon::RunSlideTurn_25_473AA0,
+    &Mudokon::RunTurn_26_473BB0,
+    &Mudokon::Sneaking_27_473C40,
+    &Mudokon::WalkToSneak1_28_473D60,
+    &Mudokon::SneakingToWalk_29_473E20,
+    &Mudokon::WalkToSneak2_30_473EE0,
+    &Mudokon::SneakingToWalk2_31_473F30,
+    &Mudokon::StandToSneaking_32_473F80,
+    &Mudokon::SneakingToStand1_33_473FF0,
+    &Mudokon::SneakingToStand2_34_474020,
+    &Mudokon::JumpStart_35_474460,
+    &Mudokon::JumpMid_36_474570,
+    &Mudokon::WalkToRun_37_4749A0,
+    &Mudokon::Slap_38_474AA0,
+    &Mudokon::StartHoistJumpUp_39_4748E0,
+    &Mudokon::HoistFallToFloor_40_474780,
+    &Mudokon::HitFloorStanding1_41_474960,
+    &Mudokon::HitFloorStanding2_42_4743F0,
+    &Mudokon::StandToDunno_43_472790,
+    &Mudokon::DunnoToStand_44_4727B0,
+    &Mudokon::KnockForward_45_474180,
+    &Mudokon::StandToKnockBack_46_4742A0,
+    &Mudokon::KnockBackToStand_47_474380,
+    &Mudokon::FallLedgeBegin_48_4743C0,
+    &Mudokon::Fall_49_472C60,
+    &Mudokon::Chanting_50_473040,
+    &Mudokon::ToChant_51_4730D0,
+    &Mudokon::ToDuck_52_474A20,
+    &Mudokon::Duck_53_474A40,
+    &Mudokon::DuckToCrouch_54_474A80,
+    &Mudokon::DuckKnockBack_55_474250,
+    &Mudokon::SlapOwnHead_56_4727D0,
+    &Mudokon::TurnWheelBegin_57_474C00,
+    &Mudokon::TurnWheelLoop_58_474CC0,
+    &Mudokon::TurnWheelEnd_59_474D30
+});
 
 
 // This is used rather than the un-typesafe word_55CF08 array
@@ -428,71 +558,6 @@ void Mudokon::vUpdate_4757A0()
     FP oldXPos = field_B8_xpos;
     FP oldYPos = field_BC_ypos;
 
-    enum MudMotions : short
-    {
-        eStandIdle_0 = 0,
-        eWalking_1 = 1,
-        eTurnAroundStanding = 2,
-        eSpeak1_3 = 3,
-        eSpeak2_4 = 4,
-        eSpeak3_5 = 5,
-        eWalkingToStand = 8,  // ??
-        eWalking_Mid = 9, // ??
-        ePullLever_10 = 10,
-        eChisel_11 = 11,
-        eStartChisel_12 = 12,
-        eStopChisel_13 = 13,
-        e_14 = 14,
-        eCrouchIdle_15 = 15,
-        eCrouchTurn_16 = 16,
-        eStandToCrouch_17 = 17,
-        eCrouchToStand_18 = 18,
-        eToRunUnknown1_19 = 19,
-        eToRunUnknown2_20 = 20,
-        eRunning_21 = 21,
-        eWalkToRunUnknown1_22 = 22,
-        eWalkToRunUnknown2_23 = 23,
-        eRunSlideStop_24 = 24,
-        eRunSlideTurn_25 = 25,
-        eRunTurn_26 = 26,
-        eSneaking_27 = 27,
-        eWalkToSneak1_28 = 28,
-        eWalkToSneak2_29 = 29,
-        eSneakToWalk_30 = 30,
-        eSneakWalkUnknown_31 = 31,
-        eSneakStepUnknown_32 = 32,
-        eSneakStopUnknown1_33 = 33,
-        eSneakStopUnknown2_34 = 34,
-        eJumpStartUnknown_35 = 35,
-        eJumpMidUnknown_36 = 36,
-        eWalkToRun_37 = 37,
-        eSlap_38 = 38,
-        eStartHoistJumpUp_39 = 39,
-        eHoistFallToFloor_40 = 40,
-        eHitFloorStanding1_41 = 41,
-        eHitFloorStanding2_42 = 42,
-        eStandToDunno = 43,
-        eDunnoToStand = 44, // or also idle stand ??
-        eKnockForward_45 = 45, // from shot/slig beat
-        eStandToKnockBack = 46,
-        eKnockBackToStand = 47,
-        eLandStandingUnknown1_48 = 48,
-        eLandStandingUnknown2_49 = 49,
-        eChanting_50 = 50,
-        eToChant_51 = 51,
-        eToDuck_52 = 52,
-        eDuck_53 = 53,
-        eDuckToCrouch_54 = 54,
-        eDuckKnockBack_55 = 55, // smashed on the head while ducking
-        eSlapOwnHead_56 = 56,
-        e_57 = 57,
-        e_58 = 58,
-        e_59 = 59,
-        e_60 = 60
-    };
-
-    //field_106_current_state = MudMotions::eSlapOwnHead_56;
-
     (this->*sMudokon_fns2_55CE18[field_106_current_state])();
 
     if (oldState != field_106_current_state)
@@ -665,4 +730,289 @@ __int16 Mudokon::AI_Sick_9_47A910()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void Mudokon::StandIdle_0_4724E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Walking_1_4728B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::TurnAroundStanding_2_472BF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Speak_Generic_472FA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StandToWalk_7_472AB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::WalkingToStand_8_472B30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::jWalkingToStand_8_472BD0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::PullLever_10_473020()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Chisel_11_4732D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StartChisel_12_473500()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StopChisel_13_473530()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::CrouchScrub_14_473560()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::CrouchIdle_15_474040()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::CrouchTurn_16_4740E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StandToCrouch_17_474120()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::CrouchToStand_18_474150()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StandingToRun1_19_473600()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StandingToRun2_20_4736D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Running_21_473720()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::RunToWalk1_22_4738E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::RunToWalk2_23_4739B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::RunSlideStop_24_473A00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::RunSlideTurn_25_473AA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::RunTurn_26_473BB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Sneaking_27_473C40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::WalkToSneak1_28_473D60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::SneakingToWalk_29_473E20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::WalkToSneak2_30_473EE0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::SneakingToWalk2_31_473F30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StandToSneaking_32_473F80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::SneakingToStand1_33_473FF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::SneakingToStand2_34_474020()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::JumpStart_35_474460()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::JumpMid_36_474570()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::WalkToRun_37_4749A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Slap_38_474AA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StartHoistJumpUp_39_4748E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::HoistFallToFloor_40_474780()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::HitFloorStanding1_41_474960()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::HitFloorStanding2_42_4743F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StandToDunno_43_472790()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::DunnoToStand_44_4727B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::KnockForward_45_474180()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::StandToKnockBack_46_4742A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::KnockBackToStand_47_474380()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::FallLedgeBegin_48_4743C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Fall_49_472C60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Chanting_50_473040()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::ToChant_51_4730D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::ToDuck_52_474A20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::Duck_53_474A40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::DuckToCrouch_54_474A80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::DuckKnockBack_55_474250()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::SlapOwnHead_56_4727D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::TurnWheelBegin_57_474C00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::TurnWheelLoop_58_474CC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Mudokon::TurnWheelEnd_59_474D30()
+{
+    NOT_IMPLEMENTED();
 }
