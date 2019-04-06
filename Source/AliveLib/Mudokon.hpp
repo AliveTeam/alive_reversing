@@ -167,7 +167,7 @@ public: // Motion states
 private:
     __int16 field_116;
     int field_118;
-    int field_11C;
+    int field_11C_bird_portal_id;
     __int16 field_120_angry_trigger;
     __int16 field_122;
     int field_124;
@@ -189,7 +189,7 @@ private:
     __int16 field_152;
     __int16 field_154;
     __int16 field_156;
-    int field_158_obj_id;
+    int field_158_wheel_id;
     __int16 field_15C;
     __int16 field_15E;
     __int16 field_160_delayed_speak;
@@ -243,7 +243,7 @@ private:
     WORD* field_188;
     __int16 field_18C;
     Mud_AI_State field_18E_ai_state;
-    unsigned __int16 field_190;
+    unsigned __int16 field_190_sub_state;
     __int16 field_192;
     int field_194;
     int field_198;
