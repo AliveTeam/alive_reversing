@@ -64,8 +64,30 @@ enum class Mud_Emotion : __int16
     eUnknown_2 = 2,
     eSad_3 = 3,
     eUnknown_4 = 4,
+    eUnknown_5 = 5, // TODO: Not used ??
     eWired_6 = 6,
     eSick_7 = 7
+};
+
+enum class MudAction : __int16
+{
+    eHelloOrAllYa_0 = 0,
+    eFollowMe_1 = 1,
+    eWait_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eFart_6 = 6,
+    eSlapOrWater_7 = 7,
+    eSorry_8 = 8,
+    eUnknown_9 = 9,
+    eUnknown_10 = 10,
+    eUnknown_11 = 11,
+    eUnknown_12 = 12,
+    eUnknown_13 = 13,
+    eMudDied_14 = 14,
+    eUnknown_15 = 15,
+    eUnknown_16 = 16,
 };
 
 enum class Mud_AI_State : unsigned __int16;
@@ -172,6 +194,13 @@ public: // Motion states
    EXPORT void TurnWheelEnd_59_474D30();
 
 private:
+    EXPORT __int16 StableDelay_477570();
+    EXPORT __int16 CheckForPortal_4775E0();
+    EXPORT __int16 sub_476FF0();
+    EXPORT __int16 LaughingGasInCurrentScreen_4774A0();
+    EXPORT void Sound_475EC0(__int16 idx);
+    EXPORT __int16 sub_4770B0();
+
     EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
     
 private:
@@ -250,12 +279,12 @@ private:
     __int16 field_182;
     __int16 field_184;
     __int16 field_186;
-    WORD* field_188;
+    const struct MudEmotionTableEntry* field_188_pTblEntry;
     __int16 field_18C;
     Mud_AI_State field_18E_ai_state;
     unsigned __int16 field_190_sub_state;
     __int16 field_192;
-    int field_194;
+    int field_194_timer;
     int field_198;
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x19C);
