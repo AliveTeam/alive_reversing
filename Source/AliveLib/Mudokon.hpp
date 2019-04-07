@@ -61,7 +61,9 @@ enum class Mud_Emotion : __int16
 {
     eNormal_0 = 0,
     eAngry_1 = 1,
+    eUnknown_2 = 2,
     eSad_3 = 3,
+    eUnknown_4 = 4,
     eWired_6 = 6,
     eSick_7 = 7
 };
@@ -168,6 +170,9 @@ public: // Motion states
    EXPORT void TurnWheelLoop_58_474CC0();
    EXPORT void TurnWheelEnd_59_474D30();
 
+private:
+    EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(__int16 emotion_idx, __int16 a2);
+    
 private:
     __int16 field_116;
     int field_118;
