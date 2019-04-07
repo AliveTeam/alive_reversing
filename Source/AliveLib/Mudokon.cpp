@@ -424,7 +424,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     if (field_16A_flags.Get(Flags::eBit4_blind))
     {
-        SetPal_4772D0(0);
+        SetPal_4772D0(Mud_Pal_Type::eNormalOrBlind_0);
     }
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_14_direction == Mud_Direction::eLeft_0);
@@ -668,11 +668,12 @@ void Mudokon::vUpdate_4757A0()
     }
 }
 
-void Mudokon::SetPal_4772D0(__int16 palType)
+
+void Mudokon::SetPal_4772D0(Mud_Pal_Type palType)
 {
     switch (palType)
     {
-    case 0:
+    case Mud_Pal_Type::eNormalOrBlind_0:
         if (field_16A_flags.Get(Flags::eBit4_blind))
         {
             field_D0_r = 63;
@@ -692,31 +693,31 @@ void Mudokon::SetPal_4772D0(__int16 palType)
         }
         break;
 
-    case 1:
-    case 2:
+    case Mud_Pal_Type::eAngryRed_1:
+    case Mud_Pal_Type::eAngryRed_2:
         field_D0_r = 63;
         field_D2_g = 63;
         field_D4_b = 63;
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(13), 0);
         break;
 
-    case 3:
-    case 4:
+    case Mud_Pal_Type::eDepressedBlue_3:
+    case Mud_Pal_Type::eDepressedBlue_4:
         field_D0_r = 63;
         field_D2_g = 63;
         field_D4_b = 63;
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(14), 0);
         break;
 
-    case 5:
-    case 6:
+    case Mud_Pal_Type::eWiredYellow_5:
+    case Mud_Pal_Type::eWiredYellow_6:
         field_D0_r = 74;
         field_D2_g = 74;
         field_D4_b = 74;
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(15), 0);
         break;
 
-    case 7:
+    case Mud_Pal_Type::eSickDarkGreen_7:
         field_D0_r = 63;
         field_D2_g = 63;
         field_D4_b = 63;

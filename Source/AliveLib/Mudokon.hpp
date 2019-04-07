@@ -68,6 +68,18 @@ enum class Mud_Emotion : __int16
 
 enum class Mud_AI_State : unsigned __int16;
 
+enum class Mud_Pal_Type : __int16
+{
+    eNormalOrBlind_0 = 0,
+    eAngryRed_1 = 1,
+    eAngryRed_2 = 2,
+    eDepressedBlue_3 = 3,
+    eDepressedBlue_4 = 4,
+    eWiredYellow_5 = 5,
+    eWiredYellow_6 = 6,
+    eSickDarkGreen_7 = 7,
+};
+
 class Mudokon : public BaseAliveGameObject
 {
 public:
@@ -80,7 +92,7 @@ public:
 private:
     EXPORT void vUpdate_4757A0();
 
-    EXPORT void SetPal_4772D0(__int16 palType);
+    EXPORT void SetPal_4772D0(Mud_Pal_Type palType);
 
     EXPORT void vOnTrapDoorOpen_472350();
 public:
