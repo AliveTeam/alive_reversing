@@ -13,7 +13,6 @@
 #define MAX_VOICE_COUNT 1024
 
 static int gSoundBufferSamples = 256;
-const int gVoiceArraySize = 1024;
 static int gCurrentSoundBufferSize = 0;
 const int gMixVolume = 127;
 
