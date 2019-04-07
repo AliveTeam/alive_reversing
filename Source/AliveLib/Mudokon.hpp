@@ -66,19 +66,7 @@ enum class Mud_Emotion : __int16
     eSick_7 = 7
 };
 
-enum class Mud_AI_State : unsigned __int16
-{
-    eGiveRings_0 = 0,
-    eChisle_1 = 1,
-    eScrub_2 = 2,
-    eState_3 = 3, // wheel or portal ??
-    eWired_4 = 4,
-    eShrivelDeath_5 = 5,
-    eAlertedByHello_6 = 6,
-    eFallAndSmackDeath_7 = 7,
-    eAngryWorker_8 = 8,
-    eSick_9 = 9,
-};
+enum class Mud_AI_State : unsigned __int16;
 
 class Mudokon : public BaseAliveGameObject
 {

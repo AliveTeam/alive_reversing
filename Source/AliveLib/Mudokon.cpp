@@ -56,6 +56,12 @@ const char* const sMudAiStateNames[10] =
     MUD_AI_STATES_ENUM(MAKE_STRINGS)
 };
 
+#define MAKE_ENUM(VAR) VAR,
+enum class Mud_AI_State : unsigned __int16
+{
+    MUD_AI_STATES_ENUM(MAKE_ENUM)
+};
+
 using TMudAIStateFunction = decltype(&Mudokon::AI_Give_rings_0_470C10);
 
 const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] =
@@ -138,6 +144,76 @@ const char* const sMudMotionStateNames[60] =
 {
     MUD_MOTION_STATES_ENUM(MAKE_STRINGS)
 };
+
+// Note can't use the macro magic here because there are duplicate names because
+// speak generic appears 3 times :(
+enum class Mud_Motion : unsigned __int16
+{
+    StandIdle_0_4724E0,
+    Walking_1_4728B0,
+    TurnAroundStanding_2_472BF0,
+
+    // NOTE: 3-6 are all the same entry, added to avoid compile issue mentioned above.
+    Speak_Generic_3_472FA0,
+    Speak_Generic_4_472FA0,
+    Speak_Generic_5_472FA0,
+    Speak_Generic_6_472FA0,
+
+    StandToWalk_7_472AB0,
+    WalkingToStand_8_472B30,
+    jWalkingToStand_8_472BD0,
+    PullLever_10_473020,
+    Chisel_11_4732D0,
+    StartChisel_12_473500,
+    StopChisel_13_473530,
+    CrouchScrub_14_473560,
+    CrouchIdle_15_474040,
+    CrouchTurn_16_4740E0,
+    StandToCrouch_17_474120,
+    CrouchToStand_18_474150,
+    StandingToRun1_19_473600,
+    StandingToRun2_20_4736D0,
+    Running_21_473720,
+    RunToWalk1_22_4738E0,
+    RunToWalk2_23_4739B0,
+    RunSlideStop_24_473A00,
+    RunSlideTurn_25_473AA0,
+    RunTurn_26_473BB0,
+    Sneaking_27_473C40,
+    WalkToSneak1_28_473D60,
+    SneakingToWalk_29_473E20,
+    WalkToSneak2_30_473EE0,
+    SneakingToWalk2_31_473F30,
+    StandToSneaking_32_473F80,
+    SneakingToStand1_33_473FF0,
+    SneakingToStand2_34_474020,
+    JumpStart_35_474460,
+    JumpMid_36_474570,
+    WalkToRun_37_4749A0,
+    Slap_38_474AA0,
+    StartHoistJumpUp_39_4748E0,
+    HoistFallToFloor_40_474780,
+    HitFloorStanding1_41_474960,
+    HitFloorStanding2_42_4743F0,
+    StandToDunno_43_472790,
+    DunnoToStand_44_4727B0,
+    KnockForward_45_474180,
+    StandToKnockBack_46_4742A0,
+    KnockBackToStand_47_474380,
+    FallLedgeBegin_48_4743C0,
+    Fall_49_472C60,
+    Chanting_50_473040,
+    ToChant_51_4730D0,
+    ToDuck_52_474A20,
+    Duck_53_474A40,
+    DuckToCrouch_54_474A80,
+    DuckKnockBack_55_474250,
+    SlapOwnHead_56_4727D0,
+    TurnWheelBegin_57_474C00,
+    TurnWheelLoop_58_474CC0,
+    TurnWheelEnd_59_474D30
+};
+
 
 using TMudStateFunction = decltype(&Mudokon::StandIdle_0_4724E0);
 
@@ -248,7 +324,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_4_typeId = Types::eMudokon2_81; // TODO: Set to 110 later, what is 81 ??
     field_C_objectId = tlvInfo;
     field_194 = 0;
-    field_18E_ai_state = Mud_AI_State::eGiveRings_0;
+    field_18E_ai_state = Mud_AI_State::AI_Give_rings_0_470C10;
     field_190_sub_state = 0;
     field_108_delayed_state = -1;
     field_192 = 0;
@@ -292,17 +368,17 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     switch (pTlv->field_12_state)
     {
     case Mud_State::eChisle_0:
-        field_18E_ai_state = Mud_AI_State::eChisle_1;
+        field_18E_ai_state = Mud_AI_State::AI_Chisel_1_47C5F0;
         field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 511, TRUE, FALSE));
         break;
 
     case Mud_State::eScrub_1:
-        field_18E_ai_state = Mud_AI_State::eScrub_2;
+        field_18E_ai_state = Mud_AI_State::AI_Scrub_2_47D270;
         field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 510, TRUE, FALSE));
         break;
 
     case Mud_State::eAngryWorker_2:
-        field_18E_ai_state = Mud_AI_State::eAngryWorker_8;
+        field_18E_ai_state = Mud_AI_State::AI_AngryWorker_8_47E910;
         field_180_emo_tbl = Mud_Emotion::eAngry_1;
         field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 510, TRUE, FALSE));
         break;
@@ -320,7 +396,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
         field_164_ring_timeout = pTlv->field_2A_ring_timeout;
         field_16A_flags.Set(Flags::eBit16_instant_power_up, pTlv->field_2C_bInstant_power_up & 1);
         field_16C &= ~1;
-        field_18E_ai_state = Mud_AI_State::eGiveRings_0;
+        field_18E_ai_state = Mud_AI_State::AI_Give_rings_0_470C10;
         field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 48, TRUE, FALSE));
         break;
 
@@ -330,7 +406,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     if (field_180_emo_tbl == Mud_Emotion::eWired_6)
     {
-        field_18E_ai_state = Mud_AI_State::eWired_4;
+        field_18E_ai_state = Mud_AI_State::AI_Wired_4_477B40;
     }
 
     field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 514, TRUE, FALSE));
@@ -369,7 +445,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     if (field_180_emo_tbl == Mud_Emotion::eSick_7)
     {
-        field_18E_ai_state = Mud_AI_State::eSick_9;
+        field_18E_ai_state = Mud_AI_State::AI_Sick_9_47A910;
         field_114_flags.Set(Flags_114::e114_Bit2);
         field_106_current_state = 15;
     }
@@ -423,7 +499,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_20_animation.field_1C_fn_ptr_array = kAbe_Anim_Frame_Fns_55EF98;
     field_F8 = field_BC_ypos;
 
-    if (field_18E_ai_state == Mud_AI_State::eScrub_2 || field_18E_ai_state == Mud_AI_State::eChisle_1)
+    if (field_18E_ai_state == Mud_AI_State::AI_Scrub_2_47D270 || field_18E_ai_state == Mud_AI_State::AI_Chisel_1_47C5F0)
     {
         MapFollowMe_408D10(TRUE);
     }
@@ -500,7 +576,7 @@ void Mudokon::vUpdate_4757A0()
                     field_11C_bird_portal_id = pObj->field_8_object_id;
                     word_5C3012++;
                     field_16C |= 4u;
-                    if (field_18E_ai_state == Mud_AI_State::eAlertedByHello_6 && field_190_sub_state == 3)
+                    if (field_18E_ai_state == Mud_AI_State::AI_HelloAlerted_6_47A560 && field_190_sub_state == 3)
                     {
                         static_cast<BirdPortal*>(pObj)->Vsub_499430(1);
                         field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
