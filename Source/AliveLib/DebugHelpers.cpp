@@ -516,7 +516,7 @@ void Command_HelperUpdate()
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
         sHasTeleported = false;
-        sActiveHero_5C1B68->field_106_current_state = eAbeStates::State_3_Fall_459B60;
+        sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
         sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7);
         sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
         sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
@@ -691,7 +691,7 @@ void Command_SetState(const std::vector<std::string>& args)
 
     if (resource != nullptr)
     {
-        pAbe->field_106_current_state = state;
+        pAbe->field_106_current_motion = state;
         pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[state], resource);
         DEV_CONSOLE_PRINTF("Set state to %i", state);
     }

@@ -500,7 +500,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_194_timer = 0;
     field_18E_ai_state = Mud_AI_State::AI_Give_rings_0_470C10;
     field_190_sub_state = 0;
-    field_108_delayed_state = -1;
+    field_108_next_motion = -1;
     field_192 = 0;
     field_13C_voice_pitch = 0;
 
@@ -620,12 +620,12 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     if (field_180_emo_tbl == Mud_Emotion::eSick_7)
     {
         field_18E_ai_state = Mud_AI_State::AI_Sick_9_47A910;
-        field_114_flags.Set(Flags_114::e114_Bit2);
-        field_106_current_state = 15;
+        field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
+        field_106_current_motion = 15;
     }
     else
     {
-        field_106_current_state = 0;
+        field_106_current_motion = 0;
     }
 
     if (pTlv->field_10_scale == TLV_Scale::Half_1)
@@ -686,10 +686,10 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_160_delayed_speak = -1;
     field_162 = field_DA_xOffset;
     
-    field_E0_176_ptr = alive_new<Shadow>();
-    if (field_E0_176_ptr)
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
     {
-        field_E0_176_ptr->ctor_4AC990();
+        field_E0_pShadow->ctor_4AC990();
     }
 
     vUpdate_4757A0();
@@ -704,6 +704,9 @@ void Mudokon::VUpdate()
 
 void Mudokon::vUpdate_4757A0()
 {
+    // TODO: This is some unknown bug in here that locks muds in certain motions
+   // NOT_IMPLEMENTED();
+
     if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
         field_114_flags.Clear(Flags_114::e114_Bit9);
@@ -810,12 +813,13 @@ void Mudokon::vUpdate_4757A0()
 
     //DDCheat::DebugStr_4F5560("\nMotion = %s BrainState = %s\n", sMudMotionStateNames[field_106_current_state], sMudAiStateNames[static_cast<int>(field_18E_ai_state)]);
 
-    const __int16 oldMotion = field_106_current_state;
+    const __int16 oldMotion = field_106_current_motion;
     field_190_sub_state = (this->*sMudokon_AI_Table_55CDF0[static_cast<int>(field_18E_ai_state)])();
+   
     const FP oldXPos = field_B8_xpos;
     const FP oldYPos = field_BC_ypos;
 
-    (this->*sMudokon_motion_states_55CE18[field_106_current_state])();
+    (this->*sMudokon_motion_states_55CE18[field_106_current_motion])();
 
     if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
     {
@@ -828,14 +832,14 @@ void Mudokon::vUpdate_4757A0()
         VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
     }
 
-    if (oldMotion != field_106_current_state || field_114_flags.Get(Flags_114::e114_Bit2))
+    if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
     {
-        field_114_flags.Clear(Flags_114::e114_Bit2);
+        field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
         vUpdateAnimRes_474D80();
     }
     else if (field_192)
     {
-        field_106_current_state = field_F4;
+        field_106_current_motion = field_F4;
         vOnTrapDoorOpen_472350();
         field_20_animation.SetFrame_409D50(field_F6_anim_frame);
         field_192 = 0;
@@ -912,7 +916,7 @@ void Mudokon::vOnTrapDoorOpen_472350()
     {
         if (!field_114_flags.Get(Flags_114::e114_Bit1))
         {
-            VUpdateState_4081C0(Mud_Motion::FallLedgeBegin_48_4743C0);
+            VSetMotion_4081C0(Mud_Motion::FallLedgeBegin_48_4743C0);
         }
 
         pPlatform->VRemove(this);
@@ -1088,10 +1092,10 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
     switch (field_190_sub_state)
     {
     case BrainStates::eState_0:
-        if (field_106_current_state != Mud_Motion::StandToCrouch_17_474120)
+        if (field_106_current_motion != Mud_Motion::StandToCrouch_17_474120)
         {
-            field_106_current_state = Mud_Motion::Chisel_11_4732D0;
-            field_108_delayed_state = -1;
+            field_106_current_motion = Mud_Motion::Chisel_11_4732D0;
+            field_108_next_motion = -1;
         }
         field_194_timer = (Math_NextRandom() % 64) + (sGnFrame_5C1B84 + 35);
         return BrainStates::eState_1;
@@ -1118,17 +1122,17 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         }
     LABEL_80:
 
-        if (field_106_current_state == Mud_Motion::StandIdle_0_4724E0)
+        if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
         {
-            field_108_delayed_state = Mud_Motion::Chisel_11_4732D0;
+            field_108_next_motion = Mud_Motion::Chisel_11_4732D0;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_194_timer && field_106_current_state == Mud_Motion::Chisel_11_4732D0)
+        if (static_cast<int>(sGnFrame_5C1B84) > field_194_timer && field_106_current_motion == Mud_Motion::Chisel_11_4732D0)
         {
-            field_108_delayed_state = Mud_Motion::CrouchIdle_15_474040;
+            field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
         }
 
-        if (field_106_current_state != Mud_Motion::CrouchIdle_15_474040)
+        if (field_106_current_motion != Mud_Motion::CrouchIdle_15_474040)
         {
             return field_190_sub_state;
         }
@@ -1144,7 +1148,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
             field_16A_flags.Set(Flags::eBit14);
             field_16A_flags.Set(Flags::eBit6);
 
-            field_108_delayed_state = Mud_Motion::StandIdle_0_4724E0;
+            field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
             return BrainStates::eState_3;
         }
@@ -1177,7 +1181,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
             }
 
         LABEL_107:
-            field_108_delayed_state = Mud_Motion::StandIdle_0_4724E0;
+            field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
             word_5C3018 = 1;
             field_16C |= 2u;
@@ -1185,9 +1189,9 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         }
     LABEL_99:
 
-        if (field_106_current_state == Mud_Motion::StandIdle_0_4724E0)
+        if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
         {
-            field_108_delayed_state = Mud_Motion::StandToCrouch_17_474120;
+            field_108_next_motion = Mud_Motion::StandToCrouch_17_474120;
         }
 
         if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
@@ -1196,7 +1200,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         }
 
         field_194_timer = (Math_NextRandom() % 64) + (sGnFrame_5C1B84 + 35);
-        field_108_delayed_state = Mud_Motion::Chisel_11_4732D0;
+        field_108_next_motion = Mud_Motion::Chisel_11_4732D0;
         return BrainStates::eState_1;
 
     case BrainStates::eState_3:
@@ -1227,25 +1231,25 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
             }
         }
     LABEL_117:
-        if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer || field_106_current_state)
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer || field_106_current_motion)
         {
-            if (field_108_delayed_state != -1)
+            if (field_108_next_motion != -1)
             {
                 return field_190_sub_state;
             }
 
-            if (field_106_current_state == Mud_Motion::Chisel_11_4732D0 || field_106_current_state == Mud_Motion::CrouchIdle_15_474040)
+            if (field_106_current_motion == Mud_Motion::Chisel_11_4732D0 || field_106_current_motion == Mud_Motion::CrouchIdle_15_474040)
             {
-                field_108_delayed_state = Mud_Motion::StandIdle_0_4724E0;
+                field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
             }
 
-            if (field_106_current_state != Mud_Motion::Duck_53_474A40)
+            if (field_106_current_motion != Mud_Motion::Duck_53_474A40)
             {
                 return field_190_sub_state;
             }
             else
             {
-                field_108_delayed_state = Mud_Motion::CrouchIdle_15_474040;
+                field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
                 return field_190_sub_state;
             }
         }
@@ -1254,7 +1258,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         {
             field_16A_flags.Clear(Flags::eBit12);
             field_16A_flags.Clear(Flags::eBit14);
-            field_108_delayed_state = Mud_Motion::Speak_Generic_6_472FA0;
+            field_108_next_motion = Mud_Motion::Speak_Generic_6_472FA0;
             Sound_475EC0(28);
             return BrainStates::eState_4;
         }
@@ -1278,33 +1282,33 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         break;
 
     case BrainStates::eState_4:
-        if (field_106_current_state != Mud_Motion::StandIdle_0_4724E0)
+        if (field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
         {
             return field_190_sub_state;
         }
         field_16A_flags.Clear(Flags::eBit6);
-        field_108_delayed_state = Mud_Motion::StandToCrouch_17_474120;
+        field_108_next_motion = Mud_Motion::StandToCrouch_17_474120;
         return BrainStates::eState_0;
 
     case BrainStates::eState_5:
-        if (field_106_current_state == Mud_Motion::StandIdle_0_4724E0)
+        if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
         {
-            field_108_delayed_state = Mud_Motion::StandToCrouch_17_474120;
+            field_108_next_motion = Mud_Motion::StandToCrouch_17_474120;
             return field_190_sub_state;
         }
 
-        if (field_106_current_state == Mud_Motion::Chisel_11_4732D0)
+        if (field_106_current_motion == Mud_Motion::Chisel_11_4732D0)
         {
-            field_108_delayed_state = Mud_Motion::CrouchIdle_15_474040;
+            field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
             return field_190_sub_state;
         }
 
-        if (field_106_current_state != Mud_Motion::CrouchIdle_15_474040)
+        if (field_106_current_motion != Mud_Motion::CrouchIdle_15_474040)
         {
             return field_190_sub_state;
         }
 
-        field_108_delayed_state = Mud_Motion::Duck_53_474A40;
+        field_108_next_motion = Mud_Motion::Duck_53_474A40;
         field_194_timer = sGnFrame_5C1B84 + 60;
         return BrainStates::eState_6;
 
@@ -1313,19 +1317,19 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         {
             return field_190_sub_state;
         }
-        field_108_delayed_state = Mud_Motion::CrouchIdle_15_474040;
+        field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
         return BrainStates::eState_7;
 
     case BrainStates::eState_7:
-        if (field_106_current_state == Mud_Motion::Chisel_11_4732D0)
+        if (field_106_current_motion == Mud_Motion::Chisel_11_4732D0)
         {
             return BrainStates::eState_0;
         }
-        if (field_106_current_state != Mud_Motion::CrouchIdle_15_474040)
+        if (field_106_current_motion != Mud_Motion::CrouchIdle_15_474040)
         {
             return field_190_sub_state;
         }
-        field_108_delayed_state = Mud_Motion::Chisel_11_4732D0;
+        field_108_next_motion = Mud_Motion::Chisel_11_4732D0;
         return field_190_sub_state;
 
     case BrainStates::eState_8:
@@ -1333,7 +1337,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         {
             return field_190_sub_state;
         }
-        field_108_delayed_state = Mud_Motion::DuckKnockBack_55_474250;
+        field_108_next_motion = Mud_Motion::DuckKnockBack_55_474250;
         field_194_timer = sGnFrame_5C1B84 + 60;
         return BrainStates::eState_6;
 

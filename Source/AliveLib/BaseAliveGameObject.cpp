@@ -54,7 +54,7 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     SetVTable(this, 0x544000);
 
     field_114_flags.Clear(Flags_114::e114_Bit1);
-    field_114_flags.Clear(Flags_114::e114_Bit2);
+    field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
     field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
     field_114_flags.Clear(Flags_114::e114_Bit5);
@@ -69,8 +69,8 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     field_100_pCollisionLine = nullptr;
     field_10C_health = FP_FromDouble(1.0);
     field_110_id = -1;
-    field_106_current_state = 0;
-    field_108_delayed_state = 0;
+    field_106_current_motion = 0;
+    field_108_next_motion = 0;
     field_F4 = 0;
     field_F6_anim_frame = 0;
     field_F8 = FP_FromInteger(0);
@@ -135,9 +135,9 @@ unsigned __int16 BaseAliveGameObject::Vnull_408F70()
     return vnull_408F70();
 }
 
-void BaseAliveGameObject::VUpdateState_4081C0(__int16 state)
+void BaseAliveGameObject::VSetMotion_4081C0(__int16 state)
 {
-    vUpdateState_4081C0(state);
+    vSetMotion_4081C0(state);
 }
 
 int BaseAliveGameObject::Vsub_408320(__int16 a2, __int16 a3, int a4)
@@ -184,10 +184,10 @@ unsigned __int16 BaseAliveGameObject::vnull_408F70()
     return 0;
 }
 
-void BaseAliveGameObject::vUpdateState_4081C0(__int16 state)
+void BaseAliveGameObject::vSetMotion_4081C0(__int16 state)
 {
-    field_114_flags.Set(Flags_114::e114_Bit2);
-    field_106_current_state = state;
+    field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
+    field_106_current_motion = state;
 }
 
 int BaseAliveGameObject::vsub_408320(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/)

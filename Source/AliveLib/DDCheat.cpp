@@ -246,7 +246,7 @@ void DDCheat::Update_415780()
                 gMap_5C3030.GetCurrentCamCoords_480680(&pos);
                 sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(pos.field_0_x + 184);
                 sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(pos.field_2_y + 60);
-                sActiveHero_5C1B68->field_106_current_state = 3;
+                sActiveHero_5C1B68->field_106_current_motion = 3;
                 sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
                 sActiveHero_5C1B68->field_C2_lvl_number = static_cast<LevelIds>(sTeleport_Level_550F5C);
                 sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
@@ -276,13 +276,13 @@ void DDCheat::Update_415780()
             {
             case Types::eGlukkon_67:
             case Types::eSlig_125:
-                sControlledCharacter_5C1B8C->field_106_current_state = 7;
+                sControlledCharacter_5C1B8C->field_106_current_motion = 7;
                 break;
             case Types::eType_Abe_69:
-                sControlledCharacter_5C1B8C->field_106_current_state = eAbeStates::State_3_Fall_459B60;
+                sControlledCharacter_5C1B8C->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
                 break;
             case Types::eScrab_112:
-                sControlledCharacter_5C1B8C->field_106_current_state = 8;
+                sControlledCharacter_5C1B8C->field_106_current_motion = 8;
                 break;
             default:
                 break;
@@ -323,11 +323,11 @@ void DDCheat::Update_415780()
                     FP_GetDouble(sControlledCharacter_5C1B8C->field_BC_ypos),
                     sControlledCharacter_5C1B8C->field_6_flags);
 
-                DebugStr_4F5560("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_state);
+                DebugStr_4F5560("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_motion);
 
                 if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eType_Abe_69)
                 {
-                    DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_current_state]);
+                    DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_current_motion]);
                 }
             }
 #else

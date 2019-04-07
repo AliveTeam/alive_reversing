@@ -94,10 +94,10 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
 
     field_12C = 0;
 
-    field_E0_176_ptr = alive_new<Shadow>();
-    if (field_E0_176_ptr)
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
     {
-        field_E0_176_ptr->ctor_4AC990();
+        field_E0_pShadow->ctor_4AC990();
     }
 
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);

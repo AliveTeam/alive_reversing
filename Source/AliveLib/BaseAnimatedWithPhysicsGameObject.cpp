@@ -54,7 +54,7 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     field_D8_yOffset = 0;
     field_DA_xOffset = 0;
 
-    field_E0_176_ptr = nullptr;
+    field_E0_pShadow = nullptr;
 
     return this;
 }
@@ -71,10 +71,10 @@ EXPORT void BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject
             field_20_animation.vCleanUp_40C630();
         }
 
-        if (field_E0_176_ptr)
+        if (field_E0_pShadow)
         {
-            field_E0_176_ptr->dtor_4ACA30();
-            Mem_Free_495540(field_E0_176_ptr);
+            field_E0_pShadow->dtor_4ACA30();
+            Mem_Free_495540(field_E0_pShadow);
         }
     }
     BaseGameObject_dtor_4DBEC0();
@@ -161,15 +161,15 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
                 frameRect.h,
                 pScreenManager_5BB5F4->field_3A_idx);
 
-            if (field_E0_176_ptr)
+            if (field_E0_pShadow)
             {
-                field_E0_176_ptr->Calculate_Position_4ACA50(
+                field_E0_pShadow->Calculate_Position_4ACA50(
                     field_B8_xpos,
                     field_BC_ypos,
                     &frameRect,
                     field_CC_sprite_scale,
                     field_D6_scale);
-                field_E0_176_ptr->Render_4ACE60(pOrderingTable);
+                field_E0_pShadow->Render_4ACE60(pOrderingTable);
             }
         }
     }

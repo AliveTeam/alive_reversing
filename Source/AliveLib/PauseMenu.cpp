@@ -841,7 +841,7 @@ void PauseMenu_ForceLink() {
         devTeleportMenuItems.push_back({ gPerLvlData_561700[i].field_0_display_name, [](CustomPauseMenu * pm) {
             const auto levelSelectEntry = gPerLvlData_561700[pm->index];
             pm->ClosePauseMenu();
-            sActiveHero_5C1B68->field_106_current_state = eAbeStates::State_3_Fall_459B60;
+            sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
             sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);;
             sActiveHero_5C1B68->field_C2_lvl_number = levelSelectEntry.field_4_level;
             sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
@@ -1287,7 +1287,7 @@ void PauseMenu::Update_48FD80()
         pControlledChar = sControlledCharacter_5C1B8C;
         if (!(sControlledCharacter_5C1B8C->field_114_flags.Get(e114_Bit10)))
         {
-            const __int16 heroState = sActiveHero_5C1B68->field_106_current_state;
+            const __int16 heroState = sActiveHero_5C1B68->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
                 && heroState != eAbeStates::State_119_45A990
                 && heroState != eAbeStates::State_120_45AB00
@@ -1335,7 +1335,7 @@ void PauseMenu::Update_48FD80()
             && !(pHero->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             && !(pControlledChar->field_114_flags.Get(Flags_114::e114_Bit10)))
         {
-            const short heroState = pHero->field_106_current_state;
+            const short heroState = pHero->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
                 && heroState != eAbeStates::State_119_45A990
                 && heroState != eAbeStates::State_120_45AB00

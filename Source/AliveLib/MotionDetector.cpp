@@ -307,12 +307,12 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
     if (pWho->field_4_typeId == Types::eType_Abe_69)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
-        if (pWho->field_106_current_state == eAbeStates::State_0_Idle_44EEB0 ||
-            pWho->field_106_current_state == eAbeStates::State_17_CrouchIdle_456BC0 ||
-            pWho->field_106_current_state == eAbeStates::State_67_LedgeHang_454E20 ||
-            pWho->field_106_current_state == eAbeStates::State_60_4A3200 ||
-            pWho->field_106_current_state == eAbeStates::State_57_Dead_4589A0 ||
-            pWho->field_106_current_state == eAbeStates::State_117_In_MineCar_4587C0 ||
+        if (pWho->field_106_current_motion == eAbeStates::State_0_Idle_44EEB0 ||
+            pWho->field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0 ||
+            pWho->field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 ||
+            pWho->field_106_current_motion == eAbeStates::State_60_4A3200 ||
+            pWho->field_106_current_motion == eAbeStates::State_57_Dead_4589A0 ||
+            pWho->field_106_current_motion == eAbeStates::State_117_In_MineCar_4587C0 ||
             pWho->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted) ||
             sDDCheat_FlyingEnabled_5C2C08)
         {

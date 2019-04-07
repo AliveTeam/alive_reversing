@@ -149,7 +149,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 
     field_29C_pTable1 = &FlyingSlig::state_0_0_4355B0;
 
-    field_106_current_state = 0;
+    field_106_current_motion = 0;
 
     if (field_118_data.field_10_data.field_2_state == 1)
     {
@@ -213,10 +213,10 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_1E0 = 0;
     field_1E4 = 0;
 
-    field_E0_176_ptr = alive_new<Shadow>();
-    if (field_E0_176_ptr)
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
     {
-        field_E0_176_ptr->ctor_4AC990();
+        field_E0_pShadow->ctor_4AC990();
     }
     return this;
 }
@@ -364,7 +364,7 @@ void FlyingSlig::vUpdate_434AD0()
         9 = 
         10 = 
         */
-        (this->*(sFlyingSlig_fns2_5523A0)[field_106_current_state])();
+        (this->*(sFlyingSlig_fns2_5523A0)[field_106_current_motion])();
         sub_4396E0();
     }
 }

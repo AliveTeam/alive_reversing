@@ -15,7 +15,7 @@ class PlatformBase;
 enum Flags_114
 {
     e114_Bit1 = 0x1,
-    e114_Bit2 = 0x2,
+    e114_MotionChanged_Bit2 = 0x2,
     e114_Bit3_Can_Be_Possessed = 0x4,
     e114_Bit4_bPossesed = 0x8,
     e114_Bit5 = 0x10,
@@ -42,7 +42,7 @@ public:
 
     virtual int VUnPosses_408F90();
     virtual unsigned __int16 Vnull_408F70();
-    virtual void VUpdateState_4081C0(__int16 state);
+    virtual void VSetMotion_4081C0(__int16 state);
     virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom);
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv);
@@ -53,7 +53,7 @@ public:
 protected:
     EXPORT int vUnPosses_408F90();
     EXPORT unsigned __int16 vnull_408F70();
-    EXPORT void vUpdateState_4081C0(__int16 state);
+    EXPORT void vSetMotion_4081C0(__int16 state);
     EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);
     EXPORT __int16 vTakeDamage_408730(BaseGameObject* pFrom);
     EXPORT void vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
@@ -88,8 +88,8 @@ public:
     Path_TLV* field_FC_pPathTLV;
     PathLine* field_100_pCollisionLine;
     __int16 field_104_collision_line_type;
-    __int16 field_106_current_state;
-    __int16 field_108_delayed_state;
+    __int16 field_106_current_motion;
+    __int16 field_108_next_motion;
     __int16 field_10A;
     FP field_10C_health;
     int field_110_id;

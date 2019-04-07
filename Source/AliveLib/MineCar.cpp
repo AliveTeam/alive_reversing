@@ -69,10 +69,10 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
 
     field_6_flags.Set(BaseGameObject::eCanExplode);
 
-    field_E0_176_ptr = alive_new<Shadow>();
-    if (field_E0_176_ptr)
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
     {
-        field_E0_176_ptr->ctor_4AC990();
+        field_E0_pShadow->ctor_4AC990();
     }
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeCarResId);

@@ -102,10 +102,10 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
         field_144_created_gnFrame = sGnFrame_5C1B84;
     }
 
-    field_E0_176_ptr = alive_new<Shadow>();
-    if (field_E0_176_ptr)
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
     {
-        field_E0_176_ptr->ctor_4AC990();
+        field_E0_pShadow->ctor_4AC990();
     }
 
     return this;
@@ -178,10 +178,10 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
         field_144_created_gnFrame = sGnFrame_5C1B84;
     }
 
-    field_E0_176_ptr = alive_new<Shadow>();
-    if (field_E0_176_ptr)
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
     {
-        field_E0_176_ptr->ctor_4AC990();
+        field_E0_pShadow->ctor_4AC990();
     }
 
     return this;
