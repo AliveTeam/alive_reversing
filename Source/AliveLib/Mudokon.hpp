@@ -69,6 +69,7 @@ enum class Mud_Emotion : __int16
 };
 
 enum class Mud_AI_State : unsigned __int16;
+enum class MudAction : __int16;
 
 enum class Mud_Pal_Type : __int16
 {
@@ -171,7 +172,7 @@ public: // Motion states
    EXPORT void TurnWheelEnd_59_474D30();
 
 private:
-    EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(__int16 emotion_idx, __int16 a2);
+    EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
     
 private:
     __int16 field_116;

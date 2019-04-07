@@ -224,10 +224,10 @@ struct MudEmotionTableEntry
 
 struct MudEmotionTable
 {
-    MudEmotionTableEntry field_0[8][17];
+    MudEmotionTableEntry field_0_data[8][17];
 };
 
-const MudEmotionTable stru_55C790 =
+const MudEmotionTable kMudEmoTable_55C790 =
 {
     {
         {
@@ -1268,24 +1268,28 @@ void Mudokon::TurnWheelEnd_59_474D30()
     NOT_IMPLEMENTED();
 }
 
-const struct MudEmotionTableEntry* CC Mudokon::ResponseTo_471730(__int16 emotion_idx, __int16 a2)
+enum class MudAction : __int16
 {
-    // 0 = hello/all ya
-    // 1 = follow me
-    // 2 = wait
-    // 3 = 
-    // 4 = ?
-    // 5 = ?
-    // 6 = fart
-    // 7 = slap/water
-    // 8 = sorry
-    // 9 = ?
-    // 10 = ?
-    // 11 = ?
-    // 12 = ?
-    // 13 = ?
-    // 14 = mud death
+    eHelloOrAllYa_0 = 0,
+    eFollowMe_1 = 1,
+    eWait_2 = 2,
+    eUnknown_3 = 3,
+    eUnknown_4 = 4,
+    eUnknown_5 = 5,
+    eFart_6 = 6,
+    eSlapOrWater_7 = 7,
+    eSorry_8 = 8,
+    eUnknown_9 = 9,
+    eUnknown_10 = 10,
+    eUnknown_11 = 11,
+    eUnknown_12 = 12,
+    eUnknown_13 = 13,
+    eMudDied_14 = 14,
+    eUnknown_15 = 15,
+    eUnknown_16 = 16,
+};
 
-    LOG_INFO("Action " << a2);
-    return &stru_55C790.field_0[emotion_idx][a2];
+const struct MudEmotionTableEntry* CC Mudokon::ResponseTo_471730(Mud_Emotion emotion, MudAction action)
+{
+    return &kMudEmoTable_55C790.field_0_data[static_cast<int>(emotion)][static_cast<int>(action)];
 }
