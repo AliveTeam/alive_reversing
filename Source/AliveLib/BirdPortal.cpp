@@ -77,6 +77,11 @@ BaseGameObject* BirdPortal::VDestructor(signed int flags)
     return vdtor_498050(flags);
 }
 
+void BirdPortal::VUpdate()
+{
+    vUpdate_498280();
+}
+
 BirdPortal* BirdPortal::vdtor_498050(signed int flags)
 {
     dtor_4980A0();
@@ -85,6 +90,169 @@ BirdPortal* BirdPortal::vdtor_498050(signed int flags)
         Mem_Free_495540(this);
     }
     return this;
+}
+
+void BirdPortal::vUpdate_498280()
+{
+    NOT_IMPLEMENTED();
+}
+
+void BirdPortal::vScreenChanged_499B50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void BirdPortal::vStopAudio_499260()
+{
+    if (field_90_sfx_ret)
+    {
+        SND_Stop_Channels_Mask_4CA810(field_90_sfx_ret);
+        field_90_sfx_ret = 0;
+    }
+}
+
+signed int BirdPortal::vGetSaveState_499F50(BYTE* /*pState*/)
+{
+    NOT_IMPLEMENTED();
+    return 8;
+}
+
+void BirdPortal::VRender(int** /*pOrderingTable*/)
+{
+    // Null
+}
+
+void BirdPortal::VScreenChanged()
+{
+    vScreenChanged_499B50();
+}
+
+void BirdPortal::VStopAudio()
+{
+    vStopAudio_499260();
+}
+
+signed int BirdPortal::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_499F50(pSaveBuffer);
+}
+
+signed __int16 BirdPortal::Vsub_499430(__int16 bUnknown)
+{
+    return vsub_499430(bUnknown);
+}
+
+BaseGameObject* BirdPortal::Vsub_499610()
+{
+    return vsub_499610();
+}
+
+void BirdPortal::VMudSaved_499A50()
+{
+    vMudSaved_499A50();
+}
+
+BOOL BirdPortal::VStateIs6_499830()
+{
+    return vStateIs6_499830();
+}
+
+void BirdPortal::VGiveShrukul_499680(__int16 bPlaySound)
+{
+    return vGiveShrukul_499680(bPlaySound);
+}
+
+BOOL BirdPortal::VStateIs16_499850()
+{
+    return vStateIs16_499850();
+}
+
+__int16 BirdPortal::VExitPortal_499870()
+{
+    return vExitPortal_499870();
+}
+
+BOOL BirdPortal::VIsState20_499A00()
+{
+    return vIsState20_499A00();
+}
+
+int BirdPortal::Vsub_499A20()
+{
+    return vsub_499A20();
+}
+
+void BirdPortal::VGetMapChange_499AE0(WORD* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
+{
+    vGetMapChange_499AE0(level, path, camera, screenChangeEffect, movieId);
+}
+
+signed __int16 BirdPortal::vsub_499430(__int16 /*bUnknown*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+BaseGameObject* BirdPortal::vsub_499610()
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+void BirdPortal::vMudSaved_499A50()
+{
+    field_82_num_muds_for_shrykul--;
+}
+
+BOOL BirdPortal::vStateIs6_499830()
+{
+    return field_28_state == 6;
+}
+
+void BirdPortal::vGiveShrukul_499680(__int16 /*bPlaySound*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+BOOL BirdPortal::vStateIs16_499850()
+{
+    return field_28_state == 16;
+}
+
+__int16 BirdPortal::vExitPortal_499870()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+BOOL BirdPortal::vIsState20_499A00()
+{
+    return field_28_state == 20;
+}
+
+int BirdPortal::vsub_499A20()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void BirdPortal::vGetMapChange_499AE0(WORD* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
+{
+    // TODO: Strongly type change effect and level
+
+    *level = field_7C_dest_level;
+    *path = field_7E_dest_path;
+    *camera = field_80_dest_camera;
+
+    if (field_64_movie_id <= 0)
+    {
+        *screenChangeEffect = 0;
+    }
+    else
+    {
+        *movieId = field_64_movie_id;
+        *screenChangeEffect = 5;
+    }
 }
 
 void BirdPortal::dtor_4980A0()
