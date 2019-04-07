@@ -7,6 +7,7 @@
 #include "FunctionFwd.hpp"
 #include "stdlib.hpp"
 #include "SDL.h"
+#include <atomic>
 
 #define DSBSTATUS_PLAYING           0x00000001
 #define DSBSTATUS_BUFFERLOST        0x00000002
@@ -54,7 +55,11 @@ class AE_SDL_Voice
 
 public:
     AE_SDL_Voice();
+
     int SetVolume(int volume);
+    int Play(int /*reserved*/, int /*priority*/, int flags);
+    int Stop();
+
     int SetFrequency(int frequency);
     int SetCurrentPosition(int position);
     int GetCurrentPosition(DWORD * readPos, DWORD * writePos);
@@ -63,8 +68,7 @@ public:
     void Release();
     int GetStatus(DWORD * r);
     void Destroy();
-    int Play(int /*reserved*/, int /*priority*/, int flags);
-    int Stop();
+    
     std::vector<BYTE>* GetBuffer();
     int Duplicate(AE_SDL_Voice ** dupePtr);
 
@@ -76,11 +80,10 @@ public:
         int iVolumeTarget;
         float fFrequency;
         signed int iPan;
-        Uint64 iPlayTime;
 
         AE_SDL_Voice_Status eStatus;
         bool bLoop;
-        bool bIsReleased;
+        std::atomic<bool> bIsReleased;
         float fPlaybackPosition;
 
         int iSampleCount;
@@ -89,7 +92,6 @@ public:
     };
 
     AE_SDL_Voice_State mState;
-
     std::shared_ptr<std::vector<BYTE>> pBuffer;
     
 };
