@@ -53,7 +53,7 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
     field_102_id5 = pTlv->field_1C_id5;
     field_104_snap_to_grid = pTlv->field_1E_snap_to_grid;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::unknown_373);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownID_373);
     Animation_Init_424E10(252, 14, 9u, ppRes, 1, 1u);
 
     field_DC_bApplyShadows &= ~1u;
