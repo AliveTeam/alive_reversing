@@ -17,7 +17,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     SetVTable(this, 0x5461FC);
     field_4_typeId = Types::eMineCar_89;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6013); // TODO: Id
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownID_6013); // TODO: Id
     Animation_Init_424E10(
         20812,
         128,
@@ -75,10 +75,10 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
         field_E0_176_ptr->ctor_4AC990();
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 113);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 365);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 301);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 25);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeCarResId);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
 
     field_1C0 = 0;
     field_1C2 = 0;
@@ -96,7 +96,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
 
 void MineCar::LoadAnimation_46BF80(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6013);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownID_6013);
     if (pAnim->Init_40A030(20824, gObjList_animations_5C1A24, this, 130, 62u, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;

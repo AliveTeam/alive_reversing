@@ -42,7 +42,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
 
     field_4_typeId = Types::eGrinder_30;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6004); // TODO: Id
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDrillResID);
     Animation_Init_424E10(6676, 65, 33, ppRes, 1, 1);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 0;
@@ -294,7 +294,7 @@ signed int CC Grinder::CreateFromSaveState_421600(const BYTE* pData)
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", 0);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6004, 0, 0)) // TODO: Id
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDrillResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("DRILL.BAN", 0);
     }

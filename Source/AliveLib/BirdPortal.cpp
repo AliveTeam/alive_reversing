@@ -18,11 +18,10 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
     field_C_objectId = tlvInfo;
     field_40_throwable_indicator_id = -1;
 
-    // TODO: Ids
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 313);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 60);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 351);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 353);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDovbasicResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortliteResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSplineResID);
 
     field_20_tlvInfo = tlvInfo;
 

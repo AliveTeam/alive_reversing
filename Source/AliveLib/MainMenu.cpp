@@ -821,7 +821,7 @@ void MainMenuController::t_Load_Slig_Speak_4D3090()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("SLGSPEAK.BAN", nullptr);
-    field_F4_resources.field_0_resources[MenuResIds::eSligSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 140, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eSligSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x10DF18, field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
     Set_Anim_4D05E0(AnimIds::eSlig_Idle);
 }
@@ -863,7 +863,7 @@ void MainMenuController::t_Load_Glukkon_Speak_4D3480()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("GLKSPEAK.BAN", nullptr);
-    field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 150, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukkonSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x14EE50, field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
     Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
 }
@@ -905,7 +905,7 @@ void MainMenuController::t_Load_Scrab_Speak_4D3870()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("SCRSPEAK.BAN", nullptr);
-    field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 170, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kScrabSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x7B8BC, field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak]);
     Set_Anim_4D05E0(AnimIds::eScrab_Idle);
 }
@@ -947,7 +947,7 @@ void MainMenuController::t_Load_Paramite_Speak_4D3B70()
     Unload_AbeSpeakResources();
 
     ResourceManager::LoadResourceFile_49C170("PARSPEAK.BAN", nullptr);
-    field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 160, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kParamiteSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0xD8E80, field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak]);
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
@@ -2550,7 +2550,7 @@ void MainMenuController::sub_4CFE80()
 
         case 11: // ??
             ResourceManager::Reclaim_Memory_49C470(0);
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 130, 0, 0))
+            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 0, 0))
             {
                 // TODO: Fix the types
                 ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN",
@@ -2899,5 +2899,5 @@ void MainMenuController::Load_AbeSpeakResources()
         ResourceManager::LoadResourceFile_49C170("ABESPEAK.BAN", nullptr);
     }
 
-    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 130, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
 }

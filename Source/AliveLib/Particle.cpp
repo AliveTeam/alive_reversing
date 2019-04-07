@@ -94,7 +94,7 @@ EXPORT Particle* CC New_Particle_426F40(FP xpos, FP ypos, FP scale)
 
 EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velY, FP velX, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 312, 0, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
     auto pParticle = alive_new<Particle>();
     if (!pParticle)
     {
@@ -147,7 +147,7 @@ EXPORT void CC New_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, B
     {
         FP randX = (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 354, 0, 0);
+        BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 0, 0);
         auto pParticle = alive_new<Particle>();
         if (pParticle)
         {

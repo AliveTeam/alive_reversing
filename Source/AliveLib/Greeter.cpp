@@ -88,9 +88,9 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(70, 210);
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 365);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 301);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 25);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
 
     field_12C = 0;
 

@@ -144,7 +144,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     SetVTable(this, 0x547E80);
     field_4_typeId = Types::eUXB_143;
 
-    auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, 1037);
+    auto pResource = BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTbombResID);
 
     Animation_Init_424E10(8048, 59, 19, pResource, 1, 1u);
 
@@ -591,19 +591,19 @@ EXPORT int CC UXB::CreateFromSaveState_4DFAE0(const BYTE* __pSaveState)
 
     Path_UXB *uxbPath = reinterpret_cast<Path_UXB *>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlv.all));
 
-    if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 25, 0, 0))
+    if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
     }
-    if (!(uxbPath->field_18_disabled_resources & 2) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 576, 0, 0))
+    if (!(uxbPath->field_18_disabled_resources & 2) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", 0);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 1037, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kTbombResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("UXB.BND", 0);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 300, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBgexpldResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("EXPLODE.BND", 0);
     }

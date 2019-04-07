@@ -48,9 +48,9 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
     field_6_flags.Set(BaseGameObject::eCanExplode);
     field_118_tlvInfo = tlvInfo;
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 301);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 2007);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2rockResID);
     const int lvlIdx = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
     Animation_Init_424E10(
         sFallingItemData_544DC0[lvlIdx].field_0,
@@ -121,7 +121,7 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
     field_6_flags.Set(BaseGameObject::eCanExplode);
     field_118_tlvInfo = -1;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 2007);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2rockResID);
     const int lvlIdx = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
     Animation_Init_424E10(
         sFallingItemData_544DC0[lvlIdx].field_0,
@@ -383,7 +383,7 @@ EXPORT void FallingItem::vUpdate_427780()
             auto pParticle = alive_new<Particle>();
             if (pParticle)
             {
-                BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 301, 0, 0);
+                BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0);
                 pParticle->ctor_4CC4C0(
                     field_B8_xpos,
                     field_BC_ypos - (FP_FromInteger(15) * field_CC_sprite_scale),
