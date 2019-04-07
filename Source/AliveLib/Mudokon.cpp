@@ -12,6 +12,7 @@
 #include "PlatformBase.hpp"
 #include "DDCheat.hpp"
 #include "WorkWheel.hpp"
+#include "BirdPortal.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
@@ -446,10 +447,13 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     return this;
 }
 
+void Mudokon::VUpdate()
+{
+    vUpdate_4757A0();
+}
+
 void Mudokon::vUpdate_4757A0()
 {
-    NOT_IMPLEMENTED();
-
     if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
         field_114_flags.Clear(Flags_114::e114_Bit9);
@@ -498,8 +502,7 @@ void Mudokon::vUpdate_4757A0()
                     field_16C |= 4u;
                     if (field_18E_ai_state == Mud_AI_State::eAlertedByHello_6 && field_190_sub_state == 3)
                     {
-                        // push event ??
-                        //((void(__stdcall *)(signed int))v10->field_0_VTbl->VBaseAliveGameObject.field_18_vOnCollisionWith_424EE0)(1); // TODO
+                        static_cast<BirdPortal*>(pObj)->Vsub_499430(1);
                         field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
                     }
                     break;
