@@ -69,7 +69,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
 
     field_4_typeId = Types::eMine_88;
 
-    Animation_Init_424E10(784, 38, 0xDu, Add_Resource_4DC130(ResourceManager::Resource_Animation, 1036), 1, 1u);
+    Animation_Init_424E10(784, 38, 0xDu, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLandmineResID), 1, 1u);
 
     field_118 = 0;
     field_6_flags.Set(Options::eInteractive);

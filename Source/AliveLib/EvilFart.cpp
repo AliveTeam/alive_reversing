@@ -19,7 +19,7 @@ EvilFart* EvilFart::ctor_422E30()
 
     field_4_typeId = Types::eType_45_EvilFart;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6017); // TODO: Id
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID);
 
     Animation_Init_424E10(3532, 61, 39, ppRes, 1, 1);
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
