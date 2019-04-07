@@ -48,6 +48,7 @@
 #include "FlyingSlig.hpp"
 #include "FlyingSligSpawner.hpp"
 #include "Mudokon.hpp"
+#include "BirdPortal.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -644,7 +645,44 @@ EXPORT void CC Factory_MovieHandStone_4D9F50(Path_TLV* , Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    auto pBirdPortalTlv = static_cast<Path_BirdPortal*>(pTlv);
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources_5634E8({
+            { 1835626049, 313 },
+            { 1835626049, 351 },
+            { 1835626049, 353 },
+        });
+
+        gMap_5C3030.LoadResourcesFromList_4DBE70("PORTAL.BND", kResources_5634E8.AsList(), loadMode);
+        if (pBirdPortalTlv->field_4_type == 2)
+        {
+            static CompileTimeResourceList<2> kResources_563504({
+                { 1835626049, 117 },
+                { 1835626049, 121 },
+            });
+
+            gMap_5C3030.LoadResourcesFromList_4DBE70("SHRYPORT.BND", kResources_563504.AsList(), loadMode);
+            gMap_5C3030.LoadResource_4DBE00("SPLINE.BAN", ResourceManager::Resource_Animation, ResourceID::kSplineResID, loadMode);
+        }
+    }
+    else if (SwitchStates_Get_466020(pBirdPortalTlv->field_20_create_id))
+    {
+        auto pBirdPortal = alive_new<BirdPortal>();
+        if (pBirdPortal)
+        {
+            pBirdPortal->ctor_497E00(pBirdPortalTlv, tlvInfo.all);
+        }
+    }
+    else
+    {
+        Path::TLV_Reset_4DB8E0(tlvInfo.all, -1, 0, 0);
+    }
+
+}
+
 EXPORT void CC Factory_PortalExit_4D9A80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path* , TlvItemInfoUnion tlvInfo, __int16 loadmode)

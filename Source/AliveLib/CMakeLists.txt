@@ -269,6 +269,8 @@ ExportHooker.hpp
     FlyingSligSpawner.hpp
     Mudokon.cpp
     Mudokon.hpp
+    BirdPortal.cpp
+    BirdPortal.hpp
     TouchController.cpp
     TouchController.hpp
 )
