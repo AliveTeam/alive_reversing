@@ -401,5 +401,5 @@ enum ResourceID
     kHighlitePalResID = 0x1F43,
     kLoadingResID = 0x1F4A,
     kAbeCarResId = 113,
-    unknown_373 = 373,
+    kUnknownID_373 = 373,
 };
