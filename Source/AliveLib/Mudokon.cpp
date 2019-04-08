@@ -391,7 +391,7 @@ const MudEmotionTable kMudEmoTable_55C790 =
 
 using TMudStateFunction = decltype(&Mudokon::StandIdle_0_4724E0);
 
-ALIVE_ARY(1, 0x55CE18, TMudStateFunction, 60, sMudokon_motion_states_55CE18, 
+const TMudStateFunction sMudokon_motion_states_55CE18[60] =
 {
     &Mudokon::StandIdle_0_4724E0,
     &Mudokon::Walking_1_4728B0,
@@ -453,7 +453,7 @@ ALIVE_ARY(1, 0x55CE18, TMudStateFunction, 60, sMudokon_motion_states_55CE18,
     &Mudokon::TurnWheelBegin_57_474C00,
     &Mudokon::TurnWheelLoop_58_474CC0,
     &Mudokon::TurnWheelEnd_59_474D30
-});
+};
 
 
 // This is used rather than the un-typesafe word_55CF08 array
@@ -621,11 +621,11 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     {
         field_18E_ai_state = Mud_AI_State::AI_Sick_9_47A910;
         field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
-        field_106_current_motion = 15;
+        field_106_current_motion = Mud_Motion::CrouchIdle_15_474040;
     }
     else
     {
-        field_106_current_motion = 0;
+        field_106_current_motion = Mud_Motion::StandIdle_0_4724E0;
     }
 
     if (pTlv->field_10_scale == TLV_Scale::Half_1)
@@ -704,9 +704,6 @@ void Mudokon::VUpdate()
 
 void Mudokon::vUpdate_4757A0()
 {
-    // TODO: This is some unknown bug in here that locks muds in certain motions
-   // NOT_IMPLEMENTED();
-
     if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
         field_114_flags.Clear(Flags_114::e114_Bit9);
@@ -811,7 +808,9 @@ void Mudokon::vUpdate_4757A0()
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     }
 
-    //DDCheat::DebugStr_4F5560("\nMotion = %s BrainState = %s\n", sMudMotionStateNames[field_106_current_state], sMudAiStateNames[static_cast<int>(field_18E_ai_state)]);
+    //DDCheat::DebugStr_4F5560("\nMotion = %s BrainState = %s\n", sMudMotionStateNames[field_106_current_motion], sMudAiStateNames[static_cast<int>(field_18E_ai_state)]);
+    //LOG_INFO(sMudMotionStateNames[field_106_current_motion] << " " << static_cast<int>(field_18E_ai_state));
+    //LOG_INFO(sMudMotionStateNames[field_106_current_motion] << " " << sMudAiStateNames[static_cast<int>(field_18E_ai_state)]);
 
     const __int16 oldMotion = field_106_current_motion;
     field_190_sub_state = (this->*sMudokon_AI_Table_55CDF0[static_cast<int>(field_18E_ai_state)])();
@@ -840,7 +839,7 @@ void Mudokon::vUpdate_4757A0()
     else if (field_192)
     {
         field_106_current_motion = field_F4;
-        vOnTrapDoorOpen_472350();
+        vUpdateAnimRes_474D80();
         field_20_animation.SetFrame_409D50(field_F6_anim_frame);
         field_192 = 0;
     }
@@ -854,17 +853,12 @@ void Mudokon::SetPal_4772D0(Mud_Pal_Type palType)
     case Mud_Pal_Type::eNormalOrBlind_0:
         if (field_16A_flags.Get(Flags::eBit4_blind))
         {
-            field_D0_r = 63;
-            field_D2_g = 63;
-            field_D4_b = 63;
+            SetRGB(63, 63, 63);
             field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(16), 0);
         }
         else
         {
-            field_D0_r = 87;
-            field_D2_g = 103;
-            field_D4_b = 67;
-
+            SetRGB(87, 103, 67);
             FrameInfoHeader* pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(-1);
             FrameHeader* pHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
             field_20_animation.Load_Pal_40A530(field_20_animation.field_20_ppBlock, pHeader->field_0_clut_offset);
@@ -873,37 +867,26 @@ void Mudokon::SetPal_4772D0(Mud_Pal_Type palType)
 
     case Mud_Pal_Type::eAngryRed_1:
     case Mud_Pal_Type::eAngryRed_2:
-        field_D0_r = 63;
-        field_D2_g = 63;
-        field_D4_b = 63;
+        SetRGB(63, 63, 63);
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(13), 0);
         break;
 
     case Mud_Pal_Type::eDepressedBlue_3:
     case Mud_Pal_Type::eDepressedBlue_4:
-        field_D0_r = 63;
-        field_D2_g = 63;
-        field_D4_b = 63;
+        SetRGB(63, 63, 63);
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(14), 0);
         break;
 
     case Mud_Pal_Type::eWiredYellow_5:
     case Mud_Pal_Type::eWiredYellow_6:
-        field_D0_r = 74;
-        field_D2_g = 74;
-        field_D4_b = 74;
+        SetRGB(74, 74, 74);
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(15), 0);
         break;
 
     case Mud_Pal_Type::eSickDarkGreen_7:
-        field_D0_r = 63;
-        field_D2_g = 63;
-        field_D4_b = 63;
+        SetRGB(63, 63, 63);
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(17), 0);
         break;
-
-    default:
-        return;
     }
 }
 

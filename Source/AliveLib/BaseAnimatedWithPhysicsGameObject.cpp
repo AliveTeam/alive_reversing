@@ -554,6 +554,13 @@ void BaseAnimatedWithPhysicsGameObject::SetTint_425600(const TintEntry* pTintArr
 }
 
 
+void BaseAnimatedWithPhysicsGameObject::SetRGB(__int16 r, __int16 g, __int16 b)
+{
+    field_D0_r = r;
+    field_D2_g = g;
+    field_D4_b = b;
+}
+
 namespace Test
 {
     class TestObj : public BaseAnimatedWithPhysicsGameObject

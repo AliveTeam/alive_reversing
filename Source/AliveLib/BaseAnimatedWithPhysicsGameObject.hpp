@@ -75,6 +75,9 @@ public:
     EXPORT void DealDamageRect_4247A0(PSX_RECT *pRect);
     EXPORT void OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn);
     EXPORT void SetTint_425600(const TintEntry* pTintArray, LevelIds level_id);
+
+protected:
+    void SetRGB(__int16 r, __int16 g, __int16 b);
 public:
 
     Animation field_20_animation;
