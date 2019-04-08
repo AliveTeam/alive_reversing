@@ -15,6 +15,8 @@
 #include "BirdPortal.hpp"
 #include "SwitchStates.hpp"
 #include "Math.hpp"
+#include "Sfx.hpp"
+#include "Spark.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
@@ -1348,7 +1350,67 @@ void Mudokon::PullLever_10_473020()
 
 void Mudokon::Chisel_11_4732D0()
 {
-    NOT_IMPLEMENTED();
+    ToFalling_472320();
+
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (sGnFrame_5C1B84 & 1)
+            {
+                SFX_Play_46FA90(91, 0, field_CC_sprite_scale);
+
+                auto pSpark = alive_new<Spark>();
+                if (pSpark)
+                {
+                    FP sparkY = {};
+                    FP sparkX = {};
+                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        sparkY = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(3));
+                        sparkX = field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(18));
+                    }
+                    else
+                    {
+                        sparkY = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(3));
+                        sparkX = (field_CC_sprite_scale * FP_FromInteger(18)) + field_B8_xpos;
+                    }
+
+                    pSpark->ctor_4CBBB0(
+                        sparkX + FP_FromInteger(field_DA_xOffset),
+                        sparkY,
+                        field_CC_sprite_scale,
+                        9,
+                        0,
+                        255,
+                        0);
+                }
+            }
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        switch (field_108_next_motion)
+        {
+        case Mud_Motion::StandIdle_0_4724E0:
+            field_106_current_motion = Mud_Motion::StopChisel_13_473530;
+            return;
+
+        case Mud_Motion::CrouchIdle_15_474040:
+            field_106_current_motion = Mud_Motion::StopChisel_13_473530;
+            break;
+
+        case -1:
+            return;
+
+        default:
+            field_106_current_motion = field_108_next_motion;
+            break;
+        }
+
+        field_108_next_motion = -1;
+    }
 }
 
 void Mudokon::StartChisel_12_473500()
@@ -1701,6 +1763,15 @@ BYTE** Mudokon::AnimBlockForMotion_474DC0(short motion)
     {
         LOG_ERROR("Out of bounds ??");
         return nullptr;
+    }
+}
+
+void Mudokon::ToFalling_472320()
+{
+    if (!field_100_pCollisionLine)
+    {
+        vOnTrapDoorOpen_4081F0();
+        field_106_current_motion = Mud_Motion::Fall_49_472C60;
     }
 }
 
