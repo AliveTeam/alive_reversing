@@ -298,6 +298,7 @@ private:
     EXPORT BYTE** AnimBlockForMotion_474DC0(short motion);
 
     EXPORT void ToFalling_472320();
+    EXPORT void ToStand_4724A0();
 
     EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
     

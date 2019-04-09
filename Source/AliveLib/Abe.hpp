@@ -71,7 +71,7 @@
     ENTRY(State_61_TurnToRun_456530) \
     ENTRY(State_62_Punch_454750) \
     ENTRY(State_63_Sorry_454670) \
-    ENTRY(State_64_454730) \
+    ENTRY(State_64_AfterSorry_454730) \
     ENTRY(State_65_LedgeAscend_End_4548E0) \
     ENTRY(State_66_LedgeDescend_454970) \
     ENTRY(State_67_LedgeHang_454E20) \
@@ -297,7 +297,7 @@ public:
     EXPORT void State_61_TurnToRun_456530();
     EXPORT void State_62_Punch_454750();
     EXPORT void State_63_Sorry_454670();
-    EXPORT void State_64_454730();
+    EXPORT void State_64_AfterSorry_454730();
     EXPORT void State_65_LedgeAscend_End_4548E0();
     EXPORT void State_66_LedgeDescend_454970();
     EXPORT void State_67_LedgeHang_454E20();

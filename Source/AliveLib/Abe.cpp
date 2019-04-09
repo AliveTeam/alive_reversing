@@ -121,7 +121,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_61_TurnToRun_456530,
     &Abe::State_62_Punch_454750,
     &Abe::State_63_Sorry_454670,
-    &Abe::State_64_454730,
+    &Abe::State_64_AfterSorry_454730,
     &Abe::State_65_LedgeAscend_End_4548E0,
     &Abe::State_66_LedgeDescend_454970,
     &Abe::State_67_LedgeHang_454E20,
@@ -6143,12 +6143,42 @@ void Abe::State_62_Punch_454750()
 
 void Abe::State_63_Sorry_454670()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 4)
+    {
+        FP yOff = {};
+        FP xOff = {};
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            yOff = field_BC_ypos - FP_FromInteger(5);
+            xOff = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+        else
+        {
+            yOff = field_BC_ypos - FP_FromInteger(5);
+            xOff = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+        }
+
+        auto pMud = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eMudokon_110, xOff, yOff));
+        if (pMud)
+        {
+            pMud->VTakeDamage_408730(this);
+        }
+
+        Abe_SFX_457EC0(27, 0, 0, this);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eAbeStates::State_64_AfterSorry_454730;
+    }
 }
 
-void Abe::State_64_454730()
+void Abe::State_64_AfterSorry_454730()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_65_LedgeAscend_End_4548E0()
