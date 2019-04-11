@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
+#include "GameSpeak.hpp"
 
 enum class RingTypes : __int16;
 
@@ -278,10 +279,10 @@ public: // Motion states
 private:
     EXPORT __int16 StableDelay_477570();
     EXPORT __int16 CheckForPortal_4775E0();
-    EXPORT __int16 sub_476FF0();
+    EXPORT GameSpeakEvents LastGameSpeak_476FF0();
     EXPORT __int16 LaughingGasInCurrentScreen_4774A0();
     EXPORT void Sound_475EC0(__int16 idx);
-    EXPORT __int16 sub_4770B0();
+    EXPORT __int16 CanRespond_4770B0();
 
     EXPORT BYTE** AnimBlockForMotion_474DC0(short motion);
 

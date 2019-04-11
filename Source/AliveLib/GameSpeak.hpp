@@ -10,6 +10,7 @@ enum GameSpeakEvents : char
 {
     eNone = -1,
     eFart_3 = 3,
+    eLookOut_6 = 6,
     eHello_9 = 9,
     eFollowMe_10 = 10,
     eAnger_11 = 11,
