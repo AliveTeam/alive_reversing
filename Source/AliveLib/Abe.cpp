@@ -661,7 +661,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_178_invisible_effect_id = -1;
     field_124_gnFrame = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
-    field_128.field_12_mood = 0;
+    field_128.field_12_mood = Mud_Emotion::eNormal_0;
     field_128.field_18_say = AbeSay::eNothing;
     field_144_auto_say_timer = 0;
 
@@ -786,7 +786,7 @@ struct Quicksave_Obj_Abe
     DWORD dword54;
     DWORD dword58;
     DWORD dword5C;
-    WORD word60;
+    Mud_Emotion word60;
     AbeSay word62;
     DWORD dword64;
     DWORD dword68;
@@ -1403,17 +1403,17 @@ void Abe::Update_449DC0()
     if (totalAliveSavedMuds > 0)
     {
         // "Happy" voice
-        field_128.field_12_mood = 5;
+        field_128.field_12_mood = Mud_Emotion::eHappy_5;
     }
     else if (totalAliveSavedMuds < 0)
     {
         // "Sad" voice
-        field_128.field_12_mood = 3;
+        field_128.field_12_mood = Mud_Emotion::eSad_3;
     }
     else
     {
         // "Normal" voice
-        field_128.field_12_mood = 0;
+        field_128.field_12_mood = Mud_Emotion::eNormal_0;
     }
 
     // Handle DDCheat mode
@@ -3239,7 +3239,7 @@ void Abe::State_0_Idle_44EEB0()
     {
         // Do the fart sound
         Abe_SFX_457EC0(7u, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(3);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eFart_3);
 
         // Let others hear the fart
         Event_Broadcast_422BC0(kEventNoise, this);
@@ -4362,7 +4362,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         // Crouching farts
         if (sInputKey_FartRoll_5550F0 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held)
         {
-            pEventSystem_5BC11C->PushEvent_4218D0(3);
+            pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eFart_3);
 
             Abe_SFX_457EC0(7u, 0, 0, this);
 
@@ -8847,30 +8847,30 @@ __int16 Abe::CrouchingGameSpeak_453E10()
 
     if (sInputKey_GameSpeak2_5550F8 & field_118_prev_held)
     {
-        pEventSystem_5BC11C->PushEvent_4218D0(10);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eFollowMe_10);
         Abe_SFX_457EC0(4u, 0, 0, this);
         field_106_current_motion = eAbeStates::State_20_454550;
         return TRUE;
     }
     else if (sInputKey_GameSpeak3_555100 & field_118_prev_held)
     {
-        pEventSystem_5BC11C->PushEvent_4218D0(12);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWait_12);
         Abe_SFX_457EC0(6u, 0, 0, this);
         field_106_current_motion = eAbeStates::jState_21_4545E0;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak1_555104)
     {
-        pEventSystem_5BC11C->PushEvent_4218D0(9);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eHello_9);
 
-        if (field_128.field_12_mood == 5 || field_128.field_12_mood == 6)
+        if (field_128.field_12_mood == Mud_Emotion::eHappy_5 || field_128.field_12_mood == Mud_Emotion::eWired_6)
         {
             Abe_SFX_457EC0(0x13u, 0, 0, this);
             field_106_current_motion = eAbeStates::State_20_454550;
         }
         else
         {
-            if (field_128.field_12_mood == 3)
+            if (field_128.field_12_mood == Mud_Emotion::eSad_3)
             {
                 Abe_SFX_457EC0(0x14u, 0, 0, this);
             }
@@ -8884,7 +8884,7 @@ __int16 Abe::CrouchingGameSpeak_453E10()
     }
     else if (field_118_prev_held & sInputKey_GameSpeak4_5550FC)
     {
-        pEventSystem_5BC11C->PushEvent_4218D0(21);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWork_21);
         Abe_SFX_457EC0(0x19u, 0, 0, this);
         field_106_current_motion = eAbeStates::jState_21_4545E0;
         return TRUE;
@@ -8892,28 +8892,28 @@ __int16 Abe::CrouchingGameSpeak_453E10()
     else if (field_118_prev_held & sInputKey_GameSpeak6_555108)
     {
         Abe_SFX_457EC0(0x11u, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(23);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAllYa_23);
         field_106_current_motion = eAbeStates::jState_21_4545E0;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak5_55510C)
     {
         Abe_SFX_457EC0(5u, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(11);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAnger_11);
         field_106_current_motion = eAbeStates::State_20_454550;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak8_555110)
     {
         Abe_SFX_457EC0(0x1Au, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(22);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eStopIt_22);
         field_106_current_motion = eAbeStates::jState_21_4545E0;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak7_555114)
     {
         Abe_SFX_457EC0(0x1Cu, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(24);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eSorry_24);
         field_106_current_motion = eAbeStates::State_20_454550;
         return TRUE;
     }
@@ -9094,26 +9094,26 @@ short Abe::DoGameSpeak_45AB70(int input)
     else if (sInputKey_GameSpeak2_5550F8 & input)
     {
         Abe_SFX_457EC0(4u, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(10);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eFollowMe_10);
         nextState = eAbeStates::State_7_Speak_45B140;
     }
     else if (input & sInputKey_GameSpeak3_555100)
     {
         Abe_SFX_457EC0(6u, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(12);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWait_12);
         nextState = eAbeStates::State_8_Speak_45B160;
     }
     else if (input & sInputKey_GameSpeak1_555104)
     {
-        pEventSystem_5BC11C->PushEvent_4218D0(9);
-        if (field_128.field_12_mood == 5 || field_128.field_12_mood == 6)
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eHello_9);
+        if (field_128.field_12_mood == Mud_Emotion::eHappy_5 || field_128.field_12_mood == Mud_Emotion::eWired_6)
         {
             Abe_SFX_457EC0(19u, 0, 0, this);
             nextState = eAbeStates::State_9_SpeakMovement_45B180;
         }
         else
         {
-            if (field_128.field_12_mood == 3)
+            if (field_128.field_12_mood == Mud_Emotion::eSad_3)
             {
                 Abe_SFX_457EC0(20u, 0, 0, this);
             }
@@ -9126,14 +9126,14 @@ short Abe::DoGameSpeak_45AB70(int input)
     }
     else if (input & sInputKey_GameSpeak4_5550FC)
     {
-        pEventSystem_5BC11C->PushEvent_4218D0(21);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWork_21);
         Abe_SFX_457EC0(25u, 0, 0, this);
         nextState = eAbeStates::State_10_Fart_45B1A0;
     }
     else if (sInputKey_GameSpeak6_555108 & input)
     {
         Abe_SFX_457EC0(17u, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(23);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAllYa_23);
         nextState = eAbeStates::State_9_SpeakMovement_45B180;
     }
     else if (input & sInputKey_GameSpeak5_55510C)
@@ -9184,7 +9184,7 @@ short Abe::DoGameSpeak_45AB70(int input)
             {
                 // Didn't hit anything, just anger
                 Abe_SFX_457EC0(5u, 0, 0, this);
-                pEventSystem_5BC11C->PushEvent_4218D0(11);
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAnger_11);
                 nextState = eAbeStates::State_8_Speak_45B160;
             }
         }
@@ -9192,7 +9192,7 @@ short Abe::DoGameSpeak_45AB70(int input)
     else if (input & sInputKey_GameSpeak8_555110)
     {
         Abe_SFX_457EC0(26u, 0, 0, this);
-        pEventSystem_5BC11C->PushEvent_4218D0(22);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eStopIt_22);
         nextState = 7;
     }
     else if (input & sInputKey_GameSpeak7_555114)
@@ -9207,7 +9207,7 @@ short Abe::DoGameSpeak_45AB70(int input)
             gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
         }
 
-        pEventSystem_5BC11C->PushEvent_4218D0(24);
+        pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eSorry_24);
         if (FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + gridSize, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(40))))
         {
             nextState = eAbeStates::State_63_Sorry_454670;

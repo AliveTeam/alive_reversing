@@ -59,19 +59,19 @@ void GameSpeak::VScreenChanged()
 
 void GameSpeak::Update_421920()
 {
-    if (field_20_last_event != -1 && sGnFrame_5C1B84 > field_24_last_event_frame)
+    if (field_20_last_event != GameSpeakEvents::eNone && sGnFrame_5C1B84 > field_24_last_event_frame)
     {
-        PushEvent_Impl(-1);
+        PushEvent_Impl(GameSpeakEvents::eNone);
     }
 }
 
-void GameSpeak::PushEvent_4218D0(char event)
+void GameSpeak::PushEvent_4218D0(GameSpeakEvents event)
 {
     PushEvent_Impl(event);
     field_24_last_event_frame = sGnFrame_5C1B84 + 60;
 }
 
-void GameSpeak::PushEvent_Impl(char event)
+void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
 {
     field_28_last_event_index++;
 

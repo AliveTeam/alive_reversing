@@ -6,6 +6,20 @@
 
 void GameSpeak_ForceLink();
 
+enum GameSpeakEvents : char
+{
+    eNone = -1,
+    eFart_3 = 3,
+    eHello_9 = 9,
+    eFollowMe_10 = 10,
+    eAnger_11 = 11,
+    eWait_12 = 12,
+    eWork_21 = 21,
+    eStopIt_22 = 22,
+    eAllYa_23 = 23,
+    eSorry_24 = 24,
+};
+
 class GameSpeak : public BaseGameObject
 {
 public:
@@ -14,18 +28,20 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
 
-    // A new virtual that is never override as there are no other known super classes
-    virtual EXPORT void PushEvent_4218D0(char event);
+    // A new virtual that is never overridden as there are no other known super classes
+    virtual EXPORT void PushEvent_4218D0(GameSpeakEvents event);
 
     EXPORT GameSpeak* ctor_421820();
+
+private:
     EXPORT void dtor_4218A0();
     EXPORT BaseGameObject* vdtor_421870(signed int flags);
 
 private:
     EXPORT void Update_421920();
-    void PushEvent_Impl(char event);
+    void PushEvent_Impl(GameSpeakEvents event);
 
-private:
+public:
     __int16 field_20_last_event;
     __int16 field_22;
     unsigned int field_24_last_event_frame;

@@ -177,6 +177,8 @@ enum class AbeSay : __int16
     eSympathy_28 = 28,
 };
 
+enum class Mud_Emotion : __int16;
+
 struct Abe_1BC_20_sub_object
 {
     int field_0_gnFrame;
@@ -184,7 +186,7 @@ struct Abe_1BC_20_sub_object
     FP field_8;
     int field_C;
     unsigned __int16 field_10;
-    __int16 field_12_mood;
+    Mud_Emotion field_12_mood;
     int field_14;
     AbeSay field_18_say;
     __int16 field_1A;

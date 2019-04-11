@@ -14,6 +14,7 @@
 #include "Io.hpp"
 #include "QuikSave.hpp"
 #include "VGA.hpp"
+#include "Mudokon.hpp"
 
 ALIVE_VAR(1, 0x5ca4d8, char, sQuicksave_SaveNextFrame_5CA4D8, 0);
 ALIVE_VAR(1, 0x5ca4d9, char, sQuicksave_LoadNextFrame_5CA4D9, 0);
@@ -1393,15 +1394,15 @@ void PauseMenu::Update_48FD80()
                 sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF 300 MUDOKONS", sRescuedMudokons_5C1BC2);
                 sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons_5C1BC0, (sKilledMudokons_5C1BC0 != 0) ? "VE" : "S");
 
-                if (sActiveHero_5C1B68->field_128.field_12_mood == 0)
+                if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eNormal_0)
                 {
                     field_158_animation.Set_Animation_Data_409C80(1248, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kNormaliconResID, 1u, 0));
                 }
-                else if (sActiveHero_5C1B68->field_128.field_12_mood == 3)
+                else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eSad_3)
                 {
                     field_158_animation.Set_Animation_Data_409C80(1076, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAngryiconResID, 1u, 0));
                 }
-                else if (sActiveHero_5C1B68->field_128.field_12_mood == 5)
+                else if (sActiveHero_5C1B68->field_128.field_12_mood == Mud_Emotion::eHappy_5)
                 {
                     field_158_animation.Set_Animation_Data_409C80(1252, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kHappyiconResID, 1u, 0));
                 }

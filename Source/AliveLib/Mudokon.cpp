@@ -18,6 +18,7 @@
 #include "Sfx.hpp"
 #include "Spark.hpp"
 #include "Midi.hpp"
+#include "GameSpeak.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
@@ -508,7 +509,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     if (field_16A_flags.Get(Flags::eBit4_blind))
     {
-        SetPal_4772D0(Mud_Pal_Type::eNormalOrBlind_0);
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
     }
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_14_direction == Mud_Direction::eLeft_0);
@@ -756,11 +757,11 @@ void Mudokon::vUpdate_4757A0()
 }
 
 
-void Mudokon::SetPal_4772D0(Mud_Pal_Type palType)
+void Mudokon::SetPal_4772D0(Mud_Emotion emotion)
 {
-    switch (palType)
+    switch (emotion)
     {
-    case Mud_Pal_Type::eNormalOrBlind_0:
+    case Mud_Emotion::eNormal_0:
         if (field_16A_flags.Get(Flags::eBit4_blind))
         {
             SetRGB(63, 63, 63);
@@ -775,25 +776,25 @@ void Mudokon::SetPal_4772D0(Mud_Pal_Type palType)
         }
         break;
 
-    case Mud_Pal_Type::eAngryRed_1:
-    case Mud_Pal_Type::eAngryRed_2:
+    case Mud_Emotion::eAngry_1:
+    case Mud_Emotion::eUnknown_2:
         SetRGB(63, 63, 63);
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(13), 0);
         break;
 
-    case Mud_Pal_Type::eDepressedBlue_3:
-    case Mud_Pal_Type::eDepressedBlue_4:
+    case Mud_Emotion::eSad_3:
+    case Mud_Emotion::eUnknown_4:
         SetRGB(63, 63, 63);
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(14), 0);
         break;
 
-    case Mud_Pal_Type::eWiredYellow_5:
-    case Mud_Pal_Type::eWiredYellow_6:
+    case Mud_Emotion::eHappy_5:
+    case Mud_Emotion::eWired_6:
         SetRGB(74, 74, 74);
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(15), 0);
         break;
 
-    case Mud_Pal_Type::eSickDarkGreen_7:
+    case Mud_Emotion::eSick_7:
         SetRGB(63, 63, 63);
         field_20_animation.Load_Pal_40A530(field_10_resources_array.ItemAt(17), 0);
         break;
@@ -1409,7 +1410,21 @@ void Mudokon::TurnAroundStanding_2_472BF0()
 
 void Mudokon::Speak_Generic_472FA0()
 {
-    NOT_IMPLEMENTED();
+    ToFalling_472320();
+    SetPal_4772D0(field_180_emo_tbl);
+
+    if (field_16A_flags.Get(Flags::eBit12))
+    {
+        Event_Broadcast_422BC0(kEventNoise, this);
+        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_16A_flags.Set(Flags::eBit12);
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
+        ToStand_4724A0();
+    }
 }
 
 void Mudokon::StandToWalk_7_472AB0()
@@ -1522,7 +1537,7 @@ void Mudokon::CrouchScrub_14_473560()
 
 void Mudokon::CrouchIdle_15_474040()
 {
-    Mudokon::ToFalling_472320();
+    ToFalling_472320();
 
     if (field_108_next_motion == Mud_Motion::Duck_53_474A40)
     {
@@ -1553,7 +1568,11 @@ void Mudokon::CrouchTurn_16_4740E0()
 
 void Mudokon::StandToCrouch_17_474120()
 {
-    NOT_IMPLEMENTED();
+    ToFalling_472320();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = Mud_Motion::CrouchIdle_15_474040;
+    }
 }
 
 void Mudokon::CrouchToStand_18_474150()
@@ -1794,7 +1813,39 @@ __int16 Mudokon::CheckForPortal_4775E0()
 __int16 Mudokon::sub_476FF0()
 {
     NOT_IMPLEMENTED();
-    return 0;
+
+    int lastEvent; // eax
+    __int16 actualEvent; // si
+
+    lastEvent = pEventSystem_5BC11C->field_28_last_event_index;
+    if (field_140 == lastEvent)
+    {
+        actualEvent = (pEventSystem_5BC11C->field_20_last_event == -1) - 2;
+    }
+    else
+    {
+        field_140 = lastEvent;
+        actualEvent = pEventSystem_5BC11C->field_20_last_event;
+    }
+
+    if (Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0)
+    {
+        return -1;
+    }
+
+    if (actualEvent == 6)
+    {
+        return 6;
+    }
+
+    if (actualEvent < 1
+        || actualEvent > 24
+        || sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
+    {
+        return actualEvent;
+    }
+
+    return -1;
 }
 
 __int16 Mudokon::LaughingGasInCurrentScreen_4774A0()
