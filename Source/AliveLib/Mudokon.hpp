@@ -302,6 +302,7 @@ private:
     void AddAlerted();
 
     void RemoveAlerted();
+    __int16 AIStartWheelTurning();
 
 private:
     __int16 field_116;
