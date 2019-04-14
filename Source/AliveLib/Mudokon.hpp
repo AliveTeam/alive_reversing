@@ -218,10 +218,10 @@ public: // AI states
     __int16 BrainState4_State_1();
     __int16 BrainState4_State_2();
     __int16 BrainState4_State_3();
-    __int16 BrainState4_State_4();
+    __int16 BrainState4_State_4_FollowingAbe();
     __int16 BrainState4_State_5();
-    __int16 BrainState4_State_6();
-    __int16 BrainState4_State_7();
+    __int16 BrainState4_State_6_RunAfterAbe();
+    __int16 BrainState4_State_7_StandingForAbeCommand();
     __int16 BrainState4_State_8();
     __int16 BrainState4_State_9();
     __int16 BrainState4_State_10();
@@ -404,7 +404,7 @@ private:
     MudAction field_17E_delayed_speak;
     Mud_Emotion field_180_emo_tbl;
     __int16 field_182;
-    __int16 field_184_motion;
+    Mud_Motion field_184_next_motion2;
     __int16 field_186;
     const struct MudEmotionTableEntry* field_188_pTblEntry;
     __int16 field_18C;
