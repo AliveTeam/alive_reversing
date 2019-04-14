@@ -295,6 +295,8 @@ private:
     EXPORT __int16 sub_477880();
     EXPORT void StandingKnockBack_473190();
     EXPORT __int16 IsMotionUnknown_4730F0();
+    EXPORT void MoveOnLine_4720D0();
+
     EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
     
 private:

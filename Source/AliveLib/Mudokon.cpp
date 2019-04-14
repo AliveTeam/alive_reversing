@@ -2905,7 +2905,56 @@ void Mudokon::StandIdle_0_4724E0()
 
 void Mudokon::Walking_1_4728B0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    {
+        StandingKnockBack_473190();
+    }
+    else if (sObjectIds_5C1B70.Find_449CF0(field_110_id) &&
+        field_16A_flags.Get(Flags::eBit4_blind) && 
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(1), field_C4_velx))
+    {
+        StandingKnockBack_473190();
+    }
+    else
+    {
+        MoveOnLine_4720D0();
+        if (field_106_current_motion == Mud_Motion::Walking_1_4728B0)
+        {
+            if (field_20_animation.field_92_current_frame == 2 || field_20_animation.field_92_current_frame == 11)
+            {
+                if (field_108_next_motion == Mud_Motion::StandIdle_0_4724E0)
+                {
+                    field_108_next_motion = -1;
+                    field_106_current_motion = (field_20_animation.field_92_current_frame == 2) + 8;
+                }
+                else
+                {
+                    if (field_108_next_motion == Mud_Motion::TurnAroundStanding_2_472BF0)
+                    {
+                        field_106_current_motion = (field_20_animation.field_92_current_frame != 2) + 8;
+                    }
+                }
+            }
+            else if (field_20_animation.field_92_current_frame == 5 || field_20_animation.field_92_current_frame == 14)
+            {
+                Abe_SFX_2_457A40(1, 0, 32767, this);
+                MapFollowMe_408D10(TRUE);
+                if (field_108_next_motion == Mud_Motion::Running_21_473720)
+                {
+                    field_108_next_motion = -1;
+                    field_106_current_motion = field_20_animation.field_92_current_frame != 5 ? Mud_Motion::SneakingToStand1_33_473FF0 : Mud_Motion::RunSlideStop_24_473A00;
+
+                }
+                else if (field_108_next_motion == Mud_Motion::Sneaking_27_473C40)
+                {
+                    field_108_next_motion = -1;
+                    field_106_current_motion = field_20_animation.field_92_current_frame != 5 ? Mud_Motion::WalkToSneak2_30_473EE0 : Mud_Motion::WalkToSneak1_28_473D60;
+                }
+            }
+        }
+    }
+
 }
 
 void Mudokon::TurnAroundStanding_2_472BF0()
@@ -2934,12 +2983,44 @@ void Mudokon::Speak_Generic_472FA0()
 
 void Mudokon::StandToWalk_7_472AB0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    {
+        ToStand_4724A0();
+    }
+    else
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_motion = Mud_Motion::Walking_1_4728B0;
+        }
+        MoveOnLine_4720D0();
+    }
 }
 
 void Mudokon::WalkingToStand_8_472B30()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    {
+        ToStand_4724A0();
+    }
+    else
+    {
+        MoveOnLine_4720D0();
+
+        if (!field_20_animation.field_92_current_frame)
+        {
+            Abe_SFX_2_457A40(1, 0, 32767, this);
+            return;
+        }
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            MapFollowMe_408D10(TRUE);
+            ToStand_4724A0();
+        }
+    }
 }
 
 void Mudokon::jWalkingToStand_8_472BD0()
@@ -3498,6 +3579,11 @@ __int16 Mudokon::IsMotionUnknown_4730F0()
         sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_43_450380 ||
         sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_42_4503D0 ||
         sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_44_450500;
+}
+
+void Mudokon::MoveOnLine_4720D0()
+{
+    NOT_IMPLEMENTED();
 }
 
 const struct MudEmotionTableEntry* CC Mudokon::ResponseTo_471730(Mud_Emotion emotion, MudAction action)
