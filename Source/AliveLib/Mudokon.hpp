@@ -212,6 +212,31 @@ public: // AI states
     EXPORT __int16 AI_Scrub_2_47D270();
     EXPORT __int16 AI_State_3_47E0D0();
     EXPORT __int16 AI_Wired_4_477B40();
+
+    __int16 BrainState4_State_0();
+    __int16 BrainState4_State_1();
+    __int16 BrainState4_State_2();
+    __int16 BrainState4_State_3();
+    __int16 BrainState4_State_4();
+    __int16 BrainState4_State_5();
+    __int16 BrainState4_State_6();
+    __int16 BrainState4_State_7();
+    __int16 BrainState4_State_8();
+    __int16 BrainState4_State_9();
+    __int16 BrainState4_State_10();
+    __int16 BrainState4_State_11();
+    __int16 BrainState4_State_12();
+    __int16 BrainState4_State_13();
+    __int16 BrainState4_State_14();
+    __int16 BrainState4_State_15();
+    __int16 BrainState4_State_16();
+    __int16 BrainState4_State_17();
+    __int16 BrainState4_State_18();
+    __int16 BrainState4_State_19();
+    __int16 BrainState4_State_20();
+    __int16 BrainState4_State_21();
+    __int16 BrainState4_State_22();
+
     EXPORT __int16 AI_ShrivelDeath_5_4714A0();
     EXPORT __int16 AI_HelloAlerted_6_47A560();
     EXPORT __int16 AI_FallAndSmackDeath_7_471600();
