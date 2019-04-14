@@ -299,6 +299,10 @@ private:
 
     EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
     
+    void AddAlerted();
+
+    void RemoveAlerted();
+
 private:
     __int16 field_116;
     int field_118;
@@ -306,7 +310,7 @@ private:
     __int16 field_120_angry_trigger;
     __int16 field_122;
     int field_124;
-    int field_128;
+    int field_128_angry_timer;
     int field_12C;
     __int16 field_130;
     __int16 field_132;
@@ -336,12 +340,12 @@ private:
     {
         eBit1 = 0x1,
         eBit2_save_state = 0x2,
-        eBit3 = 0x4,
+        eBit3_Alerted = 0x4,
         eBit4_blind = 0x8,
         eBit5 = 0x10,
-        eBit6 = 0x20,
+        eBit6_StandingForSad = 0x20,
         eBit7 = 0x40,
-        eBit8 = 0x80,
+        eBit8_DoAngry = 0x80,
         eBit9 = 0x100,
         eBit10_stop_trigger = 0x200,
         eBit11_get_depressed = 0x400,
