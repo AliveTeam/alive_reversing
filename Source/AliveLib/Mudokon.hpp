@@ -89,6 +89,7 @@ enum class MudAction : __int16
     eMudDied_14 = 14,
     eUnknown_15 = 15,
     eUnknown_16 = 16,
+    eUnknown_17 = 17,
 };
 
 
@@ -289,6 +290,11 @@ private:
     EXPORT void ToFalling_472320();
     EXPORT void ToStand_4724A0();
 
+    EXPORT __int16 FindWheel_4777B0(FP xpos, FP ypos);
+    EXPORT __int16 sub_477AF0(MudAction action);
+    EXPORT __int16 sub_477880();
+    EXPORT void StandingKnockBack_473190();
+    EXPORT __int16 IsMotionUnknown_4730F0();
     EXPORT static const struct MudEmotionTableEntry* CC ResponseTo_471730(Mud_Emotion emotion, MudAction action);
     
 private:
@@ -359,13 +365,13 @@ private:
     __int16 field_172;
     __int16 field_174;
     __int16 field_176;
-    __int16 field_178;
+    __int16 field_178_sub_state2;
     __int16 field_17A_rescue_id;
     __int16 field_17C;
-    __int16 field_17E;
+    MudAction field_17E_delayed_speak;
     Mud_Emotion field_180_emo_tbl;
     __int16 field_182;
-    __int16 field_184;
+    __int16 field_184_motion;
     __int16 field_186;
     const struct MudEmotionTableEntry* field_188_pTblEntry;
     __int16 field_18C;
