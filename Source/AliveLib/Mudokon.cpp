@@ -3271,7 +3271,7 @@ void Mudokon::WalkingToStand_8_472B30()
 
 void Mudokon::jWalkingToStand_8_472BD0()
 {
-    NOT_IMPLEMENTED();
+    WalkingToStand_8_472B30();
 }
 
 void Mudokon::PullLever_10_473020()
