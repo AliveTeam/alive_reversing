@@ -1290,6 +1290,8 @@ __int16 Mudokon::AI_State_3_47E0D0()
 
 __int16 Mudokon::AI_Wired_4_477B40()
 {
+    NOT_IMPLEMENTED();
+
     if (CheckForPortal_4775E0())
     {
         field_18E_ai_state = Mud_AI_State::AI_HelloAlerted_6_47A560;
