@@ -188,6 +188,7 @@ enum Mud_Motion : unsigned __int16
 };
 
 enum class MudAction : __int16;
+enum class MudSounds : __int16;
 
 class Mudokon : public BaseAliveGameObject
 {
@@ -307,7 +308,7 @@ private:
     EXPORT __int16 CheckForPortal_4775E0();
     EXPORT GameSpeakEvents LastGameSpeak_476FF0();
     EXPORT __int16 LaughingGasInCurrentScreen_4774A0();
-    EXPORT void Sound_475EC0(__int16 idx);
+    EXPORT void Sound_475EC0(MudSounds idx);
     EXPORT __int16 CanRespond_4770B0();
 
     EXPORT BYTE** AnimBlockForMotion_474DC0(short motion);
