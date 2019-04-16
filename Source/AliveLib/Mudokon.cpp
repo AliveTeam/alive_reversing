@@ -3266,7 +3266,18 @@ void Mudokon::Walking_1_4728B0()
 
 void Mudokon::TurnAroundStanding_2_472BF0()
 {
-    NOT_IMPLEMENTED();
+    ToFalling_472320();
+
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Abe_SFX_2_457A40(9, 0, 32767, this);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        ToStand_4724A0();
+    }
 }
 
 void Mudokon::Speak_Generic_472FA0()
@@ -3599,12 +3610,18 @@ void Mudokon::HitFloorStanding2_42_4743F0()
 
 void Mudokon::StandToDunno_43_472790()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = Mud_Motion::DunnoToStand_44_4727B0;
+    }
 }
 
 void Mudokon::DunnoToStand_44_4727B0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToStand_4724A0();
+    }
 }
 
 void Mudokon::KnockForward_45_474180()
@@ -3750,9 +3767,56 @@ __int16 Mudokon::LaughingGasInCurrentScreen_4774A0()
     return 0;
 }
 
-void Mudokon::Sound_475EC0(MudSounds /*idx*/)
+void Mudokon::Sound_475EC0(MudSounds idx)
 {
-    NOT_IMPLEMENTED();
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        if (field_180_emo_tbl != Mud_Emotion::eSick_7)
+        {
+            // TODO: Pass down the stronger types - assuming they map directly
+            Abe_SFX_457EC0(static_cast<unsigned char>(idx), 80, field_13C_voice_pitch, this);
+            return;
+        }
+
+        if (idx != MudSounds::e24)
+        {
+            Abe_SFX_457EC0(static_cast<unsigned char>(idx), 80, -field_13C_voice_pitch, this);
+            return;
+        }
+
+        short pitch1 = Math_RandomRange_496AB0(-5, 0);
+        pitch1 *= 100;
+        pitch1 = pitch1 - field_13C_voice_pitch;
+        Abe_SFX_457EC0(24u, Math_RandomRange_496AB0(20, 50), pitch1, this);
+       
+        short pitch2 = Math_RandomRange_496AB0(-5, 0);
+        pitch2 *= 100;
+        pitch2 = pitch2 - field_13C_voice_pitch;
+        Abe_SFX_457EC0(28u, Math_RandomRange_496AB0(20, 60), pitch2, this);
+        return;
+    }
+
+    if (field_180_emo_tbl == Mud_Emotion::eSick_7)
+    {
+        if (idx == MudSounds::e24)
+        {
+            short pitch1 = Math_RandomRange_496AB0(-5, 0);
+            pitch1 *= 100;
+            pitch1 = pitch1 - field_13C_voice_pitch;
+            Abe_SFX_457EC0(24u, Math_RandomRange_496AB0(55, 90), pitch1, this);
+
+            short pitch2 = Math_RandomRange_496AB0(-5, 0);
+            pitch2 *= 100;
+            pitch2 = pitch2 - field_13C_voice_pitch;
+            Abe_SFX_457EC0(28u, Math_RandomRange_496AB0(60, 110), pitch2, this);
+            return;
+        }
+        Abe_SFX_457EC0(static_cast<unsigned char>(idx), 0, field_13C_voice_pitch, this);
+    }
+    else
+    {
+        Abe_SFX_457EC0(static_cast<unsigned char>(idx), 0, field_13C_voice_pitch, this);
+    }
 }
 
 __int16 Mudokon::CanRespond_4770B0()
@@ -3841,7 +3905,7 @@ void Mudokon::ToFalling_472320()
 
 void Mudokon::ToStand_4724A0()
 {
-    field_134 = 0;
+    field_134 = FP_FromInteger(0);
     field_138 = 0;
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
@@ -3890,7 +3954,54 @@ __int16 Mudokon::IsMotionUnknown_4730F0()
 
 void Mudokon::MoveOnLine_4720D0()
 {
-    NOT_IMPLEMENTED();
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    
+    ToFalling_472320();
+
+    const FP oldXPos = field_B8_xpos;
+    if (field_100_pCollisionLine)
+    {
+        field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+    }
+
+    if (field_100_pCollisionLine)
+    {
+        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+        {
+            if (pPlatform)
+            {
+                pPlatform->VRemove(this);
+                field_110_id = -1;
+            }
+
+            PSX_RECT rect = {};
+            vGetBoundingRect_424FD0(&rect, 1);
+
+            vOnCollisionWith_424EE0(
+                { static_cast<short>(rect.x + 5), rect.y }, 
+                { static_cast<short>(rect.w + 5), rect.h}, 
+                ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+        }
+        else if (pPlatform)
+        {
+            pPlatform->VRemove(this);
+            field_110_id = -1;
+        }
+    }
+    else
+    {
+        if (pPlatform)
+        {
+            pPlatform->VRemove(this);
+            field_110_id = -1;
+        }
+
+        field_134 = FP_FromDouble(0.3); // TODO: or 2.99 ??
+        field_F8 = field_BC_ypos;
+        field_106_current_motion = Mud_Motion::FallLedgeBegin_48_4743C0;
+        field_B8_xpos = oldXPos + field_C4_velx;
+    }
+
 }
 
 const struct MudEmotionTableEntry* CC Mudokon::ResponseTo_471730(Mud_Emotion emotion, MudAction action)

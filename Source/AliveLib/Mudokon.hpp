@@ -341,7 +341,7 @@ private:
     int field_12C;
     __int16 field_130;
     __int16 field_132;
-    int field_134;
+    FP field_134;
     int field_138;
     __int16 field_13C_voice_pitch;
     __int16 field_13E;
