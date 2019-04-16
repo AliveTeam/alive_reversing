@@ -428,7 +428,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
     }
 
     // All resources that we required are already loaded
-    if (allResourcesLoaded)
+    if (allResourcesLoaded && pCamera) // mlg: Check if pCamera is null, so we can spawn objects easier.
     {
         for (int i = 0; i < pTypeAndIdList->field_0_count; i++)
         {

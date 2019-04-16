@@ -13,6 +13,7 @@
 #include "Abe.hpp"
 #include "Map.hpp"
 #include "MusicController.hpp"
+#include "DDCheat.hpp"
 
 using TFlyingSligFn2 = TFlyingSligFn;
 
@@ -37,6 +38,58 @@ ALIVE_ARY(1, 0x552350, TFlyingSligFn2, 25, sFlyingSlig_fns1_552350,
     &FlyingSlig::state_0_1_Dead_4364E0,
     &FlyingSlig::state_0_16_4355E0,
 });
+
+const char* sSligFns1Strings[] =
+{
+    "state_0_0_4355B0",
+    "state_0_1_Dead_4364E0",
+    "state_0_2_4356D0",
+    "state_0_3_435750",
+    "state_0_4_435BC0",
+    "state_0_5_435820",
+    "state_0_6_435940",
+    "state_0_7_435990",
+    "state_0_8_435AC0",
+    "state_0_9_435E40",
+    "state_0_10_435F10",
+    "state_0_11_435FD0",
+    "state_0_12_PlayerControlled_436040",
+    "state_0_13_4360F0",
+    "state_0_14_ChantShake_436180",
+    "state_0_15_4362C0",
+    "state_0_1_Dead_4364E0",
+    "state_0_16_4355E0",
+};
+
+const char* sSligFns2Strings[] =
+{
+    "state_1_0_idle_4385E0",
+    "state_1_1_fly_forward_loop_4386A0",
+    "state_1_2_turn_4388B0",
+    "state_1_3_fly_down_loop_438AA0",
+    "state_1_4_438CC0_fly_down_turn",
+    "state_1_5_fly_up_loop_438DD0",
+    "state_1_6_439030_fly_up_turn",
+    "state_1_7_439150",
+    "state_1_8_Speak_4391D0",
+    "state_1_9_nullsub_33",
+    "state_1_10_end_move_forward_4387D0",
+    "state_1_11_begin_move_up_438E40",
+    "state_1_12_438B10",
+    "state_1_13_438F60",
+    "state_1_14_438BF0",
+    "state_1_15_4387F0",
+    "state_1_16_begin_move_forward_438730",
+    "state_1_17_begin_move_down_438B80",
+    "state_1_18_end_move_down_438C90",
+    "state_1_19_hurt_down_4390D0",
+    "state_1_20_hurt_up_439110",
+    "state_1_21_end_move_up_438EB0",
+    "state_1_22_438EE0",
+    "state_1_23_438F20",
+    "state_1_24_438D60",
+    "state_1_25_turn_begin_move_forward_4389E0",
+};
 
 ALIVE_ARY(1, 0x5523A0, TFlyingSligFn2, 26, sFlyingSlig_fns2_5523A0,
 {
@@ -364,6 +417,8 @@ void FlyingSlig::vUpdate_434AD0()
         9 = 
         10 = 
         */
+
+        DDCheat::DebugStr_4F5560("Slig: motion: %s\n", sSligFns2Strings[field_106_current_motion]);
         (this->*(sFlyingSlig_fns2_5523A0)[field_106_current_motion])();
         sub_4396E0();
     }

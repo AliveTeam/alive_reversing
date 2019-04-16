@@ -14,7 +14,6 @@
 #include "SwitchStates.hpp"
 #include "Events.hpp"
 #include "MainMenu.hpp"
-#include "Abe.hpp"
 #include "Midi.hpp"
 #include "Sfx.hpp"
 #include "Sys.hpp"
@@ -22,7 +21,6 @@
 #include "RenderingTestTimData.hpp"
 #include "PsxRender.hpp"
 #include "LvlArchive.hpp"
-#include "UXB.hpp"
 #include "Movie.hpp"
 #include "Text.hpp"
 #include "AbilityRing.hpp"
@@ -30,6 +28,17 @@
 #include "QuikSave.hpp"
 #include "PauseMenu.hpp"
 #include "BaseBomb.hpp"
+
+#include "Factory.hpp"
+
+// Objects
+#include "UXB.hpp"
+#include "Abe.hpp"
+#include "Slurg.hpp"
+#include "Spark.hpp"
+#include "Mine.hpp"
+#include "FlyingSlig.hpp"
+#include "Mudokon.hpp"
 
 char _devConsoleBuffer[1000];
 
@@ -741,7 +750,104 @@ void Command_Bind(const std::vector<std::string>& args)
     DEV_CONSOLE_PRINTF("Added bind for key %s for command: '%s'", key.c_str(), command.c_str());
 }
 
+void Command_Spawn(const std::vector<std::string>& args)
+{
+    std::string objName = args[0];
+    TlvItemInfoUnion tlvinfo;
+    tlvinfo.all = 0;
+    int spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos) + 50;
+    int spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
 
+    FP hitX;
+    FP hitY;
+    PathLine * pLine;
+    if (sCollisions_DArray_5C1128->Raycast_417A60(FP_FromInteger(spawnX), FP_FromInteger(spawnY), FP_FromInteger(spawnX), FP_FromInteger(spawnY + 1000), &pLine, &hitX, &hitY, 1))
+    {
+        spawnX = FP_GetExponent(hitX);
+        spawnY = FP_GetExponent(hitY);
+    }
+
+    PSX_Point spawnTopLeft = { static_cast<short>(spawnX), static_cast<short>(spawnY - 5) };
+    PSX_Point spawnBottomRight = { static_cast<short>(spawnX + 50), static_cast<short>(spawnY + 30) };
+
+    TPathFunctionFn factoryFunc = nullptr;
+    Path_TLV* factoryTLV = nullptr;
+
+    Path_Mudokon mudPath = {};
+    mudPath.field_10_scale = TLV_Scale::Full_0;
+    mudPath.field_12_state = Mud_State::eScrub_1;
+    mudPath.field_16_voice_pitch = (rand() % 1500) - 600;
+    mudPath.field_8_top_left = spawnTopLeft;
+    mudPath.field_C_bottom_right = spawnBottomRight;
+
+    char blankMemory[512];
+    memset(blankMemory, 0, sizeof(blankMemory));
+    Path_TLV * basicTlvPath = reinterpret_cast<Path_TLV*>(&blankMemory);
+    basicTlvPath->field_8_top_left = spawnTopLeft;
+    basicTlvPath->field_C_bottom_right = spawnBottomRight;
+
+    factoryTLV = basicTlvPath;
+
+    if (objName == "mud")
+    {
+        factoryTLV = &mudPath;
+        factoryFunc = &Factory_Mudokon_4D8EC0;
+    }
+    else if (objName == "slig")
+    {
+        factoryFunc = &Factory_Slig_4D7BC0;
+    }
+    else if (objName == "nslig")
+    {
+        factoryFunc = &Factory_NakedSlig_4D95A0;
+    }
+    else if (objName == "fleech")
+    {
+        factoryFunc = &Factory_Fleech_4D8C30;
+    }
+    else if (objName == "slog")
+    {
+        factoryFunc = &Factory_Slog_4D8B20;
+    }
+    else if (objName == "elec")
+    {
+        factoryFunc = &Factory_ElectricWall_4DA020;
+    }
+    else if (objName == "paramite")
+    {
+        factoryFunc = &Factory_Paramite_4D9190;
+    }
+    else if (objName == "uxb")
+    {
+        factoryFunc = &Factory_UXB_4D8960;
+    }
+    else if (objName == "mine")
+    {
+        factoryFunc = &Factory_Mine_4D8890;
+    }
+    else if (objName == "greeter")
+    {
+        factoryFunc = &Factory_Greeter_4DAFE0;
+    }
+    else if (objName == "scrab")
+    {
+        factoryFunc = &Factory_Scrab_4D9200;
+    }
+    else if (objName == "fslig")
+    {
+        factoryFunc = &Factory_FlyingSlig_4D92E0;
+    }
+    else
+    {
+        DEV_CONSOLE_PRINTF("Unsupported object: %s\n", objName.c_str());
+    }
+
+    if (factoryFunc != nullptr)
+    {
+        factoryFunc(factoryTLV, nullptr, tlvinfo, 2);
+        factoryFunc(factoryTLV, nullptr, tlvinfo, 0);
+    }
+}
 
 std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "help", -1, Command_Help, "Shows what you're looking at" },
@@ -761,7 +867,8 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "event", 1, Command_Event, "Broadcast's an event (EVENT ID)" },
     //{ "menu", 1, Command_Menu, "Changes to given menu cam" },
     { "state", 1, Command_SetState, "Sets currently controlled objects state." },
-	{ "ddv", 1, Command_DDV, "Plays a ddv" },
+    { "ddv", 1, Command_DDV, "Plays a ddv" },
+    { "spawn", 1, Command_Spawn, "Spawns an object" },
 	{ "loadsave", 1, Command_LoadSave, "Loads a Save" },
     { "bind", -1, Command_Bind, "Binds a key to a command" },
     { "ring", 1, Command_Ring, "Emits a ring" },
