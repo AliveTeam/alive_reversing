@@ -4008,8 +4008,6 @@ __int16 Mudokon::AIStartWheelTurning()
     return BrainStates4::eState4_0;
 }
 
-#pragma warning(disable:4706)
-
 bool Mudokon::NeedToTurnAround()
 {
     Mudokon* pAboveMud = static_cast<Mudokon*>(FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos, field_BC_ypos - FP_FromInteger(5)));
