@@ -212,6 +212,8 @@ public: // AI states
     EXPORT __int16 AI_Chisel_1_47C5F0();
     EXPORT __int16 AI_Scrub_2_47D270();
     EXPORT __int16 AI_State_3_47E0D0();
+
+    EXPORT __int16 AI_Wired_4_Real_477B40();
     EXPORT __int16 AI_Wired_4_477B40();
 
     __int16 BrainState4_State_0();

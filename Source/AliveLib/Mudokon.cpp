@@ -1323,6 +1323,12 @@ __int16 Mudokon::AI_State_3_47E0D0()
     return 0;
 }
 
+__int16 Mudokon::AI_Wired_4_Real_477B40()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 __int16 Mudokon::AI_Wired_4_477B40()
 {
     if (CheckForPortal_4775E0())
@@ -1464,6 +1470,7 @@ __int16 Mudokon::AI_Wired_4_477B40()
 
     case BrainStates4::eState4_7:
         return BrainState4_State_7_StandingForAbeCommand();
+        //return AI_Wired_4_Real_477B40();
 
     case BrainStates4::eState4_8:
         return BrainState4_State_8();
@@ -2295,12 +2302,12 @@ __int16 Mudokon::BrainState4_State_7_StandingForAbeCommand()
         return field_190_sub_state;
     }
     else if (!vIsFacingMe_4254A0(sActiveHero_5C1B68) && (sAlertedMudCount_5C3010 <= 1 && !pMudInSameGrid))
-        {
-            // We are not facing Abe and there isn't a mud in the same grid and we are the only mud following Abe
-            // so stop being so damn rude and face him.
-            field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
-            return field_190_sub_state;
-        }
+    {
+        // We are not facing Abe and there isn't a mud in the same grid and we are the only mud following Abe
+        // so stop being so damn rude and face him.
+        field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
+        return field_190_sub_state;
+    }
     else
     {
         if (field_17E_delayed_speak != MudAction::eUnknown_17)
@@ -2672,14 +2679,14 @@ __int16 Mudokon::BrainState4_State_12()
         return field_178_sub_state2;
     }
 
-    BaseGameObject* v115 = nullptr;
+    BaseGameObject* pMudInSameGridBlock = nullptr;
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         if (FindObjectOfType_425180(Types::eType_Abe_69, field_B8_xpos + ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5)))
         {
             return BrainStates4::eState4_18;
         }
-        v115 = FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5));
+        pMudInSameGridBlock = FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5));
     }
     else
     {
@@ -2687,10 +2694,10 @@ __int16 Mudokon::BrainState4_State_12()
         {
             return BrainStates4::eState4_18;
         }
-        v115 = FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5));
+        pMudInSameGridBlock = FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5));
     }
 
-    if (!v115)
+    if (!pMudInSameGridBlock)
     {
         return field_178_sub_state2;
     }
@@ -3961,41 +3968,30 @@ void Mudokon::MoveOnLine_4720D0()
     const FP oldXPos = field_B8_xpos;
     if (field_100_pCollisionLine)
     {
-        field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+    }
+
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        field_110_id = -1;
     }
 
     if (field_100_pCollisionLine)
     {
         if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
         {
-            if (pPlatform)
-            {
-                pPlatform->VRemove(this);
-                field_110_id = -1;
-            }
-
-            PSX_RECT rect = {};
-            vGetBoundingRect_424FD0(&rect, 1);
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
 
             vOnCollisionWith_424EE0(
-                { static_cast<short>(rect.x + 5), rect.y }, 
-                { static_cast<short>(rect.w + 5), rect.h}, 
+                { bRect.x, static_cast<short>(bRect.y + 5) },
+                { bRect.w, static_cast<short>(bRect.h + 5) },
                 ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
-        }
-        else if (pPlatform)
-        {
-            pPlatform->VRemove(this);
-            field_110_id = -1;
         }
     }
     else
     {
-        if (pPlatform)
-        {
-            pPlatform->VRemove(this);
-            field_110_id = -1;
-        }
-
         field_134 = FP_FromDouble(0.3); // TODO: or 2.99 ??
         field_F8 = field_BC_ypos;
         field_106_current_motion = Mud_Motion::FallLedgeBegin_48_4743C0;
