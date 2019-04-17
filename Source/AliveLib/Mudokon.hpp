@@ -331,7 +331,7 @@ private:
 
     void RemoveAlerted();
     __int16 AIStartWheelTurning();
-
+    bool NeedToTurnAround();
 private:
     __int16 field_116;
     int field_118;
