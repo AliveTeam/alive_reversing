@@ -108,8 +108,8 @@ const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] =
     ENTRY(StandToDunno_43_472790) \
     ENTRY(DunnoToStand_44_4727B0) \
     ENTRY(KnockForward_45_474180) \
-    ENTRY(StandToKnockBack_46_4742A0) \
-    ENTRY(KnockBackToStand_47_474380) \
+    ENTRY(KnockedBackToStandUp_46_4742A0) \
+    ENTRY(StandUpFromKnockedBack_47_474380) \
     ENTRY(FallLedgeBegin_48_4743C0) \
     ENTRY(Fall_49_472C60) \
     ENTRY(Chanting_50_473040) \
@@ -386,8 +386,8 @@ const TMudStateFunction sMudokon_motion_states_55CE18[60] =
     &Mudokon::StandToDunno_43_472790,
     &Mudokon::DunnoToStand_44_4727B0,
     &Mudokon::KnockForward_45_474180,
-    &Mudokon::StandToKnockBack_46_4742A0,
-    &Mudokon::KnockBackToStand_47_474380,
+    &Mudokon::KnockedBackToStandUp_46_4742A0,
+    &Mudokon::StandUpFromKnockedBack_47_474380,
     &Mudokon::FallLedgeBegin_48_4743C0,
     &Mudokon::Fall_49_472C60,
     &Mudokon::Chanting_50_473040,
@@ -3615,22 +3615,111 @@ void Mudokon::RunToWalk2_23_4739B0()
 
 void Mudokon::RunSlideStop_24_473A00()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    if (Raycast_408750((field_CC_sprite_scale * FP_FromInteger(50)), field_C4_velx))
+    {
+        StandingKnockBack_473190();
+    }
+    else
+    {
+        ReduceXVelocityBy_472260(FP_FromDouble(0.375));
+
+        if (field_106_current_motion == Mud_Motion::RunSlideStop_24_473A00)
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                Abe_SFX_2_457A40(1, 0, 32767, this);
+                MapFollowMe_408D10(TRUE);
+                Mudokon::ToStand_4724A0();
+            }
+        }
+    }
 }
 
 void Mudokon::RunSlideTurn_25_473AA0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+
+    if (Raycast_408750((field_CC_sprite_scale * FP_FromInteger(50)), field_C4_velx))
+    {
+        StandingKnockBack_473190();
+    }
+    else
+    {
+        ReduceXVelocityBy_472260(FP_FromDouble(0.375));
+
+        if (field_106_current_motion == Mud_Motion::RunSlideTurn_25_473AA0)
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                MapFollowMe_408D10(TRUE);
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+                    field_106_current_motion = Mud_Motion::RunTurn_26_473BB0;
+                }
+                else
+                {
+                    field_106_current_motion = Mud_Motion::RunTurn_26_473BB0;
+                    field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+                }
+            }
+        }
+    }
 }
 
 void Mudokon::RunTurn_26_473BB0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+
+    if (Raycast_408750((field_CC_sprite_scale * FP_FromInteger(50)), field_C4_velx))
+    {
+        ToStand_4724A0();
+    }
+    else
+    {
+        MoveOnLine_4720D0();
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_motion = Mud_Motion::Running_21_473720;
+            field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        }
+    }
 }
 
 void Mudokon::Sneaking_27_473C40()
 {
-    NOT_IMPLEMENTED();
+    if (Raycast_408750((field_CC_sprite_scale * FP_FromInteger(50)), field_C4_velx))
+    {
+        StandingKnockBack_473190();
+    }
+    else
+    {
+        MoveOnLine_4720D0();
+        if (field_106_current_motion == Mud_Motion::Sneaking_27_473C40)
+        {
+            if (field_20_animation.field_92_current_frame == 3 || field_20_animation.field_92_current_frame == 13)
+            {
+                if (field_108_next_motion == Mud_Motion::StandIdle_0_4724E0)
+                {
+                    field_108_next_motion = -1;
+                    field_106_current_motion = (field_20_animation.field_92_current_frame != 3) ? Mud_Motion::SneakingToStand1_33_473FF0 : Mud_Motion::SneakingToStand2_34_474020;
+                }
+            }
+            else if (field_20_animation.field_92_current_frame == 6 || field_20_animation.field_92_current_frame == 16)
+            {
+                Abe_SFX_2_457A40(3, 0, 32767, this);
+                MapFollowMe_408D10(TRUE);
+
+                if (field_108_next_motion == Mud_Motion::Walking_1_4728B0)
+                {
+                    field_108_next_motion = -1;
+                    field_106_current_motion = field_20_animation.field_92_current_frame != 6 ? Mud_Motion::SneakingToWalk2_31_473F30 : Mud_Motion::SneakingToWalk_29_473E20;
+                }
+            }
+        }
+    }
 }
 
 void Mudokon::WalkToSneak1_28_473D60()
@@ -3655,17 +3744,35 @@ void Mudokon::SneakingToWalk2_31_473F30()
 
 void Mudokon::StandToSneaking_32_473F80()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = Mud_Motion::Sneaking_27_473C40;
+    }
+
+    if (Raycast_408750((field_CC_sprite_scale * FP_FromInteger(50)), field_C4_velx))
+    {
+        ToStand_4724A0();
+    }
+    else
+    {
+        MoveOnLine_4720D0();
+    }
 }
 
 void Mudokon::SneakingToStand1_33_473FF0()
 {
-    NOT_IMPLEMENTED();
+    MoveOnLine_4720D0();
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        MapFollowMe_408D10(TRUE);
+        ToStand_4724A0();
+    }
 }
 
 void Mudokon::SneakingToStand2_34_474020()
 {
-    NOT_IMPLEMENTED();
+    SneakingToStand1_33_473FF0();
 }
 
 void Mudokon::JumpStart_35_474460()
@@ -3729,19 +3836,63 @@ void Mudokon::KnockForward_45_474180()
     NOT_IMPLEMENTED();
 }
 
-void Mudokon::StandToKnockBack_46_4742A0()
+void Mudokon::KnockedBackToStandUp_46_4742A0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 12)
+    {
+        CheckKnockedOntoABomb_4723C0();
+    }
+
+    Event_Broadcast_422BC0(kEventNoise, this);
+
+    if ((gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1||
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9) && 
+        field_20_animation.field_92_current_frame == 7)
+    {
+        Abe_SFX_2_457A40(6, 80, -200, this);
+    }
+
+    if (!field_100_pCollisionLine)
+    {
+        Fall_49_472C60();
+
+        if (field_106_current_motion == Mud_Motion::KnockForward_45_474180 || field_106_current_motion == Mud_Motion::HitFloorStanding2_42_4743F0)
+        {
+            field_106_current_motion = Mud_Motion::StandToKnockBack_46_4742A0;
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_100_pCollisionLine)
+        {
+            field_106_current_motion = Mud_Motion::StandUpFromKnockedBack_47_474380;
+        }
+    }
 }
 
-void Mudokon::KnockBackToStand_47_474380()
+void Mudokon::StandUpFromKnockedBack_47_474380()
 {
-    NOT_IMPLEMENTED();
+    ToFalling_472320();
+    
+    Event_Broadcast_422BC0(kEventNoise, this);
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToStand_4724A0();
+    }
 }
 
 void Mudokon::FallLedgeBegin_48_4743C0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = Mud_Motion::Fall_49_472C60;
+    }
+
+    Fall_49_472C60();
 }
 
 void Mudokon::Fall_49_472C60()
@@ -4037,7 +4188,38 @@ __int16 Mudokon::sub_477880()
 
 void Mudokon::StandingKnockBack_473190()
 {
-    NOT_IMPLEMENTED();
+    auto pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_158_wheel_id));
+    if (pWheel)
+    {
+        pWheel->VStopTurning(TRUE);
+        field_158_wheel_id = -1;
+    }
+
+    Abe_SFX_2_457A40(13, 0, 32767, this);
+
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_B8_xpos += (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_C4_velx;
+        }
+        else
+        {
+            field_B8_xpos -= (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) - field_C4_velx;
+        }
+    }
+
+    MapFollowMe_408D10(TRUE);
+
+    field_C4_velx = FP_FromInteger(0);
+
+    if (field_C8_vely < FP_FromInteger(0))
+    {
+        field_C8_vely = FP_FromInteger(0);
+    }
+
+    Abe_SFX_2_457A40(13, 0, 32767, this);
+    field_106_current_motion = Mud_Motion::StandToKnockBack_46_4742A0;
 }
 
 // TODO: Abe sneaking or walking check ??
@@ -4143,5 +4325,69 @@ bool Mudokon::NeedToTurnAround()
     else
     {
         return false;
+    }
+}
+
+void Mudokon::ReduceXVelocityBy_472260(FP velXScaleBy)
+{
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        field_C4_velx = field_C4_velx - (field_CC_sprite_scale * velXScaleBy);
+        if (field_C4_velx >= FP_FromInteger(0))
+        {
+            if (FP_GetExponent(field_C4_velx))
+            {
+                MoveOnLine_4720D0();
+            }
+        }
+        else
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+    else if (field_C4_velx < FP_FromInteger(0))
+    {
+        field_C4_velx = (field_CC_sprite_scale * velXScaleBy) + field_C4_velx;
+        if (field_C4_velx <= FP_FromInteger(0))
+        {
+            if (FP_GetExponent(field_C4_velx))
+            {
+                MoveOnLine_4720D0();
+            }
+        }
+    }
+    else
+    {
+        field_C4_velx = FP_FromInteger(0);
+    }
+}
+
+void Mudokon::CheckKnockedOntoABomb_4723C0()
+{
+    PSX_RECT bMudRect = {};
+    vGetBoundingRect_424FD0(&bMudRect, 1);
+
+    for (int i=0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eMine_88 || pObj->field_4_typeId == Types::eUXB_143)
+        {
+            PSX_RECT bBombRect = {};
+            pObj->vGetBoundingRect_424FD0(&bBombRect, 1);
+
+            // TODO: Almost same as PSX_Rects_overlap_no_adjustment but checks < rather than <=
+            if (bMudRect.x <= bBombRect.w &&
+                bMudRect.w >= bBombRect.x &&
+                bMudRect.h >= bBombRect.y &&
+                bMudRect.y <= bBombRect.h)
+            {
+                pObj->VTakeDamage_408730(this);
+            }
+        }
     }
 }

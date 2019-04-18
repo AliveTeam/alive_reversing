@@ -172,7 +172,7 @@ enum Mud_Motion : unsigned __int16
     DunnoToStand_44_4727B0,
     KnockForward_45_474180,
     StandToKnockBack_46_4742A0,
-    KnockBackToStand_47_474380,
+    StandUpFromKnockedBack_47_474380,
     FallLedgeBegin_48_4743C0,
     Fall_49_472C60,
     Chanting_50_473040,
@@ -290,8 +290,8 @@ public: // Motion states
    EXPORT void StandToDunno_43_472790();
    EXPORT void DunnoToStand_44_4727B0();
    EXPORT void KnockForward_45_474180();
-   EXPORT void StandToKnockBack_46_4742A0();
-   EXPORT void KnockBackToStand_47_474380();
+   EXPORT void KnockedBackToStandUp_46_4742A0();
+   EXPORT void StandUpFromKnockedBack_47_474380();
    EXPORT void FallLedgeBegin_48_4743C0();
    EXPORT void Fall_49_472C60();
    EXPORT void Chanting_50_473040();
@@ -332,6 +332,12 @@ private:
     void RemoveAlerted();
     __int16 AIStartWheelTurning();
     bool NeedToTurnAround();
+
+    EXPORT void ReduceXVelocityBy_472260(FP velXScaleBy);
+
+    EXPORT void CheckKnockedOntoABomb_4723C0();
+
+
 private:
     __int16 field_116;
     int field_118;
