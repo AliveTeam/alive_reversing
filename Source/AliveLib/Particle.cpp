@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
+#include "BaseAliveGameObject.hpp"
 
 EXPORT Particle* Particle::ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffset, int maxW, int maxH, BYTE** ppAnimData)
 {
@@ -183,4 +184,11 @@ EXPORT void CC New_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, B
         }
         velYCounter -= FP_FromInteger(1);
     }
+}
+
+void New_Particle_45BC70(BaseAliveGameObject* pObj)
+{
+    const FP ypos = pObj->field_BC_ypos - (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(30, 60)));
+    const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + pObj->field_B8_xpos;
+    New_Chant_Particle_426BE0(xpos, ypos, pObj->field_CC_sprite_scale, 0);
 }

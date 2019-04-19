@@ -22,6 +22,7 @@
 #include "Switch.hpp"
 #include "Particle.hpp"
 #include "PossessionFlicker.hpp"
+#include "ScreenShake.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
@@ -115,7 +116,7 @@ const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] =
     ENTRY(FallLedgeBegin_48_4743C0) \
     ENTRY(Fall_49_472C60) \
     ENTRY(Chanting_50_473040) \
-    ENTRY(ToChant_51_4730D0) \
+    ENTRY(ChantToStand_51_4730D0) \
     ENTRY(ToDuck_52_474A20) \
     ENTRY(Duck_53_474A40) \
     ENTRY(DuckToCrouch_54_474A80) \
@@ -393,7 +394,7 @@ const TMudStateFunction sMudokon_motion_states_55CE18[60] =
     &Mudokon::FallLedgeBegin_48_4743C0,
     &Mudokon::Fall_49_472C60,
     &Mudokon::Chanting_50_473040,
-    &Mudokon::ToChant_51_4730D0,
+    &Mudokon::ChantToStand_51_4730D0,
     &Mudokon::ToDuck_52_474A20,
     &Mudokon::Duck_53_474A40,
     &Mudokon::DuckToCrouch_54_474A80,
@@ -841,8 +842,6 @@ void Mudokon::SetPal_4772D0(Mud_Emotion emotion)
 
 void Mudokon::vOnTrapDoorOpen_472350()
 {
-    NOT_IMPLEMENTED();
-
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (pPlatform)
     {
@@ -3079,8 +3078,35 @@ __int16 Mudokon::AI_HelloAlerted_6_47A560()
 
 __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_190_sub_state == 0)
+    {
+        // Wait for falling
+        Abe_SFX_457EC0(15u, 0, 0, this);
+        field_194_timer = sGnFrame_5C1B84 + 60;
+        return 1;
+    }
+
+    if (field_190_sub_state == 1)
+    {
+        // Scream
+        if (static_cast<int>(sGnFrame_5C1B84) == field_194_timer - 6)
+        {
+            SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+        }
+
+        // Shake from ze floor slam & die
+        if (static_cast<int>(sGnFrame_5C1B84) > field_194_timer)
+        {
+            Abe_SFX_2_457A40(15, 0, 32767, this);
+            auto pShake = alive_new<ScreenShake>();
+            if (pShake)
+            {
+                pShake->ctor_4ACF70(0, 0);
+            }
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
+    return field_190_sub_state;
 }
 
 __int16 Mudokon::AI_AngryWorker_8_47E910()
@@ -4101,7 +4127,21 @@ void Mudokon::JumpMid_36_474570()
 
 void Mudokon::WalkToRun_37_4749A0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = Mud_Motion::Running_21_473720;
+    }
+
+    Event_Broadcast_422BC0(kEventNoise, this);
+
+    if (Raycast_408750((field_CC_sprite_scale * FP_FromInteger(50)), field_C4_velx))
+    {
+        ToStand_4724A0();
+    }
+    else
+    {
+        MoveOnLine_4720D0();
+    }
 }
 
 void Mudokon::Slap_38_474AA0()
@@ -4121,7 +4161,15 @@ void Mudokon::HoistFallToFloor_40_474780()
 
 void Mudokon::HitFloorStanding1_41_474960()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 2)
+    {
+        Abe_SFX_2_457A40(6, 0, 32767, this);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToStand_4724A0();
+    }
 }
 
 void Mudokon::HitFloorStanding2_42_4743F0()
@@ -4165,7 +4213,31 @@ void Mudokon::DunnoToStand_44_4727B0()
 
 void Mudokon::KnockForward_45_474180()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 12)
+    {
+        CheckKnockedOntoABomb_4723C0();
+    }
+
+    if (field_20_animation.field_92_current_frame == 4)
+    {
+        Abe_SFX_2_457A40(13, 0, 32767, this);
+    }
+
+    if ((gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1 ||
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
+        && field_20_animation.field_92_current_frame == 7)
+    {
+        Abe_SFX_2_457A40(6, 80, -200, this);
+    }
+
+    if (field_108_next_motion != -1 && field_10C_health > FP_FromInteger(0))
+    {
+        field_106_current_motion = field_108_next_motion;
+        field_108_next_motion = -1;
+    }
 }
 
 void Mudokon::KnockedBackToStandUp_46_4742A0()
@@ -4308,12 +4380,33 @@ void Mudokon::Fall_49_472C60()
 
 void Mudokon::Chanting_50_473040()
 {
-    NOT_IMPLEMENTED();
+    if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
+    {
+        New_Particle_45BC70(this);
+    }
+
+    if (!SND_SsIsEos_DeInlined_4CACD0(11u))
+    {
+        SND_SEQ_Play_4CAB10(11u, 1, 50, 50);
+    }
+
+    if (field_108_next_motion == Mud_Motion::StandIdle_0_4724E0)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            SND_SEQ_Stop_4CAE60(11);
+            field_106_current_motion = Mud_Motion::ChantToStand_51_4730D0;
+            field_108_next_motion = -1;
+        }
+    }
 }
 
-void Mudokon::ToChant_51_4730D0()
+void Mudokon::ChantToStand_51_4730D0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToStand_4724A0();
+    }
 }
 
 void Mudokon::ToDuck_52_474A20()
@@ -4346,7 +4439,16 @@ void Mudokon::DuckToCrouch_54_474A80()
 
 void Mudokon::DuckKnockBack_55_474250()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 1)
+    {
+        Abe_SFX_2_457A40(9, 0, 32767, this);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = Mud_Motion::Duck_53_474A40;
+        field_108_next_motion = -1;
+    }
 }
 
 void Mudokon::SlapOwnHead_56_4727D0()
@@ -4622,9 +4724,20 @@ void Mudokon::ToStand_4724A0()
     field_106_current_motion = Mud_Motion::StandIdle_0_4724E0;
 }
 
-__int16 Mudokon::FindWheel_4777B0(FP /*xpos*/, FP /*ypos*/)
+__int16 Mudokon::FindWheel_4777B0(FP xpos, FP ypos)
 {
-    NOT_IMPLEMENTED();
+    auto* pWheelTlv = static_cast<Path_Wheel*>(
+        sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(xpos), FP_GetExponent(ypos), FP_GetExponent(xpos), FP_GetExponent(ypos), TlvTypes::WorkWheel_79));
+
+    if (pWheelTlv)
+    {
+        if (!SwitchStates_Get_466020(pWheelTlv->field_12_id))
+        {
+            return FindObjectOfType_425180(Types::eWheel_148, xpos, ypos - (field_CC_sprite_scale * FP_FromInteger(50))) != 0;
+        }
+
+    }
     return 0;
 }
 
@@ -4849,4 +4962,12 @@ void Mudokon::CheckKnockedOntoABomb_4723C0()
             }
         }
     }
+}
+
+void Mudokon::HurtSound_475DB0()
+{
+    const unsigned __int8 random = Math_RandomRange_496AB0(0, 127) >= 64 ? 16 : 9;
+    const short min = FP_GetExponent(FP_FromInteger(1) - field_10C_health / FP_FromDouble(0.15));
+    const __int16 bInCamera = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0);
+    Abe_SFX_457EC0(random, bInCamera ? 0 : 80, Math_RandomRange_496AB0(200 * min, 40 * (5 * min + 5)), this);
 }

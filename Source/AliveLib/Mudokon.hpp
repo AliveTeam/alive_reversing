@@ -176,7 +176,7 @@ enum Mud_Motion : unsigned __int16
     FallLedgeBegin_48_4743C0,
     Fall_49_472C60,
     Chanting_50_473040,
-    ToChant_51_4730D0,
+    ChantToStand_51_4730D0,
     ToDuck_52_474A20,
     Duck_53_474A40,
     DuckToCrouch_54_474A80,
@@ -295,7 +295,7 @@ public: // Motion states
    EXPORT void FallLedgeBegin_48_4743C0();
    EXPORT void Fall_49_472C60();
    EXPORT void Chanting_50_473040();
-   EXPORT void ToChant_51_4730D0();
+   EXPORT void ChantToStand_51_4730D0();
    EXPORT void ToDuck_52_474A20();
    EXPORT void Duck_53_474A40();
    EXPORT void DuckToCrouch_54_474A80();
@@ -337,6 +337,7 @@ private:
 
     EXPORT void CheckKnockedOntoABomb_4723C0();
 
+    EXPORT void HurtSound_475DB0();
 
 private:
     __int16 field_116;
