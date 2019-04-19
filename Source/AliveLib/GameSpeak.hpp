@@ -10,7 +10,10 @@ enum GameSpeakEvents : char
 {
     eNone = -1,
     eFart_3 = 3,
+    eUnknown_5 = 5,
     eLookOut_6 = 6,
+    eUnknown_7 = 7,
+    eUnknown_8 = 8,
     eHello_9 = 9,
     eFollowMe_10 = 10,
     eAnger_11 = 11,
@@ -19,6 +22,12 @@ enum GameSpeakEvents : char
     eStopIt_22 = 22,
     eAllYa_23 = 23,
     eSorry_24 = 24,
+
+    eUnknown_27 = 27,
+    eUnknown_28 = 28,
+    eUnknown_29 = 29,
+
+    eUnknown_31 = 31,
 };
 
 class GameSpeak : public BaseGameObject

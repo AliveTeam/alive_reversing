@@ -81,11 +81,11 @@ enum class MudAction : __int16
     eFart_6 = 6,
     eSlapOrWater_7 = 7,
     eSorry_8 = 8,
-    eUnknown_9 = 9,
-    eUnknown_10 = 10,
+    eMudAbuse_9 = 9,
+    eComfort_10 = 10,
     eUnknown_11 = 11,
-    eUnknown_12 = 12,
-    eUnknown_13 = 13,
+    eLaugh_12 = 12,
+    eDuck_13 = 13,
     eMudDied_14 = 14,
     eUnknown_15 = 15,
     eUnknown_16 = 16,
@@ -367,7 +367,7 @@ private:
     __int16 field_15C;
     __int16 field_15E;
     __int16 field_160_delayed_speak;
-    __int16 field_162;
+    __int16 field_162_maxXOffset;
     int field_164_ring_timeout;
     RingTypes field_168_ring_type;
 
