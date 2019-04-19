@@ -5095,3 +5095,56 @@ void Mudokon::HurtSound_475DB0()
     const __int16 bInCamera = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0);
     Abe_SFX_457EC0(random, bInCamera ? 0 : 80, Math_RandomRange_496AB0(200 * min, 40 * (5 * min + 5)), this);
 }
+
+void Mudokon::TakeASlap_476090(Abe* pFrom)
+{
+    if (field_180_emo_tbl != Mud_Emotion::eSick_7)
+    {
+        field_10C_health -= FP_FromDouble(0.077);
+    }
+
+    if (field_10C_health > FP_FromInteger(0))
+    {
+        HurtSound_475DB0();
+        field_DA_xOffset = field_162_maxXOffset;
+        field_188_pTblEntry = ResponseTo_471730(field_180_emo_tbl, MudAction::eSlapOrWater_7);
+        field_194_timer = sGnFrame_5C1B84 + 30;
+        field_17E_delayed_speak = MudAction::eUnknown_17;
+
+        if (field_188_pTblEntry->field_6_sub_state)
+        {
+            AddAlerted();
+
+            if (field_16A_flags.Get(Flags::eBit3_Alerted) && (field_180_emo_tbl == Mud_Emotion::eHappy_5 || field_180_emo_tbl == Mud_Emotion::eWired_6))
+            {
+                field_178_sub_state2 = 4;
+            }
+            else
+            {
+                field_178_sub_state2 = 7;
+                field_16A_flags.Clear(Flags::eBit3_Alerted);
+            }
+
+            field_18E_ai_state = Mud_AI_State::AI_Wired_4_477B40;
+            field_190_sub_state = field_188_pTblEntry->field_6_sub_state;
+        }
+
+        if (field_180_emo_tbl != Mud_Emotion::eSad_3 || pFrom == sActiveHero_5C1B68)
+        {
+            field_180_emo_tbl = field_188_pTblEntry->field_4_emo_tbl;
+        }
+    }
+    else
+    {
+        Abe_SFX_457EC0(9u, 0, 1000, this);
+        Abe_SFX_2_457A40(7, 0, 32767, this);
+        Event_Broadcast_422BC0(kEventMudokonDied, sActiveHero_5C1B68);
+        field_16A_flags.Clear(Flags::eBit2_save_state);
+        field_10C_health = FP_FromInteger(0);
+        field_18E_ai_state = Mud_AI_State::AI_ShrivelDeath_5_4714A0;
+        field_106_current_motion = Mud_Motion::KnockForward_45_474180;
+        field_194_timer = sGnFrame_5C1B84 + 90;
+        field_108_next_motion = -1;
+        vUpdateAnimRes_474D80();
+    }
+}

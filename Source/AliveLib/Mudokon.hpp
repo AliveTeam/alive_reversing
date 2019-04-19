@@ -339,6 +339,8 @@ private:
 
     EXPORT void HurtSound_475DB0();
 
+    EXPORT void TakeASlap_476090(Abe *pFrom);
+
 private:
     __int16 field_116;
     int field_118;
