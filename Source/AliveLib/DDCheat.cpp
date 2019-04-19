@@ -252,7 +252,7 @@ void DDCheat::Update_415780()
                 sActiveHero_5C1B68->field_C0_path_number = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
                 field_3C_flags &= ~0x1;
             }
         }
@@ -267,7 +267,7 @@ void DDCheat::Update_415780()
                     sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_Bit7);
                 }
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             sDDCheat_ShowAI_Info_5C1BD8 = false;
@@ -363,7 +363,7 @@ void DDCheat::Update_415780()
                 }
 
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
+                sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
             }
 
             /*DebugStr_4F5560("\n[Memory]");

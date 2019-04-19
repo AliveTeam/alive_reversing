@@ -715,7 +715,7 @@ void Greeter::vUpdate_4469B0()
             field_C8_vely = -field_C8_vely * FP_FromDouble(0.4);
             field_100_pCollisionLine = pLine;
             field_BC_ypos = hitY;
-            field_F8 = hitY;
+            field_F8_LastLineYPos = hitY;
 
             const CameraPos  soundDirection3 = gMap_5C3030.GetDirection_4811A0(
                 field_C2_lvl_number,

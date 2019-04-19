@@ -84,7 +84,7 @@ public:
     FP field_F0_prev_base;
     __int16 field_F4;
     __int16 field_F6_anim_frame;
-    FP field_F8;
+    FP field_F8_LastLineYPos;
     Path_TLV* field_FC_pPathTLV;
     PathLine* field_100_pCollisionLine;
     __int16 field_104_collision_line_type;

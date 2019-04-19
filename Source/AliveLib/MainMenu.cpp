@@ -1260,7 +1260,7 @@ signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
         gMap_5C3030.SetActiveCam_480D30(LevelIds::eMines_1, 1, 4, CameraSwapEffects::eEffect5_1_FMV, 12402, 0);
         sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(837);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(1300);
-        sActiveHero_5C1B68->field_F8 = FP_FromInteger(1400);
+        sActiveHero_5C1B68->field_F8_LastLineYPos = FP_FromInteger(1400);
     }
 
     if (field_208_transition_obj)

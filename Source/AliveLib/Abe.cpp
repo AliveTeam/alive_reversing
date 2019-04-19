@@ -607,7 +607,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_B8_xpos = FP_FromInteger(point.field_0_x + GridXMidPos_4498F0(field_CC_sprite_scale, 4));
     field_BC_ypos = FP_FromInteger(point.field_2_y + 120);
 
-    field_F8 = field_BC_ypos;
+    field_F8_LastLineYPos = field_BC_ypos;
     field_128.field_8 = FP_FromInteger(0);
     field_128.field_C = 0;
 
@@ -1017,7 +1017,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_10C_health = pSaveState->field_30_health;
     sActiveHero_5C1B68->field_106_current_motion = pSaveState->field_34_animation_num;
     sActiveHero_5C1B68->field_108_next_motion = pSaveState->word36;
-    sActiveHero_5C1B68->field_F8 = FP_FromInteger(pSaveState->word38);
+    sActiveHero_5C1B68->field_F8_LastLineYPos = FP_FromInteger(pSaveState->word38);
     sActiveHero_5C1B68->field_110_id = pSaveState->dword3C;
     sActiveHero_5C1B68->field_120_state = static_cast<WORD>(pSaveState->dword50);
     sActiveHero_5C1B68->field_124_gnFrame = pSaveState->dword54;
@@ -1421,7 +1421,7 @@ void Abe::Update_449DC0()
     {
         VOnTrapDoorOpen();
 
-        field_F8 = field_BC_ypos;
+        field_F8_LastLineYPos = field_BC_ypos;
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_bShrivel);
         field_106_current_motion = eAbeStates::jState_85_Fall_455070;
         field_100_pCollisionLine = nullptr;
@@ -1758,7 +1758,7 @@ void Abe::vOnTrapDoorOpen_45A570()
         pPlatform->VRemove(this);
 
         field_110_id = -1;
-        field_F8 = field_BC_ypos;
+        field_F8_LastLineYPos = field_BC_ypos;
 
         if (pWheel)
         {
@@ -1982,7 +1982,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->field_30_health = field_10C_health;
     pSaveState->field_34_animation_num = field_106_current_motion;
     pSaveState->word36 = field_108_next_motion;
-    pSaveState->word38 = FP_GetExponent(field_F8);
+    pSaveState->word38 = FP_GetExponent(field_F8_LastLineYPos);
     //pSaveState->word40 = (LOBYTE(this->field_114_flags) >> 6) & 1;
     //pSaveState->word42 = (unsigned __int8)(LOBYTE(this->field_114_flags) >> 7);
 
@@ -3781,7 +3781,7 @@ void Abe::State_3_Fall_459B60()
 
             if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
                 || (pSoftLanding && field_10C_health > FP_FromInteger(0)) // If we are dead soft landing won't save us
-                || (field_BC_ypos - field_F8) < (field_CC_sprite_scale * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
+                || (field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
                 && (field_10C_health > FP_FromInteger(0) || word_5C1BDA))
             {
                 field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
@@ -4032,7 +4032,7 @@ void Abe::State_13_HoistBegin_452B20()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_F8 = field_BC_ypos;
+        field_F8_LastLineYPos = field_BC_ypos;
         const FP velY = field_CC_sprite_scale * FP_FromInteger(-8);
         field_C8_vely = velY;
         field_BC_ypos += velY;
@@ -4716,7 +4716,7 @@ void Abe::State_27_HopBegin_4521C0()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_F8 = field_BC_ypos;
+        field_F8_LastLineYPos = field_BC_ypos;
         const FP velX = field_CC_sprite_scale * (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57));
         field_C4_velx = velX;
         field_B8_xpos += velX;
@@ -4909,7 +4909,7 @@ void Abe::State_30_RunJumpBegin_4532E0()
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_F8 = field_BC_ypos;
+            field_F8_LastLineYPos = field_BC_ypos;
 
             const FP velX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-7.6) : FP_FromDouble(7.6);
             field_C4_velx = field_CC_sprite_scale * velX;
@@ -6273,7 +6273,7 @@ void Abe::State_67_LedgeHang_454E20()
         field_106_current_motion = eAbeStates::State_91_FallingFromGrab_4557B0;
         field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
         field_E0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
-        field_F8 = field_BC_ypos;
+        field_F8_LastLineYPos = field_BC_ypos;
     }
 }
 
@@ -6382,7 +6382,7 @@ void Abe::State_69_LedgeHangWobble_454EF0()
         field_106_current_motion = eAbeStates::State_91_FallingFromGrab_4557B0;
         field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(75);
         field_E0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit1_ShadowAtBottom);
-        field_F8 = field_BC_ypos;
+        field_F8_LastLineYPos = field_BC_ypos;
     }
     // Now stabilized when wobble anim is done
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -6702,7 +6702,7 @@ void Abe::State_79_Inside_Of_A_Well_Local_45CA60()
         SFX_Play_46FA90(0x14u, 0, field_CC_sprite_scale);
 
         ++field_106_current_motion;
-        field_F8 = field_BC_ypos;
+        field_F8_LastLineYPos = field_BC_ypos;
 
         if (field_CC_sprite_scale == FP_FromDouble(0.5))
         {
@@ -6804,7 +6804,7 @@ void Abe::State_82_Inside_Of_A_Well_Express_45CC80()
     }
 
     field_128.field_8 = FP_FromInteger(0);
-    field_F8 = field_BC_ypos;
+    field_F8_LastLineYPos = field_BC_ypos;
 
     if (field_19A_to_level != gMap_5C3030.sCurrentLevelId_5C3030|| 
         field_19C_to_path != gMap_5C3030.sCurrentPathId_5C3032||
@@ -7979,7 +7979,7 @@ void Abe::State_114_DoorEnter_459470()
             field_100_pCollisionLine = nullptr;
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit7);
             field_BC_ypos = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y);
-            field_F8 = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y);
+            field_F8_LastLineYPos = FP_FromInteger(field_FC_pPathTLV->field_8_top_left.field_2_y);
         }
 
         field_168_ring_pulse_timer = 0;
@@ -8295,7 +8295,7 @@ void Abe::State_127_TurnWheelLoop_456750()
             auto pPathAbeStart = static_cast<Path_AbeStart*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::AbeStart_22, 0));
             field_B8_xpos = FP_FromInteger((pPathAbeStart->field_8_top_left.field_0_x + pPathAbeStart->field_C_bottom_right.field_0_x) / 2);
             field_BC_ypos = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
-            field_F8 = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
+            field_F8_LastLineYPos = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
             // TODO: OG bug, scale not read from the TLV ??
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -8831,7 +8831,7 @@ void Abe::sub_44E9A0()
         
         field_128.field_8 = FP_FromDouble(0.3); // TODO: Check
         field_B8_xpos = oldXPos + field_C4_velx;
-        field_F8 = field_BC_ypos;
+        field_F8_LastLineYPos = field_BC_ypos;
 
         // TODO: OG bug, dead code due to switch default case ?
         if (field_106_current_motion == eAbeStates::State_71_Knockback_455090 || field_106_current_motion == eAbeStates::State_101_KnockForward_455420)

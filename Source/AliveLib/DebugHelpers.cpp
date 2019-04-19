@@ -530,7 +530,7 @@ void Command_HelperUpdate()
         sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
         sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
         sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
-        sActiveHero_5C1B68->field_F8 = sActiveHero_5C1B68->field_BC_ypos;
+        sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
         sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
         sActiveHero_5C1B68->field_D6_scale = 1;
         FP rX = FP_FromInteger(0);

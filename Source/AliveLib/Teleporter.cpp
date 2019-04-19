@@ -347,7 +347,7 @@ void Teleporter::vUpdate_4DC400()
         {
             sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
             sControlledCharacter_5C1B8C->field_BC_ypos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y);
-            sControlledCharacter_5C1B8C->field_F8 = sControlledCharacter_5C1B8C->field_BC_ypos;
+            sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
         }
         field_30_state = States::eState_Out_of_teleporter_4;
     }
