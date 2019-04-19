@@ -4117,7 +4117,32 @@ void Mudokon::SneakingToStand2_34_474020()
 
 void Mudokon::JumpStart_35_474460()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    
+    field_B8_xpos += field_C4_velx;
+
+    if (!field_20_animation.field_92_current_frame)
+    {
+        Abe_SFX_2_457A40(11, 0, 32767, this);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_F8_LastLineYPos = field_BC_ypos;
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_C4_velx = (field_CC_sprite_scale * -FP_FromDouble(7.6)); // TODO: Correct FP value?
+        }
+        else
+        {
+            field_C4_velx = (field_CC_sprite_scale * FP_FromDouble(7.6)); // TODO: Correct FP value?
+        }
+        field_C8_vely = (field_CC_sprite_scale * -FP_FromDouble(9.6));
+        field_BC_ypos += field_C8_vely;
+        vOnTrapDoorOpen_4081F0();
+        field_106_current_motion = Mud_Motion::JumpMid_36_474570;
+        field_100_pCollisionLine = nullptr;
+    }
 }
 
 void Mudokon::JumpMid_36_474570()
@@ -4146,17 +4171,92 @@ void Mudokon::WalkToRun_37_4749A0()
 
 void Mudokon::Slap_38_474AA0()
 {
-    NOT_IMPLEMENTED();
+    SetPal_4772D0(field_180_emo_tbl);
+
+    if (field_20_animation.field_92_current_frame == 5)
+    {
+        if (field_180_emo_tbl == Mud_Emotion::eAngry_1 || field_180_emo_tbl == Mud_Emotion::eUnknown_2)
+        {
+            BaseGameObject* pSlapTarget = nullptr;
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                pSlapTarget = FindObjectOfType_425180(Types::eType_Abe_69, field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5));
+            }
+            else
+            {
+                pSlapTarget = FindObjectOfType_425180(Types::eType_Abe_69, field_B8_xpos + ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5));
+            }
+
+            if (!pSlapTarget)
+            {
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    pSlapTarget = FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5));
+                }
+                else
+                {
+                    pSlapTarget = FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos + ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5));
+                }
+            }
+
+            if (pSlapTarget)
+            {
+                static_cast<BaseAliveGameObject*>(pSlapTarget)->VTakeDamage_408730(this);
+            }
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
+        ToStand_4724A0();
+    }
 }
 
 void Mudokon::StartHoistJumpUp_39_4748E0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_F8_LastLineYPos = field_BC_ypos;
+        field_C8_vely = (field_CC_sprite_scale * -FP_FromInteger(8));
+        field_BC_ypos += field_C8_vely;
+        vOnTrapDoorOpen_4081F0();
+        field_106_current_motion = Mud_Motion::HoistFallToFloor_40_474780;
+        field_100_pCollisionLine = nullptr;
+    }
 }
 
 void Mudokon::HoistFallToFloor_40_474780()
 {
-    NOT_IMPLEMENTED();
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+    {
+        PSX_RECT bRect = {};
+        switch (pLine->field_8_type) // TODO: Strongly type
+        {
+        case 0u:
+        case 4u:
+        case 32u:
+        case 36u:
+            field_B8_xpos = hitX;
+            field_BC_ypos = FP_NoFractional(hitY + FP_FromDouble(0.5));
+            MapFollowMe_408D10(TRUE);
+            field_100_pCollisionLine = pLine;
+            field_106_current_motion = Mud_Motion::HitFloorStanding1_41_474960;
+            vGetBoundingRect_424FD0(&bRect, 1);
+            vOnCollisionWith_424EE0(
+                { bRect.x, bRect.y + 5 },
+                { bRect.w, bRect.h + 5},
+                ObjList_5C1B78,
+                1,
+                (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+            break;
+        default:
+            return;
+        }
+    }
 }
 
 void Mudokon::HitFloorStanding1_41_474960()
@@ -4453,7 +4553,31 @@ void Mudokon::DuckKnockBack_55_474250()
 
 void Mudokon::SlapOwnHead_56_4727D0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 5)
+    {
+        HurtSound_475DB0();
+        field_10C_health -= FP_FromDouble(0.033);
+    }
+
+    if (field_10C_health > FP_FromInteger(0))
+    {
+        if (field_108_next_motion == Mud_Motion::StandIdle_0_4724E0 || field_108_next_motion == Mud_Motion::Speak_Generic_6_472FA0)
+        {
+            ToStand_4724A0();
+        }
+    }
+    else
+    {
+        Abe_SFX_457EC0(9, 0, 1000, this);
+        Abe_SFX_2_457A40(7, 0, 0x7FFF, this);
+        Event_Broadcast_422BC0(kEventMudokonDied, this);
+        field_16A_flags.Clear(Flags::eBit2_save_state);
+        field_10C_health = FP_FromInteger(0);
+        field_18E_ai_state = Mud_AI_State::AI_ShrivelDeath_5_4714A0;
+        field_194_timer = sGnFrame_5C1B84 + 90;
+        field_106_current_motion = Mud_Motion::KnockForward_45_474180;
+        field_108_next_motion = -1;
+    }
 }
 
 void Mudokon::TurnWheelBegin_57_474C00()
