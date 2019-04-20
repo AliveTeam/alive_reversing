@@ -381,7 +381,7 @@ private:
         eBit3_Alerted = 0x4,
         eBit4_blind = 0x8,
         eBit5 = 0x10,
-        eBit6_StandingForSad = 0x20,
+        eBit6_StandingForSadOrAngry = 0x20,
         eBit7 = 0x40,
         eBit8_DoAngry = 0x80,
         eBit9 = 0x100,

@@ -140,7 +140,7 @@ enum class MudSounds : __int16
     e2 = 2,
     e3 = 3,
     e4 = 4,
-    e5 = 5,
+    eGrr_5 = 5,
     e6 = 6,
     e7 = 7,
     e8 = 8,
@@ -153,7 +153,7 @@ enum class MudSounds : __int16
     e15 = 15,
     e16 = 16,
     e17 = 17,
-    e18 = 18,
+    eHiAngry_18 = 18,
     e19 = 19,
     e20 = 20,
     e21 = 21,
@@ -188,13 +188,13 @@ const MudEmotionTable kMudEmoTable_55C790 =
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  12 },
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  12 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::e23, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
+            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eNormal_0,  12 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
             { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
             { MudSounds::e28, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
@@ -202,42 +202,42 @@ const MudEmotionTable kMudEmoTable_55C790 =
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 }
         },
         {
-            { MudSounds::e18, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eHiAngry_18, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::e21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eAngry_1,   0 },
             { MudSounds::e21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  15 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eAngry_1,   0 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 }
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 }
         },
         {
-            { MudSounds::e18, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eHiAngry_18, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::e21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eAngry_1,   0 },
             { MudSounds::e21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  15 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eAngry_1,   0 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 }
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 }
         },
         {
             { MudSounds::e20, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eSad_3,     12 },
@@ -245,7 +245,7 @@ const MudEmotionTable kMudEmoTable_55C790 =
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSad_3,     0 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 13 },
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
@@ -264,7 +264,7 @@ const MudEmotionTable kMudEmoTable_55C790 =
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eUnknown_4, 0 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
             { MudSounds::e28, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eUnknown_4, 0 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 13 },
             { MudSounds::e22, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eUnknown_4, 12 },
@@ -283,7 +283,7 @@ const MudEmotionTable kMudEmoTable_55C790 =
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::e13, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  13 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eWired_6,   12 },
@@ -302,7 +302,7 @@ const MudEmotionTable kMudEmoTable_55C790 =
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::e13, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  13 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eWired_6,   12 },
@@ -473,7 +473,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_16A_flags.Clear(Flags::eBit3_Alerted);
     field_16A_flags.Set(Flags::eBit4_blind, pTlv->field_22_bBlind & 1);
     field_16A_flags.Clear(Flags::eBit5);
-    field_16A_flags.Clear(Flags::eBit6_StandingForSad);
+    field_16A_flags.Clear(Flags::eBit6_StandingForSadOrAngry);
     field_16A_flags.Clear(Flags::eBit7);
     field_16A_flags.Clear(Flags::eBit8_DoAngry);
     field_16A_flags.Clear(Flags::eBit9);
@@ -1022,7 +1022,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
 
             if (field_180_emo_tbl == Mud_Emotion::eSad_3)
             {
-                field_16A_flags.Set(Flags::eBit6_StandingForSad);
+                field_16A_flags.Set(Flags::eBit6_StandingForSadOrAngry);
             }
 
             field_190_sub_state = BrainStates1::eState_3;
@@ -1122,7 +1122,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
             AddAlerted();
 
             field_16A_flags.Set(Flags::eBit14);
-            field_16A_flags.Set(Flags::eBit6_StandingForSad);
+            field_16A_flags.Set(Flags::eBit6_StandingForSadOrAngry);
 
             field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
@@ -1202,7 +1202,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
                 field_16C |= 2u;
 
                 field_16A_flags.Clear(Flags::eBit14);
-                field_16A_flags.Clear(Flags::eBit6_StandingForSad);
+                field_16A_flags.Clear(Flags::eBit6_StandingForSadOrAngry);
             }
         }
 
@@ -1262,7 +1262,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
         {
             return field_190_sub_state;
         }
-        field_16A_flags.Clear(Flags::eBit6_StandingForSad);
+        field_16A_flags.Clear(Flags::eBit6_StandingForSadOrAngry);
         field_108_next_motion = Mud_Motion::StandToCrouch_17_474120;
         return BrainStates1::eState_StandToCrouch_0;
 
@@ -1322,10 +1322,491 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
     }
 }
 
+
+enum BrainStates2
+{
+    eState2_0_StartToScrub = 0,
+    eState2_1_SmallBreak = 1,
+    eState2_2_Scrubbing = 2,
+    eState2_3 = 3,
+    eState2_4 = 4,
+    eState2_5 = 5,
+    eState2_6 = 6,
+    eState2_7 = 7,
+};
+
 __int16 Mudokon::AI_Scrub_2_47D270()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (CheckForPortal_4775E0())
+    {
+        AddAlerted();
+        field_18E_ai_state = Mud_AI_State::AI_HelloAlerted_6_47A560;
+        return 0;
+    }
+
+    const GameSpeakEvents lastSpeak = LastGameSpeak_476FF0();
+    if (field_16C & 2)
+    {
+        if (field_190_sub_state != BrainStates2::eState2_3)
+        {
+            word_5C3018 = 0;
+            field_16C &= ~2u;
+        }
+    }
+
+    if (lastSpeak == GameSpeakEvents::eLookOut_6 || Event_Get_422C00(kEventShooting))
+    {
+        field_108_next_motion = Mud_Motion::Duck_53_474A40;
+        field_194_timer = sGnFrame_5C1B84 + 60;
+        return BrainStates2::eState2_6;
+    }
+
+    BaseAnimatedWithPhysicsGameObject* pAbuse = Event_Is_Event_In_Range_422C30(
+        kEventMudokonAbuse,
+        field_B8_xpos,
+        field_BC_ypos,
+        field_D6_scale);
+    if (pAbuse)
+    {
+        if (pAbuse != this)
+        {
+            if (field_190_sub_state != BrainStates2::eState2_3
+                && field_190_sub_state != BrainStates2::eState2_7
+                && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    0))
+            {
+                field_188_pTblEntry = ResponseTo_471730(field_180_emo_tbl, MudAction::eMudAbuse_9);
+                if (field_188_pTblEntry->field_4_emo_tbl != Mud_Emotion::eSad_3 || field_16A_flags.Get(Flags::eBit11_get_depressed))
+                {
+                    field_180_emo_tbl = field_188_pTblEntry->field_4_emo_tbl;
+                }
+
+                if (field_180_emo_tbl == Mud_Emotion::eUnknown_4 || field_180_emo_tbl == Mud_Emotion::eSad_3)
+                {
+                    AddAlerted();
+
+                    if (field_180_emo_tbl == Mud_Emotion::eSad_3)
+                    {
+                        field_16A_flags.Set(Flags::eBit6_StandingForSadOrAngry);
+                    }
+
+                    field_190_sub_state = BrainStates2::eState2_3;
+                    field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
+                }
+            }
+        }
+    }
+
+    BaseAnimatedWithPhysicsGameObject* pDied = Event_Is_Event_In_Range_422C30(
+        kEventMudokonDied,
+        field_B8_xpos,
+        field_BC_ypos,
+        field_D6_scale);
+    if (pDied)
+    {
+        if (pDied != this)
+        {
+            if (field_190_sub_state != BrainStates2::eState2_3
+                && field_190_sub_state != BrainStates2::eState2_7
+                && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    0))
+            {
+                field_188_pTblEntry = ResponseTo_471730(field_180_emo_tbl, MudAction::eMudDied_14);
+                if (field_188_pTblEntry->field_4_emo_tbl != Mud_Emotion::eSad_3 || field_16A_flags.Get(Flags::eBit11_get_depressed))
+                {
+                    field_180_emo_tbl = field_188_pTblEntry->field_4_emo_tbl;
+                }
+
+                if (field_180_emo_tbl == Mud_Emotion::eUnknown_4 || field_180_emo_tbl == Mud_Emotion::eSad_3)
+                {
+                    AddAlerted();
+
+                    if (field_180_emo_tbl == Mud_Emotion::eSad_3)
+                    {
+                        field_16A_flags.Set(Flags::eBit6_StandingForSadOrAngry);
+                    }
+
+                    field_190_sub_state = BrainStates2::eState2_3;
+                    field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
+                }
+            }
+        }
+    }
+
+    BaseAnimatedWithPhysicsGameObject* pLoudNoise = Event_Is_Event_In_Range_422C30(
+        kEventLoudNoise,
+        field_B8_xpos,
+        field_BC_ypos,
+        field_D6_scale);
+    if (pLoudNoise)
+    {
+        if (pLoudNoise->field_4_typeId == Types::eGlukkon_67)
+        {
+            if (field_190_sub_state != BrainStates2::eState2_3
+                && field_190_sub_state != BrainStates2::eState2_7
+                && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    0))
+            {
+                if (field_16A_flags.Get(Flags::eBit13))
+                {
+                    field_188_pTblEntry = ResponseTo_471730(field_180_emo_tbl, MudAction::eUnknown_16);
+                }
+                else
+                {
+                    field_188_pTblEntry = ResponseTo_471730(field_180_emo_tbl, MudAction::eUnknown_15);
+                    field_16A_flags.Set(Flags::eBit13);
+                }
+
+                if (field_188_pTblEntry->field_4_emo_tbl != Mud_Emotion::eSad_3 || field_16A_flags.Get(Flags::eBit11_get_depressed))
+                {
+                    field_180_emo_tbl = field_188_pTblEntry->field_4_emo_tbl;
+                }
+
+                if (field_180_emo_tbl == Mud_Emotion::eUnknown_4 || field_180_emo_tbl == Mud_Emotion::eSad_3)
+                {
+                    AddAlerted();
+
+                    if (field_180_emo_tbl == Mud_Emotion::eSad_3)
+                    {
+                        field_16A_flags.Set(Flags::eBit6_StandingForSadOrAngry);
+                    }
+
+                    field_190_sub_state = BrainStates2::eState2_3;
+                    field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
+                }
+            }
+        }
+    }
+
+    if (field_180_emo_tbl != Mud_Emotion::eWired_6)
+    {
+        if (LaughingGasInCurrentScreen_4774A0())
+        {
+            field_180_emo_tbl = Mud_Emotion::eWired_6;
+
+            AddAlerted();
+            field_190_sub_state = BrainStates2::eState2_3;
+            field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
+        }
+    }
+
+    if (field_180_emo_tbl != Mud_Emotion::eAngry_1 && !field_128_angry_timer)
+    {
+        if (SwitchStates_Get_466020(field_120_angry_trigger))
+        {
+            field_128_angry_timer = sGnFrame_5C1B84 + 20;
+        }
+    }
+
+    if (!field_16A_flags.Get(Flags::eBit8_DoAngry))
+    {
+        if (field_128_angry_timer)
+        {
+            if (field_128_angry_timer <= (signed int)sGnFrame_5C1B84)
+            {
+                field_16A_flags.Set(Flags::eBit8_DoAngry);
+                field_180_emo_tbl = Mud_Emotion::eAngry_1;
+                field_190_sub_state = BrainStates2::eState2_3;
+                field_194_timer = sGnFrame_5C1B84;
+            }
+        }
+    }
+
+    switch (field_190_sub_state)
+    {
+    case BrainStates2::eState2_0_StartToScrub:
+        field_106_current_motion = Mud_Motion::CrouchScrub_14_473560;
+        field_108_next_motion = -1;
+        field_194_timer = Math_NextRandom() % 64 + sGnFrame_5C1B84 + 15;
+        field_124 = Math_NextRandom() % 64 + sGnFrame_5C1B84 + 240;
+        return BrainStates2::eState2_2_Scrubbing;
+
+    case BrainStates2::eState2_1_SmallBreak:
+    {
+        bool checkAlerted = true;
+        if (lastSpeak == GameSpeakEvents::eHello_9)
+        {
+            if (word_5C3018 || !CanRespond_4770B0())
+            {
+                checkAlerted = false;
+            }
+        }
+        else if (lastSpeak != GameSpeakEvents::eAllYa_23)
+        {
+            checkAlerted = false;
+        }
+
+        if (checkAlerted)
+        {
+            if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
+            {
+                AddAlerted();
+                word_5C3018 = 1;
+                field_16C |= 2u;
+                field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
+                return BrainStates2::eState2_3;
+            }
+        }
+
+        if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
+        {
+            field_108_next_motion = Mud_Motion::CrouchScrub_14_473560;
+        }
+
+        if (field_106_current_motion == Mud_Motion::CrouchIdle_15_474040 && static_cast<int>(sGnFrame_5C1B84) > field_124)
+        {
+            field_124 = Math_NextRandom() % 64 + sGnFrame_5C1B84 + 240;
+            field_108_next_motion = Mud_Motion::CrouchTurn_16_4740E0;
+        }
+
+        if (field_106_current_motion != Mud_Motion::CrouchIdle_15_474040 || static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+        {
+            if (field_106_current_motion != Mud_Motion::CrouchScrub_14_473560)
+            {
+                return field_190_sub_state;
+            }
+            return BrainStates2::eState2_2_Scrubbing;
+        }
+
+        if (field_180_emo_tbl != Mud_Emotion::eNormal_0 && Math_NextRandom() < 120)
+        {
+            AddAlerted();
+            field_16A_flags.Set(Flags::eBit14);
+            field_16A_flags.Set(Flags::eBit6_StandingForSadOrAngry);
+            field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
+            return BrainStates2::eState2_3;
+        }
+        else
+        {
+            field_194_timer = Math_NextRandom() % 64 + sGnFrame_5C1B84 + 35;
+            field_108_next_motion = Mud_Motion::CrouchScrub_14_473560;
+            if (field_106_current_motion != Mud_Motion::CrouchScrub_14_473560)
+            {
+                return field_190_sub_state;
+            }
+            return BrainStates2::eState2_2_Scrubbing;
+        }
+        break;
+    }
+
+    case BrainStates2::eState2_2_Scrubbing:
+    {
+        bool checkAlerted = true;
+        if (lastSpeak == GameSpeakEvents::eHello_9)
+        {
+            if (word_5C3018 || !CanRespond_4770B0())
+            {
+                checkAlerted = false;
+            }
+        }
+        else if (lastSpeak != GameSpeakEvents::eAllYa_23)
+        {
+            checkAlerted = false;
+        }
+
+        if (checkAlerted)
+        {
+            if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
+            {
+                AddAlerted();
+                word_5C3018 = 1;
+                field_16C |= 2u;
+                field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
+                return BrainStates2::eState2_3;
+            }
+        }
+
+        if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
+        {
+            field_108_next_motion = Mud_Motion::CrouchScrub_14_473560;
+        }
+        
+        bool bUnknown = false;
+        if (field_106_current_motion != Mud_Motion::CrouchIdle_15_474040)
+        {
+            bUnknown = true;
+        }
+        else
+        {
+            if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+            {
+                field_106_current_motion = Mud_Motion::CrouchScrub_14_473560;
+                bUnknown = true;
+            }
+        }
+
+        if (bUnknown)
+        {
+            if (!Event_Is_Event_In_Range_422C30(kEventSpeaking, field_B8_xpos, field_BC_ypos, field_D6_scale))
+            {
+                return field_190_sub_state;
+            }
+            field_194_timer = Math_NextRandom() % 64 + sGnFrame_5C1B84 + 15;
+            return BrainStates2::eState2_5;
+        }
+        else
+        {
+            field_194_timer = Math_NextRandom() % 64 + sGnFrame_5C1B84 + 15;
+            return BrainStates2::eState2_1_SmallBreak;
+        }
+        break;
+    }
+
+    case BrainStates2::eState2_3:
+    {
+        if (lastSpeak == GameSpeakEvents::eHello_9 || lastSpeak == GameSpeakEvents::eAllYa_23)
+        {
+            bool checkAlerted = lastSpeak == GameSpeakEvents::eHello_9;
+            if (lastSpeak == GameSpeakEvents::eAllYa_23)
+            {
+                if (!word_5C3018 && CanRespond_4770B0())
+                {
+                    checkAlerted = true;
+                }
+            }
+
+            if (checkAlerted)
+            {
+                if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
+                {
+                    AddAlerted();
+                    word_5C3018 = 1;
+                    field_16C |= 2u;
+                    field_16A_flags.Clear(Flags::eBit14);
+                    field_16A_flags.Clear(Flags::eBit6_StandingForSadOrAngry);
+                }
+            }
+        }
+
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+        {
+            return field_190_sub_state;
+        }
+
+        if (field_106_current_motion == Mud_Motion::Duck_53_474A40)
+        {
+            field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
+        }
+
+        if (field_106_current_motion == Mud_Motion::CrouchIdle_15_474040)
+        {
+            field_108_next_motion = Mud_Motion::CrouchToStand_18_474150;
+        }
+
+        if (field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        {
+            return field_190_sub_state;
+        }
+
+        if (field_180_emo_tbl == Mud_Emotion::eSad_3 && field_16A_flags.Get(Flags::eBit14))
+        {
+            field_16A_flags.Clear(Flags::eBit14);
+            field_16A_flags.Clear(Flags::eBit12);
+            field_108_next_motion = Mud_Motion::Speak_Generic_6_472FA0;
+            Sound_475EC0(MudSounds::e28);
+            return BrainStates2::eState2_4;
+        }
+        else
+        {
+            word_5C3018 = 0;
+            field_16C &= ~2u;
+            if (field_180_emo_tbl != Mud_Emotion::eAngry_1 || !field_16A_flags.Get(Flags::eBit8_DoAngry))
+            {
+                field_18E_ai_state = Mud_AI_State::AI_Wired_4_477B40;
+                return BrainStates4::eState4_0;
+            }
+            else
+            {
+                field_188_pTblEntry = ResponseTo_471730(Mud_Emotion::eAngry_1, MudAction::eSlapOrWater_7);
+                field_18E_ai_state = Mud_AI_State::AI_Wired_4_477B40;
+                field_178_sub_state2 = BrainStates4::eState4_7;
+                return BrainStates4::eState4_14;
+            }
+        }
+        break;
+    }
+
+    case BrainStates2::eState2_4:
+        if (field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        {
+            return field_190_sub_state;
+        }
+        field_16A_flags.Clear(Flags::eBit6_StandingForSadOrAngry);
+        field_108_next_motion = Mud_Motion::StandToCrouch_17_474120;
+        return BrainStates2::eState2_1_SmallBreak;
+
+    case BrainStates2::eState2_5:
+    {
+        bool checkAlerted = true;
+        if (lastSpeak == GameSpeakEvents::eHello_9)
+        {
+            if (word_5C3018 || !CanRespond_4770B0())
+            {
+                checkAlerted = false;
+            }
+        }
+        else if (lastSpeak != GameSpeakEvents::eAllYa_23)
+        {
+            checkAlerted = false;
+        }
+
+        if (checkAlerted)
+        {
+            if (sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
+            {
+                AddAlerted();
+                word_5C3018 = 1;
+                field_16C |= 2u;
+                field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 10;
+                return BrainStates2::eState2_3;
+            }
+        }
+
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+        {
+            return field_190_sub_state;
+        }
+        return BrainStates2::eState2_1_SmallBreak;
+    }
+
+    case BrainStates2::eState2_6:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+        {
+            return field_190_sub_state;
+        }
+        field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
+        field_194_timer = Math_NextRandom() % 64 + sGnFrame_5C1B84 + 15;
+        field_124 = Math_NextRandom() % 64 + sGnFrame_5C1B84 + 240;
+        if (field_10C_health > FP_FromInteger(0))
+        {
+            field_10C_health = FP_FromInteger(1);
+        }
+        return BrainStates2::eState2_2_Scrubbing;
+
+    case BrainStates2::eState2_7:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+        {
+            return field_190_sub_state;
+        }
+        field_108_next_motion = Mud_Motion::DuckKnockBack_55_474250;
+        field_194_timer = sGnFrame_5C1B84 + 60;
+        return BrainStates2::eState2_6;
+
+    default:
+        return field_190_sub_state;
+    }
 }
 
 __int16 Mudokon::AI_State_3_47E0D0()
@@ -1562,24 +2043,26 @@ __int16 Mudokon::BrainState4_State_1()
 
     case Mud_Emotion::eAngry_1:
     case Mud_Emotion::eUnknown_2:
-        if (field_16A_flags.Get(Flags::eBit6_StandingForSad))
+        if (field_16A_flags.Get(Flags::eBit6_StandingForSadOrAngry))
         {
-            Sound_475EC0(MudSounds::e5);
+            Sound_475EC0(MudSounds::eGrr_5);
         }
         else
         {
-            Sound_475EC0(MudSounds::e18);
+            Sound_475EC0(MudSounds::eHiAngry_18);
         }
         break;
 
     case Mud_Emotion::eSad_3:
     case Mud_Emotion::eSick_7:
-        if (field_16A_flags.Get(Flags::eBit6_StandingForSad))
+        if (field_16A_flags.Get(Flags::eBit6_StandingForSadOrAngry))
         {
             Sound_475EC0(MudSounds::e22);
-            break;
         }
-        Sound_475EC0(MudSounds::e20);
+        else
+        {
+            Sound_475EC0(MudSounds::e20);
+        }
         break;
 
     case Mud_Emotion::eUnknown_4:
@@ -1596,12 +2079,12 @@ __int16 Mudokon::BrainState4_State_1()
     }
 
     field_108_next_motion = Mud_Motion::Speak_Generic_4_472FA0;
-    if (!field_16A_flags.Get(Flags::eBit6_StandingForSad) || field_180_emo_tbl == Mud_Emotion::eWired_6)
+    if (!field_16A_flags.Get(Flags::eBit6_StandingForSadOrAngry) || field_180_emo_tbl == Mud_Emotion::eWired_6)
     {
         return BrainStates4::eState4_7;
     }
 
-    field_16A_flags.Clear(Flags::eBit6_StandingForSad);
+    field_16A_flags.Clear(Flags::eBit6_StandingForSadOrAngry);
     field_16A_flags.Clear(Flags::eBit12);
 
     if (field_10_resources_array.ItemAt(2))
