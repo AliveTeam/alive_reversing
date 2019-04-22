@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Midi.hpp"
 #include "Path.hpp"
+#include "Math.hpp"
 #include "stdlib.hpp"
 
 ALIVE_VAR(1, 0x5bc112, short, sSeqPlaying_5BC112, 0);
@@ -130,4 +131,22 @@ Dove* Dove::vdtor_41F630(signed int flags)
         Mem_Free_495540(this);
     }
     return this;
+}
+
+void Dove::sub_41FA20(FP xpos, FP ypos, BYTE angle)
+{
+    sub_41F980(xpos, ypos, angle);
+    field_FE_state = 4;
+}
+
+void Dove::sub_41F980(FP xpos, FP ypos, BYTE angle)
+{
+    field_100 = xpos;
+    field_104 = ypos;
+    field_10C = angle;
+    field_FE_state = 3;
+
+    // TODO: Result thrown away.. some old removed behavior ??
+    //(Math_Sine_496DD0(field_10C) * FP_FromInteger(30)) * field_CC_sprite_scale;
+    //(Math_Cosine_496CD0(field_10C) * FP_FromInteger(35)) * field_CC_sprite_scale;
 }

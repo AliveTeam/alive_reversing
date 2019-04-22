@@ -6,6 +6,14 @@
 
 enum class LevelIds : __int16;
 
+enum class PortalType : __int16
+{
+    eAbe_0 = 0,
+    eWorker_1 = 1,
+    eShrykull_2 = 2,
+    eMudTeleport_3 = 3,
+};
+
 struct Path_BirdPortal : public Path_TLV
 {
     __int16 field_10_side;
@@ -14,7 +22,7 @@ struct Path_BirdPortal : public Path_TLV
     __int16 field_16_dest_camera;
     __int16 field_18_scale;
     __int16 field_1A_moive_id;
-    __int16 field_1C_portal_type;
+    PortalType field_1C_portal_type;
     __int16 field_1E_num_muds_for_shrykul;
     __int16 field_20_create_id;
     __int16 field_22_delete_id;
@@ -65,9 +73,13 @@ private:
     EXPORT void vGetMapChange_499AE0(WORD* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId);
     EXPORT void dtor_4980A0();
 
+    EXPORT signed __int16 IsScaredAway_4992A0();
+
+    EXPORT void CreateDovesAndShrykullNumber_497B50();
+
 private:
     int field_20_tlvInfo;
-    __int16 field_24_portal_type;
+    PortalType field_24_portal_type;
     __int16 field_26_side;
     __int16 field_28_state;
     __int16 field_2A;

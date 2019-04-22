@@ -12,6 +12,11 @@ public:
     EXPORT void vRender_4200B0(int** ot);
     EXPORT void dtor_41F870();
     EXPORT Dove* vdtor_41F630(signed int flags);
+
+    EXPORT void sub_41FA20(FP xpos, FP ypos, BYTE angle);
+
+    EXPORT void sub_41F980(FP xpos, FP ypos, BYTE angle);
+
 private:
     int field_E4[4]; // never used
     __int16 field_F4_counter;
@@ -19,8 +24,8 @@ private:
     int field_F8_tlvInfo;
     __int16 field_FC;
     __int16 field_FE_state;
-    int field_100;
-    int field_104;
+    FP field_100;
+    FP field_104;
     int field_108;
     char field_10C;
     // 3 byte pad

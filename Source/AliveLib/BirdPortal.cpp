@@ -8,6 +8,9 @@
 #include "SwitchStates.hpp"
 #include "Midi.hpp"
 #include "Function.hpp"
+#include "BaseAliveGameObject.hpp"
+#include "Dove.hpp"
+#include "ThrowableTotalIndicator.hpp"
 
 BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
 {
@@ -319,4 +322,83 @@ void BirdPortal::dtor_4980A0()
     }
 
     BaseGameObject_dtor_4DBEC0();
+}
+
+signed __int16 BirdPortal::IsScaredAway_4992A0()
+{
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            return FALSE;
+        }
+
+        switch (pObj->field_4_typeId)
+        {
+        case Types::eType_40:
+        case Types::eType_Abe_69:
+        case Types::eMudokon2_81:
+        case Types::eParamite_96:
+        case Types::eScrab_112:
+        case Types::eSlig_125:
+            if (pObj->field_C0_path_number != field_8E_path)
+            {
+                continue;
+            }
+
+            if (FP_Abs(pObj->field_B8_xpos - field_2C_xpos) >= FP_NoFractional((field_60_scale * FP_FromInteger(75))))
+            {
+                continue;
+            }
+
+            if (FP_Abs(pObj->field_BC_ypos - field_3C_YPos) >= FP_FromInteger(30) || pObj->field_CC_sprite_scale != field_60_scale)
+            {
+                continue;
+            }
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+void BirdPortal::CreateDovesAndShrykullNumber_497B50()
+{
+    for (BYTE i = 0; i < ALIVE_COUNTOF(field_44_dove_ids); i++)
+    {
+        auto pDove = alive_new<Dove>();
+        if (pDove)
+        {
+            pDove->ctor_41F660(5516, 41, 20u, 60, field_2C_xpos, field_30_ypos, field_60_scale);
+        }
+        field_44_dove_ids[i] = pDove->field_8_object_id;
+
+        field_68 = 1;
+
+        if (field_24_portal_type == PortalType::eAbe_0)
+        {
+            pDove->sub_41FA20(field_2C_xpos, (field_60_scale * FP_FromInteger(30)) + field_30_ypos, 42 * i);
+        }
+        else
+        {
+            pDove->sub_41F980(field_2C_xpos, (field_60_scale * FP_FromInteger(30)) + field_30_ypos, 42 * i);
+        }
+        pDove->field_CC_sprite_scale = field_60_scale;
+    }
+
+    if (field_24_portal_type == PortalType::eShrykull_2)
+    {
+        auto pIndicator = alive_new<ThrowableTotalIndicator>();
+        if (pIndicator)
+        {
+            pIndicator->ctor_431CB0(
+                field_2C_xpos,
+                field_30_ypos + FP_FromInteger(10),
+                field_60_scale != FP_FromDouble(0.5) ? 27 : 8,
+                field_60_scale,
+                field_82_num_muds_for_shrykul,
+                0);
+            field_40_throwable_indicator_id = pIndicator->field_8_object_id;
+        }
+    }
 }
