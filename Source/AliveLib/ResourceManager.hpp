@@ -299,6 +299,7 @@ enum ResourceID
     kAbeworkResID = 515,
     kMudltusResID = 516,
     kMudbtlnkResID = 517,
+    kTorturedMud = 518,
     kMudangryResID = 530,
     kMudsadResID = 531,
     kMudwiredResID = 532,

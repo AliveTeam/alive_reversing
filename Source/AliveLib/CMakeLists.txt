@@ -271,6 +271,8 @@ ExportHooker.hpp
     Mudokon.hpp
     BirdPortal.cpp
     BirdPortal.hpp
+    TorturedMudokon.cpp
+    TorturedMudokon.hpp
     TouchController.cpp
     TouchController.hpp
 )
