@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseGameObject.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
 
@@ -23,7 +23,7 @@ enum class PortalSide : __int16
 struct Path_BirdPortal : public Path_TLV
 {
     PortalSide field_10_side;
-    __int16 field_12_dest_level;
+    LevelIds field_12_dest_level;
     __int16 field_14_dest_path;
     __int16 field_16_dest_camera;
     __int16 field_18_scale;
@@ -34,6 +34,19 @@ struct Path_BirdPortal : public Path_TLV
     __int16 field_22_delete_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
+
+class BirdPortalTerminator : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT BaseAnimatedWithPhysicsGameObject* ctor_497960(FP xpos, FP ypos, FP scale, PortalType portalType);
+    virtual void VScreenChanged() override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+private:
+    EXPORT BaseAnimatedWithPhysicsGameObject* vdtor_497A70(signed int flags);
+
+    int not_used[4];
+};
+ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 
 class BirdPortal : public BaseGameObject
 {
@@ -58,7 +71,7 @@ public:
     virtual __int16 VExitPortal_499870();
     virtual BOOL VIsState20_499A00();
     virtual int Vsub_499A20();
-    virtual void VGetMapChange_499AE0(WORD* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId);
+    virtual void VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId);
 
 private:
     EXPORT BirdPortal* vdtor_498050(signed int flags);
@@ -76,7 +89,7 @@ private:
     EXPORT __int16 vExitPortal_499870();
     EXPORT BOOL vIsState20_499A00();
     EXPORT int vsub_499A20();
-    EXPORT void vGetMapChange_499AE0(WORD* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId);
+    EXPORT void vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId);
     EXPORT void dtor_4980A0();
 
     EXPORT signed __int16 IsScaredAway_4992A0();
@@ -84,6 +97,9 @@ private:
     EXPORT void CreateDovesAndShrykullNumber_497B50();
 
     EXPORT void GoAwayIfType100_499220();
+
+    EXPORT void CreateTerminators_497D10();
+
 
 private:
     int field_20_tlvInfo;
@@ -108,7 +124,7 @@ private:
     int field_70_terminator_id;
     int field_74_screen_clipper_id;
     int field_78_screen_clipper_id;
-    __int16 field_7C_dest_level;
+    LevelIds field_7C_dest_level;
     __int16 field_7E_dest_path;
     __int16 field_80_dest_camera;
     __int16 field_82_num_muds_for_shrykul;

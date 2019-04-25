@@ -101,7 +101,53 @@ void BirdPortal::vUpdate_498280()
 
 void BirdPortal::vScreenChanged_499B50()
 {
-    NOT_IMPLEMENTED();
+    if (field_28_state <= 1 || field_28_state >= 21 || 
+        (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
+         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId) && 
+
+        (field_28_state != 16 || field_24_portal_type != PortalType::eAbe_0 || 
+            gMap_5C3030.field_A_5C303A_levelId != field_7C_dest_level || 
+            gMap_5C3030.field_C_5C303C_pathId != field_7E_dest_path))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    BaseGameObject* pTerminator1 = sObjectIds_5C1B70.Find_449CF0(field_6C_terminator_id);
+    BaseGameObject* pTerminator2 = sObjectIds_5C1B70.Find_449CF0(field_70_terminator_id);
+    BaseGameObject* pClipper1 = sObjectIds_5C1B70.Find_449CF0(field_74_screen_clipper_id);
+    BaseGameObject* pClipper2 = sObjectIds_5C1B70.Find_449CF0(field_78_screen_clipper_id);
+
+    if (field_6_flags.Get(BaseGameObject::eDead))
+    {
+        if (pTerminator1)
+        {
+            pTerminator1->field_6_flags.Set(BaseGameObject::eDead);
+        }
+
+        if (pTerminator2)
+        {
+            pTerminator2->field_6_flags.Set(BaseGameObject::eDead);
+        }
+
+        if (pClipper1)
+        {
+            pClipper1->field_6_flags.Set(BaseGameObject::eDead);
+        }
+
+        if (pClipper2)
+        {
+            pClipper2->field_6_flags.Set(BaseGameObject::eDead);
+        }
+
+        field_6C_terminator_id = -1;
+        field_70_terminator_id = -1;
+        field_74_screen_clipper_id = -1;
+        field_78_screen_clipper_id = -1;
+    }
+    else if (field_90_sfx_ret)
+    {
+        SND_Stop_Channels_Mask_4CA810(field_90_sfx_ret);
+        field_90_sfx_ret = 0;
+    }
 }
 
 void BirdPortal::vStopAudio_499260()
@@ -184,7 +230,7 @@ int BirdPortal::Vsub_499A20()
     return vsub_499A20();
 }
 
-void BirdPortal::VGetMapChange_499AE0(WORD* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
+void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
 {
     vGetMapChange_499AE0(level, path, camera, screenChangeEffect, movieId);
 }
@@ -238,7 +284,7 @@ int BirdPortal::vsub_499A20()
     return 0;
 }
 
-void BirdPortal::vGetMapChange_499AE0(WORD* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
+void BirdPortal::vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
 {
     // TODO: Strongly type change effect and level
 
@@ -314,10 +360,12 @@ void BirdPortal::dtor_4980A0()
 
     if (SwitchStates_Get_466020(field_66_delete_id))
     {
+        // Never come back
         Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 1);
     }
     else
     {
+        // Always come back
         Path::TLV_Reset_4DB8E0(field_20_tlvInfo, -1, 0, 0);
     }
 
@@ -420,3 +468,72 @@ void BirdPortal::GoAwayIfType100_499220()
     }
 }
 
+void BirdPortal::CreateTerminators_497D10()
+{
+    auto pTerminator1 = alive_new<BirdPortalTerminator>();
+    if (pTerminator1)
+    {
+        pTerminator1->ctor_497960(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
+        field_6C_terminator_id = pTerminator1->field_8_object_id;
+    }
+
+    auto pTerminator2 = alive_new<BirdPortalTerminator>();
+    if (pTerminator2)
+    {
+        pTerminator2->ctor_497960(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
+        field_70_terminator_id = pTerminator2->field_8_object_id;
+    }
+}
+
+BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
+{
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+    SetVTable(this, 0x546928);
+
+    field_4_typeId = Types::eEyeOrbPart_74;
+
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPortalTerminatorID);
+    Animation_Init_424E10(4144, 32, 18, ppRes, 1, 1);
+
+    field_20_animation.field_B_render_mode = 1;
+    field_CC_sprite_scale = scale;
+    if (field_CC_sprite_scale == FP_FromInteger(1))
+    {
+        field_20_animation.field_C_render_layer = 39;
+    }
+    else
+    {
+        field_20_animation.field_C_render_layer = 20;
+    }
+
+    field_DC_bApplyShadows &= ~1u;
+
+    field_BC_ypos = ypos;
+    field_B8_xpos = xpos;
+
+    field_D0_r = 255;
+    field_D2_g = 128;
+    field_D4_b = 64;
+
+    return this;
+}
+
+void BirdPortalTerminator::VScreenChanged()
+{
+    // Staying alive
+}
+
+BaseGameObject* BirdPortalTerminator::VDestructor(signed int flags)
+{
+    return vdtor_497A70(flags);
+}
+
+BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::vdtor_497A70(signed int flags)
+{
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
