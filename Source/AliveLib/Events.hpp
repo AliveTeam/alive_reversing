@@ -27,6 +27,7 @@ enum Event : __int16
     kEventMudokonComfort = 14,
     kEventAlarm = 18,
     kEventPortalOpen = 19,
+    kEventUnknown20 = 20,
     kEventScreenShake = 21,
     kEventMax = 22, // Must be last, do not use
 };

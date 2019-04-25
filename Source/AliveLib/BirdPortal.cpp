@@ -11,6 +11,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "Dove.hpp"
 #include "ThrowableTotalIndicator.hpp"
+#include "Game.hpp"
+#include "Events.hpp"
 
 BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
 {
@@ -190,9 +192,9 @@ signed __int16 BirdPortal::Vsub_499430(__int16 bUnknown)
     return vsub_499430(bUnknown);
 }
 
-BaseGameObject* BirdPortal::Vsub_499610()
+void BirdPortal::Vsub_499610()
 {
-    return vsub_499610();
+    vsub_499610();
 }
 
 void BirdPortal::VMudSaved_499A50()
@@ -225,9 +227,9 @@ BOOL BirdPortal::VIsState20_499A00()
     return vIsState20_499A00();
 }
 
-int BirdPortal::Vsub_499A20()
+void BirdPortal::Vsub_499A20()
 {
-    return vsub_499A20();
+    vsub_499A20();
 }
 
 void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
@@ -241,10 +243,22 @@ signed __int16 BirdPortal::vsub_499430(__int16 /*bUnknown*/)
     return 0;
 }
 
-BaseGameObject* BirdPortal::vsub_499610()
+void BirdPortal::vsub_499610()
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    BaseGameObject* pClipper1 = sObjectIds_5C1B70.Find_449CF0(field_74_screen_clipper_id);
+    BaseGameObject* pClipper2 = sObjectIds_5C1B70.Find_449CF0(field_78_screen_clipper_id);
+    
+    field_74_screen_clipper_id = -1;
+    field_78_screen_clipper_id = -1;
+
+    if (pClipper1)
+    {
+        pClipper1->field_6_flags.Set(BaseGameObject::eDead);
+        if (pClipper2)
+        {
+            pClipper2->field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
 }
 
 void BirdPortal::vMudSaved_499A50()
@@ -278,10 +292,10 @@ BOOL BirdPortal::vIsState20_499A00()
     return field_28_state == 20;
 }
 
-int BirdPortal::vsub_499A20()
+void BirdPortal::vsub_499A20()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    field_28_state = 21;
+    field_5C_timer = sGnFrame_5C1B84 + 30;
 }
 
 void BirdPortal::vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
@@ -483,6 +497,31 @@ void BirdPortal::CreateTerminators_497D10()
         pTerminator2->ctor_497960(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
         field_70_terminator_id = pTerminator2->field_8_object_id;
     }
+}
+
+signed __int16 BirdPortal::GetEvent_499A70()
+{
+    for (int idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eBirdPortal_99)
+        {
+            if (pObj == this)
+            {
+                return kEventPortalOpen;
+            }
+            else
+            {
+                return kEventUnknown20;
+            }
+        }
+    }
+    return kEventPortalOpen;
 }
 
 BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::ctor_497960(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)

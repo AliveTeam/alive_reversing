@@ -63,14 +63,14 @@ public:
     // New virtuals
 
     virtual signed __int16 Vsub_499430(__int16 bUnknown);
-    virtual BaseGameObject* Vsub_499610();
+    virtual void Vsub_499610();
     virtual void VMudSaved_499A50();
     virtual BOOL VStateIs6_499830();
     virtual void VGiveShrukul_499680(__int16 bPlaySound);
     virtual BOOL VStateIs16_499850();
     virtual __int16 VExitPortal_499870();
     virtual BOOL VIsState20_499A00();
-    virtual int Vsub_499A20();
+    virtual void Vsub_499A20();
     virtual void VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId);
 
 private:
@@ -81,14 +81,14 @@ private:
     EXPORT signed int vGetSaveState_499F50(BYTE* pState);
 
     EXPORT signed __int16 vsub_499430(__int16 bUnknown);
-    EXPORT BaseGameObject* vsub_499610();
+    EXPORT void vsub_499610();
     EXPORT void vMudSaved_499A50();
     EXPORT BOOL vStateIs6_499830();
     EXPORT void vGiveShrukul_499680(__int16 bPlaySound);
     EXPORT BOOL vStateIs16_499850();
     EXPORT __int16 vExitPortal_499870();
     EXPORT BOOL vIsState20_499A00();
-    EXPORT int vsub_499A20();
+    EXPORT void vsub_499A20();
     EXPORT void vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId);
     EXPORT void dtor_4980A0();
 
@@ -100,6 +100,7 @@ private:
 
     EXPORT void CreateTerminators_497D10();
 
+    EXPORT signed __int16 GetEvent_499A70();
 
 private:
     int field_20_tlvInfo;
