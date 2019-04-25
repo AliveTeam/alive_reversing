@@ -402,3 +402,21 @@ void BirdPortal::CreateDovesAndShrykullNumber_497B50()
         }
     }
 }
+
+void BirdPortal::GoAwayIfType100_499220()
+{
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eType_100)
+        {
+            pObj->field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
+}
+

@@ -14,9 +14,15 @@ enum class PortalType : __int16
     eMudTeleport_3 = 3,
 };
 
+enum class PortalSide : __int16
+{
+    eRight_0 = 0,
+    eLeft_1 = 1,
+};
+
 struct Path_BirdPortal : public Path_TLV
 {
-    __int16 field_10_side;
+    PortalSide field_10_side;
     __int16 field_12_dest_level;
     __int16 field_14_dest_path;
     __int16 field_16_dest_camera;
@@ -77,10 +83,12 @@ private:
 
     EXPORT void CreateDovesAndShrykullNumber_497B50();
 
+    EXPORT void GoAwayIfType100_499220();
+
 private:
     int field_20_tlvInfo;
     PortalType field_24_portal_type;
-    __int16 field_26_side;
+    PortalSide field_26_side;
     __int16 field_28_state;
     __int16 field_2A;
     FP field_2C_xpos;
