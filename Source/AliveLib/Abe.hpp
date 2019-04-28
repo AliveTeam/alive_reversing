@@ -404,6 +404,8 @@ public:
 
     EXPORT __int16 GetEvilFart_4585F0(__int16 bDontLoad);
 
+    EXPORT void sub_45BB90(__int16 a2);
+
 public:
     __int16 field_116;
     int field_118_prev_held;
@@ -470,15 +472,6 @@ public:
         e1AC_eBit14 = 0x2000,
         e1AC_eBit15_bHaveHealing = 0x4000,
         e1AC_eBit16_bIsMudancheeVault_Ender = 0x8000,
-        e1AC_eBit17 = 0x10000,
-        e1AC_eBit18 = 0x20000,
-        e1AC_eBit19 = 0x40000,
-        e1AC_eBit20 = 0x80000,
-        e1AC_eBit21 = 0x100000,
-        e1AC_eBit22 = 0x200000,
-        e1AC_eBit23 = 0x400000,
-        e1AC_eBit24 = 0x800000,
-        e1AC_eBit25 = 0x1000000,
     };
     BitField16<Flags_1AC> field_1AC_flags;
 

@@ -4,6 +4,7 @@
 #include "Midi.hpp"
 #include "Path.hpp"
 #include "Math.hpp"
+#include "Game.hpp"
 #include "stdlib.hpp"
 
 ALIVE_VAR(1, 0x5bc112, short, sSeqPlaying_5BC112, 0);
@@ -149,4 +150,28 @@ void Dove::sub_41F980(FP xpos, FP ypos, BYTE angle)
     // TODO: Result thrown away.. some old removed behavior ??
     //(Math_Sine_496DD0(field_10C) * FP_FromInteger(30)) * field_CC_sprite_scale;
     //(Math_Cosine_496CD0(field_10C) * FP_FromInteger(35)) * field_CC_sprite_scale;
+}
+
+void Dove::sub_41F940(FP xpos, FP ypos)
+{
+    field_100 = xpos;
+    field_104 = ypos;
+    field_FE_state = 2;
+    field_108 = sGnFrame_5C1B84 + 47;
+}
+
+void Dove::sub_420020(__int16 a2)
+{
+    if (field_FE_state != 1)
+    {
+        field_FE_state = 1;
+        if (a2)
+        {
+            field_F4_counter = -1;
+        }
+        else
+        {
+            field_F4_counter = -10 - Math_NextRandom() % 10;
+        }
+    }
 }

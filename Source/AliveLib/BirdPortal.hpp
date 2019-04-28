@@ -35,18 +35,28 @@ struct Path_BirdPortal : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
+struct Path_BirdPortal_Exit : public Path_TLV
+{
+    PortalSide field_10_side;
+    __int16 field_12_scale;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
+
+
 class BirdPortalTerminator : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT BaseAnimatedWithPhysicsGameObject* ctor_497960(FP xpos, FP ypos, FP scale, PortalType portalType);
     virtual void VScreenChanged() override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
+    EXPORT void sub_497AC0();
 private:
     EXPORT BaseAnimatedWithPhysicsGameObject* vdtor_497A70(signed int flags);
-
     int not_used[4];
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
+
+class OrbWhirlWind;
 
 class BirdPortal : public BaseGameObject
 {
@@ -106,7 +116,33 @@ private:
     int field_20_tlvInfo;
     PortalType field_24_portal_type;
     PortalSide field_26_side;
-    __int16 field_28_state;
+    enum class States : __int16
+    {
+        State_0 = 0,
+        State_1 = 1,
+        State_2 = 2,
+        State_3 = 3,
+        State_4 = 4,
+        State_5 = 5,
+        State_6 = 6,
+        State_7 = 7,
+        State_8 = 8,
+        State_9 = 9,
+        State_10 = 10,
+        State_11 = 11,
+        State_12 = 12,
+        State_13 = 13,
+        State_14 = 14,
+        State_15 = 15,
+        State_16 = 16,
+        State_17 = 17,
+        State_18 = 18,
+        State_19 = 19,
+        State_20 = 20,
+        State_21 = 21,
+        State_22 = 22,
+    };
+    States field_28_state;
     __int16 field_2A;
     FP field_2C_xpos;
     FP field_30_ypos;
@@ -131,7 +167,7 @@ private:
     __int16 field_82_num_muds_for_shrykul;
     __int16 field_84;
     __int16 field_86;
-    int field_88;
+    OrbWhirlWind* field_88_pWhirlWind;
     LevelIds field_8C_level;
     __int16 field_8E_path;
     int field_90_sfx_ret;

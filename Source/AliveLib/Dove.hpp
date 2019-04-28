@@ -17,6 +17,10 @@ public:
 
     EXPORT void sub_41F980(FP xpos, FP ypos, BYTE angle);
 
+    EXPORT void sub_41F940(FP xpos, FP ypos);
+
+    EXPORT void sub_420020(__int16 a2);
+
 private:
     int field_E4[4]; // never used
     __int16 field_F4_counter;

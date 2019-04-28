@@ -9531,6 +9531,23 @@ __int16 Abe::GetEvilFart_4585F0(__int16 bDontLoad)
     return 1;
 }
 
+EXPORT void Abe::sub_45BB90(__int16 a2)
+{
+    if (a2)
+    {
+        field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_bLaughAtChantEnd);
+        field_120_state = 6;
+    }
+    else if (sControlledCharacter_5C1B8C == this)
+    {
+        field_120_state = 0;
+    }
+    else
+    {
+        field_120_state = 3;
+    }
+}
+
 // TODO: Clean up
 EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, BaseAliveGameObject* pHero)
 {
