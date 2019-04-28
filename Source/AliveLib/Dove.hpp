@@ -2,12 +2,24 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
+#include "Path.hpp"
 
 EXPORT void CC Static_init_dynamic_array_41F3A0();
+
+struct Path_Dove : public Path_TLV
+{
+    __int16 field_10_dove_count;
+    __int16 field_12_pixel_perfect;
+    __int16 field_14_scale;
+    __int16 field_16_pad;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
 
 class Dove : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    EXPORT Dove* ctor_41F430(int frameTableOffset, int maxW, unsigned __int16 maxH, int resourceID, int tlvInfo, FP scale);
+
     EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resourceID, FP xpos, FP ypos, FP scale);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;

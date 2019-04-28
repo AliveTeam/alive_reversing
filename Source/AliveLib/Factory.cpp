@@ -50,6 +50,7 @@
 #include "Mudokon.hpp"
 #include "BirdPortal.hpp"
 #include "TorturedMudokon.hpp"
+#include "Dove.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -374,7 +375,39 @@ EXPORT void CC Factory_ExpressWell_4D7D90(Path_TLV* pTlv, Path* /*pPath*/, TlvIt
     }
 }
 
-EXPORT void CC Factory_Dove_4D7E90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
+
+        const short width = pDoveTlv->field_C_bottom_right.field_0_x - pDoveTlv->field_8_top_left.field_0_x;
+        const short height = pDoveTlv->field_C_bottom_right.field_2_y - pDoveTlv->field_8_top_left.field_2_y;
+
+        for (int i = 0; i < pDoveTlv->field_10_dove_count; i++)
+        {
+            auto pDove = alive_new<Dove>();
+            if (pDove)
+            {
+                pDove->ctor_41F430(5580, 41, 20, 60, tlvInfo.all, pDoveTlv->field_14_scale != 0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+            }
+
+            short ypos = 0;
+            if (pDoveTlv->field_12_pixel_perfect)
+            {
+                pDove->field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+                ypos = pTlv->field_8_top_left.field_2_y;
+            }
+            else
+            {
+                pDove->field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + width  * Math_NextRandom()) / 256);
+                ypos = (pTlv->field_8_top_left.field_2_y + height * Math_NextRandom()) / 256;
+            }
+            pDove->field_BC_ypos = FP_FromInteger(ypos) + FP_FromInteger(10);
+        }
+    }
+}
+
 EXPORT void CC Factory_RockSack_4D8040(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)

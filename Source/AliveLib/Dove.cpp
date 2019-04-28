@@ -36,6 +36,66 @@ EXPORT void CC Static_init_dynamic_array_41F3A0()
     atexit(Static_dtor_dynamic_array_41F400);
 }
 
+Dove* Dove::ctor_41F430(int frameTableOffset, int maxW, unsigned __int16 maxH, int resourceID, int tlvInfo, FP scale)
+{
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+    SetVTable(this, 0x544A90);
+
+    field_4_typeId = Types::eBird_35;
+    
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, resourceID);
+
+    Animation_Init_424E10(
+        frameTableOffset,
+        maxW,
+        maxH,
+        ppRes,
+        1,
+        1);
+    
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+    gDovesArray_5BC100.Push_Back_40CAF0(this);
+
+    field_20_animation.field_14_scale = scale;
+    field_CC_sprite_scale = scale;
+    if (scale == FP_FromInteger(1))
+    {
+        field_D6_scale = 1;
+        field_20_animation.field_C_render_layer = 27;
+    }
+    else
+    {
+        field_D6_scale = 0;
+        field_20_animation.field_C_render_layer = 8;
+    }
+
+    field_C4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    if (field_C4_velx >= FP_FromInteger(0))
+    {
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+    }
+    else
+    {
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+    }
+
+    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() & 3));
+    field_FE_state = State::State_0_OnGround;
+    field_20_animation.SetFrame_409D50(Math_NextRandom() & 7);
+    field_FC_keepInGlobalArray = FALSE;
+    field_F8_tlvInfo = tlvInfo;
+
+    if (bTheOneControllingTheMusic_5BC112)
+    {
+        return this;
+    }
+
+    SND_SEQ_PlaySeq_4CA960(17u, 0, 1);
+    bTheOneControllingTheMusic_5BC112 = 1;
+    return this;
+}
+
 Dove* Dove::ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resourceID, FP xpos, FP ypos, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
