@@ -151,7 +151,7 @@ void BirdPortal::vUpdate_498280()
                 auto pDove = static_cast<Dove*>(sObjectIds_5C1B70.Find_449CF0(id));
                 if (pDove)
                 {
-                    pDove->sub_41F940(field_2C_xpos, field_30_ypos + (field_60_scale * FP_FromInteger(20)));
+                    pDove->AsJoin_41F940(field_2C_xpos, field_30_ypos + (field_60_scale * FP_FromInteger(20)));
                 }
             }
 
@@ -167,7 +167,7 @@ void BirdPortal::vUpdate_498280()
                 Dove* pDove = static_cast<Dove*>(sObjectIds_5C1B70.Find_449CF0(id));
                 if (pDove)
                 {
-                    pDove->sub_420020(1);
+                    pDove->FlyAway_420020(1);
                 }
             }
 
@@ -320,7 +320,7 @@ void BirdPortal::vUpdate_498280()
 
                 SFX_Play_46FA90(0xDu, 70, field_60_scale);
                 pDove_1->field_CC_sprite_scale = field_60_scale;
-                pDove_1->sub_41F940(sActiveHero_5C1B68->field_B8_xpos, FP_FromInteger(Math_RandomRange_496AB0(-36, 4)) + sActiveHero_5C1B68->field_BC_ypos);
+                pDove_1->AsJoin_41F940(sActiveHero_5C1B68->field_B8_xpos, FP_FromInteger(Math_RandomRange_496AB0(-36, 4)) + sActiveHero_5C1B68->field_BC_ypos);
 
                 if (++field_84 == 6)
                 {
@@ -898,11 +898,11 @@ void BirdPortal::CreateDovesAndShrykullNumber_497B50()
 
         if (field_24_portal_type == PortalType::eAbe_0)
         {
-            pDove->sub_41FA20(field_2C_xpos, (field_60_scale * FP_FromInteger(30)) + field_30_ypos, 42 * i);
+            pDove->AsAlmostACircle_41FA20(field_2C_xpos, (field_60_scale * FP_FromInteger(30)) + field_30_ypos, 42 * i);
         }
         else
         {
-            pDove->sub_41F980(field_2C_xpos, (field_60_scale * FP_FromInteger(30)) + field_30_ypos, 42 * i);
+            pDove->AsACircle_41F980(field_2C_xpos, (field_60_scale * FP_FromInteger(30)) + field_30_ypos, 42 * i);
         }
         pDove->field_CC_sprite_scale = field_60_scale;
     }

@@ -9,31 +9,44 @@ class Dove : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     EXPORT Dove* ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resourceID, FP xpos, FP ypos, FP scale);
-    EXPORT void vRender_4200B0(int** ot);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
     EXPORT void dtor_41F870();
+
+    EXPORT void AsAlmostACircle_41FA20(FP xpos, FP ypos, BYTE angle);
+    EXPORT void AsACircle_41F980(FP xpos, FP ypos, BYTE angle);
+    EXPORT void AsJoin_41F940(FP xpos, FP ypos);
+    EXPORT void FlyAway_420020(__int16 a2);
+
+    static void CC All_FlyAway_41FA60(__int16 a1);
+
+private:
+    EXPORT void vRender_4200B0(int** ot);
     EXPORT Dove* vdtor_41F630(signed int flags);
-
-    EXPORT void sub_41FA20(FP xpos, FP ypos, BYTE angle);
-
-    EXPORT void sub_41F980(FP xpos, FP ypos, BYTE angle);
-
-    EXPORT void sub_41F940(FP xpos, FP ypos);
-
-    EXPORT void sub_420020(__int16 a2);
+    EXPORT void vUpdate_41FAE0();
 
 private:
     int field_E4[4]; // never used
     __int16 field_F4_counter;
     __int16 field_F6;
     int field_F8_tlvInfo;
-    __int16 field_FC;
-    __int16 field_FE_state;
-    FP field_100;
-    FP field_104;
-    int field_108;
-    char field_10C;
+    __int16 field_FC_keepInGlobalArray;
+    enum class State : __int16
+    {
+        State_0_OnGround = 0,
+        State_1_FlyAway = 1,
+        State_2_Join = 2,
+        State_3_Circle = 3,
+        State_4_AlmostACircle = 4,
+    };
+    State field_FE_state;
+    FP field_100_xJoin;
+    FP field_104_yJoin;
+    int field_108_timer;
+    char field_10C_angle;
     // 3 byte pad
-    FP field_110;
-    FP field_114;
+    FP field_110_prevX;
+    FP field_114_prevY;
 };
 ALIVE_ASSERT_SIZEOF(Dove, 0x118);
