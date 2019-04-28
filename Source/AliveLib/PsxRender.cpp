@@ -1181,7 +1181,7 @@ EXPORT void CC PSX_OrderingTable_4F62C0(int** otBuffer, int otBufferSize)
 
     if (otIdx == 32)
     {
-        sOtIdxRollOver_BD0C08 = (sOtIdxRollOver_BD0C08 & 31);
+        sOtIdxRollOver_BD0C08 = ((sOtIdxRollOver_BD0C08 + 1) & 31);
         otIdx = sOtIdxRollOver_BD0C08;
     }
 
