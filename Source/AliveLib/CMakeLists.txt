@@ -275,6 +275,8 @@ ExportHooker.hpp
     TorturedMudokon.hpp
     DoorBlocker.cpp
     DoorBlocker.hpp
+    SlapLock.cpp
+    SlapLock.hpp
     TouchController.cpp
     TouchController.hpp
 )

@@ -52,6 +52,7 @@
 #include "TorturedMudokon.hpp"
 #include "Dove.hpp"
 #include "DoorBlocker.hpp"
+#include "SlapLock.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1284,7 +1285,22 @@ EXPORT void CC Factory_StatusLight_4DA7E0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
     }
 }
 
-EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        Map::LoadResource_4DBE00("GHOSTTRP.BAN", 'minA', 1053, loadMode, 0);
+    }
+    else
+    {
+        auto pSlapLock = alive_new<SlapLock>();
+        if (pSlapLock)
+        {
+            pSlapLock->ctor_43DC80(static_cast<Path_SlapLock*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_ParamiteWeb_4D9120(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
