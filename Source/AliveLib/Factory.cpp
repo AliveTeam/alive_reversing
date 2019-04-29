@@ -51,6 +51,7 @@
 #include "BirdPortal.hpp"
 #include "TorturedMudokon.hpp"
 #include "Dove.hpp"
+#include "DoorBlocker.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1350,7 +1351,22 @@ EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 
 EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* pTlv , Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("DOORLOCK.BAN", ResourceManager::Resource_Animation, 374, loadMode);
+    }
+    else
+    {
+        auto pDoorBlocker = alive_new<DoorBlocker>();
+        if (pDoorBlocker)
+        {
+            pDoorBlocker->ctor_41F0A0(static_cast<Path_DoorBlocker*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {

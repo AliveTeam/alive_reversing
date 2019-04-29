@@ -273,6 +273,8 @@ ExportHooker.hpp
     BirdPortal.hpp
     TorturedMudokon.cpp
     TorturedMudokon.hpp
+    DoorBlocker.cpp
+    DoorBlocker.hpp
     TouchController.cpp
     TouchController.hpp
 )
