@@ -411,12 +411,11 @@ void Door::PlaySound_41EA90()
 
 void Door::dtor_41EA00()
 {
-    NOT_IMPLEMENTED();
-
     SetVTable(this, 0x5449BC); // vTbl_Door_5449BC
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
-    // TODO
-    //dtor_41E130();
+
+    // Note: Skipping intermediate base class that has been optimized out
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 
 void Door::vUpdate_41EBE0()
