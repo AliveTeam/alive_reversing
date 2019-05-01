@@ -59,6 +59,20 @@ struct Path_SlapLock : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlapLock, 0x20);
 
+struct SlapLock_State
+{
+    Types field_0_type;
+    __int16 field_2;
+    int field_4_tlvInfo;
+    char field_8_tlv_state;
+    char field_9;
+    __int16 field_A_state;
+    int field_C_timer1;
+    int field_10_obj_id;
+    int field_14_timer2;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
+
 class SlapLock : public BaseAliveGameObject
 {
 public:
@@ -86,6 +100,8 @@ public:
         // TODO
         return 0;
     }
+    
+    EXPORT static int CC CreateFromSaveState_43EA00(const BYTE* pBuffer);
 
 private:
     EXPORT SlapLock* vdtor_43DED0(signed int flags);
@@ -93,6 +109,9 @@ private:
     EXPORT void vScreenChanged_43E840();
 
     EXPORT void GiveInvisiblity_43E880();
+
+    EXPORT signed int vGetSaveState_43EB30(SlapLock_State* pState);
+
 
 private:
     __int16 field_116;

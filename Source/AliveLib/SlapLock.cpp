@@ -266,6 +266,36 @@ void SlapLock::dtor_43DF00()
     dtor_4080B0();
 }
 
+int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
+
+    auto pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_4_tlvInfo));
+  
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 1053, FALSE, FALSE)) // TODO: Id
+    {
+        ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
+    }
+
+    auto pSlapLock = alive_new<SlapLock>();
+    if (pSlapLock)
+    {
+        pSlapLock->ctor_43DC80(pTlv, pState->field_4_tlvInfo);
+    }
+
+    pSlapLock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2 & 1);
+
+    pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
+
+    pTlv->field_1_unknown = pState->field_8_tlv_state;
+
+    pSlapLock->field_120_state = pState->field_A_state;
+    pSlapLock->field_124_timer1 = pState->field_C_timer1;
+    pSlapLock->field_114_flags.Set(Flags_114::e114_Bit1);
+    pSlapLock->field_13C_timer2 = pState->field_14_timer2;
+    return sizeof(SlapLock_State);
+}
+
 SlapLock* SlapLock::vdtor_43DED0(signed int flags)
 {
     dtor_43DF00();
@@ -295,4 +325,28 @@ void SlapLock::GiveInvisiblity_43E880()
         sActiveHero_5C1B68->field_16E_bHaveInvisiblity = 1;
         sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
     }
+}
+
+signed int SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
+{
+    pState->field_0_type = Types::eLockedSoul_61;
+    pState->field_2 = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) & 1;
+    pState->field_4_tlvInfo = field_11C_tlvInfo;
+    pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo)->field_1_unknown;
+    pState->field_A_state = field_120_state;
+    pState->field_C_timer1 = field_124_timer1;
+    pState->field_14_timer2 = field_13C_timer2;
+    pState->field_10_obj_id = -1;
+
+    if (field_134_id == -1)
+    {
+        return sizeof(SlapLock_State);
+    }
+
+    BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_134_id);
+    if (pObj)
+    {
+        pState->field_10_obj_id = pObj->field_C_objectId;
+    }
+    return sizeof(SlapLock_State);
 }
