@@ -59,6 +59,18 @@ struct Path_SlapLock : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlapLock, 0x20);
 
+enum class SlapLockStates : __int16
+{
+    State_0 = 0,
+    State_1 = 1,
+    State_2 = 2,
+    State_3 = 3,
+    State_4 = 4,
+    State_5 = 5,
+    State_6 = 6,
+    State_7 = 7,
+};
+
 struct SlapLock_State
 {
     Types field_0_type;
@@ -66,7 +78,7 @@ struct SlapLock_State
     int field_4_tlvInfo;
     char field_8_tlv_state;
     char field_9;
-    __int16 field_A_state;
+    SlapLockStates field_A_state;
     int field_C_timer1;
     int field_10_obj_id;
     int field_14_timer2;
@@ -82,7 +94,7 @@ public:
 
     virtual void VUpdate() override
     {
-        // TODO
+        vUpdate_43DF90();
     }
 
     virtual BaseGameObject* VDestructor(signed int flags) override
@@ -93,6 +105,11 @@ public:
     virtual void VScreenChanged() override
     {
         vScreenChanged_43E840();
+    }
+
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override
+    {
+        return vGetSaveState_43EB30(reinterpret_cast<SlapLock_State*>(pSaveBuffer));
     }
 
     virtual __int16 VTakeDamage_408730(BaseGameObject* /*pFrom*/) override
@@ -112,12 +129,15 @@ private:
 
     EXPORT signed int vGetSaveState_43EB30(SlapLock_State* pState);
 
+    EXPORT void vUpdate_43DF90();
+
+    EXPORT void GivePowerUp_43E910();
 
 private:
     __int16 field_116;
     Path_SlapLock *field_118_pTlv;
     int field_11C_tlvInfo;
-    __int16 field_120_state;
+    SlapLockStates field_120_state;
     __int16 field_122;
     int field_124_timer1;
     FP field_128_midX;

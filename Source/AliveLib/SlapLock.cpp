@@ -10,6 +10,9 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "ObjectIds.hpp"
+#include "AbilityRing.hpp"
+#include "PossessionFlicker.hpp"
+#include "Particle.hpp"
 
 int CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const BYTE* pBuffer)
 {
@@ -204,7 +207,7 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
         field_20_animation.field_C_render_layer = 25;
     }
 
-    field_120_state = 0;
+    field_120_state = SlapLockStates::State_0;
     field_124_timer1 = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + 25;
     field_134_id = -1;
     field_138_possesion_flicker_id = -1;
@@ -249,11 +252,11 @@ SlapLock* SlapLock::ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo)
 
     if (field_118_pTlv->field_1A_has_powerup != 0)
     {
-        field_120_state = 4;
+        field_120_state = SlapLockStates::State_4;
     }
     else
     {
-        field_120_state = 3;
+        field_120_state = SlapLockStates::State_3;
     }
 
     return this;
@@ -308,7 +311,7 @@ SlapLock* SlapLock::vdtor_43DED0(signed int flags)
 
 void SlapLock::vScreenChanged_43E840()
 {
-    if (field_120_state == 5 || field_120_state == 6)
+    if (field_120_state == SlapLockStates::State_5 || field_120_state == SlapLockStates::State_6)
     {
         GiveInvisiblity_43E880();
     }
@@ -349,4 +352,223 @@ signed int SlapLock::vGetSaveState_43EB30(SlapLock_State* pState)
         pState->field_10_obj_id = pObj->field_C_objectId;
     }
     return sizeof(SlapLock_State);
+}
+
+void SlapLock::vUpdate_43DF90()
+{
+    field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
+
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    else
+    {
+        if (field_114_flags.Get(Flags_114::e114_Bit9))
+        {
+            field_114_flags.Clear(Flags_114::e114_Bit9);
+
+            if (field_118_pTlv->field_1_unknown)
+            {
+                SwitchStates_Do_Operation_465F00(field_118_pTlv->field_14_target_tomb_id2, SwitchOp::eSetTrue_0);
+            }
+
+            if (field_134_id != -1)
+            {
+                for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+                {
+                    BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+                    if (!pObj)
+                    {
+                        break;
+                    }
+
+                    if (pObj->field_4_typeId == Types::eType_104 && pObj->field_C_objectId == field_134_id)
+                    {
+                        field_134_id = pObj->field_8_object_id;
+                        break;
+                    }
+                }
+            }
+        }
+
+        BaseGameObject* pRingObj = sObjectIds_5C1B70.Find_449CF0(field_134_id);
+        BaseGameObject* pFlickerObj = sObjectIds_5C1B70.Find_449CF0(field_138_possesion_flicker_id);
+
+        switch (field_120_state)
+        {
+        case SlapLockStates::State_0:
+            if (field_118_pTlv->field_1A_has_powerup)
+            {
+                if (!(sGnFrame_5C1B84 & 63))
+                {
+                    AbilityRing::Factory_482F80(
+                        field_B8_xpos,
+                        field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+                        RingTypes::eInvisible_Pulse_Large_8,
+                        field_CC_sprite_scale);
+                }
+            }
+
+            if (static_cast<int>(sGnFrame_5C1B84) <= field_124_timer1)
+            {
+                return;
+            }
+
+            if (!field_130_has_ghost)
+            {
+                return;
+            }
+
+            field_20_animation.Set_Animation_Data_409C80(6976, 0);
+            field_120_state = SlapLockStates::State_1;
+            SFX_Play_46FA90(0x69u, 0);
+            return;
+
+        case SlapLockStates::State_1:
+            if (field_118_pTlv->field_1A_has_powerup)
+            {
+                if (!(sGnFrame_5C1B84 & 63))
+                {
+                    AbilityRing::Factory_482F80(
+                        field_B8_xpos,
+                        field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+                        RingTypes::eInvisible_Pulse_Large_8,
+                        field_CC_sprite_scale);
+                }
+            }
+
+            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+            {
+                return;
+            }
+
+            field_20_animation.Set_Animation_Data_409C80(7068, 0);
+            field_120_state = SlapLockStates::State_0;
+            field_124_timer1 = Math_NextRandom() + sGnFrame_5C1B84 + 25;
+            return;
+
+        case SlapLockStates::State_2:
+            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+            {
+                return;
+            }
+
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+            if (!field_118_pTlv->field_1A_has_powerup)
+            {
+                field_13C_timer2 = sGnFrame_5C1B84 + 60;
+                field_120_state = SlapLockStates::State_3;
+                break;
+            }
+            else
+            {
+                field_120_state = SlapLockStates::State_5;
+                return;
+            }
+            break;
+
+        case SlapLockStates::State_3:
+            if (static_cast<int>(sGnFrame_5C1B84) <= field_13C_timer2)
+            {
+                return;
+            }
+
+            New_Particle_426C30(
+                (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-2, 2)) + FP_FromInteger(1))) + field_B8_xpos,
+                (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
+                FP_FromDouble(0.3),
+                field_20_animation.field_C_render_layer);
+
+            field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
+            return;
+
+        case SlapLockStates::State_4:
+            if (static_cast<int>(sGnFrame_5C1B84) > field_124_timer1)
+            {
+                if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    sActiveHero_5C1B68->field_C2_lvl_number,
+                    sActiveHero_5C1B68->field_C0_path_number,
+                    sActiveHero_5C1B68->field_B8_xpos,
+                    sActiveHero_5C1B68->field_BC_ypos,
+                    1)
+                    || sActiveHero_5C1B68->field_168_ring_pulse_timer
+                    || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))
+                {
+                    AbilityRing::Factory_482F80(
+                        field_B8_xpos,
+                        field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+                        RingTypes::eInvisible_Pulse_Large_8,
+                        field_CC_sprite_scale);
+                    field_124_timer1 = Math_RandomRange_496AB0(1, 10) + sGnFrame_5C1B84 + 55;
+                }
+                else
+                {
+                    GivePowerUp_43E910();
+                    field_120_state = SlapLockStates::State_5;
+                }
+            }
+
+            if (static_cast<int>(sGnFrame_5C1B84) <= field_13C_timer2)
+            {
+                return;
+            }
+
+            New_Particle_426C30(
+                (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-2, 2)) + FP_FromInteger(1)))  + field_B8_xpos,
+                (field_CC_sprite_scale * (FP_FromInteger(Math_RandomRange_496AB0(-3, 3)) - FP_FromInteger(33))) + field_BC_ypos,
+                FP_FromDouble(0.3),
+                field_20_animation.field_C_render_layer);
+
+            field_13C_timer2 = Math_RandomRange_496AB0(-30, 30) + sGnFrame_5C1B84 + 60;
+            return;
+
+        case SlapLockStates::State_5:
+            if (pRingObj)
+            {
+                return;
+            }
+
+            if (sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))
+            {
+                field_120_state = SlapLockStates::State_7;
+            }
+            else
+            {
+                auto pFlicker = alive_new<PossessionFlicker>();
+                if (pFlicker)
+                {
+                    pFlicker->ctor_4319E0(sActiveHero_5C1B68, 8, 128, 255, 128);
+                }
+                field_120_state = SlapLockStates::State_6;
+                field_138_possesion_flicker_id = pFlicker->field_8_object_id;
+            }
+            return;
+
+        case SlapLockStates::State_6:
+            if (pFlickerObj)
+            {
+                return;
+            }
+            GiveInvisiblity_43E880();
+            field_13C_timer2 = sGnFrame_5C1B84 + 60;
+            field_120_state = SlapLockStates::State_3;
+            break;
+
+        case SlapLockStates::State_7:
+            GiveInvisiblity_43E880();
+            field_13C_timer2 = sGnFrame_5C1B84 + 60;
+            field_120_state = SlapLockStates::State_3;
+            break;
+
+        default:
+            return;
+        }
+    }
+}
+
+void SlapLock::GivePowerUp_43E910()
+{
+    NOT_IMPLEMENTED();
 }

@@ -192,3 +192,8 @@ void New_Particle_45BC70(BaseAliveGameObject* pObj)
     const FP xpos = (pObj->field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20))) + pObj->field_B8_xpos;
     New_Chant_Particle_426BE0(xpos, ypos, pObj->field_CC_sprite_scale, 0);
 }
+
+Particle* CC New_Particle_426C30(FP xpos, FP ypos, FP scale, __int16 layer)
+{
+    return New_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
+}
