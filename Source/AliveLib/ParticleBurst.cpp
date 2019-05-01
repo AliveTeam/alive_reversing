@@ -30,9 +30,9 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
     field_4_typeId = Types::eParticleBurst_29;
 
     // TODO: Check it
-    if (unknown_count1 == 5 || unknown_count1 - 5 < 0)
+    if (unknown_count1 > 5)
     {
-        unknown_count1 = unknown_count1 / 2;
+        unknown_count1 /= 2;
     }
 
     if (a7 > 13)
