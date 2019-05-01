@@ -21,6 +21,7 @@
 #include "TimerTrigger.hpp"
 #include "SlamDoor.hpp"
 #include "FlyingSlig.hpp"
+#include "SlapLock.hpp"
 
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -29,7 +30,6 @@ EXPORT int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { NOT_IMPLEMENTE
 EXPORT int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { NOT_IMPLEMENTED(); return 180; }
 EXPORT int CC FlyingSlig__CreateFromSaveState_437E40(const BYTE*) { NOT_IMPLEMENTED(); return 172; }
 EXPORT int CC CreateFromSaveState_43BD10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
-EXPORT int CC CreateFromSaveState_43DC20(const BYTE*) { NOT_IMPLEMENTED(); return 4; }
 EXPORT int CC SlapLock__CreateFromSaveState_43EA00(const BYTE*) { NOT_IMPLEMENTED(); return 24; }
 EXPORT int CC Greeter__CreateFromSaveState_446040(const BYTE*) { NOT_IMPLEMENTED(); return 80; }
 EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
@@ -115,7 +115,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     &CreateFromSaveState_43BD10,
     nullptr,
     nullptr,
-    &CreateFromSaveState_43DC20,
+    &SlapLockWhirlWind::CreateFromSaveState_43DC20,
     &SlapLock__CreateFromSaveState_43EA00,
     nullptr,
     nullptr,
