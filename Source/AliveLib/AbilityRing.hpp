@@ -41,23 +41,24 @@ public:
 
     EXPORT AbilityRing* ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP scale);
 
-    virtual BaseGameObject* VDestructor(signed int /*flags*/) override
-    {
-        // TODO
-        return this;
-    }
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    virtual void VUpdate() override;
 
     // New virtuals
-    virtual void VSetTarget(BaseGameObject* pTarget)
-    {
-        vSetTarget_49D140(pTarget);
-    }
+    virtual void VSetTarget(BaseGameObject* pTarget);
 
 private:
-    EXPORT void vSetTarget_49D140(BaseGameObject* pTarget)
-    {
-        field_288_target_obj_id = pTarget->field_8_object_id;
-    }
+    EXPORT void vSetTarget_49D140(BaseGameObject* pTarget);
+
+    EXPORT void dtor_49D0B0();
+
+    EXPORT AbilityRing* vdtor_49D080(signed int flags);
+
+    EXPORT void vUpdate_49D160();
+
+    EXPORT void CollideWithObjects_49D5E0(__int16 bDealDamage);
+
 
 private:
     __int16 field_20_layer;
