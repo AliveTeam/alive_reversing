@@ -37,6 +37,7 @@ public:
         Resource_Water = 0x72746157,
         Resource_DecompressionBuffer = 0x66754244,
         Resource_Rope = 0x65706F52,
+        Resource_Wave = 0x65766157,
     };
 
     enum ResourceHeaderFlags : __int16

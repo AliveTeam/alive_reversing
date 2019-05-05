@@ -13,6 +13,7 @@
 #include "AbilityRing.hpp"
 #include "PossessionFlicker.hpp"
 #include "Particle.hpp"
+#include "ParticleBurst.hpp"
 
 int CC SlapLockWhirlWind::CreateFromSaveState_43DC20(const BYTE* pBuffer)
 {
@@ -267,6 +268,31 @@ void SlapLock::dtor_43DF00()
     SetVTable(this, 0x545224);
     Path::TLV_Reset_4DB8E0(field_11C_tlvInfo, -1, 0, 0);
     dtor_4080B0();
+}
+
+void SlapLock::VUpdate()
+{
+    vUpdate_43DF90();
+}
+
+BaseGameObject* SlapLock::VDestructor(signed int flags)
+{
+    return vdtor_43DED0(flags);
+}
+
+void SlapLock::VScreenChanged()
+{
+    vScreenChanged_43E840();
+}
+
+int SlapLock::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_43EB30(reinterpret_cast<SlapLock_State*>(pSaveBuffer));
+}
+
+__int16 SlapLock::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return vTakeDamage_43E5D0(pFrom);
 }
 
 int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
@@ -570,5 +596,94 @@ void SlapLock::vUpdate_43DF90()
 
 void SlapLock::GivePowerUp_43E910()
 {
-    NOT_IMPLEMENTED();
+    AbilityRing::Factory_482F80(
+        field_B8_xpos,
+        field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+        RingTypes::eInvisible_Pulse_Emit_9,
+        field_CC_sprite_scale);
+
+    PSX_RECT bRect = {};
+    sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRect, 1);
+
+    AbilityRing* pRing = AbilityRing::Factory_482F80(
+        FP_FromInteger((bRect.x + bRect.w) / 2),
+        FP_FromInteger((bRect.y + bRect.h) / 2),
+        RingTypes::eInvisible_Pulse_Give_10,
+        sActiveHero_5C1B68->field_CC_sprite_scale);
+
+    pRing->field_C_objectId = field_C_objectId;
+    field_134_id = pRing->field_8_object_id;
+
+    pRing->VSetTarget(sActiveHero_5C1B68);
+}
+
+__int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
+{
+    field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
+
+    if (pFrom->field_4_typeId != Types::eType_Abe_69)
+    {
+        // Only Abe can slap me up
+        return 0;
+    }
+
+    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_62_Punch_454750)
+    {
+        // If Abe isn't slapping then he can't hurt me
+        return 0;
+    }
+
+    if (field_120_state != SlapLockStates::State_0 && field_120_state != SlapLockStates::State_1)
+    {
+        return 0;
+    }
+
+    if (field_6_flags.Get(BaseGameObject::eDead))
+    {
+        return 0;
+    }
+
+    sActiveHero_5C1B68->ToKnockback_44E700(1, 0);
+
+    if (field_130_has_ghost)
+    {
+        field_130_has_ghost = 0;
+        auto pSlapWhirlWind = alive_new<SlapLockWhirlWind>();
+        if (pSlapWhirlWind)
+        {
+            pSlapWhirlWind->ctor_43D7E0(
+                field_118_pTlv->field_12_target_tomb_id1,
+                field_118_pTlv->field_14_target_tomb_id2,
+                field_B8_xpos,
+                field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+                field_CC_sprite_scale);
+        }
+    }
+
+    if (field_118_pTlv->field_1A_has_powerup)
+    {
+        GivePowerUp_43E910();
+    }
+
+    field_120_state = SlapLockStates::State_2;
+    SwitchStates_Do_Operation_465F00(field_118_pTlv->field_1E_option_id, SwitchOp::eToggle_2);
+    SFX_Play_46FA90(106u, 0, field_CC_sprite_scale);
+    Event_Broadcast_422BC0(kEventLoudNoise, this);
+
+    auto pParticleBurst = alive_new<ParticleBurst>();
+    if (pParticleBurst)
+    {
+        pParticleBurst->ctor_41CF50(
+            field_B8_xpos,
+            field_BC_ypos - (FP_FromInteger(40) * field_CC_sprite_scale),
+            15,
+            field_CC_sprite_scale,
+            BurstType::eGreenSparks_5,
+            11);
+    }
+
+    field_20_animation.Set_Animation_Data_409C80(7056, 0);
+
+    field_118_pTlv->field_1_unknown = 1;
+    return 1;
 }

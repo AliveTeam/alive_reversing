@@ -91,47 +91,22 @@ public:
     EXPORT SlapLock* ctor_43DC80(Path_SlapLock* pTlv, int tlvInfo);
 
     EXPORT void dtor_43DF00();
-
-    virtual void VUpdate() override
-    {
-        vUpdate_43DF90();
-    }
-
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_43DED0(flags);
-    }
-
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_43E840();
-    }
-
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override
-    {
-        return vGetSaveState_43EB30(reinterpret_cast<SlapLock_State*>(pSaveBuffer));
-    }
-
-    virtual __int16 VTakeDamage_408730(BaseGameObject* /*pFrom*/) override
-    {
-        // TODO
-        return 0;
-    }
+    virtual void VUpdate() override;
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VScreenChanged() override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     
     EXPORT static int CC CreateFromSaveState_43EA00(const BYTE* pBuffer);
 
 private:
     EXPORT SlapLock* vdtor_43DED0(signed int flags);
-
     EXPORT void vScreenChanged_43E840();
-
     EXPORT void GiveInvisiblity_43E880();
-
     EXPORT signed int vGetSaveState_43EB30(SlapLock_State* pState);
-
     EXPORT void vUpdate_43DF90();
-
     EXPORT void GivePowerUp_43E910();
+    EXPORT __int16 vTakeDamage_43E5D0(BaseGameObject* pFrom);
 
 private:
     __int16 field_116;

@@ -996,7 +996,7 @@ BYTE** CC ResourceManager::GetLoadedResource_49C2A0(DWORD type, DWORD resourceID
     return nullptr;
 }
 
-void CC ResourceManager::Inc_Ref_Count_49C310(BYTE **ppRes)
+void CC ResourceManager::Inc_Ref_Count_49C310(BYTE** ppRes)
 {
     Get_Header_49C410(ppRes)->field_4_ref_count++;
 }
