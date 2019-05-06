@@ -7436,15 +7436,15 @@ void Abe::State_111_GrabRock_4564A0()
 
 void Abe::State_112_Chant_45B1C0()
 {
-    BaseAliveGameObject* pfield_154 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id));
-    OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
+    BaseAliveGameObject* pPossesTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_154_possesed_object_id));
+    OrbWhirlWind* pOrbWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
 
     if (field_120_state != 3 && field_120_state != 4)
     {
         SND_SEQ_PlaySeq_4CA960(10u, 0, 0);
     }
 
-    if (!pfield_150)
+    if (!pOrbWhirlWind)
     {
         field_150_OrbWhirlWind_id = -1;
     }
@@ -7554,9 +7554,9 @@ void Abe::State_112_Chant_45B1C0()
         {
             field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
             field_154_possesed_object_id = -1;
-            if (pfield_150)
+            if (pOrbWhirlWind)
             {
-                pfield_150->sub_4E4050();
+                pOrbWhirlWind->sub_4E4050();
                 field_150_OrbWhirlWind_id = -1;
             }
             return;
@@ -7571,7 +7571,7 @@ void Abe::State_112_Chant_45B1C0()
         {
             if (pObj)
             {
-                if (!pfield_150)
+                if (!pOrbWhirlWind)
                 {
                     auto pWhirlWind = alive_new<OrbWhirlWind>();
                     if (pWhirlWind)
@@ -7588,17 +7588,17 @@ void Abe::State_112_Chant_45B1C0()
                     {
                         pWhirlWind = 0;
                     }
-                    pfield_150 = pWhirlWind;
+                    pOrbWhirlWind = pWhirlWind;
                     field_150_OrbWhirlWind_id = pWhirlWind->field_8_object_id;
                 }
             }
             else
             {
                 field_124_gnFrame = sGnFrame_5C1B84 + 70;
-                if (pfield_150)
+                if (pOrbWhirlWind)
                 {
-                    pfield_150->sub_4E4050();
-                    pfield_150 = nullptr;
+                    pOrbWhirlWind->sub_4E4050();
+                    pOrbWhirlWind = nullptr;
                     field_150_OrbWhirlWind_id = -1;
                 }
             }
@@ -7623,7 +7623,7 @@ void Abe::State_112_Chant_45B1C0()
         PSX_RECT bRect = {};
         pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-        pfield_150->sub_4E3FD0(
+        pOrbWhirlWind->sub_4E3FD0(
             FP_FromInteger((bRect.w - bRect.x) / 2),
             FP_FromInteger((bRect.h - bRect.y) / 2),
             pObj->field_CC_sprite_scale,
@@ -7644,16 +7644,16 @@ void Abe::State_112_Chant_45B1C0()
 
         if (static_cast<int>(sGnFrame_5C1B84) <= field_124_gnFrame)
         {
-            if (!pfield_154 ||
-                pfield_154->field_6_flags.Get(BaseGameObject::eDead) ||
-                pfield_154->field_10C_health <= FP_FromInteger(0) ||
-                pfield_154->Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0)
+            if (!pPossesTarget ||
+                pPossesTarget->field_6_flags.Get(BaseGameObject::eDead) ||
+                pPossesTarget->field_10C_health <= FP_FromInteger(0) ||
+                pPossesTarget->Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0)
             {
                 field_106_current_motion = eAbeStates::State_113_ChantEnd_45BBE0;
                 field_154_possesed_object_id = -1;
-                if (pfield_150)
+                if (pOrbWhirlWind)
                 {
-                    pfield_150->sub_4E4050();
+                    pOrbWhirlWind->sub_4E4050();
                     field_150_OrbWhirlWind_id = -1;
                 }
             }
@@ -7671,7 +7671,7 @@ void Abe::State_112_Chant_45B1C0()
         Event_Broadcast_422BC0(kEventAbeOhm, this);
         field_150_OrbWhirlWind_id = -1;
 
-        if (!pfield_154)
+        if (!pPossesTarget)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
@@ -7680,12 +7680,12 @@ void Abe::State_112_Chant_45B1C0()
             return;
         }
 
-        if (pfield_154->field_6_flags.Get(BaseGameObject::eDead))
+        if (pPossesTarget->field_6_flags.Get(BaseGameObject::eDead))
         {
             field_154_possesed_object_id = -1;
         }
 
-        if (pfield_154->field_10C_health <= FP_FromInteger(0))
+        if (pPossesTarget->field_10C_health <= FP_FromInteger(0))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
@@ -7694,9 +7694,9 @@ void Abe::State_112_Chant_45B1C0()
             return;
         }
 
-        sControlledCharacter_5C1B8C = pfield_154;
+        sControlledCharacter_5C1B8C = pPossesTarget;
 
-        pfield_154->Vnull_408F70();
+        pPossesTarget->VPossessed_408F70();
         
         field_154_possesed_object_id = -1;
 

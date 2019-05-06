@@ -130,9 +130,9 @@ int BaseAliveGameObject::VUnPosses_408F90()
     return vUnPosses_408F90();
 }
 
-unsigned __int16 BaseAliveGameObject::Vnull_408F70()
+unsigned __int16 BaseAliveGameObject::VPossessed_408F70()
 {
-    return vnull_408F70();
+    return vPossessed_408F70();
 }
 
 void BaseAliveGameObject::VSetMotion_4081C0(__int16 state)
@@ -178,7 +178,7 @@ int BaseAliveGameObject::vUnPosses_408F90()
     return 0;
 }
 
-unsigned __int16 BaseAliveGameObject::vnull_408F70()
+unsigned __int16 BaseAliveGameObject::vPossessed_408F70()
 {
     // Empty
     return 0;

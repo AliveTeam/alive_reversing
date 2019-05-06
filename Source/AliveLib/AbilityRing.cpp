@@ -440,11 +440,11 @@ void AbilityRing::CollideWithObjects_49D5E0(__int16 bDealDamage)
                     }
                     else if (pObj->field_4_typeId == Types::eMudokon_110)
                     {
-                        if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
+                        if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed)) // TODO: Clearly this has another meaning for muds
                         {
                             if (pObj->field_10C_health > FP_FromInteger(0))
                             {
-                                pObj->Vnull_408F70();
+                                pObj->VPossessed_408F70();
                             }
                         }
                     }
