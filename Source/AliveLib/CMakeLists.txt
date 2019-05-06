@@ -277,6 +277,8 @@ ExportHooker.hpp
     DoorBlocker.hpp
     SlapLock.cpp
     SlapLock.hpp
+    Glukkon.cpp
+    Glukkon.hpp
     TouchController.cpp
     TouchController.hpp
 )

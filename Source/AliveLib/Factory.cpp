@@ -53,6 +53,7 @@
 #include "Dove.hpp"
 #include "DoorBlocker.hpp"
 #include "SlapLock.hpp"
+#include "Glukkon.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1039,7 +1040,64 @@ EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 }
 
 EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv , Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    static CompileTimeResourceList<2> kGlukkon_563534({
+        { ResourceManager::Resource_Animation, 800 },
+        { ResourceManager::Resource_Animation, 801 }
+    });
+
+    static CompileTimeResourceList<2> kAslik_563548({
+        { ResourceManager::Resource_Animation, 802 },
+        { ResourceManager::Resource_Animation, 803 }
+    });
+
+    static CompileTimeResourceList<2> KDripik_56355C({
+        { ResourceManager::Resource_Animation, 804 },
+        { ResourceManager::Resource_Animation, 805 }
+    });
+
+    static CompileTimeResourceList<2> kPhleg_563570({
+        { ResourceManager::Resource_Animation, 806 },
+        { ResourceManager::Resource_Animation, 807 }
+    });
+
+    if (loadMode == 1 || loadMode == 2)
+    {
+        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        {
+        case LevelIds::eFeeCoDepot_5:
+        case LevelIds::eFeeCoDepot_Ender_12:
+            gMap_5C3030.LoadResourcesFromList_4DBE70("ASLIK.BND", kAslik_563548.AsList(), loadMode);
+            break;
+
+        case LevelIds::eBarracks_6:
+        case LevelIds::eBarracks_Ender_13:
+            gMap_5C3030.LoadResourcesFromList_4DBE70("DRIPIK.BND", KDripik_56355C.AsList(), loadMode);
+            break;
+
+        case LevelIds::eBonewerkz_8:
+        case LevelIds::eBonewerkz_Ender_14:
+            gMap_5C3030.LoadResourcesFromList_4DBE70("PHLEG.BND", kPhleg_563570.AsList(), loadMode);
+            break;
+
+        default:
+            gMap_5C3030.LoadResourcesFromList_4DBE70("GLUKKON.BND", kGlukkon_563534.AsList(), loadMode);
+            break;
+        }
+    }
+    else
+    {
+        auto pGlukkon = alive_new<Glukkon>();
+        if (pGlukkon)
+        {
+            pGlukkon->ctor_43F030(static_cast<Path_Glukkon*>(pTlv), tlvInfo.all);
+        }
+    }
+
+}
+
 EXPORT void CC Factory_KillUnsavedMudokons_4DA6E0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SoftLanding_4D6950(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_Null_4D6B00(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
