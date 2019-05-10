@@ -68,7 +68,7 @@ public:
     // New virtuals
     virtual void VSetTarget(BaseGameObject* pTarget);
 
-    static EXPORT int CC AbilityRing::CreateFromSaveState_49DF90(const BYTE* pBuffer);
+    static EXPORT int CC CreateFromSaveState_49DF90(const BYTE* pBuffer);
 
 private:
     EXPORT void vSetTarget_49D140(BaseGameObject* pTarget);
