@@ -12,6 +12,13 @@ inline T PsxToPCX(T x, int addToX = 0)
     return static_cast<T>(((40 * x) + static_cast<T>(addToX)) / 23);
 }
 
+// 640 * 23 / 40 =  368
+template<class T>
+inline T PCToPsxX(T x, int addX = 0)
+{
+    return (((x) * 23 + static_cast<T>(addX)) / 40);
+}
+
 class PSX_Display_Buffer
 {
 public:

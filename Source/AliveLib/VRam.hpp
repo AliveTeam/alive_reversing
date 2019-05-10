@@ -20,6 +20,11 @@ EXPORT void CC Pal_Area_Init_483080(__int16 xpos, __int16 ypos, unsigned __int16
 
 EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_RECT* rect);
 
+
+EXPORT unsigned int CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bOpaque);
+
+EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* rect);
+
 namespace Test
 {
     void VRamTests();

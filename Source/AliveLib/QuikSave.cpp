@@ -22,6 +22,7 @@
 #include "SlamDoor.hpp"
 #include "FlyingSlig.hpp"
 #include "SlapLock.hpp"
+#include "AbilityRing.hpp"
 
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -39,7 +40,6 @@ EXPORT int CC CreateFromSaveState_46A9E0(const BYTE*) { NOT_IMPLEMENTED(); retur
 EXPORT int CC MineCar__CreateFromSaveState_467740(const BYTE*) { NOT_IMPLEMENTED(); return 104; }
 EXPORT int CC Paramite__CreateFromSaveState_4855A0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 EXPORT int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
-EXPORT int CC AbilityRing__CreateFromSaveState_49DF90(const BYTE*) { NOT_IMPLEMENTED(); return 40; }
 EXPORT int CC Rock__CreateFromSaveState_49F720(const BYTE*) { NOT_IMPLEMENTED(); return 56; }
 EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED(); return 160; }
 EXPORT int CC ScrabSpawner__CreateFromSaveState_4ABEB0(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
@@ -158,7 +158,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     &ThrowableArray::CreateFromSaveState_49B200,
     nullptr,
-    &AbilityRing__CreateFromSaveState_49DF90,
+    &AbilityRing::CreateFromSaveState_49DF90,
     &Rock__CreateFromSaveState_49F720,
     nullptr,
     nullptr,

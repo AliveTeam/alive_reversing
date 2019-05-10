@@ -373,6 +373,20 @@ EXPORT void CC Pal_Copy_483560(PSX_Point pPoint, __int16 w, WORD* pPalData, PSX_
     PSX_StoreImage_4F5E90(rect, pPalData);
 }
 
+EXPORT unsigned int CC Pal_Make_Colour_4834C0(BYTE r, BYTE g, BYTE b, __int16 bOpaque)
+{
+    return (bOpaque != 0 ? 0x8000 : 0) + ((unsigned int)r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
+}
+
+EXPORT void CC Pal_Set_483510(PSX_Point xy, __int16 w, const BYTE* palData, PSX_RECT* rect)
+{
+    rect->x = xy.field_0_x;
+    rect->y = xy.field_2_y;
+    rect->w = w;
+    rect->h = 1;
+    PSX_LoadImage16_4F5E20(rect, palData);
+}
+
 using namespace ::testing;
 
 namespace Test

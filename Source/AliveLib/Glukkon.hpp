@@ -19,10 +19,10 @@ struct Path_Glukkon : public Path_TLV
     // TODO: These are wrong/shifted in some cases
     __int16 field_10_scale;
     __int16 field_12_start_direction;
-    __int16 field_14_direction;
-    __int16 field_16_calm_motion;
-    __int16 field_18_switch_id;
-    __int16 field_1A_post_alarm_delay;
+    __int16 field_14_calm_motion;
+    __int16 field_16_pre_alarm_delay;
+    __int16 field_18_post_alarm_delay;
+    __int16 field_1A_help_trigger_id;
     __int16 field_1C_spawn_id;
     __int16 field_1E_spawn_direction;
     __int16 field_20_spawn_delay;

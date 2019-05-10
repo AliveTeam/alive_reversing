@@ -4,12 +4,12 @@
 #include "BaseGameObject.hpp"
 #include "Psx.hpp"
 
-class Abe;
+class BaseAliveGameObject;
 
 class InvisibleEffect : public BaseGameObject
 {
 public:
-    EXPORT InvisibleEffect* ctor_45F280(Abe* pAbe);
+    EXPORT InvisibleEffect* ctor_45F280(BaseAliveGameObject* pTarget);
     EXPORT void dtor_45F410();
     EXPORT void sub_45FA00();
     EXPORT void sub_45FA30();
@@ -32,7 +32,7 @@ private:
     int field_3C;
     int field_40;
     int field_44_objId;
-    char field_48;
+    char field_48_old_render_mode;
     char field_49;
     __int16 field_4A_flags;
 };
