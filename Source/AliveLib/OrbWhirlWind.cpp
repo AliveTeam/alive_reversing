@@ -4,6 +4,7 @@
 #include "Game.hpp"
 #include "ResourceManager.hpp"
 #include "ScreenManager.hpp"
+#include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
 
 class Class_5480D4
@@ -93,7 +94,113 @@ public:
 
     EXPORT virtual void vSub_4E4510()
     {
-        NOT_IMPLEMENTED();
+        switch (field_B4)
+        {
+        case 0:
+            sub_4E4390(1);
+            break;
+
+        case 1:
+            if (static_cast<int>(sGnFrame_5C1B84) < field_DC + 16)
+            {
+                if (static_cast<int>(sGnFrame_5C1B84) >= field_DC)
+                {
+                    field_D0 += field_B0;
+                    field_D4 -= FP_FromInteger(2);
+                    field_D8 -= FP_FromInteger(1);
+                }
+                sub_4E4390(1);
+            }
+            else
+            {
+                if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead))
+                {
+                    sub_4E4AD0();
+                }
+                else
+                {
+                    field_FC = field_CC;
+                    field_F4 = field_CC;
+                    field_100 = field_D0;
+                    field_F8 = field_D0;
+                    field_C8 = (field_F0_scale - field_C0) / FP_FromInteger(16);
+                    field_DC = sGnFrame_5C1B84 + 16;
+                    field_B4 = 2;
+                    sub_4E4390(1);
+                }
+            }
+            break;
+        case 2:
+            if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead))
+            {
+                sub_4E4AD0();
+            }
+            else
+            {
+                FP v11 = {};
+                FP v12 = {};
+                if (field_E4_pObj)
+                {
+                    PSX_RECT bRect = {};
+                    static_cast<BaseAliveGameObject*>(field_E4_pObj)->vGetBoundingRect_424FD0(&bRect, 1);
+
+                    v11 = FP_FromInteger((bRect.x + bRect.w) / 2);
+                    v12 = FP_FromInteger((bRect.y + bRect.h) / 2);
+                }
+                else
+                {
+                    v11 = field_E8_xpos;
+                    v12 = field_EC_ypos;
+                }
+
+                if (static_cast<int>(sGnFrame_5C1B84) < field_DC)
+                {
+                    field_C0 += field_C8;
+                    const FP v16 = FP_FromInteger(field_DC + sGnFrame_5C1B84 + 16) / FP_FromInteger(16);
+                    field_FC =  ((v11 - field_F4) * v16) + field_F4;
+                    field_100 = ((v12 - field_F8) * v16) + field_F8;
+                    field_CC = (FP_FromInteger(32) * field_C0) *   Math_Sine_496DF0(FP_FromInteger(128) * v16) + field_FC;
+                    field_D0 = (FP_FromInteger(32) * field_C0) * Math_Cosine_496D60(FP_FromInteger(128) * v16) + field_100;
+                }
+                else
+                {
+                    field_FC = v11;
+                    field_100 = v12;
+                    field_CC = v11;
+                    field_D0 = v12;
+                    field_B8 = 192;
+                    field_D4 = FP_FromInteger(40);
+                    field_AC = field_D4 / FP_FromInteger(32);
+                    field_104 = field_C0 * FP_FromInteger(Math_RandomRange_496AB0(-16, 16));
+                    field_DC = sGnFrame_5C1B84 + 32;
+                    field_B4 = 3;
+                }
+                sub_4E4390(1);
+            }
+            break;
+
+        case 3:
+            if (static_cast<int>(sGnFrame_5C1B84) >= field_DC)
+            {
+                sub_4E4340(1);
+            }
+
+            field_D0 = (field_104 *  Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(field_DC + sGnFrame_5C1B84 + 32) / FP_FromInteger(32)))) + field_100;
+            field_D4 = field_D4 - field_AC;
+            sub_4E4390(1);
+            break;
+
+        case 4:
+            if (static_cast<int>(sGnFrame_5C1B84) >= field_DC)
+            {
+                sub_4E4340(1);
+            }
+            sub_4E4390(0);
+            break;
+
+        default:
+            return;
+        }
     }
 
     EXPORT virtual void vSub_4E4B10(int** ppOt)
@@ -169,6 +276,19 @@ private:
         }
     }
 
+    EXPORT void sub_4E4340(unsigned __int8 kAlways1)
+    {
+        if (kAlways1)
+        {
+            field_4 |= 1;
+        }
+        else
+        {
+            field_4 &= ~1;
+        }
+    }
+
+
 private:
     __int16 field_4;
     __int16 field_6;
@@ -176,7 +296,7 @@ private:
     FP field_A0;
     FP field_A4;
     FP field_A8;
-    int field_AC;
+    FP field_AC;
     FP field_B0;
     __int16 field_B4;
     __int16 field_B6;
@@ -185,7 +305,7 @@ private:
     __int16 field_BE;
     FP field_C0;
     FP field_C4;
-    int field_C8;
+    FP field_C8;
     FP field_CC;
     FP field_D0;
     FP field_D4;
@@ -196,11 +316,11 @@ private:
     FP field_E8_xpos;
     FP field_EC_ypos;
     FP field_F0_scale;
-    int field_F4;
-    int field_F8;
-    int field_FC;
-    int field_100;
-    int field_104;
+    FP field_F4;
+    FP field_F8;
+    FP field_FC;
+    FP field_100;
+    FP field_104;
     BYTE** field_108_res;
 };
 ALIVE_ASSERT_SIZEOF(Class_5480D4, 0x10C);
@@ -208,6 +328,16 @@ ALIVE_ASSERT_SIZEOF(Class_5480D4, 0x10C);
 BaseGameObject* OrbWhirlWind::VDestructor(signed int flags)
 {
     return vdtor_4E3D50(flags);
+}
+
+void OrbWhirlWind::VUpdate()
+{
+    return vUpdate_4E3E20();
+}
+
+void OrbWhirlWind::VRender(int** pOrderingTable)
+{
+    return vRender_4E3F80(pOrderingTable);
 }
 
 OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bUnknown)
@@ -275,6 +405,68 @@ void OrbWhirlWind::vRender_4E3F80(int** ppOt)
             if (!field_2C_objArray[i]->sub_4E4370())
             {
                 field_2C_objArray[i]->vSub_4E4B10(ppOt);
+            }
+        }
+    }
+}
+
+void OrbWhirlWind::vUpdate_4E3E20()
+{
+    if (field_24)
+    {
+        if (field_24 == 2)
+        {
+            bool unknown = false;
+            for (int i = 0; i < field_28_obj_array_idx; i++)
+            {
+                if (field_2C_objArray[i])
+                {
+                    if (!field_2C_objArray[i]->sub_4E4370())
+                    {
+                        unknown = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!unknown)
+            {
+                field_6_flags.Set(BaseGameObject::eDead);
+            }
+        }
+    }
+    else
+    {
+        if (!(field_20 % 4))
+        {
+            auto pObj = alive_new<Class_5480D4>();
+            if (pObj)
+            {
+                pObj->ctor_4E40C0(
+                    field_6C_xpos,
+                    field_70_ypos,
+                    field_74_scale,
+                    field_26_bUnknown);
+            }
+
+            field_2C_objArray[field_28_obj_array_idx++] = pObj;
+
+            if (field_28_obj_array_idx >= ALIVE_COUNTOF(field_2C_objArray))
+            {
+                field_24 = 1;
+            }
+        }
+
+        ++field_20;
+    }
+
+    for (int i = 0; i < field_28_obj_array_idx; i++)
+    {
+        if (field_2C_objArray[i])
+        {
+            if (!field_2C_objArray[i]->sub_4E4370())
+            {
+                field_2C_objArray[i]->vSub_4E4510();
             }
         }
     }

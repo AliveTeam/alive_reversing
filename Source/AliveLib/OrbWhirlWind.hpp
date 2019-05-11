@@ -4,21 +4,22 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-class Class_5480D4; // TODO
+class Class_5480D4;
 
 class OrbWhirlWind : public BaseGameObject
 {
 public:
-    virtual BaseGameObject* VDestructor(signed int flags) override;
-
-    // TODO: Virtuals.. pretty much everything else..
     EXPORT OrbWhirlWind* ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bUnknown);
     EXPORT void sub_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     EXPORT void sub_4E4050();
 
-    EXPORT void vRender_4E3F80(int** ppOt);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
 
 private:
+    EXPORT void vRender_4E3F80(int** ppOt);
+    EXPORT void vUpdate_4E3E20();
     EXPORT void dtor_4E3D80();
     EXPORT OrbWhirlWind* vdtor_4E3D50(signed int flags);
 private:

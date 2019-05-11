@@ -14,6 +14,8 @@ BYTE Math_NextRandom();
 
 EXPORT FP CC Math_Cosine_496CD0(BYTE v);
 EXPORT FP CC Math_Sine_496DD0(BYTE v);
+EXPORT FP CC Math_Cosine_496D60(FP fp);
+EXPORT FP CC Math_Sine_496DF0(FP fp);
 
 EXPORT int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2);
 
