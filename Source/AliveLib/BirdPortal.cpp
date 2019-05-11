@@ -324,7 +324,7 @@ void BirdPortal::vUpdate_498280()
 
                 if (++field_84 == 6)
                 {
-                    field_88_pWhirlWind->sub_4E3FD0(
+                    field_88_pWhirlWind->ToSpin_4E3FD0(
                         sActiveHero_5C1B68->field_B8_xpos,
                         sActiveHero_5C1B68->field_BC_ypos - (sActiveHero_5C1B68->field_CC_sprite_scale * FP_FromInteger(38)),
                         sActiveHero_5C1B68->field_CC_sprite_scale,

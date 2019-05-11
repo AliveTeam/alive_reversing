@@ -1778,7 +1778,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
         SND_SEQ_Stop_4CAE60(10u);
         if (pfield_150)
         {
-            pfield_150->sub_4E4050();
+            pfield_150->ToStop_4E4050();
             field_150_OrbWhirlWind_id = -1;
         }
 
@@ -2204,7 +2204,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
     if (pWhirlWind)
     {
-        pWhirlWind->sub_4E4050();
+        pWhirlWind->ToStop_4E4050();
         field_150_OrbWhirlWind_id = -1;
     }
 
@@ -7556,7 +7556,7 @@ void Abe::State_112_Chant_45B1C0()
             field_154_possesed_object_id = -1;
             if (pOrbWhirlWind)
             {
-                pOrbWhirlWind->sub_4E4050();
+                pOrbWhirlWind->ToStop_4E4050();
                 field_150_OrbWhirlWind_id = -1;
             }
             return;
@@ -7597,7 +7597,7 @@ void Abe::State_112_Chant_45B1C0()
                 field_124_gnFrame = sGnFrame_5C1B84 + 70;
                 if (pOrbWhirlWind)
                 {
-                    pOrbWhirlWind->sub_4E4050();
+                    pOrbWhirlWind->ToStop_4E4050();
                     pOrbWhirlWind = nullptr;
                     field_150_OrbWhirlWind_id = -1;
                 }
@@ -7623,7 +7623,7 @@ void Abe::State_112_Chant_45B1C0()
         PSX_RECT bRect = {};
         pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-        pOrbWhirlWind->sub_4E3FD0(
+        pOrbWhirlWind->ToSpin_4E3FD0(
             FP_FromInteger((bRect.w - bRect.x) / 2),
             FP_FromInteger((bRect.h - bRect.y) / 2),
             pObj->field_CC_sprite_scale,
@@ -7653,7 +7653,7 @@ void Abe::State_112_Chant_45B1C0()
                 field_154_possesed_object_id = -1;
                 if (pOrbWhirlWind)
                 {
-                    pOrbWhirlWind->sub_4E4050();
+                    pOrbWhirlWind->ToStop_4E4050();
                     field_150_OrbWhirlWind_id = -1;
                 }
             }

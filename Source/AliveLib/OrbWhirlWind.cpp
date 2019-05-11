@@ -21,7 +21,7 @@ public:
 
         field_8_Anim.Init_40A030(1632, gObjList_animations_5C1A24, 0, 39, 21, ppRes, 1, 0, 0);
 
-        field_B6 = a5;
+        field_B6 = a5; // Never used?
 
         field_8_Anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -43,41 +43,41 @@ public:
         }
 
         field_8_Anim.SetFrame_409D50(Math_RandomRange_496AB0(0, field_8_Anim.Get_Frame_Count_40AC70() - 1));
-        field_4 &= ~1u;
-        field_B4 = 0;
+        SetActive_4E4340(0);
+        field_B4_state = State::State_0_Start;
         field_B8 = Math_RandomRange_496AB0(0, 255);
         field_BC = 1;
         field_BE = Math_RandomRange_496AB0(9, 15);
-        field_CC = xpos;
-        field_D0 = ypos + FP_FromInteger(Math_RandomRange_496AB0(-12, 12));
-        field_E0 = ypos - FP_FromInteger(16);
-        field_D4 = FP_FromInteger(Math_RandomRange_496AB0(37, 43));
-        field_D8 = FP_FromDouble(0.25) * field_D4;
-        field_C0 = scale;
-        field_C4 = FP_FromInteger(Math_RandomRange_496AB0(7, 10)) / FP_FromInteger(10);
-        field_A8 = (field_C0 * field_C4);
+        field_CC_xpos_mid = xpos;
+        field_D0_ypos_mid = ypos + FP_FromInteger(Math_RandomRange_496AB0(-12, 12));
+        field_E0_yMove = ypos - FP_FromInteger(16);
+        field_D4_radiusX = FP_FromInteger(Math_RandomRange_496AB0(37, 43));
+        field_D8_radiusY = FP_FromDouble(0.25) * field_D4_radiusX;
+        field_C0_current_scale = scale;
+        field_C4_randomized_scale = FP_FromInteger(Math_RandomRange_496AB0(7, 10)) / FP_FromInteger(10);
+        field_A8_render_as_scale = (field_C0_current_scale * field_C4_randomized_scale);
         return this;
     }
 
-    EXPORT int sub_4E4370()
+    EXPORT int IsActive_4E4370()
     {
-        return field_4 & 1;
+        return field_4_flags & 1;
     }
 
-    EXPORT void sub_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
+    EXPORT void Spin_4E4A10(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
     {
         field_DC = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 16);
-        field_B4 = 1;
+        field_B4_state = State::State_1_Spin;
         field_E4_pObj = pObj;
-        field_B0 = (field_C0 * (field_E0 - field_D0)) / FP_FromInteger(16);
+        field_B0 = (field_C0_current_scale * (field_E0_yMove - field_D0_ypos_mid)) / FP_FromInteger(16);
         field_EC_ypos = ypos;
         field_E8_xpos = xpos;
         field_F0_scale = scale;
     }
 
-    EXPORT void sub_4E4AD0()
+    EXPORT void ToStop_4E4AD0()
     {
-        field_B4 = 4;
+        field_B4_state = State::State_4_Stop;
         field_DC = sGnFrame_5C1B84 + Math_RandomRange_496AB0(0, 32);
     }
     
@@ -92,22 +92,22 @@ public:
         return this;
     }
 
-    EXPORT virtual void vSub_4E4510()
+    EXPORT virtual void VUpdate_4E4510()
     {
-        switch (field_B4)
+        switch (field_B4_state)
         {
-        case 0:
+        case State::State_0_Start:
             sub_4E4390(1);
             break;
 
-        case 1:
+        case State::State_1_Spin:
             if (static_cast<int>(sGnFrame_5C1B84) < field_DC + 16)
             {
                 if (static_cast<int>(sGnFrame_5C1B84) >= field_DC)
                 {
-                    field_D0 += field_B0;
-                    field_D4 -= FP_FromInteger(2);
-                    field_D8 -= FP_FromInteger(1);
+                    field_D0_ypos_mid += field_B0;
+                    field_D4_radiusX -= FP_FromInteger(2);
+                    field_D8_radiusY -= FP_FromInteger(1);
                 }
                 sub_4E4390(1);
             }
@@ -115,25 +115,26 @@ public:
             {
                 if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead))
                 {
-                    sub_4E4AD0();
+                    ToStop_4E4AD0();
                 }
                 else
                 {
-                    field_FC = field_CC;
-                    field_F4 = field_CC;
-                    field_100 = field_D0;
-                    field_F8 = field_D0;
-                    field_C8 = (field_F0_scale - field_C0) / FP_FromInteger(16);
+                    field_FC = field_CC_xpos_mid;
+                    field_F4 = field_CC_xpos_mid;
+                    field_100 = field_D0_ypos_mid;
+                    field_F8 = field_D0_ypos_mid;
+                    field_C8 = (field_F0_scale - field_C0_current_scale) / FP_FromInteger(16);
                     field_DC = sGnFrame_5C1B84 + 16;
-                    field_B4 = 2;
+                    field_B4_state = State::State_2_FlyToTarget;
                     sub_4E4390(1);
                 }
             }
             break;
-        case 2:
+
+        case State::State_2_FlyToTarget:
             if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead))
             {
-                sub_4E4AD0();
+                ToStop_4E4AD0();
             }
             else
             {
@@ -155,45 +156,45 @@ public:
 
                 if (static_cast<int>(sGnFrame_5C1B84) < field_DC)
                 {
-                    field_C0 += field_C8;
+                    field_C0_current_scale += field_C8;
                     const FP v16 = FP_FromInteger(field_DC + sGnFrame_5C1B84 + 16) / FP_FromInteger(16);
                     field_FC =  ((v11 - field_F4) * v16) + field_F4;
                     field_100 = ((v12 - field_F8) * v16) + field_F8;
-                    field_CC = (FP_FromInteger(32) * field_C0) *   Math_Sine_496DF0(FP_FromInteger(128) * v16) + field_FC;
-                    field_D0 = (FP_FromInteger(32) * field_C0) * Math_Cosine_496D60(FP_FromInteger(128) * v16) + field_100;
+                    field_CC_xpos_mid = (FP_FromInteger(32) * field_C0_current_scale) *   Math_Sine_496DF0(FP_FromInteger(128) * v16) + field_FC;
+                    field_D0_ypos_mid = (FP_FromInteger(32) * field_C0_current_scale) * Math_Cosine_496D60(FP_FromInteger(128) * v16) + field_100;
                 }
                 else
                 {
                     field_FC = v11;
                     field_100 = v12;
-                    field_CC = v11;
-                    field_D0 = v12;
+                    field_CC_xpos_mid = v11;
+                    field_D0_ypos_mid = v12;
                     field_B8 = 192;
-                    field_D4 = FP_FromInteger(40);
-                    field_AC = field_D4 / FP_FromInteger(32);
-                    field_104 = field_C0 * FP_FromInteger(Math_RandomRange_496AB0(-16, 16));
+                    field_D4_radiusX = FP_FromInteger(40);
+                    field_AC = field_D4_radiusX / FP_FromInteger(32);
+                    field_104 = field_C0_current_scale * FP_FromInteger(Math_RandomRange_496AB0(-16, 16));
                     field_DC = sGnFrame_5C1B84 + 32;
-                    field_B4 = 3;
+                    field_B4_state = State::State_3_SpinAtTarget;
                 }
                 sub_4E4390(1);
             }
             break;
 
-        case 3:
+        case State::State_3_SpinAtTarget:
             if (static_cast<int>(sGnFrame_5C1B84) >= field_DC)
             {
-                sub_4E4340(1);
+                SetActive_4E4340(1);
             }
 
-            field_D0 = (field_104 *  Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(field_DC + sGnFrame_5C1B84 + 32) / FP_FromInteger(32)))) + field_100;
-            field_D4 = field_D4 - field_AC;
+            field_D0_ypos_mid = (field_104 *  Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(field_DC + sGnFrame_5C1B84 + 32) / FP_FromInteger(32)))) + field_100;
+            field_D4_radiusX = field_D4_radiusX - field_AC;
             sub_4E4390(1);
             break;
 
-        case 4:
+        case State::State_4_Stop:
             if (static_cast<int>(sGnFrame_5C1B84) >= field_DC)
             {
-                sub_4E4340(1);
+                SetActive_4E4340(1);
             }
             sub_4E4390(0);
             break;
@@ -203,7 +204,7 @@ public:
         }
     }
 
-    EXPORT virtual void vSub_4E4B10(int** ppOt)
+    EXPORT virtual void VRender_4E4B10(int** ppOt)
     {
         const FP x = std::min(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x,
                          pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(367));
@@ -221,7 +222,7 @@ public:
         {
             if (field_A4 + FP_FromInteger(5) >= y && field_A4 + FP_FromInteger(5) <= h)
             {
-                field_8_Anim.field_14_scale = field_A8;
+                field_8_Anim.field_14_scale = field_A8_render_as_scale;
                 const FP xpos = field_A0 - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
                 const FP ypos = field_A4 - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(5);
 
@@ -260,13 +261,13 @@ private:
         else if (field_BC >= 1 && !(static_cast<int>(sGnFrame_5C1B84) % 3))
         {
             field_BC--;
-            field_D4 = field_D4 + FP_FromInteger(4);
+            field_D4_radiusX = field_D4_radiusX + FP_FromInteger(4);
         }
 
-        field_A0 = ((field_C0 * field_D4) * Math_Sine_496DD0(static_cast<BYTE>(field_B8))) + field_CC;
-        field_A4 = ((field_C0 * field_D8) * Math_Cosine_496CD0(static_cast<BYTE>(field_B8))) + field_D0;
-        field_A8 = field_C0 * field_C4;
-        if (field_C0 > FP_FromDouble(0.599)) // TODO: Check VS 39321
+        field_A0 = ((field_C0_current_scale * field_D4_radiusX) * Math_Sine_496DD0(static_cast<BYTE>(field_B8))) + field_CC_xpos_mid;
+        field_A4 = ((field_C0_current_scale * field_D8_radiusY) * Math_Cosine_496CD0(static_cast<BYTE>(field_B8))) + field_D0_ypos_mid;
+        field_A8_render_as_scale = field_C0_current_scale * field_C4_randomized_scale;
+        if (field_C0_current_scale > FP_FromDouble(0.599)) // TODO: Check VS 39321
         {
             field_8_Anim.field_C_render_layer = 32;
         }
@@ -276,42 +277,53 @@ private:
         }
     }
 
-    EXPORT void sub_4E4340(unsigned __int8 kAlways1)
+    EXPORT void SetActive_4E4340(unsigned __int8 active)
     {
-        if (kAlways1)
+        if (active)
         {
-            field_4 |= 1;
+            field_4_flags |= 1;
         }
         else
         {
-            field_4 &= ~1;
+            field_4_flags &= ~1;
         }
     }
 
 
 private:
-    __int16 field_4;
+    __int16 field_4_flags;
     __int16 field_6;
     Animation field_8_Anim;
     FP field_A0;
     FP field_A4;
-    FP field_A8;
+    FP field_A8_render_as_scale;
     FP field_AC;
     FP field_B0;
-    __int16 field_B4;
+
+    enum class State : __int16
+    {
+        State_0_Start = 0,
+        State_1_Spin = 1,
+        State_2_FlyToTarget = 2,
+        State_3_SpinAtTarget = 3,
+        State_4_Stop = 4,
+    };
+
+    State field_B4_state;
+
     __int16 field_B6;
     int field_B8;
     __int16 field_BC;
     __int16 field_BE;
-    FP field_C0;
-    FP field_C4;
+    FP field_C0_current_scale;
+    FP field_C4_randomized_scale;
     FP field_C8;
-    FP field_CC;
-    FP field_D0;
-    FP field_D4;
-    FP field_D8;
+    FP field_CC_xpos_mid;
+    FP field_D0_ypos_mid;
+    FP field_D4_radiusX;
+    FP field_D8_radiusY;
     int field_DC;
-    FP field_E0;
+    FP field_E0_yMove;
     BaseGameObject* field_E4_pObj;
     FP field_E8_xpos;
     FP field_EC_ypos;
@@ -366,30 +378,30 @@ OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bUnk
     return this;
 }
 
-void OrbWhirlWind::sub_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
+void OrbWhirlWind::ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
 {
     for (int i = 0; i < field_28_obj_array_idx; i++)
     {
         if (field_2C_objArray[i])
         {
-            if (!field_2C_objArray[i]->sub_4E4370())
+            if (!field_2C_objArray[i]->IsActive_4E4370())
             {
-                field_2C_objArray[i]->sub_4E4A10(xpos, ypos, scale, pObj);
+                field_2C_objArray[i]->Spin_4E4A10(xpos, ypos, scale, pObj);
             }
         }
     }
     field_24 = 2;
 }
 
-void OrbWhirlWind::sub_4E4050()
+void OrbWhirlWind::ToStop_4E4050()
 {
     for (int i = 0; i < field_28_obj_array_idx; i++)
     {
         if (field_2C_objArray[i])
         {
-            if (!field_2C_objArray[i]->sub_4E4370())
+            if (!field_2C_objArray[i]->IsActive_4E4370())
             {
-                field_2C_objArray[i]->sub_4E4AD0();
+                field_2C_objArray[i]->ToStop_4E4AD0();
             }
         }
     }
@@ -402,9 +414,9 @@ void OrbWhirlWind::vRender_4E3F80(int** ppOt)
     {
         if (field_2C_objArray[i])
         {
-            if (!field_2C_objArray[i]->sub_4E4370())
+            if (!field_2C_objArray[i]->IsActive_4E4370())
             {
-                field_2C_objArray[i]->vSub_4E4B10(ppOt);
+                field_2C_objArray[i]->VRender_4E4B10(ppOt);
             }
         }
     }
@@ -421,7 +433,7 @@ void OrbWhirlWind::vUpdate_4E3E20()
             {
                 if (field_2C_objArray[i])
                 {
-                    if (!field_2C_objArray[i]->sub_4E4370())
+                    if (!field_2C_objArray[i]->IsActive_4E4370())
                     {
                         unknown = true;
                         break;
@@ -464,9 +476,9 @@ void OrbWhirlWind::vUpdate_4E3E20()
     {
         if (field_2C_objArray[i])
         {
-            if (!field_2C_objArray[i]->sub_4E4370())
+            if (!field_2C_objArray[i]->IsActive_4E4370())
             {
-                field_2C_objArray[i]->vSub_4E4510();
+                field_2C_objArray[i]->VUpdate_4E4510();
             }
         }
     }

@@ -10,8 +10,8 @@ class OrbWhirlWind : public BaseGameObject
 {
 public:
     EXPORT OrbWhirlWind* ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bUnknown);
-    EXPORT void sub_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
-    EXPORT void sub_4E4050();
+    EXPORT void ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
+    EXPORT void ToStop_4E4050();
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;

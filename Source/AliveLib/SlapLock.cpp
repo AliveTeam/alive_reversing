@@ -168,7 +168,7 @@ void SlapLockWhirlWind::vUpdate_43DA90()
             {
                 if (pWhirlWind)
                 {
-                    pWhirlWind->sub_4E3FD0(field_2C_door_x, field_30_door_y, field_34_door_scale, 0);
+                    pWhirlWind->ToSpin_4E3FD0(field_2C_door_x, field_30_door_y, field_34_door_scale, 0);
                 }
                 field_3C_state = 1;
             }
