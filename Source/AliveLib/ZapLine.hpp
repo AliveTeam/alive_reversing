@@ -3,62 +3,46 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
 
+struct ZapLineSprites
+{
+    Prim_Sprt field_0_sprts[2];
+};
+ALIVE_ASSERT_SIZEOF(ZapLineSprites, 0x30);
+
 class ZapLine : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT ZapLine* ctor_4CC690(FP xpos, FP ypos, FP a4, FP a5, __int16 a6, signed __int16 type, __int16 layer);
+    EXPORT ZapLine* ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, signed __int16 type, __int16 layer);
 
 private:
-    __int16 field_E4;
-    __int16 field_E6;
-    __int16 field_E8;
-    __int16 field_EA;
-    __int16 field_EC;
-    __int16 field_EE;
-    __int16 field_F0;
-    __int16 field_F2;
+    EXPORT void sub_4CCAD0(FP x1, FP y1, FP x2, FP y2);
+
+    EXPORT void dtor_4CCCB0();
+
+    EXPORT void vScreenChanged_4CDBE0();
+
+private:
+    int field_E4_not_used[4];
     __int16 field_F4_state;
-    __int16 field_F6;
-    int field_F8_ppRes;
-    __int16 field_FC_tPage_p8;
-    __int16 field_FE;
-    __int16 field_100;
-    __int16 field_102;
-    __int16 field_104;
-    __int16 field_106;
-    __int16 field_108;
-    __int16 field_10A;
-    __int16 field_10C;
-    __int16 field_10E;
-    __int16 field_110;
-    __int16 field_112;
-    __int16 field_114;
-    __int16 field_116;
-    __int16 field_118;
-    __int16 field_11A;
-    __int16 field_11C;
-    __int16 field_11E;
-    __int16 field_120;
-    __int16 field_122;
-    __int16 field_124;
-    __int16 field_126;
-    __int16 field_128;
+    __int16 field_F6_pad;
+    BYTE** field_F8_ppRes;
+    Prim_SetTPage field_FC_tPage_p8[2];
+    __int16 field_11C_x1;
+    __int16 field_11E_y1;
+    __int16 field_120_x2;
+    __int16 field_122_y2;
+    __int16 field_124_tPageMode;
+    __int16 field_126_alive_timer;
+    __int16 field_128_max_alive_time;
     __int16 field_12A_type;
     __int16 field_12C;
-    __int16 field_12E_count;
-    __int16 field_130_count;
-    __int16 field_132_total_count;
-    void *field_134_pSprts;
-    int field_138_buf1;
-    int field_13C_buf2;
-    int field_140_buf3;
-    __int16 field_144;
-    __int16 field_146;
-    __int16 field_148;
-    __int16 field_14A;
-    __int16 field_14C;
-    __int16 field_14E;
-    __int16 field_150;
-    __int16 field_152;
+    __int16 field_12E_part_count;
+    __int16 field_130_count_per_part;
+    __int16 field_132_pSprts_count;
+    ZapLineSprites* field_134_pSprts;
+    void* field_138_buf1;
+    void* field_13C_buf2;
+    void* field_140_buf3;
+    PSX_RECT field_144_rects[2];
 };
 ALIVE_ASSERT_SIZEOF(ZapLine, 0x154);

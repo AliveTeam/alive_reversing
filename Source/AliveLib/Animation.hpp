@@ -245,7 +245,7 @@ public:
     EXPORT void Get_Frame_Rect_409E10(PSX_RECT *pRect);
     EXPORT WORD Get_Frame_Count_40AC70();
     EXPORT signed __int16 Init_40A030(int frameTableOffset, DynamicArray *animList, BaseGameObject *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
-    //EXPORT void Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY);
+    EXPORT void Animation::Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY);
     EXPORT void Load_Pal_40A530(BYTE** pAnimData, int palOffset);
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);

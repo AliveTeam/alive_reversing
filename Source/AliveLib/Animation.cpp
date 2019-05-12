@@ -951,14 +951,12 @@ void Animation::Load_Pal_40A530(BYTE ** pAnimData, int palOffset)
     PSX_LoadImage16_4F5E20(&rect, pPal + 4); // First 4 pal bytes are the length, TODO: Add structure for pallete to avoid this
 }
 
-/*
-void Animation::Get_Bounding_Rect_Top_Left_40C480(signed __int16 frameNum, __int16* pBoundingX, __int16* pBoundingY)
+void Animation::Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY)
 {
-     FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(frameNum);
-    *pBoundingX = pFrameHeader->mTopLeft.x;
-    *pBoundingY = pFrameHeader->mTopLeft.y;
+    FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(-1);
+    *pBoundingX = pFrameHeader->field_8_data.offsetAndRect.mOffset.x;
+    *pBoundingY = pFrameHeader->field_8_data.offsetAndRect.mOffset.y;
 }
-*/
 
 
 // ================================================================
