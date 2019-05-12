@@ -157,7 +157,7 @@ public:
                 if (static_cast<int>(sGnFrame_5C1B84) < field_DC)
                 {
                     field_C0_current_scale += field_C8;
-                    const FP v16 = FP_FromInteger(field_DC + sGnFrame_5C1B84 + 16) / FP_FromInteger(16);
+                    const FP v16 = FP_FromInteger(0xFFFF * field_DC + sGnFrame_5C1B84 + 16) / FP_FromInteger(16); // TODO : purpose of 0xFFFF * ??
                     field_FC =  ((v11 - field_F4) * v16) + field_F4;
                     field_100 = ((v12 - field_F8) * v16) + field_F8;
                     field_CC_xpos_mid = (FP_FromInteger(32) * field_C0_current_scale) *   Math_Sine_496DF0(FP_FromInteger(128) * v16) + field_FC;
@@ -186,7 +186,7 @@ public:
                 SetActive_4E4340(1);
             }
 
-            field_D0_ypos_mid = (field_104 *  Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(field_DC + sGnFrame_5C1B84 + 32) / FP_FromInteger(32)))) + field_100;
+            field_D0_ypos_mid = (field_104 *  Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(0xFFFF * field_DC + sGnFrame_5C1B84 + 32) / FP_FromInteger(32)))) + field_100; // TODO : purpose of 0xFFFF * ??
             field_D4_radiusX = field_D4_radiusX - field_AC;
             sub_4E4390(1);
             break;

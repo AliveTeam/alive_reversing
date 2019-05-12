@@ -28,6 +28,11 @@ public:
     EXPORT void dtor_41EA00();
     EXPORT void vUpdate_41EBE0();
 
+    virtual void VUpdate() override
+    {
+        vUpdate_41EBE0();
+    }
+
 private:
     int field_E4;
     int field_E8;
