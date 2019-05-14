@@ -5,6 +5,7 @@
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
+#include "Game.hpp"
 
 EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTime, signed __int16 type, __int16 layer)
 {
@@ -19,14 +20,14 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTi
         field_130_count_per_part = 20;
         field_12E_part_count = 12;
         frameTable = 276;
-        field_12C = 3;
+        field_12C_tPageAbr = 3;
     }
     else if (type == 0)
     {
         field_130_count_per_part = 10;
         field_12E_part_count = 28;
         frameTable = 288;
-        field_12C = 1;
+        field_12C_tPageAbr = 1;
     }
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 355);
@@ -40,16 +41,16 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTi
     field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40('nlpS', 0, sizeof(ZapLineSprites) * field_132_pSprts_count);// Spln (spline?)
     
     field_134_pSprts = reinterpret_cast<ZapLineSprites*>(*field_F8_ppRes);
-    field_138_buf1 = malloc_non_zero_4954F0(4 * field_132_pSprts_count);
-    field_13C_buf2 = malloc_non_zero_4954F0(12 * field_130_count_per_part);
-    field_140_buf3 = malloc_non_zero_4954F0(8 * field_12E_part_count);
+    field_138_buf1 = reinterpret_cast<PSX_Point*>(malloc_non_zero_4954F0(sizeof(PSX_Point) * field_132_pSprts_count));
+    field_13C_buf2 = reinterpret_cast<ZapPoint*>(malloc_non_zero_4954F0(sizeof(ZapPoint) * field_130_count_per_part));
+    field_140_buf3 = reinterpret_cast<FP_Point*>(malloc_non_zero_4954F0(sizeof(FP_Point) * field_12E_part_count));
     
     field_128_max_alive_time = aliveTime;
     
     field_B8_xpos = x1;
     field_BC_ypos = y1;
 
-    field_F4_state = 0;
+    field_F4_state = State::State_0;
     field_126_alive_timer = 0;
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit13_Is8Bit))
@@ -106,6 +107,31 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTi
     return this;
 }
 
+BaseGameObject* ZapLine::VDestructor(signed int flags)
+{
+    return vdtor_4CCAA0(flags);
+}
+
+void ZapLine::VUpdate()
+{
+    vUpdate_4CD790();
+}
+
+void ZapLine::VRender(int** pOrderingTable)
+{
+    vRender_4CD8C0(pOrderingTable);
+}
+
+ZapLine* ZapLine::vdtor_4CCAA0(signed int flags)
+{
+    dtor_4CCCB0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
 void ZapLine::sub_4CCAD0(FP x1, FP y1, FP x2, FP y2)
 {
     field_11C_x1 = FP_GetExponent(x1 - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
@@ -142,4 +168,308 @@ void ZapLine::vScreenChanged_4CDBE0()
     {
         field_6_flags.Set(BaseGameObject::eDead);
     }
+}
+
+void ZapLine::State_0_2_4_4CCD50()
+{
+    int v1 = 0;
+    if (field_126_alive_timer >= 8)
+    {
+        const int remainingAliveTime = field_128_max_alive_time - field_126_alive_timer;
+        if (remainingAliveTime >= 8)
+        {
+            v1 = 4;
+        }
+        else
+        {
+            v1 = (remainingAliveTime / 4) + 3;
+        }
+    }
+    else
+    {
+        v1 = field_126_alive_timer / 4 + 3;
+    }
+
+    int v5 = 1 << v1;
+    int v6 = 1 << (v1 - 1);
+
+    field_140_buf3[0].field_0_x = FP_FromInteger(field_11C_x1);
+    field_140_buf3[0].field_4_y = FP_FromInteger(field_11E_y1);
+
+    field_140_buf3[field_12E_part_count - 1].field_0_x = FP_FromInteger(field_120_x2);
+    field_140_buf3[field_12E_part_count - 1].field_4_y = FP_FromInteger(field_122_y2);
+
+    int angExtra = 0;
+    if ((sGnFrame_5C1B84 / 8) & 1)
+    {
+        angExtra = 0;
+    }
+    else
+    {
+        angExtra = 128;
+    }
+
+    const FP xDiff = FP_FromInteger(field_120_x2 - field_11C_x1) / FP_FromInteger(field_12E_part_count);
+    const FP xDiffDiv = -xDiff * FP_FromDouble(1.5);
+
+    const FP yDiff = FP_FromInteger(field_122_y2 - field_11E_y1) / FP_FromInteger(field_12E_part_count);
+    const FP yDiffDiv = yDiff * FP_FromDouble(1.5);
+
+
+    // First and last done above
+    for (int i = 1; i < field_12E_part_count-1; i++)
+    {
+        const BYTE ang = static_cast<BYTE>(angExtra + 18 * i);
+        field_140_buf3[i].field_0_x = 
+            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * xDiffDiv) + FP_FromInteger(field_11C_x1) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
+
+        field_140_buf3[i].field_4_y = 
+            FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * yDiffDiv) + FP_FromInteger(field_11E_y1) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
+    }
+
+    field_144_rects[0].x = 0;
+    field_144_rects[0].y = 0;
+    field_144_rects[0].w = gPsxDisplay_5C1130.field_0_width;
+    field_144_rects[0].h = gPsxDisplay_5C1130.field_2_height;
+
+    field_144_rects[1].x = 0;
+    field_144_rects[1].y = 0;
+    field_144_rects[1].w = gPsxDisplay_5C1130.field_0_width;
+    field_144_rects[1].h = gPsxDisplay_5C1130.field_2_height;
+}
+
+void ZapLine::State_0_2_4_4CD110()
+{
+    field_140_buf3[0].field_0_x = FP_FromInteger(field_11C_x1);
+    field_140_buf3[0].field_4_y = FP_FromInteger(field_11E_y1);
+    field_140_buf3[field_12E_part_count - 1].field_0_x = FP_FromInteger(field_120_x2);
+    field_140_buf3[field_12E_part_count - 1].field_4_y = FP_FromInteger(field_122_y2);
+    
+    const FP x2Diff = FP_FromInteger(field_120_x2 - field_11C_x1) / FP_FromInteger(field_12E_part_count);
+    const FP y2Diff = FP_FromInteger(field_122_y2 - field_11E_y1) / FP_FromInteger(field_12E_part_count);
+
+    const FP y2DiffDiv = -y2Diff * FP_FromDouble(0.1);
+    const FP x2DiffDiv = x2Diff * FP_FromDouble(0.1);
+
+    for (int i = 1; i < field_12E_part_count - 1; i++)
+    {
+        const FP rnd = FP_FromInteger(Math_NextRandom() % 32 - 16);
+        field_140_buf3[i].field_0_x = (y2DiffDiv * rnd) + FP_FromInteger(field_11C_x1) + (FP_FromInteger(i) * x2Diff);
+        field_140_buf3[i].field_4_y = (x2DiffDiv * rnd) + FP_FromInteger(field_11E_y1) + (FP_FromInteger(i) * y2Diff);
+    }
+}
+
+void ZapLine::State_0_4CD340()
+{
+    FP acc = FP_FromInteger(0);
+    const FP delta = FP_FromInteger(1) / FP_FromInteger(field_130_count_per_part);
+    for (int i = 0; i < field_130_count_per_part; i++)
+    {
+        const FP accSqrd = (acc * acc);
+        field_13C_buf2[i].field_0 = accSqrd - FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
+        field_13C_buf2[i].field_4 = -FP_FromRaw(2 * accSqrd.fpValue) + FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
+        field_13C_buf2[i].field_8 = accSqrd;
+        acc += delta;
+    }
+}
+
+void ZapLine::sub_4CD400(int idx1, int idx2, int idx3, __int16 idx4)
+{
+    const FP y1 = field_140_buf3[idx1].field_4_y;
+    const FP x1 = field_140_buf3[idx1].field_0_x;
+
+    const FP y2 = field_140_buf3[idx2].field_4_y;
+    const FP x2 = field_140_buf3[idx2].field_0_x;
+
+    const FP x3 = field_140_buf3[idx3].field_0_x;
+    const FP y3 = field_140_buf3[idx3].field_4_y;
+
+    for (int i = 0; i < field_130_count_per_part; i++)
+    {
+        auto pItem = &field_138_buf1[i + idx4 * field_130_count_per_part];
+
+        pItem->field_0_x = FP_GetExponent(
+         FP_FromRaw((
+            (field_13C_buf2[i].field_8 * x3) + 
+            (field_13C_buf2[i].field_4 * x2) + 
+            (field_13C_buf2[i].field_0 * x1)).fpValue >> 1));
+
+        pItem->field_2_y = FP_GetExponent(
+            FP_FromRaw((
+            (field_13C_buf2[i].field_8 * y3) +
+            (field_13C_buf2[i].field_4 * y2) + 
+            (field_13C_buf2[i].field_0 * y1)).fpValue >> 1));
+    }
+}
+
+void ZapLine::State_2_4_4CD650()
+{
+    for (int i = 0; i < field_12E_part_count; i++)
+    {
+        for (int j = 0; j < field_130_count_per_part; j++)
+        {
+            const auto pPoint = &field_138_buf1[j + (i * field_130_count_per_part)];
+            Prim_Sprt* pSprt = &field_134_pSprts->field_0_sprts[j + (i * field_130_count_per_part)];
+            SetXY0(&pSprt[0], pPoint->field_0_x, pPoint->field_2_y);
+            SetXY0(&pSprt[1], pPoint->field_0_x, pPoint->field_2_y);
+        }
+    }
+}
+
+void ZapLine::State_1_3_4CD5D0()
+{
+    for (short i = 0; i < field_12E_part_count; i++)
+    {
+        if (i == 0)
+        {
+            // First item
+            sub_4CD400(0, 0, 1, 0);
+        }
+        else
+        {
+            const short lastIdx = field_12E_part_count - 1;
+            if (i == lastIdx)
+            {
+                // Last item
+                sub_4CD400(field_12E_part_count - 2, lastIdx, lastIdx, field_12E_part_count - 1);
+            }
+            else
+            {
+                // Other items
+                sub_4CD400(i - 1, i, i + 1, i);
+            }
+        }
+    }
+}
+
+void ZapLine::vUpdate_4CD790()
+{
+    field_126_alive_timer++;
+
+    switch (field_F4_state)
+    {
+    case State::State_0:
+        State_0_4CD340();
+        if (field_12A_type == 1)
+        {
+            State_0_2_4_4CD110();
+        }
+        else if (field_12A_type == 0)
+        {
+            State_0_2_4_4CCD50();
+        }
+        field_F4_state = State::State_1;
+        break;
+
+    case State::State_1:
+        State_1_3_4CD5D0();
+        field_F4_state = State::State_2;
+        break;
+
+    case State::State_2:
+    case State::State_4:
+        State_2_4_4CD650();
+        if (field_126_alive_timer >= field_128_max_alive_time && field_12A_type != 1)
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        if (field_12A_type == 1)
+        {
+            State_0_2_4_4CD110();
+        }
+        else if (field_12A_type == 0)
+        {
+            State_0_2_4_4CCD50();
+        }
+        field_F4_state = State::State_3;
+        break;
+
+    case State::State_3:
+        State_1_3_4CD5D0();
+        field_F4_state = State::State_4;
+        break;
+    }
+}
+
+void ZapLine::vRender_4CD8C0(int** pOt)
+{
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos,
+        0)
+        && field_F4_state > State::State_2)
+    {
+        for (int i = 0; i < field_12E_part_count; i++)
+        {
+            for (int j = 0; j < field_130_count_per_part; j++)
+            {
+                OrderingTable_Add_4F8AA0(
+                    &pOt[field_20_animation.field_C_render_layer],
+                    &field_134_pSprts[(i *field_130_count_per_part) + j].field_0_sprts[gPsxDisplay_5C1130.field_C_buffer_index].mBase.header);
+            }
+        }
+
+        const int calcTPage = PSX_getTPage_4F60E0(
+            static_cast<char>(field_124_tPageMode),
+            static_cast<char>(field_12C_tPageAbr),
+            field_20_animation.field_84_vram_rect.x,
+            field_20_animation.field_84_vram_rect.y);
+
+        Prim_SetTPage* pTPage = &field_FC_tPage_p8[gPsxDisplay_5C1130.field_C_buffer_index];
+        Init_SetTPage_4F5B60(pTPage, 0, 0, calcTPage);
+        OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pTPage->mBase);
+
+
+        PSX_RECT* pRect = &field_144_rects[gPsxDisplay_5C1130.field_C_buffer_index];
+        pRect->x = 32767;
+        pRect->w = -32767;
+        pRect->y = 32767;
+        pRect->h = -32767;
+
+        for (int i = 0; i < field_12E_part_count; i++)
+        {
+            const PSX_Point* pPoint = &field_138_buf1[i*field_130_count_per_part];
+            for (int j = 0; j < field_130_count_per_part; j++)
+            {
+                if (pPoint->field_0_x < pRect->x)
+                {
+                    pRect->x = pPoint->field_0_x;
+                }
+
+                if (pPoint->field_0_x > pRect->w)
+                {
+                    pRect->w = pPoint->field_0_x;
+                }
+
+                if (pPoint->field_2_y < pRect->y)
+                {
+                    pRect->y = pPoint->field_2_y;
+                }
+
+                if (pPoint->field_2_y > pRect->h)
+                {
+                    pRect->h = pPoint->field_2_y;
+                }
+            }
+        }
+
+        pRect->x -= 25;
+        pRect->w += 25;
+        pRect->y -= 25;
+        pRect->h += 25;
+
+        // WTF? Why use the opposite rect??
+        const PSX_RECT* pRectToUse = &field_144_rects[1 - gPsxDisplay_5C1130.field_C_buffer_index];
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(
+            pRectToUse->x,
+            pRectToUse->y,
+            pRectToUse->w,
+            pRectToUse->h,
+            pScreenManager_5BB5F4->field_3A_idx);
+    }
+
 }
