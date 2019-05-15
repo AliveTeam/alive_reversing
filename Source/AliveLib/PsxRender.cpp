@@ -3471,7 +3471,6 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
     const int tpagey = sTexture_page_y_BD0F10 + v;
     const unsigned int rect_w = pRect->w;
     const WORD* pClutSrc1 = (WORD *)((char *)sPsxVram_C1D160.field_4_pLockedPixels  + 32 * ((clut & 63) + ((unsigned int)clut >> 6 << 6)));
-    const WORD* pClutSrc2 = pClutSrc1;
     
     Psx_Test* pAbrLut = nullptr;
     if (bSemiTrans)
@@ -3483,7 +3482,6 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
     const unsigned int pitch = spBitmap_C2D038->field_10_locked_pitch / 2;
     const int vram_remainder_pitch = pitch - pRect->w;
     const BYTE* pTexture_4bit_src1 = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (sTexture_page_x_BD0F0C + (u / 4) + (tpagey / 1024));
-    const BYTE* pTexture_4bit_src2 = pTexture_4bit_src1;
     WORD* pVram_start = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (pRect->x + pitch * pRect->y));
     WORD* pVram_end = &pVram_start[(pRect->w - 1) + pitch * (pRect->h - 1)];
     WORD* pVram_end2 = pVram_end;
@@ -3505,8 +3503,6 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
                     {
                         const WORD clut_pixel = pClutSrc1[clut_4_bit_idx1];
                         const WORD vram_pixel = *pVram_start;
-                        pClutSrc1 = pClutSrc2;
-                        pTexture_4bit_src1 = pTexture_4bit_src2;
                         pLineEnd1 = pLineEnd2;
 
                         const BYTE lutR = pLut_r->field_0[clut_pixel >> 11];
@@ -3528,7 +3524,6 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
                     const unsigned int clut_4_bit_idx2 = (*pTexture_4bit_src1++) >> 4;
                     const WORD clut_pixel2 = pClutSrc1[clut_4_bit_idx2];
                     const WORD vram_pixel2 = *pVram_start;
-                    pTexture_4bit_src2 = pTexture_4bit_src1;
                     if (clut_pixel2)
                     {
                         const BYTE lutR = pLut_r->field_0[clut_pixel2 >> 11];
@@ -3544,7 +3539,6 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
                 }
                 pTexture_4bit_src1 += texture_remainder_pitch;
                 pVram_start += vram_remainder_pitch;
-                pTexture_4bit_src2 = pTexture_4bit_src1;
             }
         }
         else
@@ -3598,50 +3592,37 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
     {
         while (pVram_start < pVram_end)
         {
-            WORD* pLineEnd5 = &pVram_start[pRect->w];
-            while (pVram_start < pLineEnd5)
+            WORD* pLineEnd = &pVram_start[pRect->w];
+            while (pVram_start < pLineEnd)
             {
                 const WORD clut_4_bit_idx4 = pClutSrc1[*pTexture_4bit_src1 & 0xF];
                 if (clut_4_bit_idx4)
                 {
-                    pClutSrc1 = pClutSrc2;
-                    pTexture_4bit_src1 = pTexture_4bit_src2;
-
                     const WORD vram_pixel2 = *pVram_start;
 
-                    *pVram_start =
-                        pAbrLut->r[vram_pixel2 >> 11][clut_4_bit_idx4 >> 11]
-                        | pAbrLut->g[((vram_pixel2 >> 6) & 31)][(clut_4_bit_idx4 >> 6) & 31]
-                        | pAbrLut->b[vram_pixel2 & 31][clut_4_bit_idx4 & 31];
-
+                    *pVram_start = Calc_Abr_Pixel(*pAbrLut, vram_pixel2, clut_4_bit_idx4);
                 }
-                ++pVram_start;
 
-                if (pVram_start >= pLineEnd5)
+                ++pVram_start;
+                if (pVram_start >= pLineEnd)
                 {
                     break;
                 }
 
-                const unsigned int clut_4_bit_idx5 = (*pTexture_4bit_src1++) >> 4;
+                const unsigned int clut_4_bit_idx5 = (*pTexture_4bit_src1) >> 4;
                 const WORD clut_pixel5 = pClutSrc1[clut_4_bit_idx5];
-                pTexture_4bit_src2 = pTexture_4bit_src1;
                 if (clut_pixel5)
                 {
-                    pClutSrc1 = pClutSrc2;
-
                     const WORD vram_pixel2 = *pVram_start;
-
-                    *pVram_start =
-                        pAbrLut->r[vram_pixel2 >> 11][clut_pixel5 >> 11]
-                        | pAbrLut->g[((vram_pixel2 >> 6) & 31)][(clut_pixel5 >> 6) & 31]
-                        | pAbrLut->b[vram_pixel2 & 31][clut_pixel5 & 31];
-
+                    *pVram_start = Calc_Abr_Pixel(*pAbrLut, vram_pixel2, clut_pixel5);
                 }
+
+                pTexture_4bit_src1++;
                 ++pVram_start;
             }
+
             pTexture_4bit_src1 += texture_remainder_pitch;
             pVram_start += vram_remainder_pitch;
-            pTexture_4bit_src2 = pTexture_4bit_src1;
         }
     }
     else
