@@ -762,7 +762,7 @@ namespace Test
         //Abe::CreateFromSaveState_44D4F0(reinterpret_cast<const BYTE*>(&state));
     }
 
-    void Test::QuikSave_Tests()
+    void QuikSave_Tests()
     {
         TestAbeSave();
     }
