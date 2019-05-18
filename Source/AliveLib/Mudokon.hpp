@@ -100,7 +100,7 @@ enum class MudAction : __int16
     ENTRY(AI_State_3_47E0D0) \
     ENTRY(AI_Wired_4_477B40) \
     ENTRY(AI_ShrivelDeath_5_4714A0) \
-    ENTRY(AI_HelloAlerted_6_47A560) \
+    ENTRY(AI_Escape_6_47A560) \
     ENTRY(AI_FallAndSmackDeath_7_471600) \
     ENTRY(AI_AngryWorker_8_47E910) \
     ENTRY(AI_Sick_9_47A910)
@@ -190,6 +190,8 @@ enum Mud_Motion : unsigned __int16
 enum class MudAction : __int16;
 enum class MudSounds : __int16;
 
+class BirdPortal;
+
 class Mudokon : public BaseAliveGameObject
 {
 public:
@@ -207,6 +209,8 @@ private:
     EXPORT void vOnTrapDoorOpen_472350();
 
     EXPORT void vOnTlvCollision_476EA0(Path_TLV* pTlv);
+
+    EXPORT short FacingTarget_473140(BirdPortal* pTarget);
 
 public:
     EXPORT void vUpdateAnimRes_474D80();
@@ -244,7 +248,7 @@ public: // AI states
     __int16 BrainState4_State_22();
 
     EXPORT __int16 AI_ShrivelDeath_5_4714A0();
-    EXPORT __int16 AI_HelloAlerted_6_47A560();
+    EXPORT __int16 AI_Escape_6_47A560();
     EXPORT __int16 AI_FallAndSmackDeath_7_471600();
     EXPORT __int16 AI_AngryWorker_8_47E910();
     EXPORT __int16 AI_Sick_9_47A910();

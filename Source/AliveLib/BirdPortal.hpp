@@ -115,7 +115,9 @@ private:
 private:
     int field_20_tlvInfo;
     PortalType field_24_portal_type;
+public:
     PortalSide field_26_side;
+private:
     enum class States : __int16
     {
         State_0 = 0,
@@ -144,8 +146,10 @@ private:
     };
     States field_28_state;
     __int16 field_2A;
+public:
     FP field_2C_xpos;
     FP field_30_ypos;
+private:
     int field_34_exit_x;
     int field_38_exit_y;
     FP field_3C_YPos;

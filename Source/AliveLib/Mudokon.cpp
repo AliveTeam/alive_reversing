@@ -58,7 +58,7 @@ const TMudAIStateFunction sMudokon_AI_Table_55CDF0[10] =
     &Mudokon::AI_State_3_47E0D0,
     &Mudokon::AI_Wired_4_477B40,
     &Mudokon::AI_ShrivelDeath_5_4714A0,
-    &Mudokon::AI_HelloAlerted_6_47A560,
+    &Mudokon::AI_Escape_6_47A560,
     &Mudokon::AI_FallAndSmackDeath_7_471600,
     &Mudokon::AI_AngryWorker_8_47E910,
     &Mudokon::AI_Sick_9_47A910
@@ -700,7 +700,7 @@ void Mudokon::vUpdate_4757A0()
                     field_11C_bird_portal_id = pObj->field_8_object_id;
                     word_5C3012++;
                     field_16C |= 4u;
-                    if (field_18E_ai_state == Mud_AI_State::AI_HelloAlerted_6_47A560 && field_190_sub_state == 3)
+                    if (field_18E_ai_state == Mud_AI_State::AI_Escape_6_47A560 && field_190_sub_state == 3)
                     {
                         static_cast<BirdPortal*>(pObj)->Vsub_499430(1);
                         field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
@@ -881,6 +881,23 @@ void Mudokon::vOnTlvCollision_476EA0(Path_TLV* pTlv)
     }
 }
 
+short Mudokon::FacingTarget_473140(BirdPortal* pTarget)
+{
+    if (pTarget->field_2C_xpos == field_B8_xpos)
+    {
+        return TRUE;
+    }
+    else if (pTarget->field_2C_xpos > field_B8_xpos && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return TRUE;
+    }
+    else if (pTarget->field_2C_xpos < field_B8_xpos && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
 const int kMudFrameTableOffsets_55CD00[60] =
 {
     58888,    58808,    59064,    59028,    58956,
@@ -977,7 +994,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
     if (CheckForPortal_4775E0())
     {
         AddAlerted();
-        field_18E_ai_state = Mud_AI_State::AI_HelloAlerted_6_47A560;
+        field_18E_ai_state = Mud_AI_State::AI_Escape_6_47A560;
         return BrainStates1::eState_StandToCrouch_0;
     }
 
@@ -1366,7 +1383,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
     if (CheckForPortal_4775E0())
     {
         AddAlerted();
-        field_18E_ai_state = Mud_AI_State::AI_HelloAlerted_6_47A560;
+        field_18E_ai_state = Mud_AI_State::AI_Escape_6_47A560;
         return 0;
     }
 
@@ -1851,7 +1868,7 @@ __int16 Mudokon::AI_Wired_4_477B40()
 {
     if (CheckForPortal_4775E0())
     {
-        field_18E_ai_state = Mud_AI_State::AI_HelloAlerted_6_47A560;
+        field_18E_ai_state = Mud_AI_State::AI_Escape_6_47A560;
         field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
         return 0;
     }
@@ -3579,10 +3596,146 @@ __int16 Mudokon::AI_ShrivelDeath_5_4714A0()
     return 0;
 }
 
-__int16 Mudokon::AI_HelloAlerted_6_47A560()
+__int16 Mudokon::AI_Escape_6_47A560()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    else
+    {
+        bool noBirdPortalOrPortalIsDead = false;
+        if (!pBirdPortal || pBirdPortal->field_6_flags.Get(BaseGameObject::eDead))
+        {
+            noBirdPortalOrPortalIsDead = true;
+        }
+
+        const bool bOver60Away = FP_Abs(pBirdPortal->field_30_ypos - field_BC_ypos) > (field_CC_sprite_scale * FP_FromInteger(60));
+        if (bOver60Away || noBirdPortalOrPortalIsDead)
+        {
+            --word_5C3012;
+            field_16C &= ~4u;
+
+            if (pBirdPortal)
+            {
+                if (word_5C3012 == 0)
+                {
+                    pBirdPortal->Vsub_499610();
+                    pBirdPortal->VGiveShrukul_499680(TRUE);
+                }
+                field_11C_bird_portal_id = -1;
+            }
+
+            field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+            field_18E_ai_state = Mud_AI_State::AI_Wired_4_477B40;
+            return 7;
+        }
+        else
+        {
+            switch (field_190_sub_state)
+            {
+            case 0u:
+                if (!pBirdPortal->VStateIs6_499830())
+                {
+                    return field_190_sub_state;
+                }
+                field_194_timer = sGnFrame_5C1B84 + Math_NextRandom() % 8;
+                return 1;
+
+            case 1u:
+                if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+                {
+                    return field_190_sub_state;
+                }
+                return FP_Abs(pBirdPortal->field_2C_xpos - field_B8_xpos) >= ScaleToGridSize_4498B0(field_CC_sprite_scale) ? 2 : 4;
+
+            case 2u:
+                if (field_106_current_motion == Mud_Motion::CrouchIdle_15_474040)
+                {
+                    field_108_next_motion = Mud_Motion::CrouchToStand_18_474150;
+                }
+                if (field_106_current_motion == Mud_Motion::Chisel_11_4732D0)
+                {
+                    field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+                }
+                if (field_106_current_motion == Mud_Motion::Duck_53_474A40)
+                {
+                    field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
+                }
+
+                if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0 || field_106_current_motion == Mud_Motion::Walking_1_4728B0)
+                {
+                    if (FacingTarget_473140(pBirdPortal))
+                    {
+                        field_108_next_motion = Mud_Motion::Running_21_473720;
+                    }
+                    else
+                    {
+                        field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
+                    }
+                }
+
+                if (field_106_current_motion != Mud_Motion::Running_21_473720)
+                {
+                    return field_190_sub_state;
+                }
+
+                if (!FacingTarget_473140(pBirdPortal))
+                {
+                    field_108_next_motion = Mud_Motion::RunSlideTurn_25_473AA0;
+                    return field_190_sub_state;
+                }
+
+                if (!Vsub_408FD0(3))
+                {
+                    return field_190_sub_state;
+                }
+
+                field_190_sub_state = 3;
+                field_108_next_motion = Mud_Motion::JumpMid_36_474570;
+                return field_190_sub_state;
+
+            case 4u:
+                if (field_106_current_motion == Mud_Motion::CrouchIdle_15_474040)
+                {
+                    field_108_next_motion = Mud_Motion::CrouchToStand_18_474150;
+                }
+                if (field_106_current_motion == Mud_Motion::Chisel_11_4732D0)
+                {
+                    field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+                }
+                if (field_106_current_motion == Mud_Motion::Duck_53_474A40)
+                {
+                    field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
+                }
+
+                if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0 || field_106_current_motion == Mud_Motion::Walking_1_4728B0)
+                {
+                    if (pBirdPortal->field_26_side == PortalSide::eRight_0 && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
+                    }
+                    else
+                    {
+                        field_108_next_motion = Mud_Motion::Running_21_473720;
+                    }
+                }
+
+                if (field_106_current_motion != Mud_Motion::Running_21_473720)
+                {
+                    return field_190_sub_state;
+                }
+
+                if (FP_Abs(pBirdPortal->field_2C_xpos - field_B8_xpos) <= ScaleToGridSize_4498B0(field_CC_sprite_scale))
+                {
+                    return field_190_sub_state;
+                }
+                return 2;
+            }
+        }
+    }
+    return field_190_sub_state;
 }
 
 __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
