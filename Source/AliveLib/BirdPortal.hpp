@@ -114,8 +114,8 @@ private:
 
 private:
     int field_20_tlvInfo;
-    PortalType field_24_portal_type;
 public:
+    PortalType field_24_portal_type;
     PortalSide field_26_side;
 private:
     enum class States : __int16
@@ -152,7 +152,9 @@ public:
 private:
     int field_34_exit_x;
     int field_38_exit_y;
+public:
     FP field_3C_YPos;
+private:
     int field_40_throwable_indicator_id;
     int field_44_dove_ids[6];
     int field_5C_timer;

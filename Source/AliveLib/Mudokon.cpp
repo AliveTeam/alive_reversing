@@ -5314,7 +5314,59 @@ __int16 Mudokon::StableDelay_477570()
 
 __int16 Mudokon::CheckForPortal_4775E0()
 {
-    NOT_IMPLEMENTED();
+    if (sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id))
+    {
+        return 0;
+    }
+
+    // TODO: Refactor duplication
+
+    auto pOpenPortal = static_cast<BirdPortal*>(Event_Get_422C00(kEventPortalOpen));
+    if (pOpenPortal)
+    {
+        const FP xDist = FP_Abs(pOpenPortal->field_2C_xpos - field_B8_xpos);
+        if (xDist < FP_FromInteger(368))
+        {
+            if (FP_Abs(pOpenPortal->field_3C_YPos - field_BC_ypos) < FP_FromInteger(10))
+            {
+                if (!Raycast_408750(xDist, field_CC_sprite_scale * FP_FromInteger(50)))
+                {
+                    if (pOpenPortal->field_24_portal_type == PortalType::eWorker_1 || pOpenPortal->field_24_portal_type == PortalType::eShrykull_2)
+                    {
+                        sActiveHero_5C1B68->sub_45BB90(1);
+                        field_11C_bird_portal_id = pOpenPortal->field_8_object_id;
+                        ++word_5C3012;
+                        field_16C |= 4u;
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+
+    auto pPortal20 = static_cast<BirdPortal*>(Event_Get_422C00(kEventUnknown20));
+    if (pPortal20)
+    {
+        const FP xDist = FP_Abs(pPortal20->field_2C_xpos - field_B8_xpos);
+        if (xDist < FP_FromInteger(368))
+        {
+            if (FP_Abs(pPortal20->field_3C_YPos - field_BC_ypos) < FP_FromInteger(10))
+            {
+                if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), xDist))
+                {
+                    if (pPortal20->field_24_portal_type == PortalType::eWorker_1 || pPortal20->field_24_portal_type == PortalType::eShrykull_2)
+                    {
+                        sActiveHero_5C1B68->sub_45BB90(1);
+                        field_11C_bird_portal_id = pPortal20->field_8_object_id;
+
+                        ++word_5C3012;
+                        field_16C |= 4u;
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
     return 0;
 }
 
