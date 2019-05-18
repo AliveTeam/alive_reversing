@@ -135,6 +135,7 @@ public:
     EXPORT void SetDemoResource_45F1E0(DWORD** pDemoRes);
     EXPORT void Update_45F040();
     EXPORT static DWORD CC Command_To_Raw_45EE40(DWORD cmd);
+    EXPORT static char CC Raw_To_Command_45EF70(int a1);
     EXPORT void CC ShutDown_45F020();
 public:
     InputPadObject field_0_pads[2];

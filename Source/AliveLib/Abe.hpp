@@ -5,7 +5,6 @@
 #include "BitField.hpp"
 #include "Input.hpp"
 
-
 #define ABE_STATES_ENUM(ENTRY) \
     ENTRY(State_0_Idle_44EEB0) \
     ENTRY(State_1_WalkLoop_44FBA0) \
@@ -126,7 +125,7 @@
     ENTRY(State_116_MineCarEnter_458780) \
     ENTRY(State_117_In_MineCar_4587C0) \
     ENTRY(State_118_MineCarExit_458890) \
-    ENTRY(State_119_45A990) \
+    ENTRY(State_119_To_Shrykull_45A990) \
     ENTRY(State_120_45AB00) \
     ENTRY(State_121_LiftGrabBegin_45A600) \
     ENTRY(State_122_LiftGrabEnd_45A670) \
@@ -194,6 +193,124 @@ struct Abe_1BC_20_sub_object
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
 EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, BaseAliveGameObject *pHero);
+
+
+struct Abe_SaveState
+{
+    Types field_0_id;
+    __int16 field_2_pad;
+    FP field_4_xpos;
+    FP field_8_ypos;
+    FP field_c_velx;
+    FP field_10_vely;
+    WORD field_14_path_number;
+    LevelIds field_16_lvl_number;
+    FP field_18_sprite_scale;
+    WORD field_1C_scale;
+    WORD field_1e_r;
+    WORD field_20_g;
+    WORD field_22_b;
+    WORD bAnimFlipX;
+    WORD current_motion;
+    WORD anim_current_frame;
+    WORD anim_frame_change_counter;
+    char anim_render_layer;
+    char bAnimRender;
+    char bDrawable;
+    char field_2F;
+    FP field_30_health;
+    WORD field_34_animation_num;
+    WORD next_motion;
+    WORD last_line_ypos;
+    short field_3a_collision_line_id;
+    DWORD platform_obj_id;
+    WORD bElectrocuted;
+    WORD word42;
+    char field_44_is_abe_controlled;
+    char field_45;
+    __int16 field_46;
+    FP dword48;
+    DWORD dword4C;
+    DWORD dword50;
+    DWORD dword54;
+    DWORD dword58;
+    DWORD dword5C;
+    Mud_Emotion mood;
+    AbeSay say;
+    DWORD auto_say_timer;
+    DWORD ring_pulse_timer;
+    char field_6c_rock_bone_count;
+    char bShrivel;
+    char bHaveShrykull;
+    char bHaveInvisiblity;
+    WORD prev_held;
+    WORD released_buttons;
+    WORD word74;
+    __int16 field_76;
+    DWORD dword78;
+    DWORD fade_obj_id;
+    DWORD circular_fade_id;
+    DWORD orb_whirl_wind_id;
+    DWORD possesed_object_id;
+    DWORD throwabe_obj_id;
+    DWORD pull_ring_rope_id;
+    DWORD slapable_or_pickup_id;
+    DWORD wheel_id;
+    DWORD invisible_timer;
+    WORD wordA0;
+    WORD wordA2;
+    char byteA4;
+    char field_A5;
+    __int16 field_A6;
+    DWORD hand_stone_type;
+    WORD fmv_id;
+    WORD cam_id_1;
+    WORD cam_id_2;
+    WORD cam_id_3;
+    WORD wordB4;
+    WORD wordB6;
+    WORD wordB8;
+    WORD wordBA;
+    WORD wordBC;
+    WORD wordBE;
+    WORD bHaveEvilFart;
+    LevelIds to_level;
+    WORD to_path;
+    WORD to_camera;
+    WORD door_id;
+    char field_ca_throw_direction;
+    char field_CB;
+    WORD wordCC;
+    __int16 field_CE;
+    DWORD bird_portal_id;
+    enum Flags_D4
+    {
+        eD4_Bit1 = 0x1,
+        eD4_Bit2 = 0x2,
+        eD4_Bit3 = 0x4,
+        eD4_Bit4 = 0x8,
+        eD4_Bit5 = 0x10,
+        eD4_Bit6 = 0x20,
+        eD4_Bit7 = 0x40,
+        eD4_Bit8 = 0x80,
+        eD4_Bit9 = 0x100,
+        eD4_Bit10 = 0x200,
+        eD4_Bit11 = 0x400,
+        eD4_Bit12 = 0x800,
+        eD4_eBit13 = 0x1000,
+        eD4_eBit14 = 0x2000,
+        eD4_eBit15 = 0x4000,
+        eD4_eBit16 = 0x8000,
+    };
+    BitField16<Flags_D4> wordD4;
+
+    enum Flags_D6
+    {
+        eD6_Bit1 = 0x1
+    };
+    BitField16<Flags_D6> wordD6;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
 
 class Abe : public BaseAliveGameObject
 {
@@ -354,7 +471,7 @@ public:
     EXPORT void State_116_MineCarEnter_458780();
     EXPORT void State_117_In_MineCar_4587C0();
     EXPORT void State_118_MineCarExit_458890();
-    EXPORT void State_119_45A990();
+    EXPORT void State_119_To_Shrykull_45A990();
     EXPORT void State_120_45AB00();
     EXPORT void State_121_LiftGrabBegin_45A600();
     EXPORT void State_122_LiftGrabEnd_45A670();
@@ -409,13 +526,13 @@ public:
 public:
     __int16 field_116;
     int field_118_prev_held;
-    int field_11C;
+    int field_11C_released_buttons;
     unsigned __int16 field_120_state;
     __int16 field_122;
     int field_124_gnFrame;
     Abe_1BC_20_sub_object field_128;
     int field_144_auto_say_timer;
-    int field_148_pFade;
+    int field_148_fade_obj_id;
     int field_14C_circular_fade_id;
     int field_150_OrbWhirlWind_id;
     int field_154_possesed_object_id;
@@ -434,7 +551,7 @@ public:
     char field_17D;
     char field_17E;
     char field_17F;
-    int field_180_stone_type;
+    int field_180_hand_stone_type;
     __int16 field_184_fmv_id;
     __int16 field_186_to_camera_id[3];
     __int16 field_18C_not_used;

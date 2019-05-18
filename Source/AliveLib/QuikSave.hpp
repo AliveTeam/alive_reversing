@@ -4,6 +4,11 @@
 #include "MainMenu.hpp"
 #include "SwitchStates.hpp"
 
+namespace Test
+{
+    void QuikSave_Tests();
+}
+
 struct Quicksave_PSX_Header
 {
     char field_0_frame_1_name[128];

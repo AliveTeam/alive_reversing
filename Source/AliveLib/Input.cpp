@@ -1931,6 +1931,53 @@ DWORD CC InputObject::Command_To_Raw_45EE40(DWORD cmd)
     return rawInput;
 }
 
+// TODO: Refactor/implement cleanly - this should be the reverse of Command_To_Raw_45EE40
+char CC InputObject::Raw_To_Command_45EF70(int a1)
+{
+    int v1; // ecx
+    char result; // al
+
+    v1 = a1;
+    result = 0;
+    if (a1 & 1)
+    {
+        result = 0;
+    }
+    if (a1 & 0x10)
+    {
+        result = 8;
+    }
+    if (a1 & 0x40)
+    {
+        result |= 2u;
+    }
+    if (v1 & 0x43C00)
+    {
+        result |= 4u;
+    }
+    if (v1 & 0x7C000)
+    {
+        result |= 1u;
+    }
+    if (v1 & 0x8500)
+    {
+        result |= 0x10u;
+    }
+    if (v1 & 0x20820)
+    {
+        result |= 0x80u;
+    }
+    if (v1 & 0x12080)
+    {
+        result |= 0x20u;
+    }
+    if (v1 & 0x5200)
+    {
+        result |= 0x40u;
+    }
+    return result;
+}
+
 void CC InputObject::ShutDown_45F020()
 {
 #if MOBILE

@@ -36,6 +36,11 @@ public:
         }
     }
 
+    void Set(EnumType value, int set)
+    {
+        Set(value, !!set);
+    }
+
     DataType& Raw()
     {
         return mData;

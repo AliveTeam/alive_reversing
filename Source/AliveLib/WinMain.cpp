@@ -42,6 +42,7 @@
 #include "Math.hpp"
 #include "Dove.hpp"
 #include "SlamDoor.hpp"
+#include "QuikSave.hpp"
 
 INITIALIZE_EASYLOGGINGPP;
 
@@ -66,6 +67,7 @@ static void RunTests()
     Test::PsxRenderTests();
     Test::BaseAnimatedWithPhysicsGameObjectTests();
     Test::Math_Tests();
+    Test::QuikSave_Tests();
 }
 
 static void InitOtherHooksAndRunTests()

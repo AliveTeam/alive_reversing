@@ -28,11 +28,12 @@ private:
     EXPORT void vStop_4E6150();
     EXPORT int vSub_4E6630();
 
-private:
+public:
     int field_20_target_obj_id;
     __int16 field_24_r;
     __int16 field_26_g;
     __int16 field_28_b;
+private:
     __int16 field_2A_pad; // NOTE: Crashes if commented out - why?
     __int16 field_2C_bKillTarget;
     __int16 field_2E_overwriter_count;

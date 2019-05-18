@@ -23,6 +23,7 @@
 #include "FlyingSlig.hpp"
 #include "SlapLock.hpp"
 #include "AbilityRing.hpp"
+#include "Shadow.hpp"
 
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -625,5 +626,144 @@ void CC Quicksave_FindSaves_4D4150()
     if (sSavedGameToLoadIdx_BB43FC >= sTotalSaveFilesCount_BB43E0)
     {
         sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
+    }
+}
+
+namespace Test
+{
+    class AbeSave : public Abe
+    {
+    public:
+    };
+
+    static void Compare(Abe::Flags_1AC bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
+    {
+        Shadow shadow = {};
+        AbeSave abe = {};
+        abe.field_E0_pShadow = &shadow;
+        Abe_SaveState state = {};
+        abe.field_1AC_flags.Set(bitToSet);
+        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        ASSERT_TRUE(state.wordD4.Get(bitToExpect));
+    }
+
+    static void Compare(Abe::Flags_1AE bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
+    {
+        Shadow shadow = {};
+        AbeSave abe = {};
+        abe.field_E0_pShadow = &shadow;
+        Abe_SaveState state = {};
+        abe.field_1AE.Set(bitToSet);
+        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        ASSERT_TRUE(state.wordD4.Get(bitToExpect));
+    }
+
+    static void Compare(Flags_114 bitToSet, Abe_SaveState::Flags_D4 bitToExpect)
+    {
+        Shadow shadow = {};
+        AbeSave abe = {};
+        abe.field_E0_pShadow = &shadow;
+        Abe_SaveState state = {};
+        abe.field_114_flags.Set(bitToSet);
+        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        ASSERT_TRUE(state.wordD4.Get(bitToExpect));
+    }
+
+    template<class TComp>
+    static void Compare(Abe::Flags_1AC bitToSet, TComp comp)
+    {
+        Shadow shadow = {};
+        AbeSave abe = {};
+        abe.field_E0_pShadow = &shadow;
+        Abe_SaveState state = {};
+        abe.field_1AC_flags.Set(bitToSet);
+        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        comp(state);
+    }
+
+    template<class TSet>
+    static void Compare(TSet set, Abe_SaveState::Flags_D6 bitToExpect)
+    {
+        Shadow shadow = {};
+        AbeSave abe = {};
+        abe.field_E0_pShadow = &shadow;
+        Abe_SaveState state = {};
+        set(abe);
+        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        ASSERT_TRUE(state.wordD6.Get(bitToExpect));
+    }
+
+
+    template<class TSet>
+    static void Compare(TSet set, Abe_SaveState::Flags_D4 bitToExpect)
+    {
+        Shadow shadow = {};
+        AbeSave abe = {};
+        abe.field_E0_pShadow = &shadow;
+        Abe_SaveState state = {};
+        set(abe);
+        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        ASSERT_TRUE(state.wordD4.Get(bitToExpect));
+    }
+
+    template<class TSet, class TCompare>
+    static void Compare(TSet set, TCompare comp)
+    {
+        Shadow shadow = {};
+        AbeSave abe = {};
+        abe.field_E0_pShadow = &shadow;
+        Abe_SaveState state = {};
+        set(abe);
+        abe.VGetSaveState(reinterpret_cast<BYTE*>(&state));
+        comp(state);
+    }
+
+    static void TestAbeSave()
+    {
+        Compare(Abe::Flags_1AC::e1AC_Bit1, Abe_SaveState::Flags_D4::eD4_Bit1);
+        Compare(Abe::Flags_1AC::e1AC_Bit2, Abe_SaveState::Flags_D4::eD4_Bit2);
+        Compare(Abe::Flags_1AC::e1AC_Bit3_Fall_To_Well, Abe_SaveState::Flags_D4::eD4_Bit3);
+        Compare(Abe::Flags_1AC::e1AC_Bit4, Abe_SaveState::Flags_D4::eD4_Bit4);
+        Compare(Abe::Flags_1AC::e1AC_Bit5_bShrivel, [](Abe_SaveState& state) { ASSERT_EQ(state.bShrivel, 1); });
+        Compare(Abe::Flags_1AC::e1AC_Bit6, Abe_SaveState::Flags_D4::eD4_Bit5);
+        Compare(Abe::Flags_1AC::e1AC_Bit7, Abe_SaveState::Flags_D4::eD4_Bit6);
+        Compare(Abe::Flags_1AC::e1AC_Bit8, Abe_SaveState::Flags_D4::eD4_Bit7);
+        Compare(Abe::Flags_1AC::e1AC_Bit9_bLaughAtChantEnd, Abe_SaveState::Flags_D4::eD4_Bit8);
+        // Abe::Flags_1AC::e1AC_Bit10 not persisted
+        // Abe::Flags_1AC::e1AC_Bit11 not persisted
+        Compare(Abe::Flags_1AC::e1AC_Bit12, Abe_SaveState::Flags_D4::eD4_Bit9);
+        Compare(Abe::Flags_1AC::e1AC_eBit13, Abe_SaveState::Flags_D4::eD4_Bit10);
+        Compare(Abe::Flags_1AC::e1AC_eBit14, Abe_SaveState::Flags_D4::eD4_Bit11);
+        Compare(Abe::Flags_1AC::e1AC_eBit15_bHaveHealing, Abe_SaveState::Flags_D4::eD4_Bit12);
+        // Flags_114::e114_Bit1 not persisted
+        // Flags_114::e114_MotionChanged_Bit2 not persisted
+        // Flags_114::e114_Bit3_Can_Be_Possessed not persisted
+        // Flags_114::e114_Bit4_bPossesed not persisted
+        // Flags_114::e114_Bit5 not persisted
+        // Flags_114::e114_Bit6_SetOffExplosives not persisted
+        // Flags_114::e114_Bit7_Electrocuted not persisted
+        // Flags_114::e114_Bit8 not persisted
+        // Flags_114::e114_Bit9 not persisted
+        Compare(Flags_114::e114_Bit10, Abe_SaveState::Flags_D4::eD4_eBit13);
+        // Flags_114::e114_Bit11 will crash as it attempts to iterate the object list to find the electrocute obj but it is not persisted directly
+        Compare(Abe::Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender, Abe_SaveState::Flags_D4::eD4_eBit14);
+        Compare(Abe::Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender, Abe_SaveState::Flags_D4::eD4_eBit15);
+        // Abe::Flags_1AE::e1AE_Bit2_bDoQuickSave not persisted
+        Compare([](Abe& abe) { abe.field_E0_pShadow->field_14_flags.Set(Shadow::eBit1_ShadowAtBottom); }, Abe_SaveState::Flags_D6::eD6_Bit1);
+
+        Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimFlipX, 1); });
+        Compare([](Abe& abe) { abe.field_6_flags.Set(BaseGameObject::eDrawable); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bDrawable, 1); });
+        Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimRender, 1); });
+        Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bElectrocuted, 1); });
+        Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit8); }, [](Abe_SaveState& state) { ASSERT_EQ(state.word42, 1); });
+
+
+        // Needs resource manager and tons of other stuff, requires too many hacks to test this call
+        //Abe::CreateFromSaveState_44D4F0(reinterpret_cast<const BYTE*>(&state));
+    }
+
+    void Test::QuikSave_Tests()
+    {
+        TestAbeSave();
     }
 }
