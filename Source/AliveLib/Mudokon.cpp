@@ -855,6 +855,32 @@ void Mudokon::vOnTrapDoorOpen_472350()
     }
 }
 
+void Mudokon::vOnTlvCollision_476EA0(Path_TLV* pTlv)
+{
+    Path_TLV* pTlvIter = pTlv;
+    while (pTlvIter)
+    {
+        if (pTlvIter->field_4_type == TlvTypes::DeathDrop_4)
+        {
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                field_18E_ai_state = Mud_AI_State::AI_FallAndSmackDeath_7_471600;
+                field_190_sub_state = 0;
+                field_10C_health = FP_FromInteger(0);
+                Event_Broadcast_422BC0(kEventMudokonDied, this);
+                break;
+            }
+        }
+
+        pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pTlvIter,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
+    }
+}
+
 const int kMudFrameTableOffsets_55CD00[60] =
 {
     58888,    58808,    59064,    59028,    58956,
@@ -5465,6 +5491,7 @@ void Mudokon::AddAlerted()
     {
         field_16A_flags.Set(Flags::eBit3_Alerted);
         sAlertedMudCount_5C3010++;
+        LOG_INFO("Alert added " << sAlertedMudCount_5C3010);
     }
 }
 
@@ -5474,6 +5501,7 @@ void Mudokon::RemoveAlerted()
     {
         sAlertedMudCount_5C3010--;
         field_16A_flags.Clear(Flags::eBit3_Alerted);
+        LOG_INFO("Alert removed " << sAlertedMudCount_5C3010);
     }
 }
 
@@ -5598,14 +5626,14 @@ void Mudokon::TakeASlap_476090(Abe* pFrom)
         {
             AddAlerted();
 
-            if (field_16A_flags.Get(Flags::eBit3_Alerted) && (field_180_emo_tbl == Mud_Emotion::eHappy_5 || field_180_emo_tbl == Mud_Emotion::eWired_6))
+            if (field_16A_flags.Get(Flags::eBit5) && (field_180_emo_tbl == Mud_Emotion::eHappy_5 || field_180_emo_tbl == Mud_Emotion::eWired_6))
             {
                 field_178_sub_state2 = 4;
             }
             else
             {
                 field_178_sub_state2 = 7;
-                field_16A_flags.Clear(Flags::eBit3_Alerted);
+                field_16A_flags.Clear(Flags::eBit5);
             }
 
             field_18E_ai_state = Mud_AI_State::AI_Wired_4_477B40;

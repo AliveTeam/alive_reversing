@@ -205,6 +205,9 @@ private:
     EXPORT void SetPal_4772D0(Mud_Emotion emotion);
 
     EXPORT void vOnTrapDoorOpen_472350();
+
+    EXPORT void vOnTlvCollision_476EA0(Path_TLV* pTlv);
+
 public:
     EXPORT void vUpdateAnimRes_474D80();
 public: // AI states
