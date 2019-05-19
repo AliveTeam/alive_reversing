@@ -20,6 +20,7 @@
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
 #include "OrbWhirlWind.hpp"
+#include "ScreenClipper.hpp"
 
 BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
 {
@@ -696,10 +697,70 @@ void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera,
     vGetMapChange_499AE0(level, path, camera, screenChangeEffect, movieId);
 }
 
-signed __int16 BirdPortal::vsub_499430(__int16 /*bUnknown*/)
+signed __int16 BirdPortal::vsub_499430(__int16 bUnknown)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (bUnknown && field_28_state != States::State_6)
+    {
+        return 0;
+    }
+
+    if (field_74_screen_clipper_id != -1)
+    {
+        return 1;
+    }
+
+    PSX_Point xy = {};
+    PSX_Point wh = {};
+    if (field_26_side == PortalSide::eLeft_1)
+    {
+        xy.field_0_x = 0;
+        xy.field_2_y = 0;
+
+        wh.field_0_x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x), 11);
+        wh.field_2_y = 240;
+    }
+    else
+    {
+        xy.field_0_x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x), 11);
+        xy.field_2_y = 0;
+
+        wh.field_0_x = 640;
+        wh.field_2_y = 240;
+    }
+
+    // Clip objects entering portal?
+    auto pClipper1 = alive_new<ScreenClipper>();
+    if (pClipper1)
+    {
+        pClipper1->ctor_416D60(xy, wh, 0);
+        field_74_screen_clipper_id = pClipper1->field_8_object_id;
+        if (field_60_scale == FP_FromInteger(1))
+        {
+            pClipper1->field_48_ot_layer = 29;
+        }
+        else
+        {
+            pClipper1->field_48_ot_layer = 10;
+        }
+    }
+
+    // Clip whole screen when "in" the portal?
+    auto pClipper2 = alive_new<ScreenClipper>();
+    if (pClipper2)
+    {
+        pClipper2->ctor_416D60(PSX_Point{ 0,0 }, PSX_Point{ 640 , 240 }, 0);
+        field_78_screen_clipper_id = pClipper2->field_8_object_id;
+        if (field_60_scale == FP_FromInteger(1))
+        {
+            pClipper2->field_48_ot_layer = 31;
+        }
+        else
+        {
+            pClipper2->field_48_ot_layer = 12;
+        }
+    }
+
+    return 1;
 }
 
 void BirdPortal::vsub_499610()

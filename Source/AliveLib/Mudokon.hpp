@@ -201,6 +201,8 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
 private:
     EXPORT void vUpdate_4757A0();
 
@@ -211,6 +213,10 @@ private:
     EXPORT void vOnTlvCollision_476EA0(Path_TLV* pTlv);
 
     EXPORT short FacingTarget_473140(BirdPortal* pTarget);
+
+    EXPORT Mudokon* vdtor_475770(signed int flags);
+
+    EXPORT void dtor_475B60();
 
 public:
     EXPORT void vUpdateAnimRes_474D80();

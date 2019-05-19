@@ -279,6 +279,8 @@ ExportHooker.hpp
     SlapLock.hpp
     Glukkon.cpp
     Glukkon.hpp
+    ScreenClipper.cpp
+    ScreenClipper.hpp
     TouchController.cpp
     TouchController.hpp
 )

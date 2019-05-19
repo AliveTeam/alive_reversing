@@ -23,6 +23,9 @@
 #include "Particle.hpp"
 #include "PossessionFlicker.hpp"
 #include "ScreenShake.hpp"
+#include "MainMenu.hpp"
+#include "StatsSign.hpp"
+#include "MusicTrigger.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
@@ -652,6 +655,11 @@ void Mudokon::VUpdate()
     vUpdate_4757A0();
 }
 
+BaseGameObject* Mudokon::VDestructor(signed int flags)
+{
+    return vdtor_475770(flags);
+}
+
 void Mudokon::vUpdate_4757A0()
 {
     if (field_114_flags.Get(Flags_114::e114_Bit9))
@@ -896,6 +904,91 @@ short Mudokon::FacingTarget_473140(BirdPortal* pTarget)
         return TRUE;
     }
     return FALSE;
+}
+
+Mudokon* Mudokon::vdtor_475770(signed int flags)
+{
+    Mudokon::dtor_475B60();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void Mudokon::dtor_475B60()
+{
+    SetVTable(this, 0x5462E4);
+
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
+    if (field_10C_health <= FP_FromInteger(0))
+    {
+        // TODO: Refactor all access to helpers
+        sKilledMudokons_5C1BC0++;
+        if (sStatsSignCurrentArea_5C1A20 < 21u)
+        {
+            sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20]++;
+        }
+    }
+
+    auto pWheel = static_cast<WorkWheel*>(sObjectIds_5C1B70.Find_449CF0(field_158_wheel_id));
+    if (pWheel)
+    {
+        pWheel->VStopTurning(TRUE);
+        field_158_wheel_id = -1;
+    }
+
+    RemoveAlerted();
+
+    if (field_16C & 4)
+    {
+        word_5C3012--;
+        field_16C &= ~4u;
+        if (!word_5C3012)
+        {
+            if (pBirdPortal)
+            {
+                pBirdPortal->Vsub_499610();
+                pBirdPortal->VGiveShrukul_499680(TRUE);
+            }
+        }
+        field_11C_bird_portal_id = -1;
+    }
+
+    if (!(field_16A_flags.Get(Flags::eBit1)) || field_10C_health <= FP_FromInteger(0) || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        Path::TLV_Reset_4DB8E0(field_118, -1, 0, 1);
+    }
+    else
+    {
+        Path::TLV_Reset_4DB8E0(field_118, -1, 0, 0);
+    }
+
+    if (!field_18E_ai_state && field_190_sub_state > 4u)
+    {
+        if (field_164_ring_timeout > 0)
+        {
+            sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_timeout;
+        }
+        else
+        {
+            sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
+        }
+
+        sActiveHero_5C1B68->field_16C_bHaveShrykull = FALSE;
+
+        if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
+        {
+            sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_eBit15_bHaveHealing);
+        }
+    }
+
+    if (field_106_current_motion == Mud_Motion::Chanting_50_473040)
+    {
+        SND_SEQ_Stop_4CAE60(11u);
+    }
+
+    dtor_4080B0();
 }
 
 const int kMudFrameTableOffsets_55CD00[60] =
@@ -4809,7 +4902,57 @@ void Mudokon::JumpStart_35_474460()
 
 void Mudokon::JumpMid_36_474570()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
+    if (field_20_animation.field_92_current_frame == 5)
+    {
+        SFX_Play_46FBA0(17u, 40, 2400);
+    }
+
+    PSX_RECT rect = {};
+    vGetBoundingRect_424FD0(&rect, 1);
+
+    if ((field_C4_velx > FP_FromInteger(0) && FP_FromInteger(rect.x) > pBirdPortal->field_2C_xpos) ||
+        (field_C4_velx < FP_FromInteger(0) && FP_FromInteger(rect.w) < pBirdPortal->field_2C_xpos))
+    {
+        field_16A_flags.Clear(Flags::eBit1);
+        field_16A_flags.Clear(Flags::eBit2_save_state);
+
+        field_6_flags.Set(BaseGameObject::eDead);
+
+        field_C8_vely = FP_FromInteger(0);
+        field_C4_velx = FP_FromInteger(0);
+
+        SND_SEQ_Play_4CAB10(31u, 1, 127, 127);
+
+        auto pMusicTrigger = alive_new<MusicTrigger>();
+        if (pMusicTrigger)
+        {
+            pMusicTrigger->ctor_47FF10(5, 0, 0, 0);
+        }
+
+        sRescuedMudokons_5C1BC2++;
+
+        if (sStatsSignCurrentArea_5C1A20 < 21u)
+        {
+            sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20]++;
+        }
+
+        if (pBirdPortal)
+        {
+            pBirdPortal->VMudSaved_499A50();
+        }
+
+        if (field_17A_rescue_id)
+        {
+            SwitchStates_Set_465FF0(field_17A_rescue_id, 1);
+        }
+    }
+
+    field_C8_vely += (field_CC_sprite_scale * FP_FromDouble(1.8));
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
 }
 
 void Mudokon::WalkToRun_37_4749A0()
