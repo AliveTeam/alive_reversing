@@ -477,7 +477,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_16A_flags.Set(Flags::eBit4_blind, pTlv->field_22_bBlind & 1);
     field_16A_flags.Clear(Flags::eBit5);
     field_16A_flags.Clear(Flags::eBit6_StandingForSadOrAngry);
-    field_16A_flags.Clear(Flags::eBit7);
+    field_16A_flags.Clear(Flags::eBit7_StoppedAtWheel);
     field_16A_flags.Clear(Flags::eBit8_DoAngry);
     field_16A_flags.Clear(Flags::eBit9);
     // 10 and 11 ??
@@ -2407,7 +2407,7 @@ __int16 Mudokon::BrainState4_State_4_FollowingAbe()
         }
         else
         {
-            field_16A_flags.Clear(Flags::eBit7);
+            field_16A_flags.Clear(Flags::eBit7_StoppedAtWheel);
             if (++field_17C <= 540 || field_180_emo_tbl == Mud_Emotion::eWired_6)
             {
                 if (NeedToTurnAround())
@@ -2535,7 +2535,7 @@ __int16 Mudokon::BrainState4_State_4_FollowingAbe()
                                     return AIStartWheelTurning();
                                 }
 
-                                while (!(v35->field_16A_flags.Get(Flags::eBit7)) && v35->field_106_current_motion != Mud_Motion::TurnWheelLoop_58_474CC0)
+                                while (!(v35->field_16A_flags.Get(Flags::eBit7_StoppedAtWheel)) && v35->field_106_current_motion != Mud_Motion::TurnWheelLoop_58_474CC0)
                                 {
                                     v35 = static_cast<Mudokon*>(GetStackedSlapTarget_425290(v35->field_8_object_id, Types::eMudokon_110, field_B8_xpos, field_BC_ypos - FP_FromInteger(5)));
                                     if (!v35)
@@ -2710,9 +2710,9 @@ __int16 Mudokon::BrainState4_State_5()
         return 4;
     }
 
-    if (sub_477880())
+    if (StopAtWheel_477880())
     {
-        field_16A_flags.Set(Flags::eBit7);
+        field_16A_flags.Set(Flags::eBit7_StoppedAtWheel);
         field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
         return BrainStates4::eState4_4;
     }
@@ -3093,7 +3093,7 @@ __int16 Mudokon::BrainState4_State_7_StandingForAbeCommand()
                     return AIStartWheelTurning();
                 }
 
-                while (!(v35->field_16A_flags.Get(Flags::eBit7)) && v35->field_106_current_motion != Mud_Motion::TurnWheelLoop_58_474CC0)
+                while (!(v35->field_16A_flags.Get(Flags::eBit7_StoppedAtWheel)) && v35->field_106_current_motion != Mud_Motion::TurnWheelLoop_58_474CC0)
                 {
                     v35 = static_cast<Mudokon*>(GetStackedSlapTarget_425290(v35->field_8_object_id, Types::eMudokon_110, field_B8_xpos, field_BC_ypos - FP_FromInteger(5)));
                     if (!v35)
@@ -5506,8 +5506,6 @@ __int16 Mudokon::StableDelay_477570()
 
 __int16 Mudokon::CheckForPortal_4775E0()
 {
-    NOT_IMPLEMENTED();
-
     if (sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id))
     {
         return 0;
@@ -5518,8 +5516,8 @@ __int16 Mudokon::CheckForPortal_4775E0()
     auto pOpenPortal = static_cast<BirdPortal*>(Event_Get_422C00(kEventPortalOpen));
     if (pOpenPortal)
     {
-        const FP xDist = FP_Abs(pOpenPortal->field_2C_xpos - field_B8_xpos);
-        if (xDist < FP_FromInteger(368))
+        const FP xDist = pOpenPortal->field_2C_xpos - field_B8_xpos;
+        if (FP_Abs(xDist) < FP_FromInteger(368))
         {
             if (FP_Abs(pOpenPortal->field_3C_YPos - field_BC_ypos) < FP_FromInteger(10))
             {
@@ -5541,8 +5539,8 @@ __int16 Mudokon::CheckForPortal_4775E0()
     auto pPortal20 = static_cast<BirdPortal*>(Event_Get_422C00(kEventUnknown20));
     if (pPortal20)
     {
-        const FP xDist = FP_Abs(pPortal20->field_2C_xpos - field_B8_xpos);
-        if (xDist < FP_FromInteger(368))
+        const FP xDist = pPortal20->field_2C_xpos - field_B8_xpos;
+        if (FP_Abs(xDist) < FP_FromInteger(368))
         {
             if (FP_Abs(pPortal20->field_3C_YPos - field_BC_ypos) < FP_FromInteger(10))
             {
@@ -5781,13 +5779,81 @@ __int16 Mudokon::sub_477AF0(MudAction action)
         field_180_emo_tbl = field_188_pTblEntry->field_4_emo_tbl;
     }
     return field_188_pTblEntry->field_6_sub_state;
-
 }
 
-__int16 Mudokon::sub_477880()
+__int16 Mudokon::StopAtWheel_477880()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    FP offset = {};
+    FP_Rect fpRect = {};
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        offset = -ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.4);
+        fpRect.x = field_B8_xpos + (offset * FP_FromInteger(2));
+        fpRect.w = field_B8_xpos;
+    }
+    else
+    {
+        offset = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.4);
+        fpRect.x = field_B8_xpos;
+        fpRect.w = field_B8_xpos + (offset * FP_FromInteger(2));
+    }
+
+    fpRect.y = field_BC_ypos - FP_FromInteger(5);
+    fpRect.h = field_BC_ypos;
+
+    if (!FindWheel_4777B0(field_B8_xpos + offset, field_BC_ypos))
+    {
+        // No wheel so don't stop
+        return 0;
+    }
+
+    const PSX_RECT ourRect =
+    {
+        FP_GetExponent(fpRect.x),
+        FP_GetExponent(fpRect.y),
+        FP_GetExponent(fpRect.w),
+        FP_GetExponent(fpRect.h)
+    };
+
+
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        // Found another mud who isn't us
+        if (pObj != this && pObj->field_4_typeId == Types::eMudokon_110)
+        {
+            PSX_RECT bRect = {};
+            pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+            auto pOtherMud = static_cast<Mudokon*>(pObj);
+
+            // Check if the other mud has already take the spot of this work wheel
+            if (bRect.x <= ourRect.w && 
+                bRect.w >= ourRect.x &&
+                bRect.h >= ourRect.y &&
+                bRect.y <= ourRect.h)
+            {
+                if (pOtherMud->field_16A_flags.Get(Flags::eBit7_StoppedAtWheel) ||
+                    sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                        FP_GetExponent(pObj->field_B8_xpos),
+                        FP_GetExponent(pObj->field_BC_ypos),
+                        FP_GetExponent(pObj->field_B8_xpos),
+                        FP_GetExponent(pObj->field_BC_ypos),
+                        TlvTypes::WorkWheel_79) && pOtherMud->field_C4_velx == FP_FromInteger(0))
+                {
+                    // Another mud has stolen this wheel so don't stop
+                    return 0;
+                }
+            }
+        }
+    }
+    return 1;
 }
 
 void Mudokon::StandingKnockBack_473190()
@@ -5908,7 +5974,7 @@ __int16 Mudokon::AIStartWheelTurning()
 {
     field_108_next_motion = Mud_Motion::TurnWheelBegin_57_474C00;
     RemoveAlerted();
-    field_16A_flags.Set(Flags::eBit7);
+    field_16A_flags.Set(Flags::eBit7_StoppedAtWheel);
     field_18E_ai_state = Mud_AI_State::AI_State_3_47E0D0;
     return BrainStates4::eState4_0;
 }

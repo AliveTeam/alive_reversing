@@ -371,7 +371,7 @@ private:
 
     EXPORT __int16 FindWheel_4777B0(FP xpos, FP ypos);
     EXPORT __int16 sub_477AF0(MudAction action);
-    EXPORT __int16 sub_477880();
+    EXPORT __int16 StopAtWheel_477880();
     EXPORT void StandingKnockBack_473190();
     EXPORT __int16 IsMotionUnknown_4730F0();
     EXPORT void MoveOnLine_4720D0();
@@ -433,7 +433,7 @@ private:
         eBit4_blind = 0x8,
         eBit5 = 0x10,
         eBit6_StandingForSadOrAngry = 0x20,
-        eBit7 = 0x40,
+        eBit7_StoppedAtWheel = 0x40,
         eBit8_DoAngry = 0x80,
         eBit9 = 0x100,
         eBit10_stop_trigger = 0x200,

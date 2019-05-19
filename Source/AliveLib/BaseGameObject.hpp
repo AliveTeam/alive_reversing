@@ -21,7 +21,7 @@ enum class Types : __int16
     eType_12 = 12,
     eBrewMachine_13 = 13,
     eType_14 = 14,
-    eType_15 = 15,
+    eType_15 = 15, // sub_414540
     eSligButton_16 = 16,
     eType_17 = 17,
     eType_18 = 18,
