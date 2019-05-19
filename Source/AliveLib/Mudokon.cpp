@@ -5506,6 +5506,8 @@ __int16 Mudokon::StableDelay_477570()
 
 __int16 Mudokon::CheckForPortal_4775E0()
 {
+    NOT_IMPLEMENTED();
+
     if (sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id))
     {
         return 0;
@@ -5521,7 +5523,7 @@ __int16 Mudokon::CheckForPortal_4775E0()
         {
             if (FP_Abs(pOpenPortal->field_3C_YPos - field_BC_ypos) < FP_FromInteger(10))
             {
-                if (!Raycast_408750(xDist, field_CC_sprite_scale * FP_FromInteger(50)))
+                if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), xDist))
                 {
                     if (pOpenPortal->field_24_portal_type == PortalType::eWorker_1 || pOpenPortal->field_24_portal_type == PortalType::eShrykull_2)
                     {
