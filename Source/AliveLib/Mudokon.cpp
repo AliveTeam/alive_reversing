@@ -655,6 +655,11 @@ void Mudokon::VUpdate()
     vUpdate_4757A0();
 }
 
+void Mudokon::VScreenChanged()
+{
+    vScreenChanged_476F30();
+}
+
 BaseGameObject* Mudokon::VDestructor(signed int flags)
 {
     return vdtor_475770(flags);
@@ -989,6 +994,50 @@ void Mudokon::dtor_475B60()
     }
 
     dtor_4080B0();
+}
+
+void Mudokon::vScreenChanged_476F30()
+{
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
+    BaseGameObject::VScreenChanged();
+
+    if (field_18E_ai_state == Mud_AI_State::AI_Give_rings_0_470C10 || !(field_16A_flags.Get(Flags::eBit2_save_state)))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (field_6_flags.Get(BaseGameObject::eDead))
+    {
+        // TODO: Duplicated in dtors + other places
+        if (field_16C & 4)
+        {
+            word_5C3012--;
+            field_16C &= ~4u;
+            if (!word_5C3012)
+            {
+                if (pBirdPortal)
+                {
+                    pBirdPortal->Vsub_499610();
+                    pBirdPortal->VGiveShrukul_499680(TRUE);
+                }
+            }
+            field_11C_bird_portal_id = -1;
+        }
+    }
+}
+
+void Mudokon::vPossessed_4774F0()
+{
+    sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+    if (field_180_emo_tbl == Mud_Emotion::eSick_7 && 
+        !FindObjectOfType_425180(Types::eTorturedMud_141, field_B8_xpos, field_BC_ypos - FP_FromInteger(50)))
+    {
+        field_180_emo_tbl = Mud_Emotion::eNormal_0;
+        if (field_188_pTblEntry)
+        {
+            field_188_pTblEntry = Mudokon::ResponseTo_471730(Mud_Emotion::eNormal_0, MudAction::eHelloOrAllYa_0);
+        }
+    }
 }
 
 const int kMudFrameTableOffsets_55CD00[60] =

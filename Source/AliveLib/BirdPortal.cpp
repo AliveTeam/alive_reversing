@@ -791,9 +791,46 @@ BOOL BirdPortal::vStateIs6_499830()
     return field_28_state == States::State_6;
 }
 
-void BirdPortal::vGiveShrukul_499680(__int16 /*bPlaySound*/)
+void BirdPortal::vGiveShrukul_499680(__int16 bPlaySound)
 {
-    NOT_IMPLEMENTED();
+    if (sActiveHero_5C1B68 != spAbe_554D5C)
+    {
+        if (field_24_portal_type == PortalType::eShrykull_2 && field_82_num_muds_for_shrykul <= 0)
+        {
+            SND_SEQ_Play_4CAB10(32u, 1, 127, 127);
+            field_28_state = States::State_7;
+            field_5C_timer = sGnFrame_5C1B84 + 12;
+            field_84 = 0;
+
+            field_88_pWhirlWind = alive_new<OrbWhirlWind>();
+            if (field_88_pWhirlWind)
+            {
+                field_88_pWhirlWind->ctor_4E3C90(
+                    sActiveHero_5C1B68->field_B8_xpos,
+                    sActiveHero_5C1B68->field_BC_ypos - (sActiveHero_5C1B68->field_CC_sprite_scale * FP_FromInteger(38)),
+                    sActiveHero_5C1B68->field_CC_sprite_scale,
+                    0);
+            }
+
+            if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_112_Chant_45B1C0)
+            {
+                sActiveHero_5C1B68->sub_45BB90(1);
+            }
+        }
+        else
+        {
+            field_28_state = States::State_10;
+            if ((field_24_portal_type == PortalType::eWorker_1 || field_24_portal_type == PortalType::eShrykull_2) && sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_112_Chant_45B1C0)
+            {
+                sActiveHero_5C1B68->sub_45BB90(0);
+            }
+        }
+
+        if (bPlaySound)
+        {
+            SFX_Play_46FBA0(52u, 70, -1600, field_60_scale);
+        }
+    }
 }
 
 BOOL BirdPortal::vStateIs16_499850()

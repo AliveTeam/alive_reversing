@@ -198,10 +198,44 @@ public:
     EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, int tlvInfo);
 
     // TODO: Wire through other virtuals/vtable
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VUpdate() override;
 
-    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VScreenChanged() override;
+
+    virtual int VGetSaveState(BYTE* /*pSaveBuffer*/)
+    {
+        // TODO
+        return 0;
+    }
+
+    virtual void VPossessed_408F70() override
+    {
+        vPossessed_4774F0();
+    }
+ 
+    virtual __int16 VTakeDamage_408730(BaseGameObject* /*pFrom*/) override
+    {
+        // TODO
+        return 0;
+    }
+
+    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override
+    {
+        vOnTlvCollision_476EA0(pTlv);
+    }
+
+    virtual void VOnTrapDoorOpen() override
+    {
+        vOnTrapDoorOpen_472350();
+    }
+
+    // New virtuals
+    virtual void VUpdateAnimRes_474D80()
+    {
+        vUpdateAnimRes_474D80();
+    }
 
 private:
     EXPORT void vUpdate_4757A0();
@@ -217,6 +251,10 @@ private:
     EXPORT Mudokon* vdtor_475770(signed int flags);
 
     EXPORT void dtor_475B60();
+
+    EXPORT void vScreenChanged_476F30();
+
+    EXPORT void vPossessed_4774F0();
 
 public:
     EXPORT void vUpdateAnimRes_474D80();
