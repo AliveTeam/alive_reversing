@@ -327,7 +327,7 @@ public:
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-    virtual BaseGameObject* Vsub_408FD0(__int16 a2) override;
+    virtual BaseGameObject* VIntoBirdPortal_408FD0(__int16 a2) override;
     virtual void VOnTrapDoorOpen() override;
 
     // Virtual impls

@@ -1073,7 +1073,7 @@ void Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_44B5D0(pTlv);
 }
 
-BaseGameObject* Abe::Vsub_408FD0(__int16 a2)
+BaseGameObject* Abe::VIntoBirdPortal_408FD0(__int16 a2)
 {
     return vsub_44E970(a2);
 }
@@ -2947,7 +2947,7 @@ void Abe::State_0_Idle_44EEB0()
         {
             field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
 
-            BaseGameObject* pObj = Vsub_408FD0(2);
+            BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
             if (pObj)
             {
                 field_1A4 = 0;
@@ -3716,7 +3716,7 @@ void Abe::State_4_WalkEndLeftFoot_44FFC0()
             {
                 field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
                 field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
-                BaseGameObject* pObj = Vsub_408FD0(2);
+                BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
                 if (pObj)
                 {
                     field_1A4 = 0;
@@ -4522,7 +4522,7 @@ void Abe::State_27_HopBegin_4521C0()
 
         if (field_1A8_portal_id == -1)
         {
-            BaseGameObject* pObj = Vsub_408FD0(2);
+            BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
             if (pObj)
             {
                 field_1A4 = 0;
@@ -4904,7 +4904,7 @@ void Abe::State_32_RunJumpLand_453460()
         {
             if (sInputKey_Hop_5550E0 & field_118_prev_held)
             {
-                BaseGameObject* pPortal = Vsub_408FD0(3);
+                BaseGameObject* pPortal = VIntoBirdPortal_408FD0(3);
                 if (pPortal)
                 {
                     field_1A4 = 0;
@@ -4950,7 +4950,7 @@ void Abe::State_32_RunJumpLand_453460()
         {
             if (sInputKey_Hop_5550E0 & field_118_prev_held)
             {
-                BaseGameObject* pPortal = Vsub_408FD0(3);
+                BaseGameObject* pPortal = VIntoBirdPortal_408FD0(3);
                 if (pPortal)
                 {
                     field_1A4 = 0;
@@ -4988,7 +4988,7 @@ void Abe::State_32_RunJumpLand_453460()
         }
         else if (sInputKey_Hop_5550E0 & field_118_prev_held)
         {
-            BaseGameObject* pPortal = Vsub_408FD0(2);
+            BaseGameObject* pPortal = VIntoBirdPortal_408FD0(2);
             if (pPortal)
             {
                 field_1A4 = 0;
@@ -5070,7 +5070,7 @@ void Abe::State_33_RunLoop_4508E0()
             // Run jump
             if (field_118_prev_held & sInputKey_Hop_5550E0)
             {
-                BaseGameObject* pObj = Vsub_408FD0(3);
+                BaseGameObject* pObj = VIntoBirdPortal_408FD0(3);
                 if (pObj)
                 {
                     field_1A4 = 0;
@@ -5148,7 +5148,7 @@ void Abe::State_33_RunLoop_4508E0()
 
         if (field_118_prev_held & sInputKey_Hop_5550E0)
         {
-            BaseGameObject* pObj = Vsub_408FD0(3);
+            BaseGameObject* pObj = VIntoBirdPortal_408FD0(3);
             if (pObj)
             {
                 field_1A4 = 0;

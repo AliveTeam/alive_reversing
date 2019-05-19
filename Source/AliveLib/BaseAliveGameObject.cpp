@@ -12,6 +12,7 @@
 #include "PathData.hpp"
 #include "PlatformBase.hpp"
 #include "Game.hpp"
+#include "BirdPortal.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
@@ -160,9 +161,9 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_408A40(__int16 distance)
     vCheckCollisionLineStillValid_408A40(distance);
 }
 
-BaseGameObject* BaseAliveGameObject::Vsub_408FD0(__int16 a2)
+BaseGameObject* BaseAliveGameObject::VIntoBirdPortal_408FD0(__int16 gridBlocks)
 {
-    return vsub_408FD0(a2);
+    return vIntoBirdPortal_408FD0(gridBlocks);
 }
 
 void BaseAliveGameObject::VOnTrapDoorOpen()
@@ -261,9 +262,50 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
     
 }
 
-BaseGameObject* BaseAliveGameObject::vsub_408FD0(__int16 /*a2*/)
+BaseGameObject* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eBirdPortal_99)
+        {
+            auto pBirdPortal = static_cast<BirdPortal*>(pObj);
+            if (pBirdPortal->field_2C_xpos >= field_B8_xpos)
+            {
+                if (pBirdPortal->field_26_side == PortalSide::eLeft_1)
+                {
+                    if (pBirdPortal->field_2C_xpos - field_B8_xpos <= (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks)) &&
+                        !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+                    {
+                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->Vsub_499430(1))
+                        {
+                            field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                            return pObj;
+                        }
+                    }
+                }
+            }
+            else if (pBirdPortal->field_26_side == PortalSide::eRight_0)
+            {
+                if (field_B8_xpos - pBirdPortal->field_2C_xpos <= ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(numGridBlocks))
+                {
+                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->Vsub_499430(1))
+                        {
+                            field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
+                            return pObj;
+                        }
+                    }
+                }
+            }
+        }
+    }
     return nullptr;
 }
 

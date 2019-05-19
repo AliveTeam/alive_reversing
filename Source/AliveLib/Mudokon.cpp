@@ -3687,7 +3687,7 @@ __int16 Mudokon::AI_Escape_6_47A560()
                     return field_190_sub_state;
                 }
 
-                if (!Vsub_408FD0(3))
+                if (!VIntoBirdPortal_408FD0(3)) // Finds portal to jump into
                 {
                     return field_190_sub_state;
                 }
