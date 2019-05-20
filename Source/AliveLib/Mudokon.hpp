@@ -97,7 +97,7 @@ enum class MudAction : __int16
     ENTRY(AI_Give_rings_0_470C10) \
     ENTRY(AI_Chisel_1_47C5F0) \
     ENTRY(AI_Scrub_2_47D270) \
-    ENTRY(AI_State_3_47E0D0) \
+    ENTRY(AI_State_3_TurnWheel_47E0D0) \
     ENTRY(AI_Wired_4_477B40) \
     ENTRY(AI_ShrivelDeath_5_4714A0) \
     ENTRY(AI_Escape_6_47A560) \
@@ -257,13 +257,14 @@ private:
 
     EXPORT __int16 vTakeDamage_476270(BaseGameObject* pFrom);
 
+    __int16 TurningWheelHelloOrAllYaResponse();
 public:
     EXPORT void vUpdateAnimRes_474D80();
 public: // AI states
     EXPORT __int16 AI_Give_rings_0_470C10();
     EXPORT __int16 AI_Chisel_1_47C5F0();
     EXPORT __int16 AI_Scrub_2_47D270();
-    EXPORT __int16 AI_State_3_47E0D0();
+    EXPORT __int16 AI_State_3_TurnWheel_47E0D0();
 
     EXPORT __int16 AI_Wired_4_Real_477B40();
     EXPORT __int16 AI_Wired_4_477B40();
