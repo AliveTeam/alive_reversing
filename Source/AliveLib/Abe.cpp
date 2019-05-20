@@ -47,6 +47,7 @@
 #include "Particle.hpp"
 #include "Mudokon.hpp"
 #include "Electrocute.hpp"
+#include "BirdPortal.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -973,7 +974,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_19E_to_camera = pSaveState->to_camera;
     sActiveHero_5C1B68->field_1A0_door_id = pSaveState->door_id;
     sActiveHero_5C1B68->field_1A3_throw_direction = pSaveState->field_ca_throw_direction;
-    sActiveHero_5C1B68->field_1A4 = pSaveState->wordCC;
+    sActiveHero_5C1B68->field_1A4_portal_sub_state = pSaveState->wordCC;
     sActiveHero_5C1B68->field_1A8_portal_id = pSaveState->bird_portal_id;
 
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted, pSaveState->bElectrocuted & 1);
@@ -1073,9 +1074,9 @@ void Abe::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_44B5D0(pTlv);
 }
 
-BaseGameObject* Abe::VIntoBirdPortal_408FD0(__int16 a2)
+BirdPortal* Abe::VIntoBirdPortal_408FD0(__int16 gridBlocks)
 {
-    return vsub_44E970(a2);
+    return vIntoBirdPortal_44E970(gridBlocks);
 }
 
 void Abe::VOnTrapDoorOpen()
@@ -1546,9 +1547,13 @@ void Abe::Update_449DC0()
     }
 }
 
-BaseGameObject* Abe::vsub_44E970(__int16 /*a2*/)
+BirdPortal* Abe::vIntoBirdPortal_44E970(__int16 gridBlocks)
 {
-    NOT_IMPLEMENTED();
+    auto pPortal = BaseAliveGameObject::VIntoBirdPortal_408FD0(gridBlocks);
+    if (pPortal && pPortal->field_24_portal_type == PortalType::eAbe_0)
+    {
+        return pPortal;
+    }
     return nullptr;
 }
 
@@ -1952,7 +1957,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->to_camera = field_19E_to_camera;
     pSaveState->door_id = field_1A0_door_id;
     pSaveState->field_ca_throw_direction = field_1A3_throw_direction;
-    pSaveState->wordCC = field_1A4;
+    pSaveState->wordCC = field_1A4_portal_sub_state;
 
     pSaveState->bElectrocuted = field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
     pSaveState->word42 = field_114_flags.Get(Flags_114::e114_Bit8);
@@ -2950,7 +2955,7 @@ void Abe::State_0_Idle_44EEB0()
             BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
             if (pObj)
             {
-                field_1A4 = 0;
+                field_1A4_portal_sub_state = 0;
                 field_1A8_portal_id = pObj->field_8_object_id;
             }
         }
@@ -3719,7 +3724,7 @@ void Abe::State_4_WalkEndLeftFoot_44FFC0()
                 BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
                 if (pObj)
                 {
-                    field_1A4 = 0;
+                    field_1A4_portal_sub_state = 0;
                     field_1A8_portal_id = pObj->field_8_object_id;
                 }
             }
@@ -4525,7 +4530,7 @@ void Abe::State_27_HopBegin_4521C0()
             BaseGameObject* pObj = VIntoBirdPortal_408FD0(2);
             if (pObj)
             {
-                field_1A4 = 0;
+                field_1A4_portal_sub_state = 0;
                 field_1A8_portal_id = pObj->field_8_object_id;
             }
         }
@@ -4907,7 +4912,7 @@ void Abe::State_32_RunJumpLand_453460()
                 BaseGameObject* pPortal = VIntoBirdPortal_408FD0(3);
                 if (pPortal)
                 {
-                    field_1A4 = 0;
+                    field_1A4_portal_sub_state = 0;
                     field_1A8_portal_id = pPortal->field_8_object_id;
                     field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
                     field_118_prev_held = 0;
@@ -4953,7 +4958,7 @@ void Abe::State_32_RunJumpLand_453460()
                 BaseGameObject* pPortal = VIntoBirdPortal_408FD0(3);
                 if (pPortal)
                 {
-                    field_1A4 = 0;
+                    field_1A4_portal_sub_state = 0;
                     field_1A8_portal_id = pPortal->field_8_object_id;
                 }
                 field_106_current_motion = eAbeStates::State_30_RunJumpBegin_4532E0;
@@ -4991,7 +4996,7 @@ void Abe::State_32_RunJumpLand_453460()
             BaseGameObject* pPortal = VIntoBirdPortal_408FD0(2);
             if (pPortal)
             {
-                field_1A4 = 0;
+                field_1A4_portal_sub_state = 0;
                 field_1A8_portal_id = pPortal->field_8_object_id;
             }
             field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
@@ -5073,7 +5078,7 @@ void Abe::State_33_RunLoop_4508E0()
                 BaseGameObject* pObj = VIntoBirdPortal_408FD0(3);
                 if (pObj)
                 {
-                    field_1A4 = 0;
+                    field_1A4_portal_sub_state = 0;
                     field_1A8_portal_id = pObj->field_8_object_id;
                 }
 
@@ -5151,7 +5156,7 @@ void Abe::State_33_RunLoop_4508E0()
             BaseGameObject* pObj = VIntoBirdPortal_408FD0(3);
             if (pObj)
             {
-                field_1A4 = 0;
+                field_1A4_portal_sub_state = 0;
                 field_1A8_portal_id = pObj->field_8_object_id;
             }
             field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
@@ -9112,7 +9117,80 @@ PullRingRope* Abe::GetPullRope_44D120()
 
 void Abe::IntoPortalStates_451990()
 {
-    NOT_IMPLEMENTED();
+    auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_1A8_portal_id));
+    if (pBirdPortal)
+    {
+        PSX_RECT bRect = {};
+        switch (field_1A4_portal_sub_state)
+        {
+        case 0:
+            vGetBoundingRect_424FD0(&bRect, 1);
+            if ((field_C4_velx > FP_FromInteger(0) && FP_FromInteger(bRect.x) > pBirdPortal->field_2C_xpos) ||
+                (field_C4_velx < FP_FromInteger(0) && FP_FromInteger(bRect.w) < pBirdPortal->field_2C_xpos))
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_C8_vely = FP_FromInteger(0);
+                field_C4_velx = FP_FromInteger(0);
+                pBirdPortal->Vsub_499610();
+                pBirdPortal->VGiveShrukul_499680(TRUE);
+                field_1A4_portal_sub_state = 1;
+            }
+
+            field_C8_vely += field_CC_sprite_scale * FP_FromDouble(1.8);
+            field_B8_xpos += field_C4_velx;
+            field_BC_ypos += field_C8_vely;
+            return;
+
+        case 1:
+            if (pBirdPortal->VStateIs16_499850())
+            {
+                LevelIds level = {};
+                WORD path = 0;
+                WORD camera = 0;
+                CameraSwapEffects screenChangeEffect = {};
+                WORD movieId = 0;
+
+                pBirdPortal->VGetMapChange_499AE0(&level, &path, &camera, &screenChangeEffect, &movieId);
+                gMap_5C3030.SetActiveCam_480D30(level, path, camera, screenChangeEffect, movieId, FALSE);
+                field_1A4_portal_sub_state = 4;
+            }
+            break;
+
+        case 2:
+            if (pBirdPortal->VIsState20_499A00())
+            {
+                pBirdPortal->Vsub_499430(0);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_106_current_motion = eAbeStates::State_27_HopBegin_4521C0;
+                pBirdPortal->Vsub_499A20();
+                field_1A8_portal_id = -1;
+            }
+            break;
+
+        case 4:
+            pBirdPortal->VExitPortal_499870();
+            field_1A4_portal_sub_state = 2;
+
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pBirdPortal->field_26_side == PortalSide::eLeft_1);
+
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_B8_xpos = ScaleToGridSize_4498B0(field_CC_sprite_scale) + pBirdPortal->field_34_exit_x;
+            }
+            else
+            {
+                field_B8_xpos = pBirdPortal->field_34_exit_x - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+            field_BC_ypos = pBirdPortal->field_38_exit_y;
+            field_F8_LastLineYPos = pBirdPortal->field_38_exit_y;
+            field_C8_vely = FP_FromInteger(0);
+            field_128.field_8 = FP_FromInteger(0);
+            break;
+
+        default:
+            return;
+        }
+    }
 }
 
 void Abe::Calc_Well_Velocity_45C530(short x1, short y1, short x2, short y2)

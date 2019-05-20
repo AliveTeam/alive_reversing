@@ -327,7 +327,7 @@ public:
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
-    virtual BaseGameObject* VIntoBirdPortal_408FD0(__int16 a2) override;
+    virtual BirdPortal* VIntoBirdPortal_408FD0(__int16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
 
     // Virtual impls
@@ -338,7 +338,7 @@ public:
     EXPORT int vGetSaveState_457110(BYTE* pSaveBuffer);
     EXPORT __int16 vTakeDamage_44BB50(BaseGameObject* pFrom);
     EXPORT void vOn_TLV_Collision_44B5D0(Path_TLV* pTlv);
-    EXPORT BaseGameObject* vsub_44E970(__int16 a2);
+    EXPORT BirdPortal* vIntoBirdPortal_44E970(__int16 gridBlocks);
     EXPORT void vOnTrapDoorOpen_45A570();
 
     // Non virtuals
@@ -567,7 +567,7 @@ public:
     __int16 field_1A0_door_id;
     char field_1A2_rock_or_bone_count;
     char field_1A3_throw_direction;
-    __int16 field_1A4;
+    __int16 field_1A4_portal_sub_state;
     __int16 field_1A6;
     int field_1A8_portal_id;
 

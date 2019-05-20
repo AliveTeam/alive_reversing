@@ -161,7 +161,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_408A40(__int16 distance)
     vCheckCollisionLineStillValid_408A40(distance);
 }
 
-BaseGameObject* BaseAliveGameObject::VIntoBirdPortal_408FD0(__int16 gridBlocks)
+BirdPortal* BaseAliveGameObject::VIntoBirdPortal_408FD0(__int16 gridBlocks)
 {
     return vIntoBirdPortal_408FD0(gridBlocks);
 }
@@ -261,7 +261,7 @@ void BaseAliveGameObject::vCheckCollisionLineStillValid_408A40(__int16 distance)
     
 }
 
-BaseGameObject* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
+BirdPortal* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlocks)
 {
     for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
@@ -284,7 +284,7 @@ BaseGameObject* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlock
                         if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->Vsub_499430(1))
                         {
                             field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
-                            return pObj;
+                            return pBirdPortal;
                         }
                     }
                 }
@@ -298,7 +298,7 @@ BaseGameObject* BaseAliveGameObject::vIntoBirdPortal_408FD0(__int16 numGridBlock
                         if (FP_Abs(field_BC_ypos - pBirdPortal->field_3C_YPos) < field_CC_sprite_scale * FP_FromInteger(10) && pBirdPortal->Vsub_499430(1))
                         {
                             field_20_animation.field_C_render_layer = field_CC_sprite_scale != FP_FromInteger(1) ? 11 : 30;
-                            return pObj;
+                            return pBirdPortal;
                         }
                     }
                 }

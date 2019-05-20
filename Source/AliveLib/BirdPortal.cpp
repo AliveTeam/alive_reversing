@@ -677,9 +677,9 @@ BOOL BirdPortal::VStateIs16_499850()
     return vStateIs16_499850();
 }
 
-__int16 BirdPortal::VExitPortal_499870()
+void BirdPortal::VExitPortal_499870()
 {
-    return vExitPortal_499870();
+    vExitPortal_499870();
 }
 
 BOOL BirdPortal::VIsState20_499A00()
@@ -692,7 +692,7 @@ void BirdPortal::Vsub_499A20()
     vsub_499A20();
 }
 
-void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
+void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
 {
     vGetMapChange_499AE0(level, path, camera, screenChangeEffect, movieId);
 }
@@ -838,10 +838,49 @@ BOOL BirdPortal::vStateIs16_499850()
     return field_28_state == States::State_16;
 }
 
-__int16 BirdPortal::vExitPortal_499870()
+void BirdPortal::vExitPortal_499870()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    field_8E_path = gMap_5C3030.sCurrentPathId_5C3032;
+    field_8C_level = gMap_5C3030.sCurrentLevelId_5C3030;
+
+    auto pPortalExitTlv = static_cast<Path_BirdPortal_Exit*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::PortalExit_29, 0));
+    if (pPortalExitTlv)
+    {
+        PathLine* pLine = nullptr;
+        sCollisions_DArray_5C1128->Raycast_417A60(
+            FP_FromInteger(pPortalExitTlv->field_8_top_left.field_0_x),
+            FP_FromInteger(pPortalExitTlv->field_8_top_left.field_2_y),
+            FP_FromInteger(pPortalExitTlv->field_C_bottom_right.field_0_x),
+            FP_FromInteger(pPortalExitTlv->field_C_bottom_right.field_2_y),
+            &pLine,
+            &field_34_exit_x,
+            &field_38_exit_y,
+            0xFFFFFFFF); // -1 ??
+
+        field_34_exit_x = FP_FromInteger((pPortalExitTlv->field_8_top_left.field_0_x + pPortalExitTlv->field_C_bottom_right.field_0_x) / 2);
+        field_2C_xpos = field_34_exit_x;
+        field_30_ypos = field_38_exit_y - FP_FromInteger(55);
+        field_26_side = pPortalExitTlv->field_10_side;
+
+        if (pPortalExitTlv->field_12_scale == 1)
+        {
+            field_60_scale = FP_FromDouble(0.5);
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 11;
+            sActiveHero_5C1B68->field_D6_scale = 0;
+        }
+        else
+        {
+            field_60_scale = FP_FromInteger(1);
+            sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 30;
+            sActiveHero_5C1B68->field_D6_scale = 1;
+        }
+
+        sActiveHero_5C1B68->field_CC_sprite_scale = field_60_scale;
+        sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
+        sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+
+        field_28_state = States::State_17;
+    }
 }
 
 BOOL BirdPortal::vIsState20_499A00()
@@ -855,7 +894,7 @@ void BirdPortal::vsub_499A20()
     field_5C_timer = sGnFrame_5C1B84 + 30;
 }
 
-void BirdPortal::vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, WORD* screenChangeEffect, WORD* movieId)
+void BirdPortal::vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
 {
     // TODO: Strongly type change effect and level
 
@@ -865,12 +904,12 @@ void BirdPortal::vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera,
 
     if (field_64_movie_id <= 0)
     {
-        *screenChangeEffect = 0;
+        *screenChangeEffect = CameraSwapEffects::eEffect0_InstantChange;
     }
     else
     {
         *movieId = field_64_movie_id;
-        *screenChangeEffect = 5;
+        *screenChangeEffect = CameraSwapEffects::eEffect5_1_FMV;
     }
 }
 
