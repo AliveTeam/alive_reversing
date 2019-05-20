@@ -4399,8 +4399,38 @@ __int16 Mudokon::BrainState4_State_22()
 
 __int16 Mudokon::AI_ShrivelDeath_5_4714A0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_194_timer < static_cast<int>(sGnFrame_5C1B84 + 80))
+    {
+        field_CC_sprite_scale -= FP_FromDouble(0.008);
+        field_D0_r -= 2;
+        field_D2_g -= 2;
+        field_D4_b -= 2;
+    }
+
+    if (static_cast<int>(sGnFrame_5C1B84) < field_194_timer - 24)
+    {
+        if ((sGnFrame_5C1B84 % 4) == 0)
+        {
+            // Fizzel steam/smoke
+            New_Particles_426C70(
+                (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos, 
+                field_BC_ypos - FP_FromInteger(6), 
+                field_CC_sprite_scale / FP_FromInteger(2),
+                2, 128, 128, 128);
+
+            // Fizzle sound
+            SFX_Play_46FBA0(79, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
+        }
+    }
+
+    // Finally fizzled out
+    if (field_CC_sprite_scale < FP_FromInteger(0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    return 100;
+
 }
 
 __int16 Mudokon::AI_Escape_6_47A560()
