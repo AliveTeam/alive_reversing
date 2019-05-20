@@ -423,7 +423,7 @@ private:
     int field_158_wheel_id;
     __int16 field_15C;
     __int16 field_15E;
-    __int16 field_160_delayed_speak;
+    MudSounds field_160_delayed_speak;
     __int16 field_162_maxXOffset;
     int field_164_ring_timeout;
     RingTypes field_168_ring_type;

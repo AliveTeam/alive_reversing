@@ -638,7 +638,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
     field_118 = field_C_objectId;
 
     field_128_angry_timer = 0;
-    field_160_delayed_speak = -1;
+    field_160_delayed_speak = MudSounds::eNone;
     field_162_maxXOffset = field_DA_xOffset;
     
     field_E0_pShadow = alive_new<Shadow>();
@@ -4608,10 +4608,201 @@ __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
     return field_190_sub_state;
 }
 
+// TODO: Check what this may have been for originally, seems odd its always the same response ??
+const static MudSounds word_55CFCA[7] = { MudSounds::e0, MudSounds::e0, MudSounds::e0, MudSounds::e0, MudSounds::e0, MudSounds::e0, MudSounds::e0 };
+
 __int16 Mudokon::AI_AngryWorker_8_47E910()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_190_sub_state)
+    {
+    case 0u:
+        if (field_106_current_motion)
+        {
+            field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+        }
+
+        if (field_16A_flags.Get(Flags::eBit15_ring_timeout))
+        {
+            const GameSpeakEvents lastSpeak = LastGameSpeak_476FF0();
+            if (lastSpeak < 9 || lastSpeak > 24)
+            {
+                return field_190_sub_state;
+            }
+        }
+
+        field_194_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 45);
+        
+        AddAlerted();
+
+        return sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            TlvTypes::WorkWheel_79) != 0 ? 4 : 1;
+
+    case 1u:
+    {
+        if (field_17E_delayed_speak == MudAction::eSorry_8)
+        {
+            field_194_timer = sGnFrame_5C1B84 + 20;
+            return 3;
+        }
+
+        const GameSpeakEvents lastSpeak = LastGameSpeak_476FF0();
+        if (lastSpeak >= 9
+            && lastSpeak <= 24
+            && sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
+        {
+            field_160_delayed_speak = word_55CFCA[lastSpeak];
+            field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
+            return 3;
+        }
+
+        if (field_194_timer > static_cast<int>(sGnFrame_5C1B84))
+        {
+            return field_190_sub_state;
+        }
+
+        const FP ypos = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        FP xOff = {};
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            xOff = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+        else
+        {
+            xOff = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+
+        auto pLever = static_cast<Switch*>(FindObjectOfType_425180(Types::eLever_139, xOff + field_B8_xpos, ypos));
+        if (pLever)
+        {
+            field_108_next_motion = Mud_Motion::PullLever_10_473020;
+            pLever->Vsub_4D6050(field_B8_xpos < pLever->field_B8_xpos);
+        }
+    }
+        return 2;
+
+    case 2u:
+        if (field_106_current_motion)
+        {
+            return field_190_sub_state;
+        }
+
+        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
+        {
+            field_194_timer = sGnFrame_5C1B84 + 90;
+        }
+        else
+        {
+            field_194_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 45);
+        }
+        return 1;
+
+    case 3u:
+        if (field_194_timer > static_cast<int>(sGnFrame_5C1B84))
+        {
+            return field_190_sub_state;
+        }
+
+        if (field_17E_delayed_speak == MudAction::eSorry_8)
+        {
+            field_188_pTblEntry = ResponseTo_471730(field_180_emo_tbl, MudAction::eSorry_8);
+            field_17E_delayed_speak = MudAction::eUnknown_17;
+            if (field_188_pTblEntry->field_0_sound != MudSounds::eNone)
+            {
+                Sound_475EC0(field_188_pTblEntry->field_0_sound);
+            }
+            field_108_next_motion = field_188_pTblEntry->field_2_next_motion;
+            field_180_emo_tbl = field_188_pTblEntry->field_4_emo_tbl;
+            field_18E_ai_state = Mud_AI_State::AI_Wired_4_477B40;
+            return 7;
+        }
+        else
+        {
+            field_108_next_motion = Mud_Motion::Speak_Generic_6_472FA0;
+            Sound_475EC0(field_160_delayed_speak);
+            field_194_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 45);
+            return sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                TlvTypes::WorkWheel_79) != 0 ? 4 : 1;
+        }
+        break;
+
+    case 4u:
+        if (field_194_timer > static_cast<int>(sGnFrame_5C1B84))
+        {
+            return field_190_sub_state;
+        }
+        field_108_next_motion = Mud_Motion::TurnWheelBegin_57_474C00;
+        return 5;
+
+    case 5u:
+    {
+        const GameSpeakEvents lastSpeak2 = LastGameSpeak_476FF0();
+        if (lastSpeak2 >= 9
+            && lastSpeak2 <= 24
+            && sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
+        {
+            field_108_next_motion = 0;
+            field_160_delayed_speak = word_55CFCA[lastSpeak2];
+            field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
+            return 3;
+        }
+
+        if (field_17E_delayed_speak != MudAction::eSorry_8)
+        {
+            return field_190_sub_state;
+        }
+
+        field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+        field_194_timer = sGnFrame_5C1B84 + 20;
+    }
+        return 3;
+
+    case 6u:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+        {
+            return field_190_sub_state;
+        }
+
+        if (field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        {
+            if (field_106_current_motion == Mud_Motion::CrouchIdle_15_474040)
+            {
+                field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+                return field_190_sub_state;
+            }
+            else
+            {
+                if (field_106_current_motion == Mud_Motion::Duck_53_474A40)
+                {
+                    field_108_next_motion = Mud_Motion::CrouchIdle_15_474040;
+                }
+                return field_190_sub_state;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+        break;
+
+    case 7u:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_194_timer)
+        {
+            return field_190_sub_state;
+        }
+        field_108_next_motion = Mud_Motion::DuckKnockBack_55_474250;
+        field_194_timer = sGnFrame_5C1B84 + 60;
+        return 6;
+    }
+
+    return field_190_sub_state;
 }
 
 __int16 Mudokon::AI_Sick_9_47A910()
