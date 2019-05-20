@@ -54,7 +54,7 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
     BaseAnimatedWithPhysicsGameObject_ctor_424930(resourceArraySize);
     SetVTable(this, 0x544000);
 
-    field_114_flags.Clear(Flags_114::e114_Bit1);
+    field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
     field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
     field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);

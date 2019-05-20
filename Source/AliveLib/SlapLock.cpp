@@ -320,7 +320,7 @@ int CC SlapLock::CreateFromSaveState_43EA00(const BYTE* pBuffer)
 
     pSlapLock->field_120_state = pState->field_A_state;
     pSlapLock->field_124_timer1 = pState->field_C_timer1;
-    pSlapLock->field_114_flags.Set(Flags_114::e114_Bit1);
+    pSlapLock->field_114_flags.Set(Flags_114::e114_Bit1_bShot);
     pSlapLock->field_13C_timer2 = pState->field_14_timer2;
     return sizeof(SlapLock_State);
 }

@@ -26,6 +26,8 @@
 #include "MainMenu.hpp"
 #include "StatsSign.hpp"
 #include "MusicTrigger.hpp"
+#include "Blood.hpp"
+#include "Gibs.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
@@ -858,7 +860,7 @@ void Mudokon::vOnTrapDoorOpen_472350()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (pPlatform)
     {
-        if (!field_114_flags.Get(Flags_114::e114_Bit1))
+        if (!field_114_flags.Get(Flags_114::e114_Bit1_bShot))
         {
             VSetMotion_4081C0(Mud_Motion::FallLedgeBegin_48_4743C0);
         }
@@ -1037,6 +1039,368 @@ void Mudokon::vPossessed_4774F0()
         {
             field_188_pTblEntry = Mudokon::ResponseTo_471730(Mud_Emotion::eNormal_0, MudAction::eHelloOrAllYa_0);
         }
+    }
+}
+
+class Obj_15 : public BaseGameObject
+{
+public:
+
+
+    __int16 field_20_type;
+private:
+    __int16 field_22;
+    PathLine* field_24_pLine;
+    int field_28_xpos;
+    int field_2C_ypos;
+public:
+    int field_30;
+private:
+    int field_34;
+    __int16 field_38_level;
+    __int16 field_3A_path;
+    int field_3C_scale;
+    int field_40_pParent;
+    __int16 field_44;
+    __int16 field_46;
+};
+ALIVE_ASSERT_SIZEOF(Obj_15, 0x48);
+
+__int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
+{
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eBullet_15:
+    {
+        field_114_flags.Set(Flags_114::e114_Bit1_bShot);
+        if (field_10C_health <= FP_FromInteger(0))
+        {
+            return 1;
+        }
+
+        auto pBullet = static_cast<Obj_15*>(pFrom);
+        switch (pBullet->field_20_type)
+        {
+        case 0:
+        case 2:
+        {
+            auto pBloodFromShot = alive_new<Blood>();
+            if (pBloodFromShot)
+            {
+                pBloodFromShot->ctor_40F0B0(
+                    field_B8_xpos,
+                    field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+                    pBullet->field_30 <= 0 ? FP_FromInteger(-24) : FP_FromInteger(24),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    50);
+            }
+            SetPal_4772D0(Mud_Emotion::eNormal_0);
+            break;
+        }
+
+        default:
+            break;
+        }
+
+        if (pBullet->field_20_type == 1 || pBullet->field_20_type == 3)
+        {
+            PSX_RECT v11 = {};
+            vGetBoundingRect_424FD0(&v11, 1);
+            const FP tlvYPos = FP_FromInteger(v11.h);
+
+            if (InZBulletCover(tlvYPos, v11) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                tlvYPos,
+                0))
+            {
+                // ZCover saved us, or somehow we've not in the current camera
+                field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
+                field_10C_health = FP_FromInteger(1);
+                return 0;
+            }
+
+            // Nothing saved us, get shot
+            auto pBloodMem = alive_new<Blood>();
+            if (pBloodMem)
+            {
+                pBloodMem->ctor_40F0B0(
+                    field_B8_xpos,
+                    field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    50);
+            }
+
+            SetPal_4772D0(Mud_Emotion::eNormal_0);
+            // Fall though to other cases below
+        }
+    }
+
+    case Types::eGasClock_23:
+    case Types::eRockSpawner_48:
+    case Types::eMineCar_89:
+    case Types::eParamite_96:
+    case Types::eScrab_112:
+        if (field_10C_health <= FP_FromInteger(0))
+        {
+            return 0;
+        }
+        field_16A_flags.Clear(Flags::eBit2_save_state);
+        field_10C_health = FP_FromInteger(0);
+        field_18E_ai_state = Mud_AI_State::AI_ShrivelDeath_5_4714A0;
+        field_106_current_motion = Mud_Motion::KnockForward_45_474180;
+        field_108_next_motion = -1;
+        field_194_timer = sGnFrame_5C1B84 + 90;
+        VUpdateAnimRes_474D80();
+        Event_Broadcast_422BC0(kEventMudokonDied, this);
+        if (pFrom->field_4_typeId == Types::eGasClock_23)
+        {
+            SFX_Play_46FBA0(81u, 127, 128);
+        }
+        else
+        {
+            Abe_SFX_457EC0(9u, 0, Math_RandomRange_496AB0(-127, 127), this);
+        }
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
+        return 1;
+
+    case Types::eGrinder_30:
+    case Types::eBaseBomb_46:
+    case Types::eType_86:
+    case Types::eExplosion_109:
+        if (field_10C_health <= FP_FromInteger(0)
+            || FindObjectOfType_425180(Types::eTorturedMud_141,field_B8_xpos, field_BC_ypos - FP_FromInteger(50))
+            && field_18E_ai_state == Mud_AI_State::AI_Sick_9_47A910)
+        {
+            return 1;
+        }
+
+        field_10C_health = FP_FromInteger(0);
+
+        if (field_16A_flags.Get(Flags::eBit4_blind))
+        {
+            auto pMudGibs1 = alive_new<Gibs>();
+            if (pMudGibs1)
+            {
+                pMudGibs1->ctor_40FB40(
+                    4,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    0);
+            }
+
+            auto pMudGibs2 = alive_new<Gibs>();
+            if (pMudGibs2)
+            {
+                pMudGibs2->ctor_40FB40(
+                    4,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    0);
+            }
+        }
+        else
+        {
+            auto pMudGibs1 = alive_new<Gibs>();
+            if (pMudGibs1)
+            {
+                pMudGibs1->ctor_40FB40(
+                    3,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    0);
+            }
+
+            auto pMudGibs2 = alive_new<Gibs>();
+            if (pMudGibs2)
+            {
+                pMudGibs2->ctor_40FB40(
+                    3,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    0);
+            }
+        }
+
+        field_6_flags.Set(BaseGameObject::eDead);
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
+        Event_Broadcast_422BC0(kEventMudokonDied, sActiveHero_5C1B68);
+        return 1;
+
+    case Types::eElectricWall_39:
+        Abe_SFX_457EC0(15u, 0, 0, this);
+        Event_Broadcast_422BC0(kEventMudokonDied, this);
+        return 1;
+
+    case Types::eFleech_50:
+        if (field_10C_health <= FP_FromInteger(0))
+        {
+            return 1;
+        }
+
+        field_10C_health -= FP_FromDouble(0.200988769531); // TODO Do we need this level of accuracy?? 0x3374;
+        if (field_10C_health <= FP_FromInteger(0))
+        {
+            field_10C_health = FP_FromInteger(0);
+            Abe_SFX_457EC0(16u, 0, 1000, this);
+            field_16A_flags.Clear(Flags::eBit2_save_state);
+            field_18E_ai_state = Mud_AI_State::AI_ShrivelDeath_5_4714A0;
+            field_194_timer = sGnFrame_5C1B84 + 90;
+            field_106_current_motion = StandToKnockBack_46_4742A0;
+            field_108_next_motion = -1;
+            Event_Broadcast_422BC0(kEventMudokonDied, this);
+            SetPal_4772D0(Mud_Emotion::eNormal_0);
+
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+
+            auto pFleech = static_cast<BaseAliveGameObject*>(pFrom);
+            auto pBloodFromFleech = alive_new<Blood>();
+            if (pBloodFromFleech)
+            {
+                pBloodFromFleech->ctor_40F0B0(
+                    field_B8_xpos,
+                    (FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2)),
+                    field_B8_xpos - pFleech->field_B8_xpos < FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    50);
+            }
+
+            // TODO: Only set if pFrom->field_B8_xpos != field_B8_xpos ??
+            field_106_current_motion = Mud_Motion::KnockForward_45_474180;
+
+            VUpdateAnimRes_474D80();
+            SFX_Play_46FA90(64u, 127);
+            SFX_Play_46FA90(47u, 90);
+        }
+        else
+        {
+            HurtSound_475DB0();
+        }
+        return 1;
+
+    case Types::eType_Abe_69:
+        if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_62_Punch_454750)
+        {
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                SetPal_4772D0(Mud_Emotion::eNormal_0);
+                TakeASlap_476090(pFrom);
+            }
+        }
+        else if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_63_Sorry_454670)
+        {
+            field_17E_delayed_speak = MudAction::eSorry_8;
+        }
+        return 1;
+
+    case Types::eType_104:
+        return 0;
+
+    case Types::eMudokon_110:
+        if (static_cast<Mudokon*>(pFrom)->field_106_current_motion != Mud_Motion::Slap_38_474AA0 || field_10C_health <= FP_FromInteger(0))
+        {
+            return 1;
+        }
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
+        TakeASlap_476090(pFrom);
+        return 1;
+
+    case Types::eType_121:
+    case Types::eElectrocute_150:
+        if (field_10C_health <= FP_FromInteger(0))
+        {
+            return 1;
+        }
+        field_10C_health = FP_FromInteger(0);
+        Event_Broadcast_422BC0(kEventMudokonDied, this);
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
+        field_6_flags.Set(BaseGameObject::eDead);
+        return 1;
+
+    case Types::eSlamDoor_122:
+        if (field_10C_health <= FP_FromInteger(0) || field_106_current_motion == Mud_Motion::JumpMid_36_474570)
+        {
+            return 1;
+        }
+        StandingKnockBack_473190();
+        VUpdateAnimRes_474D80();
+        return 1;
+
+    case Types::eSlog_126:
+        if (field_10C_health <= FP_FromInteger(0))
+        {
+            return 1;
+        }
+        field_16A_flags.Clear(Flags::eBit2_save_state);
+        field_10C_health = FP_FromInteger(0);
+        field_18E_ai_state = Mud_AI_State::AI_ShrivelDeath_5_4714A0;
+        field_194_timer = sGnFrame_5C1B84 + 90;
+        field_106_current_motion = Mud_Motion::KnockForward_45_474180;
+        Event_Broadcast_422BC0(kEventMudokonDied, this);
+        VUpdateAnimRes_474D80();
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
+        return 1;
+
+    default:
+        if (field_10C_health <= FP_FromInteger(0))
+        {
+            return 1;
+        }
+        HurtSound_475DB0();
+        field_106_current_motion = Mud_Motion::KnockForward_45_474180;
+        field_108_next_motion = -1;
+        field_194_timer = sGnFrame_5C1B84 + 30;
+        VUpdateAnimRes_474D80();
+        if (field_10_resources_array.ItemAt(2))
+        {
+            field_18E_ai_state = Mud_AI_State::AI_Chisel_1_47C5F0;
+            field_190_sub_state = 8;
+        }
+        else
+        {
+            field_18E_ai_state = Mud_AI_State::AI_Scrub_2_47D270;
+            field_190_sub_state = 7;
+        }
+
+        field_DA_xOffset = field_162_maxXOffset;
+
+        RemoveAlerted();
+
+        if (pFrom == sControlledCharacter_5C1B8C)
+        {
+            field_10C_health -= FP_FromDouble(0.06);
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                Event_Broadcast_422BC0(kEventMudokonAbuse, this);
+            }
+            else
+            {
+                field_16A_flags.Clear(Flags::eBit2_save_state);
+                field_18E_ai_state = Mud_AI_State::AI_ShrivelDeath_5_4714A0;
+                field_194_timer = sGnFrame_5C1B84 + 90;
+                Event_Broadcast_422BC0(kEventMudokonDied, this);
+            }
+        }
+        SetPal_4772D0(Mud_Emotion::eNormal_0);
+        return 1;
     }
 }
 
@@ -6072,7 +6436,7 @@ void Mudokon::HurtSound_475DB0()
     Abe_SFX_457EC0(random, bInCamera ? 0 : 80, Math_RandomRange_496AB0(200 * min, 40 * (5 * min + 5)), this);
 }
 
-void Mudokon::TakeASlap_476090(Abe* pFrom)
+void Mudokon::TakeASlap_476090(BaseGameObject* pFrom)
 {
     if (field_180_emo_tbl != Mud_Emotion::eSick_7)
     {
@@ -6123,4 +6487,51 @@ void Mudokon::TakeASlap_476090(Abe* pFrom)
         field_108_next_motion = -1;
         vUpdateAnimRes_474D80();
     }
+}
+
+bool Mudokon::InZBulletCover(FP tlvYPos, const PSX_RECT& v11)
+{
+    Path_TLV* pZCover = nullptr;
+    while (1)
+    {
+        // Go to the next entry (or first if first call)
+        pZCover = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pZCover,
+            field_B8_xpos,
+            tlvYPos,
+            field_B8_xpos,
+            tlvYPos);
+
+        // No more TLVs? Then no z cover
+        if (!pZCover)
+        {
+            break;
+        }
+
+        // Is it a zcover?
+        if (pZCover->field_4_type == TlvTypes::ZSligCover_50)
+        {
+            // Within zcover?
+            if (v11.x >= pZCover->field_8_top_left.field_0_x && 
+                v11.x <= pZCover->field_C_bottom_right.field_0_x &&
+                v11.y >= pZCover->field_8_top_left.field_2_y && 
+                v11.y <= pZCover->field_C_bottom_right.field_2_y)
+            {
+                if (v11.w < pZCover->field_8_top_left.field_0_x ||
+                    v11.w > pZCover->field_C_bottom_right.field_0_x ||
+                    v11.h < pZCover->field_8_top_left.field_2_y ||
+                    v11.h > pZCover->field_C_bottom_right.field_2_y)
+                {
+                    // No, keep going
+                    continue;
+                }
+                else
+                {
+                    // Yup
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

@@ -1325,7 +1325,7 @@ void Abe::Update_449DC0()
             VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
         }
 
-        if (field_114_flags.Get(Flags_114::e114_Bit1))
+        if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
         {
             state_idx = field_122;
             ToKnockback_44E700(1, 1);
@@ -1337,7 +1337,7 @@ void Abe::Update_449DC0()
             field_108_next_motion = 0;
             field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2);
             field_122 = eAbeStates::State_0_Idle_44EEB0;
-            field_114_flags.Clear(Flags_114::e114_Bit1);
+            field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
             field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
         }
 
@@ -2101,7 +2101,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         {
             if (field_10C_health > FP_FromInteger(0))
             {
-                field_114_flags.Set(Flags_114::e114_Bit1);
+                field_114_flags.Set(Flags_114::e114_Bit1_bShot);
                 field_122 = eAbeStates::State_71_Knockback_455090;
                 field_108_next_motion = eAbeStates::State_71_Knockback_455090;
             }
@@ -2256,7 +2256,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
         Abe_SFX_457EC0(9u, 0, 0, this);
         Abe_SFX_2_457A40(7, 0, 0x7FFF, this);
-        field_114_flags.Set(Flags_114::e114_Bit1);
+        field_114_flags.Set(Flags_114::e114_Bit1_bShot);
         field_122 = eAbeStates::State_101_KnockForward_455420;
         field_108_next_motion = eAbeStates::State_101_KnockForward_455420;
         field_10C_health = FP_FromInteger(0);
@@ -2417,7 +2417,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
     default:
         sub_44C980(pFrom);
-        if (!(field_114_flags.Get(Flags_114::e114_Bit1)))
+        if (!(field_114_flags.Get(Flags_114::e114_Bit1_bShot)))
         {
             ret = 0;
             field_128.field_18_say = oldSay;
@@ -8858,7 +8858,7 @@ void Abe::ToDieFinal_458910()
     }
 
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
-    field_114_flags.Clear(Flags_114::e114_Bit1);
+    field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
     field_106_current_motion = eAbeStates::State_57_Dead_4589A0;
     field_124_gnFrame = 0;
     field_10C_health = FP_FromInteger(0);
@@ -9060,7 +9060,7 @@ EXPORT __int16 Abe::ForceDownIfHoisting_44BA30()
 
     field_124_gnFrame = 0;
 
-    field_114_flags.Clear(Flags_114::e114_Bit1);
+    field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
 
     return 1;

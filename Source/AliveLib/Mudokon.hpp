@@ -215,10 +215,9 @@ public:
         vPossessed_4774F0();
     }
  
-    virtual __int16 VTakeDamage_408730(BaseGameObject* /*pFrom*/) override
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
     {
-        // TODO
-        return 0;
+        return vTakeDamage_476270(pFrom);
     }
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override
@@ -255,6 +254,8 @@ private:
     EXPORT void vScreenChanged_476F30();
 
     EXPORT void vPossessed_4774F0();
+
+    EXPORT __int16 vTakeDamage_476270(BaseGameObject* pFrom);
 
 public:
     EXPORT void vUpdateAnimRes_474D80();
@@ -390,8 +391,9 @@ private:
 
     EXPORT void HurtSound_475DB0();
 
-    EXPORT void TakeASlap_476090(Abe *pFrom);
+    EXPORT void TakeASlap_476090(BaseGameObject *pFrom);
 
+    bool InZBulletCover(FP tlvYPos, const PSX_RECT& v11);
 private:
     __int16 field_116;
     int field_118;

@@ -16,7 +16,7 @@ class BirdPortal;
 
 enum Flags_114
 {
-    e114_Bit1 = 0x1,
+    e114_Bit1_bShot = 0x1,
     e114_MotionChanged_Bit2 = 0x2,
     e114_Bit3_Can_Be_Possessed = 0x4,
     e114_Bit4_bPossesed = 0x8,
