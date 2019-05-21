@@ -281,6 +281,8 @@ ExportHooker.hpp
     Glukkon.hpp
     ScreenClipper.cpp
     ScreenClipper.hpp
+    MovingBomb.hpp
+    MovingBomb.cpp
     TouchController.cpp
     TouchController.hpp
 )

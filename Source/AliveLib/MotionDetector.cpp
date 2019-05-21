@@ -390,7 +390,7 @@ void MotionDetector::vUpdate_468A90()
                 break;
             }
 
-            if (pObj->field_4_typeId != Types::eTimedMine_10 && (pObj->field_4_typeId == Types::eType_Abe_69 || pObj->field_4_typeId == Types::eMudokon_110 || !pOwner))
+            if (pObj->field_4_typeId != Types::eTimedMine_or_MovingBomb_10 && (pObj->field_4_typeId == Types::eType_Abe_69 || pObj->field_4_typeId == Types::eMudokon_110 || !pOwner))
             {
                 PSX_RECT objRect = {};
                 pObj->vGetBoundingRect_424FD0(&objRect, 1);

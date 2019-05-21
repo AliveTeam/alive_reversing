@@ -8195,7 +8195,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
         bool trySlapOrCollect = false;
         switch (pSlapableOrCollectable->field_4_typeId)
         {
-        case Types::eTimedMine_10:
+        case Types::eTimedMine_or_MovingBomb_10:
         case Types::eUXB_143:
             field_106_current_motion = eAbeStates::State_100_Slap_Bomb_455B60;
             if (bStandToCrouch)
