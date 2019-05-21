@@ -4448,7 +4448,12 @@ __int16 Mudokon::AI_Escape_6_47A560()
             noBirdPortalOrPortalIsDead = true;
         }
 
-        const bool bOver60Away = FP_Abs(pBirdPortal->field_30_ypos - field_BC_ypos) > (field_CC_sprite_scale * FP_FromInteger(60));
+        bool bOver60Away = false;
+        if (pBirdPortal)
+        {
+            bOver60Away = FP_Abs(pBirdPortal->field_30_ypos - field_BC_ypos) > (field_CC_sprite_scale * FP_FromInteger(60));
+        }
+
         if (bOver60Away || noBirdPortalOrPortalIsDead)
         {
             --word_5C3012;
