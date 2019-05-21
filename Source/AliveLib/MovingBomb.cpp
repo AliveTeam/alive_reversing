@@ -8,6 +8,8 @@
 #include "Midi.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
+#include "Sfx.hpp"
+#include "Abe.hpp"
 
 TintEntry stru_55C734[4] =
 {
@@ -142,4 +144,46 @@ void MovingBomb::dtor_4700C0()
         dword_5C300C = 0;
     }
     dtor_4080B0();
+}
+
+EXPORT void MovingBomb::BlowUp_470070()
+{
+    field_6_flags.Clear(BaseGameObject::eCanExplode);
+    field_118_state = 6;
+    field_C8_vely = FP_FromInteger(0);
+    field_120_timer = sGnFrame_5C1B84 + 1;
+    SFX_Play_46FA90(2u, 100, field_CC_sprite_scale);
+}
+
+void MovingBomb::vRender_4707D0(int** ot)
+{
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
+    }
+}
+
+void MovingBomb::vScreenChanged_470B90()
+{
+    BaseGameObject::VScreenChanged();
+
+    if (!field_136_persist_offscreen)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    const FP xDelta = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
+    if (xDelta > FP_FromInteger(750))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    const FP yDelta = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
+    if (yDelta > FP_FromInteger(520))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
 }

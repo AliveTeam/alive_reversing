@@ -34,6 +34,13 @@ private:
 
     EXPORT void dtor_4700C0();
 
+    EXPORT void BlowUp_470070();
+
+    EXPORT void vRender_4707D0(int** ot);
+
+    EXPORT void vScreenChanged_470B90();
+
+
 private:
     __int16 field_116;
     __int16 field_118_state;
