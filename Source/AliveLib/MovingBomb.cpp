@@ -187,3 +187,11 @@ void MovingBomb::vScreenChanged_470B90()
         return;
     }
 }
+
+void MovingBomb::FollowLine_470950()
+{
+    if (field_100_pCollisionLine)
+    {
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+    }
+}

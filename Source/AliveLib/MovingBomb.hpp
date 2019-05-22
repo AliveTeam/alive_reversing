@@ -40,6 +40,7 @@ private:
 
     EXPORT void vScreenChanged_470B90();
 
+    EXPORT void FollowLine_470950();
 
 private:
     __int16 field_116;
