@@ -10,6 +10,11 @@
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
+#include "Explosion.hpp"
+#include "Gibs.hpp"
+#include "BaseAliveGameObject.hpp"
+#include "Events.hpp"
+#include "SwitchStates.hpp"
 
 TintEntry stru_55C734[4] =
 {
@@ -105,6 +110,31 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     return this;
 }
 
+BaseGameObject* MovingBomb::VDestructor(signed int flags)
+{
+    return vdtor_470040(flags);
+}
+
+void MovingBomb::VUpdate()
+{
+    vUpdate_4701E0();
+}
+
+void MovingBomb::VRender(int** pOrderingTable)
+{
+    vRender_4707D0(pOrderingTable);
+}
+
+void MovingBomb::vnull_4081A0(BaseGameObject* pFrom)
+{
+    vsub_470800(pFrom);
+}
+
+__int16 MovingBomb::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return vTakeDamage_470990(pFrom);
+}
+
 MovingBomb* MovingBomb::vdtor_470040(signed int flags)
 {
     dtor_4700C0();
@@ -193,5 +223,282 @@ void MovingBomb::FollowLine_470950()
     if (field_100_pCollisionLine)
     {
         field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+    }
+}
+
+__int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
+{
+    if (field_6_flags.Get(BaseGameObject::eDead) || field_10C_health <= FP_FromInteger(0))
+    {
+        return 1;
+    }
+
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eType_104:
+    case Types::eExplosion_109:
+    case Types::eType_121:
+    {
+        field_10C_health = FP_FromInteger(0);
+        auto pExplosion = alive_new<Explosion>();
+        if (pExplosion)
+        {
+            pExplosion->ctor_4A1200(field_B8_xpos, field_BC_ypos, field_CC_sprite_scale, 0);
+        }
+
+        auto pGibs = alive_new<Gibs>();
+        if (pGibs)
+        {
+            pGibs->ctor_40FB40(5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
+        }
+
+        field_118_state = 7;
+
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_120_timer = sGnFrame_5C1B84 + 4;
+    }
+        return 0;
+
+    case Types::eElectrocute_150:
+        field_118_state = 7;
+        return 0;
+
+    default:
+        return 1;
+    }
+}
+
+void MovingBomb::vsub_470800(BaseGameObject* /*pObj*/)
+{
+    if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        BlowUp_470070();
+    }
+}
+
+signed __int16 MovingBomb::HitObject_470830()
+{
+    PSX_RECT bRect = {};
+    vGetBoundingRect_424FD0(&bRect, 1);
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj != this)
+        {
+            if (pObj->field_114_flags.Get(Flags_114::e114_Bit6_SetOffExplosives))
+            {
+                if (pObj->field_10C_health > FP_FromInteger(0))
+                {
+                    PSX_RECT objRect = {};
+                    pObj->vGetBoundingRect_424FD0(&objRect, 1);
+                    if (bRect.x <= objRect.w &&
+                        bRect.w >= objRect.x &&
+                        bRect.h >= objRect.y &&
+                        bRect.y <= objRect.h &&
+                        pObj->field_CC_sprite_scale == field_CC_sprite_scale &&
+                        pObj->field_C0_path_number == field_C0_path_number)
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+void MovingBomb::vUpdate_4701E0()
+{
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (field_118_state < 6)
+    {
+        if (HitObject_470830())
+        {
+            if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+            {
+                BlowUp_470070();
+            }
+        }
+    }
+
+    if (dword_5C300C == nullptr || dword_5C300C == this)
+    {
+        if (field_20_animation.field_92_current_frame != 0 &&  field_20_animation.field_92_current_frame != 7)
+        {
+            dword_5C300C = this;
+        }
+        else
+        {
+            if (field_130_sound_channels)
+            {
+                SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
+            }
+
+            if (vIsObjNearby_4253B0(FP_FromInteger(700), sActiveHero_5C1B68))
+            {
+                const FP yDelta = FP_Abs(sActiveHero_5C1B68->field_BC_ypos - field_BC_ypos);
+                if (yDelta <= FP_FromInteger(700))
+                {
+                    if (field_118_state == 4)
+                    {
+                        field_130_sound_channels = SFX_Play_46FA90(48u, 55, field_CC_sprite_scale);
+                    }
+                    else
+                    {
+                        field_130_sound_channels = SFX_Play_46FA90(48u, 80, field_CC_sprite_scale);
+                    }
+                    dword_5C300C = this;
+                }
+                else
+                {
+                    if (field_118_state == 4)
+                    {
+                        field_130_sound_channels = 0;
+                        dword_5C300C = this;
+                    }
+                    else
+                    {
+                        field_130_sound_channels = SFX_Play_46FA90(48u, 12, field_CC_sprite_scale);
+                        dword_5C300C = this;
+                    }
+                }
+            }
+        }
+    }
+
+    switch (field_118_state)
+    {
+    case 0:
+        if (Event_Get_422C00(kEventAlarm))
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_118_state = 2;
+        }
+        break;
+
+    case 1:
+        if (SwitchStates_Get_466020(field_128_switch_id))
+        {
+            field_118_state = 2;
+        }
+        break;
+
+    case 2:
+        if (field_C4_velx < field_124_speed)
+        {
+            field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
+        }
+        
+        FollowLine_470950();
+        
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            TlvTypes::MovingBombPoint_53);
+
+        if (field_FC_pPathTLV)
+        {
+            auto pBombPoint = static_cast<Path_MovingBomb_Point*>(field_FC_pPathTLV);
+            field_12A_min = pBombPoint->field_10_min;
+            field_12C_max = pBombPoint->field_12_max;
+            field_118_state = 3;
+        }
+        break;
+
+    case 3:
+        field_C4_velx -= (field_CC_sprite_scale * FP_FromDouble(0.5));
+        if (field_C4_velx < FP_FromInteger(0))
+        {
+            field_118_state = 4;
+            field_120_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(field_12A_min, field_12C_max);
+        }
+
+        FollowLine_470950();
+        break;
+
+    case 4:
+        if (field_120_timer <= static_cast<int>(sGnFrame_5C1B84))
+        {
+            field_118_state = 5;
+        }
+        break;
+
+    case 5:
+        if (field_C4_velx < field_124_speed)
+        {
+            field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
+        }
+        
+        FollowLine_470950();
+
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(field_B8_xpos),
+            FP_GetExponent(field_BC_ypos),
+            TlvTypes::MovingBombPoint_53);
+
+        if (!field_FC_pPathTLV)
+        {
+            field_118_state = 2;
+        }
+        break;
+
+    case 6:
+        if (field_120_timer <= static_cast<int>(sGnFrame_5C1B84))
+        {
+            SFX_Play_46FA90(2u, 100, field_CC_sprite_scale);
+            
+            field_10C_health = FP_FromInteger(0);
+
+            auto pExplosion = alive_new<Explosion>();
+            if (pExplosion)
+            {
+                pExplosion->ctor_4A1200(
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    field_CC_sprite_scale,
+                    0);
+            }
+
+            auto pGibs = alive_new<Gibs>();
+            if (pGibs)
+            {
+                pGibs->ctor_40FB40(
+                    5,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    FP_FromInteger(0),
+                    FP_FromInteger(5),
+                    field_CC_sprite_scale,
+                    0);
+            }
+
+            field_118_state = 7;
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_120_timer = sGnFrame_5C1B84 + 4;
+        }
+        break;
+
+    case 7:
+        if (field_120_timer <= static_cast<int>(sGnFrame_5C1B84))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+        break;
+
+    default:
+        return;
     }
 }

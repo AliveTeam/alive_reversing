@@ -69,7 +69,7 @@ enum TlvTypes
     ZSligCover_50,
     DoorFlame_51,
     MovingBomb_52,
-    Null_53,
+    MovingBombPoint_53,
     MainMenuController_54,
     Unknown_55,
     Null_56,

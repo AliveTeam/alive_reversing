@@ -58,7 +58,7 @@ public:
     virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual void vStackOnObjectsOfType_425840(Types typeToFind);
     virtual void VOnPickUpOrSlapped();
-    virtual void vnull_4081A0(BaseGameObject* pFrom);
+    virtual void vnull_4081A0(BaseGameObject* pFrom); // TODO: Most likely rock/throwable hit?
 
 private:
     EXPORT PSX_RECT* GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx);
