@@ -55,6 +55,7 @@
 #include "SlapLock.hpp"
 #include "Glukkon.hpp"
 #include "MovingBomb.hpp"
+#include "Throwable.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1333,7 +1334,32 @@ EXPORT void CC Factory_MineCar_4DACD0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 
 }
 
-EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("BONEBAG.BAN", ResourceManager::Resource_Animation, 590, loadMode);
+
+        // TODO: Resource Ids
+        static CompileTimeResourceList<3> kResources({
+            { ResourceManager::Resource_Animation, 12 },
+            { ResourceManager::Resource_Animation, 14 },
+            { ResourceManager::Resource_Animation, 591 }
+        });
+
+        gMap_5C3030.LoadResourcesFromList_4DBE70("BTHROW.BND", kResources.AsList(), loadMode);
+    }
+    else
+    {
+        auto pBoneBag = alive_new<BoneBag>();
+        if (pBoneBag)
+        {
+            pBoneBag->ctor_4125C0(static_cast<Path_BoneBag*>(pTlv), tlvInfo.all);
+        }
+    }
+
+}
+
 EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_MultiSwitchController_4D6C00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)

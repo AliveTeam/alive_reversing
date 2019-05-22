@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Path.hpp"
 
 class BaseThrowable;
 
@@ -60,6 +61,54 @@ class Bone : public BaseThrowable
 {
 public:
 };
+
+struct Path_BoneBag : public Path_TLV
+{
+    __int16 field_10_side;
+    unsigned __int16 field_12_x_vel;
+    unsigned __int16 field_14_y_vel;
+    __int16 field_16_scale;
+    __int16 field_18_num_bones;
+    __int16 field_1A_pad;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
+
+class BoneBag : public BaseAliveGameObject
+{
+public:
+    EXPORT BoneBag* ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo);
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_4127C0(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        // TODO
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChanged_412BF0();
+    }
+
+private:
+    EXPORT void vScreenChanged_412BF0();
+    EXPORT BoneBag* vdtor_4127C0(signed int flags);
+    EXPORT void dtor_4127F0();
+
+private:
+    __int16 field_116;
+    int field_118_tlvInfo;
+    __int16 field_11C;
+    __int16 field_11E_count;
+    __int16 field_120;
+    __int16 field_122;
+    int field_124;
+    int field_128;
+};
+ALIVE_ASSERT_SIZEOF(BoneBag, 0x12C);
 
 // TODO
 class Meat : public BaseThrowable
