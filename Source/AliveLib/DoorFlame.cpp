@@ -6,28 +6,31 @@
 #include "SwitchStates.hpp"
 #include "ObjectIds.hpp"
 #include "Midi.hpp"
+#include "Game.hpp"
+#include "ScreenManager.hpp"
 
 ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);
 
-struct Class_545974_Anim
+struct FlameSpark
 {
     FP field_0_x;
     FP field_4_y;
-    int field_8_off_x;
-    int field_C_off_y;
-    __int16 field_10;
-    __int16 field_12;
+    FP field_8_off_x;
+    FP field_C_off_y;
+    __int16 field_10_random64;
+    __int16 field_12_bVisible;
     AnimationUnknown field_14;
 };
+ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
 
-// This one seems to be random sparks that come out of the door flame, TODO rename when known for sure
-class Class_545974 : public BaseAnimatedWithPhysicsGameObject
+// These flame sparks are extremely subtle and are easily missed!
+class FlameSparks : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Class_545974* ctor_45DE00(FP xpos, FP ypos)
+    EXPORT FlameSparks* ctor_45DE00(FP xpos, FP ypos)
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-        for (auto& anim : field_F8_anims)
+        for (auto& anim : field_F8_sparks)
         {
             SetVTable(&anim.field_14, 0x5447CC);
         }
@@ -49,7 +52,7 @@ public:
 
         field_CC_sprite_scale = FP_FromDouble(0.3);
 
-        for (auto& anim : field_F8_anims)
+        for (auto& anim : field_F8_sparks)
         {
             anim.field_14.field_68_anim_ptr = &field_20_animation;
 
@@ -62,25 +65,171 @@ public:
             anim.field_0_x = field_B8_xpos;
             anim.field_4_y = field_BC_ypos;
 
-            anim.field_8_off_x = 0;
-            anim.field_C_off_y = 0;
+            anim.field_8_off_x = FP_FromInteger(0);
+            anim.field_C_off_y = FP_FromInteger(0);
 
-            anim.field_10 = 0;
-            anim.field_12 = Math_RandomRange_496AB0(0, 64);
+            anim.field_10_random64 = Math_RandomRange_496AB0(0, 64);
+            anim.field_12_bVisible = 0;
         }
 
         field_F4_bRender = 0;
         return this;
     }
 
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_45DF90(flags);
+    }
+
+    virtual void VUpdate() override
+    {
+        vUpdate_45DFE0();
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_45E260(pOrderingTable);
+    }
+
+private:
+    EXPORT void vUpdate_45DFE0()
+    {
+        // HACK/WTF this seems to move the base animation off screen so it can never been seen??
+        PSX_RECT rect = {};
+        gMap_5C3030.Get_Camera_World_Rect_481410(CameraPos::eCamCurrent_0, &rect);
+        field_B8_xpos = FP_FromInteger(rect.w + 16);
+        field_BC_ypos = FP_FromInteger(rect.y - 16);
+
+        if (field_F4_bRender)
+        {
+            for (auto& anim : field_F8_sparks)
+            {
+                anim.field_10_random64--;
+                if (anim.field_12_bVisible == 0)
+                {
+                    if (anim.field_10_random64 <= 0)
+                    {
+                        anim.field_12_bVisible = 1;
+                        anim.field_10_random64 = Math_RandomRange_496AB0(7, 9);
+
+                        anim.field_0_x = field_410_xpos;
+                        anim.field_4_y = field_414_ypos;
+
+                        anim.field_8_off_x = (FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(96));
+                        anim.field_C_off_y = (FP_FromInteger(-Math_NextRandom()) / FP_FromInteger(96)); // TODO: Check this is right ??
+                    }
+                }
+                else if (anim.field_10_random64 > 0)
+                {
+                    anim.field_0_x += anim.field_8_off_x;
+                    anim.field_4_y += anim.field_C_off_y;
+
+                    if (!(anim.field_10_random64 % 3))
+                    {
+                        anim.field_8_off_x += (FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64));
+                        anim.field_C_off_y += (FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64));
+                    }
+                }
+                else
+                {
+                    anim.field_12_bVisible = 0;
+                    anim.field_10_random64 = Math_RandomRange_496AB0(90, 240);
+                }
+            }
+        }
+    }
+
+    EXPORT void vRender_45E260(int **pOt)
+    {
+        if (sNum_CamSwappers_5C1B66 == 0)
+        {
+            if (field_F4_bRender)
+            {
+                field_20_animation.field_8_r = 240;
+                field_20_animation.field_9_g = 32;
+                field_20_animation.field_A_b = 32;
+
+                field_20_animation.vRender_40B820(
+                        FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                        FP_GetExponent(field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                        pOt,
+                        0,
+                        0);
+
+                PSX_RECT frameRect = {};
+                field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    frameRect.x,
+                    frameRect.y,
+                    frameRect.w,
+                    frameRect.h,
+                    pScreenManager_5BB5F4->field_3A_idx);
+
+                for (auto& anim : field_F8_sparks)
+                {
+                    // Visible?
+                    if (anim.field_12_bVisible)
+                    {
+                        // And in screen bounds?
+                        if (anim.field_0_x >= pScreenManager_5BB5F4->field_20_pCamPos->field_0_x &&
+                            anim.field_0_x <= pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(368))
+                        {
+                            if (anim.field_4_y >= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y && 
+                                anim.field_4_y <= pScreenManager_5BB5F4->field_20_pCamPos->field_4_y + FP_FromInteger(240))
+                            {
+                                anim.field_14.vRender_40B820(
+                                    FP_GetExponent(anim.field_0_x - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                                    FP_GetExponent(anim.field_4_y - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                                    pOt,
+                                    0,
+                                    0);
+
+                                anim.field_14.GetRenderedSize_40C980(&frameRect);
+                                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                                    frameRect.x,
+                                    frameRect.y,
+                                    frameRect.w,
+                                    frameRect.h,
+                                    pScreenManager_5BB5F4->field_3A_idx);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    EXPORT void SetRenderEnabled_45E240(__int16 bEnable)
+    {
+        field_F4_bRender = bEnable;
+    }
+
+    EXPORT void dtor_45DFC0()
+    {
+        SetVTable(this, 0x545974);
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    }
+
+    EXPORT FlameSparks* vdtor_45DF90(signed int flags)
+    {
+        dtor_45DFC0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+
 private:
     int field_E4_not_used[4];
     __int16 field_F4_bRender;
-    __int16 field_F6_pad;
-    Class_545974_Anim field_F8_anims[6];
+    //__int16 field_F6_pad;
+    FlameSpark field_F8_sparks[6];
     FP field_410_xpos;
     FP field_414_ypos;
 };
+ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 
 DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
 {
@@ -123,7 +272,7 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     
     field_FE_2_random = Math_NextRandom() % 2;
     
-    auto pFlameSparks = alive_new<Class_545974>();
+    auto pFlameSparks = alive_new<FlameSparks>();
     if (pFlameSparks)
     {
         pFlameSparks->ctor_45DE00(field_B8_xpos, field_BC_ypos);
