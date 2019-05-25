@@ -24,6 +24,7 @@
 #include "SlapLock.hpp"
 #include "AbilityRing.hpp"
 #include "Shadow.hpp"
+#include "Slurg.hpp"
 
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -46,7 +47,6 @@ EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED()
 EXPORT int CC ScrabSpawner__CreateFromSaveState_4ABEB0(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 EXPORT int CC Slig__CreateFromSaveState_4B3B50(const BYTE*) { NOT_IMPLEMENTED(); return 164; }
 EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
-EXPORT int CC Slurg__CreateFromSaveState_4C8DF0(const BYTE*) { NOT_IMPLEMENTED(); return 44; }
 
 struct QuickSaveRestoreTable
 {
@@ -184,7 +184,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     &Slog__CreateFromSaveState_4C54F0,
     nullptr,
     nullptr,
-    &Slurg__CreateFromSaveState_4C8DF0,
+    &Slurg::CreateFromSaveState_4C8DF0,
     nullptr,
     nullptr,
     nullptr,

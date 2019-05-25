@@ -54,7 +54,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
 
     field_128_pTlv = pTlv;
 
-    field_11C_state = States::State_0_Stopped;
+    field_11C_state = Slurg_States::State_0_Stopped;
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, 306);
     Animation_Init_424E10(2708, 46, 15, field_10_resources_array.ItemAt(0), 1, 1);
@@ -130,6 +130,11 @@ void Slurg::VUpdate()
     vUpdate_4C8790();
 }
 
+int Slurg::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vSaveState_4C8FC0(reinterpret_cast<Slurg_State*>(pSaveBuffer));
+}
+
 __int16 Slurg::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_4C8BF0(pFrom);
@@ -138,6 +143,45 @@ __int16 Slurg::VTakeDamage_408730(BaseGameObject* pFrom)
 void Slurg::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
 {
     vOn_TLV_Collision_4C8C20(pTlv);
+}
+
+
+signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
+{
+    auto pState = reinterpret_cast<const Slurg_State*>(pData);
+    auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));
+    
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 306, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLURG.BAN", nullptr);
+    }
+
+    auto pSlurg = alive_new<Slurg>();
+    if (pSlurg)
+    {
+        pSlurg->ctor_4C84E0(pTlv, pState->field_24_tlvInfo);
+    }
+
+    pSlurg->field_B8_xpos = pState->field_4_xpos;
+    pSlurg->field_BC_ypos = pState->field_8_ypos;
+    pSlurg->field_C4_velx = pState->field_C_velx;
+    pSlurg->field_20_animation.field_E_frame_change_counter = pState->field_1A_anim_frame_change_counter;
+
+    pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_14_flipX);
+    pSlurg->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_1D & 1);
+    pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_1C & 1);
+
+    auto pHeader = reinterpret_cast<AnimationHeader*>(pSlurg->field_20_animation.field_20_ppBlock[pSlurg->field_20_animation.field_18_frame_table_offset]);
+    if (pSlurg->field_20_animation.field_92_current_frame == pHeader->field_2_num_frames - 1)
+    {
+        pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pSlurg->field_11C_state = pState->field_28_state;
+
+    pSlurg->field_118_flags.Set(Flags::Bit1, pState->field_2A_flags & 1);
+    pSlurg->field_118_flags.Set(Flags::Bit2, pState->field_2A_flags & 2);
+    return sizeof(Slurg_State);
 }
 
 Slurg* Slurg::vdtor_4C8760(signed int flags)
@@ -156,14 +200,14 @@ void Slurg::dtor_4C8A40()
     SetVTable(this, 0x547720);
     if (field_12C_tlvInfo == -1)
     {
-        Path::TLV_Reset_4DB8E0(0xFFFFFFFF, -1, 0, field_11C_state == States::State_2_Burst);
+        Path::TLV_Reset_4DB8E0(0xFFFFFFFF, -1, 0, field_11C_state == Slurg_States::State_2_Burst);
     }
     dtor_4080B0();
 }
 
 void Slurg::Burst_4C8AE0()
 {
-    field_11C_state = States::State_2_Burst;
+    field_11C_state = Slurg_States::State_2_Burst;
     field_20_animation.Set_Animation_Data_409C80(2808, 0);
     
     auto pBlood = alive_new<Blood>();
@@ -198,14 +242,14 @@ void Slurg::vUpdate_4C8790()
     if (field_11E_delay_timer == 0)
     {
         field_11E_delay_timer = Math_RandomRange_496AB0(field_120_delay_random, field_120_delay_random + 20);
-        field_11C_state = States::State_1_Moving;
+        field_11C_state = Slurg_States::State_1_Moving;
         field_20_animation.Set_Animation_Data_409C80(2740, 0);
     }
 
     PSX_RECT bRect = {};
     vGetBoundingRect_424FD0(&bRect, 1);
 
-    if (field_11C_state != States::State_2_Burst)
+    if (field_11C_state != Slurg_States::State_2_Burst)
     {
         const int idx = sSlurg_Step_Watch_Points_Idx_5C1C08 == 0;
         const int max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
@@ -224,7 +268,7 @@ void Slurg::vUpdate_4C8790()
         }
     }
 
-    if (field_11C_state == States::State_0_Stopped)
+    if (field_11C_state == Slurg_States::State_0_Stopped)
     {
         field_C4_velx = FP_FromInteger(1);
         field_11E_delay_timer--;
@@ -241,7 +285,7 @@ void Slurg::vUpdate_4C8790()
             field_B8_xpos += field_C4_velx;
         }
     }
-    else if (field_11C_state == States::State_1_Moving)
+    else if (field_11C_state == Slurg_States::State_1_Moving)
     {
         field_C4_velx = FP_FromInteger(0);
         if (!field_20_animation.field_92_current_frame
@@ -252,11 +296,11 @@ void Slurg::vUpdate_4C8790()
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_11C_state = States::State_0_Stopped;
+            field_11C_state = Slurg_States::State_0_Stopped;
             field_20_animation.Set_Animation_Data_409C80(2708, 0);
         }
     }
-    else if (field_11C_state == States::State_2_Burst)
+    else if (field_11C_state == Slurg_States::State_2_Burst)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -326,12 +370,38 @@ void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
     }
 }
 
+signed int Slurg::vSaveState_4C8FC0(Slurg_State* pState)
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0_type = Types::eSlurg_129;
+    pState->field_4_xpos = field_B8_xpos;
+    pState->field_8_ypos = field_BC_ypos;
+    pState->field_C_velx = field_C4_velx;
+    pState->field_10_scale = field_130_scale;
+    pState->field_14_flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_16_current_motion = field_106_current_motion;
+    pState->field_18_anim_current_frame = field_20_animation.field_92_current_frame;
+    pState->field_1A_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
+    pState->field_1D = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_1C = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_20_frame_table_offset = field_20_animation.field_18_frame_table_offset;
+    pState->field_24_tlvInfo = field_12C_tlvInfo;
+    pState->field_28_state = field_11C_state;
+    pState->field_2A_flags = field_118_flags.Get(Flags::Bit1);
+    pState->field_2A_flags = field_118_flags.Get(Flags::Bit2);
+    return sizeof(Slurg_State);
+}
+
 void Slurg::GoLeft()
 {
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     field_118_flags.Clear(Flags::Bit1);
 
-    field_11C_state = States::State_1_Moving;
+    field_11C_state = Slurg_States::State_1_Moving;
     field_20_animation.Set_Animation_Data_409C80(2740, 0);
 }
 
@@ -340,6 +410,6 @@ void Slurg::GoRight()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     field_118_flags.Set(Flags::Bit1);
 
-    field_11C_state = States::State_1_Moving;
+    field_11C_state = Slurg_States::State_1_Moving;
     field_20_animation.Set_Animation_Data_409C80(2740, 0);
 }

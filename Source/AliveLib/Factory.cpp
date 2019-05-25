@@ -56,6 +56,7 @@
 #include "Glukkon.hpp"
 #include "MovingBomb.hpp"
 #include "Throwable.hpp"
+#include "Slurg.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1193,7 +1194,22 @@ EXPORT void CC Factory_FlyingSlig_4D92E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 }
 
 EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Slurgs_4DA950(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Slurgs_4DA950(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("SLURG.BAN", ResourceManager::Resource_Animation, 306, loadMode);
+    }
+    else
+    {
+        auto pSlurg = alive_new<Slurg>();
+        if (pSlurg)
+        {
+            pSlurg->ctor_4C84E0(static_cast<Path_Slurg*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
 {
