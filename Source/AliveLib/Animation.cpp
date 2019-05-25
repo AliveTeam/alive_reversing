@@ -287,7 +287,7 @@ void Animation::vRender_40B820(int xpos, int ypos, int** pOt, __int16 width, sig
 
     FP xOffSet_fixed;
     FP yOffset_fixed;
-    if (field_4_flags.Get(AnimFlags::eBit20))
+    if (field_4_flags.Get(AnimFlags::eBit20_use_xy_offset))
     {
         xOffSet_fixed = FP_FromInteger(0);
         yOffset_fixed = FP_FromInteger(0);

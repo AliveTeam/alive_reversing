@@ -25,7 +25,7 @@ Shadow* Shadow::ctor_4AC990()
     field_18_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_18_animation.field_4_flags.Set(AnimFlags::eBit17);
     field_18_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
-    field_18_animation.field_4_flags.Set(AnimFlags::eBit20);
+    field_18_animation.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
     field_18_animation.field_4_flags.Set(AnimFlags::eBit21);
 
     return this;

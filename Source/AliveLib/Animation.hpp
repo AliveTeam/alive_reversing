@@ -140,7 +140,7 @@ enum AnimFlags
     eBit19_LoopBackwards = 0x40000,
 
     // Bit 20 = nothing ?
-    eBit20 = 0x80000,
+    eBit20_use_xy_offset = 0x80000,
 
     // Bit 21 = Hang/crash
     eBit21 = 0x100000,

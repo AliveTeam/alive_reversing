@@ -11,6 +11,114 @@
 
 ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);
 
+// Seems to be fire background/glow
+class Class_54592C : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT Class_54592C* ctor_45D890(FP xpos, FP ypos, FP scale)
+    {
+        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+        SetVTable(this, 0x54592C);
+        field_4_typeId = Types::eNone_0;
+        
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 361);
+        Animation_Init_424E10(1400, 52, 30, ppRes, 1, 1);
+
+        field_DC_bApplyShadows &= ~1u;
+
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit20_use_xy_offset);
+        
+        field_B8_xpos = xpos;
+        field_BC_ypos = ypos + FP_FromInteger(4);
+
+        field_20_animation.field_C_render_layer = 12;
+        field_20_animation.field_B_render_mode = 3;
+
+        field_D0_r = 140;
+        field_D2_g = 90;
+        field_D4_b = 53;
+
+        field_CC_sprite_scale = scale;
+        
+        sub_45DA00();
+        return this;
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_45D9B0(flags);
+    }
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_45DCD0(pOrderingTable);
+    }
+
+private:
+    EXPORT void sub_45DA00()
+    {
+        NOT_IMPLEMENTED();
+    }
+
+    EXPORT void vRender_45DCD0(int **pOt)
+    {
+        if (Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+        {
+            //if (k1_dword_55EF90)
+            {
+                field_20_animation.field_8_r = field_D0_r & 0xFF;
+                field_20_animation.field_A_b = field_D4_b & 0xFF;
+                field_20_animation.field_9_g = field_D2_g & 0xFF;
+
+                const FP xOff = field_FC_xOff - field_F4_xPos;
+                const FP yOff = field_100_yOff - field_F8_yPos;
+
+                field_20_animation.vRender_40B820(
+                    FP_GetExponent(field_F4_xPos),
+                    FP_GetExponent(field_F8_yPos),
+                    pOt,
+                    FP_GetExponent(xOff) + 1,
+                    FP_GetExponent(yOff) + 1);
+
+                PSX_RECT frameRect = {};
+                field_20_animation.Get_Frame_Rect_409E10(&frameRect);
+                pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                    frameRect.x,
+                    frameRect.y,
+                    frameRect.w,
+                    frameRect.h,
+                    pScreenManager_5BB5F4->field_3A_idx);
+            }
+        }
+    }
+
+    EXPORT void dtor_45D9E0()
+    {
+        SetVTable(this, 0x54592C);
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    }
+
+    EXPORT Class_54592C* vdtor_45D9B0(signed int flags)
+    {
+        dtor_45D9E0();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+private:
+    int field_E4_not_used[4];
+    FP field_F4_xPos;
+    FP field_F8_yPos;
+    FP field_FC_xOff;
+    FP field_100_yOff;
+};
+ALIVE_ASSERT_SIZEOF(Class_54592C, 0x104);
+
 struct FlameSpark
 {
     FP field_0_x;
