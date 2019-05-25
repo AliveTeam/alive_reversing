@@ -38,6 +38,12 @@ enum class Slurg_States : __int16
     State_2_Burst = 2,
 };
 
+enum SlurgFlags
+{
+    Bit1_Direction = 0x1,
+    Bit2_StartToMove = 0x2,
+};
+
 struct Slurg_State
 {
     Types field_0_type;
@@ -56,7 +62,7 @@ struct Slurg_State
     int field_20_frame_table_offset;
     int field_24_tlvInfo;
     Slurg_States field_28_state;
-    __int16 field_2A_flags;
+    BitField16<SlurgFlags> field_2A_flags;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_State, 0x2C);
 
@@ -91,12 +97,7 @@ private:
 
 private:
     __int16 field_116_pad;
-    enum Flags
-    {
-        Bit1_Direction = 0x1,
-        Bit2_StartToMove = 0x2,
-    };
-    BitField16<Flags> field_118_flags;
+    BitField16<SlurgFlags> field_118_flags;
     __int16 field_11A_switch_id;
     Slurg_States field_11C_state;
     __int16 field_11E_delay_timer;
