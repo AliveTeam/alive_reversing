@@ -81,6 +81,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     }
 
     field_11E_delay_timer = pTlv->field_10.field_0_pause_delay;
+    field_120_delay_random = pTlv->field_10.field_0_pause_delay;
 
     SetTint_425600(&stru_560BCC[0], gMap_5C3030.sCurrentLevelId_5C3030);
 
