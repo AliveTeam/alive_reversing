@@ -283,6 +283,8 @@ ExportHooker.hpp
     ScreenClipper.hpp
     MovingBomb.hpp
     MovingBomb.cpp
+    DoorFlame.cpp
+    DoorFlame.hpp
     TouchController.cpp
     TouchController.hpp
 )

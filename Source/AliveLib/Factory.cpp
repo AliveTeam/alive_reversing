@@ -57,6 +57,7 @@
 #include "MovingBomb.hpp"
 #include "Throwable.hpp"
 #include "Slurg.hpp"
+#include "DoorFlame.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -912,7 +913,23 @@ EXPORT void CC Factory_Mudokon_4D8EC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 }
 
 EXPORT void CC Factory_ZSligCover_4D6A60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_DoorFlame_4D70D0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("FIRE.BAN", ResourceManager::Resource_Animation, 304, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("GLOW1.BAN", ResourceManager::Resource_Animation, 361, loadMode);
+    }
+    else
+    {
+        auto pDoorFlame = alive_new<DoorFlame>();
+        if (pDoorFlame)
+        {
+            pDoorFlame->ctor_45E460(static_cast<Path_DoorFlame*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_MovingBomb_4D8A50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
