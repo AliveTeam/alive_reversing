@@ -105,7 +105,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
 
     if (pTlv->field_10.field_2_direction)
     {
-        field_118_flags.Set(Flags::Bit1);
+        field_118_flags.Set(Flags::Bit1_Direction);
     }
 
     vStackOnObjectsOfType_425840(Types::eSlurg_129);
@@ -179,8 +179,8 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
 
     pSlurg->field_11C_state = pState->field_28_state;
 
-    pSlurg->field_118_flags.Set(Flags::Bit1, pState->field_2A_flags & 1);
-    pSlurg->field_118_flags.Set(Flags::Bit2, pState->field_2A_flags & 2);
+    pSlurg->field_118_flags.Set(Flags::Bit1_Direction, pState->field_2A_flags & 1);
+    pSlurg->field_118_flags.Set(Flags::Bit2_Faster, pState->field_2A_flags & 2);
     return sizeof(Slurg_State);
 }
 
@@ -272,15 +272,15 @@ void Slurg::vUpdate_4C8790()
     {
         field_C4_velx = FP_FromInteger(1);
         field_11E_delay_timer--;
-        if (field_118_flags.Get(Flags::Bit1))
+        if (field_118_flags.Get(Flags::Bit1_Direction))
         {
             field_C4_velx = -FP_FromInteger(1);
         }
 
-        field_118_flags.Toggle(Flags::Bit1);
-        field_118_flags.Toggle(Flags::Bit2);
+        field_118_flags.Toggle(Flags::Bit1_Direction);
+        field_118_flags.Toggle(Flags::Bit2_Faster);
 
-        if (field_118_flags.Get(Flags::Bit2))
+        if (field_118_flags.Get(Flags::Bit2_Faster))
         {
             field_B8_xpos += field_C4_velx;
         }
@@ -339,14 +339,14 @@ void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
     {
         if (pTlv->field_4_type == TlvTypes::ScrabLeftBound_43)
         {
-            if (field_118_flags.Get(Flags::Bit1))
+            if (field_118_flags.Get(Flags::Bit1_Direction))
             {
                 GoLeft();
             }
         }
         else if (pTlv->field_4_type == TlvTypes::ScrabRightBound_44)
         {
-            if (!field_118_flags.Get(Flags::Bit1))
+            if (!field_118_flags.Get(Flags::Bit1_Direction))
             {
                 GoRight();
             }
@@ -354,7 +354,7 @@ void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, field_B8_xpos, field_BC_ypos, field_B8_xpos, field_BC_ypos);
     }
 
-    if (field_118_flags.Get(Flags::Bit1))
+    if (field_118_flags.Get(Flags::Bit1_Direction))
     {
         if (Raycast_408750(field_130_scale * FP_FromInteger(8), -(field_130_scale * FP_FromInteger(6))) || Check_IsOnEndOfLine_408E90(1, 1))
         {
@@ -391,15 +391,15 @@ signed int Slurg::vSaveState_4C8FC0(Slurg_State* pState)
     pState->field_20_frame_table_offset = field_20_animation.field_18_frame_table_offset;
     pState->field_24_tlvInfo = field_12C_tlvInfo;
     pState->field_28_state = field_11C_state;
-    pState->field_2A_flags = field_118_flags.Get(Flags::Bit1);
-    pState->field_2A_flags = field_118_flags.Get(Flags::Bit2);
+    pState->field_2A_flags = field_118_flags.Get(Flags::Bit1_Direction);
+    pState->field_2A_flags = field_118_flags.Get(Flags::Bit2_Faster);
     return sizeof(Slurg_State);
 }
 
 void Slurg::GoLeft()
 {
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-    field_118_flags.Clear(Flags::Bit1);
+    field_118_flags.Clear(Flags::Bit1_Direction);
 
     field_11C_state = Slurg_States::State_1_Moving;
     field_20_animation.Set_Animation_Data_409C80(2740, 0);
@@ -408,7 +408,7 @@ void Slurg::GoLeft()
 void Slurg::GoRight()
 {
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-    field_118_flags.Set(Flags::Bit1);
+    field_118_flags.Set(Flags::Bit1_Direction);
 
     field_11C_state = Slurg_States::State_1_Moving;
     field_20_animation.Set_Animation_Data_409C80(2740, 0);

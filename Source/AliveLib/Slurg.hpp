@@ -93,8 +93,8 @@ private:
     __int16 field_116_pad;
     enum Flags
     {
-        Bit1 = 0x1,
-        Bit2 = 0x2,
+        Bit1_Direction = 0x1,
+        Bit2_Faster = 0x2,
     };
     BitField16<Flags> field_118_flags;
     __int16 field_11A_switch_id;
