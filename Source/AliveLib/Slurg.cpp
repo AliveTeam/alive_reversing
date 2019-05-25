@@ -54,7 +54,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
 
     field_128_pTlv = pTlv;
 
-    field_11C_state = Slurg_States::State_0_Stopped;
+    field_11C_state = Slurg_States::State_0_Moving;
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, 306);
     Animation_Init_424E10(2708, 46, 15, field_10_resources_array.ItemAt(0), 1, 1);
@@ -180,7 +180,7 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
     pSlurg->field_11C_state = pState->field_28_state;
 
     pSlurg->field_118_flags.Set(Flags::Bit1_Direction, pState->field_2A_flags & 1);
-    pSlurg->field_118_flags.Set(Flags::Bit2_Faster, pState->field_2A_flags & 2);
+    pSlurg->field_118_flags.Set(Flags::Bit2_StartToMove, pState->field_2A_flags & 2);
     return sizeof(Slurg_State);
 }
 
@@ -242,7 +242,7 @@ void Slurg::vUpdate_4C8790()
     if (field_11E_delay_timer == 0)
     {
         field_11E_delay_timer = Math_RandomRange_496AB0(field_120_delay_random, field_120_delay_random + 20);
-        field_11C_state = Slurg_States::State_1_Moving;
+        field_11C_state = Slurg_States::State_1_Stopped;
         field_20_animation.Set_Animation_Data_409C80(2740, 0);
     }
 
@@ -268,7 +268,7 @@ void Slurg::vUpdate_4C8790()
         }
     }
 
-    if (field_11C_state == Slurg_States::State_0_Stopped)
+    if (field_11C_state == Slurg_States::State_0_Moving)
     {
         field_C4_velx = FP_FromInteger(1);
         field_11E_delay_timer--;
@@ -277,15 +277,14 @@ void Slurg::vUpdate_4C8790()
             field_C4_velx = -FP_FromInteger(1);
         }
 
-        field_118_flags.Toggle(Flags::Bit1_Direction);
-        field_118_flags.Toggle(Flags::Bit2_Faster);
+        field_118_flags.Toggle(Flags::Bit2_StartToMove);
 
-        if (field_118_flags.Get(Flags::Bit2_Faster))
+        if (field_118_flags.Get(Flags::Bit2_StartToMove))
         {
             field_B8_xpos += field_C4_velx;
         }
     }
-    else if (field_11C_state == Slurg_States::State_1_Moving)
+    else if (field_11C_state == Slurg_States::State_1_Stopped)
     {
         field_C4_velx = FP_FromInteger(0);
         if (!field_20_animation.field_92_current_frame
@@ -296,7 +295,7 @@ void Slurg::vUpdate_4C8790()
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_11C_state = Slurg_States::State_0_Stopped;
+            field_11C_state = Slurg_States::State_0_Moving;
             field_20_animation.Set_Animation_Data_409C80(2708, 0);
         }
     }
@@ -392,7 +391,7 @@ signed int Slurg::vSaveState_4C8FC0(Slurg_State* pState)
     pState->field_24_tlvInfo = field_12C_tlvInfo;
     pState->field_28_state = field_11C_state;
     pState->field_2A_flags = field_118_flags.Get(Flags::Bit1_Direction);
-    pState->field_2A_flags = field_118_flags.Get(Flags::Bit2_Faster);
+    pState->field_2A_flags = field_118_flags.Get(Flags::Bit2_StartToMove);
     return sizeof(Slurg_State);
 }
 
@@ -401,7 +400,7 @@ void Slurg::GoLeft()
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
     field_118_flags.Clear(Flags::Bit1_Direction);
 
-    field_11C_state = Slurg_States::State_1_Moving;
+    field_11C_state = Slurg_States::State_1_Stopped;
     field_20_animation.Set_Animation_Data_409C80(2740, 0);
 }
 
@@ -410,6 +409,6 @@ void Slurg::GoRight()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     field_118_flags.Set(Flags::Bit1_Direction);
 
-    field_11C_state = Slurg_States::State_1_Moving;
+    field_11C_state = Slurg_States::State_1_Stopped;
     field_20_animation.Set_Animation_Data_409C80(2740, 0);
 }

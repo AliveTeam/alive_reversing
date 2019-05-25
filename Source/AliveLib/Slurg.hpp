@@ -33,8 +33,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slurg, 0x18);
 
 enum class Slurg_States : __int16
 {
-    State_0_Stopped = 0,
-    State_1_Moving = 1,
+    State_0_Moving = 0,
+    State_1_Stopped = 1,
     State_2_Burst = 2,
 };
 
@@ -94,7 +94,7 @@ private:
     enum Flags
     {
         Bit1_Direction = 0x1,
-        Bit2_Faster = 0x2,
+        Bit2_StartToMove = 0x2,
     };
     BitField16<Flags> field_118_flags;
     __int16 field_11A_switch_id;
