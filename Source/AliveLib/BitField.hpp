@@ -14,6 +14,11 @@ public:
         return !!(mData.all & value);
     }
 
+    void Clear()
+    {
+        mData.all = 0;
+    }
+
     void Clear(EnumType value)
     {
         mData.all &= ~value;

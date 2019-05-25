@@ -64,7 +64,7 @@ protected:
     EXPORT void vOnTrapDoorOpen_4081F0();
     EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, LevelIds level_id, int resourceID);
 
-    EXPORT BOOL Check_Collision_Unknown_408E90(__int16 direction, __int16 distance);
+    EXPORT BOOL Check_IsOnEndOfLine_408E90(__int16 direction, __int16 distance);
 
     EXPORT BaseAliveGameObject* GetStackedSlapTarget_425290(int idToFind, Types typeToFind, FP xpos, FP ypos);
 

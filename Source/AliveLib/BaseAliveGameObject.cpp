@@ -329,8 +329,11 @@ signed __int16 BaseAliveGameObject::SetBaseAnimPaletteTint_425690(TintEntry * pT
     return 1;
 }
 
-BOOL BaseAliveGameObject::Check_Collision_Unknown_408E90(__int16 direction, __int16 distance)
+BOOL BaseAliveGameObject::Check_IsOnEndOfLine_408E90(__int16 direction, __int16 distance)
 {
+    // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
+    // about to head off an edge.
+
     const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
     FP xLoc = {};
