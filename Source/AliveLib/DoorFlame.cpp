@@ -42,7 +42,7 @@ public:
 
         field_CC_sprite_scale = scale;
         
-        sub_45DA00();
+        Calc_Rect_45DA00();
         return this;
     }
 
@@ -56,7 +56,7 @@ public:
         vRender_45DCD0(pOrderingTable);
     }
 
-    EXPORT void sub_45DA00()
+    EXPORT void Calc_Rect_45DA00()
     {
         PSX_Point xy = {};
 
@@ -522,7 +522,7 @@ void DoorFlame::vUpdate_45E830()
             field_FE_2_random = 2;
             if (pFireBackgroundGlow)
             {
-                pFireBackgroundGlow->sub_45DA00();
+                pFireBackgroundGlow->Calc_Rect_45DA00();
             }
         }
 
