@@ -246,6 +246,8 @@ public:
     EXPORT WORD Get_Frame_Count_40AC70();
     EXPORT signed __int16 Init_40A030(int frameTableOffset, DynamicArray *animList, BaseGameObject *pGameObj, unsigned __int16 maxW, unsigned __int16 maxH, BYTE **ppAnimData, unsigned __int8 unknown1, signed int pal_depth, char unknown3);
     EXPORT void Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY);
+    EXPORT void Get_Frame_Width_Height_40C400(__int16* pWidth, __int16* pHeight);
+
     EXPORT void Load_Pal_40A530(BYTE** pAnimData, int palOffset);
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);

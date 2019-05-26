@@ -959,6 +959,21 @@ void Animation::Get_Frame_Offset_40C480(__int16* pBoundingX, __int16* pBoundingY
 }
 
 
+void Animation::Get_Frame_Width_Height_40C400(__int16* pWidth, __int16* pHeight)
+{
+    FrameInfoHeader* pFrameHeader = Get_FrameHeader_40B730(-1);
+    if (field_4_flags.Get(AnimFlags::eBit22_DeadMode))
+    {
+        ALIVE_FATAL("Mode should never be used");
+    }
+    else
+    {
+        auto pHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameHeader->field_0_frame_header_offset]);
+        *pWidth = pHeader->field_4_width;
+        *pHeight = pHeader->field_5_height;
+    }
+}
+
 // ================================================================
 
 void AnimationUnknown::vDecode_40AC90()

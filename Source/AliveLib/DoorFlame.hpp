@@ -25,7 +25,7 @@ public:
 
     virtual void VUpdate() override
     {
-        // TODO
+        vUpdate_45E830();
     }
 
     virtual void VStopAudio() override
@@ -47,18 +47,24 @@ private:
 
     EXPORT void vScreenChanged_45EA90();
 
+    EXPORT void vUpdate_45E830();
 
 private:
     int field_E4_not_used[4];
     int field_F4_tlvInfo;
     __int16 field_F8_switch_id;
     __int16 field_FA_frame_count;
-    __int16 field_FC_bOn;
+    enum class State : __int16
+    {
+        State_0_Off = 0,
+        State_1_On = 1,
+    };
+    State field_FC_state;
     __int16 field_FE_2_random;
     int field_100_sounds_mask;
     __int16 field_104;
     __int16 field_106;
-    int field_108;
+    int field_108_fire_background_glow_id;
     int field_10C_flame_sparks_id;
 };
 ALIVE_ASSERT_SIZEOF(DoorFlame, 0x110);

@@ -8,14 +8,14 @@
 #include "Midi.hpp"
 #include "Game.hpp"
 #include "ScreenManager.hpp"
+#include "Sfx.hpp"
 
 ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);
 
-// Seems to be fire background/glow
-class Class_54592C : public BaseAnimatedWithPhysicsGameObject
+class FireBackgroundGlow : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Class_54592C* ctor_45D890(FP xpos, FP ypos, FP scale)
+    EXPORT FireBackgroundGlow* ctor_45D890(FP xpos, FP ypos, FP scale)
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x54592C);
@@ -56,10 +56,34 @@ public:
         vRender_45DCD0(pOrderingTable);
     }
 
-private:
     EXPORT void sub_45DA00()
     {
-        NOT_IMPLEMENTED();
+        PSX_Point xy = {};
+
+        __int16 frameW = 0;
+        __int16 frameH = 0;
+
+        field_20_animation.Get_Frame_Width_Height_40C400(&frameW, &frameH);
+        field_20_animation.Get_Frame_Offset_40C480(&xy.field_0_x, &xy.field_2_y);
+
+        const auto& pCamPos = pScreenManager_5BB5F4->field_20_pCamPos;
+        const FP screenX = field_B8_xpos - pCamPos->field_0_x;
+        const FP screenY = field_BC_ypos - pCamPos->field_4_y;
+
+        const FP frameWScaled = (FP_FromInteger(frameW) * field_CC_sprite_scale);
+        const FP frameHScaled = (FP_FromInteger(frameH) * field_CC_sprite_scale);
+
+        const FP offXScaled = (FP_FromInteger(xy.field_0_x) * field_CC_sprite_scale);
+        const short offYScaled = FP_GetExponent((FP_FromInteger(xy.field_2_y) * field_CC_sprite_scale));
+
+        // TODO: Refactor PSX <> PC width conversion
+        const FP frameWScaled_converted = (((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
+        const short offXScaled_converted = FP_GetExponent(((offXScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
+
+        field_F4_xPos =  screenX + FP_FromInteger(offXScaled_converted) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
+        field_F8_yPos =  screenY + FP_FromInteger(offYScaled) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
+        field_FC_xOff =  screenX + FP_FromInteger(offXScaled_converted + FP_GetExponent(frameWScaled_converted)) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
+        field_100_yOff = screenY + FP_FromInteger(offYScaled + FP_GetExponent(frameHScaled)) + FP_FromInteger(Math_NextRandom() % 3) - FP_FromInteger(1);
     }
 
     EXPORT void vRender_45DCD0(int **pOt)
@@ -100,7 +124,7 @@ private:
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     }
 
-    EXPORT Class_54592C* vdtor_45D9B0(signed int flags)
+    EXPORT FireBackgroundGlow* vdtor_45D9B0(signed int flags)
     {
         dtor_45D9E0();
         if (flags & 1)
@@ -117,7 +141,7 @@ private:
     FP field_FC_xOff;
     FP field_100_yOff;
 };
-ALIVE_ASSERT_SIZEOF(Class_54592C, 0x104);
+ALIVE_ASSERT_SIZEOF(FireBackgroundGlow, 0x104);
 
 struct FlameSpark
 {
@@ -197,6 +221,11 @@ public:
     virtual void VRender(int** pOrderingTable) override
     {
         vRender_45E260(pOrderingTable);
+    }
+
+    EXPORT void SetRenderEnabled_45E240(__int16 bEnable)
+    {
+        field_F4_bRender = bEnable;
     }
 
 private:
@@ -307,11 +336,6 @@ private:
         }
     }
 
-    EXPORT void SetRenderEnabled_45E240(__int16 bEnable)
-    {
-        field_F4_bRender = bEnable;
-    }
-
     EXPORT void dtor_45DFC0()
     {
         SetVTable(this, 0x545974);
@@ -364,18 +388,18 @@ DoorFlame* DoorFlame::ctor_45E460(Path_DoorFlame* pTlv, int tlvInfo)
     }
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x)  + (FP_FromInteger(12) * field_CC_sprite_scale);
-    field_108 = -1;
+    field_108_fire_background_glow_id = -1;
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y) + (FP_FromInteger(15) * field_CC_sprite_scale);
 
     if (SwitchStates_Get_466020(field_F8_switch_id))
     {
         field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-        field_FC_bOn = 1;
+        field_FC_state = State::State_1_On;
     }
     else
     {
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-        field_FC_bOn = 0;
+        field_FC_state = State::State_0_Off;
     }
     
     field_FE_2_random = Math_NextRandom() % 2;
@@ -404,13 +428,13 @@ void DoorFlame::dtor_45E6C0()
 {
     SetVTable(this, 0x5459BC);
 
-    BaseGameObject* v2 = sObjectIds_5C1B70.Find_449CF0(field_108);
+    BaseGameObject* pFireBackgroundGlow = sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id);
     BaseGameObject* pFlameSparks = sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id);
     
-    if (v2)
+    if (pFireBackgroundGlow)
     {
-        v2->field_6_flags.Set(BaseGameObject::eDead);
-        field_108 = -1;
+        pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead);
+        field_108_fire_background_glow_id = -1;
     }
 
     if (pFlameSparks)
@@ -441,20 +465,112 @@ void DoorFlame::vStopAudio_45E7E0()
 
 void DoorFlame::vScreenChanged_45EA90()
 {
-    BaseGameObject* v2 = sObjectIds_5C1B70.Find_449CF0(field_108);
+    BaseGameObject* pFireBackgroundGlow = sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id);
     BaseGameObject* pFlameSparks = sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id);
 
     field_6_flags.Set(BaseGameObject::eDead);
     
-    if (v2)
+    if (pFireBackgroundGlow)
     {
-        v2->field_6_flags.Set(BaseGameObject::eDead);
-        field_108 = -1;
+        pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead);
+        field_108_fire_background_glow_id = -1;
     }
 
     if (pFlameSparks)
     {
         pFlameSparks->field_6_flags.Set(BaseGameObject::eDead);
         field_10C_flame_sparks_id = -1;
+    }
+}
+
+void DoorFlame::vUpdate_45E830()
+{
+    auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id));
+    auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id));
+
+    if (field_FC_state == State::State_0_Off)
+    {
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+        if (pFlameSparks)
+        {
+            pFlameSparks->SetRenderEnabled_45E240(0);
+        }
+
+        if (SwitchStates_Get_466020(field_F8_switch_id))
+        {
+            field_FC_state = State::State_1_On;
+        }
+
+        if (pFireBackgroundGlow)
+        {
+            pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead);
+            pFireBackgroundGlow = nullptr;
+            field_108_fire_background_glow_id = -1;
+        }
+    }
+    else if (field_FC_state == State::State_1_On)
+    {
+        if (!pFlameControllingTheSound_5C2C6C)
+        {
+            pFlameControllingTheSound_5C2C6C = this;
+            field_100_sounds_mask = SFX_Play_46FA90(59u, 40);
+        }
+
+        if (--field_FE_2_random <= 0)
+        {
+            field_FE_2_random = 2;
+            if (pFireBackgroundGlow)
+            {
+                pFireBackgroundGlow->sub_45DA00();
+            }
+        }
+
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+        if (pFlameSparks)
+        {
+            pFlameSparks->SetRenderEnabled_45E240(1);
+        }
+
+        if (!SwitchStates_Get_466020(field_F8_switch_id))
+        {
+            field_FC_state = State::State_0_Off;
+        }
+
+        if (!pFireBackgroundGlow)
+        {
+            pFireBackgroundGlow = alive_new<FireBackgroundGlow>();
+            if (pFireBackgroundGlow)
+            {
+                pFireBackgroundGlow->ctor_45D890(
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    field_CC_sprite_scale);
+                field_108_fire_background_glow_id = pFireBackgroundGlow->field_8_object_id;
+            }
+        }
+    }
+
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos,
+        0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+
+        if (pFireBackgroundGlow)
+        {
+            pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead);
+            field_108_fire_background_glow_id = -1;
+        }
+
+        if (pFlameSparks)
+        {
+            pFlameSparks->field_6_flags.Set(BaseGameObject::eDead);
+            field_10C_flame_sparks_id = -1;
+        }
     }
 }
