@@ -72,6 +72,10 @@ private:
 
     EXPORT void vRender_46E760(int **pOt);
 
+    EXPORT void Stop_46E570();
+
+    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, __int16 a6, char bEnableRender);
+
 private:
     __int16 field_116_pad;
     int field_118_tlvInfo;

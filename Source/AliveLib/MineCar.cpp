@@ -9,6 +9,7 @@
 #include "ShadowZone.hpp"
 #include "ScreenManager.hpp"
 #include "Function.hpp"
+#include "Sfx.hpp"
 
 MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /*a5*/, int /*a6*/)
 {
@@ -246,4 +247,44 @@ void MineCar::vRender_46E760(int** pOt)
             pScreenManager_5BB5F4->field_3A_idx);
         BaseAnimatedWithPhysicsGameObject::VRender(pOt);
     }
+}
+
+void MineCar::Stop_46E570()
+{
+    field_11C_state = 1;
+    if (field_1D0_sound_channels_mask)
+    {
+        SND_Stop_Channels_Mask_4CA810(field_1D0_sound_channels_mask);
+        field_1D0_sound_channels_mask = 0;
+    }
+    SFX_Play_46FA90(101u, 127, field_CC_sprite_scale);
+    field_20_animation.Set_Animation_Data_409C80(20836, 0);
+    field_124_anim.Set_Animation_Data_409C80(20824, 0);
+    field_1C4 = 0;
+    field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+}
+
+void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, __int16 a6, char bEnableRender)
+{
+    field_20_animation.Set_Animation_Data_409C80(frameTabeOffset, nullptr);
+    field_11C_state = 2;
+    field_1C8_frame_mod_16 = static_cast<int>(sGnFrame_5C1B84) % 16;
+
+    if (!field_1D0_sound_channels_mask)
+    {
+        field_1D0_sound_channels_mask = SFX_Play_46FA90(100, 127, field_CC_sprite_scale);
+    }
+
+    field_124_anim.Set_Animation_Data_409C80(20848, nullptr);
+    field_C4_velx = velX;
+    field_C8_vely = velY;
+
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & input)
+    {
+        field_1D4_throw_item_key1 = input;
+    }
+
+    field_1BC = a6;
+
+    field_124_anim.field_4_flags.Set(AnimFlags::eBit3_Render, bEnableRender);
 }
