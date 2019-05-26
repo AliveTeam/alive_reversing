@@ -17,7 +17,7 @@ public:
 
         SetVTable(this, 0x544BC4); // vTbl_Class_544BC4
 
-        field_4_typeId = Types::eType_44;
+        field_4_typeId = Types::ePalOverwriter_44;
 
         gObjList_drawables_5C1124->Push_Back(this);
 

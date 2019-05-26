@@ -65,3 +65,4 @@ ALIVE_VAR_EXTERN(int, sTweakY_5C1BD4);
 ALIVE_VAR_EXTERN(__int16, sVisitedBonewerks_5C1C02);
 ALIVE_VAR_EXTERN(__int16, sVisitedBarracks_5C1C04);
 ALIVE_VAR_EXTERN(__int16, sVisitedFeecoEnder_5C1C06);
+ALIVE_VAR_EXTERN(bool, sDDCheat_ShowAI_Info_5C1BD8);

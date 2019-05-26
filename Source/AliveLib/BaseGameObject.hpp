@@ -50,7 +50,7 @@ enum class Types : __int16
     eType_41 = 41,
     eType_42 = 42,
     eType_43 = 43,
-    eType_44 = 44, // sub_4228D0
+    ePalOverwriter_44 = 44,
     eType_45_EvilFart = 45,
     eBaseBomb_46 = 46,
     eType_47 = 47,
@@ -134,7 +134,7 @@ enum class Types : __int16
     eSlig_125 = 125,
     eSlog_126 = 126,
     eType_127 = 127,
-    eType_128 = 128,
+    eSlurgSpawner_128 = 128,
     eSlurg_129 = 129,
     eType_130 = 130,
     eType_131 = 131,

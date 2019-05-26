@@ -1295,7 +1295,21 @@ EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("SLURG.BAN", ResourceManager::Resource_Animation, 306, loadMode);
+    }
+    else
+    {
+        auto pSlurgSpawner = alive_new<SlurgSpawner>();
+        if (pSlurgSpawner)
+        {
+            pSlurgSpawner->ctor_4C82E0(static_cast<Path_SlurgSpawner*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_Grinder_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
 { 

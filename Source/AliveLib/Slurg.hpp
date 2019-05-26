@@ -31,6 +31,21 @@ struct Path_Slurg : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slurg, 0x18);
 
+struct Slurg_Spawner_Path_Data : public Slurg_Path_Data
+{
+    __int16 field_8_delay_between_slurgs;
+    __int16 field_A_max_slurgs;
+    __int16 field_C_switch_id;
+    __int16 field_E_pad;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_Spawner_Path_Data, 0x10);
+
+struct Path_SlurgSpawner : public Path_Slurg
+{
+    Slurg_Spawner_Path_Data field_18;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlurgSpawner, 0x28);
+
 enum class Slurg_States : __int16
 {
     State_0_Moving = 0,
@@ -43,6 +58,38 @@ enum SlurgFlags
     Bit1_Direction = 0x1,
     Bit2_StartToMove = 0x2,
 };
+
+// NOTE: Apparently this object is never used - would kind of make sense as it reads
+// the slurg spawned count from the TLV but never updates it.
+// Also it hasn't got quiksave support.
+class SlurgSpawner : public BaseGameObject
+{
+public:
+    EXPORT SlurgSpawner* ctor_4C82E0(Path_SlurgSpawner* pTlv, int tlvInfo);
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
+
+private:
+    EXPORT void vUpdate_4C83C0();
+    EXPORT void dtor_4C83A0();
+    EXPORT SlurgSpawner* vdtor_4C8370(signed int flags);
+    EXPORT void vScreenChanged_4C84A0();
+
+private:
+    int field_20_tlvInfo;
+    Path_SlurgSpawner* field_24_slurg_tlv;
+    Slurg_Spawner_Path_Data field_28;
+    int field_38;
+    __int16 field_3C;
+    __int16 field_3E_delay_counter;
+    BYTE field_40_spawned_count;
+    char field_41;
+    __int16 field_42;
+};
+ALIVE_ASSERT_SIZEOF(SlurgSpawner, 0x44);
+
 
 struct Slurg_State
 {
