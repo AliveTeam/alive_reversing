@@ -58,6 +58,7 @@
 #include "Throwable.hpp"
 #include "Slurg.hpp"
 #include "DoorFlame.hpp"
+#include "NakedSlig.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1490,7 +1491,37 @@ EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 }
 
 EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+
+        static CompileTimeResourceList<1> kResource(
+        {
+            { ResourceManager::Resource_Animation, 449 }
+        });
+
+        gMap_5C3030.LoadResourcesFromList_4DBE70("CRAWLSLG.BND", kResource.AsList(), loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, 423, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, 6005, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, 372, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, 319, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, 305, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode);
+    }
+    else
+    {
+        auto pNakedSlig = alive_new<NakedSlig>();
+        if (pNakedSlig)
+        {
+            pNakedSlig->ctor_418C70(static_cast<Path_NakedSlig*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 

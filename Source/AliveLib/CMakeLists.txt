@@ -285,6 +285,8 @@ ExportHooker.hpp
     MovingBomb.cpp
     DoorFlame.cpp
     DoorFlame.hpp
+    NakedSlig.cpp
+    NakedSlig.hpp
     TouchController.cpp
     TouchController.hpp
 )
