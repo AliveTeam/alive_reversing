@@ -131,13 +131,13 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_118_tlvInfo = tlvInfo;
     field_1E8_tlv = *pTlv;
 
-    if (field_1E8_tlv.field_10_scale == 1)
+    if (field_1E8_tlv.field_10_scale == Path_NakedSlig::Scale::Half_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_20_animation.field_C_render_layer = 8;
         field_D6_scale = 0;
     }
-    else  if (field_1E8_tlv.field_10_scale == 0)
+    else  if (field_1E8_tlv.field_10_scale == Path_NakedSlig::Scale::Full_0)
     {
         field_CC_sprite_scale = FP_FromInteger(1);
         field_20_animation.field_C_render_layer = 27;
@@ -147,7 +147,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    if (field_1E8_tlv.field_14_state == 2)
+    if (field_1E8_tlv.field_14_state == Path_NakedSlig::State::State_2)
     {
         Set_AnimAndMotion_419890(0, 1);
         SetBrain(&NakedSlig::AI_1_419F60);
@@ -167,13 +167,13 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     }
 
     field_208_brain_sub_state = 0;
-    if (field_1E8_tlv.field_16_locker_direction == 2)
+    if (field_1E8_tlv.field_16_locker_direction == Path_NakedSlig::LockerDirection::Search_2)
     {
-        field_1E0 = NextRandom_4197D0();
+        field_1E0_locker_direction = NextRandom_4197D0() ? Path_NakedSlig::LockerDirection::Right_1 : Path_NakedSlig::LockerDirection::Left_0;
     }
     else
     {
-        field_1E0 = field_1E8_tlv.field_16_locker_direction;
+        field_1E0_locker_direction = field_1E8_tlv.field_16_locker_direction;
     }
 
     field_1C6 = field_1E8_tlv.field_18_panic_id;
@@ -350,7 +350,7 @@ void NakedSlig::dtor_418FE0()
                 0);
         }
     }
-    if (field_10C_health > FP_FromInteger(0) || field_1E8_tlv.field_1A_reset_on_death)
+    if (field_10C_health > FP_FromInteger(0) || field_1E8_tlv.field_1A_reset_on_death == Path_NakedSlig::ResetOnDeath::Yes_1)
     {
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
     }
