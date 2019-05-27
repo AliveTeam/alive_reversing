@@ -9,6 +9,8 @@
 #include "PathData.hpp"
 #include "MusicController.hpp"
 #include "Abe.hpp"
+#include "Events.hpp"
+#include "DDCheat.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -30,6 +32,67 @@ TintEntry stru_5514B8[18] =
     { 0u, 0u, 0u, 0u },
     { 0u, 0u, 0u, 0u },
     { 0u, 0u, 0u, 0u }
+};
+
+const int sNakedSligFrameTableOffsets_551470[18] =
+{
+    53684,
+    53852,
+    53964,
+    53560,
+    53720,
+    53736,
+    53752,
+    53780,
+    53816,
+    53928,
+    54032,
+    53616,
+    54000,
+    53780,
+    54096,
+    54076,
+    54160,
+    54188
+};
+
+
+ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
+{
+    &NakedSlig::M_0_41B260,                // Sleeping
+    &NakedSlig::M_1_41B890,                // Idle
+    &NakedSlig::M_2_41BF00,                // Speak ??
+    &NakedSlig::M_3_41B280,                // Crawling
+    &NakedSlig::M_4_41B620,                // Beat/chant shake?
+    &NakedSlig::M_5_41B650,                // Gibbed/explode
+    &NakedSlig::M_6_41B870,                // Start to be hit or hit floor ??
+    &NakedSlig::M_7_41C010,                // Idle not moving ??
+    &NakedSlig::M_8_41BF70,                // Speak
+    &NakedSlig::M_9_41BD80,                // Wake up
+    &NakedSlig::M_10_41B400,               // Pushing into wall
+    &NakedSlig::M_11_41B590,               // Turning
+    &NakedSlig::M_12_418C30,               // Out of chant shake
+    &NakedSlig::M_13_418C50,               // 
+    &NakedSlig::M_14_41C040,               // Idle 2 ??
+    &NakedSlig::M_15_41B600,               // Idle 3 ??
+    &NakedSlig::M_16_41B3C0,               // Pushing into wall saying ow ?
+    &NakedSlig::M_17_41B3A0                // Crawl to idle ??
+});
+
+struct ReimplToRealPair
+{
+    TNakedSligAIFn mNew;
+    DWORD mReal;
+};
+
+const ReimplToRealPair sAiFns[] =
+{
+    { &NakedSlig::AI_0_419DE0, 0x419DE0 },
+    { &NakedSlig::AI_1_419F60, 0x419F60 },
+    { &NakedSlig::AI_2_419FE0, 0x419FE0 },
+    { &NakedSlig::AI_3_41A5B0, 0x41A5B0 }, // Controlled by abe
+    { &NakedSlig::AI_4_41A880, 0x41A880 },
+    { &NakedSlig::AI_5_41ADF0, 0x41ADF0 },
 };
 
 NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
@@ -86,7 +149,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
 
     if (field_1E8_tlv.field_14_state == 2)
     {
-        sub_419890(0, 1);
+        Set_AnimAndMotion_419890(0, 1);
         SetBrain(&NakedSlig::AI_1_419F60);
     }
     else
@@ -99,7 +162,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
         {
             field_20_animation.field_C_render_layer = 6;
         }
-        sub_419890(9, 1);
+        Set_AnimAndMotion_419890(9, 1);
         SetBrain(&NakedSlig::AI_0_419DE0);
     }
 
@@ -138,10 +201,42 @@ BaseGameObject* NakedSlig::VDestructor(signed int flags)
     return vdtor_418FB0(flags);
 }
 
-signed __int16 NakedSlig::sub_419890(__int16 /*currentMotion*/, __int16 /*bClearNextMotion*/)
+void NakedSlig::VUpdate()
 {
-    NOT_IMPLEMENTED();
-    return 1;
+    vUpdate_419100();
+}
+
+void NakedSlig::Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion)
+{
+    field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[currentMotion], nullptr);
+    field_106_current_motion = currentMotion;
+
+    UpdateAnimBlock_419900();
+
+    if (bClearNextMotion)
+    {
+        field_108_next_motion = -1;
+    }
+}
+
+void NakedSlig::UpdateAnimBlock_419900()
+{
+    BYTE** ppRes = GetAnimBlock_419950(field_106_current_motion);
+    if (!ppRes)
+    {
+        field_106_current_motion = 0;
+        ppRes = GetAnimBlock_419950(0);
+    }
+    field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[field_106_current_motion], ppRes);
+}
+
+BYTE** NakedSlig::GetAnimBlock_419950(int /*currentMotion*/)
+{
+    if (field_1CC)
+    {
+        field_1CC = 0;
+    }
+    return field_10_resources_array.ItemAt(0);
 }
 
 __int16 CC NakedSlig::NextRandom_4197D0()
@@ -149,22 +244,69 @@ __int16 CC NakedSlig::NextRandom_4197D0()
     return (Math_NextRandom() & 1) == 0;
 }
 
-struct ReimplToRealPair
+void NakedSlig::vUpdate_419100()
 {
-    TNakedSligAIFn mNew;
-    DWORD mReal;
-};
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    else
+    {
+        if (field_114_flags.Get(Flags_114::e114_Bit9))
+        {
+            field_114_flags.Clear(Flags_114::e114_Bit9);
+            if (field_104_collision_line_type == -1)
+            {
+                field_100_pCollisionLine = 0;
+            }
+            else
+            {
+                sCollisions_DArray_5C1128->Raycast_417A60(
+                    field_B8_xpos,
+                    field_BC_ypos - FP_FromInteger(20),
+                    field_B8_xpos,
+                    field_BC_ypos + FP_FromInteger(20),
+                    &field_100_pCollisionLine,
+                    &field_B8_xpos,
+                    &field_BC_ypos,
+                    1 << field_104_collision_line_type);
+            }
+            field_104_collision_line_type = 0;
+            field_1D4_obj_id = Find_Flags_4DC170(field_1D4_obj_id);
+            field_1D8_obj_id = Find_Flags_4DC170(field_1D8_obj_id);
+            field_1D0_slig_button_id = Find_Flags_4DC170(field_1D0_slig_button_id);
+        }
 
-const ReimplToRealPair sAiFns[] =
-{
-    { &NakedSlig::AI_0_419DE0, 0x419DE0 },
-    { &NakedSlig::AI_1_419F60, 0x419F60 }
-};
+        if (!Input_IsChanting_45F260())
+        {
+            field_1B8 = 0;
+        }
+
+        field_208_brain_sub_state = (this->*field_204_brain_state)();
+        
+        const FP oldX = field_B8_xpos;
+        const FP oldY = field_BC_ypos;
+
+        (this->*sNakedSlig_motions_551428[field_106_current_motion])();
+
+        if (oldX != field_B8_xpos || oldY != field_BC_ypos)
+        {
+            auto pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                nullptr,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_B8_xpos,
+                field_BC_ypos);
+
+            VOn_TLV_Collision_4087F0(pTlv);
+        }
+    }
+}
 
 void NakedSlig::SetBrain(TNakedSligAIFn fn)
 {
 #if _WIN32 || !_WIN64
-    if (!IsAlive())
+    if (IsAlive())
     {
         // If not running as standalone set the address to be
         // the address of the real function rather than the reimpl as the real
@@ -174,7 +316,7 @@ void NakedSlig::SetBrain(TNakedSligAIFn fn)
             if (addrPair.mNew == fn)
             {
                 const DWORD actualAddressToUse = addrPair.mReal;
-                // Hack to overwrite the memeber function pointer bytes with arbitry data
+                // Hack to overwrite the member function pointer bytes with arbitrary data
                 memcpy(&field_204_brain_state, &actualAddressToUse, sizeof(DWORD));
                 return;
             }
@@ -240,4 +382,118 @@ __int16 NakedSlig::AI_1_419F60()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+__int16 NakedSlig::AI_2_419FE0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 NakedSlig::AI_3_41A5B0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 NakedSlig::AI_4_41A880()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 NakedSlig::AI_5_41ADF0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void NakedSlig::M_0_41B260()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_1_41B890()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_2_41BF00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_3_41B280()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_4_41B620()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_5_41B650()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_6_41B870()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_7_41C010()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_8_41BF70()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_9_41BD80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_10_41B400()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_11_41B590()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_12_418C30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_13_418C50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_14_41C040()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_15_41B600()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_16_41B3C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void NakedSlig::M_17_41B3A0()
+{
+    NOT_IMPLEMENTED();
 }

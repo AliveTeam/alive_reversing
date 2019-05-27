@@ -18,6 +18,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_NakedSlig, 0x1C);
 class NakedSlig;
 
 using TNakedSligAIFn = __int16 (NakedSlig::*)();
+using TNakedSligMotionFn = void (NakedSlig::*)();
 
 enum class LevelIds : __int16;
 
@@ -28,10 +29,20 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override;
+
 private:
-    EXPORT signed __int16 sub_419890(__int16 currentMotion, __int16 bClearNextMotion);
+    EXPORT void Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion);
+
+    EXPORT void UpdateAnimBlock_419900();
+
+    EXPORT BYTE** GetAnimBlock_419950(int currentMotion);
 
     EXPORT static __int16 CC NextRandom_4197D0();
+
+    EXPORT void vUpdate_419100();
+
+
 
 private:
     void SetBrain(TNakedSligAIFn fn);
@@ -41,10 +52,33 @@ private:
 
     EXPORT NakedSlig* vdtor_418FB0(signed int flags);
 
-
 public:
     EXPORT __int16 AI_0_419DE0();
     EXPORT __int16 AI_1_419F60();
+    EXPORT __int16 AI_2_419FE0();
+    EXPORT __int16 AI_3_41A5B0();
+    EXPORT __int16 AI_4_41A880();
+    EXPORT __int16 AI_5_41ADF0();
+
+
+    EXPORT void M_0_41B260();
+    EXPORT void M_1_41B890();
+    EXPORT void M_2_41BF00();
+    EXPORT void M_3_41B280();
+    EXPORT void M_4_41B620();
+    EXPORT void M_5_41B650();
+    EXPORT void M_6_41B870();
+    EXPORT void M_7_41C010();
+    EXPORT void M_8_41BF70();
+    EXPORT void M_9_41BD80();
+    EXPORT void M_10_41B400();
+    EXPORT void M_11_41B590();
+    EXPORT void M_12_418C30();
+    EXPORT void M_13_418C50();
+    EXPORT void M_14_41C040();
+    EXPORT void M_15_41B600();
+    EXPORT void M_16_41B3C0();
+    EXPORT void M_17_41B3A0();
 
 private:
     __int16 field_116;
