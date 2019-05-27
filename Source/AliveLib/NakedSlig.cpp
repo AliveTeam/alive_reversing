@@ -11,6 +11,7 @@
 #include "Abe.hpp"
 #include "Events.hpp"
 #include "DDCheat.hpp"
+#include "SwitchStates.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -56,11 +57,10 @@ const int sNakedSligFrameTableOffsets_551470[18] =
     54188
 };
 
-
 ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
 {
     &NakedSlig::M_0_41B260,                // Sleeping
-    &NakedSlig::M_1_41B890,                // Idle
+    &NakedSlig::M_1_41B890,                // Transform/use slig button ?
     &NakedSlig::M_2_41BF00,                // Speak ??
     &NakedSlig::M_3_41B280,                // Crawling
     &NakedSlig::M_4_41B620,                // Beat/chant shake?
@@ -68,7 +68,7 @@ ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
     &NakedSlig::M_6_41B870,                // Start to be hit or hit floor ??
     &NakedSlig::M_7_41C010,                // Idle not moving ??
     &NakedSlig::M_8_41BF70,                // Speak
-    &NakedSlig::M_9_41BD80,                // Wake up
+    &NakedSlig::M_9_Snoozing_41BD80,
     &NakedSlig::M_10_41B400,               // Pushing into wall
     &NakedSlig::M_11_41B590,               // Turning
     &NakedSlig::M_12_418C30,               // Out of chant shake
@@ -87,11 +87,11 @@ struct ReimplToRealPair
 
 const ReimplToRealPair sAiFns[] =
 {
-    { &NakedSlig::AI_0_419DE0, 0x419DE0 },
+    { &NakedSlig::AI_0_Sleeping_419DE0, 0x419DE0 },
     { &NakedSlig::AI_1_419F60, 0x419F60 },
-    { &NakedSlig::AI_2_419FE0, 0x419FE0 },
-    { &NakedSlig::AI_3_41A5B0, 0x41A5B0 }, // Controlled by abe
-    { &NakedSlig::AI_4_41A880, 0x41A880 },
+    { &NakedSlig::AI_2_PanicGetALocker_419FE0, 0x419FE0 },
+    { &NakedSlig::AI_3_Possesed_41A5B0, 0x41A5B0 },
+    { &NakedSlig::AI_4_41A880, 0x41A880 }, // Fall and splat
     { &NakedSlig::AI_5_41ADF0, 0x41ADF0 },
 };
 
@@ -114,7 +114,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_1CC = 0;
     field_1AC_timer = 0;
     field_1C8 = 0;
-    field_1B8 = 0;
+    field_1B8_bChanting = 0;
     field_1C4 = 0;
     field_1C0 = -1;
     field_1D0_slig_button_id = -1;
@@ -149,7 +149,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
 
     if (field_1E8_tlv.field_14_state == Path_NakedSlig::State::State_2)
     {
-        Set_AnimAndMotion_419890(0, 1);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_0_41B260, TRUE);
         SetBrain(&NakedSlig::AI_1_419F60);
     }
     else
@@ -162,8 +162,8 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
         {
             field_20_animation.field_C_render_layer = 6;
         }
-        Set_AnimAndMotion_419890(9, 1);
-        SetBrain(&NakedSlig::AI_0_419DE0);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_9_Snoozing_41BD80, TRUE);
+        SetBrain(&NakedSlig::AI_0_Sleeping_419DE0);
     }
 
     field_208_brain_sub_state = 0;
@@ -206,7 +206,7 @@ void NakedSlig::VUpdate()
     vUpdate_419100();
 }
 
-void NakedSlig::Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion)
+void NakedSlig::Set_AnimAndMotion_419890(NakedSligMotion currentMotion, __int16 bClearNextMotion)
 {
     field_20_animation.Set_Animation_Data_409C80(sNakedSligFrameTableOffsets_551470[currentMotion], nullptr);
     field_106_current_motion = currentMotion;
@@ -279,7 +279,7 @@ void NakedSlig::vUpdate_419100()
 
         if (!Input_IsChanting_45F260())
         {
-            field_1B8 = 0;
+            field_1B8_bChanting = 0;
         }
 
         field_208_brain_sub_state = (this->*field_204_brain_state)();
@@ -372,9 +372,79 @@ NakedSlig* NakedSlig::vdtor_418FB0(signed int flags)
     return this;
 }
 
-__int16 NakedSlig::AI_0_419DE0()
+BOOL NakedSlig::PanicOn_419810()
 {
-    NOT_IMPLEMENTED();
+    return SwitchStates_Get_466020(field_1E8_tlv.field_18_panic_id) != 0;
+}
+
+void NakedSlig::ToIdle_41C070()
+{
+    field_1B0 = 0;
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+    Set_AnimAndMotion_419890(NakedSligMotion::M_0_41B260, FALSE);
+    MapFollowMe_408D10(TRUE);
+}
+
+__int16 NakedSlig::AI_0_Sleeping_419DE0()
+{
+    if (gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(0, this, 0, 0);
+    }
+    
+    if (field_208_brain_sub_state == 0)
+    {
+        if (!(static_cast<int>(sGnFrame_5C1B84) % 16))
+        {
+            if (field_1C4 > 0)
+            {
+                field_1C4--;
+            }
+        }
+
+        if (PanicOn_419810())
+        {
+            field_1AC_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(15, 45);
+            return 1;
+        }
+        else
+        {
+            return field_208_brain_sub_state;
+        }
+    }
+
+    if (field_208_brain_sub_state == 1)
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_1AC_timer)
+        {
+            return field_208_brain_sub_state;
+        }
+
+        field_108_next_motion = NakedSligMotion::M_2_41BF00;
+        return 2;
+    }
+
+    if (field_208_brain_sub_state == 2 || field_106_current_motion != 2 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+    {
+        return field_208_brain_sub_state;
+    }
+
+    if (field_CC_sprite_scale == FP_FromInteger(1))
+    {
+        field_20_animation.field_C_render_layer = 27;
+    }
+    else
+    {
+        field_20_animation.field_C_render_layer = 8;
+    }
+
+    ToIdle_41C070();
+    SetBrain(&NakedSlig::AI_2_PanicGetALocker_419FE0); // j_NakedSlig::AI_2_419FE0
     return 0;
 }
 
@@ -384,13 +454,13 @@ __int16 NakedSlig::AI_1_419F60()
     return 0;
 }
 
-__int16 NakedSlig::AI_2_419FE0()
+__int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 NakedSlig::AI_3_41A5B0()
+__int16 NakedSlig::AI_3_Possesed_41A5B0()
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -453,9 +523,52 @@ void NakedSlig::M_8_41BF70()
     NOT_IMPLEMENTED();
 }
 
-void NakedSlig::M_9_41BD80()
+void NakedSlig::M_9_Snoozing_41BD80()
 {
     NOT_IMPLEMENTED();
+
+    if (field_108_next_motion == NakedSligMotion::M_2_41BF00)
+    {
+        Set_AnimAndMotion_419890(NakedSligMotion::M_2_41BF00, TRUE);
+    }
+    else if (!(sGnFrame_5C1B84 & 31))
+    {
+        /*
+        v2 = sGnFrame_5C1B84 >> 5;
+        LOBYTE(v2) = ~(unsigned __int8)(sGnFrame_5C1B84 >> 5) & 1 | 4;
+        Slig_Sfx_4BFFE0(v2, this);
+        */
+
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
+        {
+            /*
+            auto pSnoozeParticle = alive_new<SnoozeParticle>();
+            if (pSnoozeParticle)
+            {
+                FP xOff = {};
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    xOff = -(field_CC_sprite_scale * FP_FromInteger(-10));
+                }
+                else
+                {
+                    xOff = (field_CC_sprite_scale * FP_FromInteger(-10));
+                }
+
+                const FP yOff = (field_CC_sprite_scale * FP_FromInteger(-10));
+                pSnoozeParticle->ctor_4B06F0(
+                    field_B8_xpos + xOff,
+                    field_BC_ypos + yOff,
+                    field_20_animation.field_C_render_layer,
+                    field_20_animation.field_14_scale);
+            }*/
+        }
+    }
 }
 
 void NakedSlig::M_10_41B400()

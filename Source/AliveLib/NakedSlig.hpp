@@ -54,6 +54,28 @@ using TNakedSligMotionFn = void (NakedSlig::*)();
 
 enum class LevelIds : __int16;
 
+enum NakedSligMotion : __int16
+{
+    M_0_41B260 = 0,
+    M_1_41B890 = 1,
+    M_2_41BF00 = 2,
+    M_3_41B280 = 3,
+    M_4_41B620 = 4,
+    M_5_41B650 = 5,
+    M_6_41B870 = 6,
+    M_7_41C010 = 7,
+    M_8_41BF70 = 8,
+    M_9_Snoozing_41BD80 = 9,
+    M_10_41B400 = 10,
+    M_11_41B590 = 11,
+    M_12_418C30 = 12,
+    M_13_418C50 = 13,
+    M_14_41C040 = 14,
+    M_15_41B600 = 15,
+    M_16_41B3C0 = 16,
+    M_17_41B3A0 = 17
+};
+
 class NakedSlig : public BaseAliveGameObject
 {
 public:
@@ -64,7 +86,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    EXPORT void Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion);
+    EXPORT void Set_AnimAndMotion_419890(NakedSligMotion currentMotion, __int16 bClearNextMotion);
 
     EXPORT void UpdateAnimBlock_419900();
 
@@ -84,11 +106,15 @@ private:
 
     EXPORT NakedSlig* vdtor_418FB0(signed int flags);
 
+    EXPORT BOOL PanicOn_419810();
+
+    EXPORT void ToIdle_41C070();
+
 public:
-    EXPORT __int16 AI_0_419DE0();
+    EXPORT __int16 AI_0_Sleeping_419DE0();
     EXPORT __int16 AI_1_419F60();
-    EXPORT __int16 AI_2_419FE0();
-    EXPORT __int16 AI_3_41A5B0();
+    EXPORT __int16 AI_2_PanicGetALocker_419FE0();
+    EXPORT __int16 AI_3_Possesed_41A5B0();
     EXPORT __int16 AI_4_41A880();
     EXPORT __int16 AI_5_41ADF0();
 
@@ -102,7 +128,7 @@ public:
     EXPORT void M_6_41B870();
     EXPORT void M_7_41C010();
     EXPORT void M_8_41BF70();
-    EXPORT void M_9_41BD80();
+    EXPORT void M_9_Snoozing_41BD80();
     EXPORT void M_10_41B400();
     EXPORT void M_11_41B590();
     EXPORT void M_12_418C30();
@@ -126,7 +152,8 @@ private:
     int field_1AC_timer;
     int field_1B0;
     int field_1B4;
-    __int16 field_1B8;
+
+    __int16 field_1B8_bChanting;
 
     LevelIds field_1BA_prev_level;
     __int16 field_1BC_prev_path;
