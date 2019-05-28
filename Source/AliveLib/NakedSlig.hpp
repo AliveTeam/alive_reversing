@@ -97,6 +97,9 @@ private:
     EXPORT void vUpdate_419100();
 
 
+    EXPORT __int16 sub_41C740(FP velX);
+
+    EXPORT Path_TLV* FindPantsOrWings_419750();
 
 private:
     void SetBrain(TNakedSligAIFn fn);
