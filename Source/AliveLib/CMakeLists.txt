@@ -287,6 +287,8 @@ ExportHooker.hpp
     DoorFlame.hpp
     NakedSlig.cpp
     NakedSlig.hpp
+    SnoozeParticle.cpp
+    SnoozeParticle.hpp
     TouchController.cpp
     TouchController.hpp
 )

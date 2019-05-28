@@ -12,6 +12,7 @@
 #include "Events.hpp"
 #include "DDCheat.hpp"
 #include "SwitchStates.hpp"
+#include "SnoozeParticle.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -429,7 +430,7 @@ __int16 NakedSlig::AI_0_Sleeping_419DE0()
         return 2;
     }
 
-    if (field_208_brain_sub_state == 2 || field_106_current_motion != 2 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+    if (field_208_brain_sub_state != 2 || field_106_current_motion != NakedSligMotion::M_2_41BF00 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
     {
         return field_208_brain_sub_state;
     }
@@ -546,7 +547,6 @@ void NakedSlig::M_9_Snoozing_41BD80()
             field_BC_ypos,
             0))
         {
-            /*
             auto pSnoozeParticle = alive_new<SnoozeParticle>();
             if (pSnoozeParticle)
             {
@@ -566,7 +566,7 @@ void NakedSlig::M_9_Snoozing_41BD80()
                     field_BC_ypos + yOff,
                     field_20_animation.field_C_render_layer,
                     field_20_animation.field_14_scale);
-            }*/
+            }
         }
     }
 }
