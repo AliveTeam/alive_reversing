@@ -59,7 +59,7 @@ enum NakedSligMotion : __int16
     M_0_41B260 = 0,
     M_1_41B890 = 1,
     M_2_41BF00 = 2,
-    M_3_41B280 = 3,
+    M_3_Crawling_41B280 = 3,
     M_4_41B620 = 4,
     M_5_41B650 = 5,
     M_6_41B870 = 6,
@@ -67,7 +67,7 @@ enum NakedSligMotion : __int16
     M_8_41BF70 = 8,
     M_9_Snoozing_41BD80 = 9,
     M_10_41B400 = 10,
-    M_11_41B590 = 11,
+    M_11_TurnAround_41B590 = 11,
     M_12_418C30 = 12,
     M_13_418C50 = 13,
     M_14_41C040 = 14,
@@ -86,7 +86,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    EXPORT void Set_AnimAndMotion_419890(NakedSligMotion currentMotion, __int16 bClearNextMotion);
+    EXPORT void Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion);
 
     EXPORT void UpdateAnimBlock_419900();
 
@@ -101,6 +101,8 @@ private:
 
     EXPORT Path_TLV* FindPantsOrWings_419750();
 
+    EXPORT BaseGameObject* FindSligButton_419840();
+
 private:
     void SetBrain(TNakedSligAIFn fn);
     bool BrainIs(TNakedSligAIFn fn);
@@ -113,6 +115,13 @@ private:
 
     EXPORT void ToIdle_41C070();
 
+    EXPORT void HandleCommon_41C0B0();
+   
+    EXPORT __int16 CanCrawl_41C5D0();
+
+    EXPORT void MoveOnLine_41C3D0();
+
+    EXPORT void sub_41C500();
 public:
     EXPORT __int16 AI_0_Sleeping_419DE0();
     EXPORT __int16 AI_1_419F60();
@@ -125,7 +134,7 @@ public:
     EXPORT void M_0_41B260();
     EXPORT void M_1_41B890();
     EXPORT void M_2_41BF00();
-    EXPORT void M_3_41B280();
+    EXPORT void M_3_Crawling_41B280();
     EXPORT void M_4_41B620();
     EXPORT void M_5_41B650();
     EXPORT void M_6_41B870();
@@ -133,7 +142,7 @@ public:
     EXPORT void M_8_41BF70();
     EXPORT void M_9_Snoozing_41BD80();
     EXPORT void M_10_41B400();
-    EXPORT void M_11_41B590();
+    EXPORT void M_11_TurnAround_41B590();
     EXPORT void M_12_418C30();
     EXPORT void M_13_418C50();
     EXPORT void M_14_41C040();
