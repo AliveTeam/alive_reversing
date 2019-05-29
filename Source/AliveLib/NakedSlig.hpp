@@ -66,14 +66,14 @@ enum NakedSligMotion : __int16
     M_7_41C010 = 7,
     M_8_41BF70 = 8,
     M_9_Snoozing_41BD80 = 9,
-    M_10_41B400 = 10,
+    M_10_StartToPushOnWall_41B400 = 10,
     M_11_TurnAround_41B590 = 11,
     M_12_PossessedFlapAbout_418C30 = 12,
     M_13_418C50 = 13,
     M_14_PossessedToIdle_41C040 = 14,
     M_15_41B600 = 15,
-    M_16_41B3C0 = 16,
-    M_17_41B3A0 = 17
+    M_16_PushWall_41B3C0 = 16,
+    M_17_StopPushingWall_41B3A0 = 17
 };
 
 EXPORT void CC Slig_Sfx_4BFFE0(__int16 effect, BaseAliveGameObject* pObj);
@@ -151,14 +151,14 @@ public:
     EXPORT void M_7_41C010();
     EXPORT void M_8_41BF70();
     EXPORT void M_9_Snoozing_41BD80();
-    EXPORT void M_10_41B400();
+    EXPORT void M_10_StartToPushOnWall_41B400();
     EXPORT void M_11_TurnAround_41B590();
     EXPORT void M_12_PossessedFlapAbout_418C30();
     EXPORT void M_13_418C50();
     EXPORT void M_14_PossessedToIdle_41C040();
     EXPORT void M_15_41B600();
-    EXPORT void M_16_41B3C0();
-    EXPORT void M_17_41B3A0();
+    EXPORT void M_16_PushWall_41B3C0();
+    EXPORT void M_17_StopPushingWall_41B3A0();
 
 private:
     __int16 field_116;
