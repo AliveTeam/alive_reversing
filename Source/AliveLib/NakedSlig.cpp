@@ -85,18 +85,18 @@ ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
 
 struct ReimplToRealPair
 {
-    TNakedSligAIFn mNew;
-    DWORD mReal;
+    TNakedSligAIFn mOurFn;
+    DWORD mOriginalGameFn[2];
 };
 
 const ReimplToRealPair sAiFns[] =
 {
-    { &NakedSlig::AI_0_Sleeping_419DE0, 0x419DE0 },
-    { &NakedSlig::AI_1_419F60, 0x419F60 },
-    { &NakedSlig::AI_2_PanicGetALocker_419FE0, 0x419FE0 },
-    { &NakedSlig::AI_3_Possesed_41A5B0, 0x41A5B0 },
-    { &NakedSlig::AI_4_41A880, 0x41A880 }, // Fall and splat
-    { &NakedSlig::AI_5_41ADF0, 0x41ADF0 },
+    { &NakedSlig::AI_0_Sleeping_419DE0, {0x419DE0, 0x401D1B } },
+    { &NakedSlig::AI_1_419F60, {0x419F60, 0x40340E } },
+    { &NakedSlig::AI_2_PanicGetALocker_419FE0, { 0x419FE0, 0x419FE0 } },
+    { &NakedSlig::AI_3_Possesed_41A5B0, {0x41A5B0, 0x404539 } },
+    { &NakedSlig::AI_4_41A880, {0x41A880, 0x403265 } }, // Fall and splat
+    { &NakedSlig::AI_5_41ADF0, {0x41ADF0, 0x40484A } },
 };
 
 NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
@@ -330,26 +330,37 @@ Path_TLV* NakedSlig::FindPantsOrWings_419750()
 BaseGameObject* NakedSlig::FindSligButton_419840()
 {
     return FindObjectOfType_425180(Types::eSligButton_16, field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale));
+
 }
+
+#if _WIN32 || !_WIN64
+static DWORD GetOriginalFn(TNakedSligAIFn fn)
+{
+    // If not running as standalone set the address to be
+    // the address of the real function rather than the reimpl as the real
+    // game code compares the function pointer addresses (see IsBrain(x)).
+    for (const auto& addrPair : sAiFns)
+    {
+        if (addrPair.mOurFn == fn )
+        {
+            const DWORD actualAddressToUse = addrPair.mOriginalGameFn[1];
+            // Hack to overwrite the member function pointer bytes with arbitrary data
+            return actualAddressToUse;
+        }
+    }
+    ALIVE_FATAL("No matching address!");
+}
+#endif
 
 void NakedSlig::SetBrain(TNakedSligAIFn fn)
 {
 #if _WIN32 || !_WIN64
     if (IsAlive())
     {
-        // If not running as standalone set the address to be
-        // the address of the real function rather than the reimpl as the real
-        // game code compares the function pointer addresses (see IsBrain(x)).
-        for (const auto& addrPair : sAiFns)
-        {
-            if (addrPair.mNew == fn)
-            {
-                const DWORD actualAddressToUse = addrPair.mReal;
-                // Hack to overwrite the member function pointer bytes with arbitrary data
-                memcpy(&field_204_brain_state, &actualAddressToUse, sizeof(DWORD));
-                return;
-            }
-        }
+        const DWORD actualAddressToUse = GetOriginalFn(fn);
+        // Hack to overwrite the member function pointer bytes with arbitrary data
+        memcpy(&field_204_brain_state, &actualAddressToUse, sizeof(DWORD));
+        return;
     }
 #endif
     field_204_brain_state = fn;
@@ -357,7 +368,14 @@ void NakedSlig::SetBrain(TNakedSligAIFn fn)
 
 bool NakedSlig::BrainIs(TNakedSligAIFn fn)
 {
+#if _WIN32 || !_WIN64
+    const DWORD actualAddressToUse = GetOriginalFn(fn);
+    TNakedSligAIFn hack = nullptr;
+    memcpy(&hack, &actualAddressToUse, sizeof(DWORD));
+    return hack == field_204_brain_state;
+#else
     return field_204_brain_state == fn;
+#endif
 }
 
 void NakedSlig::dtor_418FE0()
