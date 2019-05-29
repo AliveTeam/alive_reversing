@@ -171,7 +171,23 @@ private:
     __int16 field_1BC_prev_path;
     __int16 field_1BE_prev_camera;
 
-    char field_1C0;
+    enum class NakedSligSpeak : char
+    {
+        Speak_None = -1,
+        Speak_0 = 0,
+        Speak_1 = 1,
+        Speak_2 = 2,
+        Speak_3 = 3,
+        Speak_4 = 4,
+        Speak_5 = 5,
+        Speak_6 = 6,
+        Speak_7 = 7,
+        Speak_8 = 8,
+        Speak_9 = 9,
+        Speak_10 = 10,
+    };
+
+    NakedSligSpeak field_1C0_speak;
     char field_1C1;
     __int16 field_1C2_pitch;
     __int16 field_1C4;

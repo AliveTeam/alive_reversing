@@ -120,7 +120,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_1C8 = 0;
     field_1B8_bChanting = 0;
     field_1C4 = 0;
-    field_1C0 = -1;
+    field_1C0_speak = NakedSligSpeak::Speak_None;
     field_1D0_slig_button_id = -1;
     field_1D4_obj_id = -1;
     field_1D8_obj_id = -1;
@@ -540,7 +540,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             }
             field_108_next_motion = NakedSligMotion::M_8_41BF70;
             field_1C8 = sGnFrame_5C1B84 + 60;
-            field_1C0 = 10;
+            field_1C0_speak = NakedSligSpeak::Speak_10;
             return 4;
         }
         break;
@@ -647,7 +647,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
 
         field_108_next_motion = NakedSligMotion::M_8_41BF70;
         field_1C8 = sGnFrame_5C1B84 + 60;
-        field_1C0 = 10;
+        field_1C0_speak = NakedSligSpeak::Speak_10;
         return 9;
 
     case 9:
@@ -899,110 +899,107 @@ void NakedSlig::M_17_41B3A0()
 
 void NakedSlig::HandleCommon_41C0B0()
 {
-    NOT_IMPLEMENTED();
-
     MapFollowMe_408D10(TRUE);
 
     if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0) && field_208_brain_sub_state == 1)
     {
         const DWORD input_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-        if (input_pressed & 8)
+        if (input_pressed & InputCommands::eRight)
         {
-            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_108_next_motion = 3;
-            LABEL_17:
-                const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
-                if (inputHeld & 0x400)
+                field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+            }
+            else
+            {
+                field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+            }
+        }
+        else if (input_pressed & InputCommands::eLeft)
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+            }
+            else
+            {
+                field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+            }
+        }
+        else if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::eUp)
+        {
+            field_1E4_pPantsOrWingsTlv = FindPantsOrWings_419750();
+            if (field_1E4_pPantsOrWingsTlv)
+            {
+                if (!field_1E4_pPantsOrWingsTlv->field_1_unknown)
                 {
-                    field_1C0 = 0;
+                    field_1E4_pPantsOrWingsTlv->field_1_unknown &= 0xFF;
+                    field_1E4_pPantsOrWingsTlv->field_1_unknown |= 1;
+                    field_108_next_motion = 1;
+                    field_1AC_timer = sGnFrame_5C1B84 + 20;
                 }
-                else if (inputHeld & 0x1000)
+            }
+            else
+            {
+                auto pSligButton = FindSligButton_419840();
+                if (pSligButton)
                 {
-                    field_1C0 = (unsigned __int16)sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? 2 : 8;
-                }
-                else if (inputHeld & 0x2000)
-                {
-                    field_1C0 = (unsigned __int16)sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? 8 : 2;
-                }
-                else if (inputHeld & 0x800)
-                {
-                    field_1C0 = 1;
-                }
-                else if ((inputHeld & 0x8000) == 0)
-                {
-                    if (inputHeld & 0x10000)
-                    {
-                        field_1C0 = 6;
-                    }
-                    else if (inputHeld & 0x4000)
-                    {
-                        field_1C0 = 7;
-                    }
-                    else if (inputHeld & 0x20000)
-                    {
-                        field_1C0 = 3;
-                    }
+                    field_108_next_motion = NakedSligMotion::M_1_41B890;
+                    field_1D0_slig_button_id = pSligButton->field_8_object_id;
                 }
                 else
                 {
-                    field_1C0 = 5;
+                    field_108_next_motion = NakedSligMotion::M_8_41BF70;
+                    field_1C0_speak = NakedSligSpeak::Speak_9;
                 }
-                if (field_1C0 != -1)
-                {
-                    field_108_next_motion = 8;
-                }
-                goto LABEL_35;
+            }
+        }
+        const DWORD inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+        if (inputHeld & InputCommands::eGameSpeak1)
+        {
+            field_1C0_speak = NakedSligSpeak::Speak_0;
+        }
+        else if (inputHeld & InputCommands::eGameSpeak3)
+        {
+            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? NakedSligSpeak::Speak_2 : NakedSligSpeak::Speak_8;
+        }
+        else if (inputHeld & InputCommands::eGameSpeak4)
+        {
+            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? NakedSligSpeak::Speak_8 : NakedSligSpeak::Speak_2;
+        }
+        else if (inputHeld & InputCommands::eGameSpeak2)
+        {
+            field_1C0_speak = NakedSligSpeak::Speak_1;
+        }
+        else if ((inputHeld & InputCommands::eGameSpeak6) == 0)
+        {
+            if (inputHeld & InputCommands::eGameSpeak7)
+            {
+                field_1C0_speak = NakedSligSpeak::Speak_6;
+            }
+            else if (inputHeld & InputCommands::eGameSpeak5)
+            {
+                field_1C0_speak = NakedSligSpeak::Speak_7;
+            }
+            else if (inputHeld & InputCommands::eGameSpeak8)
+            {
+                field_1C0_speak = NakedSligSpeak::Speak_3;
             }
         }
         else
         {
-            if (!(input_pressed & 4))
-            {
-                if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & 1)
-                {
-                    field_1E4_pPantsOrWingsTlv = FindPantsOrWings_419750();
-                    if (field_1E4_pPantsOrWingsTlv)
-                    {
-                        if (!field_1E4_pPantsOrWingsTlv->field_1_unknown)
-                        {
-                            field_1E4_pPantsOrWingsTlv->field_1_unknown &= 0xFF;
-                            field_1E4_pPantsOrWingsTlv->field_1_unknown |= 1;
-                            field_108_next_motion = 1;
-                            field_1AC_timer = sGnFrame_5C1B84 + 20;
-                        }
-                    }
-                    else
-                    {
-                        auto pSligButton = FindSligButton_419840();
-                        if (pSligButton)
-                        {
-                            field_108_next_motion = 1;
-                            field_1D0_slig_button_id = pSligButton->field_8_object_id;
-                        }
-                        else
-                        {
-                            field_108_next_motion = 8;
-                            field_1C0 = 9;
-                        }
-                    }
-                }
-                goto LABEL_17;
-            }
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                field_108_next_motion = 3;
-                goto LABEL_17;
-            }
+            field_1C0_speak = NakedSligSpeak::Speak_5;
         }
-        field_108_next_motion = 11;
-        goto LABEL_17;
+
+        if (field_1C0_speak != NakedSligSpeak::Speak_None)
+        {
+            field_108_next_motion = NakedSligMotion::M_8_41BF70;
+        }
     }
 
-LABEL_35:
-    switch (field_108_next_motion + 1) // TODO: Fix this insanity
+    switch (field_108_next_motion)
     {
-    case 0:
+    case NakedSligMotion::M_1_41B890:
         if (field_106_current_motion != NakedSligMotion::M_0_41B260)
         {
             field_108_next_motion = NakedSligMotion::M_0_41B260;
@@ -1011,15 +1008,15 @@ LABEL_35:
         }
         break;
 
-    case 1:
-    case 2:
-    case 8:
-    case 9:
-    case 12:
+    case NakedSligMotion::M_2_41BF00:
+    case NakedSligMotion::M_3_Crawling_41B280:
+    case NakedSligMotion::M_9_Snoozing_41BD80:
+    case NakedSligMotion::M_10_41B400:
+    case NakedSligMotion::M_13_418C50:
         Set_AnimAndMotion_419890(field_108_next_motion, TRUE);
         break;
 
-    case 4:
+    case NakedSligMotion::M_5_41B650:
     {
         FP gridScale = {};
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -1049,21 +1046,21 @@ LABEL_35:
 
 const FP dword_54471C[15] =
 {
-    FP_FromRaw(0),
-    FP_FromRaw(0),
-    FP_FromRaw(0),
-    FP_FromRaw(76366),
-    FP_FromRaw(168015),
-    FP_FromRaw(186976),
-    FP_FromRaw(145965),
-    FP_FromRaw(122653),
-    FP_FromRaw(227394),
-    FP_FromRaw(236651),
-    FP_FromRaw(259345),
-    FP_FromRaw(176115),
-    FP_FromRaw(0),
-    FP_FromRaw(0),
-    FP_FromRaw(0)
+    FP_FromDouble(0),
+    FP_FromDouble(0),
+    FP_FromDouble(0),
+    FP_FromDouble(1.17),
+    FP_FromDouble(2.56),
+    FP_FromDouble(2.85),
+    FP_FromDouble(2.23),
+    FP_FromDouble(1.87),
+    FP_FromDouble(3.47),
+    FP_FromDouble(3.61),
+    FP_FromDouble(3.96),
+    FP_FromDouble(2.69),
+    FP_FromDouble(0),
+    FP_FromDouble(0),
+    FP_FromDouble(0)
 };
 
 
