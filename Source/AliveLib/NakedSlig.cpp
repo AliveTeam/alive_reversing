@@ -18,6 +18,10 @@
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
+#include "Gibs.hpp"
+#include "Blood.hpp"
+#include "ScreenShake.hpp"
+#include "Midi.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -823,8 +827,150 @@ __int16 NakedSlig::AI_3_Possesed_41A5B0()
 
 __int16 NakedSlig::AI_4_GetKilled_41A880()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(0, this, 0, 0);
+    }
+
+    switch (field_208_brain_sub_state)
+    {
+    case 0:
+        if (field_106_current_motion != NakedSligMotion::M_7_41C010 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+        {
+            return field_208_brain_sub_state;
+        }
+        return 1;
+
+    case 1:
+        if (field_1AC_timer < static_cast<int>((sGnFrame_5C1B84 + 80)))
+        {
+            field_CC_sprite_scale -= FP_FromDouble(0.008);
+            field_D0_r -= 2;
+            field_D2_g -= 2;
+            field_D4_b -= 2;
+        }
+
+        if (static_cast<int>(sGnFrame_5C1B84) < field_1AC_timer - 24 && !(sGnFrame_5C1B84 % 5))
+        {
+            New_Particles_426C70(
+                (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(6),
+                field_CC_sprite_scale / FP_FromInteger(2),
+                2, 
+                128u, 128u, 128u);
+
+            SFX_Play_46FBA0(79u, 25, FP_GetExponent((FP_FromInteger(2200) * field_CC_sprite_scale)));
+        }
+
+        if (field_1AC_timer < static_cast<int>(sGnFrame_5C1B84))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+        return field_208_brain_sub_state;
+
+    case 2:
+    {
+        auto pGibs = alive_new<Gibs>();
+        if (pGibs)
+        {
+            pGibs->ctor_40FB40(
+                1,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_C4_velx,
+                field_C8_vely,
+                field_CC_sprite_scale,
+                0);
+        }
+
+        auto pBlood = alive_new<Blood>();
+        if (pBlood)
+        {
+            pBlood->ctor_40F0B0(
+                field_B8_xpos,
+                field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_CC_sprite_scale,
+                20);
+        }
+
+        New_Particles_426C70(
+            field_B8_xpos,
+            field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+            field_CC_sprite_scale,
+            3,
+            128u,
+            128u,
+            128u);
+
+        SFX_Play_46FA90(64u, 128, field_CC_sprite_scale);
+        SFX_Play_46FA90(47u, 90, field_CC_sprite_scale);
+
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+
+        Set_AnimAndMotion_419890(12, TRUE);
+        field_C8_vely = FP_FromInteger(0);
+        field_C4_velx = FP_FromInteger(0);
+        field_10C_health = FP_FromInteger(0);
+        field_1AC_timer = sGnFrame_5C1B84 + 40;
+        return 3;
+    }
+
+    case 3:
+        if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+        return field_208_brain_sub_state;
+
+    case 4:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_1AC_timer)
+        {
+            return field_208_brain_sub_state;
+        }
+        field_1AC_timer = sGnFrame_5C1B84 + 90;
+        return 1;
+
+    case 5:
+        if (static_cast<int>(sGnFrame_5C1B84) < field_1AC_timer)
+        {
+            if (!(static_cast<int>(field_1AC_timer - sGnFrame_5C1B84) % 15))
+            {
+                Sfx_Slig_4C04F0(
+                    10,
+                    static_cast<short>(2 * (field_1AC_timer & 0xFFFF - sGnFrame_5C1B84)),
+                    field_1C2_pitch,
+                    this);
+            }
+
+            if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 6)
+            {
+                SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+            }
+            return field_208_brain_sub_state;
+        }
+        else
+        {
+            Abe_SFX_2_457A40(15, 0, 0x7FFF, this);
+            auto pScreenShake = alive_new<ScreenShake>();
+            if (pScreenShake)
+            {
+                pScreenShake->ctor_4ACF70(0, 0);
+            }
+            field_1AC_timer = sGnFrame_5C1B84 + 30;
+            return 3;
+        }
+        break;
+
+    default:
+        return field_208_brain_sub_state;
+    }
 }
 
 __int16 NakedSlig::AI_5_41ADF0()
