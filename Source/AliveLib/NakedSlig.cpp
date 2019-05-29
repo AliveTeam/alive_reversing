@@ -999,7 +999,7 @@ void NakedSlig::HandleCommon_41C0B0()
 
     switch (field_108_next_motion)
     {
-    case NakedSligMotion::M_1_41B890:
+    case -1: // TODO: None constant
         if (field_106_current_motion != NakedSligMotion::M_0_41B260)
         {
             field_108_next_motion = NakedSligMotion::M_0_41B260;
@@ -1008,15 +1008,15 @@ void NakedSlig::HandleCommon_41C0B0()
         }
         break;
 
-    case NakedSligMotion::M_2_41BF00:
-    case NakedSligMotion::M_3_Crawling_41B280:
-    case NakedSligMotion::M_9_Snoozing_41BD80:
-    case NakedSligMotion::M_10_41B400:
-    case NakedSligMotion::M_13_418C50:
+    case NakedSligMotion::M_0_41B260:
+    case NakedSligMotion::M_1_41B890:
+    case NakedSligMotion::M_7_41C010:
+    case NakedSligMotion::M_8_41BF70:
+    case NakedSligMotion::M_11_TurnAround_41B590:
         Set_AnimAndMotion_419890(field_108_next_motion, TRUE);
         break;
 
-    case NakedSligMotion::M_5_41B650:
+    case NakedSligMotion::M_3_Crawling_41B280:
     {
         FP gridScale = {};
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
