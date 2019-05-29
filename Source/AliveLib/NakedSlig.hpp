@@ -57,7 +57,7 @@ enum class LevelIds : __int16;
 enum NakedSligMotion : __int16
 {
     M_0_41B260 = 0,
-    M_1_41B890 = 1,
+    M_1_TryToTransform_41B890 = 1,
     M_2_41BF00 = 2,
     M_3_Crawling_41B280 = 3,
     M_4_41B620 = 4,
@@ -68,13 +68,15 @@ enum NakedSligMotion : __int16
     M_9_Snoozing_41BD80 = 9,
     M_10_41B400 = 10,
     M_11_TurnAround_41B590 = 11,
-    M_12_418C30 = 12,
+    M_12_PossessedFlapAbout_418C30 = 12,
     M_13_418C50 = 13,
-    M_14_41C040 = 14,
+    M_14_PossessedToIdle_41C040 = 14,
     M_15_41B600 = 15,
     M_16_41B3C0 = 16,
     M_17_41B3A0 = 17
 };
+
+EXPORT void CC Slig_Sfx_4BFFE0(__int16 effect, BaseAliveGameObject* pObj);
 
 class NakedSlig : public BaseAliveGameObject
 {
@@ -85,7 +87,15 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VPossessed_408F70() override
+    {
+        vPossessed_4195F0();
+    }
+
 private:
+    EXPORT void vPossessed_4195F0();
+
+
     EXPORT void Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion);
 
     EXPORT void UpdateAnimBlock_419900();
@@ -124,15 +134,15 @@ private:
     EXPORT void sub_41C500();
 public:
     EXPORT __int16 AI_0_Sleeping_419DE0();
-    EXPORT __int16 AI_1_419F60();
+    EXPORT __int16 AI_1_Idle_419F60();
     EXPORT __int16 AI_2_PanicGetALocker_419FE0();
     EXPORT __int16 AI_3_Possesed_41A5B0();
-    EXPORT __int16 AI_4_41A880();
+    EXPORT __int16 AI_4_GetKilled_41A880();
     EXPORT __int16 AI_5_41ADF0();
 
 
     EXPORT void M_0_41B260();
-    EXPORT void M_1_41B890();
+    EXPORT void M_1_TryToTransform_41B890();
     EXPORT void M_2_41BF00();
     EXPORT void M_3_Crawling_41B280();
     EXPORT void M_4_41B620();
@@ -143,9 +153,9 @@ public:
     EXPORT void M_9_Snoozing_41BD80();
     EXPORT void M_10_41B400();
     EXPORT void M_11_TurnAround_41B590();
-    EXPORT void M_12_418C30();
+    EXPORT void M_12_PossessedFlapAbout_418C30();
     EXPORT void M_13_418C50();
-    EXPORT void M_14_41C040();
+    EXPORT void M_14_PossessedToIdle_41C040();
     EXPORT void M_15_41B600();
     EXPORT void M_16_41B3C0();
     EXPORT void M_17_41B3A0();
