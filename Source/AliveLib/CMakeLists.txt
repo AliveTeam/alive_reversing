@@ -289,6 +289,8 @@ ExportHooker.hpp
     NakedSlig.hpp
     SnoozeParticle.cpp
     SnoozeParticle.hpp
+    Scrab.cpp
+    Scrab.hpp
     TouchController.cpp
     TouchController.hpp
 )

@@ -59,6 +59,7 @@
 #include "Slurg.hpp"
 #include "DoorFlame.hpp"
 #include "NakedSlig.hpp"
+#include "Scrab.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -842,7 +843,38 @@ EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
 }
 
 EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Scrab_4D9200(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<5> kResources(
+        {
+            { ResourceManager::Resource_Animation, 700 },
+            { ResourceManager::Resource_Animation, 706 },
+            { ResourceManager::Resource_Animation, 708 },
+            { ResourceManager::Resource_Animation, 710 },
+            { ResourceManager::Resource_Animation, 705 },
+            { ResourceManager::Resource_Animation, 709 },
+            { ResourceManager::Resource_Animation, 704 },
+            { ResourceManager::Resource_Animation, 711 },
+            { ResourceManager::Resource_Animation, 701 },
+            { ResourceManager::Resource_Animation, 702 },
+            { ResourceManager::Resource_Animation, 703 },
+            { ResourceManager::Resource_Animation, 713 }
+        });
+        Map::LoadResourcesFromList_4DBE70("SCRAB.BND", kResources.AsList(), loadMode);
+    }
+    else
+    {
+        auto pScrab = alive_new<Scrab>();
+        if (pScrab)
+        {
+            pScrab->ctor_4A3C40(static_cast<Path_Scrab*>(pTlv), tlvInfo.all, 0);
+        }
+    }
+}
+
 EXPORT void CC Factory_Null_4DA130(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ScrabLeftBound_4D6A80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ScrabRightBound_4D6AA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
@@ -850,9 +882,9 @@ EXPORT void CC Factory_SligBoundRight_4D79A0(Path_TLV* , Path*, TlvItemInfoUnion
 EXPORT void CC Factory_SligPersist_4D79D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_EnemyStopper_4D6AC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
-EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
+EXPORT void CC Factory_InvisibleSwitch_4D6E40(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
-    if (loadmode != 1 && loadmode != 2)
+    if (loadMode != 1 && loadMode != 2)
     {
         auto pInvisibleSwitch = alive_new<InvisibleSwitch>();
         if (pInvisibleSwitch)
