@@ -228,6 +228,7 @@ void Scrab::vUpdateAnim_4A34F0()
 __int16 Scrab::sub_4A41E0()
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 void Scrab::sub_4AA600()
