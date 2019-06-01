@@ -9,6 +9,9 @@
 #include "Abe.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
+#include "Events.hpp"
+#include "DDCheat.hpp"
+#include "Particle.hpp"
 
 TintEntry stru_560260[15] =
 {
@@ -28,6 +31,51 @@ TintEntry stru_560260[15] =
     { 14u, 127u, 127u, 127u },
     { -1, 127u, 127u, 127u }
 };
+
+const TScrabMotionFn sScrab_motion_table_560120[40] =
+{
+    &Scrab::M_0_4A8220,
+    &Scrab::M_1_4A84D0,
+    &Scrab::M_2_4A89C0,
+    &Scrab::M_3_4A91A0,
+    &Scrab::M_4_4A90C0,
+    &Scrab::M_5_4A96C0,
+    &Scrab::M_6_4A9490,
+    &Scrab::M_7_4A9890,
+    &Scrab::M_8_4A9220,
+    &Scrab::M_9_4A8450,
+    &Scrab::M_10_4A8900,
+    &Scrab::M_11_4A8880,
+    &Scrab::M_12_4A99C0,
+    &Scrab::M_13_4A9BE0,
+    &Scrab::M_14_4A9460,
+    &Scrab::M_15_4A9430,
+    &Scrab::M_16_4A8D60,
+    &Scrab::M_17_4A8D90,
+    &Scrab::M_18_4AA490,
+    &Scrab::M_19_4AA3E0,
+    &Scrab::M_20_4A93E0,
+    &Scrab::M_21_4A9CC0,
+    &Scrab::M_22_4AA420,
+    &Scrab::M_23_4A9D80,
+    &Scrab::M_24_4AA140,
+    &Scrab::M_25_4A34D0,
+    &Scrab::M_26_4A9DA0,
+    &Scrab::M_27_4A9E60,
+    &Scrab::M_28_4AA200,
+    &Scrab::M_29_4AA3C0,
+    &Scrab::M_30_4A9EA0,
+    &Scrab::M_31_4A9F30,
+    &Scrab::M_32_4A8DC0,
+    &Scrab::M_33_4A9FA0,
+    &Scrab::M_34_4A9FF0,
+    &Scrab::M_35_4AA010,
+    &Scrab::M_36_4AA030,
+    &Scrab::M_37_4AA0B0,
+    &Scrab::M_38_4AA120,
+    &Scrab::M_39_4AA190
+};
+
 
 
 Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
@@ -161,6 +209,11 @@ BaseGameObject* Scrab::VDestructor(signed int flags)
     return vdtor_4A41B0(flags);
 }
 
+void Scrab::VUpdate()
+{
+    vUpdate_4A3530();
+}
+
 Scrab* Scrab::vdtor_4A41B0(signed int flags)
 {
     dtor_4A42B0();
@@ -232,6 +285,468 @@ __int16 Scrab::sub_4A41E0()
 }
 
 void Scrab::sub_4AA600()
+{
+    NOT_IMPLEMENTED();
+}
+
+const FP dword_546D84[8] = 
+{
+    FP_FromInteger(4),
+    FP_FromInteger(4),
+    FP_FromInteger(0),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(0),
+    FP_FromInteger(4)
+};
+
+const FP dword_546DA4[11] = 
+{
+    FP_FromInteger(0),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(0),
+    FP_FromInteger(4),
+    FP_FromInteger(4),
+    FP_FromInteger(4),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0)
+};
+
+
+void Scrab::vUpdate_4A3530()
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    {
+        field_114_flags.Clear(Flags_114::e114_Bit9);
+        if (field_104_collision_line_type == -1)
+        {
+            field_100_pCollisionLine = nullptr;
+        }
+        else
+        {
+            sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(20),
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(20),
+                &field_100_pCollisionLine,
+                &field_B8_xpos,
+                &field_BC_ypos,
+                1 << field_104_collision_line_type);
+        }
+        field_104_collision_line_type = 0;
+        field_120_obj_id = BaseGameObject::Find_Flags_4DC170(field_120_obj_id);
+        field_124_fight_target_obj_id = BaseGameObject::Find_Flags_4DC170(field_124_fight_target_obj_id);
+    }
+
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    const FP xDelta = FP_Abs(field_B8_xpos - sControlledCharacter_5C1B8C->field_B8_xpos);
+    if (xDelta <= FP_FromInteger(750))
+    {
+        const FP yDelta = FP_Abs(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos);
+        if (yDelta <= FP_FromInteger(520))
+        {
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            }
+
+            if (!Input_IsChanting_45F260())
+            {
+                field_164 = 0;
+            }
+
+            if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
+            {
+                // Handle DDCheat mode
+
+                // TODO: InputCommand constants
+                field_100_pCollisionLine = nullptr;
+                if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & 0xF)
+                {
+                    field_C4_velx = dword_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                    field_C8_vely = dword_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+
+                    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & 0x10)
+                    {
+                        field_C4_velx += dword_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                        field_C4_velx += dword_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                        field_C8_vely += dword_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                    }
+
+                    field_B8_xpos += field_C4_velx;
+                    field_BC_ypos += field_C8_vely;
+
+                    // Keep in map bounds
+                    PSX_Point point = {};
+                    gMap_5C3030.Get_map_size_480640(&point);
+                    if (field_B8_xpos < FP_FromInteger(0))
+                    {
+                        field_B8_xpos = FP_FromInteger(0);
+                    }
+
+                    if (field_B8_xpos >= FP_FromInteger(point.field_0_x))
+                    {
+                        field_B8_xpos = FP_FromInteger(point.field_0_x) - FP_FromInteger(1);
+                    }
+
+                    if (field_BC_ypos < FP_FromInteger(0))
+                    {
+                        field_BC_ypos = FP_FromInteger(0);
+                    }
+
+                    if (field_BC_ypos >= FP_FromInteger(point.field_2_y))
+                    {
+                        field_BC_ypos = FP_FromInteger(point.field_2_y) - FP_FromInteger(1);
+                    }
+                }
+                else
+                {
+                    field_C4_velx = FP_FromInteger(0);
+                    field_C8_vely = FP_FromInteger(0);
+                }
+                
+                sub_408C40();
+                field_F8_LastLineYPos = field_BC_ypos;
+                return;
+            }
+
+            if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                field_BC_ypos,
+                1))
+            {
+                field_1A2 = 0;
+            }
+
+            field_11C_sub_state = (this->*field_118_brain_state)();
+
+            if (sDDCheat_ShowAI_Info_5C1BD8)
+            {
+                DDCheat::DebugStr_4F5560(
+                    "Scrab %d %d %d %d\n",
+                    field_11C_sub_state,
+                    field_12C,
+                    field_106_current_motion,
+                    field_108_next_motion);
+            }
+
+            field_19C = field_BC_ypos;
+            field_198 = field_B8_xpos;
+            
+            const auto oldMotion = field_106_current_motion;
+
+            (this->*sScrab_motion_table_560120[field_106_current_motion])();
+
+            if (field_198 != field_B8_xpos || field_19C != field_BC_ypos)
+            {
+                field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                    nullptr,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    field_B8_xpos,
+                    field_BC_ypos);
+                VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
+            }
+
+            // TODO: This is extra debug logging to figure out the motion names
+            if (oldMotion != field_106_current_motion)
+            {
+                LOG_INFO("Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            }
+
+            if (oldMotion != field_106_current_motion || field_1AA_flags.Get(Flags_1AA::eBit4))
+            {
+                field_1AA_flags.Clear(Flags_1AA::eBit4);
+                vUpdateAnim_4A34F0();
+            }
+            else if (field_11E)
+            {
+                field_106_current_motion = field_F4;
+                vUpdateAnim_4A34F0();
+                field_20_animation.SetFrame_409D50(field_F6_anim_frame);
+                field_11E = 0;
+            }
+            
+            Update_Slurg_Step_Watch_Points_4A5780();
+            
+            if (field_178)
+            {
+                if (sControlledCharacter_5C1B8C != this)
+                {
+                    field_13C = field_BC_ypos;
+                    return;
+                }
+
+                if (field_10C_health > FP_FromInteger(0) && !(static_cast<int>(sGnFrame_5C1B84) % 4))
+                {
+                    short v21 = Math_RandomRange_496AB0(40, 50);
+                    const short v22 = Math_RandomRange_496AB0(45, 55);
+                    FP v23 = (FP_FromInteger(-7) * field_CC_sprite_scale);
+                    FP v24 = (FP_FromDouble(0.3) * field_CC_sprite_scale);
+                    FP point2 = v24;
+
+                    if (Math_NextRandom() & 1)
+                    {
+                        v23 = -v23;
+                        v21 = -v21;
+                    }
+
+                    if (Math_NextRandom() & 1)
+                    {
+                        point2 = -v24;
+                    }
+
+                    const FP v26 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(v22));
+                    const FP v27 = (field_CC_sprite_scale * FP_FromInteger(v21));
+
+                    New_Particle_426AA0(
+                        v27 + field_B8_xpos,
+                        v26,
+                        v23,
+                        point2,
+                        field_CC_sprite_scale,
+                        0,
+                        255,
+                        0,
+                        0);
+                }
+            }
+
+            if (sControlledCharacter_5C1B8C == this && field_110_id != -1)
+            {
+                field_C8_vely = field_BC_ypos - field_13C;
+                sub_408C40();
+            }
+            field_13C = field_BC_ypos;
+            return;
+        }
+    }
+
+    if (field_1AA_flags.Get(Flags_1AA::eBit6_persistant))
+    {
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    }
+    else
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
+
+void Scrab::Update_Slurg_Step_Watch_Points_4A5780()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_0_4A8220()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_1_4A84D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_2_4A89C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_3_4A91A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_4_4A90C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_5_4A96C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_6_4A9490()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_7_4A9890()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_8_4A9220()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_9_4A8450()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_10_4A8900()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_11_4A8880()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_12_4A99C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_13_4A9BE0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_14_4A9460()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_15_4A9430()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_16_4A8D60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_17_4A8D90()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_18_4AA490()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_19_4AA3E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_20_4A93E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_21_4A9CC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_22_4AA420()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_23_4A9D80()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_24_4AA140()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_25_4A34D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_26_4A9DA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_27_4A9E60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_28_4AA200()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_29_4AA3C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_30_4A9EA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_31_4A9F30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_32_4A8DC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_33_4A9FA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_34_4A9FF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_35_4AA010()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_36_4AA030()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_37_4AA0B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_38_4AA120()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Scrab::M_39_4AA190()
 {
     NOT_IMPLEMENTED();
 }

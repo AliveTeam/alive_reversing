@@ -25,11 +25,16 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 
 enum class LevelIds : __int16;
 
+class Scrab;
+using TScrabAIFn = __int16 (Scrab::*)();
+using TScrabMotionFn = void (Scrab::*)();
+
 class Scrab : public BaseAliveGameObject
 {
 public:
     EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale);
     virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
 private:
     EXPORT Scrab* vdtor_4A41B0(signed int flags);
     EXPORT void dtor_4A42B0();
@@ -40,9 +45,58 @@ private:
     EXPORT void vUpdateAnim_4A34F0();
     EXPORT __int16 sub_4A41E0();
     EXPORT void sub_4AA600();
+
+    EXPORT void vUpdate_4A3530();
+
+    EXPORT void Update_Slurg_Step_Watch_Points_4A5780();
+
+public:
+
+public:
+    EXPORT void M_0_4A8220();
+    EXPORT void M_1_4A84D0();
+    EXPORT void M_2_4A89C0();
+    EXPORT void M_3_4A91A0();
+    EXPORT void M_4_4A90C0();
+    EXPORT void M_5_4A96C0();
+    EXPORT void M_6_4A9490();
+    EXPORT void M_7_4A9890();
+    EXPORT void M_8_4A9220();
+    EXPORT void M_9_4A8450();
+    EXPORT void M_10_4A8900();
+    EXPORT void M_11_4A8880();
+    EXPORT void M_12_4A99C0();
+    EXPORT void M_13_4A9BE0();
+    EXPORT void M_14_4A9460();
+    EXPORT void M_15_4A9430();
+    EXPORT void M_16_4A8D60();
+    EXPORT void M_17_4A8D90();
+    EXPORT void M_18_4AA490();
+    EXPORT void M_19_4AA3E0();
+    EXPORT void M_20_4A93E0();
+    EXPORT void M_21_4A9CC0();
+    EXPORT void M_22_4AA420();
+    EXPORT void M_23_4A9D80();
+    EXPORT void M_24_4AA140();
+    EXPORT void M_25_4A34D0();
+    EXPORT void M_26_4A9DA0();
+    EXPORT void M_27_4A9E60();
+    EXPORT void M_28_4AA200();
+    EXPORT void M_29_4AA3C0();
+    EXPORT void M_30_4A9EA0();
+    EXPORT void M_31_4A9F30();
+    EXPORT void M_32_4A8DC0();
+    EXPORT void M_33_4A9FA0();
+    EXPORT void M_34_4A9FF0();
+    EXPORT void M_35_4AA010();
+    EXPORT void M_36_4AA030();
+    EXPORT void M_37_4AA0B0();
+    EXPORT void M_38_4AA120();
+    EXPORT void M_39_4AA190();
+
 private:
     __int16 field_116;
-    int field_118_brain_state;
+    TScrabAIFn field_118_brain_state;
     __int16 field_11C_sub_state;
     __int16 field_11E;
     int field_120_obj_id;
@@ -53,7 +107,7 @@ private:
     int field_130;
     int field_134;
     int field_138;
-    int field_13C;
+    FP field_13C;
     __int16 field_140;
     __int16 field_142;
     int field_144_tlvInfo;
@@ -89,8 +143,8 @@ private:
     __int16 field_192;
     __int16 field_194;
     __int16 field_196;
-    int field_198;
-    int field_19C;
+    FP field_198;
+    FP field_19C;
     __int16 field_1A0;
     __int16 field_1A2;
     __int16 field_1A4;
