@@ -60,6 +60,7 @@
 #include "DoorFlame.hpp"
 #include "NakedSlig.hpp"
 #include "Scrab.hpp"
+#include "Paramite.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -674,7 +675,33 @@ EXPORT void CC Factory_UXB_4D8960(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUn
     }
 }
 
-EXPORT void CC Factory_Paramite_4D9190(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_Paramite_4D9190(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<9> kResources(
+        {
+            { ResourceManager::Resource_Animation, 600 },
+            { ResourceManager::Resource_Animation, 605 },
+            { ResourceManager::Resource_Animation, 614 },
+            { ResourceManager::Resource_Animation, 604 },
+            { ResourceManager::Resource_Animation, 601 },
+            { ResourceManager::Resource_Animation, 615 },
+            { ResourceManager::Resource_Animation, 610 },
+            { ResourceManager::Resource_Animation, 609 },
+            { ResourceManager::Resource_Animation, 2034 }
+        });
+        gMap_5C3030.LoadResourcesFromList_4DBE70("PARAMITE.BND", kResources.AsList(), loadMode);
+    }
+    else
+    {
+        auto pParamite = alive_new<Paramite>();
+        if (pParamite)
+        {
+            pParamite->ctor_4879B0(static_cast<Path_Paramite*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_MovieHandStone_4D9F50(Path_TLV* , Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {

@@ -291,6 +291,8 @@ ExportHooker.hpp
     SnoozeParticle.hpp
     Scrab.cpp
     Scrab.hpp
+    Paramite.hpp
+    Paramite.cpp
     TouchController.cpp
     TouchController.hpp
 )
