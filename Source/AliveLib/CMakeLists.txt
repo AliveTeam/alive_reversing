@@ -295,6 +295,8 @@ ExportHooker.hpp
     Scrab.hpp
     Paramite.hpp
     Paramite.cpp
+    Slog.hpp
+    Slog.cpp
     TouchController.cpp
     TouchController.hpp
 )

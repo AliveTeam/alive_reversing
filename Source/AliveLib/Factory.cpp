@@ -62,6 +62,7 @@
 #include "Scrab.hpp"
 #include "Paramite.hpp"
 #include "Fleech.hpp"
+#include "Slog.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -515,7 +516,32 @@ EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItem
 }
 
 EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_Slog_4D8B20(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<4> kResources(
+        {
+            { ResourceManager::Resource_Animation, 570 },
+            { ResourceManager::Resource_Animation, 571 },
+            { ResourceManager::Resource_Animation, 572 },
+            { ResourceManager::Resource_Animation, 574 }
+        });
+
+        gMap_5C3030.LoadResourcesFromList_4DBE70("SLOG.BND", kResources.AsList(), loadMode);
+        gMap_5C3030.LoadResource_4DBE00("DOGKNFD.BAN", ResourceManager::Resource_Animation, 573, loadMode);
+    }
+    else
+    {
+        auto pSlog = alive_new<Slog>();
+        if (pSlog)
+        {
+            pSlog->ctor_4C42E0(static_cast<Path_Slog*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_Switch_4D8CF0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
 { 
