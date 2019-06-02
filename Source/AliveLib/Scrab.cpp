@@ -464,7 +464,7 @@ void Scrab::vUpdate_4A3530()
             // TODO: This is extra debug logging to figure out the motion names
             if (oldMotion != field_106_current_motion)
             {
-                LOG_INFO("Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+                LOG_INFO("Scrab: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
             }
 
             if (oldMotion != field_106_current_motion || field_1AA_flags.Get(Flags_1AA::eBit4))

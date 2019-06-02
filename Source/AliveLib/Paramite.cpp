@@ -9,6 +9,31 @@
 #include "ObjectIds.hpp"
 #include "MusicController.hpp"
 #include "Midi.hpp"
+#include "Events.hpp"
+#include "DDCheat.hpp"
+#include "Throwable.hpp"
+
+class Class_547F58 : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT Class_547F58* ctor_4E1840(FP /*xpos*/, __int16 /*bottom*/, unsigned __int16 /*top*/, FP /*scale*/)
+    {
+        NOT_IMPLEMENTED();
+        return this;
+    }
+
+private:
+    int field_E4_not_used[4];
+    __int16 field_F4;
+    __int16 field_F6;
+    __int16 field_F8_ttl;
+    __int16 field_FA_ttl_remainder;
+    int field_FC;
+    int field_100;
+    __int16 field_104_bEnabled;
+    __int16 field_106;
+};
+ALIVE_ASSERT_SIZEOF(Class_547F58, 0x108);
 
 TintEntry stru_55D73C[24] =
 {
@@ -16,6 +41,70 @@ TintEntry stru_55D73C[24] =
     { 11u, 105u, 105u, 105u },
     { -1, 105u, 105u, 105u }
 };
+
+
+const TParamiteAIFn sParamite_ai_table_55D710[10] =
+{
+    &Paramite::AI_0_4835B0,
+    &Paramite::AI_1_484CD0,
+    &Paramite::AI_2_4859D0,
+    &Paramite::AI_3_4851B0,
+    &Paramite::AI_4_48F8F0,
+    &Paramite::AI_5_486880,
+    &Paramite::AI_6_484BC0,
+    &Paramite::AI_7_484FF0,
+    &Paramite::AI_8_48DFC0,
+    &Paramite::AI_9_48ED80
+};
+
+const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = 
+{
+    &Paramite::M_0_489FB0,
+    &Paramite::M_1_48A7B0,
+    &Paramite::M_2_48A2D0,
+    &Paramite::M_3_48AA00,
+    &Paramite::M_4_48B180,
+    &Paramite::M_5_48B5B0,
+    &Paramite::M_6_48A930,
+    &Paramite::M_7_48B0C0,
+    &Paramite::M_8_48A870,
+    &Paramite::M_9_48AF10,
+    &Paramite::M_10_48B000,
+    &Paramite::M_11_48B200,
+    &Paramite::M_12_48BE40,
+    &Paramite::M_13_48BAF0,
+    &Paramite::M_14_48BF00,
+    &Paramite::M_15_48D930,
+    &Paramite::M_16_48DDA0,
+    &Paramite::M_17_48B590,
+    &Paramite::M_18_48DF60,
+    &Paramite::M_19_48BF50,
+    &Paramite::M_20_48C010,
+    &Paramite::M_21_48C180,
+    &Paramite::M_22_48C3E0,
+    &Paramite::M_23_48C600,
+    &Paramite::M_24_48C680,
+    &Paramite::M_25_48C6A0,
+    &Paramite::M_26_48C6F0,
+    &Paramite::M_27_48C780,
+    &Paramite::M_28_48C8B0,
+    &Paramite::M_29_48D9D0,
+    &Paramite::M_30_48DB50,
+    &Paramite::M_31_48C9E0,
+    &Paramite::M_32_48D740,
+    &Paramite::M_33_48D760,
+    &Paramite::M_34_48D870,
+    &Paramite::M_35_48D400,
+    &Paramite::M_36_48D000,
+    &Paramite::M_37_48CC60,
+    &Paramite::M_38_48D6C0,
+    &Paramite::M_39_48D8C0,
+    &Paramite::M_40_48A0F0,
+    &Paramite::M_41_48D8E0,
+    &Paramite::M_42_48D900,
+    &Paramite::M_43_48DB70
+};
+
 
 Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
 {
@@ -174,6 +263,11 @@ BaseGameObject* Paramite::VDestructor(signed int flags)
     return vdtor_487F90(flags);
 }
 
+void Paramite::VUpdate()
+{
+    vUpdate_4871B0();
+}
+
 __int16 Paramite::AI_0_4835B0()
 {
     NOT_IMPLEMENTED();
@@ -234,20 +328,225 @@ __int16 Paramite::AI_9_48ED80()
     return 0;
 }
 
-const TParamiteAIFn sParamite_ai_table_55D710[10] =
+void Paramite::M_0_489FB0()
 {
-    &Paramite::AI_0_4835B0,
-    &Paramite::AI_1_484CD0,
-    &Paramite::AI_2_4859D0,
-    &Paramite::AI_3_4851B0,
-    &Paramite::AI_4_48F8F0,
-    &Paramite::AI_5_486880,
-    &Paramite::AI_6_484BC0,
-    &Paramite::AI_7_484FF0,
-    &Paramite::AI_8_48DFC0,
-    &Paramite::AI_9_48ED80
-};
+    NOT_IMPLEMENTED();
+}
 
+void Paramite::M_1_48A7B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_2_48A2D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_3_48AA00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_4_48B180()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_5_48B5B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_6_48A930()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_7_48B0C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_8_48A870()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_9_48AF10()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_10_48B000()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_11_48B200()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_12_48BE40()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_13_48BAF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_14_48BF00()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_15_48D930()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_16_48DDA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_17_48B590()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_18_48DF60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_19_48BF50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_20_48C010()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_21_48C180()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_22_48C3E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_23_48C600()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_24_48C680()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_25_48C6A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_26_48C6F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_27_48C780()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_28_48C8B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_29_48D9D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_30_48DB50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_31_48C9E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_32_48D740()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_33_48D760()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_34_48D870()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_35_48D400()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_36_48D000()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_37_48CC60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_38_48D6C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_39_48D8C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_40_48A0F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_41_48D8E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_42_48D900()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Paramite::M_43_48DB70()
+{
+    NOT_IMPLEMENTED();
+}
 
 struct FnPair
 {
@@ -300,6 +599,21 @@ void Paramite::SetBrain(TParamiteAIFn fn)
     }
 #endif
     field_128_fn_brainState = fn;
+}
+
+bool Paramite::BrainIs(TParamiteAIFn fn)
+{
+#if _WIN32 || !_WIN64
+    if (IsAlive())
+    {
+        const DWORD actualAddressToUse = GetOriginalFn(fn);
+        TParamiteAIFn tmp;
+        // Hack to overwrite the member function pointer bytes with arbitrary data
+        memcpy(&tmp, &actualAddressToUse, sizeof(DWORD));
+        return field_128_fn_brainState == tmp;
+    }
+#endif
+    return field_128_fn_brainState == fn;
 }
 
 void Paramite::dtor_487FC0()
@@ -359,3 +673,271 @@ void Paramite::sub_489EA0()
 {
     NOT_IMPLEMENTED();
 }
+
+void Paramite::vUpdate_4871B0()
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    {
+        field_114_flags.Clear(Flags_114::e114_Bit9);
+        if (field_104_collision_line_type == -1)
+        {
+            field_100_pCollisionLine = nullptr;
+        }
+        else
+        {
+            sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(20),
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(20),
+                &field_100_pCollisionLine,
+                &field_B8_xpos,
+                &field_BC_ypos,
+                1 << field_104_collision_line_type);
+        }
+
+        field_104_collision_line_type = 0;
+        field_118 = BaseGameObject::Find_Flags_4DC170(field_118);
+        field_120_obj_id = BaseGameObject::Find_Flags_4DC170(field_120_obj_id);
+        field_124 = BaseGameObject::Find_Flags_4DC170(field_124);
+
+        if (field_11C_obj_id != -1)
+        {
+            auto pUnknown = alive_new<Class_547F58>();
+            if (pUnknown)
+            {
+                pUnknown->ctor_4E1840(
+                    field_B8_xpos,
+                    FP_GetExponent(field_BC_ypos) - 20,
+                    FP_GetExponent(field_BC_ypos) - 10,
+                    field_CC_sprite_scale);
+            }
+            field_11C_obj_id = pUnknown->field_8_object_id;
+        }
+    }
+
+    auto pMeat = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_118));
+    if (field_10C_health > FP_FromInteger(0)
+        && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
+    {
+        SND_SEQ_PlaySeq_4CA960(25u, 1, 0);
+    }
+    else if (!Find_Paramite_488810())
+    {
+        SND_SEQ_Stop_4CAE60(25u);
+    }
+
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    const FP xDelta = FP_Abs(field_B8_xpos- sControlledCharacter_5C1B8C->field_B8_xpos);
+    const FP yDelta = FP_Abs(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos);
+
+    if (xDelta > FP_FromInteger(750) || yDelta > FP_FromInteger(390))
+    {
+        if (field_178_flags.Get(Flags_178::eBit4) && field_178_flags.Get(Flags_178::eBit6))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+        else if (pMeat)
+        {
+            if (pMeat->Vnull_411490() || pMeat->field_6_flags.Get(BaseGameObject::eDead))
+            {
+                field_118 = -1;
+                field_108_next_motion = 0;
+                SetBrain(&Paramite::AI_0_4835B0);
+                field_12C_brain_ret = 0;
+            }
+        }
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    }
+    else
+    {
+        if (field_10C_health > FP_FromInteger(0))
+        {
+            if (!BrainIs(&Paramite::AI_9_48ED80) || field_178_flags.Get(Flags_178::eBit6))
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            }
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+        }
+
+        if (!Input_IsChanting_45F260())
+        {
+            field_178_flags.Clear(Flags_178::eBit5);
+        }
+
+
+        if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
+        {
+            // Handle DDCheat mode
+
+            vOnTrapDoorOpen_4081F0();
+            field_106_current_motion = 11;
+            field_F8_LastLineYPos = field_BC_ypos;
+            field_100_pCollisionLine = nullptr;
+
+            static int sArray1_5C929C[8] = {};
+            static int sArray2_5C92BC[8] = {};
+
+            static char byte_5C9298 = 0;
+
+            if (!(byte_5C9298 & 1))
+            {
+                byte_5C9298 |= 1u;
+                sArray1_5C929C[0] = 4;
+                sArray1_5C929C[1] = 4;
+                sArray1_5C929C[2] = 0;
+                sArray1_5C929C[3] = -4;
+                sArray1_5C929C[4] = -4;
+                sArray1_5C929C[5] = -4;
+                sArray1_5C929C[6] = 0;
+                sArray1_5C929C[7] = 4;
+            }
+            else if (!(byte_5C9298 & 2))
+            {
+                byte_5C9298 = byte_5C9298 | 2;
+                sArray2_5C92BC[0] = 0;
+                sArray2_5C92BC[1] = -4;
+                sArray2_5C92BC[2] = -4;
+                sArray2_5C92BC[3] = -4;
+                sArray2_5C92BC[4] = 0;
+                sArray2_5C92BC[5] = 4;
+                sArray2_5C92BC[6] = 4;
+                sArray2_5C92BC[7] = 4;
+            }
+
+            // TODO: InputCommand constants
+            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & 0xF)
+            {
+                field_C4_velx = FP_FromInteger(sArray1_5C929C[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5]);
+                field_C8_vely = FP_FromInteger(sArray2_5C92BC[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5]);
+
+                if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+                {
+                    field_C4_velx += FP_FromInteger(sArray1_5C929C[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5]);
+                    field_C4_velx += FP_FromInteger(sArray1_5C929C[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5]);
+                    field_C8_vely += FP_FromInteger(sArray2_5C92BC[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5]);
+                }
+
+                field_B8_xpos += field_C4_velx;
+                field_BC_ypos += field_C8_vely;
+
+                // Keep in map bounds
+                PSX_Point mapBounds = {};
+                gMap_5C3030.Get_map_size_480640(&mapBounds);
+                if (field_B8_xpos < FP_FromInteger(0))
+                {
+                    field_B8_xpos = FP_FromInteger(0);
+                }
+
+                if (field_B8_xpos >= FP_FromInteger(mapBounds.field_0_x))
+                {
+                    field_B8_xpos = FP_FromInteger(mapBounds.field_0_x) - FP_FromInteger(1);
+                }
+
+                if (field_BC_ypos < FP_FromInteger(0))
+                {
+                    field_BC_ypos = FP_FromInteger(0);
+                }
+
+                if (field_BC_ypos >= FP_FromInteger(mapBounds.field_2_y))
+                {
+                    field_BC_ypos = FP_FromInteger(mapBounds.field_2_y) - FP_FromInteger(1);
+                    sub_408C40();
+                    return;
+                }
+            }
+            else
+            {
+                field_C4_velx = FP_FromInteger(0);
+                field_C8_vely = FP_FromInteger(0);
+            }
+            sub_408C40();
+        }
+        else
+        {
+            const auto oldMotion = field_106_current_motion;
+            field_12C_brain_ret = (this->*field_128_fn_brainState)();
+
+            if (sDDCheat_ShowAI_Info_5C1BD8)
+            {
+                DDCheat::DebugStr_4F5560(
+                    "Paramite %d %d %d %d\n",
+                    field_12C_brain_ret,
+                    field_130_timer,
+                    field_106_current_motion,
+                    field_108_next_motion);
+            }
+
+            const FP oldXPos = field_B8_xpos;
+            const FP oldYPos = field_BC_ypos;
+            (this->*sParamite_motion_table_55D5B0[field_106_current_motion])();
+
+            // TODO: This is extra debug logging to figure out the motion names
+            if (oldMotion != field_106_current_motion)
+            {
+                LOG_INFO("Paramite: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            }
+
+            if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
+            {
+                field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                    nullptr,
+                    field_B8_xpos,
+                    field_BC_ypos,
+                    field_B8_xpos,
+                    field_BC_ypos);
+                VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
+            }
+
+            if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
+            {
+                sub_489BB0();
+                field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
+                field_106_current_motion = field_108_next_motion;
+                field_108_next_motion = -1;
+            }
+
+            if (oldMotion == field_106_current_motion)
+            {
+                if (field_178_flags.Get(Flags_178::eBit2))
+                {
+                    field_106_current_motion = field_F4;
+                    vUpdateAnim_487170();
+                    field_20_animation.SetFrame_409D50(field_F6_anim_frame);
+                    field_178_flags.Clear(Flags_178::eBit2);
+                }
+            }
+            else
+            {
+                vUpdateAnim_487170();
+            }
+        }
+    }
+}
+
+void Paramite::sub_489BB0()
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 Paramite::Find_Paramite_488810()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void Paramite::vUpdateAnim_487170()
+{
+    NOT_IMPLEMENTED();
+}
+

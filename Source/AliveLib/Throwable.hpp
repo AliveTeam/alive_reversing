@@ -19,7 +19,7 @@ public:
     virtual int Vsub_49E460(FP velX, FP velY) = 0;
     virtual BOOL Vsub_49E350() = 0;
     virtual BOOL Vsub_49E330() = 0;
-    virtual void Vnull_411490() = 0;
+    virtual __int16 Vnull_411490() = 0;
     virtual __int16 Vsub_448080() = 0;
 
     virtual void Vsub_4114B0();

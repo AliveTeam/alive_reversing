@@ -34,6 +34,8 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override;
+
 public:
     EXPORT __int16 AI_0_4835B0();
     EXPORT __int16 AI_1_484CD0();
@@ -45,15 +47,70 @@ public:
     EXPORT __int16 AI_7_484FF0();
     EXPORT __int16 AI_8_48DFC0();
     EXPORT __int16 AI_9_48ED80();
+
+public:
+    EXPORT void M_0_489FB0();
+    EXPORT void M_1_48A7B0();
+    EXPORT void M_2_48A2D0();
+    EXPORT void M_3_48AA00();
+    EXPORT void M_4_48B180();
+    EXPORT void M_5_48B5B0();
+    EXPORT void M_6_48A930();
+    EXPORT void M_7_48B0C0();
+    EXPORT void M_8_48A870();
+    EXPORT void M_9_48AF10();
+    EXPORT void M_10_48B000();
+    EXPORT void M_11_48B200();
+    EXPORT void M_12_48BE40();
+    EXPORT void M_13_48BAF0();
+    EXPORT void M_14_48BF00();
+    EXPORT void M_15_48D930();
+    EXPORT void M_16_48DDA0();
+    EXPORT void M_17_48B590();
+    EXPORT void M_18_48DF60();
+    EXPORT void M_19_48BF50();
+    EXPORT void M_20_48C010();
+    EXPORT void M_21_48C180();
+    EXPORT void M_22_48C3E0();
+    EXPORT void M_23_48C600();
+    EXPORT void M_24_48C680();
+    EXPORT void M_25_48C6A0();
+    EXPORT void M_26_48C6F0();
+    EXPORT void M_27_48C780();
+    EXPORT void M_28_48C8B0();
+    EXPORT void M_29_48D9D0();
+    EXPORT void M_30_48DB50();
+    EXPORT void M_31_48C9E0();
+    EXPORT void M_32_48D740();
+    EXPORT void M_33_48D760();
+    EXPORT void M_34_48D870();
+    EXPORT void M_35_48D400();
+    EXPORT void M_36_48D000();
+    EXPORT void M_37_48CC60();
+    EXPORT void M_38_48D6C0();
+    EXPORT void M_39_48D8C0();
+    EXPORT void M_40_48A0F0();
+    EXPORT void M_41_48D8E0();
+    EXPORT void M_42_48D900();
+    EXPORT void M_43_48DB70();
+
 private:
     EXPORT void sub_489EA0();
 
     void SetBrain(TParamiteAIFn fn);
+    bool BrainIs(TParamiteAIFn fn);
 
 private:
     EXPORT void dtor_487FC0();
     EXPORT Paramite* vdtor_487F90(signed int flags);
 
+    EXPORT void vUpdate_4871B0();
+
+    EXPORT void sub_489BB0();
+
+    EXPORT __int16 Find_Paramite_488810();
+
+    EXPORT void vUpdateAnim_487170();
 
 private:
 
