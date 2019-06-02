@@ -523,6 +523,7 @@ public:
 
     EXPORT void sub_45BB90(__int16 a2);
 
+    EXPORT void sub_459430();
 public:
     __int16 field_116;
     int field_118_prev_held;

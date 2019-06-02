@@ -289,6 +289,8 @@ ExportHooker.hpp
     NakedSlig.hpp
     SnoozeParticle.cpp
     SnoozeParticle.hpp
+    Fleech.cpp
+    Fleech.hpp
     Scrab.cpp
     Scrab.hpp
     Paramite.hpp

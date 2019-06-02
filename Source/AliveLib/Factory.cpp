@@ -61,6 +61,7 @@
 #include "NakedSlig.hpp"
 #include "Scrab.hpp"
 #include "Paramite.hpp"
+#include "Fleech.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1270,7 +1271,25 @@ EXPORT void CC Factory_FlyingSlig_4D92E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("FLEECH.BAN", ResourceManager::Resource_Animation, 900, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("FLEEBLOW.BAN", ResourceManager::Resource_Animation, 580, loadMode);
+    }
+    else if (
+        gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMudancheeVault_Ender_7 || 
+        gMap_5C3030.sCurrentPathId_5C3032 != 9 || 
+        gMap_5C3030.sCurrentCamId_5C3034 != 4)
+    {
+        auto pFleech = alive_new<Fleech>();
+        if (pFleech)
+        {
+            pFleech->ctor_429DC0(static_cast<Path_Fleech*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_Slurgs_4DA950(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {

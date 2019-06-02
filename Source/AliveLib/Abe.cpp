@@ -9416,6 +9416,11 @@ EXPORT void Abe::sub_45BB90(__int16 a2)
     }
 }
 
+void Abe::sub_459430()
+{
+    field_120_state = 1;
+}
+
 // TODO: Clean up
 EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, BaseAliveGameObject* pHero)
 {
