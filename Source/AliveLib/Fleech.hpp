@@ -26,6 +26,10 @@ struct Path_Fleech : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
 
+class Fleech;
+using TFleechAIFn = __int16 (Fleech::*)();
+using TFleechMotionFn = void (Fleech::*)();
+
 class Fleech : public BaseAliveGameObject
 {
 public:
@@ -33,10 +37,41 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override;
+
+public:
+    EXPORT void M_0_42F0B0();
+    EXPORT void M_1_42F270();
+    EXPORT void M_2_42F2F0();
+    EXPORT void M_3_42E850();
+    EXPORT void M_4_42E960();
+    EXPORT void M_5_42E810();
+    EXPORT void M_6_42EAF0();
+    EXPORT void M_7_42EBB0();
+    EXPORT void M_8_42EB20();
+    EXPORT void M_9_42ECD0();
+    EXPORT void M_10_42F330();
+    EXPORT void M_11_42F590();
+    EXPORT void M_12_42F7F0();
+    EXPORT void M_13_42FB00();
+    EXPORT void M_14_42FBD0();
+    EXPORT void M_15_42FC40();
+    EXPORT void M_16_42FCE0();
+    EXPORT void M_17_42F370();
+    EXPORT void M_18_42FDF0();
+
+public:
+    EXPORT __int16 AI_0_430BA0();
+    EXPORT __int16 AI_1_428760();
+    EXPORT __int16 AI_2_42D310();
+    EXPORT __int16 AI_3_42D1E0();
+
 private:
     EXPORT void dtor_42A3A0();
 
     EXPORT Fleech* vdtor_42A140(signed int flags);
+
+    EXPORT void vUpdate_42AB20();
 
 private:
     EXPORT void Init_42A170();
@@ -46,6 +81,7 @@ private:
 
     EXPORT void sub_42B9A0(__int16 a2, __int16 a3);
 
+    EXPORT void sub_42BD30();
 private:
     __int16 field_116;
     int field_118_tlvInfo;
