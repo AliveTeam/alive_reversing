@@ -34,14 +34,57 @@ struct Path_Glukkon : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Glukkon, 0x2C);
 
+
+class Glukkon;
+using TGlukkonAIFn = __int16 (Glukkon::*)();
+using TGlukkonMotionFn = void (Glukkon::*)();
+
 class Glukkon : public BaseAliveGameObject
 {
 public:
     EXPORT Glukkon* ctor_43F030(Path_Glukkon* pTlv, int tlvInfo);
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    virtual void VUpdate() override;
+
+public:
+    EXPORT void M_0_442D10();
+    EXPORT void M_1_442D30();
+    EXPORT void M_2_442F10();
+    EXPORT void M_3_442F40();
+    EXPORT void M_4_443030();
+    EXPORT void M_5_4434C0();
+    EXPORT void M_6_4434E0();
+    EXPORT void M_7_443510();
+    EXPORT void M_8_443760();
+    EXPORT void M_9_443790();
+    EXPORT void M_10_443B50();
+    EXPORT void M_11_4437D0();
+    EXPORT void M_12_4438F0();
+    EXPORT void M_13_443930();
+    EXPORT void M_14_443950();
+    EXPORT void M_15_443970();
+    EXPORT void M_16_4439B0();
+    EXPORT void M_17_4439D0();
+    EXPORT void M_18_443A00();
+    EXPORT void M_19_443A30();
+    EXPORT void M_20_442FC0();
+    EXPORT void M_21_443A60();
+    EXPORT void M_22_443010();
+    EXPORT void M_23_443910();
+    EXPORT void M_24_443990();
+
 private:
     EXPORT void Init_43F260();
 
+    EXPORT Glukkon* vdtor_43F230(signed int flags);
+
+    EXPORT void dtor_43F570();
+
+    EXPORT void vUpdate_43F770();
+
+    EXPORT void sub_440600();
 private:
     __int16 field_116;
     __int16 field_118;
@@ -119,7 +162,7 @@ private:
     Path_Glukkon field_1A8_tlvData;
     int field_1D4_timer;
     int field_1D8;
-    int field_1DC;
+    FP field_1DC;
     __int16 field_1E0;
     __int16 field_1E2_bUnknown;
     __int16 field_1E4_level;
@@ -136,7 +179,7 @@ private:
     int field_200;
     int field_204;
     int field_208_obj_id;
-    int field_20C_brain_state_fn;
+    TGlukkonAIFn field_20C_brain_state_fn;
     __int16 field_210;
     __int16 field_212;
     int field_214_tlv_info;
