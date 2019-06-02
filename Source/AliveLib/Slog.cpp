@@ -3,8 +3,49 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "MusicController.hpp"
+#include "Collisions.hpp"
+#include "Events.hpp"
+#include "Abe.hpp"
+#include "DDCheat.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, short, sSlogCount_BAF7F2, 0);
+
+const TSlogAIFn sSlog_fns_ai_560A38[4] =
+{
+    &Slog::AI_0_4C3790,
+    &Slog::AI_1_4C2830,
+    &Slog::AI_2_4C0A00,
+    &Slog::AI_3_4C3250
+};
+
+const TSlogMotionFn sSlog_motion_table_560978[24] =
+{
+    &Slog::M_0_4C5F90,
+    &Slog::M_1_4C60C0,
+    &Slog::M_2_4C6340,
+    &Slog::M_3_4C65C0,
+    &Slog::M_4_4C6930,
+    &Slog::M_5_4C5F20,
+    &Slog::M_6_4C66C0,
+    &Slog::M_7_4C6790,
+    &Slog::M_8_4C62E0,
+    &Slog::M_9_4C6310,
+    &Slog::M_10_4C7820,
+    &Slog::M_11_4C7860,
+    &Slog::M_12_4C7880,
+    &Slog::M_13_4C78D0,
+    &Slog::M_14_4C6CF0,
+    &Slog::M_15_4C6D60,
+    &Slog::M_16_4C70D0,
+    &Slog::M_17_4C7000,
+    &Slog::M_18_4C7210,
+    &Slog::M_19_4C7470,
+    &Slog::M_20_4C75F0,
+    &Slog::M_21_4C77F0,
+    &Slog::M_22_4C7120,
+    &Slog::M_23_4C7170
+};
+
 
 Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
 {
@@ -73,6 +114,150 @@ void Slog::VUpdate()
     vUpdate_4C50D0();
 }
 
+void Slog::M_0_4C5F90()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_1_4C60C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_2_4C6340()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_3_4C65C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_4_4C6930()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_5_4C5F20()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_6_4C66C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_7_4C6790()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_8_4C62E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_9_4C6310()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_10_4C7820()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_11_4C7860()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_12_4C7880()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_13_4C78D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_14_4C6CF0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_15_4C6D60()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_16_4C70D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_17_4C7000()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_18_4C7210()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_19_4C7470()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_20_4C75F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_21_4C77F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_22_4C7120()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slog::M_23_4C7170()
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 Slog::AI_0_4C3790()
+{
+    NOT_IMPLEMENTED(); 
+    return 0;
+}
+
+__int16 Slog::AI_1_4C2830()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slog::AI_2_4C0A00()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slog::AI_3_4C3250()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 void Slog::SetAnimFrame_4C42A0()
 {
     NOT_IMPLEMENTED();
@@ -85,10 +270,87 @@ void Slog::Init_4C46A0()
 
 void Slog::vUpdate_4C50D0()
 {
-    NOT_IMPLEMENTED();
+    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    {
+        field_114_flags.Clear(Flags_114::e114_Bit9);
+        if (field_104_collision_line_type == -1)
+        {
+            field_100_pCollisionLine = nullptr;
+        }
+        else
+        {
+            sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(20),
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(20),
+                &field_100_pCollisionLine,
+                &field_B8_xpos,
+                &field_BC_ypos,
+                1 << field_104_collision_line_type);
+        }
+        field_104_collision_line_type = 0;
+        field_118 = BaseGameObject::Find_Flags_4DC170(field_118);
+        field_138 = BaseGameObject::Find_Flags_4DC170(field_138);
+        field_15C = BaseGameObject::Find_Flags_4DC170(field_15C);
+    }
+
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (FP_Abs(field_B8_xpos - sControlledCharacter_5C1B8C->field_B8_xpos) > FP_FromInteger(750) ||
+        FP_Abs(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos) > FP_FromInteger(390))
+    {
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    }
+    else
+    {
+        if (field_10C_health > FP_FromInteger(0))
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+        }
+
+        const auto oldMotion = field_106_current_motion;
+        field_122_brain_state_result = (this->*sSlog_fns_ai_560A38[field_120_brain_state_idx])();
+        if (sDDCheat_ShowAI_Info_5C1BD8)
+        {
+            DDCheat::DebugStr_4F5560("Slog:  Motion=%d  BrainState=%d\n", field_106_current_motion, field_122_brain_state_result);
+        }
+        
+        const FP oldXPos = field_B8_xpos;
+        const FP oldYPos = field_BC_ypos;
+        
+        (this->*sSlog_motion_table_560978[field_106_current_motion])();
+
+        if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
+        {
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                nullptr,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_B8_xpos,
+                field_BC_ypos);
+            VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
+        }
+
+        // TODO: This is extra debug logging to figure out the motion names
+        if (oldMotion != field_106_current_motion)
+        {
+            LOG_INFO("Slog: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+        }
+
+        if (oldMotion != field_106_current_motion)
+        {
+            SetAnimFrame_4C42A0();
+        }
+    }
 }
 
-EXPORT void Slog::dtor_4C49A0()
+void Slog::dtor_4C49A0()
 {
     SetVTable(this, 0x547578);
 
