@@ -11,58 +11,9 @@
 #include "ParticleBurst.hpp"
 #include "Midi.hpp"
 #include "stdlib.hpp"
+#include "Slig.hpp"
 
 ALIVE_VAR(1, 0x5C1BB6, short, word_5C1BB6, 0);
-
-struct Path_Slig : public Path_TLV
-{
-    __int16 field_10_scale;
-
-    // TODO: Check these - GameEnder is probably only AO for instance ?
-    enum class StartState : __int16
-    {
-        Listening_0 = 0,
-        Paused_1 = 1,
-        Sleeping_2 = 2,
-        Chase_3 = 3,
-        RunOffScreen_4 = 4,
-        GameEnder_5 = 5,
-    };
-    StartState field_12_start_state;
-
-    __int16 field_14_pause_time;
-    __int16 field_16_pause_left_min;
-    __int16 field_18_pause_left_max;
-    __int16 field_1A_pause_right_min;
-    __int16 field_1C_pause_right_max;
-    __int16 field_1E_chal_number;
-    __int16 field_20_chal_timer;
-    __int16 field_22_num_times_to_shoot;
-    __int16 field_24_unknown;
-    __int16 field_26_code1;
-    __int16 field_28_code2;
-    __int16 field_2A_chase_abe;
-    __int16 field_2C_start_direction;
-    __int16 field_2E_panic_timeout;
-    __int16 field_30_num_panic_sounds;
-    __int16 field_32_panic_sound_timeout;
-    __int16 field_34_stop_chase_delay;
-    __int16 field_36_time_to_wait_before_chase;
-    __int16 field_38_slig_id;
-    __int16 field_3A_listen_time;
-    __int16 field_3C_percent_say_what;
-    __int16 field_3E_percent_beat_mud;
-    __int16 field_40_talk_to_abe;
-    __int16 field_42_dont_shoot;
-    __int16 field_44_Z_shoot_delay;
-    __int16 field_46_stay_awake;
-    __int16 field_48_disable_resources;
-    __int16 field_4A_noise_wake_up_distance;
-    __int16 field_4C_id;
-    __int16 field_4E_pad;
-
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 
 Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
 {

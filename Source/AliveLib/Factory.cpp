@@ -63,6 +63,7 @@
 #include "Paramite.hpp"
 #include "Fleech.hpp"
 #include "Slog.hpp"
+#include "Slig.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -515,7 +516,49 @@ EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItem
     }
 }
 
-EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    auto pSligTlv = static_cast<Path_Slig*>(pTlv);
+    const auto disabledResources = pSligTlv->field_48_disable_resources;
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources1(
+        {
+            { ResourceManager::Resource_Animation, 417 },
+            { ResourceManager::Resource_Animation, 344 },
+            { ResourceManager::Resource_Animation, 28 } 
+        });
+
+        static CompileTimeResourceList<4> kResources2(
+        {
+            { ResourceManager::Resource_Animation, 412 },
+            { ResourceManager::Resource_Animation, 414 },
+            { ResourceManager::Resource_Animation, 319 },
+            { ResourceManager::Resource_Animation, 360 }
+        });
+
+        gMap_5C3030.LoadResource_4DBE00("SLGLEVER.BAN", ResourceManager::Resource_Animation, 419, loadMode, disabledResources & 1);
+        gMap_5C3030.LoadResource_4DBE00("SLGLIFT.BAN", ResourceManager::Resource_Animation, 420, loadMode, disabledResources & 2);
+        gMap_5C3030.LoadResource_4DBE00("SLGSLEEP.BAN", ResourceManager::Resource_Animation, 413, loadMode, disabledResources & 0x40);
+        gMap_5C3030.LoadResource_4DBE00("SLGEDGE.BAN", ResourceManager::Resource_Animation, 415, loadMode, disabledResources & 0x100);
+        gMap_5C3030.LoadResource_4DBE00("SLGSMASH.BAN", ResourceManager::Resource_Animation, 416, loadMode, disabledResources & 0x200);
+        gMap_5C3030.LoadResource_4DBE00("SLGBEAT.BAN", ResourceManager::Resource_Animation, 426, loadMode, disabledResources & 0x400);
+        gMap_5C3030.LoadResource_4DBE00("SLGKNFD.BAN", ResourceManager::Resource_Animation, 418, loadMode, disabledResources & 0x80);
+        gMap_5C3030.LoadResourcesFromList_4DBE70("SLIGZ.BND", kResources1.AsList(), loadMode, disabledResources & 4);
+        gMap_5C3030.LoadResourcesFromList_4DBE70("SLIG.BND", kResources2.AsList(), loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, 423, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+    }
+    else
+    {
+        auto pSlig = alive_new<Slig>();
+        if (pSlig)
+        {
+            pSlig->ctor_4B1370(pSligTlv, tlvInfo.all);
+        }
+    }
+
+}
 
 EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
