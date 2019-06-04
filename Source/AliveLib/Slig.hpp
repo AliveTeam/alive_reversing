@@ -56,12 +56,110 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 
 enum class LevelIds : __int16;
 
+class Slig;
+using TSligAIFn = __int16 (Slig::*)();
+using TSligMotionFn = void (Slig::*)();
+
+
 class Slig : public BaseAliveGameObject
 {
 public:
     EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, int tlvInfo);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+
+public:
+    EXPORT void M_0_4B4EC0();
+    EXPORT void M_1_4B5F70();
+    EXPORT void M_2_4B5BC0();
+    EXPORT void M_3_4B62F0();
+    EXPORT void M_4_4B6000();
+    EXPORT void M_5_4B6390();
+    EXPORT void M_6_4B55A0();
+    EXPORT void M_7_4B42D0();
+    EXPORT void M_8_4B6520();
+    EXPORT void M_8_4B6680();
+    EXPORT void M_10_4B6800();
+    EXPORT void M_10_4B6850();
+    EXPORT void M_11_4B5530();
+    EXPORT void M_12_4B5580();
+    EXPORT void M_13_4B8480();
+    EXPORT void M_14_4B83B0();
+    EXPORT void M_15_4B8250();
+    EXPORT void M_16_4B5290();
+    EXPORT void M_17_4B5FC0();
+    EXPORT void M_18_4B8270();
+    EXPORT void M_19_4B5330();
+    EXPORT void M_20_to_19_4B53D0();
+    EXPORT void M_21_to_19_4B53F0();
+    EXPORT void M_22_to_19_4B5410();
+    EXPORT void M_23_to_19_4B5430();
+    EXPORT void M_24_to_19_4B5450();
+    EXPORT void M_25_to_19_4B5470();
+    EXPORT void M_26_to_19_4B5490();
+    EXPORT void M_27_to_19_4B54B0();
+    EXPORT void M_28_to_19_4B54D0();
+    EXPORT void M_29_to_19_4B54F0();
+    EXPORT void M_30_to_19_4B5510();
+    EXPORT void M_31_4B89A0();
+    EXPORT void M_32_4B8C50();
+    EXPORT void M_33_4B68A0();
+    EXPORT void M_34_4B6A30();
+    EXPORT void M_35_4B7F30();
+    EXPORT void M_36_4B72C0();
+    EXPORT void M_37_4B4570();
+    EXPORT void M_38_4B4640();
+    EXPORT void M_39_4B4530();
+    EXPORT void M_40_4B4680();
+    EXPORT void M_41_4B7560();
+    EXPORT void M_42_4B77E0();
+    EXPORT void M_43_4B6B90();
+    EXPORT void M_44_4B8950();
+    EXPORT void M_45_4B3700();
+    EXPORT void M_46_4B3820();
+    EXPORT void M_47_4B3850();
+    EXPORT void M_48_4B3930();
+    EXPORT void M_49_4B3960();
+    EXPORT void M_50_4B6C00();
+
+public:
+    EXPORT __int16 AI_0_4BBFB0();
+    EXPORT __int16 AI_1_4BC410();
+    EXPORT __int16 AI_2_4BBCF0();
+    EXPORT __int16 AI_3_4BC1E0();
+    EXPORT __int16 AI_4_4B9D20();
+    EXPORT __int16 AI_5_4B3220();
+    EXPORT __int16 AI_6_4B3420();
+    EXPORT __int16 AI_7_4B3240();
+    EXPORT __int16 AI_8_4B3120();
+    EXPORT __int16 AI_9_4B3440();
+    EXPORT __int16 AI_10_4B3460();
+    EXPORT __int16 AI_11_4B35C0();
+    EXPORT __int16 AI_12_4BC490();
+    EXPORT __int16 AI_13_4BC780();
+    EXPORT __int16 AI_14_4BCA70();
+    EXPORT __int16 AI_15_4BD800();
+    EXPORT __int16 AI_16_4BCE30();
+    EXPORT __int16 AI_17_4BCBD0();
+    EXPORT __int16 AI_18_4BCEB0();
+    EXPORT __int16 AI_19_4BDDD0();
+    EXPORT __int16 AI_20_4BF1E0();
+    EXPORT __int16 AI_21_4BE0C0();
+    EXPORT __int16 AI_22_4BE990();
+    EXPORT __int16 AI_23_4BEC40();
+    EXPORT __int16 AI_24_4BF2B0();
+    EXPORT __int16 AI_25_4BF380();
+    EXPORT __int16 AI_26_4BF620();
+    EXPORT __int16 AI_27_4BF600();
+    EXPORT __int16 AI_28_4BFA70();
+    EXPORT __int16 AI_29_4BF750();
+    EXPORT __int16 AI_30_4BFA30();
+    EXPORT __int16 AI_31_4B9390();
+    EXPORT __int16 AI_32_4B9430();
+    EXPORT __int16 AI_33_4B8DD0();
+    EXPORT __int16 AI_34_4B9170();
+    EXPORT __int16 AI_35_4BF640();
 
 private:
     EXPORT void Init_4BB0D0();
@@ -71,6 +169,16 @@ private:
 
     EXPORT Slig* vdtor_4B1790(signed int flags);
 
+    EXPORT void vUpdate_4B17C0();
+
+    EXPORT void vsub_4B2EA0();
+
+    EXPORT void vsub_4B1320();
+
+
+private:
+    void SetBrain(TSligAIFn fn);
+    bool BrainIs(TSligAIFn fn);
 private:
     __int16 field_116;
     int field_118_tlvInfo;
@@ -96,7 +204,7 @@ private:
     __int16 field_14A_camera;
     int field_14C;
     int field_150;
-    int field_154_brain_state;
+    TSligAIFn field_154_brain_state;
     int field_158;
     __int16 field_15C;
     __int16 field_15E;

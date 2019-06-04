@@ -8,6 +8,7 @@
 #include "PathData.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"
+#include "DDCheat.hpp"
 
 TintEntry stru_560570[15] =
 {
@@ -29,6 +30,195 @@ TintEntry stru_560570[15] =
 };
 
 ALIVE_VAR(1, 0xBAF7E4, int, dword_BAF7E4, 0);
+
+const TSligMotionFn sSlig_motion_table_5604A0[52] =
+{
+    &Slig::M_0_4B4EC0,
+    &Slig::M_1_4B5F70,
+    &Slig::M_2_4B5BC0,
+    &Slig::M_3_4B62F0,
+    &Slig::M_4_4B6000,
+    &Slig::M_5_4B6390,
+    &Slig::M_6_4B55A0,
+    &Slig::M_7_4B42D0,
+    &Slig::M_8_4B6520,
+    &Slig::M_8_4B6680,
+    &Slig::M_10_4B6800,
+    &Slig::M_10_4B6850,
+    &Slig::M_11_4B5530,
+    &Slig::M_12_4B5580,
+    &Slig::M_13_4B8480,
+    &Slig::M_14_4B83B0,
+    &Slig::M_15_4B8250,
+    &Slig::M_16_4B5290,
+    &Slig::M_17_4B5FC0,
+    &Slig::M_18_4B8270,
+    &Slig::M_19_4B5330,
+    &Slig::M_20_to_19_4B53D0,
+    &Slig::M_21_to_19_4B53F0,
+    &Slig::M_22_to_19_4B5410,
+    &Slig::M_23_to_19_4B5430,
+    &Slig::M_24_to_19_4B5450,
+    &Slig::M_25_to_19_4B5470,
+    &Slig::M_26_to_19_4B5490,
+    &Slig::M_27_to_19_4B54B0,
+    &Slig::M_28_to_19_4B54D0,
+    &Slig::M_29_to_19_4B54F0,
+    &Slig::M_30_to_19_4B5510,
+    &Slig::M_31_4B89A0,
+    &Slig::M_32_4B8C50,
+    &Slig::M_33_4B68A0,
+    &Slig::M_34_4B6A30,
+    &Slig::M_35_4B7F30,
+    &Slig::M_36_4B72C0,
+    &Slig::M_37_4B4570,
+    &Slig::M_38_4B4640,
+    &Slig::M_39_4B4530,
+    &Slig::M_40_4B4680,
+    &Slig::M_41_4B7560,
+    &Slig::M_42_4B77E0,
+    &Slig::M_43_4B6B90,
+    &Slig::M_44_4B8950,
+    &Slig::M_45_4B3700,
+    &Slig::M_46_4B3820,
+    &Slig::M_47_4B3850,
+    &Slig::M_48_4B3930,
+    &Slig::M_49_4B3960,
+    &Slig::M_50_4B6C00
+};
+
+const TSligAIFn sSlig_ai_table_5605AC[36] =
+{
+    &Slig::AI_0_4BBFB0,
+    &Slig::AI_1_4BC410,
+    &Slig::AI_2_4BBCF0,
+    &Slig::AI_3_4BC1E0,
+    &Slig::AI_4_4B9D20,
+    &Slig::AI_5_4B3220,
+    &Slig::AI_6_4B3420,
+    &Slig::AI_7_4B3240,
+    &Slig::AI_8_4B3120,
+    &Slig::AI_9_4B3440,
+    &Slig::AI_10_4B3460,
+    &Slig::AI_11_4B35C0,
+    &Slig::AI_12_4BC490,
+    &Slig::AI_13_4BC780,
+    &Slig::AI_14_4BCA70,
+    &Slig::AI_15_4BD800,
+    &Slig::AI_16_4BCE30,
+    &Slig::AI_17_4BCBD0,
+    &Slig::AI_18_4BCEB0,
+    &Slig::AI_19_4BDDD0,
+    &Slig::AI_20_4BF1E0,
+    &Slig::AI_21_4BE0C0,
+    &Slig::AI_22_4BE990,
+    &Slig::AI_23_4BEC40,
+    &Slig::AI_24_4BF2B0,
+    &Slig::AI_25_4BF380,
+    &Slig::AI_26_4BF620,
+    &Slig::AI_27_4BF600,
+    &Slig::AI_28_4BFA70,
+    &Slig::AI_29_4BF750,
+    &Slig::AI_30_4BFA30,
+    &Slig::AI_31_4B9390,
+    &Slig::AI_32_4B9430,
+    &Slig::AI_33_4B8DD0,
+    &Slig::AI_34_4B9170,
+    &Slig::AI_35_4BF640
+};
+
+struct FnPair
+{
+    TSligAIFn mOurFn;
+    DWORD mOriginal;
+};
+
+static FnPair sAiFns[36] =
+{
+    { &Slig::AI_0_4BBFB0,  0x40128F },
+    { &Slig::AI_1_4BC410,  0x40371F },
+    { &Slig::AI_2_4BBCF0,  0x40458E },
+    { &Slig::AI_3_4BC1E0,  0x401EC9 },
+    { &Slig::AI_4_4B9D20,  0x4015A0 },
+    { &Slig::AI_5_4B3220,  0x4B3220 }, // No stub ??
+    { &Slig::AI_6_4B3420,  0x4B3420 }, // No stub ??
+    { &Slig::AI_7_4B3240,  0x4032AB },
+    { &Slig::AI_8_4B3120,  0x4B3120 }, // No stub ??
+    { &Slig::AI_9_4B3440,  0x4B3440 }, // No stub ??
+    { &Slig::AI_10_4B3460, 0x401E60 },
+    { &Slig::AI_11_4B35C0, 0x40120D },
+    { &Slig::AI_12_4BC490, 0x40479B },
+    { &Slig::AI_13_4BC780, 0x40144C },
+    { &Slig::AI_14_4BCA70, 0x403364 },
+    { &Slig::AI_15_4BD800, 0x403F85 },
+    { &Slig::AI_16_4BCE30, 0x4021B2 },
+    { &Slig::AI_17_4BCBD0, 0x403BCA },
+    { &Slig::AI_18_4BCEB0, 0x403E36 },
+    { &Slig::AI_19_4BDDD0, 0x403ABC },
+    { &Slig::AI_20_4BF1E0, 0x4020C2 },
+    { &Slig::AI_21_4BE0C0, 0x402A59 },
+    { &Slig::AI_22_4BE990, 0x40266C },
+    { &Slig::AI_23_4BEC40, 0x4020D1 },
+    { &Slig::AI_24_4BF2B0, 0x403B25 },
+    { &Slig::AI_25_4BF380, 0x403CE2 },
+    { &Slig::AI_26_4BF620, 0x4BF620 }, // No stub ??
+    { &Slig::AI_27_4BF600, 0x4BF600 }, // No stub ??
+    { &Slig::AI_28_4BFA70, 0x4025B3 },
+    { &Slig::AI_29_4BF750, 0x40308F },
+    { &Slig::AI_30_4BFA30, 0x403215 },
+    { &Slig::AI_31_4B9390, 0x403E0E },
+    { &Slig::AI_32_4B9430, 0x4038CD },
+    { &Slig::AI_33_4B8DD0, 0x40346D },
+    { &Slig::AI_34_4B9170, 0x402B17 },
+    { &Slig::AI_35_4BF640, 0x4022B1 },
+};
+
+#if _WIN32 || !_WIN64
+static DWORD GetOriginalFn(TSligAIFn fn)
+{
+    // If not running as standalone set the address to be
+    // the address of the real function rather than the reimpl as the real
+    // game code compares the function pointer addresses (see IsBrain(x)).
+    for (const auto& addrPair : sAiFns)
+    {
+        if (addrPair.mOurFn == fn)
+        {
+            const DWORD actualAddressToUse = addrPair.mOriginal;
+            // Hack to overwrite the member function pointer bytes with arbitrary data
+            return actualAddressToUse;
+        }
+    }
+    ALIVE_FATAL("No matching address!");
+}
+#endif
+
+void Slig::SetBrain(TSligAIFn fn)
+{
+#if _WIN32 || !_WIN64
+    if (IsAlive())
+    {
+        const DWORD actualAddressToUse = GetOriginalFn(fn);
+        // Hack to overwrite the member function pointer bytes with arbitrary data
+        memcpy(&field_154_brain_state, &actualAddressToUse, sizeof(DWORD));
+        return;
+    }
+#endif
+    field_154_brain_state = fn;
+}
+
+bool Slig::BrainIs(TSligAIFn fn)
+{
+#if _WIN32 || !_WIN64
+    if (IsAlive())
+    {
+        const DWORD actualAddressToUse = GetOriginalFn(fn);
+        TSligAIFn hack = nullptr;
+        memcpy(&hack, &actualAddressToUse, sizeof(DWORD));
+        return hack == field_154_brain_state;
+    }
+#endif
+    return field_154_brain_state == fn;
+}
 
 Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
 {
@@ -155,6 +345,487 @@ BaseGameObject* Slig::VDestructor(signed int flags)
     return vdtor_4B1790(flags);
 }
 
+void Slig::VUpdate()
+{
+    vUpdate_4B17C0();
+}
+
+void Slig::M_0_4B4EC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_1_4B5F70()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_2_4B5BC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_3_4B62F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_4_4B6000()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_5_4B6390()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_6_4B55A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_7_4B42D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_8_4B6520()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_8_4B6680()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_10_4B6800()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_10_4B6850()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_11_4B5530()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_12_4B5580()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_13_4B8480()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_14_4B83B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_15_4B8250()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_16_4B5290()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_17_4B5FC0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_18_4B8270()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_19_4B5330()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_20_to_19_4B53D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_21_to_19_4B53F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_22_to_19_4B5410()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_23_to_19_4B5430()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_24_to_19_4B5450()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_25_to_19_4B5470()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_26_to_19_4B5490()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_27_to_19_4B54B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_28_to_19_4B54D0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_29_to_19_4B54F0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_30_to_19_4B5510()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_31_4B89A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_32_4B8C50()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_33_4B68A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_34_4B6A30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_35_4B7F30()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_36_4B72C0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_37_4B4570()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_38_4B4640()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_39_4B4530()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_40_4B4680()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_41_4B7560()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_42_4B77E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_43_4B6B90()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_44_4B8950()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_45_4B3700()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_46_4B3820()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_47_4B3850()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_48_4B3930()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_49_4B3960()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::M_50_4B6C00()
+{
+    NOT_IMPLEMENTED();
+}
+
+__int16 Slig::AI_0_4BBFB0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_1_4BC410()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_2_4BBCF0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_3_4BC1E0()
+{
+    NOT_IMPLEMENTED(); 
+    return 0;
+}
+
+__int16 Slig::AI_4_4B9D20()
+{
+    NOT_IMPLEMENTED(); 
+    return 0;
+}
+
+__int16 Slig::AI_5_4B3220()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_6_4B3420()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_7_4B3240()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_8_4B3120()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_9_4B3440()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_10_4B3460()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_11_4B35C0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_12_4BC490()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_13_4BC780()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_14_4BCA70()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_15_4BD800()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_16_4BCE30()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_17_4BCBD0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_18_4BCEB0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_19_4BDDD0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_20_4BF1E0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_21_4BE0C0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_22_4BE990()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_23_4BEC40()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_24_4BF2B0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_25_4BF380()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_26_4BF620()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_27_4BF600()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_28_4BFA70()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_29_4BF750()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_30_4BFA30()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_31_4B9390()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_32_4B9430()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_33_4B8DD0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_34_4B9170()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Slig::AI_35_4BF640()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 void Slig::Init_4BB0D0()
 {
     NOT_IMPLEMENTED();
@@ -213,4 +884,205 @@ Slig* Slig::vdtor_4B1790(signed int flags)
         Mem_Free_495540(this);
     }
     return this;
+}
+
+const FP dword_5473E8[8] =
+{ 
+    FP_FromInteger(4),
+    FP_FromInteger(4),
+    FP_FromInteger(0),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(0),
+    FP_FromInteger(4)
+};
+
+// TODO: Size 8 ??
+const FP dword_547408[22] =
+{
+    FP_FromInteger(0),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(-4),
+    FP_FromInteger(0),
+    FP_FromInteger(4),
+    FP_FromInteger(4),
+    FP_FromInteger(4),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0)
+};
+
+ALIVE_VAR(1, 0xBAF7E8, short, word_BAF7E8, 0);
+
+void Slig::vUpdate_4B17C0()
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    {
+        if (field_104_collision_line_type != -1)
+        {
+            sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(20),
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(20),
+                &field_100_pCollisionLine,
+                &field_B8_xpos,
+                &field_BC_ypos,
+                1 << field_104_collision_line_type);
+
+            if (field_100_pCollisionLine)
+            {
+                if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+                {
+                    PSX_RECT bRect = {};
+                    vGetBoundingRect_424FD0(&bRect, 1);
+                    vOnCollisionWith_424EE0(
+                        { bRect.x, bRect.y + 5 },
+                        { bRect.w, bRect.h + 5 },
+                        ObjList_5C1B78,
+                        1,
+                        (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+                }
+            }
+        }
+        field_208 = BaseGameObject::Find_Flags_4DC170(field_208);
+        if (BrainIs(&Slig::AI_4_4B9D20))
+        {
+            word_BAF7E8++;
+        }
+        field_114_flags.Clear(Flags_114::e114_Bit9);
+        field_104_collision_line_type = 0;
+    }
+
+    if (!Input_IsChanting_45F260())
+    {
+        field_292 &= ~1u;
+    }
+
+    if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
+    {
+        MusicController::sub_47FD60(9, this, 0, 0);
+    }
+
+    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
+    {
+        field_100_pCollisionLine = nullptr;
+
+        // TODO: InputCommand constants
+        if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & 0xF)
+        {
+            field_C4_velx = dword_5473E8[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            field_C8_vely = dword_547408[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            
+            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & 0x10)
+            {
+                field_C4_velx += dword_5473E8[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                field_C4_velx += dword_5473E8[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                field_C8_vely += dword_547408[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+            }
+
+            field_B8_xpos += field_C4_velx;
+            field_BC_ypos += field_C8_vely;
+
+            // Keep in the map bounds
+            PSX_Point mapBounds = {};
+            gMap_5C3030.Get_map_size_480640(&mapBounds);
+
+            if (field_B8_xpos < FP_FromInteger(0))
+            {
+                field_B8_xpos = FP_FromInteger(0);
+            }
+
+            if (field_B8_xpos >= FP_FromInteger(mapBounds.field_0_x))
+            {
+                field_B8_xpos = FP_FromInteger(mapBounds.field_0_x) - FP_FromInteger(1);
+            }
+
+            if (field_BC_ypos < FP_FromInteger(0))
+            {
+                field_BC_ypos = FP_FromInteger(0);
+            }
+
+            if (field_BC_ypos >= FP_FromInteger(mapBounds.field_2_y))
+            {
+                field_BC_ypos = FP_FromInteger(mapBounds.field_2_y) - FP_FromInteger(1);
+            }
+        }
+        else
+        {
+            field_C4_velx = FP_FromInteger(0);
+            field_C8_vely = FP_FromInteger(0);
+        }
+
+        sub_408C40();
+
+        field_F8_LastLineYPos = field_BC_ypos;
+    }
+    else
+    {
+        const auto oldMotion = field_106_current_motion;
+        field_11C = (this->*field_154_brain_state)();
+
+        if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
+        {
+            vsub_4B2EA0();
+        }
+
+        if (sDDCheat_ShowAI_Info_5C1BD8)
+        {
+            DDCheat::DebugStr_4F5560("Slig %d %d %d %d\n", field_11C, field_120_timer, field_106_current_motion, field_108_next_motion);
+        }
+
+        const FP oldXPos = field_B8_xpos;
+        const FP oldYPos = field_BC_ypos;
+
+        (this->*sSlig_motion_table_5604A0[field_106_current_motion])();
+
+        if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
+        {
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                nullptr,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_B8_xpos,
+                field_BC_ypos);
+            VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
+        }
+
+        if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
+        {
+            field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
+            vsub_4B1320();
+        }
+        else if (field_124)
+        {
+            field_106_current_motion = field_F4;
+            vsub_4B1320();
+            field_20_animation.SetFrame_409D50(field_F6_anim_frame);
+            field_124 = 0;
+        }
+    }
+}
+
+void Slig::vsub_4B2EA0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void Slig::vsub_4B1320()
+{
+    NOT_IMPLEMENTED();
 }
