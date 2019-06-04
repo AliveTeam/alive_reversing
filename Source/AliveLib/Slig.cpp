@@ -1062,6 +1062,11 @@ void Slig::vUpdate_4B17C0()
             VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
         }
 
+        if (oldMotion != field_106_current_motion)
+        {
+            LOG_INFO("Slig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+        }
+
         if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
         {
             field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
