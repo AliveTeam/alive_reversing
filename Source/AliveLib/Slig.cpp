@@ -950,8 +950,8 @@ void Slig::vUpdate_4B17C0()
                     PSX_RECT bRect = {};
                     vGetBoundingRect_424FD0(&bRect, 1);
                     vOnCollisionWith_424EE0(
-                        { bRect.x, bRect.y + 5 },
-                        { bRect.w, bRect.h + 5 },
+                        { bRect.x, static_cast<short>(bRect.y + 5) },
+                        { bRect.w, static_cast<short>(bRect.h + 5) },
                         ObjList_5C1B78,
                         1,
                         (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
