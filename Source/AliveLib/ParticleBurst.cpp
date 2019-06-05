@@ -46,7 +46,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
 
     field_106_count = a7;
     field_CC_sprite_scale = scale;
-    field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40('eDD3', 0, sizeof(ParticleBurst_Item) * unknown_count1);
+    field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * unknown_count1);
     if (field_F4_ppRes)
     {
         field_F8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_F4_ppRes);

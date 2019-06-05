@@ -38,6 +38,11 @@ public:
         Resource_DecompressionBuffer = 0x66754244,
         Resource_Rope = 0x65706F52,
         Resource_Wave = 0x65766157,
+        Resource_3DGibs = 0x65444433,
+        Resource_Spline = 0x6e6c7053, // Went with Spline as in ZapLine.cpp.
+
+        /* TODO: Give this a proper name. */
+        Resource_Anim = 0x6d696e41,
     };
 
     enum ResourceHeaderFlags : __int16
