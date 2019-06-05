@@ -500,7 +500,7 @@ void Slig::M_SpeakWhat_29_4B54D0()
     NOT_IMPLEMENTED();
 }
 
-void Slig::SpeakAIFreeze_30_4B54F0()
+void Slig::M_SpeakAIFreeze_30_4B54F0()
 {
     NOT_IMPLEMENTED();
 }
@@ -1091,5 +1091,3 @@ void Slig::vsub_4B1320()
 {
     NOT_IMPLEMENTED();
 }
-
-//Force update :oddtism: by Gibbons
