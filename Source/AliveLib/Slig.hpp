@@ -103,7 +103,7 @@ public:
     EXPORT void M_SpeakAIFreeze_30_4B54F0();
     EXPORT void M_UNKNOWN_31_4B5510();
     EXPORT void M_Sleeping_32_4B89A0();
-    EXPORT void M_UNKNOWN_33_4B8C50();
+    EXPORT void M_SleepingToStand_33_4B8C50();
     EXPORT void M_Knockback_34_4B68A0();
     EXPORT void M_KnockbackToStand_35_4B6A30();
     EXPORT void M_Depossessing_36_4B7F30();
