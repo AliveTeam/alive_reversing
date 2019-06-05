@@ -38,7 +38,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTi
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_C_render_layer = layer;
     
-    field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40('nlpS', 0, sizeof(ZapLineSprites) * field_132_pSprts_count);// Spln (spline?)
+    field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_Spline, 0, sizeof(ZapLineSprites) * field_132_pSprts_count);// Spln (spline?)
     
     field_134_pSprts = reinterpret_cast<ZapLineSprites*>(*field_F8_ppRes);
     field_138_buf1 = reinterpret_cast<PSX_Point*>(malloc_non_zero_4954F0(sizeof(PSX_Point) * field_132_pSprts_count));

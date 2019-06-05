@@ -1589,7 +1589,7 @@ EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        Map::LoadResource_4DBE00("GHOSTTRP.BAN", 'minA', 1053, loadMode, 0);
+        Map::LoadResource_4DBE00("GHOSTTRP.BAN", ResourceManager::ResourceType::Resource_Animation, 1053, loadMode, 0);
     }
     else
     {
