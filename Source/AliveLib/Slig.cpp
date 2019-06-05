@@ -1064,7 +1064,7 @@ void Slig::vUpdate_4B17C0()
 
         if (oldMotion != field_106_current_motion)
         {
-            LOG_INFO("Slig: Oldtism motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            LOG_INFO("Slig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
         }
 
         if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
