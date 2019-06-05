@@ -50,7 +50,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::SteppingToStand_14_4B8480,
     &Slig::StandingToStep_15_4B83B0,
     &Slig::DepossessingAbort_16_4B8250,
-    &Slig::UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290,
+    &Slig::M_UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290,
     &Slig::WalkToStand_18_4B5FC0,
     &Slig::Recoil_19_4B8270,
     &Slig::SpeakHereBoy_20_4B5330,
@@ -350,157 +350,157 @@ void Slig::VUpdate()
     vUpdate_4B17C0();
 }
 
-void Slig::M_0_4B4EC0()
+void Slig::StandIdle_0_4B4EC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_1_4B5F70()
+void Slig::StandToWalk_1_4B5F70()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_2_4B5BC0()
+void Slig::Walking_2_4B5BC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_3_4B62F0()
+void Slig::StandToRun_3_4B62F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_4_4B6000()
+void Slig::Running_4_4B6000()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_5_4B6390()
+void Slig::TurnAroundStanding_5_4B6390()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_6_4B55A0()
+void Slig::Shoot_6_4B55A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_7_4B42D0()
+void Slig::FallToDeath_7_4B42D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_8_4B6520()
+void Slig::SlidingToStand_8_4B6520()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_9_4B6680()
+void Slig::SlidingTurn_9_4B6680()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_10_4B6800()
+void Slig::SlidingTurnToWalk_10_4B6800()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_11_4B6850()
+void Slig::SlidingTurnToRun_11_4B6850()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_12_4B5530()
+void Slig::ReloadGun_12_4B5530()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_13_4B5580()
+void Slig::ShootToStand_13_4B5580()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_14_4B8480()
+void Slig::SteppingToStand_14_4B8480()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_15_4B83B0()
+void Slig::StandingToStep_15_4B83B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_16_4B8250()
+void Slig::DepossessingAbort_16_4B8250()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_17_4B5290()
+void Slig::M_UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_18_4B5FC0()
+void Slig::WalkToStand_18_4B5FC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_19_4B8270()
+void Slig::Recoil_19_4B8270()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_20_4B5330()
+void Slig::SpeakHereBoy_20_4B5330()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_21_4B53D0()
+void Slig::SpeakHi_21_4B53D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_22_4B53F0()
+void Slig::SpeakFreeze_22_4B53F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_23_4B5410()
+void Slig::SpeakGitIm_23_4B5410()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_24_4B5430()
+void Slig::SpeakLaugh_24_4B5430()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_25_4B5450()
+void Slig::SpeakBullShit1_25_4B5450()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_26_4B5470()
+void Slig::SpeakLookOut_26_4B5470()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_27_4B5490()
+void Slig::SpeakBullShit2_27_4B5490()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_28_4B54B0()
+void Slig::SpeakPanic_28_4B54B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_29_4B54D0()
+void Slig::SpeakWhat_29_4B54D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_30_4B54F0()
+void Slig::SpeakAIFreeze_30_4B54F0()
 {
     NOT_IMPLEMENTED();
 }
@@ -510,7 +510,7 @@ void Slig::M_31_4B5510()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_32_4B89A0()
+void Slig::Sleeping_32_4B89A0()
 {
     NOT_IMPLEMENTED();
 }
@@ -520,52 +520,52 @@ void Slig::M_33_4B8C50()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_34_4B68A0()
+void Slig::Knockback_34_4B68A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_35_4B6A30()
+void Slig::KnockbackToStand_35_4B6A30()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_36_4B7F30()
+void Slig::Depossessing_36_4B7F30()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_37_4B72C0()
+void Slig::Possess_37_4B72C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_38_4B4570()
+void Slig::Falling_38_4B4570()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_39_4B4640()
+void Slig::FallingInitiate_39_4B4640()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_40_4B4530()
+void Slig::LandingSoft_40_4B4530()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_41_4B4680()
+void Slig::LandingFatal_41_4B4680()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_42_4B7560()
+void Slig::ShootZ_42_4B7560()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_43_4B77E0()
+void Slig::ShootZtoStand_43_4B77E0()
 {
     NOT_IMPLEMENTED();
 }
@@ -575,37 +575,37 @@ void Slig::M_44_4B6B90()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_45_4B8950()
+void Slig::PullLever_45_4B8950()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_46_4B3700()
+void Slig::LiftGrip_46_4B3700()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_47_4B3820()
+void Slig::LiftUngrip_47_4B3820()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_48_4B3850()
+void Slig::LiftGripping_48_4B3850()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_49_4B3930()
+void Slig::LiftUp_49_4B3930()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_50_4B3960()
+void Slig::LiftDown_50_4B3960()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_51_4B6C00()
+void Slig::Beat_51_4B6C00()
 {
     NOT_IMPLEMENTED();
 }
