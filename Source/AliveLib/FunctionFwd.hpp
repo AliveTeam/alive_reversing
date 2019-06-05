@@ -3,7 +3,6 @@
 bool IsAlive();
 
 #ifdef _MSC_VER
-#define NO_RETURN __declspec(noreturn)
 #define EXPORT __declspec(dllexport)
 #define CC __cdecl
 #define CCSTD __stdcall
@@ -13,7 +12,6 @@ bool IsAlive();
 #define ALIVE_ASSERT_SIZEOF(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
 #endif
 #else
-#define NO_RETURN
 #define EXPORT
 #define CC
 #define CCSTD
@@ -28,7 +26,7 @@ bool IsAlive();
 #define ALIVE_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize)
 
 
-NO_RETURN void ALIVE_FATAL(const char* errMsg);
+[[noreturn]] void ALIVE_FATAL(const char* errMsg);
 
 #define STATIC_EQUALS(src, dst) static_assert(src == dst, "Not equal!");
 #define ALIVE_COUNTOF(x) (sizeof(x)/sizeof(*(x)))
