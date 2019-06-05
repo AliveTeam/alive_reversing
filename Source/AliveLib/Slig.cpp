@@ -66,7 +66,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_SpeakAIFreeze_30_4B54F0,
     &Slig::M_UNKNOWN_31_4B5510,
     &Slig::M_Sleeping_32_4B89A0,
-    &Slig::M_UNKNOWN_33_4B8C50,
+    &Slig::M_SleepingToStand_33_4B8C50,
     &Slig::M_Knockback_34_4B68A0,
     &Slig::M_KnockbackToStand_35_4B6A30,
     &Slig::M_Depossessing_36_4B7F30,
@@ -515,7 +515,7 @@ void Slig::M_Sleeping_32_4B89A0()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_UNKNOWN_33_4B8C50()
+void Slig::M_SleepingToStand_33_4B8C50()
 {
     NOT_IMPLEMENTED();
 }
