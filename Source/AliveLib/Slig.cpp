@@ -42,49 +42,49 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_6_4B55A0,
     &Slig::M_7_4B42D0,
     &Slig::M_8_4B6520,
-    &Slig::M_8_4B6680,
+    &Slig::M_9_4B6680,
     &Slig::M_10_4B6800,
-    &Slig::M_10_4B6850,
-    &Slig::M_11_4B5530,
-    &Slig::M_12_4B5580,
-    &Slig::M_13_4B8480,
-    &Slig::M_14_4B83B0,
-    &Slig::M_15_4B8250,
-    &Slig::M_16_4B5290,
-    &Slig::M_17_4B5FC0,
-    &Slig::M_18_4B8270,
-    &Slig::M_19_4B5330,
-    &Slig::M_20_to_19_4B53D0,
-    &Slig::M_21_to_19_4B53F0,
-    &Slig::M_22_to_19_4B5410,
-    &Slig::M_23_to_19_4B5430,
-    &Slig::M_24_to_19_4B5450,
-    &Slig::M_25_to_19_4B5470,
-    &Slig::M_26_to_19_4B5490,
-    &Slig::M_27_to_19_4B54B0,
-    &Slig::M_28_to_19_4B54D0,
-    &Slig::M_29_to_19_4B54F0,
-    &Slig::M_30_to_19_4B5510,
-    &Slig::M_31_4B89A0,
-    &Slig::M_32_4B8C50,
-    &Slig::M_33_4B68A0,
-    &Slig::M_34_4B6A30,
-    &Slig::M_35_4B7F30,
-    &Slig::M_36_4B72C0,
-    &Slig::M_37_4B4570,
-    &Slig::M_38_4B4640,
-    &Slig::M_39_4B4530,
-    &Slig::M_40_4B4680,
-    &Slig::M_41_4B7560,
-    &Slig::M_42_4B77E0,
-    &Slig::M_43_4B6B90,
-    &Slig::M_44_4B8950,
-    &Slig::M_45_4B3700,
-    &Slig::M_46_4B3820,
-    &Slig::M_47_4B3850,
-    &Slig::M_48_4B3930,
-    &Slig::M_49_4B3960,
-    &Slig::M_50_4B6C00
+    &Slig::M_11_4B6850,
+    &Slig::M_12_4B5530,
+    &Slig::M_13_4B5580,
+    &Slig::M_14_4B8480,
+    &Slig::M_15_4B83B0,
+    &Slig::M_16_4B8250,
+    &Slig::M_17_4B5290,
+    &Slig::M_18_4B5FC0,
+    &Slig::M_19_4B8270,
+    &Slig::M_20_4B5330,
+    &Slig::M_21_to_19_4B53D0,
+    &Slig::M_22_to_19_4B53F0,
+    &Slig::M_23_to_19_4B5410,
+    &Slig::M_24_to_19_4B5430,
+    &Slig::M_25_to_19_4B5450,
+    &Slig::M_26_to_19_4B5470,
+    &Slig::M_27_to_19_4B5490,
+    &Slig::M_28_to_19_4B54B0,
+    &Slig::M_29_to_19_4B54D0,
+    &Slig::M_30_to_19_4B54F0,
+    &Slig::M_31_to_19_4B5510,
+    &Slig::M_32_4B89A0,
+    &Slig::M_33_4B8C50,
+    &Slig::M_34_4B68A0,
+    &Slig::M_35_4B6A30,
+    &Slig::M_36_4B7F30,
+    &Slig::M_37_4B72C0,
+    &Slig::M_38_4B4570,
+    &Slig::M_39_4B4640,
+    &Slig::M_40_4B4530,
+    &Slig::M_41_4B4680,
+    &Slig::M_42_4B7560,
+    &Slig::M_43_4B77E0,
+    &Slig::M_44_4B6B90,
+    &Slig::M_45_4B8950,
+    &Slig::M_46_4B3700,
+    &Slig::M_47_4B3820,
+    &Slig::M_48_4B3850,
+    &Slig::M_49_4B3930,
+    &Slig::M_50_4B3960,
+    &Slig::M_51_4B6C00
 };
 
 const TSligAIFn sSlig_ai_table_5605AC[36] =
@@ -395,7 +395,7 @@ void Slig::M_8_4B6520()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_8_4B6680()
+void Slig::M_9_4B6680()
 {
     NOT_IMPLEMENTED();
 }
@@ -405,207 +405,207 @@ void Slig::M_10_4B6800()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_10_4B6850()
+void Slig::M_11_4B6850()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_11_4B5530()
+void Slig::M_12_4B5530()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_12_4B5580()
+void Slig::M_13_4B5580()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_13_4B8480()
+void Slig::M_14_4B8480()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_14_4B83B0()
+void Slig::M_15_4B83B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_15_4B8250()
+void Slig::M_16_4B8250()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_16_4B5290()
+void Slig::M_17_4B5290()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_17_4B5FC0()
+void Slig::M_18_4B5FC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_18_4B8270()
+void Slig::M_19_4B8270()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_19_4B5330()
+void Slig::M_20_4B5330()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_20_to_19_4B53D0()
+void Slig::M_21_to_19_4B53D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_21_to_19_4B53F0()
+void Slig::M_22_to_19_4B53F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_22_to_19_4B5410()
+void Slig::M_23_to_19_4B5410()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_23_to_19_4B5430()
+void Slig::M_24_to_19_4B5430()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_24_to_19_4B5450()
+void Slig::M_25_to_19_4B5450()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_25_to_19_4B5470()
+void Slig::M_26_to_19_4B5470()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_26_to_19_4B5490()
+void Slig::M_27_to_19_4B5490()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_27_to_19_4B54B0()
+void Slig::M_28_to_19_4B54B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_28_to_19_4B54D0()
+void Slig::M_29_to_19_4B54D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_29_to_19_4B54F0()
+void Slig::M_30_to_19_4B54F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_30_to_19_4B5510()
+void Slig::M_31_to_19_4B5510()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_31_4B89A0()
+void Slig::M_32_4B89A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_32_4B8C50()
+void Slig::M_33_4B8C50()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_33_4B68A0()
+void Slig::M_34_4B68A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_34_4B6A30()
+void Slig::M_35_4B6A30()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_35_4B7F30()
+void Slig::M_36_4B7F30()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_36_4B72C0()
+void Slig::M_37_4B72C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_37_4B4570()
+void Slig::M_38_4B4570()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_38_4B4640()
+void Slig::M_39_4B4640()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_39_4B4530()
+void Slig::M_40_4B4530()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_40_4B4680()
+void Slig::M_41_4B4680()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_41_4B7560()
+void Slig::M_42_4B7560()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_42_4B77E0()
+void Slig::M_43_4B77E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_43_4B6B90()
+void Slig::M_44_4B6B90()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_44_4B8950()
+void Slig::M_45_4B8950()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_45_4B3700()
+void Slig::M_46_4B3700()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_46_4B3820()
+void Slig::M_47_4B3820()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_47_4B3850()
+void Slig::M_48_4B3850()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_48_4B3930()
+void Slig::M_49_4B3930()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_49_4B3960()
+void Slig::M_50_4B3960()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_50_4B6C00()
+void Slig::M_51_4B6C00()
 {
     NOT_IMPLEMENTED();
 }
