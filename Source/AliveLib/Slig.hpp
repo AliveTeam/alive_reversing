@@ -324,3 +324,5 @@ private:
     int field_294;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
+
+//Force update by Gibbons
