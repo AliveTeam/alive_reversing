@@ -64,7 +64,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_SpeakPanic_28_4B54B0,
     &Slig::M_SpeakWhat_29_4B54D0,
     &Slig::M_SpeakAIFreeze_30_4B54F0,
-    &Slig::M_UNKNONWN_31_4B5510,
+    &Slig::M_UNKNOWN_31_4B5510,
     &Slig::M_Sleeping_32_4B89A0,
     &Slig::M_UNKNOWN_33_4B8C50,
     &Slig::M_Knockback_34_4B68A0,
