@@ -54,17 +54,17 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_18_4B5FC0,
     &Slig::M_19_4B8270,
     &Slig::M_20_4B5330,
-    &Slig::M_21_to_19_4B53D0,
-    &Slig::M_22_to_19_4B53F0,
-    &Slig::M_23_to_19_4B5410,
-    &Slig::M_24_to_19_4B5430,
-    &Slig::M_25_to_19_4B5450,
-    &Slig::M_26_to_19_4B5470,
-    &Slig::M_27_to_19_4B5490,
-    &Slig::M_28_to_19_4B54B0,
-    &Slig::M_29_to_19_4B54D0,
-    &Slig::M_30_to_19_4B54F0,
-    &Slig::M_31_to_19_4B5510,
+    &Slig::M_21_4B53D0,
+    &Slig::M_22_4B53F0,
+    &Slig::M_23_4B5410,
+    &Slig::M_24_4B5430,
+    &Slig::M_25_4B5450,
+    &Slig::M_26_4B5470,
+    &Slig::M_27_4B5490,
+    &Slig::M_28_4B54B0,
+    &Slig::M_29_4B54D0,
+    &Slig::M_30_4B54F0,
+    &Slig::M_31_4B5510,
     &Slig::M_32_4B89A0,
     &Slig::M_33_4B8C50,
     &Slig::M_34_4B68A0,
@@ -455,57 +455,57 @@ void Slig::M_20_4B5330()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_21_to_19_4B53D0()
+void Slig::M_21_4B53D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_22_to_19_4B53F0()
+void Slig::M_22_4B53F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_23_to_19_4B5410()
+void Slig::M_23_4B5410()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_24_to_19_4B5430()
+void Slig::M_24_4B5430()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_25_to_19_4B5450()
+void Slig::M_25_4B5450()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_26_to_19_4B5470()
+void Slig::M_26_4B5470()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_27_to_19_4B5490()
+void Slig::M_27_4B5490()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_28_to_19_4B54B0()
+void Slig::M_28_4B54B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_29_to_19_4B54D0()
+void Slig::M_29_4B54D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_30_to_19_4B54F0()
+void Slig::M_30_4B54F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_31_to_19_4B5510()
+void Slig::M_31_4B5510()
 {
     NOT_IMPLEMENTED();
 }
@@ -1064,7 +1064,7 @@ void Slig::vUpdate_4B17C0()
 
         if (oldMotion != field_106_current_motion)
         {
-            LOG_INFO("Slig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            LOG_INFO("Slig: Oldtism motion = " << oldMotion << " new motion = " << field_106_current_motion);
         }
 
         if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
