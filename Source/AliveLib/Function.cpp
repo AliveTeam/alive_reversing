@@ -20,7 +20,7 @@ void SetVTable(void* thisPtr, DWORD vTable)
 #endif
 }
 
-NO_RETURN void ALIVE_FATAL(const char* errMsg)
+[[noreturn]] void ALIVE_FATAL(const char* errMsg)
 {
     Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");
     abort();
