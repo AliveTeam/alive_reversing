@@ -87,7 +87,7 @@ public:
     EXPORT void SteppingToStand_14_4B8480();
     EXPORT void StandingToStep_15_4B83B0();
     EXPORT void DepossessingAbort_16_4B8250();
-    EXPORT void UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290();
+    EXPORT void M_UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290();
     EXPORT void WalkToStand_18_4B5FC0();
     EXPORT void Recoil_19_4B8270();
     EXPORT void SpeakHereBoy_20_4B5330();
