@@ -894,11 +894,9 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMe
         }
         break;
 
+    // Should be impossible to get here
     default: return nullptr;
     }
-
-    // Should be impossible to get here
-    return nullptr;
 }
 
 int CC ResourceManager::LoadResourceFile_49C130(const char* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera)

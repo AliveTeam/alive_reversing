@@ -321,7 +321,6 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
         field_120_gnframe = sGnFrame_5C1B84;
         return 1;
     }
-    return 0;
 }
 
 bool Mine::IsColliding_46B8C0()
