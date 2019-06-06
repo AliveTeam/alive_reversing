@@ -74,7 +74,7 @@ private:
 
     EXPORT void Stop_46E570();
 
-    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, __int16 a6, char bEnableRender);
+    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, __int16 a6, char bChangeDirection);
 
 private:
     __int16 field_116_pad;
