@@ -1986,12 +1986,12 @@ void CC InputObject::ShutDown_45F020()
 #endif
 }
 
-bool InputObject::isPressed(InputCommands command)
+bool InputObject::isPressed(DWORD command)
 {
   return this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & command;
 }
 
-bool InputObject::isHeld(InputCommands command)
+bool InputObject::isHeld(DWORD command)
 {
   return this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & command;
 }

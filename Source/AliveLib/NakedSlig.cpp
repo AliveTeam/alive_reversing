@@ -1021,7 +1021,7 @@ void NakedSlig::M_3_Crawling_41B280()
             {
                 if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::eLeft)) ||
                     (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::eRight)) ||
-                   !(sInputObject_5BD4E0.isPressed(InputCommands::eGameSpeak3))) // Was 0xC
+                   !(sInputObject_5BD4E0.isPressed(InputCommands::eLeft | InputCommands::eRight)))
                 {
                     Set_AnimAndMotion_419890(15, TRUE);
                 }
@@ -1134,7 +1134,7 @@ void NakedSlig::M_10_StartToPushOnWall_41B400()
         const bool flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
         if ((!flipX && sInputObject_5BD4E0.isPressed(InputCommands::eLeft)) ||
             (flipX && sInputObject_5BD4E0.isPressed(InputCommands::eRight)) ||
-            !(sInputObject_5BD4E0.isPressed((InputCommands)(InputCommands::eLeft | InputCommands::eRight))))
+            !(sInputObject_5BD4E0.isPressed(InputCommands::eLeft | InputCommands::eRight)))
         {
             Set_AnimAndMotion_419890(NakedSligMotion::M_17_StopPushingWall_41B3A0, TRUE);
         }
@@ -1237,8 +1237,6 @@ void NakedSlig::HandleCommon_41C0B0()
 
     if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0) && field_208_brain_sub_state == 1)
     {
-      //TODO: Refactor this into isPressed.
-
       if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
