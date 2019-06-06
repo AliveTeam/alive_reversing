@@ -40,25 +40,25 @@ public:
     virtual void VUpdate() override;
 
 public:
-    EXPORT void M_0_42F0B0();
-    EXPORT void M_1_42F270();
-    EXPORT void M_2_42F2F0();
-    EXPORT void M_3_42E850();
-    EXPORT void M_4_42E960();
-    EXPORT void M_5_42E810();
-    EXPORT void M_6_42EAF0();
-    EXPORT void M_7_42EBB0();
-    EXPORT void M_8_42EB20();
-    EXPORT void M_9_42ECD0();
-    EXPORT void M_10_42F330();
-    EXPORT void M_11_42F590();
-    EXPORT void M_12_42F7F0();
-    EXPORT void M_13_42FB00();
-    EXPORT void M_14_42FBD0();
-    EXPORT void M_15_42FC40();
-    EXPORT void M_16_42FCE0();
-    EXPORT void M_17_42F370();
-    EXPORT void M_18_42FDF0();
+    EXPORT void M_Sleeping_0_42F0B0();
+    EXPORT void M_WakingUp_1_42F270();
+    EXPORT void M_Unknown_2_42F2F0();
+    EXPORT void M_Idle_3_42E850();
+    EXPORT void M_Crawl_4_42E960();
+    EXPORT void M_PatrolCry_5_42E810();
+    EXPORT void M_Knockback_6_42EAF0();
+    EXPORT void M_StopCrawling_7_42EBB0();
+    EXPORT void M_StopMidCrawlCycle_8_42EB20();
+    EXPORT void M_Fall_9_42ECD0();
+    EXPORT void M_Land_10_42F330();
+    EXPORT void M_RaiseHead_11_42F590();
+    EXPORT void M_Climb_12_42F7F0();
+    EXPORT void M_SettleOnGround_13_42FB00();
+    EXPORT void M_ExtendTongueFromEnemy_14_42FBD0();
+    EXPORT void M_RetractTongueFromEnemey_15_42FC40();
+    EXPORT void M_DeathByFalling_16_42FCE0();
+    EXPORT void M_SleepingWithTongue_17_42F370();
+    EXPORT void M_Consume_18_42FDF0();
 
 public:
     EXPORT __int16 AI_0_430BA0();
