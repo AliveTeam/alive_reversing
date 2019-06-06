@@ -20,30 +20,30 @@ const TSlogAIFn sSlog_fns_ai_560A38[4] =
 
 const TSlogMotionFn sSlog_motion_table_560978[24] =
 {
-    &Slog::M_0_4C5F90,
-    &Slog::M_1_4C60C0,
-    &Slog::M_2_4C6340,
-    &Slog::M_3_4C65C0,
-    &Slog::M_4_4C6930,
-    &Slog::M_5_4C5F20,
-    &Slog::M_6_4C66C0,
-    &Slog::M_7_4C6790,
-    &Slog::M_8_4C62E0,
-    &Slog::M_9_4C6310,
-    &Slog::M_10_4C7820,
-    &Slog::M_11_4C7860,
-    &Slog::M_12_4C7880,
-    &Slog::M_13_4C78D0,
-    &Slog::M_14_4C6CF0,
-    &Slog::M_15_4C6D60,
-    &Slog::M_16_4C70D0,
-    &Slog::M_17_4C7000,
-    &Slog::M_18_4C7210,
-    &Slog::M_19_4C7470,
-    &Slog::M_20_4C75F0,
-    &Slog::M_21_4C77F0,
-    &Slog::M_22_4C7120,
-    &Slog::M_23_4C7170
+    &Slog::M_Idle_0_4C5F90,
+    &Slog::M_Walk_1_4C60C0,
+    &Slog::M_Run_2_4C6340,
+    &Slog::M_TurnAround_3_4C65C0,
+    &Slog::M_Fall_4_4C6930,
+    &Slog::M_MoveHeadUpwards_5_4C5F20,
+    &Slog::M_StopRunning_6_4C66C0,
+    &Slog::M_SlideTurn_7_4C6790,
+    &Slog::M_StartWalking_8_4C62E0,
+    &Slog::M_EndWalking_9_4C6310,
+    &Slog::M_Land_10_4C7820,
+    &Slog::M_Unknown_11_4C7860,
+    &Slog::M_StartFastBarking_12_4C7880,
+    &Slog::M_EndFastBarking_13_4C78D0,
+    &Slog::M_Unknown_14_4C6CF0,
+    &Slog::M_Sleeping_15_4C6D60,
+    &Slog::M_MoveHeadDownwards_16_4C70D0,
+    &Slog::M_Bark_17_4C7000,
+    &Slog::M_JumpForwards_18_4C7210,
+    &Slog::M_JumpUpwards_19_4C7470,
+    &Slog::M_Eating_20_4C75F0,
+    &Slog::M_Unknown_21_4C77F0,
+    &Slog::M_Scratch_22_4C7120,
+    &Slog::M_Growl_23_4C7170
 };
 
 
@@ -114,122 +114,122 @@ void Slog::VUpdate()
     vUpdate_4C50D0();
 }
 
-void Slog::M_0_4C5F90()
+void Slog::M_Idle_0_4C5F90()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_1_4C60C0()
+void Slog::M_Walk_1_4C60C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_2_4C6340()
+void Slog::M_Run_2_4C6340()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_3_4C65C0()
+void Slog::M_TurnAround_3_4C65C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_4_4C6930()
+void Slog::M_Fall_4_4C6930()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_5_4C5F20()
+void Slog::M_MoveHeadUpwards_5_4C5F20()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_6_4C66C0()
+void Slog::M_StopRunning_6_4C66C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_7_4C6790()
+void Slog::M_SlideTurn_7_4C6790()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_8_4C62E0()
+void Slog::M_StartWalking_8_4C62E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_9_4C6310()
+void Slog::M_EndWalking_9_4C6310()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_10_4C7820()
+void Slog::M_Land_10_4C7820()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_11_4C7860()
+void Slog::M_Unknown_11_4C7860()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_12_4C7880()
+void Slog::M_StartFastBarking_12_4C7880()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_13_4C78D0()
+void Slog::M_EndFastBarking_13_4C78D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_14_4C6CF0()
+void Slog::M_Unknown_14_4C6CF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_15_4C6D60()
+void Slog::M_Sleeping_15_4C6D60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_16_4C70D0()
+void Slog::M_MoveHeadDownwards_16_4C70D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_17_4C7000()
+void Slog::M_Bark_17_4C7000()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_18_4C7210()
+void Slog::M_JumpForwards_18_4C7210()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_19_4C7470()
+void Slog::M_JumpUpwards_19_4C7470()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_20_4C75F0()
+void Slog::M_Eating_20_4C75F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_21_4C77F0()
+void Slog::M_Unknown_21_4C77F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_22_4C7120()
+void Slog::M_Scratch_22_4C7120()
 {
     NOT_IMPLEMENTED();
 }
 
-void Slog::M_23_4C7170()
+void Slog::M_Growl_23_4C7170()
 {
     NOT_IMPLEMENTED();
 }
