@@ -34,46 +34,46 @@ TintEntry stru_560260[15] =
 
 const TScrabMotionFn sScrab_motion_table_560120[40] =
 {
-    &Scrab::M_0_4A8220,
-    &Scrab::M_1_4A84D0,
-    &Scrab::M_2_4A89C0,
-    &Scrab::M_3_4A91A0,
-    &Scrab::M_4_4A90C0,
-    &Scrab::M_5_4A96C0,
-    &Scrab::M_6_4A9490,
-    &Scrab::M_7_4A9890,
-    &Scrab::M_8_4A9220,
-    &Scrab::M_9_4A8450,
-    &Scrab::M_10_4A8900,
-    &Scrab::M_11_4A8880,
-    &Scrab::M_12_4A99C0,
-    &Scrab::M_13_4A9BE0,
-    &Scrab::M_14_4A9460,
-    &Scrab::M_15_4A9430,
-    &Scrab::M_16_4A8D60,
-    &Scrab::M_17_4A8D90,
-    &Scrab::M_18_4AA490,
-    &Scrab::M_19_4AA3E0,
-    &Scrab::M_20_4A93E0,
-    &Scrab::M_21_4A9CC0,
-    &Scrab::M_22_4AA420,
-    &Scrab::M_23_4A9D80,
-    &Scrab::M_24_4AA140,
-    &Scrab::M_25_4A34D0,
-    &Scrab::M_26_4A9DA0,
-    &Scrab::M_27_4A9E60,
-    &Scrab::M_28_4AA200,
-    &Scrab::M_29_4AA3C0,
-    &Scrab::M_30_4A9EA0,
-    &Scrab::M_31_4A9F30,
-    &Scrab::M_32_4A8DC0,
-    &Scrab::M_33_4A9FA0,
-    &Scrab::M_34_4A9FF0,
-    &Scrab::M_35_4AA010,
-    &Scrab::M_36_4AA030,
-    &Scrab::M_37_4AA0B0,
-    &Scrab::M_38_4AA120,
-    &Scrab::M_39_4AA190
+    &Scrab::M_Stand_0_4A8220,
+    &Scrab::M_Walk_1_4A84D0,
+    &Scrab::M_Run_2_4A89C0,
+    &Scrab::M_Turn_3_4A91A0,
+    &Scrab::M_RunToStand_4_4A90C0,
+    &Scrab::M_HopBegin_5_4A96C0,
+    &Scrab::M_HopMidair_6_4A9490,
+    &Scrab::M_HopLand_7_4A9890,
+    &Scrab::M_JumpToFall_8_4A9220,
+    &Scrab::M_StandToWalk_9_4A8450,
+    &Scrab::M_StandToRun_10_4A8900,
+    &Scrab::M_WalkToStand_11_4A8880,
+    &Scrab::M_RunJumpBegin_12_4A99C0,
+    &Scrab::M_RunJumpEnd_13_4A9BE0,
+    &Scrab::M_WalkToFall_14_4A9460,
+    &Scrab::M_RunToFall_15_4A9430,
+    &Scrab::M_WalkToRun_16_4A8D60,
+    &Scrab::M_RunToWalk_17_4A8D90,
+    &Scrab::M_Knockback_18_4AA490,
+    &Scrab::M_GetEaten_19_4AA3E0,
+    &Scrab::M_Fall_20_4A93E0,
+    &Scrab::M_Stamp_21_4A9CC0,
+    &Scrab::M_GetPossessed_22_4AA420,
+    &Scrab::M_UNKNOWN_23_4A9D80,
+    &Scrab::M_DeathEnd_24_4AA140,
+    &Scrab::M_Empty_25_4A34D0,
+    &Scrab::M_HowlBegin_26_4A9DA0,
+    &Scrab::M_HowlEnd_27_4A9E60,
+    &Scrab::M_GetDepossessedBegin_28_4AA200,
+    &Scrab::M_GetDepossessedEnd_29_4AA3C0,
+    &Scrab::M_Shriek_30_4A9EA0,
+    &Scrab::M_UNKNOWN_ScrabBattleAnimMaybe_31_4A9F30,
+    &Scrab::M_AttackSpin_32_4A8DC0,
+    &Scrab::M_FeedToGulp_33_4A9FA0,
+    &Scrab::M_GulpToStand_34_4A9FF0,
+    &Scrab::M_StandToFeed_35_4AA010,
+    &Scrab::M_Feed_36_4AA030,
+    &Scrab::M_AttackLunge_37_4AA0B0,
+    &Scrab::M_LegKick_38_4AA120,
+    &Scrab::M_DeathBegin_39_4AA190
 };
 
 
@@ -551,202 +551,202 @@ void Scrab::Update_Slurg_Step_Watch_Points_4A5780()
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_0_4A8220()
+void Scrab::M_Stand_0_4A8220()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_1_4A84D0()
+void Scrab::M_Walk_1_4A84D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_2_4A89C0()
+void Scrab::M_Run_2_4A89C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_3_4A91A0()
+void Scrab::M_Turn_3_4A91A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_4_4A90C0()
+void Scrab::M_RunToStand_4_4A90C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_5_4A96C0()
+void Scrab::M_HopBegin_5_4A96C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_6_4A9490()
+void Scrab::M_HopMidair_6_4A9490()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_7_4A9890()
+void Scrab::M_HopLand_7_4A9890()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_8_4A9220()
+void Scrab::M_JumpToFall_8_4A9220()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_9_4A8450()
+void Scrab::M_StandToWalk_9_4A8450()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_10_4A8900()
+void Scrab::M_StandToRun_10_4A8900()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_11_4A8880()
+void Scrab::M_WalkToStand_11_4A8880()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_12_4A99C0()
+void Scrab::M_RunJumpBegin_12_4A99C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_13_4A9BE0()
+void Scrab::M_RunJumpEnd_13_4A9BE0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_14_4A9460()
+void Scrab::M_WalkToFall_14_4A9460()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_15_4A9430()
+void Scrab::M_RunToFall_15_4A9430()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_16_4A8D60()
+void Scrab::M_WalkToRun_16_4A8D60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_17_4A8D90()
+void Scrab::M_RunToWalk_17_4A8D90()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_18_4AA490()
+void Scrab::M_Knockback_18_4AA490()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_19_4AA3E0()
+void Scrab::M_GetEaten_19_4AA3E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_20_4A93E0()
+void Scrab::M_Fall_20_4A93E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_21_4A9CC0()
+void Scrab::M_Stamp_21_4A9CC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_22_4AA420()
+void Scrab::M_GetPossessed_22_4AA420()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_23_4A9D80()
+void Scrab::M_UNKNOWN_23_4A9D80()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_24_4AA140()
+void Scrab::M_DeathEnd_24_4AA140()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_25_4A34D0()
+void Scrab::M_Empty_25_4A34D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_26_4A9DA0()
+void Scrab::M_HowlBegin_26_4A9DA0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_27_4A9E60()
+void Scrab::M_HowlEnd_27_4A9E60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_28_4AA200()
+void Scrab::M_GetDepossessedBegin_28_4AA200()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_29_4AA3C0()
+void Scrab::M_GetDepossessedEnd_29_4AA3C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_30_4A9EA0()
+void Scrab::M_Shriek_30_4A9EA0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_31_4A9F30()
+void Scrab::M_UNKNOWN_ScrabBattleAnimMaybe_31_4A9F30()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_32_4A8DC0()
+void Scrab::M_AttackSpin_32_4A8DC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_33_4A9FA0()
+void Scrab::M_FeedToGulp_33_4A9FA0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_34_4A9FF0()
+void Scrab::M_GulpToStand_34_4A9FF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_35_4AA010()
+void Scrab::M_StandToFeed_35_4AA010()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_36_4AA030()
+void Scrab::M_Feed_36_4AA030()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_37_4AA0B0()
+void Scrab::M_AttackLunge_37_4AA0B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_38_4AA120()
+void Scrab::M_LegKick_38_4AA120()
 {
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_39_4AA190()
+void Scrab::M_DeathBegin_39_4AA190()
 {
     NOT_IMPLEMENTED();
 }
