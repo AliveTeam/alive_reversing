@@ -13,25 +13,25 @@ ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
 
 const TFleechMotionFn sFleech_motion_table_551798[19] =
 {
-    &Fleech::M_0_42F0B0,
-    &Fleech::M_1_42F270,
-    &Fleech::M_2_42F2F0,
-    &Fleech::M_3_42E850,
-    &Fleech::M_4_42E960,
-    &Fleech::M_5_42E810,
-    &Fleech::M_6_42EAF0,
-    &Fleech::M_7_42EBB0,
-    &Fleech::M_8_42EB20,
-    &Fleech::M_9_42ECD0,
-    &Fleech::M_10_42F330,
-    &Fleech::M_11_42F590,
-    &Fleech::M_12_42F7F0,
-    &Fleech::M_13_42FB00,
-    &Fleech::M_14_42FBD0,
-    &Fleech::M_15_42FC40,
-    &Fleech::M_16_42FCE0,
-    &Fleech::M_17_42F370,
-    &Fleech::M_18_42FDF0
+    &Fleech::M_Sleeping_0_42F0B0,
+    &Fleech::M_WakingUp_1_42F270,
+    &Fleech::M_Unknown_2_42F2F0,
+    &Fleech::M_Idle_3_42E850,
+    &Fleech::M_Crawl_4_42E960,
+    &Fleech::M_PatrolCry_5_42E810,
+    &Fleech::M_Knockback_6_42EAF0,
+    &Fleech::M_StopCrawling_7_42EBB0, //Stop due to being aligned vertically with target
+    &Fleech::M_StopMidCrawlCycle_8_42EB20, //Stop mid-crawl cycle
+    &Fleech::M_Fall_9_42ECD0,
+    &Fleech::M_Land_10_42F330,
+    &Fleech::M_RaiseHead_11_42F590,
+    &Fleech::M_Climb_12_42F7F0,
+    &Fleech::M_SettleOnGround_13_42FB00,
+    &Fleech::M_ExtendTongueFromEnemy_14_42FBD0,
+    &Fleech::M_RetractTongueFromEnemey_15_42FC40,
+    &Fleech::M_DeathByFalling_16_42FCE0,
+    &Fleech::M_SleepingWithTongue_17_42F370,
+    &Fleech::M_Consume_18_42FDF0
 };
 
 const TFleechAIFn sFleech_ai_table_551830[4] =
@@ -125,97 +125,97 @@ void Fleech::VUpdate()
     vUpdate_42AB20();
 }
 
-void Fleech::M_0_42F0B0()
+void Fleech::M_Sleeping_0_42F0B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_1_42F270()
+void Fleech::M_WakingUp_1_42F270()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_2_42F2F0()
+void Fleech::M_Unknown_2_42F2F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_3_42E850()
+void Fleech::M_Idle_3_42E850()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_4_42E960()
+void Fleech::M_Crawl_4_42E960()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_5_42E810()
+void Fleech::M_PatrolCry_5_42E810()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_6_42EAF0()
+void Fleech::M_Knockback_6_42EAF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_7_42EBB0()
+void Fleech::M_StopCrawling_7_42EBB0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_8_42EB20()
+void Fleech::M_StopMidCrawlCycle_8_42EB20()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_9_42ECD0()
+void Fleech::M_Fall_9_42ECD0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_10_42F330()
+void Fleech::M_Land_10_42F330()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_11_42F590()
+void Fleech::M_RaiseHead_11_42F590()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_12_42F7F0()
+void Fleech::M_Climb_12_42F7F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_13_42FB00()
+void Fleech::M_SettleOnGround_13_42FB00()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_14_42FBD0()
+void Fleech::M_ExtendTongueFromEnemy_14_42FBD0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_15_42FC40()
+void Fleech::M_RetractTongueFromEnemey_15_42FC40()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_16_42FCE0()
+void Fleech::M_DeathByFalling_16_42FCE0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_17_42F370()
+void Fleech::M_SleepingWithTongue_17_42F370()
 {
     NOT_IMPLEMENTED();
 }
 
-void Fleech::M_18_42FDF0()
+void Fleech::M_Consume_18_42FDF0()
 {
     NOT_IMPLEMENTED();
 }
