@@ -96,7 +96,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     {
         field_160 = (pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2;
         field_166_angle = Fleech_NextRandom();
-        field_BC_ypos += FP_FromInteger(pTlv->field_8_top_left.field_2_y - pTlv->field_C_bottom_right.field_2_y);
+        field_BC_ypos -= FP_FromInteger(pTlv->field_8_top_left.field_2_y - pTlv->field_C_bottom_right.field_2_y);
         sub_42B9A0((pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2, pTlv->field_8_top_left.field_2_y);
         field_106_current_motion = 17;
         sub_429D80();
