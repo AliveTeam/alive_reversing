@@ -267,6 +267,7 @@ void PullRingRope::vUpdate_49B720()
         }
         break;
 
+      default: break;
     }
 
     if (pRope)

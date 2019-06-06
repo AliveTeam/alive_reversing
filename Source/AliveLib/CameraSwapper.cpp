@@ -553,6 +553,8 @@ void CameraSwapper::vUpdate_4E5850()
             field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
         }
         break;
+
+    default: break;
     }
 }
 

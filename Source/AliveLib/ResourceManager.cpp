@@ -893,6 +893,8 @@ BYTE** CC ResourceManager::Allocate_New_Block_49BFB0(int sizeBytes, BlockAllocMe
             return &pHeapMem->field_0_ptr;
         }
         break;
+
+    default: return nullptr;
     }
 
     // Should be impossible to get here
