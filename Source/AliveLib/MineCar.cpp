@@ -286,5 +286,5 @@ void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, un
 
     field_1BC = a6;
 
-    field_124_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards, bEnableRender);
+    field_124_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards, bChangeDirection);
 }
