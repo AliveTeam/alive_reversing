@@ -64,7 +64,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_SpeakPanic_28_4B54B0,
     &Slig::M_SpeakWhat_29_4B54D0,
     &Slig::M_SpeakAIFreeze_30_4B54F0,
-    &Slig::M_UNKNOWN_31_4B5510,
+    &Slig::M_Blurgh_31_4B5510,
     &Slig::M_Sleeping_32_4B89A0,
     &Slig::M_SleepingToStand_33_4B8C50,
     &Slig::M_Knockback_34_4B68A0,
@@ -77,7 +77,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_LandingFatal_41_4B4680,
     &Slig::M_ShootZ_42_4B7560,
     &Slig::M_ShootZtoStand_43_4B77E0,
-    &Slig::M_UNKNOWN_44_4B6B90,
+    &Slig::M_Smash_44_4B6B90,
     &Slig::M_PullLever_45_4B8950,
     &Slig::M_LiftGrip_46_4B3700,
     &Slig::M_LiftUngrip_47_4B3820,
@@ -505,7 +505,7 @@ void Slig::M_SpeakAIFreeze_30_4B54F0()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_UNKNOWN_31_4B5510()
+void Slig::M_Blurgh_31_4B5510()
 {
     NOT_IMPLEMENTED();
 }
@@ -570,7 +570,7 @@ void Slig::M_ShootZtoStand_43_4B77E0()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_UNKNOWN_44_4B6B90()
+void Slig::M_Smash_44_4B6B90()
 {
     NOT_IMPLEMENTED();
 }
