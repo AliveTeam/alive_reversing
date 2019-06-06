@@ -145,6 +145,8 @@ public:
     WORD field_3A_pad_idx;
     DWORD field_3C_command;
     DWORD field_40_command_duration;
+    bool isPressed(InputCommands command);
+    bool isHeld(InputCommands command);
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 

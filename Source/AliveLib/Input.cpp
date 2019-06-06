@@ -1985,3 +1985,13 @@ void CC InputObject::ShutDown_45F020()
     gTouchController = nullptr;
 #endif
 }
+
+bool InputObject::isPressed(InputCommands command)
+{
+  return this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & command;
+}
+
+bool InputObject::isHeld(InputCommands command)
+{
+  return this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & command;
+}
