@@ -439,6 +439,8 @@ EXPORT void BaseAliveGameObject::sub_408C40()
          case CameraPos::eCamCurrent_0:
          case CameraPos::eCamNone_5:
              return;
+
+         default: return;
          }
      }
 }
