@@ -1015,6 +1015,8 @@ signed __int16 BirdPortal::IsScaredAway_4992A0()
                 continue;
             }
             return TRUE;
+
+        default: return FALSE;
         }
     }
     return FALSE;

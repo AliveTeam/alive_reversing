@@ -778,8 +778,9 @@ signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
                 this->field_20C = 0;
             }
             return 0x00002;
+
+        default: return 0;
         }
-        return 0;
     });
 }
 
@@ -804,8 +805,9 @@ signed int MainMenuController::t_Input_Slig_Speak_4D3280(DWORD input_held)
         case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eSlig_LookOut); return 0;
         case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eSlig_Laugh); return 0;
         case InputCommands::eBack: Set_Anim_4D05E0(AnimIds::eSlig_Laugh); return 0x10002;
+
+        default: return 0;
         }
-        return 0;
     });
 }
 
@@ -846,8 +848,9 @@ signed int MainMenuController::t_Input_Glukkon_Speak_4D3670(DWORD input_held)
         case InputCommands::eGameSpeak7: Set_Anim_4D05E0(AnimIds::eGlukkon_Help); return 0;
         case InputCommands::eGameSpeak8: Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh); return 0;
         case InputCommands::eBack: Set_Anim_4D05E0(AnimIds::eGlukkon_Laugh); return 0x20002;
+
+        default: return 0;
         }
-        return 0;
     });
 }
 
@@ -888,8 +891,9 @@ signed int MainMenuController::t_Input_Scrab_Speak_4D3A60(DWORD input_held)
         case InputCommands::eGameSpeak7: return 0;
         case InputCommands::eGameSpeak8: return 0;
         case InputCommands::eBack: Set_Anim_4D05E0(AnimIds::eScrab_ShredPower); return 0x30002;
+
+        default: return 0;
         }
-        return 0;
     });
 }
 
@@ -930,8 +934,9 @@ signed int MainMenuController::t_Input_Paramite_Speak_4D3D60(DWORD input_held)
         case InputCommands::eGameSpeak7: return 0; // Paramites don't have as much to say.
         case InputCommands::eGameSpeak8: return 0;
         case InputCommands::eBack: Set_Anim_4D05E0(AnimIds::eParamite_Attack); return 0x40002;
+
+        default: return 0;
         }
-        return 0;
     });
 }
 
