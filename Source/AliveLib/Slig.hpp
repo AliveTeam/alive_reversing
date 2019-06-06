@@ -101,7 +101,7 @@ public:
     EXPORT void M_SpeakPanic_28_4B54B0();
     EXPORT void M_SpeakWhat_29_4B54D0();
     EXPORT void M_SpeakAIFreeze_30_4B54F0();
-    EXPORT void M_UNKNOWN_31_4B5510();
+    EXPORT void M_Blurgh_31_4B5510();
     EXPORT void M_Sleeping_32_4B89A0();
     EXPORT void M_SleepingToStand_33_4B8C50();
     EXPORT void M_Knockback_34_4B68A0();
@@ -114,7 +114,7 @@ public:
     EXPORT void M_LandingFatal_41_4B4680();
     EXPORT void M_ShootZ_42_4B7560();
     EXPORT void M_ShootZtoStand_43_4B77E0();
-    EXPORT void M_UNKNOWN_44_4B6B90();
+    EXPORT void M_Smash_44_4B6B90();
     EXPORT void M_PullLever_45_4B8950();
     EXPORT void M_LiftGrip_46_4B3700();
     EXPORT void M_LiftUngrip_47_4B3820();
