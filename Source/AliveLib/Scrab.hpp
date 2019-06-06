@@ -75,14 +75,14 @@ public:
     EXPORT void M_GetEaten_19_4AA3E0();
     EXPORT void M_Fall_20_4A93E0();
     EXPORT void M_Stamp_21_4A9CC0();
-    EXPORT void M_PossessedGet_22_4AA420();
+    EXPORT void M_GetPossessed_22_4AA420();
     EXPORT void M_UNKNOWN_23_4A9D80();
     EXPORT void M_DeathEnd_24_4AA140();
     EXPORT void M_Empty_25_4A34D0();
     EXPORT void M_HowlBegin_26_4A9DA0();
     EXPORT void M_HowlEnd_27_4A9E60();
-    EXPORT void M_PossessedUngetBegin_28_4AA200();
-    EXPORT void M_PossessedUngetEnd_29_4AA3C0();
+    EXPORT void M_GetDepossessedBegin_28_4AA200();
+    EXPORT void M_GetDepossessedEnd_29_4AA3C0();
     EXPORT void M_Shriek_30_4A9EA0();
     EXPORT void M_UNKNOWN_ScrabBattleAnimMaybe_31_4A9F30();
     EXPORT void M_AttackSpin_32_4A8DC0();
