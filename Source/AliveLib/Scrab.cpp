@@ -431,6 +431,8 @@ void Scrab::vUpdate_4A3530()
                 field_1A2 = 0;
             }
 
+            const auto oldMotion = field_106_current_motion;
+
             field_11C_sub_state = (this->*field_118_brain_state)();
 
             if (sDDCheat_ShowAI_Info_5C1BD8)
@@ -445,8 +447,6 @@ void Scrab::vUpdate_4A3530()
 
             field_19C = field_BC_ypos;
             field_198 = field_B8_xpos;
-            
-            const auto oldMotion = field_106_current_motion;
 
             (this->*sScrab_motion_table_560120[field_106_current_motion])();
 
