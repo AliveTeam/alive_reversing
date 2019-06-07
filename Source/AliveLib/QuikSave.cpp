@@ -25,6 +25,7 @@
 #include "AbilityRing.hpp"
 #include "Shadow.hpp"
 #include "Slurg.hpp"
+#include "GasCountDown.hpp"
 
 EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -270,7 +271,6 @@ ALIVE_VAR(1, 0x5c1bbc, WORD, word_5C1BBC, 0);
 ALIVE_VAR(1, 0x5c1bfa, BYTE, byte_5C1BFA, 0); // Related to boiler meter colours
 ALIVE_VAR(1, 0x5c1bf8, WORD, word_5C1BF8, 0); // Ditto
 
-ALIVE_VAR(1, 0x5c1be8, int, dword_5C1BE8, 0); // Gas counter?
 
 void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
 {

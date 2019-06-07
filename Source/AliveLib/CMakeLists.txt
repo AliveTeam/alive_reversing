@@ -299,6 +299,8 @@ ExportHooker.hpp
     Slog.cpp
     Slig.hpp
     Slig.cpp
+    GasCountDown.hpp
+    GasCountDown.cpp
     TouchController.cpp
     TouchController.hpp
 )

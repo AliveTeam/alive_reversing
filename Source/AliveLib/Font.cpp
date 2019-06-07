@@ -65,12 +65,12 @@ namespace Alive
     {
     }
 
-    Font::Font(int maxCharLength, BYTE *palette, Font_Context *fontContext)
+    Font::Font(int maxCharLength, const BYTE *palette, Font_Context *fontContext)
     {
         ctor_433590(maxCharLength, palette, fontContext);
     }
 
-    void Font::ctor_433590(int maxCharLength, BYTE *palette, Font_Context *fontContext)
+    void Font::ctor_433590(int maxCharLength, const BYTE *palette, Font_Context *fontContext)
     {
         field_34_font_context = fontContext;
         Pal_Allocate_483110(&field_28_palette_rect, 0x10u);

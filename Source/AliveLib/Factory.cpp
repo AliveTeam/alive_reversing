@@ -64,6 +64,7 @@
 #include "Fleech.hpp"
 #include "Slog.hpp"
 #include "Slig.hpp"
+#include "GasCountDown.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1194,7 +1195,24 @@ EXPORT void CC Factory_MusicTrigger_4D71B0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 
 EXPORT void CC Factory_Light_4D8590(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, 2, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("ABEGAS.BAN", ResourceManager::Resource_Animation, 118, loadMode);
+    }
+    else
+    {
+        auto pCountDown = alive_new<GasCountDown>();
+        if (pCountDown)
+        {
+            pCountDown->ctor_417010(static_cast<Path_GasCountDown*>(pTlv), tlvInfo.all);
+        }
+    }
+}
+
 EXPORT void CC Factory_4D6C50(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)

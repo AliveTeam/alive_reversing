@@ -7,12 +7,11 @@
 #include "Particle.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
+#include "GasCountDown.hpp"
 #include "Function.hpp"
 
 ALIVE_VAR(1, 0x5BD4C8, GasEmitter*, sMainGasEmitter_5BD4C8, nullptr);
 ALIVE_VAR(1, 0x5BD4CC, DWORD, sGasEmiterAudioMask_5BD4CC, 0);
-
-ALIVE_VAR(1, 0x5C1C00, short, gGasOn_5C1C00, 0);
 
 GasEmitter* GasEmitter::ctor_43CAA0(Path_GasEmitter* pTlv, int tlvInfo)
 {
