@@ -4,6 +4,66 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
+#define SLIG_MOTIONS_ENUM(ENTRY) \
+    ENTRY(M_StandIdle_0_4B4EC0) \
+    ENTRY(M_StandToWalk_1_4B5F70) \
+    ENTRY(M_Walking_2_4B5BC0) \
+    ENTRY(M_StandToRun_3_4B62F0) \
+    ENTRY(M_Running_4_4B6000) \
+    ENTRY(M_TurnAroundStanding_5_4B6390) \
+    ENTRY(M_Shoot_6_4B55A0) \
+    ENTRY(M_FallToDeath_7_4B42D0) \
+    ENTRY(M_SlidingToStand_8_4B6520) \
+    ENTRY(M_SlidingTurn_9_4B6680) \
+    ENTRY(M_SlidingTurnToWalk_10_4B6800) \
+    ENTRY(M_SlidingTurnToRun_11_4B6850) \
+    ENTRY(M_ReloadGun_12_4B5530) \
+    ENTRY(M_ShootToStand_13_4B5580) \
+    ENTRY(M_SteppingToStand_14_4B8480) \
+    ENTRY(M_StandingToStep_15_4B83B0) \
+    ENTRY(M_DepossessingAbort_16_4B8250) \
+    ENTRY(M_UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290) \
+    ENTRY(M_WalkToStand_18_4B5FC0) \
+    ENTRY(M_Recoil_19_4B8270) \
+    ENTRY(M_SpeakHereBoy_20_4B5330) \
+    ENTRY(M_SpeakHi_21_4B53D0) \
+    ENTRY(M_SpeakFreeze_22_4B53F0) \
+    ENTRY(M_SpeakGitIm_23_4B5410) \
+    ENTRY(M_SpeakLaugh_24_4B5430) \
+    ENTRY(M_SpeakBullShit1_25_4B5450) \
+    ENTRY(M_SpeakLookOut_26_4B5470) \
+    ENTRY(M_SpeakBullShit2_27_4B5490) \
+    ENTRY(M_SpeakPanic_28_4B54B0) \
+    ENTRY(M_SpeakWhat_29_4B54D0) \
+    ENTRY(M_SpeakAIFreeze_30_4B54F0) \
+    ENTRY(M_Blurgh_31_4B5510) \
+    ENTRY(M_Sleeping_32_4B89A0) \
+    ENTRY(M_SleepingToStand_33_4B8C50) \
+    ENTRY(M_Knockback_34_4B68A0) \
+    ENTRY(M_KnockbackToStand_35_4B6A30) \
+    ENTRY(M_Depossessing_36_4B7F30) \
+    ENTRY(M_Possess_37_4B72C0) \
+    ENTRY(M_Falling_38_4B4570) \
+    ENTRY(M_FallingInitiate_39_4B4640) \
+    ENTRY(M_LandingSoft_40_4B4530) \
+    ENTRY(M_LandingFatal_41_4B4680) \
+    ENTRY(M_ShootZ_42_4B7560) \
+    ENTRY(M_ShootZtoStand_43_4B77E0) \
+    ENTRY(M_Smash_44_4B6B90) \
+    ENTRY(M_PullLever_45_4B8950) \
+    ENTRY(M_LiftGrip_46_4B3700) \
+    ENTRY(M_LiftUngrip_47_4B3820) \
+    ENTRY(M_LiftGripping_48_4B3850) \
+    ENTRY(M_LiftUp_49_4B3930) \
+    ENTRY(M_LiftDown_50_4B3960) \
+    ENTRY(M_Beat_51_4B6C00)
+
+#define MAKE_ENUM(VAR) VAR,
+enum eSligMotions : int
+{
+    SLIG_MOTIONS_ENUM(MAKE_ENUM)
+};
+
 struct Path_Slig : public Path_TLV
 {
     __int16 field_10_scale;

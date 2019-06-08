@@ -268,7 +268,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
 
     field_120_timer = 0;
     field_11E = 45 * (Math_NextRandom() % 5 - 2);
-    field_108_next_motion = 0;
+    field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
     field_124 = 0;
     field_150 = 0;
     field_14C = 0;
@@ -278,7 +278,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
 
     field_110_id = -1;
     
-    field_106_current_motion = 7;
+    field_106_current_motion = eSligMotions::M_FallToDeath_7_4B42D0;
 
     field_124 = 0;
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -327,7 +327,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
         &hitY,
         field_D6_scale != 0 ? 1 : 16) == 1)
     {
-        field_106_current_motion = 0;
+        field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
         field_BC_ypos = hitY;
     }
 
@@ -916,7 +916,7 @@ void Slig::Init_4BB0D0()
         else
         {
             SetBrain(&Slig::AI_34_4B9170);
-            field_106_current_motion = 32;
+            field_106_current_motion = eSligMotions::M_Sleeping_32_4B89A0;
             vsub_4B1320();
         }
         break;
