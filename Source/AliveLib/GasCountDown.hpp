@@ -21,13 +21,15 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
-
+    virtual void VRender(int** pOrderingTable) override;
 private:
     EXPORT void dtor_417220();
 
     EXPORT GasCountDown* vdtor_4171F0(signed int flags);
 
     EXPORT void vScreenChanged_417700();
+
+    EXPORT void vRender_4175A0(int **pOt);
 
 private:
     Font_Context field_20_font_context;

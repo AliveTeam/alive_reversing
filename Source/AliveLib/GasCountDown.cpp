@@ -101,6 +101,11 @@ void GasCountDown::VScreenChanged()
     vScreenChanged_417700();
 }
 
+void GasCountDown::VRender(int** pOrderingTable)
+{
+    vRender_4175A0(pOrderingTable);
+}
+
 void GasCountDown::dtor_417220()
 {
     SetVTable(this, 0x5445E0);
@@ -129,4 +134,35 @@ void GasCountDown::vScreenChanged_417700()
     {
         dword_5C1BE8 = 0;
     }
+}
+
+void GasCountDown::vRender_4175A0(int **pOt)
+{
+    char text[12] = {};
+    sprintf(text, "%02d:%02d", field_74_time_left / 60, field_74_time_left % 60);
+
+    const auto textWidth = field_30_font.MeasureWidth_433700(text);
+    field_30_font.DrawString_4337D0(
+        pOt,
+        text,
+        field_6C_xpos,
+        field_6E_ypos,
+        1,
+        1,
+        0,
+        22,
+        127,
+        127,
+        127,
+        0,
+        FP_FromInteger(1),
+        field_6C_xpos + textWidth,
+        sDisableFontFlicker_5C9304 ? 0 : 50);
+
+    pScreenManager_5BB5F4->InvalidateRect_40EC90(
+        PsxToPCX(field_6C_xpos),
+        field_6E_ypos,
+        PsxToPCX(field_6C_xpos + textWidth),
+        field_6E_ypos + 16,
+        pScreenManager_5BB5F4->field_3A_idx);
 }

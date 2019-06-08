@@ -9,6 +9,20 @@
 #include "Abe.hpp"
 #include "MusicController.hpp"
 #include "DDCheat.hpp"
+#include "BaseGameObject.hpp"
+
+// This is a left bound, right bound and a persist.
+struct Path_Slig_Bound : public Path_TLV
+{
+    __int16 field_10_slig_id;
+    __int16 field_12_disabled_resources;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig_Bound, 0x14);
+
+using Path_Slig_LeftBound = Path_Slig_Bound;
+using Path_Slig_RightBound = Path_Slig_Bound;
+using Path_Slig_Persist = Path_Slig_Bound;
+
 
 TintEntry stru_560570[15] =
 {
@@ -30,6 +44,7 @@ TintEntry stru_560570[15] =
 };
 
 ALIVE_VAR(1, 0xBAF7E4, int, dword_BAF7E4, 0);
+ALIVE_VAR(1, 0xBAF7E8, short, word_BAF7E8, 0);
 
 const TSligMotionFn sSlig_motion_table_5604A0[52] =
 {
@@ -828,7 +843,192 @@ __int16 Slig::AI_35_4BF640()
 
 void Slig::Init_4BB0D0()
 {
-    NOT_IMPLEMENTED();
+    field_10_resources_array.SetAt(10, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 319, 1, 0));
+    field_10_resources_array.SetAt(11, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 423, 1, 0));
+    field_10_resources_array.SetAt(12, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 360, 1, 0));
+    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation,  414, 1, 0));
+    field_10_resources_array.SetAt(16, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 354, 1, 0));
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 0x80))
+    {
+        field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 418, 1, 0));
+    }
+
+    if (!(field_218_tlv_data.field_48_disable_resources & 0x100))
+    {
+        field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 415, 1, 0));
+    }
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 1))
+    {
+        field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 419, 1, 0));
+    }
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 2))
+    {
+        field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 420, 1, 0));
+    }
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 0x200))
+    {
+        field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 416, 1, 0));
+    }
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 0x400))
+    {
+        field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 426, 1, 0));
+    }
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 4))
+    {
+        field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 417, 1, 0));
+    }
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 0x40))
+    {
+        field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 413, 1, 0));
+    }
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 8))
+    {
+        field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 344, 1, 0));
+    }
+    
+    if (!(field_218_tlv_data.field_48_disable_resources & 0x10))
+    {
+        field_10_resources_array.SetAt(15, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 28, 1, 0));
+    }
+
+    field_15E = 0;
+    field_120_timer = field_218_tlv_data.field_14_pause_time + sGnFrame_5C1B84;
+
+    switch (field_218_tlv_data.field_12_start_state)
+    {
+    case Path_Slig::StartState::Paused_1:
+        SetBrain(&Slig::AI_32_4B9430);
+        break;
+
+    case Path_Slig::StartState::Sleeping_2:
+        if (field_218_tlv_data.field_1_unknown && field_218_tlv_data.field_46_stay_awake)
+        {
+            SetBrain(&Slig::AI_32_4B9430);
+        }
+        else
+        {
+            SetBrain(&Slig::AI_34_4B9170);
+            field_106_current_motion = 32;
+            vsub_4B1320();
+        }
+        break;
+
+    case Path_Slig::StartState::Chase_3:
+        SetBrain(&Slig::AI_18_4BCEB0);
+        field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_36_time_to_wait_before_chase;
+        break;
+
+    case Path_Slig::StartState::RunOffScreen_4:
+        SetBrain(&Slig::AI_35_4BF640);
+        field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_14_pause_time;
+        break;
+
+    case Path_Slig::StartState::GameEnder_5:
+        break;
+
+    case Path_Slig::StartState::Unknown_6:
+        for (int i=0; i<gBaseGameObject_list_BB47C4->Size(); i++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_4_typeId == Types::eGlukkon_67)
+            {
+                auto pGlukkon = static_cast<BaseAliveGameObject*>(pObj);
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    pGlukkon->field_C2_lvl_number,
+                    pGlukkon->field_C0_path_number,
+                    pGlukkon->field_B8_xpos,
+                    pGlukkon->field_BC_ypos,
+                    0))
+                {
+                    field_208 = pGlukkon->field_8_object_id;
+                    word_BAF7E8++;
+                    field_216 |= 1u;
+                    SetBrain(&Slig::AI_4_4B9D20);
+                    field_11C = 1;
+                    break;
+                }
+            }
+        }
+
+        if (!field_208)
+        {
+            SetBrain(&Slig::AI_32_4B9430);
+        }
+        break;
+
+    default:
+        SetBrain(&Slig::AI_33_4B8DD0);
+        break;
+    }
+
+    if (!field_218_tlv_data.field_2C_start_direction)
+    {
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+    }
+   
+    field_268_points[field_290_points_count].field_0_x = FP_GetExponent(field_B8_xpos);
+    field_268_points[field_290_points_count].field_2_y = FP_GetExponent(field_BC_ypos);
+    field_290_points_count++;
+
+    for (short yCam = -3; yCam < 4; yCam++)
+    {
+        for (short xCam = -3; xCam < 4; xCam++)
+        {
+            Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(xCam, yCam);
+            while (pTlvIter)
+            {
+                bool addPoint = false;
+                if (pTlvIter->field_4_type == TlvTypes::SligBoundLeft_32)
+                {
+                    if (static_cast<Path_Slig_LeftBound*>(pTlvIter)->field_10_slig_id == field_218_tlv_data.field_38_slig_id)
+                    {
+                        field_138_rect.x = pTlvIter->field_8_top_left.field_0_x;
+                        addPoint = true;
+                    }
+                }
+                else if (pTlvIter->field_4_type == TlvTypes::SligBoundRight_45)
+                {
+                    if (static_cast<Path_Slig_RightBound*>(pTlvIter)->field_10_slig_id == field_218_tlv_data.field_38_slig_id)
+                    {
+                        field_138_rect.w = pTlvIter->field_8_top_left.field_0_x;
+                        addPoint = true;
+                    }
+                }
+                else if (pTlvIter->field_4_type == TlvTypes::SligPersist_46)
+                {
+                    if (static_cast<Path_Slig_Persist*>(pTlvIter)->field_10_slig_id == field_218_tlv_data.field_38_slig_id)
+                    {
+                        addPoint = true;
+                    }
+                }
+
+                if (addPoint)
+                {
+                    if (field_290_points_count < ALIVE_COUNTOF(field_268_points))
+                    {
+                        field_268_points[field_290_points_count].field_0_x = pTlvIter->field_8_top_left.field_0_x;
+                        field_268_points[field_290_points_count].field_2_y = pTlvIter->field_8_top_left.field_2_y;
+                        field_290_points_count++;
+                    }
+                }
+
+                pTlvIter = Path::Next_TLV_4DB6A0(pTlvIter);
+            }
+        }
+    }
 }
 
 void Slig::dtor_4B1CF0()
@@ -924,8 +1124,6 @@ const FP dword_547408[22] =
     FP_FromInteger(0),
     FP_FromInteger(0)
 };
-
-ALIVE_VAR(1, 0xBAF7E8, short, word_BAF7E8, 0);
 
 void Slig::vUpdate_4B17C0()
 {

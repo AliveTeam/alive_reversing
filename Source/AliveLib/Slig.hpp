@@ -17,6 +17,7 @@ struct Path_Slig : public Path_TLV
         Chase_3 = 3,
         RunOffScreen_4 = 4,
         GameEnder_5 = 5,
+        Unknown_6 = 6,
     };
     StartState field_12_start_state;
 
@@ -192,10 +193,7 @@ private:
     int field_130;
     __int16 field_134;
     __int16 field_136;
-    __int16 field_138;
-    __int16 field_13A;
-    __int16 field_13C;
-    __int16 field_13E;
+    PSX_RECT field_138_rect;
     __int16 field_140;
     __int16 field_142;
     __int16 field_144;
@@ -299,27 +297,8 @@ private:
     __int16 field_214;
     __int16 field_216;
     Path_Slig field_218_tlv_data;
-    __int16 field_268;
-    __int16 field_26A;
-    __int16 field_26C;
-    __int16 field_26E;
-    __int16 field_270;
-    __int16 field_272;
-    __int16 field_274;
-    __int16 field_276;
-    __int16 field_278;
-    __int16 field_27A;
-    __int16 field_27C;
-    __int16 field_27E;
-    __int16 field_280;
-    __int16 field_282;
-    __int16 field_284;
-    __int16 field_286;
-    __int16 field_288;
-    __int16 field_28A;
-    __int16 field_28C;
-    __int16 field_28E;
-    __int16 field_290;
+    PSX_Point field_268_points[10];
+    __int16 field_290_points_count;
     __int16 field_292;
     int field_294;
 };
