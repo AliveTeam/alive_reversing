@@ -59,50 +59,50 @@ const TParamiteAIFn sParamite_ai_table_55D710[10] =
 
 const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = 
 {
-    &Paramite::M_0_489FB0,
-    &Paramite::M_1_48A7B0,
-    &Paramite::M_2_48A2D0,
-    &Paramite::M_3_48AA00,
-    &Paramite::M_4_48B180,
-    &Paramite::M_5_48B5B0,
-    &Paramite::M_6_48A930,
-    &Paramite::M_7_48B0C0,
-    &Paramite::M_8_48A870,
-    &Paramite::M_9_48AF10,
-    &Paramite::M_10_48B000,
-    &Paramite::M_11_48B200,
-    &Paramite::M_12_48BE40,
-    &Paramite::M_13_48BAF0,
-    &Paramite::M_14_48BF00,
-    &Paramite::M_15_48D930,
-    &Paramite::M_16_48DDA0,
-    &Paramite::M_17_48B590,
-    &Paramite::M_18_48DF60,
-    &Paramite::M_19_48BF50,
-    &Paramite::M_20_48C010,
-    &Paramite::M_21_48C180,
-    &Paramite::M_22_48C3E0,
-    &Paramite::M_23_48C600,
-    &Paramite::M_24_48C680,
-    &Paramite::M_25_48C6A0,
-    &Paramite::M_26_48C6F0,
-    &Paramite::M_27_48C780,
-    &Paramite::M_28_48C8B0,
-    &Paramite::M_29_48D9D0,
-    &Paramite::M_30_48DB50,
-    &Paramite::M_31_48C9E0,
-    &Paramite::M_32_48D740,
-    &Paramite::M_33_48D760,
-    &Paramite::M_34_48D870,
-    &Paramite::M_35_48D400,
-    &Paramite::M_36_48D000,
-    &Paramite::M_37_48CC60,
-    &Paramite::M_38_48D6C0,
-    &Paramite::M_39_48D8C0,
-    &Paramite::M_40_48A0F0,
-    &Paramite::M_41_48D8E0,
-    &Paramite::M_42_48D900,
-    &Paramite::M_43_48DB70
+    &Paramite::M_Idle_0_489FB0,
+    &Paramite::M_WalkBegin_1_48A7B0,
+    &Paramite::M_Walking_2_48A2D0,
+    &Paramite::M_Running_3_48AA00,
+    &Paramite::M_Turn_4_48B180,
+    &Paramite::M_Hop_5_48B5B0,
+    &Paramite::M_UNKNOWN_6_48A930,
+    &Paramite::M_WalkRunTransition_7_48B0C0,
+    &Paramite::M_WalkEnd_8_48A870,
+    &Paramite::M_RunBegin_9_48AF10,
+    &Paramite::M_RunEnd_10_48B000,
+    &Paramite::M_Falling_11_48B200,
+    &Paramite::M_JumpUpBegin_12_48BE40,
+    &Paramite::M_JumpUpMidair_13_48BAF0,
+    &Paramite::M_JumpUpLand_14_48BF00,
+    &Paramite::M_RopePull_15_48D930,
+    &Paramite::M_CloseAttack_16_48DDA0,
+    &Paramite::M_Landing_17_48B590,
+    &Paramite::M_UNKNOWN_18_48DF60,
+    &Paramite::M_Knockback_19_48BF50,
+    &Paramite::M_GameSpeakBegin_20_48C010,
+    &Paramite::M_PreHiss_21_48C180,
+    &Paramite::M_Hiss1_22_48C3E0,
+    &Paramite::M_Hiss2_23_48C600,
+    &Paramite::M_Empty_24_48C680,
+    &Paramite::M_AllOYaGameSpeakBegin_25_48C6A0,
+    &Paramite::M_Hiss3_26_48C6F0,
+    &Paramite::M_PostHiss_27_48C780,
+    &Paramite::M_GameSpeakEnd_28_48C8B0,
+    &Paramite::M_GetDepossessedBegin_29_48D9D0,
+    &Paramite::M_GetDepossessedEnd_30_48DB50,
+    &Paramite::M_RunningAttack_31_48C9E0,
+    &Paramite::M_Empty_32_48D740,
+    &Paramite::M_SurpriseWeb_33_48D760,
+    &Paramite::M_WebLeaveDown_34_48D870,
+    &Paramite::M_WebIdle_35_48D400,
+    &Paramite::M_WebGoingUp_36_48D000,
+    &Paramite::M_WebGoingDown_37_48CC60,
+    &Paramite::M_WebGrab_38_48D6C0,
+    &Paramite::M_WebLeaveUp_39_48D8C0,
+    &Paramite::M_Eating_40_48A0F0,
+    &Paramite::M_Death_41_48D8E0,
+    &Paramite::M_UNKNOWN_42_48D900,
+    &Paramite::M_Attack_43_48DB70
 };
 
 
@@ -328,222 +328,222 @@ __int16 Paramite::AI_9_48ED80()
     return 0;
 }
 
-void Paramite::M_0_489FB0()
+void Paramite::M_Idle_0_489FB0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_1_48A7B0()
+void Paramite::M_WalkBegin_1_48A7B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_2_48A2D0()
+void Paramite::M_Walking_2_48A2D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_3_48AA00()
+void Paramite::M_Running_3_48AA00()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_4_48B180()
+void Paramite::M_Turn_4_48B180()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_5_48B5B0()
+void Paramite::M_Hop_5_48B5B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_6_48A930()
+void Paramite::M_UNKNOWN_6_48A930()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_7_48B0C0()
+void Paramite::M_WalkRunTransition_7_48B0C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_8_48A870()
+void Paramite::M_WalkEnd_8_48A870()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_9_48AF10()
+void Paramite::M_RunBegin_9_48AF10()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_10_48B000()
+void Paramite::M_RunEnd_10_48B000()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_11_48B200()
+void Paramite::M_Falling_11_48B200()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_12_48BE40()
+void Paramite::M_JumpUpBegin_12_48BE40()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_13_48BAF0()
+void Paramite::M_JumpUpMidair_13_48BAF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_14_48BF00()
+void Paramite::M_JumpUpLand_14_48BF00()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_15_48D930()
+void Paramite::M_RopePull_15_48D930()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_16_48DDA0()
+void Paramite::M_CloseAttack_16_48DDA0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_17_48B590()
+void Paramite::M_Landing_17_48B590()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_18_48DF60()
+void Paramite::M_UNKNOWN_18_48DF60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_19_48BF50()
+void Paramite::M_Knockback_19_48BF50()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_20_48C010()
+void Paramite::M_GameSpeakBegin_20_48C010()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_21_48C180()
+void Paramite::M_PreHiss_21_48C180()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_22_48C3E0()
+void Paramite::M_Hiss1_22_48C3E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_23_48C600()
+void Paramite::M_Hiss2_23_48C600()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_24_48C680()
+void Paramite::M_Empty_24_48C680()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_25_48C6A0()
+void Paramite::M_AllOYaGameSpeakBegin_25_48C6A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_26_48C6F0()
+void Paramite::M_Hiss3_26_48C6F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_27_48C780()
+void Paramite::M_PostHiss_27_48C780()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_28_48C8B0()
+void Paramite::M_GameSpeakEnd_28_48C8B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_29_48D9D0()
+void Paramite::M_GetDepossessedBegin_29_48D9D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_30_48DB50()
+void Paramite::M_GetDepossessedEnd_30_48DB50()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_31_48C9E0()
+void Paramite::M_RunningAttack_31_48C9E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_32_48D740()
+void Paramite::M_Empty_32_48D740()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_33_48D760()
+void Paramite::M_SurpriseWeb_33_48D760()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_34_48D870()
+void Paramite::M_WebLeaveDown_34_48D870()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_35_48D400()
+void Paramite::M_WebIdle_35_48D400()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_36_48D000()
+void Paramite::M_WebGoingUp_36_48D000()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_37_48CC60()
+void Paramite::M_WebGoingDown_37_48CC60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_38_48D6C0()
+void Paramite::M_WebGrab_38_48D6C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_39_48D8C0()
+void Paramite::M_WebLeaveUp_39_48D8C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_40_48A0F0()
+void Paramite::M_Eating_40_48A0F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_41_48D8E0()
+void Paramite::M_Death_41_48D8E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_42_48D900()
+void Paramite::M_UNKNOWN_42_48D900()
 {
     NOT_IMPLEMENTED();
 }
 
-void Paramite::M_43_48DB70()
+void Paramite::M_Attack_43_48DB70()
 {
     NOT_IMPLEMENTED();
 }
