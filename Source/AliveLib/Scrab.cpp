@@ -57,7 +57,7 @@ const TScrabMotionFn sScrab_motion_table_560120[40] =
     &Scrab::M_Fall_20_4A93E0,
     &Scrab::M_Stamp_21_4A9CC0,
     &Scrab::M_GetPossessed_22_4AA420,
-    &Scrab::M_UNKNOWN_23_4A9D80,
+    &Scrab::M_Empty_23_4A9D80,
     &Scrab::M_DeathEnd_24_4AA140,
     &Scrab::M_Empty_25_4A34D0,
     &Scrab::M_HowlBegin_26_4A9DA0,
@@ -65,7 +65,7 @@ const TScrabMotionFn sScrab_motion_table_560120[40] =
     &Scrab::M_GetDepossessedBegin_28_4AA200,
     &Scrab::M_GetDepossessedEnd_29_4AA3C0,
     &Scrab::M_Shriek_30_4A9EA0,
-    &Scrab::M_UNKNOWN_ScrabBattleAnimMaybe_31_4A9F30,
+    &Scrab::M_ScrabBattleAnim_31_4A9F30,
     &Scrab::M_AttackSpin_32_4A8DC0,
     &Scrab::M_FeedToGulp_33_4A9FA0,
     &Scrab::M_GulpToStand_34_4A9FF0,
@@ -666,7 +666,7 @@ void Scrab::M_GetPossessed_22_4AA420()
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_UNKNOWN_23_4A9D80()
+void Scrab::M_Empty_23_4A9D80()
 {
     NOT_IMPLEMENTED();
 }
@@ -706,7 +706,7 @@ void Scrab::M_Shriek_30_4A9EA0()
     NOT_IMPLEMENTED();
 }
 
-void Scrab::M_UNKNOWN_ScrabBattleAnimMaybe_31_4A9F30()
+void Scrab::M_ScrabBattleAnim_31_4A9F30()
 {
     NOT_IMPLEMENTED();
 }
