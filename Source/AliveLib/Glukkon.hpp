@@ -4,6 +4,39 @@
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 
+#define GLUKKON_MOTIONS_ENUM(ENTRY) \
+    ENTRY(M_0_442D10) \
+    ENTRY(M_1_442D30) \
+    ENTRY(M_2_442F10) \
+    ENTRY(M_3_442F40) \
+    ENTRY(M_4_443030) \
+    ENTRY(M_5_4434C0) \
+    ENTRY(M_6_4434E0) \
+    ENTRY(M_7_443510) \
+    ENTRY(M_8_443760) \
+    ENTRY(M_9_443790) \
+    ENTRY(M_10_443B50) \
+    ENTRY(M_11_4437D0) \
+    ENTRY(M_12_4438F0) \
+    ENTRY(M_13_443930) \
+    ENTRY(M_14_443950) \
+    ENTRY(M_15_443970) \
+    ENTRY(M_16_4439B0) \
+    ENTRY(M_17_4439D0) \
+    ENTRY(M_18_443A00) \
+    ENTRY(M_19_443A30) \
+    ENTRY(M_20_442FC0) \
+    ENTRY(M_21_443A60) \
+    ENTRY(M_22_443010) \
+    ENTRY(M_23_443910) \
+    ENTRY(M_24_443990)
+
+#define MAKE_ENUM(VAR) VAR,
+enum eGlukkonMotions : int
+{
+    GLUKKON_MOTIONS_ENUM(MAKE_ENUM)
+};
+
 enum class GlukkonTypes : __int16
 {
     Normal_0 = 0,

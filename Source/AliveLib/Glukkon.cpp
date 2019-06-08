@@ -8,6 +8,12 @@
 #include "Game.hpp"
 #include "Shadow.hpp"
 
+#define MAKE_STRINGS(VAR) #VAR,
+const char* const sGlukkonMotionNames[25] =
+{
+    GLUKKON_MOTIONS_ENUM(MAKE_STRINGS)
+};
+
 const TGlukkonMotionFn sGlukkon_motion_table_5544C0[25] = 
 {
     &Glukkon::M_0_442D10,
@@ -561,7 +567,7 @@ void Glukkon::vUpdate_43F770()
         // TODO: This is extra debug logging to figure out the motion names
         if (oldMotion != field_106_current_motion)
         {
-            LOG_INFO("Glukkon: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            LOG_INFO("Glukkon: Old motion = " << sGlukkonMotionNames[oldMotion] << " new motion = " << sGlukkonMotionNames[field_106_current_motion]);
         }
 
         if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
