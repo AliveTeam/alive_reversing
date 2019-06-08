@@ -979,6 +979,8 @@ void Slig::Init_4BB0D0()
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
     }
    
+    field_290_points_count = 0;
+
     field_268_points[field_290_points_count].field_0_x = FP_GetExponent(field_B8_xpos);
     field_268_points[field_290_points_count].field_2_y = FP_GetExponent(field_BC_ypos);
     field_290_points_count++;
