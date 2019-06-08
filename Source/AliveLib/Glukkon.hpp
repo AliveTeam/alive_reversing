@@ -75,6 +75,14 @@ public:
     EXPORT void M_23_443910();
     EXPORT void M_24_443990();
 
+public:
+    EXPORT __int16 AI_0_440B40();
+    EXPORT __int16 AI_1_4412F0();
+    EXPORT __int16 AI_2_441720();
+    EXPORT __int16 AI_3_PlayerControlled_441A30();
+    EXPORT __int16 AI_4_442010();
+    EXPORT __int16 AI_5_442490();
+
 private:
     EXPORT void Init_43F260();
 
@@ -85,6 +93,12 @@ private:
     EXPORT void vUpdate_43F770();
 
     EXPORT void sub_440600();
+
+    EXPORT void SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion = FALSE);
+
+    void SetBrain(TGlukkonAIFn fn);
+    bool BrainIs(TGlukkonAIFn fn);
+
 private:
     __int16 field_116;
     __int16 field_118;
