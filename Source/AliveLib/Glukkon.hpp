@@ -139,7 +139,7 @@ private:
 
     EXPORT void HandleInput_443BB0();
 
-    EXPORT __int16 sub_440200(__int16 a2);
+    EXPORT __int16 ShouldPanic_440200(__int16 panicEvenIfNotFacingMe);
 
     EXPORT __int16 PathBlocked_4442F0(FP a2, __int16 checkBounds);
 
@@ -158,6 +158,8 @@ private:
     EXPORT void vOn_TLV_Collision_4404A0(Path_TLV* pTlv);
 
     EXPORT static void CC PlaySound_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
+
+    EXPORT static BOOL CCSTD IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
 
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);

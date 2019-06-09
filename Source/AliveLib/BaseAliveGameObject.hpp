@@ -52,6 +52,7 @@ public:
     virtual BirdPortal* VIntoBirdPortal_408FD0(__int16 gridBlocks);
     virtual void VOnTrapDoorOpen();
   
+    EXPORT static __int16 CCSTD IsInInvisibleZone_425710(BaseAliveGameObject* pObj);
 protected:
     EXPORT int vUnPosses_408F90();
     EXPORT void vPossessed_408F70();

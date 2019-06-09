@@ -171,6 +171,11 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     vOnTrapDoorOpen_4081F0();
 }
 
+__int16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* /*pObj*/)
+{
+    return 0;
+}
+
 // =======
 
 int BaseAliveGameObject::vUnPosses_408F90()

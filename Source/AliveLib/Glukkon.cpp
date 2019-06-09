@@ -549,7 +549,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             return field_210;
         }
 
-        if (sub_440200(0))
+        if (ShouldPanic_440200(FALSE))
         {
             if (Event_Is_Event_In_Range_422C30(
                 kEventAbeOhm,
@@ -597,7 +597,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
         break;
 
     case 1:
-        if (sub_440200(0))
+        if (ShouldPanic_440200(FALSE))
         {
             if (Event_Is_Event_In_Range_422C30(
                 kEventAbeOhm,
@@ -685,7 +685,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
         return 4;
 
     case 4:
-        if (sub_440200(0))
+        if (ShouldPanic_440200(FALSE))
         {
             if (Event_Is_Event_In_Range_422C30(
                 kEventAbeOhm,
@@ -726,7 +726,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
         break;
 
     case 5:
-        if (sub_440200(0))
+        if (ShouldPanic_440200(FALSE))
         {
             if (Event_Is_Event_In_Range_422C30(
                 kEventAbeOhm,
@@ -1340,10 +1340,52 @@ void Glukkon::HandleInput_443BB0()
 
 }
 
-__int16 Glukkon::sub_440200(__int16 /*a2*/)
+__int16 Glukkon::ShouldPanic_440200(__int16 panicEvenIfNotFacingMe)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (IsLineOfSightBetween_4403B0(this, sControlledCharacter_5C1B8C)
+        && !(sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+        && !BaseAliveGameObject::IsInInvisibleZone_425710(sControlledCharacter_5C1B8C)
+        && !Event_Get_422C00(kEventResetting)
+        && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0)
+        && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            sControlledCharacter_5C1B8C->field_C2_lvl_number,
+            sControlledCharacter_5C1B8C->field_C0_path_number,
+            sControlledCharacter_5C1B8C->field_B8_xpos,
+            sControlledCharacter_5C1B8C->field_BC_ypos,
+            0)
+        && (panicEvenIfNotFacingMe || vIsFacingMe_4254A0(sControlledCharacter_5C1B8C)))
+    {
+        return 1;
+    }
+
+    // Panic if Abe is chanting
+    if (Event_Is_Event_In_Range_422C30(
+        kEventAbeOhm,
+        field_B8_xpos,
+        field_BC_ypos,
+        field_D6_scale))
+    {
+        return 1;
+    }
+
+    // Panic if an alarm is on
+    if (Event_Get_422C00(kEventAlarm))
+    {
+        return 1;
+    }
+
+    // Panic if player is speaking (I guess it can be rather alarming?)
+    auto pSpeakEvent = Event_Is_Event_In_Range_422C30(
+        kEventSpeaking,
+        field_B8_xpos,
+        field_BC_ypos,
+        field_D6_scale);
+    return pSpeakEvent && pSpeakEvent == sControlledCharacter_5C1B8C;
 }
 
 __int16 Glukkon::PathBlocked_4442F0(FP /*a2*/, __int16 /*checkBounds*/)
@@ -1652,4 +1694,10 @@ void Glukkon::vOn_TLV_Collision_4404A0(Path_TLV* pTlv)
 void CC Glukkon::PlaySound_444AF0(unsigned __int8 /*sndIdx*/, __int16 /*volume*/, __int16 /*pitch*/, Glukkon* /*pGlukkon*/)
 {
     NOT_IMPLEMENTED();
+}
+
+BOOL CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* /*pGlukkon*/, BaseAliveGameObject* /*pOther*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
