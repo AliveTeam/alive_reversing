@@ -161,6 +161,11 @@ private:
 
     EXPORT static BOOL CCSTD IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
 
+    EXPORT void ToStand_443B70();
+
+    EXPORT void SlowDown_444700(FP speed);
+
+
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);
 

@@ -17,6 +17,21 @@
 #include "LiftPoint.hpp"
 #include "Map.hpp"
 #include "Slurg.hpp"
+#include "SlamDoor.hpp"
+
+struct Path_EnemyStopper : public Path_TLV
+{
+    enum class StopDirection : __int16
+    {
+        Left_0 = 0,
+        Right_1 = 1,
+        Both_2 = 2,
+    };
+    StopDirection field_10_stop_direction;
+    __int16 field_12_id;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_EnemyStopper, 0x14);
+
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =
@@ -320,12 +335,35 @@ void Glukkon::M_1_Walk_442D30()
 
 void Glukkon::M_2_Turn_442F10()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        ToStand_443B70();
+    }
 }
 
 void Glukkon::M_3_KnockBack_442F40()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        PlaySound_4447D0(2, this);
+    }
+
+    if (field_100_pCollisionLine)
+    {
+        SlowDown_444700(FP_FromDouble(0.35));
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                SetAnim_43F9C0(eGlukkonMotions::M_20_KnockBackStandBegin_442FC0, TRUE);
+            }
+        }
+    }
+    else
+    {
+        M_7_Fall_443510();
+    }
 }
 
 void Glukkon::M_4_Jump_443030()
@@ -463,7 +501,11 @@ void Glukkon::M_16_StandToJump_4439B0()
 
 void Glukkon::M_17_JumpToStand_4439D0()
 {
-    NOT_IMPLEMENTED();
+    DoMovement_444190();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        Glukkon::HandleInput_443BB0();
+    }
 }
 
 void Glukkon::M_18_WalkToJump_443A00()
@@ -482,7 +524,12 @@ void Glukkon::M_19_JumpToWalk_443A30()
 
 void Glukkon::M_20_KnockBackStandBegin_442FC0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        PlaySound_444AF0(5, 0, 0, 0);
+        SetAnim_43F9C0(eGlukkonMotions::M_22_KnockBackStandEnd_443010, TRUE);
+    }
 }
 
 void Glukkon::M_21_GetShot_443A60()
@@ -492,7 +539,10 @@ void Glukkon::M_21_GetShot_443A60()
 
 void Glukkon::M_22_KnockBackStandEnd_443010()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        SetAnim_43F9C0(eGlukkonMotions::M_0_Idle_442D10, TRUE);
+    }
 }
 
 void Glukkon::M_23_Speak3_443910()
@@ -502,7 +552,7 @@ void Glukkon::M_23_Speak3_443910()
 
 void Glukkon::M_24_EndSingleStep_443990()
 {
-    NOT_IMPLEMENTED();
+    M_17_JumpToStand_4439D0();
 }
 
 __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
@@ -1162,7 +1212,9 @@ void Glukkon::vPossessed_440160()
 
 void Glukkon::Update_Slurg_WatchPoints_440600()
 {
-    if (field_106_current_motion == 1 || field_106_current_motion == 4 && field_20_animation.field_92_current_frame > 8)
+    if (field_106_current_motion == eGlukkonMotions::M_1_Walk_442D30 || 
+        field_106_current_motion == eGlukkonMotions::M_4_Jump_443030 && 
+        field_20_animation.field_92_current_frame > 8)
     {
         if (sGnFrame_5C1B84 & 1)
         {
@@ -1185,6 +1237,7 @@ void Glukkon::SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion)
     {
         typeIndex = 0;
     }
+
     field_20_animation.Set_Animation_Data_409C80(dword_554524[typeIndex][currentMotion], nullptr);
 
     field_106_current_motion = currentMotion;
@@ -1402,10 +1455,81 @@ __int16 Glukkon::ShouldPanic_440200(__int16 panicEvenIfNotFacingMe)
     return pSpeakEvent && pSpeakEvent == sControlledCharacter_5C1B8C;
 }
 
-__int16 Glukkon::PathBlocked_4442F0(FP /*a2*/, __int16 /*checkBounds*/)
+__int16 Glukkon::PathBlocked_4442F0(FP /*a2*/, __int16 checkBounds)
 {
-    NOT_IMPLEMENTED();
+    FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    if (field_106_current_motion == eGlukkonMotions::M_4_Jump_443030)
+    {
+        gridSize = (gridSize * FP_FromInteger(4));
+    }
+
+    Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Left_0;
+    short boundType = TlvTypes::ScrabLeftBound_43;
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        boundType = TlvTypes::ScrabLeftBound_43;
+        direction = Path_EnemyStopper::StopDirection::Left_0;
+        gridSize = -gridSize;
+    }
+    else
+    {
+        boundType = TlvTypes::ScrabRightBound_44;
+        direction = Path_EnemyStopper::StopDirection::Right_1;
+    }
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize * FP_FromInteger(1)))
+    {
+        return 1;
+    }
+
+    field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+       FP_GetExponent(field_B8_xpos),
+       FP_GetExponent(field_BC_ypos), // TODO Abs() ??
+       FP_GetExponent(field_B8_xpos + gridSize),
+       FP_GetExponent(field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale)),
+       TlvTypes::SlamDoor_85);
+
+    auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(field_FC_pPathTLV);
+
+    if (pSlamDoorTlv &&
+        (pSlamDoorTlv->field_10_starts_shut == 1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_id)||
+         pSlamDoorTlv->field_10_starts_shut == 0 &&  SwitchStates_Get_466020(pSlamDoorTlv->field_14_id)))
+    {
+        return 1;
+    }
+
+    field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos + gridSize),
+        FP_GetExponent(field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale)),
+        TlvTypes::EnemyStopper_47);
+
+    auto pEnemyStopper = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV);
+    if (pEnemyStopper
+        && (pEnemyStopper->field_10_stop_direction == direction || pEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2)
+        && SwitchStates_Get_466020(pEnemyStopper->field_12_id))
+    {
+        return 1;
+    }
+
+    if (!checkBounds)
+    {
+        return 0;
+    }
+
+    if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos), // TODO: Abs() ??
+        FP_GetExponent(field_B8_xpos + gridSize),
+        FP_GetExponent(field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale)),
+        boundType))
+    {
+        return 1;
+    }
+
     return 0;
+
 }
 
 void Glukkon::SpeakRandomish_4405D0()
@@ -1714,4 +1838,40 @@ BOOL CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* /*pGlukkon*/, BaseAlive
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void Glukkon::ToStand_443B70()
+{
+    field_1D8 = FP_FromInteger(0);
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+    SetAnim_43F9C0(eGlukkonMotions::M_0_Idle_442D10);
+    MapFollowMe_408D10(TRUE);
+}
+
+void Glukkon::SlowDown_444700(FP speed)
+{
+    if (FP_GetExponent(field_C4_velx))
+    {
+        FollowLine_443EB0();
+        if (field_C4_velx <= FP_FromInteger(0))
+        {
+            if (field_C4_velx < FP_FromInteger(0))
+            {
+                field_C4_velx = (field_CC_sprite_scale * speed) + field_C4_velx;;
+                if (field_C4_velx > FP_FromInteger(0))
+                {
+                    field_C4_velx = FP_FromInteger(0);
+                }
+            }
+        }
+        else
+        {
+            field_C4_velx = field_C4_velx - (field_CC_sprite_scale * speed);;
+            if (field_C4_velx < FP_FromInteger(0))
+            {
+                field_C4_velx = FP_FromInteger(0);
+            }
+        }
+    }
 }
