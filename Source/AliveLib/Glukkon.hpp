@@ -10,10 +10,10 @@
     ENTRY(M_2_Turn_442F10) \
     ENTRY(M_3_KnockBack_442F40) \
     ENTRY(M_4_Jump_443030) \
-    ENTRY(M_5_4434C0) \
+    ENTRY(M_5_JumpToFall_4434C0) \
     ENTRY(M_6_WalkToFall_4434E0) \
     ENTRY(M_7_Fall_443510) \
-    ENTRY(M_8_443760) \
+    ENTRY(M_8_DeathFall_443760) \
     ENTRY(M_9_Land_443790) \
     ENTRY(M_10_Shake_443B50) \
     ENTRY(M_11_Speak1_4437D0) \
@@ -21,10 +21,10 @@
     ENTRY(M_13_LongLaugh_443930) \
     ENTRY(M_14_BeginWalk_443950) \
     ENTRY(M_15_EndWalk_443970) \
-    ENTRY(M_16_4439B0) \
-    ENTRY(M_17_EndJump_4439D0) \
-    ENTRY(M_18_BeginRunJump_443A00) \
-    ENTRY(M_19_443A30) \
+    ENTRY(M_16_StandToJump_4439B0) \
+    ENTRY(M_17_JumpToStand_4439D0) \
+    ENTRY(M_18_WalkToJump_443A00) \
+    ENTRY(M_19_JumpToWalk_443A30) \
     ENTRY(M_20_KnockBackStandBegin_442FC0) \
     ENTRY(M_21_GetShot_443A60) \
     ENTRY(M_22_KnockBackStandEnd_443010) \
@@ -89,21 +89,21 @@ public:
     EXPORT void M_2_Turn_442F10();
     EXPORT void M_3_KnockBack_442F40();
     EXPORT void M_4_Jump_443030();
-    EXPORT void M_5_4434C0();
+    EXPORT void M_5_JumpToFall_4434C0();
     EXPORT void M_6_WalkToFall_4434E0();
     EXPORT void M_7_Fall_443510();
-    EXPORT void M_8_443760();
+    EXPORT void M_8_DeathFall_443760();
     EXPORT void M_9_Land_443790();
-    EXPORT void M_10_Die_443B50();
+    EXPORT void M_10_ChantShake_443B50();
     EXPORT void M_11_Speak1_4437D0();
     EXPORT void M_12_Speak2_4438F0();
     EXPORT void M_13_LongLaugh_443930();
     EXPORT void M_14_BeginWalk_443950();
     EXPORT void M_15_EndWalk_443970();
-    EXPORT void M_16_4439B0();
-    EXPORT void M_17_EndJump_4439D0();
-    EXPORT void M_18_BeginRunJump_443A00();
-    EXPORT void M_19_443A30();
+    EXPORT void M_16_StandToJump_4439B0();
+    EXPORT void M_17_JumpToStand_4439D0();
+    EXPORT void M_18_WalkToJump_443A00();
+    EXPORT void M_19_JumpToWalk_443A30();
     EXPORT void M_20_KnockBackStandBegin_442FC0();
     EXPORT void M_21_GetShot_443A60();
     EXPORT void M_22_KnockBackStandEnd_443010();
@@ -143,7 +143,13 @@ private:
 
     EXPORT void SpeakRandomish_4405D0();
 
-    EXPORT __int16 sub_444190();
+    EXPORT __int16 DoMovement_444190();
+
+    EXPORT void FollowLine_443EB0();
+
+    EXPORT void sub_444060();
+
+    EXPORT static void CC PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon);
 
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);
