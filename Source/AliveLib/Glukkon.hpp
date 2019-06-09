@@ -109,11 +109,11 @@ public:
     EXPORT void M_24_EndSingleStep_443990();
 
 public:
-    EXPORT __int16 AI_0_440B40();
-    EXPORT __int16 AI_1_4412F0();
+    EXPORT __int16 AI_0_Calm_WalkAround_440B40();
+    EXPORT __int16 AI_1_Panic_4412F0();
     EXPORT __int16 AI_2_441720();
     EXPORT __int16 AI_3_PlayerControlled_441A30();
-    EXPORT __int16 AI_4_442010();
+    EXPORT __int16 AI_4_Death_442010();
     EXPORT __int16 AI_5_WaitToSpawn_442490();
 
 private:
