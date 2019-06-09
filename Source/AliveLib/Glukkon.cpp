@@ -1118,7 +1118,8 @@ void Glukkon::HandleInput_443BB0()
     if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30) && field_210 == 1 && !(field_114_flags.Get(Flags_114::e114_Bit10)))
     {
         const auto inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
-        const auto matchButtons = InputCommands::eGameSpeak1 |
+        const auto matchButtons = 
+            InputCommands::eGameSpeak1 |
             InputCommands::eGameSpeak2 |
             InputCommands::eGameSpeak3 |
             InputCommands::eGameSpeak4 |
@@ -1144,7 +1145,7 @@ void Glukkon::HandleInput_443BB0()
             {
                 field_1EA_speak = 2;
             }
-            else if (inputHeld & InputCommands::eGameSpeak3)
+            else if (inputHeld & InputCommands::eGameSpeak4)
             {
                 field_1EA_speak = 1;
             }
