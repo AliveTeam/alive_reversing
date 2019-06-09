@@ -91,6 +91,9 @@ public:
     EXPORT void M_2_Turn_442F10();
     EXPORT void M_3_KnockBack_442F40();
     EXPORT void M_4_Jump_443030();
+
+    void JumpHelper();
+
     EXPORT void M_5_JumpToFall_4434C0();
     EXPORT void M_6_WalkToFall_4434E0();
     EXPORT void M_7_Fall_443510();

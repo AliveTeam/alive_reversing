@@ -25,6 +25,7 @@
 #include "PsxDisplay.hpp"
 #include "Sound.hpp"
 #include "MainMenu.hpp"
+#include "GameSpeak.hpp"
 
 struct Path_EnemyStopper : public Path_TLV
 {
@@ -373,9 +374,214 @@ void Glukkon::M_3_KnockBack_442F40()
     }
 }
 
+const FP dword_5453DC[16] =
+{
+    FP_FromDouble(-10.01),
+    FP_FromDouble(-10.58),
+    FP_FromDouble(-7.2),
+    FP_FromDouble(-4.66),
+    FP_FromInteger(-3),
+    FP_FromInteger(3),
+    FP_FromDouble(4.40),
+    FP_FromDouble(7.07),
+    FP_FromDouble(10.94),
+    FP_FromDouble(15.03),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0)
+};
+
+
+const FP sJumpData_54539C[16] =
+{
+    FP_FromDouble(10.33),
+    FP_FromDouble(21.65),
+    FP_FromDouble(18.93),
+    FP_FromDouble(12.51),
+    FP_FromDouble(10.81),
+    FP_FromDouble(7.71),
+    FP_FromDouble(5.19),
+    FP_FromDouble(4.02),
+    FP_FromDouble(2.60),
+    FP_FromDouble(0.92),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0)
+};
+
 void Glukkon::M_4_Jump_443030()
 {
-    NOT_IMPLEMENTED();
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    
+    if (field_20_animation.field_92_current_frame >= 10)
+    {
+        JumpHelper();
+        return;
+    }
+
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        SFX_Play_46FBA0(28u, 50, -900);
+        field_F8_LastLineYPos = field_BC_ypos;
+        if (pPlatform)
+        {
+            pPlatform->VRemove(this);
+            field_110_id = -1;
+        }
+        field_100_pCollisionLine = nullptr;
+    }
+
+    field_C8_vely = (field_CC_sprite_scale * dword_5453DC[field_20_animation.field_92_current_frame]);
+
+    FP velXTableValue = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        velXTableValue = -sJumpData_54539C[field_20_animation.field_92_current_frame];
+    }
+    else
+    {
+        velXTableValue = sJumpData_54539C[field_20_animation.field_92_current_frame];
+    }
+
+    field_C4_velx = (field_CC_sprite_scale * velXTableValue);
+
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(2), field_C4_velx))
+    {
+        field_C8_vely = FP_FromInteger(0);
+        field_1D8 = FP_FromDouble(0.35);
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(6));
+        }
+        else
+        {
+            field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(6));
+        }
+        SetAnim_43F9C0(eGlukkonMotions::M_3_KnockBack_442F40, TRUE);
+        MapFollowMe_408D10(TRUE);
+        return;
+    }
+
+    if (sControlledCharacter_5C1B8C == this)
+    {
+        sub_408C40();
+    }
+
+    __int16 bCollision = FALSE;
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (field_100_pCollisionLine)
+    {
+        bCollision = FALSE;
+    }
+    else
+    {
+        bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromInteger(0));
+    }
+
+    if (field_20_animation.field_92_current_frame == 0 || !bCollision)
+    {
+        if (field_20_animation.field_92_current_frame == 9 && !field_100_pCollisionLine)
+        {
+            SetAnim_43F9C0(eGlukkonMotions::M_7_Fall_443510, TRUE);
+        }
+        JumpHelper();
+        return;
+    }
+
+    switch (pLine->field_8_type)
+    {
+    case 0u:
+    case 4u:
+    case 32u:
+    case 36u:
+        PlaySound_4447D0(1, this);
+        field_B8_xpos = hitX;
+        field_100_pCollisionLine = pLine;
+        field_BC_ypos = hitY;
+        MapFollowMe_408D10(TRUE);
+        sub_444060();
+        break;
+
+    case 1u:
+    case 2u:
+        field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+        break;
+
+    default:
+        if (field_20_animation.field_92_current_frame == 9 && !field_100_pCollisionLine)
+        {
+            SetAnim_43F9C0(eGlukkonMotions::M_7_Fall_443510, TRUE);
+        }
+        JumpHelper();
+        return;
+    }
+
+}
+
+void Glukkon::JumpHelper()
+{
+    if (field_20_animation.field_92_current_frame != 15)
+    {
+        return;
+    }
+
+    if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
+    {
+        const auto input_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+
+        if (field_C4_velx > FP_FromInteger(0) && (input_pressed & InputCommands::eLeft) ||
+            field_C4_velx < FP_FromInteger(0) && (input_pressed & InputCommands::eRight))
+        {
+            // Direction changed
+            SetAnim_43F9C0(eGlukkonMotions::M_17_JumpToStand_4439D0, TRUE);
+        }
+        else if (input_pressed & (InputCommands::eLeft | InputCommands::eRight))
+        {
+            if (!(input_pressed & InputCommands::eRun))
+            {
+                // Still moving but not running, so start walking
+                SetAnim_43F9C0(eGlukkonMotions::M_19_JumpToWalk_443A30, TRUE);
+            }
+        }
+        else if (!(input_pressed & InputCommands::eHop))
+        {
+            // Not changing direction or trying to move at all, back to standing
+            SetAnim_43F9C0(eGlukkonMotions::M_17_JumpToStand_4439D0, TRUE);
+        }
+    }
+    else
+    {
+        if (field_108_next_motion != 1)
+        {
+            if (field_108_next_motion == eGlukkonMotions::M_0_Idle_442D10 ||
+                field_108_next_motion == eGlukkonMotions::M_2_Turn_442F10 ||
+                field_108_next_motion == eGlukkonMotions::M_11_Speak1_4437D0 ||
+                field_108_next_motion == eGlukkonMotions::M_12_Speak2_4438F0 ||
+                field_108_next_motion == eGlukkonMotions::M_23_Speak3_443910 ||
+                field_108_next_motion == eGlukkonMotions::M_13_LongLaugh_443930)
+            {
+                // Leaving jump to a motion that requires standing
+                SetAnim_43F9C0(eGlukkonMotions::M_17_JumpToStand_4439D0);
+            }
+        }
+        else
+        {
+            // No next motion so just stand
+            SetAnim_43F9C0(eGlukkonMotions::M_19_JumpToWalk_443A30, TRUE);
+        }
+    }
+
+    MapFollowMe_408D10(TRUE);
+    return;
 }
 
 void Glukkon::M_5_JumpToFall_4434C0()
@@ -481,12 +687,45 @@ void Glukkon::M_10_ChantShake_443B50()
 
 void Glukkon::M_11_Speak1_4437D0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 2 && field_1EA_speak != -1)
+    {
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
+        {
+            if (field_1FC)
+            {
+                Event_Broadcast_422BC0(kEventUnknown17, this);
+                field_1FC = 0;
+            }
+            
+            if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30))
+            {
+                pEventSystem_5BC11C->PushEvent_4218D0(static_cast<GameSpeakEvents>(field_1EA_speak + 36)); // TODO: Type safe conversion
+            }
+
+            PlaySound_444AF0(field_1EA_speak, 0, 0, 0);
+            
+            if (field_1EA_speak == 6)
+            {
+                SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetTrue_0);
+            }
+        }
+        field_1EA_speak = -1;
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        HandleInput_443BB0();
+    }
 }
 
 void Glukkon::M_12_Speak2_4438F0()
 {
-    NOT_IMPLEMENTED();
+    M_11_Speak1_4437D0();
 }
 
 void Glukkon::M_13_LongLaugh_443930()
@@ -506,7 +745,7 @@ void Glukkon::M_15_EndWalk_443970()
 
 void Glukkon::M_16_StandToJump_4439B0()
 {
-    NOT_IMPLEMENTED();
+    M_18_WalkToJump_443A00();
 }
 
 void Glukkon::M_17_JumpToStand_4439D0()
@@ -520,7 +759,11 @@ void Glukkon::M_17_JumpToStand_4439D0()
 
 void Glukkon::M_18_WalkToJump_443A00()
 {
-    NOT_IMPLEMENTED();
+    DoMovement_444190();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        SetAnim_43F9C0(eGlukkonMotions::M_4_Jump_443030);
+    }
 }
 
 void Glukkon::M_19_JumpToWalk_443A30()
@@ -1408,9 +1651,41 @@ void Glukkon::SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion)
     }
 }
 
-void Glukkon::Speak_444640(unsigned __int8 /*speak*/)
+void Glukkon::Speak_444640(unsigned __int8 speak)
 {
-    NOT_IMPLEMENTED();
+    switch (speak)
+    {
+    case 0u:
+    case 1u:
+    case 5u:
+    case 6u:
+        field_108_next_motion = eGlukkonMotions::M_11_Speak1_4437D0;
+        field_1EA_speak = speak;
+        break;
+
+    case 2u:
+        field_108_next_motion = eGlukkonMotions::M_23_Speak3_443910;
+        field_1EA_speak = speak;
+        break;
+
+    case 3u:
+    case 4u:
+    case 8u:
+    case 9u:
+    case 10u:
+        field_108_next_motion = eGlukkonMotions::M_12_Speak2_4438F0;
+        field_1EA_speak = speak;
+        break;
+
+    case 7u:
+        field_108_next_motion = eGlukkonMotions::M_13_LongLaugh_443930;
+        field_1EA_speak = speak;
+        break;
+
+    default:
+        field_1EA_speak = speak;
+        break;
+    }
 }
 
 void Glukkon::HandleInput_443BB0()
@@ -1730,25 +2005,6 @@ const FP sWalkData_545354[18] =
     FP_FromDouble(2.11)
 };
 
-const FP sJumpData_54539C[16] =
-{
-    FP_FromDouble(10.33),
-    FP_FromDouble(21.65),
-    FP_FromDouble(18.93),
-    FP_FromDouble(12.51),
-    FP_FromDouble(10.81),
-    FP_FromDouble(7.71),
-    FP_FromDouble(5.19),
-    FP_FromDouble(4.02),
-    FP_FromDouble(2.60),
-    FP_FromDouble(0.92),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0),
-    FP_FromInteger(0)
-};
 
 // These tables just contain all zeros
 // TODO/NOTE: These are all pointless - the logic in 0x444190 will use 0 if there is no table
