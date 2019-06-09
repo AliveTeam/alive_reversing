@@ -18,6 +18,13 @@
 #include "Map.hpp"
 #include "Slurg.hpp"
 #include "SlamDoor.hpp"
+#include "DeathFadeOut.hpp"
+#include "ScreenManager.hpp"
+#include "Movie.hpp"
+#include "DDCheat.hpp"
+#include "PsxDisplay.hpp"
+#include "Sound.hpp"
+#include "MainMenu.hpp"
 
 struct Path_EnemyStopper : public Path_TLV
 {
@@ -466,7 +473,10 @@ void Glukkon::M_9_Land_443790()
 
 void Glukkon::M_10_ChantShake_443B50()
 {
-    NOT_IMPLEMENTED();
+    if (!field_100_pCollisionLine)
+    {
+        M_7_Fall_443510();
+    }
 }
 
 void Glukkon::M_11_Speak1_4437D0()
@@ -491,7 +501,7 @@ void Glukkon::M_14_BeginWalk_443950()
 
 void Glukkon::M_15_EndWalk_443970()
 {
-    NOT_IMPLEMENTED();
+    M_17_JumpToStand_4439D0();
 }
 
 void Glukkon::M_16_StandToJump_4439B0()
@@ -870,8 +880,159 @@ __int16 Glukkon::AI_2_441720()
 
 __int16 Glukkon::AI_3_PlayerControlled_441A30()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    auto pDeathFadeOut = static_cast<DeathFadeOut*>(sObjectIds_5C1B70.Find_449CF0(field_208_obj_id));
+    if (gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(9, this, 0, 0);
+    }
+
+    switch (field_210)
+    {
+    case 0:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        {
+            return field_210;
+        }
+        ToStand_443B70();
+        return 1;
+
+    case 1:
+    {
+        if (field_1A8_tlvData.field_22_glukkon_type != GlukkonTypes::Aslik_1 &&
+            field_1A8_tlvData.field_22_glukkon_type != GlukkonTypes::Drpik_2 &&
+            field_1A8_tlvData.field_22_glukkon_type != GlukkonTypes::Phleg_3 ||
+            !SwitchStates_Get_466020(field_1A8_tlvData.field_26_play_movie_id))
+        {
+            if (Input_IsChanting_45F260() && field_106_current_motion != eGlukkonMotions::M_4_Jump_443030 && !field_1E2_bUnknown)
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + 30;
+                SFX_Play_46FA90(17u, 0);
+                SetAnim_43F9C0(10, TRUE);
+                return 2;
+            }
+            return field_210;
+        }
+
+        if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
+        {
+            sVisitedFeecoEnder_5C1C06 = 1;
+        }
+        else if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Drpik_2)
+        {
+            sVisitedBarracks_5C1C04 = 1;
+        }
+        else
+        {
+            sVisitedBonewerks_5C1C02 = 1;
+        }
+
+        auto pDeathFadeOutMem = alive_new<DeathFadeOut>();
+        if (pDeathFadeOutMem)
+        {
+            field_208_obj_id = pDeathFadeOutMem->ctor_427030(40, 1, 0, 8, 2)->field_8_object_id;
+        }
+    }
+        return 3;
+
+    case 2:
+        if (Input_IsChanting_45F260()
+            || (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1 ||
+                field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Drpik_2 ||
+                field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
+            && SwitchStates_Get_466020(field_1A8_tlvData.field_26_play_movie_id))
+        {
+            if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
+            {
+                const FP xRand = FP_FromInteger(Math_RandomRange_496AB0(-20, 20));
+                const FP yRand = FP_FromInteger(Math_RandomRange_496AB0(20, 50));
+                New_Chant_Particle_426BE0(
+                    (field_CC_sprite_scale * xRand) + field_B8_xpos,
+                    field_BC_ypos - (field_CC_sprite_scale * yRand),
+                    field_CC_sprite_scale,
+                    0);
+            }
+
+            if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer || sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
+            {
+                field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
+                SetBrain(&Glukkon::AI_4_Death_442010);
+                field_210 = 2;
+                MusicController::sub_47FD60(0, this, 0, 0);
+            }
+            return field_210;
+        }
+        ToStand_443B70();
+        return 1;
+
+    case 3:
+        if (pDeathFadeOut && !pDeathFadeOut->field_7E_bDone)
+        {
+            return field_210;
+        }
+
+        for (int i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        {
+            auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_4_typeId == Types::eSlig_125)
+            {
+                pObj->field_6_flags.Set(BaseGameObject::eDead);
+            }
+        }
+
+        field_1C_update_delay = 2;
+        return 4;
+
+    case 4:
+    {
+        pScreenManager_5BB5F4->field_40_flags &= ~0x10000;
+        sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.sCurrentLevelId_5C3030);
+
+        const FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, field_1A8_tlvData.field_28_movie_to_play_id);
+
+        DWORD pos = 0;
+        Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
+
+        auto pMovie = alive_new<Movie>();
+        if (pMovie)
+        {
+            pMovie->ctor_4DFDE0(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8, pFmvRec->field_A_volume);
+        }
+    }
+        return 5;
+
+    case 5:
+        if (sMovie_ref_count_BB4AE4)
+        {
+            return field_210;
+        }
+        gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+        pScreenManager_5BB5F4->DecompressToVRam_40EF60((WORD**)gMap_5C3030.field_2C_5C305C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
+        if (pDeathFadeOut)
+        {
+            pDeathFadeOut->Init_427140(40, 0, 1, 8);
+        }
+        return 6;
+
+    case 6:
+        SND_Restart_4CB0E0();
+        pScreenManager_5BB5F4->field_40_flags |= 0x10000;
+        field_1D4_timer = sGnFrame_5C1B84 + 30;
+        SFX_Play_46FA90(17u, 0);
+        SetAnim_43F9C0(10, TRUE);
+        return 2;
+
+    default:
+        return field_210;
+    }
 }
 
 __int16 Glukkon::AI_4_Death_442010()
