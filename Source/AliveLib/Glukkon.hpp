@@ -114,7 +114,7 @@ public:
     EXPORT __int16 AI_2_441720();
     EXPORT __int16 AI_3_PlayerControlled_441A30();
     EXPORT __int16 AI_4_442010();
-    EXPORT __int16 AI_5_442490();
+    EXPORT __int16 AI_5_WaitToSpawn_442490();
 
 private:
     EXPORT void Init_43F260();
@@ -128,6 +128,8 @@ private:
     EXPORT void sub_440600();
 
     EXPORT void SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion = FALSE);
+
+    EXPORT void Speak_444640(unsigned __int8 speak);
 
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);

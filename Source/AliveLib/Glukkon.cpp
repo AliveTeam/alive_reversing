@@ -7,6 +7,12 @@
 #include "Collisions.hpp"
 #include "Game.hpp"
 #include "Shadow.hpp"
+#include "MusicController.hpp"
+#include "SwitchStates.hpp"
+#include "Spark.hpp"
+#include "ParticleBurst.hpp"
+#include "Sfx.hpp"
+#include "Particle.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =
@@ -111,7 +117,7 @@ static FnPair sAiFns[6] =
     { &Glukkon::AI_2_441720, 0x403864 },
     { &Glukkon::AI_3_PlayerControlled_441A30, 0x401BF4 },
     { &Glukkon::AI_4_442010, 0x401CE9 },
-    { &Glukkon::AI_5_442490, 0x40357B }
+    { &Glukkon::AI_5_WaitToSpawn_442490, 0x40357B }
 };
 
 #if _WIN32 || !_WIN64
@@ -372,10 +378,106 @@ __int16 Glukkon::AI_4_442010()
     return 0;
 }
 
-__int16 Glukkon::AI_5_442490()
+const PSX_Point v00554768[8] =
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    { -25,  -5 },
+    { -30,  -22 },
+    { -25,  -39 },
+    { -10,  -51 },
+    { 6,    -39 },
+    { 9,    -23 },
+    { 5,    -6 },
+    { 0,     0 }
+};
+
+
+__int16 Glukkon::AI_5_WaitToSpawn_442490()
+{
+    if (gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(0, this, 0, 0);
+    }
+
+    if (field_210 == 0)
+    {
+        if (!SwitchStates_Get_466020(field_1A8_tlvData.field_1C_spawn_id))
+        {
+            return field_210;
+        }
+        field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_20_spawn_delay;
+        return 1;
+    }
+    else if (field_210 == 2)
+    {
+        if (field_106_current_motion != eGlukkonMotions::M_0_442D10 || field_1EA_speak != -1)
+        {
+            return field_210;
+        }
+        SetBrain(&Glukkon::AI_0_440B40);
+        field_210 = 0;
+        return field_210;
+    }
+    else if (field_210 == 1)
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        {
+            return field_210;
+        }
+
+        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
+
+        field_4_typeId = Types::eGlukkon_67;
+
+        if (field_1A8_tlvData.field_1E_spawn_direction == 3)
+        {
+            SFX_Play_46FBA0(49u, 60, -300);
+
+            for (const auto& p : v00554768)
+            {
+                const short sparkX = FP_GetExponent(FP_FromInteger(p.field_0_x) + field_B8_xpos + FP_FromInteger(13));
+                const short sparkY = FP_GetExponent(field_BC_ypos + FP_FromInteger(p.field_2_y) - FP_FromInteger(11));
+                auto pSpark = alive_new<Spark>();
+                if (pSpark)
+                {
+                    pSpark->ctor_4CBBB0(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, 1);
+                }
+            }
+
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+
+            New_Particle_426F40(
+                FP_FromInteger((bRect.x + bRect.w) / 2),
+                FP_FromInteger((bRect.y + bRect.h) / 2) + (field_CC_sprite_scale * FP_FromInteger(60)),
+                field_CC_sprite_scale);
+
+            auto pParticleBurst = alive_new<ParticleBurst>();
+            if (pParticleBurst)
+            {
+                pParticleBurst->ctor_41CF50(
+                    field_B8_xpos,
+                    field_BC_ypos - FP_FromInteger(18),
+                    6,
+                    FP_FromInteger(1),
+                    BurstType::eBigRedSparks_3,
+                    9);
+            }
+            Speak_444640(5);
+            return 2;
+        }
+        else
+        {
+            SFX_Play_46FA90(112u, 0);
+            Speak_444640(5);
+            return 2;
+        }
+    }
+    return field_210;
 }
 
 void Glukkon::Init_43F260()
@@ -408,7 +510,7 @@ void Glukkon::Init_43F260()
         }
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
         field_6_flags.Clear(BaseGameObject::eDrawable);
-        SetBrain(&Glukkon::AI_5_442490);
+        SetBrain(&Glukkon::AI_5_WaitToSpawn_442490);
         field_210 = 0;
         field_4_typeId = Types::eNone_0;
     }
@@ -611,4 +713,9 @@ void Glukkon::SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion)
     {
         field_108_next_motion = -1;
     }
+}
+
+void Glukkon::Speak_444640(unsigned __int8 /*speak*/)
+{
+    NOT_IMPLEMENTED();
 }
