@@ -133,6 +133,12 @@ private:
 
     EXPORT void HandleInput_443BB0();
 
+    EXPORT __int16 sub_440200(__int16 a2);
+
+    EXPORT __int16 PathBlocked_4442F0(FP a2, __int16 checkBounds);
+
+    EXPORT void SpeakRandomish_4405D0();
+
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);
 

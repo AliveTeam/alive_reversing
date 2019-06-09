@@ -25,6 +25,7 @@ enum Event : __int16
     kEventMudokonLaugh = 12,
     kEventMudokonAbuse = 13,
     kEventMudokonComfort = 14,
+    kEventUnknown17 = 17,
     kEventAlarm = 18,
     kEventPortalOpen = 19,
     kEventUnknown20 = 20,

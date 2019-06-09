@@ -13,6 +13,8 @@
 #include "ParticleBurst.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
+#include "ObjectIds.hpp"
+#include "LiftPoint.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =
@@ -225,7 +227,7 @@ void Glukkon::VUpdate()
 
 void Glukkon::M_0_Idle_442D10()
 {
-    NOT_IMPLEMENTED();
+    HandleInput_443BB0();
 }
 
 void Glukkon::M_1_Walk_442D30()
@@ -350,8 +352,301 @@ void Glukkon::M_24_EndSingleStep_443990()
 
 __int16 Glukkon::AI_0_440B40()
 {
-    NOT_IMPLEMENTED(); 
-    return 0;
+    if (gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(4, this, 0, 0);
+    }
+
+    auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+    LiftPoint* pLiftPoint = nullptr;
+    if (pObj && pObj->field_4_typeId == Types::eLiftPoint_78)
+    {
+        pLiftPoint = static_cast<LiftPoint*>(pObj);
+        if (!pLiftPoint->vOnAnyFloor_461920() && field_210 != 7)
+        {
+            field_108_next_motion = 0;
+            return 7;
+        }
+    }
+
+    if (!field_100_pCollisionLine)
+    {
+        return 8;
+    }
+
+    if (sActiveHero_5C1B68->field_10C_health < FP_FromInteger(0))
+    {
+        Speak_444640(7);
+        SetBrain(&Glukkon::AI_4_442010);
+        return 6;
+    }
+
+    BaseAnimatedWithPhysicsGameObject* pEvent17 = nullptr;
+
+    switch (field_210)
+    {
+    case 0:
+        if (field_106_current_motion)
+        {
+            return field_210;
+        }
+
+        if (sub_440200(0))
+        {
+            if (Event_Is_Event_In_Range_422C30(
+                kEventAbeOhm,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_D6_scale))
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + 10;
+            }
+            else
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarm_delay;
+            }
+            goto LABEL_18;
+        }
+
+        pEvent17 = Event_Is_Event_In_Range_422C30(
+            kEventUnknown17,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_D6_scale);
+        if (pEvent17 && pEvent17 != this)
+        {
+            goto LABEL_55;
+        }
+
+        if (field_1A8_tlvData.field_14_calm_motion)
+        {
+            if (Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked_4442F0(field_C4_velx, 1))
+            {
+                goto turn_around;
+            }
+            field_108_next_motion = 14;
+            return 1;
+        }
+        else
+        {
+            field_108_next_motion = 0;
+            return 1;
+        }
+        break;
+
+    case 1:
+        if (sub_440200(0))
+        {
+            if (Event_Is_Event_In_Range_422C30(
+                kEventAbeOhm,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_D6_scale))
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + 10;
+            }
+            else
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarm_delay;
+            }
+
+        LABEL_18:
+            Speak_444640(0);
+            SetBrain(&Glukkon::AI_1_4412F0);
+            return 0;
+        }
+        else
+        {
+            auto pEvent17_1 = Event_Is_Event_In_Range_422C30(
+                kEventUnknown17,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_D6_scale);
+            if (pEvent17_1 && pEvent17_1 != this)
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + 20;
+                return 9;
+            }
+
+            if (field_1A8_tlvData.field_14_calm_motion == 1)
+            {
+                if (Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked_4442F0(field_C4_velx, 1))
+                {
+                    if (static_cast<int>(sGnFrame_5C1B84) <= field_1F0)
+                    {
+                        field_108_next_motion = 0;
+                        field_1D4_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 120);
+                        return 4;
+                    }
+                    else
+                    {
+                        field_1F0 = sGnFrame_5C1B84 + 120;
+                        SpeakRandomish_4405D0();
+                        return 3;
+                    }
+                }
+            }
+            else
+            {
+                if (Math_NextRandom() < 5u && static_cast<int>(sGnFrame_5C1B84) > field_1F4)
+                {
+                    field_1F4 = sGnFrame_5C1B84 + 120;
+                    field_108_next_motion = 2;
+                    return 2;
+                }
+            }
+
+            if (Math_NextRandom() >= 5 || static_cast<int>(sGnFrame_5C1B84) <= field_1F0)
+            {
+                return field_210;
+            }
+
+            field_1F0 = sGnFrame_5C1B84 + 120;
+            SpeakRandomish_4405D0();
+            return 6;
+        }
+        break;
+
+    case 2:
+    case 8:
+        if (field_106_current_motion != 0)
+        {
+            return field_210;
+        }
+        return 0;
+
+    case 3:
+        if (field_106_current_motion != 0 || field_1EA_speak != -1)
+        {
+            return field_210;
+        }
+        field_1D4_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 120);
+        return 4;
+
+    case 4:
+        if (sub_440200(0))
+        {
+            if (Event_Is_Event_In_Range_422C30(
+                kEventAbeOhm,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_D6_scale))
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + 10;
+            }
+            else
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarm_delay;
+            }
+            goto LABEL_62;
+        }
+
+        pEvent17 = Event_Is_Event_In_Range_422C30(
+            kEventUnknown17,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_D6_scale);
+        if (pEvent17 && pEvent17 != this)
+        {
+            field_1D4_timer = sGnFrame_5C1B84 + 20;
+            return 9;
+        }
+        else
+        {
+            if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+            {
+                return field_210;
+            }
+        turn_around:
+            field_108_next_motion = 2;
+            return 2;
+        }
+        break;
+
+    case 5:
+        if (sub_440200(0))
+        {
+            if (Event_Is_Event_In_Range_422C30(
+                kEventAbeOhm,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_D6_scale))
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + 10;
+            }
+            else
+            {
+                field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarm_delay;
+            }
+        LABEL_62:
+            Speak_444640(0);
+            SetBrain(&Glukkon::AI_1_4412F0);
+            return 0;
+        }
+        else
+        {
+            auto pEvent17_3 = Event_Is_Event_In_Range_422C30(
+                kEventUnknown17,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_D6_scale);
+            if (pEvent17_3 && pEvent17_3 != this)
+            {
+            LABEL_55:
+                field_1D4_timer = sGnFrame_5C1B84 + 20;
+                return 9;
+            }
+            else
+            {
+                if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+                {
+                    return field_210;
+                }
+                return 0;
+            }
+        }
+        break;
+
+    case 6:
+        if (field_106_current_motion)
+        {
+            return field_210;
+        }
+        field_1D4_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 120);
+        return 5;
+
+    case 7:
+        if (pLiftPoint)
+        {
+            if (!pLiftPoint->vOnAnyFloor_461920())
+            {
+                return field_210;
+            }
+            return 0;
+        }
+        else
+        {
+            field_110_id = -1;
+            return 0;
+        }
+        break;
+
+    case 9:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer)
+        {
+            return field_210;
+        }
+        field_1FC = 1;
+        Speak_444640(5);
+        return 6;
+
+    default:
+        return field_210;
+    }
 }
 
 __int16 Glukkon::AI_1_4412F0()
@@ -723,4 +1018,31 @@ void Glukkon::Speak_444640(unsigned __int8 /*speak*/)
 void Glukkon::HandleInput_443BB0()
 {
     NOT_IMPLEMENTED();
+}
+
+__int16 Glukkon::sub_440200(__int16 /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Glukkon::PathBlocked_4442F0(FP /*a2*/, __int16 /*checkBounds*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void Glukkon::SpeakRandomish_4405D0()
+{
+    if (sGnFrame_5C1B84 & 1)
+    {
+        if ((sGnFrame_5C1B84 & 1) == 1)
+        {
+            Speak_444640(5);
+        }
+    }
+    else
+    {
+        Speak_444640(7);
+    }
 }
