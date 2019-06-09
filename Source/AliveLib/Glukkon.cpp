@@ -16,6 +16,7 @@
 #include "ObjectIds.hpp"
 #include "LiftPoint.hpp"
 #include "Map.hpp"
+#include "Slurg.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =
@@ -1134,7 +1135,7 @@ void Glukkon::vUpdate_43F770()
             VOn_TLV_Collision_4087F0(pTlv);
         }
         
-        sub_440600();
+        Update_Slurg_WatchPoints_440600();
         
         if (sControlledCharacter_5C1B8C == this && field_110_id != -1)
         {
@@ -1159,9 +1160,22 @@ void Glukkon::vPossessed_440160()
     field_1E8_camera = gMap_5C3030.sCurrentCamId_5C3034;
 }
 
-void Glukkon::sub_440600()
+void Glukkon::Update_Slurg_WatchPoints_440600()
 {
-    NOT_IMPLEMENTED();
+    if (field_106_current_motion == 1 || field_106_current_motion == 4 && field_20_animation.field_92_current_frame > 8)
+    {
+        if (sGnFrame_5C1B84 & 1)
+        {
+            const char count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+            if (count < 5)
+            {
+                Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
+                pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(field_B8_xpos);
+                pPoints->field_0_points[count].field_2_yPos = field_100_pCollisionLine->field_0_rect.y  - 5;
+                sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
+            }
+        }
+    }
 }
 
 void Glukkon::SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion)

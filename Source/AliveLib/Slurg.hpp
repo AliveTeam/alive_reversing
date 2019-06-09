@@ -156,3 +156,7 @@ private:
     FP field_130_scale;
 };
 ALIVE_ASSERT_SIZEOF(Slurg, 0x134);
+
+ALIVE_VAR_EXTERN(WORD, sSlurg_Step_Watch_Points_Idx_5C1C08);
+ALIVE_ARY_EXTERN(char, 2, sSlurg_Step_Watch_Points_Count_5BD4DC);
+ALIVE_ARY_EXTERN(Slurg_Step_Watch_Points, 2, sSlurg_Step_Watch_Points_5C1B28);

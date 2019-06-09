@@ -131,7 +131,7 @@ private:
 
     EXPORT void vPossessed_440160();
 
-    EXPORT void sub_440600();
+    EXPORT void Update_Slurg_WatchPoints_440600();
 
     EXPORT void SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion = FALSE);
 
