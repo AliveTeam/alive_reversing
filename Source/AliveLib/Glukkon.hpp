@@ -15,7 +15,7 @@
     ENTRY(M_7_Fall_443510) \
     ENTRY(M_8_443760) \
     ENTRY(M_9_Land_443790) \
-    ENTRY(M_10_Die_443B50) \
+    ENTRY(M_10_Shake_443B50) \
     ENTRY(M_11_Speak1_4437D0) \
     ENTRY(M_12_Speak2_4438F0) \
     ENTRY(M_13_LongLaugh_443930) \
@@ -49,13 +49,12 @@ enum class GlukkonTypes : __int16
 
 struct Path_Glukkon : public Path_TLV
 {
-    // TODO: These are wrong/shifted in some cases
     __int16 field_10_scale;
     __int16 field_12_start_direction;
-    __int16 field_14_calm_motion;
-    __int16 field_16_pre_alarm_delay;
-    __int16 field_18_post_alarm_delay;
-    __int16 field_1A_help_trigger_id;
+    __int16 field_14_default_behaviour;
+    __int16 field_16_pre_alarmed_delay;
+    __int16 field_18_switch_id;
+    __int16 field_1A_post_alarm_delay;
     __int16 field_1C_spawn_id;
     __int16 field_1E_spawn_direction;
     __int16 field_20_spawn_delay;
@@ -67,6 +66,7 @@ struct Path_Glukkon : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Glukkon, 0x2C);
 
+enum class LevelIds : __int16;
 
 class Glukkon;
 using TGlukkonAIFn = __int16 (Glukkon::*)();
@@ -80,6 +80,8 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VUpdate() override;
+
+    virtual void VPossessed_408F70() override;
 
 public:
     EXPORT void M_0_Idle_442D10();
@@ -125,6 +127,8 @@ private:
 
     EXPORT void vUpdate_43F770();
 
+    EXPORT void vPossessed_440160();
+
     EXPORT void sub_440600();
 
     EXPORT void SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion = FALSE);
@@ -138,6 +142,8 @@ private:
     EXPORT __int16 PathBlocked_4442F0(FP a2, __int16 checkBounds);
 
     EXPORT void SpeakRandomish_4405D0();
+
+    EXPORT __int16 sub_444190();
 
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);
@@ -222,7 +228,7 @@ private:
     FP field_1DC;
     __int16 field_1E0;
     __int16 field_1E2_bUnknown;
-    __int16 field_1E4_level;
+    LevelIds field_1E4_level;
     __int16 field_1E6_path;
     __int16 field_1E8_camera;
     char field_1EA_speak;

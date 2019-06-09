@@ -19,15 +19,15 @@ EXPORT void CC Input_Pads_Reset_4FA960();
 
 enum InputCommands : unsigned int
 {
-    eUp =           1u << 0, // 0x1
-    eDown =         1u << 1, // 0x2
-    eLeft =         1u << 2, // 0x4
-    eRight =        1u << 3, // 0x8
-    eRun =          1u << 4,
+    eUp =           1u << 0,  // 0x1
+    eDown =         1u << 1,  // 0x2
+    eLeft =         1u << 2,  // 0x4
+    eRight =        1u << 3,  // 0x8
+    eRun =          1u << 4,  // 0x10
     eDoAction =     1u << 5,  // Pick up rock, pull lever etc
     eSneak =        1u << 6,
     eThrowItem =    1u << 7,  // Or I say I dunno if no items
-    eHop =          1u << 8,
+    eHop =          1u << 8,  // 0x100
     eFartOrRoll =   1u << 9,  // (Only roll in AO)
     eGameSpeak1 =   1u << 10, // Hello 0x400
     eGameSpeak2 =   1u << 11, // (Follow Me) 0x800
@@ -37,7 +37,7 @@ enum InputCommands : unsigned int
     eGameSpeak6 =   1u << 15, // (All ya) (Fart) 0x8000
     eGameSpeak7 =   1u << 16, // (Sympathy) (Whistle 2) 0x10000
     eGameSpeak8 =   1u << 17, // (Stop it) (Laugh) 0x20000
-    eChant =        1u << 18, 
+    eChant =        1u << 18, // 0x40000
     ePause =        1u << 19, // Or enter
     eUnPause =      1u << 20, // Or/and back
     eBack =         1u << 21,

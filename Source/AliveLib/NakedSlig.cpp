@@ -1237,7 +1237,7 @@ void NakedSlig::HandleCommon_41C0B0()
 
     if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0) && field_208_brain_sub_state == 1)
     {
-      if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
+        if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
