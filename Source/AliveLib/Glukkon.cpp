@@ -22,31 +22,31 @@ const char* const sGlukkonMotionNames[25] =
 
 const TGlukkonMotionFn sGlukkon_motion_table_5544C0[25] = 
 {
-    &Glukkon::M_0_442D10,
-    &Glukkon::M_1_442D30,
-    &Glukkon::M_2_442F10,
-    &Glukkon::M_3_442F40,
-    &Glukkon::M_4_443030,
+    &Glukkon::M_0_Idle_442D10,
+    &Glukkon::M_1_Walk_442D30,
+    &Glukkon::M_2_Turn_442F10,
+    &Glukkon::M_3_KnockBack_442F40,
+    &Glukkon::M_4_Jump_443030,
     &Glukkon::M_5_4434C0,
-    &Glukkon::M_6_4434E0,
-    &Glukkon::M_7_443510,
+    &Glukkon::M_6_WalkToFall_4434E0,
+    &Glukkon::M_7_Fall_443510,
     &Glukkon::M_8_443760,
-    &Glukkon::M_9_443790,
-    &Glukkon::M_10_443B50,
-    &Glukkon::M_11_4437D0,
-    &Glukkon::M_12_4438F0,
-    &Glukkon::M_13_443930,
-    &Glukkon::M_14_443950,
-    &Glukkon::M_15_443970,
+    &Glukkon::M_9_Land_443790,
+    &Glukkon::M_10_Die_443B50,
+    &Glukkon::M_11_Speak1_4437D0,
+    &Glukkon::M_12_Speak2_4438F0,
+    &Glukkon::M_13_LongLaugh_443930,
+    &Glukkon::M_14_BeginWalk_443950,
+    &Glukkon::M_15_EndWalk_443970,
     &Glukkon::M_16_4439B0,
-    &Glukkon::M_17_4439D0,
-    &Glukkon::M_18_443A00,
+    &Glukkon::M_17_EndJump_4439D0,
+    &Glukkon::M_18_BeginRunJump_443A00,
     &Glukkon::M_19_443A30,
-    &Glukkon::M_20_442FC0,
-    &Glukkon::M_21_443A60,
-    &Glukkon::M_22_443010,
-    &Glukkon::M_23_443910,
-    &Glukkon::M_24_443990
+    &Glukkon::M_20_KnockBackStandBegin_442FC0,
+    &Glukkon::M_21_GetShot_443A60,
+    &Glukkon::M_22_KnockBackStandEnd_443010,
+    &Glukkon::M_23_Speak3_443910,
+    &Glukkon::M_24_EndSingleStep_443990
 };
 
 const int dword_554524[4][25] =
@@ -223,27 +223,27 @@ void Glukkon::VUpdate()
     vUpdate_43F770();
 }
 
-void Glukkon::M_0_442D10()
+void Glukkon::M_0_Idle_442D10()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_1_442D30()
+void Glukkon::M_1_Walk_442D30()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_2_442F10()
+void Glukkon::M_2_Turn_442F10()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_3_442F40()
+void Glukkon::M_3_KnockBack_442F40()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_4_443030()
+void Glukkon::M_4_Jump_443030()
 {
     NOT_IMPLEMENTED();
 }
@@ -253,12 +253,12 @@ void Glukkon::M_5_4434C0()
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_6_4434E0()
+void Glukkon::M_6_WalkToFall_4434E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_7_443510()
+void Glukkon::M_7_Fall_443510()
 {
     NOT_IMPLEMENTED();
 }
@@ -268,37 +268,37 @@ void Glukkon::M_8_443760()
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_9_443790()
+void Glukkon::M_9_Land_443790()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_10_443B50()
+void Glukkon::M_10_Die_443B50()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_11_4437D0()
+void Glukkon::M_11_Speak1_4437D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_12_4438F0()
+void Glukkon::M_12_Speak2_4438F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_13_443930()
+void Glukkon::M_13_LongLaugh_443930()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_14_443950()
+void Glukkon::M_14_BeginWalk_443950()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_15_443970()
+void Glukkon::M_15_EndWalk_443970()
 {
     NOT_IMPLEMENTED();
 }
@@ -308,12 +308,12 @@ void Glukkon::M_16_4439B0()
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_17_4439D0()
+void Glukkon::M_17_EndJump_4439D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_18_443A00()
+void Glukkon::M_18_BeginRunJump_443A00()
 {
     NOT_IMPLEMENTED();
 }
@@ -323,27 +323,27 @@ void Glukkon::M_19_443A30()
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_20_442FC0()
+void Glukkon::M_20_KnockBackStandBegin_442FC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_21_443A60()
+void Glukkon::M_21_GetShot_443A60()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_22_443010()
+void Glukkon::M_22_KnockBackStandEnd_443010()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_23_443910()
+void Glukkon::M_23_Speak3_443910()
 {
     NOT_IMPLEMENTED();
 }
 
-void Glukkon::M_24_443990()
+void Glukkon::M_24_EndSingleStep_443990()
 {
     NOT_IMPLEMENTED();
 }
@@ -413,7 +413,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
     }
     else if (field_210 == 2)
     {
-        if (field_106_current_motion != eGlukkonMotions::M_0_442D10 || field_1EA_speak != -1)
+        if (field_106_current_motion != eGlukkonMotions::M_0_Idle_442D10 || field_1EA_speak != -1)
         {
             return field_210;
         }
@@ -716,6 +716,11 @@ void Glukkon::SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion)
 }
 
 void Glukkon::Speak_444640(unsigned __int8 /*speak*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Glukkon::HandleInput_443BB0()
 {
     NOT_IMPLEMENTED();
 }
