@@ -83,6 +83,8 @@ public:
 
     virtual void VPossessed_408F70() override;
 
+    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
+
 public:
     EXPORT void M_0_Idle_442D10();
     EXPORT void M_1_Walk_442D30();
@@ -150,6 +152,12 @@ private:
     EXPORT void sub_444060();
 
     EXPORT static void CC PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon);
+
+    EXPORT void ToDead_43F640();
+
+    EXPORT void vOn_TLV_Collision_4404A0(Path_TLV* pTlv);
+
+    EXPORT static void CC PlaySound_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
 
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);
@@ -230,7 +238,7 @@ private:
     __int16 field_1A6;
     Path_Glukkon field_1A8_tlvData;
     int field_1D4_timer;
-    int field_1D8;
+    FP field_1D8;
     FP field_1DC;
     __int16 field_1E0;
     __int16 field_1E2_bUnknown;

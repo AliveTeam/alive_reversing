@@ -15,6 +15,7 @@
 #include "Particle.hpp"
 #include "ObjectIds.hpp"
 #include "LiftPoint.hpp"
+#include "Map.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =
@@ -230,6 +231,11 @@ void Glukkon::VPossessed_408F70()
     vPossessed_440160();
 }
 
+void Glukkon::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
+{
+    vOn_TLV_Collision_4404A0(pTlv);
+}
+
 void Glukkon::M_0_Idle_442D10()
 {
     HandleInput_443BB0();
@@ -333,12 +339,80 @@ void Glukkon::M_5_JumpToFall_4434C0()
 
 void Glukkon::M_6_WalkToFall_4434E0()
 {
-    NOT_IMPLEMENTED();
+    M_7_Fall_443510();
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        SetAnim_43F9C0(eGlukkonMotions::M_7_Fall_443510, TRUE);
+    }
 }
 
 void Glukkon::M_7_Fall_443510()
 {
-    NOT_IMPLEMENTED();
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        field_C4_velx = field_C4_velx - (field_CC_sprite_scale * field_1D8);
+        if (field_C4_velx < FP_FromInteger(0))
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+    else if (field_C4_velx < FP_FromInteger(0))
+    {
+        field_C4_velx = (field_CC_sprite_scale * field_1D8) + field_C4_velx;
+        if (field_C4_velx > FP_FromInteger(0))
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* pLine = nullptr;
+    const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    
+    if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30))
+    {
+        sub_408C40();
+    }
+
+    if (bCollision)
+    {
+        switch (pLine->field_8_type)
+        {
+        case 0:
+        case 4:
+        case 32:
+        case 36:
+            field_100_pCollisionLine = pLine;
+            field_BC_ypos = hitY;
+            field_B8_xpos = hitX;
+            field_C8_vely = FP_FromInteger(0);
+            
+            sub_444060();
+
+            if (hitY - field_F8_LastLineYPos > (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(7)))
+            {
+                SetAnim_43F9C0(eGlukkonMotions::M_8_DeathFall_443760, TRUE);
+                SetBrain(&Glukkon::AI_4_Death_442010);
+                field_210 = 0;
+            }
+            else if (field_106_current_motion != eGlukkonMotions::M_3_KnockBack_442F40)
+            {
+                SetAnim_43F9C0(eGlukkonMotions::M_9_Land_443790, TRUE);
+            }
+            break;
+
+        case 1u:
+        case 2u:
+            field_B8_xpos = hitX;
+            field_C4_velx = -field_C4_velx / FP_FromInteger(2);
+            break;
+
+        default:
+            return;
+        }
+    }
 }
 
 void Glukkon::M_8_DeathFall_443760()
@@ -1399,7 +1473,7 @@ __int16 Glukkon::DoMovement_444190()
 
     if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
-        field_1D8 = 0;
+        field_1D8 = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
@@ -1436,7 +1510,7 @@ void Glukkon::FollowLine_443EB0()
                 {
                     pPlatform->VRemove(this);
                     field_110_id = -1;
-                    field_1D8 = 22937;
+                    field_1D8 = FP_FromDouble(0.35);
                 }
             }
             else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
@@ -1470,11 +1544,11 @@ void Glukkon::FollowLine_443EB0()
             }
 
             field_B8_xpos = prevXPos + field_C4_velx;
-            field_1D8 = 0x10000;
+            field_1D8 = FP_FromInteger(1);
 
             if (field_106_current_motion == eGlukkonMotions::M_3_KnockBack_442F40)
             {
-                field_1D8 = 0xAB85;
+                field_1D8 = FP_FromDouble(0.67);
             }
         }
     }
@@ -1491,6 +1565,91 @@ void Glukkon::sub_444060()
 }
 
 void CC Glukkon::PlaySound_4447D0(int /*sndIdx*/, Glukkon* /*pGlukkon*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void Glukkon::ToDead_43F640()
+{
+    MusicController::sub_47FD60(0, this, 0, 0);
+
+    if (sControlledCharacter_5C1B8C == this)
+    {
+        // When its a player controlled gluk go back to the screen the player is in
+        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        MusicController::sub_47FD60(0, this, 0, 0);
+
+        if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
+        {
+            gMap_5C3030.SetActiveCam_480D30(
+                field_1E4_level,
+                field_1E6_path,
+                field_1E8_camera,
+                CameraSwapEffects::eEffect0_InstantChange,
+                0,
+                0);
+        }
+    }
+
+    SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetFalse_1);
+
+    if ((field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1 || 
+         field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Drpik_2 ||
+         field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3 ) && 
+        !SwitchStates_Get_466020(field_1A8_tlvData.field_26_play_movie_id))
+    {
+        // If an exec is dead trigger ze gas
+        SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_24_start_gas_id, SwitchOp::eSetTrue_0);
+    }
+
+    if (field_1A8_tlvData.field_1C_spawn_id == 0)
+    {
+        // Don't spawn again, dead
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    else
+    {
+        if (field_1A8_tlvData.field_1C_spawn_id > 1)
+        {
+            // If above 1 then its an actual switch id
+            SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_1C_spawn_id, SwitchOp::eSetFalse_1);
+        }
+
+        // Spawn again if id is 1 or above
+        Init_43F260();
+    }
+}
+
+void Glukkon::vOn_TLV_Collision_4404A0(Path_TLV* pTlv)
+{
+    while (pTlv)
+    {
+        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        {
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                field_10C_health = FP_FromInteger(0);
+                field_C8_vely = FP_FromInteger(0);
+                field_C4_velx = FP_FromInteger(0);
+
+                PlaySound_444AF0(9, 0, 0, 0);
+                ToDead_43F640();
+
+                // Muds love it when people DIE
+                Event_Broadcast_422BC0(kEventMudokonComfort, this);
+            }
+        }
+
+        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pTlv,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
+    }
+}
+
+void CC Glukkon::PlaySound_444AF0(unsigned __int8 /*sndIdx*/, __int16 /*volume*/, __int16 /*pitch*/, Glukkon* /*pGlukkon*/)
 {
     NOT_IMPLEMENTED();
 }
