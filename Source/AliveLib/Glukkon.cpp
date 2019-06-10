@@ -26,6 +26,8 @@
 #include "Sound.hpp"
 #include "MainMenu.hpp"
 #include "GameSpeak.hpp"
+#include "Gibs.hpp"
+#include "Blood.hpp"
 
 struct Path_EnemyStopper : public Path_TLV
 {
@@ -1278,10 +1280,165 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
     }
 }
 
+// TODO: GibType should also be an enum
+static int AsGibType(GlukkonTypes glukkonType)
+{
+    switch (glukkonType)
+    {
+    case GlukkonTypes::Normal_0:
+        return 0 + 6;
+
+    case GlukkonTypes::Aslik_1:
+        return 1 + 6;
+
+    case GlukkonTypes::Drpik_2:
+        return 2 + 6;
+
+    case GlukkonTypes::Phleg_3:
+        return 3 + 6;
+
+    case GlukkonTypes::Normal_4:
+        return 4 + 6;
+
+    case GlukkonTypes::Normal_5:
+        return 5 + 6;
+
+    default:
+        return 0 + 6;
+    }
+}
+
 __int16 Glukkon::AI_4_Death_442010()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(0, this, 0, 0);
+    }
+
+    switch (field_210)
+    {
+    case 0:
+        if (field_106_current_motion != eGlukkonMotions::M_8_DeathFall_443760 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+        {
+            return field_210;
+        }
+        else
+        {
+            field_10C_health = FP_FromInteger(0);
+            field_1D4_timer = sGnFrame_5C1B84 + 90;
+            return 1;
+        }
+        break;
+
+    case 1:
+        if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer)
+        {
+            ToDead_43F640();
+            return field_210;
+        }
+        else
+        {
+            field_CC_sprite_scale -= FP_FromDouble(0.008);
+
+            field_D0_r -= 2;
+            field_D2_g -= 2;
+            field_D4_b -= 2;
+
+            if (!(static_cast<int>(sGnFrame_5C1B84) % 5))
+            {
+                New_Particles_426C70(
+                    (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos,
+                    field_BC_ypos - FP_FromInteger(6),
+                    (field_CC_sprite_scale / FP_FromInteger(2)), 
+                    2, 0x80u, 0x80u, 0x80u);
+
+                SFX_Play_46FBA0(79u, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
+            }
+            return field_210;
+        }
+        break;
+
+    case 2:
+    {
+        auto pGibs = alive_new<Gibs>();
+        if (pGibs)
+        {
+            pGibs->ctor_40FB40(
+                AsGibType(field_1A8_tlvData.field_22_glukkon_type),
+                field_B8_xpos,
+                field_BC_ypos,
+                field_C4_velx,
+                field_C8_vely,
+                field_CC_sprite_scale,
+                0);
+        }
+
+        auto pBlood = alive_new<Blood>();
+        if (pBlood)
+        {
+            pBlood->ctor_40F0B0(
+                field_B8_xpos,
+                field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_CC_sprite_scale,
+                20);
+        }
+
+        New_Particles_426C70(
+            field_B8_xpos,
+            field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale),
+            field_CC_sprite_scale,
+            3,
+            128u,
+            128u,
+            128u);
+
+        SFX_Play_46FA90(0x40u, 128, field_CC_sprite_scale);
+        SFX_Play_46FA90(0x2Fu, 90, field_CC_sprite_scale);
+
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+        SetAnim_43F9C0(eGlukkonMotions::M_10_Shake_443B50, TRUE);
+
+        field_C8_vely = FP_FromInteger(0);
+        field_C4_velx = FP_FromInteger(0);
+        field_10C_health = FP_FromInteger(0);
+        field_1D4_timer = sGnFrame_5C1B84 + 40;
+    }
+        return 3;
+
+    case 3:
+        if (static_cast<int>(sGnFrame_5C1B84) > field_1D4_timer)
+        {
+            ToDead_43F640();
+        }
+        return field_210;
+
+    case 4:
+    case 5:
+        if (!field_100_pCollisionLine || 
+            field_106_current_motion != eGlukkonMotions::M_3_KnockBack_442F40 || 
+            !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+        {
+            return field_210;
+        }
+        else
+        {
+            field_1D4_timer = sGnFrame_5C1B84 + 90;
+            return 1;
+        }
+        break;
+
+    default:
+        return field_210;
+    }
+
 }
 
 const PSX_Point v00554768[8] =
