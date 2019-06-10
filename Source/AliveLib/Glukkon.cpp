@@ -588,7 +588,7 @@ void Glukkon::JumpHelper()
 
 void Glukkon::M_5_JumpToFall_4434C0()
 {
-    NOT_IMPLEMENTED();
+    M_6_WalkToFall_4434E0();
 }
 
 void Glukkon::M_6_WalkToFall_4434E0()
@@ -671,12 +671,23 @@ void Glukkon::M_7_Fall_443510()
 
 void Glukkon::M_8_DeathFall_443760()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        SFX_Play_46FA90(64, 85);
+    }
 }
 
 void Glukkon::M_9_Land_443790()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Glukkon::PlaySound_4447D0(1, this);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        HandleInput_443BB0();
+    }
 }
 
 void Glukkon::M_10_ChantShake_443B50()
@@ -789,7 +800,37 @@ void Glukkon::M_20_KnockBackStandBegin_442FC0()
 
 void Glukkon::M_21_GetShot_443A60()
 {
-    NOT_IMPLEMENTED();
+    if (!field_100_pCollisionLine)
+    {
+        M_7_Fall_443510();
+        if (field_106_current_motion != eGlukkonMotions::M_21_GetShot_443A60)
+        {
+            SetAnim_43F9C0(eGlukkonMotions::M_21_GetShot_443A60, TRUE);
+        }
+    }
+
+    if (static_cast<int>(sGnFrame_5C1B84) >= field_204)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+        {
+            field_210 = 2;
+            const FP shotXVel = FP_FromInteger(20) * field_CC_sprite_scale;
+            if (field_C4_velx >= FP_FromInteger(0))
+            {
+                field_C4_velx = field_C4_velx <= FP_FromInteger(0) ? FP_FromInteger(0) : shotXVel;
+            }
+            else
+            {
+                field_C4_velx = -shotXVel;
+            }
+        }
+    }
+
+    if (static_cast<int>(sGnFrame_5C1B84) > field_200)
+    {
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_C4_velx > FP_FromInteger(0));
+        SetAnim_43F9C0(eGlukkonMotions::M_3_KnockBack_442F40, TRUE);
+    }
 }
 
 void Glukkon::M_22_KnockBackStandEnd_443010()
