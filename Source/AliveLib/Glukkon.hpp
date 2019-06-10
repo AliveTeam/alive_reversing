@@ -87,6 +87,8 @@ public:
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
+    virtual void VOnTrapDoorOpen() override;
+
 public:
     EXPORT void M_0_Idle_442D10();
     EXPORT void M_1_Walk_442D30();
@@ -154,7 +156,7 @@ private:
 
     EXPORT void FollowLine_443EB0();
 
-    EXPORT void sub_444060();
+    EXPORT void GetOnPlatforms_444060();
 
     EXPORT static void CC PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon);
 
@@ -171,6 +173,8 @@ private:
     EXPORT void SlowDown_444700(FP speed);
 
     EXPORT void vScreenChanged_440110();
+
+    EXPORT void vOnTrapDoorOpen_444120();
 
 
     void SetBrain(TGlukkonAIFn fn);

@@ -267,6 +267,11 @@ void Glukkon::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_4404A0(pTlv);
 }
 
+void Glukkon::VOnTrapDoorOpen()
+{
+    vOnTrapDoorOpen_444120();
+}
+
 void Glukkon::M_0_Idle_442D10()
 {
     HandleInput_443BB0();
@@ -515,7 +520,7 @@ void Glukkon::M_4_Jump_443030()
         field_100_pCollisionLine = pLine;
         field_BC_ypos = hitY;
         MapFollowMe_408D10(TRUE);
-        sub_444060();
+        GetOnPlatforms_444060();
         break;
 
     case 1u:
@@ -648,7 +653,7 @@ void Glukkon::M_7_Fall_443510()
             field_B8_xpos = hitX;
             field_C8_vely = FP_FromInteger(0);
             
-            sub_444060();
+            GetOnPlatforms_444060();
 
             if (hitY - field_F8_LastLineYPos > (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(7)))
             {
@@ -748,7 +753,7 @@ void Glukkon::M_12_Speak2_4438F0()
 
 void Glukkon::M_13_LongLaugh_443930()
 {
-    NOT_IMPLEMENTED();
+    M_11_Speak1_4437D0();
 }
 
 void Glukkon::M_14_BeginWalk_443950()
@@ -848,7 +853,7 @@ void Glukkon::M_22_KnockBackStandEnd_443010()
 
 void Glukkon::M_23_Speak3_443910()
 {
-    NOT_IMPLEMENTED();
+    M_11_Speak1_4437D0();
 }
 
 void Glukkon::M_24_EndSingleStep_443990()
@@ -2315,7 +2320,7 @@ void Glukkon::FollowLine_443EB0()
             }
             else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
             {
-                sub_444060();
+                GetOnPlatforms_444060();
             }
         }
         else
@@ -2359,9 +2364,14 @@ void Glukkon::FollowLine_443EB0()
     }
 }
 
-void Glukkon::sub_444060()
+void Glukkon::GetOnPlatforms_444060()
 {
-    NOT_IMPLEMENTED();
+    vOnCollisionWith_424EE0(
+        { FP_GetExponent(field_B8_xpos - FP_FromInteger(5)), FP_GetExponent(field_BC_ypos - FP_FromInteger(5)) },
+        { FP_GetExponent(field_B8_xpos + FP_FromInteger(5)), FP_GetExponent(field_BC_ypos + FP_FromInteger(5)) },
+        ObjList_5C1B78,
+        1,
+        (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
 }
 
 void CC Glukkon::PlaySound_4447D0(int /*sndIdx*/, Glukkon* /*pGlukkon*/)
@@ -2503,5 +2513,17 @@ void Glukkon::vScreenChanged_440110()
     if (BrainIs(&Glukkon::AI_5_WaitToSpawn_442490) && !field_210)
     {
         field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
+
+void Glukkon::vOnTrapDoorOpen_444120()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pPlatform)
+    {
+        field_F8_LastLineYPos = field_BC_ypos;
+        pPlatform->VRemove(this);
+        field_110_id = -1;
+        SetAnim_43F9C0(eGlukkonMotions::M_6_WalkToFall_4434E0, TRUE);
     }
 }
