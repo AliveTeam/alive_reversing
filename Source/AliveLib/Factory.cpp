@@ -65,6 +65,7 @@
 #include "Slog.hpp"
 #include "Slig.hpp"
 #include "GasCountDown.hpp"
+#include "GlukkonSwitch.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1714,7 +1715,22 @@ EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 }
 
 EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("SECDOOR.BAN", ResourceManager::Resource_Animation, 6027, loadMode);
+    }
+    else
+    {
+        auto pGlukkonSwitch = alive_new<GlukkonSwitch>();
+        if (pGlukkonSwitch)
+        {
+            pGlukkonSwitch->ctor_444E60(static_cast<Path_GlukkonSwitch*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_DoorBlocker_4DAAE0(Path_TLV* pTlv , Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {

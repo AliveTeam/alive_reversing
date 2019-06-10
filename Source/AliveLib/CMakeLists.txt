@@ -301,6 +301,8 @@ ExportHooker.hpp
     Slig.cpp
     GasCountDown.hpp
     GasCountDown.cpp
+    GlukkonSwitch.hpp
+    GlukkonSwitch.cpp
     TouchController.cpp
     TouchController.hpp
 )
