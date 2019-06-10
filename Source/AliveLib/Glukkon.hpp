@@ -81,6 +81,8 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VScreenChanged() override;
+
     virtual void VPossessed_408F70() override;
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
@@ -167,6 +169,8 @@ private:
     EXPORT void ToStand_443B70();
 
     EXPORT void SlowDown_444700(FP speed);
+
+    EXPORT void vScreenChanged_440110();
 
 
     void SetBrain(TGlukkonAIFn fn);

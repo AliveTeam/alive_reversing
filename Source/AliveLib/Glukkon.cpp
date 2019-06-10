@@ -252,6 +252,11 @@ void Glukkon::VUpdate()
     vUpdate_43F770();
 }
 
+void Glukkon::VScreenChanged()
+{
+    vScreenChanged_440110();
+}
+
 void Glukkon::VPossessed_408F70()
 {
     vPossessed_440160();
@@ -2488,5 +2493,15 @@ void Glukkon::SlowDown_444700(FP speed)
                 field_C4_velx = FP_FromInteger(0);
             }
         }
+    }
+}
+
+void Glukkon::vScreenChanged_440110()
+{
+    BaseGameObject::VScreenChanged();
+    SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetFalse_1);
+    if (BrainIs(&Glukkon::AI_5_WaitToSpawn_442490) && !field_210)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
     }
 }
