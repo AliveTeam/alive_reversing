@@ -22,6 +22,8 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override;
+
     virtual void VScreenChanged() override;
 
 private:
@@ -30,6 +32,10 @@ private:
     EXPORT GlukkonSwitch* vdtor_4450C0(signed int flags);
 
     EXPORT void vScreenChange_4456D0();
+
+    EXPORT __int16 PlayerNearMe_445180();
+
+    EXPORT void vUpdate_445200();
 
 private:
     int field_E4_not_used[4];

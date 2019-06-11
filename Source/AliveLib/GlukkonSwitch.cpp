@@ -3,6 +3,13 @@
 #include "Function.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "Abe.hpp"
+#include "Events.hpp"
+#include "Midi.hpp"
+#include "Glukkon.hpp"
+#include "Sfx.hpp"
+#include "SwitchStates.hpp"
+#include "GameSpeak.hpp"
 
 GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, int tlvInfo)
 {
@@ -82,6 +89,11 @@ BaseGameObject* GlukkonSwitch::VDestructor(signed int flags)
     return vdtor_4450C0(flags);
 }
 
+void GlukkonSwitch::VUpdate()
+{
+    vUpdate_445200();
+}
+
 void GlukkonSwitch::VScreenChanged()
 {
     vScreenChange_4456D0();
@@ -107,4 +119,205 @@ GlukkonSwitch* GlukkonSwitch::vdtor_4450C0(signed int flags)
 void GlukkonSwitch::vScreenChange_4456D0()
 {
     field_6_flags.Set(BaseGameObject::eDead);
+}
+
+__int16 GlukkonSwitch::PlayerNearMe_445180()
+{
+    const short playerXPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
+    const short playerYPos = FP_GetExponent(sControlledCharacter_5C1B8C->field_BC_ypos);
+
+    if ((playerXPos >= field_118_top_left.field_0_x && playerXPos <= field_11C_bottom_right.field_0_x) &&
+        (playerYPos >= field_118_top_left.field_2_y && playerYPos <= field_11C_bottom_right.field_2_y))
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+void GlukkonSwitch::vUpdate_445200()
+{
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    const int lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
+    int lastEventIdx2 = 0;
+    if (field_100_last_event_idx == lastEventIdx)
+    {
+        if (pEventSystem_5BC11C->field_20_last_event == -1)
+        {
+            lastEventIdx2 = -1;
+        }
+        else
+        {
+            lastEventIdx2 = -2;
+        }
+    }
+    else
+    {
+        field_100_last_event_idx = lastEventIdx;
+        lastEventIdx2 = pEventSystem_5BC11C->field_20_last_event;
+    }
+
+    switch (field_F8_state)
+    {
+    case 0:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_120_timer)
+        {
+            return;
+        }
+
+        if (PlayerNearMe_445180())
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_F8_state = 2;
+        }
+        else
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        }
+        return;
+
+    case 1:
+        if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer)
+        {
+            SND_SEQ_Play_4CAB10(31, 1, 127, 127);
+        }
+        else if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer && !PlayerNearMe_445180())
+        {
+            field_F8_state = 0;
+        }
+        return;
+
+    case 2:
+        Glukkon::PlaySound_444AF0(0, 127, -200, 0);
+        field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
+        field_F8_state = 3;
+        field_120_timer = sGnFrame_5C1B84 + 150;
+        return;
+
+    case 3:
+        if (!PlayerNearMe_445180())
+        {
+            field_F8_state = 0;
+            field_120_timer = sGnFrame_5C1B84 - 1;
+            return;
+        }
+
+        if (lastEventIdx2 == -1 || lastEventIdx2 == -2)
+        {
+            if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+            {
+                field_F8_state = 0;
+            }
+        }
+        else
+        {
+            if (lastEventIdx2 == 36)
+            {
+                field_F8_state = 4;
+                field_120_timer = sGnFrame_5C1B84 + 30;
+            }
+            else
+            {
+                if (lastEventIdx2 < 36)
+                {
+                    field_F8_state = 8;
+                    field_120_timer = sGnFrame_5C1B84 + 30;
+                }
+
+                if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+                {
+                    field_F8_state = 0;
+                }
+            }
+        }
+        return;
+
+    case 4:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_120_timer)
+        {
+            return;
+        }
+        Glukkon::PlaySound_444AF0(11u, 127, -200, 0);
+        field_20_animation.Set_Animation_Data_409C80(1528, 0);
+        field_F8_state = 5;
+        field_120_timer = sGnFrame_5C1B84 + 60;
+        return;
+
+    case 5:
+        if (PlayerNearMe_445180())
+        {
+            if (lastEventIdx2 == -1 || lastEventIdx2 == -2)
+            {
+                if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
+                {
+                    field_F8_state = 7;
+                    field_120_timer = sGnFrame_5C1B84 + 15;
+                }
+            }
+            else if (lastEventIdx2 == 37)
+            {
+                field_F8_state = 6;
+                field_120_timer = sGnFrame_5C1B84 + 30;
+            }
+            else if (lastEventIdx2 < 36)
+            {
+                field_F8_state = 8;
+                field_120_timer = sGnFrame_5C1B84 + 30;
+            }
+            else
+            {
+                field_F8_state = 7;
+                field_120_timer = sGnFrame_5C1B84 + 15;
+            }
+        }
+        else
+        {
+            field_F8_state = 0;
+            field_120_timer = sGnFrame_5C1B84 - 1;
+        }
+        return;
+
+    case 6:
+        if (static_cast<int>(sGnFrame_5C1B84) != field_120_timer)
+        {
+            return;
+        }
+        SFX_Play_46FBA0(0x58u, 127, -700);
+        Glukkon::PlaySound_444AF0(7u, 127, -200, 0);
+        field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
+        SwitchStates_Do_Operation_465F00(field_FA_ok_id, SwitchOp::eToggle_2);
+        field_F8_state = 1;
+        field_120_timer = sGnFrame_5C1B84 + 15;
+        return;
+
+    case 7:
+        if (static_cast<int>(sGnFrame_5C1B84) != field_120_timer)
+        {
+            return;
+        }
+        Glukkon::PlaySound_444AF0(5u, 127, -200, 0);
+        field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
+        field_F8_state = 0;
+        field_120_timer = sGnFrame_5C1B84 + 90;
+        return;
+
+    case 8:
+        if (static_cast<int>(sGnFrame_5C1B84) != field_120_timer)
+        {
+            return;
+        }
+        Glukkon::PlaySound_444AF0(5u, 127, -200, 0);
+        field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
+        SwitchStates_Do_Operation_465F00(field_FC_fail_id, SwitchOp::eSetTrue_0);
+        field_F8_state = 0;
+        field_120_timer = sGnFrame_5C1B84 + 90;
+        return;
+
+    default:
+        return;
+    }
 }

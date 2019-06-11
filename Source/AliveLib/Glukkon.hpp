@@ -127,6 +127,9 @@ public:
     EXPORT __int16 AI_4_Death_442010();
     EXPORT __int16 AI_5_WaitToSpawn_442490();
 
+public:
+    EXPORT static void CC PlaySound_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
+
 private:
     EXPORT void Init_43F260();
 
@@ -163,8 +166,6 @@ private:
     EXPORT void ToDead_43F640();
 
     EXPORT void vOn_TLV_Collision_4404A0(Path_TLV* pTlv);
-
-    EXPORT static void CC PlaySound_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
 
     EXPORT static BOOL CCSTD IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
 
