@@ -12,7 +12,7 @@
     ENTRY(M_Running_4_4B6000) \
     ENTRY(M_TurnAroundStanding_5_4B6390) \
     ENTRY(M_Shoot_6_4B55A0) \
-    ENTRY(M_FallToDeath_7_4B42D0) \
+    ENTRY(M_Falling_7_4B42D0) \
     ENTRY(M_SlidingToStand_8_4B6520) \
     ENTRY(M_SlidingTurn_9_4B6680) \
     ENTRY(M_SlidingTurnToWalk_10_4B6800) \
@@ -22,7 +22,7 @@
     ENTRY(M_SteppingToStand_14_4B8480) \
     ENTRY(M_StandingToStep_15_4B83B0) \
     ENTRY(M_DepossessingAbort_16_4B8250) \
-    ENTRY(M_UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290) \
+    ENTRY(M_GameSpeak_17_4B5290) \
     ENTRY(M_WalkToStand_18_4B5FC0) \
     ENTRY(M_Recoil_19_4B8270) \
     ENTRY(M_SpeakHereBoy_20_4B5330) \
@@ -43,7 +43,7 @@
     ENTRY(M_KnockbackToStand_35_4B6A30) \
     ENTRY(M_Depossessing_36_4B7F30) \
     ENTRY(M_Possess_37_4B72C0) \
-    ENTRY(M_Falling_38_4B4570) \
+    ENTRY(M_OutToFall_38_4B4570) \
     ENTRY(M_FallingInitiate_39_4B4640) \
     ENTRY(M_LandingSoft_40_4B4530) \
     ENTRY(M_LandingFatal_41_4B4680) \
@@ -138,7 +138,7 @@ public:
     EXPORT void M_Running_4_4B6000();
     EXPORT void M_TurnAroundStanding_5_4B6390();
     EXPORT void M_Shoot_6_4B55A0();
-    EXPORT void M_FallToDeath_7_4B42D0();
+    EXPORT void M_Falling_7_4B42D0();
     EXPORT void M_SlidingToStand_8_4B6520();
     EXPORT void M_SlidingTurn_9_4B6680();
     EXPORT void M_SlidingTurnToWalk_10_4B6800();
@@ -148,7 +148,7 @@ public:
     EXPORT void M_SteppingToStand_14_4B8480();
     EXPORT void M_StandingToStep_15_4B83B0();
     EXPORT void M_DepossessingAbort_16_4B8250();
-    EXPORT void M_UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290();
+    EXPORT void M_GameSpeak_17_4B5290();
     EXPORT void M_WalkToStand_18_4B5FC0();
     EXPORT void M_Recoil_19_4B8270();
     EXPORT void M_SpeakHereBoy_20_4B5330();
@@ -169,7 +169,7 @@ public:
     EXPORT void M_KnockbackToStand_35_4B6A30();
     EXPORT void M_Depossessing_36_4B7F30();
     EXPORT void M_Possess_37_4B72C0();
-    EXPORT void M_Falling_38_4B4570();
+    EXPORT void M_OutToFall_38_4B4570();
     EXPORT void M_FallingInitiate_39_4B4640();
     EXPORT void M_LandingSoft_40_4B4530();
     EXPORT void M_LandingFatal_41_4B4680();
