@@ -3,6 +3,13 @@
 
 #if defined(_WIN32) && !defined(_WIN64)
 #include "detours.h"
+#pragma warning(push)
+#pragma warning(disable:4091)
+#include <DbgHelp.h>
+#pragma warning(pop)
+
+#pragma comment(lib, "Dbghelp.lib")
+
 #endif
 
 ExportHooker::ExportHooker(HINSTANCE instance) : mhInstance(instance)
@@ -45,9 +52,22 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
     {
         std::ofstream implementedStream("decompiled_functions.txt");
         std::ofstream stubbedStream("stubbed_functions.txt");
+        std::ofstream functionNamesStream("function_names.txt");
 
         for (const auto& e : mExports)
         {
+            char buffer[1024 * 20] = {};
+            const DWORD len = UnDecorateSymbolName(e.mName.c_str(), buffer, ALIVE_COUNTOF(buffer), UNDNAME_NAME_ONLY);
+            if (len > 0)
+            {
+                functionNamesStream << e.mGameFunctionAddr << "=" << buffer << "\n";
+            }
+            else
+            {
+                const std::string msg = "UnDecorateSymbolName failed on " + e.mName;
+                ALIVE_FATAL(msg.c_str());
+            }
+
             if (e.mIsImplemented)
             {
                 implementedStream << e.mGameFunctionAddr << "\n";
