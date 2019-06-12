@@ -199,12 +199,12 @@ ALIVE_VAR(1, 0xBD145C, bool, sbBitmapsAllocated_BD145C, false);
 
 
 
-EXPORT void CC sub_4EDAB0(Bitmap* /*pBmp*/, int /*left*/, int /*top*/, int /*width*/)
+EXPORT void CC PSX_DispEnv_4EDAB0(Bitmap* /*pBmp*/, int /*left*/, int /*top*/, int /*width*/)
 {
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC sub_4ED9E0()
+EXPORT void CC PSX_DispEnv_Reset_Unknown_4ED9E0()
 {
     NOT_IMPLEMENTED();
 }
@@ -493,8 +493,8 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
 
         if (a2 && VGA_IsWindowMode_4F31E0())
         {
-            sub_4EDAB0(pBmp, rect.left, rect.top, rect.right - rect.left);
-            sub_4ED9E0();
+            PSX_DispEnv_4EDAB0(pBmp, rect.left, rect.top, rect.right - rect.left);
+            PSX_DispEnv_Reset_Unknown_4ED9E0();
         }
         else
         {

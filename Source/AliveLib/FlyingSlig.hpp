@@ -43,7 +43,7 @@ private:
 
 
     EXPORT void vUpdate_434AD0();
-    EXPORT __int16 sub_436A90();
+    EXPORT __int16 IsPossessed_436A90();
     EXPORT void sub_4348A0();
     EXPORT void sub_4396E0();
 

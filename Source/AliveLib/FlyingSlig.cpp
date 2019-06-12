@@ -341,7 +341,7 @@ void FlyingSlig::vUpdate_434AD0()
     {
         field_114_flags.Clear(Flags_114::e114_Bit9);
 
-        if (!sub_436A90())
+        if (!IsPossessed_436A90())
         {
             if (field_104_collision_line_type != -1)
             {
@@ -649,7 +649,7 @@ void FlyingSlig::state_1_25_4389E0()
     NOT_IMPLEMENTED();
 }
 
-__int16 FlyingSlig::sub_436A90()
+__int16 FlyingSlig::IsPossessed_436A90()
 {
     NOT_IMPLEMENTED();
     return 0;

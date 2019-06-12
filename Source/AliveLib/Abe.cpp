@@ -2416,7 +2416,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         break;
 
     default:
-        sub_44C980(pFrom);
+        Damage_44C980(pFrom);
         if (!(field_114_flags.Get(Flags_114::e114_Bit1_bShot)))
         {
             ret = 0;
@@ -9066,7 +9066,7 @@ EXPORT __int16 Abe::ForceDownIfHoisting_44BA30()
     return 1;
 }
 
-__int16 Abe::sub_44C980(BaseGameObject* /*pObj*/)
+__int16 Abe::Damage_44C980(BaseGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
     return 0;
