@@ -55,7 +55,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_Running_4_4B6000,
     &Slig::M_TurnAroundStanding_5_4B6390,
     &Slig::M_Shoot_6_4B55A0,
-    &Slig::M_FallToDeath_7_4B42D0,
+    &Slig::M_Falling_7_4B42D0,
     &Slig::M_SlidingToStand_8_4B6520,
     &Slig::M_SlidingTurn_9_4B6680,
     &Slig::M_SlidingTurnToWalk_10_4B6800,
@@ -65,7 +65,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_SteppingToStand_14_4B8480,
     &Slig::M_StandingToStep_15_4B83B0,
     &Slig::M_DepossessingAbort_16_4B8250,
-    &Slig::M_UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290,
+    &Slig::M_GameSpeak_17_4B5290,
     &Slig::M_WalkToStand_18_4B5FC0,
     &Slig::M_Recoil_19_4B8270,
     &Slig::M_SpeakHereBoy_20_4B5330,
@@ -86,7 +86,7 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
     &Slig::M_KnockbackToStand_35_4B6A30,
     &Slig::M_Depossessing_36_4B7F30,
     &Slig::M_Possess_37_4B72C0,
-    &Slig::M_Falling_38_4B4570,
+    &Slig::M_OutToFall_38_4B4570,
     &Slig::M_FallingInitiate_39_4B4640,
     &Slig::M_LandingSoft_40_4B4530,
     &Slig::M_LandingFatal_41_4B4680,
@@ -278,7 +278,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
 
     field_110_id = -1;
     
-    field_106_current_motion = eSligMotions::M_FallToDeath_7_4B42D0;
+    field_106_current_motion = eSligMotions::M_Falling_7_4B42D0;
 
     field_124 = 0;
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -400,7 +400,7 @@ void Slig::M_Shoot_6_4B55A0()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_FallToDeath_7_4B42D0()
+void Slig::M_Falling_7_4B42D0()
 {
     NOT_IMPLEMENTED();
 }
@@ -450,7 +450,7 @@ void Slig::M_DepossessingAbort_16_4B8250()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_UNKNOWNbutGetsCalledWhenUsingGameSpeak_17_4B5290()
+void Slig::M_GameSpeak_17_4B5290()
 {
     NOT_IMPLEMENTED();
 }
@@ -555,7 +555,7 @@ void Slig::M_Possess_37_4B72C0()
     NOT_IMPLEMENTED();
 }
 
-void Slig::M_Falling_38_4B4570()
+void Slig::M_OutToFall_38_4B4570()
 {
     NOT_IMPLEMENTED();
 }
