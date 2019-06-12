@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "Particle.hpp"
 #include "PsxDisplay.hpp"
+#include "stdlib.hpp"
 
 Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
 {

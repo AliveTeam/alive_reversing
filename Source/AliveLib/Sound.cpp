@@ -8,6 +8,7 @@
 #include "BackgroundMusic.hpp"
 #if !USE_SDL2_SOUND
 #include <mmeapi.h>
+#include <timeapi.h>
 #endif
 #include <mutex>
 #include "Path.hpp"
@@ -327,6 +328,9 @@ EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
 
 EXPORT void CC SND_InitVolumeTable_4EEF60()
 {
+#define max(a,b) (((a) > (b)) ? (a) : (b))
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+
     for (int i = 0; i < 127; i++)
     {
         sVolumeTable_BBBD38[i] = static_cast<int>(min(max(log2f((i + 1) / 128.0f) / log2f(2.0f) * 1000.0f, -10000), 0));
