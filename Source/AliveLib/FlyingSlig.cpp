@@ -63,62 +63,62 @@ const char* sSligFns1Strings[] =
 
 const char* sSligFns2Strings[] =
 {
-    "state_1_0_idle_4385E0",
-    "state_1_1_fly_forward_loop_4386A0",
-    "state_1_2_turn_4388B0",
-    "state_1_3_fly_down_loop_438AA0",
-    "state_1_4_438CC0_fly_down_turn",
-    "state_1_5_fly_up_loop_438DD0",
-    "state_1_6_439030_fly_up_turn",
-    "state_1_7_439150",
-    "state_1_8_Speak_4391D0",
-    "state_1_9_nullsub_33",
-    "state_1_10_end_move_forward_4387D0",
-    "state_1_11_begin_move_up_438E40",
-    "state_1_12_438B10",
-    "state_1_13_438F60",
-    "state_1_14_438BF0",
-    "state_1_15_4387F0",
-    "state_1_16_begin_move_forward_438730",
-    "state_1_17_begin_move_down_438B80",
-    "state_1_18_end_move_down_438C90",
-    "state_1_19_hurt_down_4390D0",
-    "state_1_20_hurt_up_439110",
-    "state_1_21_end_move_up_438EB0",
-    "state_1_22_438EE0",
-    "state_1_23_438F20",
-    "state_1_24_438D60",
-    "state_1_25_turn_begin_move_forward_4389E0",
+    "M_Idle_1_4385E0",
+    "M_HorizontalMovement_1_4386A0",
+    "M_IdleToTurn_2_4388B0",
+    "M_DownMovement_3_438AA0",
+    "M_DownMovementToTurn_4_438CC0",
+    "M_UpMovement_5_438DD0",
+    "M_UpMovementToTurn_6_439030",
+    "M_LeverPull_7_439150",
+    "M_GameSpeak_8_4391D0",
+    "M_Possession_9_434290",
+    "M_EndHorizontalMovement_10_4387D0",
+    "M_BeginUpMovement_11_438E40",
+    "M_HorizontalToDownMovement_12_438B10",
+    "M_UpToHorizontalMovement_13_438F60",
+    "M_DownToHorizontalMovement_14_438BF0",
+    "M_QuickTurn_15_4387F0",
+    "M_IdleToHorizontalMovement_16_438730",
+    "M_BeginDownMovement_17_438B80",
+    "M_EndDownMovement_18_438C90",
+    "M_DownKnockback_19_4390D0",
+    "M_UpKnockback_20_439110",
+    "M_EndUpMovement_21_438EB0",
+    "M_InstantUpXTurn_22_438EE0",
+    "M_InstantDownXTurn_23_438F20",
+    "M_HorizontalToUpMovement_24_438D60",
+    "M_TurnToHorizontalMovement_25_4389E0",
 };
 
 ALIVE_ARY(1, 0x5523A0, TFlyingSligFn2, 26, sFlyingSlig_fns2_5523A0,
 {
-    &FlyingSlig::state_1_0_4385E0,
-    &FlyingSlig::state_1_1_4386A0,
-    &FlyingSlig::state_1_2_4388B0,
-    &FlyingSlig::state_1_3_438AA0,
-    &FlyingSlig::state_1_4_438CC0,
-    &FlyingSlig::state_1_5_438DD0,
-    &FlyingSlig::state_1_6_439030,
-    &FlyingSlig::state_1_7_439150,
-    &FlyingSlig::state_1_8_Speak_4391D0,
-    &FlyingSlig::state_1_9_nullsub_33,
-    &FlyingSlig::state_1_10_4387D0,
-    &FlyingSlig::state_1_11_438E40,
-    &FlyingSlig::state_1_12_438B10,
-    &FlyingSlig::state_1_13_438F60,
-    &FlyingSlig::state_1_14_438BF0,
-    &FlyingSlig::state_1_15_4387F0,
-    &FlyingSlig::state_1_16_438730,
-    &FlyingSlig::state_1_17_438B80,
-    &FlyingSlig::state_1_18_438C90,
-    &FlyingSlig::state_1_19_4390D0,
-    &FlyingSlig::state_1_20_439110,
-    &FlyingSlig::state_1_21_438EB0,
-    &FlyingSlig::state_1_22_438EE0,
-    &FlyingSlig::state_1_23_438F20,
-    &FlyingSlig::state_1_24_438D60,
-    &FlyingSlig::state_1_25_4389E0,
+    &FlyingSlig::M_Idle_0_4385E0,
+    &FlyingSlig::M_HorizontalMovement_1_4386A0,
+    &FlyingSlig::M_IdleToTurn_2_4388B0,
+    &FlyingSlig::M_DownMovement_3_438AA0,
+    &FlyingSlig::M_DownMovementToTurn_4_438CC0,
+    &FlyingSlig::M_UpMovement_5_438DD0,
+    &FlyingSlig::M_UpMovementToTurn_6_439030,
+    &FlyingSlig::M_LeverPull_7_439150,
+    &FlyingSlig::M_GameSpeak_8_4391D0,
+    &FlyingSlig::M_Possession_9_434290,
+    &FlyingSlig::M_EndHorizontalMovement_10_4387D0,
+    &FlyingSlig::M_BeginUpMovement_11_438E40,
+    &FlyingSlig::M_HorizontalToDownMovement_12_438B10,
+    &FlyingSlig::M_UpToHorizontalMovement_13_438F60,
+    &FlyingSlig::M_DownToHorizontalMovement_14_438BF0,
+    &FlyingSlig::M_QuickTurn_15_4387F0,
+    &FlyingSlig::M_IdleToHorizontalMovement_16_438730,
+    &FlyingSlig::M_BeginDownMovement_17_438B80,
+    &FlyingSlig::M_EndDownMovement_18_438C90,
+    &FlyingSlig::M_DownKnockback_19_4390D0,
+    &FlyingSlig::M_UpKnockback_20_439110,
+    &FlyingSlig::M_EndUpMovement_21_438EB0,
+    &FlyingSlig::M_InstantUpXTurn_22_438EE0,
+    &FlyingSlig::M_InstantDownXTurn_23_438F20,
+    &FlyingSlig::M_HorizontalToUpMovement_24_438D60,
+    &FlyingSlig::M_TurnToHorizontalMovement_25_4389E0,
 });
 
 FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
@@ -526,132 +526,132 @@ void FlyingSlig::state_0_16_4355E0()
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_0_4385E0()
+void FlyingSlig::M_Idle_0_4385E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_1_4386A0()
+void FlyingSlig::M_HorizontalMovement_1_4386A0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_2_4388B0()
+void FlyingSlig::M_IdleToTurn_2_4388B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_3_438AA0()
+void FlyingSlig::M_DownMovement_3_438AA0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_4_438CC0()
+void FlyingSlig::M_DownMovementToTurn_4_438CC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_5_438DD0()
+void FlyingSlig::M_UpMovement_5_438DD0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_6_439030()
+void FlyingSlig::M_UpMovementToTurn_6_439030()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_7_439150()
+void FlyingSlig::M_LeverPull_7_439150()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_8_Speak_4391D0()
+void FlyingSlig::M_GameSpeak_8_4391D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_9_nullsub_33()
+void FlyingSlig::M_Possession_9_434290()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_10_4387D0()
+void FlyingSlig::M_EndHorizontalMovement_10_4387D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_11_438E40()
+void FlyingSlig::M_BeginUpMovement_11_438E40()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_12_438B10()
+void FlyingSlig::M_HorizontalToDownMovement_12_438B10()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_13_438F60()
+void FlyingSlig::M_UpToHorizontalMovement_13_438F60()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_14_438BF0()
+void FlyingSlig::M_DownToHorizontalMovement_14_438BF0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_15_4387F0()
+void FlyingSlig::M_QuickTurn_15_4387F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_16_438730()
+void FlyingSlig::M_IdleToHorizontalMovement_16_438730()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_17_438B80()
+void FlyingSlig::M_BeginDownMovement_17_438B80()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_18_438C90()
+void FlyingSlig::M_EndDownMovement_18_438C90()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_19_4390D0()
+void FlyingSlig::M_DownKnockback_19_4390D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_20_439110()
+void FlyingSlig::M_UpKnockback_20_439110()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_21_438EB0()
+void FlyingSlig::M_EndUpMovement_21_438EB0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_22_438EE0()
+void FlyingSlig::M_InstantUpXTurn_22_438EE0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_23_438F20()
+void FlyingSlig::M_InstantDownXTurn_23_438F20()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_24_438D60()
+void FlyingSlig::M_HorizontalToUpMovement_24_438D60()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_1_25_4389E0()
+void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
 {
     NOT_IMPLEMENTED();
 }
