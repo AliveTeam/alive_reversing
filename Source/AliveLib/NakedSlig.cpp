@@ -305,12 +305,19 @@ void NakedSlig::vUpdate_419100()
             field_1B8_bChanting = 0;
         }
 
+        const auto oldMotion = field_106_current_motion;
+
         field_208_brain_sub_state = (this->*field_204_brain_state)();
         
         const FP oldX = field_B8_xpos;
         const FP oldY = field_BC_ypos;
 
         (this->*sNakedSlig_motions_551428[field_106_current_motion])();
+
+        if (oldMotion != field_106_current_motion)
+        {
+            LOG_INFO("NakedSlig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+        }
 
         if (oldX != field_B8_xpos || oldY != field_BC_ypos)
         {

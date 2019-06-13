@@ -403,6 +403,8 @@ void FlyingSlig::vUpdate_434AD0()
         */
         //memcpy(&field_29C_pTable1, &oldPtrV, sizeof(void*));
 
+        const auto oldMotion = field_106_current_motion;
+
         (this->*(field_29C_pTable1))();
         /*
         0 = idle
@@ -418,8 +420,13 @@ void FlyingSlig::vUpdate_434AD0()
         10 = 
         */
 
-        DDCheat::DebugStr_4F5560("Slig: motion: %s\n", sSligFns2Strings[field_106_current_motion]);
         (this->*(sFlyingSlig_fns2_5523A0)[field_106_current_motion])();
+
+        if (oldMotion != field_106_current_motion)
+        {
+            LOG_INFO("FlyingSlig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+        }
+
         sub_4396E0();
     }
 }

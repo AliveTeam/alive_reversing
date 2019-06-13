@@ -146,61 +146,60 @@ struct FnPair
 {
     TSligAIFn mOurFn;
     DWORD mOriginal;
+    const char* fnName;
 };
 
 static FnPair sAiFns[36] =
 {
-    { &Slig::AI_0_4BBFB0,  0x40128F },
-    { &Slig::AI_1_4BC410,  0x40371F },
-    { &Slig::AI_2_4BBCF0,  0x40458E },
-    { &Slig::AI_3_4BC1E0,  0x401EC9 },
-    { &Slig::AI_4_4B9D20,  0x4015A0 },
-    { &Slig::AI_5_4B3220,  0x4B3220 }, // No stub ??
-    { &Slig::AI_6_4B3420,  0x4B3420 }, // No stub ??
-    { &Slig::AI_7_4B3240,  0x4032AB },
-    { &Slig::AI_8_4B3120,  0x4B3120 }, // No stub ??
-    { &Slig::AI_9_4B3440,  0x4B3440 }, // No stub ??
-    { &Slig::AI_10_4B3460, 0x401E60 },
-    { &Slig::AI_11_4B35C0, 0x40120D },
-    { &Slig::AI_12_4BC490, 0x40479B },
-    { &Slig::AI_13_4BC780, 0x40144C },
-    { &Slig::AI_14_4BCA70, 0x403364 },
-    { &Slig::AI_15_4BD800, 0x403F85 },
-    { &Slig::AI_16_4BCE30, 0x4021B2 },
-    { &Slig::AI_17_4BCBD0, 0x403BCA },
-    { &Slig::AI_18_4BCEB0, 0x403E36 },
-    { &Slig::AI_19_4BDDD0, 0x403ABC },
-    { &Slig::AI_20_4BF1E0, 0x4020C2 },
-    { &Slig::AI_21_4BE0C0, 0x402A59 },
-    { &Slig::AI_22_4BE990, 0x40266C },
-    { &Slig::AI_23_4BEC40, 0x4020D1 },
-    { &Slig::AI_24_4BF2B0, 0x403B25 },
-    { &Slig::AI_25_4BF380, 0x403CE2 },
-    { &Slig::AI_26_4BF620, 0x4BF620 }, // No stub ??
-    { &Slig::AI_27_4BF600, 0x4BF600 }, // No stub ??
-    { &Slig::AI_28_4BFA70, 0x4025B3 },
-    { &Slig::AI_29_4BF750, 0x40308F },
-    { &Slig::AI_30_4BFA30, 0x403215 },
-    { &Slig::AI_31_4B9390, 0x403E0E },
-    { &Slig::AI_32_4B9430, 0x4038CD },
-    { &Slig::AI_33_4B8DD0, 0x40346D },
-    { &Slig::AI_34_4B9170, 0x402B17 },
-    { &Slig::AI_35_4BF640, 0x4022B1 },
+    { &Slig::AI_0_4BBFB0,  0x40128F, "AI_0", },
+    { &Slig::AI_1_4BC410,  0x40371F, "AI_1", },
+    { &Slig::AI_2_4BBCF0,  0x40458E, "AI_2", },
+    { &Slig::AI_3_4BC1E0,  0x401EC9, "AI_3", },
+    { &Slig::AI_4_4B9D20,  0x4015A0, "AI_4", },
+    { &Slig::AI_5_4B3220,  0x4B3220, "AI_5", }, // No stub ??
+    { &Slig::AI_6_4B3420,  0x4B3420, "AI_6", }, // No stub ??
+    { &Slig::AI_7_4B3240,  0x4032AB, "AI_7", },
+    { &Slig::AI_8_4B3120,  0x4B3120, "AI_8", }, // No stub ??
+    { &Slig::AI_9_4B3440,  0x4B3440, "AI_9", }, // No stub ??
+    { &Slig::AI_10_4B3460, 0x401E60, "AI_10", },
+    { &Slig::AI_11_4B35C0, 0x40120D, "AI_11", },
+    { &Slig::AI_12_4BC490, 0x40479B, "AI_12", },
+    { &Slig::AI_13_4BC780, 0x40144C, "AI_13", },
+    { &Slig::AI_14_4BCA70, 0x403364, "AI_14", },
+    { &Slig::AI_15_4BD800, 0x403F85, "AI_15", },
+    { &Slig::AI_16_4BCE30, 0x4021B2, "AI_16", },
+    { &Slig::AI_17_4BCBD0, 0x403BCA, "AI_17", },
+    { &Slig::AI_18_4BCEB0, 0x403E36, "AI_18", },
+    { &Slig::AI_19_4BDDD0, 0x403ABC, "AI_19", },
+    { &Slig::AI_20_4BF1E0, 0x4020C2, "AI_20", },
+    { &Slig::AI_21_4BE0C0, 0x402A59, "AI_21", },
+    { &Slig::AI_22_4BE990, 0x40266C, "AI_22", },
+    { &Slig::AI_23_4BEC40, 0x4020D1, "AI_23", },
+    { &Slig::AI_24_4BF2B0, 0x403B25, "AI_24", },
+    { &Slig::AI_25_4BF380, 0x403CE2, "AI_25", },
+    { &Slig::AI_26_4BF620, 0x4BF620, "AI_26", }, // No stub ??
+    { &Slig::AI_27_4BF600, 0x4BF600, "AI_27", }, // No stub ??
+    { &Slig::AI_28_4BFA70, 0x4025B3, "AI_28", },
+    { &Slig::AI_29_4BF750, 0x40308F, "AI_29", },
+    { &Slig::AI_30_4BFA30, 0x403215, "AI_30", },
+    { &Slig::AI_31_4B9390, 0x403E0E, "AI_31", },
+    { &Slig::AI_32_4B9430, 0x4038CD, "AI_32", },
+    { &Slig::AI_33_4B8DD0, 0x40346D, "AI_33", },
+    { &Slig::AI_34_4B9170, 0x402B17, "AI_34", },
+    { &Slig::AI_35_4BF640, 0x4022B1, "AI_35" },
 };
 
 #if _WIN32 || !_WIN64
-static DWORD GetOriginalFn(TSligAIFn fn)
+static const FnPair& GetOriginalFn(TSligAIFn fn)
 {
     // If not running as standalone set the address to be
     // the address of the real function rather than the reimpl as the real
     // game code compares the function pointer addresses (see IsBrain(x)).
     for (const auto& addrPair : sAiFns)
     {
-        if (addrPair.mOurFn == fn)
+        if (addrPair.mOurFn == fn || memcmp(&addrPair.mOriginal, &fn, sizeof(DWORD)) == 0)
         {
-            const DWORD actualAddressToUse = addrPair.mOriginal;
-            // Hack to overwrite the member function pointer bytes with arbitrary data
-            return actualAddressToUse;
+            return addrPair;
         }
     }
     ALIVE_FATAL("No matching address!");
@@ -212,7 +211,7 @@ void Slig::SetBrain(TSligAIFn fn)
 #if _WIN32 || !_WIN64
     if (IsAlive())
     {
-        const DWORD actualAddressToUse = GetOriginalFn(fn);
+        const DWORD actualAddressToUse = GetOriginalFn(fn).mOriginal;
         // Hack to overwrite the member function pointer bytes with arbitrary data
         memcpy(&field_154_brain_state, &actualAddressToUse, sizeof(DWORD));
         return;
@@ -226,7 +225,7 @@ bool Slig::BrainIs(TSligAIFn fn)
 #if _WIN32 || !_WIN64
     if (IsAlive())
     {
-        const DWORD actualAddressToUse = GetOriginalFn(fn);
+        const DWORD actualAddressToUse = GetOriginalFn(fn).mOriginal;
         TSligAIFn hack = nullptr;
         memcpy(&hack, &actualAddressToUse, sizeof(DWORD));
         return hack == field_154_brain_state;
@@ -1234,6 +1233,7 @@ void Slig::vUpdate_4B17C0()
     else
     {
         const auto oldMotion = field_106_current_motion;
+        const auto oldBrain = field_154_brain_state;
         field_11C = (this->*field_154_brain_state)();
 
         if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
@@ -1262,9 +1262,9 @@ void Slig::vUpdate_4B17C0()
             VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
         }
 
-        if (oldMotion != field_106_current_motion)
+        if (oldBrain != field_154_brain_state)
         {
-            LOG_INFO("Slig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            LOG_INFO("Slig: Old brain = " << GetOriginalFn(oldBrain).fnName << " new brain = " << GetOriginalFn(field_154_brain_state).fnName);
         }
 
         if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
