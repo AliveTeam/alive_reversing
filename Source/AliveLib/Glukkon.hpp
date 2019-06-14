@@ -5,31 +5,31 @@
 #include "BaseAliveGameObject.hpp"
 
 #define GLUKKON_MOTIONS_ENUM(ENTRY) \
-    ENTRY(M_0_Idle_442D10) \
-    ENTRY(M_1_Walk_442D30) \
-    ENTRY(M_2_Turn_442F10) \
-    ENTRY(M_3_KnockBack_442F40) \
-    ENTRY(M_4_Jump_443030) \
-    ENTRY(M_5_JumpToFall_4434C0) \
-    ENTRY(M_6_WalkToFall_4434E0) \
-    ENTRY(M_7_Fall_443510) \
-    ENTRY(M_8_DeathFall_443760) \
-    ENTRY(M_9_Land_443790) \
-    ENTRY(M_10_Shake_443B50) \
-    ENTRY(M_11_Speak1_4437D0) \
-    ENTRY(M_12_Speak2_4438F0) \
-    ENTRY(M_13_LongLaugh_443930) \
-    ENTRY(M_14_BeginWalk_443950) \
-    ENTRY(M_15_EndWalk_443970) \
-    ENTRY(M_16_StandToJump_4439B0) \
-    ENTRY(M_17_JumpToStand_4439D0) \
-    ENTRY(M_18_WalkToJump_443A00) \
-    ENTRY(M_19_JumpToWalk_443A30) \
-    ENTRY(M_20_KnockBackStandBegin_442FC0) \
-    ENTRY(M_21_GetShot_443A60) \
-    ENTRY(M_22_KnockBackStandEnd_443010) \
-    ENTRY(M_23_Speak3_443910) \
-    ENTRY(M_24_EndSingleStep_443990)
+    ENTRY(M_Idle_0_442D10) \
+    ENTRY(M_Walk_1_442D30) \
+    ENTRY(M_Turn_2_442F10) \
+    ENTRY(M_KnockBack_3_442F40) \
+    ENTRY(M_Jump_4_443030) \
+    ENTRY(M_JumpToFall_5_4434C0) \
+    ENTRY(M_WalkToFall_6_4434E0) \
+    ENTRY(M_Fall_7_443510) \
+    ENTRY(M_DeathFall_8_443760) \
+    ENTRY(M_Land_9_443790) \
+    ENTRY(M_ChantShake_10_443B50) \
+    ENTRY(M_Speak1_11_4437D0) \
+    ENTRY(M_Speak2_12_4438F0) \
+    ENTRY(M_LongLaugh_13_443930) \
+    ENTRY(M_BeginWalk_14_443950) \
+    ENTRY(M_EndWalk_15_443970) \
+    ENTRY(M_StandToJump_16_4439B0) \
+    ENTRY(M_JumpToStand_17_4439D0) \
+    ENTRY(M_WalkToJump_18_443A00) \
+    ENTRY(M_JumpToWalk_19_443A30) \
+    ENTRY(M_KnockBackStandBegin_20_442FC0) \
+    ENTRY(M_GetShot_21_443A60) \
+    ENTRY(M_KnockBackStandEnd_22_443010) \
+    ENTRY(M_Speak3_23_443910) \
+    ENTRY(M_EndSingleStep_24_443990)
 
 #define MAKE_ENUM(VAR) VAR,
 enum eGlukkonMotions : int
@@ -90,34 +90,34 @@ public:
     virtual void VOnTrapDoorOpen() override;
 
 public:
-    EXPORT void M_0_Idle_442D10();
-    EXPORT void M_1_Walk_442D30();
-    EXPORT void M_2_Turn_442F10();
-    EXPORT void M_3_KnockBack_442F40();
-    EXPORT void M_4_Jump_443030();
+    EXPORT void M_Idle_0_442D10();
+    EXPORT void M_Walk_1_442D30();
+    EXPORT void M_Turn_2_442F10();
+    EXPORT void M_KnockBack_3_442F40();
+    EXPORT void M_Jump_4_443030();
 
     void JumpHelper();
 
-    EXPORT void M_5_JumpToFall_4434C0();
-    EXPORT void M_6_WalkToFall_4434E0();
-    EXPORT void M_7_Fall_443510();
-    EXPORT void M_8_DeathFall_443760();
-    EXPORT void M_9_Land_443790();
-    EXPORT void M_10_ChantShake_443B50();
-    EXPORT void M_11_Speak1_4437D0();
-    EXPORT void M_12_Speak2_4438F0();
-    EXPORT void M_13_LongLaugh_443930();
-    EXPORT void M_14_BeginWalk_443950();
-    EXPORT void M_15_EndWalk_443970();
-    EXPORT void M_16_StandToJump_4439B0();
-    EXPORT void M_17_JumpToStand_4439D0();
-    EXPORT void M_18_WalkToJump_443A00();
-    EXPORT void M_19_JumpToWalk_443A30();
-    EXPORT void M_20_KnockBackStandBegin_442FC0();
-    EXPORT void M_21_GetShot_443A60();
-    EXPORT void M_22_KnockBackStandEnd_443010();
-    EXPORT void M_23_Speak3_443910();
-    EXPORT void M_24_EndSingleStep_443990();
+    EXPORT void M_JumpToFall_5_4434C0();
+    EXPORT void M_WalkToFall_6_4434E0();
+    EXPORT void M_Fall_7_443510();
+    EXPORT void M_DeathFall_8_443760();
+    EXPORT void M_Land_9_443790();
+    EXPORT void M_ChantShake_10_443B50();
+    EXPORT void M_Speak1_11_4437D0();
+    EXPORT void M_Speak2_12_4438F0();
+    EXPORT void M_LongLaugh_13_443930();
+    EXPORT void M_BeginWalk_14_443950();
+    EXPORT void M_EndWalk_15_443970();
+    EXPORT void M_StandToJump_16_4439B0();
+    EXPORT void M_JumpToStand_17_4439D0();
+    EXPORT void M_WalkToJump_18_443A00();
+    EXPORT void M_JumpToWalk_19_443A30();
+    EXPORT void M_KnockBackStandBegin_20_442FC0();
+    EXPORT void M_GetShot_21_443A60();
+    EXPORT void M_KnockBackStandEnd_22_443010();
+    EXPORT void M_Speak3_23_443910();
+    EXPORT void M_EndSingleStep_24_443990();
 
 public:
     EXPORT __int16 AI_0_Calm_WalkAround_440B40();
