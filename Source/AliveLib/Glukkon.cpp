@@ -28,6 +28,7 @@
 #include "GameSpeak.hpp"
 #include "Gibs.hpp"
 #include "Blood.hpp"
+#include "Bullet.hpp"
 
 struct Path_EnemyStopper : public Path_TLV
 {
@@ -143,7 +144,7 @@ static FnPair sAiFns[6] =
 {
     { &Glukkon::AI_0_Calm_WalkAround_440B40, 0x402D60 },
     { &Glukkon::AI_1_Panic_4412F0, 0x403049 },
-    { &Glukkon::AI_2_441720, 0x403864 },
+    { &Glukkon::AI_2_Slapped_441720, 0x403864 },
     { &Glukkon::AI_3_PlayerControlled_441A30, 0x401BF4 },
     { &Glukkon::AI_4_Death_442010, 0x401CE9 },
     { &Glukkon::AI_5_WaitToSpawn_442490, 0x40357B }
@@ -270,6 +271,11 @@ void Glukkon::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
 void Glukkon::VOnTrapDoorOpen()
 {
     vOnTrapDoorOpen_444120();
+}
+
+__int16 Glukkon::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return vTakeDamage_43FA40(pFrom);
 }
 
 void Glukkon::M_Idle_0_442D10()
@@ -1168,7 +1174,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
     return 0;
 }
 
-__int16 Glukkon::AI_2_441720()
+__int16 Glukkon::AI_2_Slapped_441720()
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -2526,4 +2532,186 @@ void Glukkon::vOnTrapDoorOpen_444120()
         field_110_id = -1;
         SetAnim_43F9C0(eGlukkonMotions::M_WalkToFall_6_4434E0, TRUE);
     }
+}
+
+__int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
+{
+    if (BrainIs(&Glukkon::AI_4_Death_442010))
+    {
+        return 1;
+    }
+
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eBullet_15:
+    {
+        auto pBullet = static_cast<Bullet*>(pFrom);
+        switch (pBullet->field_20_type)
+        {
+        case 0:
+        case 2:
+        {
+            auto pBlood1 = alive_new<Blood>();
+            if (pBlood1)
+            {
+                const FP yRand = (FP_FromInteger(Math_NextRandom() % 16)) - FP_FromInteger(8);
+                const FP xRand = FP_FromInteger(Math_NextRandom() & 0xF); // TODO: Might be wrong as was trying to make this abs() but result is unsigned anyway ??
+
+                const FP xPos = (field_CC_sprite_scale * (pBullet->field_30 <= 0 ? -FP_FromInteger(6) : FP_FromInteger(6)));
+                pBlood1->ctor_40F0B0(
+                    xPos + field_B8_xpos,
+                    field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
+                    ((pBullet->field_30 <= 0 ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
+                    yRand,
+                    field_CC_sprite_scale,
+                    12);
+            }
+
+            auto pBlood2 = alive_new<Blood>();
+            if (pBlood2)
+            {
+                const FP xPos = (field_CC_sprite_scale * (pBullet->field_30 <= 0 ? -FP_FromInteger(12) : FP_FromInteger(12)));
+                pBlood2->ctor_40F0B0(
+                    xPos + field_B8_xpos,
+                    field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
+                    pBullet->field_30 <= 0 ? -FP_FromInteger(6) : FP_FromInteger(6),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    8);
+            }
+        }
+            break;
+
+        case 1:
+        case 3:
+        {
+            auto pBlood2 = alive_new<Blood>();
+            if (pBlood2)
+            {
+                pBlood2->ctor_40F0B0(
+                    field_B8_xpos,
+                    field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale,
+                    25);
+            }
+        }
+        break;
+
+        default:
+            break;
+        }
+
+        field_200 = sGnFrame_5C1B84 + 5;
+
+        if (field_106_current_motion == eGlukkonMotions::M_21_GetShot_443A60)
+        {
+            field_10C_health = FP_FromInteger(0);
+            Event_Broadcast_422BC0(kEventMudokonComfort, this);
+            return 1;
+        }
+
+        if (field_106_current_motion == eGlukkonMotions::M_3_KnockBack_442F40)
+        {
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                SetBrain(&Glukkon::AI_4_Death_442010);
+                field_210 = 4;
+            }
+            field_10C_health = FP_FromInteger(0);
+            Event_Broadcast_422BC0(kEventMudokonComfort, this);
+            return 1;
+        }
+
+        field_204 = sGnFrame_5C1B84 + 20;
+        SetAnim_43F9C0(eGlukkonMotions::M_21_GetShot_443A60, TRUE);
+
+        SetBrain(&Glukkon::AI_4_Death_442010);
+        field_210 = 4;
+
+        if (pBullet->field_30 >= 0)
+        {
+            field_C4_velx = FP_FromDouble(0.001);
+        }
+        else
+        {
+            field_C4_velx = -FP_FromDouble(0.001);
+        }
+        field_10C_health = FP_FromInteger(0);
+        Event_Broadcast_422BC0(kEventMudokonComfort, this);
+    }
+        break;
+
+    case Types::eGrinder_30:
+    case Types::eBaseBomb_46:
+    case Types::eType_86:
+    case Types::eExplosion_109:
+        SetBrain(&Glukkon::AI_4_Death_442010);
+        field_210 = 2;
+        Event_Broadcast_422BC0(kEventMudokonComfort, this);
+        break;
+
+    case Types::eElectricWall_39:
+        Glukkon::PlaySound_444AF0(9u, 0, field_1E0, this);
+        return 1;
+
+    case Types::eRockSpawner_48:
+    case Types::eMineCar_89:
+    case Types::eType_107:
+        SetAnim_43F9C0(eGlukkonMotions::M_8_DeathFall_443760, TRUE);
+        SetBrain(&Glukkon::AI_4_Death_442010);
+        field_210 = 0;
+        Event_Broadcast_422BC0(kEventMudokonComfort, this);
+        break;
+
+    case Types::eType_Abe_69:
+        if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_62_Punch_454750)
+        {
+            if (Math_NextRandom() <= 32u)
+            {
+                Glukkon::PlaySound_444AF0(9u, 0, 0, 0);
+            }
+            else
+            {
+                Glukkon::PlaySound_444AF0(0, 0, 0, 0);
+            }
+            field_1F8 = sGnFrame_5C1B84;
+            SetAnim_43F9C0(eGlukkonMotions::M_3_KnockBack_442F40, TRUE);
+            SetBrain(&Glukkon::AI_2_Slapped_441720);
+            field_210 = 0;
+        }
+        break;
+
+    case Types::eSlog_126:
+        if (field_106_current_motion != eGlukkonMotions::M_3_KnockBack_442F40)
+        {
+            field_10C_health = FP_FromInteger(0);
+            SetBrain(&Glukkon::AI_4_Death_442010);
+            field_210 = 5;
+            Abe_SFX_2_457A40(13, 0, 32767, this);
+            Event_Broadcast_422BC0(kEventMudokonComfort, this);
+            if (!vIsFacingMe_4254A0(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
+            {
+                field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+            }
+            field_C4_velx = FP_FromInteger(0);
+            SetAnim_43F9C0(eGlukkonMotions::M_3_KnockBack_442F40, TRUE);
+        }
+        break;
+
+    case Types::eElectrocute_150:
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_10C_health = FP_FromInteger(0);
+        SetBrain(&Glukkon::AI_4_Death_442010);
+        field_210 = 3;
+        field_1D4_timer = sGnFrame_5C1B84 + 1;
+        Event_Broadcast_422BC0(kEventMudokonComfort, this);
+        break;
+
+    default:
+        return 1;
+    }
+
+    return 1;
 }

@@ -303,6 +303,8 @@ ExportHooker.hpp
     GasCountDown.cpp
     GlukkonSwitch.hpp
     GlukkonSwitch.cpp
+    Bullet.hpp
+    Bullet.cpp
     TouchController.cpp
     TouchController.hpp
 )

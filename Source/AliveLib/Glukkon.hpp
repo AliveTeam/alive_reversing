@@ -89,6 +89,8 @@ public:
 
     virtual void VOnTrapDoorOpen() override;
 
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+
 public:
     EXPORT void M_Idle_0_442D10();
     EXPORT void M_Walk_1_442D30();
@@ -122,7 +124,7 @@ public:
 public:
     EXPORT __int16 AI_0_Calm_WalkAround_440B40();
     EXPORT __int16 AI_1_Panic_4412F0();
-    EXPORT __int16 AI_2_441720();
+    EXPORT __int16 AI_2_Slapped_441720();
     EXPORT __int16 AI_3_PlayerControlled_441A30();
     EXPORT __int16 AI_4_Death_442010();
     EXPORT __int16 AI_5_WaitToSpawn_442490();
@@ -177,7 +179,9 @@ private:
 
     EXPORT void vOnTrapDoorOpen_444120();
 
-
+    EXPORT __int16 vTakeDamage_43FA40(BaseGameObject* pFrom);
+    
+    
     void SetBrain(TGlukkonAIFn fn);
     bool BrainIs(TGlukkonAIFn fn);
 

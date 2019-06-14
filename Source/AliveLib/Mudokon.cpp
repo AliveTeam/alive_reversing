@@ -28,6 +28,7 @@
 #include "MusicTrigger.hpp"
 #include "Blood.hpp"
 #include "Gibs.hpp"
+#include "Bullet.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
@@ -1042,30 +1043,6 @@ void Mudokon::vPossessed_4774F0()
     }
 }
 
-class Obj_15 : public BaseGameObject
-{
-public:
-
-
-    __int16 field_20_type;
-private:
-    __int16 field_22;
-    PathLine* field_24_pLine;
-    int field_28_xpos;
-    int field_2C_ypos;
-public:
-    int field_30;
-private:
-    int field_34;
-    __int16 field_38_level;
-    __int16 field_3A_path;
-    int field_3C_scale;
-    int field_40_pParent;
-    __int16 field_44;
-    __int16 field_46;
-};
-ALIVE_ASSERT_SIZEOF(Obj_15, 0x48);
-
 __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
 {
     switch (pFrom->field_4_typeId)
@@ -1078,7 +1055,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             return 1;
         }
 
-        auto pBullet = static_cast<Obj_15*>(pFrom);
+        auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
         {
         case 0:
