@@ -1170,8 +1170,149 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
 
 __int16 Glukkon::AI_1_Panic_4412F0()
 {
-    NOT_IMPLEMENTED(); 
-    return 0;
+    if (gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(8, this, 0, 0);
+    }
+
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pLiftPoint && pLiftPoint->field_4_typeId == Types::eLiftPoint_78 && !pLiftPoint->vOnAnyFloor_461920() && field_210 != 6)
+    {
+        field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
+        return 6;
+    }
+
+    if (!field_100_pCollisionLine)
+    {
+        return 7;
+    }
+
+    if (sActiveHero_5C1B68->field_10C_health < FP_FromInteger(0))
+    {
+        Glukkon::Speak_444640(7);
+        SetBrain(&Glukkon::AI_4_Death_442010);
+        return 6;
+    }
+
+    switch (field_210)
+    {
+    case 0:
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_1D4_timer || field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
+        {
+            return field_210;
+        }
+        field_1F8 = sGnFrame_5C1B84;
+        Speak_444640(6);
+        return 4;
+
+    case 1:
+        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
+        {
+            return field_210;
+        }
+
+        if (ShouldPanic_440200(TRUE))
+        {
+            field_1F8 = sGnFrame_5C1B84;
+        }
+        else if (static_cast<int>(sGnFrame_5C1B84) - field_1F8 > field_1A8_tlvData.field_1A_post_alarm_delay)
+        {
+            SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetFalse_1);
+            SetBrain(&Glukkon::AI_0_Calm_WalkAround_440B40);
+            return 0;
+        }
+
+        if (field_1A8_tlvData.field_14_default_behaviour != 0)
+        {
+            if (Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked_4442F0(field_C4_velx, 1))
+            {
+                field_108_next_motion = eGlukkonMotions::M_Turn_2_442F10;
+                return 3;
+            }
+            field_108_next_motion = eGlukkonMotions::M_BeginWalk_14_443950;
+        }
+        else
+        {
+            field_108_next_motion = eGlukkonMotions::M_Idle_0_442D10;
+        }
+        return 2;
+
+    case 2:
+        if (field_1A8_tlvData.field_14_default_behaviour == 1)
+        {
+            if (Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked_4442F0(field_C4_velx, 1))
+            {
+                Glukkon::Speak_444640(6u);
+                return 5;
+            }
+        }
+        else
+        {
+            if (Math_NextRandom() < 5u && static_cast<int>(sGnFrame_5C1B84) > field_1F4)
+            {
+                field_1F4 = sGnFrame_5C1B84 + 120;
+                Glukkon::Speak_444640(6u);
+                return 5;
+            }
+        }
+        if (Math_NextRandom() >= 0xAu || static_cast<int>(sGnFrame_5C1B84) <= field_1F0)
+        {
+            return field_210;
+        }
+        Glukkon::Speak_444640(6u);
+        return 4;
+
+    case 3:
+        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
+        {
+            return field_210;
+        }
+        return 1;
+
+    case 4:
+        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
+        {
+            return field_210;
+        }
+        field_1F0 = sGnFrame_5C1B84 + 60;
+        return 1;
+
+    case 5:
+        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10 || field_1EA_speak != -1)
+        {
+            return field_210;
+        }
+        field_108_next_motion = eGlukkonMotions::M_Turn_2_442F10;
+        return 3;
+
+    case 6:
+        if (pLiftPoint)
+        {
+            if (!pLiftPoint->vOnAnyFloor_461920())
+            {
+                return field_210;
+            }
+        }
+        else
+        {
+            field_110_id = -1;
+        }
+        return 1;
+
+    case 7:
+        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10)
+        {
+            return field_210;
+        }
+        return 1;
+
+    default:
+        return field_210;
+    }
 }
 
 __int16 Glukkon::AI_2_Slapped_441720()
