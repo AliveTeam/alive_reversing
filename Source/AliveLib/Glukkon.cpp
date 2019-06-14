@@ -2605,14 +2605,14 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
 
         field_200 = sGnFrame_5C1B84 + 5;
 
-        if (field_106_current_motion == eGlukkonMotions::M_21_GetShot_443A60)
+        if (field_106_current_motion == eGlukkonMotions::M_GetShot_21_443A60)
         {
             field_10C_health = FP_FromInteger(0);
             Event_Broadcast_422BC0(kEventMudokonComfort, this);
             return 1;
         }
 
-        if (field_106_current_motion == eGlukkonMotions::M_3_KnockBack_442F40)
+        if (field_106_current_motion == eGlukkonMotions::M_KnockBack_3_442F40)
         {
             if (field_10C_health > FP_FromInteger(0))
             {
@@ -2625,7 +2625,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         }
 
         field_204 = sGnFrame_5C1B84 + 20;
-        SetAnim_43F9C0(eGlukkonMotions::M_21_GetShot_443A60, TRUE);
+        SetAnim_43F9C0(eGlukkonMotions::M_GetShot_21_443A60, TRUE);
 
         SetBrain(&Glukkon::AI_4_Death_442010);
         field_210 = 4;
@@ -2659,7 +2659,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
     case Types::eRockSpawner_48:
     case Types::eMineCar_89:
     case Types::eType_107:
-        SetAnim_43F9C0(eGlukkonMotions::M_8_DeathFall_443760, TRUE);
+        SetAnim_43F9C0(eGlukkonMotions::M_DeathFall_8_443760, TRUE);
         SetBrain(&Glukkon::AI_4_Death_442010);
         field_210 = 0;
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
@@ -2677,14 +2677,14 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
                 Glukkon::PlaySound_444AF0(0, 0, 0, 0);
             }
             field_1F8 = sGnFrame_5C1B84;
-            SetAnim_43F9C0(eGlukkonMotions::M_3_KnockBack_442F40, TRUE);
+            SetAnim_43F9C0(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
             SetBrain(&Glukkon::AI_2_Slapped_441720);
             field_210 = 0;
         }
         break;
 
     case Types::eSlog_126:
-        if (field_106_current_motion != eGlukkonMotions::M_3_KnockBack_442F40)
+        if (field_106_current_motion != eGlukkonMotions::M_KnockBack_3_442F40)
         {
             field_10C_health = FP_FromInteger(0);
             SetBrain(&Glukkon::AI_4_Death_442010);
@@ -2696,7 +2696,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
                 field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
             }
             field_C4_velx = FP_FromInteger(0);
-            SetAnim_43F9C0(eGlukkonMotions::M_3_KnockBack_442F40, TRUE);
+            SetAnim_43F9C0(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
         }
         break;
 
