@@ -314,49 +314,58 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
 
             std::string addrStr = exportedFunctionName.substr(underScorePos + 1, hexNumLen);
             const unsigned long addr = std::stoul(addrStr, nullptr, 16);
-
-            bool isRealFuncStub = false;
-            std::string withoutAddress = exportedFunctionName.substr(0, underScorePos);
-            const auto nextLastUnderscorePos = withoutAddress.find_last_of('_');
-            if (nextLastUnderscorePos != std::string::npos)
+            if (addr >= 0x401000 && addr <= 0xC3E898)
             {
-                std::string lastUnderscoreSegment = withoutAddress.substr(nextLastUnderscorePos + 1);
-                if (_stricmp(lastUnderscoreSegment.c_str(), "Real") == 0)
+                bool isRealFuncStub = false;
+                std::string withoutAddress = exportedFunctionName.substr(0, underScorePos);
+                const auto nextLastUnderscorePos = withoutAddress.find_last_of('_');
+                if (nextLastUnderscorePos != std::string::npos)
                 {
-                    isRealFuncStub = true;
+                    std::string lastUnderscoreSegment = withoutAddress.substr(nextLastUnderscorePos + 1);
+                    if (_stricmp(lastUnderscoreSegment.c_str(), "Real") == 0)
+                    {
+                        isRealFuncStub = true;
+                    }
                 }
-            }
 
-            if (isRealFuncStub)
-            {
-                if (mRealStubs.find(addr) != std::end(mRealStubs))
+                if (isRealFuncStub)
                 {
-                    std::stringstream s;
-                    s << "Duplicated real function stub for address " << std::hex << "0x" << addr << " " << exportedFunctionName;
-                    ALIVE_FATAL(s.str().c_str());
+                    if (mRealStubs.find(addr) != std::end(mRealStubs))
+                    {
+                        std::stringstream s;
+                        s << "Duplicated real function stub for address " << std::hex << "0x" << addr << " " << exportedFunctionName;
+                        ALIVE_FATAL(s.str().c_str());
+                    }
+                    mRealStubs[addr] = (DWORD)pCode;
+                    if (!IsAlive())
+                    {
+                        // Disable the int 3/break point in the real stub in standalone
+                        GetExportInformation(pCode, exportedFunctionName);
+
+                        LOG_WARNING("Stub to real function for " << exportedFunctionName);
+                    }
+                    return;
                 }
-                mRealStubs[addr] = (DWORD)pCode;
-                if (!IsAlive())
+                else
                 {
-                    // Disable the int 3/break point in the real stub in standalone
-                    GetExportInformation(pCode, exportedFunctionName);
+                    auto it = mUsedAddrs.find(addr);
+                    if (it != std::end(mUsedAddrs))
+                    {
+                        std::stringstream s;
+                        s << "Duplicated impl function for address " << std::hex << "0x" << addr << " already used by " << it->second.Name() << " when checking " << exportedFunctionName;
+                        ALIVE_FATAL(s.str().c_str());
+                    }
+
+
+                    ExportInformation exportInfo = GetExportInformation(pCode, exportedFunctionName);
+                    mExports.push_back({ exportedFunctionName, pCode, addr, addr, exportInfo.mIsImplemented });
+                    mUsedAddrs.insert({ addr, exportInfo });
+                    return;
                 }
             }
             else
             {
-                auto it = mUsedAddrs.find(addr);
-                if (it != std::end(mUsedAddrs))
-                {
-                    std::stringstream s;
-                    s << "Duplicated impl function for address " << std::hex << "0x" << addr << " already used by " << it->second.Name() << " when checking " << exportedFunctionName;
-                    ALIVE_FATAL(s.str().c_str());
-                }
-
-
-                ExportInformation exportInfo = GetExportInformation(pCode, exportedFunctionName);
-                mExports.push_back({ exportedFunctionName, pCode, addr, addr, exportInfo.mIsImplemented });
-                mUsedAddrs.insert({ addr, exportInfo });
-                return;
+                LOG_WARNING("Address " << addr << " was not in the .text section range, looking for another one");
             }
         }
 
