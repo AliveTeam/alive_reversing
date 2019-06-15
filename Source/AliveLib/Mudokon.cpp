@@ -6935,7 +6935,7 @@ void Mudokon::CheckKnockedOntoABomb_4723C0()
 void Mudokon::HurtSound_475DB0()
 {
     const unsigned __int8 random = Math_RandomRange_496AB0(0, 127) >= 64 ? 16 : 9;
-    const short min = FP_GetExponent(FP_FromInteger(1) - field_10C_health / FP_FromDouble(0.15));
+    const short min = FP_GetExponent((FP_FromInteger(1) - field_10C_health) / FP_FromDouble(0.15));
     const __int16 bInCamera = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0);
     Abe_SFX_457EC0(random, bInCamera ? 0 : 80, Math_RandomRange_496AB0(200 * min, 40 * (5 * min + 5)), this);
 }
