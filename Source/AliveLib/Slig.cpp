@@ -10,6 +10,15 @@
 #include "MusicController.hpp"
 #include "DDCheat.hpp"
 #include "BaseGameObject.hpp"
+#include "NakedSlig.hpp" // TODO: SFX playing only
+#include "SnoozeParticle.hpp"
+#include "Events.hpp"
+
+EXPORT void CC Start_Slig_sounds_4CB980(CameraPos /*a1*/, int /*kZero*/)
+{
+    // TODO: Probably a static function on the Path object
+    NOT_IMPLEMENTED();
+}
 
 // This is a left bound, right bound and a persist.
 struct Path_Slig_Bound : public Path_TLV
@@ -45,6 +54,62 @@ TintEntry stru_560570[15] =
 
 ALIVE_VAR(1, 0xBAF7E4, int, dword_BAF7E4, 0);
 ALIVE_VAR(1, 0xBAF7E8, short, word_BAF7E8, 0);
+
+const int sSligFrameTables_547318[52] =
+{
+    135512,
+    135804,
+    135360,
+    135824,
+    135440,
+    136088,
+    135544,
+    135512,
+    135696,
+    135576,
+    135916,
+    135632,
+    135652,
+    135768,
+    135844,
+    135876,
+    135512,
+    135788,
+    135896,
+    135936,
+    136048,
+    135976,
+    136132,
+    136012,
+    136048,
+    135976,
+    136132,
+    136012,
+    136048,
+    135976,
+    136132,
+    136012,
+    33552,
+    33448,
+    33184,
+    33228,
+    33348,
+    33348,
+    30560,
+    30592,
+    30628,
+    9204,
+    9208,
+    9260,
+    13016,
+    12612,
+    23048,
+    23072,
+    23200,
+    23148,
+    23096,
+    12660
+};
 
 const TSligMotionFn sSlig_motion_table_5604A0[52] =
 {
@@ -292,7 +357,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_20C = -1;
     field_20E = 0;
     field_210 = 0;
-    field_134 = 0;
+    field_134_res_idx = 0;
 
     field_20_animation.field_1C_fn_ptr_array = kSlig_Anim_Frame_Fns_55EFAC;
 
@@ -526,7 +591,72 @@ void Slig::M_Blurgh_31_4B5510()
 
 void Slig::M_Sleeping_32_4B89A0()
 {
-    NOT_IMPLEMENTED();
+    if (field_108_next_motion == eSligMotions::M_SleepingToStand_33_4B8C50)
+    {
+        // Out of sleep
+        field_106_current_motion = eSligMotions::M_SleepingToStand_33_4B8C50;
+        field_108_next_motion = -1;
+    }
+    else if (static_cast<int>(sGnFrame_5C1B84 % 60))
+    {
+        if (!(static_cast<int>(sGnFrame_5C1B84 - 20) % 60))
+        {
+            Slig_Sfx_4BFFE0(5, this);
+            if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+            {
+                auto pSnoozeParticle = alive_new<SnoozeParticle>();
+                if (pSnoozeParticle)
+                {
+                    FP xOff = {};
+                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        xOff = -(field_CC_sprite_scale * FP_FromInteger(-20));
+                    }
+                    else
+                    {
+                        xOff = (field_CC_sprite_scale * FP_FromInteger(-20));
+                    }
+                    pSnoozeParticle->ctor_4B06F0(
+                        xOff + field_B8_xpos,
+                        field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-10)),
+                        field_20_animation.field_C_render_layer,
+                        field_20_animation.field_14_scale);
+                }
+            }
+        }
+    }
+    else
+    {
+        Slig_Sfx_4BFFE0(4, this);
+
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_B8_xpos,
+            field_BC_ypos,
+            0))
+        {
+            auto pSnoozeParticle = alive_new<SnoozeParticle>();
+            if (pSnoozeParticle)
+            {
+                FP xOff = {};
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    xOff = -(field_CC_sprite_scale * FP_FromInteger(-20));
+                }
+                else
+                {
+                    xOff = (field_CC_sprite_scale * FP_FromInteger(-20));
+                }
+
+                pSnoozeParticle->ctor_4B06F0(
+                    xOff + field_B8_xpos,
+                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-10)),
+                    field_20_animation.field_C_render_layer,
+                    field_20_animation.field_14_scale);
+            }
+        }
+    }
 }
 
 void Slig::M_SleepingToStand_33_4B8C50()
@@ -830,8 +960,52 @@ __int16 Slig::AI_Paused_33_4B8DD0()
 
 __int16 Slig::AI_Sleeping_34_4B9170()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    auto pEvent = Event_Is_Event_In_Range_422C30(kEventSuspiciousNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
+    if (pEvent)
+    {
+        auto pNoise = Event_Is_Event_In_Range_422C30(kEventNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
+        if (pNoise)
+        {
+            pEvent = pNoise;
+        }
+
+        const FP wakeUpDistance = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(field_218_tlv_data.field_4A_noise_wake_up_distance);
+        if (vIsObjNearby_4253B0(wakeUpDistance, pEvent) &&
+            field_120_timer <= static_cast<int>(sGnFrame_5C1B84) &&
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+            !Event_Get_422C00(kEventResetting))
+        {
+            WakeUp_4B93B0();
+            return 102;
+        }
+    }
+
+    if (Event_Get_422C00(kEventSpeaking) || Event_Get_422C00(kEventLoudNoise))
+    {
+        if (pEvent != this  &&
+            field_120_timer <= static_cast<int>(sGnFrame_5C1B84) &&
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+            !Event_Get_422C00(kEventResetting))
+        {
+            WakeUp_4B93B0();
+            return 102;
+        }
+    }
+
+    if (Event_Get_422C00(kEventAlarm) && !Event_Get_422C00(kEventResetting))
+    {
+        WakeUp_4B93B0();
+        return 102;
+    }
+
+    ShouldStilBeAlive_4BBC00();
+
+    if (field_6_flags.Get(BaseGameObject::eDead))
+    {
+        const CameraPos direction = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+        Start_Slig_sounds_4CB980(direction, 0);
+    }
+    return 102;
 }
 
 __int16 Slig::AI_GameEnder_35_4BF640()
@@ -916,7 +1090,7 @@ void Slig::Init_4BB0D0()
         {
             SetBrain(&Slig::AI_Sleeping_34_4B9170);
             field_106_current_motion = eSligMotions::M_Sleeping_32_4B89A0;
-            vsub_4B1320();
+            vUpdateAnim_4B1320();
         }
         break;
 
@@ -1270,12 +1444,12 @@ void Slig::vUpdate_4B17C0()
         if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
         {
             field_114_flags.Clear(Flags_114::e114_MotionChanged_Bit2);
-            vsub_4B1320();
+            vUpdateAnim_4B1320();
         }
         else if (field_124)
         {
             field_106_current_motion = field_F4;
-            vsub_4B1320();
+            vUpdateAnim_4B1320();
             field_20_animation.SetFrame_409D50(field_F6_anim_frame);
             field_124 = 0;
         }
@@ -1287,7 +1461,122 @@ void Slig::vsub_4B2EA0()
     NOT_IMPLEMENTED();
 }
 
-void Slig::vsub_4B1320()
+void Slig::vUpdateAnim_4B1320()
 {
-    NOT_IMPLEMENTED();
+    BYTE** ppRes = ResForMotion_4B1E90(field_106_current_motion);
+    if (!ppRes)
+    {
+        field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
+        ppRes = ResForMotion_4B1E90(field_106_current_motion);
+    }
+    field_20_animation.Set_Animation_Data_409C80(sSligFrameTables_547318[field_106_current_motion], ppRes);
+}
+
+void Slig::WakeUp_4B93B0()
+{
+    field_108_next_motion = eSligMotions::M_SleepingToStand_33_4B8C50;
+    SetBrain(&Slig::AI_WakingUp_31_4B9390);
+
+    MusicController::sub_47FD60(4, this, 0, 0);
+    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        field_218_tlv_data.field_8_top_left.field_0_x,
+        field_218_tlv_data.field_8_top_left.field_2_y,
+        field_218_tlv_data.field_8_top_left.field_0_x,
+        field_218_tlv_data.field_8_top_left.field_2_y,
+        TlvTypes::Slig_15);
+    if (pTlv)
+    {
+        pTlv->field_1_unknown = 1; // TODO: Keep track of these, 1 must keep slig awake ??
+    }
+}
+
+void Slig::ShouldStilBeAlive_4BBC00()
+{
+    if (!field_15C)
+    {
+        // Check not falling and not in the current screen
+        if (field_106_current_motion != eSligMotions::M_Falling_7_4B42D0
+            && field_106_current_motion != eSligMotions::M_OutToFall_38_4B4570
+            && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                field_BC_ypos,
+                0))
+        {
+            if (field_290_points_count <= 0)
+            {
+                // No patrol points, die
+                field_6_flags.Set(BaseGameObject::eDead);
+            }
+            else
+            {
+                int i = 0;
+                while (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    field_C2_lvl_number,
+                    field_C0_path_number,
+                    FP_FromInteger(field_268_points[i].field_0_x),
+                    FP_FromInteger(field_268_points[i].field_2_y),
+                    0))
+                {
+                    if (i >= field_290_points_count)
+                    {
+                        // No within any out our patrol points, die
+                        field_6_flags.Set(BaseGameObject::eDead);
+                        break;
+                    }
+                    i++;
+                }
+            }
+        }
+    }
+}
+
+BYTE** Slig::ResForMotion_4B1E90(__int16 motion)
+{
+    __int16 resIdx = 0;
+    if (motion < eSligMotions::M_Sleeping_32_4B89A0)
+    {
+        resIdx = 0;
+    }
+    else if (motion < eSligMotions::M_Knockback_34_4B68A0)
+    {
+        resIdx = 1;
+    }
+    else if (motion < eSligMotions::M_OutToFall_38_4B4570)
+    {
+        resIdx = 2;
+    }
+    else if (motion < eSligMotions::M_LandingFatal_41_4B4680)
+    {
+        resIdx = 3;
+    }
+    else if (motion < eSligMotions::M_ShootZ_42_4B7560)
+    {
+        resIdx = 4;
+    }
+    else if (motion < eSligMotions::M_Smash_44_4B6B90)
+    {
+        resIdx = 5;
+    }
+    else if (motion < eSligMotions::M_PullLever_45_4B8950)
+    {
+        resIdx = 6;
+    }
+    else if (motion < eSligMotions::M_LiftGrip_46_4B3700)
+    {
+        resIdx = 7;
+    }
+    else if (motion < eSligMotions::M_Beat_51_4B6C00)
+    {
+        resIdx = eSligMotions::M_SlidingToStand_8_4B6520;
+    }
+    else
+    {
+        resIdx = motion >= 52 ? 0 : 9;
+    }
+
+    field_134_res_idx = resIdx;
+
+    return field_10_resources_array.ItemAt(field_134_res_idx);
 }

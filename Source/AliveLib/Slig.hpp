@@ -234,8 +234,13 @@ private:
 
     EXPORT void vsub_4B2EA0();
 
-    EXPORT void vsub_4B1320();
+    EXPORT void vUpdateAnim_4B1320();
 
+    EXPORT void WakeUp_4B93B0();
+
+    EXPORT void ShouldStilBeAlive_4BBC00();
+
+    EXPORT BYTE** ResForMotion_4B1E90(__int16 motion);
 
 private:
     void SetBrain(TSligAIFn fn);
@@ -251,7 +256,7 @@ private:
     int field_128_input;
     int field_12C;
     int field_130;
-    __int16 field_134;
+    __int16 field_134_res_idx;
     __int16 field_136;
     PSX_RECT field_138_rect;
     __int16 field_140;
