@@ -271,6 +271,16 @@ private:
 
     EXPORT void ToStand_4B4A20();
 
+    EXPORT void BlowUp_4B8020();
+
+    EXPORT __int16 MainMovement_4B4720();
+
+    EXPORT __int16 HandlePlayerControlled_4B7800();
+
+    EXPORT __int16 GetNextMotionIncGameSpeak_4B5080(int input);
+
+    EXPORT void WaitOrWalk_4BE870();
+
 private:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);

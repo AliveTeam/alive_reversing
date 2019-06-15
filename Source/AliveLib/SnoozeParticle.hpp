@@ -46,7 +46,9 @@ private:
     Line_G4 field_4C_G4_lines[2];
     Line_G2 field_A4_G2_lines[2][6];
     Prim_SetTPage field_1C4_tPage[2];
+public:
     __int16 field_1E4_state;
+private:
     __int16 field_1E6_pad;
 };
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1E8);
