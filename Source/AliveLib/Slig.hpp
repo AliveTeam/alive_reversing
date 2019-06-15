@@ -281,6 +281,10 @@ private:
 
     EXPORT void WaitOrWalk_4BE870();
 
+    EXPORT void ToAbeDead_4B3580();
+
+    EXPORT void ToUnderGlukkonCommand_4B9660();
+
 private:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);

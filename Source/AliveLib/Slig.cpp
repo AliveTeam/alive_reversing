@@ -17,6 +17,7 @@
 #include "Blood.hpp"
 #include "Gibs.hpp"
 #include "Particle.hpp"
+#include "Midi.hpp"
 
 EXPORT void CC Start_Slig_sounds_4CB980(CameraPos /*a1*/, int /*kZero*/)
 {
@@ -894,7 +895,21 @@ void Slig::M_LandingSoft_40_4B4530()
 
 void Slig::M_LandingFatal_41_4B4680()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+        SFX_Play_46FA90(64u, 80);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_12C && !BrainIs(&Slig::AI_Death_0_4BBFB0))
+        {
+            field_10C_health = FP_FromInteger(0);
+            SetBrain(&Slig::AI_Death_0_4BBFB0);
+            field_120_timer = sGnFrame_5C1B84 + 60;
+        }
+    }
 }
 
 void Slig::M_ShootZ_42_4B7560()
@@ -2093,4 +2108,17 @@ __int16 Slig::GetNextMotionIncGameSpeak_4B5080(int /*input*/)
 void Slig::WaitOrWalk_4BE870()
 {
     NOT_IMPLEMENTED();
+}
+
+void Slig::ToAbeDead_4B3580()
+{
+    field_108_next_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
+    SetBrain(&Slig::AI_AbeDead_10_4B3460);
+    field_120_timer = sGnFrame_5C1B84 + 45;
+}
+
+void Slig::ToUnderGlukkonCommand_4B9660()
+{
+    SetBrain(&Slig::AI_ListeningToGlukkon_4_4B9D20);
+    field_11C = 0;
 }
