@@ -131,6 +131,12 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
+    virtual void VPossessed_408F70() override;
+
+    virtual void VUnPosses_408F90() override;
+
+    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
+
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
     EXPORT void M_StandToWalk_1_4B5F70();
@@ -234,6 +240,12 @@ private:
     EXPORT void vUpdate_4B17C0();
 
     EXPORT void vScreenChanged_4B1E20();
+
+    EXPORT void vPossessed_4B2F10();
+
+    EXPORT void vUnPosses_4B3050();
+
+    EXPORT void vOnTlvCollision_4B2FB0(Path_TLV* pTlv);
 
     EXPORT void vsub_4B2EA0();
 

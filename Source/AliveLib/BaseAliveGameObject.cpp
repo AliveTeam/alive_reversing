@@ -126,9 +126,9 @@ BaseGameObject* BaseAliveGameObject::VDestructor(signed int flags)
     return vdtor_408210(flags);
 }
 
-int BaseAliveGameObject::VUnPosses_408F90()
+void BaseAliveGameObject::VUnPosses_408F90()
 {
-    return vUnPosses_408F90();
+    vUnPosses_408F90();
 }
 
 void BaseAliveGameObject::VPossessed_408F70()
@@ -179,10 +179,9 @@ __int16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject*
 
 // =======
 
-int BaseAliveGameObject::vUnPosses_408F90()
+void BaseAliveGameObject::vUnPosses_408F90()
 {
     // Empty
-    return 0;
 }
 
 void BaseAliveGameObject::vPossessed_408F70()

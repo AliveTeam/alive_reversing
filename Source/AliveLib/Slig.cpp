@@ -13,6 +13,7 @@
 #include "NakedSlig.hpp" // TODO: SFX playing only
 #include "SnoozeParticle.hpp"
 #include "Events.hpp"
+#include "Sfx.hpp"
 
 EXPORT void CC Start_Slig_sounds_4CB980(CameraPos /*a1*/, int /*kZero*/)
 {
@@ -434,6 +435,21 @@ void Slig::VScreenChanged()
     vScreenChanged_4B1E20();
 }
 
+void Slig::VPossessed_408F70()
+{
+    vPossessed_4B2F10();
+}
+
+void Slig::VUnPosses_408F90()
+{
+    vUnPosses_4B3050();
+}
+
+void Slig::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
+{
+    vOnTlvCollision_4B2FB0(pTlv);
+}
+
 void Slig::M_StandIdle_0_4B4EC0()
 {
     NOT_IMPLEMENTED();
@@ -726,7 +742,18 @@ void Slig::M_Smash_44_4B6B90()
 
 void Slig::M_PullLever_45_4B8950()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_114_flags.Get(Flags_114::e114_Bit10))
+        {
+            Sfx_Slig_4C04F0(11, 0, field_11E, this);
+            field_106_current_motion = eSligMotions::M_Blurgh_31_4B5510;
+        }
+        else
+        {
+            ToStand_4B4A20();
+        }
+    }
 }
 
 void Slig::M_LiftGrip_46_4B3700()
@@ -1468,6 +1495,52 @@ void Slig::vScreenChanged_4B1E20()
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId) && this != sControlledCharacter_5C1B8C)
     {
         field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
+
+void Slig::vPossessed_4B2F10()
+{
+    field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
+    field_292 |= 1u;
+    if (field_108_next_motion != eSligMotions::M_KnockbackToStand_35_4B6A30 && field_108_next_motion != eSligMotions::M_Knockback_34_4B68A0)
+    {
+        field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
+    }
+    SetBrain(&Slig::AI_Possessed_2_4BBCF0);
+    field_11C = 0;
+
+    field_146_level = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_148_path = gMap_5C3030.sCurrentPathId_5C3032;
+    field_14A_camera = gMap_5C3030.sCurrentCamId_5C3034;
+
+    MusicController::sub_47FD60(9, this, 1, 0);
+}
+
+void Slig::vUnPosses_4B3050()
+{
+    field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
+    field_120_timer = sGnFrame_5C1B84 + 180;
+    MusicController::sub_47FD60(0, this, 0, 0);
+}
+
+void Slig::vOnTlvCollision_4B2FB0(Path_TLV* pTlv)
+{
+    while (pTlv)
+    {
+        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        {
+            if (field_10C_health > FP_FromInteger(0))
+            {
+                field_10C_health = FP_FromInteger(0);
+                field_11C = 0;
+                SetBrain(&Slig::AI_DeathDropDeath_3_4BC1E0);
+                field_C8_vely = FP_FromInteger(0);
+                field_C4_velx = FP_FromInteger(0);
+                VSetMotion_4081C0(eSligMotions::M_Falling_7_4B42D0);
+                Event_Broadcast_422BC0(kEventMudokonComfort, this);
+            }
+        }
+        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, field_B8_xpos, field_BC_ypos, field_B8_xpos, field_BC_ypos);
     }
 }
 

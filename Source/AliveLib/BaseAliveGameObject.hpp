@@ -42,7 +42,7 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual int VUnPosses_408F90();
+    virtual void VUnPosses_408F90();
     virtual void VPossessed_408F70();
     virtual void VSetMotion_4081C0(__int16 state);
     virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);
@@ -54,7 +54,7 @@ public:
   
     EXPORT static __int16 CCSTD IsInInvisibleZone_425710(BaseAliveGameObject* pObj);
 protected:
-    EXPORT int vUnPosses_408F90();
+    EXPORT void vUnPosses_408F90();
     EXPORT void vPossessed_408F70();
     EXPORT void vSetMotion_4081C0(__int16 state);
     EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);
