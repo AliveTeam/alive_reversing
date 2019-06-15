@@ -104,42 +104,42 @@ const TSligMotionFn sSlig_motion_table_5604A0[52] =
 
 const TSligAIFn sSlig_ai_table_5605AC[36] =
 {
-    &Slig::AI_0_4BBFB0,
-    &Slig::AI_1_4BC410,
-    &Slig::AI_2_4BBCF0,
-    &Slig::AI_3_4BC1E0,
-    &Slig::AI_4_4B9D20,
-    &Slig::AI_5_4B3220,
-    &Slig::AI_6_4B3420,
-    &Slig::AI_7_4B3240,
-    &Slig::AI_8_4B3120,
-    &Slig::AI_9_4B3440,
-    &Slig::AI_10_4B3460,
-    &Slig::AI_11_4B35C0,
-    &Slig::AI_12_4BC490,
-    &Slig::AI_13_4BC780,
-    &Slig::AI_14_4BCA70,
-    &Slig::AI_15_4BD800,
-    &Slig::AI_16_4BCE30,
-    &Slig::AI_17_4BCBD0,
-    &Slig::AI_18_4BCEB0,
-    &Slig::AI_19_4BDDD0,
-    &Slig::AI_20_4BF1E0,
-    &Slig::AI_21_4BE0C0,
-    &Slig::AI_22_4BE990,
-    &Slig::AI_23_4BEC40,
-    &Slig::AI_24_4BF2B0,
-    &Slig::AI_25_4BF380,
-    &Slig::AI_26_4BF620,
-    &Slig::AI_27_4BF600,
-    &Slig::AI_28_4BFA70,
-    &Slig::AI_29_4BF750,
-    &Slig::AI_30_4BFA30,
-    &Slig::AI_31_4B9390,
-    &Slig::AI_32_4B9430,
-    &Slig::AI_33_4B8DD0,
-    &Slig::AI_34_4B9170,
-    &Slig::AI_35_4BF640
+    &Slig::AI_Death_0_4BBFB0,
+    &Slig::AI_ReturnControlToAbeAndDie_1_4BC410,
+    &Slig::AI_Possessed_2_4BBCF0,
+    &Slig::AI_DeathDropDeath_3_4BC1E0,
+    &Slig::AI_ListeningToGlukkon_4_4B9D20,
+    &Slig::AI_Empty_5_4B3220,
+    &Slig::AI_Empty_6_4B3420,
+    &Slig::AI_SpottedEnemy_7_4B3240,
+    &Slig::AI_Empty_8_4B3120,
+    &Slig::AI_Empty_9_4B3440,
+    &Slig::AI_AbeDead_10_4B3460,
+    &Slig::AI_KilledAbe_11_4B35C0,
+    &Slig::AI_PanicTurning_12_4BC490,
+    &Slig::AI_PanicRunning_13_4BC780,
+    &Slig::AI_PanicYelling_14_4BCA70,
+    &Slig::AI_Idle_15_4BD800,
+    &Slig::AI_StopChasing_16_4BCE30,
+    &Slig::AI_Chasing2_17_4BCBD0,
+    &Slig::AI_Chasing1_18_4BCEB0,
+    &Slig::AI_Turning_19_4BDDD0,
+    &Slig::AI_StoppingNextToMudokon_20_4BF1E0,
+    &Slig::AI_Walking_21_4BE0C0,
+    &Slig::AI_GetAlertedTurn_22_4BE990,
+    &Slig::AI_GetAlerted_23_4BEC40,
+    &Slig::AI_BeatingUp_24_4BF2B0,
+    &Slig::AI_DiscussionWhat_25_4BF380,
+    &Slig::AI_Empty_26_4BF620,
+    &Slig::AI_Empty_27_4BF600,
+    &Slig::AI_ShootingFromBackground_28_4BFA70,
+    &Slig::AI_Shooting_29_4BF750,
+    &Slig::AI_SpottedEnemyFromBackground_30_4BFA30,
+    &Slig::AI_WakingUp_31_4B9390,
+    &Slig::AI_Inactive_32_4B9430,
+    &Slig::AI_Paused_33_4B8DD0,
+    &Slig::AI_Sleeping_34_4B9170,
+    &Slig::AI_GameEnder_35_4BF640
 };
 
 struct FnPair
@@ -151,42 +151,42 @@ struct FnPair
 
 static FnPair sAiFns[36] =
 {
-    { &Slig::AI_0_4BBFB0,  0x40128F, "AI_0", },
-    { &Slig::AI_1_4BC410,  0x40371F, "AI_1", },
-    { &Slig::AI_2_4BBCF0,  0x40458E, "AI_2", },
-    { &Slig::AI_3_4BC1E0,  0x401EC9, "AI_3", },
-    { &Slig::AI_4_4B9D20,  0x4015A0, "AI_4", },
-    { &Slig::AI_5_4B3220,  0x4B3220, "AI_5", }, // No stub ??
-    { &Slig::AI_6_4B3420,  0x4B3420, "AI_6", }, // No stub ??
-    { &Slig::AI_7_4B3240,  0x4032AB, "AI_7", },
-    { &Slig::AI_8_4B3120,  0x4B3120, "AI_8", }, // No stub ??
-    { &Slig::AI_9_4B3440,  0x4B3440, "AI_9", }, // No stub ??
-    { &Slig::AI_10_4B3460, 0x401E60, "AI_10", },
-    { &Slig::AI_11_4B35C0, 0x40120D, "AI_11", },
-    { &Slig::AI_12_4BC490, 0x40479B, "AI_12", },
-    { &Slig::AI_13_4BC780, 0x40144C, "AI_13", },
-    { &Slig::AI_14_4BCA70, 0x403364, "AI_14", },
-    { &Slig::AI_15_4BD800, 0x403F85, "AI_15", },
-    { &Slig::AI_16_4BCE30, 0x4021B2, "AI_16", },
-    { &Slig::AI_17_4BCBD0, 0x403BCA, "AI_17", },
-    { &Slig::AI_18_4BCEB0, 0x403E36, "AI_18", },
-    { &Slig::AI_19_4BDDD0, 0x403ABC, "AI_19", },
-    { &Slig::AI_20_4BF1E0, 0x4020C2, "AI_20", },
-    { &Slig::AI_21_4BE0C0, 0x402A59, "AI_21", },
-    { &Slig::AI_22_4BE990, 0x40266C, "AI_22", },
-    { &Slig::AI_23_4BEC40, 0x4020D1, "AI_23", },
-    { &Slig::AI_24_4BF2B0, 0x403B25, "AI_24", },
-    { &Slig::AI_25_4BF380, 0x403CE2, "AI_25", },
-    { &Slig::AI_26_4BF620, 0x4BF620, "AI_26", }, // No stub ??
-    { &Slig::AI_27_4BF600, 0x4BF600, "AI_27", }, // No stub ??
-    { &Slig::AI_28_4BFA70, 0x4025B3, "AI_28", },
-    { &Slig::AI_29_4BF750, 0x40308F, "AI_29", },
-    { &Slig::AI_30_4BFA30, 0x403215, "AI_30", },
-    { &Slig::AI_31_4B9390, 0x403E0E, "AI_31", },
-    { &Slig::AI_32_4B9430, 0x4038CD, "AI_32", },
-    { &Slig::AI_33_4B8DD0, 0x40346D, "AI_33", },
-    { &Slig::AI_34_4B9170, 0x402B17, "AI_34", },
-    { &Slig::AI_35_4BF640, 0x4022B1, "AI_35" },
+    { &Slig::AI_Death_0_4BBFB0,  0x40128F, "AI_Death_0", },
+    { &Slig::AI_ReturnControlToAbeAndDie_1_4BC410,  0x40371F, "AI_ReturnControlToAbeAndDie_1", },
+    { &Slig::AI_Possessed_2_4BBCF0,  0x40458E, "AI_Possessed_2", },
+    { &Slig::AI_DeathDropDeath_3_4BC1E0,  0x401EC9, "AI_DeathDropDeath_3", },
+    { &Slig::AI_ListeningToGlukkon_4_4B9D20,  0x4015A0, "AI_ListeningToGlukkon_4", },
+    { &Slig::AI_Empty_5_4B3220,  0x4B3220, "AI_Empty_5", },
+    { &Slig::AI_Empty_6_4B3420,  0x4B3420, "AI_Empty_6", },
+    { &Slig::AI_SpottedEnemy_7_4B3240,  0x4032AB, "AI_SpottedEnemy_7", },
+    { &Slig::AI_Empty_8_4B3120,  0x4B3120, "AI_Empty_8", },
+    { &Slig::AI_Empty_9_4B3440,  0x4B3440, "AI_Empty_9", },
+    { &Slig::AI_AbeDead_10_4B3460, 0x401E60, "AI_AbeDead_10", },
+    { &Slig::AI_KilledAbe_11_4B35C0, 0x40120D, "AI_KilledAbe_11", },
+    { &Slig::AI_PanicTurning_12_4BC490, 0x40479B, "AI_PanicTurning_12", },
+    { &Slig::AI_PanicRunning_13_4BC780, 0x40144C, "AI_PanicRunning_13", },
+    { &Slig::AI_PanicYelling_14_4BCA70, 0x403364, "AI_PanicYelling_14", },
+    { &Slig::AI_Idle_15_4BD800, 0x403F85, "AI_Idle_15", },
+    { &Slig::AI_StopChasing_16_4BCE30, 0x4021B2, "AI_StopChasing_16", },
+    { &Slig::AI_Chasing2_17_4BCBD0, 0x403BCA, "AI_Chasing2_17", },
+    { &Slig::AI_Chasing1_18_4BCEB0, 0x403E36, "AI_Chasing1_18", },
+    { &Slig::AI_Turning_19_4BDDD0, 0x403ABC, "AI_Turning_19", },
+    { &Slig::AI_StoppingNextToMudokon_20_4BF1E0, 0x4020C2, "AI_StoppingNextToMudokon_20", },
+    { &Slig::AI_Walking_21_4BE0C0, 0x402A59, "AI_Walking_21", },
+    { &Slig::AI_GetAlertedTurn_22_4BE990, 0x40266C, "AI_GetAlertedTurn_22", },
+    { &Slig::AI_GetAlerted_23_4BEC40, 0x4020D1, "AI_GetAlerted_23", },
+    { &Slig::AI_BeatingUp_24_4BF2B0, 0x403B25, "AI_BeatingUp_24", },
+    { &Slig::AI_DiscussionWhat_25_4BF380, 0x403CE2, "AI_DiscussionWhat_25", },
+    { &Slig::AI_Empty_26_4BF620, 0x4BF620, "AI_Empty_26", },
+    { &Slig::AI_Empty_27_4BF600, 0x4BF600, "AI_Empty_27", },
+    { &Slig::AI_ShootingFromBackground_28_4BFA70, 0x4025B3, "AI_ShootingFromBackground_28", },
+    { &Slig::AI_Shooting_29_4BF750, 0x40308F, "AI_Shooting_29", },
+    { &Slig::AI_SpottedEnemyFromBackground_30_4BFA30, 0x403215, "AI_SpottedEnemyFromBackground_30", },
+    { &Slig::AI_WakingUp_31_4B9390, 0x403E0E, "AI_WakingUp_31", },
+    { &Slig::AI_Inactive_32_4B9430, 0x4038CD, "AI_Inactive_32", },
+    { &Slig::AI_Paused_33_4B8DD0, 0x40346D, "AI_Paused_33", },
+    { &Slig::AI_Sleeping_34_4B9170, 0x402B17, "AI_Sleeping_34", },
+    { &Slig::AI_GameEnder_35_4BF640, 0x4022B1, "AI_GameEnder_35" },
 };
 
 #if _WIN32 || !_WIN64
@@ -624,217 +624,217 @@ void Slig::M_Beat_51_4B6C00()
     NOT_IMPLEMENTED();
 }
 
-__int16 Slig::AI_0_4BBFB0()
+__int16 Slig::AI_Death_0_4BBFB0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_1_4BC410()
+__int16 Slig::AI_ReturnControlToAbeAndDie_1_4BC410()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_2_4BBCF0()
+__int16 Slig::AI_Possessed_2_4BBCF0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_3_4BC1E0()
+__int16 Slig::AI_DeathDropDeath_3_4BC1E0()
 {
     NOT_IMPLEMENTED(); 
     return 0;
 }
 
-__int16 Slig::AI_4_4B9D20()
+__int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
 {
     NOT_IMPLEMENTED(); 
     return 0;
 }
 
-__int16 Slig::AI_5_4B3220()
+__int16 Slig::AI_Empty_5_4B3220()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_6_4B3420()
+__int16 Slig::AI_Empty_6_4B3420()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_7_4B3240()
+__int16 Slig::AI_SpottedEnemy_7_4B3240()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_8_4B3120()
+__int16 Slig::AI_Empty_8_4B3120()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_9_4B3440()
+__int16 Slig::AI_Empty_9_4B3440()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_10_4B3460()
+__int16 Slig::AI_AbeDead_10_4B3460()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_11_4B35C0()
+__int16 Slig::AI_KilledAbe_11_4B35C0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_12_4BC490()
+__int16 Slig::AI_PanicTurning_12_4BC490()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_13_4BC780()
+__int16 Slig::AI_PanicRunning_13_4BC780()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_14_4BCA70()
+__int16 Slig::AI_PanicYelling_14_4BCA70()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_15_4BD800()
+__int16 Slig::AI_Idle_15_4BD800()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_16_4BCE30()
+__int16 Slig::AI_StopChasing_16_4BCE30()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_17_4BCBD0()
+__int16 Slig::AI_Chasing2_17_4BCBD0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_18_4BCEB0()
+__int16 Slig::AI_Chasing1_18_4BCEB0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_19_4BDDD0()
+__int16 Slig::AI_Turning_19_4BDDD0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_20_4BF1E0()
+__int16 Slig::AI_StoppingNextToMudokon_20_4BF1E0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_21_4BE0C0()
+__int16 Slig::AI_Walking_21_4BE0C0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_22_4BE990()
+__int16 Slig::AI_GetAlertedTurn_22_4BE990()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_23_4BEC40()
+__int16 Slig::AI_GetAlerted_23_4BEC40()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_24_4BF2B0()
+__int16 Slig::AI_BeatingUp_24_4BF2B0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_25_4BF380()
+__int16 Slig::AI_DiscussionWhat_25_4BF380()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_26_4BF620()
+__int16 Slig::AI_Empty_26_4BF620()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_27_4BF600()
+__int16 Slig::AI_Empty_27_4BF600()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_28_4BFA70()
+__int16 Slig::AI_ShootingFromBackground_28_4BFA70()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_29_4BF750()
+__int16 Slig::AI_Shooting_29_4BF750()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_30_4BFA30()
+__int16 Slig::AI_SpottedEnemyFromBackground_30_4BFA30()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_31_4B9390()
+__int16 Slig::AI_WakingUp_31_4B9390()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_32_4B9430()
+__int16 Slig::AI_Inactive_32_4B9430()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_33_4B8DD0()
+__int16 Slig::AI_Paused_33_4B8DD0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_34_4B9170()
+__int16 Slig::AI_Sleeping_34_4B9170()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slig::AI_35_4BF640()
+__int16 Slig::AI_GameEnder_35_4BF640()
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -904,29 +904,29 @@ void Slig::Init_4BB0D0()
     switch (field_218_tlv_data.field_12_start_state)
     {
     case Path_Slig::StartState::Paused_1:
-        SetBrain(&Slig::AI_32_4B9430);
+        SetBrain(&Slig::AI_Inactive_32_4B9430);
         break;
 
     case Path_Slig::StartState::Sleeping_2:
         if (field_218_tlv_data.field_1_unknown && field_218_tlv_data.field_46_stay_awake)
         {
-            SetBrain(&Slig::AI_32_4B9430);
+            SetBrain(&Slig::AI_Inactive_32_4B9430);
         }
         else
         {
-            SetBrain(&Slig::AI_34_4B9170);
+            SetBrain(&Slig::AI_Sleeping_34_4B9170);
             field_106_current_motion = eSligMotions::M_Sleeping_32_4B89A0;
             vsub_4B1320();
         }
         break;
 
     case Path_Slig::StartState::Chase_3:
-        SetBrain(&Slig::AI_18_4BCEB0);
+        SetBrain(&Slig::AI_Chasing1_18_4BCEB0);
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_36_time_to_wait_before_chase;
         break;
 
     case Path_Slig::StartState::RunOffScreen_4:
-        SetBrain(&Slig::AI_35_4BF640);
+        SetBrain(&Slig::AI_GameEnder_35_4BF640);
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_14_pause_time;
         break;
 
@@ -955,7 +955,7 @@ void Slig::Init_4BB0D0()
                     field_208 = pGlukkon->field_8_object_id;
                     word_BAF7E8++;
                     field_216 |= 1u;
-                    SetBrain(&Slig::AI_4_4B9D20);
+                    SetBrain(&Slig::AI_ListeningToGlukkon_4_4B9D20);
                     field_11C = 1;
                     break;
                 }
@@ -964,12 +964,12 @@ void Slig::Init_4BB0D0()
 
         if (!field_208)
         {
-            SetBrain(&Slig::AI_32_4B9430);
+            SetBrain(&Slig::AI_Inactive_32_4B9430);
         }
         break;
 
     default:
-        SetBrain(&Slig::AI_33_4B8DD0);
+        SetBrain(&Slig::AI_Paused_33_4B8DD0);
         break;
     }
 
@@ -1158,7 +1158,7 @@ void Slig::vUpdate_4B17C0()
             }
         }
         field_208 = BaseGameObject::Find_Flags_4DC170(field_208);
-        if (BrainIs(&Slig::AI_4_4B9D20))
+        if (BrainIs(&Slig::AI_ListeningToGlukkon_4_4B9D20))
         {
             word_BAF7E8++;
         }
