@@ -129,6 +129,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
@@ -232,15 +233,31 @@ private:
 
     EXPORT void vUpdate_4B17C0();
 
+    EXPORT void vScreenChanged_4B1E20();
+
     EXPORT void vsub_4B2EA0();
 
     EXPORT void vUpdateAnim_4B1320();
+
+    EXPORT BOOL vUnderGlukkonCommand_4B1760();
 
     EXPORT void WakeUp_4B93B0();
 
     EXPORT void ShouldStilBeAlive_4BBC00();
 
     EXPORT BYTE** ResForMotion_4B1E90(__int16 motion);
+
+    EXPORT void ToTurn_4BE090();
+
+    EXPORT void RespondWithWhat_4BF400();
+
+    EXPORT void ToShoot_4BF9A0();
+
+    EXPORT void ToZShoot_4BF9E0();
+
+    EXPORT void PauseALittle_4BDD00();
+
+    EXPORT void ToStand_4B4A20();
 
 private:
     void SetBrain(TSligAIFn fn);
