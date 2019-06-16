@@ -295,6 +295,18 @@ private:
 
     EXPORT void FallKnockBackOrSmash_4B4A90();
 
+    EXPORT void TurnOrSayWhat_4BEBC0();
+
+    EXPORT void GameSpeakResponse_4BF470();
+
+    EXPORT void GoAlertedOrSayWhat_4BF140();
+
+    EXPORT static int CCSTD IsFacingEffectiveLeft_4BB780(Slig* pSlig);
+
+    EXPORT void MoveOnLine_4B4C40();
+
+    EXPORT void PlayerControlStopWalkingIfRequired_4B8540();
+
 private:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
@@ -311,7 +323,7 @@ private:
     FP field_130;
     __int16 field_134_res_idx;
     __int16 field_136;
-    PSX_RECT field_138_rect;
+    PSX_RECT field_138_zone_rect;
     __int16 field_140;
     __int16 field_142;
     __int16 field_144;
