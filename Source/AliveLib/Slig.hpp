@@ -285,6 +285,16 @@ private:
 
     EXPORT void ToUnderGlukkonCommand_4B9660();
 
+    EXPORT void ToKilledAbe_4B3600();
+
+    EXPORT BOOL IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
+
+    EXPORT __int16 ListenToGlukkonCommands_4B95D0();
+
+    EXPORT void PlatformCollide_4B4E00();
+
+    EXPORT void FallKnockBackOrSmash_4B4A90();
+
 private:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
@@ -298,7 +308,7 @@ private:
     __int16 field_126;
     int field_128_input;
     int field_12C;
-    int field_130;
+    FP field_130;
     __int16 field_134_res_idx;
     __int16 field_136;
     PSX_RECT field_138_rect;
