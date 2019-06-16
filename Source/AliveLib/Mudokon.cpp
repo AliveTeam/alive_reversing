@@ -5811,7 +5811,7 @@ void Mudokon::JumpStart_35_474460()
         }
         field_C8_vely = (field_CC_sprite_scale * -FP_FromDouble(9.6));
         field_BC_ypos += field_C8_vely;
-        vOnTrapDoorOpen_4081F0();
+        VOnTrapDoorOpen();
         field_106_current_motion = Mud_Motion::JumpMid_36_474570;
         field_100_pCollisionLine = nullptr;
     }
@@ -5942,7 +5942,7 @@ void Mudokon::StartHoistJumpUp_39_4748E0()
         field_F8_LastLineYPos = field_BC_ypos;
         field_C8_vely = (field_CC_sprite_scale * -FP_FromInteger(8));
         field_BC_ypos += field_C8_vely;
-        vOnTrapDoorOpen_4081F0();
+        VOnTrapDoorOpen();
         field_106_current_motion = Mud_Motion::HoistFallToFloor_40_474780;
         field_100_pCollisionLine = nullptr;
     }
@@ -6608,7 +6608,7 @@ void Mudokon::ToFalling_472320()
 {
     if (!field_100_pCollisionLine)
     {
-        vOnTrapDoorOpen_4081F0();
+        VOnTrapDoorOpen();
         field_106_current_motion = Mud_Motion::Fall_49_472C60;
     }
 }

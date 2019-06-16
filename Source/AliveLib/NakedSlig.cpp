@@ -1460,7 +1460,7 @@ void NakedSlig::MoveOnLine_41C3D0()
         }
         else
         {
-            vOnTrapDoorOpen_4081F0();
+            VOnTrapDoorOpen();
             field_F8_LastLineYPos = field_BC_ypos;
             if (field_106_current_motion == NakedSligMotion::M_3_Crawling_41B280)
             {

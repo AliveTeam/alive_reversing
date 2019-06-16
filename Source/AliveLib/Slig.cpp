@@ -459,6 +459,11 @@ void Slig::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOnTlvCollision_4B2FB0(pTlv);
 }
 
+void Slig::VOnTrapDoorOpen()
+{
+    vOnTrapDoorOpen_4B3690();
+}
+
 void Slig::M_StandIdle_0_4B4EC0()
 {
     FP xOff = {};
@@ -801,7 +806,10 @@ void Slig::M_ReloadGun_12_4B5530()
 
 void Slig::M_ShootToStand_13_4B5580()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        MainMovement_4B4720();
+    }
 }
 
 void Slig::M_SteppingToStand_14_4B8480()
@@ -860,7 +868,24 @@ void Slig::M_DepossessingAbort_16_4B8250()
 
 void Slig::M_GameSpeak_17_4B5290()
 {
-    NOT_IMPLEMENTED();
+    field_128_input |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = GetNextMotionIncGameSpeak_4B5080(field_128_input);
+        if (field_106_current_motion == -1)
+        {
+            ToStand_4B4A20();
+            field_128_input = 0;
+        }
+        else
+        {
+            if (!BrainIs(&Slig::AI_ListeningToGlukkon_4_4B9D20))
+            {
+                Event_Broadcast_422BC0(kEventSpeaking, this);
+            }
+            field_128_input = 0;
+        }
+    }
 }
 
 void Slig::M_WalkToStand_18_4B5FC0()
@@ -1376,27 +1401,108 @@ void Slig::M_PullLever_45_4B8950()
 
 void Slig::M_LiftGrip_46_4B3700()
 {
-    NOT_IMPLEMENTED();
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pLiftPoint)
+    {
+        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+        field_C8_vely = FP_FromInteger(0);
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            if (sControlledCharacter_5C1B8C == this)
+            {
+                if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+                {
+                    if (pLiftPoint->vOnTopFloor_461890())
+                    {
+                        field_106_current_motion = eSligMotions::M_LiftGripping_48_4B3850;
+                    }
+                    else
+                    {
+                        field_106_current_motion = eSligMotions::M_LiftUp_49_4B3930;
+                    }
+                    return;
+                }
+
+                if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
+                {
+                    if (pLiftPoint->vOnBottomFloor_4618F0())
+                    {
+                        field_106_current_motion = eSligMotions::M_LiftGripping_48_4B3850;
+                    }
+                    else
+                    {
+                        field_106_current_motion = eSligMotions::M_LiftDown_50_4B3960;
+                    }
+                    return;
+                }
+
+                field_106_current_motion = eSligMotions::M_LiftGripping_48_4B3850;
+            }
+            else
+            {
+                if (pLiftPoint->vOnTopFloor_461890())
+                {
+                    field_106_current_motion = eSligMotions::M_LiftDown_50_4B3960;
+                }
+
+                if (pLiftPoint->vOnBottomFloor_4618F0())
+                {
+                    field_106_current_motion = eSligMotions::M_LiftUp_49_4B3930;
+                }
+            }
+        }
+    }
 }
 
 void Slig::M_LiftUngrip_47_4B3820()
 {
-    NOT_IMPLEMENTED();
+    field_C8_vely = FP_FromInteger(0);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToStand_4B4A20();
+    }
 }
 
 void Slig::M_LiftGripping_48_4B3850()
 {
-    NOT_IMPLEMENTED();
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pLiftPoint)
+    {
+        CheckPlatformVanished_4B3640();
+
+        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+        field_C8_vely = FP_FromInteger(0);
+
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+        {
+            if (!pLiftPoint->vOnTopFloor_461890())
+            {
+                field_106_current_motion = eSligMotions::M_LiftUp_49_4B3930;
+            }
+        }
+        else if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
+        {
+            if (!pLiftPoint->vOnBottomFloor_4618F0())
+            {
+                field_106_current_motion = eSligMotions::M_LiftDown_50_4B3960;
+            }
+        }
+        else if (pLiftPoint->vOnAnyFloor_461920())
+        {
+            field_106_current_motion = eSligMotions::M_LiftUngrip_47_4B3820;
+        }
+    }
 }
 
 void Slig::M_LiftUp_49_4B3930()
 {
-    NOT_IMPLEMENTED();
+    field_106_current_motion = MoveLift_4B3990(FP_FromInteger(-4));
 }
 
 void Slig::M_LiftDown_50_4B3960()
 {
-    NOT_IMPLEMENTED();
+    field_106_current_motion = MoveLift_4B3990(FP_FromInteger(4));
 }
 
 void Slig::M_Beat_51_4B6C00()
@@ -3179,4 +3285,104 @@ void Slig::PlayerControlStopWalkingIfRequired_4B8540()
         field_106_current_motion = eSligMotions::M_WalkToStand_18_4B5FC0;
     }
     field_128_input = 0;
+}
+
+void Slig::CheckPlatformVanished_4B3640()
+{
+    BaseGameObject* pLiftPoint = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+    if (pLiftPoint)
+    {
+        if (pLiftPoint->field_6_flags.Get(BaseGameObject::eDead))
+        {
+            // Platform is somehow gone, fall.
+            const auto savedMotion = field_106_current_motion;
+            VOnTrapDoorOpen();
+            field_106_current_motion = savedMotion;
+        }
+        sub_408C40();
+    }
+}
+
+void Slig::vOnTrapDoorOpen_4B3690()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        field_110_id = -1;
+        field_F8_LastLineYPos = field_BC_ypos;
+        VSetMotion_4081C0(eSligMotions::M_OutToFall_38_4B4570);
+    }
+}
+
+__int16 Slig::MoveLift_4B3990(FP ySpeed)
+{
+    auto pLiftPoint =  static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (!pLiftPoint)
+    {
+        return eSligMotions::M_LiftGripping_48_4B3850;
+    }
+
+    pLiftPoint->vMove_4626A0(FP_FromInteger(0), ySpeed, 0);
+    CheckPlatformVanished_4B3640();
+    field_C8_vely = pLiftPoint->field_C8_vely;
+
+    if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) && field_20_animation.field_92_current_frame != 5)
+    {
+        return field_106_current_motion;
+    }
+
+    if (ySpeed < FP_FromInteger(0))
+    {
+        if (pLiftPoint->vOnTopFloor_461890())
+        {
+            return eSligMotions::M_LiftGripping_48_4B3850;
+        }
+
+        if (sControlledCharacter_5C1B8C != this)
+        {
+            return field_106_current_motion;
+        }
+
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+        {
+            return eSligMotions::M_LiftUp_49_4B3930;
+        }
+
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
+        {
+            return eSligMotions::M_LiftDown_50_4B3960;
+        }
+    }
+    else if (ySpeed >  FP_FromInteger(0))
+    {
+        if (pLiftPoint->vOnBottomFloor_4618F0())
+        {
+            return eSligMotions::M_LiftGripping_48_4B3850;
+        }
+
+        if (sControlledCharacter_5C1B8C != this)
+        {
+            return field_106_current_motion;
+        }
+
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
+        {
+            return eSligMotions::M_LiftDown_50_4B3960;
+        }
+
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+        {
+            return eSligMotions::M_LiftUp_49_4B3930;
+        }
+    }
+
+    // Strange how this isn't "if nothing pressed and on a floor then let go ??"
+    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed && pLiftPoint->vOnAnyFloor_461920())
+    {
+        return eSligMotions::M_LiftUngrip_47_4B3820;
+    }
+
+    pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+    return eSligMotions::M_LiftGripping_48_4B3850;
 }

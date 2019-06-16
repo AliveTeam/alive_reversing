@@ -780,7 +780,7 @@ void Paramite::vUpdate_4871B0()
         {
             // Handle DDCheat mode
 
-            vOnTrapDoorOpen_4081F0();
+            VOnTrapDoorOpen();
             field_106_current_motion = 11;
             field_F8_LastLineYPos = field_BC_ypos;
             field_100_pCollisionLine = nullptr;

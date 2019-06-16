@@ -53,7 +53,7 @@ public:
     virtual void VOnTrapDoorOpen();
   
     EXPORT static __int16 CCSTD IsInInvisibleZone_425710(BaseAliveGameObject* pObj);
-protected:
+private:
     EXPORT void vUnPosses_408F90();
     EXPORT void vPossessed_408F70();
     EXPORT void vSetMotion_4081C0(__int16 state);
@@ -63,6 +63,7 @@ protected:
     EXPORT void vCheckCollisionLineStillValid_408A40(__int16 distance);
     EXPORT BirdPortal* vIntoBirdPortal_408FD0(__int16 gridBlocks);
     EXPORT void vOnTrapDoorOpen_4081F0();
+protected:
     EXPORT signed __int16 SetBaseAnimPaletteTint_425690(TintEntry *pTintArray, LevelIds level_id, int resourceID);
 
     EXPORT BOOL Check_IsOnEndOfLine_408E90(__int16 direction, __int16 distance);

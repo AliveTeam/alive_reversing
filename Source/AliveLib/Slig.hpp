@@ -137,6 +137,8 @@ public:
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
+    virtual void VOnTrapDoorOpen() override;
+
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
     EXPORT void M_StandToWalk_1_4B5F70();
@@ -306,6 +308,13 @@ private:
     EXPORT void MoveOnLine_4B4C40();
 
     EXPORT void PlayerControlStopWalkingIfRequired_4B8540();
+
+    EXPORT void CheckPlatformVanished_4B3640();
+
+    EXPORT void vOnTrapDoorOpen_4B3690();
+
+    EXPORT __int16 MoveLift_4B3990(FP ySpeed);
+
 
 private:
     void SetBrain(TSligAIFn fn);
