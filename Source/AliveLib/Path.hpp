@@ -141,6 +141,21 @@ struct Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TLV, 0x10);
 
+
+struct Path_EnemyStopper : public Path_TLV
+{
+    enum class StopDirection : __int16
+    {
+        Left_0 = 0,
+        Right_1 = 1,
+        Both_2 = 2,
+    };
+    StopDirection field_10_stop_direction;
+    __int16 field_12_id;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_EnemyStopper, 0x14);
+
+
 enum class LevelIds : __int16;
 
 class Path

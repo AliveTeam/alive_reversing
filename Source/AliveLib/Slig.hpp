@@ -315,6 +315,15 @@ private:
 
     EXPORT __int16 MoveLift_4B3990(FP ySpeed);
 
+    EXPORT void SlowDown_4B6450(FP speed);
+
+    EXPORT void ToChase_4BCFF0();
+
+    EXPORT __int16 HandleEnemyStopper_4BBA00(int gridBlocks);
+
+    EXPORT void ToPanicYelling_4BCBA0();
+
+    EXPORT void ToPanicTurn_4BC750();
 
 private:
     void SetBrain(TSligAIFn fn);

@@ -30,20 +30,6 @@
 #include "Blood.hpp"
 #include "Bullet.hpp"
 
-struct Path_EnemyStopper : public Path_TLV
-{
-    enum class StopDirection : __int16
-    {
-        Left_0 = 0,
-        Right_1 = 1,
-        Both_2 = 2,
-    };
-    StopDirection field_10_stop_direction;
-    __int16 field_12_id;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_EnemyStopper, 0x14);
-
-
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =
 {
