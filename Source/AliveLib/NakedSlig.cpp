@@ -69,24 +69,24 @@ const int sNakedSligFrameTableOffsets_551470[18] =
 
 ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
 {
-    &NakedSlig::M_0_41B260,                // Sleeping
-    &NakedSlig::M_1_TryToTransform_41B890,                // Transform/use slig button ?
-    &NakedSlig::M_2_41BF00,                // Speak ??
-    &NakedSlig::M_3_Crawling_41B280,                // Crawling
-    &NakedSlig::M_4_41B620,                // Beat/chant shake?
-    &NakedSlig::M_5_41B650,                // Gibbed/explode
-    &NakedSlig::M_6_41B870,                // Start to be hit or hit floor ??
-    &NakedSlig::M_7_41C010,                // Idle not moving ??
-    &NakedSlig::M_8_41BF70,                // Speak
-    &NakedSlig::M_9_Snoozing_41BD80,
-    &NakedSlig::M_10_StartToPushOnWall_41B400,               // Pushing into wall
-    &NakedSlig::M_11_TurnAround_41B590,               // Turning
-    &NakedSlig::M_12_PossessedFlapAbout_418C30,               // Out of chant shake
-    &NakedSlig::M_13_418C50,               // 
-    &NakedSlig::M_14_PossessedToIdle_41C040,               // Idle 2 ??
-    &NakedSlig::M_15_41B600,               // Idle 3 ??
-    &NakedSlig::M_16_PushWall_41B3C0,               // Pushing into wall saying ow ?
-    &NakedSlig::M_17_StopPushingWall_41B3A0                // Crawl to idle ??
+    &NakedSlig::M_Idle_0_41B260,
+    &NakedSlig::M_UsingButton_1_41B890,
+    &NakedSlig::M_WakingUp_2_41BF00,
+    &NakedSlig::M_Crawling_3_41B280,
+    &NakedSlig::M_StartFalling_4_41B620,
+    &NakedSlig::M_Falling_5_41B650,
+    &NakedSlig::M_Landing_6_41B870,
+    &NakedSlig::M_ToShakingToIdle_7_41C010,
+    &NakedSlig::M_Speaking_8_41BF70,
+    &NakedSlig::M_Snoozing_9_41BD80,
+    &NakedSlig::M_PushingWall_10_41B400,
+    &NakedSlig::M_TurnAround_11_41B590,
+    &NakedSlig::M_Shaking_12_418C30,
+    &NakedSlig::M_Empty_13_418C50,
+    &NakedSlig::M_ShakingToIdle_14_41C040,
+    &NakedSlig::M_EndCrawling_15_41B600,
+    &NakedSlig::M_IdleToPushingWall_16_41B3C0,
+    &NakedSlig::M_EndPushingWall_17_41B3A0
 });
 
 struct ReimplToRealPair
@@ -159,7 +159,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
 
     if (field_1E8_tlv.field_14_state == Path_NakedSlig::State::State_2)
     {
-        Set_AnimAndMotion_419890(NakedSligMotion::M_0_41B260, TRUE);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_Idle_0_41B260, TRUE);
         SetBrain(&NakedSlig::AI_1_Idle_419F60);
     }
     else
@@ -172,7 +172,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
         {
             field_20_animation.field_C_render_layer = 6;
         }
-        Set_AnimAndMotion_419890(NakedSligMotion::M_9_Snoozing_41BD80, TRUE);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_Snoozing_9_41BD80, TRUE);
         SetBrain(&NakedSlig::AI_0_Sleeping_419DE0);
     }
 
@@ -220,7 +220,7 @@ void NakedSlig::vPossessed_4195F0()
 {
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_1B8_bChanting = TRUE;
-    Set_AnimAndMotion_419890(NakedSligMotion::M_12_PossessedFlapAbout_418C30, TRUE);
+    Set_AnimAndMotion_419890(NakedSligMotion::M_Shaking_12_418C30, TRUE);
     SetBrain(&NakedSlig::AI_3_Possesed_41A5B0);
     field_208_brain_sub_state = 0;
     field_1AC_timer = sGnFrame_5C1B84 + 35;
@@ -457,7 +457,7 @@ void NakedSlig::ToIdle_41C070()
     field_1B0 = 0;
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
-    Set_AnimAndMotion_419890(NakedSligMotion::M_0_41B260, FALSE);
+    Set_AnimAndMotion_419890(NakedSligMotion::M_Idle_0_41B260, FALSE);
     MapFollowMe_408D10(TRUE);
 }
 
@@ -500,11 +500,11 @@ __int16 NakedSlig::AI_0_Sleeping_419DE0()
             return field_208_brain_sub_state;
         }
 
-        field_108_next_motion = NakedSligMotion::M_2_41BF00;
+        field_108_next_motion = NakedSligMotion::M_WakingUp_2_41BF00;
         return 2;
     }
 
-    if (field_208_brain_sub_state != 2 || field_106_current_motion != NakedSligMotion::M_2_41BF00 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+    if (field_208_brain_sub_state != 2 || field_106_current_motion != NakedSligMotion::M_WakingUp_2_41BF00 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
     {
         return field_208_brain_sub_state;
     }
@@ -551,14 +551,14 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         if ((field_1E0_locker_direction != Path_NakedSlig::LockerDirection::Right_1 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))) && 
             (field_1E0_locker_direction != Path_NakedSlig::LockerDirection::Left_0  ||   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
         {
-            field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+            field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             return 2;
         }
-        field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+        field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
         return 3;
 
     case 1:
-        if (field_106_current_motion != NakedSligMotion::M_0_41B260)
+        if (field_106_current_motion != NakedSligMotion::M_Idle_0_41B260)
         {
             return field_208_brain_sub_state;
         }
@@ -568,7 +568,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         if (sub_41C740(field_C4_velx))
         {
             field_1AC_timer = (Math_NextRandom() & 15) + sGnFrame_5C1B84 + 30;
-            field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+            field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
             return 7;
         }
 
@@ -584,7 +584,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             {
                 return field_208_brain_sub_state;
             }
-            field_108_next_motion = NakedSligMotion::M_8_41BF70;
+            field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
             field_1C8 = sGnFrame_5C1B84 + 60;
             field_1C0_speak = NakedSligSpeak::Speak_10;
             return 4;
@@ -592,16 +592,16 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         break;
 
     case 3:
-        if (field_106_current_motion != NakedSligMotion::M_11_TurnAround_41B590 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+        if (field_106_current_motion != NakedSligMotion::M_TurnAround_11_41B590 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
         {
             return field_208_brain_sub_state;
         }
-        field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+        field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
         return 2;
 
     case 4:
     {
-        if (field_106_current_motion != NakedSligMotion::M_8_41BF70 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+        if (field_106_current_motion != NakedSligMotion::M_Speaking_8_41BF70 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
         {
             return field_208_brain_sub_state;
         }
@@ -618,11 +618,11 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
 
         if (!Raycast_408750(FP_FromInteger(35), gridScale))
         {
-            field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+            field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             return 2;
         }
         field_1AC_timer = (Math_NextRandom() & 15) + sGnFrame_5C1B84 + 30;
-        field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+        field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
         return 7;
     }
 
@@ -632,7 +632,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             field_1E4_pPantsOrWingsTlv = FindPantsOrWings_419750();
         }
 
-        if (field_106_current_motion != NakedSligMotion::M_0_41B260 || (field_1E4_pPantsOrWingsTlv && field_1E4_pPantsOrWingsTlv->field_1_unknown))
+        if (field_106_current_motion != NakedSligMotion::M_Idle_0_41B260 || (field_1E4_pPantsOrWingsTlv && field_1E4_pPantsOrWingsTlv->field_1_unknown))
         {
             if (Math_NextRandom() & 1)
             {
@@ -642,7 +642,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             else
             {
                 field_1AC_timer = (Math_NextRandom() & 15) + sGnFrame_5C1B84 + 30;
-                field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+                field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
                 return 7;
             }
         }
@@ -651,7 +651,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             field_1E4_pPantsOrWingsTlv->field_1_unknown &= 0xFF;
             field_1E4_pPantsOrWingsTlv->field_1_unknown |= 1;
 
-            field_108_next_motion = NakedSligMotion::M_1_TryToTransform_41B890;
+            field_108_next_motion = NakedSligMotion::M_UsingButton_1_41B890;
             field_1AC_timer = sGnFrame_5C1B84 + 20;
             return 6;
         }
@@ -666,9 +666,9 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
         return field_208_brain_sub_state;
 
     case 7:
-        if (field_106_current_motion == NakedSligMotion::M_11_TurnAround_41B590 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_106_current_motion == NakedSligMotion::M_TurnAround_11_41B590 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+            field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             return 8;
         }
         return field_208_brain_sub_state;
@@ -676,7 +676,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
     case 8:
         if (sub_41C740(field_C4_velx))
         {
-            field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+            field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
             return 3;
         }
 
@@ -691,14 +691,14 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             return field_208_brain_sub_state;
         }
 
-        field_108_next_motion = NakedSligMotion::M_8_41BF70;
+        field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
         field_1C8 = sGnFrame_5C1B84 + 60;
         field_1C0_speak = NakedSligSpeak::Speak_10;
         return 9;
 
     case 9:
     {
-        if (field_106_current_motion != NakedSligMotion::M_8_41BF70 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+        if (field_106_current_motion != NakedSligMotion::M_Speaking_8_41BF70 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
         {
             return field_208_brain_sub_state;
         }
@@ -715,30 +715,30 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
 
         if (Raycast_408750(FP_FromInteger(35), gridScale))
         {
-            field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+            field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
             return 3;
         }
         else
         {
-            field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+            field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             return 8;
         }
     }
         break;
 
     case 10:
-        if (field_106_current_motion == NakedSligMotion::M_14_PossessedToIdle_41C040)
+        if (field_106_current_motion == NakedSligMotion::M_ShakingToIdle_14_41C040)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                Set_AnimAndMotion_419890(NakedSligMotion::M_0_41B260, TRUE);
+                Set_AnimAndMotion_419890(NakedSligMotion::M_Idle_0_41B260, TRUE);
                 field_208_brain_sub_state = 0;
                 return field_208_brain_sub_state;
             }
         }
         else if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
         {
-            Set_AnimAndMotion_419890(NakedSligMotion::M_14_PossessedToIdle_41C040, TRUE);
+            Set_AnimAndMotion_419890(NakedSligMotion::M_ShakingToIdle_14_41C040, TRUE);
         }
         return field_208_brain_sub_state;
 
@@ -765,7 +765,7 @@ __int16 NakedSlig::AI_3_Possesed_41A5B0()
         {
             return field_208_brain_sub_state;
         }
-        Set_AnimAndMotion_419890(NakedSligMotion::M_14_PossessedToIdle_41C040, TRUE);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_ShakingToIdle_14_41C040, TRUE);
         return 1;
 
     case 1:
@@ -775,7 +775,7 @@ __int16 NakedSlig::AI_3_Possesed_41A5B0()
         }
         field_1AC_timer = sGnFrame_5C1B84 + 30;
         SFX_Play_46FA90(17, 0);
-        Set_AnimAndMotion_419890(NakedSligMotion::M_12_PossessedFlapAbout_418C30, TRUE);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_Shaking_12_418C30, TRUE);
         return 2;
 
     case 2:
@@ -804,17 +804,17 @@ __int16 NakedSlig::AI_3_Possesed_41A5B0()
         }
         else
         {
-            Set_AnimAndMotion_419890(NakedSligMotion::M_14_PossessedToIdle_41C040, TRUE);
+            Set_AnimAndMotion_419890(NakedSligMotion::M_ShakingToIdle_14_41C040, TRUE);
             return 1;
         }
         break;
 
     case 3:
-        if (field_106_current_motion != NakedSligMotion::M_14_PossessedToIdle_41C040)
+        if (field_106_current_motion != NakedSligMotion::M_ShakingToIdle_14_41C040)
         {
             if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
             {
-                Set_AnimAndMotion_419890(NakedSligMotion::M_14_PossessedToIdle_41C040, TRUE);
+                Set_AnimAndMotion_419890(NakedSligMotion::M_ShakingToIdle_14_41C040, TRUE);
             }
             return field_208_brain_sub_state;
         }
@@ -848,7 +848,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
     switch (field_208_brain_sub_state)
     {
     case 0:
-        if (field_106_current_motion != NakedSligMotion::M_7_41C010 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
+        if (field_106_current_motion != NakedSligMotion::M_ToShakingToIdle_7_41C010 || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)))
         {
             return field_208_brain_sub_state;
         }
@@ -988,23 +988,23 @@ __int16 NakedSlig::AI_5_41ADF0()
     return 0;
 }
 
-void NakedSlig::M_0_41B260()
+void NakedSlig::M_Idle_0_41B260()
 {
     HandleCommon_41C0B0();
 }
 
-void NakedSlig::M_1_TryToTransform_41B890()
+void NakedSlig::M_UsingButton_1_41B890()
 {
     NOT_IMPLEMENTED();
     HandleCommon_41C0B0(); // TODO: Standalone HACK HACK HACK!
 }
 
-void NakedSlig::M_2_41BF00()
+void NakedSlig::M_WakingUp_2_41BF00()
 {
     NOT_IMPLEMENTED();
 }
 
-void NakedSlig::M_3_Crawling_41B280()
+void NakedSlig::M_Crawling_3_41B280()
 {
     if (CanCrawl_41C5D0())
     {
@@ -1016,10 +1016,10 @@ void NakedSlig::M_3_Crawling_41B280()
         {
             if (sControlledCharacter_5C1B8C != this || field_10C_health <= FP_FromInteger(0))
             {
-                if (field_108_next_motion == NakedSligMotion::M_0_41B260 ||
-                    field_108_next_motion == NakedSligMotion::M_11_TurnAround_41B590 ||
-                    field_108_next_motion == NakedSligMotion::M_7_41C010 ||
-                    field_108_next_motion == NakedSligMotion::M_8_41BF70)
+                if (field_108_next_motion == NakedSligMotion::M_Idle_0_41B260 ||
+                    field_108_next_motion == NakedSligMotion::M_TurnAround_11_41B590 ||
+                    field_108_next_motion == NakedSligMotion::M_ToShakingToIdle_7_41C010 ||
+                    field_108_next_motion == NakedSligMotion::M_Speaking_8_41BF70)
                 {
                     Set_AnimAndMotion_419890(15, FALSE);
                 }
@@ -1038,27 +1038,27 @@ void NakedSlig::M_3_Crawling_41B280()
     }
 }
 
-void NakedSlig::M_4_41B620()
+void NakedSlig::M_StartFalling_4_41B620()
 {
     NOT_IMPLEMENTED();
 }
 
-void NakedSlig::M_5_41B650()
+void NakedSlig::M_Falling_5_41B650()
 {
     NOT_IMPLEMENTED();
 }
 
-void NakedSlig::M_6_41B870()
+void NakedSlig::M_Landing_6_41B870()
 {
     NOT_IMPLEMENTED();
 }
 
-void NakedSlig::M_7_41C010()
+void NakedSlig::M_ToShakingToIdle_7_41C010()
 {
     NOT_IMPLEMENTED();
 }
 
-void NakedSlig::M_8_41BF70()
+void NakedSlig::M_Speaking_8_41BF70()
 {
     if (field_20_animation.field_92_current_frame == 2 && field_1C0_speak != NakedSligSpeak::Speak_None)
     {
@@ -1077,11 +1077,11 @@ void NakedSlig::M_8_41BF70()
     }
 }
 
-void NakedSlig::M_9_Snoozing_41BD80()
+void NakedSlig::M_Snoozing_9_41BD80()
 {
-    if (field_108_next_motion == NakedSligMotion::M_2_41BF00)
+    if (field_108_next_motion == NakedSligMotion::M_WakingUp_2_41BF00)
     {
-        Set_AnimAndMotion_419890(NakedSligMotion::M_2_41BF00, TRUE);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_WakingUp_2_41BF00, TRUE);
     }
     else if (!(sGnFrame_5C1B84 & 31))
     {
@@ -1125,7 +1125,7 @@ void NakedSlig::M_9_Snoozing_41BD80()
     }
 }
 
-void NakedSlig::M_10_StartToPushOnWall_41B400()
+void NakedSlig::M_PushingWall_10_41B400()
 {
     MoveOnLine_41C3D0();
 
@@ -1143,7 +1143,7 @@ void NakedSlig::M_10_StartToPushOnWall_41B400()
             (flipX && sInputObject_5BD4E0.isPressed(InputCommands::eRight)) ||
             !(sInputObject_5BD4E0.isPressed(InputCommands::eLeft | InputCommands::eRight)))
         {
-            Set_AnimAndMotion_419890(NakedSligMotion::M_17_StopPushingWall_41B3A0, TRUE);
+            Set_AnimAndMotion_419890(NakedSligMotion::M_EndPushingWall_17_41B3A0, TRUE);
         }
         else
         {
@@ -1159,24 +1159,24 @@ void NakedSlig::M_10_StartToPushOnWall_41B400()
 
             if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(30), yPos))
             {
-                Set_AnimAndMotion_419890(NakedSligMotion::M_3_Crawling_41B280, TRUE);
+                Set_AnimAndMotion_419890(NakedSligMotion::M_Crawling_3_41B280, TRUE);
             }
         }
     }
     else
     {
-        if (field_108_next_motion == NakedSligMotion::M_0_41B260 ||
-            field_108_next_motion == NakedSligMotion::M_1_TryToTransform_41B890 ||
-            field_108_next_motion == NakedSligMotion::M_11_TurnAround_41B590 ||
-            field_108_next_motion == NakedSligMotion::M_7_41C010 ||
-            field_108_next_motion == NakedSligMotion::M_8_41BF70)
+        if (field_108_next_motion == NakedSligMotion::M_Idle_0_41B260 ||
+            field_108_next_motion == NakedSligMotion::M_UsingButton_1_41B890 ||
+            field_108_next_motion == NakedSligMotion::M_TurnAround_11_41B590 ||
+            field_108_next_motion == NakedSligMotion::M_ToShakingToIdle_7_41C010 ||
+            field_108_next_motion == NakedSligMotion::M_Speaking_8_41BF70)
         {
-            Set_AnimAndMotion_419890(NakedSligMotion::M_17_StopPushingWall_41B3A0, FALSE);
+            Set_AnimAndMotion_419890(NakedSligMotion::M_EndPushingWall_17_41B3A0, FALSE);
         }
     }
 }
 
-void NakedSlig::M_11_TurnAround_41B590()
+void NakedSlig::M_TurnAround_11_41B590()
 {
     if (field_20_animation.field_92_current_frame == 8)
     {
@@ -1191,17 +1191,17 @@ void NakedSlig::M_11_TurnAround_41B590()
     }
 }
 
-void NakedSlig::M_12_PossessedFlapAbout_418C30()
+void NakedSlig::M_Shaking_12_418C30()
 {
     // Do nothing
 }
 
-void NakedSlig::M_13_418C50()
+void NakedSlig::M_Empty_13_418C50()
 {
     NOT_IMPLEMENTED();
 }
 
-void NakedSlig::M_14_PossessedToIdle_41C040()
+void NakedSlig::M_ShakingToIdle_14_41C040()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -1213,7 +1213,7 @@ void NakedSlig::M_14_PossessedToIdle_41C040()
     }
 }
 
-void NakedSlig::M_15_41B600()
+void NakedSlig::M_EndCrawling_15_41B600()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -1221,16 +1221,16 @@ void NakedSlig::M_15_41B600()
     }
 }
 
-void NakedSlig::M_16_PushWall_41B3C0()
+void NakedSlig::M_IdleToPushingWall_16_41B3C0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         Sfx_Slig_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
-        Set_AnimAndMotion_419890(NakedSligMotion::M_10_StartToPushOnWall_41B400, TRUE);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_PushingWall_10_41B400, TRUE);
     }
 }
 
-void NakedSlig::M_17_StopPushingWall_41B3A0()
+void NakedSlig::M_EndPushingWall_17_41B3A0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -1248,22 +1248,22 @@ void NakedSlig::HandleCommon_41C0B0()
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+                field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
             }
             else
             {
-                field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+                field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             }
         }
         else if (sInputObject_5BD4E0.isPressed(InputCommands::eLeft))
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_108_next_motion = NakedSligMotion::M_3_Crawling_41B280;
+                field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             }
             else
             {
-                field_108_next_motion = NakedSligMotion::M_11_TurnAround_41B590;
+                field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
             }
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eUp))
@@ -1284,12 +1284,12 @@ void NakedSlig::HandleCommon_41C0B0()
                 auto pSligButton = FindSligButton_419840();
                 if (pSligButton)
                 {
-                    field_108_next_motion = NakedSligMotion::M_1_TryToTransform_41B890;
+                    field_108_next_motion = NakedSligMotion::M_UsingButton_1_41B890;
                     field_1D0_slig_button_id = pSligButton->field_8_object_id;
                 }
                 else
                 {
-                    field_108_next_motion = NakedSligMotion::M_8_41BF70;
+                    field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
                     field_1C0_speak = NakedSligSpeak::Speak_9;
                 }
             }
@@ -1329,30 +1329,30 @@ void NakedSlig::HandleCommon_41C0B0()
 
         if (field_1C0_speak != NakedSligSpeak::Speak_None)
         {
-            field_108_next_motion = NakedSligMotion::M_8_41BF70;
+            field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
         }
     }
 
     switch (field_108_next_motion)
     {
     case -1: // TODO: None constant
-        if (field_106_current_motion != NakedSligMotion::M_0_41B260)
+        if (field_106_current_motion != NakedSligMotion::M_Idle_0_41B260)
         {
-            field_108_next_motion = NakedSligMotion::M_0_41B260;
+            field_108_next_motion = NakedSligMotion::M_Idle_0_41B260;
             Set_AnimAndMotion_419890(field_108_next_motion, TRUE);
             break;
         }
         break;
 
-    case NakedSligMotion::M_0_41B260:
-    case NakedSligMotion::M_1_TryToTransform_41B890:
-    case NakedSligMotion::M_7_41C010:
-    case NakedSligMotion::M_8_41BF70:
-    case NakedSligMotion::M_11_TurnAround_41B590:
+    case NakedSligMotion::M_Idle_0_41B260:
+    case NakedSligMotion::M_UsingButton_1_41B890:
+    case NakedSligMotion::M_ToShakingToIdle_7_41C010:
+    case NakedSligMotion::M_Speaking_8_41BF70:
+    case NakedSligMotion::M_TurnAround_11_41B590:
         Set_AnimAndMotion_419890(field_108_next_motion, TRUE);
         break;
 
-    case NakedSligMotion::M_3_Crawling_41B280:
+    case NakedSligMotion::M_Crawling_3_41B280:
     {
         FP gridScale = {};
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -1368,7 +1368,7 @@ void NakedSlig::HandleCommon_41C0B0()
         {
             if (sControlledCharacter_5C1B8C == this)
             {
-                field_108_next_motion = NakedSligMotion::M_16_PushWall_41B3C0;
+                field_108_next_motion = NakedSligMotion::M_IdleToPushingWall_16_41B3C0;
             }
         }
         Set_AnimAndMotion_419890(field_108_next_motion, TRUE);
@@ -1462,9 +1462,9 @@ void NakedSlig::MoveOnLine_41C3D0()
         {
             VOnTrapDoorOpen();
             field_F8_LastLineYPos = field_BC_ypos;
-            if (field_106_current_motion == NakedSligMotion::M_3_Crawling_41B280)
+            if (field_106_current_motion == NakedSligMotion::M_Crawling_3_41B280)
             {
-                Set_AnimAndMotion_419890(NakedSligMotion::M_4_41B620, TRUE);
+                Set_AnimAndMotion_419890(NakedSligMotion::M_StartFalling_4_41B620, TRUE);
             }
             field_1B0 = 0x10000;
             field_B8_xpos = field_B8_xpos + field_C4_velx;
@@ -1473,7 +1473,7 @@ void NakedSlig::MoveOnLine_41C3D0()
     else
     {
         field_F8_LastLineYPos = field_BC_ypos;
-        Set_AnimAndMotion_419890(NakedSligMotion::M_5_41B650, TRUE);
+        Set_AnimAndMotion_419890(NakedSligMotion::M_Falling_5_41B650, TRUE);
     }
 }
 
