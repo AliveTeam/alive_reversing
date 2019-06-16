@@ -2095,8 +2095,36 @@ __int16 Slig::AI_Turning_19_4BDDD0()
 
 __int16 Slig::AI_StoppingNextToMudokon_20_4BF1E0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_106_current_motion)
+    {
+        return 128;
+    }
+
+    BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(81, 1);
+    if (!pBeatTarget || pBeatTarget->field_10C_health <= FP_FromInteger(0))
+    {
+        WaitOrWalk_4BE870();
+        return 128;
+    }
+
+    if (Math_NextRandom() >= 100)
+    {
+        if (Math_NextRandom() & 1)
+        {
+            field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+        }
+        else
+        {
+            field_108_next_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+        }
+    }
+    else
+    {
+        field_108_next_motion = eSligMotions::M_Beat_51_4B6C00;
+        SetBrain(&Slig::AI_BeatingUp_24_4BF2B0);
+    }
+
+    return 128;
 }
 
 __int16 Slig::AI_Walking_21_4BE0C0()
@@ -3713,7 +3741,7 @@ __int16 Slig::HandleEnemyStopper_4BBA00(int gridBlocks)
         directedGirdBlocks = -gridBlocks;
     }
 
-    const FP width = ScaleToGridSize_4498B0(field_CC_sprite_scale * FP_FromInteger(directedGirdBlocks)) + field_B8_xpos;
+    const FP width = (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(directedGirdBlocks)) + field_B8_xpos;
     auto pTlv = static_cast<Path_EnemyStopper*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(field_B8_xpos),
         FP_GetExponent(field_BC_ypos),
@@ -3731,12 +3759,13 @@ __int16 Slig::HandleEnemyStopper_4BBA00(int gridBlocks)
         return 0;
     }
 
+
     if (pTlv->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2)
     {
         return 1;
     }
 
-    if (bFacingLeft == 0 && pTlv->field_10_stop_direction == Path_EnemyStopper::StopDirection::Left_0)
+    if (bFacingLeft && pTlv->field_10_stop_direction == Path_EnemyStopper::StopDirection::Left_0)
     {
         return 1;
     }
@@ -3745,6 +3774,7 @@ __int16 Slig::HandleEnemyStopper_4BBA00(int gridBlocks)
     {
         return 1;
     }
+
     return 0;
 }
 
@@ -3893,4 +3923,52 @@ void Slig::PlayerControlRunningSlideStopOrTurn1_4B85D0()
         field_128_input = 0;
         field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
     }
+}
+
+BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, signed int /*a3*/)
+{
+    NOT_IMPLEMENTED();
+    return nullptr;
+}
+
+void Slig::TurnOrWalk_4BD6A0(int a2)
+{
+    if (a2 == 1)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (field_B8_xpos > FP_FromInteger(field_138_zone_rect.x) + (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4)))
+            {
+                ToTurn_4BE090();
+                return;
+            }
+        }
+        else
+        {
+            if (field_B8_xpos < FP_FromInteger(field_138_zone_rect.w) - (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4)))
+            {
+                ToTurn_4BE090();
+                return;
+            }
+        }
+    }
+
+    if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+    {
+        if (field_B8_xpos > FP_FromInteger(field_138_zone_rect.w) - (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4)))
+        {
+            ToTurn_4BE090();
+            return;
+        }
+    }
+    else
+    {
+        if (field_B8_xpos < FP_FromInteger(field_138_zone_rect.x) + (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(4)))
+        {
+            ToTurn_4BE090();
+            return;
+        }
+    }
+
+    WaitOrWalk_4BE870(); 
 }

@@ -331,6 +331,10 @@ private:
 
     EXPORT void PlayerControlRunningSlideStopOrTurn1_4B85D0();
 
+    EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(int a2, signed int a3);
+
+    EXPORT void TurnOrWalk_4BD6A0(int a2);
+
 private:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
