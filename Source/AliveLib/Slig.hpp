@@ -335,6 +335,8 @@ private:
 
     EXPORT void TurnOrWalk_4BD6A0(int a2);
 
+    EXPORT void ToPanicRunning_4BCA30();
+
 private:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
