@@ -24,6 +24,8 @@
 #include "LiftPoint.hpp"
 #include "Switch.hpp"
 #include "SwitchStates.hpp"
+#include "Bullet.hpp"
+#include "Dove.hpp"
 
 EXPORT void CC Start_Slig_sounds_4CB980(CameraPos /*a1*/, int /*kZero*/)
 {
@@ -771,7 +773,35 @@ void Slig::M_Falling_7_4B42D0()
 
 void Slig::M_SlidingToStand_8_4B6520()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
+    {
+        FallKnockBackOrSmash_4B4A90();
+    }
+    else
+    {
+        SlowDown_4B6450(FP_FromDouble(2.125));
+        if (field_106_current_motion == eSligMotions::M_SlidingToStand_8_4B6520)
+        {
+            if (field_20_animation.field_92_current_frame < 6 && sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
+            {
+                if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) &&  sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0)) ||
+                  (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))))
+                {
+                    field_F6_anim_frame = field_20_animation.field_92_current_frame;
+                    field_F4 = 9;
+                    field_124 = 1;
+                }
+            }
+            else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                Abe_SFX_2_457A40(0, 0, 0x7FFF, this);
+                MapFollowMe_408D10(TRUE);
+                MainMovement_4B4720();
+            }
+        }
+    }
+
 }
 
 void Slig::M_SlidingTurn_9_4B6680()
@@ -1476,7 +1506,75 @@ void Slig::M_LandingFatal_41_4B4680()
 
 void Slig::M_ShootZ_42_4B7560()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (sControlledCharacter_5C1B8C != this || sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4 | sInputKey_Down_5550DC))
+        {
+            if (field_108_next_motion != -1)
+            {
+                SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+                field_108_next_motion = -1;
+                field_106_current_motion = eSligMotions::M_ShootZtoStand_43_4B77E0;
+            }
+        }
+        else
+        {
+            SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            field_106_current_motion = eSligMotions::M_ShootZtoStand_43_4B77E0;
+        }
+    }
+    else if (field_20_animation.field_92_current_frame == 7)
+    {
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            auto pBullet = alive_new<Bullet>();
+            if (pBullet)
+            {
+                pBullet->ctor_414540(
+                    this,
+                    1,
+                    field_B8_xpos,
+                    field_BC_ypos - FP_FromInteger(12),
+                    FP_FromInteger(640),
+                    0,
+                    field_CC_sprite_scale,
+                    field_218_tlv_data.field_22_num_times_to_shoot - field_158 - 1);
+            }
+        }
+        else
+        {
+            auto pBullet = alive_new<Bullet>();
+            if (pBullet)
+            {
+                pBullet->ctor_414540(
+                    this,
+                    3,
+                    field_B8_xpos,
+                    field_BC_ypos - FP_FromInteger(12),
+                    FP_FromInteger(640),
+                    0,
+                    field_CC_sprite_scale,
+                    field_218_tlv_data.field_22_num_times_to_shoot - field_158 - 1);
+            }
+        }
+
+        New_Particle_4269B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(12), field_CC_sprite_scale);
+
+        if (field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            SFX_Play_46FA90(5u, 85);
+        }
+        else
+        {
+            SFX_Play_46FA90(5u, 0);
+        }
+
+        // The doves don't like bullets
+        Dove::All_FlyAway_41FA60(0);
+
+        Event_Broadcast_422BC0(kEventShooting, this);
+        Event_Broadcast_422BC0(kEventLoudNoise, this);
+    }
 }
 
 void Slig::M_ShootZtoStand_43_4B77E0()

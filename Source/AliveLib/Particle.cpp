@@ -197,3 +197,28 @@ Particle* CC New_Particle_426C30(FP xpos, FP ypos, FP scale, __int16 layer)
 {
     return New_Particle_426AA0(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
 }
+
+void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale)
+{
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 344, 0, 0);
+
+    auto pParticle = alive_new<Particle>();
+    if (pParticle)
+    {
+        pParticle->ctor_4CC4C0(xpos, ypos, 2832, 126, 44, ppRes);
+        pParticle->field_DC_bApplyShadows &= ~1u;
+        pParticle->field_D4_b = 55;
+        pParticle->field_D2_g = 55;
+        pParticle->field_D0_r = 55;
+        pParticle->field_20_animation.field_B_render_mode = 1;
+        if (scale == FP_FromInteger(1))
+        {
+            pParticle->field_20_animation.field_C_render_layer = 36;
+        }
+        else
+        {
+            pParticle->field_20_animation.field_C_render_layer = 17;
+        }
+        pParticle->field_CC_sprite_scale = scale;
+    }
+}

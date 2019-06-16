@@ -2787,11 +2787,11 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
                 const FP yRand = (FP_FromInteger(Math_NextRandom() % 16)) - FP_FromInteger(8);
                 const FP xRand = FP_FromInteger(Math_NextRandom() & 0xF); // TODO: Might be wrong as was trying to make this abs() but result is unsigned anyway ??
 
-                const FP xPos = (field_CC_sprite_scale * (pBullet->field_30 <= 0 ? -FP_FromInteger(6) : FP_FromInteger(6)));
+                const FP xPos = (field_CC_sprite_scale * (pBullet->field_30 <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
                 pBlood1->ctor_40F0B0(
                     xPos + field_B8_xpos,
                     field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
-                    ((pBullet->field_30 <= 0 ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
+                    ((pBullet->field_30 <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
                     yRand,
                     field_CC_sprite_scale,
                     12);
@@ -2800,11 +2800,11 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
             auto pBlood2 = alive_new<Blood>();
             if (pBlood2)
             {
-                const FP xPos = (field_CC_sprite_scale * (pBullet->field_30 <= 0 ? -FP_FromInteger(12) : FP_FromInteger(12)));
+                const FP xPos = (field_CC_sprite_scale * (pBullet->field_30 <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
                 pBlood2->ctor_40F0B0(
                     xPos + field_B8_xpos,
                     field_BC_ypos - (FP_FromInteger(25) * field_CC_sprite_scale),
-                    pBullet->field_30 <= 0 ? -FP_FromInteger(6) : FP_FromInteger(6),
+                    pBullet->field_30 <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
                     FP_FromInteger(0),
                     field_CC_sprite_scale,
                     8);
@@ -2860,7 +2860,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         SetBrain(&Glukkon::AI_4_Death_442010);
         field_210 = 4;
 
-        if (pBullet->field_30 >= 0)
+        if (pBullet->field_30 >= FP_FromInteger(0))
         {
             field_C4_velx = FP_FromDouble(0.001);
         }
