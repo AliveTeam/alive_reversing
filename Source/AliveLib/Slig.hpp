@@ -325,6 +325,12 @@ private:
 
     EXPORT void ToPanicTurn_4BC750();
 
+    EXPORT static __int16 CC SligStableDelay_4B99B0();
+
+    EXPORT void PlayerControlRunningSlideStopOrTurn1_4B8790();
+
+    EXPORT void PlayerControlRunningSlideStopOrTurn1_4B85D0();
+
 private:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
@@ -351,7 +357,8 @@ private:
     int field_14C;
     int field_150;
     TSligAIFn field_154_brain_state;
-    int field_158;
+    __int16 field_158;
+    __int16 field_15A;
     __int16 field_15C;
     __int16 field_15E;
     int field_160;
