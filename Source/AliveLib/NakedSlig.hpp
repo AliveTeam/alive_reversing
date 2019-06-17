@@ -87,10 +87,11 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VPossessed_408F70() override
-    {
-        vPossessed_4195F0();
-    }
+    virtual void VPossessed_408F70() override;
+
+    virtual void VOnTrapDoorOpen() override;
+
+    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
 private:
     EXPORT void vPossessed_4195F0();
@@ -107,11 +108,15 @@ private:
     EXPORT void vUpdate_419100();
 
 
-    EXPORT __int16 sub_41C740(FP velX);
+    EXPORT __int16 HandleEnemyStopper_41C740(FP velX);
 
     EXPORT Path_TLV* FindPantsOrWings_419750();
 
     EXPORT BaseGameObject* FindSligButton_419840();
+
+    EXPORT void vOnTrapDoorOpen_41C580();
+
+    EXPORT void vOn_TLV_Collision_419680(Path_TLV* pTlv);
 
 private:
     void SetBrain(TNakedSligAIFn fn);
@@ -131,14 +136,14 @@ private:
 
     EXPORT void MoveOnLine_41C3D0();
 
-    EXPORT void sub_41C500();
+    EXPORT void PlatformCollide_41C500();
 public:
     EXPORT __int16 AI_0_Sleeping_419DE0();
     EXPORT __int16 AI_1_Idle_419F60();
     EXPORT __int16 AI_2_PanicGetALocker_419FE0();
     EXPORT __int16 AI_3_Possesed_41A5B0();
     EXPORT __int16 AI_4_GetKilled_41A880();
-    EXPORT __int16 AI_5_41ADF0();
+    EXPORT __int16 AI_5_Transformed_41ADF0();
 
 
     EXPORT void M_Idle_0_41B260();
@@ -172,7 +177,7 @@ private:
 
     __int16 field_1AA;
     int field_1AC_timer;
-    int field_1B0;
+    FP field_1B0;
     int field_1B4;
 
     __int16 field_1B8_bChanting;
