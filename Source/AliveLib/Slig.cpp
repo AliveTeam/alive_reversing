@@ -2244,14 +2244,51 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
 
 __int16 Slig::AI_BeatingUp_24_4BF2B0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_106_current_motion || field_120_timer >= static_cast<int>(sGnFrame_5C1B84))
+    {
+        return 129;
+    }
+
+    if (Math_NextRandom() < 100)
+    {
+        field_108_next_motion = eSligMotions::M_Beat_51_4B6C00;
+        return 129;
+    }
+
+    if (Math_NextRandom()< 64)
+    {
+        field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+        return 129;
+    }
+
+    if (Math_NextRandom() < 64)
+    {
+        field_108_next_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+        return 129;
+    }
+
+    WaitOrWalk_4BE870();
+    return 129;
 }
 
 __int16 Slig::AI_DiscussionWhat_25_4BF380()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (ListenToGlukkonCommands_4B95D0())
+    {
+        ToUnderGlukkonCommand_4B9660();
+    }
+
+    if (field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 && field_120_timer == static_cast<int>(sGnFrame_5C1B84))
+    {
+        field_108_next_motion = static_cast<short>(field_294);
+    }
+
+    if (field_120_timer < static_cast<int>(sGnFrame_5C1B84 - 5))
+    {
+        WaitOrWalk_4BE870();
+    }
+
+    return 128;
 }
 
 __int16 Slig::AI_Empty_26_4BF620()
@@ -2280,8 +2317,14 @@ __int16 Slig::AI_Shooting_29_4BF750()
 
 __int16 Slig::AI_SpottedEnemyFromBackground_30_4BFA30()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_120_timer > static_cast<int>(sGnFrame_5C1B84))
+    {
+        return 126;
+    }
+    field_108_next_motion = eSligMotions::M_ShootZ_42_4B7560;
+    SetBrain(&Slig::AI_ShootingFromBackground_28_4BFA70);
+    return 126;
+
 }
 
 __int16 Slig::AI_WakingUp_31_4B9390()
@@ -3600,7 +3643,7 @@ void Slig::GoAlertedOrSayWhat_4BF140()
     else
     {
         field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-        field_294 = 29;
+        field_294 = eSligMotions::M_SpeakWhat_29_4B54D0;
         SetBrain(&Slig::AI_GetAlerted_23_4BEC40);
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_3A_listen_time;
     }
