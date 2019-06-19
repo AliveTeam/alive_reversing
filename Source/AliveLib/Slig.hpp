@@ -337,13 +337,15 @@ private:
 
     EXPORT void ToPanicRunning_4BCA30();
 
-private:
+public:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
 private:
     __int16 field_116;
     int field_118_tlvInfo;
+public:
     __int16 field_11C;
+private:
     __int16 field_11E;
     int field_120_timer;
     __int16 field_124;
@@ -357,11 +359,13 @@ private:
     __int16 field_140;
     __int16 field_142;
     __int16 field_144;
+public:
     LevelIds field_146_level;
     __int16 field_148_path;
     __int16 field_14A_camera;
     int field_14C;
     int field_150;
+private:
     TSligAIFn field_154_brain_state;
     __int16 field_158;
     __int16 field_15A;

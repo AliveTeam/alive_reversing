@@ -11,6 +11,40 @@ class FlyingSlig;
 
 using TFlyingSligFn = void(FlyingSlig::*)(void);
 
+#define FLYING_SLIG_MOTIONS_ENUM(ENTRY) \
+    ENTRY(M_Idle_0_4385E0) \
+    ENTRY(M_HorizontalMovement_1_4386A0) \
+    ENTRY(M_IdleToTurn_2_4388B0) \
+    ENTRY(M_DownMovement_3_438AA0) \
+    ENTRY(M_DownMovementToTurn_4_438CC0) \
+    ENTRY(M_UpMovement_5_438DD0) \
+    ENTRY(M_UpMovementToTurn_6_439030) \
+    ENTRY(M_LeverPull_7_439150) \
+    ENTRY(M_GameSpeak_8_4391D0) \
+    ENTRY(M_Possession_9_434290) \
+    ENTRY(M_EndHorizontalMovement_10_4387D0) \
+    ENTRY(M_BeginUpMovement_11_438E40) \
+    ENTRY(M_HorizontalToDownMovement_12_438B10) \
+    ENTRY(M_UpToHorizontalMovement_13_438F60) \
+    ENTRY(M_DownToHorizontalMovement_14_438BF0) \
+    ENTRY(M_QuickTurn_15_4387F0) \
+    ENTRY(M_IdleToHorizontalMovement_16_438730) \
+    ENTRY(M_BeginDownMovement_17_438B80) \
+    ENTRY(M_EndDownMovement_18_438C90) \
+    ENTRY(M_DownKnockback_19_4390D0) \
+    ENTRY(M_UpKnockback_20_439110) \
+    ENTRY(M_EndUpMovement_21_438EB0) \
+    ENTRY(M_InstantUpXTurn_22_438EE0) \
+    ENTRY(M_InstantDownXTurn_23_438F20) \
+    ENTRY(M_HorizontalToUpMovement_24_438D60) \
+    ENTRY(M_TurnToHorizontalMovement_25_4389E0)
+
+#define MAKE_ENUM(VAR) VAR,
+enum eFlyingSligMotions : int
+{
+    FLYING_SLIG_MOTIONS_ENUM(MAKE_ENUM)
+};
+
 class FlyingSlig : public BaseAliveGameObject
 {
 public:
@@ -49,23 +83,23 @@ private:
 
 public:
 
-    EXPORT void state_0_0_4355B0();
-    EXPORT void state_0_1_Dead_4364E0();
-    EXPORT void state_0_2_4356D0();
-    EXPORT void state_0_3_435750();
-    EXPORT void state_0_4_435BC0();
-    EXPORT void state_0_5_435820();
-    EXPORT void state_0_6_435940();
-    EXPORT void state_0_7_435990();
-    EXPORT void state_0_8_435AC0();
-    EXPORT void state_0_9_435E40();
-    EXPORT void state_0_10_435F10();
-    EXPORT void state_0_11_435FD0();
-    EXPORT void state_0_12_PlayerControlled_436040();
-    EXPORT void state_0_13_4360F0();
-    EXPORT void state_0_14_ChantShake_436180();
-    EXPORT void state_0_15_4362C0();
-    EXPORT void state_0_16_4355E0();
+    EXPORT void AI_0_4355B0();
+    EXPORT void AI_1_Dead_4364E0();
+    EXPORT void AI_2_4356D0();
+    EXPORT void AI_3_435750();
+    EXPORT void AI_4_435BC0();
+    EXPORT void AI_5_435820();
+    EXPORT void AI_6_435940();
+    EXPORT void AI_7_435990();
+    EXPORT void AI_8_435AC0();
+    EXPORT void AI_9_435E40();
+    EXPORT void AI_10_435F10();
+    EXPORT void AI_11_435FD0();
+    EXPORT void AI_12_PlayerControlled_436040();
+    EXPORT void AI_13_4360F0();
+    EXPORT void AI_14_ChantShake_436180();
+    EXPORT void AI_15_4362C0();
+    EXPORT void AI_17_4355E0();
 public:
 
     EXPORT void M_Idle_0_4385E0();
@@ -94,6 +128,13 @@ public:
     EXPORT void M_InstantDownXTurn_23_438F20();
     EXPORT void M_HorizontalToUpMovement_24_438D60();
     EXPORT void M_TurnToHorizontalMovement_25_4389E0();
+
+public:
+    EXPORT void ToPlayerControlled_4360C0();
+
+    void SetBrain(TFlyingSligFn fn);
+    bool BrainIs(TFlyingSligFn fn);
+
 private:
     __int16 field_116_pad;
     Path_FlyingSlig field_118_data;
@@ -184,9 +225,10 @@ private:
     __int16 field_28C;
     __int16 field_28E;
     int field_290;
+public:
     FP field_294_nextXPos;
     FP field_298_nextYPos;
-    TFlyingSligFn field_29C_pTable1;
+    TFlyingSligFn field_29C_brain_state;
     LevelIds field_2A0_abe_level;
     __int16 field_2A2_abe_path;
     __int16 field_2A4_abe_camera;

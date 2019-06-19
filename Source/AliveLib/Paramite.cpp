@@ -548,72 +548,29 @@ void Paramite::M_Attack_43_48DB70()
     NOT_IMPLEMENTED();
 }
 
-struct FnPair
-{
-    TParamiteAIFn mReimpl;
-    DWORD mOriginal;
-};
 
-static FnPair sAiFns[10] = 
+const static AIFunctionData<TParamiteAIFn> sParamiteAITable[10] =
 {
-    { &Paramite::AI_0_4835B0, 0x402A7C },
-    { &Paramite::AI_1_484CD0, 0x404223 },
-    { &Paramite::AI_2_4859D0, 0x401799 },
-    { &Paramite::AI_3_4851B0, 0x401645 },
-    { &Paramite::AI_4_48F8F0, 0x48F8F0 }, // No stub ??
-    { &Paramite::AI_5_486880, 0x4012E4 },
-    { &Paramite::AI_6_484BC0, 0x40187F },
-    { &Paramite::AI_7_484FF0, 0x4021A3 },
-    { &Paramite::AI_8_48DFC0, 0x4010B4 },
-    { &Paramite::AI_9_48ED80, 0x401EE7 },
+    { &Paramite::AI_0_4835B0, 0x402A7C, "AI_0" },
+    { &Paramite::AI_1_484CD0, 0x404223, "AI_1" },
+    { &Paramite::AI_2_4859D0, 0x401799, "AI_2" },
+    { &Paramite::AI_3_4851B0, 0x401645, "AI_3" },
+    { &Paramite::AI_4_48F8F0, 0x48F8F0, "AI_4" }, // No stub ??
+    { &Paramite::AI_5_486880, 0x4012E4, "AI_5" },
+    { &Paramite::AI_6_484BC0, 0x40187F, "AI_6" },
+    { &Paramite::AI_7_484FF0, 0x4021A3, "AI_7" },
+    { &Paramite::AI_8_48DFC0, 0x4010B4, "AI_8" },
+    { &Paramite::AI_9_48ED80, 0x401EE7, "AI_9" },
 };
-
-#if _WIN32 || !_WIN64
-static DWORD GetOriginalFn(TParamiteAIFn fn)
-{
-    // If not running as standalone set the address to be
-    // the address of the real function rather than the reimpl as the real
-    // game code compares the function pointer addresses (see IsBrain(x)).
-    for (const auto& addrPair : sAiFns)
-    {
-        if (addrPair.mReimpl == fn)
-        {
-            const DWORD actualAddressToUse = addrPair.mOriginal;
-            // Hack to overwrite the member function pointer bytes with arbitrary data
-            return actualAddressToUse;
-        }
-    }
-    ALIVE_FATAL("No matching address!");
-}
-#endif
 
 void Paramite::SetBrain(TParamiteAIFn fn)
 {
-#if _WIN32 || !_WIN64
-    if (IsAlive())
-    {
-        const DWORD actualAddressToUse = GetOriginalFn(fn);
-        // Hack to overwrite the member function pointer bytes with arbitrary data
-        memcpy(&field_128_fn_brainState, &actualAddressToUse, sizeof(DWORD));
-        return;
-    }
-#endif
-    field_128_fn_brainState = fn;
+    return ::SetBrain(fn, field_128_fn_brainState, sParamiteAITable);
 }
 
 bool Paramite::BrainIs(TParamiteAIFn fn)
 {
-#if _WIN32 || !_WIN64
-    if (IsAlive())
-    {
-        const DWORD actualAddressToUse = GetOriginalFn(fn);
-        TParamiteAIFn tmp;
-        // Hack to overwrite the member function pointer bytes with arbitrary data
-        memcpy(&tmp, &actualAddressToUse, sizeof(DWORD));
-        return field_128_fn_brainState == tmp;
-    }
-#endif
-    return field_128_fn_brainState == fn;
+    return ::BrainIs(fn, field_128_fn_brainState, sParamiteAITable);
 }
 
 void Paramite::dtor_487FC0()

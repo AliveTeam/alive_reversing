@@ -83,3 +83,59 @@ public:
 
     ~DisableVTableHack();
 };
+
+template<class T>
+struct AIFunctionData
+{
+    T mOurFn;
+    DWORD mOriginal;
+    const char* fnName;
+};
+
+#if _WIN32 || !_WIN64
+template<class AIFunctionType, class AITable>
+inline const AIFunctionData<AIFunctionType>& GetOriginalFn(AIFunctionType fn, const AITable& table)
+{
+    // If not running as standalone set the address to be
+    // the address of the real function rather than the reimpl as the real
+    // game code compares the function pointer addresses (see IsBrain(x)).
+    for (const auto& addrPair : table)
+    {
+        if (addrPair.mOurFn == fn || memcmp(&addrPair.mOriginal, &fn, sizeof(DWORD)) == 0)
+        {
+            return addrPair;
+        }
+    }
+    ALIVE_FATAL("No matching address!");
+}
+#endif
+
+template <class AIFunctionType, class AITable>
+inline bool BrainIs(AIFunctionType fn, AIFunctionType& brainVar, const AITable& table)
+{
+#if _WIN32 || !_WIN64
+    if (IsAlive())
+    {
+        const DWORD actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
+        AIFunctionType hack = nullptr;
+        memcpy(&hack, &actualAddressToUse, sizeof(DWORD));
+        return hack == brainVar;
+    }
+#endif
+    return brainVar == fn;
+}
+
+template <class AIFunctionType, class AITable>
+void SetBrain(AIFunctionType fn, AIFunctionType& brainVar, const AITable& table)
+{
+#if _WIN32 || !_WIN64
+    if (IsAlive())
+    {
+        const DWORD actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
+        // Hack to overwrite the member function pointer bytes with arbitrary data
+        memcpy(&brainVar, &actualAddressToUse, sizeof(DWORD));
+        return;
+    }
+#endif
+    brainVar = fn;
+}

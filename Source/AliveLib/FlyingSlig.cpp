@@ -15,83 +15,29 @@
 #include "MusicController.hpp"
 #include "DDCheat.hpp"
 
-using TFlyingSligFn2 = TFlyingSligFn;
-
-ALIVE_ARY(1, 0x552350, TFlyingSligFn2, 25, sFlyingSlig_fns1_552350,
+ALIVE_ARY(1, 0x552350, TFlyingSligFn, 18, sFlyingSlig_AI_table_552350,
 {
-    &FlyingSlig::state_0_0_4355B0,
-    &FlyingSlig::state_0_1_Dead_4364E0,
-    &FlyingSlig::state_0_2_4356D0,
-    &FlyingSlig::state_0_3_435750,
-    &FlyingSlig::state_0_4_435BC0,
-    &FlyingSlig::state_0_5_435820,
-    &FlyingSlig::state_0_6_435940,
-    &FlyingSlig::state_0_7_435990,
-    &FlyingSlig::state_0_8_435AC0,
-    &FlyingSlig::state_0_9_435E40,
-    &FlyingSlig::state_0_10_435F10,
-    &FlyingSlig::state_0_11_435FD0,
-    &FlyingSlig::state_0_12_PlayerControlled_436040,
-    &FlyingSlig::state_0_13_4360F0,
-    &FlyingSlig::state_0_14_ChantShake_436180,
-    &FlyingSlig::state_0_15_4362C0,
-    &FlyingSlig::state_0_1_Dead_4364E0,
-    &FlyingSlig::state_0_16_4355E0,
+    &FlyingSlig::AI_0_4355B0,
+    &FlyingSlig::AI_1_Dead_4364E0,
+    &FlyingSlig::AI_2_4356D0,
+    &FlyingSlig::AI_3_435750,
+    &FlyingSlig::AI_4_435BC0,
+    &FlyingSlig::AI_5_435820,
+    &FlyingSlig::AI_6_435940,
+    &FlyingSlig::AI_7_435990,
+    &FlyingSlig::AI_8_435AC0,
+    &FlyingSlig::AI_9_435E40,
+    &FlyingSlig::AI_10_435F10,
+    &FlyingSlig::AI_11_435FD0,
+    &FlyingSlig::AI_12_PlayerControlled_436040,
+    &FlyingSlig::AI_13_4360F0,
+    &FlyingSlig::AI_14_ChantShake_436180,
+    &FlyingSlig::AI_15_4362C0,
+    &FlyingSlig::AI_1_Dead_4364E0,
+    &FlyingSlig::AI_17_4355E0,
 });
 
-const char* sSligFns1Strings[] =
-{
-    "state_0_0_4355B0",
-    "state_0_1_Dead_4364E0",
-    "state_0_2_4356D0",
-    "state_0_3_435750",
-    "state_0_4_435BC0",
-    "state_0_5_435820",
-    "state_0_6_435940",
-    "state_0_7_435990",
-    "state_0_8_435AC0",
-    "state_0_9_435E40",
-    "state_0_10_435F10",
-    "state_0_11_435FD0",
-    "state_0_12_PlayerControlled_436040",
-    "state_0_13_4360F0",
-    "state_0_14_ChantShake_436180",
-    "state_0_15_4362C0",
-    "state_0_1_Dead_4364E0",
-    "state_0_16_4355E0",
-};
-
-const char* sSligFns2Strings[] =
-{
-    "M_Idle_1_4385E0",
-    "M_HorizontalMovement_1_4386A0",
-    "M_IdleToTurn_2_4388B0",
-    "M_DownMovement_3_438AA0",
-    "M_DownMovementToTurn_4_438CC0",
-    "M_UpMovement_5_438DD0",
-    "M_UpMovementToTurn_6_439030",
-    "M_LeverPull_7_439150",
-    "M_GameSpeak_8_4391D0",
-    "M_Possession_9_434290",
-    "M_EndHorizontalMovement_10_4387D0",
-    "M_BeginUpMovement_11_438E40",
-    "M_HorizontalToDownMovement_12_438B10",
-    "M_UpToHorizontalMovement_13_438F60",
-    "M_DownToHorizontalMovement_14_438BF0",
-    "M_QuickTurn_15_4387F0",
-    "M_IdleToHorizontalMovement_16_438730",
-    "M_BeginDownMovement_17_438B80",
-    "M_EndDownMovement_18_438C90",
-    "M_DownKnockback_19_4390D0",
-    "M_UpKnockback_20_439110",
-    "M_EndUpMovement_21_438EB0",
-    "M_InstantUpXTurn_22_438EE0",
-    "M_InstantDownXTurn_23_438F20",
-    "M_HorizontalToUpMovement_24_438D60",
-    "M_TurnToHorizontalMovement_25_4389E0",
-};
-
-ALIVE_ARY(1, 0x5523A0, TFlyingSligFn2, 26, sFlyingSlig_fns2_5523A0,
+ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
 {
     &FlyingSlig::M_Idle_0_4385E0,
     &FlyingSlig::M_HorizontalMovement_1_4386A0,
@@ -120,6 +66,38 @@ ALIVE_ARY(1, 0x5523A0, TFlyingSligFn2, 26, sFlyingSlig_fns2_5523A0,
     &FlyingSlig::M_HorizontalToUpMovement_24_438D60,
     &FlyingSlig::M_TurnToHorizontalMovement_25_4389E0,
 });
+
+const static AIFunctionData<TFlyingSligFn> sFlyingSligAITable[18] =
+{
+    { &FlyingSlig::AI_0_4355B0, 0x401802 , "AI_0" },
+    { &FlyingSlig::AI_1_Dead_4364E0, 0x402ABD , "AI_1 (first)" },
+    { &FlyingSlig::AI_2_4356D0, 0x4046BF, "AI_2" },
+    { &FlyingSlig::AI_3_435750, 0x402603, "AI_3" },
+    { &FlyingSlig::AI_4_435BC0, 0x402086, "AI_4" },
+    { &FlyingSlig::AI_5_435820, 0x4028A6, "AI_5" },
+    { &FlyingSlig::AI_6_435940, 0x403E31, "AI_6" },
+    { &FlyingSlig::AI_7_435990, 0x404453 , "AI_7" },
+    { &FlyingSlig::AI_8_435AC0, 0x4013A2, "AI_8" },
+    { &FlyingSlig::AI_9_435E40, 0x40394A, "AI_9" },
+    { &FlyingSlig::AI_10_435F10, 0x40253B, "AI_10" },
+    { &FlyingSlig::AI_11_435FD0, 0x40469C, "AI_11" },
+    { &FlyingSlig::AI_12_PlayerControlled_436040, 0x404480, "AI_12" },
+    { &FlyingSlig::AI_13_4360F0, 0x40241E , "AI_13" },
+    { &FlyingSlig::AI_14_ChantShake_436180, 0x403DBE, "AI_14" },
+    { &FlyingSlig::AI_15_4362C0, 0x40128A , "AI_15" },
+    { &FlyingSlig::AI_1_Dead_4364E0, 0x402ABD, "AI_1 (second)" },
+    { &FlyingSlig::AI_17_4355E0, 0x401749, "AI_17" },
+};
+
+void FlyingSlig::SetBrain(TFlyingSligFn fn)
+{
+    ::SetBrain(fn, field_29C_brain_state, sFlyingSligAITable);
+}
+
+bool FlyingSlig::BrainIs(TFlyingSligFn fn)
+{
+    return ::BrainIs(fn, field_29C_brain_state, sFlyingSligAITable);
+}
 
 FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 {
@@ -200,9 +178,9 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 
     field_148_tlvInfo = tlvInfo;
 
-    field_29C_pTable1 = &FlyingSlig::state_0_0_4355B0;
+    SetBrain(&FlyingSlig::AI_0_4355B0);
 
-    field_106_current_motion = 0;
+    field_106_current_motion = eFlyingSligMotions::M_Idle_0_4385E0;
 
     if (field_118_data.field_10_data.field_2_state == 1)
     {
@@ -382,45 +360,11 @@ void FlyingSlig::vUpdate_434AD0()
         field_B8_xpos = field_294_nextXPos;
         field_BC_ypos = field_298_nextYPos;
 
-        // 0x4046bf = patrol + ends on FREEZE
-        // 0x4028a6 = idle/still + ends on FREEZE
-        // 0x403dbe = blow up on next chant of any duration
-        // 0x402abd = dead, just gets destroyed after a timer
-        // 0x404480 = under player control
-        // 0x40241e = very fast rapid shake ??
-        // 0x4013a2 = idle - music change on spot abe
-        // 
-
-        // static int oldPtrV = 0x4028a6;
-        /*
-        int ptrV = 0;
-        memcpy(&ptrV, &field_29C_pTable1, sizeof(void*));
-        if (oldPtrV != ptrV)
-        {
-            oldPtrV = ptrV;
-            LOG_INFO("Addr = " << std::hex << ptrV);
-        }
-        */
-        //memcpy(&field_29C_pTable1, &oldPtrV, sizeof(void*));
-
         const auto oldMotion = field_106_current_motion;
 
-        (this->*(field_29C_pTable1))();
-        /*
-        0 = idle
-        1 = flying
-        2 = turn around
-        3 = go down
-        4 = rapid turn ??
-        5 = go up
-        6 = rapid turn ??
-        7 = speak
-        8 = ??
-        9 = 
-        10 = 
-        */
+        (this->*(field_29C_brain_state))();
 
-        (this->*(sFlyingSlig_fns2_5523A0)[field_106_current_motion])();
+        (this->*(sFlyingSlig_motion_table_5523A0)[field_106_current_motion])();
 
         if (oldMotion != field_106_current_motion)
         {
@@ -441,87 +385,87 @@ void FlyingSlig::sub_4396E0()
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_0_4355B0()
+void FlyingSlig::AI_0_4355B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_1_Dead_4364E0()
+void FlyingSlig::AI_1_Dead_4364E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_2_4356D0()
+void FlyingSlig::AI_2_4356D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_3_435750()
+void FlyingSlig::AI_3_435750()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_4_435BC0()
+void FlyingSlig::AI_4_435BC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_5_435820()
+void FlyingSlig::AI_5_435820()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_6_435940()
+void FlyingSlig::AI_6_435940()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_7_435990()
+void FlyingSlig::AI_7_435990()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_8_435AC0()
+void FlyingSlig::AI_8_435AC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_9_435E40()
+void FlyingSlig::AI_9_435E40()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_10_435F10()
+void FlyingSlig::AI_10_435F10()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_11_435FD0()
+void FlyingSlig::AI_11_435FD0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_12_PlayerControlled_436040()
+void FlyingSlig::AI_12_PlayerControlled_436040()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_13_4360F0()
+void FlyingSlig::AI_13_4360F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_14_ChantShake_436180()
+void FlyingSlig::AI_14_ChantShake_436180()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_15_4362C0()
+void FlyingSlig::AI_15_4362C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::state_0_16_4355E0()
+void FlyingSlig::AI_17_4355E0()
 {
     NOT_IMPLEMENTED();
 }
@@ -654,6 +598,12 @@ void FlyingSlig::M_HorizontalToUpMovement_24_438D60()
 void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
 {
     NOT_IMPLEMENTED();
+}
+
+void FlyingSlig::ToPlayerControlled_4360C0()
+{
+    VSetMotion_4081C0(eFlyingSligMotions::M_Idle_0_4385E0);
+    SetBrain(&FlyingSlig::AI_12_PlayerControlled_436040);
 }
 
 __int16 FlyingSlig::IsPossessed_436A90()

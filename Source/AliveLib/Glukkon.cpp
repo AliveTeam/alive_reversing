@@ -119,70 +119,25 @@ TintEntry stru_5546B4[18] =
     { 0u, 0u, 0u, 0u }
 };
 
-
-struct FnPair
+const static AIFunctionData<TGlukkonAIFn> sGlukkonAITable[6] =
 {
-    TGlukkonAIFn mOurFn;
-    DWORD mOriginal;
+    { &Glukkon::AI_0_Calm_WalkAround_440B40, 0x402D60, "AI_0_Calm_WalkAround" },
+    { &Glukkon::AI_1_Panic_4412F0, 0x403049, "AI_1_Panic" },
+    { &Glukkon::AI_2_Slapped_441720, 0x403864, "AI_2_Slapped" },
+    { &Glukkon::AI_3_PlayerControlled_441A30, 0x401BF4, "AI_3_PlayerControlled" },
+    { &Glukkon::AI_4_Death_442010, 0x401CE9, "AI_4_Death" },
+    { &Glukkon::AI_5_WaitToSpawn_442490, 0x40357B, "AI_5_WaitToSpawn" }
 };
-
-static FnPair sAiFns[6] =
-{
-    { &Glukkon::AI_0_Calm_WalkAround_440B40, 0x402D60 },
-    { &Glukkon::AI_1_Panic_4412F0, 0x403049 },
-    { &Glukkon::AI_2_Slapped_441720, 0x403864 },
-    { &Glukkon::AI_3_PlayerControlled_441A30, 0x401BF4 },
-    { &Glukkon::AI_4_Death_442010, 0x401CE9 },
-    { &Glukkon::AI_5_WaitToSpawn_442490, 0x40357B }
-};
-
-#if _WIN32 || !_WIN64
-static DWORD GetOriginalFn(TGlukkonAIFn fn)
-{
-    // If not running as standalone set the address to be
-    // the address of the real function rather than the reimpl as the real
-    // game code compares the function pointer addresses (see IsBrain(x)).
-    for (const auto& addrPair : sAiFns)
-    {
-        if (addrPair.mOurFn == fn)
-        {
-            const DWORD actualAddressToUse = addrPair.mOriginal;
-            // Hack to overwrite the member function pointer bytes with arbitrary data
-            return actualAddressToUse;
-        }
-    }
-    ALIVE_FATAL("No matching address!");
-}
-#endif
 
 void Glukkon::SetBrain(TGlukkonAIFn fn)
 {
-#if _WIN32 || !_WIN64
-    if (IsAlive())
-    {
-        const DWORD actualAddressToUse = GetOriginalFn(fn);
-        // Hack to overwrite the member function pointer bytes with arbitrary data
-        memcpy(&field_20C_brain_state_fn, &actualAddressToUse, sizeof(DWORD));
-        return;
-    }
-#endif
-    field_20C_brain_state_fn = fn;
+    ::SetBrain(fn, field_20C_brain_state_fn, sGlukkonAITable);
 }
 
 bool Glukkon::BrainIs(TGlukkonAIFn fn)
 {
-#if _WIN32 || !_WIN64
-    if (IsAlive())
-    {
-        const DWORD actualAddressToUse = GetOriginalFn(fn);
-        TGlukkonAIFn hack = nullptr;
-        memcpy(&hack, &actualAddressToUse, sizeof(DWORD));
-        return hack == field_20C_brain_state_fn;
-    }
-#endif
-    return field_20C_brain_state_fn == fn;
+    return ::BrainIs(fn, field_20C_brain_state_fn, sGlukkonAITable);
 }
-
 
 Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, int tlvInfo)
 {

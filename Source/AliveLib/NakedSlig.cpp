@@ -22,6 +22,8 @@
 #include "Blood.hpp"
 #include "ScreenShake.hpp"
 #include "Midi.hpp"
+#include "Slig.hpp"
+#include "FlyingSlig.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -89,20 +91,15 @@ ALIVE_ARY(1, 0x551428, TNakedSligMotionFn, 18, sNakedSlig_motions_551428,
     &NakedSlig::M_EndPushingWall_17_41B3A0
 });
 
-struct ReimplToRealPair
-{
-    TNakedSligAIFn mOurFn;
-    DWORD mOriginalGameFn[2];
-};
 
-const ReimplToRealPair sAiFns[] =
+const static AIFunctionData<TNakedSligAIFn> sNakedSligAITable[] =
 {
-    { &NakedSlig::AI_0_Sleeping_419DE0, {0x419DE0, 0x401D1B } },
-    { &NakedSlig::AI_1_Idle_419F60, {0x419F60, 0x40340E } },
-    { &NakedSlig::AI_2_PanicGetALocker_419FE0, { 0x419FE0, 0x419FE0 } },
-    { &NakedSlig::AI_3_Possesed_41A5B0, {0x41A5B0, 0x404539 } },
-    { &NakedSlig::AI_4_GetKilled_41A880, {0x41A880, 0x403265 } },
-    { &NakedSlig::AI_5_Transformed_41ADF0, {0x41ADF0, 0x40484A } },
+    { &NakedSlig::AI_0_Sleeping_419DE0, 0x401D1B, "AI_0_Sleeping" },
+    { &NakedSlig::AI_1_Idle_419F60, 0x40340E, "AI_1_Idle" },
+    { &NakedSlig::AI_2_PanicGetALocker_419FE0, 0x419FE0, "AI_2_PanicGetALocker" },
+    { &NakedSlig::AI_3_Possesed_41A5B0, 0x404539, "AI_3_Possesed" },
+    { &NakedSlig::AI_4_GetKilled_41A880, 0x403265, "AI_4_GetKilled" },
+    { &NakedSlig::AI_5_Transformed_41ADF0, 0x40484A, "AI_5_Transformed" },
 };
 
 NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
@@ -413,51 +410,14 @@ void NakedSlig::vOn_TLV_Collision_419680(Path_TLV* pTlv)
     }
 }
 
-#if _WIN32 || !_WIN64
-static DWORD GetOriginalFn(TNakedSligAIFn fn)
-{
-    // If not running as standalone set the address to be
-    // the address of the real function rather than the reimpl as the real
-    // game code compares the function pointer addresses (see IsBrain(x)).
-    for (const auto& addrPair : sAiFns)
-    {
-        if (addrPair.mOurFn == fn )
-        {
-            const DWORD actualAddressToUse = addrPair.mOriginalGameFn[1];
-            // Hack to overwrite the member function pointer bytes with arbitrary data
-            return actualAddressToUse;
-        }
-    }
-    ALIVE_FATAL("No matching address!");
-}
-#endif
-
 void NakedSlig::SetBrain(TNakedSligAIFn fn)
 {
-#if _WIN32 || !_WIN64
-    if (IsAlive())
-    {
-        const DWORD actualAddressToUse = GetOriginalFn(fn);
-        // Hack to overwrite the member function pointer bytes with arbitrary data
-        memcpy(&field_204_brain_state, &actualAddressToUse, sizeof(DWORD));
-        return;
-    }
-#endif
-    field_204_brain_state = fn;
+    ::SetBrain(fn, field_204_brain_state, sNakedSligAITable);
 }
 
 bool NakedSlig::BrainIs(TNakedSligAIFn fn)
 {
-#if _WIN32 || !_WIN64
-    if (IsAlive())
-    {
-        const DWORD actualAddressToUse = GetOriginalFn(fn);
-        TNakedSligAIFn hack = nullptr;
-        memcpy(&hack, &actualAddressToUse, sizeof(DWORD));
-        return hack == field_204_brain_state;
-    }
-#endif
-    return field_204_brain_state == fn;
+    return ::BrainIs(fn, field_204_brain_state, sNakedSligAITable);
 }
 
 void NakedSlig::dtor_418FE0()
@@ -1073,10 +1033,132 @@ void NakedSlig::M_Idle_0_41B260()
     HandleCommon_41C0B0();
 }
 
+class NakedSligButton : public BaseGameObject
+{
+public:
+    EXPORT void sub_414C60()
+    {
+        NOT_IMPLEMENTED();
+    }
+};
+
 void NakedSlig::M_UsingButton_1_41B890()
 {
-    NOT_IMPLEMENTED();
-    HandleCommon_41C0B0(); // TODO: Standalone HACK HACK HACK!
+    auto pSligButton = static_cast<NakedSligButton*>(sObjectIds_5C1B70.Find_449CF0(field_1D0_slig_button_id));
+    if (pSligButton && field_20_animation.field_92_current_frame == 8)
+    {
+        pSligButton->sub_414C60();
+        field_1D0_slig_button_id = -1;
+    }
+    else if (field_1E4_pPantsOrWingsTlv)
+    {
+        if (field_20_animation.field_92_current_frame == 7)
+        {
+            SFX_Play_46FA90(93u, 0);
+        }
+
+        if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 1)
+        {
+            New_Particle_426F40(
+                field_B8_xpos,
+                (field_CC_sprite_scale * FP_FromInteger(45)) + field_BC_ypos,
+                field_CC_sprite_scale);
+        }
+        else if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
+        {
+            if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetPants_104  && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 412, 0, 0))
+            {
+                // Transform to a walking slig
+
+                SFX_Play_46FA90(114u, 0);
+
+                auto pWalkingSlig = alive_new<Slig>();
+                if (pWalkingSlig)
+                {
+                    pWalkingSlig->ctor_4B1370(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->sub_4DB7C0(field_1E4_pPantsOrWingsTlv));
+                }
+
+                field_1D8_obj_id = pWalkingSlig->field_8_object_id;
+                pWalkingSlig->field_CC_sprite_scale = field_CC_sprite_scale;
+
+                pWalkingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
+
+                if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
+                {
+                    pWalkingSlig->field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
+                    pWalkingSlig->field_146_level = field_1BA_prev_level;
+                    pWalkingSlig->field_148_path = field_1BC_prev_path;
+                    pWalkingSlig->field_14A_camera = field_1BE_prev_camera;
+                    pWalkingSlig->SetBrain(&Slig::AI_Possessed_2_4BBCF0);
+                    pWalkingSlig->field_11C = 4;
+                    sControlledCharacter_5C1B8C = pWalkingSlig;
+                }
+                field_10C_health = FP_FromInteger(0);
+            }
+            else if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetWings_105 && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 450, 0, 0))
+            {
+                // Transform to a flying slig
+
+                SFX_Play_46FA90(113u, 0);
+
+                auto pFlyingSlig = alive_new<FlyingSlig>();
+                if (pFlyingSlig)
+                {
+                    pFlyingSlig->ctor_4342B0(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->sub_4DB7C0(field_1E4_pPantsOrWingsTlv));
+                }
+
+                field_1D8_obj_id = pFlyingSlig->field_8_object_id;
+                pFlyingSlig->field_B8_xpos = field_B8_xpos;
+                pFlyingSlig->field_BC_ypos = field_BC_ypos - FP_FromInteger(15);
+                pFlyingSlig->field_294_nextXPos = field_B8_xpos;
+                pFlyingSlig->field_298_nextYPos = pFlyingSlig->field_BC_ypos;
+                pFlyingSlig->field_CC_sprite_scale = field_CC_sprite_scale;
+                pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX));
+
+                if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
+                {
+                    pFlyingSlig->ToPlayerControlled_4360C0();
+                    pFlyingSlig->field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
+                    pFlyingSlig->field_2A0_abe_level = field_1BA_prev_level;
+                    pFlyingSlig->field_2A2_abe_path = field_1BC_prev_path;
+                    pFlyingSlig->field_2A4_abe_camera = field_1BE_prev_camera;
+                    sControlledCharacter_5C1B8C = pFlyingSlig;
+                    pFlyingSlig->field_2A8 = (FP_FromDouble(5.5) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2AC = (-FP_FromDouble(5.5) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2B0 = (FP_FromDouble(5.5) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2B4 = (FP_FromDouble(0.3) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2B8 = (FP_FromDouble(0.8) * field_CC_sprite_scale);
+                }
+                else
+                {
+                    pFlyingSlig->SetBrain(&FlyingSlig::AI_17_4355E0);
+                }
+                field_10C_health = FP_FromInteger(0);
+            }
+            else
+            {
+                // Impossible case - slig will go away and not transform into anything ??
+            }
+
+            // Final transform
+            field_6_flags.Set(BaseGameObject::eDead);
+            SetBrain(&NakedSlig::AI_5_Transformed_41ADF0);
+            field_C8_vely = FP_FromInteger(0);
+            field_C4_velx = FP_FromInteger(0);
+            Set_AnimAndMotion_419890(0, TRUE);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_4_typeId = Types::eNone_0;
+        }
+    }
+
+    if (field_1E4_pPantsOrWingsTlv)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            HandleCommon_41C0B0();
+        }
+    }
 }
 
 void NakedSlig::M_WakingUp_2_41BF00()
@@ -1575,8 +1657,6 @@ void CC Slig_Sfx_4BFFE0(__int16 /*effect*/, BaseAliveGameObject* /*pObj*/)
 
 __int16 NakedSlig::CanCrawl_41C5D0()
 {
-    NOT_IMPLEMENTED();
-
     field_C4_velx = dword_54471C[field_20_animation.field_92_current_frame];
     
     FP gridScale = ScaleToGridSize_4498B0(field_CC_sprite_scale);
@@ -1595,9 +1675,8 @@ __int16 NakedSlig::CanCrawl_41C5D0()
         Set_AnimAndMotion_419890(10, TRUE);
         const int snappedX = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
         field_C4_velx = ((FP_FromInteger(snappedX) - field_B8_xpos) / FP_FromInteger(4));
-        // TODO
-        //Sfx_Slig_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
-        return 0;
+        Sfx_Slig_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
+        return FALSE;
     }
     else
     {

@@ -220,14 +220,7 @@ const TSligAIFn sSlig_ai_table_5605AC[36] =
     &Slig::AI_GameEnder_35_4BF640
 };
 
-struct FnPair
-{
-    TSligAIFn mOurFn;
-    DWORD mOriginal;
-    const char* fnName;
-};
-
-static FnPair sAiFns[36] =
+static AIFunctionData<TSligAIFn> sSligAITable[36] =
 {
     { &Slig::AI_Death_0_4BBFB0,  0x40128F, "AI_Death_0", },
     { &Slig::AI_ReturnControlToAbeAndDie_1_4BC410,  0x40371F, "AI_ReturnControlToAbeAndDie_1", },
@@ -267,49 +260,14 @@ static FnPair sAiFns[36] =
     { &Slig::AI_GameEnder_35_4BF640, 0x4022B1, "AI_GameEnder_35" },
 };
 
-#if _WIN32 || !_WIN64
-static const FnPair& GetOriginalFn(TSligAIFn fn)
-{
-    // If not running as standalone set the address to be
-    // the address of the real function rather than the reimpl as the real
-    // game code compares the function pointer addresses (see IsBrain(x)).
-    for (const auto& addrPair : sAiFns)
-    {
-        if (addrPair.mOurFn == fn || memcmp(&addrPair.mOriginal, &fn, sizeof(DWORD)) == 0)
-        {
-            return addrPair;
-        }
-    }
-    ALIVE_FATAL("No matching address!");
-}
-#endif
-
 void Slig::SetBrain(TSligAIFn fn)
 {
-#if _WIN32 || !_WIN64
-    if (IsAlive())
-    {
-        const DWORD actualAddressToUse = GetOriginalFn(fn).mOriginal;
-        // Hack to overwrite the member function pointer bytes with arbitrary data
-        memcpy(&field_154_brain_state, &actualAddressToUse, sizeof(DWORD));
-        return;
-    }
-#endif
-    field_154_brain_state = fn;
+    ::SetBrain(fn, field_154_brain_state, sSligAITable);
 }
 
 bool Slig::BrainIs(TSligAIFn fn)
 {
-#if _WIN32 || !_WIN64
-    if (IsAlive())
-    {
-        const DWORD actualAddressToUse = GetOriginalFn(fn).mOriginal;
-        TSligAIFn hack = nullptr;
-        memcpy(&hack, &actualAddressToUse, sizeof(DWORD));
-        return hack == field_154_brain_state;
-    }
-#endif
-    return field_154_brain_state == fn;
+    return ::BrainIs(fn, field_154_brain_state, sSligAITable);
 }
 
 Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
@@ -2857,7 +2815,7 @@ void Slig::vUpdate_4B17C0()
 
         if (oldBrain != field_154_brain_state)
         {
-            LOG_INFO("Slig: Old brain = " << GetOriginalFn(oldBrain).fnName << " new brain = " << GetOriginalFn(field_154_brain_state).fnName);
+            LOG_INFO("Slig: Old brain = " << GetOriginalFn(oldBrain, sSligAITable).fnName << " new brain = " << GetOriginalFn(field_154_brain_state, sSligAITable).fnName);
         }
 
         if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
