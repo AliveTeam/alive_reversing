@@ -93,6 +93,8 @@ public:
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+
 private:
     EXPORT void vPossessed_4195F0();
 
@@ -117,6 +119,8 @@ private:
     EXPORT void vOnTrapDoorOpen_41C580();
 
     EXPORT void vOn_TLV_Collision_419680(Path_TLV* pTlv);
+
+    EXPORT __int16 vTakeDamage_4192B0(BaseGameObject* pFrom);
 
 private:
     void SetBrain(TNakedSligAIFn fn);

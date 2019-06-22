@@ -24,6 +24,7 @@
 #include "Midi.hpp"
 #include "Slig.hpp"
 #include "FlyingSlig.hpp"
+#include "NakedSligButton.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -228,6 +229,11 @@ void NakedSlig::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
     vOn_TLV_Collision_419680(pTlv);
 }
 
+__int16 NakedSlig::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return vTakeDamage_4192B0(pFrom);
+}
+
 void NakedSlig::vPossessed_4195F0()
 {
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
@@ -408,6 +414,98 @@ void NakedSlig::vOn_TLV_Collision_419680(Path_TLV* pTlv)
             field_B8_xpos,
             field_BC_ypos);
     }
+}
+
+__int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
+{
+    if (!BrainIs(&NakedSlig::AI_5_Transformed_41ADF0))
+    {
+        switch (pFrom->field_4_typeId)
+        {
+        case Types::eBullet_15:
+        case Types::eGrinder_30:
+        case Types::eBaseBomb_46:
+        case Types::eRockSpawner_48:
+        case Types::eType_86:
+        case Types::eMineCar_89:
+        case Types::eType_107:
+        case Types::eExplosion_109:
+            if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
+            {
+                SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                field_208_brain_sub_state = 2;
+                Event_Broadcast_422BC0(kEventMudokonComfort, this);
+            }
+            return 1;
+
+        case Types::eElectricWall_39:
+            Sfx_Slig_4C04F0(10, 0, 0, this);
+            return 1;
+
+        case Types::eSlig_125:
+        {
+            // Take a BEATING
+            field_1AC_timer = sGnFrame_5C1B84 + 20;
+            field_10C_health -= FP_FromDouble(0.13);
+
+            if (field_10C_health <= FP_FromInteger(0))
+            {
+                SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                field_208_brain_sub_state = 2;
+                return 0;
+            }
+
+            Set_AnimAndMotion_419890(eSligMotions::M_Falling_7_4B42D0, TRUE);
+            Sfx_Slig_4C04F0(10, 0, 0, this);
+
+            if (BrainIs(&NakedSlig::AI_2_PanicGetALocker_419FE0))
+            {
+                field_208_brain_sub_state = 10;
+            }
+            else if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
+            {
+                field_208_brain_sub_state = 3;
+            }
+            else
+            {
+                SetBrain(&NakedSlig::AI_2_PanicGetALocker_419FE0);
+                field_208_brain_sub_state = 10;
+            }
+        }
+            return 1;
+
+        case Types::eSlog_126:
+            if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
+            {
+                SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                field_208_brain_sub_state = 4;
+                field_C8_vely = FP_FromInteger(0);
+                field_C4_velx = FP_FromInteger(0);
+                field_10C_health = FP_FromInteger(0);
+                MapFollowMe_408D10(TRUE);
+                field_1AC_timer = sGnFrame_5C1B84 + 15;
+                Set_AnimAndMotion_419890(NakedSligMotion::M_Empty_13_418C50, TRUE);
+                Event_Broadcast_422BC0(kEventMudokonComfort, this);
+            }
+            return 1;
+
+        case Types::eElectrocute_150:
+            if (!BrainIs(&NakedSlig::AI_4_GetKilled_41A880))
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_10C_health = FP_FromInteger(0);
+                field_1AC_timer = sGnFrame_5C1B84 + 1;
+                SetBrain(&NakedSlig::AI_4_GetKilled_41A880);
+                field_208_brain_sub_state = 3;
+                Event_Broadcast_422BC0(kEventMudokonComfort, this);
+            }
+            return 1;
+
+        default:
+            return 1;
+        }
+    }
+    return 1;
 }
 
 void NakedSlig::SetBrain(TNakedSligAIFn fn)
@@ -1033,28 +1131,21 @@ void NakedSlig::M_Idle_0_41B260()
     HandleCommon_41C0B0();
 }
 
-class NakedSligButton : public BaseGameObject
-{
-public:
-    EXPORT void sub_414C60()
-    {
-        NOT_IMPLEMENTED();
-    }
-};
-
 void NakedSlig::M_UsingButton_1_41B890()
 {
+    // Check for using a slig button which is a button than can trigger an id
     auto pSligButton = static_cast<NakedSligButton*>(sObjectIds_5C1B70.Find_449CF0(field_1D0_slig_button_id));
     if (pSligButton && field_20_animation.field_92_current_frame == 8)
     {
-        pSligButton->sub_414C60();
+        pSligButton->UseButton_414C60();
         field_1D0_slig_button_id = -1;
     }
+    // If not using a button check if we are on a locker to get pants or wings
     else if (field_1E4_pPantsOrWingsTlv)
     {
         if (field_20_animation.field_92_current_frame == 7)
         {
-            SFX_Play_46FA90(93u, 0);
+            SFX_Play_46FA90(93, 0);
         }
 
         if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 1)
@@ -1150,10 +1241,7 @@ void NakedSlig::M_UsingButton_1_41B890()
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_4_typeId = Types::eNone_0;
         }
-    }
 
-    if (field_1E4_pPantsOrWingsTlv)
-    {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             HandleCommon_41C0B0();

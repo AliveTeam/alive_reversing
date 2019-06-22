@@ -66,6 +66,7 @@
 #include "Slig.hpp"
 #include "GasCountDown.hpp"
 #include "GlukkonSwitch.hpp"
+#include "NakedSligButton.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1714,7 +1715,21 @@ EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 
 }
 
-EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_NakedSligButton_4DB100(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("CSLGBUTN.BAN", ResourceManager::Resource_Animation, 1057, loadMode);
+    }
+    else
+    {
+        auto pSligButton = alive_new<NakedSligButton>();
+        if (pSligButton)
+        {
+            pSligButton->ctor_4148F0(static_cast<Path_NakedSligButton*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_GlukkonSwitch_4DA670(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {

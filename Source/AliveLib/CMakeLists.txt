@@ -305,6 +305,10 @@ ExportHooker.hpp
     GlukkonSwitch.cpp
     Bullet.hpp
     Bullet.cpp
+    NakedSligButton.hpp
+    NakedSligButton.cpp
+    SligGetPantsAndWings.hpp
+    SligGetPantsAndWings.cpp
     TouchController.cpp
     TouchController.hpp
 )
