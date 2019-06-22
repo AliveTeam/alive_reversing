@@ -79,7 +79,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
         {
             field_F4_state = 0;
             field_20_animation.Set_Animation_Data_409C80(4352, nullptr);
-            pTlv->field_0_flags.Raw().all &= 0xFFu; // TODO: Wrong ??
+            pTlv->field_1_unknown = 0;
         }
         break;
     }
