@@ -1241,7 +1241,9 @@ void NakedSlig::M_UsingButton_1_41B890()
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_4_typeId = Types::eNone_0;
         }
-
+    }
+    else
+    {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             HandleCommon_41C0B0();
