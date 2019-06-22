@@ -67,6 +67,7 @@
 #include "GasCountDown.hpp"
 #include "GlukkonSwitch.hpp"
 #include "NakedSligButton.hpp"
+#include "SligGetPantsAndWings.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -519,38 +520,44 @@ EXPORT void CC Factory_TimedMine_4D87C0(Path_TLV* pTlv, Path* /*pPath*/, TlvItem
     }
 }
 
+static CompileTimeResourceList<3> kResources_5632A0(
+{
+    { ResourceManager::Resource_Animation, 417 },
+    { ResourceManager::Resource_Animation, 344 },
+    { ResourceManager::Resource_Animation, 28 }
+});
+
+static CompileTimeResourceList<4> kResources_5632BC(
+{
+    { ResourceManager::Resource_Animation, 412 },
+    { ResourceManager::Resource_Animation, 414 },
+    { ResourceManager::Resource_Animation, 319 },
+    { ResourceManager::Resource_Animation, 360 }
+});
+
+static void LoadWalkingSligResources(__int16 disabledResources, __int16 loadMode)
+{
+    gMap_5C3030.LoadResource_4DBE00("SLGLEVER.BAN", ResourceManager::Resource_Animation, 419, loadMode, disabledResources & 1);
+    gMap_5C3030.LoadResource_4DBE00("SLGLIFT.BAN", ResourceManager::Resource_Animation, 420, loadMode, disabledResources & 2);
+    gMap_5C3030.LoadResource_4DBE00("SLGSLEEP.BAN", ResourceManager::Resource_Animation, 413, loadMode, disabledResources & 0x40);
+    gMap_5C3030.LoadResource_4DBE00("SLGEDGE.BAN", ResourceManager::Resource_Animation, 415, loadMode, disabledResources & 0x100);
+    gMap_5C3030.LoadResource_4DBE00("SLGSMASH.BAN", ResourceManager::Resource_Animation, 416, loadMode, disabledResources & 0x200);
+    gMap_5C3030.LoadResource_4DBE00("SLGBEAT.BAN", ResourceManager::Resource_Animation, 426, loadMode, disabledResources & 0x400);
+    gMap_5C3030.LoadResource_4DBE00("SLGKNFD.BAN", ResourceManager::Resource_Animation, 418, loadMode, disabledResources & 0x80);
+    gMap_5C3030.LoadResourcesFromList_4DBE70("SLIGZ.BND", kResources_5632A0.AsList(), loadMode, disabledResources & 4);
+    gMap_5C3030.LoadResourcesFromList_4DBE70("SLIG.BND", kResources_5632BC.AsList(), loadMode);
+    gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, 423, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+
+}
+
 EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
     const auto disabledResources = pSligTlv->field_48_disable_resources;
     if (loadMode == 1 || loadMode == 2)
     {
-        static CompileTimeResourceList<3> kResources1(
-        {
-            { ResourceManager::Resource_Animation, 417 },
-            { ResourceManager::Resource_Animation, 344 },
-            { ResourceManager::Resource_Animation, 28 } 
-        });
-
-        static CompileTimeResourceList<4> kResources2(
-        {
-            { ResourceManager::Resource_Animation, 412 },
-            { ResourceManager::Resource_Animation, 414 },
-            { ResourceManager::Resource_Animation, 319 },
-            { ResourceManager::Resource_Animation, 360 }
-        });
-
-        gMap_5C3030.LoadResource_4DBE00("SLGLEVER.BAN", ResourceManager::Resource_Animation, 419, loadMode, disabledResources & 1);
-        gMap_5C3030.LoadResource_4DBE00("SLGLIFT.BAN", ResourceManager::Resource_Animation, 420, loadMode, disabledResources & 2);
-        gMap_5C3030.LoadResource_4DBE00("SLGSLEEP.BAN", ResourceManager::Resource_Animation, 413, loadMode, disabledResources & 0x40);
-        gMap_5C3030.LoadResource_4DBE00("SLGEDGE.BAN", ResourceManager::Resource_Animation, 415, loadMode, disabledResources & 0x100);
-        gMap_5C3030.LoadResource_4DBE00("SLGSMASH.BAN", ResourceManager::Resource_Animation, 416, loadMode, disabledResources & 0x200);
-        gMap_5C3030.LoadResource_4DBE00("SLGBEAT.BAN", ResourceManager::Resource_Animation, 426, loadMode, disabledResources & 0x400);
-        gMap_5C3030.LoadResource_4DBE00("SLGKNFD.BAN", ResourceManager::Resource_Animation, 418, loadMode, disabledResources & 0x80);
-        gMap_5C3030.LoadResourcesFromList_4DBE70("SLIGZ.BND", kResources1.AsList(), loadMode, disabledResources & 4);
-        gMap_5C3030.LoadResourcesFromList_4DBE70("SLIG.BND", kResources2.AsList(), loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, 423, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
+        LoadWalkingSligResources(disabledResources, loadMode);
     }
     else
     {
@@ -1331,24 +1338,30 @@ EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv , Path*, TlvItemInfoUnion
 EXPORT void CC Factory_Null_4DA850(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_LaughingGas_4DA870(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
+static CompileTimeResourceList<1> kResources_5632E0({
+    { ResourceManager::Resource_Animation, ResourceID::kFlySligResID }
+});
+
+static void LoadFlyingSligResources(__int16 loadMode)
+{
+    gMap_5C3030.LoadResourcesFromList_4DBE70("FLYSLIG.BND", kResources_5632E0.AsList(), loadMode, 0);
+
+    gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, ResourceID::kBigflashResID, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, ResourceID::kVaporResID, loadMode);
+    gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode);
+}
+
+
 EXPORT void CC Factory_FlyingSlig_4D92E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        static CompileTimeResourceList<1> kResources({
-            { ResourceManager::Resource_Animation, ResourceID::kFlySligResID }
-        });
-
-        gMap_5C3030.LoadResourcesFromList_4DBE70("FLYSLIG.BND", kResources.AsList(), loadMode, 0);
-
-        gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("GRENADE.BAN", ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("SMEXP.BAN", ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, ResourceID::kMetalResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("BIGFLASH.BAN", ResourceManager::Resource_Animation, ResourceID::kBigflashResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("VAPOR.BAN", ResourceManager::Resource_Animation, ResourceID::kVaporResID, loadMode);
-        gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, loadMode);
+        LoadFlyingSligResources(loadMode);
     }
     else
     {
@@ -1689,8 +1702,42 @@ EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
 }
 
-EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_SligGetPants_4D9700(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    auto pSligTlv = static_cast<Path_Slig*>(pTlv);
+    const auto disabledResources = pSligTlv->field_48_disable_resources;
+    if (loadMode == 1 || loadMode == 2)
+    {
+        LoadWalkingSligResources(disabledResources, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("LOCKER.BAN", ResourceManager::Resource_Animation, 448, loadMode);
+    }
+    else
+    {
+        auto pSligGetPantsAndWings = alive_new<SligGetPantsAndWings>();
+        if (pSligGetPantsAndWings)
+        {
+            pSligGetPantsAndWings->ctor_465BF0(pTlv, tlvInfo.all);
+        }
+    }
+}
+
+EXPORT void CC Factory_SligGetWings_4D9900(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        LoadFlyingSligResources(loadMode);
+        gMap_5C3030.LoadResource_4DBE00("LOCKER.BAN", ResourceManager::Resource_Animation, 448, loadMode, 0);
+    }
+    else
+    {
+        auto pSligGetPantsAndWings = alive_new<SligGetPantsAndWings>();
+        if (pSligGetPantsAndWings)
+        {
+            pSligGetPantsAndWings->ctor_465BF0(pTlv, tlvInfo.all);
+        }
+    }
+
+}
 
 EXPORT void CC Factory_Greeter_4DAFE0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 { 
