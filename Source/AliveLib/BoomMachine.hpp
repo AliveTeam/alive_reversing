@@ -27,15 +27,15 @@ public:
 
     virtual BOOL Vsub_445DF0();
 
-    virtual BaseGameObject* Vsub_445F00();
+    virtual void Vsub_445F00();
 private:
     EXPORT void vUpdate_445F50();
 
     EXPORT void vScreenChange_446020();
 
-    EXPORT BOOL virtual vsub_445DF0();
+    EXPORT BOOL vsub_445DF0();
 
-    EXPORT BaseGameObject* vsub_445F00();
+    EXPORT void vsub_445F00();
 
     EXPORT void dtor_445E40();
 
@@ -45,6 +45,6 @@ private:
     int field_E4_not_used[4];
     int field_F4_tlvInfo;
     int field_F8_nozzel_id;
-    int field_FC;
+    int field_FC_state;
 };
 ALIVE_ASSERT_SIZEOF(BoomMachine, 0x100);

@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "Shadow.hpp"
 #include "stdlib.hpp"
+#include "ThrowableArray.hpp"
 
 void BaseThrowable::VOnPickUpOrSlapped()
 {
@@ -147,4 +148,122 @@ void BoneBag::dtor_4127F0()
     SetVTable(this, 0x5443B0);
     Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
     dtor_4080B0();
+}
+
+Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, int a7)
+{
+    ctor_408240(0);
+    SetVTable(this, 0x5456E0);
+
+    field_11A = 0;
+
+    Init_448110(xpos, ypos);
+
+    field_118 = numGrenades;
+    field_132 = a5;
+
+    if (a5)
+    {
+        field_120 = 8;
+        field_11A = 1;
+    }
+    else if (numGrenades)
+    {
+        field_120 = a5;
+    }
+    else
+    {
+        field_120 = 3;
+        field_122 = 90;
+    }
+
+    field_138 = a7;
+    field_130 = a6;
+
+    return this;
+}
+
+int Grenade::Vsub_49E460(FP velX, FP velY)
+{
+    return Vsub_449390(velX, velY);
+}
+
+BOOL Grenade::Vsub_49E350()
+{
+    return Vsub_4482E0();
+}
+
+BOOL Grenade::Vsub_49E330()
+{
+    return Vsub_49A5F0();
+}
+
+__int16 Grenade::Vnull_411490()
+{
+    return Vnull_49A610();
+}
+
+__int16 Grenade::Vsub_448080()
+{
+    return Vsub_4480A0();
+}
+
+void Grenade::Init_448110(FP xpos, FP ypos)
+{
+    field_4_typeId = Types::eGrenade_65;
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6005, 0, 0))
+    {
+        LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
+    }
+
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID);
+    Animation_Init_424E10(1252, 17, 11, ppRes, 1, 1);
+    field_6_flags.Clear(BaseGameObject::eInteractive);
+
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+    field_20_animation.field_B_render_mode = 0;
+
+    field_11C = -1;
+    field_B8_xpos = xpos;
+    field_BC_ypos = ypos;
+    field_128_xpos = xpos;
+    field_12C_ypos = ypos;
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+    field_118 = 0;
+    field_124 = 0;
+    field_134 = 0;
+}
+
+int Grenade::Vsub_449390(FP /*velX*/, FP /*velY*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+BOOL Grenade::Vsub_4482E0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+BOOL Grenade::Vsub_49A5F0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Grenade::Vnull_49A610()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Grenade::Vsub_4480A0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }

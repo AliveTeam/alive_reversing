@@ -50,11 +50,54 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x12C);
 
-// TODO
 class Grenade : public BaseThrowable
 {
 public:
+    EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, int a7);
+
+    virtual int Vsub_49E460(FP velX, FP velY) override;
+
+    virtual BOOL Vsub_49E350() override;
+
+    virtual BOOL Vsub_49E330() override;
+
+    virtual __int16 Vnull_411490() override;
+
+    virtual __int16 Vsub_448080() override;
+
+    // Next 2 virtuals are base
+
+private:
+    EXPORT void Init_448110(FP xpos, FP ypos);
+
+    EXPORT int Vsub_449390(FP velX, FP velY);
+
+    EXPORT BOOL Vsub_4482E0();
+
+    EXPORT BOOL Vsub_49A5F0();
+
+    EXPORT __int16 Vnull_49A610();
+
+    EXPORT __int16 Vsub_4480A0();
+
+private:
+    __int16 field_116;
+    __int16 field_118;
+    __int16 field_11A;
+    int field_11C;
+    __int16 field_120;
+    __int16 field_122;
+    __int16 field_124;
+    __int16 field_126;
+    FP field_128_xpos;
+    FP field_12C_ypos;
+    __int16 field_130;
+    __int16 field_132;
+    __int16 field_134;
+    __int16 field_136;
+    int field_138;
 };
+ALIVE_ASSERT_SIZEOF(Grenade, 0x13C);
 
 // TODO
 class Bone : public BaseThrowable
