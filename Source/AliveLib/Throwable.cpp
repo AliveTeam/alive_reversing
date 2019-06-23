@@ -5,6 +5,7 @@
 #include "Shadow.hpp"
 #include "stdlib.hpp"
 #include "ThrowableArray.hpp"
+#include "Game.hpp"
 
 void BaseThrowable::VOnPickUpOrSlapped()
 {
@@ -266,4 +267,88 @@ __int16 Grenade::Vsub_4480A0()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
+{
+    ctor_408240(0);
+    field_11A = 0;
+    SetVTable(this, 0x54431C);
+    field_4_typeId = Types::eBone_11;
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 591, 0, 0))
+    {
+        LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
+    }
+
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 591);
+    Animation_Init_424E10(456, 15, 9, ppRes, 1, 1);
+
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+    field_B8_xpos = xpos;
+    field_BC_ypos = ypos;
+    field_120 = xpos;
+    field_124 = ypos;
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+    field_6_flags.Clear(BaseGameObject::eInteractive);
+    field_130 &= ~1u;
+
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+    field_12C = sGnFrame_5C1B84 + 300;
+    field_118_count_id = countId;
+    field_11C_state = 0;
+    field_11E = 0;
+
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
+    {
+        field_E0_pShadow->ctor_4AC990();
+    }
+    return this;
+}
+
+Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 a4)
+{
+    ctor_408240(0);
+    SetVTable(this, 0x546040);
+
+    field_11A = 0;
+    field_4_typeId = Types::eMeat_84;
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 2023, 0, 0))
+    {
+        LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
+    }
+
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 2023);
+    Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
+
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+    field_B8_xpos = xpos;
+    field_BC_ypos = ypos;
+
+    field_120_xpos = xpos;
+    field_124_ypos = ypos;
+
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+    field_128 = 0;
+    field_6_flags.Clear(BaseGameObject::eInteractive);
+
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+    field_12C = sGnFrame_5C1B84 + 600;
+    field_130_pLine = 0;
+    field_118 = a4;
+    field_11C = 0;
+
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
+    {
+        field_E0_pShadow->ctor_4AC990();
+    }
+    return this;
 }

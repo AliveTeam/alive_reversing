@@ -99,11 +99,26 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Grenade, 0x13C);
 
-// TODO
 class Bone : public BaseThrowable
 {
 public:
+    EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
+
+
+private:
+    __int16 field_116;
+    __int16 field_118_count_id;
+    __int16 field_11A;
+    __int16 field_11C_state;
+    __int16 field_11E;
+    FP field_120;
+    FP field_124;
+    int field_128;
+    int field_12C;
+    __int16 field_130;
+    __int16 field_132;
 };
+ALIVE_ASSERT_SIZEOF(Bone, 0x134);
 
 struct Path_BoneBag : public Path_TLV
 {
@@ -153,8 +168,21 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(BoneBag, 0x12C);
 
-// TODO
 class Meat : public BaseThrowable
 {
 public:
+    EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, __int16 a4);
+
+private:
+    __int16 field_116;
+    __int16 field_118;
+    __int16 field_11A;
+    __int16 field_11C;
+    __int16 field_11E;
+    FP field_120_xpos;
+    FP field_124_ypos;
+    int field_128;
+    int field_12C;
+    PathLine* field_130_pLine;
 };
+ALIVE_ASSERT_SIZEOF(Meat, 0x134);
