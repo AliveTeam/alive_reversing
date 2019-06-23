@@ -522,7 +522,10 @@ void FlyingSlig::M_Possession_9_434290()
 
 void FlyingSlig::M_EndHorizontalMovement_10_4387D0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        VSetMotion_4081C0(eFlyingSligMotions::M_Idle_0_4385E0);
+    }
 }
 
 void FlyingSlig::M_BeginUpMovement_11_438E40()
@@ -577,17 +580,35 @@ void FlyingSlig::M_UpKnockback_20_439110()
 
 void FlyingSlig::M_EndUpMovement_21_438EB0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_188 <= 0)
+        {
+            VSetMotion_4081C0(eFlyingSligMotions::M_Idle_0_4385E0);
+        }
+        else
+        {
+            VSetMotion_4081C0(eFlyingSligMotions::M_BeginDownMovement_17_438B80);
+        }
+    }
 }
 
 void FlyingSlig::M_InstantUpXTurn_22_438EE0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        VSetMotion_4081C0(eFlyingSligMotions::M_UpMovement_5_438DD0);
+    }
 }
 
 void FlyingSlig::M_InstantDownXTurn_23_438F20()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        VSetMotion_4081C0(eFlyingSligMotions::M_DownMovement_3_438AA0);
+    }
 }
 
 void FlyingSlig::M_HorizontalToUpMovement_24_438D60()
