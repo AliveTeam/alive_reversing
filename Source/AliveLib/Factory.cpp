@@ -68,6 +68,7 @@
 #include "GlukkonSwitch.hpp"
 #include "NakedSligButton.hpp"
 #include "SligGetPantsAndWings.hpp"
+#include "BoomMachine.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1108,7 +1109,34 @@ EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 }
 
 EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    auto pTlvBooMachine = static_cast<Path_BoomMachine*>(pTlv);
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources(
+        {
+            { ResourceManager::Resource_Animation, 14 },
+            { ResourceManager::Resource_Animation, 12 },
+            { ResourceManager::Resource_Animation, 6005 } 
+        });
+
+        gMap_5C3030.LoadResourcesFromList_4DBE70("GTHROW.BND", kResources.AsList(), loadMode, 0);
+        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, 301, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("ABEBLOW.BAN", ResourceManager::Resource_Animation, 25, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("METAL.BAN", ResourceManager::Resource_Animation, 365, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("DOGBLOW.BAN", ResourceManager::Resource_Animation, 576, loadMode, pTlvBooMachine->field_14_disabled_resources & 2);
+    }
+    else
+    {
+        auto pBoomMachine = alive_new<BoomMachine>();
+        if (pBoomMachine)
+        {
+            pBoomMachine->ctor_445B30(pTlvBooMachine, tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_BackgroundAnimation_4D84F0(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {

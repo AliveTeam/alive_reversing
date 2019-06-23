@@ -6929,7 +6929,10 @@ void Abe::State_87_HandstoneEnd_45C4F0()
 
 void Abe::State_88_GrenadeMachineUse_45C510()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_89_BrewMachineBegin_4584C0()

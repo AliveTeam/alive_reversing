@@ -33,8 +33,9 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VScreenChanged() override;
-private:
+public:
     __int16 field_20_count;
+private:
     __int16 field_22_flags;
     DynamicArray field_24_throwables;
 };
