@@ -48,6 +48,7 @@
 #include "Mudokon.hpp"
 #include "Electrocute.hpp"
 #include "BirdPortal.hpp"
+#include "BoomMachine.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -2825,91 +2826,6 @@ static bool IsFacingSameDirectionAsEdge(Path_Edge* pEdge, BaseAliveGameObject* p
 
     return true;
 }
-
-class BoomMachine : public BaseAnimatedWithPhysicsGameObject
-{
-public:
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_445E10(flags);
-    }
-
-    virtual void VUpdate() override
-    {
-        vUpdate_445F50();
-    }
-
-    virtual void VScreenChanged() override
-    {
-        vScreenChange_446020();
-    }
-
-    virtual BOOL Vsub_445DF0()
-    {
-        return vsub_445DF0();
-    }
-
-    virtual BaseGameObject* Vsub_445F00()
-    {
-        return vsub_445F00();
-    }
-private:
-    EXPORT void vUpdate_445F50()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    EXPORT void vScreenChange_446020()
-    {
-        NOT_IMPLEMENTED();
-    }
-
-    EXPORT BOOL virtual vsub_445DF0()
-    {
-        NOT_IMPLEMENTED();
-        return 0;
-    }
-
-    EXPORT BaseGameObject* vsub_445F00()
-    {
-        NOT_IMPLEMENTED();
-        return nullptr;
-    }
-
-    EXPORT void dtor_445E40()
-    {
-        SetVTable(this, 0x5455C4); // vTbl_GrenadeMachine_5455C4
-
-        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_F8);
-        if (pObj)
-        {
-            pObj->field_6_flags.Set(BaseGameObject::eDead);;
-        }
-        Path::TLV_Reset_4DB8E0(field_F4, -1, 0, 0);
-
-        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    }
-
-    EXPORT BoomMachine* vdtor_445E10(signed int flags)
-    {
-        dtor_445E40();
-        if (flags & 1)
-        {
-            Mem_Free_495540(this);
-        }
-        return this;
-    }
-
-private:
-    int field_E4;
-    int field_E8;
-    int field_EC;
-    int field_F0;
-    int field_F4;
-    int field_F8;
-    int field_FC;
-};
-ALIVE_ASSERT_SIZEOF(BoomMachine, 0x100);
 
 void Abe::State_0_Idle_44EEB0()
 {

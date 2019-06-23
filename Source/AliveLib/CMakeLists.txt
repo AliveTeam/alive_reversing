@@ -309,6 +309,8 @@ ExportHooker.hpp
     NakedSligButton.cpp
     SligGetPantsAndWings.hpp
     SligGetPantsAndWings.cpp
+    BoomMachine.hpp
+    BoomMachine.cpp
     TouchController.cpp
     TouchController.hpp
 )
