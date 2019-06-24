@@ -16,15 +16,15 @@ public:
     virtual void VOnPickUpOrSlapped() override;
 
     // New virtuals for throwables
-    virtual int Vsub_49E460(FP velX, FP velY) = 0;
-    virtual BOOL Vsub_49E350() = 0;
-    virtual BOOL Vsub_49E330() = 0;
-    virtual __int16 Vnull_411490() = 0;
-    virtual __int16 Vsub_448080() = 0;
+    virtual void VThrow_49E460(FP velX, FP velY) = 0;
+    virtual BOOL VCanThrow_49E350() = 0;
+    virtual BOOL VIsFalling_49E330() = 0;
+    virtual __int16 VTimeToExplodeRandom_411490() = 0;
+    virtual __int16 VGetCount_448080() = 0;
 
-    virtual void Vsub_4114B0();
+    virtual void VToDead_4114B0();
 
-    EXPORT void vsub_4114B0();
+    EXPORT void vToDead_4114B0();
     EXPORT void vOnPickUpOrSlapped_4114D0();
 };
 
@@ -38,13 +38,13 @@ public:
     EXPORT int vGetSaveState_49F9A0(BYTE* /*pSaveBuffer*/);
 
     /*
-    BaseAliveGameObject__vnull_4081F0
-    Rock__vsub_49E460
-    Rock__vsub_49E350
-    Rock__vsub_49E330
-    Rock__vnull_411490
-    GrenadeBase__vsub_448080
-    Rock__vsub_4114B0
+    BaseAliveGameObject__vnull_4081F0 vOnTrapDoorOpen
+    Rock__vThrow_49E460
+    Rock__vCanThrow_49E350
+    Rock__vIsFalling_49E330
+    Rock__vTimeToExplodeRandom_411490
+    GrenadeBase__vGetCount_448080
+    Rock__vToDead_4114B0
     */
 
 private:
@@ -65,39 +65,39 @@ class Grenade : public BaseThrowable
 public:
     EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, int a7);
 
-    virtual int Vsub_49E460(FP velX, FP velY) override;
+    virtual void VThrow_49E460(FP velX, FP velY) override;
 
-    virtual BOOL Vsub_49E350() override;
+    virtual BOOL VCanThrow_49E350() override;
 
-    virtual BOOL Vsub_49E330() override;
+    virtual BOOL VIsFalling_49E330() override;
 
-    virtual __int16 Vnull_411490() override;
+    virtual __int16 VTimeToExplodeRandom_411490() override;
 
-    virtual __int16 Vsub_448080() override;
+    virtual __int16 VGetCount_448080() override;
 
     // Next 2 virtuals are base
 
 private:
     EXPORT void Init_448110(FP xpos, FP ypos);
 
-    EXPORT int Vsub_449390(FP velX, FP velY);
+    EXPORT void vThrow_449390(FP velX, FP velY);
 
-    EXPORT BOOL Vsub_4482E0();
+    EXPORT BOOL vCanThrow_4482E0();
 
-    EXPORT BOOL Vsub_49A5F0();
+    EXPORT BOOL vIsFalling_49A5F0();
 
-    EXPORT __int16 Vnull_49A610();
+    EXPORT __int16 vTimeToExplodeRandom_49A610();
 
-    EXPORT __int16 Vsub_4480A0();
+    EXPORT __int16 vGetCount_4480A0();
 
     /*
-    Grenade__vsub_449390
-    Grenade__vsub_4482E0
-    Grenade__vsub_49A5F0;
-    Grenade__vsub_49A610;
-    Grenade__vsub_4480A0
-    Rock__vsub_448080
-    BaseThrowable__vsub_4114B0
+    Grenade__vOnTrapDoorOpen_449390
+    Grenade__vThrow_4482E0
+    Grenade__vCanThrow_49A5F0 // Always 0 ??
+    Grenade__vIsFalling_49A610 // Always 0 ??
+    Grenade__vTimeToExplodeRandom_4480A0
+    Rock__vGetCount_448080
+    BaseThrowable__vToDead_4114B0
     */
 
 private:
@@ -132,13 +132,13 @@ private:
 
     /*
     Bone__vOnTrapDoorOpen_412490
-    Bone__vsub_411670
-    Bone__vsub_411530
-    Bone__vsub_411510
-    Rock__vnull_411490
-    Bone__vsub_412500
-    BaseThrowable__vsub_4114B0
-    Bone__vsub_411560)
+    Bone__vThrow_411670
+    Bone__vCanThrow_411530
+    Bone__vIsFalling_411510
+    Rock__vTimeToExplodeRandom_411490
+    Bone__vGetCount_412500
+    BaseThrowable__vToDead_4114B0
+    Bone__vsub_411560 // State is 4, eaten?
     */
 private:
     __int16 field_116;
@@ -208,14 +208,14 @@ class Meat : public BaseThrowable
 public:
     EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, __int16 a4);
     /*
-    Meat__vsub_46A2E0
-    Meat__vsub_469790
-    Meat__vsub_469680
-    Meat__vsub_469660;
-    Rock__vnull_411490
-    Meat__vsub_46A350
-    Rock__vsub_4114B0
-    Meat__vsub_4696A0
+    Meat__vOnTrapDoorOpen_46A2E0
+    Meat__vThrow_469790
+    Meat__vCanThrow_469680
+    Meat__vIsFalling_469660
+    Rock__vTimeToExplodeRandom_411490
+    Meat__vGetCount_46A350
+    BaseThrowable__vToDead_4114B0
+    Meat__vsub_4696A0 // State not 0, eaten?
     */
 private:
     __int16 field_116;

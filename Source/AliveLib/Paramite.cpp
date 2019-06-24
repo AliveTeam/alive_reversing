@@ -705,7 +705,7 @@ void Paramite::vUpdate_4871B0()
         }
         else if (pMeat)
         {
-            if (pMeat->Vnull_411490() || pMeat->field_6_flags.Get(BaseGameObject::eDead))
+            if (pMeat->VIsFalling_49E330() || pMeat->field_6_flags.Get(BaseGameObject::eDead))
             {
                 field_118 = -1;
                 field_108_next_motion = 0;

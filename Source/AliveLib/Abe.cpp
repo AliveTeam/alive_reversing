@@ -1631,7 +1631,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (pfield_158)
         {
-            pfield_158->Vsub_4114B0();
+            pfield_158->VToDead_4114B0();
             field_158_throwable_id = -1;
             if (!gInfiniteGrenades_5C1BDE)
             {
@@ -2149,11 +2149,11 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             // Random explode time ?
             const FP rand1 = FP_FromRaw((Math_NextRandom() - 127) << 11); // TODO: Wat?
             const FP rand2 = (FP_FromDouble(0.03125) * FP_FromRaw(Math_NextRandom())) - FP_FromInteger(2);
-            pThrowable->Vsub_49E460(rand1, rand2);
+            pThrowable->VThrow_49E460(rand1, rand2);
 
             pThrowable->field_CC_sprite_scale = field_CC_sprite_scale;
             pThrowable->field_D6_scale = field_D6_scale;
-            pThrowable->Vnull_411490(); // Start count down ?
+            pThrowable->VTimeToExplodeRandom_411490(); // Start count down ?
         }
         field_1A2_rock_or_bone_count = 0;
         break;
@@ -8127,7 +8127,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
         case Types::eMeat_84:
         case Types::eRock_105:
             field_106_current_motion = eAbeStates::State_111_GrabRock_4564A0;
-            field_1A2_rock_or_bone_count += static_cast<char>(static_cast<BaseThrowable*>(pSlapableOrCollectable)->Vsub_448080()); // TOOD: Check types are correct
+            field_1A2_rock_or_bone_count += static_cast<char>(static_cast<BaseThrowable*>(pSlapableOrCollectable)->VGetCount_448080()); // TOOD: Check types are correct
             if (!bThrowableIndicatorExists_5C112C)
             {
                 auto pThrowableIndicator = alive_new<ThrowableTotalIndicator>();

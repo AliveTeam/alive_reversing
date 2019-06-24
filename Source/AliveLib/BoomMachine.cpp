@@ -131,7 +131,7 @@ private:
                         0);
                 }
 
-                pGrenade->Vsub_49E460((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                pGrenade->VThrow_49E460((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
                 field_20_animation.Set_Animation_Data_409C80(3700, nullptr);
                 field_F4_state = 0;

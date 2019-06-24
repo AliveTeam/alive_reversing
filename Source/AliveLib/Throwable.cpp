@@ -14,12 +14,12 @@ void BaseThrowable::VOnPickUpOrSlapped()
     vOnPickUpOrSlapped_4114D0();
 }
 
-void BaseThrowable::Vsub_4114B0()
+void BaseThrowable::VToDead_4114B0()
 {
-    vsub_4114B0();
+    vToDead_4114B0();
 }
 
-EXPORT void BaseThrowable::vsub_4114B0()
+EXPORT void BaseThrowable::vToDead_4114B0()
 {
     NOT_IMPLEMENTED();
 }
@@ -186,29 +186,29 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
     return this;
 }
 
-int Grenade::Vsub_49E460(FP velX, FP velY)
+void Grenade::VThrow_49E460(FP velX, FP velY)
 {
-    return Vsub_449390(velX, velY);
+    vThrow_449390(velX, velY);
 }
 
-BOOL Grenade::Vsub_49E350()
+BOOL Grenade::VCanThrow_49E350()
 {
-    return Vsub_4482E0();
+    return vCanThrow_4482E0();
 }
 
-BOOL Grenade::Vsub_49E330()
+BOOL Grenade::VIsFalling_49E330()
 {
-    return Vsub_49A5F0();
+    return vIsFalling_49A5F0();
 }
 
-__int16 Grenade::Vnull_411490()
+__int16 Grenade::VTimeToExplodeRandom_411490()
 {
-    return Vnull_49A610();
+    return vTimeToExplodeRandom_49A610();
 }
 
-__int16 Grenade::Vsub_448080()
+__int16 Grenade::VGetCount_448080()
 {
-    return Vsub_4480A0();
+    return vGetCount_4480A0();
 }
 
 void Grenade::Init_448110(FP xpos, FP ypos)
@@ -241,31 +241,30 @@ void Grenade::Init_448110(FP xpos, FP ypos)
     field_134 = 0;
 }
 
-int Grenade::Vsub_449390(FP /*velX*/, FP /*velY*/)
+void Grenade::vThrow_449390(FP /*velX*/, FP /*velY*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+BOOL Grenade::vCanThrow_4482E0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-BOOL Grenade::Vsub_4482E0()
+BOOL Grenade::vIsFalling_49A5F0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-BOOL Grenade::Vsub_49A5F0()
+__int16 Grenade::vTimeToExplodeRandom_49A610()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Grenade::Vnull_49A610()
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-__int16 Grenade::Vsub_4480A0()
+__int16 Grenade::vGetCount_4480A0()
 {
     NOT_IMPLEMENTED();
     return 0;
