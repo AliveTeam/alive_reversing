@@ -7,6 +7,8 @@
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 
+ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
+
 void BaseThrowable::VOnPickUpOrSlapped()
 {
     vOnPickUpOrSlapped_4114D0();
@@ -307,6 +309,34 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
         field_E0_pShadow->ctor_4AC990();
     }
     return this;
+}
+
+Bone* Bone::vdtor_411580(signed int flags)
+{
+    dtor_4115B0();
+
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void Bone::dtor_4115B0()
+{
+    SetVTable(this, 0x54431C);
+
+    if (gInfiniteGrenades_5C1BDE || field_11A)
+    {
+        return;
+    }
+
+    if (gpThrowableArray_5D1E2C)
+    {
+        gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count_id >= 1 ? field_118_count_id : 1);
+    }
+   
+    dtor_4080B0();
 }
 
 Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 a4)

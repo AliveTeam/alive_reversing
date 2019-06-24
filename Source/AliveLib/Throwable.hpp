@@ -37,6 +37,16 @@ public:
     EXPORT void vScreenChanged_49F030();
     EXPORT int vGetSaveState_49F9A0(BYTE* /*pSaveBuffer*/);
 
+    /*
+    BaseAliveGameObject__vnull_4081F0
+    Rock__vsub_49E460
+    Rock__vsub_49E350
+    Rock__vsub_49E330
+    Rock__vnull_411490
+    GrenadeBase__vsub_448080
+    Rock__vsub_4114B0
+    */
+
 private:
     // TODO: Don't know yet which of these are part of base (if any)
     __int16 field_116;
@@ -80,6 +90,16 @@ private:
 
     EXPORT __int16 Vsub_4480A0();
 
+    /*
+    Grenade__vsub_449390
+    Grenade__vsub_4482E0
+    Grenade__vsub_49A5F0;
+    Grenade__vsub_49A610;
+    Grenade__vsub_4480A0
+    Rock__vsub_448080
+    BaseThrowable__vsub_4114B0
+    */
+
 private:
     __int16 field_116;
     __int16 field_118;
@@ -105,6 +125,21 @@ public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
 
 
+private:
+    EXPORT Bone* vdtor_411580(signed int flags);
+
+    EXPORT void dtor_4115B0();
+
+    /*
+    Bone__vOnTrapDoorOpen_412490
+    Bone__vsub_411670
+    Bone__vsub_411530
+    Bone__vsub_411510
+    Rock__vnull_411490
+    Bone__vsub_412500
+    BaseThrowable__vsub_4114B0
+    Bone__vsub_411560)
+    */
 private:
     __int16 field_116;
     __int16 field_118_count_id;
@@ -172,7 +207,16 @@ class Meat : public BaseThrowable
 {
 public:
     EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, __int16 a4);
-
+    /*
+    Meat__vsub_46A2E0
+    Meat__vsub_469790
+    Meat__vsub_469680
+    Meat__vsub_469660;
+    Rock__vnull_411490
+    Meat__vsub_46A350
+    Rock__vsub_4114B0
+    Meat__vsub_4696A0
+    */
 private:
     __int16 field_116;
     __int16 field_118;
@@ -186,3 +230,5 @@ private:
     PathLine* field_130_pLine;
 };
 ALIVE_ASSERT_SIZEOF(Meat, 0x134);
+
+ALIVE_VAR_EXTERN(WORD, gInfiniteGrenades_5C1BDE);

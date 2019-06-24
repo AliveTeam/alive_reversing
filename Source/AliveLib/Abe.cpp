@@ -474,8 +474,6 @@ LABEL_19:
     }
 }
 
-ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
-
 enum AbeResources
 {
     eAbeBSic = 0,
