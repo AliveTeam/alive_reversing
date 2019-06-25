@@ -65,6 +65,8 @@ class Grenade : public BaseThrowable
 public:
     EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, int a7);
 
+    virtual void VOnTrapDoorOpen() override;
+
     virtual void VThrow_49E460(FP velX, FP velY) override;
 
     virtual BOOL VCanThrow_49E350() override;
@@ -80,15 +82,20 @@ public:
 private:
     EXPORT void Init_448110(FP xpos, FP ypos);
 
-    EXPORT void vThrow_449390(FP velX, FP velY);
+    EXPORT void vOnTrapDoorOpen_449390();
 
-    EXPORT BOOL vCanThrow_4482E0();
 
-    EXPORT BOOL vIsFalling_49A5F0();
+    EXPORT void vThrow_4482E0(FP velX, FP velY);
 
-    EXPORT __int16 vTimeToExplodeRandom_49A610();
+    EXPORT BOOL vCanThrow_49A5F0();
 
-    EXPORT __int16 vGetCount_4480A0();
+    EXPORT BOOL vIsFalling_49A610();
+
+    EXPORT __int16 vTimeToExplodeRandom_4480A0();
+
+    EXPORT __int16 vGetCount_448080();
+
+    EXPORT void BlowUp_4483C0(__int16 bSmallExplosion);
 
     /*
     Grenade__vOnTrapDoorOpen_449390
@@ -104,8 +111,8 @@ private:
     __int16 field_116;
     __int16 field_118;
     __int16 field_11A;
-    int field_11C;
-    __int16 field_120;
+    int field_11C_explosion_id;
+    __int16 field_120_state;
     __int16 field_122;
     __int16 field_124;
     __int16 field_126;

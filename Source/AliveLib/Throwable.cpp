@@ -6,6 +6,10 @@
 #include "stdlib.hpp"
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
+#include "ObjectIds.hpp"
+#include "PlatformBase.hpp"
+#include "Explosion.hpp"
+#include "Gibs.hpp"
 
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
 
@@ -167,16 +171,16 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
 
     if (a5)
     {
-        field_120 = 8;
+        field_120_state = 8;
         field_11A = 1;
     }
     else if (numGrenades)
     {
-        field_120 = a5;
+        field_120_state = a5;
     }
     else
     {
-        field_120 = 3;
+        field_120_state = 3;
         field_122 = 90;
     }
 
@@ -186,29 +190,34 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
     return this;
 }
 
+void Grenade::VOnTrapDoorOpen()
+{
+    vOnTrapDoorOpen_449390();
+}
+
 void Grenade::VThrow_49E460(FP velX, FP velY)
 {
-    vThrow_449390(velX, velY);
+    vThrow_4482E0(velX, velY);
 }
 
 BOOL Grenade::VCanThrow_49E350()
 {
-    return vCanThrow_4482E0();
+    return vCanThrow_49A5F0();
 }
 
 BOOL Grenade::VIsFalling_49E330()
 {
-    return vIsFalling_49A5F0();
+    return vIsFalling_49A610();
 }
 
 __int16 Grenade::VTimeToExplodeRandom_411490()
 {
-    return vTimeToExplodeRandom_49A610();
+    return vTimeToExplodeRandom_4480A0();
 }
 
 __int16 Grenade::VGetCount_448080()
 {
-    return vGetCount_4480A0();
+    return vGetCount_448080();
 }
 
 void Grenade::Init_448110(FP xpos, FP ypos)
@@ -229,7 +238,7 @@ void Grenade::Init_448110(FP xpos, FP ypos)
 
     field_20_animation.field_B_render_mode = 0;
 
-    field_11C = -1;
+    field_11C_explosion_id = -1;
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
     field_128_xpos = xpos;
@@ -241,33 +250,91 @@ void Grenade::Init_448110(FP xpos, FP ypos)
     field_134 = 0;
 }
 
-void Grenade::vThrow_449390(FP /*velX*/, FP /*velY*/)
+void Grenade::vOnTrapDoorOpen_449390()
 {
-    NOT_IMPLEMENTED();
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        field_110_id = -1;
+        if (field_120_state == 1 || field_120_state == 2)
+        {
+            field_120_state = 0;
+        }
+        else if (field_120_state != 6)
+        {
+            field_120_state = 4;
+        }
+    }
 }
 
-BOOL Grenade::vCanThrow_4482E0()
+void Grenade::vThrow_4482E0(FP velX, FP velY)
+{
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+    field_C4_velx = velX;
+    field_C8_vely = velY;
+
+    if (field_132 == 0)
+    {
+        if (!field_118)
+        {
+            field_120_state = 4;
+        }
+    }
+    else
+    {
+        field_120_state = 9;
+    }
+}
+
+BOOL Grenade::vCanThrow_49A5F0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-BOOL Grenade::vIsFalling_49A5F0()
+BOOL Grenade::vIsFalling_49A610()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Grenade::vTimeToExplodeRandom_49A610()
+__int16 Grenade::vTimeToExplodeRandom_4480A0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Grenade::vGetCount_4480A0()
+__int16 Grenade::vGetCount_448080()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
+{
+
+    auto pExplosion = alive_new<Explosion>();
+    if (pExplosion)
+    {
+        pExplosion->ctor_4A1200(
+            field_B8_xpos,
+            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)),
+            field_CC_sprite_scale,
+            bSmallExplosion);
+        field_11C_explosion_id = pExplosion->field_8_object_id;
+    }
+   
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+    field_120_state = 6;
+    
+    auto pGibs = alive_new<Gibs>();
+    if (pGibs)
+    {
+        pGibs->ctor_40FB40(5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0) , FP_FromInteger(5), field_CC_sprite_scale,  bSmallExplosion);
+    }
 }
 
 Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
