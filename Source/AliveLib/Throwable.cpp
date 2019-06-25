@@ -10,6 +10,7 @@
 #include "PlatformBase.hpp"
 #include "Explosion.hpp"
 #include "Gibs.hpp"
+#include "Sfx.hpp"
 
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
 
@@ -181,13 +182,18 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
     else
     {
         field_120_state = 3;
-        field_122 = 90;
+        field_122_explode_timer = 90;
     }
 
     field_138 = a7;
     field_130 = a6;
 
     return this;
+}
+
+BaseGameObject* Grenade::VDestructor(signed int flags)
+{
+    return vdtor_4480E0(flags);
 }
 
 void Grenade::VOnTrapDoorOpen()
@@ -210,9 +216,9 @@ BOOL Grenade::VIsFalling_49E330()
     return vIsFalling_49A610();
 }
 
-__int16 Grenade::VTimeToExplodeRandom_411490()
+void Grenade::VTimeToExplodeRandom_411490()
 {
-    return vTimeToExplodeRandom_4480A0();
+    vTimeToExplodeRandom_4480A0();
 }
 
 __int16 Grenade::VGetCount_448080()
@@ -300,10 +306,9 @@ BOOL Grenade::vIsFalling_49A610()
     return 0;
 }
 
-__int16 Grenade::vTimeToExplodeRandom_4480A0()
+void Grenade::vTimeToExplodeRandom_4480A0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    field_122_explode_timer -= Math_NextRandom() % 16;
 }
 
 __int16 Grenade::vGetCount_448080()
@@ -314,7 +319,6 @@ __int16 Grenade::vGetCount_448080()
 
 void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
 {
-
     auto pExplosion = alive_new<Explosion>();
     if (pExplosion)
     {
@@ -335,6 +339,48 @@ void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
     {
         pGibs->ctor_40FB40(5, field_B8_xpos, field_BC_ypos, FP_FromInteger(0) , FP_FromInteger(5), field_CC_sprite_scale,  bSmallExplosion);
     }
+}
+
+void Grenade::dtor_448220()
+{
+    SetVTable(this, 0x5456E0);
+
+    if (!gInfiniteGrenades_5C1BDE && !this->field_11A)
+    {
+        if (gpThrowableArray_5D1E2C)
+        {
+            gpThrowableArray_5D1E2C->Remove_49AA00(field_118 >= 1 ? field_118 : 1);
+        }
+    }
+
+    dtor_4080B0();
+}
+
+Grenade* Grenade::vdtor_4480E0(signed int flags)
+{
+    dtor_448220();
+
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+signed __int16 Grenade::TimeToBlowUp_448350()
+{
+    if (!(--field_122_explode_timer % 16))
+    {
+        SFX_Play_46FA90(2, 0);
+    }
+
+    if (field_122_explode_timer != 0)
+    {
+        return 0;
+    }
+
+    BlowUp_4483C0(0);
+    return 1;
 }
 
 Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
@@ -392,16 +438,14 @@ void Bone::dtor_4115B0()
 {
     SetVTable(this, 0x54431C);
 
-    if (gInfiniteGrenades_5C1BDE || field_11A)
+    if (!gInfiniteGrenades_5C1BDE && !field_11A)
     {
-        return;
+        if (gpThrowableArray_5D1E2C)
+        {
+            gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count_id >= 1 ? field_118_count_id : 1);
+        }
     }
 
-    if (gpThrowableArray_5D1E2C)
-    {
-        gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count_id >= 1 ? field_118_count_id : 1);
-    }
-   
     dtor_4080B0();
 }
 

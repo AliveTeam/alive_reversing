@@ -19,7 +19,7 @@ public:
     virtual void VThrow_49E460(FP velX, FP velY) = 0;
     virtual BOOL VCanThrow_49E350() = 0;
     virtual BOOL VIsFalling_49E330() = 0;
-    virtual __int16 VTimeToExplodeRandom_411490() = 0;
+    virtual void VTimeToExplodeRandom_411490() = 0;
     virtual __int16 VGetCount_448080() = 0;
 
     virtual void VToDead_4114B0();
@@ -65,6 +65,8 @@ class Grenade : public BaseThrowable
 public:
     EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, int a7);
 
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
     virtual void VOnTrapDoorOpen() override;
 
     virtual void VThrow_49E460(FP velX, FP velY) override;
@@ -73,7 +75,7 @@ public:
 
     virtual BOOL VIsFalling_49E330() override;
 
-    virtual __int16 VTimeToExplodeRandom_411490() override;
+    virtual void VTimeToExplodeRandom_411490() override;
 
     virtual __int16 VGetCount_448080() override;
 
@@ -91,11 +93,17 @@ private:
 
     EXPORT BOOL vIsFalling_49A610();
 
-    EXPORT __int16 vTimeToExplodeRandom_4480A0();
+    EXPORT void vTimeToExplodeRandom_4480A0();
 
     EXPORT __int16 vGetCount_448080();
 
     EXPORT void BlowUp_4483C0(__int16 bSmallExplosion);
+
+    EXPORT void dtor_448220();
+
+    EXPORT Grenade* vdtor_4480E0(signed int flags);
+
+    EXPORT signed __int16 TimeToBlowUp_448350();
 
     /*
     Grenade__vOnTrapDoorOpen_449390
@@ -113,7 +121,7 @@ private:
     __int16 field_11A;
     int field_11C_explosion_id;
     __int16 field_120_state;
-    __int16 field_122;
+    __int16 field_122_explode_timer;
     __int16 field_124;
     __int16 field_126;
     FP field_128_xpos;
