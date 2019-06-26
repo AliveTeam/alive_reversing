@@ -52,6 +52,15 @@ private:
 
 public:
 
+    EXPORT __int16 AI_0_4AA630();
+    EXPORT __int16 AI_1_4A6470();
+    EXPORT __int16 AI_2_Fight_4A5840();
+    EXPORT __int16 AI_3_4A62B0();
+    EXPORT __int16 AI_4_ShrinkDeath_4A6420();
+    EXPORT __int16 AI_5_4A6180();
+
+    void SetBrain(TScrabAIFn fn);
+    bool BrainIs(TScrabAIFn fn);
 public:
     EXPORT void M_Stand_0_4A8220();
     EXPORT void M_Walk_1_4A84D0();

@@ -76,7 +76,36 @@ const TScrabMotionFn sScrab_motion_table_560120[40] =
     &Scrab::M_DeathBegin_39_4AA190
 };
 
+const TScrabAIFn sScrab_ai_table_56029C[6] =
+{
+    &Scrab::AI_0_4AA630,
+    &Scrab::AI_1_4A6470,
+    &Scrab::AI_2_Fight_4A5840,
+    &Scrab::AI_3_4A62B0,
+    &Scrab::AI_4_ShrinkDeath_4A6420,
+    &Scrab::AI_5_4A6180
+};
 
+
+const static AIFunctionData<TScrabAIFn> sScrabAITable[6] =
+{
+    { &Scrab::AI_0_4AA630,  0x404070, "AI_0", },
+    { &Scrab::AI_1_4A6470,  0x403B98, "AI_1", },
+    { &Scrab::AI_2_Fight_4A5840,  0x403E4F, "AI_2_Fight", },
+    { &Scrab::AI_3_4A62B0,  0x4039C2, "AI_3", },
+    { &Scrab::AI_4_ShrinkDeath_4A6420,  0x4036B1, "AI_ShrinkDeath", },
+    { &Scrab::AI_5_4A6180,  0x4021F3, "AI_5", },
+};
+
+void Scrab::SetBrain(TScrabAIFn fn)
+{
+    ::SetBrain(fn, field_118_brain_state, sScrabAITable);
+}
+
+bool Scrab::BrainIs(TScrabAIFn fn)
+{
+    return ::BrainIs(fn, field_118_brain_state, sScrabAITable);
+}
 
 Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
 {
@@ -433,6 +462,8 @@ void Scrab::vUpdate_4A3530()
 
             const auto oldMotion = field_106_current_motion;
 
+            const auto oldBrain = field_118_brain_state;
+
             field_11C_sub_state = (this->*field_118_brain_state)();
 
             if (sDDCheat_ShowAI_Info_5C1BD8)
@@ -462,9 +493,11 @@ void Scrab::vUpdate_4A3530()
             }
 
             // TODO: This is extra debug logging to figure out the motion names
-            if (oldMotion != field_106_current_motion)
+            if (oldBrain != field_118_brain_state)
             {
-                LOG_INFO("Scrab: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+                LOG_INFO("Scrab: Old brain = " << GetOriginalFn(oldBrain, sScrabAITable).fnName << " new brain = " << GetOriginalFn(field_118_brain_state, sScrabAITable).fnName);
+
+                //LOG_INFO("Scrab: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
             }
 
             if (oldMotion != field_106_current_motion || field_1AA_flags.Get(Flags_1AA::eBit4))
@@ -549,6 +582,42 @@ void Scrab::vUpdate_4A3530()
 void Scrab::Update_Slurg_Step_Watch_Points_4A5780()
 {
     NOT_IMPLEMENTED();
+}
+
+__int16 Scrab::AI_0_4AA630()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Scrab::AI_1_4A6470()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Scrab::AI_2_Fight_4A5840()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Scrab::AI_3_4A62B0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Scrab::AI_4_ShrinkDeath_4A6420()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 Scrab::AI_5_4A6180()
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 void Scrab::M_Stand_0_4A8220()
