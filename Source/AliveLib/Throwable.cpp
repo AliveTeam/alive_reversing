@@ -11,6 +11,7 @@
 #include "Explosion.hpp"
 #include "Gibs.hpp"
 #include "Sfx.hpp"
+#include "Events.hpp"
 
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
 
@@ -381,6 +382,428 @@ signed __int16 Grenade::TimeToBlowUp_448350()
 
     BlowUp_4483C0(0);
     return 1;
+}
+
+void Grenade::vUpdate_4489C0()
+{
+    NOT_IMPLEMENTED();
+
+    auto pExplosion = sObjectIds_5C1B70.Find_449CF0(field_11C_explosion_id);
+
+//    auto v3 = field_100_pCollisionLine;
+    auto pCurLine = &field_100_pCollisionLine;
+    auto v5 = (int)pExplosion;
+    auto v44 = pExplosion;
+//    auto v42 = v3;
+    
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (field_114_flags.Get(Flags_114::e114_Bit9))
+    {
+        field_114_flags.Clear(Flags_114::e114_Bit9);
+        if (field_104_collision_line_type == -1)
+        {
+            *pCurLine = 0;
+        }
+        else
+        {
+            sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos,
+                field_BC_ypos - FP_FromInteger(10),
+                field_B8_xpos,
+                field_BC_ypos + FP_FromInteger(10),
+                &field_100_pCollisionLine,
+                &field_B8_xpos,
+                &field_BC_ypos,
+                1 << field_104_collision_line_type);
+            v5 = (int)v44;
+        }
+        field_104_collision_line_type = 0;
+    }
+
+    switch (field_120_state)
+    {
+    case 0:
+        if (!InTheAir_4484F0(0))
+        {
+            field_E4 = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+            field_EC = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+            field_F0_prev_base = field_BC_ypos;
+            field_6_flags.Set(BaseGameObject::eInteractive);
+            field_E8 = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            field_120_state = 1;
+        }
+        break;
+
+    case 1:
+        /*
+        v15 = field_C4_velx;
+        v16 = field_C4_velx;
+
+        if (v15 < 0)
+        {
+            v16 = -v16;
+        }
+
+        if (v16 >= 0x10000)
+        {
+            v29 = v15 == 0;
+            v30 = v15 < 0;
+            v31 = field_C4_velx;
+            if (v30 || v29)
+            {
+                v32 = v31 + 655;
+            }
+            else
+            {
+                v32 = v31 - 655;
+            }
+            field_C4_velx = v32;
+            pLine = PathLine::MoveOnLine_418260(
+                *pCurLine,
+                &field_B8_xpos,
+                &field_BC_ypos,
+                v32);
+            newLineId = field_110_id;
+            *pCurLine = pLine;
+            if (newLineId != -1 && v42 != pLine)
+            {
+                VOnTrapDoorOpen();
+            }
+            if (!*pCurLine)
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                field_120_state = 0;
+            }
+        }
+        else
+        {
+            v17 = &field_B8_xpos;
+            snappedX = SnapToXGrid_449930(field_CC_sprite_scale, field_B8_xpos / 0x10000);
+            curX = field_B8_xpos / 0x10000;
+            if (snappedX - curX >= 0)
+            {
+                deltaX = snappedX - curX;
+            }
+            else
+            {
+                deltaX = curX - snappedX;
+            }
+            if (deltaX > 1)
+            {
+                v27 = PathLine::MoveOnLine_418260(
+                    *pCurLine,
+                    &field_B8_xpos,
+                    &field_BC_ypos,
+                    field_C4_velx);
+                v28 = field_110_id;
+                *pCurLine = v27;
+                if (v28 != -1 && v42 != v27)
+                {
+                    VOnTrapDoorOpen();
+                }
+                if (!*pCurLine)
+                {
+                    field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                    field_120_state = 4;
+                }
+            }
+            else
+            {
+                field_C4_velx = FP_FromInteger(0);
+                v21 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                v22 = Math_FixedPoint_Divide_496B70(v21, 0x20000);
+                v23 = field_CC_sprite_scale;
+                field_E4 = *v17 - v22;
+                v24 = ScaleToGridSize_4498B0(v23);
+                field_EC = *v17 + Math_FixedPoint_Divide_496B70(v24, 0x20000);
+                v25 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                v26 = field_BC_ypos;
+                field_F0_prev_base = v26;
+                LOBYTE(field_6_flags) |= 0x80u;
+                field_E8 = v26 - v25;
+                field_120_state = 2;
+            }
+        }
+        */
+        break;
+
+    case 3:
+        TimeToBlowUp_448350();
+        break;
+
+    case 4:
+        if (InTheAir_4484F0(0))
+        {
+            if (!TimeToBlowUp_448350())
+            {
+                /*
+                v35 = (int *)field_0_VTbl->VBaseAliveGameObject.field_1C_vGetBoundingRect_424FD0(
+                    this,
+                    &Y1,
+                    1);
+                v44 = (BaseGameObject *)*v35;
+                v36 = field_0_VTbl;
+                v45 = v35[1];
+                HIWORD(v44) += 5;
+                HIWORD(v45) += 5;
+                ((void(*)(Grenade *, BaseGameObject *, int, DynamicArray *, signed int, signed __int16(*)(Grenade *, int)))v36->VBaseAliveGameObject.field_18_vOnCollisionWith_424EE0)(
+                    this,
+                    v44,
+                    v45,
+                    gBaseGameObject_list_BB47C4,
+                    1,
+                    Grenade::OnCollision2_401690);
+                */
+            }
+        }
+        else
+        {
+            field_120_state = 5;
+        }
+        break;
+
+    case 5:
+        /*
+        v37 = field_C4_velx >> 1;
+        v38 = *pCurLine;
+        field_C4_velx = v37;
+        v39 = PathLine::MoveOnLine_418260(
+            v38,
+            &field_B8_xpos,
+            &field_BC_ypos,
+            v37);
+        *pCurLine = v39;
+        if (!v39)
+        {
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+            field_120_state = 4;
+        }
+        TimeToBlowUp_448350();
+        */
+        break;
+
+    case 6:
+        /*
+        if (!v5 || *(_BYTE *)(v5 + 6) & 4)
+        {
+            field_120_state = 7;
+            field_11C_explosion_id = -1;
+        }*/
+        break;
+
+    case 7:
+        field_6_flags.Set(BaseGameObject::eDead);
+        break;
+
+    case 9:
+        /*
+        sub_4484F0(1);
+        v40 = (int *)field_0_VTbl->VBaseAliveGameObject.field_1C_vGetBoundingRect_424FD0(
+            this,
+            (PSX_RECT *)&v46,
+            1);
+        v44 = (BaseGameObject *)*v40;
+        thisVTable = field_0_VTbl;
+        v45 = v40[1];
+        HIWORD(v44) += 5;
+        HIWORD(v45) += 5;
+        ((void(*)(Grenade *, BaseGameObject *, int, DynamicArray *, signed int, signed __int16(*)(Grenade *, int)))thisVTable->VTableGrenade.BaseAnimatedWithPhysicsGameObject__OnCollisionWith_424EE0)(
+            this,
+            v44,
+            v45,
+            gBaseGameObject_list_BB47C4,
+            1,
+            j_Grenade::OnCollision_402AD1);
+        */
+
+        if (field_134)
+        {
+            BlowUp_4483C0(1);
+        }
+        break;
+
+    default:
+        return;
+    }
+}
+
+__int16 Grenade::InTheAir_4484F0(__int16 a1)
+{
+    NOT_IMPLEMENTED();
+
+    sObjectIds_5C1B70.Find_449CF0(field_110_id);
+
+    field_128_xpos = field_B8_xpos;
+    field_12C_ypos = field_BC_ypos;
+
+    field_C8_vely += FP_FromInteger(1);
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos = field_C8_vely + field_BC_ypos;
+
+    field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+        nullptr,
+        field_B8_xpos,
+        field_BC_ypos,
+        field_B8_xpos,
+        field_BC_ypos);
+
+    if (field_FC_pPathTLV)
+    {
+        while (1)
+        {
+            if (field_FC_pPathTLV->field_4_type == TlvTypes::DeathDrop_4)
+            {
+                field_6_flags.Set(BaseGameObject::eDead);
+                return 1;
+            }
+
+            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                field_FC_pPathTLV,
+                field_B8_xpos,
+                field_BC_ypos,
+                field_B8_xpos,
+                field_BC_ypos);
+
+            if (!field_FC_pPathTLV)
+            {
+                break;
+            }
+        }
+    }
+
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_128_xpos,
+        field_12C_ypos,
+        field_B8_xpos,
+        field_BC_ypos,
+        &field_100_pCollisionLine,
+        &hitX,
+        &hitY,
+        field_D6_scale != 0 ? 1 : 16) == 1)
+    {
+        if (field_C8_vely <= FP_FromInteger(0))
+        {
+            field_B8_xpos = hitX;
+            field_BC_ypos = hitY;
+            field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
+            short v14 = 75 - 20 * field_124;
+            if (v14 < 40)
+            {
+                v14 = 40;
+            }
+            SFX_Play_46FA90(68u, v14);
+        }
+        else
+        {
+            if (field_C8_vely < FP_FromInteger(1))
+            {
+                if (field_110_id == -1)
+                {
+                    AddToPlatform_449210();
+                }
+                return 0;
+            }
+
+            field_B8_xpos = hitX;
+            field_BC_ypos = hitY;
+            field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
+            field_C4_velx = (field_C4_velx / FP_FromInteger(2));
+
+            if (a1)
+            {
+                field_134 = 1;
+                return 1;
+            }
+
+            if (field_124 > 4)
+            {
+                goto LABEL_21;
+            }
+
+            short v12 = 75 - 20 * field_124;
+            if (v12 < 40)
+            {
+                v12 = 40;
+            }
+            SFX_Play_46FA90(68u, v12);
+            ++field_124;
+        }
+        Event_Broadcast_422BC0(kEventNoise, this);
+        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+        Event_Broadcast_422BC0(kEventSpeaking, this);
+    }
+
+LABEL_21:
+    auto v15 = -(field_D6_scale != 0);
+    v15 = v15 & 0xA6; // TODO LOBYTE
+
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_128_xpos,
+        field_12C_ypos,
+        field_B8_xpos,
+        field_BC_ypos,
+        &field_100_pCollisionLine,
+        &hitX,
+        &hitY,
+        v15 + 0x60) == 1)
+    {
+        switch (field_100_pCollisionLine->field_8_type)
+        {
+        case 1u:
+        case 5u:
+            if (field_C4_velx < FP_FromInteger(0))
+            {
+                field_BC_ypos = hitY;
+                field_B8_xpos = hitX;
+                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+                short vol = 75 - 20 * field_124;
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_46FA90(68u, vol);
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                Event_Broadcast_422BC0(kEventSpeaking, this);
+            }
+            break;
+
+        case 2u:
+        case 6u:
+            if (field_C4_velx > FP_FromInteger(0))
+            {
+                field_B8_xpos = hitX;
+                field_BC_ypos = hitY;
+                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+                short vol = 75 - 20 * field_124;
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_46FA90(68u, vol);
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                Event_Broadcast_422BC0(kEventSpeaking, this);
+            }
+            break;
+
+        default:
+            return 1;
+        }
+    }
+
+    return 1;
+}
+
+void Grenade::AddToPlatform_449210()
+{
+    NOT_IMPLEMENTED();
 }
 
 Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)

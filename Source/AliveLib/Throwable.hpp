@@ -67,6 +67,11 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override
+    {
+        vUpdate_4489C0();
+    }
+
     virtual void VOnTrapDoorOpen() override;
 
     virtual void VThrow_49E460(FP velX, FP velY) override;
@@ -104,6 +109,12 @@ private:
     EXPORT Grenade* vdtor_4480E0(signed int flags);
 
     EXPORT signed __int16 TimeToBlowUp_448350();
+
+    EXPORT void vUpdate_4489C0();
+
+    EXPORT __int16 InTheAir_4484F0(__int16 a1);
+
+    EXPORT void AddToPlatform_449210();
 
     /*
     Grenade__vOnTrapDoorOpen_449390
