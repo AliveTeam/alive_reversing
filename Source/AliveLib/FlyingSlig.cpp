@@ -15,28 +15,6 @@
 #include "MusicController.hpp"
 #include "DDCheat.hpp"
 
-ALIVE_ARY(1, 0x552350, TFlyingSligFn, 18, sFlyingSlig_AI_table_552350,
-{
-    &FlyingSlig::AI_0_4355B0,
-    &FlyingSlig::AI_1_Dead_4364E0,
-    &FlyingSlig::AI_2_4356D0,
-    &FlyingSlig::AI_3_435750,
-    &FlyingSlig::AI_4_435BC0,
-    &FlyingSlig::AI_5_435820,
-    &FlyingSlig::AI_6_435940,
-    &FlyingSlig::AI_7_435990,
-    &FlyingSlig::AI_8_435AC0,
-    &FlyingSlig::AI_9_435E40,
-    &FlyingSlig::AI_10_435F10,
-    &FlyingSlig::AI_11_435FD0,
-    &FlyingSlig::AI_12_PlayerControlled_436040,
-    &FlyingSlig::AI_13_4360F0,
-    &FlyingSlig::AI_14_ChantShake_436180,
-    &FlyingSlig::AI_15_4362C0,
-    &FlyingSlig::AI_1_Dead_4364E0,
-    &FlyingSlig::AI_17_4355E0,
-});
-
 ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
 {
     &FlyingSlig::M_Idle_0_4385E0,
@@ -65,6 +43,28 @@ ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
     &FlyingSlig::M_InstantDownXTurn_23_438F20,
     &FlyingSlig::M_HorizontalToUpMovement_24_438D60,
     &FlyingSlig::M_TurnToHorizontalMovement_25_4389E0,
+});
+
+ALIVE_ARY(1, 0x552350, TFlyingSligFn, 18, sFlyingSlig_AI_table_552350,
+{
+    &FlyingSlig::AI_0_4355B0,
+    &FlyingSlig::AI_1_Dead_4364E0,
+    &FlyingSlig::AI_2_4356D0,
+    &FlyingSlig::AI_3_435750,
+    &FlyingSlig::AI_4_435BC0,
+    &FlyingSlig::AI_5_435820,
+    &FlyingSlig::AI_6_435940,
+    &FlyingSlig::AI_7_435990,
+    &FlyingSlig::AI_8_435AC0,
+    &FlyingSlig::AI_9_435E40,
+    &FlyingSlig::AI_10_435F10,
+    &FlyingSlig::AI_11_435FD0,
+    &FlyingSlig::AI_12_PlayerControlled_436040,
+    &FlyingSlig::AI_13_4360F0,
+    &FlyingSlig::AI_14_ChantShake_436180,
+    &FlyingSlig::AI_15_4362C0,
+    &FlyingSlig::AI_1_Dead_4364E0,
+    &FlyingSlig::AI_17_4355E0,
 });
 
 const static AIFunctionData<TFlyingSligFn> sFlyingSligAITable[18] =
@@ -360,15 +360,16 @@ void FlyingSlig::vUpdate_434AD0()
         field_B8_xpos = field_294_nextXPos;
         field_BC_ypos = field_298_nextYPos;
 
-        const auto oldMotion = field_106_current_motion;
+        const auto oldBrain = field_29C_brain_state;
 
         (this->*(field_29C_brain_state))();
 
         (this->*(sFlyingSlig_motion_table_5523A0)[field_106_current_motion])();
 
-        if (oldMotion != field_106_current_motion)
+        if (oldBrain != field_29C_brain_state)
         {
-            LOG_INFO("FlyingSlig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            LOG_INFO("FlyingSlig: Old brain = " << GetOriginalFn(oldBrain, sFlyingSligAITable).fnName << " new brain = " << GetOriginalFn(field_29C_brain_state, sFlyingSligAITable).fnName);
+            //LOG_INFO("FlyingSlig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
         }
 
         sub_4396E0();

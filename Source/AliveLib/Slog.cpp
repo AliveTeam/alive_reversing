@@ -10,14 +10,6 @@
 
 ALIVE_VAR(1, 0xBAF7F2, short, sSlogCount_BAF7F2, 0);
 
-const TSlogAIFn sSlog_fns_ai_560A38[4] =
-{
-    &Slog::AI_0_4C3790,
-    &Slog::AI_1_4C2830,
-    &Slog::AI_2_4C0A00,
-    &Slog::AI_3_4C3250
-};
-
 const TSlogMotionFn sSlog_motion_table_560978[24] =
 {
     &Slog::M_Idle_0_4C5F90,
@@ -46,6 +38,21 @@ const TSlogMotionFn sSlog_motion_table_560978[24] =
     &Slog::M_Growl_23_4C7170
 };
 
+const TSlogAIFn sSlog_fns_ai_560A38[4] =
+{
+    &Slog::AI_0_4C3790,
+    &Slog::AI_1_4C2830,
+    &Slog::AI_2_4C0A00,
+    &Slog::AI_3_4C3250
+};
+
+const static AIFunctionData<TSlogAIFn> sSlogAiTable[4] =
+{
+    { &Slog::AI_0_4C3790, 0x4C3790, "AI_0" }, // no stubs for any of these ??
+    { &Slog::AI_1_4C2830, 0x4C2830, "AI_1" },
+    { &Slog::AI_2_4C0A00, 0x4C0A00, "AI_2" },
+    { &Slog::AI_3_4C3250, 0x4C3250, "AI_3" },
+};
 
 Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
 {
@@ -315,6 +322,7 @@ void Slog::vUpdate_4C50D0()
         }
 
         const auto oldMotion = field_106_current_motion;
+        const auto oldBrain = sSlog_fns_ai_560A38[field_120_brain_state_idx];
         field_122_brain_state_result = (this->*sSlog_fns_ai_560A38[field_120_brain_state_idx])();
         if (sDDCheat_ShowAI_Info_5C1BD8)
         {
@@ -338,9 +346,11 @@ void Slog::vUpdate_4C50D0()
         }
 
         // TODO: This is extra debug logging to figure out the motion names
-        if (oldMotion != field_106_current_motion)
+        if (oldBrain != sSlog_fns_ai_560A38[field_120_brain_state_idx])
         {
-            LOG_INFO("Slog: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            LOG_INFO("Slog: Old brain = " << GetOriginalFn(oldBrain, sSlogAiTable).fnName << " new brain = " << GetOriginalFn(sSlog_fns_ai_560A38[field_120_brain_state_idx], sSlogAiTable).fnName);
+
+            //LOG_INFO("Slog: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
         }
 
         if (oldMotion != field_106_current_motion)

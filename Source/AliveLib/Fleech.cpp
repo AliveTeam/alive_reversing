@@ -42,6 +42,14 @@ const TFleechAIFn sFleech_ai_table_551830[4] =
     &Fleech::AI_3_42D1E0
 };
 
+const static AIFunctionData<TFleechAIFn> sFleechAiTable[4] =
+{
+    { &Fleech::AI_0_430BA0, 0x430BA0, "AI_0" }, // no stub ??
+    { &Fleech::AI_1_428760, 0x428760, "AI_1" }, // no stub ??
+    { &Fleech::AI_2_42D310, 0x42D310, "AI_2" }, // no stub ??
+    { &Fleech::AI_3_42D1E0, 0x42D1E0, "AI_3" }, // no stub ??
+};
+
 static BYTE Fleech_NextRandom()
 {
     return sRandomBytes_546744[sFleechRandomIdx_5BC20C++];
@@ -323,6 +331,8 @@ void Fleech::vUpdate_42AB20()
         field_174_flags.Get(Flags_174::eBit7_persistant))
     {
         const auto oldMotion = field_106_current_motion;
+        const auto oldBrain = sFleech_ai_table_551830[field_124_brain_state];
+
         field_126_state = (this->*sFleech_ai_table_551830[field_124_brain_state])();
 
         sub_42BD30();
@@ -348,10 +358,11 @@ void Fleech::vUpdate_42AB20()
             VOn_TLV_Collision_4087F0(field_FC_pPathTLV);
         }
 
-        // TODO: This is extra debug logging to figure out the motion names
-        if (oldMotion != field_106_current_motion)
+        // TODO: This is extra debug logging to figure out the ai names
+        if (oldBrain != sFleech_ai_table_551830[field_124_brain_state])
         {
-            LOG_INFO("Fleech: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            LOG_INFO("Fleech: Old brain = " << GetOriginalFn(oldBrain, sFleechAiTable).fnName << " new brain = " << GetOriginalFn(sFleech_ai_table_551830[field_124_brain_state], sFleechAiTable).fnName);
+            //LOG_INFO("Fleech: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
         }
 
         if (oldMotion == field_106_current_motion)
