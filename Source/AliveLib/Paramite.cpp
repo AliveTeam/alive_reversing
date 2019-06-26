@@ -42,21 +42,6 @@ TintEntry stru_55D73C[24] =
     { -1, 105u, 105u, 105u }
 };
 
-
-const TParamiteAIFn sParamite_ai_table_55D710[10] =
-{
-    &Paramite::AI_0_4835B0,
-    &Paramite::AI_1_484CD0,
-    &Paramite::AI_2_4859D0,
-    &Paramite::AI_3_4851B0,
-    &Paramite::AI_4_48F8F0,
-    &Paramite::AI_5_486880,
-    &Paramite::AI_6_484BC0,
-    &Paramite::AI_7_484FF0,
-    &Paramite::AI_8_48DFC0,
-    &Paramite::AI_9_48ED80
-};
-
 const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = 
 {
     &Paramite::M_Idle_0_489FB0,
@@ -104,6 +89,45 @@ const TParamiteMotionFn sParamite_motion_table_55D5B0[44] =
     &Paramite::M_UNKNOWN_42_48D900,
     &Paramite::M_Attack_43_48DB70
 };
+
+const TParamiteAIFn sParamite_ai_table_55D710[10] =
+{
+    &Paramite::AI_0_4835B0,
+    &Paramite::AI_1_484CD0,
+    &Paramite::AI_2_4859D0,
+    &Paramite::AI_3_4851B0,
+    &Paramite::AI_4_48F8F0,
+    &Paramite::AI_5_486880,
+    &Paramite::AI_6_484BC0,
+    &Paramite::AI_7_484FF0,
+    &Paramite::AI_8_48DFC0,
+    &Paramite::AI_9_48ED80
+};
+
+
+const static AIFunctionData<TParamiteAIFn> sParamiteAITable[10] =
+{
+    { &Paramite::AI_0_4835B0, 0x402A7C, "AI_0" },
+    { &Paramite::AI_1_484CD0, 0x404223, "AI_1" },
+    { &Paramite::AI_2_4859D0, 0x401799, "AI_2" },
+    { &Paramite::AI_3_4851B0, 0x401645, "AI_3" },
+    { &Paramite::AI_4_48F8F0, 0x48F8F0, "AI_4" }, // No stub ??
+    { &Paramite::AI_5_486880, 0x4012E4, "AI_5" },
+    { &Paramite::AI_6_484BC0, 0x40187F, "AI_6" },
+    { &Paramite::AI_7_484FF0, 0x4021A3, "AI_7" },
+    { &Paramite::AI_8_48DFC0, 0x4010B4, "AI_8" },
+    { &Paramite::AI_9_48ED80, 0x401EE7, "AI_9" },
+};
+
+void Paramite::SetBrain(TParamiteAIFn fn)
+{
+    return ::SetBrain(fn, field_128_fn_brainState, sParamiteAITable);
+}
+
+bool Paramite::BrainIs(TParamiteAIFn fn)
+{
+    return ::BrainIs(fn, field_128_fn_brainState, sParamiteAITable);
+}
 
 
 Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
@@ -549,30 +573,6 @@ void Paramite::M_Attack_43_48DB70()
 }
 
 
-const static AIFunctionData<TParamiteAIFn> sParamiteAITable[10] =
-{
-    { &Paramite::AI_0_4835B0, 0x402A7C, "AI_0" },
-    { &Paramite::AI_1_484CD0, 0x404223, "AI_1" },
-    { &Paramite::AI_2_4859D0, 0x401799, "AI_2" },
-    { &Paramite::AI_3_4851B0, 0x401645, "AI_3" },
-    { &Paramite::AI_4_48F8F0, 0x48F8F0, "AI_4" }, // No stub ??
-    { &Paramite::AI_5_486880, 0x4012E4, "AI_5" },
-    { &Paramite::AI_6_484BC0, 0x40187F, "AI_6" },
-    { &Paramite::AI_7_484FF0, 0x4021A3, "AI_7" },
-    { &Paramite::AI_8_48DFC0, 0x4010B4, "AI_8" },
-    { &Paramite::AI_9_48ED80, 0x401EE7, "AI_9" },
-};
-
-void Paramite::SetBrain(TParamiteAIFn fn)
-{
-    return ::SetBrain(fn, field_128_fn_brainState, sParamiteAITable);
-}
-
-bool Paramite::BrainIs(TParamiteAIFn fn)
-{
-    return ::BrainIs(fn, field_128_fn_brainState, sParamiteAITable);
-}
-
 void Paramite::dtor_487FC0()
 {
     SetVTable(this, 0x54640C);
@@ -823,6 +823,7 @@ void Paramite::vUpdate_4871B0()
         else
         {
             const auto oldMotion = field_106_current_motion;
+            const auto oldBrain = field_128_fn_brainState;
             field_12C_brain_ret = (this->*field_128_fn_brainState)();
 
             if (sDDCheat_ShowAI_Info_5C1BD8)
@@ -840,9 +841,10 @@ void Paramite::vUpdate_4871B0()
             (this->*sParamite_motion_table_55D5B0[field_106_current_motion])();
 
             // TODO: This is extra debug logging to figure out the motion names
-            if (oldMotion != field_106_current_motion)
+            if (oldBrain != field_128_fn_brainState)
             {
-                LOG_INFO("Paramite: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+                LOG_INFO("Paramite: Old brain = " << GetOriginalFn(oldBrain, sParamiteAITable).fnName << " new brain = " << GetOriginalFn(field_128_fn_brainState, sParamiteAITable).fnName);
+                //LOG_INFO("Paramite: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
             }
 
             if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
