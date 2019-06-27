@@ -112,9 +112,13 @@ private:
 
     EXPORT void vUpdate_4489C0();
 
-    EXPORT __int16 InTheAir_4484F0(__int16 a1);
+    EXPORT __int16 InTheAir_4484F0(__int16 blowUpOnFloorTouch);
 
     EXPORT void AddToPlatform_449210();
+
+    EXPORT __int16 OnCollision2_448F90(BaseGameObject* pHit);
+
+    EXPORT __int16 OnCollision_4490D0(BaseGameObject* pHit);
 
     /*
     Grenade__vOnTrapDoorOpen_449390
@@ -131,7 +135,20 @@ private:
     __int16 field_118;
     __int16 field_11A;
     int field_11C_explosion_id;
-    __int16 field_120_state;
+    enum class States : __int16
+    {
+        eState_0_FallingToBeCollected = 0,
+        eState_1_WaitToBeCollected = 1,
+        eState_2 = 2,
+        eState_3_CountingDown = 3,
+        eState_4_Falling = 4,
+        eState_5_HitGround = 5,
+        eState_6_WaitForExplodeEnd = 6,
+        eState_7_Exploded = 7,
+        eState_8 = 8,
+        eState_9_FallingBlowUpOnGround = 9,
+    };
+    States field_120_state;
     __int16 field_122_explode_timer;
     __int16 field_124;
     __int16 field_126;
@@ -139,7 +156,7 @@ private:
     FP field_12C_ypos;
     __int16 field_130;
     __int16 field_132;
-    __int16 field_134;
+    __int16 field_134_bExplodeNow;
     __int16 field_136;
     int field_138;
 };

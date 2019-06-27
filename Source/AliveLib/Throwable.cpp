@@ -173,16 +173,16 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
 
     if (a5)
     {
-        field_120_state = 8;
+        field_120_state = States::eState_8;
         field_11A = 1;
     }
     else if (numGrenades)
     {
-        field_120_state = a5;
+        field_120_state = States::eState_1_WaitToBeCollected;
     }
     else
     {
-        field_120_state = 3;
+        field_120_state = States::eState_3_CountingDown;
         field_122_explode_timer = 90;
     }
 
@@ -254,7 +254,7 @@ void Grenade::Init_448110(FP xpos, FP ypos)
     field_C8_vely = FP_FromInteger(0);
     field_118 = 0;
     field_124 = 0;
-    field_134 = 0;
+    field_134_bExplodeNow = FALSE;
 }
 
 void Grenade::vOnTrapDoorOpen_449390()
@@ -264,13 +264,13 @@ void Grenade::vOnTrapDoorOpen_449390()
     {
         pPlatform->VRemove(this);
         field_110_id = -1;
-        if (field_120_state == 1 || field_120_state == 2)
+        if (field_120_state == States::eState_1_WaitToBeCollected || field_120_state == States::eState_2)
         {
-            field_120_state = 0;
+            field_120_state = States::eState_0_FallingToBeCollected;
         }
-        else if (field_120_state != 6)
+        else if (field_120_state != States::eState_6_WaitForExplodeEnd)
         {
-            field_120_state = 4;
+            field_120_state = States::eState_4_Falling;
         }
     }
 }
@@ -286,12 +286,12 @@ void Grenade::vThrow_4482E0(FP velX, FP velY)
     {
         if (!field_118)
         {
-            field_120_state = 4;
+            field_120_state = States::eState_4_Falling;
         }
     }
     else
     {
-        field_120_state = 9;
+        field_120_state = States::eState_9_FallingBlowUpOnGround;
     }
 }
 
@@ -333,7 +333,7 @@ void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
    
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-    field_120_state = 6;
+    field_120_state = States::eState_6_WaitForExplodeEnd;
     
     auto pGibs = alive_new<Gibs>();
     if (pGibs)
@@ -386,16 +386,9 @@ signed __int16 Grenade::TimeToBlowUp_448350()
 
 void Grenade::vUpdate_4489C0()
 {
-    NOT_IMPLEMENTED();
+    auto pExplosion = sObjectIds_5C1B70.Find_449CF0(field_11C_explosion_id);
 
-    //auto pExplosion = sObjectIds_5C1B70.Find_449CF0(field_11C_explosion_id);
 
-//    auto v3 = field_100_pCollisionLine;
-    auto pCurLine = &field_100_pCollisionLine;
-    //auto v5 = (int)pExplosion;
-//    auto v44 = pExplosion;
-//    auto v42 = v3;
-    
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead);
@@ -406,7 +399,7 @@ void Grenade::vUpdate_4489C0()
         field_114_flags.Clear(Flags_114::e114_Bit9);
         if (field_104_collision_line_type == -1)
         {
-            *pCurLine = 0;
+            field_100_pCollisionLine = nullptr;
         }
         else
         {
@@ -419,219 +412,147 @@ void Grenade::vUpdate_4489C0()
                 &field_B8_xpos,
                 &field_BC_ypos,
                 1 << field_104_collision_line_type);
-            //v5 = (int)v44;
         }
         field_104_collision_line_type = 0;
     }
 
     switch (field_120_state)
     {
-    case 0:
-        if (!InTheAir_4484F0(0))
+    case States::eState_0_FallingToBeCollected:
+        if (!InTheAir_4484F0(FALSE))
         {
             field_E4 = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
             field_EC = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
             field_F0_prev_base = field_BC_ypos;
             field_6_flags.Set(BaseGameObject::eInteractive);
             field_E8 = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-            field_120_state = 1;
+            field_120_state = States::eState_1_WaitToBeCollected;
         }
         break;
 
-    case 1:
-        /*
-        v15 = field_C4_velx;
-        v16 = field_C4_velx;
-
-        if (v15 < 0)
+    case States::eState_1_WaitToBeCollected:
+        if (FP_Abs(field_C4_velx) >= FP_FromInteger(1))
         {
-            v16 = -v16;
-        }
-
-        if (v16 >= 0x10000)
-        {
-            v29 = v15 == 0;
-            v30 = v15 < 0;
-            v31 = field_C4_velx;
-            if (v30 || v29)
+            if (field_C4_velx <= FP_FromInteger(0))
             {
-                v32 = v31 + 655;
+                field_C4_velx = field_C4_velx + FP_FromDouble(0.01);
             }
             else
             {
-                v32 = v31 - 655;
+                field_C4_velx = field_C4_velx - FP_FromDouble(0.01);
             }
-            field_C4_velx = v32;
-            pLine = PathLine::MoveOnLine_418260(
-                *pCurLine,
-                &field_B8_xpos,
-                &field_BC_ypos,
-                v32);
-            newLineId = field_110_id;
-            *pCurLine = pLine;
-            if (newLineId != -1 && v42 != pLine)
+
+            auto oldLine = field_100_pCollisionLine;
+            field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+            if (field_110_id != -1 && field_100_pCollisionLine != oldLine)
             {
                 VOnTrapDoorOpen();
             }
-            if (!*pCurLine)
+
+            if (!field_100_pCollisionLine)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-                field_120_state = 0;
+                field_120_state = States::eState_0_FallingToBeCollected;
+            }
+        }
+        else if (abs(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) > 1)
+        {
+            auto oldLine = field_100_pCollisionLine;
+            field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+            if (field_110_id != -1 && field_100_pCollisionLine != oldLine)
+            {
+                VOnTrapDoorOpen();
+            }
+
+            if (!field_100_pCollisionLine)
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                field_120_state = States::eState_4_Falling;
             }
         }
         else
         {
-            v17 = &field_B8_xpos;
-            snappedX = SnapToXGrid_449930(field_CC_sprite_scale, field_B8_xpos / 0x10000);
-            curX = field_B8_xpos / 0x10000;
-            if (snappedX - curX >= 0)
-            {
-                deltaX = snappedX - curX;
-            }
-            else
-            {
-                deltaX = curX - snappedX;
-            }
-            if (deltaX > 1)
-            {
-                v27 = PathLine::MoveOnLine_418260(
-                    *pCurLine,
-                    &field_B8_xpos,
-                    &field_BC_ypos,
-                    field_C4_velx);
-                v28 = field_110_id;
-                *pCurLine = v27;
-                if (v28 != -1 && v42 != v27)
-                {
-                    VOnTrapDoorOpen();
-                }
-                if (!*pCurLine)
-                {
-                    field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-                    field_120_state = 4;
-                }
-            }
-            else
-            {
-                field_C4_velx = FP_FromInteger(0);
-                v21 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                v22 = Math_FixedPoint_Divide_496B70(v21, 0x20000);
-                v23 = field_CC_sprite_scale;
-                field_E4 = *v17 - v22;
-                v24 = ScaleToGridSize_4498B0(v23);
-                field_EC = *v17 + Math_FixedPoint_Divide_496B70(v24, 0x20000);
-                v25 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                v26 = field_BC_ypos;
-                field_F0_prev_base = v26;
-                LOBYTE(field_6_flags) |= 0x80u;
-                field_E8 = v26 - v25;
-                field_120_state = 2;
-            }
+            field_C4_velx = FP_FromInteger(0);
+
+            field_E4 = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+            field_EC = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+            field_E8 = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            field_F0_prev_base = field_BC_ypos;
+
+            field_6_flags.Set(BaseGameObject::eInteractive);
+            field_120_state = States::eState_2;
         }
-        */
         break;
 
-    case 3:
+    case States::eState_3_CountingDown:
         TimeToBlowUp_448350();
         break;
 
-    case 4:
-        if (InTheAir_4484F0(0))
+    case States::eState_4_Falling:
+        if (InTheAir_4484F0(FALSE))
         {
             if (!TimeToBlowUp_448350())
             {
-                /*
-                v35 = (int *)field_0_VTbl->VBaseAliveGameObject.field_1C_vGetBoundingRect_424FD0(
-                    this,
-                    &Y1,
-                    1);
-                v44 = (BaseGameObject *)*v35;
-                v36 = field_0_VTbl;
-                v45 = v35[1];
-                HIWORD(v44) += 5;
-                HIWORD(v45) += 5;
-                ((void(*)(Grenade *, BaseGameObject *, int, DynamicArray *, signed int, signed __int16(*)(Grenade *, int)))v36->VBaseAliveGameObject.field_18_vOnCollisionWith_424EE0)(
-                    this,
-                    v44,
-                    v45,
-                    gBaseGameObject_list_BB47C4,
-                    1,
-                    Grenade::OnCollision2_401690);
-                */
+                PSX_RECT bRect = {};
+                vGetBoundingRect_424FD0(&bRect, 1);
+
+                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+                vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision2_448F90);
             }
         }
         else
         {
-            field_120_state = 5;
+            field_120_state = States::eState_5_HitGround;
         }
         break;
 
-    case 5:
-        /*
-        v37 = field_C4_velx >> 1;
-        v38 = *pCurLine;
-        field_C4_velx = v37;
-        v39 = PathLine::MoveOnLine_418260(
-            v38,
-            &field_B8_xpos,
-            &field_BC_ypos,
-            v37);
-        *pCurLine = v39;
-        if (!v39)
+    case States::eState_5_HitGround:
+        field_C4_velx = FP_FromRaw(field_C4_velx.fpValue / 2);
+
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        if (!field_100_pCollisionLine)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-            field_120_state = 4;
+            field_120_state = States::eState_4_Falling;
         }
+
         TimeToBlowUp_448350();
-        */
         break;
 
-    case 6:
-        /*
-        if (!v5 || *(_BYTE *)(v5 + 6) & 4)
+    case States::eState_6_WaitForExplodeEnd:
+        if ( !pExplosion || pExplosion->field_6_flags.Get(BaseGameObject::eDead))
         {
-            field_120_state = 7;
+            field_120_state = States::eState_7_Exploded;
             field_11C_explosion_id = -1;
-        }*/
+        }
         break;
 
-    case 7:
+    case States::eState_7_Exploded:
         field_6_flags.Set(BaseGameObject::eDead);
         break;
 
-    case 9:
-        /*
-        sub_4484F0(1);
-        v40 = (int *)field_0_VTbl->VBaseAliveGameObject.field_1C_vGetBoundingRect_424FD0(
-            this,
-            (PSX_RECT *)&v46,
-            1);
-        v44 = (BaseGameObject *)*v40;
-        thisVTable = field_0_VTbl;
-        v45 = v40[1];
-        HIWORD(v44) += 5;
-        HIWORD(v45) += 5;
-        ((void(*)(Grenade *, BaseGameObject *, int, DynamicArray *, signed int, signed __int16(*)(Grenade *, int)))thisVTable->VTableGrenade.BaseAnimatedWithPhysicsGameObject__OnCollisionWith_424EE0)(
-            this,
-            v44,
-            v45,
-            gBaseGameObject_list_BB47C4,
-            1,
-            j_Grenade::OnCollision_402AD1);
-        */
+    case States::eState_9_FallingBlowUpOnGround:
+    {
+        InTheAir_4484F0(TRUE);
 
-        if (field_134)
+        PSX_RECT bRect = {};
+        vGetBoundingRect_424FD0(&bRect, 1);
+
+        const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
+        const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+        vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision_4490D0);
+
+        if (field_134_bExplodeNow)
         {
-            BlowUp_4483C0(1);
+            BlowUp_4483C0(TRUE);
         }
-        break;
-
-    default:
-        return;
+    }
+    break;
     }
 }
 
-__int16 Grenade::InTheAir_4484F0(__int16 a1)
+__int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
 {
     NOT_IMPLEMENTED();
 
@@ -692,12 +613,12 @@ __int16 Grenade::InTheAir_4484F0(__int16 a1)
             field_B8_xpos = hitX;
             field_BC_ypos = hitY;
             field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-            short v14 = 75 - 20 * field_124;
-            if (v14 < 40)
+            short vol = 75 - 20 * field_124;
+            if (vol < 40)
             {
-                v14 = 40;
+                vol = 40;
             }
-            SFX_Play_46FA90(68u, v14);
+            SFX_Play_46FA90(68u, vol);
         }
         else
         {
@@ -715,9 +636,9 @@ __int16 Grenade::InTheAir_4484F0(__int16 a1)
             field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
             field_C4_velx = (field_C4_velx / FP_FromInteger(2));
 
-            if (a1)
+            if (blowUpOnFloorTouch)
             {
-                field_134 = 1;
+                field_134_bExplodeNow = TRUE;
                 return 1;
             }
 
@@ -726,12 +647,12 @@ __int16 Grenade::InTheAir_4484F0(__int16 a1)
                 goto LABEL_21;
             }
 
-            short v12 = 75 - 20 * field_124;
-            if (v12 < 40)
+            short vol = 75 - 20 * field_124;
+            if (vol < 40)
             {
-                v12 = 40;
+                vol = 40;
             }
-            SFX_Play_46FA90(68u, v12);
+            SFX_Play_46FA90(68u, vol);
             ++field_124;
         }
         Event_Broadcast_422BC0(kEventNoise, this);
@@ -804,6 +725,18 @@ LABEL_21:
 void Grenade::AddToPlatform_449210()
 {
     NOT_IMPLEMENTED();
+}
+
+__int16 Grenade::OnCollision2_448F90(BaseGameObject* /*pHit*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+ __int16 Grenade::OnCollision_4490D0(BaseGameObject* /*pHit*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
