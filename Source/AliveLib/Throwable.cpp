@@ -388,7 +388,7 @@ void Grenade::vUpdate_4489C0()
 {
     NOT_IMPLEMENTED();
 
-    auto pExplosion = sObjectIds_5C1B70.Find_449CF0(field_11C_explosion_id);
+    //auto pExplosion = sObjectIds_5C1B70.Find_449CF0(field_11C_explosion_id);
 
 //    auto v3 = field_100_pCollisionLine;
     auto pCurLine = &field_100_pCollisionLine;
