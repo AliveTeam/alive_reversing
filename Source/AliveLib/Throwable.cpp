@@ -20,19 +20,30 @@ void BaseThrowable::VOnPickUpOrSlapped()
     vOnPickUpOrSlapped_4114D0();
 }
 
+__int16 BaseThrowable::VGetCount_448080()
+{
+    return vGetCount_448080();
+}
+
 void BaseThrowable::VToDead_4114B0()
 {
     vToDead_4114B0();
 }
 
-EXPORT void BaseThrowable::vToDead_4114B0()
+void BaseThrowable::vToDead_4114B0()
 {
-    NOT_IMPLEMENTED();
+    field_6_flags.Set(BaseGameObject::eDead);
+    field_11A_bDead = 1;
 }
 
-EXPORT void BaseThrowable::vOnPickUpOrSlapped_4114D0()
+void BaseThrowable::vOnPickUpOrSlapped_4114D0()
 {
-    NOT_IMPLEMENTED();
+    VToDead_4114B0();
+}
+
+__int16 BaseThrowable::vGetCount_448080()
+{
+    return field_118_count;
 }
 
 // ====================================================================
@@ -164,21 +175,21 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
     ctor_408240(0);
     SetVTable(this, 0x5456E0);
 
-    field_11A = 0;
+    field_11A_bDead = 0;
 
     Init_448110(xpos, ypos);
 
-    field_118 = numGrenades;
+    field_118_count = numGrenades;
     field_132 = a5;
 
     if (a5)
     {
         field_120_state = States::eState_8;
-        field_11A = 1;
+        field_11A_bDead = 1;
     }
     else if (numGrenades)
     {
-        field_120_state = States::eState_1_WaitToBeCollected;
+        field_120_state = States::eState_0_FallingToBeCollected;
     }
     else
     {
@@ -195,6 +206,16 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
 BaseGameObject* Grenade::VDestructor(signed int flags)
 {
     return vdtor_4480E0(flags);
+}
+
+void Grenade::VScreenChanged()
+{
+    vScreenChanged_449140();
+}
+
+void Grenade::VUpdate()
+{
+    vUpdate_4489C0();
 }
 
 void Grenade::VOnTrapDoorOpen()
@@ -222,9 +243,14 @@ void Grenade::VTimeToExplodeRandom_411490()
     vTimeToExplodeRandom_4480A0();
 }
 
-__int16 Grenade::VGetCount_448080()
+void Grenade::vScreenChanged_449140()
 {
-    return vGetCount_448080();
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
+        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    field_11C_explosion_id = -1;
 }
 
 void Grenade::Init_448110(FP xpos, FP ypos)
@@ -252,7 +278,7 @@ void Grenade::Init_448110(FP xpos, FP ypos)
     field_12C_ypos = ypos;
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
-    field_118 = 0;
+    field_118_count = 0;
     field_124 = 0;
     field_134_bExplodeNow = FALSE;
 }
@@ -284,7 +310,7 @@ void Grenade::vThrow_4482E0(FP velX, FP velY)
 
     if (field_132 == 0)
     {
-        if (!field_118)
+        if (field_118_count == 0)
         {
             field_120_state = States::eState_4_Falling;
         }
@@ -297,25 +323,17 @@ void Grenade::vThrow_4482E0(FP velX, FP velY)
 
 BOOL Grenade::vCanThrow_49A5F0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return FALSE;
 }
 
 BOOL Grenade::vIsFalling_49A610()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return FALSE;
 }
 
 void Grenade::vTimeToExplodeRandom_4480A0()
 {
     field_122_explode_timer -= Math_NextRandom() % 16;
-}
-
-__int16 Grenade::vGetCount_448080()
-{
-    NOT_IMPLEMENTED();
-    return 0;
 }
 
 void Grenade::BlowUp_4483C0(__int16 bSmallExplosion)
@@ -346,11 +364,11 @@ void Grenade::dtor_448220()
 {
     SetVTable(this, 0x5456E0);
 
-    if (!gInfiniteGrenades_5C1BDE && !this->field_11A)
+    if (!gInfiniteGrenades_5C1BDE && !field_11A_bDead)
     {
         if (gpThrowableArray_5D1E2C)
         {
-            gpThrowableArray_5D1E2C->Remove_49AA00(field_118 >= 1 ? field_118 : 1);
+            gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count >= 1 ? field_118_count : 1);
         }
     }
 
@@ -725,6 +743,52 @@ LABEL_21:
 void Grenade::AddToPlatform_449210()
 {
     NOT_IMPLEMENTED();
+
+    auto lineMask = -(field_D6_scale != 0);
+    lineMask = lineMask & 0x1F; // TODO LOBYTE
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* pLine = nullptr;
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        field_BC_ypos - FP_FromInteger(20),
+        field_B8_xpos,
+        field_BC_ypos + FP_FromInteger(20),
+        &pLine,
+        &hitX,
+        &hitY,
+        lineMask + 0xF0))
+    {
+        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        {
+            if (ObjList_5C1B78)
+            {
+                for (int idx = 0; idx < ObjList_5C1B78->Size(); idx++)
+                {
+                    BaseGameObject* pObj = ObjList_5C1B78->ItemAt(idx);
+                    if (!pObj)
+                    {
+                        break;
+                    }
+
+                    if (pObj->field_4_typeId == Types::eLiftPoint_78 || pObj->field_4_typeId == Types::eTrapDoor_142)
+                    {
+                        auto pPlatform = static_cast<PlatformBase*>(pObj);
+
+                        PSX_RECT bRect = {};
+                        pPlatform->vGetBoundingRect_424FD0(&bRect, 1);
+
+                        if (FP_GetExponent(field_B8_xpos) > bRect.x  && FP_GetExponent(field_B8_xpos) < bRect.w  && FP_GetExponent(field_BC_ypos) < bRect.h)
+                        {
+                            pPlatform->VAdd(this);
+                            field_110_id = pPlatform->field_8_object_id;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 __int16 Grenade::OnCollision2_448F90(BaseGameObject* /*pHit*/)
@@ -742,7 +806,7 @@ __int16 Grenade::OnCollision2_448F90(BaseGameObject* /*pHit*/)
 Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
 {
     ctor_408240(0);
-    field_11A = 0;
+    field_11A_bDead = 0;
     SetVTable(this, 0x54431C);
     field_4_typeId = Types::eBone_11;
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 591, 0, 0))
@@ -767,7 +831,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
     field_12C = sGnFrame_5C1B84 + 300;
-    field_118_count_id = countId;
+    field_118_count = countId;
     field_11C_state = 0;
     field_11E = 0;
 
@@ -794,11 +858,11 @@ void Bone::dtor_4115B0()
 {
     SetVTable(this, 0x54431C);
 
-    if (!gInfiniteGrenades_5C1BDE && !field_11A)
+    if (!gInfiniteGrenades_5C1BDE && !field_11A_bDead)
     {
         if (gpThrowableArray_5D1E2C)
         {
-            gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count_id >= 1 ? field_118_count_id : 1);
+            gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count >= 1 ? field_118_count : 1);
         }
     }
 
@@ -810,7 +874,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 a4)
     ctor_408240(0);
     SetVTable(this, 0x546040);
 
-    field_11A = 0;
+    field_11A_bDead = 0;
     field_4_typeId = Types::eMeat_84;
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 2023, 0, 0))
@@ -838,7 +902,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 a4)
 
     field_12C = sGnFrame_5C1B84 + 600;
     field_130_pLine = 0;
-    field_118 = a4;
+    field_118_count = a4;
     field_11C = 0;
 
     field_E0_pShadow = alive_new<Shadow>();

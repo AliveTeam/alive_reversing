@@ -7143,7 +7143,26 @@ void Abe::State_110_455670()
 
 void Abe::State_111_GrabRock_4564A0()
 {
-    NOT_IMPLEMENTED();
+    auto pRock = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_160_slapable_or_pick_item_id));
+
+    if (field_20_animation.field_92_current_frame == 7)
+    {
+        SFX_Play_46FA90(28, 0, field_CC_sprite_scale);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+    }
+
+    if (sActiveHero_5C1B68->field_20_animation.field_92_current_frame >= 5)
+    {
+        if (pRock)
+        {
+            pRock->VOnPickUpOrSlapped();
+            field_160_slapable_or_pick_item_id = -1;
+        }
+    }
 }
 
 void Abe::State_112_Chant_45B1C0()

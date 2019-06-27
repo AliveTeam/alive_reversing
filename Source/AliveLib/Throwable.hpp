@@ -20,12 +20,20 @@ public:
     virtual BOOL VCanThrow_49E350() = 0;
     virtual BOOL VIsFalling_49E330() = 0;
     virtual void VTimeToExplodeRandom_411490() = 0;
-    virtual __int16 VGetCount_448080() = 0;
+
+    virtual __int16 VGetCount_448080();
 
     virtual void VToDead_4114B0();
 
+private:
     EXPORT void vToDead_4114B0();
     EXPORT void vOnPickUpOrSlapped_4114D0();
+
+    __int16 vGetCount_448080();
+protected:
+    __int16 field_116;
+    __int16 field_118_count;
+    __int16 field_11A_bDead;
 };
 
 class Rock : public BaseThrowable
@@ -48,10 +56,6 @@ public:
     */
 
 private:
-    // TODO: Don't know yet which of these are part of base (if any)
-    __int16 field_116;
-    __int16 field_118_count;
-    __int16 field_11A_bDead;
     __int16 field_11C_state;
     __int16 field_11E;
     int field_120_xpos;
@@ -67,10 +71,9 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual void VUpdate() override
-    {
-        vUpdate_4489C0();
-    }
+    virtual void VScreenChanged() override;
+
+    virtual void VUpdate() override;
 
     virtual void VOnTrapDoorOpen() override;
 
@@ -82,11 +85,14 @@ public:
 
     virtual void VTimeToExplodeRandom_411490() override;
 
-    virtual __int16 VGetCount_448080() override;
-
+ 
     // Next 2 virtuals are base
 
 private:
+
+    EXPORT void vScreenChanged_449140();
+
+
     EXPORT void Init_448110(FP xpos, FP ypos);
 
     EXPORT void vOnTrapDoorOpen_449390();
@@ -131,9 +137,6 @@ private:
     */
 
 private:
-    __int16 field_116;
-    __int16 field_118;
-    __int16 field_11A;
     int field_11C_explosion_id;
     enum class States : __int16
     {
@@ -184,9 +187,6 @@ private:
     Bone__vsub_411560 // State is 4, eaten?
     */
 private:
-    __int16 field_116;
-    __int16 field_118_count_id;
-    __int16 field_11A;
     __int16 field_11C_state;
     __int16 field_11E;
     FP field_120;
@@ -261,9 +261,6 @@ public:
     Meat__vsub_4696A0 // State not 0, eaten?
     */
 private:
-    __int16 field_116;
-    __int16 field_118;
-    __int16 field_11A;
     __int16 field_11C;
     __int16 field_11E;
     FP field_120_xpos;
