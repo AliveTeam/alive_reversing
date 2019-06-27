@@ -393,7 +393,7 @@ void Grenade::vUpdate_4489C0()
 //    auto v3 = field_100_pCollisionLine;
     auto pCurLine = &field_100_pCollisionLine;
     //auto v5 = (int)pExplosion;
-    auto v44 = pExplosion;
+//    auto v44 = pExplosion;
 //    auto v42 = v3;
     
     if (Event_Get_422C00(kEventDeathReset))
