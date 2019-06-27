@@ -392,7 +392,7 @@ void Grenade::vUpdate_4489C0()
 
 //    auto v3 = field_100_pCollisionLine;
     auto pCurLine = &field_100_pCollisionLine;
-    auto v5 = (int)pExplosion;
+    //auto v5 = (int)pExplosion;
     auto v44 = pExplosion;
 //    auto v42 = v3;
     
@@ -419,7 +419,7 @@ void Grenade::vUpdate_4489C0()
                 &field_B8_xpos,
                 &field_BC_ypos,
                 1 << field_104_collision_line_type);
-            v5 = (int)v44;
+            //v5 = (int)v44;
         }
         field_104_collision_line_type = 0;
     }
