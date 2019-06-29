@@ -909,7 +909,7 @@ void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
             if (pObj == sControlledCharacter_5C1B8C)
             {
                 const FP oldVelY = pObj->field_C8_vely;
-                pObj->field_C8_vely = field_C8_vely;
+                pObj->field_C8_vely = static_cast<BaseAliveGameObject*>(pThingBeingUsedByObject)->field_C8_vely;
                 pObj->sub_408C40();
                 pObj->field_C8_vely = oldVelY;
             }
