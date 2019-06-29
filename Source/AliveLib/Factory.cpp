@@ -950,7 +950,28 @@ EXPORT void CC Factory_LiftMover_4DA090(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     }
 }
 
-EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{ 
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources(
+        {
+            { ResourceManager::Resource_Animation, 12 },
+            { ResourceManager::Resource_Animation, 14 },
+            { ResourceManager::Resource_Animation, 2023 } 
+        });
+        gMap_5C3030.LoadResourcesFromList_4DBE70("MTHROW.BND", kResources.AsList(), loadMode, 0);
+    }
+    else
+    {
+        auto pMeatSack = alive_new<MeatSack>();
+        if (pMeatSack)
+        {
+            pMeatSack->ctor_46A410(static_cast<Path_MeatSack*>(pTlv), tlvInfo.all);
+        }
+    }
+
+}
 
 EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {

@@ -291,6 +291,41 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(BoneBag, 0x12C);
 
+struct Path_MeatSack : public Path_TLV
+{
+    __int16 field_10_side;
+    unsigned __int16 field_12_xVel;
+    unsigned __int16 field_14_yVel;
+    __int16 field_16_scale;
+    __int16 field_18_num_items;
+    __int16 field_1A_pad;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
+
+class MeatSack : public BaseAliveGameObject
+{
+public:
+    EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, int tlvInfo);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VScreenChanged() override;
+private:
+    EXPORT MeatSack* vdtor_46A5E0(signed int flags);
+
+    EXPORT void dtor_46A610();
+
+    EXPORT void vScreenChanged_46A9C0();
+
+private:
+    int field_118_tlvInfo;
+    __int16 field_11C;
+    __int16 field_11E_num_items;
+    __int16 field_120;
+    __int16 field_122;
+    FP field_124_velX;
+    FP field_128_velY;
+};
+ALIVE_ASSERT_SIZEOF(MeatSack, 0x12C);
+
 class Meat : public BaseThrowable
 {
 public:

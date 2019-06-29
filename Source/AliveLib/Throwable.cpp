@@ -1034,3 +1034,106 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 a4)
     }
     return this;
 }
+
+TintEntry stru_55C254[] =
+{
+    { 1u, 127u, 127u, 127u },
+    { 2u, 137u, 137u, 137u },
+    { 3u, 127u, 127u, 127u },
+    { 4u, 127u, 127u, 127u },
+    { 5u, 127u, 127u, 127u },
+    { 6u, 127u, 127u, 127u },
+    { 7u, 127u, 127u, 127u },
+    { 8u, 127u, 127u, 127u },
+    { 9u, 127u, 127u, 127u },
+    { 10u, 127u, 127u, 127u },
+    { 11u, 127u, 127u, 127u },
+    { 12u, 127u, 127u, 127u },
+    { 13u, 127u, 127u, 127u },
+    { 14u, 127u, 127u, 127u },
+    { -1, 127u, 127u, 127u },
+};
+
+
+MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
+{
+    ctor_408240(0);
+    SetVTable(this, 0x5460D4);
+
+    field_4_typeId = Types::eMeatSack_85;
+
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 4002);
+    Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
+    SetTint_425600(&stru_55C254[0], gMap_5C3030.sCurrentLevelId_5C3030);
+
+    field_DC_bApplyShadows &= ~1u;
+    field_118_tlvInfo = tlvInfo;
+    
+    field_11C = 0;
+
+    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
+    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+
+    field_124_velX = FP_FromRaw(pTlv->field_12_xVel << 8);
+    field_128_velY = -FP_FromRaw(256 * pTlv->field_14_yVel);
+
+    if (!pTlv->field_10_side)
+    {
+        field_124_velX = -field_124_velX;
+    }
+
+    if (pTlv->field_16_scale == 1)
+    {
+        field_CC_sprite_scale = FP_FromDouble(0.5);
+        field_20_animation.field_C_render_layer = 8;
+        field_D6_scale = 0;
+    }    
+    else if (pTlv->field_16_scale == 0)
+    {
+        field_CC_sprite_scale = FP_FromInteger(1);
+        field_20_animation.field_C_render_layer = 27;
+        field_D6_scale = 1;
+    }
+
+    field_11E_num_items = pTlv->field_18_num_items;
+
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
+    {
+        field_E0_pShadow->ctor_4AC990();
+    }
+
+    return this;
+}
+
+BaseGameObject* MeatSack::VDestructor(signed int flags)
+{
+    return vdtor_46A5E0(flags);
+}
+
+void MeatSack::VScreenChanged()
+{
+    vScreenChanged_46A9C0();
+}
+
+MeatSack* MeatSack::vdtor_46A5E0(signed int flags)
+{
+    dtor_46A610();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void MeatSack::dtor_46A610()
+{
+    SetVTable(this, 0x5460D4);
+    Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
+    dtor_4080B0();
+}
+
+void MeatSack::vScreenChanged_46A9C0()
+{
+    field_6_flags.Set(BaseGameObject::eDead);
+}
