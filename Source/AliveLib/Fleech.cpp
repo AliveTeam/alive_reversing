@@ -107,12 +107,12 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
         field_BC_ypos -= FP_FromInteger(pTlv->field_8_top_left.field_2_y - pTlv->field_C_bottom_right.field_2_y);
         sub_42B9A0((pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2, pTlv->field_8_top_left.field_2_y);
         field_106_current_motion = 17;
-        sub_429D80();
+        SetAnim_429D80();
     }
     else if (field_174_flags.Get(Flags_174::eBit5_asleep))
     {
         field_106_current_motion = 0;
-        sub_429D80();
+        SetAnim_429D80();
     }
     else
     {
@@ -370,14 +370,14 @@ void Fleech::vUpdate_42AB20()
             if (field_128)
             {
                 field_106_current_motion = field_F4;
-                sub_429D80();
+                SetAnim_429D80();
                 field_20_animation.SetFrame_409D50(field_F6_anim_frame);
                 field_128 = 0;
             }
         }
         else
         {
-            sub_429D80();
+            SetAnim_429D80();
         }
     }
     else
@@ -396,7 +396,7 @@ void Fleech::InitPolys_42B6E0()
     NOT_IMPLEMENTED();
 }
 
-void Fleech::sub_429D80()
+void Fleech::SetAnim_429D80()
 {
     NOT_IMPLEMENTED();
 }

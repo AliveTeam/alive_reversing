@@ -27,7 +27,7 @@
 #include "Slurg.hpp"
 #include "GasCountDown.hpp"
 
-EXPORT int CC CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
+EXPORT int CC Bone_CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
 EXPORT int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
@@ -67,7 +67,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     &LiftMover::CreateFromSaveState_40D180,
     nullptr,
-    &CreateFromSaveState_412C10,
+    &Bone_CreateFromSaveState_412C10,
     nullptr,
     nullptr,
     nullptr,

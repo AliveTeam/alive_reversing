@@ -76,7 +76,7 @@ private:
 private:
     EXPORT void Init_42A170();
     EXPORT void InitPolys_42B6E0();
-    EXPORT void sub_429D80();
+    EXPORT void SetAnim_429D80();
     EXPORT void sub_42CF70();
 
     EXPORT void sub_42B9A0(__int16 a2, __int16 a3);
