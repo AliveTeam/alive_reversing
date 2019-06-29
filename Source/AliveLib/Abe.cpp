@@ -474,6 +474,71 @@ LABEL_19:
     }
 }
 
+const FP_Point stru_555118[9] =
+{
+    { FP_FromInteger(3),    FP_FromInteger(-14) },
+    { FP_FromInteger(10),   FP_FromInteger(-10) },
+    { FP_FromInteger(15),   FP_FromInteger(-8) },
+    { FP_FromInteger(10),   FP_FromInteger(3) },
+    { FP_FromInteger(10),   FP_FromInteger(-4) },
+    { FP_FromInteger(4),    FP_FromInteger(-3) },
+    { FP_FromInteger(0),    FP_FromInteger(0) },
+    { FP_FromInteger(0),    FP_FromInteger(0) },
+    { FP_FromInteger(0),    FP_FromInteger(0) }
+};
+
+int CC Animation_OnFrame_Abe_455F80(void* pPtr, signed __int16* pData)
+{
+    auto pAbe = static_cast<Abe*>(pPtr);
+    auto pFramePos = reinterpret_cast<PSX_Point*>(pData);
+
+    auto pThrowable = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(sActiveHero_5C1B68->field_158_throwable_id));
+
+    const auto tableX = stru_555118[pAbe->field_1A3_throw_direction].field_0_x * pAbe->field_CC_sprite_scale;
+    const auto tableY = stru_555118[pAbe->field_1A3_throw_direction].field_4_y * pAbe->field_CC_sprite_scale;
+
+    FP xOff = {};
+    FP tableXToUse = tableX;
+    if (sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        tableXToUse = -tableX;
+        xOff = -(pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_0_x));
+    }
+    else
+    {
+        xOff = pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_0_x);
+    }
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        pAbe->field_B8_xpos,
+        pAbe->field_BC_ypos + FP_FromInteger(pFramePos->field_2_y),
+        xOff + pAbe->field_B8_xpos,
+        pAbe->field_BC_ypos + FP_FromInteger(pFramePos->field_2_y),
+        &pLine,
+        &hitX,
+        &hitY,
+        pAbe->field_D6_scale != 0 ? 6 : 0x60))
+    {
+        xOff = hitX - pAbe->field_B8_xpos;
+        tableXToUse = -tableX;
+    }
+
+    if (pThrowable)
+    {
+        pThrowable->field_B8_xpos = xOff + sActiveHero_5C1B68->field_B8_xpos;
+        pThrowable->field_BC_ypos = (pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_2_y)) + sActiveHero_5C1B68->field_BC_ypos;
+        pThrowable->VThrow_49E460(tableXToUse, tableY);
+        pThrowable->field_CC_sprite_scale = pAbe->field_CC_sprite_scale;
+        pThrowable->field_D6_scale = pAbe->field_D6_scale;
+        sActiveHero_5C1B68->field_158_throwable_id = -1;
+    }
+
+    return 1;
+}
+
 enum AbeResources
 {
     eAbeBSic = 0,

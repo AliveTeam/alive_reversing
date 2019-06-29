@@ -5,8 +5,8 @@
 
 enum class LevelIds : __int16;
 
-EXPORT void CCSTD FreeResourceArray_49AEC0(DynamicArray*);
-EXPORT void CC LoadRockTypes_49AB30(LevelIds /*a1*/, unsigned __int16 /*a2*/);
+EXPORT void CCSTD FreeResourceArray_49AEC0(DynamicArrayT<BYTE*>* pArray);
+EXPORT void CC LoadRockTypes_49AB30(LevelIds levelNumber, unsigned __int16 pathNumber);
 
 class ThrowableArray : public BaseGameObject
 {
@@ -37,7 +37,7 @@ public:
     __int16 field_20_count;
 private:
     __int16 field_22_flags;
-    DynamicArray field_24_throwables;
+    DynamicArrayT<BYTE*> field_24_throwables;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x30);
 

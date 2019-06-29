@@ -6,8 +6,8 @@
 #include "VRam.hpp"
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
-
-
+#include "Abe.hpp" // For anim call back table
+ 
 // Frame call backs ??
 EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)
 {
@@ -16,13 +16,6 @@ EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)
 
 EXPORT int CC Animation_OnFrame_Null_455F60(void*, signed __int16*)
 {
-    return 1;
-}
-
-EXPORT int CC Animation_OnFrame_Abe_455F80(void*, signed __int16*)
-{
-    // Does ray casting checks?
-    NOT_IMPLEMENTED();
     return 1;
 }
 

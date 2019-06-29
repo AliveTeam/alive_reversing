@@ -341,3 +341,4 @@ private:
 ALIVE_ASSERT_SIZEOF(Meat, 0x134);
 
 ALIVE_VAR_EXTERN(WORD, gInfiniteGrenades_5C1BDE);
+extern const Types word_55FAFC[252];
