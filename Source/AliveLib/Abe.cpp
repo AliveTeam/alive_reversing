@@ -7211,7 +7211,15 @@ void Abe::State_107_RockThrowCrouchingHold_454410()
 
 void Abe::State_108_RockThrowCrouchingThrow_454500()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        SFX_Play_46FA90(23, 0, field_CC_sprite_scale);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+    }
 }
 
 void Abe::State_109_455550()
