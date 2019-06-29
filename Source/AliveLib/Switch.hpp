@@ -35,7 +35,6 @@ private:
     EXPORT void vScreenChanged_4D5B90();
     EXPORT __int16 vsub_4D6050( __int16 a2);
 private:
-    int field_E4[4];
     __int16 field_F4_trigger_id;
     __int16 field_F6; // pad
     // TODO: Make enum

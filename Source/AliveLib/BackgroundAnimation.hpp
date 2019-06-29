@@ -30,11 +30,7 @@ public:
     EXPORT void dtor_40D4C0();
     EXPORT BaseGameObject* vdtor_40D420(signed int flags);
 private:
-    int field_E4;
-    int field_E8;
-    int field_EC;
-    int field_F0;
-    AnimHeader **field_F4_res;
+    AnimHeader** field_F4_res;
     TlvItemInfoUnion field_F8_arg_a3;
     FP field_FC_xpos;
     FP field_100_ypos;

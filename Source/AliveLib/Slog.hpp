@@ -78,7 +78,6 @@ private:
 
 
 private:
-    __int16 field_116;
     int field_118;
     __int16 field_11C;
     __int16 field_11E;

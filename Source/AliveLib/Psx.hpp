@@ -2,6 +2,7 @@
 
 #include "FunctionFwd.hpp"
 #include "bmp.hpp"
+#include "FixedPoint.hpp"
 
 void Psx_ForceLink();
 
@@ -10,6 +11,12 @@ struct PSX_RECT
     short x, y, w, h;
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
+
+struct FP_RECT
+{
+    FP x, y, w, h;
+};
+ALIVE_ASSERT_SIZEOF(FP_RECT, 4*4);
 
 inline bool operator == (const PSX_RECT& lhs, const PSX_RECT& rhs)
 {

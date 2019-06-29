@@ -38,7 +38,6 @@ private:
     EXPORT void vUpdate_445200();
 
 private:
-    int field_E4_not_used[4];
     int field_F4_tlvInfo;
     __int16 field_F8_state;
     __int16 field_FA_ok_id;

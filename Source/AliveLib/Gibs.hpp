@@ -39,7 +39,6 @@ private:
     EXPORT void vUpdate_410210();
     EXPORT void vRender_4103A0(int** ot);
 private:
-    int field_E4_not_used[4];
     const Gib_Data* field_F4_pGibData;
     FP field_F8_z;
     FP field_FC_dz;

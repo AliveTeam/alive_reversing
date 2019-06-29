@@ -78,7 +78,6 @@ private:
     EXPORT BaseAliveGameObject* GetMudToZap_447690();
     EXPORT void vUpdate_4469B0();
 private:
-    __int16 field_116;
     int field_118_tlvInfo;
     int field_11C_motionDetectorId;
     int field_120;

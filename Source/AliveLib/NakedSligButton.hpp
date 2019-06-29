@@ -29,7 +29,6 @@ private:
     EXPORT void dtor_414A90();
     EXPORT void vUpdate_414B20();
 private:
-    int field_E4_not_used[4];
     int field_F4_tlvInfo;
     __int16 field_F8_id;
     SwitchOp field_FA_id_action;

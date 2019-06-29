@@ -141,7 +141,6 @@ private:
     }
 
 private:
-    int field_E4_not_used[4];
     __int16 field_F4_state;
     __int16 field_F6_pad;
     int field_F8_timer;

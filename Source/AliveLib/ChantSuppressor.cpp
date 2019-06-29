@@ -116,7 +116,6 @@ private:
     }
 
 private:
-    int field_E4_not_used[4];
     int field_F4_not_used1;
     __int16 field_F8_not_used2;
     __int16 field_FA_16_random;

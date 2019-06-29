@@ -48,7 +48,6 @@ private:
     EXPORT void vUpdate_4701E0();
 
 private:
-    __int16 field_116;
     __int16 field_118_state;
     __int16 field_11A;
     int field_11C_tlvInfo;

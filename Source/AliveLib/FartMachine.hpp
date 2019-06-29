@@ -28,7 +28,6 @@ private:
     EXPORT void vRender_4133F0(int** pOt);
 
 private:
-    int field_E4_not_used[4];
     Font_Context field_F4_font_context;
     Alive::Font field_104_font;
     __int16 field_13C_textX;

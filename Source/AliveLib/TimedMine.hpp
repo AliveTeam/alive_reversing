@@ -41,7 +41,6 @@ public:
     EXPORT void InitBlinkAnimation_4108E0(Animation *pAnim);
     EXPORT void sub_411100();
 public:
-    BYTE gap116[2];
     WORD field_118_armed;
     WORD field_11A_explode_timeout;
     DWORD field_11C_tlv;

@@ -27,7 +27,6 @@ private:
     EXPORT Explosion* vdtor_4A14C0(signed int flags);
 
 private:
-    int field_E4_not_used[4];
     __int16 field_F4_bSmall;
     //__int16 field_F6_pad;
     FP field_F8_scale;

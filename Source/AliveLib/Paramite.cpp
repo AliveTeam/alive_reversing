@@ -23,7 +23,6 @@ public:
     }
 
 private:
-    int field_E4_not_used[4];
     __int16 field_F4;
     __int16 field_F6;
     __int16 field_F8_ttl;

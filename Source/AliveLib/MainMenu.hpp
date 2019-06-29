@@ -252,8 +252,6 @@ public:
     };
 
 
-    int field_E4[3];
-    int field_F0;
     MainMenuControllerResources field_F4_resources;
     Alive::Font field_120_font;
     Animation field_158_animation;

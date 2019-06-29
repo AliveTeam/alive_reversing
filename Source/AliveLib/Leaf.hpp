@@ -16,7 +16,6 @@ private:
     EXPORT void dtor_4E3310();
     EXPORT Leaf* vdtor_4E32E0(signed int flags);
 private:
-    int field_E4_not_used[4];
     __int16 field_F4_bHitSomething;
     //__int16 field_F6_pad;
 };

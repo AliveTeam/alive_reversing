@@ -52,7 +52,6 @@ public:
     EXPORT void sub_497AC0();
 private:
     EXPORT BaseAnimatedWithPhysicsGameObject* vdtor_497A70(signed int flags);
-    int not_used[4];
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 

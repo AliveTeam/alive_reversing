@@ -341,7 +341,6 @@ public:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
 private:
-    __int16 field_116;
     int field_118_tlvInfo;
 public:
     __int16 field_11C;

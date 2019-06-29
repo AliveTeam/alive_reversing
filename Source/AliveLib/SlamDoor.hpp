@@ -45,7 +45,6 @@ private:
     EXPORT void ClearInsideSlamDoor_4B0530(BaseAliveGameObject *pObj, __int16 a3, __int16 a4);
 
 private:
-    __int16 field_116;
     BitField16<SlamDoor_Flags_118> field_118_flags;
     __int16 field_11A;
     PathLine *field_11C_pCollisionLine_6_2;

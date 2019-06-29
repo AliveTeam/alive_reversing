@@ -28,7 +28,6 @@ private:
     EXPORT void vUpdate_422030();
 
 private:
-    int field_E4_not_used[4];
 
     int field_F4_tlvInfo;
     __int16 field_F8_switch_id;

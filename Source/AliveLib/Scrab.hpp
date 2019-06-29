@@ -104,7 +104,6 @@ public:
     EXPORT void M_DeathBegin_39_4AA190();
 
 private:
-    __int16 field_116;
     TScrabAIFn field_118_brain_state;
     __int16 field_11C_sub_state;
     __int16 field_11E;

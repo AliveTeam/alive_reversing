@@ -28,7 +28,6 @@ private:
     EXPORT TorturedMudokon* vdtor_47BE30(signed int flags);
     EXPORT void vUpdate_47BF80();
 private:
-    int field_E4_not_used[4];
     Animation field_F4;
     Animation field_18C;
     BYTE** field_224_ppRes;

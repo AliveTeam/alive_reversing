@@ -105,12 +105,14 @@ TimedMine * TimedMine::ctor_410600(Path_TimedMine * pPath, TlvItemInfoUnion tlv)
     SetBaseAnimPaletteTint_425690(sTimedMineTint_550EB8, gMap_5C3030.sCurrentLevelId_5C3030, kBombResID);
 
     FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    field_E4 = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
-    field_EC = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
     field_6_flags.Set(Options::eInteractive);
     field_DC_bApplyShadows |= 2u;
-    field_E8 = field_BC_ypos - gridSnap;
-    field_F0_prev_base = field_BC_ypos;
+
+    field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
+    field_E4_collection_rect.y = field_BC_ypos - gridSnap;
+    field_E4_collection_rect.w = (gridSnap / FP_FromDouble(2.0)) + field_B8_xpos;
+    field_E4_collection_rect.h = field_BC_ypos;
+
     field_110_id = -1;
 
     return this;

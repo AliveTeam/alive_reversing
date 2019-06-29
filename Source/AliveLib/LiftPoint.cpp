@@ -895,7 +895,7 @@ void LiftPoint::vUpdate_461AE0()
 
 void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
 {
-    for (int i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
         if (!pObj)
@@ -903,31 +903,35 @@ void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
             break;
         }
 
-        BaseGameObject* pThingBeingUsedByObject = sObjectIds_5C1B70.Find_449CF0(pObj->field_110_id);
-        if (pThingBeingUsedByObject == this)
+        BaseGameObject* pObjectsLiftPoint = sObjectIds_5C1B70.Find_449CF0(pObj->field_110_id);
+        if (pObjectsLiftPoint == this)
         {
             if (pObj == sControlledCharacter_5C1B8C)
             {
+                // Keep the player in the screen
                 const FP oldVelY = pObj->field_C8_vely;
-                pObj->field_C8_vely = static_cast<BaseAliveGameObject*>(pThingBeingUsedByObject)->field_C8_vely;
+                pObj->field_C8_vely = field_C8_vely;
                 pObj->sub_408C40();
+
+                // And keep the old velY
                 pObj->field_C8_vely = oldVelY;
             }
 
+            // Do platforms ever move horizontally? This is always 0 it seems
             pObj->field_B8_xpos += xVelocity;
+
+            // Keep ypos on the platform
             pObj->field_BC_ypos = FP_FromInteger(field_124_pCollisionLine->field_0_rect.y);
 
-            
-            if (!pObj->field_6_flags.Get(BaseGameObject::eInteractive))
+            if (pObj->field_6_flags.Get(BaseGameObject::eInteractive))
             {
-                pObj->field_E4 = pObj->field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-                pObj->field_EC = pObj->field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-                pObj->field_F0_prev_base = pObj->field_BC_ypos;
-                pObj->field_E8 = pObj->field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                pObj->field_E4_collection_rect.x = pObj->field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                pObj->field_E4_collection_rect.y = pObj->field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                pObj->field_E4_collection_rect.w = pObj->field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                pObj->field_E4_collection_rect.h = pObj->field_BC_ypos;
             }
         }
     }
-
 }
 
 void CCSTD LiftPoint::sub_461000(Path_TLV* pTlv)

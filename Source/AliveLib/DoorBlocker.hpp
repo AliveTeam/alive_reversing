@@ -25,7 +25,6 @@ private:
     EXPORT DoorBlocker* vdtor_41F220(signed int flags);
 
 private:
-    __int16 field_116;
     __int16 field_118_bDone;
     __int16 field_11A_switch_id;
     int field_11C_tlvInfo;

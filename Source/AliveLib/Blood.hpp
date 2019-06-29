@@ -30,7 +30,6 @@ private:
     EXPORT void vRender_40F780(int** /*pOrderingTable*/);
     EXPORT void vScreenChanged_40FAD0();
 private:
-    int field_E4_not_used[4];
     BYTE** field_F4_ppResBuf;
     BloodParticle* field_F8_pResBuf;
     Prim_SetTPage field_FC_tPages[2];

@@ -19,7 +19,6 @@ private:
     EXPORT void vScreenChanged_465EE0();
     EXPORT void dtor_465D40();
 private:
-    int field_E4[4];
     __int16 field_F4_state;
     //__int16 field_F6_pad;
     int field_F8_tlvInfo;

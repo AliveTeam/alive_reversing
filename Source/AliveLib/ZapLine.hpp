@@ -41,8 +41,6 @@ private:
     EXPORT void vRender_4CD8C0(int** pOt);
 
 private:
-    int field_E4_not_used[4];
-
     enum class State : __int16
     {
         State_0 = 0,

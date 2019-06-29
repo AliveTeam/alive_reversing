@@ -8205,10 +8205,10 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch
         if (pObj->field_6_flags.Get(BaseGameObject::eInteractive))
         {
             BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if (fpX >= pAliveObj->field_E4 && fpX <= pAliveObj->field_EC)
+            if (fpX >= pAliveObj->field_E4_collection_rect.x && fpX <= pAliveObj->field_E4_collection_rect.w)
             {
                 const FP yPos = FP_FromInteger(fpY);
-                if (yPos >= pAliveObj->field_E8 && yPos <= pAliveObj->field_F0_prev_base)
+                if (yPos >= pAliveObj->field_E4_collection_rect.y && yPos <= pAliveObj->field_E4_collection_rect.h)
                 {
                     pSlapableOrCollectable = pAliveObj;
                     field_160_slapable_or_pick_item_id = pAliveObj->field_8_object_id;

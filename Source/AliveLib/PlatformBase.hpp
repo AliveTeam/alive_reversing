@@ -26,7 +26,6 @@ private:
     EXPORT PlatformBase* vdtor_4974B0(signed int flags);
 
 protected:
-    __int16 field_116;
     int field_118_count;
     __int16 field_11C;
     __int16 field_11E;

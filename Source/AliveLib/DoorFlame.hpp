@@ -50,7 +50,6 @@ private:
     EXPORT void vUpdate_45E830();
 
 private:
-    int field_E4_not_used[4];
     int field_F4_tlvInfo;
     __int16 field_F8_switch_id;
     __int16 field_FA_frame_count;

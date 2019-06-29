@@ -68,7 +68,6 @@ private:
     EXPORT void PlaySFX_4DE930(unsigned __int8 sfxIdx);
     EXPORT signed int IsColliding_4DF630();
 private:
-    BYTE gap116[2];
     WORD field_118_state;
     WORD field_11A_starting_state;
     WORD field_11C_disabled_resources;

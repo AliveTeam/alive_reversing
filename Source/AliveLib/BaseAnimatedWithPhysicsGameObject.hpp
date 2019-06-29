@@ -97,5 +97,6 @@ public:
     __int16 field_DC_bApplyShadows;
     __int16 field_DE_pad;
     Shadow* field_E0_pShadow;
+    FP_RECT field_E4_collection_rect;
 };
-ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xE4);
+ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xF4);

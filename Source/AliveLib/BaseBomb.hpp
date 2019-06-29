@@ -15,7 +15,6 @@ private:
     EXPORT void vUpdate_424180();
 
 private:
-    BYTE field_E4[16];
     FP field_f4_scale;
 };
 ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);

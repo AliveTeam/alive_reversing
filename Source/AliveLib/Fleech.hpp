@@ -83,7 +83,6 @@ private:
 
     EXPORT void sub_42BD30();
 private:
-    __int16 field_116;
     int field_118_tlvInfo;
     int field_11C_obj_id;
     int field_120;

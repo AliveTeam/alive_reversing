@@ -135,7 +135,6 @@ public:
     }
 
 private:
-    int field_E4_not_used[4];
     FP field_F4_xPos;
     FP field_F8_yPos;
     FP field_FC_xOff;
@@ -354,7 +353,6 @@ private:
 
 
 private:
-    int field_E4_not_used[4];
     __int16 field_F4_bRender;
     //__int16 field_F6_pad;
     FlameSpark field_F8_sparks[6];

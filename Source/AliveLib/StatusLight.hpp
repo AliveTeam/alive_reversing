@@ -31,7 +31,6 @@ private:
     EXPORT void dtor_4D5790();
     EXPORT void vScreenChanged_4D5820();
 private:
-    int field_E4[4]; // not used
     DWORD field_F4_tlvInfo;
     __int16 field_F8_input_id;
     __int16 field_FA_id1;

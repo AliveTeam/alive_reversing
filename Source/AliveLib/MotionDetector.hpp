@@ -36,7 +36,6 @@ private:
     EXPORT void vUpdate_468A90();
 
 private:
-    int field_E4_not_used[4];
     int field_F4_tlvInfo;
     int field_F8_laser_id;
     int field_FC_owner_id;

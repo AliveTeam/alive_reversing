@@ -24,8 +24,6 @@ private:
     EXPORT void dtor_4CE080();
     EXPORT CircularFade* vdtor_4CE0D0(signed int flags);
 private:
-    // Never used ?
-    int field_E4[4];
     enum Flags
     {
         eBit1_FadeIn = 0x1,

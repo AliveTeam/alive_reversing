@@ -54,7 +54,6 @@ private:
     EXPORT void DamageHitItems_427F40();
 
 private:
-    __int16 field_116_pad;
     int field_118_tlvInfo;
     enum class State : __int16
     {

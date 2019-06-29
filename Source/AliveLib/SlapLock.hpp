@@ -109,8 +109,7 @@ private:
     EXPORT __int16 vTakeDamage_43E5D0(BaseGameObject* pFrom);
 
 private:
-    __int16 field_116;
-    Path_SlapLock *field_118_pTlv;
+    Path_SlapLock* field_118_pTlv;
     int field_11C_tlvInfo;
     SlapLockStates field_120_state;
     __int16 field_122;

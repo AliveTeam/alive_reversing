@@ -525,7 +525,6 @@ public:
 
     EXPORT void sub_459430();
 public:
-    __int16 field_116;
     int field_118_prev_held;
     int field_11C_released_buttons;
     unsigned __int16 field_120_state;

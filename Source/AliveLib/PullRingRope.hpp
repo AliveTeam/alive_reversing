@@ -39,7 +39,6 @@ private:
     EXPORT BOOL vsub_49BC90();
     EXPORT void vsub_49B610();
 private:
-    int field_E4_not_used[4];
     int field_F4_stay_in_state_ticks;
     int field_F8_rope_id;
     int field_FC_ring_puller_id;

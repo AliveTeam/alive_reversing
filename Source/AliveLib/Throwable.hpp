@@ -31,7 +31,6 @@ private:
 
     __int16 vGetCount_448080();
 protected:
-    __int16 field_116;
     __int16 field_118_count;
     __int16 field_11A_bDead;
 };
@@ -282,7 +281,6 @@ private:
     EXPORT void dtor_4127F0();
 
 private:
-    __int16 field_116;
     int field_118_tlvInfo;
     __int16 field_11C;
     __int16 field_11E_count;

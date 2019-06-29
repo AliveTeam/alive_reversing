@@ -113,8 +113,6 @@ private:
     EXPORT void vUpdateAnim_487170();
 
 private:
-
-    __int16 field_116;
     int field_118;
     int field_11C_obj_id;
     int field_120_obj_id;

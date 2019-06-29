@@ -56,7 +56,6 @@ private:
     EXPORT void vUpdate_4E0B50();
     EXPORT void vRender_4E1440(int** pOt);
 private:
-    int field_E4_not_used[4];
     BYTE** field_F4_ppWaterRes;
     Water_Res *field_F8_pWaterRes;
     enum class State : __int16

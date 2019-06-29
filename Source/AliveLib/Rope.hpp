@@ -17,7 +17,6 @@ private:
     EXPORT Rope* vdtor_4A0D80(signed int flags);
     EXPORT void vRender_4A0E30(int** pOt);
 private:
-    int field_E4_not_used[4];
     __int16 field_F4_rope_segment_count;
 public:
     __int16 field_F6_rope_length;

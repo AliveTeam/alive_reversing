@@ -39,7 +39,6 @@ private:
     EXPORT void vUpdate_41FAE0();
 
 private:
-    int field_E4[4]; // never used
     __int16 field_F4_counter;
     __int16 field_F6;
     int field_F8_tlvInfo;

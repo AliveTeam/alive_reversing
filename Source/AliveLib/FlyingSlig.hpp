@@ -136,7 +136,6 @@ public:
     bool BrainIs(TFlyingSligFn fn);
 
 private:
-    __int16 field_116_pad;
     Path_FlyingSlig field_118_data;
     int field_148_tlvInfo;
     int field_14C_hi_pause_timer;

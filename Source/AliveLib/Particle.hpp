@@ -11,11 +11,6 @@ public:
 
     virtual void VUpdate() override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
-private:
-    int field_E4;
-    int field_E8;
-    int field_EC;
-    int field_F0;
 public:
     FP field_F4_scale_amount;
 };

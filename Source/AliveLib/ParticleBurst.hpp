@@ -32,7 +32,6 @@ private:
     EXPORT void vUpdate_41D590();
 
 private:
-    int field_E4_not_used[4];
     BYTE** field_F4_ppRes;
     ParticleBurst_Item* field_F8_pRes;
     __int16 field_FC_count;

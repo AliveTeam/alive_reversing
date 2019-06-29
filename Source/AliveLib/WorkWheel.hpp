@@ -58,7 +58,6 @@ private:
     EXPORT void vStartTurning_4E3A20();
     EXPORT void vStopTurning_4E3A60(__int16 bResetSwitch);
 private:
-    int field_E4[4];
     int field_F4_tlv_info;
     __int16 field_F8_id;
     __int16 field_FA;

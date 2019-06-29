@@ -47,9 +47,6 @@ private:
         }
         return this;
     }
-
-private:
-    int field_E4_not_used[4];
 };
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 

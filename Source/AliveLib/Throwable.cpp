@@ -537,11 +537,12 @@ void Grenade::vUpdate_4489C0()
     case States::eState_0_FallingToBeCollected:
         if (!InTheAir_4484F0(FALSE))
         {
-            field_E4 = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-            field_EC = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-            field_F0_prev_base = field_BC_ypos;
+            field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+            field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            field_E4_collection_rect.w = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+            field_E4_collection_rect.h = field_BC_ypos;
+
             field_6_flags.Set(BaseGameObject::eInteractive);
-            field_E8 = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
             field_120_state = States::eState_1_WaitToBeCollected;
         }
         break;
@@ -590,10 +591,10 @@ void Grenade::vUpdate_4489C0()
         {
             field_C4_velx = FP_FromInteger(0);
 
-            field_E4 = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-            field_EC = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
-            field_E8 = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-            field_F0_prev_base = field_BC_ypos;
+            field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+            field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            field_E4_collection_rect.w = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+            field_E4_collection_rect.h = field_BC_ypos;
 
             field_6_flags.Set(BaseGameObject::eInteractive);
             field_120_state = States::eState_2;

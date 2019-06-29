@@ -42,7 +42,6 @@ private:
     EXPORT BoomMachine* vdtor_445E10(signed int flags);
 
 private:
-    int field_E4_not_used[4];
     int field_F4_tlvInfo;
     int field_F8_nozzel_id;
     int field_FC_state;

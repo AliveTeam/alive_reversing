@@ -47,7 +47,6 @@ private:
     EXPORT void vUpdate_4DE270();
     EXPORT BaseAliveGameObject* WhoIsStoodOnMe_4DE700();
 private:
-    int field_E4_not_used[4];
     int field_F4_tlvInfo;
     enum class States : __int16
     {

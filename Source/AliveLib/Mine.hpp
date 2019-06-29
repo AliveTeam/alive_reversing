@@ -49,7 +49,6 @@ private:
     EXPORT signed __int16 vTakeDamage_46BB20(BaseGameObject* pFrom);
     EXPORT bool IsColliding_46B8C0();
 public:
-    BYTE field_116[2];
     WORD field_118;
     WORD field_11A_disabled_resources;
     TlvItemInfoUnion field_11C_tlv;

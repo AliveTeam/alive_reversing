@@ -29,8 +29,6 @@ enum Flags_114
     e114_Bit11 = 0x400,
 };
 
-#pragma pack(push)
-#pragma pack(2)
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -82,10 +80,6 @@ protected:
 public:
     EXPORT __int16 OnTrapDoorIntersection_408BA0(PlatformBase* pOther);
 public:
-    FP field_E4;
-    FP field_E8;
-    FP field_EC;
-    FP field_F0_prev_base;
     __int16 field_F4;
     __int16 field_F6_anim_frame;
     FP field_F8_LastLineYPos;
@@ -98,8 +92,8 @@ public:
     FP field_10C_health;
     int field_110_id;
     BitField16<Flags_114> field_114_flags;
+    __int16 field_116_pad;
 };
-#pragma pack(pop)
-ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x116);
+ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x118);
 
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C);

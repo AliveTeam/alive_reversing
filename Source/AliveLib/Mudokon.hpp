@@ -396,7 +396,6 @@ private:
 
     bool InZBulletCover(FP tlvYPos, const PSX_RECT& v11);
 private:
-    __int16 field_116;
     int field_118;
     int field_11C_bird_portal_id;
     __int16 field_120_angry_trigger;

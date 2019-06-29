@@ -15,7 +15,6 @@ private:
     EXPORT void dtor_43EE50();
     EXPORT DeathBirdParticle* vdtor_43EE20(signed int flags);
 private:
-    int field_E4[4]; // never used
     char field_F4_random;
     char field_F5_state;
     // 2 byte pad
