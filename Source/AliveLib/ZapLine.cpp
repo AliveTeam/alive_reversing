@@ -286,7 +286,7 @@ void ZapLine::sub_4CD400(int idx1, int idx2, int idx3, __int16 idx4)
 
     for (int i = 0; i < field_130_count_per_part; i++)
     {
-        auto pItem = &field_138_buf1[i + idx4 * field_130_count_per_part];
+        auto pItem = &field_138_buf1[i + (idx4 * field_130_count_per_part)];
 
         pItem->field_0_x = FP_GetExponent(
          FP_FromRaw((
@@ -403,13 +403,16 @@ void ZapLine::vRender_4CD8C0(int** pOt)
         0)
         && field_F4_state > State::State_2)
     {
+        const auto bufferIdx = gPsxDisplay_5C1130.field_C_buffer_index;
+
         for (int i = 0; i < field_12E_part_count; i++)
         {
             for (int j = 0; j < field_130_count_per_part; j++)
             {
+                Prim_Sprt* pSprt = &field_134_pSprts->field_0_sprts[j + (i * field_130_count_per_part)];
                 OrderingTable_Add_4F8AA0(
                     &pOt[field_20_animation.field_C_render_layer],
-                    &field_134_pSprts[(i *field_130_count_per_part) + j].field_0_sprts[gPsxDisplay_5C1130.field_C_buffer_index].mBase.header);
+                    &pSprt[bufferIdx].mBase.header);
             }
         }
 
@@ -419,12 +422,11 @@ void ZapLine::vRender_4CD8C0(int** pOt)
             field_20_animation.field_84_vram_rect.x,
             field_20_animation.field_84_vram_rect.y);
 
-        Prim_SetTPage* pTPage = &field_FC_tPage_p8[gPsxDisplay_5C1130.field_C_buffer_index];
+        Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage_4F5B60(pTPage, 0, 0, calcTPage);
         OrderingTable_Add_4F8AA0(&pOt[field_20_animation.field_C_render_layer], &pTPage->mBase);
 
-
-        PSX_RECT* pRect = &field_144_rects[gPsxDisplay_5C1130.field_C_buffer_index];
+        PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;
         pRect->w = -32767;
         pRect->y = 32767;
@@ -461,9 +463,7 @@ void ZapLine::vRender_4CD8C0(int** pOt)
         pRect->w += 25;
         pRect->y -= 25;
         pRect->h += 25;
-
-        // WTF? Why use the opposite rect??
-        const PSX_RECT* pRectToUse = &field_144_rects[1 - gPsxDisplay_5C1130.field_C_buffer_index];
+        const PSX_RECT* pRectToUse = &field_144_rects[gPsxDisplay_5C1130.field_C_buffer_index];
         pScreenManager_5BB5F4->InvalidateRect_40EC90(
             pRectToUse->x,
             pRectToUse->y,
