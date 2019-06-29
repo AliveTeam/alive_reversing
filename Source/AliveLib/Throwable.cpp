@@ -12,6 +12,7 @@
 #include "Gibs.hpp"
 #include "Sfx.hpp"
 #include "Events.hpp"
+#include "Abe.hpp"
 
 ALIVE_VAR(1, 0x5c1bde, WORD, gInfiniteGrenades_5C1BDE, 0);
 
@@ -1116,6 +1117,11 @@ void MeatSack::VScreenChanged()
     vScreenChanged_46A9C0();
 }
 
+void MeatSack::VUpdate()
+{
+    vUpdate_46A6A0();
+}
+
 MeatSack* MeatSack::vdtor_46A5E0(signed int flags)
 {
     dtor_46A610();
@@ -1136,4 +1142,85 @@ void MeatSack::dtor_46A610()
 void MeatSack::vScreenChanged_46A9C0()
 {
     field_6_flags.Set(BaseGameObject::eDead);
+}
+
+void MeatSack::vUpdate_46A6A0()
+{
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (field_20_animation.field_92_current_frame == 2)
+    {
+        if (field_120)
+        {
+            if (Math_NextRandom() < 40u || field_122)
+            {
+                field_120 = 0;
+                field_122 = 0;
+                SFX_Play_46FBA0(29, 24, Math_RandomRange_496AB0(-2400, -2200));
+            }
+        }
+    }
+    else
+    {
+        field_120 = 1;
+    }
+
+    if (field_11C)
+    {
+        if (field_11C == 1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_20_animation.Set_Animation_Data_409C80(15848, 0);
+            field_11C = 0;
+        }
+    }
+    else
+    {
+        PSX_RECT bPlayerRect = {};
+        sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bPlayerRect, 1);
+
+        PSX_RECT bRect = {};
+        vGetBoundingRect_424FD0(&bRect, 1);
+
+        if (bRect.x <= bPlayerRect.w &&
+            bRect.w >= bPlayerRect.x &&
+            bRect.h >= bPlayerRect.y &&
+            bRect.y <= bPlayerRect.h &&
+            field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        {
+            if (gpThrowableArray_5D1E2C)
+            {
+                if (gpThrowableArray_5D1E2C->field_20_count)
+                {
+                    field_20_animation.Set_Animation_Data_409C80(15888, 0);
+                    field_11C = 1;
+                    return;
+                }
+            }
+            else
+            {
+                gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
+                gpThrowableArray_5D1E2C->ctor_49A630();
+            }
+
+            gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_num_items);
+
+            auto pMeat = alive_new<Meat>();
+            if (pMeat)
+            {
+                pMeat->ctor_4694A0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_num_items);
+            }
+
+            pMeat->VThrow_49E460(field_124_velX, field_128_velY);
+            pMeat->field_CC_sprite_scale = field_CC_sprite_scale;
+
+            SFX_Play_46FA90(25, 0);
+            Abe_SFX_2_457A40(7, 0, 0x7FFF, 0);
+
+            field_20_animation.Set_Animation_Data_409C80(15888, 0);
+            field_11C = 1;
+        }
+    }
 }

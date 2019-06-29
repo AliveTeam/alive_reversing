@@ -308,12 +308,12 @@ public:
     EXPORT MeatSack* ctor_46A410(Path_MeatSack* pTlv, int tlvInfo);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
+    virtual void VUpdate() override;
 private:
     EXPORT MeatSack* vdtor_46A5E0(signed int flags);
-
     EXPORT void dtor_46A610();
-
     EXPORT void vScreenChanged_46A9C0();
+    EXPORT void vUpdate_46A6A0();
 
 private:
     int field_118_tlvInfo;
