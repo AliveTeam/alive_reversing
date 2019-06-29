@@ -6,7 +6,7 @@
 
 class BaseThrowable;
 
-EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP /*xpos*/, FP /*ypos*/, FP /*scale*/);
+EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, short count);
 
 // NOTE: This base type must exist but seems to have been decimated by the compiler, so this contains pure virtuals for
 // non common virtuals, and virtuals for common virtuals.
@@ -39,8 +39,35 @@ protected:
 class Rock : public BaseThrowable
 {
 public:
+    EXPORT Rock* ctor_49E150(FP xpos, FP ypos, __int16 count);
+
     virtual void VScreenChanged() override;
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+
+
+    virtual void VThrow_49E460(FP /*velX*/, FP /*velY*/) override
+    {
+        // TODO
+    }
+
+    virtual BOOL VCanThrow_49E350() override
+    {
+        // TODO
+        return 0;
+    }
+
+    virtual BOOL VIsFalling_49E330() override
+    {
+        // TOOD
+        return 0;
+    }
+
+    virtual void VTimeToExplodeRandom_411490() override
+    {
+        // TODO
+    }
+
+private:
 
     EXPORT void vScreenChanged_49F030();
     EXPORT int vGetSaveState_49F9A0(BYTE* /*pSaveBuffer*/);
@@ -58,8 +85,8 @@ public:
 private:
     __int16 field_11C_state;
     __int16 field_11E;
-    int field_120_xpos;
-    int field_124_ypos;
+    FP field_120_xpos;
+    FP field_124_ypos;
     int field_128_timer;
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x12C);
@@ -67,7 +94,7 @@ ALIVE_ASSERT_SIZEOF(Rock, 0x12C);
 class Grenade : public BaseThrowable
 {
 public:
-    EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, int a7);
+    EXPORT Grenade* ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, BaseGameObject* pOwner);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
@@ -122,9 +149,9 @@ private:
 
     EXPORT void AddToPlatform_449210();
 
-    EXPORT __int16 OnCollision2_448F90(BaseGameObject* pHit);
+    EXPORT __int16 OnCollision_BounceOff_448F90(BaseGameObject* pHit);
 
-    EXPORT __int16 OnCollision_4490D0(BaseGameObject* pHit);
+    EXPORT __int16 OnCollision_InstantExplode_4490D0(BaseGameObject* pHit);
 
     /*
     Grenade__vOnTrapDoorOpen_449390
@@ -161,7 +188,7 @@ private:
     __int16 field_132;
     __int16 field_134_bExplodeNow;
     __int16 field_136;
-    int field_138;
+    BaseGameObject* field_138_pOwner;
 };
 ALIVE_ASSERT_SIZEOF(Grenade, 0x13C);
 
@@ -170,7 +197,27 @@ class Bone : public BaseThrowable
 public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
 
+    virtual void VThrow_49E460(FP /*velX*/, FP /*velY*/) override
+    {
+        // TODO
+    }
 
+    virtual BOOL VCanThrow_49E350() override
+    {
+        // TODO
+        return 0;
+    }
+    
+    virtual BOOL VIsFalling_49E330() override
+    {
+        // TOOD
+        return 0;
+    }
+
+    virtual void VTimeToExplodeRandom_411490() override
+    {
+        // TODO
+    }
 private:
     EXPORT Bone* vdtor_411580(signed int flags);
 
@@ -250,6 +297,30 @@ class Meat : public BaseThrowable
 {
 public:
     EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, __int16 a4);
+
+
+    virtual void VThrow_49E460(FP /*velX*/, FP /*velY*/) override
+    {
+        // TODO
+    }
+
+    virtual BOOL VCanThrow_49E350() override
+    {
+        // TODO
+        return 0;
+    }
+
+    virtual BOOL VIsFalling_49E330() override
+    {
+        // TOOD
+        return 0;
+    }
+
+    virtual void VTimeToExplodeRandom_411490() override
+    {
+        // TODO
+    }
+
     /*
     Meat__vOnTrapDoorOpen_46A2E0
     Meat__vThrow_469790

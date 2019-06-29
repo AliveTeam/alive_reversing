@@ -2144,7 +2144,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
             BaseThrowable* pThrowable = Make_Throwable_49AF30(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(30),
-                FP_FromInteger(0));
+                0);
 
             // Random explode time ?
             const FP rand1 = FP_FromRaw((Math_NextRandom() - 127) << 11); // TODO: Wat?
@@ -3194,7 +3194,7 @@ void Abe::State_0_Idle_44EEB0()
             field_158_throwable_id = Make_Throwable_49AF30(
                 field_B8_xpos,
                 field_BC_ypos - FP_FromInteger(40),
-                FP_FromInteger(0))->field_8_object_id;
+                0)->field_8_object_id;
 
             if (!bThrowableIndicatorExists_5C112C)
             {
@@ -4034,7 +4034,7 @@ void Abe::State_17_CrouchIdle_456BC0()
         && field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0
         && (field_1A2_rock_or_bone_count > 0 || gInfiniteGrenades_5C1BDE))
     {
-        field_158_throwable_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), FP_FromInteger(0))->field_8_object_id;
+        field_158_throwable_id = Make_Throwable_49AF30(field_B8_xpos, field_BC_ypos - FP_FromInteger(40), 0)->field_8_object_id;
         if (!bThrowableIndicatorExists_5C112C)
         {
             auto pRockCountGraphic = alive_new<ThrowableTotalIndicator>();
@@ -7108,22 +7108,105 @@ void Abe::jState_103_KnockbackGetUp_455380()
 
 void Abe::State_104_RockThrowStandingHold_455DF0()
 {
-    NOT_IMPLEMENTED();
+    auto pRock = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
+    if (field_20_animation.field_92_current_frame >= 4)
+    {
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4 | sInputKey_Right_5550D0 | sInputKey_Up_5550D8 | sInputKey_Down_5550DC))
+        {
+            if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+            {
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_1A3_throw_direction = 0;
+                }
+                else
+                {
+                    field_1A3_throw_direction = 1;
+                }
+            }
+            else if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+            {
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_1A3_throw_direction = 1;
+                }
+                else
+                {
+                    field_1A3_throw_direction = 0;
+                }
+            }
+            else if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+            {
+                field_1A3_throw_direction = 1;
+            }
+            else
+            {
+                // Down
+                field_1A3_throw_direction = 3;
+            }
+            field_106_current_motion = eAbeStates::State_105_RockThrowStandingThrow_456460;
+        }
+    }
+
+    if (!sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4)) // ?? isn't released like in the crouching motion ??
+    {
+        pRock->VToDead_4114B0();
+        field_158_throwable_id = -1;
+        field_106_current_motion = eAbeStates::State_106_RockThrowStandingEnd_455F20;
+        if (!gInfiniteGrenades_5C1BDE)
+        {
+            field_1A2_rock_or_bone_count++;
+        }
+    }
 }
 
 void Abe::State_105_RockThrowStandingThrow_456460()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        SFX_Play_46FA90(23, 0, field_CC_sprite_scale);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_106_RockThrowStandingEnd_455F20()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_44E6B0();
+    }
 }
 
 void Abe::State_107_RockThrowCrouchingHold_454410()
 {
-    NOT_IMPLEMENTED();
+    auto pRock = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(field_158_throwable_id));
+    if (field_20_animation.field_92_current_frame >= 4)
+    {
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4 | sInputKey_Right_5550D0 | sInputKey_Up_5550D8 | sInputKey_Down_5550DC))
+        {
+            field_1A3_throw_direction = 4;
+            field_106_current_motion = eAbeStates::State_108_RockThrowCrouchingThrow_454500;
+            if (pRock->field_4_typeId == Types::eMeat_84)
+            {
+                field_1A3_throw_direction = 5;
+            }
+        }
+    }
+
+    if (sInputObject_5BD4E0.isReleased(sInputKey_ThrowItem_5550F4))
+    {
+        pRock->VToDead_4114B0();
+        field_158_throwable_id = -1;
+        field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
+        if (!gInfiniteGrenades_5C1BDE)
+        {
+            field_1A2_rock_or_bone_count++;
+        }
+    }
 }
 
 void Abe::State_108_RockThrowCrouchingThrow_454500()

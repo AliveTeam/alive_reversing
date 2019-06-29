@@ -1995,3 +1995,8 @@ bool InputObject::isHeld(DWORD command)
 {
   return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & command) != 0;
 }
+
+bool InputObject::isReleased(DWORD keys)
+{
+    return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_10_released & keys) != 0;
+}

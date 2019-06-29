@@ -46,6 +46,60 @@ __int16 BaseThrowable::vGetCount_448080()
     return field_118_count;
 }
 
+Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
+{
+    NOT_IMPLEMENTED();
+
+    ctor_408240(0);
+    SetVTable(this, 0x546AF8);
+    field_4_typeId = Types::eRock_105;
+
+    field_11A_bDead = 0;
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 350, 0, 0))
+    {
+        LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
+    }
+
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 350);
+    Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
+    field_6_flags.Clear(BaseGameObject::eInteractive);
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+    field_B8_xpos = xpos;
+    field_BC_ypos = ypos;
+
+    field_120_xpos = xpos;
+    field_124_ypos = ypos;
+
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+
+    field_118_count = count;
+    field_11C_state = 0;
+    
+    BYTE** ppPal = ResourceManager::GetLoadedResource_49C2A0('tlaP', 350, 0, 0);
+    if (ppPal)
+    {
+        field_20_animation.Load_Pal_40A530(ppPal, 0);
+    }
+    else
+    {
+        // Pal offset is... WTF ??
+        //field_20_animation.Load_Pal_40A530(field_20_animation.field_20_ppBlock, *(_DWORD *)&(*field_20_animation.field_20_ppBlock)[*(_DWORD *)&(*field_20_animation.field_20_ppBlock)[*((_DWORD *)*field_20_animation.field_20_ppBlock + 124)]]);
+    }
+
+    field_11E = 0;
+
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
+    {
+        field_E0_pShadow->ctor_4AC990();
+    }
+    return this;
+}
+
 // ====================================================================
 
 void Rock::VScreenChanged()
@@ -69,10 +123,54 @@ EXPORT int Rock::vGetSaveState_49F9A0(BYTE* /*pSaveBuffer*/)
     return 0;
 }
 
-EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP /*xpos*/, FP /*ypos*/, FP /*scale*/)
+// Overlay to throwable type table ??
+const Types word_55FAFC[252] =
 {
-    NOT_IMPLEMENTED();
-    return nullptr;
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eRock_105,   Types::eRock_105,  Types::eRock_105,   Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eRock_105,   Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eRock_105,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eRock_105,   Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eRock_105,     Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eRock_105,   Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eMeat_84,      Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eMeat_84,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eMeat_84,      Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eRock_105,   Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eBone_11,    Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,    Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eBone_11,    Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eBone_11,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eGrenade_65, Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eBone_11,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eBone_11,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,    Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eBone_11,    Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eGrenade_65, Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eBone_11,      Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eGrenade_65, Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eBone_11,    Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eGrenade_65, Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eGrenade_65,   Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eGrenade_65, Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,       Types::eNone_0,    Types::eNone_0,     Types::eNone_0,    Types::eNone_0,     Types::eNone_0,   Types::eNone_0,     Types::eNone_0,
+    Types::eNone_0,       Types::eNone_0 };
+
+
+EXPORT BaseThrowable* CCSTD Make_Throwable_49AF30(FP xpos, FP ypos, short count)
+{
+    switch (word_55FAFC[gMap_5C3030.field_22])
+    {
+    case Types::eBone_11:
+        return alive_new<Bone>()->ctor_4112C0(xpos, ypos, count);
+    case Types::eType_24:
+        return alive_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 1, 0);
+    case Types::eGrenade_65:
+        return alive_new<Grenade>()->ctor_447F70(xpos, ypos, count, 0, 0, 0);
+    case Types::eMeat_84:
+        return alive_new<Meat>()->ctor_4694A0(xpos, ypos, count);
+    case Types::eRock_105:
+        return alive_new<Rock>()->ctor_49E150(xpos, ypos, count);
+    default:
+        return nullptr;
+    }
 }
 
 TintEntry stru_550EC0[18] =
@@ -170,7 +268,7 @@ void BoneBag::dtor_4127F0()
     dtor_4080B0();
 }
 
-Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, int a7)
+Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5, __int16 a6, BaseGameObject* pOwner)
 {
     ctor_408240(0);
     SetVTable(this, 0x5456E0);
@@ -197,7 +295,7 @@ Grenade* Grenade::ctor_447F70(FP xpos, FP ypos, __int16 numGrenades, __int16 a5,
         field_122_explode_timer = 90;
     }
 
-    field_138 = a7;
+    field_138_pOwner = pOwner;
     field_130 = a6;
 
     return this;
@@ -516,7 +614,7 @@ void Grenade::vUpdate_4489C0()
 
                 const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
                 const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
-                vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision2_448F90);
+                vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision_BounceOff_448F90);
             }
         }
         else
@@ -559,7 +657,7 @@ void Grenade::vUpdate_4489C0()
 
         const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
         const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
-        vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision_4490D0);
+        vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Grenade::OnCollision_InstantExplode_4490D0);
 
         if (field_134_bExplodeNow)
         {
@@ -572,8 +670,6 @@ void Grenade::vUpdate_4489C0()
 
 __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
 {
-    NOT_IMPLEMENTED();
-
     sObjectIds_5C1B70.Find_449CF0(field_110_id);
 
     field_128_xpos = field_B8_xpos;
@@ -590,28 +686,20 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
         field_B8_xpos,
         field_BC_ypos);
 
-    if (field_FC_pPathTLV)
+    while (field_FC_pPathTLV)
     {
-        while (1)
+        if (field_FC_pPathTLV->field_4_type == TlvTypes::DeathDrop_4)
         {
-            if (field_FC_pPathTLV->field_4_type == TlvTypes::DeathDrop_4)
-            {
-                field_6_flags.Set(BaseGameObject::eDead);
-                return 1;
-            }
-
-            field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
-                field_FC_pPathTLV,
-                field_B8_xpos,
-                field_BC_ypos,
-                field_B8_xpos,
-                field_BC_ypos);
-
-            if (!field_FC_pPathTLV)
-            {
-                break;
-            }
+            field_6_flags.Set(BaseGameObject::eDead);
+            return 1;
         }
+
+        field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            field_FC_pPathTLV,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
     }
 
     FP hitX = {};
@@ -637,6 +725,9 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
                 vol = 40;
             }
             SFX_Play_46FA90(68u, vol);
+            Event_Broadcast_422BC0(kEventNoise, this);
+            Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+            Event_Broadcast_422BC0(kEventSpeaking, this);
         }
         else
         {
@@ -660,27 +751,23 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
                 return 1;
             }
 
-            if (field_124 > 4)
+            if (field_124 <= 4)
             {
-                goto LABEL_21;
-            }
+                short vol = 75 - 20 * field_124;
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
 
-            short vol = 75 - 20 * field_124;
-            if (vol < 40)
-            {
-                vol = 40;
+                SFX_Play_46FA90(68u, vol);
+                ++field_124;
+          
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                Event_Broadcast_422BC0(kEventSpeaking, this);
             }
-            SFX_Play_46FA90(68u, vol);
-            ++field_124;
         }
-        Event_Broadcast_422BC0(kEventNoise, this);
-        Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-        Event_Broadcast_422BC0(kEventSpeaking, this);
     }
-
-LABEL_21:
-    auto v15 = -(field_D6_scale != 0);
-    v15 = v15 & 0xA6; // TODO LOBYTE
 
     if (sCollisions_DArray_5C1128->Raycast_417A60(
         field_128_xpos,
@@ -690,7 +777,7 @@ LABEL_21:
         &field_100_pCollisionLine,
         &hitX,
         &hitY,
-        v15 + 0x60) == 1)
+        field_D6_scale == 0 ?  0x60 : 0x106) == 1)
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
@@ -742,10 +829,6 @@ LABEL_21:
 
 void Grenade::AddToPlatform_449210()
 {
-    NOT_IMPLEMENTED();
-
-    auto lineMask = -(field_D6_scale != 0);
-    lineMask = lineMask & 0x1F; // TODO LOBYTE
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
@@ -757,7 +840,7 @@ void Grenade::AddToPlatform_449210()
         &pLine,
         &hitX,
         &hitY,
-        lineMask + 0xF0))
+        field_D6_scale == 0 ? 0xF0 : 0x10F))
     {
         if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
         {
@@ -791,16 +874,54 @@ void Grenade::AddToPlatform_449210()
     }
 }
 
-__int16 Grenade::OnCollision2_448F90(BaseGameObject* /*pHit*/)
+__int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
 {
-    NOT_IMPLEMENTED();
+    if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode))
+    {
+        return 1;
+    }
+
+    auto pHit2 = static_cast<BaseAliveGameObject*>(pHit);
+    if (pHit2->field_CC_sprite_scale != field_CC_sprite_scale)
+    {
+        return 1;
+    }
+
+    PSX_RECT bRect = {};
+    pHit2->vGetBoundingRect_424FD0(&bRect, 1);
+
+    if (field_128_xpos < FP_FromInteger(bRect.x + 12) || field_128_xpos > FP_FromInteger(bRect.w - 12))
+    {
+        field_B8_xpos = field_128_xpos;
+        field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+    }
+    else
+    {
+        field_BC_ypos = field_12C_ypos;
+        field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
+    }
+
+    pHit2->vnull_4081A0(this);
+
+    SFX_Play_46FA90(24u, 0);
     return 0;
 }
 
- __int16 Grenade::OnCollision_4490D0(BaseGameObject* /*pHit*/)
+ __int16 Grenade::OnCollision_InstantExplode_4490D0(BaseGameObject* pHit)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+     if (pHit == field_138_pOwner)
+     {
+         // Don't do anything if hit the person who threw it
+         return 1;
+     }
+
+     if (pHit->field_6_flags.Get(BaseGameObject::eCanExplode) && static_cast<BaseAliveGameObject*>(pHit)->field_CC_sprite_scale == field_CC_sprite_scale)
+     {
+         field_134_bExplodeNow = 1;
+         return 0;
+     }
+
+     return 1;
 }
 
 Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)

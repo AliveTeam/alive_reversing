@@ -147,6 +147,7 @@ public:
     DWORD field_40_command_duration;
     bool isPressed(DWORD command);
     bool isHeld(DWORD command);
+    bool isReleased(DWORD keys);
 };
 ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
