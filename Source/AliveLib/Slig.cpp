@@ -743,8 +743,8 @@ void Slig::M_SlidingToStand_8_4B6520()
         {
             if (field_20_animation.field_92_current_frame < 6 && sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
             {
-                if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) &&  sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0)) ||
-                  (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))))
+				if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0)) ||
+					((!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))))
                 {
                     field_F6_anim_frame = field_20_animation.field_92_current_frame;
                     field_F4 = 9;
