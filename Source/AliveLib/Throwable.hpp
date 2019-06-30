@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
+#include <type_traits>
 
 class BaseThrowable;
 
@@ -369,6 +370,12 @@ public:
         // TODO
     }
 
+
+    virtual __int16 VGetCount_448080() override
+    {
+        return vGetCount_46A350();
+    }
+
 private:
     EXPORT void vScreenChanged_46A130();
 
@@ -386,6 +393,7 @@ private:
 
     EXPORT void vThrow_469790(FP velX, FP velY);
 
+    EXPORT __int16 vGetCount_46A350();
 
     /*
     Meat__vOnTrapDoorOpen_46A2E0

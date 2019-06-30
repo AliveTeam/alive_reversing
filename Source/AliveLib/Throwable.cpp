@@ -1130,6 +1130,21 @@ void Meat::vThrow_469790(FP velX, FP velY)
     }
 }
 
+__int16 Meat::vGetCount_46A350()
+{
+    if (field_11C_state != 4)
+    {
+        return field_118_count;
+    }
+
+    if (field_118_count)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
 TintEntry stru_55C254[] =
 {
     { 1u, 127u, 127u, 127u },
