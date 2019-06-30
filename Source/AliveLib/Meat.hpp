@@ -9,6 +9,8 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override;
+
     virtual void VScreenChanged() override;
 
     virtual void VOnTrapDoorOpen() override;
@@ -44,6 +46,10 @@ private:
 
     EXPORT void InTheAir_4697E0();
 
+    EXPORT __int16 OnCollision_469FF0(BaseGameObject* pHit);
+
+    EXPORT void vUpdate_469BA0();
+
     /*
     Meat__vOnTrapDoorOpen_46A2E0
     Meat__vThrow_469790
@@ -55,11 +61,21 @@ private:
     Meat__vsub_4696A0 // State not 0, eaten?
     */
 private:
-    __int16 field_11C_state;
+    enum class States : __int16
+    {
+        State_0 = 0,
+        State_1_Idle = 1,
+        State_2_BeingThrown = 2,
+        State_3_BecomeAPickUp = 3,
+        State_4_WaitForPickUp = 4,
+        State_5_Fall = 5,
+    };
+
+    States field_11C_state;
     __int16 field_11E;
     FP field_120_xpos;
     FP field_124_ypos;
-    int field_128;
+    int field_128_timer;
     int field_12C;
     PathLine* field_130_pLine;
 };

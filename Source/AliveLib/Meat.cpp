@@ -11,6 +11,7 @@
 #include "ObjectIds.hpp"
 #include "Events.hpp"
 #include "Abe.hpp"
+#include "Particle.hpp"
 
 Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
 {
@@ -38,7 +39,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
 
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
-    field_128 = 0;
+    field_128_timer = 0;
     field_6_flags.Clear(BaseGameObject::eInteractive);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -46,7 +47,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
     field_12C = sGnFrame_5C1B84 + 600;
     field_130_pLine = 0;
     field_118_count = count;
-    field_11C_state = 0;
+    field_11C_state = States::State_0;
 
     field_E0_pShadow = alive_new<Shadow>();
     if (field_E0_pShadow)
@@ -59,6 +60,11 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
 BaseGameObject* Meat::VDestructor(signed int flags)
 {
     return vdtor_4696C0(flags);
+}
+
+void Meat::VUpdate()
+{
+    vUpdate_469BA0();
 }
 
 void Meat::VScreenChanged()
@@ -118,21 +124,21 @@ void Meat::vOnTrapDoorOpen_46A2E0()
     {
         pPlatform->VRemove(this);
         field_110_id = -1;
-        if (field_11C_state == 3 || field_11C_state == 4)
+        if (field_11C_state == States::State_3_BecomeAPickUp || field_11C_state == States::State_4_WaitForPickUp)
         {
-            field_11C_state = 1;
+            field_11C_state = States::State_1_Idle;
         }
     }
 }
 
 BOOL Meat::vIsFalling_469660()
 {
-    return field_11C_state == 5;
+    return field_11C_state == States::State_5_Fall;
 }
 
 BOOL Meat::vCanThrow_469680()
 {
-    return field_11C_state == 2;
+    return field_11C_state == States::State_2_BeingThrown;
 }
 
 void Meat::dtor_4696F0()
@@ -167,17 +173,17 @@ void Meat::vThrow_469790(FP velX, FP velY)
 
     if (field_118_count == 0)
     {
-        field_11C_state = 2;
+        field_11C_state = States::State_2_BeingThrown;
     }
     else
     {
-        field_11C_state = 1;
+        field_11C_state = States::State_1_Idle;
     }
 }
 
 __int16 Meat::vGetCount_46A350()
 {
-    if (field_11C_state == 4 && field_118_count == 0)
+    if (field_11C_state == States::State_4_WaitForPickUp && field_118_count == 0)
     {
         return 1;
     }
@@ -187,11 +193,8 @@ __int16 Meat::vGetCount_46A350()
 
 void Meat::InTheAir_4697E0()
 {
-    const auto xpos = field_B8_xpos;
-    const auto ypos = field_BC_ypos;
-
-    field_120_xpos = xpos;
-    field_124_ypos = ypos;
+    field_120_xpos = field_B8_xpos;
+    field_124_ypos = field_BC_ypos;
 
     if (field_C8_vely < FP_FromInteger(18))
     {
@@ -203,7 +206,7 @@ void Meat::InTheAir_4697E0()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_130_pLine, &hitX, &hitY, field_D6_scale == 0 ? 0x10F : 0xF0) == 1)
+    if (sCollisions_DArray_5C1128->Raycast_417A60(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_130_pLine, &hitX, &hitY, field_D6_scale == 0 ? 0xF0 : 0xF) == 1)
     {
         switch (field_130_pLine->field_8_type)
         {
@@ -215,7 +218,7 @@ void Meat::InTheAir_4697E0()
             {
                 field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(hitX)));
                 field_BC_ypos = hitY;
-                field_11C_state = 3;
+                field_11C_state = States::State_3_BecomeAPickUp;
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 SFX_Play_46FBA0(36, 0, -650);
@@ -235,13 +238,11 @@ void Meat::InTheAir_4697E0()
                 SFX_Play_46FBA0(36, 0, -650);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                if (field_C8_vely < FP_FromInteger(0))
+                {
+                    field_C8_vely = FP_FromInteger(0);
+                }
             }
-
-            if (field_C8_vely < FP_FromInteger(0))
-            {
-                field_C8_vely = FP_FromInteger(0);
-            }
-
             field_130_pLine = nullptr;
             break;
 
@@ -275,6 +276,154 @@ void Meat::InTheAir_4697E0()
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
             }
             break;
+        }
+    }
+}
+
+__int16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
+{
+    // TODO: Check if pHit type is correct for all throwables
+
+    if (!pHit->field_6_flags.Get(BaseGameObject::eCanExplode))
+    {
+        return 1;
+    }
+
+    if (pHit->field_4_typeId == Types::eMine_88 || pHit->field_4_typeId == Types::eUXB_143 || pHit->field_4_typeId == Types::eTimedMine_or_MovingBomb_10)
+    {
+        return 1;
+    }
+    
+    PSX_RECT bRect = {};
+    static_cast<BaseAliveGameObject*>(pHit)->vGetBoundingRect_424FD0(&bRect, 1);
+
+    if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
+    {
+        field_B8_xpos -= field_C4_velx;
+        field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+    }
+    else
+    {
+        field_BC_ypos -= field_C8_vely;
+        field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
+    }
+    
+    static_cast<BaseAliveGameObject*>(pHit)->vnull_4081A0(this);
+
+    SFX_Play_46FBA0(36u, 0, -650);
+
+    return 0;
+}
+
+void Meat::vUpdate_469BA0()
+{
+    auto v2 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+    if (sNum_CamSwappers_5C1B66 == 0)
+    {
+        if (Event_Get_422C00(kEventDeathReset))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+
+        switch (field_11C_state)
+        {
+        case States::State_1_Idle:
+            InTheAir_4697E0();
+            break;
+
+        case States::State_2_BeingThrown:
+        {
+            InTheAir_4697E0();
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+            const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
+            const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+            vOnCollisionWith_424EE0(
+                xy,
+                wh,
+                gBaseGameObject_list_BB47C4,
+                1,
+                (TCollisionCallBack)&Meat::OnCollision_469FF0);
+
+            // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
+            if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
+            {
+                field_6_flags.Set(BaseGameObject::eDead);
+            }
+        }
+            break;
+
+        case States::State_3_BecomeAPickUp:
+            if (FP_Abs(field_C4_velx) < FP_FromInteger(1))
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+            }
+
+            if (FP_Abs(field_C4_velx) >= FP_FromDouble(0.5))
+            {
+                if (field_C4_velx <= FP_FromInteger(0))
+                {
+                    field_C4_velx += FP_FromDouble(0.01);
+                }
+                else
+                {
+                    field_C4_velx -= FP_FromDouble(0.01);
+                }
+
+                field_130_pLine = field_130_pLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+                if (!field_130_pLine)
+                {
+                    field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+                    field_11C_state = States::State_2_BeingThrown;
+                }
+            }
+            else
+            {
+                field_C4_velx = FP_FromInteger(0);
+                
+                field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
+                field_E4_collection_rect.h = field_BC_ypos;
+
+                field_6_flags.Set(BaseGameObject::eInteractive);
+                field_11C_state = States::State_4_WaitForPickUp;
+            }
+            break;
+
+        case States::State_4_WaitForPickUp:
+            if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+            {
+                field_12C = sGnFrame_5C1B84 + 600;
+            }
+
+            if (static_cast<int>(sGnFrame_5C1B84) > field_128_timer && !v2)
+            {
+                // That strange "shimmer" the meat gives off
+                New_Particle_426C30(
+                    (field_CC_sprite_scale * FP_FromInteger(1)) + field_B8_xpos,
+                    field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(-7)), 
+                    FP_FromDouble(0.3), 36);
+                field_128_timer = Math_NextRandom() % 16 + sGnFrame_5C1B84 + 60;
+            }
+            if (field_12C < (signed int)sGnFrame_5C1B84)
+            {
+                field_6_flags.Set(BaseGameObject::eDead);
+            }
+            break;
+
+        case States::State_5_Fall:
+            field_C8_vely += FP_FromInteger(1);
+            field_B8_xpos += field_C4_velx;
+            field_BC_ypos = field_C8_vely + field_BC_ypos;
+            if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+            {
+                field_6_flags.Set(BaseGameObject::eDead);
+            }
+            break;
+
+        default:
+            return;
         }
     }
 }

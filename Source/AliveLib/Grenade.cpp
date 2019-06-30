@@ -524,7 +524,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
         &field_100_pCollisionLine,
         &hitX,
         &hitY,
-        field_D6_scale == 0 ? 0x60 : 0x106) == 1)
+        field_D6_scale == 0 ? 0x60 : 0x106) == 1) // TODO: Check correct
     {
         switch (field_100_pCollisionLine->field_8_type)
         {
