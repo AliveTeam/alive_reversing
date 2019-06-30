@@ -7,22 +7,13 @@ class Bone : public BaseThrowable
 public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
 
-    virtual void VThrow_49E460(FP /*velX*/, FP /*velY*/) override
-    {
-        // TODO
-    }
+    virtual void VThrow_49E460(FP velX, FP velY) override;
 
-    virtual BOOL VCanThrow_49E350() override
-    {
-        // TODO
-        return 0;
-    }
+    virtual void VOnTrapDoorOpen() override;
 
-    virtual BOOL VIsFalling_49E330() override
-    {
-        // TOOD
-        return 0;
-    }
+    virtual BOOL VCanThrow_49E350() override;
+
+    virtual BOOL VIsFalling_49E330() override;
 
     virtual void VTimeToExplodeRandom_411490() override
     {
@@ -35,6 +26,13 @@ private:
 
     EXPORT void AddToPlatform_412310();
 
+    EXPORT void vThrow_411670(FP velX, FP velY);
+
+    EXPORT void vOnTrapDoorOpen_412490();
+
+    EXPORT BOOL vIsFalling_411510();
+
+    EXPORT BOOL vCanThrow_411530();
 
     /*
     Bone__vOnTrapDoorOpen_412490

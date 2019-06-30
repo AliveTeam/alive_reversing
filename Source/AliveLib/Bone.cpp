@@ -52,6 +52,26 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     return this;
 }
 
+void Bone::VThrow_49E460(FP velX, FP velY)
+{
+    vThrow_411670(velX, velY);
+}
+
+void Bone::VOnTrapDoorOpen()
+{
+    vOnTrapDoorOpen_412490();
+}
+
+BOOL Bone::VCanThrow_49E350()
+{
+    return vCanThrow_411530();
+}
+
+BOOL Bone::VIsFalling_49E330()
+{
+    return vIsFalling_411510();
+}
+
 Bone* Bone::vdtor_411580(signed int flags)
 {
     dtor_4115B0();
@@ -83,6 +103,46 @@ void Bone::AddToPlatform_412310()
     BaseAddToPlatform([](Types type) { return type == Types::eLiftPoint_78 || type == Types::eTrapDoor_142; });
 }
 
+void Bone::vThrow_411670(FP velX, FP velY)
+{
+    field_C4_velx = velX;
+    field_C8_vely = velY;
+
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+    if (field_118_count == 0)
+    {
+        field_11C_state = 4;
+    }
+    else
+    {
+        field_11C_state = 1;
+    }
+}
+
+void Bone::vOnTrapDoorOpen_412490()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        field_110_id = -1;
+        if (field_11C_state == 2 || field_11C_state == 3)
+        {
+            field_11C_state = 1;
+        }
+    }
+}
+
+BOOL Bone::vIsFalling_411510()
+{
+    return field_11C_state == 5;
+}
+
+BOOL Bone::vCanThrow_411530()
+{
+    return field_11C_state != 0 && field_11C_state != 1;
+}
 
 TintEntry stru_550EC0[18] =
 {
