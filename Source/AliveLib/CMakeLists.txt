@@ -311,6 +311,14 @@ ExportHooker.hpp
     SligGetPantsAndWings.cpp
     BoomMachine.hpp
     BoomMachine.cpp
+    Meat.hpp
+    Meat.cpp
+    Grenade.hpp
+    Grenade.cpp
+    Bone.hpp
+    Bone.cpp
+    Rock.hpp
+    Rock.cpp
     TouchController.cpp
     TouchController.hpp
 )

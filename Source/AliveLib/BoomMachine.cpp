@@ -8,6 +8,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "Throwable.hpp"
+#include "Grenade.hpp"
 
 class GrenadeMachineNozzel : public BaseAnimatedWithPhysicsGameObject
 {

@@ -69,6 +69,8 @@
 #include "NakedSligButton.hpp"
 #include "SligGetPantsAndWings.hpp"
 #include "BoomMachine.hpp"
+#include "Meat.hpp"
+#include "Bone.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
