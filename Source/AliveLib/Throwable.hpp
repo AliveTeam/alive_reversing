@@ -25,6 +25,8 @@ public:
 
     virtual void VToDead_4114B0();
 
+    using FnTypeMatcher = std::add_pointer_t<bool(Types type)>;
+    void BaseAddToPlatform(FnTypeMatcher cb);
 private:
     EXPORT void vToDead_4114B0();
     EXPORT void vOnPickUpOrSlapped_4114D0();
@@ -152,6 +154,7 @@ private:
 
     EXPORT __int16 OnCollision_InstantExplode_4490D0(BaseGameObject* pHit);
 
+
     /*
     Grenade__vOnTrapDoorOpen_449390
     Grenade__vThrow_4482E0
@@ -221,6 +224,9 @@ private:
     EXPORT Bone* vdtor_411580(signed int flags);
 
     EXPORT void dtor_4115B0();
+
+    EXPORT void AddToPlatform_412310();
+
 
     /*
     Bone__vOnTrapDoorOpen_412490
@@ -331,28 +337,55 @@ class Meat : public BaseThrowable
 public:
     EXPORT Meat* ctor_4694A0(FP xpos, FP ypos, __int16 a4);
 
-
-    virtual void VThrow_49E460(FP /*velX*/, FP /*velY*/) override
+    virtual BaseGameObject* VDestructor(signed int flags) override
     {
-        // TODO
+        return vdtor_4696C0(flags);
+    }
+
+    virtual void VScreenChanged() override;
+
+    virtual void VOnTrapDoorOpen() override
+    {
+        vOnTrapDoorOpen_46A2E0();
+    }
+
+    virtual void VThrow_49E460(FP velX, FP velY) override
+    {
+        vThrow_469790(velX, velY);
     }
 
     virtual BOOL VCanThrow_49E350() override
     {
-        // TODO
-        return 0;
+        return vCanThrow_469680();
     }
 
     virtual BOOL VIsFalling_49E330() override
     {
-        // TOOD
-        return 0;
+        return vIsFalling_469660();
     }
 
     virtual void VTimeToExplodeRandom_411490() override
     {
         // TODO
     }
+
+private:
+    EXPORT void vScreenChanged_46A130();
+
+    EXPORT void AddToPlatform_46A170();
+
+    EXPORT void vOnTrapDoorOpen_46A2E0();
+
+    EXPORT BOOL vIsFalling_469660();
+
+    EXPORT BOOL vCanThrow_469680();
+
+    EXPORT void dtor_4696F0();
+
+    EXPORT Meat* vdtor_4696C0(signed int flags);
+
+    EXPORT void vThrow_469790(FP velX, FP velY);
+
 
     /*
     Meat__vOnTrapDoorOpen_46A2E0
@@ -365,7 +398,7 @@ public:
     Meat__vsub_4696A0 // State not 0, eaten?
     */
 private:
-    __int16 field_11C;
+    __int16 field_11C_state;
     __int16 field_11E;
     FP field_120_xpos;
     FP field_124_ypos;

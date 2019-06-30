@@ -31,6 +31,53 @@ void BaseThrowable::VToDead_4114B0()
     vToDead_4114B0();
 }
 
+void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
+{
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* pLine = nullptr;
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        field_BC_ypos - FP_FromInteger(20),
+        field_B8_xpos,
+        field_BC_ypos + FP_FromInteger(20),
+        &pLine,
+        &hitX,
+        &hitY,
+        field_D6_scale == 0 ? 0xF0 : 0x10F))
+    {
+        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
+        {
+            if (ObjList_5C1B78)
+            {
+                for (int idx = 0; idx < ObjList_5C1B78->Size(); idx++)
+                {
+                    BaseGameObject* pObj = ObjList_5C1B78->ItemAt(idx);
+                    if (!pObj)
+                    {
+                        break;
+                    }
+
+                    if (cb(pObj->field_4_typeId))
+                    {
+                        auto pPlatform = static_cast<PlatformBase*>(pObj);
+
+                        PSX_RECT bRect = {};
+                        pPlatform->vGetBoundingRect_424FD0(&bRect, 1);
+
+                        if (FP_GetExponent(field_B8_xpos) > bRect.x  && FP_GetExponent(field_B8_xpos) < bRect.w  && FP_GetExponent(field_BC_ypos) < bRect.h)
+                        {
+                            pPlatform->VAdd(this);
+                            field_110_id = pPlatform->field_8_object_id;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 void BaseThrowable::vToDead_4114B0()
 {
     field_6_flags.Set(BaseGameObject::eDead);
@@ -831,49 +878,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
 
 void Grenade::AddToPlatform_449210()
 {
-    FP hitX = {};
-    FP hitY = {};
-    PathLine* pLine = nullptr;
-    if (sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos,
-        field_BC_ypos - FP_FromInteger(20),
-        field_B8_xpos,
-        field_BC_ypos + FP_FromInteger(20),
-        &pLine,
-        &hitX,
-        &hitY,
-        field_D6_scale == 0 ? 0xF0 : 0x10F))
-    {
-        if (pLine->field_8_type == 32 || pLine->field_8_type == 36)
-        {
-            if (ObjList_5C1B78)
-            {
-                for (int idx = 0; idx < ObjList_5C1B78->Size(); idx++)
-                {
-                    BaseGameObject* pObj = ObjList_5C1B78->ItemAt(idx);
-                    if (!pObj)
-                    {
-                        break;
-                    }
-
-                    if (pObj->field_4_typeId == Types::eLiftPoint_78 || pObj->field_4_typeId == Types::eTrapDoor_142)
-                    {
-                        auto pPlatform = static_cast<PlatformBase*>(pObj);
-
-                        PSX_RECT bRect = {};
-                        pPlatform->vGetBoundingRect_424FD0(&bRect, 1);
-
-                        if (FP_GetExponent(field_B8_xpos) > bRect.x  && FP_GetExponent(field_B8_xpos) < bRect.w  && FP_GetExponent(field_BC_ypos) < bRect.h)
-                        {
-                            pPlatform->VAdd(this);
-                            field_110_id = pPlatform->field_8_object_id;
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    BaseAddToPlatform([](Types type) { return type == Types::eLiftPoint_78 || type == Types::eTrapDoor_142; });
 }
 
 __int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
@@ -992,6 +997,11 @@ void Bone::dtor_4115B0()
     dtor_4080B0();
 }
 
+void Bone::AddToPlatform_412310()
+{
+    BaseAddToPlatform([](Types type) { return type == Types::eLiftPoint_78 || type == Types::eTrapDoor_142; });
+}
+
 Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 a4)
 {
     ctor_408240(0);
@@ -1026,7 +1036,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 a4)
     field_12C = sGnFrame_5C1B84 + 600;
     field_130_pLine = 0;
     field_118_count = a4;
-    field_11C = 0;
+    field_11C_state = 0;
 
     field_E0_pShadow = alive_new<Shadow>();
     if (field_E0_pShadow)
@@ -1034,6 +1044,90 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 a4)
         field_E0_pShadow->ctor_4AC990();
     }
     return this;
+}
+
+void Meat::VScreenChanged()
+{
+    vScreenChanged_46A130();
+}
+
+void Meat::vScreenChanged_46A130()
+{
+    if (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
+        gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+}
+
+void Meat::AddToPlatform_46A170()
+{
+    // TODO: OG bug - why doesn't meat check for trap doors ??
+    BaseAddToPlatform([](Types type) { return type == Types::eLiftPoint_78; });
+}
+
+void Meat::vOnTrapDoorOpen_46A2E0()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        field_110_id = -1;
+        if (field_11C_state == 3 || field_11C_state == 4)
+        {
+            field_11C_state = 1;
+        }
+    }
+}
+
+BOOL Meat::vIsFalling_469660()
+{
+    return field_11C_state == 5;
+}
+
+BOOL Meat::vCanThrow_469680()
+{
+    return field_11C_state == 2;
+}
+
+void Meat::dtor_4696F0()
+{
+    SetVTable(this, 0x546040);
+    if (!field_11A_bDead)
+    {
+        if (gpThrowableArray_5D1E2C)
+        {
+            gpThrowableArray_5D1E2C->Remove_49AA00(field_118_count >= 1 ? field_118_count : 1);
+        }
+    }
+    dtor_4080B0();
+}
+
+Meat* Meat::vdtor_4696C0(signed int flags)
+{
+    dtor_4696F0();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void Meat::vThrow_469790(FP velX, FP velY)
+{
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+    field_C4_velx = velX;
+    field_C8_vely = velY;
+
+    if (field_118_count == 0)
+    {
+        field_11C_state = 2;
+    }
+    else
+    {
+        field_11C_state = 1;
+    }
 }
 
 TintEntry stru_55C254[] =
