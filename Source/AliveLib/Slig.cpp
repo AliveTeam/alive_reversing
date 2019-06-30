@@ -1343,8 +1343,8 @@ void Slig::M_Depossessing_36_4B7F30()
             const FP xRand = FP_FromInteger(Math_RandomRange_496AB0(-20, 20));
             const FP yRand = FP_FromInteger(Math_RandomRange_496AB0(20, 50));
             New_Chant_Particle_426BE0(
-                field_BC_ypos - (field_CC_sprite_scale * yRand),
                 (field_CC_sprite_scale * xRand) + field_B8_xpos,
+                field_BC_ypos - (field_CC_sprite_scale * yRand),
                 field_CC_sprite_scale,
                 0);
         }
