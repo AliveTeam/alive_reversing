@@ -26,7 +26,7 @@ public:
 
     virtual void VToDead_4114B0();
 
-    using FnTypeMatcher = std::add_pointer_t<bool(Types type)>;
+    using FnTypeMatcher = std::add_pointer<bool(Types type)>::type;
     void BaseAddToPlatform(FnTypeMatcher cb);
 private:
     EXPORT void vToDead_4114B0();
