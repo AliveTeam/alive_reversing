@@ -47,46 +47,46 @@ ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
 
 ALIVE_ARY(1, 0x552350, TFlyingSligFn, 18, sFlyingSlig_AI_table_552350,
 {
-    &FlyingSlig::AI_0_4355B0,
-    &FlyingSlig::AI_1_Dead_4364E0,
-    &FlyingSlig::AI_2_4356D0,
-    &FlyingSlig::AI_3_435750,
-    &FlyingSlig::AI_4_435BC0,
-    &FlyingSlig::AI_5_435820,
-    &FlyingSlig::AI_6_435940,
-    &FlyingSlig::AI_7_435990,
-    &FlyingSlig::AI_8_435AC0,
-    &FlyingSlig::AI_9_435E40,
-    &FlyingSlig::AI_10_435F10,
-    &FlyingSlig::AI_11_435FD0,
-    &FlyingSlig::AI_12_PlayerControlled_436040,
-    &FlyingSlig::AI_13_4360F0,
-    &FlyingSlig::AI_14_ChantShake_436180,
-    &FlyingSlig::AI_15_4362C0,
-    &FlyingSlig::AI_1_Dead_4364E0,
-    &FlyingSlig::AI_17_4355E0,
+    &FlyingSlig::AI_Inactive_0_4355B0,
+    &FlyingSlig::AI_Death_1_4364E0,
+    &FlyingSlig::AI_Moving_2_4356D0,
+    &FlyingSlig::AI_GetAlerted_3_435750,
+    &FlyingSlig::AI_ChasingEnemy_4_435BC0,
+    &FlyingSlig::AI_Idle_5_435820,
+    &FlyingSlig::AI_GameSpeakToMoving_6_435940,
+    &FlyingSlig::AI_PanicMoving_7_435990,
+    &FlyingSlig::AI_PanicIdle_8_435AC0,
+    &FlyingSlig::AI_SpottedEnemy_9_435E40,
+    &FlyingSlig::AI_LaunchingGrenade_10_435F10,
+    &FlyingSlig::AI_AbeDead_11_435FD0,
+    &FlyingSlig::AI_Possessed_12_436040,
+    &FlyingSlig::AI_Possession_13_4360F0,
+    &FlyingSlig::AI_DePossession_14_436180,
+    &FlyingSlig::AI_FlyingSligSpawn_15_4362C0,
+    &FlyingSlig::AI_Death_1_4364E0,
+    &FlyingSlig::AI_FromNakedSlig_17_4355E0,
 });
 
 const static AIFunctionData<TFlyingSligFn> sFlyingSligAITable[18] =
 {
-    { &FlyingSlig::AI_0_4355B0, 0x401802 , "AI_0" },
-    { &FlyingSlig::AI_1_Dead_4364E0, 0x402ABD , "AI_1 (first)" },
-    { &FlyingSlig::AI_2_4356D0, 0x4046BF, "AI_2" },
-    { &FlyingSlig::AI_3_435750, 0x402603, "AI_3" },
-    { &FlyingSlig::AI_4_435BC0, 0x402086, "AI_4" },
-    { &FlyingSlig::AI_5_435820, 0x4028A6, "AI_5" },
-    { &FlyingSlig::AI_6_435940, 0x403E31, "AI_6" },
-    { &FlyingSlig::AI_7_435990, 0x404453 , "AI_7" },
-    { &FlyingSlig::AI_8_435AC0, 0x4013A2, "AI_8" },
-    { &FlyingSlig::AI_9_435E40, 0x40394A, "AI_9" },
-    { &FlyingSlig::AI_10_435F10, 0x40253B, "AI_10" },
-    { &FlyingSlig::AI_11_435FD0, 0x40469C, "AI_11" },
-    { &FlyingSlig::AI_12_PlayerControlled_436040, 0x404480, "AI_12" },
-    { &FlyingSlig::AI_13_4360F0, 0x40241E , "AI_13" },
-    { &FlyingSlig::AI_14_ChantShake_436180, 0x403DBE, "AI_14" },
-    { &FlyingSlig::AI_15_4362C0, 0x40128A , "AI_15" },
-    { &FlyingSlig::AI_1_Dead_4364E0, 0x402ABD, "AI_1 (second)" },
-    { &FlyingSlig::AI_17_4355E0, 0x401749, "AI_17" },
+    { &FlyingSlig::AI_Inactive_0_4355B0, 0x401802 , "AI_Inactive_0" },
+    { &FlyingSlig::AI_Death_1_4364E0, 0x402ABD , "AI_Death_1 (first)" },
+    { &FlyingSlig::AI_Moving_2_4356D0, 0x4046BF, "AI_Moving_2" },
+    { &FlyingSlig::AI_GetAlerted_3_435750, 0x402603, "AI_GetAlerted_3" },
+    { &FlyingSlig::AI_ChasingEnemy_4_435BC0, 0x402086, "AI_ChasingEnemy_4" },
+    { &FlyingSlig::AI_Idle_5_435820, 0x4028A6, "AI_Idle_5" },
+    { &FlyingSlig::AI_GameSpeakToMoving_6_435940, 0x403E31, "AI_GameSpeakToMoving_6" },
+    { &FlyingSlig::AI_PanicMoving_7_435990, 0x404453 , "AI_PanicMoving_7" },
+    { &FlyingSlig::AI_PanicIdle_8_435AC0, 0x4013A2, "AI_PanicIdle_8" },
+    { &FlyingSlig::AI_SpottedEnemy_9_435E40, 0x40394A, "AI_SpottedEnemy_9" },
+    { &FlyingSlig::AI_LaunchingGrenade_10_435F10, 0x40253B, "AI_LaunchingGrenade_10" },
+    { &FlyingSlig::AI_AbeDead_11_435FD0, 0x40469C, "AI_AbeDead_11" },
+    { &FlyingSlig::AI_Possessed_12_436040, 0x404480, "AI_Possessed_12" },
+    { &FlyingSlig::AI_Possession_13_4360F0, 0x40241E , "AI_Possession_13" },
+    { &FlyingSlig::AI_DePossession_14_436180, 0x403DBE, "AI_DePossession_14" },
+    { &FlyingSlig::AI_FlyingSligSpawn_15_4362C0, 0x40128A , "AI_FlyingSligSpawn_15" },
+    { &FlyingSlig::AI_Death_1_4364E0, 0x402ABD, "AI_Death_1 (second)" },
+    { &FlyingSlig::AI_FromNakedSlig_17_4355E0, 0x401749, "AI_FromNakedSlig_17" },
 };
 
 void FlyingSlig::SetBrain(TFlyingSligFn fn)
@@ -178,7 +178,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 
     field_148_tlvInfo = tlvInfo;
 
-    SetBrain(&FlyingSlig::AI_0_4355B0);
+    SetBrain(&FlyingSlig::AI_Inactive_0_4355B0);
 
     field_106_current_motion = eFlyingSligMotions::M_Idle_0_4385E0;
 
@@ -386,87 +386,87 @@ void FlyingSlig::sub_4396E0()
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_0_4355B0()
+void FlyingSlig::AI_Inactive_0_4355B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_1_Dead_4364E0()
+void FlyingSlig::AI_Death_1_4364E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_2_4356D0()
+void FlyingSlig::AI_Moving_2_4356D0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_3_435750()
+void FlyingSlig::AI_GetAlerted_3_435750()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_4_435BC0()
+void FlyingSlig::AI_ChasingEnemy_4_435BC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_5_435820()
+void FlyingSlig::AI_Idle_5_435820()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_6_435940()
+void FlyingSlig::AI_GameSpeakToMoving_6_435940()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_7_435990()
+void FlyingSlig::AI_PanicMoving_7_435990()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_8_435AC0()
+void FlyingSlig::AI_PanicIdle_8_435AC0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_9_435E40()
+void FlyingSlig::AI_SpottedEnemy_9_435E40()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_10_435F10()
+void FlyingSlig::AI_LaunchingGrenade_10_435F10()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_11_435FD0()
+void FlyingSlig::AI_AbeDead_11_435FD0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_12_PlayerControlled_436040()
+void FlyingSlig::AI_Possessed_12_436040()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_13_4360F0()
+void FlyingSlig::AI_Possession_13_4360F0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_14_ChantShake_436180()
+void FlyingSlig::AI_DePossession_14_436180()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_15_4362C0()
+void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
 {
     NOT_IMPLEMENTED();
 }
 
-void FlyingSlig::AI_17_4355E0()
+void FlyingSlig::AI_FromNakedSlig_17_4355E0()
 {
     NOT_IMPLEMENTED();
 }
@@ -625,7 +625,7 @@ void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
 void FlyingSlig::ToPlayerControlled_4360C0()
 {
     VSetMotion_4081C0(eFlyingSligMotions::M_Idle_0_4385E0);
-    SetBrain(&FlyingSlig::AI_12_PlayerControlled_436040);
+    SetBrain(&FlyingSlig::AI_Possessed_12_436040);
 }
 
 __int16 FlyingSlig::IsPossessed_436A90()

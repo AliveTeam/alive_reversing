@@ -204,8 +204,8 @@ public:
     EXPORT __int16 AI_SpottedEnemy_7_4B3240();
     EXPORT __int16 AI_Empty_8_4B3120();
     EXPORT __int16 AI_Empty_9_4B3440();
-    EXPORT __int16 AI_AbeDead_10_4B3460();
-    EXPORT __int16 AI_KilledAbe_11_4B35C0();
+    EXPORT __int16 AI_EnemyDead_10_4B3460();
+    EXPORT __int16 AI_KilledEnemy_10_4B35C0();
     EXPORT __int16 AI_PanicTurning_12_4BC490();
     EXPORT __int16 AI_PanicRunning_13_4BC780();
     EXPORT __int16 AI_PanicYelling_14_4BCA70();

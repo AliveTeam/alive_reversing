@@ -192,8 +192,8 @@ const TSligAIFn sSlig_ai_table_5605AC[36] =
     &Slig::AI_SpottedEnemy_7_4B3240,
     &Slig::AI_Empty_8_4B3120,
     &Slig::AI_Empty_9_4B3440,
-    &Slig::AI_AbeDead_10_4B3460,
-    &Slig::AI_KilledAbe_11_4B35C0,
+    &Slig::AI_EnemyDead_10_4B3460,
+    &Slig::AI_KilledEnemy_10_4B35C0,
     &Slig::AI_PanicTurning_12_4BC490,
     &Slig::AI_PanicRunning_13_4BC780,
     &Slig::AI_PanicYelling_14_4BCA70,
@@ -232,8 +232,8 @@ static AIFunctionData<TSligAIFn> sSligAITable[36] =
     { &Slig::AI_SpottedEnemy_7_4B3240,  0x4032AB, "AI_SpottedEnemy_7", },
     { &Slig::AI_Empty_8_4B3120,  0x4B3120, "AI_Empty_8", },
     { &Slig::AI_Empty_9_4B3440,  0x4B3440, "AI_Empty_9", },
-    { &Slig::AI_AbeDead_10_4B3460, 0x401E60, "AI_AbeDead_10", },
-    { &Slig::AI_KilledAbe_11_4B35C0, 0x40120D, "AI_KilledAbe_11", },
+    { &Slig::AI_EnemyDead_10_4B3460, 0x401E60, "AI_EnemyDead_10", },
+    { &Slig::AI_KilledEnemy_10_4B35C0, 0x40120D, "AI_KilledEnemy_10", },
     { &Slig::AI_PanicTurning_12_4BC490, 0x40479B, "AI_PanicTurning_12", },
     { &Slig::AI_PanicRunning_13_4BC780, 0x40144C, "AI_PanicRunning_13", },
     { &Slig::AI_PanicYelling_14_4BCA70, 0x403364, "AI_PanicYelling_14", },
@@ -1995,7 +1995,7 @@ __int16 Slig::AI_Empty_9_4B3440()
     return 0;
 }
 
-__int16 Slig::AI_AbeDead_10_4B3460()
+__int16 Slig::AI_EnemyDead_10_4B3460()
 {
     if (Event_Get_422C00(kEventDeathReset) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
@@ -2042,7 +2042,7 @@ __int16 Slig::AI_AbeDead_10_4B3460()
 
 }
 
-__int16 Slig::AI_KilledAbe_11_4B35C0()
+__int16 Slig::AI_KilledEnemy_10_4B35C0()
 {
     if (field_120_timer > static_cast<int>(sGnFrame_5C1B84))
     {
@@ -3470,7 +3470,7 @@ void Slig::WaitOrWalk_4BE870()
 void Slig::ToAbeDead_4B3580()
 {
     field_108_next_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
-    SetBrain(&Slig::AI_AbeDead_10_4B3460);
+    SetBrain(&Slig::AI_EnemyDead_10_4B3460);
     field_120_timer = sGnFrame_5C1B84 + 45;
 }
 
@@ -3483,7 +3483,7 @@ void Slig::ToUnderGlukkonCommand_4B9660()
 void Slig::ToKilledAbe_4B3600()
 {
     field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-    SetBrain(&Slig::AI_KilledAbe_11_4B35C0);
+    SetBrain(&Slig::AI_KilledEnemy_10_4B35C0);
     field_120_timer = sGnFrame_5C1B84 + 15;
 }
 

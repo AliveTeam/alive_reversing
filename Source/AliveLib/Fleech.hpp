@@ -61,10 +61,10 @@ public:
     EXPORT void M_Consume_18_42FDF0();
 
 public:
-    EXPORT __int16 AI_0_430BA0();
-    EXPORT __int16 AI_1_428760();
-    EXPORT __int16 AI_2_42D310();
-    EXPORT __int16 AI_3_42D1E0();
+    EXPORT __int16 AI_Patrol_0_430BA0();
+    EXPORT __int16 AI_ChasingAbe_1_428760();
+    EXPORT __int16 AI_Scared_2_42D310();
+    EXPORT __int16 AI_Death_3_42D1E0();
 
 private:
     EXPORT void dtor_42A3A0();

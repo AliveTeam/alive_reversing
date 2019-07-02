@@ -37,16 +37,16 @@ public:
     virtual void VUpdate() override;
 
 public:
-    EXPORT __int16 AI_0_4835B0();
-    EXPORT __int16 AI_1_484CD0();
-    EXPORT __int16 AI_2_4859D0();
-    EXPORT __int16 AI_3_4851B0();
-    EXPORT __int16 AI_4_48F8F0();
-    EXPORT __int16 AI_5_486880();
-    EXPORT __int16 AI_6_484BC0();
-    EXPORT __int16 AI_7_484FF0();
-    EXPORT __int16 AI_8_48DFC0();
-    EXPORT __int16 AI_9_48ED80();
+    EXPORT __int16 AI_Patrol_0_4835B0();
+    EXPORT __int16 AI_Death_1_484CD0();
+    EXPORT __int16 AI_ChasingAbe_2_4859D0();
+    EXPORT __int16 AI_SurpriseWeb_3_4851B0();
+    EXPORT __int16 AI_UNKNOWN_4_48F8F0();
+    EXPORT __int16 AI_SpottedMeat_5_486880();
+    EXPORT __int16 AI_Possessed_6_484BC0();
+    EXPORT __int16 AI_DeathDrop_7_484FF0();
+    EXPORT __int16 AI_ControlledByGameSpeak_8_48DFC0();
+    EXPORT __int16 AI_ParamiteSpawn_9_48ED80();
 
 public:
     EXPORT void M_Idle_0_489FB0();

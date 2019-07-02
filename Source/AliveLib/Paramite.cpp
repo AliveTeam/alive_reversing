@@ -91,31 +91,31 @@ const TParamiteMotionFn sParamite_motion_table_55D5B0[44] =
 
 const TParamiteAIFn sParamite_ai_table_55D710[10] =
 {
-    &Paramite::AI_0_4835B0,
-    &Paramite::AI_1_484CD0,
-    &Paramite::AI_2_4859D0,
-    &Paramite::AI_3_4851B0,
-    &Paramite::AI_4_48F8F0,
-    &Paramite::AI_5_486880,
-    &Paramite::AI_6_484BC0,
-    &Paramite::AI_7_484FF0,
-    &Paramite::AI_8_48DFC0,
-    &Paramite::AI_9_48ED80
+    &Paramite::AI_Patrol_0_4835B0,
+    &Paramite::AI_Death_1_484CD0,
+    &Paramite::AI_ChasingAbe_2_4859D0,
+    &Paramite::AI_SurpriseWeb_3_4851B0,
+    &Paramite::AI_UNKNOWN_4_48F8F0,
+    &Paramite::AI_SpottedMeat_5_486880,
+    &Paramite::AI_Possessed_6_484BC0,
+    &Paramite::AI_DeathDrop_7_484FF0,
+    &Paramite::AI_ControlledByGameSpeak_8_48DFC0,
+    &Paramite::AI_ParamiteSpawn_9_48ED80
 };
 
 
 const static AIFunctionData<TParamiteAIFn> sParamiteAITable[10] =
 {
-    { &Paramite::AI_0_4835B0, 0x402A7C, "AI_0" },
-    { &Paramite::AI_1_484CD0, 0x404223, "AI_1" },
-    { &Paramite::AI_2_4859D0, 0x401799, "AI_2" },
-    { &Paramite::AI_3_4851B0, 0x401645, "AI_3" },
-    { &Paramite::AI_4_48F8F0, 0x48F8F0, "AI_4" }, // No stub ??
-    { &Paramite::AI_5_486880, 0x4012E4, "AI_5" },
-    { &Paramite::AI_6_484BC0, 0x40187F, "AI_6" },
-    { &Paramite::AI_7_484FF0, 0x4021A3, "AI_7" },
-    { &Paramite::AI_8_48DFC0, 0x4010B4, "AI_8" },
-    { &Paramite::AI_9_48ED80, 0x401EE7, "AI_9" },
+    { &Paramite::AI_Patrol_0_4835B0, 0x402A7C, "AI_Patrol_0" },
+    { &Paramite::AI_Death_1_484CD0, 0x404223, "AI_Death_1" },
+    { &Paramite::AI_ChasingAbe_2_4859D0, 0x401799, "AI_ChasingAbe_2" },
+    { &Paramite::AI_SurpriseWeb_3_4851B0, 0x401645, "AI_SurpriseWeb_3" },
+    { &Paramite::AI_UNKNOWN_4_48F8F0, 0x48F8F0, "AI_UNKNOWN_4" }, // Dead or unused ??
+    { &Paramite::AI_SpottedMeat_5_486880, 0x4012E4, "AI_SpottedMeat_5" },
+    { &Paramite::AI_Possessed_6_484BC0, 0x40187F, "AI_Possessed_6" },
+    { &Paramite::AI_DeathDrop_7_484FF0, 0x4021A3, "AI_DeathDrop_7" },
+    { &Paramite::AI_ControlledByGameSpeak_8_48DFC0, 0x4010B4, "AI_ControlledByGameSpeak_8" },
+    { &Paramite::AI_ParamiteSpawn_9_48ED80, 0x401EE7, "AI_ParamiteSpawn_9" },
 };
 
 void Paramite::SetBrain(TParamiteAIFn fn)
@@ -201,18 +201,18 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
     {
     case 1:
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
-        SetBrain(&Paramite::AI_3_4851B0);
+        SetBrain(&Paramite::AI_SurpriseWeb_3_4851B0);
         break;
 
     case 2:
-        SetBrain(&Paramite::AI_9_48ED80);
+        SetBrain(&Paramite::AI_ParamiteSpawn_9_48ED80);
         field_BC_ypos -= FP_FromInteger(20);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
         break;
 
     case 3:
-        SetBrain(&Paramite::AI_9_48ED80);
+        SetBrain(&Paramite::AI_ParamiteSpawn_9_48ED80);
         field_B8_xpos -= ScaleToGridSize_4498B0(field_CC_sprite_scale);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -220,7 +220,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
         break;
 
     case 4:
-        SetBrain(&Paramite::AI_9_48ED80);
+        SetBrain(&Paramite::AI_ParamiteSpawn_9_48ED80);
         field_B8_xpos += ScaleToGridSize_4498B0(field_CC_sprite_scale);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
@@ -228,7 +228,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
         break;
 
     default:
-        SetBrain(&Paramite::AI_0_4835B0);
+        SetBrain(&Paramite::AI_Patrol_0_4835B0);
         break;
     }
 
@@ -291,61 +291,61 @@ void Paramite::VUpdate()
     vUpdate_4871B0();
 }
 
-__int16 Paramite::AI_0_4835B0()
+__int16 Paramite::AI_Patrol_0_4835B0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_1_484CD0()
+__int16 Paramite::AI_Death_1_484CD0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_2_4859D0()
+__int16 Paramite::AI_ChasingAbe_2_4859D0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_3_4851B0()
+__int16 Paramite::AI_SurpriseWeb_3_4851B0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_4_48F8F0()
+__int16 Paramite::AI_UNKNOWN_4_48F8F0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_5_486880()
+__int16 Paramite::AI_SpottedMeat_5_486880()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_6_484BC0()
+__int16 Paramite::AI_Possessed_6_484BC0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_7_484FF0()
+__int16 Paramite::AI_DeathDrop_7_484FF0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_8_48DFC0()
+__int16 Paramite::AI_ControlledByGameSpeak_8_48DFC0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Paramite::AI_9_48ED80()
+__int16 Paramite::AI_ParamiteSpawn_9_48ED80()
 {
     NOT_IMPLEMENTED(); 
     return 0;
@@ -708,7 +708,7 @@ void Paramite::vUpdate_4871B0()
             {
                 field_118 = -1;
                 field_108_next_motion = 0;
-                SetBrain(&Paramite::AI_0_4835B0);
+                SetBrain(&Paramite::AI_Patrol_0_4835B0);
                 field_12C_brain_ret = 0;
             }
         }
@@ -719,7 +719,7 @@ void Paramite::vUpdate_4871B0()
     {
         if (field_10C_health > FP_FromInteger(0))
         {
-            if (!BrainIs(&Paramite::AI_9_48ED80) || field_178_flags.Get(Flags_178::eBit6))
+            if (!BrainIs(&Paramite::AI_ParamiteSpawn_9_48ED80) || field_178_flags.Get(Flags_178::eBit6))
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             }
