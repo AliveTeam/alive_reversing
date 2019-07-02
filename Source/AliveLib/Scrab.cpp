@@ -78,23 +78,23 @@ const TScrabMotionFn sScrab_motion_table_560120[40] =
 
 const TScrabAIFn sScrab_ai_table_56029C[6] =
 {
-    &Scrab::AI_0_4AA630,
-    &Scrab::AI_1_4A6470,
-    &Scrab::AI_2_Fight_4A5840,
-    &Scrab::AI_3_4A62B0,
-    &Scrab::AI_4_ShrinkDeath_4A6420,
-    &Scrab::AI_5_4A6180
+    &Scrab::AI_Patrol_0_4AA630,
+    &Scrab::AI_ChasingEnemy_1_4A6470,
+    &Scrab::AI_Fighting_2_4A5840,
+    &Scrab::AI_Death_3_4A62B0,
+    &Scrab::AI_ShrinkDeath_4_4A6420,
+    &Scrab::AI_Possessed_5_4A6180
 };
 
 
 const static AIFunctionData<TScrabAIFn> sScrabAITable[6] =
 {
-    { &Scrab::AI_0_4AA630,  0x404070, "AI_0", },
-    { &Scrab::AI_1_4A6470,  0x403B98, "AI_1", },
-    { &Scrab::AI_2_Fight_4A5840,  0x403E4F, "AI_2_Fight", },
-    { &Scrab::AI_3_4A62B0,  0x4039C2, "AI_3", },
-    { &Scrab::AI_4_ShrinkDeath_4A6420,  0x4036B1, "AI_ShrinkDeath", },
-    { &Scrab::AI_5_4A6180,  0x4021F3, "AI_5", },
+    { &Scrab::AI_Patrol_0_4AA630,  0x404070, "AI_Patrol_0", },
+    { &Scrab::AI_ChasingEnemy_1_4A6470,  0x403B98, "AI_ChasingEnemy_1", },
+    { &Scrab::AI_Fighting_2_4A5840,  0x403E4F, "AI_Fighting_2", },
+    { &Scrab::AI_Death_3_4A62B0,  0x4039C2, "AI_Death_3", },
+    { &Scrab::AI_ShrinkDeath_4_4A6420,  0x4036B1, "AI_ShrinkDeath_4", },
+    { &Scrab::AI_Possessed_5_4A6180,  0x4021F3, "AI_Possessed_5", },
 };
 
 void Scrab::SetBrain(TScrabAIFn fn)
@@ -584,37 +584,37 @@ void Scrab::Update_Slurg_Step_Watch_Points_4A5780()
     NOT_IMPLEMENTED();
 }
 
-__int16 Scrab::AI_0_4AA630()
+__int16 Scrab::AI_Patrol_0_4AA630()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Scrab::AI_1_4A6470()
+__int16 Scrab::AI_ChasingEnemy_1_4A6470()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Scrab::AI_2_Fight_4A5840()
+__int16 Scrab::AI_Fighting_2_4A5840()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Scrab::AI_3_4A62B0()
+__int16 Scrab::AI_Death_3_4A62B0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Scrab::AI_4_ShrinkDeath_4A6420()
+__int16 Scrab::AI_ShrinkDeath_4_4A6420()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Scrab::AI_5_4A6180()
+__int16 Scrab::AI_Possessed_5_4A6180()
 {
     NOT_IMPLEMENTED();
     return 0;

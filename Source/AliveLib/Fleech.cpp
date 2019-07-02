@@ -36,18 +36,18 @@ const TFleechMotionFn sFleech_motion_table_551798[19] =
 
 const TFleechAIFn sFleech_ai_table_551830[4] =
 {
-    &Fleech::AI_0_430BA0,
-    &Fleech::AI_1_428760,
-    &Fleech::AI_2_42D310,
-    &Fleech::AI_3_42D1E0
+    &Fleech::AI_Patrol_0_430BA0,
+    &Fleech::AI_ChasingAbe_1_428760,
+    &Fleech::AI_Scared_2_42D310,
+    &Fleech::AI_Death_3_42D1E0
 };
 
 const static AIFunctionData<TFleechAIFn> sFleechAiTable[4] =
 {
-    { &Fleech::AI_0_430BA0, 0x430BA0, "AI_0" }, // no stub ??
-    { &Fleech::AI_1_428760, 0x428760, "AI_1" }, // no stub ??
-    { &Fleech::AI_2_42D310, 0x42D310, "AI_2" }, // no stub ??
-    { &Fleech::AI_3_42D1E0, 0x42D1E0, "AI_3" }, // no stub ??
+    { &Fleech::AI_Patrol_0_430BA0, 0x430BA0, "AI_Patrol_0" }, // no stub ??
+    { &Fleech::AI_ChasingAbe_1_428760, 0x428760, "AI_ChasingAbe_1" }, // no stub ??
+    { &Fleech::AI_Scared_2_42D310, 0x42D310, "AI_Scared_2" }, // no stub ??
+    { &Fleech::AI_Death_3_42D1E0, 0x42D1E0, "AI_Death_3" }, // no stub ??
 };
 
 static BYTE Fleech_NextRandom()
@@ -228,25 +228,25 @@ void Fleech::M_Consume_18_42FDF0()
     NOT_IMPLEMENTED();
 }
 
-__int16 Fleech::AI_0_430BA0()
+__int16 Fleech::AI_Patrol_0_430BA0()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Fleech::AI_1_428760()
+__int16 Fleech::AI_ChasingAbe_1_428760()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Fleech::AI_2_42D310()
+__int16 Fleech::AI_Scared_2_42D310()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Fleech::AI_3_42D1E0()
+__int16 Fleech::AI_Death_3_42D1E0()
 {
     NOT_IMPLEMENTED();
     return 0;

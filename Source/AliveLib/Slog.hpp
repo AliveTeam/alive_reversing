@@ -60,10 +60,10 @@ public:
     EXPORT void M_Growl_23_4C7170();
 
 public:
-    EXPORT __int16 AI_0_4C3790();
-    EXPORT __int16 AI_1_4C2830();
-    EXPORT __int16 AI_2_4C0A00();
-    EXPORT __int16 AI_3_4C3250();
+    EXPORT __int16 AI_ListeningToSlig_0_4C3790();
+    EXPORT __int16 AI_Idle_1_4C2830();
+    EXPORT __int16 AI_ChasingAbe_2_4C0A00();
+    EXPORT __int16 AI_Death_3_4C3250();
 
 private:
     EXPORT void SetAnimFrame_4C42A0();

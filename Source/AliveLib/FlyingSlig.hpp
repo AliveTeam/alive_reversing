@@ -83,23 +83,23 @@ private:
 
 public:
 
-    EXPORT void AI_0_4355B0();
-    EXPORT void AI_1_Dead_4364E0();
-    EXPORT void AI_2_4356D0();
-    EXPORT void AI_3_435750();
-    EXPORT void AI_4_435BC0();
-    EXPORT void AI_5_435820();
-    EXPORT void AI_6_435940();
-    EXPORT void AI_7_435990();
-    EXPORT void AI_8_435AC0();
-    EXPORT void AI_9_435E40();
-    EXPORT void AI_10_435F10();
-    EXPORT void AI_11_435FD0();
-    EXPORT void AI_12_PlayerControlled_436040();
-    EXPORT void AI_13_4360F0();
-    EXPORT void AI_14_ChantShake_436180();
-    EXPORT void AI_15_4362C0();
-    EXPORT void AI_17_4355E0();
+    EXPORT void AI_Inactive_0_4355B0();
+    EXPORT void AI_Death_1_4364E0();
+    EXPORT void AI_Moving_2_4356D0();
+    EXPORT void AI_GetAlerted_3_435750();
+    EXPORT void AI_ChasingEnemy_4_435BC0();
+    EXPORT void AI_Idle_5_435820();
+    EXPORT void AI_GameSpeakToMoving_6_435940();
+    EXPORT void AI_PanicMoving_7_435990();
+    EXPORT void AI_PanicIdle_8_435AC0();
+    EXPORT void AI_SpottedEnemy_9_435E40();
+    EXPORT void AI_LaunchingGrenade_10_435F10();
+    EXPORT void AI_AbeDead_11_435FD0();
+    EXPORT void AI_Possessed_12_436040();
+    EXPORT void AI_Possession_13_4360F0();
+    EXPORT void AI_DePossession_14_436180();
+    EXPORT void AI_FlyingSligSpawn_15_4362C0();
+    EXPORT void AI_FromNakedSlig_17_4355E0();
 public:
 
     EXPORT void M_Idle_0_4385E0();

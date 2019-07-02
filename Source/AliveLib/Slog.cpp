@@ -40,18 +40,18 @@ const TSlogMotionFn sSlog_motion_table_560978[24] =
 
 const TSlogAIFn sSlog_fns_ai_560A38[4] =
 {
-    &Slog::AI_0_4C3790,
-    &Slog::AI_1_4C2830,
-    &Slog::AI_2_4C0A00,
-    &Slog::AI_3_4C3250
+    &Slog::AI_ListeningToSlig_0_4C3790,
+    &Slog::AI_Idle_1_4C2830,
+    &Slog::AI_ChasingAbe_2_4C0A00,
+    &Slog::AI_Death_3_4C3250
 };
 
 const static AIFunctionData<TSlogAIFn> sSlogAiTable[4] =
 {
-    { &Slog::AI_0_4C3790, 0x4C3790, "AI_0" }, // no stubs for any of these ??
-    { &Slog::AI_1_4C2830, 0x4C2830, "AI_1" },
-    { &Slog::AI_2_4C0A00, 0x4C0A00, "AI_2" },
-    { &Slog::AI_3_4C3250, 0x4C3250, "AI_3" },
+    { &Slog::AI_ListeningToSlig_0_4C3790, 0x4C3790, "AI_ListeningToSlig_0" }, // no stubs for any of these ??
+    { &Slog::AI_Idle_1_4C2830, 0x4C2830, "AI_Idle_1" },
+    { &Slog::AI_ChasingAbe_2_4C0A00, 0x4C0A00, "AI_ChasingAbe_2" },
+    { &Slog::AI_Death_3_4C3250, 0x4C3250, "AI_Death_3" },
 };
 
 Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
@@ -241,25 +241,25 @@ void Slog::M_Growl_23_4C7170()
     NOT_IMPLEMENTED();
 }
 
-__int16 Slog::AI_0_4C3790()
+__int16 Slog::AI_ListeningToSlig_0_4C3790()
 {
     NOT_IMPLEMENTED(); 
     return 0;
 }
 
-__int16 Slog::AI_1_4C2830()
+__int16 Slog::AI_Idle_1_4C2830()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slog::AI_2_4C0A00()
+__int16 Slog::AI_ChasingAbe_2_4C0A00()
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-__int16 Slog::AI_3_4C3250()
+__int16 Slog::AI_Death_3_4C3250()
 {
     NOT_IMPLEMENTED();
     return 0;
