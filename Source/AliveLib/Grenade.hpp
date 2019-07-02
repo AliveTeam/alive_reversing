@@ -44,8 +44,6 @@ private:
 
     EXPORT void vTimeToExplodeRandom_4480A0();
 
-    EXPORT __int16 vGetCount_448080();
-
     EXPORT void BlowUp_4483C0(__int16 bSmallExplosion);
 
     EXPORT void dtor_448220();

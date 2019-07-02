@@ -7,6 +7,8 @@ class Bone : public BaseThrowable
 public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
 
+    virtual void VScreenChanged() override;
+
     virtual void VThrow_49E460(FP velX, FP velY) override;
 
     virtual void VOnTrapDoorOpen() override;
@@ -33,6 +35,10 @@ private:
     EXPORT BOOL vIsFalling_411510();
 
     EXPORT BOOL vCanThrow_411530();
+
+    EXPORT __int16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
+
+    EXPORT void vScreenChanged_4122D0();
 
     /*
     Bone__vOnTrapDoorOpen_412490

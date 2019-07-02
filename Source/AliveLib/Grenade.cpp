@@ -459,7 +459,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
         &field_100_pCollisionLine,
         &hitX,
         &hitY,
-        field_D6_scale != 0 ? 1 : 16) == 1)
+        field_D6_scale == 0 ? 0x10 : 0x01) == 1)
     {
         if (field_C8_vely <= FP_FromInteger(0))
         {
@@ -524,7 +524,7 @@ __int16 Grenade::InTheAir_4484F0(__int16 blowUpOnFloorTouch)
         &field_100_pCollisionLine,
         &hitX,
         &hitY,
-        field_D6_scale == 0 ? 0x60 : 0x106) == 1) // TODO: Check correct
+        field_D6_scale == 0 ? 0x60 : 0x06) == 1)
     {
         switch (field_100_pCollisionLine->field_8_type)
         {

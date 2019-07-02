@@ -52,6 +52,11 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     return this;
 }
 
+void Bone::VScreenChanged()
+{
+    vScreenChanged_4122D0();
+}
+
 void Bone::VThrow_49E460(FP velX, FP velY)
 {
     vThrow_411670(velX, velY);
@@ -142,6 +147,63 @@ BOOL Bone::vIsFalling_411510()
 BOOL Bone::vCanThrow_411530()
 {
     return field_11C_state != 0 && field_11C_state != 1;
+}
+
+__int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
+{
+    if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode))
+    {
+        return 1;
+    }
+
+    if (pObj->field_4_typeId != Types::eMine_88 && pObj->field_4_typeId != Types::eUXB_143 && (field_130 & 1))
+    {
+        return 1;
+    }
+
+    if (pObj->field_4_typeId == Types::eAntiChant_83 && sControlledCharacter_5C1B8C->field_D6_scale != pObj->field_D6_scale)
+    {
+        return 1;
+    }
+
+    PSX_RECT bRect = {};
+    pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+    if (field_120 < FP_FromInteger(bRect.x) || field_120 > FP_FromInteger(bRect.w))
+    {
+        field_B8_xpos -= field_C4_velx;
+        field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+    }
+    else
+    {
+        if (field_C8_vely > FP_FromInteger(0))
+        {
+            const FP slowerVelY = (-field_C8_vely / FP_FromInteger(2));
+            field_C8_vely = slowerVelY;
+            field_BC_ypos += slowerVelY;
+        }
+    }
+    
+    pObj->vnull_4081A0(this);
+
+    field_130 |= 1u;
+    SFX_Play_46FA90(24u, 80);
+
+    if (pObj->field_4_typeId == Types::eMine_88 || pObj->field_4_typeId == Types::eUXB_143)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    return 0;
+}
+
+void Bone::vScreenChanged_4122D0()
+{
+    if (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
+        gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
 }
 
 TintEntry stru_550EC0[18] =

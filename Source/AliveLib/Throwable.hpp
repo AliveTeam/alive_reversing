@@ -32,7 +32,7 @@ private:
     EXPORT void vToDead_4114B0();
     EXPORT void vOnPickUpOrSlapped_4114D0();
 
-    __int16 vGetCount_448080();
+    EXPORT __int16 vGetCount_448080();
 protected:
     __int16 field_118_count;
     __int16 field_11A_bDead;
