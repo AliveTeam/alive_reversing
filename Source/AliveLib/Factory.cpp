@@ -71,6 +71,7 @@
 #include "BoomMachine.hpp"
 #include "Meat.hpp"
 #include "Bone.hpp"
+#include "Rock.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -428,7 +429,28 @@ EXPORT void CC Factory_Dove_4D7E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
     }
 }
 
-EXPORT void CC Factory_RockSack_4D8040(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_RockSack_4D8040(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        static CompileTimeResourceList<3> kResources(
+        { 
+            { ResourceManager::Resource_Animation, 12 },
+            { ResourceManager::Resource_Animation, 14 },
+            { ResourceManager::Resource_Animation, 350 } 
+        });
+        gMap_5C3030.LoadResourcesFromList_4DBE70("RTHROW.BND", kResources.AsList(), loadMode);
+    }
+    else
+    {
+        auto pRockSack = alive_new<RockSack>();
+        if (pRockSack)
+        {
+            pRockSack->ctor_49F100(static_cast<Path_RockSack*>(pTlv), tlvInfo.all);
+        }
+    }
+
+}
 
 EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
 {
