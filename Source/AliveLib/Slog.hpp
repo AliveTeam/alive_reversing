@@ -78,12 +78,17 @@ private:
 
 
 private:
+    EXPORT void ToIdle_4C5C10();
+
+    EXPORT void Sfx_4C7D30(int effectId);
+
+private:
     int field_118;
     __int16 field_11C;
     __int16 field_11E;
     unsigned __int16 field_120_brain_state_idx;
     __int16 field_122_brain_state_result;
-    int field_124;
+    int field_124_timer;
     int field_128;
     int field_12C_tlvInfo;
     __int16 field_130;

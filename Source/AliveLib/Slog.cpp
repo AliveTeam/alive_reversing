@@ -7,6 +7,8 @@
 #include "Events.hpp"
 #include "Abe.hpp"
 #include "DDCheat.hpp"
+#include "Shadow.hpp"
+#include "Map.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, short, sSlogCount_BAF7F2, 0);
 
@@ -36,6 +38,34 @@ const TSlogMotionFn sSlog_motion_table_560978[24] =
     &Slog::M_Unknown_21_4C77F0,
     &Slog::M_Scratch_22_4C7120,
     &Slog::M_Growl_23_4C7170
+};
+
+enum eSlogMotions
+{
+    M_Idle_0_4C5F90,
+    M_Walk_1_4C60C0,
+    M_Run_2_4C6340,
+    M_TurnAround_3_4C65C0,
+    M_Fall_4_4C6930,
+    M_MoveHeadUpwards_5_4C5F20,
+    M_StopRunning_6_4C66C0,
+    M_SlideTurn_7_4C6790,
+    M_StartWalking_8_4C62E0,
+    M_EndWalking_9_4C6310,
+    M_Land_10_4C7820,
+    M_Unknown_11_4C7860,
+    M_StartFastBarking_12_4C7880,
+    M_EndFastBarking_13_4C78D0,
+    M_Unknown_14_4C6CF0,
+    M_Sleeping_15_4C6D60,
+    M_MoveHeadDownwards_16_4C70D0,
+    M_Bark_17_4C7000,
+    M_JumpForwards_18_4C7210,
+    M_JumpUpwards_19_4C7470,
+    M_Eating_20_4C75F0,
+    M_Unknown_21_4C77F0,
+    M_Scratch_22_4C7120,
+    M_Growl_23_4C7170
 };
 
 const TSlogAIFn sSlog_fns_ai_560A38[4] =
@@ -173,22 +203,49 @@ void Slog::M_EndWalking_9_4C6310()
 
 void Slog::M_Land_10_4C7820()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Sfx_4C7D30(16);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_4C5C10();
+    }
 }
 
 void Slog::M_Unknown_11_4C7860()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eSlogMotions::M_StartFastBarking_12_4C7880;
+    }
 }
 
 void Slog::M_StartFastBarking_12_4C7880()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Sfx_4C7D30(2);
+        field_132 = 1;
+    }
+
+    if (field_108_next_motion != -1)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_motion = eSlogMotions::M_EndFastBarking_13_4C78D0;
+        }
+    }
+
 }
 
 void Slog::M_EndFastBarking_13_4C78D0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_4C5C10();
+    }
 }
 
 void Slog::M_Unknown_14_4C6CF0()
@@ -228,7 +285,11 @@ void Slog::M_Eating_20_4C75F0()
 
 void Slog::M_Unknown_21_4C77F0()
 {
-    NOT_IMPLEMENTED();
+    if (!field_100_pCollisionLine)
+    {
+        M_Fall_4_4C6930();
+        field_106_current_motion = eSlogMotions::M_Unknown_21_4C77F0;
+    }
 }
 
 void Slog::M_Scratch_22_4C7120()
@@ -270,9 +331,94 @@ void Slog::SetAnimFrame_4C42A0()
     NOT_IMPLEMENTED();
 }
 
+TintEntry stru_560A48[] =
+{
+    { 1u, 127u, 127u, 127u },
+    { 2u, 127u, 127u, 127u },
+    { 3u, 127u, 127u, 127u },
+    { 4u, 127u, 127u, 127u },
+    { 5u, 127u, 127u, 127u },
+    { 6u, 127u, 127u, 127u },
+    { 7u, 127u, 127u, 127u },
+    { 8u, 127u, 127u, 127u },
+    { 9u, 127u, 127u, 127u },
+    { 10u, 127u, 127u, 127u },
+    { 11u, 127u, 127u, 127u },
+    { 12u, 127u, 127u, 127u },
+    { 13u, 127u, 127u, 127u },
+    { 14u, 127u, 127u, 127u },
+    { -1, 127u, 127u, 127u },
+    { 0u, 0u, 0u, 0u }
+};
+
 void Slog::Init_4C46A0()
 {
-    NOT_IMPLEMENTED();
+    field_4_typeId = Types::eSlog_126;
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogbasicResID, 1, 0));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogrstnResID, 1, 0));
+    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogattkResID, 1, 0));
+    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogknfdResID, 1, 0));
+    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogidleResID, 1, 0));
+    Animation_Init_424E10(96464, 121, 57, field_10_resources_array.ItemAt(0), 1, 1);
+
+    field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
+
+    field_160_flags.Clear(Flags_160::eBit3);
+    field_160_flags.Clear(Flags_160::eBit6);
+    field_160_flags.Set(Flags_160::eBit4);
+
+    field_DC_bApplyShadows |= 2u;
+    field_20_animation.field_1C_fn_ptr_array = kSlog_Anim_Frame_Fns_55EFBC;
+    field_124_timer = 0;
+    field_122_brain_state_result = 0;
+    field_108_next_motion = -1;
+    field_130 = 0;
+    field_110_id = -1;
+    field_138 = -1;
+    field_118 = -1;
+    field_15C = -1;
+    SetTint_425600(&stru_560A48[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    field_20_animation.field_C_render_layer = 34;
+
+    if (field_CC_sprite_scale == FP_FromInteger(1))
+    {
+        field_D8_yOffset = 1;
+    }
+    else
+    {
+        field_D8_yOffset = 2;
+    }
+
+    field_D6_scale = 1;
+    
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos, field_BC_ypos, 
+        field_B8_xpos, field_BC_ypos + FP_FromInteger(24), 
+        &field_100_pCollisionLine, &hitX, &hitY, 1) == 1)
+    {
+        field_BC_ypos = hitY;
+        if (field_100_pCollisionLine->field_8_type == 32)
+        {
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+            const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
+            const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+            vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+        }
+    }
+
+    MapFollowMe_408D10(FALSE);
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
+    {
+        field_E0_pShadow->ctor_4AC990();
+    }
+
+    sSlogCount_BAF7F2++;
+
+    vStackOnObjectsOfType_425840(Types::eSlog_126);
 }
 
 void Slog::vUpdate_4C50D0()
@@ -391,4 +537,19 @@ Slog* Slog::vdtor_4C4510(signed int flags)
         Mem_Free_495540(this);
     }
     return this;
+}
+
+void Slog::ToIdle_4C5C10()
+{
+    MapFollowMe_408D10(FALSE);
+    field_128 = 0;
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+    field_106_current_motion = 0;
+    field_108_next_motion = -1;
+}
+
+void Slog::Sfx_4C7D30(int /*effectId*/)
+{
+    NOT_IMPLEMENTED();
 }
