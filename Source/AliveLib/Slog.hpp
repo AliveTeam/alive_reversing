@@ -82,6 +82,14 @@ private:
 
     EXPORT void Sfx_4C7D30(int effectId);
 
+    EXPORT void ToJump_4C5C60();
+
+    EXPORT __int16 ToNextMotion_4C5A30();
+
+    EXPORT BOOL CollisionCheck_4C5480(FP hitY, FP hitX);
+
+    EXPORT void MoveOnLine_4C5DA0();
+
 private:
     int field_118;
     __int16 field_11C;
@@ -89,7 +97,7 @@ private:
     unsigned __int16 field_120_brain_state_idx;
     __int16 field_122_brain_state_result;
     int field_124_timer;
-    int field_128;
+    FP field_128;
     int field_12C_tlvInfo;
     __int16 field_130;
     __int16 field_132;
