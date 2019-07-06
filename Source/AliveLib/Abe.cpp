@@ -9520,6 +9520,8 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ba
 
     //DEV_CONSOLE_PRINTF("Abe SFX: %i", idx);
 
+    LOG_INFO("sound = " << (int)idx);
+
     switch (idx)
     {
     case 14u:
