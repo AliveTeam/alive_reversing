@@ -12,6 +12,8 @@
 #include "Events.hpp"
 #include "DDCheat.hpp"
 #include "Throwable.hpp"
+#include "Map.hpp"
+#include "Meat.hpp"
 
 class Class_547F58 : public BaseAnimatedWithPhysicsGameObject
 {
@@ -899,3 +901,36 @@ void Paramite::vUpdateAnim_487170()
     NOT_IMPLEMENTED();
 }
 
+Meat* Paramite::FindMeat_488930()
+{
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eMeat_84)
+        {
+            auto pMeat = static_cast<Meat*>(pObj);
+            if (pMeat->VCanEatMe_4696A0())
+            {
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pMeat->field_C2_lvl_number, pMeat->field_C0_path_number, pMeat->field_B8_xpos, pMeat->field_BC_ypos, 0) &&
+                    !Raycast_408750(field_BC_ypos, pMeat->field_B8_xpos - field_B8_xpos))
+                {
+                    if (!pMeat->field_130_pLine)
+                    {
+                        return pMeat;
+                    }
+
+                    if (FP_Abs(pMeat->field_BC_ypos - field_BC_ypos) <= FP_FromInteger(20))
+                    {
+                        return pMeat;
+                    }
+                }
+            }
+        }
+    }
+    return nullptr;
+}

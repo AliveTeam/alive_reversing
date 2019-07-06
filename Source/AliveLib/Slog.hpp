@@ -111,10 +111,8 @@ private:
     __int16 field_146_total_anger;
     __int16 field_148_chase_anger;
     __int16 field_14A;
-    __int16 field_14C;
-    __int16 field_14E;
-    __int16 field_150;
-    __int16 field_152;
+    int field_14C;
+    int field_150_timer;
     __int16 field_154_angry_id;
     __int16 field_156_bone_eating_time;
     __int16 field_158_jump_delay;

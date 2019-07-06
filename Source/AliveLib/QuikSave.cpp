@@ -27,6 +27,7 @@
 #include "Slurg.hpp"
 #include "GasCountDown.hpp"
 #include "Rock.hpp"
+#include "Meat.hpp"
 
 EXPORT int CC Bone_CreateFromSaveState_412C10(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -40,7 +41,6 @@ EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED
 EXPORT int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { NOT_IMPLEMENTED(); return 144; }
 EXPORT int CC SligSpawner__CreateFromSaveState_409B10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
-EXPORT int CC CreateFromSaveState_46A9E0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC MineCar__CreateFromSaveState_467740(const BYTE*) { NOT_IMPLEMENTED(); return 104; }
 EXPORT int CC Paramite__CreateFromSaveState_4855A0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 EXPORT int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
@@ -140,7 +140,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     &Mudokon__CreateFromSaveState_4717C0,
     nullptr,
     nullptr,
-    &CreateFromSaveState_46A9E0,
+    &Meat::CreateFromSaveState_46A9E0,
     nullptr,
     nullptr,
     nullptr,

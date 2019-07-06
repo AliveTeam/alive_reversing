@@ -4,6 +4,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
+class Meat;
+
 struct Path_Paramite : public Path_TLV
 {
     __int16 field_10_scale;
@@ -111,6 +113,9 @@ private:
     EXPORT __int16 Find_Paramite_488810();
 
     EXPORT void vUpdateAnim_487170();
+
+    EXPORT Meat* FindMeat_488930();
+
 
 private:
     int field_118;

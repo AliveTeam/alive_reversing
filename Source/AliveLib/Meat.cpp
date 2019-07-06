@@ -47,7 +47,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
     field_12C = sGnFrame_5C1B84 + 600;
     field_130_pLine = 0;
     field_118_count = count;
-    field_11C_state = States::State_0;
+    field_11C_state = MeatStates::State_0;
 
     field_E0_pShadow = alive_new<Shadow>();
     if (field_E0_pShadow)
@@ -102,6 +102,11 @@ __int16 Meat::VGetCount_448080()
     return vGetCount_46A350();
 }
 
+BOOL Meat::VCanEatMe_4696A0()
+{
+    return vCanEatMe_4696A0();
+}
+
 void Meat::vScreenChanged_46A130()
 {
     if (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
@@ -124,21 +129,21 @@ void Meat::vOnTrapDoorOpen_46A2E0()
     {
         pPlatform->VRemove(this);
         field_110_id = -1;
-        if (field_11C_state == States::State_3_BecomeAPickUp || field_11C_state == States::State_4_WaitForPickUp)
+        if (field_11C_state == MeatStates::State_3_BecomeAPickUp || field_11C_state == MeatStates::State_4_WaitForPickUp)
         {
-            field_11C_state = States::State_1_Idle;
+            field_11C_state = MeatStates::State_1_Idle;
         }
     }
 }
 
 BOOL Meat::vIsFalling_469660()
 {
-    return field_11C_state == States::State_5_Fall;
+    return field_11C_state == MeatStates::State_5_Fall;
 }
 
 BOOL Meat::vCanThrow_469680()
 {
-    return field_11C_state == States::State_2_BeingThrown;
+    return field_11C_state == MeatStates::State_2_BeingThrown;
 }
 
 void Meat::dtor_4696F0()
@@ -173,17 +178,17 @@ void Meat::vThrow_469790(FP velX, FP velY)
 
     if (field_118_count == 0)
     {
-        field_11C_state = States::State_2_BeingThrown;
+        field_11C_state = MeatStates::State_2_BeingThrown;
     }
     else
     {
-        field_11C_state = States::State_1_Idle;
+        field_11C_state = MeatStates::State_1_Idle;
     }
 }
 
 __int16 Meat::vGetCount_46A350()
 {
-    if (field_11C_state == States::State_4_WaitForPickUp && field_118_count == 0)
+    if (field_11C_state == MeatStates::State_4_WaitForPickUp && field_118_count == 0)
     {
         return 1;
     }
@@ -218,7 +223,7 @@ void Meat::InTheAir_4697E0()
             {
                 field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(hitX)));
                 field_BC_ypos = hitY;
-                field_11C_state = States::State_3_BecomeAPickUp;
+                field_11C_state = MeatStates::State_3_BecomeAPickUp;
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 SFX_Play_46FBA0(36, 0, -650);
@@ -327,11 +332,11 @@ void Meat::vUpdate_469BA0()
 
         switch (field_11C_state)
         {
-        case States::State_1_Idle:
+        case MeatStates::State_1_Idle:
             InTheAir_4697E0();
             break;
 
-        case States::State_2_BeingThrown:
+        case MeatStates::State_2_BeingThrown:
         {
             InTheAir_4697E0();
             PSX_RECT bRect = {};
@@ -353,7 +358,7 @@ void Meat::vUpdate_469BA0()
         }
             break;
 
-        case States::State_3_BecomeAPickUp:
+        case MeatStates::State_3_BecomeAPickUp:
             if (FP_Abs(field_C4_velx) < FP_FromInteger(1))
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
@@ -374,7 +379,7 @@ void Meat::vUpdate_469BA0()
                 if (!field_130_pLine)
                 {
                     field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-                    field_11C_state = States::State_2_BeingThrown;
+                    field_11C_state = MeatStates::State_2_BeingThrown;
                 }
             }
             else
@@ -387,11 +392,11 @@ void Meat::vUpdate_469BA0()
                 field_E4_collection_rect.h = field_BC_ypos;
 
                 field_6_flags.Set(BaseGameObject::eInteractive);
-                field_11C_state = States::State_4_WaitForPickUp;
+                field_11C_state = MeatStates::State_4_WaitForPickUp;
             }
             break;
 
-        case States::State_4_WaitForPickUp:
+        case MeatStates::State_4_WaitForPickUp:
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
                 field_12C = sGnFrame_5C1B84 + 600;
@@ -412,7 +417,7 @@ void Meat::vUpdate_469BA0()
             }
             break;
 
-        case States::State_5_Fall:
+        case MeatStates::State_5_Fall:
             field_C8_vely += FP_FromInteger(1);
             field_B8_xpos += field_C4_velx;
             field_BC_ypos = field_C8_vely + field_BC_ypos;
@@ -518,6 +523,57 @@ void MeatSack::VUpdate()
     vUpdate_46A6A0();
 }
 
+int Meat::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_46AC40(reinterpret_cast<Meat_SaveState*>(pSaveBuffer));
+}
+
+int CC Meat::CreateFromSaveState_46A9E0(const BYTE* pBuffer)
+{
+    const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
+
+    auto pMeat = alive_new<Meat>();
+    pMeat->ctor_4694A0(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+
+    pMeat->field_C_objectId = pState->field_4_obj_id;
+
+    pMeat->field_B8_xpos = pState->field_8_xpos;
+    pMeat->field_BC_ypos = pState->field_C_ypos;
+
+    pMeat->field_E4_collection_rect.x = pMeat->field_B8_xpos - (ScaleToGridSize_4498B0(pMeat->field_CC_sprite_scale) / FP_FromInteger(2));
+    pMeat->field_E4_collection_rect.y = pMeat->field_BC_ypos - ScaleToGridSize_4498B0(pMeat->field_CC_sprite_scale);
+    pMeat->field_E4_collection_rect.w = (ScaleToGridSize_4498B0(pMeat->field_CC_sprite_scale) / FP_FromInteger(2)) + pMeat->field_B8_xpos;
+    pMeat->field_E4_collection_rect.h = pMeat->field_BC_ypos;
+
+    pMeat->field_C4_velx = pState->field_10_velx;
+    pMeat->field_C8_vely = pState->field_14_vely;
+
+    pMeat->field_C0_path_number = pState->field_1C_path_number;
+    pMeat->field_C2_lvl_number = pState->field_1E_lvl_number;
+
+    pMeat->field_CC_sprite_scale = pState->field_18_sprite_scale;
+
+    pMeat->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
+    pMeat->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
+
+    pMeat->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
+    pMeat->field_6_flags.Set(BaseGameObject::eInteractive, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
+
+    pMeat->field_114_flags.Set(Flags_114::e114_Bit9);
+
+    pMeat->field_128_timer = sGnFrame_5C1B84;
+    pMeat->field_104_collision_line_type = pState->field_28_line_type;
+
+    pMeat->field_118_count = pState->field_2A_count;
+    pMeat->field_11C_state = pState->field_2C_state;
+
+    pMeat->field_120_xpos = pState->field_30_xpos;
+    pMeat->field_124_ypos = pState->field_34_ypos;
+
+    pMeat->field_12C = pState->field_38;
+    return sizeof(Meat_SaveState);
+}
+
 MeatSack* MeatSack::vdtor_46A5E0(signed int flags)
 {
     dtor_46A610();
@@ -619,4 +675,52 @@ void MeatSack::vUpdate_46A6A0()
             field_11C = 1;
         }
     }
+}
+
+int Meat::vGetSaveState_46AC40(Meat_SaveState* pState)
+{
+    pState->field_0_type = Types::eMeat_84;
+    pState->field_4_obj_id = field_C_objectId;
+
+    pState->field_8_xpos = field_B8_xpos;
+    pState->field_C_ypos = field_BC_ypos;
+
+    pState->field_10_velx = field_C4_velx;
+    pState->field_14_vely = field_C8_vely;
+
+    pState->field_1C_path_number = field_C0_path_number;
+    pState->field_1E_lvl_number = field_C2_lvl_number;
+
+    pState->field_18_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
+    pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
+
+    pState->field_20_flags.Set(Meat_SaveState::eBit2_bDrawable, field_6_flags.Get(BaseGameObject::eDrawable));
+    pState->field_20_flags.Set(Meat_SaveState::eBit4_bInteractive, field_6_flags.Get(BaseGameObject::eInteractive));
+
+    if (field_130_pLine)
+    {
+        pState->field_28_line_type = field_130_pLine->field_8_type;
+    }
+    else
+    {
+        pState->field_28_line_type = -1;
+    }
+
+    pState->field_24_base_id = field_110_id;
+    pState->field_2A_count = field_118_count;
+    pState->field_2C_state = field_11C_state;
+
+    pState->field_30_xpos = field_120_xpos;
+    pState->field_34_ypos = field_124_ypos;
+
+    pState->field_38 = field_12C;
+
+    return sizeof(Meat_SaveState);
+}
+
+BOOL Meat::vCanEatMe_4696A0()
+{
+    return field_11C_state != MeatStates::State_0;
 }
