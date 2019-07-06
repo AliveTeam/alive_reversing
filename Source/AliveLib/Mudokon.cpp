@@ -4590,8 +4590,26 @@ __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
     return field_190_sub_state;
 }
 
-// TODO: Check what this may have been for originally, seems odd its always the same response ??
-const static MudSounds word_55CFCA[7] = { MudSounds::e0, MudSounds::e0, MudSounds::e0, MudSounds::e0, MudSounds::e0, MudSounds::e0, MudSounds::e0 };
+const MudSounds sAngryWorkerResponses_55CFCA[16] =
+{
+    MudSounds::eHiAngry_18,
+    MudSounds::e21,
+    MudSounds::eGrr_5,
+    MudSounds::e21,
+    MudSounds::eGrr_5,
+    MudSounds::eGrr_5,
+    MudSounds::eGrr_5,
+    MudSounds::eGrr_5,
+    MudSounds::eGrr_5,
+    MudSounds::eGrr_5,
+    MudSounds::eGrr_5,
+    MudSounds::eGrr_5,
+    MudSounds::e21,
+    MudSounds::e21,
+    MudSounds::eHiAngry_18,
+    MudSounds::eGrr_5,
+};
+
 
 __int16 Mudokon::AI_AngryWorker_8_47E910()
 {
@@ -4636,7 +4654,7 @@ __int16 Mudokon::AI_AngryWorker_8_47E910()
             && lastSpeak <= 24
             && sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
         {
-            field_160_delayed_speak = word_55CFCA[lastSpeak];
+            field_160_delayed_speak = sAngryWorkerResponses_55CFCA[lastSpeak-9];
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
             return 3;
         }
@@ -4730,8 +4748,8 @@ __int16 Mudokon::AI_AngryWorker_8_47E910()
             && lastSpeak2 <= 24
             && sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale)
         {
-            field_108_next_motion = 0;
-            field_160_delayed_speak = word_55CFCA[lastSpeak2];
+            field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+            field_160_delayed_speak = sAngryWorkerResponses_55CFCA[lastSpeak2-9];
             field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
             return 3;
         }
