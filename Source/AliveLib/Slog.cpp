@@ -12,6 +12,7 @@
 #include "Midi.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
+#include "Bone.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, short, sSlogCount_BAF7F2, 0);
 
@@ -790,4 +791,33 @@ void Slog::MoveOnLine_4C5DA0()
         field_F8_LastLineYPos = field_BC_ypos;
         field_106_current_motion = eSlogMotions::M_Fall_4_4C6930;
     }
+}
+
+Bone* Slog::FindBone_4C25B0()
+{
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eBone_11)
+        {
+            auto pBone = static_cast<Bone*>(pObj);
+            if (pBone->VCanThrow_49E350())
+            {
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pBone->field_C2_lvl_number, pBone->field_C0_path_number, pBone->field_B8_xpos, pBone->field_BC_ypos, 0) &&
+                    pBone->field_D6_scale == field_D6_scale)
+                {
+                    if (FP_Abs(field_BC_ypos - pBone->field_BC_ypos) <= FP_FromInteger(50) || pBone->VCanBeEaten_411560())
+                    {
+                        return pBone;
+                    }
+                }
+            }
+        }
+    }
+    return nullptr;
 }

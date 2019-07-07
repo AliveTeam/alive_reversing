@@ -77,6 +77,16 @@ BOOL Bone::VIsFalling_49E330()
     return vIsFalling_411510();
 }
 
+void Bone::VTimeToExplodeRandom_411490()
+{
+    // Empty
+}
+
+BOOL Bone::VCanBeEaten_411560()
+{
+    return vCanBeEaten_411560();
+}
+
 Bone* Bone::vdtor_411580(signed int flags)
 {
     dtor_4115B0();
@@ -206,6 +216,11 @@ void Bone::vScreenChanged_4122D0()
     }
 }
 
+BOOL Bone::vCanBeEaten_411560()
+{
+    return field_11C_state == 4;
+}
+
 TintEntry stru_550EC0[18] =
 {
     { 1u, 127u, 127u, 127u },
@@ -277,6 +292,16 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
         field_E0_pShadow->ctor_4AC990();
     }
     return this;
+}
+
+BaseGameObject* BoneBag::VDestructor(signed int flags)
+{
+    return vdtor_4127C0(flags);
+}
+
+void BoneBag::VScreenChanged()
+{
+    vScreenChanged_412BF0();
 }
 
 void BoneBag::vScreenChanged_412BF0()

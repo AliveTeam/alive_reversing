@@ -4,6 +4,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
+class Bone;
+
 struct Path_Slog : public Path_TLV
 {
     __int16 field_10_scale;
@@ -89,6 +91,9 @@ private:
     EXPORT BOOL CollisionCheck_4C5480(FP hitY, FP hitX);
 
     EXPORT void MoveOnLine_4C5DA0();
+
+    EXPORT Bone* FindBone_4C25B0();
+
 
 private:
     int field_118;

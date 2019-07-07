@@ -8,48 +8,25 @@ public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
 
     virtual void VScreenChanged() override;
-
     virtual void VThrow_49E460(FP velX, FP velY) override;
-
     virtual void VOnTrapDoorOpen() override;
-
     virtual BOOL VCanThrow_49E350() override;
-
     virtual BOOL VIsFalling_49E330() override;
+    virtual void VTimeToExplodeRandom_411490() override;
+    virtual BOOL VCanBeEaten_411560();
 
-    virtual void VTimeToExplodeRandom_411490() override
-    {
-        // TODO
-    }
 private:
     EXPORT Bone* vdtor_411580(signed int flags);
-
     EXPORT void dtor_4115B0();
-
     EXPORT void AddToPlatform_412310();
-
     EXPORT void vThrow_411670(FP velX, FP velY);
-
     EXPORT void vOnTrapDoorOpen_412490();
-
     EXPORT BOOL vIsFalling_411510();
-
     EXPORT BOOL vCanThrow_411530();
-
     EXPORT __int16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
-
     EXPORT void vScreenChanged_4122D0();
+    EXPORT BOOL vCanBeEaten_411560();
 
-    /*
-    Bone__vOnTrapDoorOpen_412490
-    Bone__vThrow_411670
-    Bone__vCanThrow_411530
-    Bone__vIsFalling_411510
-    Rock__vTimeToExplodeRandom_411490
-    Bone__vGetCount_412500
-    BaseThrowable__vToDead_4114B0
-    Bone__vsub_411560 // State is 4, eaten?
-    */
 private:
     __int16 field_11C_state;
     __int16 field_11E;
@@ -78,20 +55,14 @@ class BoneBag : public BaseAliveGameObject
 public:
     EXPORT BoneBag* ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_4127C0(flags);
-    }
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VUpdate() override
     {
         // TODO
     }
 
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_412BF0();
-    }
+    virtual void VScreenChanged() override;
 
 private:
     EXPORT void vScreenChanged_412BF0();
