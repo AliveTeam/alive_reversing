@@ -95,10 +95,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual void VUpdate() override
-    {
-        // TODO
-    }
+    virtual void VUpdate() override;
 
     virtual void VScreenChanged() override;
 
@@ -107,13 +104,15 @@ private:
     EXPORT BoneBag* vdtor_4127C0(signed int flags);
     EXPORT void dtor_4127F0();
 
+    EXPORT void vUpdate_412880();
+
 private:
     int field_118_tlvInfo;
     __int16 field_11C;
     __int16 field_11E_count;
     __int16 field_120;
     __int16 field_122;
-    int field_124;
-    int field_128;
+    FP field_124_velX;
+    FP field_128_velY;
 };
 ALIVE_ASSERT_SIZEOF(BoneBag, 0x12C);

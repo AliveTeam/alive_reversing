@@ -366,15 +366,18 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
 
     field_11C = 0;
     field_118_tlvInfo = tlvInfo;
+
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_DC_bApplyShadows &= ~1u;
     field_BC_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
-    field_124 = pTlv->field_12_x_vel << 8;
-    field_128 = -256 * pTlv->field_14_y_vel; // TODO: << 8 negated ??
+
+    field_DC_bApplyShadows &= ~1u;
+
+    field_124_velX = FP_FromRaw(pTlv->field_12_x_vel << 8);
+    field_128_velY = FP_FromRaw(-256 * pTlv->field_14_y_vel); // TODO: << 8 negated ??
 
     if (!pTlv->field_10_side)
     {
-        field_124 = -field_124;
+        field_124_velX = -field_124_velX;
     }
 
     if (pTlv->field_16_scale == 1)
@@ -405,6 +408,11 @@ BaseGameObject* BoneBag::VDestructor(signed int flags)
     return vdtor_4127C0(flags);
 }
 
+void BoneBag::VUpdate()
+{
+    vUpdate_412880();
+}
+
 void BoneBag::VScreenChanged()
 {
     vScreenChanged_412BF0();
@@ -430,4 +438,111 @@ void BoneBag::dtor_4127F0()
     SetVTable(this, 0x5443B0);
     Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, 0);
     dtor_4080B0();
+}
+
+void BoneBag::vUpdate_412880()
+{
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (field_20_animation.field_92_current_frame == 2)
+    {
+        if (field_120)
+        {
+            if (Math_NextRandom() < 40 || field_122)
+            {
+                field_120 = 0;
+                field_122 = 0;
+                SFX_Play_46FBA0(29u, 24, Math_RandomRange_496AB0(-2400, -2200));
+            }
+        }
+    }
+    else
+    {
+        field_120 = 1;
+    }
+
+    if (field_11C)
+    {
+        if (field_11C != 1)
+        {
+            return;
+        }
+
+        if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            return;
+        }
+
+        field_20_animation.Set_Animation_Data_409C80(8748, nullptr);
+        field_11C = 0;
+        return;
+    }
+
+    if (field_20_animation.field_E_frame_change_counter == 0)
+    {
+        field_20_animation.field_E_frame_change_counter = Math_RandomRange_496AB0(2, 10);
+    }
+
+    PSX_RECT bPlayerRect = {};
+    sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bPlayerRect, 1);
+
+    PSX_RECT bRect = {};
+    vGetBoundingRect_424FD0(&bRect, 1);
+
+    if (bRect.x <= bPlayerRect.w &&
+        bRect.w >= bPlayerRect.x &&
+        bRect.h >= bPlayerRect.y &&
+        bRect.y <= bPlayerRect.h &&
+        field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+    {
+
+        if (gpThrowableArray_5D1E2C)
+        {
+            if (gpThrowableArray_5D1E2C->field_20_count)
+            {
+                if (sActiveHero_5C1B68->field_106_current_motion == 31)
+                {
+                    field_20_animation.Set_Animation_Data_409C80(8708, nullptr);
+                }
+                else
+                {
+                    field_20_animation.Set_Animation_Data_409C80(8788, nullptr);
+                }
+                field_11C = 1;
+                return;
+            }
+        }
+        else
+        {
+            gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
+            gpThrowableArray_5D1E2C->ctor_49A630();
+        }
+
+        gpThrowableArray_5D1E2C->Add_49A7A0(field_11E_count);
+        
+        auto pBone = alive_new<Bone>();
+        pBone->ctor_4112C0(field_B8_xpos, field_BC_ypos - FP_FromInteger(30), field_11E_count);
+        
+        pBone->field_CC_sprite_scale = field_CC_sprite_scale;
+        pBone->field_D6_scale = field_D6_scale;
+        
+        pBone->VThrow_49E460(field_124_velX, field_128_velY);
+       
+        SFX_Play_46FA90(25u, 0);
+        Abe_SFX_2_457A40(7, 0, 0x7FFF, 0);
+
+        if (sActiveHero_5C1B68->field_106_current_motion == 31)
+        {
+            field_20_animation.Set_Animation_Data_409C80(8708, nullptr);
+        }
+        else
+        {
+            field_20_animation.Set_Animation_Data_409C80(8788, nullptr);
+        }
+
+        field_11C = 1;
+    }
 }
