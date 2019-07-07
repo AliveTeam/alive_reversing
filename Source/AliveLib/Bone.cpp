@@ -87,6 +87,66 @@ BOOL Bone::VCanBeEaten_411560()
     return vCanBeEaten_411560();
 }
 
+int Bone::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_412ED0(reinterpret_cast<Bone_SaveState*>(pSaveBuffer));
+}
+
+int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
+{
+    auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
+
+    auto pBone = alive_new<Bone>();
+    pBone->ctor_4112C0(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+
+    pBone->field_C_objectId = pState->field_4_obj_id;
+
+    pBone->field_B8_xpos = pState->field_8_xpos;
+    pBone->field_BC_ypos = pState->field_C_ypos;
+
+    pBone->field_E4_collection_rect.x = pBone->field_B8_xpos - (ScaleToGridSize_4498B0(pBone->field_CC_sprite_scale) / FP_FromInteger(2));
+    pBone->field_E4_collection_rect.y = pBone->field_BC_ypos - ScaleToGridSize_4498B0(pBone->field_CC_sprite_scale);
+    pBone->field_E4_collection_rect.w = (ScaleToGridSize_4498B0(pBone->field_CC_sprite_scale) / FP_FromInteger(2)) + pBone->field_B8_xpos;
+    pBone->field_E4_collection_rect.h = pBone->field_BC_ypos;
+
+    pBone->field_C4_velx = pState->field_10_velx;
+    pBone->field_C8_vely = pState->field_14_vely;
+
+    pBone->field_C0_path_number = pState->field_1C_path_number;
+    pBone->field_C2_lvl_number = pState->field_1E_lvl_number;
+    pBone->field_CC_sprite_scale = pState->field_18_sprite_scale;
+
+    pBone->field_D6_scale = pState->field_18_sprite_scale > FP_FromDouble(0.75);
+
+    pBone->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
+    pBone->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
+
+    pBone->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
+    pBone->field_6_flags.Set(BaseGameObject::eInteractive, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
+
+    pBone->field_114_flags.Set(Flags_114::e114_Bit9);
+
+    pBone->field_128 = sGnFrame_5C1B84;
+    
+    pBone->field_104_collision_line_type = pState->field_28_line_type;
+    pBone->field_118_count = pState->field_2A_count;
+    pBone->field_11C_state = pState->field_2C_state;
+    
+    pBone->field_11E = pState->field_2E;
+    pBone->field_120 = pState->field_30;
+    pBone->field_124 = pState->field_34;
+
+    pBone->field_12C = pState->field_38;
+
+    pBone->field_130 = 0;
+    if (pState->field_20_flags.Get(Bone_SaveState::eBit5_Unknown))
+    {
+        pBone->field_130 |= 1;
+    }
+
+    return sizeof(Bone_SaveState);
+}
+
 Bone* Bone::vdtor_411580(signed int flags)
 {
     dtor_4115B0();
@@ -219,6 +279,52 @@ void Bone::vScreenChanged_4122D0()
 BOOL Bone::vCanBeEaten_411560()
 {
     return field_11C_state == 4;
+}
+
+int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
+{
+    pState->field_0_type = Types::eBone_11;
+    pState->field_4_obj_id = field_C_objectId;
+
+    pState->field_8_xpos = field_B8_xpos;
+    pState->field_C_ypos = field_BC_ypos;
+
+    pState->field_10_velx = field_C4_velx;
+    pState->field_14_vely = field_C8_vely;
+
+    pState->field_1C_path_number = field_C0_path_number;
+    pState->field_1E_lvl_number = field_C2_lvl_number;
+
+    pState->field_18_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
+    pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
+
+    pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, field_6_flags.Get(BaseGameObject::eDrawable));
+    pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, field_6_flags.Get(BaseGameObject::eInteractive));
+
+    pState->field_20_flags.Set(Bone_SaveState::eBit5_Unknown, field_130 & 1);
+
+    if (field_100_pCollisionLine)
+    {
+        pState->field_28_line_type = field_100_pCollisionLine->field_8_type;
+    }
+    else
+    {
+        pState->field_28_line_type = -1;
+    }
+
+    pState->field_24_base_id = field_110_id;
+    pState->field_2A_count = field_118_count;
+    pState->field_2C_state = field_11C_state;
+
+    pState->field_2E = field_11E;
+    pState->field_30 = field_120;
+
+    pState->field_34 = field_124;
+    pState->field_38 = field_12C;
+
+    return sizeof(Bone_SaveState);
 }
 
 TintEntry stru_550EC0[18] =

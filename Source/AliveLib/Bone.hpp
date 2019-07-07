@@ -2,6 +2,41 @@
 
 #include "Throwable.hpp"
 
+struct Bone_SaveState
+{
+    Types field_0_type;
+    __int16 field_2_pad;
+    int field_4_obj_id;
+    FP field_8_xpos;
+    FP field_C_ypos;
+    FP field_10_velx;
+    FP field_14_vely;
+    FP field_18_sprite_scale;
+    __int16 field_1C_path_number;
+    LevelIds field_1E_lvl_number;
+
+    enum BoneStateFlags
+    {
+        eBit1_bRender = 0x1,
+        eBit2_bDrawable = 0x2,
+        eBit3_bLoop = 0x4,
+        eBit4_bInteractive = 0x8,
+        eBit5_Unknown = 0x10,
+    };
+
+    BitField16<BoneStateFlags> field_20_flags;
+    __int16 field_22;
+    int field_24_base_id;
+    __int16 field_28_line_type;
+    __int16 field_2A_count;
+    __int16 field_2C_state;
+    __int16 field_2E;
+    FP field_30;
+    FP field_34;
+    int field_38;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
+
 class Bone : public BaseThrowable
 {
 public:
@@ -14,6 +49,8 @@ public:
     virtual BOOL VIsFalling_49E330() override;
     virtual void VTimeToExplodeRandom_411490() override;
     virtual BOOL VCanBeEaten_411560();
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    EXPORT static int CC CreateFromSaveState_412C10(const BYTE* pData);
 
 private:
     EXPORT Bone* vdtor_411580(signed int flags);
@@ -26,6 +63,7 @@ private:
     EXPORT __int16 OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj);
     EXPORT void vScreenChanged_4122D0();
     EXPORT BOOL vCanBeEaten_411560();
+    EXPORT int vGetSaveState_412ED0(Bone_SaveState* pState);
 
 private:
     __int16 field_11C_state;
