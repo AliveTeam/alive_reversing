@@ -141,35 +141,35 @@ const char* const sMudMotionStateNames[60] =
 enum class MudSounds : __int16
 {
     eNone = -1,
-    e0 = 0,
-    e1 = 1,
-    e2 = 2,
-    e3 = 3,
-    e4 = 4,
-    eGrr_5 = 5,
-    e6 = 6,
-    e7 = 7,
-    e8 = 8,
-    e9 = 9,
-    e10 = 10,
-    e11 = 11,
-    e12 = 12,
-    e13 = 13,
-    e14 = 14,
-    e15 = 15,
-    e16 = 16,
-    e17 = 17,
+    eEmpty_0 = 0,
+    eEmpty_1 = 1,
+    eEmpty_2 = 2,
+    eHelloNeutral_3 = 3,
+    eFollowMe_4 = 4,
+    eAnger_5 = 5,
+    eWait_6 = 6,
+    eFart_7 = 7,
+    eLaugh_8 = 8,
+    eKnockBack_9 = 9,
+    eLaughingGasLaugh_10 = 10,
+    eGoodbye_11 = 11,
+    eOkay_12 = 12,
+    eRefuseCommand_13 = 13,
+    eOops_14 = 14,
+    eDeathDrop_15 = 15,
+    eKnockBack2_16 = 16,
+    eAllYa_17 = 17,
     eHiAngry_18 = 18,
-    e19 = 19,
-    e20 = 20,
-    e21 = 21,
-    e22 = 22,
-    e23 = 23,
-    e24 = 24,
-    e25 = 25,
-    e26 = 26,
-    e27 = 27,
-    e28 = 28
+    eHiHappy_19 = 19,
+    eHiSad_20 = 20,
+    eNoAngry_21 = 21,
+    eNoSad_22 = 22,
+    eFartPuh_23 = 23,
+    eSick_24 = 24,
+    eWork_25 = 25,
+    eStopIt_26 = 26,
+    eSorry_27 = 27,
+    eSadUgh_28 = 28
 };
 
 struct MudEmotionTableEntry
@@ -189,94 +189,94 @@ const MudEmotionTable kMudEmoTable_55C790 =
 {
     {
         {
-            { MudSounds::e3,  Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eHelloNeutral_3,  Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  12 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e23, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eFartPuh_23, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e28, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 }
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eSadUgh_28, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  12 }
         },
         {
             { MudSounds::eHiAngry_18, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eNoAngry_21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eAngry_1,   0 },
-            { MudSounds::e21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eNoAngry_21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  15 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  15 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eAngry_1,   0 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 }
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 }
         },
         {
             { MudSounds::eHiAngry_18, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eNoAngry_21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eAngry_1,   0 },
-            { MudSounds::e21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  15 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eNoAngry_21, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Slap_38_474AA0,             Mud_Emotion::eUnknown_2, 13 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eNormal_0,  15 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eAngry_1,   0 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 }
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eAngry_1,   12 }
         },
         {
-            { MudSounds::e20, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eHiSad_20, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSad_3,     0 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 13 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 13 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  15 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eNormal_0,  0 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 }
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 }
         },
         {
-            { MudSounds::e20, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eUnknown_4, 12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eHiSad_20, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eUnknown_4, 0 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
-            { MudSounds::e28, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eSadUgh_28, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eUnknown_4, 0 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 13 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eUnknown_4, 12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 13 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eNormal_0,  0 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eUnknown_4, 12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eUnknown_4, 0 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eUnknown_4, 0 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eUnknown_4, 0 },
@@ -284,61 +284,61 @@ const MudEmotionTable kMudEmoTable_55C790 =
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eUnknown_4, 0 }
         },
         {
-            { MudSounds::e19, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e10, Mud_Motion::StartHoistJumpUp_39_4748E0, Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e13, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  13 },
+            { MudSounds::eHiHappy_19, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::StartHoistJumpUp_39_4748E0, Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eRefuseCommand_13, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  13 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eWired_6,   0 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 }
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 }
         },
         {
-            { MudSounds::e19, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e10, Mud_Motion::StartHoistJumpUp_39_4748E0, Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e13, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::eGrr_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  13 },
+            { MudSounds::eHiHappy_19, Mud_Motion::Speak_Generic_4_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::StartHoistJumpUp_39_4748E0, Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eRefuseCommand_13, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eAnger_5,  Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eOkay_12, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eNormal_0,  13 },
             { MudSounds::eNone, Mud_Motion::StandToDunno_43_472790,     Mud_Emotion::eWired_6,   12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eWired_6,   0 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eWired_6,   0 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
-            { MudSounds::e10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 }
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eWired_6,   12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eNoSad_22, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSad_3,     12 },
+            { MudSounds::eLaughingGasLaugh_10, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eWired_6,   12 }
         },
         {
-            { MudSounds::e24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 },
-            { MudSounds::e24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 },
-            { MudSounds::e24, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eSick_7, 12 },
-            { MudSounds::e24, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eSick_7, 12 },
-            { MudSounds::e24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 },
+            { MudSounds::eSick_24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 },
+            { MudSounds::eSick_24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 },
+            { MudSounds::eSick_24, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eSick_7, 12 },
+            { MudSounds::eSick_24, Mud_Motion::Speak_Generic_3_472FA0,     Mud_Emotion::eSick_7, 12 },
+            { MudSounds::eSick_24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
-            { MudSounds::e28, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 13 },
-            { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
-            { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
-            { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
+            { MudSounds::eSadUgh_28, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 13 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
             { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
-            { MudSounds::e24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 },
-            { MudSounds::e24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 }
+            { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
+            { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
+            { MudSounds::eNone, Mud_Motion::StandIdle_0_4724E0,         Mud_Emotion::eSick_7, 0 },
+            { MudSounds::eSick_24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 },
+            { MudSounds::eSick_24, Mud_Motion::Speak_Generic_6_472FA0,     Mud_Emotion::eSick_7, 12 }
         }
     }
 };
@@ -1793,7 +1793,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
             field_16A_flags.Clear(Flags::eBit12);
             field_16A_flags.Clear(Flags::eBit14);
             field_108_next_motion = Mud_Motion::Speak_Generic_6_472FA0;
-            Sound_475EC0(MudSounds::e28);
+            Sound_475EC0(MudSounds::eSadUgh_28);
             return BrainStates1::eState_SadStandUp_4;
         }
         else
@@ -2274,7 +2274,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
             field_16A_flags.Clear(Flags::eBit14);
             field_16A_flags.Clear(Flags::eBit12);
             field_108_next_motion = Mud_Motion::Speak_Generic_6_472FA0;
-            Sound_475EC0(MudSounds::e28);
+            Sound_475EC0(MudSounds::eSadUgh_28);
             return BrainStates2::eState2_4;
         }
         else
@@ -2865,14 +2865,14 @@ __int16 Mudokon::BrainState4_State_1()
     switch (field_180_emo_tbl)
     {
     case Mud_Emotion::eNormal_0:
-        Sound_475EC0(MudSounds::e3);
+        Sound_475EC0(MudSounds::eHelloNeutral_3);
         break;
 
     case Mud_Emotion::eAngry_1:
     case Mud_Emotion::eUnknown_2:
         if (field_16A_flags.Get(Flags::eBit6_StandingForSadOrAngry))
         {
-            Sound_475EC0(MudSounds::eGrr_5);
+            Sound_475EC0(MudSounds::eAnger_5);
         }
         else
         {
@@ -2884,21 +2884,21 @@ __int16 Mudokon::BrainState4_State_1()
     case Mud_Emotion::eSick_7:
         if (field_16A_flags.Get(Flags::eBit6_StandingForSadOrAngry))
         {
-            Sound_475EC0(MudSounds::e22);
+            Sound_475EC0(MudSounds::eNoSad_22);
         }
         else
         {
-            Sound_475EC0(MudSounds::e20);
+            Sound_475EC0(MudSounds::eHiSad_20);
         }
         break;
 
     case Mud_Emotion::eUnknown_4:
-        Sound_475EC0(MudSounds::e22);
+        Sound_475EC0(MudSounds::eNoSad_22);
         break;
 
     case Mud_Emotion::eHappy_5:
     case Mud_Emotion::eWired_6:
-        Sound_475EC0(MudSounds::e10);
+        Sound_475EC0(MudSounds::eLaughingGasLaugh_10);
         break;
 
     default:
@@ -3065,7 +3065,7 @@ __int16 Mudokon::BrainState4_State_4_FollowingAbe()
                     if (field_17E_delayed_speak != MudAction::eUnknown_17)
                     {
                         __int16 v18 = sub_477AF0(field_17E_delayed_speak);
-                        if (field_188_pTblEntry->field_0_sound == MudSounds::e14)
+                        if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
                         {
                             field_194_timer = sGnFrame_5C1B84 + 20;
                         }
@@ -3292,7 +3292,7 @@ __int16 Mudokon::BrainState4_State_5()
 
     if (field_106_current_motion == Mud_Motion::StandToKnockBack_46_4742A0)
     {
-        Sound_475EC0(MudSounds::e16);
+        Sound_475EC0(MudSounds::eKnockBack2_16);
         __int16 result = sub_477AF0(MudAction::eUnknown_11);
         field_17E_delayed_speak = MudAction::eUnknown_17;
         field_194_timer = sGnFrame_5C1B84 + 20;
@@ -3426,7 +3426,7 @@ __int16 Mudokon::BrainState4_State_6_RunAfterAbe()
 
     if (field_106_current_motion == Mud_Motion::StandToKnockBack_46_4742A0)
     {
-        Sound_475EC0(MudSounds::e16);
+        Sound_475EC0(MudSounds::eKnockBack2_16);
         __int16 result = sub_477AF0(MudAction::eUnknown_11);
         field_17E_delayed_speak = MudAction::eUnknown_17;
         field_194_timer = sGnFrame_5C1B84 + 20;
@@ -3611,7 +3611,7 @@ __int16 Mudokon::BrainState4_State_7_StandingForAbeCommand()
     if (field_17E_delayed_speak != MudAction::eUnknown_17)
     {
         __int16 v18 = sub_477AF0(field_17E_delayed_speak);
-        if (field_188_pTblEntry->field_0_sound == MudSounds::e14)
+        if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
         {
             field_194_timer = sGnFrame_5C1B84 + 20;
             field_178_sub_state2 = field_190_sub_state;
@@ -3680,7 +3680,7 @@ __int16 Mudokon::BrainState4_State_7_StandingForAbeCommand()
         case GameSpeakEvents::eFollowMe_10:
         {
             const __int16 v26 = sub_477AF0(MudAction::eFollowMe_1);
-            if (field_188_pTblEntry->field_0_sound == MudSounds::e12 || field_188_pTblEntry->field_0_sound == MudSounds::e10)
+            if (field_188_pTblEntry->field_0_sound == MudSounds::eOkay_12 || field_188_pTblEntry->field_0_sound == MudSounds::eLaughingGasLaugh_10)
             {
                 field_16A_flags.Set(Flags::eBit5);
                 field_182 = -1;
@@ -3886,7 +3886,7 @@ __int16 Mudokon::BrainState4_State_12()
     if (field_17E_delayed_speak == MudAction::eMudDied_14 || field_17E_delayed_speak == MudAction::eMudAbuse_9)
     {
         __int16 v18 = sub_477AF0(field_17E_delayed_speak);
-        if (field_188_pTblEntry->field_0_sound == MudSounds::e14)
+        if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
         {
             field_194_timer = sGnFrame_5C1B84 + 20;
             field_178_sub_state2 = 7;
@@ -3933,9 +3933,9 @@ __int16 Mudokon::BrainState4_State_12()
         return field_190_sub_state;
     }
 
-    if (field_188_pTblEntry->field_0_sound != MudSounds::e23 || field_178_sub_state2 == 3)
+    if (field_188_pTblEntry->field_0_sound != MudSounds::eFartPuh_23 || field_178_sub_state2 == 3)
     {
-        if (field_188_pTblEntry->field_0_sound != MudSounds::e10 || (Math_NextRandom() >= 0x50u))
+        if (field_188_pTblEntry->field_0_sound != MudSounds::eLaughingGasLaugh_10 || (Math_NextRandom() >= 0x50u))
         {
             if (field_188_pTblEntry->field_0_sound != MudSounds::eNone)
             {
@@ -3944,18 +3944,18 @@ __int16 Mudokon::BrainState4_State_12()
         }
         else
         {
-            Sound_475EC0(MudSounds::e8);
+            Sound_475EC0(MudSounds::eLaugh_8);
         }
     }
     else
     {
         if (Math_NextRandom() >= 80u)
         {
-            Sound_475EC0(MudSounds::e10);
+            Sound_475EC0(MudSounds::eLaughingGasLaugh_10);
         }
         else
         {
-            Sound_475EC0(MudSounds::e8);
+            Sound_475EC0(MudSounds::eLaugh_8);
         }
     }
 
@@ -4030,7 +4030,7 @@ __int16 Mudokon::BrainState4_State_14()
     if (field_17E_delayed_speak == MudAction::eMudDied_14 || field_17E_delayed_speak == MudAction::eMudAbuse_9)
     {
         __int16 v18 = sub_477AF0(field_17E_delayed_speak);
-        if (field_188_pTblEntry->field_0_sound == MudSounds::e14)
+        if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
         {
             field_194_timer = sGnFrame_5C1B84 + 20;
             field_178_sub_state2 = 7;
@@ -4168,7 +4168,7 @@ __int16 Mudokon::BrainState4_State_17()
     if (field_17E_delayed_speak == MudAction::eMudDied_14 || field_17E_delayed_speak == MudAction::eMudAbuse_9)
     {
         __int16 v18 = sub_477AF0(field_17E_delayed_speak);
-        if (field_188_pTblEntry->field_0_sound == MudSounds::e14)
+        if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
         {
             field_194_timer = sGnFrame_5C1B84 + 20;
             field_178_sub_state2 = 7;
@@ -4228,7 +4228,7 @@ __int16 Mudokon::BrainState4_State_18()
     if (field_17E_delayed_speak == MudAction::eMudDied_14 || field_17E_delayed_speak == MudAction::eMudAbuse_9)
     {
         __int16 v18 = sub_477AF0(field_17E_delayed_speak);
-        if (field_188_pTblEntry->field_0_sound == MudSounds::e14)
+        if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
         {
             field_194_timer = (short)(sGnFrame_5C1B84 + 20);
         }
@@ -4290,15 +4290,15 @@ __int16 Mudokon::BrainState4_State_19()
 
     if (field_180_emo_tbl == Mud_Emotion::eAngry_1 || field_180_emo_tbl == Mud_Emotion::eUnknown_2)
     {
-        Sound_475EC0(MudSounds::e21);
+        Sound_475EC0(MudSounds::eNoAngry_21);
     }
     else if (field_180_emo_tbl == Mud_Emotion::eSad_3 || field_180_emo_tbl == Mud_Emotion::eUnknown_4)
     {
-        Sound_475EC0(MudSounds::e22);
+        Sound_475EC0(MudSounds::eNoSad_22);
     }
     else
     {
-        Sound_475EC0(MudSounds::e13);
+        Sound_475EC0(MudSounds::eRefuseCommand_13);
     }
 
     field_108_next_motion = Mud_Motion::Speak_Generic_6_472FA0;
@@ -4311,7 +4311,7 @@ __int16 Mudokon::BrainState4_State_20()
     {
         return field_190_sub_state;
     }
-    Sound_475EC0(MudSounds::e12);
+    Sound_475EC0(MudSounds::eOkay_12);
     field_108_next_motion = Mud_Motion::Speak_Generic_3_472FA0;
     return field_178_sub_state2;
 }
@@ -4332,11 +4332,11 @@ __int16 Mudokon::BrainState4_State_21()
 
     if (Math_NextRandom() >= 90u)
     {
-        Sound_475EC0(MudSounds::e10);
+        Sound_475EC0(MudSounds::eLaughingGasLaugh_10);
     }
     else
     {
-        Sound_475EC0(MudSounds::e8);
+        Sound_475EC0(MudSounds::eLaugh_8);
     }
 
     field_108_next_motion = Mud_Motion::Speak_Generic_6_472FA0;
@@ -4593,21 +4593,21 @@ __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
 const MudSounds sAngryWorkerResponses_55CFCA[16] =
 {
     MudSounds::eHiAngry_18,
-    MudSounds::e21,
-    MudSounds::eGrr_5,
-    MudSounds::e21,
-    MudSounds::eGrr_5,
-    MudSounds::eGrr_5,
-    MudSounds::eGrr_5,
-    MudSounds::eGrr_5,
-    MudSounds::eGrr_5,
-    MudSounds::eGrr_5,
-    MudSounds::eGrr_5,
-    MudSounds::eGrr_5,
-    MudSounds::e21,
-    MudSounds::e21,
+    MudSounds::eNoAngry_21,
+    MudSounds::eAnger_5,
+    MudSounds::eNoAngry_21,
+    MudSounds::eAnger_5,
+    MudSounds::eAnger_5,
+    MudSounds::eAnger_5,
+    MudSounds::eAnger_5,
+    MudSounds::eAnger_5,
+    MudSounds::eAnger_5,
+    MudSounds::eAnger_5,
+    MudSounds::eAnger_5,
+    MudSounds::eNoAngry_21,
+    MudSounds::eNoAngry_21,
     MudSounds::eHiAngry_18,
-    MudSounds::eGrr_5,
+    MudSounds::eAnger_5,
 };
 
 
@@ -4954,7 +4954,7 @@ __int16 Mudokon::AI_Sick_9_47A910()
         else
         {
             field_188_pTblEntry = ResponseTo_471730(Mud_Emotion::eSick_7, field_17E_delayed_speak);
-            if (field_188_pTblEntry->field_0_sound == MudSounds::e14)
+            if (field_188_pTblEntry->field_0_sound == MudSounds::eOops_14)
             {
                 field_194_timer = sGnFrame_5C1B84 + 20;
             }
@@ -4994,7 +4994,7 @@ __int16 Mudokon::AI_Sick_9_47A910()
             return field_190_sub_state;
         }
         
-        Sound_475EC0(MudSounds::e7);
+        Sound_475EC0(MudSounds::eFart_7);
         field_108_next_motion = Mud_Motion::Speak_Generic_6_472FA0;
         
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -6506,7 +6506,7 @@ void Mudokon::Sound_475EC0(MudSounds idx)
             return;
         }
 
-        if (idx != MudSounds::e24)
+        if (idx != MudSounds::eSick_24)
         {
             Abe_SFX_457EC0(static_cast<unsigned char>(idx), 80, -field_13C_voice_pitch, this);
             return;
@@ -6526,7 +6526,7 @@ void Mudokon::Sound_475EC0(MudSounds idx)
 
     if (field_180_emo_tbl == Mud_Emotion::eSick_7)
     {
-        if (idx == MudSounds::e24)
+        if (idx == MudSounds::eSick_24)
         {
             short pitch1 = Math_RandomRange_496AB0(-5, 0);
             pitch1 *= 100;
