@@ -2,6 +2,16 @@
 
 #include "Throwable.hpp"
 
+enum class BoneStates : __int16
+{
+    eState_0 = 0,
+    eState_1 = 1,
+    eState_2 = 2,
+    eState_3 = 3,
+    eState_4 = 4,
+    eState_5 = 5,
+};
+
 struct Bone_SaveState
 {
     Types field_0_type;
@@ -29,7 +39,7 @@ struct Bone_SaveState
     int field_24_base_id;
     __int16 field_28_line_type;
     __int16 field_2A_count;
-    __int16 field_2C_state;
+    BoneStates field_2C_state;
     __int16 field_2E;
     FP field_30;
     FP field_34;
@@ -41,7 +51,7 @@ class Bone : public BaseThrowable
 {
 public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
-
+    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VThrow_49E460(FP velX, FP velY) override;
     virtual void VOnTrapDoorOpen() override;
@@ -50,6 +60,7 @@ public:
     virtual void VTimeToExplodeRandom_411490() override;
     virtual BOOL VCanBeEaten_411560();
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+    virtual __int16 VGetCount_448080() override;
     EXPORT static int CC CreateFromSaveState_412C10(const BYTE* pData);
 
 private:
@@ -64,12 +75,15 @@ private:
     EXPORT void vScreenChanged_4122D0();
     EXPORT BOOL vCanBeEaten_411560();
     EXPORT int vGetSaveState_412ED0(Bone_SaveState* pState);
+    EXPORT void InTheAir_4116C0();
+    EXPORT void vUpdate_411BC0();
+    EXPORT __int16 vGetCount_412500();
 
 private:
-    __int16 field_11C_state;
+    BoneStates field_11C_state;
     __int16 field_11E;
-    FP field_120;
-    FP field_124;
+    FP field_120_xpos;
+    FP field_124_ypos;
     int field_128;
     int field_12C;
     __int16 field_130;
@@ -92,18 +106,14 @@ class BoneBag : public BaseAliveGameObject
 {
 public:
     EXPORT BoneBag* ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo);
-
     virtual BaseGameObject* VDestructor(signed int flags) override;
-
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
 
 private:
     EXPORT void vScreenChanged_412BF0();
     EXPORT BoneBag* vdtor_4127C0(signed int flags);
     EXPORT void dtor_4127F0();
-
     EXPORT void vUpdate_412880();
 
 private:

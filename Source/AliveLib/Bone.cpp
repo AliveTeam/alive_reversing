@@ -11,6 +11,7 @@
 #include "ObjectIds.hpp"
 #include "Events.hpp"
 #include "Abe.hpp"
+#include "Particle.hpp"
 
 Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
 {
@@ -30,8 +31,8 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
 
     field_B8_xpos = xpos;
     field_BC_ypos = ypos;
-    field_120 = xpos;
-    field_124 = ypos;
+    field_120_xpos = xpos;
+    field_124_ypos = ypos;
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_6_flags.Clear(BaseGameObject::eInteractive);
@@ -41,7 +42,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
 
     field_12C = sGnFrame_5C1B84 + 300;
     field_118_count = countId;
-    field_11C_state = 0;
+    field_11C_state = BoneStates::eState_0;
     field_11E = 0;
 
     field_E0_pShadow = alive_new<Shadow>();
@@ -50,6 +51,11 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
         field_E0_pShadow->ctor_4AC990();
     }
     return this;
+}
+
+void Bone::VUpdate()
+{
+    vUpdate_411BC0();
 }
 
 void Bone::VScreenChanged()
@@ -90,6 +96,11 @@ BOOL Bone::VCanBeEaten_411560()
 int Bone::VGetSaveState(BYTE* pSaveBuffer)
 {
     return vGetSaveState_412ED0(reinterpret_cast<Bone_SaveState*>(pSaveBuffer));
+}
+
+__int16 Bone::VGetCount_448080()
+{
+    return vGetCount_412500();
 }
 
 int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
@@ -133,8 +144,8 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
     pBone->field_11C_state = pState->field_2C_state;
     
     pBone->field_11E = pState->field_2E;
-    pBone->field_120 = pState->field_30;
-    pBone->field_124 = pState->field_34;
+    pBone->field_120_xpos = pState->field_30;
+    pBone->field_124_ypos = pState->field_34;
 
     pBone->field_12C = pState->field_38;
 
@@ -187,11 +198,11 @@ void Bone::vThrow_411670(FP velX, FP velY)
 
     if (field_118_count == 0)
     {
-        field_11C_state = 4;
+        field_11C_state = BoneStates::eState_4;
     }
     else
     {
-        field_11C_state = 1;
+        field_11C_state = BoneStates::eState_1;
     }
 }
 
@@ -202,21 +213,21 @@ void Bone::vOnTrapDoorOpen_412490()
     {
         pPlatform->VRemove(this);
         field_110_id = -1;
-        if (field_11C_state == 2 || field_11C_state == 3)
+        if (field_11C_state == BoneStates::eState_2 || field_11C_state == BoneStates::eState_3)
         {
-            field_11C_state = 1;
+            field_11C_state = BoneStates::eState_1;
         }
     }
 }
 
 BOOL Bone::vIsFalling_411510()
 {
-    return field_11C_state == 5;
+    return field_11C_state == BoneStates::eState_5;
 }
 
 BOOL Bone::vCanThrow_411530()
 {
-    return field_11C_state != 0 && field_11C_state != 1;
+    return field_11C_state != BoneStates::eState_0 && field_11C_state != BoneStates::eState_1;
 }
 
 __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
@@ -239,7 +250,7 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
     PSX_RECT bRect = {};
     pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-    if (field_120 < FP_FromInteger(bRect.x) || field_120 > FP_FromInteger(bRect.w))
+    if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
     {
         field_B8_xpos -= field_C4_velx;
         field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
@@ -278,7 +289,7 @@ void Bone::vScreenChanged_4122D0()
 
 BOOL Bone::vCanBeEaten_411560()
 {
-    return field_11C_state == 4;
+    return field_11C_state == BoneStates::eState_4;
 }
 
 int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
@@ -319,12 +330,280 @@ int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
     pState->field_2C_state = field_11C_state;
 
     pState->field_2E = field_11E;
-    pState->field_30 = field_120;
+    pState->field_30 = field_120_xpos;
 
-    pState->field_34 = field_124;
+    pState->field_34 = field_124_ypos;
     pState->field_38 = field_12C;
 
     return sizeof(Bone_SaveState);
+}
+
+void Bone::InTheAir_4116C0()
+{
+    field_120_xpos = field_B8_xpos;
+    field_124_ypos = field_BC_ypos;
+
+    if (field_C8_vely > FP_FromInteger(30))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    field_C8_vely += FP_FromInteger(1);
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
+
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_120_xpos,
+        field_124_ypos,
+        field_B8_xpos,
+        field_BC_ypos,
+        &field_100_pCollisionLine,
+        &hitX,
+        &hitY,
+        field_D6_scale == 1 ? 0x09 : 0x90) == 1)
+    {
+        switch (field_100_pCollisionLine->field_8_type)
+        {
+        case 0u:
+        case 4u:
+        case 32u:
+        case 36u:
+            if (field_C8_vely <= FP_FromInteger(0))
+            {
+                break;
+            }
+            
+            field_BC_ypos = hitY;
+
+            if (field_C8_vely < FP_FromInteger(1))
+            {
+                field_11C_state = BoneStates::eState_2;
+
+                field_BC_ypos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
+                field_C8_vely = FP_FromInteger(0);
+                if (field_C4_velx >= FP_FromInteger(0) && field_C4_velx < FP_FromInteger(1))
+                {
+                    field_C4_velx = FP_FromInteger(1);
+                }
+
+                if (field_C4_velx < FP_FromInteger(0) && field_C4_velx > FP_FromInteger(-1))
+                {
+                    field_C4_velx = FP_FromInteger(-1);
+                }
+                return;
+            }
+            else
+            {
+                field_BC_ypos -= FP_FromDouble(0.1);
+                field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
+                field_C4_velx = (field_C4_velx / FP_FromInteger(2));
+                short vol = 20 * (4 - field_11E);
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_46FA90(26u, vol);
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+                field_11E++;
+            }
+            break;
+
+        case 3u:
+        case 7u:
+            if (field_C8_vely < FP_FromInteger(0))
+            {
+                field_BC_ypos = hitY;
+                field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
+                short vol = 20 * (4 - field_11E);
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_46FA90(26u, vol);
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+            }
+            break;
+        }
+    }
+
+    if (sCollisions_DArray_5C1128->Raycast_417A60(field_120_xpos, field_124_ypos, field_B8_xpos, field_BC_ypos, &field_100_pCollisionLine, &hitX, &hitY, field_D6_scale == 1 ? 0x06 : 0x60) == 1)
+    {
+        switch (field_100_pCollisionLine->field_8_type)
+        {
+        case 1u:
+        case 5u:
+            if (field_C4_velx < FP_FromInteger(0))
+            {
+                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+                field_B8_xpos = hitX;
+                field_BC_ypos = hitY;
+                short vol = 20 * (4 - field_11E);
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_46FA90(26u, vol);
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+            }
+            field_100_pCollisionLine = nullptr;
+            break;
+
+        case 2u:
+        case 6u:
+            if (field_C4_velx > FP_FromInteger(0))
+            {
+                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+                field_B8_xpos = hitX;
+                field_BC_ypos = hitY;
+                short vol = 20 * (4 - field_11E);
+                if (vol < 40)
+                {
+                    vol = 40;
+                }
+                SFX_Play_46FA90(26u, vol);
+                Event_Broadcast_422BC0(kEventNoise, this);
+                Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+            }
+            field_100_pCollisionLine = nullptr;
+            break;
+        }
+    }
+}
+
+void Bone::vUpdate_411BC0()
+{
+    auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    switch (field_11C_state)
+    {
+    case BoneStates::eState_1:
+        InTheAir_4116C0();
+        return;
+
+    case BoneStates::eState_2:
+    {
+        PSX_RECT bRect = {};
+        vGetBoundingRect_424FD0(&bRect, 1);
+        const short offset = field_D6_scale != 0 ? 5 : 0;
+        const PSX_Point xy{ bRect.x, bRect.y + offset };
+        const PSX_Point wh{ bRect.w, bRect.h + offset };
+        vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
+
+        if (Raycast_408750(FP_FromInteger(5), field_C4_velx))
+        {
+            field_C4_velx = -field_C4_velx;
+        }
+
+        if (FP_Abs(field_C4_velx) >= FP_FromInteger(1))
+        {
+            if (field_C4_velx <= FP_FromInteger(0))
+            {
+                field_C4_velx = (FP_FromDouble(0.01) / field_CC_sprite_scale) + field_C4_velx;
+            }
+            else
+            {
+                field_C4_velx = field_C4_velx - (FP_FromDouble(0.01) / field_CC_sprite_scale);
+            }
+            field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        }
+        else
+        {
+            if (abs(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)) - FP_GetExponent(field_B8_xpos)) <= 1)
+            {
+                field_C4_velx = FP_FromInteger(0);
+                field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                field_E4_collection_rect.w = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
+                field_E4_collection_rect.h = field_BC_ypos;
+
+                field_11C_state = BoneStates::eState_3;
+                field_6_flags.Set(BaseGameObject::eInteractive);
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
+                field_128 = sGnFrame_5C1B84;
+                AddToPlatform_412310();
+                return;
+            }
+            field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        }
+
+        if (field_100_pCollisionLine)
+        {
+            return;
+        }
+
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
+        field_11C_state = BoneStates::eState_4;
+    }
+        return;
+
+    case BoneStates::eState_3:
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        {
+            field_12C = sGnFrame_5C1B84 + 300;
+        }
+
+        if (static_cast<int>(sGnFrame_5C1B84) > field_128 && !pObj)
+        {
+            New_Particle_426C30(
+                    field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(1)),
+                    (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos,
+                    FP_FromDouble(0.3),
+                    36);
+
+            field_128 = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
+        }
+
+        if (field_12C < static_cast<int>(sGnFrame_5C1B84))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+        return;
+
+    case BoneStates::eState_4:
+    {
+        InTheAir_4116C0();
+        PSX_RECT bRect = {};
+        vGetBoundingRect_424FD0(&bRect, 1);
+        const short offset = field_D6_scale != 0 ? 5 : 0;
+        const PSX_Point xy{ bRect.x, bRect.y + offset };
+        const PSX_Point wh{ bRect.w, bRect.h + offset };
+        vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
+
+        if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
+    return;
+
+    case BoneStates::eState_5:
+        field_C8_vely += FP_FromInteger(1);
+        field_B8_xpos += field_C4_velx;
+        field_BC_ypos = field_C8_vely + field_BC_ypos;
+        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+        return;
+    }
+}
+
+__int16 Bone::vGetCount_412500()
+{
+    if (field_11C_state == BoneStates::eState_3 && field_118_count == 0)
+    {
+        return 1;
+    }
+    return field_118_count;
 }
 
 TintEntry stru_550EC0[18] =
