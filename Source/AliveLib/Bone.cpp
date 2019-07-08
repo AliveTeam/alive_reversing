@@ -485,6 +485,9 @@ void Bone::vUpdate_411BC0()
 
     switch (field_11C_state)
     {
+    case BoneStates::eState_0:
+        break;
+
     case BoneStates::eState_1:
         InTheAir_4116C0();
         return;
@@ -494,8 +497,8 @@ void Bone::vUpdate_411BC0()
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
         const short offset = field_D6_scale != 0 ? 5 : 0;
-        const PSX_Point xy{ bRect.x, bRect.y + offset };
-        const PSX_Point wh{ bRect.w, bRect.h + offset };
+        const PSX_Point xy{ bRect.x, static_cast<short>(bRect.y + offset) };
+        const PSX_Point wh{ bRect.w, static_cast<short>(bRect.h + offset) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
 
         if (Raycast_408750(FP_FromInteger(5), field_C4_velx))
@@ -574,8 +577,8 @@ void Bone::vUpdate_411BC0()
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
         const short offset = field_D6_scale != 0 ? 5 : 0;
-        const PSX_Point xy{ bRect.x, bRect.y + offset };
-        const PSX_Point wh{ bRect.w, bRect.h + offset };
+        const PSX_Point xy{ bRect.x, static_cast<short>(bRect.y + offset) };
+        const PSX_Point wh{ bRect.w, static_cast<short>(bRect.h + offset) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
 
         if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
