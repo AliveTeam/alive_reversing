@@ -7974,10 +7974,11 @@ void Abe::State_116_MineCarEnter_458780()
 
 void Abe::State_117_In_MineCar_4587C0()
 {
-    if (sInputKey_DoAction_5550E4 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+    if (sInputObject_5BD4E0.isPressed(sInputKey_DoAction_5550E4))
     {
         auto pMineCar = static_cast<MineCar*>(sControlledCharacter_5C1B8C);
-        if (pMineCar->field_11C_state == 1 && pMineCar->field_1BC == 3)
+        if (pMineCar->field_11C_state == MineCar::States::eState_1_ParkedWithAbe &&
+            pMineCar->field_1BC == MineCar::States::eState_3_Falling)
         {
             PathLine* pLine = nullptr;
             FP hitX = {};
