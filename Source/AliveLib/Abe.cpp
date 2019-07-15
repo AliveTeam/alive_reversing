@@ -494,14 +494,13 @@ int CC Animation_OnFrame_Abe_455F80(void* pPtr, signed __int16* pData)
 
     auto pThrowable = static_cast<BaseThrowable*>(sObjectIds_5C1B70.Find_449CF0(sActiveHero_5C1B68->field_158_throwable_id));
 
-    const auto tableX = stru_555118[pAbe->field_1A3_throw_direction].field_0_x * pAbe->field_CC_sprite_scale;
+    auto tableX = stru_555118[pAbe->field_1A3_throw_direction].field_0_x * pAbe->field_CC_sprite_scale;
     const auto tableY = stru_555118[pAbe->field_1A3_throw_direction].field_4_y * pAbe->field_CC_sprite_scale;
 
     FP xOff = {};
-    FP tableXToUse = tableX;
     if (sActiveHero_5C1B68->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        tableXToUse = -tableX;
+        tableX = -tableX;
         xOff = -(pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_0_x));
     }
     else
@@ -523,14 +522,14 @@ int CC Animation_OnFrame_Abe_455F80(void* pPtr, signed __int16* pData)
         pAbe->field_D6_scale != 0 ? 6 : 0x60))
     {
         xOff = hitX - pAbe->field_B8_xpos;
-        tableXToUse = -tableX;
+        tableX = -tableX;
     }
 
     if (pThrowable)
     {
         pThrowable->field_B8_xpos = xOff + sActiveHero_5C1B68->field_B8_xpos;
         pThrowable->field_BC_ypos = (pAbe->field_CC_sprite_scale * FP_FromInteger(pFramePos->field_2_y)) + sActiveHero_5C1B68->field_BC_ypos;
-        pThrowable->VThrow_49E460(tableXToUse, tableY);
+        pThrowable->VThrow_49E460(tableX, tableY);
         pThrowable->field_CC_sprite_scale = pAbe->field_CC_sprite_scale;
         pThrowable->field_D6_scale = pAbe->field_D6_scale;
         sActiveHero_5C1B68->field_158_throwable_id = -1;
@@ -7186,14 +7185,14 @@ void Abe::State_104_RockThrowStandingHold_455DF0()
                 }
                 else
                 {
-                    field_1A3_throw_direction = 1;
+                    field_1A3_throw_direction = 2;
                 }
             }
             else if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
             {
                 if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    field_1A3_throw_direction = 1;
+                    field_1A3_throw_direction = 2;
                 }
                 else
                 {
