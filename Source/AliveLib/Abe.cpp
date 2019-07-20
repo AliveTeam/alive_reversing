@@ -3385,8 +3385,8 @@ void Abe::State_1_WalkLoop_44FBA0()
             }
 
             const FP offX = gridSize * FP_FromDouble(1.5);
-            if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), offX) ||
-                Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), offX))
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), offX) ||
+                WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), offX))
             {
                 bEndWalking = true;
             }
@@ -3737,8 +3737,8 @@ void Abe::State_6_WalkBegin_44FEE0()
         field_106_current_motion = eAbeStates::State_1_WalkLoop_44FBA0;
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
     }
@@ -4263,7 +4263,7 @@ void Abe::State_22_RollBegin_4539A0()
     }
 
     const FP xpos = field_CC_sprite_scale * FP_FromInteger(20);
-    if (Raycast_408750(xpos, field_C4_velx))
+    if (WallHit_408750(xpos, field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
         field_106_current_motion = eAbeStates::State_74_Rolling_KnockedBack_455290;
@@ -4285,7 +4285,7 @@ void Abe::State_23_RollLoop_453A90()
 
     field_11C_released_buttons |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_10_released;
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
         field_106_current_motion = eAbeStates::State_74_Rolling_KnockedBack_455290;
@@ -4343,7 +4343,7 @@ void Abe::State_24_453D00()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
         field_106_current_motion = eAbeStates::State_74_Rolling_KnockedBack_455290;
@@ -4368,8 +4368,8 @@ void Abe::State_25_RunSlideStop_451330()
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
     }
@@ -4414,7 +4414,7 @@ void Abe::State_26_RunTurn_451500()
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         ToKnockback_44E700(1, 1);
     }
@@ -4473,8 +4473,8 @@ void Abe::State_27_HopBegin_4521C0()
         if (field_1A8_portal_id == -1)
         {
             // Check for hopping into a wall
-            if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-                Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+                WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
             {
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -4524,8 +4524,8 @@ void Abe::State_28_HopMid_451C50()
     }
 
     // Hopped into a wall?
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         Event_Broadcast_422BC0(kEventNoise, this);
         Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
@@ -4666,8 +4666,8 @@ void Abe::State_30_RunJumpBegin_4532E0()
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
     // Check if about to jump into a wall
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(FP_FromInteger(10), field_C4_velx)) // TODO: OG bug, why no scaling?
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(FP_FromInteger(10), field_C4_velx)) // TODO: OG bug, why no scaling?
     {
         ToKnockback_44E700(1, 1);
     }
@@ -4713,8 +4713,8 @@ void Abe::State_31_RunJumpMid_452C10()
         return;
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(FP_FromInteger(10), field_C4_velx) ||
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(FP_FromInteger(10), field_C4_velx) ||
         Is_Celling_Above_44E8D0())
     {
         field_108_next_motion = eAbeStates::State_0_Idle_44EEB0;
@@ -4910,7 +4910,7 @@ void Abe::State_32_RunJumpLand_453460()
                 }
                 else
                 {
-                    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), -ScaleToGridSize_4498B0(field_CC_sprite_scale)))
+                    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), -ScaleToGridSize_4498B0(field_CC_sprite_scale)))
                     {
                         field_106_current_motion = eAbeStates::State_25_RunSlideStop_451330;
                         field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
@@ -4957,7 +4957,7 @@ void Abe::State_32_RunJumpLand_453460()
             }
             else
             {
-                if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), ScaleToGridSize_4498B0(field_CC_sprite_scale)))
+                if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), ScaleToGridSize_4498B0(field_CC_sprite_scale)))
                 {
                     field_106_current_motion = eAbeStates::State_25_RunSlideStop_451330;
                     field_C4_velx = ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4);
@@ -5013,8 +5013,8 @@ void Abe::State_33_RunLoop_4508E0()
     }
 
     // Ran into wall?
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
         ToKnockback_44E700(1, 1);
@@ -5095,8 +5095,8 @@ void Abe::State_33_RunLoop_4508E0()
                 }
 
                 // Run to walk and hit wall
-                if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
-                    Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
+                if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
+                    WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
                 {
                     ToKnockback_44E700(1, 1);
                 }
@@ -5207,8 +5207,8 @@ void Abe::State_39_StandingToRun_450D40()
 
     field_118_prev_held |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
     }
@@ -5220,7 +5220,7 @@ void Abe::State_39_StandingToRun_450D40()
 
 void Abe::State_40_SneakLoop_450550()
 {
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         ToIdle_44E6B0();
         MapFollowMe_408D10(TRUE);
@@ -5246,8 +5246,8 @@ void Abe::State_40_SneakLoop_450550()
                 }
 
                 // Hit wall, changed direction or no longer trying to sneak
-                if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
-                    Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize)
+                if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) ||
+                    WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize)
                     || (field_C4_velx > FP_FromInteger(0) && (sInputKey_Left_5550D4 & pressed))
                     || (field_C4_velx < FP_FromInteger(0) && (sInputKey_Right_5550D0 & pressed))
                     || !((sInputKey_Left_5550D4 | sInputKey_Right_5550D0) & pressed))
@@ -5306,8 +5306,8 @@ void Abe::State_41_450250()
         field_106_current_motion = eAbeStates::State_40_SneakLoop_450550;
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
         MapFollowMe_408D10(TRUE);
@@ -5337,8 +5337,8 @@ void Abe::State_42_4503D0()
         field_106_current_motion = eAbeStates::State_1_WalkLoop_44FBA0;
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
         MapFollowMe_408D10(TRUE);
@@ -5384,8 +5384,8 @@ void Abe::State_45_SneakBegin_4507A0()
         field_106_current_motion = eAbeStates::State_40_SneakLoop_450550;
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
         MapFollowMe_408D10(TRUE);
@@ -5441,8 +5441,8 @@ void Abe::State_48_4500A0()
         field_118_prev_held = 0;
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
         MapFollowMe_408D10(TRUE);
@@ -5488,8 +5488,8 @@ void Abe::State_50_RunToWalk1_450E20()
         field_106_current_motion = eAbeStates::State_1_WalkLoop_44FBA0;
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
     }
@@ -5519,8 +5519,8 @@ void Abe::State_52_RunTurn_ToRun_451710()
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
     {
         ToIdle_44E6B0();
     }
@@ -5551,7 +5551,7 @@ void Abe::State_54_RunJumpLandRun_4538F0()
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         ToIdle_44E6B0();
     }
@@ -5833,7 +5833,7 @@ void Abe::State_61_TurnToRun_456530()
     Event_Broadcast_422BC0(kEventNoise, this);
     Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         // Was going to run into something
         ToKnockback_44E700(1, 1);
@@ -6193,7 +6193,7 @@ void Abe::State_71_Knockback_455090()
     {
         if (field_100_pCollisionLine)
         {
-            if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
             {
                 field_C4_velx = FP_FromInteger(0);
             }
@@ -7977,7 +7977,7 @@ void Abe::State_117_In_MineCar_4587C0()
     {
         auto pMineCar = static_cast<MineCar*>(sControlledCharacter_5C1B8C);
         if (pMineCar->field_11C_state == MineCar::States::eState_1_ParkedWithAbe &&
-            pMineCar->field_1BC == MineCar::States::eState_3_Falling)
+            pMineCar->field_1BC == 3)
         {
             PathLine* pLine = nullptr;
             FP hitX = {};
@@ -8389,16 +8389,16 @@ __int16 Abe::ToLeftRightMovement_44E340()
             field_106_current_motion = eAbeStates::State_6_WalkBegin_44FEE0;
         }
 
-        if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize))
+        if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize))
         {
-            if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
+            if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
             {
                 return 1;
             }
         }
 
         // Walking into wall?
-        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
         {
             PushWall_44E890();
             return 0;
@@ -8431,16 +8431,16 @@ __int16 Abe::ToLeftRightMovement_44E340()
             field_106_current_motion = eAbeStates::State_6_WalkBegin_44FEE0;
         }
 
-        if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), -gridSize))
+        if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), -gridSize))
         {
-            if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), -gridSize))
+            if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), -gridSize))
             {
                 return 1;
             }
         }
 
         // Walking into wall?
-        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(20), -gridSize))
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), -gridSize))
         {
             PushWall_44E890();
             return 0;

@@ -289,7 +289,7 @@ void Greeter::HandleRollingAlong_447860()
     if (field_13C_state == States::eState_0)
     {
         if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_408E90(0, 1)) ||
-            Raycast_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3)) ||
+            WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3)) ||
             (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) && Check_IsOnEndOfLine_408E90(1, 1)))
         {
             ChangeDirection_447BD0();
@@ -298,7 +298,7 @@ void Greeter::HandleRollingAlong_447860()
 
     if (field_13C_state == States::eState_4)
     {
-        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3))) // TODO: OG bug, raw * 3 here ??
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3))) // TODO: OG bug, raw * 3 here ??
         {
             BounceBackFromShot_447B10();
         }
@@ -677,7 +677,7 @@ void Greeter::vUpdate_4469B0()
     } break;
 
     case States::eState_5:
-        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(40), FP_FromRaw(3 * field_C4_velx.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), FP_FromRaw(3 * field_C4_velx.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
         {
             field_C4_velx = FP_FromInteger(0);
         }

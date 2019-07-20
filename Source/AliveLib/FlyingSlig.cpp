@@ -622,6 +622,13 @@ void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
     NOT_IMPLEMENTED();
 }
 
+signed __int16 FlyingSlig::sub_43A510()
+{
+    NOT_IMPLEMENTED();
+    return ((field_184 > 0 && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
+         || (field_184 < 0 &&   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)));
+}
+
 void FlyingSlig::ToPlayerControlled_4360C0()
 {
     VSetMotion_4081C0(eFlyingSligMotions::M_Idle_0_4385E0);

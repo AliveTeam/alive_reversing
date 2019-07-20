@@ -71,9 +71,9 @@ private:
 
     EXPORT void dtor_46F2A0();
 
-    EXPORT BOOL CheckCollision_46F6B0(FP hitX, FP hitY);
+    EXPORT BOOL CheckRoofCollision_46F6B0(FP hitX, FP hitY);
 
-    EXPORT __int16 CheckCollision_46F730(FP hitX, FP hitY);
+    EXPORT __int16 CheckFloorCollision_46F730(FP hitX, FP hitY);
 
     EXPORT void vUpdate_Real_46C010();
 
@@ -83,7 +83,7 @@ private:
 
     EXPORT void Stop_46E570();
 
-    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, MineCar::States state, char bChangeDirection);
+    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, __int16 unknown, char bChangeDirection);
 
     EXPORT __int16 IsBlocked_46F4A0(__int16 a2, int a3);
 
@@ -107,7 +107,7 @@ private:
     __int16 field_122;
     Animation field_124_anim;
 public:
-    States field_1BC;
+    __int16 field_1BC;
 private:
     __int16 field_1BE;
     __int16 field_1C0;

@@ -501,7 +501,7 @@ void Bone::vUpdate_411BC0()
         const PSX_Point wh{ bRect.w, static_cast<short>(bRect.h + offset) };
         vOnCollisionWith_424EE0(xy, wh, gBaseGameObject_list_BB47C4, 1, (TCollisionCallBack)&Bone::OnCollision_412140);
 
-        if (Raycast_408750(FP_FromInteger(5), field_C4_velx))
+        if (WallHit_408750(FP_FromInteger(5), field_C4_velx))
         {
             field_C4_velx = -field_C4_velx;
         }

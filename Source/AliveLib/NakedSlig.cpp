@@ -740,7 +740,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             gridScale = ScaleToGridSize_4498B0(field_CC_sprite_scale);
         }
 
-        if (!Raycast_408750(FP_FromInteger(35), gridScale))
+        if (!WallHit_408750(FP_FromInteger(35), gridScale))
         {
             field_108_next_motion = NakedSligMotion::M_Crawling_3_41B280;
             return 2;
@@ -837,7 +837,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             gridScale = ScaleToGridSize_4498B0(field_CC_sprite_scale);
         }
 
-        if (Raycast_408750(FP_FromInteger(35), gridScale))
+        if (WallHit_408750(FP_FromInteger(35), gridScale))
         {
             field_108_next_motion = NakedSligMotion::M_TurnAround_11_41B590;
             return 3;
@@ -1498,7 +1498,7 @@ void NakedSlig::M_PushingWall_10_41B400()
                 yPos = ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
 
-            if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(30), yPos))
+            if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(30), yPos))
             {
                 Set_AnimAndMotion_419890(NakedSligMotion::M_Crawling_3_41B280, TRUE);
             }
@@ -1705,7 +1705,7 @@ void NakedSlig::HandleCommon_41C0B0()
             gridScale = ScaleToGridSize_4498B0(field_CC_sprite_scale);
         }
 
-        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(30), gridScale))
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(30), gridScale))
         {
             if (sControlledCharacter_5C1B8C == this)
             {
@@ -1758,7 +1758,7 @@ __int16 NakedSlig::CanCrawl_41C5D0()
 
     field_C4_velx = (field_C4_velx * field_CC_sprite_scale);
 
-    if (sControlledCharacter_5C1B8C == this && Raycast_408750(field_CC_sprite_scale * FP_FromInteger(30), gridScale))
+    if (sControlledCharacter_5C1B8C == this && WallHit_408750(field_CC_sprite_scale * FP_FromInteger(30), gridScale))
     {
         field_1B0 = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);

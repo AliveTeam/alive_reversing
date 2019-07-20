@@ -484,7 +484,7 @@ __int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
     return 0;
 }
 
-EXPORT int BaseAliveGameObject::Raycast_408750(FP offY, FP offX)
+EXPORT int BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(

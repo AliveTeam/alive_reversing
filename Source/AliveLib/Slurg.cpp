@@ -357,14 +357,14 @@ void Slurg::vOn_TLV_Collision_4C8C20(Path_TLV* pTlv)
 
     if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
     {
-        if (Raycast_408750(field_130_scale * FP_FromInteger(8), -(field_130_scale * FP_FromInteger(6))) || Check_IsOnEndOfLine_408E90(1, 1))
+        if (WallHit_408750(field_130_scale * FP_FromInteger(8), -(field_130_scale * FP_FromInteger(6))) || Check_IsOnEndOfLine_408E90(1, 1))
         {
             GoLeft();
         }
     }
     else
     {
-        if (Raycast_408750(field_130_scale * FP_FromInteger(8), field_130_scale * FP_FromInteger(6))|| Check_IsOnEndOfLine_408E90(0, 1))
+        if (WallHit_408750(field_130_scale * FP_FromInteger(8), field_130_scale * FP_FromInteger(6))|| Check_IsOnEndOfLine_408E90(0, 1))
         {
             GoRight();
         }

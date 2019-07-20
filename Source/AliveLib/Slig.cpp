@@ -534,7 +534,7 @@ void Slig::M_Walking_2_4B5BC0()
         field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx * FP_FromInteger(2)))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx * FP_FromInteger(2)))
     {
         ToStand_4B4A20();
         return;
@@ -584,7 +584,7 @@ void Slig::M_Walking_2_4B5BC0()
                 gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
 
-            if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), gridSize * FP_FromInteger(2)))
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), gridSize * FP_FromInteger(2)))
             {
                 field_106_current_motion = eSligMotions::M_WalkToStand_18_4B5FC0;
             }
@@ -622,7 +622,7 @@ void Slig::M_StandToRun_3_4B62F0()
 
     Event_Broadcast_422BC0(kEventNoise, this);
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
     {
         FallKnockBackOrSmash_4B4A90();
     }
@@ -732,7 +732,7 @@ void Slig::M_Falling_7_4B42D0()
 void Slig::M_SlidingToStand_8_4B6520()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
     {
         FallKnockBackOrSmash_4B4A90();
     }
@@ -766,7 +766,7 @@ void Slig::M_SlidingTurn_9_4B6680()
 {
     Event_Broadcast_422BC0(kEventNoise, this);
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
     {
         FallKnockBackOrSmash_4B4A90();
     }
@@ -869,7 +869,7 @@ void Slig::M_SteppingToStand_14_4B8480()
         Slig_Sfx_4BFFE0(2, this);
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
     {
         FallKnockBackOrSmash_4B4A90();
     }
@@ -1296,7 +1296,7 @@ void Slig::M_KnockbackToStand_35_4B6A30()
         gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     }
 
-    if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), gridSize))
+    if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), gridSize))
     {
         int xOff = 0;
         switch (field_20_animation.field_92_current_frame)
@@ -3228,7 +3228,7 @@ __int16 Slig::MainMovement_4B4720()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), -ScaleToGridSize_4498B0(field_CC_sprite_scale)))
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), -ScaleToGridSize_4498B0(field_CC_sprite_scale)))
         {
             return 0;
         }
@@ -3236,7 +3236,7 @@ __int16 Slig::MainMovement_4B4720()
     }
     else
     {
-        if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), ScaleToGridSize_4498B0(field_CC_sprite_scale)))
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), ScaleToGridSize_4498B0(field_CC_sprite_scale)))
         {
             return 0;
         }
@@ -3263,14 +3263,14 @@ __int16 Slig::HandlePlayerControlled_4B7800()
                 return 1;
             }
 
-            if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2)))
+            if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2)))
             {
                 field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
                 field_106_current_motion = eSligMotions::M_StandingToStep_15_4B83B0;
                 return 1;
             }
 
-            if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), ScaleToGridSize_4498B0(field_CC_sprite_scale)))
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), ScaleToGridSize_4498B0(field_CC_sprite_scale)))
             {
                 return 0;
             }
@@ -3298,14 +3298,14 @@ __int16 Slig::HandlePlayerControlled_4B7800()
                 return 1;
             }
 
-            if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), -ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2)))
+            if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), -ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2)))
             {
                 field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(9));
                 field_106_current_motion = eSligMotions::M_StandingToStep_15_4B83B0;
                 return 1;
             }
 
-            if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(45), -ScaleToGridSize_4498B0(field_CC_sprite_scale)))
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), -ScaleToGridSize_4498B0(field_CC_sprite_scale)))
             {
                 return 0;
             }
@@ -3530,7 +3530,7 @@ void Slig::FallKnockBackOrSmash_4B4A90()
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            if (!Raycast_408750((field_CC_sprite_scale * FP_FromInteger(45)), (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2))))
+            if (!WallHit_408750((field_CC_sprite_scale * FP_FromInteger(45)), (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2))))
             {
                 field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
             }
@@ -3541,7 +3541,7 @@ void Slig::FallKnockBackOrSmash_4B4A90()
         }
         else
         {
-            if (!Raycast_408750((field_CC_sprite_scale * FP_FromInteger(45)), (-ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2))))
+            if (!WallHit_408750((field_CC_sprite_scale * FP_FromInteger(45)), (-ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2))))
             {
                 field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
             }

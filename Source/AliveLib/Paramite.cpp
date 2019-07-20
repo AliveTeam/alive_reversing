@@ -917,7 +917,7 @@ Meat* Paramite::FindMeat_488930()
             if (pMeat->VCanEatMe_4696A0())
             {
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pMeat->field_C2_lvl_number, pMeat->field_C0_path_number, pMeat->field_B8_xpos, pMeat->field_BC_ypos, 0) &&
-                    !Raycast_408750(field_BC_ypos, pMeat->field_B8_xpos - field_B8_xpos))
+                    !WallHit_408750(field_BC_ypos, pMeat->field_B8_xpos - field_B8_xpos))
                 {
                     if (!pMeat->field_130_pLine)
                     {

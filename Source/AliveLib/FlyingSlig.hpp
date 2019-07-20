@@ -129,6 +129,8 @@ public:
     EXPORT void M_HorizontalToUpMovement_24_438D60();
     EXPORT void M_TurnToHorizontalMovement_25_4389E0();
 
+    EXPORT signed __int16 sub_43A510();
+
 public:
     EXPORT void ToPlayerControlled_4360C0();
 

@@ -410,8 +410,8 @@ void Glukkon::M_Jump_4_443030()
 
     field_C4_velx = (field_CC_sprite_scale * velXTableValue);
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
-        Raycast_408750(field_CC_sprite_scale * FP_FromInteger(2), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx) ||
+        WallHit_408750(field_CC_sprite_scale * FP_FromInteger(2), field_C4_velx))
     {
         field_C8_vely = FP_FromInteger(0);
         field_1D8 = FP_FromDouble(0.35);
@@ -2229,7 +2229,7 @@ void Glukkon::HandleInput_443BB0()
         {
             xOff = ScaleToGridSize_4498B0(field_CC_sprite_scale);
         }
-        if (!Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), xOff))
+        if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), xOff))
         {
             SetAnim_43F9C0(field_108_next_motion, TRUE);
         }
@@ -2312,7 +2312,7 @@ __int16 Glukkon::PathBlocked_4442F0(FP /*a2*/, __int16 checkBounds)
         direction = Path_EnemyStopper::StopDirection::Right_1;
     }
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize * FP_FromInteger(1)))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize * FP_FromInteger(1)))
     {
         return 1;
     }
@@ -2467,7 +2467,7 @@ __int16 Glukkon::DoMovement_444190()
 
     field_C4_velx = field_C4_velx * field_CC_sprite_scale;
 
-    if (Raycast_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), field_C4_velx))
     {
         field_1D8 = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
