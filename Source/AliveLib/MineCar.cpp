@@ -315,7 +315,7 @@ void MineCar::vUpdate_Real_46C010()
 
 void MineCar::vUpdate_46C010()
 {
-    NOT_IMPLEMENTED();
+   // NOT_IMPLEMENTED();
 
     if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
@@ -472,6 +472,362 @@ void MineCar::State_1()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
 
+
+    FP v62 = {};
+    FP v63 = {};
+    FP v64 = {};
+    FP v65 = {};
+    FP v66 = {};
+    FP v67 = {};
+    
+    FP v19 = {};
+    FP v20 = {};
+    FP v21 = {};
+
+    PathLine* pPathLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    int v13 = 0;
+
+    const auto inputPressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    if (!(inputPressed & sInputKey_Right_5550D0))
+    {
+        //HIWORD(v13) = 0;
+        if (!(field_1D4_previous_input & (unsigned __int16)inputPressed))
+        {
+            goto LABEL_177;
+        }
+        if ((unsigned __int16)field_1D6_continue_move_input != sInputKey_Right_5550D0)
+        {
+            goto LABEL_177;
+        }
+        const auto field_1bc_local = field_1BC;
+        if (field_1bc_local == 3)
+        {
+            goto LABEL_177;
+        }
+        if (!field_1bc_local)
+        {
+            goto LABEL_177;
+        }
+        //LOWORD(v13) = field_1D4_previous_input;
+        v13 = field_1D4_previous_input & 0xFFFF;
+        if (v13 == (int)sInputKey_Left_5550D4)
+        {
+            goto LABEL_177;
+        }
+    }
+
+    const FP v15 = (field_CC_sprite_scale * FP_FromInteger(12));
+    const FP v16 = v15 + ScaleToGridSize_4498B0(field_CC_sprite_scale) + FP_FromInteger(1);
+    const FP v17 = (field_CC_sprite_scale * FP_FromInteger(60));
+    const FP v18 = (v17 * FP_FromDouble(0.5));
+
+
+    if (WallHit_408750(v18, v16)
+        || (v19 = (field_CC_sprite_scale * FP_FromInteger(12)),
+            v20 = v19 + ScaleToGridSize_4498B0(field_CC_sprite_scale) + FP_FromInteger(1),
+            v21 = (field_CC_sprite_scale * FP_FromInteger(60)),
+            WallHit_408750(v21 - FP_FromInteger(8), v20)))
+    {
+    LABEL_177:
+        const FP v46 = (field_CC_sprite_scale * FP_FromInteger(12));
+        const FP v47 = v46 + ScaleToGridSize_4498B0(field_CC_sprite_scale) + FP_FromInteger(1);
+        const FP v48 = (field_CC_sprite_scale * FP_FromInteger(60));
+        const FP v49 = (v48 * FP_FromDouble(0.5));
+        if (WallHit_408750(v49, v47))
+        {
+            if (sInputKey_Right_5550D0 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+            {
+                if (field_1BC != 2 && !((signed int)sGnFrame_5C1B84 % 6))
+                {
+                    SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
+                }
+            }
+        }
+    }
+    else
+    {
+        const FP v22 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        const FP v23 = (v22 / FP_FromInteger(4)) + field_B8_xpos;
+        const FP v24 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60));
+        const FP v25 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        const FP v26 = (v25 / FP_FromInteger(4));
+        if (sCollisions_DArray_5C1128->Raycast_417A60(v26 + field_B8_xpos, v24, v23, field_BC_ypos, &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 2048 : 0x4000))
+        {
+            const FP v27 = (field_CC_sprite_scale * FP_FromInteger(12));
+            const FP v28 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            FP v29 = {};
+            FP v30 = {};
+            if (CheckFloorCollision_46F730(v27 + v28 + FP_FromInteger(2), FP_FromInteger(4))
+                || (v29 = (field_CC_sprite_scale * FP_FromInteger(12)), v30 = ScaleToGridSize_4498B0(field_CC_sprite_scale), CheckFloorCollision_46F730(FP_FromInteger(4) - (v29 + v30), FP_FromInteger(4))))
+            {
+                const FP v31 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                const FP v32 = (v31 / FP_FromInteger(4));
+                Move_46E640(20872u, v32, FP_FromInteger(0), (unsigned short)sInputKey_Right_5550D0, 3, 0);
+                if (sInputKey_Right_5550D0 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+                {
+                    //goto LABEL_165;
+                    return; 
+                }
+            }
+        }
+
+        const FP v33 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        const FP v34 = (v33 / FP_FromInteger(4)) + field_B8_xpos;
+        const FP v35 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60));
+        const FP v36 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        const FP v37 = (v36 / FP_FromInteger(4));
+        if (sCollisions_DArray_5C1128->Raycast_417A60(v37 + field_B8_xpos, v35, v34, field_BC_ypos, &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000))
+        {
+            const FP v38 = -(field_CC_sprite_scale * FP_FromInteger(60));
+            const FP v39 = (field_CC_sprite_scale * FP_FromInteger(12));
+            const FP v40 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+
+            FP v41 = {};
+            FP v42 = {};
+            FP v43 = {};
+            if (CheckRoofCollision_46F6B0(v39 + v40 + FP_FromInteger(2), v38)
+                || (v41 = -(field_CC_sprite_scale * FP_FromInteger(60)),
+                    v42 = (field_CC_sprite_scale * FP_FromInteger(12)),
+                    v43 = ScaleToGridSize_4498B0(field_CC_sprite_scale),
+                    CheckRoofCollision_46F6B0(FP_FromInteger(4) - (v42 + v43), v41)))
+            {
+                const FP v44 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                const FP v45 = (v44 / FP_FromInteger(4));
+                Move_46E640(20872u, v45, FP_FromInteger(0), (unsigned short)sInputKey_Right_5550D0, 0, 1);
+                if (sInputKey_Right_5550D0 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+                {
+                    //goto LABEL_165;
+                    return;
+                }
+            }
+        }
+    }
+    
+    PSX_Point v51 = {};
+    __int16 v52 = 0;
+    FP v53 = {};
+    FP v54 = {};
+    FP v55 = {};
+    FP v56 = {};
+    const auto v50 = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    if (!(v50 & sInputKey_Left_5550D4)
+        && ((v51.field_2_y = 0, !(field_1D4_previous_input & (unsigned __int16)v50)) || (unsigned __int16)field_1D6_continue_move_input != sInputKey_Left_5550D4 || (v52 = field_1BC, v52 == 3) || (v51.field_0_x = field_1D4_previous_input, v51.field_0_x == (unsigned __int16)sInputKey_Right_5550D0) || !v52) // v51.field_0_x == sInputKey_Right_5550D0 X added
+        || (v53 = (field_CC_sprite_scale * FP_FromInteger(12)),
+            v54 = -(v53 + ScaleToGridSize_4498B0(field_CC_sprite_scale)),
+            v55 = (field_CC_sprite_scale * FP_FromInteger(60)),
+            v56 = (v55 * FP_FromDouble(0.5)),
+            WallHit_408750(v56, v54)))
+    {
+        const FP v81 = (field_CC_sprite_scale * FP_FromInteger(12));
+        const FP v82 = -(v81 + ScaleToGridSize_4498B0(field_CC_sprite_scale));
+        const FP v83 = (field_CC_sprite_scale * FP_FromInteger(60));
+        const FP v84 = (v83 * FP_FromDouble(0.5));
+        if (WallHit_408750(v84, v82))
+        {
+            if (sInputKey_Left_5550D4 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+            {
+                if (field_1BC != 1 && !((signed int)sGnFrame_5C1B84 % 6))
+                {
+                    SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
+                }
+            }
+        }
+        goto LABEL_63;
+    }
+
+    const FP v57 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP v58 = field_B8_xpos - (v57 / FP_FromInteger(4));
+    const FP v59 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60));
+    const FP v60 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP v61 = (v60 / FP_FromInteger(4));
+
+
+    if (!sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos - v61, v59, v58, field_BC_ypos, &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x800 : 0x4000)
+        || (v62 = (field_CC_sprite_scale * FP_FromInteger(12)), v63 = ScaleToGridSize_4498B0(field_CC_sprite_scale), !CheckFloorCollision_46F730(v62 + v63 - FP_FromInteger(4), FP_FromInteger(4)))
+        && (v64 = (field_CC_sprite_scale * FP_FromInteger(12)), v65 = ScaleToGridSize_4498B0(field_CC_sprite_scale), !CheckFloorCollision_46F730(-(v64 + v65 + FP_FromInteger(2)), FP_FromInteger(4)))
+        || (v66 = ScaleToGridSize_4498B0(field_CC_sprite_scale),
+            v67 = (v66 / FP_FromInteger(4)),
+            Move_46E640(20900u, -v67, FP_FromInteger(0), (unsigned short)sInputKey_Left_5550D4, 3, 1),
+            !(sInputKey_Left_5550D4 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)))
+    {
+        const FP v68 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        const FP v69 = field_B8_xpos - (v68 / FP_FromInteger(4));
+        const FP v70 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60));
+        const FP v71 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        const FP v72 = (v71 / FP_FromInteger(4));
+        if (!sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos - v72, v70, v69, field_BC_ypos, &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000))
+        {
+            goto LABEL_63;
+        }
+        const FP v73 = -(field_CC_sprite_scale * FP_FromInteger(60));
+        const FP v74 = (field_CC_sprite_scale * FP_FromInteger(12));
+        const FP v75 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        if (!CheckRoofCollision_46F6B0(v74 + v75 - FP_FromInteger(4), v73))
+        {
+            const FP v76 = -(field_CC_sprite_scale * FP_FromInteger(60));
+            const FP v77 = (field_CC_sprite_scale * FP_FromInteger(12));
+            const FP v78 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            if (!CheckRoofCollision_46F6B0(-(v77 + v78 + FP_FromInteger(2)), v76))
+            {
+                goto LABEL_63;
+            }
+        }
+        const FP v79 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        const FP v80 = (v79 / FP_FromInteger(4));
+        Move_46E640(20900u, -v80, FP_FromInteger(0), (unsigned short)sInputKey_Left_5550D4, 0, 0);
+        if (!(sInputKey_Left_5550D4 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed))
+        {
+        LABEL_63:
+            const auto inputPressed2 = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+            PSX_Point v86 = {};
+            __int16 v87 = 0;
+            if ((inputPressed2 & sInputKey_Up_5550D8
+                || (v86.field_2_y = 0, field_1D4_previous_input & (unsigned __int16)inputPressed2) && (unsigned __int16)field_1D6_continue_move_input == sInputKey_Up_5550D8 && (v86.field_0_x = field_1D4_previous_input, v86.field_0_x != (unsigned __int16)sInputKey_Down_5550DC) && (v87 = field_1BC, v87 != 2) && v87 != 1) // X added (Same as above)
+                && !IsBlocked_46F4A0(0, 0))
+            {
+                const FP v88 = (field_CC_sprite_scale * FP_FromInteger(12));
+                const FP v89 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                const FP v90 = (v88 + v89) * FP_FromDouble(0.5);
+                const FP v91 = field_BC_ypos - (FP_FromInteger(5) * field_CC_sprite_scale) - v90;
+                const FP v92 = (field_CC_sprite_scale * FP_FromInteger(12));
+                const FP v93 = v92 + ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+                FP xy_2 = (field_CC_sprite_scale * FP_FromInteger(12));
+                const FP v94 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                const FP v95 = (xy_2 + v94) * FP_FromDouble(0.5);
+                const FP v96 = field_BC_ypos - (FP_FromInteger(5) * field_CC_sprite_scale) - v95;
+                xy_2 = (field_CC_sprite_scale * FP_FromInteger(12));
+                const FP v97 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                if (sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos - (v97 + xy_2), v96, v93, v91, &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x1000 : 0x8000))
+                {
+                    const FP v98 = (field_CC_sprite_scale * FP_FromInteger(12));
+                    const FP v99 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                    FP v100 = {};
+                    FP v101 = {};
+                    FP v102 = {};
+                    if (WallHit_408750(FP_FromInteger(1), v99 + v98 + FP_FromInteger(4))
+                        || (v100 = (field_CC_sprite_scale * FP_FromInteger(12)),
+                            v101 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + v100 + FP_FromInteger(4),
+                            v102 = (field_CC_sprite_scale * FP_FromInteger(60)),
+                            WallHit_408750(v102 + FP_FromInteger(1), v101)))
+                    {
+                        if (hitX > field_B8_xpos)
+                        {
+                            const FP v103 = (FP_FromInteger(5) * field_CC_sprite_scale);
+                            Move_46E640(20836u, FP_FromInteger(0), -v103, (unsigned short)sInputKey_Up_5550D8, 2, 0);
+                        }
+                    }
+
+                    const FP v104 = (field_CC_sprite_scale * FP_FromInteger(12));
+                    const FP v105 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                    FP v106 = {};
+                    FP v107 = {};
+                    FP v108 = {};
+                    if (WallHit_408750(FP_FromInteger(1), -(v105 + v104 + FP_FromInteger(4)))
+                        || (v106 = (field_CC_sprite_scale * FP_FromInteger(12)),
+                            v107 = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) + v106 + FP_FromInteger(4)),
+                            v108 = (field_CC_sprite_scale * FP_FromInteger(60)),
+                            WallHit_408750(v108 + FP_FromInteger(1), v107)))
+                    {
+                        if (hitX < field_B8_xpos)
+                        {
+                            const FP v109 = (FP_FromInteger(5) * field_CC_sprite_scale);
+                            Move_46E640(20836u, FP_FromInteger(0), -v109, (unsigned short)sInputKey_Up_5550D8, 1, 1);
+                        }
+                    }
+                }
+            }
+            else if (IsBlocked_46F4A0(0, 0))
+            {
+                if (sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+                {
+                    if (field_1BC)
+                    {
+                        if (!((signed int)sGnFrame_5C1B84 % 6))
+                        {
+                            SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
+                        }
+                    }
+                }
+            }
+            
+            const auto v110 = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+            __int16 v112 = 0;
+            PSX_Point v111 = {};
+
+            if ((v110 & sInputKey_Down_5550DC
+                || (v111.field_2_y = 0, field_1D4_previous_input & (unsigned __int16)v110) && (unsigned __int16)field_1D6_continue_move_input == sInputKey_Down_5550DC && (v111.field_0_x = field_1D4_previous_input, v111.field_0_x != (unsigned __int16)sInputKey_Up_5550D8) && (v112 = field_1BC, v112 != 2) && v112 != 1) // X added as above
+                && !IsBlocked_46F4A0(3, 0))
+            {
+                const FP v113 = (field_CC_sprite_scale * FP_FromInteger(12));
+                const FP v114 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                const FP v115 = (v113 + v114) * FP_FromDouble(0.5);
+                const FP v116 = field_BC_ypos + (FP_FromInteger(5) * field_CC_sprite_scale) - v115;
+                const FP v117 = (field_CC_sprite_scale * FP_FromInteger(12));
+                const FP v118 = v117 + ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+                FP xy_2 = (field_CC_sprite_scale * FP_FromInteger(12));
+                const FP v119 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                const FP v120 = (xy_2 + v119) * FP_FromDouble(0.5);
+                const FP v121 = field_BC_ypos + (FP_FromInteger(5) * field_CC_sprite_scale) - v120;
+                xy_2 = (field_CC_sprite_scale * FP_FromInteger(12));
+                const FP v122 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                if (sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos - (v122 + xy_2), v121, v118, v116, &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 4096 : 0x8000))
+                {
+                    const FP v123 = (field_CC_sprite_scale * FP_FromInteger(12));
+                    const FP v124 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                    FP v125 = {};
+                    FP v126 = {};
+                    FP v127 = {};
+                    if (WallHit_408750(-FP_FromInteger(2), v124 + v123 + FP_FromInteger(4))
+                        || (v125 = (field_CC_sprite_scale * FP_FromInteger(12)),
+                            v126 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + v125 + FP_FromInteger(4),
+                            v127 = (field_CC_sprite_scale * FP_FromInteger(60)),
+                            WallHit_408750(v127 - FP_FromInteger(1), v126)))
+                    {
+                        if (hitX > field_B8_xpos)
+                        {
+                            const FP v128 = (FP_FromInteger(5) * field_CC_sprite_scale);
+                            Move_46E640(20836u, FP_FromInteger(0), v128, (unsigned short)sInputKey_Down_5550DC, 2, 1);
+                        }
+                    }
+                    const FP v129 = (field_CC_sprite_scale * FP_FromInteger(12));
+                    const FP v130 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                    FP v131 = {};
+                    FP v132 = {};
+                    FP v133 = {};
+                    if (WallHit_408750(-FP_FromInteger(2), -(v130 + v129 + FP_FromInteger(4)))
+                        || (v131 = (field_CC_sprite_scale * FP_FromInteger(12)), // comma removed ??
+                            v132 = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) + v131 + FP_FromInteger(4)),
+                            v133 = (field_CC_sprite_scale * FP_FromInteger(60)),
+                            WallHit_408750(v133 - FP_FromInteger(1), v132)))
+                    {
+                        if (hitX < field_B8_xpos)
+                        {
+                            const FP v134 = (FP_FromInteger(5) * field_CC_sprite_scale);
+                            Move_46E640(20836u, FP_FromInteger(0), v134, (unsigned short)sInputKey_Down_5550DC, 1, 0);
+                        }
+                    }
+                }
+            }
+            else if (IsBlocked_46F4A0(3, 0))
+            {
+                if (sInputKey_Down_5550DC & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+                {
+                    if (field_1BC != 3 && !((signed int)sGnFrame_5C1B84 % 6))
+                    {
+                        SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
+                    }
+                }
+            }
+            //goto LABEL_165;
+            return;
+        }
+    }
+//    goto LABEL_165;
+    return;
+
+    /*
     if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0) || sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
     {
         LOG_INFO("Right pressed");
@@ -725,6 +1081,7 @@ void MineCar::State_1()
             }
         }
     }
+    */
 
 }
 
