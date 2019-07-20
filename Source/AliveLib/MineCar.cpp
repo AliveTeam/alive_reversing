@@ -315,6 +315,8 @@ void MineCar::vUpdate_Real_46C010()
 
 void MineCar::vUpdate_46C010()
 {
+    NOT_IMPLEMENTED();
+
     if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
         field_114_flags.Clear(Flags_114::e114_Bit9);
@@ -356,9 +358,8 @@ void MineCar::vUpdate_46C010()
 
     case States::eState_1_ParkedWithAbe:
         State_1();
-        //break;
         //vUpdate_Real_46C010();
-        return;
+        break;
 
     case States::eState_2_Moving:
         State_2();
@@ -471,280 +472,260 @@ void MineCar::State_1()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
 
-    if (!sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0) || sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
     {
-        //HIWORD(v13) = 0;
-        if (!sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
-        {
-            goto LABEL_177;
-        }
+        LOG_INFO("Right pressed");
 
-        if (field_1D6_continue_move_input != (__int16)sInputKey_Right_5550D0)
+        if (field_1D6_continue_move_input != (__int16)sInputKey_Right_5550D0 ||
+            field_1BC == 3 ||
+            field_1BC == 0 ||
+            field_1D4_previous_input == (__int16)sInputKey_Left_5550D4)
         {
-            goto LABEL_177;
-        }
-
-        if (field_1BC == 3)
-        {
-            goto LABEL_177;
-        }
-
-        if (field_1BC == 0)
-        {
-            goto LABEL_177;
-        }
-
-        //LOWORD(v13) = field_1D4_previous_input;
-        if (field_1D4_previous_input == (__int16)sInputKey_Left_5550D4)
-        {
-            goto LABEL_177;
-        }
-    }
-
-    if (WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) * FP_FromDouble(0.5), (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(1)) ||
-        WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) - FP_FromInteger(8), (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(1)))
-    {
-    LABEL_177:
-        if (WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60) * FP_FromDouble(0.5)), (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(1)))
-        {
-            if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+            if (WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) - FP_FromInteger(8), (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(1)))
             {
-                if (field_1BC != 2 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
+                LOG_INFO("Right far wall hit");
+                if (WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60) * FP_FromDouble(0.5)), (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(1)))
                 {
-                    // Can't move right
-                    SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
-                }
-            }
-        }
-    }
-    else
-    {
-        FP hitX = {};
-        FP hitY = {};
-        PathLine* pPathLine = nullptr;
-
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
-            (kGridScale / FP_FromInteger(4)) + field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)),
-            (kGridScale / FP_FromInteger(4)) + field_B8_xpos,
-            field_BC_ypos, 
-            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 2048 : 0x4000))
-        {
-            if (CheckFloorCollision_46F730((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(2), FP_FromInteger(4)) ||
-                CheckFloorCollision_46F730(FP_FromInteger(4) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale), FP_FromInteger(4)))
-            {
-                Move_46E640(20872u, (kGridScale / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Right_5550D0, 3, FALSE);
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
-                {
-                    //goto LABEL_165;
-                    return;
-                }
-            }
-        }
-
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
-            (kGridScale / FP_FromInteger(4)) + field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)), 
-            (kGridScale / FP_FromInteger(4)) + field_B8_xpos, field_BC_ypos, 
-            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000))
-        {
-            if (CheckRoofCollision_46F6B0(-(field_CC_sprite_scale * FP_FromInteger(60)) + kGridScale + FP_FromInteger(2), (field_CC_sprite_scale * FP_FromInteger(12))) ||
-                CheckRoofCollision_46F6B0(FP_FromInteger(4) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale), -(field_CC_sprite_scale * FP_FromInteger(60))))
-            {
-                Move_46E640(20872u, (kGridScale / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Right_5550D0, 0, TRUE);
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
-                {
-                    //goto LABEL_165;
-                    return;
-                }
-            }
-        }
-    }
-
-    FP hitX = {};
-    FP hitY = {};
-    PathLine* pPathLine = nullptr; // TODO: Move after goto removal
-
-    if (!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
-    {
-        if (!sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
-        {
-            goto LABEL_172;
-        }
-
-        if (field_1D6_continue_move_input != (__int16)sInputKey_Left_5550D4)
-        {
-            goto LABEL_172;
-        }
-
-        if (field_1BC == 3)
-        {
-            goto LABEL_172;
-        }
-
-        if (field_1BC == 0)
-        {
-            goto LABEL_172;
-        }
-
-        if (field_1D4_previous_input == (__int16)sInputKey_Right_5550D0)
-        {
-            goto LABEL_172;
-        }
-    }
-
-    if (WallHit_408750(((field_CC_sprite_scale * FP_FromInteger(60)) * FP_FromDouble(0.5)), -((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale)))
-    {
-        LABEL_172:
-        if (WallHit_408750(((field_CC_sprite_scale * FP_FromInteger(60)) * FP_FromDouble(0.5)), -((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale)))
-        {
-            if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
-            {
-                if (field_1BC != 1 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
-                {
-                    // Can't move left
-                    SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
-                }
-            }
-        }
-        goto LABEL_63;
-    }
-
-
-
-    if (!sCollisions_DArray_5C1128->Raycast_417A60(
-        field_B8_xpos - (kGridScale / FP_FromInteger(4)),
-        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)),
-        field_B8_xpos - (kGridScale / FP_FromInteger(4)),
-        field_BC_ypos,
-        &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x800 : 0x4000) ||
-        (!CheckFloorCollision_46F730((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale - FP_FromInteger(4), FP_FromInteger(4))) &&
-        (!CheckFloorCollision_46F730(-((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(2)), FP_FromInteger(4))))
-    {
-        Move_46E640(20900u, -(kGridScale / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Left_5550D4, 3, TRUE);
-
-        if (!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
-        {
-            if (!sCollisions_DArray_5C1128->Raycast_417A60(
-                field_B8_xpos - (kGridScale / FP_FromInteger(4)), 
-                field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)), 
-                field_B8_xpos - (kGridScale / FP_FromInteger(4)), 
-                field_BC_ypos, 
-                &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000))
-            {
-                goto LABEL_63;
-            }
-
-            if (!CheckRoofCollision_46F6B0((field_CC_sprite_scale *  FP_FromInteger(12)) + kGridScale - FP_FromInteger(4), -(field_CC_sprite_scale * FP_FromInteger(60))))
-            {
-                if (!CheckRoofCollision_46F6B0(-((field_CC_sprite_scale *  FP_FromInteger(12)) + kGridScale + FP_FromInteger(2)), -(field_CC_sprite_scale * FP_FromInteger(60))))
-                {
-                    goto LABEL_63;
-                }
-            }
-
-            Move_46E640(20900u, -(kGridScale / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Left_5550D4, 0, FALSE);
-
-            if (!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
-            {
-            LABEL_63:
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || 
-                    (sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) &&
-                    (unsigned __int16)field_1D6_continue_move_input == sInputKey_Up_5550D8 && 
-                    (field_1D4_previous_input != (unsigned short)sInputKey_Down_5550DC) &&
-                    (field_1BC != 2 && field_1BC != 1) &&
-                    !IsBlocked_46F4A0(0, 0))
-                {
-                    if (sCollisions_DArray_5C1128->Raycast_417A60(
-                        field_B8_xpos - (kGridScale + (field_CC_sprite_scale * FP_FromInteger(12))), 
-                        field_BC_ypos - (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5), 
-                        (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + field_B8_xpos, 
-                        field_BC_ypos - (FP_FromInteger(5) * field_CC_sprite_scale) - (((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5)), 
-                        &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x1000 : 0x8000))
+                    if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
                     {
-                        if (WallHit_408750(FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)) ||
-                            WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) + FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12) + FP_FromInteger(4))))
+                        if (field_1BC != 2 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
                         {
-                            if (hitX > field_B8_xpos)
-                            {
-                                Move_46E640(20836u, FP_FromInteger(0), -(FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Up_5550D8, 2, 0);
-                            }
-                        }
+                            LOG_INFO("Right BLOCKED");
 
-                        if (WallHit_408750(FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))) ||
-                            WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) + FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))))
-                        {
-                            if (hitX < field_B8_xpos)
-                            {
-                                Move_46E640(20836u, FP_FromInteger(0), -(FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Up_5550D8, 1, 1);
-                            }
-                        }
-                    }
-                }
-                else if (IsBlocked_46F4A0(0, 0))
-                {
-                    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
-                    {
-                        if (field_1BC != 0)
-                        {
-                            if (!(static_cast<int>(sGnFrame_5C1B84) % 6))
-                            {
-                                SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
-                            }
-                        }
-                    }
-                }
-
-                
-                if ( sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) || 
-                    (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) && 
-                    (unsigned __int16)field_1D6_continue_move_input == sInputKey_Down_5550DC && 
-                    (field_1D4_previous_input != (unsigned short)sInputKey_Up_5550D8) &&
-                    (field_1BC != 2) && field_1BC != 1) &&
-                    !IsBlocked_46F4A0(3, 0))
-                {
-                    if (sCollisions_DArray_5C1128->Raycast_417A60(
-                        field_B8_xpos - (kGridScale + (field_CC_sprite_scale * FP_FromInteger(12))),
-                        field_BC_ypos + (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5),
-                        (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + field_B8_xpos,
-                        field_BC_ypos + (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5),
-                        &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 4096 : 0x8000))
-                    {
-                        if (WallHit_408750(-FP_FromInteger(2), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)) ||
-                            WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) - FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)))
-                        {
-                            if (hitX > field_B8_xpos)
-                            {
-                                Move_46E640(20836u, FP_FromInteger(0), (FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Down_5550DC, 2, 1);
-                            }
-                        }
-
-                        if (WallHit_408750(-FP_FromInteger(2), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))) ||
-                            WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) - FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))))
-                        {
-                            if (hitX < field_B8_xpos)
-                            {
-                                Move_46E640(20836u, FP_FromInteger(0), (FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Down_5550DC, 1, 0);
-                            }
-                        }
-                    }
-                }
-                else if (IsBlocked_46F4A0(3, 0))
-                {
-                    if (sInputKey_Down_5550DC & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
-                    {
-                        if (field_1BC != 3 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
-                        {
+                            // Can't move right
                             SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
                         }
                     }
                 }
-                //goto LABEL_165;
-                return;
+            }
+            else
+            {
+                LOG_INFO("Right checks...");
+
+                FP hitX = {};
+                FP hitY = {};
+                PathLine* pPathLine = nullptr;
+
+                if (sCollisions_DArray_5C1128->Raycast_417A60(
+                    (kGridScale / FP_FromInteger(4)) + field_B8_xpos,
+                    field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)),
+                    (kGridScale / FP_FromInteger(4)) + field_B8_xpos,
+                    field_BC_ypos,
+                    &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 2048 : 0x4000))
+                {
+                    if (CheckFloorCollision_46F730((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(2), FP_FromInteger(4)) ||
+                        CheckFloorCollision_46F730(FP_FromInteger(4) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale), FP_FromInteger(4)))
+                    {
+                        LOG_INFO("Right PATH 1...");
+
+                        Move_46E640(20872u, (kGridScale / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Right_5550D0, 3, FALSE);
+                        if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+                        {
+                            //goto LABEL_165;
+                            return;
+                        }
+                    }
+                }
+
+                if (sCollisions_DArray_5C1128->Raycast_417A60(
+                    (kGridScale / FP_FromInteger(4)) + field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)),
+                    (kGridScale / FP_FromInteger(4)) + field_B8_xpos, field_BC_ypos,
+                    &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000))
+                {
+                    if (CheckRoofCollision_46F6B0(-(field_CC_sprite_scale * FP_FromInteger(60)) + kGridScale + FP_FromInteger(2), (field_CC_sprite_scale * FP_FromInteger(12))) ||
+                        CheckRoofCollision_46F6B0(FP_FromInteger(4) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale), -(field_CC_sprite_scale * FP_FromInteger(60))))
+                    {
+                        LOG_INFO("Right PATH 2...");
+
+                        Move_46E640(20872u, (kGridScale / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Right_5550D0, 0, TRUE);
+                        if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+                        {
+                            //goto LABEL_165;
+                            return;
+                        }
+                    }
+                }
             }
         }
     }
-    //goto LABEL_165;
-    return;
+
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) || sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
+    {
+        LOG_INFO("Left pressed");
+        if (field_1D6_continue_move_input != (__int16)sInputKey_Left_5550D4 ||
+            field_1BC == 3 ||
+            field_1BC == 0 ||
+            field_1D4_previous_input == (__int16)sInputKey_Right_5550D0)
+        {
+            if (WallHit_408750(((field_CC_sprite_scale * FP_FromInteger(60)) * FP_FromDouble(0.5)), -((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale)))
+            {
+                LOG_INFO("Left far wall hit");
+
+                if (WallHit_408750(((field_CC_sprite_scale * FP_FromInteger(60)) * FP_FromDouble(0.5)), -((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale)))
+                {
+                    if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+                    {
+                        if (field_1BC != 1 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
+                        {
+                            LOG_INFO("left BLOCKED");
+                            // Can't move left
+                            SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
+
+                        }
+                    }
+                }
+            }
+            else
+            {
+                LOG_INFO("Left checks...");
+
+                FP hitX = {};
+                FP hitY = {};
+                PathLine* pPathLine = nullptr;
+                if (sCollisions_DArray_5C1128->Raycast_417A60(
+                    field_B8_xpos - (kGridScale / FP_FromInteger(4)),
+                    field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)),
+                    field_B8_xpos - (kGridScale / FP_FromInteger(4)),
+                    field_BC_ypos,
+                    &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x800 : 0x4000))
+                  
+                {
+                    if (CheckFloorCollision_46F730((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale - FP_FromInteger(4), FP_FromInteger(4)) ||
+                        CheckFloorCollision_46F730(-((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + FP_FromInteger(2)), FP_FromInteger(4)))
+                    {
+                        LOG_INFO("Left PATH 1...");
+
+                        Move_46E640(20900u, -(kGridScale / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Left_5550D4, 3, TRUE);
+                        if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+                        {
+                            return;
+                        }
+                    }
+                }
+
+                if (sCollisions_DArray_5C1128->Raycast_417A60(
+                    field_B8_xpos - (kGridScale / FP_FromInteger(4)),
+                    field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(60)),
+                    field_B8_xpos - (kGridScale / FP_FromInteger(4)),
+                    field_BC_ypos,
+                    &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000))
+                {
+                    if (CheckRoofCollision_46F6B0((field_CC_sprite_scale *  FP_FromInteger(12)) + kGridScale - FP_FromInteger(4), -(field_CC_sprite_scale * FP_FromInteger(60))) ||
+                        CheckRoofCollision_46F6B0(-((field_CC_sprite_scale *  FP_FromInteger(12)) + kGridScale + FP_FromInteger(2)), -(field_CC_sprite_scale * FP_FromInteger(60))))
+                    {
+                        LOG_INFO("Left PATH 2...");
+
+                        Move_46E640(20900u, -(kGridScale / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Left_5550D4, 0, FALSE);
+                        if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) ||
+        (sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) &&
+        (unsigned __int16)field_1D6_continue_move_input == sInputKey_Up_5550D8 &&
+        (field_1D4_previous_input != (unsigned short)sInputKey_Down_5550DC) &&
+        (field_1BC != 2 && field_1BC != 1) &&
+        !IsBlocked_46F4A0(0, 0))
+    {
+        FP hitX = {};
+        FP hitY = {};
+        PathLine* pPathLine = nullptr;
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            field_B8_xpos - (kGridScale + (field_CC_sprite_scale * FP_FromInteger(12))),
+            field_BC_ypos - (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5),
+            (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + field_B8_xpos,
+            field_BC_ypos - (FP_FromInteger(5) * field_CC_sprite_scale) - (((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5)),
+            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x1000 : 0x8000))
+        {
+            if (WallHit_408750(FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)) ||
+                WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) + FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12) + FP_FromInteger(4))))
+            {
+                if (hitX > field_B8_xpos)
+                {
+                    Move_46E640(20836u, FP_FromInteger(0), -(FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Up_5550D8, 2, FALSE);
+                }
+            }
+
+            if (WallHit_408750(FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))) ||
+                WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) + FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))))
+            {
+                if (hitX < field_B8_xpos)
+                {
+                    Move_46E640(20836u, FP_FromInteger(0), -(FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Up_5550D8, 1, TRUE);
+                }
+            }
+        }
+    }
+    else if (IsBlocked_46F4A0(0, 0))
+    {
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+        {
+            if (field_1BC != 0)
+            {
+                if (!(static_cast<int>(sGnFrame_5C1B84) % 6))
+                {
+                    // Can't move up
+                    SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
+                }
+            }
+        }
+    }
+
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) ||
+        (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
+        (unsigned __int16)field_1D6_continue_move_input == sInputKey_Down_5550DC &&
+            (field_1D4_previous_input != (unsigned short)sInputKey_Up_5550D8) &&
+            (field_1BC != 2) && field_1BC != 1) &&
+        !IsBlocked_46F4A0(3, 0))
+    {
+
+        FP hitX = {};
+        FP hitY = {};
+        PathLine* pPathLine = nullptr;
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            field_B8_xpos - (kGridScale + (field_CC_sprite_scale * FP_FromInteger(12))),
+            field_BC_ypos + (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5),
+            (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + field_B8_xpos,
+            field_BC_ypos + (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5),
+            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 4096 : 0x8000))
+        {
+            if (WallHit_408750(-FP_FromInteger(2), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)) ||
+                WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) - FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)))
+            {
+                if (hitX > field_B8_xpos)
+                {
+                    Move_46E640(20836u, FP_FromInteger(0), (FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Down_5550DC, 2, TRUE);
+                }
+            }
+
+            if (WallHit_408750(-FP_FromInteger(2), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))) ||
+                WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) - FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))))
+            {
+                if (hitX < field_B8_xpos)
+                {
+                    Move_46E640(20836u, FP_FromInteger(0), (FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Down_5550DC, 1, FALSE);
+                }
+            }
+        }
+    }
+    else if (IsBlocked_46F4A0(3, 0))
+    {
+        if (sInputKey_Down_5550DC & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+        {
+            if (field_1BC != 3 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
+            {
+                // Can't move down
+                SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
+            }
+        }
+    }
+
 }
 
 // TODO: Probably 7?
