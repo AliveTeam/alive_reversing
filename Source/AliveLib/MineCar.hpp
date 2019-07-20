@@ -96,6 +96,7 @@ private:
     void State_2();
     void State_3();
 
+    void HandleUpDown();
 
 private:
     int field_118_tlvInfo;
