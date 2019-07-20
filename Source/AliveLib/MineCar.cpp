@@ -559,13 +559,13 @@ void MineCar::State_1()
     }
     
     PSX_Point v51 = {};
-    __int16 v52 = 0;
     if (!(sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)) && 
         ((v51.field_2_y = 0, !(sInputObject_5BD4E0.isPressed(field_1D4_previous_input))) || 
         (unsigned __int16)field_1D6_continue_move_input != sInputKey_Left_5550D4 ||
-        (v52 = field_1BC, v52 == 3) || 
-        (v51.field_0_x = field_1D4_previous_input, v51.field_0_x == (unsigned __int16)sInputKey_Right_5550D0) || !v52)
-        || WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)))
+        (field_1BC == 3) ||
+        (v51.field_0_x = field_1D4_previous_input, v51.field_0_x == (unsigned __int16)sInputKey_Right_5550D0) || 
+        field_1BC == 0) ||
+        WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)))
     {
         if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)))
         {
@@ -632,12 +632,11 @@ void MineCar::HandleUpDown()
     const FP k5Scaled = FP_FromInteger(5) * field_CC_sprite_scale;
 
     PSX_Point v86 = {};
-    __int16 v87 = 0;
     if ((sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) ||
         (v86.field_2_y = 0, sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) &&
         (unsigned __int16)field_1D6_continue_move_input == sInputKey_Up_5550D8 &&
         (v86.field_0_x = field_1D4_previous_input, v86.field_0_x != (unsigned __int16)sInputKey_Down_5550DC) &&
-        (v87 = field_1BC, v87 != 2) && v87 != 1)
+        (field_1BC != 2) && field_1BC != 1)
         && !IsBlocked_46F4A0(0, 0))
     {
         PathLine* pPathLine = nullptr;
@@ -683,12 +682,11 @@ void MineCar::HandleUpDown()
         }
     }
 
-    __int16 v112 = 0;
     PSX_Point v111 = {};
     if ((sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) || (v111.field_2_y = 0, sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) &&
         (unsigned __int16)field_1D6_continue_move_input == sInputKey_Down_5550DC && 
         (v111.field_0_x = field_1D4_previous_input, v111.field_0_x != (unsigned __int16)sInputKey_Up_5550D8) && 
-        (v112 = field_1BC, v112 != 2) && v112 != 1)
+        (field_1BC != 2) && field_1BC != 1)
         && !IsBlocked_46F4A0(3, 0))
     {
         PathLine* pPathLine = nullptr;
