@@ -291,10 +291,42 @@ void MineCar::Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, un
     field_124_anim.field_4_flags.Set(AnimFlags::eBit19_LoopBackwards, bChangeDirection);
 }
 
-__int16 MineCar::IsBlocked_46F4A0(__int16 /*a2*/, int /*a3*/)
+__int16 MineCar::IsBlocked_46F4A0(__int16 a2, int /*a3*/)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP k12Scaled = field_CC_sprite_scale * FP_FromInteger(12);
+
+    switch (a2)
+    {
+    case 0:
+        {
+            const FP k60Scaled = field_CC_sprite_scale * FP_FromInteger(60);
+            if (!CheckRoofCollision_46F6B0(FP_FromInteger(4) - (k12Scaled + kGridSize), -(k60Scaled) + FP_FromInteger(1)))
+            {
+                if (!CheckRoofCollision_46F6B0(k12Scaled + kGridSize - FP_FromInteger(4), -((field_CC_sprite_scale * FP_FromInteger(60)) + FP_FromInteger(1))))
+                {
+                    return 0;
+                }
+            }
+        }
+        break;
+
+    case 3:
+        {
+            if (!CheckFloorCollision_46F730(FP_FromInteger(4) - (k12Scaled + kGridSize), FP_FromInteger(1)))
+            {
+                if (!CheckFloorCollision_46F730(k12Scaled + kGridSize - FP_FromInteger(4), FP_FromInteger(1)) &&
+                    !CheckFloorCollision_46F730(-FP_FromInteger(10), FP_FromInteger(1)) &&
+                    !CheckFloorCollision_46F730(FP_FromInteger(10), FP_FromInteger(1)))
+                {
+                    return 0;
+                }
+            }
+        }
+        break;
+    }
+
+    return 1;
 }
 
 __int16 MineCar::sub_46EA00()
