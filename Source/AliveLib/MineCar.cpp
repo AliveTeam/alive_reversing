@@ -315,8 +315,6 @@ void MineCar::vUpdate_Real_46C010()
 
 void MineCar::vUpdate_46C010()
 {
-    NOT_IMPLEMENTED();
-
     if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
         field_114_flags.Clear(Flags_114::e114_Bit9);
@@ -643,58 +641,42 @@ void MineCar::State_1()
             if (!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
             {
             LABEL_63:
-                /*
-                if ((sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8)
-                    || (v86.y = 0, field_1D4_previous_input & (unsigned __int16)inputPressed2) && (unsigned __int16)field_1D6_continue_move_input == sInputKey_Up_5550D8 &&(v86.field_0_x=field_1D4_previous_input,v86 != sInputKey_Down_5550DC) && (v87 = field_1BC, v87 != 2) && v87 != 1)
-                    && !IsBlocked_46F4A0(0, 0))
+                if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || 
+                    (sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) &&
+                    (unsigned __int16)field_1D6_continue_move_input == sInputKey_Up_5550D8 && 
+                    (field_1D4_previous_input != (unsigned short)sInputKey_Down_5550DC) &&
+                    (field_1BC != MineCar::States::eState_2_Moving && field_1BC != MineCar::States::eState_1_ParkedWithAbe) &&
+                    !IsBlocked_46F4A0(0, 0))
                 {
-                    v88 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                    v89 = kGridScale;
-                    v90 = Math_FixedPoint_Multiply_496C50(v88 + v89, FP_FromDouble(0.5));// FP_FromInteger(0)
-                    v91 = field_BC_ypos - Math_FixedPoint_Multiply_496C50(327680, field_CC_sprite_scale) - v90;
-                    v92 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                    v93 = v92 + kGridScale + field_B8_xpos;
-                    xy_2 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                    v94 = kGridScale;
-                    v95 = Math_FixedPoint_Multiply_496C50(xy_2 + v94, FP_FromDouble(0.5));// FP_FromInteger(0)
-                    v96 = field_BC_ypos - Math_FixedPoint_Multiply_496C50(327680, field_CC_sprite_scale) - v95;
-                    xy_2 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                    v97 = kGridScale;
-                    if (sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos - (v97 + xy_2), v96, v93, v91, &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x1000 : 0x8000))
+                    if (sCollisions_DArray_5C1128->Raycast_417A60(
+                        field_B8_xpos - (kGridScale + (field_CC_sprite_scale * FP_FromInteger(12))), 
+                        field_BC_ypos - (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5), 
+                        (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + field_B8_xpos, 
+                        field_BC_ypos - (FP_FromInteger(5) * field_CC_sprite_scale) - (((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5)), 
+                        &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x1000 : 0x8000))
                     {
-                        v98 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                        v99 = kGridScale;
-                        if (Raycast_408750(FP_FromInteger(1), v99 + v98 + FP_FromInteger(4))
-                            || (v100 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432),//
-                                v101 = kGridScale + v100 + FP_FromInteger(4),
-                                v102 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3932160),//
-                                Raycast_408750(v102 + FP_FromInteger(1), v101)))
+                        if (Raycast_408750(FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)) ||
+                            Raycast_408750((field_CC_sprite_scale * FP_FromInteger(60)) + FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12) + FP_FromInteger(4))))
                         {
                             if (hitX > field_B8_xpos)
                             {
-                                v103 = Math_FixedPoint_Multiply_496C50(327680, field_CC_sprite_scale);
-                                Move_46E640(20836u, FP_FromInteger(0), -v103, sInputKey_Up_5550D8, 2, 0);
+                                Move_46E640(20836u, FP_FromInteger(0), -(FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Up_5550D8, MineCar::States::eState_2_Moving, 0);
                             }
                         }
-                        v104 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                        v105 = kGridScale;
-                        if (Raycast_408750(FP_FromInteger(1), -(v105 + v104 + FP_FromInteger(4)))
-                            || (v106 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432),//
-                                v107 = -(kGridScale + v106 + FP_FromInteger(4)),
-                                v108 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3932160),//
-                                Raycast_408750(v108 + FP_FromInteger(1), v107)))
+
+                        if (Raycast_408750(FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))) ||
+                            Raycast_408750((field_CC_sprite_scale * FP_FromInteger(60)) + FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))))
                         {
                             if (hitX < field_B8_xpos)
                             {
-                                v109 = Math_FixedPoint_Multiply_496C50(327680, field_CC_sprite_scale);
-                                Move_46E640(20836u, FP_FromInteger(0), -v109, sInputKey_Up_5550D8, 1, 1);
+                                Move_46E640(20836u, FP_FromInteger(0), -(FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Up_5550D8, MineCar::States::eState_1_ParkedWithAbe, 1);
                             }
                         }
                     }
                 }
                 else if (IsBlocked_46F4A0(0, 0))
                 {
-                    if (sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+                    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
                     {
                         if (field_1BC != States::eState_0_ParkedWithoutAbe)
                         {
@@ -705,52 +687,37 @@ void MineCar::State_1()
                         }
                     }
                 }
-                */
 
-                /*
-                if ((sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC)
-                    || (HIWORD(v111) = 0, field_1D4_previous_input & (unsigned __int16)v110) && (unsigned __int16)field_1D6_continue_move_input == sInputKey_Down_5550DC && (LOWORD(v111)=field_1D4_throw_item_key1v111 != sInputKey_Up_5550D8) && (v112 = field_1BC, v112 != 2) && v112 != 1)
-                    && !IsBlocked_46F4A0(3, 0))
+                
+                if ( sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) || 
+                    (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) && 
+                    (unsigned __int16)field_1D6_continue_move_input == sInputKey_Down_5550DC && 
+                    (field_1D4_previous_input != (unsigned short)sInputKey_Up_5550D8) &&
+                    (field_1BC != MineCar::States::eState_2_Moving) && field_1BC != MineCar::States::eState_1_ParkedWithAbe) &&
+                    !IsBlocked_46F4A0(3, 0))
                 {
-                    v113 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                    v114 = kGridScale;
-                    v115 = Math_FixedPoint_Multiply_496C50(v113 + v114, FP_FromDouble(0.5));// FP_FromInteger(0)
-                    v116 = field_BC_ypos + Math_FixedPoint_Multiply_496C50(327680, field_CC_sprite_scale) - v115;
-                    v117 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                    v118 = v117 + kGridScale + field_B8_xpos;
-                    xy_2 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                    v119 = kGridScale;
-                    v120 = Math_FixedPoint_Multiply_496C50(xy_2 + v119, FP_FromDouble(0.5));// FP_FromInteger(0)
-                    v121 = field_BC_ypos + Math_FixedPoint_Multiply_496C50(327680, field_CC_sprite_scale) - v120;
-                    xy_2 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                    v122 = kGridScale;
-                    if (sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos - (v122 + xy_2), v121, v118, v116, &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 4096 : 0x8000))
+                    if (sCollisions_DArray_5C1128->Raycast_417A60(
+                        field_B8_xpos - (kGridScale + (field_CC_sprite_scale * FP_FromInteger(12))),
+                        field_BC_ypos + (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5),
+                        (field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale + field_B8_xpos,
+                        field_BC_ypos + (FP_FromInteger(5) * field_CC_sprite_scale) - ((field_CC_sprite_scale * FP_FromInteger(12)) + kGridScale) * FP_FromDouble(0.5),
+                        &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 4096 : 0x8000))
                     {
-                        v123 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                        v124 = kGridScale;
-                        if (Raycast_408750(-131072, v124 + v123 + FP_FromInteger(4))
-                            || (v125 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432),//
-                                v126 = kGridScale + v125 + FP_FromInteger(4),
-                                v127 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3932160),//
-                                Raycast_408750(v127 - FP_FromInteger(1), v126)))
+                        if (Raycast_408750(-FP_FromInteger(2), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)) ||
+                            Raycast_408750((field_CC_sprite_scale * FP_FromInteger(60)) - FP_FromInteger(1), kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4)))
                         {
                             if (hitX > field_B8_xpos)
                             {
-                                v128 = Math_FixedPoint_Multiply_496C50(327680, field_CC_sprite_scale);
-                                Move_46E640(20836u, FP_FromInteger(0), v128, sInputKey_Down_5550DC, 2, 1);
+                                Move_46E640(20836u, FP_FromInteger(0), (FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Down_5550DC, MineCar::States::eState_2_Moving, 1);
                             }
                         }
-                        v129 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432);// FP_FromInteger(12)
-                        v130 = kGridScale;
-                        if (Raycast_408750(-131072, -(v130 + v129 + FP_FromInteger(4)))
-                            || (v131 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 786432),//
-                                v132 = -(kGridScale + v131 + FP_FromInteger(4)),
-                                v133 = Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 3932160),//
-                                Raycast_408750(v133 - FP_FromInteger(1), v132)))
+
+                        if (Raycast_408750(-FP_FromInteger(2), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))) ||
+                            Raycast_408750((field_CC_sprite_scale * FP_FromInteger(60)) - FP_FromInteger(1), -(kGridScale + (field_CC_sprite_scale * FP_FromInteger(12)) + FP_FromInteger(4))))
                         {
                             if (hitX < field_B8_xpos)
                             {
-                                Move_46E640(20836u, FP_FromInteger(0), Math_FixedPoint_Multiply_496C50(327680, field_CC_sprite_scale), sInputKey_Down_5550DC, 1, 0);
+                                Move_46E640(20836u, FP_FromInteger(0), (FP_FromInteger(5) * field_CC_sprite_scale), (unsigned short)sInputKey_Down_5550DC, MineCar::States::eState_1_ParkedWithAbe, 0);
                             }
                         }
                     }
@@ -765,7 +732,6 @@ void MineCar::State_1()
                         }
                     }
                 }
-                */
                 //goto LABEL_165;
                 return;
             }
