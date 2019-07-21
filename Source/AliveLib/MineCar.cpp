@@ -329,7 +329,7 @@ __int16 MineCar::IsBlocked_46F4A0(__int16 a2, int /*a3*/)
     return 1;
 }
 
-__int16 MineCar::sub_46EA00()
+__int16 MineCar::FollowDirection_46EA00()
 {
     const FP k60Scaled = field_CC_sprite_scale * FP_FromInteger(60);
     const FP k12Scaled = field_CC_sprite_scale * FP_FromInteger(12);
@@ -339,156 +339,100 @@ __int16 MineCar::sub_46EA00()
     const FP k2 = FP_FromInteger(2);
     const FP k0 = FP_FromInteger(0);
 
-    __int16 result = 0;
-
-    if (!WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Scaled + kGridSize + k1) || field_C4_velx <= k0)
+    if ((WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Scaled + kGridSize + k1) && field_C4_velx > k0) ||
+        (WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)) && field_C4_velx < k0))
     {
-        if (!WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)) || field_C4_velx >= k0)
+        if (field_1BC == 3)
         {
-            if ((CheckFloorCollision_46F730(k0, k1) && field_C8_vely > k0) || (CheckRoofCollision_46F6B0(k0, -k60Scaled) && field_C8_vely < k0))
-            {
-                if (field_1BC == 2)
-                {
-                    field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
-                    return 1;
-                }
-                else
-                {
-                    field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
-                    return 1;
-                }
-            }
-
-            if (field_C4_velx > k0)
-            {
-                if (!CheckFloorCollision_46F730(k4 - (k12Scaled + kGridSize), k4))
-                {
-                    if (!CheckFloorCollision_46F730(k12Scaled + kGridSize + k2, k4))
-                    {
-                        goto LABEL_22;
-                    }
-                }
-            }
-
-            if (!(field_C4_velx < k0))
-            {
-                goto LABEL_25;
-            }
-
-            if (CheckFloorCollision_46F730(-(k12Scaled + kGridSize + k2), k4) || CheckFloorCollision_46F730(k12Scaled + kGridSize - k4, k4))
-            {
-            LABEL_25:
-                if (!(field_C4_velx < k0) && !(field_C4_velx == k0))
-                {
-                    if (!CheckRoofCollision_46F6B0(k4 - (k12Scaled + kGridSize), -k60Scaled))
-                    {
-                        if (!CheckRoofCollision_46F6B0(k12Scaled + kGridSize + k2, -k60Scaled))
-                        {
-                        LABEL_32:
-                            if (!field_1BC)
-                            {
-                                field_1D6_continue_move_input = (unsigned short)sInputKey_Up_5550D8;
-                                return 1;
-                            }
-                        LABEL_34:
-                            if (field_C8_vely > k0)
-                            {
-                                if (!WallHit_408750(k60Scaled - k2, k12Scaled + kGridSize + k4))
-                                {
-                                    if (!WallHit_408750(-k2, k12Scaled + kGridSize + k4))
-                                    {
-                                        goto LABEL_41;
-                                    }
-                                }
-                            }
-
-                            if (!(field_C8_vely < k0))
-                            {
-                                goto LABEL_44;
-                            }
-
-                            if (WallHit_408750(k60Scaled + k1, k12Scaled + kGridSize + k4) || WallHit_408750(k1, k12Scaled + kGridSize + k4))
-                            {
-                            LABEL_44:
-                                if (!(field_C8_vely < k0) && !(field_C8_vely == k0))
-                                {
-                                    if (!WallHit_408750(k60Scaled - k2, -(k12Scaled + kGridSize + k4)))
-                                    {
-                                        if (!WallHit_408750(-k2, -(k12Scaled + kGridSize + k4)))
-                                        {
-                                            goto LABEL_51;
-                                        }
-                                    }
-                                }
-
-                                if (!(field_C8_vely < k0))
-                                {
-                                    return 0;
-                                }
-
-                                if (WallHit_408750(k60Scaled + k1, -(k12Scaled + kGridSize + k4)))
-                                {
-                                    return 0;
-                                }
- 
-                                if (WallHit_408750(k1, -(k12Scaled + kGridSize + k4)))
-                                {
-                                    return 0;
-                                }
-                            LABEL_51:
-                                result = 1;
-                                if (field_1BC != 1)
-                                {
-                                    return 0;
-                                }
-                                field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
-                                return result;
-                            }
-                        LABEL_41:
-                            if (field_1BC == 2)
-                            {
-                                field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
-                                return 1;
-                            }
-                            goto LABEL_44;
-                        }
-                    }
-                }
-
-                if (!(field_C4_velx < k0))
-                {
-                    goto LABEL_34;
-                }
-
-                if (CheckRoofCollision_46F6B0(-(k12Scaled + kGridSize + k2), -k60Scaled))
-                {
-                    goto LABEL_34;
-                }
-
-                if (CheckRoofCollision_46F6B0(k12Scaled + kGridSize - k4, -k60Scaled))
-                {
-                    goto LABEL_34;
-                }
-                goto LABEL_32;
-            }
-        LABEL_22:
-            if (field_1BC == 3)
-            {
-                field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
-                return 1;
-            }
-            goto LABEL_25;
+            field_1D6_continue_move_input = (unsigned short)sInputKey_Up_5550D8;
         }
+        else
+        {
+            field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
+        }
+        return 1;
     }
+
+    if ((CheckFloorCollision_46F730(k0, k1) && field_C8_vely > k0) ||
+        (CheckRoofCollision_46F6B0(k0, -k60Scaled) && field_C8_vely < k0))
+    {
+        if (field_1BC == 2)
+        {
+            field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
+        }
+        else
+        {
+            field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
+        }
+        return 1;
+    }
+
     if (field_1BC == 3)
     {
-        field_1D6_continue_move_input = (unsigned short)sInputKey_Up_5550D8;
+        const bool bNoFloorRight =
+            CheckFloorCollision_46F730(k4 - (k12Scaled + kGridSize), k4) ||
+            CheckFloorCollision_46F730(k12Scaled + kGridSize + k2, k4);
+
+        const bool bNoFloorLeft =
+            CheckFloorCollision_46F730(-(k12Scaled + kGridSize + k2), k4) ||
+            CheckFloorCollision_46F730(k12Scaled + kGridSize - k4, k4);
+
+        if ((field_C4_velx > k0 && !bNoFloorRight) || (field_C4_velx < k0 && !bNoFloorLeft))
+        {
+            field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
+            return 1;
+        }
     }
-    else
+    else if (field_1BC == 0)
     {
-        field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
+        const bool bRoofRight = 
+            CheckRoofCollision_46F6B0(k4 - (k12Scaled + kGridSize), -k60Scaled) ||
+            CheckRoofCollision_46F6B0(k12Scaled + kGridSize + k2, -k60Scaled);
+
+        const bool bRoofLeft = 
+            CheckRoofCollision_46F6B0(-(k12Scaled + kGridSize + k2), -k60Scaled) ||
+            CheckRoofCollision_46F6B0(k12Scaled + kGridSize - k4, -k60Scaled);
+
+        if ((field_C4_velx > k0 && !bRoofRight) || (field_C4_velx < k0 && !bRoofLeft))
+        {
+            field_1D6_continue_move_input = (unsigned short)sInputKey_Up_5550D8;
+            return 1;
+        }
     }
-    return 1;
+    else if (field_1BC == 2)
+    {
+        const bool bWall1 =
+            WallHit_408750(k60Scaled - k2, k12Scaled + kGridSize + k4) ||
+            WallHit_408750(-k2, k12Scaled + kGridSize + k4);
+
+        const bool bWall2 =
+            WallHit_408750(k60Scaled + k1, k12Scaled + kGridSize + k4) ||
+            WallHit_408750(k1, k12Scaled + kGridSize + k4);
+
+        if ((field_C8_vely > k0 && !bWall1) || (field_C8_vely < k0 && !bWall2))
+        {
+            field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
+            return 1;
+        }
+    }
+    else if (field_1BC == 1)
+    {
+        const bool bWall1 =
+            WallHit_408750(k60Scaled - k2, -(k12Scaled + kGridSize + k4)) ||
+            WallHit_408750(-k2, -(k12Scaled + kGridSize + k4));
+
+        const bool bWall2 =
+            WallHit_408750(k60Scaled + k1, -(k12Scaled + kGridSize + k4)) ||
+            WallHit_408750(k1, -(k12Scaled + kGridSize + k4));
+
+        if ((field_C8_vely > k0 && !bWall1) || (field_C8_vely < k0 && !bWall2))
+        {
+            field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 void MineCar::RunThingsOver_46F380()
@@ -944,7 +888,7 @@ void MineCar::State_2()
         field_1D0_sound_channels_mask = SFX_Play_46FA90(100u, 127, field_CC_sprite_scale);
     }
 
-    if (sub_46EA00() && !field_1C4)
+    if (FollowDirection_46EA00() && !field_1C4)
     {
         Stop_46E570();
         //goto LABEL_165;

@@ -87,7 +87,7 @@ private:
 
     EXPORT __int16 IsBlocked_46F4A0(__int16 a2, int a3);
 
-    EXPORT __int16 sub_46EA00();
+    EXPORT __int16 FollowDirection_46EA00();
 
     EXPORT void RunThingsOver_46F380();
 
