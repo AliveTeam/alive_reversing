@@ -82,6 +82,11 @@ private:
     EXPORT void sub_42B9A0(__int16 a2, __int16 a3);
 
     EXPORT void sub_42BD30();
+
+    EXPORT void ToIdle_42E520();
+
+    EXPORT int Sound_430520(unsigned __int8 sfx);
+
 private:
     int field_118_tlvInfo;
     int field_11C_obj_id;

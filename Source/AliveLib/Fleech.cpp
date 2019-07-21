@@ -7,6 +7,7 @@
 #include "MusicController.hpp"
 #include "stdlib.hpp"
 #include "Events.hpp"
+#include "SnoozeParticle.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
@@ -32,6 +33,29 @@ const TFleechMotionFn sFleech_motion_table_551798[19] =
     &Fleech::M_DeathByFalling_16_42FCE0,
     &Fleech::M_SleepingWithTongue_17_42F370,
     &Fleech::M_Consume_18_42FDF0
+};
+
+enum eFleechMotions
+{
+    M_Sleeping_0_42F0B0,
+    M_WakingUp_1_42F270,
+    M_Unknown_2_42F2F0,
+    M_Idle_3_42E850,
+    M_Crawl_4_42E960,
+    M_PatrolCry_5_42E810,
+    M_Knockback_6_42EAF0,
+    M_StopCrawling_7_42EBB0,
+    M_StopMidCrawlCycle_8_42EB20, 
+    M_Fall_9_42ECD0,
+    M_Land_10_42F330,
+    M_RaiseHead_11_42F590,
+    M_Climb_12_42F7F0,
+    M_SettleOnGround_13_42FB00,
+    M_ExtendTongueFromEnemy_14_42FBD0,
+    M_RetractTongueFromEnemey_15_42FC40,
+    M_DeathByFalling_16_42FCE0,
+    M_SleepingWithTongue_17_42F370,
+    M_Consume_18_42FDF0
 };
 
 const TFleechAIFn sFleech_ai_table_551830[4] =
@@ -140,12 +164,41 @@ void Fleech::M_Sleeping_0_42F0B0()
 
 void Fleech::M_WakingUp_1_42F270()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eSnoozParticle_124)
+        {
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = 2;
+        }
+    }
+
+    if (field_108_next_motion != -1)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_motion = field_108_next_motion;
+            field_108_next_motion = -1;
+            Sound_430520(6);
+        }
+    }
 }
 
 void Fleech::M_Unknown_2_42F2F0()
 {
-    NOT_IMPLEMENTED();
+    if (field_108_next_motion != -1)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_motion = field_108_next_motion;
+            field_108_next_motion = -1;
+        }
+    }
 }
 
 void Fleech::M_Idle_3_42E850()
@@ -160,7 +213,16 @@ void Fleech::M_Crawl_4_42E960()
 
 void Fleech::M_PatrolCry_5_42E810()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Sound_430520(0);
+        field_13C = 1;
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_42E520();
+    }
 }
 
 void Fleech::M_Knockback_6_42EAF0()
@@ -185,7 +247,15 @@ void Fleech::M_Fall_9_42ECD0()
 
 void Fleech::M_Land_10_42F330()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Sound_430520(9);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_42E520();
+    }
 }
 
 void Fleech::M_RaiseHead_11_42F590()
@@ -418,4 +488,21 @@ void Fleech::sub_42B9A0(__int16 a2, __int16 a3)
 void Fleech::sub_42BD30()
 {
     NOT_IMPLEMENTED();
+}
+
+void Fleech::ToIdle_42E520()
+{
+    MapFollowMe_408D10(TRUE);
+    field_138 = 0;
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+    field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
+    field_108_next_motion = -1;
+    field_134 = 60 * sRandomBytes_546744[sFleechRandomIdx_5BC20C++] / 256 + sGnFrame_5C1B84 + 120;
+}
+
+int Fleech::Sound_430520(unsigned __int8 /*sfx*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
