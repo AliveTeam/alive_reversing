@@ -970,6 +970,7 @@ void MineCar::State_1()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
 
+    // TODO: Refactor
     bool enterRightBlock = false;
     if (!sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
     {
@@ -1304,35 +1305,36 @@ void MineCar::State_2()
         return;
     }
 
-    if (!field_1C4)
+    if (field_1C4)
     {
-        goto LABEL_127;
+        if (field_1C4 >= 7)
+        {
+            Stop_46E570();
+            return;
+        }
+
+        if (field_C4_velx <= FP_FromInteger(0))
+        {
+            field_C4_velx = -dword_5461D8[field_1C4];
+        }
+        else
+        {
+            field_C4_velx = dword_5461D8[field_1C4];
+        }
+
+        if (++field_1C4 == 2)
+        {
+            ++field_124_anim.field_10_frame_delay;
+        }
     }
 
-    if (field_1C4 >= 7)
-    {
-        Stop_46E570();
-        return;
-    }
-
-    if (field_C4_velx <= FP_FromInteger(0))
-    {
-        field_C4_velx = -dword_5461D8[field_1C4];
-    }
-    else
-    {
-        field_C4_velx = dword_5461D8[field_1C4];
-    }
-
-    if (++field_1C4 == 2)
-    {
-        ++field_124_anim.field_10_frame_delay;
-    }
-
-LABEL_127:
     if (sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
     {
-        goto LABEL_137;
+        field_B8_xpos += field_C4_velx;
+        field_BC_ypos += field_C8_vely;
+        sub_408C40();
+        RunThingsOver_46F380();
+        return;
     }
 
     if (field_1BC == 3 || field_1BC == 0)
@@ -1349,7 +1351,6 @@ LABEL_127:
             }
             ++field_1C4;
         }
-    LABEL_137:
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;
         sub_408C40();
@@ -1358,8 +1359,6 @@ LABEL_127:
     }
 
     Stop_46E570();
-
-    return;
 }
 
 void MineCar::State_3()
@@ -1459,8 +1458,7 @@ void MineCar::State_3()
             field_1BC = 3;
         }
     }
-    //LABEL_164:
+
     RunThingsOver_46F380();
-    //goto LABEL_165;
     return;
 }
