@@ -8,6 +8,8 @@
 #include "stdlib.hpp"
 #include "Events.hpp"
 #include "SnoozeParticle.hpp"
+#include "Dove.hpp"
+#include "Blood.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
@@ -285,7 +287,24 @@ void Fleech::M_RetractTongueFromEnemey_15_42FC40()
 
 void Fleech::M_DeathByFalling_16_42FCE0()
 {
-    NOT_IMPLEMENTED();
+    if (field_10C_health > FP_FromInteger(0))
+    {
+        auto pBlood = alive_new<Blood>();
+        if (pBlood)
+        {
+            pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(0), -FP_FromInteger(5), field_CC_sprite_scale, 50);
+        }
+        
+        Sound_430520(12);
+        Sound_430520(7);
+        
+        field_10C_health = FP_FromInteger(0);
+        field_124_brain_state = 3;
+        field_174_flags.Set(Flags_174::eBit3);
+        field_108_next_motion = -1;
+        field_12C = sGnFrame_5C1B84 + 127;
+        sFleechCount_5BC20E--;
+    }
 }
 
 void Fleech::M_SleepingWithTongue_17_42F370()
@@ -295,7 +314,41 @@ void Fleech::M_SleepingWithTongue_17_42F370()
 
 void Fleech::M_Consume_18_42FDF0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 2)
+    {
+        Sound_430520(2);
+    }
+    else if (field_20_animation.field_92_current_frame == 15 && field_11C_obj_id == sActiveHero_5C1B68->field_8_object_id)
+    {
+        sActiveHero_5C1B68->sub_459430();
+
+        Sound_430520(1);
+
+        for (int i = 0; i < 3; i++)
+        {
+            auto pDove = alive_new<Dove>();
+            if (pDove)
+            {
+                pDove->ctor_41F660(5516, 41, 20u, 60, field_B8_xpos, field_BC_ypos + FP_FromInteger(10), field_CC_sprite_scale);
+            }
+
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                pDove->field_B8_xpos += (field_CC_sprite_scale * FP_FromInteger(15));
+            }
+            else
+            {
+                pDove->field_B8_xpos -= (field_CC_sprite_scale * FP_FromInteger(15));
+            }
+
+            pDove->field_CC_sprite_scale = field_CC_sprite_scale;
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_42E520();
+    }
 }
 
 __int16 Fleech::AI_Patrol_0_430BA0()
