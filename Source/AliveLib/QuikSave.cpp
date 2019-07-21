@@ -29,6 +29,7 @@
 #include "Rock.hpp"
 #include "Meat.hpp"
 #include "Bone.hpp"
+#include "MineCar.hpp"
 
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
@@ -41,7 +42,6 @@ EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED
 EXPORT int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { NOT_IMPLEMENTED(); return 144; }
 EXPORT int CC SligSpawner__CreateFromSaveState_409B10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
-EXPORT int CC MineCar__CreateFromSaveState_467740(const BYTE*) { NOT_IMPLEMENTED(); return 104; }
 EXPORT int CC Paramite__CreateFromSaveState_4855A0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 EXPORT int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED(); return 160; }
@@ -145,7 +145,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &MineCar__CreateFromSaveState_467740,
+    &MineCar::CreateFromSaveState_467740,
     nullptr,
     nullptr,
     nullptr,

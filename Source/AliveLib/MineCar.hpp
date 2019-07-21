@@ -11,6 +11,63 @@ struct Path_MineCar : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MineCar, 0x14);
 
+enum class MineCarStates : __int16
+{
+    eState_0_ParkedWithoutAbe = 0,
+    eState_1_ParkedWithAbe = 1,
+    eState_2_Moving = 2,
+    eState_3_Falling = 3,
+};
+
+struct MineCar_SaveState
+{
+    Types field_0_type;
+    __int16 field_2_pad;
+    FP field_4_xpos;
+    FP field_8_ypos;
+    FP field_C_velx;
+    FP field_10_vely;
+    FP field_14_sprite_scale;
+    __int16 field_18_path_number;
+    LevelIds field_1A_lvl_number;
+    __int16 field_1C_r;
+    __int16 field_1E_g;
+    __int16 field_20_b;
+    __int16 field_22_xFlip;
+    int field_24_frame_table;
+    __int16 field_28_current_motion;
+    __int16 field_2A_current_anim_frame;
+    __int16 field_2C_frame_change_counter;
+    char field_2E;
+    char field_2F;
+    char field_30;
+    char field_31;
+    __int16 field_32;
+    __int16 field_34;
+    __int16 field_36;
+    int field_38_frame_table_offset2;
+    FP field_3C_health;
+    __int16 field_40;
+    __int16 field_42_next_motion;
+    __int16 field_44_last_line_ypos;
+    __int16 field_46_collision_line_type;
+    __int16 field_48;
+    __int16 field_4A;
+    int field_4C_tlvInfo;
+    MineCarStates field_50_state;
+    __int16 field_52;
+    __int16 field_54;
+    __int16 field_56;
+    __int16 field_58;
+    __int16 field_5A_bAbeInCar;
+    int field_5C;
+    __int16 field_60_spawned_path;
+    __int16 field_62_spanwed_camera;
+    __int16 field_64_throw_item_key1;
+    __int16 field_66_continue_move_input;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
+
 class MineCar : public BaseAliveGameObject
 {
 public:
@@ -21,22 +78,11 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
-
-    virtual int VGetSaveState(BYTE* /*pSaveBuffer*/) override
-    {
-        // TODO
-        return 0;
-    }
-
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    enum class States : __int16
-    {
-        eState_0_ParkedWithoutAbe = 0,
-        eState_1_ParkedWithAbe = 1,
-        eState_2_Moving = 2,
-        eState_3_Falling = 3,
-    };
+    EXPORT static int CC CreateFromSaveState_467740(const BYTE* pBuffer);
+
 private:
     EXPORT void LoadAnimation_46BF80(Animation* pAnim);
     EXPORT void vStopAudio_46F9C0();
@@ -45,7 +91,6 @@ private:
     EXPORT void dtor_46F2A0();
     EXPORT BOOL CheckRoofCollision_46F6B0(FP hitX, FP hitY);
     EXPORT __int16 CheckFloorCollision_46F730(FP hitX, FP hitY);
-    EXPORT void vUpdate_Real_46C010();
     EXPORT void vUpdate_46C010();
     EXPORT void vRender_46E760(int **pOt);
     EXPORT void Stop_46E570();
@@ -54,6 +99,8 @@ private:
     EXPORT __int16 FollowDirection_46EA00();
     EXPORT void RunThingsOver_46F380();
     EXPORT __int16 vTakeDamage_46F7D0(BaseGameObject* pFrom);
+
+    EXPORT int vGetSaveState_467E10(MineCar_SaveState* pState);
 
     void State_0();
     void State_1();
@@ -65,7 +112,7 @@ private:
 private:
     int field_118_tlvInfo;
 public:
-    States field_11C_state;
+    MineCarStates field_11C_state;
 private:
     __int16 field_11E_scale;
     __int16 field_120_max_damage;

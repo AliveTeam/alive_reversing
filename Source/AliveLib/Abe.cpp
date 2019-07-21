@@ -7976,7 +7976,7 @@ void Abe::State_117_In_MineCar_4587C0()
     if (sInputObject_5BD4E0.isPressed(sInputKey_DoAction_5550E4))
     {
         auto pMineCar = static_cast<MineCar*>(sControlledCharacter_5C1B8C);
-        if (pMineCar->field_11C_state == MineCar::States::eState_1_ParkedWithAbe &&
+        if (pMineCar->field_11C_state == MineCarStates::eState_1_ParkedWithAbe &&
             pMineCar->field_1BC == 3)
         {
             PathLine* pLine = nullptr;
