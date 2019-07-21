@@ -340,10 +340,6 @@ __int16 MineCar::sub_46EA00()
     const FP k0 = FP_FromInteger(0);
 
     __int16 result = 0;
-    int v13 = 0;
-    int v14 = 0;
-    int v38 = 0;
-    int v39 = 0;
 
     if (!WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Scaled + kGridSize + k1) || field_C4_velx <= k0)
     {
@@ -356,10 +352,13 @@ __int16 MineCar::sub_46EA00()
                     field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
                     return 1;
                 }
-                goto LABEL_42;
+                else
+                {
+                    field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
+                    return 1;
+                }
             }
-            v13 = field_C4_velx == k0;
-            v14 = field_C4_velx < k0;
+
             if (field_C4_velx > k0)
             {
                 if (!CheckFloorCollision_46F730(k4 - (k12Scaled + kGridSize), k4))
@@ -369,22 +368,17 @@ __int16 MineCar::sub_46EA00()
                         goto LABEL_22;
                     }
                 }
-                v13 = field_C4_velx == k0;
-                v14 = field_C4_velx < k0;
             }
 
-            if (!v14)
+            if (!(field_C4_velx < k0))
             {
                 goto LABEL_25;
             }
 
             if (CheckFloorCollision_46F730(-(k12Scaled + kGridSize + k2), k4) || CheckFloorCollision_46F730(k12Scaled + kGridSize - k4, k4))
             {
-            LABEL_24:
-                v13 = field_C4_velx == k0;
-                v14 = field_C4_velx < k0;
             LABEL_25:
-                if (!v14 && !v13)
+                if (!(field_C4_velx < k0) && !(field_C4_velx == k0))
                 {
                     if (!CheckRoofCollision_46F6B0(k4 - (k12Scaled + kGridSize), -k60Scaled))
                     {
@@ -397,8 +391,6 @@ __int16 MineCar::sub_46EA00()
                                 return 1;
                             }
                         LABEL_34:
-                            v38 = field_C8_vely == k0;
-                            v39 = field_C8_vely < k0;
                             if (field_C8_vely > k0)
                             {
                                 if (!WallHit_408750(k60Scaled - k2, k12Scaled + kGridSize + k4))
@@ -408,21 +400,17 @@ __int16 MineCar::sub_46EA00()
                                         goto LABEL_41;
                                     }
                                 }
-                                v38 = field_C8_vely == k0;
-                                v39 = field_C8_vely < k0;
                             }
-                            if (!v39)
+
+                            if (!(field_C8_vely < k0))
                             {
                                 goto LABEL_44;
                             }
 
                             if (WallHit_408750(k60Scaled + k1, k12Scaled + kGridSize + k4) || WallHit_408750(k1, k12Scaled + kGridSize + k4))
                             {
-                            LABEL_43:
-                                v38 = field_C8_vely == k0;
-                                v39 = field_C8_vely < k0;
                             LABEL_44:
-                                if (!v39 && !v38)
+                                if (!(field_C8_vely < k0) && !(field_C8_vely == k0))
                                 {
                                     if (!WallHit_408750(k60Scaled - k2, -(k12Scaled + kGridSize + k4)))
                                     {
@@ -431,9 +419,9 @@ __int16 MineCar::sub_46EA00()
                                             goto LABEL_51;
                                         }
                                     }
-                                    v39 = field_C8_vely < k0;
                                 }
-                                if (!v39)
+
+                                if (!(field_C8_vely < k0))
                                 {
                                     return 0;
                                 }
@@ -459,16 +447,15 @@ __int16 MineCar::sub_46EA00()
                         LABEL_41:
                             if (field_1BC == 2)
                             {
-                            LABEL_42:
                                 field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
                                 return 1;
                             }
-                            goto LABEL_43;
+                            goto LABEL_44;
                         }
                     }
-                    v14 = field_C4_velx < k0;
                 }
-                if (!v14)
+
+                if (!(field_C4_velx < k0))
                 {
                     goto LABEL_34;
                 }
@@ -490,7 +477,7 @@ __int16 MineCar::sub_46EA00()
                 field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
                 return 1;
             }
-            goto LABEL_24;
+            goto LABEL_25;
         }
     }
     if (field_1BC == 3)
