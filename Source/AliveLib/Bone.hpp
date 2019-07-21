@@ -51,6 +51,7 @@ class Bone : public BaseThrowable
 {
 public:
     EXPORT Bone* ctor_4112C0(FP xpos, FP ypos, __int16 countId);
+    virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VThrow_49E460(FP velX, FP velY) override;

@@ -67,6 +67,11 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     return this;
 }
 
+BaseGameObject* Rock::VDestructor(signed int flags)
+{
+    return vdtor_49E370(flags);
+}
+
 void Rock::VUpdate()
 {
     vUpdate_49E9F0();

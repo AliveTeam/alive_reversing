@@ -53,6 +53,11 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     return this;
 }
 
+BaseGameObject* Bone::VDestructor(signed int flags)
+{
+    return vdtor_411580(flags);
+}
+
 void Bone::VUpdate()
 {
     vUpdate_411BC0();
