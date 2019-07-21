@@ -8541,8 +8541,6 @@ int Abe::sub_44EE10()
 
 __int16 Abe::HandleDoAction_455BD0()
 {
-    NOT_IMPLEMENTED(); // TODO: Need to impl case 59
-
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
         nullptr,
         field_B8_xpos,
@@ -8592,20 +8590,14 @@ __int16 Abe::HandleDoAction_455BD0()
             field_FC_pPathTLV = pTlv;
             return eAbeStates::State_78_WellBegin_45C810;
 
-            // TODO: Need the Object and TLV structures to impl this case
         case TlvTypes::GrenadeMachine_59:
         {
-            /*
-            pGrenadeMachine = FindObjectOfType_425180(
-            66,
-            field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25)));
-            if (!pGrenadeMachine || !(pGrenadeMachine->field_3C_vnull_408F90()))
+            auto pGrenadeMachine = static_cast<BoomMachine*>(FindObjectOfType_425180(Types::eGrenadeMachine_66, field_B8_xpos,  field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(25))));
+            if (!pGrenadeMachine || !(pGrenadeMachine->Vsub_445DF0()))
             {
-            return eAbeStates::State_34_DunnoBegin_44ECF0;
+                return eAbeStates::State_34_DunnoBegin_44ECF0;
             }
-            (pGrenadeMachine->field_0_VTbl->VBaseAliveGameObject.field_40_vnull_408F70)(pGrenadeMachine);
-            */
+            pGrenadeMachine->Vsub_445F00();
             return eAbeStates::State_88_GrenadeMachineUse_45C510;
         }
 
