@@ -102,6 +102,36 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     return this;
 }
 
+BaseGameObject* MineCar::VDestructor(signed int flags)
+{
+    return vdtor_46BF50(flags);
+}
+
+void MineCar::VUpdate()
+{
+    vUpdate_46C010();
+}
+
+void MineCar::VRender(int** pOrderingTable)
+{
+    vRender_46E760(pOrderingTable);
+}
+
+void MineCar::VScreenChanged()
+{
+    vScreenChanged_46F800();
+}
+
+void MineCar::VStopAudio()
+{
+    vStopAudio_46F9C0();
+}
+
+__int16 MineCar::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return vTakeDamage_46F7D0(pFrom);
+}
+
 void MineCar::LoadAnimation_46BF80(Animation* pAnim)
 {
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownID_6013);
@@ -468,6 +498,18 @@ void MineCar::RunThingsOver_46F380()
                 }
             }
         }
+    }
+}
+
+__int16 MineCar::vTakeDamage_46F7D0(BaseGameObject* /*pFrom*/)
+{
+    if (!field_6_flags.Get(BaseGameObject::eDead))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
     }
 }
 

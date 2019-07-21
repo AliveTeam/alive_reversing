@@ -16,30 +16,11 @@ class MineCar : public BaseAliveGameObject
 public:
     EXPORT MineCar* ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int a4, int a5, int a6);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_46BF50(flags);
-    }
-
-    virtual void VUpdate() override
-    {
-        vUpdate_46C010();
-    }
-
-    virtual void VRender(int** pOrderingTable) override
-    {
-        vRender_46E760(pOrderingTable);
-    }
-
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_46F800();
-    }
-
-    virtual void VStopAudio() override
-    {
-        vStopAudio_46F9C0();
-    }
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+    virtual void VUpdate() override;
+    virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override;
+    virtual void VStopAudio() override;
 
     virtual int VGetSaveState(BYTE* /*pSaveBuffer*/) override
     {
@@ -47,11 +28,7 @@ public:
         return 0;
     }
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* /*pFrom*/) override
-    {
-        // TODO
-        return 0;
-    }
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
     enum class States : __int16
     {
@@ -62,34 +39,21 @@ public:
     };
 private:
     EXPORT void LoadAnimation_46BF80(Animation* pAnim);
-
     EXPORT void vStopAudio_46F9C0();
-
     EXPORT void vScreenChanged_46F800();
-
     EXPORT MineCar* vdtor_46BF50(signed int flags);
-
     EXPORT void dtor_46F2A0();
-
     EXPORT BOOL CheckRoofCollision_46F6B0(FP hitX, FP hitY);
-
     EXPORT __int16 CheckFloorCollision_46F730(FP hitX, FP hitY);
-
     EXPORT void vUpdate_Real_46C010();
-
     EXPORT void vUpdate_46C010();
-
     EXPORT void vRender_46E760(int **pOt);
-
     EXPORT void Stop_46E570();
-
     EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, __int16 unknown, char bChangeDirection);
-
     EXPORT __int16 IsBlocked_46F4A0(__int16 a2, int a3);
-
     EXPORT __int16 FollowDirection_46EA00();
-
     EXPORT void RunThingsOver_46F380();
+    EXPORT __int16 vTakeDamage_46F7D0(BaseGameObject* pFrom);
 
     void State_0();
     void State_1();
