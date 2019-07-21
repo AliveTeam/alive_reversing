@@ -437,7 +437,38 @@ __int16 MineCar::FollowDirection_46EA00()
 
 void MineCar::RunThingsOver_46F380()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT ourRect = {};
+    vGetBoundingRect_424FD0(&ourRect, 1);
+    ourRect.h += 6;
+
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+        {
+            // You can't run yourself over with a mine car it seems.
+            if (pObj->field_4_typeId != Types::eType_Abe_69)
+            {
+                auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+                if ((pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale || pAliveObj->field_4_typeId == Types::eSlog_126) && field_CC_sprite_scale != FP_FromDouble(0.5))
+                {
+                    PSX_RECT targetRect = {};
+                    pAliveObj->vGetBoundingRect_424FD0(&targetRect, 1);
+
+                    if (PSX_Rects_overlap_no_adjustment(&ourRect, &targetRect))
+                    {
+                        // Get run over by the mine car
+                        pAliveObj->VTakeDamage_408730(this);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void MineCar::vUpdate_Real_46C010()
@@ -447,8 +478,6 @@ void MineCar::vUpdate_Real_46C010()
 
 void MineCar::vUpdate_46C010()
 {
-   // NOT_IMPLEMENTED();
-
     if (field_114_flags.Get(Flags_114::e114_Bit9))
     {
         field_114_flags.Clear(Flags_114::e114_Bit9);
