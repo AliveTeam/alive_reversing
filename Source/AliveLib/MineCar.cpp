@@ -331,8 +331,177 @@ __int16 MineCar::IsBlocked_46F4A0(__int16 a2, int /*a3*/)
 
 __int16 MineCar::sub_46EA00()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    const FP k60Scaled = field_CC_sprite_scale * FP_FromInteger(60);
+    const FP k12Scaled = field_CC_sprite_scale * FP_FromInteger(12);
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP k1 = FP_FromInteger(1);
+    const FP k4 = FP_FromInteger(4);
+    const FP k2 = FP_FromInteger(2);
+    const FP k0 = FP_FromInteger(0);
+
+    __int16 result = 0;
+    int v13 = 0;
+    int v14 = 0;
+    int v38 = 0;
+    int v39 = 0;
+
+    if (!WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Scaled + kGridSize + k1) || field_C4_velx <= k0)
+    {
+        if (!WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)) || field_C4_velx >= k0)
+        {
+            if ((CheckFloorCollision_46F730(k0, k1) && field_C8_vely > k0) || (CheckRoofCollision_46F6B0(k0, -k60Scaled) && field_C8_vely < k0))
+            {
+                if (field_1BC == 2)
+                {
+                    field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
+                    return 1;
+                }
+                goto LABEL_42;
+            }
+            v13 = field_C4_velx == k0;
+            v14 = field_C4_velx < k0;
+            if (field_C4_velx > k0)
+            {
+                if (!CheckFloorCollision_46F730(k4 - (k12Scaled + kGridSize), k4))
+                {
+                    if (!CheckFloorCollision_46F730(k12Scaled + kGridSize + k2, k4))
+                    {
+                        goto LABEL_22;
+                    }
+                }
+                v13 = field_C4_velx == k0;
+                v14 = field_C4_velx < k0;
+            }
+
+            if (!v14)
+            {
+                goto LABEL_25;
+            }
+
+            if (CheckFloorCollision_46F730(-(k12Scaled + kGridSize + k2), k4) || CheckFloorCollision_46F730(k12Scaled + kGridSize - k4, k4))
+            {
+            LABEL_24:
+                v13 = field_C4_velx == k0;
+                v14 = field_C4_velx < k0;
+            LABEL_25:
+                if (!v14 && !v13)
+                {
+                    if (!CheckRoofCollision_46F6B0(k4 - (k12Scaled + kGridSize), -k60Scaled))
+                    {
+                        if (!CheckRoofCollision_46F6B0(k12Scaled + kGridSize + k2, -k60Scaled))
+                        {
+                        LABEL_32:
+                            if (!field_1BC)
+                            {
+                                field_1D6_continue_move_input = (unsigned short)sInputKey_Up_5550D8;
+                                return 1;
+                            }
+                        LABEL_34:
+                            v38 = field_C8_vely == k0;
+                            v39 = field_C8_vely < k0;
+                            if (field_C8_vely > k0)
+                            {
+                                if (!WallHit_408750(k60Scaled - k2, k12Scaled + kGridSize + k4))
+                                {
+                                    if (!WallHit_408750(-k2, k12Scaled + kGridSize + k4))
+                                    {
+                                        goto LABEL_41;
+                                    }
+                                }
+                                v38 = field_C8_vely == k0;
+                                v39 = field_C8_vely < k0;
+                            }
+                            if (!v39)
+                            {
+                                goto LABEL_44;
+                            }
+
+                            if (WallHit_408750(k60Scaled + k1, k12Scaled + kGridSize + k4) || WallHit_408750(k1, k12Scaled + kGridSize + k4))
+                            {
+                            LABEL_43:
+                                v38 = field_C8_vely == k0;
+                                v39 = field_C8_vely < k0;
+                            LABEL_44:
+                                if (!v39 && !v38)
+                                {
+                                    if (!WallHit_408750(k60Scaled - k2, -(k12Scaled + kGridSize + k4)))
+                                    {
+                                        if (!WallHit_408750(-k2, -(k12Scaled + kGridSize + k4)))
+                                        {
+                                            goto LABEL_51;
+                                        }
+                                    }
+                                    v39 = field_C8_vely < k0;
+                                }
+                                if (!v39)
+                                {
+                                    return 0;
+                                }
+
+                                if (WallHit_408750(k60Scaled + k1, -(k12Scaled + kGridSize + k4)))
+                                {
+                                    return 0;
+                                }
+ 
+                                if (WallHit_408750(k1, -(k12Scaled + kGridSize + k4)))
+                                {
+                                    return 0;
+                                }
+                            LABEL_51:
+                                result = 1;
+                                if (field_1BC != 1)
+                                {
+                                    return 0;
+                                }
+                                field_1D6_continue_move_input = (unsigned short)sInputKey_Left_5550D4;
+                                return result;
+                            }
+                        LABEL_41:
+                            if (field_1BC == 2)
+                            {
+                            LABEL_42:
+                                field_1D6_continue_move_input = (unsigned short)sInputKey_Right_5550D0;
+                                return 1;
+                            }
+                            goto LABEL_43;
+                        }
+                    }
+                    v14 = field_C4_velx < k0;
+                }
+                if (!v14)
+                {
+                    goto LABEL_34;
+                }
+
+                if (CheckRoofCollision_46F6B0(-(k12Scaled + kGridSize + k2), -k60Scaled))
+                {
+                    goto LABEL_34;
+                }
+
+                if (CheckRoofCollision_46F6B0(k12Scaled + kGridSize - k4, -k60Scaled))
+                {
+                    goto LABEL_34;
+                }
+                goto LABEL_32;
+            }
+        LABEL_22:
+            if (field_1BC == 3)
+            {
+                field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
+                return 1;
+            }
+            goto LABEL_24;
+        }
+    }
+    if (field_1BC == 3)
+    {
+        field_1D6_continue_move_input = (unsigned short)sInputKey_Up_5550D8;
+    }
+    else
+    {
+        field_1D6_continue_move_input = (unsigned short)sInputKey_Down_5550DC;
+    }
+    return 1;
 }
 
 void MineCar::RunThingsOver_46F380()
