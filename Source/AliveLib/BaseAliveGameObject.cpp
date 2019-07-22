@@ -196,8 +196,6 @@ void BaseAliveGameObject::vSetMotion_4081C0(__int16 state)
 
 EXPORT int CC sub_449880(FP scale)
 {
-    NOT_IMPLEMENTED();
-
     if (scale == FP_FromDouble(0.5))
     {
         return 30;
