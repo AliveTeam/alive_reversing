@@ -39,6 +39,10 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VScreenChanged() override;
+
+    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
+
 public:
     EXPORT void M_Sleeping_0_42F0B0();
     EXPORT void M_WakingUp_1_42F270();
@@ -73,6 +77,10 @@ private:
 
     EXPORT void vUpdate_42AB20();
 
+    EXPORT void vScreenChanged_42A4C0();
+
+    EXPORT void vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv);
+
 private:
     EXPORT void Init_42A170();
     EXPORT void InitPolys_42B6E0();
@@ -88,6 +96,13 @@ private:
     EXPORT int Sound_430520(unsigned __int8 sfx);
 
     EXPORT BYTE** ResBlockForMotion_42A530(int motion);
+
+    EXPORT __int16 CanMove_42E3E0();
+
+    EXPORT __int16 HandleEnemyStopperOrSlamDoor_42ADC0(int a2);
+
+    EXPORT int UpdateWakeUpSwitchValue_4308B0();
+
 
 private:
     int field_118_tlvInfo;
