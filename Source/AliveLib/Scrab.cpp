@@ -12,6 +12,7 @@
 #include "Events.hpp"
 #include "DDCheat.hpp"
 #include "Particle.hpp"
+#include "Sfx.hpp"
 
 TintEntry stru_560260[15] =
 {
@@ -692,22 +693,38 @@ void Scrab::M_RunJumpEnd_13_4A9BE0()
 
 void Scrab::M_WalkToFall_14_4A9460()
 {
-    NOT_IMPLEMENTED();
+    M_JumpToFall_8_4A9220();
+    if (field_106_current_motion == 0)
+    {
+        field_106_current_motion = 7;
+    };
 }
 
 void Scrab::M_RunToFall_15_4A9430()
 {
-    NOT_IMPLEMENTED();
+    M_JumpToFall_8_4A9220();
+    if (field_106_current_motion == 0)
+    {
+        field_106_current_motion = 7;
+    };
 }
 
 void Scrab::M_WalkToRun_16_4A8D60()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = 2;
+        field_108_next_motion = -1;
+    }
 }
 
 void Scrab::M_RunToWalk_17_4A8D90()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = 1;
+        field_108_next_motion = -1;
+    }
 }
 
 void Scrab::M_Knockback_18_4AA490()
@@ -717,7 +734,10 @@ void Scrab::M_Knockback_18_4AA490()
 
 void Scrab::M_GetEaten_19_4AA3E0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 3)
+    {
+        SFX_Play_46FBA0(28u, 120, -1000);
+    }
 }
 
 void Scrab::M_Fall_20_4A93E0()
