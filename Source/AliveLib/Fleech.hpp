@@ -87,6 +87,8 @@ private:
 
     EXPORT int Sound_430520(unsigned __int8 sfx);
 
+    EXPORT BYTE** ResBlockForMotion_42A530(int motion);
+
 private:
     int field_118_tlvInfo;
     int field_11C_obj_id;

@@ -10,6 +10,7 @@
 #include "SnoozeParticle.hpp"
 #include "Dove.hpp"
 #include "Blood.hpp"
+#include "Shadow.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
@@ -509,9 +510,92 @@ void Fleech::vUpdate_42AB20()
     }
 }
 
+TintEntry stru_551844[15] =
+{
+    { 1u, 127u, 127u, 127u },
+    { 2u, 137u, 137u, 137u },
+    { 3u, 127u, 127u, 127u },
+    { 4u, 127u, 127u, 127u },
+    { 5u, 127u, 127u, 127u },
+    { 6u, 127u, 127u, 127u },
+    { 7u, 127u, 127u, 127u },
+    { 8u, 127u, 127u, 127u },
+    { 9u, 127u, 127u, 127u },
+    { 10u, 127u, 127u, 127u },
+    { 11u, 127u, 127u, 127u },
+    { 12u, 127u, 127u, 127u },
+    { 13u, 127u, 127u, 127u },
+    { 14u, 127u, 127u, 127u },
+    { -1, 127u, 127u, 127u }
+};
+
 void Fleech::Init_42A170()
 {
-    NOT_IMPLEMENTED();
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kFleechResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 580, TRUE, FALSE));
+    
+    Animation_Init_424E10(37704, 73, 35u, field_10_resources_array.ItemAt(0), 1, 1);
+
+    field_20_animation.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
+
+    field_4_typeId = Types::eFleech_50;
+
+    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
+
+    field_174_flags.Clear(Flags_174::eBit3);
+    field_174_flags.Clear(Flags_174::eBit4);
+
+    field_DC_bApplyShadows |= 2u;
+
+    field_12C = 0;
+    field_126_state = 0;
+    field_108_next_motion = -1;
+    field_110_id = -1;
+    field_128 = 0;
+    field_11C_obj_id = -1;
+    field_170 = -1;
+    field_15E = 0;
+    
+    SetTint_425600(&stru_551844[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    
+    if (field_CC_sprite_scale == FP_FromInteger(1))
+    {
+        field_20_animation.field_C_render_layer = 34;
+        field_D6_scale = 1;
+    }
+    else
+    {
+        field_20_animation.field_C_render_layer = 15;
+        field_D6_scale = 0;
+    }
+
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        field_BC_ypos,
+        field_B8_xpos,
+        field_BC_ypos + FP_FromInteger(24),
+        &field_100_pCollisionLine,
+        &hitX,
+        &hitY,
+        field_D6_scale != 0 ? 1 : 16) == 1)
+    {
+        field_BC_ypos = hitY;
+    }
+    
+    MapFollowMe_408D10(TRUE);
+    
+    vStackOnObjectsOfType_425840(Types::eFleech_50);
+    
+    field_E0_pShadow = alive_new<Shadow>();
+    if (field_E0_pShadow)
+    {
+        field_E0_pShadow->ctor_4AC990();
+    }
+
+    sFleechCount_5BC20E++;
 }
 
 void Fleech::InitPolys_42B6E0()
@@ -519,9 +603,34 @@ void Fleech::InitPolys_42B6E0()
     NOT_IMPLEMENTED();
 }
 
+const static int sFleechFrameTableOffsets_5517E4[19] =
+{
+    37808,
+    37884,
+    37896,
+    37704,
+    37748,
+    37784,
+    37924,
+    37936,
+    37960,
+    37984,
+    38060,
+    38112,
+    38156,
+    38208,
+    38260,
+    37848,
+    38248,
+    38396,
+    38276
+};
+
+
 void Fleech::SetAnim_429D80()
 {
-    NOT_IMPLEMENTED();
+    BYTE** ppRes = ResBlockForMotion_42A530(field_106_current_motion);
+    field_20_animation.Set_Animation_Data_409C80(sFleechFrameTableOffsets_5517E4[field_106_current_motion], ppRes);
 }
 
 void Fleech::sub_42CF70()
@@ -558,4 +667,9 @@ int Fleech::Sound_430520(unsigned __int8 /*sfx*/)
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+BYTE** Fleech::ResBlockForMotion_42A530(int /*motion*/)
+{
+    return field_10_resources_array.ItemAt(0);
 }
