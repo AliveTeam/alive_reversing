@@ -4,6 +4,54 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
+#define SCRAB_MOTIONS_ENUM(ENTRY) \
+    ENTRY(M_Stand_0_4A8220) \
+    ENTRY(M_Walk_1_4A81D0) \
+    ENTRY(M_Run_2_4A89C0) \
+    ENTRY(M_Turn_3_4A91A0) \
+    ENTRY(M_RunToStand_4_4A90C0) \
+    ENTRY(M_HopBegin_5_4A96C0) \
+    ENTRY(M_HopMidair_6_4A9490) \
+    ENTRY(M_HopLand_7_4A9890) \
+    ENTRY(M_JumpToFall_8_4A9220) \
+    ENTRY(M_StandToWalk_9_4A8450) \
+    ENTRY(M_StandToRun_10_4A8900) \
+    ENTRY(M_WalkToStand_11_4A8880) \
+    ENTRY(M_RunJumpBegin_12_4A99C0) \
+    ENTRY(M_RunJumpEnd_13_4A9BE0) \
+    ENTRY(M_WalkToFall_14_4A9460) \
+    ENTRY(M_RunToFall_15_4A9430) \
+    ENTRY(M_WalkToRun_16_4A8D60) \
+    ENTRY(M_RunToWalk_17_4A8D90) \
+    ENTRY(M_Knockback_18_4AA490) \
+    ENTRY(M_GetEaten_19_4AA3E0) \
+    ENTRY(M_Fall_20_4A93E0) \
+    ENTRY(M_Stamp_21_4A9CC0) \
+    ENTRY(M_GetPossessed_22_4AA420) \
+    ENTRY(M_Empty_23_4A9D80) \
+    ENTRY(M_DeathEnd_24_4AA140) \
+    ENTRY(M_Empty_25_4A34D0) \
+    ENTRY(M_HowlBegin_26_4A9DA0) \
+    ENTRY(M_HowlEnd_27_4A9E60) \
+    ENTRY(M_GetDepossessedBegin_28_4AA200) \
+    ENTRY(M_GetDepossessedEnd_29_4AA3C0) \
+    ENTRY(M_Shriek_30_4A9EA0) \
+    ENTRY(M_ScrabBattleAnim_31_4A9F30) \
+    ENTRY(M_AttackSpin_32_4A8DC0) \
+    ENTRY(M_FeedToGulp_33_4A9FA0) \
+    ENTRY(M_GulpToStand_34_4A9FF0) \
+    ENTRY(M_StandToFeed_35_4AA01) \
+    ENTRY(M_Feed_36_4AA030) \
+    ENTRY(M_AttackLunge_37_4AA0B0) \
+    ENTRY(M_LegKick_38_4AA120) \
+    ENTRY(M_DeathBegin_39_4AA190)
+
+#define MAKE_ENUM(VAR) VAR,
+enum eScrabMotions : int
+{
+    SCRAB_MOTIONS_ENUM(MAKE_ENUM)
+};
+
 struct Path_Scrab : public Path_TLV
 {
     __int16 field_10_scale;
