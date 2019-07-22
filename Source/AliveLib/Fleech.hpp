@@ -45,6 +45,8 @@ public:
 
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
+    virtual void VOnTrapDoorOpen() override;
+
 public:
     EXPORT void M_Sleeping_0_42F0B0();
     EXPORT void M_WakingUp_1_42F270();
@@ -108,6 +110,8 @@ private:
     EXPORT __int16 vTakeDamage_42A5C0(BaseGameObject* pFrom);
 
     EXPORT void sub_42B8C0();
+
+    EXPORT void vOnTrapDoorOpen_42E5C0();
 
 private:
     int field_118_tlvInfo;

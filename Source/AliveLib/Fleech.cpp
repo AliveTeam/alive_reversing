@@ -13,6 +13,8 @@
 #include "Shadow.hpp"
 #include "Particle.hpp"
 #include "Gibs.hpp"
+#include "ObjectIds.hpp"
+#include "PlatformBase.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
@@ -175,6 +177,11 @@ void Fleech::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
 __int16 Fleech::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_42A5C0(pFrom);
+}
+
+void Fleech::VOnTrapDoorOpen()
+{
+    vOnTrapDoorOpen_42E5C0();
 }
 
 void Fleech::M_Sleeping_0_42F0B0()
@@ -953,4 +960,14 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
 void Fleech::sub_42B8C0()
 {
     NOT_IMPLEMENTED();
+}
+
+void Fleech::vOnTrapDoorOpen_42E5C0()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        field_110_id = -1;
+    }
 }
