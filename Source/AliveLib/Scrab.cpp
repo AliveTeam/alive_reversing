@@ -694,26 +694,26 @@ void Scrab::M_RunJumpEnd_13_4A9BE0()
 void Scrab::M_WalkToFall_14_4A9460()
 {
     M_JumpToFall_8_4A9220();
-    if (field_106_current_motion == 0)
+    if (field_106_current_motion == eScrabMotions::M_Stand_0_4A8220)
     {
-        field_106_current_motion = 7;
-    };
+        field_106_current_motion = eScrabMotions::M_HopLand_7_4A9890;
+    }
 }
 
 void Scrab::M_RunToFall_15_4A9430()
 {
     M_JumpToFall_8_4A9220();
-    if (field_106_current_motion == 0)
+    if (field_106_current_motion == eScrabMotions::M_Stand_0_4A8220)
     {
-        field_106_current_motion = 7;
-    };
+        field_106_current_motion = eScrabMotions::M_HopLand_7_4A9890;
+    }
 }
 
 void Scrab::M_WalkToRun_16_4A8D60()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = 2;
+        field_106_current_motion = eScrabMotions::M_Run_2_4A89C0;
         field_108_next_motion = -1;
     }
 }
@@ -722,7 +722,7 @@ void Scrab::M_RunToWalk_17_4A8D90()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = 1;
+        field_106_current_motion = eScrabMotions::M_Walk_1_4A81D0;
         field_108_next_motion = -1;
     }
 }
