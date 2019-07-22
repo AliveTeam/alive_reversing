@@ -43,6 +43,8 @@ public:
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+
 public:
     EXPORT void M_Sleeping_0_42F0B0();
     EXPORT void M_WakingUp_1_42F270();
@@ -103,6 +105,9 @@ private:
 
     EXPORT int UpdateWakeUpSwitchValue_4308B0();
 
+    EXPORT __int16 vTakeDamage_42A5C0(BaseGameObject* pFrom);
+
+    EXPORT void sub_42B8C0();
 
 private:
     int field_118_tlvInfo;

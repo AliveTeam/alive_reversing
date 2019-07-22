@@ -12,6 +12,7 @@
 #include "Blood.hpp"
 #include "Shadow.hpp"
 #include "Particle.hpp"
+#include "Gibs.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
@@ -169,6 +170,11 @@ void Fleech::VScreenChanged()
 void Fleech::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
 {
     vOn_Tlv_Collision_42AAB0(pTlv);
+}
+
+__int16 Fleech::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return vTakeDamage_42A5C0(pFrom);
 }
 
 void Fleech::M_Sleeping_0_42F0B0()
@@ -824,4 +830,127 @@ int Fleech::UpdateWakeUpSwitchValue_4308B0()
         field_148_wake_up_switch_value = 0;
         return 1;
     }
+}
+
+__int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
+{
+    if (field_10C_health <= FP_FromInteger(0))
+    {
+        return 0;
+    }
+    
+    sub_42B8C0();
+    sub_42CF70();
+    
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eBullet_15:
+    case Types::eGrinder_30:
+    case Types::eBaseBomb_46:
+    case Types::eExplosion_109:
+    case Types::eSlig_125:
+    {
+        Sound_430520(7);
+        field_10C_health = FP_FromInteger(0);
+        auto pGibsMem = alive_new<Gibs>();
+        if (pGibsMem)
+        {
+            pGibsMem->ctor_40FB40(10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+        }
+
+        PSX_RECT bRect = {};
+        vGetBoundingRect_424FD0(&bRect, 1);
+        auto pBloodMem = alive_new<Blood>();
+        if (pBloodMem)
+        {
+            pBloodMem->ctor_40F0B0(
+                FP_FromInteger((bRect.x + bRect.w) / 2),
+                FP_FromInteger((bRect.y + bRect.h) / 2),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_CC_sprite_scale, 50);
+        }
+
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    break;
+
+
+    case Types::eRockSpawner_48:
+        Sound_430520(7);
+        field_10C_health = FP_FromInteger(0);
+        field_124_brain_state = 3;
+        field_108_next_motion = -1;
+        field_12C = sGnFrame_5C1B84 + 127;
+        field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
+        SetAnim_429D80();
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+        break;
+
+    case Types::eParamite_96:
+        Sound_430520(0xDu);
+        // Fall through
+
+    case Types::eScrab_112:
+    {
+        auto pGibsMem2 = alive_new<Gibs>();
+        if (pGibsMem2)
+        {
+            pGibsMem2->ctor_40FB40(10, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+        }
+
+        if (static_cast<BaseAliveGameObject*>(pFrom)->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            auto pBloodMem2 = alive_new<Blood>();
+            if (pBloodMem2)
+            {
+                pBloodMem2->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), -FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
+            }
+        }
+        else
+        {
+            auto pBloodMem3 = alive_new<Blood>();
+            if (pBloodMem3)
+            {
+                pBloodMem3->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
+            }
+        }
+
+        if (!field_174_flags.Get(Flags_174::eBit4))
+        {
+            field_174_flags.Set(Flags_174::eBit4);
+            Sound_430520(7);
+        }
+
+        field_10C_health = FP_FromInteger(0);
+        field_124_brain_state = 3;
+        field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
+        field_12C = sGnFrame_5C1B84 + 127;
+        field_108_next_motion = -1;
+        SetAnim_429D80();
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+        field_174_flags.Set(Flags_174::eBit3);
+        field_6_flags.Set(BaseGameObject::eDead);
+        sFleechCount_5BC20E--;
+    }
+    break;
+
+    case Types::eElectrocute_150:
+        field_6_flags.Set(BaseGameObject::eDead);
+        field_10C_health = FP_FromInteger(0);
+        field_124_brain_state = 3;
+        break;
+
+    default:
+        Sound_430520(7);
+        field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
+        sub_42B8C0();
+        break;
+    }
+    return 1;
+}
+
+void Fleech::sub_42B8C0()
+{
+    NOT_IMPLEMENTED();
 }
