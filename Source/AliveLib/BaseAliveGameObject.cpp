@@ -16,7 +16,6 @@
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
-
 EXPORT int CC SnapToXGrid_449930(FP scale, int x)
 {
     if (scale == FP_FromDouble(0.5))
@@ -141,9 +140,9 @@ void BaseAliveGameObject::VSetMotion_4081C0(__int16 state)
     vSetMotion_4081C0(state);
 }
 
-int BaseAliveGameObject::Vsub_408320(__int16 a2, __int16 a3, int a4)
+void BaseAliveGameObject::VOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction)
 {
-    return vsub_408320(a2, a3, a4);
+    vOnPathTransition_408320(cameraWorldXPos, cameraWorldYPos, direction);
 }
 
 __int16 BaseAliveGameObject::VTakeDamage_408730(BaseGameObject* pFrom)
@@ -174,7 +173,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
 __int16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* /*pObj*/)
 {
     NOT_IMPLEMENTED();
-	return 0;
+    return 0;
 }
 
 // =======
@@ -195,10 +194,123 @@ void BaseAliveGameObject::vSetMotion_4081C0(__int16 state)
     field_106_current_motion = state;
 }
 
-int BaseAliveGameObject::vsub_408320(__int16 /*a2*/, __int16 /*a3*/, int /*a4*/)
+EXPORT int CC sub_449880(FP scale)
 {
     NOT_IMPLEMENTED();
+
+    if (scale == FP_FromDouble(0.5))
+    {
+        return 30;
+    }
+
+    if (scale == FP_FromInteger(1))
+    {
+        return 16;
+    }
+
     return 0;
+}
+
+void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction)
+{
+    const FP oldY = field_BC_ypos;
+    switch (direction)
+    {
+    case CameraPos::eCamTop_1:
+        field_B8_xpos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(field_B8_xpos) % 375);
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit22_DeadMode))
+        {
+            ALIVE_FATAL("Impossible case BaseAliveGameObject::vsub_408320 AnimFlags::eBit22_DeadMode");
+        }
+        else
+        {
+            // TODO: This is actualy wrong !!
+            const DWORD off = field_20_animation.Get_FrameHeader_40B730(-1)->field_0_frame_header_offset;
+            field_BC_ypos = FP_FromInteger((*field_20_animation.field_20_ppBlock)[off + 5] + cameraWorldYPos + 236);
+        }
+        break;
+
+    case CameraPos::eCamBottom_2:
+        field_B8_xpos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(field_B8_xpos) % 375);
+        field_BC_ypos = FP_FromInteger(cameraWorldYPos + 4);
+        break;
+
+    case CameraPos::eCamLeft_3:
+        field_B8_xpos = FP_FromInteger(cameraWorldXPos + (GridXMidPos_4498F0(field_CC_sprite_scale, sub_449880(field_CC_sprite_scale) - 1)));
+        field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
+        break;
+
+    case CameraPos::eCamRight_4:
+        field_B8_xpos = FP_FromInteger(cameraWorldXPos + GridXMidPos_4498F0(field_CC_sprite_scale, 1));
+        field_BC_ypos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(field_BC_ypos) % 260);
+        break;
+
+    default:
+        break;
+    }
+
+    field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+
+    if (sActiveHero_5C1B68 == this && 
+        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2 &&
+        gMap_5C3030.sCurrentPathId_5C3032 == 2 &&
+        (field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 || field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0))
+    {
+        // Yummy OWI hack - hard code Abe's location when path change to Necrum's first path after the Mines :)
+        field_100_pCollisionLine = nullptr;
+        field_C8_vely = FP_FromInteger(0);
+        field_C4_velx = FP_FromInteger(0);
+        field_B8_xpos = FP_FromInteger(1011);
+        field_BC_ypos = FP_FromInteger(784);
+    }
+    else
+    {
+        FP hitX = {};
+        FP hitY = {};
+        PathLine* pLine = nullptr;
+        if (field_100_pCollisionLine)
+        {
+            if (sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos, field_BC_ypos - FP_FromInteger(40),
+                field_B8_xpos, field_BC_ypos + FP_FromInteger(40),
+                &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
+            {
+                field_BC_ypos = hitY;
+                field_100_pCollisionLine = pLine;
+            }
+            else
+            {
+                field_100_pCollisionLine = nullptr;
+            }
+        }
+        else
+        {
+            field_F8_LastLineYPos = field_BC_ypos - oldY + field_F8_LastLineYPos;
+            if (sCollisions_DArray_5C1128->Raycast_417A60(
+                field_B8_xpos, field_F8_LastLineYPos - FP_FromInteger(40),
+                field_B8_xpos, field_F8_LastLineYPos + FP_FromInteger(40),
+                &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
+            {
+                field_BC_ypos = hitY - field_F8_LastLineYPos + field_BC_ypos;
+            }
+            else
+            {
+                // Not set to nullptr in this case ??
+            }
+        }
+    }
+
+    if (field_CC_sprite_scale == FP_FromInteger(1) && field_20_animation.field_14_scale == FP_FromDouble(0.5))
+    {
+        // From 0.5 to 1 scale, double velx
+        field_C4_velx = field_C4_velx * FP_FromInteger(2);
+    }
+
+    if (field_CC_sprite_scale == FP_FromDouble(0.5) && field_20_animation.field_14_scale == FP_FromInteger(1))
+    {
+        // From 1 to 0.5 scale, halve velx
+        field_C4_velx = field_C4_velx * FP_FromDouble(0.5);
+    }
 }
 
 __int16 BaseAliveGameObject::vTakeDamage_408730(BaseGameObject* /*pFrom*/)

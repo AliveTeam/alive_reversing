@@ -14,6 +14,8 @@ struct PathLine;
 class PlatformBase;
 class BirdPortal;
 
+enum class CameraPos : __int16;
+
 enum Flags_114
 {
     e114_Bit1_bShot = 0x1,
@@ -43,7 +45,7 @@ public:
     virtual void VUnPosses_408F90();
     virtual void VPossessed_408F70();
     virtual void VSetMotion_4081C0(__int16 state);
-    virtual  int Vsub_408320(__int16 a2, __int16 a3, int a4);
+    virtual void VOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction);
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom);
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv);
     virtual void VCheckCollisionLineStillValid_408A40(__int16 distance);
@@ -55,7 +57,7 @@ private:
     EXPORT void vUnPosses_408F90();
     EXPORT void vPossessed_408F70();
     EXPORT void vSetMotion_4081C0(__int16 state);
-    EXPORT int vsub_408320(__int16 a2, __int16 a3, int a4);
+    EXPORT void vOnPathTransition_408320(__int16 cameraWorldXPos, __int16 cameraWorldYPos, CameraPos direction);
     EXPORT __int16 vTakeDamage_408730(BaseGameObject* pFrom);
     EXPORT void vOn_TLV_Collision_4087F0(Path_TLV* pTlv);
     EXPORT void vCheckCollisionLineStillValid_408A40(__int16 distance);

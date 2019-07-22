@@ -618,3 +618,5 @@ extern const char* const sAbeStateNames[130];
 EXPORT int CC Abe_SFX_2_457A40(char sfxId, int volume, int pitchMin, BaseAliveGameObject* pAliveObj);
 
 EXPORT int CC Animation_OnFrame_Abe_455F80(void* pPtr, signed __int16* pData);
+
+EXPORT int CC GridXMidPos_4498F0(FP scale, int unknown);

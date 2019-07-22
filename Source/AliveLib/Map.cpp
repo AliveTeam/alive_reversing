@@ -175,8 +175,6 @@ void Map::sub_480740(__int16 /*a2*/)
     NOT_IMPLEMENTED();
 }
 
-__int16 word_5463F8[] = { 3, 0, 4, 0, 1, 0, 2, 0, 0, 0 };
-
 void Map::sub_481610()
 {
     Path_ChangeTLV* pPathChangeTLV = nullptr;
@@ -215,10 +213,28 @@ void Map::sub_481610()
             sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
             sActiveHero_5C1B68->field_20_animation.field_C_render_layer = 32;
         }
-        field_18_pAliveObj->Vsub_408320(
+
+        CameraPos remapped = CameraPos::eCamInvalid_m1;
+        switch (field_14_direction)
+        {
+        case MapDirections::eMapLeft_0:
+            remapped = CameraPos::eCamLeft_3;
+            break;
+        case MapDirections::eMapRight_1:
+            remapped = CameraPos::eCamRight_4;
+            break;
+        case MapDirections::eMapTop_2:
+            remapped = CameraPos::eCamTop_1;
+            break;
+        case MapDirections::eMapBottom_3:
+            remapped = CameraPos::eCamBottom_2;
+            break;
+        }
+
+        field_18_pAliveObj->VOnPathTransition_408320(
             field_D0_cam_x_idx * field_D4_ptr->field_A_grid_width,
             field_D2_cam_y_idx * field_D4_ptr->field_C_grid_height,
-            word_5463F8[2 * (unsigned __int16)field_14_direction]); // remap direction ??
+            remapped);
     }
     else
     {
