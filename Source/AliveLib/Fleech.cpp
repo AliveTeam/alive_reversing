@@ -15,6 +15,7 @@
 #include "Gibs.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
+#include "PsxDisplay.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
@@ -186,7 +187,44 @@ void Fleech::VOnTrapDoorOpen()
 
 void Fleech::M_Sleeping_0_42F0B0()
 {
-    NOT_IMPLEMENTED();
+    if (field_108_next_motion == -1)
+    {
+        if (field_20_animation.field_92_current_frame || sGnFrame_5C1B84 & 3)
+        {
+            if (field_20_animation.field_92_current_frame == 4 && !(sGnFrame_5C1B84 & 3))
+            {
+                Sound_430520(4);
+
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                {
+                    auto pSnoozeParticle = alive_new<SnoozeParticle>();
+                    if (pSnoozeParticle)
+                    {
+                        const FP yPos = (field_CC_sprite_scale * FP_FromInteger(-20)) + field_BC_ypos;
+                        FP xOff = {};
+                        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            xOff = -(field_CC_sprite_scale * FP_FromInteger(10));
+                        }
+                        else
+                        {
+                            xOff = (field_CC_sprite_scale * FP_FromInteger(10));
+                        }
+                        pSnoozeParticle->ctor_4B06F0(xOff + field_B8_xpos, yPos, field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Sound_430520(3);
+        }
+    }
+    else
+    {
+        field_106_current_motion = field_108_next_motion;
+        field_108_next_motion = -1;
+    }
 }
 
 void Fleech::M_WakingUp_1_42F270()
@@ -284,7 +322,11 @@ void Fleech::M_PatrolCry_5_42E810()
 
 void Fleech::M_Knockback_6_42EAF0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        ToIdle_42E520();
+    }
 }
 
 void Fleech::M_StopCrawling_7_42EBB0()
@@ -327,7 +369,32 @@ void Fleech::M_Climb_12_42F7F0()
 
 void Fleech::M_SettleOnGround_13_42FB00()
 {
-    NOT_IMPLEMENTED();
+    if (!field_20_animation.field_92_current_frame)
+    {
+        sub_42BAD0();
+
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            field_B8_xpos - FP_FromInteger(5),
+            field_BC_ypos - FP_FromInteger(5),
+            field_B8_xpos + FP_FromInteger(5),
+            field_BC_ypos + FP_FromInteger(5),
+            &pLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16))
+        {
+            field_100_pCollisionLine = pLine;
+            MapFollowMe_408D10(TRUE);
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        Fleech::ToIdle_42E520();
+    }
 }
 
 void Fleech::M_ExtendTongueFromEnemy_14_42FBD0()
@@ -1163,4 +1230,39 @@ void Fleech::sub_42BA10()
 void Fleech::sub_42BAD0()
 {
     field_178 = 5;
+}
+
+BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
+{
+    BaseAliveGameObject* pRet = nullptr;
+    FP lastDist = FP_FromInteger(gPsxDisplay_5C1130.field_0_width);
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if ((pObj->field_4_typeId == Types::eMudokon_110 || pObj->field_4_typeId == Types::eType_Abe_69) &&
+            pObj->field_D6_scale == field_D6_scale &&
+            pObj->field_10C_health > FP_FromInteger(0))
+        {
+            const FP dist = FP_FromInteger(
+                Math_Distance_496EB0(
+                    FP_GetExponent(pObj->field_B8_xpos),
+                    FP_GetExponent(pObj->field_BC_ypos),
+                    FP_GetExponent(field_B8_xpos), 
+                    FP_GetExponent(field_BC_ypos)));
+
+            if (dist < lastDist && 
+                FP_GetExponent(field_B8_xpos) / 375 == (FP_GetExponent(pObj->field_B8_xpos) / 375) && 
+                FP_GetExponent(field_BC_ypos) / 260 == (FP_GetExponent(pObj->field_BC_ypos) / 260))
+            {
+                lastDist = dist;
+                pRet = pObj;
+            }
+        }
+    }
+    return pRet;
 }

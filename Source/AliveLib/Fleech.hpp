@@ -127,6 +127,8 @@ private:
 
     EXPORT void sub_42BAD0();
 
+    EXPORT BaseAliveGameObject* FindMudOrAbe_42CFD0();
+
 private:
     int field_118_tlvInfo;
     int field_11C_obj_id;
