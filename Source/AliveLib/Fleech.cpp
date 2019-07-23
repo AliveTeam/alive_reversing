@@ -332,12 +332,39 @@ void Fleech::M_SettleOnGround_13_42FB00()
 
 void Fleech::M_ExtendTongueFromEnemy_14_42FBD0()
 {
-    NOT_IMPLEMENTED();
+    if (field_11C_obj_id == sActiveHero_5C1B68->field_8_object_id && 
+        (sActiveHero_5C1B68->CantBeDamaged_44BAB0() || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8)))
+    {
+        ToIdle_42E520();
+    }
+    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        PullTargetIn_42BAF0();
+        field_106_current_motion = eFleechMotions::M_RetractTongueFromEnemey_15_42FC40;
+    }
 }
 
 void Fleech::M_RetractTongueFromEnemey_15_42FC40()
 {
-    NOT_IMPLEMENTED();
+    if (sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id) == sActiveHero_5C1B68 && 
+        ((sActiveHero_5C1B68->CantBeDamaged_44BAB0()) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8)))
+    {
+        sub_42B8C0();
+        ToIdle_42E520();
+    }
+    else
+    {
+        if (!sub_42B8A0())
+        {
+            ToIdle_42E520();
+        }
+
+        if (field_108_next_motion == eFleechMotions::M_Consume_18_42FDF0)
+        {
+            field_106_current_motion = eFleechMotions::M_Consume_18_42FDF0;
+            field_108_next_motion = -1;
+        }
+    }
 }
 
 void Fleech::M_DeathByFalling_16_42FCE0()
@@ -364,7 +391,47 @@ void Fleech::M_DeathByFalling_16_42FCE0()
 
 void Fleech::M_SleepingWithTongue_17_42F370()
 {
-    NOT_IMPLEMENTED();
+    if (field_108_next_motion != -1)
+    {
+        sub_42B9F0();
+        field_108_next_motion = -1;
+        field_106_current_motion = field_108_next_motion;
+    }
+    else
+    {
+        if (field_20_animation.field_92_current_frame || sGnFrame_5C1B84 & 3)
+        {
+            if (field_20_animation.field_92_current_frame == 4 && !(sGnFrame_5C1B84 & 3))
+            {
+                Sound_430520(4);
+                if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                {
+                    auto pSnoozeParticle = alive_new<SnoozeParticle>();
+                    if (pSnoozeParticle)
+                    {
+                        const FP yPos = (field_CC_sprite_scale * FP_FromInteger(-20)) + field_BC_ypos;
+                        FP xOff = {};
+                        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                        {
+                            xOff = -(field_CC_sprite_scale * FP_FromInteger(10));
+                        }
+                        else
+                        {
+                            xOff = (field_CC_sprite_scale * FP_FromInteger(10));
+                        }
+                        pSnoozeParticle->ctor_4B06F0(xOff + field_B8_xpos, yPos, field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Sound_430520(3u);
+        }
+
+        field_B8_xpos = FP_FromInteger(field_160) + (Math_Cosine_496CD0(field_166_angle) * FP_FromInteger(4)) - FP_FromInteger(field_DA_xOffset);
+        field_166_angle += 2;
+    }
 }
 
 void Fleech::M_Consume_18_42FDF0()
@@ -957,11 +1024,6 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     return 1;
 }
 
-void Fleech::sub_42B8C0()
-{
-    NOT_IMPLEMENTED();
-}
-
 void Fleech::vOnTrapDoorOpen_42E5C0()
 {
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
@@ -970,4 +1032,135 @@ void Fleech::vOnTrapDoorOpen_42E5C0()
         pPlatform->VRemove(this);
         field_110_id = -1;
     }
+}
+
+void Fleech::sub_42B9F0()
+{
+    field_178 = 1;
+}
+
+void Fleech::IncreaseAnger_430920()
+{
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        BaseAnimatedWithPhysicsGameObject* pEvent = Event_Is_Event_In_Range_422C30(kEventSpeaking, field_B8_xpos, field_BC_ypos, field_D6_scale);
+
+        if (!pEvent)
+        {
+            Event_Is_Event_In_Range_422C30(kEventAlarm, field_B8_xpos, field_BC_ypos, field_D6_scale);
+        }
+
+        if (!pEvent)
+        {
+            Event_Is_Event_In_Range_422C30(kEventLoudNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
+        }
+
+        if (pEvent)
+        {
+            if ((pEvent != sActiveHero_5C1B68 || !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8)) &&
+                gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->field_B8_xpos, pEvent->field_BC_ypos, 0))
+            {
+                field_13E_anger += field_142_attack_anger;
+                if (vOnSameYLevel_425520(pEvent))
+                {
+                    if (pEvent->field_4_typeId == Types::eScrab_112 || pEvent->field_4_typeId == Types::eParamite_96)
+                    {
+                        field_14E = FP_GetExponent(pEvent->field_B8_xpos);
+                    }
+                    else
+                    {
+                        field_14C = FP_GetExponent(pEvent->field_B8_xpos);
+                    }
+                }
+            }
+        }
+
+        pEvent = Event_Is_Event_In_Range_422C30(kEventNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
+        if (pEvent)
+        {
+            if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(6), pEvent))
+            {
+                if ((pEvent != sActiveHero_5C1B68 || !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))  &&
+                    gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->field_B8_xpos, pEvent->field_BC_ypos, 0))
+                {
+                    field_13E_anger += field_140;
+                }
+            }
+        }
+    }
+}
+
+__int16 Fleech::InRange_4307C0(BaseAliveGameObject* pObj)
+{
+    if (!pObj || pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))
+    {
+        return FALSE;
+    }
+
+    if (FP_Abs(pObj->field_B8_xpos - field_B8_xpos) >= ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(10) ||
+        FP_Abs(pObj->field_BC_ypos - field_BC_ypos) >= ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(1) || 
+        pObj->field_CC_sprite_scale != field_CC_sprite_scale)
+    {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+int Fleech::sub_42B8A0()
+{
+    return field_18A & 1;
+}
+
+void Fleech::PullTargetIn_42BAF0()
+{
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
+    if (pTarget)
+    {
+        field_18A |= 3u;
+        field_178 = 6;
+        field_17A = 0;
+
+        PSX_RECT bRect = {};
+        pTarget->vGetBoundingRect_424FD0(&bRect, 1);
+
+        field_17C = FP_GetExponent(pTarget->field_B8_xpos);
+        field_17E = (bRect.y + bRect.w) / 2;
+        field_184 = FP_GetExponent(((FP_FromInteger(field_17C) + field_B8_xpos) / FP_FromInteger(2)));
+        field_188 = 0;
+        field_186 = FP_GetExponent(((FP_FromInteger(field_17E) + field_BC_ypos) / FP_FromInteger(2)));
+    }
+}
+
+void Fleech::sub_42B8C0()
+{
+    sub_42CF70();
+
+    if (field_178 > 1)
+    {
+        field_178 = 10;
+        field_184 = FP_GetExponent(((FP_FromInteger(field_184)) + field_B8_xpos) / FP_FromInteger(2));
+        field_188 = 0;
+        field_186 = FP_GetExponent(((FP_FromInteger(field_186)) + field_BC_ypos) / FP_FromInteger(2));
+    }
+    else
+    {
+        field_18A &= ~2u;
+        field_178 = 1;
+    }
+}
+
+void Fleech::sub_42BA10()
+{
+    field_18A |= 3u;
+    field_178 = 3;
+    field_17A = 0;
+    field_184 = FP_GetExponent(((FP_FromInteger(field_160)) + field_B8_xpos) / FP_FromInteger(2));
+    field_188 = 0;
+    field_186 = FP_GetExponent(((FP_FromInteger(field_162)) + field_BC_ypos) / FP_FromInteger(2));
+}
+
+void Fleech::sub_42BAD0()
+{
+    field_178 = 5;
 }

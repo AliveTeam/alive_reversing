@@ -113,6 +113,20 @@ private:
 
     EXPORT void vOnTrapDoorOpen_42E5C0();
 
+    EXPORT void sub_42B9F0();
+
+    EXPORT void IncreaseAnger_430920();
+
+    EXPORT __int16 InRange_4307C0(BaseAliveGameObject* pObj);
+
+    EXPORT int sub_42B8A0();
+
+    EXPORT void PullTargetIn_42BAF0();
+
+    EXPORT void sub_42BA10();
+
+    EXPORT void sub_42BAD0();
+
 private:
     int field_118_tlvInfo;
     int field_11C_obj_id;
