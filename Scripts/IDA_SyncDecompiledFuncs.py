@@ -111,10 +111,10 @@ def main():
         for line in f:
             AddStubbed(LineToInt(line), functionDataDict)
 
-    funcsWithCoverage = toAddressList(downloadFile("https://gist.githubusercontent.com/paulsapps/ea894a929f02c7bb7c931af12ad08151/raw/38cf5fcd0f8ba6b27a2a08043f81be7f8b34b4e4/gistfile1.txt"))
-    for func in funcsWithCoverage:
-        print "func is " + func
-        AddCovered(int(func, 16), functionDataDict)
+    #funcsWithCoverage = toAddressList(downloadFile("https://gist.githubusercontent.com/paulsapps/ea894a929f02c7bb7c931af12ad08151/raw/38cf5fcd0f8ba6b27a2a08043f81be7f8b34b4e4/gistfile1.txt"))
+    #for func in funcsWithCoverage:
+    #    print "func is " + func
+    #    AddCovered(int(func, 16), functionDataDict)
 
     for address in functionDataDict.iterkeys():
         data = functionDataDict[address]
