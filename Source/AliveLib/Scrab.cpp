@@ -762,15 +762,15 @@ void Scrab::M_Empty_23_4A9D80()
 
 void Scrab::M_DeathEnd_24_4AA140()
 {
-	if (!field_100_pCollisionLine)
-	{
-		field_C4_velx = FP_FromInteger(0);
-		Scrab::M_JumpToFall_8_4A9220();
-		if (field_106_current_motion != eScrabMotions::M_DeathEnd_24_4AA140)
-		{
-			field_106_current_motion = eScrabMotions::M_DeathEnd_24_4AA140;
-		}
-	}
+    if (!field_100_pCollisionLine)
+    {
+        field_C4_velx = FP_FromInteger(0);
+        Scrab::M_JumpToFall_8_4A9220();
+        if (field_106_current_motion != eScrabMotions::M_DeathEnd_24_4AA140)
+        {
+            field_106_current_motion = eScrabMotions::M_DeathEnd_24_4AA140;
+        }
+    }
 }
 
 void Scrab::M_Empty_25_4A34D0()
@@ -853,7 +853,7 @@ void Scrab::M_Feed_36_4AA030()
     }
     else
     {
-        SFX_Play_46FA90((1 & Math_NextRandom()) ? 66 : 65, 0);
+        SFX_Play_46FA90((Math_NextRandom() & 1) ? 66 : 65, 0);
     }
 }
 
@@ -872,7 +872,7 @@ void Scrab::M_DeathBegin_39_4AA190()
     if (!field_100_pCollisionLine)
     {
         field_C4_velx = FP_FromInteger(0);
-        Scrab::M_JumpToFall_8_4A9220();
+        M_JumpToFall_8_4A9220();
         if (field_106_current_motion != eScrabMotions::M_DeathBegin_39_4AA190)
         {
             field_106_current_motion = eScrabMotions::M_DeathBegin_39_4AA190;
