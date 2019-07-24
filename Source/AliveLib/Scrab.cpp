@@ -762,7 +762,15 @@ void Scrab::M_Empty_23_4A9D80()
 
 void Scrab::M_DeathEnd_24_4AA140()
 {
-    NOT_IMPLEMENTED();
+    if (!field_100_pCollisionLine)
+    {
+        field_C4_velx = FP_FromInteger(0);
+        M_JumpToFall_8_4A9220();
+        if (field_106_current_motion != eScrabMotions::M_DeathEnd_24_4AA140)
+        {
+            field_106_current_motion = eScrabMotions::M_DeathEnd_24_4AA140;
+        }
+    }
 }
 
 void Scrab::M_Empty_25_4A34D0()
@@ -807,7 +815,18 @@ void Scrab::M_AttackSpin_32_4A8DC0()
 
 void Scrab::M_FeedToGulp_33_4A9FA0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (field_108_next_motion == eScrabMotions::M_StandToFeed_35_4AA01)
+        {
+            field_106_current_motion = eScrabMotions::M_StandToFeed_35_4AA01;
+        }
+        else
+        {
+            field_106_current_motion = eScrabMotions::M_GulpToStand_34_4A9FF0;
+        }
+        field_108_next_motion = -1;
+    }
 }
 
 void Scrab::M_GulpToStand_34_4A9FF0()
@@ -817,12 +836,25 @@ void Scrab::M_GulpToStand_34_4A9FF0()
 
 void Scrab::M_StandToFeed_35_4AA010()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eScrabMotions::M_Feed_36_4AA030;
+    }
 }
 
 void Scrab::M_Feed_36_4AA030()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_motion = eScrabMotions::M_FeedToGulp_33_4A9FA0;
+        }
+    }
+    else
+    {
+        SFX_Play_46FA90((Math_NextRandom() & 1) ? 66 : 65, 0);
+    }
 }
 
 void Scrab::M_AttackLunge_37_4AA0B0()
@@ -832,10 +864,22 @@ void Scrab::M_AttackLunge_37_4AA0B0()
 
 void Scrab::M_LegKick_38_4AA120()
 {
-    NOT_IMPLEMENTED();
+    M_AttackLunge_37_4AA0B0();
 }
 
 void Scrab::M_DeathBegin_39_4AA190()
 {
-    NOT_IMPLEMENTED();
+    if (!field_100_pCollisionLine)
+    {
+        field_C4_velx = FP_FromInteger(0);
+        M_JumpToFall_8_4A9220();
+        if (field_106_current_motion != eScrabMotions::M_DeathBegin_39_4AA190)
+        {
+            field_106_current_motion = eScrabMotions::M_DeathBegin_39_4AA190;
+        }
+    }
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eScrabMotions::M_DeathEnd_24_4AA140;
+    }
 }
