@@ -765,7 +765,7 @@ void Scrab::M_DeathEnd_24_4AA140()
     if (!field_100_pCollisionLine)
     {
         field_C4_velx = FP_FromInteger(0);
-        Scrab::M_JumpToFall_8_4A9220();
+        M_JumpToFall_8_4A9220();
         if (field_106_current_motion != eScrabMotions::M_DeathEnd_24_4AA140)
         {
             field_106_current_motion = eScrabMotions::M_DeathEnd_24_4AA140;
