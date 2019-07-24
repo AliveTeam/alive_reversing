@@ -83,6 +83,18 @@ public:
     EXPORT Scrab* ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
+
+    virtual void VPossessed_408F70() override
+    {
+        vPossesed_4A5620();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChanged_4A5560();
+    }
+
+    // TODO: New virtuals
 private:
     EXPORT Scrab* vdtor_4A41B0(signed int flags);
     EXPORT void dtor_4A42B0();
@@ -151,6 +163,26 @@ public:
     EXPORT void M_LegKick_38_4AA120();
     EXPORT void M_DeathBegin_39_4AA190();
 
+
+private:
+
+    EXPORT void ToPatrol_4AA600();
+
+    EXPORT void ToStand_4A75A0();
+
+    EXPORT void MoveOnLine_4A7D20();
+
+    EXPORT void PlatformCollide_4A7E50();
+
+    EXPORT BaseAliveGameObject* Find_Fleech_4A4C90();
+
+    EXPORT void vPossesed_4A5620();
+
+    EXPORT BYTE** ResBlockForMotion_4A43E0(__int16 motion);
+
+    EXPORT void vScreenChanged_4A5560();
+
+
 private:
     TScrabAIFn field_118_brain_state;
     __int16 field_11C_sub_state;
@@ -161,8 +193,8 @@ private:
     __int16 field_12A_patrol_type;
     int field_12C;
     int field_130;
-    int field_134;
-    int field_138;
+    FP field_134;
+    FP field_138;
     FP field_13C;
     __int16 field_140;
     __int16 field_142;
