@@ -99,6 +99,11 @@ public:
         vScreenChanged_4A5560();
     }
 
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
+    {
+        return vTakeDamage_4A45E0(pFrom);
+    }
+
     // TODO: New virtuals
 private:
     EXPORT Scrab* vdtor_4A41B0(signed int flags);
@@ -109,7 +114,6 @@ private:
 
     EXPORT void vUpdateAnim_4A34F0();
     EXPORT __int16 OnFloor_4A41E0();
-    EXPORT void sub_4AA600();
 
     EXPORT void vUpdate_4A3530();
 
@@ -197,6 +201,13 @@ private:
 
     EXPORT void ToJump_4A75E0();
 
+    EXPORT __int16 vTakeDamage_4A45E0(BaseGameObject* pFrom);
+
+    EXPORT void KnockBack_4AA530();
+
+    EXPORT int Sound_4AADB0(unsigned __int8 a2, int a3, int a4, __int16 a5);
+
+    EXPORT void KillTarget_4A7F20(BaseGameObject* pTarget);
 
 private:
     TScrabAIFn field_118_brain_state;

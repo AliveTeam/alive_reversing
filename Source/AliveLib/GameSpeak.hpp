@@ -28,6 +28,9 @@ enum GameSpeakEvents : char
     eUnknown_29 = 29,
 
     eUnknown_31 = 31,
+
+    eUnknown_53 = 53,
+    eUnknown_54 = 54,
 };
 
 class GameSpeak : public BaseGameObject
