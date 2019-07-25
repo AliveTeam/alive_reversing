@@ -209,6 +209,17 @@ private:
 
     EXPORT void KillTarget_4A7F20(BaseGameObject* pTarget);
 
+    EXPORT __int16 FindAbeOrMud_4A4FD0();
+
+    EXPORT __int16 CanSeeAbe_4A51A0(BaseAliveGameObject* pObj);
+
+    EXPORT static BOOL CCSTD LineOfSightTo_4A52D0(Scrab* pThis, BaseAliveGameObject* pObj);
+
+    EXPORT Scrab* FindScrabToFight_4A4E20();
+  
+    EXPORT __int16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, __int16 bCheckLeftRightBounds);
+
+
 private:
     TScrabAIFn field_118_brain_state;
     __int16 field_11C_sub_state;
