@@ -84,6 +84,11 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_4A45B0(pOrderingTable);
+    }
+
     virtual void VPossessed_408F70() override
     {
         vPossesed_4A5620();
@@ -103,7 +108,7 @@ private:
 
 
     EXPORT void vUpdateAnim_4A34F0();
-    EXPORT __int16 sub_4A41E0();
+    EXPORT __int16 OnFloor_4A41E0();
     EXPORT void sub_4AA600();
 
     EXPORT void vUpdate_4A3530();
@@ -181,6 +186,16 @@ private:
     EXPORT BYTE** ResBlockForMotion_4A43E0(__int16 motion);
 
     EXPORT void vScreenChanged_4A5560();
+
+    EXPORT void vRender_4A45B0(int** ot);
+
+    EXPORT void TryMoveOrStand_4A7570();
+
+    EXPORT __int16 ToNextMotion_4A7920();
+
+    EXPORT __int16 PlayerControlled_4A76A0();
+
+    EXPORT void ToJump_4A75E0();
 
 
 private:

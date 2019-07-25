@@ -144,9 +144,9 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
 
     field_140 = 0;
     field_12C = 0;
-    field_108_next_motion = 0;
+    field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
     field_110_id = -1;
-    field_106_current_motion = 0;
+    field_106_current_motion = eScrabMotions::M_Stand_0_4A8220;
     field_11E = 0;
 
     field_1AA_flags.Clear(Flags_1AA::eBit1);
@@ -207,9 +207,9 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
     field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pTlv->field_24_persistant & 1);
     field_1AA_flags.Clear(Flags_1AA::eBit3);
 
-    if (!sub_4A41E0())
+    if (!OnFloor_4A41E0())
     {
-        field_106_current_motion = 8;
+        field_106_current_motion = eScrabMotions::M_JumpToFall_8_4A9220;
         vUpdateAnim_4A34F0();
         field_1C_update_delay = 30;
     }
@@ -355,10 +355,30 @@ void Scrab::vUpdateAnim_4A34F0()
         ResBlockForMotion_4A43E0(field_106_current_motion));
 }
 
-__int16 Scrab::sub_4A41E0()
+__int16 Scrab::OnFloor_4A41E0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        field_BC_ypos,
+        field_B8_xpos,
+        field_BC_ypos + FP_FromInteger(30),
+        &field_100_pCollisionLine,
+        &hitX,
+        &hitY,
+        field_D6_scale != 0 ? 1 : 16))
+    {
+        field_BC_ypos = hitY;
+        ToStand_4A75A0();
+        if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+        {
+            PlatformCollide_4A7E50();
+        }
+        return TRUE;
+
+    }
+    return FALSE;
 }
 
 void Scrab::sub_4AA600()
@@ -1158,4 +1178,256 @@ void Scrab::vScreenChanged_4A5560()
             field_11C_sub_state = 0;
         }
     }
+}
+
+void Scrab::vRender_4A45B0(int** ot)
+{
+    if (field_1C_update_delay == 0)
+    {
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
+    }
+}
+
+void Scrab::TryMoveOrStand_4A7570()
+{
+    if (!ToNextMotion_4A7920())
+    {
+        ToStand_4A75A0();
+    }
+}
+
+__int16 Scrab::ToNextMotion_4A7920()
+{
+    MapFollowMe_408D10(TRUE);
+
+    if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0) && field_11C_sub_state != 0)
+    {
+        return PlayerControlled_4A76A0();
+    }
+
+    if (field_108_next_motion == eScrabMotions::M_Turn_3_4A91A0 ||
+        field_108_next_motion == eScrabMotions::M_Stamp_21_4A9CC0 ||
+        field_108_next_motion == eScrabMotions::M_Empty_25_4A34D0 ||
+        field_108_next_motion == eScrabMotions::M_HowlBegin_26_4A9DA0 ||
+        field_108_next_motion == eScrabMotions::M_Shriek_30_4A9EA0 ||
+        field_108_next_motion == eScrabMotions::M_ScrabBattleAnim_31_4A9F30 ||
+        field_108_next_motion == eScrabMotions::M_AttackLunge_37_4AA0B0 ||
+        field_108_next_motion == eScrabMotions::M_LegKick_38_4AA120 ||
+        field_108_next_motion == eScrabMotions::M_StandToFeed_35_4AA01)
+    {
+        field_106_current_motion = field_108_next_motion;
+        field_108_next_motion = -1;
+        return 1;
+    }
+
+    const FP k45Scaled = (field_CC_sprite_scale * FP_FromInteger(45));
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+
+    // Check if going to run into a wall.
+    if (field_108_next_motion == eScrabMotions::M_Run_2_4A89C0)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (WallHit_408750(k45Scaled, -kGridSize))
+            {
+                return 0;
+            }
+            else
+            {
+                field_C4_velx = -(kGridSize / FP_FromDouble(3.5));
+                field_106_current_motion = eScrabMotions::M_StandToRun_10_4A8900;
+                field_108_next_motion = -1;
+                return 1;
+            }
+        }
+        else
+        {
+            if (WallHit_408750(k45Scaled, kGridSize))
+            {
+                return 0;
+            }
+            else
+            {
+                field_C4_velx = (kGridSize / FP_FromDouble(3.5));
+                field_106_current_motion = eScrabMotions::M_StandToRun_10_4A8900;
+                field_108_next_motion = -1;
+                return 1;
+            }
+        }
+    }
+
+    if (field_108_next_motion != 1)
+    {
+        if (field_108_next_motion == eScrabMotions::M_Stand_0_4A8220)
+        {
+            ToStand_4A75A0();
+            return 1;
+        }
+
+        if (field_108_next_motion != eScrabMotions::M_HopMidair_6_4A9490)
+        {
+            return 0;
+        }
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (WallHit_408750(k45Scaled, -kGridSize))
+            {
+                return 0;
+            }
+            else
+            {
+                field_106_current_motion = eScrabMotions::M_HopBegin_5_4A96C0;
+                field_108_next_motion = -1;
+                return 1;
+            }
+        }
+        else
+        {
+            if (WallHit_408750(k45Scaled, kGridSize))
+            {
+                return 0;
+            }
+            else
+            {
+                field_106_current_motion = eScrabMotions::M_HopBegin_5_4A96C0;
+                field_108_next_motion = -1;
+                return 1;
+            }
+        }
+    }
+    else
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            if (WallHit_408750(k45Scaled, -kGridSize))
+            {
+                return 0;
+            }
+            else
+            {
+                field_106_current_motion = eScrabMotions::M_StandToWalk_9_4A8450;
+                field_C4_velx = -(kGridSize / FP_FromInteger(7));
+                field_108_next_motion = -1;
+                return 1;
+            }
+        }
+        else
+        {
+            if (WallHit_408750(k45Scaled, kGridSize))
+            {
+                return 0;
+            }
+            else
+            {
+                field_106_current_motion = eScrabMotions::M_StandToWalk_9_4A8450;
+                field_C4_velx = (kGridSize / FP_FromInteger(7));
+                field_108_next_motion = -1;
+                return 1;
+            }
+        }
+    }
+}
+
+__int16 Scrab::PlayerControlled_4A76A0()
+{
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP k45Scaled = (field_CC_sprite_scale * FP_FromInteger(45));
+
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_106_current_motion = eScrabMotions::M_Turn_3_4A91A0;
+            return 1;
+        }
+        else
+        {
+            if (WallHit_408750(k45Scaled, kGridSize))
+            {
+                return 0;
+            }
+
+            if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
+            {
+                field_C4_velx = (kGridSize / FP_FromDouble(3.5));
+                field_106_current_motion = eScrabMotions::M_StandToRun_10_4A8900;
+                return 1;
+
+            }
+            else
+            {
+                field_C4_velx = (kGridSize / FP_FromInteger(7));
+                field_106_current_motion = eScrabMotions::M_StandToWalk_9_4A8450;
+                return 1;
+            }
+        }
+    }
+    else if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+    {
+        if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_106_current_motion = eScrabMotions::M_Turn_3_4A91A0;
+            return 1;
+        }
+        else
+        {
+            if (WallHit_408750(k45Scaled, -kGridSize))
+            {
+                return 0;
+            }
+
+            if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
+            {
+                field_C4_velx = -(kGridSize / FP_FromDouble(3.5));
+                field_106_current_motion = eScrabMotions::M_StandToRun_10_4A8900;
+                return 1;
+
+            }
+            else
+            {
+                field_C4_velx = -(kGridSize / FP_FromInteger(7));
+                field_106_current_motion = eScrabMotions::M_StandToWalk_9_4A8450;
+                return 1;
+            }
+        }
+    }
+    else
+    {
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+        {
+            field_106_current_motion = eScrabMotions::M_StandToFeed_35_4AA01;
+            return 1;
+        }
+
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
+        {
+            field_106_current_motion = eScrabMotions::M_Stamp_21_4A9CC0;
+            return 1;
+        }
+
+        return 0;
+    }
+}
+
+void Scrab::ToJump_4A75E0()
+{
+    field_F8_LastLineYPos = field_BC_ypos;
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = field_CC_sprite_scale * -FP_FromDouble(-5.67);
+    }
+    else
+    {
+        field_C4_velx = field_CC_sprite_scale * -FP_FromDouble(5.67);
+    }
+
+    field_C8_vely = field_CC_sprite_scale * FP_FromDouble(-9.6);
+    field_BC_ypos += field_C8_vely;
+    
+    VOnTrapDoorOpen();
+
+    field_106_current_motion = eScrabMotions::M_RunJumpBegin_12_4A99C0;
+    field_100_pCollisionLine = nullptr;
 }
