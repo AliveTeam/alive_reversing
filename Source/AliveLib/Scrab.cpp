@@ -671,20 +671,85 @@ __int16 Scrab::AI_Fighting_2_4A5840()
 
 __int16 Scrab::AI_Death_3_4A62B0()
 {
-    NOT_IMPLEMENTED();
+    if (field_12C < static_cast<int>((sGnFrame_5C1B84 + 80)))
+    {
+        field_CC_sprite_scale -= FP_FromDouble(0.008);
+        field_D0_r -= 2;
+        field_D2_g -= 2;
+        field_D4_b -= 2;
+    }
+
+    if (static_cast<int>(sGnFrame_5C1B84) < field_12C - 24 && !(sGnFrame_5C1B84 % 5))
+    {
+        New_Particles_426C70(
+            (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale) + field_B8_xpos, 
+            field_BC_ypos - FP_FromInteger(6), 
+            field_CC_sprite_scale / FP_FromInteger(2), 
+            2, 
+            128u, 128u, 128u);
+        SFX_Play_46FBA0(79u, 25, FP_GetExponent(FP_FromInteger(2200) * field_CC_sprite_scale));
+    }
+
+    if (field_12C < static_cast<int>(sGnFrame_5C1B84))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
     return 0;
 }
 
 __int16 Scrab::AI_ShrinkDeath_4_4A6420()
 {
-    NOT_IMPLEMENTED();
+    if (field_D6_scale == 1)
+    {
+        field_CC_sprite_scale -= FP_FromDouble(0.06);
+    }
+    else
+    {
+        field_CC_sprite_scale -= FP_FromDouble(0.03);
+    }
+
+    if (field_12C < static_cast<int>(sGnFrame_5C1B84))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
     return 0;
 }
 
 __int16 Scrab::AI_Possessed_5_4A6180()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    // Abe is dead, go back to patrolling
+    if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
+    {
+        sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
+        field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
+        field_1A2 = 0;
+        MusicController::sub_47FD60(0, this, 0, 0);
+        ToPatrol_4AA600();
+        field_11C_sub_state = 0;
+        gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        return field_11C_sub_state;
+    }
+
+    if (field_11C_sub_state == 0)
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) <= field_12C)
+        {
+            return field_11C_sub_state;
+        }
+        field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
+        return 1;
+    }
+    else
+    {
+        if (field_11C_sub_state != 1 || gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) == CameraPos::eCamInvalid_m1)
+        {
+            return field_11C_sub_state;
+        }
+        MusicController::sub_47FD60(9, this, 0, 0);
+        return field_11C_sub_state;
+    }
 }
 
 void Scrab::M_Stand_0_4A8220()
