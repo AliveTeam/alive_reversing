@@ -783,9 +783,48 @@ void Scrab::M_Turn_3_4A91A0()
     }
 }
 
+const FP dword_546EFC[10] =
+{ 
+    490908,
+    453112,
+    254902,
+    155230,
+    49871,
+    42004,
+    46393,
+    50715,
+    47541,
+    47764
+};
+
 void Scrab::M_RunToStand_4_4A90C0()
 {
-    NOT_IMPLEMENTED();
+    BaseGameObject* pTarget = sObjectIds_5C1B70.Find_449CF0(field_120_obj_id);
+    field_C4_velx = field_CC_sprite_scale * dword_546EFC[field_20_animation.field_92_current_frame & 10]; // TODO: check size
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = -field_C4_velx;
+    }
+
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
+    {
+        KnockBack_4AA530();
+    }
+    else
+    {
+        MoveOnLine_4A7D20();
+
+        if (field_106_current_motion == eScrabMotions::M_RunToStand_4_4A90C0)
+        {
+            KillTarget_4A7F20(pTarget);
+
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+            {
+                MapFollowMe_408D10(TRUE);
+                TryMoveOrStand_4A7570();
+            }
+        }
+    }
 }
 
 void Scrab::M_HopBegin_5_4A96C0()
@@ -941,14 +980,138 @@ void Scrab::M_WalkToStand_11_4A8880()
     }
 }
 
+const FP dword_546F64[8] =
+{
+    FP_FromDouble(11.25),
+    FP_FromDouble(10.49),
+    FP_FromDouble(9.67),
+    FP_FromDouble(9.01),
+    FP_FromDouble(7.47),
+    FP_FromDouble(7.03),
+    FP_FromDouble(6.69),
+    FP_FromDouble(6.44)
+};
+
 void Scrab::M_RunJumpBegin_12_4A99C0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 1)
+    {
+        SFX_Play_46FBA0(0x1Cu, 50, -800);
+    }
+    
+    Event_Broadcast_422BC0(kEventNoise, this);
+
+    FP velX = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        velX = -dword_546F64[field_20_animation.field_92_current_frame & 8]; // TODO: Check size
+    }
+    else
+    {
+        velX = dword_546F64[field_20_animation.field_92_current_frame & 8]; // TODO: Check size
+    }
+
+    field_C4_velx = field_CC_sprite_scale * velX;
+
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
+    {
+        KnockBack_4AA530();
+    }
+    else
+    {
+        FP hitX = {};
+        FP hitY = {};
+        PathLine* pLine = nullptr;
+        const __int16 bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            sub_408C40();
+        }
+
+        if (bHit)
+        {
+            switch (pLine->field_8_type)
+            {
+            case 0u:
+            case 4u:
+            case 32u:
+            case 36u:
+                field_100_pCollisionLine = pLine;
+                ToStand_4A75A0();
+                field_106_current_motion = eScrabMotions::M_RunJumpEnd_13_4A9BE0;
+                PlatformCollide_4A7E50();
+                field_B8_xpos = hitX;
+                field_BC_ypos = hitY;
+                return;
+
+            case 1u:
+            case 2u:
+                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+                return;
+            default:
+                break;
+            }
+        }
+        
+        if (field_BC_ypos - field_F8_LastLineYPos > FP_FromInteger(5))
+        {
+            field_134 = FP_FromDouble(1.25);
+            field_106_current_motion = eScrabMotions::M_JumpToFall_8_4A9220;
+        }
+    }
 }
+
+const FP sEndRunJumpVels_546F84[21] =
+{
+    FP_FromDouble(2.68),
+    FP_FromDouble(2.65),
+    FP_FromDouble(2.72),
+    FP_FromDouble(2.89),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0),
+    FP_FromInteger(0)
+};
+
 
 void Scrab::M_RunJumpEnd_13_4A9BE0()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    field_C4_velx = (field_CC_sprite_scale * sEndRunJumpVels_546F84[field_20_animation.field_92_current_frame & 21]); // TODO: Check size
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = -field_C4_velx;
+    }
+
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
+    {
+        KnockBack_4AA530();
+    }
+    else
+    {
+        MoveOnLine_4A7D20();
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            Sound_4AADB0(4u, 0, 0x7FFF, 1);
+            if (!ToNextMotion_4A7920())
+            {
+                ToStand_4A75A0();
+            }
+        }
+    }
 }
 
 void Scrab::M_WalkToFall_14_4A9460()
