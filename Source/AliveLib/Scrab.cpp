@@ -1900,6 +1900,7 @@ void Scrab::KnockBack_4AA530()
 int Scrab::Sound_4AADB0(unsigned __int8 /*a2*/, int /*a3*/, int /*a4*/, __int16 /*a5*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
 }
 
 void Scrab::KillTarget_4A7F20(BaseGameObject* /*pTarget*/)
