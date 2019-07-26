@@ -341,6 +341,10 @@ private:
 
     EXPORT static __int16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
 
+    EXPORT __int16 FindSwitch_4B9A50();
+
+    EXPORT __int16 NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj);
+
 
 public:
     void SetBrain(TSligAIFn fn);
