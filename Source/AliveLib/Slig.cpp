@@ -751,7 +751,150 @@ void Slig::M_TurnAroundStanding_5_4B6390()
 
 void Slig::M_Shoot_6_4B55A0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
+        {
+            if (sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4))
+            {
+                const FP k45Scaled = field_CC_sprite_scale * FP_FromInteger(45);
+                const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                const FP k8 = FP_FromInteger(8);
+
+                // Recoil right
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+                {
+                    PathLine* pLine = nullptr;
+                    FP hitX = {};
+                    FP hitY = {};
+                    if (sCollisions_DArray_5C1128->Raycast_417A60(
+                            field_B8_xpos,
+                            field_BC_ypos,
+                            field_B8_xpos + (k8 *  (kGridSize / k8)),
+                            field_BC_ypos,
+                            &pLine,
+                            &hitX,
+                            &hitY,
+                            field_D6_scale != 0 ? 6 : 96) ||
+                        sCollisions_DArray_5C1128->Raycast_417A60(
+                            field_B8_xpos, 
+                            field_BC_ypos - k45Scaled, 
+                            field_B8_xpos + (k8 * (kGridSize / k8)), 
+                            field_BC_ypos - k45Scaled, 
+                            &pLine,
+                            &hitX, 
+                            &hitY, 
+                            field_D6_scale != 0 ? 6 : 96))
+                    {
+                        return;
+                    }
+                    field_C4_velx = (kGridSize / k8);
+                    field_106_current_motion = eSligMotions::M_Recoil_19_4B8270;
+                    return;
+                }
+
+                // Recoil left
+                if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+                {
+                    PathLine* pLine = nullptr;
+                    FP hitX = {};
+                    FP hitY = {};
+                    if (sCollisions_DArray_5C1128->Raycast_417A60(
+                            field_B8_xpos,
+                            field_BC_ypos,
+                            field_B8_xpos - (k8 * (kGridSize / k8)),
+                            field_BC_ypos,
+                            &pLine,
+                            &hitX,
+                            &hitY,
+                            field_D6_scale != 0 ? 6 : 0x60) ||
+                        sCollisions_DArray_5C1128->Raycast_417A60(
+                            field_B8_xpos, 
+                            field_BC_ypos - k45Scaled, 
+                            field_B8_xpos - (k8 * (kGridSize / k8)),
+                            field_BC_ypos - k45Scaled,
+                            &pLine,
+                            &hitX,
+                            &hitY, 
+                            field_D6_scale != 0 ? 6 : 96))
+                    {
+                        return;
+                    }
+                    field_C4_velx = -(kGridSize / k8);
+                    field_106_current_motion = eSligMotions::M_Recoil_19_4B8270;
+                    return;
+                }
+
+                // General recoil
+                if (!sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) || field_CC_sprite_scale != FP_FromDouble(0.5))
+                {
+                    if (field_12C > static_cast<int>(sGnFrame_5C1B84))
+                    {
+                        return;
+                    }
+
+                    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    {
+                        field_C4_velx = (kGridSize / k8);
+                    }
+                    else
+                    {
+                        field_C4_velx = -(kGridSize / k8);
+                    }
+
+                    PathLine* pLine = nullptr;
+                    FP hitX = {};
+                    FP hitY = {};
+                    if (sCollisions_DArray_5C1128->Raycast_417A60(
+                            field_B8_xpos,
+                            field_BC_ypos,
+                            field_B8_xpos + (k8 * field_C4_velx),
+                            field_BC_ypos,
+                            &pLine,
+                            &hitX,
+                            &hitY,
+                            field_D6_scale != 0 ? 6 : 96) ||
+                        sCollisions_DArray_5C1128->Raycast_417A60(
+                            field_B8_xpos, field_BC_ypos - k45Scaled, 
+                            field_B8_xpos + (k8 * field_C4_velx), 
+                            field_BC_ypos - k45Scaled, 
+                            &pLine, 
+                            &hitX, 
+                            &hitY, 
+                            field_D6_scale != 0 ? 6 : 96))
+                    {
+                        field_C4_velx = FP_FromInteger(0);
+                    }
+                    else
+                    {
+                        field_106_current_motion = eSligMotions::M_Recoil_19_4B8270;
+                    }
+                    return;
+                }
+            }
+            else
+            {
+                SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+                field_106_current_motion = eSligMotions::M_ShootToStand_13_4B5580;
+                return;
+            }
+        }
+
+        if (field_108_next_motion == eSligMotions::M_StandIdle_0_4B4EC0)
+        {
+            SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            field_106_current_motion = eSligMotions::M_ShootToStand_13_4B5580;
+            field_108_next_motion = -1;
+            return;
+        }
+
+        if (field_108_next_motion != -1 && field_108_next_motion != eSligMotions::M_Shoot_6_4B55A0)
+        {
+            SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            field_106_current_motion = eSligMotions::M_ShootToStand_13_4B5580;
+            return;
+        }
+    }
 }
 
 void Slig::M_Falling_7_4B42D0()
