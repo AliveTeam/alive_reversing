@@ -337,6 +337,11 @@ private:
 
     EXPORT void ToPanicRunning_4BCA30();
 
+    EXPORT void ShootTurnTowardsOrKillSound_4B3140();
+
+    EXPORT static __int16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
+
+
 public:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);

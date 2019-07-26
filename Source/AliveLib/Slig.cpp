@@ -2196,8 +2196,113 @@ __int16 Slig::AI_GetAlertedTurn_22_4BE990()
 
 __int16 Slig::AI_GetAlerted_23_4BEC40()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_120_timer != (field_218_tlv_data.field_3A_listen_time + static_cast<int>(sGnFrame_5C1B84) - 2) || 
+        Math_RandomRange_496AB0(0, 100) >= field_218_tlv_data.field_3C_percent_say_what)
+    {
+        if (ListenToGlukkonCommands_4B95D0())
+        {
+            ToUnderGlukkonCommand_4B9660();
+        }
+    }
+    else
+    {
+        field_108_next_motion = eSligMotions::M_SpeakWhat_29_4B54D0;
+    }
+
+    // Check if we should be killing Abe
+    if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
+        vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
+        !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
+        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+        (sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125 && !field_15E) &&
+        !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) &&
+        !Event_Get_422C00(kEventResetting) &&
+        sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
+    {
+        ShootTurnTowardsOrKillSound_4B3140();
+    }
+    // Panic?
+    else if ((Event_Get_422C00(kEventAbeOhm) || Event_Get_422C00(kEventAlarm)) && !Event_Get_422C00(kEventResetting) && field_218_tlv_data.field_2E_panic_timeout)
+    {
+        ToPanicYelling_4BCBA0();
+    }
+    else
+    {
+        // If some fool is trying to shoot us then shoot back
+        auto pShootingSlig = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventShooting));
+        if (pShootingSlig &&
+            pShootingSlig->field_CC_sprite_scale == field_CC_sprite_scale &&
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pShootingSlig->field_C2_lvl_number, pShootingSlig->field_C0_path_number, pShootingSlig->field_B8_xpos, pShootingSlig->field_BC_ypos, 0) &&
+            pShootingSlig == sControlledCharacter_5C1B8C &&
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+            !Event_Get_422C00(kEventResetting))
+        {
+            if (vIsFacingMe_4254A0(pShootingSlig))
+            {
+                ShootTurnTowardsOrKillSound_4B3140();
+            }
+            else
+            {
+                ToTurn_4BE090();
+            }
+        }
+        else
+        {
+            // Is a mud being noisy?
+            auto pNoisyMud = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventSuspiciousNoise));
+            if (!pNoisyMud)
+            {
+                pNoisyMud = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventSpeaking));
+            }
+
+            // Then kill them
+            if (pNoisyMud &&
+                gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoisyMud->field_C2_lvl_number, pNoisyMud->field_C0_path_number, pNoisyMud->field_B8_xpos, pNoisyMud->field_BC_ypos, 0) &&
+                (pNoisyMud == sControlledCharacter_5C1B8C || pNoisyMud->field_4_typeId == Types::eMudokon_110) &&
+                vOnSameYLevel_425520(pNoisyMud) &&
+                vIsFacingMe_4254A0(pNoisyMud) &&
+                (pNoisyMud != sControlledCharacter_5C1B8C || !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+                    gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+                    !Event_Get_422C00(kEventResetting)))
+            {
+                ToShoot_4BF9A0();
+            }
+            else
+            {
+                // Is a slig being noisy?
+                auto pNoisySlig = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventSuspiciousNoise));
+                if (!pNoisySlig)
+                {
+                    pNoisySlig = static_cast<BaseAliveGameObject*>(Event_Get_422C00(kEventSpeaking));
+                }
+
+                // Then say what, stop walking to respond or try to kill them.
+                if (pNoisySlig &&
+                    gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoisySlig->field_C2_lvl_number, pNoisySlig->field_C0_path_number, pNoisySlig->field_B8_xpos, pNoisySlig->field_BC_ypos, 0) &&
+                    (pNoisySlig == sControlledCharacter_5C1B8C || pNoisySlig->field_4_typeId != Types::eSlig_125) &&
+                    !vIsFacingMe_4254A0(pNoisySlig) &&
+                    gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+                    !Event_Get_422C00(kEventResetting))
+                {
+                    TurnOrSayWhat_4BEBC0();
+                }
+                else
+                {
+                    if (field_120_timer > static_cast<int>(sGnFrame_5C1B84))
+                    {
+                        ShouldStilBeAlive_4BBC00();
+                    }
+                    else
+                    {
+                        WaitOrWalk_4BE870();
+                    }
+                }
+            }
+        }
+    }
+    return 124;
 }
 
 __int16 Slig::AI_BeatingUp_24_4BF2B0()
@@ -2263,14 +2368,92 @@ __int16 Slig::AI_Empty_27_4BF600()
 
 __int16 Slig::AI_ShootingFromBackground_28_4BFA70()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_106_current_motion != eSligMotions::M_ShootZ_42_4B7560 ||
+        !field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ShouldStilBeAlive_4BBC00();
+        return 127;
+    }
+
+    field_158++;
+
+    if (field_158 < field_218_tlv_data.field_22_num_times_to_shoot)
+    {
+        return 127;
+    }
+
+    field_158 = 0;
+
+    if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
+    {
+        ToAbeDead_4B3580();
+    }
+    else
+    {
+        if (sControlledCharacter_5C1B8C->field_10C_health > FP_FromInteger(0))
+        {
+            WaitOrWalk_4BE870();
+        }
+        else
+        {
+            ToKilledAbe_4B3600();
+        }
+    }
+    return 127;
 }
 
 __int16 Slig::AI_Shooting_29_4BF750()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_106_current_motion == 6 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_158++;
+
+        if (field_158 < field_218_tlv_data.field_22_num_times_to_shoot)
+        {
+            field_108_next_motion = eSligMotions::M_Shoot_6_4B55A0;
+            return 111;
+        }
+
+        if (sActiveHero_5C1B68->field_10C_health <= FP_FromInteger(0))
+        {
+            ToKilledAbe_4B3600();
+            return 111;
+        }
+
+        if (sControlledCharacter_5C1B8C->field_10C_health <= FP_FromInteger(0))
+        {
+            ToKilledAbe_4B3600();
+            return 111;
+        }
+        if (!vOnSameYLevel_425520(sControlledCharacter_5C1B8C) ||
+            !vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) ||
+            IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) ||
+            sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) ||
+            IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) ||
+            !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
+            !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || 
+            Event_Get_422C00(kEventResetting))
+        {
+            PauseALittle_4BDD00();
+            return 111;
+        }
+
+        if (!vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+        {
+            ToTurn_4BE090();
+            return 111;
+        }
+
+        if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && 
+            field_218_tlv_data.field_2A_chase_abe)
+        {
+            ToChase_4BCFF0();
+            return 111;
+        }
+    }
+
+    ShouldStilBeAlive_4BBC00();
+    return 111;
 }
 
 __int16 Slig::AI_SpottedEnemyFromBackground_30_4BFA30()
@@ -4077,4 +4260,50 @@ void Slig::ToPanicRunning_4BCA30()
     SetBrain(&Slig::AI_PanicRunning_13_4BC780);
     AI_PanicRunning_13_4BC780();
     MusicController::sub_47FD60(8, this, 0, 0);
+}
+
+void Slig::ShootTurnTowardsOrKillSound_4B3140()
+{
+    field_144 = 0;
+
+    if (field_218_tlv_data.field_20_chal_timer || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+    {
+        if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125 || field_218_tlv_data.field_1E_chal_number != 3)
+        {
+            SetBrain(&Slig::AI_SpottedEnemy_7_4B3240);
+            field_108_next_motion = eSligMotions::M_SpeakAIFreeze_30_4B54F0;
+            field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_20_chal_timer;
+        }
+        else
+        {
+            field_15E = 1;
+            TurnOrWalk_4BD6A0(0);
+        }
+    }
+    else if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+    {
+        if (field_CC_sprite_scale == sControlledCharacter_5C1B8C->field_CC_sprite_scale)
+        {
+            ToShoot_4BF9A0();
+        }
+        else
+        {
+            ToZShoot_4BF9E0();
+        }
+    }
+    else
+    {
+        ToTurn_4BE090();
+    }
+}
+
+__int16 CCSTD Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
+{
+    if ((pThis->field_4_typeId == Types::eType_Abe_69) && 
+        (pThis->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7) ||
+        (pThis->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4))
+    {
+        return 1;
+    }
+    return 0;
 }
