@@ -225,8 +225,7 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
                 field_126_y1,
                 6);
             const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize_4498B0(field_CC_sprite_scale);
-            const FP y1 = FP_FromInteger(field_126_y1);
-            -(field_CC_sprite_scale * FP_FromDouble(80.0));
+            const FP y1 = FP_FromInteger(field_126_y1) -(field_CC_sprite_scale * FP_FromDouble(80.0));
             const FP x1 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + FP_FromInteger(field_124_x1);
             pPathLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line_417FA0(
                 FP_GetExponent(x1),
