@@ -345,6 +345,7 @@ private:
 
     EXPORT __int16 NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj);
 
+    EXPORT static __int16 CCSTD InZCover_4BB7C0(BaseAliveGameObject* pObj);
 
 public:
     void SetBrain(TSligAIFn fn);
