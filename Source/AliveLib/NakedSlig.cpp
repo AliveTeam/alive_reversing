@@ -25,6 +25,7 @@
 #include "Slig.hpp"
 #include "FlyingSlig.hpp"
 #include "NakedSligButton.hpp"
+#include "Sfx.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -1740,9 +1741,51 @@ const FP dword_54471C[15] =
     FP_FromDouble(0)
 };
 
-void CC Slig_Sfx_4BFFE0(__int16 /*effect*/, BaseAliveGameObject* /*pObj*/)
+const SfxDefinition stru_5607E0[17] =
 {
-    NOT_IMPLEMENTED();
+    { 0u, 1u, 58u, 40u, -256, -256 },
+    { 0u, 1u, 58u, 35u, 0, 0 },
+    { 0u, 1u, 59u, 55u, 0, 0 },
+    { 0u, 1u, 59u, 55u, 127, 127 },
+    { 0u, 1u, 60u, 60u, 0, 0 },
+    { 0u, 1u, 61u, 60u, 0, 0 },
+    { 0u, 1u, 54u, 60u, 0, 0 },
+    { 0u, 1u, 55u, 60u, 0, 0 },
+    { 0u, 39u, 60u, 110u, -1000, -950 },
+    { 0u, 1u, 48u, 90u, 0, 0 },
+    { 0u, 1u, 49u, 90u, 0, 0 },
+    { 0u, 1u, 50u, 90u, 0, 0 },
+    { 0u, 0u, 66u, 50u, -512, -384 },
+    { 0u, 0u, 67u, 50u, -512, -384 },
+    { 0u, 3u, 36u, 60u, 0, 0 },
+    { 0u, 3u, 37u, 60u, 0, 0 },
+    { 0u, 3u, 38u, 60u, 0, 0 }
+};
+
+void CC Slig_Sfx_4BFFE0(__int16 effect, BaseAliveGameObject* pObj)
+{
+    const SfxDefinition* pEffect = &stru_5607E0[effect];
+    short vLeft = 0;
+    short vRight = 0;
+    if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight))
+    {
+        short pitch = 0;
+        if (effect == 9 || effect == 10 || effect == 11)
+        {
+            FP sndDistance = FP_FromInteger(abs(Math_Distance_496EB0(0, 0, FP_GetExponent(pObj->field_C4_velx), FP_GetExponent(pObj->field_C8_vely))));
+            if (sndDistance > FP_FromInteger(8))
+            {
+                sndDistance = FP_FromInteger(8);
+            }
+
+            pitch = Math_RandomRange_496AB0(-127, 127) + FP_GetExponent((sndDistance / FP_FromInteger(8)) * FP_FromInteger(768)) + 512;
+        }
+        else
+        {
+            pitch = Math_RandomRange_496AB0(pEffect->field_4_pitch_min, pEffect->field_6_pitch_max);
+        }
+        SFX_SfxDefinition_Play_4CA700(pEffect, vLeft, vRight, pitch, pitch);
+    }
 }
 
 __int16 NakedSlig::CanCrawl_41C5D0()

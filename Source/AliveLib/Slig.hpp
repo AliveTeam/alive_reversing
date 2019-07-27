@@ -347,6 +347,9 @@ private:
 
     EXPORT static __int16 CCSTD InZCover_4BB7C0(BaseAliveGameObject* pObj);
 
+    EXPORT static BOOL CCSTD RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
+
+
 public:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);

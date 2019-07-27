@@ -2631,8 +2631,43 @@ __int16 Slig::AI_StopChasing_16_4BCE30()
 
 __int16 Slig::AI_Chasing2_17_4BCBD0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+        vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
+        vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
+        !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
+        !RenderLayerIs_4BBBC0(sControlledCharacter_5C1B8C) &&
+        !Event_Get_422C00(kEventResetting) &&
+        sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
+    {
+        field_15C = 0;
+        ShootTurnTowardsOrKillSound_4B3140();
+        return 118;
+    }
+
+    if (HandleEnemyStopper_4BBA00(4))
+    {
+        field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
+        SetBrain(&Slig::AI_Idle_15_4BD800);
+        field_120_timer = sGnFrame_5C1B84 + 1;
+        return 118;
+    }
+
+    if (field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032 ||
+        field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 || 
+        Event_Get_422C00(kEventDeathReset) && 
+        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+    else if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        SetBrain(&Slig::AI_StopChasing_16_4BCE30);
+        field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_34_stop_chase_delay;
+        return 118;
+    }
+    return 118;
 }
 
 __int16 Slig::AI_Chasing1_18_4BCEB0()
@@ -2674,8 +2709,76 @@ __int16 Slig::AI_Chasing1_18_4BCEB0()
 
 __int16 Slig::AI_Turning_19_4BDDD0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (Event_Get_422C00(kEventDeathReset) && !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return 106;
+    }
+
+    if (ListenToGlukkonCommands_4B95D0())
+    {
+        ToUnderGlukkonCommand_4B9660();
+        return 106;
+    }
+    
+    if (field_106_current_motion == eSligMotions::M_TurnAroundStanding_5_4B6390 && 
+        field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || 
+        field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 && 
+        field_108_next_motion == -1)
+    {
+        WaitOrWalk_4BE870();
+        return 106;
+    }
+    
+    if (field_20_animation.field_92_current_frame != 4)
+    {
+        ShouldStilBeAlive_4BBC00();
+        return 106;
+    }
+    
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        if (sControlledCharacter_5C1B8C->field_C4_velx >= FP_FromInteger(0) && 
+           (sControlledCharacter_5C1B8C->field_C4_velx > FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos >= field_B8_xpos))
+        {
+            ShouldStilBeAlive_4BBC00();
+            return 106;
+        }
+    }
+    else
+    {
+        if (sControlledCharacter_5C1B8C->field_C4_velx <= FP_FromInteger(0) && 
+           (sControlledCharacter_5C1B8C->field_C4_velx > FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos <= field_B8_xpos))
+        {
+            ShouldStilBeAlive_4BBC00();
+            return 106;
+        }
+    }
+
+    PSX_RECT bRect = {};
+    vGetBoundingRect_424FD0(&bRect, 1);
+
+    PSX_RECT charRect = {};
+    sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&charRect, 1);
+
+
+    if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eGlukkon_67 ||
+        sControlledCharacter_5C1B8C->field_D6_scale != field_D6_scale ||
+        IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) ||
+        sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) ||
+        IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) ||
+        charRect.x > bRect.w || // TODO: Inverted rect check ??
+        charRect.w < bRect.x ||
+        charRect.h < bRect.y ||
+        charRect.y > bRect.h ||
+        sControlledCharacter_5C1B8C->field_4_typeId == Types::eSlig_125)
+    {
+        ShouldStilBeAlive_4BBC00();
+        return 106;
+    }
+
+    field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+    return 106;
 }
 
 __int16 Slig::AI_StoppingNextToMudokon_20_4BF1E0()
@@ -5169,4 +5272,9 @@ __int16 CCSTD Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
         }
     }
     return FALSE;
+}
+
+BOOL CCSTD Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
+{
+    return pThis->field_20_animation.field_C_render_layer == 3 || pThis->field_20_animation.field_C_render_layer == 22;
 }
