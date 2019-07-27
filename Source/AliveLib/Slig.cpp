@@ -2499,7 +2499,7 @@ __int16 Slig::AI_Idle_15_4BD800()
 {
     if ((Event_Get_422C00(kEventAbeOhm) || Event_Get_422C00(kEventAlarm)) && !Event_Get_422C00(kEventResetting) && field_218_tlv_data.field_2E_panic_timeout)
     {
-        Slig::ToPanicYelling_4BCBA0();
+        ToPanicYelling_4BCBA0();
         return 104;
     }
 
@@ -2557,16 +2557,36 @@ __int16 Slig::AI_Idle_15_4BD800()
     }
 
     if (pNoiseOrSpeaking && 
-        (pNoiseOrSpeaking->field_CC_sprite_scale != field_CC_sprite_scale ||
-        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoiseOrSpeaking->field_C2_lvl_number, pNoiseOrSpeaking->field_C0_path_number, pNoiseOrSpeaking->field_B8_xpos, pNoiseOrSpeaking->field_BC_ypos, 0) ||
-        pNoiseOrSpeaking == this || 
-        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)||
-        Event_Get_422C00(kEventResetting)))
+        pNoiseOrSpeaking->field_CC_sprite_scale == field_CC_sprite_scale &&
+        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pNoiseOrSpeaking->field_C2_lvl_number, pNoiseOrSpeaking->field_C0_path_number, pNoiseOrSpeaking->field_B8_xpos, pNoiseOrSpeaking->field_BC_ypos, 0) &&
+        pNoiseOrSpeaking != this &&
+        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+        !Event_Get_422C00(kEventResetting))
+    {
+        if (pNoiseOrSpeaking != sControlledCharacter_5C1B8C)
+        {
+            if (Math_NextRandom() >= 192u)
+            {
+                return 104;
+            }
+        }
+
+        if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+        {
+            GoAlertedOrSayWhat_4BF140();
+        }
+        else
+        {
+            TurnOrSayWhat_4BEBC0();
+        }
+        return 104;
+    }
+    else
     {
         if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale &&
             vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
             !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8)&&
+            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
             gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
             !InZCover_4BB7C0(sControlledCharacter_5C1B8C) &&
             !InZCover_4BB7C0(this) &&
@@ -2587,24 +2607,6 @@ __int16 Slig::AI_Idle_15_4BD800()
             return 104;
         }
     }
-
-    if (pNoiseOrSpeaking != sControlledCharacter_5C1B8C)
-    {
-        if (Math_NextRandom() >= 192u)
-        {
-            return 104;
-        }
-    }
-
-    if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
-    {
-        GoAlertedOrSayWhat_4BF140();
-    }
-    else
-    {
-        TurnOrSayWhat_4BEBC0();
-    }
-    return 104;
 }
 
 __int16 Slig::AI_StopChasing_16_4BCE30()
