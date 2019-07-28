@@ -1755,18 +1755,17 @@ void Slig::M_ShootZ_42_4B7560()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (sControlledCharacter_5C1B8C != this || sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4 | sInputKey_Down_5550DC))
-        {
-            if (field_108_next_motion != -1)
-            {
-                SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
-                field_108_next_motion = -1;
-                field_106_current_motion = eSligMotions::M_ShootZtoStand_43_4B77E0;
-            }
-        }
-        else
+        // Controlled by player and no longer pressing down or shoot
+        if (sControlledCharacter_5C1B8C == this && (!sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4) || !sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC)))
         {
             SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            field_106_current_motion = eSligMotions::M_ShootZtoStand_43_4B77E0;
+        }
+        // Controlled by AI and need to leave Z-shoot motion
+        else if (field_108_next_motion != -1)
+        {
+            SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            field_108_next_motion = -1;
             field_106_current_motion = eSligMotions::M_ShootZtoStand_43_4B77E0;
         }
     }
