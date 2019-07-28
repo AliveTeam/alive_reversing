@@ -2051,7 +2051,7 @@ __int16 Slig::AI_Death_0_4BBFB0()
         if (field_CC_sprite_scale >= FP_FromDouble(0.3) && !(static_cast<int>(sGnFrame_5C1B84) % 5))
         {
             const FP xOff = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
-            New_Particles_426C70(xOff + field_B8_xpos, (field_BC_ypos / FP_FromInteger(1)), (field_CC_sprite_scale / FP_FromInteger(2)), 2, 128u, 128u, 128u);
+            New_Particles_426C70(xOff + field_B8_xpos, (field_BC_ypos - FP_FromInteger(6)), (field_CC_sprite_scale / FP_FromInteger(2)), 2, 128u, 128u, 128u);
             const FP sndPitch = (FP_FromInteger(2200) * field_CC_sprite_scale);
             SFX_Play_46FBA0(79u, 25, FP_GetExponent(sndPitch));
         }
