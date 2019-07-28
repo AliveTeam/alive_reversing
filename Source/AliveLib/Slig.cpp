@@ -719,7 +719,7 @@ void Slig::M_Running_4_4B6000()
                         }
                         else
                         {
-                            field_C4_velx = (field_CC_sprite_scale * FP_FromDouble(1-3.2));
+                            field_C4_velx = (field_CC_sprite_scale * FP_FromDouble(-13.2));
                         }
 
                         field_106_current_motion = eSligMotions::M_SlidingToStand_8_4B6520;
