@@ -349,6 +349,9 @@ private:
 
     EXPORT static BOOL CCSTD RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
 
+    EXPORT void NextCommand_4B9A00(__int16 a2, __int16 a3);
+
+    EXPORT __int16 HeardGlukkonToListenTo_4B9690(__int16 glukkonSpeak);
 
 public:
     void SetBrain(TSligAIFn fn);
