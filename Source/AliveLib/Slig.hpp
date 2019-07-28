@@ -139,6 +139,8 @@ public:
 
     virtual void VOnTrapDoorOpen() override;
 
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
     EXPORT void M_StandToWalk_1_4B5F70();
@@ -249,7 +251,7 @@ private:
 
     EXPORT void vOnTlvCollision_4B2FB0(Path_TLV* pTlv);
 
-    EXPORT void vsub_4B2EA0();
+    EXPORT void vShot_4B2EA0();
 
     EXPORT void vUpdateAnim_4B1320();
 
@@ -353,6 +355,9 @@ private:
 
     EXPORT __int16 HeardGlukkonToListenTo_4B9690(__int16 glukkonSpeak);
 
+    EXPORT __int16 vTakeDamage_4B2470(BaseGameObject* pFrom);
+
+
 public:
     void SetBrain(TSligAIFn fn);
     bool BrainIs(TSligAIFn fn);
@@ -369,7 +374,7 @@ private:
     int field_12C;
     FP field_130;
     __int16 field_134_res_idx;
-    __int16 field_136;
+    __int16 field_136_shot_motion;
     PSX_RECT field_138_zone_rect;
     __int16 field_140;
     __int16 field_142;
