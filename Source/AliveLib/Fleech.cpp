@@ -461,8 +461,8 @@ void Fleech::M_SleepingWithTongue_17_42F370()
     if (field_108_next_motion != -1)
     {
         sub_42B9F0();
-        field_108_next_motion = -1;
         field_106_current_motion = field_108_next_motion;
+        field_108_next_motion = -1;
     }
     else
     {
