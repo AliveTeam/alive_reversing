@@ -23,3 +23,4 @@ EXPORT void CC New_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, B
 EXPORT void New_Particle_45BC70(class BaseAliveGameObject* pObj);
 EXPORT Particle* CC New_Particle_426C30(FP xpos, FP ypos, FP scale, __int16 layer);
 EXPORT void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale);
+EXPORT void CC New_Particle_426890(FP xpos, FP ypos, char direction, FP scale);

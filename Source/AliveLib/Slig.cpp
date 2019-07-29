@@ -26,6 +26,7 @@
 #include "SwitchStates.hpp"
 #include "Bullet.hpp"
 #include "Dove.hpp"
+#include "BulletShell.hpp"
 
 EXPORT void CC Start_Slig_sounds_4CB980(CameraPos /*a1*/, int /*kZero*/)
 {
@@ -40,6 +41,88 @@ struct Path_Slig_Bound : public Path_TLV
     __int16 field_12_disabled_resources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig_Bound, 0x14);
+
+int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
+{
+    auto pSlig = reinterpret_cast<Slig*>(pObj);
+    auto pPoints = reinterpret_cast<PSX_Point*>(pData);
+
+    if (pSlig->field_1C_update_delay)
+    {
+        return 1;
+    }
+
+    short bulletType = 0;
+    if (pSlig->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || pSlig->vUnderGlukkonCommand_4B1760())
+    {
+        bulletType = 0;
+    }
+    else
+    {
+        bulletType = 2;
+    }
+
+    const FP xOff = (pSlig->field_CC_sprite_scale * FP_FromInteger(pPoints->field_0_x));
+    const FP yOff = (pSlig->field_CC_sprite_scale * FP_FromInteger(pPoints->field_2_y));
+
+    Bullet* pBullet = nullptr;
+    if (pSlig->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        pBullet = alive_new<Bullet>();
+        if (pBullet)
+        {
+            pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(-640), 0, pSlig->field_CC_sprite_scale, 0);
+        }
+
+        New_Particle_426890(pSlig->field_B8_xpos - xOff, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
+
+        if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            SFX_Play_46FA90(5u, 85);
+        }
+        else
+        {
+            auto pShell = alive_new<BulletShell>();
+            if (pShell)
+            {
+                pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
+            }
+            SFX_Play_46FA90(5u, 0);
+        }
+    }
+    else
+    {
+        pBullet = alive_new<Bullet>();
+        if (pBullet)
+        {
+            pBullet->ctor_414540(pSlig, bulletType, pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, FP_FromInteger(640), 0, pSlig->field_CC_sprite_scale, 0);
+        }
+
+        New_Particle_426890(xOff + pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 0, pSlig->field_CC_sprite_scale);
+
+        if (pSlig->field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            SFX_Play_46FA90(5u, 85);
+        }
+        else
+        {
+            auto pShell = alive_new<BulletShell>();
+            if (pShell)
+            {
+                pShell->ctor_4AD340(pSlig->field_B8_xpos, yOff + pSlig->field_BC_ypos, 1, pSlig->field_CC_sprite_scale);
+            }
+            SFX_Play_46FA90(5u, 0);
+        }
+    }
+
+    Event_Broadcast_422BC0(kEventShooting, pSlig);
+    Event_Broadcast_422BC0(kEventLoudNoise, pSlig);
+
+    pBullet->field_1C_update_delay = 1;
+    
+    Dove::All_FlyAway_41FA60(0);
+    return 1;
+}
 
 using Path_Slig_LeftBound = Path_Slig_Bound;
 using Path_Slig_RightBound = Path_Slig_Bound;

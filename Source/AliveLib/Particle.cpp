@@ -222,3 +222,30 @@ void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale)
         pParticle->field_CC_sprite_scale = scale;
     }
 }
+
+void CC New_Particle_426890(FP xpos, FP ypos, char direction, FP scale)
+{
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kBigflashResID, 0, 0);
+    auto pParticle = alive_new<Particle>();
+    if (pParticle)
+    {
+        pParticle->ctor_4CC4C0(xpos, ypos, 960, 86, 17, ppRes);
+        pParticle->field_DC_bApplyShadows &= ~1u;
+        pParticle->field_D4_b = 55;
+        pParticle->field_D2_g = 55;
+        pParticle->field_D0_r = 55;
+        pParticle->field_20_animation.field_B_render_mode = 1;
+
+        if (scale == FP_FromInteger(1))
+        {
+            pParticle->field_20_animation.field_C_render_layer = 36;
+        }
+        else
+        {
+            pParticle->field_20_animation.field_C_render_layer = 17;
+        }
+
+        pParticle->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+        pParticle->field_CC_sprite_scale = scale;
+    }
+}

@@ -7,7 +7,8 @@
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
 #include "Abe.hpp" // For anim call back table
- 
+#include "Slig.hpp" // For slig frame call back
+
 // Frame call backs ??
 EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)
 {
@@ -29,12 +30,6 @@ EXPORT int CC Animation_OnFrame_Common_4561B0(void*, signed __int16*)
 EXPORT int CC Animation_OnFrame_Common_434130(void*, signed __int16*)
 {
     // ??
-    NOT_IMPLEMENTED();
-    return 1;
-}
-
-EXPORT int CC Animation_OnFrame_Slig_4C0600(void*, signed __int16*)
-{
     NOT_IMPLEMENTED();
     return 1;
 }

@@ -255,8 +255,10 @@ private:
 
     EXPORT void vUpdateAnim_4B1320();
 
+public:
     EXPORT BOOL vUnderGlukkonCommand_4B1760();
 
+private:
     EXPORT void WakeUp_4B93B0();
 
     EXPORT void ShouldStilBeAlive_4BBC00();
@@ -488,3 +490,5 @@ private:
     int field_294;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
+
+EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData);

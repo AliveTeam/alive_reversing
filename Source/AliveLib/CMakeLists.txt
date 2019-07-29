@@ -319,6 +319,8 @@ ExportHooker.hpp
     Bone.cpp
     Rock.hpp
     Rock.cpp
+    BulletShell.hpp
+    BulletShell.cpp
     TouchController.cpp
     TouchController.hpp
 )
