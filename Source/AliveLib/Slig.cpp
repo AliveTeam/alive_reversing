@@ -4311,9 +4311,9 @@ void Slig::vUpdate_4B17C0()
 
 void Slig::vScreenChanged_4B1E20()
 {
-    if ((gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || 
-        gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() || 
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId) && this != sControlledCharacter_5C1B8C)
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || 
+        gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
+        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId && this != sControlledCharacter_5C1B8C)
     {
         field_6_flags.Set(BaseGameObject::eDead);
     }
