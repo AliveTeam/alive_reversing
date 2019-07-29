@@ -141,6 +141,9 @@ public:
 
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
+    virtual __int16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther) override;
+
+    virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
     EXPORT void M_StandToWalk_1_4B5F70();
@@ -335,7 +338,7 @@ private:
 
     EXPORT void PlayerControlRunningSlideStopOrTurn1_4B85D0();
 
-    EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(int a2, signed int a3);
+    EXPORT BaseAliveGameObject* FindBeatTarget_4BD070(int a2, int gridBlocks);
 
     EXPORT void TurnOrWalk_4BD6A0(int a2);
 
@@ -358,6 +361,10 @@ private:
     EXPORT __int16 HeardGlukkonToListenTo_4B9690(__int16 glukkonSpeak);
 
     EXPORT __int16 vTakeDamage_4B2470(BaseGameObject* pFrom);
+
+    EXPORT __int16 vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho);
+
+    EXPORT __int16 vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther);
 
 
 public:

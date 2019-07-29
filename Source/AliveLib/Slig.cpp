@@ -514,6 +514,16 @@ __int16 Slig::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_4B2470(pFrom);
 }
 
+__int16 Slig::vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    return vIsFacingMe_4B23D0(pOther);
+}
+
+__int16 Slig::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    return vOnSameYLevel_4BB6C0(pOther);
+}
+
 void Slig::M_StandIdle_0_4B4EC0()
 {
     FP xOff = {};
@@ -2482,8 +2492,92 @@ __int16 Slig::AI_KilledEnemy_10_4B35C0()
 
 __int16 Slig::AI_PanicTurning_12_4BC490()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (Event_Get_422C00(kEventDeathReset) && 
+        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return 107;
+    }
+
+    if (ListenToGlukkonCommands_4B95D0())
+    {
+        ToUnderGlukkonCommand_4B9660();
+        return 107;
+    }
+
+    bool checkForTurn = false;
+    if (field_106_current_motion != eSligMotions::M_TurnAroundStanding_5_4B6390)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_108_next_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
+            return 107;
+        }
+        checkForTurn = true;
+    }
+
+    if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        checkForTurn = true;
+    }
+
+    if (checkForTurn)
+    {
+        if (field_20_animation.field_92_current_frame == 4)
+        {
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                if (sControlledCharacter_5C1B8C->field_C4_velx >= FP_FromInteger(0) &&
+                    (sControlledCharacter_5C1B8C->field_C4_velx > FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos >= field_B8_xpos))
+                {
+                    ShouldStilBeAlive_4BBC00();
+                    return 107;
+                }
+            }
+            else
+            {
+                if (sControlledCharacter_5C1B8C->field_C4_velx <= FP_FromInteger(0) &&
+                    (sControlledCharacter_5C1B8C->field_C4_velx > FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos <= field_B8_xpos))
+                {
+                    ShouldStilBeAlive_4BBC00();
+                    return 107;
+                }
+            }
+
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+
+            PSX_RECT charRect = {};
+            sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&charRect, 1);
+
+            if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67 &&
+                sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125 &&
+                !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
+                !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+            {
+                if (charRect.x <= bRect.w &&
+                    charRect.w >= bRect.x &&
+                    charRect.h >= bRect.y &&
+                    charRect.y <= bRect.h)
+                {
+                    field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+                    return 107;
+                }
+            }
+        }
+        ShouldStilBeAlive_4BBC00();
+        return 107;
+    }
+
+    if (field_120_timer > static_cast<int>(sGnFrame_5C1B84))
+    {
+        ToPanicRunning_4BCA30();
+    }
+    else
+    {
+        WaitOrWalk_4BE870();
+    }
+    return 107;
 }
 
 __int16 Slig::AI_PanicRunning_13_4BC780()
@@ -4698,10 +4792,23 @@ void Slig::ToKilledAbe_4B3600()
     field_120_timer = sGnFrame_5C1B84 + 15;
 }
 
-BOOL Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* /*pLeft*/, BaseAliveGameObject* /*pRight*/)
+BOOL Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    PSX_RECT thisBRect = {};
+    vGetBoundingRect_424FD0(&thisBRect, 1);
+
+    PSX_RECT rightBRect = {};
+    pRight->vGetBoundingRect_424FD0(&rightBRect, 1);
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    return sCollisions_DArray_5C1128->Raycast_417A60(
+        pLeft->field_B8_xpos, 
+        FP_FromInteger(thisBRect.h - 25),
+        pRight->field_B8_xpos, 
+        FP_FromInteger(rightBRect.h -25),
+        &pLine, &hitX, &hitY, pLeft->field_D6_scale != 0 ? 6 : 0x60) == 1;
 }
 
 __int16 Slig::ListenToGlukkonCommands_4B95D0()
@@ -5234,9 +5341,54 @@ void Slig::PlayerControlRunningSlideStopOrTurn1_4B85D0()
     }
 }
 
-BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, signed int /*a3*/)
+BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, int gridBlocks)
 {
-    NOT_IMPLEMENTED();
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP k2Scaled = FP_FromInteger(2) * kGridSize;
+    const FP kGridBlocksScaled = FP_FromInteger(gridBlocks) * kGridSize;
+
+    PSX_RECT hitRect = {};
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        hitRect.x = FP_GetExponent(std::min(field_B8_xpos, field_B8_xpos - kGridBlocksScaled));
+        hitRect.y = FP_GetExponent(std::min(field_BC_ypos, field_BC_ypos - k2Scaled));
+        hitRect.w = FP_GetExponent(std::max(field_B8_xpos, field_B8_xpos - kGridBlocksScaled));
+        hitRect.h = FP_GetExponent(std::max(field_BC_ypos, field_BC_ypos - k2Scaled));
+    }
+    else
+    {
+        hitRect.x = FP_GetExponent(std::min(field_B8_xpos, field_B8_xpos + kGridBlocksScaled));
+        hitRect.y = FP_GetExponent(std::min(field_BC_ypos, field_BC_ypos - k2Scaled));
+        hitRect.w = FP_GetExponent(std::max(field_B8_xpos, field_B8_xpos + kGridBlocksScaled));
+        hitRect.h = FP_GetExponent(std::max(field_BC_ypos, field_BC_ypos - k2Scaled));
+    }
+
+    // TODO: Explicit Abs'ing of Y?
+
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj != this && pObj->field_4_typeId == Types::eMudokon_110)
+        {
+            PSX_RECT bRect = {};
+            pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+            if (pObj->field_10C_health > FP_FromInteger(0) &&
+                pObj->field_D6_scale == field_D6_scale &&
+                !IsInInvisibleZone_425710(pObj) &&
+                !pObj->field_114_flags.Get(Flags_114::e114_Bit8) &&
+                PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
+            {
+                return pObj;
+            }
+        }
+    }
     return nullptr;
 }
 
@@ -5750,4 +5902,49 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
     field_136_shot_motion = eSligMotions::M_Smash_44_4B6B90;
     Event_Broadcast_422BC0(kEventMudokonComfort, this);
     return 1;
+}
+
+__int16 Slig::vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho)
+{
+    if (field_106_current_motion != eSligMotions::M_TurnAroundStanding_5_4B6390 || 
+        field_20_animation.field_92_current_frame < 6)
+    {
+        if (pWho->field_B8_xpos <= field_B8_xpos && 
+            field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 1;
+        }
+
+        if (pWho->field_B8_xpos >= field_B8_xpos &&
+            !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        if (pWho->field_B8_xpos <= field_B8_xpos &&
+            !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 1;
+        }
+
+        if (pWho->field_B8_xpos >= field_B8_xpos &&
+            field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+__int16 Slig::vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    PSX_RECT bOurRect = {};
+    vGetBoundingRect_424FD0(&bOurRect, 1);
+
+    PSX_RECT bTheirRect = {};
+    pOther->vGetBoundingRect_424FD0(&bTheirRect, 1);
+
+    return ((bTheirRect.h + bTheirRect.y) / 2) <= bOurRect.h && bTheirRect.h >= bOurRect.y && field_D6_scale == pOther->field_D6_scale;
 }
