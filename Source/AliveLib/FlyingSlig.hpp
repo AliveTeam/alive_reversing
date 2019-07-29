@@ -154,6 +154,31 @@ public:
 
     EXPORT void BlowUp_436510();
 
+    EXPORT __int16 sub_436730();
+
+    EXPORT __int16 CanHearAbe_4369C0();
+
+    EXPORT void ToSpottedEnemy_435E70();
+
+    EXPORT void ToAbeDead_436010();
+
+    EXPORT void ToAlerted_4357E0();
+
+    EXPORT void ToPanicMoving_435A50();
+
+    EXPORT __int16 IsTurning_436AE0();
+
+    EXPORT BYTE** ResBlockForMotion_4350F0(int motion);
+
+    EXPORT void ToChantShake_436270();
+
+    EXPORT void ToPossesed_436130();
+
+    EXPORT void vUpdateAnimRes_4350A0();
+
+    EXPORT void PatrolDelay_435860();
+
+
     void SetBrain(TFlyingSligFn fn);
     bool BrainIs(TFlyingSligFn fn);
 
@@ -202,7 +227,7 @@ private:
     __int16 field_180;
     __int16 field_182;
     int field_184;
-    int field_188;
+    int field_188_ySpeed;
     int field_18C;
     int field_190;
     int field_194;
