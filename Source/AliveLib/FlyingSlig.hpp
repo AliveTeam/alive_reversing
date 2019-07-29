@@ -184,6 +184,11 @@ public:
 
     EXPORT void HandlePlayerControls_439340();
 
+    EXPORT __int16 sub_437C70(PathLine* pLine);
+
+    EXPORT __int16 FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
+
+
     void SetBrain(TFlyingSligFn fn);
     bool BrainIs(TFlyingSligFn fn);
 
@@ -235,22 +240,22 @@ private:
     FP field_188_ySpeed;
     int field_18C;
     int field_190;
-    int field_194;
-    int field_198;
+    FP field_194;
+    FP field_198;
     __int16 field_19C;
     __int16 field_19E;
     __int16 field_1A0;
     __int16 field_1A2;
-    int field_1A4;
-    int field_1A8;
-    int field_1AC;
-    int field_1B0;
+    FP field_1A4; // TODO: FP_Rect ??
+    FP field_1A8;
+    FP field_1AC;
+    FP field_1B0;
     __int16 field_1B4;
     __int16 field_1B6;
     __int16 field_1B8;
     __int16 field_1BA;
-    int field_1BC;
-    int field_1C0;
+    FP field_1BC;
+    FP field_1C0;
     int field_1C4;
     int field_1C8;
     int field_1CC;
@@ -264,8 +269,8 @@ private:
     int field_1E4;
     __int16 field_1E8;
     __int16 field_1EA;
-    int field_1EC_pLine;
-    int field_1F0_pLine;
+    PathLine* field_1EC_pLine;
+    PathLine* field_1F0_pLine;
     __int16 field_1F4_pal_data[64];
     PSX_RECT field_274_pal_rect;
     __int16 field_27C_old_g;

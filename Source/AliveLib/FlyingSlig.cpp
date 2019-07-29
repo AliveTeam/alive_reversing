@@ -244,7 +244,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
         field_B8_xpos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.x);
         field_BC_ypos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
         sub_4348A0();
-        field_194 = 0;
+        field_194 = FP_FromInteger(0);
     }
 
     field_1D8 = 0;
@@ -386,7 +386,17 @@ void FlyingSlig::vUpdate_434AD0()
 
 void FlyingSlig::sub_4348A0()
 {
-    NOT_IMPLEMENTED();
+    field_17E_flags.Clear(Flags_17E::eBit3);
+    field_17E_flags.Clear(Flags_17E::eBit2);
+    field_298_nextYPos = field_BC_ypos;
+    field_294_nextXPos = field_B8_xpos;
+    field_18C = 0;
+    field_190 = 0;
+    sub_437C70(field_100_pCollisionLine);
+    const short v5 = FP_GetExponent(field_BC_ypos - field_1A8);
+    const short v6 = FP_GetExponent(field_B8_xpos - field_1A4);
+    field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
+    field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == 0);
 }
 
 void FlyingSlig::sub_4396E0()
@@ -1626,4 +1636,60 @@ void FlyingSlig::ToLaunchingGrenade_435F50()
 void FlyingSlig::HandlePlayerControls_439340()
 {
     NOT_IMPLEMENTED();
+}
+
+__int16 FlyingSlig::sub_437C70(PathLine* pLine)
+{
+    field_100_pCollisionLine = pLine;
+    if (!field_100_pCollisionLine)
+    {
+        return 0;
+    }
+
+    field_1A4 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.x);
+    field_1A8 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
+    field_1AC = FP_FromInteger(field_100_pCollisionLine->field_0_rect.w);
+    field_1B0 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.h);
+
+    field_1EC_pLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_C_next);
+    field_1F0_pLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_A_previous);
+
+    field_198 = FP_FromInteger(field_100_pCollisionLine->field_12_line_length);
+
+    field_17E_flags.Set(Flags_17E::eBit11, field_1F0_pLine == nullptr);
+    field_17E_flags.Set(Flags_17E::eBit12, field_1EC_pLine == nullptr);
+
+    field_182 = FindLeftOrRightBound_43B0A0(field_1AC, field_1B0);
+    field_180 = FindLeftOrRightBound_43B0A0(field_1A4, field_1A8);
+    field_1BC = Math_496F70(field_1A8 - field_1B0, field_1AC - field_1A4);
+
+    field_1C0 += FP_FromInteger(128);
+
+    if (field_1C0 >= FP_FromInteger(256))
+    {
+        field_1C0 -= FP_FromInteger(256);
+    }
+    return 1;
+}
+
+__int16 FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
+{
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+
+    const FP left = xOrY - kGridSize;
+    const FP top = wOrH - kGridSize;
+    const FP right =  xOrY + kGridSize;
+    const FP bottom = wOrH + kGridSize;
+
+    // TODO: Check left is really Abs'd
+    short found_type = 0;
+    if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), TlvTypes::SligBoundLeft_32))
+    {
+        found_type = TlvTypes::SligBoundLeft_32;
+    }
+    else if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), TlvTypes::SligBoundRight_45))
+    {
+        found_type = TlvTypes::SligBoundRight_45;
+    }
+    return found_type;
 }
