@@ -1114,12 +1114,12 @@ void Fleech::IncreaseAnger_430920()
 
         if (!pEvent)
         {
-            Event_Is_Event_In_Range_422C30(kEventAlarm, field_B8_xpos, field_BC_ypos, field_D6_scale);
+            pEvent = Event_Is_Event_In_Range_422C30(kEventAlarm, field_B8_xpos, field_BC_ypos, field_D6_scale);
         }
 
         if (!pEvent)
         {
-            Event_Is_Event_In_Range_422C30(kEventLoudNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
+            pEvent = Event_Is_Event_In_Range_422C30(kEventLoudNoise, field_B8_xpos, field_BC_ypos, field_D6_scale);
         }
 
         if (pEvent)
