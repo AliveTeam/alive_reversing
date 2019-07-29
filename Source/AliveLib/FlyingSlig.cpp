@@ -303,9 +303,9 @@ FlyingSlig* FlyingSlig::vdtor_434870(signed int flags)
 
 void FlyingSlig::vScreenChanged_434C10()
 {
-    if ((gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
+    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId) &&
+        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId &&
         (this != sControlledCharacter_5C1B8C ||
         field_17E_flags.Get(Flags_17E::eBit13_Persistant)))
     {
