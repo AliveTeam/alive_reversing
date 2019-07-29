@@ -30,6 +30,7 @@
 #include "Meat.hpp"
 #include "Bone.hpp"
 #include "MineCar.hpp"
+#include "Slig.hpp"
 
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
@@ -46,7 +47,6 @@ EXPORT int CC Paramite__CreateFromSaveState_4855A0(const BYTE*) { NOT_IMPLEMENTE
 EXPORT int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED(); return 160; }
 EXPORT int CC ScrabSpawner__CreateFromSaveState_4ABEB0(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
-EXPORT int CC Slig__CreateFromSaveState_4B3B50(const BYTE*) { NOT_IMPLEMENTED(); return 164; }
 EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 
 struct QuickSaveRestoreTable
@@ -181,7 +181,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     &SlamDoor::CreateFromSaveState_4C08B0,
     nullptr,
     nullptr,
-    &Slig__CreateFromSaveState_4B3B50,
+    &Slig::CreateFromSaveState_4B3B50,
     &Slog__CreateFromSaveState_4C54F0,
     nullptr,
     nullptr,

@@ -121,6 +121,75 @@ class Slig;
 using TSligAIFn = __int16 (Slig::*)();
 using TSligMotionFn = void (Slig::*)();
 
+struct Slig_State
+{
+    Types field_0_type;
+    __int16 field_2_pad;
+    FP field_4_xpos;
+    FP field_8_ypos;
+    FP field_C_velx;
+    FP field_10_vely;
+    __int16 field_14_path_number;
+    LevelIds field_16_lvl_number;
+    FP field_18_sprite_scale;
+    __int16 field_1C_scale;
+    __int16 field_1E_r;
+    __int16 field_20_g;
+    __int16 field_22_b;
+    __int16 field_24;
+    __int16 field_26;
+    __int16 field_28;
+    __int16 field_2A;
+    char field_2C;
+    char field_2D;
+    __int16 field_2E;
+    FP field_30_health;
+    __int16 field_34_current_motion;
+    __int16 field_36_next_motion;
+    __int16 field_38_last_line_ypos;
+    __int16 field_3A_collision_line_type;
+    __int16 field_3C;
+    __int16 field_3E;
+    char field_40_bActiveChar;
+    char field_41;
+    __int16 field_42;
+    __int16 field_44;
+    __int16 field_46;
+    int field_48_timer;
+    __int16 field_4C;
+    __int16 field_4E;
+    __int16 field_50_input;
+    __int16 field_52;
+    int field_54;
+    FP field_58;
+    int field_5C_tlvInfo;
+    __int16 field_60_res_idx;
+    __int16 field_62;
+    PSX_RECT field_64_zone_rect;
+    __int16 field_6C;
+    __int16 field_6E;
+    __int16 field_70;
+    LevelIds field_72_level;
+    __int16 field_74_path;
+    __int16 field_76_camera;
+    int field_78;
+    int field_7C;
+    int field_80_brain_state_idx;
+    __int16 field_84;
+    __int16 field_86;
+    int field_88;
+    int field_8C;
+    __int16 field_90;
+    __int16 field_92;
+    int field_94_glukkon_id;
+    __int16 field_98;
+    __int16 field_9A;
+    __int16 field_9C;
+    __int16 field_9E;
+    __int16 field_A0;
+    __int16 field_A2;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
 
 class Slig : public BaseAliveGameObject
 {
@@ -144,6 +213,10 @@ public:
     virtual __int16 vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
     virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
+
+    EXPORT static int CC CreateFromSaveState_4B3B50(const BYTE* pBuffer);
+
+
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
     EXPORT void M_StandToWalk_1_4B5F70();
@@ -483,13 +556,23 @@ private:
     __int16 field_202;
     __int16 field_204;
     __int16 field_206;
-    int field_208;
+    int field_208_glukkon_obj_id;
     __int16 field_20C;
     __int16 field_20E;
     __int16 field_210;
     __int16 field_212;
     __int16 field_214;
-    __int16 field_216;
+
+    enum Flags_216
+    {
+        eBit1_FollowGlukkon = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4_HeardGlukkon = 0x8,
+        eBit5 = 0x10,
+    };
+    BitField16<Flags_216> field_216;
+
     Path_Slig field_218_tlv_data;
     PSX_Point field_268_points[10];
     __int16 field_290_points_count;

@@ -149,7 +149,7 @@ TintEntry stru_560570[15] =
 };
 
 ALIVE_VAR(1, 0xBAF7E4, int, dword_BAF7E4, 0);
-ALIVE_VAR(1, 0xBAF7E8, short, word_BAF7E8, 0);
+ALIVE_VAR(1, 0xBAF7E8, short, sSligsUnderControlCount_BAF7E8, 0);
 
 const int sSligFrameTables_547318[52] =
 {
@@ -381,7 +381,10 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_292 &= ~1u;
 
     dword_BAF7E4 = 0;
-    field_216 &= ~0xDu;
+
+    field_216.Clear(Flags_216::eBit1_FollowGlukkon);
+    field_216.Clear(Flags_216::eBit3);
+    field_216.Clear(Flags_216::eBit4_HeardGlukkon);
 
 
     field_120_timer = 0;
@@ -408,7 +411,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_15A = 0;
     field_15C = 0;
     field_136_shot_motion = -1;
-    field_208 = 0;
+    field_208_glukkon_obj_id = 0;
     field_20C = -1;
     field_20E = 0;
     field_210 = 0;
@@ -522,6 +525,183 @@ __int16 Slig::vIsFacingMe_4254A0(BaseAnimatedWithPhysicsGameObject* pOther)
 __int16 Slig::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return vOnSameYLevel_4BB6C0(pOther);
+}
+
+int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const Slig_State*>(pBuffer);
+    auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_5C_tlvInfo));
+
+    const __int16 disabledResources = pTlv->field_48_disable_resources;
+
+    if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgleverResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGLEVER.BAN", nullptr);
+    }
+
+    if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgliftResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGLIFT.BAN", nullptr);
+    }
+
+    if (!(disabledResources & 0x40) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgsleepResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGSLEEP.BAN", nullptr);
+    }
+
+    if ((disabledResources & 0x80u) == 0 && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgknfdResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGKNFD.BAN", nullptr);
+    }
+
+    if (!(disabledResources & 0x100) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgedgeResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGEDGE.BAN", nullptr);
+    }
+
+    if (!(disabledResources & 0x200) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgsmashResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGSMASH.BAN", nullptr);
+    }
+
+    if (!(disabledResources & 0x400) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgbeatResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGBEAT.BAN", nullptr);
+    }
+
+    if (!(disabledResources & 4) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgzshotResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLIGZ.BND", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgbasicResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLIG.BND", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSligBlowResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kRockShadowResID, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
+    }
+
+    auto pSlig = alive_new<Slig>();
+    pSlig->ctor_4B1370(pTlv, pState->field_5C_tlvInfo);
+
+    if (pState->field_40_bActiveChar)
+    {
+        sControlledCharacter_5C1B8C = pSlig;
+        pSlig->field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
+    }
+
+    pSlig->field_FC_pPathTLV = nullptr;
+    pSlig->field_100_pCollisionLine = nullptr;
+    pSlig->field_B8_xpos = pState->field_4_xpos;
+    pSlig->field_BC_ypos = pState->field_8_ypos;
+    pSlig->field_C4_velx = pState->field_C_velx;
+    pSlig->field_C8_vely = pState->field_10_vely;
+    pSlig->field_C0_path_number = pState->field_14_path_number;
+    pSlig->field_C2_lvl_number = pState->field_16_lvl_number;
+    pSlig->field_CC_sprite_scale = pState->field_18_sprite_scale;
+
+    if (pSlig->field_CC_sprite_scale == FP_FromInteger(1))
+    {
+        pSlig->field_20_animation.field_C_render_layer = 33;
+    }
+    else
+    {
+        pSlig->field_20_animation.field_C_render_layer = 14;
+    }
+
+    pSlig->field_D6_scale = pState->field_1C_scale;
+
+    pSlig->field_200 = pState->field_1E_r;
+    pSlig->field_D0_r = pState->field_1E_r;
+    pSlig->field_202 = pState->field_20_g;
+    pSlig->field_D2_g = pState->field_20_g;
+    pSlig->field_204 = pState->field_22_b;
+    pSlig->field_D4_b = pState->field_22_b;
+
+    pSlig->field_106_current_motion = pState->field_26;
+    BYTE** ppRes = pSlig->ResForMotion_4B1E90(pSlig->field_106_current_motion);
+    pSlig->field_20_animation.Set_Animation_Data_409C80(sSligFrameTables_547318[pSlig->field_106_current_motion], ppRes);
+
+    pSlig->field_20_animation.field_92_current_frame = pState->field_28;
+    pSlig->field_20_animation.field_E_frame_change_counter = pState->field_2A;
+
+    pSlig->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2D & 1);
+
+    pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_24 & 1);
+    pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2C & 1);
+
+    auto pHeader = reinterpret_cast<AnimationHeader*>(pSlig->field_20_animation.field_20_ppBlock[pSlig->field_20_animation.field_18_frame_table_offset]);
+    if (pSlig->field_20_animation.field_92_current_frame == pHeader->field_2_num_frames - 1)
+    {
+        pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pSlig->field_10C_health = pState->field_30_health;
+    pSlig->field_106_current_motion = pState->field_34_current_motion;
+    pSlig->field_108_next_motion = pState->field_36_next_motion;
+    pSlig->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
+
+    pSlig->field_114_flags.Set(Flags_114::e114_Bit9);
+
+    pSlig->field_104_collision_line_type = pState->field_3A_collision_line_type;
+    pSlig->field_11C = pState->field_42;
+    pSlig->field_11E = pState->field_44;
+    pSlig->field_120_timer = pState->field_48_timer;
+    pSlig->field_124 = pState->field_4C;
+    pSlig->field_126 = pState->field_4E;
+
+    pSlig->field_128_input = InputObject::Command_To_Raw_45EE40(pState->field_50_input);
+
+    pSlig->field_12C = pState->field_54;
+    pSlig->field_130 = pState->field_58;
+    pSlig->field_118_tlvInfo = pState->field_5C_tlvInfo;
+    pSlig->field_134_res_idx = pState->field_60_res_idx;
+    pSlig->field_136_shot_motion = pState->field_62;
+    
+    pSlig->field_138_zone_rect = pState->field_64_zone_rect;
+
+    pSlig->field_140 = pState->field_6C;
+    pSlig->field_142 = pState->field_6E;
+    pSlig->field_144 = pState->field_70;
+
+    pSlig->field_146_level = pState->field_72_level;
+    pSlig->field_148_path = pState->field_74_path;
+    pSlig->field_14A_camera = pState->field_76_camera;
+
+    pSlig->field_14C = pState->field_78;
+    pSlig->field_150 = pState->field_7C;
+    
+    pSlig->field_154_brain_state = sSlig_ai_table_5605AC[pState->field_80_brain_state_idx];
+    
+    dword_BAF7E4 = pState->field_88;
+
+    pSlig->field_158 = static_cast<short>(pState->field_8C); // TODO: Wrong type ??
+    pSlig->field_15C = pState->field_90;
+    pSlig->field_15E = pState->field_92;
+    pSlig->field_208_glukkon_obj_id = pState->field_94_glukkon_id;
+    pSlig->field_20C = pState->field_98;
+    pSlig->field_20E = pState->field_9A;
+
+    pSlig->field_210 = pState->field_9C;
+    pSlig->field_212 = pState->field_9E;
+
+    pSlig->field_214 = pState->field_A0;
+
+    pSlig->field_216.Set(Flags_216::eBit1_FollowGlukkon, ((pState->field_A2) >> 1) & 1);
+    pSlig->field_216.Set(Flags_216::eBit2, ((pState->field_A2) >> 1) & 2);
+    pSlig->field_216.Set(Flags_216::eBit3, ((pState->field_A2) >> 1) & 4);
+    pSlig->field_216.Set(Flags_216::eBit4_HeardGlukkon, ((pState->field_A2) >> 1) & 8);
+
+    sSligsUnderControlCount_BAF7E8 = 0;
+    return sizeof(Slig_State);
 }
 
 void Slig::M_StandIdle_0_4B4EC0()
@@ -3799,9 +3979,9 @@ void Slig::Init_4BB0D0()
                     pGlukkon->field_BC_ypos,
                     0))
                 {
-                    field_208 = pGlukkon->field_8_object_id;
-                    word_BAF7E8++;
-                    field_216 |= 1u;
+                    field_208_glukkon_obj_id = pGlukkon->field_8_object_id;
+                    sSligsUnderControlCount_BAF7E8++;
+                    field_216.Set(Flags_216::eBit1_FollowGlukkon);
                     SetBrain(&Slig::AI_ListeningToGlukkon_4_4B9D20);
                     field_11C = 1;
                     break;
@@ -3809,7 +3989,7 @@ void Slig::Init_4BB0D0()
             }
         }
 
-        if (!field_208)
+        if (!field_208_glukkon_obj_id)
         {
             SetBrain(&Slig::AI_Inactive_32_4B9430);
         }
@@ -4004,10 +4184,10 @@ void Slig::vUpdate_4B17C0()
                 }
             }
         }
-        field_208 = BaseGameObject::Find_Flags_4DC170(field_208);
+        field_208_glukkon_obj_id = BaseGameObject::Find_Flags_4DC170(field_208_glukkon_obj_id);
         if (BrainIs(&Slig::AI_ListeningToGlukkon_4_4B9D20))
         {
-            word_BAF7E8++;
+            sSligsUnderControlCount_BAF7E8++;
         }
         field_114_flags.Clear(Flags_114::e114_Bit9);
         field_104_collision_line_type = 0;
@@ -5206,7 +5386,6 @@ void Slig::ToPanicTurn_4BC750()
     SetBrain(&Slig::AI_PanicTurning_12_4BC490);
 }
 
-ALIVE_VAR(1, 0xBAF7E8, short, sSligsUnderControlCount_BAF7E8, 0);
 ALIVE_VAR(1, 0xBAF7EC, short, sDelayIdx_BAF7EC, 0);
 const __int16 sDelayTable_56075C[6] = { 0, 6, 10, 8, 4, 12 };
 
@@ -5610,7 +5789,7 @@ __int16 Slig::HeardGlukkonToListenTo_4B9690(__int16 glukkonSpeak)
             {
                 if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5), pOtherSlig))
                 {
-                    if ((pOtherSlig->vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !vIsFacingMe_4254A0(sControlledCharacter_5C1B8C)) || pOtherSlig->field_216 & 8)
+                    if ((pOtherSlig->vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !vIsFacingMe_4254A0(sControlledCharacter_5C1B8C)) || pOtherSlig->field_216.Get(Flags_216::eBit4_HeardGlukkon))
                     {
                         return 0;
                     }
@@ -5627,7 +5806,7 @@ __int16 Slig::HeardGlukkonToListenTo_4B9690(__int16 glukkonSpeak)
         }
     }
 
-    field_216 |= 8u;
+    field_216.Set(Flags_216::eBit4_HeardGlukkon);
     return 1;
 }
 
