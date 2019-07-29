@@ -178,6 +178,11 @@ public:
 
     EXPORT void PatrolDelay_435860();
 
+    EXPORT __int16 CanThrowGrenade_43A490();
+
+    EXPORT void ToLaunchingGrenade_435F50();
+
+    EXPORT void HandlePlayerControls_439340();
 
     void SetBrain(TFlyingSligFn fn);
     bool BrainIs(TFlyingSligFn fn);
@@ -227,7 +232,7 @@ private:
     __int16 field_180;
     __int16 field_182;
     int field_184;
-    int field_188_ySpeed;
+    FP field_188_ySpeed;
     int field_18C;
     int field_190;
     int field_194;
