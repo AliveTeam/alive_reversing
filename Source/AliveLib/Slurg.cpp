@@ -173,7 +173,7 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
     pSlurg->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_1D & 1);
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_1C & 1);
 
-    auto pHeader = reinterpret_cast<AnimationHeader*>(&(*pSlurg->field_20_animation.field_20_ppBlock)[pSlurg->field_20_animation.field_18_frame_table_offset]);
+    auto pHeader = reinterpret_cast<AnimationHeader*>(&(pSlurg->field_20_animation.field_20_ppBlock[pSlurg->field_20_animation.field_18_frame_table_offset]));
     if (pSlurg->field_20_animation.field_92_current_frame == pHeader->field_2_num_frames - 1)
     {
         pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);

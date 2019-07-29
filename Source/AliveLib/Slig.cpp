@@ -638,7 +638,7 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_24 & 1);
     pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2C & 1);
 
-    auto pHeader = reinterpret_cast<AnimationHeader*>(pSlig->field_20_animation.field_20_ppBlock[pSlig->field_20_animation.field_18_frame_table_offset]);
+    auto pHeader = reinterpret_cast<AnimationHeader*>(&(pSlig->field_20_animation.field_20_ppBlock[pSlig->field_20_animation.field_18_frame_table_offset]));
     if (pSlig->field_20_animation.field_92_current_frame == pHeader->field_2_num_frames - 1)
     {
         pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
