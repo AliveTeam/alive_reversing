@@ -679,7 +679,7 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     pSlig->field_14C = pState->field_78;
     pSlig->field_150 = pState->field_7C;
     
-    pSlig->field_154_brain_state = sSlig_ai_table_5605AC[pState->field_80_brain_state_idx];
+    pSlig->SetBrain(sSlig_ai_table_5605AC[pState->field_80_brain_state_idx]);
     
     dword_BAF7E4 = pState->field_88;
 
