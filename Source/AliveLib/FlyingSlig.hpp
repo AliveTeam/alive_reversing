@@ -134,6 +134,26 @@ public:
 public:
     EXPORT void ToPlayerControlled_4360C0();
 
+    EXPORT void ToMoving_435720();
+
+    EXPORT void ToPanicIdle_435B50();
+
+    EXPORT void ToChase_435E10();
+
+    EXPORT __int16 CanChase_436850(BaseAliveGameObject* pObj);
+
+    EXPORT void sub_436A50(char a2, __int16 a3);
+
+    EXPORT __int16 sub_4374A0(__int16 a2);
+
+    EXPORT static __int16 CCSTD IsAbeEnteringDoor_43B030(BaseAliveGameObject *pThis );
+
+    EXPORT static BOOL CCSTD IsWallBetween_43A550(FlyingSlig *pThis, BaseAliveGameObject *pObj);
+
+    EXPORT void ThrowGrenade_43A1E0();
+
+    EXPORT void BlowUp_436510();
+
     void SetBrain(TFlyingSligFn fn);
     bool BrainIs(TFlyingSligFn fn);
 
@@ -141,7 +161,7 @@ private:
     Path_FlyingSlig field_118_data;
     int field_148_tlvInfo;
     int field_14C_hi_pause_timer;
-    int field_150;
+    int field_150_grenade_delay;
     int field_154;
     int field_158_obj_id;
     __int16 field_15C;
@@ -159,7 +179,8 @@ private:
     __int16 field_176;
     __int16 field_178;
     __int16 field_17A;
-    __int16 field_17C_launch_id;
+    BYTE field_17C_launch_id;
+    BYTE field_17D;
 
     enum Flags_17E
     {

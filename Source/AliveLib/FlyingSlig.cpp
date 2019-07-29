@@ -14,6 +14,13 @@
 #include "Map.hpp"
 #include "MusicController.hpp"
 #include "DDCheat.hpp"
+#include "Slig.hpp"
+#include "Grenade.hpp"
+#include "Dove.hpp"
+#include "NakedSlig.hpp"
+#include "Particle.hpp"
+#include "Gibs.hpp"
+#include "Blood.hpp"
 
 ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
 {
@@ -149,7 +156,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 
     field_15C = 45 * ((Math_NextRandom() % 5) - 2);
 
-    field_150 = 0;
+    field_150_grenade_delay = 0;
     field_154 = 0;
 
     field_17E_flags.Clear(Flags_17E::eBit1);
@@ -418,12 +425,36 @@ void FlyingSlig::AI_Idle_5_435820()
 
 void FlyingSlig::AI_GameSpeakToMoving_6_435940()
 {
-    NOT_IMPLEMENTED();
+    if (field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
+    {
+        ToMoving_435720();
+    }
 }
 
 void FlyingSlig::AI_PanicMoving_7_435990()
 {
-    NOT_IMPLEMENTED();
+    if (CanChase_436850(sControlledCharacter_5C1B8C))
+    {
+        ToChase_435E10();
+        return;
+    }
+
+    if (!Event_Is_Event_In_Range_422C30(kEventAbeOhm, field_B8_xpos, field_BC_ypos, field_D6_scale))
+    {
+        ToMoving_435720();
+        return;
+    }
+
+    if (static_cast<int>(sGnFrame_5C1B84) < field_14C_hi_pause_timer)
+    {
+        if (sub_4374A0(0) != 1)
+        {
+            return;
+        }
+        field_17E_flags.Toggle(Flags_17E::eBit4);
+    }
+
+    ToPanicIdle_435B50();
 }
 
 void FlyingSlig::AI_PanicIdle_8_435AC0()
@@ -635,8 +666,174 @@ void FlyingSlig::ToPlayerControlled_4360C0()
     SetBrain(&FlyingSlig::AI_Possessed_12_436040);
 }
 
+void FlyingSlig::ToMoving_435720()
+{
+    MusicController::sub_47FD60(4, this, 0, 0);
+    SetBrain(&FlyingSlig::AI_Moving_2_4356D0);
+}
+
+void FlyingSlig::ToPanicIdle_435B50()
+{
+    sub_436A50(10, 0);
+    field_14C_hi_pause_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + field_118_data.field_10_data.field_C_panic_delay;
+    SetBrain(&FlyingSlig::AI_PanicIdle_8_435AC0);
+}
+
+void FlyingSlig::ToChase_435E10()
+{
+    MusicController::sub_47FD60(8, this, 0, 0);
+    SetBrain(&FlyingSlig::AI_ChasingEnemy_4_435BC0);
+}
+
 __int16 FlyingSlig::IsPossessed_436A90()
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+__int16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
+{
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
+        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
+        Event_Get_422C00(kEventResetting) || 
+        IsAbeEnteringDoor_43B030(pObj) ||
+        sActiveHero_5C1B68->field_CC_sprite_scale != field_CC_sprite_scale ||
+        !IsWallBetween_43A550(this, pObj))
+    {
+        return 0;
+    }
+
+    if (Event_Is_Event_In_Range_422C30(kEventAbeOhm, field_B8_xpos, field_BC_ypos, field_D6_scale))
+    {
+        return 1;
+    }
+
+    if (vIsFacingMe_4254A0(pObj) && !IsInInvisibleZone_425710(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit8))
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+void FlyingSlig::sub_436A50(char a2, __int16 a3)
+{
+    if (field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
+    {
+        field_17E_flags.Set(Flags_17E::eBit1);
+        field_17E_flags.Set(Flags_17E::eBit10);
+        field_17D = a2;
+        field_160 = a3;
+    }
+}
+
+__int16 FlyingSlig::sub_4374A0(__int16 /*a2*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+__int16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
+{
+    return Slig::IsAbeEnteringDoor_4BB990(pThis);
+}
+
+BOOL CCSTD FlyingSlig::IsWallBetween_43A550(FlyingSlig *pThis, BaseAliveGameObject *pObj)
+{
+    // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
+    PSX_RECT bRect = {};
+    pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    return sCollisions_DArray_5C1128->Raycast_417A60(
+        pThis->field_B8_xpos,
+        pThis->field_BC_ypos,
+        pObj->field_B8_xpos,
+        FP_FromInteger((bRect.y + bRect.h) / 2),
+        &pLine,
+        &hitX,
+        &hitY,
+        (pThis->field_D6_scale != 0 ? 1 : 16) | (pThis->field_D6_scale != 0 ? 6 : 96) | (pThis->field_D6_scale != 0 ? 8 : 0x80)) != 1;
+}
+
+void FlyingSlig::ThrowGrenade_43A1E0()
+{
+    FP grenadeXVel = (FP_FromInteger(Math_RandomRange_496AB0(50, 64)) / FP_FromInteger(10) * field_CC_sprite_scale);
+    const FP grenadeYVel = (FP_FromInteger(-6) * field_CC_sprite_scale);
+
+    FP grenadeXPos = (FP_FromInteger(0) * field_CC_sprite_scale);
+    const FP grenadeYPos = (FP_FromInteger(-5) * field_CC_sprite_scale);
+
+    const FP xpos = (FP_FromInteger(0) * field_CC_sprite_scale);
+    const FP ypos = (FP_FromInteger(-20) * field_CC_sprite_scale);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        grenadeXPos = -grenadeXPos;
+        grenadeXVel = -grenadeXVel;
+    }
+
+    auto pGrenade = alive_new<Grenade>();
+    if (pGrenade)
+    {
+        pGrenade->ctor_447F70(grenadeXPos + field_B8_xpos, grenadeYPos + field_BC_ypos, 0, 1, 0, this);
+    }
+
+    pGrenade->field_CC_sprite_scale = field_CC_sprite_scale;
+    pGrenade->field_D6_scale = field_D6_scale;
+    pGrenade->VThrow_49E460(grenadeXVel, grenadeYVel);
+
+    New_Particle_426890(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
+    Slig_Sfx_4BFFE0(8, this);
+    Event_Broadcast_422BC0(kEventShooting, this);
+    Event_Broadcast_422BC0(kEventLoudNoise, this);
+
+    Dove::All_FlyAway_41FA60(0);
+
+    int randomisedGrenadeDelay = field_118_data.field_10_data.field_18_grenade_delay + (Math_NextRandom() & 7);
+    if (randomisedGrenadeDelay < 20)
+    {
+        randomisedGrenadeDelay = 20;
+    }
+    field_150_grenade_delay = randomisedGrenadeDelay + sGnFrame_5C1B84;
+
+    if (IsPossessed_436A90() == 0 && Math_NextRandom() < 168u)
+    {
+        Sfx_Slig_4C04F0(1, 0, field_15C, this);
+    }
+}
+
+void FlyingSlig::BlowUp_436510()
+{
+    MusicController::sub_47FD60(0, this, 0, 0);
+    auto pGibs = alive_new<Gibs>();
+    if (pGibs)
+    {
+        pGibs->ctor_40FB40(1, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+    }
+
+    auto pBlood = alive_new<Blood>();
+    if (pBlood)
+    {
+        pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
+    }
+
+    New_Particles_426C70(field_B8_xpos, field_BC_ypos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
+    SFX_Play_46FA90(64u, 128, field_CC_sprite_scale);
+    SFX_Play_46FA90(47u, 90, field_CC_sprite_scale);
+
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+    field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+
+    field_18C = 0;
+    field_C8_vely = FP_FromInteger(0);
+    field_C4_velx = FP_FromInteger(0);
+    field_190 = 0;
+    field_188 = 0;
+    field_184 = 0;
+    field_10C_health = FP_FromInteger(0);
+    SetBrain(&FlyingSlig::AI_Death_1_4364E0);
+    field_14C_hi_pause_timer = sGnFrame_5C1B84 + 40;
 }

@@ -216,6 +216,7 @@ public:
 
     EXPORT static int CC CreateFromSaveState_4B3B50(const BYTE* pBuffer);
 
+    EXPORT static __int16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
 
 public:
     EXPORT void M_StandIdle_0_4B4EC0();
@@ -331,6 +332,7 @@ private:
 
     EXPORT void vUpdateAnim_4B1320();
 
+
 public:
     EXPORT BOOL vUnderGlukkonCommand_4B1760();
 
@@ -419,7 +421,6 @@ private:
 
     EXPORT void ShootTurnTowardsOrKillSound_4B3140();
 
-    EXPORT static __int16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
 
     EXPORT __int16 FindSwitch_4B9A50();
 
