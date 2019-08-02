@@ -34,14 +34,6 @@ EXPORT void CC Start_Slig_sounds_4CB980(CameraPos /*a1*/, int /*kZero*/)
     NOT_IMPLEMENTED();
 }
 
-// This is a left bound, right bound and a persist.
-struct Path_Slig_Bound : public Path_TLV
-{
-    __int16 field_10_slig_id;
-    __int16 field_12_disabled_resources;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig_Bound, 0x14);
-
 int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
 {
     auto pSlig = reinterpret_cast<Slig*>(pObj);
@@ -123,11 +115,6 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
     Dove::All_FlyAway_41FA60(0);
     return 1;
 }
-
-using Path_Slig_LeftBound = Path_Slig_Bound;
-using Path_Slig_RightBound = Path_Slig_Bound;
-using Path_Slig_Persist = Path_Slig_Bound;
-
 
 TintEntry stru_560570[15] =
 {

@@ -114,6 +114,18 @@ struct Path_Slig : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 
+// This is a left bound, right bound and a persist.
+struct Path_Slig_Bound : public Path_TLV
+{
+    __int16 field_10_slig_id;
+    __int16 field_12_disabled_resources;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig_Bound, 0x14);
+
+using Path_Slig_LeftBound = Path_Slig_Bound;
+using Path_Slig_RightBound = Path_Slig_Bound;
+using Path_Slig_Persist = Path_Slig_Bound;
+
 
 enum class LevelIds : __int16;
 

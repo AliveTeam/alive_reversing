@@ -72,6 +72,7 @@
 #include "Meat.hpp"
 #include "Bone.hpp"
 #include "Rock.hpp"
+#include "SligSpawner.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -573,7 +574,6 @@ static void LoadWalkingSligResources(__int16 disabledResources, __int16 loadMode
     gMap_5C3030.LoadResourcesFromList_4DBE70("SLIG.BND", kResources_5632BC.AsList(), loadMode);
     gMap_5C3030.LoadResource_4DBE00("SLGBLOW.BAN", ResourceManager::Resource_Animation, 423, loadMode);
     gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, 2035, loadMode);
-
 }
 
 EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
@@ -592,7 +592,6 @@ EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
             pSlig->ctor_4B1370(pSligTlv, tlvInfo.all);
         }
     }
-
 }
 
 EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
@@ -891,7 +890,53 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path* , TlvItemInfoUnion 
 }
 
 EXPORT void CC Factory_RollingRock_4D9C70(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_Slig_Bound* pTlv)
+{
+    while (pTlvIter)
+    {
+        if (pTlvIter->field_4_type == TlvTypes::Slig_15 && 
+            pTlv->field_10_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_id && 
+            !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Unknown))
+        {
+            return pTlvIter;
+        }
+        pTlvIter = Path::Next_TLV_4DB6A0(pTlvIter);
+    }
+    return pTlvIter;
+}
+
+EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    auto pBound = static_cast<Path_Slig_Bound*>(pTlv);
+    if (loadMode == 1 || loadMode == 2)
+    {
+        LoadWalkingSligResources(pBound->field_12_disabled_resources, loadMode);
+    }
+    else
+    {
+        pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+        pBound->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+
+        for (short camX_idx = -2; camX_idx < 3; camX_idx++)
+        {
+            Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(camX_idx, 0);
+            pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
+            if (pTlvIter)
+            {
+                pBound->field_0_flags.Set(TLV_Flags::eBit1_Created);
+                pBound->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                auto pSlig = alive_new<Slig>();
+                if (pSlig)
+                {
+                    pSlig->ctor_4B1370(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all + pTlvIter - pTlv); // TODO: WAT? How can this be a valid TLV info ?? Somehow only updating the offset part ??
+                }
+                return;
+            }
+        }
+    }
+}
+
 EXPORT void CC Factory_InvisibleZone_4D6A40(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
@@ -943,7 +988,23 @@ EXPORT void CC Factory_MotionDetector_4D9E40(Path_TLV* pTlv, Path*, TlvItemInfoU
     }
 }
 
-EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_SligSpawner_4D79F0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    auto pSligTlv = static_cast<Path_Slig*>(pTlv);
+    const auto disabledResources = pSligTlv->field_48_disable_resources;
+    if (loadMode == 1 || loadMode == 2)
+    {
+        LoadWalkingSligResources(disabledResources, loadMode);
+    }
+    else
+    {
+        auto pSlig = alive_new<SligSpawner>();
+        if (pSlig)
+        {
+            pSlig->ctor_409740(pSligTlv, tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_ElectricWall_4DA020(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
@@ -1031,7 +1092,12 @@ EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvI
 EXPORT void CC Factory_Null_4DA130(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ScrabLeftBound_4D6A80(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_ScrabRightBound_4D6AA0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_SligBoundRight_4D79A0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_SligBoundRight_4D79A0(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    Factory_SligBoundLeft_4D7740(pTlv, pPath, tlvInfo, loadMode);
+}
+
 EXPORT void CC Factory_SligPersist_4D79D0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 EXPORT void CC Factory_EnemyStopper_4D6AC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 

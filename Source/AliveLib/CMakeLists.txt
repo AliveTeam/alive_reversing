@@ -321,6 +321,8 @@ ExportHooker.hpp
     Rock.cpp
     BulletShell.hpp
     BulletShell.cpp
+    SligSpawner.hpp
+    SligSpawner.cpp
     TouchController.cpp
     TouchController.hpp
 )

@@ -8,7 +8,7 @@ enum class Types : __int16
 {
     eNone_0 = 0,
     eAlarm_1 = 1,
-    eType_2 = 2,
+    eSligSpawner_2 = 2,
     eType_3 = 3,
     eType_4 = 4,
     eType_5 = 5,
