@@ -327,6 +327,8 @@ ExportHooker.hpp
     ScrabSpawner.cpp
     SlogSpawner.hpp
     SlogSpawner.cpp
+    SlogHut.hpp
+    SlogHut.cpp
     TouchController.cpp
     TouchController.hpp
 )

@@ -75,6 +75,7 @@
 #include "SligSpawner.hpp"
 #include "ScrabSpawner.hpp"
 #include "SlogSpawner.hpp"
+#include "SlogHut.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1397,7 +1398,17 @@ EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode != 1 && loadMode != 2)
+    {
+        auto pSlogHut = alive_new<SlogHut>();
+        if (pSlogHut)
+        {
+            pSlogHut->ctor_4C4070(static_cast<Path_SlogHut*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv , Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
