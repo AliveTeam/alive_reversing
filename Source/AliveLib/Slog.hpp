@@ -28,6 +28,8 @@ using TSlogMotionFn = void (Slog::*)();
 class Slog : public BaseAliveGameObject
 {
 public:
+    EXPORT Slog* ctor_4C4540(FP xpos, FP ypos, FP scale, __int16 bListenToSligs, __int16 jumpDelay);
+
 
     EXPORT Slog* ctor_4C42E0(Path_Slog* pTlv, int tlvInfo);
 
@@ -94,6 +96,7 @@ private:
 
     EXPORT Bone* FindBone_4C25B0();
 
+    EXPORT BaseAliveGameObject* FindTarget_4C33C0(__int16 /*a2*/, __int16 /*a3*/);
 
 private:
     int field_118;
@@ -126,7 +129,7 @@ private:
     enum Flags_160 : __int16
     {
         eBit1 = 0x1,
-        eBit2 = 0x2,
+        eBit2_ListenToSligs = 0x2,
         eBit3 = 0x4,
         eBit4 = 0x8,
         eBit5 = 0x10,
@@ -145,3 +148,5 @@ private:
     __int16 field_162;
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x164);
+
+ALIVE_VAR_EXTERN(short, sSlogCount_BAF7F2);

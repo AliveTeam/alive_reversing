@@ -88,6 +88,49 @@ const static AIFunctionData<TSlogAIFn> sSlogAiTable[4] =
     { &Slog::AI_Death_3_4C3250, 0x4C3250, "AI_Death_3" },
 };
 
+Slog* Slog::ctor_4C4540(FP xpos, FP ypos, FP scale, __int16 bListenToSligs, __int16 jumpDelay)
+{
+    ctor_408240(5);
+    SetVTable(this, 0x547578);
+
+    field_134 = -1;
+
+    field_BC_ypos = ypos;
+    field_B8_xpos = xpos;
+    
+    field_CC_sprite_scale = scale;
+    
+    Init_4C46A0();
+    
+    field_160_flags.Clear(Flags_160::eBit5);
+    field_12C_tlvInfo = 0xFFFF;
+    field_120_brain_state_idx = 2;
+    field_122_brain_state_result = 0;
+    
+    BaseAliveGameObject* pTarget = FindTarget_4C33C0(0, 0);
+    if (!pTarget)
+    {
+        pTarget = sControlledCharacter_5C1B8C;
+    }
+    field_118 = pTarget->field_8_object_id;
+
+    field_160_flags.Clear(Flags_160::eBit2_ListenToSligs);
+    field_160_flags.Clear(Flags_160::eBit7);
+    field_160_flags.Clear(Flags_160::eBit9);
+
+    field_160_flags.Set(Flags_160::eBit2_ListenToSligs, bListenToSligs & 1);
+
+    field_144 = 0;
+    field_158_jump_delay = jumpDelay;
+    field_154_angry_id = 0;
+    field_106_current_motion = eSlogMotions::M_Idle_0_4C5F90;
+    field_146_total_anger = 10;
+    field_148_chase_anger = 20;
+    field_156_bone_eating_time = 60;
+
+    return this;
+}
+
 Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
 {
     ctor_408240(5);
@@ -111,7 +154,7 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
     Init_4C46A0();
 
     field_160_flags.Clear(Flags_160::eBit9);
-    field_160_flags.Set(Flags_160::eBit2);
+    field_160_flags.Set(Flags_160::eBit2_ListenToSligs);
     field_160_flags.Set(Flags_160::eBit7, pTlv->field_14_asleep & 1);
     field_160_flags.Clear(Flags_160::eBit5);
 
@@ -819,5 +862,11 @@ Bone* Slog::FindBone_4C25B0()
             }
         }
     }
+    return nullptr;
+}
+
+BaseAliveGameObject* Slog::FindTarget_4C33C0(__int16 /*a2*/, __int16 /*a3*/)
+{
+    NOT_IMPLEMENTED();
     return nullptr;
 }

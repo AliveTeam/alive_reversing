@@ -119,7 +119,7 @@ enum class Types : __int16
     eMudokon_110 = 110,
     eRedLaser_111 = 111,
     eScrab_112 = 112,
-    eType_113 = 113,
+    eScrabSpawner_113 = 113,
     eScreenClipper_114 = 114,
     eEffectBase_115 = 115,
     eMainMenuTransistion_116 = 116,

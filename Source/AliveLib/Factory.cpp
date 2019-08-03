@@ -73,6 +73,8 @@
 #include "Bone.hpp"
 #include "Rock.hpp"
 #include "SligSpawner.hpp"
+#include "ScrabSpawner.hpp"
+#include "SlogSpawner.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -594,21 +596,26 @@ EXPORT void CC Factory_Slig_4D7BC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
     }
 }
 
+static void LoadSlogResources(__int16 loadMode)
+{
+    static CompileTimeResourceList<4> kResources(
+    {
+        { ResourceManager::Resource_Animation, 570 },
+        { ResourceManager::Resource_Animation, 571 },
+        { ResourceManager::Resource_Animation, 572 },
+        { ResourceManager::Resource_Animation, 574 }
+    });
+
+    gMap_5C3030.LoadResourcesFromList_4DBE70("SLOG.BND", kResources.AsList(), loadMode);
+    gMap_5C3030.LoadResource_4DBE00("DOGKNFD.BAN", ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, loadMode);
+}
+
 EXPORT void CC Factory_Slog_4D8B20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
 
     if (loadMode == 1 || loadMode == 2)
     {
-        static CompileTimeResourceList<4> kResources(
-        {
-            { ResourceManager::Resource_Animation, 570 },
-            { ResourceManager::Resource_Animation, 571 },
-            { ResourceManager::Resource_Animation, 572 },
-            { ResourceManager::Resource_Animation, 574 }
-        });
-
-        gMap_5C3030.LoadResourcesFromList_4DBE70("SLOG.BND", kResources.AsList(), loadMode);
-        gMap_5C3030.LoadResource_4DBE00("DOGKNFD.BAN", ResourceManager::Resource_Animation, 573, loadMode);
+        LoadSlogResources(loadMode);
     }
     else
     {
@@ -1055,29 +1062,29 @@ EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
             pMeatSack->ctor_46A410(static_cast<Path_MeatSack*>(pTlv), tlvInfo.all);
         }
     }
-
 }
+
+static CompileTimeResourceList<5> kScrabResources(
+{
+    { ResourceManager::Resource_Animation, 700 },
+    { ResourceManager::Resource_Animation, 706 },
+    { ResourceManager::Resource_Animation, 708 },
+    { ResourceManager::Resource_Animation, 710 },
+    { ResourceManager::Resource_Animation, 705 },
+    { ResourceManager::Resource_Animation, 709 },
+    { ResourceManager::Resource_Animation, 704 },
+    { ResourceManager::Resource_Animation, 711 },
+    { ResourceManager::Resource_Animation, 701 },
+    { ResourceManager::Resource_Animation, 702 },
+    { ResourceManager::Resource_Animation, 703 },
+    { ResourceManager::Resource_Animation, 713 }
+});
 
 EXPORT void CC Factory_Scrab_4D9200(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        static CompileTimeResourceList<5> kResources(
-        {
-            { ResourceManager::Resource_Animation, 700 },
-            { ResourceManager::Resource_Animation, 706 },
-            { ResourceManager::Resource_Animation, 708 },
-            { ResourceManager::Resource_Animation, 710 },
-            { ResourceManager::Resource_Animation, 705 },
-            { ResourceManager::Resource_Animation, 709 },
-            { ResourceManager::Resource_Animation, 704 },
-            { ResourceManager::Resource_Animation, 711 },
-            { ResourceManager::Resource_Animation, 701 },
-            { ResourceManager::Resource_Animation, 702 },
-            { ResourceManager::Resource_Animation, 703 },
-            { ResourceManager::Resource_Animation, 713 }
-        });
-        Map::LoadResourcesFromList_4DBE70("SCRAB.BND", kResources.AsList(), loadMode);
+        Map::LoadResourcesFromList_4DBE70("SCRAB.BND", kScrabResources.AsList(), loadMode);
     }
     else
     {
@@ -1342,7 +1349,22 @@ EXPORT void CC Factory_MusicTrigger_4D71B0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 }
 
 EXPORT void CC Factory_Light_4D8590(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Factory_SlogSpawner_4D8BB0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        LoadSlogResources(loadMode);
+    }
+    else
+    {
+        auto pSlogSpawner = alive_new<SlogSpawner>();
+        if (pSlogSpawner)
+        {
+            pSlogSpawner->ctor_4C7FF0(static_cast<Path_SlogSpawner*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_GasCountdown_4DA480(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
@@ -1809,7 +1831,21 @@ EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 
 }
 
-EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        Map::LoadResourcesFromList_4DBE70("SCRAB.BND", kScrabResources.AsList(), loadMode);
+    }
+    else
+    {
+        auto pScrabSpawner = alive_new<ScrabSpawner>();
+        if (pScrabSpawner)
+        {
+            pScrabSpawner->ctor_4AB450(static_cast<Path_Scrab_Spawner*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_NakedSlig_4D95A0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {

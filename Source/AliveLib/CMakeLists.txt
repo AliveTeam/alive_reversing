@@ -323,6 +323,10 @@ ExportHooker.hpp
     BulletShell.cpp
     SligSpawner.hpp
     SligSpawner.cpp
+    ScrabSpawner.hpp
+    ScrabSpawner.cpp
+    SlogSpawner.hpp
+    SlogSpawner.cpp
     TouchController.cpp
     TouchController.hpp
 )
