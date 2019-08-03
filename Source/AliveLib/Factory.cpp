@@ -911,7 +911,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_Slig_Bound* pTlv)
         }
         pTlvIter = Path::Next_TLV_4DB6A0(pTlvIter);
     }
-    return pTlvIter;
+    return nullptr;
 }
 
 EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
@@ -932,12 +932,16 @@ EXPORT void CC Factory_SligBoundLeft_4D7740(Path_TLV* pTlv, Path*, TlvItemInfoUn
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {
-                pBound->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                pBound->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
+                pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
+                pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
                 auto pSlig = alive_new<Slig>();
                 if (pSlig)
                 {
-                    pSlig->ctor_4B1370(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all + pTlvIter - pTlv); // TODO: WAT? How can this be a valid TLV info ?? Somehow only updating the offset part ??
+                    tlvInfo.parts.tlvOffset += 
+                        static_cast<WORD>(
+                            reinterpret_cast<const BYTE*>(pTlvIter) - 
+                            reinterpret_cast<const BYTE*>(pBound));
+                    pSlig->ctor_4B1370(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all);
                 }
                 return;
             }
