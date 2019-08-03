@@ -1934,10 +1934,7 @@ void Slig::M_Possess_37_4B72C0()
         {
             field_106_current_motion = eSligMotions::M_Knockback_34_4B68A0;
         }
-        else
-        {
-            field_106_current_motion = eSligMotions::M_Smash_44_4B6B90;
-        }
+        field_106_current_motion = eSligMotions::M_Smash_44_4B6B90;
     }
 }
 
