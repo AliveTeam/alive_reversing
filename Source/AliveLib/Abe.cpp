@@ -2480,7 +2480,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
     default:
         Damage_44C980(pFrom);
-        if (!(field_114_flags.Get(Flags_114::e114_Bit1_bShot)))
+        if (!field_114_flags.Get(Flags_114::e114_Bit1_bShot))
         {
             ret = 0;
             field_128.field_18_say = oldSay;
@@ -2490,7 +2490,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
     if (sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed))
     {
-        if (field_10C_health <= FP_FromInteger(0))
+        if (field_10C_health == FP_FromInteger(0))
         {
             sControlledCharacter_5C1B8C->VUnPosses_408F90();
             // We are the "active" player again
