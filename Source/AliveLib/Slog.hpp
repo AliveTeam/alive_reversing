@@ -37,6 +37,10 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VOnTrapDoorOpen() override;
+
+    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
+
 public:
     EXPORT void M_Idle_0_4C5F90();
     EXPORT void M_Walk_1_4C60C0();
@@ -70,6 +74,9 @@ public:
     EXPORT __int16 AI_Death_3_4C3250();
 
 private:
+    EXPORT BYTE** ResBlockForMotion_4C4A80(__int16 motion);
+
+
     EXPORT void SetAnimFrame_4C42A0();
 
     EXPORT void Init_4C46A0();
@@ -97,6 +104,10 @@ private:
     EXPORT Bone* FindBone_4C25B0();
 
     EXPORT BaseAliveGameObject* FindTarget_4C33C0(__int16 /*a2*/, __int16 /*a3*/);
+
+    EXPORT void vOn_TrapDoor_Open_4C5D50();
+
+    EXPORT void vOn_Tlv_Collision_4C5060(Path_TLV* pTlv);
 
 private:
     int field_118;
