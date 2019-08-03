@@ -291,43 +291,32 @@ void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
             const PathData* pPathData = pPathRec->field_4_pPathData;
             const int widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
             const int heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, 1, 0);
+            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
                 const int totalCameraCount = widthCount * heightCount;
                 const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
                 for (int j = 0; j < totalCameraCount; j++)
                 {
-                    int tlvOffset = indexTable[j];
+                    const int tlvOffset = indexTable[j];
                     if (tlvOffset != -1)
                     {
                         BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
-                        do
+                        while (pTlv)
                         {
                             // TODO: Convert table to strongly typed flags
                             const BYTE tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[pTlv->field_4_type];
-                            if (tableValue)
+                            if (tableValue == 1 || tableValue == 2) // Type 0 ignored - actually it should never be written here anyway
                             {
-                                if (tableValue <= 2)
-                                {
-                                    pTlv->field_0_flags.Raw().all = *pSrcFlags;
-                                    pSrcFlags++;
-                                    
-                                    pTlv->field_1_unknown = *pSrcFlags;
-                                    pSrcFlags++;
-                                }
-                            }
+                                pTlv->field_0_flags.Raw().all = *pSrcFlags;
+                                pSrcFlags++;
 
-                            if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
-                            {
-                                // End of restoring flags for this camera
-                                break;
+                                pTlv->field_1_unknown = *pSrcFlags;
+                                pSrcFlags++;
                             }
-
-                            tlvOffset += pTlv->field_2_length;
                             pTlv = Path::Next_TLV_4DB6A0(pTlv);
-                        } while (pTlv->field_2_length);
+                        }
                     }
                 }
                 ResourceManager::FreeResource_49C330(ppPathRes);
@@ -369,11 +358,6 @@ EXPORT void CC Quicksave_LoadActive_4C9170()
     Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData_BAF7F8);
 }
 
-EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE*)
-{
-    NOT_IMPLEMENTED();
-}
-
 static void WriteChars(char*& pDst, BYTE v1, BYTE v2)
 {
     *pDst = v1;
@@ -381,6 +365,69 @@ static void WriteChars(char*& pDst, BYTE v1, BYTE v2)
 
     *pDst = v2;
     pDst++;
+}
+
+static void WriteFlags(BYTE*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<TLV_Flags>& flags)
+{
+    *pSaveBuffer = flags.Raw().all;
+    pSaveBuffer++;
+
+    *pSaveBuffer = pTlv->field_1_unknown;
+    pSaveBuffer++;
+}
+
+EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
+{
+    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_1A_num_paths; i++)
+    {
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, i);
+        if (pPathRec->field_0_blyName)
+        {
+            const PathData* pPathData = pPathRec->field_4_pPathData;
+            const int widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+            const int heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            if (ppPathRes)
+            {
+                const int totalCameraCount = widthCount * heightCount;
+                const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
+                for (int j = 0; j < totalCameraCount; j++)
+                {
+                    int tlvOffset = indexTable[j];
+                    if (tlvOffset != -1)
+                    {
+                        BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
+                        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
+                        while (pTlv)
+                        {
+                            if (kObjectTypeAttributesTable_byte_547794.mTypes[pTlv->field_4_type] == 1)
+                            {
+                                BitField8<TLV_Flags> flags = pTlv->field_0_flags;
+                                if (flags.Get(TLV_Flags::eBit1_Created))
+                                {
+                                    flags.Clear(TLV_Flags::eBit1_Created);
+                                    flags.Clear(TLV_Flags::eBit2_Unknown);
+                                }
+                                WriteFlags(pSaveBuffer, pTlv, flags);
+                            }
+                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[pTlv->field_4_type] == 2)
+                            {
+                                WriteFlags(pSaveBuffer, pTlv, pTlv->field_0_flags);
+                            }
+                            else
+                            {
+                                // Type 0 ignored
+                            }
+                            pTlv = Path::Next_TLV_4DB6A0(pTlv);
+                        }
+                    }
+                }
+                ResourceManager::FreeResource_49C330(ppPathRes);
+            }
+        }
+    }
+
+    // NOTE: Some values with things like total save size written here, but they are never used
 }
 
 void CC MEMCARD_Write_SJISC_String_4A2770(char* src, char* dst, int srcLength)

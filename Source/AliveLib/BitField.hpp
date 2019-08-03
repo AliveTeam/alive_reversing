@@ -51,6 +51,10 @@ public:
         return mData;
     }
 
+    const DataType& Raw() const
+    {
+        return mData;
+    }
 private:
     DataType mData = {};
 };
