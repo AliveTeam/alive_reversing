@@ -597,7 +597,7 @@ BYTE** Slog::ResBlockForMotion_4C4A80(__int16 motion)
         return field_10_resources_array.ItemAt(field_130);
     }
 
-    if (motion < eSlogMotions::M_Growl_23_4C7170)
+    if (motion < 24) // last + 1
     {
         field_130 = 4;
         return field_10_resources_array.ItemAt(field_130);
