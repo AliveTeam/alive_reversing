@@ -457,24 +457,26 @@ EXPORT void CC MEMCARD_Write_Timestamp_SJISC_String_4A2290(char* dst)
         }
     }
 }
+ALIVE_VAR(1, 0xBB19F8, Quicksave_PSX_Header, sSaveHeader2_BB19F8, {});
+ALIVE_VAR(1, 0xBB17F8, Quicksave_PSX_Header, sSaveHeader1_BB17F8, {});
 
 EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 {
-    NOT_IMPLEMENTED();
-
     if (sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0))
     {
         pSave->field_200_accumulated_obj_count = sAccumulatedObjectCount_5C1BF4;
 
-        /* TODO: PSX Save headers ??
-        pUnk = &unk_BB19F8;
-        if (!word_5C1BBC)
+        // Don't really know what the point of doing this is? Might as well just memset the pSave header?
+        Quicksave_PSX_Header* pHeaderToUse = nullptr;
+        if (word_5C1BBC == 0)
         {
-            pUnk = &unk_BB17F8;
+            pHeaderToUse = &sSaveHeader1_BB17F8;
         }
-
-        memcpy(pSave, pUnk, 512);
-        */
+        else
+        {
+            pHeaderToUse = &sSaveHeader2_BB19F8;
+        }
+        pSave->field_0_header = *pHeaderToUse;
 
         MEMCARD_Write_Timestamp_SJISC_String_4A2290(&pSave->field_0_header.field_0_frame_1_name[50]);
 
