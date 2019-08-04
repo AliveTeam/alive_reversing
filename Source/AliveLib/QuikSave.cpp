@@ -431,14 +431,110 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
     // NOTE: Some values with things like total save size written here, but they are never used
 }
 
+struct SaveFlagsAndData
+{
+    BitField8<TLV_Flags> flags;
+    BYTE data;
+};
+ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {});
+
 EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 {
-    NOT_IMPLEMENTED();
+    sQuickSave_saved_switchResetters_count_BB234C = 0;
+    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_1A_num_paths; i++)
+    {
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, i);
+        if (pPathRec->field_0_blyName)
+        {
+            const PathData* pPathData = pPathRec->field_4_pPathData;
+            const int widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+            const int heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            if (ppPathRes)
+            {
+                const int totalCameraCount = widthCount * heightCount;
+                const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
+                for (int j = 0; j < totalCameraCount; j++)
+                {
+                    int tlvOffset = indexTable[j];
+                    if (tlvOffset != -1)
+                    {
+                        BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
+                        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
+                        while (pTlv)
+                        {
+                            if (pTlv->field_4_type == TlvTypes::Null_76)
+                            {
+                                if (sQuickSave_saved_switchResetters_count_BB234C < 8)
+                                {
+                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].flags = pTlv->field_0_flags;
+                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->field_1_unknown;
+
+                                    sQuickSave_saved_switchResetters_count_BB234C++;
+                                }
+                                else
+                                {
+                                    LOG_WARNING("Out of write space !!");
+                                }
+                            }
+                            pTlv = Path::Next_TLV_4DB6A0(pTlv);
+                        }
+                    }
+                }
+                ResourceManager::FreeResource_49C330(ppPathRes);
+            }
+        }
+    }
 }
 
 EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
 {
-    NOT_IMPLEMENTED();
+    int idx = 0;
+    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_1A_num_paths; i++)
+    {
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, i);
+        if (pPathRec->field_0_blyName)
+        {
+            const PathData* pPathData = pPathRec->field_4_pPathData;
+            const int widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+            const int heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+            BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            if (ppPathRes)
+            {
+                const int totalCameraCount = widthCount * heightCount;
+                const int* indexTable = reinterpret_cast<const int*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
+                for (int j = 0; j < totalCameraCount; j++)
+                {
+                    int tlvOffset = indexTable[j];
+                    if (tlvOffset != -1)
+                    {
+                        BYTE* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
+                        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
+                        while (pTlv)
+                        {
+                            if (pTlv->field_4_type == TlvTypes::Null_76)
+                            {
+                                if (idx < 8)
+                                {
+                                    pTlv->field_0_flags = sSwitchReset_Saved_States_BB233C[idx].flags;
+                                    pTlv->field_1_unknown = sSwitchReset_Saved_States_BB233C[idx].data ;
+
+                                    idx++;
+                                }
+                                else
+                                {
+                                    LOG_WARNING("Out of read space !!");
+                                }
+                            }
+                            pTlv = Path::Next_TLV_4DB6A0(pTlv);
+                        }
+                    }
+                }
+                ResourceManager::FreeResource_49C330(ppPathRes);
+            }
+        }
+    }
+    sQuickSave_saved_switchResetters_count_BB234C = 0;
 }
 
 void CC MEMCARD_Write_SJISC_String_4A2770(char* src, char* dst, int srcLength)
