@@ -1192,7 +1192,7 @@ void Fleech::PullTargetIn_42BAF0()
         pTarget->vGetBoundingRect_424FD0(&bRect, 1);
 
         field_17C = FP_GetExponent(pTarget->field_B8_xpos);
-        field_17E = (bRect.y + bRect.w) / 2;
+        field_17E = (bRect.y + bRect.h) / 2;
         field_184 = FP_GetExponent(((FP_FromInteger(field_17C) + field_B8_xpos) / FP_FromInteger(2)));
         field_188 = 0;
         field_186 = FP_GetExponent(((FP_FromInteger(field_17E) + field_BC_ypos) / FP_FromInteger(2)));
