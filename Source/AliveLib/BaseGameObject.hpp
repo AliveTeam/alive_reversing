@@ -63,7 +63,7 @@ enum class Types : __int16
     eFlyingSlig_54 = 54,
     eFlyingSligSpawner_55 = 55,
     eFootSwitch_56 = 56,
-    eType_57 = 57,
+    eGameEnderController_57 = 57,
     eType_58 = 58,
     eType_59 = 59,
     eSlapLock_OrbWhirlWind_60 = 60,

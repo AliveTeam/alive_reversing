@@ -7,11 +7,7 @@
 #include "SwitchStates.hpp"
 #include "Midi.hpp"
 #include "PathData.hpp"
-
-EXPORT void sub_43B7A0()
-{
-    NOT_IMPLEMENTED();
-}
+#include "GameEnderController.hpp"
 
 BaseGameObject* WorkWheel::VDestructor(signed int flags)
 {
@@ -201,7 +197,7 @@ void WorkWheel::vUpdate_4E38E0()
         {
             if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10 && field_F8_id == 100)
             {
-                sub_43B7A0();
+                CreateGameEnderController_43B7A0();
             }
 
             if (field_102_off_time > 0 && field_100_on_counter > field_102_off_time)

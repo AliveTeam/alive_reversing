@@ -116,7 +116,7 @@ private:
 public:
     PortalType field_24_portal_type;
     PortalSide field_26_side;
-private:
+public:
     enum class States : __int16
     {
         State_0 = 0,
@@ -144,6 +144,7 @@ private:
         State_22 = 22,
     };
     States field_28_state;
+private:
     __int16 field_2A;
 public:
     FP field_2C_xpos;

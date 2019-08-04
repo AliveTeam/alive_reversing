@@ -610,7 +610,7 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 ALIVE_VAR_EXTERN(Abe *, sActiveHero_5C1B68);
 ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_5C1B8C);
 
-ALIVE_VAR_EXTERN(short, word_5C1BDA);
+ALIVE_VAR_EXTERN(short, gAbeBulletProof_5C1BDA);
 
 extern const int sAbeFrameOffsetTable_554B18[130];
 extern const char* const sAbeStateNames[130];

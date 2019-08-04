@@ -43,3 +43,4 @@ private:
 ALIVE_ASSERT_SIZEOF(Alarm, 0x94);
 
 ALIVE_VAR_EXTERN(short, alarmInstanceCount_5C1BB4);
+ALIVE_VAR_EXTERN(int, sAlarmObjId_550D70);

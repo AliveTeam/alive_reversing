@@ -33,13 +33,13 @@
 #include "Slig.hpp"
 #include "SligSpawner.hpp"
 #include "ScrabSpawner.hpp"
+#include "GameEnderController.hpp"
 
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
 EXPORT int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { NOT_IMPLEMENTED(); return 180; }
 EXPORT int CC FlyingSlig__CreateFromSaveState_437E40(const BYTE*) { NOT_IMPLEMENTED(); return 172; }
-EXPORT int CC CreateFromSaveState_43BD10(const BYTE*) { NOT_IMPLEMENTED(); return 16; }
 EXPORT int CC Greeter__CreateFromSaveState_446040(const BYTE*) { NOT_IMPLEMENTED(); return 80; }
 EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { NOT_IMPLEMENTED(); return 144; }
@@ -113,7 +113,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     &FlyingSlig__CreateFromSaveState_437E40,
     &FlyingSligSpawner::CreateFromSaveState_43B690,
     nullptr,
-    &CreateFromSaveState_43BD10,
+    &GameEnderController::CreateFromSaveState_43BD10,
     nullptr,
     nullptr,
     &SlapLockWhirlWind::CreateFromSaveState_43DC20,
@@ -691,7 +691,7 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     byte_5C1BFA = pInfo->field_2D;
     word_5C1BF8 = pInfo->field_30;
     dword_5C1BE8 = pInfo->field_38;
-    word_5C1BDA = pInfo->field_3C;
+    gAbeBulletProof_5C1BDA = pInfo->field_3C;
     sVisitedBonewerks_5C1C02 = pInfo->field_32_visited_bonewerks;
     sVisitedBarracks_5C1C04 = pInfo->field_34_visited_barracks;
     sVisitedFeecoEnder_5C1C06 = pInfo->field_36_visited_feeco_ender;
@@ -716,7 +716,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_16_muds_in_area = static_cast<char>(sMudokonsInArea_5C1BC4); // TODO: Check types
     pInfo->field_2D = byte_5C1BFA;
     pInfo->field_30 = word_5C1BF8;
-    pInfo->field_3C = word_5C1BDA;
+    pInfo->field_3C = gAbeBulletProof_5C1BDA;
     pInfo->field_32_visited_bonewerks = sVisitedBonewerks_5C1C02;
     pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
     pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;

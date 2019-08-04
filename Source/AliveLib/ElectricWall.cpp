@@ -207,7 +207,7 @@ void ElectricWall::vUpdate_422030()
                     else
                     {
                         // Touching the wall, rip
-                        if (!(pObj->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) && (pObj != sActiveHero_5C1B68 || !word_5C1BDA))
+                        if (!(pObj->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted)) && (pObj != sActiveHero_5C1B68 || !gAbeBulletProof_5C1BDA))
                         {
                             pObj->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
 

@@ -22,6 +22,7 @@
 #include "Abe.hpp"
 #include "PauseMenu.hpp"
 #include "Io.hpp"
+#include "GameEnderController.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -40,8 +41,6 @@ ALIVE_VAR(1, 0x5c1bee, char, sEnableCheatLevelSelect_5C1BEE, 0);
 ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
 
 ALIVE_VAR(1, 0x5C1BEC, short, word_5C1BEC, {});
-ALIVE_VAR(1, 0x5C1BC6, short, word_5C1BC6, {});
-ALIVE_VAR(1, 0x5C1BC8, short, word_5C1BC8, {});
 ALIVE_VAR(1, 0x5c1b9e, __int16, word_5C1B9E, 0);
 ALIVE_VAR(1, 0x5C1B64, byte, byte_5C1B64, {});
 
@@ -590,8 +589,8 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     sRescuedMudokons_5C1BC2 = 0;
     word_5C1BA0 = 0;
     byte_5C1B64 = 0;
-    word_5C1BC6 = 0;
-    word_5C1BC8 = 0;
+    sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
+    sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 
     if (gMap_5C3030.sCurrentCamId_5C3034 == 6)
     {

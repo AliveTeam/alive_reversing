@@ -1202,12 +1202,12 @@ const InputCommands sInputKey_GameSpeak8_555110 = eGameSpeak8;
 const InputCommands sInputKey_GameSpeak7_555114 = eGameSpeak7;
 
 
-ALIVE_VAR(1, 0x5c1bda, short, word_5C1BDA, 0);
+ALIVE_VAR(1, 0x5c1bda, short, gAbeBulletProof_5C1BDA, 0);
 
 
 void Abe::Update_449DC0()
 {
-    if (word_5C1BDA) // Some flag to reset HP?
+    if (gAbeBulletProof_5C1BDA) // Some flag to reset HP?
     {
         field_114_flags.Clear(Flags_114::e114_Bit7_Electrocuted);
         field_10C_health = FP_FromDouble(1.0);
@@ -1261,7 +1261,7 @@ void Abe::Update_449DC0()
         return;
     }
 
-    if (word_5C1BDA)
+    if (gAbeBulletProof_5C1BDA)
     {
         field_10C_health = FP_FromDouble(1.0);
     }
@@ -2071,7 +2071,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (word_5C1BDA)
+    if (gAbeBulletProof_5C1BDA)
     {
         return 0;
     }
@@ -3555,7 +3555,7 @@ void Abe::State_3_Fall_459B60()
             if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
                 || (pSoftLanding && field_10C_health > FP_FromInteger(0)) // If we are dead soft landing won't save us
                 || (field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
-                && (field_10C_health > FP_FromInteger(0) || word_5C1BDA))
+                && (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA))
             {
                 field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
             }
@@ -6239,7 +6239,7 @@ void Abe::State_71_Knockback_455090()
     {
         if (!(field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2)) && (field_100_pCollisionLine || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))))
         {
-            if (field_10C_health > FP_FromInteger(0) || word_5C1BDA || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+            if (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             {
                 field_106_current_motion = eAbeStates::State_72_KnockbackGetUp_455340;
             }
@@ -6293,7 +6293,7 @@ void Abe::State_74_Rolling_KnockedBack_455290()
     {
         if (!(field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2)))
         {
-            if (field_10C_health > FP_FromInteger(0) || word_5C1BDA)
+            if (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)
             {
                 field_106_current_motion = eAbeStates::State_72_KnockbackGetUp_455340;
             }

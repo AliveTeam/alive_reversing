@@ -329,6 +329,8 @@ ExportHooker.hpp
     SlogSpawner.cpp
     SlogHut.hpp
     SlogHut.cpp
+    GameEnderController.hpp
+    GameEnderController.cpp
     TouchController.cpp
     TouchController.hpp
 )
