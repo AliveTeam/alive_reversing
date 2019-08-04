@@ -1309,7 +1309,7 @@ void Fleech::MoveAlongFloor_42E600()
             VOnTrapDoorOpen();
             field_138 = 0;
             field_F8_LastLineYPos = field_BC_ypos;
-            field_B8_xpos = prev_ypos + field_C4_velx;
+            field_B8_xpos = prev_xpos + field_C4_velx;
             field_106_current_motion = eFleechMotions::M_Fall_9_42ECD0;
         }
         else
