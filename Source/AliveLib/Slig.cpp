@@ -811,7 +811,7 @@ void Slig::M_Walking_2_4B5BC0()
     {
         if (field_20_animation.field_92_current_frame == 5 || field_20_animation.field_92_current_frame == 14)
         {
-            Slig_Sfx_4BFFE0(2, this);
+            Slig_SoundEffect_4BFFE0(2, this);
 
             if (!field_126)
             {
@@ -931,7 +931,7 @@ void Slig::M_Running_4_4B6000()
             if (field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 12)
             {
 
-                Slig_Sfx_4BFFE0(3, this);
+                Slig_SoundEffect_4BFFE0(3, this);
 
                 if (field_126 == 0)
                 {
@@ -1005,7 +1005,7 @@ void Slig::M_TurnAroundStanding_5_4B6390()
         MusicController::sub_47FD60(4, this, 0, 0);
     }
 
-    Slig_Sfx_4BFFE0(1, this);
+    Slig_SoundEffect_4BFFE0(1, this);
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -1341,11 +1341,11 @@ void Slig::M_ReloadGun_12_4B5530()
 {
     if (field_20_animation.field_92_current_frame == 1)
     {
-        Slig_Sfx_4BFFE0(6, this);
+        Slig_SoundEffect_4BFFE0(6, this);
     }
     else if (field_20_animation.field_92_current_frame == 4)
     {
-        Slig_Sfx_4BFFE0(7, this);
+        Slig_SoundEffect_4BFFE0(7, this);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1366,7 +1366,7 @@ void Slig::M_SteppingToStand_14_4B8480()
 {
     if (!field_20_animation.field_92_current_frame)
     {
-        Slig_Sfx_4BFFE0(2, this);
+        Slig_SoundEffect_4BFFE0(2, this);
     }
 
     if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), field_C4_velx))
@@ -1584,7 +1584,7 @@ void Slig::M_Sleeping_32_4B89A0()
     {
         if (!(static_cast<int>(sGnFrame_5C1B84 - 20) % 60))
         {
-            Slig_Sfx_4BFFE0(5, this);
+            Slig_SoundEffect_4BFFE0(5, this);
             if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
                 auto pSnoozeParticle = alive_new<SnoozeParticle>();
@@ -1610,7 +1610,7 @@ void Slig::M_Sleeping_32_4B89A0()
     }
     else
     {
-        Slig_Sfx_4BFFE0(4, this);
+        Slig_SoundEffect_4BFFE0(4, this);
 
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
@@ -1661,12 +1661,12 @@ void Slig::M_SleepingToStand_33_4B8C50()
 
     if (field_20_animation.field_92_current_frame >= 2 && field_20_animation.field_92_current_frame <= 10)
     {
-        Slig_Sfx_4BFFE0(0, this);
+        Slig_SoundEffect_4BFFE0(0, this);
     }
 
     if (field_20_animation.field_92_current_frame == 9)
     {
-        Slig_Sfx_4BFFE0(2, this);
+        Slig_SoundEffect_4BFFE0(2, this);
     }
 
     switch (field_20_animation.field_92_current_frame)
@@ -1778,12 +1778,12 @@ void Slig::M_KnockbackToStand_35_4B6A30()
 
     if (field_20_animation.field_92_current_frame >= 2 && field_20_animation.field_92_current_frame <= 10)
     {
-        Slig_Sfx_4BFFE0(0, this);
+        Slig_SoundEffect_4BFFE0(0, this);
     }
 
     if (field_20_animation.field_92_current_frame == 9)
     {
-        Slig_Sfx_4BFFE0(2, this);
+        Slig_SoundEffect_4BFFE0(2, this);
     }
 
     FP gridSize = {};
@@ -2114,7 +2114,7 @@ void Slig::M_PullLever_45_4B8950()
     {
         if (field_114_flags.Get(Flags_114::e114_Bit10))
         {
-            Sfx_Slig_4C04F0(11, 0, field_11E, this);
+            Sfx_Slig_GameSpeak_4C04F0(11, 0, field_11E, this);
             field_106_current_motion = eSligMotions::M_Blurgh_31_4B5510;
         }
         else
@@ -2366,7 +2366,7 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
     switch (field_11C)
     {
     case 0:
-        Sfx_Slig_4C04F0(10, 0, field_11E, this);
+        Sfx_Slig_GameSpeak_4C04F0(10, 0, field_11E, this);
         field_11C = 1;
         field_10C_health = FP_FromInteger(0);
         field_106_current_motion = eSligMotions::M_Possess_37_4B72C0;
@@ -2395,13 +2395,13 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
             {
                 field_120_timer = sGnFrame_5C1B84 + 20;
                 field_106_current_motion = eSligMotions::M_SpeakHi_21_4B53D0;
-                Sfx_Slig_4C04F0(0, 0, field_11E, this);
+                Sfx_Slig_GameSpeak_4C04F0(0, 0, field_11E, this);
             }
             else
             {
                 field_120_timer = sGnFrame_5C1B84 + 20;
                 field_106_current_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
-                Sfx_Slig_4C04F0(3, 0, field_11E, this);
+                Sfx_Slig_GameSpeak_4C04F0(3, 0, field_11E, this);
             }
             field_11C = 3;
             return field_11C;
@@ -2460,7 +2460,7 @@ __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
 {
     if (field_11C == 0)
     {
-        Sfx_Slig_4C04F0(10, 0, field_11E, this);
+        Sfx_Slig_GameSpeak_4C04F0(10, 0, field_11E, this);
         field_120_timer = sGnFrame_5C1B84 + 60;
         return 1;
     }
@@ -2489,7 +2489,7 @@ __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
     {
         if (!((field_120_timer - sGnFrame_5C1B84) % 15))
         {
-            Sfx_Slig_4C04F0(
+            Sfx_Slig_GameSpeak_4C04F0(
                 10,
                 static_cast<short>(2 * ((field_120_timer & 0xFFFF) - sGnFrame_5C1B84)),
                 field_11E,
@@ -4812,7 +4812,7 @@ __int16 Slig::HandlePlayerControlled_4B7800()
             return 1;
         }
 
-        Sfx_Slig_4C04F0(9, 0, field_11E, this);
+        Sfx_Slig_GameSpeak_4C04F0(9, 0, field_11E, this);
         field_106_current_motion = eSligMotions::M_SpeakWhat_29_4B54D0;
         return 1;
     }
@@ -4874,14 +4874,14 @@ __int16 Slig::HandlePlayerControlled_4B7800()
 
             if (sInputObject_5BD4E0.isHeld(sInputKey_Up_5550D8))
             {
-                Sfx_Slig_4C04F0(9, 0, field_11E, this);
+                Sfx_Slig_GameSpeak_4C04F0(9, 0, field_11E, this);
                 field_106_current_motion = eSligMotions::M_SpeakWhat_29_4B54D0;
                 return 1;
             }
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_FartRoll_5550F0 | sInputKey_Hop_5550E0))
         {
-            Sfx_Slig_4C04F0(11, 0, field_11E, this);
+            Sfx_Slig_GameSpeak_4C04F0(11, 0, field_11E, this);
             field_106_current_motion = eSligMotions::M_Blurgh_31_4B5510;
             return 1;
         }
@@ -5942,7 +5942,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
     }
 
     case Types::eElectricWall_39:
-        Sfx_Slig_4C04F0(10, 0, field_11E, this);
+        Sfx_Slig_GameSpeak_4C04F0(10, 0, field_11E, this);
         return 1;
 
     case Types::eType_Abe_69:

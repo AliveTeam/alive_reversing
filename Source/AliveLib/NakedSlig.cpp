@@ -403,7 +403,7 @@ void NakedSlig::vOn_TLV_Collision_419680(Path_TLV* pTlv)
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 Event_Broadcast_422BC0(kEventMudokonComfort, this);
-                Sfx_Slig_4C04F0(10, 0, field_1C2_pitch, this);
+                Sfx_Slig_GameSpeak_4C04F0(10, 0, field_1C2_pitch, this);
                 field_1AC_timer = sGnFrame_5C1B84 + 60;
             }
         }
@@ -440,7 +440,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
             return 1;
 
         case Types::eElectricWall_39:
-            Sfx_Slig_4C04F0(10, 0, 0, this);
+            Sfx_Slig_GameSpeak_4C04F0(10, 0, 0, this);
             return 1;
 
         case Types::eSlig_125:
@@ -457,7 +457,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
             }
 
             Set_AnimAndMotion_419890(eSligMotions::M_Falling_7_4B42D0, TRUE);
-            Sfx_Slig_4C04F0(10, 0, 0, this);
+            Sfx_Slig_GameSpeak_4C04F0(10, 0, 0, this);
 
             if (BrainIs(&NakedSlig::AI_2_PanicGetALocker_419FE0))
             {
@@ -1076,7 +1076,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
         {
             if (!(static_cast<int>(field_1AC_timer - sGnFrame_5C1B84) % 15))
             {
-                Sfx_Slig_4C04F0(
+                Sfx_Slig_GameSpeak_4C04F0(
                     10,
                     static_cast<short>(2 * (field_1AC_timer & 0xFFFF - sGnFrame_5C1B84)),
                     field_1C2_pitch,
@@ -1280,7 +1280,7 @@ void NakedSlig::M_Crawling_3_41B280()
     {
         if (field_20_animation.field_92_current_frame == 3 || field_20_animation.field_92_current_frame == 6)
         {
-            Slig_Sfx_4BFFE0(Math_RandomRange_496AB0(14, 16), this);
+            Slig_SoundEffect_4BFFE0(Math_RandomRange_496AB0(14, 16), this);
         }
         else if (field_20_animation.field_92_current_frame == 11)
         {
@@ -1408,7 +1408,7 @@ void NakedSlig::M_Speaking_8_41BF70()
             gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number && 
             Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
-            Sfx_Slig_4C04F0(static_cast<short>(field_1C0_speak), 0, 0, this);
+            Sfx_Slig_GameSpeak_4C04F0(static_cast<short>(field_1C0_speak), 0, 0, this);
         }
         field_1C0_speak = NakedSligSpeak::Speak_None;
     }
@@ -1429,11 +1429,11 @@ void NakedSlig::M_Snoozing_9_41BD80()
     {
         if ((sGnFrame_5C1B84 / 25) & 1)
         {
-            Slig_Sfx_4BFFE0(5, this);
+            Slig_SoundEffect_4BFFE0(5, this);
         }
         else
         {
-            Slig_Sfx_4BFFE0(4, this);
+            Slig_SoundEffect_4BFFE0(4, this);
         }
 
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -1475,7 +1475,7 @@ void NakedSlig::M_PushingWall_10_41B400()
     {
         MapFollowMe_408D10(TRUE);
         field_C4_velx = FP_FromInteger(0);
-        Slig_Sfx_4BFFE0(Math_RandomRange_496AB0(14, 16), this);
+        Slig_SoundEffect_4BFFE0(Math_RandomRange_496AB0(14, 16), this);
     }
 
     if(BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
@@ -1522,7 +1522,7 @@ void NakedSlig::M_TurnAround_11_41B590()
 {
     if (field_20_animation.field_92_current_frame == 8)
     {
-        Slig_Sfx_4BFFE0(Math_RandomRange_496AB0(14, 16), this);
+        Slig_SoundEffect_4BFFE0(Math_RandomRange_496AB0(14, 16), this);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1567,7 +1567,7 @@ void NakedSlig::M_IdleToPushingWall_16_41B3C0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Sfx_Slig_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
+        Sfx_Slig_GameSpeak_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
         Set_AnimAndMotion_419890(NakedSligMotion::M_PushingWall_10_41B400, TRUE);
     }
 }
@@ -1762,7 +1762,7 @@ const SfxDefinition stru_5607E0[17] =
     { 0u, 3u, 38u, 60u, 0, 0 }
 };
 
-void CC Slig_Sfx_4BFFE0(__int16 effect, BaseAliveGameObject* pObj)
+void CC Slig_SoundEffect_4BFFE0(__int16 effect, BaseAliveGameObject* pObj)
 {
     LOG_INFO("effect num = " << effect);
 
@@ -1810,7 +1810,7 @@ __int16 NakedSlig::CanCrawl_41C5D0()
         Set_AnimAndMotion_419890(10, TRUE);
         const int snappedX = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
         field_C4_velx = ((FP_FromInteger(snappedX) - field_B8_xpos) / FP_FromInteger(4));
-        Sfx_Slig_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
+        Sfx_Slig_GameSpeak_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
         return FALSE;
     }
     else

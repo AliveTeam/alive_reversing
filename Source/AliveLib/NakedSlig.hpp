@@ -76,7 +76,7 @@ enum NakedSligMotion : __int16
     M_EndPushingWall_17_41B3A0 = 17
 };
 
-EXPORT void CC Slig_Sfx_4BFFE0(__int16 effect, BaseAliveGameObject* pObj);
+EXPORT void CC Slig_SoundEffect_4BFFE0(__int16 effect, BaseAliveGameObject* pObj);
 
 class NakedSlig : public BaseAliveGameObject
 {

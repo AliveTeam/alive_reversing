@@ -877,7 +877,7 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
                 break;
             }
         }
-        Sfx_Slig_4C04F0(field_17D, 0, field_160, this);
+        Sfx_Slig_GameSpeak_4C04F0(field_17D, 0, field_160, this);
         Event_Broadcast_422BC0(kEventSpeaking, this);
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1362,7 +1362,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
     pGrenade->VThrow_49E460(grenadeXVel, grenadeYVel);
 
     New_Particle_426890(xpos + field_B8_xpos, ypos + field_BC_ypos, field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), field_CC_sprite_scale);
-    Slig_Sfx_4BFFE0(8, this);
+    Slig_SoundEffect_4BFFE0(8, this);
     Event_Broadcast_422BC0(kEventShooting, this);
     Event_Broadcast_422BC0(kEventLoudNoise, this);
 
@@ -1377,7 +1377,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 
     if (IsPossessed_436A90() == 0 && Math_NextRandom() < 168u)
     {
-        Sfx_Slig_4C04F0(1, 0, field_15C, this);
+        Sfx_Slig_GameSpeak_4C04F0(1, 0, field_15C, this);
     }
 }
 
@@ -1463,7 +1463,7 @@ void FlyingSlig::ToSpottedEnemy_435E70()
     }
     else
     {
-        Sfx_Slig_4C04F0(8, 0, field_15C, this);
+        Sfx_Slig_GameSpeak_4C04F0(8, 0, field_15C, this);
         ToChase_435E10();
     }
 }
@@ -1520,7 +1520,7 @@ void FlyingSlig::ToChantShake_436270()
 
 void FlyingSlig::ToPossesed_436130()
 {
-    Sfx_Slig_4C04F0(10, 0, field_15C, this);
+    Sfx_Slig_GameSpeak_4C04F0(10, 0, field_15C, this);
     VSetMotion_4081C0(eFlyingSligMotions::M_Possession_9_434290);
     SetBrain(&FlyingSlig::AI_Possession_13_4360F0);
     field_14C_hi_pause_timer = sGnFrame_5C1B84 + 35;

@@ -468,11 +468,12 @@ EXPORT signed __int16 CC Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysic
     }
 }
 
-void CC Sfx_Slig_4C04F0(__int16 effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
+void CC Sfx_Slig_GameSpeak_4C04F0(__int16 effectId, __int16 defaultVol, __int16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     const int idx = effectId & 0xFF;
     assert(idx < ALIVE_COUNTOF(stru_560868));
     const SfxDefinition* pEffect = &stru_560868[idx];
+    LOG_INFO("idx = " << idx);
 
     __int16 volLeft = 0;
     __int16 volRight = 0;
