@@ -173,7 +173,10 @@ void Map::ScreenChange_480B80()
 void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
 {
     auto pObjectsWithLightsArray = alive_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
+    pObjectsWithLightsArray->ctor_40CA60(16);
+
     auto pPurpleLightArray = alive_new<DynamicArrayT<Particle>>();
+    pPurpleLightArray->ctor_40CA60(16);
 
     bool bAddedALight = false;
     for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
@@ -223,7 +226,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
     {
         SFX_Play_46FBA0(17u, 40, 2400);
 
-        for (int counter = 0; counter <= 12; counter++)
+        for (int counter = 0; counter < 12; counter++)
         {
             if (bParam)
             {
