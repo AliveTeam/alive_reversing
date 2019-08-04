@@ -1036,7 +1036,7 @@ void PauseMenu::Page_Main_Update_4903E0()
                 CameraSwapEffects::eEffect0_InstantChange,
                 1,
                 1);
-            gMap_5C3030.field_8 = 1;
+            gMap_5C3030.field_8_force_load = 1;
             if (sActiveHero_5C1B68->field_1A2_rock_or_bone_count)
             {
                 LoadRockTypes_49AB30(
@@ -1121,7 +1121,7 @@ EXPORT void PauseMenu::Page_ReallyQuit_Update_490930()
 
         pPauseMenu_5C9300 = 0;
         gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-        gMap_5C3030.field_CE = 1;
+        gMap_5C3030.field_CE_free_all_anim_and_palts = 1;
         sCurrentControllerIndex_5C1BBE = 0;
     }
 }

@@ -359,7 +359,7 @@ void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEf
     sCurrentPathId_5C3032 = static_cast<short>(-1);
     sCurrentLevelId_5C3030 = LevelIds::eNone;
 
-    field_8 = 0;
+    field_8_force_load = 0;
 
     SetActiveCam_480D30(level, path, camera, screenChangeEffect, a6, forceChange);
     GoTo_Camera_481890();
@@ -416,7 +416,7 @@ void Map::Reset_4805D0()
     field_2C_5C305C_camera_array[4] = 0;
     memset(&field_54_path_res_array, 0, sizeof(field_54_path_res_array));
     field_CC = 1;
-    field_CE = 0;
+    field_CE_free_all_anim_and_palts = 0;
     field_D8_restore_quick_save = 0;
 }
 
@@ -483,7 +483,7 @@ void Map::GoTo_Camera_481890()
     if (sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && sCurrentLevelId_5C3030 != LevelIds::eNone)
     {
         if (field_A_5C303A_levelId != sCurrentLevelId_5C3030
-            || field_8
+            || field_8_force_load
             || field_C_5C303C_pathId != sCurrentPathId_5C3032 
             && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
         {
@@ -493,12 +493,12 @@ void Map::GoTo_Camera_481890()
 
     if (field_A_5C303A_levelId != sCurrentLevelId_5C3030
         || field_C_5C303C_pathId != sCurrentPathId_5C3032
-        || field_8)
+        || field_8_force_load)
     {
         field_22 = Get_Path_Unknown_480710();
     }
 
-    if (field_A_5C303A_levelId != sCurrentLevelId_5C3030 || field_8)
+    if (field_A_5C303A_levelId != sCurrentLevelId_5C3030 || field_8_force_load)
     {
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
         
@@ -582,16 +582,16 @@ void Map::GoTo_Camera_481890()
             }
         }
 
-        if (!field_8)
+        if (!field_8_force_load)
         {
             SwitchStates_SetRange_465FA0(2, 255);
         }
 
-        if (field_CE)
+        if (field_CE_free_all_anim_and_palts)
         {
             ResourceManager::Free_Resource_Of_Type_49C6B0(ResourceManager::Resource_Animation);
             ResourceManager::Free_Resource_Of_Type_49C6B0(ResourceManager::Resource_Palt);
-            field_CE = 0;
+            field_CE_free_all_anim_and_palts = FALSE;
         }
     }
 
@@ -806,7 +806,7 @@ void Map::GoTo_Camera_481890()
     word_5C1BAA = 0;
     dword_5C1BAC = 0;
 
-    field_8 = 0;
+    field_8_force_load = 0;
 
     if (sSoundChannelsMask_5C3120)
     {

@@ -70,7 +70,7 @@ public:
     __int16 sCurrentPathId_5C3032;
     __int16 sCurrentCamId_5C3034;
     __int16 field_6_state;
-    __int16 field_8;
+    __int16 field_8_force_load;
 
     LevelIds field_A_5C303A_levelId;
     __int16 field_C_5C303C_pathId;
@@ -95,7 +95,7 @@ public:
     Map_120 field_54_path_res_array;
 
     __int16 field_CC;
-    __int16 field_CE;
+    __int16 field_CE_free_all_anim_and_palts;
 
     __int16 field_D0_cam_x_idx;
     __int16 field_D2_cam_y_idx;

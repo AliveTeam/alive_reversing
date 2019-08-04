@@ -349,7 +349,7 @@ EXPORT void CC Quicksave_LoadFromMemory_4C95A0(Quicksave *quicksaveData)
         CameraSwapEffects::eEffect0_InstantChange,
         0,
         1);
-    gMap_5C3030.field_8 = 1;
+    gMap_5C3030.field_8_force_load = 1;
 }
 
 EXPORT void CC Quicksave_LoadActive_4C9170()

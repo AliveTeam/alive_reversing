@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 
     ResourceManager::Init_49BCE0();
     
-    const int typeToFind = TlvTypes::GasCountdown_69;
+    const int typeToFind = TlvTypes::Null_76;
 
     for (const PathRoot& pathData : sPathData_559660.paths)
     {
