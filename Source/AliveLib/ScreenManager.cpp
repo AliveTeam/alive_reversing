@@ -579,7 +579,13 @@ void ScreenManager::Render_Helper_40E9F0(int xpos, int ypos, int idx, int sprite
 
 void ScreenManager::sub_40EE50()
 {
-    NOT_IMPLEMENTED();
+    // NOTE: The algorithm calling Add_Dirty_Area_4ED970 has not been implemented
+    // as its not actually used.
+
+    field_3E_x_idx = field_3C_y_idx;
+    field_3C_y_idx = field_3A_idx;
+    field_3A_idx = (field_3A_idx + 1) % 3;
+    UnsetDirtyBits_40EDE0(field_3A_idx);
 }
 
 void ScreenManager::VRender_40E6E0(int **ot)
