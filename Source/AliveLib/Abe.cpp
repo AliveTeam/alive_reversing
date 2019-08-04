@@ -49,6 +49,7 @@
 #include "Electrocute.hpp"
 #include "BirdPortal.hpp"
 #include "BoomMachine.hpp"
+#include "Shrykull.hpp"
 
 using TAbeStateFunction = decltype(&Abe::State_0_Idle_44EEB0);
 
@@ -180,7 +181,7 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_117_In_MineCar_4587C0,
     &Abe::State_118_MineCarExit_458890,
     &Abe::State_119_To_Shrykull_45A990,
-    &Abe::State_120_45AB00,
+    &Abe::State_120_EndShrykull_45AB00,
     &Abe::State_121_LiftGrabBegin_45A600,
     &Abe::State_122_LiftGrabEnd_45A670,
     &Abe::State_123_LiftGrabIdle_45A6A0,
@@ -8014,12 +8015,41 @@ void Abe::State_118_MineCarExit_458890()
 
 void Abe::State_119_To_Shrykull_45A990()
 {
-    NOT_IMPLEMENTED();
+    if (field_120_state == 0)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+
+            field_120_state = 1;
+ 
+            auto pShryZapper = alive_new<Shrykull>();
+            if (pShryZapper)
+            {
+                pShryZapper->ctor_4AEA20();
+            }
+        }
+    }
 }
 
-void Abe::State_120_45AB00()
+void Abe::State_120_EndShrykull_45AB00()
 {
-    NOT_IMPLEMENTED();
+    if (field_124_gnFrame)
+    {
+        field_124_gnFrame = field_124_gnFrame - 1;
+    }
+    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        if (field_168_ring_pulse_timer == 0)
+        {
+            Free_Shrykull_Resources_45AA90();
+        }
+
+        // Abe finds transforming into a god rather funny
+        field_106_current_motion = eAbeStates::State_9_SpeakMovement_45B180;
+        Abe_SFX_457EC0(8u, 0, 0, this);
+    }
 }
 
 void Abe::State_121_LiftGrabBegin_45A600()
@@ -9108,7 +9138,7 @@ __int16 Abe::CantBeDamaged_44BAB0()
     case eAbeStates::State_114_DoorEnter_459470:
     case eAbeStates::State_115_DoorExit_459A40:
     case eAbeStates::State_119_To_Shrykull_45A990:
-    case eAbeStates::State_120_45AB00:
+    case eAbeStates::State_120_EndShrykull_45AB00:
         return TRUE;
     }
 
@@ -9503,6 +9533,22 @@ EXPORT void Abe::sub_45BB90(__int16 a2)
 void Abe::sub_459430()
 {
     field_120_state = 1;
+}
+
+void Abe::ExitShrykull_45A9D0(__int16 bResetRingTimer)
+{
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+    field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
+
+    field_106_current_motion = eAbeStates::State_120_EndShrykull_45AB00;
+    field_124_gnFrame = 1;
+
+    if (bResetRingTimer)
+    {
+        field_168_ring_pulse_timer = 0;
+    }
 }
 
 // TODO: Clean up

@@ -1296,7 +1296,7 @@ void PauseMenu::Update_48FD80()
             const __int16 heroState = sActiveHero_5C1B68->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
                 && heroState != eAbeStates::State_119_To_Shrykull_45A990
-                && heroState != eAbeStates::State_120_45AB00
+                && heroState != eAbeStates::State_120_EndShrykull_45AB00
                 && heroState != eAbeStates::State_75_Jump_Into_Well_45C7B0
                 && heroState != eAbeStates::State_76_45CA40
                 && heroState != eAbeStates::State_77_45D130
@@ -1344,7 +1344,7 @@ void PauseMenu::Update_48FD80()
             const short heroState = pHero->field_106_current_motion;
             if (heroState != eAbeStates::State_86_HandstoneBegin_45BD00
                 && heroState != eAbeStates::State_119_To_Shrykull_45A990
-                && heroState != eAbeStates::State_120_45AB00
+                && heroState != eAbeStates::State_120_EndShrykull_45AB00
                 && heroState != eAbeStates::State_75_Jump_Into_Well_45C7B0
                 && heroState != eAbeStates::State_76_45CA40
                 && heroState != eAbeStates::State_77_45D130

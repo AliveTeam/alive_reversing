@@ -126,7 +126,7 @@
     ENTRY(State_117_In_MineCar_4587C0) \
     ENTRY(State_118_MineCarExit_458890) \
     ENTRY(State_119_To_Shrykull_45A990) \
-    ENTRY(State_120_45AB00) \
+    ENTRY(State_120_EndShrykull_45AB00) \
     ENTRY(State_121_LiftGrabBegin_45A600) \
     ENTRY(State_122_LiftGrabEnd_45A670) \
     ENTRY(State_123_LiftGrabIdle_45A6A0) \
@@ -472,7 +472,7 @@ public:
     EXPORT void State_117_In_MineCar_4587C0();
     EXPORT void State_118_MineCarExit_458890();
     EXPORT void State_119_To_Shrykull_45A990();
-    EXPORT void State_120_45AB00();
+    EXPORT void State_120_EndShrykull_45AB00();
     EXPORT void State_121_LiftGrabBegin_45A600();
     EXPORT void State_122_LiftGrabEnd_45A670();
     EXPORT void State_123_LiftGrabIdle_45A6A0();
@@ -524,6 +524,9 @@ public:
     EXPORT void sub_45BB90(__int16 a2);
 
     EXPORT void sub_459430();
+
+    EXPORT void ExitShrykull_45A9D0(__int16 bResetRingTimer);
+
 public:
     int field_118_prev_held;
     int field_11C_released_buttons;

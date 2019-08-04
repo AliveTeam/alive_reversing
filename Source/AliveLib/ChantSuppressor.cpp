@@ -230,7 +230,7 @@ signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
     field_6_flags.Set(BaseGameObject::eDead);
     field_10C_health = FP_FromInteger(0);
 
-    if (pFrom->field_4_typeId == Types::eMineCar_89 || pFrom->field_4_typeId == Types::eType_104 || pFrom->field_4_typeId == Types::eType_121)
+    if (pFrom->field_4_typeId == Types::eMineCar_89 || pFrom->field_4_typeId == Types::eType_104 || pFrom->field_4_typeId == Types::eShrykull_121)
     {
         auto pExplosionMem = alive_new<Explosion>();
         if (pExplosionMem)

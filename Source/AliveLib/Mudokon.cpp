@@ -1300,7 +1300,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         TakeASlap_476090(pFrom);
         return 1;
 
-    case Types::eType_121:
+    case Types::eShrykull_121:
     case Types::eElectrocute_150:
         if (field_10C_health <= FP_FromInteger(0))
         {

@@ -127,7 +127,7 @@ enum class Types : __int16
     eScreenShake_118 = 118,
     eType_119 = 119,
     eType_120 = 120,
-    eType_121 = 121,
+    eShrykull_121 = 121,
     eSlamDoor_122 = 122,
     eType_123 = 123,
     eSnoozParticle_124 = 124,

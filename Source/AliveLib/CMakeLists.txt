@@ -331,6 +331,8 @@ ExportHooker.hpp
     SlogHut.cpp
     GameEnderController.hpp
     GameEnderController.cpp
+    Shrykull.hpp
+    Shrykull.cpp
     TouchController.cpp
     TouchController.hpp
 )

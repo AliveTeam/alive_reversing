@@ -237,7 +237,7 @@ __int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
     {
     case Types::eType_104:
     case Types::eExplosion_109:
-    case Types::eType_121:
+    case Types::eShrykull_121:
     {
         field_10C_health = FP_FromInteger(0);
         auto pExplosion = alive_new<Explosion>();
