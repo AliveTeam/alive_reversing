@@ -308,7 +308,6 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
 
 Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_PathId)
 {
-    NOT_IMPLEMENTED();
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
@@ -322,13 +321,18 @@ Path_TLV * Path::TLV_From_Offset_Lvl_Cam_4DB770(unsigned int tlvOffset_levelId_P
     }
 }
 
-int Path::sub_4DB7C0(Path_TLV* /*pTlv*/)
+DWORD Path::TLVInfo_From_TLVPtr_4DB7C0(Path_TLV* pTlv)
 {
-    NOT_IMPLEMENTED();
+    TlvItemInfoUnion data;
+    data.parts.levelId = static_cast<BYTE>(field_0_levelId);
+    data.parts.pathId = static_cast<BYTE>(field_2_pathId);
 
-    // TODO: WTF?? Getting the offset number of the TLV from the Path block??
+    // Num bytes into the path res block
+    const int diff = reinterpret_cast<BYTE*>(pTlv) - (*field_10_ppRes);
 
-    return 0;
+    // Sub off the offset from the start of the path block to TLV data
+    data.parts.tlvOffset = static_cast<WORD>(diff - field_C_pPathData->field_12_object_offset);
+    return data.all;
 }
 
 Path_TLV* CCSTD Path::TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type)

@@ -1167,7 +1167,7 @@ void NakedSlig::M_UsingButton_1_41B890()
                 auto pWalkingSlig = alive_new<Slig>();
                 if (pWalkingSlig)
                 {
-                    pWalkingSlig->ctor_4B1370(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->sub_4DB7C0(field_1E4_pPantsOrWingsTlv));
+                    pWalkingSlig->ctor_4B1370(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(field_1E4_pPantsOrWingsTlv));
                 }
 
                 field_1D8_obj_id = pWalkingSlig->field_8_object_id;
@@ -1196,7 +1196,7 @@ void NakedSlig::M_UsingButton_1_41B890()
                 auto pFlyingSlig = alive_new<FlyingSlig>();
                 if (pFlyingSlig)
                 {
-                    pFlyingSlig->ctor_4342B0(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->sub_4DB7C0(field_1E4_pPantsOrWingsTlv));
+                    pFlyingSlig->ctor_4342B0(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(field_1E4_pPantsOrWingsTlv));
                 }
 
                 field_1D8_obj_id = pFlyingSlig->field_8_object_id;

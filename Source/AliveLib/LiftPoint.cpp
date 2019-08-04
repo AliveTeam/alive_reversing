@@ -80,7 +80,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
 
     pTlv->field_1_unknown = 3;
 
-    field_27C_pTlv = sPath_dword_BB47C0->sub_4DB7C0(pTlv);
+    field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pTlv);
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLiftResID);
     if (pTlv->field_18_scale)
@@ -736,7 +736,7 @@ void LiftPoint::vUpdate_461AE0()
 
                         pLiftTlv->field_1_unknown = 3;
 
-                        field_27C_pTlv = sPath_dword_BB47C0->sub_4DB7C0(pLiftTlv);
+                        field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
                         pLiftTlv->field_10_id = field_278_lift_point_id;
                         field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
                     }
@@ -766,7 +766,7 @@ void LiftPoint::vUpdate_461AE0()
 
                         pLiftTlv->field_1_unknown = 3;
 
-                        field_27C_pTlv = sPath_dword_BB47C0->sub_4DB7C0(pLiftTlv);
+                        field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);
                         pLiftTlv->field_10_id = field_278_lift_point_id;
                         field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
                     }
@@ -800,7 +800,7 @@ void LiftPoint::vUpdate_461AE0()
                     }
 
                     pLiftTlv->field_1_unknown = 3;
-                    field_27C_pTlv = sPath_dword_BB47C0->sub_4DB7C0(pLiftTlv);;
+                    field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pLiftTlv);;
                     pLiftTlv->field_10_id = field_278_lift_point_id;
                     field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
                 }
@@ -951,7 +951,7 @@ void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
 
     field_12C_bMoving &= ~1;
     pTlv->field_1_unknown = 3;
-    field_27C_pTlv = sPath_dword_BB47C0->sub_4DB7C0(pTlv);
+    field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr_4DB7C0(pTlv);
     pTlv->field_10_id = field_278_lift_point_id;
     field_C8_vely = FP_FromInteger(0);
 
