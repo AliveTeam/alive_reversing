@@ -837,7 +837,7 @@ EXPORT void CC Game_Loop_467230()
 
         bPauseMenuObjectFound = false;
 
-        gMap_5C3030.sub_480B80();
+        gMap_5C3030.ScreenChange_480B80();
         sInputObject_5BD4E0.Update_45F040();
 
         if (sNum_CamSwappers_5C1B66 == 0)

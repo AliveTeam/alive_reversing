@@ -111,10 +111,10 @@ void CameraSwapper::dtor_4E5790()
         field_34_pSubObject->field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    if (sMap_word_5C311C)
+    if (sMap_bDoPurpleLightEffect_5C311C)
     {
-        gMap_5C3030.sub_480740(0);
-        sMap_word_5C311C = 0;
+        gMap_5C3030.RemoveObjectsWithPurpleLight(0);
+        sMap_bDoPurpleLightEffect_5C311C = 0;
     }
 
     BackgroundMusic::Play_4CB030();

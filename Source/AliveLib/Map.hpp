@@ -104,8 +104,8 @@ public:
     BYTE* field_D8_restore_quick_save;
 
 
-    EXPORT void sub_480B80();
-    EXPORT void sub_480740(__int16 a2);
+    EXPORT void ScreenChange_480B80();
+    EXPORT void RemoveObjectsWithPurpleLight(__int16 a2);
     EXPORT void sub_481610();
     EXPORT void Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange);
     EXPORT void Shutdown_4804E0();
@@ -152,5 +152,5 @@ private:
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
 ALIVE_VAR_EXTERN(Map, gMap_5C3030);
-ALIVE_VAR_EXTERN(__int16, sMap_word_5C311C);
+ALIVE_VAR_EXTERN(__int16, sMap_bDoPurpleLightEffect_5C311C);
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[12];

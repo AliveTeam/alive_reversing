@@ -24,7 +24,7 @@
 
 void Map_ForceLink() { }
 
-ALIVE_VAR(1, 0x5c311c, __int16, sMap_word_5C311C, 0);
+ALIVE_VAR(1, 0x5c311c, __int16, sMap_bDoPurpleLightEffect_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
 ALIVE_VAR(1, 0x5c3120, DWORD, sSoundChannelsMask_5C3120, 0);
 
@@ -96,13 +96,13 @@ void Map::sub_480B80_Common()
     sSoundChannelsMask_5C3120 = 0;
 }
 
-void Map::sub_480B80()
+void Map::ScreenChange_480B80()
 {
     if (field_6_state)
     {
-        if (sMap_word_5C311C)
+        if (sMap_bDoPurpleLightEffect_5C311C)
         {
-            sub_480740(1);
+            RemoveObjectsWithPurpleLight(1);
         }
 
         PSX_DrawSync_4F6280(0);
@@ -138,7 +138,7 @@ void Map::sub_480B80()
         //dword_5CA4A8 = 0; // TODO: Never used?
 
         // TODO: Refactor this logic
-        if (!sMap_word_5C311C && field_A_5C303A_levelId == sCurrentLevelId_5C3030)
+        if (!sMap_bDoPurpleLightEffect_5C311C && field_A_5C303A_levelId == sCurrentLevelId_5C3030)
         {
             sub_480B80_Common();
             return;
@@ -169,7 +169,7 @@ void Map::sub_480B80()
     }
 }
 
-void Map::sub_480740(__int16 /*a2*/)
+void Map::RemoveObjectsWithPurpleLight(__int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -982,11 +982,11 @@ signed __int16 Map::SetActiveCam_480D30(LevelIds level, __int16 path, __int16 ca
 
     if (screenChangeEffect == CameraSwapEffects::eEffect5_1_FMV || screenChangeEffect == CameraSwapEffects::eEffect11)
     {
-        sMap_word_5C311C = 1;
+        sMap_bDoPurpleLightEffect_5C311C = 1;
     }
     else
     {
-        sMap_word_5C311C = 0;
+        sMap_bDoPurpleLightEffect_5C311C = 0;
     }
 
     return 1;
@@ -1272,11 +1272,11 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
     field_18_pAliveObj = pObj;
     field_1C = unknown;
     field_6_state = 1;
-    sMap_word_5C311C = 0;
+    sMap_bDoPurpleLightEffect_5C311C = 0;
     
     if (unknown == CameraSwapEffects::eEffect5_1_FMV || unknown == CameraSwapEffects::eEffect11)
     {
-        sMap_word_5C311C = 1;
+        sMap_bDoPurpleLightEffect_5C311C = 1;
     }
 
     return 1;
