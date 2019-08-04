@@ -421,7 +421,29 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __i
     }
 }
 
-EXPORT void CCSTD Path::Res_Free_4DBCF0(unsigned __int16 /*pathId*/)
+EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(unsigned __int16 pathId)
 {
-    NOT_IMPLEMENTED();
+    const PathData *  pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, pathId)->field_4_pPathData;
+    const int camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
+    const int camsY = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
+    BYTE** ppPath = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, pathId, TRUE, FALSE);
+    if (ppPath)
+    {
+        const int totalCams = camsX * camsY;
+        const int* pIdx = reinterpret_cast<int*>(&(*ppPath)[pPathData->field_16_object_indextable_offset]);
+        for (int i = 0; i, totalCams; i++)
+        {
+            if (pIdx[i] != -1)
+            {
+                Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPath[pIdx[i] + pPathData->field_12_object_offset]));
+                while (pTlv)
+                {
+                    pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
+                    pTlv = Path::Next_TLV_4DB6A0(pTlv);
+                }
+            }
+        }
+        ResourceManager::FreeResource_49C330(ppPath);
+    }
 }

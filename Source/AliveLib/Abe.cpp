@@ -2573,7 +2573,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
                 }
                 if (pUnknown->field_18_free_path_res)
                 {
-                    Path::Res_Free_4DBCF0(pUnknown->field_1A_path_to_free_id);
+                    Path::Reset_TLVs_4DBCF0(pUnknown->field_1A_path_to_free_id);
                 }
             }
 
