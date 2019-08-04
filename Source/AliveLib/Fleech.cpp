@@ -74,6 +74,14 @@ const TFleechAIFn sFleech_ai_table_551830[4] =
     &Fleech::AI_Death_3_42D1E0
 };
 
+enum eFleechBrains
+{
+    eAI_Patrol_0_430BA0 = 0,
+    eAI_ChasingAbe_1_428760 = 1,
+    eAI_Scared_2_42D310 = 2,
+    eAI_Death_3_42D1E0 = 3,
+};
+
 const static AIFunctionData<TFleechAIFn> sFleechAiTable[4] =
 {
     { &Fleech::AI_Patrol_0_430BA0, 0x430BA0, "AI_Patrol_0" }, // no stub ??
@@ -107,7 +115,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     Init_42A170();
 
     field_118_tlvInfo = tlvInfo;
-    field_124_brain_state = 0;
+    field_124_brain_state = eFleechBrains::eAI_Patrol_0_430BA0;
     field_11C_obj_id = -1;
     field_170 = -1;
 
@@ -448,7 +456,7 @@ void Fleech::M_DeathByFalling_16_42FCE0()
         Sound_430520(7);
         
         field_10C_health = FP_FromInteger(0);
-        field_124_brain_state = 3;
+        field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         field_174_flags.Set(Flags_174::eBit3);
         field_108_next_motion = -1;
         field_12C = sGnFrame_5C1B84 + 127;
@@ -1020,7 +1028,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     case Types::eRockSpawner_48:
         Sound_430520(7);
         field_10C_health = FP_FromInteger(0);
-        field_124_brain_state = 3;
+        field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         field_108_next_motion = -1;
         field_12C = sGnFrame_5C1B84 + 127;
         field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
@@ -1064,7 +1072,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         }
 
         field_10C_health = FP_FromInteger(0);
-        field_124_brain_state = 3;
+        field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
         field_12C = sGnFrame_5C1B84 + 127;
         field_108_next_motion = -1;
@@ -1079,7 +1087,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     case Types::eElectrocute_150:
         field_6_flags.Set(BaseGameObject::eDead);
         field_10C_health = FP_FromInteger(0);
-        field_124_brain_state = 3;
+        field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         break;
 
     default:
@@ -1266,3 +1274,56 @@ BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
     }
     return pRet;
 }
+
+void Fleech::MoveAlongFloor_42E600()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
+
+    const FP prev_xpos = field_B8_xpos;
+    const FP prev_ypos = field_BC_ypos;
+
+    if (field_100_pCollisionLine)
+    {
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+        if (field_100_pCollisionLine && ((field_D6_scale != 0 ? 1 : 16) & (1 << field_100_pCollisionLine->field_8_type)))
+        {
+            if (pPlatform)
+            {
+                if (field_100_pCollisionLine->field_8_type != 32 && field_100_pCollisionLine->field_8_type != 36)
+                {
+                    pPlatform->VRemove(this);
+                    field_110_id = -1;
+                }
+            }
+            else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            {
+                PSX_RECT bRect = {};
+                vGetBoundingRect_424FD0(&bRect, 1);
+                const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
+                const PSX_Point wh = { bRect.w, static_cast<short>(bRect.h + 5) };
+                vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+            }
+        }
+        else if (field_124_brain_state != eFleechBrains::eAI_Patrol_0_430BA0)
+        {
+            VOnTrapDoorOpen();
+            field_138 = 0;
+            field_F8_LastLineYPos = field_BC_ypos;
+            field_B8_xpos = prev_ypos + field_C4_velx;
+            field_106_current_motion = eFleechMotions::M_Fall_9_42ECD0;
+        }
+        else
+        {
+            field_B8_xpos = prev_xpos;
+            field_BC_ypos = prev_ypos;
+            field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
+        }
+    }
+    else
+    {
+        field_F8_LastLineYPos = prev_ypos;
+        field_138 = 0;
+        field_106_current_motion = eFleechMotions::M_Fall_9_42ECD0;
+    }
+}
+
