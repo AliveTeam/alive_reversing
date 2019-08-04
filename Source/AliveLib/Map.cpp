@@ -20,6 +20,7 @@
 #include "MainMenu.hpp"
 #include "Events.hpp"
 #include "Movie.hpp"
+#include "Particle.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }
@@ -102,7 +103,7 @@ void Map::ScreenChange_480B80()
     {
         if (sMap_bDoPurpleLightEffect_5C311C)
         {
-            RemoveObjectsWithPurpleLight(1);
+            RemoveObjectsWithPurpleLight_480740(1);
         }
 
         PSX_DrawSync_4F6280(0);
@@ -169,9 +170,161 @@ void Map::ScreenChange_480B80()
     }
 }
 
-void Map::RemoveObjectsWithPurpleLight(__int16 /*a2*/)
+void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
 {
-    NOT_IMPLEMENTED();
+    auto pObjectsWithLightsArray = alive_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>();
+    auto pPurpleLightArray = alive_new<DynamicArrayT<Particle>>();
+
+    bool bAddedALight = false;
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
+        {
+            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
+            {
+                auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+
+                PSX_RECT objRect = {};
+                pBaseObj->vGetBoundingRect_424FD0(&objRect, 1);
+
+                if (pBaseObj->field_DC_bApplyShadows & 2)
+                {
+                    if (pBaseObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+                    {
+                        if (!pBaseObj->field_6_flags.Get(BaseGameObject::eDead) &&
+                            pBaseObj != sControlledCharacter_5C1B8C && gMap_5C3030.Is_Rect_In_Current_Camera_480FE0(&objRect) == CameraPos::eCamCurrent_0)
+                        {
+                            pObjectsWithLightsArray->Push_Back(pBaseObj);
+                            const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
+                            Particle* pPurpleLight = New_Particle_426F40(
+                                FP_FromInteger((objRect.x + objRect.w) / 2),
+                                FP_FromInteger(((objRect.y + objRect.h) / 2)) + k60Scaled,
+                                pBaseObj->field_CC_sprite_scale);
+
+                            if (pPurpleLight)
+                            {
+                                pPurpleLightArray->Push_Back(pPurpleLight);
+                                bAddedALight = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (bAddedALight)
+    {
+        SFX_Play_46FBA0(17u, 40, 2400);
+
+        for (int counter = 0; counter <= 12; counter++)
+        {
+            if (bParam)
+            {
+                if (counter == 4)
+                {
+                    // Make all the objects that have lights invisible now that the lights have been rendered for a few frames
+                    for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
+                    {
+                        BaseAnimatedWithPhysicsGameObject* pObj = pObjectsWithLightsArray->ItemAt(i);
+                        if (!pObj)
+                        {
+                            break;
+                        }
+                        pObj->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                    }
+                }
+            }
+
+            for (int i = 0; i < pPurpleLightArray->Size(); i++)
+            {
+                Particle* pLight = pPurpleLightArray->ItemAt(i);
+                if (!pLight)
+                {
+                    break;
+                }
+
+                if (!pLight->field_6_flags.Get(BaseGameObject::eDead))
+                {
+                    pLight->VUpdate();
+                }
+            }
+
+            // TODO/HACK what is the point of the double loop? Why not do both in 1 iteration ??
+            for (int i = 0; i < pPurpleLightArray->Size(); i++)
+            {
+                Particle* pLight = pPurpleLightArray->ItemAt(i);
+                if (!pLight)
+                {
+                    break;
+                }
+
+                if (!pLight->field_6_flags.Get(BaseGameObject::eDead))
+                {
+                    pLight->field_20_animation.vDecode_40AC90();
+                }
+            }
+
+            for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
+            {
+                BaseGameObject* pDrawable = gObjList_drawables_5C1124->ItemAt(i);
+                if (!pDrawable)
+                {
+                    break;
+                }
+
+                if (!pDrawable->field_6_flags.Get(BaseGameObject::eDead))
+                {
+                    // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
+                    if (pDrawable->field_6_flags.Get(BaseGameObject::eDrawable))
+                    {
+                        pDrawable->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+                    }
+
+                }
+            }
+
+            PSX_DrawSync_4F6280(0);
+            pScreenManager_5BB5F4->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+            SYS_EventsPump_494580();
+            gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+        }
+
+        if (bParam)
+        {
+            // Make all the objects that had lights visible again
+            for (int i = 0; i < pObjectsWithLightsArray->Size(); i++)
+            {
+                BaseAnimatedWithPhysicsGameObject* pObj = pObjectsWithLightsArray->ItemAt(i);
+                if (!pObj)
+                {
+                    break;
+                }
+                pObj->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            }
+        }
+    }
+
+    pObjectsWithLightsArray->field_4_used_size = 0;
+    pPurpleLightArray->field_4_used_size = 0;
+
+    if (pObjectsWithLightsArray)
+    {
+        pObjectsWithLightsArray->dtor_40CAD0();
+        Mem_Free_495540(pObjectsWithLightsArray);
+    }
+
+    if (pPurpleLightArray)
+    {
+        pPurpleLightArray->dtor_40CAD0();
+        Mem_Free_495540(pPurpleLightArray);
+    }
 }
 
 void Map::sub_481610()

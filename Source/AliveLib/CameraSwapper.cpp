@@ -113,7 +113,7 @@ void CameraSwapper::dtor_4E5790()
 
     if (sMap_bDoPurpleLightEffect_5C311C)
     {
-        gMap_5C3030.RemoveObjectsWithPurpleLight(0);
+        gMap_5C3030.RemoveObjectsWithPurpleLight_480740(0);
         sMap_bDoPurpleLightEffect_5C311C = 0;
     }
 
