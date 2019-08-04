@@ -719,18 +719,28 @@ FrameInfoHeader* Animation::Get_FrameHeader_40B730(__int16 frame)
 
 void Animation::Get_Frame_Rect_409E10(PSX_RECT* pRect)
 {
-    NOT_IMPLEMENTED();
-
-    if (!field_4_flags.Get(AnimFlags::eBit16_bBlending))
+    Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index];
+    if (!field_4_flags.Get(AnimFlags::eBit20_use_xy_offset))
     {
-        Poly_FT4_Get_Rect_409DA0(pRect, &field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index]);
+        Poly_FT4_Get_Rect_409DA0(pRect, pPoly);
         return;
     }
 
-    // The ASM here is crazy, but basically it gets a pointer to field_2C_ot_data[gPsxDisplay_5C1130.field_C_buffer_index] twice
-    // so everything it is comparing is a pointer ot the same polygon.
+    const auto min_x0_x1 = std::min(X0(pPoly), X1(pPoly));
+    const auto min_x2_x3 = std::min(X2(pPoly), X3(pPoly));
+    pRect->x = std::min(min_x0_x1, min_x2_x3);
 
-    // TODO: Impl
+    const auto max_x0_x1 = std::max(X0(pPoly), X1(pPoly));
+    const auto max_x2_x3 = std::max(X2(pPoly), X3(pPoly));
+    pRect->w = std::max(max_x0_x1, max_x2_x3);
+
+    const auto min_y0_y1 = std::min(Y0(pPoly), Y1(pPoly));
+    const auto min_y2_y3 = std::min(Y2(pPoly), Y3(pPoly));
+    pRect->y = std::min(min_y0_y1, min_y2_y3);
+
+    const auto max_y0_y1 = std::max(Y0(pPoly), Y1(pPoly));
+    const auto max_y2_y3 = std::max(Y2(pPoly), Y3(pPoly));
+    pRect->h = std::max(max_y0_y1, max_y2_y3);
 }
 
 WORD Animation::Get_Frame_Count_40AC70()
