@@ -424,12 +424,12 @@ void BaseAnimatedWithPhysicsGameObject::StackOnObjectsOfType_425840(Types typeTo
 
 void BaseAnimatedWithPhysicsGameObject::vOnPickUpOrSlapped_408180()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void BaseAnimatedWithPhysicsGameObject::null_4081A0(BaseGameObject* /*pFrom*/)
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void BaseAnimatedWithPhysicsGameObject::DealDamageRect_4247A0(const PSX_RECT* pRect)

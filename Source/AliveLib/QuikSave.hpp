@@ -73,6 +73,7 @@ ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData_BAF7F8);
 ALIVE_VAR_EXTERN(int, sAccumulatedObjectCount_5C1BF4);
 ALIVE_VAR_EXTERN(int, sSavedGameToLoadIdx_BB43FC);
 ALIVE_VAR_EXTERN(signed int, sTotalSaveFilesCount_BB43E0);
+ALIVE_VAR_EXTERN(WORD, sQuickSave_saved_switchResetters_count_BB234C);
 
 EXPORT void CC Quicksave_LoadActive_4C9170();
 EXPORT void CC Quicksave_4C90D0();
@@ -80,3 +81,5 @@ EXPORT void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo);
 EXPORT void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo);
 EXPORT void CC Quicksave_FindSaves_4D4150();
 void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData);
+EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870();
+EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30();

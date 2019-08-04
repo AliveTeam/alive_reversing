@@ -271,6 +271,7 @@ ALIVE_VAR(1, 0x5c1bbc, WORD, word_5C1BBC, 0);
 ALIVE_VAR(1, 0x5c1bfa, BYTE, byte_5C1BFA, 0); // Related to boiler meter colours
 ALIVE_VAR(1, 0x5c1bf8, WORD, word_5C1BF8, 0); // Ditto
 
+ALIVE_VAR(1, 0xbb234c, WORD, sQuickSave_saved_switchResetters_count_BB234C, 0);
 
 void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
 {
@@ -428,6 +429,16 @@ EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
     }
 
     // NOTE: Some values with things like total save size written here, but they are never used
+}
+
+EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
+{
+    NOT_IMPLEMENTED();
+}
+
+EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
+{
+    NOT_IMPLEMENTED();
 }
 
 void CC MEMCARD_Write_SJISC_String_4A2770(char* src, char* dst, int srcLength)

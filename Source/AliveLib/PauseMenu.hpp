@@ -100,6 +100,9 @@ public:
     };
     ALIVE_ASSERT_SIZEOF(PauseMenu::PauseMenuPage, 0x14);
 
+private:
+    void RestartPath();
+
 public:
     Alive::Font field_F4_font;
     __int16 word12C_flags;

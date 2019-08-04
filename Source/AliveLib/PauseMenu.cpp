@@ -512,11 +512,6 @@ void PauseMenu::Init_491760()
     }
 }
 
-EXPORT void CC RestartPath_4C9870()
-{
-    NOT_IMPLEMENTED();
-}
-
 void PauseMenu::Render_490BD0(int ** ot)
 {
     field_142 = 0;
@@ -928,6 +923,45 @@ void PauseMenu::Page_Base_Render_490A50(int ** ot, PauseMenu::PauseMenuPage * mp
     }
 }
 
+void PauseMenu::RestartPath()
+{
+    DestroyObjects_4A1F20();
+
+    Quicksave_SaveSwitchResetterStates_4C9870();
+
+    sSwitchStates_5C1A28 = sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states;
+    
+    Abe::CreateFromSaveState_44D4F0(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
+    Quicksave_ReadWorldInfo_4C9490(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
+
+    gMap_5C3030.SetActiveCam_480D30(
+        sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
+        sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path,
+        sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_8_cam,
+        CameraSwapEffects::eEffect0_InstantChange,
+        1,
+        1);
+
+    gMap_5C3030.field_8_force_load = TRUE;
+    if (sActiveHero_5C1B68->field_1A2_rock_or_bone_count)
+    {
+        LoadRockTypes_49AB30(
+            sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
+            sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path);
+
+        if (!gpThrowableArray_5D1E2C)
+        {
+            gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
+            gpThrowableArray_5D1E2C->ctor_49A630();
+        }
+
+        gpThrowableArray_5D1E2C->Add_49A7A0(sActiveHero_5C1B68->field_1A2_rock_or_bone_count);
+    }
+
+    word12C_flags &= ~1;
+    SFX_Play_46FBA0(0x11u, 40, 3400);
+    SND_Restart_4CB0E0();
+}
 
 void PauseMenu::Page_Main_Update_4903E0()
 {
@@ -1023,37 +1057,8 @@ void PauseMenu::Page_Main_Update_4903E0()
             return;
 
         case MainPages::ePage_RestartPath_6:
-            DestroyObjects_4A1F20();
-            RestartPath_4C9870();
-            sSwitchStates_5C1A28 = sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states;
-            Abe::CreateFromSaveState_44D4F0(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
-            Quicksave_ReadWorldInfo_4C9490(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
-            
-            gMap_5C3030.SetActiveCam_480D30(
-                sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
-                sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path,
-                sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_8_cam,
-                CameraSwapEffects::eEffect0_InstantChange,
-                1,
-                1);
-            gMap_5C3030.field_8_force_load = 1;
-            if (sActiveHero_5C1B68->field_1A2_rock_or_bone_count)
-            {
-                LoadRockTypes_49AB30(
-                    sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level,
-                    sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path);
-
-                if (!gpThrowableArray_5D1E2C)
-                {
-                    gpThrowableArray_5D1E2C = alive_new<ThrowableArray>();
-                    gpThrowableArray_5D1E2C->ctor_49A630();
-                }
-
-                gpThrowableArray_5D1E2C->Add_49A7A0(sActiveHero_5C1B68->field_1A2_rock_or_bone_count);
-            }
-            word12C_flags &= 0xFFFEu;
-            SFX_Play_46FBA0(0x11u, 40, 3400);
-            SND_Restart_4CB0E0();
+            RestartPath();
+            return;
 
         case MainPages::ePage_Quit_7:
             field_136 = 2;

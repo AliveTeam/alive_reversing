@@ -28,7 +28,6 @@ ALIVE_VAR(1, 0x5c311c, __int16, sMap_word_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
 ALIVE_VAR(1, 0x5c3120, DWORD, sSoundChannelsMask_5C3120, 0);
 
-ALIVE_VAR(1, 0xbb234c, WORD, word_BB234C, 0);
 ALIVE_VAR(1, 0x5c3154, DWORD, dword_5C3154, 0);
 
 struct Path_ChangeTLV : public Path_TLV
@@ -425,11 +424,6 @@ EXPORT void CCSTD sub_465800(int)
     NOT_IMPLEMENTED();
 }
 
-EXPORT void CC sub_4C9A30()
-{
-    NOT_IMPLEMENTED();
-}
-
 void Map::GoTo_Camera_481890()
 {
     dword_5C3154 = 0; // TODO: Not used ?
@@ -617,9 +611,9 @@ void Map::GoTo_Camera_481890()
         field_E_cameraId,
         field_54_path_res_array.field_0_pPathRecs[field_C_5C303C_pathId]);
     
-    if (word_BB234C)
+    if (sQuickSave_saved_switchResetters_count_BB234C > 0)
     {
-        sub_4C9A30();
+        Quicksave_RestoreSwitchResetterStates_4C9A30();
     }
 
     char pStrBuffer[13] = {};

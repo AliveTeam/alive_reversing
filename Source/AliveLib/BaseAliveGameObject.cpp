@@ -313,7 +313,7 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
 
 __int16 BaseAliveGameObject::vTakeDamage_408730(BaseGameObject* /*pFrom*/)
 {
-    NOT_IMPLEMENTED();
+    // Defaults to no damage.
     return 0;
 }
 
