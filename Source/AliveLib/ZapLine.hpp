@@ -27,8 +27,9 @@ public:
     virtual void VRender(int** pOrderingTable) override;
 private:
     EXPORT ZapLine* vdtor_4CCAA0(signed int flags);
-
+public:
     EXPORT void sub_4CCAD0(FP x1, FP y1, FP x2, FP y2);
+private:
     EXPORT void dtor_4CCCB0();
     EXPORT void vScreenChanged_4CDBE0();
     EXPORT void State_0_2_4_4CCD50();
