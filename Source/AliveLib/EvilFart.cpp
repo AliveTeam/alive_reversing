@@ -202,8 +202,8 @@ void EvilFart::vUpdate_423100()
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    /*
-    if (sActiveHero_5C1B68->field_106_current_state == eAbeStates::State_86_HandstoneBegin_45BD00  || (v2 = field_11C_k900, field_11C_k900 = v2 - 1, v2))
+    __int16 v2 = 0;
+    if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_86_HandstoneBegin_45BD00  || (v2 = field_11C_k900, field_11C_k900 = v2 - 1, v2))
     {
     LABEL_11:
         if (!field_118_bFartCountDown)
@@ -212,7 +212,6 @@ void EvilFart::vUpdate_423100()
         }
         goto LABEL_12;
     }
-    */
 
     if (!field_118_bFartCountDown)
     {
@@ -236,17 +235,17 @@ void EvilFart::vUpdate_423100()
         {
             field_6_flags.Set(BaseGameObject::eDead);
         }
-        //goto LABEL_11;
+        goto LABEL_11;
     }
 
-//LABEL_12:
+LABEL_12:
     if (static_cast<int>(sGnFrame_5C1B84) > field_12C_timer)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_6_flags.Set(BaseGameObject::eDead);
         gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
     }
-//LABEL_14:
+LABEL_14:
 
     const __int16 k900Value = field_11C_k900;
     if (k900Value < 251 && !(k900Value % 50))
@@ -255,23 +254,20 @@ void EvilFart::vUpdate_423100()
         {
             if (!field_118_bFartCountDown)
             {
-                /*
                 auto pIndicatorMem = alive_new<ThrowableTotalIndicator>();
                 if (pIndicatorMem)
                 {
                     pIndicatorMem->ctor_431CB0(
                         field_B8_xpos,
-                        field_BC_ypos - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 0x320000),
+                        field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
                         field_20_animation.field_C_render_layer,
                         field_20_animation.field_14_scale,
-                        ((unsigned int)((unsigned __int64)(1374389535i64 * field_11C_k900) >> 32) >> 31)
-                        + ((signed int)((unsigned __int64)(1374389535i64 * field_11C_k900) >> 32) >> 4),
+                        field_11C_k900 / 50,
                         1);
                 }
 
-                field_BC_ypos = field_BC_ypos - Math_FixedPoint_Multiply_496C50(field_CC_sprite_scale, 0x320000);
+                field_BC_ypos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50));
                 Abe_SFX_457EC0(7, 0, 10 * (300 - field_11C_k900), this);
-                */
                 field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(50);
             }
         }
@@ -279,24 +275,22 @@ void EvilFart::vUpdate_423100()
 
     if (!field_124_bPlayerControlled)
     {
-        /*
-        v43 = Math_FixedPoint_Multiply_496C50(0x8000, field_11C_k900 << 16);
-        v42 = 0x8000;
-        field_D0_r = (signed int)(0x800000 - v43) / 0x10000;
+        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (FP_FromDouble(0.5) * FP_FromInteger(field_11C_k900)));
     LABEL_75:
-        field_D2_g = (signed int)(Math_FixedPoint_Multiply_496C50(v42, field_11C_k900 << 16) + 0x260000) / 0x10000;
-        */
+        field_D2_g = FP_GetExponent((FP_FromDouble(0.5) * FP_FromInteger(field_11C_k900)) + FP_FromInteger(38));
         return;
     }
 
     if (field_124_bPlayerControlled == 1)
     {
-        //velX1 = field_C4_velx;
+        FP velX1 = field_C4_velx;
         if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
         {
             if (!(sGnFrame_5C1B84 % 3))
             {
-                /*
+                FP* pVel = nullptr;
+                FP X2 = {};
+
                 FP velY1 = field_C8_vely;
                 FP velY2 = field_C8_vely;
 
@@ -334,7 +328,6 @@ void EvilFart::vUpdate_423100()
                 }
 
                 const FP v28 = (*pVel * FP_FromInteger(250));
-                */
                 const FP v29 = (FP_FromDouble(0.5) * field_CC_sprite_scale);
                 const FP v30 = (field_BC_ypos - FP_FromInteger(55)) * field_CC_sprite_scale;
                 const FP v31 = (field_B8_xpos * field_CC_sprite_scale);
@@ -354,8 +347,8 @@ void EvilFart::vUpdate_423100()
                     SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
                 }
 
-                //Abe_SFX_457EC0(7, 50, FP_GetExponent(v28) - 2000, nullptr);
-                //field_130_sound_channels = v32;
+                Abe_SFX_457EC0(7, 50, FP_GetExponent(v28) - 2000, nullptr);
+                field_130_sound_channels = 0; // OG BUG ?? v32;
             }
         }
         else
@@ -453,12 +446,8 @@ void EvilFart::vUpdate_423100()
                 }
             }
         }
-        /*
-        v41 = Math_FixedPoint_Multiply_496C50(6553, field_11C_k900 << 16);
-        v42 = 6553;
-        field_D0_r = (signed int)(0x800000 - v41) / 0x10000;
+        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (FP_FromDouble(0.1) * FP_FromInteger(field_11C_k900)));
         goto LABEL_75;
-        */
     }
 
     if (field_124_bPlayerControlled != 2)
