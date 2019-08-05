@@ -77,7 +77,7 @@ EvilFart* EvilFart::ctor_422E30()
     field_D4_b = 32;
 
     field_124_state = 0;
-    field_118_bFartCountDown = 0;
+    field_118_bBlowUp = 0;
 
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
@@ -85,9 +85,29 @@ EvilFart* EvilFart::ctor_422E30()
     field_11A_bPossesed = 0;
 
     field_20_animation.field_B_render_mode = 1;
-    field_11C_k900 = 220;
+    field_11C_alive_timer = 220;
 
     return this;
+}
+
+BaseGameObject* EvilFart::VDestructor(signed int flags)
+{
+    return vdtor_4230D0(flags);
+}
+
+void EvilFart::VUpdate()
+{
+    vUpdate_423100();
+}
+
+__int16 EvilFart::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return VTakeDamage_423B70(pFrom);
+}
+
+void EvilFart::VPossessed_408F70()
+{
+    vOnPossesed_423DA0();
 }
 
 void EvilFart::InputControlFart_423BB0()
@@ -160,7 +180,7 @@ void EvilFart::vOnPossesed_423DA0()
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_11C_k900 = 900;
+    field_11C_alive_timer = 900;
     
     field_20_animation.field_B_render_mode = 1;
 
@@ -173,12 +193,12 @@ void EvilFart::vOnPossesed_423DA0()
     field_124_state = 1;
     field_11A_bPossesed = 1;
 
-    field_D2_g = 128;
     field_D0_r = 32;
+    field_D2_g = 128;
     field_D4_b = 32;
 }
 
-signed __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
+__int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
 {
     if (field_6_flags.Get(BaseGameObject::eDead))
     {
@@ -187,7 +207,7 @@ signed __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
 
     if (pFrom->field_4_typeId == Types::eElectricWall_39)
     {
-        field_11C_k900 = 0;
+        field_11C_alive_timer = 0;
     }
 
     return 1;
@@ -195,64 +215,53 @@ signed __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
 
 void EvilFart::vUpdate_423100()
 {
-    NOT_IMPLEMENTED();
-
     if (Event_Get_422C00(kEventDeathReset))
     {
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    __int16 v2 = 0;
-    if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_86_HandstoneBegin_45BD00  || (v2 = field_11C_k900, field_11C_k900 = v2 - 1, v2))
-    {
-    LABEL_11:
-        if (!field_118_bFartCountDown)
-        {
-            goto LABEL_14;
-        }
-        goto LABEL_12;
-    }
+    field_11C_alive_timer--;
 
-    if (!field_118_bFartCountDown)
+    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_86_HandstoneBegin_45BD00 && field_11C_alive_timer == 0)
     {
-        auto pExplosionMem = alive_new<Explosion>();
-        if (pExplosionMem)
+        if (!field_118_bBlowUp)
         {
-            pExplosionMem->ctor_4A1200(
-                field_B8_xpos,
-                field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
-                field_CC_sprite_scale,
-                0);
+            auto pExplosionMem = alive_new<Explosion>();
+            if (pExplosionMem)
+            {
+                pExplosionMem->ctor_4A1200(
+                    field_B8_xpos,
+                    field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
+                    field_CC_sprite_scale,
+                    0);
+            }
         }
 
-        if (field_124_state)
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_118_bFartCountDown = 1;
-            field_12C_timer = sGnFrame_5C1B84 + 35;
-        }
-        else
+        if (field_124_state == 0)
         {
             field_6_flags.Set(BaseGameObject::eDead);
         }
-        goto LABEL_11;
+        else
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_118_bBlowUp = 1;
+            field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 35;
+        }
     }
 
-LABEL_12:
-    if (static_cast<int>(sGnFrame_5C1B84) > field_12C_timer)
+    if (field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_6_flags.Set(BaseGameObject::eDead);
         gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
     }
-LABEL_14:
 
-    const __int16 k900Value = field_11C_k900;
-    if (k900Value < 251 && !(k900Value % 50))
+    // Show the count to the boom
+    if (field_11C_alive_timer < 251 && !(field_11C_alive_timer % 50))
     {
-        if (k900Value)
+        if (field_11C_alive_timer > 0)
         {
-            if (!field_118_bFartCountDown)
+            if (!field_118_bBlowUp)
             {
                 auto pIndicatorMem = alive_new<ThrowableTotalIndicator>();
                 if (pIndicatorMem)
@@ -262,12 +271,12 @@ LABEL_14:
                         field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
                         field_20_animation.field_C_render_layer,
                         field_20_animation.field_14_scale,
-                        field_11C_k900 / 50,
+                        field_11C_alive_timer / 50,
                         1);
                 }
 
                 field_BC_ypos = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50));
-                Abe_SFX_457EC0(7, 0, 10 * (300 - field_11C_k900), this);
+                Abe_SFX_457EC0(7, 0, 10 * (300 - field_11C_alive_timer), this);
                 field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(50);
             }
         }
@@ -275,8 +284,9 @@ LABEL_14:
 
     if (field_124_state == 0)
     {
-        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (FP_FromDouble(0.5) * FP_FromInteger(field_11C_k900)));
-        field_D2_g = FP_GetExponent((FP_FromDouble(0.5) * FP_FromInteger(field_11C_k900)) + FP_FromInteger(38));
+        const FP scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
+        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (scaledValue * FP_FromInteger(128)));
+        field_D2_g = FP_GetExponent(FP_FromInteger(38) + (scaledValue * FP_FromInteger(128)));
         return;
     }
     else if (field_124_state == 1)
@@ -439,13 +449,15 @@ LABEL_14:
                 {
                     field_124_state = 2;
                     field_128_timer = sGnFrame_5C1B84 + 15;
-                    field_12C_timer = sGnFrame_5C1B84 + 50;
+                    field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 50;
                     SFX_Play_46FA90(0x11u, 0);
                 }
             }
         }
-        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (FP_FromDouble(0.1) * FP_FromInteger(field_11C_k900)));
-        field_D2_g = FP_GetExponent((FP_FromDouble(0.5) * FP_FromInteger(field_11C_k900)) + FP_FromInteger(38));
+
+        const FP scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
+        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (scaledValue * FP_FromInteger(128)));
+        field_D2_g = FP_GetExponent(FP_FromInteger(38) + (scaledValue * FP_FromInteger(128)));
         return;
     }
     else if (field_124_state == 2)
@@ -458,7 +470,7 @@ LABEL_14:
 
         if (!(sGnFrame_5C1B84 % 4))
         {
-            if (field_118_bFartCountDown)
+            if (field_118_bBlowUp)
             {
                 return;
             }
@@ -476,7 +488,7 @@ LABEL_14:
                 0);
         }
 
-        if (!field_118_bFartCountDown && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
+        if (!field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
         {
             auto pExplosionMem2 = alive_new<Explosion>();
             if (pExplosionMem2)
@@ -489,7 +501,7 @@ LABEL_14:
             }
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_118_bFartCountDown = 1;
+            field_118_bBlowUp = 1;
         }
         return;
     }
