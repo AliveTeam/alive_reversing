@@ -452,27 +452,29 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
     SFX_Play_46FC20(49, 0, soundDirection, field_CC_sprite_scale);
     SFX_Play_46FC20(50, 0, soundDirection, field_CC_sprite_scale);
     
-    RandomishSpeak_447A70(3);
+    RandomishSpeak_447A70(GreeterSpeak::Laugh_3);
 
     field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
     field_13E_targetOnLeft = 0;
     field_140_targetOnRight = 0;
 }
 
-void Greeter::RandomishSpeak_447A70(__int16 effect)
+void Greeter::RandomishSpeak_447A70(GreeterSpeak effect)
 {
     field_13C_state = States::eState_2;
     field_C4_velx = FP_FromInteger(0);
     field_20_animation.Set_Animation_Data_409C80(50104, nullptr);
     field_120 = sGnFrame_5C1B84 + 25;
 
-    if (effect == 1000)
+    if (effect == GreeterSpeak::Randomized_1000)
     {
-        Sfx_Slig_GameSpeak_4C04F0(static_cast<int>(sGnFrame_5C1B84 % 4), 100, 700, this);
+        const int randomSpeak = static_cast<int>(sGnFrame_5C1B84 % 4);
+        // Will be one of: Hi_0, HereBoy_1,  GetHim_2 or Laugh_3
+        Sfx_Slig_GameSpeak_4C04F0(static_cast<SligSpeak>(randomSpeak), 100, 700, this);
     }
     else
     {
-        Sfx_Slig_GameSpeak_4C04F0(effect, 100, 700, this);
+        Sfx_Slig_GameSpeak_4C04F0(static_cast<SligSpeak>(effect), 100, 700, this);
     }
 }
 
@@ -556,7 +558,7 @@ void Greeter::vUpdate_4469B0()
             field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(3));
             if (!field_13E_targetOnLeft == 0)
             {
-                RandomishSpeak_447A70(0);
+                RandomishSpeak_447A70(GreeterSpeak::Hi_0);
                 field_13C_state = States::eState_3;
             }
             else if (field_140_targetOnRight)
@@ -570,7 +572,7 @@ void Greeter::vUpdate_4469B0()
             field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(3));
             if (!field_140_targetOnRight == 0)
             {
-                RandomishSpeak_447A70(0);
+                RandomishSpeak_447A70(GreeterSpeak::Hi_0);
                 field_13C_state = States::eState_3;
             }
             else if (field_13E_targetOnLeft)
@@ -582,7 +584,7 @@ void Greeter::vUpdate_4469B0()
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
         {
-            RandomishSpeak_447A70(1000);
+            RandomishSpeak_447A70(GreeterSpeak::Randomized_1000);
         }
         break;
 
@@ -684,7 +686,7 @@ void Greeter::vUpdate_4469B0()
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            RandomishSpeak_447A70(9);
+            RandomishSpeak_447A70(GreeterSpeak::What_9);
             field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
         }
         break;
@@ -692,7 +694,7 @@ void Greeter::vUpdate_4469B0()
     case States::eState_6:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            RandomishSpeak_447A70(0);
+            RandomishSpeak_447A70(GreeterSpeak::Hi_0);
             field_13C_state = States::eState_3;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {

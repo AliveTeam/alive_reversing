@@ -2114,7 +2114,7 @@ void Slig::M_PullLever_45_4B8950()
     {
         if (field_114_flags.Get(Flags_114::e114_Bit10))
         {
-            Sfx_Slig_GameSpeak_4C04F0(11, 0, field_11E, this);
+            Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Blurg_11, 0, field_11E, this);
             field_106_current_motion = eSligMotions::M_Blurgh_31_4B5510;
         }
         else
@@ -2366,7 +2366,7 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
     switch (field_11C)
     {
     case 0:
-        Sfx_Slig_GameSpeak_4C04F0(10, 0, field_11E, this);
+        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_11E, this);
         field_11C = 1;
         field_10C_health = FP_FromInteger(0);
         field_106_current_motion = eSligMotions::M_Possess_37_4B72C0;
@@ -2395,13 +2395,13 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
             {
                 field_120_timer = sGnFrame_5C1B84 + 20;
                 field_106_current_motion = eSligMotions::M_SpeakHi_21_4B53D0;
-                Sfx_Slig_GameSpeak_4C04F0(0, 0, field_11E, this);
+                Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Hi_0, 0, field_11E, this);
             }
             else
             {
                 field_120_timer = sGnFrame_5C1B84 + 20;
                 field_106_current_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
-                Sfx_Slig_GameSpeak_4C04F0(3, 0, field_11E, this);
+                Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Laugh_3, 0, field_11E, this);
             }
             field_11C = 3;
             return field_11C;
@@ -2460,7 +2460,7 @@ __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
 {
     if (field_11C == 0)
     {
-        Sfx_Slig_GameSpeak_4C04F0(10, 0, field_11E, this);
+        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_11E, this);
         field_120_timer = sGnFrame_5C1B84 + 60;
         return 1;
     }
@@ -2490,7 +2490,7 @@ __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
         if (!((field_120_timer - sGnFrame_5C1B84) % 15))
         {
             Sfx_Slig_GameSpeak_4C04F0(
-                10,
+                SligSpeak::Help_10,
                 static_cast<short>(2 * ((field_120_timer & 0xFFFF) - sGnFrame_5C1B84)),
                 field_11E,
                 this);
@@ -4812,7 +4812,7 @@ __int16 Slig::HandlePlayerControlled_4B7800()
             return 1;
         }
 
-        Sfx_Slig_GameSpeak_4C04F0(9, 0, field_11E, this);
+        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::What_9, 0, field_11E, this);
         field_106_current_motion = eSligMotions::M_SpeakWhat_29_4B54D0;
         return 1;
     }
@@ -4874,14 +4874,14 @@ __int16 Slig::HandlePlayerControlled_4B7800()
 
             if (sInputObject_5BD4E0.isHeld(sInputKey_Up_5550D8))
             {
-                Sfx_Slig_GameSpeak_4C04F0(9, 0, field_11E, this);
+                Sfx_Slig_GameSpeak_4C04F0(SligSpeak::What_9, 0, field_11E, this);
                 field_106_current_motion = eSligMotions::M_SpeakWhat_29_4B54D0;
                 return 1;
             }
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_FartRoll_5550F0 | sInputKey_Hop_5550E0))
         {
-            Sfx_Slig_GameSpeak_4C04F0(11, 0, field_11E, this);
+            Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Blurg_11, 0, field_11E, this);
             field_106_current_motion = eSligMotions::M_Blurgh_31_4B5510;
             return 1;
         }
@@ -5942,7 +5942,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
     }
 
     case Types::eElectricWall_39:
-        Sfx_Slig_GameSpeak_4C04F0(10, 0, field_11E, this);
+        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_11E, this);
         return 1;
 
     case Types::eType_Abe_69:

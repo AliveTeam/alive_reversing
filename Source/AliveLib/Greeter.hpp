@@ -51,6 +51,16 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
 
 struct PathLine;
 
+enum class GreeterSpeak : __int16
+{
+    Hi_0 = 0,
+    HereBoy_1 = 1,
+    GetHim_2 = 2,
+    Laugh_3 = 3,
+    What_9 = 9,
+    Randomized_1000 = 1000,
+};
+
 class Greeter : public BaseAliveGameObject
 {
 public:
@@ -73,7 +83,7 @@ private:
     EXPORT signed __int16 vTakeDamage_447C20(BaseGameObject* pFrom);
     EXPORT void vsub_447DB0(BaseGameObject* pFrom);
     EXPORT void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
-    EXPORT void RandomishSpeak_447A70(__int16 effect);
+    EXPORT void RandomishSpeak_447A70(GreeterSpeak effect);
     EXPORT BOOL ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
     EXPORT BaseAliveGameObject* GetMudToZap_447690();
     EXPORT void vUpdate_4469B0();

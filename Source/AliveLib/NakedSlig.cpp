@@ -125,7 +125,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_1C8 = 0;
     field_1B8_bChanting = 0;
     field_1C4 = 0;
-    field_1C0_speak = NakedSligSpeak::Speak_None;
+    field_1C0_speak = SligSpeak::None;
     field_1D0_slig_button_id = -1;
     field_1D4_obj_id = -1;
     field_1D8_obj_id = -1;
@@ -403,7 +403,7 @@ void NakedSlig::vOn_TLV_Collision_419680(Path_TLV* pTlv)
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
                 Event_Broadcast_422BC0(kEventMudokonComfort, this);
-                Sfx_Slig_GameSpeak_4C04F0(10, 0, field_1C2_pitch, this);
+                Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_1C2_pitch, this);
                 field_1AC_timer = sGnFrame_5C1B84 + 60;
             }
         }
@@ -440,7 +440,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
             return 1;
 
         case Types::eElectricWall_39:
-            Sfx_Slig_GameSpeak_4C04F0(10, 0, 0, this);
+            Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, 0, this);
             return 1;
 
         case Types::eSlig_125:
@@ -457,7 +457,7 @@ __int16 NakedSlig::vTakeDamage_4192B0(BaseGameObject* pFrom)
             }
 
             Set_AnimAndMotion_419890(eSligMotions::M_Falling_7_4B42D0, TRUE);
-            Sfx_Slig_GameSpeak_4C04F0(10, 0, 0, this);
+            Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, 0, this);
 
             if (BrainIs(&NakedSlig::AI_2_PanicGetALocker_419FE0))
             {
@@ -711,7 +711,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
             }
             field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
             field_1C8 = sGnFrame_5C1B84 + 60;
-            field_1C0_speak = NakedSligSpeak::Speak_10;
+            field_1C0_speak = SligSpeak::Help_10;
             return 4;
         }
         break;
@@ -818,7 +818,7 @@ __int16 NakedSlig::AI_2_PanicGetALocker_419FE0()
 
         field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
         field_1C8 = sGnFrame_5C1B84 + 60;
-        field_1C0_speak = NakedSligSpeak::Speak_10;
+        field_1C0_speak = SligSpeak::Help_10;
         return 9;
 
     case 9:
@@ -1077,7 +1077,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
             if (!(static_cast<int>(field_1AC_timer - sGnFrame_5C1B84) % 15))
             {
                 Sfx_Slig_GameSpeak_4C04F0(
-                    10,
+                    SligSpeak::Help_10,
                     static_cast<short>(2 * (field_1AC_timer & 0xFFFF - sGnFrame_5C1B84)),
                     field_1C2_pitch,
                     this);
@@ -1402,15 +1402,15 @@ void NakedSlig::M_ToShakingToIdle_7_41C010()
 
 void NakedSlig::M_Speaking_8_41BF70()
 {
-    if (field_20_animation.field_92_current_frame == 2 && field_1C0_speak != NakedSligSpeak::Speak_None)
+    if (field_20_animation.field_92_current_frame == 2 && field_1C0_speak != SligSpeak::None)
     {
         if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number && 
             gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number && 
             Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
-            Sfx_Slig_GameSpeak_4C04F0(static_cast<short>(field_1C0_speak), 0, 0, this);
+            Sfx_Slig_GameSpeak_4C04F0(field_1C0_speak, 0, 0, this);
         }
-        field_1C0_speak = NakedSligSpeak::Speak_None;
+        field_1C0_speak = SligSpeak::None;
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1567,7 +1567,7 @@ void NakedSlig::M_IdleToPushingWall_16_41B3C0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Sfx_Slig_GameSpeak_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
+        Sfx_Slig_GameSpeak_4C04F0(static_cast<SligSpeak>(Math_RandomRange_496AB0(static_cast<int>(SligSpeak::Ouch1_13), static_cast<int>(SligSpeak::Ouch2_14))), 0, 0, this);
         Set_AnimAndMotion_419890(NakedSligMotion::M_PushingWall_10_41B400, TRUE);
     }
 }
@@ -1632,44 +1632,44 @@ void NakedSlig::HandleCommon_41C0B0()
                 else
                 {
                     field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
-                    field_1C0_speak = NakedSligSpeak::Speak_9;
+                    field_1C0_speak = SligSpeak::What_9;
                 }
             }
         }
         if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak1))
         {
-            field_1C0_speak = NakedSligSpeak::Speak_0;
+            field_1C0_speak = SligSpeak::Hi_0;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak3))
         {
-            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? NakedSligSpeak::Speak_2 : NakedSligSpeak::Speak_8;
+            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::GetHim_2 : SligSpeak ::Freeze_8;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak4))
         {
-            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? NakedSligSpeak::Speak_8 : NakedSligSpeak::Speak_2;
+            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak ::Freeze_8 : SligSpeak::GetHim_2;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak2))
         {
-            field_1C0_speak = NakedSligSpeak::Speak_1;
+            field_1C0_speak = SligSpeak::HereBoy_1;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak6))
         {
-            field_1C0_speak = NakedSligSpeak::Speak_5;
+            field_1C0_speak = SligSpeak::Bullshit_5;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak7))
         {
-            field_1C0_speak = NakedSligSpeak::Speak_6;
+            field_1C0_speak = SligSpeak::LookOut_6;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak5))
         {
-            field_1C0_speak = NakedSligSpeak::Speak_7;
+            field_1C0_speak = SligSpeak::Bullshit2_7;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak8))
         {
-            field_1C0_speak = NakedSligSpeak::Speak_3;
+            field_1C0_speak = SligSpeak::Laugh_3;
         }
 
-        if (field_1C0_speak != NakedSligSpeak::Speak_None)
+        if (field_1C0_speak != SligSpeak::None)
         {
             field_108_next_motion = NakedSligMotion::M_Speaking_8_41BF70;
         }
@@ -1810,7 +1810,7 @@ __int16 NakedSlig::CanCrawl_41C5D0()
         Set_AnimAndMotion_419890(10, TRUE);
         const int snappedX = SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos));
         field_C4_velx = ((FP_FromInteger(snappedX) - field_B8_xpos) / FP_FromInteger(4));
-        Sfx_Slig_GameSpeak_4C04F0(Math_RandomRange_496AB0(13, 14), 0, 0, this);
+        Sfx_Slig_GameSpeak_4C04F0(static_cast<SligSpeak>(Math_RandomRange_496AB0(static_cast<int>(SligSpeak::Ouch1_13), static_cast<int>(SligSpeak::Ouch2_14))), 0, 0, this);
         return FALSE;
     }
     else

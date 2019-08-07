@@ -45,6 +45,8 @@ enum eFlyingSligMotions : int
     FLYING_SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
 
+enum class SligSpeak : char;
+
 class FlyingSlig : public BaseAliveGameObject
 {
 public:
@@ -142,7 +144,7 @@ public:
 
     EXPORT __int16 CanChase_436850(BaseAliveGameObject* pObj);
 
-    EXPORT void sub_436A50(char a2, __int16 a3);
+    EXPORT void sub_436A50(SligSpeak  a2, __int16 a3);
 
     EXPORT __int16 sub_4374A0(__int16 a2);
 
@@ -215,7 +217,7 @@ private:
     __int16 field_178;
     __int16 field_17A;
     BYTE field_17C_launch_id;
-    BYTE field_17D;
+    SligSpeak field_17D;
 
     enum Flags_17E
     {
