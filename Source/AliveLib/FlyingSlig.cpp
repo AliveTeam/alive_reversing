@@ -849,29 +849,29 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
         {
             switch (field_17D)
             {
-            case 0:
-                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_27);
+            case SligSpeak::Hi_0:
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_Hi_27);
                 break;
-            case 1:
-                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_28);
+            case SligSpeak::HereBoy_1:
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_HereBoy_28);
                 break;
-            case 2:
-                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_29);
+            case SligSpeak::GetEm_2:
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_GetEm_29);
                 break;
-            case 3:
-                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_8);
+            case SligSpeak::Laugh_3:
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_Laugh_8);
                 break;
-            case 5:
-                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_5);
+            case SligSpeak::Bullshit_5:
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_BS_5);
                 break;
-            case 6:
-                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eLookOut_6);
+            case SligSpeak::LookOut_6:
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_LookOut_6);
                 break;
-            case 7:
-                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_7);
+            case SligSpeak::Bullshit2_7:
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_BS2_7);
                 break;
-            case 8:
-                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_31);
+            case SligSpeak::Freeze_8:
+                pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_Freeze_31);
                 break;
             default:
                 break;

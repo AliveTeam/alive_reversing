@@ -37,7 +37,7 @@ enum class SligSpeak : char
     None        = -1,
     Hi_0        =  0,
     HereBoy_1   =  1,
-    GetHim_2    =  2,
+    GetEm_2    =  2,
     Laugh_3     =  3,
     Stay_4      =  4,
     Bullshit_5  =  5,

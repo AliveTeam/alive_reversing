@@ -1642,11 +1642,11 @@ void NakedSlig::HandleCommon_41C0B0()
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak3))
         {
-            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::GetHim_2 : SligSpeak ::Freeze_8;
+            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::GetEm_2 : SligSpeak ::Freeze_8;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak4))
         {
-            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak ::Freeze_8 : SligSpeak::GetHim_2;
+            field_1C0_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak ::Freeze_8 : SligSpeak::GetEm_2;
         }
         else if (sInputObject_5BD4E0.isHeld(InputCommands::eGameSpeak2))
         {

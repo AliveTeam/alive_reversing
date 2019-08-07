@@ -10,10 +10,10 @@ enum GameSpeakEvents : char
 {
     eNone = -1,
     eFart_3 = 3,
-    eUnknown_5 = 5,
-    eLookOut_6 = 6,
-    eUnknown_7 = 7,
-    eUnknown_8 = 8,
+    Slig_BS_5 = 5,
+    Slig_LookOut_6 = 6,
+    Slig_BS2_7 = 7,
+    Slig_Laugh_8 = 8,
     eHello_9 = 9,
     eFollowMe_10 = 10,
     eAnger_11 = 11,
@@ -23,11 +23,11 @@ enum GameSpeakEvents : char
     eAllYa_23 = 23,
     eSorry_24 = 24,
 
-    eUnknown_27 = 27,
-    eUnknown_28 = 28,
-    eUnknown_29 = 29,
+    Slig_Hi_27 = 27,
+    Slig_HereBoy_28 = 28,
+    Slig_GetEm_29 = 29,
 
-    eUnknown_31 = 31,
+    Slig_Freeze_31 = 31,
 
     eUnknown_53 = 53,
     eUnknown_54 = 54,

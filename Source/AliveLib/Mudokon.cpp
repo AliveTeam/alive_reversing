@@ -1524,7 +1524,7 @@ signed __int16 Mudokon::AI_Chisel_1_47C5F0()
     }
 
     const GameSpeakEvents lastSpeak = LastGameSpeak_476FF0();
-    if (lastSpeak == GameSpeakEvents::eLookOut_6 || Event_Get_422C00(kEventShooting))
+    if (lastSpeak == GameSpeakEvents::Slig_LookOut_6 || Event_Get_422C00(kEventShooting))
     {
         if (field_190_sub_state != BrainStates1::eState_3 && field_190_sub_state != BrainStates1::eState_Duck_5 && field_190_sub_state != BrainStates1::eState_DuckKnockBack_8 && field_190_sub_state != BrainStates1::eState_OutOfDuck_6)
         {
@@ -1913,7 +1913,7 @@ __int16 Mudokon::AI_Scrub_2_47D270()
         }
     }
 
-    if (lastSpeak == GameSpeakEvents::eLookOut_6 || Event_Get_422C00(kEventShooting))
+    if (lastSpeak == GameSpeakEvents::Slig_LookOut_6 || Event_Get_422C00(kEventShooting))
     {
         field_108_next_motion = Mud_Motion::Duck_53_474A40;
         field_194_timer = sGnFrame_5C1B84 + 60;
@@ -2388,7 +2388,7 @@ __int16 Mudokon::AI_State_3_TurnWheel_47E0D0()
         }
     }
 
-    if (lastSpeak == GameSpeakEvents::eLookOut_6 || Event_Get_422C00(kEventShooting))
+    if (lastSpeak == GameSpeakEvents::Slig_LookOut_6 || Event_Get_422C00(kEventShooting))
     {
         if (field_190_sub_state != 3 && field_190_sub_state != 4)
         {
@@ -4931,20 +4931,20 @@ __int16 Mudokon::AI_Sick_9_47A910()
             case GameSpeakEvents::eFart_3:
                 field_188_pTblEntry = ResponseTo_471730(field_180_emo_tbl, MudAction::eFart_6);
                 break;
-            case GameSpeakEvents::eUnknown_5:
-            case GameSpeakEvents::eLookOut_6:
-            case GameSpeakEvents::eUnknown_7:
-            case GameSpeakEvents::eUnknown_8:
+            case GameSpeakEvents::Slig_BS_5:
+            case GameSpeakEvents::Slig_LookOut_6:
+            case GameSpeakEvents::Slig_BS2_7:
+            case GameSpeakEvents::Slig_Laugh_8:
             case GameSpeakEvents::eHello_9:
             case GameSpeakEvents::eFollowMe_10:
             case GameSpeakEvents::eWait_12:
             case GameSpeakEvents::eWork_21:
             case GameSpeakEvents::eStopIt_22:
             case GameSpeakEvents::eAllYa_23:
-            case GameSpeakEvents::eUnknown_27:
-            case GameSpeakEvents::eUnknown_28:
-            case GameSpeakEvents::eUnknown_29:
-            case GameSpeakEvents::eUnknown_31:
+            case GameSpeakEvents::Slig_Hi_27:
+            case GameSpeakEvents::Slig_HereBoy_28:
+            case GameSpeakEvents::Slig_GetEm_29:
+            case GameSpeakEvents::Slig_Freeze_31:
                 field_188_pTblEntry = ResponseTo_471730(field_180_emo_tbl, MudAction::eWait_2);
                 break;
             default:
@@ -6475,9 +6475,9 @@ GameSpeakEvents Mudokon::LastGameSpeak_476FF0()
     }
     
     // Look out works on any scale
-    if (actualEvent == GameSpeakEvents::eLookOut_6)
+    if (actualEvent == GameSpeakEvents::Slig_LookOut_6)
     {
-        return GameSpeakEvents::eLookOut_6;
+        return GameSpeakEvents::Slig_LookOut_6;
     }
 
     // Check in valid range and on same scale
