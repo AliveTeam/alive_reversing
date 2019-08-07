@@ -14,6 +14,8 @@
 #include "Throwable.hpp"
 #include "Map.hpp"
 #include "Meat.hpp"
+#include "Gibs.hpp"
+#include "Blood.hpp"
 
 class Class_547F58 : public BaseAnimatedWithPhysicsGameObject
 {
@@ -43,7 +45,7 @@ TintEntry stru_55D73C[24] =
     { -1, 105u, 105u, 105u }
 };
 
-#define MAKE_FN(VAR) &Paramite::##VAR,
+#define MAKE_FN(VAR) &Paramite::VAR,
 
 const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = 
 {
@@ -913,4 +915,134 @@ __int16 Paramite::vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther
         }
     }
     return 0;
+}
+
+void Paramite::vUnPosses_488BE0()
+{
+    field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+    field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
+    field_130_timer = sGnFrame_5C1B84 + 180;
+    SetBrain(&Paramite::AI_Patrol_0_4835B0);
+    field_12C_brain_ret = 0;
+}
+
+void Paramite::vPossessed_488B60()
+{
+    field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
+    field_178_flags.Set(Flags_178::eBit5);
+    SetBrain(&Paramite::AI_Possessed_6_484BC0);
+    field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+    field_12C_brain_ret = 0;
+    field_130_timer = sGnFrame_5C1B84 + 30;
+    field_14E_return_level = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_150_return_path = gMap_5C3030.sCurrentPathId_5C3032;
+    field_152_return_camera = gMap_5C3030.sCurrentCamId_5C3034;
+}
+
+__int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
+{
+    if (field_10C_health <= FP_FromInteger(0))
+    {
+        return 1;
+    }
+
+    field_118 = -1;
+
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eGrinder_30:
+    case Types::eBaseBomb_46:
+    case Types::eExplosion_109:
+    {
+        Event_Broadcast_422BC0(kEventMudokonComfort | kEventSpeaking, this);
+        auto pGibs = alive_new<Gibs>();
+        if (pGibs)
+        {
+            pGibs->ctor_40FB40(2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+        }
+        field_10C_health = FP_FromInteger(0);
+        field_6_flags.Set(BaseGameObject::eDead);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        if (sControlledCharacter_5C1B8C != this)
+        {
+            return 1;
+        }
+        SND_SEQ_Play_4CAB10(29u, 1, 127, 127);
+    }
+        return 1;
+
+    case Types::eFleech_50:
+    {
+        field_10C_health -= FP_FromDouble(0.15);
+        if (field_10C_health < FP_FromInteger(0))
+        {
+            field_10C_health = FP_FromInteger(0);
+        }
+        if (sControlledCharacter_5C1B8C != this)
+        {
+            if (field_120_obj_id == -1 || field_120_obj_id == sActiveHero_5C1B68->field_8_object_id)
+            {
+                if (BrainIs(&Paramite::AI_Patrol_0_4835B0) || BrainIs(&Paramite::AI_ControlledByGameSpeak_8_48DFC0))
+                {
+                    SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
+                    field_12C_brain_ret = 0;
+                    field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+                    field_120_obj_id = pFrom->field_8_object_id;
+                }
+            }
+        }
+
+        if (field_10C_health > FP_FromInteger(0))
+        {
+            return 1;
+        }
+
+        Event_Broadcast_422BC0(kEventMudokonComfort | kEventSpeaking, this);
+        SetBrain(&Paramite::AI_Death_1_484CD0);
+        field_130_timer = sGnFrame_5C1B84 + 90;
+        field_106_current_motion = eParamiteMotions::M_Death_41_48D8E0;
+        vUpdateAnim_487170();
+
+        auto pBlood = alive_new<Blood>();
+        if (pBlood)
+        {
+            pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
+        }
+
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            SND_SEQ_Play_4CAB10(29u, 1, 127, 127);
+        }
+    }
+        return 0;
+
+    case Types::eType_104:
+        return 0;
+
+    default:
+    {
+        field_C8_vely = FP_FromInteger(0);
+        field_C4_velx = FP_FromInteger(0);
+        Event_Broadcast_422BC0(kEventMudokonComfort | kEventSpeaking, this);
+        field_10C_health = FP_FromInteger(0);
+        SetBrain(&Paramite::AI_Death_1_484CD0);
+        field_130_timer = sGnFrame_5C1B84 + 90;
+        field_106_current_motion = eParamiteMotions::M_Death_41_48D8E0;
+        vUpdateAnim_487170();
+
+        auto pBlood = alive_new<Blood>();
+        if (pBlood)
+        {
+            pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
+        }
+
+        if (sControlledCharacter_5C1B8C != this)
+        {
+            return 1;
+        }
+
+        SND_SEQ_Play_4CAB10(29u, 1, 127, 127);
+        return 1;
+    }
+    }
 }

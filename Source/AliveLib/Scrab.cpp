@@ -37,7 +37,7 @@ TintEntry stru_560260[15] =
     { -1, 127u, 127u, 127u }
 };
 
-#define MAKE_FN(VAR) &Scrab::##VAR,
+#define MAKE_FN(VAR) &Scrab::VAR,
 
 const TScrabMotionFn sScrab_motion_table_560120[40] =
 {

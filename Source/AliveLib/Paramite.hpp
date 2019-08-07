@@ -95,6 +95,21 @@ public:
         return vOnSameYLevel_488A40(pOther);
     }
 
+    virtual void VUnPosses_408F90() override
+    {
+        vUnPosses_488BE0();
+    }
+
+    virtual void VPossessed_408F70() override
+    {
+        vPossessed_488B60();
+    }
+
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
+    {
+        return vTakeDamage_488250(pFrom);
+    }
+
 public:
     EXPORT __int16 AI_Patrol_0_4835B0();
     EXPORT __int16 AI_Death_1_484CD0();
@@ -176,6 +191,13 @@ private:
     EXPORT __int16 IsNear_488B10(Paramite* pOther);
 
     EXPORT __int16 vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther);
+
+    EXPORT void vUnPosses_488BE0();
+
+    EXPORT void vPossessed_488B60();
+
+    EXPORT __int16 vTakeDamage_488250(BaseGameObject* pFrom);
+
 
 
 private:
