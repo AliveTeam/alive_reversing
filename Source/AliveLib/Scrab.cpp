@@ -37,48 +37,11 @@ TintEntry stru_560260[15] =
     { -1, 127u, 127u, 127u }
 };
 
+#define MAKE_FN(VAR) &Scrab::##VAR,
+
 const TScrabMotionFn sScrab_motion_table_560120[40] =
 {
-    &Scrab::M_Stand_0_4A8220,
-    &Scrab::M_Walk_1_4A84D0,
-    &Scrab::M_Run_2_4A89C0,
-    &Scrab::M_Turn_3_4A91A0,
-    &Scrab::M_RunToStand_4_4A90C0,
-    &Scrab::M_HopBegin_5_4A96C0,
-    &Scrab::M_HopMidair_6_4A9490,
-    &Scrab::M_HopLand_7_4A9890,
-    &Scrab::M_JumpToFall_8_4A9220,
-    &Scrab::M_StandToWalk_9_4A8450,
-    &Scrab::M_StandToRun_10_4A8900,
-    &Scrab::M_WalkToStand_11_4A8880,
-    &Scrab::M_RunJumpBegin_12_4A99C0,
-    &Scrab::M_RunJumpEnd_13_4A9BE0,
-    &Scrab::M_WalkToFall_14_4A9460,
-    &Scrab::M_RunToFall_15_4A9430,
-    &Scrab::M_WalkToRun_16_4A8D60,
-    &Scrab::M_RunToWalk_17_4A8D90,
-    &Scrab::M_Knockback_18_4AA490,
-    &Scrab::M_GetEaten_19_4AA3E0,
-    &Scrab::M_Fall_20_4A93E0,
-    &Scrab::M_Stamp_21_4A9CC0,
-    &Scrab::M_GetPossessed_22_4AA420,
-    &Scrab::M_Empty_23_4A9D80,
-    &Scrab::M_DeathEnd_24_4AA140,
-    &Scrab::M_Empty_25_4A34D0,
-    &Scrab::M_HowlBegin_26_4A9DA0,
-    &Scrab::M_HowlEnd_27_4A9E60,
-    &Scrab::M_GetDepossessedBegin_28_4AA200,
-    &Scrab::M_GetDepossessedEnd_29_4AA3C0,
-    &Scrab::M_Shriek_30_4A9EA0,
-    &Scrab::M_ScrabBattleAnim_31_4A9F30,
-    &Scrab::M_AttackSpin_32_4A8DC0,
-    &Scrab::M_FeedToGulp_33_4A9FA0,
-    &Scrab::M_GulpToStand_34_4A9FF0,
-    &Scrab::M_StandToFeed_35_4AA010,
-    &Scrab::M_Feed_36_4AA030,
-    &Scrab::M_AttackLunge_37_4AA0B0,
-    &Scrab::M_LegKick_38_4AA120,
-    &Scrab::M_DeathBegin_39_4AA190
+    SCRAB_MOTIONS_ENUM(MAKE_FN)
 };
 
 const TScrabAIFn sScrab_ai_table_56029C[6] =
@@ -1212,7 +1175,7 @@ void Scrab::M_RunToWalk_17_4A8D90()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_106_current_motion = eScrabMotions::M_Walk_1_4A81D0;
+        field_106_current_motion = eScrabMotions::M_Walk_1_4A84D0;
         field_108_next_motion = -1;
     }
 }
@@ -1486,9 +1449,9 @@ void Scrab::M_FeedToGulp_33_4A9FA0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_108_next_motion == eScrabMotions::M_StandToFeed_35_4AA01)
+        if (field_108_next_motion == eScrabMotions::M_StandToFeed_35_4AA010)
         {
-            field_106_current_motion = eScrabMotions::M_StandToFeed_35_4AA01;
+            field_106_current_motion = eScrabMotions::M_StandToFeed_35_4AA010;
         }
         else
         {
@@ -1611,7 +1574,7 @@ void Scrab::MoveOnLine_4A7D20()
             field_F8_LastLineYPos = field_BC_ypos;
             field_134 = FP_FromInteger(1);
             field_B8_xpos = oldXPos + field_C4_velx;
-            if (field_106_current_motion == eScrabMotions::M_Walk_1_4A81D0)
+            if (field_106_current_motion == eScrabMotions::M_Walk_1_4A84D0)
             {
                 field_106_current_motion = eScrabMotions::M_WalkToFall_14_4A9460;
             }
@@ -1732,7 +1695,7 @@ BYTE** Scrab::ResBlockForMotion_4A43E0(__int16 motion)
     {
         field_140 = 4;
     }
-    else if (motion < eScrabMotions::M_StandToFeed_35_4AA01)
+    else if (motion < eScrabMotions::M_StandToFeed_35_4AA010)
     {
         field_140 = 11;
     }
@@ -1810,7 +1773,7 @@ __int16 Scrab::ToNextMotion_4A7920()
         field_108_next_motion == eScrabMotions::M_ScrabBattleAnim_31_4A9F30 ||
         field_108_next_motion == eScrabMotions::M_AttackLunge_37_4AA0B0 ||
         field_108_next_motion == eScrabMotions::M_LegKick_38_4AA120 ||
-        field_108_next_motion == eScrabMotions::M_StandToFeed_35_4AA01)
+        field_108_next_motion == eScrabMotions::M_StandToFeed_35_4AA010)
     {
         field_106_current_motion = field_108_next_motion;
         field_108_next_motion = -1;
@@ -1993,7 +1956,7 @@ __int16 Scrab::PlayerControlled_4A76A0()
     {
         if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
         {
-            field_106_current_motion = eScrabMotions::M_StandToFeed_35_4AA01;
+            field_106_current_motion = eScrabMotions::M_StandToFeed_35_4AA010;
             return 1;
         }
 

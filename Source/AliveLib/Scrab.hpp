@@ -6,7 +6,7 @@
 
 #define SCRAB_MOTIONS_ENUM(ENTRY) \
     ENTRY(M_Stand_0_4A8220) \
-    ENTRY(M_Walk_1_4A81D0) \
+    ENTRY(M_Walk_1_4A84D0) \
     ENTRY(M_Run_2_4A89C0) \
     ENTRY(M_Turn_3_4A91A0) \
     ENTRY(M_RunToStand_4_4A90C0) \
@@ -40,7 +40,7 @@
     ENTRY(M_AttackSpin_32_4A8DC0) \
     ENTRY(M_FeedToGulp_33_4A9FA0) \
     ENTRY(M_GulpToStand_34_4A9FF0) \
-    ENTRY(M_StandToFeed_35_4AA01) \
+    ENTRY(M_StandToFeed_35_4AA010) \
     ENTRY(M_Feed_36_4AA030) \
     ENTRY(M_AttackLunge_37_4AA0B0) \
     ENTRY(M_LegKick_38_4AA120) \

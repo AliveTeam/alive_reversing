@@ -5131,7 +5131,7 @@ void Mudokon::Walking_1_4728B0()
     else
     {
         MoveOnLine_4720D0();
-        if (field_106_current_motion == 1)
+        if (field_106_current_motion == Mud_Motion::Walking_1_4728B0)
         {
             if (field_20_animation.field_92_current_frame == 2 || field_20_animation.field_92_current_frame == 11)
             {

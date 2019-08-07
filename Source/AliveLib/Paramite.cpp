@@ -43,52 +43,11 @@ TintEntry stru_55D73C[24] =
     { -1, 105u, 105u, 105u }
 };
 
+#define MAKE_FN(VAR) &Paramite::##VAR,
+
 const TParamiteMotionFn sParamite_motion_table_55D5B0[44] = 
 {
-    &Paramite::M_Idle_0_489FB0,
-    &Paramite::M_WalkBegin_1_48A7B0,
-    &Paramite::M_Walking_2_48A2D0,
-    &Paramite::M_Running_3_48AA00,
-    &Paramite::M_Turn_4_48B180,
-    &Paramite::M_Hop_5_48B5B0,
-    &Paramite::M_UNKNOWN_6_48A930,
-    &Paramite::M_WalkRunTransition_7_48B0C0,
-    &Paramite::M_WalkEnd_8_48A870,
-    &Paramite::M_RunBegin_9_48AF10,
-    &Paramite::M_RunEnd_10_48B000,
-    &Paramite::M_Falling_11_48B200,
-    &Paramite::M_JumpUpBegin_12_48BE40,
-    &Paramite::M_JumpUpMidair_13_48BAF0,
-    &Paramite::M_JumpUpLand_14_48BF00,
-    &Paramite::M_RopePull_15_48D930,
-    &Paramite::M_CloseAttack_16_48DDA0,
-    &Paramite::M_Landing_17_48B590,
-    &Paramite::M_UNKNOWN_18_48DF60,
-    &Paramite::M_Knockback_19_48BF50,
-    &Paramite::M_GameSpeakBegin_20_48C010,
-    &Paramite::M_PreHiss_21_48C180,
-    &Paramite::M_Hiss1_22_48C3E0,
-    &Paramite::M_Hiss2_23_48C600,
-    &Paramite::M_Empty_24_48C680,
-    &Paramite::M_AllOYaGameSpeakBegin_25_48C6A0,
-    &Paramite::M_Hiss3_26_48C6F0,
-    &Paramite::M_PostHiss_27_48C780,
-    &Paramite::M_GameSpeakEnd_28_48C8B0,
-    &Paramite::M_GetDepossessedBegin_29_48D9D0,
-    &Paramite::M_GetDepossessedEnd_30_48DB50,
-    &Paramite::M_RunningAttack_31_48C9E0,
-    &Paramite::M_Empty_32_48D740,
-    &Paramite::M_SurpriseWeb_33_48D760,
-    &Paramite::M_WebLeaveDown_34_48D870,
-    &Paramite::M_WebIdle_35_48D400,
-    &Paramite::M_WebGoingUp_36_48D000,
-    &Paramite::M_WebGoingDown_37_48CC60,
-    &Paramite::M_WebGrab_38_48D6C0,
-    &Paramite::M_WebLeaveUp_39_48D8C0,
-    &Paramite::M_Eating_40_48A0F0,
-    &Paramite::M_Death_41_48D8E0,
-    &Paramite::M_UNKNOWN_42_48D900,
-    &Paramite::M_Attack_43_48DB70
+    PARAMITE_MOTIONS_ENUM(MAKE_FN)
 };
 
 const TParamiteAIFn sParamite_ai_table_55D710[10] =
@@ -933,4 +892,25 @@ Meat* Paramite::FindMeat_488930()
         }
     }
     return nullptr;
+}
+
+__int16 Paramite::IsNear_488B10(Paramite* pOther)
+{
+    return FP_Abs(pOther->field_BC_ypos - field_BC_ypos) < field_CC_sprite_scale * FP_FromInteger(100);
+}
+
+__int16 Paramite::vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    if (pOther)
+    {
+        PSX_RECT bRect = {};
+        pOther->vGetBoundingRect_424FD0(&bRect, 1);
+
+        if ((FP_Abs(field_BC_ypos - FP_FromInteger(bRect.h)) < field_CC_sprite_scale * FP_FromInteger(40)) ||
+            (pOther->field_4_typeId == Types::eParamite_96 && static_cast<Paramite*>(pOther)->field_106_current_motion == eParamiteMotions::M_JumpUpMidair_13_48BAF0))
+        {
+            return 1;
+        }
+    }
+    return 0;
 }

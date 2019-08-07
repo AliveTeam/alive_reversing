@@ -4,6 +4,58 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
+#define PARAMITE_MOTIONS_ENUM(ENTRY) \
+    ENTRY(M_Idle_0_489FB0) \
+ENTRY(M_WalkBegin_1_48A7B0) \
+ENTRY(M_Walking_2_48A2D0) \
+ENTRY(M_Running_3_48AA00) \
+ENTRY(M_Turn_4_48B180) \
+ENTRY(M_Hop_5_48B5B0) \
+ENTRY(M_UNKNOWN_6_48A930) \
+ENTRY(M_WalkRunTransition_7_48B0C0) \
+ENTRY(M_WalkEnd_8_48A870) \
+ENTRY(M_RunBegin_9_48AF10) \
+ENTRY(M_RunEnd_10_48B000) \
+ENTRY(M_Falling_11_48B200) \
+ENTRY(M_JumpUpBegin_12_48BE40) \
+ENTRY(M_JumpUpMidair_13_48BAF0) \
+ENTRY(M_JumpUpLand_14_48BF00) \
+ENTRY(M_RopePull_15_48D930) \
+ENTRY(M_CloseAttack_16_48DDA0) \
+ENTRY(M_Landing_17_48B590) \
+ENTRY(M_UNKNOWN_18_48DF60) \
+ENTRY(M_Knockback_19_48BF50) \
+ENTRY(M_GameSpeakBegin_20_48C010) \
+ENTRY(M_PreHiss_21_48C180) \
+ENTRY(M_Hiss1_22_48C3E0) \
+ENTRY(M_Hiss2_23_48C600) \
+ENTRY(M_Empty_24_48C680) \
+ENTRY(M_AllOYaGameSpeakBegin_25_48C6A0) \
+ENTRY(M_Hiss3_26_48C6F0) \
+ENTRY(M_PostHiss_27_48C780) \
+ENTRY(M_GameSpeakEnd_28_48C8B0) \
+ENTRY(M_GetDepossessedBegin_29_48D9D0) \
+ENTRY(M_GetDepossessedEnd_30_48DB50) \
+ENTRY(M_RunningAttack_31_48C9E0) \
+ENTRY(M_Empty_32_48D740) \
+ENTRY(M_SurpriseWeb_33_48D760) \
+ENTRY(M_WebLeaveDown_34_48D870) \
+ENTRY(M_WebIdle_35_48D400) \
+ENTRY(M_WebGoingUp_36_48D000) \
+ENTRY(M_WebGoingDown_37_48CC60) \
+ENTRY(M_WebGrab_38_48D6C0) \
+ENTRY(M_WebLeaveUp_39_48D8C0) \
+ENTRY(M_Eating_40_48A0F0) \
+ENTRY(M_Death_41_48D8E0) \
+ENTRY(M_UNKNOWN_42_48D900) \
+ENTRY(M_Attack_43_48DB70)
+
+#define MAKE_ENUM(VAR) VAR,
+enum eParamiteMotions : int
+{
+    PARAMITE_MOTIONS_ENUM(MAKE_ENUM)
+};
+
 class Meat;
 
 struct Path_Paramite : public Path_TLV
@@ -37,6 +89,11 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VUpdate() override;
+
+    virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
+    {
+        return vOnSameYLevel_488A40(pOther);
+    }
 
 public:
     EXPORT __int16 AI_Patrol_0_4835B0();
@@ -115,6 +172,10 @@ private:
     EXPORT void vUpdateAnim_487170();
 
     EXPORT Meat* FindMeat_488930();
+
+    EXPORT __int16 IsNear_488B10(Paramite* pOther);
+
+    EXPORT __int16 vOnSameYLevel_488A40(BaseAnimatedWithPhysicsGameObject* pOther);
 
 
 private:
