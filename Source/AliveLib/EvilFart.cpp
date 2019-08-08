@@ -295,41 +295,39 @@ void EvilFart::vUpdate_423100()
         {
             if (!(sGnFrame_5C1B84 % 3))
             {
-                FP finalVel = {};
+                FP velocityToUse = {};
 
-                FP velY2 = field_C8_vely;
-                if (field_C8_vely < FP_FromInteger(0))
+                FP directedVelY = field_C8_vely;
+                if (directedVelY < FP_FromInteger(0))
                 {
-                    velY2 = -velY2;
+                    directedVelY = -directedVelY;
                 }
                 
-                FP velX2 = field_C4_velx;
-                if (field_C4_velx < FP_FromInteger(0))
+                FP directedVelX = field_C4_velx;
+                if (directedVelX < FP_FromInteger(0))
                 {
-                    velX2 = -field_C4_velx;
+                    directedVelX = -field_C4_velx;
                 }
 
-                if (velX2 <= velY2)
+                if (directedVelX <= directedVelY)
                 {
                     if (field_C8_vely >= FP_FromInteger(0))
                     {
-                        finalVel = field_C8_vely;
+                        velocityToUse = field_C8_vely;
                     }
                     else
                     {
-                        finalVel = -field_C8_vely;
+                        velocityToUse = -field_C8_vely;
                     }
                 }
                 else if (field_C4_velx >= FP_FromInteger(0))
                 {
-                    finalVel = field_C4_velx;
+                    velocityToUse = field_C4_velx;
                 }
                 else
                 {
-                    finalVel = -field_C4_velx;
+                    velocityToUse = -field_C4_velx;
                 }
-
-                const FP v28 = (finalVel * FP_FromInteger(250));
 
                 New_Particles_426C70(
                     field_B8_xpos * field_CC_sprite_scale,
@@ -346,7 +344,7 @@ void EvilFart::vUpdate_423100()
                     SND_Stop_Channels_Mask_4CA810(field_130_sound_channels);
                 }
 
-                Abe_SFX_457EC0(7, 50, FP_GetExponent(v28) - 2000, nullptr);
+                Abe_SFX_457EC0(7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
                 field_130_sound_channels = 0; // OG BUG ?? v32;
             }
         }
