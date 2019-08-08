@@ -291,7 +291,7 @@ void EvilFart::vUpdate_423100()
     }
     else if (field_124_state == 1)
     {
-        FP velX1 = field_C4_velx;
+        const FP velX1 = field_C4_velx;
         if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
         {
             if (!(sGnFrame_5C1B84 % 3))
@@ -336,14 +336,11 @@ void EvilFart::vUpdate_423100()
                 }
 
                 const FP v28 = (*pVel * FP_FromInteger(250));
-                const FP v29 = (FP_FromDouble(0.5) * field_CC_sprite_scale);
-                const FP v30 = (field_BC_ypos - FP_FromInteger(55)) * field_CC_sprite_scale;
-                const FP v31 = (field_B8_xpos * field_CC_sprite_scale);
 
                 New_Particles_426C70(
-                    v31,
-                    v30,
-                    v29,
+                    field_B8_xpos * field_CC_sprite_scale,
+                    (field_BC_ypos - FP_FromInteger(55)) * field_CC_sprite_scale,
+                    FP_FromDouble(0.5) * field_CC_sprite_scale,
                     3,
                     static_cast<BYTE>(field_D0_r),
                     static_cast<BYTE>(field_D2_g),
@@ -376,30 +373,34 @@ void EvilFart::vUpdate_423100()
         sub_408C40();
 
         
-        FP v33 = FP_FromInteger(3);
+        FP x2Offset = {};
         if (field_C4_velx < FP_FromInteger(0))
         {
-            v33 = FP_FromInteger(-3);
+            x2Offset = FP_FromInteger(-3);
+        }
+        else
+        {
+            FP_FromInteger(3);
         }
 
-        FP v34 = FP_FromInteger(3);
+        FP y2Offset = {};
         if (field_C8_vely < FP_FromInteger(0))
         {
-            v34 = FP_FromInteger(-3);
+            y2Offset = FP_FromInteger(-3);
+        }
+        else
+        {
+            y2Offset = FP_FromInteger(3);
         }
 
-        const FP v35 = v34 + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54));
-        const FP X2 = v33 + field_B8_xpos + field_C4_velx;
-        const FP v36 = (field_CC_sprite_scale * FP_FromInteger(54));
-        
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
         if (sCollisions_DArray_5C1128->Raycast_417A60(
             field_B8_xpos,
-            field_BC_ypos - v36,
-            X2,
-            v35,
+            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
+            x2Offset + field_B8_xpos + field_C4_velx,
+            y2Offset + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
             &pLine,
             &hitX,
             &hitY,
@@ -412,15 +413,11 @@ void EvilFart::vUpdate_423100()
             field_B8_xpos += field_C4_velx;
         }
 
-        const FP v37 = v34 + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54));
-        const FP v38 = field_B8_xpos + field_C4_velx + v33;
-        const FP v39 = (field_CC_sprite_scale * FP_FromInteger(54));
-
         if (sCollisions_DArray_5C1128->Raycast_417A60(
             field_B8_xpos,
-            field_BC_ypos - v39,
-            v38,
-            v37,
+            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
+            field_B8_xpos + field_C4_velx + x2Offset,
+            y2Offset + field_BC_ypos + field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(54)),
             &pLine,
             &hitX,
             &hitY,

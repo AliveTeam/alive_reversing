@@ -853,7 +853,21 @@ void Paramite::sub_489BB0()
 
 __int16 Paramite::Find_Paramite_488810()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eParamite_96 &&
+            pObj != this &&
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0))
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
