@@ -72,9 +72,7 @@ EvilFart* EvilFart::ctor_422E30()
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit8);
 
-    field_D0_r = 32;
-    field_D2_g = 128;
-    field_D4_b = 32;
+    ResetFartColour();
 
     field_124_state = 0;
     field_118_bBlowUp = 0;
@@ -193,6 +191,12 @@ void EvilFart::vOnPossesed_423DA0()
     field_124_state = 1;
     field_11A_bPossesed = 1;
 
+    ResetFartColour();
+
+}
+
+void EvilFart::ResetFartColour()
+{
     field_D0_r = 32;
     field_D2_g = 128;
     field_D4_b = 32;
@@ -284,9 +288,7 @@ void EvilFart::vUpdate_423100()
 
     if (field_124_state == 0)
     {
-        const FP scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
-        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (scaledValue * FP_FromInteger(128)));
-        field_D2_g = FP_GetExponent(FP_FromInteger(38) + (scaledValue * FP_FromInteger(128)));
+        CalculateFartColour();
         return;
     }
     else if (field_124_state == 1)
@@ -443,10 +445,8 @@ void EvilFart::vUpdate_423100()
                 }
             }
         }
-
-        const FP scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
-        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (scaledValue * FP_FromInteger(128)));
-        field_D2_g = FP_GetExponent(FP_FromInteger(38) + (scaledValue * FP_FromInteger(128)));
+        
+        CalculateFartColour();
         return;
     }
     else if (field_124_state == 2)
@@ -493,6 +493,21 @@ void EvilFart::vUpdate_423100()
             field_118_bBlowUp = 1;
         }
         return;
+    }
+}
+
+void EvilFart::CalculateFartColour()
+{
+    const FP scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
+    if (field_124_state == 0)
+    {
+        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (scaledValue * FP_FromInteger(128)));
+        field_D2_g = FP_GetExponent(FP_FromInteger(38) + (scaledValue * FP_FromInteger(128)));
+    }
+    else
+    {
+        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (scaledValue * FP_FromInteger(128)));
+        field_D2_g = FP_GetExponent(FP_FromInteger(38) + (scaledValue * FP_FromInteger(128)));
     }
 }
 

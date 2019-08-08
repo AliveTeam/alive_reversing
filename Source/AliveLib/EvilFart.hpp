@@ -18,8 +18,14 @@ public:
 private:
     EXPORT void InputControlFart_423BB0();
     EXPORT void vOnPossesed_423DA0();
+
+    void ResetFartColour();
+
     EXPORT __int16 VTakeDamage_423B70(BaseGameObject* pFrom);
     EXPORT void vUpdate_423100();
+
+    void CalculateFartColour();
+
     EXPORT void dtor_423D80();
     EXPORT EvilFart* vdtor_4230D0(signed int flags);
 
