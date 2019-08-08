@@ -291,51 +291,45 @@ void EvilFart::vUpdate_423100()
     }
     else if (field_124_state == 1)
     {
-        const FP velX1 = field_C4_velx;
         if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
         {
             if (!(sGnFrame_5C1B84 % 3))
             {
-                FP* pVel = nullptr;
-                FP X2 = {};
+                FP finalVel = {};
 
-                FP velY1 = field_C8_vely;
                 FP velY2 = field_C8_vely;
-
-                if (velY1 < FP_FromInteger(0))
+                if (field_C8_vely < FP_FromInteger(0))
                 {
                     velY2 = -velY2;
                 }
+                
                 FP velX2 = field_C4_velx;
-
-                if (velX1 < FP_FromInteger(0))
+                if (field_C4_velx < FP_FromInteger(0))
                 {
-                    velX2 = -velX1;
+                    velX2 = -field_C4_velx;
                 }
 
                 if (velX2 <= velY2)
                 {
-                    if (velY1 >= FP_FromInteger(0))
+                    if (field_C8_vely >= FP_FromInteger(0))
                     {
-                        pVel = &field_C8_vely;
+                        finalVel = field_C8_vely;
                     }
                     else
                     {
-                        X2 = -velY1;
-                        pVel = &X2;
+                        finalVel = -field_C8_vely;
                     }
                 }
-                else if (velX1 >= FP_FromInteger(0))
+                else if (field_C4_velx >= FP_FromInteger(0))
                 {
-                    pVel = &field_C4_velx;
+                    finalVel = field_C4_velx;
                 }
                 else
                 {
-                    X2 = -velX1;
-                    pVel = &X2;
+                    finalVel = -field_C4_velx;
                 }
 
-                const FP v28 = (*pVel * FP_FromInteger(250));
+                const FP v28 = (finalVel * FP_FromInteger(250));
 
                 New_Particles_426C70(
                     field_B8_xpos * field_CC_sprite_scale,
