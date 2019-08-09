@@ -471,15 +471,11 @@ void EvilFart::vUpdate_423100()
                 return;
             }
 
-            const short v15 = Math_RandomRange_496AB0(-20, 20);
-            const FP v16 = (field_CC_sprite_scale * FP_FromInteger(54));
-            const short v17 = Math_RandomRange_496AB0(-20, 10);
-            const FP v18 = (field_CC_sprite_scale * FP_NoFractional(FP_FromInteger(v17) - v16) + (FP_FromInteger(v17) - v16)) + field_BC_ypos;
-            const FP v19 = (field_CC_sprite_scale * FP_FromInteger(v15));
-
+            const FP v18 = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
+            const FP v19 = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20)));
             New_Chant_Particle_426BE0(
                 v19 + field_B8_xpos,
-                v18,
+                v18 + field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 field_CC_sprite_scale,
                 0);
         }
