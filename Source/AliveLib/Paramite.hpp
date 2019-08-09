@@ -90,6 +90,11 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_488220(pOrderingTable);
+    }
+
     virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
     {
         return vOnSameYLevel_488A40(pOther);
@@ -108,6 +113,16 @@ public:
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
     {
         return vTakeDamage_488250(pFrom);
+    }
+
+    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override
+    {
+        return vOn_TLV_Collision_488640(pTlv);
+    }
+
+    virtual void VOnTrapDoorOpen()
+    {
+        vOnTrapDoorOpen_489F60();
     }
 
 public:
@@ -198,6 +213,19 @@ private:
 
     EXPORT __int16 vTakeDamage_488250(BaseGameObject* pFrom);
 
+    EXPORT BYTE** ResBlockForMotion_488130(__int16 motion);
+
+    EXPORT void vOn_TLV_Collision_488640(Path_TLV* pTlv);
+
+    EXPORT __int16 AnotherParamiteNear_4886E0();
+
+    EXPORT PathLine* Collision_4888A0(FP yOff, FP xOff);
+
+    EXPORT void vRender_488220(int** ot);
+
+    EXPORT void vOnTrapDoorOpen_489F60();
+
+    EXPORT void ToHop_489C20();
 
 
 private:
