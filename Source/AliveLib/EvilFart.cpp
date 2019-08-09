@@ -12,6 +12,13 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 
+struct Colour {
+    short r, g, b;
+};
+
+constexpr Colour greenFart = { 32, 128, 32 };
+constexpr Colour redFart = { 128, 38, 32 };
+
 EvilFart* EvilFart::ctor_422E30()
 {
     ctor_408240(0);
@@ -197,9 +204,9 @@ void EvilFart::vOnPossesed_423DA0()
 
 void EvilFart::ResetFartColour()
 {
-    field_D0_r = 32;
-    field_D2_g = 128;
-    field_D4_b = 32;
+    field_D0_r = greenFart.r;
+    field_D2_g = greenFart.g;
+    field_D4_b = greenFart.b;
 }
 
 __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
@@ -498,17 +505,18 @@ void EvilFart::vUpdate_423100()
 
 void EvilFart::CalculateFartColour()
 {
-    const FP scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
+    FP scaledValue;
     if (field_124_state == 0)
     {
-        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (scaledValue * FP_FromInteger(128)));
-        field_D2_g = FP_GetExponent(FP_FromInteger(38) + (scaledValue * FP_FromInteger(128)));
+        scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(220);
     }
     else
     {
-        field_D0_r = FP_GetExponent(FP_FromInteger(128) - (scaledValue * FP_FromInteger(128)));
-        field_D2_g = FP_GetExponent(FP_FromInteger(38) + (scaledValue * FP_FromInteger(128)));
+        scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
     }
+    // Linear change from greenFart to redFart
+    field_D0_r = FP_GetExponent(FP_FromInteger(redFart.r) - (scaledValue * FP_FromInteger(redFart.r - greenFart.r)));
+    field_D2_g = FP_GetExponent(FP_FromInteger(redFart.g) + (scaledValue * FP_FromInteger(greenFart.g - redFart.g)));
 }
 
 void EvilFart::dtor_423D80()
