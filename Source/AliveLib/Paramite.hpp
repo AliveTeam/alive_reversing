@@ -81,6 +81,8 @@ using TParamiteMotionFn = void (Paramite::*)();
 
 enum class LevelIds : __int16;
 
+class PullRingRope;
+
 class Paramite : public BaseAliveGameObject
 {
 public:
@@ -226,6 +228,22 @@ private:
     EXPORT void vOnTrapDoorOpen_489F60();
 
     EXPORT void ToHop_489C20();
+
+    EXPORT __int16 CanIAcceptAGameSpeakCommand_489160();
+
+    EXPORT __int16 HandleEnemyStopper_4893B0(__int16 numGridBlocks);
+
+    EXPORT PullRingRope* FindPullRope_488F20();
+
+    EXPORT __int16 NextPlayerInputMotion_4894C0();
+
+    EXPORT __int16 FindTarget_488C30();
+
+    EXPORT __int16 ToNextMotion_4898A0();
+
+    EXPORT void ToIdle_489B70();
+
+    EXPORT void ToKnockBack_489BB0();
 
 
 private:
