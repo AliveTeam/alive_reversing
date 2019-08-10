@@ -738,9 +738,134 @@ void Paramite::M_Turn_4_48B180()
     }
 }
 
+const int sHopTable_546544[27] = // TODO: Convert
+{
+    424574,
+    455634,
+    300215,
+    314017,
+    431064,
+    795042,
+    731621,
+    421866,
+    423200,
+    352426,
+    387779,
+    483797,
+    439521,
+    593985,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
 void Paramite::M_Hop_5_48B5B0()
 {
-    NOT_IMPLEMENTED();
+    FP frameVelX = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        frameVelX = -FP_FromRaw(sHopTable_546544[field_20_animation.field_92_current_frame & 27]);
+    }
+    else
+    {
+        frameVelX = FP_FromRaw(sHopTable_546544[field_20_animation.field_92_current_frame & 27]);
+    }
+
+    field_C4_velx = (field_CC_sprite_scale * frameVelX);
+
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToKnockBack_489BB0();
+    }
+    else
+    {
+        field_100_pCollisionLine = Collision_4888A0(FP_FromInteger(0), field_C4_velx);
+        if (field_100_pCollisionLine)
+        {
+            field_C4_velx = FP_FromInteger(0);
+            field_106_current_motion = eParamiteMotions::M_WebGrab_38_48D6C0;
+            auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType_425180(Types::eWebLine_146, field_B8_xpos, field_BC_ypos));
+            if (pWeb)
+            {
+                pWeb->Wobble_4E29D0(FP_GetExponent(field_BC_ypos));
+            }
+        }
+        else
+        {
+            FP hitX = {};
+            FP hitY = {};
+            PathLine* pLine = nullptr;
+            const __int16 bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(0.9));
+            
+            if (sControlledCharacter_5C1B8C == this)
+            {
+                sub_408C40();
+            }
+
+            if (bHit)
+            {
+                switch (pLine->field_8_type)
+                {
+                case 0u:
+                case 4u:
+                case 32u:
+                case 36u:
+                    field_100_pCollisionLine = pLine;
+                    field_B8_xpos = hitX;
+                    field_BC_ypos = hitY;
+                    ToIdle_489B70();
+                    CheckForPlatform_489EA0();
+                    UpdateSlurgWatchPoints_4890D0();
+                    return;
+
+                case 1u:
+                case 2u:
+                    field_B8_xpos = hitX - field_C4_velx;
+                    MapFollowMe_408D10(TRUE);
+                    field_C4_velx = FP_FromInteger(0);
+                    field_BC_ypos = hitY;
+                    return;
+
+                default:
+                    break;
+                }
+            }
+
+            if (field_BC_ypos - field_F8_LastLineYPos > FP_FromInteger(5))
+            {
+                field_13C = FP_FromDouble(0.75);
+                field_106_current_motion = eParamiteMotions::M_Falling_11_48B200;
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(-5));
+                }
+                else
+                {
+                    field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(5));
+                }
+            }
+
+            if (field_20_animation.field_92_current_frame == 3)
+            {
+                SFX_Play_46FBA0(28u, 50, -500);
+            }
+            else if (field_20_animation.field_92_current_frame == 12)
+            {
+                Sound_48F600(ParamiteSpeak::LoudStep_3, 0);
+                Abe_SFX_2_457A40(6, 55, 500, 0);
+            }
+        }
+    }
 }
 
 const int dword_5464D4[5] =
@@ -1020,17 +1145,151 @@ void Paramite::M_Falling_11_48B200()
 
 void Paramite::M_JumpUpBegin_12_48BE40()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_F8_LastLineYPos = field_BC_ypos;
+        field_C4_velx = FP_FromInteger(0);
+        field_C8_vely = FP_FromInteger(-10) * field_CC_sprite_scale;
+        field_BC_ypos += field_C8_vely;
+        VOnTrapDoorOpen();
+        field_106_current_motion = eParamiteMotions::M_JumpUpMidair_13_48BAF0;
+        field_100_pCollisionLine = nullptr;
+    }
+    else if (field_20_animation.field_92_current_frame == 3)
+    {
+        SFX_Play_46FBA0(28u, 50, -500);
+    }
 }
 
 void Paramite::M_JumpUpMidair_13_48BAF0()
 {
-    NOT_IMPLEMENTED();
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToKnockBack_489BB0();
+        return;
+    }
+
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* ppPathLine = nullptr;
+    const __int16 bHit = InAirCollision_408810(&ppPathLine, &hitX, &hitY, FP_FromDouble(1.8));
+    
+    if (sControlledCharacter_5C1B8C == this)
+    {
+        sub_408C40();
+    }
+
+    if (bHit)
+    {
+        switch (ppPathLine->field_8_type)
+        {
+        case 0u:
+        case 4u:
+        case 32u:
+        case 36u:
+            field_100_pCollisionLine = ppPathLine;
+            field_B8_xpos = hitX;
+            field_BC_ypos = hitY;
+            ToIdle_489B70();
+            CheckForPlatform_489EA0();
+            UpdateSlurgWatchPoints_4890D0();
+            field_106_current_motion = eParamiteMotions::M_JumpUpLand_14_48BF00;
+            field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+            return;
+
+        case 3u:
+        case 7u:
+            if (field_C8_vely < FP_FromInteger(0))
+            {
+                field_C8_vely = FP_FromInteger(0);
+                field_BC_ypos = hitY;
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
+    else
+    {
+        PullRingRope* pRope = FindPullRope_488F20();
+        if (pRope)
+        {
+            if (pRope->VPull_49BBD0(this))
+            {
+                field_106_current_motion = eParamiteMotions::M_RopePull_15_48D930;
+                field_124 = pRope->field_8_object_id;
+                field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+                return;
+            }
+            field_124 = -1;
+        }
+
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            FP gridBlock = {};
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                gridBlock = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+            else
+            {
+                gridBlock = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+
+            PathLine* pHitLine = Collision_4888A0(FP_FromInteger(0), gridBlock);
+
+            if (field_C8_vely <= FP_FromInteger(0) || pHitLine)
+            {
+                if (pHitLine)
+                {
+                    field_100_pCollisionLine = pHitLine;
+                }
+
+                if (FP_Abs(field_C8_vely) < FP_FromInteger(3))
+                {
+                    auto pFleech = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eFleech_50, field_B8_xpos, field_BC_ypos - FP_FromInteger(20)));
+                    if (pFleech)
+                    {
+                        pFleech->VTakeDamage_408730(this);
+                        pFleech->field_6_flags.Set(BaseGameObject::eDead);
+                    }
+                }
+            }
+            else
+            {
+                field_C4_velx = FP_FromInteger(0);
+                field_106_current_motion = eParamiteMotions::M_WebGrab_38_48D6C0;
+
+                auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType_425180(Types::eWebLine_146, field_B8_xpos, field_BC_ypos));
+                if (pWeb)
+                {
+                    pWeb->Wobble_4E29D0(FP_GetExponent(field_BC_ypos));
+                }
+                // Don't try to go to falling
+                return;
+            }
+        }
+    }
+
+    if ((field_BC_ypos - field_F8_LastLineYPos) > FP_FromInteger(0))
+    {
+        field_13C = FP_FromDouble(0.75);
+        field_106_current_motion = eParamiteMotions::M_Falling_11_48B200;
+    }
 }
 
 void Paramite::M_JumpUpLand_14_48BF00()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_489B70();
+    }
+    else if (field_20_animation.field_92_current_frame == 1)
+    {
+        Sound_48F600(ParamiteSpeak::LoudStep_3, 0);
+        Abe_SFX_2_457A40(6, 55, 500, 0);
+    }
 }
 
 void Paramite::M_RopePull_15_48D930()
@@ -1091,27 +1350,207 @@ void Paramite::M_Knockback_19_48BF50()
 
 void Paramite::M_GameSpeakBegin_20_48C010()
 {
-    NOT_IMPLEMENTED();
+    auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
+    if (pObj)
+    {
+        PSX_RECT otherRect = {};
+        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+
+        PSX_RECT ourRect = {};
+        vGetBoundingRect_424FD0(&ourRect, 1);
+
+        if (otherRect.x <= ourRect.w &&
+            otherRect.w >= ourRect.x &&
+            otherRect.h >= ourRect.y &&
+            otherRect.y <= ourRect.h)
+        {
+            if (vIsObj_GettingNear_425420(pObj))
+            {
+                if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
+                {
+                    if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
+                    {
+                        if (pObj->field_10C_health > FP_FromInteger(0))
+                        {
+                            SFX_Play_46FA90(64u, 0);
+                            Abe_SFX_457EC0(9u, 0, 0, pObj);
+                        }
+                        pObj->VTakeDamage_408730(this);
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eParamiteMotions::M_PreHiss_21_48C180;
+    }
 }
 
 void Paramite::M_PreHiss_21_48C180()
 {
-    NOT_IMPLEMENTED();
+    auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
+    if (pObj)
+    {
+        PSX_RECT otherRect = {};
+        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+
+        PSX_RECT ourRect = {};
+        vGetBoundingRect_424FD0(&ourRect, 1);
+
+        if (otherRect.x <= ourRect.w &&
+            otherRect.w >= ourRect.x &&
+            otherRect.h >= ourRect.y &&
+            otherRect.y <= ourRect.h)
+        {
+            if (vIsObj_GettingNear_425420(pObj))
+            {
+                if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
+                {
+                    if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
+                    {
+                        pObj->VTakeDamage_408730(this);
+                    }
+                }
+            }
+        }
+    }
+
+    switch (field_108_next_motion)
+    {
+    case eParamiteMotions::M_Hiss1_22_48C3E0:
+    case eParamiteMotions::M_Hiss2_23_48C600:
+    case eParamiteMotions::M_Hiss3_26_48C6F0:
+        field_106_current_motion = field_108_next_motion;
+        field_108_next_motion = -1;
+        break;
+
+    case eParamiteMotions::M_Empty_24_48C680:
+        field_106_current_motion = eParamiteMotions::M_GameSpeakEnd_28_48C8B0;
+        field_108_next_motion = -1;
+        Sound_48F600(ParamiteSpeak::Howdy_5, 0);
+
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Paramite_Howdy_48);
+        }
+        break;
+
+    case eParamiteMotions::M_RunningAttack_31_48C9E0:
+        field_106_current_motion = eParamiteMotions::M_RunningAttack_31_48C9E0;
+        field_108_next_motion = -1;
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+        }
+        else
+        {
+            field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+        }
+
+        break;
+
+    default:
+        if (field_108_next_motion != -1 || sControlledCharacter_5C1B8C == this)
+        {
+            field_106_current_motion = eParamiteMotions::M_GameSpeakEnd_28_48C8B0;
+        }
+        break;
+    }
 }
 
 void Paramite::M_Hiss1_22_48C3E0()
 {
-    NOT_IMPLEMENTED();
+    auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
+    if (pObj)
+    {
+        PSX_RECT otherRect = {};
+        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+
+        PSX_RECT ourRect = {};
+        vGetBoundingRect_424FD0(&ourRect, 1);
+
+        if (otherRect.x <= ourRect.w &&
+            otherRect.w >= ourRect.x &&
+            otherRect.h >= ourRect.y &&
+            otherRect.y <= ourRect.h)
+        {
+            if (vIsObj_GettingNear_425420(pObj))
+            {
+                if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
+                {
+                    if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
+                    {
+                        pObj->VTakeDamage_408730(this);
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_20_animation.field_92_current_frame != 2 || field_178_flags.Get(Flags_178::eBit3))
+    {
+        field_178_flags.Clear(Flags_178::eBit3);
+    }
+    else
+    {
+        field_178_flags.Set(Flags_178::eBit3);
+        Event_Broadcast_422BC0(kEventLoudNoise, this);
+        Sound_48F600(ParamiteSpeak::Stay_1, 0);
+
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Paramite_Stay_49);
+        }
+    }
+
+    if (field_108_next_motion == eParamiteMotions::M_RunningAttack_31_48C9E0)
+    {
+        field_106_current_motion = eParamiteMotions::M_RunningAttack_31_48C9E0;
+        field_108_next_motion = -1;
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+        }
+        else
+        {
+            field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+        }
+    }
+    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eParamiteMotions::M_PostHiss_27_48C780;
+    }
 }
 
 void Paramite::M_Hiss2_23_48C600()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame != 2 || field_178_flags.Get(Flags_178::eBit3))
+    {
+        field_178_flags.Clear(Flags_178::eBit3);
+    }
+    else
+    {
+        field_178_flags.Set(Flags_178::eBit3);
+        Sound_48F600(ParamiteSpeak::CMon_or_Attack_0, 0);
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Paramite_CMon_or_Attack_50);
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eParamiteMotions::M_PostHiss_27_48C780;
+    }
 }
 
 void Paramite::M_Empty_24_48C680()
 {
-    NOT_IMPLEMENTED();
+    // Empty
 }
 
 void Paramite::M_AllOYaGameSpeakBegin_25_48C6A0()
@@ -1284,7 +1723,16 @@ void Paramite::M_WebGoingDown_37_48CC60()
 
 void Paramite::M_WebGrab_38_48D6C0()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_DA_xOffset = 0;
+        field_106_current_motion = eParamiteMotions::M_WebIdle_35_48D400;
+        auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType_425180(Types::eWebLine_146, field_B8_xpos, field_BC_ypos));
+        if (pWeb)
+        {
+            pWeb->Wobble_4E29D0(FP_GetExponent(field_BC_ypos));
+        }
+    }
 }
 
 void Paramite::M_WebLeaveUp_39_48D8C0()
@@ -1365,7 +1813,10 @@ void Paramite::M_Death_41_48D8E0()
 
 void Paramite::M_UNKNOWN_42_48D900()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Sound_48F600(ParamiteSpeak::DoIt_2, 0);
+    }
 }
 
 void Paramite::M_Attack_43_48DB70()

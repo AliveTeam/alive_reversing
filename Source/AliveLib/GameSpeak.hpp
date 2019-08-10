@@ -29,6 +29,9 @@ enum GameSpeakEvents : char
 
     Slig_Freeze_31 = 31,
 
+    Paramite_Howdy_48 = 48,
+    Paramite_Stay_49 = 49,
+    Paramite_CMon_or_Attack_50 = 50,
     Paramite_DoIt_51 = 51,
     Paramite_AllYa_52 = 52,
 
