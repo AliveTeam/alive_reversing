@@ -254,6 +254,7 @@ private:
 
     EXPORT void Sound_48F600(unsigned __int8 soundId, __int16 pitch_min);
 
+    EXPORT void UpdateSlurgWatchPoints_4890D0();
 
 private:
     int field_118;
