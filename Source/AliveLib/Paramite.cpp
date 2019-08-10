@@ -706,7 +706,24 @@ void Paramite::M_Running_3_48AA00()
 
 void Paramite::M_Turn_4_48B180()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame == 0)
+    {
+        Sound_48F600(4u, 0);
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        
+        if (ToNextMotion_4898A0())
+        {
+            field_20_animation.Set_Animation_Data_409C80(field_20_animation.field_18_frame_table_offset, nullptr);
+        }
+        else
+        {
+            ToIdle_489B70();
+        }
+    }
 }
 
 void Paramite::M_Hop_5_48B5B0()
@@ -754,9 +771,40 @@ void Paramite::M_UNKNOWN_6_48A930()
     }
 }
 
+const int sWalkToRunTable_546538[3] = // TODO: Convert
+{
+    353663,
+    353662,
+    353664
+};
+
 void Paramite::M_WalkRunTransition_7_48B0C0()
 {
-    NOT_IMPLEMENTED();
+    FP frameVelX = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        frameVelX = -FP_FromRaw(sWalkToRunTable_546538[field_20_animation.field_92_current_frame & 3]);
+    }
+    else
+    {
+        frameVelX = FP_FromRaw(sWalkToRunTable_546538[field_20_animation.field_92_current_frame & 3]);
+    }
+
+    field_C4_velx = (field_CC_sprite_scale * frameVelX);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eParamiteMotions::M_Walking_2_48A2D0;
+    }
+
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToKnockBack_489BB0();
+    }
+    else
+    {
+        MoveOnLine_489CA0();
+    }
 }
 
 const int sWalkEndTable_5464C8[3] = // TODO: Convert
@@ -794,14 +842,77 @@ void Paramite::M_WalkEnd_8_48A870()
     }
 }
 
+const int sRunBeginTable_546520[3] = // TODO: Convert
+{
+    123139,
+    141508,
+    218262
+};
+
 void Paramite::M_RunBegin_9_48AF10()
 {
-    NOT_IMPLEMENTED();
+    field_154 |= sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        field_C4_velx = (field_CC_sprite_scale * -FP_FromRaw(sRunBeginTable_546520[field_20_animation.field_92_current_frame & 3]));
+    }
+    else
+    {
+        field_C4_velx = (field_CC_sprite_scale * FP_FromRaw(sRunBeginTable_546520[field_20_animation.field_92_current_frame & 3]));
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_178_flags.Set(Flags_178::eBit2);
+        field_F4 = 3;
+        field_F6_anim_frame = 2;
+    }
+
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToKnockBack_489BB0();
+    }
+    else
+    {
+        MoveOnLine_489CA0();
+    }
 }
+
+const int sRunEndTable_54652C[3] = // TODO: Convert
+{
+    203900,
+    200766,
+    224956
+};
 
 void Paramite::M_RunEnd_10_48B000()
 {
-    NOT_IMPLEMENTED();
+    FP frameVelX = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        frameVelX = -FP_FromRaw(sRunEndTable_54652C[field_20_animation.field_92_current_frame & 3]);
+    }
+    else
+    {
+        frameVelX = FP_FromRaw(sRunEndTable_54652C[field_20_animation.field_92_current_frame & 3]);
+    }
+
+    field_C4_velx = (field_CC_sprite_scale * frameVelX);
+    
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_489B70();
+    }
+
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx))
+    {
+        ToKnockBack_489BB0();
+    }
+    else
+    {
+        MoveOnLine_489CA0();
+    }
 }
 
 void Paramite::M_Falling_11_48B200()
