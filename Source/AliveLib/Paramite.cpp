@@ -19,6 +19,7 @@
 #include "PlatformBase.hpp"
 #include "SwitchStates.hpp"
 #include "PullRingRope.hpp"
+#include "Sfx.hpp"
 
 class Class_547F58 : public BaseAnimatedWithPhysicsGameObject
 {
@@ -227,7 +228,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
         field_F8_LastLineYPos = hitY;
         field_BC_ypos = hitY;
         field_106_current_motion = 0;
-        sub_489EA0();
+        CheckForPlatform_489EA0();
     }
 
     field_F8_LastLineYPos = field_BC_ypos;
@@ -589,11 +590,6 @@ Paramite* Paramite::vdtor_487F90(signed int flags)
         Mem_Free_495540(this);
     }
     return this;
-}
-
-void Paramite::sub_489EA0()
-{
-    NOT_IMPLEMENTED();
 }
 
 void Paramite::vUpdate_4871B0()
@@ -1636,7 +1632,7 @@ __int16 Paramite::ToNextMotion_4898A0()
 
 void Paramite::ToIdle_489B70()
 {
-    field_13C = 0;
+    field_13C = FP_FromInteger(0);
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_106_current_motion = eParamiteMotions::M_Idle_0_489FB0;
@@ -1657,4 +1653,234 @@ void Paramite::ToKnockBack_489BB0()
     }
 
     field_106_current_motion = eParamiteMotions::M_Knockback_19_48BF50;
+}
+
+void Paramite::MoveOnLine_489CA0()
+{
+    if (!field_100_pCollisionLine)
+    {
+        field_F8_LastLineYPos = field_BC_ypos;
+        field_106_current_motion = eParamiteMotions::M_Falling_11_48B200;
+        return;
+    }
+
+    BaseGameObject* pPlatform = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+    const FP oldXPos = field_B8_xpos;
+
+    // As we move on the line it might change to another one
+    field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
+    if (field_100_pCollisionLine)
+    {
+        if (field_100_pCollisionLine->field_8_type == 8)
+        {
+            field_C4_velx = FP_FromInteger(0);
+            field_B8_xpos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.x);
+            field_BC_ypos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y) + (field_CC_sprite_scale * FP_FromInteger(20));
+            field_106_current_motion = eParamiteMotions::M_WebGrab_38_48D6C0;
+        }
+        else if (pPlatform)
+        {
+            if (field_100_pCollisionLine->field_8_type != 32 && field_100_pCollisionLine->field_8_type != 36)
+            {
+                const auto savedMotion = field_106_current_motion;
+                VOnTrapDoorOpen();
+                field_106_current_motion = savedMotion;
+            }
+        }
+        else if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+        {
+            CheckForPlatform_489EA0();
+        }
+    }
+    else
+    {
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            PathLine* pHit = Collision_4888A0(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx);
+            if (pHit)
+            {
+                field_100_pCollisionLine = pHit;
+                field_C4_velx = FP_FromInteger(0);
+                field_106_current_motion = eParamiteMotions::M_WebGrab_38_48D6C0;
+            }
+        }
+
+        VOnTrapDoorOpen();
+        field_106_current_motion = eParamiteMotions::M_Falling_11_48B200;
+        field_F8_LastLineYPos = field_BC_ypos;
+        field_13C = FP_FromDouble(0.3);
+        field_B8_xpos = oldXPos + field_C4_velx;
+    }
+}
+
+void Paramite::CheckForPlatform_489EA0()
+{
+    PSX_Point xy = {};
+    PSX_Point wh = {};
+
+    xy.field_0_x = FP_GetExponent(field_B8_xpos - FP_FromInteger(5));
+    xy.field_2_y = FP_GetExponent(field_BC_ypos - FP_FromInteger(5));
+
+    wh.field_0_x = FP_GetExponent(field_B8_xpos + FP_FromInteger(5));
+    wh.field_2_y = FP_GetExponent(field_BC_ypos + FP_FromInteger(5));
+
+    vOnCollisionWith_424EE0(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+}
+
+void Paramite::HandleStopWalking_48A720()
+{
+    // Pressing opposite direction of movement or not pressing any direction
+    if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)) ||
+        (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0)) ||
+        !sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4 | sInputKey_Right_5550D0))
+    {
+        field_106_current_motion = eParamiteMotions::M_WalkEnd_8_48A870;
+    }
+}
+
+void Paramite::HandleInputRunning_48ADB0()
+{
+    if ((field_C4_velx > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)) ||
+        (field_C4_velx < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0)) ||
+        !sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4 | sInputKey_Right_5550D0))
+    {
+        field_106_current_motion = eParamiteMotions::M_RunEnd_10_48B000;
+    }
+    else if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
+    {
+        if (sInputKey_Hop_5550E0 & field_154)
+        {
+            ToHop_489C20();
+        }
+        else if ((sInputKey_ThrowItem_5550F4 | sInputKey_DoAction_5550E4) & field_154)
+        {
+            field_106_current_motion = eParamiteMotions::M_RunningAttack_31_48C9E0;
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+            }
+            else
+            {
+                field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(4));
+            }
+        }
+    }
+    else
+    {
+        field_106_current_motion = eParamiteMotions::M_WalkRunTransition_7_48B0C0;
+    }
+}
+
+ALIVE_VAR(1, 0x5C92EC, short, sParamiteDelayIdx_5C92EC, 0);
+
+const __int16 sParamiteDelayTable_55D7B8[4] = { 0, 5, 10, 0 };
+
+__int16 CC Paramite::StableDelay_48DF80()
+{
+    if (sParamiteDelayIdx_5C92EC >= 3u)
+    {
+        sParamiteDelayIdx_5C92EC = 0;
+    }
+    return sParamiteDelayTable_55D7B8[sParamiteDelayIdx_5C92EC++];
+}
+
+const SfxDefinition stru_55D7C0[12] =
+{
+    { 0u, 5u, 60u, 90u, -520, -520 },
+    { 0u, 5u, 61u, 75u, -520, -520 },
+    { 0u, 5u, 62u, 50u, -520, -520 },
+    { 0u, 5u, 64u, 40u, -520, -520 },
+    { 0u, 5u, 65u, 40u, -520, -520 },
+    { 0u, 5u, 66u, 30u, -520, -520 },
+    { 0u, 5u, 66u, 50u, 0, 0 },
+    { 0u, 5u, 67u, 40u, -520, -520 },
+    { 0u, 5u, 68u, 30u, -520, -520 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 }
+};
+
+
+void Paramite::Sound_48F600(unsigned __int8 soundId, __int16 pitch_min)
+{
+    LOG_INFO("Paramite sound = " << static_cast<int>(soundId));
+
+    const CameraPos direction = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
+
+    short volRight = 0;
+    if (soundId == 5)
+    {
+        volRight = stru_55D7C0[5].field_3_default_volume;
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            volRight *= 3;
+        }
+    }
+    else if (soundId == 9)
+    {
+        volRight = sSeqData_558D50.mData[20].field_9;
+    }
+    else
+    {
+        volRight = stru_55D7C0[soundId].field_3_default_volume;
+    }
+
+    if (field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        volRight = (2 * volRight) / 3;
+    }
+
+    PSX_RECT pRect = {};
+    gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
+
+    short volLeft = 0;
+    switch (direction)
+    {
+    case CameraPos::eCamCurrent_0:
+        volLeft = volRight;
+        break;
+
+    case CameraPos::eCamTop_1:
+    case CameraPos::eCamBottom_2:
+    {
+        const short v12 = FP_GetExponent(FP_FromRaw(stru_55D7C0[soundId].field_3_default_volume) / FP_FromInteger(3));
+        volLeft = v12;
+        volRight = v12;
+        break;
+    }
+
+    case CameraPos::eCamLeft_3:
+    {
+        const FP v9 = (FP_FromInteger(pRect.w) - field_B8_xpos) / FP_FromInteger(368);
+        volLeft = volRight - FP_GetExponent((v9 * FP_FromInteger((volRight -1) * (volRight / 3))));
+        const FP v10 = (v9 * FP_FromInteger(volRight));
+        volRight = volRight - FP_GetExponent(v10);
+        break;
+    }
+
+    case CameraPos::eCamRight_4:
+    {
+        const FP v11 = (field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
+        volLeft = volRight - FP_GetExponent(v11 * FP_FromInteger(volRight));
+        const FP v10 = (v11 * FP_FromInteger((volRight - 1) * (volRight / 3)));
+        volRight = volRight - FP_GetExponent(v10);
+        break;
+    }
+
+    default:
+        return;
+    }
+
+    if (soundId == 9)
+    {
+        SND_SEQ_Play_4CAB10(20u, 1, volLeft, volRight);
+    }
+    else if (pitch_min > 0)
+    {
+        SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[soundId], volLeft, volRight, pitch_min, pitch_min);
+    }
+    else
+    {
+        SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[soundId], volLeft, volRight, -520, -520);
+    }
 }

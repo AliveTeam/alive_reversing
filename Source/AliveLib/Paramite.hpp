@@ -186,7 +186,6 @@ public:
     EXPORT void M_Attack_43_48DB70();
 
 private:
-    EXPORT void sub_489EA0();
 
     void SetBrain(TParamiteAIFn fn);
     bool BrainIs(TParamiteAIFn fn);
@@ -243,6 +242,18 @@ private:
 
     EXPORT void ToKnockBack_489BB0();
 
+    EXPORT void MoveOnLine_489CA0();
+
+    EXPORT void CheckForPlatform_489EA0();
+
+    EXPORT void HandleStopWalking_48A720();
+
+    EXPORT void HandleInputRunning_48ADB0();
+
+    EXPORT static __int16 CC StableDelay_48DF80();
+
+    EXPORT void Sound_48F600(unsigned __int8 soundId, __int16 pitch_min);
+
 
 private:
     int field_118;
@@ -256,7 +267,7 @@ private:
     __int16 field_134_meat_eating_time;
     __int16 field_136_attack_delay;
     int field_138;
-    int field_13C;
+    FP field_13C;
     int field_140_tlvInfo;
     int field_144_attack_duration;
     int field_148_timer;
