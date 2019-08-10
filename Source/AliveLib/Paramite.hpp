@@ -83,6 +83,23 @@ enum class LevelIds : __int16;
 
 class PullRingRope;
 
+
+enum class ParamiteSpeak : __int8
+{
+    CMon_or_Attack_0 = 0,
+    Stay_1 = 1,
+    DoIt_2 = 2,
+    LoudStep_3 = 3,
+    SlightStep_4 = 4,
+    Howdy_5 = 5,
+    ClimbingWeb_6 = 6,
+    DetectedMeat_7 = 7,
+    None_8 = 8,
+    AllYa_9 = 9,
+    None_10 = 10,
+    None_11 = 11,
+};
+
 class Paramite : public BaseAliveGameObject
 {
 public:
@@ -252,7 +269,7 @@ private:
 
     EXPORT static __int16 CC StableDelay_48DF80();
 
-    EXPORT void Sound_48F600(unsigned __int8 soundId, __int16 pitch_min);
+    EXPORT void Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min);
 
     EXPORT void UpdateSlurgWatchPoints_4890D0();
 
