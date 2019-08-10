@@ -197,8 +197,6 @@ private:
 
     EXPORT void vUpdate_4871B0();
 
-    EXPORT void sub_489BB0();
-
     EXPORT __int16 Find_Paramite_488810();
 
     EXPORT void vUpdateAnim_487170();

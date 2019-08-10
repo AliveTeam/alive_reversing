@@ -825,7 +825,7 @@ void Paramite::vUpdate_4871B0()
 
             if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
             {
-                sub_489BB0();
+                ToKnockBack_489BB0();
                 field_114_flags.Clear(Flags_114::e114_Bit1_bShot);
                 field_106_current_motion = field_108_next_motion;
                 field_108_next_motion = -1;
@@ -847,11 +847,6 @@ void Paramite::vUpdate_4871B0()
             }
         }
     }
-}
-
-void Paramite::sub_489BB0()
-{
-    NOT_IMPLEMENTED();
 }
 
 __int16 Paramite::Find_Paramite_488810()
