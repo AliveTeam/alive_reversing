@@ -152,7 +152,7 @@ enum class Types : __int16
     eUXB_143 = 143,
     eType_144 = 144,
     eMovie_145 = 145,
-    eWeb_146 = 146,
+    eWebLine_146 = 146,
     eWell_147 = 147,
     eWheel_148 = 148,
     eCameraSwapper_149 = 149,

@@ -136,7 +136,7 @@ EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 EXPORT void CC Factory_MultiSwitchController_4D6C00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_StatusLight_4DA7E0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
-EXPORT void CC Factory_ParamiteWeb_4D9120(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
+EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_FartMachine_4DA2B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);
 EXPORT void CC Factory_ScrabSpawner_4D9270(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode);

@@ -1810,7 +1810,7 @@ EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-EXPORT void CC Factory_ParamiteWeb_4D9120(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
 
 EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {
@@ -2125,7 +2125,7 @@ const PathFunctionTable kObjectFactory =
         Factory_MultiSwitchController_4D6C00,
         Factory_StatusLight_4DA7E0,
         Factory_SlapLock_4DAF20,
-        Factory_ParamiteWeb_4D9120,
+        Factory_ParamiteWebLine_4D9120,
         Factory_Alarm_4DAF90,
         Factory_FartMachine_4DA2B0,
         Factory_ScrabSpawner_4D9270,
