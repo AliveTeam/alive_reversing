@@ -3046,17 +3046,21 @@ void Paramite::MoveOnLine_489CA0()
     }
     else
     {
+        // Not on a line so we are falling
+
         if (sControlledCharacter_5C1B8C == this)
         {
-            PathLine* pHit = Collision_4888A0(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx);
-            if (pHit)
+            // Check if we hit a web while falling and grab it if so
+            field_100_pCollisionLine = Collision_4888A0(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx);
+            if (field_100_pCollisionLine)
             {
-                field_100_pCollisionLine = pHit;
                 field_C4_velx = FP_FromInteger(0);
                 field_106_current_motion = eParamiteMotions::M_WebGrab_38_48D6C0;
+                return;
             }
         }
 
+        // Otherwise just fall
         VOnTrapDoorOpen();
         field_106_current_motion = eParamiteMotions::M_Falling_11_48B200;
         field_F8_LastLineYPos = field_BC_ypos;
