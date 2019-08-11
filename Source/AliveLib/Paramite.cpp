@@ -326,6 +326,256 @@ void Paramite::VUpdate()
     vUpdate_4871B0();
 }
 
+
+const int sParamiteFrameTableOffsets_55D660[44] =
+{
+    96696,
+    96676,
+    96548,
+    96612,
+    96792,
+    96728,
+    97164,
+    97172,
+    96828,
+    96868,
+    96848,
+    96888,
+    96904,
+    96932,
+    96944,
+    96972,
+    97192,
+    97096,
+    97120,
+    97136,
+    17032,
+    17072,
+    17088,
+    17088,
+    17088,
+    17192,
+    17088,
+    17120,
+    17152,
+    17088,
+    17120,
+    19068,
+    52312,
+    52312,
+    52344,
+    52476,
+    52428,
+    52380,
+    52548,
+    52588,
+    15628,
+    8108,
+    9636,
+    10948
+};
+
+
+int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const Paramite_State*>(pBuffer);
+    auto pTlv = static_cast<Path_Paramite*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_3C_tlvInfo));
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 600, 0, 0))
+    {
+        ResourceManager::LoadResourceFile_49C170("PARAMITE.BND", nullptr);
+    }
+
+    auto pParamite = alive_new<Paramite>();
+    if (pParamite)
+    {
+        pParamite->ctor_4879B0(pTlv, pState->field_3C_tlvInfo);
+    }
+
+    if (pState->field_76_flags.Get(Paramite_State::eBit1))
+    {
+        sControlledCharacter_5C1B8C = pParamite;
+    }
+
+    pParamite->field_FC_pPathTLV = nullptr;
+    pParamite->field_100_pCollisionLine = nullptr;
+
+    pParamite->field_B8_xpos = pState->field_4_xpos;
+    pParamite->field_BC_ypos = pState->field_8_ypos;
+
+    pParamite->field_C4_velx = pState->field_C_velx;
+    pParamite->field_C8_vely = pState->field_10_vely;
+
+    pParamite->field_13C = pState->field_64;
+    pParamite->field_C0_path_number = pState->field_14_path_number;
+    pParamite->field_C2_lvl_number = pState->field_16_lvl_number;
+    pParamite->field_CC_sprite_scale = pState->field_18_sprite_scale;
+
+    pParamite->field_D0_r = pState->field_1C_r;
+    pParamite->field_D2_g = pState->field_1E_g;
+    pParamite->field_D4_b = pState->field_20_b;
+
+    pParamite->field_106_current_motion = pState->field_24_current_motion;
+    BYTE** ppRes = pParamite->ResBlockForMotion_488130(pParamite->field_106_current_motion);
+    pParamite->field_20_animation.Set_Animation_Data_409C80(sParamiteFrameTableOffsets_55D660[pParamite->field_106_current_motion], ppRes);
+
+    pParamite->field_20_animation.field_92_current_frame = pState->field_26_anim_current_frame;
+    pParamite->field_20_animation.field_E_frame_change_counter = pState->field_28;
+
+    pParamite->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2B_bit8 & 1);
+
+    pParamite->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_flip_x & 1);
+    pParamite->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_anim_bit4 & 1);
+
+    auto pHeader = reinterpret_cast<AnimationHeader*>(&(pParamite->field_20_animation.field_20_ppBlock[pParamite->field_20_animation.field_18_frame_table_offset]));
+    if (pParamite->field_20_animation.field_92_current_frame == pHeader->field_2_num_frames - 1)
+    {
+        pParamite->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pParamite->field_10C_health = pState->field_2C_health;
+    pParamite->field_106_current_motion = pState->field_30_current_motion;
+    pParamite->field_108_next_motion = pState->field_32_next_motion;
+    pParamite->field_F8_LastLineYPos = FP_FromInteger(pState->field_34_last_line_ypos);
+    pParamite->field_114_flags.Set(Flags_114::e114_Bit9);
+    pParamite->field_104_collision_line_type = pState->field_36_line_type;
+
+    pParamite->field_118 = pState->field_40_obj_id;
+    pParamite->field_11C_obj_id = pState->field_44_obj_id;
+    pParamite->field_120_obj_id = pState->field_48_obj_id;
+    pParamite->field_124 = pState->field_4C_obj_id;
+
+    pParamite->field_128_fn_brainState = sParamite_ai_table_55D710[pState->field_50_ai_idx];
+
+    pParamite->field_12C_brain_ret = pState->field_58_brain_ret;
+    pParamite->field_130_timer = pState->field_5C_timer;
+    pParamite->field_138 = pState->field_60;
+    pParamite->field_13C = pState->field_64;
+
+    pParamite->field_140_tlvInfo = pState->field_3C_tlvInfo;
+    pParamite->field_148_timer = pState->field_68_timer;
+
+    pParamite->field_14E_return_level = pState->field_6C_return_level;
+    pParamite->field_150_return_path = pState->field_6E_return_path;
+    pParamite->field_152_return_camera = pState->field_70_return_camera;
+
+    pParamite->field_154 = InputObject::Command_To_Raw_45EE40(pState->field_72_input);
+    pParamite->field_158 = pState->field_74;
+
+    pParamite->field_178_flags.Set(Flags_178::eBit2, pState->field_76_flags.Get(Paramite_State::eBit2));
+    pParamite->field_178_flags.Set(Flags_178::eBit3, pState->field_76_flags.Get(Paramite_State::eBit3));
+    pParamite->field_178_flags.Set(Flags_178::eBit5, pState->field_76_flags.Get(Paramite_State::eBit4));
+    pParamite->field_178_flags.Set(Flags_178::eBit6, pState->field_76_flags.Get(Paramite_State::eBit5));
+    pParamite->field_178_flags.Set(Flags_178::eBit7, pState->field_76_flags.Get(Paramite_State::eBit6));
+    pParamite->field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed, pState->field_76_flags.Get(Paramite_State::eBit7));
+
+    return sizeof(Paramite_State);
+}
+
+static int ResolveId(int objId)
+{
+    BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(objId);
+    if (pObj)
+    {
+        return pObj->field_C_objectId;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int Paramite::vGetSaveState_48F220(Paramite_State* pState)
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0_type = Types::eParamite_96;
+    pState->field_4_xpos = field_B8_xpos;
+    pState->field_8_ypos = field_BC_ypos;
+    pState->field_C_velx = field_C4_velx;
+    pState->field_10_vely = field_C8_vely;
+
+    pState->field_64 = field_13C;
+
+    pState->field_14_path_number = field_C0_path_number;
+    pState->field_16_lvl_number = field_C2_lvl_number;
+    pState->field_18_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_1C_r = field_D0_r;
+    pState->field_1E_g = field_D2_g;
+    pState->field_20_b = field_D4_b;
+
+    pState->field_22_flip_x = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_24_current_motion = field_106_current_motion;
+    pState->field_26_anim_current_frame = field_20_animation.field_92_current_frame;
+    pState->field_28 = field_20_animation.field_E_frame_change_counter;
+    pState->field_2B_bit8 = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2A_anim_bit4 = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_2C_health = field_10C_health;
+    pState->field_30_current_motion = field_106_current_motion;
+    pState->field_32_next_motion = field_108_next_motion;
+   
+    pState->field_34_last_line_ypos = FP_GetExponent(field_F8_LastLineYPos);
+    if (field_100_pCollisionLine)
+    {
+        pState->field_36_line_type = field_100_pCollisionLine->field_8_type;
+    }
+    else
+    {
+        pState->field_36_line_type = -1;
+    }
+
+    pState->field_76_flags.Clear();
+    pState->field_76_flags.Set(Paramite_State::eBit1, this == sControlledCharacter_5C1B8C);
+
+    pState->field_3C_tlvInfo = field_140_tlvInfo;
+    pState->field_40_obj_id = ResolveId(field_118);
+    pState->field_44_obj_id = ResolveId(field_11C_obj_id);
+    pState->field_44_obj_id = ResolveId(field_120_obj_id);
+    pState->field_44_obj_id = ResolveId(field_124);
+
+    pState->field_50_ai_idx = 0;
+    
+    int idx = 0;
+    for (auto& fn : sParamite_ai_table_55D710)
+    {
+        if (BrainIs(fn))
+        {
+            pState->field_50_ai_idx = idx;
+            break;
+        }
+        idx++;
+    }
+
+    pState->field_58_brain_ret = field_12C_brain_ret;
+    pState->field_5C_timer = field_130_timer;
+
+    pState->field_60 = field_138;
+    pState->field_64 = field_13C;
+
+    pState->field_3C_tlvInfo = field_140_tlvInfo;
+    pState->field_68_timer = field_148_timer;
+
+    pState->field_6C_return_level = field_14E_return_level;
+    pState->field_6E_return_path = field_150_return_path;
+    pState->field_70_return_camera = field_152_return_camera;
+
+    pState->field_72_input = InputObject::Raw_To_Command_45EF70(field_154);
+    pState->field_74 = field_158;
+
+    pState->field_76_flags.Set(Paramite_State::eBit2, field_178_flags.Get(Flags_178::eBit2));
+    pState->field_76_flags.Set(Paramite_State::eBit3, field_178_flags.Get(Flags_178::eBit3));
+    pState->field_76_flags.Set(Paramite_State::eBit5, field_178_flags.Get(Flags_178::eBit4));
+    pState->field_76_flags.Set(Paramite_State::eBit6, field_178_flags.Get(Flags_178::eBit5));
+    pState->field_76_flags.Set(Paramite_State::eBit7, field_178_flags.Get(Flags_178::eBit6));
+    pState->field_76_flags.Set(Paramite_State::eBit7, field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed));
+
+    return sizeof(Paramite_State);
+}
+
 __int16 Paramite::AI_Patrol_0_4835B0()
 {
     NOT_IMPLEMENTED();
@@ -2755,57 +3005,9 @@ __int16 Paramite::Find_Paramite_488810()
     return 0;
 }
 
-const int dword_55D660[44] =
-{
-    96696,
-    96676,
-    96548,
-    96612,
-    96792,
-    96728,
-    97164,
-    97172,
-    96828,
-    96868,
-    96848,
-    96888,
-    96904,
-    96932,
-    96944,
-    96972,
-    97192,
-    97096,
-    97120,
-    97136,
-    17032,
-    17072,
-    17088,
-    17088,
-    17088,
-    17192,
-    17088,
-    17120,
-    17152,
-    17088,
-    17120,
-    19068,
-    52312,
-    52312,
-    52344,
-    52476,
-    52428,
-    52380,
-    52548,
-    52588,
-    15628,
-    8108,
-    9636,
-    10948
-};
-
 void Paramite::vUpdateAnim_487170()
 {
-    field_20_animation.Set_Animation_Data_409C80(dword_55D660[field_106_current_motion], ResBlockForMotion_488130(field_106_current_motion));
+    field_20_animation.Set_Animation_Data_409C80(sParamiteFrameTableOffsets_55D660[field_106_current_motion], ResBlockForMotion_488130(field_106_current_motion));
 }
 
 Meat* Paramite::FindMeat_488930()
