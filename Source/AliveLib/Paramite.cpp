@@ -1292,42 +1292,38 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
                 gridBlock = ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
 
-            PathLine* pHitLine = Collision_4888A0(FP_FromInteger(0), gridBlock);
 
-            if (field_C8_vely <= FP_FromInteger(0) || pHitLine)
+            if (field_C8_vely > FP_FromInteger(0))
             {
-                if (pHitLine)
+                field_100_pCollisionLine = Collision_4888A0(FP_FromInteger(0), gridBlock);
+                if (field_100_pCollisionLine)
                 {
-                    field_100_pCollisionLine = pHitLine;
-                }
+                    field_C4_velx = FP_FromInteger(0);
+                    field_106_current_motion = eParamiteMotions::M_WebGrab_38_48D6C0;
 
-                if (FP_Abs(field_C8_vely) < FP_FromInteger(3))
-                {
-                    auto pFleech = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eFleech_50, field_B8_xpos, field_BC_ypos - FP_FromInteger(20)));
-                    if (pFleech)
+                    auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType_425180(Types::eWebLine_146, field_B8_xpos, field_BC_ypos));
+                    if (pWeb)
                     {
-                        pFleech->VTakeDamage_408730(this);
-                        pFleech->field_6_flags.Set(BaseGameObject::eDead);
+                        pWeb->Wobble_4E29D0(FP_GetExponent(field_BC_ypos));
                     }
+                    // Don't try to go to falling
+                    return;
                 }
             }
-            else
+            else if (FP_Abs(field_C8_vely) < FP_FromInteger(3))
             {
-                field_C4_velx = FP_FromInteger(0);
-                field_106_current_motion = eParamiteMotions::M_WebGrab_38_48D6C0;
-
-                auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType_425180(Types::eWebLine_146, field_B8_xpos, field_BC_ypos));
-                if (pWeb)
+                auto pFleech = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eFleech_50, field_B8_xpos, field_BC_ypos - FP_FromInteger(20)));
+                if (pFleech)
                 {
-                    pWeb->Wobble_4E29D0(FP_GetExponent(field_BC_ypos));
+                    pFleech->VTakeDamage_408730(this);
+                    pFleech->field_6_flags.Set(BaseGameObject::eDead);
                 }
-                // Don't try to go to falling
-                return;
             }
+
         }
     }
 
-    if ((field_BC_ypos - field_F8_LastLineYPos) > FP_FromInteger(0))
+    if ((field_BC_ypos - field_F8_LastLineYPos) > FP_FromInteger(5))
     {
         field_13C = FP_FromDouble(0.75);
         field_106_current_motion = eParamiteMotions::M_Falling_11_48B200;
