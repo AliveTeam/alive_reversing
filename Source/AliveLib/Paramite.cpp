@@ -33,12 +33,67 @@ public:
         return this;
     }
 
+    virtual void VUpdate() override
+    {
+        vUpdate_4E1F40();
+    }
+
+    virtual void VScreenChanged() override
+    {
+        vScreenChanged_4E1F80();
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) override
+    {
+        return vdtor_4E1AF0(flags);
+    }
+
+private:
+    EXPORT ParamiteWeb* vdtor_4E1AF0(signed int flags)
+    {
+        dtor_4E1B20();
+        if (flags & 1)
+        {
+            Mem_Free_495540(this);
+        }
+        return this;
+    }
+
+    EXPORT void dtor_4E1B20()
+    {
+        SetVTable(this, 0x547F58);
+        ResourceManager::FreeResource_49C330(field_FC);
+        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    }
+
+    EXPORT void vUpdate_4E1F40()
+    {
+        if (field_104_bEnabled == 1)
+        {
+            field_FA_ttl_remainder -= 8;
+            if (field_FA_ttl_remainder <= field_F8_ttl)
+            {
+                field_6_flags.Set(BaseGameObject::eDead);
+            }
+        }
+    }
+
+
+    EXPORT void vScreenChanged_4E1F80()
+    {
+        if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
+        {
+            field_6_flags.Set(BaseGameObject::eDead);
+        }
+    }
+
+
 private:
     __int16 field_F4;
     __int16 field_F6;
     __int16 field_F8_ttl;
     __int16 field_FA_ttl_remainder;
-    int field_FC;
+    BYTE** field_FC;
     int field_100;
     __int16 field_104_bEnabled;
     __int16 field_106;
@@ -1294,7 +1349,22 @@ void Paramite::M_JumpUpLand_14_48BF00()
 
 void Paramite::M_RopePull_15_48D930()
 {
-    NOT_IMPLEMENTED();
+    auto pPullRingRope = static_cast<PullRingRope*>(sObjectIds_5C1B70.Find_449CF0(field_124));
+    if (!pPullRingRope || 
+        ((pPullRingRope && pPullRingRope->Vsub_49BC90()) && 
+        (sControlledCharacter_5C1B8C == this || field_108_next_motion == eParamiteMotions::M_Falling_11_48B200)))
+    {
+        if (pPullRingRope)
+        {
+            pPullRingRope->Vsub_49B610();
+        }
+        field_124 = -1;
+        field_C8_vely = FP_FromInteger(0);
+        field_106_current_motion = eParamiteMotions::M_JumpUpMidair_13_48BAF0;
+        field_108_next_motion = -1;
+        field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+    }
+
 }
 
 void Paramite::M_CloseAttack_16_48DDA0()
