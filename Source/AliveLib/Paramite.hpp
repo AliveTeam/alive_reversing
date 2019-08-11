@@ -80,6 +80,7 @@ using TParamiteAIFn = __int16 (Paramite::*)();
 using TParamiteMotionFn = void (Paramite::*)();
 
 enum class LevelIds : __int16;
+enum class GameSpeakEvents : __int16;
 
 class PullRingRope;
 
@@ -272,6 +273,9 @@ private:
     EXPORT void Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min);
 
     EXPORT void UpdateSlurgWatchPoints_4890D0();
+
+    EXPORT GameSpeakEvents LastSpeak_489040();
+
 
 private:
     int field_118;

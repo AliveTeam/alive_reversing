@@ -2359,3 +2359,28 @@ __int16 Scrab::Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, __int16 bCheckLef
     }
     return 0;
 }
+
+GameSpeakEvents Scrab::LastSpeak_4A56F0()
+{
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 1))
+    {
+        return GameSpeakEvents::eNone_m1;
+    }
+
+    if (field_17C_last_event == pEventSystem_5BC11C->field_28_last_event_index)
+    {
+        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        {
+            return GameSpeakEvents::eNone_m1;
+        }
+        else
+        {
+            return GameSpeakEvents::eSameAsLast_m2;
+        }
+    }
+    else
+    {
+        field_17C_last_event = pEventSystem_5BC11C->field_28_last_event_index;
+        return pEventSystem_5BC11C->field_20_last_event;
+    }
+}

@@ -467,7 +467,7 @@ private:
     __int16 field_17C;
     MudAction field_17E_delayed_speak;
     Mud_Emotion field_180_emo_tbl;
-    __int16 field_182;
+    GameSpeakEvents field_182;
     Mud_Motion field_184_next_motion2;
     __int16 field_186;
     const struct MudEmotionTableEntry* field_188_pTblEntry;

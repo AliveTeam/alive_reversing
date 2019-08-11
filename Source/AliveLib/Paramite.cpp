@@ -1365,7 +1365,66 @@ void Paramite::M_RopePull_15_48D930()
 
 void Paramite::M_CloseAttack_16_48DDA0()
 {
-    NOT_IMPLEMENTED();
+
+    if (field_20_animation.field_92_current_frame == 10)
+    {
+        Sound_48F600(ParamiteSpeak::CMon_or_Attack_0, 0);
+
+        BaseAliveGameObject* pObj = nullptr;
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            if (FindTarget_488C30())
+            {
+                pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
+                field_120_obj_id = -1;
+            }
+        }
+        else
+        {
+            pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
+        }
+
+        if (pObj)
+        {
+            PSX_RECT otherRect = {};
+            pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+
+            PSX_RECT ourRect = {};
+            vGetBoundingRect_424FD0(&ourRect, 1);
+
+            short right = 0;
+            short left = 0;
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                right = ourRect.x;
+                left = (ourRect.x + ourRect.w) / 2;
+            }
+            else
+            {
+                left = ourRect.w;
+                right = (ourRect.x + ourRect.w) / 2;
+            }
+
+            if (otherRect.x <= left &&
+                otherRect.w >= right &&
+                otherRect.h >= ourRect.y &&
+                otherRect.y <= ourRect.h)
+            {
+                if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
+                {
+                    if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
+                    {
+                        pObj->VTakeDamage_408730(this);
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_489B70();
+    }
 }
 
 void Paramite::M_Landing_17_48B590()
@@ -1665,7 +1724,40 @@ void Paramite::M_PostHiss_27_48C780()
 
 void Paramite::M_GameSpeakEnd_28_48C8B0()
 {
-    NOT_IMPLEMENTED();
+    auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
+    if (pObj)
+    {
+        PSX_RECT otherRect = {};
+        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+
+        PSX_RECT ourRect = {};
+        vGetBoundingRect_424FD0(&ourRect, 1);
+
+        if (otherRect.x <= ourRect.w &&
+            otherRect.w >= ourRect.x &&
+            otherRect.h >= ourRect.y &&
+            otherRect.y <= ourRect.h)
+        {
+            if (vIsObj_GettingNear_425420(pObj))
+            {
+                if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
+                {
+                    if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
+                    {
+                        pObj->VTakeDamage_408730(this);
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        if (!ToNextMotion_4898A0())
+        {
+            ToIdle_489B70();
+        }
+    }
 }
 
 void Paramite::M_GetDepossessedBegin_29_48D9D0()
@@ -3428,4 +3520,32 @@ void Paramite::UpdateSlurgWatchPoints_4890D0()
             sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
         }
     }
+}
+
+GameSpeakEvents Paramite::LastSpeak_489040()
+{
+    GameSpeakEvents ret = GameSpeakEvents::eNone_m1;
+    if (field_160 == pEventSystem_5BC11C->field_28_last_event_index)
+    {
+        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        {
+            ret = GameSpeakEvents::eNone_m1;
+        }
+        else
+        {
+            ret = GameSpeakEvents::eSameAsLast_m2;
+        }
+    }
+    else
+    {
+        field_160 = pEventSystem_5BC11C->field_28_last_event_index;
+        ret = pEventSystem_5BC11C->field_20_last_event;
+    }
+
+    if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 1))
+    {
+        return ret;
+    }
+
+    return GameSpeakEvents::eNone_m1;
 }

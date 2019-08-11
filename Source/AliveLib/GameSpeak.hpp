@@ -6,9 +6,12 @@
 
 void GameSpeak_ForceLink();
 
-enum GameSpeakEvents : char
+enum class GameSpeakEvents : __int16
 {
-    eNone = -1,
+    eSameAsLast_m2 = -2,
+    eNone_m1 = -1,
+    eUnknown_1 = 1,
+
     eFart_3 = 3,
     Slig_BS_5 = 5,
     Slig_LookOut_6 = 6,
@@ -28,6 +31,9 @@ enum GameSpeakEvents : char
     Slig_GetEm_29 = 29,
 
     Slig_Freeze_31 = 31,
+
+    eUnknown_36 = 36,
+    eUnknown_37 = 37,
 
     Paramite_Howdy_48 = 48,
     Paramite_Stay_49 = 49,
@@ -61,7 +67,7 @@ private:
     void PushEvent_Impl(GameSpeakEvents event);
 
 public:
-    __int16 field_20_last_event;
+    GameSpeakEvents field_20_last_event;
     __int16 field_22;
     unsigned int field_24_last_event_frame;
     int field_28_last_event_index;
