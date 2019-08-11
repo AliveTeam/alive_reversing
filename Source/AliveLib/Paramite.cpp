@@ -2161,7 +2161,98 @@ void Paramite::M_WebGoingUp_36_48D000()
 
 void Paramite::M_WebGoingDown_37_48CC60()
 {
-    NOT_IMPLEMENTED();
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
+    {
+        field_C8_vely = (field_CC_sprite_scale * FP_FromInteger(4)); 
+    }
+    else
+    {
+        field_C8_vely = FP_FromInteger(0);
+        field_106_current_motion = eParamiteMotions::M_WebIdle_35_48D400;
+    }
+
+    if (field_100_pCollisionLine)
+    {
+        field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C8_vely);
+    }
+
+    if (sControlledCharacter_5C1B8C == this)
+    {
+        sub_408C40();
+    }
+
+    if (field_20_animation.field_92_current_frame == 0 || field_20_animation.field_92_current_frame == 3)
+    {
+        Sound_48F600(ParamiteSpeak::ClimbingWeb_6, 0);
+    }
+
+    if (!field_100_pCollisionLine || !((1 << field_100_pCollisionLine->field_8_type) & 0x100))
+    {
+        auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType_425180(Types::eWebLine_146, field_B8_xpos, field_BC_ypos));
+        if (pWeb)
+        {
+            pWeb->Wobble_4E29D0(FP_GetExponent(field_BC_ypos));
+        }
+        field_100_pCollisionLine = nullptr;
+        field_F8_LastLineYPos = field_BC_ypos;
+        field_106_current_motion = eParamiteMotions::M_Falling_11_48B200;
+
+        FP gridSize = {};
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+        else
+        {
+            gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        }
+
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            gridSize + field_B8_xpos,
+            field_BC_ypos,
+            gridSize + field_B8_xpos,
+            (field_CC_sprite_scale * FP_FromInteger(50)) + field_BC_ypos,
+            &pLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16))
+        {
+            field_B8_xpos = (gridSize * FP_FromDouble(0.5)) + field_B8_xpos;
+            field_100_pCollisionLine = pLine;
+            field_BC_ypos = hitY;
+            field_106_current_motion = eParamiteMotions::M_WebLeaveDown_34_48D870;
+            field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            const FP invertedGridSize = -gridSize;
+            if (sCollisions_DArray_5C1128->Raycast_417A60(
+                invertedGridSize + field_B8_xpos,
+                field_BC_ypos,
+                invertedGridSize + field_B8_xpos,
+                (field_CC_sprite_scale * FP_FromInteger(50)) + field_BC_ypos,
+                &pLine,
+                &hitX,
+                &hitY,
+                field_D6_scale != 0 ? 1 : 16))
+            {
+                field_B8_xpos = (invertedGridSize * FP_FromDouble(0.5)) + field_B8_xpos;
+                field_BC_ypos = hitY;
+                field_100_pCollisionLine = pLine;
+                field_106_current_motion = eParamiteMotions::M_WebLeaveDown_34_48D870;
+            }
+            else
+            {
+                field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+                field_B8_xpos -= (invertedGridSize * FP_FromDouble(0.5));
+                field_DA_xOffset = field_15C;
+            }
+        }
+    }
 }
 
 void Paramite::M_WebGrab_38_48D6C0()
@@ -2264,9 +2355,79 @@ void Paramite::M_UNKNOWN_42_48D900()
 
 void Paramite::M_Attack_43_48DB70()
 {
-    NOT_IMPLEMENTED();
-}
+    BaseAliveGameObject* pObj = nullptr;
 
+    if (field_20_animation.field_92_current_frame == 4)
+    {
+        pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
+        Sound_48F600(ParamiteSpeak::CMon_or_Attack_0, 0);
+
+        if (sControlledCharacter_5C1B8C == this)
+        {
+            if (FindTarget_488C30())
+            {
+                pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
+                field_120_obj_id = -1;
+            }
+        }
+        else if (field_178_flags.Get(Flags_178::eBit8))
+        {
+            if (!pObj)
+            {
+                FP gridBlock = {};
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    gridBlock = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                }
+                else
+                {
+                    gridBlock = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+                }
+                pObj = static_cast<BaseAliveGameObject*>(FindObjectOfType_425180(Types::eFleech_50, gridBlock, field_BC_ypos));
+            }
+        }
+    }
+
+    if (pObj)
+    {
+        PSX_RECT otherRect = {};
+        pObj->vGetBoundingRect_424FD0(&otherRect, 1);
+
+        PSX_RECT ourRect = {};
+        vGetBoundingRect_424FD0(&ourRect, 1);
+
+        short right = 0;
+        short left = 0;
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            right = ourRect.x;
+            left = (ourRect.x + ourRect.w) / 2;
+        }
+        else
+        {
+            left = ourRect.w;
+            right = (ourRect.x + ourRect.w) / 2;
+        }
+        if (otherRect.x <= left &&
+            otherRect.w >= right &&
+            otherRect.h >= ourRect.y &&
+            otherRect.y <= ourRect.h)
+        {
+            if (field_CC_sprite_scale == pObj->field_CC_sprite_scale)
+            {
+                if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), pObj->field_B8_xpos - field_B8_xpos))
+                {
+                    pObj->VTakeDamage_408730(this);
+                }
+            }
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_489B70();
+    }
+}
 
 void Paramite::dtor_487FC0()
 {
