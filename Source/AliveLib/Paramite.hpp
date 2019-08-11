@@ -235,7 +235,7 @@ private:
 
     EXPORT __int16 AnotherParamiteNear_4886E0();
 
-    EXPORT PathLine* Collision_4888A0(FP yOff, FP xOff);
+    EXPORT PathLine* WebCollision_4888A0(FP yOff, FP xOff);
 
     EXPORT void vRender_488220(int** ot);
 

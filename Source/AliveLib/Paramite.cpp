@@ -844,7 +844,7 @@ void Paramite::M_Hop_5_48B5B0()
     }
     else
     {
-        field_100_pCollisionLine = Collision_4888A0(FP_FromInteger(0), field_C4_velx);
+        field_100_pCollisionLine = WebCollision_4888A0(FP_FromInteger(0), field_C4_velx);
         if (field_100_pCollisionLine)
         {
             field_C4_velx = FP_FromInteger(0);
@@ -1126,7 +1126,7 @@ void Paramite::M_Falling_11_48B200()
         }
     }
 
-    field_100_pCollisionLine = Collision_4888A0(FP_FromInteger(0), field_C4_velx);
+    field_100_pCollisionLine = WebCollision_4888A0(FP_FromInteger(0), field_C4_velx);
     if (field_100_pCollisionLine)
     {
         field_C4_velx = FP_FromInteger(0);
@@ -1295,7 +1295,7 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
 
             if (field_C8_vely > FP_FromInteger(0))
             {
-                field_100_pCollisionLine = Collision_4888A0(FP_FromInteger(0), gridBlock);
+                field_100_pCollisionLine = WebCollision_4888A0(FP_FromInteger(0), gridBlock);
                 if (field_100_pCollisionLine)
                 {
                     field_C4_velx = FP_FromInteger(0);
@@ -2537,7 +2537,7 @@ __int16 Paramite::AnotherParamiteNear_4886E0()
     return FALSE;
 }
 
-PathLine* Paramite::Collision_4888A0(FP yOff, FP xOff)
+PathLine* Paramite::WebCollision_4888A0(FP yOff, FP xOff)
 {
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -2784,7 +2784,7 @@ __int16 Paramite::NextPlayerInputMotion_4894C0()
                 xCheck = kGridSize;
             }
 
-            PathLine* pLine = Collision_4888A0(field_CC_sprite_scale * FP_FromInteger(20), xCheck);
+            PathLine* pLine = WebCollision_4888A0(field_CC_sprite_scale * FP_FromInteger(20), xCheck);
             if (pLine)
             {
                 field_106_current_motion = eParamiteMotions::M_WebGrab_38_48D6C0;
@@ -3051,7 +3051,7 @@ void Paramite::MoveOnLine_489CA0()
         if (sControlledCharacter_5C1B8C == this)
         {
             // Check if we hit a web while falling and grab it if so
-            field_100_pCollisionLine = Collision_4888A0(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx);
+            field_100_pCollisionLine = WebCollision_4888A0(field_CC_sprite_scale * FP_FromInteger(20), field_C4_velx);
             if (field_100_pCollisionLine)
             {
                 field_C4_velx = FP_FromInteger(0);
