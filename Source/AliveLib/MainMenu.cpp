@@ -23,6 +23,7 @@
 #include "PauseMenu.hpp"
 #include "Io.hpp"
 #include "GameEnderController.hpp"
+#include "Glukkon.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -550,7 +551,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
 
     field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
     field_23C_T80.Clear(Flags::eBit18);
-    field_23C_T80.Clear(Flags::eBit22);
+    field_23C_T80.Clear(Flags::eBit22_GameSpeakPlaying);
     field_23C_T80.Clear(Flags::eBit23);
     field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
 
@@ -2100,7 +2101,7 @@ void MainMenuController::HandleMainMenuUpdate()
             return;
         }
         
-        if (field_23C_T80.Get(Flags::eBit22))
+        if (field_23C_T80.Get(Flags::eBit22_GameSpeakPlaying))
         {
             return;
         }
@@ -2205,7 +2206,7 @@ signed int MainMenuController::sub_4CF640()
 {
     NOT_IMPLEMENTED();
 
-    if (field_21E_bChangeScreen == 0 || field_23C_T80.Get(Flags::eBit22) || field_228_res_idx != 0)
+    if (field_21E_bChangeScreen == 0 || field_23C_T80.Get(Flags::eBit22_GameSpeakPlaying) || field_228_res_idx != 0)
     {
         return 0;
     }
@@ -2518,6 +2519,20 @@ LABEL_76:
     return 1;
 }
 
+const SfxDefinition sScrabSfx_560330[10] =
+{
+    { 0u, 4u, 60u, 55u, 0, 0 },
+    { 0u, 4u, 61u, 70u, 0, 0 },
+    { 0u, 4u, 62u, 80u, 0, 0 },
+    { 0u, 4u, 63u, 80u, 0, 0 },
+    { 0u, 4u, 64u, 60u, -127, 127 },
+    { 0u, 4u, 66u, 90u, 0, 0 },
+    { 0u, 4u, 67u, 50u, -511, 0 },
+    { 0u, 4u, 67u, 50u, 0, 511 },
+    { 0u, 4u, 68u, 110u, -1791, -1791 },
+    { 0u, 0u, 0u, 0u, 0, 0 }
+};
+
 
 
 void MainMenuController::sub_4CFE80()
@@ -2634,7 +2649,7 @@ void MainMenuController::sub_4CFE80()
             break;
 
         default:
-            field_23C_T80.Clear(Flags::eBit22);
+            field_23C_T80.Clear(Flags::eBit22_GameSpeakPlaying);
             break;
         }
     }
@@ -2694,33 +2709,31 @@ void MainMenuController::sub_4CFE80()
                         case eAbeSpeak:
                         case eAbeSpeak2:
                             Abe_SFX_457EC0(static_cast<BYTE>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, nullptr);
-                            //BYTE2(this->field_23C_T80) |= 0x20u; // Gamespeak sound playing flag
+                            field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying); // BYTE2(0x20)
                             break;
 
                         case eSligSpeak:
-                            //sub_4C04F0(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound, 0, 0, 0);
-                            //BYTE2(this->field_23C_T80) |= 0x20u;
+                            Sfx_Slig_GameSpeak_4C04F0(static_cast<SligSpeak>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
+                            field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);
                             break;
 
                         case eGlukkonSpeak:
-                            //Glukkon::sub_444AF0(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound, 0, 0, 0);
-                            //BYTE2(this->field_23C_T80) |= 0x20u;
+                            Glukkon::PlaySound_444AF0(static_cast<BYTE>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
+                            field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);
                             break;
 
                         case eScrabSpeak:
-                            /*
                             SFX_SfxDefinition_Play_4CA700(
-                                &stru_560330[sound],
-                                (char)stru_560330[sound].field_3_default_volume,
-                                (char)stru_560330[sound].field_3_default_volume,
+                                &sScrabSfx_560330[sound],
+                                sScrabSfx_560330[sound].field_3_default_volume,
+                                sScrabSfx_560330[sound].field_3_default_volume,
                                 0x7FFF,
                                 0x7FFF);
-                            */
-                            //BYTE2(this->field_23C_T80) |= 0x20u;
+                            field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);
                             break;
 
                         case eParamiteSpeak:
-                            //BYTE2(this->field_23C_T80) |= 0x20u;
+                            field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);
                             break;
 
                         default:
