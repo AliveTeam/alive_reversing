@@ -723,11 +723,26 @@ MainMenuText sParamiteSpeak_5622C8[9] =
     { 317, 115, "\x10" , 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
 };
 
-
-
-void MainMenuController::t_Render_Abe_Speak_4D2060(int** /*ot*/)
+MainMenuText sAbeGameSpeak_561F38[12] =
 {
-    NOT_IMPLEMENTED();
+    { 184, 25, "\x13", 3u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 153, 212, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 75, 57, "\x18", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 240, 57, "\x19", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 55, 85, "\v", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 52, 112, "\f", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 55, 151, "\r", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 64, 177, "\x0E", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 307, 85, "\x0F", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 314, 115, "\x10", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 319, 145, "\x11", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 306, 175, "\x12", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
+};
+
+
+void MainMenuController::t_Render_Abe_Speak_4D2060(int** ot)
+{
+    RenderOnScreenTextHelper(ot, &sAbeGameSpeak_561F38[0], ALIVE_COUNTOF(sAbeGameSpeak_561F38));
 }
 
 signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)

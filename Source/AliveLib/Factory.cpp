@@ -833,17 +833,17 @@ EXPORT void CC Factory_BirdPortal_4D9AA0(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     if (loadMode == 1 || loadMode == 2)
     {
         static CompileTimeResourceList<3> kResources_5634E8({
-            { 1835626049, 313 },
-            { 1835626049, 351 },
-            { 1835626049, 353 },
+            { ResourceManager::Resource_Animation, kPortalTerminatorID },
+            { ResourceManager::Resource_Animation, kPortliteResID },
+            { ResourceManager::Resource_Animation, kPortlitResID },
         });
 
         gMap_5C3030.LoadResourcesFromList_4DBE70("PORTAL.BND", kResources_5634E8.AsList(), loadMode);
-        if (pBirdPortalTlv->field_4_type == 2)
+        if (pBirdPortalTlv->field_1C_portal_type == PortalType::eShrykull_2)
         {
             static CompileTimeResourceList<2> kResources_563504({
-                { 1835626049, 117 },
-                { 1835626049, 121 },
+                { ResourceManager::Resource_Animation, kAbemorphResID },
+                { ResourceManager::Resource_Animation, kShrmorphResID },
             });
 
             gMap_5C3030.LoadResourcesFromList_4DBE70("SHRYPORT.BND", kResources_563504.AsList(), loadMode);
