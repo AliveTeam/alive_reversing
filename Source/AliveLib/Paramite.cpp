@@ -88,7 +88,7 @@ private:
     }
 
 
-private:
+public:
     __int16 field_F4;
     __int16 field_F6;
     __int16 field_F8_ttl;
@@ -202,7 +202,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
     field_110_id = -1;
     field_158 = -1;
     field_15A = -1;
-    field_11C_obj_id = -1;
+    field_11C_web_id = -1;
     field_118 = -1;
     field_120_obj_id = -1;
     field_124 = -1;
@@ -441,7 +441,7 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
     pParamite->field_104_collision_line_type = pState->field_36_line_type;
 
     pParamite->field_118 = pState->field_40_obj_id;
-    pParamite->field_11C_obj_id = pState->field_44_obj_id;
+    pParamite->field_11C_web_id = pState->field_44_obj_id;
     pParamite->field_120_obj_id = pState->field_48_obj_id;
     pParamite->field_124 = pState->field_4C_obj_id;
 
@@ -533,7 +533,7 @@ int Paramite::vGetSaveState_48F220(Paramite_State* pState)
 
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_40_obj_id = ResolveId(field_118);
-    pState->field_44_obj_id = ResolveId(field_11C_obj_id);
+    pState->field_44_obj_id = ResolveId(field_11C_web_id);
     pState->field_44_obj_id = ResolveId(field_120_obj_id);
     pState->field_44_obj_id = ResolveId(field_124);
 
@@ -602,7 +602,25 @@ __int16 Paramite::AI_SurpriseWeb_3_4851B0()
 
 __int16 Paramite::AI_UNKNOWN_4_48F8F0()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    // NOTE: Some unused code removed from OG here - looked like paramite would have
+    // done a game speak before going back to partol.
+
+    if (field_106_current_motion == eParamiteMotions::M_Turn_4_48B180)
+    {
+        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+    }
+    else
+    {
+        field_106_current_motion = eParamiteMotions::M_Idle_0_489FB0;
+        field_108_next_motion = -1;
+    }
+
+    SetBrain(&Paramite::AI_Patrol_0_4835B0);
     return 0;
 }
 
@@ -632,8 +650,143 @@ __int16 Paramite::AI_ControlledByGameSpeak_8_48DFC0()
 
 __int16 Paramite::AI_ParamiteSpawn_9_48ED80()
 {
-    NOT_IMPLEMENTED(); 
-    return 0;
+    auto pExistingWeb = static_cast<ParamiteWeb*>(sObjectIds_5C1B70.Find_449CF0(field_11C_web_id));
+    switch (field_12C_brain_ret)
+    {
+    case 0:
+        if (field_14C_id)
+        {
+            field_12C_brain_ret = 1;
+        }
+        else
+        {
+            if (field_100_pCollisionLine != nullptr)
+            {
+                field_12C_brain_ret = 2;
+            }
+            else
+            {
+                field_12C_brain_ret = 3;
+            }
+        }
+        break;
+
+    case 1:
+        if (SwitchStates_Get_466020(field_14C_id))
+        {
+            field_178_flags.Set(Flags_178::eBit6);
+            SFX_Play_46FA90(110u, 0);
+            field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+
+            if (!field_100_pCollisionLine)
+            {
+                field_C8_vely = FP_FromInteger(0);
+                field_106_current_motion = eParamiteMotions::M_SurpriseWeb_33_48D760;
+                auto pWeb = alive_new<ParamiteWeb>();
+                if (pWeb)
+                {
+                    field_11C_web_id = pWeb->ctor_4E1840(
+                        field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20,
+                        FP_GetExponent(field_BC_ypos) - 10,
+                        field_CC_sprite_scale)->field_8_object_id;
+                }
+                field_12C_brain_ret = 4;
+            }
+            else
+            {
+                SetBrain(&Paramite::AI_ControlledByGameSpeak_8_48DFC0);
+                field_12C_brain_ret = 1;
+            }
+        }
+        else
+        {
+            field_12C_brain_ret = 1;
+        }
+        break;
+
+    case 2:
+        if (field_160 != pEventSystem_5BC11C->field_28_last_event_index)
+        {
+            field_160 = pEventSystem_5BC11C->field_28_last_event_index;
+            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Paramite_Howdy_48)
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                SetBrain(&Paramite::AI_ControlledByGameSpeak_8_48DFC0);
+                field_12C_brain_ret = 1;
+            }
+        }
+        break;
+
+    case 3:
+        if (field_160 != pEventSystem_5BC11C->field_28_last_event_index)
+        {
+            field_160 = pEventSystem_5BC11C->field_28_last_event_index;
+
+            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Paramite_Howdy_48)
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+                field_C8_vely = FP_FromInteger(0);
+                field_106_current_motion = eParamiteMotions::M_SurpriseWeb_33_48D760;
+                auto pWeb = alive_new<ParamiteWeb>();
+                if (pWeb)
+                {
+                    field_11C_web_id = pWeb->ctor_4E1840(
+                        field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20, 
+                        FP_GetExponent(field_BC_ypos) - 10, 
+                        field_CC_sprite_scale)->field_8_object_id;
+                }
+                field_12C_brain_ret = 4;
+            }
+        }
+        break;
+
+    case 4:
+        pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(field_BC_ypos)) - 10;
+        pExistingWeb->field_BC_ypos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
+        if (field_106_current_motion == eParamiteMotions::M_Idle_0_489FB0)
+        {
+            field_12C_brain_ret = 1;
+            pExistingWeb->field_104_bEnabled = 1;
+            field_11C_web_id = -1;
+            SetBrain(&Paramite::AI_ControlledByGameSpeak_8_48DFC0);
+        }
+        else
+        {
+            if (field_C8_vely < (field_CC_sprite_scale * FP_FromInteger(8)))
+            {
+                field_C8_vely = (field_CC_sprite_scale * FP_FromDouble(0.5)) + field_C8_vely;
+                return field_12C_brain_ret;
+            }
+            field_12C_brain_ret = 5;
+        }
+        break;
+
+    case 5:
+        pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(field_BC_ypos)) - 10;
+        pExistingWeb->field_BC_ypos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
+        if (field_106_current_motion == eParamiteMotions::M_Idle_0_489FB0)
+        {
+            field_12C_brain_ret = 1;
+            pExistingWeb->field_104_bEnabled = 1;
+            field_11C_web_id = -1;
+            SetBrain(&Paramite::AI_ControlledByGameSpeak_8_48DFC0);
+        }
+        else
+        {
+            if (field_C8_vely > (field_CC_sprite_scale * FP_FromInteger(-1)))
+            {
+                field_C8_vely = field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(1));
+                return field_12C_brain_ret;
+            }
+            field_12C_brain_ret = 4;
+        }
+        break;
+
+    default:
+        break;
+    }
+    return field_12C_brain_ret;
 }
 
 void Paramite::M_Idle_0_489FB0()
@@ -2683,11 +2836,11 @@ void Paramite::dtor_487FC0()
 {
     SetVTable(this, 0x54640C);
 
-    BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id);
+    BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_11C_web_id);
     if (pObj)
     {
         pObj->field_6_flags.Set(BaseGameObject::eDead);
-        field_11C_obj_id = -1;
+        field_11C_web_id = -1;
     }
 
     field_118 = -1;
@@ -2759,7 +2912,7 @@ void Paramite::vUpdate_4871B0()
         field_120_obj_id = BaseGameObject::Find_Flags_4DC170(field_120_obj_id);
         field_124 = BaseGameObject::Find_Flags_4DC170(field_124);
 
-        if (field_11C_obj_id != -1)
+        if (field_11C_web_id != -1)
         {
             auto pWeb = alive_new<ParamiteWeb>();
             if (pWeb)
@@ -2770,7 +2923,7 @@ void Paramite::vUpdate_4871B0()
                     FP_GetExponent(field_BC_ypos) - 10,
                     field_CC_sprite_scale);
             }
-            field_11C_obj_id = pWeb->field_8_object_id;
+            field_11C_web_id = pWeb->field_8_object_id;
         }
     }
 

@@ -352,7 +352,7 @@ private:
 
 private:
     int field_118;
-    int field_11C_obj_id;
+    int field_11C_web_id;
     int field_120_obj_id;
     int field_124;
     TParamiteAIFn field_128_fn_brainState;
