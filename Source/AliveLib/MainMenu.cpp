@@ -706,8 +706,23 @@ void MainMenuController::Render_4CF4C0(int** ot)
 }
 
 // Main Menu Text Data
+MainMenuText sMMT_FrontPage_5623A0[1] = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
 
-MainMenuText sMMT_FrontPage_5623A0 = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
+// Paramite speak text data
+MainMenuText sParamiteSpeak_5622C8[9] =
+{
+    { 153, 212, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 75, 55, "\x18", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 240, 57, "\x19", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 62, 85,"\v", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 57, 117, "\f" , 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 57, 148, "\r", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 66, 175, "\x0E", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 308, 85, "\x0F" , 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
+    { 317, 115, "\x10" , 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
+};
+
+
 
 void MainMenuController::t_Render_Abe_Speak_4D2060(int** /*ot*/)
 {
@@ -913,9 +928,9 @@ void MainMenuController::t_Load_Scrab_Speak_4D3870()
     Set_Anim_4D05E0(AnimIds::eScrab_Idle);
 }
 
-void MainMenuController::t_Render_Paramite_Speak_4D2460(int** /*ot*/)
+void MainMenuController::t_Render_Paramite_Speak_4D2460(int** ot)
 {
-    NOT_IMPLEMENTED();
+    RenderOnScreenTextHelper(ot, &sParamiteSpeak_5622C8[0], ALIVE_COUNTOF(sParamiteSpeak_5622C8));
 }
 
 signed int MainMenuController::t_Input_Paramite_Speak_4D3D60(DWORD input_held)
@@ -1125,8 +1140,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
 
 void MainMenuController::Page_Front_Render_4D24B0(int** ot)
 {
-    int notUsed = 0;
-    DrawMenuText_4D20D0(&sMMT_FrontPage_5623A0, ot, &field_120_font, &notUsed, 1);
+    RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0));
 }
 
 ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
