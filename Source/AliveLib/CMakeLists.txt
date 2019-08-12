@@ -335,6 +335,8 @@ ExportHooker.hpp
     Shrykull.cpp
     ParamiteWeb.hpp
     ParamiteWeb.cpp
+    ParamiteWebLine.hpp
+    ParamiteWebLine.cpp
     TouchController.cpp
     TouchController.hpp
 )
