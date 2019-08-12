@@ -23,83 +23,7 @@
 #include "Slurg.hpp"
 #include "Particle.hpp"
 #include "GameSpeak.hpp"
-
-class ParamiteWeb : public BaseAnimatedWithPhysicsGameObject
-{
-public:
-    EXPORT ParamiteWeb* ctor_4E1840(FP /*xpos*/, __int16 /*bottom*/, unsigned __int16 /*top*/, FP /*scale*/)
-    {
-        NOT_IMPLEMENTED();
-        return this;
-    }
-
-    virtual void VUpdate() override
-    {
-        vUpdate_4E1F40();
-    }
-
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_4E1F80();
-    }
-
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_4E1AF0(flags);
-    }
-
-private:
-    EXPORT ParamiteWeb* vdtor_4E1AF0(signed int flags)
-    {
-        dtor_4E1B20();
-        if (flags & 1)
-        {
-            Mem_Free_495540(this);
-        }
-        return this;
-    }
-
-    EXPORT void dtor_4E1B20()
-    {
-        SetVTable(this, 0x547F58);
-        ResourceManager::FreeResource_49C330(field_FC);
-        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-    }
-
-    EXPORT void vUpdate_4E1F40()
-    {
-        if (field_104_bEnabled == 1)
-        {
-            field_FA_ttl_remainder -= 8;
-            if (field_FA_ttl_remainder <= field_F8_ttl)
-            {
-                field_6_flags.Set(BaseGameObject::eDead);
-            }
-        }
-    }
-
-
-    EXPORT void vScreenChanged_4E1F80()
-    {
-        if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
-        {
-            field_6_flags.Set(BaseGameObject::eDead);
-        }
-    }
-
-
-public:
-    __int16 field_F4;
-    __int16 field_F6;
-    __int16 field_F8_ttl;
-    __int16 field_FA_ttl_remainder;
-    BYTE** field_FC;
-    int field_100;
-    __int16 field_104_bEnabled;
-    __int16 field_106;
-};
-ALIVE_ASSERT_SIZEOF(ParamiteWeb, 0x108);
-
+#include "ParamiteWeb.hpp"
 
 class ParamiteWebLine : public BaseAnimatedWithPhysicsGameObject
 {
@@ -108,7 +32,36 @@ public:
     {
         NOT_IMPLEMENTED();
     }
+
+    virtual void VScreenChanged() override
+    {
+        return vScreenChanged_4E2BC0();
+    }
+
+private:
+
+    EXPORT void vScreenChanged_4E2BC0()
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    __int16 field_F4_anim_segment_count;
+    __int16 field_F6_piece_length;
+    __int16 field_F8_top;
+    __int16 field_FA_bottom;
+    AnimationUnknown* field_FC;
+    int field_100;
+    __int16 field_104;
+    __int16 field_106_wobble_pos;
+    Animation field_108_anim_flare;
+    __int16 field_1A0;
+    __int16 field_1A2;
+    __int16 field_1A4_delay_counter;
+    __int16 field_1A6;
+    __int16 field_1A8;
+    __int16 field_1AA;
 };
+ALIVE_ASSERT_SIZEOF(ParamiteWebLine, 0x1AC);
 
 TintEntry stru_55D73C[24] =
 {
