@@ -44,14 +44,14 @@ int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
         return 1;
     }
 
-    short bulletType = 0;
+    BulletType bulletType = BulletType::Type_0;
     if (pSlig->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) || pSlig->vUnderGlukkonCommand_4B1760())
     {
-        bulletType = 0;
+        bulletType = BulletType::Type_0;
     }
     else
     {
-        bulletType = 2;
+        bulletType = BulletType::Type_2;
     }
 
     const FP xOff = (pSlig->field_CC_sprite_scale * FP_FromInteger(pPoints->field_0_x));
@@ -2035,7 +2035,7 @@ void Slig::M_ShootZ_42_4B7560()
             {
                 pBullet->ctor_414540(
                     this,
-                    1,
+                    BulletType::Type_1,
                     field_B8_xpos,
                     field_BC_ypos - FP_FromInteger(12),
                     FP_FromInteger(640),
@@ -2051,7 +2051,7 @@ void Slig::M_ShootZ_42_4B7560()
             {
                 pBullet->ctor_414540(
                     this,
-                    3,
+                    BulletType::Type_3,
                     field_B8_xpos,
                     field_BC_ypos - FP_FromInteger(12),
                     FP_FromInteger(640),
@@ -5813,8 +5813,8 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
         {
-        case 0:
-        case 2:
+        case BulletType::Type_0:
+        case BulletType::Type_2:
         {
             auto pBlood1 = alive_new<Blood>();
             if (pBlood1)
@@ -5837,8 +5837,8 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
             break;
         }
 
-        case 1:
-        case 3:
+        case BulletType::Type_1:
+        case BulletType::Type_3:
         {
             PSX_RECT myRect = {};
             vGetBoundingRect_424FD0(&myRect, 1);

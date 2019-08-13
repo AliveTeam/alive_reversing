@@ -2733,8 +2733,8 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
         {
-        case 0:
-        case 2:
+        case BulletType::Type_0:
+        case BulletType::Type_2:
         {
             auto pBlood1 = alive_new<Blood>();
             if (pBlood1)
@@ -2767,8 +2767,8 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         }
             break;
 
-        case 1:
-        case 3:
+        case BulletType::Type_1:
+        case BulletType::Type_3:
         {
             auto pBlood2 = alive_new<Blood>();
             if (pBlood2)

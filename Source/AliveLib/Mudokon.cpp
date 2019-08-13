@@ -1058,8 +1058,8 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
         {
-        case 0:
-        case 2:
+        case BulletType::Type_0:
+        case BulletType::Type_2:
         {
             auto pBloodFromShot = alive_new<Blood>();
             if (pBloodFromShot)
@@ -1080,7 +1080,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             break;
         }
 
-        if (pBullet->field_20_type == 1 || pBullet->field_20_type == 3)
+        if (pBullet->field_20_type == BulletType::Type_1 || pBullet->field_20_type == BulletType::Type_3)
         {
             PSX_RECT v11 = {};
             vGetBoundingRect_424FD0(&v11, 1);
