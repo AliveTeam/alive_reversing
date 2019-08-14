@@ -494,7 +494,7 @@ CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_424A70()
 {
     PSX_RECT rect = {};
     vGetBoundingRect_424FD0(&rect, 1);
-    return gMap_5C3030.Is_Rect_In_Current_Camera_480FE0(&rect);
+    return gMap_5C3030.Rect_Location_Relative_To_Active_Camera_480FE0(&rect);
 }
 
 void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, int startingPointIdx, TCollisionCallBack pFn)

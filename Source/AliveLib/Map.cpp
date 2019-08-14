@@ -201,7 +201,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
                     if (pBaseObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
                     {
                         if (!pBaseObj->field_6_flags.Get(BaseGameObject::eDead) &&
-                            pBaseObj != sControlledCharacter_5C1B8C && gMap_5C3030.Is_Rect_In_Current_Camera_480FE0(&objRect) == CameraPos::eCamCurrent_0)
+                            pBaseObj != sControlledCharacter_5C1B8C && gMap_5C3030.Rect_Location_Relative_To_Active_Camera_480FE0(&objRect) == CameraPos::eCamCurrent_0)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
                             const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
@@ -446,7 +446,7 @@ CameraPos Map::GetDirection_4811A0(int level, int path, FP xpos, FP ypos)
     rect.y = FP_GetExponent(ypos);
     rect.h = FP_GetExponent(ypos);
 
-    CameraPos ret = Is_Rect_In_Current_Camera_480FE0(&rect);
+    CameraPos ret = Rect_Location_Relative_To_Active_Camera_480FE0(&rect);
 
     PSX_RECT camWorldRect = {};
     if (!Get_Camera_World_Rect_481410(ret, &camWorldRect))
@@ -1082,11 +1082,11 @@ __int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP 
     rect.w = FP_GetExponent(calculated_width + xpos);
     rect.y = FP_GetExponent(ypos);
     rect.h = FP_GetExponent(ypos);
-    return Is_Rect_In_Current_Camera_480FE0(&rect) == CameraPos::eCamCurrent_0;
+    return Rect_Location_Relative_To_Active_Camera_480FE0(&rect) == CameraPos::eCamCurrent_0;
 }
 
 
-EXPORT CameraPos Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
+EXPORT CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect)
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
