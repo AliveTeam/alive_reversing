@@ -33,7 +33,6 @@ ALIVE_VAR(1, 0x5c3154, DWORD, dword_5C3154, 0);
 
 struct Path_ChangeTLV : public Path_TLV
 {
-    const static unsigned short kType;
     LevelIds field_10_level;
     __int16 field_12_path;
     __int16 field_14_camera;
@@ -42,8 +41,6 @@ struct Path_ChangeTLV : public Path_TLV
     __int16 field_1A_scale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChangeTLV, 0x1C);
-
-const unsigned short Path_ChangeTLV::kType = 1;
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
 const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[12] =
@@ -78,12 +75,12 @@ EXPORT void CC static_map_init_4802D0()
     atexit(static_map_destruct_480330);
 }
 
-void Map::sub_480B80_Common()
+void Map::ScreenChange_Common()
 {
     if (field_6_state == 1)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
-        sub_481610();
+        Handle_PathTransition_481610();
     }
     else if (field_6_state == 2)
     {
@@ -141,7 +138,7 @@ void Map::ScreenChange_480B80()
         // TODO: Refactor this logic
         if (!sMap_bDoPurpleLightEffect_5C311C && field_A_5C303A_levelId == sCurrentLevelId_5C3030)
         {
-            sub_480B80_Common();
+            ScreenChange_Common();
             return;
         }
 
@@ -155,18 +152,18 @@ void Map::ScreenChange_480B80()
             if (field_A_5C303A_levelId == LevelIds::eCredits_16)
             {
                 sSoundChannelsMask_5C3120 = 0;
-                sub_480B80_Common();
+                ScreenChange_Common();
                 return;
             }
         }
         else if (sCurrentLevelId_5C3030 == LevelIds::eMenu_0)
         {
             sSoundChannelsMask_5C3120 = 0;
-            sub_480B80_Common();
+            ScreenChange_Common();
             return;
         }
         sSoundChannelsMask_5C3120 = SND_4CA5D0(0, 0, 36, 70, 0, 0);
-        sub_480B80_Common();
+        ScreenChange_Common();
     }
 }
 
@@ -330,7 +327,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
     }
 }
 
-void Map::sub_481610()
+void Map::Handle_PathTransition_481610()
 {
     Path_ChangeTLV* pPathChangeTLV = nullptr;
     if (field_18_pAliveObj)
@@ -340,7 +337,7 @@ void Map::sub_481610()
             FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
             FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
             FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
-            Path_ChangeTLV::kType));
+            TlvTypes::PathTransition_1));
     }
 
     if (field_18_pAliveObj && pPathChangeTLV)
@@ -1371,7 +1368,7 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
             FP_GetExponent(pObj->field_BC_ypos),
             FP_GetExponent(pObj->field_B8_xpos),
             FP_GetExponent(pObj->field_BC_ypos),
-            Path_ChangeTLV::kType));
+            TlvTypes::PathTransition_1));
     }
 
     if (pObj && pPathChangeTLV)

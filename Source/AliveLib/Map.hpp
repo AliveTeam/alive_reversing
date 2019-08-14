@@ -106,7 +106,7 @@ public:
 
     EXPORT void ScreenChange_480B80();
     EXPORT void RemoveObjectsWithPurpleLight_480740(__int16 a2);
-    EXPORT void sub_481610();
+    EXPORT void Handle_PathTransition_481610();
     EXPORT void Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEffects screenChangeEffect, __int16 a6, __int16 forceChange);
     EXPORT void Shutdown_4804E0();
     EXPORT void Reset_4805D0();
@@ -147,7 +147,7 @@ private:
     Camera* GetCamera(CameraPos pos);
 
     void CreateScreenTransistionForTLV(Path_TLV* pTlv);
-    void sub_480B80_Common();
+    void ScreenChange_Common();
 };
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
