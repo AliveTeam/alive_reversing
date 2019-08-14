@@ -221,6 +221,10 @@ private:
 public:
     EXPORT __int16 AI_Patrol_0_4835B0();
 
+    __int16 AI_Patrol_State_4(BaseAliveGameObject* pObj);
+
+    __int16 AI_Patrol_State_3(BaseAliveGameObject* pObj);
+
     __int16 AI_Patrol_State_8(BaseAliveGameObject* pObj);
 
     __int16 AI_Patrol_State_1(BaseAliveGameObject* pObj);
