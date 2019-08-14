@@ -586,8 +586,95 @@ __int16 Paramite::AI_ChasingAbe_2_4859D0()
 
 __int16 Paramite::AI_SurpriseWeb_3_4851B0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    auto pExistingWeb = static_cast<ParamiteWeb*>(sObjectIds_5C1B70.Find_449CF0(field_11C_web_id));
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    switch (field_12C_brain_ret)
+    {
+    case 0:
+        if (sNum_CamSwappers_5C1B66 <= 0)
+        {
+            field_106_current_motion = eParamiteMotions::M_Idle_0_489FB0;
+            MapFollowMe_408D10(TRUE);
+        }
+        return 1;
+
+    case 1:
+        if (field_14C_id != 0 && SwitchStates_Get_466020(field_14C_id))
+        {
+            field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            field_130_timer = sGnFrame_5C1B84 + field_12E_drop_delay;
+            auto pNewWeb = alive_new<ParamiteWeb>();
+            if (pNewWeb)
+            {
+                field_11C_web_id = pNewWeb->ctor_4E1840(field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20, FP_GetExponent(field_BC_ypos) - 10, field_CC_sprite_scale)->field_8_object_id;
+            }
+        }
+        return 2;
+
+    case 2:
+        if (field_130_timer <= static_cast<int>(sGnFrame_5C1B84))
+        {
+            field_C8_vely = FP_FromInteger(0);
+            field_106_current_motion = eParamiteMotions::M_SurpriseWeb_33_48D760;
+        }
+        return 3;
+
+    case 3:
+        pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(field_BC_ypos)) - 10;
+        pExistingWeb->field_BC_ypos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
+        if (field_106_current_motion != eParamiteMotions::M_Idle_0_489FB0)
+        {
+            if (field_C8_vely < (field_CC_sprite_scale * FP_FromInteger(8)))
+            {
+                field_C8_vely = (field_CC_sprite_scale * FP_FromDouble(0.5)) + field_C8_vely;
+                return field_12C_brain_ret;
+            }
+        }
+        else
+        {
+            auto pWeb = static_cast<ParamiteWeb*>(sObjectIds_5C1B70.Find_449CF0(field_11C_web_id));
+            pWeb->field_104_bEnabled = 1;
+            field_11C_web_id = -1;
+            SetBrain(&Paramite::AI_Patrol_0_4835B0);
+            return 0;
+        }
+        return 4;
+
+    case 4:
+        pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(field_BC_ypos)) - 10;
+        pExistingWeb->field_BC_ypos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
+        if (field_106_current_motion != eParamiteMotions::M_Idle_0_489FB0)
+        {
+            if (field_C8_vely <= (field_CC_sprite_scale * FP_FromInteger(-1)))
+            {
+                return 3;
+            }
+            else
+            {
+                field_C8_vely = field_C8_vely - (field_CC_sprite_scale * FP_FromInteger(1));
+                return field_12C_brain_ret;
+            }
+        }
+        else
+        {
+            auto pWeb = static_cast<ParamiteWeb*>(sObjectIds_5C1B70.Find_449CF0(field_11C_web_id));
+            pWeb->field_104_bEnabled = TRUE;
+            field_11C_web_id = -1;
+            SetBrain(&Paramite::AI_Patrol_0_4835B0);
+            return 0;
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    return field_12C_brain_ret;
 }
 
 __int16 Paramite::AI_UNKNOWN_4_48F8F0()
