@@ -547,81 +547,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
         return AI_Patrol_State_4(pObj);
 
     case 5:
-        if (!pObj || !vOnSameYLevel_425520(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
-        {
-            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-            return 1;
-        }
-        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
-        {
-            field_120_obj_id = -1;
-            field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
-            field_130_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(45, 60);
-            return 10;
-        }
-        if (AnotherParamiteNear_4886E0())
-        {
-            Sound_48F600(ParamiteSpeak::Howdy_5, 0);
-            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-            SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
-            field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
-            return 0;
-        }
-        if (field_C4_velx >= FP_FromInteger(0))
-        {
-            goto LABEL_140;
-        }
-        if (HandleEnemyStopper_4893B0(-2))
-        {
-            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-            return 1;
-        }
-        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), -kGridSize) || Check_IsOnEndOfLine_408E90(1, 3))
-        {
-            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-            return 1;
-        }
-    LABEL_140:
-        if (field_C4_velx <= FP_FromInteger(0))
-        {
-            goto LABEL_146;
-        }
-        if (HandleEnemyStopper_4893B0(2))
-        {
-            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-            return 1;
-        }
-        else
-        {
-            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), kGridSize) || Check_IsOnEndOfLine_408E90(0, 3))
-            {
-                field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-                return 1;
-            }
-            else
-            {
-            LABEL_146:
-                if (!vIsObj_GettingNear_425420(pObj))
-                {
-                    return field_12C_brain_ret;
-                }
-                if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(8), pObj))
-                {
-                    field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-                    return 1;
-                }
-                else
-                {
-                    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(10), pObj))
-                    {
-                        return field_12C_brain_ret;
-                    }
-                    field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
-                    return 4;
-                }
-            }
-        }
-        break;
+        return AI_Patrol_State_5(pObj);
     
     case 6:
         if (field_106_current_motion != eParamiteMotions::M_Turn_4_48B180 || !field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -842,6 +768,80 @@ __int16 Paramite::AI_Patrol_0_4835B0()
     default:
         return field_12C_brain_ret;
     }
+}
+
+__int16 Paramite::AI_Patrol_State_5(BaseAliveGameObject* pObj)
+{
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+
+    if (!pObj || !vOnSameYLevel_425520(pObj) || field_CC_sprite_scale != pObj->field_CC_sprite_scale)
+    {
+        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+        return 1;
+    }
+
+    if (pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
+    {
+        field_120_obj_id = -1;
+        field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+        field_130_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(45, 60);
+        return 10;
+    }
+
+    if (AnotherParamiteNear_4886E0())
+    {
+        Sound_48F600(ParamiteSpeak::Howdy_5, 0);
+        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+        SetBrain(&Paramite::AI_ChasingAbe_2_4859D0);
+        field_148_timer = sGnFrame_5C1B84 + field_144_attack_duration;
+        return 0;
+    }
+
+    if (field_C4_velx < FP_FromInteger(0))
+    {
+        if (HandleEnemyStopper_4893B0(-2))
+        {
+            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+            return 1;
+        }
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), -kGridSize) || Check_IsOnEndOfLine_408E90(1, 3))
+        {
+            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+            return 1;
+        }
+    }
+
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        if (HandleEnemyStopper_4893B0(2))
+        {
+            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+            return 1;
+        }
+        if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), kGridSize) || Check_IsOnEndOfLine_408E90(0, 3))
+        {
+            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+            return 1;
+        }
+    }
+
+    if (!vIsObj_GettingNear_425420(pObj))
+    {
+        return field_12C_brain_ret;
+    }
+
+    if (vIsObjNearby_4253B0(kGridSize * FP_FromInteger(8), pObj))
+    {
+        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+        return 1;
+    }
+
+    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(10), pObj))
+    {
+        return field_12C_brain_ret;
+    }
+    field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
+    return 4;
 }
 
 __int16 Paramite::AI_Patrol_State_4(BaseAliveGameObject* pObj)
