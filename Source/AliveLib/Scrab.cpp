@@ -2106,7 +2106,7 @@ __int16 Scrab::FindAbeOrMud_4A4FD0()
     if (CanSeeAbe_4A51A0(sActiveHero_5C1B68) && 
         sActiveHero_5C1B68->field_10C_health > FP_FromInteger(0) && 
         sActiveHero_5C1B68->field_CC_sprite_scale == field_CC_sprite_scale && 
-        !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))
+        !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), sActiveHero_5C1B68->field_B8_xpos - field_B8_xpos))
         {

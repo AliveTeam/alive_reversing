@@ -520,7 +520,7 @@ void SlapLock::vUpdate_43DF90()
                     sActiveHero_5C1B68->field_BC_ypos,
                     1)
                     || sActiveHero_5C1B68->field_168_ring_pulse_timer
-                    || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))
+                    || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
                 {
                     AbilityRing::Factory_482F80(
                         field_B8_xpos,
@@ -556,7 +556,7 @@ void SlapLock::vUpdate_43DF90()
                 return;
             }
 
-            if (sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))
+            if (sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
             {
                 field_120_state = SlapLockStates::State_7;
             }

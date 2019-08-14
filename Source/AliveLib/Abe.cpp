@@ -333,7 +333,7 @@ EXPORT int CC Abe_SFX_2_457A40(char sfxId, int volume, int pitchMin, BaseAliveGa
         sndVolume = Math_RandomRange_496AB0(54, 58);
         if (pAliveObj)
         {
-            if (pAliveObj->field_114_flags.Get(Flags_114::e114_Bit8))
+            if (pAliveObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
             {
                 sndVolume *= 3;
             }
@@ -349,7 +349,7 @@ EXPORT int CC Abe_SFX_2_457A40(char sfxId, int volume, int pitchMin, BaseAliveGa
         sndVolume = Math_RandomRange_496AB0(66, 70);
         if (pAliveObj)
         {
-            if (pAliveObj->field_114_flags.Get(Flags_114::e114_Bit8))
+            if (pAliveObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
             {
                 sndVolume *= 3;
             }
@@ -1042,7 +1042,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     sActiveHero_5C1B68->field_1A8_portal_id = pSaveState->bird_portal_id;
 
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted, pSaveState->bElectrocuted & 1);
-    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8, pSaveState->word42 & 1);
+    sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible, pSaveState->word42 & 1);
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit10, pSaveState->wordD4.Get(Abe_SaveState::eD4_eBit13));
 
     sActiveHero_5C1B68->field_1AC_flags.Set(Flags_1AC::e1AC_Bit1, pSaveState->wordD4.Get(Abe_SaveState::eD4_Bit1));
@@ -1243,7 +1243,7 @@ void Abe::Update_449DC0()
         field_160_slapable_or_pick_item_id = BaseGameObject::Find_Flags_4DC170(field_160_slapable_or_pick_item_id);
         field_164_wheel_id = BaseGameObject::Find_Flags_4DC170(field_164_wheel_id);
 
-        if (field_114_flags.Get(Flags_114::e114_Bit8))
+        if (field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             if (!field_170_invisible_timer)
             {
@@ -1862,7 +1862,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 
     pSaveState->bElectrocuted = field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
 
-    pSaveState->word42 = field_114_flags.Get(Flags_114::e114_Bit8);
+    pSaveState->word42 = field_114_flags.Get(Flags_114::e114_Bit8_bInvisible);
 
     if (field_100_pCollisionLine)
     {
@@ -2024,7 +2024,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
     pSaveState->wordCC = field_1A4_portal_sub_state;
 
     pSaveState->bElectrocuted = field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
-    pSaveState->word42 = field_114_flags.Get(Flags_114::e114_Bit8);
+    pSaveState->word42 = field_114_flags.Get(Flags_114::e114_Bit8_bInvisible);
     pSaveState->wordD4.Set(Abe_SaveState::eD4_eBit13, sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit10));
 
     pSaveState->wordD4.Set(Abe_SaveState::eD4_Bit1, field_1AC_flags.Get(Flags_1AC::e1AC_Bit1));
@@ -7867,7 +7867,7 @@ void Abe::State_114_DoorEnter_459470()
             if (!(pInvisibleEffect->field_6_flags.Get(BaseGameObject::eDead)))
             {
                 pInvisibleEffect->sub_45FA50();
-                field_114_flags.Clear(Flags_114::e114_Bit8);
+                field_114_flags.Clear(Flags_114::e114_Bit8_bInvisible);
                 field_178_invisible_effect_id = -1;
                 field_170_invisible_timer = 0;
             }

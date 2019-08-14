@@ -558,7 +558,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
             pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
         }
 
-        if (pObj && pObj->field_114_flags.Get(Flags_114::e114_Bit8))
+        if (pObj && pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             field_120_obj_id = -1;
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
@@ -688,7 +688,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
             field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
             return 1;
         }
-        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8))
+        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             field_120_obj_id = -1;
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
@@ -748,7 +748,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
             field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
             return 1;
         }
-        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8))
+        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             field_120_obj_id = -1;
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
@@ -827,7 +827,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
             field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
             return 1;
         }
-        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8))
+        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             field_120_obj_id = -1;
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
@@ -928,7 +928,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
             field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
             return 1;
         }
-        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8))
+        if (pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             field_120_obj_id = -1;
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
@@ -1016,7 +1016,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
 
         if (sActiveHero_5C1B68 == pEventNoise || sActiveHero_5C1B68 == pEventSpeaking)
         {
-            if (sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))
+            if (sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
             {
                 field_108_next_motion = sParamite_patrol_motion_table_55D590[Math_RandomRange_496AB0(0, 4)];
                 return 15;
@@ -1177,7 +1177,7 @@ __int16 Paramite::AI_Patrol_State_2(BaseAliveGameObject* pObj)
         return 1;
     }
 
-    if (pObj->field_114_flags.Get(Flags_114::e114_Bit8))
+    if (pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         field_120_obj_id = -1;
         field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
@@ -5069,7 +5069,7 @@ __int16 Paramite::FindTarget_488C30()
     }
 
     if (vOnSameYLevel_425520(sActiveHero_5C1B68) &&
-        !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8) && 
+        !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && 
         field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale &&
         !WallHit_408750((sActiveHero_5C1B68->field_CC_sprite_scale * FP_FromInteger(20)), sActiveHero_5C1B68->field_B8_xpos - field_B8_xpos))
     {

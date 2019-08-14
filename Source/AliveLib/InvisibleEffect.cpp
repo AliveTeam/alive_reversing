@@ -118,7 +118,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
                 field_30_pPalAlloc[idx2] |= 0x8000u;
             }
 
-            pTarget->field_114_flags.Set(Flags_114::e114_Bit8);
+            pTarget->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
 
             pTarget->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -244,7 +244,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             pTarget->field_20_animation.field_4_flags.Set(AnimFlags::eBit16_bBlending, !!(field_4A_flags & 2));
             pTarget->field_20_animation.field_B_render_mode = field_48_old_render_mode;
 
-            pTarget->field_114_flags.Clear(Flags_114::e114_Bit8);
+            pTarget->field_114_flags.Clear(Flags_114::e114_Bit8_bInvisible);
 
             field_1C_update_delay = 1;
             auto pFlicker = alive_new<PossessionFlicker>();

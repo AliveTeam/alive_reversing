@@ -2544,7 +2544,7 @@ __int16 Slig::AI_SpottedEnemy_7_4B3240()
             vIsObj_GettingNear_425420(sControlledCharacter_5C1B8C) && 
             vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(3), sControlledCharacter_5C1B8C) &&
             !Event_Get_422C00(kEventResetting) &&
-            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             ToShoot_4BF9A0();
         }
@@ -2566,7 +2566,7 @@ __int16 Slig::AI_SpottedEnemy_7_4B3240()
                 ShouldStilBeAlive_4BBC00();
             }
         }
-        else if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+        else if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             ToShoot_4BF9A0();
         }
@@ -2718,7 +2718,7 @@ __int16 Slig::AI_PanicTurning_12_4BC490()
             if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67 &&
                 sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125 &&
                 !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-                !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+                !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
             {
                 if (charRect.x <= bRect.w &&
                     charRect.w >= bRect.x &&
@@ -2771,7 +2771,7 @@ __int16 Slig::AI_PanicRunning_13_4BC780()
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67 &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
@@ -2858,7 +2858,7 @@ __int16 Slig::AI_Idle_15_4BD800()
     if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C)  && 
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && 
         (!field_15E || sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125) &&
         !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) &&
@@ -2932,7 +2932,7 @@ __int16 Slig::AI_Idle_15_4BD800()
         if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale &&
             vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
             !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
             gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
             !InZCover_4BB7C0(sControlledCharacter_5C1B8C) &&
             !InZCover_4BB7C0(this) &&
@@ -2981,7 +2981,7 @@ __int16 Slig::AI_Chasing2_17_4BCBD0()
         vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
         !RenderLayerIs_4BBBC0(sControlledCharacter_5C1B8C) &&
         !Event_Get_422C00(kEventResetting) &&
@@ -3026,7 +3026,7 @@ __int16 Slig::AI_Chasing1_18_4BCEB0()
             field_B8_xpos,
             field_BC_ypos,
             0) && 
-            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) && 
+            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && 
             sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
         {
             field_15C = 0;
@@ -3111,7 +3111,7 @@ __int16 Slig::AI_Turning_19_4BDDD0()
     if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eGlukkon_67 ||
         sControlledCharacter_5C1B8C->field_D6_scale != field_D6_scale ||
         IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) ||
-        sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) ||
+        sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
         IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) ||
         charRect.x > bRect.w || // TODO: Inverted rect check ??
         charRect.w < bRect.x ||
@@ -3208,7 +3208,7 @@ __int16 Slig::AI_Walking_21_4BE0C0()
     else if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
@@ -3283,7 +3283,7 @@ __int16 Slig::AI_Walking_21_4BE0C0()
             else if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale &&
                 vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
                 !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-                !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+                !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
                 gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
                 !InZCover_4BB7C0(sControlledCharacter_5C1B8C) &&
                 !InZCover_4BB7C0(this) &&
@@ -3344,7 +3344,7 @@ __int16 Slig::AI_GetAlertedTurn_22_4BE990()
         {
             if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67 &&
                 !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-                !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+                !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
             {
                 PSX_RECT bRect = {};
                 vGetBoundingRect_424FD0(&bRect, 1);
@@ -3391,7 +3391,7 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
     if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         (sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125 && !field_15E) &&
@@ -3441,7 +3441,7 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
                 (pNoisyMud == sControlledCharacter_5C1B8C || pNoisyMud->field_4_typeId == Types::eMudokon_110) &&
                 vOnSameYLevel_425520(pNoisyMud) &&
                 vIsFacingMe_4254A0(pNoisyMud) &&
-                (pNoisyMud != sControlledCharacter_5C1B8C || !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+                (pNoisyMud != sControlledCharacter_5C1B8C || !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
                     gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
                     !Event_Get_422C00(kEventResetting)))
             {
@@ -3606,7 +3606,7 @@ __int16 Slig::AI_Shooting_29_4BF750()
         if (!vOnSameYLevel_425520(sControlledCharacter_5C1B8C) ||
             !vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) ||
             IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) ||
-            sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) ||
+            sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
             IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) ||
             !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) ||
             !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) || 
@@ -3671,7 +3671,7 @@ __int16 Slig::AI_Inactive_32_4B9430()
                  vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
                  vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(1), sControlledCharacter_5C1B8C) &&
                  !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && 
-                 !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+                 !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
                  !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
                  !Event_Get_422C00(kEventResetting) && 
                  sControlledCharacter_5C1B8C->field_4_typeId != Types::eGlukkon_67)
@@ -3701,7 +3701,7 @@ __int16 Slig::AI_Paused_33_4B8DD0()
     if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && 
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         (!field_15E || sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125) &&
@@ -3716,7 +3716,7 @@ __int16 Slig::AI_Paused_33_4B8DD0()
     if (vOnSameYLevel_425520(sControlledCharacter_5C1B8C) &&
         vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
         !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
         !Event_Get_422C00(kEventResetting) &&
@@ -3746,7 +3746,7 @@ __int16 Slig::AI_Paused_33_4B8DD0()
         else if (sControlledCharacter_5C1B8C->field_CC_sprite_scale > field_CC_sprite_scale && 
             vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) &&
             !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) &&
-            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8) &&
+            !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
             gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
             !InZCover_4BB7C0(sControlledCharacter_5C1B8C) &&
             !InZCover_4BB7C0(this) &&
@@ -5055,7 +5055,7 @@ void Slig::TurnOrSayWhat_4BEBC0()
 {
     if (Event_Get_422C00(kEventSpeaking) && 
         !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C) && 
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         GameSpeakResponse_4BF470();
         RespondWithWhat_4BF400();
@@ -5076,7 +5076,7 @@ void Slig::GoAlertedOrSayWhat_4BF140()
 {
     if (Event_Get_422C00(kEventSpeaking)
         && !IsInInvisibleZone_425710(sControlledCharacter_5C1B8C)
-        && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+        && !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         GameSpeakResponse_4BF470();
         RespondWithWhat_4BF400();
@@ -5546,7 +5546,7 @@ BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, int gridBlocks)
             if (pObj->field_10C_health > FP_FromInteger(0) &&
                 pObj->field_D6_scale == field_D6_scale &&
                 !IsInInvisibleZone_425710(pObj) &&
-                !pObj->field_114_flags.Get(Flags_114::e114_Bit8) &&
+                !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
                 PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
             {
                 return pObj;
@@ -5610,7 +5610,7 @@ void Slig::ShootTurnTowardsOrKillSound_4B3140()
 {
     field_144 = 0;
 
-    if (field_218_tlv_data.field_20_chal_timer || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+    if (field_218_tlv_data.field_20_chal_timer || sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eSlig_125 || field_218_tlv_data.field_1E_chal_number != 3)
         {
@@ -5962,7 +5962,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
 
         if (!vIsFacingMe_4254A0(sActiveHero_5C1B68) ||
             IsInInvisibleZone_425710(sActiveHero_5C1B68) ||
-            sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8) ||
+            sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
             IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C))
         {
             GoAlertedOrSayWhat_4BF140();
