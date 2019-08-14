@@ -16,15 +16,12 @@ if (len(sys.argv) != 2):
     print(f"Usage: {sys.argv[0]} [number]")
     sys.exit(0)
 
-num = int(sys.argv[1], 0)
-numAsBinaryString = bin(num)[2:]
+input = int(sys.argv[1], 0)
+numAsBinaryString = bin(input)[2:]
 
-# 0x1CCCC =1.8
-fp = 0x140000
+print("2's comp: " + str(twos_complement(input, 32)))
 
-print("2's comp: " + str(twos_complement(num, 16)))
-
-print("Converting " + hex(num) + " bits " + numAsBinaryString)
+print("Converting " + hex(input) + " bits " + numAsBinaryString)
 
 for idx, zeroOrOne in enumerate(numAsBinaryString):
     if zeroOrOne == '1':
@@ -34,12 +31,10 @@ print("Done")
 
 print("")
 
-print("Converting " + hex(fp) + " to fixed point calc")
+print("Converting " + hex(input) + " to fixed point calc")
 
-fpV = (fp / float(0x10000))
+fpV = (input / float(0x10000))
 if (math.floor(fpV) == fpV):
     print("FP_FromInteger(" + str(int(fpV)) + ");")
 else:
     print("FP_FromDouble(" + str(fpV) + ");")
-
-#print(hex(1<<21))
