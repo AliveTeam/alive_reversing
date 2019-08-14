@@ -220,6 +220,9 @@ private:
 
 public:
     EXPORT __int16 AI_Patrol_0_4835B0();
+
+    __int16 AI_Patrol_State_2(BaseAliveGameObject* pObj);
+
     EXPORT __int16 AI_Death_1_484CD0();
     EXPORT __int16 AI_ChasingAbe_2_4859D0();
     EXPORT __int16 AI_SurpriseWeb_3_4851B0();
