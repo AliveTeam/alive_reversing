@@ -2733,7 +2733,7 @@ void MainMenuController::sub_4CFE80()
                             break;
 
                         case eGlukkonSpeak:
-                            Glukkon::PlaySound_444AF0(static_cast<BYTE>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
+                            Glukkon::PlaySound_GameSpeak_444AF0(static_cast<BYTE>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
                             field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);
                             break;
 

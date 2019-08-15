@@ -677,7 +677,7 @@ void Glukkon::M_Speak1_11_4437D0()
                 pEventSystem_5BC11C->PushEvent_4218D0(static_cast<GameSpeakEvents>(field_1EA_speak + 36)); // TODO: Type safe conversion
             }
 
-            PlaySound_Gamespeak_444AF0(field_1EA_speak, 0, 0, 0);
+            PlaySound_GameSpeak_444AF0(field_1EA_speak, 0, 0, 0);
             
             if (field_1EA_speak == 6)
             {
@@ -750,7 +750,7 @@ void Glukkon::M_KnockBackStandBegin_20_442FC0()
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
-        PlaySound_Gamespeak_444AF0(5, 0, 0, 0);
+        PlaySound_GameSpeak_444AF0(5, 0, 0, 0);
         SetAnim_43F9C0(eGlukkonMotions::M_KnockBackStandEnd_22_443010, TRUE);
     }
 }
@@ -1344,7 +1344,7 @@ __int16 Glukkon::AI_2_Slapped_441720()
             {
                 return field_210;
             }
-            Glukkon::PlaySound_Gamespeak_444AF0(6u, 0, 0, 0);
+            Glukkon::PlaySound_GameSpeak_444AF0(6u, 0, 0, 0);
             field_1F0 = sGnFrame_5C1B84 + 40;
             return field_210;
         }
@@ -2713,7 +2713,7 @@ void Glukkon::vOn_TLV_Collision_4404A0(Path_TLV* pTlv)
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
 
-                PlaySound_Gamespeak_444AF0(9, 0, 0, 0);
+                PlaySound_GameSpeak_444AF0(9, 0, 0, 0);
                 ToDead_43F640();
 
                 // Muds love it when people DIE
@@ -2750,7 +2750,7 @@ SfxDefinition gameSpeak_554858[15] =
 };
 
 
-void CC Glukkon::PlaySound_Gamespeak_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon)
+void CC Glukkon::PlaySound_GameSpeak_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon)
 {
     __int16 calcedVolume = volume;
     if (!calcedVolume)
@@ -2950,7 +2950,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         break;
 
     case Types::eElectricWall_39:
-        Glukkon::PlaySound_Gamespeak_444AF0(9u, 0, field_1E0, this);
+        Glukkon::PlaySound_GameSpeak_444AF0(9u, 0, field_1E0, this);
         return 1;
 
     case Types::eRockSpawner_48:
@@ -2967,11 +2967,11 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         {
             if (Math_NextRandom() <= 32u)
             {
-                Glukkon::PlaySound_Gamespeak_444AF0(9u, 0, 0, 0);
+                Glukkon::PlaySound_GameSpeak_444AF0(9u, 0, 0, 0);
             }
             else
             {
-                Glukkon::PlaySound_Gamespeak_444AF0(0, 0, 0, 0);
+                Glukkon::PlaySound_GameSpeak_444AF0(0, 0, 0, 0);
             }
             field_1F8 = sGnFrame_5C1B84;
             SetAnim_43F9C0(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);

@@ -130,7 +130,7 @@ public:
     EXPORT __int16 AI_5_WaitToSpawn_442490();
 
 public:
-    EXPORT static void CC PlaySound_Gamespeak_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
+    EXPORT static void CC PlaySound_GameSpeak_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
 
 private:
     EXPORT void Init_43F260();
