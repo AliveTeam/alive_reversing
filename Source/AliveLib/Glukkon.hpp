@@ -47,23 +47,24 @@ enum class GlukkonTypes : __int16
     Normal_5 = 5,
 };
 
-enum class GlukkonSpeak : __int16
+enum class GlukkonSpeak : char
 {
-    HEY,
-    DO_IT,
-    STAY_HERE,
-    COMMERE,
-    ALL_O_YA,
-    HEH,
-    HELP,
-    LAUGH,
-    KILL_EM,
-    UNUSED_1,
-    UNUSED_2,
-    WHAT,
-    UNUSED_3,
-    UNUSED_4,
-    UNUSED_5
+    None = -1,
+    Hey_0 = 0,
+    DoIt_1 = 1,
+    StayHere_2 = 2,
+    Commere_3 = 3,
+    AllOYa_4 = 4,
+    Heh_5 = 5,
+    Help_6 = 6,
+    Laugh_7 = 7,
+    KillEm_8 = 8,
+    Unused_9 = 9,
+    Unused_10 = 10,
+    What_11 = 11,
+    Unused_12 = 12,
+    Unused_13 = 13,
+    Unused_14 = 14
 };
 
 struct Path_Glukkon : public Path_TLV
@@ -166,7 +167,7 @@ private:
 
     EXPORT void SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion = FALSE);
 
-    EXPORT void Speak_444640(unsigned __int8 speak);
+    EXPORT void Speak_444640(GlukkonSpeak speak);
 
     EXPORT void HandleInput_443BB0();
 
@@ -286,7 +287,7 @@ private:
     LevelIds field_1E4_level;
     __int16 field_1E6_path;
     __int16 field_1E8_camera;
-    char field_1EA_speak;
+    GlukkonSpeak field_1EA_speak;
     char field_1EB_pad;
     int field_1EC;
     int field_1F0;

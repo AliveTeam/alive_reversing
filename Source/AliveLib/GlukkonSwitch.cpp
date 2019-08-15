@@ -192,7 +192,7 @@ void GlukkonSwitch::vUpdate_445200()
         return;
 
     case 2:
-        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::HEY, 127, -200, 0);
+        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Hey_0, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
         field_F8_state = 3;
         field_120_timer = sGnFrame_5C1B84 + 150;
@@ -241,7 +241,7 @@ void GlukkonSwitch::vUpdate_445200()
         {
             return;
         }
-        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::WHAT, 127, -200, 0);
+        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::What_11, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, 0);
         field_F8_state = 5;
         field_120_timer = sGnFrame_5C1B84 + 60;
@@ -287,7 +287,7 @@ void GlukkonSwitch::vUpdate_445200()
             return;
         }
         SFX_Play_46FBA0(0x58u, 127, -700); //Bleh!
-        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::LAUGH, 127, -200, 0);
+        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Laugh_7, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
         SwitchStates_Do_Operation_465F00(field_FA_ok_id, SwitchOp::eToggle_2);
         field_F8_state = 1;
@@ -299,7 +299,7 @@ void GlukkonSwitch::vUpdate_445200()
         {
             return;
         }
-        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::HEH, 127, -200, 0);
+        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Heh_5, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
         field_F8_state = 0;
         field_120_timer = sGnFrame_5C1B84 + 90;
@@ -310,7 +310,7 @@ void GlukkonSwitch::vUpdate_445200()
         {
             return;
         }
-        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::HEH, 127, -200, 0);
+        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Heh_5, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
         SwitchStates_Do_Operation_465F00(field_FC_fail_id, SwitchOp::eSetTrue_0);
         field_F8_state = 0;
