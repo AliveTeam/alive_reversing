@@ -252,7 +252,7 @@ void Glukkon::M_Walk_1_442D30()
         case 10:
         case 14:
             PlaySound_4447D0(0, this);
-            currentWalkPitch_212++;
+            field_212_currentWalkPitch++;
             return;
 
         case 8:
@@ -2213,7 +2213,7 @@ void Glukkon::HandleInput_443BB0()
     case eGlukkonMotions::M_BeginWalk_14_443950:
         if (field_106_current_motion != eGlukkonMotions::M_Walk_1_442D30)
         {
-            currentWalkPitch_212 = 0;
+            field_212_currentWalkPitch = 0;
         }
         // Fall through
 
@@ -2565,17 +2565,17 @@ void Glukkon::GetOnPlatforms_444060()
         (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
 }
 
+SfxDefinition stepSfx_554840[3] =
+{
+    { 0u, 8u, 36u, 25u, 1524, 1905 },
+    { 0u, 3u, 59u, 60u, 0, 254 },
+    { 0u, 3u, 72u, 120u, 0, 254 }
+};
+
 void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
 {
     int volumeLeft, volumeRight;
-    BaseAnimatedWithPhysicsGameObject* pGlukkonBase = ( BaseAnimatedWithPhysicsGameObject * ) pGlukkon;
-
-    SfxDefinition stepSfx_554840[3] =
-    {
-        { 0u, 8u, 36u, 25u, 1524, 1905 },
-        { 0u, 3u, 59u, 60u, 0, 254 },
-        { 0u, 3u, 72u, 120u, 0, 254 }
-    };
+    auto pGlukkonBase = static_cast<BaseAnimatedWithPhysicsGameObject*>(pGlukkon);
     int defaultSndIdxVol = stepSfx_554840[sndIdx].field_3_default_volume;
 
     __int16 pitch;
@@ -2585,7 +2585,7 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
     }
     else
     {
-        signed __int16 pitchCap = pGlukkon->currentWalkPitch_212;
+        signed __int16 pitchCap = pGlukkon->field_212_currentWalkPitch;
         if (pitchCap > 12)
         {
             pitchCap = pitchCap % 4 + 12;
@@ -2602,8 +2602,7 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
         volumeRight = defaultSndIdxVol / 2;
     }
 
-    CameraPos direction;
-    direction = gMap_5C3030.GetDirection_4811A0(
+    CameraPos direction = gMap_5C3030.GetDirection_4811A0(
         pGlukkonBase->field_C2_lvl_number,
         pGlukkonBase->field_C0_path_number,
         pGlukkonBase->field_B8_xpos,
@@ -2643,10 +2642,10 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
             return;
     }
 
-    if (pGlukkonBase->field_CC_sprite_scale.fpValue == 0x8000) //TODO figure out if this does actually happen
+    if (pGlukkonBase->field_CC_sprite_scale == FP_FromDouble(0.5)) //TODO figure out if this does actually happen
     {
-        volumeLeft = ( signed int ) Math_FixedPoint_Divide_496B70(( signed __int16 ) volumeLeft << 17, 0x30000) / 0x10000;
-        volumeRight = ( signed int ) Math_FixedPoint_Divide_496B70(( signed __int16 ) volumeRight << 17, 0x30000) / 0x10000;
+        volumeLeft = FP_GetExponent(FP_FromInteger(volumeLeft * 2) / FP_FromInteger(3));
+        volumeRight = FP_GetExponent(FP_FromInteger(volumeRight * 2) / FP_FromInteger(3));
     }
 
     SFX_SfxDefinition_Play_4CA700(&stepSfx_554840[sndIdx], (__int16) volumeLeft, ( __int16 ) volumeRight, pitch, pitch);
