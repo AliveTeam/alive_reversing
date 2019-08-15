@@ -13,11 +13,17 @@ def twos_complement(value, bitWidth):
         return value - int((value << 1) & 2**bitWidth)
 
 if (len(sys.argv) != 2):
-    print(f"Usage: {sys.argv[0]} [number]")
-    sys.exit(0)
+    print("Usage: {sys.argv[0]} [number]")
+    #sys.exit(0)
 
+<<<<<<< Updated upstream
 input = int(sys.argv[1], 0)
 numAsBinaryString = bin(input)[2:]
+=======
+#num = int(sys.argv[1], 0)
+num  = 63745
+numAsBinaryString = bin(num)[2:]
+>>>>>>> Stashed changes
 
 print("2's comp: " + str(twos_complement(input, 32)))
 

@@ -1336,8 +1336,9 @@ __int16 Paramite::AI_SurpriseWeb_3_4851B0()
             {
                 field_11C_web_id = pNewWeb->ctor_4E1840(field_B8_xpos, FP_GetExponent(field_BC_ypos) - 20, FP_GetExponent(field_BC_ypos) - 10, field_CC_sprite_scale)->field_8_object_id;
             }
+            return 2;
         }
-        return 2;
+        break;
 
     case 2:
         if (field_130_timer <= static_cast<int>(sGnFrame_5C1B84))
