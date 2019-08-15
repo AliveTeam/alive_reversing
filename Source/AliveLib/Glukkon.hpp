@@ -280,7 +280,7 @@ private:
     int field_208_obj_id;
     TGlukkonAIFn field_20C_brain_state_fn;
     __int16 field_210;
-    __int16 field_212;
+    __int16 currentWalkPitch_212;
     int field_214_tlv_info;
 };
 ALIVE_ASSERT_SIZEOF(Glukkon, 0x218);

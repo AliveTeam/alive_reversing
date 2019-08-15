@@ -252,7 +252,7 @@ void Glukkon::M_Walk_1_442D30()
         case 10:
         case 14:
             PlaySound_4447D0(0, this);
-            field_212++;
+            currentWalkPitch_212++;
             return;
 
         case 8:
@@ -2213,7 +2213,7 @@ void Glukkon::HandleInput_443BB0()
     case eGlukkonMotions::M_BeginWalk_14_443950:
         if (field_106_current_motion != eGlukkonMotions::M_Walk_1_442D30)
         {
-            field_212 = 0;
+            currentWalkPitch_212 = 0;
         }
         // Fall through
 
@@ -2565,9 +2565,91 @@ void Glukkon::GetOnPlatforms_444060()
         (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
 }
 
-void CC Glukkon::PlaySound_4447D0(int /*sndIdx*/, Glukkon* /*pGlukkon*/)
+void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
 {
-    NOT_IMPLEMENTED();
+    int volumeLeft, volumeRight;
+    BaseAnimatedWithPhysicsGameObject* pGlukkonBase = ( BaseAnimatedWithPhysicsGameObject * ) pGlukkon;
+
+    SfxDefinition stepSfx_554840[3] =
+    {
+        { 0u, 8u, 36u, 25u, 1524, 1905 },
+        { 0u, 3u, 59u, 60u, 0, 254 },
+        { 0u, 3u, 72u, 120u, 0, 254 }
+    };
+    int defaultSndIdxVol = stepSfx_554840[sndIdx].field_3_default_volume;
+
+    __int16 pitch;
+    if ( sndIdx || !pGlukkon)
+    {
+        pitch = Math_RandomRange_496AB0(stepSfx_554840[sndIdx].field_4_pitch_min, stepSfx_554840[sndIdx].field_6_pitch_max);
+    }
+    else
+    {
+        signed __int16 pitchCap = pGlukkon->currentWalkPitch_212;
+        if (pitchCap > 12)
+        {
+            pitchCap = pitchCap % 4 + 12;
+        }
+        pitch = 127 * pitchCap;
+    }
+
+    if (pGlukkonBase->field_CC_sprite_scale == FP_FromInteger(1))
+    {
+        volumeRight = defaultSndIdxVol;
+    }
+    else // Glukkon in background layer? TODO figure out if this does actually happen
+    {
+        volumeRight = defaultSndIdxVol / 2;
+    }
+
+    CameraPos direction;
+    direction = gMap_5C3030.GetDirection_4811A0(
+        pGlukkonBase->field_C2_lvl_number,
+        pGlukkonBase->field_C0_path_number,
+        pGlukkonBase->field_B8_xpos,
+        pGlukkonBase->field_BC_ypos
+    );
+    PSX_RECT pRect;
+    gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
+    switch ( direction )
+    {
+        case CameraPos::eCamCurrent_0:
+        {
+            volumeLeft = volumeRight;
+            break;
+        }
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+        {
+            volumeLeft = FP_GetExponent(FP_FromInteger(defaultSndIdxVol * 2) / FP_FromInteger(3));
+            volumeRight = volumeLeft;
+        }
+            break;
+        case CameraPos::eCamLeft_3:
+        {
+            FP percentHowFar = (FP_FromInteger(pRect.w) - pGlukkonBase->field_B8_xpos) / FP_FromInteger(368);
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - ( volumeRight / 3 )));
+            volumeRight =  volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+        }
+            break;
+        case CameraPos::eCamRight_4:
+        {
+            FP percentHowFar = (pGlukkonBase->field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+            volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - ( volumeRight / 3 )));
+        }
+            break;
+        default:
+            return;
+    }
+
+    if (pGlukkonBase->field_CC_sprite_scale.fpValue == 0x8000) //TODO figure out if this does actually happen
+    {
+        volumeLeft = ( signed int ) Math_FixedPoint_Divide_496B70(( signed __int16 ) volumeLeft << 17, 0x30000) / 0x10000;
+        volumeRight = ( signed int ) Math_FixedPoint_Divide_496B70(( signed __int16 ) volumeRight << 17, 0x30000) / 0x10000;
+    }
+
+    SFX_SfxDefinition_Play_4CA700(&stepSfx_554840[sndIdx], (__int16) volumeLeft, ( __int16 ) volumeRight, pitch, pitch);
 }
 
 void Glukkon::ToDead_43F640()
