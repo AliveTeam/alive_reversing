@@ -2575,7 +2575,6 @@ SfxDefinition stepSfx_554840[3] =
 void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
 {
     int volumeLeft, volumeRight;
-    auto pGlukkonBase = static_cast<BaseAnimatedWithPhysicsGameObject*>(pGlukkon);
     int defaultSndIdxVol = stepSfx_554840[sndIdx].field_3_default_volume;
 
     __int16 pitch;
@@ -2593,7 +2592,7 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
         pitch = 127 * pitchCap;
     }
 
-    if (pGlukkonBase->field_CC_sprite_scale == FP_FromInteger(1))
+    if (pGlukkon->field_CC_sprite_scale == FP_FromInteger(1))
     {
         volumeRight = defaultSndIdxVol;
     }
@@ -2603,10 +2602,10 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
     }
 
     CameraPos direction = gMap_5C3030.GetDirection_4811A0(
-        pGlukkonBase->field_C2_lvl_number,
-        pGlukkonBase->field_C0_path_number,
-        pGlukkonBase->field_B8_xpos,
-        pGlukkonBase->field_BC_ypos
+        pGlukkon->field_C2_lvl_number,
+        pGlukkon->field_C0_path_number,
+        pGlukkon->field_B8_xpos,
+        pGlukkon->field_BC_ypos
     );
     PSX_RECT pRect;
     gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
@@ -2626,14 +2625,14 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
             break;
         case CameraPos::eCamLeft_3:
         {
-            FP percentHowFar = (FP_FromInteger(pRect.w) - pGlukkonBase->field_B8_xpos) / FP_FromInteger(368);
+            FP percentHowFar = (FP_FromInteger(pRect.w) - pGlukkon->field_B8_xpos) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
             volumeRight =  volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
         }
             break;
         case CameraPos::eCamRight_4:
         {
-            FP percentHowFar = (pGlukkonBase->field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
+            FP percentHowFar = (pGlukkon->field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
             volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
         }
@@ -2642,7 +2641,7 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
             return;
     }
 
-    if (pGlukkonBase->field_CC_sprite_scale == FP_FromDouble(0.5)) //TODO figure out if this does actually happen
+    if (pGlukkon->field_CC_sprite_scale == FP_FromDouble(0.5)) //TODO figure out if this does actually happen
     {
         volumeLeft = FP_GetExponent(FP_FromInteger(volumeLeft * 2) / FP_FromInteger(3));
         volumeRight = FP_GetExponent(FP_FromInteger(volumeRight * 2) / FP_FromInteger(3));
