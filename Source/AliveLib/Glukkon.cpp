@@ -718,7 +718,7 @@ void Glukkon::M_Speak1_11_4437D0()
                         evToBePushed = GameSpeakEvents::eUnknown_35; //GlukkonSpeak::None
                         break;
                 }
-                if (!(evToBePushed == GameSpeakEvents::eUnknown_35))
+                if (evToBePushed != GameSpeakEvents::eUnknown_35)
                 {
                     pEventSystem_5BC11C->PushEvent_4218D0(evToBePushed);
                 }
