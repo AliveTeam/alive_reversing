@@ -286,7 +286,7 @@ void GlukkonSwitch::vUpdate_445200()
         {
             return;
         }
-        SFX_Play_46FBA0(0x58u, 127, -700);
+        SFX_Play_46FBA0(0x58u, 127, -700); //Bleh!
         Glukkon::PlaySound_444AF0(7u, 127, -200, 0);
         field_20_animation.Set_Animation_Data_409C80(1528, nullptr);
         SwitchStates_Do_Operation_465F00(field_FA_ok_id, SwitchOp::eToggle_2);

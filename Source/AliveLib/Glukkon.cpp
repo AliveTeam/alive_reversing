@@ -2627,7 +2627,7 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
         case CameraPos::eCamLeft_3:
         {
             FP percentHowFar = (FP_FromInteger(pRect.w) - pGlukkonBase->field_B8_xpos) / FP_FromInteger(368);
-            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - ( volumeRight / 3 )));
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
             volumeRight =  volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
         }
             break;
@@ -2635,7 +2635,7 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
         {
             FP percentHowFar = (pGlukkonBase->field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
-            volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - ( volumeRight / 3 )));
+            volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
         }
             break;
         default:
@@ -2731,9 +2731,44 @@ void Glukkon::vOn_TLV_Collision_4404A0(Path_TLV* pTlv)
     }
 }
 
-void CC Glukkon::PlaySound_444AF0(unsigned __int8 /*sndIdx*/, __int16 /*volume*/, __int16 /*pitch*/, Glukkon* /*pGlukkon*/)
+SfxDefinition gameSpeak_554858[15] =
 {
-    NOT_IMPLEMENTED();
+    { 0u, 8u, 66u, 127u, 0, 0 }, //HEY!
+    { 0u, 8u, 64u, 127u, 0, 0 }, //DO IT!
+    { 0u, 8u, 67u, 127u, 0, 0 }, //STAY HERE
+    { 0u, 8u, 61u, 127u, 0, 0 }, //COMMERE
+    { 0u, 8u, 63u, 127u, 0, 0 }, //ALL O'YA!
+    { 0u, 8u, 70u, 127u, 0, 0 }, //Heh.
+    { 0u, 8u, 65u, 127u, 0, 0 }, //HELP!
+    { 0u, 8u, 69u, 127u, 0, 0 }, //LAUGH
+    { 0u, 8u, 71u, 127u, 0, 0 }, //KILL 'EM!
+    { 0u, 8u, 60u, 127u, 0, 0 }, //[Nothing]
+    { 0u, 8u, 60u, 127u, 0, 0 }, //[Nothing]
+    { 0u, 8u, 62u, 127u, 0, 0 }, //...WHAT?!
+    { 0u, 0u, 0u, 0u, 0, 0 }, //[Nothing]
+    { 0u, 0u, 0u, 0u, 0, 0 }, //[Nothing]
+    { 0u, 0u, 0u, 0u, 0, 0 } //[Nothing]
+};
+
+
+void CC Glukkon::PlaySound_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon) //todo rename PlaySound_Gamespeak_444AF0
+{
+    auto pGlukkonBase = static_cast< BaseAnimatedWithPhysicsGameObject* >( pGlukkon );
+    int calcedVolume;
+
+    calcedVolume = volume;
+    if (!calcedVolume)
+    {
+        calcedVolume = gameSpeak_554858[sndIdx].field_3_default_volume;
+    }
+    if (pGlukkon)
+    {
+        if (pGlukkonBase->field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            calcedVolume = FP_GetExponent(FP_FromInteger(calcedVolume * 2) / FP_FromInteger(3));
+        }
+    }
+    SFX_SfxDefinition_Play_4CA420(&gameSpeak_554858[sndIdx], (__int16) calcedVolume, pitch, pitch);
 }
 
 BOOL CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* /*pGlukkon*/, BaseAliveGameObject* /*pOther*/)
