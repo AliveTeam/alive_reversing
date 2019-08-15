@@ -2753,22 +2753,19 @@ SfxDefinition gameSpeak_554858[15] =
 
 void CC Glukkon::PlaySound_Gamespeak_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon)
 {
-    auto pGlukkonBase = static_cast< BaseAnimatedWithPhysicsGameObject* >( pGlukkon );
-    int calcedVolume;
-
-    calcedVolume = volume;
+    __int16 calcedVolume = volume;
     if (!calcedVolume)
     {
         calcedVolume = gameSpeak_554858[sndIdx].field_3_default_volume;
     }
     if (pGlukkon)
     {
-        if (pGlukkonBase->field_CC_sprite_scale == FP_FromDouble(0.5))
+        if (pGlukkon->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
             calcedVolume = FP_GetExponent(FP_FromInteger(calcedVolume * 2) / FP_FromInteger(3));
         }
     }
-    SFX_SfxDefinition_Play_4CA420(&gameSpeak_554858[sndIdx], (__int16) calcedVolume, pitch, pitch);
+    SFX_SfxDefinition_Play_4CA420(&gameSpeak_554858[sndIdx], calcedVolume, pitch, pitch);
 }
 
 BOOL CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* /*pGlukkon*/, BaseAliveGameObject* /*pOther*/)
