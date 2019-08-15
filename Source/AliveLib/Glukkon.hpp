@@ -47,6 +47,25 @@ enum class GlukkonTypes : __int16
     Normal_5 = 5,
 };
 
+enum class GlukkonSpeak : __int16
+{
+    HEY,
+    DO_IT,
+    STAY_HERE,
+    COMMERE,
+    ALL_O_YA,
+    HEH,
+    HELP,
+    LAUGH,
+    KILL_EM,
+    UNUSED_1,
+    UNUSED_2,
+    WHAT,
+    UNUSED_3,
+    UNUSED_4,
+    UNUSED_5
+};
+
 struct Path_Glukkon : public Path_TLV
 {
     __int16 field_10_scale;
@@ -130,7 +149,7 @@ public:
     EXPORT __int16 AI_5_WaitToSpawn_442490();
 
 public:
-    EXPORT static void CC PlaySound_GameSpeak_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
+    EXPORT static void CC PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
 
 private:
     EXPORT void Init_43F260();
