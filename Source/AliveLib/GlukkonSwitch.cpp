@@ -215,14 +215,14 @@ void GlukkonSwitch::vUpdate_445200()
         }
         else
         {
-            if (lastEventIdx2 == GameSpeakEvents::eUnknown_36)
+            if (lastEventIdx2 == GameSpeakEvents::Glukkon_Hey_36)
             {
                 field_F8_state = 4;
                 field_120_timer = sGnFrame_5C1B84 + 30;
             }
             else
             {
-                if (lastEventIdx2 < GameSpeakEvents::eUnknown_36)
+                if (lastEventIdx2 < GameSpeakEvents::Glukkon_Hey_36)
                 {
                     field_F8_state = 8;
                     field_120_timer = sGnFrame_5C1B84 + 30;
@@ -258,12 +258,12 @@ void GlukkonSwitch::vUpdate_445200()
                     field_120_timer = sGnFrame_5C1B84 + 15;
                 }
             }
-            else if (lastEventIdx2 == GameSpeakEvents::eUnknown_37)
+            else if (lastEventIdx2 == GameSpeakEvents::Glukkon_DoIt_37)
             {
                 field_F8_state = 6;
                 field_120_timer = sGnFrame_5C1B84 + 30;
             }
-            else if (lastEventIdx2 < GameSpeakEvents::eUnknown_36)
+            else if (lastEventIdx2 < GameSpeakEvents::Glukkon_Hey_36)
             {
                 field_F8_state = 8;
                 field_120_timer = sGnFrame_5C1B84 + 30;

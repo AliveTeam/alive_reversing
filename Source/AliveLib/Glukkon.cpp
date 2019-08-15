@@ -675,7 +675,53 @@ void Glukkon::M_Speak1_11_4437D0()
             
             if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30))
             {
-                pEventSystem_5BC11C->PushEvent_4218D0(static_cast<GameSpeakEvents>((char)field_1EA_speak + 36)); // TODO: Type safe conversion
+                GameSpeakEvents evToBePushed;
+                switch (field_1EA_speak)
+                {
+                    case GlukkonSpeak::Hey_0:
+                        evToBePushed = GameSpeakEvents::Glukkon_Hey_36;
+                        break;
+                    case GlukkonSpeak::DoIt_1:
+                        evToBePushed = GameSpeakEvents::Glukkon_DoIt_37;
+                        break;
+                    case GlukkonSpeak::StayHere_2:
+                        evToBePushed = GameSpeakEvents::Glukkon_StayHere_38;
+                        break;
+                    case GlukkonSpeak::Commere_3:
+                        evToBePushed = GameSpeakEvents::Glukkon_Commere_39;
+                        break;
+                    case GlukkonSpeak::AllOYa_4:
+                        evToBePushed = GameSpeakEvents::Glukkon_AllOYa_40;
+                        break;
+                    case GlukkonSpeak::Heh_5:
+                        evToBePushed = GameSpeakEvents::Glukkon_Heh_41;
+                        break;
+                    case GlukkonSpeak::Help_6:
+                        evToBePushed = GameSpeakEvents::Glukkon_Help_42;
+                        break;
+                    case GlukkonSpeak::Laugh_7:
+                        evToBePushed = GameSpeakEvents::Glukkon_Laugh_43;
+                        break;
+                    case GlukkonSpeak::KillEm_8:
+                        evToBePushed = GameSpeakEvents::Glukkon_KillEm_44;
+                        break;
+                    case GlukkonSpeak::Unused_9:
+                        evToBePushed = GameSpeakEvents::Glukkon_Unknown_45;
+                        break;
+                    case GlukkonSpeak::Unused_10:
+                        evToBePushed = GameSpeakEvents::Glukkon_Unknown_46;
+                        break;
+                    case GlukkonSpeak::What_11:
+                        evToBePushed = GameSpeakEvents::Glukkon_What_47;
+                        break;
+                    default:
+                        evToBePushed = GameSpeakEvents::eUnknown_35; //GlukkonSpeak::None
+                        break;
+                }
+                if (!(evToBePushed == GameSpeakEvents::eUnknown_35))
+                {
+                    pEventSystem_5BC11C->PushEvent_4218D0(evToBePushed);
+                }
             }
 
             PlaySound_GameSpeak_444AF0(field_1EA_speak, 0, 0, 0);
