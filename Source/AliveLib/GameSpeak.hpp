@@ -32,8 +32,19 @@ enum class GameSpeakEvents : __int16
 
     Slig_Freeze_31 = 31,
 
-    eUnknown_36 = 36,
-    eUnknown_37 = 37,
+    eUnknown_35 = 35, //Glukkon_None_35?
+    Glukkon_Hey_36 = 36,
+    Glukkon_DoIt_37 = 37,
+    Glukkon_StayHere_38 = 38,
+    Glukkon_Commere_39 = 39,
+    Glukkon_AllOYa_40 = 40,
+    Glukkon_Heh_41 = 41,
+    Glukkon_Help_42 = 42,
+    Glukkon_Laugh_43 = 43,
+    Glukkon_KillEm_44 = 44,
+    Glukkon_Unknown_45 = 45,
+    Glukkon_Unknown_46 = 46,
+    Glukkon_What_47 = 47,
 
     Paramite_Howdy_48 = 48,
     Paramite_Stay_49 = 49,

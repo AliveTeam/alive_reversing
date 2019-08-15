@@ -252,7 +252,7 @@ void Glukkon::M_Walk_1_442D30()
         case 10:
         case 14:
             PlaySound_4447D0(0, this);
-            field_212++;
+            field_212_currentWalkPitch++;
             return;
 
         case 8:
@@ -657,7 +657,8 @@ void Glukkon::M_ChantShake_10_443B50()
 
 void Glukkon::M_Speak1_11_4437D0()
 {
-    if (field_20_animation.field_92_current_frame == 2 && field_1EA_speak != -1)
+
+    if (field_20_animation.field_92_current_frame == 2 && field_1EA_speak != GlukkonSpeak::None )
     {
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
@@ -674,17 +675,63 @@ void Glukkon::M_Speak1_11_4437D0()
             
             if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30))
             {
-                pEventSystem_5BC11C->PushEvent_4218D0(static_cast<GameSpeakEvents>(field_1EA_speak + 36)); // TODO: Type safe conversion
+                GameSpeakEvents evToBePushed;
+                switch (field_1EA_speak)
+                {
+                    case GlukkonSpeak::Hey_0:
+                        evToBePushed = GameSpeakEvents::Glukkon_Hey_36;
+                        break;
+                    case GlukkonSpeak::DoIt_1:
+                        evToBePushed = GameSpeakEvents::Glukkon_DoIt_37;
+                        break;
+                    case GlukkonSpeak::StayHere_2:
+                        evToBePushed = GameSpeakEvents::Glukkon_StayHere_38;
+                        break;
+                    case GlukkonSpeak::Commere_3:
+                        evToBePushed = GameSpeakEvents::Glukkon_Commere_39;
+                        break;
+                    case GlukkonSpeak::AllOYa_4:
+                        evToBePushed = GameSpeakEvents::Glukkon_AllOYa_40;
+                        break;
+                    case GlukkonSpeak::Heh_5:
+                        evToBePushed = GameSpeakEvents::Glukkon_Heh_41;
+                        break;
+                    case GlukkonSpeak::Help_6:
+                        evToBePushed = GameSpeakEvents::Glukkon_Help_42;
+                        break;
+                    case GlukkonSpeak::Laugh_7:
+                        evToBePushed = GameSpeakEvents::Glukkon_Laugh_43;
+                        break;
+                    case GlukkonSpeak::KillEm_8:
+                        evToBePushed = GameSpeakEvents::Glukkon_KillEm_44;
+                        break;
+                    case GlukkonSpeak::Unused_9:
+                        evToBePushed = GameSpeakEvents::Glukkon_Unknown_45;
+                        break;
+                    case GlukkonSpeak::Unused_10:
+                        evToBePushed = GameSpeakEvents::Glukkon_Unknown_46;
+                        break;
+                    case GlukkonSpeak::What_11:
+                        evToBePushed = GameSpeakEvents::Glukkon_What_47;
+                        break;
+                    default:
+                        evToBePushed = GameSpeakEvents::eUnknown_35; //GlukkonSpeak::None
+                        break;
+                }
+                if (evToBePushed != GameSpeakEvents::eUnknown_35)
+                {
+                    pEventSystem_5BC11C->PushEvent_4218D0(evToBePushed);
+                }
             }
 
-            PlaySound_444AF0(field_1EA_speak, 0, 0, 0);
+            PlaySound_GameSpeak_444AF0(field_1EA_speak, 0, 0, 0);
             
-            if (field_1EA_speak == 6)
+            if (field_1EA_speak == GlukkonSpeak::Help_6)
             {
                 SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetTrue_0);
             }
         }
-        field_1EA_speak = -1;
+        field_1EA_speak = GlukkonSpeak::None;
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -750,7 +797,7 @@ void Glukkon::M_KnockBackStandBegin_20_442FC0()
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
-        PlaySound_444AF0(5, 0, 0, 0);
+        PlaySound_GameSpeak_444AF0(GlukkonSpeak::Heh_5, 0, 0, 0);
         SetAnim_43F9C0(eGlukkonMotions::M_KnockBackStandEnd_22_443010, TRUE);
     }
 }
@@ -838,7 +885,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
 
     if (sActiveHero_5C1B68->field_10C_health < FP_FromInteger(0))
     {
-        Speak_444640(7);
+        Speak_444640(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::AI_4_Death_442010);
         return 6;
     }
@@ -867,7 +914,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             {
                 field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarmed_delay;
             }
-            Speak_444640(0);
+            Speak_444640(GlukkonSpeak::Hey_0);
             SetBrain(&Glukkon::AI_1_Panic_4412F0);
             return 0;
         }
@@ -916,7 +963,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
                 field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarmed_delay;
             }
 
-            Speak_444640(0);
+            Speak_444640(GlukkonSpeak::Hey_0);
             SetBrain(&Glukkon::AI_1_Panic_4412F0);
             return 0;
         }
@@ -981,7 +1028,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
         return 0;
 
     case 3:
-        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10 || field_1EA_speak != -1)
+        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10 || field_1EA_speak != GlukkonSpeak::None)
         {
             return field_210;
         }
@@ -1003,7 +1050,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             {
                 field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarmed_delay;
             }
-            Speak_444640(0);
+            Speak_444640(GlukkonSpeak::Hey_0);
             SetBrain(&Glukkon::AI_1_Panic_4412F0);
             return 0;
         }
@@ -1044,7 +1091,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             {
                 field_1D4_timer = sGnFrame_5C1B84 + field_1A8_tlvData.field_16_pre_alarmed_delay;
             }
-            Speak_444640(0);
+            Speak_444640(GlukkonSpeak::Hey_0);
             SetBrain(&Glukkon::AI_1_Panic_4412F0);
             return 0;
         }
@@ -1101,7 +1148,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
             return field_210;
         }
         field_1FC = 1;
-        Speak_444640(5);
+        Speak_444640(GlukkonSpeak::Heh_5);
         return 6;
 
     default:
@@ -1134,7 +1181,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
 
     if (sActiveHero_5C1B68->field_10C_health < FP_FromInteger(0))
     {
-        Glukkon::Speak_444640(7);
+        Glukkon::Speak_444640(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::AI_4_Death_442010);
         return 6;
     }
@@ -1147,7 +1194,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
             return field_210;
         }
         field_1F8 = sGnFrame_5C1B84;
-        Speak_444640(6);
+        Speak_444640(GlukkonSpeak::Help_6);
         return 4;
 
     case 1:
@@ -1187,7 +1234,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
         {
             if (Check_IsOnEndOfLine_408E90(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked_4442F0(field_C4_velx, 1))
             {
-                Glukkon::Speak_444640(6u);
+                Glukkon::Speak_444640(GlukkonSpeak::Help_6);
                 return 5;
             }
         }
@@ -1196,7 +1243,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
             if (Math_NextRandom() < 5u && static_cast<int>(sGnFrame_5C1B84) > field_1F4)
             {
                 field_1F4 = sGnFrame_5C1B84 + 120;
-                Glukkon::Speak_444640(6u);
+                Glukkon::Speak_444640(GlukkonSpeak::Help_6);
                 return 5;
             }
         }
@@ -1204,7 +1251,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
         {
             return field_210;
         }
-        Glukkon::Speak_444640(6u);
+        Glukkon::Speak_444640(GlukkonSpeak::Help_6);
         return 4;
 
     case 3:
@@ -1223,7 +1270,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
         return 1;
 
     case 5:
-        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10 || field_1EA_speak != -1)
+        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10 || field_1EA_speak != GlukkonSpeak::None)
         {
             return field_210;
         }
@@ -1274,7 +1321,7 @@ __int16 Glukkon::AI_2_Slapped_441720()
 
     if (sActiveHero_5C1B68->field_10C_health < FP_FromInteger(0))
     {
-        Glukkon::Speak_444640(7u);
+        Glukkon::Speak_444640(GlukkonSpeak::Laugh_7);
         SetBrain(&Glukkon::AI_4_Death_442010);
         return 6;
     }
@@ -1344,7 +1391,7 @@ __int16 Glukkon::AI_2_Slapped_441720()
             {
                 return field_210;
             }
-            Glukkon::PlaySound_444AF0(6u, 0, 0, 0);
+            Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Help_6, 0, 0, 0);
             field_1F0 = sGnFrame_5C1B84 + 40;
             return field_210;
         }
@@ -1718,7 +1765,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
     }
     else if (field_210 == 2)
     {
-        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10 || field_1EA_speak != -1)
+        if (field_106_current_motion != eGlukkonMotions::M_Idle_0_442D10 || field_1EA_speak != GlukkonSpeak::None)
         {
             return field_210;
         }
@@ -1772,13 +1819,13 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
                     BurstType::eBigRedSparks_3,
                     9);
             }
-            Speak_444640(5);
+            Speak_444640(GlukkonSpeak::Heh_5);
             return 2;
         }
         else
         {
             SFX_Play_46FA90(112u, 0);
-            Speak_444640(5);
+            Speak_444640(GlukkonSpeak::Heh_5);
             return 2;
         }
     }
@@ -1864,7 +1911,7 @@ void Glukkon::Init_43F260()
     field_1F0 = 0;
     field_1F4 = 0;
     field_1F8 = 0;
-    field_1EA_speak = -1;
+    field_1EA_speak = GlukkonSpeak::None;
     field_1E0 = 0;
     field_1FC = 0;
     field_200 = 0;
@@ -2050,33 +2097,33 @@ void Glukkon::SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion)
     }
 }
 
-void Glukkon::Speak_444640(unsigned __int8 speak)
+void Glukkon::Speak_444640(GlukkonSpeak speak)
 {
     switch (speak)
     {
-    case 0u:
-    case 1u:
-    case 5u:
-    case 6u:
+    case GlukkonSpeak::Hey_0:
+    case GlukkonSpeak::DoIt_1:
+    case GlukkonSpeak::Heh_5:
+    case GlukkonSpeak::Help_6:
         field_108_next_motion = eGlukkonMotions::M_Speak1_11_4437D0;
         field_1EA_speak = speak;
         break;
 
-    case 2u:
+    case GlukkonSpeak::StayHere_2:
         field_108_next_motion = eGlukkonMotions::M_Speak3_23_443910;
         field_1EA_speak = speak;
         break;
 
-    case 3u:
-    case 4u:
-    case 8u:
-    case 9u:
-    case 10u:
+    case GlukkonSpeak::Commere_3:
+    case GlukkonSpeak::AllOYa_4:
+    case GlukkonSpeak::KillEm_8:
+    case GlukkonSpeak::Unused_9:
+    case GlukkonSpeak::Unused_10:
         field_108_next_motion = eGlukkonMotions::M_Speak2_12_4438F0;
         field_1EA_speak = speak;
         break;
 
-    case 7u:
+    case GlukkonSpeak::Laugh_7:
         field_108_next_motion = eGlukkonMotions::M_LongLaugh_13_443930;
         field_1EA_speak = speak;
         break;
@@ -2107,43 +2154,42 @@ void Glukkon::HandleInput_443BB0()
 
         if (inputHeld & matchButtons)
         {
-            field_1EA_speak = -1;
+            field_1EA_speak = GlukkonSpeak::None;
 
             if (inputHeld & InputCommands::eGameSpeak1)
             {
-                field_1EA_speak = 0;
+                field_1EA_speak = GlukkonSpeak::Hey_0;
             }
             else if (inputHeld & InputCommands::eGameSpeak2)
             {
-                field_1EA_speak = 3;
+                field_1EA_speak = GlukkonSpeak::Commere_3;
             }
             else if (inputHeld & InputCommands::eGameSpeak3)
             {
-                field_1EA_speak = 2;
+                field_1EA_speak = GlukkonSpeak::StayHere_2;
             }
             else if (inputHeld & InputCommands::eGameSpeak4)
             {
-                field_1EA_speak = 1;
+                field_1EA_speak = GlukkonSpeak::DoIt_1;
             }
             else if (inputHeld & InputCommands::eGameSpeak5)
             {
-                field_1EA_speak = 8;
+                field_1EA_speak = GlukkonSpeak::KillEm_8;
             }
             else if (inputHeld & InputCommands::eGameSpeak7)
             {
-                field_1EA_speak = 6;
+                field_1EA_speak = GlukkonSpeak::Help_6;
             }
             else if (inputHeld & InputCommands::eGameSpeak8)
             {
-                field_1EA_speak = 7;
+                field_1EA_speak = GlukkonSpeak::Laugh_7;
             }
-
             else if (inputHeld & InputCommands::eGameSpeak6)
             {
-                field_1EA_speak = 4;
+                field_1EA_speak = GlukkonSpeak::AllOYa_4;
             }
 
-            if (field_1EA_speak != -1)
+            if (field_1EA_speak != GlukkonSpeak::None)
             {
                 Speak_444640(field_1EA_speak);
             }
@@ -2213,7 +2259,7 @@ void Glukkon::HandleInput_443BB0()
     case eGlukkonMotions::M_BeginWalk_14_443950:
         if (field_106_current_motion != eGlukkonMotions::M_Walk_1_442D30)
         {
-            field_212 = 0;
+            field_212_currentWalkPitch = 0;
         }
         // Fall through
 
@@ -2373,12 +2419,12 @@ void Glukkon::SpeakRandomish_4405D0()
     {
         if ((sGnFrame_5C1B84 & 1) == 1)
         {
-            Speak_444640(5);
+            Speak_444640(GlukkonSpeak::Heh_5);
         }
     }
     else
     {
-        Speak_444640(7);
+        Speak_444640(GlukkonSpeak::Laugh_7);
     }
 }
 
@@ -2565,9 +2611,89 @@ void Glukkon::GetOnPlatforms_444060()
         (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
 }
 
-void CC Glukkon::PlaySound_4447D0(int /*sndIdx*/, Glukkon* /*pGlukkon*/)
+SfxDefinition stepSfx_554840[3] =
 {
-    NOT_IMPLEMENTED();
+    { 0u, 8u, 36u, 25u, 1524, 1905 },
+    { 0u, 3u, 59u, 60u, 0, 254 },
+    { 0u, 3u, 72u, 120u, 0, 254 }
+};
+
+void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
+{
+    int volumeLeft, volumeRight;
+    int defaultSndIdxVol = stepSfx_554840[sndIdx].field_3_default_volume;
+
+    __int16 pitch;
+    if ( sndIdx || !pGlukkon)
+    {
+        pitch = Math_RandomRange_496AB0(stepSfx_554840[sndIdx].field_4_pitch_min, stepSfx_554840[sndIdx].field_6_pitch_max);
+    }
+    else
+    {
+        signed __int16 pitchCap = pGlukkon->field_212_currentWalkPitch;
+        if (pitchCap > 12)
+        {
+            pitchCap = pitchCap % 4 + 12;
+        }
+        pitch = 127 * pitchCap;
+    }
+
+    if (pGlukkon->field_CC_sprite_scale == FP_FromInteger(1))
+    {
+        volumeRight = defaultSndIdxVol;
+    }
+    else // Glukkon in background layer? TODO figure out if this does actually happen
+    {
+        volumeRight = defaultSndIdxVol / 2;
+    }
+
+    CameraPos direction = gMap_5C3030.GetDirection_4811A0(
+        pGlukkon->field_C2_lvl_number,
+        pGlukkon->field_C0_path_number,
+        pGlukkon->field_B8_xpos,
+        pGlukkon->field_BC_ypos
+    );
+    PSX_RECT pRect;
+    gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
+    switch ( direction )
+    {
+        case CameraPos::eCamCurrent_0:
+        {
+            volumeLeft = volumeRight;
+            break;
+        }
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+        {
+            volumeLeft = FP_GetExponent(FP_FromInteger(defaultSndIdxVol * 2) / FP_FromInteger(3));
+            volumeRight = volumeLeft;
+        }
+            break;
+        case CameraPos::eCamLeft_3:
+        {
+            FP percentHowFar = (FP_FromInteger(pRect.w) - pGlukkon->field_B8_xpos) / FP_FromInteger(368);
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+            volumeRight =  volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+        }
+            break;
+        case CameraPos::eCamRight_4:
+        {
+            FP percentHowFar = (pGlukkon->field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+            volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+        }
+            break;
+        default:
+            return;
+    }
+
+    if (pGlukkon->field_CC_sprite_scale == FP_FromDouble(0.5)) //TODO figure out if this does actually happen
+    {
+        volumeLeft = FP_GetExponent(FP_FromInteger(volumeLeft * 2) / FP_FromInteger(3));
+        volumeRight = FP_GetExponent(FP_FromInteger(volumeRight * 2) / FP_FromInteger(3));
+    }
+
+    SFX_SfxDefinition_Play_4CA700(&stepSfx_554840[sndIdx], (__int16) volumeLeft, ( __int16 ) volumeRight, pitch, pitch);
 }
 
 void Glukkon::ToDead_43F640()
@@ -2633,7 +2759,7 @@ void Glukkon::vOn_TLV_Collision_4404A0(Path_TLV* pTlv)
                 field_C8_vely = FP_FromInteger(0);
                 field_C4_velx = FP_FromInteger(0);
 
-                PlaySound_444AF0(9, 0, 0, 0);
+                PlaySound_GameSpeak_444AF0(GlukkonSpeak::Unused_9, 0, 0, 0);
                 ToDead_43F640();
 
                 // Muds love it when people DIE
@@ -2650,9 +2776,41 @@ void Glukkon::vOn_TLV_Collision_4404A0(Path_TLV* pTlv)
     }
 }
 
-void CC Glukkon::PlaySound_444AF0(unsigned __int8 /*sndIdx*/, __int16 /*volume*/, __int16 /*pitch*/, Glukkon* /*pGlukkon*/)
+SfxDefinition gameSpeak_554858[15] =
 {
-    NOT_IMPLEMENTED();
+    { 0u, 8u, 66u, 127u, 0, 0 },
+    { 0u, 8u, 64u, 127u, 0, 0 },
+    { 0u, 8u, 67u, 127u, 0, 0 },
+    { 0u, 8u, 61u, 127u, 0, 0 },
+    { 0u, 8u, 63u, 127u, 0, 0 },
+    { 0u, 8u, 70u, 127u, 0, 0 },
+    { 0u, 8u, 65u, 127u, 0, 0 },
+    { 0u, 8u, 69u, 127u, 0, 0 },
+    { 0u, 8u, 71u, 127u, 0, 0 },
+    { 0u, 8u, 60u, 127u, 0, 0 },
+    { 0u, 8u, 60u, 127u, 0, 0 },
+    { 0u, 8u, 62u, 127u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 }
+};
+
+void CC Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon)
+{
+    auto sndIdxShort = ( __int16 ) sndIdx;
+    __int16 calcedVolume = volume;
+    if (!calcedVolume)
+    {
+        calcedVolume = gameSpeak_554858[sndIdxShort].field_3_default_volume;
+    }
+    if (pGlukkon)
+    {
+        if (pGlukkon->field_CC_sprite_scale == FP_FromDouble(0.5))
+        {
+            calcedVolume = FP_GetExponent(FP_FromInteger(calcedVolume * 2) / FP_FromInteger(3));
+        }
+    }
+    SFX_SfxDefinition_Play_4CA420(&gameSpeak_554858[sndIdxShort], calcedVolume, pitch, pitch);
 }
 
 BOOL CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* /*pGlukkon*/, BaseAliveGameObject* /*pOther*/)
@@ -2838,7 +2996,7 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         break;
 
     case Types::eElectricWall_39:
-        Glukkon::PlaySound_444AF0(9u, 0, field_1E0, this);
+        Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Unused_9, 0, field_1E0, this);
         return 1;
 
     case Types::eRockSpawner_48:
@@ -2855,11 +3013,11 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         {
             if (Math_NextRandom() <= 32u)
             {
-                Glukkon::PlaySound_444AF0(9u, 0, 0, 0);
+                Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Unused_9, 0, 0, 0);
             }
             else
             {
-                Glukkon::PlaySound_444AF0(0, 0, 0, 0);
+                Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak::Hey_0, 0, 0, 0);
             }
             field_1F8 = sGnFrame_5C1B84;
             SetAnim_43F9C0(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);

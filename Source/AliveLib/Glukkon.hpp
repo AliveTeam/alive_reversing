@@ -47,6 +47,26 @@ enum class GlukkonTypes : __int16
     Normal_5 = 5,
 };
 
+enum class GlukkonSpeak : char
+{
+    None = -1,
+    Hey_0 = 0,
+    DoIt_1 = 1,
+    StayHere_2 = 2,
+    Commere_3 = 3,
+    AllOYa_4 = 4,
+    Heh_5 = 5,
+    Help_6 = 6,
+    Laugh_7 = 7,
+    KillEm_8 = 8,
+    Unused_9 = 9,
+    Unused_10 = 10,
+    What_11 = 11,
+    Unused_12 = 12,
+    Unused_13 = 13,
+    Unused_14 = 14
+};
+
 struct Path_Glukkon : public Path_TLV
 {
     __int16 field_10_scale;
@@ -130,7 +150,7 @@ public:
     EXPORT __int16 AI_5_WaitToSpawn_442490();
 
 public:
-    EXPORT static void CC PlaySound_444AF0(unsigned __int8 sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
+    EXPORT static void CC PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, __int16 volume, __int16 pitch, Glukkon* pGlukkon);
 
 private:
     EXPORT void Init_43F260();
@@ -147,7 +167,7 @@ private:
 
     EXPORT void SetAnim_43F9C0(__int16 currentMotion, __int16 bClearNextMotion = FALSE);
 
-    EXPORT void Speak_444640(unsigned __int8 speak);
+    EXPORT void Speak_444640(GlukkonSpeak speak);
 
     EXPORT void HandleInput_443BB0();
 
@@ -267,7 +287,7 @@ private:
     LevelIds field_1E4_level;
     __int16 field_1E6_path;
     __int16 field_1E8_camera;
-    char field_1EA_speak;
+    GlukkonSpeak field_1EA_speak;
     char field_1EB_pad;
     int field_1EC;
     int field_1F0;
@@ -280,7 +300,7 @@ private:
     int field_208_obj_id;
     TGlukkonAIFn field_20C_brain_state_fn;
     __int16 field_210;
-    __int16 field_212;
+    __int16 field_212_currentWalkPitch;
     int field_214_tlv_info;
 };
 ALIVE_ASSERT_SIZEOF(Glukkon, 0x218);
