@@ -2815,15 +2815,15 @@ void CC Glukkon::PlaySound_GameSpeak_444AF0(GlukkonSpeak sndIdx, __int16 volume,
 
 BOOL CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
 {
-    FP hitX, hitY;
-    PathLine* pathLine;
+    FP hitX, hitY = {};
+    PathLine* pathLine = nullptr;
 
-    PSX_RECT bRect;
+    PSX_RECT bRect = {};
     pOther->vGetBoundingRect_424FD0(&bRect, 1);
-    FP X2 = FP_FromInteger(( bRect.x + bRect.w ) / 2);
-    FP Y2 = FP_FromInteger(( bRect.y + bRect.y ) / 2);
+    const FP X2 = FP_FromInteger(( bRect.x + bRect.w ) / 2);
+    const FP Y2 = FP_FromInteger(( bRect.y + bRect.y ) / 2);
 
-    auto raycast = sCollisions_DArray_5C1128->Raycast_417A60(
+    return sCollisions_DArray_5C1128->Raycast_417A60(
         pGlukkon->field_B8_xpos,
         pGlukkon->field_BC_ypos,
         X2,
@@ -2832,8 +2832,7 @@ BOOL CCSTD Glukkon::IsLineOfSightBetween_4403B0(Glukkon* pGlukkon, BaseAliveGame
         &hitX,
         &hitY,
         ( pGlukkon->field_D6_scale != 0 ? 1 : 0x10 ) | ( pGlukkon->field_D6_scale != 0 ? 6 : 0x60 ) | ( pGlukkon->field_D6_scale != 0 ? 8 : 0x80 )
-    );
-    return raycast != 1;
+    ) != 1;
 }
 
 void Glukkon::ToStand_443B70()
