@@ -77,7 +77,7 @@ EvilFart* EvilFart::ctor_422E30()
 
     field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
-    field_114_flags.Set(Flags_114::e114_Bit8);
+    field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
 
     ResetFartColour();
 

@@ -1284,7 +1284,7 @@ __int16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
         return 1;
     }
 
-    if (vIsFacingMe_4254A0(pObj) && !IsInInvisibleZone_425710(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit8))
+    if (vIsFacingMe_4254A0(pObj) && !IsInInvisibleZone_425710(pObj) && !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         return 1;
     }

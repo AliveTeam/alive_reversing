@@ -2245,7 +2245,7 @@ void Glukkon::HandleInput_443BB0()
 __int16 Glukkon::ShouldPanic_440200(__int16 panicEvenIfNotFacingMe)
 {
     if (IsLineOfSightBetween_4403B0(this, sControlledCharacter_5C1B8C)
-        && !(sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8))
+        && !(sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         && !BaseAliveGameObject::IsInInvisibleZone_425710(sControlledCharacter_5C1B8C)
         && !Event_Get_422C00(kEventResetting)
         && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -2845,8 +2845,8 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         auto pBullet = static_cast<Bullet*>(pFrom);
         switch (pBullet->field_20_type)
         {
-        case 0:
-        case 2:
+        case BulletType::Type_0:
+        case BulletType::Type_2:
         {
             auto pBlood1 = alive_new<Blood>();
             if (pBlood1)
@@ -2879,8 +2879,8 @@ __int16 Glukkon::vTakeDamage_43FA40(BaseGameObject* pFrom)
         }
             break;
 
-        case 1:
-        case 3:
+        case BulletType::Type_1:
+        case BulletType::Type_3:
         {
             auto pBlood2 = alive_new<Blood>();
             if (pBlood2)

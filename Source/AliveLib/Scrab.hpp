@@ -72,6 +72,7 @@ struct Path_Scrab : public Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 
 enum class LevelIds : __int16;
+enum class GameSpeakEvents : __int16;
 
 class Scrab;
 using TScrabAIFn = __int16 (Scrab::*)();
@@ -219,6 +220,7 @@ private:
   
     EXPORT __int16 Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, __int16 bCheckLeftRightBounds);
 
+    EXPORT GameSpeakEvents LastSpeak_4A56F0();
 
 private:
     TScrabAIFn field_118_brain_state;

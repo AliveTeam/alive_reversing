@@ -14,7 +14,7 @@ GameSpeak* GameSpeak::ctor_421820()
 
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset); // Dont destroy on loading save
     field_2C_event_buffer[0] = -1;
-    field_20_last_event = -1;
+    field_20_last_event = GameSpeakEvents::eNone_m1;
     field_4_typeId = Types::eGameSpeak_38;
     field_28_last_event_index = 0;
     return this;
@@ -59,9 +59,9 @@ void GameSpeak::VScreenChanged()
 
 void GameSpeak::Update_421920()
 {
-    if (field_20_last_event != GameSpeakEvents::eNone && sGnFrame_5C1B84 > field_24_last_event_frame)
+    if (field_20_last_event != GameSpeakEvents::eNone_m1 && sGnFrame_5C1B84 > field_24_last_event_frame)
     {
-        PushEvent_Impl(GameSpeakEvents::eNone);
+        PushEvent_Impl(GameSpeakEvents::eNone_m1);
     }
 }
 
@@ -81,6 +81,7 @@ void GameSpeak::PushEvent_Impl(GameSpeakEvents event)
         field_28_last_event_index = 0;
     }
 
-    field_2C_event_buffer[field_28_last_event_index] = event;
+    // TODO: This isn't ever used ??
+    field_2C_event_buffer[field_28_last_event_index] = static_cast<char>(event);
     field_20_last_event = event;
 }

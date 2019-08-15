@@ -143,16 +143,16 @@ void GlukkonSwitch::vUpdate_445200()
     }
 
     const int lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
-    int lastEventIdx2 = 0;
+    GameSpeakEvents lastEventIdx2 = GameSpeakEvents::eNone_m1;
     if (field_100_last_event_idx == lastEventIdx)
     {
-        if (pEventSystem_5BC11C->field_20_last_event == -1)
+        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
         {
-            lastEventIdx2 = -1;
+            lastEventIdx2 = GameSpeakEvents::eNone_m1;
         }
         else
         {
-            lastEventIdx2 = -2;
+            lastEventIdx2 = GameSpeakEvents::eSameAsLast_m2;
         }
     }
     else
@@ -206,7 +206,7 @@ void GlukkonSwitch::vUpdate_445200()
             return;
         }
 
-        if (lastEventIdx2 == -1 || lastEventIdx2 == -2)
+        if (lastEventIdx2 == GameSpeakEvents::eNone_m1 || lastEventIdx2 == GameSpeakEvents::eSameAsLast_m2)
         {
             if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
             {
@@ -215,14 +215,14 @@ void GlukkonSwitch::vUpdate_445200()
         }
         else
         {
-            if (lastEventIdx2 == 36)
+            if (lastEventIdx2 == GameSpeakEvents::eUnknown_36)
             {
                 field_F8_state = 4;
                 field_120_timer = sGnFrame_5C1B84 + 30;
             }
             else
             {
-                if (lastEventIdx2 < 36)
+                if (lastEventIdx2 < GameSpeakEvents::eUnknown_36)
                 {
                     field_F8_state = 8;
                     field_120_timer = sGnFrame_5C1B84 + 30;
@@ -250,7 +250,7 @@ void GlukkonSwitch::vUpdate_445200()
     case 5:
         if (PlayerNearMe_445180())
         {
-            if (lastEventIdx2 == -1 || lastEventIdx2 == -2)
+            if (lastEventIdx2 == GameSpeakEvents::eNone_m1 || lastEventIdx2 == GameSpeakEvents::eSameAsLast_m2)
             {
                 if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer)
                 {
@@ -258,12 +258,12 @@ void GlukkonSwitch::vUpdate_445200()
                     field_120_timer = sGnFrame_5C1B84 + 15;
                 }
             }
-            else if (lastEventIdx2 == 37)
+            else if (lastEventIdx2 == GameSpeakEvents::eUnknown_37)
             {
                 field_F8_state = 6;
                 field_120_timer = sGnFrame_5C1B84 + 30;
             }
-            else if (lastEventIdx2 < 36)
+            else if (lastEventIdx2 < GameSpeakEvents::eUnknown_36)
             {
                 field_F8_state = 8;
                 field_120_timer = sGnFrame_5C1B84 + 30;

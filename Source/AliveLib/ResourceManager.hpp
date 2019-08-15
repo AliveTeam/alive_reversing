@@ -39,6 +39,7 @@ public:
         Resource_Rope = 0x65706F52,
         Resource_Wave = 0x65766157,
         Resource_3DGibs = 0x65444433,
+        Resource_Web = 0x20626557,
         Resource_Spline = 0x6e6c7053, // Went with Spline as in ZapLine.cpp.
     };
 

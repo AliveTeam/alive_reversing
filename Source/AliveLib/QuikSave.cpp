@@ -34,6 +34,7 @@
 #include "SligSpawner.hpp"
 #include "ScrabSpawner.hpp"
 #include "GameEnderController.hpp"
+#include "Paramite.hpp"
 
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
@@ -44,7 +45,6 @@ EXPORT int CC Greeter__CreateFromSaveState_446040(const BYTE*) { NOT_IMPLEMENTED
 EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { NOT_IMPLEMENTED(); return 144; }
 EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
-EXPORT int CC Paramite__CreateFromSaveState_4855A0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 EXPORT int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED(); return 160; }
 EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
@@ -152,7 +152,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &Paramite__CreateFromSaveState_4855A0,
+    &Paramite::CreateFromSaveState_4855A0,
     nullptr,
     nullptr,
     &BirdPortal__CreateFromSaveState_499C90,
@@ -911,7 +911,7 @@ namespace Test
         Compare([](Abe& abe) { abe.field_6_flags.Set(BaseGameObject::eDrawable); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bDrawable, 1); });
         Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimRender, 1); });
         Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bElectrocuted, 1); });
-        Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit8); }, [](Abe_SaveState& state) { ASSERT_EQ(state.word42, 1); });
+        Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); }, [](Abe_SaveState& state) { ASSERT_EQ(state.word42, 1); });
 
 
         // Needs resource manager and tons of other stuff, requires too many hacks to test this call

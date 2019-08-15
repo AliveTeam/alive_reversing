@@ -33,7 +33,6 @@ ALIVE_VAR(1, 0x5c3154, DWORD, dword_5C3154, 0);
 
 struct Path_ChangeTLV : public Path_TLV
 {
-    const static unsigned short kType;
     LevelIds field_10_level;
     __int16 field_12_path;
     __int16 field_14_camera;
@@ -42,8 +41,6 @@ struct Path_ChangeTLV : public Path_TLV
     __int16 field_1A_scale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChangeTLV, 0x1C);
-
-const unsigned short Path_ChangeTLV::kType = 1;
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
 const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[12] =
@@ -78,12 +75,12 @@ EXPORT void CC static_map_init_4802D0()
     atexit(static_map_destruct_480330);
 }
 
-void Map::sub_480B80_Common()
+void Map::ScreenChange_Common()
 {
     if (field_6_state == 1)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
-        sub_481610();
+        Handle_PathTransition_481610();
     }
     else if (field_6_state == 2)
     {
@@ -141,7 +138,7 @@ void Map::ScreenChange_480B80()
         // TODO: Refactor this logic
         if (!sMap_bDoPurpleLightEffect_5C311C && field_A_5C303A_levelId == sCurrentLevelId_5C3030)
         {
-            sub_480B80_Common();
+            ScreenChange_Common();
             return;
         }
 
@@ -155,18 +152,18 @@ void Map::ScreenChange_480B80()
             if (field_A_5C303A_levelId == LevelIds::eCredits_16)
             {
                 sSoundChannelsMask_5C3120 = 0;
-                sub_480B80_Common();
+                ScreenChange_Common();
                 return;
             }
         }
         else if (sCurrentLevelId_5C3030 == LevelIds::eMenu_0)
         {
             sSoundChannelsMask_5C3120 = 0;
-            sub_480B80_Common();
+            ScreenChange_Common();
             return;
         }
         sSoundChannelsMask_5C3120 = SND_4CA5D0(0, 0, 36, 70, 0, 0);
-        sub_480B80_Common();
+        ScreenChange_Common();
     }
 }
 
@@ -201,7 +198,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
                     if (pBaseObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
                     {
                         if (!pBaseObj->field_6_flags.Get(BaseGameObject::eDead) &&
-                            pBaseObj != sControlledCharacter_5C1B8C && gMap_5C3030.Is_Rect_In_Current_Camera_480FE0(&objRect) == CameraPos::eCamCurrent_0)
+                            pBaseObj != sControlledCharacter_5C1B8C && gMap_5C3030.Rect_Location_Relative_To_Active_Camera_480FE0(&objRect) == CameraPos::eCamCurrent_0)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
                             const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
@@ -330,7 +327,7 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
     }
 }
 
-void Map::sub_481610()
+void Map::Handle_PathTransition_481610()
 {
     Path_ChangeTLV* pPathChangeTLV = nullptr;
     if (field_18_pAliveObj)
@@ -340,7 +337,7 @@ void Map::sub_481610()
             FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
             FP_GetExponent(field_18_pAliveObj->field_B8_xpos),
             FP_GetExponent(field_18_pAliveObj->field_BC_ypos),
-            Path_ChangeTLV::kType));
+            TlvTypes::PathTransition_1));
     }
 
     if (field_18_pAliveObj && pPathChangeTLV)
@@ -446,7 +443,7 @@ CameraPos Map::GetDirection_4811A0(int level, int path, FP xpos, FP ypos)
     rect.y = FP_GetExponent(ypos);
     rect.h = FP_GetExponent(ypos);
 
-    CameraPos ret = Is_Rect_In_Current_Camera_480FE0(&rect);
+    CameraPos ret = Rect_Location_Relative_To_Active_Camera_480FE0(&rect);
 
     PSX_RECT camWorldRect = {};
     if (!Get_Camera_World_Rect_481410(ret, &camWorldRect))
@@ -1082,11 +1079,11 @@ __int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP 
     rect.w = FP_GetExponent(calculated_width + xpos);
     rect.y = FP_GetExponent(ypos);
     rect.h = FP_GetExponent(ypos);
-    return Is_Rect_In_Current_Camera_480FE0(&rect) == CameraPos::eCamCurrent_0;
+    return Rect_Location_Relative_To_Active_Camera_480FE0(&rect) == CameraPos::eCamCurrent_0;
 }
 
 
-EXPORT CameraPos Map::Is_Rect_In_Current_Camera_480FE0(PSX_RECT* pRect)
+EXPORT CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* pRect)
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
@@ -1371,7 +1368,7 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
             FP_GetExponent(pObj->field_BC_ypos),
             FP_GetExponent(pObj->field_B8_xpos),
             FP_GetExponent(pObj->field_BC_ypos),
-            Path_ChangeTLV::kType));
+            TlvTypes::PathTransition_1));
     }
 
     if (pObj && pPathChangeTLV)

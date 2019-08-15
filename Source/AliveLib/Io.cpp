@@ -105,7 +105,7 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
 
 EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile)
 {
-#if _WIN32
+#if _WIN32 && !USE_SDL2_IO
     if (hFile && hFile->field_10_bDone)
     {
         do
@@ -114,6 +114,8 @@ EXPORT void CC IO_WaitForComplete_4F2510(IO_Handle* hFile)
             Sleep(0);
         } while (hFile->field_10_bDone);
     }
+#else
+    (void)hFile;
 #endif
 }
 
@@ -142,7 +144,7 @@ EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile)
     }
 }
 
-#if _WIN32
+#if _WIN32 && !USE_SDL2_IO
 EXPORT DWORD WINAPI FS_IOThread_4F25A0(LPVOID /*lpThreadParameter*/)
 {
     while (1)
@@ -211,7 +213,7 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
         return -1;
     }
 
-#if _WIN32
+#if _WIN32 && !USE_SDL2_IO
     if (hFile->field_0_flags & 4) // ASync flag
     {
         IO_WaitForComplete_4F2510(hFile);
@@ -237,7 +239,7 @@ EXPORT int CC IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
 
 ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
 
-#if _WIN32
+#if _WIN32 && !USE_SDL2_IO
 EXPORT DWORD CCSTD IO_ASync_Thread_4EAE20(LPVOID lpThreadParameter)
 {
     MSG msg = {};
@@ -391,7 +393,7 @@ EXPORT BOOL CC IO_Seek_Sync_4EAFC0(void* pHandle, DWORD offset, DWORD origin)
 
 EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
 {
-#if _WIN32
+#if _WIN32 && !USE_SDL2_IO
     if (bASync)
     {
         sMovie_IO_BBB314.mIO_Open = IO_Open_ASync_4EADA0;
@@ -402,8 +404,10 @@ EXPORT void CC IO_Init_SyncOrASync_4EAC80(int bASync)
     }
     else
 #endif
-    // Don't support ASync on non Windows
+    // Don't support ASync on non Windows or when using SDL IO
     {
+        (void)bASync;
+
         sMovie_IO_BBB314.mIO_Open = IO_Open_Sync_4EAEB0;
         sMovie_IO_BBB314.mIO_Close = IO_Close_Sync_4EAD90;
         sMovie_IO_BBB314.mIO_Read = IO_Read_Sync_4EAF50;
@@ -450,7 +454,7 @@ EXPORT void IO_Init_494230()
 
 EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0()
 {
-#if _WIN32
+#if _WIN32 && !USE_SDL2_IO
     if (sIoThreadHandle_BBC55C)
     {
         ::CloseHandle(sIoThreadHandle_BBC55C);
@@ -461,7 +465,7 @@ EXPORT void CC IO_Stop_ASync_IO_Thread_4F26B0()
 
 bool IO_CreateThread()
 {
-#if _WIN32
+#if _WIN32 && !USE_SDL2_IO
     if (!sIoThreadHandle_BBC55C)
     {
         sIoThreadHandle_BBC55C = ::CreateThread(

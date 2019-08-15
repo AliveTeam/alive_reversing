@@ -408,7 +408,7 @@ void Fleech::M_SettleOnGround_13_42FB00()
 void Fleech::M_ExtendTongueFromEnemy_14_42FBD0()
 {
     if (field_11C_obj_id == sActiveHero_5C1B68->field_8_object_id && 
-        (sActiveHero_5C1B68->CantBeDamaged_44BAB0() || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8)))
+        (sActiveHero_5C1B68->CantBeDamaged_44BAB0() || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
     {
         ToIdle_42E520();
     }
@@ -422,7 +422,7 @@ void Fleech::M_ExtendTongueFromEnemy_14_42FBD0()
 void Fleech::M_RetractTongueFromEnemey_15_42FC40()
 {
     if (sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id) == sActiveHero_5C1B68 && 
-        ((sActiveHero_5C1B68->CantBeDamaged_44BAB0()) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8)))
+        ((sActiveHero_5C1B68->CantBeDamaged_44BAB0()) || sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
     {
         sub_42B8C0();
         ToIdle_42E520();
@@ -582,7 +582,7 @@ __int16 Fleech::AI_Death_3_42D1E0()
     if (static_cast<int>(sGnFrame_5C1B84) < field_12C - 24 && !(sGnFrame_5C1B84 % 5))
     {
         const FP xRand = (FP_FromInteger(Math_RandomRange_496AB0(-24, 24)) * field_CC_sprite_scale);
-        New_Particles_426C70(xRand + field_B8_xpos, field_BC_ypos - FP_FromInteger(6), field_CC_sprite_scale * FP_FromInteger(2), 2, 128u, 128u, 128u);
+        New_Particles_426C70(xRand + field_B8_xpos, field_BC_ypos - FP_FromInteger(6), field_CC_sprite_scale / FP_FromInteger(2), 2, 128u, 128u, 128u);
     }
 
     if (field_CC_sprite_scale < FP_FromInteger(0))
@@ -1132,7 +1132,7 @@ void Fleech::IncreaseAnger_430920()
 
         if (pEvent)
         {
-            if ((pEvent != sActiveHero_5C1B68 || !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8)) &&
+            if ((pEvent != sActiveHero_5C1B68 || !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)) &&
                 gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->field_B8_xpos, pEvent->field_BC_ypos, 0))
             {
                 field_13E_anger += field_142_attack_anger;
@@ -1155,7 +1155,7 @@ void Fleech::IncreaseAnger_430920()
         {
             if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(6), pEvent))
             {
-                if ((pEvent != sActiveHero_5C1B68 || !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))  &&
+                if ((pEvent != sActiveHero_5C1B68 || !sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))  &&
                     gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, pEvent->field_B8_xpos, pEvent->field_BC_ypos, 0))
                 {
                     field_13E_anger += field_140;
@@ -1167,7 +1167,7 @@ void Fleech::IncreaseAnger_430920()
 
 __int16 Fleech::InRange_4307C0(BaseAliveGameObject* pObj)
 {
-    if (!pObj || pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8))
+    if (!pObj || pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         return FALSE;
     }

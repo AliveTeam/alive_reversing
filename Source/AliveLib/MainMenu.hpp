@@ -245,7 +245,7 @@ public:
         eBit19 = 0x40000,
         eBit20 = 0x80000,
         eBit21 = 0x100000,
-        eBit22 = 0x200000,
+        eBit22_GameSpeakPlaying = 0x200000,
         eBit23 = 0x400000,
         eBit24_Chant_Seq_Playing = 0x800000,
         eBit25 = 0x1000000,

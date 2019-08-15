@@ -779,7 +779,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
     { "Kill All Mudokons", [](CustomPauseMenu *) { sRescuedMudokons_5C1BC2 = 0; sKilledMudokons_5C1BC0 = 300; DEV_CONSOLE_MESSAGE("(CHEAT) Killed all Mudokons", 4); }  },
     { "Give Rocks", [](CustomPauseMenu *) { sActiveHero_5C1B68->field_1A2_rock_or_bone_count = 99; DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4); }  },
     { "Open All Doors", [](CustomPauseMenu * pm) {  pm->ClosePauseMenu(); Cheat_OpenAllDoors(); } },
-    { "Invisible", [](CustomPauseMenu * pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8); } },
+    { "Invisible", [](CustomPauseMenu * pm) { DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);  pm->ClosePauseMenu(); sActiveHero_5C1B68->field_170_invisible_timer = 65535; sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);  sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); } },
     { "Give Explosive Fart", [](CustomPauseMenu * pm) {
         DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
         pm->ClosePauseMenu();
