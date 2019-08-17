@@ -212,6 +212,7 @@ public:
         return vGetSaveState_48F220(reinterpret_cast<Paramite_State*>(pSaveBuffer));
     }
 
+
     EXPORT static int CC CreateFromSaveState_4855A0(const BYTE* pBuffer);
 
 private:
