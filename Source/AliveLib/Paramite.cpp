@@ -1259,7 +1259,7 @@ __int16 Paramite::AI_Death_1_484CD0()
     }
     else
     {
-        field_CC_sprite_scale -= FP_FromDouble(0.1);
+        field_CC_sprite_scale -= FP_FromDouble(0.01);
         field_D0_r -= 2;
         field_D2_g -= 2;
         field_D4_b -= 2;
