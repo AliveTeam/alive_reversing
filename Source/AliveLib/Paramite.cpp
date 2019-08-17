@@ -5689,6 +5689,7 @@ __int16 Paramite::ToNextMotion_4898A0()
         return NextPlayerInputMotion_4894C0();
     }
 
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     switch (field_108_next_motion)
     {
     case eParamiteMotions::M_Turn_4_48B180:
@@ -5705,12 +5706,12 @@ __int16 Paramite::ToNextMotion_4898A0()
     case eParamiteMotions::M_Running_3_48AA00:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromDouble(3.5));
+            field_C4_velx = -(kGridSize / FP_FromDouble(3.5));
             field_106_current_motion = eParamiteMotions::M_RunBegin_9_48AF10;
         }
         else
         {
-            field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromDouble(3.5));
+            field_C4_velx = (kGridSize / FP_FromDouble(3.5));
             field_106_current_motion = eParamiteMotions::M_RunBegin_9_48AF10;
         }
         field_108_next_motion = -1;
@@ -5719,11 +5720,11 @@ __int16 Paramite::ToNextMotion_4898A0()
     case eParamiteMotions::M_Walking_2_48A2D0:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(7));
+            field_C4_velx = -(kGridSize / FP_FromInteger(7));
         }
         else
         {
-            field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(7));
+            field_C4_velx = (kGridSize / FP_FromInteger(7));
         }
         field_106_current_motion = eParamiteMotions::M_WalkBegin_1_48A7B0;
         field_108_next_motion = -1;
@@ -5746,11 +5747,11 @@ __int16 Paramite::ToNextMotion_4898A0()
         field_108_next_motion = -1;
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale / FP_FromInteger(4)));
+            field_C4_velx = -(kGridSize / FP_FromInteger(4));
         }
         else
         {
-            field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale / FP_FromInteger(4)));
+            field_C4_velx = (kGridSize / FP_FromInteger(4));
         }
         return 1;
 
