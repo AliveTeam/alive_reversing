@@ -274,6 +274,21 @@ public:
     EXPORT __int16 AI_SurpriseWeb_3_4851B0();
     EXPORT __int16 AI_UNKNOWN_4_48F8F0();
     EXPORT __int16 AI_SpottedMeat_5_486880();
+
+    __int16 AI_SpottedMeat_State_6(Meat* pMeat);
+
+    __int16 AI_SpottedMeat_State_5(Meat* pMeat);
+
+    __int16 AI_SpottedMeat_State_4(Meat* pMeat);
+
+    __int16 AI_SpottedMeat_State_3();
+
+    __int16 AI_SpottedMeat_State_2(Meat* pMeat);
+
+    __int16 AI_SpottedMeat_State_1(Meat* pMeat);
+
+    __int16 AI_SpottedMeat_State_0(Meat* pMeat);
+
     EXPORT __int16 AI_Possessed_6_484BC0();
     EXPORT __int16 AI_DeathDrop_7_484FF0();
     EXPORT __int16 AI_ControlledByGameSpeak_8_48DFC0();

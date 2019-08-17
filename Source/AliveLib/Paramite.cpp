@@ -2055,267 +2055,294 @@ __int16 Paramite::AI_SpottedMeat_5_486880()
         MusicController::sub_47FD60(4, this, 0, 0);
     }
 
-    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-
     switch (field_12C_brain_ret)
     {
-    case 0:
-        if (!vIsFacingMe_4254A0(pMeat))
-        {
-            if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
-            {
-                Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
-                field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
-                return 4;
-            }
-        }
-
-        if (vIsObj_GettingNear_425420(pMeat))
-        {
-            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-            return 5;
-        }
-
-        if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-        {
-            goto LABEL_21;
-        }
-
-        if (Check_IsOnEndOfLine_408E90(1, 1))
-        {
-            ToHop_489C20();
-            return 3;
-        }
-
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-        {
-            goto LABEL_23;
-        }
-
-    LABEL_21:
-        if (Check_IsOnEndOfLine_408E90(0, 1))
-        {
-            ToHop_489C20();
-            return 3;
-        }
-        else
-        {
-        LABEL_23:
-            if (!vIsObjNearby_4253B0(kGridSize *FP_FromInteger(3), pMeat))
-            {
-                field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
-                return 1;
-            }
-
-            if (vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
-            {
-                if (field_B8_xpos == pMeat->field_B8_xpos)
-                {
-                    field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
-                    return 2;
-                }
-                else
-                {
-                    if (!pMeat->field_130_pLine || !field_100_pCollisionLine)
-                    {
-                        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-                        return 5;
-                    }
-                    field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
-                    field_130_timer = sGnFrame_5C1B84 + field_134_meat_eating_time;
-                    return 6;
-                }
-            }
-            else
-            {
-                field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
-                return 2;
-            }
-        }
-        break;
-
-    case 1:
-    {
-        const int xAsInt = FP_GetExponent(field_B8_xpos);
-        const int xSnapped = SnapToXGrid_449930(field_CC_sprite_scale, xAsInt);
-
-        if (field_C4_velx >= FP_FromInteger(0))
-        {
-            goto LABEL_41;
-        }
-
-        if (std::abs(xAsInt - xSnapped) < 6 && Check_IsOnEndOfLine_408E90(1, 1))
-        {
-            ToHop_489C20();
-            return 3;
-        }
-
-    LABEL_41:
-        if (field_C4_velx > FP_FromInteger(0))
-        {
-            if (std::abs(xAsInt - xSnapped) < 6 && Check_IsOnEndOfLine_408E90(0, 1))
-            {
-                ToHop_489C20();
-                return 3;
-            }
-        }
-
-        if (!vIsFacingMe_4254A0(pMeat))
-        {
-            if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
-            {
-                Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
-                field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
-                return 4;
-            }
-        }
-
-        if (vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
-        {
-            if (pMeat->field_130_pLine)
-            {
-                field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
-                field_130_timer = sGnFrame_5C1B84 + field_134_meat_eating_time;
-                return 6;
-            }
-            return 1;
-        }
-        else
-        {
-            if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pMeat))
-            {
-                return field_12C_brain_ret;
-            }
-            field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
-            return 2;
-        }
-        break;
+    case 0:  return AI_SpottedMeat_State_0(pMeat);
+    case 1:  return AI_SpottedMeat_State_1(pMeat);
+    case 2:  return AI_SpottedMeat_State_2(pMeat);
+    case 3:  return AI_SpottedMeat_State_3();
+    case 4:  return AI_SpottedMeat_State_4(pMeat);
+    case 5:  return AI_SpottedMeat_State_5(pMeat);
+    case 6:  return AI_SpottedMeat_State_6(pMeat);
+    default: return field_12C_brain_ret;
     }
+}
 
-    case 2:
+__int16 Paramite::AI_SpottedMeat_State_6(Meat* pMeat)
+{
+    if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
     {
-        const int xPos_int = FP_GetExponent(field_B8_xpos);
-        const int xSnapped = SnapToXGrid_449930(field_CC_sprite_scale, xPos_int);
-        if (field_C4_velx >= FP_FromInteger(0))
-        {
-            goto LABEL_65;
-        }
-
-        if (std::abs(xPos_int - xSnapped) < 6 && Check_IsOnEndOfLine_408E90(1, 1))
-        {
-            ToHop_489C20();
-            return 3;
-        }
-
-    LABEL_65:
-        if (field_C4_velx > FP_FromInteger(0))
-        {
-            if (std::abs(xPos_int - xSnapped) < 6 && Check_IsOnEndOfLine_408E90(0, 1))
-            {
-                ToHop_489C20();
-                return 3;
-            }
-        }
-        if (!vIsFacingMe_4254A0(pMeat))
-        {
-            if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
-            {
-                Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
-                field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
-                return 4;
-            }
-        }
-        if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
-        {
-            return field_12C_brain_ret;
-        }
-
-        if (pMeat->field_130_pLine)
-        {
-            field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
-            field_130_timer = sGnFrame_5C1B84 + field_134_meat_eating_time;
-            return 6;
-
-        }
+        field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
         return 2;
     }
 
-    case 3:
-        if (field_106_current_motion)
-        {
-            return field_12C_brain_ret;
-        }
-        return 0;
-
-    case 4:
-        if (field_106_current_motion != eParamiteMotions::M_Turn_4_48B180 || !field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
-        {
-            return field_12C_brain_ret;
-        }
-
-        if (!vIsFacingMe_4254A0(pMeat))
-        {
-            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-            return 0;
-        }
-
+    if (!vIsFacingMe_4254A0(pMeat))
+    {
         if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
         {
             Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
             return 4;
         }
-        else
-        {
-            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-            return 0;
-        }
-        break;
+    }
 
-    case 5:
-        if (!vIsFacingMe_4254A0(pMeat))
+    if (field_130_timer > static_cast<int>(sGnFrame_5C1B84))
+    {
+        return field_12C_brain_ret;
+    }
+
+    pMeat->field_6_flags.Set(BaseGameObject::eDead);
+    field_118 = -1;
+    field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+    SetBrain(&Paramite::AI_Patrol_0_4835B0);
+    return 0;
+}
+
+__int16 Paramite::AI_SpottedMeat_State_5(Meat* pMeat)
+{
+    if (!vIsFacingMe_4254A0(pMeat))
+    {
+        Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
+        field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+        return 4;
+    }
+
+    if (vIsObj_GettingNear_425420(pMeat))
+    {
+        return field_12C_brain_ret;
+    }
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+
+    if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        goto LABEL_96;
+    }
+
+    if (Check_IsOnEndOfLine_408E90(1, 1))
+    {
+        ToHop_489C20();
+        return 3;
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        goto LABEL_98;
+    }
+
+LABEL_96:
+    if (Check_IsOnEndOfLine_408E90(0, 1))
+    {
+        ToHop_489C20();
+        return 3;
+    }
+
+LABEL_98:
+    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pMeat))
+    {
+        field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
+        return 1;
+    }
+
+    if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    {
+        field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
+        return 2;
+    }
+
+    if (!pMeat->field_130_pLine || !field_100_pCollisionLine)
+    {
+        return 5;
+    }
+
+    field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
+    field_130_timer = sGnFrame_5C1B84 + field_134_meat_eating_time;
+    return 6;
+}
+
+__int16 Paramite::AI_SpottedMeat_State_4(Meat* pMeat)
+{
+    if (field_106_current_motion != eParamiteMotions::M_Turn_4_48B180 || !field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        return field_12C_brain_ret;
+    }
+
+    if (!vIsFacingMe_4254A0(pMeat))
+    {
+        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+        return 0;
+    }
+
+    if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
+    {
+        Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
+        field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+        return 4;
+    }
+    else
+    {
+        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+        return 0;
+    }
+}
+
+__int16 Paramite::AI_SpottedMeat_State_3()
+{
+    if (field_106_current_motion != eParamiteMotions::M_Idle_0_489FB0)
+    {
+        return field_12C_brain_ret;
+    }
+    return 0;
+}
+
+__int16 Paramite::AI_SpottedMeat_State_2(Meat* pMeat)
+{
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const int xPos_int = FP_GetExponent(field_B8_xpos);
+    const int xSnapped = SnapToXGrid_449930(field_CC_sprite_scale, xPos_int);
+
+    if (field_C4_velx < FP_FromInteger(0))
+    {
+        if (std::abs(xPos_int - xSnapped) < 6 && Check_IsOnEndOfLine_408E90(1, 1))
+        {
+            ToHop_489C20();
+            return 3;
+        }
+    }
+
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        if (std::abs(xPos_int - xSnapped) < 6 && Check_IsOnEndOfLine_408E90(0, 1))
+        {
+            ToHop_489C20();
+            return 3;
+        }
+    }
+
+    if (!vIsFacingMe_4254A0(pMeat))
+    {
+        if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
         {
             Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
             return 4;
         }
+    }
 
-        if (vIsObj_GettingNear_425420(pMeat))
-        {
-            return field_12C_brain_ret;
-        }
+    if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    {
+        return field_12C_brain_ret;
+    }
 
-        if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-        {
-            goto LABEL_96;
-        }
+    if (pMeat->field_130_pLine)
+    {
+        field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
+        field_130_timer = sGnFrame_5C1B84 + field_134_meat_eating_time;
+        return 6;
 
-        if (Check_IsOnEndOfLine_408E90(1, 1))
+    }
+    return 2;
+}
+
+__int16 Paramite::AI_SpottedMeat_State_1(Meat* pMeat)
+{
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+
+    const int xAsInt = FP_GetExponent(field_B8_xpos);
+    const int xSnapped = SnapToXGrid_449930(field_CC_sprite_scale, xAsInt);
+
+    if (field_C4_velx < FP_FromInteger(0))
+    {
+        if (std::abs(xAsInt - xSnapped) < 6 && Check_IsOnEndOfLine_408E90(1, 1))
         {
             ToHop_489C20();
             return 3;
         }
+    }
 
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        if (std::abs(xAsInt - xSnapped) < 6 && Check_IsOnEndOfLine_408E90(0, 1))
         {
-            goto LABEL_98;
+            ToHop_489C20();
+            return 3;
         }
+    }
 
-    LABEL_96:
+    if (!vIsFacingMe_4254A0(pMeat))
+    {
+        if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
+        {
+            Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
+            field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+            return 4;
+        }
+    }
+
+    if (vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    {
+        if (pMeat->field_130_pLine)
+        {
+            field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
+            field_130_timer = sGnFrame_5C1B84 + field_134_meat_eating_time;
+            return 6;
+        }
+        return 1;
+    }
+
+    if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pMeat))
+    {
+        return field_12C_brain_ret;
+    }
+
+    field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
+    return 2;
+}
+
+__int16 Paramite::AI_SpottedMeat_State_0(Meat* pMeat)
+{
+    if (!vIsFacingMe_4254A0(pMeat))
+    {
+        if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
+        {
+            Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
+            field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+            return 4;
+        }
+    }
+
+    if (vIsObj_GettingNear_425420(pMeat))
+    {
+        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
+        return 5;
+    }
+
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
         if (Check_IsOnEndOfLine_408E90(0, 1))
         {
             ToHop_489C20();
             return 3;
         }
-
-    LABEL_98:
-        if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pMeat))
+    }
+    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        if (Check_IsOnEndOfLine_408E90(1, 1))
         {
-            field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
-            return 1;
+            ToHop_489C20();
+            return 3;
         }
+    }
 
-        if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    if (!vIsObjNearby_4253B0(kGridSize *FP_FromInteger(3), pMeat))
+    {
+        field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
+        return 1;
+    }
+
+    if (vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
+    {
+        if (field_B8_xpos == pMeat->field_B8_xpos)
         {
             field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
             return 2;
@@ -2323,44 +2350,17 @@ __int16 Paramite::AI_SpottedMeat_5_486880()
 
         if (!pMeat->field_130_pLine || !field_100_pCollisionLine)
         {
+            field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
             return 5;
         }
 
         field_108_next_motion = eParamiteMotions::M_Eating_40_48A0F0;
         field_130_timer = sGnFrame_5C1B84 + field_134_meat_eating_time;
         return 6;
-
-    case 6:
-        if (!vIsObjNearby_4253B0(field_CC_sprite_scale * FP_FromInteger(40), pMeat))
-        {
-            field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
-            return 2;
-        }
-
-        if (!vIsFacingMe_4254A0(pMeat))
-        {
-            if (FP_Abs(pMeat->field_B8_xpos - field_B8_xpos) > FP_FromInteger(5))
-            {
-                Sound_48F600(ParamiteSpeak::DetectedMeat_7, 0);
-                field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
-                return 4;
-            }
-        }
-
-        if (field_130_timer > static_cast<int>(sGnFrame_5C1B84))
-        {
-            return field_12C_brain_ret;
-        }
-
-        pMeat->field_6_flags.Set(BaseGameObject::eDead);
-        field_118 = -1;
-        field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-        SetBrain(&Paramite::AI_Patrol_0_4835B0);
-        return 0;
-
-    default:
-        return field_12C_brain_ret;
     }
+
+    field_108_next_motion = eParamiteMotions::M_Walking_2_48A2D0;
+    return 2;
 }
 
 __int16 Paramite::AI_Possessed_6_484BC0()
