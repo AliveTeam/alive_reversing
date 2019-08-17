@@ -76,6 +76,7 @@
 #include "ScrabSpawner.hpp"
 #include "SlogSpawner.hpp"
 #include "SlogHut.hpp"
+#include "ParamiteWebLine.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1810,7 +1811,21 @@ EXPORT void CC Factory_SlapLock_4DAF20(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ParamiteWebLine_4D9120(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("WEB.BAN", ResourceManager::Resource_Animation, kWebResID, loadMode);
+    }
+    else
+    {
+        auto pWebLine = alive_new<ParamiteWebLine>();
+        if (pWebLine)
+        {
+            pWebLine->ctor_4E1FC0(static_cast<Path_ParamiteWebLine*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_Alarm_4DAF90(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, __int16 loadmode)
 {

@@ -2,13 +2,31 @@
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
+#include "Path.hpp"
+
+struct Path_ParamiteWebLine : public Path_TLV
+{
+    __int16 field_10_scale;
+    __int16 field_12_pad;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
 
 class ParamiteWebLine : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    EXPORT ParamiteWebLine* ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tlvInfo);
+
     EXPORT void Wobble_4E29D0(short ypos);
 
     virtual void VScreenChanged() override;
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+private:
+    EXPORT ParamiteWebLine* vdtor_4E2460(signed int flags);
+
+    EXPORT void dtor_4E2490();
+
 
 private:
 
