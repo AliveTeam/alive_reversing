@@ -2111,32 +2111,26 @@ __int16 Paramite::AI_SpottedMeat_State_5(Meat* pMeat)
     {
         return field_12C_brain_ret;
     }
-    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
+   
     if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        goto LABEL_96;
+        if (Check_IsOnEndOfLine_408E90(0, 1))
+        {
+            ToHop_489C20();
+            return 3;
+        }
     }
-
-    if (Check_IsOnEndOfLine_408E90(1, 1))
+    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
-        ToHop_489C20();
-        return 3;
+        if (Check_IsOnEndOfLine_408E90(1, 1))
+        {
+            ToHop_489C20();
+            return 3;
+        }
     }
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-    {
-        goto LABEL_98;
-    }
-
-LABEL_96:
-    if (Check_IsOnEndOfLine_408E90(0, 1))
-    {
-        ToHop_489C20();
-        return 3;
-    }
-
-LABEL_98:
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     if (!vIsObjNearby_4253B0(kGridSize * FP_FromInteger(3), pMeat))
     {
         field_108_next_motion = eParamiteMotions::M_Running_3_48AA00;
