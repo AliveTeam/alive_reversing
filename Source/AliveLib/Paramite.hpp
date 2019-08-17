@@ -239,6 +239,24 @@ public:
     EXPORT __int16 AI_Death_1_484CD0();
     EXPORT __int16 AI_ChasingAbe_2_4859D0();
 
+    __int16 AI_ChasingAbe_State_15();
+
+    __int16 AI_ChasingAbe_State_14();
+
+    __int16 AI_ChasingAbe_State9();
+
+    __int16 AI_ChasingAbe_State_13();
+
+    __int16 AI_ChasingAbe_State_8();
+
+    __int16 AI_ChasingAbe_State_6();
+
+    __int16 AI_ChasingAbe_State_3();
+
+    __int16 AI_ChasingAbe_State_4();
+
+    __int16 AI_ChasingAbe_State_2();
+
     __int16 AI_ChasingAbe_State_11(BaseAliveGameObject* pObj);
 
     __int16 AI_ChasingAbe_State_7(BaseAliveGameObject* pObj);
