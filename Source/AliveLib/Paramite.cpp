@@ -1309,8 +1309,6 @@ __int16 Paramite::AI_ChasingAbe_2_4859D0()
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-
     if (pObj && !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && (pObj->field_4_typeId != Types::eFleech_50 || pObj->field_10C_health > FP_FromInteger(0)))
     {
         if (field_148_timer > static_cast<int>(sGnFrame_5C1B84) || vOnSameYLevel_425520(pObj) && field_CC_sprite_scale == pObj->field_CC_sprite_scale)
@@ -4960,6 +4958,7 @@ void Paramite::vUpdate_4871B0()
         {
             const auto oldMotion = field_106_current_motion;
             const auto oldBrain = field_128_fn_brainState;
+            const auto oldBrainRet = field_12C_brain_ret;
             field_12C_brain_ret = (this->*field_128_fn_brainState)();
 
             if (sDDCheat_ShowAI_Info_5C1BD8)
@@ -4981,6 +4980,13 @@ void Paramite::vUpdate_4871B0()
             {
                 LOG_INFO("Paramite: Old brain = " << GetOriginalFn(oldBrain, sParamiteAITable).fnName << " new brain = " << GetOriginalFn(field_128_fn_brainState, sParamiteAITable).fnName);
                 //LOG_INFO("Paramite: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            }
+            else
+            {
+                if (oldBrainRet != field_12C_brain_ret)
+                {
+                    LOG_INFO("Paramite: Brain state = " << GetOriginalFn(field_128_fn_brainState, sParamiteAITable).fnName << " State change from " << oldBrainRet << " to " << field_12C_brain_ret);
+                }
             }
 
             if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)
