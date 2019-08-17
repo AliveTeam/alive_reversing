@@ -18,16 +18,26 @@ public:
 
     EXPORT void Wobble_4E29D0(short ypos);
 
+    virtual void VUpdate() override;
+
     virtual void VScreenChanged() override;
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    virtual PSX_RECT* vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx) override;
+
+    virtual void VRender(int** pOrderingTable) override;
 
 private:
     EXPORT ParamiteWebLine* vdtor_4E2460(signed int flags);
 
     EXPORT void dtor_4E2490();
 
+    EXPORT void vUpdate_4E2A50();
 
+    EXPORT PSX_RECT* vGetBoundingRect_4E2B40(PSX_RECT* pRect, int idx);
+
+    EXPORT void vRender_4E2530(int **ppOt);
 private:
 
     EXPORT void vScreenChanged_4E2BC0();

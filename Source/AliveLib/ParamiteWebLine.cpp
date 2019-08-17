@@ -5,6 +5,7 @@
 #include "Collisions.hpp"
 #include "ScreenManager.hpp"
 #include "Game.hpp"
+#include "Sfx.hpp"
 
 ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tlvInfo)
 {
@@ -126,9 +127,29 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     return this;
 }
 
-void ParamiteWebLine::Wobble_4E29D0(short /*ypos*/)
+void ParamiteWebLine::Wobble_4E29D0(short ypos)
 {
-    NOT_IMPLEMENTED();
+    short yPosToUse = ypos;
+    if (ypos < field_F8_top)
+    {
+        yPosToUse = field_F8_top;
+    }
+
+    field_104 = 7;
+
+    if (yPosToUse <= field_FA_bottom)
+    {
+        field_106_wobble_pos = yPosToUse;
+    }
+    else
+    {
+        field_106_wobble_pos = field_FA_bottom;
+    }
+}
+
+void ParamiteWebLine::VUpdate()
+{
+    vUpdate_4E2A50();
 }
 
 void ParamiteWebLine::VScreenChanged()
@@ -139,6 +160,16 @@ void ParamiteWebLine::VScreenChanged()
 BaseGameObject* ParamiteWebLine::VDestructor(signed int flags)
 {
     return vdtor_4E2460(flags);
+}
+
+PSX_RECT* ParamiteWebLine::vGetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
+{
+    return vGetBoundingRect_4E2B40(pRect, pointIdx);
+}
+
+void ParamiteWebLine::VRender(int** pOrderingTable)
+{
+    vRender_4E2530(pOrderingTable);
 }
 
 ParamiteWebLine* ParamiteWebLine::vdtor_4E2460(signed int flags)
@@ -158,6 +189,51 @@ void ParamiteWebLine::dtor_4E2490()
     field_108_anim_flare.vCleanUp_40C630();
     Path::TLV_Reset_4DB8E0(field_100, -1, 0, 0);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+}
+
+void ParamiteWebLine::vUpdate_4E2A50()
+{
+    if (field_104 > 0)
+    {
+        field_104--;
+        field_1A0 = field_F8_top;
+        return;
+    }
+
+    if (field_1A4_delay_counter > 0)
+    {
+        field_1A4_delay_counter--;
+    }
+    else
+    {
+        field_1A0 += field_1A2;
+        if (field_1A0 >field_FA_bottom)
+        {
+            field_1A0 = field_F8_top;
+            SFX_Play_46FA90(static_cast<char>(Math_RandomRange_496AB0(103, 104)), Math_RandomRange_496AB0(40, 80));
+            field_106_wobble_pos = field_F8_top;
+            return;
+        }
+    }
+    field_106_wobble_pos = field_F8_top;
+}
+
+PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, int /*idx*/)
+{
+    const short xpos = FP_GetExponent(field_B8_xpos);
+
+    pRect->x = xpos - 2;
+    pRect->y = field_F8_top;
+
+    pRect->w = xpos + 2;
+    pRect->h = field_FA_bottom;
+
+    return pRect;
+}
+
+void ParamiteWebLine::vRender_4E2530(int** /*ppOt*/)
+{
+    NOT_IMPLEMENTED();
 }
 
 void ParamiteWebLine::vScreenChanged_4E2BC0()

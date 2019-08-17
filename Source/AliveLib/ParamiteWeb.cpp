@@ -77,6 +77,11 @@ void ParamiteWeb::VScreenChanged()
     vScreenChanged_4E1F80();
 }
 
+void ParamiteWeb::VRender(int** pOrderingTable)
+{
+    vRender_4E1BA0(pOrderingTable);
+}
+
 BaseGameObject* ParamiteWeb::VDestructor(signed int flags)
 {
     return vdtor_4E1AF0(flags);
@@ -117,4 +122,9 @@ void ParamiteWeb::vScreenChanged_4E1F80()
     {
         field_6_flags.Set(BaseGameObject::eDead);
     }
+}
+
+void ParamiteWeb::vRender_4E1BA0(int** /*pOt*/)
+{
+    NOT_IMPLEMENTED();
 }

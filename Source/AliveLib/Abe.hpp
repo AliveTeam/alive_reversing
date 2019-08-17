@@ -507,7 +507,7 @@ public:
     EXPORT void ToDieFinal_458910();
     EXPORT short DoGameSpeak_45AB70(int input);
     EXPORT __int16 CantBeDamaged_44BAB0();
-    EXPORT __int16 sub_44EC10();
+    EXPORT void FallOnBombs_44EC10();
     EXPORT __int16 ForceDownIfHoisting_44BA30();
     EXPORT __int16 Damage_44C980(BaseGameObject* pObj);
     EXPORT void GiveControlBackToMe_44BA10();

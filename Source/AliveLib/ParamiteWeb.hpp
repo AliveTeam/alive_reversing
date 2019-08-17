@@ -12,6 +12,8 @@ public:
 
     virtual void VScreenChanged() override;
 
+    virtual void VRender(int** pOrderingTable) override;
+
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
 private:
@@ -21,10 +23,9 @@ private:
 
     EXPORT void vUpdate_4E1F40();
 
-
     EXPORT void vScreenChanged_4E1F80();
 
-
+    EXPORT void vRender_4E1BA0(int** pOt);
 public:
     __int16 field_F4;
     __int16 field_F6;
