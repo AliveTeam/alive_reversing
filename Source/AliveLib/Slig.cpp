@@ -4246,6 +4246,7 @@ void Slig::vUpdate_4B17C0()
     {
         const auto oldMotion = field_106_current_motion;
         const auto oldBrain = field_154_brain_state;
+        const auto oldBrainRet = field_11C;
         field_11C = (this->*field_154_brain_state)();
 
         if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
@@ -4277,6 +4278,13 @@ void Slig::vUpdate_4B17C0()
         if (oldBrain != field_154_brain_state)
         {
             LOG_INFO("Slig: Old brain = " << GetOriginalFn(oldBrain, sSligAITable).fnName << " new brain = " << GetOriginalFn(field_154_brain_state, sSligAITable).fnName);
+        }
+        else
+        {
+            if (oldBrainRet != field_11C)
+            {
+                LOG_INFO("Slig: Brain state = " << GetOriginalFn(field_154_brain_state, sSligAITable).fnName << " State change from " << oldBrainRet << " to " << field_11C);
+            }
         }
 
         if (oldMotion != field_106_current_motion || field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))

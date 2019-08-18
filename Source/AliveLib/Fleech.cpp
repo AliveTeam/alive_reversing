@@ -674,6 +674,7 @@ void Fleech::vUpdate_42AB20()
     {
         const auto oldMotion = field_106_current_motion;
         const auto oldBrain = sFleech_ai_table_551830[field_124_brain_state];
+        const auto oldBrainRet = field_126_state;
 
         field_126_state = (this->*sFleech_ai_table_551830[field_124_brain_state])();
 
@@ -704,7 +705,13 @@ void Fleech::vUpdate_42AB20()
         if (oldBrain != sFleech_ai_table_551830[field_124_brain_state])
         {
             LOG_INFO("Fleech: Old brain = " << GetOriginalFn(oldBrain, sFleechAiTable).fnName << " new brain = " << GetOriginalFn(sFleech_ai_table_551830[field_124_brain_state], sFleechAiTable).fnName);
-            //LOG_INFO("Fleech: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+        }
+        else
+        {
+            if (oldBrainRet != field_126_state)
+            {
+                LOG_INFO("Fleech: Brain state = " << GetOriginalFn(sFleech_ai_table_551830[field_124_brain_state], sFleechAiTable).fnName << " State change from " << oldBrainRet << " to " << field_126_state);
+            }
         }
 
         if (oldMotion == field_106_current_motion)

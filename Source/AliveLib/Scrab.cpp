@@ -491,8 +491,8 @@ void Scrab::vUpdate_4A3530()
             }
 
             const auto oldMotion = field_106_current_motion;
-
             const auto oldBrain = field_118_brain_state;
+            const auto oldBrainRet = field_11C_sub_state;
 
             field_11C_sub_state = (this->*field_118_brain_state)();
 
@@ -526,8 +526,13 @@ void Scrab::vUpdate_4A3530()
             if (oldBrain != field_118_brain_state)
             {
                 LOG_INFO("Scrab: Old brain = " << GetOriginalFn(oldBrain, sScrabAITable).fnName << " new brain = " << GetOriginalFn(field_118_brain_state, sScrabAITable).fnName);
-
-                //LOG_INFO("Scrab: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
+            }
+            else
+            {
+                if (oldBrainRet != field_11C_sub_state)
+                {
+                    LOG_INFO("Scrab: Brain state = " << GetOriginalFn(field_118_brain_state, sScrabAITable).fnName << " State change from " << oldBrainRet << " to " << field_11C_sub_state);
+                }
             }
 
             if (oldMotion != field_106_current_motion || field_1AA_flags.Get(Flags_1AA::eBit4))
