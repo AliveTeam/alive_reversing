@@ -791,13 +791,13 @@ void Mudokon::vUpdate_4757A0()
 
     if (oldBrain != field_18E_ai_state)
     {
-        LOG_INFO("Mud: Old brain = "  << oldBrain << " new brain = "  << field_18E_ai_state);
+        LOG_INFO("Mud: Old brain = "  << static_cast<int>(oldBrain) << " new brain = "  << static_cast<int>(field_18E_ai_state));
     }
     else
     {
         if (oldBrainRet != field_190_sub_state)
         {
-            LOG_INFO("Mud: Brain state = " << oldBrain << " State change from " << oldBrainRet << " to " << field_190_sub_state);
+            LOG_INFO("Mud: Brain state = " << static_cast<int>(oldBrain) << " State change from " << oldBrainRet << " to " << field_190_sub_state);
         }
     }
 
