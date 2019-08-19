@@ -51,24 +51,24 @@ If you'd like to contribute to our reverse engineering efforts, make sure to fol
  - Time lapse decompliation of a function from this project. See description for more hints, possibly play at a slower speed to see roughly what is going on. https://www.youtube.com/watch?v=pxm3F_pQHMk&feature=youtu.be
 
 ### How to build
-- Clone the repo with the --recursive option so that submodules are cloned.
-- Download https://www.libsdl.org/release/SDL2-devel-2.0.5-VC.zip
-- Create a build directory in repo root
-- Create a SDL2 directory in the build directory
-- Extract SDL2-devel-2.0.5-VC.zip into freshly created SDL2 directory
-- Open a visual studio developer command prompt and cd into the build directory
-- Run "cmake .. -DSDL2_DIR=c:\Alive_Repo_Root\build\SDL2"
-- Run "msbuild /p:Configuration=Debug;Platform=Win32 ar.sln /m" to compile
-- Note that the output dll is hard coded to output at "C:\GOG Games\Abes Exoddus\AliveDll.dll"
-- Note that you need to either obtain a modified copy of Exoddus.exe or modify Exoddus.exe yourself to add AliveDll.dll to the imports list
+- Clone the repo with the `--recursive` option so that submodules are cloned.
+- Download [SDL2](https://www.libsdl.org/release/SDL2-devel-2.0.5-VC.zip)
+- Create a `build` directory in `repo root`
+- Create a `SDL2` directory in the `build directory`
+- Extract `SDL2-devel-2.0.5-VC.zip` into freshly created `SDL2 directory`
+- Open a visual studio developer command prompt and `cd` into the `build` directory
+- Run `cmake .. -DSDL2_DIR=`**c:\ALIVE_REPO_ROOT**`\build\SDL2`
+- Run `msbuild /p:Configuration=Debug;Platform=Win32 ar.sln /m` to compile
+- Note that the output dll is hard coded to output at `C:\GOG Games\Abes Exoddus\AliveDll.dll`
+- Note that you need to either obtain a modified copy of `Exoddus.exe` or modify `Exoddus.exe` yourself to add `AliveDll.dll` to the imports list
 
 ### How to build using only VS2017 IDE
-- Clone the repo with the --recursive option so that submodules are cloned.
-- Download https://www.libsdl.org/release/SDL2-devel-2.0.5-VC.zip
+- Clone the repo with the `--recursive` option so that submodules are cloned.
+- Download [SDL2](https://www.libsdl.org/release/SDL2-devel-2.0.5-VC.zip)
 - Extract it some where.
 - Launch VS2017.
-- Goto File -> Open -> CMake. Then choose the CMakeLists.txt from the root of this cloned git repo.
-- Goto CMake -> Change CMake settings -> CMakeLists.txt.
-- Then choose x86-debug and click "select".
-- This will open CMakeSettings.json, edit the line cmakeCommandArgs to contain -DSDL2_DIR=Path_To_SDL2_Dir and then click "generate" in the top yellow warning bar.
-- CMake -> Build all should now work.
+- Goto `File` -> `Open` -> `CMake`. Then choose the `CMakeLists.txt` from the root of this cloned git repo.
+- Goto `CMake` -> `Change CMake settings` -> `CMakeLists.txt`.
+- Then choose `x86-debug` and click `select`.
+- This will open `CMakeSettings.json`, edit the line `cmakeCommandArgs` to contain `-DSDL2_DIR=Path_To_SDL2_Dir` and then click `generate` in the top yellow warning bar.
+- `CMake` -> `Build all` should now work.
