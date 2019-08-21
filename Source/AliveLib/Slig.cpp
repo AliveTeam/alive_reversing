@@ -4918,7 +4918,84 @@ __int16 Slig::HandlePlayerControlled_4B7800()
 __int16 Slig::GetNextMotionIncGameSpeak_4B5080(int /*input*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    /*
+    if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
+    {
+        if (Input_IsChanting_45F260())
+        {
+            if (field_292 & 1)
+            {
+                return -1;
+            }
+            field_12C = sGnFrame_5C1B84 + 30;
+            SFX_Play_46FA90(17u, 0);
+            return eSligMotions::M_Depossessing_36_4B7F30;
+        }
+
+        if (sInputKey_GameSpeak2_5550F8 & input)
+        {
+            field_108_next_motion = eSligMotions::M_SpeakHereBoy_20_4B5330;
+        }
+        else if (input & sInputKey_GameSpeak1_555104)
+        {
+            field_108_next_motion = eSligMotions::M_SpeakHi_21_4B53D0;
+        }
+        else if (input & sInputKey_GameSpeak3_555100)
+        {
+            if (sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0)
+            {
+                field_108_next_motion = eSligMotions::M_SpeakGitIm_23_4B5410;
+            }
+            else
+            {
+                field_108_next_motion = eSligMotions::M_SpeakFreeze_22_4B53F0;
+            }
+        }
+        else if (input & sInputKey_GameSpeak4_5550FC)
+        {
+            if (sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0)
+            {
+                field_108_next_motion = eSligMotions::M_SpeakFreeze_22_4B53F0;
+            }
+            else
+            {
+                field_108_next_motion = eSligMotions::M_SpeakGitIm_23_4B5410;
+            }
+        }
+        else if (input & sInputKey_GameSpeak8_555110)
+        {
+            field_108_next_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
+        }
+        else if (input & sInputKey_GameSpeak6_555108)
+        {
+            field_108_next_motion = eSligMotions::M_SpeakBullShit1_25_4B5450;
+        }
+        else if (input & sInputKey_GameSpeak7_555114)
+        {
+            field_108_next_motion = eSligMotions::M_SpeakLookOut_26_4B5470;
+        }
+        else if (input & sInputKey_GameSpeak5_55510C)
+        {
+            field_108_next_motion = eSligMotions::M_SpeakBullShit2_27_4B5490;
+        }
+        else
+        {
+            return -1;
+        }
+
+        LOBYTE(nextMotion_1) = aSlgliftBan[2 * field_108_next_motion + 4];
+        pEventSystem_5BC11C->PushEvent_4218D0(nextMotion_1);
+    }
+
+    if (field_108_next_motion < 20 || field_108_next_motion > 31)
+    {
+        return -1;
+    }
+
+    Sfx_Slig_GameSpeak_4C04F0(byte_560720[field_108_next_motion], 0, field_11E, this);
+    field_106_current_motion = field_108_next_motion;
+    field_108_next_motion = -1;
+    return field_106_current_motion;*/
 }
 
 void Slig::WaitOrWalk_4BE870()
@@ -6288,7 +6365,7 @@ __int16 Slig::FindLiftPoint_4B9B40()
     }
     else
     {
-        pLift = static_cast<PlatformBase*>(FindObjectOfType_425180(Types::eLiftPoint_78, field_B8_xpos + k2Scaled, field_BC_ypos + FP_FromInteger(5)));
+        pLift = static_cast<PlatformBase*>(FindObjectOfType_425180(Types::eLiftPoint_78, k2Scaled + field_B8_xpos, field_BC_ypos + FP_FromInteger(5)));
     }
 
     if (pLift)
@@ -6296,15 +6373,8 @@ __int16 Slig::FindLiftPoint_4B9B40()
         PSX_RECT rect = {};
         pLift->vGetBoundingRect_424FD0(&rect, 1);
 
-        const FP liftMidXPos = FP_FromInteger((rect.x - rect.w) / 2);
-        if (liftMidXPos - field_B8_xpos < FP_FromInteger(0))
-        {
-            return field_B8_xpos - liftMidXPos < k2Scaled;
-        }
-        else
-        {
-            return liftMidXPos - field_B8_xpos < k2Scaled;
-        }
+        const FP liftMidXPos = FP_FromInteger((rect.x + rect.w) / 2);
+        return FP_Abs(field_B8_xpos - liftMidXPos) < k2Scaled;
     }
 
     return FALSE;
