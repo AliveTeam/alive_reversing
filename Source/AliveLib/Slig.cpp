@@ -6276,3 +6276,36 @@ __int16 Slig::vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther)
 
     return ((bTheirRect.h + bTheirRect.y) / 2) <= bOurRect.h && bTheirRect.h >= bOurRect.y && field_D6_scale == pOther->field_D6_scale;
 }
+
+__int16 Slig::FindLiftPoint_4B9B40()
+{
+    const FP k2Scaled = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2);
+
+    PlatformBase* pLift = nullptr;
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        pLift = static_cast<PlatformBase*>(FindObjectOfType_425180(Types::eLiftPoint_78, field_B8_xpos - k2Scaled, field_BC_ypos + FP_FromInteger(5)));
+    }
+    else
+    {
+        pLift = static_cast<PlatformBase*>(FindObjectOfType_425180(Types::eLiftPoint_78, field_B8_xpos + k2Scaled, field_BC_ypos + FP_FromInteger(5)));
+    }
+
+    if (pLift)
+    {
+        PSX_RECT rect = {};
+        pLift->vGetBoundingRect_424FD0(&rect, 1);
+
+        const FP liftMidXPos = FP_FromInteger((rect.x - rect.w) / 2);
+        if (liftMidXPos - field_B8_xpos < FP_FromInteger(0))
+        {
+            return field_B8_xpos - liftMidXPos < k2Scaled;
+        }
+        else
+        {
+            return liftMidXPos - field_B8_xpos < k2Scaled;
+        }
+    }
+
+    return FALSE;
+}

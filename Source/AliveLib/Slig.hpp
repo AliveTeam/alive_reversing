@@ -456,6 +456,7 @@ private:
 
     EXPORT __int16 vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther);
 
+    EXPORT __int16 FindLiftPoint_4B9B40();
 
 public:
     void SetBrain(TSligAIFn fn);
