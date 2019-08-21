@@ -27,6 +27,7 @@
 #include "Bullet.hpp"
 #include "Dove.hpp"
 #include "BulletShell.hpp"
+#include "GameSpeak.hpp"
 
 EXPORT void CC Start_Slig_sounds_4CB980(CameraPos /*a1*/, int /*kZero*/)
 {
@@ -4984,10 +4985,61 @@ BOOL Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject*
         &pLine, &hitX, &hitY, pLeft->field_D6_scale != 0 ? 6 : 0x60) == 1;
 }
 
+GameSpeakEvents Slig::LastGlukkonSpeak_4B3090()
+{
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 1))
+    {
+        return GameSpeakEvents::eNone_m1;
+    }
+
+    const int last_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
+    if (field_160 == last_event_idx)
+    {
+        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        {
+            return GameSpeakEvents::eNone_m1;
+        }
+        else
+        {
+            return GameSpeakEvents::eSameAsLast_m2;
+        }
+    }
+
+    field_160 = last_event_idx;
+
+    return pEventSystem_5BC11C->field_20_last_event;
+}
+
 __int16 Slig::ListenToGlukkonCommands_4B95D0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    const GameSpeakEvents glukkonSpeak = LastGlukkonSpeak_4B3090();
+    if (sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale)
+    {
+        return 0;
+    }
+
+    if (glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36)
+    {
+        if (!HeardGlukkonToListenTo_4B9690(GameSpeakEvents::Glukkon_Hey_36))
+        {
+            return 0;
+        }
+    }
+    else if (glukkonSpeak != GameSpeakEvents::Glukkon_AllOYa_40)
+    {
+        return 0;
+    }
+
+    sSligsUnderControlCount_BAF7E8++;
+
+    field_208_glukkon_obj_id = sControlledCharacter_5C1B8C->field_8_object_id;
+
+    if (glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40)
+    {
+        field_216.Set(Flags_216::eBit3);
+    }
+
+    return 1;
 }
 
 void Slig::PlatformCollide_4B4E00()
@@ -5077,7 +5129,107 @@ void Slig::TurnOrSayWhat_4BEBC0()
 
 void Slig::GameSpeakResponse_4BF470()
 {
-    NOT_IMPLEMENTED();
+    const int lastIdx = pEventSystem_5BC11C->field_28_last_event_index;
+
+    GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
+
+    if (field_160 == lastIdx)
+    {
+        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        {
+            speak = GameSpeakEvents::eNone_m1;
+        }
+        else
+        {
+            speak = GameSpeakEvents::eSameAsLast_m2;
+        }
+    }
+    else
+    {
+        field_160 = lastIdx;
+        speak = pEventSystem_5BC11C->field_20_last_event;
+    }
+
+    switch (speak)
+    {
+    case GameSpeakEvents::eUnknown_1:
+    case GameSpeakEvents::eUnknown_2:
+        if (!(Math_NextRandom() & 4))
+        {
+            field_294 = eSligMotions::M_SpeakBullShit1_25_4B5450;
+        }
+        else
+        {
+            field_294 = eSligMotions::M_SpeakBullShit2_27_4B5490;
+        }
+        break;
+
+    case GameSpeakEvents::eFart_3:
+    case GameSpeakEvents::eUnknown_4:
+    case GameSpeakEvents::Slig_Laugh_8:
+    case GameSpeakEvents::eUnknown_14:
+    case GameSpeakEvents::eUnknown_15:
+    case GameSpeakEvents::Slig_GetEm_29:
+    case GameSpeakEvents::eUnknown_34:
+        field_294 = eSligMotions::M_Blurgh_31_4B5510;
+        return;
+
+    case GameSpeakEvents::Slig_BS_5:
+        field_294 = eSligMotions::M_SpeakBullShit1_25_4B5450;
+        break;
+
+    case GameSpeakEvents::Slig_LookOut_6:
+        if (!(Math_NextRandom() & 4))
+        {
+            field_294 = eSligMotions::M_SpeakWhat_29_4B54D0;
+        }
+        else
+        {
+            field_294 = eSligMotions::M_SpeakPanic_28_4B54B0;
+        }
+        return;
+
+    case GameSpeakEvents::Slig_BS2_7:
+        field_294 = eSligMotions::M_SpeakBullShit2_27_4B5490;
+        break;
+
+    case GameSpeakEvents::eHello_9:
+    case GameSpeakEvents::Slig_Hi_27:
+        field_294 = eSligMotions::M_SpeakHi_21_4B53D0;
+        break;
+
+    case GameSpeakEvents::eFollowMe_10:
+    case GameSpeakEvents::eWait_12:
+        if (Math_NextRandom() & 8)
+        {
+            field_294 = eSligMotions::M_SpeakBullShit1_25_4B5450;
+        }
+        else
+        {
+            field_294 = eSligMotions::M_SpeakBullShit2_27_4B5490;
+        }
+        break;
+
+    case GameSpeakEvents::eAnger_11:
+    case GameSpeakEvents::eUnknown_13:
+    case GameSpeakEvents::eUnknown_16:
+    case GameSpeakEvents::eUnknown_17:
+    case GameSpeakEvents::eUnknown_18:
+    case GameSpeakEvents::eUnknown_19:
+    case GameSpeakEvents::eUnknown_20:
+    case GameSpeakEvents::eUnknown_25:
+    case GameSpeakEvents::eUnknown_26:
+    case GameSpeakEvents::eUnknown_30:
+    case GameSpeakEvents::Slig_Freeze_31:
+    case GameSpeakEvents::eUnknown_32:
+    case GameSpeakEvents::eUnknown_35:
+        field_294 = eSligMotions::M_SpeakLaugh_24_4B5430;
+        break;
+
+    default:
+        field_294 = eSligMotions::M_SpeakWhat_29_4B54D0;
+        break;
+    }
 }
 
 void Slig::GoAlertedOrSayWhat_4BF140()
@@ -5751,7 +5903,7 @@ void Slig::NextCommand_4B9A00(__int16 a2, __int16 a3)
     field_20C = a3;
 }
 
-__int16 Slig::HeardGlukkonToListenTo_4B9690(__int16 glukkonSpeak)
+__int16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
 {
     const int distToPlayer = Math_Distance_496EB0(
         FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos),
@@ -5776,9 +5928,13 @@ __int16 Slig::HeardGlukkonToListenTo_4B9690(__int16 glukkonSpeak)
         {
             auto* pOtherSlig = static_cast<Slig*>(pObj);
             if (pOtherSlig->field_CC_sprite_scale == sControlledCharacter_5C1B8C->field_CC_sprite_scale && 
-                gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pOtherSlig->field_C2_lvl_number, pOtherSlig->field_C0_path_number, pOtherSlig->field_B8_xpos, pOtherSlig->field_BC_ypos, 0) &&
+                gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                    pOtherSlig->field_C2_lvl_number,
+                    pOtherSlig->field_C0_path_number,
+                    pOtherSlig->field_B8_xpos,
+                    pOtherSlig->field_BC_ypos, 0) &&
                 NearOrFacingActiveChar_4B9930(pOtherSlig) &&
-                (glukkonSpeak == 36 || pOtherSlig->BrainIs(&Slig::AI_ListeningToGlukkon_4_4B9D20)))
+                (glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36 || pOtherSlig->BrainIs(&Slig::AI_ListeningToGlukkon_4_4B9D20)))
             {
                 if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromDouble(0.5), pOtherSlig))
                 {

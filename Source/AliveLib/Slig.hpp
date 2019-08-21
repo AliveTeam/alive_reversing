@@ -203,6 +203,8 @@ struct Slig_State
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
 
+enum class GameSpeakEvents : __int16;
+
 class Slig : public BaseAliveGameObject
 {
 public:
@@ -385,6 +387,8 @@ private:
 
     EXPORT BOOL IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
 
+    EXPORT GameSpeakEvents LastGlukkonSpeak_4B3090();
+
     EXPORT __int16 ListenToGlukkonCommands_4B95D0();
 
     EXPORT void PlatformCollide_4B4E00();
@@ -444,7 +448,7 @@ private:
 
     EXPORT void NextCommand_4B9A00(__int16 a2, __int16 a3);
 
-    EXPORT __int16 HeardGlukkonToListenTo_4B9690(__int16 glukkonSpeak);
+    EXPORT __int16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
 
     EXPORT __int16 vTakeDamage_4B2470(BaseGameObject* pFrom);
 
