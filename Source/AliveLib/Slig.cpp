@@ -4918,6 +4918,8 @@ __int16 Slig::HandlePlayerControlled_4B7800()
 __int16 Slig::GetNextMotionIncGameSpeak_4B5080(int /*input*/)
 {
     NOT_IMPLEMENTED();
+    return 0;
+
     /*
     if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
     {
