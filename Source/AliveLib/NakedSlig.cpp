@@ -1182,7 +1182,7 @@ void NakedSlig::M_UsingButton_1_41B890()
                     pWalkingSlig->field_148_path = field_1BC_prev_path;
                     pWalkingSlig->field_14A_camera = field_1BE_prev_camera;
                     pWalkingSlig->SetBrain(&Slig::AI_Possessed_2_4BBCF0);
-                    pWalkingSlig->field_11C = 4;
+                    pWalkingSlig->field_11C_ai_sub_state = 4;
                     sControlledCharacter_5C1B8C = pWalkingSlig;
                 }
                 field_10C_health = FP_FromInteger(0);

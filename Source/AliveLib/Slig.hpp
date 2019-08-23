@@ -464,7 +464,7 @@ public:
 private:
     int field_118_tlvInfo;
 public:
-    __int16 field_11C;
+    __int16 field_11C_ai_sub_state;
 private:
     __int16 field_11E;
     int field_120_timer;
