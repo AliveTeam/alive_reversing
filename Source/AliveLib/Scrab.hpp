@@ -123,6 +123,9 @@ private:
 public:
 
     EXPORT __int16 AI_Patrol_0_4AA630();
+    
+    __int16 AI_ChasingEnemy_State_2(BaseAliveGameObject* pObj);
+
     EXPORT __int16 AI_ChasingEnemy_1_4A6470();
     EXPORT __int16 AI_Fighting_2_4A5840();
     EXPORT __int16 AI_Death_3_4A62B0();
