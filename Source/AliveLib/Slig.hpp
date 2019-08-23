@@ -446,7 +446,7 @@ private:
 
     EXPORT static BOOL CCSTD RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
 
-    EXPORT void NextCommand_4B9A00(__int16 a2, __int16 a3);
+    EXPORT void NextCommand_4B9A00(__int16 speakTableIndex, __int16 responseState);
 
     EXPORT __int16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
 
@@ -575,7 +575,7 @@ private:
     __int16 field_204;
     __int16 field_206;
     int field_208_glukkon_obj_id;
-    __int16 field_20C_next_command_arg2;
+    __int16 field_20C_state_after_speak;
     __int16 field_20E;
     __int16 field_210;
     __int16 field_212_next_command_arg1;

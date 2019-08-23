@@ -400,7 +400,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     field_15C = 0;
     field_136_shot_motion = -1;
     field_208_glukkon_obj_id = 0;
-    field_20C_next_command_arg2 = -1;
+    field_20C_state_after_speak = -1;
     field_20E = 0;
     field_210 = 0;
     field_134_res_idx = 0;
@@ -676,7 +676,7 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     pSlig->field_15C = pState->field_90;
     pSlig->field_15E = pState->field_92;
     pSlig->field_208_glukkon_obj_id = pState->field_94_glukkon_id;
-    pSlig->field_20C_next_command_arg2 = pState->field_98;
+    pSlig->field_20C_state_after_speak = pState->field_98;
     pSlig->field_20E = pState->field_9A;
 
     pSlig->field_210 = pState->field_9C;
@@ -2518,7 +2518,7 @@ __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
     return 2;
 }
 
-const __int16 sSligMotionTable_560768[9][6] =
+const __int16 sGlukkonResponseTable_560768[8][6] =
 {
     { eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakHi_21_4B53D0, -1, 0, 0, 0 },
     { eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakWhat_29_4B54D0, -1, 0, 0, 0 },
@@ -2527,8 +2527,34 @@ const __int16 sSligMotionTable_560768[9][6] =
     { eSligMotions::M_Walking_2_4B5BC0, -1, 0, 0, 0, 0 },
     { eSligMotions::M_Running_4_4B6000, -1, 0, 0, 0, 0 },
     { eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_SpeakLaugh_24_4B5430, -1, 0, 0, 0 },
-    { eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_ReloadGun_12_4B5530, eSligMotions::M_ReloadGun_12_4B5530, eSligMotions::M_ReloadGun_12_4B5530, eSligMotions::M_ReloadGun_12_4B5530, -1 },
-    { 0, 0, 0, 0, 0, 0 }
+    { eSligMotions::M_StandIdle_0_4B4EC0, eSligMotions::M_ReloadGun_12_4B5530, eSligMotions::M_ReloadGun_12_4B5530, eSligMotions::M_ReloadGun_12_4B5530, eSligMotions::M_ReloadGun_12_4B5530, -1 }
+};
+
+
+enum AI_ListeningToGlukkon_States
+{
+    GettingAttention_0 = 0,
+    IdleListening_1 = 1,
+    Moving_2 = 2,
+    NextToLeverThroughComeHere_3 = 3,
+    Speaking_4 = 4,
+    StoppingNextToLever_5 = 5,
+    PullingLever_6 = 6,
+    StoppingOnLift_7 = 7,
+    Shooting_8 = 8,
+    LostAttention_9 = 9,
+};
+
+enum AI_ListeningToGlukkon_GlukkonCommands
+{
+    HeyOrAllYa_0 = 0,
+    What_1 = 1,
+    Stay_2 = 2,
+    Bs_3 = 3,
+    Walk_4 = 4,
+    Run_5 = 5,
+    AfterShootOrLaugh_6 = 6,
+    DoitGunReload_7 = 7,
 };
 
 __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
@@ -2544,14 +2570,14 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         field_108_next_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
         field_216.Clear(Flags_216::eBit1_FollowGlukkon);
         --sSligsUnderControlCount_BAF7E8;
-        return 0;
+        return AI_ListeningToGlukkon_States::GettingAttention_0;
     }
     
     const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
 
     switch (field_11C_ai_sub_state)
     {
-    case 0:
+    case AI_ListeningToGlukkon_States::GettingAttention_0:
         field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
         field_20E = 0;
         field_216.Clear(Flags_216::eBit1_FollowGlukkon);
@@ -2560,10 +2586,10 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         {
             field_108_next_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
         }
-        NextCommand_4B9A00(0, 1);
-        return 4;
+        NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::HeyOrAllYa_0, AI_ListeningToGlukkon_States::IdleListening_1);
+        return AI_ListeningToGlukkon_States::Speaking_4;
 
-    case 1:
+    case AI_ListeningToGlukkon_States::IdleListening_1:
     {
         if (field_106_current_motion != eSligMotions::M_StandIdle_0_4B4EC0)
         {
@@ -2610,12 +2636,12 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                             if (FindLiftPoint_4B9B40())
                             {
                                 field_216.Clear(Flags_216::eBit1_FollowGlukkon);
-                                return 7;
+                                return AI_ListeningToGlukkon_States::StoppingOnLift_7;
                             }
                             else
                             {
-                                NextCommand_4B9A00(4, 2);
-                                return 4;
+                                NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::Walk_4, AI_ListeningToGlukkon_States::Moving_2);
+                                return AI_ListeningToGlukkon_States::Speaking_4;
                             }
                         }
                     }
@@ -2632,18 +2658,18 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
 
                         if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), directedGridSize * FP_FromInteger(3)))
                         {
-                            NextCommand_4B9A00(5, 2);
-                            return 4;
+                            NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::Run_5, AI_ListeningToGlukkon_States::Moving_2);
+                            return AI_ListeningToGlukkon_States::Speaking_4;
                         }
                     }
                 }
 
                 if (sSligsUnderControlCount_BAF7E8 > 1)
                 {
-                    auto v18 = static_cast<Slig*>(FindObjectOfType_425180(Types::eSlig_125, field_B8_xpos, field_BC_ypos - FP_FromInteger(5)));
-                    if (v18)
+                    auto pOtherSlig = static_cast<Slig*>(FindObjectOfType_425180(Types::eSlig_125, field_B8_xpos, field_BC_ypos - FP_FromInteger(5)));
+                    if (pOtherSlig)
                     {
-                        if (v18 != this && !vIsFacingMe_4254A0(v18) && v18->field_106_current_motion != eSligMotions::M_TurnAroundStanding_5_4B6390)
+                        if (pOtherSlig != this && !vIsFacingMe_4254A0(pOtherSlig) && pOtherSlig->field_106_current_motion != eSligMotions::M_TurnAroundStanding_5_4B6390)
                         {
                             field_108_next_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
                             return field_11C_ai_sub_state;
@@ -2660,7 +2686,7 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
 
             if (glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40)
             {
-                NextCommand_4B9A00(0, 1);
+                NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::HeyOrAllYa_0, AI_ListeningToGlukkon_States::IdleListening_1);
             }
             else
             {
@@ -2682,7 +2708,7 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                         {
                             field_108_next_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
                         }
-                        NextCommand_4B9A00(0, 1);
+                        NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::HeyOrAllYa_0, AI_ListeningToGlukkon_States::IdleListening_1);
                         goto LABEL_41;
 
                     case GameSpeakEvents::Glukkon_DoIt_37:
@@ -2701,17 +2727,17 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                         const FP v33 = field_B8_xpos - v32 >= FP_FromInteger(0) ? field_B8_xpos - v32 : v32 - field_B8_xpos;
                         if (v33 < v26 && (pPlatformObj->vOnTopFloor_461890() || pPlatformObj->vOnBottomFloor_4618F0()))
                         {
-
                             field_108_next_motion = eSligMotions::M_LiftGrip_46_4B3700;
+
                             for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
                             {
-                                BaseAliveGameObject* v36 = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
-                                if (!v36)
+                                BaseAliveGameObject* pFoundSlig = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+                                if (!pFoundSlig)
                                 {
                                     break;
                                 }
 
-                                if (v36->field_4_typeId == Types::eSlig_125 && v36 != this && v36->field_108_next_motion == eSligMotions::M_LiftGrip_46_4B3700)
+                                if (pFoundSlig->field_4_typeId == Types::eSlig_125 && pFoundSlig != this && pFoundSlig->field_108_next_motion == eSligMotions::M_LiftGrip_46_4B3700)
                                 {
                                     field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
                                 }
@@ -2723,7 +2749,7 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                             if (FindObjectOfType_425180(Types::eLever_139, ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos, field_BC_ypos - FP_FromInteger(5)) ||
                                 FindObjectOfType_425180(Types::eLever_139, field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5)))
                             {
-                                field_11C_ai_sub_state = 6;
+                                field_11C_ai_sub_state = AI_ListeningToGlukkon_States::PullingLever_6;
                                 field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
                                 return field_11C_ai_sub_state;
                             }
@@ -2736,8 +2762,8 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
 
                                 if (!FindObjectOfType_425180(Types::eMudokon_110, v42 + field_B8_xpos, field_BC_ypos - FP_FromInteger(5)))
                                 {
-                                    NextCommand_4B9A00(7, 9);
-                                    field_11C_ai_sub_state = 4;
+                                    NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::DoitGunReload_7, AI_ListeningToGlukkon_States::LostAttention_9);
+                                    field_11C_ai_sub_state = AI_ListeningToGlukkon_States::Speaking_4;
                                     --sSligsUnderControlCount_BAF7E8;
                                     field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
                                     return field_11C_ai_sub_state;
@@ -2745,13 +2771,13 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                             }
                             field_108_next_motion = eSligMotions::M_Beat_51_4B6C00;
                         }
-                        field_11C_ai_sub_state = 1;
+                        field_11C_ai_sub_state = AI_ListeningToGlukkon_States::IdleListening_1;
                         field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
                         return field_11C_ai_sub_state;
 
                     case GameSpeakEvents::Glukkon_StayHere_38:
                         field_216.Clear(Flags_216::eBit1_FollowGlukkon);
-                        NextCommand_4B9A00(2, 1);
+                        NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::Stay_2, AI_ListeningToGlukkon_States::IdleListening_1);
                         goto LABEL_41;
 
                     case GameSpeakEvents::Glukkon_Commere_39:
@@ -2760,22 +2786,23 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                         {
                             if (!vIsObjNearby_4253B0(gridSize * FP_FromDouble(0.5), pGlukkonObj))
                             {
-                                field_11C_ai_sub_state = 3;
+                                field_11C_ai_sub_state = AI_ListeningToGlukkon_States::NextToLeverThroughComeHere_3;
                                 field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
                                 return field_11C_ai_sub_state;
                             }
                         }
+
                         if (FindLiftPoint_4B9B40())
                         {
                             field_216.Clear(Flags_216::eBit1_FollowGlukkon);
-                            field_11C_ai_sub_state = 7;
+                            field_11C_ai_sub_state = AI_ListeningToGlukkon_States::StoppingOnLift_7;
                             field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
                             return field_11C_ai_sub_state;
                         }
 
                         if (bWallHit)
                         {
-                            NextCommand_4B9A00(3, 1);
+                            NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::Bs_3, AI_ListeningToGlukkon_States::IdleListening_1);
                         }
                         else
                         {
@@ -2783,12 +2810,12 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                             {
                                 field_108_next_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
                             }
-                            NextCommand_4B9A00(2, 1);
+                            NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::Stay_2, AI_ListeningToGlukkon_States::IdleListening_1);
                         }
                         goto LABEL_41;
 
                     case GameSpeakEvents::Glukkon_KillEm_44:
-                        field_11C_ai_sub_state = 8;
+                        field_11C_ai_sub_state = AI_ListeningToGlukkon_States::Shooting_8;
                         field_120_timer = sGnFrame_5C1B84 + 25;
                         field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
                         return field_11C_ai_sub_state;
@@ -2798,20 +2825,20 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                         return field_11C_ai_sub_state;
                     }
                 }
-                NextCommand_4B9A00(6, 1);
+                NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::AfterShootOrLaugh_6, AI_ListeningToGlukkon_States::IdleListening_1);
             }
         LABEL_41:
-            field_11C_ai_sub_state = 4;
+            field_11C_ai_sub_state = AI_ListeningToGlukkon_States::Speaking_4;
             field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
             return field_11C_ai_sub_state;
         }
         PauseALittle_4BDD00();
         field_216.Clear(Flags_216::eBit1_FollowGlukkon);
         --sSligsUnderControlCount_BAF7E8;
-        return 0;
+        return AI_ListeningToGlukkon_States::GettingAttention_0;
     }
 
-    case 2:
+    case AI_ListeningToGlukkon_States::Moving_2:
     {
         FP v46 = (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(field_106_current_motion != eSligMotions::M_Running_4_4B6000 ? 1 : 3));
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -2822,21 +2849,21 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), v46))
         {
             field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
         if (field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0)
         {
             if (field_108_next_motion != eSligMotions::M_Walking_2_4B5BC0 && field_108_next_motion != eSligMotions::M_Running_4_4B6000)
             {
-                return 1;
+                return AI_ListeningToGlukkon_States::IdleListening_1;
             }
         }
 
         if (field_106_current_motion == eSligMotions::M_Knockback_34_4B68A0)
         {
             field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
         if (field_106_current_motion != eSligMotions::M_Walking_2_4B5BC0 && field_106_current_motion != eSligMotions::M_Running_4_4B6000)
@@ -2849,7 +2876,7 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
             field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
             field_216.Clear(Flags_216::eBit1_FollowGlukkon);
             field_216.Set(Flags_216::eBit2);
-            return 5;
+            return AI_ListeningToGlukkon_States::StoppingNextToLever_5;
         }
 
         if (field_106_current_motion != eSligMotions::M_Running_4_4B6000 && FindLiftPoint_4B9B40())
@@ -2857,19 +2884,19 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
             field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
             field_216.Clear(Flags_216::eBit1_FollowGlukkon);
             field_216.Set(Flags_216::eBit2);
-            return 7;
+            return AI_ListeningToGlukkon_States::StoppingOnLift_7;
         }
 
         if (!vIsFacingMe_4254A0(pGlukkonObj))
         {
             field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
         if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale), pGlukkonObj))
         {
             field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
         if (field_160 != pEventSystem_5BC11C->field_28_last_event_index)
@@ -2879,17 +2906,17 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                 gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
             {
                 field_216.Clear(Flags_216::eBit1_FollowGlukkon);
-                NextCommand_4B9A00(2, 1);
-                return 4;
+                NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::Stay_2, AI_ListeningToGlukkon_States::IdleListening_1);
+                return AI_ListeningToGlukkon_States::Speaking_4;
             }
         }
 
         if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), pGlukkonObj))
         {
-            if (field_106_current_motion == 2)
+            if (field_106_current_motion == eSligMotions::M_Walking_2_4B5BC0)
             {
                 field_108_next_motion = eSligMotions::M_Running_4_4B6000;
-                return 2;
+                return AI_ListeningToGlukkon_States::Moving_2;
             }
         }
 
@@ -2899,10 +2926,10 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         }
 
         field_108_next_motion = eSligMotions::M_Walking_2_4B5BC0;
-        return 2;
+        return AI_ListeningToGlukkon_States::Moving_2;
     }
 
-    case 3:
+    case AI_ListeningToGlukkon_States::NextToLeverThroughComeHere_3:
     {
         if (!vIsFacingMe_4254A0(pGlukkonObj))
         {
@@ -2910,7 +2937,7 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
             return field_11C_ai_sub_state;
         }
 
-        if (field_106_current_motion != 0)
+        if (field_106_current_motion != eSligMotions::M_StandIdle_0_4B4EC0)
         {
             return field_11C_ai_sub_state;
         }
@@ -2925,10 +2952,10 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         }
 
         field_108_next_motion = eSligMotions::M_SteppingToStand_14_4B8480;
-        return 1;
+        return AI_ListeningToGlukkon_States::IdleListening_1;
     }
 
-    case 4:
+    case AI_ListeningToGlukkon_States::Speaking_4:
     {
         if (static_cast<int>(sGnFrame_5C1B84) <= field_120_timer)
         {
@@ -2942,27 +2969,27 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
 
         field_120_timer = sGnFrame_5C1B84 + 8;
 
-        field_108_next_motion = sSligMotionTable_560768[field_212_next_command_arg1][field_214_cmd_idx];
+        field_108_next_motion = sGlukkonResponseTable_560768[field_212_next_command_arg1][field_214_cmd_idx];
 
         // keeps going till it hits -1
         field_214_cmd_idx++;
 
-        if (sSligMotionTable_560768[field_212_next_command_arg1][field_214_cmd_idx] != -1)
+        if (sGlukkonResponseTable_560768[field_212_next_command_arg1][field_214_cmd_idx] != -1)
         {
             return field_11C_ai_sub_state;
         }
 
-        return field_20C_next_command_arg2;
+        return field_20C_state_after_speak;
     }
 
-    case 5:
+    case AI_ListeningToGlukkon_States::StoppingNextToLever_5:
         if (field_106_current_motion == eSligMotions::M_Knockback_34_4B68A0)
         {
             field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
-        if (field_106_current_motion != 0)
+        if (field_106_current_motion != eSligMotions::M_StandIdle_0_4B4EC0)
         {
             return field_11C_ai_sub_state;
         }
@@ -2986,13 +3013,13 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         if ((!FindObjectOfType_425180(Types::eLever_139, gridSize + field_B8_xpos, field_BC_ypos - FP_FromInteger(5)) || !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))) &&
             (!FindObjectOfType_425180(Types::eLever_139, field_B8_xpos - gridSize, field_BC_ypos - FP_FromInteger(5)) ||  field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
         {
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
         field_108_next_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
         return field_11C_ai_sub_state;
 
-    case 6:
+    case AI_ListeningToGlukkon_States::PullingLever_6:
     {
         Switch* pLever = nullptr;
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -3010,7 +3037,7 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
             {
                 pLever->Vsub_4D6050(field_B8_xpos < pLever->field_B8_xpos);
                 field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
-                return 1;
+                return AI_ListeningToGlukkon_States::IdleListening_1;
             }
             else
             {
@@ -3026,15 +3053,15 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         break;
     }
 
-    case 7:
+    case AI_ListeningToGlukkon_States::StoppingOnLift_7:
     {
-        if (field_106_current_motion == 34)
+        if (field_106_current_motion == eSligMotions::M_Knockback_34_4B68A0)
         {
-            field_108_next_motion = 0;
-            return 1;
+            field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
-        if (field_106_current_motion != 0)
+        if (field_106_current_motion != eSligMotions::M_StandIdle_0_4B4EC0)
         {
             return field_11C_ai_sub_state;
         }
@@ -3043,11 +3070,12 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         {
             if (!pPlatformObj)
             {
-                return 1;
+                return AI_ListeningToGlukkon_States::IdleListening_1;
             }
+
             if (pPlatformObj->field_4_typeId != Types::eLiftPoint_78)
             {
-                return 1;
+                return AI_ListeningToGlukkon_States::IdleListening_1;
             }
             
             const FP v82 = (gridSize / FP_FromInteger(2));
@@ -3059,7 +3087,7 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                 (field_B8_xpos- gridSize);
             if (v84 >= v82)
             {
-                return 1;
+                return AI_ListeningToGlukkon_States::IdleListening_1;
             }
             field_108_next_motion = eSligMotions::M_SteppingToStand_14_4B8480;
             field_C4_velx = -(gridSize / FP_FromInteger(6));
@@ -3068,12 +3096,12 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
 
         if (!pPlatformObj)
         {
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
         if (pPlatformObj->field_4_typeId != Types::eLiftPoint_78)
         {
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
 
         const FP v90 = field_B8_xpos + gridSize - FP_FromInteger((field_100_pCollisionLine->field_0_rect.x + field_100_pCollisionLine->field_0_rect.w) / 2) >= FP_FromInteger(0) ?
@@ -3083,14 +3111,14 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
             - (field_B8_xpos + gridSize);
         if (v90 >= gridSize / FP_FromInteger(2))
         {
-            return 1;
+            return AI_ListeningToGlukkon_States::IdleListening_1;
         }
         field_C4_velx = (gridSize / FP_FromInteger(6));
         field_108_next_motion = eSligMotions::M_SteppingToStand_14_4B8480;
         return field_11C_ai_sub_state;
     }
 
-    case 8:
+    case AI_ListeningToGlukkon_States::Shooting_8:
         LastGlukkonSpeak_4B3090();
         if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 15)
         {
@@ -3101,15 +3129,15 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
         {
             return field_11C_ai_sub_state;
         }
-        NextCommand_4B9A00(6, 1);
-        return 4;
+        NextCommand_4B9A00(AI_ListeningToGlukkon_GlukkonCommands::AfterShootOrLaugh_6, AI_ListeningToGlukkon_States::IdleListening_1);
+        return AI_ListeningToGlukkon_States::Speaking_4;
 
-    case 9:
+    case AI_ListeningToGlukkon_States::LostAttention_9:
         SetBrain(&Slig::AI_Paused_33_4B8DD0);
         return field_11C_ai_sub_state;
 
     default:
-        field_11C_ai_sub_state = 0;
+        field_11C_ai_sub_state = AI_ListeningToGlukkon_States::GettingAttention_0;
         return field_11C_ai_sub_state;
     }
 }
@@ -6594,7 +6622,7 @@ void Slig::NextCommand_4B9A00(__int16 speakTableIndex, __int16 responseState)
     field_212_next_command_arg1 = speakTableIndex;
     field_214_cmd_idx = 0;
     field_120_timer = sGnFrame_5C1B84 + SligStableDelay_4B99B0();
-    field_20C_next_command_arg2 = responseState;
+    field_20C_state_after_speak = responseState;
 }
 
 __int16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
