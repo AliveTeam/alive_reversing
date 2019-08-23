@@ -205,6 +205,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
 
 enum class GameSpeakEvents : __int16;
 
+class LiftPoint;
+
 class Slig : public BaseAliveGameObject
 {
 public:
@@ -292,6 +294,27 @@ public:
     EXPORT __int16 AI_Possessed_2_4BBCF0();
     EXPORT __int16 AI_DeathDropDeath_3_4BC1E0();
     EXPORT __int16 AI_ListeningToGlukkon_4_4B9D20();
+
+    __int16 AI_ListeningToGlukkon_LostAttention();
+
+    __int16 AI_ListeningToGlukkon_Shooting();
+
+    __int16 AI_ListeningToGlukkon_StoppingOnLift(LiftPoint* pPlatformObj);
+
+    __int16 AI_ListeningToGlukkon_PullingLever();
+
+    __int16 AI_ListenToGlukkon_StoppingNextToLever();
+
+    __int16 AI_ListenToGlukkon_Speaking();
+
+    __int16 AI_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj);
+
+    __int16 AI_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj);
+
+    __int16 AI_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, LiftPoint* pPlatformObj);
+
+    __int16 AI_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj);
+
     EXPORT __int16 AI_Empty_5_4B3220();
     EXPORT __int16 AI_Empty_6_4B3420();
     EXPORT __int16 AI_SpottedEnemy_7_4B3240();
