@@ -2663,7 +2663,6 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
 
             if (glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40)
             {
-            LABEL_40:
                 NextCommand_4B9A00(0, 1);
             }
             else
@@ -2674,7 +2673,8 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                     {
                         if (!HeardGlukkonToListenTo_4B9690(glukkonSpeak))
                         {
-                            goto LABEL_89;
+                            field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                            return field_11C;
                         }
                     }
 
@@ -2685,7 +2685,8 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                         {
                             field_108_next_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
                         }
-                        goto LABEL_40;
+                        NextCommand_4B9A00(0, 1);
+                        goto LABEL_41;
 
                     case GameSpeakEvents::Glukkon_DoIt_37:
                         if (!pPlatformObj2)
@@ -2705,9 +2706,9 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                         {
 
                             field_108_next_motion = eSligMotions::M_LiftGrip_46_4B3700;
-                            for (int v34 = 0; v34 < pListBaseAliveGameObjects2->Size(); v34++)
+                            for (int i = 0; i < pListBaseAliveGameObjects2->Size(); i++)
                             {
-                                BaseAliveGameObject* v36 = pListBaseAliveGameObjects2->ItemAt(v34);
+                                BaseAliveGameObject* v36 = pListBaseAliveGameObjects2->ItemAt(i);
                                 if (!v36)
                                 {
                                     break;
@@ -2726,7 +2727,8 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                                 FindObjectOfType_425180(Types::eLever_139, field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale), field_BC_ypos - FP_FromInteger(5)))
                             {
                                 field_11C = 6;
-                                goto LABEL_89;
+                                field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                                return field_11C;
                             }
 
                             if (!FindObjectOfType_425180(Types::eMudokon_110, field_B8_xpos, field_BC_ypos - FP_FromInteger(5)))
@@ -2740,13 +2742,15 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                                     NextCommand_4B9A00(7, 9);
                                     field_11C = 4;
                                     --sSligsUnderControlCount_BAF7E8;
-                                    goto LABEL_89;
+                                    field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                                    return field_11C;
                                 }
                             }
                             field_108_next_motion = eSligMotions::M_Beat_51_4B6C00;
                         }
                         field_11C = 1;
-                        goto LABEL_89;
+                        field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                        return field_11C;
 
                     case GameSpeakEvents::Glukkon_StayHere_38:
                         field_216.Clear(Flags_216::eBit1_FollowGlukkon);
@@ -2760,14 +2764,16 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                             if (!vIsObjNearby_4253B0(gridSize * FP_FromDouble(0.5), pGlukkonObj))
                             {
                                 field_11C = 3;
-                                goto LABEL_89;
+                                field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                                return field_11C;
                             }
                         }
                         if (FindLiftPoint_4B9B40())
                         {
                             field_216.Clear(Flags_216::eBit1_FollowGlukkon);
                             field_11C = 7;
-                            goto LABEL_89;
+                            field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                            return field_11C;
                         }
 
                         if (v11)
@@ -2787,17 +2793,18 @@ __int16 Slig::AI_ListeningToGlukkon_4_4B9D20()
                     case GameSpeakEvents::Glukkon_KillEm_44:
                         field_11C = 8;
                         field_120_timer = sGnFrame_5C1B84 + 25;
-                        goto LABEL_89;
+                        field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                        return field_11C;
 
                     default:
-                        goto LABEL_89;
+                        field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                        return field_11C;
                     }
                 }
                 NextCommand_4B9A00(6, 1);
             }
         LABEL_41:
             field_11C = 4;
-        LABEL_89:
             field_216.Set(Flags_216::eBit3, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
             return field_11C;
         }
