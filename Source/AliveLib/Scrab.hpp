@@ -268,7 +268,7 @@ private:
     __int16 field_18E;
     __int16 field_190;
     __int16 field_192;
-    __int16 field_194;
+    GameSpeakEvents field_194;
     __int16 field_196;
     FP field_198;
     FP field_19C;
