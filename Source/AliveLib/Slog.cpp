@@ -504,7 +504,7 @@ void Slog::M_Fall_4_4C6930()
                 vGetBoundingRect_424FD0(&bRect, 1);
 
                 const PSX_Point xy = { bRect.x, static_cast<short>(bRect.y + 5) };
-                const PSX_Point wh = { bRect.w, FP_GetExponent(field_BC_ypos) + 5 };
+                const PSX_Point wh = { bRect.w, static_cast<short>(FP_GetExponent(field_BC_ypos) + 5) };
                 vOnCollisionWith_424EE0(
                     xy,
                     wh,
