@@ -37,6 +37,7 @@ private:
     __int16 field_22;
     PathLine* field_24_pLine;
     FP field_28_xpos;
+public:
     FP field_2C_ypos;
 public:
     FP field_30;

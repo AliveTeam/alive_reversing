@@ -16,6 +16,8 @@
 #include "Sfx.hpp"
 #include "Blood.hpp"
 #include "SnoozeParticle.hpp"
+#include "Gibs.hpp"
+#include "Bullet.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, short, sSlogCount_BAF7F2, 0);
 
@@ -209,6 +211,16 @@ void Slog::VOnTrapDoorOpen()
 void Slog::VOn_TLV_Collision_4087F0(Path_TLV* pTlv)
 {
     vOn_Tlv_Collision_4C5060(pTlv);
+}
+
+__int16 Slog::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return vTakeDamage_4C4B80(pFrom);
+}
+
+void Slog::vnull_4081A0(BaseGameObject* pFrom)
+{
+    vsub_4C4B50(pFrom);
 }
 
 void Slog::M_Idle_0_4C5F90()
@@ -1555,4 +1567,150 @@ void Slog::vOn_Tlv_Collision_4C5060(Path_TLV* pTlv)
         }
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, field_B8_xpos, field_BC_ypos, field_B8_xpos, field_BC_ypos);
     }
+}
+
+__int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
+{
+    if (field_10C_health <= FP_FromInteger(0))
+    {
+        return 0;
+    }
+
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eBullet_15:
+    {
+        auto pBullet = static_cast<Bullet*>(pFrom);
+        switch (pBullet->field_20_type)
+        {
+        case BulletType::Type_0:
+        case BulletType::Type_2:
+            if (pBullet->field_30 <= FP_FromInteger(0))
+            {
+                auto pBlood = alive_new<Blood>();
+                if (pBlood)
+                {
+                    pBlood->ctor_40F0B0(
+                        field_B8_xpos,
+                        pBullet->field_2C_ypos,
+                        FP_FromInteger(-24),
+                        FP_FromInteger(0),
+                        field_CC_sprite_scale, 50);
+                }
+            }
+            else
+            {
+                auto pBlood = alive_new<Blood>();
+                if (pBlood)
+                {
+                    pBlood->ctor_40F0B0(
+                        field_B8_xpos,
+                        pBullet->field_2C_ypos,
+                        FP_FromInteger(24),
+                        FP_FromInteger(0),
+                        field_CC_sprite_scale, 50);
+                }
+            }
+            break;
+
+        case BulletType::Type_1:
+        case BulletType::Type_3:
+        {
+            auto pBlood = alive_new<Blood>();
+            if (pBlood)
+            {
+                pBlood->ctor_40F0B0(
+                    field_B8_xpos,
+                    field_BC_ypos - (FP_FromInteger(20) * field_CC_sprite_scale),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    field_CC_sprite_scale, 50);
+            }
+            break;
+        }
+
+        default:
+            break;
+        }
+
+        Sfx_4C7D30(9);
+        field_10C_health = FP_FromInteger(0);
+        field_120_brain_state_idx = 3;
+        field_106_current_motion = eSlogMotions::M_Unknown_21_4C77F0;
+        field_124_timer = sGnFrame_5C1B84 + 90;
+        SetAnimFrame_4C42A0();
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+        field_160_flags.Set(Flags_160::eBit3);
+        sSlogCount_BAF7F2--;
+        break;
+    }
+
+    case Types::eGrinder_30:
+    case Types::eBaseBomb_46:
+    case Types::eExplosion_109:
+    {
+        Sfx_4C7D30(9);
+        field_10C_health = FP_FromInteger(0);
+        auto pGibs = alive_new<Gibs>();
+        if (pGibs)
+        {
+            pGibs->ctor_40FB40(2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+        }
+
+        PSX_RECT bRect = {};
+        vGetBoundingRect_424FD0(&bRect, 1);
+        auto pBlood = alive_new<Blood>();
+        if (pBlood)
+        {
+            pBlood->ctor_40F0B0(
+                FP_FromInteger((bRect.x + bRect.w) / 2),
+                FP_FromInteger((bRect.y + bRect.h) / 2),
+                FP_FromInteger(0),
+                FP_FromInteger(0),
+                field_CC_sprite_scale, 50);
+        }
+
+        field_6_flags.Set(BaseGameObject::eDead);
+        break;
+    }
+
+    case Types::eElectricWall_39:
+        Sfx_4C7D30(9);
+        field_160_flags.Set(Flags_160::eBit13);
+        break;
+
+    case Types::eRockSpawner_48:
+    case Types::eMineCar_89:
+        Sfx_4C7D30(9);
+        field_10C_health = FP_FromInteger(0);
+        field_120_brain_state_idx = 3;
+        field_106_current_motion = eSlogMotions::M_Unknown_21_4C77F0;
+        field_124_timer = sGnFrame_5C1B84 + 90;
+        SetAnimFrame_4C42A0();
+        field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+        break;
+
+    case Types::eType_104:
+        if (!field_160_flags.Get(Flags_160::eBit6))
+        {
+            field_160_flags.Set(Flags_160::eBit6);
+            Sfx_4C7D30(9);
+        }
+        break;
+
+    case Types::eElectrocute_150:
+        field_10C_health = FP_FromInteger(0);
+        field_120_brain_state_idx =  3;
+        field_6_flags.Set(BaseGameObject::eDead);
+        break;
+
+    default:
+        return 1;
+    }
+    return 1;
+}
+
+void Slog::vsub_4C4B50(BaseGameObject* /*pFrom*/)
+{
+    field_142 += field_148_chase_anger;// on throwable hit?
 }

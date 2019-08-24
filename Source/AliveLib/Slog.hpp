@@ -41,6 +41,9 @@ public:
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
 
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+
+    virtual void vnull_4081A0(BaseGameObject* pFrom) override;
 public:
     EXPORT void M_Idle_0_4C5F90();
     EXPORT void M_Walk_1_4C60C0();
@@ -109,6 +112,9 @@ private:
 
     EXPORT void vOn_Tlv_Collision_4C5060(Path_TLV* pTlv);
 
+    EXPORT __int16 vTakeDamage_4C4B80(BaseGameObject* pFrom);
+
+    EXPORT void vsub_4C4B50(BaseGameObject* pFrom);
 private:
     int field_118;
     __int16 field_11C;
