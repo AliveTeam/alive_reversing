@@ -15,6 +15,7 @@
 #include "Bone.hpp"
 #include "Sfx.hpp"
 #include "Blood.hpp"
+#include "SnoozeParticle.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, short, sSlogCount_BAF7F2, 0);
 
@@ -386,7 +387,51 @@ void Slog::M_Unknown_14_4C6CF0()
 
 void Slog::M_Sleeping_15_4C6D60()
 {
-    NOT_IMPLEMENTED();
+    if (field_108_next_motion != -1 && field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = field_108_next_motion;
+        field_108_next_motion = -1;
+        return;
+    }
+
+    bool createParticle = false;
+    if (static_cast<int>(sGnFrame_5C1B84) % 60)
+    {
+        if (!(static_cast<int>((sGnFrame_5C1B84 - 20)) % 60))
+        {
+            Sfx_4C7D30(11);
+            createParticle = true;
+        }
+    }
+    else
+    {
+        Sfx_4C7D30(10);
+        createParticle = true;
+    }
+
+    if (createParticle)
+    {
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        {
+            auto pSnoozeParticle = alive_new<SnoozeParticle>();
+            if (pSnoozeParticle)
+            {
+                FP xOff = {};
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    xOff = -(field_CC_sprite_scale * FP_FromInteger(18));
+                }
+                else
+                {
+                    xOff = (field_CC_sprite_scale * FP_FromInteger(18));
+                }
+                pSnoozeParticle->ctor_4B06F0(
+                    xOff + field_B8_xpos,
+                    (field_CC_sprite_scale * FP_FromInteger(-13)) + field_BC_ypos,
+                    field_20_animation.field_C_render_layer, field_20_animation.field_14_scale);
+            }
+        }
+    }
 }
 
 void Slog::M_MoveHeadDownwards_16_4C70D0()
@@ -405,17 +450,146 @@ void Slog::M_MoveHeadDownwards_16_4C70D0()
 
 void Slog::M_Bark_17_4C7000()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        auto pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eSnoozParticle_124)
+        {
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = 2;
+        }
+    }
+
+    if (field_108_next_motion != -1)
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            field_106_current_motion = field_108_next_motion;
+            field_108_next_motion = -1;
+            Sfx_4C7D30(4);
+        }
+    }
+
+    if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(5, this, 0, 0);
+    }
 }
 
 void Slog::M_JumpForwards_18_4C7210()
 {
-    NOT_IMPLEMENTED();
+    field_C8_vely += (field_CC_sprite_scale * FP_FromDouble(1.8));
+
+    const FP k20Scaled = field_CC_sprite_scale * FP_FromInteger(20);
+    if (field_C8_vely > k20Scaled)
+    {
+        field_C8_vely = k20Scaled;
+    }
+
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos, field_BC_ypos - k20Scaled, field_B8_xpos, field_BC_ypos, &pLine, &hitX, &hitY, 15) == 1)
+    {
+        switch (pLine->field_8_type)
+        {
+        case 0u:
+        case 4u:
+        case 32u:
+        case 36u:
+            if (field_C8_vely > FP_FromInteger(0))
+            {
+                field_100_pCollisionLine = pLine;
+                field_108_next_motion = -1;
+                field_106_current_motion = eSlogMotions::M_Run_2_4C6340;
+                field_BC_ypos = hitY;
+                field_C8_vely = FP_FromInteger(0);
+            }
+            break;
+
+        case 1u:
+        case 5u:
+            if (field_C4_velx < FP_FromInteger(0))
+            {
+                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+            }
+            break;
+
+        case 2u:
+        case 6u:
+            if (field_C4_velx > FP_FromInteger(0))
+            {
+                field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    if (field_BC_ypos - field_F8_LastLineYPos > FP_FromInteger(2))
+    {
+        field_128 = FP_FromDouble(0.3);
+        field_F8_LastLineYPos = field_BC_ypos;
+        field_106_current_motion = eSlogMotions::M_Fall_4_4C6930;
+    }
 }
 
 void Slog::M_JumpUpwards_19_4C7470()
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT bRect = {};
+    vGetBoundingRect_424FD0(&bRect, 1);
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        FP_FromInteger(bRect.x),
+        FP_FromInteger(bRect.y),
+        FP_FromInteger(bRect.w),
+        FP_FromInteger(bRect.h),
+        &pLine, &hitX, &hitY, 8))
+    {
+        if (field_20_animation.field_92_current_frame < 12)
+        {
+            field_20_animation.SetFrame_409D50(24 - field_20_animation.field_92_current_frame);
+        }
+    }
+
+    if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
+    {
+        MusicController::sub_47FD60(6, this, 0, 0);
+    }
+
+    if (field_20_animation.field_92_current_frame == 5)
+    {
+        if (field_160_flags.Get(Flags_160::eBit4) &&
+            field_118 == sActiveHero_5C1B68->field_8_object_id  &&
+            sActiveHero_5C1B68->field_D6_scale == field_D6_scale &&
+            (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_104_RockThrowStandingHold_455DF0 ||
+             sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_107_RockThrowCrouchingHold_454410))
+        {
+            Sfx_4C7D30(13);
+        }
+        else
+        {
+            Sfx_4C7D30(6);
+        }
+    }
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_106_current_motion = eSlogMotions::M_Idle_0_4C5F90;
+        field_108_next_motion = -1;
+    }
 }
 
 void Slog::M_Eating_20_4C75F0()
