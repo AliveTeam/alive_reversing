@@ -115,6 +115,9 @@ private:
     EXPORT __int16 vTakeDamage_4C4B80(BaseGameObject* pFrom);
 
     EXPORT void vsub_4C4B50(BaseGameObject* pFrom);
+
+    EXPORT __int16 PlayerOrNakedSligNear_4C26A0();
+
 private:
     int field_118;
     __int16 field_11C;
@@ -131,7 +134,7 @@ private:
     __int16 field_13C;
     __int16 field_13E;
     __int16 field_140;
-    __int16 field_142;
+    __int16 field_142_anger_level;
     __int16 field_144;
     __int16 field_146_total_anger;
     __int16 field_148_chase_anger;
