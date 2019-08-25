@@ -118,6 +118,8 @@ private:
 
     EXPORT __int16 PlayerOrNakedSligNear_4C26A0();
 
+    EXPORT void DelayedResponse_4C3750(__int16 a2);
+
 private:
     int field_118;
     __int16 field_11C;
@@ -145,7 +147,7 @@ private:
     __int16 field_156_bone_eating_time;
     __int16 field_158_jump_delay;
     __int16 field_15A;
-    int field_15C;
+    int field_15C_bone_id;
     enum Flags_160 : __int16
     {
         eBit1 = 0x1,

@@ -1457,7 +1457,7 @@ void Slog::Init_4C46A0()
     field_110_id = -1;
     field_138 = -1;
     field_118 = -1;
-    field_15C = -1;
+    field_15C_bone_id = -1;
     SetTint_425600(&stru_560A48[0], gMap_5C3030.sCurrentLevelId_5C3030);
     field_20_animation.field_C_render_layer = 34;
 
@@ -1526,7 +1526,7 @@ void Slog::vUpdate_4C50D0()
         field_104_collision_line_type = 0;
         field_118 = BaseGameObject::Find_Flags_4DC170(field_118);
         field_138 = BaseGameObject::Find_Flags_4DC170(field_138);
-        field_15C = BaseGameObject::Find_Flags_4DC170(field_15C);
+        field_15C_bone_id = BaseGameObject::Find_Flags_4DC170(field_15C_bone_id);
     }
 
     if (Event_Get_422C00(kEventDeathReset))
@@ -1593,7 +1593,7 @@ void Slog::dtor_4C49A0()
 
     field_118 = -1;
     field_138 = -1;
-    field_15C = -1;
+    field_15C_bone_id = -1;
 
     if (field_12C_tlvInfo != 0xFFFF)
     {
@@ -1992,4 +1992,11 @@ __int16 Slog::PlayerOrNakedSligNear_4C26A0()
         }
     }
     return 0;
+}
+
+void Slog::DelayedResponse_4C3750(__int16 a2)
+{
+    field_140 = 0;
+    field_13E = a2;
+    field_124_timer = sGnFrame_5C1B84 + 10;
 }
