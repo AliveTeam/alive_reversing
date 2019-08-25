@@ -120,6 +120,8 @@ private:
 
     EXPORT void DelayedResponse_4C3750(__int16 a2);
 
+    EXPORT __int16 HandleEnemyStopper_4C5340();
+
 private:
     int field_118;
     __int16 field_11C;
