@@ -74,6 +74,25 @@ public:
     EXPORT __int16 AI_ListeningToSlig_0_4C3790();
     EXPORT __int16 AI_Idle_1_4C2830();
     EXPORT __int16 AI_ChasingAbe_2_4C0A00();
+
+    __int16 AI_ChasingAbe_State_10();
+
+    __int16 AI_ChasingAbe_State_9();
+
+    __int16 AI_ChasingAbe_State_8();
+
+    __int16 AI_ChasingAbe_State_7(BaseAliveGameObject* pTarget);
+
+    __int16 AI_ChasingAbe_State_4(BaseAliveGameObject* pTarget);
+
+    __int16 AI_ChasingAbe_State_3(BaseAliveGameObject* pTarget);
+
+    __int16 AI_ChasingAbe_State_2(BaseAliveGameObject* pTarget);
+
+    __int16 AI_ChasingAbe_State_1();
+
+    __int16 AI_ChasingAbe_State_0();
+
     EXPORT __int16 AI_Death_3_4C3250();
 
 private:
