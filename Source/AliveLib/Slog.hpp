@@ -72,6 +72,21 @@ public:
 
 public:
     EXPORT __int16 AI_ListeningToSlig_0_4C3790();
+
+    __int16 AI_ListeningToSlig_State_6();
+
+    __int16 AI_ListeningToSlig_State_5();
+
+    __int16 AI_ListeningToSlig_State_4(const FP xpos1GridAHead);
+
+    __int16 AI_ListeningToSlig_State_3(const FP xpos1GridAHead);
+
+    __int16 AI_ListeningToSlig_State_2(const FP xpos1GridAHead, BaseAliveGameObject* pObj);
+
+    __int16 AI_ListeningToSlig_State_1(const FP xpos1GridAHead);
+
+    __int16 AI_ListeningToSlig_State_0();
+
     EXPORT __int16 AI_Idle_1_4C2830();
     EXPORT __int16 AI_ChasingAbe_2_4C0A00();
 
@@ -157,9 +172,11 @@ private:
 
     EXPORT __int16 PlayerOrNakedSligNear_4C26A0();
 
-    EXPORT void DelayedResponse_4C3750(__int16 a2);
+    EXPORT void DelayedResponse_4C3750(__int16 responseIdx);
 
     EXPORT __int16 HandleEnemyStopper_4C5340();
+
+    EXPORT __int16 Facing_4C4020(FP xpos);
 
 private:
     int field_118;
@@ -175,8 +192,8 @@ private:
     int field_134;
     int field_138;
     __int16 field_13C;
-    __int16 field_13E;
-    __int16 field_140;
+    __int16 field_13E_response_index;
+    __int16 field_140_response_part;
     __int16 field_142_anger_level;
     __int16 field_144;
     __int16 field_146_total_anger;
