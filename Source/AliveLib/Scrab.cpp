@@ -631,14 +631,14 @@ enum AI_Patrol
     eState0_UNKNOWN_6 = 6,
     eState0_UNKNOWN_7 = 7,
     eState0_UNKNOWN_8 = 8,
-    eState0_UNKNOWN_9 = 9,
-    eState0_UNKNOWN_10 = 10,
+    eState0_UsingInvisibility_9 = 9,
+    eState0_PostInvisibilitySmash_10 = 10,
     eState0_BeingSpawned_11 = 11,
 };
 
 enum AI_ChasingEnemy
 {
-    eState1_UNKNOWN_0 = 0,
+    eState1_Inactive_0 = 0,
     eState1_Idle_1 = 1,
     eState1_Running_2 = 2,
     eState1_Turning_3 = 3,
@@ -706,7 +706,7 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         field_120_obj_id = -1;
         field_108_next_motion = eScrabMotions::M_HowlBegin_26_4A9DA0;
         ToPatrol_4AA600();
-        return AI_Patrol::eState0_UNKNOWN_9;
+        return AI_Patrol::eState0_UsingInvisibility_9;
     }
     if (CanSeeAbe_4A51A0(pObj))
     {
@@ -733,7 +733,7 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
     }
     switch (field_11C_sub_state)
     {
-    case AI_ChasingEnemy::eState1_UNKNOWN_0:
+    case AI_ChasingEnemy::eState1_Inactive_0:
         field_150 = sGnFrame_5C1B84 + field_128_attack_delay;
         return AI_ChasingEnemy::eState1_Idle_1;
     case AI_ChasingEnemy::eState1_Idle_1:
@@ -808,7 +808,6 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         {
             field_108_next_motion = eScrabMotions::M_Turn_3_4A91A0;
         }
-        field_106_current_motion = eScrabMotions::M_Turn_3_4A91A0;
         if (field_106_current_motion != eScrabMotions::M_Shriek_30_4A9EA0)
         {
             return field_11C_sub_state;
@@ -828,7 +827,7 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         }
         if (pObj)
         {
-            if (!pLiftPoint->vOnAnyFloor_461920())
+            if (pLiftPoint->vOnAnyFloor_461920())
             {
                 return field_11C_sub_state;
             }
