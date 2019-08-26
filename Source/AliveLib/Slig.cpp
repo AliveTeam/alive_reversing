@@ -2293,6 +2293,22 @@ void Slig::M_Beat_51_4B6C00()
     }
 }
 
+enum AI_Possessed
+{
+    eState2_StartPossession_0 = 0,
+    eState2_PossessionShaking_1 = 1,
+    eState2_PossessionInactive_2 = 2,
+    eState2_PossessionSpeak_3 = 3,
+    eState2_ControlledByPlayer_4 = 4
+};
+
+enum AI_GameEnder
+{
+    eState35_UNKNOWN_0 = 0,
+    eState35_UNKNOWN_1 = 1,
+    eState35_UNKNOWN_2 = 2
+};
+
 __int16 Slig::AI_Death_0_4BBFB0()
 {
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) && field_120_timer < (static_cast<int>(sGnFrame_5C1B84) + 30))
@@ -2362,7 +2378,7 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
 {
     switch (field_11C_ai_sub_state)
     {
-    case 0:
+    case AI_Possessed::eState2_StartPossession_0:
         Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_11E, this);
         field_11C_ai_sub_state = 1;
         field_10C_health = FP_FromInteger(0);
@@ -2375,17 +2391,17 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
         }
         return field_11C_ai_sub_state;
 
-    case 1:
+    case AI_Possessed::eState2_PossessionShaking_1:
         if (static_cast<int>(sGnFrame_5C1B84) >= field_120_timer)
         {
-            field_11C_ai_sub_state = 2;
+            field_11C_ai_sub_state = AI_Possessed::eState2_PossessionInactive_2;
             field_120_timer = sGnFrame_5C1B84 + 20;
             field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
             return field_11C_ai_sub_state;
         }
         break;
 
-    case 2:
+    case AI_Possessed::eState2_PossessionInactive_2:
         if (static_cast<int>(sGnFrame_5C1B84) >= field_120_timer)
         {
             if (Math_NextRandom() & 1)
@@ -2400,12 +2416,12 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
                 field_106_current_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
                 Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Laugh_3, 0, field_11E, this);
             }
-            field_11C_ai_sub_state = 3;
+            field_11C_ai_sub_state = AI_Possessed::eState2_PossessionSpeak_3;
             return field_11C_ai_sub_state;
         }
         break;
 
-    case 3:
+    case AI_Possessed::eState2_PossessionSpeak_3:
         if (Event_Get_422C00(kEventDeathReset))
         {
             if (sControlledCharacter_5C1B8C != this)
@@ -2416,13 +2432,13 @@ __int16 Slig::AI_Possessed_2_4BBCF0()
 
         if (static_cast<int>(sGnFrame_5C1B84) >= field_120_timer)
         {
-            field_11C_ai_sub_state = 4;
+            field_11C_ai_sub_state = AI_Possessed::eState2_ControlledByPlayer_4;
             field_10C_health = FP_FromInteger(1);
             return field_11C_ai_sub_state;
         }
         break;
 
-    case 4:
+    case AI_Possessed::eState2_ControlledByPlayer_4:
         if (Event_Get_422C00(kEventDeathReset))
         {
             if (sControlledCharacter_5C1B8C != this)
@@ -4455,7 +4471,7 @@ __int16 Slig::AI_GameEnder_35_4BF640()
         field_6_flags.Set(BaseGameObject::eDead);
     }
 
-    if (field_11C_ai_sub_state == 0)
+    if (field_11C_ai_sub_state == AI_GameEnder::eState35_UNKNOWN_0)
     {
         if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero_5C1B68->field_1AC_flags.Get(Abe::e1AC_Bit5_bShrivel))
         {
@@ -4464,9 +4480,9 @@ __int16 Slig::AI_GameEnder_35_4BF640()
 
         field_106_current_motion = eSligMotions::M_StandIdle_0_4B4EC0;
         field_120_timer = sGnFrame_5C1B84 + field_218_tlv_data.field_14_pause_time;
-        return 1;
+        return AI_GameEnder::eState35_UNKNOWN_1;
     }
-    else if (field_11C_ai_sub_state == 1)
+    else if (field_11C_ai_sub_state == AI_GameEnder::eState35_UNKNOWN_1)
     {
         if (static_cast<int>(sGnFrame_5C1B84) < field_120_timer)
         {
@@ -4474,11 +4490,11 @@ __int16 Slig::AI_GameEnder_35_4BF640()
         }
 
         field_108_next_motion = eSligMotions::M_Running_4_4B6000;
-        return 2;
+        return AI_GameEnder::eState35_UNKNOWN_2;
     }
     else
     {
-        if (field_11C_ai_sub_state == 2 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        if (field_11C_ai_sub_state == AI_GameEnder::eState35_UNKNOWN_2 && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
             return field_11C_ai_sub_state;
         }
@@ -4604,7 +4620,7 @@ void Slig::Init_4BB0D0()
                     sSligsUnderControlCount_BAF7E8++;
                     field_216.Set(Flags_216::eBit1_FollowGlukkon);
                     SetBrain(&Slig::AI_ListeningToGlukkon_4_4B9D20);
-                    field_11C_ai_sub_state = 1;
+                    field_11C_ai_sub_state = AI_ListeningToGlukkon_States::IdleListening_1;
                     break;
                 }
             }
@@ -4957,7 +4973,7 @@ void Slig::vPossessed_4B2F10()
         field_108_next_motion = eSligMotions::M_StandIdle_0_4B4EC0;
     }
     SetBrain(&Slig::AI_Possessed_2_4BBCF0);
-    field_11C_ai_sub_state = 0;
+    field_11C_ai_sub_state = AI_Possessed::eState2_StartPossession_0;
 
     field_146_level = gMap_5C3030.sCurrentLevelId_5C3030;
     field_148_path = gMap_5C3030.sCurrentPathId_5C3032;
@@ -5695,7 +5711,7 @@ void Slig::ToAbeDead_4B3580()
 void Slig::ToUnderGlukkonCommand_4B9660()
 {
     SetBrain(&Slig::AI_ListeningToGlukkon_4_4B9D20);
-    field_11C_ai_sub_state = 0;
+    field_11C_ai_sub_state = AI_ListeningToGlukkon_States::GettingAttention_0;
 }
 
 void Slig::ToKilledAbe_4B3600()

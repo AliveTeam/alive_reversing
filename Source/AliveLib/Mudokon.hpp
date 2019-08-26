@@ -94,11 +94,11 @@ enum class MudAction : __int16
 
 
 #define MUD_AI_STATES_ENUM(ENTRY) \
-    ENTRY(AI_Give_rings_0_470C10) \
+    ENTRY(AI_GiveRings_0_470C10) \
     ENTRY(AI_Chisel_1_47C5F0) \
     ENTRY(AI_Scrub_2_47D270) \
-    ENTRY(AI_State_3_TurnWheel_47E0D0) \
-    ENTRY(AI_Wired_4_477B40) \
+    ENTRY(AI_TurnWheel_3_47E0D0) \
+    ENTRY(AI_ListeningToAbe_4_477B40) \
     ENTRY(AI_ShrivelDeath_5_4714A0) \
     ENTRY(AI_Escape_6_47A560) \
     ENTRY(AI_FallAndSmackDeath_7_471600) \
@@ -261,37 +261,37 @@ private:
 public:
     EXPORT void vUpdateAnimRes_474D80();
 public: // AI states
-    EXPORT __int16 AI_Give_rings_0_470C10();
+    EXPORT __int16 AI_GiveRings_0_470C10();
     EXPORT __int16 AI_Chisel_1_47C5F0();
     EXPORT __int16 AI_Scrub_2_47D270();
-    EXPORT __int16 AI_State_3_TurnWheel_47E0D0();
+    EXPORT __int16 AI_TurnWheel_3_47E0D0();
 
-    EXPORT __int16 AI_Wired_4_Real_477B40();
-    EXPORT __int16 AI_Wired_4_477B40();
+    EXPORT __int16 AI_ListeningToAbe_4_Real_477B40();
+    EXPORT __int16 AI_ListeningToAbe_4_477B40();
 
-    __int16 BrainState4_State_0();
-    __int16 BrainState4_State_1();
-    __int16 BrainState4_State_2();
-    __int16 BrainState4_State_3();
-    __int16 BrainState4_State_4_FollowingAbe();
-    __int16 BrainState4_State_5();
-    __int16 BrainState4_State_6_RunAfterAbe();
-    __int16 BrainState4_State_7_StandingForAbeCommand();
-    __int16 BrainState4_State_8();
-    __int16 BrainState4_State_9();
-    __int16 BrainState4_State_10();
-    __int16 BrainState4_State_11();
-    __int16 BrainState4_State_12();
-    __int16 BrainState4_State_13();
-    __int16 BrainState4_State_14();
-    __int16 BrainState4_State_15();
-    __int16 BrainState4_State_16();
-    __int16 BrainState4_State_17();
-    __int16 BrainState4_State_18();
-    __int16 BrainState4_State_19();
-    __int16 BrainState4_State_20();
-    __int16 BrainState4_State_21();
-    __int16 BrainState4_State_22();
+    __int16 AI_ListeningToAbe_State_0();
+    __int16 AI_ListeningToAbe_State_1();
+    __int16 AI_ListeningToAbe_State_2();
+    __int16 AI_ListeningToAbe_State_3();
+    __int16 AI_ListeningToAbe_State_4();
+    __int16 AI_ListeningToAbe_State_5();
+    __int16 AI_ListeningToAbe_State_6();
+    __int16 AI_ListeningToAbe_State_7();
+    __int16 AI_ListeningToAbe_State_8();
+    __int16 AI_ListeningToAbe_State_9();
+    __int16 AI_ListeningToAbe_State_10();
+    __int16 AI_ListeningToAbe_State_11();
+    __int16 AI_ListeningToAbe_State_12();
+    __int16 AI_ListeningToAbe_State_13();
+    __int16 AI_ListeningToAbe_State_14();
+    __int16 AI_ListeningToAbe_State_15();
+    __int16 AI_ListeningToAbe_State_16();
+    __int16 AI_ListeningToAbe_State_17();
+    __int16 AI_ListeningToAbe_State_18();
+    __int16 AI_ListeningToAbe_State_19();
+    __int16 AI_ListeningToAbe_State_20();
+    __int16 AI_ListeningToAbe_State_21();
+    __int16 AI_ListeningToAbe_State_22();
 
     EXPORT __int16 AI_ShrivelDeath_5_4714A0();
     EXPORT __int16 AI_Escape_6_47A560();
