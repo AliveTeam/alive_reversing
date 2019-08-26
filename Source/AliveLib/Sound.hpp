@@ -72,6 +72,12 @@ EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3
 struct MIDI_Struct1;
 EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority);
 
+enum class CameraPos : __int16;
+struct Path_TLV;
+EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv);
+
+EXPORT void CC Start_Slig_sounds_4CB980(CameraPos direction, char kZero);
+
 ALIVE_ARY_EXTERN(int, 127, sVolumeTable_BBBD38);
 ALIVE_ARY_EXTERN(SoundEntry*, 256, sSoundSamples_BBBF38);
 ALIVE_ARY_EXTERN(SoundBuffer, 32, sSoundBuffers_BBBAB8);

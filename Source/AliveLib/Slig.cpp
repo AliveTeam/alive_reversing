@@ -28,12 +28,7 @@
 #include "Dove.hpp"
 #include "BulletShell.hpp"
 #include "GameSpeak.hpp"
-
-EXPORT void CC Start_Slig_sounds_4CB980(CameraPos /*a1*/, int /*kZero*/)
-{
-    // TODO: Probably a static function on the Path object
-    NOT_IMPLEMENTED();
-}
+#include "Sound.hpp"
 
 int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
 {

@@ -163,7 +163,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
                 }
             }
 
-            Start_Exploision_sounds_4CBA70(direction, 0);
+            Stop_slig_sounds_4CBA70(direction, 0);
         }
     }
 }

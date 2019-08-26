@@ -157,6 +157,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_EnemyStopper, 0x14);
 
 
 enum class LevelIds : __int16;
+enum class CameraPos : __int16;
 
 class Path
 {
@@ -180,7 +181,7 @@ public:
 
     EXPORT static Path_TLV* CCSTD TLV_Next_Of_Type_4DB720(Path_TLV* pTlv, unsigned __int16 type);
     EXPORT static void CCSTD TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, __int16 hiFlags, char bSetCreated, char bBit2);
-    EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __int16 cam_x_idx, __int16 cam_y_idx);
+    EXPORT static void CC Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx);
     
     EXPORT static void CCSTD Reset_TLVs_4DBCF0(unsigned __int16 pathId);
 
@@ -197,7 +198,7 @@ ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
 enum class CameraPos : __int16;
 
-EXPORT void CC Start_Exploision_sounds_4CBA70(CameraPos direction, unsigned __int8 kZero);
+EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, char kZero);
 
 struct Path_Door : public Path_TLV
 {

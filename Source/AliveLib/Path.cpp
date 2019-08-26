@@ -4,6 +4,7 @@
 #include "ResourceManager.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
+#include "Sound.hpp"
 #include <assert.h>
 
 ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);
@@ -398,24 +399,14 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, 
     }
 }
 
-EXPORT void CC Start_Sounds_for_TLV_4CB530(__int16 /*type*/, Path_TLV* /*pTlv*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Start_Exploision_sounds_4CBA70(CameraPos /*direction*/, unsigned __int8 /*kZero*/)
-{
-    NOT_IMPLEMENTED();
-}
-
-EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(__int16 type, __int16 cam_x_idx, __int16 cam_y_idx)
+EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos direction, __int16 cam_x_idx, __int16 cam_y_idx)
 {
     Path_TLV* pTlv = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera_4DB610(cam_x_idx, cam_y_idx);
     while (pTlv)
     {
         if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) || (pTlv->field_0_flags.Get(TLV_Flags::eBit2_Unknown))))
         {
-            Start_Sounds_for_TLV_4CB530(type, pTlv);
+            Start_Sounds_for_TLV_4CB530(direction, pTlv);
         }
         pTlv = Next_TLV_4DB6A0(pTlv);
     }
