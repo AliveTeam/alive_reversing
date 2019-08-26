@@ -872,13 +872,16 @@ void Slog::M_JumpForwards_18_4C7210()
         field_C8_vely = k20Scaled;
     }
 
+    const FP oldXPos = field_B8_xpos;
+    const FP oldYPos = field_BC_ypos;
+
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast_417A60(field_B8_xpos, field_BC_ypos - k20Scaled, field_B8_xpos, field_BC_ypos, &pLine, &hitX, &hitY, 15) == 1)
+    if (sCollisions_DArray_5C1128->Raycast_417A60(oldXPos, oldYPos - k20Scaled, field_B8_xpos, field_BC_ypos, &pLine, &hitX, &hitY, 15) == 1)
     {
         switch (pLine->field_8_type)
         {
@@ -3187,8 +3190,17 @@ __int16 Slog::HandleEnemyStopper_4C5340()
     return 0;
 }
 
-__int16 Slog::Facing_4C4020(FP /*xpos*/)
+__int16 Slog::Facing_4C4020(FP xpos)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (field_B8_xpos < xpos && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return TRUE;
+    }
+
+    if (xpos < field_B8_xpos && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        return TRUE;
+    }
+
+    return FALSE;
 }
