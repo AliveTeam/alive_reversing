@@ -993,7 +993,7 @@ public:
 
         if (field_4_seq_id != -1)
         {
-            SND_SEQ_Play_4CAB10(22u, 0, 40 * leftVol + 15, 40 * rightVol + 15);
+            SND_SEQ_Play_4CAB10(field_4_seq_id, 0, 40 * leftVol + 15, 40 * rightVol + 15);
         }
 
         return this;
