@@ -67,8 +67,13 @@ public:
         vScreenChanged_434C10();
     }
 
-    // TODO: Remaining virtuals
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
+    {
+        return vTakeDamage_434C90(pFrom);
+    }
 
+    // TODO: Remaining virtuals
+    
 private:
 
     EXPORT void dtor_434990();
@@ -82,6 +87,8 @@ private:
     EXPORT __int16 IsPossessed_436A90();
     EXPORT void sub_4348A0();
     EXPORT void sub_4396E0();
+
+    EXPORT __int16 vTakeDamage_434C90(BaseGameObject* pFrom);
 
 public:
 

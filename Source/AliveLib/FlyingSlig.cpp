@@ -22,6 +22,8 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "GameSpeak.hpp"
+#include "Explosion.hpp"
+#include "Bullet.hpp"
 
 ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
 {
@@ -402,6 +404,97 @@ void FlyingSlig::sub_4348A0()
 void FlyingSlig::sub_4396E0()
 {
     NOT_IMPLEMENTED();
+}
+
+__int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
+{
+    switch (pFrom->field_4_typeId)
+    {
+    case Types::eBullet_15:
+    {
+        if (static_cast<Bullet*>(pFrom)->field_20_type == BulletType::Type_3)
+        {
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+            Path_TLV* pTlv = nullptr;
+            do
+            {
+                pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
+                    field_B8_xpos,
+                    FP_FromInteger(bRect.y),
+                    field_B8_xpos,
+                    FP_FromInteger(bRect.y));
+
+                if (pTlv->field_4_type == TlvTypes::ZSligCover_50)
+                {
+                    // Left/right in cover
+                    if (bRect.x >= pTlv->field_8_top_left.field_0_x &&
+                        bRect.x <= pTlv->field_C_bottom_right.field_0_x &&
+                        bRect.y >= pTlv->field_8_top_left.field_2_y &&
+                        bRect.y <= pTlv->field_C_bottom_right.field_2_y)
+                    {
+                        // Top/bottom in cover
+                        if (bRect.w >= pTlv->field_8_top_left.field_0_x &&
+                            bRect.w <= pTlv->field_C_bottom_right.field_0_x &&
+                            bRect.h >= pTlv->field_8_top_left.field_2_y &&
+                            bRect.h <= pTlv->field_C_bottom_right.field_2_y)
+                        {
+                            return 0;
+                        }
+                    }
+                }
+            } while (pTlv);
+        }
+        // Not in Z-Cover, fall through and be shot
+    }
+    case Types::eGrinder_30:
+    case Types::eRockSpawner_48:
+    case Types::eType_Abe_69:
+    case Types::eType_86:
+    case Types::eMineCar_89:
+    case Types::eType_107:
+    case Types::eSlog_126:
+    {
+        if (BrainIs(&FlyingSlig::AI_Death_1_4364E0))
+        {
+            return 1;
+        }
+        BlowUp_436510();
+        auto pExplosion = alive_new<Explosion>();
+        if (!pExplosion)
+        {
+            return 1;
+        }
+        pExplosion->ctor_4A1200(field_B8_xpos, field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(5)), field_CC_sprite_scale, 1);
+        return 1;
+    }
+
+    case Types::eElectricWall_39:
+        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_15C, this);
+        break;
+
+    case Types::eBaseBomb_46:
+    case Types::eExplosion_109:
+        if (BrainIs(&FlyingSlig::AI_Death_1_4364E0))
+        {
+            BlowUp_436510();
+        }
+        break;
+
+    case Types::eElectrocute_150:
+        if (BrainIs(&FlyingSlig::AI_Death_1_4364E0))
+        {
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+            field_10C_health = FP_FromInteger(0);
+            SetBrain(&FlyingSlig::AI_Death_1_4364E0);
+            field_14C_hi_pause_timer = sGnFrame_5C1B84;
+        }
+        break;
+
+    default:
+        return 1;
+    }
+    return 1;
 }
 
 void FlyingSlig::AI_Inactive_0_4355B0()
