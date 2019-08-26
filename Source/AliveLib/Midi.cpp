@@ -994,6 +994,8 @@ EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask)
 
 EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight)
 {
+    LOG_INFO("PLAY SEQ " << idx);
+
     SeqDataRecord& rec = sSeqDataTable_BB2E38[idx];
     if (!rec.field_C_ppSeq_Data)
     {
