@@ -42,6 +42,14 @@ struct Path_BirdPortal_Exit : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
+struct BirdPortal_State
+{
+    Types field_0_type;
+    BYTE field_2_state;
+    BYTE field_3_mud_count;
+    int field_4_tlvInfo;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 
 class BirdPortalTerminator : public BaseAnimatedWithPhysicsGameObject
 {
@@ -81,6 +89,9 @@ public:
     virtual BOOL VIsState20_499A00();
     virtual void Vsub_499A20();
     virtual void VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId);
+
+    EXPORT static int CC CreateFromSaveState_499C90(const BYTE* pBuffer);
+
 
 private:
     EXPORT BirdPortal* vdtor_498050(signed int flags);

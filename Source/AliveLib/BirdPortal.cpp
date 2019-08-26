@@ -621,10 +621,23 @@ void BirdPortal::vStopAudio_499260()
     }
 }
 
-signed int BirdPortal::vGetSaveState_499F50(BYTE* /*pState*/)
+signed int BirdPortal::vGetSaveState_499F50(BYTE* pBuffer)
 {
-    NOT_IMPLEMENTED();
-    return 8;
+    auto pState = reinterpret_cast<BirdPortal_State*>(pBuffer);
+    auto pTlv = static_cast<Path_BirdPortal*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_20_tlvInfo));
+    
+    __int16 numMudsForShrykull = 0;
+    if (pTlv)
+    {
+        numMudsForShrykull = pTlv->field_1E_num_muds_for_shrykul;
+    }
+
+    pState->field_0_type = Types::eBirdPortal_99;
+    pState->field_4_tlvInfo = field_20_tlvInfo;
+    pState->field_2_state = static_cast<BYTE>(field_28_state);
+    pState->field_3_mud_count = static_cast<BYTE>(numMudsForShrykull - field_82_num_muds_for_shrykul);
+
+    return sizeof(BirdPortal_State);
 }
 
 void BirdPortal::VRender(int** /*pOrderingTable*/)
@@ -695,6 +708,74 @@ void BirdPortal::Vsub_499A20()
 void BirdPortal::VGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
 {
     vGetMapChange_499AE0(level, path, camera, screenChangeEffect, movieId);
+}
+
+int CC BirdPortal::CreateFromSaveState_499C90(const BYTE* pBuffer)
+{
+    auto pSaveState = reinterpret_cast<const BirdPortal_State*>(pBuffer);
+    auto pTlv = static_cast<Path_BirdPortal*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_4_tlvInfo));
+    if (!pTlv)
+    {
+        return sizeof(BirdPortal_State);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kPortliteResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("PORTAL.BND", nullptr);
+    }
+
+    if (pTlv->field_1C_portal_type == PortalType::eShrykull_2)
+    {
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, FALSE, FALSE))
+        {
+            ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
+        }
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbemorphResID, FALSE, FALSE))
+        {
+            ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
+        }
+    }
+
+    auto pPortal = alive_new<BirdPortal>();
+    pPortal->ctor_497E00(pTlv, pSaveState->field_4_tlvInfo);
+    pPortal->field_1C_update_delay = 1;
+    pPortal->field_82_num_muds_for_shrykul -= pSaveState->field_3_mud_count;
+
+    const auto savedState = static_cast<States>(pSaveState->field_2_state);
+    switch (savedState)
+    {
+    case States::State_2:
+    case States::State_3:
+    case States::State_4:
+    case States::State_5:
+    case States::State_6:
+    {
+        pPortal->field_28_state = States::State_6;
+        pPortal->CreateTerminators_497D10();
+        auto pTerminator1 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(pPortal->field_6C_terminator_id));
+        auto pTerminator2 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(pPortal->field_70_terminator_id));
+        pTerminator1->field_BC_ypos -= (FP_FromInteger(45) * pPortal->field_60_scale);
+        pTerminator2->field_BC_ypos += (FP_FromInteger(45) * pPortal->field_60_scale);
+        break;
+    }
+
+    case States::State_7:
+    case States::State_8:
+    case States::State_9:
+    {
+        pPortal->CreateTerminators_497D10();
+        auto pTerminator1 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(pPortal->field_6C_terminator_id));
+        auto pTerminator2 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(pPortal->field_70_terminator_id));
+        pTerminator1->field_BC_ypos -= (FP_FromInteger(45) * pPortal->field_60_scale);
+        pTerminator2->field_BC_ypos += (FP_FromInteger(45) * pPortal->field_60_scale);
+        pPortal->field_28_state = States::State_9;
+        pPortal->field_5C_timer = sGnFrame_5C1B84 + 20;
+        break;
+    }
+    default:
+        break;
+    }
+    return sizeof(BirdPortal_State);
 }
 
 signed __int16 BirdPortal::vsub_499430(__int16 bUnknown)

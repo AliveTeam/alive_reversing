@@ -35,6 +35,7 @@
 #include "ScrabSpawner.hpp"
 #include "GameEnderController.hpp"
 #include "Paramite.hpp"
+#include "BirdPortal.hpp"
 
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
@@ -45,7 +46,6 @@ EXPORT int CC Greeter__CreateFromSaveState_446040(const BYTE*) { NOT_IMPLEMENTED
 EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Glukkon__CreateFromSaveState_442830(const BYTE*) { NOT_IMPLEMENTED(); return 144; }
 EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
-EXPORT int CC BirdPortal__CreateFromSaveState_499C90(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED(); return 160; }
 EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 
@@ -155,7 +155,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     &Paramite::CreateFromSaveState_4855A0,
     nullptr,
     nullptr,
-    &BirdPortal__CreateFromSaveState_499C90,
+    &BirdPortal::CreateFromSaveState_499C90,
     nullptr,
     nullptr,
     &ThrowableArray::CreateFromSaveState_49B200,
