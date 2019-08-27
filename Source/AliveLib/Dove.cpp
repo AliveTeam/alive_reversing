@@ -91,7 +91,7 @@ Dove* Dove::ctor_41F430(int frameTableOffset, int maxW, unsigned __int16 maxH, i
         return this;
     }
 
-    SND_SEQ_PlaySeq_4CA960(17u, 0, 1);
+    SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
     bTheOneControllingTheMusic_5BC112 = 1;
     return this;
 }
@@ -153,7 +153,7 @@ Dove* Dove::ctor_41F660(int frameTableOffset, int maxW, __int16 maxH, int resour
     {
         return this;
     }
-    SND_SEQ_PlaySeq_4CA960(17, 0, 1);
+    SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
     bTheOneControllingTheMusic_5BC112 = 1;
 
     return this;
@@ -195,7 +195,7 @@ void Dove::dtor_41F870()
 
     if (bTheOneControllingTheMusic_5BC112)
     {
-        SND_SEQ_Stop_4CAE60(17);
+        SND_SEQ_Stop_4CAE60(SeqId::NecrumAmbient2_17);
         bTheOneControllingTheMusic_5BC112 = 0;
     }
 
@@ -269,7 +269,7 @@ void Dove::vUpdate_41FAE0()
 
     if (!bTheOneControllingTheMusic_5BC112)
     {
-        SND_SEQ_PlaySeq_4CA960(17u, 0, 1);
+        SND_SEQ_PlaySeq_4CA960(SeqId::NecrumAmbient2_17, 0, 1);
         bTheOneControllingTheMusic_5BC112 = 1;
     }
 
@@ -420,7 +420,7 @@ void CC Dove::All_FlyAway_41FA60(__int16 a1)
     bExtraSeqStarted_5BC10C = 0; // TODO: Never read ??
     if (bTheOneControllingTheMusic_5BC112)
     {
-        SND_SEQ_Stop_4CAE60(17u);
+        SND_SEQ_Stop_4CAE60(SeqId::NecrumAmbient2_17);
         bTheOneControllingTheMusic_5BC112 = 0;
     }
 }

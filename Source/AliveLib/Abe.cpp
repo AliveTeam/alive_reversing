@@ -757,7 +757,7 @@ void Abe::dtor_44B380()
     BaseGameObject* pField_160 = sObjectIds_5C1B70.Find_449CF0(field_160_slapable_or_pick_item_id);
     BaseGameObject* pField_178 = sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id);
 
-    SND_SEQ_Stop_4CAE60(0xAu);
+    SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
     if (pField_148)
     {
@@ -1653,7 +1653,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
     if (sControlledCharacter_5C1B8C == this || field_10C_health <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
-        SND_SEQ_Stop_4CAE60(10u);
+        SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
         if (pfield_150)
         {
             pfield_150->ToStop_4E4050();
@@ -2055,7 +2055,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 {
     // Stop chant sound music
-    SND_SEQ_Stop_4CAE60(10u);
+    SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
     const AbeSay oldSay = field_128.field_18_say;
     field_128.field_18_say = AbeSay::eNothing;
@@ -2905,7 +2905,7 @@ void Abe::State_0_Idle_44EEB0()
             field_124_gnFrame = sGnFrame_5C1B84 + 90;
             field_106_current_motion = eAbeStates::State_112_Chant_45B1C0;
             field_120_state = 0;
-            SND_SEQ_PlaySeq_4CA960(0xAu, 0, 1);
+            SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
         }
         return;
     }
@@ -5592,7 +5592,7 @@ void Abe::State_56_FallAndCrunchDeath_4591F0()
     {
         if (static_cast<int>(sGnFrame_5C1B84) == field_128.field_0_gnFrame - 30)
         {
-            SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+            SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
         }
         else if (static_cast<int>(sGnFrame_5C1B84) == field_128.field_0_gnFrame - 24)
         {
@@ -6703,7 +6703,7 @@ void Abe::State_84_FallLandDie_45A420()
     if (field_20_animation.field_92_current_frame == 0)
     {
         SFX_Play_46FA90(0x40u, 85);
-        SND_SEQ_Play_4CAB10(9u, 1, 95, 95);
+        SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
         auto pShake = alive_new<ScreenShake>();
         if (pShake)
         {
@@ -7370,7 +7370,7 @@ void Abe::State_112_Chant_45B1C0()
 
     if (field_120_state != 3 && field_120_state != 4)
     {
-        SND_SEQ_PlaySeq_4CA960(10u, 0, 0);
+        SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 0);
     }
 
     if (!pOrbWhirlWind)
@@ -7642,7 +7642,7 @@ void Abe::State_112_Chant_45B1C0()
         {
             pFlicker->ctor_4319E0(sControlledCharacter_5C1B8C, 60, 128, 255, 255);
         }
-        SND_SEQ_Stop_4CAE60(0xAu);
+        SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
         SFX_Play_46FBA0(0x11u, 70, 400);
         field_120_state = 3;
     }
@@ -7703,7 +7703,7 @@ void Abe::State_112_Chant_45B1C0()
 
 void Abe::State_113_ChantEnd_45BBE0()
 {
-    SND_SEQ_Stop_4CAE60(10u);
+    SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -8194,7 +8194,7 @@ void Abe::State_127_TurnWheelLoop_456750()
         if (pLevelLoader && SwitchStates_Get_466020(pLevelLoader->field_10_id))
         {
             field_120_state = eMapChanging;
-            SND_SEQ_Play_4CAB10(31u, 1, 127, 127);
+            SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
             auto pMusicTrigger = alive_new<MusicTrigger>();
             if (pMusicTrigger)
             {
@@ -9029,7 +9029,7 @@ short Abe::DoGameSpeak_45AB70(int input)
     if ((sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & eChant) == eChant)
     {
         field_124_gnFrame = sGnFrame_5C1B84 + 90;
-        SND_SEQ_PlaySeq_4CA960(10u, 0, 1);
+        SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
         field_120_state = 0;
         nextState = eAbeStates::State_112_Chant_45B1C0;
     }
@@ -9629,21 +9629,21 @@ EXPORT void CC Abe_SFX_457EC0(unsigned __int8 idx, __int16 volume, int pitch, Ba
     case 14u:
         if (pHero && pHero->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            SND_SEQ_Play_4CAB10(0x10u, 1, 90, 90);
+            SND_SEQ_Play_4CAB10(SeqId::AbeOops_16, 1, 90, 90);
         }
         else
         {
-            SND_SEQ_Play_4CAB10(0x10u, 1, 127, 127);
+            SND_SEQ_Play_4CAB10(SeqId::AbeOops_16, 1, 127, 127);
         }
         break;
     case 26u:
         if (pHero && pHero->field_CC_sprite_scale == FP_FromDouble(0.5))
         {
-            SND_SEQ_Play_4CAB10(0x12u, 1, 80, 80);
+            SND_SEQ_Play_4CAB10(SeqId::AbeStopIt_18, 1, 80, 80);
         }
         else
         {
-            SND_SEQ_Play_4CAB10(0x12u, 1, 115, 115);
+            SND_SEQ_Play_4CAB10(SeqId::AbeStopIt_18, 1, 115, 115);
         }
         break;
     case 8u:

@@ -240,7 +240,7 @@ void Slog::M_Idle_0_4C5F90()
             {
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    SND_SEQ_PlaySeq_4CA960(13, 1, 0);
+                    SND_SEQ_PlaySeq_4CA960(SeqId::Empty_13, 1, 0);
                 }
 
                 if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
@@ -979,7 +979,7 @@ void Slog::M_JumpUpwards_19_4C7470()
 
 void Slog::M_Eating_20_4C75F0()
 {
-    SND_SEQ_Stop_4CAE60(13u);
+    SND_SEQ_Stop_4CAE60(SeqId::Empty_13);
     if (field_20_animation.field_92_current_frame == 0)
     {
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
@@ -1036,7 +1036,7 @@ void Slog::M_Scratch_22_4C7120()
 {
     if (field_20_animation.field_92_current_frame == 4)
     {
-        SND_SEQ_PlaySeq_4CA960(12u, 1, 1);
+        SND_SEQ_PlaySeq_4CA960(SeqId::Scratching_12, 1, 1);
     }
 
     if (field_108_next_motion != -1)

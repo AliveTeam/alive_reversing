@@ -878,7 +878,7 @@ void BirdPortal::vGiveShrukul_499680(__int16 bPlaySound)
     {
         if (field_24_portal_type == PortalType::eShrykull_2 && field_82_num_muds_for_shrykul <= 0)
         {
-            SND_SEQ_Play_4CAB10(32u, 1, 127, 127);
+            SND_SEQ_Play_4CAB10(SeqId::SecretMusic_32, 1, 127, 127);
             field_28_state = States::State_7;
             field_5C_timer = sGnFrame_5C1B84 + 12;
             field_84 = 0;

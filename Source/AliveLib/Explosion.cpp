@@ -66,7 +66,7 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
 
     DealBlastDamage_4A1BD0(&rect);
 
-    SND_SEQ_PlaySeq_4CA960(14, 1, 1);
+    SND_SEQ_PlaySeq_4CA960(SeqId::Explosion1_14, 1, 1);
 
     return this;
 }

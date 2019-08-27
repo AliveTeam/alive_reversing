@@ -183,7 +183,7 @@ void WorkWheel::vUpdate_4E38E0()
                 0))
         {
             const short randomVol = Math_RandomRange_496AB0(-30, 0);
-            SND_SEQ_Play_4CAB10(19u, 1, randomVol + 127, randomVol + 127);
+            SND_SEQ_Play_4CAB10(SeqId::WheelSqueak_19, 1, randomVol + 127, randomVol + 127);
         }
     }
     else if (field_FC_state == WheelStates::eIdle)

@@ -183,7 +183,7 @@ void GlukkonSwitch::vUpdate_445200()
     case 1:
         if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer)
         {
-            SND_SEQ_Play_4CAB10(31, 1, 127, 127);
+            SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
         }
         else if (static_cast<int>(sGnFrame_5C1B84) > field_120_timer && !PlayerNearMe_445180())
         {

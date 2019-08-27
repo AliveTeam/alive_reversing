@@ -1008,7 +1008,7 @@ void Mudokon::dtor_475B60()
 
     if (field_106_current_motion == Mud_Motion::Chanting_50_473040)
     {
-        SND_SEQ_Stop_4CAE60(11u);
+        SND_SEQ_Stop_4CAE60(SeqId::MudokonChant_11);
     }
 
     dtor_4080B0();
@@ -4629,7 +4629,7 @@ __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
         // Scream
         if (static_cast<int>(sGnFrame_5C1B84) == field_194_timer - 6)
         {
-            SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+            SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
         }
 
         // Shake from ze floor slam & die
@@ -5149,7 +5149,7 @@ void Mudokon::StandIdle_0_4724E0()
         break;
 
     case Mud_Motion::Chanting_50_473040:
-        SND_SEQ_PlaySeq_4CA960(11, 0, 1);
+        SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant_11, 0, 1);
         field_106_current_motion = Mud_Motion::Chanting_50_473040;
         field_108_next_motion = -1;
         break;
@@ -5916,7 +5916,7 @@ void Mudokon::JumpMid_36_474570()
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);
 
-        SND_SEQ_Play_4CAB10(31u, 1, 127, 127);
+        SND_SEQ_Play_4CAB10(SeqId::SaveTriggerMusic_31, 1, 127, 127);
 
         auto pMusicTrigger = alive_new<MusicTrigger>();
         if (pMusicTrigger)
@@ -6284,14 +6284,14 @@ void Mudokon::Chanting_50_473040()
 
     if (!SND_SsIsEos_DeInlined_4CACD0(11u))
     {
-        SND_SEQ_Play_4CAB10(11u, 1, 50, 50);
+        SND_SEQ_Play_4CAB10(SeqId::MudokonChant_11, 1, 50, 50);
     }
 
     if (field_108_next_motion == Mud_Motion::StandIdle_0_4724E0)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SND_SEQ_Stop_4CAE60(11);
+            SND_SEQ_Stop_4CAE60(SeqId::MudokonChant_11);
             field_106_current_motion = Mud_Motion::ChantToStand_51_4730D0;
             field_108_next_motion = -1;
         }

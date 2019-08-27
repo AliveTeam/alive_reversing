@@ -5151,7 +5151,7 @@ void Paramite::dtor_487FC0()
         Path::TLV_Reset_4DB8E0(field_140_tlvInfo, -1, 0, 1);
     }
 
-    SND_SEQ_Stop_4CAE60(25u);
+    SND_SEQ_Stop_4CAE60(SeqId::ParamiteOffscreen_25);
     MusicController::sub_47FD60(0, this, 0, 0);
 
     if (sControlledCharacter_5C1B8C == this)
@@ -5232,11 +5232,11 @@ void Paramite::vUpdate_4871B0()
             field_BC_ypos,
             0))
     {
-        SND_SEQ_PlaySeq_4CA960(25u, 1, 0);
+        SND_SEQ_PlaySeq_4CA960(SeqId::ParamiteOffscreen_25, 1, 0);
     }
     else if (!Find_Paramite_488810())
     {
-        SND_SEQ_Stop_4CAE60(25u);
+        SND_SEQ_Stop_4CAE60(SeqId::ParamiteOffscreen_25);
     }
 
     if (Event_Get_422C00(kEventDeathReset))
@@ -5572,7 +5572,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
         {
             return 1;
         }
-        SND_SEQ_Play_4CAB10(29u, 1, 127, 127);
+        SND_SEQ_Play_4CAB10(SeqId::DeathDrums_29, 1, 127, 127);
     }
         return 1;
 
@@ -5616,7 +5616,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
 
         if (sControlledCharacter_5C1B8C == this)
         {
-            SND_SEQ_Play_4CAB10(29u, 1, 127, 127);
+            SND_SEQ_Play_4CAB10(SeqId::DeathDrums_29, 1, 127, 127);
         }
     }
         return 0;
@@ -5646,7 +5646,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
             return 1;
         }
 
-        SND_SEQ_Play_4CAB10(29u, 1, 127, 127);
+        SND_SEQ_Play_4CAB10(SeqId::DeathDrums_29, 1, 127, 127);
         return 1;
     }
     }
@@ -6426,7 +6426,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min)
 
     if (soundId == ParamiteSpeak::AllYa_9)
     {
-        SND_SEQ_Play_4CAB10(20u, 1, volLeft, volRight);
+        SND_SEQ_Play_4CAB10(SeqId::MainMenuParamiteAttack_20, 1, volLeft, volRight);
     }
     else if (pitch_min > 0)
     {
