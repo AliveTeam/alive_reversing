@@ -72,6 +72,11 @@ public:
         return vTakeDamage_434C90(pFrom);
     }
 
+    virtual void VPossessed_408F70() override
+    {
+        vPossessed_434FB0();
+    }
+
     // TODO: Remaining virtuals
     
 private:
@@ -196,6 +201,8 @@ public:
     EXPORT __int16 sub_437C70(PathLine* pLine);
 
     EXPORT __int16 FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
+
+    EXPORT void vPossessed_434FB0();
 
 
     void SetBrain(TFlyingSligFn fn);

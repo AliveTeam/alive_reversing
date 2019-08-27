@@ -1786,3 +1786,21 @@ __int16 FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
     }
     return found_type;
 }
+
+void FlyingSlig::vPossessed_434FB0()
+{
+    field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
+    field_17E_flags.Set(Flags_17E::eBit1);
+
+    field_2A0_abe_level = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_2A2_abe_path = gMap_5C3030.sCurrentPathId_5C3032;
+    field_2A4_abe_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    
+    field_2A8 = FP_FromDouble(5.5) * field_CC_sprite_scale;
+    field_2AC = FP_FromDouble(-5.5) * field_CC_sprite_scale;
+    field_2B0 = FP_FromDouble(5.5) * field_CC_sprite_scale;
+    field_2B4 = FP_FromDouble(0.25) * field_CC_sprite_scale;
+    field_2B8 = FP_FromDouble(0.7) * field_CC_sprite_scale;
+
+    ToPossesed_436130();
+}
