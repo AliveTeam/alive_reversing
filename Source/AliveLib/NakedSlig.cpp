@@ -1085,7 +1085,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
 
             if (static_cast<int>(sGnFrame_5C1B84) == field_1AC_timer - 6)
             {
-                SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+                SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
             }
             return field_208_brain_sub_state;
         }

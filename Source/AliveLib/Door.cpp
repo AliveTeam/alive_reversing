@@ -449,7 +449,7 @@ void Door::vUpdate_41EBE0()
             {
                 if (!SwitchStates_Get_466020(field_100_switch_id) && field_F8_door_type == DoorTypes::eType_2)
                 {
-                    SND_SEQ_Play_4CAB10(0x20u, 1, 127, 127);
+                    SND_SEQ_Play_4CAB10(SeqId::SecretMusic_32, 1, 127, 127);
                     auto pMusicTrigger = alive_new<MusicTrigger>();
                     if (pMusicTrigger)
                     {

@@ -3651,7 +3651,7 @@ __int16 Scrab::vTakeDamage_4A45E0(BaseGameObject* pFrom)
         vUpdateAnim_4A34F0();
         if (sControlledCharacter_5C1B8C == this)
         {
-            SND_SEQ_Play_4CAB10(29u, 1, 127, 127);
+            SND_SEQ_Play_4CAB10(SeqId::DeathDrums_29, 1, 127, 127);
         }
         return 0;
 
@@ -3678,7 +3678,7 @@ __int16 Scrab::vTakeDamage_4A45E0(BaseGameObject* pFrom)
     
     if (sControlledCharacter_5C1B8C == this)
     {
-        SND_SEQ_Play_4CAB10(29u, 1, 127, 127);
+        SND_SEQ_Play_4CAB10(SeqId::DeathDrums_29, 1, 127, 127);
     }
 
     return 1;

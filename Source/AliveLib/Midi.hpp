@@ -142,7 +142,39 @@ EXPORT __int16 CC MIDI_Set_Freq_4FDF70(__int16 idx, int /*program*/, int /*vabId
 
 enum SeqId
 {
+    MainMenuAmbient_0 = 0,
+    MinesAmbient_1 = 1,
+    MudomoAmbient_2 = 2,
+    MudancheeAmbient_3 = 3,
+    FeecoAmbient_4 = 4,
+    BreweryAmbient_5 = 5,
+    BonewerkzAmbient_6 = 6,
+    BarracksAmbient_7 = 7,
+    NecrumAmbient1_8 = 8,
     HitBottomOfDeathPit_9 = 9,
+    MudokonChant1_10 = 10,
+    MudokonChant_11 = 11,
+    Scratching_12 = 12,
+    Empty_13 = 13,
+    Explosion1_14 = 14,
+    Explosion2_15 = 15,
+    AbeOops_16 = 16,
+    NecrumAmbient2_17 = 17,
+    AbeStopIt_18 = 18,
+    WheelSqueak_19 = 19,
+    MainMenuParamiteAttack_20 = 20,
+    WalkingSligOffscreen_21 = 21,
+    SleepingSligOffscreen_22 = 22,
+    AwakeSlogOffscreen_23 = 23,
+    SleepingSlogOffscreen_24 = 24,
+    ParamiteOffscreen_25 = 25,
+    SleepingFleechOffscreen_26 = 26,
+    ToCalm1_27 = 27, //Unused, from Oddysee
+    ToCalm2_28 = 28, //Unused, from Oddysee
+    DeathDrums_29 = 29,
+    AbeDeathDrums_30 = 30,
+    SaveTriggerMusic_31 = 31,
+    SecretMusic_32 = 32
 };
 
 EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight);

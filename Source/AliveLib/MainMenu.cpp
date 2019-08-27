@@ -799,7 +799,7 @@ signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
         case InputCommands::eBack: 
             Set_Anim_4D05E0(AnimIds::eAbe_GoodBye);
             // Stop chanting music
-            SND_SEQ_Stop_4CAE60(10u);
+            SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
             // TODO: Extra case for Abe - recover the type
             if (field_20C)
@@ -2616,7 +2616,7 @@ void MainMenuController::sub_4CFE80()
             }
             else
             {
-                SND_SEQ_Stop_4CAE60(0xAu);
+                SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
                 /*
                 if (field_20C)
                 {
@@ -2685,7 +2685,7 @@ void MainMenuController::sub_4CFE80()
         {
             if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound == 9)
             {
-                SND_SEQ_Play_4CAB10(0x14u, 1, 127, 127);
+                SND_SEQ_Play_4CAB10(SeqId::MainMenuParamiteAttack_20, 1, 127, 127);
             }
             else
             {
@@ -2760,7 +2760,7 @@ void MainMenuController::sub_4CFE80()
                     {
                         if (field_228_res_idx == eAbe_Chant)
                         {
-                            SND_SEQ_PlaySeq_4CA960(10, 0, 1);
+                            SND_SEQ_PlaySeq_4CA960(SeqId::MudokonChant1_10, 0, 1);
                             field_23C_T80.Set(Flags::eBit24_Chant_Seq_Playing);
                         }
 
@@ -2779,7 +2779,7 @@ void MainMenuController::sub_4CFE80()
 
                         if (field_228_res_idx != eAbe_Chant && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
                         {
-                            SND_SEQ_Stop_4CAE60(10);
+                            SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
                             field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
                         }
                         

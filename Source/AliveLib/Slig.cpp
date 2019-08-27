@@ -1136,7 +1136,7 @@ void Slig::M_Shoot_6_4B55A0()
             }
             else
             {
-                SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+                SND_SEQ_PlaySeq_4CA960(SeqId::HitBottomOfDeathPit_9, 1, 1);
                 field_106_current_motion = eSligMotions::M_ShootToStand_13_4B5580;
                 return;
             }
@@ -1144,7 +1144,7 @@ void Slig::M_Shoot_6_4B55A0()
 
         if (field_108_next_motion == eSligMotions::M_StandIdle_0_4B4EC0)
         {
-            SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            SND_SEQ_PlaySeq_4CA960(SeqId::HitBottomOfDeathPit_9, 1, 1);
             field_106_current_motion = eSligMotions::M_ShootToStand_13_4B5580;
             field_108_next_motion = -1;
             return;
@@ -1152,7 +1152,7 @@ void Slig::M_Shoot_6_4B55A0()
 
         if (field_108_next_motion != -1 && field_108_next_motion != eSligMotions::M_Shoot_6_4B55A0)
         {
-            SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            SND_SEQ_PlaySeq_4CA960(SeqId::HitBottomOfDeathPit_9, 1, 1);
             field_106_current_motion = eSligMotions::M_ShootToStand_13_4B5580;
             return;
         }
@@ -1470,13 +1470,13 @@ void Slig::M_Recoil_19_4B8270()
                 }
                 else
                 {
-                    SND_SEQ_PlaySeq_4CA960(9, 1, 1);
+                    SND_SEQ_PlaySeq_4CA960(SeqId::HitBottomOfDeathPit_9, 1, 1);
                     field_106_current_motion = eSligMotions::M_ShootToStand_13_4B5580;
                 }
             }
             else if (field_108_next_motion != -1)
             {
-                SND_SEQ_PlaySeq_4CA960(9, 1, 1);
+                SND_SEQ_PlaySeq_4CA960(SeqId::HitBottomOfDeathPit_9, 1, 1);
                 field_106_current_motion = eSligMotions::M_ShootToStand_13_4B5580;
                 field_108_next_motion = -1;
             }
@@ -1990,7 +1990,7 @@ void Slig::M_LandingFatal_41_4B4680()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+        SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
         SFX_Play_46FA90(64u, 80);
     }
 
@@ -2012,13 +2012,13 @@ void Slig::M_ShootZ_42_4B7560()
         // Controlled by player and no longer pressing down or shoot
         if (sControlledCharacter_5C1B8C == this && (!sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4) || !sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC)))
         {
-            SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            SND_SEQ_PlaySeq_4CA960(SeqId::HitBottomOfDeathPit_9, 1, 1);
             field_106_current_motion = eSligMotions::M_ShootZtoStand_43_4B77E0;
         }
         // Controlled by AI and need to leave Z-shoot motion
         else if (field_108_next_motion != -1)
         {
-            SND_SEQ_PlaySeq_4CA960(9u, 1, 1);
+            SND_SEQ_PlaySeq_4CA960(SeqId::HitBottomOfDeathPit_9, 1, 1);
             field_108_next_motion = -1;
             field_106_current_motion = eSligMotions::M_ShootZtoStand_43_4B77E0;
         }
@@ -2511,7 +2511,7 @@ __int16 Slig::AI_DeathDropDeath_3_4BC1E0()
 
         if (static_cast<int>(sGnFrame_5C1B84) == field_120_timer - 6)
         {
-            SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+            SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
         }
 
         return field_11C_ai_sub_state;

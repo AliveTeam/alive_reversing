@@ -1320,7 +1320,7 @@ void PauseMenu::Update_48FD80()
                 else if (sQuicksave_LoadNextFrame_5CA4D9)
                 {
                     Quicksave_LoadActive_4C9170();
-                    SND_SEQ_Stop_4CAE60(0xAu);
+                    SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
                     pHero = sActiveHero_5C1B68;
                     pControlledChar = sControlledCharacter_5C1B8C;
                     sQuicksave_SaveNextFrame_5CA4D8 = 0;
