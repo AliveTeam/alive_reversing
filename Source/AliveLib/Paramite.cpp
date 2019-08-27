@@ -2492,7 +2492,7 @@ __int16 Paramite::AI_DeathDrop_7_484FF0()
         {
             if (static_cast<int>(sGnFrame_5C1B84) == field_130_timer - 6)
             {
-                SND_SEQ_Play_4CAB10(9u, 1, 65, 65);
+                SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
             }
             return field_12C_brain_ret;
         }

@@ -6226,7 +6226,7 @@ void Abe::State_71_Knockback_455090()
             {
                 field_106_current_motion = eAbeStates::State_71_Knockback_455090;
                 SFX_Play_46FA90(0x40u, 85);
-                SND_SEQ_Play_4CAB10(9u, 1, 95, 95);
+                SND_SEQ_Play_4CAB10(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
             }
             else if (field_106_current_motion == eAbeStates::State_16_LandSoft_45A360)
             {

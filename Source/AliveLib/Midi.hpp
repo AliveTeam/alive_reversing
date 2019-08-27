@@ -139,5 +139,11 @@ EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Struct1* pData, int vol);
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight);
 EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 field4_match, __int16 pitch);
 EXPORT __int16 CC MIDI_Set_Freq_4FDF70(__int16 idx, int /*program*/, int /*vabId*/, __int16 noteLo, __int16 kZero, __int16 noteHigh, __int16 a7);
+
+enum SeqId
+{
+    HitBottomOfDeathPit_9 = 9,
+};
+
 EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight);
 EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx);
