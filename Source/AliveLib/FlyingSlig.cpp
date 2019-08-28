@@ -157,7 +157,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_14C_hi_pause_timer = 0;
     field_DC_bApplyShadows |= 2u;
 
-    field_15C = 45 * ((Math_NextRandom() % 5) - 2);
+    field_15C_voice_pitch_min = 45 * ((Math_NextRandom() % 5) - 2);
 
     field_150_grenade_delay = 0;
     field_154 = 0;
@@ -470,7 +470,7 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
     }
 
     case Types::eElectricWall_39:
-        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_15C, this);
+        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_15C_voice_pitch_min, this);
         break;
 
     case Types::eBaseBomb_46:
@@ -687,11 +687,11 @@ void FlyingSlig::AI_AbeDead_11_435FD0()
 {
     if (static_cast<int>(sGnFrame_5C1B84) == field_14C_hi_pause_timer - 45)
     {
-        sub_436A50(SligSpeak ::GotYa_12, 0);
+        Say_436A50(SligSpeak ::GotYa_12, 0);
     }
     else if (static_cast<int>(sGnFrame_5C1B84) == field_14C_hi_pause_timer)
     {
-        sub_436A50(SligSpeak::Laugh_3, 0);
+        Say_436A50(SligSpeak::Laugh_3, 0);
     }
 }
 
@@ -722,7 +722,7 @@ void FlyingSlig::AI_Possession_13_4360F0()
 {
     if (static_cast<int>(sGnFrame_5C1B84) > field_14C_hi_pause_timer)
     {
-        sub_436A50(SligSpeak ::Hi_0, 0x1FF);
+        Say_436A50(SligSpeak ::Hi_0, 0x1FF);
         ToPlayerControlled_4360C0();
     }
 }
@@ -997,7 +997,7 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
 
         if (BrainIs(&FlyingSlig::AI_Possessed_12_436040))
         {
-            switch (field_17D)
+            switch (field_17D_next_speak)
             {
             case SligSpeak::Hi_0:
                 pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::Slig_Hi_27);
@@ -1027,7 +1027,7 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
                 break;
             }
         }
-        Sfx_Slig_GameSpeak_4C04F0(field_17D, 0, field_160, this);
+        Sfx_Slig_GameSpeak_4C04F0(field_17D_next_speak, 0, field_160_voice_pitch_min, this);
         Event_Broadcast_422BC0(kEventSpeaking, this);
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1396,7 +1396,7 @@ void FlyingSlig::ToMoving_435720()
 
 void FlyingSlig::ToPanicIdle_435B50()
 {
-    sub_436A50(SligSpeak::Help_10, 0);
+    Say_436A50(SligSpeak::Help_10, 0);
     field_14C_hi_pause_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + field_118_data.field_10_data.field_C_panic_delay;
     SetBrain(&FlyingSlig::AI_PanicIdle_8_435AC0);
 }
@@ -1442,14 +1442,14 @@ __int16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
     return 0;
 }
 
-void FlyingSlig::sub_436A50(SligSpeak  a2, __int16 a3)
+void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
 {
     if (field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
     {
         field_17E_flags.Set(Flags_17E::eBit1);
         field_17E_flags.Set(Flags_17E::eBit10);
-        field_17D = a2;
-        field_160 = a3;
+        field_17D_next_speak = speak;
+        field_160_voice_pitch_min = pitch;
     }
 }
 
@@ -1527,7 +1527,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 
     if (IsPossessed_436A90() == 0 && Math_NextRandom() < 168u)
     {
-        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::HereBoy_1, 0, field_15C, this);
+        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::HereBoy_1, 0, field_15C_voice_pitch_min, this);
     }
 }
 
@@ -1607,13 +1607,13 @@ void FlyingSlig::ToSpottedEnemy_435E70()
 {
     if (field_118_data.field_10_data.field_10_prechase_delay)
     {
-        sub_436A50(SligSpeak ::Freeze_8, 0);
+        Say_436A50(SligSpeak ::Freeze_8, 0);
         field_14C_hi_pause_timer = (Math_NextRandom() & 7) + sGnFrame_5C1B84 + field_118_data.field_10_data.field_10_prechase_delay;
         SetBrain(&FlyingSlig::AI_SpottedEnemy_9_435E40);
     }
     else
     {
-        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Freeze_8, 0, field_15C, this);
+        Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Freeze_8, 0, field_15C_voice_pitch_min, this);
         ToChase_435E10();
     }
 }
@@ -1626,7 +1626,7 @@ void FlyingSlig::ToAbeDead_436010()
 
 void FlyingSlig::ToAlerted_4357E0()
 {
-    sub_436A50(SligSpeak ::What_9, 0);
+    Say_436A50(SligSpeak ::What_9, 0);
     SetBrain(&FlyingSlig::AI_GetAlerted_3_435750);
     field_14C_hi_pause_timer = sGnFrame_5C1B84 + field_118_data.field_10_data.field_14_listen_time;
 }
@@ -1670,7 +1670,7 @@ void FlyingSlig::ToChantShake_436270()
 
 void FlyingSlig::ToPossesed_436130()
 {
-    Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_15C, this);
+    Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_15C_voice_pitch_min, this);
     VSetMotion_4081C0(eFlyingSligMotions::M_Possession_9_434290);
     SetBrain(&FlyingSlig::AI_Possession_13_4360F0);
     field_14C_hi_pause_timer = sGnFrame_5C1B84 + 35;
@@ -1820,39 +1820,39 @@ void FlyingSlig::HandlePlayerControls_439340()
         field_17E_flags.Set(Flags_17E::eBit1);
         field_17E_flags.Set(Flags_17E::eBit10);
 
-        field_160 = 0;
+        field_160_voice_pitch_min = 0;
 
         if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak1_555104))
         {
-            field_17D = SligSpeak::Hi_0;
+            field_17D_next_speak = SligSpeak::Hi_0;
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak3_555100))
         {
-            field_17D = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::GetEm_2 : SligSpeak::Freeze_8;
+            field_17D_next_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::GetEm_2 : SligSpeak::Freeze_8;
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak4_5550FC))
         {
-            field_17D = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::Freeze_8 : SligSpeak::GetEm_2;
+            field_17D_next_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::Freeze_8 : SligSpeak::GetEm_2;
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak2_5550F8))
         {
-            field_17D = SligSpeak::HereBoy_1;
+            field_17D_next_speak = SligSpeak::HereBoy_1;
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak6_555108))
         {
-            field_17D = SligSpeak::Bullshit_5;
+            field_17D_next_speak = SligSpeak::Bullshit_5;
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak7_555114))
         {
-            field_17D = SligSpeak::LookOut_6;
+            field_17D_next_speak = SligSpeak::LookOut_6;
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak5_55510C))
         {
-            field_17D = SligSpeak::Bullshit2_7;
+            field_17D_next_speak = SligSpeak::Bullshit2_7;
         }
         else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak8_555110))
         {
-            field_17D = SligSpeak::Laugh_3;
+            field_17D_next_speak = SligSpeak::Laugh_3;
         }
         else
         {
@@ -1930,8 +1930,8 @@ __int16 FlyingSlig::sub_437C70(PathLine* pLine)
     field_17E_flags.Set(Flags_17E::eBit11, field_1F0_pLine == nullptr);
     field_17E_flags.Set(Flags_17E::eBit12, field_1EC_pLine == nullptr);
 
-    field_182 = FindLeftOrRightBound_43B0A0(field_1AC, field_1B0);
-    field_180 = FindLeftOrRightBound_43B0A0(field_1A4, field_1A8);
+    field_182_bound1 = FindLeftOrRightBound_43B0A0(field_1AC, field_1B0);
+    field_180_bound2 = FindLeftOrRightBound_43B0A0(field_1A4, field_1A8);
     field_1BC = Math_496F70(field_1A8 - field_1B0, field_1AC - field_1A4);
 
     field_1C0 += FP_FromInteger(128);

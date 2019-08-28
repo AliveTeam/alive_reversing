@@ -156,7 +156,7 @@ public:
 
     EXPORT __int16 CanChase_436850(BaseAliveGameObject* pObj);
 
-    EXPORT void sub_436A50(SligSpeak  a2, __int16 a3);
+    EXPORT void Say_436A50(SligSpeak speak, __int16 pitch);
 
     EXPORT __int16 sub_4374A0(__int16 a2);
 
@@ -221,9 +221,9 @@ private:
     int field_150_grenade_delay;
     int field_154;
     int field_158_obj_id;
-    __int16 field_15C;
+    __int16 field_15C_voice_pitch_min;
     __int16 field_15E;
-    __int16 field_160;
+    __int16 field_160_voice_pitch_min;
     __int16 field_162;
     int field_164;
     __int16 field_168;
@@ -237,7 +237,7 @@ private:
     __int16 field_178;
     __int16 field_17A;
     BYTE field_17C_launch_id;
-    SligSpeak field_17D;
+    SligSpeak field_17D_next_speak;
 
     enum Flags_17E
     {
@@ -256,8 +256,8 @@ private:
         eBit13_Persistant = 0x1000,
     };
     BitField16<Flags_17E> field_17E_flags;
-    __int16 field_180;
-    __int16 field_182;
+    __int16 field_180_bound2;
+    __int16 field_182_bound1;
     FP field_184;
     FP field_188_ySpeed;
     int field_18C;
