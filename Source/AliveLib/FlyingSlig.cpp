@@ -545,7 +545,64 @@ void FlyingSlig::AI_GetAlerted_3_435750()
 
 void FlyingSlig::AI_ChasingEnemy_4_435BC0()
 {
-    NOT_IMPLEMENTED();
+    field_17E_flags.Clear(Flags_17E::eBit3);
+
+    if (Event_Get_422C00(kEventHeroDying) &&
+        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        ToAbeDead_436010();
+        return;
+    }
+
+    if (Event_Get_422C00(kEventResetting) ||
+        sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale ||
+        IsInInvisibleZone_425710(sControlledCharacter_5C1B8C)||
+        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
+        !IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) &&
+        (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_65_LedgeAscend_End_4548E0) &&
+        sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89)
+    {
+        PatrolDelay_435860();
+        return;
+    }
+
+    if (sub_436C60(&field_100_pCollisionLine->field_0_rect, 1))
+    {
+        if (FP_Abs(field_194 - field_1C4) < (FP_FromInteger(15) * field_CC_sprite_scale))
+        {
+            ToLaunchingGrenade_435F50();
+            return;
+        }
+
+        if (field_1C4 <= field_194)
+        {
+            field_17E_flags.Clear(Flags_17E::eBit4);
+        }
+        else
+        {
+            field_17E_flags.Set(Flags_17E::eBit4);
+        }
+        
+        field_17E_flags.Set(Flags_17E::eBit3);
+
+        if (static_cast<int>(sGnFrame_5C1B84) > field_150_grenade_delay && CanThrowGrenade_43A490())
+        {
+            if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
+            {
+                if (!(Math_NextRandom() & 0xF))
+                {
+                    ToLaunchingGrenade_435F50();
+                    return;
+                }
+            }
+        }
+    }
+    else if (!sub_436B20())
+    {
+        sub_4373B0();
+    }
+
+    sub_4374A0(0);
 }
 
 void FlyingSlig::AI_Idle_5_435820()
@@ -1407,7 +1464,7 @@ __int16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
     return Slig::IsAbeEnteringDoor_4BB990(pThis);
 }
 
-BOOL CCSTD FlyingSlig::IsWallBetween_43A550(FlyingSlig *pThis, BaseAliveGameObject *pObj)
+BOOL CCSTD FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject *pThis, BaseAliveGameObject *pObj)
 {
     // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
     PSX_RECT bRect = {};
@@ -1803,4 +1860,101 @@ void FlyingSlig::vPossessed_434FB0()
     field_2B8 = FP_FromDouble(0.7) * field_CC_sprite_scale;
 
     ToPossesed_436130();
+}
+
+__int16 FlyingSlig::sub_436C60(PSX_RECT* /*pRect*/, __int16 /*op1*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+BOOL FlyingSlig::sub_436B20()
+{
+    PathLine* pLastNextOrPrevLine = nullptr;
+
+    FP lastNextSegmentLength = FP_FromInteger(9999);
+    FP totalNextSegmentLength = {};
+
+    PathLine* pNextLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_C_next);
+    if (pNextLine)
+    {
+        while (pNextLine != field_100_pCollisionLine)
+        {
+            if (sub_436C60(&pNextLine->field_0_rect, 0))
+            {
+                field_17E_flags.Set(Flags_17E::eBit4);
+                pLastNextOrPrevLine = pNextLine;
+                if (pNextLine)
+                {
+                    lastNextSegmentLength = totalNextSegmentLength;
+                }
+                break;
+            }
+            else
+            {
+                totalNextSegmentLength += FP_FromInteger(pNextLine->field_12_line_length);
+                pNextLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(pNextLine->field_C_next);
+                if (!pNextLine)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    FP totalPrevSegmentLength = {};
+    PathLine* pPrevLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_A_previous);
+    if (pPrevLine)
+    {
+        while (pPrevLine != field_100_pCollisionLine)
+        {
+            if (sub_436C60(&pPrevLine->field_0_rect, 0))
+            {
+                if (totalPrevSegmentLength < lastNextSegmentLength)
+                {
+                    field_17E_flags.Clear(Flags_17E::eBit4);
+                    pLastNextOrPrevLine = pPrevLine;
+                }
+                break;
+            }
+            else
+            {
+                totalPrevSegmentLength += FP_FromInteger(pPrevLine->field_12_line_length);
+                pPrevLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(pPrevLine->field_A_previous);
+                if (!pPrevLine)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    return pLastNextOrPrevLine != nullptr;
+}
+
+FP FlyingSlig::sub_4373B0()
+{
+    const FP calc = Math_496F70(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos, sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
+    FP value1 = FP_Abs(field_1BC - calc);
+    if (value1 > FP_FromInteger(128))
+    {
+        value1 = FP_FromInteger(256) - value1;
+    }
+
+    FP value2 = FP_Abs(field_1C0 - calc);
+    if (value2 > FP_FromInteger(128))
+    {
+        value2 = FP_FromInteger(256) - value2;
+    }
+
+    if (value1 >= value2)
+    {
+        field_17E_flags.Clear(Flags_17E::eBit4);
+    }
+    else
+    {
+        field_17E_flags.Set(Flags_17E::eBit4);
+    }
+
+    return value2;
 }

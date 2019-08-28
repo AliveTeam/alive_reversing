@@ -162,7 +162,7 @@ public:
 
     EXPORT static __int16 CCSTD IsAbeEnteringDoor_43B030(BaseAliveGameObject *pThis );
 
-    EXPORT static BOOL CCSTD IsWallBetween_43A550(FlyingSlig *pThis, BaseAliveGameObject *pObj);
+    EXPORT static BOOL CCSTD IsWallBetween_43A550(BaseAliveGameObject *pThis, BaseAliveGameObject *pObj);
 
     EXPORT void ThrowGrenade_43A1E0();
 
@@ -203,6 +203,12 @@ public:
     EXPORT __int16 FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
 
     EXPORT void vPossessed_434FB0();
+
+    EXPORT __int16 sub_436C60(PSX_RECT* pRect, __int16 op1);
+
+    EXPORT BOOL sub_436B20();
+
+    EXPORT FP sub_4373B0();
 
 
     void SetBrain(TFlyingSligFn fn);
@@ -272,7 +278,7 @@ private:
     __int16 field_1BA;
     FP field_1BC;
     FP field_1C0;
-    int field_1C4;
+    FP field_1C4;
     int field_1C8;
     int field_1CC;
     __int16 field_1D0;
