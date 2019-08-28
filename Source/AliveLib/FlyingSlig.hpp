@@ -258,7 +258,7 @@ private:
     BitField16<Flags_17E> field_17E_flags;
     __int16 field_180;
     __int16 field_182;
-    int field_184;
+    FP field_184;
     FP field_188_ySpeed;
     int field_18C;
     int field_190;
