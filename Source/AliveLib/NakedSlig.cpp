@@ -1215,11 +1215,11 @@ void NakedSlig::M_UsingButton_1_41B890()
                     pFlyingSlig->field_2A2_abe_path = field_1BC_prev_path;
                     pFlyingSlig->field_2A4_abe_camera = field_1BE_prev_camera;
                     sControlledCharacter_5C1B8C = pFlyingSlig;
-                    pFlyingSlig->field_2A8 = (FP_FromDouble(5.5) * field_CC_sprite_scale);
-                    pFlyingSlig->field_2AC = (-FP_FromDouble(5.5) * field_CC_sprite_scale);
-                    pFlyingSlig->field_2B0 = (FP_FromDouble(5.5) * field_CC_sprite_scale);
-                    pFlyingSlig->field_2B4 = (FP_FromDouble(0.3) * field_CC_sprite_scale);
-                    pFlyingSlig->field_2B8_deaccleration = (FP_FromDouble(0.8) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2AC_up_vel = (-FP_FromDouble(5.5) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2B4_max_slow_down = (FP_FromDouble(0.3) * field_CC_sprite_scale);
+                    pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.8) * field_CC_sprite_scale);
                 }
                 else
                 {

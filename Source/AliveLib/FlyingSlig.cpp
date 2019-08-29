@@ -201,11 +201,11 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
         field_14C_timer = sGnFrame_5C1B84 + 1;
     }
 
-    field_2A8 = FP_FromInteger(field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
-    field_2AC = FP_FromInteger(-field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
-    field_2B0 = FP_FromInteger(field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
-    field_2B4 = FP_FromDouble(0.4) * field_CC_sprite_scale;
-    field_2B8_deaccleration = FP_FromDouble(0.4) * field_CC_sprite_scale;
+    field_2A8_max_x_speed = FP_FromInteger(field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
+    field_2AC_up_vel = FP_FromInteger(-field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
+    field_2B0_down_vel = FP_FromInteger(field_118_data.field_10_data.field_1A_max_velocity) * field_CC_sprite_scale;
+    field_2B4_max_slow_down = FP_FromDouble(0.4) * field_CC_sprite_scale;
+    field_2B8_max_speed_up = FP_FromDouble(0.4) * field_CC_sprite_scale;
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, field_118_data.field_10_data.field_A_direction == 0);
 
@@ -574,22 +574,14 @@ void FlyingSlig::AI_ChasingEnemy_4_435BC0()
             return;
         }
 
-        if (field_1C4 <= field_194)
-        {
-            field_17E_flags.Clear(Flags_17E::eBit4);
-        }
-        else
-        {
-            field_17E_flags.Set(Flags_17E::eBit4);
-        }
-        
+        field_17E_flags.Set(Flags_17E::eBit4, field_1C4 > field_194);
         field_17E_flags.Set(Flags_17E::eBit3);
 
         if (static_cast<int>(sGnFrame_5C1B84) > field_150_grenade_delay && CanThrowGrenade_43A490())
         {
             if (vIsFacingMe_4254A0(sControlledCharacter_5C1B8C))
             {
-                if (!(Math_NextRandom() & 0xF))
+                if (!(Math_NextRandom() & 15))
                 {
                     ToLaunchingGrenade_435F50();
                     return;
@@ -1865,46 +1857,46 @@ void FlyingSlig::HandlePlayerControls_439340()
     {
         if (sInputObject_5BD4E0.isPressed(InputCommands::eLeft))
         {
-            field_184_xSpeed = (-field_2B8_deaccleration * FP_FromDouble(0.707));
-            field_188_ySpeed = (-field_2B8_deaccleration * FP_FromDouble(0.707));
+            field_184_xSpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
+            field_188_ySpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             return;
         }
         if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
         {
-            field_184_xSpeed = (field_2B8_deaccleration * FP_FromDouble(0.707));
-            field_188_ySpeed = (-field_2B8_deaccleration * FP_FromDouble(0.707));
+            field_184_xSpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
+            field_188_ySpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             return;
         }
         field_184_xSpeed = FP_FromInteger(0);
-        field_188_ySpeed = -field_2B8_deaccleration;
+        field_188_ySpeed = -field_2B8_max_speed_up;
     }
     else if (sInputObject_5BD4E0.isPressed(InputCommands::eDown))
     {
         if (sInputObject_5BD4E0.isPressed(InputCommands::eLeft))
         {
-            field_184_xSpeed = (-field_2B8_deaccleration * FP_FromDouble(0.707));
-            field_188_ySpeed = (field_2B8_deaccleration * FP_FromDouble(0.707));
+            field_184_xSpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
+            field_188_ySpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
         }
         else if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
         {
-            field_184_xSpeed = (field_2B8_deaccleration * FP_FromDouble(0.707));
-            field_188_ySpeed = (field_2B8_deaccleration * FP_FromDouble(0.707));
+            field_184_xSpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
+            field_188_ySpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
         }
         else
         {
             field_184_xSpeed = FP_FromInteger(0);
-            field_188_ySpeed = field_2B8_deaccleration;
+            field_188_ySpeed = field_2B8_max_speed_up;
         }
     }
     else if (sInputObject_5BD4E0.isPressed(InputCommands::eLeft))
     {
         field_188_ySpeed = FP_FromInteger(0);
-        field_184_xSpeed = -field_2B8_deaccleration;
+        field_184_xSpeed = -field_2B8_max_speed_up;
     }
     else if (sInputObject_5BD4E0.isPressed(InputCommands::eRight))
     {
         field_188_ySpeed = FP_FromInteger(0);
-        field_184_xSpeed = field_2B8_deaccleration;
+        field_184_xSpeed = field_2B8_max_speed_up;
     }
 
 }
@@ -1979,11 +1971,11 @@ void FlyingSlig::vPossessed_434FB0()
     field_2A2_abe_path = gMap_5C3030.sCurrentPathId_5C3032;
     field_2A4_abe_camera = gMap_5C3030.sCurrentCamId_5C3034;
     
-    field_2A8 = FP_FromDouble(5.5) * field_CC_sprite_scale;
-    field_2AC = FP_FromDouble(-5.5) * field_CC_sprite_scale;
-    field_2B0 = FP_FromDouble(5.5) * field_CC_sprite_scale;
-    field_2B4 = FP_FromDouble(0.25) * field_CC_sprite_scale;
-    field_2B8_deaccleration = FP_FromDouble(0.7) * field_CC_sprite_scale;
+    field_2A8_max_x_speed = FP_FromDouble(5.5) * field_CC_sprite_scale;
+    field_2AC_up_vel = FP_FromDouble(-5.5) * field_CC_sprite_scale;
+    field_2B0_down_vel = FP_FromDouble(5.5) * field_CC_sprite_scale;
+    field_2B4_max_slow_down = FP_FromDouble(0.25) * field_CC_sprite_scale;
+    field_2B8_max_speed_up = FP_FromDouble(0.7) * field_CC_sprite_scale;
 
     ToPossesed_436130();
 }

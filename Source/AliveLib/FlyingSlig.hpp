@@ -309,10 +309,10 @@ public:
     __int16 field_2A2_abe_path;
     __int16 field_2A4_abe_camera;
     __int16 field_2A6;
-    FP field_2A8;
-    FP field_2AC;
-    FP field_2B0;
-    FP field_2B4;
-    FP field_2B8_deaccleration;
+    FP field_2A8_max_x_speed;
+    FP field_2AC_up_vel;
+    FP field_2B0_down_vel;
+    FP field_2B4_max_slow_down;
+    FP field_2B8_max_speed_up;
 };
 ALIVE_ASSERT_SIZEOF(FlyingSlig, 0x2BC);
