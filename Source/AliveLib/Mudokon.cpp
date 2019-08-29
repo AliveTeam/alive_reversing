@@ -4588,7 +4588,8 @@ __int16 Mudokon::AI_Escape_6_47A560()
 
                 if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0 || field_106_current_motion == Mud_Motion::Walking_1_4728B0)
                 {
-                    if (pBirdPortal->field_26_side == PortalSide::eRight_0 && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                    if ((pBirdPortal->field_26_side == PortalSide::eRight_0 && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ||
+                        (pBirdPortal->field_26_side == PortalSide::eLeft_1 && !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
                     }
