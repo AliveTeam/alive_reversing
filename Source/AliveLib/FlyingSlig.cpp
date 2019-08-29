@@ -557,7 +557,7 @@ void FlyingSlig::AI_ChasingEnemy_4_435BC0()
     if (Event_Get_422C00(kEventResetting) ||
         sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale ||
         IsInInvisibleZone_425710(sControlledCharacter_5C1B8C)||
-        !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
+        sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
         !IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) &&
         (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_65_LedgeAscend_End_4548E0) &&
         sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89)
