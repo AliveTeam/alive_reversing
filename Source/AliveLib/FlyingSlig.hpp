@@ -268,10 +268,10 @@ private:
     __int16 field_19E;
     __int16 field_1A0;
     __int16 field_1A2;
-    FP field_1A4; // TODO: FP_Rect ??
-    FP field_1A8;
-    FP field_1AC;
-    FP field_1B0;
+    FP_Rect field_1A4_rect; // TODO: FP_Rect ??
+    //FP field_1A8;
+    //FP field_1AC;
+   // FP field_1B0;
     __int16 field_1B4;
     __int16 field_1B6;
     __int16 field_1B8;

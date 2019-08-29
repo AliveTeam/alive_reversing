@@ -395,8 +395,8 @@ void FlyingSlig::sub_4348A0()
     field_18C = 0;
     field_190 = 0;
     sub_437C70(field_100_pCollisionLine);
-    const short v5 = FP_GetExponent(field_BC_ypos - field_1A8);
-    const short v6 = FP_GetExponent(field_B8_xpos - field_1A4);
+    const short v5 = FP_GetExponent(field_BC_ypos - field_1A4_rect.y);
+    const short v6 = FP_GetExponent(field_B8_xpos - field_1A4_rect.x);
     field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
     field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == 0);
 }
@@ -1917,10 +1917,15 @@ __int16 FlyingSlig::sub_437C70(PathLine* pLine)
         return 0;
     }
 
-    field_1A4 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.x);
+    field_1A4_rect.x = FP_FromInteger(field_100_pCollisionLine->field_0_rect.x);
+    field_1A4_rect.y = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
+    field_1A4_rect.w = FP_FromInteger(field_100_pCollisionLine->field_0_rect.w);
+    field_1A4_rect.h = FP_FromInteger(field_100_pCollisionLine->field_0_rect.h);
+    /*
     field_1A8 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
     field_1AC = FP_FromInteger(field_100_pCollisionLine->field_0_rect.w);
     field_1B0 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.h);
+    */
 
     field_1EC_pLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_C_next);
     field_1F0_pLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_A_previous);
@@ -1930,9 +1935,9 @@ __int16 FlyingSlig::sub_437C70(PathLine* pLine)
     field_17E_flags.Set(Flags_17E::eBit11, field_1F0_pLine == nullptr);
     field_17E_flags.Set(Flags_17E::eBit12, field_1EC_pLine == nullptr);
 
-    field_182_bound1 = FindLeftOrRightBound_43B0A0(field_1AC, field_1B0);
-    field_180_bound2 = FindLeftOrRightBound_43B0A0(field_1A4, field_1A8);
-    field_1BC = Math_496F70(field_1A8 - field_1B0, field_1AC - field_1A4);
+    field_182_bound1 = FindLeftOrRightBound_43B0A0(field_1A4_rect.w, field_1A4_rect.h);
+    field_180_bound2 = FindLeftOrRightBound_43B0A0(field_1A4_rect.x, field_1A4_rect.y);
+    field_1BC = Math_496F70(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
 
     field_1C0 += FP_FromInteger(128);
 
