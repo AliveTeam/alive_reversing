@@ -475,7 +475,7 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
 
     case Types::eBaseBomb_46:
     case Types::eExplosion_109:
-        if (BrainIs(&FlyingSlig::AI_Death_1_4364E0))
+        if (!BrainIs(&FlyingSlig::AI_Death_1_4364E0))
         {
             BlowUp_436510();
         }
