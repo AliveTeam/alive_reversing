@@ -241,7 +241,7 @@ private:
 
     enum Flags_17E
     {
-        eBit1_Speaking = 0x1,
+        eBit1_Speaking_flag1 = 0x1,
         eBit2 = 0x2,
         eBit3 = 0x4,
         eBit4 = 0x8,
@@ -249,10 +249,10 @@ private:
         eBit6 = 0x20,
         eBit7_DoAction = 0x40,
         eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11 = 0x400,
-        eBit12 = 0x800,
+        eBit9_Chanting = 0x100,
+        eBit10_Speaking_flag2 = 0x200,
+        eBit11_bNoPrevLine = 0x400,
+        eBit12_bNoNextLine = 0x800,
         eBit13_Persistant = 0x1000,
     };
     BitField16<Flags_17E> field_17E_flags;
@@ -288,8 +288,8 @@ private:
     int field_1E4;
     __int16 field_1E8;
     __int16 field_1EA;
-    PathLine* field_1EC_pLine;
-    PathLine* field_1F0_pLine;
+    PathLine* field_1EC_pNextLine;
+    PathLine* field_1F0_pPrevLine;
     __int16 field_1F4_pal_data[64];
     PSX_RECT field_274_pal_rect;
     __int16 field_27C_old_g;

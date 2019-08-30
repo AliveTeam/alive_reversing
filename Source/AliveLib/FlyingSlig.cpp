@@ -162,13 +162,13 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_150_grenade_delay = 0;
     field_154 = 0;
 
-    field_17E_flags.Clear(Flags_17E::eBit1_Speaking);
+    field_17E_flags.Clear(Flags_17E::eBit1_Speaking_flag1);
     field_17E_flags.Clear(Flags_17E::eBit5_Throw);
     field_17E_flags.Clear(Flags_17E::eBit6);
     field_17E_flags.Clear(Flags_17E::eBit7_DoAction);
     field_17E_flags.Clear(Flags_17E::eBit8);
-    field_17E_flags.Clear(Flags_17E::eBit9);
-    field_17E_flags.Clear(Flags_17E::eBit10);
+    field_17E_flags.Clear(Flags_17E::eBit9_Chanting);
+    field_17E_flags.Clear(Flags_17E::eBit10_Speaking_flag2);
 
     field_158_obj_id = -1;
 
@@ -694,7 +694,7 @@ void FlyingSlig::AI_Possessed_12_436040()
         MusicController::sub_47FD60(9, this, 0, 0);
     }
 
-    if (!field_17E_flags.Get(Flags_17E::eBit9))
+    if (!field_17E_flags.Get(Flags_17E::eBit9_Chanting))
     {
         if (Input_IsChanting_45F260())
         {
@@ -704,7 +704,7 @@ void FlyingSlig::AI_Possessed_12_436040()
 
     if (!Input_IsChanting_45F260())
     {
-        field_17E_flags.Clear(Flags_17E::eBit9);
+        field_17E_flags.Clear(Flags_17E::eBit9_Chanting);
     }
 
     HandlePlayerControls_439340();
@@ -983,9 +983,9 @@ void FlyingSlig::M_LeverPull_7_439150()
 
 void FlyingSlig::M_GameSpeak_8_4391D0()
 {
-    if (field_20_animation.field_92_current_frame == 1 && field_17E_flags.Get(Flags_17E::eBit1_Speaking))
+    if (field_20_animation.field_92_current_frame == 1 && field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1))
     {
-        field_17E_flags.Clear(Flags_17E::eBit1_Speaking);
+        field_17E_flags.Clear(Flags_17E::eBit1_Speaking_flag1);
 
         if (BrainIs(&FlyingSlig::AI_Possessed_12_436040))
         {
@@ -1438,8 +1438,8 @@ void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
 {
     if (field_106_current_motion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
     {
-        field_17E_flags.Set(Flags_17E::eBit1_Speaking);
-        field_17E_flags.Set(Flags_17E::eBit10);
+        field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1);
+        field_17E_flags.Set(Flags_17E::eBit10_Speaking_flag2);
         field_17D_next_speak = speak;
         field_160_voice_pitch_min = pitch;
     }
@@ -1807,10 +1807,10 @@ void FlyingSlig::HandlePlayerControls_439340()
         field_17E_flags.Set(Flags_17E::eBit7_DoAction);
     }
 
-    if (!field_17E_flags.Get(Flags_17E::eBit1_Speaking))
+    if (!field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1))
     {
-        field_17E_flags.Set(Flags_17E::eBit1_Speaking);
-        field_17E_flags.Set(Flags_17E::eBit10);
+        field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1);
+        field_17E_flags.Set(Flags_17E::eBit10_Speaking_flag2);
 
         field_160_voice_pitch_min = 0;
 
@@ -1848,8 +1848,8 @@ void FlyingSlig::HandlePlayerControls_439340()
         }
         else
         {
-            field_17E_flags.Clear(Flags_17E::eBit1_Speaking);
-            field_17E_flags.Clear(Flags_17E::eBit10);
+            field_17E_flags.Clear(Flags_17E::eBit1_Speaking_flag1);
+            field_17E_flags.Clear(Flags_17E::eBit10_Speaking_flag2);
         }
     }
 
@@ -1919,13 +1919,13 @@ __int16 FlyingSlig::sub_437C70(PathLine* pLine)
     field_1B0 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.h);
     */
 
-    field_1EC_pLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_C_next);
-    field_1F0_pLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_A_previous);
+    field_1EC_pNextLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_C_next);
+    field_1F0_pPrevLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_A_previous);
 
     field_198 = FP_FromInteger(field_100_pCollisionLine->field_12_line_length);
 
-    field_17E_flags.Set(Flags_17E::eBit11, field_1F0_pLine == nullptr);
-    field_17E_flags.Set(Flags_17E::eBit12, field_1EC_pLine == nullptr);
+    field_17E_flags.Set(Flags_17E::eBit11_bNoPrevLine, field_1F0_pPrevLine == nullptr);
+    field_17E_flags.Set(Flags_17E::eBit12_bNoNextLine, field_1EC_pNextLine == nullptr);
 
     field_182_bound1 = FindLeftOrRightBound_43B0A0(field_1A4_rect.w, field_1A4_rect.h);
     field_180_bound2 = FindLeftOrRightBound_43B0A0(field_1A4_rect.x, field_1A4_rect.y);
@@ -1965,7 +1965,7 @@ __int16 FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
 void FlyingSlig::vPossessed_434FB0()
 {
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
-    field_17E_flags.Set(Flags_17E::eBit1_Speaking);
+    field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1);
 
     field_2A0_abe_level = gMap_5C3030.sCurrentLevelId_5C3030;
     field_2A2_abe_path = gMap_5C3030.sCurrentPathId_5C3032;
