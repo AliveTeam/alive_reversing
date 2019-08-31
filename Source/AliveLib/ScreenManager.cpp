@@ -54,7 +54,10 @@ void CC Camera::On_Loaded_480ED0(Camera* pCamera)
 
 void ScreenManager::sub_40EE10()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < 20; i++)
+    {
+        field_64_20x16_dirty_bits[field_3C_y_idx].mData[i] |= field_64_20x16_dirty_bits[field_3E_x_idx].mData[i];
+    }
 }
 
 void ScreenManager::MoveImage_40EB70()
