@@ -31,7 +31,7 @@ public:
         vScreenChanged_466D20();
     }
 
-    virtual void vnull_4081A0(BaseGameObject* /*pFrom*/) override
+    virtual void VOnThrowableHit(BaseGameObject* /*pFrom*/) override
     {
         // Empty
     }

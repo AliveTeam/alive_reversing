@@ -307,7 +307,7 @@ EXPORT void UXB::vOnPickUpOrSlapped_4DF540()
     }
 }
 
-void UXB::vsub_4DF7B0(BaseGameObject* /*pFrom*/)
+void UXB::vOnThrowableHit_4DF7B0(BaseGameObject* /*pFrom*/)
 {
     auto pBomb = alive_new<BaseBomb>();
     if (pBomb)
@@ -649,7 +649,7 @@ void UXB::VOnPickUpOrSlapped()
     vOnPickUpOrSlapped_4DF540();
 }
 
-void UXB::vnull_4081A0(BaseGameObject* pFrom)
+void UXB::VOnThrowableHit(BaseGameObject* pFrom)
 {
-    vsub_4DF7B0(pFrom);
+    vOnThrowableHit_4DF7B0(pFrom);
 }

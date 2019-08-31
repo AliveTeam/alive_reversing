@@ -32,7 +32,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
-    virtual void vnull_4081A0(BaseGameObject* pFrom) override;
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
 private:
@@ -43,7 +43,7 @@ private:
     EXPORT void vScreenChanged_470B90();
     EXPORT void FollowLine_470950();
     EXPORT __int16 vTakeDamage_470990(BaseGameObject* pFrom);
-    EXPORT void vsub_470800(BaseGameObject* pObj);
+    EXPORT void vOnThrowableHit_470800(BaseGameObject* pObj);
     EXPORT signed __int16 HitObject_470830();
     EXPORT void vUpdate_4701E0();
 

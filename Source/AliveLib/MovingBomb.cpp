@@ -125,9 +125,9 @@ void MovingBomb::VRender(int** pOrderingTable)
     vRender_4707D0(pOrderingTable);
 }
 
-void MovingBomb::vnull_4081A0(BaseGameObject* pFrom)
+void MovingBomb::VOnThrowableHit(BaseGameObject* pFrom)
 {
-    vsub_470800(pFrom);
+    vOnThrowableHit_470800(pFrom);
 }
 
 __int16 MovingBomb::VTakeDamage_408730(BaseGameObject* pFrom)
@@ -268,7 +268,7 @@ __int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
     }
 }
 
-void MovingBomb::vsub_470800(BaseGameObject* /*pObj*/)
+void MovingBomb::vOnThrowableHit_470800(BaseGameObject* /*pObj*/)
 {
     if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {

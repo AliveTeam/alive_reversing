@@ -121,9 +121,9 @@ void Greeter::VScreenChanged()
     vScreenChanged_447DD0();
 }
 
-void Greeter::vnull_4081A0(BaseGameObject* pFrom)
+void Greeter::VOnThrowableHit(BaseGameObject* pFrom)
 {
-    vsub_447DB0(pFrom);
+    vOnThrowableHit_447DB0(pFrom);
 }
 
 signed __int16 Greeter::VTakeDamage_408730(BaseGameObject* pFrom)
@@ -357,7 +357,7 @@ EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
     }
 }
 
-void Greeter::vsub_447DB0(BaseGameObject* /*pFrom*/)
+void Greeter::vOnThrowableHit_447DB0(BaseGameObject* /*pFrom*/)
 {
     BounceBackFromShot_447B10();
 }

@@ -47,6 +47,8 @@ public:
 
     virtual void VOnTrapDoorOpen() override;
 
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+
 public:
     EXPORT void M_Sleeping_0_42F0B0();
     EXPORT void M_WakingUp_1_42F270();
@@ -130,6 +132,10 @@ private:
     EXPORT BaseAliveGameObject* FindMudOrAbe_42CFD0();
 
     EXPORT void MoveAlongFloor_42E600();
+
+    EXPORT __int16 IsNear_428670(BaseAliveGameObject* pObj);
+
+    EXPORT void vOnThrowableHit_42A590(BaseGameObject* pFrom);
 
 
 private:

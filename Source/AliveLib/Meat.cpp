@@ -313,7 +313,7 @@ __int16 Meat::OnCollision_469FF0(BaseGameObject* pHit)
         field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
     }
     
-    static_cast<BaseAliveGameObject*>(pHit)->vnull_4081A0(this);
+    static_cast<BaseAliveGameObject*>(pHit)->VOnThrowableHit(this);
 
     SFX_Play_46FBA0(36u, 0, -650);
 

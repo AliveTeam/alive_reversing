@@ -50,9 +50,9 @@ void Mine::VOnPickUpOrSlapped()
     vOnPickUpOrSlapped_46B880();
 }
 
-void Mine::vnull_4081A0(BaseGameObject* pFrom)
+void Mine::VOnThrowableHit(BaseGameObject* pFrom)
 {
-    vsub_46BA40(pFrom);
+    vOnThrowableHit_46BA40(pFrom);
 }
 
 __int16 Mine::VTakeDamage_408730(BaseGameObject* pFrom)
@@ -283,7 +283,7 @@ void Mine::vOnPickUpOrSlapped_46B880()
     }
 }
 
-void Mine::vsub_46BA40(BaseGameObject* /*pFrom*/)
+void Mine::vOnThrowableHit_46BA40(BaseGameObject* /*pFrom*/)
 {
     auto pBomb = alive_new<BaseBomb>();
     if (pBomb)

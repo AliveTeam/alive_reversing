@@ -606,7 +606,7 @@ __int16 Grenade::OnCollision_BounceOff_448F90(BaseGameObject* pHit)
         field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
     }
 
-    pHit2->vnull_4081A0(this);
+    pHit2->VOnThrowableHit(this);
 
     SFX_Play_46FA90(24u, 0);
     return 0;

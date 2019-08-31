@@ -270,7 +270,7 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
         }
     }
     
-    pObj->vnull_4081A0(this);
+    pObj->VOnThrowableHit(this);
 
     field_130 |= 1u;
     SFX_Play_46FA90(24u, 80);

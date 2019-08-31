@@ -334,7 +334,7 @@ __int16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
         field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
     }
 
-    pObj->vnull_4081A0(this);
+    pObj->VOnThrowableHit(this);
 
     SFX_Play_46FA90(24u, 80);
     return 0;

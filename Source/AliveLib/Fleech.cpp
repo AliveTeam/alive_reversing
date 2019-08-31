@@ -193,6 +193,11 @@ void Fleech::VOnTrapDoorOpen()
     vOnTrapDoorOpen_42E5C0();
 }
 
+void Fleech::VOnThrowableHit(BaseGameObject* pFrom)
+{
+    vOnThrowableHit_42A590(pFrom);
+}
+
 void Fleech::M_Sleeping_0_42F0B0()
 {
     if (field_108_next_motion == -1)
@@ -1528,5 +1533,22 @@ void Fleech::MoveAlongFloor_42E600()
         field_138 = FP_FromInteger(0);
         field_106_current_motion = eFleechMotions::M_Fall_9_42ECD0;
     }
+}
+
+__int16 Fleech::IsNear_428670(BaseAliveGameObject* pObj)
+{
+    if (pObj && 
+        field_CC_sprite_scale == pObj->field_CC_sprite_scale &&
+        FP_GetExponent(FP_Abs(field_B8_xpos - pObj->field_B8_xpos)) <= 750 &&
+        FP_GetExponent(FP_Abs(field_BC_ypos - pObj->field_BC_ypos)) <= 260)
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void Fleech::vOnThrowableHit_42A590(BaseGameObject* /*pFrom*/)
+{
+    field_13E_anger += field_142_attack_anger;
 }
 

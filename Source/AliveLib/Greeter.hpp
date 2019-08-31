@@ -69,7 +69,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual void vnull_4081A0(BaseGameObject* pFrom) override;
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual signed __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
 private:
@@ -81,7 +81,7 @@ private:
     EXPORT void BounceBackFromShot_447B10();
     EXPORT void HandleRollingAlong_447860();
     EXPORT signed __int16 vTakeDamage_447C20(BaseGameObject* pFrom);
-    EXPORT void vsub_447DB0(BaseGameObject* pFrom);
+    EXPORT void vOnThrowableHit_447DB0(BaseGameObject* pFrom);
     EXPORT void ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
     EXPORT void RandomishSpeak_447A70(GreeterSpeak effect);
     EXPORT BOOL ZapIsNotBlocked_447240(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);

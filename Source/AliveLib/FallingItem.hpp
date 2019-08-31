@@ -37,7 +37,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual void vnull_4081A0(BaseGameObject*) override
+    virtual void VOnThrowableHit(BaseGameObject*) override
     {
         // FallingItem__vnullsub_75
     }

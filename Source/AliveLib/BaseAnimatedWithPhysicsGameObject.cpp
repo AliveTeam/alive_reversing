@@ -261,9 +261,9 @@ void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()
     vOnPickUpOrSlapped_408180();
 }
 
-void BaseAnimatedWithPhysicsGameObject::vnull_4081A0(BaseGameObject* pFrom)
+void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* pFrom)
 {
-    null_4081A0(pFrom);
+    vOnThrowableHit_4081A0(pFrom);
 }
 
 PSX_RECT* BaseAnimatedWithPhysicsGameObject::GetBoundingRect_424FD0(PSX_RECT* pRect, int pointIdx)
@@ -427,7 +427,7 @@ void BaseAnimatedWithPhysicsGameObject::vOnPickUpOrSlapped_408180()
     // Empty
 }
 
-void BaseAnimatedWithPhysicsGameObject::null_4081A0(BaseGameObject* /*pFrom*/)
+void BaseAnimatedWithPhysicsGameObject::vOnThrowableHit_4081A0(BaseGameObject* /*pFrom*/)
 {
     // Empty
 }
