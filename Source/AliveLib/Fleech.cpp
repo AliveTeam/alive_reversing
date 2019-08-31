@@ -309,9 +309,78 @@ void Fleech::M_Idle_3_42E850()
 
 }
 
+const int sFleechCrawlVelX_544FA0[10] =
+{
+    251423,
+    220780,
+    307251,
+    326921,
+    168913,
+    217015,
+    146093,
+    2097152000,
+    0,
+    0
+};
+
 void Fleech::M_Crawl_4_42E960()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_92_current_frame > 6)
+    {
+        field_20_animation.field_92_current_frame = 0;
+    }
+
+    FP velXTable = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        velXTable = -FP_FromRaw(sFleechCrawlVelX_544FA0[field_20_animation.field_92_current_frame]);
+    }
+    else
+    {
+        velXTable = FP_FromRaw(sFleechCrawlVelX_544FA0[field_20_animation.field_92_current_frame]);
+    }
+
+    field_C4_velx = (field_CC_sprite_scale * velXTable);
+
+    const FP k1Directed = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0) ? -1 : 1);
+    if (WallHit_408750(FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1)) ? 10 : 5), ScaleToGridSize_4498B0(field_CC_sprite_scale) * k1Directed))
+    {
+        ToIdle_42E520();
+    }
+    else
+    {
+        MoveAlongFloor_42E600();
+        if (field_106_current_motion == eFleechMotions::M_Crawl_4_42E960)
+        {
+            if (field_20_animation.field_92_current_frame == 4)
+            {
+                Sound_430520(14u);
+            }
+            else if (field_20_animation.field_92_current_frame == 6)
+            {
+                if (field_130 == 0)
+                {
+                    field_130 = 1;
+                    MapFollowMe_408D10(TRUE);
+                }
+
+                if (field_108_next_motion == eFleechMotions::M_Idle_3_42E850)
+                {
+                    field_106_current_motion = eFleechMotions::M_StopMidCrawlCycle_8_42EB20;
+                    field_108_next_motion = -1;
+                }
+                else if (field_108_next_motion != -1)
+                {
+                    field_106_current_motion = field_108_next_motion;
+                    field_108_next_motion = -1;
+                }
+            }
+            else
+            {
+                field_130 = 0;
+            }
+        }
+    }
 }
 
 void Fleech::M_PatrolCry_5_42E810()
