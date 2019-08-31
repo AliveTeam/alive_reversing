@@ -221,9 +221,9 @@ __int16 Slog::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_4C4B80(pFrom);
 }
 
-void Slog::vnull_4081A0(BaseGameObject* pFrom)
+void Slog::VOnThrowableHit(BaseGameObject* pFrom)
 {
-    vsub_4C4B50(pFrom);
+    vOnThrowableHit_4C4B50(pFrom);
 }
 
 void Slog::M_Idle_0_4C5F90()
@@ -3137,7 +3137,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
     return 1;
 }
 
-void Slog::vsub_4C4B50(BaseGameObject* /*pFrom*/)
+void Slog::vOnThrowableHit_4C4B50(BaseGameObject* /*pFrom*/)
 {
     field_142_anger_level += field_148_chase_anger;// on throwable hit?
 }

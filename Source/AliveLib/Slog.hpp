@@ -43,7 +43,7 @@ public:
 
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    virtual void vnull_4081A0(BaseGameObject* pFrom) override;
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 public:
     EXPORT void M_Idle_0_4C5F90();
     EXPORT void M_Walk_1_4C60C0();
@@ -168,7 +168,7 @@ private:
 
     EXPORT __int16 vTakeDamage_4C4B80(BaseGameObject* pFrom);
 
-    EXPORT void vsub_4C4B50(BaseGameObject* pFrom);
+    EXPORT void vOnThrowableHit_4C4B50(BaseGameObject* pFrom);
 
     EXPORT __int16 PlayerOrNakedSligNear_4C26A0();
 
