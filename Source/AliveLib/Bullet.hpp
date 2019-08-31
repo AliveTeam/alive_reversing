@@ -25,11 +25,14 @@ public:
     EXPORT Bullet* ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9);
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    virtual void VUpdate() override;
+
 private:
     EXPORT Bullet* vdtor_4145E0(signed int flags);
 
     EXPORT BaseAliveGameObject* ShootObject_414630(PSX_RECT* pRect);
 
+    EXPORT void vUpdate_413560();
 
 public:
     BulletType field_20_type;

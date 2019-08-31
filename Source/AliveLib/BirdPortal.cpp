@@ -1076,7 +1076,7 @@ signed __int16 BirdPortal::IsScaredAway_4992A0()
         switch (pObj->field_4_typeId)
         {
         case Types::eType_40:
-        case Types::eType_Abe_69:
+        case Types::eAbe_69:
         case Types::eMudokon2_81:
         case Types::eParamite_96:
         case Types::eScrab_112:

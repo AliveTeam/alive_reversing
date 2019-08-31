@@ -19,7 +19,7 @@ private:
     PathLine *field_F4_pLine;
     __int16 field_F8;
     __int16 field_FA;
-    __int16 field_FC;
+    __int16 field_FC_hitCount;
     __int16 field_FE;
     FP field_100;
 };

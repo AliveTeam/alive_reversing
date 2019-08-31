@@ -178,7 +178,7 @@ Electrocute* Electrocute::ctor_4E5E80(BaseAliveGameObject* pTargetObj, __int16 b
     {
     case Types::eFlyingSlig_54:
     case Types::eGlukkon_67:
-    case Types::eType_Abe_69:
+    case Types::eAbe_69:
     case Types::eSlig_125:
         field_40_pPalData = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(sizeof(WORD) * pTargetObj->field_20_animation.field_90_pal_depth));
         Pal_Copy_483560(
@@ -256,7 +256,7 @@ void Electrocute::vUpdate_4E6240()
         switch (field_44_state)
         {
         case 0:
-            if (pTargetObj->field_4_typeId == Types::eType_Abe_69)
+            if (pTargetObj->field_4_typeId == Types::eAbe_69)
             {
                 field_28_b = 127;
                 field_26_g = 127;

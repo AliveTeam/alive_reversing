@@ -744,7 +744,7 @@ void DestroyAliveObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != Types::eType_Abe_69)
+        if (pObj->field_4_typeId != Types::eAbe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead);
         }
@@ -763,7 +763,7 @@ void DestroyAllObjects()
             continue;
         }
 
-        if (pObj->field_4_typeId != Types::eType_Abe_69)
+        if (pObj->field_4_typeId != Types::eAbe_69)
         {
             pObj->field_6_flags.Set(BaseGameObject::eDead);
         }

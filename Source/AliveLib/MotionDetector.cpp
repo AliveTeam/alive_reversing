@@ -301,7 +301,7 @@ void MotionDetector::vRender_469120(int** pOt)
 
 signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
 {
-    if (pWho->field_4_typeId == Types::eType_Abe_69)
+    if (pWho->field_4_typeId == Types::eAbe_69)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
         if (pWho->field_106_current_motion == eAbeStates::State_0_Idle_44EEB0 ||
@@ -342,7 +342,7 @@ signed __int16 MotionDetector::IsInLaser_468980(BaseAliveGameObject* pWho, BaseG
         return 0;
     }
 
-    if (pOwner && (pWho->field_4_typeId != Types::eMudokon_110 && pWho->field_4_typeId != Types::eType_Abe_69))
+    if (pOwner && (pWho->field_4_typeId != Types::eMudokon_110 && pWho->field_4_typeId != Types::eAbe_69))
     {
         // If there is an owner (such as a greeter) then only muds and abe can set off the beam?
         return 0;
@@ -387,7 +387,7 @@ void MotionDetector::vUpdate_468A90()
                 break;
             }
 
-            if (pObj->field_4_typeId != Types::eTimedMine_or_MovingBomb_10 && (pObj->field_4_typeId == Types::eType_Abe_69 || pObj->field_4_typeId == Types::eMudokon_110 || !pOwner))
+            if (pObj->field_4_typeId != Types::eTimedMine_or_MovingBomb_10 && (pObj->field_4_typeId == Types::eAbe_69 || pObj->field_4_typeId == Types::eMudokon_110 || !pOwner))
             {
                 PSX_RECT objRect = {};
                 pObj->vGetBoundingRect_424FD0(&objRect, 1);

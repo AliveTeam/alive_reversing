@@ -92,6 +92,65 @@ class Glukkon;
 using TGlukkonAIFn = __int16 (Glukkon::*)();
 using TGlukkonMotionFn = void (Glukkon::*)();
 
+struct Glukkon_SaveState
+{
+    Types field_0_id;
+    __int16 field_2_pad;
+    __int32 field_4_object_id;
+    FP field_8_xpos;
+    FP field_C_ypos;
+    FP field_10_xvel;
+    FP field_14_yvel;
+    __int16 field_18_path;
+    LevelIds field_1A_level;
+    FP field_1C_sprite_scale;
+    WORD field_20_r;
+    WORD field_22_g;
+    WORD field_24_b;
+    WORD field_26_flipX;
+    WORD field_28_current_motion;
+    WORD field_2A_current_frame;
+    WORD field_2C_frame_change_counter;
+    BYTE field_2E;
+    BYTE field_2F;
+    FP field_30_health;
+    WORD field_34_current_motion;
+    WORD field_36_next_motion;
+    __int16 field_38;
+    char field_3A_line_type;
+    BYTE field_3B_pad;
+    __int32 field_3C_pad;
+    WORD field_40_bIsActiveChar;
+    __int16 field_42_pad;
+    __int32 field_44_tlvInfo;
+    __int32 field_48_brain_state_idx;
+    __int32 field_4C_pad;
+    __int16 field_50;
+    __int16 field_52_pad;
+    __int32 field_54;
+    FP field_58;
+    __int16 field_5C_pad;
+    __int16 field_5E;
+    LevelIds field_60_level;
+    __int16 field_62_path;
+    __int16 field_64_camera;
+    GlukkonSpeak field_66_speak;
+    __int16 field_68;
+    __int16 field_6A_pad;
+    FP field_6C;
+    __int32 field_70;
+    __int32 field_74;
+    __int32 field_78;
+    __int16 field_7C;
+    __int16 field_7E_pad;
+    __int32 field_80;
+    __int32 field_84;
+    __int32 field_88_obj_id;
+    __int16 field_8C;
+    Types field_8E;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
+
 class Glukkon : public BaseAliveGameObject
 {
 public:
@@ -99,7 +158,11 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
+    EXPORT static signed int CC CreateFromSaveState_442830(const BYTE* pBuffer);
+
     virtual void VUpdate() override;
+
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     virtual void VScreenChanged() override;
 
@@ -197,6 +260,8 @@ private:
 
     EXPORT void vScreenChanged_440110();
 
+    EXPORT int vGetSaveState_444B90(BYTE* pSaveBuffer);
+
     EXPORT void vOnTrapDoorOpen_444120();
 
     EXPORT __int16 vTakeDamage_43FA40(BaseGameObject* pFrom);
@@ -279,7 +344,7 @@ private:
     __int16 field_1A4;
     __int16 field_1A6;
     Path_Glukkon field_1A8_tlvData;
-    int field_1D4_timer;
+    __int32 field_1D4_timer;
     FP field_1D8;
     FP field_1DC;
     __int16 field_1E0;
@@ -301,6 +366,6 @@ private:
     TGlukkonAIFn field_20C_brain_state_fn;
     __int16 field_210;
     __int16 field_212_currentWalkPitch;
-    int field_214_tlv_info;
+    __int32 field_214_tlv_info;
 };
 ALIVE_ASSERT_SIZEOF(Glukkon, 0x218);

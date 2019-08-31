@@ -75,7 +75,7 @@ enum class Types : __int16
     eGrenadeMachine_66 = 66,
     eGlukkon_67 = 67,
     eHelpPhone_68 = 68,
-    eType_Abe_69 = 69,
+    eAbe_69 = 69,
     eType_70 = 70,
     eType_71 = 71,
     eType_72 = 72,
@@ -229,7 +229,7 @@ public:
     Types field_4_typeId;
     BitField16<Options> field_6_flags;
     int field_8_object_id;
-    int field_C_objectId;
+    __int32 field_C_objectId;
     DynamicArrayT<BYTE*> field_10_resources_array;
     int field_1C_update_delay;
 };

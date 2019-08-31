@@ -217,7 +217,7 @@ public:
 private:
     Path_FlyingSlig field_118_data;
     int field_148_tlvInfo;
-    int field_14C_hi_pause_timer;
+    int field_14C_timer;
     int field_150_grenade_delay;
     int field_154;
     int field_158_obj_id;
@@ -241,24 +241,24 @@ private:
 
     enum Flags_17E
     {
-        eBit1 = 0x1,
+        eBit1_Speaking_flag1 = 0x1,
         eBit2 = 0x2,
         eBit3 = 0x4,
         eBit4 = 0x8,
-        eBit5 = 0x10,
+        eBit5_Throw = 0x10,
         eBit6 = 0x20,
-        eBit7 = 0x40,
+        eBit7_DoAction = 0x40,
         eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11 = 0x400,
-        eBit12 = 0x800,
+        eBit9_Chanting = 0x100,
+        eBit10_Speaking_flag2 = 0x200,
+        eBit11_bNoPrevLine = 0x400,
+        eBit12_bNoNextLine = 0x800,
         eBit13_Persistant = 0x1000,
     };
     BitField16<Flags_17E> field_17E_flags;
     __int16 field_180_bound2;
     __int16 field_182_bound1;
-    FP field_184;
+    FP field_184_xSpeed;
     FP field_188_ySpeed;
     int field_18C;
     int field_190;
@@ -268,10 +268,7 @@ private:
     __int16 field_19E;
     __int16 field_1A0;
     __int16 field_1A2;
-    FP field_1A4; // TODO: FP_Rect ??
-    FP field_1A8;
-    FP field_1AC;
-    FP field_1B0;
+    FP_Rect field_1A4_rect;
     __int16 field_1B4;
     __int16 field_1B6;
     __int16 field_1B8;
@@ -291,8 +288,8 @@ private:
     int field_1E4;
     __int16 field_1E8;
     __int16 field_1EA;
-    PathLine* field_1EC_pLine;
-    PathLine* field_1F0_pLine;
+    PathLine* field_1EC_pNextLine;
+    PathLine* field_1F0_pPrevLine;
     __int16 field_1F4_pal_data[64];
     PSX_RECT field_274_pal_rect;
     __int16 field_27C_old_g;
@@ -312,10 +309,10 @@ public:
     __int16 field_2A2_abe_path;
     __int16 field_2A4_abe_camera;
     __int16 field_2A6;
-    FP field_2A8;
-    FP field_2AC;
-    FP field_2B0;
-    FP field_2B4;
-    FP field_2B8;
+    FP field_2A8_max_x_speed;
+    FP field_2AC_up_vel;
+    FP field_2B0_down_vel;
+    FP field_2B4_max_slow_down;
+    FP field_2B8_max_speed_up;
 };
 ALIVE_ASSERT_SIZEOF(FlyingSlig, 0x2BC);

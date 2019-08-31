@@ -664,7 +664,7 @@ void MineCar::RunThingsOver_46F380()
         if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
         {
             // You can't run yourself over with a mine car it seems.
-            if (pObj->field_4_typeId != Types::eType_Abe_69)
+            if (pObj->field_4_typeId != Types::eAbe_69)
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
                 if ((pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale || pAliveObj->field_4_typeId == Types::eSlog_126) && field_CC_sprite_scale != FP_FromDouble(0.5))

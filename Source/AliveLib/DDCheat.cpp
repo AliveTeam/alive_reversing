@@ -278,7 +278,7 @@ void DDCheat::Update_415780()
             case Types::eSlig_125:
                 sControlledCharacter_5C1B8C->field_106_current_motion = 7;
                 break;
-            case Types::eType_Abe_69:
+            case Types::eAbe_69:
                 sControlledCharacter_5C1B8C->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
                 break;
             case Types::eScrab_112:
@@ -325,7 +325,7 @@ void DDCheat::Update_415780()
 
                 DebugStr_4F5560("\nLine=%X\nState=%i", sControlledCharacter_5C1B8C->field_100_pCollisionLine, sControlledCharacter_5C1B8C->field_106_current_motion);
 
-                if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eType_Abe_69)
+                if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eAbe_69)
                 {
                     DebugStr_4F5560("\nStateName=%s", sAbeStateNames[sControlledCharacter_5C1B8C->field_106_current_motion]);
                 }

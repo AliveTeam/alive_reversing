@@ -621,7 +621,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_11C_tlvInfo));
 
-    if (pFrom->field_4_typeId != Types::eType_Abe_69)
+    if (pFrom->field_4_typeId != Types::eAbe_69)
     {
         // Only Abe can slap me up
         return 0;
