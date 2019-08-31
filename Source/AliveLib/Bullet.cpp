@@ -7,6 +7,10 @@
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "Slig.hpp"
+#include "Spark.hpp"
+#include "Sfx.hpp"
+#include "Particle.hpp"
+#include "ScreenManager.hpp"
 
 Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, int a7, FP scale, __int16 a9)
 {
@@ -30,6 +34,11 @@ Bullet* Bullet::ctor_414540(BaseAliveGameObject* pParent, BulletType type, FP xp
 BaseGameObject* Bullet::VDestructor(signed int flags)
 {
     return vdtor_4145E0(flags);
+}
+
+void Bullet::VUpdate()
+{
+    vUpdate_413560();
 }
 
 Bullet* Bullet::vdtor_4145E0(signed int flags)
@@ -112,4 +121,328 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
         }
     }
     return pObjectToShoot;
+}
+
+void Bullet::vUpdate_413560()
+{
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos, field_2C_ypos, 0) &&
+        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos + FP_FromInteger(10), field_2C_ypos, 0) &&
+        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos - FP_FromInteger(10), field_2C_ypos, 0))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    const short volume = field_3C_scale != FP_FromDouble(0.5) ? 75 : 50;
+
+    switch (field_20_type)
+    {
+    case BulletType::Type_0:
+    case BulletType::Type_2:
+    {
+        int randomW = FP_GetExponent(FP_FromInteger(Math_RandomRange_496AB0(1, 5)) * field_3C_scale);
+        const FP randomHeight = FP_FromInteger(Math_RandomRange_496AB0(1, 5)) * field_3C_scale;
+
+        PSX_RECT shootRect = {};
+        if (field_30 > FP_FromInteger(0))
+        {
+            shootRect.x = FP_GetExponent(field_28_xpos);
+            shootRect.w = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + FP_FromInteger(640));
+        }
+        else
+        {
+            shootRect.x = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
+            shootRect.w = FP_GetExponent(field_28_xpos);
+        }
+
+        shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(5));
+        shootRect.h = FP_GetExponent(field_2C_ypos + FP_FromInteger(5)); // TODO: Check correct
+
+        if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eType_Abe_69)
+        {
+            shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(10));
+        }
+
+        BaseAliveGameObject* pShotObj = ShootObject_414630(&shootRect);
+
+        const short pitch = field_3C_scale != FP_FromDouble(0.5) ? 90 : 60;
+
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            field_28_xpos,
+            field_2C_ypos - (FP_FromInteger(10) * field_3C_scale),
+            field_30 + field_28_xpos,
+            field_2C_ypos - (FP_FromInteger(10) * field_3C_scale),
+            &field_24_pLine,
+            &hitX,
+            &hitY,
+            field_3C_scale > FP_FromDouble(0.5) ? 0x0F : 0xF0) == 1)
+        {
+            if (pShotObj)
+            {
+                if (FP_Abs(pShotObj->field_B8_xpos - field_28_xpos) <= FP_Abs(hitX - field_28_xpos))
+                {
+                    if (pShotObj->field_4_typeId == Types::eMineCar_89 || pShotObj->field_4_typeId == Types::eGreeter_64)
+                    {
+                        if (pShotObj->field_4_typeId == Types::eGreeter_64)
+                        {
+                            randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * field_3C_scale));
+                        }
+
+                        if (field_30 <= FP_FromInteger(0))
+                        {
+                            auto pSpark = alive_new<Spark>();
+                            if (pSpark)
+                            {
+                                pSpark->ctor_4CBBB0(
+                                    pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                    field_2C_ypos + FP_NoFractional(randomHeight),
+                                    field_3C_scale, 6, -76, 76, 0);
+                            }
+                            New_Particles_426C70(
+                                pShotObj->field_B8_xpos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                field_2C_ypos + FP_NoFractional(randomHeight),
+                                field_3C_scale, 3, 128u, 128u, 128u);
+                        }
+                        else
+                        {
+                            auto pSpark = alive_new<Spark>();
+                            if (pSpark)
+                            {
+                                pSpark->ctor_4CBBB0(
+                                    pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
+                                    field_2C_ypos + FP_NoFractional(randomHeight),
+                                    field_3C_scale, 6, 50, 205, 0);
+                            }
+                            New_Particles_426C70(
+                                pShotObj->field_B8_xpos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
+                                field_2C_ypos + FP_NoFractional(randomHeight),
+                                field_3C_scale, 3, 128u, 128u, 128u);
+                        }
+
+                        if (Math_RandomRange_496AB0(0, 100) < 90)
+                        {
+                            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
+                        }
+                    }
+
+                    if (pShotObj->VTakeDamage_408730(this))
+                    {
+                        if (pShotObj->field_4_typeId != Types::eGreeter_64 &&  pShotObj->field_4_typeId != Types::eMineCar_89)
+                        {
+                            SFX_Play_46FBA0(23u, pitch, 2000);
+                            SFX_Play_46FBA0(36u, pitch, Math_RandomRange_496AB0(300, 700));
+                            SFX_Play_46FBA0(64u, pitch, Math_RandomRange_496AB0(900, 1400));
+                        }
+                    }
+                    field_6_flags.Set(BaseGameObject::eDead);
+                    return;
+                }
+            }
+
+            if (field_30 <= FP_FromInteger(0))
+            {
+                auto pSpark = alive_new<Spark>();
+                if (pSpark)
+                {
+                    pSpark->ctor_4CBBB0(
+                        hitX - (field_3C_scale * FP_FromInteger(6)),
+                        (FP_FromInteger(10) * field_3C_scale) + hitY,
+                        field_3C_scale, 6, -76, 76, 0);
+                }
+                New_Particles_426C70(hitX - (field_3C_scale * FP_FromInteger(6)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
+            }
+            else
+            {
+                auto pSpark = alive_new<Spark>();
+                if (pSpark)
+                {
+                    pSpark->ctor_4CBBB0(
+                        hitX + (field_3C_scale * FP_FromInteger(7)),
+                        (FP_FromInteger(10) * field_3C_scale) + hitY,
+                        field_3C_scale, 6, 50, 205, 0);
+                }
+                New_Particles_426C70(hitX + (field_3C_scale * FP_FromInteger(7)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
+            }
+
+            if (Math_RandomRange_496AB0(0, 100) < 90)
+            {
+                SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
+            }
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        if (pShotObj)
+        {
+            if (pShotObj->field_4_typeId == Types::eMineCar_89 || pShotObj->field_4_typeId == Types::eGreeter_64)
+            {
+                if (pShotObj->field_4_typeId == Types::eGreeter_64)
+                {
+                    randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * field_3C_scale));
+                }
+
+                if (field_30 <= FP_FromInteger(0))
+                {
+                    auto pSpark = alive_new<Spark>();
+                    if (pSpark)
+                    {
+                        pSpark->ctor_4CBBB0(
+                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
+                            field_2C_ypos + FP_NoFractional(randomHeight),
+                            field_3C_scale, 6, -76, 76, 0);
+                    }
+
+                    New_Particles_426C70(
+                        (field_3C_scale * FP_FromInteger(30)) + pShotObj->field_B8_xpos - FP_FromInteger(randomW),
+                        field_2C_ypos + FP_NoFractional(randomHeight),
+                        field_3C_scale, 3, 128u, 128u, 128u);
+                }
+                else
+                {
+                    auto pSparkMem = alive_new<Spark>();
+                    if (pSparkMem)
+                    {
+                        pSparkMem->ctor_4CBBB0(
+                            FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
+                            field_2C_ypos + FP_NoFractional(randomHeight),
+                            field_3C_scale, 6, 50, 205, 0);
+                    }
+
+                    New_Particles_426C70(
+                        FP_FromInteger(randomW) + pShotObj->field_B8_xpos - (field_3C_scale * FP_FromInteger(30)),
+                        field_2C_ypos + FP_NoFractional(randomHeight),
+                        field_3C_scale, 3, 128u, 128u, 128u);
+                }
+
+                if (Math_RandomRange_496AB0(0, 100) < 90)
+                {
+                    SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
+                }
+            }
+
+            if (pShotObj->VTakeDamage_408730(this))
+            {
+                if (pShotObj->field_4_typeId != Types::eGreeter_64 &&  pShotObj->field_4_typeId != Types::eMineCar_89)
+                {
+                    SFX_Play_46FBA0(23u, pitch, 2000);
+                    SFX_Play_46FBA0(36u, pitch, Math_RandomRange_496AB0(300, 700));
+                    SFX_Play_46FBA0(64u, pitch, Math_RandomRange_496AB0(900, 1400));
+                }
+            }
+            field_6_flags.Set(BaseGameObject::eDead);
+            return;
+        }
+
+        if (Math_RandomRange_496AB0(0, 100) < 70)
+        {
+            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
+        }
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    case BulletType::Type_1:
+    {
+        const int xSnapped = SnapToXGrid_449930(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos));
+        PSX_RECT rect = {};
+        rect.x = static_cast<short>(xSnapped - 25);
+        rect.w = static_cast<short>(xSnapped - 25 + 50);
+        rect.y = FP_GetExponent(pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+        rect.h = static_cast<short>(rect.y + 240);
+        BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
+        if (pShootObj)
+        {
+            if (pShootObj->VTakeDamage_408730(this))
+            {
+                if (pShootObj->field_4_typeId != Types::eGreeter_64 && pShootObj->field_4_typeId != Types::eMineCar_89)
+                {
+                    SFX_Play_46FBA0(23u, 90, 2000);
+                    SFX_Play_46FBA0(36u, 90, Math_RandomRange_496AB0(300, 700));
+                    SFX_Play_46FBA0(64u, 90, Math_RandomRange_496AB0(900, 1400));
+                    field_6_flags.Set(BaseGameObject::eDead);
+                    return;
+                }
+            }
+        }
+
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            sControlledCharacter_5C1B8C->field_B8_xpos,
+            FP_FromInteger(rect.y),
+            sControlledCharacter_5C1B8C->field_B8_xpos,
+            FP_FromInteger(rect.h),
+            &field_24_pLine, &hitX, &hitY, 0x400) == 1)
+        {
+            auto pSpark = alive_new<Spark>();
+            if (pSpark)
+            {
+                pSpark->ctor_4CBBB0(hitX, hitY, FP_FromInteger(1), 9, -31, 159, 0);
+            }
+            New_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
+        }
+        SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), 75);
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    case BulletType::Type_3:
+    {
+        FP rectXPos = {};
+        // TODO: Check field_44 << 20 is FP_FromInt * 16
+        if (field_28_xpos >= sControlledCharacter_5C1B8C->field_B8_xpos)
+        {
+            const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
+            rectXPos = (FP_FromInteger(field_44 * 16)) + sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX;
+        }
+        else
+        {
+            const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
+            rectXPos = sControlledCharacter_5C1B8C->field_B8_xpos - doubleVelX - (FP_FromInteger(field_44 * 16));
+        }
+
+        PSX_RECT rect = {};
+        sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&rect, 1);
+        rect.x = FP_GetExponent(rectXPos);
+        rect.y = rect.h - 10;
+        rect.w = rect.x + 2;
+        rect.h = rect.w;
+
+        BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
+        if (pShootObj && pShootObj->VTakeDamage_408730(this) && pShootObj->field_4_typeId != Types::eGreeter_64 && pShootObj->field_4_typeId != Types::eMineCar_89)
+        {
+            SFX_Play_46FBA0(23u, 90, 2000);
+            SFX_Play_46FBA0(36u, 90, Math_RandomRange_496AB0(300, 700));
+            SFX_Play_46FBA0(64u, 90, Math_RandomRange_496AB0(900, 1400));
+        }
+        else
+        {
+            FP hitX = {};
+            FP hitY = {};
+            if (sCollisions_DArray_5C1128->Raycast_417A60(
+                field_28_xpos,
+                field_2C_ypos,
+                rectXPos,
+                sActiveHero_5C1B68->field_BC_ypos + FP_FromInteger(10),
+                &field_24_pLine, &hitX, &hitY, 1024) == 1)
+            {
+                auto pSpark = alive_new<Spark>();
+                if (pSpark)
+                {
+                    pSpark->ctor_4CBBB0(hitX, hitY, FP_FromInteger(1), 9, -31, 159, 0);
+                }
+                New_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
+            }
+            SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), 75);
+        }
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
+
+    default:
+        field_6_flags.Set(BaseGameObject::eDead);
+        return;
+    }
 }
