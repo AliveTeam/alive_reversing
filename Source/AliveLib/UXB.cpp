@@ -333,7 +333,7 @@ __int16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 
     switch (pFrom->field_4_typeId)
     {
-    case Types::eType_Abe_69:
+    case Types::eAbe_69:
     case Types::eMudokon_110:
         if (field_118_state == 3)
         {

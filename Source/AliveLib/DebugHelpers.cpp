@@ -688,7 +688,7 @@ void Command_DDV(const std::vector<std::string>& args)
 
 void Command_SetState(const std::vector<std::string>& args)
 {
-    if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eType_Abe_69)
+    if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eAbe_69)
     {
         DEV_CONSOLE_MESSAGE_C("Setting state not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
         return;

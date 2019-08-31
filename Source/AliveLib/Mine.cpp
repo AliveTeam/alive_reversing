@@ -306,7 +306,7 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
     default: return 0;
 
     case Types::eGreeter_64:
-    case Types::eType_Abe_69:
+    case Types::eAbe_69:
     case Types::eMineCar_89:
     case Types::eType_104:
     case Types::eExplosion_109:

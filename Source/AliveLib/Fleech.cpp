@@ -1328,7 +1328,7 @@ BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
             break;
         }
 
-        if ((pObj->field_4_typeId == Types::eMudokon_110 || pObj->field_4_typeId == Types::eType_Abe_69) &&
+        if ((pObj->field_4_typeId == Types::eMudokon_110 || pObj->field_4_typeId == Types::eAbe_69) &&
             pObj->field_D6_scale == field_D6_scale &&
             pObj->field_10C_health > FP_FromInteger(0))
         {

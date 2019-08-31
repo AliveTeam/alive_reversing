@@ -573,7 +573,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
 
     SetVTable(this, 0x5457BC); // gVTbl_Abe_5457BC
 
-    field_4_typeId = Types::eType_Abe_69;
+    field_4_typeId = Types::eAbe_69;
 
     field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
     field_C_objectId = -65536;
@@ -1803,7 +1803,7 @@ int Abe::vGetSaveState_457110(BYTE* pSaveBuffer)
 {
     Abe_SaveState* pSaveState = reinterpret_cast<Abe_SaveState*>(pSaveBuffer);
 
-    pSaveState->field_0_id = Types::eType_Abe_69;
+    pSaveState->field_0_id = Types::eAbe_69;
     pSaveState->field_4_xpos = field_B8_xpos;
     pSaveState->field_8_ypos = field_BC_ypos;
     pSaveState->field_c_velx = field_C4_velx;

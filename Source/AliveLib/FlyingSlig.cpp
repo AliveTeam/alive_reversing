@@ -449,7 +449,7 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
     }
     case Types::eGrinder_30:
     case Types::eRockSpawner_48:
-    case Types::eType_Abe_69:
+    case Types::eAbe_69:
     case Types::eType_86:
     case Types::eMineCar_89:
     case Types::eType_107:

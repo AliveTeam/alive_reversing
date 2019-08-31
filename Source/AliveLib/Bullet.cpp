@@ -79,12 +79,12 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
                             pObj->field_4_typeId == Types::eCrawlingSlig_26 ||
                             pObj->field_4_typeId == Types::eGlukkon_67 ||
                             pObj->field_4_typeId == Types::eMudokon_110 ||
-                            pObj->field_4_typeId == Types::eType_Abe_69 ||
+                            pObj->field_4_typeId == Types::eAbe_69 ||
                             pObj->field_4_typeId == Types::eSlog_126 ||
                             pObj->field_4_typeId == Types::eGreeter_64) ||
 
                             pObj->field_4_typeId == Types::eMudokon_110||
-                            pObj->field_4_typeId == Types::eType_Abe_69 ||
+                            pObj->field_4_typeId == Types::eAbe_69 ||
                             pObj->field_4_typeId == Types::eMineCar_89 ||
                             (pObj->field_4_typeId == Types::eSlig_125 && sControlledCharacter_5C1B8C == pObj) ||
                             (pObj->field_4_typeId == Types::eFlyingSlig_54 && sControlledCharacter_5C1B8C == pObj) ||
@@ -158,7 +158,7 @@ void Bullet::vUpdate_413560()
         shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(5));
         shootRect.h = FP_GetExponent(field_2C_ypos + FP_FromInteger(5)); // TODO: Check correct
 
-        if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eType_Abe_69)
+        if (sControlledCharacter_5C1B8C->field_4_typeId == Types::eAbe_69)
         {
             shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(10));
         }

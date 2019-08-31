@@ -6558,7 +6558,7 @@ void Slig::ShootTurnTowardsOrKillSound_4B3140()
 
 __int16 CCSTD Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
 {
-    if ((pThis->field_4_typeId == Types::eType_Abe_69) && 
+    if ((pThis->field_4_typeId == Types::eAbe_69) && 
         (pThis->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7) ||
         (pThis->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4))
     {
@@ -6865,7 +6865,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         Sfx_Slig_GameSpeak_4C04F0(SligSpeak::Help_10, 0, field_11E, this);
         return 1;
 
-    case Types::eType_Abe_69:
+    case Types::eAbe_69:
     {
         if (field_10C_health <= FP_FromInteger(0))
         {
