@@ -144,7 +144,7 @@ private:
     __int16 field_130;
     __int16 field_132;
     int field_134;
-    int field_138;
+    FP field_138;
     __int16 field_13C;
     __int16 field_13E_anger;
     unsigned __int16 field_140;

@@ -295,7 +295,7 @@ void Fleech::M_Idle_3_42E850()
                     &hitY,
                     field_D6_scale != 0 ? 1 : 16))
             {
-                field_138 = 0;
+                field_138 = FP_FromInteger(0);
                 field_F8_LastLineYPos = field_BC_ypos;
                 field_106_current_motion = eFleechMotions::M_Fall_9_42ECD0;
             }
@@ -408,17 +408,144 @@ void Fleech::M_Knockback_6_42EAF0()
 
 void Fleech::M_StopCrawling_7_42EBB0()
 {
-    NOT_IMPLEMENTED();
+    const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1);
+    if (WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize_4498B0(field_CC_sprite_scale) * k1Directed))
+    {
+        ToIdle_42E520();
+    }
+    else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        MapFollowMe_408D10(TRUE);
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_C4_velx = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(7));
+            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+        }
+        else
+        {
+            field_C4_velx = -(ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(7));
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+        }
+        field_106_current_motion = eFleechMotions::M_Crawl_4_42E960;
+    }
 }
 
 void Fleech::M_StopMidCrawlCycle_8_42EB20()
 {
-    NOT_IMPLEMENTED();
+    const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ?  -1 : 1);
+    if (WallHit_408750(
+        FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
+        ScaleToGridSize_4498B0(field_CC_sprite_scale) * k1Directed) ||
+        field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        ToIdle_42E520();
+    }
 }
 
 void Fleech::M_Fall_9_42ECD0()
 {
-    NOT_IMPLEMENTED();
+    field_C8_vely += field_CC_sprite_scale *  FP_FromDouble(1.8);
+
+    if (field_C8_vely > (field_CC_sprite_scale * FP_FromInteger(20)))
+    {
+        field_C8_vely = (field_CC_sprite_scale * FP_FromInteger(20));
+    }
+
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        if (field_C4_velx > FP_FromDouble(3.6))
+        {
+            field_C4_velx = FP_FromDouble(3.6);
+        }
+    }
+    else if (field_C4_velx < FP_FromInteger(0))
+    {
+        if (field_C4_velx < FP_FromDouble(-3.6))
+        {
+            field_C4_velx = FP_FromDouble(-3.6);
+        }
+    }
+
+    if (field_C4_velx > FP_FromInteger(0))
+    {
+        field_C4_velx -= field_CC_sprite_scale * field_138;
+        if (field_C4_velx < FP_FromInteger(0))
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+    else if (field_C4_velx < FP_FromInteger(0))
+    {
+        field_C4_velx += field_CC_sprite_scale * field_138;
+        if (field_C4_velx > FP_FromInteger(0))
+        {
+            field_C4_velx = FP_FromInteger(0);
+        }
+    }
+
+    const FP xpos = field_B8_xpos;
+    const FP ypos = field_BC_ypos - FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5));
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
+
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* pLine = nullptr;
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        xpos,
+        ypos,
+        field_B8_xpos,
+        field_BC_ypos,
+        &pLine,
+        &hitX,
+        &hitY,
+        field_D6_scale == 1 ? 0x0F : 0xF0))
+    {
+        switch (pLine->field_8_type)
+        {
+        case 0u:
+        case 4u:
+        case 32u:
+        case 36u:
+            field_100_pCollisionLine = pLine;
+            field_B8_xpos = hitX;
+            field_BC_ypos = hitY;
+            MapFollowMe_408D10(TRUE);
+            if (field_100_pCollisionLine->field_8_type == 32 || field_100_pCollisionLine->field_8_type == 36)
+            {
+                PSX_RECT bRect = {};
+                vGetBoundingRect_424FD0(&bRect, 1);
+                vOnCollisionWith_424EE0(
+                    { bRect.x, static_cast<short>(bRect.y + 5) },
+                    { bRect.w, static_cast<short>(FP_GetExponent(field_BC_ypos) + 5) },
+                    ObjList_5C1B78,
+                    1,
+                    (TCollisionCallBack)&BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
+            }
+            if (field_BC_ypos - field_F8_LastLineYPos <= FP_FromInteger((field_CC_sprite_scale >= FP_FromInteger(1) ? 20 : 10)) * FP_FromInteger(15))
+            {
+                field_106_current_motion = eFleechMotions::M_Land_10_42F330;
+            }
+            else
+            {
+                field_106_current_motion = eFleechMotions::M_DeathByFalling_16_42FCE0;
+            }
+            break;
+
+        case 1u:
+        case 2u:
+        case 5u:
+        case 6u:
+            field_B8_xpos = hitX - field_C4_velx;
+            field_BC_ypos = hitY;
+            MapFollowMe_408D10(TRUE);
+            field_C4_velx = FP_FromInteger(0);
+            break;
+
+        default:
+            return;
+        }
+    }
 }
 
 void Fleech::M_Land_10_42F330()
@@ -974,7 +1101,7 @@ void Fleech::sub_42BD30()
 void Fleech::ToIdle_42E520()
 {
     MapFollowMe_408D10(TRUE);
-    field_138 = 0;
+    field_138 = FP_FromInteger(0);
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
@@ -1383,7 +1510,7 @@ void Fleech::MoveAlongFloor_42E600()
         else if (field_124_brain_state != eFleechBrains::eAI_Patrol_0_430BA0)
         {
             VOnTrapDoorOpen();
-            field_138 = 0;
+            field_138 = FP_FromInteger(0);
             field_F8_LastLineYPos = field_BC_ypos;
             field_B8_xpos = prev_xpos + field_C4_velx;
             field_106_current_motion = eFleechMotions::M_Fall_9_42ECD0;
@@ -1398,7 +1525,7 @@ void Fleech::MoveAlongFloor_42E600()
     else
     {
         field_F8_LastLineYPos = prev_ypos;
-        field_138 = 0;
+        field_138 = FP_FromInteger(0);
         field_106_current_motion = eFleechMotions::M_Fall_9_42ECD0;
     }
 }
