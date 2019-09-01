@@ -24,12 +24,17 @@ public:
 
     virtual void VScreenChanged() override;
 
+    virtual void VUpdate() override;
+
 private:
     EXPORT ColourfulMeter* vdtor_43D050(signed int flags);
 
     EXPORT void dtor_43D080();
 
     EXPORT void vScreenChanged_43D7A0();
+
+    EXPORT void vUpdate_43D140();
+
 
 private:
     Font_Context field_20_font_context;
@@ -54,3 +59,4 @@ private:
 ALIVE_ASSERT_SIZEOF(ColourfulMeter, 0x6c8);
 
 ALIVE_VAR_EXTERN(BYTE, gTotalMeterBars_5C1BFA);
+ALIVE_VAR_EXTERN(WORD, word_5C1BF8);

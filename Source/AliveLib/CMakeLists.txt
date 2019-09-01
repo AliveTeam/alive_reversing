@@ -341,6 +341,8 @@ ExportHooker.hpp
     ExplosionSet.cpp
     ColourfulMeter.hpp
     ColourfulMeter.cpp
+    MinesAlarm.hpp
+    MinesAlarm.cpp
     TouchController.cpp
     TouchController.hpp
 )

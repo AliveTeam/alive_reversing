@@ -38,8 +38,8 @@
 #include "Paramite.hpp"
 #include "BirdPortal.hpp"
 #include "ColourfulMeter.hpp"
+#include "MinesAlarm.hpp"
 
-EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
 EXPORT int CC EvilFart__CreateFromSaveState_4281C0(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { NOT_IMPLEMENTED(); return 180; }
@@ -82,7 +82,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &CreateFromSaveState_417740,
+    &MinesAlarm::CreateFromSaveState_417740,
     &NakedSlig__CreateFromSaveState_41AE80,
     nullptr,
     nullptr,
@@ -269,7 +269,6 @@ const QuickSaveFlagTypeTable kQuickSaveFlagsTable =
 ALIVE_VAR(1, 0x547794, QuickSaveFlagTypeTable, kObjectTypeAttributesTable_byte_547794, kQuickSaveFlagsTable);
 
 ALIVE_VAR(1, 0x5c1bbc, WORD, word_5C1BBC, 0);
-ALIVE_VAR(1, 0x5c1bf8, WORD, word_5C1BF8, 0); // Ditto
 
 ALIVE_VAR(1, 0xbb234c, WORD, sQuickSave_saved_switchResetters_count_BB234C, 0);
 
