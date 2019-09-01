@@ -13,6 +13,7 @@
 #include "PlatformBase.hpp"
 #include "Game.hpp"
 #include "BirdPortal.hpp"
+#include "Events.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
 
@@ -170,10 +171,56 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     vOnTrapDoorOpen_4081F0();
 }
 
-__int16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* /*pObj*/)
+__int16 CCSTD BaseAliveGameObject::IsInInvisibleZone_425710(BaseAliveGameObject* pObj)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    /* OG unused feature to always appear as if you are in an invisible zone
+    if (word_5C1BE4)
+    {
+        return TRUE;
+    }*/
+
+    if (Event_Get_422C00(kEventAbeOhm))
+    {
+        return FALSE;
+    }
+
+    PSX_RECT bRect = {};
+    pObj->vGetBoundingRect_424FD0(&bRect, 1);
+
+    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        bRect.x,
+        bRect.y,
+        bRect.w,
+        bRect.h,
+        TlvTypes::InvisibleZone_33);
+
+    while (pTlv)
+    {
+        if (pTlv->field_4_type == TlvTypes::InvisibleZone_33)
+        {
+            if (bRect.x >= pTlv->field_8_top_left.field_0_x &&
+                bRect.x <= pTlv->field_C_bottom_right.field_0_x &&
+                bRect.y >= pTlv->field_8_top_left.field_2_y)
+            {
+                if (bRect.y <= pTlv->field_C_bottom_right.field_2_y &&
+                    bRect.w >= pTlv->field_8_top_left.field_0_x &&
+                    bRect.w <= pTlv->field_C_bottom_right.field_0_x &&
+                    bRect.h >= pTlv->field_8_top_left.field_2_y &&
+                    bRect.h <= pTlv->field_C_bottom_right.field_2_y)
+                {
+                    return TRUE;
+                }
+            }
+        }
+
+        // Check for stacked/overlaping TLV's
+        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
+            FP_FromInteger(bRect.x),
+            FP_FromInteger(bRect.y),
+            FP_FromInteger(bRect.w),
+            FP_FromInteger(bRect.h));
+    }
+    return FALSE;
 }
 
 // =======
