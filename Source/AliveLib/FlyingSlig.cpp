@@ -726,7 +726,52 @@ void FlyingSlig::AI_DePossession_14_436180()
 
 void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
 {
-    NOT_IMPLEMENTED();
+    if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
+    {
+        MusicController::sub_47FD60(9, this, 0, 0);
+    }
+
+    if (FP_Abs(field_B8_xpos - field_1C8) >= FP_FromInteger(1) ||
+        FP_Abs(field_BC_ypos - field_1CC) >= FP_FromInteger(1))
+    {
+        const FP delta1 = field_1C8 - field_BC_ypos;
+        const FP delta2 = field_1CC - field_BC_ypos;
+
+        if (FP_Abs(field_1C8 - field_B8_xpos) <= FP_FromInteger(2))
+        {
+            field_B8_xpos = field_1C8;
+        }
+        else if (delta1 >= FP_FromInteger(2))
+        {
+            field_B8_xpos += FP_FromInteger(2);
+        }
+        else
+        {
+            field_B8_xpos -= FP_FromInteger(2);
+        }
+
+        if (FP_Abs(field_1CC - field_BC_ypos) <= FP_FromInteger(2))
+        {
+            field_BC_ypos = field_1CC;
+        }
+        else if (delta2 >= FP_FromInteger(2))
+        {
+            field_BC_ypos += FP_FromInteger(2);
+        }
+        else
+        {
+            field_BC_ypos -= FP_FromInteger(2);
+        }
+
+        if ((FP_Abs(field_B8_xpos - field_1C8) < FP_FromInteger(1)) && (FP_Abs(field_BC_ypos - field_1CC) < FP_FromInteger(1)))
+        {
+            VSetMotion_4081C0(eFlyingSligMotions::M_LeverPull_7_439150);
+        }
+    }
+    else if (field_106_current_motion == eFlyingSligMotions::M_Idle_0_4385E0)
+    {
+        ToPlayerControlled_4360C0();
+    }
 }
 
 void FlyingSlig::AI_FromNakedSlig_17_4355E0()

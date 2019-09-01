@@ -276,8 +276,8 @@ private:
     FP field_1BC;
     FP field_1C0;
     FP field_1C4;
-    int field_1C8;
-    int field_1CC;
+    FP field_1C8;
+    FP field_1CC;
     __int16 field_1D0;
     __int16 field_1D2;
     __int16 field_1D4;
