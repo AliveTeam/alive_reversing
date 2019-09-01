@@ -2281,3 +2281,93 @@ __int16 FlyingSlig::Collision_43A9E0(FP velY)
     }
     return 0;
 }
+
+__int16 FlyingSlig::Collision_43AC80(FP velX)
+{
+    FP newX = {};
+    if (velX <= FP_FromInteger(0))
+    {
+        newX = field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(17));
+    }
+    else
+    {
+        newX = (field_CC_sprite_scale * FP_FromInteger(17)) + field_B8_xpos;
+    }
+
+    const FP xOff = velX + newX;
+    const FP yOff2 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
+    const FP yOff1 = (field_CC_sprite_scale * FP_FromInteger(20));
+
+    FP hitX = {};
+    FP hitY = {};
+    PathLine* pLine = nullptr;
+    __int16 bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+        field_B8_xpos,
+        field_BC_ypos - yOff1,
+        xOff,
+        yOff2,
+        &pLine,
+        &hitX,
+        &hitY,
+        (field_D6_scale != 0 ? 0x20000 : 0x40000) | (field_D6_scale != 0 ? 6 : 96));
+
+    FP sparkX = {};
+    if (bCollision)
+    {
+        FP k25Directed = {};
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            k25Directed = FP_FromInteger(-25);
+        }
+        else
+        {
+            k25Directed = FP_FromInteger(25);
+        }
+        sparkX = (k25Directed * field_CC_sprite_scale) + field_B8_xpos;
+        Slig_SoundEffect_4BFFE0(sGnFrame_5C1B84 & 1 ? 12 : 13, this);
+    }
+    else
+    {
+        bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+            field_B8_xpos,
+            (field_CC_sprite_scale * FP_FromInteger(10)) + field_BC_ypos,
+            xOff,
+            (field_CC_sprite_scale * FP_FromInteger(10)) + field_BC_ypos,
+            &pLine,
+            &hitX,
+            &hitY,
+            (field_D6_scale != 0 ? 0x20000 : 0x40000) | (field_D6_scale != 0 ? 6 : 96));
+
+        if (bCollision)
+        {
+            FP k25Directed = {};
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                k25Directed = FP_FromInteger(-25);
+            }
+            else
+            {
+                k25Directed = FP_FromInteger(25);
+            }
+            sparkX = (k25Directed * field_CC_sprite_scale) + field_B8_xpos;
+        }
+    }
+
+    if (bCollision)
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) > field_154)
+        {
+            Sfx_Slig_GameSpeak_4C04F0(sGnFrame_5C1B84 & 1 ? SligSpeak::Ouch2_14 : SligSpeak::Ouch1_13, 127, Math_RandomRange_496AB0(256, 512), this);
+            field_154 = (Math_NextRandom() & 3) + sGnFrame_5C1B84 + 10;
+            auto pBurst = alive_new<ParticleBurst>();
+            if (pBurst)
+            {
+                pBurst->ctor_41CF50(sparkX, hitY + (FP_FromInteger(16) * field_CC_sprite_scale), 5u, field_CC_sprite_scale, BurstType::eSmallPurpleSparks_6, 9);
+            }
+        }
+        field_B8_xpos += velX + hitX - xOff;
+        return 1;
+    }
+
+    return 0;
+}
