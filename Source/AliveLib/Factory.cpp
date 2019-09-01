@@ -77,6 +77,7 @@
 #include "SlogSpawner.hpp"
 #include "SlogHut.hpp"
 #include "ParamiteWebLine.hpp"
+#include "ExplosionSet.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1765,7 +1766,39 @@ EXPORT void CC Factory_BoneBag_4D80B0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
 
 }
 
-EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8)
+        {
+            gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, kDrpRockResID, loadMode);
+            gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, kF2rockResID, loadMode);
+        }
+        else
+        {
+            gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, kDrpRockResID, loadMode);
+            gMap_5C3030.LoadResource_4DBE00("FALLROCK.BAN", ResourceManager::Resource_Animation, kF2rockResID, loadMode);
+        }
+        gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, kStickResID, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("SHADOW.BAN", ResourceManager::Resource_Animation, kRockShadowResID, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("DEBRIS00.BAN", ResourceManager::Resource_Animation, kDebrisID00, loadMode);
+        gMap_5C3030.LoadResource_4DBE00("EXPLO2.BAN", ResourceManager::Resource_Animation, kExplo2ResID, loadMode);
+    }
+    else
+    {
+        if (!pExplosionSet_5BBF68)
+        {
+            auto pExplosionSet = alive_new<ExplosionSet>();
+            if (pExplosionSet)
+            {
+                pExplosionSet->ctor_414CA0();
+            }
+        }
+        pExplosionSet_5BBF68->Init_4151D0(static_cast<Path_ExplosionSet*>(pTlv));
+        Path::TLV_Reset_4DB8E0(tlvInfo.all, -1, 0, 0);
+    }
+}
 
 EXPORT void CC Factory_MultiSwitchController_4D6C00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadmode)
 {

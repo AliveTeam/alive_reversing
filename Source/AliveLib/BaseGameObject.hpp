@@ -24,7 +24,7 @@ enum class Types : __int16
     eBullet_15 = 15,
     eSligButton_16 = 16,
     eType_17 = 17,
-    eType_18 = 18,
+    eExplosionSet_18 = 18,
     eDDCheat_19 = 19,
     eType_20 = 20,
     eType_21 = 21,

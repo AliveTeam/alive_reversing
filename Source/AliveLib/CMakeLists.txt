@@ -337,6 +337,8 @@ ExportHooker.hpp
     ParamiteWeb.cpp
     ParamiteWebLine.hpp
     ParamiteWebLine.cpp
+    ExplosionSet.hpp
+    ExplosionSet.cpp
     TouchController.cpp
     TouchController.hpp
 )
