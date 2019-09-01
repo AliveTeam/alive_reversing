@@ -77,6 +77,11 @@ public:
         vPossessed_434FB0();
     }
 
+    virtual void VSetMotion_4081C0(__int16 state) override
+    {
+        vSetMotion_43B1B0(state);
+    }
+
     // TODO: Remaining virtuals
     
 private:
@@ -209,6 +214,12 @@ public:
     EXPORT BOOL sub_436B20();
 
     EXPORT FP sub_4373B0();
+
+    EXPORT void vSetMotion_43B1B0(__int16 newMotion);
+
+    EXPORT __int16 Collision_43A640(FP velY);
+
+    EXPORT __int16 Collision_43A9E0(FP velY);
 
 
     void SetBrain(TFlyingSligFn fn);
