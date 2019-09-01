@@ -3090,7 +3090,7 @@ void Abe::State_0_Idle_44EEB0()
             switch (pTlv->field_4_type)
             {
             case TlvTypes::Door_5:
-                if (!sub_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+                if (!IsOpenDoorInRange_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
                 {
                     if (sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held) // OG bug, already checked ??
                     {
@@ -8604,11 +8604,27 @@ __int16 Abe::TryEnterMineCar_4569E0()
     return 0;
 }
 
-int Abe::sub_44EE10()
+int Abe::IsOpenDoorInRange_44EE10()
 {
-    // Looks for a door object and checks something
-    NOT_IMPLEMENTED();
-    return 1;
+    for (int i =0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eDoor_33)
+        {
+            auto pDoor = static_cast<Door*>(pObj);
+            if (FP_Abs(field_B8_xpos - pDoor->field_B8_xpos) < FP_FromInteger(15) &&
+                FP_Abs(field_BC_ypos - pDoor->field_BC_ypos) < FP_FromInteger(20))
+            {
+                return pDoor->vIsOpen_41EB00();
+            }
+        }
+    }
+    return 0;
 }
 
 __int16 Abe::HandleDoAction_455BD0()
@@ -8934,7 +8950,7 @@ __int16 Abe::RunTryEnterDoor_451220()
         FP_GetExponent(field_BC_ypos),
         TlvTypes::Door_5);
 
-    if (!pDoorTlv || !sub_44EE10())
+    if (!pDoorTlv || !IsOpenDoorInRange_44EE10())
     {
         return 0;
     }
