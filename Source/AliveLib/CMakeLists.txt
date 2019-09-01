@@ -339,6 +339,8 @@ ExportHooker.hpp
     ParamiteWebLine.cpp
     ExplosionSet.hpp
     ExplosionSet.cpp
+    ColourfulMeter.hpp
+    ColourfulMeter.cpp
     TouchController.cpp
     TouchController.hpp
 )

@@ -78,6 +78,7 @@
 #include "SlogHut.hpp"
 #include "ParamiteWebLine.hpp"
 #include "ExplosionSet.hpp"
+#include "ColourfulMeter.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1688,7 +1689,21 @@ EXPORT void CC Factory_Grinder_4DABC0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tl
     }
 }
 
-EXPORT void CC Factory_ColorfulMeter_4DAC60(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_ColorfulMeter_4DAC60(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("LCDFONT.FNT", ResourceManager::Resource_Font, 2, loadMode);
+    }
+    else
+    {
+        auto pMeter = alive_new<ColourfulMeter>();
+        if (pMeter)
+        {
+            pMeter->ctor_43CE40(static_cast<Path_ColourfulMeter*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_FlyingSligSpawner_4D9440(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {

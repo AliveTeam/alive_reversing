@@ -37,6 +37,7 @@
 #include "GameEnderController.hpp"
 #include "Paramite.hpp"
 #include "BirdPortal.hpp"
+#include "ColourfulMeter.hpp"
 
 EXPORT int CC CreateFromSaveState_417740(const BYTE*) { NOT_IMPLEMENTED(); return 8; }
 EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
@@ -268,7 +269,6 @@ const QuickSaveFlagTypeTable kQuickSaveFlagsTable =
 ALIVE_VAR(1, 0x547794, QuickSaveFlagTypeTable, kObjectTypeAttributesTable_byte_547794, kQuickSaveFlagsTable);
 
 ALIVE_VAR(1, 0x5c1bbc, WORD, word_5C1BBC, 0);
-ALIVE_VAR(1, 0x5c1bfa, BYTE, byte_5C1BFA, 0); // Related to boiler meter colours
 ALIVE_VAR(1, 0x5c1bf8, WORD, word_5C1BF8, 0); // Ditto
 
 ALIVE_VAR(1, 0xbb234c, WORD, sQuickSave_saved_switchResetters_count_BB234C, 0);
@@ -688,10 +688,10 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
     sRescuedMudokons_5C1BC2 = pInfo->field_12_saved_muds;
     sMudokonsInArea_5C1BC4 = pInfo->field_16_muds_in_area; // TODO: Check types
-    byte_5C1BFA = pInfo->field_2D;
+    gTotalMeterBars_5C1BFA = pInfo->field_2D_total_meter_bars;
     word_5C1BF8 = pInfo->field_30;
     dword_5C1BE8 = pInfo->field_38;
-    gAbeBulletProof_5C1BDA = pInfo->field_3C;
+    gAbeBulletProof_5C1BDA = pInfo->field_3C_bBulletProof;
     sVisitedBonewerks_5C1C02 = pInfo->field_32_visited_bonewerks;
     sVisitedBarracks_5C1C04 = pInfo->field_34_visited_barracks;
     sVisitedFeecoEnder_5C1C06 = pInfo->field_36_visited_feeco_ender;
@@ -714,9 +714,9 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_12_saved_muds = sRescuedMudokons_5C1BC2;
     pInfo->field_14_killed_muds = sKilledMudokons_5C1BC0;
     pInfo->field_16_muds_in_area = static_cast<char>(sMudokonsInArea_5C1BC4); // TODO: Check types
-    pInfo->field_2D = byte_5C1BFA;
+    pInfo->field_2D_total_meter_bars = gTotalMeterBars_5C1BFA;
     pInfo->field_30 = word_5C1BF8;
-    pInfo->field_3C = gAbeBulletProof_5C1BDA;
+    pInfo->field_3C_bBulletProof = gAbeBulletProof_5C1BDA;
     pInfo->field_32_visited_bonewerks = sVisitedBonewerks_5C1C02;
     pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
     pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;

@@ -65,7 +65,7 @@ enum class Types : __int16
     eFootSwitch_56 = 56,
     eGameEnderController_57 = 57,
     eType_58 = 58,
-    eType_59 = 59,
+    eColourfulMeter_59 = 59,
     eSlapLock_OrbWhirlWind_60 = 60,
     eLockedSoul_61 = 61,
     eDeathBird_62 = 62,

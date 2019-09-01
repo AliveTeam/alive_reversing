@@ -39,8 +39,6 @@
 #include "Movie.hpp"
 #include "Masher.hpp"
 
-#include "Fleech.hpp"
-
 void Game_ForceLink() { }
 
 using TExitGameCallBack = std::add_pointer<void CC()>::type;
@@ -262,15 +260,6 @@ EXPORT void CC VLC_Tables_Init_496720()
 
 EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUsed*/, const char* pCommandLine)
 {
-    sCollisions_DArray_5C1128 = alive_new<Collisions>();
-
-    Fleech f;
-    f.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX); // -25
-   // f.field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX); // 25
-    f.field_CC_sprite_scale = FP_FromInteger(1);
-    f.M_StopMidCrawlCycle_8_42EB20();
-
-
     //nullsub_2(); // Note: Pruned
     IO_Init_494230();
 
