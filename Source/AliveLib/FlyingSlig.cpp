@@ -723,7 +723,28 @@ void FlyingSlig::AI_Possession_13_4360F0()
 
 void FlyingSlig::AI_DePossession_14_436180()
 {
-    NOT_IMPLEMENTED();
+    if (!Input_IsChanting_45F260())
+    {
+        ToPlayerControlled_4360C0();
+        return;
+    }
+
+    if (static_cast<int>(sGnFrame_5C1B84) <= field_14C_timer)
+    {
+        if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
+        {
+            const FP xOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20) + field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -10 : 10));
+            const FP yOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
+            New_Chant_Particle_426BE0(
+                xOff + field_B8_xpos,
+                yOff + field_BC_ypos,
+                field_CC_sprite_scale, 0);
+        }
+    }
+    else
+    {
+        BlowUp_436510();
+    }
 }
 
 void FlyingSlig::AI_FlyingSligSpawn_15_4362C0()
