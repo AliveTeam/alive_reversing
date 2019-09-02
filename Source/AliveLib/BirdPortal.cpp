@@ -26,7 +26,7 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x546970);
-    field_68 = 0;
+    field_68_doves_exist = 0;
     field_4_typeId = Types::eBirdPortal_99;
     field_C_objectId = tlvInfo;
     field_40_throwable_indicator_id = -1;
@@ -172,7 +172,7 @@ void BirdPortal::vUpdate_498280()
                 }
             }
 
-            field_68 = 0;
+            field_68_doves_exist = 0;
 
             BaseGameObject* pThrowableIndicator = sObjectIds_5C1B70.Find_449CF0(field_40_throwable_indicator_id);
             if (pThrowableIndicator)
@@ -977,8 +977,6 @@ void BirdPortal::vsub_499A20()
 
 void BirdPortal::vGetMapChange_499AE0(LevelIds* level, WORD* path, WORD* camera, CameraSwapEffects* screenChangeEffect, WORD* movieId)
 {
-    // TODO: Strongly type change effect and level
-
     *level = field_7C_dest_level;
     *path = field_7E_dest_path;
     *camera = field_80_dest_camera;
@@ -1024,7 +1022,7 @@ void BirdPortal::dtor_4980A0()
     BaseGameObject* pDoves = sObjectIds_5C1B70.Find_449CF0(field_44_dove_ids[0]);
     if (pDoves)
     {
-        if (field_68)
+        if (field_68_doves_exist)
         {
             for (auto doveId : field_44_dove_ids)
             {
@@ -1114,7 +1112,7 @@ void BirdPortal::CreateDovesAndShrykullNumber_497B50()
         }
         field_44_dove_ids[i] = pDove->field_8_object_id;
 
-        field_68 = 1;
+        field_68_doves_exist = 1;
 
         if (field_24_portal_type == PortalType::eAbe_0)
         {

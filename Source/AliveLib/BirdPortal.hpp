@@ -156,7 +156,7 @@ public:
     };
     States field_28_state;
 private:
-    __int16 field_2A;
+    __int16 field_2A_pad;
 public:
     FP field_2C_xpos;
     FP field_30_ypos;
@@ -171,8 +171,8 @@ private:
     FP field_60_scale;
     __int16 field_64_movie_id;
     __int16 field_66_delete_id;
-    __int16 field_68;
-    __int16 field_6A;
+    __int16 field_68_doves_exist;
+    __int16 field_6A_pad;
     int field_6C_terminator_id;
     int field_70_terminator_id;
     int field_74_screen_clipper_id;
@@ -182,7 +182,7 @@ private:
     __int16 field_80_dest_camera;
     __int16 field_82_num_muds_for_shrykul;
     __int16 field_84;
-    __int16 field_86;
+    __int16 field_86_pad;
     OrbWhirlWind* field_88_pWhirlWind;
     LevelIds field_8C_level;
     __int16 field_8E_path;
