@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Map.hpp"
 
-ALIVE_VAR(1, 0x5BBF6, ExplosionSet*, pExplosionSet_5BBF68, nullptr);
+ALIVE_VAR(1, 0x5BBF68, ExplosionSet*, pExplosionSet_5BBF68, nullptr);
 ALIVE_VAR(1, 0x5C1BB6, __int16, bEnabled_5C1BB6, FALSE);
 
 ExplosionSet* ExplosionSet::ctor_414CA0()
