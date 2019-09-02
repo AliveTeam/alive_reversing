@@ -2564,6 +2564,6 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
     }
 
     field_194 += unknown;
-    pPoint->field_0_x = (field_194 * (field_1A4_rect.w - field_1A4_rect.x / field_198)) + field_1A4_rect.x;
-    pPoint->field_4_y = (field_194 * (field_1A4_rect.h - field_1A4_rect.y / field_198)) + field_1A4_rect.y;
+    pPoint->field_0_x = (field_194 * ((field_1A4_rect.w - field_1A4_rect.x) / field_198)) + field_1A4_rect.x;
+    pPoint->field_4_y = (field_194 * ((field_1A4_rect.h - field_1A4_rect.y) / field_198)) + field_1A4_rect.y;
 }
