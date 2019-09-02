@@ -2371,3 +2371,22 @@ __int16 FlyingSlig::Collision_43AC80(FP velX)
 
     return 0;
 }
+
+void FlyingSlig::sub_436450()
+{
+    field_C4_velx = FP_FromInteger(0);
+    field_C8_vely = FP_FromInteger(0);
+
+    field_184_xSpeed = FP_FromInteger(0);
+    field_188_ySpeed = FP_FromInteger(0);
+
+    if ((FP_Abs(field_B8_xpos - field_1C8) < FP_FromInteger(1)) &&
+        (FP_Abs(field_BC_ypos - field_1CC) < FP_FromInteger(1)))
+    {
+        VSetMotion_4081C0(eFlyingSligMotions::M_LeverPull_7_439150);
+    }
+    else
+    {
+        SetBrain(&FlyingSlig::AI_FlyingSligSpawn_15_4362C0);
+    }
+}

@@ -223,6 +223,8 @@ public:
 
     EXPORT __int16 Collision_43AC80(FP velX);
 
+    EXPORT void sub_436450();
+
 
     void SetBrain(TFlyingSligFn fn);
     bool BrainIs(TFlyingSligFn fn);
