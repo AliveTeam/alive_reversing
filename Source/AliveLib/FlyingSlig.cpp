@@ -484,7 +484,7 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
         break;
 
     case Types::eElectrocute_150:
-        if (BrainIs(&FlyingSlig::AI_Death_1_4364E0))
+        if (!BrainIs(&FlyingSlig::AI_Death_1_4364E0))
         {
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_10C_health = FP_FromInteger(0);
