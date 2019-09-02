@@ -282,7 +282,7 @@ private:
     int field_18C;
     int field_190;
     FP field_194;
-    FP field_198;
+    FP field_198_line_length;
     __int16 field_19C;
     __int16 field_19E;
     __int16 field_1A0;

@@ -1965,6 +1965,7 @@ void FlyingSlig::HandlePlayerControls_439340()
 
 __int16 FlyingSlig::sub_437C70(PathLine* pLine)
 {
+
     field_100_pCollisionLine = pLine;
     if (!field_100_pCollisionLine)
     {
@@ -1975,16 +1976,12 @@ __int16 FlyingSlig::sub_437C70(PathLine* pLine)
     field_1A4_rect.y = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
     field_1A4_rect.w = FP_FromInteger(field_100_pCollisionLine->field_0_rect.w);
     field_1A4_rect.h = FP_FromInteger(field_100_pCollisionLine->field_0_rect.h);
-    /*
-    field_1A8 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
-    field_1AC = FP_FromInteger(field_100_pCollisionLine->field_0_rect.w);
-    field_1B0 = FP_FromInteger(field_100_pCollisionLine->field_0_rect.h);
-    */
+
 
     field_1EC_pNextLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_C_next);
     field_1F0_pPrevLine = sCollisions_DArray_5C1128->Get_Line_At_Idx_418070(field_100_pCollisionLine->field_A_previous);
 
-    field_198 = FP_FromInteger(field_100_pCollisionLine->field_12_line_length);
+    field_198_line_length = FP_FromInteger(field_100_pCollisionLine->field_12_line_length);
 
     field_17E_flags.Set(Flags_17E::eBit11_bNoPrevLine, field_1F0_pPrevLine == nullptr);
     field_17E_flags.Set(Flags_17E::eBit12_bNoNextLine, field_1EC_pNextLine == nullptr);
@@ -1993,7 +1990,7 @@ __int16 FlyingSlig::sub_437C70(PathLine* pLine)
     field_180_bound2 = FindLeftOrRightBound_43B0A0(field_1A4_rect.x, field_1A4_rect.y);
     field_1BC = Math_496F70(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
 
-    field_1C0 += FP_FromInteger(128);
+    field_1C0 = field_1BC + FP_FromInteger(128);
 
     if (field_1C0 >= FP_FromInteger(256))
     {
@@ -2514,11 +2511,11 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
 
     if (arg1 > FP_FromInteger(0))
     {
-        if (field_194 + arg1 > field_198)
+        if (field_194 + arg1 > field_198_line_length)
         {
             if (!field_17E_flags.Get(Flags_17E::eBit2) && field_1EC_pNextLine)
             {
-                unknown = field_194 + arg1 - field_198;
+                unknown = field_194 + arg1 - field_198_line_length;
                 if (sub_437C70(field_1EC_pNextLine))
                 {
                     field_194 = FP_FromInteger(0);
@@ -2526,13 +2523,13 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
                 else
                 {
                     unknown = FP_FromInteger(0);
-                    field_194 = field_198;
+                    field_194 = field_198_line_length;
                 }
             }
             else
             {
                 unknown = FP_FromInteger(0);
-                field_194 = field_198;
+                field_194 = field_198_line_length;
             }
         }
     }
@@ -2545,7 +2542,7 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
                 unknown = field_194 + arg1;
                 if (sub_437C70(field_1F0_pPrevLine))
                 {
-                    field_194 = field_198;
+                    field_194 = field_198_line_length;
                 }
                 else
                 {
@@ -2562,6 +2559,6 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
     }
 
     field_194 += unknown;
-    pPoint->field_0_x = (field_194 * ((field_1A4_rect.w - field_1A4_rect.x) / field_198)) + field_1A4_rect.x;
-    pPoint->field_4_y = (field_194 * ((field_1A4_rect.h - field_1A4_rect.y) / field_198)) + field_1A4_rect.y;
+    pPoint->field_0_x = (field_194 * ((field_1A4_rect.w - field_1A4_rect.x) / field_198_line_length)) + field_1A4_rect.x;
+    pPoint->field_4_y = (field_194 * ((field_1A4_rect.h - field_1A4_rect.y) / field_198_line_length)) + field_1A4_rect.y;
 }
