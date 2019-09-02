@@ -2390,3 +2390,116 @@ void FlyingSlig::sub_436450()
         SetBrain(&FlyingSlig::AI_FlyingSligSpawn_15_4362C0);
     }
 }
+
+__int16 FlyingSlig::TryPullLever_439DB0()
+{
+    if (BrainIs(&FlyingSlig::AI_FlyingSligSpawn_15_4362C0))
+    {
+        return 0;
+    }
+
+    FP kGridSizeDirected = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        kGridSizeDirected = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    }
+    else
+    {
+        kGridSizeDirected = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    }
+    
+    const FP k15Scaled = FP_FromInteger(15) * field_CC_sprite_scale;
+    const FP k2ScaledDirected = (kGridSizeDirected * FP_FromInteger(2));
+
+    // TODO: These can be replaced with std::min/std::max
+    FP rect_w_fp = {};
+    if (field_B8_xpos + kGridSizeDirected <= field_B8_xpos + k2ScaledDirected)
+    {
+        rect_w_fp = field_B8_xpos + kGridSizeDirected;
+    }
+    else
+    {
+        rect_w_fp = field_B8_xpos + k2ScaledDirected;
+    }
+
+    FP rect_x_fp = {};
+    if (field_B8_xpos + k2ScaledDirected <= field_B8_xpos + kGridSizeDirected)
+    {
+        rect_x_fp = field_B8_xpos + kGridSizeDirected;
+    }
+    else
+    {
+        rect_x_fp = (k2ScaledDirected) + field_B8_xpos;
+    }
+
+    FP rect_h_fp = {};
+    if (field_BC_ypos - k15Scaled <= k15Scaled + field_BC_ypos)
+    {
+        rect_h_fp = field_BC_ypos - k15Scaled;
+    }
+    else
+    {
+        rect_h_fp = k15Scaled + field_BC_ypos;
+    }
+
+    FP rect_y_fp = {};
+    if (k15Scaled + field_BC_ypos <= field_BC_ypos - k15Scaled)
+    {
+        rect_y_fp = field_BC_ypos - k15Scaled;
+    }
+    else
+    {
+        rect_y_fp = k15Scaled + field_BC_ypos;
+    }
+
+    // TODO: Can be replaced with FP_Rect and PSX_RECT
+    const short rect_w = FP_GetExponent(rect_w_fp);
+    const short rect_x = FP_GetExponent(rect_x_fp);
+    const short rect_h = FP_GetExponent(rect_h_fp);
+    const short rect_y = FP_GetExponent(rect_y_fp);
+
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eLever_139)
+        {
+            auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+
+            PSX_RECT bObjRect = {};
+            pAliveObj->vGetBoundingRect_424FD0(&bObjRect, 1);
+            if (rect_w <= bObjRect.w &&
+                rect_x >= bObjRect.x &&
+                rect_y >= bObjRect.y &&
+                rect_h <= bObjRect.h)
+            {
+                if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+                {
+                    if (field_B8_xpos < pAliveObj->field_B8_xpos)
+                    {
+                        return FALSE;
+                    }
+                    field_1C8 = (FP_FromInteger(45) * field_CC_sprite_scale) + pAliveObj->field_B8_xpos;
+                }
+                else
+                {
+                    if (field_B8_xpos > pAliveObj->field_B8_xpos)
+                    {
+                        return FALSE;
+                    }
+                    field_1C8 = pAliveObj->field_B8_xpos - (FP_FromInteger(47) * field_CC_sprite_scale);
+                }
+
+                field_1CC = pAliveObj->field_BC_ypos - (FP_FromInteger(23) * field_CC_sprite_scale);
+                field_158_obj_id = pAliveObj->field_8_object_id;
+                sub_436450();
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}
