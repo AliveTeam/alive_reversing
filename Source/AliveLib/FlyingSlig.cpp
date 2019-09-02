@@ -2542,15 +2542,17 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
     {
         if (field_194 + arg1 < FP_FromInteger(0))
         {
-            if (!field_17E_flags.Get(Flags_17E::eBit2))
+            if (!field_17E_flags.Get(Flags_17E::eBit2) && field_1F0_pPrevLine)
             {
-                if (field_1F0_pPrevLine)
+                unknown = field_194 + arg1;
+                if (sub_437C70(field_1F0_pPrevLine))
                 {
-                    unknown = field_194 + arg1;
-                    if (sub_437C70(field_1F0_pPrevLine))
-                    {
-                        field_194 = field_198;
-                    }
+                    field_194 = field_198;
+                }
+                else
+                {
+                    unknown = FP_FromInteger(0);
+                    field_194 = FP_FromInteger(0);
                 }
             }
             else
