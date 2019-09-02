@@ -213,7 +213,7 @@ public:
 
     EXPORT BOOL sub_436B20();
 
-    EXPORT FP sub_4373B0();
+    EXPORT void sub_4373B0();
 
     EXPORT void vSetMotion_43B1B0(__int16 newMotion);
 

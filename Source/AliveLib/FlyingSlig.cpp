@@ -2112,7 +2112,7 @@ BOOL FlyingSlig::sub_436B20()
     return pLastNextOrPrevLine != nullptr;
 }
 
-FP FlyingSlig::sub_4373B0()
+void FlyingSlig::sub_4373B0()
 {
     const FP calc = Math_496F70(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos, sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
     FP value1 = FP_Abs(field_1BC - calc);
@@ -2135,8 +2135,6 @@ FP FlyingSlig::sub_4373B0()
     {
         field_17E_flags.Set(Flags_17E::eBit4);
     }
-
-    return value2;
 }
 
 void FlyingSlig::vSetMotion_43B1B0(__int16 newMotion)
