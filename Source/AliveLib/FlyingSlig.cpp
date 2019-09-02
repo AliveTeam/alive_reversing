@@ -1793,7 +1793,7 @@ void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
 __int16 FlyingSlig::sub_4374A0(__int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return;
+    return 0;
 
     /*
     field_17E_flags.Clear(Flags_17E::eBit2);
