@@ -96,7 +96,7 @@ private:
     EXPORT void vUpdate_434AD0();
     EXPORT __int16 IsPossessed_436A90();
     EXPORT void sub_4348A0();
-    EXPORT void sub_4396E0();
+    EXPORT void Movement_4396E0();
 
     EXPORT __int16 vTakeDamage_434C90(BaseGameObject* pFrom);
 
@@ -217,11 +217,11 @@ public:
 
     EXPORT void vSetMotion_43B1B0(__int16 newMotion);
 
-    EXPORT __int16 Collision_43A640(FP velY);
+    EXPORT __int16 CollisionUp_43A640(FP velY);
 
-    EXPORT __int16 Collision_43A9E0(FP velY);
+    EXPORT __int16 CollisionDown_43A9E0(FP velY);
 
-    EXPORT __int16 Collision_43AC80(FP velX);
+    EXPORT __int16 CollisionLeftRight_43AC80(FP velX);
 
     EXPORT void sub_436450();
 
@@ -279,8 +279,8 @@ private:
     __int16 field_182_bound1;
     FP field_184_xSpeed;
     FP field_188_ySpeed;
-    int field_18C;
-    int field_190;
+    FP field_18C;
+    FP field_190;
     FP field_194;
     FP field_198_line_length;
     __int16 field_19C;
@@ -315,8 +315,8 @@ private:
     __int16 field_27E_old_b;
     __int16 field_280_old_r;
     __int16 field_282;
-    int field_284;
-    int field_288;
+    FP field_284;
+    const FP* field_288;
     __int16 field_28C;
     __int16 field_28E;
     int field_290;

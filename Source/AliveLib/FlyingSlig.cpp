@@ -176,12 +176,12 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
 
     field_288 = 0;
     field_290 = 0;
-    field_284 = 0;
+    field_284 = FP_FromInteger(0);
     field_28C = 0;
     field_1E8 = 0;
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
-    field_190 = 0;
+    field_190 = FP_FromInteger(0);
 
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
@@ -384,7 +384,7 @@ void FlyingSlig::vUpdate_434AD0()
             //LOG_INFO("FlyingSlig: Old motion = " << oldMotion << " new motion = " << field_106_current_motion);
         }
 
-        sub_4396E0();
+        Movement_4396E0();
     }
 }
 
@@ -394,8 +394,8 @@ void FlyingSlig::sub_4348A0()
     field_17E_flags.Clear(Flags_17E::eBit2);
     field_298_nextYPos = field_BC_ypos;
     field_294_nextXPos = field_B8_xpos;
-    field_18C = 0;
-    field_190 = 0;
+    field_18C = FP_FromInteger(0);
+    field_190 = FP_FromInteger(0);
     sub_437C70(field_100_pCollisionLine);
     const short v5 = FP_GetExponent(field_BC_ypos - field_1A4_rect.y);
     const short v6 = FP_GetExponent(field_B8_xpos - field_1A4_rect.x);
@@ -403,9 +403,272 @@ void FlyingSlig::sub_4348A0()
     field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == 0);
 }
 
-void FlyingSlig::sub_4396E0()
+const int dword_552500[9] =
 {
-    NOT_IMPLEMENTED();
+    -163840,
+    -245760,
+    -286720,
+    -327680,
+    -286720,
+    -245760,
+    -163840,
+    -65536,
+    65535999
+};
+
+const int dword_552524[11] =
+{
+    74785,
+    85101,
+    79944,
+    59312,
+    23209,
+    -34563,
+    -82422,
+    -98373,
+    -82422,
+    -34563,
+    65535999
+};
+
+const int dword_552550[11] =
+{
+    38603,
+    84930,
+    84928,
+    38605,
+    -187040,
+    -344791,
+    -178048,
+    70049,
+    100043,
+    38273,
+    65535999
+};
+
+
+
+ALIVE_ARY(1, 0x55257C, const int*, 3, dword_55257C, { dword_552500, dword_552524, dword_552550 });
+
+void FlyingSlig::Movement_4396E0()
+{
+    if (!IsPossessed_436A90())
+    {
+        if (field_190 > FP_FromInteger(0))
+        {
+            if (field_18C + field_190 > field_2A8_max_x_speed)
+            {
+                field_18C = field_2A8_max_x_speed;
+            }
+            else
+            {
+                field_18C = field_18C + field_190;
+            }
+        }
+        else if (field_190 < FP_FromInteger(0))
+        {
+            if (field_18C + field_190 < -field_2A8_max_x_speed)
+            {
+                field_18C = -field_2A8_max_x_speed;
+            }
+            else
+            {
+                field_18C += field_190;
+            }
+        }
+        else if (field_190 == FP_FromInteger(0))
+        {
+            if (field_18C >= -field_2B4_max_slow_down)
+            {
+                if (field_18C <= field_2B4_max_slow_down)
+                {
+                    field_18C = FP_FromInteger(0);
+                }
+                else
+                {
+                    field_18C = field_18C - field_2B4_max_slow_down;
+                }
+            }
+            else
+            {
+                field_18C = field_2B4_max_slow_down + field_18C;
+            }
+        }
+
+        FP_Point posXY = {};
+        sub_437AC0(field_18C, &posXY);
+        field_C4_velx = posXY.field_0_x - field_B8_xpos;
+        field_C8_vely = posXY.field_4_y - field_BC_ypos;
+    }
+    else
+    {
+        const int v4 = Math_SquareRoot_Int_496E70(FP_GetExponent((field_C8_vely * field_C8_vely) + (field_C4_velx * field_C4_velx)));
+        if (FP_Abs(FP_FromInteger(v4)) > FP_FromDouble(0.05))
+        {
+            field_C4_velx = field_C4_velx - ((field_C4_velx / FP_FromInteger(v4)) * field_2B4_max_slow_down) + field_184_xSpeed;
+            field_C8_vely = field_C8_vely - ((field_C8_vely / FP_FromInteger(v4)) * field_2B4_max_slow_down) + field_188_ySpeed;
+        }
+        else
+        {
+            if (field_184_xSpeed != FP_FromInteger(0) || field_188_ySpeed != FP_FromInteger(0))
+            {
+                field_C4_velx += field_184_xSpeed;
+                field_C8_vely = field_C8_vely + field_188_ySpeed;
+            }
+            else
+            {
+                field_C4_velx = FP_FromInteger(0);
+                field_C8_vely = FP_FromInteger(0);
+            }
+        }
+
+        const FP v15 = FP_FromInteger(Math_SquareRoot_Int_496E70(FP_GetExponent((field_C8_vely * field_C8_vely) + (field_C4_velx * field_C4_velx))));
+        if (v15 > field_2A8_max_x_speed)
+        {
+            field_C4_velx = ((field_C4_velx / v15) * field_2A8_max_x_speed);
+            field_C8_vely = ((field_C8_vely / v15) * field_2A8_max_x_speed);
+        }
+
+        if (field_C8_vely < FP_FromInteger(0))
+        {
+            if (CollisionUp_43A640(field_C8_vely))
+            {
+                field_C8_vely = -field_C8_vely;
+            }
+        }
+        
+        if (field_C8_vely > FP_FromInteger(0))
+        {
+            if (CollisionDown_43A9E0(field_C8_vely))
+            {
+                field_C8_vely = -field_C8_vely;
+            }
+        }
+
+        if (field_C4_velx != FP_FromInteger(0))
+        {
+            if (CollisionLeftRight_43AC80(field_C4_velx))
+            {
+                field_C4_velx = -field_C4_velx;
+            }
+        }
+    }
+
+    field_B8_xpos += field_C4_velx;
+    field_BC_ypos += field_C8_vely;
+
+    sub_408C40();
+
+    if (field_17E_flags.Get(Flags_17E::eBit5_Throw))
+    {
+        if (static_cast<int>(sGnFrame_5C1B84) > field_150_grenade_delay &&
+            (
+                field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) ||
+                SwitchStates_Get_466020(field_17C_launch_id) ||
+                field_114_flags.Get(Flags_114::e114_Bit4_bPossesed)
+            ) &&
+            CanThrowGrenade_43A490())
+        {
+            ThrowGrenade_43A1E0();
+        }
+    }
+
+    if (field_17E_flags.Get(Flags_17E::eBit10_Speaking_flag2))
+    {
+        VSetMotion_4081C0(eFlyingSligMotions::M_GameSpeak_8_4391D0);
+    }
+
+    if (field_17E_flags.Get(Flags_17E::eBit6))
+    {
+        VSetMotion_4081C0(eFlyingSligMotions::M_IdleToTurn_2_4388B0);
+    }
+
+    if (field_17E_flags.Get(Flags_17E::eBit7_DoAction))
+    {
+        if (field_106_current_motion == eFlyingSligMotions::M_Idle_0_4385E0)
+        {
+            TryPullLever_439DB0();
+        }
+    }
+
+    field_294_nextXPos = field_B8_xpos;
+    field_298_nextYPos = field_BC_ypos;
+
+    field_BC_ypos += field_CC_sprite_scale * FP_FromInteger(20);
+
+    if (field_28C)
+    {
+        if (field_28C >= 3)
+        {
+            ALIVE_FATAL("FlyingSlig array out of bounds");
+        }
+        const FP* pTable = reinterpret_cast<const FP*>(dword_55257C[field_28C]); // TODO: Type conversion !!
+        field_288 = pTable;
+        field_284 = pTable[field_290];
+        if (field_284 <= FP_FromInteger(990))
+        {
+            field_290++;
+        }
+        else
+        {
+            field_284 = FP_FromInteger(0);
+            field_28C = 0;
+            field_290 = 0;
+        }
+        field_BC_ypos = field_BC_ypos + field_284;
+    }
+    else
+    {
+        if (field_284 != FP_FromInteger(0))
+        {
+            if (field_284 <= FP_FromInteger(0))
+            {
+                if (field_284 <= FP_FromInteger(-1))
+                {
+                    field_284 = field_284 + FP_FromInteger(1);
+                }
+                else
+                {
+                    field_284 = FP_FromInteger(0);
+                }
+            }
+            else if (field_284 < FP_FromInteger(1))
+            {
+                field_284 = FP_FromInteger(0);
+            }
+            else
+            {
+                field_284 = field_284 - FP_FromInteger(1);
+            }
+            field_BC_ypos = field_BC_ypos + field_284;
+        }
+    }
+
+    int v37 = {};
+    if (Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely)) >= 0)
+    {
+        v37 = Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely));
+    }
+    else
+    {
+        v37 = -Math_Distance_496EB0(0, 0, FP_GetExponent(field_C4_velx), FP_GetExponent(field_C8_vely));
+    }
+
+    const int v38 = static_cast<int>(sGnFrame_5C1B84) % ((FP_FromInteger(v37) < field_2A8_max_x_speed) + 2);
+    if (!v38 && field_10C_health > FP_FromInteger(0))
+    {
+        Slig_SoundEffect_4BFFE0((Math_NextRandom() % 3) ? 10 : 9, this);
+    }
+
+    field_17E_flags.Clear(Flags_17E::eBit5_Throw);
+    field_17E_flags.Clear(Flags_17E::eBit6);
+    field_17E_flags.Clear(Flags_17E::eBit7_DoAction);
+    field_17E_flags.Clear(Flags_17E::eBit10_Speaking_flag2);
+
+    field_184_xSpeed = FP_FromInteger(0);
+    field_188_ySpeed = FP_FromInteger(0);
+
+    field_190 = FP_FromInteger(0);
 }
 
 __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
@@ -1452,7 +1715,6 @@ void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
 
 signed __int16 FlyingSlig::sub_43A510()
 {
-    NOT_IMPLEMENTED();
     return ((field_184_xSpeed > FP_FromInteger(0) && !(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)))
          || (field_184_xSpeed < FP_FromInteger(0) &&   field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)));
 }
@@ -1531,7 +1793,284 @@ void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
 __int16 FlyingSlig::sub_4374A0(__int16 /*a2*/)
 {
     NOT_IMPLEMENTED();
-    return 0;
+    return;
+
+    /*
+    field_17E_flags.Clear(Flags_17E::eBit2);
+    auto flags = field_17E_flags;
+    FP v12 = {};
+
+    if (flags.Get(Flags_17E::eBit4))
+    {
+        if (!flags.Get(Flags_17E::eBit12_bNoNextLine) && (!field_182_bound1 || !a2))
+        {
+            if (!flags.Get(Flags_17E::eBit3))
+            {
+                field_190 = field_2B8_max_speed_up;
+                goto LABEL_70;
+            }
+            const FP v4 = (field_18C * field_18C);
+            const FP v5 = (v4 / field_2B4_max_slow_down);
+            const FP v6 = (v5 * FP_FromDouble(0.5));
+            const FP v60 = field_18C;
+            const FP  v56 = field_18C;
+            FP v64 = {};
+            if (v6 >= FP_FromInteger(0))
+            {
+                const FP v9 = (v56 * v60);
+                const FP v10 = (v9 / field_2B4_max_slow_down);
+                v64 = (v10 * FP_FromDouble(0.5));
+            }
+            else
+            {
+                const FP v7 = (v56 * v60);
+                const FP v8 = (v7 / field_2B4_max_slow_down);
+                v64 = -(v8 * FP_FromDouble(0.5));
+            }
+            const FP v11 = FP_Abs(field_1C4 - field_194);
+            if (v64 >= v11)
+            {
+                goto LABEL_70;
+            }
+            v12 = field_2B8_max_speed_up;
+            field_190 = v12;
+            goto LABEL_70;
+        }
+        else
+        {
+            const FP v13 = field_2B8_max_speed_up;
+            FP v14 = v13 + field_18C;
+            if (v14 > field_2A8_max_x_speed)
+            {
+                v14 = field_2A8_max_x_speed;
+            }
+
+            FP v15 = {};
+            FP v16 = {};
+            if (v14 <= FP_FromInteger(0))
+            {
+                v15 = field_1A4_rect.x;
+                v16 = field_1A4_rect.w;
+            }
+            else
+            {
+                v15 = field_1A4_rect.w;
+                v16 = field_1A4_rect.x;
+            }
+
+            const FP v17 = v15 - v16;
+            bool v18 = v17 == FP_FromInteger(0);
+            bool v19 = v17 < FP_FromInteger(0);
+            if (v17 > FP_FromInteger(0))
+            {
+                if (field_182_bound1 == 32)
+                {
+                    field_190 = v13;
+                    goto LABEL_70;
+                }
+                v18 = v17 == FP_FromInteger(0);
+                v19 = v17 < FP_FromInteger(0);
+            }
+
+            if (!v19)
+            {
+                goto LABEL_25;
+            }
+
+            if (field_182_bound1 != 45)
+            {
+                v18 = v17 == FP_FromInteger(0);
+            LABEL_25:
+                if (v18 && !flags.Get(Flags_17E::eBit12_bNoNextLine))
+                {
+                    field_190 = v13;
+                    goto LABEL_70;
+                }
+
+                flags.Set(Flags_17E::eBit2);
+                field_17E_flags = flags;
+
+                const FP v20 = (field_18C * field_18C);
+                const FP v21 = (v20 / field_2B4_max_slow_down);
+                const FP  v22 = (v21 * FP_FromDouble(0.5));
+                const FP v61 = field_18C;
+                const FP v57 = field_18C;
+                FP v65 = {};
+                if (v22 >= FP_FromInteger(0))
+                {
+                    const FP v25 = (v57 * v61);
+                    const FP v26 = (v25 / field_2B4_max_slow_down);
+                    v65 = (v26 * FP_FromDouble(0.5));
+                }
+                else
+                {
+                    const FP v23 = (v57 * v61);
+                    const FP v24 = (v23 / field_2B4_max_slow_down);
+                    v65 = -(v24 * FP_FromDouble(0.5));
+                }
+                const FP v27 = field_198_line_length - field_194;
+                if (v27 < field_2A8_max_x_speed && field_18C == FP_FromInteger(0))
+                {
+                    return 1;
+                }
+                if (v65 >= v27)
+                {
+                    goto LABEL_70;
+                }
+                v12 = field_2B8_max_speed_up;
+                field_190 = v12;
+                goto LABEL_70;
+            }
+            field_190 = v13;
+            goto LABEL_70;
+        }
+    }
+    else
+    {
+        if (!flags.Get(Flags_17E::eBit11_bNoPrevLine) && (!field_180_bound2 || !a2))
+        {
+            if (flags.Get(Flags_17E::eBit3))
+            {
+                const FP v29 = (field_18C * field_18C);
+                const FP v30 = (v29 / field_2B4_max_slow_down);
+                const FP v31 = (v30 * FP_FromDouble(0.5));
+                const FP v62 = field_18C;
+                const FP v58 = field_18C;
+                FP v66 = {};
+                if (v31 >= FP_FromInteger(0))
+                {
+                    const FP v34 = (v58 * v62);
+                    const FP v35 = (v34 / field_2B4_max_slow_down);
+                    v66 = (v35 * FP_FromDouble(0.5));
+                }
+                else
+                {
+                    const FP  v32 = (v58 * v62);
+                    const FP v33 = (v32 / field_2B4_max_slow_down);
+                    v66 = -(v33 * FP_FromDouble(0.5));
+                }
+                const FP v36 = FP_Abs(field_1C4 - field_194);
+                if (v66 >= v36)
+                {
+                    goto LABEL_70;
+                }
+            }
+            v12 = -field_2B8_max_speed_up;
+            field_190 = v12;
+            goto LABEL_70;
+
+        }
+        else
+        {
+            const FP v37 = field_2B8_max_speed_up;
+            FP v38 = -field_2A8_max_x_speed;
+            if (field_18C - v37 >= v38)
+            {
+                v38 = field_18C - v37;
+            }
+
+            FP v39 = {};
+            FP v40 = {};
+            if (v38 <= FP_FromInteger(0))
+            {
+                v39 = field_1A4_rect.x;
+                v40 = field_1A4_rect.w;
+            }
+            else
+            {
+                v39 = field_1A4_rect.w;
+                v40 = field_1A4_rect.x;
+            }
+
+            const FP v41 = v39 - v40;
+            bool v42 = v41 == FP_FromInteger(0);
+            bool v43 = v41 < FP_FromInteger(0);
+            if (v41 > FP_FromInteger(0))
+            {
+                if (field_180_bound2 == 32)
+                {
+                    field_190 = -v37;
+                    goto LABEL_70;
+                }
+                v42 = v41 == FP_FromInteger(0);
+                v43 = v41 < FP_FromInteger(0);
+            }
+
+            if (v43)
+            {
+                if (field_180_bound2 != 45)
+                {
+                    v42 = v41 == FP_FromInteger(0);
+                    goto LABEL_58;
+                }
+                field_190 = -v37;
+                goto LABEL_70;
+            }
+
+        LABEL_58:
+            if (v42 && !flags.Get(Flags_17E::eBit11_bNoPrevLine))
+            {
+                field_190 = -v37;
+                goto LABEL_70;
+            }
+            const FP v44 = field_18C;
+            flags.Set(Flags_17E::eBit2);
+            field_17E_flags = flags;
+            const FP v45 = (v44 * v44);
+            const FP v46 = (v45 / field_2B4_max_slow_down);
+            const FP v47 = (v46 * FP_FromDouble(0.5));
+            const FP v63 = field_18C;
+            const FP v59 = field_18C;
+
+            FP v67 = {};
+            if (v47 >= FP_FromInteger(0))
+            {
+                const FP v50 = (v59 * v63);
+                const FP v51 = (v50 / field_2B4_max_slow_down);
+                v67 = (v51 * FP_FromDouble(0.5));
+            }
+            else
+            {
+                const FP v48 = (v59 * v63);
+                const FP v49 = (v48 / field_2B4_max_slow_down);
+                v67 = -(v49 * FP_FromDouble(0.5));
+            }
+
+            const FP v52 = field_194;
+            if (v52 < field_2A8_max_x_speed && field_18C == FP_FromInteger(0))
+            {
+                return 1;
+            }
+
+            if (v67 < v52)
+            {
+                v12 = -field_2B8_max_speed_up;
+                field_190 = v12;
+                goto LABEL_70;
+            }
+        }
+    }
+
+LABEL_70:
+
+    const FP v53 = field_190;
+    if (v53 >= FP_FromInteger(0))
+    {
+        if (v53 > FP_FromInteger(0))
+        {
+            const FP v55 = field_1A4_rect.y;
+            field_184_xSpeed = field_1A4_rect.w - field_1A4_rect.x;
+            field_188_ySpeed = field_1A4_rect.h - v55;
+        }
+        return 0;
+    }
+    else
+    {
+        const FP v54 = field_1A4_rect.h;
+        field_184_xSpeed = field_1A4_rect.x - field_1A4_rect.w;
+        field_188_ySpeed = field_1A4_rect.y - v54;
+        return 0;
+    }*/
 }
 
 __int16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
@@ -1628,10 +2167,10 @@ void FlyingSlig::BlowUp_436510()
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-    field_18C = 0;
+    field_18C = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_C4_velx = FP_FromInteger(0);
-    field_190 = 0;
+    field_190 = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
     field_184_xSpeed = FP_FromInteger(0);
     field_10C_health = FP_FromInteger(0);
@@ -1849,7 +2388,7 @@ void FlyingSlig::ToLaunchingGrenade_435F50()
 {
     if (!vIsFacingMe_4254A0(sControlledCharacter_5C1B8C) && !IsTurning_436AE0())
     {
-        if (!field_18C)
+        if (field_18C == FP_FromInteger(0))
         {
             field_17E_flags.Set(Flags_17E::eBit6);
         }
@@ -2161,7 +2700,7 @@ void FlyingSlig::vSetMotion_43B1B0(__int16 newMotion)
     vUpdateAnimRes_4350A0();
 }
 
-__int16 FlyingSlig::Collision_43A640(FP velY)
+__int16 FlyingSlig::CollisionUp_43A640(FP velY)
 {
     const FP y2 = field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20)) + velY;
 
@@ -2236,7 +2775,7 @@ __int16 FlyingSlig::Collision_43A640(FP velY)
     return 0;
 }
 
-__int16 FlyingSlig::Collision_43A9E0(FP velY)
+__int16 FlyingSlig::CollisionDown_43A9E0(FP velY)
 {
     const FP y2 = (field_CC_sprite_scale * FP_FromInteger(10)) + field_BC_ypos + velY;
 
@@ -2298,7 +2837,7 @@ __int16 FlyingSlig::Collision_43A9E0(FP velY)
     return 0;
 }
 
-__int16 FlyingSlig::Collision_43AC80(FP velX)
+__int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
 {
     FP newX = {};
     if (velX <= FP_FromInteger(0))
