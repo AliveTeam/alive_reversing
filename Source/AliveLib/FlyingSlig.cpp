@@ -2503,3 +2503,65 @@ __int16 FlyingSlig::TryPullLever_439DB0()
     }
     return FALSE;
 }
+
+void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
+{
+    FP unknown = arg1;
+    if (arg1 == FP_FromInteger(0))
+    {
+        pPoint->field_0_x = field_B8_xpos;
+        pPoint->field_4_y = field_BC_ypos;
+        return;
+    }
+
+    if (arg1 > FP_FromInteger(0))
+    {
+        if (field_194 + arg1 > field_198)
+        {
+            if (!field_17E_flags.Get(Flags_17E::eBit2) && field_1EC_pNextLine)
+            {
+                unknown = field_194 + arg1 - field_198;
+                if (sub_437C70(field_1EC_pNextLine))
+                {
+                    field_194 = FP_FromInteger(0);
+                }
+                else
+                {
+                    unknown = FP_FromInteger(0);
+                    field_194 = field_198;
+                }
+            }
+            else
+            {
+                unknown = FP_FromInteger(0);
+                field_194 = field_198;
+            }
+        }
+    }
+    else
+    {
+        if (field_194 + arg1 < FP_FromInteger(0))
+        {
+            if (!field_17E_flags.Get(Flags_17E::eBit2))
+            {
+                if (field_1F0_pPrevLine)
+                {
+                    unknown = field_194 + arg1;
+                    if (sub_437C70(field_1F0_pPrevLine))
+                    {
+                        field_194 = field_198;
+                    }
+                }
+            }
+            else
+            {
+                unknown = FP_FromInteger(0);
+                field_194 = FP_FromInteger(0);
+            }
+        }
+    }
+
+    field_194 += unknown;
+    pPoint->field_0_x = (field_194 * (field_1A4_rect.w - field_1A4_rect.x / field_198)) + field_1A4_rect.x;
+    pPoint->field_4_y = (field_194 * (field_1A4_rect.h - field_1A4_rect.y / field_198)) + field_1A4_rect.y;
+}

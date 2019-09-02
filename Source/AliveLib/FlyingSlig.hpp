@@ -227,6 +227,8 @@ public:
 
     EXPORT __int16 TryPullLever_439DB0();
 
+    EXPORT void sub_437AC0(FP a2, FP_Point* pPoint);
+
 
     void SetBrain(TFlyingSligFn fn);
     bool BrainIs(TFlyingSligFn fn);
