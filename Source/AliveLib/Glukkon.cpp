@@ -7,6 +7,7 @@
 #include "Collisions.hpp"
 #include "Game.hpp"
 #include "Shadow.hpp"
+#include "ShadowZone.hpp"
 #include "MusicController.hpp"
 #include "SwitchStates.hpp"
 #include "Spark.hpp"
@@ -29,6 +30,7 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "Bullet.hpp"
+#include "VRam.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =
@@ -321,6 +323,147 @@ BaseGameObject* Glukkon::VDestructor(signed int flags)
 void Glukkon::VUpdate()
 {
     vUpdate_43F770();
+}
+
+void Glukkon::vRender_4406C0(int** ot)
+{
+    //NOT_IMPLEMENTED();
+    PSX_RECT bRect; // [esp+24h] [ebp-18h]
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number &&
+            gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number &&
+            Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+        {
+            field_20_animation.field_14_scale = field_CC_sprite_scale;
+            
+            //PSX_RECT pRect; // [esp+30h] [ebp-Ch]
+            
+            PSX_RECT *boundingRect = vGetBoundingRect_424FD0(&bRect, 1);
+
+            __int16 rMod = field_D0_r;
+            __int16 gMod = field_D2_g;
+            __int16 bMod = field_D4_b;
+            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                FP_GetExponent(field_B8_xpos),
+                (boundingRect->h + boundingRect->y) / 2,
+                field_D6_scale,
+                &rMod,
+                &gMod,
+                &bMod
+            );
+
+            if (!( field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted )))
+            {
+                if (rMod != field_1A0 || gMod != field_1A2 || bMod != field_1A4)
+                {
+                    field_1A0 = rMod;
+                    field_1A2 = gMod;
+                    field_1A4 = bMod;
+
+                    FrameInfoHeader *pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(0);
+                    int frameHeaderOffset = pFrameInfoHeader->field_0_frame_header_offset;
+
+                    BYTE* animDataPtr = *field_20_animation.field_20_ppBlock;
+                    FrameHeader frameHeader = *( FrameHeader * )&( animDataPtr )[frameHeaderOffset]; //v14
+
+                    //__int16 *shortPointerToFrameHeadersWidthField = &animDataPtr[frameHeaderOffset + 4]; //shitty animation offset
+                    BYTE *v23 = &frameHeader.field_4_width;
+                    bRect.x = field_118_pPalAlloc;
+
+                    unsigned __int16 v15; // cx
+                    unsigned __int16 v16; // dx
+                    unsigned __int16 v17; // ax
+                    int v18; // eax
+                    int field_118_val; // ecx
+                    unsigned short v7 = 0;
+                    for (int i = 64; i >= 1; i--) //todo make sure it's if >= and not >
+                    {
+                        v7 = *v23;
+                        v15 = ( field_1A0 * ( *v23 & 31 ) ) >> 7;
+                        if (v15 > 31u)
+                        {
+                            v15 = 31;
+                        }
+                        v16 = ( ( ( v7 >> 5 ) & 31 ) * field_1A2 ) >> 7;
+                        if (v16 > 31u)
+                        {
+                            v16 = 31;
+                        }
+                        v17 = ( ( ( v7 >> 10 ) & 31 ) * field_1A4 ) >> 7;
+                        if (v17 > 31u)
+                        {
+                            v17 = 31;
+                        }
+                        v18 = ( *v23 & 0x8000 ) | ( ( v15 & 31 ) + 32 * ( ( v16 & 31 ) + 32 * ( v17 & 31 ) ) );
+                        if (!v18)
+                        {
+                            if (v7)
+                            {
+                                v18 = 1;
+                            }
+                        }
+                        field_118_val = bRect.x;
+                        bRect.x = (short) v18; //todo fix, cast is just so it launches
+
+                        v23 += 2;
+                        bRect.x = (short) (i + 2);//todo fix, cast is just so it launches
+
+                        field_118_pPalAlloc = (short) v18;
+                    }
+
+                    if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
+                    {
+                        field_142 = 40; //todo remove
+                        //field_142 = shortPointerToFrameHeadersWidthField[21];
+                    }
+                    else if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
+                    {
+                        field_196 = 40; //todo remove
+                        //field_196 = shortPointerToFrameHeadersWidthField[63];
+                    }
+                    else
+                    {
+                        field_194 = 40; //todo remove
+                        //field_194 = shortPointerToFrameHeadersWidthField[62];
+                    }
+                    Pal_Set_483510(
+                        field_20_animation.field_8C_pal_vram_xy,
+                        field_20_animation.field_90_pal_depth,
+                        reinterpret_cast<BYTE*>(&field_118_pPalAlloc),
+                        &field_198
+                    );
+                }
+                field_20_animation.field_8_r = 127;
+                field_20_animation.field_9_g = 127;
+                field_20_animation.field_A_b = 127;
+            }
+
+            field_20_animation.vRender_40B820(
+                FP_GetExponent( FP_FromInteger( field_DA_xOffset ) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x ),
+                FP_GetExponent( FP_FromInteger( field_D8_yOffset ) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y ),
+                ot,
+                0,
+                0
+            );
+
+            PSX_RECT rectToInvalidate;
+            field_20_animation.Get_Frame_Rect_409E10(&rectToInvalidate);
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                rectToInvalidate.x,
+                rectToInvalidate.y,
+                rectToInvalidate.w,
+                rectToInvalidate.h,pScreenManager_5BB5F4->field_3A_idx
+            );
+
+            if (field_E0_pShadow)
+            {
+                field_E0_pShadow->Calculate_Position_4ACA50(field_B8_xpos, field_BC_ypos, &rectToInvalidate, field_CC_sprite_scale, field_D6_scale);
+                field_E0_pShadow->Render_4ACE60(ot);
+            }
+        }
+    }
 }
 
 void Glukkon::VScreenChanged()

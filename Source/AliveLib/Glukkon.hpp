@@ -162,6 +162,11 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_4406C0(pOrderingTable);
+    }
+
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     virtual void VScreenChanged() override;
@@ -240,6 +245,8 @@ private:
 
     EXPORT void SpeakRandomish_4405D0();
 
+    EXPORT void vRender_4406C0(int** ot);
+
     EXPORT __int16 DoMovement_444190();
 
     EXPORT void FollowLine_443EB0();
@@ -271,7 +278,7 @@ private:
     bool BrainIs(TGlukkonAIFn fn);
 
 private:
-    __int16 field_118;
+    __int16 field_118_pPalAlloc;
     __int16 field_11A;
     __int16 field_11C;
     __int16 field_11E;
@@ -335,10 +342,7 @@ private:
     __int16 field_192;
     __int16 field_194;
     __int16 field_196;
-    __int16 field_198;
-    __int16 field_19A;
-    __int16 field_19C;
-    __int16 field_19E;
+    PSX_RECT field_198;
     __int16 field_1A0;
     __int16 field_1A2;
     __int16 field_1A4;
