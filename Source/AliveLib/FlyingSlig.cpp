@@ -1790,287 +1790,184 @@ void FlyingSlig::Say_436A50(SligSpeak speak, __int16 pitch)
     }
 }
 
-__int16 FlyingSlig::sub_4374A0(__int16 /*a2*/)
+__int16 FlyingSlig::sub_4374A0(__int16 a2)
 {
-    NOT_IMPLEMENTED();
-    return 0;
-
-    /*
     field_17E_flags.Clear(Flags_17E::eBit2);
-    auto flags = field_17E_flags;
-    FP v12 = {};
 
-    if (flags.Get(Flags_17E::eBit4))
+    if (field_17E_flags.Get(Flags_17E::eBit4))
     {
-        if (!flags.Get(Flags_17E::eBit12_bNoNextLine) && (!field_182_bound1 || !a2))
+        if (!field_17E_flags.Get(Flags_17E::eBit12_bNoNextLine) && (!field_182_bound1 || !a2))
         {
-            if (!flags.Get(Flags_17E::eBit3))
+            if (!field_17E_flags.Get(Flags_17E::eBit3))
             {
                 field_190 = field_2B8_max_speed_up;
-                goto LABEL_70;
-            }
-            const FP v4 = (field_18C * field_18C);
-            const FP v5 = (v4 / field_2B4_max_slow_down);
-            const FP v6 = (v5 * FP_FromDouble(0.5));
-            const FP v60 = field_18C;
-            const FP  v56 = field_18C;
-            FP v64 = {};
-            if (v6 >= FP_FromInteger(0))
-            {
-                const FP v9 = (v56 * v60);
-                const FP v10 = (v9 / field_2B4_max_slow_down);
-                v64 = (v10 * FP_FromDouble(0.5));
             }
             else
             {
-                const FP v7 = (v56 * v60);
-                const FP v8 = (v7 / field_2B4_max_slow_down);
-                v64 = -(v8 * FP_FromDouble(0.5));
+                const FP v64 = FP_Abs(((field_18C * field_18C) / field_2B4_max_slow_down) * FP_FromDouble(0.5));
+                if (v64 < FP_Abs(field_1C4 - field_194))
+                {
+                    field_190 = field_2B8_max_speed_up;
+                }
             }
-            const FP v11 = FP_Abs(field_1C4 - field_194);
-            if (v64 >= v11)
-            {
-                goto LABEL_70;
-            }
-            v12 = field_2B8_max_speed_up;
-            field_190 = v12;
-            goto LABEL_70;
         }
         else
         {
-            const FP v13 = field_2B8_max_speed_up;
-            FP v14 = v13 + field_18C;
+            FP v14 = field_2B8_max_speed_up + field_18C;
             if (v14 > field_2A8_max_x_speed)
             {
                 v14 = field_2A8_max_x_speed;
             }
 
-            FP v15 = {};
-            FP v16 = {};
+            FP left = {};
+            FP right = {};
             if (v14 <= FP_FromInteger(0))
             {
-                v15 = field_1A4_rect.x;
-                v16 = field_1A4_rect.w;
+                left = field_1A4_rect.x;
+                right = field_1A4_rect.w;
             }
             else
             {
-                v15 = field_1A4_rect.w;
-                v16 = field_1A4_rect.x;
+                left = field_1A4_rect.w;
+                right = field_1A4_rect.x;
             }
 
-            const FP v17 = v15 - v16;
-            bool v18 = v17 == FP_FromInteger(0);
-            bool v19 = v17 < FP_FromInteger(0);
-            if (v17 > FP_FromInteger(0))
+            const FP width = left - right;
+            if (width > FP_FromInteger(0))
             {
-                if (field_182_bound1 == 32)
+                if (field_182_bound1 == TlvTypes::SligBoundLeft_32)
                 {
-                    field_190 = v13;
+                    field_190 = field_2B8_max_speed_up;
                     goto LABEL_70;
                 }
-                v18 = v17 == FP_FromInteger(0);
-                v19 = v17 < FP_FromInteger(0);
             }
 
-            if (!v19)
+            if (!(width < FP_FromInteger(0)))
             {
                 goto LABEL_25;
             }
 
-            if (field_182_bound1 != 45)
+            if (field_182_bound1 == TlvTypes::SligBoundRight_45)
             {
-                v18 = v17 == FP_FromInteger(0);
+                field_190 = field_2B8_max_speed_up;
+            }
+            else
+            {
             LABEL_25:
-                if (v18 && !flags.Get(Flags_17E::eBit12_bNoNextLine))
+                if (width == FP_FromInteger(0) && !field_17E_flags.Get(Flags_17E::eBit12_bNoNextLine))
                 {
-                    field_190 = v13;
-                    goto LABEL_70;
-                }
-
-                flags.Set(Flags_17E::eBit2);
-                field_17E_flags = flags;
-
-                const FP v20 = (field_18C * field_18C);
-                const FP v21 = (v20 / field_2B4_max_slow_down);
-                const FP  v22 = (v21 * FP_FromDouble(0.5));
-                const FP v61 = field_18C;
-                const FP v57 = field_18C;
-                FP v65 = {};
-                if (v22 >= FP_FromInteger(0))
-                {
-                    const FP v25 = (v57 * v61);
-                    const FP v26 = (v25 / field_2B4_max_slow_down);
-                    v65 = (v26 * FP_FromDouble(0.5));
+                    field_190 = field_2B8_max_speed_up;
                 }
                 else
                 {
-                    const FP v23 = (v57 * v61);
-                    const FP v24 = (v23 / field_2B4_max_slow_down);
-                    v65 = -(v24 * FP_FromDouble(0.5));
+                    field_17E_flags.Set(Flags_17E::eBit2);
+
+                    const FP v65 = FP_Abs((((field_18C * field_18C) / field_2B4_max_slow_down) * FP_FromDouble(0.5)));
+                    const FP v27 = field_198_line_length - field_194;
+                    if (v27 < field_2A8_max_x_speed && field_18C == FP_FromInteger(0))
+                    {
+                        return 1;
+                    }
+
+                    if (v65 < v27)
+                    {
+                        field_190 = field_2B8_max_speed_up;
+                    }
                 }
-                const FP v27 = field_198_line_length - field_194;
-                if (v27 < field_2A8_max_x_speed && field_18C == FP_FromInteger(0))
-                {
-                    return 1;
-                }
-                if (v65 >= v27)
-                {
-                    goto LABEL_70;
-                }
-                v12 = field_2B8_max_speed_up;
-                field_190 = v12;
-                goto LABEL_70;
             }
-            field_190 = v13;
-            goto LABEL_70;
         }
     }
     else
     {
-        if (!flags.Get(Flags_17E::eBit11_bNoPrevLine) && (!field_180_bound2 || !a2))
+        if (!field_17E_flags.Get(Flags_17E::eBit11_bNoPrevLine) && (!field_180_bound2 || !a2))
         {
-            if (flags.Get(Flags_17E::eBit3))
+            if (!field_17E_flags.Get(Flags_17E::eBit3))
             {
-                const FP v29 = (field_18C * field_18C);
-                const FP v30 = (v29 / field_2B4_max_slow_down);
-                const FP v31 = (v30 * FP_FromDouble(0.5));
-                const FP v62 = field_18C;
-                const FP v58 = field_18C;
-                FP v66 = {};
-                if (v31 >= FP_FromInteger(0))
+                field_190 = -field_2B8_max_speed_up;
+            }
+            else
+            {
+                const FP v66 = FP_Abs(((field_18C * field_18C) / field_2B4_max_slow_down) * FP_FromDouble(0.5));
+                if (v66 < FP_Abs(field_1C4 - field_194))
                 {
-                    const FP v34 = (v58 * v62);
-                    const FP v35 = (v34 / field_2B4_max_slow_down);
-                    v66 = (v35 * FP_FromDouble(0.5));
-                }
-                else
-                {
-                    const FP  v32 = (v58 * v62);
-                    const FP v33 = (v32 / field_2B4_max_slow_down);
-                    v66 = -(v33 * FP_FromDouble(0.5));
-                }
-                const FP v36 = FP_Abs(field_1C4 - field_194);
-                if (v66 >= v36)
-                {
-                    goto LABEL_70;
+                    field_190 = -field_2B8_max_speed_up;
                 }
             }
-            v12 = -field_2B8_max_speed_up;
-            field_190 = v12;
-            goto LABEL_70;
-
         }
         else
         {
-            const FP v37 = field_2B8_max_speed_up;
-            FP v38 = -field_2A8_max_x_speed;
-            if (field_18C - v37 >= v38)
+            FP directedXMaxSpeed = -field_2A8_max_x_speed;
+            if (field_18C - field_2B8_max_speed_up >= directedXMaxSpeed)
             {
-                v38 = field_18C - v37;
+                directedXMaxSpeed = field_18C - field_2B8_max_speed_up;
             }
 
-            FP v39 = {};
-            FP v40 = {};
-            if (v38 <= FP_FromInteger(0))
+            FP left = {};
+            FP right = {};
+            if (directedXMaxSpeed <= FP_FromInteger(0))
             {
-                v39 = field_1A4_rect.x;
-                v40 = field_1A4_rect.w;
+                left = field_1A4_rect.x;
+                right = field_1A4_rect.w;
             }
             else
             {
-                v39 = field_1A4_rect.w;
-                v40 = field_1A4_rect.x;
+                left = field_1A4_rect.w;
+                right = field_1A4_rect.x;
             }
 
-            const FP v41 = v39 - v40;
-            bool v42 = v41 == FP_FromInteger(0);
-            bool v43 = v41 < FP_FromInteger(0);
-            if (v41 > FP_FromInteger(0))
+            const FP width = left - right;
+            if (width > FP_FromInteger(0))
             {
-                if (field_180_bound2 == 32)
+                if (field_180_bound2 == TlvTypes::SligBoundLeft_32)
                 {
-                    field_190 = -v37;
+                    field_190 = -field_2B8_max_speed_up;
                     goto LABEL_70;
                 }
-                v42 = v41 == FP_FromInteger(0);
-                v43 = v41 < FP_FromInteger(0);
             }
-
-            if (v43)
+            else if (width < FP_FromInteger(0))
             {
-                if (field_180_bound2 != 45)
+                if (field_180_bound2 == TlvTypes::SligBoundRight_45)
                 {
-                    v42 = v41 == FP_FromInteger(0);
-                    goto LABEL_58;
+                    field_190 = -field_2B8_max_speed_up;
+                    goto LABEL_70;
                 }
-                field_190 = -v37;
-                goto LABEL_70;
             }
 
-        LABEL_58:
-            if (v42 && !flags.Get(Flags_17E::eBit11_bNoPrevLine))
+            if (width == FP_FromInteger(0) && !field_17E_flags.Get(Flags_17E::eBit11_bNoPrevLine))
             {
-                field_190 = -v37;
-                goto LABEL_70;
-            }
-            const FP v44 = field_18C;
-            flags.Set(Flags_17E::eBit2);
-            field_17E_flags = flags;
-            const FP v45 = (v44 * v44);
-            const FP v46 = (v45 / field_2B4_max_slow_down);
-            const FP v47 = (v46 * FP_FromDouble(0.5));
-            const FP v63 = field_18C;
-            const FP v59 = field_18C;
-
-            FP v67 = {};
-            if (v47 >= FP_FromInteger(0))
-            {
-                const FP v50 = (v59 * v63);
-                const FP v51 = (v50 / field_2B4_max_slow_down);
-                v67 = (v51 * FP_FromDouble(0.5));
+                field_190 = -field_2B8_max_speed_up;
             }
             else
             {
-                const FP v48 = (v59 * v63);
-                const FP v49 = (v48 / field_2B4_max_slow_down);
-                v67 = -(v49 * FP_FromDouble(0.5));
-            }
+                field_17E_flags.Set(Flags_17E::eBit2);
+                const FP v67 = FP_Abs(((field_18C * field_18C) / field_2B4_max_slow_down) * FP_FromDouble(0.5));
+                if (field_194 < field_2A8_max_x_speed && field_18C == FP_FromInteger(0))
+                {
+                    return 1;
+                }
 
-            const FP v52 = field_194;
-            if (v52 < field_2A8_max_x_speed && field_18C == FP_FromInteger(0))
-            {
-                return 1;
-            }
-
-            if (v67 < v52)
-            {
-                v12 = -field_2B8_max_speed_up;
-                field_190 = v12;
-                goto LABEL_70;
+                if (v67 < field_194)
+                {
+                    field_190 = -field_2B8_max_speed_up;
+                }
             }
         }
     }
 
 LABEL_70:
 
-    const FP v53 = field_190;
-    if (v53 >= FP_FromInteger(0))
+    if (field_190 > FP_FromInteger(0))
     {
-        if (v53 > FP_FromInteger(0))
-        {
-            const FP v55 = field_1A4_rect.y;
-            field_184_xSpeed = field_1A4_rect.w - field_1A4_rect.x;
-            field_188_ySpeed = field_1A4_rect.h - v55;
-        }
-        return 0;
+        field_184_xSpeed = field_1A4_rect.w - field_1A4_rect.x;
+        field_188_ySpeed = field_1A4_rect.h - field_1A4_rect.y;
     }
-    else
+    else if (field_190 < FP_FromInteger(0))
     {
-        const FP v54 = field_1A4_rect.h;
         field_184_xSpeed = field_1A4_rect.x - field_1A4_rect.w;
-        field_188_ySpeed = field_1A4_rect.y - v54;
-        return 0;
-    }*/
+        field_188_ySpeed = field_1A4_rect.y - field_1A4_rect.h;
+    }
+
+    return 0;
 }
 
 __int16 CCSTD FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
