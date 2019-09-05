@@ -2599,296 +2599,218 @@ void FlyingSlig::vPossessed_434FB0()
     ToPossesed_436130();
 }
 
-__int16 FlyingSlig::sub_436C60(PSX_RECT* /*pRect*/, __int16 /*arg_4*/)
+__int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
 {
-    return 0;
-    /*
-    FP hitX = {};
-    FP hitY = {};
-    PathLine* pLine = nullptr;
-
-    const FP v53 = (FP_FromInteger(80) * field_CC_sprite_scale);
-    //Math_FixedPoint_Multiply_496C50(FP_FromInteger(20) * field_CC_sprite_scale);
     if (!pRect)
     {
         return 0;
     }
-    short v4 = pRect->w;
-    const short v5 = pRect->x;
-    const short v6 = pRect->x;
-    const short v7 = v4 - v6;
-    int v8 = 0;
-    if (v7 >= 0)
+
+    const FP k80Scaled = (FP_FromInteger(80) * field_CC_sprite_scale);
+
+    FP v1 = {};
+    if (FP_FromInteger(std::abs(pRect->w - pRect->x)) < FP_FromInteger(1))
     {
-        v8 = v4 - v6;
+        // Set to a huge value if near 0
+        v1 = FP_FromInteger(9999);
     }
     else
     {
-        v8 = v6 - v4;
+        v1 = FP_Abs(FP_FromInteger(std::abs((pRect->h - pRect->y) / pRect->w - pRect->x)));
     }
 
-    FP v9 = {};
-    if (FP_FromInteger(v8) >= FP_FromInteger(1))
+    if (v1 < FP_FromInteger(4))
     {
-        int v10 = (pRect->h - pRect->y) / v7;
-        if (v10 < 0)
-        {
-            v10 = -v10;
-        }
+      
+        const FP rLeft = sControlledCharacter_5C1B8C->field_B8_xpos - k80Scaled;
+        const FP rRight = sControlledCharacter_5C1B8C->field_B8_xpos + k80Scaled;
 
-        v9 = FP_FromInteger(v10);
-        if (v9 < FP_FromInteger(0))
-        {
-            v9 = -v9;
-        }
-    }
-    else
-    {
-        v9 = FP_FromInteger(9999);
-    }
+        const FP r_x = FP_FromInteger(std::min(pRect->x, pRect->w));
+        const FP r_w = FP_FromInteger(std::max(pRect->w, pRect->x));
 
-    FP v31 = {};
-    if (v9 < FP_FromInteger(4))
-    {
-        const FP v11 = sControlledCharacter_5C1B8C->field_B8_xpos - v53;
-        const FP v12 = sControlledCharacter_5C1B8C->field_B8_xpos + v53;
-        const FP v54 = sControlledCharacter_5C1B8C->field_B8_xpos - v53;
-        const FP var_14 = v12;
-        short v13 = pRect->w;
-        if (v5 <= v4)
-        {
-            v13 = pRect->x;
-        }
+        const FP r_y = FP_FromInteger(std::min(pRect->y, pRect->h));
+        const FP r_h = FP_FromInteger(std::max(pRect->h, pRect->w) + 150);
 
-        const FP v14 = FP_FromInteger(v13);
-        if (v4 <= v5)
+        int bLeftInRect = 0;
+        if (rLeft < r_x ||
+            rLeft > r_w ||
+            sControlledCharacter_5C1B8C->field_BC_ypos < r_y ||
+            sControlledCharacter_5C1B8C->field_BC_ypos > r_h)
         {
-            v4 = pRect->x;
-        }
-
-        short v15 = pRect->y;
-        const short v16 = pRect->h;
-        const FP v17 = FP_FromInteger(v4);
-        short v18 = v16;
-        if (v15 <= v16)
-        {
-            v18 = pRect->y;
-        }
-
-        const FP v19 = FP_FromInteger(v18);
-        if (v16 > v15)
-        {
-            v15 = pRect->h;
-        }
-
-        const FP v20 = FP_FromInteger(v15 + 150);
-        int pRecta = 0;
-        int v22 = 0;
-        if (v11 < v14 || v11 > v17 || sControlledCharacter_5C1B8C->field_BC_ypos < v19 || sControlledCharacter_5C1B8C->field_BC_ypos > v20)
-        {
-            pRecta = 0;
-            v22 = 0;
+            bLeftInRect = 0;
         }
         else
         {
-            v22 = 1;
-            pRecta = 1;
+            bLeftInRect = 1;
         }
 
-        int v51 = 0;
-        int v24 = 0;
-        if (var_14 < v14 || var_14 > v17 || sControlledCharacter_5C1B8C->field_BC_ypos < v19 || sControlledCharacter_5C1B8C->field_BC_ypos > v20)
+        int bRightInRect = 0;
+        if (rRight < r_x ||
+            rRight > r_w ||
+            sControlledCharacter_5C1B8C->field_BC_ypos < r_y ||
+            sControlledCharacter_5C1B8C->field_BC_ypos > r_h)
         {
-            v51 = 0;
-            v24 = 0;
+            bRightInRect = 0;
         }
         else
         {
-            v24 = 1;
-            v51 = 1;
+            bRightInRect = 1;
         }
 
-        if (!v22 && !v24)
+        if (!bLeftInRect && !bRightInRect)
         {
             return 0;
         }
-        if (!arg_4 && (v24 || v22))
+
+        if (!arg_4 && (bRightInRect || bLeftInRect))
         {
             return 1;
         }
 
-        FP v26 = (field_1A4_rect.h - field_1A4_rect.y) / (field_1A4_rect.w - field_1A4_rect.x);
-        const FP v1 = v26;
-        const FP v27 = field_1A4_rect.y - (v26 * field_1A4_rect.x);
-        FP v28 = {};
-        if (v24)
+        const FP v2 = (field_1A4_rect.h - field_1A4_rect.y) / (field_1A4_rect.w - field_1A4_rect.x);
+        const FP v3 = field_1A4_rect.y - (v2 * field_1A4_rect.x);
+        
+        FP yOff1 = {};
+        if (bRightInRect)
         {
-            v28 = v27 + (v26 * var_14);
-            const FP v29 = sControlledCharacter_5C1B8C->field_BC_ypos - (FP_FromInteger(60) * field_CC_sprite_scale);
-            if ((v29 - v28) > (FP_FromInteger(35) * field_CC_sprite_scale))
+            yOff1 = v3 + (v2 * rRight);
+            if ((sControlledCharacter_5C1B8C->field_BC_ypos - (FP_FromInteger(60) * field_CC_sprite_scale) - yOff1) >
+                (FP_FromInteger(35) * field_CC_sprite_scale))
             {
-                const FP v30 = (FP_FromInteger(35) * field_CC_sprite_scale);
+                FP hitX = {};
+                FP hitY = {};
+                PathLine* pLine = nullptr;
+
                 if (sCollisions_DArray_5C1128->Raycast_417A60(
                     sControlledCharacter_5C1B8C->field_B8_xpos,
-                    v28,
+                    yOff1,
                     sControlledCharacter_5C1B8C->field_B8_xpos,
-                    v28 + v30,
+                    yOff1 + (FP_FromInteger(35) * field_CC_sprite_scale),
                     &pLine,
                     &hitX,
                     &hitY,
                     field_D6_scale != 0 ? 1 : 0x10) == 1)
                 {
-                    v51 = 0;
+                    bRightInRect = 0;
                 }
             }
-            v26 = v1;
-        }
-        else
-        {
-            v28 = v26;
         }
 
-        FP v34 = {};
-        FP v37 = {};
-
-        if (pRecta) // word
+        FP yOff2 = {};
+        if (bLeftInRect)
         {
-            v31 = (v26 * v54) + v27;
-            const FP v32 = sControlledCharacter_5C1B8C->field_BC_ypos - (FP_FromInteger(60) * field_CC_sprite_scale);
-            
+            yOff2 = (v2 * rLeft) + v3;
 
-            if ((v32 - v31) <= (FP_FromInteger(35) * field_CC_sprite_scale) || 
+            FP hitX = {};
+            FP hitY = {};
+            PathLine* pLine = nullptr;
+
+            if ((sControlledCharacter_5C1B8C->field_BC_ypos - (FP_FromInteger(60) * field_CC_sprite_scale) - yOff2) <= (FP_FromInteger(35) * field_CC_sprite_scale) ||
                 sCollisions_DArray_5C1128->Raycast_417A60(
                     sControlledCharacter_5C1B8C->field_B8_xpos,
-                    v31,
+                    yOff2,
                     sControlledCharacter_5C1B8C->field_B8_xpos,
-                    v31 + (FP_FromInteger(35) * field_CC_sprite_scale),
+                    yOff2 + (FP_FromInteger(35) * field_CC_sprite_scale),
                     &pLine,
                     &hitX,
                     &hitY,
                     field_D6_scale != 0 ? 1 : 16) != 1)
             {
-                if (!v51)
-                {
-                    v34 = v1;
-                    goto LABEL_54;
-                }
-            LABEL_52:
-                v34 = FP_FromInteger(Math_SquareRoot_Int_496E70(
-                    FP_GetExponent(v28 - field_1A4_rect.y) * (FP_GetExponent(v28 - field_1A4_rect.y)) +
-                    FP_GetExponent(var_14 - field_1A4_rect.x) * (FP_GetExponent(var_14 - field_1A4_rect.x))));
-            LABEL_54:
-                int v35 = pRecta;
-                if (pRecta) // word
-                {
-                    const int v36 = Math_SquareRoot_Int_496E70(
-                        FP_GetExponent(v31 - field_1A4_rect.y) * (FP_GetExponent(v31 - field_1A4_rect.y)) +
-                        FP_GetExponent(v54 - field_1A4_rect.x) * (FP_GetExponent(v54 - field_1A4_rect.x)));
+                bLeftInRect = 0;
+            }
+        }
 
-                    v35 = pRecta;
-                    v37 = FP_FromInteger(v36);
+        if (bRightInRect || bLeftInRect)
+        {
+            FP sqrt1 = {};
+            FP sqrt2 = {};
+            if (bRightInRect)
+            {
+                sqrt1 = FP_FromInteger(Math_SquareRoot_Int_496E70(
+                    FP_GetExponent(yOff1 - field_1A4_rect.y) * (FP_GetExponent(yOff1 - field_1A4_rect.y)) +
+                    FP_GetExponent(rRight - field_1A4_rect.x) * (FP_GetExponent(rRight - field_1A4_rect.x))));
+            }
+
+            if (bLeftInRect)
+            {
+                const int sqrt2_int = Math_SquareRoot_Int_496E70(
+                    FP_GetExponent(yOff2 - field_1A4_rect.y) * (FP_GetExponent(yOff2 - field_1A4_rect.y)) +
+                    FP_GetExponent(rLeft - field_1A4_rect.x) * (FP_GetExponent(rLeft - field_1A4_rect.x)));
+
+                sqrt2 = FP_FromInteger(sqrt2_int);
+            }
+
+
+            if (bRightInRect && !bLeftInRect)
+            {
+                field_1C4 = sqrt1;
+                return 1;
+            }
+            else if (bLeftInRect)
+            {
+                field_1C4 = sqrt2;
+                return 1;
+            }
+            else
+            {
+                if (FP_Abs(sqrt2 - field_194) >= FP_Abs(sqrt1 - field_194))
+                {
+                    field_1C4 = sqrt1;
+                    return 1;
                 }
                 else
                 {
-                    v37 = v1;
-                }
-
-                if (v51)
-                {
-                    if (!v35)
-                    {
-                    LABEL_59:
-                        field_1C4 = v34;
-                        return 1;
-                    }
-                }
-                else if (v35)
-                {
-                    field_1C4 = v37;
+                    field_1C4 = sqrt2;
                     return 1;
                 }
-                const FP v38 = field_194;
-                FP v39 = v37 - v38;
-                if (v37 - v38 < FP_FromInteger(0))
-                {
-                    v39 = v38 - v37;
-                }
-
-                const FP v40 = v39;
-                FP v41 = v34 - v38;
-                if (v34 - v38 < FP_FromInteger(0))
-                {
-                    v41 = v38 - v34;
-                }
-
-                if (v40 >= v41)
-                {
-                    goto LABEL_59;
-                }
-                field_1C4 = v37;
-                return 1;
             }
-            pRecta = 0;
         }
         else
         {
-            v31 = v1;
-        }
-        if (!v51)
-        {
-            return 0;
-        }
-        goto LABEL_52;
-    }
-    
-    const FP v42 = (FP_FromInteger(40) * field_CC_sprite_scale);
-    const short v43 = pRect->h;
-    const FP v44 = sControlledCharacter_5C1B8C->field_BC_ypos - v42;
-    const short v45 = pRect->y;
-    if (v45 >= v43)
-    {
-        if (v44 < FP_FromInteger(v43) || v44 > FP_FromInteger(v45))
-        {
             return 0;
         }
     }
     else
     {
-        if (v44 < FP_FromInteger(v45))
+        const FP k40Scaled = (FP_FromInteger(40) * field_CC_sprite_scale);
+        const FP yTop = sControlledCharacter_5C1B8C->field_BC_ypos - k40Scaled;
+        if (pRect->y >= pRect->h)
+        {
+            if (yTop < FP_FromInteger(pRect->h))
+            {
+                return 0;
+            }
+
+            if (yTop > FP_FromInteger(pRect->y))
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            if (yTop < FP_FromInteger(pRect->y))
+            {
+                return 0;
+            }
+
+            if (yTop > FP_FromInteger(pRect->h))
+            {
+                return 0;
+            }
+        }
+
+        if (FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - FP_FromInteger(pRect->x)) > (FP_FromInteger(120) * field_CC_sprite_scale))
         {
             return 0;
         }
-        if (v44 > FP_FromInteger(v43))
+
+        if (arg_4)
         {
-            return 0;
+            field_1C4 = FP_Abs(yTop - field_1A4_rect.y);
         }
-    }
 
-    const FP v46 = (FP_FromInteger(120) * field_CC_sprite_scale);
-    const FP v47 = FP_FromInteger(pRect->x);
-    const FP v48 = sControlledCharacter_5C1B8C->field_B8_xpos;
-    FP v49 = {};
-    if (FP_FromInteger(pRect->x) - v48 >= FP_FromInteger(0))
-    {
-        v49 = v47 - v48;
-    }
-    else
-    {
-        v49 = v48 - v47;
-    }
-
-    if (v49 > v46)
-    {
-        return 0;
-    }
-
-    if (!arg_4)
-    {
         return 1;
     }
-
-    field_1C4 = FP_Abs(v44 - field_1A4_rect.y);
-    return 1;*/
 }
 
 BOOL FlyingSlig::sub_436B20()
