@@ -448,7 +448,7 @@ const int dword_552550[11] =
 
 
 
-ALIVE_ARY(1, 0x55257C, const int*, 3, dword_55257C, { dword_552500, dword_552524, dword_552550 });
+ALIVE_ARY(1, 0x55257C, const int*, 4, dword_55257C, { nullptr, dword_552500, dword_552524, dword_552550 });
 
 void FlyingSlig::Movement_4396E0()
 {
@@ -502,11 +502,11 @@ void FlyingSlig::Movement_4396E0()
     }
     else
     {
-        const int v4 = Math_SquareRoot_Int_496E70(FP_GetExponent((field_C8_vely * field_C8_vely) + (field_C4_velx * field_C4_velx)));
-        if (FP_Abs(FP_FromInteger(v4)) > FP_FromDouble(0.05))
+        const int newVel = Math_SquareRoot_Int_496E70(FP_GetExponent((field_C8_vely * field_C8_vely) + (field_C4_velx * field_C4_velx)));
+        if (FP_Abs(FP_FromInteger(newVel)) > FP_FromDouble(0.05))
         {
-            field_C4_velx = field_C4_velx - ((field_C4_velx / FP_FromInteger(v4)) * field_2B4_max_slow_down) + field_184_xSpeed;
-            field_C8_vely = field_C8_vely - ((field_C8_vely / FP_FromInteger(v4)) * field_2B4_max_slow_down) + field_188_ySpeed;
+            field_C4_velx = field_C4_velx - ((field_C4_velx / FP_FromInteger(newVel)) * field_2B4_max_slow_down) + field_184_xSpeed;
+            field_C8_vely = field_C8_vely - ((field_C8_vely / FP_FromInteger(newVel)) * field_2B4_max_slow_down) + field_188_ySpeed;
         }
         else
         {
@@ -598,7 +598,7 @@ void FlyingSlig::Movement_4396E0()
 
     if (field_28C)
     {
-        if (field_28C >= 3)
+        if (field_28C > 3)
         {
             ALIVE_FATAL("FlyingSlig array out of bounds");
         }
