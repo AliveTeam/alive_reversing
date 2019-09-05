@@ -2606,8 +2606,6 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
         return 0;
     }
 
-    const FP k80Scaled = (FP_FromInteger(80) * field_CC_sprite_scale);
-
     FP v1 = {};
     if (FP_FromInteger(std::abs(pRect->w - pRect->x)) < FP_FromInteger(1))
     {
@@ -2616,12 +2614,15 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
     }
     else
     {
-        v1 = FP_Abs(FP_FromInteger(std::abs((pRect->h - pRect->y) / pRect->w - pRect->x)));
+        const int a1 = pRect->h - pRect->y;
+        const int a2 = pRect->w - pRect->x;
+        v1 = FP_Abs(FP_FromInteger((a1) / a2));
     }
 
     if (v1 < FP_FromInteger(4))
     {
-      
+        const FP k80Scaled = (FP_FromInteger(80) * field_CC_sprite_scale);
+
         const FP rLeft = sControlledCharacter_5C1B8C->field_B8_xpos - k80Scaled;
         const FP rRight = sControlledCharacter_5C1B8C->field_B8_xpos + k80Scaled;
 
@@ -2669,13 +2670,12 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
 
         const FP v2 = (field_1A4_rect.h - field_1A4_rect.y) / (field_1A4_rect.w - field_1A4_rect.x);
         const FP v3 = field_1A4_rect.y - (v2 * field_1A4_rect.x);
-        
+
         FP yOff1 = {};
         if (bRightInRect)
         {
             yOff1 = v3 + (v2 * rRight);
-            if ((sControlledCharacter_5C1B8C->field_BC_ypos - (FP_FromInteger(60) * field_CC_sprite_scale) - yOff1) >
-                (FP_FromInteger(35) * field_CC_sprite_scale))
+            if ((sControlledCharacter_5C1B8C->field_BC_ypos - (FP_FromInteger(60) * field_CC_sprite_scale) - yOff1) > (FP_FromInteger(35) * field_CC_sprite_scale))
             {
                 FP hitX = {};
                 FP hitY = {};
@@ -2705,8 +2705,9 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
             FP hitY = {};
             PathLine* pLine = nullptr;
 
-            if ((sControlledCharacter_5C1B8C->field_BC_ypos - (FP_FromInteger(60) * field_CC_sprite_scale) - yOff2) <= (FP_FromInteger(35) * field_CC_sprite_scale) ||
-                sCollisions_DArray_5C1128->Raycast_417A60(
+            if ((sControlledCharacter_5C1B8C->field_BC_ypos - (FP_FromInteger(60) * field_CC_sprite_scale) - yOff2) > (FP_FromInteger(35) * field_CC_sprite_scale))
+            {
+                if (sCollisions_DArray_5C1128->Raycast_417A60(
                     sControlledCharacter_5C1B8C->field_B8_xpos,
                     yOff2,
                     sControlledCharacter_5C1B8C->field_B8_xpos,
@@ -2714,9 +2715,10 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
                     &pLine,
                     &hitX,
                     &hitY,
-                    field_D6_scale != 0 ? 1 : 16) != 1)
-            {
-                bLeftInRect = 0;
+                    field_D6_scale != 0 ? 1 : 16) == 1)
+                {
+                    bLeftInRect = 0;
+                }
             }
         }
 
@@ -2740,18 +2742,7 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
                 sqrt2 = FP_FromInteger(sqrt2_int);
             }
 
-
-            if (bRightInRect && !bLeftInRect)
-            {
-                field_1C4 = sqrt1;
-                return 1;
-            }
-            else if (bLeftInRect)
-            {
-                field_1C4 = sqrt2;
-                return 1;
-            }
-            else
+            if (bRightInRect && bLeftInRect)
             {
                 if (FP_Abs(sqrt2 - field_194) >= FP_Abs(sqrt1 - field_194))
                 {
@@ -2763,6 +2754,20 @@ __int16 FlyingSlig::sub_436C60(PSX_RECT* pRect, __int16 arg_4)
                     field_1C4 = sqrt2;
                     return 1;
                 }
+            }
+            else if (bRightInRect)
+            {
+                field_1C4 = sqrt1;
+                return 1;
+            }
+            else if (bLeftInRect)
+            {
+                field_1C4 = sqrt2;
+                return 1;
+            }
+            else
+            {
+                return 0;
             }
         }
         else
