@@ -202,7 +202,7 @@ void GameEnderController::vUpdate_43B920()
     break;
 
     case GameEnderController_States::eState3:
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause) && sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause) || sInputObject_5BD4E0.isHeld(InputCommands::eBack))
         {
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eFeeCoDepot_5, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_24_state = GameEnderController_States::eState2;
@@ -210,7 +210,7 @@ void GameEnderController::vUpdate_43B920()
         break;
 
     case GameEnderController_States::eState4:
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause) && sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause) || sInputObject_5BD4E0.isHeld(InputCommands::eBack))
         {
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_24_state = GameEnderController_States::eState2;
@@ -218,7 +218,7 @@ void GameEnderController::vUpdate_43B920()
         break;
 
     case GameEnderController_States::eState5:
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause) && sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause) || sInputObject_5BD4E0.isHeld(InputCommands::eBack))
         {
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eBrewery_Ender_10, 1, 20, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             field_24_state = GameEnderController_States::eState6;
@@ -226,7 +226,7 @@ void GameEnderController::vUpdate_43B920()
         break;
 
     case GameEnderController_States::eState6:
-        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause) && sInputObject_5BD4E0.isHeld(InputCommands::eBack))
+        if (sInputObject_5BD4E0.isHeld(InputCommands::eUnPause) || sInputObject_5BD4E0.isHeld(InputCommands::eBack))
         {
             gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 2, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             gMap_5C3030.field_CE_free_all_anim_and_palts = TRUE;
