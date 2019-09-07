@@ -264,17 +264,218 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     return this;
 }
 
+const int sFlyingSligFrameTables_552408[41] =
+{
+    116888,
+    116912,
+    117084,
+    116988,
+    117584,
+    117012,
+    117616,
+    117188,
+    117132,
+    117524,
+    117060,
+    117316,
+    117276,
+    117444,
+    117376,
+    116936,
+    117036,
+    117336,
+    117356,
+    117396,
+    117464,
+    117424,
+    117552,
+    117492,
+    117296,
+    117752,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
+{
+    auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
+
+    auto pTlv = static_cast<Path_FlyingSlig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_3C_tlvInfo));
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFlySligResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("FLYSLIG.BND", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("GRENADE.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSmallExplo2ResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("SMEXP.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("METAL.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kBigflashResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("BIGFLASH.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kVaporResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("VAPOR.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlogBlowResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", nullptr);
+    }
+
+    auto pFlyingSlig = alive_new<FlyingSlig>();
+    pFlyingSlig->ctor_4342B0(pTlv, pSaveState->field_3C_tlvInfo);
+    pFlyingSlig->field_FC_pPathTLV = nullptr;
+    pFlyingSlig->field_100_pCollisionLine = nullptr;
+
+    pFlyingSlig->field_B8_xpos = pSaveState->field_4_xpos;
+    pFlyingSlig->field_BC_ypos = pSaveState->field_8_ypos;
+
+    pFlyingSlig->field_C4_velx = pSaveState->field_C_velx;
+    pFlyingSlig->field_C8_vely = pSaveState->field_10_vely;
+
+    pFlyingSlig->field_C0_path_number = pSaveState->field_14_path_number;
+    pFlyingSlig->field_C2_lvl_number = pSaveState->field_16_lvl_number;
+    pFlyingSlig->field_CC_sprite_scale = pSaveState->field_18_sprite_scale;
+
+    pFlyingSlig->field_27C_old_g = pSaveState->field_1C_oldr;
+    pFlyingSlig->field_D0_r = pSaveState->field_1C_oldr;
+
+    pFlyingSlig->field_27E_old_b = pSaveState->field_1E_oldg;
+    pFlyingSlig->field_D2_g = pSaveState->field_1E_oldg;
+
+    pFlyingSlig->field_280_old_r = pSaveState->field_20_oldb;
+    pFlyingSlig->field_D4_b = pSaveState->field_20_oldb;
+
+    pFlyingSlig->field_106_current_motion = pSaveState->field_24_current_state;
+
+    BYTE** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
+    pFlyingSlig->field_20_animation.Set_Animation_Data_409C80(sFlyingSligFrameTables_552408[pFlyingSlig->field_106_current_motion], ppRes);
+    pFlyingSlig->field_20_animation.field_92_current_frame = pSaveState->field_26_current_frame;
+
+    pFlyingSlig->field_20_animation.field_E_frame_change_counter = pSaveState->field_28_frame_change_counter;
+
+    pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2A_bAnimRender & 1);
+    pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_22_bAnimFlipX & 1);
+    pFlyingSlig->field_6_flags.Set(BaseGameObject::eDrawable, pSaveState->field_2B_bDrawable & 1);
+
+    if (IsLastFrame(&pFlyingSlig->field_20_animation))
+    {
+        pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pFlyingSlig->field_10C_health = pSaveState->field_2C_current_health;
+    pFlyingSlig->field_106_current_motion = pSaveState->field_30_current_state;
+    pFlyingSlig->field_108_next_motion = pSaveState->field_32_delayed_state;
+    pFlyingSlig->field_F8_LastLineYPos = FP_FromInteger(pSaveState->field_34_lastLineYPos);
+    pFlyingSlig->field_114_flags.Set(Flags_114::e114_Bit9);
+    pFlyingSlig->field_104_collision_line_type = -1;
+
+    if (pSaveState->field_36_line_idx != -1)
+    {
+        pFlyingSlig->field_104_collision_line_type = pSaveState->field_36_line_idx;
+    }
+
+    if (pSaveState->field_3A.Get(FlyingSlig_State::eBit1))
+    {
+        sControlledCharacter_5C1B8C = pFlyingSlig;
+        pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * pFlyingSlig->field_CC_sprite_scale);
+        pFlyingSlig->field_2AC_up_vel = (FP_FromDouble(-5.5) * pFlyingSlig->field_CC_sprite_scale);
+        pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * pFlyingSlig->field_CC_sprite_scale);
+        pFlyingSlig->field_2B4_max_slow_down = (FP_FromDouble(0.25) * pFlyingSlig->field_CC_sprite_scale);
+        pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.7) * pFlyingSlig->field_CC_sprite_scale);
+    }
+
+    pFlyingSlig->field_17C_launch_id = pSaveState->field_38;
+
+
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit5_Throw, pSaveState->field_3A.Get(FlyingSlig_State::eBit2));
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit6, pSaveState->field_3A.Get(FlyingSlig_State::eBit3));
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit7_DoAction, pSaveState->field_3A.Get(FlyingSlig_State::eBit4));
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit9_Chanting, pSaveState->field_3A.Get(FlyingSlig_State::eBit5));
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit10_Speaking_flag2, pSaveState->field_3A.Get(FlyingSlig_State::eBit6));
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1, pSaveState->field_3A.Get(FlyingSlig_State::eBit7));
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit2, pSaveState->field_3A.Get(FlyingSlig_State::eBit8));
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit3, pSaveState->field_3A.Get(FlyingSlig_State::eBit9));
+    pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit4, pSaveState->field_3A.Get(FlyingSlig_State::eBit10));
+
+
+    pFlyingSlig->field_14C_timer = pSaveState->field_40_timer;
+    pFlyingSlig->field_150_grenade_delay = pSaveState->field_44_grenade_delay;
+    pFlyingSlig->field_154 = pSaveState->field_48;
+    pFlyingSlig->field_184_xSpeed = pSaveState->field_4C_xSpeed;
+    pFlyingSlig->field_188_ySpeed = pSaveState->field_50_ySpeed;
+    pFlyingSlig->field_17D_next_speak = pSaveState->field_54_next_speak;
+    pFlyingSlig->field_160_voice_pitch_min = pSaveState->field_56_voice_pitch_min;
+    pFlyingSlig->field_158_obj_id = pSaveState->field_58_obj_id;
+    pFlyingSlig->field_18C = pSaveState->field_5C;
+    pFlyingSlig->field_190 = pSaveState->field_60;
+    pFlyingSlig->field_194 = pSaveState->field_64;
+    pFlyingSlig->field_198_line_length = pSaveState->field_68_line_length;
+    pFlyingSlig->field_1C4 = pSaveState->field_6C;
+    pFlyingSlig->field_1C8 = pSaveState->field_70;
+    pFlyingSlig->field_1CC = pSaveState->field_74;
+    pFlyingSlig->field_1D8 = pSaveState->field_78;
+    pFlyingSlig->field_1DC = pSaveState->field_7C;
+    pFlyingSlig->field_1E0 = pSaveState->field_80;
+    pFlyingSlig->field_1E4 = pSaveState->field_84;
+    pFlyingSlig->field_294_nextXPos = pSaveState->field_88_nextXPos;
+    pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
+    pFlyingSlig->SetBrain(sFlyingSlig_AI_table_552350[pSaveState->field_90_fns1_idx]);
+    pFlyingSlig->field_1E8 = pSaveState->field_98;
+    pFlyingSlig->field_2A0_abe_level = pSaveState->field_9A_abe_level;
+    pFlyingSlig->field_2A2_abe_path = pSaveState->field_9C_abe_path;
+    pFlyingSlig->field_2A4_abe_camera = pSaveState->field_9E_abe_camera;
+    pFlyingSlig->field_290 = pSaveState->field_A4;
+    pFlyingSlig->field_284 = pSaveState->field_A8;
+    pFlyingSlig->field_28C = pSaveState->field_A0;
+    return sizeof(FlyingSlig_State);
+}
 
 int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
 {
-    NOT_IMPLEMENTED();
-
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return 0;
     }
 
-    pState->field_0 = Types::eFlyingSlig_54;
+    pState->field_0_type = Types::eFlyingSlig_54;
 
     pState->field_4_xpos = field_B8_xpos;
     pState->field_8_ypos = field_BC_ypos;
@@ -289,51 +490,49 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_1E_oldg = field_D2_g;
     pState->field_20_oldb = field_D4_b;
 
-    pState->field_22 = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_22_bAnimFlipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     pState->field_24_current_state = field_106_current_motion;
     pState->field_26_current_frame = field_20_animation.field_92_current_frame;
     pState->field_28_frame_change_counter = field_20_animation.field_E_frame_change_counter;
 
-    pState->field_2B = field_6_flags.Get(BaseGameObject::eDrawable);
-    pState->field_2A = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_2B_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2A_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_current_health = field_10C_health;
     pState->field_30_current_state = field_106_current_motion;
     pState->field_32_delayed_state = field_108_next_motion;
     
-    pState->field_34 = FP_GetExponent(field_F8_LastLineYPos);
+    pState->field_34_lastLineYPos = FP_GetExponent(field_F8_LastLineYPos);
 
     pState->field_36_line_idx = -1; // OG bug - actually becomes 0 due to impossible case removed below ?
 
     if (field_100_pCollisionLine)
     {
-        //pState->field_36_line_idx = pLine - sCollisions_DArray_5C1128->field_0_pArray;
+        pState->field_36_line_idx = static_cast<short>(field_100_pCollisionLine - sCollisions_DArray_5C1128->field_0_pArray);
     }
 
     pState->field_38 = field_17C_launch_id;
 
-    /*
-    pState->field_3A.Set(FlyingSlig_State::eBit1, pState->field_3A ^ ((unsigned __int8)pState->field_3A ^ (this == sControlledCharacter_5C1B8C)) & 0x1;
-    pState->field_3A.Set(FlyingSlig_State::eBit2, field_17E_flags >> 3 & 0x2);
-    pState->field_3A.Set(FlyingSlig_State::eBit3, field_17E_flags >> 3 & 0x4);
-    pState->field_3A.Set(FlyingSlig_State::eBit4, field_17E_flags >> 3 & 0x8);
-    pState->field_3A.Set(FlyingSlig_State::eBit5, field_17E_flags >> 4 & 0x10);
-    pState->field_3A.Set(FlyingSlig_State::eBit6, field_17E_flags >> 4 & 0x20);
-    */
+    pState->field_3A.Set(FlyingSlig_State::eBit1, this == sControlledCharacter_5C1B8C);
+    pState->field_3A.Set(FlyingSlig_State::eBit2, field_17E_flags.Get(Flags_17E::eBit5_Throw));
+    pState->field_3A.Set(FlyingSlig_State::eBit3, field_17E_flags.Get(Flags_17E::eBit6));
+    pState->field_3A.Set(FlyingSlig_State::eBit4, field_17E_flags.Get(Flags_17E::eBit7_DoAction));
+    pState->field_3A.Set(FlyingSlig_State::eBit5, field_17E_flags.Get(Flags_17E::eBit9_Chanting));
+    pState->field_3A.Set(FlyingSlig_State::eBit6, field_17E_flags.Get(Flags_17E::eBit10_Speaking_flag2));
     pState->field_3A.Set(FlyingSlig_State::eBit7, field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1));
     pState->field_3A.Set(FlyingSlig_State::eBit8, field_17E_flags.Get(Flags_17E::eBit2));
     pState->field_3A.Set(FlyingSlig_State::eBit9, field_17E_flags.Get(Flags_17E::eBit3));
     pState->field_3A.Set(FlyingSlig_State::eBit10, field_17E_flags.Get(Flags_17E::eBit4));
 
     pState->field_3C_tlvInfo = field_148_tlvInfo;
-    pState->field_40 = field_14C_timer;
-    pState->field_44 = field_150_grenade_delay;
+    pState->field_40_timer = field_14C_timer;
+    pState->field_44_grenade_delay = field_150_grenade_delay;
     pState->field_48 = field_154;
 
-    pState->field_4C = field_184_xSpeed;
-    pState->field_50 = field_188_ySpeed;
+    pState->field_4C_xSpeed = field_184_xSpeed;
+    pState->field_50_ySpeed = field_188_ySpeed;
 
-    pState->field_54 = field_17D_next_speak;
-    pState->field_56 = field_160_voice_pitch_min;
+    pState->field_54_next_speak = field_17D_next_speak;
+    pState->field_56_voice_pitch_min = field_160_voice_pitch_min;
 
     pState->field_58_obj_id = -1;
     if (field_158_obj_id != -1)
@@ -348,7 +547,7 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_5C = field_18C;
     pState->field_60 = field_190;
     pState->field_64 = field_194;
-    pState->field_68 = field_198_line_length;
+    pState->field_68_line_length = field_198_line_length;
     pState->field_6C = field_1C4;
     pState->field_70 = field_1C8;
     pState->field_74 = field_1CC;
@@ -2287,52 +2486,6 @@ void FlyingSlig::ToPossesed_436130()
     SetBrain(&FlyingSlig::AI_Possession_13_4360F0);
     field_14C_timer = sGnFrame_5C1B84 + 35;
 }
-
-const int sFlyingSligFrameTables_552408[41] =
-{
-    116888,
-    116912,
-    117084,
-    116988,
-    117584,
-    117012,
-    117616,
-    117188,
-    117132,
-    117524,
-    117060,
-    117316,
-    117276,
-    117444,
-    117376,
-    116936,
-    117036,
-    117336,
-    117356,
-    117396,
-    117464,
-    117424,
-    117552,
-    117492,
-    117296,
-    117752,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-};
-
 
 void FlyingSlig::vUpdateAnimRes_4350A0()
 {

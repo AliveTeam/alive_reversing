@@ -252,6 +252,13 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 
+inline bool IsLastFrame(const Animation* pAnim)
+{
+    const BYTE* pAnimData = (*pAnim->field_20_ppBlock);
+    const auto pHeader = reinterpret_cast<const AnimationHeader*>(&pAnimData[pAnim->field_18_frame_table_offset]);
+    return (pAnim->field_92_current_frame == pHeader->field_2_num_frames - 1);
+}
+
 // TODO: Figure out how this differs from the standard Animation
 class AnimationUnknown : public AnimationBase
 {

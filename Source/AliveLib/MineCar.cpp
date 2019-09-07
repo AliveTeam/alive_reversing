@@ -237,8 +237,10 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
 
     pMineCar->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2F & 1);
 
-    auto pAnimHeader = reinterpret_cast<const AnimationHeader*>(&(pMineCar->field_20_animation.field_20_ppBlock)[pMineCar->field_20_animation.field_18_frame_table_offset]);
-    pMineCar->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame, pMineCar->field_20_animation.field_92_current_frame == pAnimHeader->field_2_num_frames - 1);
+    if (IsLastFrame(&pMineCar->field_20_animation))
+    {
+        pMineCar->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
 
     int remapped2 = 0;
     switch (pState->field_38_frame_table_offset2)

@@ -49,7 +49,7 @@ enum class SligSpeak : char;
 
 struct FlyingSlig_State
 {
-    Types field_0;
+    Types field_0_type;
     __int16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -61,19 +61,19 @@ struct FlyingSlig_State
     __int16 field_1C_oldr;
     __int16 field_1E_oldg;
     __int16 field_20_oldb;
-    __int16 field_22;
+    __int16 field_22_bAnimFlipX;
     __int16 field_24_current_state;
     __int16 field_26_current_frame;
     __int16 field_28_frame_change_counter;
-    BYTE field_2A;
-    BYTE field_2B;
+    BYTE field_2A_bAnimRender;
+    BYTE field_2B_bDrawable;
     FP field_2C_current_health;
     __int16 field_30_current_state;
     __int16 field_32_delayed_state;
-    __int16 field_34;
+    __int16 field_34_lastLineYPos;
     __int16 field_36_line_idx;
-    __int16 field_38; // TODO: Byte ??
-
+    BYTE field_38;
+    BYTE field_39_pad;
     enum Flags_3A
     {
         eBit1 = 0x1,
@@ -90,19 +90,19 @@ struct FlyingSlig_State
     };
     BitField16<Flags_3A> field_3A;
     int field_3C_tlvInfo;
-    int field_40;
-    int field_44;
+    int field_40_timer;
+    int field_44_grenade_delay;
     int field_48;
-    FP field_4C;
-    FP field_50;
-    SligSpeak field_54;
+    FP field_4C_xSpeed;
+    FP field_50_ySpeed;
+    SligSpeak field_54_next_speak;
     char field_55;
-    __int16 field_56;
+    __int16 field_56_voice_pitch_min;
     int field_58_obj_id;
     FP field_5C;
     FP field_60;
     FP field_64;
-    FP field_68;
+    FP field_68_line_length;
     FP field_6C;
     FP field_70;
     FP field_74;
@@ -168,6 +168,8 @@ public:
 
     // TODO: Remaining virtuals
     
+    EXPORT static int CC CreateFromSaveState_437E40(const BYTE* pBuffer);
+
 private:
     EXPORT int vGetSaveState_43B1E0(FlyingSlig_State* pState);
 

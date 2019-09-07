@@ -153,7 +153,7 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_24_tlvInfo));
     
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 306, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 306, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLURG.BAN", nullptr);
     }
@@ -169,12 +169,14 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
     pSlurg->field_C4_velx = pState->field_C_velx;
     pSlurg->field_20_animation.field_E_frame_change_counter = pState->field_1A_anim_frame_change_counter;
 
+    // OG BUG: This wasn't restored
+    pSlurg->field_20_animation.field_92_current_frame = pState->field_18_anim_current_frame;
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_14_flipX & 1);
-    pSlurg->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_1D & 1);
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_1C & 1);
 
-    auto pHeader = reinterpret_cast<AnimationHeader*>(&(pSlurg->field_20_animation.field_20_ppBlock[pSlurg->field_20_animation.field_18_frame_table_offset]));
-    if (pSlurg->field_20_animation.field_92_current_frame == pHeader->field_2_num_frames - 1)
+    pSlurg->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_1D & 1);
+
+    if (IsLastFrame(&pSlurg->field_20_animation))
     {
         pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     }

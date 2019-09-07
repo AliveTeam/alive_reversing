@@ -343,8 +343,7 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
     pParamite->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_flip_x & 1);
     pParamite->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_anim_bit4 & 1);
 
-    auto pHeader = reinterpret_cast<AnimationHeader*>(&(pParamite->field_20_animation.field_20_ppBlock[pParamite->field_20_animation.field_18_frame_table_offset]));
-    if (pParamite->field_20_animation.field_92_current_frame == pHeader->field_2_num_frames - 1)
+    if (IsLastFrame(&pParamite->field_20_animation))
     {
         pParamite->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     }

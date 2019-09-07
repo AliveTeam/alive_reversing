@@ -214,8 +214,7 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
     pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
     pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2E & 1);
 
-    auto pHeader = reinterpret_cast<AnimationHeader*>(&(pGlukkon->field_20_animation.field_20_ppBlock[pGlukkon->field_20_animation.field_18_frame_table_offset]));
-    if (pGlukkon->field_20_animation.field_92_current_frame == pHeader->field_2_num_frames - 1)
+    if (IsLastFrame(&pGlukkon->field_20_animation))
     {
         pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
     }
