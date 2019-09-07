@@ -57,7 +57,7 @@ ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
     &FlyingSlig::M_TurnToHorizontalMovement_25_4389E0,
 });
 
-ALIVE_ARY(1, 0x552350, TFlyingSligFn, 18, sFlyingSlig_AI_table_552350,
+const TFlyingSligFn  sFlyingSlig_AI_table_552350[18] =
 {
     &FlyingSlig::AI_Inactive_0_4355B0,
     &FlyingSlig::AI_Death_1_4364E0,
@@ -77,7 +77,7 @@ ALIVE_ARY(1, 0x552350, TFlyingSligFn, 18, sFlyingSlig_AI_table_552350,
     &FlyingSlig::AI_FlyingSligSpawn_15_4362C0,
     &FlyingSlig::AI_Death_1_4364E0,
     &FlyingSlig::AI_FromNakedSlig_17_4355E0,
-});
+};
 
 const static AIFunctionData<TFlyingSligFn> sFlyingSligAITable[18] =
 {
@@ -262,6 +262,126 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
         field_E0_pShadow->ctor_4AC990();
     }
     return this;
+}
+
+
+int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
+{
+    NOT_IMPLEMENTED();
+
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0 = Types::eFlyingSlig_54;
+
+    pState->field_4_xpos = field_B8_xpos;
+    pState->field_8_ypos = field_BC_ypos;
+    pState->field_C_velx = field_C4_velx;
+    pState->field_10_vely = field_C8_vely;
+
+    pState->field_14_path_number = field_C0_path_number;
+    pState->field_16_lvl_number = field_C2_lvl_number;
+    pState->field_18_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_1C_oldr = field_D0_r;
+    pState->field_1E_oldg = field_D2_g;
+    pState->field_20_oldb = field_D4_b;
+
+    pState->field_22 = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_24_current_state = field_106_current_motion;
+    pState->field_26_current_frame = field_20_animation.field_92_current_frame;
+    pState->field_28_frame_change_counter = field_20_animation.field_E_frame_change_counter;
+
+    pState->field_2B = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2A = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_2C_current_health = field_10C_health;
+    pState->field_30_current_state = field_106_current_motion;
+    pState->field_32_delayed_state = field_108_next_motion;
+    
+    pState->field_34 = FP_GetExponent(field_F8_LastLineYPos);
+
+    pState->field_36_line_idx = -1; // OG bug - actually becomes 0 due to impossible case removed below ?
+
+    if (field_100_pCollisionLine)
+    {
+        //pState->field_36_line_idx = pLine - sCollisions_DArray_5C1128->field_0_pArray;
+    }
+
+    pState->field_38 = field_17C_launch_id;
+
+    /*
+    pState->field_3A.Set(FlyingSlig_State::eBit1, pState->field_3A ^ ((unsigned __int8)pState->field_3A ^ (this == sControlledCharacter_5C1B8C)) & 0x1;
+    pState->field_3A.Set(FlyingSlig_State::eBit2, field_17E_flags >> 3 & 0x2);
+    pState->field_3A.Set(FlyingSlig_State::eBit3, field_17E_flags >> 3 & 0x4);
+    pState->field_3A.Set(FlyingSlig_State::eBit4, field_17E_flags >> 3 & 0x8);
+    pState->field_3A.Set(FlyingSlig_State::eBit5, field_17E_flags >> 4 & 0x10);
+    pState->field_3A.Set(FlyingSlig_State::eBit6, field_17E_flags >> 4 & 0x20);
+    */
+    pState->field_3A.Set(FlyingSlig_State::eBit7, field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1));
+    pState->field_3A.Set(FlyingSlig_State::eBit8, field_17E_flags.Get(Flags_17E::eBit2));
+    pState->field_3A.Set(FlyingSlig_State::eBit9, field_17E_flags.Get(Flags_17E::eBit3));
+    pState->field_3A.Set(FlyingSlig_State::eBit10, field_17E_flags.Get(Flags_17E::eBit4));
+
+    pState->field_3C_tlvInfo = field_148_tlvInfo;
+    pState->field_40 = field_14C_timer;
+    pState->field_44 = field_150_grenade_delay;
+    pState->field_48 = field_154;
+
+    pState->field_4C = field_184_xSpeed;
+    pState->field_50 = field_188_ySpeed;
+
+    pState->field_54 = field_17D_next_speak;
+    pState->field_56 = field_160_voice_pitch_min;
+
+    pState->field_58_obj_id = -1;
+    if (field_158_obj_id != -1)
+    {
+        auto pObj = sObjectIds_5C1B70.Find_449CF0(field_158_obj_id);
+        if (pObj)
+        {
+            pState->field_58_obj_id = pObj->field_C_objectId;
+        }
+    }
+
+    pState->field_5C = field_18C;
+    pState->field_60 = field_190;
+    pState->field_64 = field_194;
+    pState->field_68 = field_198_line_length;
+    pState->field_6C = field_1C4;
+    pState->field_70 = field_1C8;
+    pState->field_74 = field_1CC;
+    pState->field_78 = field_1D8;
+    pState->field_7C = field_1DC;
+    pState->field_80 = field_1E0;
+    pState->field_84 = field_1E4;
+    pState->field_88_nextXPos = field_294_nextXPos;
+    pState->field_8C_nextYPos = field_298_nextYPos;
+    pState->field_90_fns1_idx = 0;
+
+    int idx = 0;
+    for (const auto& fn : sFlyingSlig_AI_table_552350)
+    {
+        if (BrainIs(fn))
+        {
+            pState->field_90_fns1_idx = idx;
+            break;
+        }
+        idx++;
+    }
+
+    pState->field_98 = field_1E8;
+
+    pState->field_9A_abe_level = field_2A0_abe_level;
+    pState->field_9C_abe_path = field_2A2_abe_path;
+    pState->field_9E_abe_camera = field_2A4_abe_camera;
+
+    pState->field_A4 = field_290;
+    pState->field_A8 = field_284;
+    pState->field_A0 = field_28C;
+
+    return sizeof(FlyingSlig_State);
 }
 
 void FlyingSlig::dtor_434990()

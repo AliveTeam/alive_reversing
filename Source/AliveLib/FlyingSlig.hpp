@@ -47,6 +47,85 @@ enum eFlyingSligMotions : int
 
 enum class SligSpeak : char;
 
+struct FlyingSlig_State
+{
+    Types field_0;
+    __int16 field_2;
+    FP field_4_xpos;
+    FP field_8_ypos;
+    FP field_C_velx;
+    FP field_10_vely;
+    __int16 field_14_path_number;
+    LevelIds field_16_lvl_number;
+    FP field_18_sprite_scale;
+    __int16 field_1C_oldr;
+    __int16 field_1E_oldg;
+    __int16 field_20_oldb;
+    __int16 field_22;
+    __int16 field_24_current_state;
+    __int16 field_26_current_frame;
+    __int16 field_28_frame_change_counter;
+    BYTE field_2A;
+    BYTE field_2B;
+    FP field_2C_current_health;
+    __int16 field_30_current_state;
+    __int16 field_32_delayed_state;
+    __int16 field_34;
+    __int16 field_36_line_idx;
+    __int16 field_38; // TODO: Byte ??
+
+    enum Flags_3A
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+        eBit6 = 0x20,
+        eBit7 = 0x40,
+        eBit8 = 0x80,
+        eBit9 = 0x100,
+        eBit10 = 0x200,
+        eBit11 = 0x400,
+    };
+    BitField16<Flags_3A> field_3A;
+    int field_3C_tlvInfo;
+    int field_40;
+    int field_44;
+    int field_48;
+    FP field_4C;
+    FP field_50;
+    SligSpeak field_54;
+    char field_55;
+    __int16 field_56;
+    int field_58_obj_id;
+    FP field_5C;
+    FP field_60;
+    FP field_64;
+    FP field_68;
+    FP field_6C;
+    FP field_70;
+    FP field_74;
+    int field_78;
+    int field_7C;
+    int field_80;
+    int field_84;
+    FP field_88_nextXPos;
+    FP field_8C_nextYPos;
+    int field_90_fns1_idx;
+    __int16 field_94;
+    __int16 field_96;
+    __int16 field_98;
+    LevelIds field_9A_abe_level;
+    __int16 field_9C_abe_path;
+    __int16 field_9E_abe_camera;
+    __int16 field_A0;
+    __int16 field_A2;
+    int field_A4;
+    FP field_A8;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
+
 class FlyingSlig : public BaseAliveGameObject
 {
 public:
@@ -82,9 +161,16 @@ public:
         vSetMotion_43B1B0(state);
     }
 
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override
+    {
+        return vGetSaveState_43B1E0(reinterpret_cast<FlyingSlig_State*>(pSaveBuffer));
+    }
+
     // TODO: Remaining virtuals
     
 private:
+    EXPORT int vGetSaveState_43B1E0(FlyingSlig_State* pState);
+
 
     EXPORT void dtor_434990();
 
