@@ -26,6 +26,100 @@ struct Path_Fleech : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
 
+struct Fleech_State
+{
+    Types field_0_type;
+    __int16 field_2;
+    int field_4_obj_id;
+    FP field_8_xpos;
+    FP field_C_ypos;
+    FP field_10_velx;
+    FP field_14_vely;
+    __int16 field_18_path_number;
+    LevelIds field_1A_lvl_number;
+    FP field_1C_sprite_scale;
+    __int16 field_20_r;
+    __int16 field_22_g;
+    __int16 field_24_b;
+    __int16 field_26_bFlipX;
+    __int16 field_28_current_motion;
+    __int16 field_2A_anim_current_frame;
+    __int16 field_2C_frame_change_counter;
+    char field_2E_bRender;
+    char field_2F_bDrawable;
+    FP field_30_health;
+    __int16 field_34_current_motion;
+    __int16 field_36_next_motion;
+    __int16 field_38_lastLineYPos;
+    __int16 field_3A_line_type;
+    int field_3C_id;
+    int field_40_tlvInfo;
+    int field_44_obj_id;
+    __int16 field_48;
+    __int16 field_4A;
+    __int16 field_4C;
+    __int16 field_4E;
+    __int16 field_50;
+    __int16 field_52;
+    __int16 field_54;
+    __int16 field_56;
+    __int16 field_58;
+    __int16 field_5A;
+    char field_5C;
+    char field_5D;
+    __int16 field_5E_brain_state;
+    __int16 field_60_state;
+    __int16 field_62;
+    int field_64;
+    char field_68_fleech_random_idx;
+    char field_69;
+    __int16 field_6A;
+    int field_6C;
+    FP field_70;
+    __int16 field_74;
+    __int16 field_76_anger;
+    __int16 field_78;
+    __int16 field_7A_attack_anger;
+    __int16 field_7C_wakeup_id;
+    __int16 field_7E_tlv;
+    __int16 field_80_wake_up_switch_value;
+    __int16 field_82_allow_wake_up_id;
+    __int16 field_84;
+    __int16 field_86;
+    __int16 field_88_patrol_range;
+    __int16 field_8A;
+    __int16 field_8C;
+    __int16 field_8E;
+    __int16 field_90;
+    __int16 field_92;
+    __int16 field_94_lost_target_timeout;
+    __int16 field_96;
+    __int16 field_98;
+    __int16 field_9A;
+    __int16 field_9C;
+    char field_9E_angle;
+    char field_9F;
+    int field_A0;
+    int field_A4;
+    int field_A8;
+    int field_AC_obj_id;
+
+    enum Flags_B0
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+        eBit6 = 0x20,
+        eBit7 = 0x40,
+    };
+
+    BitField16<Flags_B0> field_B0;
+    __int16 field_B2;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Fleech_State, 0xB4);
+
 class Fleech;
 using TFleechAIFn = __int16 (Fleech::*)();
 using TFleechMotionFn = void (Fleech::*)();
@@ -49,7 +143,16 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+
+    EXPORT static int CC CreateFromSaveState_42DD50(const BYTE* pBuffer);
+
+private:
+    EXPORT int vGetSaveState_42FF80(Fleech_State* pState);
+
+
 public:
+
     EXPORT void M_Sleeping_0_42F0B0();
     EXPORT void M_WakingUp_1_42F270();
     EXPORT void M_Unknown_2_42F2F0();
@@ -141,7 +244,8 @@ private:
 private:
     int field_118_tlvInfo;
     int field_11C_obj_id;
-    int field_120;
+    __int16 field_120;
+    __int16 field_122;
     __int16 field_124_brain_state;
     unsigned __int16 field_126_state;
     __int16 field_128;
@@ -206,7 +310,18 @@ private:
     __int16 field_184;
     __int16 field_186;
     __int16 field_188;
-    __int16 field_18A;
+
+    enum Flags_18A
+    {
+        e18A_Bit1 = 0x1,
+        e18A_Bit2 = 0x2,
+        e18A_Bit3 = 0x4,
+        e18A_Bit4 = 0x8,
+        e18A_Bit5 = 0x10,
+        e18A_Bit6 = 0x20,
+        e18A_Bit7 = 0x40,
+    };
+    BitField16<Flags_18A> field_18A;
     Poly_G4 field_18C_mPoly_G4s[8];
     int field_2CC;
     int field_2D0;

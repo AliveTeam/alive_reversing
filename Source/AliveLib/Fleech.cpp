@@ -198,6 +198,309 @@ void Fleech::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_42A590(pFrom);
 }
 
+int Fleech::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_42FF80(reinterpret_cast<Fleech_State*>(pSaveBuffer));
+}
+
+
+const static int sFleechFrameTableOffsets_5517E4[19] =
+{
+    37808,
+    37884,
+    37896,
+    37704,
+    37748,
+    37784,
+    37924,
+    37936,
+    37960,
+    37984,
+    38060,
+    38112,
+    38156,
+    38208,
+    38260,
+    37848,
+    38248,
+    38396,
+    38276
+};
+
+ALIVE_VAR(1, 0x551840, int, dword_551840, -1);
+
+int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
+
+    auto pTlv = static_cast<Path_Fleech*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kFleechResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("FLEECH.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 580, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("FLEEBLOW.BAN", nullptr);
+    }
+
+    auto pFleech = alive_new<Fleech>();
+    pFleech->ctor_429DC0(pTlv, pState->field_40_tlvInfo);
+    pFleech->field_C_objectId = pState->field_4_obj_id;
+
+    pFleech->field_FC_pPathTLV = nullptr;
+    pFleech->field_100_pCollisionLine = nullptr;
+
+    pFleech->field_110_id = pState->field_3C_id;
+
+    pFleech->field_B8_xpos = pState->field_8_xpos;
+    pFleech->field_BC_ypos = pState->field_C_ypos;
+    pFleech->field_C4_velx = pState->field_10_velx;
+    pFleech->field_C8_vely = pState->field_14_vely;
+
+    pFleech->field_C0_path_number = pState->field_18_path_number;
+    pFleech->field_C2_lvl_number = pState->field_1A_lvl_number;
+    pFleech->field_CC_sprite_scale = pState->field_1C_sprite_scale;
+
+    pFleech->field_D0_r = pState->field_20_r;
+    pFleech->field_D2_g = pState->field_22_g;
+    pFleech->field_D4_b = pState->field_24_b;
+
+    pFleech->field_106_current_motion = pState->field_28_current_motion;
+    BYTE** ppRes = pFleech->ResBlockForMotion_42A530(pState->field_28_current_motion);
+    pFleech->field_20_animation.Set_Animation_Data_409C80(sFleechFrameTableOffsets_5517E4[pFleech->field_106_current_motion], ppRes);
+    pFleech->field_20_animation.field_92_current_frame = pState->field_2A_anim_current_frame;
+    pFleech->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
+
+    pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
+    pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
+
+    pFleech->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2F_bDrawable & 1);
+
+    if (IsLastFrame(&pFleech->field_20_animation))
+    {
+        pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+    pFleech->field_10C_health = pState->field_30_health;
+    pFleech->field_106_current_motion = pState->field_34_current_motion;
+    pFleech->field_108_next_motion = pState->field_36_next_motion;
+
+    pFleech->field_F8_LastLineYPos = FP_FromInteger(pState->field_38_lastLineYPos);
+
+    pFleech->field_114_flags.Set(Flags_114::e114_Bit9);
+
+    pFleech->field_104_collision_line_type = pState->field_3A_line_type;
+    pFleech->field_118_tlvInfo = pState->field_40_tlvInfo;
+    pFleech->field_11C_obj_id = pState->field_44_obj_id;
+    pFleech->field_120 = pState->field_48;
+    pFleech->field_178 = pState->field_4A;
+    pFleech->field_17A = pState->field_4C;
+    pFleech->field_17C = pState->field_4E;
+    pFleech->field_17E = pState->field_50;
+    pFleech->field_180 = pState->field_52;
+    pFleech->field_182 = pState->field_54;
+    pFleech->field_184 = pState->field_56;
+    pFleech->field_186 = pState->field_58;
+    pFleech->field_188 = pState->field_5A;
+
+    pFleech->field_18A.Set(Flags_18A::e18A_Bit1, pState->field_5C & 1);
+    pFleech->field_18A.Set(Flags_18A::e18A_Bit1, pState->field_5D & 1);
+
+    pFleech->field_124_brain_state = pState->field_5E_brain_state;
+    pFleech->field_126_state = pState->field_60_state;
+    pFleech->field_12C = pState->field_64;
+    pFleech->field_128 = pState->field_62;
+    sFleechRandomIdx_5BC20C = pState->field_68_fleech_random_idx;
+    pFleech->field_130 = pState->field_6A;
+    pFleech->field_134 = pState->field_6C;
+    pFleech->field_138 = pState->field_70;
+    pFleech->field_13C = pState->field_74;
+    pFleech->field_13E_anger = pState->field_76_anger;
+    pFleech->field_140 = pState->field_78;
+    pFleech->field_142_attack_anger = pState->field_7A_attack_anger;
+    pFleech->field_144_wake_up_id = pState->field_7C_wakeup_id;
+    pFleech->field_146_tlv_28 = pState->field_7E_tlv;
+    pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
+    pFleech->field_14A_allow_wake_up_id = pState->field_82_allow_wake_up_id;
+    pFleech->field_14C = pState->field_84;
+    pFleech->field_14E = pState->field_86;
+    pFleech->field_150_patrol_range = pState->field_88_patrol_range;
+    pFleech->field_152 = pState->field_8A;
+    pFleech->field_154 = pState->field_8C;
+    pFleech->field_156 = pState->field_8E;
+    pFleech->field_158 = pState->field_90;
+    pFleech->field_15A = pState->field_92;
+    pFleech->field_15C_lost_target_timeout = pState->field_94_lost_target_timeout;
+    pFleech->field_15E = pState->field_96;
+    pFleech->field_160 = pState->field_98;
+    pFleech->field_162 = pState->field_9A;
+    pFleech->field_164 = pState->field_9C;
+    pFleech->field_166_angle = pState->field_9E_angle;
+    pFleech->field_168 = pState->field_A0;
+    pFleech->field_16C = pState->field_A4;
+    pFleech->field_170 = pState->field_A8;
+
+    if (pState->field_4_obj_id == pState->field_AC_obj_id)
+    {
+        dword_551840 = pFleech->field_8_object_id;
+    }
+
+    pFleech->field_174_flags.Set(Flags_174::eBit1, pState->field_B0.Get(Fleech_State::eBit1));
+    pFleech->field_174_flags.Set(Flags_174::eBit2, pState->field_B0.Get(Fleech_State::eBit2));
+    pFleech->field_174_flags.Set(Flags_174::eBit3, pState->field_B0.Get(Fleech_State::eBit3));
+    pFleech->field_174_flags.Set(Flags_174::eBit4, pState->field_B0.Get(Fleech_State::eBit4));
+    pFleech->field_174_flags.Set(Flags_174::eBit5_asleep, pState->field_B0.Get(Fleech_State::eBit5));
+    pFleech->field_174_flags.Set(Flags_174::eBit6_goes_to_sleep, pState->field_B0.Get(Fleech_State::eBit6));
+    pFleech->field_174_flags.Set(Flags_174::eBit7_persistant, pState->field_B0.Get(Fleech_State::eBit7));
+
+    return sizeof(Fleech_State);
+}
+
+int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0_type = Types::eFleech_50;
+    pState->field_4_obj_id = field_C_objectId;
+    pState->field_8_xpos = field_B8_xpos;
+    pState->field_C_ypos = field_BC_ypos;
+    pState->field_10_velx = field_C4_velx;
+    pState->field_14_vely = field_C8_vely;
+    pState->field_70 = field_138;
+    pState->field_18_path_number = field_C0_path_number;
+    pState->field_1A_lvl_number = field_C2_lvl_number;
+    pState->field_1C_sprite_scale = field_CC_sprite_scale;
+    pState->field_20_r = field_D0_r;
+    pState->field_22_g = field_D2_g;
+    pState->field_24_b = field_D4_b;
+    pState->field_26_bFlipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_28_current_motion = field_106_current_motion;
+    pState->field_2A_anim_current_frame = field_20_animation.field_92_current_frame;
+    pState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
+    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2E_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_30_health = field_10C_health;
+    pState->field_34_current_motion = field_106_current_motion;
+    pState->field_36_next_motion = field_108_next_motion;
+    pState->field_38_lastLineYPos = FP_GetExponent(field_F8_LastLineYPos);
+
+    if (field_100_pCollisionLine)
+    {
+        pState->field_3A_line_type = field_100_pCollisionLine->field_8_type;
+    }
+    else
+    {
+        pState->field_3A_line_type = -1;
+    }
+
+    if (field_110_id != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+        if (pObj)
+        {
+            pState->field_3C_id = pObj->field_C_objectId;
+        }
+    }
+    else
+    {
+        pState->field_3C_id = -1;
+    }
+
+    if (field_11C_obj_id != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id);
+        if (pObj)
+        {
+            pState->field_44_obj_id = pObj->field_C_objectId;
+        }
+    }
+    else
+    {
+        pState->field_44_obj_id = -1;
+    }
+
+    pState->field_40_tlvInfo = field_118_tlvInfo;
+    pState->field_48 = field_120;
+    pState->field_4A = field_178;
+    pState->field_4C = field_17A;
+    pState->field_4E = field_17C;
+    pState->field_50 = field_17E;
+    pState->field_52 = field_180;
+    pState->field_54 = field_182;
+    pState->field_56 = field_184;
+    pState->field_58 = field_186;
+    pState->field_5A = field_188;
+    pState->field_5C = field_18A.Get(Flags_18A::e18A_Bit1);
+    pState->field_5D = field_18A.Get(Flags_18A::e18A_Bit2);
+    pState->field_5E_brain_state = field_124_brain_state;
+    pState->field_60_state = field_126_state;
+    pState->field_64 = field_12C - sGnFrame_5C1B84;
+    pState->field_62 = field_128;
+    pState->field_68_fleech_random_idx = sFleechRandomIdx_5BC20C;
+    pState->field_6A = field_130;
+    pState->field_6C = field_134;
+    pState->field_70 = field_138;
+    pState->field_74 = field_13C;
+    pState->field_76_anger = field_13E_anger;
+    pState->field_78 = field_140;
+    pState->field_7A_attack_anger = field_142_attack_anger;
+    pState->field_7C_wakeup_id = field_144_wake_up_id;
+    pState->field_7E_tlv = field_146_tlv_28;
+    pState->field_80_wake_up_switch_value = field_148_wake_up_switch_value;
+    pState->field_82_allow_wake_up_id = field_14A_allow_wake_up_id;
+    pState->field_84 = field_14C;
+    pState->field_86 = field_14E;
+    pState->field_88_patrol_range = field_150_patrol_range;
+    pState->field_8A = field_152;
+    pState->field_8C = field_154;
+    pState->field_8E = field_156;
+    pState->field_90 = field_158;
+    pState->field_92 = field_15A;
+    pState->field_94_lost_target_timeout = field_15C_lost_target_timeout;
+    pState->field_96 = field_15E;
+    pState->field_98 = field_160;
+    pState->field_9A = field_162;
+    pState->field_9C = field_164;
+    pState->field_9E_angle = field_166_angle;
+    pState->field_A0 = field_168;
+    pState->field_A4 = field_16C;
+
+    if (field_170 != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_170);
+        if (pObj)
+        {
+            pState->field_A8 = pObj->field_C_objectId;
+        }
+    }
+    else
+    {
+        pState->field_A8 = -1;
+    }
+
+    if (dword_551840 == field_8_object_id)
+    {
+        pState->field_AC_obj_id = field_C_objectId;
+    }
+    else
+    {
+        pState->field_AC_obj_id = -1;
+    }
+
+    pState->field_B0.Set(Fleech_State::eBit1, field_174_flags.Get(Flags_174::eBit1));
+    pState->field_B0.Set(Fleech_State::eBit2, field_174_flags.Get(Flags_174::eBit2));
+    pState->field_B0.Set(Fleech_State::eBit3, field_174_flags.Get(Flags_174::eBit3));
+    pState->field_B0.Set(Fleech_State::eBit4, field_174_flags.Get(Flags_174::eBit4));
+    pState->field_B0.Set(Fleech_State::eBit5, field_174_flags.Get(Flags_174::eBit5_asleep));
+    pState->field_B0.Set(Fleech_State::eBit6, field_174_flags.Get(Flags_174::eBit6_goes_to_sleep));
+    pState->field_B0.Set(Fleech_State::eBit7, field_174_flags.Get(Flags_174::eBit7_persistant));
+
+    return sizeof(Fleech_State);
+}
+
 void Fleech::M_Sleeping_0_42F0B0()
 {
     if (field_108_next_motion == -1)
@@ -1054,29 +1357,6 @@ void Fleech::InitPolys_42B6E0()
     NOT_IMPLEMENTED();
 }
 
-const static int sFleechFrameTableOffsets_5517E4[19] =
-{
-    37808,
-    37884,
-    37896,
-    37704,
-    37748,
-    37784,
-    37924,
-    37936,
-    37960,
-    37984,
-    38060,
-    38112,
-    38156,
-    38208,
-    38260,
-    37848,
-    38248,
-    38396,
-    38276
-};
-
 
 void Fleech::SetAnim_429D80()
 {
@@ -1091,7 +1371,7 @@ void Fleech::sub_42CF70()
 
 void Fleech::sub_42B9A0(__int16 a2, __int16 a3)
 {
-    field_18A |= 2u;
+    field_18A.Set(Flags_18A::e18A_Bit2);
     field_178 = 2;
     field_186 = a3;
     field_184 = a2;
@@ -1392,7 +1672,7 @@ __int16 Fleech::InRange_4307C0(BaseAliveGameObject* pObj)
 
 int Fleech::sub_42B8A0()
 {
-    return field_18A & 1;
+    return field_18A.Get(Flags_18A::e18A_Bit1);
 }
 
 void Fleech::PullTargetIn_42BAF0()
@@ -1400,7 +1680,8 @@ void Fleech::PullTargetIn_42BAF0()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (pTarget)
     {
-        field_18A |= 3u;
+        field_18A.Set(Flags_18A::e18A_Bit1);
+        field_18A.Set(Flags_18A::e18A_Bit2);
         field_178 = 6;
         field_17A = 0;
 
@@ -1428,14 +1709,15 @@ void Fleech::sub_42B8C0()
     }
     else
     {
-        field_18A &= ~2u;
+        field_18A.Clear(Flags_18A::e18A_Bit2);
         field_178 = 1;
     }
 }
 
 void Fleech::sub_42BA10()
 {
-    field_18A |= 3u;
+    field_18A.Set(Flags_18A::e18A_Bit1);
+    field_18A.Set(Flags_18A::e18A_Bit2);
     field_178 = 3;
     field_17A = 0;
     field_184 = FP_GetExponent(((FP_FromInteger(field_160)) + field_B8_xpos) / FP_FromInteger(2));
