@@ -304,7 +304,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_188 = pState->field_5A;
 
     pFleech->field_18A.Set(Flags_18A::e18A_Bit1, pState->field_5C & 1);
-    pFleech->field_18A.Set(Flags_18A::e18A_Bit1, pState->field_5D & 1);
+    pFleech->field_18A.Set(Flags_18A::e18A_Bit2, pState->field_5D & 1);
 
     pFleech->field_124_brain_state = pState->field_5E_brain_state;
     pFleech->field_126_state = pState->field_60_state;
