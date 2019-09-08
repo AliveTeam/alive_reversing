@@ -5,6 +5,42 @@
 
 enum class LevelIds : __int16;
 
+struct EvilFart_State
+{
+    Types field_0_type;
+    __int16 field_2_r;
+    __int16 field_4_g;
+    __int16 field_6_b;
+    __int16 field_8_path_number;
+    LevelIds field_A_lvl_number;
+    FP field_C_xpos;
+    FP field_10_ypos;
+    FP field_14_velx;
+    FP field_18_vely;
+    FP field_1C_sprite_scale;
+    __int16 field_20_anim_cur_frame;
+    __int16 field_22_frame_change_counter;
+    char field_24_bAnimRender;
+    char field_25_bDrawable;
+    LevelIds field_26_level;
+    __int16 field_28_path;
+    __int16 field_2A_camera;
+
+    enum Flags_2C
+    {
+        eBit1_bControlled = 0x1,
+        eBit2_bBlowUp = 0x2,
+    };
+    BitField16<Flags_2C> field_2C;
+
+    __int16 field_2E_alive_timer;
+    __int16 field_30_state;
+    __int16 field_32;
+    int field_34_timer;
+    int field_38_timer;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
+
 class EvilFart : public BaseAliveGameObject
 {
 public:
@@ -14,8 +50,13 @@ public:
     virtual void VUpdate() override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
     virtual void VPossessed_408F70() override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+
+    EXPORT static int CC CreateFromSaveState_4281C0(const BYTE* pBuffer);
 
 private:
+    EXPORT int vGetSaveState_4283F0(EvilFart_State* pState);
+
     EXPORT void InputControlFart_423BB0();
     EXPORT void vOnPossesed_423DA0();
 

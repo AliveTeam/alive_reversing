@@ -115,6 +115,98 @@ void EvilFart::VPossessed_408F70()
     vOnPossesed_423DA0();
 }
 
+int EvilFart::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_4283F0(reinterpret_cast<EvilFart_State*>(pSaveBuffer));
+}
+
+int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const EvilFart_State*>(pBuffer);
+
+    ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
+    ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
+    ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
+
+    auto pFart = alive_new<EvilFart>();
+    pFart->ctor_422E30();
+
+    if (pState->field_2C.Get(EvilFart_State::eBit1_bControlled))
+    {
+        sControlledCharacter_5C1B8C = pFart;
+    }
+
+    pFart->field_B8_xpos = pState->field_C_xpos;
+    pFart->field_BC_ypos = pState->field_10_ypos;
+
+    pFart->field_C4_velx = pState->field_14_velx;
+    pFart->field_C8_vely = pState->field_18_vely;
+
+    pFart->field_C0_path_number = pState->field_8_path_number;
+    pFart->field_C2_lvl_number = pState->field_A_lvl_number;
+    pFart->field_CC_sprite_scale = pState->field_1C_sprite_scale;
+
+    pFart->field_D0_r = pState->field_2_r;
+    pFart->field_D2_g = pState->field_4_g;
+    pFart->field_D4_b = pState->field_6_b;
+
+    pFart->field_20_animation.field_92_current_frame = pState->field_20_anim_cur_frame;
+    pFart->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
+    
+    pFart->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_25_bDrawable & 1);
+    pFart->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
+
+    if (IsLastFrame(&pFart->field_20_animation))
+    {
+        pFart->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pFart->field_120_level = pState->field_26_level;
+    pFart->field_11E_path = pState->field_28_path;
+    pFart->field_122_camera = pState->field_2A_camera;
+    pFart->field_118_bBlowUp = pState->field_2C.Get(EvilFart_State::eBit2_bBlowUp);
+    pFart->field_11C_alive_timer = pState->field_2E_alive_timer;
+    pFart->field_124_state = pState->field_30_state;
+    pFart->field_128_timer = pState->field_34_timer;
+    pFart->field_12C_back_to_abe_timer = pState->field_38_timer;
+    return sizeof(EvilFart_State);
+}
+
+int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
+{
+    pState->field_0_type = Types::eType_45_EvilFart;
+
+    pState->field_C_xpos = field_B8_xpos;
+    pState->field_10_ypos = field_BC_ypos;
+    pState->field_14_velx = field_C4_velx;
+    pState->field_18_vely = field_C8_vely;
+
+    pState->field_8_path_number = field_C0_path_number;
+    pState->field_A_lvl_number = field_C2_lvl_number;
+    pState->field_1C_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_2_r = field_D0_r;
+    pState->field_4_g = field_D2_g;
+    pState->field_6_b = field_D4_b;
+
+    pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter_5C1B8C == this);
+    pState->field_20_anim_cur_frame = field_20_animation.field_92_current_frame;
+    pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
+    
+    pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+
+    pState->field_26_level = field_120_level;
+    pState->field_28_path = field_11E_path;
+    pState->field_2A_camera = field_122_camera;
+    pState->field_2C.Set(EvilFart_State::eBit2_bBlowUp, field_118_bBlowUp & 1);
+    pState->field_2E_alive_timer = field_11C_alive_timer;
+    pState->field_30_state = field_124_state;
+    pState->field_34_timer = field_128_timer;
+    pState->field_38_timer = field_12C_back_to_abe_timer;
+    return sizeof(EvilFart_State);
+}
+
 void EvilFart::InputControlFart_423BB0()
 {
     const FP kFartSpeed = FP_FromDouble(0.2);
