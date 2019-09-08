@@ -40,8 +40,8 @@
 #include "ColourfulMeter.hpp"
 #include "MinesAlarm.hpp"
 #include "EvilFart.hpp"
+#include "NakedSlig.hpp"
 
-EXPORT int CC NakedSlig__CreateFromSaveState_41AE80(const BYTE*) { NOT_IMPLEMENTED(); return 128; }
 EXPORT int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { NOT_IMPLEMENTED(); return 180; }
 EXPORT int CC Greeter__CreateFromSaveState_446040(const BYTE*) { NOT_IMPLEMENTED(); return 80; }
 EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
@@ -82,7 +82,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     &MinesAlarm::CreateFromSaveState_417740,
-    &NakedSlig__CreateFromSaveState_41AE80,
+    &NakedSlig::CreateFromSaveState_41AE80,
     nullptr,
     nullptr,
     nullptr,

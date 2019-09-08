@@ -53,6 +53,63 @@ using TNakedSligAIFn = __int16 (NakedSlig::*)();
 using TNakedSligMotionFn = void (NakedSlig::*)();
 
 enum class LevelIds : __int16;
+enum class SligSpeak : char;
+
+struct NakedSlig_State
+{
+    Types field_0_type;
+    __int16 field_2_pad;
+    int field_4_obj_id;
+    FP field_8_xpos;
+    FP field_C_ypos;
+    FP field_10_velx;
+    FP field_14_vely;
+    __int16 field_18_path_number;
+    LevelIds field_1A_lvl_number;
+    FP field_1C_sprite_scale;
+    __int16 field_20_r;
+    __int16 field_22_g;
+    __int16 field_24_b;
+    __int16 field_26_bFlipX;
+    __int16 field_28_current_motion;
+    __int16 field_2A_anim_cur_frame;
+    __int16 field_2C_anim_frame_change_counter;
+    char field_2E_bRender;
+    char field_2F_bDrawable;
+    FP field_30_health;
+    __int16 field_34_cur_motion;
+    __int16 field_36_next_motion;
+    __int16 field_38_unknown;
+    __int16 field_3A_line_type;
+    __int16 field_3C;
+    __int16 field_3E;
+    char field_40_bIsControlled;
+    char field_41;
+    __int16 field_42;
+    int field_44_tlvInfo;
+    int field_48_ai_idx;
+    __int16 field_4C;
+    __int16 field_4E;
+    __int16 field_50_brain_sub_state;
+    __int16 field_52;
+    int field_54_timer;
+    FP field_58;
+    __int16 field_5C;
+    __int16 field_5E_bChanting;
+    LevelIds field_60_prev_leve;
+    __int16 field_62_prev_path;
+    __int16 field_64_prev_camera;
+    __int16 field_66_pitch;
+    int field_68;
+    int field_6C_slig_button_id;
+    int field_70_obj_id;
+    int field_74_obj_id;
+    SligSpeak field_78_speak;
+    char field_79;
+    __int16 field_7A;
+    int field_7C;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(NakedSlig_State, 0x80);
 
 enum NakedSligMotion : __int16
 {
@@ -78,8 +135,6 @@ enum NakedSligMotion : __int16
 
 EXPORT void CC Slig_SoundEffect_4BFFE0(__int16 effect, BaseAliveGameObject* pObj);
 
-enum class SligSpeak : char;
-
 class NakedSlig : public BaseAliveGameObject
 {
 public:
@@ -97,7 +152,15 @@ public:
 
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+
+    EXPORT static int CC CreateFromSaveState_41AE80(const BYTE* pBuffer);
+
+
 private:
+    EXPORT int vGetSaveState_41C9A0(NakedSlig_State* pState);
+
+
     EXPORT void vPossessed_4195F0();
 
 
