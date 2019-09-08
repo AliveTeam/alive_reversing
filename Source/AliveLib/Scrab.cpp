@@ -212,6 +212,259 @@ void Scrab::VUpdate()
     vUpdate_4A3530();
 }
 
+
+const int sScrabFrameTableOffsets_5601C0[40] =
+{
+    224764,
+    224668,
+    224796,
+    224860,
+    224916,
+    224964,
+    224988,
+    225028,
+    225112,
+    225052,
+    225072,
+    225092,
+    224988,
+    225028,
+    225132,
+    225112,
+    225168,
+    225188,
+    225208,
+    225280,
+    225028,
+    24480,
+    24480,
+    1340,
+    1340,
+    11228,
+    17260,
+    17328,
+    17260,
+    17328,
+    11532,
+    31648,
+    31704,
+    35180,
+    35248,
+    20840,
+    20896,
+    8356,
+    14508,
+    15600
+};
+
+int CC Scrab::CreateFromSaveState_4A70A0(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const Scrab_State*>(pBuffer);
+
+    auto pTlv = static_cast<Path_Scrab*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_44_tlvInfo));
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kArsbasicResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("SCRAB.BND", nullptr);
+    }
+
+    auto pScrab = alive_new<Scrab>();
+    pScrab->ctor_4A3C40(pTlv, pState->field_44_tlvInfo, 0);
+    pScrab->field_C_objectId = pState->field_4_obj_id;
+
+    if (pState->field_40_bIsControlled)
+    {
+        sControlledCharacter_5C1B8C = pScrab;
+    }
+
+    pScrab->field_FC_pPathTLV = nullptr;
+    pScrab->field_100_pCollisionLine = nullptr;
+
+    pScrab->field_B8_xpos = pState->field_8_xpos;
+    pScrab->field_BC_ypos = pState->field_C_ypos;
+    pScrab->field_C4_velx = pState->field_10_velx;
+    pScrab->field_C8_vely = pState->field_14_vely;
+
+    pScrab->field_134 = pState->field_64;
+    pScrab->field_C0_path_number = pState->field_18_path_number;
+    pScrab->field_C2_lvl_number = pState->field_1A_lvl_number;
+    pScrab->field_CC_sprite_scale = pState->field_1C_sprite_scale;
+    pScrab->field_D0_r = pState->field_20_r;
+    pScrab->field_D2_g = pState->field_22_g;
+    pScrab->field_D4_b = pState->field_24_b;
+    pScrab->field_106_current_motion = pState->field_28_current_motion;
+
+    BYTE** ppRes = pScrab->ResBlockForMotion_4A43E0(pState->field_28_current_motion);
+    pScrab->field_20_animation.Set_Animation_Data_409C80(sScrabFrameTableOffsets_5601C0[pScrab->field_106_current_motion], ppRes);
+    pScrab->field_20_animation.field_92_current_frame = pState->field_2A_current_frame;
+    pScrab->field_20_animation.field_E_frame_change_counter = pState->field_2C_frame_change_counter;
+
+    pScrab->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2F_bDrawable & 1);
+
+    pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bAnimFlipX & 1);
+    pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bAnimRender & 1);
+
+    if (IsLastFrame(&pScrab->field_20_animation))
+    {
+        pScrab->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pScrab->field_10C_health = pState->field_30_health;
+    pScrab->field_106_current_motion = pState->field_34_current_motion;
+    pScrab->field_108_next_motion = pState->field_36_next_motion;
+    pScrab->field_F8_LastLineYPos = FP_FromInteger(pState->field_38);
+    pScrab->field_130 = pState->field_60;
+    pScrab->field_114_flags.Set(Flags_114::e114_Bit9);
+    pScrab->field_12C = pState->field_5C;
+    pScrab->field_104_collision_line_type = pState->field_3A_line_type;
+    pScrab->field_144_tlvInfo = pState->field_44_tlvInfo;
+    
+    pScrab->SetBrain(sScrab_ai_table_56029C[pState->field_48_ai_idx]);
+
+    pScrab->field_11C_sub_state = pState->field_50_sub_state;
+    pScrab->field_120_obj_id = pState->field_54_obj_id;
+    pScrab->field_124_fight_target_obj_id = pState->field_58_target_obj_id;
+
+    pScrab->field_140 = pState->field_68;
+    pScrab->field_14C = pState->field_6C;
+    pScrab->field_150 = pState->field_70;
+    pScrab->field_154 = pState->field_74;
+    pScrab->field_160 = pState->field_78;
+    pScrab->field_164 = pState->field_7C;
+
+    pScrab->field_166_level = pState->field_7E_level;
+    pScrab->field_168_path = pState->field_80_path;
+    pScrab->field_16A_camera = pState->field_82_camera;
+    pScrab->field_16C = InputObject::Command_To_Raw_45EE40(pState->field_84_input);
+    pScrab->field_170 = pState->field_88;
+    pScrab->field_178 = pState->field_8C;
+    pScrab->field_194 = pState->field_8E;
+    pScrab->field_198 = pState->field_90;
+    pScrab->field_19C = pState->field_94;
+    pScrab->field_1A2 = pState->field_98;
+    pScrab->field_1A4 = pState->field_9A;
+    pScrab->field_1A6 = pState->field_9C;
+
+    pScrab->field_1AA_flags.Set(Flags_1AA::eBit1, pState->field_9E.Get(Scrab_State::eBit1));
+    pScrab->field_1AA_flags.Set(Flags_1AA::eBit2, pState->field_9E.Get(Scrab_State::eBit2));
+    pScrab->field_1AA_flags.Set(Flags_1AA::eBit3, pState->field_9E.Get(Scrab_State::eBit3));
+    pScrab->field_1AA_flags.Set(Flags_1AA::eBit4, pState->field_9E.Get(Scrab_State::eBit4));
+    pScrab->field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pState->field_9E.Get(Scrab_State::eBit5));
+    pScrab->field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pState->field_9E.Get(Scrab_State::eBit6));
+
+    return sizeof(Scrab_State);
+}
+
+int Scrab::vGetSaveState_4AB020(Scrab_State* pState)
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0_type = Types::eScrab_112;
+    pState->field_4_obj_id = field_C_objectId;
+
+    pState->field_8_xpos = field_B8_xpos;
+    pState->field_C_ypos = field_BC_ypos;
+    pState->field_10_velx = field_C4_velx;
+    pState->field_14_vely = field_C8_vely;
+
+    pState->field_64 = field_134;
+
+    pState->field_18_path_number = field_C0_path_number;
+    pState->field_1A_lvl_number = field_C2_lvl_number;
+    pState->field_1C_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_20_r = field_D0_r;
+    pState->field_22_g = field_D2_g;
+    pState->field_24_b = field_D4_b;
+
+    pState->field_26_bAnimFlipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_28_current_motion = field_106_current_motion;
+    pState->field_2A_current_frame = field_20_animation.field_92_current_frame;
+    pState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
+    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2E_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_30_health = field_10C_health;
+    pState->field_34_current_motion = field_106_current_motion;
+    pState->field_36_next_motion = field_108_next_motion;
+    pState->field_3A_line_type = -1;
+    
+    // TODO: Check correctness
+    pState->field_38 = FP_GetExponent(field_F8_LastLineYPos);
+    if (field_100_pCollisionLine)
+    {
+        pState->field_3A_line_type = field_100_pCollisionLine->field_8_type;
+    }
+
+    pState->field_40_bIsControlled = (this == sControlledCharacter_5C1B8C);
+    pState->field_60 = field_130;
+    pState->field_5C = field_12C;
+    pState->field_44_tlvInfo = field_144_tlvInfo;
+    pState->field_48_ai_idx = 0;
+
+    int idx = 0;
+    for (const auto& fn : sScrab_ai_table_56029C)
+    {
+        if (BrainIs(fn))
+        {
+            pState->field_48_ai_idx = idx;
+        }
+        idx++;
+    }
+
+    pState->field_54_obj_id = -1;
+    pState->field_50_sub_state = field_11C_sub_state;
+
+    if (field_120_obj_id != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_120_obj_id);
+        if (pObj)
+        {
+            pState->field_54_obj_id = pObj->field_C_objectId;
+        }
+    }
+
+    pState->field_58_target_obj_id = -1;
+    if (field_124_fight_target_obj_id != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_124_fight_target_obj_id);
+        if (pObj)
+        {
+            pState->field_58_target_obj_id = pObj->field_C_objectId;
+        }
+    }
+
+    pState->field_68 = field_140;
+    pState->field_6C = field_14C;
+    pState->field_70 = field_150;
+    pState->field_74 = field_154;
+    pState->field_78 = field_160;
+    pState->field_7C = field_164;
+    pState->field_7E_level = field_166_level;
+    pState->field_80_path = field_168_path;
+    pState->field_82_camera = field_16A_camera;
+    pState->field_84_input = InputObject::Raw_To_Command_45EF70(field_16C);
+    pState->field_88 = field_170;
+    pState->field_8C = field_178;
+    pState->field_8E = field_194;
+    pState->field_90 = field_198;
+    pState->field_94 = field_19C;
+    pState->field_98 = field_1A2;
+    pState->field_9A = field_1A4;
+    pState->field_9C = field_1A6;
+
+    pState->field_9E.Set(Scrab_State::eBit1, field_1AA_flags.Get(Flags_1AA::eBit1));
+    pState->field_9E.Set(Scrab_State::eBit2, field_1AA_flags.Get(Flags_1AA::eBit2));
+    pState->field_9E.Set(Scrab_State::eBit3, field_1AA_flags.Get(Flags_1AA::eBit3));
+    pState->field_9E.Set(Scrab_State::eBit4, field_1AA_flags.Get(Flags_1AA::eBit4));
+    pState->field_9E.Set(Scrab_State::eBit5, field_1AA_flags.Get(Flags_1AA::eBit5_roar_randomly));
+    pState->field_9E.Set(Scrab_State::eBit6, field_1AA_flags.Get(Flags_1AA::eBit6_persistant));
+
+    return sizeof(Scrab_State);
+}
+
 Scrab* Scrab::vdtor_4A41B0(signed int flags)
 {
     dtor_4A42B0();
@@ -270,51 +523,6 @@ void Scrab::vOnTrapDoorOpen_4A7ED0()
         field_106_current_motion = 15;
     }
 }
-
-const int sScrabFrameTableOffsets_5601C0[40] =
-{
-    224764,
-    224668,
-    224796,
-    224860,
-    224916,
-    224964,
-    224988,
-    225028,
-    225112,
-    225052,
-    225072,
-    225092,
-    224988,
-    225028,
-    225132,
-    225112,
-    225168,
-    225188,
-    225208,
-    225280,
-    225028,
-    24480,
-    24480,
-    1340,
-    1340,
-    11228,
-    17260,
-    17328,
-    17260,
-    17328,
-    11532,
-    31648,
-    31704,
-    35180,
-    35248,
-    20840,
-    20896,
-    8356,
-    14508,
-    15600
-};
-
 
 void Scrab::vUpdateAnim_4A34F0()
 {

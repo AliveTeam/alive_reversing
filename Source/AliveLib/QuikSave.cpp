@@ -46,7 +46,6 @@ EXPORT int CC Fleech__CreateFromSaveState_42DD50(const BYTE*) { NOT_IMPLEMENTED(
 EXPORT int CC Greeter__CreateFromSaveState_446040(const BYTE*) { NOT_IMPLEMENTED(); return 80; }
 EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
-EXPORT int CC Scrab__CreateFromSaveState_4A70A0(const BYTE*) { NOT_IMPLEMENTED(); return 160; }
 EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 
 struct QuickSaveRestoreTable
@@ -168,7 +167,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     nullptr,
-    &Scrab__CreateFromSaveState_4A70A0,
+    &Scrab::CreateFromSaveState_4A70A0,
     &ScrabSpawner::CreateFromSaveState_4ABEB0,
     nullptr,
     nullptr,

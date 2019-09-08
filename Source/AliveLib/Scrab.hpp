@@ -74,6 +74,82 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 enum class LevelIds : __int16;
 enum class GameSpeakEvents : __int16;
 
+struct Scrab_State
+{
+    Types field_0_type;
+    __int16 field_2;
+    int field_4_obj_id;
+    FP field_8_xpos;
+    FP field_C_ypos;
+    FP field_10_velx;
+    FP field_14_vely;
+    __int16 field_18_path_number;
+    LevelIds field_1A_lvl_number;
+    FP field_1C_sprite_scale;
+    __int16 field_20_r;
+    __int16 field_22_g;
+    __int16 field_24_b;
+    __int16 field_26_bAnimFlipX;
+    __int16 field_28_current_motion;
+    __int16 field_2A_current_frame;
+    __int16 field_2C_frame_change_counter;
+    char field_2E_bAnimRender;
+    char field_2F_bDrawable;
+    FP field_30_health;
+    __int16 field_34_current_motion;
+    __int16 field_36_next_motion;
+    __int16 field_38;
+    __int16 field_3A_line_type;
+    __int16 field_3C;
+    __int16 field_3E;
+    char field_40_bIsControlled;
+    char field_41;
+    __int16 field_42;
+    int field_44_tlvInfo;
+    int field_48_ai_idx;
+    __int16 field_4C;
+    __int16 field_4E;
+    __int16 field_50_sub_state;
+    __int16 field_52;
+    int field_54_obj_id;
+    int field_58_target_obj_id;
+    int field_5C;
+    int field_60;
+    FP field_64;
+    __int16 field_68;
+    __int16 field_6A;
+    int field_6C;
+    int field_70;
+    int field_74;
+    int field_78;
+    __int16 field_7C;
+    LevelIds field_7E_level;
+    __int16 field_80_path;
+    __int16 field_82_camera;
+    __int16 field_84_input;
+    __int16 field_86;
+    int field_88;
+    __int16 field_8C;
+    GameSpeakEvents field_8E;
+    FP field_90;
+    FP field_94;
+    __int16 field_98;
+    __int16 field_9A;
+    __int16 field_9C;
+
+    enum Flags_9E
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+        eBit6 = 0x20,
+    };
+    BitField16<Flags_9E> field_9E;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Scrab_State, 0xA0);
+
 class Scrab;
 using TScrabAIFn = __int16 (Scrab::*)();
 using TScrabMotionFn = void (Scrab::*)();
@@ -105,8 +181,20 @@ public:
         return vTakeDamage_4A45E0(pFrom);
     }
 
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override
+    {
+        return vGetSaveState_4AB020(reinterpret_cast<Scrab_State*>(pSaveBuffer));
+    }
+
     // TODO: New virtuals
+
+    EXPORT static int CC CreateFromSaveState_4A70A0(const BYTE* pBuffer);
+
 private:
+    EXPORT int vGetSaveState_4AB020(Scrab_State* pState);
+
+
+
     EXPORT Scrab* vdtor_4A41B0(signed int flags);
     EXPORT void dtor_4A42B0();
 
