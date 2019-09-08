@@ -13,23 +13,35 @@ struct Path_Greeter : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Greeter, 0x18);
 
+enum class GreeterStates : __int16
+{
+    eState_0,
+    eState_1,
+    eState_2,
+    eState_3,
+    eState_4,
+    eState_5,
+    eState_6,
+    eState_7
+};
+
 struct Greeter_State
 {
-    __int16 field_0_type;
+    Types field_0_type;
     __int16 field_2_r;
     __int16 field_4_g;
     __int16 field_6_b;
     __int16 field_8_path_number;
-    __int16 field_A_lvl_number;
-    int field_C_xpos;
-    int field_10_ypos;
-    int field_14_velx;
-    int field_18_vely;
-    int field_1C_sprite_scale;
+    LevelIds field_A_lvl_number;
+    FP field_C_xpos;
+    FP field_10_ypos;
+    FP field_14_velx;
+    FP field_18_vely;
+    FP field_1C_sprite_scale;
     __int16 field_20_current_frame;
     __int16 field_22_frame_change_counter;
-    char field_24;
-    char field_25;
+    char field_24_bAnimRender;
+    char field_25_bDrawable;
     char field_26;
     char field_27;
     int field_28_tlvInfo;
@@ -40,12 +52,12 @@ struct Greeter_State
     __int16 field_3A;
     __int16 field_3C;
     __int16 field_3E;
-    int field_40_speed;
-    __int16 field_44_state;
-    __int16 field_46;
-    __int16 field_48;
+    FP  field_40_speed;
+    GreeterStates field_44_state;
+    __int16 field_46_targetOnLeft;
+    __int16 field_48_targetOnRight;
     __int16 field_4A;
-    int field_4C;
+    FP field_4C_motion_laser_xpos;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
 
@@ -71,8 +83,15 @@ public:
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual signed __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+
+    EXPORT static int CC CreateFromSaveState_446040(const BYTE* pBuffer);
+
 
 private:
+    EXPORT int vGetSaveState_446400(Greeter_State* pState);
+
+
     EXPORT Greeter* vdtor_4468B0(signed int flags);
     EXPORT void vScreenChanged_447DD0();
     EXPORT void dtor_4468E0();
@@ -100,18 +119,7 @@ private:
     FP field_134_speed;
     Path_TLV* field_138_pTlv;
 public:
-    enum class States : __int16
-    {
-        eState_0,
-        eState_1,
-        eState_2,
-        eState_3,
-        eState_4,
-        eState_5,
-        eState_6,
-        eState_7
-    };
-    States field_13C_state;
+    GreeterStates field_13C_state;
     __int16 field_13E_targetOnLeft;
     __int16 field_140_targetOnRight;
 private:

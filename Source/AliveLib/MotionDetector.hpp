@@ -19,6 +19,19 @@ struct Path_MotionDetector : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x24);
 
+class MotionDetectorLaser : public BaseAnimatedWithPhysicsGameObject
+{
+public:
+    EXPORT MotionDetectorLaser* ctor_468290(FP xpos, FP ypos, FP scale, __int16 layer);
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+private:
+    EXPORT MotionDetectorLaser* vdtor_468360(signed int flags);
+};
+ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
+
+
 class MotionDetector : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -37,7 +50,9 @@ private:
 
 private:
     int field_F4_tlvInfo;
+public:
     int field_F8_laser_id;
+private:
     int field_FC_owner_id;
 
     enum class States : __int16

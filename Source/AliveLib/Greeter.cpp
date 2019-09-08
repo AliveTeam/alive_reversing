@@ -54,7 +54,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     }
 
     field_134_speed = FP_FromInteger(pTlv->field_12_motion_detector_speed);
-    field_13C_state = States::eState_0;
+    field_13C_state = GreeterStates::eState_0;
     field_12E = 1;
     field_118_tlvInfo = tlvInfo;
 
@@ -129,6 +129,144 @@ void Greeter::VOnThrowableHit(BaseGameObject* pFrom)
 signed __int16 Greeter::VTakeDamage_408730(BaseGameObject* pFrom)
 {
     return vTakeDamage_447C20(pFrom);
+}
+
+int Greeter::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_446400(reinterpret_cast<Greeter_State*>(pSaveBuffer));
+}
+
+int CC Greeter::CreateFromSaveState_446040(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
+    auto pTlv = static_cast<Path_Greeter*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_28_tlvInfo));
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMflareResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("MFLARE.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMotionResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("MOTION.BAN", nullptr);
+    }
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGreeterResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("GREETER.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSplineResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
+    }
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMetalResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("METAL.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
+    }
+
+    auto pGreeter = alive_new<Greeter>();
+    pGreeter->ctor_4465B0(pTlv, pState->field_28_tlvInfo);
+
+    pGreeter->field_B8_xpos = pState->field_C_xpos;
+    pGreeter->field_BC_ypos = pState->field_10_ypos;
+    pGreeter->field_C4_velx = pState->field_14_velx;
+    pGreeter->field_C8_vely = pState->field_18_vely;
+
+    pGreeter->field_C0_path_number = pState->field_8_path_number;
+    pGreeter->field_C2_lvl_number = pState->field_A_lvl_number;
+    pGreeter->field_CC_sprite_scale = pState->field_1C_sprite_scale;
+
+    pGreeter->field_D0_r = pState->field_2_r;
+    pGreeter->field_D2_g = pState->field_4_g;
+    pGreeter->field_D4_b = pState->field_6_b;
+
+    pGreeter->field_20_animation.field_92_current_frame = pState->field_20_current_frame;
+    pGreeter->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
+
+    pGreeter->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_25_bDrawable & 1);
+
+    pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
+
+    if (IsLastFrame(&pGreeter->field_20_animation))
+    {
+        pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pGreeter->field_118_tlvInfo = pState->field_28_tlvInfo;
+    pGreeter->field_120 = pState->field_2C;
+    pGreeter->field_124_last_turn_time = pState->field_30_last_turn_time;
+    pGreeter->field_128_timer = pState->field_34_timer;
+    pGreeter->field_12C = pState->field_38;
+    pGreeter->field_12E = pState->field_3A;
+    pGreeter->field_130 = pState->field_3C;
+    pGreeter->field_134_speed = pState->field_40_speed;
+    pGreeter->field_13C_state = pState->field_44_state;
+    pGreeter->field_13E_targetOnLeft = pState->field_46_targetOnLeft;
+    pGreeter->field_140_targetOnRight = pState->field_48_targetOnRight;
+
+    auto pDetector = static_cast<MotionDetector*>(sObjectIds_5C1B70.Find_449CF0(pGreeter->field_11C_motionDetectorId));
+
+    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find_449CF0(pDetector->field_F8_laser_id));
+    pLaser->field_B8_xpos = pState->field_4C_motion_laser_xpos;
+
+    return sizeof(Greeter_State);
+}
+
+int Greeter::vGetSaveState_446400(Greeter_State* pState)
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0_type = Types::eGreeter_64;
+
+    pState->field_C_xpos = field_B8_xpos;
+    pState->field_10_ypos = field_BC_ypos;
+    pState->field_14_velx = field_C4_velx;
+    pState->field_18_vely = field_C8_vely;
+
+    pState->field_8_path_number = field_C0_path_number;
+    pState->field_A_lvl_number = field_C2_lvl_number;
+    pState->field_1C_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_2_r = field_D0_r;
+    pState->field_4_g = field_D2_g;
+    pState->field_6_b = field_D4_b;
+
+    pState->field_20_current_frame = field_20_animation.field_92_current_frame;
+    pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
+    pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_28_tlvInfo = field_118_tlvInfo;
+    pState->field_2C = field_120;
+    pState->field_30_last_turn_time = field_124_last_turn_time;
+    pState->field_34_timer = field_128_timer;
+
+    pState->field_38 = field_12C;
+    pState->field_3A = field_12E;
+    pState->field_3C = field_130;
+
+    pState->field_40_speed = field_134_speed;
+    pState->field_44_state = field_13C_state;
+    pState->field_46_targetOnLeft = field_13E_targetOnLeft;
+    pState->field_48_targetOnRight = field_140_targetOnRight;
+    
+    auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds_5C1B70.Find_449CF0(field_11C_motionDetectorId));
+    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds_5C1B70.Find_449CF0(pMotionDetector->field_F8_laser_id));
+    pState->field_4C_motion_laser_xpos = pLaser->field_B8_xpos;
+
+    return sizeof(Greeter_State);
 }
 
 Greeter* Greeter::vdtor_4468B0(signed int flags)
@@ -217,7 +355,7 @@ EXPORT void Greeter::BlowUp_447E50()
 
 void Greeter::ChangeDirection_447BD0()
 {
-    field_13C_state = States::eState_1;
+    field_13C_state = GreeterStates::eState_1;
     field_C4_velx = FP_FromInteger(0);
     field_20_animation.Set_Animation_Data_409C80(50072, nullptr);
     field_124_last_turn_time = sGnFrame_5C1B84;
@@ -225,7 +363,7 @@ void Greeter::ChangeDirection_447BD0()
 
 void Greeter::BounceBackFromShot_447B10()
 {
-    field_13C_state = States::eState_5;
+    field_13C_state = GreeterStates::eState_5;
    
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -261,21 +399,21 @@ void Greeter::HandleRollingAlong_447860()
             break;
 
         case ScrabLeftBound_43: 
-            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))  && field_13C_state == States::eState_0)
+            if (!(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))  && field_13C_state == GreeterStates::eState_0)
             {
                 ChangeDirection_447BD0();
             }
             break;
 
         case ScrabRightBound_44:
-            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == States::eState_0)
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && field_13C_state == GreeterStates::eState_0)
             {
                 ChangeDirection_447BD0();
             }
             break;
 
         case EnemyStopper_47:
-            if (field_13C_state != States::eState_7)
+            if (field_13C_state != GreeterStates::eState_7)
             {
                 ChangeDirection_447BD0();
             }
@@ -286,7 +424,7 @@ void Greeter::HandleRollingAlong_447860()
         }
     }
 
-    if (field_13C_state == States::eState_0)
+    if (field_13C_state == GreeterStates::eState_0)
     {
         if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && Check_IsOnEndOfLine_408E90(0, 1)) ||
             WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3)) ||
@@ -296,7 +434,7 @@ void Greeter::HandleRollingAlong_447860()
         }
     }
 
-    if (field_13C_state == States::eState_4)
+    if (field_13C_state == GreeterStates::eState_4)
     {
         if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), field_C4_velx * FP_FromInteger(3))) // TODO: OG bug, raw * 3 here ??
         {
@@ -461,7 +599,7 @@ void Greeter::ZapTarget_447320(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
 void Greeter::RandomishSpeak_447A70(GreeterSpeak effect)
 {
-    field_13C_state = States::eState_2;
+    field_13C_state = GreeterStates::eState_2;
     field_C4_velx = FP_FromInteger(0);
     field_20_animation.Set_Animation_Data_409C80(50104, nullptr);
     field_120 = sGnFrame_5C1B84 + 25;
@@ -541,7 +679,7 @@ void Greeter::vUpdate_4469B0()
 
     switch (field_13C_state)
     {
-    case States::eState_0:
+    case GreeterStates::eState_0:
         if (!((sGnFrame_5C1B84 - field_124_last_turn_time) % 14))
         {
             const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(
@@ -559,12 +697,12 @@ void Greeter::vUpdate_4469B0()
             if (!field_13E_targetOnLeft == 0)
             {
                 RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-                field_13C_state = States::eState_3;
+                field_13C_state = GreeterStates::eState_3;
             }
             else if (field_140_targetOnRight)
             {
                 ChangeDirection_447BD0();
-                field_13C_state = States::eState_6;
+                field_13C_state = GreeterStates::eState_6;
             }
         }
         else
@@ -573,12 +711,12 @@ void Greeter::vUpdate_4469B0()
             if (!field_140_targetOnRight == 0)
             {
                 RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-                field_13C_state = States::eState_3;
+                field_13C_state = GreeterStates::eState_3;
             }
             else if (field_13E_targetOnLeft)
             {
                 ChangeDirection_447BD0();
-                field_13C_state = States::eState_6;
+                field_13C_state = GreeterStates::eState_6;
             }
         }
 
@@ -588,10 +726,10 @@ void Greeter::vUpdate_4469B0()
         }
         break;
 
-    case States::eState_1:
+    case GreeterStates::eState_1:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_13C_state = States::eState_0;
+            field_13C_state = GreeterStates::eState_0;
             field_20_animation.Set_Animation_Data_409C80(50028, 0);
             field_C8_vely = FP_FromInteger(0);
             field_13E_targetOnLeft = 0;
@@ -607,28 +745,28 @@ void Greeter::vUpdate_4469B0()
         }
         break;
 
-    case States::eState_2:
+    case GreeterStates::eState_2:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_130 = 0;
-            field_13C_state = States::eState_0;
+            field_13C_state = GreeterStates::eState_0;
             field_20_animation.Set_Animation_Data_409C80(50028, 0);
             field_C8_vely = FP_FromInteger(0);
             field_128_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(160, 200);
         }
         break;
 
-    case States::eState_3:
+    case GreeterStates::eState_3:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             field_130 = 1;
-            field_13C_state = States::eState_4;
+            field_13C_state = GreeterStates::eState_4;
             field_20_animation.Set_Animation_Data_409C80(50144, 0);
             field_C8_vely = FP_FromInteger(0);
         }
         break;
 
-    case States::eState_4:
+    case GreeterStates::eState_4:
     {
         if (!(sGnFrame_5C1B84 % 8))
         {
@@ -678,7 +816,7 @@ void Greeter::vUpdate_4469B0()
         }
     } break;
 
-    case States::eState_5:
+    case GreeterStates::eState_5:
         if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(40), FP_FromRaw(3 * field_C4_velx.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
         {
             field_C4_velx = FP_FromInteger(0);
@@ -691,11 +829,11 @@ void Greeter::vUpdate_4469B0()
         }
         break;
 
-    case States::eState_6:
+    case GreeterStates::eState_6:
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             RandomishSpeak_447A70(GreeterSpeak::Hi_0);
-            field_13C_state = States::eState_3;
+            field_13C_state = GreeterStates::eState_3;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
@@ -707,7 +845,7 @@ void Greeter::vUpdate_4469B0()
         }
         break;
 
-    case States::eState_7:
+    case GreeterStates::eState_7:
     {
         FP hitX = {};
         FP hitY = {};
@@ -731,12 +869,12 @@ void Greeter::vUpdate_4469B0()
                 field_C8_vely = FP_FromInteger(0);
                 if (field_130 == 0)
                 {
-                    field_13C_state = States::eState_0;
+                    field_13C_state = GreeterStates::eState_0;
                     field_20_animation.Set_Animation_Data_409C80(50028, nullptr);
                 }
                 else
                 {
-                    field_13C_state = States::eState_4;
+                    field_13C_state = GreeterStates::eState_4;
                     field_20_animation.Set_Animation_Data_409C80(50144, nullptr);
                 }
             }
@@ -749,7 +887,7 @@ void Greeter::vUpdate_4469B0()
 
     if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
     {
-        if (field_13C_state != States::eState_7)
+        if (field_13C_state != GreeterStates::eState_7)
         {
             const FP xpos = field_C4_velx
                 + field_C4_velx
@@ -767,7 +905,7 @@ void Greeter::vUpdate_4469B0()
     }
 
     bool collisionCheck = true;
-    if (field_13C_state == States::eState_7)
+    if (field_13C_state == GreeterStates::eState_7)
     {
         field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             nullptr,
@@ -776,7 +914,7 @@ void Greeter::vUpdate_4469B0()
             field_B8_xpos,
             field_BC_ypos);
         HandleRollingAlong_447860();
-        if (field_13C_state == States::eState_7)
+        if (field_13C_state == GreeterStates::eState_7)
         {
             collisionCheck = false;
         }
@@ -786,12 +924,12 @@ void Greeter::vUpdate_4469B0()
     {
         if (Check_IsOnEndOfLine_408E90(0, 0))
         {
-            field_13C_state = States::eState_7;
+            field_13C_state = GreeterStates::eState_7;
             field_20_animation.Set_Animation_Data_409C80(50212, 0);
         }
     }
 
-    if (field_13C_state != States::eState_7)
+    if (field_13C_state != GreeterStates::eState_7)
     {
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;

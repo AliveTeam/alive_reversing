@@ -14,42 +14,38 @@
 #include "Alarm.hpp"
 #include "Function.hpp"
 
-class MotionDetectorLaser : public BaseAnimatedWithPhysicsGameObject
+
+MotionDetectorLaser* MotionDetectorLaser::ctor_468290(FP xpos, FP ypos, FP scale, __int16 layer)
 {
-public:
-    EXPORT MotionDetectorLaser* ctor_468290(FP xpos, FP ypos, FP scale, __int16 layer)
-    {
-        BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
-        SetVTable(this, 0x545FB0);
-        field_4_typeId = Types::eRedLaser_111;
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMotionResID);
-        Animation_Init_424E10(23280, 37, 60, ppRes, 1, 1);
-        field_20_animation.field_C_render_layer = layer;
-        field_B8_xpos = xpos;
-        field_CC_sprite_scale = scale;
-        field_20_animation.field_B_render_mode = 1;
-        field_BC_ypos = ypos;
-        return this;
-    }
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+    SetVTable(this, 0x545FB0);
+    field_4_typeId = Types::eRedLaser_111;
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMotionResID);
+    Animation_Init_424E10(23280, 37, 60, ppRes, 1, 1);
+    field_20_animation.field_C_render_layer = layer;
+    field_B8_xpos = xpos;
+    field_CC_sprite_scale = scale;
+    field_20_animation.field_B_render_mode = 1;
+    field_BC_ypos = ypos;
+    return this;
+}
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_468360(flags);
-    }
+BaseGameObject* MotionDetectorLaser::VDestructor(signed int flags)
+{
+    return vdtor_468360(flags);
+}
 
-private:
-    EXPORT MotionDetectorLaser* vdtor_468360(signed int flags)
+MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(signed int flags)
+{
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+    if (flags & 1)
     {
-        BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
-        if (flags & 1)
-        {
-            Mem_Free_495540(this);
-        }
-        return this;
+        Mem_Free_495540(this);
     }
-};
-ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
+    return this;
+}
 
+// =====================================================================================
 
 MotionDetector* MotionDetector::ctor_4683B0(Path_MotionDetector* pTlv, int tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
 {
@@ -461,14 +457,14 @@ void MotionDetector::vUpdate_468A90()
             field_118_x2_fp = pOwner->field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20));
             field_120_y2_fp = pOwner->field_BC_ypos;
 
-            if (pOwner->field_13C_state == Greeter::States::eState_0 || pOwner->field_13C_state == Greeter::States::eState_1)
+            if (pOwner->field_13C_state == GreeterStates::eState_0 || pOwner->field_13C_state == GreeterStates::eState_1)
             {
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 pLaser->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 pLaser->field_BC_ypos = pOwner->field_BC_ypos;
             }
 
-            if (pOwner->field_13C_state == Greeter::States::eState_4 || pOwner->field_13C_state == Greeter::States::eState_6)
+            if (pOwner->field_13C_state == GreeterStates::eState_4 || pOwner->field_13C_state == GreeterStates::eState_6)
             {
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 pLaser->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
