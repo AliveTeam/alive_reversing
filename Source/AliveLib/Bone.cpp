@@ -36,14 +36,14 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
     field_6_flags.Clear(BaseGameObject::eInteractive);
-    field_130 &= ~1u;
+    field_130_hit_object &= ~1u;
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-    field_12C = sGnFrame_5C1B84 + 300;
+    field_12C_time_to_live = sGnFrame_5C1B84 + 300;
     field_118_count = countId;
-    field_11C_state = BoneStates::eState_0;
-    field_11E = 0;
+    field_11C_state = BoneStates::eState_0_spawned;
+    field_11E_volume_modifier = 0;
 
     field_E0_pShadow = alive_new<Shadow>();
     if (field_E0_pShadow)
@@ -142,22 +142,22 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
 
     pBone->field_114_flags.Set(Flags_114::e114_Bit9);
 
-    pBone->field_128 = sGnFrame_5C1B84;
+    pBone->field_128_shine_timer = sGnFrame_5C1B84;
     
     pBone->field_104_collision_line_type = pState->field_28_line_type;
     pBone->field_118_count = pState->field_2A_count;
     pBone->field_11C_state = pState->field_2C_state;
     
-    pBone->field_11E = pState->field_2E;
-    pBone->field_120_xpos = pState->field_30;
-    pBone->field_124_ypos = pState->field_34;
+    pBone->field_11E_volume_modifier = pState->field_2E_volume_modifier;
+    pBone->field_120_xpos = pState->field_30_xpos;
+    pBone->field_124_ypos = pState->field_34_ypos;
 
-    pBone->field_12C = pState->field_38;
+    pBone->field_12C_time_to_live = pState->field_38_time_to_live;
 
-    pBone->field_130 = 0;
-    if (pState->field_20_flags.Get(Bone_SaveState::eBit5_Unknown))
+    pBone->field_130_hit_object = 0;
+    if (pState->field_20_flags.Get(Bone_SaveState::eBit5_bHitObject))
     {
-        pBone->field_130 |= 1;
+        pBone->field_130_hit_object |= 1;
     }
 
     return sizeof(Bone_SaveState);
@@ -203,11 +203,11 @@ void Bone::vThrow_411670(FP velX, FP velY)
 
     if (field_118_count == 0)
     {
-        field_11C_state = BoneStates::eState_4;
+        field_11C_state = BoneStates::eState_4_edible;
     }
     else
     {
-        field_11C_state = BoneStates::eState_1;
+        field_11C_state = BoneStates::eState_1_airborne;
     }
 }
 
@@ -218,21 +218,21 @@ void Bone::vOnTrapDoorOpen_412490()
     {
         pPlatform->VRemove(this);
         field_110_id = -1;
-        if (field_11C_state == BoneStates::eState_2 || field_11C_state == BoneStates::eState_3)
+        if (field_11C_state == BoneStates::eState_2_collided || field_11C_state == BoneStates::eState_3_on_ground)
         {
-            field_11C_state = BoneStates::eState_1;
+            field_11C_state = BoneStates::eState_1_airborne;
         }
     }
 }
 
 BOOL Bone::vIsFalling_411510()
 {
-    return field_11C_state == BoneStates::eState_5;
+    return field_11C_state == BoneStates::eState_5_falling;
 }
 
 BOOL Bone::vCanThrow_411530()
 {
-    return field_11C_state != BoneStates::eState_0 && field_11C_state != BoneStates::eState_1;
+    return field_11C_state != BoneStates::eState_0_spawned && field_11C_state != BoneStates::eState_1_airborne;
 }
 
 __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
@@ -242,7 +242,7 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    if (pObj->field_4_typeId != Types::eMine_88 && pObj->field_4_typeId != Types::eUXB_143 && (field_130 & 1))
+    if (pObj->field_4_typeId != Types::eMine_88 && pObj->field_4_typeId != Types::eUXB_143 && (field_130_hit_object & 1))
     {
         return 1;
     }
@@ -272,7 +272,7 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
     
     pObj->VOnThrowableHit(this);
 
-    field_130 |= 1u;
+    field_130_hit_object |= 1u;
     SFX_Play_46FA90(24u, 80);
 
     if (pObj->field_4_typeId == Types::eMine_88 || pObj->field_4_typeId == Types::eUXB_143)
@@ -294,7 +294,7 @@ void Bone::vScreenChanged_4122D0()
 
 BOOL Bone::vCanBeEaten_411560()
 {
-    return field_11C_state == BoneStates::eState_4;
+    return field_11C_state == BoneStates::eState_4_edible;
 }
 
 int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
@@ -319,7 +319,7 @@ int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
     pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, field_6_flags.Get(BaseGameObject::eDrawable));
     pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, field_6_flags.Get(BaseGameObject::eInteractive));
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit5_Unknown, field_130 & 1);
+    pState->field_20_flags.Set(Bone_SaveState::eBit5_bHitObject, field_130_hit_object & 1);
 
     if (field_100_pCollisionLine)
     {
@@ -334,11 +334,11 @@ int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
     pState->field_2A_count = field_118_count;
     pState->field_2C_state = field_11C_state;
 
-    pState->field_2E = field_11E;
-    pState->field_30 = field_120_xpos;
+    pState->field_2E_volume_modifier = field_11E_volume_modifier;
+    pState->field_30_xpos = field_120_xpos;
 
-    pState->field_34 = field_124_ypos;
-    pState->field_38 = field_12C;
+    pState->field_34_ypos = field_124_ypos;
+    pState->field_38_time_to_live = field_12C_time_to_live;
 
     return sizeof(Bone_SaveState);
 }
@@ -384,7 +384,7 @@ void Bone::InTheAir_4116C0()
 
             if (field_C8_vely < FP_FromInteger(1))
             {
-                field_11C_state = BoneStates::eState_2;
+                field_11C_state = BoneStates::eState_2_collided;
 
                 field_BC_ypos = FP_FromInteger(field_100_pCollisionLine->field_0_rect.y);
                 field_C8_vely = FP_FromInteger(0);
@@ -404,7 +404,7 @@ void Bone::InTheAir_4116C0()
                 field_BC_ypos -= FP_FromDouble(0.1);
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
                 field_C4_velx = (field_C4_velx / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E);
+                short vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -412,7 +412,7 @@ void Bone::InTheAir_4116C0()
                 SFX_Play_46FA90(26u, vol);
                 Event_Broadcast_422BC0(kEventNoise, this);
                 Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
-                field_11E++;
+                field_11E_volume_modifier++;
             }
             break;
 
@@ -422,7 +422,7 @@ void Bone::InTheAir_4116C0()
             {
                 field_BC_ypos = hitY;
                 field_C8_vely = (-field_C8_vely / FP_FromInteger(2));
-                short vol = 20 * (4 - field_11E);
+                short vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -446,7 +446,7 @@ void Bone::InTheAir_4116C0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E);
+                short vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -465,7 +465,7 @@ void Bone::InTheAir_4116C0()
                 field_C4_velx = (-field_C4_velx / FP_FromInteger(2));
                 field_B8_xpos = hitX;
                 field_BC_ypos = hitY;
-                short vol = 20 * (4 - field_11E);
+                short vol = 20 * (4 - field_11E_volume_modifier);
                 if (vol < 40)
                 {
                     vol = 40;
@@ -490,14 +490,14 @@ void Bone::vUpdate_411BC0()
 
     switch (field_11C_state)
     {
-    case BoneStates::eState_0:
+    case BoneStates::eState_0_spawned:
         break;
 
-    case BoneStates::eState_1:
+    case BoneStates::eState_1_airborne:
         InTheAir_4116C0();
         return;
 
-    case BoneStates::eState_2:
+    case BoneStates::eState_2_collided:
     {
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
@@ -533,10 +533,10 @@ void Bone::vUpdate_411BC0()
                 field_E4_collection_rect.w = field_B8_xpos + (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
                 field_E4_collection_rect.h = field_BC_ypos;
 
-                field_11C_state = BoneStates::eState_3;
+                field_11C_state = BoneStates::eState_3_on_ground;
                 field_6_flags.Set(BaseGameObject::eInteractive);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
-                field_128 = sGnFrame_5C1B84;
+                field_128_shine_timer = sGnFrame_5C1B84;
                 AddToPlatform_412310();
                 return;
             }
@@ -549,34 +549,35 @@ void Bone::vUpdate_411BC0()
         }
 
         field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop);
-        field_11C_state = BoneStates::eState_4;
+        field_11C_state = BoneStates::eState_4_edible;
     }
         return;
 
-    case BoneStates::eState_3:
+    case BoneStates::eState_3_on_ground:
         if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
-            field_12C = sGnFrame_5C1B84 + 300;
+            field_12C_time_to_live = sGnFrame_5C1B84 + 300;
         }
 
-        if (static_cast<int>(sGnFrame_5C1B84) > field_128 && !pObj)
+        if (static_cast<int>(sGnFrame_5C1B84) > field_128_shine_timer && !pObj)
         {
+            // For the shiny star twinkle effect.
             New_Particle_426C30(
                     field_B8_xpos + (field_CC_sprite_scale * FP_FromInteger(1)),
                     (field_CC_sprite_scale * FP_FromInteger(-7)) + field_BC_ypos,
                     FP_FromDouble(0.3),
                     36);
 
-            field_128 = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
+            field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame_5C1B84 + 60;
         }
 
-        if (field_12C < static_cast<int>(sGnFrame_5C1B84))
+        if (field_12C_time_to_live < static_cast<int>(sGnFrame_5C1B84))
         {
             field_6_flags.Set(BaseGameObject::eDead);
         }
         return;
 
-    case BoneStates::eState_4:
+    case BoneStates::eState_4_edible:
     {
         InTheAir_4116C0();
         PSX_RECT bRect = {};
@@ -593,7 +594,7 @@ void Bone::vUpdate_411BC0()
     }
     return;
 
-    case BoneStates::eState_5:
+    case BoneStates::eState_5_falling:
         field_C8_vely += FP_FromInteger(1);
         field_B8_xpos += field_C4_velx;
         field_BC_ypos = field_C8_vely + field_BC_ypos;
@@ -607,7 +608,7 @@ void Bone::vUpdate_411BC0()
 
 __int16 Bone::vGetCount_412500()
 {
-    if (field_11C_state == BoneStates::eState_3 && field_118_count == 0)
+    if (field_11C_state == BoneStates::eState_3_on_ground && field_118_count == 0)
     {
         return 1;
     }
@@ -651,7 +652,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
     SetTint_425600(&stru_550EC0[0], gMap_5C3030.sCurrentLevelId_5C3030);
 
-    field_11C = 0;
+    field_11C_is_hit = 0;
     field_118_tlvInfo = tlvInfo;
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -679,8 +680,8 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
     }
 
     field_11E_count = pTlv->field_18_num_bones;
-    field_120 = 1;
-    field_122 = 1;
+    field_120_allow_sound = 1;
+    field_122_force_play_sound = 1;
 
     field_E0_pShadow = alive_new<Shadow>();
     if (field_E0_pShadow)
@@ -736,24 +737,24 @@ void BoneBag::vUpdate_412880()
 
     if (field_20_animation.field_92_current_frame == 2)
     {
-        if (field_120)
+        if (field_120_allow_sound)
         {
-            if (Math_NextRandom() < 40 || field_122)
+            if (Math_NextRandom() < 40 || field_122_force_play_sound)
             {
-                field_120 = 0;
-                field_122 = 0;
+                field_120_allow_sound = 0;
+                field_122_force_play_sound = 0;
                 SFX_Play_46FBA0(29u, 24, Math_RandomRange_496AB0(-2400, -2200));
             }
         }
     }
     else
     {
-        field_120 = 1;
+        field_120_allow_sound = 0;
     }
 
-    if (field_11C)
+    if (field_11C_is_hit)
     {
-        if (field_11C != 1)
+        if (field_11C_is_hit != 1)
         {
             return;
         }
@@ -764,7 +765,7 @@ void BoneBag::vUpdate_412880()
         }
 
         field_20_animation.Set_Animation_Data_409C80(8748, nullptr);
-        field_11C = 0;
+        field_11C_is_hit = 0;
         return;
     }
 
@@ -798,7 +799,7 @@ void BoneBag::vUpdate_412880()
                 {
                     field_20_animation.Set_Animation_Data_409C80(8788, nullptr);
                 }
-                field_11C = 1;
+                field_11C_is_hit = 1;
                 return;
             }
         }
@@ -830,6 +831,6 @@ void BoneBag::vUpdate_412880()
             field_20_animation.Set_Animation_Data_409C80(8788, nullptr);
         }
 
-        field_11C = 1;
+        field_11C_is_hit = 1;
     }
 }
