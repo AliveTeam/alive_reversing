@@ -44,8 +44,8 @@
 #include "Fleech.hpp"
 #include "Greeter.hpp"
 #include "Slog.hpp"
+#include "Grenade.hpp"
 
-EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
 
 struct QuickSaveRestoreTable
@@ -120,7 +120,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     &Greeter::CreateFromSaveState_446040,
-    &Grenade__CreateFromSaveState_449410,
+    &Grenade::CreateFromSaveState_449410,
     nullptr,
     &Glukkon::CreateFromSaveState_442830,
     nullptr,
