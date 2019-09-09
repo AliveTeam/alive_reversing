@@ -21,6 +21,71 @@ struct Path_Slog : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
 
+struct Slog_State
+{
+    Types field_0_type;
+    __int16 field_2_pad;
+    int field_4;
+    FP field_8_xpos;
+    FP field_C_ypos;
+    FP field_10_velx;
+    FP field_14_vely;
+    __int16 field_18_path_number;
+    LevelIds field_1A_lvl_number;
+    FP field_1C_sprite_scale;
+    __int16 field_20_r;
+    __int16 field_22_g;
+    __int16 field_24_b;
+    __int16 field_26_bAnimFlipX;
+    __int16 field_28_current_motion;
+    __int16 field_2A_anim_cur_frame;
+    __int16 field_2C;
+    char field_2E_bRender;
+    char field_2F_bDrawable;
+    FP field_30;
+    __int16 field_34;
+    __int16 field_36;
+    __int16 field_38;
+    __int16 field_3A_line_type;
+    int field_3C_id;
+    int field_40_tlvInfo;
+    int field_44_obj_id;
+    __int16 field_48_state_idx;
+    __int16 field_4A_brain_state_result;
+    int field_4C_timer;
+    FP field_50;
+    int field_54_obj_id;
+    __int16 field_58;
+    __int16 field_5A;
+    __int16 field_5C;
+    __int16 field_5E;
+    __int16 field_60;
+    __int16 field_62;
+    int field_64;
+    int field_68_timer;
+    int field_6C;
+    __int16 field_70_jump_delay;
+    BYTE field_72;
+    BYTE field_73_pad;
+
+    enum Flags_74
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+        eBit6 = 0x20,
+        eBit7 = 0x40,
+        eBit8 = 0x80,
+        eBit9 = 0x100,
+        eBit10_bListenToSligs = 0x200,
+    };
+    BitField16<Flags_74> field_74_flags;
+    __int16 field_76;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Slog_State, 0x78);
+
 class Slog;
 using TSlogAIFn = __int16 (Slog::*)();
 using TSlogMotionFn = void (Slog::*)();
@@ -44,6 +109,15 @@ public:
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+
+    EXPORT static int CC CreateFromSaveState_4C54F0(const BYTE* pBuffer);
+
+private:
+    EXPORT int vGetSaveState_4C78F0(Slog_State* pState);
+
+
 public:
     EXPORT void M_Idle_0_4C5F90();
     EXPORT void M_Walk_1_4C60C0();

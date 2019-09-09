@@ -226,6 +226,262 @@ void Slog::VOnThrowableHit(BaseGameObject* pFrom)
     vOnThrowableHit_4C4B50(pFrom);
 }
 
+int Slog::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_4C78F0(reinterpret_cast<Slog_State*>(pSaveBuffer));
+}
+
+
+const int sSlogFrameOffsetTable_5609D8[24] =
+{
+    96464,
+    96344,
+    96424,
+    96764,
+    96692,
+    96496,
+    96532,
+    96580,
+    96640,
+    96660,
+    96876,
+    96716,
+    96728,
+    96752,
+    15068,
+    15108,
+    15156,
+    15132,
+    38904,
+    38960,
+    39064,
+    12412,
+    12724,
+    12812
+};
+
+ALIVE_VAR(1, 0xBAF7F0, BYTE, sSlogRandomIdx_BAF7F0, 0);
+
+int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
+    auto pTlv = static_cast<Path_Slog*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogbasicResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("SLOG.BND", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("DOGKNFD.BAN", nullptr);
+    }
+
+    auto pSlog = alive_new<Slog>();
+
+    if (pState->field_40_tlvInfo == 0xFFFF)
+    {
+        pSlog->ctor_4C4540(
+            pState->field_8_xpos,
+            pState->field_C_ypos,
+            pState->field_1C_sprite_scale, pState->field_74_flags.Get(Slog_State::eBit10_bListenToSligs), pState->field_70_jump_delay);
+
+        pSlog->field_C_objectId = pState->field_4;
+    }
+    else
+    {
+        pSlog->ctor_4C42E0(pTlv, pState->field_40_tlvInfo);
+    }
+
+    pSlog->field_FC_pPathTLV = nullptr;
+    pSlog->field_100_pCollisionLine = nullptr;
+    pSlog->field_110_id = pState->field_3C_id;
+    pSlog->field_B8_xpos = pState->field_8_xpos;
+    pSlog->field_BC_ypos = pState->field_C_ypos;
+    pSlog->field_C4_velx = pState->field_10_velx;
+    pSlog->field_C8_vely = pState->field_14_vely;
+    pSlog->field_128 = pState->field_50;
+    pSlog->field_C0_path_number = pState->field_18_path_number;
+    pSlog->field_C2_lvl_number = pState->field_1A_lvl_number;
+    pSlog->field_CC_sprite_scale = pState->field_1C_sprite_scale;
+    pSlog->field_D0_r = pState->field_20_r;
+    pSlog->field_D2_g = pState->field_22_g;
+    pSlog->field_D4_b = pState->field_24_b;
+
+    pSlog->field_106_current_motion = pState->field_28_current_motion;
+    BYTE** ppRes = pSlog->ResBlockForMotion_4C4A80(pState->field_28_current_motion);
+    pSlog->field_20_animation.Set_Animation_Data_409C80(sSlogFrameOffsetTable_5609D8[pSlog->field_106_current_motion], ppRes);
+    pSlog->field_20_animation.field_92_current_frame = pState->field_2A_anim_cur_frame;
+    pSlog->field_20_animation.field_E_frame_change_counter = pState->field_2C;
+
+    pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bAnimFlipX & 1);
+    pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
+
+    pSlog->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2F_bDrawable & 1);
+
+    if (IsLastFrame(&pSlog->field_20_animation))
+    {
+        pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pSlog->field_10C_health = pState->field_30;
+    pSlog->field_106_current_motion = pState->field_34;
+    pSlog->field_108_next_motion = pState->field_36;
+    pSlog->field_F8_LastLineYPos = FP_FromInteger(pState->field_38);
+    pSlog->field_114_flags.Set(Flags_114::e114_Bit9);
+    pSlog->field_104_collision_line_type = pState->field_3A_line_type;
+    pSlog->field_12C_tlvInfo = pState->field_40_tlvInfo;
+    pSlog->field_118_target_id = pState->field_44_obj_id;
+    pSlog->field_120_brain_state_idx = pState->field_48_state_idx;
+    pSlog->field_122_brain_state_result = pState->field_4A_brain_state_result;
+    pSlog->field_124_timer = pState->field_4C_timer;
+    pSlog->field_128 = pState->field_50;
+    pSlog->field_12C_tlvInfo = pState->field_40_tlvInfo;
+    pSlog->field_138 = pState->field_54_obj_id;
+    pSlog->field_132 = pState->field_58;
+    pSlog->field_13C = pState->field_5A;
+    pSlog->field_13E_response_index = pState->field_5C;
+    pSlog->field_140_response_part = pState->field_5E;
+    pSlog->field_142_anger_level = pState->field_60;
+    pSlog->field_15A = pState->field_62;
+    pSlog->field_14C = pState->field_64;
+    pSlog->field_150_timer = pState->field_68_timer;
+    pSlog->field_158_jump_delay = pState->field_70_jump_delay;
+    pSlog->field_15C_bone_id = pState->field_6C;
+    sSlogRandomIdx_BAF7F0 = pState->field_72;
+
+
+    pSlog->field_11C = pState->field_74_flags.Get(Slog_State::eBit1);
+    // bit2 never read
+    pSlog->field_160_flags.Set(Flags_160::eBit7, pState->field_74_flags.Get(Slog_State::eBit3));
+    pSlog->field_160_flags.Set(Flags_160::eBit8, pState->field_74_flags.Get(Slog_State::eBit4));
+    pSlog->field_160_flags.Set(Flags_160::eBit1, pState->field_74_flags.Get(Slog_State::eBit5));
+    pSlog->field_160_flags.Set(Flags_160::eBit3, pState->field_74_flags.Get(Slog_State::eBit6));
+    pSlog->field_160_flags.Set(Flags_160::eBit4, pState->field_74_flags.Get(Slog_State::eBit7));
+    pSlog->field_160_flags.Set(Flags_160::eBit5, pState->field_74_flags.Get(Slog_State::eBit8));
+    pSlog->field_160_flags.Set(Flags_160::eBit6, pState->field_74_flags.Get(Slog_State::eBit9));
+    pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(Slog_State::eBit10_bListenToSligs));
+
+    if (pSlog->field_160_flags.Get(Flags_160::eBit3))
+    {
+        sSlogCount_BAF7F2--;
+    }
+
+    return sizeof(Slog_State);
+}
+
+int Slog::vGetSaveState_4C78F0(Slog_State* pState)
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0_type = Types::eSlog_126;
+
+    pState->field_4 = field_C_objectId;
+
+    pState->field_8_xpos = field_B8_xpos;
+    pState->field_C_ypos = field_BC_ypos;
+    pState->field_10_velx = field_C4_velx;
+    pState->field_14_vely = field_C8_vely;
+
+    pState->field_50 = field_128;
+
+    pState->field_18_path_number = field_C0_path_number;
+    pState->field_1A_lvl_number = field_C2_lvl_number;
+    pState->field_1C_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_20_r = field_D0_r;
+    pState->field_22_g = field_D2_g;
+    pState->field_24_b = field_D4_b;
+
+    pState->field_26_bAnimFlipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_28_current_motion = field_106_current_motion;
+    pState->field_2A_anim_cur_frame = field_20_animation.field_92_current_frame;
+    pState->field_2C = field_20_animation.field_E_frame_change_counter;
+    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2E_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_30 = field_10C_health;
+    pState->field_34 = field_106_current_motion;
+    pState->field_36 = field_108_next_motion;
+    pState->field_38 = FP_GetExponent(field_F8_LastLineYPos);
+
+    if (field_100_pCollisionLine)
+    {
+        pState->field_3A_line_type = field_100_pCollisionLine->field_8_type;
+    }
+    else
+    {
+        pState->field_3A_line_type = -1;
+    }
+
+    pState->field_3C_id = field_110_id;
+    pState->field_74_flags.Set(Slog_State::eBit2, sControlledCharacter_5C1B8C == this); // Lol can't be possessed anyway so ??
+    pState->field_40_tlvInfo = field_12C_tlvInfo;
+    pState->field_40_tlvInfo = field_12C_tlvInfo;
+    pState->field_44_obj_id = -1;
+
+    if (field_118_target_id != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_118_target_id);
+        if (pObj)
+        {
+            pState->field_44_obj_id = pObj->field_C_objectId;
+        }
+    }
+
+    pState->field_48_state_idx = field_120_brain_state_idx;
+    pState->field_4A_brain_state_result = field_122_brain_state_result;
+    pState->field_4C_timer = field_124_timer;
+    pState->field_50 = field_128;
+    pState->field_40_tlvInfo = field_12C_tlvInfo;
+    pState->field_54_obj_id = -1;
+
+    if (field_138 != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_138);
+        if (pObj)
+        {
+            pState->field_54_obj_id = pObj->field_C_objectId;
+        }
+    }
+
+    pState->field_58 = field_132;
+    pState->field_5A = field_13C;
+    pState->field_5C = field_13E_response_index;
+    pState->field_5E = field_140_response_part;
+    pState->field_60 = field_142_anger_level;
+    pState->field_62 = field_15A;
+    pState->field_64 = field_14C;
+    pState->field_68_timer = field_150_timer;
+    pState->field_6C = -1;
+
+    if (field_15C_bone_id != -1)
+    {
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_15C_bone_id);
+        if (pObj)
+        {
+            pState->field_6C = pObj->field_C_objectId;
+        }
+    }
+
+    pState->field_70_jump_delay = field_158_jump_delay;
+    pState->field_72 = sSlogRandomIdx_BAF7F0;
+
+    pState->field_74_flags.Set(Slog_State::eBit1, field_11C & 1);
+    pState->field_74_flags.Set(Slog_State::eBit2, sControlledCharacter_5C1B8C == this); // Lol can't be possessed anyway so ??
+    pState->field_74_flags.Set(Slog_State::eBit3, field_160_flags.Get(Flags_160::eBit7));
+    pState->field_74_flags.Set(Slog_State::eBit4, field_160_flags.Get(Flags_160::eBit8));
+    pState->field_74_flags.Set(Slog_State::eBit5, field_160_flags.Get(Flags_160::eBit1));
+    pState->field_74_flags.Set(Slog_State::eBit6, field_160_flags.Get(Flags_160::eBit3));
+    pState->field_74_flags.Set(Slog_State::eBit7, field_160_flags.Get(Flags_160::eBit4));
+    pState->field_74_flags.Set(Slog_State::eBit8, field_160_flags.Get(Flags_160::eBit5));
+    pState->field_74_flags.Set(Slog_State::eBit9, field_160_flags.Get(Flags_160::eBit6));
+    pState->field_74_flags.Set(Slog_State::eBit10_bListenToSligs, field_160_flags.Get(Flags_160::eBit2_ListenToSligs));
+
+    return sizeof(Slog_State);
+}
+
 void Slog::M_Idle_0_4C5F90()
 {
     if (!ToNextMotion_4C5A30())
@@ -354,8 +610,6 @@ void Slog::M_Walk_1_4C60C0()
         }
     }
 }
-
-ALIVE_VAR(1, 0xBAF7F0, BYTE, sSlogRandomIdx_BAF7F0, 0);
 
 static BYTE Slog_NextRandom()
 {
@@ -2521,35 +2775,6 @@ __int16 Slog::AI_Death_3_4C3250()
 
     return 100;
 }
-
-const int sSlogFrameOffsetTable_5609D8[24] =
-{
-    96464,
-    96344,
-    96424,
-    96764,
-    96692,
-    96496,
-    96532,
-    96580,
-    96640,
-    96660,
-    96876,
-    96716,
-    96728,
-    96752,
-    15068,
-    15108,
-    15156,
-    15132,
-    38904,
-    38960,
-    39064,
-    12412,
-    12724,
-    12812
-};
-
 
 BYTE** Slog::ResBlockForMotion_4C4A80(__int16 motion)
 {

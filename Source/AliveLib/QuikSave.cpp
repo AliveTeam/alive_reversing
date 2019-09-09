@@ -43,10 +43,10 @@
 #include "NakedSlig.hpp"
 #include "Fleech.hpp"
 #include "Greeter.hpp"
+#include "Slog.hpp"
 
 EXPORT int CC Grenade__CreateFromSaveState_449410(const BYTE*) { NOT_IMPLEMENTED(); return 60; }
 EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
-EXPORT int CC Slog__CreateFromSaveState_4C54F0(const BYTE*) { NOT_IMPLEMENTED(); return 120; }
 
 struct QuickSaveRestoreTable
 {
@@ -181,7 +181,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     nullptr,
     nullptr,
     &Slig::CreateFromSaveState_4B3B50,
-    &Slog__CreateFromSaveState_4C54F0,
+    &Slog::CreateFromSaveState_4C54F0,
     nullptr,
     nullptr,
     &Slurg::CreateFromSaveState_4C8DF0,
