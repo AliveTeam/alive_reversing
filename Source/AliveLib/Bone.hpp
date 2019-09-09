@@ -4,18 +4,18 @@
 
 enum class BoneStates : __int16
 {
-    eState_0 = 0,
-    eState_1 = 1,
-    eState_2 = 2,
-    eState_3 = 3,
-    eState_4 = 4,
-    eState_5 = 5,
+    eState_0_spawned = 0,
+    eState_1_airborne = 1,
+    eState_2_collided = 2,
+    eState_3_on_ground = 3,
+    eState_4_edible = 4,
+    eState_5_falling = 5,
 };
 
 struct Bone_SaveState
 {
     Types field_0_type;
-    __int16 field_2_pad;
+    __int16 field_2_padding;
     int field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
@@ -31,19 +31,19 @@ struct Bone_SaveState
         eBit2_bDrawable = 0x2,
         eBit3_bLoop = 0x4,
         eBit4_bInteractive = 0x8,
-        eBit5_Unknown = 0x10,
+        eBit5_bHitObject = 0x10,
     };
 
     BitField16<BoneStateFlags> field_20_flags;
-    __int16 field_22;
+    __int16 field_22_padding;
     int field_24_base_id;
     __int16 field_28_line_type;
     __int16 field_2A_count;
     BoneStates field_2C_state;
-    __int16 field_2E;
-    FP field_30;
-    FP field_34;
-    int field_38;
+    __int16 field_2E_volume_modifier;
+    FP field_30_xpos;
+    FP field_34_ypos;
+    int field_38_time_to_live;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
 
@@ -82,13 +82,13 @@ private:
 
 private:
     BoneStates field_11C_state;
-    __int16 field_11E;
+    __int16 field_11E_volume_modifier;
     FP field_120_xpos;
     FP field_124_ypos;
-    int field_128;
-    int field_12C;
-    __int16 field_130;
-    __int16 field_132;
+    int field_128_shine_timer;
+    int field_12C_time_to_live;
+    __int16 field_130_hit_object;
+    __int16 field_132_padding;
 };
 ALIVE_ASSERT_SIZEOF(Bone, 0x134);
 
@@ -99,7 +99,7 @@ struct Path_BoneBag : public Path_TLV
     unsigned __int16 field_14_y_vel;
     __int16 field_16_scale;
     __int16 field_18_num_bones;
-    __int16 field_1A_pad;
+    __int16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
 
@@ -119,10 +119,10 @@ private:
 
 private:
     int field_118_tlvInfo;
-    __int16 field_11C;
+    __int16 field_11C_is_hit;
     __int16 field_11E_count;
-    __int16 field_120;
-    __int16 field_122;
+    __int16 field_120; // TODO: Not needed. Delete at 100%.
+    __int16 field_122_force_play_sound;
     FP field_124_velX;
     FP field_128_velY;
 };
