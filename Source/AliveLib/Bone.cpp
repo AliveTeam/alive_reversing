@@ -680,6 +680,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
     }
 
     field_11E_count = pTlv->field_18_num_bones;
+    field_120_allow_sound = 1;
     field_122_force_play_sound = 1;
 
     field_E0_pShadow = alive_new<Shadow>();
@@ -736,11 +737,19 @@ void BoneBag::vUpdate_412880()
 
     if (field_20_animation.field_92_current_frame == 2)
     {
-      if (Math_NextRandom() < 40 || field_122_force_play_sound)
-      {
-        field_122_force_play_sound = 0;
-        SFX_Play_46FBA0(29u, 24, Math_RandomRange_496AB0(-2400, -2200));
-      }
+        if (field_120_allow_sound)
+        {
+            if (Math_NextRandom() < 40 || field_122_force_play_sound)
+            {
+                field_120_allow_sound = 0;
+                field_122_force_play_sound = 0;
+                SFX_Play_46FBA0(29u, 24, Math_RandomRange_496AB0(-2400, -2200));
+            }
+        }
+    }
+    else
+    {
+        field_120_allow_sound = 0;
     }
 
     if (field_11C_is_hit)

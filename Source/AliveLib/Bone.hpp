@@ -121,7 +121,7 @@ private:
     int field_118_tlvInfo;
     __int16 field_11C_is_hit;
     __int16 field_11E_count;
-    __int16 field_120; // TODO: Not needed. Delete at 100%.
+    __int16 field_120_allow_sound;
     __int16 field_122_force_play_sound;
     FP field_124_velX;
     FP field_128_velY;
