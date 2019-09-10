@@ -45,8 +45,7 @@
 #include "Greeter.hpp"
 #include "Slog.hpp"
 #include "Grenade.hpp"
-
-EXPORT int CC Mudokon__CreateFromSaveState_4717C0(const BYTE*) { NOT_IMPLEMENTED(); return 136; }
+#include "Mudokon.hpp"
 
 struct QuickSaveRestoreTable
 {
@@ -136,7 +135,7 @@ QuickSaveRestoreTable sQuicksaveLoadFunctionTable =
     &LiftPoint::CreateFromSaveState_4630F0,
     nullptr,
     nullptr,
-    &Mudokon__CreateFromSaveState_4717C0,
+    &Mudokon::CreateFromSaveState_4717C0,
     nullptr,
     nullptr,
     &Meat::CreateFromSaveState_46A9E0,

@@ -893,11 +893,6 @@ enum ResourceIndices
 
 signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 {
-    NOT_IMPLEMENTED();
-
-    // TODO: Is it a bug that when a non persisted bit is set to 1 that we don't reset it back to
-    // zero in here ?? check real func behaviour
-
     const Abe_SaveState* pSaveState = reinterpret_cast<const Abe_SaveState*>(pData);
 
     Abe* pAbe = sActiveHero_5C1B68;

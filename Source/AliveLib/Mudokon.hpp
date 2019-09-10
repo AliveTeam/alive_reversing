@@ -192,6 +192,97 @@ enum class MudSounds : __int16;
 
 class BirdPortal;
 
+struct Mudokon_State
+{
+    Types field_0_type;
+    __int16 field_2_pad;
+    FP field_4_xpos;
+    FP field_8_ypos;
+    FP field_C_velx;
+    FP field_10_vely;
+    __int16 field_14_path_number;
+    LevelIds field_16_lvl_number;
+    FP field_18_sprite_scale;
+    __int16 field_1C_r;
+    __int16 field_1E_g;
+    __int16 field_20_b;
+    __int16 field_22_bFlipX;
+    __int16 field_24_current_motion;
+    __int16 field_26_anim_current_frame;
+    __int16 field_28_anim_frame_change_counter;
+    char field_2A_bAnimRender;
+    char field_2B_bDrawable;
+    FP field_2C_health;
+    __int16 field_30_current_motion;
+    __int16 field_32_next_motion;
+    __int16 field_34_lastLineYPos;
+    __int16 field_36_line_type;
+    __int16 field_38;
+    __int16 field_3A;
+    char field_3C;
+    char field_3D_bIsPlayer;
+    __int16 field_3E;
+    int field_40_tlvInfo;
+    FP field_44;
+    int field_48;
+    int field_4C_portal_id;
+    __int16 field_50_angry_trigger;
+    __int16 field_52;
+    int field_54;
+    int field_58;
+    __int16 field_5C;
+    __int16 field_5E_voice_pitch;
+    int field_60_wheel_id;
+    int field_64;
+    MudSounds field_68;
+    __int16 field_6A_maxXOffset;
+
+
+    enum Flags_6A
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+        eBit6 = 0x20,
+        eBit7 = 0x40,
+        eBit8 = 0x80,
+        eBit9 = 0x100,
+        eBit10 = 0x200,
+        eBit11 = 0x400,
+        eBit12 = 0x800,
+        eBit13 = 0x1000,
+        eBit14 = 0x2000,
+        eBit15 = 0x4000,
+        eBit16 = 0x8000
+    };
+    BitField16<Flags_6A> field_6C;
+
+    enum Flags_6E
+    {
+        e6E_Bit1 = 0x1,
+        e6E_Bit2 = 0x2,
+        e6E_Bit3 = 0x4,
+        e6E_Bit4 = 0x8,
+        e6E_Bit5 = 0x10,
+        e6E_Bit6 = 0x20
+    };
+    BitField16<Flags_6E> field_6E;
+
+    __int16 field_70;
+    __int16 field_72;
+    MudAction field_74_delayed_speak;
+    Mud_Emotion field_76_emo_tlb;
+    GameSpeakEvents field_78;
+    Mud_Motion field_7A_motion;
+    Mud_AI_State field_7C_ai_state;
+    __int16 field_7E_sub_state;
+    int field_80_timer;
+    int field_84_response_entry_idx;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
+
 class Mudokon : public BaseAliveGameObject
 {
 public:
@@ -204,10 +295,9 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual int VGetSaveState(BYTE* /*pSaveBuffer*/)
+    virtual int VGetSaveState(BYTE* pSaveBuffer)
     {
-        // TODO
-        return 0;
+        return vGetSaveState_47B080(reinterpret_cast<Mudokon_State*>(pSaveBuffer));
     }
 
     virtual void VPossessed_408F70() override
@@ -236,7 +326,14 @@ public:
         vUpdateAnimRes_474D80();
     }
 
+    EXPORT static int CC CreateFromSaveState_4717C0(const BYTE* pBuffer);
+
+
 private:
+
+    EXPORT int vGetSaveState_47B080(Mudokon_State* pState);
+
+
     EXPORT void vUpdate_4757A0();
 
     EXPORT void SetPal_4772D0(Mud_Emotion emotion);
@@ -395,6 +492,11 @@ private:
     EXPORT void TakeASlap_476090(BaseGameObject *pFrom);
 
     bool InZBulletCover(FP tlvYPos, const PSX_RECT& v11);
+
+    EXPORT int GetResponseEntryIdx_471760();
+
+    EXPORT static const MudEmotionTableEntry* CCSTD GetResponseEntry_471790(int idx);
+
 private:
     int field_118;
     int field_11C_bird_portal_id;
@@ -420,8 +522,7 @@ private:
     __int16 field_154;
     __int16 field_156;
     int field_158_wheel_id;
-    __int16 field_15C;
-    __int16 field_15E;
+    int field_15C;
     MudSounds field_160_delayed_speak;
     __int16 field_162_maxXOffset;
     int field_164_ring_timeout;

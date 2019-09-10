@@ -663,9 +663,360 @@ void Mudokon::VScreenChanged()
     vScreenChanged_476F30();
 }
 
+
+const int kMudFrameTableOffsets_55CD00[60] =
+{
+    58888,    58808,    59064,    59028,    58956,
+    58992,    58920,    58768,    58788,    58748,
+    11396,    5276,     5308,     5320,     9388,
+    270092,   270428,   269876,   270060,   270120,
+    270268,   270748,   270668,   270820,   270860,
+    270328,   270408,   270508,   270688,   270596,
+    270840,   270728,   270288,   270160,   270308,
+    270468,   269804,   270252,   271152,   269976,
+    270024,   269928,   269928,   270180,   270616,
+    17240,    49740,    49800,    32040,    32012,
+    9992,     10040,    5236,     5256,     5280,
+    5328,     9640,     11856,    11816,    11888
+};
+
+ALIVE_VAR(1, 0x5C3010, short, sAlertedMudCount_5C3010, 0);
+ALIVE_VAR(1, 0x5C3018, short, word_5C3018, 0);
+
+
+int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
+{
+    auto pState = reinterpret_cast<const Mudokon_State*>(pBuffer);
+
+    auto pTlv = static_cast<Path_Mudokon*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_40_tlvInfo));
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebsic1ResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEBSIC1.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknfdResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEKNFD.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknbkResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEKNBK.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeedgeResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEEDGE.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMudidleResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("MUDIDLE.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kMudangryResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("MUDPAL.BND", nullptr);
+    }
+
+    if (pTlv->field_12_state != Mud_State::eChisle_0)
+    {
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMudscrubResID, FALSE, FALSE))
+        {
+            ResourceManager::LoadResourceFile_49C170("MUDSCRUB.BAN", nullptr);
+        }
+    }
+    else if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMudchslResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("MUDCHSL.BAN", nullptr);
+    }
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMudoduckResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("MUDWORK.BND", nullptr);
+    }
+
+    if (pState->field_24_current_motion == Mud_Motion::PullLever_10_473020 && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbepullResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEPULL.BAN", nullptr);
+    }
+
+    if (pState->field_24_current_motion == Mud_Motion::TurnWheelBegin_57_474C00 && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeworkResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
+    }
+
+    if (pState->field_24_current_motion == Mud_Motion::TurnWheelLoop_58_474CC0 && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeworkResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
+    }
+
+    if (pState->field_24_current_motion == Mud_Motion::TurnWheelEnd_59_474D30 && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeworkResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
+    }
+
+    auto pMud = alive_new<Mudokon>();
+    pMud->ctor_474F30(pTlv, pState->field_40_tlvInfo);
+
+    if (pState->field_3D_bIsPlayer)
+    {
+        sControlledCharacter_5C1B8C = pMud;
+    }
+
+    pMud->field_FC_pPathTLV = nullptr;
+    pMud->field_100_pCollisionLine = nullptr;
+
+    pMud->field_B8_xpos = pState->field_4_xpos;
+    pMud->field_BC_ypos = pState->field_8_ypos;
+    pMud->field_C4_velx = pState->field_C_velx;
+    pMud->field_C8_vely = pState->field_10_vely;
+
+    pMud->field_134_xVelSlowBy = pState->field_44;
+    pMud->field_138 = pState->field_48;
+
+    pMud->field_C0_path_number = pState->field_14_path_number;
+    pMud->field_C2_lvl_number = pState->field_16_lvl_number;
+    pMud->field_CC_sprite_scale = pState->field_18_sprite_scale;
+
+    pMud->field_D0_r = pState->field_1C_r;
+    pMud->field_D2_g = pState->field_1E_g;
+    pMud->field_D4_b = pState->field_20_b;
+
+    pMud->field_106_current_motion = pState->field_24_current_motion;
+
+    BYTE** ppRes = pMud->AnimBlockForMotion_474DC0(pState->field_24_current_motion);
+    pMud->field_20_animation.Set_Animation_Data_409C80(kMudFrameTableOffsets_55CD00[pMud->field_106_current_motion], ppRes);
+
+    pMud->field_20_animation.field_92_current_frame = pState->field_26_anim_current_frame;
+    pMud->field_20_animation.field_E_frame_change_counter = pState->field_28_anim_frame_change_counter;
+
+    pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_bFlipX & 1);
+    pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_bAnimRender & 1);
+
+    pMud->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2B_bDrawable & 1);
+
+    if (IsLastFrame(&pMud->field_20_animation))
+    {
+        pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+
+    pMud->field_10C_health = pState->field_2C_health;
+    pMud->field_106_current_motion = pState->field_30_current_motion;
+    pMud->field_108_next_motion = pState->field_32_next_motion;
+    pMud->field_F8_LastLineYPos = FP_FromInteger(pState->field_34_lastLineYPos);
+
+    pMud->field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed, pState->field_3C & 1);
+    pMud->field_114_flags.Set(Flags_114::e114_Bit9);
+
+    pMud->field_104_collision_line_type = pState->field_36_line_type;
+    pMud->field_11C_bird_portal_id = pState->field_4C_portal_id;
+    pMud->field_120_angry_trigger = pState->field_50_angry_trigger;
+    pMud->field_124 = pState->field_54;
+    pMud->field_128_angry_timer = pState->field_58;
+    pMud->field_130 = pState->field_5C;
+    pMud->field_13C_voice_pitch = pState->field_5E_voice_pitch;
+    pMud->field_158_wheel_id = pState->field_60_wheel_id;
+    pMud->field_15C = pState->field_64;
+    pMud->field_160_delayed_speak = pState->field_68;
+    pMud->field_162_maxXOffset = pState->field_6A_maxXOffset;
+
+    if (pState->field_6C.Get(Mudokon_State::eBit2))
+    {
+        pMud->field_12C = 0;
+    }
+    else
+    {
+        pMud->field_12C = -1;
+    }
+
+    pMud->field_16A_flags.Set(Flags::eBit1, pState->field_6C.Get(Mudokon_State::eBit4));
+    pMud->field_16A_flags.Set(Flags::eBit2_save_state, pState->field_6C.Get(Mudokon_State::eBit5));
+    pMud->field_16A_flags.Set(Flags::eBit3_Alerted, pState->field_6C.Get(Mudokon_State::eBit6));
+    pMud->field_16A_flags.Set(Flags::eBit4_blind, pState->field_6C.Get(Mudokon_State::eBit7));
+    pMud->field_16A_flags.Set(Flags::eBit5, pState->field_6C.Get(Mudokon_State::eBit8));
+    pMud->field_16A_flags.Set(Flags::eBit6_StandingForSadOrAngry, pState->field_6C.Get(Mudokon_State::eBit9));
+    pMud->field_16A_flags.Set(Flags::eBit7_StoppedAtWheel, pState->field_6C.Get(Mudokon_State::eBit10));
+    pMud->field_16A_flags.Set(Flags::eBit8_DoAngry, pState->field_6C.Get(Mudokon_State::eBit11));
+    pMud->field_16A_flags.Set(Flags::eBit9, pState->field_6C.Get(Mudokon_State::eBit12));
+    pMud->field_16A_flags.Set(Flags::eBit10_stop_trigger, pState->field_6C.Get(Mudokon_State::eBit13));
+    
+    pMud->field_18C = pState->field_6C.Get(Mudokon_State::eBit14);
+    pMud->field_18C = pState->field_6C.Get(Mudokon_State::eBit15);
+
+    pMud->field_16A_flags.Set(Flags::eBit11_get_depressed, pState->field_6C.Get(Mudokon_State::eBit16));
+
+    pMud->field_16A_flags.Set(Flags::eBit12, pState->field_6E.Get(Mudokon_State::e6E_Bit1));
+    pMud->field_16A_flags.Set(Flags::eBit13, pState->field_6E.Get(Mudokon_State::e6E_Bit2));
+    pMud->field_16A_flags.Set(Flags::eBit14, pState->field_6E.Get(Mudokon_State::e6E_Bit3));
+    pMud->field_16A_flags.Set(Flags::eBit15_ring_timeout, pState->field_6E.Get(Mudokon_State::e6E_Bit4));
+
+    if (pState->field_6E.Get(Mudokon_State::e6E_Bit5))
+    {
+        pMud->field_16C |= 1;
+    }
+    else
+    {
+        pMud->field_16C &= ~1;
+    }
+
+    if (pState->field_6E.Get(Mudokon_State::e6E_Bit6))
+    {
+        pMud->field_16C |= 2;
+    }
+    else
+    {
+        pMud->field_16C &= ~2;
+    }
+
+    if (pMud->field_16A_flags.Get(Flags::eBit3_Alerted))
+    {
+        sAlertedMudCount_5C3010++;
+    }
+
+    pMud->field_178_sub_state2 = pState->field_70;
+    pMud->field_17C = pState->field_72;
+    pMud->field_17E_delayed_speak = pState->field_74_delayed_speak;
+    pMud->field_180_emo_tbl = pState->field_76_emo_tlb;
+    pMud->field_182 = pState->field_78;
+    pMud->field_184_next_motion2 = pState->field_7A_motion;
+    pMud->field_18E_ai_state = pState->field_7C_ai_state;
+    pMud->field_190_sub_state = pState->field_7E_sub_state;
+    pMud->field_194_timer = pState->field_80_timer;
+
+    if (pState->field_6E.Get(Mudokon_State::e6E_Bit6))
+    {
+        word_5C3018 = 1;
+    }
+
+    pMud->field_188_pTblEntry = GetResponseEntry_471790(pState->field_84_response_entry_idx);
+    return sizeof(Mudokon_State);
+}
+
 BaseGameObject* Mudokon::VDestructor(signed int flags)
 {
     return vdtor_475770(flags);
+}
+
+int Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0_type = Types::eMudokon2_81;
+
+    pState->field_4_xpos = field_B8_xpos;
+    pState->field_8_ypos = field_BC_ypos;
+    pState->field_C_velx = field_C4_velx;
+    pState->field_10_vely = field_C8_vely;
+
+    pState->field_44 = field_134_xVelSlowBy;
+    pState->field_48 = field_138;
+
+    pState->field_14_path_number = field_C0_path_number;
+    pState->field_16_lvl_number = field_C2_lvl_number;
+    pState->field_18_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_1C_r = field_D0_r;
+    pState->field_1E_g = field_D2_g;
+    pState->field_20_b = field_D4_b;
+
+    pState->field_22_bFlipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_24_current_motion = field_106_current_motion;
+    pState->field_26_anim_current_frame = field_20_animation.field_92_current_frame;
+    pState->field_28_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
+    pState->field_2B_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2A_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_2C_health = field_10C_health;
+    pState->field_30_current_motion = field_106_current_motion;
+    pState->field_32_next_motion = field_108_next_motion;
+    pState->field_34_lastLineYPos = FP_GetExponent(field_F8_LastLineYPos);
+    pState->field_36_line_type = -1;
+
+    pState->field_3C = field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed);
+
+    if (field_100_pCollisionLine)
+    {
+        pState->field_36_line_type = field_100_pCollisionLine->field_8_type;
+    }
+
+    pState->field_3D_bIsPlayer = this == sControlledCharacter_5C1B8C;
+    pState->field_40_tlvInfo = field_118;
+    pState->field_4C_portal_id = -1;
+
+    if (field_11C_bird_portal_id != -1)
+    {
+        BaseGameObject* pBirdPortal = sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id);
+        if (pBirdPortal)
+        {
+            pState->field_4C_portal_id = pBirdPortal->field_C_objectId;
+        }
+    }
+
+    pState->field_50_angry_trigger = field_120_angry_trigger;
+    pState->field_54 = field_124;
+    pState->field_58 = field_128_angry_timer;
+    pState->field_5C = field_130;
+    pState->field_5E_voice_pitch = field_13C_voice_pitch;
+    pState->field_60_wheel_id = -1;
+
+    if (field_158_wheel_id != -1)
+    {
+        BaseGameObject* pWheel = sObjectIds_5C1B70.Find_449CF0(field_158_wheel_id);
+        if (pWheel)
+        {
+            pState->field_60_wheel_id = pWheel->field_C_objectId;
+        }
+    }
+
+    pState->field_64 = field_15C;
+    pState->field_68 = field_160_delayed_speak;
+    pState->field_6A_maxXOffset = field_162_maxXOffset;
+
+    // bit1 never used ??
+    pState->field_6C.Set(Mudokon_State::eBit2, field_12C != -1);
+    // bit3 never used ??
+    pState->field_6C.Set(Mudokon_State::eBit4, field_16A_flags.Get(Flags::eBit1));
+    pState->field_6C.Set(Mudokon_State::eBit5, field_16A_flags.Get(Flags::eBit2_save_state));
+    pState->field_6C.Set(Mudokon_State::eBit6, field_16A_flags.Get(Flags::eBit3_Alerted));
+    pState->field_6C.Set(Mudokon_State::eBit7, field_16A_flags.Get(Flags::eBit4_blind));
+    pState->field_6C.Set(Mudokon_State::eBit8, field_16A_flags.Get(Flags::eBit5));
+    pState->field_6C.Set(Mudokon_State::eBit9, field_16A_flags.Get(Flags::eBit6_StandingForSadOrAngry));
+    pState->field_6C.Set(Mudokon_State::eBit10, field_16A_flags.Get(Flags::eBit7_StoppedAtWheel));
+    pState->field_6C.Set(Mudokon_State::eBit11, field_16A_flags.Get(Flags::eBit8_DoAngry));
+    pState->field_6C.Set(Mudokon_State::eBit12, field_16A_flags.Get(Flags::eBit9));
+    pState->field_6C.Set(Mudokon_State::eBit13, field_16A_flags.Get(Flags::eBit10_stop_trigger));
+    pState->field_6C.Set(Mudokon_State::eBit14, field_18C & 1);
+    pState->field_6C.Set(Mudokon_State::eBit15, field_192 & 1);
+    pState->field_6C.Set(Mudokon_State::eBit16, field_16A_flags.Get(Flags::eBit11_get_depressed));
+
+    pState->field_6E.Set(Mudokon_State::e6E_Bit1, field_16A_flags.Get(Flags::eBit12));
+    pState->field_6E.Set(Mudokon_State::e6E_Bit2, field_16A_flags.Get(Flags::eBit13));
+    pState->field_6E.Set(Mudokon_State::e6E_Bit3, field_16A_flags.Get(Flags::eBit14));
+    pState->field_6E.Set(Mudokon_State::e6E_Bit4, field_16A_flags.Get(Flags::eBit15_ring_timeout));
+    pState->field_6E.Set(Mudokon_State::e6E_Bit5, field_16C & 1);
+    pState->field_6E.Set(Mudokon_State::e6E_Bit6, field_16C & 2);
+
+    pState->field_70 = field_178_sub_state2;
+    pState->field_72 = field_17C;
+    pState->field_74_delayed_speak = field_17E_delayed_speak;
+    pState->field_76_emo_tlb = field_180_emo_tbl;
+    pState->field_78 = field_182;
+    pState->field_7A_motion = field_184_next_motion2;
+    pState->field_7C_ai_state = field_18E_ai_state;
+    pState->field_7E_sub_state = field_190_sub_state;
+    pState->field_80_timer = field_194_timer;
+
+    pState->field_84_response_entry_idx = GetResponseEntryIdx_471760();
+
+    return sizeof(Mudokon_State);
 }
 
 void Mudokon::vUpdate_4757A0()
@@ -1429,23 +1780,6 @@ __int16 Mudokon::TurningWheelHelloOrAllYaResponse()
     return 1;
 }
 
-const int kMudFrameTableOffsets_55CD00[60] =
-{
-    58888,    58808,    59064,    59028,    58956,
-    58992,    58920,    58768,    58788,    58748,
-    11396,    5276,     5308,     5320,     9388,
-    270092,   270428,   269876,   270060,   270120,
-    270268,   270748,   270668,   270820,   270860,
-    270328,   270408,   270508,   270688,   270596,
-    270840,   270728,   270288,   270160,   270308,
-    270468,   269804,   270252,   271152,   269976,
-    270024,   269928,   269928,   270180,   270616,
-    17240,    49740,    49800,    32040,    32012,
-    9992,     10040,    5236,     5256,     5280,
-    5328,     9640,     11856,    11816,    11888
-};
-
-
 void Mudokon::vUpdateAnimRes_474D80()
 {
     BYTE** ppRes = AnimBlockForMotion_474DC0(field_106_current_motion);
@@ -1571,9 +1905,6 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
 
 const __int16 kDelayTable_55CF7C[6] = { 0, 6, 12, 18, 24, 30, };
 ALIVE_VAR(1, 0x5C3014, short, sDelayIdx_5C3014, 0);
-ALIVE_VAR(1, 0x5C3010, short, sAlertedMudCount_5C3010, 0);
-
-ALIVE_VAR(1, 0x5C3018, short, word_5C3018, 0);
 
 signed __int16 Mudokon::AI_Chisel_1_47C5F0()
 {
@@ -7118,4 +7449,23 @@ bool Mudokon::InZBulletCover(FP tlvYPos, const PSX_RECT& v11)
         }
     }
     return false;
+}
+
+int Mudokon::GetResponseEntryIdx_471760()
+{
+    if (field_188_pTblEntry)
+    {
+        return field_188_pTblEntry - &kMudEmoTable_55C790.field_0_data[0][0];
+    }
+    return -1;
+}
+
+const MudEmotionTableEntry* CCSTD Mudokon::GetResponseEntry_471790(int idx)
+{
+    if (idx == -1)
+    {
+        return nullptr;
+    }
+
+    return &kMudEmoTable_55C790.field_0_data[0][0] + idx;
 }
