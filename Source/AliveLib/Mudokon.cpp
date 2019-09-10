@@ -6942,8 +6942,51 @@ void Mudokon::Sound_475EC0(MudSounds idx)
 
 __int16 Mudokon::CanRespond_4770B0()
 {
-    NOT_IMPLEMENTED();
-    return 1;
+    const int myDistToPlayer = Math_Distance_496EB0(
+        FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos),
+        FP_GetExponent(sActiveHero_5C1B68->field_BC_ypos),
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos));
+
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        // Is there another object that isn't us on the same scale?
+        if (pObj != this && pObj->field_CC_sprite_scale == sActiveHero_5C1B68->field_CC_sprite_scale)
+        {
+            // Is it a mud who isn't currently talking to abe and is in the same screen?
+            if ((pObj->field_4_typeId == Types::eMudokon2_81 || pObj->field_4_typeId == Types::eMudokon_110) &&
+                 static_cast<Mudokon*>(pObj)->field_18E_ai_state != Mud_AI_State::AI_ListeningToAbe_4_477B40 &&
+                gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0))
+            {
+                if (sActiveHero_5C1B68->vIsFacingMe_4254A0(pObj) && !sActiveHero_5C1B68->vIsFacingMe_4254A0(this))
+                {
+                    // Abe is facing the other guy and not us :(
+                    return FALSE;
+                }
+
+                const int otherMudDistanceToPlayer = Math_Distance_496EB0(
+                    FP_GetExponent(sActiveHero_5C1B68->field_B8_xpos),
+                    FP_GetExponent(sActiveHero_5C1B68->field_BC_ypos),
+                    FP_GetExponent(pObj->field_B8_xpos),
+                    FP_GetExponent(pObj->field_BC_ypos));
+
+                if (myDistToPlayer > otherMudDistanceToPlayer)
+                {
+                    if (sActiveHero_5C1B68->vIsFacingMe_4254A0(pObj) == sActiveHero_5C1B68->vIsFacingMe_4254A0(this))
+                    {
+                        return FALSE;
+                    }
+                }
+            }
+        }
+    }
+    return TRUE;
 }
 
 BYTE** Mudokon::AnimBlockForMotion_474DC0(short motion)
