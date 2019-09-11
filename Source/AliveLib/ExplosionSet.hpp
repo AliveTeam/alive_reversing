@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "Path.hpp"
 #include "BaseGameObject.hpp"
+#include "Primitives.hpp"
 
 struct Path_ExplosionSet : public Path_TLV
 {
@@ -26,10 +27,12 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
-
+    virtual void VRender(int** pOrderingTable) override;
+    virtual void VUpdate() override;
     EXPORT void Start_415300();
 
     EXPORT void Init_4151D0(Path_ExplosionSet* pTlv);
+
 
 
 private:
@@ -39,24 +42,12 @@ private:
 
     EXPORT void vScreenChanged_415190();
 
+    EXPORT void vRender_4150D0(int** pOt);
+
+    EXPORT void vUpdate_414E30();
 
 private:
-    __int16 field_20;
-    __int16 field_22;
-    __int16 field_24;
-    __int16 field_26;
-    __int16 field_28;
-    __int16 field_2A;
-    __int16 field_2C;
-    __int16 field_2E;
-    __int16 field_30;
-    __int16 field_32;
-    __int16 field_34;
-    __int16 field_36;
-    __int16 field_38;
-    __int16 field_3A;
-    __int16 field_3C;
-    __int16 field_3E;
+    Prim_ScreenOffset field_20[2];
     __int16 field_40;
     __int16 field_42;
     __int16 field_44_start_delay;
