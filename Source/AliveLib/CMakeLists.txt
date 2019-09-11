@@ -343,6 +343,8 @@ ExportHooker.hpp
     ColourfulMeter.cpp
     MinesAlarm.hpp
     MinesAlarm.cpp
+    SecurityDoor.cpp
+    SecurityDoor.hpp
     TouchController.cpp
     TouchController.hpp
 )

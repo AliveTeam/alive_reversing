@@ -79,6 +79,7 @@
 #include "ParamiteWebLine.hpp"
 #include "ExplosionSet.hpp"
 #include "ColourfulMeter.hpp"
+#include "SecurityDoor.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1234,7 +1235,21 @@ EXPORT void CC Factory_TimerTrigger_4DA0E0(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
 }
 
-EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_SecurityDoor_4DA150(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("SECDOOR.BAN", ResourceManager::Resource_Animation, 6027, loadMode);
+    }
+    else
+    {
+        auto pSecurityDoor = alive_new<SecurityDoor>();
+        if (pSecurityDoor)
+        {
+            pSecurityDoor->ctor_4ABFC0(static_cast<Path_SecurityDoor*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 EXPORT void CC Factory_GrenadeMachine_4DA1C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
 {
