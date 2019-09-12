@@ -218,6 +218,7 @@ void SecurityDoor::vUpdate_4AC380()
         return;
 
     case 5:
+        field_128_max_idx = 0;
         field_118_max_idx = static_cast<short>(GameSpeak::sub_421970(field_FC_code_converted, field_108_stru));
         field_F8_state = 6;
         return;
