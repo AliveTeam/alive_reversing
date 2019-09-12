@@ -35,6 +35,9 @@ private:
 
     EXPORT __int16 IsPlayerNear_4AC300();
 
+    EXPORT void vUpdate_4AC380();
+
+
 private:
     int field_F4_tlvInfo;
     __int16 field_F8_state;
@@ -43,14 +46,7 @@ private:
     __int16 field_100_code_len;
     __int16 field_102;
     int field_104_event_idx;
-    __int16 field_108_stru;
-    __int16 field_10A;
-    __int16 field_10C;
-    __int16 field_10E;
-    __int16 field_110;
-    __int16 field_112;
-    __int16 field_114;
-    __int16 field_116;
+    BYTE field_108_stru[16];
     __int16 field_118_max_idx;
     __int16 field_11A_event_idx;
     PSX_Point field_11C_top_left;

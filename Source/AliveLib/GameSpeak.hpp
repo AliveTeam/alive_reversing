@@ -81,6 +81,10 @@ public:
 
     EXPORT GameSpeak* ctor_421820();
 
+    EXPORT __int16 sub_4219E0(BYTE* pBuffer, __int16 max_idx, signed __int16 src_idx);
+
+    EXPORT static int CC sub_421970(int code, BYTE* pBufffer);
+
 private:
     EXPORT void dtor_4218A0();
     EXPORT BaseGameObject* vdtor_421870(signed int flags);
@@ -99,3 +103,9 @@ public:
 ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
 
 ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_5BC11C);
+
+EXPORT __int16 CC Code_Length_4C9DB0(unsigned int code);
+
+EXPORT int CC Code_Convert_4C9DF0(unsigned __int16 code1, unsigned __int16 code2);
+
+EXPORT __int16 CC Code_LookUp_4C9E40(unsigned int code, unsigned __int16 idx, unsigned __int16 code_len);
