@@ -80,6 +80,7 @@
 #include "ExplosionSet.hpp"
 #include "ColourfulMeter.hpp"
 #include "SecurityDoor.hpp"
+#include "LaughingGas.hpp"
 
 template<size_t arraySize>
 struct CompileTimeResourceList
@@ -1530,7 +1531,26 @@ EXPORT void CC Factory_WorkWheel_4D6B20(Path_TLV* pTlv , Path*, TlvItemInfoUnion
 }
 
 EXPORT void CC Factory_Null_4DA850(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
-EXPORT void CC Factory_LaughingGas_4DA870(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+
+EXPORT void CC Create_Gas_4DA8B0(__int16 layer, int neverUsed, Path_TLV* pTlv, int tlvInfo)
+{
+    if (!gGasInstanceCount_5BC214)
+    {
+        auto pGas = alive_new<LaughingGas>();
+        if (pGas)
+        {
+            pGas->ctor_432400(layer, neverUsed, static_cast<Path_LaughingGas*>(pTlv), tlvInfo);
+        }
+    }
+}
+
+EXPORT void CC Factory_LaughingGas_4DA870(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode != 1 && loadMode != 2)
+    {
+        Create_Gas_4DA8B0(39, 2, pTlv, tlvInfo.all);
+    }
+}
 
 static CompileTimeResourceList<1> kResources_5632E0({
     { ResourceManager::Resource_Animation, ResourceID::kFlySligResID }

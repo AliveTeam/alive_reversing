@@ -345,6 +345,8 @@ ExportHooker.hpp
     MinesAlarm.cpp
     SecurityDoor.cpp
     SecurityDoor.hpp
+    LaughingGas.cpp
+    LaughingGas.hpp
     TouchController.cpp
     TouchController.hpp
 )

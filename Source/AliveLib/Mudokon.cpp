@@ -29,6 +29,7 @@
 #include "Blood.hpp"
 #include "Gibs.hpp"
 #include "Bullet.hpp"
+#include "LaughingGas.hpp"
 
 ALIVE_VAR(1, 0x5C3012, short, word_5C3012, 0);
 
@@ -6884,8 +6885,7 @@ GameSpeakEvents Mudokon::LastGameSpeak_476FF0()
 
 __int16 Mudokon::LaughingGasInCurrentScreen_4774A0()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) != 0 ? gLaughingGasOn_5C1BA4 : 0;
 }
 
 void Mudokon::Sound_475EC0(MudSounds idx)
