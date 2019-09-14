@@ -117,7 +117,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     field_118_tlvInfo = tlvInfo;
     field_124_brain_state = eFleechBrains::eAI_Patrol_0_430BA0;
     field_11C_obj_id = -1;
-    field_170 = -1;
+    field_170_danger_obj = -1;
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_direction == 0);
 
@@ -171,6 +171,11 @@ BaseGameObject* Fleech::VDestructor(signed int flags)
 void Fleech::VUpdate()
 {
     vUpdate_42AB20();
+}
+
+void Fleech::VRender(int** pOt)
+{
+    vRender_42A550(pOt);
 }
 
 void Fleech::VScreenChanged()
@@ -338,7 +343,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_166_angle = pState->field_9E_angle;
     pFleech->field_168 = pState->field_A0;
     pFleech->field_16C = pState->field_A4;
-    pFleech->field_170 = pState->field_A8;
+    pFleech->field_170_danger_obj = pState->field_A8;
 
     if (pState->field_4_obj_id == pState->field_AC_obj_id)
     {
@@ -468,9 +473,9 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_A0 = field_168;
     pState->field_A4 = field_16C;
 
-    if (field_170 != -1)
+    if (field_170_danger_obj != -1)
     {
-        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_170);
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj);
         if (pObj)
         {
             pState->field_A8 = pObj->field_C_objectId;
@@ -1101,7 +1106,7 @@ __int16 Fleech::AI_Death_3_42D1E0()
 void Fleech::dtor_42A3A0()
 {
     SetVTable(this, 0x544F28);
-    field_170 = -1;
+    field_170_danger_obj = -1;
     if (field_118_tlvInfo != 0xFFFF)
     {
         Path::TLV_Reset_4DB8E0(field_118_tlvInfo, -1, 0, field_10C_health <= FP_FromInteger(0));
@@ -1163,7 +1168,7 @@ void Fleech::vUpdate_42AB20()
         }
         field_104_collision_line_type = 0;
         field_11C_obj_id = BaseGameObject::Find_Flags_4DC170(field_11C_obj_id);
-        field_170 = BaseGameObject::Find_Flags_4DC170(field_170);
+        field_170_danger_obj = BaseGameObject::Find_Flags_4DC170(field_170_danger_obj);
         field_110_id = BaseGameObject::Find_Flags_4DC170(field_110_id);
     }
 
@@ -1239,6 +1244,20 @@ void Fleech::vUpdate_42AB20()
     }
 }
 
+void Fleech::vRender_42A550(int** ot)
+{
+    if (field_1C_update_delay == 0)
+    {
+        BaseAnimatedWithPhysicsGameObject::VRender(ot);
+        RenderEx_42C5A0(ot);
+    }
+}
+
+void Fleech::RenderEx_42C5A0(int** /*ot*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 void Fleech::vScreenChanged_42A4C0()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || 
@@ -1247,7 +1266,7 @@ void Fleech::vScreenChanged_42A4C0()
     {
         field_6_flags.Set(BaseGameObject::eDead);
         field_11C_obj_id = -1;
-        field_170 = -1;
+        field_170_danger_obj = -1;
     }
 }
 
@@ -1262,6 +1281,83 @@ void Fleech::vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv)
         }
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, field_B8_xpos, field_BC_ypos, field_B8_xpos, field_BC_ypos);
     }
+}
+
+__int16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
+{
+    BaseAliveGameObject* pNearestScrabOrParamite = nullptr;
+    for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+    {
+        BaseGameObject* pBaseObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+        if (!pBaseObj)
+        {
+            break;
+        }
+
+        if (pBaseObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+        {
+            auto pObj = static_cast<BaseAliveGameObject*>(pBaseObj);
+            if ((pObj->field_4_typeId == Types::eScrab_112 || pObj->field_4_typeId == Types::eParamite_96) && pObj->field_10C_health > FP_FromInteger(0))
+            {
+                if (pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+                {
+                    bool check = false;
+                    if (field_BC_ypos >= pObj->field_BC_ypos)
+                    {
+                        if (field_BC_ypos - pObj->field_BC_ypos > (FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 20 : 10) * FP_FromInteger(2)))
+                        {
+                            if (field_BC_ypos < pObj->field_BC_ypos)
+                            {
+                                if (pObj->field_BC_ypos - field_BC_ypos <= (FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 2 : 1)))
+                                {
+                                    check = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            check = true;
+                        }
+                    }
+                    else
+                    {
+                        if (pObj->field_BC_ypos - field_BC_ypos <= (FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? + 2 : 1)))
+                        {
+                            check = true;
+                        }
+                    }
+
+                    if (check)
+                    {
+                        if (vIsObjNearby_4253B0(radius, pObj))
+                        {
+                            if (!WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos))
+                            {
+                                if (!pNearestScrabOrParamite)
+                                {
+                                    pNearestScrabOrParamite = pObj;
+                                }
+                                else if (FP_GetExponent(FP_Abs(pObj->field_B8_xpos - field_B8_xpos)) <
+                                         FP_GetExponent(FP_Abs(pNearestScrabOrParamite->field_B8_xpos - field_B8_xpos)))
+                                {
+                                    pNearestScrabOrParamite = pObj;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (pNearestScrabOrParamite)
+    {
+        field_170_danger_obj = pNearestScrabOrParamite->field_8_object_id;
+        return 1;
+    }
+
+    field_170_danger_obj = -1;
+    return 0;
 }
 
 TintEntry stru_551844[15] =
@@ -1308,7 +1404,7 @@ void Fleech::Init_42A170()
     field_110_id = -1;
     field_128 = 0;
     field_11C_obj_id = -1;
-    field_170 = -1;
+    field_170_danger_obj = -1;
     field_15E = 0;
     
     SetTint_425600(&stru_551844[0], gMap_5C3030.sCurrentLevelId_5C3030);
@@ -1366,7 +1462,20 @@ void Fleech::SetAnim_429D80()
 
 void Fleech::sub_42CF70()
 {
-    NOT_IMPLEMENTED();
+    if (dword_551840 == field_8_object_id)
+    {
+        dword_551840 = -1;
+    }
+}
+
+__int16 Fleech::sub_42CFA0()
+{
+    return dword_551840 == -1 && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted);
+}
+
+void Fleech::sub_42CF50()
+{
+    dword_551840 = field_8_object_id;
 }
 
 void Fleech::sub_42B9A0(__int16 a2, __int16 a3)

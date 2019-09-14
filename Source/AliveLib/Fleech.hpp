@@ -133,6 +133,8 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOt) override;
+
     virtual void VScreenChanged() override;
 
     virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override;
@@ -186,15 +188,26 @@ private:
 
     EXPORT void vUpdate_42AB20();
 
+    EXPORT void vRender_42A550(int** ot);
+
+    EXPORT void RenderEx_42C5A0(int** ot);
+
     EXPORT void vScreenChanged_42A4C0();
 
     EXPORT void vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv);
 
 private:
+    EXPORT __int16 IsScrabOrParamiteNear_42B440(FP radius);
+
+
     EXPORT void Init_42A170();
     EXPORT void InitPolys_42B6E0();
     EXPORT void SetAnim_429D80();
     EXPORT void sub_42CF70();
+
+    EXPORT __int16 sub_42CFA0();
+
+    EXPORT void sub_42CF50();
 
     EXPORT void sub_42B9A0(__int16 a2, __int16 a3);
 
@@ -280,7 +293,7 @@ private:
     char field_167;
     int field_168;
     int field_16C;
-    int field_170;
+    int field_170_danger_obj;
     enum Flags_174 : __int16
     {
         eBit1 = 0x1,
