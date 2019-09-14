@@ -172,8 +172,8 @@ TAbeStateFunction sAbeStateMachineTable_554910[130] =
     &Abe::State_106_RockThrowStandingEnd_455F20,
     &Abe::State_107_RockThrowCrouchingHold_454410,
     &Abe::State_108_RockThrowCrouchingThrow_454500,
-    &Abe::State_109_455550,
-    &Abe::State_110_455670,
+    &Abe::State_109_Shot_Rolling_455550,
+    &Abe::State_110_Shot_455670,
     &Abe::State_111_GrabRock_4564A0,
     &Abe::State_112_Chant_45B1C0,
     &Abe::State_113_ChantEnd_45BBE0,
@@ -2785,7 +2785,7 @@ BYTE** Abe::StateToAnimResource_44AAB0(short state)
     {
         mapped = ResourceIndices::eKnockFd_10;
     }
-    else if (state < eAbeStates::State_109_455550)
+    else if (state < eAbeStates::State_109_Shot_Rolling_455550)
     {
         mapped = ResourceIndices::eThrow_5;
     }
@@ -7374,14 +7374,65 @@ void Abe::State_108_RockThrowCrouchingThrow_454500()
     }
 }
 
-void Abe::State_109_455550()
+void Abe::State_109_Shot_Rolling_455550()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+    State_3_Fall_459B60();
+    
+    if (field_106_current_motion != eAbeStates::State_109_Shot_Rolling_455550 && !gAbeBulletProof_5C1BDA)
+    {
+        if (field_110_id != -1)
+        {
+            VOnTrapDoorOpen();
+        }
+        field_106_current_motion = eAbeStates::State_109_Shot_Rolling_455550;
+        field_100_pCollisionLine = nullptr;
+        field_BC_ypos += (field_CC_sprite_scale * FP_FromInteger(4));
+    }
+
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        {
+            if (!field_114_flags.Get(Flags_114::e114_MotionChanged_Bit2))
+            {
+                field_BC_ypos += FP_FromInteger(240);
+                Abe_SFX_457EC0(15u, 0, 0, this);
+                ToDie_4588D0();
+            }
+        }
+    }
 }
 
-void Abe::State_110_455670()
+void Abe::State_110_Shot_455670()
 {
-    NOT_IMPLEMENTED();
+    Event_Broadcast_422BC0(kEventNoise, this);
+    Event_Broadcast_422BC0(kEventSuspiciousNoise, this);
+    State_3_Fall_459B60();
+    
+    if (field_106_current_motion != eAbeStates::State_110_Shot_455670 && !gAbeBulletProof_5C1BDA)
+    {
+        if (field_110_id != -1)
+        {
+            BaseGameObject* pLiftPoint = sObjectIds_5C1B70.Find_449CF0(field_110_id);
+            if (pLiftPoint->field_4_typeId == Types::eLiftPoint_78)
+            {
+                static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+            }
+            VOnTrapDoorOpen();
+        }
+        field_106_current_motion = eAbeStates::State_110_Shot_455670;
+        field_100_pCollisionLine = nullptr;
+        field_BC_ypos += (field_CC_sprite_scale * FP_FromInteger(4));
+    }
+
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        field_BC_ypos += FP_FromInteger(240);
+        Abe_SFX_457EC0(15u, 0, 0, this);
+        ToDie_4588D0();
+    }
 }
 
 void Abe::State_111_GrabRock_4564A0()
@@ -8350,6 +8401,25 @@ void Abe::State_129_PoisonGasDeath_4565C0()
 void Abe::jState_81_WellBegin_4017F8()
 {
     State_78_WellBegin_45C810();
+}
+
+void Abe::FleechDeath_459350()
+{
+    BaseGameObject* pInvisibleEffect = sObjectIds_5C1B70.Find_449CF0(field_178_invisible_effect_id);
+    if (pInvisibleEffect)
+    {
+        if (!pInvisibleEffect->field_6_flags.Get(BaseGameObject::eDead))
+        {
+            static_cast<InvisibleEffect*>(pInvisibleEffect)->sub_45FA50();
+            field_178_invisible_effect_id = -1;
+        }
+    }
+    field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_bShrivel);
+    field_106_current_motion = eAbeStates::State_58_DeadPre_4593E0;
+    field_120_state = 0;
+    field_10C_health = FP_FromInteger(0);
+    MusicController::sub_47FD60(11, this, 1, 0);
+    field_100_pCollisionLine = nullptr;
 }
 
 void Abe::ToDie_4588D0()
@@ -9475,7 +9545,7 @@ void Abe::Damage_44C980(Bullet* pBullet)
             if (shootKind == ShootKind::eEverythingElse_0)
             {
                 yOff = (FP_FromInteger(-45) * field_CC_sprite_scale);
-                field_108_next_motion = eAbeStates::State_110_455670;
+                field_108_next_motion = eAbeStates::State_110_Shot_455670;
             }
             else if (shootKind == ShootKind::eHanging_1)
             {
@@ -9488,7 +9558,7 @@ void Abe::Damage_44C980(Bullet* pBullet)
             else if (shootKind == ShootKind::eRolling_2)
             {
                 yOff = (FP_FromInteger(-25) * field_CC_sprite_scale);
-                field_108_next_motion = eAbeStates::State_109_455550;
+                field_108_next_motion = eAbeStates::State_109_Shot_Rolling_455550;
             }
 
             auto pBlood = alive_new<Blood>();

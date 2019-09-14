@@ -115,8 +115,8 @@
     ENTRY(State_106_RockThrowStandingEnd_455F20) \
     ENTRY(State_107_RockThrowCrouchingHold_454410) \
     ENTRY(State_108_RockThrowCrouchingThrow_454500) \
-    ENTRY(State_109_455550) \
-    ENTRY(State_110_455670) \
+    ENTRY(State_109_Shot_Rolling_455550) \
+    ENTRY(State_110_Shot_455670) \
     ENTRY(State_111_GrabRock_4564A0) \
     ENTRY(State_112_Chant_45B1C0) \
     ENTRY(State_113_ChantEnd_45BBE0) \
@@ -463,8 +463,8 @@ public:
     EXPORT void State_106_RockThrowStandingEnd_455F20();
     EXPORT void State_107_RockThrowCrouchingHold_454410();
     EXPORT void State_108_RockThrowCrouchingThrow_454500();
-    EXPORT void State_109_455550();
-    EXPORT void State_110_455670();
+    EXPORT void State_109_Shot_Rolling_455550();
+    EXPORT void State_110_Shot_455670();
     EXPORT void State_111_GrabRock_4564A0();
     EXPORT void State_112_Chant_45B1C0();
     EXPORT void State_113_ChantEnd_45BBE0();
@@ -489,6 +489,9 @@ public:
 
     // End states
     
+    EXPORT void FleechDeath_459350();
+
+
     EXPORT void ToDie_4588D0();
     EXPORT void ToIdle_44E6B0();
     EXPORT void PickUpThrowabe_Or_PressBomb_454090(FP fpX, int fpY, int bStandToCrouch);
