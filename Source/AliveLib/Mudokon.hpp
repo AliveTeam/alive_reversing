@@ -491,8 +491,6 @@ private:
 
     EXPORT void TakeASlap_476090(BaseGameObject *pFrom);
 
-    bool InZBulletCover(FP tlvYPos, const PSX_RECT& v11);
-
     EXPORT int GetResponseEntryIdx_471760();
 
     EXPORT static const MudEmotionTableEntry* CCSTD GetResponseEntry_471790(int idx);

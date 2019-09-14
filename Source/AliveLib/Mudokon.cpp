@@ -1453,7 +1453,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             vGetBoundingRect_424FD0(&v11, 1);
             const FP tlvYPos = FP_FromInteger(v11.h);
 
-            if (InZBulletCover(tlvYPos, v11) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            if (Bullet::InZBulletCover(field_B8_xpos, tlvYPos, v11) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
                 field_C0_path_number,
                 field_B8_xpos,
@@ -7445,53 +7445,6 @@ void Mudokon::TakeASlap_476090(BaseGameObject* pFrom)
         field_108_next_motion = -1;
         vUpdateAnimRes_474D80();
     }
-}
-
-bool Mudokon::InZBulletCover(FP tlvYPos, const PSX_RECT& v11)
-{
-    Path_TLV* pZCover = nullptr;
-    while (1)
-    {
-        // Go to the next entry (or first if first call)
-        pZCover = sPath_dword_BB47C0->TLV_Get_At_4DB290(
-            pZCover,
-            field_B8_xpos,
-            tlvYPos,
-            field_B8_xpos,
-            tlvYPos);
-
-        // No more TLVs? Then no z cover
-        if (!pZCover)
-        {
-            break;
-        }
-
-        // Is it a zcover?
-        if (pZCover->field_4_type == TlvTypes::ZSligCover_50)
-        {
-            // Within zcover?
-            if (v11.x >= pZCover->field_8_top_left.field_0_x && 
-                v11.x <= pZCover->field_C_bottom_right.field_0_x &&
-                v11.y >= pZCover->field_8_top_left.field_2_y && 
-                v11.y <= pZCover->field_C_bottom_right.field_2_y)
-            {
-                if (v11.w < pZCover->field_8_top_left.field_0_x ||
-                    v11.w > pZCover->field_C_bottom_right.field_0_x ||
-                    v11.h < pZCover->field_8_top_left.field_2_y ||
-                    v11.h > pZCover->field_C_bottom_right.field_2_y)
-                {
-                    // No, keep going
-                    continue;
-                }
-                else
-                {
-                    // Yup
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
 }
 
 int Mudokon::GetResponseEntryIdx_471760()

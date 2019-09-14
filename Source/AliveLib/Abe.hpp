@@ -312,6 +312,8 @@ struct Abe_SaveState
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
 
+class Bullet;
+
 class Abe : public BaseAliveGameObject
 {
 public:
@@ -509,7 +511,7 @@ public:
     EXPORT __int16 CantBeDamaged_44BAB0();
     EXPORT void FallOnBombs_44EC10();
     EXPORT __int16 ForceDownIfHoisting_44BA30();
-    EXPORT __int16 Damage_44C980(BaseGameObject* pObj);
+    EXPORT void Damage_44C980(Bullet* pObj);
     EXPORT void GiveControlBackToMe_44BA10();
     EXPORT PullRingRope* GetPullRope_44D120();
     EXPORT void IntoPortalStates_451990();

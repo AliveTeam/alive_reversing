@@ -27,6 +27,8 @@ public:
 
     virtual void VUpdate() override;
 
+
+    static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
 private:
     EXPORT Bullet* vdtor_4145E0(signed int flags);
 

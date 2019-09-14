@@ -41,6 +41,53 @@ void Bullet::VUpdate()
     vUpdate_413560();
 }
 
+bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
+{
+    Path_TLV* pZCover = nullptr;
+    while (1)
+    {
+        // Go to the next entry (or first if first call)
+        pZCover = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pZCover,
+            xpos,
+            ypos,
+            xpos,
+            ypos);
+
+        // No more TLVs? Then no z cover
+        if (!pZCover)
+        {
+            break;
+        }
+
+        // Is it a zcover?
+        if (pZCover->field_4_type == TlvTypes::ZSligCover_50)
+        {
+            // Within zcover?
+            if (objRect.x >= pZCover->field_8_top_left.field_0_x &&
+                objRect.x <= pZCover->field_C_bottom_right.field_0_x &&
+                objRect.y >= pZCover->field_8_top_left.field_2_y &&
+                objRect.y <= pZCover->field_C_bottom_right.field_2_y)
+            {
+                if (objRect.w < pZCover->field_8_top_left.field_0_x ||
+                    objRect.w > pZCover->field_C_bottom_right.field_0_x ||
+                    objRect.h < pZCover->field_8_top_left.field_2_y ||
+                    objRect.h > pZCover->field_C_bottom_right.field_2_y)
+                {
+                    // No, keep going
+                    continue;
+                }
+                else
+                {
+                    // Yup
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 Bullet* Bullet::vdtor_4145E0(signed int flags)
 {
     BaseGameObject_dtor_4DBEC0();
