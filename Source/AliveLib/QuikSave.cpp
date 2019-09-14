@@ -686,7 +686,7 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     sMudokonsInArea_5C1BC4 = pInfo->field_16_muds_in_area; // TODO: Check types
     gTotalMeterBars_5C1BFA = pInfo->field_2D_total_meter_bars;
     word_5C1BF8 = pInfo->field_30;
-    dword_5C1BE8 = pInfo->field_38;
+    sGasTimer_5C1BE8 = pInfo->field_38;
     gAbeBulletProof_5C1BDA = pInfo->field_3C_bBulletProof;
     sVisitedBonewerks_5C1C02 = pInfo->field_32_visited_bonewerks;
     sVisitedBarracks_5C1C04 = pInfo->field_34_visited_barracks;
@@ -716,7 +716,7 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_32_visited_bonewerks = sVisitedBonewerks_5C1C02;
     pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
     pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;
-    pInfo->field_38 = dword_5C1BE8;
+    pInfo->field_38 = sGasTimer_5C1BE8;
     pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
     pInfo->field_E_controlled_y = rect.h;
     pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);

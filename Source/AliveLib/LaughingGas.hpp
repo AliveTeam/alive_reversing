@@ -39,6 +39,10 @@ public:
 
     virtual void VScreenChanged() override;
 
+    virtual void VUpdate() override;
+
+    virtual void VRender(int** pOt) override;
+
 private:
     EXPORT void vScreenChanged_432DE0();
 
@@ -46,6 +50,13 @@ private:
 
     EXPORT LaughingGas* vdtor_432670(signed int flags);
 
+    EXPORT void vRender_432D10(int** pOt);
+
+    EXPORT void DoRender_432740();
+
+    EXPORT bool CounterOver_432DA0();
+
+    EXPORT void vUpdate_432C40();
 
 private:
     int field_20;

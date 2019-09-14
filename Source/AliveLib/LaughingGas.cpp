@@ -5,6 +5,7 @@
 #include "Game.hpp"
 #include "ScreenManager.hpp"
 #include "stdlib.hpp"
+#include "PsxDisplay.hpp"
 
 ALIVE_VAR(1, 0x5BC214, int, gGasInstanceCount_5BC214, 0);
 ALIVE_VAR(1, 0x5C1BA4, short, gLaughingGasOn_5C1BA4, FALSE);
@@ -62,7 +63,7 @@ LaughingGas* LaughingGas::ctor_432400(__int16 layer, int /*notUsed*/, Path_Laugh
 
     field_19C_pMem = malloc_non_zero_4954F0(2 * field_31FC_count2 * field_31F8_count1);
     
-    Init_432980();
+    Init_432980(); // also inits field_5C_prims
     VUpdate();
 
     return this;
@@ -89,6 +90,16 @@ void LaughingGas::VScreenChanged()
     vScreenChanged_432DE0();
 }
 
+void LaughingGas::VUpdate()
+{
+    vUpdate_432C40();
+}
+
+void LaughingGas::VRender(int** pOt)
+{
+    vRender_432D10(pOt);
+}
+
 void LaughingGas::vScreenChanged_432DE0()
 {
     field_6_flags.Set(BaseGameObject::eDead);
@@ -107,4 +118,43 @@ LaughingGas* LaughingGas::vdtor_432670(signed int flags)
         Mem_Free_495540(this);
     }
     return this;
+}
+
+void LaughingGas::vRender_432D10(int** pOt)
+{
+    NOT_IMPLEMENTED();
+
+    if (field_54 > FP_FromDouble(0.1) || !field_36)
+    {
+        PrimHeader* pHack = (PrimHeader*)&field_5C_prims;
+        pHack = pHack;
+
+        if (field_19C_pMem)
+        {
+            if (sbDisplayRenderFrame_55EF8C)
+            {
+                DoRender_432740();
+            }
+            OrderingTable_Add_4F8AA0(&pOt[field_58_layer], (PrimHeader*)&field_5C_prims);
+        }
+        pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+    }
+}
+
+void LaughingGas::DoRender_432740()
+{
+    NOT_IMPLEMENTED();
+}
+
+bool LaughingGas::CounterOver_432DA0()
+{
+    return field_54 >= FP_FromDouble(0.3);
+}
+
+void LaughingGas::vUpdate_432C40()
+{
+    NOT_IMPLEMENTED();
+
+    PrimHeader* pHack = (PrimHeader*)&field_5C_prims;
+    pHack = pHack;
 }

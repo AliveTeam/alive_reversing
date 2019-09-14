@@ -22,6 +22,8 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
     virtual void VRender(int** pOrderingTable) override;
+    virtual void VUpdate() override;
+
 private:
     EXPORT void dtor_417220();
 
@@ -30,6 +32,8 @@ private:
     EXPORT void vScreenChanged_417700();
 
     EXPORT void vRender_4175A0(int **pOt);
+
+    EXPORT void vUpdate_4172E0();
 
 private:
     Font_Context field_20_font_context;
@@ -44,5 +48,5 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(GasCountDown, 0x78);
 
-ALIVE_VAR_EXTERN(int, dword_5C1BE8);
+ALIVE_VAR_EXTERN(int, sGasTimer_5C1BE8);
 ALIVE_VAR_EXTERN(short, gGasOn_5C1C00);

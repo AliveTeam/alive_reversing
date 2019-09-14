@@ -347,6 +347,8 @@ ExportHooker.hpp
     SecurityDoor.hpp
     LaughingGas.cpp
     LaughingGas.hpp
+    DeathGas.cpp
+    DeathGas.hpp
     TouchController.cpp
     TouchController.hpp
 )
