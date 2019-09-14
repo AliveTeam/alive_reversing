@@ -6342,12 +6342,12 @@ void Abe::State_75_Jump_Into_Well_45C7B0()
 
 void Abe::State_76_45CA40()
 {
-    NOT_IMPLEMENTED();
+    State_79_Inside_Of_A_Well_Local_45CA60();
 }
 
 void Abe::State_77_45D130()
 {
-    NOT_IMPLEMENTED();
+    State_80_WellShotOut_45D150();
 }
 
 void Abe::State_78_WellBegin_45C810()
