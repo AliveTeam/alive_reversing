@@ -2672,12 +2672,27 @@ BaseAliveGameObject* Abe::FindObjectToPosses_44B7B0()
 
 void Abe::Load_Basic_Resources_44D460()
 {
-    NOT_IMPLEMENTED();
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, FALSE, FALSE))
+    {
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, TRUE, FALSE))
+        {
+            ResourceManager::LoadResourceFile_49C170("ABEBSIC.BAN", nullptr);
+            ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, TRUE, FALSE);
+        }
+        field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbebasicResID, FALSE, FALSE));
+    }
 }
 
 void Abe::Free_Resources_44D420()
 {
-    NOT_IMPLEMENTED();
+    if (field_10_resources_array.field_4_used_size)
+    {
+        if (field_10_resources_array.ItemAt(0))
+        {
+            ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(0));
+            field_10_resources_array.SetAt(0, nullptr);
+        }
+    }
 }
 
 EXPORT BOOL Abe::IsStanding_449D30()
@@ -7068,7 +7083,34 @@ void Abe::State_91_FallingFromGrab_4557B0()
 
 void Abe::State_92_ForceDown_From_Hoist_455800()
 {
-    NOT_IMPLEMENTED();
+    if (!field_124_gnFrame)
+    {
+        field_E0_pShadow->field_14_flags.Clear(Shadow::eBit1_ShadowAtBottom);
+        VOnTrapDoorOpen();
+        FP hitX = {};
+        FP hitY = {};
+        if (sCollisions_DArray_5C1128->Raycast_417A60(
+            field_B8_xpos,
+            field_BC_ypos + (field_CC_sprite_scale * FP_FromInteger(75)),
+            field_B8_xpos,
+            field_BC_ypos + FP_FromInteger(10),
+            &field_100_pCollisionLine,
+            &hitX,
+            &hitY,
+            field_D6_scale != 0 ? 1 : 16) == 1)
+        {
+            field_BC_ypos = hitY;
+            field_106_current_motion = eAbeStates::State_84_FallLandDie_45A420;
+            field_128.field_4_regen_health_timer = sGnFrame_5C1B84 + 900;
+            field_F4 = 3;
+            return;
+        }
+        field_BC_ypos += (field_CC_sprite_scale * FP_FromInteger(75));
+        field_F8_LastLineYPos = field_BC_ypos;
+        field_100_pCollisionLine = nullptr;
+        field_124_gnFrame = field_124_gnFrame + 1;
+    }
+    State_3_Fall_459B60();
 }
 
 void Abe::State_93_FallLedgeBegin_455970()
