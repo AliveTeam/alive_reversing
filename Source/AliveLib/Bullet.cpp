@@ -455,7 +455,7 @@ void Bullet::vUpdate_413560()
         rect.x = FP_GetExponent(rectXPos);
         rect.y = rect.h - 10;
         rect.w = rect.x + 2;
-        rect.h = rect.w;
+        rect.h = rect.h;
 
         BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
         if (pShootObj && pShootObj->VTakeDamage_408730(this) && pShootObj->field_4_typeId != Types::eGreeter_64 && pShootObj->field_4_typeId != Types::eMineCar_89)
