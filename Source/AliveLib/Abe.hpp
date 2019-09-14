@@ -514,7 +514,7 @@ public:
     EXPORT __int16 CantBeDamaged_44BAB0();
     EXPORT void FallOnBombs_44EC10();
     EXPORT __int16 ForceDownIfHoisting_44BA30();
-    EXPORT void Damage_44C980(Bullet* pObj);
+    EXPORT void BulletDamage_44C980(Bullet* pObj);
     EXPORT void GiveControlBackToMe_44BA10();
     EXPORT PullRingRope* GetPullRope_44D120();
     EXPORT void IntoPortalStates_451990();

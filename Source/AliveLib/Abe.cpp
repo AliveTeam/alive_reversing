@@ -2483,7 +2483,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         {
             LOG_ERROR("Expected default case to be bullets only but got: " << static_cast<int>(pFrom->field_4_typeId));
         }
-        Damage_44C980(static_cast<Bullet*>(pFrom));
+        BulletDamage_44C980(static_cast<Bullet*>(pFrom));
         if (!field_114_flags.Get(Flags_114::e114_Bit1_bShot))
         {
             ret = 0;
@@ -9375,7 +9375,7 @@ __int16 Abe::ForceDownIfHoisting_44BA30()
     return 1;
 }
 
-void Abe::Damage_44C980(Bullet* pBullet)
+void Abe::BulletDamage_44C980(Bullet* pBullet)
 {
     PSX_RECT rect = {};
     vGetBoundingRect_424FD0(&rect, 1);
