@@ -996,7 +996,7 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
     {
     case Types::eBullet_15:
     {
-        if (static_cast<Bullet*>(pFrom)->field_20_type == BulletType::Type_3)
+        if (static_cast<Bullet*>(pFrom)->field_20_type == BulletType::ZBullet_3)
         {
             PSX_RECT bRect = {};
             vGetBoundingRect_424FD0(&bRect, 1);

@@ -3266,7 +3266,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
             break;
 
         case BulletType::Type_1:
-        case BulletType::Type_3:
+        case BulletType::ZBullet_3:
         {
             auto pBlood = alive_new<Blood>();
             if (pBlood)

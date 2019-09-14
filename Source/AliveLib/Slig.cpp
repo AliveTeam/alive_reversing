@@ -2046,7 +2046,7 @@ void Slig::M_ShootZ_42_4B7560()
             {
                 pBullet->ctor_414540(
                     this,
-                    BulletType::Type_3,
+                    BulletType::ZBullet_3,
                     field_B8_xpos,
                     field_BC_ypos - FP_FromInteger(12),
                     FP_FromInteger(640),
@@ -6756,7 +6756,7 @@ __int16 Slig::vTakeDamage_4B2470(BaseGameObject* pFrom)
         }
 
         case BulletType::Type_1:
-        case BulletType::Type_3:
+        case BulletType::ZBullet_3:
         {
             PSX_RECT myRect = {};
             vGetBoundingRect_424FD0(&myRect, 1);

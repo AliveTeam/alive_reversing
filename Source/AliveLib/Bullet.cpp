@@ -146,7 +146,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
                             pRect->h >= bRect.y &&
                             pRect->y <= bRect.h)
                         {
-                            if ((field_20_type == BulletType::Type_3 || field_20_type == BulletType::Type_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale ||
+                            if ((field_20_type == BulletType::ZBullet_3 || field_20_type == BulletType::Type_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale ||
                                 (field_20_type == BulletType::Type_2 || field_20_type == BulletType::Type_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale)
                             {
                                 if (pObj->field_4_typeId != Types::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize_4498B0(field_3C_scale))
@@ -435,7 +435,7 @@ void Bullet::vUpdate_413560()
         return;
     }
 
-    case BulletType::Type_3:
+    case BulletType::ZBullet_3:
     {
         FP rectXPos = {};
         // TODO: Check field_44 << 20 is FP_FromInt * 16
