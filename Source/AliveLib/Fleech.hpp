@@ -211,7 +211,7 @@ private:
 
     EXPORT void sub_42B9A0(__int16 a2, __int16 a3);
 
-    EXPORT void sub_42BD30();
+    EXPORT void TongueUpdate_42BD30();
 
     EXPORT void ToIdle_42E520();
 
@@ -314,8 +314,8 @@ private:
     };
     BitField16<Flags_174> field_174_flags;
     __int16 field_176;
-    __int16 field_178;
-    __int16 field_17A;
+    __int16 field_178_tongue_state;
+    __int16 field_17A_tongue_sub_state;
     __int16 field_17C;
     __int16 field_17E;
     __int16 field_180_tongue_x;
@@ -337,13 +337,6 @@ private:
     BitField16<Flags_18A> field_18A;
     Poly_G4 field_18C_tongue_polys1[4][2];
     Poly_G4 field_2CC_tongue_polys2[4][2];
-    int field_40C;
-    int field_410;
-    int field_414;
-    int field_418;
-    int field_41C;
-    int field_420;
-    int field_424;
-    int field_428;
+    Prim_SetTPage field_40C[2];
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);

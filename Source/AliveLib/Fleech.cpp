@@ -298,8 +298,8 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_118_tlvInfo = pState->field_40_tlvInfo;
     pFleech->field_11C_obj_id = pState->field_44_obj_id;
     pFleech->field_120 = pState->field_48;
-    pFleech->field_178 = pState->field_4A;
-    pFleech->field_17A = pState->field_4C;
+    pFleech->field_178_tongue_state = pState->field_4A;
+    pFleech->field_17A_tongue_sub_state = pState->field_4C;
     pFleech->field_17C = pState->field_4E;
     pFleech->field_17E = pState->field_50;
     pFleech->field_180_tongue_x = pState->field_52;
@@ -429,8 +429,8 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
 
     pState->field_40_tlvInfo = field_118_tlvInfo;
     pState->field_48 = field_120;
-    pState->field_4A = field_178;
-    pState->field_4C = field_17A;
+    pState->field_4A = field_178_tongue_state;
+    pState->field_4C = field_17A_tongue_sub_state;
     pState->field_4E = field_17C;
     pState->field_50 = field_17E;
     pState->field_52 = field_180_tongue_x;
@@ -1187,7 +1187,7 @@ void Fleech::vUpdate_42AB20()
 
         field_126_state = (this->*sFleech_ai_table_551830[field_124_brain_state])();
 
-        sub_42BD30();
+        TongueUpdate_42BD30();
 
         if (field_BC_ypos < FP_FromInteger(0))
         {
@@ -1456,7 +1456,7 @@ void Fleech::InitTonguePolys_42B6E0()
     field_180_tongue_x = FP_GetExponent(field_B8_xpos);
     field_182_tongue_y = FP_GetExponent((FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? -10 : -5)) + field_BC_ypos);
     
-    field_178 = 1;
+    field_178_tongue_state = 1;
 
     field_184 = -1;
     field_186 = -1;
@@ -1509,15 +1509,233 @@ void Fleech::sub_42CF50()
 void Fleech::sub_42B9A0(__int16 a2, __int16 a3)
 {
     field_18A.Set(Flags_18A::e18A_Bit2);
-    field_178 = 2;
+    field_178_tongue_state = 2;
     field_186 = a3;
     field_184 = a2;
     field_188 = 0;
 }
 
-void Fleech::sub_42BD30()
+void Fleech::TongueUpdate_42BD30()
 {
-    NOT_IMPLEMENTED();
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
+    if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+    {
+        field_18A.Clear(Flags_18A::e18A_Bit2);
+    }
+
+    switch (field_178_tongue_state)
+    {
+    case 1:
+        field_18A.Clear(Flags_18A::e18A_Bit1);
+        field_18A.Clear(Flags_18A::e18A_Bit2);
+        return;
+
+    case 2:
+    case 4:
+        field_18A.Set(Flags_18A::e18A_Bit2);
+        return;
+
+    case 3:
+        field_18A.Set(Flags_18A::e18A_Bit2);
+        switch (field_17A_tongue_sub_state++)
+        {
+        case 0:
+            field_184 = field_160;
+            field_186 = field_162;
+            Sound_430520(11u);
+            break;
+
+        case 1:
+            field_188 = 6;
+            break;
+
+        case 2:
+            field_188 = -6;
+            break;
+
+        case 3:
+            field_188 = 3;
+            break;
+
+        case 4:
+            field_188 = -3;
+            break;
+
+        case 5:
+            field_188 = 0;
+            field_178_tongue_state = 4;
+            field_18A.Clear(Flags_18A::e18A_Bit1);
+            break;
+        default:
+            break;
+        }
+        return;
+
+    case 5:
+    case 10:
+        field_178_tongue_state = 1;
+        return;
+
+    case 6:
+        if (pTarget)
+        {
+            PSX_RECT bRect = {};
+            pTarget->vGetBoundingRect_424FD0(&bRect, 1);
+
+            field_18A.Set(Flags_18A::e18A_Bit2);
+            field_17C = FP_GetExponent(pTarget->field_B8_xpos);
+            field_17E = (bRect.y + bRect.h) >> 1;
+            field_186 = (bRect.y + bRect.h) >> 1;
+            field_184 = field_17C;
+
+            const FP v12 = (FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 20 : 10) * FP_FromInteger(7));
+            if (FP_FromInteger(Math_Distance_496EB0(
+                FP_GetExponent(field_B8_xpos),
+                FP_GetExponent(field_BC_ypos),
+                field_184, field_186)) <= v12)
+            {
+                switch (field_17A_tongue_sub_state++)
+                {
+                case 0:
+                {
+                    Sound_430520(10);
+                    auto pBlood = alive_new<Blood>();
+                    if (pBlood)
+                    {
+                        pBlood->ctor_40F0B0(
+                            FP_FromInteger(field_17C),
+                            FP_FromInteger(field_17E),
+                            field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? FP_FromInteger(2) : FP_FromInteger(-2),
+                            FP_FromInteger(1),
+                            field_CC_sprite_scale, 20);
+                    }
+                    break;
+                }
+
+                case 1:
+                    field_188 = 9;
+                    break;
+
+                case 2:
+                    field_188 = -6;
+                    sub_42CF70();
+                    break;
+
+                case 3:
+                    field_188 = 5;
+                    break;
+
+                case 4:
+                    field_188 = -3;
+                    break;
+
+                case 5:
+                    field_178_tongue_state = 9;
+                    field_188 = 0;
+                    if (pTarget->field_10C_health > FP_FromInteger(0))
+                    {
+                        pTarget->VTakeDamage_408730(this);
+                        if (pTarget->field_10C_health <= FP_FromInteger(0))
+                        {
+                            field_178_tongue_state = 7;
+                            field_17A_tongue_sub_state = 0;
+                            Sound_430520(8u);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+            else
+            {
+                field_18A.Clear(Flags_18A::e18A_Bit1);
+                field_178_tongue_state = 1;
+            }
+        }
+        else
+        {
+            sub_42B8C0();
+        }
+        return;
+
+    case 7:
+        if (pTarget)
+        {
+            PSX_RECT bRect = {};
+            pTarget->vGetBoundingRect_424FD0(&bRect, 1);
+
+            switch (field_17A_tongue_sub_state++)
+            {
+            case 4:
+                field_108_next_motion = eFleechMotions::M_Consume_18_42FDF0;
+                // Fall through
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 5:
+                if (field_17A_tongue_sub_state == 5 && pTarget->field_4_typeId == Types::eScrab_112)
+                {
+                    pTarget->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                }
+                pTarget->field_B8_xpos -= (pTarget->field_B8_xpos - field_B8_xpos) * FP_FromDouble(0.25);
+                pTarget->field_BC_ypos -= (pTarget->field_BC_ypos - field_BC_ypos) * FP_FromDouble(0.25);
+                break;
+
+            case 6:
+                field_18A.Clear(Flags_18A::e18A_Bit2);
+                field_178_tongue_state = 8;
+                pTarget->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                pTarget->field_B8_xpos = field_B8_xpos;
+                pTarget->field_BC_ypos = field_BC_ypos;
+                if (pTarget == sActiveHero_5C1B68)
+                {
+                    sActiveHero_5C1B68->FleechDeath_459350();
+                }
+                break;
+
+            default:
+                break;
+            }
+
+            field_17C = FP_GetExponent(pTarget->field_B8_xpos);
+            field_184 = field_17C;
+            field_17E = (bRect.y + bRect.h) >> 1;
+            field_186 = (bRect.y + bRect.h) >> 1;
+        }
+        else
+        {
+            sub_42B8C0();
+        }
+        return;
+
+    case 8:
+        field_18A.Clear(Flags_18A::e18A_Bit1);
+        field_178_tongue_state = 1;
+        return;
+
+    case 9:
+        if (pTarget)
+        {
+            PSX_RECT bRect = {};
+            pTarget->vGetBoundingRect_424FD0(&bRect, 1);
+            field_17C = FP_GetExponent((field_B8_xpos + pTarget->field_B8_xpos) * FP_FromDouble(0.5));
+            field_17E = (bRect.y + bRect.h) >> 1;
+            field_184 = FP_GetExponent((field_B8_xpos + pTarget->field_B8_xpos) * FP_FromDouble(0.5));
+            field_186 = (bRect.y + bRect.h) >> 1;
+            field_18A.Clear(Flags_18A::e18A_Bit1);
+            field_178_tongue_state = 1;
+        }
+        else
+        {
+            sub_42B8C0();
+        }
+        break;
+
+    default:
+        break;
+    }
 }
 
 void Fleech::ToIdle_42E520()
@@ -1736,7 +1954,7 @@ void Fleech::vOnTrapDoorOpen_42E5C0()
 
 void Fleech::sub_42B9F0()
 {
-    field_178 = 1;
+    field_178_tongue_state = 1;
 }
 
 void Fleech::IncreaseAnger_430920()
@@ -1819,8 +2037,8 @@ void Fleech::PullTargetIn_42BAF0()
     {
         field_18A.Set(Flags_18A::e18A_Bit1);
         field_18A.Set(Flags_18A::e18A_Bit2);
-        field_178 = 6;
-        field_17A = 0;
+        field_178_tongue_state = 6;
+        field_17A_tongue_sub_state = 0;
 
         PSX_RECT bRect = {};
         pTarget->vGetBoundingRect_424FD0(&bRect, 1);
@@ -1837,9 +2055,9 @@ void Fleech::sub_42B8C0()
 {
     sub_42CF70();
 
-    if (field_178 > 1)
+    if (field_178_tongue_state > 1)
     {
-        field_178 = 10;
+        field_178_tongue_state = 10;
         field_184 = FP_GetExponent(((FP_FromInteger(field_184)) + field_B8_xpos) / FP_FromInteger(2));
         field_188 = 0;
         field_186 = FP_GetExponent(((FP_FromInteger(field_186)) + field_BC_ypos) / FP_FromInteger(2));
@@ -1847,7 +2065,7 @@ void Fleech::sub_42B8C0()
     else
     {
         field_18A.Clear(Flags_18A::e18A_Bit2);
-        field_178 = 1;
+        field_178_tongue_state = 1;
     }
 }
 
@@ -1855,8 +2073,8 @@ void Fleech::sub_42BA10()
 {
     field_18A.Set(Flags_18A::e18A_Bit1);
     field_18A.Set(Flags_18A::e18A_Bit2);
-    field_178 = 3;
-    field_17A = 0;
+    field_178_tongue_state = 3;
+    field_17A_tongue_sub_state = 0;
     field_184 = FP_GetExponent(((FP_FromInteger(field_160)) + field_B8_xpos) / FP_FromInteger(2));
     field_188 = 0;
     field_186 = FP_GetExponent(((FP_FromInteger(field_162)) + field_BC_ypos) / FP_FromInteger(2));
@@ -1864,7 +2082,7 @@ void Fleech::sub_42BA10()
 
 void Fleech::sub_42BAD0()
 {
-    field_178 = 5;
+    field_178_tongue_state = 5;
 }
 
 BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
