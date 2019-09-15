@@ -237,7 +237,7 @@ private:
 
     EXPORT __int16 InRange_4307C0(BaseAliveGameObject* pObj);
 
-    EXPORT int sub_42B8A0();
+    EXPORT int TongueActive_42B8A0();
 
     EXPORT void PullTargetIn_42BAF0();
 
@@ -287,8 +287,8 @@ private:
     __int16 field_15A;
     __int16 field_15C_lost_target_timeout;
     __int16 field_15E;
-    __int16 field_160;
-    __int16 field_162;
+    __int16 field_160_hoistX;
+    __int16 field_162_hoistY;
     __int16 field_164;
     char field_166_angle;
     char field_167;
@@ -297,7 +297,7 @@ private:
     int field_170_danger_obj;
     enum Flags_174 : __int16
     {
-        eBit1 = 0x1,
+        eBit1_bHoistDone = 0x1,
         eBit2 = 0x2,
         eBit3 = 0x4,
         eBit4 = 0x8,
@@ -327,7 +327,7 @@ private:
 
     enum Flags_18A
     {
-        e18A_Bit1 = 0x1,
+        e18A_TongueActive_Bit1 = 0x1,
         e18A_Bit2 = 0x2,
         e18A_Bit3 = 0x4,
         e18A_Bit4 = 0x8,
