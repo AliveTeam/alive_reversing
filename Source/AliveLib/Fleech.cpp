@@ -146,17 +146,17 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
         field_166_angle = Fleech_NextRandom();
         field_BC_ypos -= FP_FromInteger(pTlv->field_8_top_left.field_2_y - pTlv->field_C_bottom_right.field_2_y);
         sub_42B9A0((pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2, pTlv->field_8_top_left.field_2_y);
-        field_106_current_motion = 17;
+        field_106_current_motion = eFleechMotions::M_SleepingWithTongue_17_42F370;
         SetAnim_429D80();
     }
     else if (field_174_flags.Get(Flags_174::eBit5_asleep))
     {
-        field_106_current_motion = 0;
+        field_106_current_motion = eFleechMotions::M_Sleeping_0_42F0B0;
         SetAnim_429D80();
     }
     else
     {
-        field_106_current_motion = 3;
+        field_106_current_motion = eFleechMotions::M_Idle_3_42E850;
         field_13E_anger = field_140 + (field_142_attack_anger - field_140) / 2;
     }
 
