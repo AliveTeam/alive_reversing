@@ -136,7 +136,7 @@ Fleech* Fleech::ctor_429DC0(Path_Fleech* pTlv, int tlvInfo)
     field_150_patrol_range = FP_GetExponent(FP_FromInteger(pTlv->field_26_patrol_range_in_grids) * ScaleToGridSize_4498B0(field_CC_sprite_scale));
     field_15C_lost_target_timeout = pTlv->field_22_lost_target_timeout;
 
-    InitPolys_42B6E0();
+    InitTonguePolys_42B6E0();
 
     field_13E_anger = 0;
 
@@ -302,8 +302,8 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_17A = pState->field_4C;
     pFleech->field_17C = pState->field_4E;
     pFleech->field_17E = pState->field_50;
-    pFleech->field_180 = pState->field_52;
-    pFleech->field_182 = pState->field_54;
+    pFleech->field_180_tongue_x = pState->field_52;
+    pFleech->field_182_tongue_y = pState->field_54;
     pFleech->field_184 = pState->field_56;
     pFleech->field_186 = pState->field_58;
     pFleech->field_188 = pState->field_5A;
@@ -433,8 +433,8 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_4C = field_17A;
     pState->field_4E = field_17C;
     pState->field_50 = field_17E;
-    pState->field_52 = field_180;
-    pState->field_54 = field_182;
+    pState->field_52 = field_180_tongue_x;
+    pState->field_54 = field_182_tongue_y;
     pState->field_56 = field_184;
     pState->field_58 = field_186;
     pState->field_5A = field_188;
@@ -1448,11 +1448,39 @@ void Fleech::Init_42A170()
     sFleechCount_5BC20E++;
 }
 
-void Fleech::InitPolys_42B6E0()
+void Fleech::InitTonguePolys_42B6E0()
 {
-    NOT_IMPLEMENTED();
-}
+    field_18A.Clear(Flags_18A::e18A_Bit1);
+    field_18A.Clear(Flags_18A::e18A_Bit2);
 
+    field_180_tongue_x = FP_GetExponent(field_B8_xpos);
+    field_182_tongue_y = FP_GetExponent((FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? -10 : -5)) + field_BC_ypos);
+    
+    field_178 = 1;
+
+    field_184 = -1;
+    field_186 = -1;
+
+    for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            PolyG4_Init_4F88B0(&field_18C_tongue_polys1[i][j]);
+            SetRGB0(&field_18C_tongue_polys1[i][j], 150, 100, 100);
+            SetRGB1(&field_18C_tongue_polys1[i][j], 150, 100, 100);
+            SetRGB2(&field_18C_tongue_polys1[i][j], 150, 100, 100);
+            SetRGB3(&field_18C_tongue_polys1[i][j], 150, 100, 100);
+            Poly_Set_SemiTrans_4F8A60(&field_18C_tongue_polys1[i][j].mBase.header, FALSE);
+
+            PolyG4_Init_4F88B0(&field_2CC_tongue_polys2[i][j]);
+            SetRGB0(&field_2CC_tongue_polys2[i][j], 150, 100, 100);
+            SetRGB1(&field_2CC_tongue_polys2[i][j], 150, 100, 100);
+            SetRGB2(&field_2CC_tongue_polys2[i][j], 150, 100, 100);
+            SetRGB3(&field_2CC_tongue_polys2[i][j], 150, 100, 100);
+            Poly_Set_SemiTrans_4F8A60(&field_2CC_tongue_polys2[i][j].mBase.header, TRUE);
+        }
+    }
+}
 
 void Fleech::SetAnim_429D80()
 {
