@@ -9,6 +9,10 @@
 #include "Abe.hpp" // For anim call back table
 #include "Slig.hpp" // For slig frame call back
 #include "Fleech.hpp" // For fleech frame call back
+#include "stdlib.hpp"
+#include "Particle.hpp"
+#include "Events.hpp"
+#include "Slurg.hpp"
 
 // Frame call backs ??
 EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)
@@ -21,17 +25,136 @@ EXPORT int CC Animation_OnFrame_Null_455F60(void*, signed __int16*)
     return 1;
 }
 
-EXPORT int CC Animation_OnFrame_Common_4561B0(void*, signed __int16*)
+EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, signed __int16* pData)
 {
-    // Slurg squish check/particles?
-    NOT_IMPLEMENTED();
+    auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
+    BYTE** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDustResID, FALSE, FALSE);
+
+    FP xOff = {};
+    if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        xOff = -(pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
+    }
+    else
+    {
+        xOff = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
+    }
+
+    FP xpos = xOff + pObj->field_B8_xpos;
+    FP ypos = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[1])) + pObj->field_BC_ypos + FP_FromInteger(25);
+    if (!pObj->field_100_pCollisionLine)
+    {
+        return 1;
+    }
+
+    const char count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+    if (count < 5)
+    {
+        Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
+        pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(xpos);
+        pPoints->field_0_points[count].field_2_yPos = pObj->field_100_pCollisionLine->field_0_rect.y - 5;
+        sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
+    }
+
+    if (pObj != sActiveHero_5C1B68)
+    {
+        return 1;
+    }
+
+    if (pObj->field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        ypos -= FP_FromInteger(14);
+    }
+ 
+    if (pObj->field_106_current_motion == eAbeStates::State_71_Knockback_455090 && pObj->field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        ypos += FP_FromInteger(5);
+    }
+
+    if (pObj->field_106_current_motion == eAbeStates::State_1_WalkLoop_44FBA0)
+    {
+        ypos -= FP_FromInteger(5);
+    }
+
+    auto pPartical = alive_new<Particle>();
+    if (pPartical)
+    {
+        pPartical->ctor_4CC4C0(xpos, ypos, 4488, 61, 44, ppAnimData);
+        pPartical->field_20_animation.field_B_render_mode = 1;
+
+        if (pObj->field_D6_scale == 1)
+        {
+            pPartical->field_20_animation.field_C_render_layer = 36;
+        }
+        else
+        {
+            pPartical->field_20_animation.field_C_render_layer = 17;
+        }
+
+        pPartical->field_D0_r = 45;
+        pPartical->field_D2_g = 35;
+        pPartical->field_D4_b = 5;
+
+        switch (pObj->field_106_current_motion)
+        {
+        case eAbeStates::State_1_WalkLoop_44FBA0:
+            pPartical->field_CC_sprite_scale = FP_FromDouble(0.3) * pObj->field_CC_sprite_scale;
+            break;
+
+        case eAbeStates::State_40_SneakLoop_450550:
+            pPartical->field_CC_sprite_scale = FP_FromInteger(0);
+            break;
+
+        case eAbeStates::State_71_Knockback_455090:
+            pPartical->field_CC_sprite_scale = FP_FromInteger(1) * pObj->field_CC_sprite_scale;
+            break;
+
+        default:
+            pPartical->field_CC_sprite_scale = FP_FromDouble(0.6) * pObj->field_CC_sprite_scale;
+            break;
+        }
+    }
     return 1;
 }
 
-EXPORT int CC Animation_OnFrame_Common_434130(void*, signed __int16*)
+EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pData)
 {
-    // ??
-    NOT_IMPLEMENTED();
+    auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
+    if (pObj->field_10C_health <= FP_FromInteger(0))
+    {
+        return 1;
+    }
+
+    BYTE** ppAnimRes = pObj->field_10_resources_array.ItemAt(7);
+    FP xOff = {};
+    if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        xOff = -(pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
+    }
+    else
+    {
+        xOff = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
+    }
+
+    FP xpos = xOff + pObj->field_B8_xpos;
+    FP ypos = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[1])) + FP_FromInteger(25) + pObj->field_BC_ypos;
+    
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        pObj->field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    auto pParticle = alive_new<Particle>();
+    if (pParticle)
+    {
+        pParticle->ctor_4CC4C0(xpos, ypos, 5264, 61, 44, ppAnimRes);
+        pParticle->field_20_animation.field_B_render_mode = 1;
+        pParticle->field_20_animation.field_C_render_layer = 36;
+        pParticle->field_D0_r = 64;
+        pParticle->field_D2_g = 64;
+        pParticle->field_D4_b = 64;
+        pParticle->field_CC_sprite_scale = FP_FromDouble(0.6) * pObj->field_CC_sprite_scale;
+    }
     return 1;
 }
 
