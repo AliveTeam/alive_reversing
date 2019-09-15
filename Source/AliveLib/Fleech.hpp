@@ -255,6 +255,9 @@ private:
 
     EXPORT BOOL Collision_42B290(__int16 alwaysOne);
 
+public:
+    EXPORT void vOnFrame_42BC50(signed __int16* pData);
+
 private:
     int field_118_tlvInfo;
     int field_11C_obj_id;
@@ -341,3 +344,5 @@ private:
     Prim_SetTPage field_40C[2];
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
+
+EXPORT int CC Animation_OnFrame_Fleech_449A60(void* pObj, signed __int16* pData);

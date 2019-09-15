@@ -1516,6 +1516,12 @@ TintEntry stru_551844[15] =
     { -1, 127u, 127u, 127u }
 };
 
+int CC Animation_OnFrame_Fleech_449A60(void* pObj, signed __int16* pData)
+{
+    reinterpret_cast<Fleech*>(pObj)->vOnFrame_42BC50(pData);
+    return 1;
+}
+
 void Fleech::Init_42A170()
 {
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kFleechResID, TRUE, FALSE));
@@ -2358,4 +2364,20 @@ BOOL Fleech::Collision_42B290(__int16 alwaysOne)
     FP hitX = {};
     FP hitY = {};
     return sCollisions_DArray_5C1128->Raycast_417A60(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
+}
+
+void Fleech::vOnFrame_42BC50(signed __int16* pData)
+{
+    FP xpos = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        xpos = field_B8_xpos - (field_CC_sprite_scale * FP_FromInteger(pData[0]));
+    }
+    else
+    {
+        xpos = (field_CC_sprite_scale * FP_FromInteger(pData[0])) + field_B8_xpos;
+    }
+
+    field_180_tongue_x = FP_GetExponent(xpos) + field_DA_xOffset;
+    field_182_tongue_y = FP_GetExponent((field_CC_sprite_scale * FP_FromInteger(pData[1])) + field_BC_ypos);
 }
