@@ -876,7 +876,54 @@ void Fleech::M_Land_10_42F330()
 
 void Fleech::M_RaiseHead_11_42F590()
 {
-    NOT_IMPLEMENTED();
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        field_174_flags.Clear(Flags_174::eBit1);
+        field_106_current_motion = eFleechMotions::M_Climb_12_42F7F0;
+
+        field_C4_velx = FP_FromInteger(0);
+        field_C8_vely = FP_FromInteger(-1);
+
+        const short yOff = field_CC_sprite_scale >= FP_FromInteger(1) ? 0 : -10;
+        auto pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            field_160,
+            FP_GetExponent(field_BC_ypos - FP_FromInteger((yOff + 20))),
+            field_160,
+            FP_GetExponent(field_BC_ypos - FP_FromInteger((yOff + 20))),
+            TlvTypes::Hoist_2));
+
+        if (pHoist->field_10_type == Path_Hoist::Type::eOffScreen)
+        {
+            const FP doubleYOff = FP_FromInteger(yOff + 20) * FP_FromInteger(2);
+            pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                field_160,
+                FP_GetExponent(FP_FromInteger(pHoist->field_8_top_left.field_2_y) - doubleYOff),
+                field_160,
+                FP_GetExponent(FP_FromInteger(pHoist->field_8_top_left.field_2_y) - doubleYOff),
+                TlvTypes::Hoist_2));
+
+            field_162 = pHoist->field_8_top_left.field_2_y;
+        }
+        field_F8_LastLineYPos = field_BC_ypos;
+        field_168 = field_BC_ypos - FP_FromInteger(field_162);
+        field_100_pCollisionLine = nullptr;
+        field_16C = FP_Abs(field_B8_xpos - FP_FromInteger(field_160));
+
+        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        {
+            field_166_angle = -64;
+        }
+        else
+        {
+            field_166_angle = 64;
+        }
+        field_164 = 0;
+        sub_42BA10();
+    }
+    else if (field_20_animation.field_92_current_frame < 4)
+    {
+        field_B8_xpos += FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? 1 : -1);
+    }
 }
 
 void Fleech::M_Climb_12_42F7F0()

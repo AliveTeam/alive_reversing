@@ -99,8 +99,8 @@ struct Fleech_State
     __int16 field_9C;
     char field_9E_angle;
     char field_9F;
-    int field_A0;
-    int field_A4;
+    FP field_A0;
+    FP field_A4;
     int field_A8;
     int field_AC_obj_id;
 
@@ -292,8 +292,8 @@ private:
     __int16 field_164;
     char field_166_angle;
     char field_167;
-    int field_168;
-    int field_16C;
+    FP field_168;
+    FP field_16C;
     int field_170_danger_obj;
     enum Flags_174 : __int16
     {
