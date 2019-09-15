@@ -2189,3 +2189,36 @@ void Fleech::vOnThrowableHit_42A590(BaseGameObject* /*pFrom*/)
     field_13E_anger += field_142_attack_anger;
 }
 
+BOOL Fleech::Collision_42B290(__int16 alwaysOne)
+{
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP quaterScaled = (kGridSize * FP_FromDouble(0.25));
+
+    FP x2 = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        x2 = field_B8_xpos - (quaterScaled * FP_FromInteger(alwaysOne >= 0 ? 1 : -1));
+    }
+    else
+    {
+        x2 = (kGridSize * FP_FromInteger(alwaysOne)) + field_B8_xpos;
+    }
+
+    FP x1 = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        x1 = field_B8_xpos - (kGridSize * FP_FromInteger(alwaysOne));
+    }
+    else
+    {
+        x1 = (quaterScaled * FP_FromInteger(alwaysOne >= 0 ? 1 : -1)) + field_B8_xpos;
+    }
+
+    const FP y2 = field_BC_ypos + FP_FromInteger(2);
+    const FP y1 = field_BC_ypos - FP_FromInteger(2);
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    return sCollisions_DArray_5C1128->Raycast_417A60(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
+}

@@ -253,6 +253,7 @@ private:
 
     EXPORT void vOnThrowableHit_42A590(BaseGameObject* pFrom);
 
+    EXPORT BOOL Collision_42B290(__int16 alwaysOne);
 
 private:
     int field_118_tlvInfo;
