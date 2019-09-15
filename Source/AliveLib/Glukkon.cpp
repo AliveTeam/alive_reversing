@@ -197,9 +197,9 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
     pGlukkon->field_D2_g = pSaveState->field_22_g;
     pGlukkon->field_D4_b = pSaveState->field_24_b;
 
-    pGlukkon->field_1A0 = pSaveState->field_20_r; //todo delete if nothing uses it
-    pGlukkon->field_1A2 = pSaveState->field_22_g; //todo delete if nothing uses it
-    pGlukkon->field_1A4 = pSaveState->field_24_b; //todo delete if nothing uses it
+    pGlukkon->field_1A0_red = pSaveState->field_20_r; //todo delete if nothing uses it
+    pGlukkon->field_1A2_green = pSaveState->field_22_g; //todo delete if nothing uses it
+    pGlukkon->field_1A4_blue = pSaveState->field_24_b; //todo delete if nothing uses it
 
     pGlukkon->field_106_current_motion = pSaveState->field_28_current_motion;
 
@@ -356,47 +356,45 @@ void Glukkon::vRender_4406C0(int** ot)
 
             if (!( field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted )))
             {
-                if (rMod != field_1A0 || gMod != field_1A2 || bMod != field_1A4)
+                if (rMod != field_1A0_red || gMod != field_1A2_green || bMod != field_1A4_blue)
                 {
-                    field_1A0 = rMod;
-                    field_1A2 = gMod;
-                    field_1A4 = bMod;
+                    field_1A0_red = rMod;
+                    field_1A2_green = gMod;
+                    field_1A4_blue = bMod;
 
                     FrameInfoHeader *pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(0);
                     int frameHeaderOffset = pFrameInfoHeader->field_0_frame_header_offset;
 
                     BYTE* animDataPtr = *field_20_animation.field_20_ppBlock;
-                    FrameHeader frameHeader = *( FrameHeader * )&( animDataPtr )[frameHeaderOffset]; //v14
-
-                    //__int16 *shortPointerToFrameHeadersWidthField = &animDataPtr[frameHeaderOffset + 4]; //shitty animation offset
-                    BYTE *v23 = &frameHeader.field_4_width;
-                    bRect.x = field_118_pPalAlloc;
-
-                    unsigned __int16 v15; // cx
-                    unsigned __int16 v16; // dx
-                    unsigned __int16 v17; // ax
-                    int v18; // eax
-                    int field_118_val; // ecx
-                    unsigned short v7 = 0;
-                    for (int i = 64; i >= 1; i--) //todo make sure it's if >= and not >
+                    FrameHeader frameHeader = *( FrameHeader * )&( animDataPtr )[frameHeaderOffset];
+                    WORD *frame_header_field4_ptr = (WORD* )&frameHeader.field_4_width;
+                    unsigned int v7 = 0;
+                    for (WORD& palValue : field_118_pPalAlloc)
                     {
-                        v7 = *v23;
-                        v15 = ( field_1A0 * ( *v23 & 31 ) ) >> 7;
-                        if (v15 > 31u)
+                        v7 = *frame_header_field4_ptr;
+
+                        __int32 pal_value = v7 & 0x1F;
+                        unsigned __int16 result_r = (__int16) ( pal_value * field_1A0_red ) >> 7;
+                        if (result_r > 31)
                         {
-                            v15 = 31;
+                            result_r = 31;
                         }
-                        v16 = ( ( ( v7 >> 5 ) & 31 ) * field_1A2 ) >> 7;
-                        if (v16 > 31u)
+
+                        pal_value = ( v7 >> 5 ) & 0x1F;
+                        unsigned __int16 result_g = ( __int16 ) ( ( pal_value * field_1A2_green )) >> 7;
+                        if (result_g > 31)
                         {
-                            v16 = 31;
+                            result_g = 31;
                         }
-                        v17 = ( ( ( v7 >> 10 ) & 31 ) * field_1A4 ) >> 7;
-                        if (v17 > 31u)
+
+                        pal_value = ( v7 >> 10 ) & 0x1F;
+                        unsigned __int16 result_b = ( __int16 ) ( ( pal_value * field_1A4_blue )) >> 7;
+                        if (result_b > 31)
                         {
-                            v17 = 31;
+                            result_b = 31;
                         }
-                        v18 = ( *v23 & 0x8000 ) | ( ( v15 & 31 ) + 32 * ( ( v16 & 31 ) + 32 * ( v17 & 31 ) ) );
+
+                        int v18 = ( *frame_header_field4_ptr & 0x8000 ) | ( ( result_r & 31 ) + 32 * ( result_g & 31 ) + 32 * 32 * ( result_b & 31 ) );
                         if (!v18)
                         {
                             if (v7)
@@ -404,34 +402,29 @@ void Glukkon::vRender_4406C0(int** ot)
                                 v18 = 1;
                             }
                         }
-                        field_118_val = bRect.x;
-                        bRect.x = (short) v18; //todo fix, cast is just so it launches
+                        palValue = (WORD) v18;
+                        frame_header_field4_ptr += 1;
 
-                        v23 += 2;
-                        bRect.x = (short) (i + 2);//todo fix, cast is just so it launches
-
-                        field_118_pPalAlloc = (short) v18;
                     }
-
-                    if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
-                    {
-                        field_142 = 40; //todo remove
-                        //field_142 = shortPointerToFrameHeadersWidthField[21];
-                    }
-                    else if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
-                    {
-                        field_196 = 40; //todo remove
-                        //field_196 = shortPointerToFrameHeadersWidthField[63];
-                    }
-                    else
-                    {
-                        field_194 = 40; //todo remove
-                        //field_194 = shortPointerToFrameHeadersWidthField[62];
-                    }
+                    //if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
+                    //{
+                    //    field_142 = 40; //todo remove
+                    //    //field_142 = shortPointerToFrameHeadersWidthField[21];
+                    //}
+                    //else if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
+                    //{
+                    //    field_196 = 40; //todo remove
+                    //    //field_196 = shortPointerToFrameHeadersWidthField[63];
+                    //}
+                    //else
+                    //{
+                    //    field_194 = 40; //todo remove
+                    //    //field_194 = shortPointerToFrameHeadersWidthField[62];
+                    //}
                     Pal_Set_483510(
                         field_20_animation.field_8C_pal_vram_xy,
                         field_20_animation.field_90_pal_depth,
-                        reinterpret_cast<BYTE*>(&field_118_pPalAlloc),
+                        reinterpret_cast< const BYTE* >(&field_118_pPalAlloc),
                         &field_198
                     );
                 }
