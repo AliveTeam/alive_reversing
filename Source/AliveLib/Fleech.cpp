@@ -2366,6 +2366,73 @@ BOOL Fleech::Collision_42B290(__int16 alwaysOne)
     return sCollisions_DArray_5C1128->Raycast_417A60(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
 }
 
+Path_Hoist* Fleech::TryGetHoist_42AFD0(int xDistance, __int16 bIgnoreDirection)
+{
+    if (field_106_current_motion == eFleechMotions::M_Fall_9_42ECD0)
+    {
+        return nullptr;
+    }
+
+    const FP yAmount = FP_FromInteger(field_CC_sprite_scale < FP_FromInteger(1) ? 10 : 20);
+    const FP y1 = field_BC_ypos - yAmount;
+    const FP y2 = y1 - (yAmount * FP_FromInteger(1));
+
+    const FP xSnapped = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
+    FP xCheck = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        xCheck = xSnapped - (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(xDistance));
+    }
+    else
+    {
+        xCheck = (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(xDistance)) + xSnapped;
+    }
+
+    auto pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(std::min(xCheck, field_B8_xpos)),
+        FP_GetExponent(y2),
+        FP_GetExponent(std::max(xCheck, field_B8_xpos)),
+        FP_GetExponent(y1),
+        TlvTypes::Hoist_2));
+
+    if (!pHoist)
+    {
+        return nullptr;
+    }
+
+    if (WallHit_408750(
+        FP_FromInteger(field_CC_sprite_scale < FP_FromInteger(1) ? 5 : 10),
+        FP_FromInteger(pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale < FP_FromInteger(1) ? 6 : 12)) - field_B8_xpos))
+    {
+        return nullptr;
+    }
+
+    if (HandleEnemyStopperOrSlamDoor_42ADC0(xDistance))
+    {
+        return nullptr;
+    }
+
+    if (pHoist->field_16_scale != (field_CC_sprite_scale < FP_FromInteger(1) ? Path_Hoist::Scale::eHalf : Path_Hoist::Scale::eFull) ||
+        field_BC_ypos -  FP_FromInteger(pHoist->field_8_top_left.field_2_y) >
+        FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 20 : 10) * FP_FromDouble(5.5))
+    {
+        return nullptr;
+    }
+
+    if (bIgnoreDirection)
+    {
+        return pHoist;
+    }
+
+    if (pHoist->field_12_edge_type == (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::EdgeType::eRight : Path_Hoist::EdgeType::eLeft) ||
+        pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth)
+    {
+        return pHoist;
+    }
+
+    return nullptr;
+}
+
 void Fleech::vOnFrame_42BC50(signed __int16* pData)
 {
     FP xpos = {};

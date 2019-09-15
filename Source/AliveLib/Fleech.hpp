@@ -255,6 +255,9 @@ private:
 
     EXPORT BOOL Collision_42B290(__int16 alwaysOne);
 
+    EXPORT Path_Hoist* TryGetHoist_42AFD0(int xDistance, __int16 bIgnoreDirection);
+
+
 public:
     EXPORT void vOnFrame_42BC50(signed __int16* pData);
 
