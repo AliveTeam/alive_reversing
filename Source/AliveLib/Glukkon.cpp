@@ -197,9 +197,9 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
     pGlukkon->field_D2_g = pSaveState->field_22_g;
     pGlukkon->field_D4_b = pSaveState->field_24_b;
 
-    pGlukkon->field_1A0_red = pSaveState->field_20_r; //todo delete if nothing uses it
-    pGlukkon->field_1A2_green = pSaveState->field_22_g; //todo delete if nothing uses it
-    pGlukkon->field_1A4_blue = pSaveState->field_24_b; //todo delete if nothing uses it
+    pGlukkon->field_1A0_red = pSaveState->field_20_r;
+    pGlukkon->field_1A2_green = pSaveState->field_22_g;
+    pGlukkon->field_1A4_blue = pSaveState->field_24_b;
 
     pGlukkon->field_106_current_motion = pSaveState->field_28_current_motion;
 
