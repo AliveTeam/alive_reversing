@@ -7220,10 +7220,10 @@ __int16 Mudokon::IsMotionUnknown_4730F0()
     return 
         sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_40_SneakLoop_450550 ||
         sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_45_SneakBegin_4507A0 ||
-        sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_41_450250 ||
-        sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_43_450380 ||
-        sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_42_4503D0 ||
-        sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_44_450500;
+        sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_41_WalkToSneak_450250 ||
+        sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_43_ToWalkToSneak_450380 ||
+        sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_42_SneakToWalk_4503D0 ||
+        sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_44_ToSneakToWalk_450500;
 }
 
 void Mudokon::MoveOnLine_4720D0()

@@ -1298,8 +1298,8 @@ void PauseMenu::Update_48FD80()
                 && heroState != eAbeStates::State_119_To_Shrykull_45A990
                 && heroState != eAbeStates::State_120_EndShrykull_45AB00
                 && heroState != eAbeStates::State_75_Jump_Into_Well_45C7B0
-                && heroState != eAbeStates::State_76_45CA40
-                && heroState != eAbeStates::State_77_45D130
+                && heroState != eAbeStates::State_76_ToInsideOfAWellLocal_45CA40
+                && heroState != eAbeStates::State_77_ToWellShotOut_45D130
                 && heroState != eAbeStates::State_78_WellBegin_45C810
                 && heroState != eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60
                 && heroState != eAbeStates::State_80_WellShotOut_45D150
@@ -1346,8 +1346,8 @@ void PauseMenu::Update_48FD80()
                 && heroState != eAbeStates::State_119_To_Shrykull_45A990
                 && heroState != eAbeStates::State_120_EndShrykull_45AB00
                 && heroState != eAbeStates::State_75_Jump_Into_Well_45C7B0
-                && heroState != eAbeStates::State_76_45CA40
-                && heroState != eAbeStates::State_77_45D130
+                && heroState != eAbeStates::State_76_ToInsideOfAWellLocal_45CA40
+                && heroState != eAbeStates::State_77_ToWellShotOut_45D130
                 && heroState != eAbeStates::State_78_WellBegin_45C810
                 && heroState != eAbeStates::State_79_Inside_Of_A_Well_Local_45CA60
                 && heroState != eAbeStates::State_80_WellShotOut_45D150
