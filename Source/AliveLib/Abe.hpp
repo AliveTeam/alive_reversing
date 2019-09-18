@@ -26,8 +26,8 @@
     ENTRY(State_17_CrouchIdle_456BC0) \
     ENTRY(State_18_CrouchToStand_454600) \
     ENTRY(State_19_StandToCrouch_453DC0) \
-    ENTRY(State_20_454550) \
-    ENTRY(jState_21_4545E0) \
+    ENTRY(State_20_CrouchGameSpeak_454550) \
+    ENTRY(jState_21_ToCrouchGameSpeak_4545E0) \
     ENTRY(State_22_RollBegin_4539A0) \
     ENTRY(State_23_RollLoop_453A90) \
     ENTRY(State_24_453D00) \
@@ -47,15 +47,15 @@
     ENTRY(jState_38_RunToRoll_453A70) \
     ENTRY(State_39_StandingToRun_450D40) \
     ENTRY(State_40_SneakLoop_450550) \
-    ENTRY(State_41_450250) \
-    ENTRY(State_42_4503D0) \
-    ENTRY(State_43_450380) \
-    ENTRY(State_44_450500) \
+    ENTRY(State_41_WalkToSneak_450250) \
+    ENTRY(State_42_SneakToWalk_4503D0) \
+    ENTRY(State_43_ToWalkToSneak_450380) \
+    ENTRY(State_44_ToSneakToWalk_450500) \
     ENTRY(State_45_SneakBegin_4507A0) \
     ENTRY(State_46_SneakEnd_450870) \
     ENTRY(jState_47_SneakEnd_4508C0) \
-    ENTRY(State_48_4500A0) \
-    ENTRY(State_49_450200) \
+    ENTRY(State_48_WalkToRun_4500A0) \
+    ENTRY(State_49_ToWalkToRun_450200) \
     ENTRY(State_50_RunToWalk1_450E20) \
     ENTRY(State_51_RunToWalk2_450F50) \
     ENTRY(State_52_RunTurn_ToRun_451710) \
@@ -82,8 +82,8 @@
     ENTRY(State_73_PushWall_4553A0) \
     ENTRY(State_74_Rolling_KnockedBack_455290) \
     ENTRY(State_75_Jump_Into_Well_45C7B0) \
-    ENTRY(State_76_45CA40) \
-    ENTRY(State_77_45D130) \
+    ENTRY(State_76_ToInsideOfAWellLocal_45CA40) \
+    ENTRY(State_77_ToWellShotOut_45D130) \
     ENTRY(State_78_WellBegin_45C810) \
     ENTRY(State_79_Inside_Of_A_Well_Local_45CA60) \
     ENTRY(State_80_WellShotOut_45D150) \
@@ -108,7 +108,7 @@
     ENTRY(State_99_LeverUse_455AC0) \
     ENTRY(State_100_Slap_Bomb_455B60) \
     ENTRY(State_101_KnockForward_455420) \
-    ENTRY(State_102_455310) \
+    ENTRY(State_102_ToRollingKnockedBack_455310) \
     ENTRY(jState_103_KnockbackGetUp_455380) \
     ENTRY(State_104_RockThrowStandingHold_455DF0) \
     ENTRY(State_105_RockThrowStandingThrow_456460) \
@@ -374,8 +374,8 @@ public:
     EXPORT void State_17_CrouchIdle_456BC0();
     EXPORT void State_18_CrouchToStand_454600();
     EXPORT void State_19_StandToCrouch_453DC0();
-    EXPORT void State_20_454550();
-    EXPORT void jState_21_4545E0();
+    EXPORT void State_20_CrouchGameSpeak_454550();
+    EXPORT void jState_21_ToCrouchGameSpeak_4545E0();
     EXPORT void State_22_RollBegin_4539A0();
     EXPORT void State_23_RollLoop_453A90();
     EXPORT void State_24_453D00();
@@ -395,15 +395,15 @@ public:
     EXPORT void jState_38_RunToRoll_453A70();
     EXPORT void State_39_StandingToRun_450D40();
     EXPORT void State_40_SneakLoop_450550();
-    EXPORT void State_41_450250();
-    EXPORT void State_42_4503D0();
-    EXPORT void State_43_450380();
-    EXPORT void State_44_450500();
+    EXPORT void State_41_WalkToSneak_450250();
+    EXPORT void State_42_SneakToWalk_4503D0();
+    EXPORT void State_43_ToWalkToSneak_450380();
+    EXPORT void State_44_ToSneakToWalk_450500();
     EXPORT void State_45_SneakBegin_4507A0();
     EXPORT void State_46_SneakEnd_450870();
     EXPORT void jState_47_SneakEnd_4508C0();
-    EXPORT void State_48_4500A0();
-    EXPORT void State_49_450200();
+    EXPORT void State_48_WalkToRun_4500A0();
+    EXPORT void State_49_ToWalkToRun_450200();
     EXPORT void State_50_RunToWalk1_450E20();
     EXPORT void State_51_RunToWalk2_450F50();
     EXPORT void State_52_RunTurn_ToRun_451710();
@@ -430,8 +430,8 @@ public:
     EXPORT void State_73_PushWall_4553A0();
     EXPORT void State_74_Rolling_KnockedBack_455290();
     EXPORT void State_75_Jump_Into_Well_45C7B0();
-    EXPORT void State_76_45CA40();
-    EXPORT void State_77_45D130();
+    EXPORT void State_76_ToInsideOfAWellLocal_45CA40();
+    EXPORT void State_77_ToWellShotOut_45D130();
     EXPORT void State_78_WellBegin_45C810();
     EXPORT void State_79_Inside_Of_A_Well_Local_45CA60();
     EXPORT void State_80_WellShotOut_45D150();
@@ -456,7 +456,7 @@ public:
     EXPORT void State_99_LeverUse_455AC0();
     EXPORT void State_100_Slap_Bomb_455B60();
     EXPORT void State_101_KnockForward_455420();
-    EXPORT void State_102_455310();
+    EXPORT void State_102_ToRollingKnockedBack_455310();
     EXPORT void jState_103_KnockbackGetUp_455380();
     EXPORT void State_104_RockThrowStandingHold_455DF0();
     EXPORT void State_105_RockThrowStandingThrow_456460();
