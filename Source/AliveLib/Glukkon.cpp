@@ -394,18 +394,17 @@ void Glukkon::vRender_4406C0(int** ot)
                         pCurrentAnimData += 1;
                     }
 
-                    WORD* pAnimDataWord = reinterpret_cast<WORD*>( &pAnimData[clut_offset + 4] );
                     if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
                     {
-                        field_118_pPalAlloc[63] = pAnimDataWord[63];
+                        field_118_pPalAlloc[63] = pAnimDataWithOffset[63];
                     }
                     else if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
                     {
-                        field_118_pPalAlloc[63] = pAnimDataWord[63];
+                        field_118_pPalAlloc[63] = pAnimDataWithOffset[63];
                     }
                     else
                     {
-                        field_118_pPalAlloc[62] = pAnimDataWord[62];
+                        field_118_pPalAlloc[62] = pAnimDataWithOffset[62];
                     }
                     Pal_Set_483510(
                         field_20_animation.field_8C_pal_vram_xy,
