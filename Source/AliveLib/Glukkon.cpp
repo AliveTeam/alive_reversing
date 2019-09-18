@@ -359,7 +359,7 @@ void Glukkon::vRender_4406C0(int** ot)
                     const FrameInfoHeader *pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(0);
                     BYTE* pAnimData = *field_20_animation.field_20_ppBlock;
                     const DWORD clut_offset = *reinterpret_cast<DWORD*>(&(pAnimData)[pFrameInfoHeader->field_0_frame_header_offset]);
-                    WORD* pAnimDataWithOffset = reinterpret_cast<WORD*>(&pAnimData[clut_offset + 4]);
+                    const WORD* pAnimDataWithOffset = reinterpret_cast<WORD*>(&pAnimData[clut_offset + 4]);
                     for (int i = 0; i < ALIVE_COUNTOF(field_118_pPalAlloc); i++ )
                     {
                         __int32 auxPalValue = pAnimDataWithOffset[i] & 0x1F;
