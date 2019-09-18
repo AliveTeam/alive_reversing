@@ -348,7 +348,7 @@ void Glukkon::vRender_4406C0(int** ot)
                 &gMod,
                 &bMod
             );
-            if (!( field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted )))
+            if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
             {
                 if (rMod != field_1A0_red || gMod != field_1A2_green || bMod != field_1A4_blue)
                 {
@@ -356,42 +356,39 @@ void Glukkon::vRender_4406C0(int** ot)
                     field_1A2_green = gMod;
                     field_1A4_blue = bMod;
 
-                    FrameInfoHeader *pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(0);
-                    int frameHeaderOffset = pFrameInfoHeader->field_0_frame_header_offset;
+                    const FrameInfoHeader *pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(0);
                     BYTE* pAnimData = *field_20_animation.field_20_ppBlock;
-                    DWORD clut_offset = *reinterpret_cast<DWORD*>(&(pAnimData)[frameHeaderOffset]);
+                    const DWORD clut_offset = *reinterpret_cast<DWORD*>(&(pAnimData)[pFrameInfoHeader->field_0_frame_header_offset]);
                     WORD* pAnimDataWithOffset = reinterpret_cast<WORD*>(&pAnimData[clut_offset + 4]);
-                    WORD* pCurrentAnimData = pAnimDataWithOffset;
-                    for (WORD& palValue : field_118_pPalAlloc)
+                    for (int i = 0; i < 64; i++ )
                     {
-                        __int32 pal_value = *pCurrentAnimData & 0x1F;
-                        unsigned __int16 resultR = static_cast<__int16>(pal_value * field_1A0_red) >> 7;
+                        __int32 auxPalValue = pAnimDataWithOffset[i] & 0x1F;
+                        unsigned __int16 resultR = static_cast<__int16>( auxPalValue * field_1A0_red) >> 7;
                         if (resultR > 31)
                         {
                             resultR = 31;
                         }
 
-                        pal_value = ( *pCurrentAnimData >> 5) & 0x1F;
-                        unsigned __int16 resultG = static_cast< __int16 >(pal_value * field_1A2_green) >> 7;
+                        auxPalValue = (pAnimDataWithOffset[i] >> 5) & 0x1F;
+                        unsigned __int16 resultG = static_cast< __int16 >( auxPalValue * field_1A2_green) >> 7;
                         if (resultG > 31)
                         {
                             resultG = 31;
                         }
 
-                        pal_value = ( *pCurrentAnimData >> 10) & 0x1F;
-                        unsigned __int16 resultB = static_cast< __int16 >(pal_value * field_1A4_blue) >> 7;
+                        auxPalValue = (pAnimDataWithOffset[i] >> 10) & 0x1F;
+                        unsigned __int16 resultB = static_cast< __int16 >( auxPalValue * field_1A4_blue) >> 7;
                         if (resultB > 31)
                         {
                             resultB = 31;
                         }
 
-                        int resultMixed = (*pCurrentAnimData & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
-                        if (!resultMixed && *pCurrentAnimData)
+                        int resultMixed = (pAnimDataWithOffset[i] & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
+                        if (resultMixed <= 0 && pAnimDataWithOffset[i])
                         {
                             resultMixed = 1;
                         }
-                        palValue = static_cast<WORD>(resultMixed);
-                        pCurrentAnimData += 1;
+                        field_118_pPalAlloc[i] = static_cast<WORD>(resultMixed);
                     }
 
                     if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
