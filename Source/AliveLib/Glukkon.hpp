@@ -162,6 +162,11 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_4406C0(pOrderingTable);
+    }
+
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     virtual void VScreenChanged() override;
@@ -240,6 +245,8 @@ private:
 
     EXPORT void SpeakRandomish_4405D0();
 
+    EXPORT void vRender_4406C0(int** ot);
+
     EXPORT __int16 DoMovement_444190();
 
     EXPORT void FollowLine_443EB0();
@@ -271,77 +278,11 @@ private:
     bool BrainIs(TGlukkonAIFn fn);
 
 private:
-    __int16 field_118;
-    __int16 field_11A;
-    __int16 field_11C;
-    __int16 field_11E;
-    __int16 field_120;
-    __int16 field_122;
-    __int16 field_124;
-    __int16 field_126;
-    __int16 field_128;
-    __int16 field_12A;
-    __int16 field_12C;
-    __int16 field_12E;
-    __int16 field_130;
-    __int16 field_132;
-    __int16 field_134;
-    __int16 field_136;
-    __int16 field_138;
-    __int16 field_13A;
-    __int16 field_13C;
-    __int16 field_13E;
-    __int16 field_140;
-    __int16 field_142;
-    __int16 field_144;
-    __int16 field_146;
-    __int16 field_148;
-    __int16 field_14A;
-    __int16 field_14C;
-    __int16 field_14E;
-    __int16 field_150;
-    __int16 field_152;
-    __int16 field_154;
-    __int16 field_156;
-    __int16 field_158;
-    __int16 field_15A;
-    __int16 field_15C;
-    __int16 field_15E;
-    __int16 field_160;
-    __int16 field_162;
-    __int16 field_164;
-    __int16 field_166;
-    __int16 field_168;
-    __int16 field_16A;
-    __int16 field_16C;
-    __int16 field_16E;
-    __int16 field_170;
-    __int16 field_172;
-    __int16 field_174;
-    __int16 field_176;
-    __int16 field_178;
-    __int16 field_17A;
-    __int16 field_17C;
-    __int16 field_17E;
-    __int16 field_180;
-    __int16 field_182;
-    __int16 field_184;
-    __int16 field_186;
-    __int16 field_188;
-    __int16 field_18A;
-    __int16 field_18C;
-    __int16 field_18E;
-    __int16 field_190;
-    __int16 field_192;
-    __int16 field_194;
-    __int16 field_196;
-    __int16 field_198;
-    __int16 field_19A;
-    __int16 field_19C;
-    __int16 field_19E;
-    __int16 field_1A0;
-    __int16 field_1A2;
-    __int16 field_1A4;
+    WORD field_118_pPalAlloc[64];
+    PSX_RECT field_198;
+    __int16 field_1A0_red;
+    __int16 field_1A2_green;
+    __int16 field_1A4_blue;
     __int16 field_1A6;
     Path_Glukkon field_1A8_tlvData;
     __int32 field_1D4_timer;
