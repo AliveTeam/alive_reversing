@@ -327,9 +327,6 @@ void Glukkon::VUpdate()
 
 void Glukkon::vRender_4406C0(int** ot)
 {
-    //NOT_IMPLEMENTED();
-    PSX_RECT bRect; // [esp+24h] [ebp-18h]
-
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number &&
@@ -338,22 +335,19 @@ void Glukkon::vRender_4406C0(int** ot)
         {
             field_20_animation.field_14_scale = field_CC_sprite_scale;
             
-            //PSX_RECT pRect; // [esp+30h] [ebp-Ch]
-            
-            PSX_RECT *boundingRect = vGetBoundingRect_424FD0(&bRect, 1);
-
+            PSX_RECT boundingRect = {};
+            vGetBoundingRect_424FD0(&boundingRect, 1);
             __int16 rMod = field_D0_r;
             __int16 gMod = field_D2_g;
             __int16 bMod = field_D4_b;
             ShadowZone::ShadowZones_Calculate_Colour_463CE0(
                 FP_GetExponent(field_B8_xpos),
-                (boundingRect->h + boundingRect->y) / 2,
+                (boundingRect.h + boundingRect.y) / 2,
                 field_D6_scale,
                 &rMod,
                 &gMod,
                 &bMod
             );
-
             if (!( field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted )))
             {
                 if (rMod != field_1A0_red || gMod != field_1A2_green || bMod != field_1A4_blue)
@@ -364,67 +358,59 @@ void Glukkon::vRender_4406C0(int** ot)
 
                     FrameInfoHeader *pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(0);
                     int frameHeaderOffset = pFrameInfoHeader->field_0_frame_header_offset;
-
-                    BYTE* animDataPtr = *field_20_animation.field_20_ppBlock;
-                    FrameHeader frameHeader = *( FrameHeader * )&( animDataPtr )[frameHeaderOffset];
-                    WORD *frame_header_field4_ptr = (WORD* )&frameHeader.field_4_width;
-                    unsigned int v7 = 0;
+                    BYTE* pAnimData = *field_20_animation.field_20_ppBlock;
+                    DWORD clut_offset = *reinterpret_cast<DWORD*>(&(pAnimData)[frameHeaderOffset]);
+                    WORD* pAnimDataWithOffset = reinterpret_cast<WORD*>(&pAnimData[clut_offset + 4]);
+                    WORD* pCurrentAnimData = pAnimDataWithOffset;
                     for (WORD& palValue : field_118_pPalAlloc)
                     {
-                        v7 = *frame_header_field4_ptr;
-
-                        __int32 pal_value = v7 & 0x1F;
-                        unsigned __int16 result_r = (__int16) ( pal_value * field_1A0_red ) >> 7;
-                        if (result_r > 31)
+                        __int32 pal_value = *pCurrentAnimData & 0x1F;
+                        unsigned __int16 resultR = static_cast<__int16>(pal_value * field_1A0_red) >> 7;
+                        if (resultR > 31)
                         {
-                            result_r = 31;
+                            resultR = 31;
                         }
 
-                        pal_value = ( v7 >> 5 ) & 0x1F;
-                        unsigned __int16 result_g = ( __int16 ) ( ( pal_value * field_1A2_green )) >> 7;
-                        if (result_g > 31)
+                        pal_value = ( *pCurrentAnimData >> 5) & 0x1F;
+                        unsigned __int16 resultG = static_cast< __int16 >(pal_value * field_1A2_green) >> 7;
+                        if (resultG > 31)
                         {
-                            result_g = 31;
+                            resultG = 31;
                         }
 
-                        pal_value = ( v7 >> 10 ) & 0x1F;
-                        unsigned __int16 result_b = ( __int16 ) ( ( pal_value * field_1A4_blue )) >> 7;
-                        if (result_b > 31)
+                        pal_value = ( *pCurrentAnimData >> 10) & 0x1F;
+                        unsigned __int16 resultB = static_cast< __int16 >(pal_value * field_1A4_blue) >> 7;
+                        if (resultB > 31)
                         {
-                            result_b = 31;
+                            resultB = 31;
                         }
 
-                        int v18 = ( *frame_header_field4_ptr & 0x8000 ) | ( ( result_r & 31 ) + 32 * ( result_g & 31 ) + 32 * 32 * ( result_b & 31 ) );
-                        if (!v18)
+                        int resultMixed = (*pCurrentAnimData & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
+                        if (!resultMixed && *pCurrentAnimData)
                         {
-                            if (v7)
-                            {
-                                v18 = 1;
-                            }
+                            resultMixed = 1;
                         }
-                        palValue = (WORD) v18;
-                        frame_header_field4_ptr += 1;
-
+                        palValue = static_cast<WORD>(resultMixed);
+                        pCurrentAnimData += 1;
                     }
-                    //if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
-                    //{
-                    //    field_142 = 40; //todo remove
-                    //    //field_142 = shortPointerToFrameHeadersWidthField[21];
-                    //}
-                    //else if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
-                    //{
-                    //    field_196 = 40; //todo remove
-                    //    //field_196 = shortPointerToFrameHeadersWidthField[63];
-                    //}
-                    //else
-                    //{
-                    //    field_194 = 40; //todo remove
-                    //    //field_194 = shortPointerToFrameHeadersWidthField[62];
-                    //}
+
+                    WORD* pAnimDataWord = reinterpret_cast<WORD*>( &pAnimData[clut_offset + 4] );
+                    if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
+                    {
+                        field_118_pPalAlloc[63] = pAnimDataWord[63];
+                    }
+                    else if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
+                    {
+                        field_118_pPalAlloc[63] = pAnimDataWord[63];
+                    }
+                    else
+                    {
+                        field_118_pPalAlloc[62] = pAnimDataWord[62];
+                    }
                     Pal_Set_483510(
                         field_20_animation.field_8C_pal_vram_xy,
                         field_20_animation.field_90_pal_depth,
-                        reinterpret_cast< const BYTE* >(&field_118_pPalAlloc),
+                        reinterpret_cast<const BYTE*>(&field_118_pPalAlloc),
                         &field_198
                     );
                 }
@@ -434,8 +420,8 @@ void Glukkon::vRender_4406C0(int** ot)
             }
 
             field_20_animation.vRender_40B820(
-                FP_GetExponent( FP_FromInteger( field_DA_xOffset ) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x ),
-                FP_GetExponent( FP_FromInteger( field_D8_yOffset ) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y ),
+                FP_GetExponent(FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
                 ot,
                 0,
                 0
