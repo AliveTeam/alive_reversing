@@ -144,6 +144,11 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_419990(pOrderingTable);
+    }
+
     virtual void VPossessed_408F70() override;
 
     virtual void VOnTrapDoorOpen() override;
@@ -174,6 +179,7 @@ private:
 
     EXPORT void vUpdate_419100();
 
+    EXPORT void vRender_419990(int** ot);
 
     EXPORT __int16 HandleEnemyStopper_41C740(FP velX);
 
@@ -236,9 +242,8 @@ public:
 
 private:
     int field_118_tlvInfo;
-    __int16 field_11C_pal_buf[64];
+    __int16 field_11C_pPalAlloc[64];
     PSX_RECT field_19C_pal_rect;
-
     __int16 field_1A4_r;
     __int16 field_1A6_g;
     __int16 field_1A8_b;

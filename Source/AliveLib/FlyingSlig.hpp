@@ -141,6 +141,11 @@ public:
         vUpdate_434AD0();
     }
 
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_435130(pOrderingTable);
+    }
+
     virtual void VScreenChanged() override
     {
         vScreenChanged_434C10();
@@ -182,6 +187,9 @@ private:
 
 
     EXPORT void vUpdate_434AD0();
+
+    EXPORT void vRender_435130(int** ot);
+
     EXPORT __int16 IsPossessed_436A90();
     EXPORT void sub_4348A0();
     EXPORT void Movement_4396E0();
@@ -397,11 +405,11 @@ private:
     __int16 field_1EA;
     PathLine* field_1EC_pNextLine;
     PathLine* field_1F0_pPrevLine;
-    __int16 field_1F4_pal_data[64];
+    __int16 field_1F4_pPalAlloc[64];
     PSX_RECT field_274_pal_rect;
-    __int16 field_27C_old_g;
-    __int16 field_27E_old_b;
-    __int16 field_280_old_r;
+    __int16 field_27C_r;
+    __int16 field_27E_g;
+    __int16 field_280_b;
     __int16 field_282;
     FP field_284;
     const FP* field_288;

@@ -2,6 +2,7 @@
 #include "NakedSlig.hpp"
 #include "Function.hpp"
 #include "Shadow.hpp"
+#include "ShadowZone.hpp"
 #include "stdlib.hpp"
 #include "Collisions.hpp"
 #include "Math.hpp"
@@ -21,11 +22,13 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "ScreenShake.hpp"
+#include "ScreenManager.hpp"
 #include "Midi.hpp"
 #include "Slig.hpp"
 #include "FlyingSlig.hpp"
 #include "NakedSligButton.hpp"
 #include "Sfx.hpp"
+#include "VRam.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -213,6 +216,111 @@ BaseGameObject* NakedSlig::VDestructor(signed int flags)
 void NakedSlig::VUpdate()
 {
     vUpdate_419100();
+}
+
+void NakedSlig::vRender_419990(int** ot)
+{
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    {
+        if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number &&
+            gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number &&
+            Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+        {
+            field_20_animation.field_14_scale = field_CC_sprite_scale;
+
+            PSX_RECT boundingRect = {};
+            vGetBoundingRect_424FD0(&boundingRect, 1);
+            __int16 rMod = field_D0_r;
+            __int16 gMod = field_D2_g;
+            __int16 bMod = field_D4_b;
+            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                FP_GetExponent(field_B8_xpos),
+                ( boundingRect.h + boundingRect.y ) / 2,
+                field_D6_scale,
+                &rMod,
+                &gMod,
+                &bMod
+            );
+            if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+            {
+                if (rMod != field_1A4_r || gMod != field_1A6_g || bMod != field_1A8_b)
+                {
+                    field_1A4_r = rMod;
+                    field_1A6_g = gMod;
+                    field_1A8_b = bMod;
+
+                    const FrameInfoHeader *pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(0);
+                    const BYTE* pAnimData = *field_20_animation.field_20_ppBlock;
+                    const DWORD clut_offset = *reinterpret_cast< const DWORD* >( &( pAnimData )[pFrameInfoHeader->field_0_frame_header_offset] );
+                    const WORD* pAnimDataWithOffset = reinterpret_cast< const WORD* >( &pAnimData[clut_offset + 4] );
+                    for (int i = 0; i < ALIVE_COUNTOF(field_11C_pPalAlloc); i++)
+                    {
+                        __int32 auxPalValue = pAnimDataWithOffset[i] & 0x1F;
+                        unsigned __int16 resultR = static_cast< __int16 >( auxPalValue * field_1A4_r ) >> 7;
+                        if (resultR > 31)
+                        {
+                            resultR = 31;
+                        }
+
+                        auxPalValue = ( pAnimDataWithOffset[i] >> 5 ) & 0x1F;
+                        unsigned __int16 resultG = static_cast< __int16 >( auxPalValue * field_1A6_g ) >> 7;
+                        if (resultG > 31)
+                        {
+                            resultG = 31;
+                        }
+
+                        auxPalValue = ( pAnimDataWithOffset[i] >> 10 ) & 0x1F;
+                        unsigned __int16 resultB = static_cast< __int16 >( auxPalValue * field_1A8_b ) >> 7;
+                        if (resultB > 31)
+                        {
+                            resultB = 31;
+                        }
+
+                        int resultMixed = (pAnimDataWithOffset[i] & 0x8000) | ( ( resultR & 31 ) + 32 * ( resultG & 31 ) + 32 * 32 * ( resultB & 31 ) );
+                        if (resultMixed <= 0 && pAnimDataWithOffset[i])
+                        {
+                            resultMixed = 1;
+                        }
+                        field_11C_pPalAlloc[i] = static_cast<WORD>(resultMixed);
+                    }
+                    field_11C_pPalAlloc[60] = pAnimDataWithOffset[60];
+                    field_11C_pPalAlloc[62] = pAnimDataWithOffset[62];
+                    Pal_Set_483510(
+                        field_20_animation.field_8C_pal_vram_xy,
+                        field_20_animation.field_90_pal_depth,
+                        reinterpret_cast< const BYTE* >( &field_11C_pPalAlloc ),
+                        &field_19C_pal_rect
+                    );
+                }
+                field_20_animation.field_8_r = 127;
+                field_20_animation.field_9_g = 127;
+                field_20_animation.field_A_b = 127;
+            }
+
+            field_20_animation.vRender_40B820(
+                FP_GetExponent(FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+                FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+                ot,
+                0,
+                0
+            );
+
+            PSX_RECT rectToInvalidate;
+            field_20_animation.Get_Frame_Rect_409E10(&rectToInvalidate);
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                rectToInvalidate.x,
+                rectToInvalidate.y,
+                rectToInvalidate.w,
+                rectToInvalidate.h, pScreenManager_5BB5F4->field_3A_idx
+            );
+
+            if (field_E0_pShadow)
+            {
+                field_E0_pShadow->Calculate_Position_4ACA50(field_B8_xpos, field_BC_ypos, &rectToInvalidate, field_CC_sprite_scale, field_D6_scale);
+                field_E0_pShadow->Render_4ACE60(ot);
+            }
+        }
+    }
 }
 
 void NakedSlig::VPossessed_408F70()

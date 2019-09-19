@@ -214,6 +214,12 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
+
+    virtual void VRender(int** pOrderingTable) override
+    {
+        vRender_4B1F80(pOrderingTable);
+    }
+
     virtual void VScreenChanged() override;
 
     virtual void VPossessed_408F70() override;
@@ -356,6 +362,8 @@ private:
     EXPORT Slig* vdtor_4B1790(signed int flags);
 
     EXPORT void vUpdate_4B17C0();
+
+    EXPORT void vRender_4B1F80(int** ot);
 
     EXPORT void vScreenChanged_4B1E20();
 
@@ -525,77 +533,11 @@ private:
     __int16 field_172;
     __int16 field_174;
     __int16 field_176;
-    __int16 field_178;
-    __int16 field_17A;
-    __int16 field_17C;
-    __int16 field_17E;
-    __int16 field_180;
-    __int16 field_182;
-    __int16 field_184;
-    __int16 field_186;
-    __int16 field_188;
-    __int16 field_18A;
-    __int16 field_18C;
-    __int16 field_18E;
-    __int16 field_190;
-    __int16 field_192;
-    __int16 field_194;
-    __int16 field_196;
-    __int16 field_198;
-    __int16 field_19A;
-    __int16 field_19C;
-    __int16 field_19E;
-    __int16 field_1A0;
-    __int16 field_1A2;
-    __int16 field_1A4;
-    __int16 field_1A6;
-    __int16 field_1A8;
-    __int16 field_1AA;
-    __int16 field_1AC;
-    __int16 field_1AE;
-    __int16 field_1B0;
-    __int16 field_1B2;
-    __int16 field_1B4;
-    __int16 field_1B6;
-    __int16 field_1B8;
-    __int16 field_1BA;
-    __int16 field_1BC;
-    __int16 field_1BE;
-    __int16 field_1C0;
-    __int16 field_1C2;
-    __int16 field_1C4;
-    __int16 field_1C6;
-    __int16 field_1C8;
-    __int16 field_1CA;
-    __int16 field_1CC;
-    __int16 field_1CE;
-    __int16 field_1D0;
-    __int16 field_1D2;
-    __int16 field_1D4;
-    __int16 field_1D6;
-    __int16 field_1D8;
-    __int16 field_1DA;
-    __int16 field_1DC;
-    __int16 field_1DE;
-    __int16 field_1E0;
-    __int16 field_1E2;
-    __int16 field_1E4;
-    __int16 field_1E6;
-    __int16 field_1E8;
-    __int16 field_1EA;
-    __int16 field_1EC;
-    __int16 field_1EE;
-    __int16 field_1F0;
-    __int16 field_1F2;
-    __int16 field_1F4;
-    __int16 field_1F6;
-    __int16 field_1F8;
-    __int16 field_1FA;
-    __int16 field_1FC;
-    __int16 field_1FE;
-    __int16 field_200;
-    __int16 field_202;
-    __int16 field_204;
+    __int16 field_178_pPalAlloc[64];
+    PSX_RECT field_1F8;
+    __int16 field_200_red;
+    __int16 field_202_green;
+    __int16 field_204_blue;
     __int16 field_206;
     int field_208_glukkon_obj_id;
     __int16 field_20C_state_after_speak;
