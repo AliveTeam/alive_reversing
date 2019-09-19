@@ -2,7 +2,6 @@
 #include "NakedSlig.hpp"
 #include "Function.hpp"
 #include "Shadow.hpp"
-#include "ShadowZone.hpp"
 #include "stdlib.hpp"
 #include "Collisions.hpp"
 #include "Math.hpp"
@@ -22,13 +21,11 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "ScreenShake.hpp"
-#include "ScreenManager.hpp"
 #include "Midi.hpp"
 #include "Slig.hpp"
 #include "FlyingSlig.hpp"
 #include "NakedSligButton.hpp"
 #include "Sfx.hpp"
-#include "VRam.hpp"
 
 TintEntry stru_5514B8[18] =
 {

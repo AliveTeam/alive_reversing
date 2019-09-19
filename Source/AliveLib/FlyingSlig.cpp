@@ -4,7 +4,6 @@
 #include "Events.hpp"
 #include "Collisions.hpp"
 #include "Shadow.hpp"
-#include "ShadowZone.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "Math.hpp"
@@ -19,7 +18,6 @@
 #include "Grenade.hpp"
 #include "Dove.hpp"
 #include "NakedSlig.hpp"
-#include "ScreenManager.hpp"
 #include "Particle.hpp"
 #include "Gibs.hpp"
 #include "Blood.hpp"
@@ -28,7 +26,6 @@
 #include "Bullet.hpp"
 #include "ParticleBurst.hpp"
 #include "Switch.hpp"
-#include "VRam.hpp"
 
 ALIVE_ARY(1, 0x5523A0, TFlyingSligFn, 26, sFlyingSlig_motion_table_5523A0,
 {

@@ -7,7 +7,6 @@
 #include "Collisions.hpp"
 #include "Game.hpp"
 #include "Shadow.hpp"
-#include "ShadowZone.hpp"
 #include "MusicController.hpp"
 #include "SwitchStates.hpp"
 #include "Spark.hpp"
@@ -31,7 +30,6 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "Bullet.hpp"
-#include "VRam.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =
