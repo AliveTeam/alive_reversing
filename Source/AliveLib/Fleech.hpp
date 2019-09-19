@@ -178,6 +178,11 @@ public:
 public:
     EXPORT __int16 AI_Patrol_0_430BA0();
     EXPORT __int16 AI_ChasingAbe_1_428760();
+
+    EXPORT __int16 AI_ChasingAbe_State_1(BaseAliveGameObject* pObj, FP* pXPos);
+
+    __int16 AI_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj);
+
     EXPORT __int16 AI_Scared_2_42D310();
     EXPORT __int16 AI_Death_3_42D1E0();
 
