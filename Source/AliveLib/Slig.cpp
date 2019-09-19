@@ -565,7 +565,7 @@ void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAl
                 0
             );
 
-            PSX_RECT rectToInvalidate;
+            PSX_RECT rectToInvalidate = {};
             actor->field_20_animation.Get_Frame_Rect_409E10(&rectToInvalidate);
             pScreenManager_5BB5F4->InvalidateRect_40EC90(
                 rectToInvalidate.x,
