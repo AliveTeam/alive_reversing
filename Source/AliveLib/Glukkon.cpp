@@ -11,6 +11,7 @@
 #include "MusicController.hpp"
 #include "SwitchStates.hpp"
 #include "Spark.hpp"
+#include "Slig.hpp" //used for renderWithGlowingEyes() only - TODO refactor
 #include "ParticleBurst.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
@@ -326,118 +327,20 @@ void Glukkon::VUpdate()
 
 void Glukkon::vRender_4406C0(int** ot)
 {
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
+    __int16 eyeIndices[2];
+    if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1 ||
+        field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
     {
-        if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number &&
-            gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number &&
-            Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
-        {
-            field_20_animation.field_14_scale = field_CC_sprite_scale;
-            
-            PSX_RECT boundingRect = {};
-            vGetBoundingRect_424FD0(&boundingRect, 1);
-            __int16 rMod = field_D0_r;
-            __int16 gMod = field_D2_g;
-            __int16 bMod = field_D4_b;
-            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
-                FP_GetExponent(field_B8_xpos),
-                (boundingRect.h + boundingRect.y) / 2,
-                field_D6_scale,
-                &rMod,
-                &gMod,
-                &bMod
-            );
-            if (!field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
-            {
-                if (rMod != field_1A0_red || gMod != field_1A2_green || bMod != field_1A4_blue)
-                {
-                    field_1A0_red = rMod;
-                    field_1A2_green = gMod;
-                    field_1A4_blue = bMod;
-
-                    const FrameInfoHeader *pFrameInfoHeader = field_20_animation.Get_FrameHeader_40B730(0);
-                    const BYTE* pAnimData = *field_20_animation.field_20_ppBlock;
-                    const DWORD clut_offset = *reinterpret_cast<const DWORD*>(&(pAnimData)[pFrameInfoHeader->field_0_frame_header_offset]);
-                    const WORD* pAnimDataWithOffset = reinterpret_cast<const WORD*>(&pAnimData[clut_offset + 4]);
-                    for (int i = 0; i < ALIVE_COUNTOF(field_118_pPalAlloc); i++ )
-                    {
-                        __int32 auxPalValue = pAnimDataWithOffset[i] & 0x1F;
-                        unsigned __int16 resultR = static_cast<__int16>( auxPalValue * field_1A0_red) >> 7;
-                        if (resultR > 31)
-                        {
-                            resultR = 31;
-                        }
-
-                        auxPalValue = (pAnimDataWithOffset[i] >> 5) & 0x1F;
-                        unsigned __int16 resultG = static_cast< __int16 >( auxPalValue * field_1A2_green) >> 7;
-                        if (resultG > 31)
-                        {
-                            resultG = 31;
-                        }
-
-                        auxPalValue = (pAnimDataWithOffset[i] >> 10) & 0x1F;
-                        unsigned __int16 resultB = static_cast< __int16 >( auxPalValue * field_1A4_blue) >> 7;
-                        if (resultB > 31)
-                        {
-                            resultB = 31;
-                        }
-
-                        int resultMixed = (pAnimDataWithOffset[i] & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
-                        if (resultMixed <= 0 && pAnimDataWithOffset[i])
-                        {
-                            resultMixed = 1;
-                        }
-                        field_118_pPalAlloc[i] = static_cast<WORD>(resultMixed);
-                    }
-
-                    if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1)
-                    {
-                        field_118_pPalAlloc[63] = pAnimDataWithOffset[63];
-                    }
-                    else if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
-                    {
-                        field_118_pPalAlloc[63] = pAnimDataWithOffset[63];
-                    }
-                    else
-                    {
-                        field_118_pPalAlloc[62] = pAnimDataWithOffset[62];
-                    }
-                    Pal_Set_483510(
-                        field_20_animation.field_8C_pal_vram_xy,
-                        field_20_animation.field_90_pal_depth,
-                        reinterpret_cast<const BYTE*>(&field_118_pPalAlloc),
-                        &field_198
-                    );
-                }
-                field_20_animation.field_8_r = 127;
-                field_20_animation.field_9_g = 127;
-                field_20_animation.field_A_b = 127;
-            }
-
-            field_20_animation.vRender_40B820(
-                FP_GetExponent(FP_FromInteger(field_DA_xOffset) + field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
-                FP_GetExponent(FP_FromInteger(field_D8_yOffset) + field_BC_ypos - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
-                ot,
-                0,
-                0
-            );
-
-            PSX_RECT rectToInvalidate;
-            field_20_animation.Get_Frame_Rect_409E10(&rectToInvalidate);
-            pScreenManager_5BB5F4->InvalidateRect_40EC90(
-                rectToInvalidate.x,
-                rectToInvalidate.y,
-                rectToInvalidate.w,
-                rectToInvalidate.h,pScreenManager_5BB5F4->field_3A_idx
-            );
-
-            if (field_E0_pShadow)
-            {
-                field_E0_pShadow->Calculate_Position_4ACA50(field_B8_xpos, field_BC_ypos, &rectToInvalidate, field_CC_sprite_scale, field_D6_scale);
-                field_E0_pShadow->Render_4ACE60(ot);
-            }
-        }
+        eyeIndices[0] = 63;
     }
+    else
+    {
+        eyeIndices[0] = 62;
+    }
+
+    eyeIndices[1] = -1;
+    renderWithGlowingEyes(ot, this, &field_118_pPalAlloc[0], ALIVE_COUNTOF(field_118_pPalAlloc),
+                        &field_198, field_1A0_red, field_1A2_green, field_1A4_blue, eyeIndices);
 }
 
 void Glukkon::VScreenChanged()

@@ -565,3 +565,8 @@ private:
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 
 EXPORT int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData);
+
+
+void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
+    __int16& r, __int16& g, __int16& b,
+    __int16 eyeColourIndices[]);

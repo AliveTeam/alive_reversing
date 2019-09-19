@@ -278,7 +278,7 @@ private:
     bool BrainIs(TGlukkonAIFn fn);
 
 private:
-    WORD field_118_pPalAlloc[64];
+    __int16 field_118_pPalAlloc[64];
     PSX_RECT field_198;
     __int16 field_1A0_red;
     __int16 field_1A2_green;
