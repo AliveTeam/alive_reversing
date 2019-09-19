@@ -325,7 +325,7 @@ void Glukkon::VUpdate()
 
 void Glukkon::vRender_4406C0(int** ot)
 {
-    __int16 eyeIndices[2];
+    __int16 eyeIndices[1];
     if (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1 ||
         field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
     {
@@ -335,10 +335,8 @@ void Glukkon::vRender_4406C0(int** ot)
     {
         eyeIndices[0] = 62;
     }
-
-    eyeIndices[1] = -1;
     renderWithGlowingEyes(ot, this, &field_118_pPalAlloc[0], ALIVE_COUNTOF(field_118_pPalAlloc),
-                        &field_198, field_1A0_red, field_1A2_green, field_1A4_blue, eyeIndices);
+                        &field_198, field_1A0_red, field_1A2_green, field_1A4_blue, &eyeIndices[0], 1);
 }
 
 void Glukkon::VScreenChanged()

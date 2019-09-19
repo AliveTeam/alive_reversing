@@ -476,7 +476,7 @@ void Slig::VUpdate()
 
 void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAlloc, __int16 palSize, PSX_RECT* palRect,
                             __int16& r, __int16& g, __int16& b,
-                            __int16 eyeColourIndices[] )
+                            const __int16* eyeColourIndices, __int16 eyeColourIndicesSize)
 {
     if (actor->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
@@ -541,14 +541,9 @@ void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAl
                         }
                         pPalAlloc[i] = static_cast< WORD >( resultMixed );
                     }
-                    for (int i = 0; i < sizeof(eyeColourIndices)/sizeof(eyeColourIndices[0]); i++)
+                    for (int i = 0; i < eyeColourIndicesSize; i++)
                     {
-                        auto idx = eyeColourIndices[i];
-                        LOG_INFO(idx);
-                        if (idx >= 0)
-                        {
-                            pPalAlloc[idx] = pAnimDataWithOffset[idx];
-                        }
+                        pPalAlloc[eyeColourIndices[i]] = pAnimDataWithOffset[eyeColourIndices[i]];
                     }
                     Pal_Set_483510(
                         actor->field_20_animation.field_8C_pal_vram_xy,
@@ -590,9 +585,9 @@ void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAl
 
 void Slig::vRender_4B1F80(int** ot)
 {
-    __int16 eyeIndices[] = { 61, 62 };
+    const __int16 eyeIndices[] = { 61, 62 };
     renderWithGlowingEyes(ot, this, &field_178_pPalAlloc[0], ALIVE_COUNTOF(field_178_pPalAlloc),
-                        &field_1F8, field_200_red, field_202_green, field_204_blue, eyeIndices);
+                        &field_1F8, field_200_red, field_202_green, field_204_blue, &eyeIndices[0], 2);
 }
 
 void Slig::VScreenChanged()
