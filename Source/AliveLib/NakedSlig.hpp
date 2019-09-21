@@ -144,10 +144,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override
-    {
-        vRender_419990(pOrderingTable);
-    }
+    virtual void VRender(int** pOrderingTable) override;
 
     virtual void VPossessed_408F70() override;
 
@@ -161,13 +158,10 @@ public:
 
     EXPORT static int CC CreateFromSaveState_41AE80(const BYTE* pBuffer);
 
-
 private:
     EXPORT int vGetSaveState_41C9A0(NakedSlig_State* pState);
 
-
     EXPORT void vPossessed_4195F0();
-
 
     EXPORT void Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion);
 

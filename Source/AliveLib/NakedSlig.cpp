@@ -215,6 +215,11 @@ void NakedSlig::VUpdate()
     vUpdate_419100();
 }
 
+void NakedSlig::VRender(int** pOrderingTable)
+{
+    vRender_419990(pOrderingTable);
+}
+
 void NakedSlig::vRender_419990(int** ot)
 {
     const __int16 eyeIndices[] = { 60, 62 };

@@ -131,45 +131,21 @@ class FlyingSlig : public BaseAliveGameObject
 public:
     EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_434870(flags);
-    }
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual void VUpdate() override
-    {
-        vUpdate_434AD0();
-    }
+    virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override
-    {
-        vRender_435130(pOrderingTable);
-    }
+    virtual void VRender(int** pOrderingTable) override;
 
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_434C10();
-    }
+    virtual void VScreenChanged() override;
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
-    {
-        return vTakeDamage_434C90(pFrom);
-    }
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    virtual void VPossessed_408F70() override
-    {
-        vPossessed_434FB0();
-    }
+    virtual void VPossessed_408F70() override;
 
-    virtual void VSetMotion_4081C0(__int16 state) override
-    {
-        vSetMotion_43B1B0(state);
-    }
+    virtual void VSetMotion_4081C0(__int16 state) override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override
-    {
-        return vGetSaveState_43B1E0(reinterpret_cast<FlyingSlig_State*>(pSaveBuffer));
-    }
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     // TODO: Remaining virtuals
     

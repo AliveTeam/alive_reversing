@@ -213,12 +213,10 @@ public:
     EXPORT Slig* ctor_4B1370(Path_Slig* pTlv, int tlvInfo);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
+
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override
-    {
-        vRender_4B1F80(pOrderingTable);
-    }
+    virtual void VRender(int** pOrderingTable) override;
 
     virtual void VScreenChanged() override;
 

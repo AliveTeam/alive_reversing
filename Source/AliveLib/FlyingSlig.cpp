@@ -468,6 +468,11 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
     return sizeof(FlyingSlig_State);
 }
 
+int FlyingSlig::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_43B1E0(reinterpret_cast<FlyingSlig_State*>(pSaveBuffer));
+}
+
 int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
 {
     if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
@@ -622,6 +627,11 @@ void FlyingSlig::dtor_434990()
     BaseAliveGameObject::dtor_4080B0();
 }
 
+BaseGameObject* FlyingSlig::VDestructor(signed int flags)
+{
+    return vdtor_434870(flags);
+}
+
 FlyingSlig* FlyingSlig::vdtor_434870(signed int flags)
 {
     dtor_434990();
@@ -630,6 +640,11 @@ FlyingSlig* FlyingSlig::vdtor_434870(signed int flags)
         Mem_Free_495540(this);
     }
     return this;
+}
+
+void FlyingSlig::VScreenChanged()
+{
+    vScreenChanged_434C10();
 }
 
 void FlyingSlig::vScreenChanged_434C10()
@@ -642,6 +657,11 @@ void FlyingSlig::vScreenChanged_434C10()
     {
         field_6_flags.Set(BaseGameObject::eDead);
     }
+}
+
+void FlyingSlig::VUpdate()
+{
+    vUpdate_434AD0();
 }
 
 void FlyingSlig::vUpdate_434AD0()
@@ -705,6 +725,11 @@ void FlyingSlig::vUpdate_434AD0()
 
         Movement_4396E0();
     }
+}
+
+void FlyingSlig::VRender(int** pOrderingTable)
+{
+    vRender_435130(pOrderingTable);
 }
 
 void FlyingSlig::vRender_435130(int** ot)
@@ -995,6 +1020,11 @@ void FlyingSlig::Movement_4396E0()
     field_188_ySpeed = FP_FromInteger(0);
 
     field_190 = FP_FromInteger(0);
+}
+
+__int16 FlyingSlig::VTakeDamage_408730(BaseGameObject* pFrom)
+{
+    return vTakeDamage_434C90(pFrom);
 }
 
 __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
@@ -2739,6 +2769,11 @@ __int16 FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
     return found_type;
 }
 
+void FlyingSlig::VPossessed_408F70()
+{
+    vPossessed_434FB0();
+}
+
 void FlyingSlig::vPossessed_434FB0()
 {
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
@@ -3063,6 +3098,11 @@ void FlyingSlig::sub_4373B0()
     {
         field_17E_flags.Set(Flags_17E::eBit4);
     }
+}
+
+void FlyingSlig::VSetMotion_4081C0(__int16 state)
+{
+    vSetMotion_43B1B0(state);
 }
 
 void FlyingSlig::vSetMotion_43B1B0(__int16 newMotion)

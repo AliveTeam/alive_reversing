@@ -583,6 +583,11 @@ void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAl
     }
 }
 
+void Slig::VRender(int** pOrderingTable)
+{
+    vRender_4B1F80(pOrderingTable);
+}
+
 void Slig::vRender_4B1F80(int** ot)
 {
     const __int16 eyeIndices[] = { 61, 62 };
