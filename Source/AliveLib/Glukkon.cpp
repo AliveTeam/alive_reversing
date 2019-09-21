@@ -323,6 +323,11 @@ void Glukkon::VUpdate()
     vUpdate_43F770();
 }
 
+void Glukkon::VRender(int** pOrderingTable)
+{
+    vRender_4406C0(pOrderingTable);
+}
+
 void Glukkon::vRender_4406C0(int** ot)
 {
     __int16 eyeIndices[1];

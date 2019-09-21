@@ -162,10 +162,7 @@ public:
 
     virtual void VUpdate() override;
 
-    virtual void VRender(int** pOrderingTable) override
-    {
-        vRender_4406C0(pOrderingTable);
-    }
+    virtual void VRender(int** pOrderingTable) override;
 
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
