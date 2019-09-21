@@ -54,7 +54,7 @@ private:
 
     EXPORT void DoRender_432740();
 
-    EXPORT bool CounterOver_432DA0();
+    EXPORT __int16 CounterOver_432DA0();
 
     EXPORT void vUpdate_432C40();
 
