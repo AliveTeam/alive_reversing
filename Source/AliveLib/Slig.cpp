@@ -592,7 +592,7 @@ void Slig::vRender_4B1F80(int** ot)
 {
     const __int16 eyeIndices[] = { 61, 62 };
     renderWithGlowingEyes(ot, this, &field_178_pPalAlloc[0], ALIVE_COUNTOF(field_178_pPalAlloc),
-                        &field_1F8, field_200_red, field_202_green, field_204_blue, &eyeIndices[0], 2);
+                        &field_1F8, field_200_red, field_202_green, field_204_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
 void Slig::VScreenChanged()

@@ -336,7 +336,7 @@ void Glukkon::vRender_4406C0(int** ot)
         eyeIndices[0] = 62;
     }
     renderWithGlowingEyes(ot, this, &field_118_pPalAlloc[0], ALIVE_COUNTOF(field_118_pPalAlloc),
-                        &field_198, field_1A0_red, field_1A2_green, field_1A4_blue, &eyeIndices[0], 1);
+                        &field_198, field_1A0_red, field_1A2_green, field_1A4_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
 void Glukkon::VScreenChanged()

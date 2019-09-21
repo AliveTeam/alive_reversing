@@ -224,7 +224,7 @@ void NakedSlig::vRender_419990(int** ot)
 {
     const __int16 eyeIndices[] = { 60, 62 };
     renderWithGlowingEyes(ot, this, &field_11C_pPalAlloc[0], ALIVE_COUNTOF(field_11C_pPalAlloc),
-                        &field_19C_pal_rect, field_1A4_r, field_1A6_g, field_1A8_b, &eyeIndices[0], 2);
+                        &field_19C_pal_rect, field_1A4_r, field_1A6_g, field_1A8_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
 void NakedSlig::VPossessed_408F70()
