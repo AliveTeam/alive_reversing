@@ -2026,27 +2026,26 @@ __int16 Paramite::AI_SurpriseWeb_3_4851B0()
         {
             field_C8_vely = FP_FromInteger(0);
             field_106_current_motion = eParamiteMotions::M_SurpriseWeb_33_48D760;
+            return AI_SurpriseWeb::eState3_StateLoop1_3;
         }
-        return AI_SurpriseWeb::eState3_StateLoop1_3;
+        break;
 
     case AI_SurpriseWeb::eState3_StateLoop1_3:
         pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(field_BC_ypos)) - 10;
         pExistingWeb->field_BC_ypos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
-        if (field_106_current_motion != eParamiteMotions::M_Idle_0_489FB0)
-        {
-            if (field_C8_vely < (field_CC_sprite_scale * FP_FromInteger(8)))
-            {
-                field_C8_vely = (field_CC_sprite_scale * FP_FromDouble(0.5)) + field_C8_vely;
-                return field_12C_brain_ret;
-            }
-        }
-        else
+        if (field_106_current_motion == eParamiteMotions::M_Idle_0_489FB0)
         {
             auto pWeb = static_cast<ParamiteWeb*>(sObjectIds_5C1B70.Find_449CF0(field_11C_web_id));
-            pWeb->field_104_bEnabled = 1;
+            pWeb->field_104_bEnabled = TRUE;
             field_11C_web_id = -1;
             SetBrain(&Paramite::AI_Patrol_0_4835B0);
             return AI_Patrol::eState0_Inactive_0;
+        }
+
+        if (field_C8_vely < (field_CC_sprite_scale * FP_FromInteger(8)))
+        {
+            field_C8_vely = (field_CC_sprite_scale * FP_FromDouble(0.5)) + field_C8_vely;
+            return field_12C_brain_ret;
         }
         return AI_SurpriseWeb::eState3_StateLoop2_4;
 
