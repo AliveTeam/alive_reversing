@@ -144,6 +144,8 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOrderingTable) override;
+
     virtual void VPossessed_408F70() override;
 
     virtual void VOnTrapDoorOpen() override;
@@ -156,13 +158,10 @@ public:
 
     EXPORT static int CC CreateFromSaveState_41AE80(const BYTE* pBuffer);
 
-
 private:
     EXPORT int vGetSaveState_41C9A0(NakedSlig_State* pState);
 
-
     EXPORT void vPossessed_4195F0();
-
 
     EXPORT void Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion);
 
@@ -174,6 +173,7 @@ private:
 
     EXPORT void vUpdate_419100();
 
+    EXPORT void vRender_419990(int** ot);
 
     EXPORT __int16 HandleEnemyStopper_41C740(FP velX);
 
@@ -236,9 +236,8 @@ public:
 
 private:
     int field_118_tlvInfo;
-    __int16 field_11C_pal_buf[64];
+    __int16 field_11C_pPalAlloc[64];
     PSX_RECT field_19C_pal_rect;
-
     __int16 field_1A4_r;
     __int16 field_1A6_g;
     __int16 field_1A8_b;

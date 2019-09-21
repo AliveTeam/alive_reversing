@@ -131,40 +131,21 @@ class FlyingSlig : public BaseAliveGameObject
 public:
     EXPORT FlyingSlig* ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo);
 
-    virtual BaseGameObject* VDestructor(signed int flags) override
-    {
-        return vdtor_434870(flags);
-    }
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
-    virtual void VUpdate() override
-    {
-        vUpdate_434AD0();
-    }
+    virtual void VUpdate() override;
 
-    virtual void VScreenChanged() override
-    {
-        vScreenChanged_434C10();
-    }
+    virtual void VRender(int** pOrderingTable) override;
 
-    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override
-    {
-        return vTakeDamage_434C90(pFrom);
-    }
+    virtual void VScreenChanged() override;
 
-    virtual void VPossessed_408F70() override
-    {
-        vPossessed_434FB0();
-    }
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
 
-    virtual void VSetMotion_4081C0(__int16 state) override
-    {
-        vSetMotion_43B1B0(state);
-    }
+    virtual void VPossessed_408F70() override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer) override
-    {
-        return vGetSaveState_43B1E0(reinterpret_cast<FlyingSlig_State*>(pSaveBuffer));
-    }
+    virtual void VSetMotion_4081C0(__int16 state) override;
+
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
 
     // TODO: Remaining virtuals
     
@@ -182,6 +163,9 @@ private:
 
 
     EXPORT void vUpdate_434AD0();
+
+    EXPORT void vRender_435130(int** ot);
+
     EXPORT __int16 IsPossessed_436A90();
     EXPORT void sub_4348A0();
     EXPORT void Movement_4396E0();
@@ -397,11 +381,11 @@ private:
     __int16 field_1EA;
     PathLine* field_1EC_pNextLine;
     PathLine* field_1F0_pPrevLine;
-    __int16 field_1F4_pal_data[64];
+    __int16 field_1F4_pPalAlloc[64];
     PSX_RECT field_274_pal_rect;
-    __int16 field_27C_old_g;
-    __int16 field_27E_old_b;
-    __int16 field_280_old_r;
+    __int16 field_27C_r;
+    __int16 field_27E_g;
+    __int16 field_280_b;
     __int16 field_282;
     FP field_284;
     const FP* field_288;
