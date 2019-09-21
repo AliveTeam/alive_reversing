@@ -736,7 +736,7 @@ void FlyingSlig::vRender_435130(int** ot)
 {
     const __int16 eyeIndices[] = { 60, 62 };
     renderWithGlowingEyes(ot, this, &field_1F4_pPalAlloc[0], ALIVE_COUNTOF(field_1F4_pPalAlloc),
-                        &field_274_pal_rect, field_27C_r, field_27E_g, field_280_b, &eyeIndices[0], 2);
+                        &field_274_pal_rect, field_27C_r, field_27E_g, field_280_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
 void FlyingSlig::sub_4348A0()
