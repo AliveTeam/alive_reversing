@@ -2226,6 +2226,7 @@ void Fleech::MoveAlongFloor_42E600()
 
     if (field_100_pCollisionLine)
     {
+        PathLine* pOldLine = field_100_pCollisionLine;
         field_100_pCollisionLine = field_100_pCollisionLine->MoveOnLine_418260(&field_B8_xpos, &field_BC_ypos, field_C4_velx);
         if (field_100_pCollisionLine && ((field_D6_scale != 0 ? 1 : 16) & (1 << field_100_pCollisionLine->field_8_type)))
         {
@@ -2258,6 +2259,7 @@ void Fleech::MoveAlongFloor_42E600()
         {
             field_B8_xpos = prev_xpos;
             field_BC_ypos = prev_ypos;
+            field_100_pCollisionLine = pOldLine;
             field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
         }
     }
