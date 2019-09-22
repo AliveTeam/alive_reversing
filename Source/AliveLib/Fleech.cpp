@@ -2378,7 +2378,7 @@ Path_Hoist* Fleech::TryGetHoist_42AFD0(int xDistance, __int16 bIgnoreDirection)
         return pHoist;
     }
 
-    if (pHoist->field_12_edge_type == (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::EdgeType::eRight : Path_Hoist::EdgeType::eLeft) ||
+    if (pHoist->field_12_edge_type == (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::EdgeType::eLeft : Path_Hoist::EdgeType::eRight) ||
         pHoist->field_12_edge_type == Path_Hoist::EdgeType::eBoth)
     {
         return pHoist;
