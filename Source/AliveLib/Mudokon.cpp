@@ -1900,8 +1900,256 @@ enum AI_Sick
 
 __int16 Mudokon::AI_GiveRings_0_470C10()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    switch (field_190_sub_state)
+    {
+    case AI_GiveRings::eState0_Inactive_0:
+        if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            sActiveHero_5C1B68->field_C2_lvl_number,
+            sActiveHero_5C1B68->field_C0_path_number,
+            sActiveHero_5C1B68->field_B8_xpos,
+            sActiveHero_5C1B68->field_BC_ypos,
+            0))
+        {
+            field_16C &= ~1u;
+            field_194_timer = sGnFrame_5C1B84 + 60;
+            field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+
+            if (sActiveHero_5C1B68->field_168_ring_pulse_timer)
+            {
+                field_16C |= 1;
+                return AI_GiveRings::eState0_Idle_2;
+            }
+            else
+            {
+                return AI_GiveRings::eState0_PreIdle_1;
+            }
+        }
+        break;
+
+    case AI_GiveRings::eState0_PreIdle_1:
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        {
+            if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
+            {
+                Sound_475EC0(MudSounds::eHelloNeutral_3);
+                field_108_next_motion = Mud_Motion::Speak_Generic_4_472FA0;
+                field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 150;
+                return AI_GiveRings::eState0_Idle_2;
+            }
+            field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
+        }
+        break;
+
+    case AI_GiveRings::eState0_Idle_2:
+        if (field_16A_flags.Get(Flags::eBit16_instant_power_up) &&
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                field_C2_lvl_number,
+                field_C0_path_number,
+                field_B8_xpos,
+                field_BC_ypos,
+                0) &&
+            gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+                sActiveHero_5C1B68->field_C2_lvl_number,
+                sActiveHero_5C1B68->field_C0_path_number,
+                sActiveHero_5C1B68->field_B8_xpos,
+                sActiveHero_5C1B68->field_BC_ypos,
+                0)
+            && !sActiveHero_5C1B68->field_168_ring_pulse_timer)
+        {
+            field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
+            return AI_GiveRings::eState0_SaysOkay_6;
+        }
+        else
+        {
+            const int lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
+            const bool bSameAsLastIdx = field_140 == lastEventIdx;
+            if (!bSameAsLastIdx)
+            {
+                field_140 = lastEventIdx;
+            }
+
+            if (bSameAsLastIdx || pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1 || pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eSameAsLast_m2)
+            {
+                if (!(field_16C & 1) && static_cast<int>(sGnFrame_5C1B84) > field_194_timer)
+                {
+                    return AI_GiveRings::eState0_Shrug_5;
+                }
+            }
+            else
+            {
+                field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
+                if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eHello_9)
+                {
+                    return AI_GiveRings::eState0_GoodGameSpeak_3;
+                }
+                else
+                {
+                    return AI_GiveRings::eState0_WrongGameSpeak_4;
+                }
+            }
+        }
+        break;
+
+    case AI_GiveRings::eState0_GoodGameSpeak_3:
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        {
+            if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
+            {
+                if (sActiveHero_5C1B68->field_168_ring_pulse_timer > 0)
+                {
+                    Sound_475EC0(MudSounds::eHelloNeutral_3);
+                }
+                else
+                {
+                    Sound_475EC0(MudSounds::eOkay_12);
+                }
+                field_108_next_motion = Mud_Motion::Speak_Generic_4_472FA0;
+                return AI_GiveRings::eState0_SaysOkay_6;
+            }
+            field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
+        }
+        break;
+
+    case AI_GiveRings::eState0_WrongGameSpeak_4:
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        {
+            if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
+            {
+                field_108_next_motion = Mud_Motion::StandToDunno_43_472790;
+                return AI_GiveRings::eState0_Idle_2;
+            }
+            field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
+        }
+        break;
+
+    case AI_GiveRings::eState0_Shrug_5:
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        {
+            if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
+            {
+                field_108_next_motion = Mud_Motion::StandToDunno_43_472790;
+                field_194_timer = StableDelay_477570() + sGnFrame_5C1B84 + 20;
+                return AI_GiveRings::eState0_PreIdle_1;
+            }
+            field_108_next_motion = Mud_Motion::TurnAroundStanding_2_472BF0;
+        }
+        break;
+
+    case AI_GiveRings::eState0_SaysOkay_6:
+        if (field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
+        {
+            if (sActiveHero_5C1B68->field_168_ring_pulse_timer <= 0)
+            {
+                field_108_next_motion = 50;
+                field_194_timer = sGnFrame_5C1B84 + 30;
+                return AI_GiveRings::eState0_Chanting_7;
+            }
+            else
+            {
+                return AI_GiveRings::eState0_Idle_2;
+            }
+        }
+        break;
+
+    case AI_GiveRings::eState0_Chanting_7:
+        if (static_cast<int>(sGnFrame_5C1B84) > field_194_timer)
+        {
+            if (field_168_ring_type == RingTypes::eExplosive_Emit_Effect_2)
+            {
+                // Red flicker
+                auto pFlicker = alive_new<PossessionFlicker>();
+                if (pFlicker)
+                {
+                    pFlicker->ctor_4319E0(this, 10, 255, 128, 128);
+                }
+            }
+            else
+            {
+                // Greenish flicker
+                auto pFlicker = alive_new<PossessionFlicker>();
+                if (pFlicker)
+                {
+                    pFlicker->ctor_4319E0(this, 10, 255, 255, 32);
+                }
+            }
+            field_194_timer = sGnFrame_5C1B84 + 15;
+            return AI_GiveRings::eState0_GivingRing_8;
+        }
+        break;
+
+    case AI_GiveRings::eState0_GivingRing_8:
+        if (static_cast<int>(sGnFrame_5C1B84) > field_194_timer)
+        {
+            // Create a ring emitting from us
+            PSX_RECT bRect = {};
+            vGetBoundingRect_424FD0(&bRect, 1);
+
+            AbilityRing::Factory_482F80(
+                FP_FromInteger((bRect.x + bRect.w) / 2),
+                FP_FromInteger((bRect.y + bRect.h) / 2),
+                field_168_ring_type,
+                field_CC_sprite_scale);
+
+            // Create a ring that locks onto abe
+            PSX_RECT bRectAbe = {};
+            sActiveHero_5C1B68->vGetBoundingRect_424FD0(&bRectAbe, 1);
+
+            RingTypes ringTypeToGive = RingTypes::eExplosive_Give_3;
+            if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
+            {
+                ringTypeToGive = RingTypes::eHealing_Give_13;
+            }
+
+            AbilityRing* pRing = AbilityRing::Factory_482F80(
+                FP_FromInteger((bRectAbe.x + bRectAbe.w) / 2),
+                FP_FromInteger((bRectAbe.y + bRectAbe.h) / 2),
+                ringTypeToGive,
+                sActiveHero_5C1B68->field_CC_sprite_scale);
+
+            // Must set abe as the target to "lock on" to abe
+            if (pRing)
+            {
+                pRing->VSetTarget(sActiveHero_5C1B68);
+            }
+
+            field_194_timer = sGnFrame_5C1B84 + 30;
+            return AI_GiveRings::eState0_RecievingRing1_9;
+        }
+        break;
+
+    case AI_GiveRings::eState0_RecievingRing1_9:
+        if (static_cast<int>(sGnFrame_5C1B84) > field_194_timer)
+        {
+            if (field_164_ring_timeout > 0)
+            {
+                sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + field_164_ring_timeout;
+            }
+            else
+            {
+                sActiveHero_5C1B68->field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
+            }
+
+            sActiveHero_5C1B68->field_16C_bHaveShrykull = FALSE;
+
+            if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
+            {
+                sActiveHero_5C1B68->field_1AC_flags.Set(Abe::e1AC_eBit15_bHaveHealing);
+            }
+
+            field_108_next_motion = Mud_Motion::StandIdle_0_4724E0;
+            return AI_GiveRings::eState0_RecievingRing2_10;
+        }
+        break;
+
+    case AI_GiveRings::eState0_RecievingRing2_10:
+        field_16C |= 1u;
+        return 2;
+
+    default:
+        break;
+    }
+
+    return field_190_sub_state;
 }
 
 const __int16 kDelayTable_55CF7C[6] = { 0, 6, 12, 18, 24, 30, };
