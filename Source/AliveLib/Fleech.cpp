@@ -3418,16 +3418,16 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
         if (vIsFacingMe_4254A0(pDangerObj))
         {
-            if (field_106_current_motion == 4)
+            if (field_106_current_motion == eFleechMotions::M_Crawl_4_42E960)
             {
-                field_108_next_motion = 7;
+                field_108_next_motion = eFleechMotions::M_StopCrawling_7_42EBB0;
                 Sound_430520(7u);
                 return 6;
             }
 
-            if (field_106_current_motion == 3)
+            if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850)
             {
-                field_108_next_motion = 6;
+                field_108_next_motion = eFleechMotions::M_Knockback_6_42EAF0;
             }
         }
 
@@ -3457,26 +3457,26 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
                     gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
                     sub_42CF50();
-                    field_108_next_motion = 14;
+                    field_108_next_motion = eFleechMotions::M_ExtendTongueFromEnemy_14_42FBD0;
                     return 10;
                 }
             }
         }
 
-        if (pObj == sActiveHero_5C1B68 && pObj->field_106_current_motion == 67 && field_BC_ypos > pObj->field_BC_ypos)
+        if (pObj == sActiveHero_5C1B68 && pObj->field_106_current_motion == eAbeStates::State_67_LedgeHang_454E20 && field_BC_ypos > pObj->field_BC_ypos)
         {
             if (field_BC_ypos - pObj->field_BC_ypos <= (ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(6)))
             {
                 if (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2), pObj))
                 {
                     if (pObj->field_CC_sprite_scale == field_CC_sprite_scale
-                        && vIsFacingMe_4254A0(pObj)
-                        && !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos)
-                        && sub_42CFA0()
-                        && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+                        && vIsFacingMe_4254A0(pObj) &&
+                        !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos) &&
+                        sub_42CFA0() &&
+                        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                     {
                         sub_42CF50();
-                        field_108_next_motion = 14;
+                        field_108_next_motion = eFleechMotions::M_ExtendTongueFromEnemy_14_42FBD0;
                         return 10;
                     }
                 }
@@ -3487,92 +3487,88 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         {
             return AI_ChasingAbe_State1_Helper(pObj);
         }
-        else
+
+        Path_Hoist* pHoist = TryGetHoist_42AFD0(1, FALSE);
+        if (pHoist)
         {
-            Path_Hoist* pHoist = TryGetHoist_42AFD0(1, 0);
-            if (pHoist)
+            field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
+            field_160_hoistX = pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
+            field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+            return 14;
+        }
+
+        pHoist = TryGetHoist_42AFD0(0, TRUE);
+        if (pHoist)
+        {
+            if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850)
             {
-                field_108_next_motion = 3;
+                // TODO: Check left VS flip is correct
+                if ((pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft &&
+                    field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) &&
+                    pHoist->field_12_edge_type != Path_Hoist::EdgeType::eBoth)
+                {
+                    field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
+                }
+
+                field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
                 field_160_hoistX = pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
                 field_162_hoistY = pHoist->field_8_top_left.field_2_y;
                 return 14;
             }
-
-            pHoist = TryGetHoist_42AFD0(0, 1);
-            if (pHoist)
-            {
-                if (field_106_current_motion == 3)
-                {
-
-                    // TODO: Check left VS flip is correct
-                    if ((pHoist->field_12_edge_type == Path_Hoist::EdgeType::eLeft &&
-                        field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) &&
-                        pHoist->field_12_edge_type != Path_Hoist::EdgeType::eBoth)
-                    {
-                        field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
-                    }
-
-                    field_108_next_motion = 3;
-                    field_160_hoistX = pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
-                    field_162_hoistY = pHoist->field_8_top_left.field_2_y;
-                    return 14;
-                }
-                else
-                {
-                    field_108_next_motion = 3;
-                    return field_126_state;
-                }
-            }
             else
             {
-                Path_Hoist* v40 = nullptr;
-                int k12BlocksCheck = 1;
-                do
-                {
-                    v40 = TryGetHoist_42AFD0(k12BlocksCheck, 1);
-                    if (v40)
-                    {
-                        field_108_next_motion = 4;
-                        field_160_hoistX = v40->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
-                        field_162_hoistY = v40->field_8_top_left.field_2_y;
-                        return field_126_state;
-                    }
-                    ++k12BlocksCheck;
-                } while (k12BlocksCheck <= 12);
-
-                int k8BlocksCheck = 1;
-                while (1)
-                {
-                    v40 = TryGetHoist_42AFD0(-k8BlocksCheck, 1);
-                    if (v40)
-                    {
-                        break;
-                    }
-                    if (++k8BlocksCheck > 8)
-                    {
-                        return AI_ChasingAbe_State1_Helper(pObj);
-                    }
-                }
-
-                switch (field_106_current_motion)
-                {
-                case 4:
-                    field_108_next_motion = 7;
-                    break;
-                case 3:
-                    field_106_current_motion = 6;
-                    break;
-                case 6:
-                case 7:
-                    field_108_next_motion = 4;
-                    break;
-                }
-
-                field_160_hoistX = v40->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
-                field_162_hoistY = v40->field_8_top_left.field_2_y;
+                field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
                 return field_126_state;
             }
         }
+
+        int k12BlocksCheck = 1;
+        do
+        {
+            pHoist = TryGetHoist_42AFD0(k12BlocksCheck, TRUE);
+            if (pHoist)
+            {
+                field_108_next_motion = eFleechMotions::M_Crawl_4_42E960;
+                field_160_hoistX = pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
+                field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+                return field_126_state;
+            }
+            ++k12BlocksCheck;
+        } while (k12BlocksCheck <= 12);
+
+        int k8BlocksCheck = 1;
+        while (1)
+        {
+            pHoist = TryGetHoist_42AFD0(-k8BlocksCheck, 1);
+            if (pHoist)
+            {
+                break;
+            }
+            if (++k8BlocksCheck > 8)
+            {
+                return AI_ChasingAbe_State1_Helper(pObj);
+            }
+        }
+
+        switch (field_106_current_motion)
+        {
+        case eFleechMotions::M_Crawl_4_42E960:
+            field_108_next_motion = eFleechMotions::M_StopCrawling_7_42EBB0;
+            break;
+
+        case eFleechMotions::M_Idle_3_42E850:
+            field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
+            break;
+
+        case eFleechMotions::M_Knockback_6_42EAF0:
+        case eFleechMotions::M_StopCrawling_7_42EBB0:
+            field_108_next_motion = eFleechMotions::M_Crawl_4_42E960;
+            break;
+        }
+
+        field_160_hoistX = pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
+        field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+        return field_126_state;
     }
 }
 
