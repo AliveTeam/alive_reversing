@@ -1434,7 +1434,7 @@ void NakedSlig::M_WakingUp_2_41BF00()
 
         if (pObj->field_4_typeId == Types::eSnoozParticle_124)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = 2;
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
         }
     }
 

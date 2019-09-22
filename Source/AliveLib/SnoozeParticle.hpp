@@ -5,8 +5,11 @@
 #include "FixedPoint.hpp"
 #include "FunctionFwd.hpp"
 
+
+
 class SnoozeParticle : public BaseGameObject
 {
+
 public:
     EXPORT SnoozeParticle* ctor_4B06F0(FP xpos, FP ypos, __int16 layer, FP scale);
 
@@ -20,6 +23,13 @@ public:
         vScreenChanged_4B1300();
     }
 
+    enum class SnoozeParticleState : __int16
+    {
+        Init_0 = 0,
+        Rising_1 = 1,
+        BlowingUp_2 = 2
+    };
+
 private:
 
     EXPORT void dtor_4B0900();
@@ -27,6 +37,10 @@ private:
     EXPORT SnoozeParticle* vdtor_4B08D0(signed int flags);
 
     EXPORT void vScreenChanged_4B1300();
+
+    EXPORT void Update_4B0980();
+
+    EXPORT void Render_4B0AF0(int** ot);
 
 private:
     FP field_20_x_start;
@@ -47,7 +61,7 @@ private:
     Line_G2 field_A4_G2_lines[2][6];
     Prim_SetTPage field_1C4_tPage[2];
 public:
-    __int16 field_1E4_state;
+    SnoozeParticleState field_1E4_state;
 private:
     __int16 field_1E6_pad;
 };

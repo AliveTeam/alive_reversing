@@ -1650,7 +1650,7 @@ void Slig::M_SleepingToStand_33_4B8C50()
 
         if (pObj->field_4_typeId == Types::eSnoozParticle_124)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = 2;
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
         }
     }
 
