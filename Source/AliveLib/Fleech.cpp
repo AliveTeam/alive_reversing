@@ -745,7 +745,7 @@ void Fleech::M_StopCrawling_7_42EBB0()
 
 void Fleech::M_StopMidCrawlCycle_8_42EB20()
 {
-    const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ?  -1 : 1);
+    const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ?  -1 : 1); // TODO: Correct way around ??
     if (WallHit_408750(
         FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
         ScaleToGridSize_4498B0(field_CC_sprite_scale) * k1Directed) ||
@@ -1881,7 +1881,7 @@ __int16 Fleech::CanMove_42E3E0()
     }
 
     const FP yDist = FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5);
-    const FP xDist = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -1 : 1);
+    const FP xDist = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -1 : 1); // TODO: Correct way around ?
     if (!WallHit_408750(yDist, xDist) && !HandleEnemyStopperOrSlamDoor_42ADC0(1))
     {
         field_106_current_motion = eFleechMotions::M_Crawl_4_42E960;
@@ -2979,7 +2979,7 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
         }
 
         // TODO: Check value is correct
-        const FP k1Directed = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? -1 : 1);
+        const FP k1Directed = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? -1 : 1); // TODO: Correct way around ?
         if (!WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize_4498B0(field_CC_sprite_scale) * k1Directed))
         {
             return 1;
@@ -3741,7 +3741,7 @@ __int16 Fleech::AI_Scared_2_42D310()
                 return 3;
             }
 
-            if (field_C4_velx > FP_FromInteger(0) && (Collision_42B290(1) || HandleEnemyStopperOrSlamDoor_42ADC0(1)))
+            if (field_C4_velx != FP_FromInteger(0) && (Collision_42B290(1) || HandleEnemyStopperOrSlamDoor_42ADC0(1)))
             {
                 field_108_next_motion = eFleechMotions::M_StopMidCrawlCycle_8_42EB20;
                 field_174_flags.Set(Flags_174::eBit2, field_C4_velx < FP_FromInteger(0));
@@ -3774,7 +3774,7 @@ __int16 Fleech::AI_Scared_2_42D310()
             }
             else
             {
-                const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -1 : 1);
+                const FP k1Directed = FP_FromInteger(field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1);
                 if (WallHit_408750(
                     FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5),
                     ScaleToGridSize_4498B0(field_CC_sprite_scale) * k1Directed))
@@ -3794,12 +3794,12 @@ __int16 Fleech::AI_Scared_2_42D310()
     }
 
     case 2u:
-        if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
+        if (field_106_current_motion == eFleechMotions::M_Idle_3_42E850)
         {
-            return field_126_state;
+            field_106_current_motion = eFleechMotions::M_Crawl_4_42E960;
+            return 1;
         }
-        field_106_current_motion = eFleechMotions::M_Crawl_4_42E960;
-        return 1;
+        return field_126_state;
 
     case 3u:
     {
