@@ -3356,151 +3356,130 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
 
     if (!pObj || pObj->field_10C_health <= FP_FromInteger(0))
     {
-//        goto LABEL_224;
         return 13;
     }
 
-    if (field_C4_velx == FP_FromInteger(0))
+    if (field_C4_velx != FP_FromInteger(0))
     {
-        goto LABEL_29;
+        const FP k1Directed = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
+        const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+        const FP xOff = (gridSize * k1Directed);
+        if (WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), xOff))
+        {
+            field_108_next_motion = eFleechMotions::M_StopMidCrawlCycle_8_42EB20;
+            field_174_flags.Set(Flags_174::eBit2, field_C4_velx < FP_FromInteger(0));
+            return 4;
+        }
+
+        if (HandleEnemyStopperOrSlamDoor_42ADC0(1))
+        {
+            FP  v12 = field_B8_xpos;
+            field_108_next_motion = eFleechMotions::M_Consume_18_42FDF0;
+            field_174_flags.Set(Flags_174::eBit2, field_C4_velx < FP_FromInteger(0));
+
+            FP xOff2 = {};
+            if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+            {
+                xOff2 = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+            else
+            {
+                xOff2 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+            }
+
+            // TODO: Check values are correct
+            FP tlv_w = {};
+            if (field_B8_xpos <= xOff2)
+            {
+                tlv_w = xOff2;
+            }
+            else
+            {
+                tlv_w = field_B8_xpos;
+            }
+
+            FP tlv_x = {};
+            if (tlv_x < field_B8_xpos)
+            {
+                tlv_x = field_B8_xpos;
+            }
+            else
+            {
+                tlv_x = tlv_w;
+            }
+
+            Path_TLV* pSlamDoor = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                FP_GetExponent(tlv_x),
+                FP_GetExponent(field_BC_ypos),
+                FP_GetExponent(tlv_w),
+                FP_GetExponent(field_BC_ypos),
+                TlvTypes::SlamDoor_85);
+            return  5 - (pSlamDoor != nullptr);
+        }
     }
 
-    const FP k1Directed = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
-    const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    const FP xOff = (gridSize * k1Directed);
-    if (WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), xOff))
+    FP v19 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    FP v20 = (v19 * FP_FromInteger(5));
+    if (IsScrabOrParamiteNear_42B440(v20))
     {
-        int v10 = field_C4_velx < FP_FromInteger(0);
-        field_108_next_motion = eFleechMotions::M_StopMidCrawlCycle_8_42EB20;
-        int v11 = 2 * v10;
-        field_174_flags.Set(Flags_174::eBit2, v11);
-        return 4;
-    }
-
-    if (field_C4_velx != FP_FromInteger(0) && HandleEnemyStopperOrSlamDoor_42ADC0(1))
-    {
-        FP  v12 = field_B8_xpos;
-        field_108_next_motion = eFleechMotions::M_Consume_18_42FDF0;
-        field_174_flags.Set(Flags_174::eBit2, field_C4_velx < FP_FromInteger(0));
-
-        FP xOff2 = {};
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+        auto v21 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
+        if (vIsFacingMe_4254A0(v21))
         {
-            xOff2 = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            __int16  v22 = field_106_current_motion;
+            if (v22 == 4)
+            {
+                field_108_next_motion = 7;
+                Sound_430520(7u);
+                return 6;
+            }
+            if (v22 == 3)
+            {
+                field_108_next_motion = 6;
+            }
         }
-        else
-        {
-            xOff2 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
-        }
-
-        // TODO: Check values are correct
-        FP tlv_w = {};
-        if (field_B8_xpos <= xOff2)
-        {
-            tlv_w = xOff2;
-        }
-        else
-        {
-            tlv_w = field_B8_xpos;
-        }
-
-        FP tlv_x = {};
-        if (tlv_x < field_B8_xpos)
-        {
-            tlv_x = field_B8_xpos;
-        }
-        else
-        {
-            tlv_x = tlv_w;
-        }
-
-        Path_TLV* pSlamDoor = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(tlv_x),
-            FP_GetExponent(field_BC_ypos),
-            FP_GetExponent(tlv_w),
-            FP_GetExponent(field_BC_ypos),
-            TlvTypes::SlamDoor_85);
-        return  5 - (pSlamDoor != nullptr);
-
-        /*
-        FP v14 = {};
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-        {
-            v14 = v12 - ScaleToGridSize_4498B0(field_CC_sprite_scale);
-        }
-        else
-        {
-            v14 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + v12;
-        }
-
-        
-        v15 = *pXPos;
-        v91 = v14;
-        v16 = &field_B8_xpos;
-        if (v15 <= v14)
-        {
-            v16 = &v91;
-        }
-        v35 = __OFSUB__(v15, v14);
-        v17 = v15 == v14;
-        v34 = v15 - v14 < 0;
-        v18 = &v91;
-        if ((unsigned __int8)(v34 ^ v35) | v17)
-        {
-            v18 = &field_B8_xpos;
-        }
-
-        result = 5 - (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            *v18 / 0x10000,
-            field_BC_ypos / 0x10000,
-            *v16 / 0x10000,
-            field_BC_ypos / 0x10000,
-            0x55u) != 0);
-        */
+        Sound_430520(7u);
+        result = 6;
     }
     else
     {
-    LABEL_29:
-        FP v19 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-        FP v20 = (v19 * FP_FromInteger(5));
-        if (Fleech::IsScrabOrParamiteNear_42B440(v20))
+        BaseAliveGameObject*  v23 = FindMudOrAbe_42CFD0();
+        if (v23)
         {
-            auto v21 = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
-            if (vIsFacingMe_4254A0(v21))
+            int v24 = v23->field_8_object_id;
+            if (v24 != field_11C_obj_id)
             {
-                __int16  v22 = field_106_current_motion;
-                if (v22 == 4)
-                {
-                    field_108_next_motion = 7;
-                    Sound_430520( 7u);
-                    return 6;
-                }
-                if (v22 == 3)
-                {
-                    field_108_next_motion = 6;
-                }
+                pObj = v23;
+                field_11C_obj_id = v24;
             }
-            Sound_430520(7u);
-            result = 6;
         }
-        else
+
+        if (vOnSameYLevel_425520(pObj))
         {
-            BaseAliveGameObject*  v23 = FindMudOrAbe_42CFD0();
-            if (v23)
+            const FP v25 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            const FP v26 = (v25 * FP_FromInteger(3));
+            if (vIsObjNearby_4253B0(v26, pObj))
             {
-                int v24 = v23->field_8_object_id;
-                if (v24 != field_11C_obj_id)
+                if (pObj->field_CC_sprite_scale == field_CC_sprite_scale
+                    && vIsFacingMe_4254A0(pObj)
+                    && !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos)
+                    && sub_42CFA0()
+                    && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
-                    pObj = v23;
-                    field_11C_obj_id = v24;
+                    sub_42CF50();
+                    field_108_next_motion = 14;
+                    return 10;
                 }
             }
+        }
 
-            if (vOnSameYLevel_425520(pObj))
+        if (pObj == sActiveHero_5C1B68 && pObj->field_106_current_motion == 67 && field_BC_ypos > pObj->field_BC_ypos)
+        {
+            const FP v27 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            if (field_BC_ypos - pObj->field_BC_ypos <= (v27 * FP_FromInteger(6)))
             {
-                const FP v25 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                const FP v26 = (v25 * FP_FromInteger(3)); 
-                if (vIsObjNearby_4253B0(v26, pObj))
+                const FP v28 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                const FP v29 = (v28 * FP_FromInteger(2));
+                if (vIsObjNearby_4253B0(v29, pObj))
                 {
                     if (pObj->field_CC_sprite_scale == field_CC_sprite_scale
                         && vIsFacingMe_4254A0(pObj)
@@ -3514,211 +3493,104 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
                     }
                 }
             }
+        }
 
-            if (pObj == sActiveHero_5C1B68 && pObj->field_106_current_motion == 67 && field_BC_ypos > pObj->field_BC_ypos)
+        const FP v30 = field_CC_sprite_scale;
+        if (pObj->field_BC_ypos >= field_BC_ypos - (FP_FromInteger(v30 >= FP_FromInteger(1) ? 18 : 9)) || pObj->field_CC_sprite_scale != v30)
+        {
+            return AI_ChasingAbe_State1_Helper(pObj);
+        }
+        else
+        {
+            Path_Hoist*  v31 = TryGetHoist_42AFD0(1, 0);
+            if (v31)
             {
-                const FP v27 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                if (field_BC_ypos - pObj->field_BC_ypos <= (v27 * FP_FromInteger(6)))
-                {
-                    const FP v28 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                    const FP v29 = (v28 * FP_FromInteger(2));
-                    if (vIsObjNearby_4253B0(v29, pObj))
-                    {
-                        if (pObj->field_CC_sprite_scale == field_CC_sprite_scale
-                            && vIsFacingMe_4254A0(pObj)
-                            && !WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), pObj->field_B8_xpos - field_B8_xpos)
-                            && sub_42CFA0()
-                            && gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
-                        {
-                            sub_42CF50();
-                            field_108_next_motion = 14;
-                            return 10;
-                        }
-                    }
-                }
+                field_108_next_motion = 3;
+
+                field_160_hoistX = v31->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
+                short  v47 = v31->field_8_top_left.field_2_y;
+                result = field_126_state;
+                field_162_hoistY = v47;
+                return 14;
             }
 
-            const FP v30 = field_CC_sprite_scale;
-            if (pObj->field_BC_ypos >= field_BC_ypos - (FP_FromInteger(v30 >= FP_FromInteger(1) ? 18 : 9)) || pObj->field_CC_sprite_scale != v30)
+            v31 = TryGetHoist_42AFD0(0, 1);
+            if (v31)
             {
-            LABEL_75:
-                const FP v42 = field_CC_sprite_scale;
-                if (pObj->field_BC_ypos < field_BC_ypos - (FP_FromInteger(v42 >= FP_FromInteger(1) ? 18 : 9)) && pObj->field_CC_sprite_scale == v42 && IsNear_428670(pObj))
-                {
-                    const FP v43 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                    const FP v44 = (v43 * FP_FromDouble(0.5));
-                    FP v45 = field_B8_xpos - pObj->field_B8_xpos;
-                    FP v91 = v45;
-                    if (v45 < FP_FromInteger(0))
-                    {
-                        v45 = -v45;
-                    }
-                    if (v45 < v44)
-                    {
-                        return 13;
-                    }
-                }
-                if (!vIsFacingMe_4254A0(pObj) && field_106_current_motion == 4)
-                {
-                    field_108_next_motion = 7;
-                }
-
                 if (field_106_current_motion == 3)
                 {
-                    if (vIsFacingMe_4254A0(pObj))
-                    {
-                        const FP v48 = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
-                        const FP v49 = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                        const FP v50 = (v49 * v48);
-                        if (WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), v50))
-                        {
-                            int v11 = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
-                            field_174_flags.Set(Flags_174::eBit2, v11);
-                            return 4;
-                        }
-                        field_108_next_motion = 4;
-                    }
-                    else
-                    {
-                        field_106_current_motion = 6;
-                    }
-                }
 
-                const __int16 v51 = field_106_current_motion;
-                if (v51 == 7)
-                {
-                    field_108_next_motion = 4;
-                }
-                if (v51 == 9)
-                {
-                    return 3;
-                }
-
-                if (IsNear_428670(pObj))
-                {
-                    return field_126_state;
-                }
-
-                if (!vIsFacingMe_4254A0(pObj))
-                {
-                    const __int16  v52 = field_106_current_motion;
-                    if (v52 != 7 && v52 != 6)
+                    // TODO: Check left VS flip is correct
+                    if ((v31->field_12_edge_type == Path_Hoist::EdgeType::eLeft && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) &&
+                        v31->field_12_edge_type != Path_Hoist::EdgeType::eBoth)
                     {
-                        if (v52 == 4)
-                        {
-                            field_108_next_motion = 7;
-                            return 2;
-                        }
-                        field_108_next_motion = 6;
+                        field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
                     }
-                }
-                result = 2;
-            }
-            else
-            {
-                Path_Hoist*  v31 = TryGetHoist_42AFD0(1, 0);
-                if (v31)
-                {
-                    /*
-                    FP v32 = field_CC_sprite_scale;
-                    HIBYTE(v33) = 0;
+
                     field_108_next_motion = 3;
-                    v35 = __OFSUB__(v32, 0x10000);
-                    v34 = v32 - 0x10000 < 0;
-                    goto set_hoist;
-                    */
-                    field_108_next_motion = 3;
-
                     field_160_hoistX = v31->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
                     short  v47 = v31->field_8_top_left.field_2_y;
                     result = field_126_state;
                     field_162_hoistY = v47;
                     return 14;
                 }
-
-                v31 = TryGetHoist_42AFD0(0, 1);
-                if (v31)
+                result = field_126_state;
+                field_108_next_motion = 3;
+            }
+            else
+            {
+                Path_Hoist* v40 = nullptr;
+                int v39 = 1;
+                do
                 {
-                    if (field_106_current_motion == 3)
+                    v40 = TryGetHoist_42AFD0(v39, 1);
+                    if (v40)
                     {
-                        /*
-                        v37 = v31->field_12_edge_type;
-                        LOBYTE(v36) = ~LOBYTE(field_20_animation.field_4_flags);
-                        if (v37 != ((v36 >> 4) & 1) && v37 != 2)
-                        {
-                            field_106_current_motion = 6;
-                        }
-                        v38 = field_CC_sprite_scale;
-                        HIBYTE(v33) = 0;
-                        field_108_next_motion = 3;
-                        v35 = __OFSUB__(v38, 0x10000);
-                        v34 = v38 - 0x10000 < 0;
-                        goto set_hoist;
-                        */
-                        // TODO: Check left VS flip is correct
-                        if ((v31->field_12_edge_type == Path_Hoist::EdgeType::eLeft && field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) &&
-                            v31->field_12_edge_type != Path_Hoist::EdgeType::eBoth)
-                        {
-                            field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
-                        }
-
-                        field_108_next_motion = 3;
-                        field_160_hoistX = v31->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
-                        short  v47 = v31->field_8_top_left.field_2_y;
+                        field_108_next_motion = 4;
+                        field_160_hoistX = v40->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
+                        short  v47 = v40->field_8_top_left.field_2_y;
                         result = field_126_state;
                         field_162_hoistY = v47;
-                        return 14;
+                        return result;
                     }
-                    result = field_126_state;
-                    field_108_next_motion = 3;
-                }
-                else
-                {
-                    Path_Hoist* v40 = nullptr;
-                    int v39 = 1;
-                    do
-                    {
-                        v40 = TryGetHoist_42AFD0(v39, 1);
-                        if (v40)
-                        {
-                            goto LABEL_88;
-                        }
-                        ++v39;
-                    } while (v39 <= 12);
+                    ++v39;
+                } while (v39 <= 12);
 
-                    int v41 = 1;
-                    while (1)
+                int v41 = 1;
+                while (1)
+                {
+                    v40 = TryGetHoist_42AFD0(-v41, 1);
+                    if (v40)
                     {
-                        v40 = TryGetHoist_42AFD0(-v41, 1);
-                        if (v40)
-                        {
-                            break;
-                        }
-                        if (++v41 > 8)
-                        {
-                            goto LABEL_75;
-                        }
-                    }
-                    __int16  v46 = field_106_current_motion;
-                    switch (v46)
-                    {
-                    case 4:
-                        field_108_next_motion = 7;
-                        break;
-                    case 3:
-                        field_106_current_motion = 6;
-                        break;
-                    case 6:
-                    case 7:
-                    LABEL_88:
-                        field_108_next_motion = 4;
                         break;
                     }
-                    field_160_hoistX = v40->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
-                    short  v47 = v40->field_8_top_left.field_2_y;
-                    result = field_126_state;
-                    field_162_hoistY = v47;
+                    if (++v41 > 8)
+                    {
+                        // goto LABEL_75;
+                        return AI_ChasingAbe_State1_Helper(pObj);
+                    }
                 }
+
+
+                __int16  v46 = field_106_current_motion;
+                switch (v46)
+                {
+                case 4:
+                    field_108_next_motion = 7;
+                    break;
+                case 3:
+                    field_106_current_motion = 6;
+                    break;
+                case 6:
+                case 7:
+                    field_108_next_motion = 4;
+                    break;
+                }
+
+                field_160_hoistX = v40->field_8_top_left.field_0_x + (field_CC_sprite_scale >= FP_FromInteger(1) ? 12 : 6);
+                short  v47 = v40->field_8_top_left.field_2_y;
+                result = field_126_state;
+                field_162_hoistY = v47;
             }
         }
     }
