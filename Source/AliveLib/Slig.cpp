@@ -6543,28 +6543,31 @@ void Slig::PlayerControlRunningSlideStopOrTurn1_4B85D0()
     }
 }
 
+// TODO: This has probably been used in other places - use this whenever a rect is made of min/max combos
+inline PSX_RECT MakeRectFromFP(FP x, FP y, FP w, FP h)
+{
+    PSX_RECT r = {};
+    r.x = FP_GetExponent(std::min(x, w));
+    r.w = FP_GetExponent(std::max(w, h));
+    r.y = FP_GetExponent(std::min(y, h));
+    r.h = FP_GetExponent(std::max(h, y));
+    return r;
+}
+
 BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, int gridBlocks)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
     const FP kGridBlocksScaled = FP_FromInteger(gridBlocks) * kGridSize;
 
-    PSX_RECT hitRect = {};
+    const FP rectX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_B8_xpos - kGridBlocksScaled : field_B8_xpos + kGridBlocksScaled;
 
-    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-    {
-        hitRect.x = FP_GetExponent(std::min(field_B8_xpos, field_B8_xpos - kGridBlocksScaled));
-        hitRect.y = FP_GetExponent(std::min(field_BC_ypos, field_BC_ypos - k2Scaled));
-        hitRect.w = FP_GetExponent(std::max(field_B8_xpos, field_B8_xpos - kGridBlocksScaled));
-        hitRect.h = FP_GetExponent(std::max(field_BC_ypos, field_BC_ypos - k2Scaled));
-    }
-    else
-    {
-        hitRect.x = FP_GetExponent(std::min(field_B8_xpos, field_B8_xpos + kGridBlocksScaled));
-        hitRect.y = FP_GetExponent(std::min(field_BC_ypos, field_BC_ypos - k2Scaled));
-        hitRect.w = FP_GetExponent(std::max(field_B8_xpos, field_B8_xpos + kGridBlocksScaled));
-        hitRect.h = FP_GetExponent(std::max(field_BC_ypos, field_BC_ypos - k2Scaled));
-    }
+    const PSX_RECT hitRect = MakeRectFromFP(
+        rectX,
+        field_BC_ypos,
+        rectX,
+        field_BC_ypos - k2Scaled
+    );
 
     // TODO: Explicit Abs'ing of Y?
 
