@@ -145,17 +145,13 @@ void SnoozeParticle::Update_4B0980()
             case SnoozeParticleState::Rising_0 :
                 if (field_2C_y >= field_24_y_start - FP_FromInteger(20))
                 {
-                    if (field_42_r < 70)
+                    if (field_42_r < 70 &&
+                        field_44_g < 70 &&
+                        field_46_b < 20)
                     {
-                        if (field_44_g < 70)
-                        {
-                            if (field_46_b < 20)
-                            {
-                                field_42_r += 14;
-                                field_44_g += 14;
-                                field_46_b += 4;
-                            }
-                        }
+                        field_42_r += 14;
+                        field_44_g += 14;
+                        field_46_b += 4;
                     }
                     field_38_scale += field_3C_scale_dx;
                     if (field_48_idx > 36)
