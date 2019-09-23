@@ -25,8 +25,8 @@ public:
 
     enum class SnoozeParticleState : __int16
     {
-        Init_0 = 0,
-        Rising_1 = 1,
+        Rising_0 = 0,
+        Unused_1 = 1,
         BlowingUp_2 = 2
     };
 
