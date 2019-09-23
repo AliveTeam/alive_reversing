@@ -236,7 +236,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         else
         {
             Animation_Init_424E10(
-                stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0_frameTableOffset_closed,
+                stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_frameTableOffset_open,
                 static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_8_maxW),
                 static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_C_maxH),
                 ppRes,
