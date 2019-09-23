@@ -158,7 +158,7 @@ void SnoozeParticle::Update_4B0980()
                     {
                         field_48_idx = 0;
                     }
-                    FP field_48_idx_toFP = FP_FromInteger(word_560408[field_48_idx]);
+                    const FP field_48_idx_toFP = FP_FromInteger(word_560408[field_48_idx]);
                     field_30_dx = field_48_idx_toFP;
                     field_28_x += field_48_idx_toFP;
                     field_2C_y += field_34_dy;
@@ -179,7 +179,7 @@ void SnoozeParticle::Update_4B0980()
                 field_2C_y += field_34_dy;
                 if (field_4A_count_down)
                 {
-                    field_4A_count_down = field_4A_count_down - 1;
+                    field_4A_count_down -= 1;
                 }
                 else
                 {
