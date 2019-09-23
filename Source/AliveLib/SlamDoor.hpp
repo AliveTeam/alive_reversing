@@ -9,9 +9,9 @@ void SlamDoor_ForceLink();
 
 enum SlamDoor_Flags_118
 {
-    e118_Bit1 = 0x1,
+    e118_Bit1_bClosed = 0x1,
     e118_Bit2_Open = 0x2,
-    e118_Bit3 = 0x4,
+    e118_Bit3_bLastFrame = 0x4,
     e118_Bit4_Inverted = 0x8,
     e118_Bit5_Delete = 0x10,
 };

@@ -153,11 +153,11 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
 
     if (switchState == bitIsOpen)
     {
-        field_118_flags.Set(SlamDoor_Flags_118::e118_Bit1);
+        field_118_flags.Set(SlamDoor_Flags_118::e118_Bit1_bClosed);
     }
     else
     {
-        field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit1);
+        field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit1_bClosed);
     }
 
     SetTint_425600(sSlamDoorTints_5603B0, gMap_5C3030.sCurrentLevelId_5C3030);
@@ -189,7 +189,7 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
 
     field_126_y1 = FP_GetExponent(field_BC_ypos);
 
-    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
+    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         PathLine * pPathLine = nullptr;
 
@@ -246,7 +246,7 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
         field_120_pCollisionLine_5_1 = 0;
     }
 
-    field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3);
+    field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
     field_DC_bApplyShadows |= 2u;
 
     return this;
@@ -256,7 +256,7 @@ void SlamDoor::dtor_4B0620()
 {
     SetVTable(this, 0x547288);
 
-    if (!(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete)) || field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
+    if (!(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete)) || field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         Path::TLV_Reset_4DB8E0(field_12C_tlvInfo.all, -1, 0, 0);
     }
@@ -292,7 +292,7 @@ void SlamDoor::vUpdate_4AFD50()
     }
 
     const bool stateUnchanged = SwitchStates_Get_466020(field_128_switch_id) == static_cast<int>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
-    if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
+    if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -306,36 +306,34 @@ void SlamDoor::vUpdate_4AFD50()
                 }
                 SFX_Play_46FBA0(57, 100, 900);
                 SFX_Play_46FBA0(57, 100, -100);
-                field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3);
+                field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
             }
         }
     }
 
-    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
+    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3))
+            if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3_bLastFrame))
             {
-                field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3);
+                field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
                 SFX_Play_46FBA0(57, 100, 900);
                 SFX_Play_46FBA0(57, 100, -100);
             }
         }
     }
 
-    if (stateUnchanged != field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
+    if (stateUnchanged != field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
-        field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit3);
-        field_118_flags.Toggle(SlamDoor_Flags_118::e118_Bit1);
-        
-        // TODO: Above seems wrong, looks like it just toggles bit 3 only ??
-        //field_118_flags.Toggle(SlamDoor_Flags_118::e118_Bit3);
+        field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
+        field_118_flags.Toggle(SlamDoor_Flags_118::e118_Bit1_bClosed);
 
         if (stateUnchanged)
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
-            field_20_animation.Set_Animation_Data_409C80(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_8_frameTableOffset, 0);
+            field_20_animation.Set_Animation_Data_409C80(
+                sSlamDoorData_547168[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_8_frameTableOffset, nullptr);
 
             if (field_CC_sprite_scale == FP_FromInteger(1))
             {
@@ -391,11 +389,7 @@ void SlamDoor::vUpdate_4AFD50()
                         PSX_RECT bObjRect = {};
                         pObj->vGetBoundingRect_424FD0(&bObjRect, 1);
 
-                        if (bRect.x <= bObjRect.w &&
-                            bRect.w >= bObjRect.x &&
-                            bRect.h >= bObjRect.y &&
-                            bRect.y <= bObjRect.h &&
-                            pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                         {
                             ClearInsideSlamDoor_4B0530(pObj, bRect.x, bRect.w);
                         }
@@ -414,7 +408,7 @@ void SlamDoor::vUpdate_4AFD50()
         }
     }
 
-    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1))
+    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
         PSX_RECT bRect = {};
         vGetBoundingRect_424FD0(&bRect, 1);
