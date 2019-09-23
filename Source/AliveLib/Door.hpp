@@ -11,10 +11,10 @@ class Door : public BaseAnimatedWithPhysicsGameObject
 public:
     enum eStates
     {
-        eOpen = 0,
-        eClosed = 1,
-        eOpening = 2,
-        eClosing = 3,
+        eOpen_0 = 0,
+        eClosed_1 = 1,
+        eOpening_2 = 2,
+        eClosing_3 = 3,
     };
 
     EXPORT Door* ctor_41E250(Path_Door* pTlvData, int tlvInfo);
@@ -23,13 +23,21 @@ public:
     EXPORT void vClose_41EB50();
     EXPORT void vSetOpen_41EBA0();
     EXPORT void vSetClosed_41EBC0();
-    EXPORT void vScreenChange_41F080();
-    EXPORT Door* vdtor_41E9D0(signed int flags);
     EXPORT void PlaySound_41EA90();
     EXPORT void dtor_41EA00();
-    EXPORT void vUpdate_41EBE0();
+
+    virtual void VScreenChanged() override;
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VUpdate() override;
+
+private:
+
+    EXPORT void vScreenChange_41F080();
+    EXPORT Door* vdtor_41E9D0(signed int flags);
+    EXPORT void vUpdate_41EBE0();
+
 
 protected:
     int field_F4_tlvInfo;
@@ -38,7 +46,7 @@ protected:
         eType_0 = 0,
         eType_1 = 1,
         eType_2 = 2,
-        eType_3= 3,
+        eType_3 = 3,
     };
     __int16 field_F8_door_type;
 public:
