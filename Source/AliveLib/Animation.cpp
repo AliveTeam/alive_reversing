@@ -13,6 +13,10 @@
 #include "Particle.hpp"
 #include "Events.hpp"
 #include "Slurg.hpp"
+#include "Slog.hpp"
+#include "Sfx.hpp"
+#include "Blood.hpp"
+#include "ObjectIds.hpp"
 
 // Frame call backs ??
 EXPORT int CC Animation_OnFrame_Common_Null_455F40(void*, signed __int16*)
@@ -158,10 +162,71 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pDa
     return 1;
 }
 
-EXPORT int CC Animation_OnFrame_Slog_4C3030(void*, signed __int16*)
+int CC Animation_OnFrame_Slog_4C3030(void* pObjPtr, signed __int16* pPoints)
 {
-    NOT_IMPLEMENTED();
+    auto pSlog = static_cast<Slog*>(pObjPtr);
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(pSlog->field_118_target_id));
+    if (!pTarget)
+    {
+        return 1;
+    }
+
+    if ((pTarget->field_4_typeId == Types::eAbe_69 && pTarget->field_106_current_motion == eAbeStates::State_68_ToOffScreenHoist_454B80) ||
+        pSlog->field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 1;
+    }
+
+    PSX_RECT bTargetRect = {};
+    pTarget->vGetBoundingRect_424FD0(&bTargetRect, 1);
+
+    PSX_RECT bSlogRect = {};
+    pSlog->vGetBoundingRect_424FD0(&bSlogRect, 1);
+
+    if (bSlogRect.x > bTargetRect.w ||
+        bSlogRect.w < bTargetRect.x ||
+        bSlogRect.h < bTargetRect.y ||
+        bSlogRect.y > bTargetRect.h ||
+        pTarget->field_CC_sprite_scale != FP_FromInteger(1) ||
+        pSlog->field_11C)
+    {
+        return 1;
+    }
+
+    if (!pTarget->VTakeDamage_408730(pSlog))
+    {
+        return 1;
+    }
+
+    FP bloodX = {};
+    if (pSlog->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        bloodX = pSlog->field_B8_xpos - (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[0]));
+    }
+    else
+    {
+        bloodX = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[0])) + pSlog->field_B8_xpos;
+    }
+
+    const FP bloodY = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[1])) + pSlog->field_BC_ypos;
+    
+    auto pBlood = alive_new<Blood>();
+    if (pBlood)
+    {
+        pBlood->ctor_40F0B0(
+            bloodX,
+            bloodY - FP_FromInteger(8),
+            pSlog->field_C4_velx * FP_FromInteger(2),
+            FP_FromInteger(0),
+            pSlog->field_CC_sprite_scale,
+            50);
+    }
+
+    pSlog->field_11C = 1;
+    SFX_Play_46FA90(34u, 0);
+
     return 1;
+
 }
 
 // TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks_40B7A0

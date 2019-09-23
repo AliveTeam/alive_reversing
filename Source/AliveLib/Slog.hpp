@@ -252,9 +252,10 @@ private:
 
     EXPORT __int16 Facing_4C4020(FP xpos);
 
-private:
+public:
     int field_118_target_id;
     __int16 field_11C;
+private:
     __int16 field_11E;
     unsigned __int16 field_120_brain_state_idx;
     __int16 field_122_brain_state_result;
