@@ -1096,7 +1096,7 @@ void Slog::M_Bark_17_4C7000()
 
         if (pObj->field_4_typeId == Types::eSnoozParticle_124)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = 2;
+            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::BlowingUp_2;
         }
     }
 
