@@ -148,12 +148,12 @@ struct Slig_State
     __int16 field_1E_r;
     __int16 field_20_g;
     __int16 field_22_b;
-    __int16 field_24;
+    __int16 field_24_bFlipX;
     __int16 field_26;
     __int16 field_28;
     __int16 field_2A;
-    char field_2C;
-    char field_2D;
+    char field_2C_bRender;
+    char field_2D_bDrawable;
     __int16 field_2E;
     FP field_30_health;
     __int16 field_34_current_motion;
@@ -199,7 +199,15 @@ struct Slig_State
     __int16 field_9C;
     __int16 field_9E;
     __int16 field_A0;
-    __int16 field_A2;
+    enum Flags_A2
+    {
+        eBit1 = 0x1,
+        eBit2 = 0x2,
+        eBit3 = 0x4,
+        eBit4 = 0x8,
+        eBit5 = 0x10,
+    };
+    BitField16<Flags_A2> field_A2;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
 
@@ -234,9 +242,14 @@ public:
 
     virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override;
 
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override;
+
     EXPORT static int CC CreateFromSaveState_4B3B50(const BYTE* pBuffer);
 
     EXPORT static __int16 CCSTD IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
+
+private:
+    EXPORT int vGetSaveState_4BFB10(Slig_State* pState);
 
 public:
     EXPORT void M_StandIdle_0_4B4EC0();

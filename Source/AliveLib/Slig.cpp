@@ -32,6 +32,7 @@
 #include "GameSpeak.hpp"
 #include "Sound.hpp"
 #include "VRam.hpp"
+#include "Electrocute.hpp"
 
 int CC Animation_OnFrame_Slig_4C0600(void* pObj, signed __int16* pData)
 {
@@ -635,6 +636,11 @@ __int16 Slig::vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther)
     return vOnSameYLevel_4BB6C0(pOther);
 }
 
+int Slig::VGetSaveState(BYTE* pSaveBuffer)
+{
+    return vGetSaveState_4BFB10(reinterpret_cast<Slig_State*>(pSaveBuffer));
+}
+
 int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_State*>(pBuffer);
@@ -741,10 +747,10 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
     pSlig->field_20_animation.field_92_current_frame = pState->field_28;
     pSlig->field_20_animation.field_E_frame_change_counter = pState->field_2A;
 
-    pSlig->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2D & 1);
+    pSlig->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2D_bDrawable & 1);
 
-    pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_24 & 1);
-    pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2C & 1);
+    pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_24_bFlipX & 1);
+    pSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2C_bRender & 1);
 
     if (IsLastFrame(&pSlig->field_20_animation))
     {
@@ -802,10 +808,10 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
 
     pSlig->field_214_cmd_idx = pState->field_A0;
 
-    pSlig->field_216.Set(Flags_216::eBit1_FollowGlukkon, ((pState->field_A2) >> 1) & 1);
-    pSlig->field_216.Set(Flags_216::eBit2, ((pState->field_A2) >> 1) & 2);
-    pSlig->field_216.Set(Flags_216::eBit3, ((pState->field_A2) >> 1) & 4);
-    pSlig->field_216.Set(Flags_216::eBit4_HeardGlukkon, ((pState->field_A2) >> 1) & 8);
+    pSlig->field_216.Set(Flags_216::eBit1_FollowGlukkon, pState->field_A2.Get(Slig_State::eBit2));
+    pSlig->field_216.Set(Flags_216::eBit2, pState->field_A2.Get(Slig_State::eBit3));
+    pSlig->field_216.Set(Flags_216::eBit3, pState->field_A2.Get(Slig_State::eBit4));
+    pSlig->field_216.Set(Flags_216::eBit4_HeardGlukkon, pState->field_A2.Get(Slig_State::eBit5));
 
     sSligsUnderControlCount_BAF7E8 = 0;
     return sizeof(Slig_State);
@@ -6691,6 +6697,136 @@ __int16 CCSTD Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
         return 1;
     }
     return 0;
+}
+
+int Slig::vGetSaveState_4BFB10(Slig_State* pState)
+{
+    if (field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    {
+        return 0;
+    }
+
+    pState->field_0_type = Types::eSlig_125;
+
+    pState->field_4_xpos = field_B8_xpos;
+    pState->field_8_ypos = field_BC_ypos;
+
+    pState->field_C_velx = field_C4_velx;
+    pState->field_10_vely = field_C8_vely;
+
+    pState->field_58 = field_130;
+
+    pState->field_14_path_number = field_C0_path_number;
+    pState->field_16_lvl_number = field_C2_lvl_number;
+    pState->field_18_sprite_scale = field_CC_sprite_scale;
+
+    pState->field_1C_scale = field_D6_scale;
+
+    pState->field_1E_r = field_D0_r;
+    pState->field_20_g = field_D2_g;
+    pState->field_22_b = field_D4_b;
+
+    if (field_114_flags.Get(Flags_114::e114_Bit11))
+    {
+        for (int i = 0; i < gBaseGameObject_list_BB47C4->Size(); i++)
+        {
+            BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            if (pObj->field_4_typeId == Types::eElectrocute_150)
+            {
+                auto pElectrocute = static_cast<Electrocute*>(pObj);
+                if (pElectrocute->field_20_target_obj_id == field_8_object_id)
+                {
+                    pState->field_1E_r = pElectrocute->field_24_r;
+                    pState->field_20_g = pElectrocute->field_26_g;
+                    pState->field_22_b = pElectrocute->field_28_b;
+                    break;
+                }
+            }
+        }
+    }
+    pState->field_24_bFlipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_26 = field_106_current_motion;
+    pState->field_28 = field_20_animation.field_92_current_frame;
+    pState->field_2A = field_20_animation.field_E_frame_change_counter;
+    pState->field_2D_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2C_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
+    pState->field_30_health = field_10C_health;
+    pState->field_34_current_motion = field_106_current_motion;
+    pState->field_36_next_motion = field_108_next_motion;
+    pState->field_38_last_line_ypos = FP_GetExponent(field_F8_LastLineYPos);
+    pState->field_3A_collision_line_type = -1;
+
+    if (field_100_pCollisionLine)
+    {
+        pState->field_3A_collision_line_type = field_100_pCollisionLine->field_8_type;
+    }
+
+    pState->field_40_bActiveChar = this == sControlledCharacter_5C1B8C;
+    pState->field_42 = field_11C_ai_sub_state;
+    pState->field_44 = field_11E;
+    pState->field_48_timer = field_120_timer;
+    pState->field_4C = field_124;
+    pState->field_4E = field_126;
+    pState->field_50_input = InputObject::Raw_To_Command_45EF70(field_128_input);
+    pState->field_54 = field_12C;
+    pState->field_58 = field_130;
+    pState->field_5C_tlvInfo = field_118_tlvInfo;
+    pState->field_60_res_idx = field_134_res_idx;
+    pState->field_62 = field_136_shot_motion;
+    pState->field_64_zone_rect = field_138_zone_rect;
+    pState->field_6C = field_140;
+    pState->field_6E = field_142;
+    pState->field_70 = field_144;
+    pState->field_72_level = field_146_level;
+    pState->field_74_path = field_148_path;
+    pState->field_76_camera = field_14A_camera;
+    pState->field_78 = field_14C;
+    pState->field_7C = field_150;
+    pState->field_80_brain_state_idx = 0;
+
+    int idx = 0;
+    for (const auto& fn : sSlig_ai_table_5605AC)
+    {
+        if (BrainIs(fn))
+        {
+            pState->field_80_brain_state_idx = idx;
+        }
+        idx++;
+    }
+
+    pState->field_88 = dword_BAF7E4;
+    pState->field_8C = field_158;
+    pState->field_90 = field_15C;
+    pState->field_92 = field_15E;
+    pState->field_94_glukkon_id = -1;
+
+    if (field_208_glukkon_obj_id != -1)
+    {
+        BaseGameObject* pGlukkon = sObjectIds_5C1B70.Find_449CF0(field_208_glukkon_obj_id);
+        if (pGlukkon)
+        {
+            pState->field_94_glukkon_id = pGlukkon->field_C_objectId;
+        }
+    }
+    pState->field_98 = field_20C_state_after_speak;
+    pState->field_9A = field_20E;
+
+    pState->field_9C = field_210;
+
+    pState->field_9E = field_212_next_command_arg1;
+    pState->field_A0 = field_214_cmd_idx;
+
+    pState->field_A2.Set(Slig_State::eBit2, field_216.Get(Flags_216::eBit1_FollowGlukkon));
+    pState->field_A2.Set(Slig_State::eBit3, field_216.Get(Flags_216::eBit2));
+    pState->field_A2.Set(Slig_State::eBit4, field_216.Get(Flags_216::eBit3));
+    pState->field_A2.Set(Slig_State::eBit5, field_216.Get(Flags_216::eBit4_HeardGlukkon));
+
+    return sizeof(Slig_State);
 }
 
 __int16 Slig::FindSwitch_4B9A50()
