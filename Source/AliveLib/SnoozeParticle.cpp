@@ -177,9 +177,9 @@ void SnoozeParticle::Update_4B0980()
                 field_46_b /= 2;
                 field_28_x += field_30_dx;
                 field_2C_y += field_34_dy;
-                if (field_4A_count_down)
+                if (field_4A_count_down > 0)
                 {
-                    field_4A_count_down -= 1;
+                    field_4A_count_down--;
                 }
                 else
                 {
@@ -187,7 +187,7 @@ void SnoozeParticle::Update_4B0980()
                     field_6_flags.Set(BaseGameObject::eDead);
                 }
                 break;
-        };
+        }
     }
 }
 
