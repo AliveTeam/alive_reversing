@@ -1,7 +1,8 @@
 #pragma once
 
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FunctionFwd.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "Path.hpp"
 
 struct Path_Door;
 
@@ -28,12 +29,9 @@ public:
     EXPORT void dtor_41EA00();
     EXPORT void vUpdate_41EBE0();
 
-    virtual void VUpdate() override
-    {
-        vUpdate_41EBE0();
-    }
+    virtual void VUpdate() override;
 
-private:
+protected:
     int field_F4_tlvInfo;
     enum DoorTypes
     {
@@ -45,7 +43,7 @@ private:
     __int16 field_F8_door_type;
 public:
     __int16 field_FA_door_number;
-private:
+protected:
     __int16 field_FC_current_state;
     __int16 field_FE_start_state;
 
@@ -53,3 +51,29 @@ private:
     __int16 field_102_hub_ids[8];
 };
 ALIVE_ASSERT_SIZEOF(Door, 0x114);
+
+struct Path_TrainDoor : public Path_TLV
+{
+    int field_10_flipX;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrainDoor, 0x14);
+
+class TrainDoor : public Door
+{
+public:
+    EXPORT TrainDoor* ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo);
+
+    virtual BaseGameObject* VDestructor(signed int flags) override;
+
+    virtual void VUpdate() override;
+
+private:
+    EXPORT TrainDoor* vdtor_4DD1D0(signed int flags);
+
+    EXPORT void dtor_4DD200();
+
+    EXPORT void vUpdate_4DD2A0();
+
+
+};
+ALIVE_ASSERT_SIZEOF(TrainDoor, 0x114);

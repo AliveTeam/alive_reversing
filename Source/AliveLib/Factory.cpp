@@ -2119,7 +2119,21 @@ EXPORT void CC Factory_TorturedMudokon_4D8430(Path_TLV* pTlv, Path*, TlvItemInfo
     }
 }
 
-EXPORT void CC Factory_TrainDoor_4D6E90(Path_TLV* , Path*, TlvItemInfoUnion, __int16) { NOT_IMPLEMENTED(); }
+EXPORT void CC Factory_TrainDoor_4D6E90(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, __int16 loadMode)
+{
+    if (loadMode == 1 || loadMode == 2)
+    {
+        gMap_5C3030.LoadResource_4DBE00("TRAINDOR.BAN", ResourceManager::Resource_Animation, 2013, loadMode);
+    }
+    else
+    {
+        auto pTrainDoor = alive_new<TrainDoor>();
+        if (pTrainDoor)
+        {
+            pTrainDoor->ctor_4DD090(static_cast<Path_TrainDoor*>(pTlv), tlvInfo.all);
+        }
+    }
+}
 
 const PathFunctionTable kObjectFactory =
 {

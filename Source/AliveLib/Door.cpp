@@ -540,3 +540,101 @@ void Door::vUpdate_41EBE0()
         }
     }
 }
+
+void Door::VUpdate()
+{
+    vUpdate_41EBE0();
+}
+
+// ================================================================================================
+
+ALIVE_VAR(1, 0xBB4AA0, FP, sTrainDoorXPos_BB4AA0, {});
+ALIVE_VAR(1, 0xBB4AA4, FP, sTrainDoorYPos_BB4AA4, {});
+
+TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo)
+{
+    // Note: Useless intermediate base ctor omitted
+    BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
+
+    SetVTable(this, 0x547AFC);
+
+    field_4_typeId = Types::eDoor_33;
+    field_F4_tlvInfo = tlvInfo;
+
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 2013);
+    Animation_Init_424E10(4752, 44, 56u, ppRes, 1, 1);
+    
+    field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
+    field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
+    
+    sTrainDoorXPos_BB4AA0 = field_B8_xpos;
+    sTrainDoorYPos_BB4AA4 = field_BC_ypos;
+
+    if (pTlv->field_1_unknown)
+    {
+        field_20_animation.Set_Animation_Data_409C80(4740, 0);
+        field_FC_current_state = 1;
+    }
+    else
+    {
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit2_Animate);
+        field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+        field_FC_current_state = 0;
+    }
+    field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_10_flipX & 1);
+
+    return this;
+}
+
+BaseGameObject* TrainDoor::VDestructor(signed int flags)
+{
+    return vdtor_4DD1D0(flags);
+}
+
+void TrainDoor::VUpdate()
+{
+    vUpdate_4DD2A0();
+}
+
+TrainDoor* TrainDoor::vdtor_4DD1D0(signed int flags)
+{
+    dtor_4DD200();
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void TrainDoor::dtor_4DD200()
+{
+    SetVTable(this, 0x547AFC);
+
+    if (field_FC_current_state)
+    {
+        Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, 1, 0, 0);
+    }
+    else
+    {
+        Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
+    }
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
+}
+
+void TrainDoor::vUpdate_4DD2A0()
+{
+    if (field_FC_current_state == 0)
+    {
+        if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_115_DoorExit_459A40 &&
+            sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_114_DoorEnter_459470)
+        {
+            field_20_animation.Set_Animation_Data_409C80(4752, 0);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
+            field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
+            field_FC_current_state = 1;
+        }
+    }
+
+    field_B8_xpos = sTrainDoorXPos_BB4AA0 + FP_FromInteger(sTweakX_5C1BD0);
+    field_BC_ypos = sTrainDoorYPos_BB4AA4 + FP_FromInteger(sTweakY_5C1BD4);
+}
