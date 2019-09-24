@@ -21,6 +21,8 @@
 #include "Particle.hpp"
 #include "GameSpeak.hpp"
 #include "SwitchStates.hpp"
+#include "PsxDisplay.hpp"
+#include "Mudokon.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, short, sSlogCount_BAF7F2, 0);
 
@@ -336,7 +338,7 @@ int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
     pSlog->field_124_timer = pState->field_4C_timer;
     pSlog->field_128 = pState->field_50;
     pSlog->field_12C_tlvInfo = pState->field_40_tlvInfo;
-    pSlog->field_138 = pState->field_54_obj_id;
+    pSlog->field_138_listening_to_slig_id = pState->field_54_obj_id;
     pSlog->field_132 = pState->field_58;
     pSlog->field_13C = pState->field_5A;
     pSlog->field_13E_response_index = pState->field_5C;
@@ -437,9 +439,9 @@ int Slog::vGetSaveState_4C78F0(Slog_State* pState)
     pState->field_40_tlvInfo = field_12C_tlvInfo;
     pState->field_54_obj_id = -1;
 
-    if (field_138 != -1)
+    if (field_138_listening_to_slig_id != -1)
     {
-        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_138);
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_138_listening_to_slig_id);
         if (pObj)
         {
             pState->field_54_obj_id = pObj->field_C_objectId;
@@ -1361,7 +1363,7 @@ const __int16 sSlogResponseMotion_560930[3][10] =
 
 __int16 Slog::AI_ListeningToSlig_0_4C3790()
 {
-    auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_138));
+    auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_138_listening_to_slig_id));
     
     // TODO: OG bug - return never used?
     //sObjectIds_5C1B70.Find_449CF0(field_118);
@@ -1369,7 +1371,7 @@ __int16 Slog::AI_ListeningToSlig_0_4C3790()
     if (!pObj || pObj->field_6_flags.Get(BaseGameObject::eDead))
     {
         field_142_anger_level = 0;
-        field_138 = -1;
+        field_138_listening_to_slig_id = -1;
         field_118_target_id = -1;
         field_120_brain_state_idx = 1;
         return 0;
@@ -1537,7 +1539,7 @@ __int16 Slog::AI_ListeningToSlig_State_2(const FP xpos1GridAHead, BaseAliveGameO
         auto pTarget = FindTarget_4C33C0(1, 0);
         if (pTarget)
         {
-            field_138 = -1;
+            field_138_listening_to_slig_id = -1;
             field_160_flags.Set(Flags_160::eBit5);
             field_118_target_id = pTarget->field_8_object_id;
             field_120_brain_state_idx = 2;
@@ -1689,7 +1691,7 @@ __int16 Slog::AI_Idle_1_4C2830()
         {
             field_120_brain_state_idx = 0;
             field_118_target_id = -1;
-            field_138 = sControlledCharacter_5C1B8C->field_8_object_id;
+            field_138_listening_to_slig_id = sControlledCharacter_5C1B8C->field_8_object_id;
             return 0;
         }
     }
@@ -1904,7 +1906,7 @@ __int16 Slog::AI_ChasingAbe_2_4C0A00()
             {
                 field_120_brain_state_idx = 0;
                 field_118_target_id = -1;
-                field_138 = sControlledCharacter_5C1B8C->field_8_object_id;
+                field_138_listening_to_slig_id = sControlledCharacter_5C1B8C->field_8_object_id;
                 return 0;
             }
         }
@@ -2747,7 +2749,7 @@ __int16 Slog::AI_ChasingAbe_State_0()
 
 __int16 Slog::AI_Death_3_4C3250()
 {
-    field_138 = -1;
+    field_138_listening_to_slig_id = -1;
     field_118_target_id = -1;
 
     if (field_124_timer < static_cast<int>(sGnFrame_5C1B84 + 80))
@@ -2863,7 +2865,7 @@ void Slog::Init_4C46A0()
     field_108_next_motion = -1;
     field_130 = 0;
     field_110_id = -1;
-    field_138 = -1;
+    field_138_listening_to_slig_id = -1;
     field_118_target_id = -1;
     field_15C_bone_id = -1;
     SetTint_425600(&stru_560A48[0], gMap_5C3030.sCurrentLevelId_5C3030);
@@ -2933,7 +2935,7 @@ void Slog::vUpdate_4C50D0()
         }
         field_104_collision_line_type = 0;
         field_118_target_id = BaseGameObject::Find_Flags_4DC170(field_118_target_id);
-        field_138 = BaseGameObject::Find_Flags_4DC170(field_138);
+        field_138_listening_to_slig_id = BaseGameObject::Find_Flags_4DC170(field_138_listening_to_slig_id);
         field_15C_bone_id = BaseGameObject::Find_Flags_4DC170(field_15C_bone_id);
     }
 
@@ -3000,7 +3002,7 @@ void Slog::dtor_4C49A0()
     SetVTable(this, 0x547578);
 
     field_118_target_id = -1;
-    field_138 = -1;
+    field_138_listening_to_slig_id = -1;
     field_15C_bone_id = -1;
 
     if (field_12C_tlvInfo != 0xFFFF)
@@ -3191,9 +3193,118 @@ Bone* Slog::FindBone_4C25B0()
     return nullptr;
 }
 
-BaseAliveGameObject* Slog::FindTarget_4C33C0(__int16 /*a2*/, __int16 /*a3*/)
+BaseAliveGameObject* Slog::FindTarget_4C33C0(__int16 bKillSligs, __int16 bLookingUp)
 {
-    NOT_IMPLEMENTED();
+    PSX_RECT bRect = {};
+    vGetBoundingRect_424FD0(&bRect, 1);
+
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        bRect.x -= 368;
+    }
+    else
+    {
+        bRect.w += 368;
+    }
+
+    if (bLookingUp)
+    {
+        bRect.x -= 368;
+        bRect.w += 368;
+        bRect.y -= gPsxDisplay_5C1130.field_2_height;
+        bRect.h += gPsxDisplay_5C1130.field_2_height;
+    }
+
+    FP distanceToLastFoundObj = FP_FromInteger(gPsxDisplay_5C1130.field_0_width);
+    auto pSligBeingListendTo = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_138_listening_to_slig_id));
+
+    BaseAliveGameObject* pBestObj = nullptr;
+    BaseAliveGameObject* pLastFoundObj = nullptr;
+
+    int array_idx = 0;
+    int local_array[10] = {};
+
+    for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->field_4_typeId == Types::eSlog_126)
+        {
+            auto pSlog = static_cast<Slog*>(pObj);
+            if (pSlog->field_118_target_id != -1 && array_idx < ALIVE_COUNTOF(local_array))
+            {
+                local_array[array_idx++] = pSlog->field_118_target_id;
+            }
+        }
+
+        if (pObj != pSligBeingListendTo && pObj != this && pObj->field_D6_scale == field_D6_scale)
+        {
+            switch (pObj->field_4_typeId)
+            {
+            case Types::eCrawlingSlig_26:
+            case Types::eFlyingSlig_54:
+            case Types::eGlukkon_67:
+            case Types::eAbe_69:
+            case Types::eMudokon_110:
+            case Types::eSlig_125:
+                if (bKillSligs || !bKillSligs && 
+                    (pObj->field_4_typeId == Types::eAbe_69 ||
+                      pObj->field_4_typeId == Types::eCrawlingSlig_26 ||
+                      pObj->field_4_typeId == Types::eFlyingSlig_54 ||
+                      pObj->field_4_typeId == Types::eGlukkon_67 ||
+                      (pObj->field_4_typeId == Types::eMudokon_110 && static_cast<Mudokon*>(pObj)->field_18E_ai_state == Mud_AI_State::AI_ListeningToAbe_4_477B40)))
+                {
+                    PSX_RECT objRect = {};
+                    pObj->vGetBoundingRect_424FD0(&objRect, 1);
+
+                    if (objRect.x <= bRect.w &&
+                        objRect.w >= bRect.x &&
+                        objRect.h >= bRect.y &&
+                        objRect.y <= bRect.h)
+                    {
+                        pLastFoundObj = pObj;
+
+                        const FP xDelta = FP_Abs(field_B8_xpos - pObj->field_B8_xpos);
+                        if (xDelta < distanceToLastFoundObj)
+                        {
+                            int array_idx_iter = 0;
+                            if (array_idx)
+                            {
+                                // Something to do with finding who is the last attacker
+                                while (local_array[array_idx_iter] != pObj->field_8_object_id)
+                                {
+                                    if (++array_idx_iter >= array_idx)
+                                    {
+                                        distanceToLastFoundObj = xDelta;
+                                        pBestObj = pObj;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+
+            default:
+                break;
+            }
+        }
+    }
+
+    if (pBestObj)
+    {
+        return pBestObj;
+    }
+
+    if (pLastFoundObj)
+    {
+        return pLastFoundObj;
+    }
+
     return nullptr;
 }
 

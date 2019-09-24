@@ -234,7 +234,7 @@ private:
 
     EXPORT Bone* FindBone_4C25B0();
 
-    EXPORT BaseAliveGameObject* FindTarget_4C33C0(__int16 /*a2*/, __int16 /*a3*/);
+    EXPORT BaseAliveGameObject* FindTarget_4C33C0(__int16 bKillSligs, __int16 bLookingUp);
 
     EXPORT void vOn_TrapDoor_Open_4C5D50();
 
@@ -265,7 +265,7 @@ private:
     __int16 field_130;
     __int16 field_132;
     int field_134;
-    int field_138;
+    int field_138_listening_to_slig_id;
     __int16 field_13C;
     __int16 field_13E_response_index;
     __int16 field_140_response_part;

@@ -571,7 +571,9 @@ private:
     __int16 field_186;
     const struct MudEmotionTableEntry* field_188_pTblEntry;
     __int16 field_18C;
+public:
     Mud_AI_State field_18E_ai_state;
+private:
     __int16 field_190_sub_state;
     __int16 field_192;
     int field_194_timer;
