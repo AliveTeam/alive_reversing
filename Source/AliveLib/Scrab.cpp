@@ -18,6 +18,7 @@
 #include "SwitchStates.hpp"
 #include "SlamDoor.hpp"
 #include "LiftPoint.hpp"
+#include "Slurg.hpp"
 
 TintEntry stru_560260[15] =
 {
@@ -825,7 +826,24 @@ void Scrab::vUpdate_4A3530()
 
 void Scrab::Update_Slurg_Step_Watch_Points_4A5780()
 {
-    NOT_IMPLEMENTED();
+    if (field_106_current_motion == eScrabMotions::M_Walk_1_4A84D0 ||
+        field_106_current_motion == eScrabMotions::M_Run_2_4A89C0 ||
+        field_106_current_motion == eScrabMotions::M_Stamp_21_4A9CC0 ||
+        field_106_current_motion == eScrabMotions::M_AttackSpin_32_4A8DC0)
+    {
+        if (sGnFrame_5C1B84 & 1)
+        {
+            const char count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
+            if (count < 5)
+            {
+                Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
+                pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(field_B8_xpos);
+                pPoints->field_0_points[count].field_2_yPos = field_100_pCollisionLine->field_0_rect.y - 5;
+                sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
+            }
+        }
+    }
+
 }
 
 enum AI_Patrol
