@@ -299,7 +299,7 @@ private:
 
     EXPORT int Sound_4AADB0(unsigned __int8 a2, int a3, int a4, __int16 a5);
 
-    EXPORT void KillTarget_4A7F20(BaseGameObject* pTarget);
+    EXPORT void KillTarget_4A7F20(BaseAliveGameObject* pTarget);
 
     EXPORT __int16 FindAbeOrMud_4A4FD0();
 

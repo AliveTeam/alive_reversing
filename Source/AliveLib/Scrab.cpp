@@ -2250,7 +2250,7 @@ const int sScrabRunVelX_546EC4[14] =
 
 void Scrab::M_Run_2_4A89C0()
 {
-    BaseGameObject* pTarget = sObjectIds_5C1B70.Find_449CF0(field_120_obj_id);
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
     field_C4_velx = field_CC_sprite_scale * FP_FromRaw(sScrabRunVelX_546EC4[field_20_animation.field_92_current_frame]);
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
@@ -2404,7 +2404,7 @@ const FP dword_546EFC[10] =
 
 void Scrab::M_RunToStand_4_4A90C0()
 {
-    BaseGameObject* pTarget = sObjectIds_5C1B70.Find_449CF0(field_120_obj_id);
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
     field_C4_velx = field_CC_sprite_scale * dword_546EFC[field_20_animation.field_92_current_frame & 10]; // TODO: check size
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3342,7 +3342,7 @@ void Scrab::M_Feed_36_4AA030()
 
 void Scrab::M_AttackLunge_37_4AA0B0()
 {
-    BaseGameObject* pTarget = sObjectIds_5C1B70.Find_449CF0(field_120_obj_id);
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
     KillTarget_4A7F20(pTarget);
 
     if (field_20_animation.field_92_current_frame == 4)
@@ -3944,9 +3944,108 @@ int Scrab::Sound_4AADB0(unsigned __int8 /*a2*/, int /*a3*/, int /*a4*/, __int16 
     return 0;
 }
 
-void Scrab::KillTarget_4A7F20(BaseGameObject* /*pTarget*/)
+void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
 {
-    NOT_IMPLEMENTED();
+    bool bKilledTarget = false;
+    bool bKillSpecific = false;
+
+    if (Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+    {
+        if (!BrainIs(&Scrab::AI_Fighting_2_4A5840))
+        {
+            if (!BrainIs(&Scrab::AI_Possessed_5_4A6180) ||
+                field_106_current_motion == eScrabMotions::M_LegKick_38_4AA120 ||
+                field_106_current_motion == eScrabMotions::M_Stamp_21_4A9CC0 ||
+                field_106_current_motion == eScrabMotions::M_AttackSpin_32_4A8DC0)
+            {
+                PSX_RECT bOurRect = {};
+                vGetBoundingRect_424FD0(&bOurRect, 1);
+                BaseAliveGameObject* pObj = pTarget;
+
+                int list_idx = 0;
+                if (pTarget)
+                {
+                    bKillSpecific = true;
+                }
+                else if (gBaseAliveGameObjects_5C1B7C->field_4_used_size > 0)
+                {
+                    list_idx = 1;
+                    pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(0);
+                }
+                else
+                {
+                    pObj = nullptr;
+                }
+
+                do
+                {
+                    if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+                    {
+                        if (pObj != this)
+                        {
+                            if ((pObj->field_4_typeId == Types::eAbe_69 ||
+                                pObj->field_4_typeId == Types::eMudokon2_81 ||
+                                pObj->field_4_typeId == Types::eMudokon_110 ||
+                                pObj->field_4_typeId == Types::eType_127 ||
+                                pObj->field_4_typeId == Types::eFleech_50 ||
+                                pObj->field_4_typeId == Types::eScrab_112) &&
+                                field_D6_scale == pObj->field_D6_scale && pObj->field_10C_health > FP_FromInteger(0))
+                            {
+                                const FP xDist = pObj->field_B8_xpos - field_B8_xpos;
+                                if (!WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), xDist))
+                                {
+                                    if (!pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
+                                    {
+                                        if (pObj->field_4_typeId != Types::eScrab_112 || !pObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) ||
+                                            pObj->field_106_current_motion != eScrabMotions::M_AttackSpin_32_4A8DC0 &&
+                                            (pObj->field_4_typeId != Types::eFleech_50 || BrainIs(&Scrab::AI_Possessed_5_4A6180) || field_1A8_kill_close_fleech))
+
+                                        {
+                                            PSX_RECT objRect = {};
+                                            pObj->vGetBoundingRect_424FD0(&objRect, 1);
+
+                                            if (objRect.x <= bOurRect.h &&
+                                                objRect.w >= bOurRect.x &&
+                                                objRect.h >= bOurRect.y &&
+                                                objRect.y <= bOurRect.h)
+                                            {
+                                                if (pObj->VTakeDamage_408730(this))
+                                                {
+                                                    bKilledTarget = true;
+                                                    SFX_Play_46FA90(64u, 0);
+                                                    if (pObj->field_4_typeId == Types::eAbe_69)
+                                                    {
+                                                        Abe_SFX_457EC0(9u, 0, 0, sActiveHero_5C1B68);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (bKillSpecific)
+                    {
+                        break;
+                    }
+
+                    if (bKilledTarget)
+                    {
+                        break;
+                    }
+
+                    if (list_idx >= gBaseAliveGameObjects_5C1B7C->Size())
+                    {
+                        break;
+                    }
+
+                    pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(list_idx++);
+                } while (pObj);
+            }
+        }
+    }
 }
 
 __int16 Scrab::FindAbeOrMud_4A4FD0()
