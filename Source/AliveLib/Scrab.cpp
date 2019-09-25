@@ -3378,6 +3378,51 @@ void Scrab::M_DeathBegin_39_4AA190()
     }
 }
 
+__int16 Scrab::vOnSameYLevel_4A5400(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    PSX_RECT ourRect = {};
+    vGetBoundingRect_424FD0(&ourRect, 1);
+
+    PSX_RECT otherRect = {};
+    pOther->vGetBoundingRect_424FD0(&otherRect, 1);
+
+    const FP k10Scaled = (FP_FromInteger(10) * field_CC_sprite_scale);
+    if (FP_FromInteger(ourRect.y) <= (FP_FromInteger(otherRect.h) - k10Scaled) && ourRect.y >= otherRect.y)
+    {
+        return TRUE;
+    }
+
+    if (ourRect.h <= otherRect.h)
+    {
+        if (FP_FromInteger(ourRect.h) >= (k10Scaled + FP_FromInteger(otherRect.y)))
+        {
+            return TRUE;
+        }
+    }
+
+    if (ourRect.y >= otherRect.y)
+    {
+        if (ourRect.h <= otherRect.h)
+        {
+            return TRUE;
+        }
+
+        if (ourRect.y > otherRect.y)
+        {
+            return FALSE;
+        }
+    }
+
+    if (ourRect.h < otherRect.h)
+    {
+        return FALSE;
+    }
+    else
+    {
+        return TRUE;
+    }
+}
+
 void Scrab::ToPatrol_4AA600()
 {
     SetBrain(&Scrab::AI_Patrol_0_4AA630);

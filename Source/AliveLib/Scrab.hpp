@@ -186,7 +186,10 @@ public:
         return vGetSaveState_4AB020(reinterpret_cast<Scrab_State*>(pSaveBuffer));
     }
 
-    // TODO: New virtuals
+    virtual __int16 vOnSameYLevel_425520(BaseAnimatedWithPhysicsGameObject* pOther) override
+    {
+        return vOnSameYLevel_4A5400(pOther);
+    }
 
     EXPORT static int CC CreateFromSaveState_4A70A0(const BYTE* pBuffer);
 
@@ -266,6 +269,9 @@ public:
 
 
 private:
+
+
+    EXPORT __int16 vOnSameYLevel_4A5400(BaseAnimatedWithPhysicsGameObject* pOther);
 
     EXPORT void ToPatrol_4AA600();
 
