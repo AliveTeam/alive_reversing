@@ -88,7 +88,7 @@ const TSlogAIFn sSlog_fns_ai_560A38[4] =
     &Slog::AI_Death_3_4C3250
 };
 
-const SfxDefinition stru_560B00[23] =
+const SfxDefinition stru_560B00[19] =
 {
     { 0u, 12u, 38u, 30u, 0, 0 },
     { 0u, 12u, 39u, 30u, 0, 0 },
@@ -109,10 +109,6 @@ const SfxDefinition stru_560B00[23] =
     { 0u, 3u, 59u, 67u, 0, 0 },
     { 0u, 12u, 33u, 45u, 0, 127 },
     { 0u, 12u, 33u, 40u, -127, 0 },
-    { 0u, 0u, 0u, 0u, 0, 0 },
-    { 0u, 0u, 0u, 0u, 0, 0 },
-    { 0u, 0u, 0u, 0u, 0, 0 },
-    { 0u, 0u, 0u, 0u, 0, 0 }
 };
 
 const static AIFunctionData<TSlogAIFn> sSlogAiTable[4] =
@@ -3065,17 +3061,16 @@ void Slog::ToIdle_4C5C10()
     field_108_next_motion = -1;
 }
 
-SfxDefinition getSfxDef(SlogSound effectId)
+const SfxDefinition getSfxDef(SlogSound effectId)
 {
     return stru_560B00[static_cast<int>(effectId)];
 }
 
 void Slog::Sfx_4C7D30(SlogSound effectId)
 {
-    int volumeLeft, volumeRight;
-    SfxDefinition effectDef = {};
-    effectDef = getSfxDef(effectId);
-    int defaultSndIdxVol = static_cast<char>(effectDef.field_3_default_volume);
+    __int16 volumeLeft, volumeRight;
+    const SfxDefinition effectDef = getSfxDef(effectId);
+
 
     CameraPos direction = gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
@@ -3083,9 +3078,10 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
         field_B8_xpos,
         field_BC_ypos
     );
-    PSX_RECT pRect;
+    PSX_RECT pRect = {};
     gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
 
+    __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
     volumeRight = defaultSndIdxVol;
     switch (direction)
     {
@@ -3101,14 +3097,14 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
             break;
         case CameraPos::eCamLeft_3:
         {
-            FP percentHowFar = (FP_FromInteger(pRect.w) - field_B8_xpos) / FP_FromInteger(368);
+            const FP percentHowFar = (FP_FromInteger(pRect.w) - field_B8_xpos) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
             volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
         }
             break;
         case CameraPos::eCamRight_4:
         {
-            FP percentHowFar = (field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
+            const FP percentHowFar = (field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
             volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
         }
@@ -3121,18 +3117,19 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
     {
         SFX_SfxDefinition_Play_4CA700(
             &effectDef,
-            (__int16) volumeLeft,
-            (__int16) volumeRight,
+            volumeLeft,
+            volumeRight,
             effectDef.field_4_pitch_min + 1524,
             effectDef.field_6_pitch_max + 1524
         );
+        LOG_INFO((int)effectId);
     }
     else
     {
         SFX_SfxDefinition_Play_4CA700(
             &effectDef,
-            (__int16) volumeLeft,
-            (__int16) volumeRight,
+            volumeLeft,
+            volumeRight,
             effectDef.field_4_pitch_min,
             effectDef.field_6_pitch_max
         );

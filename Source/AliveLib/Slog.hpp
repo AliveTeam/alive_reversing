@@ -23,6 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
 
 enum class SlogSound : int
 {
+    Unknown_0 = 0,
     Unknown_1 = 1,
     IdleWoof_2 = 2,
     IdleGrrr_3 = 3,
