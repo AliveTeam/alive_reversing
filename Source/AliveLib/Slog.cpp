@@ -3123,7 +3123,6 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
             effectDef.field_4_pitch_min + 1524,
             effectDef.field_6_pitch_max + 1524
         );
-        LOG_INFO((int)effectId);
     }
     else
     {
