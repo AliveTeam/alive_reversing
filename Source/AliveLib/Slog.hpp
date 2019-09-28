@@ -21,6 +21,28 @@ struct Path_Slog : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
 
+enum class SlogSound : int
+{
+    Unknown_1 = 1,
+    IdleWoof_2 = 2,
+    IdleGrrr_3 = 3,
+    IdleGrrAlt_4 = 4,
+    CautiousWoof_5 = 5,
+    JumpBite_6 = 6,
+    Unknown_7 = 7,
+    AttackGrowl_8 = 8,
+    DeathWhine_9 = 9,
+    YawnStart_10 = 10,
+    YawnEnd_11 = 11,
+    Unknown_12 = 12,
+    Unknown_13 = 13,
+    Unknown_14 = 14,
+    Unknown_15 = 15,
+    Unknown_16 = 16,
+    Unknown_17 = 17, //Bark cutoff?
+    Unknown_18 = 18
+};
+
 struct Slog_State
 {
     Types field_0_type;
@@ -222,7 +244,7 @@ private:
 private:
     EXPORT void ToIdle_4C5C10();
 
-    EXPORT void Sfx_4C7D30(int effectId);
+    EXPORT void Sfx_4C7D30(SlogSound effectId);
 
     EXPORT void ToJump_4C5C60();
 
