@@ -4029,7 +4029,7 @@ int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDir
 
     PSX_RECT pRect = {};
     gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
-    if (applyDirection > 0)
+    if (applyDirection)
     {
         switch (direction)
         {
