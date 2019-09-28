@@ -3072,7 +3072,7 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
     const SfxDefinition effectDef = getSfxDef(effectId);
 
 
-    CameraPos direction = gMap_5C3030.GetDirection_4811A0(
+    const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
         field_B8_xpos,
