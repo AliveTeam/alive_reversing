@@ -7,6 +7,7 @@
 #include "stdlib.hpp"
 #include "PsxDisplay.hpp"
 #include "PsxRender.hpp"
+#include "Events.hpp"
 
 ALIVE_VAR(1, 0x5BC214, int, gGasInstanceCount_5BC214, 0);
 ALIVE_VAR(1, 0x5C1BA4, short, gLaughingGasOn_5C1BA4, FALSE);
@@ -191,7 +192,50 @@ __int16 LaughingGas::CounterOver_432DA0()
 
 void LaughingGas::vUpdate_432C40()
 {
-    NOT_IMPLEMENTED();
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (SwitchStates_Get_466020(field_48_tlv_data.field_2_gas_id))
+    {
+        field_34_bEnabled = 1;
+    }
+    else
+    {
+        field_34_bEnabled = 0;
+    }
+
+    if (field_36_bGreen)
+    {
+        if (field_34_bEnabled)
+        {
+            if (field_54_amount_on < FP_FromInteger(1))
+            {
+                field_54_amount_on += FP_FromDouble(0.01);
+            }
+        }
+        else
+        {
+            if (field_54_amount_on > FP_FromInteger(0))
+            {
+                field_54_amount_on -= FP_FromDouble(0.01);
+            }
+        }
+    }
+
+    if (field_36_bGreen)
+    {
+        gLaughingGasOn_5C1BA4 = 1;
+        if (CounterOver_432DA0())
+        {
+            sub_4328A0();
+            return;
+        }
+    }
+
+    gLaughingGasOn_5C1BA4 = 0;
+    sub_4328A0();
 }
 
 float LaughingGas::Calc_Y_4326A0(float* a2, int yIndex)
@@ -216,4 +260,9 @@ float LaughingGas::Calc_X_4326F0(float* a2, int xIndex)
         v4++;
     }
     return result;
+}
+
+void LaughingGas::sub_4328A0()
+{
+    NOT_IMPLEMENTED();
 }

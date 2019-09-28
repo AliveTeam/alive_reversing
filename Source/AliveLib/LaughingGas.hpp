@@ -62,6 +62,7 @@ private:
     EXPORT float Calc_Y_4326A0(float* a2, int a3);
     EXPORT float Calc_X_4326F0(float* a2, int idx);
 
+    EXPORT void sub_4328A0();
 private:
     int field_20;
     int field_24_tlvInfo;
@@ -94,8 +95,8 @@ private:
     };
 
     // TODO: Figure out why these seem to be indexed the wrong way around
-    Data field_1A0_x_data[321]; // 640+2/2
-    Data field_24D0_y_data[121]; // 480+2/2
+    Data field_1A0_x_data[321]; // (640+2)/2
+    Data field_24D0_y_data[121]; // (480+4)/4
 
     int field_31F8_h_count;
     int field_31FC_w_count;
