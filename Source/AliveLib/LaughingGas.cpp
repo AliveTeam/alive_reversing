@@ -112,81 +112,55 @@ const float dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
 
 void LaughingGas::Init_432980()
 {
-    int yCount = 0;
-    if (field_31F8_h_count > 0)
+    for (int i = 0; i < field_31F8_h_count; i++)
     {
-        float v1 = 0.0f;
-        float* pElem_ptr = &field_1A0_x_data[0].unknown2;
-        do
+        const float v4 = (float)i / (float)field_31F8_h_count;
+        float val1 = 1.0f;
+        for (int j = 0; j < 7; j++)
         {
-            float v4 = (float)yCount / (float)field_31F8_h_count;
-            float * pDst1 = (pElem_ptr - 5);
-            v1 = 1.0f - v4;
-            float val1 = 1.0f;
+            field_1A0_x_data[i].array_4[j] = val1 * dword_551C58[j];
+            val1 *= v4;
+        }
 
-            for (float pSrc1 : dword_551C58)
-            {
-                const float dstVal1 = val1 * pSrc1;
-                pDst1 += 4;
-                *(float *)(pDst1 - 4) = dstVal1;
-                val1 = val1 * v4;
-            }
-            
-            float v9 = 1.0f;
-            float* v10 = pElem_ptr;
-            for (int i = 0; i < 6; i++)
-            {
-                const float v12 = v9 * *v10;
-                --v10;
-                v10[1] = v12;
-                v9 = v9 * v1;
-            }
-
-            ++yCount;
-            pElem_ptr += 7;
-        } while (yCount < field_31F8_h_count);
+        float* pElem_ptr = &field_1A0_x_data[i].array_4[5];
+        const float v1 = 1.0f - v4;
+        float val2 = 1.0f;
+        for (int j = 0; j < 6; j++)
+        {
+            const float calc2 = val2 * *pElem_ptr;
+            *pElem_ptr = calc2;
+            --pElem_ptr;
+            val2 *= v1;
+        }
     }
 
-    int xCount = 0;
-    if (field_31FC_w_count > 0)
+    for (int i = 0; i < field_31FC_w_count; i++)
     {
-        float* v14 = (float *)field_24D0_y_data;
-        float v2 = 0.0f;
-        do
+        const float v4 = (float)i / (float)field_31FC_w_count;
+        float val1 = 1.0f;
+        for (int j = 0; j < 7; j++)
         {
-            const float v15 = (float)xCount / (float)field_31FC_w_count;
-            float* v17 = v14 - 5;
-            v2 = 1.0f - v15;
-            float v18 = 1.0f;
-            for (float v16 : dword_551C58)
-            {
-                const float v19 = v18 * v16;
-                ++v17;
-                *(v17 - 1) = v19;
-                v18 = v18 * v15;
-            }
+            field_24D0_y_data[i].array_4[j] = val1 * dword_551C58[j];
+            val1 *= v4;
+        }
 
-            float v20 = 1.0f;
-            float* v21 = v14;
-            for (int i = 0; i < 6; i++)
-            {
-                const float v23 = v20 * *v21;
-                --v21;
-                v21[1] = v23;
-                v20 = v20 * v2;
-            }
-            ++xCount;
-            v14 += 7;
-        } while (xCount < field_31FC_w_count);
+        float* pElem_ptr = &field_24D0_y_data[i].array_4[5];
+        const float v1 = 1.0f - v4;
+        float val2 = 1.0f;
+        for (int j = 0; j < 6; j++)
+        {
+            const float calc2 = val2 * *pElem_ptr;
+            *pElem_ptr = calc2;
+            --pElem_ptr;
+            val2 *= v1;
+        }
     }
 
-    float* p66_array_2 = &field_10C_ary6[0][0];
     for (int i = 0; i < 6; i++)
     {
         for (int j = 0; j < 6; j++)
         {
-            *p66_array_2 = rand() * 6.28f * 0.00003051850947599719f;
-            p66_array_2++;
+            field_10C_ary6[i][j] = static_cast<float>(rand()) * 6.28f * 0.00003051850947599719f;
         }
     }
 
@@ -328,8 +302,9 @@ float LaughingGas::Calc_Y_4326A0(float* a2, int yIndex)
 {
     float result = 0.0;
     float* v4 = a2 + 1;
-    for (float& v5 : field_1A0_x_data[yIndex].array_4)
+    for (int i=0; i<4; i++)
     {
+        const float v5 = field_1A0_x_data[yIndex].array_4[i+1];
         result += v5 * *v4;
         v4++;
     }
@@ -340,8 +315,9 @@ float LaughingGas::Calc_X_4326F0(float* a2, int xIndex)
 {
     float result = 0.0;
     float* v4 = a2 + 1;
-    for (float& v5 : field_24D0_y_data[xIndex].array_4)
+    for (int i = 0; i<4; i++)
     {
+        const float v5 = field_24D0_y_data[xIndex].array_4[i + 1];
         result += v5 * *v4;
         v4++;
     }

@@ -88,10 +88,7 @@ private:
 
     struct Data
     {
-        float unknown;
-        float array_4[4];
-        float unknown2;
-        float unknown3;
+        float array_4[7];
     };
 
     // TODO: Figure out why these seem to be indexed the wrong way around
