@@ -127,16 +127,13 @@ void LaughingGas::vRender_432D10(int** pOt)
 
     if (field_54_amount_on > FP_FromDouble(0.1) || !field_36)
     {
-        PrimHeader* pHack = (PrimHeader*)&field_5C_prims;
-        pHack = pHack;
-
         if (field_19C_pMem)
         {
             if (sbDisplayRenderFrame_55EF8C)
             {
                 DoRender_432740();
             }
-            OrderingTable_Add_4F8AA0(&pOt[field_58_layer], (PrimHeader*)&field_5C_prims);
+            OrderingTable_Add_4F8AA0(&pOt[field_58_layer], &field_5C_prim.mPrimHeader);
         }
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
     }
@@ -156,45 +153,30 @@ void LaughingGas::vUpdate_432C40()
 {
     NOT_IMPLEMENTED();
 
-    PrimHeader* pHack = (PrimHeader*)&field_5C_prims;
-    pHack = pHack;
 }
 
-float LaughingGas::sub_4326A0(float* a2, int a3)
+float LaughingGas::Calc_Y_4326A0(float* a2, int xIndex)
+{
+    float result = 0.0;
+    float* v4 = a2 + 1;
+    for (float& v5 : field_1A0[xIndex].array_4)
+    {
+        result += v5 * *v4;
+        v4++;
+    }
+    return result;
+}
+
+float LaughingGas::Calc_X_4326F0(float* a2, int idx)
 {
     NOT_IMPLEMENTED();
 
-    float result; // st7
-    float *v4; // eax
-    float *v5; // ecx
-    signed int v6; // edx
-    float v7; // st6
-
-    result = 0.0f;
-    v4 = a2 + 1;
-
-
-    // 0x1C * (0xF + 0) = 0x1A4
-    // 0x1C * (0xF + 1) = 0x1C0
-    // 0x1C * (0xF + 2) = 0x1DC
-
-    //  v5 = (float *)((char *)this + 0x1C * (a3 + 0x150));
-    // 0x1C * (0x150 + 0) = 0x24C0
-    // 0x1C * (0x150 + 1) = 0x24DC
-    // 0x1C * (0x150 + 2) = 0x24F8
-
-    v5 = (float *)((char *)this + 0x1C * (a3 + 0xF));
-    
-    v6 = 4;
-    do
+    float result = 0.0;
+    float* v4 = a2 + 1;
+    for (float& v5 : field_24D0_p28Stru[idx].array_4)
     {
-        v7 = *v5 * *v4;
-        ++v5;
-
-        ++v4;
-       
-        --v6;
-        result = result + v7;
-    } while (v6);
+        result += v5 * *v4;
+        v4++;
+    }
     return result;
 }

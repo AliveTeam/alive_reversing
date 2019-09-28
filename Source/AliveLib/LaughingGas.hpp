@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
+#include "Primitives.hpp"
 
 // TODO: These can be combined
 struct Path_LaughingGas_Data
@@ -58,7 +59,8 @@ private:
 
     EXPORT void vUpdate_432C40();
 
-    EXPORT float sub_4326A0(float* a2, int a3);
+    EXPORT float Calc_Y_4326A0(float* a2, int a3);
+    EXPORT float Calc_X_4326F0(float* a2, int idx);
 
 private:
     int field_20;
@@ -75,22 +77,28 @@ private:
     FP field_54_amount_on;
     __int16 field_58_layer;
     __int16 field_5A;
-    int field_5C_prims;
-    int field_60;
-    char field_64;
-    char field_65;
-    char field_66;
-    char field_67;
-    int field_68;
-    int field_6C;
-    int field_70;
-    int field_74;
-    int field_78;
+
+    Prim_GasEffect field_5C_prim;
+
     float field_7C[6][6];
     float field_10C_ary6[6][6];
+
     short* field_19C_pMem;
-    float field_1A0[2252];
-    int field_24D0_p28Stru[842];
+
+    struct Data
+    {
+        float unknown;
+        float array_4[4];
+        float unknown2;
+        float unknown3;
+    };
+
+    Data field_1A0[321]; // 640+2/2
+    float pad[5];
+
+    Data field_24D0_p28Stru[120]; // 480/2 NOTE: Is indexed at minus 5
+    float pad2[2];
+
     int field_31F8_h_count;
     int field_31FC_w_count;
 };
