@@ -93,8 +93,9 @@ private:
         float unknown3;
     };
 
-    Data field_1A0[321]; // 640+2/2
-    Data field_24D0_p28Stru[121]; // 480/2 NOTE: Is indexed at minus 5
+    // TODO: Figure out why these seem to be indexed the wrong way around
+    Data field_1A0_x_data[321]; // 640+2/2
+    Data field_24D0_y_data[121]; // 480+2/2
 
     int field_31F8_h_count;
     int field_31FC_w_count;

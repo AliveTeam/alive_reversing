@@ -155,11 +155,11 @@ void LaughingGas::vUpdate_432C40()
 
 }
 
-float LaughingGas::Calc_Y_4326A0(float* a2, int xIndex)
+float LaughingGas::Calc_Y_4326A0(float* a2, int yIndex)
 {
     float result = 0.0;
     float* v4 = a2 + 1;
-    for (float& v5 : field_1A0[xIndex].array_4)
+    for (float& v5 : field_1A0_x_data[yIndex].array_4)
     {
         result += v5 * *v4;
         v4++;
@@ -167,12 +167,11 @@ float LaughingGas::Calc_Y_4326A0(float* a2, int xIndex)
     return result;
 }
 
-float LaughingGas::Calc_X_4326F0(float* a2, int idx)
+float LaughingGas::Calc_X_4326F0(float* a2, int xIndex)
 {
-
     float result = 0.0;
     float* v4 = a2 + 1;
-    for (float& v5 : field_24D0_p28Stru[idx].array_4)
+    for (float& v5 : field_24D0_y_data[xIndex].array_4)
     {
         result += v5 * *v4;
         v4++;
