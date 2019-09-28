@@ -4006,7 +4006,6 @@ int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDir
 {
     __int16 volumeLeft = 0;
     __int16 volumeRight = 0;
-    int result = 0;
     const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
         field_C2_lvl_number,
         field_C0_path_number,
@@ -4016,6 +4015,8 @@ int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDir
 
     const SfxDefinition effectDef = getSfxDef(soundId);
     const __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
+
+    volumeRight = static_cast<__int16>(vol);
     if (vol <= 0)
     {
         volumeRight = defaultSndIdxVol;
@@ -4057,7 +4058,7 @@ int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDir
             }
                 break;
             default:
-                return result;
+                return 0;
         }
     }
     else
@@ -4065,14 +4066,13 @@ int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDir
         volumeLeft = volumeRight;
     }
 
-    result = SFX_SfxDefinition_Play_4CA700(
+    return SFX_SfxDefinition_Play_4CA700(
         &effectDef,
         volumeLeft,
         volumeRight,
         static_cast<__int16>(pitch),
         static_cast<__int16>(pitch)
     );
-    return result;
 }
 
 void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
