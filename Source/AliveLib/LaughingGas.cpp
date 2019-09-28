@@ -6,6 +6,7 @@
 #include "ScreenManager.hpp"
 #include "stdlib.hpp"
 #include "PsxDisplay.hpp"
+#include "PsxRender.hpp"
 
 ALIVE_VAR(1, 0x5BC214, int, gGasInstanceCount_5BC214, 0);
 ALIVE_VAR(1, 0x5C1BA4, short, gLaughingGasOn_5C1BA4, FALSE);
@@ -29,11 +30,11 @@ LaughingGas* LaughingGas::ctor_432400(__int16 layer, int /*notUsed*/, Path_Laugh
 
     if (field_48_tlv_data.field_0_is_laughin_gas)
     {
-        field_36 = 1;
+        field_36_bGreen = 1;
     }
     else
     {
-        field_36 = 0;
+        field_36_bGreen = 0;
     }
 
     if (SwitchStates_Get_466020(field_48_tlv_data.field_2_gas_id))
@@ -123,9 +124,7 @@ LaughingGas* LaughingGas::vdtor_432670(signed int flags)
 
 void LaughingGas::vRender_432D10(int** pOt)
 {
-    NOT_IMPLEMENTED();
-
-    if (field_54_amount_on > FP_FromDouble(0.1) || !field_36)
+    if (field_54_amount_on > FP_FromDouble(0.1) || !field_36_bGreen)
     {
         if (field_19C_pMem)
         {
@@ -141,7 +140,48 @@ void LaughingGas::vRender_432D10(int** pOt)
 
 void LaughingGas::DoRender_432740()
 {
-    NOT_IMPLEMENTED();
+    float local_array[6];
+
+    short*  memPtr = field_19C_pMem;
+    int rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
+    if (!field_36_bGreen)
+    {
+        rgb_base = (1 << sBlueShift_C19140) + (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
+    }
+
+    for (int xCount = 0; xCount < field_31FC_w_count; ++xCount)
+    {
+        for (int p = 0; p < 6; p++)
+        {
+            local_array[p] = Calc_X_4326F0(&field_7C[p][0], xCount);
+        }
+
+        for (int yCount = 0; yCount < field_31F8_h_count; ++memPtr)
+        {
+            float yValue = Calc_Y_4326A0(local_array, yCount);
+            if (yValue > 0.0f)
+            {
+                if (yValue >= 3.0f)
+                {
+                    if (yValue > 31.0f)
+                    {
+                        yValue = 31.0f;
+                    }
+                }
+                else
+                {
+                    yValue = 3.0f;
+                }
+            }
+            else
+            {
+                yValue = 0.0f;
+            }
+
+            *memPtr = static_cast<WORD>(rgb_base * (static_cast<BYTE>(yValue) & 30));
+            ++yCount;
+        }
+    }
 }
 
 __int16 LaughingGas::CounterOver_432DA0()
@@ -152,7 +192,6 @@ __int16 LaughingGas::CounterOver_432DA0()
 void LaughingGas::vUpdate_432C40()
 {
     NOT_IMPLEMENTED();
-
 }
 
 float LaughingGas::Calc_Y_4326A0(float* a2, int yIndex)

@@ -68,7 +68,7 @@ private:
     PSX_RECT field_28_rect;
     int field_30;
     __int16 field_34_bEnabled;
-    __int16 field_36;
+    __int16 field_36_bGreen;
     int field_38;
     int field_3C;
     int field_40;
