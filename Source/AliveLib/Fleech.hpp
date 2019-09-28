@@ -5,6 +5,30 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
+enum class FleechSound : unsigned __int8
+{
+    Unknown_0 = 0,
+    Unknown_1 = 1,
+    Unknown_2 = 2,
+    Unknown_3 = 3,
+    Unknown_4 = 4,
+    Unknown_5 = 5,
+    Unknown_6 = 6,
+    Unknown_7 = 7,
+    Unknown_8 = 8,
+    Unknown_9 = 9,
+    Unknown_10 = 10,
+    Unknown_11 = 11,
+    Unknown_12 = 12,
+    Unknown_13 = 13,
+    Unknown_14 = 14,
+    Unknown_15 = 15,
+    Unknown_16 = 16,
+    Unknown_17 = 17,
+    Unknown_18 = 18,
+    Unknown_19 = 19,
+};
+
 struct Path_Fleech : public Path_TLV
 {
     __int16 field_10_scale;
@@ -227,7 +251,7 @@ private:
 
     EXPORT void ToIdle_42E520();
 
-    EXPORT int Sound_430520(unsigned __int8 sfx);
+    EXPORT int Sound_430520(FleechSound soundId);
 
     EXPORT BYTE** ResBlockForMotion_42A530(int motion);
 

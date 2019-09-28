@@ -16,6 +16,7 @@
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "PsxDisplay.hpp"
+#include "Sfx.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
@@ -65,6 +66,31 @@ enum eFleechMotions
     M_SleepingWithTongue_17_42F370,
     M_Consume_18_42FDF0
 };
+
+const SfxDefinition stru_5518E0[20] =
+{
+    { 0u, 6u, 50u, 30u, -127, 127 },
+    { 0u, 6u, 49u, 127u, 0, 0 },
+    { 0u, 6u, 54u, 127u, 0, 0 },
+    { 0u, 1u, 36u, 35u, 0, 0 },
+    { 0u, 1u, 37u, 35u, 0, 0 },
+    { 0u, 6u, 52u, 100u, 0, 0 },
+    { 0u, 6u, 50u, 30u, -127, 0 },
+    { 0u, 6u, 50u, 40u, 500, 600 },
+    { 0u, 6u, 50u, 30u, 300, 400 },
+    { 0u, 3u, 59u, 100u, 256, 384 },
+    { 0u, 4u, 65u, 80u, 0, 0 },
+    { 0u, 4u, 65u, 55u, 0, 0 },
+    { 0u, 4u, 65u, 85u, 0, 0 },
+    { 0u, 4u, 65u, 100u, 127, 127 },
+    { 0u, 6u, 61u, 70u, -127, 127 },
+    { 0u, 6u, 62u, 70u, -127, 127 },
+    { 0u, 6u, 63u, 70u, -127, 127 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 },
+    { 0u, 0u, 0u, 0u, 0, 0 }
+};
+
 
 const TFleechAIFn sFleech_ai_table_551830[4] =
 {
@@ -514,7 +540,7 @@ void Fleech::M_Sleeping_0_42F0B0()
         {
             if (field_20_animation.field_92_current_frame == 4 && !(sGnFrame_5C1B84 & 3))
             {
-                Sound_430520(4);
+                Sound_430520(FleechSound::Unknown_4);
 
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
@@ -538,7 +564,7 @@ void Fleech::M_Sleeping_0_42F0B0()
         }
         else
         {
-            Sound_430520(3);
+            Sound_430520(FleechSound::Unknown_3);
         }
     }
     else
@@ -570,7 +596,7 @@ void Fleech::M_WakingUp_1_42F270()
         {
             field_106_current_motion = field_108_next_motion;
             field_108_next_motion = -1;
-            Sound_430520(6);
+            Sound_430520(FleechSound::Unknown_6);
         }
     }
 }
@@ -667,7 +693,7 @@ void Fleech::M_Crawl_4_42E960()
         {
             if (field_20_animation.field_92_current_frame == 4)
             {
-                Sound_430520(14u);
+                Sound_430520(FleechSound::Unknown_14);
             }
             else if (field_20_animation.field_92_current_frame == 6)
             {
@@ -700,7 +726,7 @@ void Fleech::M_PatrolCry_5_42E810()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        Sound_430520(0);
+        Sound_430520(FleechSound::Unknown_0);
         field_13C = 1;
     }
 
@@ -865,7 +891,7 @@ void Fleech::M_Land_10_42F330()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        Sound_430520(9);
+        Sound_430520(FleechSound::Unknown_9);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -976,7 +1002,7 @@ void Fleech::M_Climb_12_42F7F0()
             {
             case 1u:
             case 5u:
-                Sound_430520(9u);
+                Sound_430520(FleechSound::Unknown_9);
                 // TODO: Somewhat suspect that these branches are equal - OG bug?
                 if (field_166_angle >= 64u && field_166_angle > 192u)
                 {
@@ -990,7 +1016,7 @@ void Fleech::M_Climb_12_42F7F0()
 
             case 2u:
             case 6u:
-                Sound_430520(9u);
+                Sound_430520(FleechSound::Unknown_9);
                 if (field_166_angle > 64u && field_166_angle < 128u)
                 {
                     field_166_angle = -128 - field_166_angle;
@@ -1098,8 +1124,8 @@ void Fleech::M_DeathByFalling_16_42FCE0()
             pBlood->ctor_40F0B0(field_B8_xpos, field_BC_ypos - FP_FromInteger(8), FP_FromInteger(0), -FP_FromInteger(5), field_CC_sprite_scale, 50);
         }
         
-        Sound_430520(12);
-        Sound_430520(7);
+        Sound_430520(FleechSound::Unknown_12);
+        Sound_430520(FleechSound::Unknown_7);
         
         field_10C_health = FP_FromInteger(0);
         field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
@@ -1124,7 +1150,7 @@ void Fleech::M_SleepingWithTongue_17_42F370()
         {
             if (field_20_animation.field_92_current_frame == 4 && !(sGnFrame_5C1B84 & 3))
             {
-                Sound_430520(4);
+                Sound_430520(FleechSound::Unknown_4);
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
                 {
                     auto pSnoozeParticle = alive_new<SnoozeParticle>();
@@ -1147,7 +1173,7 @@ void Fleech::M_SleepingWithTongue_17_42F370()
         }
         else
         {
-            Sound_430520(3u);
+            Sound_430520(FleechSound::Unknown_3);
         }
 
         field_B8_xpos = FP_FromInteger(field_160_hoistX) + (Math_Cosine_496CD0(field_166_angle) * FP_FromInteger(4)) - FP_FromInteger(field_DA_xOffset);
@@ -1159,13 +1185,13 @@ void Fleech::M_Consume_18_42FDF0()
 {
     if (field_20_animation.field_92_current_frame == 2)
     {
-        Sound_430520(2);
+        Sound_430520(FleechSound::Unknown_2);
     }
     else if (field_20_animation.field_92_current_frame == 15 && field_11C_obj_id == sActiveHero_5C1B68->field_8_object_id)
     {
         sActiveHero_5C1B68->sub_459430();
 
-        Sound_430520(1);
+        Sound_430520(FleechSound::Unknown_1);
 
         for (int i = 0; i < 3; i++)
         {
@@ -1639,7 +1665,7 @@ void Fleech::TongueUpdate_42BD30()
         case 0:
             field_184 = field_160_hoistX;
             field_186 = field_162_hoistY;
-            Sound_430520(11u);
+            Sound_430520(FleechSound::Unknown_11);
             break;
 
         case 1:
@@ -1695,7 +1721,7 @@ void Fleech::TongueUpdate_42BD30()
                 {
                 case 0:
                 {
-                    Sound_430520(10);
+                    Sound_430520(FleechSound::Unknown_10);
                     auto pBlood = alive_new<Blood>();
                     if (pBlood)
                     {
@@ -1736,7 +1762,7 @@ void Fleech::TongueUpdate_42BD30()
                         {
                             field_178_tongue_state = 7;
                             field_17A_tongue_sub_state = 0;
-                            Sound_430520(8u);
+                            Sound_430520(FleechSound::Unknown_8);
                         }
                     }
                     break;
@@ -1846,10 +1872,75 @@ void Fleech::ToIdle_42E520()
     field_134 = 60 * sRandomBytes_546744[sFleechRandomIdx_5BC20C++] / 256 + sGnFrame_5C1B84 + 120;
 }
 
-int Fleech::Sound_430520(unsigned __int8 /*sfx*/)
+const SfxDefinition getSfxDef(FleechSound effectId)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return stru_5518E0[static_cast<int>(effectId)];
+}
+
+int Fleech::Sound_430520(FleechSound soundId)
+{
+    SfxDefinition effectDef = getSfxDef(soundId);
+    __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
+    if (soundId == FleechSound::Unknown_14)
+    {
+        const int rndIdx = Math_RandomRange_496AB0(14, 16);
+        effectDef = getSfxDef(static_cast<FleechSound>(rndIdx));
+        defaultSndIdxVol = effectDef.field_3_default_volume + Math_RandomRange_496AB0(-10, 10);
+    }
+
+    if (field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        defaultSndIdxVol = 2 * defaultSndIdxVol / 3;
+    }
+
+    __int16 volumeLeft = 0;
+    __int16 volumeRight = defaultSndIdxVol;
+    const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos
+    );
+
+    PSX_RECT pRect = {};
+    gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
+    switch (direction)
+    {
+        case CameraPos::eCamCurrent_0:
+            volumeLeft = volumeRight;
+            break;
+        case CameraPos::eCamTop_1:
+        case CameraPos::eCamBottom_2:
+        {
+            volumeLeft = FP_GetExponent(FP_FromInteger(defaultSndIdxVol * 2) / FP_FromInteger(3));
+            volumeRight = volumeLeft;
+        }
+        break;
+        case CameraPos::eCamLeft_3:
+        {
+            const FP percentHowFar = (FP_FromInteger(pRect.w) - field_B8_xpos) / FP_FromInteger(368);
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+            volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+        }
+        break;
+        case CameraPos::eCamRight_4:
+        {
+            const FP percentHowFar = (field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
+            volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+            volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+        }
+        break;
+        default:
+            return 0;
+    }
+
+    return SFX_SfxDefinition_Play_4CA700(
+        &effectDef,
+        volumeLeft,
+        volumeRight,
+        effectDef.field_4_pitch_min,
+        effectDef.field_6_pitch_max
+    );
 }
 
 BYTE** Fleech::ResBlockForMotion_42A530(int /*motion*/)
@@ -1939,7 +2030,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
     case Types::eExplosion_109:
     case Types::eSlig_125:
     {
-        Sound_430520(7);
+        Sound_430520(FleechSound::Unknown_7);
         field_10C_health = FP_FromInteger(0);
         auto pGibsMem = alive_new<Gibs>();
         if (pGibsMem)
@@ -1966,7 +2057,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
 
 
     case Types::eRockSpawner_48:
-        Sound_430520(7);
+        Sound_430520(FleechSound::Unknown_7);
         field_10C_health = FP_FromInteger(0);
         field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         field_108_next_motion = -1;
@@ -1977,7 +2068,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         break;
 
     case Types::eParamite_96:
-        Sound_430520(0xDu);
+        Sound_430520(FleechSound::Unknown_13);
         // Fall through
 
     case Types::eScrab_112:
@@ -2008,7 +2099,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         if (!field_174_flags.Get(Flags_174::eBit4))
         {
             field_174_flags.Set(Flags_174::eBit4);
-            Sound_430520(7);
+            Sound_430520(FleechSound::Unknown_7);
         }
 
         field_10C_health = FP_FromInteger(0);
@@ -2031,7 +2122,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         break;
 
     default:
-        Sound_430520(7);
+        Sound_430520(FleechSound::Unknown_7);
         field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted);
         sub_42B8C0();
         break;
@@ -3282,7 +3373,7 @@ __int16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
             {
                 field_108_next_motion = eFleechMotions::M_StopCrawling_7_42EBB0;
             }
-            Sound_430520(7u);
+            Sound_430520(FleechSound::Unknown_7);
             return 6;
         }
 
@@ -3340,7 +3431,7 @@ __int16 Fleech::AI_ChasingAbe_State_0(BaseAliveGameObject* pObj)
     field_120 = 0;
     field_15E = 0;
     field_108_next_motion = eFleechMotions::M_Crawl_4_42E960;
-    Sound_430520(0);
+    Sound_430520(FleechSound::Unknown_0);
     return 1;
 }
 
@@ -3419,7 +3510,7 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             if (field_106_current_motion == eFleechMotions::M_Crawl_4_42E960)
             {
                 field_108_next_motion = eFleechMotions::M_StopCrawling_7_42EBB0;
-                Sound_430520(7u);
+                Sound_430520(FleechSound::Unknown_7);
                 return 6;
             }
 
@@ -3429,7 +3520,7 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             }
         }
 
-        Sound_430520(7u);
+        Sound_430520(FleechSound::Unknown_7);
         return 6;
     }
 
@@ -3702,7 +3793,7 @@ __int16 Fleech::AI_Scared_2_42D310()
         if (!vIsFacingMe_4254A0(pDangerObj))
         {
             field_108_next_motion = eFleechMotions::M_Crawl_4_42E960;
-            Sound_430520(7u);
+            Sound_430520(FleechSound::Unknown_7);
             return 1;
         }
 
@@ -3710,18 +3801,18 @@ __int16 Fleech::AI_Scared_2_42D310()
         {
             field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
             field_108_next_motion = eFleechMotions::M_Crawl_4_42E960;
-            Sound_430520(7u);
+            Sound_430520(FleechSound::Unknown_7);
             return 1;
         }
 
         if (field_106_current_motion != eFleechMotions::M_Crawl_4_42E960)
         {
-            Sound_430520(7u);
+            Sound_430520(FleechSound::Unknown_7);
             return 1;
         }
 
         field_108_next_motion = eFleechMotions::M_StopCrawling_7_42EBB0;
-        Sound_430520(7u);
+        Sound_430520(FleechSound::Unknown_7);
         return 1;
 
     case 1u:
