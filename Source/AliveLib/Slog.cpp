@@ -3068,7 +3068,8 @@ const SfxDefinition getSfxDef(SlogSound effectId)
 
 void Slog::Sfx_4C7D30(SlogSound effectId)
 {
-    __int16 volumeLeft, volumeRight;
+    __int16 volumeLeft = 0;
+    __int16 volumeRight = 0;
     const SfxDefinition effectDef = getSfxDef(effectId);
 
 
@@ -3081,7 +3082,7 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
     PSX_RECT pRect = {};
     gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
 
-    __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
+    const __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
     volumeRight = defaultSndIdxVol;
     switch (direction)
     {
