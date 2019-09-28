@@ -39,6 +39,20 @@ TintEntry stru_560260[15] =
     { -1, 127u, 127u, 127u }
 };
 
+const SfxDefinition sScrabSfx_560330[10] =
+{
+    { 0u, 4u, 60u, 55u, 0, 0 },
+    { 0u, 4u, 61u, 70u, 0, 0 },
+    { 0u, 4u, 62u, 80u, 0, 0 },
+    { 0u, 4u, 63u, 80u, 0, 0 },
+    { 0u, 4u, 64u, 60u, -127, 127 },
+    { 0u, 4u, 66u, 90u, 0, 0 },
+    { 0u, 4u, 67u, 50u, -511, 0 },
+    { 0u, 4u, 67u, 50u, 0, 511 },
+    { 0u, 4u, 68u, 110u, -1791, -1791 },
+    { 0u, 0u, 0u, 0u, 0, 0 }
+};
+
 #define MAKE_FN(VAR) &Scrab::VAR,
 
 const TScrabMotionFn sScrab_motion_table_560120[40] =
@@ -1838,8 +1852,8 @@ __int16 Scrab::AI_Fighting_2_4A5840()
 
         SND_Stop_Channels_Mask_4CA810(field_160);
         field_160 = 0;
-        Sound_4AADB0(1u, 0, -1571, 1);
-        Sound_4AADB0(8u, 0, -1571, 1);
+        Sound_4AADB0(ScrabSound::Unknown_1, 0, -1571, 1);
+        Sound_4AADB0(ScrabSound::Unknown_8, 0, -1571, 1);
         Abe_SFX_2_457A40(6, 0, -383, 0);
 
         if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -2146,7 +2160,7 @@ void Scrab::M_Walk_1_4A84D0()
     {
     case 3:
     case 13:
-        Sound_4AADB0(6u, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
         return;
 
     case 5:
@@ -2183,7 +2197,7 @@ void Scrab::M_Walk_1_4A84D0()
 
     case 7:
     case 18:
-        Sound_4AADB0(6u, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
         if (sControlledCharacter_5C1B8C != this || field_10C_health <= FP_FromInteger(0))
         {
             if (field_108_next_motion != eScrabMotions::M_Run_2_4A89C0)
@@ -2285,7 +2299,7 @@ void Scrab::M_Run_2_4A89C0()
         case 5:
         case 7:
         case 12:
-            Sound_4AADB0(6u, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
+            Sound_4AADB0(ScrabSound::Unknown_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
             return;
 
         case 3:
@@ -2378,7 +2392,7 @@ void Scrab::M_Turn_3_4A91A0()
 {
     if (field_20_animation.field_92_current_frame == 5 || field_20_animation.field_92_current_frame == 9 || field_20_animation.field_92_current_frame == 11)
     {
-        Sound_4AADB0(6u, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_6, Math_RandomRange_496AB0(40, 50), 0x7FFF, 1);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2593,7 +2607,7 @@ void Scrab::M_HopLand_7_4A9890()
     if (field_20_animation.field_92_current_frame == 0)
     {
         Abe_SFX_2_457A40(6, 80, 400, this);
-        Sound_4AADB0(4u, 0, 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_4, 0, 0x7FFF, 1);
     }
     
     Event_Broadcast_422BC0(kEventNoise, this);
@@ -2896,7 +2910,7 @@ void Scrab::M_RunJumpEnd_13_4A9BE0()
         MoveOnLine_4A7D20();
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            Sound_4AADB0(4u, 0, 0x7FFF, 1);
+            Sound_4AADB0(ScrabSound::Unknown_4, 0, 0x7FFF, 1);
             if (!ToNextMotion_4A7920())
             {
                 ToStand_4A75A0();
@@ -2959,7 +2973,7 @@ void Scrab::M_Knockback_18_4AA490()
 
     else if (field_20_animation.field_92_current_frame == 2)
     {
-        Sound_4AADB0(4u, 0, 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_4, 0, 0x7FFF, 1);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2988,7 +3002,7 @@ void Scrab::M_Fall_20_4A93E0()
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         Abe_SFX_2_457A40(6, 80, 400, this);
-        Sound_4AADB0(4u, 0, 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_4, 0, 0x7FFF, 1);
         ToStand_4A75A0();
         field_108_next_motion = -1;
     }
@@ -3003,13 +3017,13 @@ void Scrab::M_Stamp_21_4A9CC0()
             KillTarget_4A7F20(nullptr);
         }
 
-        Sound_4AADB0(4u, 0, 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_4, 0, 0x7FFF, 1);
         SFX_Play_46FBA0(64, 60, Math_RandomRange_496AB0(-255, 255));
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        Sound_4AADB0(0, 60, 511, 1);
+        Sound_4AADB0(ScrabSound::Unknown_0, 60, 511, 1);
 
         if (BrainIs(&Scrab::AI_Possessed_5_4A6180))
         {
@@ -3026,7 +3040,7 @@ void Scrab::M_GetPossessed_22_4AA420()
 {
     if (field_20_animation.field_92_current_frame == 9)
     {
-        Sound_4AADB0(4u, 0, 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_4, 0, 0x7FFF, 1);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3073,7 +3087,7 @@ void Scrab::M_HowlBegin_26_4A9DA0()
         if (sGnFrame_5C1B84 & 1)
         {
             Event_Broadcast_422BC0(kEventLoudNoise, this);
-            Sound_4AADB0(8u, 0, Math_RandomRange_496AB0(-1600, -900), 1);
+            Sound_4AADB0(ScrabSound::Unknown_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
             if (BrainIs(&Scrab::AI_Possessed_5_4A6180))
             {
                 pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_53);
@@ -3122,7 +3136,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
     {
         if (field_20_animation.field_92_current_frame == 2)
         {
-            Sound_4AADB0(8u, 0, Math_RandomRange_496AB0(-1600, -900), 1);
+            Sound_4AADB0(ScrabSound::Unknown_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
         }
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3171,7 +3185,7 @@ void Scrab::M_Shriek_30_4A9EA0()
         if (sGnFrame_5C1B84 & 1)
         {
             Event_Broadcast_422BC0(kEventLoudNoise, this);
-            Sound_4AADB0(0, 0, 0x7FFF, 1);
+            Sound_4AADB0(ScrabSound::Unknown_0, 0, 0x7FFF, 1);
             if (BrainIs(&Scrab::AI_Possessed_5_4A6180))
             {
                 pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_54);
@@ -3192,7 +3206,7 @@ void Scrab::M_ScrabBattleAnim_31_4A9F30()
 {
     if (field_20_animation.field_92_current_frame == 0)
     {
-        field_160 = Sound_4AADB0(5u, 100, Math_RandomRange_496AB0(-600, 200), 1);
+        field_160 = Sound_4AADB0(ScrabSound::Unknown_5, 100, Math_RandomRange_496AB0(-600, 200), 1);
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3215,7 +3229,7 @@ void Scrab::M_AttackSpin_32_4A8DC0()
 
     if (field_20_animation.field_92_current_frame == 0)
     {
-        field_160 = Sound_4AADB0(5u, 100, Math_RandomRange_496AB0(-600, 200), 1);
+        field_160 = Sound_4AADB0(ScrabSound::Unknown_5, 100, Math_RandomRange_496AB0(-600, 200), 1);
     }
 
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
@@ -3347,7 +3361,7 @@ void Scrab::M_AttackLunge_37_4AA0B0()
 
     if (field_20_animation.field_92_current_frame == 4)
     {
-        Sound_4AADB0(0, 0, 0x7FFF, 1);
+        Sound_4AADB0(ScrabSound::Unknown_0, 0, 0x7FFF, 1);
     }
     else if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -3983,10 +3997,82 @@ void Scrab::KnockBack_4AA530()
     field_130 = sGnFrame_5C1B84 + 10;
 }
 
-int Scrab::Sound_4AADB0(unsigned __int8 /*a2*/, int /*a3*/, int /*a4*/, __int16 /*a5*/)
+const SfxDefinition getSfxDef(ScrabSound effectId)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return sScrabSfx_560330[static_cast<int>(effectId)];
+}
+
+int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDirection)
+{
+    __int16 volumeLeft = 0;
+    __int16 volumeRight = 0;
+    int result = 0;
+    const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
+        field_C2_lvl_number,
+        field_C0_path_number,
+        field_B8_xpos,
+        field_BC_ypos
+    );
+
+    const SfxDefinition effectDef = getSfxDef(soundId);
+    const __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
+    if (vol <= 0)
+    {
+        volumeRight = defaultSndIdxVol;
+    }
+
+    if (field_CC_sprite_scale == FP_FromDouble(0.5))
+    {
+        volumeRight /= 2;
+    }
+
+    PSX_RECT pRect = {};
+    gMap_5C3030.Get_Camera_World_Rect_481410(direction, &pRect);
+    if (applyDirection > 0)
+    {
+        switch (direction)
+        {
+            case CameraPos::eCamCurrent_0:
+                volumeLeft = volumeRight;
+                break;
+            case CameraPos::eCamTop_1:
+            case CameraPos::eCamBottom_2:
+            {
+                volumeLeft = FP_GetExponent(FP_FromInteger(defaultSndIdxVol * 2) / FP_FromInteger(3));
+                volumeRight = volumeLeft;
+            }
+                break;
+            case CameraPos::eCamLeft_3:
+            {
+                const FP percentHowFar = (FP_FromInteger(pRect.w) - field_B8_xpos) / FP_FromInteger(368);
+                volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+                volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+            }
+                break;
+            case CameraPos::eCamRight_4:
+            {
+                const FP percentHowFar = (field_B8_xpos - FP_FromInteger(pRect.x)) / FP_FromInteger(368);
+                volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
+                volumeRight = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
+            }
+                break;
+            default:
+                return result;
+        }
+    }
+    else
+    {
+        volumeLeft = volumeRight;
+    }
+
+    result = SFX_SfxDefinition_Play_4CA700(
+        &effectDef,
+        volumeLeft,
+        volumeRight,
+        static_cast<__int16>(pitch),
+        static_cast<__int16>(pitch)
+    );
+    return result;
 }
 
 void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)

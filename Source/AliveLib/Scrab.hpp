@@ -52,6 +52,21 @@ enum eScrabMotions : int
     SCRAB_MOTIONS_ENUM(MAKE_ENUM)
 };
 
+enum class ScrabSound : unsigned __int8
+{
+    Unknown_0 = 0,
+    Unknown_1 = 1,
+    Unknown_2 = 2,
+    Unknown_3 = 3,
+    Unknown_4 = 4,
+    Unknown_5 = 5,
+    Unknown_6 = 6,
+    Unknown_7 = 7,
+    Unknown_8 = 8,
+    Unknown_9 = 9,
+    Unknown_10 = 10,
+};
+
 struct Path_Scrab : public Path_TLV
 {
     __int16 field_10_scale;
@@ -303,7 +318,7 @@ private:
 
     EXPORT void KnockBack_4AA530();
 
-    EXPORT int Sound_4AADB0(unsigned __int8 a2, int a3, int a4, __int16 a5);
+    EXPORT int Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDirection);
 
     EXPORT void KillTarget_4A7F20(BaseAliveGameObject* pTarget);
 
