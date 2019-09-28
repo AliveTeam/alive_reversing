@@ -3123,10 +3123,9 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
             &effectDef,
             (__int16) volumeLeft,
             (__int16) volumeRight,
-            *(__int16 *) (char *) &effectDef.field_4_pitch_min + 1524,
-            *(__int16 *) (char *) &effectDef.field_6_pitch_max + 1524
+            effectDef.field_4_pitch_min + 1524,
+            effectDef.field_6_pitch_max + 1524
         );
-        LOG_INFO(static_cast<int>(effectId));
     }
     else
     {
@@ -3134,8 +3133,8 @@ void Slog::Sfx_4C7D30(SlogSound effectId)
             &effectDef,
             (__int16) volumeLeft,
             (__int16) volumeRight,
-            *(__int16 *) ((char *) &effectDef.field_4_pitch_min),
-            *(__int16 *) ((char *) &effectDef.field_6_pitch_max)
+            effectDef.field_4_pitch_min,
+            effectDef.field_6_pitch_max
         );
     }
 }
