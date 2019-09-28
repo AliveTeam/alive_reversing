@@ -281,10 +281,10 @@ enum PrimTypeCodes
     eSetTPage = 0x80,
     ePrimClipper = 0x81,
     eScreenOffset = 0x82,
+    eGas = 0x84,
 
     // TODO: Type 2
     // TODO: Type 0x83 (move image?)
-    // TODO: Type 0x84 (used in gas rendering)
 
     // Sprite/tile prims
     eTile = 0x60,
@@ -333,11 +333,11 @@ struct Prim_MoveImage
 struct Prim_GasEffect
 {
     PrimHeader mPrimHeader;
-    int unknown1;
-    int unknown2;
-    int unknown3;
-    int unknown4;
-    int unknown5;
+    int y;
+    int x;
+    int h;
+    int w;
+    short* pData;
 };
 
 union PrimAny

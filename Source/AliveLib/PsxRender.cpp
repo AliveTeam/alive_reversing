@@ -3129,7 +3129,7 @@ EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
     }
 }
 
-EXPORT void CC PSX_84_4F7B80(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/, int /*a5*/)
+EXPORT void CC PSX_84_4F7B80(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/, short* /*a5*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -3317,7 +3317,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
 
             case 0x84: // TODO: unknown
                 // Appears for gas..
-                PSX_84_4F7B80(any.mGas->unknown1, any.mGas->unknown2, any.mGas->unknown3, any.mGas->unknown4, any.mGas->unknown5);
+                PSX_84_4F7B80(any.mGas->y, any.mGas->x, any.mGas->h, any.mGas->w, any.mGas->pData);
                 break;
 
             default:

@@ -66,7 +66,7 @@ LaughingGas* LaughingGas::ctor_432400(__int16 layer, int /*notUsed*/, Path_Laugh
 
     field_19C_pMem = static_cast<short*>(malloc_non_zero_4954F0(sizeof(short) * field_31FC_w_count * field_31F8_h_count));
     
-    Init_432980(); // also inits field_5C_prims
+    Init_432980();
     VUpdate();
 
     return this;
@@ -108,9 +108,95 @@ void LaughingGas::vScreenChanged_432DE0()
     field_6_flags.Set(BaseGameObject::eDead);
 }
 
+const float dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
+
 void LaughingGas::Init_432980()
 {
-    NOT_IMPLEMENTED();
+    int yCount = 0;
+    if (field_31F8_h_count > 0)
+    {
+        float v1 = 0.0f;
+        float* pElem_ptr = &field_1A0_x_data[0].unknown2;
+        do
+        {
+            float v4 = (float)yCount / (float)field_31F8_h_count;
+            float * pDst1 = (pElem_ptr - 5);
+            v1 = 1.0f - v4;
+            float val1 = 1.0f;
+
+            for (float pSrc1 : dword_551C58)
+            {
+                const float dstVal1 = val1 * pSrc1;
+                pDst1 += 4;
+                *(float *)(pDst1 - 4) = dstVal1;
+                val1 = val1 * v4;
+            }
+            
+            float v9 = 1.0f;
+            float* v10 = pElem_ptr;
+            for (int i = 0; i < 6; i++)
+            {
+                const float v12 = v9 * *v10;
+                --v10;
+                v10[1] = v12;
+                v9 = v9 * v1;
+            }
+
+            ++yCount;
+            pElem_ptr += 7;
+        } while (yCount < field_31F8_h_count);
+    }
+
+    int xCount = 0;
+    if (field_31FC_w_count > 0)
+    {
+        float* v14 = (float *)field_24D0_y_data;
+        float v2 = 0.0f;
+        do
+        {
+            const float v15 = (float)xCount / (float)field_31FC_w_count;
+            float* v17 = v14 - 5;
+            v2 = 1.0f - v15;
+            float v18 = 1.0f;
+            for (float v16 : dword_551C58)
+            {
+                const float v19 = v18 * v16;
+                ++v17;
+                *(v17 - 1) = v19;
+                v18 = v18 * v15;
+            }
+
+            float v20 = 1.0f;
+            float* v21 = v14;
+            for (int i = 0; i < 6; i++)
+            {
+                const float v23 = v20 * *v21;
+                --v21;
+                v21[1] = v23;
+                v20 = v20 * v2;
+            }
+            ++xCount;
+            v14 += 7;
+        } while (xCount < field_31FC_w_count);
+    }
+
+    float* p66_array_2 = &field_10C_ary6[0][0];
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j < 6; j++)
+        {
+            *p66_array_2 = rand() * 6.28f * 0.00003051850947599719f;
+            p66_array_2++;
+        }
+    }
+
+    field_5C_prim.mPrimHeader.rgb_code.code_or_pad = PrimTypeCodes::eGas;
+    field_5C_prim.x = field_28_rect.x;
+    field_5C_prim.y = field_28_rect.y;
+    field_5C_prim.w = field_28_rect.w;
+    field_5C_prim.h = field_28_rect.h;
+    field_5C_prim.pData = field_19C_pMem;
+
 }
 
 LaughingGas* LaughingGas::vdtor_432670(signed int flags)
