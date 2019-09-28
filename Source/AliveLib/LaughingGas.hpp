@@ -94,10 +94,7 @@ private:
     };
 
     Data field_1A0[321]; // 640+2/2
-    float pad[5];
-
-    Data field_24D0_p28Stru[120]; // 480/2 NOTE: Is indexed at minus 5
-    float pad2[2];
+    Data field_24D0_p28Stru[121]; // 480/2 NOTE: Is indexed at minus 5
 
     int field_31F8_h_count;
     int field_31FC_w_count;

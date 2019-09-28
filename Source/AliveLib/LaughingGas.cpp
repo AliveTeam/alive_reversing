@@ -169,7 +169,6 @@ float LaughingGas::Calc_Y_4326A0(float* a2, int xIndex)
 
 float LaughingGas::Calc_X_4326F0(float* a2, int idx)
 {
-    NOT_IMPLEMENTED();
 
     float result = 0.0;
     float* v4 = a2 + 1;
