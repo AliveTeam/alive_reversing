@@ -1883,7 +1883,7 @@ int Fleech::Sound_430520(FleechSound soundId)
     __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
     if (soundId == FleechSound::Unknown_14)
     {
-        int rndIdx = Math_RandomRange_496AB0(14, 16);
+        const int rndIdx = Math_RandomRange_496AB0(14, 16);
         effectDef = getSfxDef(static_cast<FleechSound>(rndIdx));
         defaultSndIdxVol = effectDef.field_3_default_volume + Math_RandomRange_496AB0(-10, 10);
     }
