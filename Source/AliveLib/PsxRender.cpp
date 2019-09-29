@@ -3129,100 +3129,97 @@ EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
     }
 }
 
-EXPORT void CC PSX_84_4F7B80(int xpos, int ypos, int width, int height, WORD *pData)
+EXPORT void CC PSX_84_4F7B80(int xpos, int ypos, int width, int height, WORD* pData)
 {
     const WORD pixel_mask = ~((1 << sRedShift_C215C4) | (1 << sGreenShift_C1D180) | (1 << sBlueShift_C19140) | (1 << sSemiTransShift_C215C0));
-    const int pitch = spBitmap_C2D038->field_10_locked_pitch;
-    const int pitch2 = pitch;
+    const int pitchWords = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
-    WORD* pDst = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (xpos + ((unsigned int)(ypos * pitch) >> 1)));
-    int xpos2 = xpos;
+    WORD* pDst = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + sizeof(WORD) * (xpos + (ypos * (pitchWords)));
 
-    const int v8 = sPsx_drawenv_clipx_BDCD40 / 16;
-    const int v9 = sPsx_drawenv_clipw_BDCD48 / 16;
+    const int clipx_exp = sPsx_drawenv_clipx_BDCD40 / 16;
+    const int clipw_exp = sPsx_drawenv_clipw_BDCD48 / 16;
 
-    int v24 = 0;
-    int v11 = 0;
-    if (xpos >= sPsx_drawenv_clipx_BDCD40 / 16)
+    int xClipped = 0;
+    if (xpos >= clipx_exp)
     {
-        v24 = 0;
-        v11 = 0;
+        xClipped = 0;
     }
     else
     {
-        const int v10 = v8 - xpos;
-        xpos2 = xpos;
-        v11 = (v8 - xpos) / 2;
-        v24 = v10 / 2;
+        xClipped = (clipx_exp - xpos) / 2;
+        xpos = xpos;
     }
 
-    const int a3a = width - xpos2;
+    const int width_count = width - xpos;
 
-    int v12 = 0;
-    if (xpos2 + a3a <= v9)
+    int widthClipped = 0;
+    if (xpos + width_count <= clipw_exp)
     {
-        v12 = a3a;
+        widthClipped = width_count;
     }
     else
     {
-        v12 = v9 - xpos2;
+        widthClipped = clipw_exp - xpos;
     }
 
-    const int a1a = v12 / 2;
-    WORD* pDst_1 = &pDst[2 * v11];
-    int clip_y1 = ypos;
-    const int v14 = v11 / 2;
-    WORD* v15 = &pData[v11 / 2];
-    const int a3b = a3a / 4;
-    WORD* a5a = &pData[v14];
+    const int wCountToWrite = widthClipped / 2;
+    const int width_count_div4 = width_count / 4;
+    int yCounter = ypos;
+
+    WORD* pDst_1 = &pDst[2 * xClipped];
+    WORD* pSrc1 = &pData[xClipped / 2];
+    WORD* pSrc2 = &pData[xClipped / 2];
 
     if (ypos < sPsx_drawenv_clipy_BDCD44 / 16)
     {
         ypos = sPsx_drawenv_clipy_BDCD44 / 16;
-        clip_y1 = sPsx_drawenv_clipy_BDCD44 / 16;
-        a5a = v15;
+        yCounter = sPsx_drawenv_clipy_BDCD44 / 16;
+        pSrc2 = pSrc1;
     }
 
     int cliph_1 = height - 1;
-    int cliph_2 = height - 1;
-    if (cliph_2 > sPsx_drawenv_cliph_BDCD4C / 16 + 1)
+    int yCountToWrite = height - 1;
+    if (yCountToWrite > sPsx_drawenv_cliph_BDCD4C / 16 + 1)
     {
         cliph_1 = sPsx_drawenv_cliph_BDCD4C / 16 + 1;
-        cliph_2 = sPsx_drawenv_cliph_BDCD4C / 16 + 1;
+        yCountToWrite = sPsx_drawenv_cliph_BDCD4C / 16 + 1;
     }
 
-    if (clip_y1 < cliph_1)
+    if (yCounter < cliph_1)
     {
         do
         {
-            int dst_idx = clip_y1 & 1;
-            WORD* v18 = a5a;
-            const int v26 = dst_idx;
+            int dst_idx = yCounter & 1;
+            WORD* pSrcIter = pSrc2;
             WORD* pDst_2 = &pDst_1[dst_idx];
-            int v20 = v24;
-            if (v24 < a1a)
+
+            const int v26 = dst_idx;
+            int xCounter = xClipped;
+            if (xClipped < wCountToWrite)
             {
                 do
                 {
-                    if (*v18)
+                    if (*pSrcIter)
                     {
-                        *pDst_2 = (*v18 + (unsigned int)(unsigned __int16)(pixel_mask & *pDst_2)) >> 1;
+                        *pDst_2 = (*pSrcIter + (unsigned int)(unsigned __int16)(pixel_mask & *pDst_2)) >> 1;
                         dst_idx = v26;
                     }
                     pDst_2 += 2;
-                    const int v21 = v20++ & 1;
-                    v18 += v21;
-                } while (v20 < a1a);
-                clip_y1 = ypos;
+                    const int v21 = xCounter++ & 1;
+                    pSrcIter += v21;
+                } while (xCounter < wCountToWrite);
+                yCounter = ypos;
             }
+
             if (!dst_idx)
             {
-                a5a += a3b;
+                pSrc2 += width_count_div4;
             }
-            ++clip_y1;
-            pDst_1 += pitch2 >> 1;
-            ypos = clip_y1;
-        } while (clip_y1 < cliph_2);
+
+            ++yCounter;
+            pDst_1 += pitchWords; // to next Y line
+            ypos = yCounter;
+        } while (yCounter < yCountToWrite);
     }
 }
 
