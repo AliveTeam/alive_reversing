@@ -207,51 +207,56 @@ int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2)
 }
 
 
-EXPORT FP CC Math_496F70(FP value1, FP value2)
+EXPORT FP CC Math_496F70(const FP value1, const FP value2)
 {
-    FP value1abs = value1;
-    FP value2abs = value2;
+    FP value1abs = FP_Abs(value1);
+    FP value2abs = FP_Abs(value2);
     int switchScenario = 0;
     if (value1 < FP_FromInteger(0))
     {
-        value1abs = -value1;
         switchScenario += 4;
     }
     if (value2 < FP_FromInteger(0))
     {
-        value2abs = -value2;
         switchScenario += 2;
     }
-    switchScenario += value2abs < value1abs;
+    switchScenario += value2abs < value1abs ? 1 : 0;
     FP aux = {};
     switch (switchScenario)
     {
-    case 1:
-        aux = value2abs / value1abs;
-        return (FP_FromInteger(2) - aux) * FP_FromInteger(32);
-    case 2:
-        aux = value1abs / value2abs;
-        return (FP_FromInteger(4) - aux) * FP_FromInteger(32);
-    case 3:
-        aux = value2abs / value1abs;
-        return (FP_FromInteger(2) + aux) * FP_FromInteger(32);
-    case 4:
-        aux = value2abs / value1abs;
-        return (FP_FromInteger(2) - aux) * FP_FromInteger(32);
-    case 5:
-        aux = value2abs / value1abs;
-        return (FP_FromInteger(6) + aux) * FP_FromInteger(32);
-    case 6:
-        aux = value1abs / value2abs;
-        return (FP_FromInteger(4) + aux) * FP_FromInteger(32);
-        break;
-    case 7:
-        aux = value2abs / value1abs;
-        return (FP_FromInteger(6) - aux) * FP_FromInteger(32);
-        break;
-    default:
-        return value2 * FP_FromInteger(32);
+        case 0:
+            break;
+        case 1:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(2) - aux) * FP_FromInteger(32);
+        case 2:
+            aux = value1abs / value2abs;
+            return (FP_FromInteger(4) - aux) * FP_FromInteger(32);
+        case 3:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(2) + aux) * FP_FromInteger(32);
+        case 4:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(2) - aux) * FP_FromInteger(32);
+        case 5:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(6) + aux) * FP_FromInteger(32);
+        case 6:
+            aux = value1abs / value2abs;
+            return (FP_FromInteger(4) + aux) * FP_FromInteger(32);
+            break;
+        case 7:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(6) - aux) * FP_FromInteger(32);
+            break;
+        default:
+            return value2 * FP_FromInteger(32);
     }
+    if (value2 != FP_FromInteger(0)) {
+        aux = value1abs / value2abs;
+        return aux * FP_FromInteger(32);
+    }
+    return FP_FromInteger(0);
 }
 
 namespace Test
