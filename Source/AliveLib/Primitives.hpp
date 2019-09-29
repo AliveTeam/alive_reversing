@@ -333,10 +333,10 @@ struct Prim_MoveImage
 struct Prim_GasEffect
 {
     PrimHeader mPrimHeader;
-    int y;
     int x;
-    int h;
+    int y;
     int w;
+    int h;
     short* pData;
 };
 

@@ -59,14 +59,17 @@ private:
 
     EXPORT void vUpdate_432C40();
 
-    EXPORT float Calc_Y_4326A0(float* a2, int a3);
-    EXPORT float Calc_X_4326F0(float* a2, int idx);
+    EXPORT float Calc_X_4326A0(float* a2, int xIndex);
+    EXPORT float Calc_Y_4326F0(float* a2, int yIndex);
 
     EXPORT void sub_4328A0();
 private:
     int field_20;
     int field_24_tlvInfo;
-    PSX_RECT field_28_rect;
+    __int16 field_28_y;
+    __int16 field_2A_x;
+    __int16 field_2C_h;
+    __int16 field_2E_w;
     int field_30;
     __int16 field_34_bEnabled;
     __int16 field_36_bGreen;
@@ -91,12 +94,11 @@ private:
         float array_4[7];
     };
 
-    // TODO: Figure out why these seem to be indexed the wrong way around
     Data field_1A0_x_data[321]; // (640+2)/2
     Data field_24D0_y_data[121]; // (480+4)/4
 
-    int field_31F8_h_count;
-    int field_31FC_w_count;
+    int field_31F8_w_count;
+    int field_31FC_h_count;
 };
 ALIVE_ASSERT_SIZEOF(LaughingGas, 0x3200);
 

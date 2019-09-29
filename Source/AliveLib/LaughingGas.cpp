@@ -55,16 +55,17 @@ LaughingGas* LaughingGas::ctor_432400(__int16 layer, int /*notUsed*/, Path_Laugh
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable);
 
-    field_28_rect.x = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
-    field_28_rect.y = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
 
-    field_28_rect.w = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_2_y) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
-    field_28_rect.h = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
+    field_28_y = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+    field_2A_x = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
+
+    field_2C_h = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_2_y) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
+    field_2E_w = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x));
     
-    field_31F8_h_count = (field_28_rect.h - field_28_rect.y) / 4;
-    field_31FC_w_count = (field_28_rect.w - field_28_rect.x + 2) / 2;
+    field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
+    field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;
 
-    field_19C_pMem = static_cast<short*>(malloc_non_zero_4954F0(sizeof(short) * field_31FC_w_count * field_31F8_h_count));
+    field_19C_pMem = static_cast<short*>(malloc_non_zero_4954F0(sizeof(short) * field_31FC_h_count * field_31F8_w_count));
     
     Init_432980();
     VUpdate();
@@ -112,9 +113,9 @@ const float dword_551C58[7] = { 1.0,  5.0,  10.0,  10.0,  5.0,  1.0,  0.0 };
 
 void LaughingGas::Init_432980()
 {
-    for (int i = 0; i < field_31F8_h_count; i++)
+    for (int i = 0; i < field_31F8_w_count; i++)
     {
-        const float v4 = (float)i / (float)field_31F8_h_count;
+        const float v4 = (float)i / (float)field_31F8_w_count;
         float val1 = 1.0f;
         for (int j = 0; j < 7; j++)
         {
@@ -134,9 +135,9 @@ void LaughingGas::Init_432980()
         }
     }
 
-    for (int i = 0; i < field_31FC_w_count; i++)
+    for (int i = 0; i < field_31FC_h_count; i++)
     {
-        const float v4 = (float)i / (float)field_31FC_w_count;
+        const float v4 = (float)i / (float)field_31FC_h_count;
         float val1 = 1.0f;
         for (int j = 0; j < 7; j++)
         {
@@ -165,12 +166,11 @@ void LaughingGas::Init_432980()
     }
 
     field_5C_prim.mPrimHeader.rgb_code.code_or_pad = PrimTypeCodes::eGas;
-    field_5C_prim.x = field_28_rect.x;
-    field_5C_prim.y = field_28_rect.y;
-    field_5C_prim.w = field_28_rect.w;
-    field_5C_prim.h = field_28_rect.h;
+    field_5C_prim.x = field_2A_x;
+    field_5C_prim.y = field_28_y;
+    field_5C_prim.w = field_2E_w;
+    field_5C_prim.h = field_2C_h;
     field_5C_prim.pData = field_19C_pMem;
-
 }
 
 LaughingGas* LaughingGas::vdtor_432670(signed int flags)
@@ -210,16 +210,16 @@ void LaughingGas::DoRender_432740()
         rgb_base = (1 << sBlueShift_C19140) + (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
     }
 
-    for (int xCount = 0; xCount < field_31FC_w_count; ++xCount)
+    for (int yCount = 0; yCount < field_31FC_h_count; ++yCount)
     {
         for (int p = 0; p < 6; p++)
         {
-            local_array[p] = Calc_X_4326F0(&field_7C[p][0], xCount);
+            local_array[p] = Calc_Y_4326F0(&field_7C[p][0], yCount);
         }
 
-        for (int yCount = 0; yCount < field_31F8_h_count; ++memPtr)
+        for (int xCount = 0; xCount < field_31F8_w_count; ++memPtr)
         {
-            float yValue = Calc_Y_4326A0(local_array, yCount);
+            float yValue = Calc_X_4326A0(local_array, xCount);
             if (yValue > 0.0f)
             {
                 if (yValue >= 3.0f)
@@ -240,7 +240,7 @@ void LaughingGas::DoRender_432740()
             }
 
             *memPtr = static_cast<WORD>(rgb_base * (static_cast<BYTE>(yValue) & 30));
-            ++yCount;
+            ++xCount;
         }
     }
 }
@@ -298,26 +298,26 @@ void LaughingGas::vUpdate_432C40()
     sub_4328A0();
 }
 
-float LaughingGas::Calc_Y_4326A0(float* a2, int yIndex)
+float LaughingGas::Calc_X_4326A0(float* a2, int xIndex)
 {
     float result = 0.0;
     float* v4 = a2 + 1;
     for (int i=0; i<4; i++)
     {
-        const float v5 = field_1A0_x_data[yIndex].array_4[i+1];
+        const float v5 = field_1A0_x_data[xIndex].array_4[i+1];
         result += v5 * *v4;
         v4++;
     }
     return result;
 }
 
-float LaughingGas::Calc_X_4326F0(float* a2, int xIndex)
+float LaughingGas::Calc_Y_4326F0(float* a2, int yIndex)
 {
     float result = 0.0;
     float* v4 = a2 + 1;
     for (int i = 0; i<4; i++)
     {
-        const float v5 = field_24D0_y_data[xIndex].array_4[i + 1];
+        const float v5 = field_24D0_y_data[yIndex].array_4[i + 1];
         result += v5 * *v4;
         v4++;
     }

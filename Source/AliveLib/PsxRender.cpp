@@ -3315,9 +3315,9 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
                 }
                 return true;
 
-            case 0x84: // TODO: unknown
+            case PrimTypeCodes::eGas:
                 // Appears for gas..
-                PSX_84_4F7B80(any.mGas->y, any.mGas->x, any.mGas->h, any.mGas->w, any.mGas->pData);
+                PSX_84_4F7B80(any.mGas->x, any.mGas->y, any.mGas->w, any.mGas->h, any.mGas->pData);
                 break;
 
             default:
