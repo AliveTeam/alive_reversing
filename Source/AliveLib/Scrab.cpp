@@ -4004,6 +4004,8 @@ const SfxDefinition getSfxDef(ScrabSound effectId)
 
 int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDirection)
 {
+    LOG_INFO("ScrabSound id:");
+    LOG_INFO((int) soundId);
     __int16 volumeLeft = 0;
     __int16 volumeRight = 0;
     const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
