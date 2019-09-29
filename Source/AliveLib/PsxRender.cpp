@@ -3129,9 +3129,101 @@ EXPORT void CC PSX_Render_Line_Prim_4F7D90(void* pOtPrim, int offX, int offY)
     }
 }
 
-EXPORT void CC PSX_84_4F7B80(int /*a1*/, int /*a2*/, int /*a3*/, int /*a4*/, short* /*a5*/)
+EXPORT void CC PSX_84_4F7B80(int xpos, int ypos, int width, int height, WORD *pData)
 {
-    NOT_IMPLEMENTED();
+    const WORD pixel_mask = ~((1 << sRedShift_C215C4) | (1 << sGreenShift_C1D180) | (1 << sBlueShift_C19140) | (1 << sSemiTransShift_C215C0));
+    const int pitch = spBitmap_C2D038->field_10_locked_pitch;
+    const int pitch2 = pitch;
+
+    WORD* pDst = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (xpos + ((unsigned int)(ypos * pitch) >> 1)));
+    int xpos2 = xpos;
+
+    const int v8 = sPsx_drawenv_clipx_BDCD40 / 16;
+    const int v9 = sPsx_drawenv_clipw_BDCD48 / 16;
+
+    int v24 = 0;
+    int v11 = 0;
+    if (xpos >= sPsx_drawenv_clipx_BDCD40 / 16)
+    {
+        v24 = 0;
+        v11 = 0;
+    }
+    else
+    {
+        const int v10 = v8 - xpos;
+        xpos2 = xpos;
+        v11 = (v8 - xpos) / 2;
+        v24 = v10 / 2;
+    }
+
+    const int a3a = width - xpos2;
+
+    int v12 = 0;
+    if (xpos2 + a3a <= v9)
+    {
+        v12 = a3a;
+    }
+    else
+    {
+        v12 = v9 - xpos2;
+    }
+
+    const int a1a = v12 / 2;
+    WORD* pDst_1 = &pDst[2 * v11];
+    int clip_y1 = ypos;
+    const int v14 = v11 / 2;
+    WORD* v15 = &pData[v11 / 2];
+    const int a3b = a3a / 4;
+    WORD* a5a = &pData[v14];
+
+    if (ypos < sPsx_drawenv_clipy_BDCD44 / 16)
+    {
+        ypos = sPsx_drawenv_clipy_BDCD44 / 16;
+        clip_y1 = sPsx_drawenv_clipy_BDCD44 / 16;
+        a5a = v15;
+    }
+
+    int cliph_1 = height - 1;
+    int cliph_2 = height - 1;
+    if (cliph_2 > sPsx_drawenv_cliph_BDCD4C / 16 + 1)
+    {
+        cliph_1 = sPsx_drawenv_cliph_BDCD4C / 16 + 1;
+        cliph_2 = sPsx_drawenv_cliph_BDCD4C / 16 + 1;
+    }
+
+    if (clip_y1 < cliph_1)
+    {
+        do
+        {
+            int dst_idx = clip_y1 & 1;
+            WORD* v18 = a5a;
+            const int v26 = dst_idx;
+            WORD* pDst_2 = &pDst_1[dst_idx];
+            int v20 = v24;
+            if (v24 < a1a)
+            {
+                do
+                {
+                    if (*v18)
+                    {
+                        *pDst_2 = (*v18 + (unsigned int)(unsigned __int16)(pixel_mask & *pDst_2)) >> 1;
+                        dst_idx = v26;
+                    }
+                    pDst_2 += 2;
+                    const int v21 = v20++ & 1;
+                    v18 += v21;
+                } while (v20 < a1a);
+                clip_y1 = ypos;
+            }
+            if (!dst_idx)
+            {
+                a5a += a3b;
+            }
+            ++clip_y1;
+            pDst_1 += pitch2 >> 1;
+            ypos = clip_y1;
+        } while (clip_y1 < cliph_2);
+    }
 }
 
 static void DrawOTag_Render_SPRT(PrimAny& any, __int16 drawEnv_of0, __int16 drawEnv_of1, short width, short height)

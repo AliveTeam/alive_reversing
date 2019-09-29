@@ -65,7 +65,7 @@ LaughingGas* LaughingGas::ctor_432400(__int16 layer, int /*notUsed*/, Path_Laugh
     field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
     field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;
 
-    field_19C_pMem = static_cast<short*>(malloc_non_zero_4954F0(sizeof(short) * field_31FC_h_count * field_31F8_w_count));
+    field_19C_pMem = static_cast<WORD*>(malloc_non_zero_4954F0(sizeof(short) * field_31FC_h_count * field_31F8_w_count));
     
     Init_432980();
     VUpdate();
@@ -203,7 +203,7 @@ void LaughingGas::DoRender_432740()
 {
     float local_array[6];
 
-    short*  memPtr = field_19C_pMem;
+    WORD*  memPtr = field_19C_pMem;
     int rgb_base = (1 << sRedShift_C215C4) + (1 << sGreenShift_C1D180);
     if (!field_36_bGreen)
     {

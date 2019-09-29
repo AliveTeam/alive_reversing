@@ -87,7 +87,7 @@ private:
     float field_7C[6][6];
     float field_10C_ary6[6][6];
 
-    short* field_19C_pMem;
+    WORD* field_19C_pMem;
 
     struct Data
     {

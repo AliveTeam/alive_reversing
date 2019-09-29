@@ -337,7 +337,7 @@ struct Prim_GasEffect
     int y;
     int w;
     int h;
-    short* pData;
+    WORD* pData;
 };
 
 union PrimAny
