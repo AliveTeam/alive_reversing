@@ -326,5 +326,12 @@ float LaughingGas::Calc_X_4326F0(float* a2, int xIndex)
 
 void LaughingGas::sub_4328A0()
 {
-    NOT_IMPLEMENTED();
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            field_7C      [1 + i][1 + j] = (sin(field_10C_ary6[1 + i][1 + j]) * 50.0f + 30.0f) * (float)field_54_amount_on.fpValue * 0.0000152587890625f;
+            field_10C_ary6[1 + i][1 + j] += (float)(rand() - 8191) * 0.03f * 0.00006103888176768602f;
+        }
+    }
 }
