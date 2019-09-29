@@ -207,91 +207,56 @@ int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2)
 }
 
 
-EXPORT FP CC Math_496F70(FP /*value1*/, FP /*value2*/)
+EXPORT FP CC Math_496F70(const FP value1, const FP value2)
 {
-    NOT_IMPLEMENTED();
-
-    /*
-    const FP v2 = value2;
-    FP* v3 = nullptr;
-    FP v16 = {};
-    if (value2 >= FP_FromInteger(0))
+    FP value1abs = FP_Abs(value1);
+    FP value2abs = FP_Abs(value2);
+    int switchScenario = 0;
+    if (value1 < FP_FromInteger(0))
     {
-        v3 = &value2;
+        switchScenario += 4;
     }
-    else
+    if (value2 < FP_FromInteger(0))
     {
-        v16 = -value2;
-        v3 = &v16;
+        switchScenario += 2;
     }
-
-    const FP v4 = *v3;
-    FP* v5 = nullptr;
-    if (value1 >= FP_FromInteger(0))
+    switchScenario += value2abs < value1abs ? 1 : 0;
+    FP aux = {};
+    switch (switchScenario)
     {
-        v5 = &value1;
+        case 0:
+            if (value2 != FP_FromInteger(0)) {
+                aux = value1abs / value2abs;
+                return aux * FP_FromInteger(32);
+            }
+            return FP_FromInteger(0);
+        case 1:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(2) - aux) * FP_FromInteger(32);
+        case 2:
+            aux = value1abs / value2abs;
+            return (FP_FromInteger(4) - aux) * FP_FromInteger(32);
+        case 3:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(2) + aux) * FP_FromInteger(32);
+        case 4:
+            aux = value1abs / value2abs;
+            return (FP_FromInteger(8) - aux) * FP_FromInteger(32);
+        case 5:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(6) + aux) * FP_FromInteger(32);
+        case 6:
+            aux = value1abs / value2abs;
+            return (FP_FromInteger(4) + aux) * FP_FromInteger(32);
+            break;
+        case 7:
+            aux = value2abs / value1abs;
+            return (FP_FromInteger(6) - aux) * FP_FromInteger(32);
+            break;
+        default:
+            break;
     }
-    else
-    {
-        value2 = -value1;
-        v5 = &value2;
-    }
-
-    const FP v6 = *v5;
-    int v7 = v4 < v6;
-    if (v2 < FP_FromInteger(0))
-    {
-        v7 += 2;
-    }
-
-    switch (v7)
-    {
-    case 4294967292:
-        if (v2)
-        {
-            value2 = Math_FixedPoint_Divide_496B70(v6, v4);
-            result = Math_FixedPoint_Multiply_496C50(value2, FP_FromInteger(32));
-        }
-        else
-        {
-            value2 = 0;
-            result = Math_FixedPoint_Multiply_496C50(0, FP_FromInteger(32));
-        }
-        break;
-    case 4294967293:
-        v9 = Math_FixedPoint_Divide_496B70(v4, v6);
-        result = Math_FixedPoint_Multiply_496C50(0x20000 - v9, FP_FromInteger(32));
-        break;
-    case 4294967294:
-        v11 = Math_FixedPoint_Divide_496B70(v6, v4);
-        result = Math_FixedPoint_Multiply_496C50(0x40000 - v11, FP_FromInteger(32));
-        break;
-    case 4294967295:
-        v10 = Math_FixedPoint_Divide_496B70(v4, v6);
-        result = Math_FixedPoint_Multiply_496C50(v10 + 0x20000, FP_FromInteger(32));
-        break;
-    case 0:
-        v15 = Math_FixedPoint_Divide_496B70(v6, v4);
-        result = Math_FixedPoint_Multiply_496C50(0x80000 - v15, FP_FromInteger(32));
-        break;
-    case 1:
-        v14 = Math_FixedPoint_Divide_496B70(v4, v6);
-        result = Math_FixedPoint_Multiply_496C50(v14 + 393216, FP_FromInteger(32));
-        break;
-    case 2:
-        v12 = Math_FixedPoint_Divide_496B70(v6, v4);
-        result = Math_FixedPoint_Multiply_496C50(v12 + 0x40000, FP_FromInteger(32));
-        break;
-    case 3:
-        v13 = Math_FixedPoint_Divide_496B70(v4, v6);
-        result = Math_FixedPoint_Multiply_496C50(393216 - v13, FP_FromInteger(32));
-        break;
-    default:
-        result = Math_FixedPoint_Multiply_496C50(value2, FP_FromInteger(32));
-        break;
-    }
-    return result;*/
-    return{};
+    return FP_FromInteger(0);
 }
 
 namespace Test
