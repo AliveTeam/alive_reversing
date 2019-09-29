@@ -223,29 +223,32 @@ EXPORT FP CC Math_496F70(FP value1, FP value2)
         switchScenario += 2;
     }
     switchScenario += value2abs < value1abs;
+    FP aux = {};
     switch (switchScenario)
     {
     case 1:
-        const FP aux = value2abs / value1abs;
+        aux = value2abs / value1abs;
         return (FP_FromInteger(2) - aux) * FP_FromInteger(32);
     case 2:
-        const FP aux = value1abs / value2abs;
+        aux = value1abs / value2abs;
         return (FP_FromInteger(4) - aux) * FP_FromInteger(32);
     case 3:
-        const FP aux = value2abs / value1abs;
+        aux = value2abs / value1abs;
         return (FP_FromInteger(2) + aux) * FP_FromInteger(32);
     case 4:
-        const FP aux = value2abs / value1abs;
+        aux = value2abs / value1abs;
         return (FP_FromInteger(2) - aux) * FP_FromInteger(32);
     case 5:
-        const FP aux = value2abs / value1abs;
+        aux = value2abs / value1abs;
         return (FP_FromInteger(6) + aux) * FP_FromInteger(32);
     case 6:
-        const FP aux = value1abs / value2abs;
+        aux = value1abs / value2abs;
         return (FP_FromInteger(4) + aux) * FP_FromInteger(32);
+        break;
     case 7:
-        const FP aux = value2abs / value1abs;
+        aux = value2abs / value1abs;
         return (FP_FromInteger(6) - aux) * FP_FromInteger(32);
+        break;
     default:
         return value2 * FP_FromInteger(32);
     }
