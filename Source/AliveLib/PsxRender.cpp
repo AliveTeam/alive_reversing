@@ -3164,62 +3164,45 @@ EXPORT void CC PSX_84_4F7B80(int xpos, int ypos, int width, int height, WORD* pD
 
     const int wCountToWrite = widthClipped / 2;
     const int width_count_div4 = width_count / 4;
-    int yCounter = ypos;
 
-    WORD* pDst_1 = &pDst[2 * xClipped];
+    WORD* pDstIter = &pDst[2 * xClipped];
     WORD* pSrc1 = &pData[xClipped / 2];
     WORD* pSrc2 = &pData[xClipped / 2];
 
     if (ypos < sPsx_drawenv_clipy_BDCD44 / 16)
     {
         ypos = sPsx_drawenv_clipy_BDCD44 / 16;
-        yCounter = sPsx_drawenv_clipy_BDCD44 / 16;
         pSrc2 = pSrc1;
     }
 
-    int cliph_1 = height - 1;
     int yCountToWrite = height - 1;
     if (yCountToWrite > sPsx_drawenv_cliph_BDCD4C / 16 + 1)
     {
-        cliph_1 = sPsx_drawenv_cliph_BDCD4C / 16 + 1;
         yCountToWrite = sPsx_drawenv_cliph_BDCD4C / 16 + 1;
     }
 
-    if (yCounter < cliph_1)
+    for (int yCounter = ypos; yCounter < yCountToWrite; yCounter++)
     {
-        do
+        int dst_idx = yCounter & 1;
+        WORD* pSrcIter = pSrc2;
+        WORD* pDstLineIter = &pDstIter[dst_idx];
+
+        for (int xCounter = 0; xCounter < wCountToWrite; xCounter++)
         {
-            int dst_idx = yCounter & 1;
-            WORD* pSrcIter = pSrc2;
-            WORD* pDst_2 = &pDst_1[dst_idx];
-
-            const int v26 = dst_idx;
-            int xCounter = xClipped;
-            if (xClipped < wCountToWrite)
+            if (*pSrcIter)
             {
-                do
-                {
-                    if (*pSrcIter)
-                    {
-                        *pDst_2 = (*pSrcIter + (unsigned int)(unsigned __int16)(pixel_mask & *pDst_2)) >> 1;
-                        dst_idx = v26;
-                    }
-                    pDst_2 += 2;
-                    const int v21 = xCounter++ & 1;
-                    pSrcIter += v21;
-                } while (xCounter < wCountToWrite);
-                yCounter = ypos;
+                *pDstLineIter = (*pSrcIter + (unsigned int)(unsigned __int16)(pixel_mask & *pDstLineIter)) >> 1;
             }
+            pDstLineIter += 2;
+            pSrcIter += (xCounter & 1);
+        }
 
-            if (!dst_idx)
-            {
-                pSrc2 += width_count_div4;
-            }
+        if (!dst_idx)
+        {
+            pSrc2 += width_count_div4;
+        }
 
-            ++yCounter;
-            pDst_1 += pitchWords; // to next Y line
-            ypos = yCounter;
-        } while (yCounter < yCountToWrite);
+        pDstIter += pitchWords; // to next Y line
     }
 }
 
