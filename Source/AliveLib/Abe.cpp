@@ -3108,18 +3108,18 @@ void Abe::State_0_Idle_44EEB0()
             switch (pTlv->field_4_type)
             {
             case TlvTypes::Door_5:
-                if (!NearDoorIsClosed_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+                if (NearDoorIsOpen_44EE10() && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+                {
+                    field_FC_pPathTLV = pTlv;
+                    field_120_state = 0;
+                    field_106_current_motion = eAbeStates::State_114_DoorEnter_459470;
+                }
+                else
                 {
                     if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8)) // OG bug, already checked ??
                     {
                         field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
                     }
-                }
-                else
-                {
-                    field_FC_pPathTLV = pTlv;
-                    field_120_state = 0;
-                    field_106_current_motion = eAbeStates::State_114_DoorEnter_459470;
                 }
                 return;
 
@@ -8717,7 +8717,7 @@ __int16 Abe::TryEnterMineCar_4569E0()
     return 0;
 }
 
-int Abe::NearDoorIsClosed_44EE10()
+int Abe::NearDoorIsOpen_44EE10()
 {
     for (int i =0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
@@ -8737,6 +8737,7 @@ int Abe::NearDoorIsClosed_44EE10()
             }
         }
     }
+    // We didn't find a door - so for some reason that makes no sense return that it is open...
     return TRUE;
 }
 
@@ -9040,7 +9041,7 @@ void Abe::MoveWithVelocity_450FA0(FP velocityX)
 __int16 Abe::RunTryEnterDoor_451220()
 {
     // Can't be entering a door if we're not pressing up
-    if (!(sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed))
+    if (!sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
     {
         return 0;
     }
@@ -9063,7 +9064,12 @@ __int16 Abe::RunTryEnterDoor_451220()
         FP_GetExponent(field_BC_ypos),
         TlvTypes::Door_5);
 
-    if (!pDoorTlv || !NearDoorIsClosed_44EE10())
+    if (!pDoorTlv)
+    {
+        return 0;
+    }
+
+    if (!NearDoorIsOpen_44EE10())
     {
         return 0;
     }
