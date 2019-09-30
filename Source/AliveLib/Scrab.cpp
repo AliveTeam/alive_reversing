@@ -4137,10 +4137,7 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                                             PSX_RECT objRect = {};
                                             pObj->vGetBoundingRect_424FD0(&objRect, 1);
 
-                                            if (objRect.x <= bOurRect.h &&
-                                                objRect.w >= bOurRect.x &&
-                                                objRect.h >= bOurRect.y &&
-                                                objRect.y <= bOurRect.h)
+                                            if (PSX_Rects_overlap_no_adjustment(&objRect, &bOurRect))
                                             {
                                                 if (pObj->VTakeDamage_408730(this))
                                                 {
