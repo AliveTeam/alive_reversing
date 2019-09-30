@@ -3108,9 +3108,9 @@ void Abe::State_0_Idle_44EEB0()
             switch (pTlv->field_4_type)
             {
             case TlvTypes::Door_5:
-                if (!IsOpenDoorInRange_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+                if (!NearDoorIsClosed_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
                 {
-                    if (sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held) // OG bug, already checked ??
+                    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8)) // OG bug, already checked ??
                     {
                         field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
                     }
@@ -8717,7 +8717,7 @@ __int16 Abe::TryEnterMineCar_4569E0()
     return 0;
 }
 
-int Abe::IsOpenDoorInRange_44EE10()
+int Abe::NearDoorIsClosed_44EE10()
 {
     for (int i =0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
@@ -8737,7 +8737,7 @@ int Abe::IsOpenDoorInRange_44EE10()
             }
         }
     }
-    return 0;
+    return TRUE;
 }
 
 __int16 Abe::HandleDoAction_455BD0()
@@ -9063,7 +9063,7 @@ __int16 Abe::RunTryEnterDoor_451220()
         FP_GetExponent(field_BC_ypos),
         TlvTypes::Door_5);
 
-    if (!pDoorTlv || !IsOpenDoorInRange_44EE10())
+    if (!pDoorTlv || !NearDoorIsClosed_44EE10())
     {
         return 0;
     }
