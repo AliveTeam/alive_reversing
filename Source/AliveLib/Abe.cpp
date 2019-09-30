@@ -9570,18 +9570,18 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         default:
             break;
         }
-    }
 
-    if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
-    {
-        field_122 = field_108_next_motion;
-    }
+        if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
+        {
+            field_122 = field_108_next_motion;
+        }
 
-    Abe_SFX_2_457A40(14, 0, 32767, this);
-    Abe_SFX_457EC0(9u, 127, 0, this);
-    Abe_SFX_2_457A40(7, 0, 32767, this);
-    SFX_Play_46FBA0(65u, 0, -500, field_CC_sprite_scale);
-    SFX_Play_46FA90(64u, 0, field_CC_sprite_scale);
+        Abe_SFX_2_457A40(14, 0, 32767, this);
+        Abe_SFX_457EC0(9u, 127, 0, this);
+        Abe_SFX_2_457A40(7, 0, 32767, this);
+        SFX_Play_46FBA0(65u, 0, -500, field_CC_sprite_scale);
+        SFX_Play_46FA90(64u, 0, field_CC_sprite_scale);
+    }
 }
 
 void Abe::GiveControlBackToMe_44BA10()
