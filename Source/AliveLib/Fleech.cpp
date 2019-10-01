@@ -12,6 +12,8 @@
 #include "Blood.hpp"
 #include "Shadow.hpp"
 #include "Particle.hpp"
+#include "ScreenManager.hpp"
+#include "ShadowZone.hpp"
 #include "Gibs.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
@@ -1370,9 +1372,355 @@ void Fleech::vRender_42A550(int** ot)
     }
 }
 
-void Fleech::RenderEx_42C5A0(int** /*ot*/)
+void Fleech::RenderEx_42C5A0(int** ot)
 {
-    NOT_IMPLEMENTED();
+    if (field_18A.Get(Fleech::Flags_18A::e18A_Bit2))
+    {
+        FP_Point *camPos = pScreenManager_5BB5F4->field_20_pCamPos;
+        __int16 camX = FP_GetExponent(camPos->field_0_x);
+        __int16 camY = FP_GetExponent(camPos->field_4_y);
+        FP camX_field_diff = FP_FromInteger(field_184 - camX);
+        FP camY_field_diff = FP_FromInteger(field_186 - camY);
+        FP tongueRelPos_y = FP_FromInteger(field_182_tongue_y - camY);
+        FP tongueRelPos_x = FP_FromInteger(field_180_tongue_x - camX);
+
+        FP nestedDiffs_squared_y = (tongueRelPos_y - camY_field_diff)* (tongueRelPos_y - camY_field_diff);
+        FP nestedDiffs_squared_x = (tongueRelPos_x - camX_field_diff)*(tongueRelPos_x - camX_field_diff);
+        FP op1 = Math_SquareRoot_FP_496E90(nestedDiffs_squared_y + nestedDiffs_squared_x);
+        FP Tan_fp = Math_496F70(tongueRelPos_y - camY_field_diff, camX_field_diff - tongueRelPos_x);
+        nestedDiffs_squared_y = Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
+        FP Sin_tan_int = Math_Sine_496DD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
+
+        int it4 = 0;
+        int v99[3]; // [esp+58h] [ebp-24h]
+        int v102[3]; // [esp+6Ch] [ebp-10h]
+        for (int i = 0; i <= 4; i++)
+        {
+            FP opMultiplied = op1 * FP_FromInteger(i+1) * FP_FromDouble(0.25);
+            field_188 = field_188;
+            *(int *) ((char *) v99 + it4) = FP_GetExponent(opMultiplied);
+            FP iterator_cos_times_field_188 = Math_Cosine_496CD0(static_cast<BYTE>(32 * i)) * FP_FromInteger(field_188);
+            *(int *) ((char *) v102 + it4) = FP_GetExponent(iterator_cos_times_field_188);
+            *(int *) ((char *) v99 + it4) = FP_GetExponent(tongueRelPos_x + Sin_tan_int * opMultiplied - nestedDiffs_squared_y * iterator_cos_times_field_188);
+            *(int *) ((char *) v102 + it4) = FP_GetExponent(Sin_tan_int * iterator_cos_times_field_188 + nestedDiffs_squared_y * opMultiplied + tongueRelPos_y);
+            it4 += 4;
+        }
+
+        FP v29 = camX_field_diff - FP_FromInteger(field_184 + 0xFFFF * camX);
+        FP iterator_cos_times_field_188_times_nestedDiffs_squared_y_v2 = camY_field_diff - FP_FromInteger(field_186 + 0xFFFF * camY);
+        for (int i = 0; i < 4; i++)
+        {
+            FP v31 = v29 * FP_FromInteger(i + 1);
+            FP v32 = iterator_cos_times_field_188_times_nestedDiffs_squared_y_v2;
+            FP v33 = v32 * FP_FromInteger(i + 1);
+            v99[i] -= 0;// v31 * FP_FromInteger(4);
+            v102[i] -= 0;// v33 * FP_FromDouble(0.25);
+        }
+
+
+        __int16 r2; // [esp+4h] [ebp-78h]
+        __int16 g2; // [esp+8h] [ebp-74h]
+        __int16 b2; // [esp+Ch] [ebp-70h]
+        __int16 r; // [esp+10h] [ebp-6Ch]
+        __int16 g; // [esp+14h] [ebp-68h]
+        __int16 b; // [esp+18h] [ebp-64h]
+
+        int it2 = 0;
+        int v38 = 0;
+        int v39 = 0;
+        it4 = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            r = static_cast<__int16>((v39 + 150) / 4);
+            g = static_cast<__int16>((v38 + 100) / 4);
+            b = static_cast<__int16>((v38 + 100) / 4);
+
+            int v94 = v39 + 150;
+            int v95 = v38 + 100;
+
+            int tongueRelPos_y_plus_bigIncr = *(int *) ((char *) &tongueRelPos_y + it4);
+            int tongueRelPos_x_plus_bigIncr = *(int *) ((char *) &tongueRelPos_x + it4);
+            r2 = static_cast<__int16>(v39 / 4);
+            g2 = static_cast<__int16>(v38 / 4);
+            b2 = static_cast<__int16>(v38 / 4);
+            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                tongueRelPos_x_plus_bigIncr + camX,
+                tongueRelPos_y_plus_bigIncr + camY,
+                field_D6_scale,
+                &r,
+                &g,
+                &b
+            );
+            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                tongueRelPos_x_plus_bigIncr + camX,
+                tongueRelPos_y_plus_bigIncr + camY,
+                field_D6_scale,
+                &r2,
+                &g2,
+                &b2
+            );
+            Poly_G4* currPoly = &field_18C_tongue_polys1[it2][gPsxDisplay_5C1130.field_C_buffer_index];
+            Poly_G4* currField = &field_2CC_tongue_polys2[it2][gPsxDisplay_5C1130.field_C_buffer_index];
+
+            int v45 = 40 * (tongueRelPos_x_plus_bigIncr / 0xFFFF) / 23;
+            currPoly->mBase.vert.x = static_cast<__int16>(v45);
+            int v46 = tongueRelPos_y_plus_bigIncr / 0xFFFF;
+            currPoly->mBase.vert.y = static_cast<__int16>(v46 - 1);
+
+
+            int v47 = *(int *) ((char *) v99 + it4);
+
+            int v48 = 40 * (v47 / 0xFFFF) / 23;
+
+            int v50 = *(int *) ((char *) v102 + it4);
+            unsigned int v51 = (signed int) (v50 + ((unsigned __int64) (-2147450879i64 * v50) >> 32)) >> 15;
+            int v52 = (v51 >> 31) + v51;
+            __int16 v53 = static_cast<__int16>(v46 + 1);
+
+            SetXY1(
+                currPoly,
+                static_cast<__int16>(v48),
+                static_cast<__int16>(v52 - 1)
+            );
+            SetXY2(
+                currPoly,
+                static_cast<__int16>(v45),
+                v53
+            );
+            SetXY3(
+                currPoly,
+                static_cast<__int16>(v48),
+                static_cast<__int16>(v52 + 1)
+            );
+
+            SetRGB0(
+                currPoly,
+                static_cast<BYTE>(r2),
+                static_cast<BYTE>(g2),
+                static_cast<BYTE>(b2)
+            );
+
+            SetRGB1(
+                currPoly,
+                static_cast<BYTE>(r),
+                static_cast<BYTE>(g),
+                static_cast<BYTE>(b)
+            );
+
+            SetRGB2(
+                currPoly,
+                static_cast<BYTE>(r2),
+                static_cast<BYTE>(g2),
+                static_cast<BYTE>(b2)
+            );
+
+            SetRGB3(
+                currPoly,
+                static_cast<BYTE>(r),
+                static_cast<BYTE>(g),
+                static_cast<BYTE>(b)
+            );
+            OrderingTable_Add_4F8AA0( &ot[field_20_animation.field_C_render_layer], &currPoly->mBase.header);
+
+
+            int minus_one_one_switch;
+
+            if (FP_GetExponent(Tan_fp) <= 64 || FP_GetExponent(Tan_fp) >= 192)
+            {
+                minus_one_one_switch = -1;
+            }
+            else
+            {
+                minus_one_one_switch = 1;
+            }
+            field_2CC_tongue_polys2[gPsxDisplay_5C1130.field_C_buffer_index][i].mBase.vert.x = static_cast<__int16>(v45 + minus_one_one_switch);
+            currField->mBase.vert.y = static_cast<__int16>(v46 - 1);
+
+            __int16 v59 = static_cast<__int16>(v48);
+
+            SetXY1(
+                currField,
+                static_cast<__int16>(v48 + minus_one_one_switch),
+                static_cast<__int16>(v52 - 1)
+            );
+
+            SetXY2(
+                currField,
+                static_cast<__int16>(-minus_one_one_switch + v45),
+                static_cast<__int16>(v53)
+            );
+
+            SetXY3(
+                currField,
+                static_cast<__int16>(-minus_one_one_switch + v59),
+                static_cast<__int16>(v52 + 1)
+            );
+
+            SetRGB0(
+                currField,
+                static_cast<BYTE>(r2),
+                static_cast<BYTE>(g2),
+                static_cast<BYTE>(b2)
+            );
+
+            SetRGB1(
+                currField,
+                static_cast<BYTE>(r),
+                static_cast<BYTE>(g),
+                static_cast<BYTE>(b)
+            );
+
+            SetRGB2(
+                currField,
+                static_cast<BYTE>(r2),
+                static_cast<BYTE>(g2),
+                static_cast<BYTE>(b2)
+            );
+
+            SetRGB3(
+                currField,
+                static_cast<BYTE>(r),
+                static_cast<BYTE>(g),
+                static_cast<BYTE>(b)
+            );
+            OrderingTable_Add_4F8AA0(&ot[field_20_animation.field_C_render_layer], &currField->mBase.header);
+            __int16 vert0x = currField->mBase.vert.x;
+            __int16 vert1x = currField->mVerts[1].mVert.x;
+            __int16 prim_x = vert1x;
+            if (vert0x <= vert1x)
+            {
+                prim_x = currField->mBase.vert.x;
+            }
+            vert0x = currField->mVerts[0].mVert.x;
+            __int16 vert2x = currField->mVerts[2].mVert.x;
+            if (vert0x > (signed __int16) vert2x)
+            {
+                vert2x = vert0x;
+            }
+
+            __int16 invRect_x;
+            __int16 invRect_y;
+            __int16 invRect_w;
+            __int16 invRect_h;
+            if (prim_x <= (signed __int16) vert2x)
+            {
+                invRect_x = currField->mVerts[1].mVert.x;
+                if (vert0x <= vert1x)
+                {
+                    invRect_x = vert0x;
+                }
+            }
+            else if ((signed __int16) vert0x <= currField->mVerts[2].mVert.x)
+            {
+                invRect_x = currField->mVerts[2].mVert.x;
+            }
+            else
+            {
+                invRect_x = currField->mVerts[0].mVert.x;
+            }
+            vert2x = currField->mVerts[2].mVert.x;
+            if ((signed __int16) vert0x > (signed __int16) vert2x)
+            {
+                vert2x = vert0x;
+            }
+            __int16 vertXpicker_2 = vert1x;
+            if (vert0x <= vert1x)
+            {
+                vertXpicker_2 = vert0x;
+            }
+            if ((signed __int16) vert2x <= vertXpicker_2)
+            {
+                invRect_w = vert1x;
+                if (vert0x > vert1x)
+                {
+                    goto LABEL_43;
+                }
+            }
+            else
+            {
+                vert0x = currField->mVerts[2].mVert.x;
+                if ((signed __int16) vert0x > vert0x)
+                {
+                    invRect_w = (__int16)vert0x;
+                    goto LABEL_43;
+                }
+            }
+            invRect_w = vert0x;
+LABEL_43:
+            invRect_h = currField->mBase.vert.y;
+            vert2x = currField->mVerts[0].mVert.y;
+            __int16 vertXpicker = (__int16) vert2x;
+            if (invRect_h <= (signed __int16) vert2x)
+            {
+                vertXpicker = invRect_h;
+            }
+            __int16 vert1y = currField->mVerts[1].mVert.y;
+            __int16 vert2y = currField->mVerts[2].mVert.y;
+            __int16 vertYpicker = vert1y;
+            if (vert1y <= vert2y)
+            {
+                vertYpicker = vert2y;
+            }
+            if (vertXpicker <= vertYpicker)
+            {
+                invRect_y = (__int16) vert2x;
+                if (invRect_h <= (signed __int16) vert2x)
+                {
+                    invRect_y = invRect_h;
+                }
+            }
+            else if (vert1y <= vert2y)
+            {
+                invRect_y = vert2y;
+            }
+            else
+            {
+                invRect_y = vert1y;
+            }
+            __int16 vertYpicker_2 = vert1y;
+            if (vert1y <= vert2y)
+            {
+                vertYpicker_2 = vert2y;
+            }
+            if (invRect_h <= (signed __int16) vert2x)
+            {
+                vert2x = invRect_h;
+            }
+            if (vertYpicker_2 <= (signed __int16) vert2x)
+            {
+                vert1y = (__int16) vert2x;
+                if (invRect_h <= (signed __int16) vert2x)
+                {
+                    goto LABEL_62;
+                }
+            }
+            else if (vert1y <= vert2y)
+            {
+                invRect_h = vert2y;
+                goto LABEL_62;
+            }
+            invRect_h = vert1y;
+LABEL_62:
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                invRect_x,
+                invRect_y,
+                invRect_w,
+                invRect_h,
+                pScreenManager_5BB5F4->field_3A_idx
+            );
+            v39 = v94;
+            v38 = v95;
+            it2 += 2;
+            it4 += 4;
+        }
+        int tPage = PSX_getTPage_4F60E0(0, 0, 0, 0);
+        Init_SetTPage_4F5B60(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
+        OrderingTable_Add_4F8AA0(
+            ot,
+            &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase
+        );
+        return;
+    }
 }
 
 void Fleech::vScreenChanged_42A4C0()
