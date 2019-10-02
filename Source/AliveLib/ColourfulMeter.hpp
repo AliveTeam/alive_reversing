@@ -15,6 +15,8 @@ struct Path_ColourfulMeter : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ColourfulMeter, 0x18);
 
+constexpr short kMeterBarsXCount = 20;
+
 class ColourfulMeter : public BaseGameObject
 {
 public:
@@ -26,6 +28,8 @@ public:
 
     virtual void VUpdate() override;
 
+    virtual void VRender(int** pOrderingTable) override;
+
 private:
     EXPORT ColourfulMeter* vdtor_43D050(signed int flags);
 
@@ -35,17 +39,18 @@ private:
 
     EXPORT void vUpdate_43D140();
 
+    EXPORT void vRender_43D2B0(int** pOt);
 
 private:
     Font_Context field_20_font_context;
     Alive::Font field_30_font;
     int field_68_tlvInfo;
-    __int16 field_6C;
-    __int16 field_6E;
+    __int16 field_6C_text_x;
+    __int16 field_6E_text_y;
     __int16 field_70_polys_to_render_count;
     __int16 field_72_switch_id;
-    __int16 field_74;
-    __int16 field_76;
+    __int16 field_74_tlv_x;
+    __int16 field_76_tlv_y;
     __int16 field_78_count;
     __int16 field_7A_number_of_meter_bars;
     __int16 field_7C_timer;
@@ -54,9 +59,9 @@ private:
     __int16 field_82_bar_count;
     __int16 field_84_bStartsFull;
     __int16 field_86;
-    Poly_G4 field_88_polyG4s[40];
+    Poly_G4 field_88_polyG4s[2][kMeterBarsXCount];
 };
 ALIVE_ASSERT_SIZEOF(ColourfulMeter, 0x6c8);
 
 ALIVE_VAR_EXTERN(BYTE, gTotalMeterBars_5C1BFA);
-ALIVE_VAR_EXTERN(WORD, word_5C1BF8);
+ALIVE_VAR_EXTERN(WORD, gbDrawMeterCountDown_5C1BF8);

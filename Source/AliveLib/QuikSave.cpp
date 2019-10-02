@@ -680,13 +680,13 @@ void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
     sSavedKilledMudsPerPath_5C1B50 = pInfo->field_18_saved_killed_muds_per_path;
     byte_5C1B64 = pInfo->field_17;
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);
-    sStatsSignCurrentArea_5C1A20 = pInfo->field_2C;
+    sStatsSignCurrentArea_5C1A20 = pInfo->field_2C_stats_sign_current_area;
     sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
     sRescuedMudokons_5C1BC2 = pInfo->field_12_saved_muds;
     sMudokonsInArea_5C1BC4 = pInfo->field_16_muds_in_area; // TODO: Check types
     gTotalMeterBars_5C1BFA = pInfo->field_2D_total_meter_bars;
-    word_5C1BF8 = pInfo->field_30;
-    sGasTimer_5C1BE8 = pInfo->field_38;
+    gbDrawMeterCountDown_5C1BF8 = pInfo->field_30_bDrawMeterCountDown;
+    sGasTimer_5C1BE8 = pInfo->field_38_gas_timer;
     gAbeBulletProof_5C1BDA = pInfo->field_3C_bBulletProof;
     sVisitedBonewerks_5C1C02 = pInfo->field_32_visited_bonewerks;
     sVisitedBarracks_5C1C04 = pInfo->field_34_visited_barracks;
@@ -706,17 +706,17 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_2E = word_5C1BBC;
     pInfo->field_18_saved_killed_muds_per_path = sSavedKilledMudsPerPath_5C1B50;
     pInfo->field_17 = byte_5C1B64;
-    pInfo->field_2C = sStatsSignCurrentArea_5C1A20;
+    pInfo->field_2C_stats_sign_current_area = sStatsSignCurrentArea_5C1A20;
     pInfo->field_12_saved_muds = sRescuedMudokons_5C1BC2;
     pInfo->field_14_killed_muds = sKilledMudokons_5C1BC0;
     pInfo->field_16_muds_in_area = static_cast<char>(sMudokonsInArea_5C1BC4); // TODO: Check types
     pInfo->field_2D_total_meter_bars = gTotalMeterBars_5C1BFA;
-    pInfo->field_30 = word_5C1BF8;
+    pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown_5C1BF8;
     pInfo->field_3C_bBulletProof = gAbeBulletProof_5C1BDA;
     pInfo->field_32_visited_bonewerks = sVisitedBonewerks_5C1C02;
     pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
     pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;
-    pInfo->field_38 = sGasTimer_5C1BE8;
+    pInfo->field_38_gas_timer = sGasTimer_5C1BE8;
     pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter_5C1B8C->field_B8_xpos);
     pInfo->field_E_controlled_y = rect.h;
     pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);
