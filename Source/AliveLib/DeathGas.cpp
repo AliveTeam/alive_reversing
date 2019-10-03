@@ -12,7 +12,7 @@ ALIVE_ARY(1, 0x5BC6C8, Prim_SetTPage, 2, gGasTPages_5BC6C8, {});
 
 struct GasPolys
 {
-    Poly_G4 polys[2][2][4][4];
+    Poly_G4 polys[2][4][4][2];
 };
 ALIVE_VAR(1, 0x5BC6E8, GasPolys, stru_5BC6E8, {});
 
@@ -47,7 +47,7 @@ DeathGas* DeathGas::ctor_43C030(__int16 layer, __int16 amount)
             {
                 for (int l = 0; l < 4; l++)
                 {
-                    Poly_G4* pPoly = &stru_5BC6E8.polys[i][j][k][l];
+                    Poly_G4* pPoly = &stru_5BC6E8.polys[i][k][l][j];
                     PolyG4_Init_4F88B0(pPoly);
                     Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, TRUE);
                 }
