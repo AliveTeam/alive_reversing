@@ -1379,39 +1379,39 @@ void Fleech::RenderEx_42C5A0(int** ot)
         FP tongueBlock_X[5];
         FP tongueBlock_Y[5];
 
-        FP_Point *camPos = pScreenManager_5BB5F4->field_20_pCamPos;
-        __int16 camX = FP_GetExponent(camPos->field_0_x);
-        __int16 camY = FP_GetExponent(camPos->field_4_y);
+        const FP_Point *camPos = pScreenManager_5BB5F4->field_20_pCamPos;
+        const __int16 camX = FP_GetExponent(camPos->field_0_x);
+        const __int16 camY = FP_GetExponent(camPos->field_4_y);
 
         tongueBlock_X[0] = FP_FromInteger(field_180_tongue_x - camX); 
         tongueBlock_Y[0] = FP_FromInteger(field_182_tongue_y - camY);
         tongueBlock_X[4] = FP_FromInteger(field_184_target_x - camX);
         tongueBlock_Y[4] = FP_FromInteger(field_186_target_y - camY);
 
-        FP distanceX_squared = (tongueBlock_X[0] - tongueBlock_X[4]) * (tongueBlock_X[0] - tongueBlock_X[4]);
-        FP distanceY_squared = (tongueBlock_Y[0] - tongueBlock_Y[4]) * (tongueBlock_Y[0] - tongueBlock_Y[4]);
-        FP distanceXY_squareRoot = Math_SquareRoot_FP_496E90(distanceY_squared + distanceX_squared);
-        FP Tan_fp = Math_Tan_496F70(
+        const FP distanceX_squared = (tongueBlock_X[0] - tongueBlock_X[4]) * (tongueBlock_X[0] - tongueBlock_X[4]);
+        const FP distanceY_squared = (tongueBlock_Y[0] - tongueBlock_Y[4]) * (tongueBlock_Y[0] - tongueBlock_Y[4]);
+        const FP distanceXY_squareRoot = Math_SquareRoot_FP_496E90(distanceY_squared + distanceX_squared);
+        const FP Tan_fp = Math_Tan_496F70(
             tongueBlock_Y[0] - tongueBlock_Y[4],
             tongueBlock_X[4] - tongueBlock_X[0]
         );
-        FP distanceCosine = Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
-        FP Sin_tan_int = Math_Sine_496DD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
+        const FP distanceCosine = Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
+        const FP Sin_tan_int = Math_Sine_496DD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
 
         for (int i = 0; i < 4; i++)
         {
-            FP distanceXY_squareRoot_multiplied = distanceXY_squareRoot * FP_FromInteger(i+1) * FP_FromDouble(0.25);
-            FP cosineIt_times_field188 = Math_Cosine_496CD0(static_cast<BYTE>(32 * (i+1))) * FP_FromInteger(field_188);
+            const FP distanceXY_squareRoot_multiplied = distanceXY_squareRoot * FP_FromInteger(i+1) * FP_FromDouble(0.25);
+            const FP cosineIt_times_field188 = Math_Cosine_496CD0(static_cast<BYTE>(32 * (i+1))) * FP_FromInteger(field_188);
             tongueBlock_X[i + 1] = tongueBlock_X[0] + Sin_tan_int * distanceXY_squareRoot_multiplied - cosineIt_times_field188 * distanceCosine;
             tongueBlock_Y[i + 1] = tongueBlock_Y[0] + Sin_tan_int * cosineIt_times_field188 + distanceCosine * distanceXY_squareRoot_multiplied;
         }
 
-        FP lastTongueBlockModX = tongueBlock_X[4] - FP_FromInteger(field_184_target_x + 0xFFFF * camX);
-        FP lastTongueBlockModY = tongueBlock_Y[4] - FP_FromInteger(field_186_target_y + 0xFFFF * camY);
+        const FP lastTongueBlockModX = tongueBlock_X[4] - FP_FromInteger(field_184_target_x + 0xFFFF * camX);
+        const FP lastTongueBlockModY = tongueBlock_Y[4] - FP_FromInteger(field_186_target_y + 0xFFFF * camY);
         for (int i = 0; i < 4; i++)
         {
-            FP lastTongueBlockModX_mult = lastTongueBlockModX * FP_FromInteger(i + 1);
-            FP lastTongueBlockModY_mult = lastTongueBlockModY * FP_FromInteger(i + 1);
+            const FP lastTongueBlockModX_mult = lastTongueBlockModX * FP_FromInteger(i + 1);
+            const FP lastTongueBlockModY_mult = lastTongueBlockModY * FP_FromInteger(i + 1);
             tongueBlock_X[i+1] -= lastTongueBlockModX_mult * FP_FromDouble(0.25);
             tongueBlock_Y[i+1] -= lastTongueBlockModY_mult * FP_FromDouble(0.25);
         }
@@ -1425,8 +1425,8 @@ void Fleech::RenderEx_42C5A0(int** ot)
             __int16 g2 = static_cast<__int16>(i * 100 / 4);
             __int16 b2 = static_cast<__int16>(i * 100 / 4);
 
-            FP currTongueBlock_Y = tongueBlock_Y[i];
-            FP currTongueBlock_X = tongueBlock_X[i];
+            const FP currTongueBlock_Y = tongueBlock_Y[i];
+            const FP currTongueBlock_X = tongueBlock_X[i];
 
             ShadowZone::ShadowZones_Calculate_Colour_463CE0(
                 FP_GetExponent(currTongueBlock_X + FP_FromInteger(camX)),
@@ -1447,10 +1447,10 @@ void Fleech::RenderEx_42C5A0(int** ot)
 
             Poly_G4* currTonguePoly1 = &field_18C_tongue_polys1[i][gPsxDisplay_5C1130.field_C_buffer_index];
 
-            int tonguePolyX1 = PsxToPCX(FP_GetExponent(currTongueBlock_X));
-            int tonguePolyY1 = FP_GetExponent(currTongueBlock_Y);
-            int tonguePolyX2 = PsxToPCX(FP_GetExponent(tongueBlock_X[i + 1]));
-            int tonguePolyY2 = FP_GetExponent(tongueBlock_Y[i + 1]);
+            const int tonguePolyX1 = PsxToPCX(FP_GetExponent(currTongueBlock_X));
+            const int tonguePolyY1 = FP_GetExponent(currTongueBlock_Y);
+            const int tonguePolyX2 = PsxToPCX(FP_GetExponent(tongueBlock_X[i + 1]));
+            const int tonguePolyY2 = FP_GetExponent(tongueBlock_Y[i + 1]);
 
             SetXY0(
                 currTonguePoly1,
@@ -1479,21 +1479,18 @@ void Fleech::RenderEx_42C5A0(int** ot)
                 static_cast<BYTE>(g2),
                 static_cast<BYTE>(b2)
             );
-
             SetRGB1(
                 currTonguePoly1,
                 static_cast<BYTE>(r),
                 static_cast<BYTE>(g),
                 static_cast<BYTE>(b)
             );
-
             SetRGB2(
                 currTonguePoly1,
                 static_cast<BYTE>(r2),
                 static_cast<BYTE>(g2),
                 static_cast<BYTE>(b2)
             );
-
             SetRGB3(
                 currTonguePoly1,
                 static_cast<BYTE>(r),
@@ -1521,13 +1518,11 @@ void Fleech::RenderEx_42C5A0(int** ot)
                 static_cast<__int16>(tonguePolyX2 + minus_one_one_switch),
                 static_cast<__int16>(tonguePolyY2 - 1)
             );
-
             SetXY2(
                 currTonguePoly2,
                 static_cast<__int16>(tonguePolyX1 - minus_one_one_switch),
                 static_cast<__int16>(tonguePolyY1 + 1)
             );
-
             SetXY3(
                 currTonguePoly2,
                 static_cast<__int16>(tonguePolyX2 - minus_one_one_switch),
@@ -1540,21 +1535,18 @@ void Fleech::RenderEx_42C5A0(int** ot)
                 static_cast<BYTE>(g2),
                 static_cast<BYTE>(b2)
             );
-
             SetRGB1(
                 currTonguePoly2,
                 static_cast<BYTE>(r),
                 static_cast<BYTE>(g),
                 static_cast<BYTE>(b)
             );
-
             SetRGB2(
                 currTonguePoly2,
                 static_cast<BYTE>(r2),
                 static_cast<BYTE>(g2),
                 static_cast<BYTE>(b2)
             );
-
             SetRGB3(
                 currTonguePoly2,
                 static_cast<BYTE>(r),
@@ -1569,20 +1561,20 @@ void Fleech::RenderEx_42C5A0(int** ot)
             __int16 invRect_w;
             __int16 invRect_h;
 
-            __int16 smallerof1andBaseX = std::min(
+            const __int16 smallerof1andBaseX = std::min(
                 currTonguePoly2->mVerts[1].mVert.x,
                 currTonguePoly2->mBase.vert.x
             );
-            __int16 biggerof2and0X = std::max(
+            const __int16 biggerof2and0X = std::max(
                 currTonguePoly2->mVerts[0].mVert.x,
                 currTonguePoly2->mVerts[2].mVert.x
             );
 
-            __int16 smallerof0andBaseY = std::min(
+            const __int16 smallerof0andBaseY = std::min(
                 currTonguePoly2->mVerts[0].mVert.y,
                 currTonguePoly2->mBase.vert.y
             );
-            __int16 biggerof1and2Y = std::max(
+            const __int16 biggerof1and2Y = std::max(
                 currTonguePoly2->mVerts[1].mVert.y,
                 currTonguePoly2->mVerts[2].mVert.y
             );
@@ -1617,7 +1609,7 @@ void Fleech::RenderEx_42C5A0(int** ot)
                 pScreenManager_5BB5F4->field_3A_idx
             );
         }
-        int tPage = PSX_getTPage_4F60E0(0, 0, 0, 0);
+        const int tPage = PSX_getTPage_4F60E0(0, 0, 0, 0);
         Init_SetTPage_4F5B60(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
         OrderingTable_Add_4F8AA0(
             ot,
