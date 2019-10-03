@@ -1396,14 +1396,14 @@ void Fleech::RenderEx_42C5A0(int** ot)
             tongueBlock_X[4] - tongueBlock_X[0]
         );
         const FP distanceCosine = Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
-        const FP Sin_tan_int = Math_Sine_496DD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
+        const FP SineTan = Math_Sine_496DD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
 
         for (int i = 0; i < 4; i++)
         {
             const FP distanceXY_squareRoot_multiplied = distanceXY_squareRoot * FP_FromInteger(i+1) * FP_FromDouble(0.25);
             const FP cosineIt_times_field188 = Math_Cosine_496CD0(static_cast<BYTE>(32 * (i+1))) * FP_FromInteger(field_188);
-            tongueBlock_X[i + 1] = tongueBlock_X[0] + Sin_tan_int * distanceXY_squareRoot_multiplied - cosineIt_times_field188 * distanceCosine;
-            tongueBlock_Y[i + 1] = tongueBlock_Y[0] + Sin_tan_int * cosineIt_times_field188 + distanceCosine * distanceXY_squareRoot_multiplied;
+            tongueBlock_X[i + 1] = tongueBlock_X[0] + SineTan * distanceXY_squareRoot_multiplied - cosineIt_times_field188 * distanceCosine;
+            tongueBlock_Y[i + 1] = tongueBlock_Y[0] + SineTan * cosineIt_times_field188 + distanceCosine * distanceXY_squareRoot_multiplied;
         }
 
         const FP lastTongueBlockModX = tongueBlock_X[4] - FP_FromInteger(field_184_target_x + 0xFFFF * camX);
