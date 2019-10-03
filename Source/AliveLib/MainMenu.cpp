@@ -710,7 +710,7 @@ void MainMenuController::Render_4CF4C0(int** ot)
 MainMenuText sMMT_FrontPage_5623A0[1] = { 35, 205, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u };
 
 // Paramite speak text data
-MainMenuText sParamiteSpeak_5622C8[9] =
+const MainMenuText sParamiteSpeak_5622C8[9] =
 {
     { 153, 212, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
     { 75, 55, "\x18", 2u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
@@ -723,7 +723,7 @@ MainMenuText sParamiteSpeak_5622C8[9] =
     { 317, 115, "\x10" , 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
 };
 
-MainMenuText sAbeGameSpeak_561F38[12] =
+const MainMenuText sAbeGameSpeak_561F38[12] =
 {
     { 184, 25, "\x13", 3u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u },
     { 153, 212, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
@@ -739,6 +739,43 @@ MainMenuText sAbeGameSpeak_561F38[12] =
     { 306, 175, "\x12", 1u, 0u, 0u, 0u,  0.0, 0u, 0u, 0u, 0u }
 };
 
+const MainMenuText sSligGameSpeak_562058[11] =
+{
+    { 153, 212, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 75, 55, "\x18", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 240, 57, "\x19", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 55, 82, "\v", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 51, 105, "\f", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 51, 144, "\r", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 51, 171, "\x0E", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 84, "\x0F", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 108, "\x10", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 131, "\x11", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 173, "\x12", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
+};
+
+const MainMenuText sGlukkonGameSpeak_562160[11] =
+{
+    { 153, 212, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 75, 55, "\x18", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 240, 57, "\x19", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 55, 80, "\v", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 42, 107, "\f", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 43, 137, "\r", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 53, 177, "\x0E", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 317, 85, "\x0F", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 325, 117, "\x10", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 321, 147, "\x11", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 313, 178, "\x12", 1u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
+};
+
+const MainMenuText sScrabGameSpeak_562268[4] =
+{
+    { 153, 215, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 75, 55, "\x18", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 60, 86, "\v", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u },
+    { 60, 133, "\f", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
+};
 
 void MainMenuController::t_Render_Abe_Speak_4D2060(int** ot)
 {
@@ -814,10 +851,19 @@ signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
     });
 }
 
-void MainMenuController::t_Render_Slig_Speak_4D2370(int** /*ot*/)
+void MainMenuController::t_Render_Slig_Speak_4D2370(int** ot)
 {
-    // TODO: Render the button text
-    NOT_IMPLEMENTED();
+    RenderOnScreenTextHelper(ot, &sSligGameSpeak_562058[0], ALIVE_COUNTOF(sSligGameSpeak_562058));
+}
+
+void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** ot)
+{
+    RenderOnScreenTextHelper(ot, &sGlukkonGameSpeak_562160[0], ALIVE_COUNTOF(sGlukkonGameSpeak_562160));
+}
+
+void MainMenuController::t_Render_Scrab_Speak_4D2410(int** ot)
+{
+    RenderOnScreenTextHelper(ot, &sScrabGameSpeak_562268[0], ALIVE_COUNTOF(sScrabGameSpeak_562268));
 }
 
 signed int MainMenuController::t_Input_Slig_Speak_4D3280(DWORD input_held)
@@ -858,11 +904,6 @@ void MainMenuController::t_Load_Slig_Speak_4D3090()
     Set_Anim_4D05E0(AnimIds::eSlig_Idle);
 }
 
-void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** /*ot*/)
-{
-    NOT_IMPLEMENTED();
-}
-
 signed int MainMenuController::t_Input_Glukkon_Speak_4D3670(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
@@ -899,11 +940,6 @@ void MainMenuController::t_Load_Glukkon_Speak_4D3480()
     field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGlukkonSpeakResID, TRUE, FALSE);
     field_20_animation.Set_Animation_Data_409C80(0x14EE50, field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
     Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
-}
-
-void MainMenuController::t_Render_Scrab_Speak_4D2410(int** /*ot*/)
-{
-    NOT_IMPLEMENTED();
 }
 
 signed int MainMenuController::t_Input_Scrab_Speak_4D3A60(DWORD input_held)
@@ -1023,7 +1059,7 @@ signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
     }
 }
 
-void MainMenuController::RenderOnScreenTextHelper(int ** ot, MainMenuText * menuTextArray, int count)
+void MainMenuController::RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count)
 {
     int polyIndex = 0;
 
@@ -2818,7 +2854,7 @@ void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
 const char byte_55EE00[2] = { '\x18', '\0' };
 const char byte_55EDEC[2] = { '\x19', '\0' };
 
-void MainMenuController::DrawMenuText_4D20D0(MainMenuText* array, int** ot, Alive::Font* font, int* polyIndex, char op2)
+void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, int** ot, Alive::Font* font, int* polyIndex, char op2)
 {
     const bool bCancel = strstr(array->field_8_text, byte_55EE00) != 0; // cancel
     const bool bEndOfMedium = strstr(array->field_8_text, byte_55EDEC) != 0; // end of medium
