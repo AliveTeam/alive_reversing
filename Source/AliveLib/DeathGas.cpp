@@ -10,10 +10,22 @@
 ALIVE_VAR(1, 0x5BD24C, int, gDeathGasCount_5BD24C, 0);
 ALIVE_ARY(1, 0x5BC6C8, Prim_SetTPage, 2, gGasTPages_5BC6C8, {});
 
+struct GasPolys
+{
+    Poly_G4 polys[2][2][4][4];
+};
+ALIVE_VAR(1, 0x5BC6E8, GasPolys, stru_5BC6E8, {});
+
+struct RandomData
+{
+    BYTE data[2][5][5];
+};
+ALIVE_VAR(1, 0x5BD1E4, RandomData, byte_5BD1E4, {});
+ALIVE_VAR(1, 0x5BD218, RandomData, byte_5BD218, {});
+
+
 DeathGas* DeathGas::ctor_43C030(__int16 layer, __int16 amount)
 {
-    NOT_IMPLEMENTED();
-
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x5451B4);
 
@@ -27,68 +39,37 @@ DeathGas* DeathGas::ctor_43C030(__int16 layer, __int16 amount)
     Init_SetTPage_4F5B60(&gGasTPages_5BC6C8[0], 0, 1, PSX_getTPage_4F60E0(2, 1, 0, 0));
     Init_SetTPage_4F5B60(&gGasTPages_5BC6C8[1], 0, 1, PSX_getTPage_4F60E0(2, 1, 0, 0));
 
-    /*
-    offset = 0;
-    k2Counter2 = 2;
-    do
+    for (int i = 0; i < 2; i++)
     {
-        idx = 0;
-        k2Counter1 = 2;
-        do
+        for (int j = 0; j < 2; j++)
         {
-            k4Counter1 = 4;
-            pPoly = &stru_5BC6E8[idx + offset];
-            do
+            for (int k = 0; k < 4; k++)
             {
-                k4Counter2 = 4;
-                do
+                for (int l = 0; l < 4; l++)
                 {
+                    Poly_G4* pPoly = &stru_5BC6E8.polys[i][j][k][l];
                     PolyG4_Init_4F88B0(pPoly);
-                    Poly_Set_SemiTrans_4F8A60((PrimHeader *)pPoly, 1);
-                    pPoly += 2;
-                    --k4Counter2;
-                } while (k4Counter2);
-                --k4Counter1;
-            } while (k4Counter1);
-            ++idx;
-            --k2Counter1;
-        } while (k2Counter1);
-        bEnd = k2Counter2 == 1;
-        offset += 0x20;
-        --k2Counter2;
-    } while (!bEnd);
-    */
+                    Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, TRUE);
+                }
+            }
+        }
+    }
 
     field_28_layer = layer;
     field_20_total = 0;
     field_22 = 0;
 
-    /*
-    rnd_idx = 0;
-    v12 = sRandomSeed_5D1E10;
-    v13 = 2;
-    do
+    for (int i = 0; i < 2; i++)
     {
-        v14 = 5;
-        do
+        for (int j = 0; j < 5; j++)
         {
-            v15 = 5;
-            do
+            for (int k = 0; k < 5; k++)
             {
-                v16 = v12;
-                v17 = v12 + 1;
-                byte_5BD1E4[rnd_idx] = sRandomBytes_546744[v16];// [2][5][5] or [5][5][2] ??
-                LOBYTE(v16) = sRandomBytes_546744[v17] & 3;
-                v12 = v17 + 1;
-                byte_5BD218[rnd_idx++] = v16 + 2;
-                --v15;
-            } while (v15);
-            --v14;
-        } while (v14);
-        --v13;
-    } while (v13);
-    sRandomSeed_5D1E10 = v12;
-    */
+                byte_5BD1E4.data[i][j][k] = Math_NextRandom();
+                byte_5BD218.data[i][j][k] = (Math_NextRandom() & 3) + 2;
+            }
+        }
+    }
 
     field_24_amount = amount;
     return this;
