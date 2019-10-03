@@ -207,7 +207,7 @@ int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2)
 }
 
 
-EXPORT FP CC Math_496F70(FP /*value1*/, FP /*value2*/)
+EXPORT FP CC Math_Tan_496F70(FP /*value1*/, FP /*value2*/)
 {
     NOT_IMPLEMENTED();
 
