@@ -153,7 +153,7 @@ public:
     EXPORT void sub_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);
-    EXPORT static void DrawMenuText_4D20D0(MainMenuText *array, int **ot, Alive::Font *font, int *polyIndex, char a5);
+    EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, int **ot, Alive::Font *font, int *polyIndex, char a5);
 
     // Page Functions
     EXPORT void t_Render_Abe_Speak_4D2060(int** ot);
@@ -181,7 +181,7 @@ public:
 
     EXPORT signed int t_Input_Gamespeak_4D1FC0(DWORD input_held);
 
-    void RenderOnScreenTextHelper(int ** ot, MainMenuText * menuTextArray, int count);
+    void RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count);
 
     EXPORT void t_Render_All_Text_4D24F0(int** ot);
     EXPORT void t_Render_All_Text_4D2540(int** ot);
