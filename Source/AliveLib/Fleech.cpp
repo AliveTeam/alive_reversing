@@ -12,6 +12,8 @@
 #include "Blood.hpp"
 #include "Shadow.hpp"
 #include "Particle.hpp"
+#include "ScreenManager.hpp"
+#include "ShadowZone.hpp"
 #include "Gibs.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
@@ -330,12 +332,12 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_17E = pState->field_50;
     pFleech->field_180_tongue_x = pState->field_52;
     pFleech->field_182_tongue_y = pState->field_54;
-    pFleech->field_184 = pState->field_56;
-    pFleech->field_186 = pState->field_58;
+    pFleech->field_184_target_x = pState->field_56;
+    pFleech->field_186_target_y = pState->field_58;
     pFleech->field_188 = pState->field_5A;
 
     pFleech->field_18A.Set(Flags_18A::e18A_TongueActive_Bit1, pState->field_5C & 1);
-    pFleech->field_18A.Set(Flags_18A::e18A_Bit2, pState->field_5D & 1);
+    pFleech->field_18A.Set(Flags_18A::e18A_Render_Bit2, pState->field_5D & 1);
 
     pFleech->field_124_brain_state = pState->field_5E_brain_state;
     pFleech->field_126_state = pState->field_60_state;
@@ -461,11 +463,11 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_50 = field_17E;
     pState->field_52 = field_180_tongue_x;
     pState->field_54 = field_182_tongue_y;
-    pState->field_56 = field_184;
-    pState->field_58 = field_186;
+    pState->field_56 = field_184_target_x;
+    pState->field_58 = field_186_target_y;
     pState->field_5A = field_188;
     pState->field_5C = field_18A.Get(Flags_18A::e18A_TongueActive_Bit1);
-    pState->field_5D = field_18A.Get(Flags_18A::e18A_Bit2);
+    pState->field_5D = field_18A.Get(Flags_18A::e18A_Render_Bit2);
     pState->field_5E_brain_state = field_124_brain_state;
     pState->field_60_state = field_126_state;
     pState->field_64 = field_12C - sGnFrame_5C1B84;
@@ -1370,9 +1372,251 @@ void Fleech::vRender_42A550(int** ot)
     }
 }
 
-void Fleech::RenderEx_42C5A0(int** /*ot*/)
+void Fleech::RenderEx_42C5A0(int** ot)
 {
-    NOT_IMPLEMENTED();
+    if (field_18A.Get(Fleech::Flags_18A::e18A_Render_Bit2))
+    {
+        FP tongueBlock_X[5] = {};
+        FP tongueBlock_Y[5] = {};
+
+        const FP_Point *camPos = pScreenManager_5BB5F4->field_20_pCamPos;
+        const __int16 camX = FP_GetExponent(camPos->field_0_x);
+        const __int16 camY = FP_GetExponent(camPos->field_4_y);
+
+        tongueBlock_X[0] = FP_FromInteger(field_180_tongue_x - camX); 
+        tongueBlock_Y[0] = FP_FromInteger(field_182_tongue_y - camY);
+        tongueBlock_X[4] = FP_FromInteger(field_184_target_x - camX);
+        tongueBlock_Y[4] = FP_FromInteger(field_186_target_y - camY);
+
+        const FP distanceX_squared = (tongueBlock_X[0] - tongueBlock_X[4]) * (tongueBlock_X[0] - tongueBlock_X[4]);
+        const FP distanceY_squared = (tongueBlock_Y[0] - tongueBlock_Y[4]) * (tongueBlock_Y[0] - tongueBlock_Y[4]);
+        const FP distanceXY_squareRoot = Math_SquareRoot_FP_496E90(distanceY_squared + distanceX_squared);
+        const FP Tan_fp = Math_Tan_496F70(
+            tongueBlock_Y[0] - tongueBlock_Y[4],
+            tongueBlock_X[4] - tongueBlock_X[0]
+        );
+        const FP distanceCosine = Math_Cosine_496CD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
+        const FP SineTan = Math_Sine_496DD0(static_cast<BYTE>(FP_GetExponent(Tan_fp)));
+
+        for (int i = 0; i < 4; i++)
+        {
+            const FP distanceXY_squareRoot_multiplied = distanceXY_squareRoot * FP_FromInteger(i+1) * FP_FromDouble(0.25);
+            const FP cosineIt_times_field188 = Math_Cosine_496CD0(static_cast<BYTE>(32 * (i+1))) * FP_FromInteger(field_188);
+            tongueBlock_X[i + 1] = tongueBlock_X[0] + SineTan * distanceXY_squareRoot_multiplied - cosineIt_times_field188 * distanceCosine;
+            tongueBlock_Y[i + 1] = tongueBlock_Y[0] + SineTan * cosineIt_times_field188 + distanceCosine * distanceXY_squareRoot_multiplied;
+        }
+
+        const FP lastTongueBlockModX = tongueBlock_X[4] - FP_FromInteger(field_184_target_x + 0xFFFF * camX);
+        const FP lastTongueBlockModY = tongueBlock_Y[4] - FP_FromInteger(field_186_target_y + 0xFFFF * camY);
+        for (int i = 0; i < 4; i++)
+        {
+            const FP lastTongueBlockModX_mult = lastTongueBlockModX * FP_FromInteger(i + 1);
+            const FP lastTongueBlockModY_mult = lastTongueBlockModY * FP_FromInteger(i + 1);
+            tongueBlock_X[i+1] -= lastTongueBlockModX_mult * FP_FromDouble(0.25);
+            tongueBlock_Y[i+1] -= lastTongueBlockModY_mult * FP_FromDouble(0.25);
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            __int16 r = static_cast<__int16>((i + 1) * 150 / 4);
+            __int16 g = static_cast<__int16>((i + 1) * 100 / 4);
+            __int16 b = static_cast<__int16>((i + 1) * 100 / 4);
+            __int16 r2 = static_cast<__int16>(i * 150 / 4);
+            __int16 g2 = static_cast<__int16>(i * 100 / 4);
+            __int16 b2 = static_cast<__int16>(i * 100 / 4);
+
+            const FP currTongueBlock_Y = tongueBlock_Y[i];
+            const FP currTongueBlock_X = tongueBlock_X[i];
+
+            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                FP_GetExponent(currTongueBlock_X + FP_FromInteger(camX)),
+                FP_GetExponent(currTongueBlock_Y + FP_FromInteger(camY)),
+                field_D6_scale,
+                &r,
+                &g,
+                &b
+            );
+            ShadowZone::ShadowZones_Calculate_Colour_463CE0(
+                FP_GetExponent(currTongueBlock_X + FP_FromInteger(camX)),
+                FP_GetExponent(currTongueBlock_Y + FP_FromInteger(camY)),
+                field_D6_scale,
+                &r2,
+                &g2,
+                &b2
+            );
+
+            Poly_G4* currTonguePoly1 = &field_18C_tongue_polys1[i][gPsxDisplay_5C1130.field_C_buffer_index];
+
+            const int tonguePolyX1 = PsxToPCX(FP_GetExponent(currTongueBlock_X));
+            const int tonguePolyY1 = FP_GetExponent(currTongueBlock_Y);
+            const int tonguePolyX2 = PsxToPCX(FP_GetExponent(tongueBlock_X[i + 1]));
+            const int tonguePolyY2 = FP_GetExponent(tongueBlock_Y[i + 1]);
+
+            SetXY0(
+                currTonguePoly1,
+                static_cast<__int16>(tonguePolyX1),
+                static_cast<__int16>(tonguePolyY1 - 1)
+            );
+            SetXY1(
+                currTonguePoly1,
+                static_cast<__int16>(tonguePolyX2),
+                static_cast<__int16>(tonguePolyY2 - 1)
+            );
+            SetXY2(
+                currTonguePoly1,
+                static_cast<__int16>(tonguePolyX1),
+                static_cast<__int16>(tonguePolyY1 + 1)
+            );
+            SetXY3(
+                currTonguePoly1,
+                static_cast<__int16>(tonguePolyX2),
+                static_cast<__int16>(tonguePolyY2 + 1)
+            );
+
+            SetRGB0(
+                currTonguePoly1,
+                static_cast<BYTE>(r2),
+                static_cast<BYTE>(g2),
+                static_cast<BYTE>(b2)
+            );
+            SetRGB1(
+                currTonguePoly1,
+                static_cast<BYTE>(r),
+                static_cast<BYTE>(g),
+                static_cast<BYTE>(b)
+            );
+            SetRGB2(
+                currTonguePoly1,
+                static_cast<BYTE>(r2),
+                static_cast<BYTE>(g2),
+                static_cast<BYTE>(b2)
+            );
+            SetRGB3(
+                currTonguePoly1,
+                static_cast<BYTE>(r),
+                static_cast<BYTE>(g),
+                static_cast<BYTE>(b)
+            );
+
+            OrderingTable_Add_4F8AA0(&ot[field_20_animation.field_C_render_layer], &currTonguePoly1->mBase.header);
+
+            Poly_G4* currTonguePoly2 = &field_2CC_tongue_polys2[i][gPsxDisplay_5C1130.field_C_buffer_index];
+
+            int minus_one_one_switch = 1;
+            if (FP_GetExponent(Tan_fp) <= 64 || FP_GetExponent(Tan_fp) >= 192)
+            {
+                minus_one_one_switch = -1;
+            }
+
+            SetXY0(
+                currTonguePoly2,
+                static_cast<__int16>(tonguePolyX1 + minus_one_one_switch),
+                static_cast<__int16>(tonguePolyY1 - 1)
+            );
+            SetXY1(
+                currTonguePoly2,
+                static_cast<__int16>(tonguePolyX2 + minus_one_one_switch),
+                static_cast<__int16>(tonguePolyY2 - 1)
+            );
+            SetXY2(
+                currTonguePoly2,
+                static_cast<__int16>(tonguePolyX1 - minus_one_one_switch),
+                static_cast<__int16>(tonguePolyY1 + 1)
+            );
+            SetXY3(
+                currTonguePoly2,
+                static_cast<__int16>(tonguePolyX2 - minus_one_one_switch),
+                static_cast<__int16>(tonguePolyY2 + 1)
+            );
+
+            SetRGB0(
+                currTonguePoly2,
+                static_cast<BYTE>(r2),
+                static_cast<BYTE>(g2),
+                static_cast<BYTE>(b2)
+            );
+            SetRGB1(
+                currTonguePoly2,
+                static_cast<BYTE>(r),
+                static_cast<BYTE>(g),
+                static_cast<BYTE>(b)
+            );
+            SetRGB2(
+                currTonguePoly2,
+                static_cast<BYTE>(r2),
+                static_cast<BYTE>(g2),
+                static_cast<BYTE>(b2)
+            );
+            SetRGB3(
+                currTonguePoly2,
+                static_cast<BYTE>(r),
+                static_cast<BYTE>(g),
+                static_cast<BYTE>(b)
+            );
+
+            OrderingTable_Add_4F8AA0(&ot[field_20_animation.field_C_render_layer], &currTonguePoly2->mBase.header);
+
+            __int16 invRect_x;
+            __int16 invRect_y;
+            __int16 invRect_w;
+            __int16 invRect_h;
+
+            const __int16 smallerof1andBaseX = std::min(
+                currTonguePoly2->mVerts[1].mVert.x,
+                currTonguePoly2->mBase.vert.x
+            );
+            const __int16 biggerof2and0X = std::max(
+                currTonguePoly2->mVerts[0].mVert.x,
+                currTonguePoly2->mVerts[2].mVert.x
+            );
+
+            const __int16 smallerof0andBaseY = std::min(
+                currTonguePoly2->mVerts[0].mVert.y,
+                currTonguePoly2->mBase.vert.y
+            );
+            const __int16 biggerof1and2Y = std::max(
+                currTonguePoly2->mVerts[1].mVert.y,
+                currTonguePoly2->mVerts[2].mVert.y
+            );
+
+            if (smallerof1andBaseX < biggerof2and0X)
+            {
+                invRect_x = smallerof1andBaseX;
+                invRect_w = biggerof2and0X;
+            }
+            else
+            {
+                invRect_x = biggerof2and0X;
+                invRect_w = smallerof1andBaseX;
+            }
+
+            if (smallerof0andBaseY < biggerof1and2Y)
+            {
+                invRect_y = smallerof0andBaseY;
+                invRect_h = biggerof1and2Y;
+            }
+            else
+            {
+                invRect_y = biggerof1and2Y;
+                invRect_h = smallerof0andBaseY;
+            }
+
+            pScreenManager_5BB5F4->InvalidateRect_40EC90(
+                invRect_x,
+                invRect_y,
+                invRect_w,
+                invRect_h,
+                pScreenManager_5BB5F4->field_3A_idx
+            );
+        }
+        const int tPage = PSX_getTPage_4F60E0(0, 0, 0, 0);
+        Init_SetTPage_4F5B60(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
+        OrderingTable_Add_4F8AA0(
+            ot,
+            &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase
+        );
+        return;
+    }
 }
 
 void Fleech::vScreenChanged_42A4C0()
@@ -1574,19 +1818,19 @@ void Fleech::Init_42A170()
 void Fleech::InitTonguePolys_42B6E0()
 {
     field_18A.Clear(Flags_18A::e18A_TongueActive_Bit1);
-    field_18A.Clear(Flags_18A::e18A_Bit2);
+    field_18A.Clear(Flags_18A::e18A_Render_Bit2);
 
     field_180_tongue_x = FP_GetExponent(field_B8_xpos);
-    field_182_tongue_y = FP_GetExponent((FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? -10 : -5)) + field_BC_ypos);
+    field_182_tongue_y = FP_GetExponent(FP_FromInteger(2)*((FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? -10 : -5)) + field_BC_ypos));
     
     field_178_tongue_state = 1;
 
-    field_184 = -1;
-    field_186 = -1;
+    field_184_target_x = -1;
+    field_186_target_y = -1;
 
-    for (int j = 0; j < 4; j++)
+    for (int i = 0; i < 4; i++)
     {
-        for (int i = 0; i < 2; i++)
+        for (int j = 0; j < 2; j++)
         {
             PolyG4_Init_4F88B0(&field_18C_tongue_polys1[i][j]);
             SetRGB0(&field_18C_tongue_polys1[i][j], 150, 100, 100);
@@ -1631,10 +1875,10 @@ void Fleech::sub_42CF50()
 
 void Fleech::sub_42B9A0(__int16 a2, __int16 a3)
 {
-    field_18A.Set(Flags_18A::e18A_Bit2);
+    field_18A.Set(Flags_18A::e18A_Render_Bit2);
     field_178_tongue_state = 2;
-    field_186 = a3;
-    field_184 = a2;
+    field_186_target_y = a3;
+    field_184_target_x = a2;
     field_188 = 0;
 }
 
@@ -1643,28 +1887,28 @@ void Fleech::TongueUpdate_42BD30()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        field_18A.Clear(Flags_18A::e18A_Bit2);
+        field_18A.Clear(Flags_18A::e18A_Render_Bit2);
     }
 
     switch (field_178_tongue_state)
     {
     case 1:
         field_18A.Clear(Flags_18A::e18A_TongueActive_Bit1);
-        field_18A.Clear(Flags_18A::e18A_Bit2);
+        field_18A.Clear(Flags_18A::e18A_Render_Bit2);
         return;
 
     case 2:
     case 4:
-        field_18A.Set(Flags_18A::e18A_Bit2);
+        field_18A.Set(Flags_18A::e18A_Render_Bit2);
         return;
 
     case 3:
-        field_18A.Set(Flags_18A::e18A_Bit2);
+        field_18A.Set(Flags_18A::e18A_Render_Bit2);
         switch (field_17A_tongue_sub_state++)
         {
         case 0:
-            field_184 = field_160_hoistX;
-            field_186 = field_162_hoistY;
+            field_184_target_x = field_160_hoistX;
+            field_186_target_y = field_162_hoistY;
             Sound_430520(FleechSound::Unknown_11);
             break;
 
@@ -1705,17 +1949,17 @@ void Fleech::TongueUpdate_42BD30()
             PSX_RECT bRect = {};
             pTarget->vGetBoundingRect_424FD0(&bRect, 1);
 
-            field_18A.Set(Flags_18A::e18A_Bit2);
+            field_18A.Set(Flags_18A::e18A_Render_Bit2);
             field_17C = FP_GetExponent(pTarget->field_B8_xpos);
             field_17E = (bRect.y + bRect.h) >> 1;
-            field_186 = (bRect.y + bRect.h) >> 1;
-            field_184 = field_17C;
+            field_186_target_y = (bRect.y + bRect.h) >> 1;
+            field_184_target_x = field_17C;
 
             const FP v12 = (FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 20 : 10) * FP_FromInteger(7));
             if (FP_FromInteger(Math_Distance_496EB0(
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
-                field_184, field_186)) <= v12)
+                field_184_target_x, field_186_target_y)) <= v12)
             {
                 switch (field_17A_tongue_sub_state++)
                 {
@@ -1807,7 +2051,7 @@ void Fleech::TongueUpdate_42BD30()
                 break;
 
             case 6:
-                field_18A.Clear(Flags_18A::e18A_Bit2);
+                field_18A.Clear(Flags_18A::e18A_Render_Bit2);
                 field_178_tongue_state = 8;
                 pTarget->field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
                 pTarget->field_B8_xpos = field_B8_xpos;
@@ -1823,9 +2067,9 @@ void Fleech::TongueUpdate_42BD30()
             }
 
             field_17C = FP_GetExponent(pTarget->field_B8_xpos);
-            field_184 = field_17C;
+            field_184_target_x = field_17C;
             field_17E = (bRect.y + bRect.h) >> 1;
-            field_186 = (bRect.y + bRect.h) >> 1;
+            field_186_target_y = (bRect.y + bRect.h) >> 1;
         }
         else
         {
@@ -1845,8 +2089,8 @@ void Fleech::TongueUpdate_42BD30()
             pTarget->vGetBoundingRect_424FD0(&bRect, 1);
             field_17C = FP_GetExponent((field_B8_xpos + pTarget->field_B8_xpos) * FP_FromDouble(0.5));
             field_17E = (bRect.y + bRect.h) >> 1;
-            field_184 = FP_GetExponent((field_B8_xpos + pTarget->field_B8_xpos) * FP_FromDouble(0.5));
-            field_186 = (bRect.y + bRect.h) >> 1;
+            field_184_target_x = FP_GetExponent((field_B8_xpos + pTarget->field_B8_xpos) * FP_FromDouble(0.5));
+            field_186_target_y = (bRect.y + bRect.h) >> 1;
             field_18A.Clear(Flags_18A::e18A_TongueActive_Bit1);
             field_178_tongue_state = 1;
         }
@@ -2226,7 +2470,7 @@ void Fleech::PullTargetIn_42BAF0()
     if (pTarget)
     {
         field_18A.Set(Flags_18A::e18A_TongueActive_Bit1);
-        field_18A.Set(Flags_18A::e18A_Bit2);
+        field_18A.Set(Flags_18A::e18A_Render_Bit2);
         field_178_tongue_state = 6;
         field_17A_tongue_sub_state = 0;
 
@@ -2235,9 +2479,9 @@ void Fleech::PullTargetIn_42BAF0()
 
         field_17C = FP_GetExponent(pTarget->field_B8_xpos);
         field_17E = (bRect.y + bRect.h) / 2;
-        field_184 = FP_GetExponent(((FP_FromInteger(field_17C) + field_B8_xpos) / FP_FromInteger(2)));
+        field_184_target_x = FP_GetExponent(((FP_FromInteger(field_17C) + field_B8_xpos) / FP_FromInteger(2)));
         field_188 = 0;
-        field_186 = FP_GetExponent(((FP_FromInteger(field_17E) + field_BC_ypos) / FP_FromInteger(2)));
+        field_186_target_y = FP_GetExponent(((FP_FromInteger(field_17E) + field_BC_ypos) / FP_FromInteger(2)));
     }
 }
 
@@ -2248,13 +2492,13 @@ void Fleech::sub_42B8C0()
     if (field_178_tongue_state > 1)
     {
         field_178_tongue_state = 10;
-        field_184 = FP_GetExponent(((FP_FromInteger(field_184)) + field_B8_xpos) / FP_FromInteger(2));
+        field_184_target_x = FP_GetExponent(((FP_FromInteger(field_184_target_x)) + field_B8_xpos) / FP_FromInteger(2));
         field_188 = 0;
-        field_186 = FP_GetExponent(((FP_FromInteger(field_186)) + field_BC_ypos) / FP_FromInteger(2));
+        field_186_target_y = FP_GetExponent(((FP_FromInteger(field_186_target_y)) + field_BC_ypos) / FP_FromInteger(2));
     }
     else
     {
-        field_18A.Clear(Flags_18A::e18A_Bit2);
+        field_18A.Clear(Flags_18A::e18A_Render_Bit2);
         field_178_tongue_state = 1;
     }
 }
@@ -2262,12 +2506,12 @@ void Fleech::sub_42B8C0()
 void Fleech::sub_42BA10()
 {
     field_18A.Set(Flags_18A::e18A_TongueActive_Bit1);
-    field_18A.Set(Flags_18A::e18A_Bit2);
+    field_18A.Set(Flags_18A::e18A_Render_Bit2);
     field_178_tongue_state = 3;
     field_17A_tongue_sub_state = 0;
-    field_184 = FP_GetExponent(((FP_FromInteger(field_160_hoistX)) + field_B8_xpos) / FP_FromInteger(2));
+    field_184_target_x = FP_GetExponent(((FP_FromInteger(field_160_hoistX)) + field_B8_xpos) / FP_FromInteger(2));
     field_188 = 0;
-    field_186 = FP_GetExponent(((FP_FromInteger(field_162_hoistY)) + field_BC_ypos) / FP_FromInteger(2));
+    field_186_target_y = FP_GetExponent(((FP_FromInteger(field_162_hoistY)) + field_BC_ypos) / FP_FromInteger(2));
 }
 
 void Fleech::sub_42BAD0()

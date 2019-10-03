@@ -363,14 +363,14 @@ private:
     __int16 field_17E;
     __int16 field_180_tongue_x;
     __int16 field_182_tongue_y;
-    __int16 field_184;
-    __int16 field_186;
+    __int16 field_184_target_x;
+    __int16 field_186_target_y;
     __int16 field_188;
 
     enum Flags_18A
     {
         e18A_TongueActive_Bit1 = 0x1,
-        e18A_Bit2 = 0x2,
+        e18A_Render_Bit2 = 0x2,
         e18A_Bit3 = 0x4,
         e18A_Bit4 = 0x8,
         e18A_Bit5 = 0x10,

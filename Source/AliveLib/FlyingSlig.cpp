@@ -2736,7 +2736,7 @@ __int16 FlyingSlig::sub_437C70(PathLine* pLine)
 
     field_182_bound1 = FindLeftOrRightBound_43B0A0(field_1A4_rect.w, field_1A4_rect.h);
     field_180_bound2 = FindLeftOrRightBound_43B0A0(field_1A4_rect.x, field_1A4_rect.y);
-    field_1BC = Math_496F70(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
+    field_1BC = Math_Tan_496F70(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
 
     field_1C0 = field_1BC + FP_FromInteger(128);
 
@@ -3077,7 +3077,7 @@ BOOL FlyingSlig::sub_436B20()
 
 void FlyingSlig::sub_4373B0()
 {
-    const FP calc = Math_496F70(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos, sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
+    const FP calc = Math_Tan_496F70(field_BC_ypos - sControlledCharacter_5C1B8C->field_BC_ypos, sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
     FP value1 = FP_Abs(field_1BC - calc);
     if (value1 > FP_FromInteger(128))
     {

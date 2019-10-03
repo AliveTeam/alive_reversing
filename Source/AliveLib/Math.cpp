@@ -206,8 +206,7 @@ int CC Math_Distance_496EB0(int x1, int y1, int x2, int y2)
     }
 }
 
-
-EXPORT FP CC Math_496F70(const FP value1, const FP value2)
+EXPORT FP CC Math_Tan_496F70(const FP value1, const FP value2)
 {
     FP value1abs = FP_Abs(value1);
     FP value2abs = FP_Abs(value2);
