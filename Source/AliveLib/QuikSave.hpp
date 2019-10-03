@@ -35,14 +35,14 @@ struct Quicksave_WorldInfo
     char field_16_muds_in_area;
     char field_17;
     PerPathMudStats field_18_saved_killed_muds_per_path;
-    char field_2C;
+    char field_2C_stats_sign_current_area;
     char field_2D_total_meter_bars;
     __int16 field_2E;
-    __int16 field_30;
+    __int16 field_30_bDrawMeterCountDown;
     __int16 field_32_visited_bonewerks;
     __int16 field_34_visited_barracks;
     __int16 field_36_visited_feeco_ender;
-    int field_38;
+    int field_38_gas_timer;
     __int16 field_3C_bBulletProof;
     __int16 field_3E;
 };

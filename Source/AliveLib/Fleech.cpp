@@ -2131,6 +2131,8 @@ const SfxDefinition getSfxDef(FleechSound effectId)
 
 int Fleech::Sound_430520(FleechSound soundId)
 {
+    LOG_INFO("Fleechsound id:");
+    LOG_INFO((int)soundId);
     SfxDefinition effectDef = getSfxDef(soundId);
     __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
     if (soundId == FleechSound::Unknown_14)

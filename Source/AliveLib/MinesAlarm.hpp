@@ -29,3 +29,5 @@ private:
     EXPORT void vUpdate_417910();
 };
 ALIVE_ASSERT_SIZEOF(MinesAlarm, 0x20);
+
+ALIVE_VAR_EXTERN(int, sTimerValue_5C1BFC);

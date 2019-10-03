@@ -3108,18 +3108,18 @@ void Abe::State_0_Idle_44EEB0()
             switch (pTlv->field_4_type)
             {
             case TlvTypes::Door_5:
-                if (!IsOpenDoorInRange_44EE10() || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
-                {
-                    if (sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held) // OG bug, already checked ??
-                    {
-                        field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
-                    }
-                }
-                else
+                if (NearDoorIsOpen_44EE10() && !field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
                 {
                     field_FC_pPathTLV = pTlv;
                     field_120_state = 0;
                     field_106_current_motion = eAbeStates::State_114_DoorEnter_459470;
+                }
+                else
+                {
+                    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8)) // OG bug, already checked ??
+                    {
+                        field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
+                    }
                 }
                 return;
 
@@ -8717,7 +8717,7 @@ __int16 Abe::TryEnterMineCar_4569E0()
     return 0;
 }
 
-int Abe::IsOpenDoorInRange_44EE10()
+int Abe::NearDoorIsOpen_44EE10()
 {
     for (int i =0; i < gBaseGameObject_list_BB47C4->Size(); i++)
     {
@@ -8737,7 +8737,8 @@ int Abe::IsOpenDoorInRange_44EE10()
             }
         }
     }
-    return 0;
+    // We didn't find a door - so for some reason that makes no sense return that it is open...
+    return TRUE;
 }
 
 __int16 Abe::HandleDoAction_455BD0()
@@ -9040,7 +9041,7 @@ void Abe::MoveWithVelocity_450FA0(FP velocityX)
 __int16 Abe::RunTryEnterDoor_451220()
 {
     // Can't be entering a door if we're not pressing up
-    if (!(sInputKey_Up_5550D8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed))
+    if (!sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
     {
         return 0;
     }
@@ -9063,7 +9064,12 @@ __int16 Abe::RunTryEnterDoor_451220()
         FP_GetExponent(field_BC_ypos),
         TlvTypes::Door_5);
 
-    if (!pDoorTlv || !IsOpenDoorInRange_44EE10())
+    if (!pDoorTlv)
+    {
+        return 0;
+    }
+
+    if (!NearDoorIsOpen_44EE10())
     {
         return 0;
     }
@@ -9570,18 +9576,18 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         default:
             break;
         }
-    }
 
-    if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
-    {
-        field_122 = field_108_next_motion;
-    }
+        if (field_114_flags.Get(Flags_114::e114_Bit1_bShot))
+        {
+            field_122 = field_108_next_motion;
+        }
 
-    Abe_SFX_2_457A40(14, 0, 32767, this);
-    Abe_SFX_457EC0(9u, 127, 0, this);
-    Abe_SFX_2_457A40(7, 0, 32767, this);
-    SFX_Play_46FBA0(65u, 0, -500, field_CC_sprite_scale);
-    SFX_Play_46FA90(64u, 0, field_CC_sprite_scale);
+        Abe_SFX_2_457A40(14, 0, 32767, this);
+        Abe_SFX_457EC0(9u, 127, 0, this);
+        Abe_SFX_2_457A40(7, 0, 32767, this);
+        SFX_Play_46FBA0(65u, 0, -500, field_CC_sprite_scale);
+        SFX_Play_46FA90(64u, 0, field_CC_sprite_scale);
+    }
 }
 
 void Abe::GiveControlBackToMe_44BA10()

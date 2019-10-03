@@ -4004,6 +4004,8 @@ const SfxDefinition getSfxDef(ScrabSound effectId)
 
 int Scrab::Sound_4AADB0(ScrabSound soundId, int vol, int pitch, __int16 applyDirection)
 {
+    LOG_INFO("ScrabSound id:");
+    LOG_INFO((int) soundId);
     __int16 volumeLeft = 0;
     __int16 volumeRight = 0;
     const CameraPos direction = gMap_5C3030.GetDirection_4811A0(
@@ -4135,10 +4137,7 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                                             PSX_RECT objRect = {};
                                             pObj->vGetBoundingRect_424FD0(&objRect, 1);
 
-                                            if (objRect.x <= bOurRect.h &&
-                                                objRect.w >= bOurRect.x &&
-                                                objRect.h >= bOurRect.y &&
-                                                objRect.y <= bOurRect.h)
+                                            if (PSX_Rects_overlap_no_adjustment(&objRect, &bOurRect))
                                             {
                                                 if (pObj->VTakeDamage_408730(this))
                                                 {
