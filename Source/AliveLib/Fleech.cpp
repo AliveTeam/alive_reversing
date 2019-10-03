@@ -1376,8 +1376,8 @@ void Fleech::RenderEx_42C5A0(int** ot)
 {
     if (field_18A.Get(Fleech::Flags_18A::e18A_Render_Bit2))
     {
-        FP tongueBlock_X[5];
-        FP tongueBlock_Y[5];
+        FP tongueBlock_X[5] = {};
+        FP tongueBlock_Y[5] = {};
 
         const FP_Point *camPos = pScreenManager_5BB5F4->field_20_pCamPos;
         const __int16 camX = FP_GetExponent(camPos->field_0_x);
