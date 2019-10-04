@@ -7,22 +7,29 @@
 #include "Map.hpp"
 #include "Abe.hpp"
 
-ALIVE_VAR(1, 0x5BD24C, int, gDeathGasCount_5BD24C, 0);
-ALIVE_ARY(1, 0x5BC6C8, Prim_SetTPage, 2, gGasTPages_5BC6C8, {});
+struct Data_FP
+{
+    FP data[2][5][5];
+};
 
 struct GasPolys
 {
     Poly_G4 polys[2][4][4][2];
 };
-ALIVE_VAR(1, 0x5BC6E8, GasPolys, stru_5BC6E8, {});
 
-struct RandomData
+struct Data_Byte
 {
     BYTE data[2][5][5];
 };
-ALIVE_VAR(1, 0x5BD1E4, RandomData, byte_5BD1E4, {});
-ALIVE_VAR(1, 0x5BD218, RandomData, byte_5BD218, {});
 
+ALIVE_VAR(1, 0x5BC600, Data_FP, xData_5BC600, {});
+ALIVE_ARY(1, 0x5BC6C8, Prim_SetTPage, 2, gGasTPages_5BC6C8, {});
+ALIVE_VAR(1, 0x5BC6E8, GasPolys, stru_5BC6E8, {});
+ALIVE_VAR(1, 0x5BD0E8, Data_Byte, sbyte_3_5BD0E8, {});
+ALIVE_VAR(1, 0x5BD11C, Data_FP, yData_5BD11C, {});
+ALIVE_VAR(1, 0x5BD1E4, Data_Byte, sbyte_1_5BD1E4, {});
+ALIVE_VAR(1, 0x5BD218, Data_Byte, sbyte_2_5BD218, {});
+ALIVE_VAR(1, 0x5BD24C, int, gDeathGasCount_5BD24C, 0);
 
 DeathGas* DeathGas::ctor_43C030(__int16 layer, __int16 amount)
 {
@@ -65,8 +72,8 @@ DeathGas* DeathGas::ctor_43C030(__int16 layer, __int16 amount)
         {
             for (int k = 0; k < 5; k++)
             {
-                byte_5BD1E4.data[i][j][k] = Math_NextRandom();
-                byte_5BD218.data[i][j][k] = (Math_NextRandom() & 3) + 2;
+                sbyte_1_5BD1E4.data[i][j][k] = Math_NextRandom();
+                sbyte_2_5BD218.data[i][j][k] = (Math_NextRandom() & 3) + 2;
             }
         }
     }
