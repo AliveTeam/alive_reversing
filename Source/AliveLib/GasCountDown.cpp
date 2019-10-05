@@ -232,18 +232,17 @@ timer_on:
     }
 
     const int old_timer = field_74_time_left;
-    const unsigned int new_timer = (field_76_time - (signed int)(signed __int16)(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
-    this->field_74_time_left = (short) new_timer;
-    if (old_timer != (signed __int16)new_timer && (new_timer & 0x8000u) == 0)
+    const int new_timer = (field_76_time - static_cast<int>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
+    field_74_time_left = static_cast<__int16>(new_timer);
+    if (old_timer != field_74_time_left && field_74_time_left > 0)
     {
         SFX_Play_46FBA0(3u, 55, -1000);
     }
 
 do_damage:
-    const __int16 timeLeft = field_74_time_left;
-    if (timeLeft < 0)
+    if (field_74_time_left < 0)
     {
-        if (-timeLeft > 2)
+        if (-field_74_time_left > 2)
         {
             sActiveHero_5C1B68->VTakeDamage_408730(this);
             for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
