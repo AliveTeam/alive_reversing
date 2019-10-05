@@ -5058,13 +5058,13 @@ void Slig::vUpdate_4B17C0()
 
         if (oldBrain != field_154_brain_state)
         {
-            LOG_INFO("Slig: Old brain = " << GetOriginalFn(oldBrain, sSligAITable).fnName << " new brain = " << GetOriginalFn(field_154_brain_state, sSligAITable).fnName);
+            //LOG_INFO("Slig: Old brain = " << GetOriginalFn(oldBrain, sSligAITable).fnName << " new brain = " << GetOriginalFn(field_154_brain_state, sSligAITable).fnName);
         }
         else
         {
             if (oldBrainRet != field_11C_ai_sub_state)
             {
-                LOG_INFO("Slig: Brain state = " << GetOriginalFn(field_154_brain_state, sSligAITable).fnName << " State change from " << oldBrainRet << " to " << field_11C_ai_sub_state);
+                //LOG_INFO("Slig: Brain state = " << GetOriginalFn(field_154_brain_state, sSligAITable).fnName << " State change from " << oldBrainRet << " to " << field_11C_ai_sub_state);
             }
         }
 

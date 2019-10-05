@@ -2253,7 +2253,7 @@ void Glukkon::vUpdate_43F770()
         // TODO: This is extra debug logging to figure out the motion names
         if (oldMotion != field_106_current_motion)
         {
-            LOG_INFO("Glukkon: Old motion = " << sGlukkonMotionNames[oldMotion] << " new motion = " << sGlukkonMotionNames[field_106_current_motion]);
+            //LOG_INFO("Glukkon: Old motion = " << sGlukkonMotionNames[oldMotion] << " new motion = " << sGlukkonMotionNames[field_106_current_motion]);
         }
 
         if (oldXPos != field_B8_xpos || oldYPos != field_BC_ypos)

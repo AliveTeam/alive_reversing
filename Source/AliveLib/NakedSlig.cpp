@@ -1946,8 +1946,6 @@ const SfxDefinition stru_5607E0[17] =
 
 void CC Slig_SoundEffect_4BFFE0(__int16 effect, BaseAliveGameObject* pObj)
 {
-    LOG_INFO("effect num = " << effect);
-
     const SfxDefinition* pEffect = &stru_5607E0[effect];
     short vLeft = 0;
     short vRight = 0;
