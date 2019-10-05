@@ -1042,51 +1042,55 @@ void MainMenuController::t_Load_Paramite_Speak_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
-ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {}); //font yPos common for both funcs
-ALIVE_VAR(1, 0xBB43E4, FP, global_5_FP_BB43E4, {}); //common for both funcs
-ALIVE_VAR(1, 0xBB43D8, int, selectedControllerEntry_BB43D8, 0);
-ALIVE_VAR(1, 0xBB43F4, int, global4_BB43F4, 0);
-ALIVE_VAR(1, 0x55E838, int, dword_55E838, 0);
-
-const MainMenuText sControllerMenuButtonCaptions_Text_562628[3] =
+int DrawMenuStringWithShadow(int** ot, Alive::Font& field_120_font, const char* text, __int16 x, __int16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
 {
-    { 34, 27, "x", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
-    { 331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
-    { 32, 203, "c", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u }
-};
+    int polyOff = polyOffset;
+    polyOff = field_120_font.DrawString_4337D0(
+        ot,
+        text,
+        x,
+        y,
+        0,
+        1,
+        0,
+        32,
+        r,
+        g,
+        b,
+        polyOff,
+        FP_FromInteger(1),
+        640,
+        0
+    );
 
-const char* aKeyboard_1[2] = //used SaveFileRec as workaround
+    polyOffset = field_120_font.DrawString_4337D0(
+        ot,
+        text,
+        x+2,
+        y+2,
+        0,
+        1,
+        0,
+        32,
+        0,
+        0,
+        0,
+        polyOff,
+        FP_FromInteger(1),
+        640,
+        0
+    );
+    return polyOffset;
+}
+
+ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {});
+ALIVE_VAR(1, 0xBB43E4, FP, dword_BB43E4, {});
+
+void RenderScrollableTextEntries(
+    int** ot, int& entryToSelect, int& selectedEntry, int totalItemsCount,
+    FP& TextYPos, FP& fp2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
+)
 {
-    "Keyboard",
-    "Game Pad"
-};
-
-
-
-//selectedControllerEntry_BB43D8 selectedEntryGlobal
-//global4_BB43F4  selectedEntryGlobal2
-//global_5_FP_BB43E4; fp2 
-
-//void RenderScrollableTextEntries(
-//    int** ot, int& selectedEntryGlobal, int& selectedEntryGlobal2, int totalCountGlobal,
-//    FP& TextYPos, FP& fp2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
-//)
-//{
-//
-//}
-
-
-void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
-{
-    int polyOff = 0;
-
-    FP& TextPosY = sTextYPos_BB43F0;
-    int& global1 = selectedControllerEntry_BB43D8;
-    int& global2 = global4_BB43F4;
-    FP& fp2 = global_5_FP_BB43E4;
-    int& count = dword_55E838;
-    int& polyOffset = polyOff;
-
     FP existChecker; // eax
     FP magicFp_1; // edx
     FP magicFp_3; // edx
@@ -1094,27 +1098,22 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
     signed int i_start; // edi
 
     int i_end; // [esp+14h] [ebp-8h]
+    FP magicFp_2 = TextYPos;
+    int someWordPicker = selectedEntry;
 
-
-
-
-
-    FP magicFp_2 = TextPosY;
-    int someWordPicker = global2;
-
-    if (global2 != global1 && TextPosY > FP_FromInteger(0))
+    if (selectedEntry != entryToSelect && TextYPos > FP_FromInteger(0))
     {
-        someWordPicker = global1;
-        global2 = global1;
-        if (TextPosY < FP_FromInteger(0))
+        someWordPicker = entryToSelect;
+        selectedEntry = entryToSelect;
+        if (TextYPos < FP_FromInteger(0))
         {
             magicFp_1 = fp2;
 
             existChecker = magicFp_1 + magicFp_2;
-            TextPosY = existChecker;
+            TextYPos = existChecker;
             if (existChecker >= FP_FromInteger(0))
             {
-                TextPosY = FP_FromInteger(0);
+                TextYPos = FP_FromInteger(0);
                 i_start = -2;
                 i_end = 2;
                 goto END;
@@ -1132,7 +1131,7 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
             goto END;
 
         }
-        if (TextPosY == FP_FromInteger(0))
+        if (TextYPos == FP_FromInteger(0))
         {
             existChecker_2 = 0;
             i_start = -2;
@@ -1140,30 +1139,30 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
             goto END;
         }
     }
-    if (global2 > global1)
+    if (selectedEntry > entryToSelect)
     {
         magicFp_3 = FP_FromDouble(4.5);
         magicFp_2 = FP_FromInteger(26);
         fp2 = FP_FromDouble(4.5);
-        global1 = global2;
-        TextPosY = magicFp_2 - magicFp_3;
+        entryToSelect = selectedEntry;
+        TextYPos = magicFp_2 - magicFp_3;
         fp2 = magicFp_3 - FP_FromDouble(0.2);
         i_start = -3;
         i_end = 2;
         goto END;
     }
-    if (global2 == global1)
+    if (selectedEntry == entryToSelect)
     {
-        if (TextPosY < FP_FromInteger(0))
+        if (TextYPos < FP_FromInteger(0))
         {
             magicFp_1 = fp2;
 
 
             existChecker = magicFp_1 + magicFp_2;
-            TextPosY = existChecker;
+            TextYPos = existChecker;
             if (existChecker >= FP_FromInteger(0))
             {
-                TextPosY = FP_FromInteger(0);
+                TextYPos = FP_FromInteger(0);
                 i_start = -2;
                 i_end = 2;
                 goto END;
@@ -1182,7 +1181,7 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
 
 
         }
-        if (TextPosY == FP_FromInteger(0))
+        if (TextYPos == FP_FromInteger(0))
         {
             existChecker_2 = 0;
             i_start = -2;
@@ -1191,7 +1190,7 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
         }
         magicFp_3 = fp2;
         existChecker = magicFp_2 - magicFp_3;
-        TextPosY = existChecker;
+        TextYPos = existChecker;
         if (existChecker > FP_FromInteger(0))
         {
             fp2 = magicFp_3 - FP_FromDouble(0.2);
@@ -1208,7 +1207,7 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
             i_end = 2;
             goto END;
         }
-        TextPosY = FP_FromInteger(0);
+        TextYPos = FP_FromInteger(0);
         i_start = -2;
         i_end = 2;
         goto END;
@@ -1216,12 +1215,12 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
     magicFp_1 = FP_FromDouble(4.5);
     magicFp_2 = FP_FromInteger(-26);
     fp2 = FP_FromDouble(4.5);
-    global1 = global2;
+    entryToSelect = selectedEntry;
     existChecker = magicFp_1 + magicFp_2;
-    TextPosY = existChecker;
+    TextYPos = existChecker;
     if (existChecker >= FP_FromInteger(0))
     {
-        TextPosY = FP_FromInteger(0);
+        TextYPos = FP_FromInteger(0);
         i_start = -2;
         i_end = 2;
         goto END;
@@ -1243,207 +1242,61 @@ END:
     for (int i = i_start; i <= i_end; i++)
     {
         int v9 = someWordPicker + i;
-        if (v9 >= 0 && v9 < count)
+        if (v9 >= 0 && v9 < totalItemsCount)
         {
-            field_234_pStr = aKeyboard_1[v9];
-            int currEntryWidth = field_120_font.MeasureWidth_4336C0(aKeyboard_1[v9], FP_FromInteger(1));
+            field_234_pStr = stringList[v9].field_0_fileName;
+            int currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
 
             //Entry X alignment (of questionable quality) for long words
             __int16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<__int16>(currEntryWidth)) / 2;
-            //TextPosY is entry height?
-            __int16 y = FP_GetExponent(TextPosY + FP_FromDouble(0.5)) + static_cast<__int16>(26 * i) + 112;
-
+            //TextYPos is entry height?
+            __int16 y = FP_GetExponent(TextYPos + FP_FromDouble(0.5)) + static_cast<__int16>(26 * i) + 112;
             if (i)
             {
                 //Draw non-highlighted entry
-                polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 210, 150, 80, polyOffset, FP_FromInteger(1), 640, 0);
+                polyOffset = DrawMenuStringWithShadow(ot, field_120_font, field_234_pStr, x, y, 210, 150, 80, polyOffset);
+                //polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 210, 150, 80, polyOffset, FP_FromInteger(1), 640, 0);
             }
             else
             {
                 //Draw highlighted entry
-                polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 255, 218, 140, polyOffset, FP_FromInteger(1), 640, 0);
+                polyOffset = DrawMenuStringWithShadow(ot, field_120_font, field_234_pStr, x, y, 255, 218, 140, polyOffset);
+                //polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 255, 218, 140, polyOffset, FP_FromInteger(1), 640, 0);
             }
 
             //Draw shadow under entry
-            polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x + 2, y + 2, 0, 1, 0, 32, 0, 0, 0, polyOffset, FP_FromInteger(1), 640, 0);
-            someWordPicker = global2;
+            //polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x + 2, y + 2, 0, 1, 0, 32, 0, 0, 0, polyOffset, FP_FromInteger(1), 640, 0);
+            someWordPicker = selectedEntry;
         }
     }
+}
+
+const MainMenuText sControllerMenuButtonCaptions_Text_562628[3] =
+{
+    { 34, 27, "x", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 32, 203, "c", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u }
+};
+
+const SaveFileRec aKeyboard_1[2] = //used SaveFileRec as workaround for RenderScrollableTextEntries()
+{
+    { "Keyboard", 0 },
+    { "Game Pad", 0 }
+};
+
+ALIVE_VAR(1, 0xBB43D8, int, controllerEntryToSelect_BB43D8, 0);
+ALIVE_VAR(1, 0xBB43F4, int, selectedControllerEntry_BB43F4, 0);
+ALIVE_VAR(1, 0x55E838, int, controllerCount_55E838, 0);
+
+void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
+{
+    int polyOffset = 0;
+    RenderScrollableTextEntries(ot, controllerEntryToSelect_BB43D8, selectedControllerEntry_BB43F4, controllerCount_55E838, sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset);
 
     for (int i = 0; i < ALIVE_COUNTOF(sControllerMenuButtonCaptions_Text_562628); i++)
     {
         MainMenuController::DrawMenuText_4D20D0(&sControllerMenuButtonCaptions_Text_562628[i], ot, &field_120_font, &polyOffset, 1);
     }
-
- 
-//    int polyOffset = 0;
-//    //RenderScrollableTextEntries(
-//    //    ot, selectedControllerEntry_BB43D8, global4_BB43F4, dword_55E838,
-//    //    sTextYPos_BB43F0, global_5_FP_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset
-//    //);
-//
-//    int& selectedEntryGlobal = selectedControllerEntry_BB43D8;
-//    int& selectedEntryGlobal2 = global4_BB43F4;
-//    FP& fp2 = global_5_FP_BB43E4;
-//    int& totalCountGlobal = dword_55E838;
-//    FP& TextYPos = sTextYPos_BB43F0;
-//    //const SaveFileRec& stringList = aKeyboard_1;
-//
-//    FP magicFp_1 = {};
-//    FP magicFp_2 = TextYPos;
-//    FP magicFp_3 = {};
-//    FP existChecker = {};
-//    bool existChecker_2 = false;
-//    int someWordPicker = selectedEntryGlobal2;
-//
-//    int i_start = 0;
-//    int i_end = 0;
-//
-//    if (selectedEntryGlobal2 != selectedEntryGlobal && TextYPos > FP_FromInteger(0))
-//    {
-//        LOG_INFO("IF_1");
-//
-//        someWordPicker = selectedEntryGlobal;
-//        selectedEntryGlobal2 = selectedEntryGlobal;
-//
-//        magicFp_3 = fp2;
-//        existChecker = magicFp_2 - magicFp_3;
-//        TextYPos = existChecker;
-//        if (existChecker > FP_FromInteger(0))
-//        {
-//            fp2 = magicFp_3 - FP_FromDouble(0.2);
-//            if (magicFp_3 - FP_FromDouble(0.2) > FP_FromInteger(0))
-//            {
-//                existChecker_2 = existChecker < FP_FromInteger(0);
-//                i_start = -3;
-//                i_end = 2;
-//                goto END;
-//            }
-//            fp2 = FP_FromInteger(0);
-//            existChecker_2 = existChecker < FP_FromInteger(0);
-//            i_start = -3;
-//            i_end = 2;
-//            goto END;
-//        }
-//        TextYPos = FP_FromInteger(0);
-//        i_start = -2;
-//        i_end = 2;
-//        goto END;
-//    }
-//    if (selectedEntryGlobal2 > selectedEntryGlobal)
-//    {
-//        LOG_INFO("IF_2");
-//        magicFp_3 = FP_FromDouble(4.5);
-//        magicFp_2 = FP_FromInteger(26);
-//        fp2 = FP_FromDouble(4.5);
-//        selectedEntryGlobal = selectedEntryGlobal2;
-//        TextYPos = magicFp_2 - magicFp_3;
-//        fp2 = magicFp_3 - FP_FromDouble(0.2);
-//        i_start = -3;
-//        i_end = 2;
-//    } //end
-//    if (selectedEntryGlobal2 == selectedEntryGlobal)
-//    {
-//        LOG_INFO("IF_3");
-//        if (TextYPos < FP_FromInteger(0))
-//        {
-//            magicFp_1 = fp2;
-//            existChecker = magicFp_1 + magicFp_2;
-//            TextYPos = existChecker;
-//            if (existChecker >= FP_FromInteger(0))
-//            {
-//                TextYPos = FP_FromInteger(0);
-//                i_start = -2;
-//                i_end = 2;
-//                goto END;
-//            }
-//            fp2 = magicFp_1 - FP_FromDouble(0.2);
-//            if (magicFp_1 - FP_FromDouble(0.2) > FP_FromInteger(0))
-//            {
-//                i_start = -2;
-//                i_end = 3;
-//                goto END;
-//            }
-//            fp2 = FP_FromInteger(0);
-//            i_start = -2;
-//            i_end = 3;
-//            goto END;
-//        }
-//        if (TextYPos == FP_FromInteger(0))
-//        {
-//            existChecker_2 = 0;
-//            i_start = -2;
-//            i_end = 2;
-//            goto END;
-//        }
-//        magicFp_3 = fp2;
-//        existChecker = magicFp_2 - magicFp_3;
-//        TextYPos = existChecker;
-//        if (existChecker > FP_FromInteger(0))
-//        {
-//            fp2 = magicFp_3 - FP_FromDouble(0.2);
-//            if (magicFp_3 - FP_FromDouble(0.2) > FP_FromInteger(0))
-//            {
-//                existChecker_2 = existChecker < FP_FromInteger(0);
-//                i_start = -3;
-//                i_end = 2;
-//                goto END;
-//            }
-//            fp2 = FP_FromInteger(0);
-//            existChecker_2 = existChecker < FP_FromInteger(0);
-//            i_start = -3;
-//            i_end = 2;
-//            goto END;
-//        }
-//        TextYPos = FP_FromInteger(0);
-//        i_start = -2;
-//        i_end = 2;
-//        goto END;
-//    } //end
-//    LOG_INFO("NO_IF");
-//    magicFp_1 = FP_FromDouble(4.5);
-//    magicFp_2 = FP_FromInteger(-26);
-//    selectedEntryGlobal = selectedEntryGlobal2;
-//    TextYPos = magicFp_1 + magicFp_2;
-//    fp2 = magicFp_1 - FP_FromDouble(0.2);
-//    i_start = -2;
-//    i_end = 3;
-//    goto END;
-//END:
-//    for (int i = i_start; i <= i_end; i++)
-//    {
-//        int v9 = someWordPicker + i;
-//        if (v9 >= 0 && v9 < totalCountGlobal)
-//        {
-//            field_234_pStr = aKeyboard_1[i];
-//            int currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
-//
-//            //Entry X alignment (of questionable quality) for long words
-//            __int16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<__int16>(currEntryWidth)) / 2;
-//            //sTextYPos_BB43F0 is entry height?
-//            __int16 y = FP_GetExponent(TextYPos + FP_FromDouble(0.5)) + static_cast<__int16>(26 * i) + 112;
-//
-//            if (i)
-//            {
-//                //Draw non-highlighted entry
-//                polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 210, 150, 80, polyOffset, FP_FromInteger(1), 640, 0);
-//            }
-//            else
-//            {
-//                //Draw highlighted entry
-//                polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 255, 218, 140, polyOffset, FP_FromInteger(1), 640, 0);
-//            }
-//
-//            //Draw shadow under entry
-//            polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x + 2, y + 2, 0, 1, 0, 32, 0, 0, 0, polyOffset, FP_FromInteger(1), 640, 0);
-//            someWordPicker = selectedEntryGlobal2;
-//        }
-//    }
-//
-    //for (int i = 0; i < ALIVE_COUNTOF(sControllerMenuButtonCaptions_Text_562628); i++)
-    //{
-    //    MainMenuController::DrawMenuText_4D20D0(&sControllerMenuButtonCaptions_Text_562628[i], ot, &field_120_font, &polyOffset, 1);
-    //}
 }
 MainMenuText sLoadButtonGraphics[2] =
 {
@@ -1451,63 +1304,25 @@ MainMenuText sLoadButtonGraphics[2] =
     { 331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u }
 };
 
-
 ALIVE_VAR(1, 0xBB43E8, int, sSelectedSavedGameIdx_BB43E8, 0);
-void MainMenuController::tLoadGame_Render_4D44D0(int** )//ot)
+
+void MainMenuController::tLoadGame_Render_4D44D0(int** ot)
 {
-    NOT_IMPLEMENTED();
-    //int polyOffset = 0;
-    //RenderScrollableTextEntries(
-    //    ot, sSavedGameToLoadIdx_BB43FC, sSelectedSavedGameIdx_BB43E8, sTotalSaveFilesCount_BB43E0,
-    //    sTextYPos_BB43F0, global_5_FP_BB43E4, field_234_pStr, sSaveFileRecords_BB31D8, field_120_font, polyOffset
-    //);
+    int polyOffset = 0;
+    RenderScrollableTextEntries(
+        ot, sSavedGameToLoadIdx_BB43FC, sSelectedSavedGameIdx_BB43E8, sTotalSaveFilesCount_BB43E0,
+        sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, sSaveFileRecords_BB31D8, field_120_font, polyOffset
+    );
 
-    //todo test
-    //if (sTotalSaveFilesCount_BB43E0 <= 0) // max save files count
-    //{
-    //    int v5 = 0;
-    //    auto v20 = field_120_font.DrawString_4337D0(
-    //        ot,
-    //        "No Saved Games",
-    //        120,
-    //        110,
-    //        0,
-    //        1,
-    //        0,
-    //        32,
-    //        255,
-    //        218,
-    //        140,
-    //        v5,
-    //        FP_FromInteger(1),
-    //        640,
-    //        0);
-
-    //    polyOffset = field_120_font.DrawString_4337D0(
-    //        ot,
-    //        "No Saved Games",
-    //        122,
-    //        112,
-    //        0,
-    //        1,
-    //        0,
-    //        32,
-    //        0,
-    //        0,
-    //        0,
-    //        v20,
-    //        FP_FromInteger(1),
-    //        640,
-    //        0);
-    //}
-
-    //for (auto& menuGraphic : sLoadButtonGraphics)
-    //{
-    //    DrawMenuText_4D20D0(&menuGraphic, ot, &field_120_font, &polyOffset, 1);
-    //}
+    if (sTotalSaveFilesCount_BB43E0 <= 0) // max save files count
+    {
+        DrawMenuStringWithShadow(ot, field_120_font, "No Saved Games", 120, 110, 255, 218, 140, polyOffset);
+    }
+    for (auto& menuGraphic : sLoadButtonGraphics)
+    {
+        DrawMenuText_4D20D0(&menuGraphic, ot, &field_120_font, &polyOffset, 1);
+    }
 }
-
-
 
 void MainMenuController::t_Render_AbesMotions_Text_4D25E0(int ** ot)
 {
