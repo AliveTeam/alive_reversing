@@ -148,8 +148,12 @@ void GasCountDown::vScreenChanged_417700()
 
 void GasCountDown::vRender_4175A0(int **pOt)
 {
-    char text[12] = {};
+    char text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
     sprintf(text, "%02d:%02d", field_74_time_left / 60, field_74_time_left % 60);
+    if (strchr(text, '-'))
+    {
+        __debugbreak();
+    }
 
     const auto textWidth = field_30_font.MeasureWidth_433700(text);
     field_30_font.DrawString_4337D0(
@@ -175,6 +179,8 @@ void GasCountDown::vRender_4175A0(int **pOt)
         PsxToPCX(field_6C_xpos + textWidth),
         field_6E_ypos + 16,
         pScreenManager_5BB5F4->field_3A_idx);
+
+    LOG_INFO("tleft " << field_74_time_left << " tmr " << sGasTimer_5C1BE8);
 }
 
 void GasCountDown::vUpdate_4172E0()
@@ -189,49 +195,55 @@ void GasCountDown::vUpdate_4172E0()
         sGasTimer_5C1BE8 = 0;
         gGasOn_5C1C00 = FALSE;
     }
-    
-    if (sGasTimer_5C1BE8 <= 0)
+    else if (sGasTimer_5C1BE8)
     {
-        if (SwitchStates_Get_466020(field_70_start_trigger_id))
+        goto timer_on;
+    }
+
+    if (SwitchStates_Get_466020(field_70_start_trigger_id))
+    {
+        if (!SwitchStates_Get_466020(field_72_stop_trigger_id))
         {
-            if (!SwitchStates_Get_466020(field_72_stop_trigger_id))
+            sGasTimer_5C1BE8 = sGnFrame_5C1B84;
+            auto pAlarm = alive_new<Alarm>();
+            if (pAlarm)
             {
-                sGasTimer_5C1BE8 = sGnFrame_5C1B84;
-                auto pAlarm = alive_new<Alarm>();
-                if (pAlarm)
-                {
-                    pAlarm->ctor_4091F0(field_76_time, 0, 0, 39);
-                }
+                pAlarm->ctor_4091F0(field_76_time, 0, 0, 39);
             }
         }
     }
 
-    if (sGasTimer_5C1BE8 > 0)
+    if (!sGasTimer_5C1BE8)
     {
         field_74_time_left = field_76_time / 30;
-
-        if (SwitchStates_Get_466020(field_72_stop_trigger_id))
-        {
-            sGasTimer_5C1BE8 = 0;
-            return;
-        }
-
-        if (Event_Get_422C00(kEventResetting))
-        {
-            sGasTimer_5C1BE8++;
-        }
-
-        const __int16 oldTimeLeft = field_74_time_left;
-        field_74_time_left = static_cast<short>((field_76_time - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
-        if (oldTimeLeft != field_74_time_left && field_74_time_left > 0)
-        {
-            SFX_Play_46FBA0(3u, 55, -1000);
-        }
+        goto do_damage;
     }
 
-    if (field_74_time_left < 0)
+timer_on:
+    if (SwitchStates_Get_466020(field_72_stop_trigger_id))
     {
-        if (std::abs(field_74_time_left) > 2)
+        sGasTimer_5C1BE8 = 0;
+        return;
+    }
+
+    if (Event_Get_422C00(kEventResetting))
+    {
+        sGasTimer_5C1BE8++;
+    }
+
+    const int old_timer = field_74_time_left;
+    const unsigned int new_timer = (field_76_time - (signed int)(signed __int16)(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
+    this->field_74_time_left = (short) new_timer;
+    if (old_timer != (signed __int16)new_timer && (new_timer & 0x8000u) == 0)
+    {
+        SFX_Play_46FBA0(3u, 55, -1000);
+    }
+
+do_damage:
+    const __int16 timeLeft = field_74_time_left;
+    if (timeLeft < 0)
+    {
+        if (-timeLeft > 2)
         {
             sActiveHero_5C1B68->VTakeDamage_408730(this);
             for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
@@ -241,7 +253,6 @@ void GasCountDown::vUpdate_4172E0()
                 {
                     break;
                 }
-
                 if (pObj->field_4_typeId == Types::eMudokon_110)
                 {
                     pObj->VTakeDamage_408730(this);
