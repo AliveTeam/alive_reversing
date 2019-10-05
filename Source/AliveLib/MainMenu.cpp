@@ -1111,7 +1111,7 @@ void RenderScrollableTextEntries(
                 goto END;
             }
             fp2 -= FP_FromDouble(0.2);
-            if (fp2 - FP_FromDouble(0.2) > FP_FromInteger(0))
+            if (fp2 > FP_FromInteger(0))
             {
                 i_start = -2;
                 i_end = 3;
