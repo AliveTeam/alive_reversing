@@ -179,7 +179,6 @@ public:
     EXPORT void t_Unload_Paramite_Speak_4D3C50();
     EXPORT void t_Load_Paramite_Speak_4D3B70();
 
-
     EXPORT signed int t_Input_Gamespeak_4D1FC0(DWORD input_held);
 
     void RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count, char isSingleChar);
