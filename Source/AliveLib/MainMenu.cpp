@@ -777,9 +777,28 @@ const MainMenuText sScrabGameSpeak_562268[4] =
     { 60, 133, "\f", 2u, 0u, 0u, 0u, 0.0, 0u, 0u, 0u, 0u }
 };
 
+const MainMenuText sAbeMotions_562448[15] =
+{
+    { 55, 182, "X", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 153, 211, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },            
+    { 175, 60, "\x4", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //walk right arrow        //rebindables are in []
+    { 175, 79, "\x7+ \x4", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },       //sneak [alt] + right arrow 
+    { 175, 98, "\x5+ \x4", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },       //run [shift] + right arrow
+    { 175, 117, "\t", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //jump [space]
+    { 175, 136, "\x5+\t", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },        //runjump [shift]+[space]
+    { 175, 158, "\x2", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },           //crouch down arrow
+    { 330, 60, "\x4", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //roll from crouch right arrow
+    { 330, 79, "\x1", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //zturn up arrow
+    { 330, 98, "\x6", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //action [ctrl]
+    { 334, 117, "Z+\x1A", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },        //throw [z] + Dpad
+    { 330, 136, "\n", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },            //fart [x]
+    { 330, 155, "\x11", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },          //sympathy [7]
+    { 330, 174, "\x0F", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },          //angry slap [5]
+};
+
 void MainMenuController::t_Render_Abe_Speak_4D2060(int** ot)
 {
-    RenderOnScreenTextHelper(ot, &sAbeGameSpeak_561F38[0], ALIVE_COUNTOF(sAbeGameSpeak_561F38));
+    RenderOnScreenTextHelper(ot, &sAbeGameSpeak_561F38[0], ALIVE_COUNTOF(sAbeGameSpeak_561F38), 1);
 }
 
 signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
@@ -853,17 +872,17 @@ signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
 
 void MainMenuController::t_Render_Slig_Speak_4D2370(int** ot)
 {
-    RenderOnScreenTextHelper(ot, &sSligGameSpeak_562058[0], ALIVE_COUNTOF(sSligGameSpeak_562058));
+    RenderOnScreenTextHelper(ot, &sSligGameSpeak_562058[0], ALIVE_COUNTOF(sSligGameSpeak_562058), 1);
 }
 
 void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** ot)
 {
-    RenderOnScreenTextHelper(ot, &sGlukkonGameSpeak_562160[0], ALIVE_COUNTOF(sGlukkonGameSpeak_562160));
+    RenderOnScreenTextHelper(ot, &sGlukkonGameSpeak_562160[0], ALIVE_COUNTOF(sGlukkonGameSpeak_562160), 1);
 }
 
 void MainMenuController::t_Render_Scrab_Speak_4D2410(int** ot)
 {
-    RenderOnScreenTextHelper(ot, &sScrabGameSpeak_562268[0], ALIVE_COUNTOF(sScrabGameSpeak_562268));
+    RenderOnScreenTextHelper(ot, &sScrabGameSpeak_562268[0], ALIVE_COUNTOF(sScrabGameSpeak_562268), 1);
 }
 
 signed int MainMenuController::t_Input_Slig_Speak_4D3280(DWORD input_held)
@@ -982,7 +1001,7 @@ void MainMenuController::t_Load_Scrab_Speak_4D3870()
 
 void MainMenuController::t_Render_Paramite_Speak_4D2460(int** ot)
 {
-    RenderOnScreenTextHelper(ot, &sParamiteSpeak_5622C8[0], ALIVE_COUNTOF(sParamiteSpeak_5622C8));
+    RenderOnScreenTextHelper(ot, &sParamiteSpeak_5622C8[0], ALIVE_COUNTOF(sParamiteSpeak_5622C8), 1);
 }
 
 signed int MainMenuController::t_Input_Paramite_Speak_4D3D60(DWORD input_held)
@@ -1023,6 +1042,282 @@ void MainMenuController::t_Load_Paramite_Speak_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
+ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {}); //font yPos common for both funcs
+ALIVE_VAR(1, 0xBB43E4, FP, global_5_FP_BB43E4, {}); //common for both funcs
+ALIVE_VAR(1, 0xBB43D8, int, selectedControllerEntry_BB43D8, 0);
+ALIVE_VAR(1, 0xBB43F4, int, global4_BB43F4, 0);
+ALIVE_VAR(1, 0x55E838, int, dword_55E838, 0);
+
+const MainMenuText sControllerMenuButtonCaptions_Text_562628[3] =
+{
+    { 34, 27, "x", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 32, 203, "c", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u }
+};
+
+const SaveFileRec aKeyboard_1[2] = //used SaveFileRec as workaround
+{
+    { "Keyboard", 0 },
+    { "Game Pad", 0 }
+};
+
+
+
+//selectedControllerEntry_BB43D8 selectedEntryGlobal
+//global4_BB43F4  selectedEntryGlobal2
+//global_5_FP_BB43E4; fp2 
+
+//void RenderScrollableTextEntries(
+//    int** ot, int& selectedEntryGlobal, int& selectedEntryGlobal2, int totalCountGlobal,
+//    FP& TextYPos, FP& fp2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
+//)
+//{
+//
+//}
+
+
+void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
+{
+
+ 
+    int polyOffset = 0;
+    //RenderScrollableTextEntries(
+    //    ot, selectedControllerEntry_BB43D8, global4_BB43F4, dword_55E838,
+    //    sTextYPos_BB43F0, global_5_FP_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset
+    //);
+
+    int& selectedEntryGlobal = selectedControllerEntry_BB43D8;
+    int& selectedEntryGlobal2 = global4_BB43F4;
+    FP& fp2 = global_5_FP_BB43E4;
+    int& totalCountGlobal = dword_55E838;
+    FP& TextYPos = sTextYPos_BB43F0;
+    //const SaveFileRec& stringList = aKeyboard_1;
+
+    FP magicFp_1 = {};
+    FP magicFp_2 = TextYPos;
+    FP magicFp_3 = {};
+    FP existChecker = {};
+    bool existChecker_2 = false;
+    int someWordPicker = selectedEntryGlobal2;
+
+    int i_start = 0;
+    int i_end = 0;
+
+    if (selectedEntryGlobal2 != selectedEntryGlobal && TextYPos > FP_FromInteger(0))
+    {
+        LOG_INFO("IF_1");
+
+        someWordPicker = selectedEntryGlobal;
+        selectedEntryGlobal2 = selectedEntryGlobal;
+
+        magicFp_3 = fp2;
+        existChecker = magicFp_2 - magicFp_3;
+        TextYPos = existChecker;
+        if (existChecker > FP_FromInteger(0))
+        {
+            fp2 = magicFp_3 - FP_FromDouble(0.2);
+            if (magicFp_3 - FP_FromDouble(0.2) > FP_FromInteger(0))
+            {
+                existChecker_2 = existChecker < FP_FromInteger(0);
+                i_start = -3;
+                i_end = 2;
+                goto END;
+            }
+            fp2 = FP_FromInteger(0);
+            existChecker_2 = existChecker < FP_FromInteger(0);
+            i_start = -3;
+            i_end = 2;
+            goto END;
+        }
+        TextYPos = FP_FromInteger(0);
+        i_start = -2;
+        i_end = 2;
+        goto END;
+    }
+    if (selectedEntryGlobal2 > selectedEntryGlobal)
+    {
+        LOG_INFO("IF_2");
+        magicFp_3 = FP_FromDouble(4.5);
+        magicFp_2 = FP_FromInteger(26);
+        fp2 = FP_FromDouble(4.5);
+        selectedEntryGlobal = selectedEntryGlobal2;
+        TextYPos = magicFp_2 - magicFp_3;
+        fp2 = magicFp_3 - FP_FromDouble(0.2);
+        i_start = -3;
+        i_end = 2;
+    } //end
+    if (selectedEntryGlobal2 == selectedEntryGlobal)
+    {
+        LOG_INFO("IF_3");
+        if (TextYPos < FP_FromInteger(0))
+        {
+            magicFp_1 = fp2;
+            existChecker = magicFp_1 + magicFp_2;
+            TextYPos = existChecker;
+            if (existChecker >= FP_FromInteger(0))
+            {
+                TextYPos = FP_FromInteger(0);
+                i_start = -2;
+                i_end = 2;
+                goto END;
+            }
+            fp2 = magicFp_1 - FP_FromDouble(0.2);
+            if (magicFp_1 - FP_FromDouble(0.2) > FP_FromInteger(0))
+            {
+                i_start = -2;
+                i_end = 3;
+                goto END;
+            }
+            fp2 = FP_FromInteger(0);
+            i_start = -2;
+            i_end = 3;
+            goto END;
+        }
+        if (TextYPos == FP_FromInteger(0))
+        {
+            existChecker_2 = 0;
+            i_start = -2;
+            i_end = 2;
+            goto END;
+        }
+        magicFp_3 = fp2;
+        existChecker = magicFp_2 - magicFp_3;
+        TextYPos = existChecker;
+        if (existChecker > FP_FromInteger(0))
+        {
+            fp2 = magicFp_3 - FP_FromDouble(0.2);
+            if (magicFp_3 - FP_FromDouble(0.2) > FP_FromInteger(0))
+            {
+                existChecker_2 = existChecker < FP_FromInteger(0);
+                i_start = -3;
+                i_end = 2;
+                goto END;
+            }
+            fp2 = FP_FromInteger(0);
+            existChecker_2 = existChecker < FP_FromInteger(0);
+            i_start = -3;
+            i_end = 2;
+            goto END;
+        }
+        TextYPos = FP_FromInteger(0);
+        i_start = -2;
+        i_end = 2;
+        goto END;
+    } //end
+    LOG_INFO("NO_IF");
+    magicFp_1 = FP_FromDouble(4.5);
+    magicFp_2 = FP_FromInteger(-26);
+    selectedEntryGlobal = selectedEntryGlobal2;
+    TextYPos = magicFp_1 + magicFp_2;
+    fp2 = magicFp_1 - FP_FromDouble(0.2);
+    i_start = -2;
+    i_end = 3;
+    goto END;
+END:
+    for (int i = i_start; i <= i_end; i++)
+    {
+        int v9 = someWordPicker + i;
+        if (v9 >= 0 && v9 < totalCountGlobal)
+        {
+            field_234_pStr = aKeyboard_1[i].field_0_fileName;
+            int currEntryWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+
+            //Entry X alignment (of questionable quality) for long words
+            __int16 x = currEntryWidth >= 336 ? 16 : (368 - static_cast<__int16>(currEntryWidth)) / 2;
+            //sTextYPos_BB43F0 is entry height?
+            __int16 y = FP_GetExponent(TextYPos + FP_FromDouble(0.5)) + static_cast<__int16>(26 * i) + 112;
+
+            if (i)
+            {
+                //Draw non-highlighted entry
+                polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 210, 150, 80, polyOffset, FP_FromInteger(1), 640, 0);
+            }
+            else
+            {
+                //Draw highlighted entry
+                polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 255, 218, 140, polyOffset, FP_FromInteger(1), 640, 0);
+            }
+
+            //Draw shadow under entry
+            polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x + 2, y + 2, 0, 1, 0, 32, 0, 0, 0, polyOffset, FP_FromInteger(1), 640, 0);
+            someWordPicker = selectedEntryGlobal2;
+        }
+    }
+
+    //for (int i = 0; i < ALIVE_COUNTOF(sControllerMenuButtonCaptions_Text_562628); i++)
+    //{
+    //    MainMenuController::DrawMenuText_4D20D0(&sControllerMenuButtonCaptions_Text_562628[i], ot, &field_120_font, &polyOffset, 1);
+    //}
+}
+MainMenuText sLoadButtonGraphics[2] =
+{
+    { 32, 27, "x", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
+    { 331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u }
+};
+
+
+ALIVE_VAR(1, 0xBB43E8, int, sSelectedSavedGameIdx_BB43E8, 0);
+void MainMenuController::tLoadGame_Render_4D44D0(int** )//ot)
+{
+    NOT_IMPLEMENTED();
+    //int polyOffset = 0;
+    //RenderScrollableTextEntries(
+    //    ot, sSavedGameToLoadIdx_BB43FC, sSelectedSavedGameIdx_BB43E8, sTotalSaveFilesCount_BB43E0,
+    //    sTextYPos_BB43F0, global_5_FP_BB43E4, field_234_pStr, sSaveFileRecords_BB31D8, field_120_font, polyOffset
+    //);
+
+    //todo test
+    //if (sTotalSaveFilesCount_BB43E0 <= 0) // max save files count
+    //{
+    //    int v5 = 0;
+    //    auto v20 = field_120_font.DrawString_4337D0(
+    //        ot,
+    //        "No Saved Games",
+    //        120,
+    //        110,
+    //        0,
+    //        1,
+    //        0,
+    //        32,
+    //        255,
+    //        218,
+    //        140,
+    //        v5,
+    //        FP_FromInteger(1),
+    //        640,
+    //        0);
+
+    //    polyOffset = field_120_font.DrawString_4337D0(
+    //        ot,
+    //        "No Saved Games",
+    //        122,
+    //        112,
+    //        0,
+    //        1,
+    //        0,
+    //        32,
+    //        0,
+    //        0,
+    //        0,
+    //        v20,
+    //        FP_FromInteger(1),
+    //        640,
+    //        0);
+    //}
+
+    //for (auto& menuGraphic : sLoadButtonGraphics)
+    //{
+    //    DrawMenuText_4D20D0(&menuGraphic, ot, &field_120_font, &polyOffset, 1);
+    //}
+}
+
+
+
+void MainMenuController::t_Render_AbesMotions_Text_4D25E0(int ** ot)
+{
+    RenderOnScreenTextHelper(ot, &sAbeMotions_562448[0], ALIVE_COUNTOF(sAbeMotions_562448), 0);
+}
+
 signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
 {
     field_230_fmv_level_index = 0;
@@ -1059,13 +1354,13 @@ signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
     }
 }
 
-void MainMenuController::RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count)
+void MainMenuController::RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count, char isSingleChar)
 {
     int polyIndex = 0;
 
     for (int i = 0; i < count; i++)
     {
-        MainMenuController::DrawMenuText_4D20D0(&menuTextArray[i], ot, &field_120_font, &polyIndex, 1);
+        MainMenuController::DrawMenuText_4D20D0(&menuTextArray[i], ot, &field_120_font, &polyIndex, isSingleChar);
     }
 }
 
@@ -1086,17 +1381,17 @@ MainMenuText sMTxt_NewGame_562598[3] = {
 
 void MainMenuController::t_Render_All_Text_4D24F0(int ** ot)
 {
-    RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623B8, 2);
+    RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623B8, 2, 1);
 }
 
 void MainMenuController::t_Render_All_Text_4D2540(int ** ot)
 {
-    RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623E8, 2);
+    RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623E8, 2, 1);
 }
 
 void MainMenuController::tGame_BackStory_Or_NewGame_Render_4D2630(int ** ot)
 {
-    RenderOnScreenTextHelper(ot, sMTxt_NewGame_562598, 2);
+    RenderOnScreenTextHelper(ot, sMTxt_NewGame_562598, 2, 1);
 }
 
 signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
@@ -1192,7 +1487,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
 
 void MainMenuController::Page_Front_Render_4D24B0(int** ot)
 {
-    RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0));
+    RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0), 1);
 }
 
 ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
@@ -1462,9 +1757,6 @@ signed int MainMenuController::tsub_4D0E10(DWORD /*input*/)
     return 0;
 }
 
-ALIVE_VAR(1, 0xbb43f0, FP, sSaveGameTextYPos_BB43F0, {});
-ALIVE_VAR(1, 0xbb43e8, int, sSelectedSavedGameIdx_BB43E8, 0);
-
 EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
 {
     bool indexChanged = false;
@@ -1480,7 +1772,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     // Up a single save
     else if (input & eUp)
     {
-        if (sSelectedSavedGameIdx_BB43E8 > 0 && !sSaveGameTextYPos_BB43F0.fpValue)
+        if (sSelectedSavedGameIdx_BB43E8 > 0 && !sTextYPos_BB43F0.fpValue)
         {
             sSelectedSavedGameIdx_BB43E8--;
             indexChanged = true;
@@ -1489,7 +1781,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     // Down a single save
     else if (input & eDown)
     {
-        if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 1 && !sSaveGameTextYPos_BB43F0.fpValue)
+        if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 1 && !sTextYPos_BB43F0.fpValue)
         {
             sSelectedSavedGameIdx_BB43E8++;
             indexChanged = true;
@@ -1498,7 +1790,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     else if (input & 0x20000000)
     {
         // Page up underflow
-        if (sSelectedSavedGameIdx_BB43E8 >= 3 && !sSaveGameTextYPos_BB43F0.fpValue)
+        if (sSelectedSavedGameIdx_BB43E8 >= 3 && !sTextYPos_BB43F0.fpValue)
         {
             sSelectedSavedGameIdx_BB43E8 -= 3;
             indexChanged = true;
@@ -1512,7 +1804,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     else if (input & 0x40000000)
     {
         // Page down overflow
-        if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 3 && !sSaveGameTextYPos_BB43F0.fpValue)
+        if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 3 && !sTextYPos_BB43F0.fpValue)
         {
             sSelectedSavedGameIdx_BB43E8 += 3;
             indexChanged = true;
@@ -1562,307 +1854,6 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     else
     {
         return 0;
-    }
-}
-
-MainMenuText sLoadButtonGraphics[2] =
-{
-    {32, 27, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u},
-    { 331, 204, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u }
-};
-
-ALIVE_VAR(1, 0xbb43e4, FP, dword_BB43E4, {});
-
-void MainMenuController::tLoadGame_Render_4D44D0(int** pOt)
-{
-    NOT_IMPLEMENTED();
-
-    // TODO: Animated moving of menu text
-    // this code is crazy and probably easier to just re-do from scratch
-
-    /*
-    int maxSaveIdx; // esi
-    signed int start; // ebx
-    signed int recIdx; // ecx
-    __int16 textWidth; // ax
-    signed int textX; // ebp
-    int ypos; // ebx
-    int textY; // ebx
-    int v18; // eax
-    int **v19; // ebx
-    int v20; // eax
-    int end; // [esp+18h] [ebp-8h]
-    int i; // [esp+1Ch] [ebp-4h]
-
-    maxSaveIdx = sSelectedSavedGameIdx_BB43E8; // the selected index with the input
-    FP textRowsHeight = sSaveGameTextYPos_BB43F0;
-    
-    int polyIdx = 0;
-
-    if (sSelectedSavedGameIdx_BB43E8 != sSavedGameToLoadIdx_BB43FC && sSaveGameTextYPos_BB43F0 > FP_FromInteger(0))
-    {
-        maxSaveIdx = sSavedGameToLoadIdx_BB43FC;
-        sSelectedSavedGameIdx_BB43E8 = sSavedGameToLoadIdx_BB43FC;
-        goto LABEL_4;
-    }
-
-    if (sSelectedSavedGameIdx_BB43E8 > sSavedGameToLoadIdx_BB43FC)
-    {
-        textRowsHeight = FP_FromInteger(26);
-        dword_BB43E4 = FP_FromDouble(4.5);
-        sSavedGameToLoadIdx_BB43FC = sSelectedSavedGameIdx_BB43E8;
-        sSaveGameTextYPos_BB43F0 = textRowsHeight - FP_FromDouble(4.5);
-
-        if (sSaveGameTextYPos_BB43F0 > FP_FromInteger(0))
-        {
-            dword_BB43E4 = FP_FromDouble(4.5) - FP_FromDouble(0.2);
-            if (dword_BB43E4 > FP_FromInteger(0))
-            {
-                goto LABEL_18;
-            }
-            else
-            {
-                dword_BB43E4 = FP_FromInteger(0);
-                goto LABEL_18;
-            }
-        }
-        else
-        {
-            sSaveGameTextYPos_BB43F0 = FP_FromInteger(0);
-            start = -2;
-            end = 2;
-            goto render_text_rows;
-        }
-    }
-
-    if (sSelectedSavedGameIdx_BB43E8 >= sSavedGameToLoadIdx_BB43FC)
-    {
-    LABEL_4:
-        if (sSaveGameTextYPos_BB43F0 < FP_FromInteger(0))
-        {
-            goto LABEL_6;
-        }
-
-        if (sSaveGameTextYPos_BB43F0 <= FP_FromInteger(0))
-        {
-            if (sSaveGameTextYPos_BB43F0 < FP_FromInteger(0))
-            {
-                start = -2;
-                end = 3;
-                goto render_text_rows;
-            }
-            else
-            {
-                start = -2;
-                end = 2;
-                goto render_text_rows;
-            }
-        }
-
-        sSaveGameTextYPos_BB43F0 = textRowsHeight - dword_BB43E4;
-        if (sSaveGameTextYPos_BB43F0 > FP_FromInteger(0))
-        {
-            dword_BB43E4 = dword_BB43E4 - FP_FromDouble(0.2);
-            if (dword_BB43E4 > FP_FromInteger(0))
-            {
-                goto LABEL_18;
-            }
-            else
-            {
-                dword_BB43E4 = FP_FromInteger(0);
-                goto LABEL_18;
-            }
-        }
-        else
-        {
-            sSaveGameTextYPos_BB43F0 = FP_FromInteger(0);
-            start = -2;
-            end = 2;
-            goto render_text_rows;
-        }
-    }
-
-    textRowsHeight = FP_FromInteger(-26);
-    dword_BB43E4 = FP_FromDouble(4.5);
-    sSavedGameToLoadIdx_BB43FC = sSelectedSavedGameIdx_BB43E8;
-
-LABEL_6:
-    sSaveGameTextYPos_BB43F0 = FP_FromDouble(4.5) + textRowsHeight;
-
-    if (sSaveGameTextYPos_BB43F0 >= FP_FromInteger(0))
-    {
-        sSaveGameTextYPos_BB43F0 = FP_FromInteger(0);
-        start = -2;
-        end = 2;
-        goto render_text_rows;
-    }
-
-    dword_BB43E4 = FP_FromDouble(4.5) - FP_FromDouble(0.2);
-    if (dword_BB43E4 > FP_FromInteger(0))
-    {
-        goto LABEL_18;
-    }
-    else
-    {
-        dword_BB43E4 = FP_FromInteger(0);
-    }
-
-LABEL_18:
-
-    if (sSaveGameTextYPos_BB43F0 <= FP_FromInteger(0))
-    {
-        if (sSaveGameTextYPos_BB43F0 > FP_FromInteger(0))
-        {
-            start = -2;
-            end = 3;
-        }
-        else
-        {
-            start = -2;
-            end = 2;
-        }
-    }
-    else
-    {
-        start = -3;
-        end = 2;
-    }
-
-render_text_rows:
-    */
-    int start = -3;
-    int end = 2;
-    int i = 0;
-    int maxSaveIdx = 2;
-    int polyIdx = 0;
-
-    sSavedGameToLoadIdx_BB43FC = sSelectedSavedGameIdx_BB43E8;
-
-    for (i = start; start <= end; i = start)
-    {
-        int recIdx = maxSaveIdx + start;
-        if (maxSaveIdx + start >= 0 && recIdx < sTotalSaveFilesCount_BB43E0)
-        {
-            SaveFileRec* pSaveRec = &sSaveFileRecords_BB31D8[recIdx];
-            field_234_pStr = pSaveRec->field_0_fileName;
-
-            int textWidth = (short)field_120_font.MeasureWidth_4336C0(sSaveFileRecords_BB31D8[recIdx].field_0_fileName, FP_FromInteger(1));
-            int textX;
-            if (textWidth >= 336)
-            {
-                textX = 16;
-            }
-            else
-            {
-                textX = (368 - textWidth) / 2;
-            }
-            int ypos = (FP_GetExponent(sSaveGameTextYPos_BB43F0 + FP_FromDouble(0.5))) + (26 * start) + 120;
-            int textY = ypos + -7  / 1 - 1;
-            int v18;
-            if (i) // Draw as selected idx
-            {
-                v18 = field_120_font.DrawString_4337D0(
-                    pOt,
-                    this->field_234_pStr,
-                    (short)textX,
-                    (short)textY,
-                    0,
-                    1,
-                    0,
-                    32,
-                    210,
-                    150,
-                    80,
-                    polyIdx,
-                    FP_FromInteger(1),
-                    640,
-                    0);
-            }
-            else
-            {
-                v18 = field_120_font.DrawString_4337D0(
-                    pOt,
-                    this->field_234_pStr,
-                    (short)textX,
-                    (short)textY,
-                    0,
-                    1,
-                    0,
-                    32,
-                    255,
-                    218,
-                    140,
-                    polyIdx,
-                    FP_FromInteger(1),
-                    640,
-                    0);
-            }
-            
-            v18 = field_120_font.DrawString_4337D0(
-                pOt,
-                this->field_234_pStr,
-                (short)(textX + 2),
-                (short)(textY + 2),
-                0,
-                1,
-                0,
-                32,
-                0,
-                0,
-                0,
-                v18,
-                FP_FromInteger(1),
-                640,
-                0);
-                
-            maxSaveIdx = sSelectedSavedGameIdx_BB43E8;
-            start = i;
-            polyIdx = v18;
-        }
-        ++start;
-    }
-
-    if (sTotalSaveFilesCount_BB43E0 <= 0) // max save files count
-    {
-        int v5 = 0;
-        auto v20 = field_120_font.DrawString_4337D0(
-            pOt,
-            "No Saved Games",
-            120,
-            110,
-            0,
-            1,
-            0,
-            32,
-            255,
-            218,
-            140,
-            v5,
-            FP_FromInteger(1),
-            640,
-            0);
-
-        polyIdx = field_120_font.DrawString_4337D0(
-            pOt,
-            "No Saved Games",
-            122,
-            112,
-            0,
-            1,
-            0,
-            32,
-            0,
-            0,
-            0,
-            v20,
-            FP_FromInteger(1),
-            640,
-            0);
-    }
-
-    for (auto& menuGraphic : sLoadButtonGraphics)
-    {
-        DrawMenuText_4D20D0(&menuGraphic, pOt, &field_120_font, &polyIdx, 1);
     }
 }
 
