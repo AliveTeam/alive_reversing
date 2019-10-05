@@ -1142,7 +1142,7 @@ EXPORT int CC PSX_ClearImage_4F5BD0(const PSX_RECT* pRect, unsigned __int8 r, un
 
     const int pitch_words = sPsxVram_C1D160.field_10_locked_pitch / sizeof(WORD);
 
-    WORD* pVram = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + sizeof(WORD) * (rect_x1 + (rect_y1 * pitch_words));
+    WORD* pVram = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + (rect_x1 + (rect_y1 * pitch_words));
 
     const int rect_h = rect_bottom - rect_y1 + 1;
     const int rect_w = rect_right - rect_x1 + 1;
@@ -3134,7 +3134,7 @@ EXPORT void CC PSX_84_4F7B80(int xpos, int ypos, int width, int height, WORD* pD
     const WORD pixel_mask = ~((1 << sRedShift_C215C4) | (1 << sGreenShift_C1D180) | (1 << sBlueShift_C19140) | (1 << sSemiTransShift_C215C0));
     const int pitchWords = spBitmap_C2D038->field_10_locked_pitch / sizeof(WORD);
 
-    WORD* pDst = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + sizeof(WORD) * (xpos + (ypos * (pitchWords)));
+    WORD* pDst = reinterpret_cast<WORD*>(sPsxVram_C1D160.field_4_pLockedPixels) + (xpos + (ypos * (pitchWords)));
 
     const int clipx_exp = sPsx_drawenv_clipx_BDCD40 / 16;
     const int clipw_exp = sPsx_drawenv_clipw_BDCD48 / 16;
