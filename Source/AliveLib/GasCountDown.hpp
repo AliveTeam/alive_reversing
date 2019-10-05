@@ -35,6 +35,8 @@ private:
 
     EXPORT void vUpdate_4172E0();
 
+    void DealDamage();
+
 private:
     Font_Context field_20_font_context;
     Alive::Font field_30_font;
