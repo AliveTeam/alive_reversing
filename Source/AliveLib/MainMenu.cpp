@@ -1091,14 +1091,9 @@ void RenderScrollableTextEntries(
     FP& TextYPos, FP& fp2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
 )
 {
-    FP existChecker; // eax
-    FP magicFp_1; // edx
-    FP magicFp_3; // edx
-    bool existChecker_2; // sf
-    signed int i_start; // edi
+    signed int i_start;
+    int i_end;
 
-    int i_end; // [esp+14h] [ebp-8h]
-    FP magicFp_2 = TextYPos;
     int someWordPicker = selectedEntry;
 
     if (selectedEntry != entryToSelect && TextYPos > FP_FromInteger(0))
@@ -1107,19 +1102,16 @@ void RenderScrollableTextEntries(
         selectedEntry = entryToSelect;
         if (TextYPos < FP_FromInteger(0))
         {
-            magicFp_1 = fp2;
-
-            existChecker = magicFp_1 + magicFp_2;
-            TextYPos = existChecker;
-            if (existChecker >= FP_FromInteger(0))
+            TextYPos += fp2;
+            if (TextYPos >= FP_FromInteger(0))
             {
                 TextYPos = FP_FromInteger(0);
                 i_start = -2;
                 i_end = 2;
                 goto END;
             }
-            fp2 = magicFp_1 - FP_FromDouble(0.2);
-            if (magicFp_1 - FP_FromDouble(0.2) > FP_FromInteger(0))
+            fp2 -= FP_FromDouble(0.2);
+            if (fp2 - FP_FromDouble(0.2) > FP_FromInteger(0))
             {
                 i_start = -2;
                 i_end = 3;
@@ -1133,7 +1125,6 @@ void RenderScrollableTextEntries(
         }
         if (TextYPos == FP_FromInteger(0))
         {
-            existChecker_2 = 0;
             i_start = -2;
             i_end = 2;
             goto END;
@@ -1141,12 +1132,9 @@ void RenderScrollableTextEntries(
     }
     if (selectedEntry > entryToSelect)
     {
-        magicFp_3 = FP_FromDouble(4.5);
-        magicFp_2 = FP_FromInteger(26);
-        fp2 = FP_FromDouble(4.5);
         entryToSelect = selectedEntry;
-        TextYPos = magicFp_2 - magicFp_3;
-        fp2 = magicFp_3 - FP_FromDouble(0.2);
+        TextYPos = FP_FromInteger(26) - FP_FromDouble(4.5);
+        fp2 = FP_FromDouble(4.5) - FP_FromDouble(0.2);
         i_start = -3;
         i_end = 2;
         goto END;
@@ -1155,20 +1143,16 @@ void RenderScrollableTextEntries(
     {
         if (TextYPos < FP_FromInteger(0))
         {
-            magicFp_1 = fp2;
-
-
-            existChecker = magicFp_1 + magicFp_2;
-            TextYPos = existChecker;
-            if (existChecker >= FP_FromInteger(0))
+            TextYPos += fp2;
+            if (TextYPos >= FP_FromInteger(0))
             {
                 TextYPos = FP_FromInteger(0);
                 i_start = -2;
                 i_end = 2;
                 goto END;
             }
-            fp2 = magicFp_1 - FP_FromDouble(0.2);
-            if (magicFp_1 - FP_FromDouble(0.2) > FP_FromInteger(0))
+            fp2 -= FP_FromDouble(0.2);
+            if (fp2 > FP_FromInteger(0))
             {
                 i_start = -2;
                 i_end = 3;
@@ -1178,31 +1162,24 @@ void RenderScrollableTextEntries(
             i_start = -2;
             i_end = 3;
             goto END;
-
-
         }
         if (TextYPos == FP_FromInteger(0))
         {
-            existChecker_2 = 0;
             i_start = -2;
             i_end = 2;
             goto END;
         }
-        magicFp_3 = fp2;
-        existChecker = magicFp_2 - magicFp_3;
-        TextYPos = existChecker;
-        if (existChecker > FP_FromInteger(0))
+        TextYPos -= fp2;
+        if (TextYPos > FP_FromInteger(0))
         {
-            fp2 = magicFp_3 - FP_FromDouble(0.2);
-            if (magicFp_3 - FP_FromDouble(0.2) > FP_FromInteger(0))
+            fp2 -= FP_FromDouble(0.2);
+            if (fp2 > FP_FromInteger(0))
             {
-                existChecker_2 = existChecker < FP_FromInteger(0);
                 i_start = -3;
                 i_end = 2;
                 goto END;
             }
             fp2 = FP_FromInteger(0);
-            existChecker_2 = existChecker < FP_FromInteger(0);
             i_start = -3;
             i_end = 2;
             goto END;
@@ -1212,32 +1189,14 @@ void RenderScrollableTextEntries(
         i_end = 2;
         goto END;
     }
-    magicFp_1 = FP_FromDouble(4.5);
-    magicFp_2 = FP_FromInteger(-26);
     fp2 = FP_FromDouble(4.5);
     entryToSelect = selectedEntry;
-    existChecker = magicFp_1 + magicFp_2;
-    TextYPos = existChecker;
-    if (existChecker >= FP_FromInteger(0))
-    {
-        TextYPos = FP_FromInteger(0);
-        i_start = -2;
-        i_end = 2;
-        goto END;
-    }
-    fp2 = magicFp_1 - FP_FromDouble(0.2);
-    if (magicFp_1 - FP_FromDouble(0.2) > FP_FromInteger(0))
-    {
-        i_start = -2;
-        i_end = 3;
-        goto END;
-    }
-    fp2 = FP_FromInteger(0);
+    TextYPos = FP_FromDouble(4.5) + FP_FromInteger(-26);
+    fp2 = FP_FromDouble(4.5) - FP_FromDouble(0.2);
     i_start = -2;
     i_end = 3;
     goto END;
 END:
-
 
     for (int i = i_start; i <= i_end; i++)
     {
@@ -1255,17 +1214,12 @@ END:
             {
                 //Draw non-highlighted entry
                 polyOffset = DrawMenuStringWithShadow(ot, field_120_font, field_234_pStr, x, y, 210, 150, 80, polyOffset);
-                //polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 210, 150, 80, polyOffset, FP_FromInteger(1), 640, 0);
             }
             else
             {
                 //Draw highlighted entry
                 polyOffset = DrawMenuStringWithShadow(ot, field_120_font, field_234_pStr, x, y, 255, 218, 140, polyOffset);
-                //polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x, y, 0, 1, 0, 32, 255, 218, 140, polyOffset, FP_FromInteger(1), 640, 0);
             }
-
-            //Draw shadow under entry
-            //polyOffset = field_120_font.DrawString_4337D0(ot, field_234_pStr, x + 2, y + 2, 0, 1, 0, 32, 0, 0, 0, polyOffset, FP_FromInteger(1), 640, 0);
             someWordPicker = selectedEntry;
         }
     }
