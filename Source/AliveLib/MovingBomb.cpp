@@ -135,6 +135,11 @@ __int16 MovingBomb::VTakeDamage_408730(BaseGameObject* pFrom)
     return vTakeDamage_470990(pFrom);
 }
 
+void MovingBomb::VScreenChanged()
+{
+    vScreenChanged_470B90();
+}
+
 MovingBomb* MovingBomb::vdtor_470040(signed int flags)
 {
     dtor_4700C0();
