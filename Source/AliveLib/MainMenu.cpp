@@ -1192,7 +1192,7 @@ void RenderScrollableTextEntries(
     fp2 = FP_FromDouble(4.5);
     entryToSelect = selectedEntry;
     TextYPos = FP_FromDouble(4.5) + FP_FromInteger(-26);
-    fp2 = FP_FromDouble(4.5) - FP_FromDouble(0.2);
+    fp2 -= FP_FromDouble(0.2);
     i_start = -2;
     i_end = 3;
     goto END;
