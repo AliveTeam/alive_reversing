@@ -205,6 +205,7 @@ public:
 
     EXPORT signed int tsub_LoadSave_Input_4D1040(DWORD input);
     EXPORT signed int tsub_4D0E10(DWORD input);
+    EXPORT int OptionsMenuBtnListener_4D1AB0(DWORD input);
     
     
     EXPORT signed int tLoadGame_Input_4D3EF0(DWORD input);

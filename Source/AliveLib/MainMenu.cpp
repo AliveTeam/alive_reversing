@@ -192,7 +192,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     { // Options Page
         3,        0,        900,        1,        0,        3,        1,
-        nullptr, //&MainMenuController::tsub_DemoMenu_4D1AB0,
+        &MainMenuController::OptionsMenuBtnListener_4D1AB0,
         &MainMenuController::t_Render_All_Text_4D2540,
         sBtnArray_Options_561368,
         NULL,
@@ -1087,120 +1087,85 @@ ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {});
 ALIVE_VAR(1, 0xBB43E4, FP, dword_BB43E4, {});
 
 void RenderScrollableTextEntries(
-    int** ot, int& entryToSelect, int& selectedEntry, int totalItemsCount,
-    FP& TextYPos, FP& fp2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
+    int** ot, int& targetEntry, int& selectedEntry, int totalItemsCount,
+    FP& TextYPos, FP& TextYPos2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
 )
 {
-    signed int i_start;
-    int i_end;
+    int i_start = 0;
+    int i_end = 0;
+    int entryPicker = selectedEntry;
 
-    int someWordPicker = selectedEntry;
-
-    if (selectedEntry != entryToSelect && TextYPos > FP_FromInteger(0))
+    if (selectedEntry != targetEntry && TextYPos > FP_FromInteger(0))
     {
-        someWordPicker = entryToSelect;
-        selectedEntry = entryToSelect;
-        if (TextYPos < FP_FromInteger(0))
+        entryPicker = targetEntry;
+        selectedEntry = targetEntry;
+    }
+
+    if (selectedEntry == targetEntry)
+    {
+        if (TextYPos == FP_FromInteger(0))
         {
-            TextYPos += fp2;
+            i_start = -2;
+            i_end = 2;
+        }
+        else if (TextYPos < FP_FromInteger(0))
+        {
+            TextYPos += TextYPos2;
             if (TextYPos >= FP_FromInteger(0))
             {
                 TextYPos = FP_FromInteger(0);
                 i_start = -2;
                 i_end = 2;
-                goto END;
             }
-            fp2 -= FP_FromDouble(0.2);
-            if (fp2 > FP_FromInteger(0))
+            else
             {
+                TextYPos2 -= FP_FromDouble(0.2);
+                if (TextYPos2 <= FP_FromInteger(0))
+                {
+                    TextYPos2 = FP_FromInteger(0);
+                }
                 i_start = -2;
                 i_end = 3;
-                goto END;
             }
-            fp2 = FP_FromInteger(0);
-            i_start = -2;
-            i_end = 3;
-            goto END;
-
         }
-        if (TextYPos == FP_FromInteger(0))
+        else if (TextYPos - TextYPos2 > FP_FromInteger(0))
         {
-            i_start = -2;
-            i_end = 2;
-            goto END;
-        }
-    }
-    if (selectedEntry > entryToSelect)
-    {
-        entryToSelect = selectedEntry;
-        TextYPos = FP_FromInteger(26) - FP_FromDouble(4.5);
-        fp2 = FP_FromDouble(4.5) - FP_FromDouble(0.2);
-        i_start = -3;
-        i_end = 2;
-        goto END;
-    }
-    if (selectedEntry == entryToSelect)
-    {
-        if (TextYPos < FP_FromInteger(0))
-        {
-            TextYPos += fp2;
-            if (TextYPos >= FP_FromInteger(0))
+            TextYPos -= TextYPos2;
+            TextYPos2 -= FP_FromDouble(0.2);
+            if (TextYPos2 <= FP_FromInteger(0))
             {
-                TextYPos = FP_FromInteger(0);
-                i_start = -2;
-                i_end = 2;
-                goto END;
+                TextYPos2 = FP_FromInteger(0);
             }
-            fp2 -= FP_FromDouble(0.2);
-            if (fp2 > FP_FromInteger(0))
-            {
-                i_start = -2;
-                i_end = 3;
-                goto END;
-            }
-            fp2 = FP_FromInteger(0);
-            i_start = -2;
-            i_end = 3;
-            goto END;
-        }
-        if (TextYPos == FP_FromInteger(0))
-        {
-            i_start = -2;
-            i_end = 2;
-            goto END;
-        }
-        TextYPos -= fp2;
-        if (TextYPos > FP_FromInteger(0))
-        {
-            fp2 -= FP_FromDouble(0.2);
-            if (fp2 > FP_FromInteger(0))
-            {
-                i_start = -3;
-                i_end = 2;
-                goto END;
-            }
-            fp2 = FP_FromInteger(0);
             i_start = -3;
             i_end = 2;
-            goto END;
         }
-        TextYPos = FP_FromInteger(0);
-        i_start = -2;
-        i_end = 2;
-        goto END;
+        else
+        {
+            TextYPos = FP_FromInteger(0);
+            i_start = -2;
+            i_end = 2;
+        }
     }
-    fp2 = FP_FromDouble(4.5);
-    entryToSelect = selectedEntry;
-    TextYPos = FP_FromDouble(4.5) + FP_FromInteger(-26);
-    fp2 -= FP_FromDouble(0.2);
-    i_start = -2;
-    i_end = 3;
-    goto END;
-END:
+    else if (selectedEntry > targetEntry)
+    {
+        targetEntry = selectedEntry;
+        TextYPos = FP_FromInteger(26) - FP_FromDouble(4.5);
+        TextYPos2 = FP_FromDouble(4.5) - FP_FromDouble(0.2);
+        i_start = -3;
+        i_end = 2;
+    }
+    else if (selectedEntry < targetEntry)
+    {
+        targetEntry = selectedEntry;
+        TextYPos = FP_FromDouble(4.5) - FP_FromInteger(26);
+        TextYPos2 = FP_FromDouble(4.5) - FP_FromDouble(0.2);
+        i_start = -2;
+        i_end = 3;
+    }
 
     for (int i = i_start; i <= i_end; i++)
     {
-        int v9 = someWordPicker + i;
+        int v9 = entryPicker + i;
         if (v9 >= 0 && v9 < totalItemsCount)
         {
             field_234_pStr = stringList[v9].field_0_fileName;
@@ -1220,7 +1185,7 @@ END:
                 //Draw highlighted entry
                 polyOffset = DrawMenuStringWithShadow(ot, field_120_font, field_234_pStr, x, y, 255, 218, 140, polyOffset);
             }
-            someWordPicker = selectedEntry;
+            entryPicker = selectedEntry;
         }
     }
 }
@@ -1836,6 +1801,57 @@ void MainMenuController::tLoadGame_Load_4D42F0()
 EXPORT void sub_4A2D40()
 {
     NOT_IMPLEMENTED();
+}
+
+ALIVE_VAR(1, 0x561538, DWORD, word_561538, 0);
+
+int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
+{
+    if (!(input & 0x100000))
+    {
+        if (input & 0x200000)
+        {
+            Set_Anim_4D05E0(4, 0);
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    Set_Anim_4D05E0(4, 0);
+
+    switch (field_1FC_button_index)
+    {
+        case 0:
+        {
+            return 23;
+        }
+        case 1:
+        {
+            field_250 = 0;
+            field_254 = 0;
+            field_258 = 0;
+            pDemosOrFmvs_BB4414 = (MenuFMV *) sDemos_5617F0;
+            word_561538 = 23;
+            field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
+            Load_Anim_Pal_4D06A0(&field_20_animation);
+            field_230_fmv_level_index = 0;
+            return -65506;
+        }
+        default:
+        {
+            if (input & 0x200000)
+            {
+                Set_Anim_4D05E0(4, 0);
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
 }
 
 void MainMenuController::tLoadGame_Unload_4D4360()
