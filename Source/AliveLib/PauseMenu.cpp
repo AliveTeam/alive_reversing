@@ -262,22 +262,6 @@ PauseMenu::PauseMenuPage sPM_Page_Controls_Actions_546610 =
     0u
 };
 
-/*
-PauseMenu::PauseMenuPage sPM_Page_Save =
-{
-    &PauseMenu::Page_Save_Update_491210,
-    &PauseMenu::tsub_491660,
-    PauseMenu__PageEntryList_Save_55E4C8,
-    0,
-    160u,
-    160u,
-    160u,
-    0u,
-    0u,
-    0u
-};
-*/
-
 PauseMenu::PauseMenuPage sPM_Page_ReallyQuit_5465E0 =
 {
     &PauseMenu::Page_ReallyQuit_Update_490930,
@@ -306,13 +290,66 @@ PauseMenu::PauseMenuPage sPM_Page_Load_546628 =
     0u
 };
 
+PauseMenuPageEntry PauseMenu__PageEntryList_Save_55E4C8[6] =
+{
+    { 1, 184, 120, 0, sSaveString_5C931C, 128u, 16u, 255u, 1u },
+    { 1, 184, 180, 0, "Enter   Save", 128u, 16u, 255u, 1u },
+    { 1, 184, 205, 0, "Esc   Cancel", 128u, 16u, 255u, 1u },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u },
+    { 1, 184, 180, 0, "Enter Overwrite  Esc Cancel", 160u, 160u, 160u, 1u },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
 
-// TODO: SET VALUES
-ALIVE_VAR(1, 0x5465F8, PauseMenu::PauseMenuPage, sPM_Page_Status_5465F8, {});
-ALIVE_VAR(1, 0x5465C8, PauseMenu::PauseMenuPage, sPM_Page_Save_5465C8, { });
+PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 =
+{
+    &PauseMenu::Page_Save_Update_491210,
+    &PauseMenu::Page_Save_Render_491660,
+    &PauseMenu__PageEntryList_Save_55E4C8[0],
+    0,
+    static_cast<char>(160u),
+    static_cast<char>(160u),
+    static_cast<char>(160u),
+    0,
+    0,
+    0
+};
 
-// TODO: Populate
-ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40, {});
+ALIVE_ARY(1, 0x55e718, char, 32, sPauseMenu_Of300Mudokons_55E718, {});
+ALIVE_ARY(1, 0x55e738, char, 56, sHasBeenTerminated_55E738, {});
+
+PauseMenuPageEntry sStatusEntries_55E758[6] =
+{
+    { 2, 184, 205, 0, "EXIT", 128u, 16u, 255u, 1u },
+    { 1, 184, 20, 0, "ABE'S STATUS", 127u, 127u, 127u, 1u },
+    { 1, 184, 145, 0, sPauseMenu_Of300Mudokons_55E718, 128u, 16u, 255u, 1u },
+    { 1, 184, 170, 0, sHasBeenTerminated_55E738, 128u, 16u, 255u, 1u },
+    { 1, 184, 120, 0, "YOU HAVE RESCUED", 128u, 16u, 255u, 1u },
+    { 0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenu::PauseMenuPage sPM_Page_Status_5465F8 =
+{
+    &PauseMenu::Page_Status_Update_4916A0,
+    &PauseMenu::Page_Status_Render_491710,
+    &sStatusEntries_55E758[0],
+    0,
+    100u,
+    100u,
+    100u,
+    0u,
+    0u,
+    0u
+};
+
+ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40, 
+{
+    PauseMenu__PageEntryList_ControlActions_55d820,
+    PauseMenu__PageEntryList_GameSpeak_55d930,
+    PauseMenu__PageEntryList_SligSpeak_55da80,
+    PauseMenu__PageEntryList_GlukkonSpeak_55dbb0,
+    PauseMenu__PageEntryList_ParamiteSpeak_55dce0,
+    PauseMenu__PageEntryList_ScrabSpeak_55ddd0
+});
 
 struct DumpEntry
 {
@@ -1131,6 +1168,26 @@ EXPORT void PauseMenu::Page_ReallyQuit_Update_490930()
     }
 }
 
+void PauseMenu::Page_Save_Update_491210()
+{
+    NOT_IMPLEMENTED();
+}
+
+void PauseMenu::Page_Save_Render_491660(int** /*ot*/, PauseMenuPage* /*pPage*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void PauseMenu::Page_Status_Update_4916A0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void PauseMenu::Page_Status_Render_491710(int** /*ot*/, PauseMenuPage* /*pPage*/)
+{
+    NOT_IMPLEMENTED();
+}
+
 void PauseMenu::Page_Load_Update_490D50()
 {
     CHAR saveFileName[40] = {};
@@ -1276,8 +1333,6 @@ EXPORT WORD CC sub_4A2B70()
     NOT_IMPLEMENTED();
     return 1;
 }
-ALIVE_ARY(1, 0x55e718, char, 32, sPauseMenu_Of300Mudokons_55E718, {});
-ALIVE_ARY(1, 0x55e738, char, 56, sHasBeenTerminated_55E738, {});
 
 void PauseMenu::Update_48FD80()
 {
