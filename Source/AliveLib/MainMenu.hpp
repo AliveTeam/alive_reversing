@@ -181,11 +181,14 @@ public:
 
     EXPORT signed int t_Input_Gamespeak_4D1FC0(DWORD input_held);
 
-    void RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count);
+    void RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count, char isSingleChar);
 
+    EXPORT void t_Render_AbesMotions_Text_4D25E0(int **ot);
     EXPORT void t_Render_All_Text_4D24F0(int** ot);
     EXPORT void t_Render_All_Text_4D2540(int** ot);
     EXPORT void tGame_BackStory_Or_NewGame_Render_4D2630(int** ot);
+
+    EXPORT void t_Render_ControlerMenu_Text_4D26C0(int **pOt);
 
     void Unload_AbeSpeakResources();
     void Load_AbeSpeakResources();
@@ -202,6 +205,7 @@ public:
 
     EXPORT signed int tsub_LoadSave_Input_4D1040(DWORD input);
     EXPORT signed int tsub_4D0E10(DWORD input);
+    EXPORT int OptionsMenuBtnListener_4D1AB0(DWORD input);
     
     
     EXPORT signed int tLoadGame_Input_4D3EF0(DWORD input);
