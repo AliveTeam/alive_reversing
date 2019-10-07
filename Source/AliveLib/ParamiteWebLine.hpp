@@ -48,7 +48,7 @@ private:
     __int16 field_FA_bottom;
     AnimationUnknown* field_FC;
     int field_100;
-    __int16 field_104;
+    __int16 field_104_wobble_idx;
     __int16 field_106_wobble_pos;
     Animation field_108_anim_flare;
     __int16 field_1A0;
