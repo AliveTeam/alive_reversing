@@ -1042,7 +1042,7 @@ void MainMenuController::t_Load_Paramite_Speak_4D3B70()
     Set_Anim_4D05E0(AnimIds::eParamite_Idle);
 }
 
-int DrawMenuStringWithShadow(int** ot, Alive::Font& field_120_font, const char* text, __int16 x, __int16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
+static int DrawMenuStringWithShadow(int** ot, Alive::Font& field_120_font, const char* text, __int16 x, __int16 y, BYTE r, BYTE g, BYTE b, int& polyOffset)
 {
     int polyOff = polyOffset;
     polyOff = field_120_font.DrawString_4337D0(
@@ -1086,7 +1086,7 @@ int DrawMenuStringWithShadow(int** ot, Alive::Font& field_120_font, const char* 
 ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {});
 ALIVE_VAR(1, 0xBB43E4, FP, dword_BB43E4, {});
 
-void RenderScrollableTextEntries(
+static void RenderScrollableTextEntries(
     int** ot, int& targetEntry, int& selectedEntry, int totalItemsCount,
     FP& TextYPos, FP& TextYPos2, const char* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, int& polyOffset
 )
