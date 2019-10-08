@@ -1180,12 +1180,23 @@ void PauseMenu::Page_Save_Render_491660(int** /*ot*/, PauseMenuPage* /*pPage*/)
 
 void PauseMenu::Page_Status_Update_4916A0()
 {
-    NOT_IMPLEMENTED();
+    if (sInputObject_5BD4E0.isHeld(0x300000))
+    {
+        // Go back to the main page
+        field_136 = 0;
+        field_144_active_menu = sPM_Page_Main_5465B0;
+        SFX_Play_46FBA0(17u, 40, 2400);
+    }
 }
 
-void PauseMenu::Page_Status_Render_491710(int** /*ot*/, PauseMenuPage* /*pPage*/)
+void PauseMenu::Page_Status_Render_491710(int** ot, PauseMenuPage* pPage)
 {
-    NOT_IMPLEMENTED();
+    // Render the status icon
+    field_158_animation.field_C_render_layer = 41;
+    field_158_animation.vRender_40B820(180, 100, ot, 0, 0);
+
+    // Render the text
+    Page_Base_Render_490A50(ot, pPage);
 }
 
 void PauseMenu::Page_Load_Update_490D50()
