@@ -132,7 +132,15 @@ public:
     __int16 field_136;
     __int16 field_138;
     __int16 field_13A;
-    __int16 field_13C;
+
+    enum class SaveState : __int16
+    {
+        ReadingInput_0 = 0,
+        DoSave_4 = 4,
+        SaveConfirmOverwrite_8 = 8,
+    };
+    SaveState field_13C_save_state;
+
     __int16 field_13E;
     __int16 field_140;
     __int16 field_142;

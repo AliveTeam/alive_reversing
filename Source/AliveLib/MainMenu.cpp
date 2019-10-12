@@ -1257,7 +1257,7 @@ signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
         return 1;
     }
 
-    if (!(input_held & InputCommands::eUnPause))
+    if (!(input_held & InputCommands::eUnPause_OrConfirm))
     {
         return 0;
     }
@@ -1332,7 +1332,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
     {
         first = false;
         // Force enter pressed
-        input |= eUnPause;
+        input |= InputCommands::eUnPause_OrConfirm;
         // Force load game selected
         field_1FC_button_index = 2;
     }
@@ -1354,7 +1354,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
     }
 
     // Enter pressed on selected menu item?
-    if (input & eUnPause)
+    if (input & InputCommands::eUnPause_OrConfirm)
     {
         if (field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak])
         {
@@ -1631,7 +1631,7 @@ EXPORT signed int MainMenuController::tGame_BackStory_Or_NewGame_Input_4D1C60(DW
             return 0xFFFF000D;
         }
     }
-    else if (input_held & 0x200000) // Escape/back
+    else if (input_held & InputCommands::eBack) // Escape/back
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
@@ -1692,7 +1692,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
     bool indexChanged = false;
 
     // Escape ?
-    if (input & 0x200000)
+    if (input & InputCommands::eBack)
     {
         // Go back to start page
         field_23C_T80.Clear(Flags::eBit21);
@@ -1700,7 +1700,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         return 0x20001;
     }
     // Up a single save
-    else if (input & eUp)
+    else if (input & InputCommands::eUp)
     {
         if (sSelectedSavedGameIdx_BB43E8 > 0 && !sTextYPos_BB43F0.fpValue)
         {
@@ -1709,7 +1709,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         }
     }
     // Down a single save
-    else if (input & eDown)
+    else if (input & InputCommands::eDown)
     {
         if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 1 && !sTextYPos_BB43F0.fpValue)
         {
@@ -1751,7 +1751,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
         SFX_Play_46FBA0(0x34u, 35, 400);
     }
 
-    if (input & eUnPause)
+    if (input & InputCommands::eUnPause_OrConfirm)
     {
         // No save to load, go back
         if (sTotalSaveFilesCount_BB43E0 == 0)
@@ -1809,7 +1809,7 @@ int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
 {
     if (!(input & 0x100000))
     {
-        if (input & 0x200000)
+        if (input & InputCommands::eBack)
         {
             Set_Anim_4D05E0(4, 0);
             return 1;
@@ -1841,7 +1841,7 @@ int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
         }
         default:
         {
-            if (input & 0x200000)
+            if (input & InputCommands::eBack)
             {
                 Set_Anim_4D05E0(4, 0);
                 return 1;
@@ -1973,7 +1973,7 @@ signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::funct
 
 void MainMenuController::HandleCreditsControllerUpdate()
 {
-    if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed & 0x200000)
+    if (sInputObject_5BD4E0.isPressed(InputCommands::eBack))
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
         gMap_5C3030.SetActiveCam_480D30(LevelIds::eMenu_0, 1, 6, CameraSwapEffects::eEffect0_InstantChange, 0, 0);

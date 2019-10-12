@@ -80,47 +80,47 @@ void DDCheat::Menu_Teleport_415E20()
 
     field_20 += 6;
 
-    if (field_38_input_pressed & eGameSpeak1)
+    if (field_38_input_pressed & InputCommands::eGameSpeak1)
     {
         if (sTeleport_Level_550F5C)
             --sTeleport_Level_550F5C;
     }
-    else if (field_38_input_pressed & eGameSpeak2)
+    else if (field_38_input_pressed & InputCommands::eGameSpeak2)
     {
         if (sTeleport_Level_550F5C < static_cast<int>(LevelIds::eCredits_16))
         {
             ++sTeleport_Level_550F5C;
         }
     }
-    else if (field_38_input_pressed & eUp)
+    else if (field_38_input_pressed & InputCommands::eUp)
     {
         ++sTeleport_Path_550F5E;
     }
-    else if (field_38_input_pressed & eDown)
+    else if (field_38_input_pressed & InputCommands::eDown)
     {
         if (sTeleport_Path_550F5E > 1)
         {
             --sTeleport_Path_550F5E;
         }
     }
-    else if (field_38_input_pressed & eLeft)
+    else if (field_38_input_pressed & InputCommands::eLeft)
     {
         if (sTeleport_Cam_550F60 > 1)
         {
             --sTeleport_Cam_550F60;
         }
     }
-    else if (field_38_input_pressed & eRight)
+    else if (field_38_input_pressed & InputCommands::eRight)
     {
         ++sTeleport_Cam_550F60;
     }
-    else if (field_38_input_pressed & eSneak)
+    else if (field_38_input_pressed & InputCommands::eSneak)
     {
         sTeleport_Level_550F5C = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
         sTeleport_Path_550F5E = gMap_5C3030.sCurrentPathId_5C3032;
         sTeleport_Cam_550F60 = gMap_5C3030.sCurrentCamId_5C3034;
     }
-    else if (field_38_input_pressed & eUnPause)
+    else if (field_38_input_pressed & InputCommands::eUnPause_OrConfirm)
     {
         sDDCheat_FlyingEnabled_5C2C08 = true;
         
@@ -257,7 +257,7 @@ void DDCheat::Update_415780()
             }
         }
 
-        if ((gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & eCheatMode)
+        if ((gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommands::eCheatMode)
         {
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
@@ -341,18 +341,18 @@ void DDCheat::Update_415780()
 
             if (sDDCheat_FlyingEnabled_5C2C08)
             {
-                if (activePadPressed & eDoAction)
+                if (activePadPressed & InputCommands::eDoAction)
                 {
                     sDDCheat_ShowAI_Info_5C1BD8 = !sDDCheat_ShowAI_Info_5C1BD8;
                 }
 
-                if ((activePadPressed & eThrowItem) != 0)
+                if ((activePadPressed & InputCommands::eThrowItem) != 0)
                 {
                     sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
                     sDDCheat_Unused1_AB4A00 = sDDCheat_Unused2_AB49FC;
                 }
 
-                if (activePadPressed & eHop)
+                if (activePadPressed & InputCommands::eHop)
                 {
                     sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
                 }
@@ -387,36 +387,36 @@ void DDCheat::Update_415780()
             sDDCheat_DebugInputDelay_550FA8 = 10;
         }
 
-        if (field_38_input_pressed & ePause)
+        if (field_38_input_pressed & InputCommands::ePause)
         {
             field_3C_flags ^= ((unsigned __int8)field_3C_flags ^ (unsigned __int8)~(unsigned __int8)field_3C_flags) & 1;
         }
 
         if (field_3C_flags & 1)
         {
-            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & eCheatMode)
+            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommands::eCheatMode)
             {
                 field_24_fn_idx = 0;
             }
-            else if (field_38_input_pressed & eCheatMode)
+            else if (field_38_input_pressed & InputCommands::eCheatMode)
             {
                 field_3C_flags = field_3C_flags ^ ((unsigned __int8)field_3C_flags ^ (unsigned __int8)~(BYTE)field_3C_flags) & 2;
                 field_26_next_fn_idx = field_24_fn_idx;
             }
 
             // Using hop instead looks like the only way to actually change the menu properly
-            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & eHop /*field_3C_flags & 2*/)
+            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommands::eHop /*field_3C_flags & 2*/)
             {
-                if (field_38_input_pressed & eDown)
+                if (field_38_input_pressed & InputCommands::eDown)
                 {
                     field_26_next_fn_idx++;
                 }
-                else if (field_38_input_pressed & eUp)
+                else if (field_38_input_pressed & InputCommands::eUp)
                 {
                     field_26_next_fn_idx--;
                 }
 
-                if (field_38_input_pressed & eUnPause)
+                if (field_38_input_pressed & InputCommands::eUnPause_OrConfirm)
                 {
                     //field_24_fn_idx = field_26_next_fn_idx;
                     field_3C_flags &= ~0x2;
