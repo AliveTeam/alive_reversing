@@ -1927,7 +1927,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
         break;
 
     case AI_GiveRings::eState0_PreIdle_1:
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
         {
             if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
             {
@@ -1991,7 +1991,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
         break;
 
     case AI_GiveRings::eState0_GoodGameSpeak_3:
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
         {
             if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
             {
@@ -2011,7 +2011,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
         break;
 
     case AI_GiveRings::eState0_WrongGameSpeak_4:
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
         {
             if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
             {
@@ -2023,7 +2023,7 @@ __int16 Mudokon::AI_GiveRings_0_470C10()
         break;
 
     case AI_GiveRings::eState0_Shrug_5:
-        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion != Mud_Motion::StandIdle_0_4724E0)
+        if (static_cast<int>(sGnFrame_5C1B84) >= field_194_timer && field_106_current_motion == Mud_Motion::StandIdle_0_4724E0)
         {
             if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
             {
