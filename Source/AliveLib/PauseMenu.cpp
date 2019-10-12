@@ -1173,6 +1173,15 @@ void PauseMenu::Page_ReallyQuit_Update_490930()
     }
 }
 
+int access_impl(char const* fileName, int accessMode)
+{
+#if _WIN32
+    return _access(fileName, accessMode);
+#else
+    return access(fileName, accessMode);
+#endif
+}
+
 void PauseMenu::Page_Save_Update_491210()
 {
     static bool bWriteSaveFile_5C937C = false;
@@ -1183,7 +1192,7 @@ void PauseMenu::Page_Save_Update_491210()
     {
         strcpy(savFileName, sSaveString_5C931C);
         strcat(savFileName, ".sav");
-        if (_access(savFileName, 4) || bWriteSaveFile_5C937C) // check file is writable
+        if (access_impl(savFileName, 4) || bWriteSaveFile_5C937C) // check file is writable
         {
             bWriteSaveFile_5C937C = false;
             FILE* hFile = fopen(savFileName, "wb");
