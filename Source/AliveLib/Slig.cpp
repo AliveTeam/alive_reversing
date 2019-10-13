@@ -3451,7 +3451,7 @@ __int16 Slig::AI_PanicTurning_12_4BC490()
         return 107;
     }
 
-    bool checkForTurn = false;
+    bool checkTurn = false;
     if (field_106_current_motion != eSligMotions::M_TurnAroundStanding_5_4B6390)
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3459,22 +3459,24 @@ __int16 Slig::AI_PanicTurning_12_4BC490()
             field_108_next_motion = eSligMotions::M_TurnAroundStanding_5_4B6390;
             return 107;
         }
-        checkForTurn = true;
+        checkTurn = true;
     }
-
-    if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+    else if (field_106_current_motion == eSligMotions::M_TurnAroundStanding_5_4B6390)
     {
-        checkForTurn = true;
+        if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
+        {
+            checkTurn = true;
+        }
     }
 
-    if (checkForTurn)
+    if (checkTurn)
     {
         if (field_20_animation.field_92_current_frame == 4)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (sControlledCharacter_5C1B8C->field_C4_velx >= FP_FromInteger(0) &&
-                    (sControlledCharacter_5C1B8C->field_C4_velx > FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos >= field_B8_xpos))
+                    (sControlledCharacter_5C1B8C->field_C4_velx != FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos >= field_B8_xpos))
                 {
                     ShouldStilBeAlive_4BBC00();
                     return 107;
@@ -3483,7 +3485,7 @@ __int16 Slig::AI_PanicTurning_12_4BC490()
             else
             {
                 if (sControlledCharacter_5C1B8C->field_C4_velx <= FP_FromInteger(0) &&
-                    (sControlledCharacter_5C1B8C->field_C4_velx > FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos <= field_B8_xpos))
+                    (sControlledCharacter_5C1B8C->field_C4_velx != FP_FromInteger(0) || sControlledCharacter_5C1B8C->field_B8_xpos <= field_B8_xpos))
                 {
                     ShouldStilBeAlive_4BBC00();
                     return 107;
