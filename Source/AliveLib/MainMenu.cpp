@@ -481,7 +481,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     SetVTable(this, 0x547958);
     SetVTable(&field_158_animation, 0x544290);
 
-    ++sMainMenuObjectCounter_BB4400;
+    sMainMenuObjectCounter_BB4400++;
     field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
 
     gMainMenuController = this;
@@ -493,7 +493,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     }
 
     field_120_font.ctor_433590(240, pal_560F80, &sFont1Context_5BC5C8);
-    memset(&field_F4_resources, 0, sizeof(field_F4_resources));
+    field_F4_resources = {};
 
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbespek2ResID, TRUE, FALSE);
     field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kOptflareResID, TRUE, FALSE);
@@ -582,7 +582,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_25C = 0;
     field_25E = 0;
 
-    memset(&sSavedKilledMudsPerPath_5C1B50.mData, 0, sizeof(sSavedKilledMudsPerPath_5C1B50.mData));
+    sSavedKilledMudsPerPath_5C1B50 = {};
 
     word_5C1BEC = 0;
     sEnableCheatLevelSelect_5C1BEE = 0;
@@ -651,7 +651,7 @@ void MainMenuController::dtor_4CEF30()
         ResourceManager::FreeResource_49C330(res);
     }
 
-    --sMainMenuObjectCounter_BB4400;
+    sMainMenuObjectCounter_BB4400--;
 
     field_120_font.dtor_433540();
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
