@@ -248,7 +248,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         30,        0,        0,        1,        0,        1,        0,
-        nullptr, //&MainMenuController::tsub_4D0E10,
+        &MainMenuController::demoSelect_4D0E10,
         nullptr, //&MainMenuController::tsub_Render_4D4F30,
         NULL,
         NULL,
@@ -547,10 +547,10 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_224 = 0;
     field_202_input_hold_down_timer = 15;
     field_204_prev_pressed = 0;
-    field_230_fmv_level_index = 0; // Double check
+    field_230_selected_demo_index = 0; // Double check
 
     field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
-    field_23C_T80.Clear(Flags::eBit18);
+    field_23C_T80.Clear(Flags::eBit18_Loading);
     field_23C_T80.Clear(Flags::eBit22_GameSpeakPlaying);
     field_23C_T80.Clear(Flags::eBit23);
     field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
@@ -622,7 +622,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         field_258 = 0;
         pDemosOrFmvs_BB4414 = &sDemos_5617F0;
         sMenuItemCount_561538 = 23;
-        field_230_fmv_level_index = word_5C1B9E;
+        field_230_selected_demo_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
@@ -804,10 +804,10 @@ void MainMenuController::t_Render_Abe_Speak_4D2060(int** ot)
 signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
 {
     // 8 is when returning to previous screen
-    if (field_230_fmv_level_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
+    if (field_230_selected_demo_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
     {
         // Only 1 when chanting
-        if (field_230_fmv_level_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
+        if (field_230_selected_demo_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
         {
             // Spawn chant star/flare particle at random locations around abes head
             field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, FALSE, FALSE);
@@ -1250,7 +1250,7 @@ void MainMenuController::t_Render_AbesMotions_Text_4D25E0(int ** ot)
 
 signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
 {
-    field_230_fmv_level_index = 0;
+    field_230_selected_demo_index = 0;
 
     if (input_held & InputCommands::eBack)
     {
@@ -1372,14 +1372,14 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
             return 11;
         case 2:
             // Load
-            field_230_fmv_level_index = 0;
+            field_230_selected_demo_index = 0;
             return 0xFFFF0004;
         case 3:
             // Options
             return 3;
         case 4:
             // Game speak
-            field_230_fmv_level_index = 0;
+            field_230_selected_demo_index = 0;
             return 2;
         }
     }
@@ -1391,7 +1391,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
         field_25C = 1;
         pDemosOrFmvs_BB4414 = sFmvs_561540;
         sMenuItemCount_561538 = 28;
-        field_230_fmv_level_index = 0;
+        field_230_selected_demo_index = 0;
         field_250 = 0;
         field_254 = 0;
         field_258 = 0;
@@ -1405,7 +1405,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
         field_25E = 1;
         pDemosOrFmvs_BB4414 = gPerLvlData_561700;
         sMenuItemCount_561538 = 15;
-        field_230_fmv_level_index = 0;
+        field_230_selected_demo_index = 0;
         field_250 = 0;
         field_254 = 0;
         field_258 = 0;
@@ -1428,7 +1428,7 @@ signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
     // TODO: De-dupe the big parts of duplicated code in here
     if (field_23C_T80.Get(Flags::eBit21))
     {
-        if (field_23C_T80.Get(Flags::eBit18))
+        if (field_23C_T80.Get(Flags::eBit18_Loading))
         {
             // Wait for load to complete
             if (!field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak])
@@ -1486,13 +1486,13 @@ signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
             return 0;
         }
 
-        field_23C_T80.Set(Flags::eBit18);
+        field_23C_T80.Set(Flags::eBit18_Loading);
         return 0;
     }
 
-    if (!field_23C_T80.Get(Flags::eBit18))
+    if (!field_23C_T80.Get(Flags::eBit18_Loading))
     {
-        field_23C_T80.Set(Flags::eBit18);
+        field_23C_T80.Set(Flags::eBit18_Loading);
         return 0;
     }
 
@@ -1672,19 +1672,299 @@ void MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
-
-signed int MainMenuController::tsub_LoadSave_Input_4D1040(DWORD /*input*/)
+char MainMenuController::sub_convert_iso_FileName_4D1660(char *a1, char *a2)
 {
-    NOT_IMPLEMENTED();
+    char *v2; // edi
+    char result; // al
+    char *v4; // esi
 
+    v2 = a2;
+    result = *a2;
+    if (*a2)
+    {
+        v4 = a1;
+        do
+        {
+            if (result == ';')
+            {
+                break;
+            }
+            ++v2;
+            *v4 = (char) tolower(result);
+            result = *v2;
+            ++v4;
+        } while (*v2);
+        *v4 = 0;
+    }
+    else
+    {
+        result = *a1;
+        *a1 = 0;
+    }
+    return result;
+}
+
+char MainMenuController::sub_FileName_4D1430(BYTE* input)
+{
+   NOT_IMPLEMENTED();
+
+//    char *sCdRomDrives_v; // esi
+//   char result; // al
+    char *fileNameSuffix; // [esp-4h] [ebp-204h]
+ //   char fileName[256]; // [esp+0h] [ebp-200h]
+    char buffer[256]; // [esp+100h] [ebp-100h]
+    char* a2 = reinterpret_cast<char*>(input);
+
+    if (a2[0] == '\\')
+    {
+        fileNameSuffix = a2 + 1;
+    }
+    else
+    {
+        fileNameSuffix = a2;
+    }
+    MainMenuController::sub_convert_iso_FileName_4D1660(buffer, fileNameSuffix);
+    return 0;
+//    strcpy(fileName, sCdEmu_Path1_C14620);
+//    strcat(fileName, buffer);
+//    if (!sub_520E1E(fileName, 0))
+//    {
+//        goto LABEL_16;
+//    }
+//    strcpy(fileName, sCdEmu_Path2_C144C0);
+//    strcat(fileName, buffer);
+//    if (!sub_520E1E(fileName, 0))
+//    {
+//        goto LABEL_16;
+//    }
+//    strcpy(fileName, sCdEmu_Path3_C145A0);
+//    strcat(fileName, buffer);
+//    fileName[0] = sCdRomDrives_5CA488[0];
+//    if (!sCdRomDrives_5CA488[0])
+//    {
+//        goto LABEL_17;
+//    }
+//    sCdRomDrives_v = sCdRomDrives_5CA488;
+//    while (sub_520E1E(fileName, 0))
+//    {
+//        result = (sCdRomDrives_v++)[1];
+//        fileName[0] = result;
+//        if (!result)
+//        {
+//            return result;
+//        }
+//    }
+//    if (fileName[0])
+//    {
+//LABEL_16:
+//        result = 1;
+//    }
+//    else
+//    {
+//LABEL_17:
+//        result = 0;
+//    }
+//    return result;
+}
+
+const __int16 word_5617F4[4] = {
+    1, 8, 5, 0
+};
+
+
+ALIVE_VAR(1, 0x5C1B9C, short, word_5C1B9C, 0);
+ALIVE_VAR(1, 0x5C1BA2, BYTE, byte_5C1BA2, 0);
+ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
+
+signed int MainMenuController::tsub_LoadSave_Input_4D1040(DWORD)
+{
+    //NOT_IMPLEMENTED();
+    __int16 demoId; // eax
+   Abe *abe_ptr; // eax
+    unsigned __int8 byte_5c1ba2_mod; // al
+
+    if (field_23C_T80.Get(Flags::eBit18_Loading))
+    {
+        demoId = word_5C1B9E;
+        if (word_5C1B9C == 0)
+        {
+            demoId = byte_5C1BA2;
+        }
+        if (demoId >= 23) //exceeding the demo list
+        {
+            demoId = 0;
+        }
+        int someArray = (int)sDemos_5617F0[demoId].field_4_level; //to fix?
+
+
+        char v19[256]; // [esp+34h] [ebp-10Ch]
+        strcpy(v19, "ATTRACT");
+        memset(&v19[8], 0, 0xF8u);
+        strcpy(&v19[7], sPathData_559660.paths[someArray].field_22_lvl_name_cd);
+
+        while (!MainMenuController::sub_FileName_4D1430((BYTE*)(&v19[7])) && !MainMenuController::sub_FileName_4D1430((BYTE*)(v19)))
+        {
+            sLevelId_dword_5CA408 = someArray;
+            if (word_5C1B9C)
+            {
+                dword_55C128 = -1;
+            }
+            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[someArray].field_1C_unused, 2))
+            {
+                field_1F8_page_timeout = 0;
+                return word_5C1B9C != 0 ? 30 : 1;
+            }
+        }
+        if (field_F4_resources.field_0_resources[0] == 0)
+        {
+            LOG_INFO("LOADING");
+            pResourceManager_5C1BB0->LoadingLoop_465590(0);
+        }
+        field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
+        ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[0]);
+        field_F4_resources.field_0_resources[0] = 0;
+        ResourceManager::Reclaim_Memory_49C470(0);
+        abe_ptr = sActiveHero_5C1B68;
+        if (sActiveHero_5C1B68 == spAbe_554D5C)
+        {
+            auto abe_malloc_p = alive_new<Abe>();
+            if (abe_malloc_p)
+            {
+                abe_ptr = abe_malloc_p->ctor_44AD10(58808, 85, 57, 55);
+            }
+            else
+            {
+                abe_ptr = 0;
+            }
+            sActiveHero_5C1B68 = abe_ptr;
+        }
+        abe_ptr->field_B8_xpos = FP_FromInteger(0);
+        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+        word_5C1BA0 = 1;
+        if (field_208_transition_obj)
+        {
+            field_208_transition_obj->field_6_flags.Set(Options::eDead);
+        }
+        if (field_20C)
+        {
+            field_20C->field_6_flags.Set(Options::eDead);
+        }
+        if (field_210_pUnknown)
+        {
+            field_210_pUnknown->field_6_flags.Set(Options::eDead);
+        }
+        field_6_flags.Set(Options::eDead);
+        char file[32];
+
+        __int16 toPick = word_5C1B9E;
+
+        if (word_5C1B9C <= 0)
+        {
+            byte_5c1ba2_mod = byte_5C1BA2++ + 1;
+            if (byte_5C1BA2 > 0x17u)
+            {
+                byte_5c1ba2_mod = 1;
+                byte_5C1BA2 = 1;
+            }
+            toPick = byte_5c1ba2_mod;
+        }
+
+        sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[toPick].field_A_scale);
+        ResourceManager::LoadResourceFile_49C170(file, 0);
+        BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(1349810254, 0, 1u, 0);
+        sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
+        ResourceManager::FreeResource_49C330(resource);
+
+        if (word_5C1B9C)
+        {
+            sActiveQuicksaveData_BAF7F8.field_200_accumulated_obj_count = 1024;
+        }
+
+        Quicksave_LoadActive_4C9170();
+    }
+    else
+    {
+        field_23C_T80.Set(Flags::eBit18_Loading);
+    }
     return 0;
 }
 
-signed int MainMenuController::tsub_4D0E10(DWORD /*input*/)
-{
-    NOT_IMPLEMENTED();
+ALIVE_VAR(1, 0x561538, int, word_561538, 0);
 
-    return 0;
+signed int MainMenuController::demoSelect_4D0E10(DWORD input)
+{
+    word_5C1BA0 = 0;
+    word_5C1B9C = 0;
+
+    int input_or_field_204 = input;
+    if (field_204_prev_pressed && field_204_prev_pressed == static_cast<int>(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed))
+    {
+        field_202_input_hold_down_timer--;
+        if (field_202_input_hold_down_timer == 0)
+        {
+            input_or_field_204 = field_204_prev_pressed;
+            field_202_input_hold_down_timer = 4;
+        }
+    }
+    else
+    {
+        field_202_input_hold_down_timer = 15;
+        field_204_prev_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    }
+
+    if (input_or_field_204 & 5)
+    {
+        if (field_230_selected_demo_index > 0 && !field_254)
+        {
+            field_230_selected_demo_index--;
+            SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
+        }
+    }
+    else if (input_or_field_204 & 0xA)
+    {
+        if (field_230_selected_demo_index < word_561538 - 1 && !field_254)
+        {
+            field_230_selected_demo_index++;
+            SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
+        }
+    }
+
+    if (input_or_field_204 & 0x20000000)
+    {
+        if (field_230_selected_demo_index > 0 && !field_254)
+        {
+            field_230_selected_demo_index -= 3;
+            if (field_230_selected_demo_index < 0)
+            {
+                field_230_selected_demo_index = 0;
+            }
+            SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
+        }
+    }
+    else if (input_or_field_204 & 0x40000000)
+    {
+        if (field_230_selected_demo_index < word_561538 - 1 && !field_254)
+        {
+            field_230_selected_demo_index += 3;
+            if (field_230_selected_demo_index > word_561538 - 1)
+            {
+                field_230_selected_demo_index = static_cast<__int16>(word_561538 - 1);
+            }
+            SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
+        }
+    }
+
+    if (input_or_field_204 & 0x200000)
+    {
+        return 0x10003; //Esc Pressed
+    }
+    if (!(input_or_field_204 & 0x100000))
+    {
+        return 0; //Nothing Pressed
+    }
+    word_5C1B9C = 1;
+    word_5C1B9E = field_230_selected_demo_index;
+    return 0xFFFF0016; //Enter Pressed
 }
 
 EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
@@ -1790,7 +2070,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
 void MainMenuController::tLoadGame_Load_4D42F0()
 {
     field_23A = 6;
-    field_230_fmv_level_index = 0;
+    field_230_selected_demo_index = 0;
     field_1FC_button_index = -1;
     Quicksave_FindSaves_4D4150();
     sSelectedSavedGameIdx_BB43E8 = sSavedGameToLoadIdx_BB43FC;
@@ -1803,7 +2083,6 @@ EXPORT void sub_4A2D40()
     NOT_IMPLEMENTED();
 }
 
-ALIVE_VAR(1, 0x561538, DWORD, word_561538, 0);
 
 int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
 {
@@ -1836,7 +2115,7 @@ int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
             word_561538 = 23;
             field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
-            field_230_fmv_level_index = 0;
+            field_230_selected_demo_index = 0;
             return -65506;
         }
         default:
@@ -1883,69 +2162,69 @@ signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::funct
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-    if (field_230_fmv_level_index == 8)
+    if (field_230_selected_demo_index == 8)
     {
         return 0;
     }
 
     if (Input_IsChanting_45F260())
     {
-        field_230_fmv_level_index = 1;
+        field_230_selected_demo_index = 1;
         return fnOnGameSpeak(InputCommands::eChant);
     }
     // Hi
     else if (input_held & InputCommands::eGameSpeak1) // 0x400
     {
-        field_230_fmv_level_index = 0;
+        field_230_selected_demo_index = 0;
         return fnOnGameSpeak(InputCommands::eGameSpeak1);
     }
     // Git 'im
     else if (input_held & InputCommands::eGameSpeak4) // 0x2000
     {
-        field_230_fmv_level_index = 1;
+        field_230_selected_demo_index = 1;
         return fnOnGameSpeak(InputCommands::eGameSpeak4);
     }
     // Freeze
     else if (input_held & InputCommands::eGameSpeak3) // 0x1000
     {
-        field_230_fmv_level_index = 2;
+        field_230_selected_demo_index = 2;
         return fnOnGameSpeak(InputCommands::eGameSpeak3);
     }
     // Here boy
     else if (input_held & InputCommands::eGameSpeak2) // 0x800
     {
-        field_230_fmv_level_index = 3;
+        field_230_selected_demo_index = 3;
         return fnOnGameSpeak(InputCommands::eGameSpeak2);
     }
     // Bs
     else if (input_held & InputCommands::eGameSpeak6) // 0x8000
     {
-        field_230_fmv_level_index = 4;
+        field_230_selected_demo_index = 4;
         return fnOnGameSpeak(InputCommands::eGameSpeak6);
     }
     // Look out
     else if (input_held & InputCommands::eGameSpeak7) // 0x10000
     {
-        field_230_fmv_level_index = 5;
+        field_230_selected_demo_index = 5;
         return fnOnGameSpeak(InputCommands::eGameSpeak7);
     }
     // S'mo bs
     else if (input_held & InputCommands::eGameSpeak5) // 0x4000
     {
-        field_230_fmv_level_index = 6;
+        field_230_selected_demo_index = 6;
         return fnOnGameSpeak(InputCommands::eGameSpeak5);
     }
     // Laugh
     else if (input_held & InputCommands::eGameSpeak8) // 0x20000
     {
-        field_230_fmv_level_index = 7;
+        field_230_selected_demo_index = 7;
         return fnOnGameSpeak(InputCommands::eGameSpeak8);
     }
     else if (input_held & InputCommands::eBack) // 0x200000
     {
         // Exit
       
-        field_230_fmv_level_index = 8;
+        field_230_selected_demo_index = 8;
         field_1FC_button_index = -1;
 
         if (field_210_pUnknown)

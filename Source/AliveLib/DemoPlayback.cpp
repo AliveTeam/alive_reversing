@@ -9,7 +9,6 @@
 #include "Function.hpp"
 
 ALIVE_VAR(1, 0x5D1E20, DemoPlayback*, sDemoObj_dword_5D1E20, nullptr);
-ALIVE_VAR(1, 0x5C1B9C, short, word_5C1B9C, 0);
 
 void DemoPlayback::ctor()
 {

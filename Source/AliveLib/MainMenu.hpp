@@ -204,7 +204,7 @@ public:
     EXPORT void tGame_BackStory_Or_NewGame_Unload_4D1BE0();
 
     EXPORT signed int tsub_LoadSave_Input_4D1040(DWORD input);
-    EXPORT signed int tsub_4D0E10(DWORD input);
+    EXPORT signed int demoSelect_4D0E10(DWORD input);
     EXPORT int OptionsMenuBtnListener_4D1AB0(DWORD input);
     
     
@@ -212,6 +212,8 @@ public:
     EXPORT void tLoadGame_Render_4D44D0( int **pOt);
     
     EXPORT void tLoadGame_Load_4D42F0();
+    EXPORT static char CC sub_FileName_4D1430(BYTE *a1);
+    EXPORT static char CC sub_convert_iso_FileName_4D1660(char *a1, char *a2);
 
     EXPORT void tLoadGame_Unload_4D4360();
 
@@ -245,7 +247,7 @@ public:
         eBit15 = 0x4000,
         eBit16 = 0x8000,
         eBit17_bDisableChangingSelection = 0x10000,
-        eBit18 = 0x20000,
+        eBit18_Loading = 0x20000,
         eBit19 = 0x40000,
         eBit20 = 0x80000,
         eBit21 = 0x100000,
@@ -282,7 +284,7 @@ public:
     __int16 field_228_res_idx;
     __int16 field_22A_anim_frame_num;
     int field_22C_T80;
-    __int16 field_230_fmv_level_index;
+    __int16 field_230_selected_demo_index;
     __int16 field_232;
     const char* field_234_pStr;
     __int16 field_238;
