@@ -45,7 +45,7 @@ enum eFlyingSligMotions : int
     FLYING_SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
 
-enum class SligSpeak : char;
+enum class SligSpeak : signed char;
 
 struct FlyingSlig_State
 {

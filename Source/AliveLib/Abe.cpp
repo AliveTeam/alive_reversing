@@ -2937,11 +2937,10 @@ void Abe::State_0_Idle_44EEB0()
         return;
     }
 
-    const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
-    if (sInputKey_Hop_5550E0 & pressed)
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Hop_5550E0))
     {
         // Some strange alternative way of hoisting, hangover from PSX AO Demo?
-        if (pressed & sInputKey_Up_5550D8)
+        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
         {
             TryHoist_44ED30();
         }
@@ -2965,7 +2964,7 @@ void Abe::State_0_Idle_44EEB0()
         return;
     }
 
-    if (sInputKey_Down_5550DC & pressed)
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
     {
         // Check for a lift rope (going down)
         BaseGameObject* pObj_field_110 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
@@ -3027,7 +3026,7 @@ void Abe::State_0_Idle_44EEB0()
         return;
     }
 
-    if (sInputKey_FartRoll_5550F0 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held)
+    if (sInputObject_5BD4E0.isHeld(sInputKey_FartRoll_5550F0))
     {
         // Do the fart sound
         Abe_SFX_457EC0(7u, 0, 0, this);
@@ -3075,7 +3074,7 @@ void Abe::State_0_Idle_44EEB0()
     }
 
     bool handleDoActionOrThrow = false;
-    if (pressed & sInputKey_Up_5550D8)
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
     {
         // Check for lift rope.. (going up)
         BaseGameObject* pObj_field_110_2 = sObjectIds_5C1B70.Find_449CF0(field_110_id);
@@ -3116,7 +3115,9 @@ void Abe::State_0_Idle_44EEB0()
                 }
                 else
                 {
-                    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8)) // OG bug, already checked ??
+                    // Check for pressed + held so that Abe does a dunno only once, otherwise he will
+                    // loop the dunno while up button is down.
+                    if (sInputObject_5BD4E0.isHeld(sInputKey_Up_5550D8))
                     {
                         field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
                     }
@@ -3262,7 +3263,7 @@ void Abe::State_0_Idle_44EEB0()
         }
     }
 
-    if (!(pressed & sInputKey_Up_5550D8) || handleDoActionOrThrow)
+    if (!sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || handleDoActionOrThrow)
     {
         // TODO: Clean up the logic of these 2 statements
         if (!(sInputKey_ThrowItem_5550F4 & held) || field_106_current_motion != eAbeStates::State_0_Idle_44EEB0)

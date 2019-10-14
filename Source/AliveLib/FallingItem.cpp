@@ -417,9 +417,9 @@ EXPORT void FallingItem::vUpdate_427780()
         if (field_140_sound_channels)
         {
             SND_Stop_Channels_Mask_4CA810(field_140_sound_channels);
-            field_140_sound_channels = 0;
+field_140_sound_channels = 0;
         }
-        
+
         Event_Broadcast_422BC0(kEventLoudNoise, this);
         SFX_Play_46FA90(0x3Eu, 0, field_CC_sprite_scale);
 
@@ -439,15 +439,15 @@ EXPORT void FallingItem::vUpdate_427780()
                 SwitchStates_Do_Operation_465F00(field_11E_id, SwitchOp::eSetFalse_1);
             }
         }
-        
+
         --field_122_num_items_remaining;
 
-        if (field_120_num_items > 0 && field_122_num_items_remaining <= 0|| !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-                field_C2_lvl_number,
-                field_C0_path_number,
-                field_138_xpos,
-                field_13C_ypos,
-                0))
+        if (field_120_num_items > 0 && field_122_num_items_remaining <= 0 || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+            field_C2_lvl_number,
+            field_C0_path_number,
+            field_138_xpos,
+            field_13C_ypos,
+            0))
         {
             field_6_flags.Set(BaseGameObject::eDead);
         }
@@ -479,7 +479,7 @@ void FallingItem::DamageHitItems_427F40()
 
         if (pObj != this)
         {
-            if ((pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) || pObj->field_4_typeId == Types::eGrinder_30))
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) || pObj->field_4_typeId == Types::eGrinder_30)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
@@ -514,7 +514,22 @@ void FallingItem::DamageHitItems_427F40()
                         }
                         else
                         {
-                            static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage_408730(this);
+                            bool doDamage = true;
+                            if (pAliveObj->field_4_typeId == Types::eParamite_96)
+                            {
+                                // Some strange edge case for paramites - prevents them getting smashed by
+                                // falling items when stood on an edge by their huge heads peeking over a bit.
+                                if (pAliveObj->field_B8_xpos < FP_FromInteger(fallingItemRect.x) ||
+                                    pAliveObj->field_B8_xpos > FP_FromInteger(fallingItemRect.w))
+                                {
+                                    doDamage = false;
+                                }
+                            }
+
+                            if (doDamage)
+                            {
+                               static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage_408730(this);
+                            }
                         }
                     }
                 }

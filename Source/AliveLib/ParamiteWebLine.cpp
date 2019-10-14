@@ -6,6 +6,9 @@
 #include "ScreenManager.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
+#include "PsxDisplay.hpp"
+#include "ShadowZone.hpp"
+#include "Rope.hpp"
 
 ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tlvInfo)
 {
@@ -99,7 +102,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
         field_FC[i].field_4_flags.Clear(AnimFlags::eBit16_bBlending);
     }
 
-    field_104 = 0;
+    field_104_wobble_idx = 0;
     field_106_wobble_pos = field_F8_top;
 
     BYTE** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kOmmflareResID, 0, 0);
@@ -135,7 +138,7 @@ void ParamiteWebLine::Wobble_4E29D0(short ypos)
         yPosToUse = field_F8_top;
     }
 
-    field_104 = 7;
+    field_104_wobble_idx = 7;
 
     if (yPosToUse <= field_FA_bottom)
     {
@@ -193,9 +196,9 @@ void ParamiteWebLine::dtor_4E2490()
 
 void ParamiteWebLine::vUpdate_4E2A50()
 {
-    if (field_104 > 0)
+    if (field_104_wobble_idx > 0)
     {
-        field_104--;
+        field_104_wobble_idx--;
         field_1A0 = field_F8_top;
         return;
     }
@@ -231,9 +234,79 @@ PSX_RECT* ParamiteWebLine::vGetBoundingRect_4E2B40(PSX_RECT* pRect, int /*idx*/)
     return pRect;
 }
 
-void ParamiteWebLine::vRender_4E2530(int** /*ppOt*/)
+const __int16 word_563A8C[10] = { 0, 1, -3, 2, -4, 4, -6, 4, 0, 0 };
+
+void ParamiteWebLine::vRender_4E2530(int** ppOt)
 {
-    NOT_IMPLEMENTED();
+    if (!field_104_wobble_idx && !field_1A4_delay_counter)
+    {
+        field_108_anim_flare.vRender_40B820(
+            FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+            FP_GetExponent(FP_FromInteger(field_1A0) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+            ppOt, 0, 0);
+        PSX_RECT rect = {};
+        field_108_anim_flare.Get_Frame_Rect_409E10(&rect);
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
+    }
+    
+    field_20_animation.vRender_40B820(640, 240, ppOt, 0, 0);
+
+    int idx = 0;
+    __int16 render_ypos = field_FA_bottom;
+    while (render_ypos > field_F8_top)
+    {
+        short r = field_D0_r;
+        short g = field_D2_g;
+        short b = field_D4_b;
+
+        FP xVal = field_B8_xpos;
+        if (field_104_wobble_idx != 0)
+        {
+            if (render_ypos >= field_106_wobble_pos)
+            {
+                if (field_106_wobble_pos == field_FA_bottom)
+                {
+                    break;
+                }
+                const FP bottomDiff = FP_FromInteger(field_FA_bottom - field_106_wobble_pos);
+                const FP ang = FP_FromInteger(field_FA_bottom - render_ypos) * FP_FromInteger(128);
+                xVal = field_B8_xpos - (Math_Cosine_496D60(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
+            }
+            else
+            {
+                if (field_106_wobble_pos == field_F8_top)
+                {
+                    break;
+                }
+                const FP topDiff = FP_FromInteger(field_106_wobble_pos - field_F8_top);
+                const FP ang = FP_FromInteger(field_106_wobble_pos - render_ypos) * FP_FromInteger(128);
+                xVal = (Math_Cosine_496D60(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + field_B8_xpos;
+            }
+        }
+
+        const short render_xpos = FP_GetExponent(xVal);
+        ShadowZone::ShadowZones_Calculate_Colour_463CE0(render_xpos, render_ypos, field_D6_scale, &r, &g, &b);
+        field_FC[idx].field_8_r = static_cast<BYTE>(r);
+        field_FC[idx].field_9_g = static_cast<BYTE>(g);
+        field_FC[idx].field_A_b = static_cast<BYTE>(b);
+
+        field_FC[idx].vRender_40B820(
+            FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x),
+            FP_GetExponent(FP_FromInteger(render_ypos) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+            ppOt, 0, 0);
+
+        PSX_RECT rect = {};
+        field_FC[idx].GetRenderedSize_40C980(&rect);
+        pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
+
+        ClipPoly_Vertically_4A09E0(
+            &field_FC[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],
+            FP_GetExponent(FP_FromInteger(field_F8_top) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y),
+            FP_GetExponent(FP_FromInteger(field_FA_bottom) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y));
+
+        render_ypos -= field_F6_piece_length;
+        idx++;
+    }
 }
 
 void ParamiteWebLine::vScreenChanged_4E2BC0()

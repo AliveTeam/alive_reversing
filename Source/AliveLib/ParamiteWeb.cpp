@@ -2,6 +2,10 @@
 #include "ParamiteWeb.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
+#include "Rope.hpp"
+#include "ShadowZone.hpp"
+#include "ScreenManager.hpp"
+#include "PsxDisplay.hpp"
 
 ParamiteWeb* ParamiteWeb::ctor_4E1840(FP xpos, __int16 bottom, __int16 top, FP scale)
 {
@@ -124,7 +128,72 @@ void ParamiteWeb::vScreenChanged_4E1F80()
     }
 }
 
-void ParamiteWeb::vRender_4E1BA0(int** /*pOt*/)
+void ParamiteWeb::vRender_4E1BA0(int** pOt)
 {
-    NOT_IMPLEMENTED();
+    PSX_Point camCoords = {};
+    gMap_5C3030.GetCurrentCamCoords_480680(&camCoords);
+    if (field_C2_lvl_number == gMap_5C3030.sCurrentLevelId_5C3030 && field_C0_path_number == gMap_5C3030.sCurrentPathId_5C3032)
+    {
+        if (field_B8_xpos >= FP_FromInteger(camCoords.field_0_x) && field_B8_xpos <= FP_FromInteger(camCoords.field_0_x + 1024))
+        {
+            const FP cam_y = pScreenManager_5BB5F4->field_20_pCamPos->field_4_y;
+            const FP cam_x = pScreenManager_5BB5F4->field_20_pCamPos->field_0_x;
+
+            short minY = FP_GetExponent(FP_FromInteger(field_F8_ttl) - cam_y);
+            short maxY = FP_GetExponent(FP_FromInteger(field_FA_ttl_remainder) - cam_y);
+            
+            short ypos_int = FP_GetExponent(field_BC_ypos);
+            if (ypos_int > field_FA_ttl_remainder)
+            {
+                ypos_int = field_FA_ttl_remainder + (ypos_int - field_FA_ttl_remainder) % field_F6;
+            }
+
+            const short x_start = FP_GetExponent(field_B8_xpos - cam_x);
+            
+            short y_start = FP_GetExponent((FP_FromInteger(ypos_int)) - cam_y);
+            if (y_start > 240)
+            {
+                y_start = y_start % field_F6 + 240;
+                ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start));
+            }
+
+            int idx = 0;
+            if (minY < 0)
+            {
+                minY = 0;
+            }
+
+            if (maxY > 240)
+            {
+                maxY = 240;
+            }
+
+            field_20_animation.vRender_40B820(640, 240, pOt, 0, 0);
+
+            if (y_start >= minY)
+            {
+                while (idx <field_F4)
+                {
+                    short r = 128;
+                    short g = 128;
+                    short b = 128;
+                    ShadowZone::ShadowZones_Calculate_Colour_463CE0(FP_GetExponent(field_B8_xpos), ypos_int - (idx * field_F6), field_D6_scale, &r, &g, &b);
+                    field_100[idx].field_8_r = static_cast<BYTE>(r);
+                    field_100[idx].field_9_g = static_cast<BYTE>(g);
+                    field_100[idx].field_A_b = static_cast<BYTE>(b);
+                    field_100[idx].vRender_40B820(x_start, y_start, pOt, 0, 0);
+                    PSX_RECT rect = {};
+                    field_100[idx].GetRenderedSize_40C980(&rect);
+                    pScreenManager_5BB5F4->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager_5BB5F4->field_3A_idx);
+                    ClipPoly_Vertically_4A09E0(&field_100[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
+                    y_start -= field_F6;
+                    idx++;
+                    if (y_start < minY)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -26,6 +26,7 @@
 #include "FlyingSlig.hpp"
 #include "NakedSligButton.hpp"
 #include "Sfx.hpp"
+#include "SlamDoor.hpp"
 
 TintEntry stru_5514B8[18] =
 {
@@ -536,8 +537,52 @@ void NakedSlig::vUpdate_419100()
 
 __int16 NakedSlig::HandleEnemyStopper_41C740(FP /*velX*/)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    FP gridSizeDirected = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Both_2;
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        direction = Path_EnemyStopper::StopDirection::Left_0;
+        gridSizeDirected = -gridSizeDirected;
+    }
+    else
+    {
+        direction = Path_EnemyStopper::StopDirection::Right_1;
+    }
+
+    if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(30), gridSizeDirected * FP_FromDouble(1.5)))
+    {
+        return 1;
+    }
+
+    const FP gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    auto pSlamDoor = static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos + gridSizeDirected),
+        FP_GetExponent(field_BC_ypos - gridSize),
+        TlvTypes::SlamDoor_85));
+    field_FC_pPathTLV = pSlamDoor;
+
+    if (pSlamDoor &&
+        (pSlamDoor->field_10_starts_shut == TRUE &&
+        !SwitchStates_Get_466020(pSlamDoor->field_14_id) || !pSlamDoor->field_10_starts_shut && 
+         SwitchStates_Get_466020(pSlamDoor->field_14_id)))
+    {
+        return 1;
+    }
+
+    auto pStopper = static_cast<Path_EnemyStopper*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(field_B8_xpos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(field_B8_xpos + gridSizeDirected),
+        FP_GetExponent(field_BC_ypos - gridSize),
+        TlvTypes::EnemyStopper_47));
+    field_FC_pPathTLV = pStopper;
+
+    return 
+        pStopper && 
+        (pStopper->field_10_stop_direction == direction || pStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) &&
+        SwitchStates_Get_466020(pStopper->field_12_id);
 }
 
 Path_TLV* NakedSlig::FindPantsOrWings_419750()
@@ -1946,8 +1991,6 @@ const SfxDefinition stru_5607E0[17] =
 
 void CC Slig_SoundEffect_4BFFE0(__int16 effect, BaseAliveGameObject* pObj)
 {
-    LOG_INFO("effect num = " << effect);
-
     const SfxDefinition* pEffect = &stru_5607E0[effect];
     short vLeft = 0;
     short vRight = 0;

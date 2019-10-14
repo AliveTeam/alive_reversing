@@ -39,8 +39,8 @@ enum InputCommands : unsigned int
     eGameSpeak8 =   1u << 17, // (Stop it) (Laugh) 0x20000
     eChant =        1u << 18, // 0x40000
     ePause =        1u << 19, // Or enter
-    eUnPause =      1u << 20, // Or/and back
-    eBack =         1u << 21,
+    eUnPause_OrConfirm =      1u << 20, // Or/and back
+    eBack =         1u << 21, // 0x200000
     eCheatMode =    1u << 22,
     // 0x800000     = nothing
     // 0x1000000    = nothing

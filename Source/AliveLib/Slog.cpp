@@ -3376,6 +3376,7 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(__int16 bKillSligs, __int16 bLookin
                                     {
                                         distanceToLastFoundObj = xDelta;
                                         pBestObj = pObj;
+                                        break;
                                     }
                                 }
                             }

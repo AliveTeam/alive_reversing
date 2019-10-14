@@ -65,18 +65,24 @@ public:
     EXPORT void Init_491760();
 
     EXPORT void Update_48FD80();
-    EXPORT void Render_490BD0(int **ot);
+    EXPORT void Render_490BD0(int** ot);
 
     EXPORT void vsub_490D30();
 
     EXPORT void Page_Main_Update_4903E0();
-    EXPORT void Page_Base_Render_490A50(int **ot, PauseMenuPage *mp);
+    EXPORT void Page_Base_Render_490A50(int** ot, PauseMenuPage* mp);
 
     EXPORT void Page_ControlsActions_Update_48FA60();
     EXPORT void Page_ReallyQuit_Update_490930();
 
+    EXPORT void Page_Save_Update_491210();
+    EXPORT void Page_Save_Render_491660(int** ot, PauseMenuPage* pPage);
+
+    EXPORT void Page_Status_Update_4916A0();
+    EXPORT void Page_Status_Render_491710(int** ot, PauseMenuPage* pPage);
+
     EXPORT void Page_Load_Update_490D50();
-    EXPORT void Page_Load_Render_4910A0(int **ot, PauseMenuPage *mp);
+    EXPORT void Page_Load_Render_4910A0(int** ot, PauseMenuPage *mp);
 
     using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update_4903E0);
     using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render_490A50);
@@ -126,7 +132,15 @@ public:
     __int16 field_136;
     __int16 field_138;
     __int16 field_13A;
-    __int16 field_13C;
+
+    enum class SaveState : __int16
+    {
+        ReadingInput_0 = 0,
+        DoSave_4 = 4,
+        SaveConfirmOverwrite_8 = 8,
+    };
+    SaveState field_13C_save_state;
+
     __int16 field_13E;
     __int16 field_140;
     __int16 field_142;

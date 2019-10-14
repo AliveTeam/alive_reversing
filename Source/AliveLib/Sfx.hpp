@@ -32,7 +32,7 @@ EXPORT int CC SFX_Play_46FA90(unsigned __int8 sfxIdx, __int16 volume, FP scale =
 EXPORT int CC SFX_Play_46FC20(unsigned __int8 sfxId, __int16 volume, CameraPos direction, FP scale = FP_FromInteger(1));
 EXPORT int CC SND_4CA5D0(int a1, int a2, int a3, __int16 vol, __int16 min, __int16 max);
 
-enum class SligSpeak : char
+enum class SligSpeak : signed char
 {
     None        = -1,
     Hi_0        =  0,

@@ -129,7 +129,7 @@ void ExplosionSet::vScreenChanged_415190()
 
 struct Point2
 {
-    char x, y;
+    signed char x, y;
 };
 
 const Point2 stru_550F38[12] =

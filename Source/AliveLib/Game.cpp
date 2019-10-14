@@ -91,6 +91,31 @@ ALIVE_VAR(1, 0x5c1b68, Abe *, sActiveHero_5C1B68, 0);
 
 bool gDebugHelpersEnabled = false;
 
+#include "GameEnderController.hpp"
+#include "ColourfulMeter.hpp"
+#include "GasCountDown.hpp"
+
+EXPORT void CC Init_GameStates_43BF40()
+{
+    sKilledMudokons_5C1BC0 = sFeeco_Restart_KilledMudCount_5C1BC6;
+    sRescuedMudokons_5C1BC2 = sFeecoRestart_SavedMudCount_5C1BC8;
+
+    // TODO: Check that the unused vars here really are unused
+    //word_5C1BCA = 0;
+    //word_5C1BCC = 0;
+    //word_5C1BF0 = 0;
+
+    gGasOn_5C1C00 = 0;
+    sGasTimer_5C1BE8 = 0;
+
+    gbDrawMeterCountDown_5C1BF8 = FALSE;
+    gTotalMeterBars_5C1BFA = 0;
+
+    gAbeBulletProof_5C1BDA = 0;
+
+    SwitchStates_SetRange_465FA0(2u, 255u);
+}
+
 FP CC ScaleToGridSize_4498B0(FP scaleFP)
 {
     if (scaleFP == FP_FromDouble(0.5))
@@ -376,10 +401,6 @@ EXPORT int CC CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<AnimationBase>*, gObjList_animations_5C1A24, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjList_drawables_5C1124, nullptr);
 
-EXPORT void CC Init_GameStates_43BF40()
-{
-    NOT_IMPLEMENTED();
-}
 
 EXPORT void CC static_init_set_default_hero_43EC10()
 {

@@ -148,7 +148,7 @@ void GasCountDown::vScreenChanged_417700()
 
 void GasCountDown::vRender_4175A0(int **pOt)
 {
-    char text[12] = {};
+    char text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
     sprintf(text, "%02d:%02d", field_74_time_left / 60, field_74_time_left % 60);
 
     const auto textWidth = field_30_font.MeasureWidth_433700(text);
@@ -177,61 +177,11 @@ void GasCountDown::vRender_4175A0(int **pOt)
         pScreenManager_5BB5F4->field_3A_idx);
 }
 
-void GasCountDown::vUpdate_4172E0()
+void GasCountDown::DealDamage()
 {
-    if (Event_Get_422C00(kEventDeathReset))
-    {
-        field_6_flags.Set(BaseGameObject::eDead);
-    }
-
-    if (Event_Get_422C00(kEventDeathResetEnd))
-    {
-        sGasTimer_5C1BE8 = 0;
-        gGasOn_5C1C00 = FALSE;
-    }
-    
-    if (sGasTimer_5C1BE8 <= 0)
-    {
-        if (SwitchStates_Get_466020(field_70_start_trigger_id))
-        {
-            if (!SwitchStates_Get_466020(field_72_stop_trigger_id))
-            {
-                sGasTimer_5C1BE8 = sGnFrame_5C1B84;
-                auto pAlarm = alive_new<Alarm>();
-                if (pAlarm)
-                {
-                    pAlarm->ctor_4091F0(field_76_time, 0, 0, 39);
-                }
-            }
-        }
-    }
-
-    if (sGasTimer_5C1BE8 > 0)
-    {
-        field_74_time_left = field_76_time / 30;
-
-        if (SwitchStates_Get_466020(field_72_stop_trigger_id))
-        {
-            sGasTimer_5C1BE8 = 0;
-            return;
-        }
-
-        if (Event_Get_422C00(kEventResetting))
-        {
-            sGasTimer_5C1BE8++;
-        }
-
-        const __int16 oldTimeLeft = field_74_time_left;
-        field_74_time_left = static_cast<short>((field_76_time - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
-        if (oldTimeLeft != field_74_time_left && field_74_time_left > 0)
-        {
-            SFX_Play_46FBA0(3u, 55, -1000);
-        }
-    }
-
     if (field_74_time_left < 0)
     {
-        if (std::abs(field_74_time_left) > 2)
+        if (-field_74_time_left > 2)
         {
             sActiveHero_5C1B68->VTakeDamage_408730(this);
             for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
@@ -241,7 +191,6 @@ void GasCountDown::vUpdate_4172E0()
                 {
                     break;
                 }
-
                 if (pObj->field_4_typeId == Types::eMudokon_110)
                 {
                     pObj->VTakeDamage_408730(this);
@@ -263,4 +212,62 @@ void GasCountDown::vUpdate_4172E0()
             }
         }
     }
+}
+
+void GasCountDown::vUpdate_4172E0()
+{
+    if (Event_Get_422C00(kEventDeathReset))
+    {
+        field_6_flags.Set(BaseGameObject::eDead);
+    }
+
+    if (Event_Get_422C00(kEventDeathResetEnd))
+    {
+        sGasTimer_5C1BE8 = 0;
+        gGasOn_5C1C00 = FALSE;
+    }
+
+    // Enable
+    if (!sGasTimer_5C1BE8 &&
+        SwitchStates_Get_466020(field_70_start_trigger_id) &&
+        !SwitchStates_Get_466020(field_72_stop_trigger_id))
+    {
+        sGasTimer_5C1BE8 = sGnFrame_5C1B84;
+        auto pAlarm = alive_new<Alarm>();
+        if (pAlarm)
+        {
+            pAlarm->ctor_4091F0(field_76_time, 0, 0, 39);
+        }
+    }
+
+
+    if (!sGasTimer_5C1BE8)
+    {
+        // Off/idle
+        field_74_time_left = field_76_time / 30;
+    }
+    else
+    {
+        // Running
+        if (SwitchStates_Get_466020(field_72_stop_trigger_id))
+        {
+            sGasTimer_5C1BE8 = 0;
+            return;
+        }
+
+        if (Event_Get_422C00(kEventResetting))
+        {
+            sGasTimer_5C1BE8++;
+        }
+
+        const int old_timer = field_74_time_left;
+        const int new_timer = (field_76_time - static_cast<int>(sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30;
+        field_74_time_left = static_cast<__int16>(new_timer);
+        if (old_timer != field_74_time_left && field_74_time_left > 0)
+        {
+            SFX_Play_46FBA0(3u, 55, -1000);
+        }
+    }
+
+    DealDamage();
 }

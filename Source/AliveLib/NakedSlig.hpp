@@ -53,7 +53,7 @@ using TNakedSligAIFn = __int16 (NakedSlig::*)();
 using TNakedSligMotionFn = void (NakedSlig::*)();
 
 enum class LevelIds : __int16;
-enum class SligSpeak : char;
+enum class SligSpeak : signed char;
 
 struct NakedSlig_State
 {

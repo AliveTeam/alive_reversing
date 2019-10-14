@@ -34,7 +34,7 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
-
+    virtual void VScreenChanged() override;
 private:
     EXPORT MovingBomb* vdtor_470040(signed int flags);
     EXPORT void dtor_4700C0();

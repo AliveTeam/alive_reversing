@@ -47,7 +47,7 @@ enum class GlukkonTypes : __int16
     Normal_5 = 5,
 };
 
-enum class GlukkonSpeak : char
+enum class GlukkonSpeak : signed char
 {
     None = -1,
     Hey_0 = 0,

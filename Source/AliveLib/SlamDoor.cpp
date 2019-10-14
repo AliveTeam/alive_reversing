@@ -389,7 +389,11 @@ void SlamDoor::vUpdate_4AFD50()
                         PSX_RECT bObjRect = {};
                         pObj->vGetBoundingRect_424FD0(&bObjRect, 1);
 
-                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+                        // Some hack that prevents Abe getting knocked back when rolling or falling near a closing slam door
+                        bObjRect.x += 3;
+
+                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) &&
+                            pObj->field_CC_sprite_scale == field_CC_sprite_scale)
                         {
                             ClearInsideSlamDoor_4B0530(pObj, bRect.x, bRect.w);
                         }
@@ -436,10 +440,7 @@ void SlamDoor::vUpdate_4AFD50()
 
                     if (FP_GetExponent(pObj->field_B8_xpos) > bRect.x &&
                         FP_GetExponent(pObj->field_B8_xpos) < bRect.w &&
-                        bRect.x <= bObjRect.w &&
-                        bRect.w >= bObjRect.x &&
-                        bRect.h >= bObjRect.y &&
-                        bRect.y <= bObjRect.h)
+                        PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {
                         if (pObj->field_CC_sprite_scale == field_CC_sprite_scale ||
                             (pObj->field_4_typeId == Types::eSlog_126 && field_CC_sprite_scale == FP_FromInteger(1)))
