@@ -200,6 +200,7 @@ public:
     EXPORT void M_Consume_18_42FDF0();
 
 public:
+    EXPORT __int16 AI_Patrol_0_Real_430BA0();
     EXPORT __int16 AI_Patrol_0_430BA0();
 
     __int16 AI_Patrol_State_0();
@@ -279,7 +280,7 @@ private:
 
     EXPORT __int16 CanMove_42E3E0();
 
-    EXPORT __int16 HandleEnemyStopperOrSlamDoor_42ADC0(int a2);
+    EXPORT __int16 HandleEnemyStopperOrSlamDoor_42ADC0(int velX);
 
     EXPORT int UpdateWakeUpSwitchValue_4308B0();
 
