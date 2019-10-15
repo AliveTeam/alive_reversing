@@ -1672,7 +1672,7 @@ void MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
-char MainMenuController::remove_ISO9660_Suffix_4D1660(char *out, char *in)
+void MainMenuController::remove_ISO9660_Suffix_4D1660(char *out, char *in)
 {
     strcpy(out, in);
 
@@ -1681,17 +1681,12 @@ char MainMenuController::remove_ISO9660_Suffix_4D1660(char *out, char *in)
     {
         *pch = NULL;
     }
-    else
-    {
-        return *in;
-    }
 
     while (*out)
     {
         *out = (char) tolower(*out);
         out++;
     }
-    return ';';
 }
 
 char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
