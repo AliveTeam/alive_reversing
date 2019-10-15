@@ -547,7 +547,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_224 = 0;
     field_202_input_hold_down_timer = 15;
     field_204_prev_pressed = 0;
-    field_230_selected_demo_index = 0; // Double check
+    field_230_selected_entry_index = 0; // Double check
 
     field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
     field_23C_T80.Clear(Flags::eBit18_Loading);
@@ -622,7 +622,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         field_258 = 0;
         pDemosOrFmvs_BB4414 = &sDemos_5617F0;
         sMenuItemCount_561538 = 23;
-        field_230_selected_demo_index = word_5C1B9E;
+        field_230_selected_entry_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
     }
@@ -804,10 +804,10 @@ void MainMenuController::t_Render_Abe_Speak_4D2060(int** ot)
 signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
 {
     // 8 is when returning to previous screen
-    if (field_230_selected_demo_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
+    if (field_230_selected_entry_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
     {
         // Only 1 when chanting
-        if (field_230_selected_demo_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
+        if (field_230_selected_entry_index == 1 && (sGnFrame_5C1B84 % 8) == 0)
         {
             // Spawn chant star/flare particle at random locations around abes head
             field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, FALSE, FALSE);
@@ -1250,7 +1250,7 @@ void MainMenuController::t_Render_AbesMotions_Text_4D25E0(int ** ot)
 
 signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
 {
-    field_230_selected_demo_index = 0;
+    field_230_selected_entry_index = 0;
 
     if (input_held & InputCommands::eBack)
     {
@@ -1372,14 +1372,14 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
             return 11;
         case 2:
             // Load
-            field_230_selected_demo_index = 0;
+            field_230_selected_entry_index = 0;
             return 0xFFFF0004;
         case 3:
             // Options
             return 3;
         case 4:
             // Game speak
-            field_230_selected_demo_index = 0;
+            field_230_selected_entry_index = 0;
             return 2;
         }
     }
@@ -1391,7 +1391,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
         field_25C = 1;
         pDemosOrFmvs_BB4414 = sFmvs_561540;
         sMenuItemCount_561538 = 28;
-        field_230_selected_demo_index = 0;
+        field_230_selected_entry_index = 0;
         field_250 = 0;
         field_254 = 0;
         field_258 = 0;
@@ -1405,7 +1405,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
         field_25E = 1;
         pDemosOrFmvs_BB4414 = gPerLvlData_561700;
         sMenuItemCount_561538 = 15;
-        field_230_selected_demo_index = 0;
+        field_230_selected_entry_index = 0;
         field_250 = 0;
         field_254 = 0;
         field_258 = 0;
@@ -1884,41 +1884,41 @@ signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
 
     if (input_or_field_204 & 5)
     {
-        if (field_230_selected_demo_index > 0 && !field_254)
+        if (field_230_selected_entry_index > 0 && !field_254)
         {
-            field_230_selected_demo_index--;
+            field_230_selected_entry_index--;
             SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
         }
     }
     else if (input_or_field_204 & 0xA)
     {
-        if (field_230_selected_demo_index < word_561538 - 1 && !field_254)
+        if (field_230_selected_entry_index < word_561538 - 1 && !field_254)
         {
-            field_230_selected_demo_index++;
+            field_230_selected_entry_index++;
             SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
         }
     }
 
     if (input_or_field_204 & 0x20000000)
     {
-        if (field_230_selected_demo_index > 0 && !field_254)
+        if (field_230_selected_entry_index > 0 && !field_254)
         {
-            field_230_selected_demo_index -= 3;
-            if (field_230_selected_demo_index < 0)
+            field_230_selected_entry_index -= 3;
+            if (field_230_selected_entry_index < 0)
             {
-                field_230_selected_demo_index = 0;
+                field_230_selected_entry_index = 0;
             }
             SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
         }
     }
     else if (input_or_field_204 & 0x40000000)
     {
-        if (field_230_selected_demo_index < word_561538 - 1 && !field_254)
+        if (field_230_selected_entry_index < word_561538 - 1 && !field_254)
         {
-            field_230_selected_demo_index += 3;
-            if (field_230_selected_demo_index > word_561538 - 1)
+            field_230_selected_entry_index += 3;
+            if (field_230_selected_entry_index > word_561538 - 1)
             {
-                field_230_selected_demo_index = static_cast<__int16>(word_561538 - 1);
+                field_230_selected_entry_index = static_cast<__int16>(word_561538 - 1);
             }
             SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
         }
@@ -1933,7 +1933,7 @@ signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
         return 0; //Nothing Pressed
     }
     word_5C1B9C = 1;
-    word_5C1B9E = field_230_selected_demo_index;
+    word_5C1B9E = field_230_selected_entry_index;
     return 0xFFFF0016; //Enter Pressed
 }
 
@@ -2040,7 +2040,7 @@ EXPORT signed int MainMenuController::tLoadGame_Input_4D3EF0(DWORD input)
 void MainMenuController::tLoadGame_Load_4D42F0()
 {
     field_23A = 6;
-    field_230_selected_demo_index = 0;
+    field_230_selected_entry_index = 0;
     field_1FC_button_index = -1;
     Quicksave_FindSaves_4D4150();
     sSelectedSavedGameIdx_BB43E8 = sSavedGameToLoadIdx_BB43FC;
@@ -2085,7 +2085,7 @@ int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
             word_561538 = 23;
             field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
-            field_230_selected_demo_index = 0;
+            field_230_selected_entry_index = 0;
             return -65506;
         }
         default:
@@ -2132,69 +2132,69 @@ signed int MainMenuController::HandleGameSpeakInput(DWORD input_held, std::funct
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-    if (field_230_selected_demo_index == 8)
+    if (field_230_selected_entry_index == 8)
     {
         return 0;
     }
 
     if (Input_IsChanting_45F260())
     {
-        field_230_selected_demo_index = 1;
+        field_230_selected_entry_index = 1;
         return fnOnGameSpeak(InputCommands::eChant);
     }
     // Hi
     else if (input_held & InputCommands::eGameSpeak1) // 0x400
     {
-        field_230_selected_demo_index = 0;
+        field_230_selected_entry_index = 0;
         return fnOnGameSpeak(InputCommands::eGameSpeak1);
     }
     // Git 'im
     else if (input_held & InputCommands::eGameSpeak4) // 0x2000
     {
-        field_230_selected_demo_index = 1;
+        field_230_selected_entry_index = 1;
         return fnOnGameSpeak(InputCommands::eGameSpeak4);
     }
     // Freeze
     else if (input_held & InputCommands::eGameSpeak3) // 0x1000
     {
-        field_230_selected_demo_index = 2;
+        field_230_selected_entry_index = 2;
         return fnOnGameSpeak(InputCommands::eGameSpeak3);
     }
     // Here boy
     else if (input_held & InputCommands::eGameSpeak2) // 0x800
     {
-        field_230_selected_demo_index = 3;
+        field_230_selected_entry_index = 3;
         return fnOnGameSpeak(InputCommands::eGameSpeak2);
     }
     // Bs
     else if (input_held & InputCommands::eGameSpeak6) // 0x8000
     {
-        field_230_selected_demo_index = 4;
+        field_230_selected_entry_index = 4;
         return fnOnGameSpeak(InputCommands::eGameSpeak6);
     }
     // Look out
     else if (input_held & InputCommands::eGameSpeak7) // 0x10000
     {
-        field_230_selected_demo_index = 5;
+        field_230_selected_entry_index = 5;
         return fnOnGameSpeak(InputCommands::eGameSpeak7);
     }
     // S'mo bs
     else if (input_held & InputCommands::eGameSpeak5) // 0x4000
     {
-        field_230_selected_demo_index = 6;
+        field_230_selected_entry_index = 6;
         return fnOnGameSpeak(InputCommands::eGameSpeak5);
     }
     // Laugh
     else if (input_held & InputCommands::eGameSpeak8) // 0x20000
     {
-        field_230_selected_demo_index = 7;
+        field_230_selected_entry_index = 7;
         return fnOnGameSpeak(InputCommands::eGameSpeak8);
     }
     else if (input_held & InputCommands::eBack) // 0x200000
     {
         // Exit
       
-        field_230_selected_demo_index = 8;
+        field_230_selected_entry_index = 8;
         field_1FC_button_index = -1;
 
         if (field_210_pUnknown)

@@ -283,7 +283,7 @@ public:
     __int16 field_228_res_idx;
     __int16 field_22A_anim_frame_num;
     int field_22C_T80;
-    __int16 field_230_selected_demo_index;
+    __int16 field_230_selected_entry_index;
     __int16 field_232;
     const char* field_234_pStr;
     __int16 field_238;
