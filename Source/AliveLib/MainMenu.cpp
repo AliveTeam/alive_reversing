@@ -1754,7 +1754,7 @@ ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
 
 signed int MainMenuController::tLoadDemo_4D1040(DWORD)
 {
-    const int maxDemoId = 23;
+    const int maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
 
     if (field_23C_T80.Get(Flags::eBit18_Loading))
     {
