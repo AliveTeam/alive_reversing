@@ -21,3 +21,4 @@ private:
 ALIVE_ASSERT_SIZEOF(DemoPlayback, 0x20);
 
 ALIVE_VAR_EXTERN(DemoPlayback*, sDemoObj_dword_5D1E20);
+ALIVE_VAR_EXTERN(short, word_5C1B9C);

@@ -25,3 +25,5 @@ inline T* alive_new(Args&&... args)
     }
     return nullptr;
 }
+
+int access_impl(char const* fileName, int accessMode);
