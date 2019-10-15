@@ -19,6 +19,7 @@
 #include "PlatformBase.hpp"
 #include "PsxDisplay.hpp"
 #include "Sfx.hpp"
+#include "SlamDoor.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);
@@ -1222,6 +1223,12 @@ void Fleech::M_Consume_18_42FDF0()
     }
 }
 
+EXPORT __int16 Fleech::AI_Patrol_0_Real_430BA0()
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 void Fleech::dtor_42A3A0()
 {
     SetVTable(this, 0x544F28);
@@ -2230,10 +2237,64 @@ __int16 Fleech::CanMove_42E3E0()
     return 0;
 }
 
-__int16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int /*a2*/)
+__int16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    FP nextXPos = {};
+    if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    {
+        nextXPos = field_B8_xpos - (kGridSize * FP_FromInteger(velX));
+    }
+    else
+    {
+        nextXPos = (kGridSize * FP_FromInteger(velX)) + field_B8_xpos;
+    }
+
+    FP stopperXPos = {};
+    if (field_B8_xpos <= nextXPos)
+    {
+        stopperXPos = nextXPos;
+    }
+    else
+    {
+        stopperXPos = field_B8_xpos;
+    }
+
+    auto pStopper = static_cast<Path_EnemyStopper*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(stopperXPos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(stopperXPos),
+        FP_GetExponent(field_BC_ypos),
+        TlvTypes::EnemyStopper_47));
+
+    if (pStopper && 
+        (pStopper->field_10_stop_direction == (nextXPos >= field_B8_xpos ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0)) &&
+        SwitchStates_Get_466020(pStopper->field_12_id))
+    {
+        return 1;
+    }
+
+    FP slamDoorXPos = field_B8_xpos;
+    if (field_B8_xpos <= nextXPos)
+    {
+        slamDoorXPos = nextXPos;
+    }
+
+    if (field_B8_xpos > nextXPos)
+    {
+        slamDoorXPos = nextXPos;
+    }
+
+    auto pSlamDoor = static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        FP_GetExponent(slamDoorXPos),
+        FP_GetExponent(field_BC_ypos),
+        FP_GetExponent(slamDoorXPos),
+        FP_GetExponent(field_BC_ypos),
+        TlvTypes::SlamDoor_85));
+
+    return pSlamDoor && 
+        (pSlamDoor->field_10_starts_shut == TRUE && !SwitchStates_Get_466020(pSlamDoor->field_14_id) ||
+         pSlamDoor->field_10_starts_shut == FALSE && SwitchStates_Get_466020(pSlamDoor->field_14_id));
 }
 
 int Fleech::UpdateWakeUpSwitchValue_4308B0()
@@ -2779,6 +2840,9 @@ enum PatrolStates
 
 __int16 Fleech::AI_Patrol_0_430BA0()
 {
+   // NOT_IMPLEMENTED();
+
+    /*
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (!pTarget ||
         pTarget->field_6_flags.Get(BaseGameObject::eDead) ||
@@ -2788,7 +2852,12 @@ __int16 Fleech::AI_Patrol_0_430BA0()
         field_11C_obj_id = -1;
         pTarget = nullptr;
     }
+    */
 
+    __int16 ret =  0;
+
+    return ret;
+    /*
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         MusicController::sub_47FD60(byte_551984[field_126_state], this, 0, 0);
@@ -2801,31 +2870,42 @@ __int16 Fleech::AI_Patrol_0_430BA0()
     switch (field_126_state)
     {
     case PatrolStates::State_0_Init:
-        return AI_Patrol_State_0();
+       // return AI_Patrol_State_0();
+        return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_1_Sleeping:
-        return AI_Patrol_State_1();
+        //return AI_Patrol_State_1();
+        return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_2:
-        return AI_Patrol_State_2();
+        //return AI_Patrol_State_2();
+        return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_3_To_Sleep:
-        return AI_Patrol_State_3();
+        //return AI_Patrol_State_3();
+        return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_4_Alert:
-        return AI_Patrol_State_4(pTarget);
+       // return AI_Patrol_State_4(pTarget);
+        return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_5:
-        return AI_Patrol_State_5();
+//        return AI_Patrol_State_5();
+        return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_6:
-        return AI_Patrol_State_6();
+//        return AI_Patrol_State_6();
+        return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_7:
-        return AI_Patrol_State_7();
+       // return AI_Patrol_State_7();
+        return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_8:
-        return AI_Patrol_State_8(pTarget);
+       // return AI_Patrol_State_8(pTarget);
+        return AI_Patrol_0_Real_430BA0(); // ok
     case PatrolStates::State_9:
-        return AI_Patrol_State_9();
+        //return AI_Patrol_State_9();
+        return AI_Patrol_0_Real_430BA0(); // ok
     case PatrolStates::State_10:
-        return AI_Patrol_State_10();
+       // return AI_Patrol_State_10();
+        return AI_Patrol_0_Real_430BA0();
 
     default:
         return field_126_state;
-    }
+    }*/
 }
 
 __int16 Fleech::AI_Patrol_State_0()
