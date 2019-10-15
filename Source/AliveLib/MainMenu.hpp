@@ -212,7 +212,7 @@ public:
     
     EXPORT void tLoadGame_Load_4D42F0();
     EXPORT static char CC checkIfDemoFileExists_4D1430(char *path);
-    EXPORT static char CC sub_convert_iso_FileName_4D1660(char* out, char* in);
+    EXPORT static char CC remove_ISO9660_Suffix_4D1660(char* out, char* in);
 
     EXPORT void tLoadGame_Unload_4D4360();
 

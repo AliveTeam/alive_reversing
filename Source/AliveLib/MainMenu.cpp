@@ -1672,10 +1672,10 @@ void MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
-char MainMenuController::sub_convert_iso_FileName_4D1660(char* out, char* in)
+char MainMenuController::remove_ISO9660_Suffix_4D1660(char *out, char *in)
 {
-    char result = *a2;
-    if (*a2)
+    char result = *in;
+    if (*in)
     {
         do
         {
@@ -1683,17 +1683,17 @@ char MainMenuController::sub_convert_iso_FileName_4D1660(char* out, char* in)
             {
                 break;
             }
-            ++a2;
-            *a1 = (char) tolower(result);
-            result = *a2;
-            ++a1;
-        } while (*a2);
-        *a1 = 0;
+            ++in;
+            *out = (char) tolower(result);
+            result = *in;
+            ++out;
+        } while (*in);
+        *out = 0;
     }
     else
     {
-        result = *a1;
-        *a1 = 0;
+        result = *out;
+        *out = 0;
     }
     return result;
 }
@@ -1705,10 +1705,10 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
     {
         inputMod++;
     }
-    char buffer[256];
-    MainMenuController::sub_convert_iso_FileName_4D1660(buffer, inputMod);
+    char buffer[256] = {};
+    MainMenuController::remove_ISO9660_Suffix_4D1660(buffer, inputMod);
 
-    char fileName[256];
+    char fileName[256] = {};
     strcpy(fileName, sCdEmu_Path1_C14620);
     strcat(fileName, buffer);
     if (!access_impl(fileName, 0))
@@ -1772,7 +1772,7 @@ signed int MainMenuController::tLoadDemo_4D1040(DWORD)
             demoId = 0;
         }
         int levelId = static_cast<int>(sDemos_5617F0[demoId].field_4_level);
-        char lvFilename[256];
+        char lvFilename[256] = {};
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
         strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_22_lvl_name_cd);
@@ -1797,7 +1797,7 @@ signed int MainMenuController::tLoadDemo_4D1040(DWORD)
         }
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
         ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[0]);
-        field_F4_resources.field_0_resources[0] = 0;
+        field_F4_resources.field_0_resources[0] = nullptr;
         ResourceManager::Reclaim_Memory_49C470(0);
 
         if (sActiveHero_5C1B68 == spAbe_554D5C)
@@ -1840,9 +1840,9 @@ signed int MainMenuController::tLoadDemo_4D1040(DWORD)
             }
             demoId = byte_5C1BA2;
         }
-        char file[32];
+        char file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
-        ResourceManager::LoadResourceFile_49C170(file, 0);
+        ResourceManager::LoadResourceFile_49C170(file, nullptr);
         BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(1349810254, 0, 1u, 0);
         sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
         ResourceManager::FreeResource_49C330(resource);
