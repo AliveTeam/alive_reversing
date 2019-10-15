@@ -1674,28 +1674,24 @@ void MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0()
 
 char MainMenuController::remove_ISO9660_Suffix_4D1660(char *out, char *in)
 {
-    char result = *in;
-    if (*in)
+    strcpy(out, in);
+
+    char *pch = strchr(out, ';');
+    if (pch != NULL)
     {
-        do
-        {
-            if (result == ';')
-            {
-                break;
-            }
-            ++in;
-            *out = (char) tolower(result);
-            result = *in;
-            ++out;
-        } while (*in);
-        *out = 0;
+        *pch = NULL;
     }
     else
     {
-        result = *out;
-        *out = 0;
+        return *in;
     }
-    return result;
+
+    while (*out)
+    {
+        *out = (char) tolower(*out);
+        out++;
+    }
+    return ';';
 }
 
 char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
