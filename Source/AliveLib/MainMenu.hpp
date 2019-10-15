@@ -203,16 +203,15 @@ public:
     EXPORT void tGame_BackStory_Or_NewGame_Load_4D1BA0();
     EXPORT void tGame_BackStory_Or_NewGame_Unload_4D1BE0();
 
-    EXPORT signed int tsub_LoadSave_Input_4D1040(DWORD input);
-    EXPORT signed int demoSelect_4D0E10(DWORD input);
+    EXPORT signed int tLoadDemo_4D1040(DWORD input);
+    EXPORT signed int tDemoSelect_4D0E10(DWORD input);
     EXPORT int OptionsMenuBtnListener_4D1AB0(DWORD input);
-    
     
     EXPORT signed int tLoadGame_Input_4D3EF0(DWORD input);
     EXPORT void tLoadGame_Render_4D44D0( int **pOt);
     
     EXPORT void tLoadGame_Load_4D42F0();
-    EXPORT static char CC sub_FileName_4D1430(BYTE *a1);
+    EXPORT static char CC sub_FileName_4D1430(char *a1);
     EXPORT static char CC sub_convert_iso_FileName_4D1660(char *a1, char *a2);
 
     EXPORT void tLoadGame_Unload_4D4360();

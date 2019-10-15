@@ -248,7 +248,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         30,        0,        0,        1,        0,        1,        0,
-        &MainMenuController::demoSelect_4D0E10,
+        &MainMenuController::tDemoSelect_4D0E10,
         nullptr, //&MainMenuController::tsub_Render_4D4F30,
         NULL,
         NULL,
@@ -264,7 +264,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         22,        0,        0,        0,        -1,        -1,        0,
-        &MainMenuController::tsub_LoadSave_Input_4D1040,
+        &MainMenuController::tLoadDemo_4D1040,
         NULL,
         NULL,
         NULL,
@@ -1674,27 +1674,21 @@ void MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0()
 
 char MainMenuController::sub_convert_iso_FileName_4D1660(char *a1, char *a2)
 {
-    char *v2; // edi
-    char result; // al
-    char *v4; // esi
-
-    v2 = a2;
-    result = *a2;
+    char result = *a2;
     if (*a2)
     {
-        v4 = a1;
         do
         {
             if (result == ';')
             {
                 break;
             }
-            ++v2;
-            *v4 = (char) tolower(result);
-            result = *v2;
-            ++v4;
-        } while (*v2);
-        *v4 = 0;
+            ++a2;
+            *a1 = (char) tolower(result);
+            result = *a2;
+            ++a1;
+        } while (*a2);
+        *a1 = 0;
     }
     else
     {
@@ -1704,143 +1698,123 @@ char MainMenuController::sub_convert_iso_FileName_4D1660(char *a1, char *a2)
     return result;
 }
 
-char MainMenuController::sub_FileName_4D1430(BYTE* input)
+char MainMenuController::sub_FileName_4D1430(char* input)
 {
-   NOT_IMPLEMENTED();
-
-//    char *sCdRomDrives_v; // esi
-//   char result; // al
-    char *fileNameSuffix; // [esp-4h] [ebp-204h]
- //   char fileName[256]; // [esp+0h] [ebp-200h]
-    char buffer[256]; // [esp+100h] [ebp-100h]
-    char* a2 = reinterpret_cast<char*>(input);
-
-    if (a2[0] == '\\')
+    if (input[0] == '\\')
     {
-        fileNameSuffix = a2 + 1;
+        input++;
+    }
+    char buffer[256];
+    MainMenuController::sub_convert_iso_FileName_4D1660(buffer, input);
+
+    char fileName[256];
+    strcpy(fileName, sCdEmu_Path1_C14620);
+    strcat(fileName, buffer);
+    if (!access_impl(fileName, 0))
+    {
+        return 1;
+    }
+    strcpy(fileName, sCdEmu_Path2_C144C0);
+    strcat(fileName, buffer);
+    if (!access_impl(fileName, 0))
+    {
+        return 1;
+    }
+
+    if (!sCdRomDrives_5CA488[0])
+    {
+        return 0;
+    }
+    strcpy(fileName, sCdEmu_Path3_C145A0);
+    strcat(fileName, buffer);
+    fileName[0] = sCdRomDrives_5CA488[0];
+
+    while (access_impl(fileName, 0))
+    {
+        fileName[0] = (sCdRomDrives_5CA488++)[1];
+        if (!fileName[0])
+        {
+            return 0;
+        }
+    }
+    if (fileName[0])
+    {
+        return 1;
     }
     else
     {
-        fileNameSuffix = a2;
+        return 0;
     }
-    MainMenuController::sub_convert_iso_FileName_4D1660(buffer, fileNameSuffix);
-    return 0;
-//    strcpy(fileName, sCdEmu_Path1_C14620);
-//    strcat(fileName, buffer);
-//    if (!sub_520E1E(fileName, 0))
-//    {
-//        goto LABEL_16;
-//    }
-//    strcpy(fileName, sCdEmu_Path2_C144C0);
-//    strcat(fileName, buffer);
-//    if (!sub_520E1E(fileName, 0))
-//    {
-//        goto LABEL_16;
-//    }
-//    strcpy(fileName, sCdEmu_Path3_C145A0);
-//    strcat(fileName, buffer);
-//    fileName[0] = sCdRomDrives_5CA488[0];
-//    if (!sCdRomDrives_5CA488[0])
-//    {
-//        goto LABEL_17;
-//    }
-//    sCdRomDrives_v = sCdRomDrives_5CA488;
-//    while (sub_520E1E(fileName, 0))
-//    {
-//        result = (sCdRomDrives_v++)[1];
-//        fileName[0] = result;
-//        if (!result)
-//        {
-//            return result;
-//        }
-//    }
-//    if (fileName[0])
-//    {
-//LABEL_16:
-//        result = 1;
-//    }
-//    else
-//    {
-//LABEL_17:
-//        result = 0;
-//    }
-//    return result;
 }
 
 const __int16 word_5617F4[4] = {
     1, 8, 5, 0
 };
 
-
 ALIVE_VAR(1, 0x5C1B9C, short, word_5C1B9C, 0);
 ALIVE_VAR(1, 0x5C1BA2, BYTE, byte_5C1BA2, 0);
 ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
 
-signed int MainMenuController::tsub_LoadSave_Input_4D1040(DWORD)
+signed int MainMenuController::tLoadDemo_4D1040(DWORD)
 {
-    //NOT_IMPLEMENTED();
-    __int16 demoId; // eax
-   Abe *abe_ptr; // eax
-    unsigned __int8 byte_5c1ba2_mod; // al
+    const int maxDemoId = 23;
 
     if (field_23C_T80.Get(Flags::eBit18_Loading))
     {
-        demoId = word_5C1B9E;
+        __int16 demoId = word_5C1B9E;
         if (word_5C1B9C == 0)
         {
             demoId = byte_5C1BA2;
         }
-        if (demoId >= 23) //exceeding the demo list
+        if (demoId >= maxDemoId)
         {
             demoId = 0;
         }
-        int someArray = (int)sDemos_5617F0[demoId].field_4_level; //to fix?
+        int levelId = static_cast<int>(sDemos_5617F0[demoId].field_4_level);
+        char lvFilename[256];
+        strcpy(lvFilename, "ATTRACT");
+        memset(&lvFilename[8], 0, 0xF8u);
+        strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_22_lvl_name_cd);
 
-
-        char v19[256]; // [esp+34h] [ebp-10Ch]
-        strcpy(v19, "ATTRACT");
-        memset(&v19[8], 0, 0xF8u);
-        strcpy(&v19[7], sPathData_559660.paths[someArray].field_22_lvl_name_cd);
-
-        while (!MainMenuController::sub_FileName_4D1430((BYTE*)(&v19[7])) && !MainMenuController::sub_FileName_4D1430((BYTE*)(v19)))
+        while (!MainMenuController::sub_FileName_4D1430(&lvFilename[7]) && !MainMenuController::sub_FileName_4D1430(lvFilename))
         {
-            sLevelId_dword_5CA408 = someArray;
+            sLevelId_dword_5CA408 = levelId;
             if (word_5C1B9C)
             {
                 dword_55C128 = -1;
             }
-            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[someArray].field_1C_unused, 2))
+            if (!Display_Full_Screen_Message_Blocking_465820(sPathData_559660.paths[levelId].field_1C_unused, 2))
             {
                 field_1F8_page_timeout = 0;
                 return word_5C1B9C != 0 ? 30 : 1;
             }
         }
+
         if (field_F4_resources.field_0_resources[0] == 0)
         {
-            LOG_INFO("LOADING");
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
         ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[0]);
         field_F4_resources.field_0_resources[0] = 0;
         ResourceManager::Reclaim_Memory_49C470(0);
-        abe_ptr = sActiveHero_5C1B68;
+
         if (sActiveHero_5C1B68 == spAbe_554D5C)
         {
-            auto abe_malloc_p = alive_new<Abe>();
-            if (abe_malloc_p)
+            auto abe = alive_new<Abe>();
+            if (abe)
             {
-                abe_ptr = abe_malloc_p->ctor_44AD10(58808, 85, 57, 55);
+                sActiveHero_5C1B68 = abe->ctor_44AD10(58808, 85, 57, 55);
             }
             else
             {
-                abe_ptr = 0;
+                sActiveHero_5C1B68 = 0;
             }
-            sActiveHero_5C1B68 = abe_ptr;
         }
-        abe_ptr->field_B8_xpos = FP_FromInteger(0);
+        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
         sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
         word_5C1BA0 = 1;
+
         if (field_208_transition_obj)
         {
             field_208_transition_obj->field_6_flags.Set(Options::eDead);
@@ -1854,22 +1828,19 @@ signed int MainMenuController::tsub_LoadSave_Input_4D1040(DWORD)
             field_210_pUnknown->field_6_flags.Set(Options::eDead);
         }
         field_6_flags.Set(Options::eDead);
-        char file[32];
 
-        __int16 toPick = word_5C1B9E;
-
+        demoId = word_5C1B9E;
         if (word_5C1B9C <= 0)
         {
-            byte_5c1ba2_mod = byte_5C1BA2++ + 1;
-            if (byte_5C1BA2 > 0x17u)
+            byte_5C1BA2++;
+            if (byte_5C1BA2 > maxDemoId)
             {
-                byte_5c1ba2_mod = 1;
                 byte_5C1BA2 = 1;
             }
-            toPick = byte_5c1ba2_mod;
+            demoId = byte_5C1BA2;
         }
-
-        sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[toPick].field_A_scale);
+        char file[32];
+        sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, 0);
         BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(1349810254, 0, 1u, 0);
         sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
@@ -1879,7 +1850,6 @@ signed int MainMenuController::tsub_LoadSave_Input_4D1040(DWORD)
         {
             sActiveQuicksaveData_BAF7F8.field_200_accumulated_obj_count = 1024;
         }
-
         Quicksave_LoadActive_4C9170();
     }
     else
@@ -1891,7 +1861,7 @@ signed int MainMenuController::tsub_LoadSave_Input_4D1040(DWORD)
 
 ALIVE_VAR(1, 0x561538, int, word_561538, 0);
 
-signed int MainMenuController::demoSelect_4D0E10(DWORD input)
+signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
 {
     word_5C1BA0 = 0;
     word_5C1B9C = 0;

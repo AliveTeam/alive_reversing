@@ -880,7 +880,7 @@ void PauseMenu_ForceLink() {
             sActiveHero_5C1B68->field_C0_path_number = levelSelectEntry.field_6_path;
             sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
 
-            if (levelSelectEntry.field_A_scale & 1)
+            if (levelSelectEntry.field_A_id & 1)
             {
                 sActiveHero_5C1B68->field_D6_scale = 1;
                 sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
@@ -1171,15 +1171,6 @@ void PauseMenu::Page_ReallyQuit_Update_490930()
         gMap_5C3030.field_CE_free_all_anim_and_palts = 1;
         sCurrentControllerIndex_5C1BBE = 0;
     }
-}
-
-int access_impl(char const* fileName, int accessMode)
-{
-#if _WIN32
-    return _access(fileName, accessMode);
-#else
-    return access(fileName, accessMode);
-#endif
 }
 
 void PauseMenu::Page_Save_Update_491210()

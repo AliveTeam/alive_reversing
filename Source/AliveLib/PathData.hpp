@@ -118,7 +118,7 @@ struct PerLvlData
     LevelIds field_4_level;
     WORD field_6_path;
     WORD field_8_camera;
-    WORD field_A_scale;
+    WORD field_A_id;
     WORD field_C_abe_x_off;
     WORD field_E_abe_y_off;
 };
