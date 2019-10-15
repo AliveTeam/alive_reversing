@@ -1748,10 +1748,6 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
     }
 }
 
-const __int16 word_5617F4[4] = {
-    1, 8, 5, 0
-};
-
 ALIVE_VAR(1, 0x5C1B9C, short, word_5C1B9C, 0);
 ALIVE_VAR(1, 0x5C1BA2, BYTE, byte_5C1BA2, 0);
 ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
