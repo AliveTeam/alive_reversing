@@ -1884,7 +1884,7 @@ signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
         if (field_230_selected_entry_index > 0 && !field_254)
         {
             field_230_selected_entry_index--;
-            SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
+            SFX_Play_46FBA0(0x34u, 35, 400);
         }
     }
     else if (input_or_field_204 & 0xA)
@@ -1892,7 +1892,7 @@ signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
         if (field_230_selected_entry_index < word_561538 - 1 && !field_254)
         {
             field_230_selected_entry_index++;
-            SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
+            SFX_Play_46FBA0(0x34u, 35, 400);
         }
     }
 
@@ -1905,7 +1905,7 @@ signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
             {
                 field_230_selected_entry_index = 0;
             }
-            SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
+            SFX_Play_46FBA0(0x34u, 35, 400);
         }
     }
     else if (input_or_field_204 & 0x40000000)
@@ -1917,7 +1917,7 @@ signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
             {
                 field_230_selected_entry_index = static_cast<__int16>(word_561538 - 1);
             }
-            SFX_Play_46FBA0(0x34u, 35, 400, FP_FromInteger(1));
+            SFX_Play_46FBA0(0x34u, 35, 400);
         }
     }
 
