@@ -103,3 +103,12 @@ EXPORT int CC remove_520B27(LPCSTR lpFileName)
     STDLIB_FUNCTION();
     return ::remove(lpFileName);
 }
+
+int access_impl(char const* fileName, int accessMode)
+{
+#if _WIN32
+    return _access(fileName, accessMode);
+#else
+    return access(fileName, accessMode);
+#endif
+}
