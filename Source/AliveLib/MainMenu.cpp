@@ -1839,7 +1839,7 @@ signed int MainMenuController::tLoadDemo_4D1040(DWORD)
         char file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, nullptr);
-        BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(1349810254, 0, 1u, 0);
+        BYTE **resource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::ResourceType::Resource_NxtP, 0, 1, 0);
         sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
         ResourceManager::FreeResource_49C330(resource);
 
