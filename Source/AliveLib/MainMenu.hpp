@@ -211,8 +211,8 @@ public:
     EXPORT void tLoadGame_Render_4D44D0( int **pOt);
     
     EXPORT void tLoadGame_Load_4D42F0();
-    EXPORT static char CC sub_FileName_4D1430(char *a1);
-    EXPORT static char CC sub_convert_iso_FileName_4D1660(char *a1, char *a2);
+    EXPORT static char CC checkIfDemoFileExists_4D1430(char *path);
+    EXPORT static char CC sub_convert_iso_FileName_4D1660(char* out, char* in);
 
     EXPORT void tLoadGame_Unload_4D4360();
 

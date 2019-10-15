@@ -1672,7 +1672,7 @@ void MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
-char MainMenuController::sub_convert_iso_FileName_4D1660(char *a1, char *a2)
+char MainMenuController::sub_convert_iso_FileName_4D1660(char* out, char* in)
 {
     char result = *a2;
     if (*a2)
@@ -1698,14 +1698,15 @@ char MainMenuController::sub_convert_iso_FileName_4D1660(char *a1, char *a2)
     return result;
 }
 
-char MainMenuController::sub_FileName_4D1430(char* input)
+char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
 {
-    if (input[0] == '\\')
+    char* inputMod = input;
+    if (inputMod[0] == '\\')
     {
-        input++;
+        inputMod++;
     }
     char buffer[256];
-    MainMenuController::sub_convert_iso_FileName_4D1660(buffer, input);
+    MainMenuController::sub_convert_iso_FileName_4D1660(buffer, inputMod);
 
     char fileName[256];
     strcpy(fileName, sCdEmu_Path1_C14620);
@@ -1776,7 +1777,7 @@ signed int MainMenuController::tLoadDemo_4D1040(DWORD)
         memset(&lvFilename[8], 0, 0xF8u);
         strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_22_lvl_name_cd);
 
-        while (!MainMenuController::sub_FileName_4D1430(&lvFilename[7]) && !MainMenuController::sub_FileName_4D1430(lvFilename))
+        while (!MainMenuController::checkIfDemoFileExists_4D1430(&lvFilename[7]) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
         {
             sLevelId_dword_5CA408 = levelId;
             if (word_5C1B9C)
