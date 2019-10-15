@@ -1864,7 +1864,7 @@ signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
     word_5C1B9C = 0;
 
     int input_or_field_204 = input;
-    if (field_204_prev_pressed && field_204_prev_pressed == static_cast<int>(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed))
+    if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
     {
         field_202_input_hold_down_timer--;
         if (field_202_input_hold_down_timer == 0)

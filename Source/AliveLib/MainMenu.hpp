@@ -267,7 +267,7 @@ public:
     __int16 field_1FE_highlite_alpha;
     __int16 field_200_highlite_glow_speed;
     __int16 field_202_input_hold_down_timer;
-    int field_204_prev_pressed;
+    unsigned int field_204_prev_pressed;
     MainMenuTransition* field_208_transition_obj;
     BaseGameObject* field_20C;
     BaseGameObject* field_210_pUnknown;
