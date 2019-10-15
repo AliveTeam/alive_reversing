@@ -153,18 +153,18 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
 {
     {
         23,       0,        0,        0,        -1,        0,        0,
-        nullptr, // &MainMenuController::sub_JoyStick_4D16D0,
-        nullptr, //&MainMenuController::sub_Render_4D26C0,
+        &MainMenuController::sub_JoyStick_4D16D0,
+        &MainMenuController::t_Render_ControlerMenu_Text_4D26C0,
         NULL,
-        nullptr, //&MainMenuController::tsub_Set_JoyStick_4D16B0,
+        &MainMenuController::tsub_Set_JoyStick_4D16B0,
         NULL
     },
     {
         5,        0,        0,        0,        -1,        0,        0,
-        nullptr, //&MainMenuController::tsub_4D1820,
-        nullptr, //&MainMenuController::t_Remap_Input_Render_4D2A10,
+        &MainMenuController::tsub_4D1820,
+        &MainMenuController::t_Remap_Input_Render_4D2A10,
         NULL,
-        nullptr, //&MainMenuController::tsub_4D17E0,
+        &MainMenuController::tsub_4D17E0,
         NULL
     },
     {
@@ -200,8 +200,8 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         9,        0,        1600,        3,        0,        0,        0,
-        nullptr, //&MainMenuController::tsub_4D1F50,
-        nullptr, //&MainMenuController::t_Render_All_Text_4D25E0,
+        &MainMenuController::tsub_4D1F50,
+        &MainMenuController::t_Render_AbesMotions_Text_4D25E0,
         NULL,
         NULL,
         NULL
@@ -216,7 +216,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         5,        0,        900,        1,        0,        0,        1,
-        nullptr, //&MainMenuController::tsub_4D48C0,
+        &MainMenuController::tsub_4D48C0,
         NULL,
         stru_5613C8,
         NULL,
@@ -224,7 +224,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         11,        0,        1800,        5,        0,        1,        0,
-        nullptr, //&MainMenuController::tsub_Input_Check_4D49B0,
+        &MainMenuController::tsub_Input_Check_4D49B0,
         NULL,
         stru_5613F8,
         NULL,
@@ -232,16 +232,16 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     },
     {
         6,        0,        0,        1,        0,        0,        0,
-        nullptr, //&MainMenuController::Page_FMV_Level_Update_4D4AB0,
-        nullptr, //&MainMenuController::tsub_Render_4D4F30,
+        &MainMenuController::Page_FMV_Level_Update_4D4AB0,
+        &MainMenuController::tsub_Render_4D4F30,
         stru_560FE8,
-        nullptr, //&MainMenuController::t_Unload_AbeSpeak_Res_4D49F0,
-        nullptr, //&MainMenuController::t_Load_AbeSpeak_Res_4D4A20
+        &MainMenuController::t_Unload_AbeSpeak_Res_4D49F0,
+        &MainMenuController::t_Load_AbeSpeak_Res_4D4A20
     },
     {
         31,        0,        0,        1,        0,        0,        0,
-        nullptr, //&MainMenuController::Page_FMV_Level_Update_4D4AB0,
-        nullptr, //&MainMenuController::tsub_Render_4D4F30,
+        &MainMenuController::Page_FMV_Level_Update_4D4AB0,
+        &MainMenuController::tsub_Render_4D4F30,
         stru_560FE8,
         NULL,
         NULL
@@ -249,7 +249,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     {
         30,        0,        0,        1,        0,        1,        0,
         &MainMenuController::tDemoSelect_4D0E10,
-        nullptr, //&MainMenuController::tsub_Render_4D4F30,
+        &MainMenuController::tsub_Render_4D4F30,
         NULL,
         NULL,
         NULL
@@ -1217,6 +1217,40 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
         MainMenuController::DrawMenuText_4D20D0(&sControllerMenuButtonCaptions_Text_562628[i], ot, &field_120_font, &polyOffset, 1);
     }
 }
+
+void MainMenuController::tsub_Render_4D4F30(int** /*pOt*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+void MainMenuController::t_Unload_AbeSpeak_Res_4D49F0()
+{
+    ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
+    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
+}
+
+
+void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
+{
+    ResourceManager::Reclaim_Memory_49C470(0);
+
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))
+    {
+        ResourceManager::LoadResourceFile_49C170("ABESPEAK.BAN", 0);
+    }
+
+    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
+
+    field_25C = 0;
+    field_25E = 0;
+}
+
+signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD /*input_held*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
 MainMenuText sLoadButtonGraphics[2] =
 {
     { 32, 27, "x", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u },
@@ -2042,7 +2076,7 @@ EXPORT void sub_4A2D40()
 }
 
 
-int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
+signed int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
 {
     if (!(input & 0x100000))
     {
@@ -2089,6 +2123,54 @@ int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
             }
         }
     }
+}
+
+
+signed int MainMenuController::tsub_4D1F50(DWORD /*input*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+
+signed int MainMenuController::tsub_Input_Check_4D49B0(DWORD /*input*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+
+signed int MainMenuController::tsub_4D48C0(DWORD /*input*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+void MainMenuController::tsub_4D17E0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void MainMenuController::tsub_Set_JoyStick_4D16B0()
+{
+    NOT_IMPLEMENTED();
+}
+
+void MainMenuController::t_Remap_Input_Render_4D2A10(int** /*ot*/)
+{
+    NOT_IMPLEMENTED();
+}
+
+signed int MainMenuController::sub_JoyStick_4D16D0(DWORD /*input*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+signed int MainMenuController::tsub_4D1820(DWORD /*input*/)
+{
+    NOT_IMPLEMENTED();
+    return 0;
 }
 
 void MainMenuController::tLoadGame_Unload_4D4360()

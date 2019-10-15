@@ -190,6 +190,14 @@ public:
 
     EXPORT void t_Render_ControlerMenu_Text_4D26C0(int **pOt);
 
+    EXPORT void tsub_Render_4D4F30(int** pOt);
+
+    EXPORT void t_Unload_AbeSpeak_Res_4D49F0();
+
+    EXPORT void t_Load_AbeSpeak_Res_4D4A20();
+
+    EXPORT signed int Page_FMV_Level_Update_4D4AB0(DWORD input_held);
+
     void Unload_AbeSpeakResources();
     void Load_AbeSpeakResources();
 
@@ -205,8 +213,24 @@ public:
 
     EXPORT signed int tLoadDemo_4D1040(DWORD input);
     EXPORT signed int tDemoSelect_4D0E10(DWORD input);
-    EXPORT int OptionsMenuBtnListener_4D1AB0(DWORD input);
+    EXPORT signed int OptionsMenuBtnListener_4D1AB0(DWORD input);
     
+    EXPORT signed int tsub_4D1F50(DWORD input);
+
+    EXPORT signed int tsub_Input_Check_4D49B0(DWORD input);
+
+    EXPORT signed int tsub_4D48C0(DWORD input);
+
+    EXPORT void tsub_4D17E0();
+
+    EXPORT void tsub_Set_JoyStick_4D16B0();
+
+    EXPORT void t_Remap_Input_Render_4D2A10(int** ot);
+
+    EXPORT signed int sub_JoyStick_4D16D0(DWORD input);
+
+    EXPORT signed int tsub_4D1820(DWORD input);
+
     EXPORT signed int tLoadGame_Input_4D3EF0(DWORD input);
     EXPORT void tLoadGame_Render_4D44D0( int **pOt);
     
