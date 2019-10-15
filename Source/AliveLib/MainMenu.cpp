@@ -1711,13 +1711,13 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
     char fileName[256] = {};
     strcpy(fileName, sCdEmu_Path1_C14620);
     strcat(fileName, buffer);
-    if (!access_impl(fileName, 0))
+    if (access_impl(fileName, 0) == 0)
     {
         return 1;
     }
     strcpy(fileName, sCdEmu_Path2_C144C0);
     strcat(fileName, buffer);
-    if (!access_impl(fileName, 0))
+    if (access_impl(fileName, 0) == 0)
     {
         return 1;
     }
@@ -1730,7 +1730,7 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
     strcat(fileName, buffer);
     fileName[0] = sCdRomDrives_5CA488[0];
 
-    while (access_impl(fileName, 0))
+    while (access_impl(fileName, 0) != 0)
     {
         fileName[0] = (sCdRomDrives_5CA488++)[1];
         if (!fileName[0])
@@ -1772,8 +1772,9 @@ signed int MainMenuController::tLoadDemo_4D1040(DWORD)
         strcpy(lvFilename, "ATTRACT");
         memset(&lvFilename[8], 0, 0xF8u);
         strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_22_lvl_name_cd);
+        auto lvFilenameNoPrefix = &lvFilename[7];
 
-        while (!MainMenuController::checkIfDemoFileExists_4D1430(&lvFilename[7]) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
+        while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
         {
             sLevelId_dword_5CA408 = levelId;
             if (word_5C1B9C)
