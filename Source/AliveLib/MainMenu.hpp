@@ -156,41 +156,41 @@ public:
     EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, int **ot, Alive::Font *font, int *polyIndex, char a5);
 
     // Page Functions
-    EXPORT void t_Render_Abe_Speak_4D2060(int** ot);
-    EXPORT signed int t_Input_Abe_Speak_4D2D20(DWORD input_held);
+    EXPORT void AbeSpeak_Render_4D2060(int** ot);
+    EXPORT signed int AbeSpeak_Update_4D2D20(DWORD input_held);
 
-    EXPORT void t_Render_Slig_Speak_4D2370(int** ot);
-    EXPORT signed int t_Input_Slig_Speak_4D3280(DWORD input_held);
-    EXPORT void t_Unload_Slig_Speak_4D3170();
-    EXPORT void t_Load_Slig_Speak_4D3090();
+    EXPORT void SligSpeak_Render_4D2370(int** ot);
+    EXPORT signed int SligSpeak_Update_4D3280(DWORD input_held);
+    EXPORT void SligSpeak_Unload_4D3170();
+    EXPORT void SligSpeak_Load_4D3090();
 
-    EXPORT void t_Render_Glukkon_Speak_4D23C0(int** ot);
-    EXPORT signed int t_Input_Glukkon_Speak_4D3670(DWORD input_held);
-    EXPORT void t_Unload_Glukkon_Speak_4D3560();
-    EXPORT void t_Load_Glukkon_Speak_4D3480();
+    EXPORT void GlukkonSpeak_Render_4D23C0(int** ot);
+    EXPORT signed int GlukkonSpeak_Update_4D3670(DWORD input_held);
+    EXPORT void GlukkonSpeak_Unload_4D3560();
+    EXPORT void GlukkonSpeak_Load_4D3480();
 
-    EXPORT void t_Render_Scrab_Speak_4D2410(int** ot);
-    EXPORT signed int t_Input_Scrab_Speak_4D3A60(DWORD input_held);
-    EXPORT void t_Unload_Scrab_Speak_4D3950();
-    EXPORT void t_Load_Scrab_Speak_4D3870();
+    EXPORT void ScrabSpeak_Render_4D2410(int** ot);
+    EXPORT signed int ScrabSpeak_Update_4D3A60(DWORD input_held);
+    EXPORT void ScrabSpeak_Unload_4D3950();
+    EXPORT void ScrabSpeak_Load_4D3870();
 
-    EXPORT void t_Render_Paramite_Speak_4D2460(int** ot);
-    EXPORT signed int t_Input_Paramite_Speak_4D3D60(DWORD input_held);
-    EXPORT void t_Unload_Paramite_Speak_4D3C50();
-    EXPORT void t_Load_Paramite_Speak_4D3B70();
+    EXPORT void ParamiteSpeak_Render_4D2460(int** ot);
+    EXPORT signed int ParamiteSpeak_Update_4D3D60(DWORD input_held);
+    EXPORT void ParamiteSpeak_Unload_4D3C50();
+    EXPORT void ParamiteSpeak_Load_4D3B70();
 
-    EXPORT signed int t_Input_Gamespeak_4D1FC0(DWORD input_held);
+    EXPORT signed int Gamespeak_Update_4D1FC0(DWORD input_held);
 
     void RenderOnScreenTextHelper(int ** ot, const MainMenuText * menuTextArray, int count, char isSingleChar);
 
-    EXPORT void t_Render_AbesMotions_Text_4D25E0(int **ot);
-    EXPORT void t_Render_All_Text_4D24F0(int** ot);
-    EXPORT void t_Render_All_Text_4D2540(int** ot);
-    EXPORT void tGame_BackStory_Or_NewGame_Render_4D2630(int** ot);
+    EXPORT void AbeMotions_Render_4D25E0(int **ot);
+    EXPORT void Gamespeak_Render_4D24F0(int** ot);
+    EXPORT void Options_Render_4D2540(int** ot);
+    EXPORT void BackStory_Or_NewGame_Render_4D2630(int** ot);
 
-    EXPORT void t_Render_ControlerMenu_Text_4D26C0(int **pOt);
+    EXPORT void ControllerMenu_Render_Text_4D26C0(int **pOt);
 
-    EXPORT void tsub_Render_4D4F30(int** pOt);
+    EXPORT void Demo_And_FMV_List_Render_4D4F30(int** pOt);
 
     EXPORT void t_Unload_AbeSpeak_Res_4D49F0();
 
@@ -205,31 +205,31 @@ public:
     EXPORT signed int Page_Front_Update_4D0720(DWORD input);
     EXPORT void Page_Front_Render_4D24B0(int **ot);
 
-    EXPORT signed int tLoad_New_Game_Input_4D0920(DWORD input);
+    EXPORT signed int LoadNewGame_Update_4D0920(DWORD input);
 
-    EXPORT signed int tGame_BackStory_Or_NewGame_Input_4D1C60(DWORD input_held);
-    EXPORT void tGame_BackStory_Or_NewGame_Load_4D1BA0();
-    EXPORT void tGame_BackStory_Or_NewGame_Unload_4D1BE0();
+    EXPORT signed int BackStory_Or_NewGame_Update_4D1C60(DWORD input_held);
+    EXPORT void BackStory_Or_NewGame_Load_4D1BA0();
+    EXPORT void BackStory_Or_NewGame_Unload_4D1BE0();
 
-    EXPORT signed int tLoadDemo_4D1040(DWORD input);
-    EXPORT signed int tDemoSelect_4D0E10(DWORD input);
-    EXPORT signed int OptionsMenuBtnListener_4D1AB0(DWORD input);
+    EXPORT signed int LoadDemo_Update_4D1040(DWORD input);
+    EXPORT signed int DemoSelect_Update_4D0E10(DWORD input);
+    EXPORT signed int Options_Update_4D1AB0(DWORD input);
     
-    EXPORT signed int tsub_4D1F50(DWORD input);
+    EXPORT signed int AbeMotions_Update_4D1F50(DWORD input);
 
     EXPORT signed int tsub_Input_Check_4D49B0(DWORD input);
 
     EXPORT signed int tsub_4D48C0(DWORD input);
 
-    EXPORT void tsub_4D17E0();
+    EXPORT void RemapInput_Load_4D17E0();
 
-    EXPORT void tsub_Set_JoyStick_4D16B0();
+    EXPORT void ControllerMenu_Load_4D16B0();
 
-    EXPORT void t_Remap_Input_Render_4D2A10(int** ot);
+    EXPORT void RemapInput_Render_4D2A10(int** ot);
 
-    EXPORT signed int sub_JoyStick_4D16D0(DWORD input);
+    EXPORT signed int ControllerMenu_Update_4D16D0(DWORD input);
 
-    EXPORT signed int tsub_4D1820(DWORD input);
+    EXPORT signed int RemapInput_Update_4D1820(DWORD input);
 
     EXPORT signed int tLoadGame_Input_4D3EF0(DWORD input);
     EXPORT void tLoadGame_Render_4D44D0( int **pOt);

@@ -153,25 +153,27 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
 {
     {
         23,       0,        0,        0,        -1,        0,        0,
-        &MainMenuController::sub_JoyStick_4D16D0,
-        &MainMenuController::t_Render_ControlerMenu_Text_4D26C0,
-        NULL,
-        &MainMenuController::tsub_Set_JoyStick_4D16B0,
-        NULL
+        &MainMenuController::ControllerMenu_Update_4D16D0,
+        &MainMenuController::ControllerMenu_Render_Text_4D26C0,
+        nullptr,
+        &MainMenuController::ControllerMenu_Load_4D16B0,
+        nullptr
     },
     {
         5,        0,        0,        0,        -1,        0,        0,
-        &MainMenuController::tsub_4D1820,
-        &MainMenuController::t_Remap_Input_Render_4D2A10,
-        NULL,
-        &MainMenuController::tsub_4D17E0,
-        NULL
+        &MainMenuController::RemapInput_Update_4D1820,
+        &MainMenuController::RemapInput_Render_4D2A10,
+        nullptr,
+        &MainMenuController::RemapInput_Load_4D17E0,
+        nullptr
     },
     {
         11,        0,        0,        0,        -1,        0,       0,
-        NULL,        NULL,        NULL,
+        nullptr,
+        nullptr,
+        nullptr,
         &MainMenuController::Game_Force_Quit_Load_4D1A90,
-        NULL
+        nullptr
     },
     {
         // Main menu screen where abe says hello
@@ -179,32 +181,32 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::Page_Front_Update_4D0720,
         &MainMenuController::Page_Front_Render_4D24B0,
         sBtnArray_FrontEnd_560FA0,
-        NULL,
-        NULL
+        nullptr,
+        nullptr
     },
     { // Gamespeak Page
         2,        0,        900,        1,        0,        4,        0,
-        &MainMenuController::t_Input_Gamespeak_4D1FC0,
-        &MainMenuController::t_Render_All_Text_4D24F0,
+        &MainMenuController::Gamespeak_Update_4D1FC0,
+        &MainMenuController::Gamespeak_Render_4D24F0,
         sBtnArray_Gamespeak_561310,
-        NULL,
-        NULL
+        nullptr,
+        nullptr
     },
     { // Options Page
         3,        0,        900,        1,        0,        3,        1,
-        &MainMenuController::OptionsMenuBtnListener_4D1AB0,
-        &MainMenuController::t_Render_All_Text_4D2540,
+        &MainMenuController::Options_Update_4D1AB0,
+        &MainMenuController::Options_Render_4D2540,
         sBtnArray_Options_561368,
-        NULL,
-        NULL
+        nullptr,
+        nullptr
     },
     {
         9,        0,        1600,        3,        0,        0,        0,
-        &MainMenuController::tsub_4D1F50,
-        &MainMenuController::t_Render_AbesMotions_Text_4D25E0,
-        NULL,
-        NULL,
-        NULL
+        &MainMenuController::AbeMotions_Update_4D1F50,
+        &MainMenuController::AbeMotions_Render_4D25E0,
+        nullptr,
+        nullptr,
+        nullptr
     },
     { // Load game page
         4,        0,        1000,        1,        0,        2,        0,
@@ -217,23 +219,23 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     {
         5,        0,        900,        1,        0,        0,        1,
         &MainMenuController::tsub_4D48C0,
-        NULL,
+        nullptr,
         stru_5613C8,
-        NULL,
-        NULL
+        nullptr,
+        nullptr
     },
     {
         11,        0,        1800,        5,        0,        1,        0,
         &MainMenuController::tsub_Input_Check_4D49B0,
-        NULL,
+        nullptr,
         stru_5613F8,
-        NULL,
-        NULL
+        nullptr,
+        nullptr
     },
     {
         6,        0,        0,        1,        0,        0,        0,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
-        &MainMenuController::tsub_Render_4D4F30,
+        &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
         stru_560FE8,
         &MainMenuController::t_Unload_AbeSpeak_Res_4D49F0,
         &MainMenuController::t_Load_AbeSpeak_Res_4D4A20
@@ -241,92 +243,92 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     {
         31,        0,        0,        1,        0,        0,        0,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
-        &MainMenuController::tsub_Render_4D4F30,
+        &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
         stru_560FE8,
-        NULL,
-        NULL
+        nullptr,
+        nullptr
     },
     {
         30,        0,        0,        1,        0,        1,        0,
-        &MainMenuController::tDemoSelect_4D0E10,
-        &MainMenuController::tsub_Render_4D4F30,
-        NULL,
-        NULL,
-        NULL
+        &MainMenuController::DemoSelect_Update_4D0E10,
+        &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
+        nullptr,
+        nullptr,
+        nullptr
     },
     {
         13,        0,        0,        0,        -1,        -1,        0,
-        &MainMenuController::tLoad_New_Game_Input_4D0920,
-        NULL,
-        NULL,
-        NULL,
-        NULL
+        &MainMenuController::LoadNewGame_Update_4D0920,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
     },
     {
         22,        0,        0,        0,        -1,        -1,        0,
-        &MainMenuController::tLoadDemo_4D1040,
-        NULL,
-        NULL,
-        NULL,
-        NULL
+        &MainMenuController::LoadDemo_Update_4D1040,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr
     },
     { 
-        20, 0, 150, 25, 1, -1, 0, NULL, NULL, NULL, NULL, NULL
+        20, 0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
     { 
         // Copy right boot screen
-        25, 0, 150, 1, 7, 0, 0, NULL, NULL, NULL, NULL, NULL 
+        25, 0, 150, 1, 7, 0, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
     { 
-        23, 0, 150, 25, 1, -1, 0, NULL, NULL, NULL, NULL, NULL 
+        23, 0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
     {
         14,        0,        1600,        2,        0,        0,        1,
-        &MainMenuController::t_Input_Abe_Speak_4D2D20,
-        &MainMenuController::t_Render_Abe_Speak_4D2060,
-        NULL,
-        NULL,
-        NULL
+        &MainMenuController::AbeSpeak_Update_4D2D20,
+        &MainMenuController::AbeSpeak_Render_4D2060,
+        nullptr,
+        nullptr,
+        nullptr
     },
     {
         15,        0,        1600,        2,        0,        1,        1,
-        &MainMenuController::t_Input_Slig_Speak_4D3280,
-        &MainMenuController::t_Render_Slig_Speak_4D2370,
-        NULL,
-        &MainMenuController::t_Load_Slig_Speak_4D3090,
-        &MainMenuController::t_Unload_Slig_Speak_4D3170
+        &MainMenuController::SligSpeak_Update_4D3280,
+        &MainMenuController::SligSpeak_Render_4D2370,
+        nullptr,
+        &MainMenuController::SligSpeak_Load_4D3090,
+        &MainMenuController::SligSpeak_Unload_4D3170
     },
     {
         16,        0,        1600,        2,        0,        2,        1,
-        &MainMenuController::t_Input_Glukkon_Speak_4D3670,
-        &MainMenuController::t_Render_Glukkon_Speak_4D23C0,
-        NULL,
-        &MainMenuController::t_Load_Glukkon_Speak_4D3480,
-        &MainMenuController::t_Unload_Glukkon_Speak_4D3560
+        &MainMenuController::GlukkonSpeak_Update_4D3670,
+        &MainMenuController::GlukkonSpeak_Render_4D23C0,
+        nullptr,
+        &MainMenuController::GlukkonSpeak_Load_4D3480,
+        &MainMenuController::GlukkonSpeak_Unload_4D3560
     },
     {
         17,        0,        1600,        2,        0,        3,        1,
-        &MainMenuController::t_Input_Scrab_Speak_4D3A60,
-        &MainMenuController::t_Render_Scrab_Speak_4D2410,
-        NULL,
-        &MainMenuController::t_Load_Scrab_Speak_4D3870,
-        &MainMenuController::t_Unload_Scrab_Speak_4D3950
+        &MainMenuController::ScrabSpeak_Update_4D3A60,
+        &MainMenuController::ScrabSpeak_Render_4D2410,
+        nullptr,
+        &MainMenuController::ScrabSpeak_Load_4D3870,
+        &MainMenuController::ScrabSpeak_Unload_4D3950
     },
     {
         18,        0,        1600,        2,        0,        4,        1,
-        &MainMenuController::t_Input_Paramite_Speak_4D3D60,
-        &MainMenuController::t_Render_Paramite_Speak_4D2460,
-        NULL,
-        &MainMenuController::t_Load_Paramite_Speak_4D3B70,
-        &MainMenuController::t_Unload_Paramite_Speak_4D3C50
+        &MainMenuController::ParamiteSpeak_Update_4D3D60,
+        &MainMenuController::ParamiteSpeak_Render_4D2460,
+        nullptr,
+        &MainMenuController::ParamiteSpeak_Load_4D3B70,
+        &MainMenuController::ParamiteSpeak_Unload_4D3C50
     },
     {
         12,        0,        900,        1,        0,        0,        0,
-        &MainMenuController::tGame_BackStory_Or_NewGame_Input_4D1C60,
-        &MainMenuController::tGame_BackStory_Or_NewGame_Render_4D2630,
+        &MainMenuController::BackStory_Or_NewGame_Update_4D1C60,
+        &MainMenuController::BackStory_Or_NewGame_Render_4D2630,
         sBtnArray_Game_BackStory_Or_NewGame_561420,
-        &MainMenuController::tGame_BackStory_Or_NewGame_Load_4D1BA0,
-        &MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0
+        &MainMenuController::BackStory_Or_NewGame_Load_4D1BA0,
+        &MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0
     }
 });
 
@@ -796,12 +798,12 @@ const MainMenuText sAbeMotions_562448[15] =
     { 330, 174, "\x0F", 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u },          //angry slap [5]
 };
 
-void MainMenuController::t_Render_Abe_Speak_4D2060(int** ot)
+void MainMenuController::AbeSpeak_Render_4D2060(int** ot)
 {
     RenderOnScreenTextHelper(ot, &sAbeGameSpeak_561F38[0], ALIVE_COUNTOF(sAbeGameSpeak_561F38), 1);
 }
 
-signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
+signed int MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
 {
     // 8 is when returning to previous screen
     if (field_230_selected_entry_index != 8 && field_23C_T80.Get(Flags::eBit24_Chant_Seq_Playing))
@@ -870,22 +872,22 @@ signed int MainMenuController::t_Input_Abe_Speak_4D2D20(DWORD input_held)
     });
 }
 
-void MainMenuController::t_Render_Slig_Speak_4D2370(int** ot)
+void MainMenuController::SligSpeak_Render_4D2370(int** ot)
 {
     RenderOnScreenTextHelper(ot, &sSligGameSpeak_562058[0], ALIVE_COUNTOF(sSligGameSpeak_562058), 1);
 }
 
-void MainMenuController::t_Render_Glukkon_Speak_4D23C0(int** ot)
+void MainMenuController::GlukkonSpeak_Render_4D23C0(int** ot)
 {
     RenderOnScreenTextHelper(ot, &sGlukkonGameSpeak_562160[0], ALIVE_COUNTOF(sGlukkonGameSpeak_562160), 1);
 }
 
-void MainMenuController::t_Render_Scrab_Speak_4D2410(int** ot)
+void MainMenuController::ScrabSpeak_Render_4D2410(int** ot)
 {
     RenderOnScreenTextHelper(ot, &sScrabGameSpeak_562268[0], ALIVE_COUNTOF(sScrabGameSpeak_562268), 1);
 }
 
-signed int MainMenuController::t_Input_Slig_Speak_4D3280(DWORD input_held)
+signed int MainMenuController::SligSpeak_Update_4D3280(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
@@ -906,14 +908,14 @@ signed int MainMenuController::t_Input_Slig_Speak_4D3280(DWORD input_held)
     });
 }
 
-void MainMenuController::t_Unload_Slig_Speak_4D3170()
+void MainMenuController::SligSpeak_Unload_4D3170()
 {
     Unload_Resource(field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
     Load_AbeSpeakResources();
     Set_Anim_4D05E0(AnimIds::eAbe_Idle);
 }
 
-void MainMenuController::t_Load_Slig_Speak_4D3090()
+void MainMenuController::SligSpeak_Load_4D3090()
 {
     Unload_AbeSpeakResources();
 
@@ -923,7 +925,7 @@ void MainMenuController::t_Load_Slig_Speak_4D3090()
     Set_Anim_4D05E0(AnimIds::eSlig_Idle);
 }
 
-signed int MainMenuController::t_Input_Glukkon_Speak_4D3670(DWORD input_held)
+signed int MainMenuController::GlukkonSpeak_Update_4D3670(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
@@ -944,14 +946,14 @@ signed int MainMenuController::t_Input_Glukkon_Speak_4D3670(DWORD input_held)
     });
 }
 
-void MainMenuController::t_Unload_Glukkon_Speak_4D3560()
+void MainMenuController::GlukkonSpeak_Unload_4D3560()
 {
     Unload_Resource(field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
     Load_AbeSpeakResources();
     Set_Anim_4D05E0(AnimIds::eAbe_Idle);
 }
 
-void MainMenuController::t_Load_Glukkon_Speak_4D3480()
+void MainMenuController::GlukkonSpeak_Load_4D3480()
 {
     Unload_AbeSpeakResources();
 
@@ -961,7 +963,7 @@ void MainMenuController::t_Load_Glukkon_Speak_4D3480()
     Set_Anim_4D05E0(AnimIds::eGlukkon_Idle);
 }
 
-signed int MainMenuController::t_Input_Scrab_Speak_4D3A60(DWORD input_held)
+signed int MainMenuController::ScrabSpeak_Update_4D3A60(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
@@ -982,14 +984,14 @@ signed int MainMenuController::t_Input_Scrab_Speak_4D3A60(DWORD input_held)
     });
 }
 
-void MainMenuController::t_Unload_Scrab_Speak_4D3950()
+void MainMenuController::ScrabSpeak_Unload_4D3950()
 {
     Unload_Resource(field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak]);
     Load_AbeSpeakResources();
     Set_Anim_4D05E0(AnimIds::eAbe_Idle);
 }
 
-void MainMenuController::t_Load_Scrab_Speak_4D3870()
+void MainMenuController::ScrabSpeak_Load_4D3870()
 {
     Unload_AbeSpeakResources();
 
@@ -999,12 +1001,12 @@ void MainMenuController::t_Load_Scrab_Speak_4D3870()
     Set_Anim_4D05E0(AnimIds::eScrab_Idle);
 }
 
-void MainMenuController::t_Render_Paramite_Speak_4D2460(int** ot)
+void MainMenuController::ParamiteSpeak_Render_4D2460(int** ot)
 {
     RenderOnScreenTextHelper(ot, &sParamiteSpeak_5622C8[0], ALIVE_COUNTOF(sParamiteSpeak_5622C8), 1);
 }
 
-signed int MainMenuController::t_Input_Paramite_Speak_4D3D60(DWORD input_held)
+signed int MainMenuController::ParamiteSpeak_Update_4D3D60(DWORD input_held)
 {
     return HandleGameSpeakInput(input_held, [&](InputCommands cmd)
     {
@@ -1025,14 +1027,14 @@ signed int MainMenuController::t_Input_Paramite_Speak_4D3D60(DWORD input_held)
     });
 }
 
-void MainMenuController::t_Unload_Paramite_Speak_4D3C50()
+void MainMenuController::ParamiteSpeak_Unload_4D3C50()
 {
     Unload_Resource(field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak]);
     Load_AbeSpeakResources();
     Set_Anim_4D05E0(AnimIds::eAbe_Idle);
 }
 
-void MainMenuController::t_Load_Paramite_Speak_4D3B70()
+void MainMenuController::ParamiteSpeak_Load_4D3B70()
 {
     Unload_AbeSpeakResources();
 
@@ -1207,7 +1209,7 @@ ALIVE_VAR(1, 0xBB43D8, int, controllerEntryToSelect_BB43D8, 0);
 ALIVE_VAR(1, 0xBB43F4, int, selectedControllerEntry_BB43F4, 0);
 ALIVE_VAR(1, 0x55E838, int, controllerCount_55E838, 0);
 
-void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
+void MainMenuController::ControllerMenu_Render_Text_4D26C0(int ** ot)
 {
     int polyOffset = 0;
     RenderScrollableTextEntries(ot, controllerEntryToSelect_BB43D8, selectedControllerEntry_BB43F4, controllerCount_55E838, sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, aKeyboard_1, field_120_font, polyOffset);
@@ -1218,7 +1220,7 @@ void MainMenuController::t_Render_ControlerMenu_Text_4D26C0(int ** ot)
     }
 }
 
-void MainMenuController::tsub_Render_4D4F30(int** /*pOt*/)
+void MainMenuController::Demo_And_FMV_List_Render_4D4F30(int** /*pOt*/)
 {
     NOT_IMPLEMENTED();
 }
@@ -1277,12 +1279,12 @@ void MainMenuController::tLoadGame_Render_4D44D0(int** ot)
     }
 }
 
-void MainMenuController::t_Render_AbesMotions_Text_4D25E0(int ** ot)
+void MainMenuController::AbeMotions_Render_4D25E0(int ** ot)
 {
     RenderOnScreenTextHelper(ot, &sAbeMotions_562448[0], ALIVE_COUNTOF(sAbeMotions_562448), 0);
 }
 
-signed int MainMenuController::t_Input_Gamespeak_4D1FC0(DWORD input_held)
+signed int MainMenuController::Gamespeak_Update_4D1FC0(DWORD input_held)
 {
     field_230_selected_entry_index = 0;
 
@@ -1343,17 +1345,17 @@ MainMenuText sMTxt_NewGame_562598[3] = {
     { 161, 164, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
 };
 
-void MainMenuController::t_Render_All_Text_4D24F0(int ** ot)
+void MainMenuController::Gamespeak_Render_4D24F0(int ** ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623B8, 2, 1);
 }
 
-void MainMenuController::t_Render_All_Text_4D2540(int ** ot)
+void MainMenuController::Options_Render_4D2540(int ** ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_Gamespeak_5623E8, 2, 1);
 }
 
-void MainMenuController::tGame_BackStory_Or_NewGame_Render_4D2630(int ** ot)
+void MainMenuController::BackStory_Or_NewGame_Render_4D2630(int ** ot)
 {
     RenderOnScreenTextHelper(ot, sMTxt_NewGame_562598, 2, 1);
 }
@@ -1457,7 +1459,7 @@ void MainMenuController::Page_Front_Render_4D24B0(int** ot)
 ALIVE_VAR(1, 0xbb43dc, short, word_BB43DC, 0);
 ALIVE_VAR(1, 0x5c1b88, int, sGameStartedFrame_5C1B88, 0);
 
-signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
+signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 {
     // TODO: De-dupe the big parts of duplicated code in here
     if (field_23C_T80.Get(Flags::eBit21))
@@ -1612,7 +1614,7 @@ signed int MainMenuController::tLoad_New_Game_Input_4D0920(DWORD /*input*/)
     return 0;
 }
 
-EXPORT signed int MainMenuController::tGame_BackStory_Or_NewGame_Input_4D1C60(DWORD input_held)
+EXPORT signed int MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD input_held)
 {
     if (input_held & 0x100000) // TODO: start button ?
     {
@@ -1683,14 +1685,14 @@ EXPORT signed int MainMenuController::tGame_BackStory_Or_NewGame_Input_4D1C60(DW
     return 0;
 }
 
-void MainMenuController::tGame_BackStory_Or_NewGame_Load_4D1BA0()
+void MainMenuController::BackStory_Or_NewGame_Load_4D1BA0()
 {
     ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeIntro]);
     field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
     word_BB43DC = 0;
 }
 
-void MainMenuController::tGame_BackStory_Or_NewGame_Unload_4D1BE0()
+void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
 {
     if (!word_BB43DC)
     {
@@ -1776,7 +1778,7 @@ ALIVE_VAR(1, 0x5C1B9C, short, word_5C1B9C, 0);
 ALIVE_VAR(1, 0x5C1BA2, BYTE, byte_5C1BA2, 0);
 ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
 
-signed int MainMenuController::tLoadDemo_4D1040(DWORD)
+signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
 {
     const int maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
 
@@ -1883,7 +1885,7 @@ signed int MainMenuController::tLoadDemo_4D1040(DWORD)
 
 ALIVE_VAR(1, 0x561538, int, word_561538, 0);
 
-signed int MainMenuController::tDemoSelect_4D0E10(DWORD input)
+signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
 {
     word_5C1BA0 = 0;
     word_5C1B9C = 0;
@@ -2076,7 +2078,7 @@ EXPORT void sub_4A2D40()
 }
 
 
-signed int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
+signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
 {
     if (!(input & 0x100000))
     {
@@ -2126,7 +2128,7 @@ signed int MainMenuController::OptionsMenuBtnListener_4D1AB0(DWORD input)
 }
 
 
-signed int MainMenuController::tsub_4D1F50(DWORD /*input*/)
+signed int MainMenuController::AbeMotions_Update_4D1F50(DWORD /*input*/)
 {
     NOT_IMPLEMENTED();
     return 0;
@@ -2146,28 +2148,28 @@ signed int MainMenuController::tsub_4D48C0(DWORD /*input*/)
     return 0;
 }
 
-void MainMenuController::tsub_4D17E0()
+void MainMenuController::RemapInput_Load_4D17E0()
 {
     NOT_IMPLEMENTED();
 }
 
-void MainMenuController::tsub_Set_JoyStick_4D16B0()
+void MainMenuController::ControllerMenu_Load_4D16B0()
 {
     NOT_IMPLEMENTED();
 }
 
-void MainMenuController::t_Remap_Input_Render_4D2A10(int** /*ot*/)
+void MainMenuController::RemapInput_Render_4D2A10(int** /*ot*/)
 {
     NOT_IMPLEMENTED();
 }
 
-signed int MainMenuController::sub_JoyStick_4D16D0(DWORD /*input*/)
+signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD /*input*/)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-signed int MainMenuController::tsub_4D1820(DWORD /*input*/)
+signed int MainMenuController::RemapInput_Update_4D1820(DWORD /*input*/)
 {
     NOT_IMPLEMENTED();
     return 0;
