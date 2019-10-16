@@ -16,6 +16,7 @@ EXPORT DWORD Input_GetLastPressedKey_492610();
 EXPORT void Input_Reset_492660();
 EXPORT unsigned int Input_IsChanting_45F260();
 EXPORT void CC Input_Pads_Reset_4FA960();
+EXPORT void CC Input_491870();
 
 enum InputCommands : unsigned int
 {

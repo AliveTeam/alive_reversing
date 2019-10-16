@@ -151,23 +151,23 @@ SfxDefinition stru_55D7C0[] =
 
 ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960, 
 {
-    {
+    { // 0
         23,       0,        0,        0,        -1,        0,        0,
         &MainMenuController::ControllerMenu_Update_4D16D0,
         &MainMenuController::ControllerMenu_Render_Text_4D26C0,
         nullptr,
         &MainMenuController::ControllerMenu_Load_4D16B0,
         nullptr
-    },
-    {
+    }, 
+    { // 1
         5,        0,        0,        0,        -1,        0,        0,
         &MainMenuController::RemapInput_Update_4D1820,
         &MainMenuController::RemapInput_Render_4D2A10,
         nullptr,
         &MainMenuController::RemapInput_Load_4D17E0,
         nullptr
-    },
-    {
+    }, 
+    { // 2
         11,        0,        0,        0,        -1,        0,       0,
         nullptr,
         nullptr,
@@ -175,7 +175,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::Game_Force_Quit_Load_4D1A90,
         nullptr
     },
-    {
+    { // 3
         // Main menu screen where abe says hello
         1,        0,        0,        0,        -1,        -1,    1,
         &MainMenuController::Page_Front_Update_4D0720,
@@ -184,7 +184,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    { // Gamespeak Page
+    { // Gamespeak Page 4
         2,        0,        900,        1,        0,        4,        0,
         &MainMenuController::Gamespeak_Update_4D1FC0,
         &MainMenuController::Gamespeak_Render_4D24F0,
@@ -192,7 +192,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    { // Options Page
+    { // Options Page 5
         3,        0,        900,        1,        0,        3,        1,
         &MainMenuController::Options_Update_4D1AB0,
         &MainMenuController::Options_Render_4D2540,
@@ -200,7 +200,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    {
+    { // 6
         9,        0,        1600,        3,        0,        0,        0,
         &MainMenuController::AbeMotions_Update_4D1F50,
         &MainMenuController::AbeMotions_Render_4D25E0,
@@ -208,7 +208,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    { // Load game page
+    { // Load game page 7
         4,        0,        1000,        1,        0,        2,        0,
         &MainMenuController::tLoadGame_Input_4D3EF0,
         &MainMenuController::tLoadGame_Render_4D44D0,
@@ -216,7 +216,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::tLoadGame_Load_4D42F0,
         &MainMenuController::tLoadGame_Unload_4D4360
     },
-    {
+    { // 8 choose button for remap page ?
         5,        0,        900,        1,        0,        0,        1,
         &MainMenuController::tsub_4D48C0,
         nullptr,
@@ -224,7 +224,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    {
+    { // 9
         11,        0,        1800,        5,        0,        1,        0,
         &MainMenuController::tsub_Input_Check_4D49B0,
         nullptr,
@@ -232,7 +232,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    {
+    { // 10
         6,        0,        0,        1,        0,        0,        0,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
@@ -240,7 +240,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::t_Unload_AbeSpeak_Res_4D49F0,
         &MainMenuController::t_Load_AbeSpeak_Res_4D4A20
     },
-    {
+    { // 11
         31,        0,        0,        1,        0,        0,        0,
         &MainMenuController::Page_FMV_Level_Update_4D4AB0,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
@@ -248,7 +248,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    {
+    { // 12
         30,        0,        0,        1,        0,        1,        0,
         &MainMenuController::DemoSelect_Update_4D0E10,
         &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
@@ -256,7 +256,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    {
+    { // 13
         13,        0,        0,        0,        -1,        -1,        0,
         &MainMenuController::LoadNewGame_Update_4D0920,
         nullptr,
@@ -264,7 +264,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    {
+    { // 14
         22,        0,        0,        0,        -1,        -1,        0,
         &MainMenuController::LoadDemo_Update_4D1040,
         nullptr,
@@ -272,17 +272,17 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    { 
+    {  // 15
         20, 0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
-    { 
+    { // 16
         // Copy right boot screen
         25, 0, 150, 1, 7, 0, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
-    { 
+    { // 17
         23, 0, 150, 25, 1, -1, 0, nullptr, nullptr, nullptr, nullptr, nullptr
     },
-    {
+    { // 18
         14,        0,        1600,        2,        0,        0,        1,
         &MainMenuController::AbeSpeak_Update_4D2D20,
         &MainMenuController::AbeSpeak_Render_4D2060,
@@ -290,7 +290,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         nullptr,
         nullptr
     },
-    {
+    { // 19
         15,        0,        1600,        2,        0,        1,        1,
         &MainMenuController::SligSpeak_Update_4D3280,
         &MainMenuController::SligSpeak_Render_4D2370,
@@ -298,7 +298,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::SligSpeak_Load_4D3090,
         &MainMenuController::SligSpeak_Unload_4D3170
     },
-    {
+    { // 20
         16,        0,        1600,        2,        0,        2,        1,
         &MainMenuController::GlukkonSpeak_Update_4D3670,
         &MainMenuController::GlukkonSpeak_Render_4D23C0,
@@ -306,7 +306,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::GlukkonSpeak_Load_4D3480,
         &MainMenuController::GlukkonSpeak_Unload_4D3560
     },
-    {
+    { // 21
         17,        0,        1600,        2,        0,        3,        1,
         &MainMenuController::ScrabSpeak_Update_4D3A60,
         &MainMenuController::ScrabSpeak_Render_4D2410,
@@ -314,7 +314,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::ScrabSpeak_Load_4D3870,
         &MainMenuController::ScrabSpeak_Unload_4D3950
     },
-    {
+    { // 22
         18,        0,        1600,        2,        0,        4,        1,
         &MainMenuController::ParamiteSpeak_Update_4D3D60,
         &MainMenuController::ParamiteSpeak_Render_4D2460,
@@ -322,7 +322,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
         &MainMenuController::ParamiteSpeak_Load_4D3B70,
         &MainMenuController::ParamiteSpeak_Unload_4D3C50
     },
-    {
+    { // 23
         12,        0,        900,        1,        0,        0,        0,
         &MainMenuController::BackStory_Or_NewGame_Update_4D1C60,
         &MainMenuController::BackStory_Or_NewGame_Render_4D2630,
@@ -2128,12 +2128,32 @@ signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
 }
 
 
-signed int MainMenuController::AbeMotions_Update_4D1F50(DWORD /*input*/)
+signed int MainMenuController::AbeMotions_Update_4D1F50(DWORD input)
 {
-    NOT_IMPLEMENTED();
-    return 0;
-}
+    if (sNum_CamSwappers_5C1B66 > 0)
+    {
+        // Camera is changing - stay in this screen
+        return 0;
+    }
 
+    // To the game speak screen
+    if (input & 0x100000)
+    {
+        SFX_Play_46FBA0(52u, 35, 400);
+        return 2;
+    }
+
+    // Return to previous screen
+    if (input & 0x200000)
+    {
+        return 3;
+    }
+    else
+    {
+        // No input - stay in this screen
+        return 0;
+    }
+}
 
 signed int MainMenuController::tsub_Input_Check_4D49B0(DWORD /*input*/)
 {
@@ -2155,7 +2175,8 @@ void MainMenuController::RemapInput_Load_4D17E0()
 
 void MainMenuController::ControllerMenu_Load_4D16B0()
 {
-    NOT_IMPLEMENTED();
+    controllerEntryToSelect_BB43D8 = sJoystickEnabled_5C9F70;
+    selectedControllerEntry_BB43F4 = sJoystickEnabled_5C9F70;
 }
 
 void MainMenuController::RemapInput_Render_4D2A10(int** /*ot*/)
@@ -2163,10 +2184,52 @@ void MainMenuController::RemapInput_Render_4D2A10(int** /*ot*/)
     NOT_IMPLEMENTED();
 }
 
-signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD /*input*/)
+signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (input & InputCommands::eUp)
+    {
+        if (selectedControllerEntry_BB43F4 > 0 && sTextYPos_BB43F0 == FP_FromInteger(0))
+        {
+            selectedControllerEntry_BB43F4--;
+            SFX_Play_46FBA0(52u, 45, 400);
+        }
+    }
+    else if (input & InputCommands::eDown)
+    {
+        if (selectedControllerEntry_BB43F4 < controllerCount_55E838 - 1 && sTextYPos_BB43F0 == FP_FromInteger(0))
+        {
+            selectedControllerEntry_BB43F4++;
+            SFX_Play_46FBA0(52u, 45, 400);
+        }
+    }
+
+    // Escape/back
+    if (input & 0x200000)
+    {
+        return 3;
+    }
+
+    // Enter - set active input device
+    if (input & 0x100000)
+    {
+        sJoystickEnabled_5C9F70 = controllerEntryToSelect_BB43D8;
+        Input_491870();
+        Input_SaveSettingsIni_492840();
+        return 3;
+    }
+    
+    if (input & 0x80000000)
+    {
+        // c configure controller
+        sJoystickEnabled_5C9F70 = controllerEntryToSelect_BB43D8;
+        Input_491870();
+        return 5;
+    }
+    else
+    {
+        // Nothing pressed stay on this screen
+        return 0;
+    }
 }
 
 signed int MainMenuController::RemapInput_Update_4D1820(DWORD /*input*/)
