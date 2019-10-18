@@ -121,6 +121,7 @@ EXPORT int CC Animation_OnFrame_Common_4561B0(void* pObjPtr, signed __int16* pDa
     return 1;
 }
 
+// Render smoke from flying Slig engine - not sure what it renders for abe
 EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
@@ -141,7 +142,7 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pDa
     }
 
     FP xpos = xOff + pObj->field_B8_xpos;
-    FP ypos = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[1])) + FP_FromInteger(25) + pObj->field_BC_ypos;
+    FP ypos = (pObj->field_CC_sprite_scale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->field_BC_ypos;
     
     if (Event_Get_422C00(kEventDeathReset))
     {
