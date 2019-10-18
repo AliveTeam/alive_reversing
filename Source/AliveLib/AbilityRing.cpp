@@ -595,7 +595,8 @@ void AbilityRing::vScreenChanged_49DE70()
             {
                 if (pObj->field_114_flags.Get(Flags_114::e114_Bit3_Can_Be_Possessed))
                 {
-                    if (pObj->Is_In_Current_Camera_424A70() != CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
+                    // Only heal alive muds in the same screen
+                    if (pObj->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0 && pObj->field_10C_health > FP_FromInteger(0))
                     {
                         pObj->VPossessed_408F70();
                     }
