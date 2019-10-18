@@ -23,6 +23,16 @@ public:
         vScreenChanged_4B1300();
     }
 
+    virtual void VRender(int** ot) override
+    {
+        Render_4B0AF0(ot);
+    }
+
+    virtual void VUpdate() override
+    {
+        Update_4B0980();
+    }
+
     enum class SnoozeParticleState : __int16
     {
         Rising_0 = 0,
