@@ -1509,30 +1509,30 @@ void Fleech::RenderEx_42C5A0(int** ot)
 
             Poly_G4* currTonguePoly2 = &field_2CC_tongue_polys2[i][gPsxDisplay_5C1130.field_C_buffer_index];
 
-            int minus_one_one_switch = 1;
+            int minus_one_one_switch = -1;
             if (FP_GetExponent(Tan_fp) <= 64 || FP_GetExponent(Tan_fp) >= 192)
             {
-                minus_one_one_switch = -1;
+                minus_one_one_switch = 1;
             }
 
             SetXY0(
                 currTonguePoly2,
-                static_cast<__int16>(tonguePolyX1 + minus_one_one_switch),
+                static_cast<__int16>(tonguePolyX1 - minus_one_one_switch),
                 static_cast<__int16>(tonguePolyY1 - 1)
             );
             SetXY1(
                 currTonguePoly2,
-                static_cast<__int16>(tonguePolyX2 + minus_one_one_switch),
+                static_cast<__int16>(tonguePolyX2 - minus_one_one_switch),
                 static_cast<__int16>(tonguePolyY2 - 1)
             );
             SetXY2(
                 currTonguePoly2,
-                static_cast<__int16>(tonguePolyX1 - minus_one_one_switch),
+                static_cast<__int16>(tonguePolyX1 + minus_one_one_switch),
                 static_cast<__int16>(tonguePolyY1 + 1)
             );
             SetXY3(
                 currTonguePoly2,
-                static_cast<__int16>(tonguePolyX2 - minus_one_one_switch),
+                static_cast<__int16>(tonguePolyX2 + minus_one_one_switch),
                 static_cast<__int16>(tonguePolyY2 + 1)
             );
 
