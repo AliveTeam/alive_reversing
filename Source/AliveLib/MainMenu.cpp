@@ -332,6 +332,9 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
     }
 });
 
+const char byte_55EE00[2] = { '\x18', '\0' };
+const char byte_55EDEC[2] = { '\x19', '\0' };
+
 inline std::int16_t operator "" _s(unsigned long long value)
 {
     return static_cast<std::int16_t>(value);
@@ -2168,9 +2171,14 @@ signed int MainMenuController::tsub_4D48C0(DWORD /*input*/)
     return 0;
 }
 
+ALIVE_VAR(1, 0xBB43F8, int, dword_BB43F8, 0);
+ALIVE_VAR(1, 0xBB43EC, int, sButtonToRemapIdx_BB43EC, 0);
+
 void MainMenuController::RemapInput_Load_4D17E0()
 {
-    NOT_IMPLEMENTED();
+    field_158_animation.Set_Animation_Data_409C80(13936, nullptr);
+    sButtonToRemapIdx_BB43EC = 0;
+    dword_BB43F8 = 0;
 }
 
 void MainMenuController::ControllerMenu_Load_4D16B0()
@@ -2179,9 +2187,113 @@ void MainMenuController::ControllerMenu_Load_4D16B0()
     selectedControllerEntry_BB43F4 = sJoystickEnabled_5C9F70;
 }
 
-void MainMenuController::RemapInput_Render_4D2A10(int** /*ot*/)
+const char* sButtonNames_562790[8] =
+{ 
+    "Run",
+    "Sneak",
+    "Jump",
+    "Speak 1",
+    "Action",
+    "Throw",
+    "Fart/Roll",
+    "Speak 2"
+};
+
+
+const MainMenuText stru_5626A0[10] =
 {
-    NOT_IMPLEMENTED();
+    { 35, 34, "x", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 331, 204, "esc", 3u, 0u, 0u, 0u,  0.75, 0u, 0u, 0u, 0u },
+    { 152, 75, "\x5", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 152, 107, "\a", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 152, 140, "\t", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 152, 172, "\x18", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 250, 75, "\x6", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 250, 107, "\b", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 250, 140, "\n", 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u },
+    { 250, 172, byte_55EDEC, 3u, 0u, 0u, 0u,  0.88f, 1u, 0u, 0u, 0u }
+};
+
+void MainMenuController::RemapInput_Render_4D2A10(int** ot)
+{
+    int polyIndex = 0;
+    if (dword_BB43F8 == 3)
+    {
+        if (sJoystickEnabled_5C9F70)
+        {
+            field_234_pStr = "Press button to use";
+        }
+        else
+        {
+            field_234_pStr = "Press key to use";
+        }
+
+        int textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+        int nextTextXPos = 0;
+        if (textWidth >= 336)
+        {
+            nextTextXPos = 16;
+        }
+        else
+        {
+            nextTextXPos = (368 - textWidth) / 2;
+        }
+        polyIndex = field_120_font.DrawString_4337D0(ot, field_234_pStr, nextTextXPos, 88, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        char buffer[512] = {};
+        sprintf(buffer, "for %s", sButtonNames_562790[sButtonToRemapIdx_BB43EC]);
+        field_234_pStr = buffer;
+        textWidth = field_120_font.MeasureWidth_4336C0(buffer, FP_FromInteger(1));
+        if (textWidth >= 336)
+        {
+            nextTextXPos = 16;
+        }
+        else
+        {
+            nextTextXPos = (368 - textWidth) / 2;
+        }
+        polyIndex = field_120_font.DrawString_4337D0(ot, field_234_pStr, nextTextXPos, 120, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        field_234_pStr = "Press BackSpace for none, Esc to exit";
+        textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+        if (textWidth >= 336)
+        {
+            nextTextXPos = 16;
+        }
+        else
+        {
+            nextTextXPos = (368 - textWidth) / 2;
+        }
+        field_120_font.DrawString_4337D0(ot, field_234_pStr, nextTextXPos, 152, 0, 1, 0, 41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+    }
+    else
+    {
+        if (!sJoystickEnabled_5C9F70)
+        {
+            // Speak 1
+            const MainMenuText stru_562760 = { 152, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u };
+
+            // Speak 2
+            const MainMenuText stru_562778 = { 250, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u };
+
+            DrawMenuText_4D20D0(&stru_562760, ot, &field_120_font, &polyIndex, 1);
+            DrawMenuText_4D20D0(&stru_562778, ot, &field_120_font, &polyIndex, 1);
+        }
+
+        // Note: OG renders this list backwards
+        for (const MainMenuText& item : stru_5626A0)
+        {
+            DrawMenuText_4D20D0(&item, ot, &field_120_font, &polyIndex, 1);
+        }
+
+        // Render "glowing" box around the selected buttons
+        BYTE rgb = static_cast<BYTE>(3 * field_1FE_highlite_alpha);
+        field_158_animation.field_8_r = rgb;
+        field_158_animation.field_A_b = rgb;
+        field_158_animation.field_9_g = rgb;
+        field_158_animation.vRender_40B820(
+            stru_5626A0[sButtonToRemapIdx_BB43EC + 2].field_0_x - 18,
+            stru_5626A0[sButtonToRemapIdx_BB43EC + 2].field_4_y + 8,
+            ot, 0, 0);
+    }
 }
 
 signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
@@ -2232,9 +2344,103 @@ signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
     }
 }
 
-signed int MainMenuController::RemapInput_Update_4D1820(DWORD /*input*/)
+const int dword_561F14[9] = { 0x10, 0x40, 0x100, 0x800000, 0x20, 0x80, 0x200, 0x1000000, 0x0 };
+
+EXPORT int CC Input_492680(int /*a1*/)
 {
     NOT_IMPLEMENTED();
+    return 1;
+}
+
+signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
+{
+    if (dword_BB43F8)
+    {
+        if (dword_BB43F8 == 1 && sInputObject_5BD4E0.isReleased(0x100000))
+        {
+            dword_BB43F8 = 2;
+            return 0;
+        }
+
+        if (field_208_transition_obj->field_26_bDone)
+        {
+            dword_BB43F8 = 3;
+            if (Input_492680(dword_561F14[sButtonToRemapIdx_BB43EC]))
+            {
+                dword_BB43F8 = 0;
+                field_208_transition_obj->StartTrans_464370(40, 0, 0, 16);
+            }
+        }
+    }
+    else
+    {
+        field_158_animation.Set_Animation_Data_409C80(13936, nullptr);
+
+        if (input & InputCommands::eUp)
+        {
+            sButtonToRemapIdx_BB43EC--;
+
+            if (sButtonToRemapIdx_BB43EC < 0)
+            {
+                sButtonToRemapIdx_BB43EC = 7;
+            }
+
+            if (!sJoystickEnabled_5C9F70 && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
+            {
+                sButtonToRemapIdx_BB43EC--;
+            }
+
+            SFX_Play_46FBA0(52u, 45, 400);
+        }
+
+        if (input & InputCommands::eDown)
+        {
+            sButtonToRemapIdx_BB43EC++;
+
+            if (!sJoystickEnabled_5C9F70 && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
+            {
+                sButtonToRemapIdx_BB43EC++;
+            }
+
+            if (sButtonToRemapIdx_BB43EC > 7)
+            {
+                sButtonToRemapIdx_BB43EC = 0;
+            }
+            SFX_Play_46FBA0(52u, 45, 400);
+        }
+
+        if (input & InputCommands::eLeft)
+        {
+            if (sButtonToRemapIdx_BB43EC >= 4)
+            {
+                sButtonToRemapIdx_BB43EC -= 4;
+            }
+            SFX_Play_46FBA0(52u, 45, 400);
+        }
+
+        if (input & InputCommands::eRight)
+        {
+            if (sButtonToRemapIdx_BB43EC < 4)
+            {
+                sButtonToRemapIdx_BB43EC += 4;
+            }
+            SFX_Play_46FBA0(52u, 45, 400);
+        }
+
+        if (input & 0x200000)
+        {
+            Input_SaveSettingsIni_492840();
+            field_1FC_button_index = -1;
+            return 9;
+        }
+
+        if (input & InputCommands::eUnPause_OrConfirm)
+        {
+            field_208_transition_obj->StartTrans_464370(40, 1, 0, 16);
+            dword_BB43F8 = 1;
+            return 0;
+        }
+    }
     return 0;
 }
 
@@ -3206,9 +3412,6 @@ void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
     pMenu->field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = 
             ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbespeakResID, TRUE, FALSE);
 }
-
-const char byte_55EE00[2] = { '\x18', '\0' };
-const char byte_55EDEC[2] = { '\x19', '\0' };
 
 void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, int** ot, Alive::Font* font, int* polyIndex, char op2)
 {
