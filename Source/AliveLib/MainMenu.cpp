@@ -24,6 +24,7 @@
 #include "Io.hpp"
 #include "GameEnderController.hpp"
 #include "Glukkon.hpp"
+#include "LvlArchive.hpp"
 
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
@@ -47,7 +48,14 @@ ALIVE_VAR(1, 0x5C1B64, byte, byte_5C1B64, {});
 
 ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
 ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
-ALIVE_VAR(1, 0xbb4414, void *, pDemosOrFmvs_BB4414, 0);
+
+union DemoOrFmv
+{
+    PerLvlData* mDemoRec;
+    MenuFMV* mFmvRec;
+};
+
+ALIVE_VAR(1, 0xbb4414, DemoOrFmv, pDemosOrFmvs_BB4414, {});
 ALIVE_VAR(1, 0x5c2f68, const char, byte_5C2F68, 0);
 
 // HACK HACK FIX ME - all of these buttons are in one contiguous array in the real game
@@ -342,34 +350,34 @@ inline std::int16_t operator "" _s(unsigned long long value)
 
 MenuFMV sFmvs_561540[28] =
 {
-    { "GT Logo", 0_s, 65535_s, 65535_s, 3_s, 65535_s, 65535_s },
-    { "Oddworld Intro", 0_s, 65535_s, 65535_s, 1, 65535_s, 65535_s },
-    { "Abe's Exoddus", 0_s, 65535_s, 65535_s, 5, 65535_s, 65535_s },
-    { "Backstory", 0_s, 65535_s, 65535_s, 4, 65535_s, 65535_s },
-    { "Prophecy", 1_s, 65535_s, 65535_s, 1, 65535_s, 65535_s },
-    { "Vision", 1_s, 65535_s, 65535_s, 24, 65535_s, 65535_s },
-    { "Game Opening", 1_s, 65535_s, 65535_s, 2, 65535_s, 65535_s },
-    { "Brew", 1_s, 65535_s, 65535_s, 26, 65535_s, 65535_s },
-    { "Brew Transition", 1_s, 65535_s, 65535_s, 31, 65535_s, 65535_s },
-    { "Escape", 1_s, 65535_s, 65535_s, 25, 65535_s, 65535_s },
-    { "Reward", 2_s, 65535_s, 65535_s, 22, 65535_s, 65535_s },
-    { "FeeCo", 5_s, 65535_s, 65535_s, 4, 65535_s, 65535_s },
-    { "Information Booth", 5_s, 65535_s, 65535_s, 3, 65535_s, 65535_s },
-    { "Train 1", 6_s, 65535_s, 65535_s, 5, 65535_s, 65535_s },
-    { "Train 2", 9_s, 65535_s, 65535_s, 15, 65535_s, 65535_s },
-    { "Train 3", 8_s, 65535_s, 65535_s, 6, 65535_s, 65535_s },
-    { "Aslik Info", 5_s, 65535_s, 65535_s, 2, 65535_s, 65535_s },
-    { "Aslik Explodes", 5_s, 65535_s, 65535_s, 1, 65535_s, 65535_s },
-    { "Dripek Info", 6_s, 65535_s, 65535_s, 4, 65535_s, 65535_s },
-    { "Dripek Explodes", 6_s, 65535_s, 65535_s, 3, 65535_s, 65535_s },
-    { "Phleg Info", 8_s, 65535_s, 65535_s, 4, 65535_s, 65535_s },
-    { "Phleg Explodes", 8_s, 65535_s, 65535_s, 5, 65535_s, 65535_s },
-    { "Soulstorm Info", 9_s, 65535_s, 65535_s, 14, 65535_s, 65535_s },
-    { "Ingredient", 9_s, 65535_s, 65535_s, 16, 65535_s, 65535_s },
-    { "Conference", 9_s, 65535_s, 65535_s, 13, 65535_s, 65535_s },
-    { "Happy Ending", 9_s, 65535_s, 65535_s, 17, 65535_s, 65535_s },
-    { "Sad Ending", 9_s, 65535_s, 65535_s, 18, 65535_s, 65535_s },
-    { "Credits", 16_s, 65535_s, 65535_s, 65535_s, 65535_s, 65535_s }
+    { "GT Logo", LevelIds::eMenu_0, 65535_s, 65535_s, 3_s, 65535_s, 65535_s },
+    { "Oddworld Intro", LevelIds::eMenu_0, 65535_s, 65535_s, 1, 65535_s, 65535_s },
+    { "Abe's Exoddus", LevelIds::eMenu_0, 65535_s, 65535_s, 5, 65535_s, 65535_s },
+    { "Backstory", LevelIds::eMenu_0, 65535_s, 65535_s, 4, 65535_s, 65535_s },
+    { "Prophecy", LevelIds::eMines_1, 65535_s, 65535_s, 1, 65535_s, 65535_s },
+    { "Vision", LevelIds::eMines_1, 65535_s, 65535_s, 24, 65535_s, 65535_s },
+    { "Game Opening", LevelIds::eMines_1, 65535_s, 65535_s, 2, 65535_s, 65535_s },
+    { "Brew", LevelIds::eMines_1, 65535_s, 65535_s, 26, 65535_s, 65535_s },
+    { "Brew Transition", LevelIds::eMines_1, 65535_s, 65535_s, 31, 65535_s, 65535_s },
+    { "Escape", LevelIds::eMines_1, 65535_s, 65535_s, 25, 65535_s, 65535_s },
+    { "Reward", LevelIds::eNecrum_2, 65535_s, 65535_s, 22, 65535_s, 65535_s },
+    { "FeeCo", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 4, 65535_s, 65535_s },
+    { "Information Booth", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 3, 65535_s, 65535_s },
+    { "Train 1", LevelIds::eBarracks_6, 65535_s, 65535_s, 5, 65535_s, 65535_s },
+    { "Train 2", LevelIds::eBrewery_9, 65535_s, 65535_s, 15, 65535_s, 65535_s },
+    { "Train 3", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 6, 65535_s, 65535_s },
+    { "Aslik Info", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 2, 65535_s, 65535_s },
+    { "Aslik Explodes", LevelIds::eFeeCoDepot_5, 65535_s, 65535_s, 1, 65535_s, 65535_s },
+    { "Dripek Info", LevelIds::eBarracks_6, 65535_s, 65535_s, 4, 65535_s, 65535_s },
+    { "Dripek Explodes", LevelIds::eBarracks_6, 65535_s, 65535_s, 3, 65535_s, 65535_s },
+    { "Phleg Info", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 4, 65535_s, 65535_s },
+    { "Phleg Explodes", LevelIds::eBonewerkz_8, 65535_s, 65535_s, 5, 65535_s, 65535_s },
+    { "Soulstorm Info", LevelIds::eBrewery_9, 65535_s, 65535_s, 14, 65535_s, 65535_s },
+    { "Ingredient", LevelIds::eBrewery_9, 65535_s, 65535_s, 16, 65535_s, 65535_s },
+    { "Conference", LevelIds::eBrewery_9, 65535_s, 65535_s, 13, 65535_s, 65535_s },
+    { "Happy Ending", LevelIds::eBrewery_9, 65535_s, 65535_s, 17, 65535_s, 65535_s },
+    { "Sad Ending", LevelIds::eBrewery_9, 65535_s, 65535_s, 18, 65535_s, 65535_s },
+    { "Credits", LevelIds::eCredits_16, 65535_s, 65535_s, 65535_s, 65535_s, 65535_s }
 };
 
 // Used by the level skip cheat/ui/menu
@@ -605,7 +613,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         field_254 = 0;
         field_258 = 0;
         field_25C = 1;
-        pDemosOrFmvs_BB4414 = &sFmvs_561540;
+        pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
         sMenuItemCount_561538 = 28;
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
@@ -625,7 +633,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         field_250 = word_5C1B9E;
         field_254 = 0;
         field_258 = 0;
-        pDemosOrFmvs_BB4414 = &sDemos_5617F0;
+        pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
         sMenuItemCount_561538 = 23;
         field_230_selected_entry_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
@@ -1250,10 +1258,154 @@ void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
     field_25E = 0;
 }
 
-signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD /*input_held*/)
+ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
+
+signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    sEnableCheatFMV_5C1BEC = 0;
+    sEnableCheatLevelSelect_5C1BEE = 0;
+
+    if (sMovie_ref_count_BB4AE4 > 0)
+    {
+        // Do nothing if a movie is playing
+        return 0;
+    }
+
+    int inputToUse = 0;
+    if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+    {
+        field_202_input_hold_down_timer--;
+        if (field_202_input_hold_down_timer == 0)
+        {
+            inputToUse = field_204_prev_pressed;
+            field_202_input_hold_down_timer = 4;
+        }
+        else
+        {
+            inputToUse = input_held;
+        }
+    }
+    else
+    {
+        field_202_input_hold_down_timer = 15;
+        field_204_prev_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+        inputToUse = input_held;
+    }
+
+    if (inputToUse & (InputCommands::eLeft | InputCommands::eUp))
+    {
+        if (field_230_selected_entry_index > 0 && !field_254)
+        {
+            field_230_selected_entry_index--;
+            SFX_Play_46FBA0(52u, 35, 400);
+        }
+    }
+    else if (inputToUse & (InputCommands::eRight | InputCommands::eDown))
+    {
+        if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && !field_254)
+        {
+            field_230_selected_entry_index++;
+            SFX_Play_46FBA0(52u, 35, 400);
+        }
+    }
+
+    if (inputToUse & 0x20000000)
+    {
+        if (!field_254)
+        {
+            if (field_230_selected_entry_index <= 3)
+            {
+                field_230_selected_entry_index = 0;
+            }
+            else
+            {
+                field_230_selected_entry_index -= 3;
+            }
+            SFX_Play_46FBA0(0x34u, 35, 400);
+        }
+    }
+    else if (inputToUse & 0x40000000)
+    {
+        if (!field_254)
+        {
+            if (field_230_selected_entry_index >= sMenuItemCount_561538 - 3)
+            {
+                field_230_selected_entry_index = sMenuItemCount_561538 - 1;
+            }
+            else
+            {
+                field_230_selected_entry_index += 3;
+            }
+            SFX_Play_46FBA0(0x34u, 35, 400);
+        }
+    }
+
+    if (inputToUse & 0x200000)
+    {
+        field_23C_T80.Clear(Flags::eBit25);
+        return 1;
+    }
+
+    if (!(inputToUse & InputCommands::eUnPause_OrConfirm))
+    {
+        return 0;
+    }
+
+    if (field_25C)
+    {
+        MenuFMV* v12 = &pDemosOrFmvs_BB4414.mFmvRec[field_230_selected_entry_index];
+        if (v12->field_A_fmv_id >= 0)
+        {
+            FmvInfo* v14 = Path_Get_FMV_Record_460F70(v12->field_4_level_id, v12->field_A_fmv_id);
+            Get_fmvs_sectors_494460(v14->field_0_pName, 0, 0, &input_held, 0, 0);
+            sLevelId_dword_5CA408 = static_cast<DWORD>(v12->field_4_level_id);
+            
+            dword_55C128 = -1;
+
+            auto pMovie = alive_new<Movie>();
+            if (pMovie)
+            {
+                pMovie->ctor_4DFDE0(v14->field_4_id, input_held, v14->field_6_flags & 1, v14->field_8, v14->field_A_volume);
+            }
+
+            while (sMovie_ref_count_BB4AE4)
+            {
+                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
+                {
+                    if (!pMovie->field_6_flags.Get(BaseGameObject::eDead) && 
+                       (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))
+                    {
+                        pMovie->VUpdate();
+                    }
+                }
+            }
+            stru_5C3110.Free_433130();
+            gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+            pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(gMap_5C3030.field_2C_5C305C_camera_array[0]->field_C_pCamRes));
+            pScreenManager_5BB5F4->MoveImage_40EB70();
+            pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
+            SND_Restart_4CB0E0();
+        }
+        else
+        {
+            sDoesCreditsControllerExist_5C1B90 = 1;
+            field_240_credits_current_cam = 1;
+            field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
+            gMap_5C3030.SetActiveCam_480D30(LevelIds::eCredits_16, 1, 1, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
+        }
+        return 0;
+    }
+
+    field_23C_T80.Set(Flags::eBit25);
+
+    field_244_lvl_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_4_level;
+    field_246_path_id = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_6_path;
+    field_248_camera = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_8_camera;
+    field_24A_abeXOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_C_abe_x_off;
+    field_24C_abeYOff = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_E_abe_y_off;
+    field_24E_start_scale = pDemosOrFmvs_BB4414.mDemoRec[field_230_selected_entry_index].field_A_id; // some how id and scale ??
+
+    return 0xFFFF000D;
 }
 
 MainMenuText sLoadButtonGraphics[2] =
@@ -1428,8 +1580,8 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
         // To FMV list menu
         sEnableCheatFMV_5C1BEC = 0;
         field_25C = 1;
-        pDemosOrFmvs_BB4414 = sFmvs_561540;
-        sMenuItemCount_561538 = 28;
+        pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
+        sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
         field_230_selected_entry_index = 0;
         field_250 = 0;
         field_254 = 0;
@@ -1442,7 +1594,7 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
         // To level select menu
         sEnableCheatLevelSelect_5C1BEE = 0;
         field_25E = 1;
-        pDemosOrFmvs_BB4414 = gPerLvlData_561700;
+        pDemosOrFmvs_BB4414.mDemoRec = &gPerLvlData_561700[0];
         sMenuItemCount_561538 = 15;
         field_230_selected_entry_index = 0;
         field_250 = 0;
@@ -1779,7 +1931,6 @@ char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
 
 ALIVE_VAR(1, 0x5C1B9C, short, word_5C1B9C, 0);
 ALIVE_VAR(1, 0x5C1BA2, BYTE, byte_5C1BA2, 0);
-ALIVE_VAR(1, 0x55C128, int, dword_55C128, 0);
 
 signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
 {
@@ -2108,8 +2259,8 @@ signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
             field_250 = 0;
             field_254 = 0;
             field_258 = 0;
-            pDemosOrFmvs_BB4414 = (MenuFMV *) sDemos_5617F0;
-            word_561538 = 23;
+            pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
+            word_561538 = ALIVE_COUNTOF(sDemos_5617F0);
             field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
             field_230_selected_entry_index = 0;

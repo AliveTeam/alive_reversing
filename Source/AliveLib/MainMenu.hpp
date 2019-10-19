@@ -12,13 +12,15 @@
 
 void MainMenu_ForceLink();
 
+enum class LevelIds : __int16;
+
 struct MenuFMV
 {
-    const char *field_0_name;
-    __int16 field_4;
+    const char* field_0_name;
+    LevelIds field_4_level_id;
     __int16 field_6;
     __int16 field_8;
-    __int16 field_A;
+    __int16 field_A_fmv_id;
     __int16 field_C;
     __int16 field_E;
 };
