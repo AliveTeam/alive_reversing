@@ -472,9 +472,113 @@ EXPORT void CC Input_DisableInput_4EDDC0()
     sInputEnabled_BBB9D0 = FALSE;
 }
 
-EXPORT void CC Input_491870()
+struct KeyName
 {
-    NOT_IMPLEMENTED();
+    char field_0_name[10];
+};
+
+struct KeyNames
+{
+    KeyName field_0[32];
+};
+
+ALIVE_VAR(1, 0x5C9E30, KeyNames, stru_5C9E30, {});
+ALIVE_VAR(1, 0x5C9798, KeyNames, stru_5C9798, {});
+
+EXPORT void CC Input_Init_Names_491870()
+{
+    stru_5C9E30 = {};
+
+    strcpy(stru_5C9E30.field_0[0].field_0_name, "\x10");
+    strcpy(stru_5C9E30.field_0[1].field_0_name, "\x11");
+    strcpy(stru_5C9E30.field_0[2].field_0_name, "\x12");
+    strcpy(stru_5C9E30.field_0[3].field_0_name, "\x13");
+
+    int bindingMask = 16;
+    for (int i = 4; i < 256; i++)
+    {
+        char* keyNamePtr = stru_5C9E30.field_0[i].field_0_name;
+        for (int keyNameIdx = 0; keyNameIdx < 256; keyNameIdx++)
+        {
+            // sKeyboardBindings_5C9930
+            if (bindingMask & sKeyboardBindings_5C9930[keyNameIdx])
+            {
+                strcpy(keyNamePtr, sKeyNames_5C9394[keyNameIdx]);
+            }
+        }
+        bindingMask *= 2; // Enable next bit
+    }
+
+    int v10 = -1;
+    int v11 = -1;
+
+    stru_5C9798 = {};
+
+    for (int i = 0; i < 10; i++)
+    {
+        if (sGamePadBindings_5C98E0[i] & 0x800000)
+        {
+            sprintf(stru_5C9798.field_0[10].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[3]);
+            sprintf(stru_5C9798.field_0[11].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[0]);
+            sprintf(stru_5C9798.field_0[12].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[1]);
+            sprintf(stru_5C9798.field_0[13].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[2]);
+            v10 = i;
+        }
+        else if (sGamePadBindings_5C98E0[i] & 0x1000000)
+        {
+            sprintf(stru_5C9798.field_0[14].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[1]);
+            sprintf(stru_5C9798.field_0[15].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[3]);
+            sprintf(stru_5C9798.field_0[16].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[2]);
+            sprintf(stru_5C9798.field_0[17].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[0]);
+            v11 = i;
+        }
+
+        if (sGamePadBindings_5C98E0[i])
+        {
+            int curBinding = sGamePadBindings_5C98E0[i];
+            for (int k = 0; k < 32; k++)
+            {
+                if (curBinding & 1)
+                {
+                    strcpy(stru_5C9798.field_0[k].field_0_name, sJoyButtonNames_5C9908[i]);
+                }
+                curBinding >>= 1;
+                if (!curBinding)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    if (v10 != -1 && v11 != -1)
+    {
+        sprintf(stru_5C9798.field_0[18].field_0_name, "%s+%s", sJoyButtonNames_5C9908[v10], sJoyButtonNames_5C9908[v11]);
+    }
+}
+
+const char* CC Input_GetButtonString_492530(const char* idx, int a2)
+{
+    const char* ret = nullptr;
+    if (a2 == 0)
+    {
+        ret = stru_5C9E30.field_0[*idx-1].field_0_name;
+    }
+    else
+    {
+        if (stru_5C9798.field_0[*idx].field_0_name[0])
+        {
+            ret = stru_5C9798.field_0[*idx].field_0_name;
+        }
+        else
+        {
+            if (a2 == 2)
+            {
+                ret = stru_5C9E30.field_0[*idx-1].field_0_name;
+            }
+        }
+    }
+    return ret;
 }
 
 EXPORT void CC Input_ResetBinding_4925A0(int /*input_command*/, int /*bIsGamePad*/)
@@ -870,7 +974,7 @@ EXPORT void Input_SaveSettingsIni_492840()
     fileOut << output.rdbuf();
     fileOut.close();
 
-    Input_491870();
+    Input_Init_Names_491870();
 }
 
 EXPORT void CC Input_LoadSettingsIni_492D40()
@@ -1625,7 +1729,7 @@ EXPORT void CC Input_Init_491BC0()
 
     memcpy(sGamePadBindings_5C98E0, &sInputUnknown_55EA2C, sizeof(sInputUnknown_55EA2C));
     Input_LoadSettingsIni_492D40();
-    Input_491870();
+    Input_Init_Names_491870();
     Input_SetCallback_4FA910(Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150);
 }
 

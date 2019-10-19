@@ -4,16 +4,6 @@
 #include "stdlib.hpp"
 #include "Input.hpp"
 
-void StringFormatters_ForceLink()
-{
-}
-
-EXPORT const char* CC Input_GetButtonString_492530(const char* /*a1*/, int /*a2*/)
-{
-    NOT_IMPLEMENTED();
-    return "lol";
-}
-
 void CC String_FormatString_4969D0(const char* src, char* dst, int /*bufferLen*/, char bUnknown)
 {
     const char* pSrcIter = src;

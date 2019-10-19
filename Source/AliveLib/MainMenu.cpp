@@ -1210,7 +1210,7 @@ const SaveFileRec aKeyboard_1[2] = //used SaveFileRec as workaround for RenderSc
 
 ALIVE_VAR(1, 0xBB43D8, int, controllerEntryToSelect_BB43D8, 0);
 ALIVE_VAR(1, 0xBB43F4, int, selectedControllerEntry_BB43F4, 0);
-ALIVE_VAR(1, 0x55E838, int, controllerCount_55E838, 0);
+ALIVE_VAR(1, 0x55E838, int, controllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
 
 void MainMenuController::ControllerMenu_Render_Text_4D26C0(int ** ot)
 {
@@ -2325,7 +2325,7 @@ signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
     if (input & 0x100000)
     {
         sJoystickEnabled_5C9F70 = controllerEntryToSelect_BB43D8;
-        Input_491870();
+        Input_Init_Names_491870();
         Input_SaveSettingsIni_492840();
         return 3;
     }
@@ -2334,7 +2334,7 @@ signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
     {
         // c configure controller
         sJoystickEnabled_5C9F70 = controllerEntryToSelect_BB43D8;
-        Input_491870();
+        Input_Init_Names_491870();
         return 5;
     }
     else

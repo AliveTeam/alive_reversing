@@ -22,7 +22,6 @@
 #include "FixedPoint.hpp"
 #include "Events.hpp"
 #include "SwitchStates.hpp"
-#include "StringFormatters.hpp"
 #include "MainMenu.hpp"
 #include "ScreenManager.hpp"
 #include "LCDScreen.hpp"
@@ -89,7 +88,6 @@ static void InitOtherHooksAndRunTests()
     FixedPoint_ForceLink();
     SwitchStates_ForceLink();
     MainMenu_ForceLink();
-    StringFormatters_ForceLink();
     LCDScreen_ForceLink();
     Compression_ForceLink();
     StatsSign_ForceLink();
