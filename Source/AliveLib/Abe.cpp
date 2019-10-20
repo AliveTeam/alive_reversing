@@ -7017,7 +7017,7 @@ void Abe::State_88_GrenadeMachineUse_45C510()
 
 void Abe::State_89_BrewMachineBegin_4584C0()
 {
-    if (field_120_state > 0 && field_120_state <= 36u)
+    if (field_120_state > 0)
     {
         if (field_120_state <= 36u)
         {
