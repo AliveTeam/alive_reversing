@@ -324,8 +324,8 @@ public:
     __int16 field_24E_start_scale;
     __int16 field_250;
     __int16 field_252;
-    int field_254;
-    int field_258;
+    FP field_254;
+    FP field_258;
     __int16 field_25C;
     __int16 field_25E;
 private:

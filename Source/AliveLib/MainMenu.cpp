@@ -610,11 +610,11 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     {
         field_1FC_button_index = 0;
         field_250 = 0;
-        field_254 = 0;
-        field_258 = 0;
+        field_254 = FP_FromInteger(0);
+        field_258 = FP_FromInteger(0);
         field_25C = 1;
         pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
-        sMenuItemCount_561538 = 28;
+        sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
         return this;
@@ -631,10 +631,10 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         pResourceManager_5C1BB0->LoadingLoop_465590(false);
         field_1FC_button_index = 0;
         field_250 = word_5C1B9E;
-        field_254 = 0;
-        field_258 = 0;
+        field_254 = FP_FromInteger(0);
+        field_258 = FP_FromInteger(0);
         pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
-        sMenuItemCount_561538 = 23;
+        sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
         field_230_selected_entry_index = word_5C1B9E;
         field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&field_20_animation);
@@ -1231,9 +1231,119 @@ void MainMenuController::ControllerMenu_Render_Text_4D26C0(int ** ot)
     }
 }
 
-void MainMenuController::Demo_And_FMV_List_Render_4D4F30(int** /*pOt*/)
+ALIVE_VAR(1, 0xBB4418, short, word_BB4418, 0);
+
+void MainMenuController::Demo_And_FMV_List_Render_4D4F30(int** pOt)
 {
-    NOT_IMPLEMENTED();
+    if (word_BB4418)
+    {
+        word_BB4418 = sDoesCreditsControllerExist_5C1B90;
+        return;
+    }
+
+    word_BB4418 = sDoesCreditsControllerExist_5C1B90;
+
+    if (field_230_selected_entry_index != field_250)
+    {
+        if (field_254 != FP_FromInteger(0))
+        {
+            field_230_selected_entry_index = field_250;
+        }
+        else if (field_230_selected_entry_index <= field_250)
+        {
+            if (field_230_selected_entry_index < field_250)
+            {
+                field_254 = FP_FromInteger(-26);
+                field_258 = FP_FromInteger(6);
+                field_250 = field_230_selected_entry_index;
+            }
+        }
+        else
+        {
+            field_254 = FP_FromInteger(26);
+            field_258 = FP_FromInteger(6);
+            field_250 = field_230_selected_entry_index;
+        }
+    }
+
+    if (field_254 > FP_FromInteger(0))
+    {
+        field_254 -= field_258;
+
+        if (field_254 <= FP_FromInteger(0))
+        {
+            field_254 = FP_FromInteger(0);
+        }
+        else
+        {
+            field_258 -= FP_FromDouble(0.2);
+            if (field_258 <= FP_FromInteger(0))
+            {
+                field_258 = FP_FromInteger(0);
+            }
+        }
+    }    
+    else if (field_254 < FP_FromInteger(0))
+    {
+        field_254 += field_258;
+
+        if (field_254 >= FP_FromInteger(0))
+        {
+            field_254 = FP_FromInteger(0);
+        }
+        else
+        {
+            field_258 -= FP_FromDouble(0.2);
+            if (field_258 <= FP_FromInteger(0))
+            {
+                field_258 = FP_FromInteger(0);
+            }
+        }
+    }
+
+    const MainMenuText stru_5625F8[2] = 
+    {
+        { 32, 27, "x", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u },
+        { 331, 204, "esc", 3u, 0u, 0u, 0u,  0.75f, 0u, 0u, 0u, 0u }
+    };
+
+    int polyIndex = 0;
+    for (const MainMenuText& text : stru_5625F8)
+    {
+        DrawMenuText_4D20D0(&text, pOt, &field_120_font, &polyIndex, 1);
+    }
+
+    int loopCount = -2;
+    do
+    {
+        int idx = field_230_selected_entry_index + loopCount;
+        if (idx >= 0 && idx <= sMenuItemCount_561538 - 1)
+        {
+            field_234_pStr = pDemosOrFmvs_BB4414.mDemoRec[idx].field_0_display_name;
+            int textWidth = field_120_font.MeasureWidth_4336C0(field_234_pStr, FP_FromInteger(1));
+            short nextTextXPos = 0;
+            if (textWidth >= 336)
+            {
+                nextTextXPos = 16;
+            }
+            else
+            {
+                nextTextXPos = static_cast<short>((368 - textWidth) / 2);
+            }
+
+            const short textYPos = static_cast<short>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
+            if (loopCount)
+            {
+                polyIndex = field_120_font.DrawString_4337D0(pOt, field_234_pStr, nextTextXPos, textYPos, 0, 1, 0, 32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
+            }
+            else
+            {
+                polyIndex = field_120_font.DrawString_4337D0(pOt, field_234_pStr, nextTextXPos, textYPos, 0, 1, 0, 32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
+            }
+            polyIndex = field_120_font.DrawString_4337D0(pOt, field_234_pStr, nextTextXPos + 2, textYPos + 2, 0, 1, 0, 32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        }
+        loopCount++;
+    } while (loopCount < 2);
 }
 
 void MainMenuController::t_Unload_AbeSpeak_Res_4D49F0()
@@ -1294,7 +1404,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
 
     if (inputToUse & (InputCommands::eLeft | InputCommands::eUp))
     {
-        if (field_230_selected_entry_index > 0 && !field_254)
+        if (field_230_selected_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index--;
             SFX_Play_46FBA0(52u, 35, 400);
@@ -1302,7 +1412,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
     }
     else if (inputToUse & (InputCommands::eRight | InputCommands::eDown))
     {
-        if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && !field_254)
+        if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index++;
             SFX_Play_46FBA0(52u, 35, 400);
@@ -1311,7 +1421,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
 
     if (inputToUse & 0x20000000)
     {
-        if (!field_254)
+        if (field_254 == FP_FromInteger(0))
         {
             if (field_230_selected_entry_index <= 3)
             {
@@ -1326,7 +1436,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
     }
     else if (inputToUse & 0x40000000)
     {
-        if (!field_254)
+        if (field_254 == FP_FromInteger(0))
         {
             if (field_230_selected_entry_index >= sMenuItemCount_561538 - 3)
             {
@@ -1584,8 +1694,8 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
         sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
         field_230_selected_entry_index = 0;
         field_250 = 0;
-        field_254 = 0;
-        field_258 = 0;
+        field_254 = FP_FromInteger(0);
+        field_258 = FP_FromInteger(0);
         return 0xFFFF0006;
     }
     
@@ -1595,11 +1705,11 @@ signed int MainMenuController::Page_Front_Update_4D0720(DWORD input)
         sEnableCheatLevelSelect_5C1BEE = 0;
         field_25E = 1;
         pDemosOrFmvs_BB4414.mDemoRec = &gPerLvlData_561700[0];
-        sMenuItemCount_561538 = 15;
+        sMenuItemCount_561538 = ALIVE_COUNTOF(gPerLvlData_561700) - 2; // exclude menu and credits levels
         field_230_selected_entry_index = 0;
         field_250 = 0;
-        field_254 = 0;
-        field_258 = 0;
+        field_254 = FP_FromInteger(0);
+        field_258 = FP_FromInteger(0);
         return 0xFFFF001F;
     }
 
@@ -2037,8 +2147,6 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
     return 0;
 }
 
-ALIVE_VAR(1, 0x561538, int, word_561538, 0);
-
 signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
 {
     word_5C1BA0 = 0;
@@ -2062,7 +2170,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
 
     if (input_or_field_204 & 5)
     {
-        if (field_230_selected_entry_index > 0 && !field_254)
+        if (field_230_selected_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index--;
             SFX_Play_46FBA0(0x34u, 35, 400);
@@ -2070,7 +2178,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
     }
     else if (input_or_field_204 & 0xA)
     {
-        if (field_230_selected_entry_index < word_561538 - 1 && !field_254)
+        if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index++;
             SFX_Play_46FBA0(0x34u, 35, 400);
@@ -2079,7 +2187,7 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
 
     if (input_or_field_204 & 0x20000000)
     {
-        if (field_230_selected_entry_index > 0 && !field_254)
+        if (field_230_selected_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index -= 3;
             if (field_230_selected_entry_index < 0)
@@ -2091,12 +2199,12 @@ signed int MainMenuController::DemoSelect_Update_4D0E10(DWORD input)
     }
     else if (input_or_field_204 & 0x40000000)
     {
-        if (field_230_selected_entry_index < word_561538 - 1 && !field_254)
+        if (field_230_selected_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_selected_entry_index += 3;
-            if (field_230_selected_entry_index > word_561538 - 1)
+            if (field_230_selected_entry_index > sMenuItemCount_561538 - 1)
             {
-                field_230_selected_entry_index = static_cast<__int16>(word_561538 - 1);
+                field_230_selected_entry_index = sMenuItemCount_561538 - 1;
             }
             SFX_Play_46FBA0(0x34u, 35, 400);
         }
@@ -2257,10 +2365,10 @@ signed int MainMenuController::Options_Update_4D1AB0(DWORD input)
         case 1:
         {
             field_250 = 0;
-            field_254 = 0;
-            field_258 = 0;
+            field_254 = FP_FromInteger(0);
+            field_258 = FP_FromInteger(0);
             pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
-            word_561538 = ALIVE_COUNTOF(sDemos_5617F0);
+            sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
             field_20_animation.Set_Animation_Data_409C80(247808, field_F4_resources.field_0_resources[1]);
             Load_Anim_Pal_4D06A0(&field_20_animation);
             field_230_selected_entry_index = 0;
