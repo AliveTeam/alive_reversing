@@ -254,6 +254,14 @@ void CC Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, int bSemiTrans)
 
 void CC OrderingTable_Add_4F8AA0(int** ppOt, PrimHeader* pItem)
 {
+    // Debugging code, rendering type 2 will currently crash.
+    // I can't see where in the code type 2 is ever used but somehow it must be
+    // given it crashed in standalone rendering type 2.
+    if (pItem->rgb_code.code_or_pad == 2)
+    {
+        abort();
+    }
+
     // Get current OT ptr
     int* pOt = *ppOt;
 
