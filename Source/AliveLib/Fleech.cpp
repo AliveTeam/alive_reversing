@@ -2840,9 +2840,6 @@ enum PatrolStates
 
 __int16 Fleech::AI_Patrol_0_430BA0()
 {
-   // NOT_IMPLEMENTED();
-
-    /*
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (!pTarget ||
         pTarget->field_6_flags.Get(BaseGameObject::eDead) ||
@@ -2852,12 +2849,7 @@ __int16 Fleech::AI_Patrol_0_430BA0()
         field_11C_obj_id = -1;
         pTarget = nullptr;
     }
-    */
 
-    __int16 ret =  0;
-
-    return ret;
-    /*
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
         MusicController::sub_47FD60(byte_551984[field_126_state], this, 0, 0);
@@ -2870,42 +2862,42 @@ __int16 Fleech::AI_Patrol_0_430BA0()
     switch (field_126_state)
     {
     case PatrolStates::State_0_Init:
-       // return AI_Patrol_State_0();
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_0();
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_1_Sleeping:
-        //return AI_Patrol_State_1();
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_1();
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_2:
-        //return AI_Patrol_State_2();
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_2();
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_3_To_Sleep:
-        //return AI_Patrol_State_3();
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_3();
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_4_Alert:
-       // return AI_Patrol_State_4(pTarget);
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_4(pTarget);
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_5:
-//        return AI_Patrol_State_5();
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_5();
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_6:
-//        return AI_Patrol_State_6();
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_6();
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_7:
-       // return AI_Patrol_State_7();
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_7();
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_8:
-       // return AI_Patrol_State_8(pTarget);
-        return AI_Patrol_0_Real_430BA0(); // ok
+        return AI_Patrol_State_8(pTarget);
+       // return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_9:
-        //return AI_Patrol_State_9();
-        return AI_Patrol_0_Real_430BA0(); // ok
+        return AI_Patrol_State_9();
+        //return AI_Patrol_0_Real_430BA0();
     case PatrolStates::State_10:
-       // return AI_Patrol_State_10();
-        return AI_Patrol_0_Real_430BA0();
+        return AI_Patrol_State_10();
+       // return AI_Patrol_0_Real_430BA0();
 
     default:
         return field_126_state;
-    }*/
+    }
 }
 
 __int16 Fleech::AI_Patrol_State_0()
