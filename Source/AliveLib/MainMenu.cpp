@@ -873,8 +873,7 @@ signed int MainMenuController::AbeSpeak_Update_4D2D20(DWORD input_held)
             // TODO: Extra case for Abe - recover the type
             if (field_20C)
             {
-                *(WORD *)(field_20C + 248) = 1;
-                this->field_20C = 0;
+                ALIVE_FATAL("Never expected to be used");
             }
             return 0x00002;
 
@@ -3399,8 +3398,6 @@ const SfxDefinition sScrabSfx_560330[10] =
 
 void MainMenuController::AnimationAndSoundLogic_4CFE80()
 {
-    NOT_IMPLEMENTED();
-
     if (!sMainMenuPages_561960[field_214_page_index].field_E_show_character)
     {
         field_22C_T80 = 0;
@@ -3464,19 +3461,17 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             else
             {
                 SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
-                /*
+
                 if (field_20C)
                 {
-                    *(WORD *)(field_20C + 248) = 1;
+                    ALIVE_FATAL("Never expected field_20C to be used");
                 }
-                field_20C = 0;
 
                 if (field_210_pUnknown)
                 {
-                    field_210_pUnknown[124] = 1;
+                    ALIVE_FATAL("Never expected field_210_pUnknown to be used");
                 }
-                field_210_pUnknown = 0;
-                */
+
 
                 field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
                 Set_Anim_4D05E0(13);
@@ -3515,28 +3510,55 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
         }
     }
-    
-    if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id == 10
-        // TODO: What the ?
-        && field_20_animation.field_92_current_frame == *((unsigned __int8 *)&sMainMenuPages_561960[22].field_1C_fn_on_load
-            + field_220_frame_table_idx
-            + 1)
-        && field_220_frame_table_idx != eParamite_Idle
-        && field_220_frame_table_idx != 42)
+
+    if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id == eParamiteSpeak)
     {
-        if (field_220_frame_table_idx == 48)
+        if (field_220_frame_table_idx != eParamite_Idle && field_220_frame_table_idx != eParamite_Idle2)
         {
-            SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64);
-        }
-        else
-        {
-            if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound == 9)
+            int doSpeakSoundFrame = 0;
+            switch (field_220_frame_table_idx)
             {
-                SND_SEQ_Play_4CAB10(SeqId::MainMenuParamiteAttack_20, 1, 127, 127);
+            case eParamite_Attack:
+                doSpeakSoundFrame = 0;
+                break;
+
+            case eParamite_Howdy:
+                doSpeakSoundFrame = 0;
+                break;
+
+            case eParamite_Cmon:
+                doSpeakSoundFrame = 10;
+                break;
+
+            case eParamite_Stay:
+                doSpeakSoundFrame = 12;
+                break;
+
+            case eParamite_DoIt:
+                doSpeakSoundFrame = 4;
+                break;
+
+            case eParamite_AllAYa:
+                doSpeakSoundFrame = 10;
+                break;
             }
-            else
+
+            if (field_20_animation.field_92_current_frame == doSpeakSoundFrame)
             {
-                SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF);
+                if (field_220_frame_table_idx == eParamite_AllAYa)
+                {
+                    SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64);
+                }
+                // Attack
+                else if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound == 9)
+                {
+                    SND_SEQ_Play_4CAB10(SeqId::MainMenuParamiteAttack_20, 1, 127, 127);
+                }
+                // All other Paramite speak
+                else
+                {
+                    SFX_SfxDefinition_Play_4CA700(&stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF);
+                }
             }
         }
     }

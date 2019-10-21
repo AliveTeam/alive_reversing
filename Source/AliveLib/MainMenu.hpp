@@ -147,6 +147,8 @@ public:
         eParamite_Attack = 43,
         eParamite_AllAYa = 48,
         eParamite_Idle = 41,
+        eParamite_Idle2 = 42, // Randomly moves its tenticles every so often
+
     };
 
     EXPORT void Set_Anim_4D05E0(__int16 a2, __int16 a3 = 0);
@@ -295,8 +297,11 @@ public:
     __int16 field_202_input_hold_down_timer;
     unsigned int field_204_prev_pressed;
     MainMenuTransition* field_208_transition_obj;
+
+    // These appear to never be used
     BaseGameObject* field_20C;
     BaseGameObject* field_210_pUnknown;
+
     __int16 field_214_page_index;
     __int16 field_216;
     __int16 field_218_target_page_index;
