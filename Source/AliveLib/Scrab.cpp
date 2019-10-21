@@ -236,17 +236,16 @@ void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
         field_B8_xpos,
         field_BC_ypos))
     {
-        int tlvType = pTlv->field_4_type;
         Path_EnemyStopper* enemyStopperPath = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV);
         auto stopDirection = enemyStopperPath->field_10_stop_direction;
         Path_Well_Base* pBaseWell = static_cast<Path_Well_Base*>(field_FC_pPathTLV);
-        if (tlvType == DeathDrop_4)
+        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
-            Scrab::Sound_4AADB0(ScrabSound::Death_8, 127, -1000, 0);
+            Sound_4AADB0(ScrabSound::Death_8, 127, -1000, 0);
             field_6_flags.Set(Options::eDead);
             field_10C_health = FP_FromInteger(0);
         }
-        else if (tlvType == EnemyStopper_47)
+        else if (pTlv->field_4_type == TlvTypes::EnemyStopper_47)
         {
             if (stopDirection == Path_EnemyStopper::StopDirection::Left_0 && field_B8_xpos < field_198 ||
                 stopDirection == Path_EnemyStopper::StopDirection::Right_1 && field_B8_xpos > field_198 ||
