@@ -3621,7 +3621,6 @@ __int16 Slog::HandleEnemyStopper_4C5340()
     FP xPos = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2);
     if (field_C4_velx >= FP_FromInteger(0))
     {
-
         xPos += field_B8_xpos;
     }
     FP width = field_B8_xpos;
