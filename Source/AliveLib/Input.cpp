@@ -709,11 +709,11 @@ void NewParseSettingsIni()
     
     const std::string abeConfig(reinterpret_cast<const char *>(abeBuffer.data()), abeBuffer.size());
     
-    auto configSplit = SplitString(abeConfig, '\n');
+    std::vector<std::string>  configSplit = SplitString(abeConfig, '\n');
 
     bool isKeyboardParams = false;
 
-    for (auto& o : configSplit)
+    for (std::string& o : configSplit)
     {
         if (o.size() == 0) // Skip empty strings
         {
@@ -747,7 +747,7 @@ void NewParseSettingsIni()
         }
         else
         {
-            auto param = Ini_SplitParams(o);
+            std::vector<std::string> param = Ini_SplitParams(o);
             
             if (param.size() == 2)
             {
@@ -791,7 +791,7 @@ void NewParseSettingsIni()
                         bool foundConfig = false;
                         // custom config loader code
                         {
-                            for (auto s : gCustomSaveEntries)
+                            for (const IniCustomSaveEntry& s : gCustomSaveEntries)
                             {
                                 if (param[0] == s.name)
                                 {
@@ -980,155 +980,6 @@ EXPORT void Input_SaveSettingsIni_492840()
 EXPORT void CC Input_LoadSettingsIni_492D40()
 {
     NewParseSettingsIni();
-
-    //NOT_IMPLEMENTED();
-    //FILE *hFile_ini; // eax
-    //FILE *v1; // esi
-    //unsigned int v2; // kr04_4
-    //char *equalsPtr; // eax
-    //char *v4; // esi
-    //char v5; // al
-    //char *opt_value; // esi
-    //char *i; // ebp
-    //char j; // al
-    //int v9; // eax
-    //int v11; // edi
-    //signed int loadingGamepad; // [esp+4h] [ebp-40Ch]
-    //FILE *v13; // [esp+Ch] [ebp-404h]
-    //char abeIniBuffer[1024]; // [esp+10h] [ebp-400h]
-
-    //loadingGamepad = 0;
-    //hFile_ini = fopen("abe2.ini", "r");
-    //v1 = hFile_ini;
-    //v13 = hFile_ini;
-    //
-
-    //if (hFile_ini)
-    //{
-    //    if (fgets(abeIniBuffer, 1024, hFile_ini))
-    //    {
-    //        BYTE * filePlaceholder = reinterpret_cast<BYTE*>(&v13);
-
-    //        do
-    //        {
-    //            v2 = strlen(abeIniBuffer) + 1;
-    //            if (filePlaceholder[v2 + 2] < 32)
-    //            {
-    //                filePlaceholder[v2 + 2] = 0;
-    //            }
-
-    //            if (abeIniBuffer[0] == '[') // Is start of ini category ?
-    //            {
-    //                while (filePlaceholder[strlen(abeIniBuffer) + 3] == ' ' || filePlaceholder[strlen(abeIniBuffer) + 3] == ']')
-    //                {
-    //                    filePlaceholder[strlen(abeIniBuffer) + 3] = 0;
-    //                }
-    //                if (_strcmpi(&abeIniBuffer[1], "Keyboard")) 
-    //                {
-    //                    loadingGamepad = 1;
-    //                }
-    //                else
-    //                {
-    //                    loadingGamepad = 0;
-    //                    Input_ResetBinding_4925A0(16, 0);
-    //                    Input_ResetBinding_4925A0(64, 0);
-    //                    Input_ResetBinding_4925A0(256, 0);
-    //                    Input_ResetBinding_4925A0(32, 0);
-    //                    Input_ResetBinding_4925A0(128, 0);
-    //                    Input_ResetBinding_4925A0(512, 0);
-    //                }
-    //            }
-    //            else
-    //            {
-    //                equalsPtr = strchr(abeIniBuffer, '=');
-    //                v4 = equalsPtr;
-    //                if (equalsPtr)
-    //                {
-    //                    *equalsPtr = 0;
-    //                    v5 = equalsPtr[1];
-    //                    opt_value = v4 + 1;
-    //                    for (i = abeIniBuffer; v5 <= 32; v5 = (opt_value++)[1])
-    //                    {
-    //                        if (!v5)
-    //                        {
-    //                            break;
-    //                        }
-    //                    }
-    //                    for (j = abeIniBuffer[0]; j <= 32; j = (i++)[1])
-    //                    {
-    //                        if (!j)
-    //                        {
-    //                            break;
-    //                        }
-    //                    }
-    //                    if (*i)
-    //                    {
-    //                        if (*opt_value)
-    //                        {
-    //                            for (; opt_value[strlen(opt_value) - 1] <= 32; opt_value[strlen(opt_value) - 1] = 0)
-    //                            {
-    //                                ;
-    //                            }
-    //                        }
-    //                        for (; i[strlen(i) - 1] <= 32; i[strlen(i) - 1] = 0)
-    //                        {
-    //                            ;
-    //                        }
-    //                        v9 = Input_LoadSettingsIni_GetInputCommand_492B80(i);
-    //                        if (v9)
-    //                        {
-    //                            if (loadingGamepad)
-    //                            {
-    //                                if (loadingGamepad == 1)
-    //                                {
-    //                                    Input_SetGamePadBinding_4931D0(opt_value, v9);
-    //                                }
-    //                            }
-    //                            else
-    //                            {
-    //                                Input_SetKeyboardBinding_493180(opt_value, v9);
-    //                            }
-    //                        }
-    //                        else if (_strcmpi(i, "controller"))
-    //                        {
-    //                            if (!_strcmpi(i, "buttons"))
-    //                            {
-    //                                v11 = sJoystickNumButtons_5C2EFC;
-    //                                if (sJoystickNumButtons_5C2EFC && atol(opt_value) != v11)
-    //                                {
-    //                                    loadingGamepad = -1;
-    //                                }
-    //                                else
-    //                                {
-    //                                    Input_ResetBinding_4925A0(16, 1);
-    //                                    Input_ResetBinding_4925A0(64, 1);
-    //                                    Input_ResetBinding_4925A0(256, 1);
-    //                                    Input_ResetBinding_4925A0(32, 1);
-    //                                    Input_ResetBinding_4925A0(128, 1);
-    //                                    Input_ResetBinding_4925A0(512, 1);
-    //                                    Input_ResetBinding_4925A0(0x800000, 1);
-    //                                    Input_ResetBinding_4925A0(0x1000000, 1);
-    //                                }
-    //                            }
-    //                        }
-    //                        else
-    //                        {
-    //                            if (!_strcmpi(opt_value, "Game Pad")
-    //                                || !_strcmpi(opt_value, "Joystick")
-    //                                || !_strcmpi(opt_value, "GamePad")
-    //                                || !_strcmpi(opt_value, "Joy stick"))
-    //                            {
-    //                                sJoystickEnabled_5C9F70 = 1;
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //            v1 = v13;
-    //        } while (fgets(abeIniBuffer, 1024, v13));
-    //    }
-    //    fclose(v1);
-    //}
 }
 
 ALIVE_VAR(1, 0x55ebf8, DWORD, dword_55EBF8, 0);
