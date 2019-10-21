@@ -3618,8 +3618,34 @@ void Slog::DelayedResponse_4C3750(__int16 responseIdx)
 
 __int16 Slog::HandleEnemyStopper_4C5340()
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    //NOT_IMPLEMENTED();
+    FP xPos = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2);
+    if (field_C4_velx >= FP_FromInteger(0))
+    {
+
+        xPos += field_B8_xpos;
+    }
+    FP width = field_B8_xpos;
+    if (field_B8_xpos <= xPos)
+    {
+        width = xPos;
+    }
+    FP xToUse = xPos;
+    if (field_B8_xpos <= xPos) {
+        xToUse = field_B8_xpos;
+    }
+
+    const auto stopperPath = static_cast<Path_EnemyStopper*>(
+        sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            FP_GetExponent(xToUse), FP_GetExponent(field_BC_ypos),
+            FP_GetExponent(width), FP_GetExponent(field_BC_ypos), EnemyStopper_47
+        )
+    );
+
+    return
+        stopperPath != nullptr &&
+        stopperPath->field_10_stop_direction == ( field_C4_velx > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0 ) &&
+        SwitchStates_Get_466020(stopperPath->field_12_id) > 0;
 }
 
 __int16 Slog::Facing_4C4020(FP xpos)
