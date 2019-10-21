@@ -3618,7 +3618,6 @@ void Slog::DelayedResponse_4C3750(__int16 responseIdx)
 
 __int16 Slog::HandleEnemyStopper_4C5340()
 {
-    //NOT_IMPLEMENTED();
     FP xPos = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2);
     if (field_C4_velx >= FP_FromInteger(0))
     {
