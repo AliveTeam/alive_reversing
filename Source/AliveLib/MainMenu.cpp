@@ -2877,13 +2877,13 @@ void MainMenuController::HandleMainMenuUpdate()
 
     UpdateHighliteGlow_4D0630();
 
-    if (sub_4CF640())
+    if (ChangeScreenAndIntroLogic_4CF640())
     {
-        sub_4CFE80();
+        AnimationAndSoundLogic_4CFE80();
         return;
     }
 
-    sub_4CFE80();
+    AnimationAndSoundLogic_4CFE80();
 
     if (field_23C_T80.Get(Flags::eBit17_bDisableChangingSelection))
     {
@@ -3074,10 +3074,8 @@ void MainMenuController::Load_Anim_Pal_4D06A0(Animation* pAnim)
 
 ALIVE_VAR(1, 0x5ca408, DWORD, sLevelId_dword_5CA408, 0);
 
-signed int MainMenuController::sub_4CF640()
+signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 {
-    NOT_IMPLEMENTED();
-
     if (field_21E_bChangeScreen == 0 || field_23C_T80.Get(Flags::eBit22_GameSpeakPlaying) || field_228_res_idx != 0)
     {
         return 0;
@@ -3304,6 +3302,7 @@ signed int MainMenuController::sub_4CF640()
         return 1;
 
     case 4:
+    {
         if (sNum_CamSwappers_5C1B66 > 0)
         {
             return 1;
@@ -3319,24 +3318,50 @@ signed int MainMenuController::sub_4CF640()
         field_214_page_index = field_218_target_page_index;
         field_21E_bChangeScreen = 5;
 
-        if (sMainMenuPages_561960[field_218_target_page_index].field_18_buttons == 0)
+        if (sMainMenuPages_561960[field_218_target_page_index].field_18_buttons != nullptr)
         {
-            goto LABEL_76;
-        }
-        
-        field_1FC_button_index = field_21A_target_cam;
+            field_1FC_button_index = field_21A_target_cam;
+            if (field_21A_target_cam == -1)
+            {
+                MainMenuButton* pButtonsIter = sMainMenuPages_561960[field_218_target_page_index].field_18_buttons;
+                short useButtonIdx = 0;
+                for (;;)
+                {
+                    // Last item ?
+                    if (pButtonsIter->field_0 == 0)
+                    {
+                        break;
+                    }
 
-        if (field_21A_target_cam != -1)
-        {
-            goto LABEL_74;
+                    // "Pressed" item ?
+                    if (pButtonsIter->field_0 == 1)
+                    {
+                        field_1FC_button_index = useButtonIdx;
+                        break;
+                    }
+
+                    useButtonIdx++;
+                    pButtonsIter++;
+                }
+            }
+
+            if (field_1FC_button_index != -1)
+            {
+                field_158_animation.Set_Animation_Data_409C80(
+                    sMainMenuPages_561960[field_218_target_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
+                    nullptr);
+            }
         }
 
-        if (sMainMenuPages_561960[field_218_target_page_index].field_18_buttons->field_0 == 1)
+
+        if (sMainMenuPages_561960[field_214_page_index].field_1C_fn_on_load)
         {
-            field_1FC_button_index = 0;
-            goto LABEL_74;
+            (this->*sMainMenuPages_561960[field_214_page_index].field_1C_fn_on_load)();
         }
-        break;
+
+        return 1;
+    }
+
     case 5:
         if (field_21C_bDoScreenTransistionEffect != 7)
         {
@@ -3354,41 +3379,6 @@ signed int MainMenuController::sub_4CF640()
     default:
         return 0;
     }
-
-    /*
-    while (1)
-    {
-        ++v29;
-        ++buttons;
-        if (!v30)
-        {
-            break;
-        }
-        v30 = buttons->field_0;
-        if (v30 == 1)
-        {
-        LABEL_73:
-            this->field_1FC_button_index = v29;
-            break;
-        }
-    }*/
-
-LABEL_74:
-    if (field_1FC_button_index != -1)
-    {
-
-        field_158_animation.Set_Animation_Data_409C80(
-            sMainMenuPages_561960[field_218_target_page_index].field_18_buttons[field_1FC_button_index].field_8_anim_frame_offset,
-            nullptr);
-
-    }
-
-LABEL_76:
-    if (sMainMenuPages_561960[field_214_page_index].field_1C_fn_on_load)
-    {
-        (this->*sMainMenuPages_561960[field_214_page_index].field_1C_fn_on_load)();
-    }
-    return 1;
 }
 
 const SfxDefinition sScrabSfx_560330[10] =
@@ -3407,7 +3397,7 @@ const SfxDefinition sScrabSfx_560330[10] =
 
 
 
-void MainMenuController::sub_4CFE80()
+void MainMenuController::AnimationAndSoundLogic_4CFE80()
 {
     NOT_IMPLEMENTED();
 

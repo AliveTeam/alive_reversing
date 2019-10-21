@@ -151,8 +151,8 @@ public:
 
     EXPORT void Set_Anim_4D05E0(__int16 a2, __int16 a3 = 0);
     EXPORT void Load_Anim_Pal_4D06A0(Animation* pAnim);
-    EXPORT signed int sub_4CF640();
-    EXPORT void sub_4CFE80();
+    EXPORT signed int ChangeScreenAndIntroLogic_4CF640();
+    EXPORT void AnimationAndSoundLogic_4CFE80();
     EXPORT void UpdateHighliteGlow_4D0630();
     EXPORT static void callback_4D06E0(MainMenuController *a1);
     EXPORT static void DrawMenuText_4D20D0(const MainMenuText *array, int **ot, Alive::Font *font, int *polyIndex, char a5);
