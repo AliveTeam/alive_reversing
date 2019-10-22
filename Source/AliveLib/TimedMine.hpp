@@ -7,11 +7,8 @@
 #include "Factory.hpp"
 #include "Animation.hpp"
 
-void TimedMine_ForceLink();
-
-struct Path_TimedMine
+struct Path_TimedMine : public Path_TLV
 {
-    Path_TLV field_0_mBase;
     __int16 field_10_id;
     __int16 field_12_state;
     __int16 field_14_scale;
@@ -33,13 +30,24 @@ public:
     virtual void VRender(int** pOrderingTable) override;
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VScreenChanged() override;
-
+    virtual __int16 VTakeDamage_408730(BaseGameObject* pFrom) override;
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+    virtual void VOnPickUpOrSlapped() override;
     EXPORT TimedMine* ctor_410600(Path_TimedMine *pPath, TlvItemInfoUnion tlv);
+
+private:
+
     EXPORT void Update_410A80();
     EXPORT void Render_410CD0(int ** pOt);
-
     EXPORT void InitBlinkAnimation_4108E0(Animation *pAnim);
-    EXPORT void sub_411100();
+    EXPORT void StickToLiftPoint_411100();
+    EXPORT void dtor_410970();
+    EXPORT TimedMine* vdtor_4108B0(signed int flags);
+    EXPORT void vScreenChanged_411270();
+    EXPORT __int16 vTakeDamage_410FA0(BaseGameObject* pFrom);
+    EXPORT void vOnThrowableHit_410F00(BaseGameObject* pHitBy);
+    EXPORT void vOnPickUpOrSlapped_410E30();
+
 public:
     WORD field_118_armed;
     WORD field_11A_explode_timeout;
