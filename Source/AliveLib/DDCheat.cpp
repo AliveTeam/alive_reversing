@@ -3,6 +3,7 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
+#include "Movie.hpp"
 #include "PathData.hpp"
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
@@ -43,6 +44,9 @@ ALIVE_ARY(1, 0x550f50, TDDCheatMenu, DDCHEAT_MENU_COUNT, sDDCheat_FnTable_550F50
 ALIVE_VAR(1, 0x5bc008, __int16, sScreenshotOnNextFrame_5BC008, 0);
 ALIVE_VAR(1, 0xab49fc, int, sDDCheat_Unused2_AB49FC, 0);
 ALIVE_VAR(1, 0xab4a00, int, sDDCheat_Unused1_AB4A00, 0);
+
+ALIVE_VAR(1, 0x5BBFF0, __int16, sDDCheat_MovieSelectIdx_5BBFF0, 0);
+ALIVE_VAR_EXTERN(DWORD, sLevelId_dword_5CA408);
 
 EXPORT void DDCheat_SaveScreenshot_415550() { NOT_IMPLEMENTED(); }
 
@@ -131,7 +135,45 @@ void DDCheat::Menu_Teleport_415E20()
 
 void DDCheat::Menu_Movies_416000()
 {
-    NOT_IMPLEMENTED();
+    if (field_38_input_pressed & InputCommands::eLeft)
+    {
+        sDDCheat_MovieSelectIdx_5BBFF0--;
+    }
+    else if (field_38_input_pressed & InputCommands::eRight)
+    {
+        sDDCheat_MovieSelectIdx_5BBFF0++;
+    }
+
+    if (Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0 )
+    {
+        sDDCheat_MovieSelectIdx_5BBFF0 = 1;
+    }
+
+    if (field_38_input_pressed & InputCommands::eDown)
+    {
+        Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
+    }
+    if (field_38_input_pressed & InputCommands::eUp)
+    {
+        FmvInfo *movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0);
+        DWORD pos = 0;
+        Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
+        sLevelId_dword_5CA408 = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
+        auto movieToPlay = alive_new<Movie>();
+        if (movieToPlay != nullptr)
+        {
+            movieToPlay->ctor_4DFDE0(
+                movieToPlayInfo->field_4_id,
+                pos,
+                movieToPlayInfo->field_6_flags & 1,
+                movieToPlayInfo->field_8,
+                movieToPlayInfo->field_A_volume
+            );
+        }
+    }
+    FmvInfo* fmvInfo = &sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_pFmvArray[sDDCheat_MovieSelectIdx_5BBFF0];
+    DDCheat::DebugStr_4F5560("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
+    field_20 += 6;
 }
 
 DDCheat::DDCheat()
