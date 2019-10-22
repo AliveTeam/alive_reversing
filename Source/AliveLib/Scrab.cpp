@@ -231,7 +231,6 @@ void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
 {
     while (pTlv != nullptr)
     {
-        Path_EnemyStopper* enemyStopperPath = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV);
         if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
             Sound_4AADB0(ScrabSound::Death_8, 127, -1000, 0);
@@ -240,6 +239,7 @@ void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::EnemyStopper_47)
         {
+            Path_EnemyStopper* enemyStopperPath = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV);
             auto stopDirection = enemyStopperPath->field_10_stop_direction;
             if (stopDirection == Path_EnemyStopper::StopDirection::Left_0 && field_B8_xpos < field_198 ||
                 stopDirection == Path_EnemyStopper::StopDirection::Right_1 && field_B8_xpos > field_198 ||
