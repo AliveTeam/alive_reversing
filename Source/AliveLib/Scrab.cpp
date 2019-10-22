@@ -227,6 +227,41 @@ void Scrab::VUpdate()
     vUpdate_4A3530();
 }
 
+void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
+{
+    while (pTlv != nullptr)
+    {
+        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        {
+            Sound_4AADB0(ScrabSound::Death_8, 127, -1000, 0);
+            field_6_flags.Set(Options::eDead);
+            field_10C_health = FP_FromInteger(0);
+        }
+        else if (pTlv->field_4_type == TlvTypes::EnemyStopper_47)
+        {
+            const auto enemyStopperPath = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV); //TODO it should probably be pTlv, instead - OG bug?
+            const Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->field_10_stop_direction;
+            if ((stopDirection == Path_EnemyStopper::StopDirection::Left_0 && field_B8_xpos < field_198) ||
+                (stopDirection == Path_EnemyStopper::StopDirection::Right_1 && field_B8_xpos > field_198) ||
+                stopDirection == Path_EnemyStopper::StopDirection::Both_2)
+            {
+                if (SwitchStates_Get_466020(enemyStopperPath->field_12_id))
+                {
+                    if (sControlledCharacter_5C1B8C != this)
+                    {
+                        field_B8_xpos = field_198;
+                    }
+                }
+            }
+        }
+        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pTlv,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
+    }
+}
 
 const int sScrabFrameTableOffsets_5601C0[40] =
 {
@@ -1853,7 +1888,7 @@ __int16 Scrab::AI_Fighting_2_4A5840()
         SND_Stop_Channels_Mask_4CA810(field_160);
         field_160 = 0;
         Sound_4AADB0(ScrabSound::Unknown_1, 0, -1571, 1);
-        Sound_4AADB0(ScrabSound::Unknown_8, 0, -1571, 1);
+        Sound_4AADB0(ScrabSound::Death_8, 0, -1571, 1);
         Abe_SFX_2_457A40(6, 0, -383, 0);
 
         if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
@@ -3087,7 +3122,7 @@ void Scrab::M_HowlBegin_26_4A9DA0()
         if (sGnFrame_5C1B84 & 1)
         {
             Event_Broadcast_422BC0(kEventLoudNoise, this);
-            Sound_4AADB0(ScrabSound::Unknown_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
+            Sound_4AADB0(ScrabSound::Death_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
             if (BrainIs(&Scrab::AI_Possessed_5_4A6180))
             {
                 pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eUnknown_53);
@@ -3136,7 +3171,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
     {
         if (field_20_animation.field_92_current_frame == 2)
         {
-            Sound_4AADB0(ScrabSound::Unknown_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
+            Sound_4AADB0(ScrabSound::Death_8, 0, Math_RandomRange_496AB0(-1600, -900), 1);
         }
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))

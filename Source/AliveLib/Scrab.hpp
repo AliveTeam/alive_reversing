@@ -62,7 +62,7 @@ enum class ScrabSound : unsigned __int8
     Unknown_5 = 5,
     Unknown_6 = 6,
     Unknown_7 = 7,
-    Unknown_8 = 8,
+    Death_8 = 8,
     Unknown_9 = 9,
     Unknown_10 = 10,
 };
@@ -196,6 +196,11 @@ public:
         return vTakeDamage_4A45E0(pFrom);
     }
 
+    virtual void VOn_TLV_Collision_4087F0(Path_TLV* pTlv) override
+    {
+        return vOn_TLV_Collision_4A4B80(pTlv);
+    }
+
     virtual int VGetSaveState(BYTE* pSaveBuffer) override
     {
         return vGetSaveState_4AB020(reinterpret_cast<Scrab_State*>(pSaveBuffer));
@@ -315,6 +320,8 @@ private:
     EXPORT void ToJump_4A75E0();
 
     EXPORT __int16 vTakeDamage_4A45E0(BaseGameObject* pFrom);
+
+    EXPORT void vOn_TLV_Collision_4A4B80(Path_TLV* pTlv);
 
     EXPORT void KnockBack_4AA530();
 
