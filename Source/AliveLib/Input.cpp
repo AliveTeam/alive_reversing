@@ -581,9 +581,22 @@ const char* CC Input_GetButtonString_492530(const char* idx, int a2)
     return ret;
 }
 
-EXPORT void CC Input_ResetBinding_4925A0(int /*input_command*/, int /*bIsGamePad*/)
+EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad)
 {
-    NOT_IMPLEMENTED();
+    if (bIsGamePad)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            sGamePadBindings_5C98E0[i] &= ~input_command;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < 256; i++)
+        {
+            sAllowedGameKeys_5C9D30[i] &= ~input_command;
+        }
+    }
 }
 
 EXPORT InputCommands CC Input_LoadSettingsIni_GetInputCommand_492B80(const char *pActionName)
