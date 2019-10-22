@@ -151,13 +151,12 @@ void DDCheat::Menu_Movies_416000()
 
     if (field_38_input_pressed & InputCommands::eDown)
     {
-        auto movieId = Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id;
-        movieId--;
+        Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
     }
     if (field_38_input_pressed & InputCommands::eUp)
     {
         FmvInfo *movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0);
-        DWORD pos;
+        DWORD pos = 0;
         Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
         auto movieToPlay = alive_new<Movie>();
