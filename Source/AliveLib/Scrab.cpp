@@ -239,7 +239,7 @@ void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::EnemyStopper_47)
         {
-            const auto enemyStopperPath = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV);
+            const auto enemyStopperPath = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV); //TODO it should probably be pTlv, instead - OG bug?
             const Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->field_10_stop_direction;
             if ((stopDirection == Path_EnemyStopper::StopDirection::Left_0 && field_B8_xpos < field_198) ||
                 (stopDirection == Path_EnemyStopper::StopDirection::Right_1 && field_B8_xpos > field_198) ||
