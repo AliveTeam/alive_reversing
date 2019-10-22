@@ -229,12 +229,7 @@ void Scrab::VUpdate()
 
 void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
 {
-    for (; pTlv != nullptr; pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
-        pTlv,
-        field_B8_xpos,
-        field_BC_ypos,
-        field_B8_xpos,
-        field_BC_ypos))
+    while (pTlv != nullptr)
     {
         Path_EnemyStopper* enemyStopperPath = static_cast<Path_EnemyStopper*>(field_FC_pPathTLV);
         auto stopDirection = enemyStopperPath->field_10_stop_direction;
@@ -260,6 +255,12 @@ void Scrab::vOn_TLV_Collision_4A4B80(Path_TLV* pTlv)
                 }
             }
         }
+        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            pTlv,
+            field_B8_xpos,
+            field_BC_ypos,
+            field_B8_xpos,
+            field_BC_ypos);
     }
 }
 
