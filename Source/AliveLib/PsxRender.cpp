@@ -3550,13 +3550,12 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
         pAbrLut = &sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
     }
 
-    const int texture_remainder_pitch = 2048 - (rect_w  / 2);
-    const unsigned int pitch = spBitmap_C2D038->field_10_locked_pitch / 2;
-    const int vram_remainder_pitch = pitch - pRect->w;
+    const unsigned int texture_remainder_pitch = 2048 - (rect_w  / 2);
+    const unsigned int pitchWords = spBitmap_C2D038->field_10_locked_pitch / 2;
+    const unsigned int vram_remainder_pitch = pitchWords - pRect->w;
     const BYTE* pTexture_4bit_src1 = (BYTE *)sPsxVram_C1D160.field_4_pLockedPixels + 2 * (sTexture_page_x_BD0F0C + (u / 4) + (tpagey / 1024));
-    WORD* pVram_start = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (pRect->x + pitch * pRect->y));
-    WORD* pVram_end = &pVram_start[(pRect->w - 1) + pitch * (pRect->h - 1)];
-    WORD* pVram_end2 = pVram_end;
+    WORD* pVram_start = (WORD *)((char *)spBitmap_C2D038->field_4_pLockedPixels + 2 * (pRect->x + pitchWords * pRect->y));
+
     if (r != 128 || g != 128 || b != 128)
     {
         if (bSemiTrans)
@@ -3564,7 +3563,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
             const Psx_Data* pLut_r = &stru_C1D1C0[r >> 3];
             const Psx_Data* pLut_g = &stru_C1D1C0[g >> 3];
             const Psx_Data* pLut_b = &stru_C1D1C0[b >> 3];
-            while (pVram_start < pVram_end)
+            for (int y = 0; y < pRect->h; y++)
             {
                 WORD* pLineEnd1 = &pVram_start[pRect->w];
                 WORD* pLineEnd2 = &pVram_start[pRect->w];
@@ -3619,7 +3618,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
             const __int16* r_lut = stru_C146C0.r[r >> 3];
             const __int16* b_lut = stru_C146C0.b[b >> 3];
 
-            while (pVram_start < pVram_end)
+            for (int y = 0; y < pRect->h; y++)
             {
                 WORD* pLineEnd3 = &pVram_start[pRect->w];
                 WORD* pLineEnd4 = &pVram_start[pRect->w];
@@ -3654,7 +3653,6 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
                     ++pVram_start;
                 }
 
-                pVram_end = pVram_end2;
                 pTexture_4bit_src1 += texture_remainder_pitch;
                 pVram_start += vram_remainder_pitch;
             }
@@ -3662,7 +3660,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
     }
     else if (bSemiTrans)
     {
-        while (pVram_start < pVram_end)
+        for (int y = 0; y < pRect->h; y++)
         {
             WORD* pLineEnd = &pVram_start[pRect->w];
             while (pVram_start < pLineEnd)
@@ -3699,7 +3697,7 @@ EXPORT void CC PSX_EMU_Render_SPRT_4bit_51F0E0(const PSX_RECT* pRect, int u, int
     }
     else
     {
-        while (pVram_start < pVram_end)
+        for (int y = 0; y < pRect->h; y++)
         {
             WORD* pLineEnd = &pVram_start[pRect->w];
             while (pVram_start < pLineEnd)

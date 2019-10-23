@@ -212,7 +212,7 @@ void Bullet::vUpdate_413560()
 
         BaseAliveGameObject* pShotObj = ShootObject_414630(&shootRect);
 
-        const short pitch = field_3C_scale != FP_FromDouble(0.5) ? 90 : 60;
+        const short vol = field_3C_scale != FP_FromDouble(0.5) ? 90 : 60;
 
         FP hitX = {};
         FP hitY = {};
@@ -278,9 +278,7 @@ void Bullet::vUpdate_413560()
                     {
                         if (pShotObj->field_4_typeId != Types::eGreeter_64 &&  pShotObj->field_4_typeId != Types::eMineCar_89)
                         {
-                            SFX_Play_46FBA0(23u, pitch, 2000);
-                            SFX_Play_46FBA0(36u, pitch, Math_RandomRange_496AB0(300, 700));
-                            SFX_Play_46FBA0(64u, pitch, Math_RandomRange_496AB0(900, 1400));
+                            PlayBulletSounds(vol);
                         }
                     }
                     field_6_flags.Set(BaseGameObject::eDead);
@@ -373,9 +371,7 @@ void Bullet::vUpdate_413560()
             {
                 if (pShotObj->field_4_typeId != Types::eGreeter_64 &&  pShotObj->field_4_typeId != Types::eMineCar_89)
                 {
-                    SFX_Play_46FBA0(23u, pitch, 2000);
-                    SFX_Play_46FBA0(36u, pitch, Math_RandomRange_496AB0(300, 700));
-                    SFX_Play_46FBA0(64u, pitch, Math_RandomRange_496AB0(900, 1400));
+                    PlayBulletSounds(vol);
                 }
             }
             field_6_flags.Set(BaseGameObject::eDead);
@@ -405,9 +401,7 @@ void Bullet::vUpdate_413560()
             {
                 if (pShootObj->field_4_typeId != Types::eGreeter_64 && pShootObj->field_4_typeId != Types::eMineCar_89)
                 {
-                    SFX_Play_46FBA0(23u, 90, 2000);
-                    SFX_Play_46FBA0(36u, 90, Math_RandomRange_496AB0(300, 700));
-                    SFX_Play_46FBA0(64u, 90, Math_RandomRange_496AB0(900, 1400));
+                    PlayBulletSounds(90);
                     field_6_flags.Set(BaseGameObject::eDead);
                     return;
                 }
@@ -460,9 +454,7 @@ void Bullet::vUpdate_413560()
         BaseAliveGameObject* pShootObj = ShootObject_414630(&rect);
         if (pShootObj && pShootObj->VTakeDamage_408730(this) && pShootObj->field_4_typeId != Types::eGreeter_64 && pShootObj->field_4_typeId != Types::eMineCar_89)
         {
-            SFX_Play_46FBA0(23u, 90, 2000);
-            SFX_Play_46FBA0(36u, 90, Math_RandomRange_496AB0(300, 700));
-            SFX_Play_46FBA0(64u, 90, Math_RandomRange_496AB0(900, 1400));
+            PlayBulletSounds(90);
         }
         else
         {
@@ -492,4 +484,11 @@ void Bullet::vUpdate_413560()
         field_6_flags.Set(BaseGameObject::eDead);
         return;
     }
+}
+
+void Bullet::PlayBulletSounds(short vol)
+{
+    SFX_Play_46FBA0(23u, vol, 2000);
+    SFX_Play_46FBA0(36u, vol, Math_RandomRange_496AB0(300, 700));
+    SFX_Play_46FBA0(64u, vol, Math_RandomRange_496AB0(900, 1400));
 }
