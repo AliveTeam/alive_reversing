@@ -7156,7 +7156,7 @@ void Mudokon::Sound_475EC0(MudSounds idx)
         short pitch1 = Math_RandomRange_496AB0(-5, 0);
         pitch1 *= 100;
         pitch1 = pitch1 - field_13C_voice_pitch;
-        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eUnknown_24, Math_RandomRange_496AB0(20, 50), pitch1, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eTortured_24, Math_RandomRange_496AB0(20, 50), pitch1, this);
        
         short pitch2 = Math_RandomRange_496AB0(-5, 0);
         pitch2 *= 100;
@@ -7172,7 +7172,7 @@ void Mudokon::Sound_475EC0(MudSounds idx)
             short pitch1 = Math_RandomRange_496AB0(-5, 0);
             pitch1 *= 100;
             pitch1 = pitch1 - field_13C_voice_pitch;
-            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eUnknown_24, Math_RandomRange_496AB0(55, 90), pitch1, this);
+            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eTortured_24, Math_RandomRange_496AB0(55, 90), pitch1, this);
 
             short pitch2 = Math_RandomRange_496AB0(-5, 0);
             pitch2 *= 100;

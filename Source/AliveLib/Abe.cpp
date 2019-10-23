@@ -9979,7 +9979,7 @@ EXPORT void CC Abe_SFX_457EC0(sAbeSFXList_555250_Tag idx, __int16 volume, int pi
             {
                 SND_SEQ_Play_4CAB10(SeqId::AbeOops_16, 1, 127, 127);
             }
-            break; 
+            break;
         }
         case sAbeSFXList_555250_Tag::eStopIt_26:
         {

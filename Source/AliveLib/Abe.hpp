@@ -202,7 +202,7 @@ const enum class sAbeSFXList_555250_Tag : unsigned __int8
     eNo_21 = 21,
     eDepressedNo_22 = 22,
     ePoof_23 = 23,
-    eUnknown_24 = 24,
+    eTortured_24 = 24,
     eWork_25 = 25,
     eStopIt_26 = 26,
     eSorry_27 = 27,
