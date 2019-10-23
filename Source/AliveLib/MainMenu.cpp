@@ -3596,7 +3596,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                         {
                         case eAbeSpeak:
                         case eAbeSpeak2:
-                            Abe_SFX_457EC0(static_cast<BYTE>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, nullptr);
+                            Abe_SFX_457EC0(static_cast<MudSounds>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, nullptr);
                             field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying); // BYTE2(0x20)
                             break;
 

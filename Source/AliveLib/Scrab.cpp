@@ -4180,7 +4180,7 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                                                     SFX_Play_46FA90(64u, 0);
                                                     if (pObj->field_4_typeId == Types::eAbe_69)
                                                     {
-                                                        Abe_SFX_457EC0(9u, 0, 0, sActiveHero_5C1B68);
+                                                        Abe_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, sActiveHero_5C1B68);
                                                     }
                                                 }
                                             }
