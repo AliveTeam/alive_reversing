@@ -95,6 +95,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override { }
 
     EXPORT void Render_4CF4C0(int **ot);
     EXPORT void Update_4CF010();

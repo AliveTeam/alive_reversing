@@ -34,6 +34,8 @@ public:
     virtual int VGetSaveState(BYTE* pSaveBuffer) override;
     virtual void VUpdate() override;
 
+    virtual void VOnThrowableHit(BaseGameObject*) override {}
+
     EXPORT SlamDoor* ctor_4AF700(Path_SlamDoor * tlv_params, TlvItemInfoUnion tlvInfo);
     EXPORT static int CC CreateFromSaveState_4C08B0(const BYTE*);
 

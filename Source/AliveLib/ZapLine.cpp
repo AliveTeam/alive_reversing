@@ -122,6 +122,12 @@ void ZapLine::VRender(int** pOrderingTable)
     vRender_4CD8C0(pOrderingTable);
 }
 
+
+void ZapLine::VScreenChanged()
+{
+    vScreenChanged_4CDBE0();
+}
+
 ZapLine* ZapLine::vdtor_4CCAA0(signed int flags)
 {
     dtor_4CCCB0();

@@ -25,6 +25,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override;
     EXPORT Spark* ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max, __int16 type);
 private:
     EXPORT void vUpdate_4CBEF0();

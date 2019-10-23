@@ -211,6 +211,11 @@ public:
         return vOnSameYLevel_4A5400(pOther);
     }
 
+    virtual void VOnTrapDoorOpen() override
+    {
+        vOnTrapDoorOpen_4A7ED0();
+    }
+
     EXPORT static int CC CreateFromSaveState_4A70A0(const BYTE* pBuffer);
 
 private:

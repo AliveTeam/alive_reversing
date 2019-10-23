@@ -63,10 +63,10 @@ ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 ALIVE_ARY(1, 0x555708, char, 32, sGamePadStr_555708, { "Game Pad" });
 ALIVE_ARY(1, 0x55E85C, char, 32, sGamePadStr_55E85C, { "Game Pad" });
 
-ALIVE_VAR(1, 0x5c2ee8, int, dword_5C2EE8, 0);
-ALIVE_VAR(1, 0x5c2ea4, int, dword_5C2EA4, 0);
-ALIVE_VAR(1, 0x5c2ee4, int, dword_5C2EE4, 0);
-ALIVE_VAR(1, 0x5c2ef0, int, dword_5C2EF0, 0);
+ALIVE_VAR(1, 0x5c2ee8, int, bAbsX_5C2EE8, 0);
+ALIVE_VAR(1, 0x5c2ea4, int, bAbsY_5C2EA4, 0);
+ALIVE_VAR(1, 0x5c2ee4, int, bAutoX_5C2EE4, 0);
+ALIVE_VAR(1, 0x5c2ef0, int, bAutoY_5C2EF0, 0);
 
 ALIVE_VAR(1, 0xbd1878, DWORD, sLastPad_Input_BD1878, 0);
 ALIVE_VAR(1, 0xbd1874, bool, sReadPadEnable_BD1874, false);
@@ -110,18 +110,73 @@ ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyBindings_55EAD8, {
     { 0, static_cast<InputCommands>(0) }
 });
 
-int sInputUnknown_55EA2C[] =
-{ 32, 1049088, 128, 2097408, 8388608, 16, 16777216, 64, 0, 1572864 };
+const int sInputUnknown_55EA2C[] = { 32, 1049088, 128, 2097408, 8388608, 16, 16777216, 64, 0, 1572864 };
 
-
-
-// -- Functions -- //
 
 // For joysticks with very little buttons, depending on strength of joystick, will make abe
 // automatically run/sneak.
-EXPORT void CC Input_AutoRun_45FF60(float /*x*/, float /*y*/, DWORD* /*buttons*/)
+EXPORT void CC Input_StickControl_45FF60(float x, float y, DWORD* buttons)
 {
-    NOT_IMPLEMENTED();
+    if (!bAutoX_5C2EE4 && !bAutoY_5C2EF0)
+    {
+        return;
+    }
+
+    if (bAutoX_5C2EE4)
+    {
+        if (bAbsX_5C2EE8)
+        {
+            x = -x;
+        }
+
+        if (bAutoX_5C2EE4 == 1)
+        {
+            if (x > 0.3f)
+            {
+                *buttons |= InputCommands::eRun;
+            }
+        }
+        else if (bAutoX_5C2EE4 == 2)
+        {
+            if (x > 0.15f)
+            {
+                *buttons |= InputCommands::eSneak;
+            }
+
+            if (x < -0.25f)
+            {
+                *buttons |= InputCommands::eRun;
+            }
+        }
+    }
+
+    if (bAutoY_5C2EF0)
+    {
+        if (bAbsY_5C2EA4)
+        {
+            y = -y;
+        }
+
+        if (bAutoY_5C2EF0 == 1)
+        {
+            if (y > 0.3f)
+            {
+                *buttons |= InputCommands::eDoAction;
+            }
+        }
+        else if (bAutoY_5C2EF0 == 2)
+        {
+            if (y > 0.15f)
+            {
+                *buttons |= InputCommands::eThrowItem;
+            }
+
+            if (y < -0.25f)
+            {
+                *buttons |= InputCommands::eDoAction;
+            }
+        }
+    }
 }
 
 #if USE_SDL2
@@ -328,7 +383,7 @@ void Input_GetJoyState_Impl(float *pX1, float *pY1, float *pX2, float *pY2, DWOR
     *pY2 = std::min(1.0f, std::max(-1.0f, *pY2));
 
     *pButtons = sJoystickInfo_5C2EA8.dwButtons;
-    Input_AutoRun_45FF60(*pX2, *pY2, pButtons);
+    Input_StickControl_45FF60(*pX2, *pY2, pButtons);
 }
 #endif
 
@@ -516,7 +571,7 @@ EXPORT void CC Input_Init_Names_491870()
 
     for (int i = 0; i < 10; i++)
     {
-        if (sGamePadBindings_5C98E0[i] & 0x800000)
+        if (sGamePadBindings_5C98E0[i] & InputCommands::eSpeak1)
         {
             sprintf(stru_5C9798.field_0[10].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[3]);
             sprintf(stru_5C9798.field_0[11].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[0]);
@@ -524,7 +579,7 @@ EXPORT void CC Input_Init_Names_491870()
             sprintf(stru_5C9798.field_0[13].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[2]);
             v10 = i;
         }
-        else if (sGamePadBindings_5C98E0[i] & 0x1000000)
+        else if (sGamePadBindings_5C98E0[i] & InputCommands::eSpeak2)
         {
             sprintf(stru_5C9798.field_0[14].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[1]);
             sprintf(stru_5C9798.field_0[15].field_0_name, "%s+%s", sJoyButtonNames_5C9908[i], sJoyButtonNames_5C9908[3]);
@@ -581,6 +636,93 @@ const char* CC Input_GetButtonString_492530(const char* idx, int a2)
     return ret;
 }
 
+int CC Input_Remap_492680(InputCommands inputCmd)
+{
+    if (!Input_GetInputEnabled_4EDDE0())
+    {
+        return 0;
+    }
+
+    if (sJoystickEnabled_5C9F70)
+    {
+        float y2 = 0.0f;
+        float x2 = 0.0f;
+        float y1 = 0.0f;
+        float x1 = 0.0f;
+        DWORD buttons = 0;
+        Input_GetJoyState_460280(&x1, &y1, &x2, &y2, &buttons);
+
+        // Mask of buttons that exist for this controller
+        const int allButtonsMask = (1 << sJoystickNumButtons_5C2EFC) - 1;
+
+        const int buttonsToRebind = allButtonsMask & buttons;
+
+        buttons &= allButtonsMask;
+        if (buttons)
+        {
+            int bindIdx = 0;
+            for (bindIdx = 0; bindIdx < 10; bindIdx++)
+            {
+                if ((1 << bindIdx) & buttonsToRebind)
+                {
+                    break;
+                }
+            }
+
+            if (inputCmd & 0x1800000 && bindIdx < 4)
+            {
+                return 0;
+            }
+
+            Input_ResetBinding_4925A0(inputCmd, 1);
+            sGamePadBindings_5C98E0[bindIdx] = inputCmd;
+            Input_Init_Names_491870();
+            return 2;
+        }
+    }
+
+    // Find an "empty" key that is pressed
+    int bindIdx = 0;
+    while (!sAllowedGameKeys_5C9D30[bindIdx] && bindIdx != VK_ESCAPE || !Input_GetKeyState_4EDD20(bindIdx))
+    {
+        // Out of bounds
+        if (++bindIdx >= 256)
+        {
+            return 0;
+        }
+    }
+
+    // Out of bounds
+    if (bindIdx >= 256)
+    {
+        return 0;
+    }
+
+    // Back can only be used to clear the binding, back it self can't be rebound
+    if (bindIdx == VK_BACK)
+    {
+        Input_ResetBinding_4925A0(inputCmd, sJoystickEnabled_5C9F70);
+        Input_Init_Names_491870();
+        return -1;
+    }
+
+    // Escape can't be rebound
+    if (bindIdx == VK_ESCAPE)
+    {
+        return -2;
+    }
+
+    if (sJoystickEnabled_5C9F70 || !sAllowedGameKeys_5C9D30[bindIdx])
+    {
+        return 0;
+    }
+
+    Input_ResetBinding_4925A0(inputCmd, 0);
+    sKeyboardBindings_5C9930[bindIdx] = inputCmd;
+    Input_Init_Names_491870();
+    return 1;
+}
+
 EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad)
 {
     if (bIsGamePad)
@@ -627,9 +769,9 @@ EXPORT InputCommands CC Input_LoadSettingsIni_GetInputCommand_492B80(const char 
     }
     if (_strcmpi(pActionName, "speak1"))
     {
-        return _strcmpi(pActionName, "speak2") != 0 ? static_cast<InputCommands>(0) : static_cast<InputCommands>(0x1000000);
+        return _strcmpi(pActionName, "speak2") != 0 ? static_cast<InputCommands>(0) : InputCommands::eSpeak2;
     }
-    return static_cast<InputCommands>(0x800000);
+    return InputCommands::eSpeak1;
 }
 
 EXPORT int CC Input_GetKeyboardKeyCode_492CA0(const char * keyName)
@@ -796,7 +938,7 @@ void NewParseSettingsIni()
                             Input_ResetBinding_4925A0(128, 1);
                             Input_ResetBinding_4925A0(512, 1);
                             Input_ResetBinding_4925A0(0x800000, 1);
-                            Input_ResetBinding_4925A0(0x1000000, 1);
+                            Input_ResetBinding_4925A0(InputCommands::eSpeak2, 1);
                         }
                     }
                     else
@@ -1103,7 +1245,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
                     for (int i = 0; i < 10; i++)
                     {
-                        if (sGamePadBindings_5C98E0[i] & 0x800000) // C ??
+                        if (sGamePadBindings_5C98E0[i] & InputCommands::eSpeak1)
                         {
                             if ((1 << i) & pButtons)
                             {
@@ -1112,7 +1254,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
                             }
                         }
 
-                        if (sGamePadBindings_5C98E0[i] & 0x1000000) // VK_DELETE ??
+                        if (sGamePadBindings_5C98E0[i] & InputCommands::eSpeak2)
                         {
                             if ((1 << i) & pButtons)
                             {
@@ -1253,43 +1395,43 @@ EXPORT void CC Input_45FDF0(float x, float y, int a3, bool cap_has_r)
 {
     if (sJoystickNumButtons_5C2EFC == 4 && (a3 || cap_has_r))
     {
-        dword_5C2EE8 = 0;
-        dword_5C2EA4 = 0;
-        dword_5C2EE4 = 0;
-        dword_5C2EF0 = 0;
+        bAbsX_5C2EE8 = 0;
+        bAbsY_5C2EA4 = 0;
+        bAutoX_5C2EE4 = 0;
+        bAutoY_5C2EF0 = 0;
         if (a3)
         {
-            dword_5C2EE4 = 1;
+            bAutoX_5C2EE4 = 1;
             sJoystickNumButtons_5C2EFC = 5;
             if (x <= -0.25f || x >= 0.25f)
             {
-                dword_5C2EE8 = 1;
+                bAbsX_5C2EE8 = 1;
                 if (x <= 0.0f)
                 {
-                    dword_5C2EE8 = 0;
+                    bAbsX_5C2EE8 = 0;
                 }
             }
             else
             {
                 sJoystickNumButtons_5C2EFC = 6;
-                dword_5C2EE4 = 2;
+                bAutoX_5C2EE4 = 2;
             }
         }
         if (cap_has_r)
         {
-            dword_5C2EF0 = 1;
+            bAutoY_5C2EF0 = 1;
             ++sJoystickNumButtons_5C2EFC;
             if (y <= -0.25f || y >= 0.25f)
             {
-                dword_5C2EA4 = 1;
+                bAbsY_5C2EA4 = 1;
                 if (y <= 0.0f)
                 {
-                    dword_5C2EA4 = 0;
+                    bAbsY_5C2EA4 = 0;
                 }
             }
             else
             {
-                dword_5C2EF0 = 2;
+                bAutoY_5C2EF0 = 2;
                 ++sJoystickNumButtons_5C2EFC;
             }
         }
@@ -1586,7 +1728,7 @@ EXPORT void CC Input_Init_491BC0()
     Input_InitJoyStick_460080();
     memset(sKeyboardBindings_5C9930, 0, sizeof(*sKeyboardBindings_5C9930) * 256);
 
-    for (auto kb = sDefaultKeyBindings_55EAD8; kb->key; kb++)
+    for (InputBinding* kb = sDefaultKeyBindings_55EAD8; kb->key; kb++)
     {
         sKeyboardBindings_5C9930[kb->key] = kb->command;
     }

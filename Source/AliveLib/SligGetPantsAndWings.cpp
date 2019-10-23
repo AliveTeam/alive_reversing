@@ -47,6 +47,12 @@ void SligGetPantsAndWings::VUpdate()
     vUpdate_465DD0();
 }
 
+
+void SligGetPantsAndWings::VScreenChanged()
+{
+    vScreenChanged_465EE0();
+}
+
 void SligGetPantsAndWings::vUpdate_465DD0()
 {
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_F8_tlvInfo);

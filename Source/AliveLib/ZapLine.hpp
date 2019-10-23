@@ -25,6 +25,7 @@ public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
     virtual void VRender(int** pOrderingTable) override;
+    virtual void VScreenChanged() override;
 private:
     EXPORT ZapLine* vdtor_4CCAA0(signed int flags);
 public:

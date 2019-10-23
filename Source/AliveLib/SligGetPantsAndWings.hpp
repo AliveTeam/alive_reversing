@@ -13,6 +13,7 @@ public:
     EXPORT SligGetPantsAndWings* ctor_465BF0(Path_TLV* pTlv, int tlvInfo);
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 private:
     EXPORT void vUpdate_465DD0();
     EXPORT SligGetPantsAndWings* vdtor_465D10(signed int flags);

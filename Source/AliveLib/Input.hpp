@@ -44,8 +44,8 @@ enum InputCommands : unsigned int
     eUnPause_OrConfirm =      1u << 20, // Or/and back
     eBack =         1u << 21, // 0x200000
     eCheatMode =    1u << 22,
-    // 0x800000     = nothing
-    // 0x1000000    = nothing
+    eSpeak1   =    1u << 23, // 0x800000
+    eSpeak2 =      1u << 24, // 0x1000000    = nothing
     // 0x2000000    = nothing
     // 0x4000000    = nothing
     // 0x8000000    = nothing
@@ -54,6 +54,9 @@ enum InputCommands : unsigned int
     // 0x40000000   = nothing
     e0x80000000   = 1u << 31,
 };
+
+EXPORT int CC Input_Remap_492680(InputCommands inputCmd);
+EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad);
 
 // Not to be confused for PsxButtonBits.
 // This is used internally in input functions.

@@ -379,8 +379,3 @@ void LCDScreen::VScreenChanged()
 {
     vsub_460F10();
 }
-
-void LCDScreen::VStopAudio()
-{
-    vsub_460F10();
-}

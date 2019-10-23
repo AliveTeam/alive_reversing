@@ -18,6 +18,12 @@ void BaseBomb::VUpdate()
     vUpdate_424180();
 }
 
+
+BaseGameObject* BaseBomb::VDestructor(signed int flags)
+{
+    return vdtor_424130(flags);
+}
+
 BaseBomb * BaseBomb::ctor_423E70(FP x, FP y, int /*unused*/, FP scale)
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
@@ -220,4 +226,21 @@ void BaseBomb::vUpdate_424180()
         // Time to die
         field_6_flags.Set(Options::eDead);
     }
+}
+
+
+BaseBomb* BaseBomb::vdtor_424130(signed int flags)
+{
+    dtor_424160();
+
+    if (flags & 1)
+    {
+        Mem_Free_495540(this);
+    }
+    return this;
+}
+
+void BaseBomb::dtor_424160()
+{
+    BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }

@@ -288,7 +288,6 @@ class Mudokon : public BaseAliveGameObject
 public:
     EXPORT Mudokon* ctor_474F30(Path_Mudokon* pTlv, int tlvInfo);
 
-    // TODO: Wire through other virtuals/vtable
     virtual BaseGameObject* VDestructor(signed int flags) override;
 
     virtual void VUpdate() override;

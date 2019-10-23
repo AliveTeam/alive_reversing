@@ -22,7 +22,6 @@ class DDCheat : public BaseGameObject
 public:
     virtual BaseGameObject* VDestructor(signed int flags) override;
     virtual void VUpdate() override;
-    virtual void VRender(int**) override { }
     virtual void VScreenChanged() override { }
 
     DDCheat();

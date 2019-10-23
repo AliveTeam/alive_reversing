@@ -14,6 +14,8 @@ public:
 
     virtual void VScreenChanged() override;
 
+    virtual void VOnThrowableHit(BaseGameObject* ) override {}
+
 private:
     EXPORT void dtor_4AEBC0();
 

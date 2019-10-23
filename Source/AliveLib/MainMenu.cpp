@@ -2602,13 +2602,17 @@ signed int MainMenuController::ControllerMenu_Update_4D16D0(DWORD input)
     }
 }
 
-const int dword_561F14[9] = { 0x10, 0x40, 0x100, 0x800000, 0x20, 0x80, 0x200, 0x1000000, 0x0 };
-
-EXPORT int CC Input_492680(int /*a1*/)
+const InputCommands kIdxToInput_561F14[8] =
 {
-    NOT_IMPLEMENTED();
-    return 1;
-}
+    InputCommands::eRun,
+    InputCommands::eSneak,
+    InputCommands::eHop,
+    InputCommands::eSpeak1,
+    InputCommands::eDoAction,
+    InputCommands::eThrowItem,
+    InputCommands::eFartOrRoll,
+    InputCommands::eSpeak2
+};
 
 signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
 {
@@ -2623,7 +2627,7 @@ signed int MainMenuController::RemapInput_Update_4D1820(DWORD input)
         if (field_208_transition_obj->field_26_bDone)
         {
             dword_BB43F8 = 3;
-            if (Input_492680(dword_561F14[sButtonToRemapIdx_BB43EC]))
+            if (Input_Remap_492680(kIdxToInput_561F14[sButtonToRemapIdx_BB43EC]))
             {
                 dword_BB43F8 = 0;
                 field_208_transition_obj->StartTrans_464370(40, 0, 0, 16);
