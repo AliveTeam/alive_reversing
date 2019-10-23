@@ -1507,7 +1507,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         }
         else
         {
-            Abe_SFX_457EC0(9u, 0, Math_RandomRange_496AB0(-127, 127), this);
+            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHurt2_9, 0, Math_RandomRange_496AB0(-127, 127), this);
         }
         SetPal_4772D0(Mud_Emotion::eNormal_0);
         return 1;
@@ -1588,7 +1588,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         return 1;
 
     case Types::eElectricWall_39:
-        Abe_SFX_457EC0(15u, 0, 0, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eAbeFall_15, 0, 0, this);
         Event_Broadcast_422BC0(kEventMudokonDied, this);
         return 1;
 
@@ -1602,7 +1602,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         if (field_10C_health <= FP_FromInteger(0))
         {
             field_10C_health = FP_FromInteger(0);
-            Abe_SFX_457EC0(16u, 0, 1000, this);
+            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHurt1_16, 0, 1000, this);
             field_16A_flags.Clear(Flags::eBit2_save_state);
             field_18E_ai_state = Mud_AI_State::AI_ShrivelDeath_5_4714A0;
             field_194_timer = sGnFrame_5C1B84 + 90;
@@ -5200,7 +5200,7 @@ __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
     if (field_190_sub_state == 0)
     {
         // Wait for falling
-        Abe_SFX_457EC0(15u, 0, 0, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eAbeFall_15, 0, 0, this);
         field_194_timer = sGnFrame_5C1B84 + 60;
         return 1;
     }
@@ -6946,7 +6946,7 @@ void Mudokon::SlapOwnHead_56_4727D0()
     }
     else
     {
-        Abe_SFX_457EC0(9, 0, 1000, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHurt2_9, 0, 1000, this);
         Abe_SFX_2_457A40(7, 0, 0x7FFF, this);
         Event_Broadcast_422BC0(kEventMudokonDied, this);
         field_16A_flags.Clear(Flags::eBit2_save_state);
@@ -7143,25 +7143,25 @@ void Mudokon::Sound_475EC0(MudSounds idx)
         if (field_180_emo_tbl != Mud_Emotion::eSick_7)
         {
             // TODO: Pass down the stronger types - assuming they map directly
-            Abe_SFX_457EC0(static_cast<unsigned char>(idx), 80, field_13C_voice_pitch, this);
+            Abe_SFX_457EC0(static_cast<sAbeSFXList_555250_Tag>(idx), 80, field_13C_voice_pitch, this);
             return;
         }
 
         if (idx != MudSounds::eSick_24)
         {
-            Abe_SFX_457EC0(static_cast<unsigned char>(idx), 80, -field_13C_voice_pitch, this);
+            Abe_SFX_457EC0(static_cast<sAbeSFXList_555250_Tag>(idx), 80, -field_13C_voice_pitch, this);
             return;
         }
 
         short pitch1 = Math_RandomRange_496AB0(-5, 0);
         pitch1 *= 100;
         pitch1 = pitch1 - field_13C_voice_pitch;
-        Abe_SFX_457EC0(24u, Math_RandomRange_496AB0(20, 50), pitch1, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eUnknown_24, Math_RandomRange_496AB0(20, 50), pitch1, this);
        
         short pitch2 = Math_RandomRange_496AB0(-5, 0);
         pitch2 *= 100;
         pitch2 = pitch2 - field_13C_voice_pitch;
-        Abe_SFX_457EC0(28u, Math_RandomRange_496AB0(20, 60), pitch2, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eSadMoan_28, Math_RandomRange_496AB0(20, 60), pitch2, this);
         return;
     }
 
@@ -7172,19 +7172,19 @@ void Mudokon::Sound_475EC0(MudSounds idx)
             short pitch1 = Math_RandomRange_496AB0(-5, 0);
             pitch1 *= 100;
             pitch1 = pitch1 - field_13C_voice_pitch;
-            Abe_SFX_457EC0(24u, Math_RandomRange_496AB0(55, 90), pitch1, this);
+            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eUnknown_24, Math_RandomRange_496AB0(55, 90), pitch1, this);
 
             short pitch2 = Math_RandomRange_496AB0(-5, 0);
             pitch2 *= 100;
             pitch2 = pitch2 - field_13C_voice_pitch;
-            Abe_SFX_457EC0(28u, Math_RandomRange_496AB0(60, 110), pitch2, this);
+            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eSadMoan_28, Math_RandomRange_496AB0(60, 110), pitch2, this);
             return;
         }
-        Abe_SFX_457EC0(static_cast<unsigned char>(idx), 0, field_13C_voice_pitch, this);
+        Abe_SFX_457EC0(static_cast<sAbeSFXList_555250_Tag>(idx), 0, field_13C_voice_pitch, this);
     }
     else
     {
-        Abe_SFX_457EC0(static_cast<unsigned char>(idx), 0, field_13C_voice_pitch, this);
+        Abe_SFX_457EC0(static_cast<sAbeSFXList_555250_Tag>(idx), 0, field_13C_voice_pitch, this);
     }
 }
 
@@ -7639,7 +7639,7 @@ void Mudokon::HurtSound_475DB0()
     const unsigned __int8 random = Math_RandomRange_496AB0(0, 127) >= 64 ? 16 : 9;
     const short min = FP_GetExponent((FP_FromInteger(1) - field_10C_health) / FP_FromDouble(0.15));
     const __int16 bInCamera = gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0);
-    Abe_SFX_457EC0(random, bInCamera ? 0 : 80, Math_RandomRange_496AB0(200 * min, 40 * (5 * min + 5)), this);
+    Abe_SFX_457EC0(static_cast<sAbeSFXList_555250_Tag>(random), bInCamera ? 0 : 80, Math_RandomRange_496AB0(200 * min, 40 * (5 * min + 5)), this);
 }
 
 void Mudokon::TakeASlap_476090(BaseGameObject* pFrom)
@@ -7682,7 +7682,7 @@ void Mudokon::TakeASlap_476090(BaseGameObject* pFrom)
     }
     else
     {
-        Abe_SFX_457EC0(9u, 0, 1000, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHurt2_9, 0, 1000, this);
         Abe_SFX_2_457A40(7, 0, 32767, this);
         Event_Broadcast_422BC0(kEventMudokonDied, sActiveHero_5C1B68);
         field_16A_flags.Clear(Flags::eBit2_save_state);

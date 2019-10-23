@@ -6148,7 +6148,7 @@ void Abe::State_69_LedgeHangWobble_454EF0()
             if (!(field_1AC_flags.Get(Flags_1AC::e1AC_eBit13)))
             {
                 field_1AC_flags.Set(Flags_1AC::e1AC_eBit13);
-                Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHurt1_16, 45, -200, this);
+                Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eLaugh_10, 45, -200, this);
             }
         }
         else
@@ -8938,14 +8938,14 @@ __int16 Abe::CrouchingGameSpeak_453E10()
 
         if (field_128.field_12_mood == Mud_Emotion::eHappy_5 || field_128.field_12_mood == Mud_Emotion::eWired_6)
         {
-            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHappyHi_19, 0, 0, this);
+            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eNuhUh_13, 0, 0, this);
             field_106_current_motion = eAbeStates::State_20_CrouchGameSpeak_454550;
         }
         else
         {
             if (field_128.field_12_mood == Mud_Emotion::eSad_3)
             {
-                Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eSadHi_20, 0, 0, this);
+                Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eWhoops_14, 0, 0, this);
             }
             else
             {
@@ -8958,13 +8958,13 @@ __int16 Abe::CrouchingGameSpeak_453E10()
     else if (field_118_prev_held & sInputKey_GameSpeak4_5550FC)
     {
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eWork_21);
-        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eWork_25, 0, 0, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHappyHi_19, 0, 0, this);
         field_106_current_motion = eAbeStates::jState_21_ToCrouchGameSpeak_4545E0;
         return TRUE;
     }
     else if (field_118_prev_held & sInputKey_GameSpeak6_555108)
     {
-        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eAllOYa_17, 0, 0, this);
+        Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eUnused_11, 0, 0, this);
         pEventSystem_5BC11C->PushEvent_4218D0(GameSpeakEvents::eAllYa_23);
         field_106_current_motion = eAbeStates::jState_21_ToCrouchGameSpeak_4545E0;
         return TRUE;
