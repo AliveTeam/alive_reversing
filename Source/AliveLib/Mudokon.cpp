@@ -7108,13 +7108,13 @@ void Mudokon::Sound_475EC0(MudSounds idx)
         if (field_180_emo_tbl != Mud_Emotion::eSick_7)
         {
             // TODO: Pass down the stronger types - assuming they map directly
-            Abe_SFX_457EC0(static_cast<MudSounds>(idx), 80, field_13C_voice_pitch, this);
+            Abe_SFX_457EC0(idx, 80, field_13C_voice_pitch, this);
             return;
         }
 
         if (idx != MudSounds::eSick_24)
         {
-            Abe_SFX_457EC0(static_cast<MudSounds>(idx), 80, -field_13C_voice_pitch, this);
+            Abe_SFX_457EC0(idx, 80, -field_13C_voice_pitch, this);
             return;
         }
 
@@ -7145,11 +7145,11 @@ void Mudokon::Sound_475EC0(MudSounds idx)
             Abe_SFX_457EC0(MudSounds::eSadUgh_28, Math_RandomRange_496AB0(60, 110), pitch2, this);
             return;
         }
-        Abe_SFX_457EC0(static_cast<MudSounds>(idx), 0, field_13C_voice_pitch, this);
+        Abe_SFX_457EC0(idx, 0, field_13C_voice_pitch, this);
     }
     else
     {
-        Abe_SFX_457EC0(static_cast<MudSounds>(idx), 0, field_13C_voice_pitch, this);
+        Abe_SFX_457EC0(idx, 0, field_13C_voice_pitch, this);
     }
 }
 

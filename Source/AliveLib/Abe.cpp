@@ -1456,11 +1456,11 @@ void Abe::Update_449DC0()
                 if (field_128.field_18_say == MudSounds::eSadUgh_28)
                 {
                     // This one has another volume for whatever reason
-                    Abe_SFX_457EC0(static_cast<MudSounds>(field_128.field_18_say), 80, 0, this);
+                    Abe_SFX_457EC0(field_128.field_18_say, 80, 0, this);
                 }
                 else
                 {
-                    Abe_SFX_457EC0(static_cast<MudSounds>(field_128.field_18_say), 0, 0, this);
+                    Abe_SFX_457EC0(field_128.field_18_say, 0, 0, this);
                 }
 
                 field_128.field_18_say = MudSounds::eNone;
