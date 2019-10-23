@@ -730,7 +730,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
     field_124_gnFrame = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
     field_128.field_12_mood = Mud_Emotion::eNormal_0;
-    field_128.field_18_say = AbeSay::eNothing;
+    field_128.field_18_say = MudSounds::eNone;
     field_144_auto_say_timer = 0;
 
     // Set Abe to be the current player controlled object
@@ -1412,7 +1412,7 @@ void Abe::Update_449DC0()
             }
         }
 
-        if (field_128.field_18_say != AbeSay::eNothing && static_cast<int>(sGnFrame_5C1B84) >= field_144_auto_say_timer)
+        if (field_128.field_18_say != MudSounds::eNone && static_cast<int>(sGnFrame_5C1B84) >= field_144_auto_say_timer)
         {
             if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)
                 || (field_106_current_motion == eAbeStates::State_112_Chant_45B1C0)
@@ -1423,7 +1423,7 @@ void Abe::Update_449DC0()
             {
                 // Prevents double laugh when blowing up a slig as we prevent saying anything while chanting or various other states
                 // or when abe isn't in the active screen
-                field_128.field_18_say = AbeSay::eNothing;
+                field_128.field_18_say = MudSounds::eNone;
             }
             else
             {
@@ -1432,13 +1432,13 @@ void Abe::Update_449DC0()
                     field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
                     switch (field_128.field_18_say)
                     {
-                    case AbeSay::eOops_14:
+                    case MudSounds::eOops_14:
                         field_106_current_motion = eAbeStates::State_34_DunnoBegin_44ECF0;
                         break;
-                    case AbeSay::eAnger_5:
+                    case MudSounds::eAnger_5:
                         field_106_current_motion = eAbeStates::State_10_Fart_45B1A0;
                         break;
-                    case AbeSay::eSympathy_28:
+                    case MudSounds::eSadUgh_28:
                         field_106_current_motion = eAbeStates::State_10_Fart_45B1A0;
                         break;
                     default:
@@ -1447,13 +1447,13 @@ void Abe::Update_449DC0()
                     }
                 }
 
-                if (field_128.field_18_say == AbeSay::eAnger_5)
+                if (field_128.field_18_say == MudSounds::eAnger_5)
                 {
                     // Other evil muds laugh at the abe grr
                     Event_Broadcast_422BC0(kEventMudokonLaugh, sActiveHero_5C1B68);
                 }
 
-                if (field_128.field_18_say == AbeSay::eSympathy_28)
+                if (field_128.field_18_say == MudSounds::eSadUgh_28)
                 {
                     // This one has another volume for whatever reason
                     Abe_SFX_457EC0(static_cast<MudSounds>(field_128.field_18_say), 80, 0, this);
@@ -1463,7 +1463,7 @@ void Abe::Update_449DC0()
                     Abe_SFX_457EC0(static_cast<MudSounds>(field_128.field_18_say), 0, 0, this);
                 }
 
-                field_128.field_18_say = AbeSay::eNothing;
+                field_128.field_18_say = MudSounds::eNone;
             }
         }
 
@@ -1579,7 +1579,7 @@ void Abe::Update_449DC0()
 
         if (Event_Get_422C00(kEventMudokonDied))
         {
-            field_128.field_18_say = AbeSay::eOops_14;
+            field_128.field_18_say = MudSounds::eOops_14;
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
 
             // Do the death jingle
@@ -1588,13 +1588,13 @@ void Abe::Update_449DC0()
 
         if (Event_Get_422C00(kEventMudokonComfort))
         {
-            field_128.field_18_say = AbeSay::eLaugh_8;
+            field_128.field_18_say = MudSounds::eGiggle_8;
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
         if (Event_Get_422C00(kEventMudokonComfort | kEventSpeaking))
         {
-            field_128.field_18_say = AbeSay::eOops_14;
+            field_128.field_18_say = MudSounds::eOops_14;
             field_144_auto_say_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(22, 30);
         }
 
@@ -1689,7 +1689,7 @@ void Abe::ToKnockback_44E700(__int16 bUnknownSound, __int16 bDelayedAnger)
 
         if (bDelayedAnger)
         {
-            field_128.field_18_say = AbeSay::eAnger_5; // anger in..
+            field_128.field_18_say = MudSounds::eAnger_5; // anger in..
             field_144_auto_say_timer = sGnFrame_5C1B84 + 27; // 27 ticks
         }
 
@@ -1732,7 +1732,7 @@ void Abe::vScreenChanged_44D240()
     {
         if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eMines_1 && !word_5C1BA0)
         {
-            field_128.field_18_say = AbeSay::e3;
+            field_128.field_18_say = MudSounds::eHelloNeutral_3;
             field_144_auto_say_timer = sGnFrame_5C1B84 + 35;
         }
 
@@ -2056,8 +2056,8 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
     // Stop chant sound music
     SND_SEQ_Stop_4CAE60(SeqId::MudokonChant1_10);
 
-    const AbeSay oldSay = field_128.field_18_say;
-    field_128.field_18_say = AbeSay::eNothing;
+    const MudSounds oldSay = field_128.field_18_say;
+    field_128.field_18_say = MudSounds::eNone;
 
     OrbWhirlWind* pWhirlWind = static_cast<OrbWhirlWind*>(sObjectIds_5C1B70.Find_449CF0(field_150_OrbWhirlWind_id));
     if (pWhirlWind)
@@ -2192,7 +2192,7 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
 
     case Types::eType_47:
     case Types::eAntiChant_83:
-        field_128.field_18_say = AbeSay::eAnger_5;
+        field_128.field_18_say = MudSounds::eAnger_5;
         field_144_auto_say_timer = sGnFrame_5C1B84 + 27;
         if (field_106_current_motion != eAbeStates::State_123_LiftGrabIdle_45A6A0 &&
             field_106_current_motion != eAbeStates::State_124_LiftUseUp_45A780 &&

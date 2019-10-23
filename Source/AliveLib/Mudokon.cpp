@@ -5466,9 +5466,9 @@ __int16 Mudokon::AI_Sick_9_47A910()
     if (!field_16A_flags.Get(Flags::eBit9) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        if (sActiveHero_5C1B68->field_128.field_18_say == AbeSay::eNothing)
+        if (sActiveHero_5C1B68->field_128.field_18_say == MudSounds::eNone)
         {
-            sActiveHero_5C1B68->field_128.field_18_say = AbeSay::eSympathy_28;
+            sActiveHero_5C1B68->field_128.field_18_say = MudSounds::eSadUgh_28;
             sActiveHero_5C1B68->field_144_auto_say_timer = sGnFrame_5C1B84 + 10;
         }
         field_16A_flags.Set(Flags::eBit9);

@@ -166,16 +166,6 @@ extern const InputCommands sInputKey_GameSpeak5_55510C;
 extern const InputCommands sInputKey_GameSpeak8_555110;
 extern const InputCommands sInputKey_GameSpeak7_555114;
 
-enum class AbeSay : __int16
-{
-    eNothing = -1,
-    e3 = 3,
-    eAnger_5 = 5,
-    eLaugh_8 = 8,
-    eOops_14 = 14,
-    eSympathy_28 = 28,
-};
-
 enum class MudSounds : __int8
 {
     eNone = -1,
@@ -221,7 +211,7 @@ struct Abe_1BC_20_sub_object
     unsigned __int16 field_10;
     Mud_Emotion field_12_mood;
     int field_14;
-    AbeSay field_18_say;
+    MudSounds field_18_say;
     __int16 field_1A;
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
@@ -269,7 +259,7 @@ struct Abe_SaveState
     DWORD dword58;
     DWORD dword5C;
     Mud_Emotion mood;
-    AbeSay say;
+    MudSounds say;
     DWORD auto_say_timer;
     DWORD ring_pulse_timer;
     char field_6c_rock_bone_count;
