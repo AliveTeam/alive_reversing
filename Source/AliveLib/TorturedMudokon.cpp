@@ -214,7 +214,7 @@ void TorturedMudokon::vUpdate_47BF80()
             field_18C.field_4_flags.Clear(AnimFlags::eBit3_Render);
             if (!Math_RandomRange_496AB0(0, 8))
             {
-                Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eDepressedNo_22, 100, Math_RandomRange_496AB0(field_240, field_240 + 100), 0);
+                Abe_SFX_457EC0(MudSounds::eNoSad_22, 100, Math_RandomRange_496AB0(field_240, field_240 + 100), 0);
             }
         }
     }
@@ -258,12 +258,12 @@ void TorturedMudokon::vUpdate_47BF80()
         {
             if (sndRnd == 1)
             {
-                Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHurt1_16, 127, Math_RandomRange_496AB0(field_240, field_240 + 100), 0);
+                Abe_SFX_457EC0(MudSounds::eHurt1_16, 127, Math_RandomRange_496AB0(field_240, field_240 + 100), 0);
             }
         }
         else
         {
-            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHurt2_9, 127, Math_RandomRange_496AB0(field_240, field_240 + 100), 0);
+            Abe_SFX_457EC0(MudSounds::eHurt2_9, 127, Math_RandomRange_496AB0(field_240, field_240 + 100), 0);
         }
     }
 

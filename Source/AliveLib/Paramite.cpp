@@ -4195,7 +4195,7 @@ void Paramite::M_GameSpeakBegin_20_48C010()
                         if (pObj->field_10C_health > FP_FromInteger(0))
                         {
                             SFX_Play_46FA90(64u, 0);
-                            Abe_SFX_457EC0(sAbeSFXList_555250_Tag::eHurt2_9, 0, 0, pObj);
+                            Abe_SFX_457EC0(MudSounds::eHurt2_9, 0, 0, pObj);
                         }
                         pObj->VTakeDamage_408730(this);
                     }

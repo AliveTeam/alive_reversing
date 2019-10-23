@@ -176,49 +176,38 @@ enum class AbeSay : __int16
     eSympathy_28 = 28,
 };
 
-const enum class sAbeSFXList_555250_Tag : unsigned __int8
+enum class MudSounds : __int8
 {
-    eUnused_0 = 0,
-    eUnused_1 = 1,
-    eUnused_2 = 2,
-    eHello_3 = 3,
+    eNone = -1,
+    eEmpty_0 = 0,
+    eEmpty_1 = 1,
+    eEmpty_2 = 2,
+    eHelloNeutral_3 = 3,
     eFollowMe_4 = 4,
-    eAngry_5 = 5,
+    eAnger_5 = 5,
     eWait_6 = 6,
     eFart_7 = 7,
     eGiggle_8 = 8,
     eHurt2_9 = 9,
     eLaugh_10 = 10,
-    eUnused_11 = 11,
+    eGoodbye_11 = 11,
     eOkay_12 = 12,
     eNuhUh_13 = 13,
-    eWhoops_14 = 14,
-    eAbeFall_15 = 15,
+    eOops_14 = 14,
+    eDeathDrop_15 = 15,
     eHurt1_16 = 16,
     eAllOYa_17 = 17,
-    eAngryHi_18 = 18,
-    eHappyHi_19 = 19,
-    eSadHi_20 = 20,
-    eNo_21 = 21,
-    eDepressedNo_22 = 22,
-    ePoof_23 = 23,
-    eTortured_24 = 24,
+    eHiAngry_18 = 18,
+    eHiHappy_19 = 19,
+    eHiSad_20 = 20,
+    eNoAngry_21 = 21,
+    eNoSad_22 = 22,
+    eFartPuh_23 = 23,
+    eSick_24 = 24,
     eWork_25 = 25,
     eStopIt_26 = 26,
     eSorry_27 = 27,
-    eSadMoan_28 = 28,
-    eUnknown_29 = 29,
-    eUnknown_30 = 30,
-    eUnknown_31 = 31,
-    eUnknown_32 = 32,
-    eUnknown_33 = 33,
-    eUnknown_34 = 34,
-    eUnknown_35 = 35,
-    eUnknown_36 = 36,
-    eUnknown_37 = 37,
-    eUnknown_38 = 38,
-    eUnknown_39 = 39,
-    eUnknown_40 = 40,
+    eSadUgh_28 = 28,
 };
 
 enum class Mud_Emotion : __int16;
@@ -237,7 +226,7 @@ struct Abe_1BC_20_sub_object
 };
 ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
-EXPORT void CC Abe_SFX_457EC0(sAbeSFXList_555250_Tag idx, __int16 volume, int pitch, BaseAliveGameObject *pHero);
+EXPORT void CC Abe_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliveGameObject *pHero);
 
 struct Abe_SaveState
 {

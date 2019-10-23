@@ -188,7 +188,7 @@ enum Mud_Motion : unsigned __int16
 };
 
 enum class MudAction : __int16;
-enum class MudSounds : __int16;
+enum class MudSounds : __int8;
 
 class BirdPortal;
 
