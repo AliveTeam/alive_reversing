@@ -15,8 +15,6 @@
 
 Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
 {
-    NOT_IMPLEMENTED();
-
     ctor_408240(0);
     SetVTable(this, 0x546AF8);
     field_4_typeId = Types::eRock_105;
@@ -53,8 +51,16 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     }
     else
     {
-        // Pal offset is... WTF ??
-        //field_20_animation.Load_Pal_40A530(field_20_animation.field_20_ppBlock, *(_DWORD *)&(*field_20_animation.field_20_ppBlock)[*(_DWORD *)&(*field_20_animation.field_20_ppBlock)[*((_DWORD *)*field_20_animation.field_20_ppBlock + 124)]]);
+        const FrameInfoHeader* pFrameInfo = field_20_animation.Get_FrameHeader_40B730(-1);
+        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+        field_20_animation.Load_Pal_40A530(
+            field_20_animation.field_20_ppBlock,
+            pFrameHeader->field_0_clut_offset
+        );
+
+        //safety check in case IDA output was wrongly interpreted. TODO remove later
+        assert((DWORD *)&(*field_20_animation.field_20_ppBlock)[*(DWORD *)&(*field_20_animation.field_20_ppBlock)[*((DWORD *) *field_20_animation.field_20_ppBlock + 124)]]
+            == &(pFrameHeader->field_0_clut_offset));
     }
 
     field_11E_vol = 0;
