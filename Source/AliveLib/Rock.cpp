@@ -558,19 +558,18 @@ int CC Rock::CreateFromSaveState_49F720(const BYTE* pData)
 
 RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
 {
-    NOT_IMPLEMENTED();
-
     ctor_408240(0);
     SetVTable(this, 0x546B88);
 
     field_4_typeId = Types::eRockSack_106;
     
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kP2c2bagResID);
-    
-    // TODO: OWI hack ??
-    *((WORD *)*ppRes + 14874) = 0;
 
-    Animation_Init_424E10(29748, 71, 60u, ppRes, 1, 1);
+    //Set RockSack idle anim speed
+    auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 29748);
+    pAnimationHeader->field_0_fps = 0;
+
+    Animation_Init_424E10(29748, 71, 60u, (BYTE**) ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
