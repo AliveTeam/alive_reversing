@@ -569,7 +569,7 @@ RockSack* RockSack::ctor_49F100(Path_RockSack* pTlv, int tlvInfo)
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 29748);
     pAnimationHeader->field_0_fps = 0;
 
-    Animation_Init_424E10(29748, 71, 60u, (BYTE**) ppRes, 1, 1);
+    Animation_Init_424E10(29748, 71, 60u, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
