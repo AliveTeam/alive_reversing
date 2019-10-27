@@ -1044,8 +1044,12 @@ __int16 FlyingSlig::vTakeDamage_434C90(BaseGameObject* pFrom)
                     field_B8_xpos,
                     FP_FromInteger(bRect.y),
                     field_B8_xpos,
-                    FP_FromInteger(bRect.y));
-
+                    FP_FromInteger(bRect.y)
+                );
+                if (!pTlv)
+                {
+                    break;
+                }
                 if (pTlv->field_4_type == TlvTypes::ZSligCover_50)
                 {
                     // Left/right in cover
