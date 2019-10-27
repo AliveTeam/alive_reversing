@@ -166,7 +166,7 @@ extern const InputCommands sInputKey_GameSpeak5_55510C;
 extern const InputCommands sInputKey_GameSpeak8_555110;
 extern const InputCommands sInputKey_GameSpeak7_555114;
 
-enum class MudSounds : __int8
+enum class MudSounds : __int16
 {
     eNone = -1,
     eEmpty_0 = 0,
