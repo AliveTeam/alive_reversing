@@ -975,15 +975,11 @@ void Slig::M_Walking_2_4B5BC0()
                 gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
 
-            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), gridSize * FP_FromInteger(2)))
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), gridSize * FP_FromDouble(2.5)))
             {
                 field_106_current_motion = eSligMotions::M_WalkToStand_18_4B5FC0;
             }
-            else if (sControlledCharacter_5C1B8C == this && field_10C_health > FP_FromInteger(0))
-            {
-                PlayerControlStopWalkingIfRequired_4B8540();
-            }
-            else
+            else if (sControlledCharacter_5C1B8C != this || field_10C_health <= FP_FromInteger(0))
             {
                 if (field_108_next_motion == eSligMotions::M_Shoot_6_4B55A0)
                 {
@@ -994,6 +990,10 @@ void Slig::M_Walking_2_4B5BC0()
                 {
                     field_106_current_motion = eSligMotions::M_WalkToStand_18_4B5FC0;
                 }
+            }
+            else
+            {
+                PlayerControlStopWalkingIfRequired_4B8540();
             }
         }
         else
