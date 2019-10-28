@@ -3754,8 +3754,7 @@ __int16 Fleech::AI_ChasingAbe_State_2(BaseAliveGameObject* pObj)
             if (pHoist)
             {
                 field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
-                // TODO: __OFSUB__ Check
-                field_160_hoistX = pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale <= FP_FromInteger(0) ? 6 : 12);
+                field_160_hoistX = pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale < FP_FromInteger(1) ? 6 : 12);
                 field_162_hoistY = pHoist->field_8_top_left.field_2_y;
                 return 14;
             }
