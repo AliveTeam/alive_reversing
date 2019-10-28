@@ -1,5 +1,5 @@
 ---
-name: Bug template
+name: Rev bug
 about: Report issue that only occurs in reversed game VS original game
 title: ''
 labels: bug
