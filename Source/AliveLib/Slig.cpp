@@ -2356,6 +2356,39 @@ void Slig::M_LiftDown_50_4B3960()
     field_106_current_motion = MoveLift_4B3990(FP_FromInteger(4));
 }
 
+
+inline PSX_RECT MakeRectFromFP(FP x, FP y, FP w, FP h)
+{
+    PSX_RECT r = {};
+    r.x = FP_GetExponent(x);
+    r.w = FP_GetExponent(w);
+    r.y = FP_GetExponent(y);
+    r.h = FP_GetExponent(h);
+    return r;
+}
+
+inline PSX_RECT MakeMinMaxRect(FP x, FP y, FP w, FP h, bool flipToMaxMin = false)
+{
+    if (flipToMaxMin)
+    {
+        return MakeRectFromFP(
+            std::max(x, w),
+            std::max(y, h),
+            std::min(x, w),
+            std::min(y, h)
+        );
+    }
+    else
+    {
+        return MakeRectFromFP(
+            std::min(x, w),
+            std::min(y, h),
+            std::max(x, w),
+            std::max(y, h)
+        );
+    }
+}
+
 void Slig::M_Beat_51_4B6C00()
 {
     if (field_20_animation.field_92_current_frame == 5)
@@ -2371,21 +2404,12 @@ void Slig::M_Beat_51_4B6C00()
         const FP k2Scaled = FP_FromInteger(2) * kGridSize;
 
         PSX_RECT hitRect = {};
-
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-        {
-            hitRect.x = FP_GetExponent(std::min(field_B8_xpos - k1Scaled, field_B8_xpos - k0Scaled));
-            hitRect.y = FP_GetExponent(std::min(field_BC_ypos, (field_BC_ypos - k2Scaled)));
-            hitRect.w = FP_GetExponent(std::max(field_B8_xpos - k1Scaled, field_B8_xpos - k0Scaled));
-            hitRect.h = FP_GetExponent(std::max(field_BC_ypos, (field_BC_ypos - k2Scaled)));
-        }
-        else
-        {
-            hitRect.x = FP_GetExponent(std::min(field_B8_xpos + k1Scaled, field_B8_xpos - k0Scaled));
-            hitRect.y = FP_GetExponent(std::min(field_BC_ypos, (field_BC_ypos - k2Scaled)));
-            hitRect.w = FP_GetExponent(std::max(field_B8_xpos + k1Scaled, field_B8_xpos - k0Scaled));
-            hitRect.h = FP_GetExponent(std::max(field_BC_ypos, (field_BC_ypos - k2Scaled)));
-        }
+        hitRect = MakeMinMaxRect(
+            field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_B8_xpos - k1Scaled : field_B8_xpos + k1Scaled,
+            field_BC_ypos,
+            field_B8_xpos - k0Scaled,
+            field_BC_ypos - k2Scaled
+        );
 
         for (int i=0; i<gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
@@ -6557,16 +6581,15 @@ BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, int gridBlocks)
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
     const FP kGridBlocksScaled = FP_FromInteger(gridBlocks) * kGridSize;
 
-    const FP hitRectX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_B8_xpos - kGridBlocksScaled : field_B8_xpos + kGridBlocksScaled;
-    const FP hitRectY = std::max(field_BC_ypos, field_BC_ypos - k2Scaled);
-    const FP hitRectW = hitRectX;
-    const FP hitRectH = std::min(field_BC_ypos, field_BC_ypos - k2Scaled);
+    const FP xAndW = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_B8_xpos - kGridBlocksScaled : field_B8_xpos + kGridBlocksScaled;
 
-    PSX_RECT hitRect = {};
-    hitRect.x = FP_GetExponent(hitRectX);
-    hitRect.y = FP_GetExponent(hitRectY);
-    hitRect.w = FP_GetExponent(hitRectW);
-    hitRect.h = FP_GetExponent(hitRectH);
+    PSX_RECT hitRect = MakeMinMaxRect(
+        xAndW,
+        field_BC_ypos,
+        xAndW,
+        field_BC_ypos - k2Scaled,
+        true
+    );
 
     for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
