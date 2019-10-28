@@ -3439,9 +3439,8 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
             }
         }
 
-        // TODO: Check value is correct
-        const FP k1Directed = FP_FromInteger((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) ? -1 : 1); // TODO: Correct way around ?
-        if (!WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize_4498B0(field_CC_sprite_scale) * k1Directed))
+        field_174_flags.Clear(Flags_174::eBit2);
+        if (!WallHit_408750(FP_FromInteger(field_CC_sprite_scale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize_4498B0(field_CC_sprite_scale)))
         {
             return 1;
         }
@@ -3449,14 +3448,8 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
         Path_Hoist* pHoist = TryGetHoist_42AFD0(0, FALSE);
         if (pHoist)
         {
-
-            if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
-            {
-                field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
-            }
-
-            // TODO: __OFSUB__ check
-            field_160_hoistX = pHoist->field_8_top_left.field_0_x + (FP_FromInteger(1) <= FP_FromInteger(0) ? 6 : 12);
+            field_108_next_motion = eFleechMotions::M_Idle_3_42E850;
+            field_160_hoistX = pHoist->field_8_top_left.field_0_x + (field_CC_sprite_scale < FP_FromInteger(1) ? 6 : 12);
             field_162_hoistY = pHoist->field_8_top_left.field_2_y;
             return 14;
         }
