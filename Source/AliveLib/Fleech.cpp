@@ -3830,41 +3830,32 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             field_108_next_motion = eFleechMotions::M_Consume_18_42FDF0;
             field_174_flags.Set(Flags_174::eBit2, field_C4_velx < FP_FromInteger(0));
 
-            FP xOff2 = {};
+            FP xOffset = field_B8_xpos;
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
             {
-                xOff2 = field_B8_xpos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                xOffset -= ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
             else
             {
-                xOff2 = ScaleToGridSize_4498B0(field_CC_sprite_scale) + field_B8_xpos;
+                xOffset += ScaleToGridSize_4498B0(field_CC_sprite_scale);
             }
 
-            // TODO: Check values are correct
-            FP tlv_w = {};
-            if (field_B8_xpos <= xOff2)
+            FP slamDoorX = xOffset;
+            if (field_B8_xpos <= xOffset)
             {
-                tlv_w = xOff2;
-            }
-            else
-            {
-                tlv_w = field_B8_xpos;
+                slamDoorX = field_B8_xpos;
             }
 
-            FP tlv_x = {};
-            if (tlv_x < field_B8_xpos)
+            FP slamDoorW = field_B8_xpos;
+            if (field_B8_xpos <= xOffset)
             {
-                tlv_x = field_B8_xpos;
-            }
-            else
-            {
-                tlv_x = tlv_w;
+                slamDoorW = xOffset;
             }
 
             Path_TLV* pSlamDoor = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-                FP_GetExponent(tlv_x),
+                FP_GetExponent(slamDoorX),
                 FP_GetExponent(field_BC_ypos),
-                FP_GetExponent(tlv_w),
+                FP_GetExponent(slamDoorW),
                 FP_GetExponent(field_BC_ypos),
                 TlvTypes::SlamDoor_85);
             return  5 - (pSlamDoor != nullptr);
