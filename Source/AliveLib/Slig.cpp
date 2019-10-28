@@ -6551,33 +6551,22 @@ void Slig::PlayerControlRunningSlideStopOrTurn1_4B85D0()
     }
 }
 
-// TODO: This has probably been used in other places - use this whenever a rect is made of min/max combos
-inline PSX_RECT MakeRectFromFP(FP x, FP y, FP w, FP h)
-{
-    PSX_RECT r = {};
-    r.x = FP_GetExponent(std::min(x, w));
-    r.w = FP_GetExponent(std::max(w, h));
-    r.y = FP_GetExponent(std::min(y, h));
-    r.h = FP_GetExponent(std::max(h, y));
-    return r;
-}
-
 BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, int gridBlocks)
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
     const FP kGridBlocksScaled = FP_FromInteger(gridBlocks) * kGridSize;
 
-    const FP rectX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_B8_xpos - kGridBlocksScaled : field_B8_xpos + kGridBlocksScaled;
+    const FP hitRectX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? field_B8_xpos - kGridBlocksScaled : field_B8_xpos + kGridBlocksScaled;
+    const FP hitRectY = std::max(field_BC_ypos, field_BC_ypos - k2Scaled);
+    const FP hitRectW = hitRectX;
+    const FP hitRectH = std::min(field_BC_ypos, field_BC_ypos - k2Scaled);
 
-    const PSX_RECT hitRect = MakeRectFromFP(
-        rectX,
-        field_BC_ypos,
-        rectX,
-        field_BC_ypos - k2Scaled
-    );
-
-    // TODO: Explicit Abs'ing of Y?
+    PSX_RECT hitRect = {};
+    hitRect.x = FP_GetExponent(hitRectX);
+    hitRect.y = FP_GetExponent(hitRectY);
+    hitRect.w = FP_GetExponent(hitRectW);
+    hitRect.h = FP_GetExponent(hitRectH);
 
     for (int i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
@@ -6592,11 +6581,14 @@ BaseAliveGameObject* Slig::FindBeatTarget_4BD070(int /*a2*/, int gridBlocks)
             PSX_RECT bRect = {};
             pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-            if (pObj->field_10C_health > FP_FromInteger(0) &&
+            if (hitRect.w <= bRect.w &&
+                hitRect.x >= bRect.x &&
+                hitRect.y >= bRect.y &&
+                hitRect.h <= bRect.h &&
                 pObj->field_D6_scale == field_D6_scale &&
                 !IsInInvisibleZone_425710(pObj) &&
                 !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
-                PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
+                pObj->field_10C_health > FP_FromInteger(0))
             {
                 return pObj;
             }
