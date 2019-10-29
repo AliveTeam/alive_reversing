@@ -290,12 +290,16 @@ PauseMenu::PauseMenuPage sPM_Page_Load_546628 =
     0u
 };
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Save_55E4C8[6] =
+PauseMenuPageEntry PauseMenu__PageEntryList_Save_55E4C8[4] =
 {
     { 1, 184, 120, 0, sSaveString_5C931C, 128u, 16u, 255u, 1u },
     { 1, 184, 180, 0, "Enter   Save", 128u, 16u, 255u, 1u },
     { 1, 184, 205, 0, "Esc   Cancel", 128u, 16u, 255u, 1u },
-    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u },
+    { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
+};
+
+PauseMenuPageEntry PauseMenu__PageEntryList_Save_Overwrite_Confirm_55E508[2] =
+{
     { 1, 184, 180, 0, "Enter Overwrite  Esc Cancel", 160u, 160u, 160u, 1u },
     { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
 };
@@ -1301,11 +1305,11 @@ void PauseMenu::Page_Save_Update_491210()
     }
 }
 
-PauseMenu::PauseMenuPage stru_55E560 =
+PauseMenu::PauseMenuPage sOverwriteSaveConfirmPage_55E560 =
 {
     &PauseMenu::Page_Save_Update_491210,
     &PauseMenu::Page_Save_Render_491660,
-    PauseMenu__PageEntryList_Save_55E4C8,
+    PauseMenu__PageEntryList_Save_Overwrite_Confirm_55E508,
     -1,
     0u,
     0u,
@@ -1318,7 +1322,7 @@ PauseMenu::PauseMenuPage stru_55E560 =
 
 void PauseMenu::Page_Save_Render_491660(int** ot, PauseMenuPage* pPage)
 {
-    PauseMenuPage* pPageToRender = &stru_55E560;
+    PauseMenuPage* pPageToRender = &sOverwriteSaveConfirmPage_55E560;
     if (field_13C_save_state != SaveState::SaveConfirmOverwrite_8)
     {
         pPageToRender = pPage;
