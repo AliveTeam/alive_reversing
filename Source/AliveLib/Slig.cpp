@@ -4882,13 +4882,11 @@ void Slig::dtor_4B1CF0()
             {
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
                 pTlv->field_0_flags.Set(TLV_Flags::eBit2_Unknown);
-                pTlv->field_1_unknown = 0;
             }
             else
             {
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
                 pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Unknown);
-                pTlv->field_1_unknown = 0;
             }
         }
     }
