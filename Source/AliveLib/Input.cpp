@@ -1527,7 +1527,7 @@ EXPORT void Input_InitJoyStick_460080()
     if (sJoystickCaps_5C2D10.wNumButtons <= 2
         || sJoystickCaps_5C2D10.wNumButtons > 4 && sJoystickCaps_5C2D10.wNumAxes > 2)
     {
-        sGamepadCapFlags_5C2EF8 |= eAutoRun;
+        sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
     }
     if (sJoystickCaps_5C2D10.wNumButtons == 4)
     {
