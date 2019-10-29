@@ -217,7 +217,7 @@ PauseMenuPageEntry PauseMenu__PageEntryList_Status_55e738[1] =
 
 // This is a hack because one of the functions modifies this string directly,
 // and leaving it as an inline string literal puts it into read only memory.
-char str_LoadEnterLoadDelDelete[] = "\x01 \x02 Select    Enter Load    Del Delete";
+char str_LoadEnterLoadDelDelete_55E478 [] = "\x01 \x02 Select    Enter Load    Del Delete";
 PauseMenuPageEntry PauseMenu__PageEntryList_Load_55e3a0[9] =
 {
     { 1, 184, 5, 0, "", 128, 16, 255, Centre },
@@ -226,7 +226,7 @@ PauseMenuPageEntry PauseMenu__PageEntryList_Load_55e3a0[9] =
     { 1, 184, 80, 0, "", 128, 16, 255, Centre },
     { 1, 184, 105, 0, "", 128, 16, 255, Centre },
     { 1, 184, 130, 0, "", 128, 16, 255, Centre },
-    { 1, 184, 188, 0, str_LoadEnterLoadDelDelete, 128, 16, 255, Centre },
+    { 1, 184, 188, 0, str_LoadEnterLoadDelDelete_55E478, 128, 16, 255, Centre },
     { 1, 184, 213, 0, "Esc  Cancel        F6  Load QuikSave", 128, 16, 255, Centre },
     { 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }
 };
@@ -1463,28 +1463,32 @@ void PauseMenu::Page_Load_Update_490D50()
 
 void PauseMenu::Page_Load_Render_4910A0(int ** ot, PauseMenuPage * mp)
 {
-    signed int saveCount = sTotalSaveFilesCount_BB43E0;
-    int selectedSaveIndex = sSavedGameToLoadIdx_BB43FC - 2;
+    int saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
     for (int i = 0; i < 6; i++)
     {
-        if (i > saveCount)
+        if (saveIdx < 0 || saveIdx > sTotalSaveFilesCount_BB43E0)
         {
+            // When at the top of the list set the first 2 entries to a blank, and when at the end of the list set the
+            // remaining save text slots to blank.
             PauseMenu__PageEntryList_Load_55e3a0[i].field_8_text = "";
         }
         else
         {
-            PauseMenu__PageEntryList_Load_55e3a0[i].field_8_text = sSaveFileRecords_BB31D8[selectedSaveIndex + i].field_0_fileName;
+            PauseMenu__PageEntryList_Load_55e3a0[i].field_8_text = sSaveFileRecords_BB31D8[saveIdx].field_0_fileName;
         }
+        saveIdx++;
     }
 
-    if (saveCount)
+    if (sTotalSaveFilesCount_BB43E0 > 0)
     {
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = "\x1";
+        // This is a removed feature where it looks like the up and down arrows was supposed to be dynamic
+        // but in actual fact both always render.
+        //PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text[0] = "\x1";
     }
     else
     {
         PauseMenu__PageEntryList_Load_55e3a0[4].field_8_text = "No Saved Games";
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = 0;
+        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = nullptr;
     }
 
     mp->field_C_selected_index = 2;
