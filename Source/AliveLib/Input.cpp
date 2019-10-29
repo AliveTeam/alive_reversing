@@ -56,7 +56,7 @@ ALIVE_VAR(1, 0xbd309c, int, sIsAKeyDown_BD309C, 0);
 ALIVE_ARY(1, 0x5C9D30, char, 256, sAllowedGameKeys_5C9D30, {});
 ALIVE_ARY(1, 0x5C9394, const char *, 256, sKeyNames_5C9394, {});
 ALIVE_ARY(1, 0x5C9908, const char *, 10, sJoyButtonNames_5C9908, {});
-ALIVE_ARY(1, 0x5C9930, InputCommands, 256, sKeyboardBindings_5C9930, {});
+ALIVE_ARY(1, 0x5C9930, unsigned int, 256, sKeyboardBindings_5C9930, {});
 ALIVE_ARY(1, 0x5C98E0, int, 10, sGamePadBindings_5C98E0, {});
 ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
 
@@ -736,7 +736,7 @@ EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad)
     {
         for (int i = 0; i < 256; i++)
         {
-            sAllowedGameKeys_5C9D30[i] &= ~input_command;
+            sKeyboardBindings_5C9930[i] &= ~input_command;
         }
     }
 }
