@@ -3147,7 +3147,6 @@ EXPORT void CC PSX_84_4F7B80(int xpos, int ypos, int width, int height, WORD* pD
     else
     {
         xClipped = (clipx_exp - xpos) / 2;
-        xpos = xpos;
     }
 
     const int width_count = width - xpos;
@@ -3187,7 +3186,7 @@ EXPORT void CC PSX_84_4F7B80(int xpos, int ypos, int width, int height, WORD* pD
         WORD* pSrcIter = pSrc2;
         WORD* pDstLineIter = &pDstIter[dst_idx];
 
-        for (int xCounter = 0; xCounter < wCountToWrite; xCounter++)
+        for (int xCounter = xClipped; xCounter < wCountToWrite; xCounter++)
         {
             if (*pSrcIter)
             {
