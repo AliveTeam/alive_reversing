@@ -736,7 +736,7 @@ EXPORT void CC Input_ResetBinding_4925A0(int input_command, int bIsGamePad)
     {
         for (int i = 0; i < 256; i++)
         {
-            sAllowedGameKeys_5C9D30[i] &= ~input_command;
+            sKeyboardBindings_5C9930[i] = static_cast<InputCommands>(static_cast<int>(sKeyboardBindings_5C9930[i]) & ~input_command);
         }
     }
 }
