@@ -1207,7 +1207,7 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
         Input_GetJoyState_460280(&pX1, &pY1, &pX2, &pY2, &pButtons);
         
-        if ((sGamepadCapFlags_5C2EF8 & eAutoRun) == 1 && sJoystickNumButtons_5C2EFC <= 4 && fabs(pX1) >= 0.75f)// Auto sprint
+        if ((sGamepadCapFlags_5C2EF8 & eDisableAutoRun) == 1 && sJoystickNumButtons_5C2EFC <= 4 && fabs(pX1) >= 0.75f)// Auto sprint
         {
             pressed_keyboard_keys |= eRun;
             keys_down = pressed_keyboard_keys;
@@ -1328,11 +1328,11 @@ EXPORT int Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
                 if (sJoystickNumButtons_5C2EFC <= 6)
                 {
-                    if (!(sGamepadCapFlags_5C2EF8 & eAutoRun))
+                    if (!(sGamepadCapFlags_5C2EF8 & eDisableAutoRun))
                     {
                         if ((pressed_keyboard_keys ^ sPrevious_down_keyboard_keys_5C9F74) & (eRight | eLeft))
                         {
-                            dword_5C9F78 = sGamepadCapFlags_5C2EF8 & eAutoRun;
+                            dword_5C9F78 = sGamepadCapFlags_5C2EF8 & eDisableAutoRun;
                             if (!(sPrevious_down_keyboard_keys_5C9F74 & (eRight | eLeft)))
                             {
                                 currentTime = SYS_GetTicks();
@@ -1450,6 +1450,8 @@ EXPORT void Input_InitJoyStick_460080()
 
     sJoystickEnabled_5C2EF4 = false;
 #if USE_SDL2
+
+    sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
     if (!SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER))
     {
         DEV_CONSOLE_PRINTF("SDL GamePads: %i", SDL_NumJoysticks());
@@ -1517,15 +1519,6 @@ EXPORT void Input_InitJoyStick_460080()
     }
 
     sJoystickCapFlags_5C2EDC = joyFlags;
-
-    if (joyFlags & 8)
-    {
-        sGamepadCapFlags_5C2EF8 |= eUnknown_3;
-    }
-    if (joyFlags & 4)
-    {
-        sGamepadCapFlags_5C2EF8 |= eUnknown_4;
-    }
     if (joyFlags & 0x40)
     {
         sGamepadCapFlags_5C2EF8 |= eHasDPad;
