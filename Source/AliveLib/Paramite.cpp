@@ -1168,23 +1168,15 @@ __int16 Paramite::AI_Patrol_State_1(BaseAliveGameObject* pObj)
                     field_108_next_motion = eParamiteMotions::M_GameSpeakBegin_20_48C010;
                     return AI_Patrol::eState0_StuckToWall_8;
                 }
+                Sound_48F600(ParamiteSpeak::Howdy_5, 0);
+                field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
+                return AI_Patrol::eState0_TurningForAbe_6;
             }
-
-            if (Check_IsOnEndOfLine_408E90(0, 2))
+            else if (Check_IsOnEndOfLine_408E90(0, 2))
             {
                 field_108_next_motion = eParamiteMotions::M_GameSpeakBegin_20_48C010;
                 return AI_Patrol::eState0_StuckToWall_8;
             }
-
-            if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
-            {
-                if (Check_IsOnEndOfLine_408E90(1, 2))
-                {
-                    field_108_next_motion = eParamiteMotions::M_GameSpeakBegin_20_48C010;
-                    return AI_Patrol::eState0_StuckToWall_8;
-                }
-            }
-
             Sound_48F600(ParamiteSpeak::Howdy_5, 0);
             field_108_next_motion = eParamiteMotions::M_Turn_4_48B180;
             return AI_Patrol::eState0_TurningForAbe_6;
