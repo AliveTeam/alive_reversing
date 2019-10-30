@@ -1098,6 +1098,7 @@ void Mudokon::vUpdate_4757A0()
     const __int16 oldMotion = field_106_current_motion;
     const auto oldBrain = field_18E_ai_state;
     const auto oldBrainRet = field_190_sub_state;
+
     field_190_sub_state = (this->*sMudokon_AI_Table_55CDF0[field_18E_ai_state])();
    
     const FP oldXPos = field_B8_xpos;
@@ -4149,8 +4150,6 @@ __int16 Mudokon::AI_ListeningToAbe_State_6()
             }
         }
     }
-
-
 
     if (!field_16A_flags.Get(Flags::eBit4_blind))
     {
