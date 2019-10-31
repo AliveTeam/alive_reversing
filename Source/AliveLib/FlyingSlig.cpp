@@ -2591,7 +2591,7 @@ void FlyingSlig::ToLaunchingGrenade_435F50()
 
 void FlyingSlig::HandlePlayerControls_439340()
 {
-    /* OG issue - these local statics are never used ??
+    /* TODO OG issue - these local statics are never used ??
     if (!(byte_5BC5F4 & 1))
     {
         byte_5BC5F4 |= 1u;
