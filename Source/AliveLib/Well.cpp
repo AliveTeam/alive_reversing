@@ -158,14 +158,14 @@ void Well::vScreenChanged_4E3070()
     field_6_flags.Set(BaseGameObject::eDead);
 }
 
-__int16 Well_NextRandom()
+static __int16 Well_NextRandom()
 {
-    sWellRndSeed_563AA0++;
-
     if (sWellRndSeed_563AA0 > 255)
     {
-        sWellRndSeed_563AA0 = 1;
+        sWellRndSeed_563AA0 = 0;
     }
+    sWellRndSeed_563AA0++;
+
     return sRandomBytes_546744[sWellRndSeed_563AA0 - 1];
 }
 
