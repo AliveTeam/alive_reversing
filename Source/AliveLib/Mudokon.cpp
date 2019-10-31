@@ -4122,17 +4122,6 @@ __int16 Mudokon::AI_ListeningToAbe_State_6()
         }
     }
 
-    //// TODO: Ordering
-    //if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale), sActiveHero_5C1B68) ||
-    //    !vIsObj_GettingNear_425420(sActiveHero_5C1B68) && vIsFacingMe_4254A0(sActiveHero_5C1B68) ||
-    //    field_16A_flags.Get(Flags::eBit4_blind))
-    //{
-    //    return field_190_sub_state;
-    //}
-    //field_108_next_motion = Mud_Motion::RunSlideTurn_25_473AA0;
-    //return AI_ListeningToAbe::eState4_CrazySlideTurn_8;
-
-
     if (!vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale), sActiveHero_5C1B68))
     {
         if (vIsFacingMe_4254A0(sActiveHero_5C1B68))
