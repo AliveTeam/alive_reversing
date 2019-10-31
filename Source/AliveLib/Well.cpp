@@ -160,13 +160,10 @@ void Well::vScreenChanged_4E3070()
 
 static __int16 Well_NextRandom()
 {
-    if (sWellRndSeed_563AA0 > 255)
-    {
-        sWellRndSeed_563AA0 = 0;
-    }
+    auto curRand = sRandomBytes_546744[sWellRndSeed_563AA0];
     sWellRndSeed_563AA0++;
-
-    return sRandomBytes_546744[sWellRndSeed_563AA0 - 1];
+    if (sWellRndSeed_563AA0 > 255) sWellRndSeed_563AA0 = 0;
+    return curRand;
 }
 
 void Well::vUpdate_4E2F60()
