@@ -8,7 +8,7 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 
-ALIVE_VAR(1, 0x563aa0, BYTE, sWellRndSeed_563AA0, 4);
+ALIVE_VAR(1, 0x563aa0, DWORD, sWellRndSeed_563AA0, 4);
 
 Well* Well::ctor_4E2BE0(Path_Well_Base* pTlv, FP xpos, FP ypos, int tlvInfo)
 {
@@ -158,6 +158,17 @@ void Well::vScreenChanged_4E3070()
     field_6_flags.Set(BaseGameObject::eDead);
 }
 
+__int16 Well_NextRandom()
+{
+    sWellRndSeed_563AA0++;
+
+    if (sWellRndSeed_563AA0 > 255)
+    {
+        sWellRndSeed_563AA0 = 1;
+    }
+    return sRandomBytes_546744[sWellRndSeed_563AA0 - 1];
+}
+
 void Well::vUpdate_4E2F60()
 {
     if (Event_Get_422C00(kEventDeathReset))
@@ -173,7 +184,7 @@ void Well::vUpdate_4E2F60()
         if (field_24_trigger_id == 0 || SwitchStates_Get_466020(field_24_trigger_id))
         {
             // Random chance of leaves emitting
-            if (sRandomBytes_546744[++sWellRndSeed_563AA0] < 10)
+            if ( Well_NextRandom() < 10)
             {
                 auto pLeaf = alive_new<Leaf>();
                 if (pLeaf)

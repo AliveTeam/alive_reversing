@@ -24,14 +24,14 @@ private:
     EXPORT void vUpdate_4E2F60();
 private:
     int field_20_tlvInfo;
-    short field_24_trigger_id;
-    // pad
+    __int16 field_24_trigger_id;
+    __int16 field_26_pad;
     FP field_28_scale;
     FP field_2C_exit_x;
     FP field_30_exit_y;
     FP field_34_leaf_xpos;
     FP field_38_leaf_ypos;
     __int16 field_3C_bEmitLeaves;
-    //__int16 field_3E_pad;
+    __int16 field_3E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x40);
