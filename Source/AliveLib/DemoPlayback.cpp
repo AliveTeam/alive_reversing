@@ -14,9 +14,6 @@ void DemoPlayback::ctor()
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x54690C);
-    field_4_typeId = Types::eDemoPlayback_98;
-
-    //nullsub_31(j_nullsub_31);
 
     if (sDemoObj_dword_5D1E20)
     {
@@ -24,13 +21,13 @@ void DemoPlayback::ctor()
     }
     else
     {
+        sDemoObj_dword_5D1E20 = this;
         field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
 
         DWORD** ppRes = reinterpret_cast<DWORD**>(Add_Resource_4DC130(ResourceManager::Resource_Demo, 1));
         field_1C_update_delay = 1;
         sInputObject_5BD4E0.SetDemoResource_45F1E0(ppRes);
-
-        //nullsub_31(j_nullsub_31);
+        field_4_typeId = Types::eDemoPlayback_98;
     }
 }
 
