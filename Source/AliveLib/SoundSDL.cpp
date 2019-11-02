@@ -10,6 +10,8 @@
 #include "Reverb.hpp"
 #include "Sys.hpp"
 
+#include <cinder/audio/dsp/RingBuffer.h>
+
 #define MAX_VOICE_COUNT 1024
 
 static int gSoundBufferSamples = 256;

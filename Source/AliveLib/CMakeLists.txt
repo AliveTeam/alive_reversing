@@ -402,6 +402,7 @@ endif()
 target_link_libraries(AliveLib
     EasyLogging++
     googletest
+    Cinder
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
     )

@@ -19,6 +19,11 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
     export(TARGETS Detours FILE Detours.cmake)
 endif()
 
+# Cinder for lock free circular buffer in audio processing
+add_library(Cinder INTERFACE)
+target_include_directories(Cinder INTERFACE Cinder/)
+export(TARGETS Cinder FILE Cinder.cmake)
+
 # EasyLogging++ lib
 add_library(EasyLogging++
     EasyLogging++/EasyLogging/src/easylogging++.cc
