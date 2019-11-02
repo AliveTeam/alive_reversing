@@ -853,8 +853,10 @@ struct IniCustomSaveEntry
 std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     { "keep_aspect", &s_VGA_KeepAspectRatio, true },
     { "filter_screen", &s_VGA_FilterScreen, true },
+#if USE_SDL2_SOUND
     { "reverb", &gReverbEnabled, true },
     { "audio_stereo", &gAudioStereo, true },
+#endif
     { "debug_mode", &gDebugHelpersEnabled , true},
 };
 

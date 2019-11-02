@@ -41,6 +41,8 @@ ExportHooker.hpp
     Sound/Sound.hpp
     Sound/Reverb.hpp
     Sound/Reverb.cpp
+    Sound/SoundDSound.cpp
+    Sound/SoundDSound.hpp
     Sound/SoundSDL.hpp
     Sound/SoundSDL.cpp
     stdlib.cpp

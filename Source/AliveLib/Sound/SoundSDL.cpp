@@ -14,11 +14,14 @@
 
 #define MAX_VOICE_COUNT 1024
 
+bool gReverbEnabled = false;
+bool gAudioStereo = true;
+
 static int gSoundBufferSamples = 256;
 static int gCurrentSoundBufferSize = 0;
 const int gMixVolume = 127;
 
-AE_SDL_Voice* sAE_ActiveVoices[MAX_VOICE_COUNT];
+AE_SDL_Voice* sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
 
 static SDL_AudioSpec gAudioDeviceSpec = {};
 static AudioFilterMode gAudioFilterMode = AudioFilterMode::Linear;

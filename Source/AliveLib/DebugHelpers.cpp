@@ -858,7 +858,9 @@ std::vector<DebugConsoleCommand> sDebugConsoleCommands = {
     { "object_id", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&ObjectDebugger::Enabled, "Object ID Debugger"); }, "Shows object id's on screen" },
     { "no_frame_skip", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_NoFrameSkip_5CA4D1, "No Frame Skip"); }, "Toggle No Frame Skip" },
     { "fps", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sCommandLine_ShowFps_5CA4D0, "FPS"); }, "Toggle FPS" },
+#if USE_SDL2_SOUND
     { "reverb", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&gReverbEnabled, "Reverb"); }, "Toggle Reverb (New Sound Engine)" },
+#endif
     { "music", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&g_DisableMusic, "Disable Music"); }, "Disable In Game Music" },
     { "raycast", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&g_EnabledRaycastRendering, "Raycast Debug"); }, "Toggle Raycast Debug" },
     { "verbose_events", -1, [](const std::vector<std::string>& /*args*/) { Command_ToggleBool(&sDebugEnabled_VerboseEvents, "Verbose Events"); }, "Toggle Verbose Events" },
