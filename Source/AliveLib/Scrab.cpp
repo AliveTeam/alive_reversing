@@ -13,7 +13,7 @@
 #include "DDCheat.hpp"
 #include "Particle.hpp"
 #include "Sfx.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "GameSpeak.hpp"
 #include "SwitchStates.hpp"
 #include "SlamDoor.hpp"

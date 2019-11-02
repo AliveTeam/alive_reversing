@@ -8,7 +8,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "ParticleBurst.hpp"
 #include "Particle.hpp"
 #include "ScreenShake.hpp"

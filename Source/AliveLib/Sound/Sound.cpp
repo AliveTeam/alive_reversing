@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "Error.hpp"
 #include "Sys.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "BackgroundMusic.hpp"
 #if !USE_SDL2_SOUND
 #include <mmeapi.h>
@@ -13,10 +13,10 @@
 #include <mutex>
 #include "Path.hpp"
 #include "MusicController.hpp"
-#include "Map.hpp"
 #include "Slig.hpp"
 #include "Slog.hpp"
 #include "Fleech.hpp"
+#include "ScopedSeq.hpp"
 
 bool gReverbEnabled = false;
 bool gAudioStereo = true;
@@ -942,101 +942,6 @@ EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
     }
     return SND_Recycle_Sound_Buffer_4EF9C0(idx, tableIdx, field10);
 }
-
-class ScopedSeq
-{
-public:
-    EXPORT ScopedSeq* ctor_4CB210(char ambianceId, CameraPos direction)
-    {
-        SetVTable(this, 0x547838);
-
-        short leftVol = 0;
-        short rightVol = 0;
-
-        if (direction == CameraPos::eCamLeft_3)
-        {
-            leftVol = 1;
-            rightVol = 0;
-        }
-        else
-        {
-            leftVol = direction != CameraPos::eCamRight_4;
-            rightVol = 1;
-        }
-
-        field_4_seq_id = -1;
-        field_8_channel_mask = 0;
-
-        switch (ambianceId)
-        {
-        case 0:
-            field_4_seq_id = 22;
-            break;
-        case 1:
-            field_4_seq_id = 21;
-            break;
-        case 2:
-            field_4_seq_id = 23;
-            break;
-        case 3:
-            field_4_seq_id = 24;
-            break;
-        case 4:
-            field_4_seq_id = 26;
-            break;
-        case 5:
-            field_4_seq_id = 25;
-            break;
-        default:
-            break;
-        }
-
-        if (field_4_seq_id != -1)
-        {
-            SND_SEQ_Play_4CAB10(field_4_seq_id, 0, 40 * leftVol + 15, 40 * rightVol + 15);
-        }
-
-        return this;
-    }
-
-    virtual ScopedSeq* VDestructor(signed int flags)
-    {
-        return vdtor_4CB410(flags);
-    }
-
-private:
-    EXPORT ScopedSeq* vdtor_4CB410(signed int flags)
-    {
-        dtor_4CB440();
-        if (flags & 1)
-        {
-            Mem_Free_495540(this);
-        }
-        return this;
-    }
-
-    EXPORT void dtor_4CB440()
-    {
-        SetVTable(this, 0x547838);
-
-        if (field_4_seq_id >= 0)
-        {
-            SND_SEQ_Stop_4CAE60(field_4_seq_id);
-        }
-
-        if (field_8_channel_mask)
-        {
-            SND_Stop_Channels_Mask_4CA810(field_8_channel_mask);
-        }
-    }
-
-
-private:
-    __int16 field_4_seq_id;
-    __int16 field_6;
-    int field_8_channel_mask;
-};
-ALIVE_ASSERT_SIZEOF(ScopedSeq, 0xC);
 
 struct Sound_Ambiance
 {

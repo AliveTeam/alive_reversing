@@ -5,7 +5,7 @@
 #include "SwitchStates.hpp"
 #include "DebugHelpers.hpp"
 #include "StringFormatters.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "VRam.hpp"

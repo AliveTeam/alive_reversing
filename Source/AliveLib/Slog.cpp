@@ -9,7 +9,7 @@
 #include "DDCheat.hpp"
 #include "Shadow.hpp"
 #include "Map.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "Bone.hpp"

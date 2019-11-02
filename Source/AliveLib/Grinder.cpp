@@ -5,7 +5,7 @@
 #include "Shadow.hpp"
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "Events.hpp"
 #include "Game.hpp"

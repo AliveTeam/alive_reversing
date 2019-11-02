@@ -25,8 +25,6 @@ ExportHooker.hpp
     PsxRender.hpp
     Math.cpp
     Math.hpp
-    Midi.cpp
-    Midi.hpp
     GameSpeak.hpp
     GameSpeak.cpp
     DDCheat.hpp
@@ -37,8 +35,14 @@ ExportHooker.hpp
     Sfx.cpp
     Game.cpp
     Game.hpp
-    Sound.cpp
-    Sound.hpp
+    Sound/Midi.cpp
+    Sound/Midi.hpp
+    Sound/Sound.cpp
+    Sound/Sound.hpp
+    Sound/Reverb.hpp
+    Sound/Reverb.cpp
+    Sound/SoundSDL.hpp
+    Sound/SoundSDL.cpp
     stdlib.cpp
     stdlib.hpp
     ResourceManager.cpp
@@ -198,10 +202,6 @@ ExportHooker.hpp
     Switch.cpp
     MultiSwitchController.hpp
     MultiSwitchController.cpp
-    Reverb.hpp
-    Reverb.cpp
-    SoundSDL.hpp
-    SoundSDL.cpp
     ShadowZone.hpp
     ShadowZone.cpp
     Grinder.cpp
@@ -351,6 +351,8 @@ ExportHooker.hpp
     DeathGas.hpp
     TouchController.cpp
     TouchController.hpp
+    ScopedSeq.cpp
+    ScopedSeq.hpp
 )
 
 ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibSrc)

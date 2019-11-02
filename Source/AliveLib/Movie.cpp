@@ -7,9 +7,9 @@
 #include "ResourceManager.hpp"
 #include "Text.hpp"
 #include "MainMenu.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Sys.hpp"
-#include "Sound.hpp"
+#include "Sound/Sound.hpp"
 #include "Masher.hpp"
 #include "DDraw.hpp"
 #include "VGA.hpp"
@@ -543,9 +543,9 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
 EXPORT char CC DDV_Play_493210(const char* pDDVName)
 {
-    sSoundEntry_5CA230 = &sDDV_SoundEntry_5CA208;
+    sMovieSoundEntry_5CA230 = &sDDV_SoundEntry_5CA208;
     const char ret = DDV_Play_Impl_4932E0(pDDVName);
-    sSoundEntry_5CA230 = nullptr;
+    sMovieSoundEntry_5CA230 = nullptr;
     return ret;
 }
 

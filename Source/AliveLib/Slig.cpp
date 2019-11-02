@@ -18,7 +18,7 @@
 #include "Blood.hpp"
 #include "Gibs.hpp"
 #include "Particle.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "ScreenShake.hpp"
@@ -30,7 +30,7 @@
 #include "Dove.hpp"
 #include "BulletShell.hpp"
 #include "GameSpeak.hpp"
-#include "Sound.hpp"
+#include "Sound/Sound.hpp"
 #include "VRam.hpp"
 #include "Electrocute.hpp"
 

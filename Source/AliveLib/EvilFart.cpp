@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "ThrowableTotalIndicator.hpp"
 #include "Particle.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Explosion.hpp"
 #include "Sfx.hpp"
 #include "Function.hpp"

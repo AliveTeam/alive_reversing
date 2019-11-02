@@ -5,7 +5,7 @@
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "LvlArchive.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"

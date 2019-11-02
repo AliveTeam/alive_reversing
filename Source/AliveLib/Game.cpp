@@ -7,7 +7,7 @@
 #include "Error.hpp"
 #include "Psx.hpp"
 #include "DynamicArray.hpp"
-#include "Sound.hpp"
+#include "Sound/Sound.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
@@ -23,7 +23,7 @@
 #include "Io.hpp"
 #include "LvlArchive.hpp"
 #include "DDraw.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include <atomic>
 #include <fstream>
 #include "DebugHelpers.hpp"

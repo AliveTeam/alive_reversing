@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "ObjectIds.hpp"
 #include "SwitchStates.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Dove.hpp"

@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "Error.hpp"
 #include "bmp.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "PsxDisplay.hpp"
 #include "VGA.hpp"
 #include "stdlib.hpp"

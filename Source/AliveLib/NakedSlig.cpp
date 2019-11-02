@@ -21,7 +21,7 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "ScreenShake.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Slig.hpp"
 #include "FlyingSlig.hpp"
 #include "NakedSligButton.hpp"

@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Events.hpp"
 #include "SwitchStates.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
 

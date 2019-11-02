@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "ObjectIds.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Game.hpp"
 #include "ScreenManager.hpp"
 #include "Sfx.hpp"

@@ -7,7 +7,7 @@
 #include "Sfx.hpp"
 #include "Events.hpp"
 #include "GameSpeak.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 
 SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo)

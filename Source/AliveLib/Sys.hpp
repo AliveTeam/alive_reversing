@@ -60,4 +60,4 @@ DWORD SYS_GetTicks();
 
 struct SoundEntry;
 
-ALIVE_VAR_EXTERN(SoundEntry*, sSoundEntry_5CA230);
+ALIVE_VAR_EXTERN(SoundEntry*, sMovieSoundEntry_5CA230);

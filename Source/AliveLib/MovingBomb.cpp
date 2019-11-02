@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "Shadow.hpp"
 #include "stdlib.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"

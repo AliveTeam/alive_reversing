@@ -11,7 +11,7 @@
 #include "VRam.hpp"
 #include "Game.hpp"
 #include "ScreenManager.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "stdlib.hpp"
 #include "BaseBomb.hpp"

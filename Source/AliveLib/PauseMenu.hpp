@@ -16,7 +16,7 @@
 #include "DDCheat.hpp"
 #include "Font.hpp"
 #include "FixedPoint.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 void PauseMenu_ForceLink();

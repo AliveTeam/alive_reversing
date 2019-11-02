@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Abe.hpp"
 #include "Events.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Glukkon.hpp"
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"

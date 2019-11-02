@@ -2,7 +2,7 @@
 #include "Abe.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Sfx.hpp"
 #include "DebugHelpers.hpp"
 #include "stdlib.hpp"

@@ -8,7 +8,7 @@
 #include "StringFormatters.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
-#include "Sound.hpp"
+#include "Sound/Sound.hpp"
 #include "MainMenu.hpp"
 #include "ThrowableArray.hpp"
 #include "Io.hpp"

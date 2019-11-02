@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Dove.hpp"
 #include "Function.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Path.hpp"
 #include "Math.hpp"
 #include "Game.hpp"

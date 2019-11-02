@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BackgroundMusic.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"

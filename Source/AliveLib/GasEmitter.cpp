@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GasEmitter.hpp"
 #include "Math.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "Particle.hpp"

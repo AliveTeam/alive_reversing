@@ -7,8 +7,8 @@
 #include "PsxDisplay.hpp"
 #include "PsxRender.hpp"
 #include "Input.hpp"
-#include "Midi.hpp"
-#include "Sound.hpp"
+#include "Sound/Midi.hpp"
+#include "Sound/Sound.hpp"
 #include "PauseMenu.hpp" // pal_554474
 #include "Sys.hpp"
 

@@ -4,7 +4,7 @@
 #include "ScreenManager.hpp"
 #include "VGA.hpp"
 #include "Error.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include <type_traits>
 #include <gmock/gmock.h>

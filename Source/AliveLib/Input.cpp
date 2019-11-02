@@ -4,7 +4,7 @@
 #include "Function.hpp"
 #include "Game.hpp"
 #include "Sys.hpp"
-#include "Sound.hpp"
+#include "Sound/Sound.hpp"
 #include "DebugHelpers.hpp"
 #include "Events.hpp"
 #include "PsxRender.hpp"

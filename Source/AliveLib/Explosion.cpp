@@ -9,7 +9,7 @@
 #include "Gibs.hpp"
 #include "Events.hpp"
 #include "ParticleBurst.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "Slig.hpp"
 

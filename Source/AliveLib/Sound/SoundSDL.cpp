@@ -5,7 +5,7 @@
 
 #include "Function.hpp"
 #include "Error.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include <mutex>
 #include "Reverb.hpp"
 #include "Sys.hpp"

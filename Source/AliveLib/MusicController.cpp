@@ -2,7 +2,7 @@
 #include "MusicController.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Events.hpp"
 #include "Abe.hpp"
 #include "Map.hpp"

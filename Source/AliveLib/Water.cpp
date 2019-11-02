@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "ScreenManager.hpp"
 #include "Game.hpp"
-#include "Sound.hpp"
+#include "Sound/Sound.hpp"
 #include "Events.hpp"
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"

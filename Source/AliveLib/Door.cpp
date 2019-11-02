@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "MusicTrigger.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "DDCheat.hpp"
 #include "BaseAliveGameObject.hpp"
 

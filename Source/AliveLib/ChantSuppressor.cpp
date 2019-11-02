@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ChantSuppressor.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "Gibs.hpp"
 #include "ScreenShake.hpp"

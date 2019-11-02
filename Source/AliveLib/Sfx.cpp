@@ -2,7 +2,7 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 #include "DebugHelpers.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "PathData.hpp"
 
 ALIVE_VAR(1, 0x560f58, __int16, sSFXPitchVariationEnabled_560F58, true);

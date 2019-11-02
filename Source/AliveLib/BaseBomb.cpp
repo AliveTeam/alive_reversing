@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "VRam.hpp"
 #include "Game.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "ScreenShake.hpp"
 #include "ParticleBurst.hpp"

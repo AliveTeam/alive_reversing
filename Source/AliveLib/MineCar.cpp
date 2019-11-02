@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "ShadowZone.hpp"
 #include "ScreenManager.hpp"
 #include "Function.hpp"

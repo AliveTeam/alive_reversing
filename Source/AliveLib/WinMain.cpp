@@ -7,7 +7,7 @@
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "Psx.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "GameSpeak.hpp"
 #include "QuikSave.hpp"
 #include "Math.hpp"

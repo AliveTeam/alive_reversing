@@ -24,7 +24,7 @@
 #include "Movie.hpp"
 #include "DDCheat.hpp"
 #include "PsxDisplay.hpp"
-#include "Sound.hpp"
+#include "Sound/Sound.hpp"
 #include "MainMenu.hpp"
 #include "GameSpeak.hpp"
 #include "Gibs.hpp"

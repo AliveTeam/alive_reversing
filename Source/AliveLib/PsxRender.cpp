@@ -2,7 +2,7 @@
 #include "PsxRender.hpp"
 #include "Function.hpp"
 #include "Psx.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Primitives.hpp"
 #include "Game.hpp"
 #include "Error.hpp"

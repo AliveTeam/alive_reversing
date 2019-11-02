@@ -6,9 +6,9 @@
 #include "../AliveExe/resource.h"
 
 #include "PsxRender.hpp"
-#include "Sound.hpp"
+#include "Sound/Sound.hpp"
 #include "DDraw.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "PauseMenu.hpp"
 
 #if USE_SDL2
@@ -318,7 +318,7 @@ EXPORT void CC Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
 }
 #endif
 
-ALIVE_VAR(1, 0x5CA230, SoundEntry*, sSoundEntry_5CA230, nullptr);
+ALIVE_VAR(1, 0x5CA230, SoundEntry*, sMovieSoundEntry_5CA230, nullptr);
 
 #if _WIN32
 EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -343,9 +343,9 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
         sDDraw_BBC3D4->FlipToGDISurface();
 
 #if !USE_SDL2_SOUND
-        if (sSoundEntry_5CA230)
+        if (sMovieSoundEntry_5CA230)
         {
-            LPDIRECTSOUNDBUFFER pDSoundBuffer = sSoundEntry_5CA230->field_4_pDSoundBuffer;
+            LPDIRECTSOUNDBUFFER pDSoundBuffer = sMovieSoundEntry_5CA230->field_4_pDSoundBuffer;
             if (pDSoundBuffer)
             {
                 pDSoundBuffer->Stop();
@@ -366,18 +366,18 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
             SND_Restart_4CB0E0();
         }
 
-        if (!sSoundEntry_5CA230)
+        if (!sMovieSoundEntry_5CA230)
         {
             return ret;
         }
 
-        if (!sSoundEntry_5CA230->field_4_pDSoundBuffer)
+        if (!sMovieSoundEntry_5CA230->field_4_pDSoundBuffer)
         {
             return ret;
         }
 
 #if !USE_SDL2_SOUND
-        sSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
+        sMovieSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
 #endif
         return ret;
 
@@ -776,10 +776,10 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
     }
     else if (event->type == SDL_QUIT)
     {
-        if (sSoundEntry_5CA230)
+        if (sMovieSoundEntry_5CA230)
         {
 #if !USE_SDL2_SOUND
-            LPDIRECTSOUNDBUFFER pDSoundBuffer = sSoundEntry_5CA230->field_4_pDSoundBuffer;
+            LPDIRECTSOUNDBUFFER pDSoundBuffer = sMovieSoundEntry_5CA230->field_4_pDSoundBuffer;
             if (pDSoundBuffer)
             {
                 pDSoundBuffer->Stop();
@@ -816,9 +816,9 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         }
 
 #if !USE_SDL2_SOUND
-        if (sSoundEntry_5CA230 && sSoundEntry_5CA230->field_4_pDSoundBuffer)
+        if (sMovieSoundEntry_5CA230 && sMovieSoundEntry_5CA230->field_4_pDSoundBuffer)
         {
-            sSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
+            sMovieSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
         }
 #endif
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Sound.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 
 #if USE_SDL2_SOUND
 #include "FunctionFwd.hpp"

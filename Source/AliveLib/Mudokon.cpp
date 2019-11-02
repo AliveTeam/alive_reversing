@@ -17,7 +17,7 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "Spark.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "ScreenManager.hpp"
 #include "Switch.hpp"
 #include "Particle.hpp"

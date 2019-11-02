@@ -8,7 +8,7 @@
 #include "Abe.hpp"
 #include "ObjectIds.hpp"
 #include "MusicController.hpp"
-#include "Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Events.hpp"
 #include "DDCheat.hpp"
 #include "Throwable.hpp"
