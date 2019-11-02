@@ -3819,7 +3819,7 @@ __int16 Fleech::AI_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         // Check for enemy stopper or slam door
         if (HandleEnemyStopperOrSlamDoor_42ADC0(1))
         {
-            field_108_next_motion = eFleechMotions::M_Consume_18_42FDF0;
+            field_108_next_motion = eFleechMotions::M_StopMidCrawlCycle_8_42EB20;
             field_174_flags.Set(Flags_174::eBit2, field_C4_velx < FP_FromInteger(0));
 
             FP xOffset = field_B8_xpos;
