@@ -60,7 +60,7 @@ EXPORT char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
     return "";
 }
 
-EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int isStereo)
+signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, int isStereo)
 {
     if (sDSound_BBC344)
     {
@@ -180,7 +180,7 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSam
 }
 
 
-EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+int CC SND_Reload_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
 {
     if (!sDSound_BBC344)
     {

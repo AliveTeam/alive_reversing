@@ -38,7 +38,7 @@ struct SoundBuffer
 {
     AE_BUFFERTYPE * field_0_pDSoundBuffer;
     int field_4;
-    int field_8;
+    int field_8_sample_idx;
     int field_C;
     int field_10;
 };
@@ -61,7 +61,7 @@ EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd);
 EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx);
 EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx);
 EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol);
-EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10);
+EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int sampleIdx, int field10);
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq);
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq);
 EXPORT void CC Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();

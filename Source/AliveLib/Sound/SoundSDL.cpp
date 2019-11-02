@@ -239,65 +239,6 @@ void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
     }*/
 }
 
-signed int AE_SDL_AudioInit()
-{
-    if (!SDL_Init(SDL_INIT_AUDIO))
-    {
-        for (int i = 0; i < SDL_GetNumAudioDrivers(); i++)
-        {
-            printf("SDL Audio Driver %i: %s\n", i, SDL_GetAudioDriver(i));
-        }
-
-        gAudioDeviceSpec.callback = AE_SDL_Audio_Callback;
-        gAudioDeviceSpec.format = AUDIO_S16;
-        gAudioDeviceSpec.channels = 2;
-        gAudioDeviceSpec.freq = 44100;
-        gAudioDeviceSpec.samples = static_cast<Uint16>(gSoundBufferSamples);
-        gAudioDeviceSpec.userdata = NULL;
-
-        if (SDL_OpenAudio(&gAudioDeviceSpec, NULL) < 0) {
-            fprintf(stderr, "Couldn't open SDL audio: %s\n", SDL_GetError());
-        }
-        else
-        {
-            printf("-----------------------------\n");
-            printf("Audio Device opened, got specs:\n");
-            printf("Channels: %i\nFormat: %X\nFreq: %i\nPadding: %i\nSamples: %i\nSize: %i\nSilence: %i\n",
-                gAudioDeviceSpec.channels, gAudioDeviceSpec.format, gAudioDeviceSpec.freq, gAudioDeviceSpec.padding, gAudioDeviceSpec.samples, gAudioDeviceSpec.size, gAudioDeviceSpec.silence);
-            printf("-----------------------------\n");
-
-            gSoundBufferSamples = gAudioDeviceSpec.samples;
-
-            Reverb_Init(gAudioDeviceSpec.freq);
-
-            memset(&sAE_ActiveVoices, 0, sizeof(sAE_ActiveVoices));
-
-            SDL_PauseAudio(0);
-
-            SND_InitVolumeTable_4EEF60();
-
-            if (sLoadedSoundsCount_BBC394)
-            {
-                for (int i = 0; i < 256; i++)
-                {
-                    if (sSoundSamples_BBBF38[i])
-                    {
-                        SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
-                        SND_Reload_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
-                        if ((i + 1) == sLoadedSoundsCount_BBC394)
-                            break;
-                    }
-                }
-            }
-            sLastNotePlayTime_BBC33C = SYS_GetTicks();
-
-            return 0;
-        }
-    }
-
-    return 0;
-}
-
 void AE_SDL_AudioShutdown()
 {
     // Todo: clean up audio + reverb buffers
@@ -491,7 +432,7 @@ EXPORT void CC SND_InitVolumeTable_4EEF60()
     sVolumeTable_BBBD38[0] = 0;
 }
 
-EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+int CC SND_Reload_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
 {
     const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
     const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
@@ -565,9 +506,63 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
     return -1;
 }
 
-EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
+signed int CC SND_CreateDS_SDL(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
 {
-    return AE_SDL_AudioInit();
+    if (!SDL_Init(SDL_INIT_AUDIO))
+    {
+        for (int i = 0; i < SDL_GetNumAudioDrivers(); i++)
+        {
+            printf("SDL Audio Driver %i: %s\n", i, SDL_GetAudioDriver(i));
+        }
+
+        gAudioDeviceSpec.callback = AE_SDL_Audio_Callback;
+        gAudioDeviceSpec.format = AUDIO_S16;
+        gAudioDeviceSpec.channels = 2;
+        gAudioDeviceSpec.freq = 44100;
+        gAudioDeviceSpec.samples = static_cast<Uint16>(gSoundBufferSamples);
+        gAudioDeviceSpec.userdata = NULL;
+
+        if (SDL_OpenAudio(&gAudioDeviceSpec, NULL) < 0) {
+            fprintf(stderr, "Couldn't open SDL audio: %s\n", SDL_GetError());
+        }
+        else
+        {
+            printf("-----------------------------\n");
+            printf("Audio Device opened, got specs:\n");
+            printf("Channels: %i\nFormat: %X\nFreq: %i\nPadding: %i\nSamples: %i\nSize: %i\nSilence: %i\n",
+                gAudioDeviceSpec.channels, gAudioDeviceSpec.format, gAudioDeviceSpec.freq, gAudioDeviceSpec.padding, gAudioDeviceSpec.samples, gAudioDeviceSpec.size, gAudioDeviceSpec.silence);
+            printf("-----------------------------\n");
+
+            gSoundBufferSamples = gAudioDeviceSpec.samples;
+
+            Reverb_Init(gAudioDeviceSpec.freq);
+
+            memset(&sAE_ActiveVoices, 0, sizeof(sAE_ActiveVoices));
+
+            SDL_PauseAudio(0);
+
+            SND_InitVolumeTable_4EEF60();
+
+            if (sLoadedSoundsCount_BBC394)
+            {
+                for (int i = 0; i < 256; i++)
+                {
+                    if (sSoundSamples_BBBF38[i])
+                    {
+                        SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
+                        SND_Reload_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                        if ((i + 1) == sLoadedSoundsCount_BBC394)
+                            break;
+                    }
+                }
+            }
+            sLastNotePlayTime_BBC33C = SYS_GetTicks();
+
+            return 0;
+        }
+    }
+
+    return 0;
 }
 
 EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)

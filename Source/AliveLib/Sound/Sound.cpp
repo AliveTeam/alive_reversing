@@ -13,6 +13,8 @@
 #include "Slog.hpp"
 #include "Fleech.hpp"
 #include "ScopedSeq.hpp"
+#include "Sound/SoundSDL.hpp"
+#include "Sound/SoundDSound.hpp"
 
 ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc33c, int, sLastNotePlayTime_BBC33C, 0);
@@ -23,6 +25,24 @@ ALIVE_ARY(1, 0xBBBD38, int, 127, sVolumeTable_BBBD38, {});
 ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 
 const DWORD k127_dword_575158 = 127;
+
+EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int isStereo)
+{
+#if USE_SDL2_SOUND
+    return SND_CreateDS_SDL(sampleRate, bitsPerSample, isStereo);
+#else
+    return SND_CreateDS_DSound(sampleRate, bitsPerSample, isStereo);
+#endif
+}
+
+EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+{
+#if USE_SDL2_SOUND
+    return SND_Reload_SDL(pSoundEntry, sampleOffset, size);
+#else
+    return SND_Reload_DSound(pSoundEntry, sampleOffset, size);
+#endif
+}
 
 EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 {
@@ -36,8 +56,8 @@ EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 // TODO: Clean up!
 EXPORT DWORD * CC SND_4F00B0(unsigned int* /*a1*/, unsigned int /*a2*/, int /*a3*/)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    ALIVE_FATAL("Never expected SND_4F00B0 to be called");
+    //return 0;
     //DWORD *result; // eax
     //unsigned int *v4; // edx
     //unsigned int v5; // ecx
@@ -98,7 +118,7 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
         return -1;
     }
 
-    if (!sSoundSamples_BBBF38[pSoundBuffer->field_8])
+    if (!sSoundSamples_BBBF38[pSoundBuffer->field_8_sample_idx])
     {
         return -2;
     }
@@ -182,7 +202,7 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
         return -1;
     }
 
-    DWORD freqHz = static_cast<DWORD>(sSoundSamples_BBBF38[pSoundBuffer->field_8]->field_18_sampleRate * freq);
+    DWORD freqHz = static_cast<DWORD>(sSoundSamples_BBBF38[pSoundBuffer->field_8_sample_idx]->field_18_sampleRate * freq);
     if (freqHz < DSBFREQUENCY_MIN)
     {
         freqHz = DSBFREQUENCY_MIN;
@@ -207,7 +227,7 @@ EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
     return 0;
 }
 
-EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int field8, int field10)
+EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int sampleIdx, int field10)
 {
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx];
     if (pSoundBuffer->field_0_pDSoundBuffer)
@@ -220,7 +240,7 @@ EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int field8, int 
     const int oldField4 = pSoundBuffer->field_4 ^ ((unsigned __int16)idx ^ (unsigned __int16)pSoundBuffer->field_4) & 511;
     pSoundBuffer->field_4 = oldField4 & 511 ^ ((oldField4 & ~511) + 512);
 
-    pSoundBuffer->field_8 = field8;
+    pSoundBuffer->field_8_sample_idx = sampleIdx;
     pSoundBuffer->field_C = sLastNotePlayTime_BBC33C;
     pSoundBuffer->field_10 = field10;
     return pSoundBuffer;
@@ -248,7 +268,7 @@ EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx)
     }
 }
 
-EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
+EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int sampleIdx, int field10)
 {
     int idx = -1;
     int statusToMatch = 0xC0000000;
@@ -267,7 +287,7 @@ EXPORT SoundBuffer* CC SND_Get_Sound_Buffer_4EF970(int tableIdx, int field10)
     {
         return &sSoundBuffers_BBBAB8[0];
     }
-    return SND_Recycle_Sound_Buffer_4EF9C0(idx, tableIdx, field10);
+    return SND_Recycle_Sound_Buffer_4EF9C0(idx, sampleIdx, field10);
 }
 
 struct Sound_Ambiance
