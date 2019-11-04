@@ -683,7 +683,7 @@ int CC Input_Remap_492680(InputCommands inputCmd)
 
     // Find an "empty" key that is pressed
     int bindIdx = 0;
-    while (!sAllowedGameKeys_5C9D30[bindIdx] && bindIdx != VK_ESCAPE || !Input_GetKeyState_4EDD20(bindIdx))
+    while ((!sAllowedGameKeys_5C9D30[bindIdx] && bindIdx != VK_ESCAPE) || !Input_GetKeyState_4EDD20(bindIdx))
     {
         // Out of bounds
         if (++bindIdx >= 256)
