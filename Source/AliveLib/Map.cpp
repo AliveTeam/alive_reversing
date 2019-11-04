@@ -30,8 +30,6 @@ ALIVE_VAR(1, 0x5c311c, __int16, sMap_bDoPurpleLightEffect_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
 ALIVE_VAR(1, 0x5c3120, DWORD, sSoundChannelsMask_5C3120, 0);
 
-ALIVE_VAR(1, 0x5c3154, DWORD, dword_5C3154, 0);
-
 struct Path_ChangeTLV : public Path_TLV
 {
     LevelIds field_10_level;
@@ -575,8 +573,6 @@ void Map::Reset_4805D0()
 
 void Map::GoTo_Camera_481890()
 {
-    dword_5C3154 = 0; // TODO: Not used ?
-    
     __int16 bShowLoadingIcon = FALSE;
     if (sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && sCurrentLevelId_5C3030 != LevelIds::eCredits_16 && sCurrentLevelId_5C3030 != LevelIds::eNone)
     {
