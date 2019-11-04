@@ -14,6 +14,7 @@
 #include "stdlib.hpp"
 #include "Path.hpp"
 #include "QuikSave.hpp"
+#include "Text.hpp"
 #include "Sfx.hpp"
 #include "FG1.hpp"
 #include "CameraSwapper.hpp"
@@ -572,11 +573,6 @@ void Map::Reset_4805D0()
     field_D8_restore_quick_save = 0;
 }
 
-EXPORT void CCSTD sub_465800(int)
-{
-    NOT_IMPLEMENTED();
-}
-
 void Map::GoTo_Camera_481890()
 {
     dword_5C3154 = 0; // TODO: Not used ?
@@ -701,7 +697,7 @@ void Map::GoTo_Camera_481890()
                     break;
                 }
             }
-            sub_465800(pathData.field_1C_unused);
+            Display_Full_Screen_Message_Blocking_465820(pathData.field_1C_unused, 0);
         }
 
         // Open Path BND
