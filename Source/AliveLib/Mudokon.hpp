@@ -294,7 +294,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    virtual int VGetSaveState(BYTE* pSaveBuffer)
+    virtual int VGetSaveState(BYTE* pSaveBuffer) override
     {
         return vGetSaveState_47B080(reinterpret_cast<Mudokon_State*>(pSaveBuffer));
     }
