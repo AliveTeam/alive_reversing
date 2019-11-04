@@ -69,7 +69,7 @@ Alarm* Alarm::ctor_4091F0(__int16 a2, __int16 switchId, __int16 a4, __int16 laye
     if (alarmInstanceCount_5C1BB4 > 1)
     {
         // More than one instance, kill self
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -137,7 +137,7 @@ void Alarm::vUpdate_409460()
         Event_Broadcast_422BC0(kEventAlarm, this);
         if (static_cast<int>(sGnFrame_5C1B84) > field_80_duration_timer)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
     }
@@ -147,7 +147,7 @@ void Alarm::vUpdate_409460()
     case eState_0_WaitForSwitchEnable:
         if (Event_Get_422C00(kEventDeathReset))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
 
         if (!SwitchStates_Get_466020(field_88_switch_id))
@@ -159,7 +159,7 @@ void Alarm::vUpdate_409460()
         alarmInstanceCount_5C1BB4++;
         if (alarmInstanceCount_5C1BB4 > 1)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         else
         {
@@ -175,7 +175,7 @@ void Alarm::vUpdate_409460()
     case eState_1_AfterConstructed: // When not created by a map TLV
         if (Event_Get_422C00(kEventHeroDying))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         else
         {
@@ -244,7 +244,7 @@ void Alarm::vUpdate_409460()
     case eState_5_Disabled:
         if (Event_Get_422C00(kEventHeroDying))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         else
         {

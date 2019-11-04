@@ -95,7 +95,7 @@ void NakedSligButton::vUpdate_414B20()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_102_in_use == 1)

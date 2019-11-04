@@ -114,7 +114,7 @@ void Explosion::DealBlastDamage_4A1BD0(PSX_RECT* pRect)
             break;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             PSX_RECT boundRect = {};
             pObj->vGetBoundingRect_424FD0(&boundRect, 1);
@@ -257,9 +257,9 @@ void Explosion::vUpdate_4A1510()
                     91,
                     ppRes);
 
-                if (pParticle->field_6_flags.Get(BaseGameObject::eListAddFailed))
+                if (pParticle->field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
                 {
-                    pParticle->field_6_flags.Set(BaseGameObject::eDead);
+                    pParticle->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
 
                 pParticle->field_DC_bApplyShadows &= ~1u;
@@ -281,7 +281,7 @@ void Explosion::vUpdate_4A1510()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -289,7 +289,7 @@ void Explosion::vScreenChanged_4A1EE0()
 {
     if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

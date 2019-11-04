@@ -330,7 +330,7 @@ void Grinder::vUpdate_420C50()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
@@ -541,7 +541,7 @@ void Grinder::vScreenChanged_4214B0()
     }
     */
 
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void Grinder::vRender_4213D0(int** pOt)
@@ -715,9 +715,9 @@ __int16 Grinder::DamageTouchingObjects_421060()
             return 0;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) || pObj->field_4_typeId == Types::eRockSpawner_48)
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == Types::eRockSpawner_48)
         {
-            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
+            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 if (pObj->field_4_typeId != Types::eMeat_84 &&
                     pObj->field_4_typeId != Types::eType_45_EvilFart && 

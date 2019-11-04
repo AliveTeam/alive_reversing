@@ -21,7 +21,7 @@ Shrykull* Shrykull::ctor_4AEA20()
 
     field_4_typeId = Types::eShrykull_121;
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_128_obj_being_zapped_id = -1;
     field_124_zap_line_id = -1;
@@ -68,7 +68,7 @@ void Shrykull::dtor_4AEBC0()
 
     if (pZapLine)
     {
-        pZapLine->field_6_flags.Set(BaseGameObject::eDead);
+        pZapLine->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_124_zap_line_id = -1;
     }
 
@@ -90,7 +90,7 @@ void Shrykull::vScreenChange_4AF650()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -130,7 +130,7 @@ __int16 CCSTD Shrykull::CanKill_4AEC50(BaseAnimatedWithPhysicsGameObject* pObj)
         pObj->field_4_typeId == Types::eAntiChant_83
         ) &&
         pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) && 
-        !pObj->field_6_flags.Get(BaseGameObject::eDead) && 
+        !pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) &&
         gMap_5C3030.Is_Point_In_Current_Camera_4810D0(pObj->field_C2_lvl_number, pObj->field_C0_path_number, pObj->field_B8_xpos, pObj->field_BC_ypos, 0);
 }
 
@@ -262,7 +262,7 @@ void Shrykull::vUpdate_4AEDE0()
 
         if (pExistingZapLine)
         {
-            pExistingZapLine->field_6_flags.Set(BaseGameObject::eDead);
+            pExistingZapLine->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_124_zap_line_id = -1;
         }
         field_118_state = State::eState2;
@@ -297,7 +297,7 @@ void Shrykull::vUpdate_4AEDE0()
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             sActiveHero_5C1B68->ExitShrykull_45A9D0(field_12E_bUnknown);
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         break;
 
@@ -316,7 +316,7 @@ void Shrykull::vUpdate_4AEDE0()
 
         if (pExistingBeingZappedObj)
         {
-            if (pExistingBeingZappedObj->field_6_flags.Get(BaseGameObject::eDead))
+            if (pExistingBeingZappedObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
                 field_128_obj_being_zapped_id = -1;
             }

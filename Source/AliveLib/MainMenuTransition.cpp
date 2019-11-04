@@ -57,7 +57,7 @@ MainMenuTransition* MainMenuTransition::ctor_464110(__int16 layer, __int16 fadeD
 
     gObjList_drawables_5C1124->Push_Back(this);
 
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
     Init_SetTPage_4F5B60(&field_22C_tPage[0], 0, 1, PSX_getTPage_4F60E0(2, abr, 0, 0));
     Init_SetTPage_4F5B60(&field_22C_tPage[1], 0, 1, PSX_getTPage_4F60E0(2, abr, 0, 0));
@@ -248,7 +248,7 @@ void MainMenuTransition::Render_464470(int** ot)
         field_26_bDone = 1;
         if (field_28_bKillOnDone)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 }
@@ -274,7 +274,7 @@ void MainMenuTransition::vScreenChanged_4648D0()
 {
     if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

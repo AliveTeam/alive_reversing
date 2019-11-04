@@ -241,7 +241,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed);
+        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
     return this;
 }
@@ -889,7 +889,7 @@ void LiftPoint::vUpdate_461AE0()
     if ((field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 || field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032 || Event_Get_422C00(kEventDeathReset)) 
         && field_118_count <= 0)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -923,7 +923,7 @@ void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
             // Keep ypos on the platform
             pObj->field_BC_ypos = FP_FromInteger(field_124_pCollisionLine->field_0_rect.y);
 
-            if (pObj->field_6_flags.Get(BaseGameObject::eInteractive))
+            if (pObj->field_6_flags.Get(BaseGameObject::eInteractive_Bit8))
             {
                 pObj->field_E4_collection_rect.x = pObj->field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
                 pObj->field_E4_collection_rect.y = pObj->field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
@@ -1119,7 +1119,7 @@ void LiftPoint::vScreenChanged_463020()
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -1141,13 +1141,13 @@ void LiftPoint::dtor_4624E0()
     BaseGameObject* pRope1 = sObjectIds_5C1B70.Find(field_138_rope1_id, Types::eLiftRope_108);
     if (pRope2)
     {
-        pRope2->field_6_flags.Set(BaseGameObject::eDead);
+        pRope2->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_134_rope2_id = -1;
     }
 
     if (pRope1)
     {
-        pRope1->field_6_flags.Set(BaseGameObject::eDead);
+        pRope1->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_138_rope1_id = -1;
     }
 

@@ -607,8 +607,8 @@ void Movie::VScreenChanged()
 
 void Movie::Init_4DFF60(int id, CdlLOC* pCdPos, __int16 bUnknown, __int16 flags, __int16 vol)
 {
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     field_4_typeId = Types::eMovie_145;
 
@@ -714,5 +714,5 @@ void Movie::DeInit_4E0210()
     sbLoadingInProgress_5C1B96 = FALSE;
     --sMovie_ref_count_BB4AE4;
 
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

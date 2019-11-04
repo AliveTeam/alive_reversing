@@ -229,7 +229,7 @@ void MotionDetector::dtor_468880()
     BaseGameObject* pLaser = sObjectIds_5C1B70.Find_449CF0(field_F8_laser_id);
     if (pLaser)
     {
-        pLaser->field_6_flags.Set(BaseGameObject::eDead);
+        pLaser->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
@@ -242,7 +242,7 @@ void MotionDetector::vScreenChanged_469460()
     BaseGameObject* pOwner = sObjectIds_5C1B70.Find_449CF0(field_FC_owner_id);
     if (!pOwner)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -354,7 +354,7 @@ void MotionDetector::vUpdate_468A90()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (!sNum_CamSwappers_5C1B66)

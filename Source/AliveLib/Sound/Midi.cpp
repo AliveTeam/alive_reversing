@@ -32,7 +32,7 @@ EXPORT void CC SND_StopAll_4CB060()
             break;
         }
 
-        if (!pObj->field_6_flags.Get(BaseGameObject::eDead))
+        if (!pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             pObj->VStopAudio();
         }

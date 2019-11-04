@@ -121,7 +121,7 @@ ThrowableArray* ThrowableArray::ctor_49A630()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_24_throwables.ctor_40C9E0(0);
-    field_6_flags.Clear(BaseGameObject::eUpdatable);
+    field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
     SetVTable(this, 0x5469E4);
     field_20_count = 0;
     gpThrowableArray_5D1E2C = this;
@@ -161,7 +161,7 @@ void ThrowableArray::Remove_49AA00(__int16 count)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -172,7 +172,7 @@ void ThrowableArray::vUpdate_49AA50()
         LoadRockTypes_49AB30(gMap_5C3030.sCurrentLevelId_5C3030, gMap_5C3030.sCurrentPathId_5C3032);
         Add_49A7A0(0);
         field_22_flags &= ~1u;
-        field_6_flags.Clear(BaseGameObject::eUpdatable);
+        field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
     }
 }
 
@@ -192,7 +192,7 @@ void ThrowableArray::vScreenChange_49AAA0()
         {
             if (!(field_22_flags & 1))
             {
-                field_6_flags.Set(BaseGameObject::eUpdatable);
+                field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
                 field_22_flags |= 1;
                 Remove_49AA00(0);
             }
@@ -200,16 +200,16 @@ void ThrowableArray::vScreenChange_49AAA0()
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
 }
 
 void ThrowableArray::Add_49A7A0(__int16 count)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
-        field_6_flags.Clear(BaseGameObject::eDead);
+        field_6_flags.Clear(BaseGameObject::eDead_Bit3);
     }
 
     if (field_20_count == 0)

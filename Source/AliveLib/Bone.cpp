@@ -35,7 +35,7 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     field_124_ypos = ypos;
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
-    field_6_flags.Clear(BaseGameObject::eInteractive);
+    field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
     field_130_hit_object &= ~1u;
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -137,8 +137,8 @@ int CC Bone::CreateFromSaveState_412C10(const BYTE* pData)
     pBone->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
     pBone->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
 
-    pBone->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
-    pBone->field_6_flags.Set(BaseGameObject::eInteractive, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
+    pBone->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
+    pBone->field_6_flags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
 
     pBone->field_114_flags.Set(Flags_114::e114_Bit9);
 
@@ -237,7 +237,7 @@ BOOL Bone::vCanThrow_411530()
 
 __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode))
+    if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }
@@ -277,7 +277,7 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
 
     if (pObj->field_4_typeId == Types::eMine_88 || pObj->field_4_typeId == Types::eUXB_143)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return 0;
@@ -288,7 +288,7 @@ void Bone::vScreenChanged_4122D0()
     if (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
         gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -316,8 +316,8 @@ int Bone::vGetSaveState_412ED0(Bone_SaveState* pState)
     pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
     pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, field_6_flags.Get(BaseGameObject::eDrawable));
-    pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, field_6_flags.Get(BaseGameObject::eInteractive));
+    pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, field_6_flags.Get(BaseGameObject::eDrawable_Bit4));
+    pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, field_6_flags.Get(BaseGameObject::eInteractive_Bit8));
 
     pState->field_20_flags.Set(Bone_SaveState::eBit5_bHitObject, field_130_hit_object & 1);
 
@@ -350,7 +350,7 @@ void Bone::InTheAir_4116C0()
 
     if (field_C8_vely > FP_FromInteger(30))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     field_C8_vely += FP_FromInteger(1);
@@ -485,7 +485,7 @@ void Bone::vUpdate_411BC0()
     auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     switch (field_11C_state)
@@ -534,7 +534,7 @@ void Bone::vUpdate_411BC0()
                 field_E4_collection_rect.h = field_BC_ypos;
 
                 field_11C_state = BoneStates::eState_3_on_ground;
-                field_6_flags.Set(BaseGameObject::eInteractive);
+                field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit8_Loop);
                 field_128_shine_timer = sGnFrame_5C1B84;
                 AddToPlatform_412310();
@@ -573,7 +573,7 @@ void Bone::vUpdate_411BC0()
 
         if (field_12C_time_to_live < static_cast<int>(sGnFrame_5C1B84))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         return;
 
@@ -589,7 +589,7 @@ void Bone::vUpdate_411BC0()
 
         if (field_BC_ypos > FP_FromInteger(gMap_5C3030.field_D4_ptr->field_6_bBottom))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
     return;
@@ -600,7 +600,7 @@ void Bone::vUpdate_411BC0()
         field_BC_ypos = field_C8_vely + field_BC_ypos;
         if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         return;
     }
@@ -708,7 +708,7 @@ void BoneBag::VScreenChanged()
 
 void BoneBag::vScreenChanged_412BF0()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 BoneBag* BoneBag::vdtor_4127C0(signed int flags)
@@ -732,7 +732,7 @@ void BoneBag::vUpdate_412880()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_20_animation.field_92_current_frame == 2)

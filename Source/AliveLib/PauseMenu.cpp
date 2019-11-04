@@ -482,8 +482,8 @@ PauseMenu * PauseMenu::ctor_48FB80()
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
     field_4_typeId = Types::ePauseMenu_95;
-    field_6_flags.Clear(BaseGameObject::eDrawable);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
+    field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 
@@ -512,7 +512,7 @@ void PauseMenu::dtor_48FCE0()
 {
     SetVTable(this, 0x546658);
 
-    field_6_flags.Clear(BaseGameObject::eDrawable);
+    field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
 
     gObjList_drawables_5C1124->Remove_Item(this);
     field_158_animation.vCleanUp_40C630();
@@ -549,7 +549,7 @@ void PauseMenu::Init_491760()
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed);
+        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
@@ -584,7 +584,7 @@ EXPORT void PauseMenu::vsub_490D30()
 {
     if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eCredits_16)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -784,14 +784,14 @@ void DestroyAliveObjects()
     for (int i = 0; i < gObjList_drawables_5C1124->Size(); i++)
     {
         BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
-        if (!pObj || pObj == pPauseMenu_5C9300 || pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) == false)
+        if (!pObj || pObj == pPauseMenu_5C9300 || pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
         {
             continue;
         }
 
         if (pObj->field_4_typeId != Types::eAbe_69)
         {
-            pObj->field_6_flags.Set(BaseGameObject::eDead);
+            pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 
@@ -810,7 +810,7 @@ void DestroyAllObjects()
 
         if (pObj->field_4_typeId != Types::eAbe_69)
         {
-            pObj->field_6_flags.Set(BaseGameObject::eDead);
+            pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 
@@ -1167,11 +1167,11 @@ void PauseMenu::Page_ReallyQuit_Update_490930()
 
         if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
         {
-            pPauseMenu_5C9300->field_6_flags.Set(BaseGameObject::eDead);
+            pPauseMenu_5C9300->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
 
         pPauseMenu_5C9300 = 0;
@@ -1587,10 +1587,10 @@ void PauseMenu::Update_48FD80()
                 SND_StopAll_4CB060();
                 SFX_Play_46FBA0(0x11u, 40, 2400);
                 sub_4A2B70();
-                field_6_flags.Set(BaseGameObject::eDrawable);
+                field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
                 field_134_Index_Main = MainPages::ePage_Continue_0;
                 field_136 = 0;
-                word12C_flags = word12C_flags & ~8 | 1;
+                word12C_flags = (word12C_flags & ~8) | 1;
                 field_12E_selected_glow = 40;
                 field_130 = 8;
                 Path_Format_CameraName_460FB0(
@@ -1665,9 +1665,9 @@ void PauseMenu::Update_48FD80()
                                 break;
                             }
 
-                            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+                            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
                             {
-                                if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
+                                if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
                                 {
                                     pObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
                                 }
@@ -1708,7 +1708,7 @@ void PauseMenu::Update_48FD80()
                     } while (word12C_flags & 1);
                 }
                 sInputObject_5BD4E0.Update_45F040();
-                field_6_flags.Clear(BaseGameObject::eDrawable);
+                field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
             }
         }
     }

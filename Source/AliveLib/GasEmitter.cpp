@@ -93,7 +93,7 @@ void GasEmitter::vStopAudio_43CDE0()
 
 void GasEmitter::vScreenChanged_43CE20()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void GasEmitter::vUpdate_43CB70()

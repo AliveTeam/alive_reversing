@@ -33,7 +33,7 @@ void Spark::VScreenChanged()
 Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __int16 min, __int16 max, __int16 type)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetVTable(this, 0x54783C); // vTbl_Spark_54783C
     field_4_typeId = Types::eNone_0;
@@ -126,7 +126,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, unsigned __int8 count, __i
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     return this;
 }
@@ -135,7 +135,7 @@ void Spark::vUpdate_4CBEF0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (sNum_CamSwappers_5C1B66 == 0)
@@ -161,7 +161,7 @@ void Spark::vUpdate_4CBEF0()
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 }
@@ -291,7 +291,7 @@ void Spark::vRender_4CC050(int** ppOt)
 
 void Spark::vScreenChange_4CC4A0()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 Spark* Spark::vdtor_4CBE30(signed int flags)
@@ -308,7 +308,7 @@ void Spark::dtor_4CBE60()
 {
     SetVTable(this, 0x54783C); // vTbl_Spark_54783C
 
-    if (field_6_flags.Get(BaseGameObject::eDrawable))
+    if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }

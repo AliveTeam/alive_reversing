@@ -60,7 +60,7 @@ Slurg* Slurg::ctor_4C84E0(Path_Slurg* pTlv, DWORD tlvInfo)
     Add_Resource_4DC130(ResourceManager::Resource_Animation, 306);
     Animation_Init_424E10(2708, 46, 15, field_10_resources_array.ItemAt(0), 1, 1);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_4_typeId = Types::eSlurg_129;
 
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -174,7 +174,7 @@ signed int CC Slurg::CreateFromSaveState_4C8DF0(const BYTE* pData)
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_14_flipX & 1);
     pSlurg->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_1C & 1);
 
-    pSlurg->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_1D & 1);
+    pSlurg->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_1D & 1);
 
     if (IsLastFrame(&pSlurg->field_20_animation))
     {
@@ -240,7 +240,7 @@ void Slurg::vUpdate_4C8790()
     const FP oldXPos = field_B8_xpos;
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_11E_delay_timer == 0)
@@ -307,7 +307,7 @@ void Slurg::vUpdate_4C8790()
     {
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 
@@ -389,7 +389,7 @@ signed int Slurg::vSaveState_4C8FC0(Slurg_State* pState)
     pState->field_16_current_motion = field_106_current_motion;
     pState->field_18_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_1A_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_1D = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_1D = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_1C = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_20_frame_table_offset = field_20_animation.field_18_frame_table_offset;
     pState->field_24_tlvInfo = field_12C_tlvInfo;
@@ -494,5 +494,5 @@ SlurgSpawner* SlurgSpawner::vdtor_4C8370(signed int flags)
 void SlurgSpawner::vScreenChanged_4C84A0()
 {
     Path::TLV_Reset_4DB8E0(field_20_tlvInfo, field_40_spawned_count, 0, 0);
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

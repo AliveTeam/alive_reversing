@@ -45,7 +45,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
 
     field_4_typeId = Types::eRockSpawner_48;
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvInfo;
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
@@ -118,7 +118,7 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
     SetVTable(this, 0x544E98);
     field_4_typeId = Types::eRockSpawner_48;
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = -1;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2rockResID);
@@ -229,7 +229,7 @@ void FallingItem::vScreenChanged_428180()
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
         field_11C_state != State::eState_3_Falling)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -237,7 +237,7 @@ EXPORT void FallingItem::vUpdate_427780()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
@@ -273,7 +273,7 @@ EXPORT void FallingItem::vUpdate_427780()
     case State::eState_0_WaitForIdEnable:
         if (field_11E_id && SwitchStates_Get_466020(field_11E_id))
         {
-            field_6_flags.Clear(BaseGameObject::eCanExplode);
+            field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
             field_11C_state = State::eState_2_WaitForFallDelay;
             field_C4_velx = FP_FromInteger(0);
             field_C8_vely = FP_FromInteger(0);
@@ -284,7 +284,7 @@ EXPORT void FallingItem::vUpdate_427780()
 
     // TODO: Must only be set outside of the object
     case State::eState_1_GoWaitForDelay:
-        field_6_flags.Clear(BaseGameObject::eCanExplode);
+        field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
         field_11C_state = State::eState_2_WaitForFallDelay;
         field_C4_velx = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
@@ -449,12 +449,12 @@ field_140_sound_channels = 0;
             field_13C_ypos,
             0))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         else
         {
             field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0, nullptr);
-            field_6_flags.Set(BaseGameObject::eCanExplode);
+            field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
             field_C8_vely = FP_FromInteger(0);
             field_C4_velx = FP_FromInteger(0);
             field_BC_ypos = field_130_yPosStart;
@@ -479,7 +479,7 @@ void FallingItem::DamageHitItems_427F40()
 
         if (pObj != this)
         {
-            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject) || pObj->field_4_typeId == Types::eGrinder_30)
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->field_4_typeId == Types::eGrinder_30)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 

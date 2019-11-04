@@ -78,8 +78,8 @@ public:
 
         BaseGameObject_ctor_4DBFA0(1, 1);
 
-        field_6_flags.Set(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
+        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         field_4_typeId = Types::eDebugHelper_1001;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -161,7 +161,7 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
+            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
                 short x = FP_GetExponent(aliveObj->field_B8_xpos) - FP_GetExponent(gMap_5C3030.field_24_camera_offset.field_0_x);
@@ -211,7 +211,7 @@ public:
                 break;
             }
 
-            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
+            if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
             {
                 auto aliveObj = ((BaseAnimatedWithPhysicsGameObject*)pBaseGameObject);
 
@@ -284,8 +284,8 @@ public:
         DisableVTableHack disableHack;
 
         BaseGameObject_ctor_4DBFA0(1, 1);
-        field_6_flags.Set(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
+        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         field_4_typeId = Types::eDebugPathRenderer_1003;
 
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -501,7 +501,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
             continue;
         }
 
-        if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+        if (pBaseGameObject->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto aliveObj = ((BaseAliveGameObject*)pBaseGameObject);
 
@@ -889,8 +889,8 @@ public:
         DisableVTableHack disableHack;
 
         BaseGameObject_ctor_4DBFA0(1, 1);
-        field_6_flags.Set(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
+        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
         field_4_typeId = Types::eDebugConsole_1002;
         
         mFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), mFontPalette);
@@ -1822,8 +1822,8 @@ public:
 
         BaseGameObject_ctor_4DBFA0(1, 1);
 
-        field_6_flags.Set(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eUpdatable);
+        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
 
         gObjList_drawables_5C1124->Push_Back(this);
     }
@@ -1952,8 +1952,8 @@ public:
 
         BaseGameObject_ctor_4DBFA0(1, 1);
 
-        field_6_flags.Set(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eUpdatable);
+        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
 
         gObjList_drawables_5C1124->Push_Back(this);
 

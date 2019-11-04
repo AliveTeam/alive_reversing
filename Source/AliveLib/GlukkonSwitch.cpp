@@ -118,7 +118,7 @@ GlukkonSwitch* GlukkonSwitch::vdtor_4450C0(signed int flags)
 
 void GlukkonSwitch::vScreenChange_4456D0()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 __int16 GlukkonSwitch::PlayerNearMe_445180()
@@ -139,7 +139,7 @@ void GlukkonSwitch::vUpdate_445200()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     const int lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;

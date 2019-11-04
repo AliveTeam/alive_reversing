@@ -83,10 +83,10 @@ void LiftMover::vUpdate_40CE20()
         field_32_bMoveInProgress = 0;
     }
 
-    if (pLift && pLift->field_6_flags.Get(BaseGameObject::eDead))
+    if (pLift && pLift->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         // Set extra dead for good measure
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_28_lift_id = -1;
     }
     else
@@ -215,7 +215,7 @@ void LiftMover::vUpdate_40CE20()
 
         if (Event_Get_422C00(kEventDeathReset))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 }

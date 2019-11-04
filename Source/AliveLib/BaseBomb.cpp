@@ -224,7 +224,7 @@ void BaseBomb::vUpdate_424180()
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
         // Time to die
-        field_6_flags.Set(Options::eDead);
+        field_6_flags.Set(Options::eDead_Bit3);
     }
 }
 

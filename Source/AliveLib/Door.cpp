@@ -216,8 +216,8 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID);
     if (!ppRes || stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0_frameTableOffset_closed == 0)
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return this;
     }
 
@@ -382,7 +382,7 @@ void Door::vSetClosed_41EBC0()
 
 void Door::vScreenChange_41F080()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 Door* Door::vdtor_41E9D0(signed int flags)
@@ -424,7 +424,7 @@ void Door::vUpdate_41EBE0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 || sActiveHero_5C1B68->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40)

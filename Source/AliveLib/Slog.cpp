@@ -191,7 +191,7 @@ Slog* Slog::ctor_4C42E0(Path_Slog* pTlv, int tlvInfo)
     field_160_flags.Set(Flags_160::eBit7, pTlv->field_14_asleep & 1);
     field_160_flags.Clear(Flags_160::eBit5);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_direction == 0);
 
@@ -341,7 +341,7 @@ int CC Slog::CreateFromSaveState_4C54F0(const BYTE* pBuffer)
     pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bAnimFlipX & 1);
     pSlog->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
 
-    pSlog->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2F_bDrawable & 1);
+    pSlog->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
     if (IsLastFrame(&pSlog->field_20_animation))
     {
@@ -424,7 +424,7 @@ int Slog::vGetSaveState_4C78F0(Slog_State* pState)
     pState->field_28_current_motion = field_106_current_motion;
     pState->field_2A_anim_cur_frame = field_20_animation.field_92_current_frame;
     pState->field_2C = field_20_animation.field_E_frame_change_counter;
-    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2E_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_30 = field_10C_health;
     pState->field_34 = field_106_current_motion;
@@ -1391,7 +1391,7 @@ __int16 Slog::AI_ListeningToSlig_0_4C3790()
     // TODO: OG bug - return never used?
     //sObjectIds_5C1B70.Find_449CF0(field_118);
 
-    if (!pObj || pObj->field_6_flags.Get(BaseGameObject::eDead))
+    if (!pObj || pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         field_142_anger_level = 0;
         field_138_listening_to_slig_id = -1;
@@ -1701,7 +1701,7 @@ __int16 Slog::AI_Idle_1_4C2830()
     // OG dead code - return never used
     //sObjectIds_5C1B70.Find_449CF0(field_138);
 
-    if (pTarget && pTarget->field_6_flags.Get(BaseGameObject::eDead))
+    if (pTarget && pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         field_118_target_id = -1;
     }
@@ -2243,7 +2243,7 @@ __int16 Slog::AI_ChasingAbe_State_13()
                 return field_122_brain_state_result;
             }
 
-            pBone->field_6_flags.Set(BaseGameObject::eDead);
+            pBone->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_108_next_motion = eSlogMotions::M_Idle_0_4C5F90;
             field_15C_bone_id = -1;
             return 2;
@@ -2795,7 +2795,7 @@ __int16 Slog::AI_Death_3_4C3250()
 
     if (field_CC_sprite_scale < FP_FromInteger(0))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return 100;
@@ -2964,7 +2964,7 @@ void Slog::vUpdate_4C50D0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (FP_Abs(field_B8_xpos - sControlledCharacter_5C1B8C->field_B8_xpos) > FP_FromInteger(750) ||
@@ -3427,7 +3427,7 @@ void Slog::vOn_Tlv_Collision_4C5060(Path_TLV* pTlv)
         if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
             field_10C_health = FP_FromInteger(0);
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, field_B8_xpos, field_BC_ypos, field_B8_xpos, field_BC_ypos);
     }
@@ -3534,7 +3534,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
                 field_CC_sprite_scale, 50);
         }
 
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         break;
     }
 
@@ -3565,7 +3565,7 @@ __int16 Slog::vTakeDamage_4C4B80(BaseGameObject* pFrom)
     case Types::eElectrocute_150:
         field_10C_health = FP_FromInteger(0);
         field_120_brain_state_idx =  3;
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         break;
 
     default:

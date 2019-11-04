@@ -22,9 +22,9 @@ EXPORT Particle* Particle::ctor_4CC4C0(FP xpos, FP ypos, int animFrameTableOffse
 
     Animation_Init_424E10(animFrameTableOffset, static_cast<short>(maxW), static_cast<short>(maxH), ppAnimData, 1, 1);
 
-    if (field_6_flags.Get(Options::eListAddFailed))
+    if (field_6_flags.Get(Options::eListAddFailed_Bit1))
     {
-        field_6_flags.Set(Options::eDead);
+        field_6_flags.Set(Options::eDead_Bit3);
     }
 
     field_BC_ypos = ypos;
@@ -41,7 +41,7 @@ EXPORT void Particle::vUpdate_4CC620()
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_6_flags.Set(Options::eDead);
+        field_6_flags.Set(Options::eDead_Bit3);
     }
 }
 

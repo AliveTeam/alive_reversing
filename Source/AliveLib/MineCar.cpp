@@ -71,7 +71,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
 
     LoadAnimation_46BF80(&field_124_anim);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_E0_pShadow = alive_new<Shadow>();
     if (field_E0_pShadow)
@@ -235,7 +235,7 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
     pMineCar->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_xFlip & 1);
     pMineCar->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E & 1);
 
-    pMineCar->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2F & 1);
+    pMineCar->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F & 1);
 
     if (IsLastFrame(&pMineCar->field_20_animation))
     {
@@ -330,7 +330,7 @@ void MineCar::LoadAnimation_46BF80(Animation* pAnim)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed);
+        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
@@ -663,7 +663,7 @@ void MineCar::RunThingsOver_46F380()
             break;
         }
 
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // You can't run yourself over with a mine car it seems.
             if (pObj->field_4_typeId != Types::eAbe_69)
@@ -687,7 +687,7 @@ void MineCar::RunThingsOver_46F380()
 
 __int16 MineCar::vTakeDamage_46F7D0(BaseGameObject* /*pFrom*/)
 {
-    if (!field_6_flags.Get(BaseGameObject::eDead))
+    if (!field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 1;
     }
@@ -720,7 +720,7 @@ int MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
     pState->field_2A_current_anim_frame = field_20_animation.field_92_current_frame;
     pState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
 
-    pState->field_2F = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2F = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_22_xFlip = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     pState->field_2E = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
 
@@ -848,7 +848,7 @@ void MineCar::vUpdate_46C010()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     const FP kGridScale = ScaleToGridSize_4498B0(field_CC_sprite_scale);

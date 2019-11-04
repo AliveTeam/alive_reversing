@@ -108,7 +108,7 @@ void CameraSwapper::dtor_4E5790()
 
     if (field_34_pSubObject)
     {
-        field_34_pSubObject->field_6_flags.Set(BaseGameObject::eDead);
+        field_34_pSubObject->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (sMap_bDoPurpleLightEffect_5C311C)
@@ -137,7 +137,7 @@ const int kSliceWidth = 8;
 
 void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 {
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     field_4_typeId = Types::eCameraSwapper_149;
 
@@ -156,9 +156,9 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
 
     if (sNum_CamSwappers_5C1B66 != 1)
     {
-        field_6_flags.Clear(BaseGameObject::eUpdatable);
-        field_6_flags.Set(BaseGameObject::eListAddFailed);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
+        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
         // There can only be 1 active at a time
         return;
@@ -172,7 +172,7 @@ void CameraSwapper::Init_4E50C0(BYTE** ppCamRes, CameraSwapEffects changeEffect)
     {
     case CameraSwapEffects::eEffect0_InstantChange:
         pScreenManager_5BB5F4->InvalidateRect_Layer3_40EDB0(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_34_pSubObject = nullptr;
         return;
 
@@ -350,7 +350,7 @@ void CameraSwapper::VUpdate()
 
 void CameraSwapper::vUpdate_4E5850()
 {
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return;
     }
@@ -364,7 +364,7 @@ void CameraSwapper::vUpdate_4E5850()
         if (field_3A_current_slice < 0 || field_3A_current_slice >= field_3E_total_slices)
         {
             // All slices done
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 
@@ -387,7 +387,7 @@ void CameraSwapper::vUpdate_4E5850()
         if (field_3A_current_slice < 0 || field_3A_current_slice >= field_3E_total_slices)
         {
             // All slices done
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 
@@ -405,7 +405,7 @@ void CameraSwapper::vUpdate_4E5850()
         if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
         {
             // All slices done
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 
@@ -423,7 +423,7 @@ void CameraSwapper::vUpdate_4E5850()
         if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
         {
             // All slices done
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 
@@ -441,7 +441,7 @@ void CameraSwapper::vUpdate_4E5850()
         if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
         {
             // All slices done
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 
@@ -493,7 +493,7 @@ void CameraSwapper::vUpdate_4E5850()
             pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 2);
         }
 
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     break;
 

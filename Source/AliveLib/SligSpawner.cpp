@@ -66,7 +66,7 @@ void SligSpawner::vScreenChanged_409A30()
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
         field_38_state == 0)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -100,12 +100,12 @@ void SligSpawner::vUpdate_409830()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_38_state == 1)
     {
-        if (!pSpawnedSlig || pSpawnedSlig->field_6_flags.Get(BaseGameObject::eDead) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
+        if (!pSpawnedSlig || pSpawnedSlig->field_6_flags.Get(BaseGameObject::eDead_Bit3) || pSpawnedSlig->field_10C_health <= FP_FromInteger(0))
         {
             SwitchStates_Set_465FF0(field_24_slig_id, 0);
             field_38_state = 0;
@@ -131,7 +131,7 @@ void SligSpawner::vUpdate_409830()
 
             if (!(field_26_flags & 2))
             {
-                field_6_flags.Set(BaseGameObject::eDead);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 field_26_flags = field_26_flags & ~1;
             }
         }

@@ -115,7 +115,7 @@ void ParamiteWeb::vUpdate_4E1F40()
         field_FA_ttl_remainder -= 8;
         if (field_FA_ttl_remainder <= field_F8_ttl)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 }
@@ -124,7 +124,7 @@ void ParamiteWeb::vScreenChanged_4E1F80()
 {
     if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

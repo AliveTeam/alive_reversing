@@ -765,7 +765,7 @@ int CC Mudokon::CreateFromSaveState_4717C0(const BYTE* pBuffer)
     pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_bFlipX & 1);
     pMud->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_bAnimRender & 1);
 
-    pMud->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2B_bDrawable & 1);
+    pMud->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bDrawable & 1);
 
     if (IsLastFrame(&pMud->field_20_animation))
     {
@@ -898,7 +898,7 @@ int Mudokon::vGetSaveState_47B080(Mudokon_State* pState)
     pState->field_24_current_motion = field_106_current_motion;
     pState->field_26_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_28_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2B_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2B_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_health = field_10C_health;
     pState->field_30_current_motion = field_106_current_motion;
@@ -1065,7 +1065,7 @@ void Mudokon::vUpdate_4757A0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
@@ -1338,10 +1338,10 @@ void Mudokon::vScreenChanged_476F30()
 
     if (field_18E_ai_state == Mud_AI_State::AI_GiveRings_0_470C10 || !(field_16A_flags.Get(Flags::eBit2_save_state)))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         // TODO: Duplicated in dtors + other places
         if (field_16C & 4)
@@ -1547,7 +1547,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
             }
         }
 
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         SetPal_4772D0(Mud_Emotion::eNormal_0);
         Event_Broadcast_422BC0(kEventMudokonDied, sActiveHero_5C1B68);
         return 1;
@@ -1641,7 +1641,7 @@ __int16 Mudokon::vTakeDamage_476270(BaseGameObject* pFrom)
         field_10C_health = FP_FromInteger(0);
         Event_Broadcast_422BC0(kEventMudokonDied, this);
         SetPal_4772D0(Mud_Emotion::eNormal_0);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return 1;
 
     case Types::eSlamDoor_122:
@@ -5003,7 +5003,7 @@ __int16 Mudokon::AI_ShrivelDeath_5_4714A0()
     // Finally fizzled out
     if (field_CC_sprite_scale < FP_FromInteger(0))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return 100;
@@ -5015,12 +5015,12 @@ __int16 Mudokon::AI_Escape_6_47A560()
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds_5C1B70.Find_449CF0(field_11C_bird_portal_id));
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
         bool noBirdPortalOrPortalIsDead = false;
-        if (!pBirdPortal || pBirdPortal->field_6_flags.Get(BaseGameObject::eDead))
+        if (!pBirdPortal || pBirdPortal->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             noBirdPortalOrPortalIsDead = true;
         }
@@ -5185,7 +5185,7 @@ __int16 Mudokon::AI_FallAndSmackDeath_7_471600()
             {
                 pShake->ctor_4ACF70(0, 0);
             }
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
     return field_190_sub_state;
@@ -6455,7 +6455,7 @@ void Mudokon::JumpMid_36_474570()
         field_16A_flags.Clear(Flags::eBit1);
         field_16A_flags.Clear(Flags::eBit2_save_state);
 
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
         field_C8_vely = FP_FromInteger(0);
         field_C4_velx = FP_FromInteger(0);

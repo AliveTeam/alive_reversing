@@ -230,7 +230,7 @@ void BoomMachine::vUpdate_445F50()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_FC_state == 0)
@@ -258,7 +258,7 @@ void BoomMachine::vUpdate_445F50()
 
 void BoomMachine::vScreenChange_446020()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 BOOL BoomMachine::vsub_445DF0()
@@ -289,7 +289,7 @@ void BoomMachine::dtor_445E40()
     BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_F8_nozzel_id);
     if (pObj)
     {
-        pObj->field_6_flags.Set(BaseGameObject::eDead);;
+        pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);;
     }
     Path::TLV_Reset_4DB8E0(field_F4_tlvInfo, -1, 0, 0);
 

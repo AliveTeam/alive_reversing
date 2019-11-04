@@ -202,7 +202,7 @@ LCDScreen * LCDScreen::ctor_460680(Path_LCDScreen * params, TlvItemInfoUnion ite
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4 = 0;
     field_2B6_message_rand_min = params->field_12_message_rand_min;
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_2B8_message_rand_max = params->field_14_message_rand_max;
     field_2A8_play_sound_toggle = 0;
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
@@ -214,7 +214,7 @@ void LCDScreen::Update_460A00()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
 #if LCD_PS1_SPEED
@@ -330,7 +330,7 @@ void LCDScreen::Render_460CB0(int ** ot)
 
 void LCDScreen::vsub_460F10()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void LCDScreen::dtor_460920()

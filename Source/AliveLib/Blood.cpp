@@ -150,7 +150,7 @@ Blood* Blood::ctor_40F0B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, __int16 
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     return this;
 
@@ -187,7 +187,7 @@ void Blood::vUpdate_40F650()
 
         if (field_122_to_render_count <= 0)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_122_to_render_count = 0;
             return;
         }
@@ -297,5 +297,5 @@ void Blood::vRender_40F780(int** pOt)
 
 void Blood::vScreenChanged_40FAD0()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

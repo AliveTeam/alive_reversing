@@ -92,7 +92,7 @@ void MinesAlarm::vScreenChanged_417A20()
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -100,7 +100,7 @@ void MinesAlarm::vUpdate_417910()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (sTimerValue_5C1BFC > 0)
@@ -121,6 +121,6 @@ void MinesAlarm::vUpdate_417910()
             }
         }
         pExplosionSet_5BBF68->Start_415300();
-        field_6_flags.Clear(BaseGameObject::eUpdatable);
+        field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
     }
 }

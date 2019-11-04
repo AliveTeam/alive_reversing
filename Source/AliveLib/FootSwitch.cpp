@@ -137,7 +137,7 @@ void FootSwitch::dtor_4DE670()
 
 void FootSwitch::vScreenChanged_4DE650()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void FootSwitch::vUpdate_4DE270()
@@ -245,7 +245,7 @@ void FootSwitch::vUpdate_4DE270()
         if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
             pLastStoodOnMe->field_B8_xpos < FP_FromInteger(bRect.x) ||
             pLastStoodOnMe->field_B8_xpos > FP_FromInteger(bRect.w) ||
-            pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead))
+            pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             field_F8_state = States::eWaitForStepOnMe_0;
             field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0_frameTableOffset, nullptr);
@@ -271,7 +271,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe_4DE700()
                 break;
             }
 
-            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+            if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
             {
                 auto* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 

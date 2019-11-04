@@ -147,13 +147,13 @@ Water* Water::ctor_4E02C0(Path_Water* pTlv, int tlvInfo)
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
     else
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return this;
@@ -242,7 +242,7 @@ void Water::vScreenChanged_4E1780()
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -303,7 +303,7 @@ void Water::vUpdate_4E0B50()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
@@ -433,7 +433,7 @@ void Water::vUpdate_4E0B50()
             {
                 if (field_124_tlv_data.field_10_max_drops <= 0)
                 {
-                    field_6_flags.Set(BaseGameObject::eDead);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
                 else
                 {
@@ -449,7 +449,7 @@ void Water::vUpdate_4E0B50()
 
                     if (!found)
                     {
-                        field_6_flags.Set(BaseGameObject::eDead);
+                        field_6_flags.Set(BaseGameObject::eDead_Bit3);
                     }
                 }
             }

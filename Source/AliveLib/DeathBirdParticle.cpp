@@ -26,9 +26,9 @@ DeathBirdParticle* DeathBirdParticle::ctor_43ECB0(FP xpos, FP ypos, int start, _
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDeathFlareResID);
     Animation_Init_424E10(9940, 122, 43, ppRes, 1, 1u);
 
-    if (field_6_flags.Get(BaseGameObject::eListAddFailed))
+    if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -98,7 +98,7 @@ void DeathBirdParticle::Update_43EE70()
             }
 
             pDove->field_CC_sprite_scale = field_CC_sprite_scale;
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
             if (field_FC_playSound)
             {

@@ -29,7 +29,7 @@ ALIVE_VAR(1, 0x5C300C, MovingBomb*, dword_5C300C, nullptr);
 MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
 {
     ctor_408240(0);
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     SetVTable(this, 0x546270);
     field_4_typeId = Types::eTimedMine_or_MovingBomb_10;
@@ -183,7 +183,7 @@ void MovingBomb::dtor_4700C0()
 
 EXPORT void MovingBomb::BlowUp_470070()
 {
-    field_6_flags.Clear(BaseGameObject::eCanExplode);
+    field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
     field_118_state = 6;
     field_C8_vely = FP_FromInteger(0);
     field_120_timer = sGnFrame_5C1B84 + 1;
@@ -204,21 +204,21 @@ void MovingBomb::vScreenChanged_470B90()
 
     if (!field_136_persist_offscreen)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
     const FP xDelta = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
     if (xDelta > FP_FromInteger(750))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
     const FP yDelta = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos - field_BC_ypos);
     if (yDelta > FP_FromInteger(520))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 }
@@ -233,7 +233,7 @@ void MovingBomb::FollowLine_470950()
 
 __int16 MovingBomb::vTakeDamage_470990(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead) || field_10C_health <= FP_FromInteger(0))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3) || field_10C_health <= FP_FromInteger(0))
     {
         return 1;
     }
@@ -321,7 +321,7 @@ void MovingBomb::vUpdate_4701E0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_118_state < 6)
@@ -499,7 +499,7 @@ void MovingBomb::vUpdate_4701E0()
     case 7:
         if (field_120_timer <= static_cast<int>(sGnFrame_5C1B84))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         break;
 

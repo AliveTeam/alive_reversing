@@ -28,7 +28,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 350);
     Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
-    field_6_flags.Clear(BaseGameObject::eInteractive);
+    field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -117,7 +117,7 @@ void Rock::vScreenChanged_49F030()
 {
     if (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId || gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -179,7 +179,7 @@ void Rock::InTheAir_49E4B0()
 
     if (field_C8_vely > FP_FromInteger(30))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     field_C8_vely += FP_FromDouble(1.01);
@@ -321,7 +321,7 @@ void Rock::InTheAir_49E4B0()
 
 __int16 Rock::OnCollision_49EF10(BaseAliveGameObject* pObj)
 {
-    if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode))
+    if (!pObj->field_6_flags.Get(BaseGameObject::eCanExplode_Bit7))
     {
         return 1;
     }
@@ -351,7 +351,7 @@ void Rock::vUpdate_49E9F0()
     auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_114_flags.Get(Flags_114::e114_Bit9))
@@ -402,7 +402,7 @@ void Rock::vUpdate_49E9F0()
                 field_C4_velx = FP_FromInteger(0);
                 field_E4_collection_rect.x = field_B8_xpos - (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2));
                 field_E4_collection_rect.w = (ScaleToGridSize_4498B0(field_CC_sprite_scale) / FP_FromInteger(2)) + field_B8_xpos;
-                field_6_flags.Set(BaseGameObject::eInteractive);
+                field_6_flags.Set(BaseGameObject::eInteractive_Bit8);
                 field_E4_collection_rect.h = field_BC_ypos;
                 field_E4_collection_rect.y = field_BC_ypos - ScaleToGridSize_4498B0(field_CC_sprite_scale);
                 field_11C_state = RockStates::eState_3;
@@ -462,7 +462,7 @@ void Rock::vUpdate_49E9F0()
         if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) && 
             !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos + FP_FromInteger(240), 0))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         return;
     }
@@ -485,10 +485,10 @@ signed int Rock::vGetSaveState_49F9A0(RockSaveState* pState)
     pState->field_18_sprite_scale = field_CC_sprite_scale;
 
     pState->field_20_flags.Set(RockSaveState::eBit1_bRender, field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render));
-    pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, field_6_flags.Get(BaseGameObject::eDrawable));
+    pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, field_6_flags.Get(BaseGameObject::eDrawable_Bit4));
 
     pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, field_20_animation.field_4_flags.Get(AnimFlags::eBit8_Loop));
-    pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, field_6_flags.Get(BaseGameObject::eInteractive));
+    pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, field_6_flags.Get(BaseGameObject::eInteractive_Bit8));
 
     if (field_100_pCollisionLine)
     {
@@ -536,8 +536,8 @@ int CC Rock::CreateFromSaveState_49F720(const BYTE* pData)
     pRock->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
     pRock->field_20_animation.field_4_flags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
 
-    pRock->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
-    pRock->field_6_flags.Set(BaseGameObject::eInteractive, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));
+    pRock->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
+    pRock->field_6_flags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));
 
     pRock->field_114_flags.Set(Flags_114::e114_Bit9);
 
@@ -646,14 +646,14 @@ void RockSack::dtor_49F310()
 
 void RockSack::vScreenChanged_49F700()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void RockSack::vUpdate_49F3A0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_20_animation.field_92_current_frame == 2)

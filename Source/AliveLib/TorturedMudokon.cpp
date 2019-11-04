@@ -39,8 +39,8 @@ TorturedMudokon* TorturedMudokon::ctor_47BC60(Path_TorturedMudokon *pTlv, int tl
     }
     else
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     return this;
 }
@@ -78,7 +78,7 @@ void TorturedMudokon::sub_47BE60(Animation* pAnim)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed);
+        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
@@ -95,13 +95,13 @@ void TorturedMudokon::sub_47BEF0(Animation* pAnim)
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed);
+        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 }
 
 void TorturedMudokon::vScreenChanged_47C440()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void TorturedMudokon::vRender_47C460(int** ppOt)
@@ -170,7 +170,7 @@ void TorturedMudokon::vUpdate_47BF80()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
@@ -196,7 +196,7 @@ void TorturedMudokon::vUpdate_47BF80()
 
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_6_flags.Set(BaseGameObject::eDead);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
             return;
         }

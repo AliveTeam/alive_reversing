@@ -105,7 +105,7 @@ EXPORT void MusicTrigger::vScreenChange_4802A0()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -113,7 +113,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
 {
     if (Event_Get_422C00(kEventHeroDying))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_24_flags & 1)
@@ -141,7 +141,7 @@ EXPORT void MusicTrigger::vUpdate_480140()
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
     else

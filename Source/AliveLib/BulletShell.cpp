@@ -16,8 +16,8 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
 
     if (sShellCount_BAF7E0 >= 11)
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return this;
     }
     else
@@ -88,7 +88,7 @@ void BulletShell::dtor_4AD520()
 
 void BulletShell::vUpdate_4AD550()
 {
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return;
     }
@@ -138,11 +138,11 @@ void BulletShell::vUpdate_4AD550()
 
     if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_FC_hitCount >= 3)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }

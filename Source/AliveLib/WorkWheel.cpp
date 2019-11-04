@@ -167,7 +167,7 @@ void WorkWheel::vUpdate_4E38E0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_FC_state == WheelStates::eTurning)
@@ -218,7 +218,7 @@ void WorkWheel::vScreenChanged_4E3AD0()
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
         field_FC_state == WheelStates::eIdle)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

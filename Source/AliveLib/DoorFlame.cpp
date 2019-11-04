@@ -431,13 +431,13 @@ void DoorFlame::dtor_45E6C0()
     
     if (pFireBackgroundGlow)
     {
-        pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead);
+        pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_108_fire_background_glow_id = -1;
     }
 
     if (pFlameSparks)
     {
-        pFlameSparks->field_6_flags.Set(BaseGameObject::eDead);
+        pFlameSparks->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_10C_flame_sparks_id = -1;
     }
 
@@ -466,17 +466,17 @@ void DoorFlame::vScreenChanged_45EA90()
     BaseGameObject* pFireBackgroundGlow = sObjectIds_5C1B70.Find_449CF0(field_108_fire_background_glow_id);
     BaseGameObject* pFlameSparks = sObjectIds_5C1B70.Find_449CF0(field_10C_flame_sparks_id);
 
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
     
     if (pFireBackgroundGlow)
     {
-        pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead);
+        pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_108_fire_background_glow_id = -1;
     }
 
     if (pFlameSparks)
     {
-        pFlameSparks->field_6_flags.Set(BaseGameObject::eDead);
+        pFlameSparks->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_10C_flame_sparks_id = -1;
     }
 }
@@ -502,7 +502,7 @@ void DoorFlame::vUpdate_45E830()
 
         if (pFireBackgroundGlow)
         {
-            pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead);
+            pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             pFireBackgroundGlow = nullptr;
             field_108_fire_background_glow_id = -1;
         }
@@ -557,17 +557,17 @@ void DoorFlame::vUpdate_45E830()
         field_BC_ypos,
         0))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
         if (pFireBackgroundGlow)
         {
-            pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead);
+            pFireBackgroundGlow->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_108_fire_background_glow_id = -1;
         }
 
         if (pFlameSparks)
         {
-            pFlameSparks->field_6_flags.Set(BaseGameObject::eDead);
+            pFlameSparks->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_10C_flame_sparks_id = -1;
         }
     }

@@ -81,7 +81,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::ctor_43D7E0(__int16 doorNumber, __int16 sw
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return this;
@@ -129,7 +129,7 @@ void SlapLockWhirlWind::vUpdate_43DA90()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -144,10 +144,10 @@ void SlapLockWhirlWind::vUpdate_43DA90()
                     4 * (sGnFrame_5C1B84 - field_40_timer));
             }
 
-            if (!pWhirlWind || pWhirlWind->field_6_flags.Get(BaseGameObject::eDead))
+            if (!pWhirlWind || pWhirlWind->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
                 SwitchStates_Do_Operation_465F00(field_44_switch_id, SwitchOp::eSetTrue_0);
-                field_6_flags.Set(BaseGameObject::eDead);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
         }
         else if (field_3C_state == 0)
@@ -341,7 +341,7 @@ void SlapLock::vScreenChanged_43E840()
     {
         GiveInvisiblity_43E880();
     }
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void SlapLock::GiveInvisiblity_43E880()
@@ -386,7 +386,7 @@ void SlapLock::vUpdate_43DF90()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -638,7 +638,7 @@ __int16 SlapLock::vTakeDamage_43E5D0(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 0;
     }

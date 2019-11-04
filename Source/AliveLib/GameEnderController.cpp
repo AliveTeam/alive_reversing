@@ -108,7 +108,7 @@ void GameEnderController::vScreenChanged_43BC80()
 
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -125,7 +125,7 @@ void GameEnderController::vUpdate_43B920()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     switch (field_24_state)
@@ -147,11 +147,11 @@ void GameEnderController::vUpdate_43B920()
                 auto pAlarm = sObjectIds_5C1B70.Find_449CF0(sAlarmObjId_550D70);
                 if (pAlarm)
                 {
-                    pAlarm->field_6_flags.Set(BaseGameObject::eDead);
+                    pAlarm->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
 
-                pBirdPortal->field_6_flags.Set(BaseGameObject::eDead);
-                sActiveHero_5C1B68->field_6_flags.Set(BaseGameObject::eDead);
+                pBirdPortal->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+                sActiveHero_5C1B68->field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
                 if (sRescuedMudokons_5C1BC2 >= 150)
                 {
@@ -161,7 +161,7 @@ void GameEnderController::vUpdate_43B920()
 
                     if (pPauseMenu_5C9300)
                     {
-                        pPauseMenu_5C9300->field_6_flags.Set(BaseGameObject::eDead);
+                        pPauseMenu_5C9300->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                         pPauseMenu_5C9300 = nullptr;
                     }
 

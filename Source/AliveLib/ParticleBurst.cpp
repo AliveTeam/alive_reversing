@@ -111,9 +111,9 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
             break;
         }
 
-        if (field_6_flags.Get(BaseGameObject::eListAddFailed))
+        if (field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         else
         {
@@ -188,7 +188,7 @@ ParticleBurst* ParticleBurst::ctor_41CF50(FP xpos, FP ypos, unsigned int unknown
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     return this;
 }
@@ -437,11 +437,11 @@ void ParticleBurst::vUpdate_41D590()
 
     if (static_cast<int>(sGnFrame_5C1B84) > field_100_timer)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }

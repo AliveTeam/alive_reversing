@@ -65,7 +65,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     Animation_Init_424E10(836, 35, 0x11u, BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kBombResID), TRUE, TRUE);
 
-    field_6_flags.Set(Options::eInteractive);
+    field_6_flags.Set(Options::eInteractive_Bit8);
 
     field_1C4_flags.Clear(TimedMine_Flags_1C4::e1C4_Bit0);
 
@@ -112,7 +112,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     SetBaseAnimPaletteTint_425690(sTimedMineTint_550EB8, gMap_5C3030.sCurrentLevelId_5C3030, kBombResID);
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    field_6_flags.Set(Options::eInteractive);
+    field_6_flags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
     field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
@@ -130,7 +130,7 @@ void TimedMine::Update_410A80()
     auto pPlatform = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(Options::eDead);
+        field_6_flags.Set(Options::eDead_Bit3);
     }
 
     if (!field_1C4_flags.Get(TimedMine_Flags_1C4::e1C4_Bit0))
@@ -172,7 +172,7 @@ void TimedMine::Update_410A80()
             {
                 explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
             }
-            field_6_flags.Set(Options::eDead);
+            field_6_flags.Set(Options::eDead_Bit3);
         }
     }
 }
@@ -222,7 +222,7 @@ void TimedMine::InitBlinkAnimation_4108E0(Animation * pAnimation)
     }
     else
     {
-        field_6_flags.Set(Options::eListAddFailed);
+        field_6_flags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -292,7 +292,7 @@ void TimedMine::dtor_410970()
         field_110_id = -1;
     }
 
-    field_6_flags.Clear(BaseGameObject::eInteractive);
+    field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
     dtor_4080B0();
 }
 
@@ -310,17 +310,17 @@ void TimedMine::vScreenChanged_411270()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     if (field_118_armed != 1)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
 __int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 0;
     }
@@ -332,7 +332,7 @@ __int16 TimedMine::vTakeDamage_410FA0(BaseGameObject* pFrom)
     case Types::eExplosion_109:
     case Types::eShrykull_121:
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         auto pExplosion = alive_new<BaseBomb>();
         if (pExplosion)
         {
@@ -355,7 +355,7 @@ void TimedMine::vOnThrowableHit_410F00(BaseGameObject* /*pHitBy*/)
         pExplosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
     }
     field_118_armed = 1;
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
     field_120_gnframe = sGnFrame_5C1B84;
 }
 

@@ -23,7 +23,7 @@ EffectBase* EffectBase::ctor_4AB7A0(__int16 layer, char abr)
     SetVTable(this, 0x54700C); // vTbl_EffectBase_54700C
     field_4_typeId = Types::eEffectBase_115;
     gObjList_drawables_5C1124->Push_Back(this);
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_20_path_id = gMap_5C3030.sCurrentPathId_5C3032;
     field_22_level_id = gMap_5C3030.sCurrentLevelId_5C3030;
     Init_SetTPage_4F5B60(&field_4C_tPage[0], 0, 0, PSX_getTPage_4F60E0(2, abr, 0, 0));

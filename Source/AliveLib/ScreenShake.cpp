@@ -11,7 +11,7 @@
 EXPORT ScreenShake* ScreenShake::ctor_4ACF70(__int16 a2, __int16 a3)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetVTable(this, 0x547070); // vTbl_ScreenShake_547070
 
@@ -173,7 +173,7 @@ EXPORT void ScreenShake::vRender_4AD120(int** pOt)
 
         if (!field_40)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 

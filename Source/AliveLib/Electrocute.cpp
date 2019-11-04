@@ -24,7 +24,7 @@ public:
         field_20_pal_xy = palXY;
         field_24_pal_colours_count = palDepth;
 
-        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
         for (auto& palBufferEntry : field_B8_palBuffer)
         {
@@ -238,7 +238,7 @@ void Electrocute::vScreenChanged_4E65E0()
 {
     BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
     // If the map has changed or target we are tracking has died then..
-    if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() || (pTargetObj && pTargetObj->field_6_flags.Get(BaseGameObject::eDead)))
+    if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() || (pTargetObj && pTargetObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
     {
         VStop_4E6150();
     }
@@ -247,7 +247,7 @@ void Electrocute::vScreenChanged_4E65E0()
 void Electrocute::vUpdate_4E6240()
 {
     BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
-    if (!pTargetObj || pTargetObj->field_6_flags.Get(BaseGameObject::eDead))
+    if (!pTargetObj || pTargetObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         VStop_4E6150();
     }
@@ -351,7 +351,7 @@ void Electrocute::vUpdate_4E6240()
             break;
 
         case 3:
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             break;
 
         default:
@@ -380,7 +380,7 @@ void Electrocute::vStop_4E6150()
         }
     }
 
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
     if (pTarget)

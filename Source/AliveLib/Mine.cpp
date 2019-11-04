@@ -72,8 +72,8 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     Animation_Init_424E10(784, 38, 0xDu, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kLandmineResID), 1, 1u);
 
     field_118 = 0;
-    field_6_flags.Set(Options::eInteractive);
-    field_6_flags.Set(Options::eCanExplode);
+    field_6_flags.Set(Options::eInteractive_Bit8);
+    field_6_flags.Set(Options::eCanExplode_Bit7);
 
     if (pPath->field_14_scale)
     {
@@ -146,7 +146,7 @@ Mine * Mine::ctor_46B120(Path_Mine * pPath, TlvItemInfoUnion tlv)
     }
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    field_6_flags.Set(Options::eInteractive);
+    field_6_flags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
     field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
@@ -180,7 +180,7 @@ void Mine::dtor_46B4F0()
     }
 
     field_124_animation.vCleanUp_40C630();
-    field_6_flags.Clear(BaseGameObject::eInteractive);
+    field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
 
     if (sMineSFXOwner_5C3008 == this)
     {
@@ -207,7 +207,7 @@ void Mine::Update_46B5D0()
             {
                 explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
             }
-            field_6_flags.Set(Options::eDead);
+            field_6_flags.Set(Options::eDead_Bit3);
         }
     }
     else
@@ -237,7 +237,7 @@ void Mine::Update_46B5D0()
         if (pEventObj || field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 ||
             field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032)
         {
-            field_6_flags.Set(Options::eDead);
+            field_6_flags.Set(Options::eDead_Bit3);
         }
     }
 }
@@ -270,7 +270,7 @@ void Mine::ScreenChanged_46BAE0()
         || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId
         || !field_1BC_flags.Get(Mine_Flags_1BC::e1BC_Bit1))
     {
-        field_6_flags.Set(Options::eDead);
+        field_6_flags.Set(Options::eDead_Bit3);
     }
 }
 
@@ -290,13 +290,13 @@ void Mine::vOnThrowableHit_46BA40(BaseGameObject* /*pFrom*/)
     {
         pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
     }
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
     field_118 = 1;
 }
 
 signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 0;
     }
@@ -317,7 +317,7 @@ signed __int16 Mine::vTakeDamage_46BB20(BaseGameObject* pFrom)
         {
             pBomb->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
         }
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_118 = 1;
         field_120_gnframe = sGnFrame_5C1B84;
         return 1;
