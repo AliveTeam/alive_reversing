@@ -622,8 +622,8 @@ void Map::GoTo_Camera_481890()
     {
         if (field_A_5C303A_levelId != sCurrentLevelId_5C3030
             || field_8_force_load
-            || field_C_5C303C_pathId != sCurrentPathId_5C3032 
-            && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
+            || (field_C_5C303C_pathId != sCurrentPathId_5C3032 && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
+            )
         {
             Game_ShowLoadingIcon_482D80();
         }
