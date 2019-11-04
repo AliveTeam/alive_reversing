@@ -104,20 +104,20 @@ EXPORT int CC Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, int r, int g, int b)
     switch (pBmp->field_15_pixel_format)
     {
     case 0xF:
-        converted = (b >> 3) | 4 * (g & 0xF8 | 32 * (r & 0xF8));
+        converted = (b >> 3) | 4 * ((g & 0xF8) | 32 * (r & 0xF8));
         break;
     case 0x10:
-        converted = (b >> 3) | 8 * (g & 0xFC | 32 * (r & 0xF8));
+        converted = (b >> 3) | 8 * ((g & 0xFC) | 32 * (r & 0xF8));
         break;
     case 0x18:
     case 0x20:
         converted = b | ((g | (r << 8)) << 8);
         break;
     case 0x73:
-        converted = (r >> 3) | 4 * (g & 0xF8 | 32 * (b & 0xF8));
+        converted = (r >> 3) | 4 * ((g & 0xF8) | 32 * (b & 0xF8));
         break;
     case 0x74:
-        converted = (r >> 3) | 8 * (g & 0xFC | 32 * (b & 0xF8));
+        converted = (r >> 3) | 8 * ((g & 0xFC) | 32 * (b & 0xF8));
         break;
     case 0x7C:
     case 0x84:
