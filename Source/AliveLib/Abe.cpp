@@ -4344,8 +4344,8 @@ void Abe::State_23_RollLoop_453A90()
             {
                 MapFollowMe_408D10(TRUE);
 
-                if (field_C4_velx > FP_FromInteger(0) && !(sInputKey_Right_5550D0 & pressed) ||
-                    field_C4_velx < FP_FromInteger(0) && !(sInputKey_Left_5550D4 & pressed))
+                if ((field_C4_velx > FP_FromInteger(0) && !(sInputKey_Right_5550D0 & pressed)) ||
+                    (field_C4_velx < FP_FromInteger(0) && !(sInputKey_Left_5550D4 & pressed)))
                 {
                     field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
                     field_C4_velx = FP_FromInteger(0);
