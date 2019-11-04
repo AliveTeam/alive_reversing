@@ -31,8 +31,8 @@ BackgroundAnimation* BackgroundAnimation::ctor_40D270(BackgroundAnimation_TLV* p
     field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource_4DC130(ResourceManager::Resource_Animation, pPathParams->field_10_res_id));
     if (!field_F4_res)
     {
-        field_6_flags.Clear(BaseGameObject::eDrawable);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     field_B8_xpos = FP_FromInteger(pPathParams->field_8_top_left.field_0_x);
@@ -81,7 +81,7 @@ void BackgroundAnimation::vUpdate_40D450()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -92,7 +92,7 @@ void BackgroundAnimation::vUpdate_40D450()
 
 void BackgroundAnimation::vScreenChanged_40D550()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void BackgroundAnimation::dtor_40D4C0()

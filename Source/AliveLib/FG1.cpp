@@ -43,9 +43,9 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
 
     SetVTable(this, 0x5469C8); // vTbl_FG1_5469C8
 
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_4_typeId = Types::eFG1_101;
 
@@ -197,5 +197,5 @@ void FG1::VScreenChanged()
 
 void FG1::vScreenChanged_49A520()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

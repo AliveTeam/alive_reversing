@@ -68,7 +68,7 @@ StatsSign * StatsSign::ctor_47B600(Path_StatsSign * params, TlvItemInfoUnion a3)
     field_90_font3.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
     field_C8_font4.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
 
-    field_6_flags.Set(eDrawable);
+    field_6_flags.Set(eDrawable_Bit4);
     gObjList_drawables_5C1124->Push_Back_40CAF0(this);
     field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<int>(params->field_0_mBase.field_8_top_left.field_0_x)) - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x);
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<int>(params->field_0_mBase.field_8_top_left.field_2_y)) - pScreenManager_5BB5F4->field_20_pCamPos->field_4_y);
@@ -111,7 +111,7 @@ void StatsSign::vUpdate_47B8D0()
 { 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(eDead);
+        field_6_flags.Set(eDead_Bit3);
     }
 }
 
@@ -224,5 +224,5 @@ void StatsSign::vRender_47B900(int ** pOt)
 
 void StatsSign::vScreenChanged_47BC40()
 {
-    field_6_flags.Set(eDead);
+    field_6_flags.Set(eDead_Bit3);
 }

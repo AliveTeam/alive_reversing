@@ -77,7 +77,7 @@ const PSX_Point explosionVerts[6][2] =
 SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, __int16 layer, FP scale)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     
     SetVTable(this, 0x5472FC);
 
@@ -115,7 +115,7 @@ SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, __int16 layer, FP 
 void SnoozeParticle::dtor_4B0900()
 {
     SetVTable(this, 0x5472FC);
-    if (field_6_flags.Get(BaseGameObject::eDrawable))
+    if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
     {
         gObjList_drawables_5C1124->Remove_Item(this);
     }
@@ -136,7 +136,7 @@ void SnoozeParticle::Update_4B0980()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     if (!sNum_CamSwappers_5C1B66)
     {
@@ -184,7 +184,7 @@ void SnoozeParticle::Update_4B0980()
                 else
                 {
                     SFX_Play_46FA90(4, 0, field_38_scale);
-                    field_6_flags.Set(BaseGameObject::eDead);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
                 break;
         }
@@ -314,5 +314,5 @@ void SnoozeParticle::Render_4B0AF0(int **pOt)
 
 void SnoozeParticle::vScreenChanged_4B1300()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

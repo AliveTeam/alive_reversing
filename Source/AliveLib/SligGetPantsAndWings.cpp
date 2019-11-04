@@ -58,7 +58,7 @@ void SligGetPantsAndWings::vUpdate_465DD0()
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_F8_tlvInfo);
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     switch (field_F4_state)
@@ -103,7 +103,7 @@ SligGetPantsAndWings* SligGetPantsAndWings::vdtor_465D10(signed int flags)
 
 void SligGetPantsAndWings::vScreenChanged_465EE0()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void SligGetPantsAndWings::dtor_465D40()

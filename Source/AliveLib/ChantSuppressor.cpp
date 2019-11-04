@@ -91,13 +91,13 @@ private:
 
         if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 
     EXPORT void vScreenChanged_416720()
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     EXPORT void dtor_416550()
@@ -152,7 +152,7 @@ ChantSuppressor* ChantSuppressor::ctor_466350(Path_ChantSuppressor* pTlv, int tl
     
     field_4_typeId = Types::eAntiChant_83;
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID);
     Animation_Init_424E10(2228, 53, 28u, ppRes, 1, 1u);
@@ -217,17 +217,17 @@ void ChantSuppressor::dtor_4664E0()
 
 void ChantSuppressor::vScreenChanged_466D20()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 signed __int16 ChantSuppressor::vTakeDamage_466BB0(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 0;
     }
 
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
     field_10C_health = FP_FromInteger(0);
 
     if (pFrom->field_4_typeId == Types::eMineCar_89 || pFrom->field_4_typeId == Types::eType_104 || pFrom->field_4_typeId == Types::eShrykull_121)
@@ -263,7 +263,7 @@ void ChantSuppressor::vUpdate_4665A0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_11C_state)

@@ -66,14 +66,14 @@ SlogHut* SlogHut::vdtor_4C4100(signed int flags)
 
 void SlogHut::vScreenChanged_4C4280()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 void SlogHut::vUpdate_4C41B0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (!SwitchStates_Get_466020(field_30_switch_id) && static_cast<int>(sGnFrame_5C1B84) > field_34_z_timer)

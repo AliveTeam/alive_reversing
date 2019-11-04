@@ -146,7 +146,7 @@ EXPORT int CC Animation_OnFrame_Common_434130(void* pObjPtr, signed __int16* pDa
     
     if (Event_Get_422C00(kEventDeathReset))
     {
-        pObj->field_6_flags.Set(BaseGameObject::eDead);
+        pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     auto pParticle = alive_new<Particle>();

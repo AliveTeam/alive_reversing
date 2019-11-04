@@ -40,6 +40,6 @@ void Flash::vUpdate_428640()
 {
     if (static_cast<int>(sGnFrame_5C1B84) >= field_78_flash_time)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }

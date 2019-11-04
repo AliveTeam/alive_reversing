@@ -113,7 +113,7 @@ public:
             }
             else
             {
-                if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead))
+                if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
                 {
                     ToStop_4E4AD0();
                 }
@@ -132,7 +132,7 @@ public:
             break;
 
         case State::State_2_FlyToTarget:
-            if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead))
+            if (field_E4_pObj && field_E4_pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
                 ToStop_4E4AD0();
             }
@@ -370,7 +370,7 @@ OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bUnk
 
     field_26_bUnknown = bUnknown;
     gObjList_drawables_5C1124->Push_Back(this);
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_28_obj_array_idx = 0;
     memset(field_2C_objArray, 0, sizeof(field_2C_objArray));
@@ -443,7 +443,7 @@ void OrbWhirlWind::vUpdate_4E3E20()
 
             if (!unknown)
             {
-                field_6_flags.Set(BaseGameObject::eDead);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
         }
     }

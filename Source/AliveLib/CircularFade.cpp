@@ -40,7 +40,7 @@ CircularFade* CircularFade::ctor_4CE100(FP xpos, FP ypos, FP scale, __int16 dire
 {
     BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
 
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     SetVTable(this, 0x547904); // vTbl_CircularFade_547904
 
@@ -202,7 +202,7 @@ void CircularFade::vRender_4CE3F0(int **pOt)
 
         if (field_F4_flags.Get(Flags::eBit3_DestroyOnDone))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 }
@@ -300,11 +300,11 @@ CircularFade* CC Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, __int16 d
 
     if (setBit8)
     {
-        pFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
+        pFade->field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     }
     else
     {
-        pFade->field_6_flags.Clear(BaseGameObject::eSurviveDeathReset);
+        pFade->field_6_flags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
     }
 
     return pFade;

@@ -310,7 +310,7 @@ int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
     pNakedSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
     pNakedSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
 
-    pNakedSlig->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2F_bDrawable & 1);
+    pNakedSlig->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
     if (IsLastFrame(&pNakedSlig->field_20_animation))
     {
@@ -371,7 +371,7 @@ int NakedSlig::vGetSaveState_41C9A0(NakedSlig_State* pState)
     pState->field_28_current_motion = field_106_current_motion;
     pState->field_2A_anim_cur_frame = field_20_animation.field_92_current_frame;
     pState->field_2C_anim_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2E_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = field_10C_health;
     pState->field_34_cur_motion = field_106_current_motion;
@@ -473,7 +473,7 @@ void NakedSlig::vUpdate_419100()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -1229,7 +1229,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
 
         if (field_1AC_timer < static_cast<int>(sGnFrame_5C1B84))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         return field_208_brain_sub_state;
 
@@ -1286,7 +1286,7 @@ __int16 NakedSlig::AI_4_GetKilled_41A880()
     case 3:
         if (static_cast<int>(sGnFrame_5C1B84) > field_1AC_timer)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         return field_208_brain_sub_state;
 
@@ -1346,9 +1346,9 @@ __int16 NakedSlig::AI_5_Transformed_41ADF0()
         MusicController::sub_47FD60(0, this, 0, 0);
     }
 
-    if (!pObj || pObj->field_6_flags.Get(BaseGameObject::eDead))
+    if (!pObj || pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return 0;
@@ -1460,7 +1460,7 @@ void NakedSlig::M_UsingButton_1_41B890()
             }
 
             // Final transform
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             SetBrain(&NakedSlig::AI_5_Transformed_41ADF0);
             field_C8_vely = FP_FromInteger(0);
             field_C4_velx = FP_FromInteger(0);

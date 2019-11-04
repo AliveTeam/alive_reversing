@@ -117,7 +117,7 @@ void TimerTrigger::vUpdate_4CDDB0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -139,7 +139,7 @@ void TimerTrigger::vScreenChanged_4CDF00()
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

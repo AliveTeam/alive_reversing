@@ -32,7 +32,7 @@ EXPORT void CC SND_StopAll_4CB060()
             break;
         }
 
-        if (!pObj->field_6_flags.Get(BaseGameObject::eDead))
+        if (!pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             pObj->VStopAudio();
         }
@@ -506,7 +506,7 @@ ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, TRUE);
 
 EXPORT int CC MIDI_Play_Single_Note_Impl_4FCF10(int vabIdAndProgram, int note, unsigned __int16 leftVol, unsigned __int16 rightVol)
 {
-    MIDI_Stop_Existing_Single_Note_4FCFF0(vabIdAndProgram & 127 | (((vabIdAndProgram >> 8) & 31) << 8), note);
+    MIDI_Stop_Existing_Single_Note_4FCFF0((vabIdAndProgram & 127) | (((vabIdAndProgram >> 8) & 31) << 8), note);
     
     if (sSoundDatIsNull_BD1CE8)
     {

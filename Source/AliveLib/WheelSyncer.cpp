@@ -104,7 +104,7 @@ void WheelSyncer::vUpdate_4661D0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -129,6 +129,6 @@ void WheelSyncer::vScreenChanged_466310()
 {
     if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }

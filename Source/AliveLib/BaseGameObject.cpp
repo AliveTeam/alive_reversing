@@ -30,7 +30,7 @@ void BaseGameObject::ScreenChanged_4DC0A0()
     || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId
     || (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710()))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -61,13 +61,21 @@ void BaseGameObject::BaseGameObject_ctor_4DBFA0(__int16 bAddToObjectList, signed
     field_10_resources_array.ctor_40C9E0(resourceArraySize);
     field_1C_update_delay = 0;
     field_4_typeId = Types::eNone_0;
-    field_6_flags.Raw().all = field_6_flags.Raw().all & 0xF80A | BaseGameObject::eUpdatable; // TODO: Refactor
+    field_6_flags.Clear(BaseGameObject::Options::eDead_Bit3);
+    field_6_flags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
+    field_6_flags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
+    field_6_flags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
+    field_6_flags.Clear(BaseGameObject::Options::eInteractive_Bit8);
+    field_6_flags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
+    field_6_flags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
+    field_6_flags.Clear(BaseGameObject::Options::eCantKill_Bit11);
+    field_6_flags.Set(BaseGameObject::eUpdatable_Bit2);
 
     if (bAddToObjectList)
     {
         if (!gBaseGameObject_list_BB47C4->Push_Back(this))
         {
-            field_6_flags.Set(BaseGameObject::eListAddFailed);
+            field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
         }
     }
 

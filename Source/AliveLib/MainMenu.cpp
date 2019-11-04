@@ -495,7 +495,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     SetVTable(&field_158_animation, 0x544290);
 
     sMainMenuObjectCounter_BB4400++;
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     gMainMenuController = this;
 
@@ -1479,10 +1479,10 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
 
             while (sMovie_ref_count_BB4AE4)
             {
-                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
+                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!pMovie->field_6_flags.Get(BaseGameObject::eDead) && 
-                       (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))
+                    if (!pMovie->field_6_flags.Get(BaseGameObject::eDead_Bit3) &&
+                       (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         pMovie->VUpdate();
                     }
@@ -1763,20 +1763,20 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 
             if (field_208_transition_obj)
             {
-                field_208_transition_obj->field_6_flags.Set(BaseGameObject::eDead);
+                field_208_transition_obj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
 
             if (field_20C)
             {
-                field_20C->field_6_flags.Set(BaseGameObject::eDead);
+                field_20C->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
 
             if (field_210_pUnknown)
             {
-                field_210_pUnknown->field_6_flags.Set(BaseGameObject::eDead);
+                field_210_pUnknown->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
 
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             
             sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
             sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
@@ -1860,20 +1860,20 @@ signed int MainMenuController::LoadNewGame_Update_4D0920(DWORD /*input*/)
 
     if (field_208_transition_obj)
     {
-        field_208_transition_obj->field_6_flags.Set(BaseGameObject::eDead);
+        field_208_transition_obj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_20C)
     {
-        field_20C->field_6_flags.Set(BaseGameObject::eDead);
+        field_20C->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (field_210_pUnknown)
     {
-        field_210_pUnknown->field_6_flags.Set(BaseGameObject::eDead);
+        field_210_pUnknown->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
     return 0;
 }
@@ -1907,9 +1907,9 @@ EXPORT signed int MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD i
 
             while (sMovie_ref_count_BB4AE4)
             {
-                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
+                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!(pMovie->field_6_flags.Get(BaseGameObject::eDead) && (!sNum_CamSwappers_5C1B66 || (pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))))
+                    if (!(pMovie->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (!sNum_CamSwappers_5C1B66 || (pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))))
                     {
                         pMovie->VUpdate();
                     }
@@ -2104,17 +2104,17 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
 
         if (field_208_transition_obj)
         {
-            field_208_transition_obj->field_6_flags.Set(Options::eDead);
+            field_208_transition_obj->field_6_flags.Set(Options::eDead_Bit3);
         }
         if (field_20C)
         {
-            field_20C->field_6_flags.Set(Options::eDead);
+            field_20C->field_6_flags.Set(Options::eDead_Bit3);
         }
         if (field_210_pUnknown)
         {
-            field_210_pUnknown->field_6_flags.Set(Options::eDead);
+            field_210_pUnknown->field_6_flags.Set(Options::eDead_Bit3);
         }
-        field_6_flags.Set(Options::eDead);
+        field_6_flags.Set(Options::eDead_Bit3);
 
         demoId = word_5C1B9E;
         if (word_5C1B9C <= 0)
@@ -3203,9 +3203,9 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             // Run the movie till its done
             while (sMovie_ref_count_BB4AE4 > 0)
             {
-                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
+                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead) == false && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))
+                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead_Bit3) == false && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         pMovie->VUpdate();
                     }
@@ -3235,9 +3235,9 @@ signed int MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             // Run the movie till its done
             while (sMovie_ref_count_BB4AE4 > 0)
             {
-                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable))
+                if (pMovie->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead) == false && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap)))
+                    if (pMovie->field_6_flags.Get(BaseGameObject::eDead_Bit3) == false && (!sNum_CamSwappers_5C1B66 || pMovie->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         pMovie->VUpdate();
                     }
@@ -3428,7 +3428,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             break;
 
         case 9: // ??
-            field_6_flags.Clear(BaseGameObject::eUpdateDuringCamSwap);
+            field_6_flags.Clear(BaseGameObject::eUpdateDuringCamSwap_Bit10);
             field_22C_T80 = 15;
             
             if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, FALSE, FALSE))

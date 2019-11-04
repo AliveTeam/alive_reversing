@@ -338,7 +338,7 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
     pParamite->field_20_animation.field_92_current_frame = pState->field_26_anim_current_frame;
     pParamite->field_20_animation.field_E_frame_change_counter = pState->field_28;
 
-    pParamite->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2B_bit8 & 1);
+    pParamite->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bit8 & 1);
 
     pParamite->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_22_flip_x & 1);
     pParamite->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2A_anim_bit4 & 1);
@@ -427,7 +427,7 @@ int Paramite::vGetSaveState_48F220(Paramite_State* pState)
     pState->field_24_current_motion = field_106_current_motion;
     pState->field_26_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_28 = field_20_animation.field_E_frame_change_counter;
-    pState->field_2B_bit8 = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2B_bit8 = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_anim_bit4 = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_health = field_10C_health;
     pState->field_30_current_motion = field_106_current_motion;
@@ -593,7 +593,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (!pObj)
@@ -829,7 +829,7 @@ __int16 Paramite::AI_Patrol_State_12(BaseAliveGameObject* pObj)
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return field_12C_brain_ret;
         }
     }
@@ -1331,7 +1331,7 @@ __int16 Paramite::AI_Death_1_484CD0()
     {
         if (!field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
     else
@@ -1365,13 +1365,13 @@ __int16 Paramite::AI_Death_1_484CD0()
     {
         if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 
     if (field_CC_sprite_scale <= FP_FromInteger(0) || field_130_timer < static_cast<int>(sGnFrame_5C1B84))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return 100;
@@ -1383,7 +1383,7 @@ __int16 Paramite::AI_ChasingAbe_2_4859D0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (pObj && !pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) && (pObj->field_4_typeId != Types::eFleech_50 || pObj->field_10C_health > FP_FromInteger(0)))
@@ -1985,7 +1985,7 @@ __int16 Paramite::AI_SurpriseWeb_3_4851B0()
     auto pExistingWeb = static_cast<ParamiteWeb*>(sObjectIds_5C1B70.Find_449CF0(field_11C_web_id));
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     switch (field_12C_brain_ret)
@@ -2077,7 +2077,7 @@ __int16 Paramite::AI_UNKNOWN_4_48F8F0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     // NOTE: Some unused code removed from OG here - looked like paramite would have
@@ -2103,7 +2103,7 @@ __int16 Paramite::AI_SpottedMeat_5_486880()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (!pMeat || pMeat->VIsFalling_49E330())
@@ -2167,7 +2167,7 @@ __int16 Paramite::AI_SpottedMeat_State_6(Meat* pMeat)
         return field_12C_brain_ret;
     }
 
-    pMeat->field_6_flags.Set(BaseGameObject::eDead);
+    pMeat->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     field_118 = -1;
     field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
     SetBrain(&Paramite::AI_Patrol_0_4835B0);
@@ -2446,7 +2446,7 @@ __int16 Paramite::AI_Possessed_6_484BC0()
         {
             if (sControlledCharacter_5C1B8C != this)
             {
-                field_6_flags.Set(BaseGameObject::eDead);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
         }
 
@@ -2510,7 +2510,7 @@ __int16 Paramite::AI_DeathDrop_7_484FF0()
             gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
         }
 
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return field_12C_brain_ret;
     }
 }
@@ -4005,7 +4005,7 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
                 if (pFleech)
                 {
                     pFleech->VTakeDamage_408730(this);
-                    pFleech->field_6_flags.Set(BaseGameObject::eDead);
+                    pFleech->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
             }
 
@@ -4511,7 +4511,7 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
             {
                 if (field_178_flags.Get(Flags_178::eBit6))
                 {
-                    field_6_flags.Set(BaseGameObject::eDead);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
             }
         }
@@ -4983,7 +4983,7 @@ void Paramite::M_Eating_40_48A0F0()
             if (pFleech)
             {
                 pFleech->VTakeDamage_408730(this);
-                pFleech->field_6_flags.Set(BaseGameObject::eDead);
+                pFleech->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
             else
             {
@@ -4995,7 +4995,7 @@ void Paramite::M_Eating_40_48A0F0()
                     {
                         pBlood->ctor_40F0B0(pSlurg->field_B8_xpos, pSlurg->field_BC_ypos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 30);
                     }
-                    pSlurg->field_6_flags.Set(BaseGameObject::eDead);
+                    pSlurg->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
                 else
                 {
@@ -5125,7 +5125,7 @@ void Paramite::dtor_487FC0()
     BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(field_11C_web_id);
     if (pObj)
     {
-        pObj->field_6_flags.Set(BaseGameObject::eDead);
+        pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_11C_web_id = -1;
     }
 
@@ -5231,7 +5231,7 @@ void Paramite::vUpdate_4871B0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     const FP xDelta = FP_Abs(field_B8_xpos- sControlledCharacter_5C1B8C->field_B8_xpos);
@@ -5241,11 +5241,11 @@ void Paramite::vUpdate_4871B0()
     {
         if (field_178_flags.Get(Flags_178::eBit4) && field_178_flags.Get(Flags_178::eBit6))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         else if (pMeat)
         {
-            if (pMeat->VIsFalling_49E330() || pMeat->field_6_flags.Get(BaseGameObject::eDead))
+            if (pMeat->VIsFalling_49E330() || pMeat->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
                 field_118 = -1;
                 field_108_next_motion = 0;
@@ -5556,7 +5556,7 @@ __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)
             pGibs->ctor_40FB40(2, field_B8_xpos, field_BC_ypos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
         }
         field_10C_health = FP_FromInteger(0);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
         if (sControlledCharacter_5C1B8C != this)
         {

@@ -648,7 +648,7 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
                 break;
             }
 
-            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
             {
                 pDataIter += pObj->VGetSaveState(pDataIter);
             }
@@ -904,7 +904,7 @@ namespace Test
         Compare([](Abe& abe) { abe.field_E0_pShadow->field_14_flags.Set(Shadow::eBit1_ShadowAtBottom); }, Abe_SaveState::Flags_D6::eD6_Bit1);
 
         Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimFlipX, 1); });
-        Compare([](Abe& abe) { abe.field_6_flags.Set(BaseGameObject::eDrawable); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bDrawable, 1); });
+        Compare([](Abe& abe) { abe.field_6_flags.Set(BaseGameObject::eDrawable_Bit4); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bDrawable, 1); });
         Compare([](Abe& abe) { abe.field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bAnimRender, 1); });
         Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit7_Electrocuted); }, [](Abe_SaveState& state) { ASSERT_EQ(state.bElectrocuted, 1); });
         Compare([](Abe& abe) { abe.field_114_flags.Set(Flags_114::e114_Bit8_bInvisible); }, [](Abe_SaveState& state) { ASSERT_EQ(state.word42, 1); });

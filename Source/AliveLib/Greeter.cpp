@@ -42,7 +42,7 @@ EXPORT Greeter* Greeter::ctor_4465B0(Path_Greeter* pTlv, int tlvInfo)
     }
 
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     if (pTlv->field_14_direction == 0)
     {
@@ -193,7 +193,7 @@ int CC Greeter::CreateFromSaveState_446040(const BYTE* pBuffer)
     pGreeter->field_20_animation.field_92_current_frame = pState->field_20_current_frame;
     pGreeter->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
 
-    pGreeter->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_25_bDrawable & 1);
+    pGreeter->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
 
     pGreeter->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
 
@@ -246,7 +246,7 @@ int Greeter::vGetSaveState_446400(Greeter_State* pState)
 
     pState->field_20_current_frame = field_20_animation.field_92_current_frame;
     pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_28_tlvInfo = field_118_tlvInfo;
     pState->field_2C = field_120;
@@ -288,14 +288,14 @@ void Greeter::vScreenChanged_447DD0()
         const FP xDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_B8_xpos - field_B8_xpos);
         if (xDistFromPlayer > FP_FromInteger(356))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 
         const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->field_BC_ypos  - field_BC_ypos);
         if (yDistFromPlayer > FP_FromInteger(240))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
     }
@@ -317,7 +317,7 @@ void Greeter::dtor_4468E0()
     BaseGameObject* pMotionDetector = sObjectIds_5C1B70.Find_449CF0(field_11C_motionDetectorId);
     if (pMotionDetector)
     {
-        pMotionDetector->field_6_flags.Set(BaseGameObject::eDead);
+        pMotionDetector->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     dtor_4080B0();
 }
@@ -349,7 +349,7 @@ EXPORT void Greeter::BlowUp_447E50()
             0);
     }
 
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
     field_12E = 0;
 }
 
@@ -445,7 +445,7 @@ void Greeter::HandleRollingAlong_447860()
 
 EXPORT signed __int16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead) || FP_GetExponent(field_10C_health) == 0)
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3) || FP_GetExponent(field_10C_health) == 0)
     {
         return 0;
     }
@@ -674,7 +674,7 @@ void Greeter::vUpdate_4469B0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     switch (field_13C_state)

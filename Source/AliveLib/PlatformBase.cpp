@@ -69,7 +69,7 @@ void PlatformBase::AddDynamicCollision_4971C0(int maxW, int maxH, unsigned __int
 
     if (!ObjList_5C1B78->Push_Back(this))
     {
-        field_6_flags.Set(Options::eListAddFailed);
+        field_6_flags.Set(Options::eListAddFailed_Bit1);
     }
 }
 

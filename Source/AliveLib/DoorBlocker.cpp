@@ -11,7 +11,7 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, int tlvInfo)
     ctor_408240(0);
     SetVTable(this, 0x544A1C);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_11A_switch_id = pTlv->field_12_id;
 
@@ -40,7 +40,7 @@ DoorBlocker* DoorBlocker::ctor_41F0A0(Path_DoorBlocker* pTlv, int tlvInfo)
 
     if (SwitchStates_Get_466020(field_11A_switch_id))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     field_DC_bApplyShadows |= 2u;
@@ -69,16 +69,16 @@ void DoorBlocker::vUpdate_41F250()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (!field_6_flags.Get(BaseGameObject::eDead))
+    if (!field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         if (field_118_bDone & 1)
         {
             if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_6_flags.Set(BaseGameObject::eDead);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
         }
         else if (SwitchStates_Get_466020(field_11A_switch_id))

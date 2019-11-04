@@ -129,7 +129,7 @@ void DDCheat::Menu_Teleport_415E20()
         sDDCheat_FlyingEnabled_5C2C08 = true;
         
         gMap_5C3030.SetActiveCam_480D30(static_cast<LevelIds>(sTeleport_Level_550F5C), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-        field_3C_flags |= 0x4u;
+        field_3C_flags.Set(DDCheat::Flags_3C::eOnTeleport_Bit3);
     }
 }
 
@@ -185,9 +185,9 @@ DDCheat* DDCheat::ctor_4153C0()
 {
     BaseGameObject_ctor_4DBFA0(1, 0);
     SetVTable(this, 0x544518);
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
-    field_3C_flags &= 0xFFF8u;
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
     field_4_typeId = Types::eDDCheat_19;
     field_20 = 0;
     field_24_fn_idx = 0;
@@ -279,9 +279,9 @@ void DDCheat::Update_415780()
 
     if (sCommandLine_DDCheatEnabled_5CA4B5)
     {
-        if (field_3C_flags & 4) // On Teleport?
+        if (field_3C_flags.Get(DDCheat::Flags_3C::eOnTeleport_Bit3))
         {
-            field_3C_flags &= ~0x4;
+            field_3C_flags.Clear(DDCheat::Flags_3C::eOnTeleport_Bit3);
             if (sActiveHero_5C1B68)
             {
                 PSX_Point pos;
@@ -295,7 +295,7 @@ void DDCheat::Update_415780()
                 sDDCheat_FlyingEnabled_5C2C08 = false;
                 sControlledCharacter_5C1B8C->field_100_pCollisionLine = nullptr;
                 sControlledCharacter_5C1B8C->field_F8_LastLineYPos = sControlledCharacter_5C1B8C->field_BC_ypos;
-                field_3C_flags &= ~0x1;
+                field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit1);
             }
         }
 
@@ -431,10 +431,10 @@ void DDCheat::Update_415780()
 
         if (field_38_input_pressed & InputCommands::ePause)
         {
-            field_3C_flags ^= ((unsigned __int8)field_3C_flags ^ (unsigned __int8)~(unsigned __int8)field_3C_flags) & 1;
+            field_3C_flags.Toggle(DDCheat::Flags_3C::e3C_Bit1);
         }
 
-        if (field_3C_flags & 1)
+        if (field_3C_flags.Get(DDCheat::Flags_3C::e3C_Bit1))
         {
             if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommands::eCheatMode)
             {
@@ -442,7 +442,7 @@ void DDCheat::Update_415780()
             }
             else if (field_38_input_pressed & InputCommands::eCheatMode)
             {
-                field_3C_flags = field_3C_flags ^ ((unsigned __int8)field_3C_flags ^ (unsigned __int8)~(BYTE)field_3C_flags) & 2;
+                field_3C_flags.Toggle(DDCheat::Flags_3C::e3C_Bit2);
                 field_26_next_fn_idx = field_24_fn_idx;
             }
 
@@ -460,8 +460,8 @@ void DDCheat::Update_415780()
 
                 if (field_38_input_pressed & InputCommands::eUnPause_OrConfirm)
                 {
-                    //field_24_fn_idx = field_26_next_fn_idx;
-                    field_3C_flags &= ~0x2;
+                    //field_24_fn_idx = field_26_next_fn_idx; TODO
+                    field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit2);
                 }
 
                 if (field_26_next_fn_idx < 0)

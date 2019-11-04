@@ -246,7 +246,7 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     const CameraPos direction = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_140_x, field_144_y);
@@ -338,7 +338,7 @@ EXPORT void TrapDoor::vScreenChanged_4DDE40()
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         if (field_13E_set_switch_on_dead)
         {
             SwitchStates_Set_465FF0(field_134_switch_idx, field_138_switch_state == 0);
@@ -409,7 +409,7 @@ void TrapDoor::Open_4DD960()
         }
 
         // Find alive objects..
-        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+        if (pObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // That are on this trap door
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);

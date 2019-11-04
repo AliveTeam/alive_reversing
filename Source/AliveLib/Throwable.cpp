@@ -125,7 +125,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
 
 void BaseThrowable::vToDead_4114B0()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
     field_11A_bDead = 1;
 }
 

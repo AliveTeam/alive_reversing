@@ -172,7 +172,7 @@ void ZapLine::vScreenChanged_4CDBE0()
 {
     if (gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -377,7 +377,7 @@ void ZapLine::vUpdate_4CD790()
         State_2_4_4CD650();
         if (field_126_alive_timer >= field_128_max_alive_time && field_12A_type != 1)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 

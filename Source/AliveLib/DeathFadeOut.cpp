@@ -129,7 +129,7 @@ void DeathFadeOut::vRender_427210(int** pOt)
             {
                 if (field_80_destroy_on_done)
                 {
-                    field_6_flags.Set(BaseGameObject::eDead);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
             }
         }

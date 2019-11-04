@@ -309,7 +309,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
     pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
     pFleech->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
 
-    pFleech->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_2F_bDrawable & 1);
+    pFleech->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
     if (IsLastFrame(&pFleech->field_20_animation))
     {
@@ -414,7 +414,7 @@ int Fleech::vGetSaveState_42FF80(Fleech_State* pState)
     pState->field_28_current_motion = field_106_current_motion;
     pState->field_2A_anim_current_frame = field_20_animation.field_92_current_frame;
     pState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
-    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2F_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2E_bRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = field_10C_health;
     pState->field_34_current_motion = field_106_current_motion;
@@ -1300,7 +1300,7 @@ void Fleech::vUpdate_42AB20()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if ((FP_Abs(field_B8_xpos - sControlledCharacter_5C1B8C->field_B8_xpos) <= FP_FromInteger(750) &&
@@ -1317,7 +1317,7 @@ void Fleech::vUpdate_42AB20()
 
         if (field_BC_ypos < FP_FromInteger(0))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
 
         const FP oldY = field_BC_ypos;
@@ -1366,7 +1366,7 @@ void Fleech::vUpdate_42AB20()
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -1632,7 +1632,7 @@ void Fleech::vScreenChanged_42A4C0()
         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_11C_obj_id = -1;
         field_170_danger_obj = -1;
     }
@@ -1645,7 +1645,7 @@ void Fleech::vOn_Tlv_Collision_42AAB0(Path_TLV* pTlv)
         if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
             field_10C_health = FP_FromInteger(0);
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, field_B8_xpos, field_BC_ypos, field_B8_xpos, field_BC_ypos);
     }
@@ -1662,7 +1662,7 @@ __int16 Fleech::IsScrabOrParamiteNear_42B440(FP radius)
             break;
         }
 
-        if (pBaseObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject))
+        if (pBaseObj->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pObj = static_cast<BaseAliveGameObject*>(pBaseObj);
             if ((pObj->field_4_typeId == Types::eScrab_112 || pObj->field_4_typeId == Types::eParamite_96) && pObj->field_10C_health > FP_FromInteger(0))
@@ -1764,7 +1764,7 @@ void Fleech::Init_42A170()
 
     field_4_typeId = Types::eFleech_50;
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
     field_174_flags.Clear(Flags_174::eBit3);
@@ -2358,7 +2358,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
                 field_CC_sprite_scale, 50);
         }
 
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     break;
 
@@ -2417,13 +2417,13 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         SetAnim_429D80();
         field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
         field_174_flags.Set(Flags_174::eBit3);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         sFleechCount_5BC20E--;
     }
     break;
 
     case Types::eElectrocute_150:
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         field_10C_health = FP_FromInteger(0);
         field_124_brain_state = eFleechBrains::eAI_Death_3_42D1E0;
         break;
@@ -2842,7 +2842,7 @@ __int16 Fleech::AI_Patrol_0_430BA0()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (!pTarget ||
-        pTarget->field_6_flags.Get(BaseGameObject::eDead) ||
+        pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3) ||
         pTarget->field_10C_health <= FP_FromInteger(0) ||
         pTarget->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
     {
@@ -3392,7 +3392,7 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_11C_obj_id));
     if (pObj)
     {
-        if (pObj->field_6_flags.Get(BaseGameObject::eDead) ||
+        if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) ||
             pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             field_11C_obj_id = -1;
@@ -4119,7 +4119,7 @@ __int16 Fleech::AI_Scared_2_42D310()
     pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
     if (pDangerObj)
     {
-        if (pDangerObj->field_6_flags.Get(BaseGameObject::eDead))
+        if (pDangerObj->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             field_170_danger_obj = -1;
             pDangerObj = 0;
@@ -4484,7 +4484,7 @@ __int16 Fleech::AI_Death_3_42D1E0()
 
     if (field_CC_sprite_scale < FP_FromInteger(0))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return 100;

@@ -42,7 +42,7 @@ DeathGas* DeathGas::ctor_43C030(__int16 layer, __int16 amount)
 
     field_4_typeId = Types::eMainMenuTransistion_116; // wot moment
     gObjList_drawables_5C1124->Push_Back(this);
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     field_26_flag = 0;
 
     Init_SetTPage_4F5B60(&gGasTPages_5BC6C8[0], 0, 1, PSX_getTPage_4F60E0(2, 1, 0, 0));
@@ -128,7 +128,7 @@ void DeathGas::vScreenChanged_43CA50()
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
         sActiveHero_5C1B68 == spAbe_554D5C)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -136,7 +136,7 @@ void DeathGas::vUpdate_43C300()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (!field_26_flag)

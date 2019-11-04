@@ -68,5 +68,5 @@ void BackgroundMusic::Update_4CB1A0()
         }
         sBackgroundMusic_seq_id_560F78 = field_20_music_id;
     }
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

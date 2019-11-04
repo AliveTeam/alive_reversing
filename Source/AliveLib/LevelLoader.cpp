@@ -37,7 +37,7 @@ void LevelLoader::vUpdate_4DD400()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {

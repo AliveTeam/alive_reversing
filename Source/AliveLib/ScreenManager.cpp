@@ -465,8 +465,8 @@ ScreenManager* ScreenManager::ctor_40E3E0(BYTE** ppBits, FP_Point* pCameraOffset
     BaseGameObject_ctor_4DBFA0(1, 0);
     field_20_pCamPos = pCameraOffset;
 
-    field_6_flags.Set(BaseGameObject::eSurviveDeathReset);
-    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap);
+    field_6_flags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    field_6_flags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     SetVTable(this, 0x5441E4);
 

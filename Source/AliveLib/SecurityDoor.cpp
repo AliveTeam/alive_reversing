@@ -113,7 +113,7 @@ void SecurityDoor::dtor_4AC260()
 
 void SecurityDoor::vScreenChanged_4AC970()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 SecurityDoor* SecurityDoor::vdtor_4AC230(signed int flags)
@@ -148,7 +148,7 @@ void SecurityDoor::vUpdate_4AC380()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     switch (field_F8_state)

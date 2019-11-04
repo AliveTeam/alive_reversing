@@ -47,7 +47,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     field_4_typeId = Types::eType_104;
     field_288_target_obj_id = -1;
     gObjList_drawables_5C1124->Push_Back(this);
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_28_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_Wave, sGnFrame_5C1B84, sizeof(AbilityRing_PolyBuffer) * 64);
     if (field_28_ppRes)
@@ -243,7 +243,7 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     return this;
@@ -331,7 +331,7 @@ void AbilityRing::vUpdate_49D160()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_288_target_obj_id));
     if (pTarget)
     {
-        if (pTarget->field_6_flags.Get(BaseGameObject::eDead))
+        if (pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             field_288_target_obj_id = -1;
         }
@@ -376,7 +376,7 @@ void AbilityRing::vUpdate_49D160()
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         return;
 
@@ -405,7 +405,7 @@ void AbilityRing::vUpdate_49D160()
 
         if (FP_GetExponent(field_254_left) > field_26C_fade)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         break;
 
@@ -416,7 +416,7 @@ void AbilityRing::vUpdate_49D160()
         field_254_left = field_258_right - field_268_ring_thickness;
         if (field_258_right - field_268_ring_thickness < FP_FromInteger(0))
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             field_254_left = FP_FromInteger(0);
             SFX_Play_46FA90(0x54u, 0);
             if (field_284_ring_type == RingTypes::eExplosive_Give_3)
@@ -456,7 +456,7 @@ void AbilityRing::CollideWithObjects_49D5E0(__int16 bDealDamage)
         PSX_RECT bRect = {};
         pObj->vGetBoundingRect_424FD0(&bRect, 1);
 
-        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+        if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
         {
             for (int j = 0; j < field_28C_count; j++)
             {
@@ -604,7 +604,7 @@ void AbilityRing::vScreenChanged_49DE70()
             }
         }
     }
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 int AbilityRing::vGetSaveState_49E070(AbilityRing_State* pSaveState)

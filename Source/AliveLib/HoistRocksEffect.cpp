@@ -59,7 +59,7 @@ HoistRocksEffect* HoistRocksEffect::ctor_45D270(Path_Hoist* pTlv, int tlvInfo)
 
     if (gObjList_drawables_5C1124->Push_Back(this))
     {
-        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
     }
 
     BYTE** ppAnimData = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kDrpRockResID);
@@ -236,5 +236,5 @@ void HoistRocksEffect::Render_45D7B0(int** pOrderingTable)
 
 void HoistRocksEffect::vScreenChanged_45D790()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

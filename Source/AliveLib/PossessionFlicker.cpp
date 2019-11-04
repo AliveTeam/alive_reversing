@@ -99,7 +99,7 @@ void PossessionFlicker::vScreenChanged_431C80()
 {
     if (!sObjectIds_5C1B70.Find_449CF0(field_30_obj_id))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -108,7 +108,7 @@ void PossessionFlicker::vUpdate_431BC0()
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_30_obj_id));
     if (!pToApplyFlicker || static_cast<int>(sGnFrame_5C1B84) > field_20_time_to_flicker)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 

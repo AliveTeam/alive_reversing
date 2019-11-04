@@ -84,7 +84,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     field_F4_anim_segment_count = (field_F6_piece_length + field_FA_bottom - field_F8_top) / field_F6_piece_length;
@@ -125,7 +125,7 @@ ParamiteWebLine* ParamiteWebLine::ctor_4E1FC0(Path_ParamiteWebLine* pTlv, int tl
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eListAddFailed);
+        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
     return this;
 }
@@ -311,5 +311,5 @@ void ParamiteWebLine::vRender_4E2530(int** ppOt)
 
 void ParamiteWebLine::vScreenChanged_4E2BC0()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

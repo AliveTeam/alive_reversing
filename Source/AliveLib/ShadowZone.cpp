@@ -141,7 +141,7 @@ ShadowZone* ShadowZone::vdtor_463A70(signed int flags)
 
 void ShadowZone::vScreenChanged_463CC0()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 __int16 ShadowZone::ApplysToScale_463C70(__int16 scale)
@@ -165,7 +165,7 @@ void ShadowZone::vUpdate_463C40()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

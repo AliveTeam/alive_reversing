@@ -154,7 +154,7 @@ FlyingSlig* FlyingSlig::ctor_4342B0(Path_FlyingSlig* pTlv, int tlvInfo)
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
-    field_6_flags.Set(BaseGameObject::eCanExplode);
+    field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
 
     field_14C_timer = 0;
     field_DC_bApplyShadows |= 2u;
@@ -393,7 +393,7 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
 
     pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2A_bAnimRender & 1);
     pFlyingSlig->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_22_bAnimFlipX & 1);
-    pFlyingSlig->field_6_flags.Set(BaseGameObject::eDrawable, pSaveState->field_2B_bDrawable & 1);
+    pFlyingSlig->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->field_2B_bDrawable & 1);
 
     if (IsLastFrame(&pFlyingSlig->field_20_animation))
     {
@@ -500,7 +500,7 @@ int FlyingSlig::vGetSaveState_43B1E0(FlyingSlig_State* pState)
     pState->field_26_current_frame = field_20_animation.field_92_current_frame;
     pState->field_28_frame_change_counter = field_20_animation.field_E_frame_change_counter;
 
-    pState->field_2B_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_2B_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_current_health = field_10C_health;
     pState->field_30_current_state = field_106_current_motion;
@@ -655,7 +655,7 @@ void FlyingSlig::vScreenChanged_434C10()
         (this != sControlledCharacter_5C1B8C ||
         field_17E_flags.Get(Flags_17E::eBit13_Persistant)))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 
@@ -704,7 +704,7 @@ void FlyingSlig::vUpdate_434AD0()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -1134,7 +1134,7 @@ void FlyingSlig::AI_Death_1_4364E0()
 {
     if (static_cast<int>(sGnFrame_5C1B84) >= field_14C_timer)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         Event_Broadcast_422BC0(kEventMudokonComfort, this);
     }
 }

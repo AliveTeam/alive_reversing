@@ -121,11 +121,11 @@ void ScrabSpawner::vUpdate_4AB510()
     }
 
     auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds_5C1B70.Find_449CF0(field_3C_spawned_scrab_id));
-    if (!Event_Get_422C00(kEventDeathReset) && !(field_6_flags.Get(BaseGameObject::eDead)))
+    if (!Event_Get_422C00(kEventDeathReset) && !(field_6_flags.Get(BaseGameObject::eDead_Bit3)))
     {
         if (field_38_state == 1)
         {
-            if (!pExistingSpawnedScrab || pExistingSpawnedScrab->field_6_flags.Get(BaseGameObject::eDead))
+            if (!pExistingSpawnedScrab || pExistingSpawnedScrab->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
                 SwitchStates_Do_Operation_465F00(field_24_switch_id, SwitchOp::eSetFalse_1);
                 field_3C_spawned_scrab_id = -1;
@@ -155,7 +155,7 @@ void ScrabSpawner::vUpdate_4AB510()
                 }
                 else
                 {
-                    field_6_flags.Set(BaseGameObject::eDead);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
                 }
             }
         }

@@ -208,7 +208,7 @@ namespace Alive
             const char c = text[i];
             int charIndex = 0;
 
-            if (c <= 32 || c > 175)
+            if (c <= 32 || static_cast<const unsigned char>(c) > 175)
             {
                 if (c < 7 || c > 31)
                 {

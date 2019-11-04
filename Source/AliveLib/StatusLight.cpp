@@ -160,5 +160,5 @@ void StatusLight::dtor_4D5790()
 
 void StatusLight::vScreenChanged_4D5820()
 {
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }

@@ -55,7 +55,7 @@ void UXB::InitBlinkAnim_4DEED0(Animation *pAnimation)
     }
     else
     {
-        field_6_flags.Set(Options::eListAddFailed);
+        field_6_flags.Set(Options::eListAddFailed_Bit1);
     }
 }
 
@@ -153,7 +153,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.sCurrentLevelId_5C3030);
 
-    field_6_flags.Set(BaseGameObject::Options::eInteractive);
+    field_6_flags.Set(BaseGameObject::Options::eInteractive_Bit8);
     field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit0);
     field_118_state = 0;
 
@@ -265,7 +265,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-    field_6_flags.Set(Options::eInteractive);
+    field_6_flags.Set(Options::eInteractive_Bit8);
     field_DC_bApplyShadows |= 2u;
 
     field_E4_collection_rect.x = field_B8_xpos - (gridSnap / FP_FromDouble(2.0));
@@ -320,13 +320,13 @@ void UXB::vOnThrowableHit_4DF7B0(BaseGameObject* /*pFrom*/)
     }
 
     field_118_state = 2;
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
     field_124_next_state_frame = sGnFrame_5C1B84;
 }
 
 __int16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 0;
     }
@@ -351,7 +351,7 @@ __int16 UXB::vTakeDamage_4DF850(BaseGameObject* pFrom)
         return 0;
     }
 
-    field_6_flags.Set(BaseGameObject::eDead);
+    field_6_flags.Set(BaseGameObject::eDead_Bit3);
 
     auto pMem = alive_new<BaseBomb>();
     if (pMem)
@@ -384,7 +384,7 @@ void UXB::dtor_4DEF60()
 
     field_128_animation.vCleanUp_40C630();
 
-    field_6_flags.Clear(Options::eInteractive);
+    field_6_flags.Clear(Options::eInteractive_Bit8);
 
     dtor_4080B0();
 }
@@ -414,7 +414,7 @@ void UXB::Update_4DF030()
                 {
                     explosion->ctor_423E70(field_B8_xpos, field_BC_ypos, 0, field_CC_sprite_scale);
                 }
-                field_6_flags.Set(Options::eDead);
+                field_6_flags.Set(Options::eDead_Bit3);
             }
         }
         else if (IsColliding_4DF630())
@@ -501,7 +501,7 @@ void UXB::Update_4DF030()
             {
                 Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
             }
-            field_6_flags.Set(Options::eDead);
+            field_6_flags.Set(Options::eDead_Bit3);
         }
     }
 }
@@ -553,18 +553,18 @@ void UXB::ScreenChanged_4DF9C0()
             if (field_11A_starting_state || field_118_state != 3)
             {
                 Path::TLV_Reset_4DB8E0(field_120_tlv.all, 0, 1, 0);
-                field_6_flags.Set(Options::eDead);
+                field_6_flags.Set(Options::eDead_Bit3);
             }
             else
             {
                 Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
-                field_6_flags.Set(Options::eDead);
+                field_6_flags.Set(Options::eDead_Bit3);
             }
         }
         else
         {
             Path::TLV_Reset_4DB8E0(field_120_tlv.all, 1, 1, 0);
-            field_6_flags.Set(Options::eDead);
+            field_6_flags.Set(Options::eDead_Bit3);
         }
     }
 }

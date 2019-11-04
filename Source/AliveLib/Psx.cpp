@@ -706,14 +706,15 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
         const WORD* pLineStart = &pVramIter[rect->w];
         while (pVramIter < pLineStart)
         {
-            const WORD vram_pixel = *pVramIter;
+            const auto vram_pixel = static_cast<unsigned int>(*pVramIter);
             ++pVramIter;
+
+            unsigned int shiftedRed = (vram_pixel >> sRedShift_C215C4) & 0x1F;
+            unsigned int shiftedGreen = (vram_pixel >> sGreenShift_C1D180) & 0x1F;
+            unsigned int shiftedBlue = (vram_pixel >> sBlueShift_C19140) & 0x1F;
+            unsigned int shiftedTrans = (vram_pixel >> sSemiTransShift_C215C0);
             // Convert and store pixel value
-            *(pDstIter) =
-                ((unsigned int)vram_pixel >> sRedShift_C215C4) & 0x1F
-                | 32 * (((unsigned int)vram_pixel >> sGreenShift_C1D180) & 0x1F
-                    | 32 * (((unsigned int)vram_pixel >> sBlueShift_C19140) & 0x1F
-                        | 32 * ((unsigned int)vram_pixel >> sSemiTransShift_C215C0)));
+            *(pDstIter) = static_cast<WORD>(shiftedRed | 32 * (shiftedGreen | 32 * (shiftedBlue | 32 * (shiftedTrans))));
 
             ++pDstIter;
             lineRemainder = count;

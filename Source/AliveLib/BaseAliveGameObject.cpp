@@ -79,7 +79,7 @@ EXPORT BaseAliveGameObject* BaseAliveGameObject::ctor_408240(short resourceArray
 
     gBaseAliveGameObjects_5C1B7C->Push_Back(this);
 
-    field_6_flags.Set(BaseGameObject::eIsBaseAliveGameObject);
+    field_6_flags.Set(BaseGameObject::eIsBaseAliveGameObject_Bit6);
 
     return this;
 }

@@ -211,7 +211,7 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
     pGlukkon->field_20_animation.Set_Animation_Data_409C80(dword_554524[static_cast< int >( glukType )][pSaveState->field_28_current_motion], 0);
     pGlukkon->field_20_animation.field_92_current_frame = pSaveState->field_2A_current_frame;
     pGlukkon->field_20_animation.field_E_frame_change_counter = pSaveState->field_2C_frame_change_counter;
-    pGlukkon->field_6_flags.Set(BaseGameObject::Options::eDrawable, pSaveState->field_2F & 1);
+    pGlukkon->field_6_flags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F & 1);
     pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
     pGlukkon->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pSaveState->field_2E & 1);
 
@@ -374,7 +374,7 @@ int Glukkon::vGetSaveState_444B90(BYTE* pSaveBuffer)
     pSaveState->field_2C_frame_change_counter = field_20_animation.field_E_frame_change_counter;
     pSaveState->field_26_flipX = field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX);
     pSaveState->field_2E = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
-    pSaveState->field_2F = field_6_flags.Get(BaseGameObject::Options::eDrawable);
+    pSaveState->field_2F = field_6_flags.Get(BaseGameObject::Options::eDrawable_Bit4);
     pSaveState->field_30_health = field_10C_health;
     pSaveState->field_34_current_motion = field_106_current_motion;
     pSaveState->field_36_next_motion = field_108_next_motion;
@@ -1750,7 +1750,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
 
             if (pObj->field_4_typeId == Types::eSlig_125)
             {
-                pObj->field_6_flags.Set(BaseGameObject::eDead);
+                pObj->field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
         }
 
@@ -2012,7 +2012,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
             return field_210;
         }
 
-        field_6_flags.Set(BaseGameObject::eDrawable);
+        field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
         field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
         field_4_typeId = Types::eGlukkon_67;
@@ -2069,7 +2069,7 @@ void Glukkon::Init_43F260()
     field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
     field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
 
-    field_6_flags.Set(BaseGameObject::eDrawable);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetTint_425600(&stru_5546B4[0], gMap_5C3030.sCurrentLevelId_5C3030);
     field_B8_xpos = FP_FromInteger((field_1A8_tlvData.field_8_top_left.field_0_x  + field_1A8_tlvData.field_C_bottom_right.field_0_x) / 2);
@@ -2093,7 +2093,7 @@ void Glukkon::Init_43F260()
             field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
         }
         field_114_flags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
-        field_6_flags.Clear(BaseGameObject::eDrawable);
+        field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
         SetBrain(&Glukkon::AI_5_WaitToSpawn_442490);
         field_210 = 0;
         field_4_typeId = Types::eNone_0;
@@ -2183,7 +2183,7 @@ void Glukkon::dtor_43F570()
         Path::TLV_Reset_4DB8E0(field_214_tlv_info, -1, 0, 0);
     }
 
-    field_6_flags.Set(BaseGameObject::eDrawable); // Seems wrong to do this here ??
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4); // Seems wrong to do this here ??
 
     if (this == sControlledCharacter_5C1B8C)
     {
@@ -2232,7 +2232,7 @@ void Glukkon::vUpdate_43F770()
 
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -2964,7 +2964,7 @@ void Glukkon::ToDead_43F640()
     if (field_1A8_tlvData.field_1C_spawn_id == 0)
     {
         // Don't spawn again, dead
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -3109,7 +3109,7 @@ void Glukkon::vScreenChanged_440110()
     SwitchStates_Do_Operation_465F00(field_1A8_tlvData.field_18_switch_id, SwitchOp::eSetFalse_1);
     if (BrainIs(&Glukkon::AI_5_WaitToSpawn_442490) && !field_210)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

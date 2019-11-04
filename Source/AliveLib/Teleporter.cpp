@@ -76,7 +76,7 @@ void Teleporter::vScreenChanged_4DCE80()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     field_32_bDestroySelf = 1;
 }
@@ -140,7 +140,7 @@ void Teleporter::vUpdate_4DC400()
     {
         if (field_32_bDestroySelf)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
 
         if (SwitchStates_Get_466020(field_34_mTlvData.field_1A_trigger_id) == field_2C_switch_state)
@@ -181,7 +181,7 @@ void Teleporter::vUpdate_4DC400()
         {
             if (pObj->VSub_4E6630() || field_54_effect_created)
             {
-                if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+                if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
                 {
                     return;
                 }
@@ -242,7 +242,7 @@ void Teleporter::vUpdate_4DC400()
                 field_54_effect_created = 1;
             }
 
-            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead)))
+            if (!(pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
             {
                 return;
             }

@@ -96,12 +96,12 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_44_objId));
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    if (!pTarget || pTarget->field_6_flags.Get(BaseGameObject::eDead))
+    if (!pTarget || pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
     else
     {
@@ -257,7 +257,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             break;
 
         case 6u:
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
 
         default:

@@ -36,11 +36,11 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     field_D2_g = 127;
     field_D0_r = 127;
 
-    field_6_flags.Clear(BaseGameObject::eInteractive);
-    field_6_flags.Clear(BaseGameObject::eCanExplode);
+    field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
+    field_6_flags.Clear(BaseGameObject::eCanExplode_Bit7);
 
-    field_6_flags.Set(BaseGameObject::eDrawable);
-    field_6_flags.Set(BaseGameObject::eIsBaseAnimatedWithPhysicsObj);
+    field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
+    field_6_flags.Set(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5);
 
     field_DC_bApplyShadows &= ~2;
     field_DC_bApplyShadows |= 1;
@@ -63,9 +63,9 @@ EXPORT void BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject
 {
     SetVTable(this, 0x544C9C); // gVtbl_BaseAnimatedWithPhysicsGameObject_544C9C
 
-    if (!field_6_flags.Get(BaseGameObject::eListAddFailed))
+    if (!field_6_flags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        if (field_6_flags.Get(BaseGameObject::eDrawable))
+        if (field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
         {
             gObjList_drawables_5C1124->Remove_Item(this);
             field_20_animation.vCleanUp_40C630();
@@ -209,14 +209,14 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(int frameTableOffs
         }
         else
         {
-            field_6_flags.Set(BaseGameObject::eDead);
-            field_6_flags.Set(BaseGameObject::eListAddFailed);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
+            field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
         }
     }
     else
     {
-        field_6_flags.Set(BaseGameObject::eDead);
-        field_6_flags.Set(BaseGameObject::eListAddFailed);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        field_6_flags.Set(BaseGameObject::eListAddFailed_Bit1);
     }
 
 }
@@ -514,10 +514,10 @@ void BaseAnimatedWithPhysicsGameObject::OnCollisionWith_424EE0(PSX_Point xy, PSX
             break;
         }
 
-        if (pElement->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj))
+        if (pElement->field_6_flags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
         {
             BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pElement);
-            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable))
+            if (pObj->field_6_flags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 PSX_RECT bRect = {};
                 pObj->GetBoundingRect_424FD0(&bRect, startingPointIdx);

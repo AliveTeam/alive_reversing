@@ -176,7 +176,7 @@ void Bullet::vUpdate_413560()
         !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos + FP_FromInteger(10), field_2C_ypos, 0) &&
         !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, field_28_xpos - FP_FromInteger(10), field_2C_ypos, 0))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
@@ -281,7 +281,7 @@ void Bullet::vUpdate_413560()
                             PlayBulletSounds(vol);
                         }
                     }
-                    field_6_flags.Set(BaseGameObject::eDead);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
                     return;
                 }
             }
@@ -315,7 +315,7 @@ void Bullet::vUpdate_413560()
             {
                 SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
             }
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 
@@ -374,7 +374,7 @@ void Bullet::vUpdate_413560()
                     PlayBulletSounds(vol);
                 }
             }
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
         }
 
@@ -382,7 +382,7 @@ void Bullet::vUpdate_413560()
         {
             SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), volume);
         }
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
@@ -402,7 +402,7 @@ void Bullet::vUpdate_413560()
                 if (pShootObj->field_4_typeId != Types::eGreeter_64 && pShootObj->field_4_typeId != Types::eMineCar_89)
                 {
                     PlayBulletSounds(90);
-                    field_6_flags.Set(BaseGameObject::eDead);
+                    field_6_flags.Set(BaseGameObject::eDead_Bit3);
                     return;
                 }
             }
@@ -425,7 +425,7 @@ void Bullet::vUpdate_413560()
             New_Particles_426C70(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
         }
         SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), 75);
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
@@ -476,12 +476,12 @@ void Bullet::vUpdate_413560()
             }
             SFX_Play_46FA90(static_cast<BYTE>(Math_RandomRange_496AB0(0, 1)), 75);
         }
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 
     default:
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         return;
     }
 }

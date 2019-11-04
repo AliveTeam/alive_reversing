@@ -145,7 +145,7 @@ void PullRingRope::dtor_49B660()
     BaseGameObject* pRope = sObjectIds_5C1B70.Find(field_F8_rope_id, Types::eLiftRope_108);
     if (pRope)
     {
-        pRope->field_6_flags.Set(BaseGameObject::eDead);
+        pRope->field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
@@ -158,11 +158,11 @@ void PullRingRope::vUpdate_49B720()
     
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     // Invalidate ring puller if they've died
-    if (pRingPuller && pRingPuller->field_6_flags.Get(BaseGameObject::eDead))
+    if (pRingPuller && pRingPuller->field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         field_FC_ring_puller_id = -1;
     }
@@ -281,7 +281,7 @@ void PullRingRope::vScreenChanged_49BCB0()
     // If the person pulling the rope is gone then so are we
     if (!sObjectIds_5C1B70.Find_449CF0(field_FC_ring_puller_id))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

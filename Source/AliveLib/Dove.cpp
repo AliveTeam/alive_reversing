@@ -264,7 +264,7 @@ void Dove::vUpdate_41FAE0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     if (!bTheOneControllingTheMusic_5BC112)
@@ -337,7 +337,7 @@ void Dove::vUpdate_41FAE0()
     {
         if (static_cast<int>(sGnFrame_5C1B84) > field_108_timer)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
 
         FP xOff = {};
@@ -401,7 +401,7 @@ void Dove::vUpdate_41FAE0()
         field_BC_ypos,
         0))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 }
 

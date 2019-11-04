@@ -153,7 +153,7 @@ int CC EvilFart::CreateFromSaveState_4281C0(const BYTE* pBuffer)
     pFart->field_20_animation.field_92_current_frame = pState->field_20_anim_cur_frame;
     pFart->field_20_animation.field_E_frame_change_counter = pState->field_22_frame_change_counter;
     
-    pFart->field_6_flags.Set(BaseGameObject::eDrawable, pState->field_25_bDrawable & 1);
+    pFart->field_6_flags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
     pFart->field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
 
     if (IsLastFrame(&pFart->field_20_animation))
@@ -193,7 +193,7 @@ int EvilFart::vGetSaveState_4283F0(EvilFart_State* pState)
     pState->field_20_anim_cur_frame = field_20_animation.field_92_current_frame;
     pState->field_22_frame_change_counter = field_20_animation.field_E_frame_change_counter;
     
-    pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable);
+    pState->field_25_bDrawable = field_6_flags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render);
 
     pState->field_26_level = field_120_level;
@@ -303,7 +303,7 @@ void EvilFart::ResetFartColour()
 
 __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
 {
-    if (field_6_flags.Get(BaseGameObject::eDead))
+    if (field_6_flags.Get(BaseGameObject::eDead_Bit3))
     {
         return 0;
     }
@@ -320,7 +320,7 @@ void EvilFart::vUpdate_423100()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
     field_11C_alive_timer--;
@@ -342,7 +342,7 @@ void EvilFart::vUpdate_423100()
 
         if (field_124_state == 0)
         {
-            field_6_flags.Set(BaseGameObject::eDead);
+            field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
         else
         {
@@ -355,7 +355,7 @@ void EvilFart::vUpdate_423100()
     if (field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_12C_back_to_abe_timer)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        field_6_flags.Set(BaseGameObject::eDead);
+        field_6_flags.Set(BaseGameObject::eDead_Bit3);
         gMap_5C3030.SetActiveCam_480D30(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
     }
 
