@@ -579,7 +579,6 @@ void Map::GoTo_Camera_481890()
         bShowLoadingIcon = TRUE;
     }
 
-
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
     {
         BaseGameObject* pFmvRet = FMV_Camera_Change_482650(nullptr, this, sCurrentLevelId_5C3030);
