@@ -3809,8 +3809,8 @@ __int16 Slig::AI_Chasing2_17_4BCBD0()
 
     if (field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032 ||
         field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 || 
-        Event_Get_422C00(kEventDeathReset) && 
-        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        (Event_Get_422C00(kEventDeathReset) && 
+        !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -3874,10 +3874,10 @@ __int16 Slig::AI_Turning_19_4BDDD0()
         return 106;
     }
     
-    if (field_106_current_motion == eSligMotions::M_TurnAroundStanding_5_4B6390 && 
-        field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame) || 
-        field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 && 
-        field_108_next_motion == -1)
+    if ((field_106_current_motion == eSligMotions::M_TurnAroundStanding_5_4B6390 && 
+        field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame)) || 
+        (field_106_current_motion == eSligMotions::M_StandIdle_0_4B4EC0 && 
+        field_108_next_motion == -1))
     {
         WaitOrWalk_4BE870();
         return 106;
@@ -4248,9 +4248,9 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
                 (pNoisyMud == sControlledCharacter_5C1B8C || pNoisyMud->field_4_typeId == Types::eMudokon_110) &&
                 vOnSameYLevel_425520(pNoisyMud) &&
                 vIsFacingMe_4254A0(pNoisyMud) &&
-                (pNoisyMud != sControlledCharacter_5C1B8C || !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
+                (pNoisyMud != sControlledCharacter_5C1B8C || (!sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
                     gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
-                    !Event_Get_422C00(kEventResetting)))
+                    !Event_Get_422C00(kEventResetting))))
             {
                 ToShoot_4BF9A0();
             }
@@ -5111,7 +5111,7 @@ void Slig::vScreenChanged_4B1E20()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || 
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId && this != sControlledCharacter_5C1B8C)
+        (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId && this != sControlledCharacter_5C1B8C))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -6705,8 +6705,8 @@ void Slig::ShootTurnTowardsOrKillSound_4B3140()
 
 __int16 CCSTD Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
 {
-    if ((pThis->field_4_typeId == Types::eAbe_69) && 
-        (pThis->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7) ||
+    if (((pThis->field_4_typeId == Types::eAbe_69) && 
+        (pThis->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7)) ||
         (pThis->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4))
     {
         return 1;

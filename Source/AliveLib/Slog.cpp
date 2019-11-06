@@ -3346,12 +3346,12 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(__int16 bKillSligs, __int16 bLookin
             case Types::eAbe_69:
             case Types::eMudokon_110:
             case Types::eSlig_125:
-                if (bKillSligs || !bKillSligs && 
+                if (bKillSligs || (!bKillSligs && 
                     (pObj->field_4_typeId == Types::eAbe_69 ||
                       pObj->field_4_typeId == Types::eCrawlingSlig_26 ||
                       pObj->field_4_typeId == Types::eFlyingSlig_54 ||
                       pObj->field_4_typeId == Types::eGlukkon_67 ||
-                      (pObj->field_4_typeId == Types::eMudokon_110 && static_cast<Mudokon*>(pObj)->field_18E_ai_state == Mud_AI_State::AI_ListeningToAbe_4_477B40)))
+                      (pObj->field_4_typeId == Types::eMudokon_110 && static_cast<Mudokon*>(pObj)->field_18E_ai_state == Mud_AI_State::AI_ListeningToAbe_4_477B40))))
                 {
                     PSX_RECT objRect = {};
                     pObj->vGetBoundingRect_424FD0(&objRect, 1);

@@ -202,7 +202,7 @@ public:
         return vOn_TLV_Collision_488640(pTlv);
     }
 
-    virtual void VOnTrapDoorOpen()
+    virtual void VOnTrapDoorOpen() override
     {
         vOnTrapDoorOpen_489F60();
     }
