@@ -4249,8 +4249,8 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
                 vOnSameYLevel_425520(pNoisyMud) &&
                 vIsFacingMe_4254A0(pNoisyMud) &&
                 ((pNoisyMud != sControlledCharacter_5C1B8C || !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
-                    gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)) &&
-                    !Event_Get_422C00(kEventResetting)))
+                    gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
+                    !Event_Get_422C00(kEventResetting))))
             {
                 ToShoot_4BF9A0();
             }
