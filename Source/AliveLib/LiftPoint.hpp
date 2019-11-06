@@ -17,7 +17,7 @@ struct Path_LiftPoint : public Path_TLV
 {
     __int16 field_10_id;
     __int16 field_12_bstart_point;
-    __int16 field_14_lift_type; // TODO: Enum
+    __int16 field_14_lift_type; // TODO: Not actually used
     LiftPointStopType field_16_lift_point_stop_type;
     __int16 field_18_scale;
     __int16 field_1A_bIgnore_lift_mover;
@@ -26,24 +26,23 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
 
 struct LiftPoint_State
 {
-    Types field_0;
-    __int16 field_2;
+    Types field_0_type;
+    __int16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
     int field_C_tlvInfo;
     int field_10_pTlv;
-    FP field_14;
-    LiftPointStopType field_18;
+    FP field_14_floorYLevel;
+    LiftPointStopType field_18_lift_point_stop_type;
     enum Flags
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
+        eBit1_bMoving = 0x1,
+        eBit2_bTopFloor = 0x2,
+        eBit3_bMiddleFloor = 0x4,
+        eBit4_bBottomFloor = 0x8,
+        eBit5_bMoveToFloorLevel = 0x10,
         eBit6 = 0x20,
-        eBit7 = 0x40,
-        eBit8 = 0x80,
+        eBit7_KeepOnMiddleFloor = 0x40,
     };
     BitField16<Flags> field_1A;
 };
@@ -89,9 +88,9 @@ private:
 public:
     __int16 field_12C_bMoving;
 private:
-    __int16 field_12E;
+    __int16 field_12E_pad;
     LiftPointStopType field_130_lift_point_stop_type;
-    __int16 field_132;
+    __int16 field_132_pad;
     int field_134_rope2_id;
     int field_138_rope1_id;
     Animation field_13C_lift_wheel;
@@ -103,8 +102,8 @@ private:
 public:
     BYTE field_278_lift_point_id;
 private:
-    char field_279;
-    __int16 field_27A;
+    char field_279_pad;
+    __int16 field_27A_pad;
     int field_27C_pTlv;
     enum LiftFlags
     {
@@ -113,11 +112,11 @@ private:
         eBit3_bBottomFloor = 0x4,
         eBit4_bHasPulley = 0x8,
         eBit5_bMoveToFloorLevel = 0x10,
-        eBit6 = 0x20,
+        eBit6 = 0x20, // This never seems to be used for anything
         eBit7_KeepOnMiddleFloor = 0x40,
         eBit8_bIgnoreLiftMover = 0x80,
     };
     BitField16<LiftFlags> field_280_flags;
-    __int16 field_282;
+    __int16 field_282_pad;
 };
 ALIVE_ASSERT_SIZEOF(LiftPoint, 0x284);

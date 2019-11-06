@@ -358,10 +358,10 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
 
     pLiftPoint->field_128_tlvInfo = pState->field_C_tlvInfo;
     pLiftPoint->field_27C_pTlv = pState->field_10_pTlv;
-    pLiftPoint->field_270_floorYLevel = pState->field_14;
-    pLiftPoint->field_130_lift_point_stop_type = pState->field_18;
+    pLiftPoint->field_270_floorYLevel = pState->field_14_floorYLevel;
+    pLiftPoint->field_130_lift_point_stop_type = pState->field_18_lift_point_stop_type;
 
-    if (pState->field_1A.Get(LiftPoint_State::eBit1))
+    if (pState->field_1A.Get(LiftPoint_State::eBit1_bMoving))
     {
         pLiftPoint->field_12C_bMoving |= 1;
     }
@@ -370,60 +370,13 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
         pLiftPoint->field_12C_bMoving &= ~1;
     }
 
-    if (pState->field_1A.Get(LiftPoint_State::eBit2))
-    {
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
-    }
-    else
-    {
-        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
-    }
+    pLiftPoint->field_280_flags.Set(LiftFlags::eBit1_bTopFloor, pState->field_1A.Get(LiftPoint_State::eBit2_bTopFloor));
+    pLiftPoint->field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor, pState->field_1A.Get(LiftPoint_State::eBit3_bMiddleFloor));
+    pLiftPoint->field_280_flags.Set(LiftFlags::eBit3_bBottomFloor, pState->field_1A.Get(LiftPoint_State::eBit4_bBottomFloor));
+    pLiftPoint->field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel, pState->field_1A.Get(LiftPoint_State::eBit5_bMoveToFloorLevel));
+    pLiftPoint->field_280_flags.Set(LiftFlags::eBit6, pState->field_1A.Get(LiftPoint_State::eBit6));
+    pLiftPoint->field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor, pState->field_1A.Get(LiftPoint_State::eBit7_KeepOnMiddleFloor));
 
-    if (pState->field_1A.Get(LiftPoint_State::eBit3))
-    {
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
-    }
-    else
-    {
-        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit2_bMiddleFloor);
-    }
-
-    if (pState->field_1A.Get(LiftPoint_State::eBit4))
-    {
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
-    }
-    else
-    {
-        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit3_bBottomFloor);
-    }
-
-    if (pState->field_1A.Get(LiftPoint_State::eBit5))
-    {
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel);
-    }
-    else
-    {
-        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
-    }
-
-
-    if (pState->field_1A.Get(LiftPoint_State::eBit6))
-    {
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit6);
-    }
-    else
-    {
-        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit6);
-    }
-
-    if (pState->field_1A.Get(LiftPoint_State::eBit7))
-    {
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor);
-    }
-    else
-    {
-        pLiftPoint->field_280_flags.Clear(LiftFlags::eBit7_KeepOnMiddleFloor);
-    }
 
     if (pState->field_10_pTlv == pState->field_C_tlvInfo)
     {
@@ -690,8 +643,7 @@ void LiftPoint::vUpdate_461AE0()
                     field_280_flags.Set(LiftFlags::eBit8_bIgnoreLiftMover);
                 }
 
-                // TODO: Wtf ?? Clean this up when flag meaning for this TLV is known
-                if (pLiftTlv->field_0_flags.Raw().all != ~0xF && pLiftTlv->field_12_bstart_point)
+                if (pLiftTlv->field_1_unknown != pLiftTlv->field_12_bstart_point)
                 {
                     field_280_flags.Set(LiftFlags::eBit6);
                 }
@@ -961,50 +913,22 @@ void LiftPoint::vStayOnFloor_461A00(__int16 floor, Path_LiftPoint* pTlv)
 
 signed int LiftPoint::vGetSaveState_4637D0(LiftPoint_State *pState)
 {
-    pState->field_0 = Types::eLiftPoint_78;
+    pState->field_0_type = Types::eLiftPoint_78;
     pState->field_4_xpos = field_B8_xpos;
     pState->field_8_ypos = field_BC_ypos;
     pState->field_C_tlvInfo = field_128_tlvInfo;
     pState->field_10_pTlv = field_27C_pTlv;
-    pState->field_14 = field_270_floorYLevel;
-    pState->field_18 = field_130_lift_point_stop_type;
+    pState->field_14_floorYLevel = field_270_floorYLevel;
+    pState->field_18_lift_point_stop_type = field_130_lift_point_stop_type;
 
-    pState->field_1A.Raw().all = 0;
 
-    if (field_12C_bMoving & 1)
-    {
-        pState->field_1A.Set(LiftPoint_State::eBit1);
-    }
-
-    if (field_280_flags.Get(LiftFlags::eBit1_bTopFloor))
-    {
-        pState->field_1A.Set(LiftPoint_State::eBit2);
-    }
-
-    if (field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor))
-    {
-        pState->field_1A.Set(LiftPoint_State::eBit3);
-    }
-
-    if (field_280_flags.Get(LiftFlags::eBit3_bBottomFloor))
-    {
-        pState->field_1A.Set(LiftPoint_State::eBit4);
-    }
-
-    if (field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel))
-    {
-        pState->field_1A.Set(LiftPoint_State::eBit5);
-    }
-
-    if (field_280_flags.Get(LiftFlags::eBit6))
-    {
-        pState->field_1A.Set(LiftPoint_State::eBit6);
-    }
-
-    if (field_280_flags.Get(LiftFlags::eBit7_KeepOnMiddleFloor))
-    {
-        pState->field_1A.Set(LiftPoint_State::eBit7);
-    }
+    pState->field_1A.Set(LiftPoint_State::eBit1_bMoving, field_12C_bMoving & 1);
+    pState->field_1A.Set(LiftPoint_State::eBit2_bTopFloor, field_280_flags.Get(LiftFlags::eBit1_bTopFloor));
+    pState->field_1A.Set(LiftPoint_State::eBit3_bMiddleFloor, field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor));
+    pState->field_1A.Set(LiftPoint_State::eBit4_bBottomFloor, field_280_flags.Get(LiftFlags::eBit3_bBottomFloor));
+    pState->field_1A.Set(LiftPoint_State::eBit5_bMoveToFloorLevel, field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
+    pState->field_1A.Set(LiftPoint_State::eBit6, field_280_flags.Get(LiftFlags::eBit6));
+    pState->field_1A.Set(LiftPoint_State::eBit7_KeepOnMiddleFloor, field_280_flags.Get(LiftFlags::eBit7_KeepOnMiddleFloor));
 
     return sizeof(LiftPoint_State);
 }
