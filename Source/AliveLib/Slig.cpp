@@ -4248,9 +4248,9 @@ __int16 Slig::AI_GetAlerted_23_4BEC40()
                 (pNoisyMud == sControlledCharacter_5C1B8C || pNoisyMud->field_4_typeId == Types::eMudokon_110) &&
                 vOnSameYLevel_425520(pNoisyMud) &&
                 vIsFacingMe_4254A0(pNoisyMud) &&
-                (pNoisyMud != sControlledCharacter_5C1B8C || !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
-                    (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0) &&
-                    !Event_Get_422C00(kEventResetting))))
+                ((pNoisyMud != sControlledCharacter_5C1B8C || !sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) &&
+                    gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)) &&
+                    !Event_Get_422C00(kEventResetting)))
             {
                 ToShoot_4BF9A0();
             }
@@ -6706,8 +6706,8 @@ void Slig::ShootTurnTowardsOrKillSound_4B3140()
 __int16 CCSTD Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
 {
     if (((pThis->field_4_typeId == Types::eAbe_69) && 
-        (pThis->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7) ||
-        (pThis->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4)))
+        (pThis->field_106_current_motion == eAbeStates::State_114_DoorEnter_459470 && pThis->field_20_animation.field_92_current_frame > 7)) ||
+        (pThis->field_106_current_motion == eAbeStates::State_115_DoorExit_459A40 && pThis->field_20_animation.field_92_current_frame < 4))
     {
         return 1;
     }
