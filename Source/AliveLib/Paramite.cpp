@@ -702,7 +702,7 @@ __int16 Paramite::AI_Patrol_0_4835B0()
 
     case AI_Patrol::eState0_LookingForInvisibleAbe_15:
         field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
-        if (!(field_106_current_motion) == eParamiteMotions::M_Idle_0_489FB0)
+        if (field_106_current_motion != eParamiteMotions::M_Idle_0_489FB0)
         {
             return field_12C_brain_ret;
         }
