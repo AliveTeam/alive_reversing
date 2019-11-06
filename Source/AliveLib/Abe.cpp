@@ -2448,9 +2448,10 @@ __int16 Abe::vTakeDamage_44BB50(BaseGameObject* pFrom)
         if (field_10C_health > FP_FromInteger(0) && field_106_current_motion != eAbeStates::State_71_Knockback_455090)
         {
             field_10C_health -= FP_FromDouble(0.07);
-            if (field_106_current_motion != eAbeStates::State_123_LiftGrabIdle_45A6A0 &&
+            if (field_10C_health <= FP_FromInteger(0) ||
+                (field_106_current_motion != eAbeStates::State_123_LiftGrabIdle_45A6A0 &&
                 field_106_current_motion != eAbeStates::State_124_LiftUseUp_45A780 &&
-                field_106_current_motion != eAbeStates::State_125_LiftUseDown_45A7B0 || field_10C_health <= FP_FromInteger(0))
+                field_106_current_motion != eAbeStates::State_125_LiftUseDown_45A7B0))
             {
                 ToKnockback_44E700(1, 1);
                 field_114_flags.Set(Flags_114::e114_MotionChanged_Bit2);
@@ -4343,8 +4344,8 @@ void Abe::State_23_RollLoop_453A90()
             {
                 MapFollowMe_408D10(TRUE);
 
-                if (field_C4_velx > FP_FromInteger(0) && !(sInputKey_Right_5550D0 & pressed) ||
-                    field_C4_velx < FP_FromInteger(0) && !(sInputKey_Left_5550D4 & pressed))
+                if ((field_C4_velx > FP_FromInteger(0) && !(sInputKey_Right_5550D0 & pressed)) ||
+                    (field_C4_velx < FP_FromInteger(0) && !(sInputKey_Left_5550D4 & pressed)))
                 {
                     field_106_current_motion = eAbeStates::State_17_CrouchIdle_456BC0;
                     field_C4_velx = FP_FromInteger(0);

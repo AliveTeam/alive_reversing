@@ -14,6 +14,7 @@
 #include "stdlib.hpp"
 #include "Path.hpp"
 #include "QuikSave.hpp"
+#include "Text.hpp"
 #include "Sfx.hpp"
 #include "FG1.hpp"
 #include "CameraSwapper.hpp"
@@ -28,8 +29,6 @@ void Map_ForceLink() { }
 ALIVE_VAR(1, 0x5c311c, __int16, sMap_bDoPurpleLightEffect_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
 ALIVE_VAR(1, 0x5c3120, DWORD, sSoundChannelsMask_5C3120, 0);
-
-ALIVE_VAR(1, 0x5c3154, DWORD, dword_5C3154, 0);
 
 struct Path_ChangeTLV : public Path_TLV
 {
@@ -572,21 +571,13 @@ void Map::Reset_4805D0()
     field_D8_restore_quick_save = 0;
 }
 
-EXPORT void CCSTD sub_465800(int)
-{
-    NOT_IMPLEMENTED();
-}
-
 void Map::GoTo_Camera_481890()
 {
-    dword_5C3154 = 0; // TODO: Not used ?
-    
     __int16 bShowLoadingIcon = FALSE;
     if (sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && sCurrentLevelId_5C3030 != LevelIds::eCredits_16 && sCurrentLevelId_5C3030 != LevelIds::eNone)
     {
         bShowLoadingIcon = TRUE;
     }
-
 
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
     {
@@ -631,8 +622,8 @@ void Map::GoTo_Camera_481890()
     {
         if (field_A_5C303A_levelId != sCurrentLevelId_5C3030
             || field_8_force_load
-            || field_C_5C303C_pathId != sCurrentPathId_5C3032 
-            && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
+            || (field_C_5C303C_pathId != sCurrentPathId_5C3032 && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
+            )
         {
             Game_ShowLoadingIcon_482D80();
         }
@@ -701,7 +692,7 @@ void Map::GoTo_Camera_481890()
                     break;
                 }
             }
-            sub_465800(pathData.field_1C_unused);
+            Display_Full_Screen_Message_Blocking_465820(pathData.field_1C_unused, 0);
         }
 
         // Open Path BND
