@@ -378,6 +378,9 @@ void Rock::vUpdate_49E9F0()
 
     switch (field_11C_state)
     {
+    case RockStates::eState_0:
+        break;
+
     case RockStates::eState_1_FallToTheVoid:
         InTheAir_49E4B0();
         return;

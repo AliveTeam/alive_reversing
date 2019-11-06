@@ -120,8 +120,8 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
             {
                 if (gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->field_B8_xpos, pObj->field_BC_ypos, 1))
                 {
-                    if ((field_20_type == BulletType::Type_0 || field_20_type == BulletType::Type_1) &&
-                        (pObj->field_4_typeId == Types::eSlig_125 && pObj->field_106_current_motion != eSligMotions::M_Possess_37_4B72C0 ||
+                    if (((field_20_type == BulletType::Type_0 || field_20_type == BulletType::Type_1) &&
+                        ((pObj->field_4_typeId == Types::eSlig_125 && pObj->field_106_current_motion != eSligMotions::M_Possess_37_4B72C0) ||
                             pObj->field_4_typeId == Types::eFlyingSlig_54 ||
                             pObj->field_4_typeId == Types::eCrawlingSlig_26 ||
                             pObj->field_4_typeId == Types::eGlukkon_67 ||
@@ -136,7 +136,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
                             (pObj->field_4_typeId == Types::eSlig_125 && sControlledCharacter_5C1B8C == pObj) ||
                             (pObj->field_4_typeId == Types::eFlyingSlig_54 && sControlledCharacter_5C1B8C == pObj) ||
                             (pObj->field_4_typeId == Types::eCrawlingSlig_26 && sControlledCharacter_5C1B8C == pObj) ||
-                            (pObj->field_4_typeId == Types::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj))
+                            (pObj->field_4_typeId == Types::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj)))
                     {
                         PSX_RECT bRect = {};
                         pObj->vGetBoundingRect_424FD0(&bRect, 1);
@@ -146,8 +146,8 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
                             pRect->h >= bRect.y &&
                             pRect->y <= bRect.h)
                         {
-                            if ((field_20_type == BulletType::ZBullet_3 || field_20_type == BulletType::Type_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale ||
-                                (field_20_type == BulletType::Type_2 || field_20_type == BulletType::Type_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale)
+                            if (((field_20_type == BulletType::ZBullet_3 || field_20_type == BulletType::Type_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) ||
+                                ((field_20_type == BulletType::Type_2 || field_20_type == BulletType::Type_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
                             {
                                 if (pObj->field_4_typeId != Types::eGlukkon_67 || FP_Abs(pObj->field_B8_xpos - field_28_xpos) >= ScaleToGridSize_4498B0(field_3C_scale))
                                 {

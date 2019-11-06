@@ -442,6 +442,9 @@ void Grenade::vUpdate_4489C0()
         }
         break;
 
+    case GrenadeStates::eState_2:
+        break;
+
     case GrenadeStates::eState_3_CountingDown:
         TimeToBlowUp_448350();
         break;
@@ -488,6 +491,9 @@ void Grenade::vUpdate_4489C0()
 
     case GrenadeStates::eState_7_Exploded:
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
+        break;
+
+    case GrenadeStates::eState_8:
         break;
 
     case GrenadeStates::eState_9_FallingBlowUpOnGround:
