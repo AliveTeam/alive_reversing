@@ -128,7 +128,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
                             pObj->field_4_typeId == Types::eMudokon_110 ||
                             pObj->field_4_typeId == Types::eAbe_69 ||
                             pObj->field_4_typeId == Types::eSlog_126 ||
-                            pObj->field_4_typeId == Types::eGreeter_64) ||
+                            pObj->field_4_typeId == Types::eGreeter_64)) ||
 
                             pObj->field_4_typeId == Types::eMudokon_110||
                             pObj->field_4_typeId == Types::eAbe_69 ||
@@ -136,7 +136,7 @@ BaseAliveGameObject* Bullet::ShootObject_414630(PSX_RECT* pRect)
                             (pObj->field_4_typeId == Types::eSlig_125 && sControlledCharacter_5C1B8C == pObj) ||
                             (pObj->field_4_typeId == Types::eFlyingSlig_54 && sControlledCharacter_5C1B8C == pObj) ||
                             (pObj->field_4_typeId == Types::eCrawlingSlig_26 && sControlledCharacter_5C1B8C == pObj) ||
-                            (pObj->field_4_typeId == Types::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj)))
+                            (pObj->field_4_typeId == Types::eGlukkon_67 && sControlledCharacter_5C1B8C == pObj))
                     {
                         PSX_RECT bRect = {};
                         pObj->vGetBoundingRect_424FD0(&bRect, 1);
