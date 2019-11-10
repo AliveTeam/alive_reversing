@@ -442,7 +442,7 @@ field_140_sound_channels = 0;
 
         --field_122_num_items_remaining;
 
-        if (field_120_num_items > 0 && field_122_num_items_remaining <= 0 || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
+        if ((field_120_num_items > 0 && field_122_num_items_remaining <= 0) || !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
             field_C2_lvl_number,
             field_C0_path_number,
             field_138_xpos,

@@ -119,8 +119,8 @@ void DeathFadeOut::vRender_427210(int** pOt)
 
     EffectBase::VRender(pOt);
 
-    if (field_78_current_fade_rgb == 255 && field_7C_direction ||
-        field_78_current_fade_rgb == 0 && !field_7C_direction)
+    if ((field_78_current_fade_rgb == 255 && field_7C_direction) ||
+        (field_78_current_fade_rgb == 0 && !field_7C_direction))
     {
         field_7E_bDone = 1;
         if (dword_5BC204 <= 0)

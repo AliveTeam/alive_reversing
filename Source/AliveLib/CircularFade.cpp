@@ -191,8 +191,8 @@ void CircularFade::vRender_4CE3F0(int **pOt)
             gPsxDisplay_5C1130.field_2_height);
     }
 
-    if (field_1B8_fade_colour == 255 && (field_F4_flags.Get(Flags::eBit1_FadeIn)) ||
-        field_1B8_fade_colour == 0 && (!(field_F4_flags.Get(Flags::eBit1_FadeIn))))
+    if ((field_1B8_fade_colour == 255 && field_F4_flags.Get(Flags::eBit1_FadeIn)) ||
+        (field_1B8_fade_colour == 0 && !(field_F4_flags.Get(Flags::eBit1_FadeIn))))
     {
         if (!(field_F4_flags.Get(Flags::eBit2_Done)))
         {

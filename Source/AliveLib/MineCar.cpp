@@ -877,7 +877,7 @@ void MineCar::vUpdate_46C010()
 
     if (sInputObject_5BD4E0.isPressed(sInputKey_DoAction_5550E4))
     {
-        if (field_1BC != 3 && !IsBlocked_46F4A0(3, 0) || !IsBlocked_46F4A0(3, 0))
+        if ((field_1BC != 3 && !IsBlocked_46F4A0(3, 0)) || !IsBlocked_46F4A0(3, 0))
         {
             if (field_11C_state != MineCarStates::eState_0_ParkedWithoutAbe)
             {
@@ -1059,8 +1059,8 @@ void MineCar::State_1()
         }
     }
     
-    if (!(sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)) && 
-        ((!(sInputObject_5BD4E0.isPressed(field_1D4_previous_input))) ||
+    if ((!(sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)) &&
+        !(sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) ||
         (unsigned __int16)field_1D6_continue_move_input != sInputKey_Left_5550D4 ||
         field_1BC == 3 ||
         field_1D4_previous_input == (unsigned __int16)sInputKey_Right_5550D0 ||
@@ -1090,8 +1090,8 @@ void MineCar::State_1()
         field_B8_xpos - (kGridSize / FP_FromInteger(4)),
         field_BC_ypos,
         &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x800 : 0x4000) ||
-        (!CheckFloorCollision_46F730(k12Scaled + kGridSize - FP_FromInteger(4), FP_FromInteger(4))) &&
-        (!CheckFloorCollision_46F730(-(k12Scaled + kGridSize + FP_FromInteger(2)), FP_FromInteger(4))) ||
+        (!CheckFloorCollision_46F730(k12Scaled + kGridSize - FP_FromInteger(4), FP_FromInteger(4)) &&
+        !CheckFloorCollision_46F730(-(k12Scaled + kGridSize + FP_FromInteger(2)), FP_FromInteger(4))) ||
         (Move_46E640(20900u, -(kGridSize / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Left_5550D4, 3, 1), // TODO: Split out
             !sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)))
     {
@@ -1131,12 +1131,12 @@ void MineCar::HandleUpDown()
     const FP k60Scaled = field_CC_sprite_scale * FP_FromInteger(60);
     const FP k5Scaled = FP_FromInteger(5) * field_CC_sprite_scale;
 
-    if ((sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) &&
+    if ((sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
         (unsigned __int16)field_1D6_continue_move_input == sInputKey_Up_5550D8 &&
         field_1D4_previous_input != (unsigned __int16)sInputKey_Down_5550DC &&
         field_1BC != 2 &&
         field_1BC != 1) && 
-        !IsBlocked_46F4A0(0, 0))
+        !IsBlocked_46F4A0(0, 0)))
     {
         PathLine* pPathLine = nullptr;
         FP hitX = {};
@@ -1181,11 +1181,11 @@ void MineCar::HandleUpDown()
         }
     }
 
-    if ((sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) &&
+    if ((sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
         (unsigned __int16)field_1D6_continue_move_input == sInputKey_Down_5550DC && 
         field_1D4_previous_input != (unsigned __int16)sInputKey_Up_5550D8 &&
         field_1BC != 2 &&
-        field_1BC != 1) && 
+        field_1BC != 1)) &&
         !IsBlocked_46F4A0(3, 0))
     {
         PathLine* pPathLine = nullptr;
