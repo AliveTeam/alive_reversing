@@ -3573,9 +3573,9 @@ void Abe::State_3_Fall_459B60()
                 }
             }
 
-            if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
+            if ((field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
                 || (pSoftLanding && field_10C_health > FP_FromInteger(0)) // If we are dead soft landing won't save us
-                || (field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
+                || (field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180))) // Check we didn't fall far enough to be killed
                 && (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA))
             {
                 field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
@@ -5062,8 +5062,8 @@ void Abe::State_33_RunLoop_4508E0()
             const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
             // Turning around?
-            if (field_C4_velx > FP_FromInteger(0) && sInputKey_Left_5550D4 & pressed ||
-                field_C4_velx < FP_FromInteger(0) && sInputKey_Right_5550D0 & pressed)
+            if ((field_C4_velx > FP_FromInteger(0) && sInputKey_Left_5550D4 & pressed) ||
+                (field_C4_velx < FP_FromInteger(0) && sInputKey_Right_5550D0 & pressed))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
                 field_106_current_motion = eAbeStates::State_26_RunTurn_451500;
