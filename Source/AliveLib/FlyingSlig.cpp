@@ -651,9 +651,9 @@ void FlyingSlig::vScreenChanged_434C10()
 {
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId &&
+        (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId &&
         (this != sControlledCharacter_5C1B8C ||
-        field_17E_flags.Get(Flags_17E::eBit13_Persistant)))
+        field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -1183,9 +1183,9 @@ void FlyingSlig::AI_ChasingEnemy_4_435BC0()
         sControlledCharacter_5C1B8C->field_CC_sprite_scale != field_CC_sprite_scale ||
         IsInInvisibleZone_425710(sControlledCharacter_5C1B8C)||
         sControlledCharacter_5C1B8C->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible) ||
-        !IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) &&
+        (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) &&
         (sControlledCharacter_5C1B8C != sActiveHero_5C1B68 || sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_65_LedgeAscend_End_4548E0) &&
-        sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89)
+        sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89))
     {
         PatrolDelay_435860();
         return;
@@ -1356,7 +1356,7 @@ void FlyingSlig::AI_DePossession_14_436180()
     {
         if (!(static_cast<int>(sGnFrame_5C1B84) % 4))
         {
-            const FP xOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20) + field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -10 : 10));
+            const FP xOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 20) + (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) ? -10 : 10)));
             const FP yOff = (field_CC_sprite_scale * FP_FromInteger(Math_RandomRange_496AB0(-20, 10)));
             New_Chant_Particle_426BE0(
                 xOff + field_B8_xpos,

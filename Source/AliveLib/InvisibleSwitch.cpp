@@ -99,8 +99,8 @@ void InvisibleSwitch::vUpdate_45FBA0()
                     {
                         // Scale matches ?
                         if (field_3C_scale == 2
-                            || field_3C_scale == 0 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5)
-                            || field_3C_scale == 1 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0))
+                            || (field_3C_scale == 0 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
+                            || (field_3C_scale == 1 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0)))
                         {
                             field_38_state = States::eState_WaitForDelayTimer_1;
                             field_28_delay_timer = sGnFrame_5C1B84 + field_2C_delay;

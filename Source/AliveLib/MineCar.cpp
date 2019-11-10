@@ -1059,8 +1059,8 @@ void MineCar::State_1()
         }
     }
     
-    if ((!(sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)) &&
-        !(sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) ||
+    if (((!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) &&
+        !sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) ||
         (unsigned __int16)field_1D6_continue_move_input != sInputKey_Left_5550D4 ||
         field_1BC == 3 ||
         field_1D4_previous_input == (unsigned __int16)sInputKey_Right_5550D0 ||
@@ -1131,11 +1131,11 @@ void MineCar::HandleUpDown()
     const FP k60Scaled = field_CC_sprite_scale * FP_FromInteger(60);
     const FP k5Scaled = FP_FromInteger(5) * field_CC_sprite_scale;
 
-    if ((sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
+    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
         (unsigned __int16)field_1D6_continue_move_input == sInputKey_Up_5550D8 &&
         field_1D4_previous_input != (unsigned __int16)sInputKey_Down_5550DC &&
         field_1BC != 2 &&
-        field_1BC != 1) && 
+        field_1BC != 1 &&
         !IsBlocked_46F4A0(0, 0)))
     {
         PathLine* pPathLine = nullptr;
