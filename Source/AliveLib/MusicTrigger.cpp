@@ -40,31 +40,31 @@ EXPORT void MusicTrigger::Init_47FFB0(__int16 type, __int16 enabledBy, __int16 d
     switch (type)
     {
     case 0:
-        field_26_music_type = 3;
+        field_26_music_type = MusicController::MusicTypes::eType3;
         field_28_counter = 400;
         break;
     case 1:
-        field_26_music_type = 10;
+        field_26_music_type = MusicController::MusicTypes::eType10;
         field_28_counter = 30;
         break;
     case 2:
-        field_26_music_type = 13;
+        field_26_music_type = MusicController::MusicTypes::eType13;
         field_28_counter = 30;
         break;
     case 3:
-        field_26_music_type = 8;
+        field_26_music_type = MusicController::MusicTypes::eType8;
         field_24_flags |= 4;
         break;
     case 4:
-        field_26_music_type = 7;
+        field_26_music_type = MusicController::MusicTypes::eType7;
         field_24_flags |= 4;
         break;
     case 5:
-        field_26_music_type = 2;
+        field_26_music_type = MusicController::MusicTypes::eType2;
         field_28_counter = delay;
         break;
     case 6:
-        field_26_music_type = 12;
+        field_26_music_type = MusicController::MusicTypes::eType12;
         field_28_counter = 30;
         break;
     default:
@@ -96,7 +96,7 @@ EXPORT void MusicTrigger::dtor_4800C0()
     SetVTable(this, 0x5463DC);
     if (field_24_flags & 4)
     {
-        MusicController::sub_47FD60(0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
     }
     BaseGameObject_dtor_4DBEC0();
 }

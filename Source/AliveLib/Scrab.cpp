@@ -543,7 +543,7 @@ void Scrab::dtor_4A42B0()
         Path::TLV_Reset_4DB8E0(field_144_tlvInfo, -1, 0, 0);
     }
 
-    MusicController::sub_47FD60(0, this, 0, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
 
     if (sControlledCharacter_5C1B8C == this)
     {
@@ -996,7 +996,7 @@ __int16 Scrab::AI_Patrol_0_4AA630()
 
     if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(4, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType4, this, 0, 0);
     }
 
     if (field_106_current_motion == eScrabMotions::M_JumpToFall_8_4A9220 && field_11C_sub_state != AI_Patrol::eState0_BeingSpawned_11)
@@ -1277,7 +1277,7 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(8, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
     }
     switch (field_11C_sub_state)
     {
@@ -1713,7 +1713,7 @@ __int16 Scrab::AI_Fighting_2_4A5840()
 
     if (gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(8, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
     }
 
     switch (field_11C_sub_state)
@@ -2029,7 +2029,7 @@ __int16 Scrab::AI_Possessed_5_4A6180()
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
         field_1A2 = 0;
-        MusicController::sub_47FD60(0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
         ToPatrol_4AA600();
         field_11C_sub_state = 0;
         gMap_5C3030.SetActiveCam_480D30(field_166_level, field_168_path, field_16A_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
@@ -2051,7 +2051,7 @@ __int16 Scrab::AI_Possessed_5_4A6180()
         {
             return field_11C_sub_state;
         }
-        MusicController::sub_47FD60(9, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType9, this, 0, 0);
         return field_11C_sub_state;
     }
 }
@@ -3193,7 +3193,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
             sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
             field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
             field_1A2 = 0;
-            MusicController::sub_47FD60(0, this, 0, 0);
+            MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
             field_106_current_motion = eScrabMotions::M_GetDepossessedEnd_29_4AA3C0;
             ToPatrol_4AA600();
             field_11C_sub_state = 0;

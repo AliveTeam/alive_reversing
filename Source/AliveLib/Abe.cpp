@@ -3573,9 +3573,9 @@ void Abe::State_3_Fall_459B60()
                 }
             }
 
-            if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
+            if ((field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
                 || (pSoftLanding && field_10C_health > FP_FromInteger(0)) // If we are dead soft landing won't save us
-                || (field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
+                || (field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180))) // Check we didn't fall far enough to be killed
                 && (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA))
             {
                 field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
@@ -5062,8 +5062,8 @@ void Abe::State_33_RunLoop_4508E0()
             const DWORD pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
             // Turning around?
-            if (field_C4_velx > FP_FromInteger(0) && sInputKey_Left_5550D4 & pressed ||
-                field_C4_velx < FP_FromInteger(0) && sInputKey_Right_5550D0 & pressed)
+            if ((field_C4_velx > FP_FromInteger(0) && sInputKey_Left_5550D4 & pressed) ||
+                (field_C4_velx < FP_FromInteger(0) && sInputKey_Right_5550D0 & pressed))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14);
                 field_106_current_motion = eAbeStates::State_26_RunTurn_451500;
@@ -5748,7 +5748,7 @@ void Abe::State_57_Dead_4589A0()
             }
         }
         ++field_124_gnFrame;
-        MusicController::sub_47FD60(11, this, 1, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType11, this, 1, 0);
         return;
     case 2:
         Event_Broadcast_422BC0(kEventHeroDying, this);
@@ -8418,7 +8418,7 @@ void Abe::FleechDeath_459350()
     field_106_current_motion = eAbeStates::State_58_DeadPre_4593E0;
     field_120_state = 0;
     field_10C_health = FP_FromInteger(0);
-    MusicController::sub_47FD60(11, this, 1, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eType11, this, 1, 0);
     field_100_pCollisionLine = nullptr;
 }
 
@@ -8428,7 +8428,7 @@ void Abe::ToDie_4588D0()
     field_106_current_motion = eAbeStates::State_56_FallAndCrunchDeath_4591F0;
     field_124_gnFrame = 0;
     field_10C_health = FP_FromInteger(0);
-    MusicController::sub_47FD60(0, this, 1, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 1, 0);
 }
 
 void Abe::ToIdle_44E6B0()
@@ -9156,8 +9156,7 @@ void Abe::ToDieFinal_458910()
     field_124_gnFrame = 0;
     field_10C_health = FP_FromInteger(0);
 
-    // Death jingle ?
-    MusicController::sub_47FD60(11, this, 1, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eType11, this, 1, 0);
 }
 
 short Abe::DoGameSpeak_45AB70(int input)
