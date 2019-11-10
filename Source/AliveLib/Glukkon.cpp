@@ -1095,7 +1095,7 @@ __int16 Glukkon::AI_0_Calm_WalkAround_440B40()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(4, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType4, this, 0, 0);
     }
 
     auto pObj = sObjectIds_5C1B70.Find_449CF0(field_110_id);
@@ -1396,7 +1396,7 @@ __int16 Glukkon::AI_1_Panic_4412F0()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(8, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
     }
 
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find_449CF0(field_110_id));
@@ -1543,7 +1543,7 @@ __int16 Glukkon::AI_2_Slapped_441720()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(8, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
     }
 
     if (field_106_current_motion == eGlukkonMotions::M_Fall_7_443510)
@@ -1653,7 +1653,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(9, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType9, this, 0, 0);
     }
 
     switch (field_210)
@@ -1727,7 +1727,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
                 field_114_flags.Clear(Flags_114::e114_Bit4_bPossesed);
                 SetBrain(&Glukkon::AI_4_Death_442010);
                 field_210 = 2;
-                MusicController::sub_47FD60(0, this, 0, 0);
+                MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
             }
             return field_210;
         }
@@ -1837,7 +1837,7 @@ __int16 Glukkon::AI_4_Death_442010()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
     }
 
     switch (field_210)
@@ -1983,7 +1983,7 @@ __int16 Glukkon::AI_5_WaitToSpawn_442490()
         field_B8_xpos,
         field_BC_ypos) >= CameraPos::eCamCurrent_0)
     {
-        MusicController::sub_47FD60(0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
     }
 
     if (field_210 == 0)
@@ -2930,13 +2930,13 @@ void CC Glukkon::PlaySound_4447D0(int sndIdx, Glukkon* pGlukkon)
 
 void Glukkon::ToDead_43F640()
 {
-    MusicController::sub_47FD60(0, this, 0, 0);
+    MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
 
     if (sControlledCharacter_5C1B8C == this)
     {
         // When its a player controlled gluk go back to the screen the player is in
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        MusicController::sub_47FD60(0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
 
         if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
         {

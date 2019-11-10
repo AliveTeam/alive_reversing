@@ -2867,15 +2867,15 @@ void MainMenuController::HandleMainMenuUpdate()
 {
     if (gMap_5C3030.sCurrentCamId_5C3034 == 5 || gMap_5C3030.sCurrentCamId_5C3034 == 11 || gMap_5C3030.sCurrentCamId_5C3034 == 4)
     {
-        MusicController::sub_47FD60(4, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType4, this, 0, 0);
     }
     else if (gMap_5C3030.sCurrentCamId_5C3034 == 12 || gMap_5C3030.sCurrentCamId_5C3034 == 13)
     {
-        MusicController::sub_47FD60(8, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
     }
     else
     {
-        MusicController::sub_47FD60(0, this, 0, 0);
+        MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
     }
 
     UpdateHighliteGlow_4D0630();

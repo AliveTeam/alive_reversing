@@ -31,17 +31,37 @@ public:
         e58_eBit16 = 0x8000,
     };
 
+    enum class MusicTypes : __int16
+    {
+        eTypeNull = -1,
+        eType0 = 0,
+        eType1 = 1,
+        eType2 = 2,
+        eType3 = 3,
+        eType4 = 4,
+        eType5 = 5,
+        eType6 = 6,
+        eType7 = 7,
+        eType8 = 8,
+        eType9 = 9,
+        eType10 = 10,
+        eType11 = 11, //death jingle?
+        eType12 = 12,
+        eType13 = 13,
+    };
+
+
     EXPORT static int CC Create_47FC40();
     EXPORT static void CC SetBaseTimeStamp_47FD00();
     EXPORT static void CC Shutdown_47FD20();
     EXPORT static void CC UpdateMusicTime_47F8B0();
-    EXPORT static __int16 CC sub_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime);
+    EXPORT static MusicTypes CC sub_47FDA0(WORD* seq1, WORD* seq2, DWORD* seqTime);
 
     virtual BaseGameObject* VDestructor(signed int flags) override;
     EXPORT MusicController* ctor_47EE80();
     EXPORT BaseGameObject* vdtor_47EF20(signed int flags);
     EXPORT void dtor_47EF50();
-    EXPORT __int16 sub_47FA80(WORD *seq, WORD *seq2, DWORD *seqTime);
+    EXPORT MusicTypes sub_47FA80(WORD *seq, WORD *seq2, DWORD *seqTime);
 
     virtual void VScreenChanged() override;
     EXPORT void vsub_ScreenChange_47F8F0();
@@ -53,12 +73,12 @@ public:
     EXPORT void EnableMusic_47FB80(__int16 enable);
     EXPORT void SetMusicVolumeDelayed_47FB00(__int16 vol, __int16 delay);
     EXPORT void sub_47EFD0();
-    EXPORT void sub_47F910(__int16 typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
+    EXPORT void sub_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
 
     EXPORT void sub_47F260();
     EXPORT void sub_47F0B0();
 
-    EXPORT static void CC sub_47FD60(__int16 typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
+    EXPORT static void CC sub_47FD60(MusicTypes typeToSet, const BaseGameObject* pObj, __int16 bFlag4, char bFlag0x20);
     EXPORT static void CC EnableMusic_47FE10(__int16 bOn);
 
 private:
@@ -74,7 +94,7 @@ private:
     DWORD field_38;
     DWORD field_3C;
     __int16 field_40_flags_and_idx;
-    WORD field_42_type;
+    MusicTypes field_42_type;
     int field_44;
     DWORD field_48_last_music_frame;
     WORD field_4C_state;

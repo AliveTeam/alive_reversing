@@ -706,7 +706,7 @@ void Map::GoTo_Camera_481890()
 
         if (field_A_5C303A_levelId == sCurrentLevelId_5C3030)
         {
-            MusicController::sub_47FD60(0, sActiveHero_5C1B68, 0, 0);
+            MusicController::sub_47FD60(MusicController::MusicTypes::eType0, sActiveHero_5C1B68, 0, 0);
         }
         else
         {

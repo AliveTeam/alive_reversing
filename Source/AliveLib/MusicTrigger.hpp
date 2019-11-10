@@ -3,6 +3,7 @@
 #include "FunctionFwd.hpp"
 #include "BaseGameObject.hpp"
 #include "Path.hpp"
+#include "MusicController.hpp"
 
 struct Path_MusicTrigger : public Path_TLV
 {
@@ -31,7 +32,7 @@ public:
 private:
     int field_20_tlvInfo;
     __int16 field_24_flags; // TODO: Recover flags
-    __int16 field_26_music_type; // TODO: Enum
+    MusicController::MusicTypes field_26_music_type;
     int field_28_counter;
     PSX_Point field_2C_tl;
     PSX_Point field_30_br;
