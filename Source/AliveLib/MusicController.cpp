@@ -735,7 +735,7 @@ void MusicController::sub_47F260()
    
     if (field_40_flags_and_idx < 0
         || !SND_SsIsEos_DeInlined_4CACD0(field_40_flags_and_idx)
-        || field_58_flags.Get(Flags_58::e58_UnPause_Bit6)
+        || (field_58_flags.Get(Flags_58::e58_UnPause_Bit6)
         && ( field_42_type == MusicTypes::eType2
             || field_42_type == MusicTypes::eType3
             || field_42_type == MusicTypes::eType10
@@ -743,7 +743,7 @@ void MusicController::sub_47F260()
             || field_42_type == MusicTypes::eType12
             || field_42_type == MusicTypes::eType13
             || field_42_type == MusicTypes::eType7
-            || field_42_type == MusicTypes::eType8))
+            || field_42_type == MusicTypes::eType8)))
     {
         if (field_40_flags_and_idx > 0)
         {

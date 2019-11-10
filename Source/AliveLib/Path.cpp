@@ -272,10 +272,10 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
 
         pTlv = (Path_TLV *)&pPathRes[pPathData->field_12_object_offset + indexTableEntry];
         if (!xyPosValid ||
-            xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
+            (xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
             width_converted >= pTlv->field_8_top_left.field_0_x &&
             height_converted >= pTlv->field_8_top_left.field_2_y &&
-            ypos_converted <= pTlv->field_C_bottom_right.field_2_y)
+            ypos_converted <= pTlv->field_C_bottom_right.field_2_y))
         {
             return pTlv;
         }
@@ -290,10 +290,10 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
     {
         pTlv = Path::Next_TLV_4DB6A0(pTlv);
         if (!xyPosValid || 
-            xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
+            (xpos_converted <= pTlv->field_C_bottom_right.field_0_x &&
             width_converted >= pTlv->field_8_top_left.field_0_x &&
             height_converted >= pTlv->field_8_top_left.field_2_y &&
-            ypos_converted <= pTlv->field_C_bottom_right.field_2_y)
+            ypos_converted <= pTlv->field_C_bottom_right.field_2_y))
         {
             break;
         }
@@ -422,7 +422,7 @@ EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(unsigned __int16 pathId)
     {
         const int totalCams = camsX * camsY;
         const int* pIdx = reinterpret_cast<int*>(&(*ppPath)[pPathData->field_16_object_indextable_offset]);
-        for (int i = 0; i, totalCams; i++)
+        for (int i = 0; i < totalCams; i++)
         {
             if (pIdx[i] != -1)
             {
