@@ -328,7 +328,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
             sampleLength,
             pMasher_audio_header_5CA1E0->field_4_samples_per_second,
             (pMasher_audio_header_5CA1E0->field_0_audio_format & 2) != 0 ? 16 : 8,
-            pMasher_audio_header_5CA1E0->field_0_audio_format & 1 | 6) < 0)
+            (pMasher_audio_header_5CA1E0->field_0_audio_format & 1) | 6) < 0)
         {
             // New fail
             sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer = nullptr;
