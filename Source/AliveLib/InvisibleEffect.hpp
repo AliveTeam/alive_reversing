@@ -9,6 +9,12 @@ class BaseAliveGameObject;
 class InvisibleEffect : public BaseGameObject
 {
 public:
+    enum Flags_4A
+    {
+        eSemiTrans_Bit1 = 0x1,
+        eBlending_Bit2 = 0x2,
+        eIsInvisible_Bit3 = 0x4 //TODO @ 100% Remove it - Never actually checked for
+    };
     EXPORT InvisibleEffect* ctor_45F280(BaseAliveGameObject* pTarget);
     EXPORT void dtor_45F410();
     EXPORT void sub_45FA00();
@@ -34,6 +40,6 @@ private:
     int field_44_objId;
     char field_48_old_render_mode;
     char field_49;
-    __int16 field_4A_flags;
+    BitField16<Flags_4A> field_4A_flags;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleEffect, 0x4C);
