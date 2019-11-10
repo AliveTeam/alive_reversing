@@ -1978,7 +1978,7 @@ void MainMenuController::remove_ISO9660_Suffix_4D1660(char* out, char *in)
     {
         if (*in == ';')
         {
-            *out = NULL;
+            *out = '\0';
             break;
         }
 
