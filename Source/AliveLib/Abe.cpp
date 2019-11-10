@@ -3573,10 +3573,10 @@ void Abe::State_3_Fall_459B60()
                 }
             }
 
-            if ((field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
+            if (field_1AC_flags.Get(Flags_1AC::e1AC_Bit7)
                 || (pSoftLanding && field_10C_health > FP_FromInteger(0)) // If we are dead soft landing won't save us
-                || (field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180))) // Check we didn't fall far enough to be killed
-                && (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA))
+                || ((field_BC_ypos - field_F8_LastLineYPos) < (field_CC_sprite_scale * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
+                && (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA))) //TODO possibly OG bug: those conditions should probably be grouped the following way: ((A || B || C ) && D)
             {
                 field_106_current_motion = eAbeStates::State_16_LandSoft_45A360;
             }
