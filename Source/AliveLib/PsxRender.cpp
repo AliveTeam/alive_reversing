@@ -1634,11 +1634,6 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
         {
             if (isSemiTrans)
             {
-                if (pClut[i] == 0)
-                {
-                    skipBlackPixels = 1;
-                }
-
                 if (!(pClut[i] & 0x20))
                 {
                     unknown = 0;
@@ -1663,7 +1658,6 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
                 if (pClut[i] == 0)
                 {
                     clut_local[i] = 0;
-                    skipBlackPixels = i == 0;
                 }
                 else if (pClut[i] == 0x20)
                 {
@@ -1672,40 +1666,22 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
                 else
                 {
                     const WORD clut_entry = pClut[i];
-                    if (clut_entry != 0)
+                    const DWORD bitSet = (clut_entry & 0x20);
+                    WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
+                    clut_pixel |= bitSet;
+                    clut_local[i] = clut_pixel;
+
+                    if (clut_pixel == 0x20)
                     {
-                        if (clut_entry == 0x20)
+                        if (sTexture_page_abr_BD0F18 == BlendModes::eBlendMode_0)
                         {
-                            clut_local[i] = 0x20;
-                        }
-                        else
-                        {
-                            const DWORD bitSet = (clut_entry & 0x20);
-                            WORD clut_pixel = lut_b[clut_entry & 0x1F] | lut_r[(clut_entry >> 11) & 0x1F] | lut_g[(clut_entry >> 6) & 0x1F];
-                            clut_pixel |= bitSet;
-                            clut_local[i] = clut_pixel;
-
-                            if (clut_pixel == 0x20)
-                            {
-                                if (sTexture_page_abr_BD0F18 != BlendModes::eBlendMode_0)
-                                {
-                                    skipBlackPixels = 1;
-                                }
-                                else
-                                {
-                                    clut_local[i] = 0x861;
-                                }
-                            }
-
-                            if (!bitSet)
-                            {
-                                unknown = i == 0;
-                            }
+                            clut_local[i] = 0x861;
                         }
                     }
-                    else
+
+                    if (!bitSet)
                     {
-                        skipBlackPixels = i == 0;
+                        unknown = i == 0;
                     }
                 }
             }
@@ -1812,10 +1788,6 @@ static void PSX_Render_Poly_FT4_Direct_Impl(bool isSemiTrans, OT_Prim* pPrim, in
     {
         if (isSemiTrans)
         {
-            if (!skipBlackPixels && clut_value == 0)
-            {
-                return false;
-            }
             return true;
         }
         else
