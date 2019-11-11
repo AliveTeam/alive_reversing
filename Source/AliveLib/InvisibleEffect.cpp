@@ -108,10 +108,12 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
         switch (field_20_state_or_op)
         {
         case 0u:
+        {
             pTarget->field_20_animation.field_B_render_mode = 1;
             return;
-
+        }
         case 1u:
+        {
             for (int idx2 = 8; idx2 < pTarget->field_20_animation.field_90_pal_depth; idx2++)
             {
                 // Set transparent bit
@@ -126,25 +128,12 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
 
             field_1C_update_delay = 1;
             field_20_state_or_op = 2;
-            if (field_4A_flags.Get(Flags_4A::eBlending_Bit2))
+            if (field_4A_flags.Get(Flags_4A::eIsInvisible_Bit3))
             {
                 field_20_state_or_op++;
             }
             return;
-
-        case 3u:
-            for (int i = 8; i < pTarget->field_20_animation.field_90_pal_depth; i++)
-            {
-                // Clear transparent bit
-                field_30_pPalAlloc[i] &= 0x8000u;
-
-            }
-            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPalAlloc, &field_34);
-            field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
-            field_1C_update_delay = 1;
-            field_20_state_or_op = 0;
-            break;
-
+        }
         case 2u:
         {
             if (pTarget->field_20_animation.field_90_pal_depth <= 8)
@@ -190,13 +179,25 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             }
             else
             {
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_30_pPalAlloc, &field_34);
+                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *) field_30_pPalAlloc, &field_34);
                 field_1C_update_delay = 1;
             }
-        }
             break;
+        }
+        case 3u:
+        {
+            for (int i = 8; i < pTarget->field_20_animation.field_90_pal_depth; i++)
+            {
+                // Clear transparent bit
+                field_30_pPalAlloc[i] &= 0x8000u;
 
-
+            }
+            Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (BYTE *) field_30_pPalAlloc, &field_34);
+            field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
+            field_1C_update_delay = 1;
+            field_20_state_or_op = 0;
+            break;
+        }
         case 4u:
         {
             if (pTarget->field_20_animation.field_90_pal_depth <= 1)
@@ -210,7 +211,7 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             {
                 if ((field_30_pPalAlloc[idx4] ^ (field_24_pAlloc[idx4])) & 0x1F)
                 {
-                    v3 = 1;
+                    v3 = true;
                     field_30_pPalAlloc[idx4] = field_30_pPalAlloc[idx4] + 1;
                 }
 
@@ -237,9 +238,8 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
             {
                 field_20_state_or_op = 5;
             }
-        }
             break;
-
+        }
         case 5u:
         {
             Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy,  pTarget->field_20_animation.field_90_pal_depth, (BYTE *)field_24_pAlloc, &field_28);
@@ -257,15 +257,17 @@ EXPORT void InvisibleEffect::vUpdate_45F4A0()
                 pFlicker->ctor_4319E0(pTarget, 16, 255, 128, 128);
             }
             field_20_state_or_op = 6;
-        }
             break;
-
+        }
         case 6u:
+        {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
             return;
-
+        }
         default:
+        {
             return;
+        }
         }
     }
 
