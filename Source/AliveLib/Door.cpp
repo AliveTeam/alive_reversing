@@ -319,8 +319,8 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
 
     // Another OWI special
     FP yAdjustHack = {};
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eBarracks_6 &&
-        gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eBarracks_Ender_13 ||
+    if ((gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eBarracks_6 &&
+        gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eBarracks_Ender_13) ||
         gMap_5C3030.field_22 == 108)
     {
         if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
@@ -470,8 +470,8 @@ void Door::vUpdate_41EBE0()
         case eOpen_0:
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
-            if (!field_FE_start_state && SwitchStates_Get_466020(field_100_switch_id)
-                || field_FE_start_state == 1 && !SwitchStates_Get_466020(field_100_switch_id))
+            if ((!field_FE_start_state && SwitchStates_Get_466020(field_100_switch_id))
+                || (field_FE_start_state == 1 && !SwitchStates_Get_466020(field_100_switch_id)))
             {
                 field_FC_current_state = eClosing_3;
                 if (gMap_5C3030.field_22 == 108)
@@ -494,8 +494,8 @@ void Door::vUpdate_41EBE0()
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-            if (field_FE_start_state == eClosed_1 && SwitchStates_Get_466020(field_100_switch_id) ||
-                field_FE_start_state == eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id))
+            if ((field_FE_start_state == eClosed_1 && SwitchStates_Get_466020(field_100_switch_id)) ||
+                (field_FE_start_state == eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id)))
             {
                 field_FC_current_state = eOpening_2;
                 if (gMap_5C3030.field_22 == 108)

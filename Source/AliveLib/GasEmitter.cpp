@@ -98,9 +98,9 @@ void GasEmitter::vScreenChanged_43CE20()
 
 void GasEmitter::vUpdate_43CB70()
 {
-    if (gGasOn_5C1C00 &&
-        !((sGnFrame_5C1B84 + field_24_emit_power) % 4)||
-        SwitchStates_Get_466020(field_2A_switch_id) && field_28_draw_flipper && Math_RandomRange_496AB0(0, 1))
+    if ((gGasOn_5C1C00 &&
+        !((sGnFrame_5C1B84 + field_24_emit_power) % 4))||
+        (SwitchStates_Get_466020(field_2A_switch_id) && field_28_draw_flipper && Math_RandomRange_496AB0(0, 1)))
     {
         switch (field_2C_gas_colour)
         {

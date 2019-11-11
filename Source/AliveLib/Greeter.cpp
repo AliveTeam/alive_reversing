@@ -694,7 +694,7 @@ void Greeter::vUpdate_4469B0()
         if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX)) == 0)
         {
             field_C4_velx = -(field_CC_sprite_scale * FP_FromInteger(3));
-            if (!field_13E_targetOnLeft == 0)
+            if (field_13E_targetOnLeft)
             {
                 RandomishSpeak_447A70(GreeterSpeak::Hi_0);
                 field_13C_state = GreeterStates::eState_3;
@@ -708,7 +708,7 @@ void Greeter::vUpdate_4469B0()
         else
         {
             field_C4_velx = (field_CC_sprite_scale * FP_FromInteger(3));
-            if (!field_140_targetOnRight == 0)
+            if (field_140_targetOnRight)
             {
                 RandomishSpeak_447A70(GreeterSpeak::Hi_0);
                 field_13C_state = GreeterStates::eState_3;
