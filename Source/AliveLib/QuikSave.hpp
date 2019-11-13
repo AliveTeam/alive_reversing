@@ -33,8 +33,8 @@ struct Quicksave_WorldInfo
     __int16 field_12_saved_muds;
     __int16 field_14_killed_muds;
     char field_16_muds_in_area;
-    char field_17;
-    PerPathMudStats field_18_saved_killed_muds_per_path;
+    char field_17_last_saved_killed_muds_per_path;
+    char field_18_saved_killed_muds_per_path[20];
     char field_2C_stats_sign_current_area;
     char field_2D_total_meter_bars;
     __int16 field_2E;

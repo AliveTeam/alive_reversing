@@ -44,7 +44,6 @@ ALIVE_VAR(1, 0x5c1bec, char, sEnableCheatFMV_5C1BEC, 0);
 
 ALIVE_VAR(1, 0x5C1BEC, short, word_5C1BEC, {});
 ALIVE_VAR(1, 0x5c1b9e, __int16, word_5C1B9E, 0);
-ALIVE_VAR(1, 0x5C1B64, byte, byte_5C1B64, {});
 
 ALIVE_VAR(1, 0x561538, short, sMenuItemCount_561538, 0);
 ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerPath_5C1B50, {});
@@ -602,7 +601,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     sKilledMudokons_5C1BC0 = 0;
     sRescuedMudokons_5C1BC2 = 0;
     word_5C1BA0 = 0;
-    byte_5C1B64 = 0;
+    sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData)-1]= 0;
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
     sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 

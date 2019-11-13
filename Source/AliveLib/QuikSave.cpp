@@ -677,8 +677,16 @@ void CC Quicksave_4C90D0()
 void CC Quicksave_ReadWorldInfo_4C9490(const Quicksave_WorldInfo* pInfo)
 {
     word_5C1BBC = pInfo->field_2E;
-    sSavedKilledMudsPerPath_5C1B50 = pInfo->field_18_saved_killed_muds_per_path;
-    byte_5C1B64 = pInfo->field_17;
+
+    // Read all fields bar the last
+    for (int i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
+    {
+        sSavedKilledMudsPerPath_5C1B50.mData[i] = pInfo->field_18_saved_killed_muds_per_path[i];
+    }
+
+    // Last is read from another field
+    sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData)-1] = pInfo->field_17_last_saved_killed_muds_per_path;
+
     sActiveHero_5C1B68->field_114_flags.Set(Flags_114::e114_Bit9);
     sStatsSignCurrentArea_5C1A20 = pInfo->field_2C_stats_sign_current_area;
     sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
@@ -704,8 +712,14 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     pInfo->field_6_path = gMap_5C3030.sCurrentPathId_5C3032;
     pInfo->field_8_cam = gMap_5C3030.sCurrentCamId_5C3034;
     pInfo->field_2E = word_5C1BBC;
-    pInfo->field_18_saved_killed_muds_per_path = sSavedKilledMudsPerPath_5C1B50;
-    pInfo->field_17 = byte_5C1B64;
+    
+    for (int i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)
+    {
+        pInfo->field_18_saved_killed_muds_per_path[i] = sSavedKilledMudsPerPath_5C1B50.mData[i];
+    }
+
+    pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerPath_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData)-1];
+
     pInfo->field_2C_stats_sign_current_area = sStatsSignCurrentArea_5C1A20;
     pInfo->field_12_saved_muds = sRescuedMudokons_5C1BC2;
     pInfo->field_14_killed_muds = sKilledMudokons_5C1BC0;

@@ -1790,11 +1790,10 @@ void Abe::vScreenChanged_44D240()
 
     if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId && !(field_114_flags.Get(Flags_114::e114_Bit9)))
     {
-        for (BYTE& val : sSavedKilledMudsPerPath_5C1B50.mData)
+        for (char& val : sSavedKilledMudsPerPath_5C1B50.mData)
         {
             val = 0;
         }
-        byte_5C1B64 = 0;
     }
 }
 

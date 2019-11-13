@@ -1265,7 +1265,7 @@ void Mudokon::dtor_475B60()
     {
         // TODO: Refactor all access to helpers
         sKilledMudokons_5C1BC0++;
-        if (sStatsSignCurrentArea_5C1A20 < 21u)
+        if (sStatsSignCurrentArea_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData))
         {
             sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20]++;
         }
@@ -6464,7 +6464,7 @@ void Mudokon::JumpMid_36_474570()
 
         sRescuedMudokons_5C1BC2++;
 
-        if (sStatsSignCurrentArea_5C1A20 < 21u)
+        if (sStatsSignCurrentArea_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerPath_5C1B50.mData))
         {
             sSavedKilledMudsPerPath_5C1B50.mData[sStatsSignCurrentArea_5C1A20]++;
         }
