@@ -389,15 +389,15 @@ int CC Paramite::CreateFromSaveState_4855A0(const BYTE* pBuffer)
 
 static int ResolveId(int objId)
 {
-    BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(objId);
-    if (pObj)
+    if (objId != -1)
     {
-        return pObj->field_C_objectId;
+        BaseGameObject* pObj = sObjectIds_5C1B70.Find_449CF0(objId);
+        if (pObj)
+        {
+            return pObj->field_C_objectId;
+        }
     }
-    else
-    {
-        return -1;
-    }
+    return -1;
 }
 
 int Paramite::vGetSaveState_48F220(Paramite_State* pState)
