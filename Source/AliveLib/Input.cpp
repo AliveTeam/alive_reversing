@@ -1770,7 +1770,7 @@ EXPORT void CC Input_SetKeyState_4EDD80(int key, char bIsDown)
 {
     if (bIsDown)
     {
-        sInputKeyStates_BD2F60[key] = 129;
+        sInputKeyStates_BD2F60[key] = 0x81;
     }
     else
     {

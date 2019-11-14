@@ -689,10 +689,13 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
 {
     if (event->type == SDL_KEYDOWN)
     {
+       
         if (!Input_GetInputEnabled_4EDDE0())
         {
             // "Typing" input
             sLastPressedKey_BD30A0 = sdl_key_to_win32_vkey(event->key.keysym.sym);
+
+            LOG_INFO("Key down (input disabled) " << sLastPressedKey_BD30A0);
 
             // Between A-Z
             if (sLastPressedKey_BD30A0 >= 0x41 && sLastPressedKey_BD30A0 <= 0x5A)
@@ -728,17 +731,21 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         {
             // "Game button" input
             const int vk = sdl_key_to_win32_vkey(event->key.keysym.sym);
+            LOG_INFO("Key down " << vk);
+
             Input_SetKeyState_4EDD80(vk, 1);
 
-            if (Input_IsVKPressed_4EDD40(VK_F5))
+            if (vk == VK_F5)
             {
+                LOG_INFO("Save next frame for " << VK_F5);
                 sQuicksave_SaveNextFrame_5CA4D8 = 1;
             }
-            else if (Input_IsVKPressed_4EDD40(VK_F6))
+            else if (vk == VK_F6)
             {
+                LOG_INFO("Load next frame for " << VK_F6);
                 sQuicksave_LoadNextFrame_5CA4D9 = 1;
             }
-            else if (Input_IsVKPressed_4EDD40(VK_F12))
+            else if (vk == VK_F12)
             {
                 const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
                 if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
@@ -755,6 +762,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
     else if (event->type == SDL_KEYUP)
     {
         const int vk = sdl_key_to_win32_vkey(event->key.keysym.sym);
+        LOG_INFO("Key up " << vk);
         Input_SetKeyState_4EDD80(vk, 0);
         sIsAKeyDown_BD309C = FALSE;
         sLastPressedKey_BD30A0 = 0;
