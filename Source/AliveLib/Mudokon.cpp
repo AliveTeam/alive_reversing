@@ -3655,7 +3655,7 @@ __int16 Mudokon::AI_ListeningToAbe_State_4()
                 }
 
                 const FP v48 = ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(2);
-                if (vIsObjNearby_4253B0(v48, sActiveHero_5C1B68) && !(field_16A_flags.Get(Flags::eBit4_blind)) || v44 || FindWheel_4777B0(field_B8_xpos, field_BC_ypos))
+                if ((vIsObjNearby_4253B0(v48, sActiveHero_5C1B68) && !(field_16A_flags.Get(Flags::eBit4_blind))) || v44 || FindWheel_4777B0(field_B8_xpos, field_BC_ypos))
                 {
                     const GameSpeakEvents lastSpeak_1 = LastGameSpeak_476FF0();
                     if (field_17E_delayed_speak != MudAction::eUnknown_17)
@@ -6770,12 +6770,12 @@ void Mudokon::Fall_49_472C60()
             
             MapFollowMe_408D10(TRUE);
 
-            if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            if ((sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
                 FP_GetExponent(field_B8_xpos),
                 FP_GetExponent(field_BC_ypos),
-                TlvTypes::SoftLanding_75)  && field_10C_health > FP_FromInteger(0) ||
+                TlvTypes::SoftLanding_75)  && field_10C_health > FP_FromInteger(0)) ||
                 (field_BC_ypos - field_F8_LastLineYPos < (field_CC_sprite_scale * FP_FromInteger(180)) &&
                 (field_10C_health > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)))
             {

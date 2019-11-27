@@ -2292,9 +2292,9 @@ __int16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
         FP_GetExponent(field_BC_ypos),
         TlvTypes::SlamDoor_85));
 
-    return pSlamDoor && 
-        (pSlamDoor->field_10_starts_shut == TRUE && !SwitchStates_Get_466020(pSlamDoor->field_14_id) ||
-         pSlamDoor->field_10_starts_shut == FALSE && SwitchStates_Get_466020(pSlamDoor->field_14_id));
+    return (pSlamDoor && 
+        ((pSlamDoor->field_10_starts_shut == TRUE && !SwitchStates_Get_466020(pSlamDoor->field_14_id)) ||
+         (pSlamDoor->field_10_starts_shut == FALSE && SwitchStates_Get_466020(pSlamDoor->field_14_id))));
 }
 
 int Fleech::UpdateWakeUpSwitchValue_4308B0()
@@ -2505,7 +2505,7 @@ void Fleech::IncreaseAnger_430920()
 
 __int16 Fleech::InRange_4307C0(BaseAliveGameObject* pObj)
 {
-    if (!pObj || pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (!pObj || (pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
     {
         return FALSE;
     }
@@ -3250,8 +3250,8 @@ __int16 Fleech::AI_Patrol_State_4(BaseAliveGameObject* pTarget)
     }
 
     if (!field_174_flags.Get(Flags_174::eBit6_goes_to_sleep) ||
-        field_13E_anger >= field_140 &&
-        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0))
+        (field_13E_anger >= field_140 &&
+        gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)))
     {
         if ((Fleech_NextRandom() % 64) || field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
         {
@@ -3298,8 +3298,8 @@ __int16 Fleech::AI_Patrol_State_5()
 __int16 Fleech::AI_Patrol_State_6()
 {
     auto pDangerObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
-    if (field_106_current_motion != eFleechMotions::M_Crawl_4_42E960 || pDangerObj &&
-        (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), pDangerObj)))
+    if (field_106_current_motion != eFleechMotions::M_Crawl_4_42E960 || (pDangerObj &&
+        (vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), pDangerObj))))
     {
         if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850)
         {
@@ -3393,7 +3393,7 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
     if (pObj)
     {
         if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) ||
-            pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
+            (pObj == sActiveHero_5C1B68 && sActiveHero_5C1B68->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible)))
         {
             field_11C_obj_id = -1;
             pObj = nullptr;
@@ -3511,8 +3511,8 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
     {
         auto v70 = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_170_danger_obj));
         if (field_106_current_motion != eFleechMotions::M_Crawl_4_42E960 ||
-            v70 &&
-            vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), v70))
+            (v70 &&
+            vIsObjNearby_4253B0(ScaleToGridSize_4498B0(field_CC_sprite_scale) * FP_FromInteger(5), v70)))
         {
             if (field_106_current_motion != eFleechMotions::M_Idle_3_42E850 && field_108_next_motion != -1)
             {
@@ -3608,8 +3608,8 @@ __int16 Fleech::AI_ChasingAbe_1_428760()
         {
             return field_126_state;
         }
-        if (field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && FP_FromInteger(field_160_hoistX) > field_B8_xpos ||
-           !field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && FP_FromInteger(field_160_hoistX) < field_B8_xpos)
+        if ((field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && FP_FromInteger(field_160_hoistX) > field_B8_xpos) ||
+           (!field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) && FP_FromInteger(field_160_hoistX) < field_B8_xpos))
         {
             field_106_current_motion = eFleechMotions::M_Knockback_6_42EAF0;
             return field_126_state;

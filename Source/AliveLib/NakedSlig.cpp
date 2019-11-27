@@ -564,9 +564,9 @@ __int16 NakedSlig::HandleEnemyStopper_41C740(FP /*velX*/)
     field_FC_pPathTLV = pSlamDoor;
 
     if (pSlamDoor &&
-        (pSlamDoor->field_10_starts_shut == TRUE &&
-        !SwitchStates_Get_466020(pSlamDoor->field_14_id) || !pSlamDoor->field_10_starts_shut && 
-         SwitchStates_Get_466020(pSlamDoor->field_14_id)))
+        ((pSlamDoor->field_10_starts_shut == TRUE &&
+        !SwitchStates_Get_466020(pSlamDoor->field_14_id)) || (!pSlamDoor->field_10_starts_shut && 
+         SwitchStates_Get_466020(pSlamDoor->field_14_id))))
     {
         return 1;
     }

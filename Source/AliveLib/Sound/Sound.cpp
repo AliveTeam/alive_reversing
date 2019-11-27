@@ -237,7 +237,7 @@ EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int sampleIdx, i
     }
 
     // TODO: What is this shorthand for ?
-    const int oldField4 = pSoundBuffer->field_4 ^ ((unsigned __int16)idx ^ (unsigned __int16)pSoundBuffer->field_4) & 511;
+    const int oldField4 = pSoundBuffer->field_4 ^ (((unsigned __int16)idx ^ (unsigned __int16)pSoundBuffer->field_4) & 511);
     pSoundBuffer->field_4 = oldField4 + 512;
 
     pSoundBuffer->field_8_sample_idx = sampleIdx;
