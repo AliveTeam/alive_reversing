@@ -355,7 +355,7 @@ private:
     __int16 field_160_hoistX;
     __int16 field_162_hoistY;
     __int16 field_164;
-    __int16 field_166_angle;
+    char field_166_angle;
     char field_167;
     FP field_168;
     FP field_16C;

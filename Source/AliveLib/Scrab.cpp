@@ -1037,7 +1037,7 @@ __int16 Scrab::AI_Patrol_0_4AA630()
 
     case AI_Patrol::eState0_Moving_1:
         field_194 = Scrab::LastSpeak_4A56F0();
-        if (field_1A2 >= field_1A0 || field_194 != GameSpeakEvents::eUnknown_53 && field_194 != GameSpeakEvents::eUnknown_54)
+        if (field_1A2 >= field_1A0 || (field_194 != GameSpeakEvents::eUnknown_53 && field_194 != GameSpeakEvents::eUnknown_54))
         {
             if (Find_Fleech_4A4C90())
             {
@@ -1100,7 +1100,7 @@ __int16 Scrab::AI_Patrol_0_4AA630()
 
     case AI_Patrol::eState0_Idle_3:
         field_194 = LastSpeak_4A56F0();
-        if (field_1A2 >= field_1A0 || field_194 != GameSpeakEvents::eUnknown_53 && field_194 != GameSpeakEvents::eUnknown_54)
+        if (field_1A2 >= field_1A0 || (field_194 != GameSpeakEvents::eUnknown_53 && field_194 != GameSpeakEvents::eUnknown_54))
         {
             if (Find_Fleech_4A4C90())
             {
@@ -1242,7 +1242,7 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         return AI_Fighting::eState2_LookingForOpponent_0;
     }
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
-    if (!pObj || field_6_flags.Get(BaseGameObject::eDead_Bit3) || static_cast<int>(sGnFrame_5C1B84) > field_14C && !CanSeeAbe_4A51A0(pObj))
+    if (!pObj || field_6_flags.Get(BaseGameObject::eDead_Bit3) || (static_cast<int>(sGnFrame_5C1B84) > field_14C && !CanSeeAbe_4A51A0(pObj)))
     {
         field_120_obj_id = -1;
         field_108_next_motion = eScrabMotions::M_Stand_0_4A8220;
@@ -1288,8 +1288,8 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         if (!field_106_current_motion)
         {
             field_194 = LastSpeak_4A56F0();
-            if (field_1A2 < field_1A0
-                && LastSpeak_4A56F0() == GameSpeakEvents::eUnknown_53
+            if ((field_1A2 < field_1A0
+                && LastSpeak_4A56F0() == GameSpeakEvents::eUnknown_53)
                 || LastSpeak_4A56F0() == GameSpeakEvents::eUnknown_54)
             {
                 return AI_ChasingEnemy::eState1_UNKNOWN_15;
@@ -1400,8 +1400,8 @@ __int16 Scrab::AI_ChasingEnemy_1_4A6470()
         }
         return AI_ChasingEnemy::eState1_Idle_1;
     case AI_ChasingEnemy::eState1_Attacking_8:
-        if (field_106_current_motion != eScrabMotions::M_AttackLunge_37_4AA0B0
-            && field_106_current_motion != eScrabMotions::M_LegKick_38_4AA120
+        if ((field_106_current_motion != eScrabMotions::M_AttackLunge_37_4AA0B0
+            && field_106_current_motion != eScrabMotions::M_LegKick_38_4AA120)
             || !field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             return field_11C_sub_state;
@@ -1540,8 +1540,8 @@ __int16 Scrab::AI_ChasingEnemy_State_2(BaseAliveGameObject* pObj)
 {
     field_194 = LastSpeak_4A56F0();
     if (field_1A2 >= field_1A0
-        || LastSpeak_4A56F0() != GameSpeakEvents::eUnknown_53
-        && LastSpeak_4A56F0() != GameSpeakEvents::eUnknown_54)
+        || (LastSpeak_4A56F0() != GameSpeakEvents::eUnknown_53
+        && LastSpeak_4A56F0() != GameSpeakEvents::eUnknown_54))
     {
         if (Handle_SlamDoor_or_EnemyStopper_4A4830(field_C4_velx, 0))
         {
@@ -4162,8 +4162,8 @@ void Scrab::KillTarget_4A7F20(BaseAliveGameObject* pTarget)
                                     if (!pObj->field_114_flags.Get(Flags_114::e114_Bit8_bInvisible))
                                     {
                                         if (pObj->field_4_typeId != Types::eScrab_112 || !pObj->field_114_flags.Get(Flags_114::e114_Bit4_bPossesed) ||
-                                            pObj->field_106_current_motion != eScrabMotions::M_AttackSpin_32_4A8DC0 &&
-                                            (pObj->field_4_typeId != Types::eFleech_50 || BrainIs(&Scrab::AI_Possessed_5_4A6180) || field_1A8_kill_close_fleech))
+                                            (pObj->field_106_current_motion != eScrabMotions::M_AttackSpin_32_4A8DC0 &&
+                                            (pObj->field_4_typeId != Types::eFleech_50 || BrainIs(&Scrab::AI_Possessed_5_4A6180) || field_1A8_kill_close_fleech)))
 
                                         {
                                             PSX_RECT objRect = {};
@@ -4432,9 +4432,9 @@ __int16 Scrab::Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, __int16 bCheckLef
         TlvTypes::SlamDoor_85);
 
     auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(field_FC_pPathTLV);
-    if (pSlamDoorTlv && (pSlamDoorTlv->field_10_starts_shut == 1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_id) || 
-        !pSlamDoorTlv->field_10_starts_shut && 
-        SwitchStates_Get_466020(pSlamDoorTlv->field_14_id)))
+    if ((pSlamDoorTlv && (pSlamDoorTlv->field_10_starts_shut == 1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_id)) || 
+        (!pSlamDoorTlv->field_10_starts_shut && 
+        SwitchStates_Get_466020(pSlamDoorTlv->field_14_id))))
     {
         return 1;
     }
