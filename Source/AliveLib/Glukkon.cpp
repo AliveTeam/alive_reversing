@@ -1706,9 +1706,9 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
 
     case 2:
         if (Input_IsChanting_45F260()
-            || (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1 ||
+            || ((field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Aslik_1 ||
                 field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Drpik_2 ||
-                (field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
+                field_1A8_tlvData.field_22_glukkon_type == GlukkonTypes::Phleg_3)
             && SwitchStates_Get_466020(field_1A8_tlvData.field_26_play_movie_id)))
         {
             if (!(static_cast<int>(sGnFrame_5C1B84) % 4))

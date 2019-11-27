@@ -9320,7 +9320,7 @@ __int16 Abe::CantBeDamaged_44BAB0()
     }
 
     // TODO: Unknown what this is checking, condition should probably be inverted
-    if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)) && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render) || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if ((!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_bShrivel)) && field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render)) || field_114_flags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
         return FALSE;
     }
