@@ -234,7 +234,7 @@ void BirdPortal::vUpdate_498280()
 
     case States::State_6:
         Event_Broadcast_422BC0(GetEvent_499A70(), this);
-        if (field_24_portal_type != PortalType::eWorker_1 && field_24_portal_type != PortalType::eShrykull_2 || Event_Get_422C00(kEventAbeOhm))
+        if ((field_24_portal_type != PortalType::eWorker_1 && field_24_portal_type != PortalType::eShrykull_2) || Event_Get_422C00(kEventAbeOhm))
         {
             if ((Math_NextRandom() % 8) == 0)
             {
@@ -564,12 +564,12 @@ void BirdPortal::vUpdate_498280()
 void BirdPortal::vScreenChanged_499B50()
 {
     if (field_28_state <= States::State_1 || field_28_state >= States::State_21 || 
-        (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
+        ((gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
          gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId) && 
 
         (field_28_state != States::State_16 || field_24_portal_type != PortalType::eAbe_0 || 
             gMap_5C3030.field_A_5C303A_levelId != field_7C_dest_level || 
-            gMap_5C3030.field_C_5C303C_pathId != field_7E_dest_path))
+            gMap_5C3030.field_C_5C303C_pathId != field_7E_dest_path)))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
