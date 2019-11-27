@@ -2293,7 +2293,7 @@ __int16 Fleech::HandleEnemyStopperOrSlamDoor_42ADC0(int velX)
         TlvTypes::SlamDoor_85));
 
     return (pSlamDoor && 
-        (pSlamDoor->field_10_starts_shut == TRUE && !SwitchStates_Get_466020(pSlamDoor->field_14_id) ||
+        ((pSlamDoor->field_10_starts_shut == TRUE && !SwitchStates_Get_466020(pSlamDoor->field_14_id)) ||
          (pSlamDoor->field_10_starts_shut == FALSE && SwitchStates_Get_466020(pSlamDoor->field_14_id))));
 }
 

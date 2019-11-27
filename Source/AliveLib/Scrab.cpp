@@ -4432,8 +4432,8 @@ __int16 Scrab::Handle_SlamDoor_or_EnemyStopper_4A4830(FP velX, __int16 bCheckLef
         TlvTypes::SlamDoor_85);
 
     auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(field_FC_pPathTLV);
-    if ((pSlamDoorTlv && (pSlamDoorTlv->field_10_starts_shut == 1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_id)) || 
-        (!pSlamDoorTlv->field_10_starts_shut && 
+    if ((pSlamDoorTlv && (pSlamDoorTlv->field_10_starts_shut == 1 && !SwitchStates_Get_466020(pSlamDoorTlv->field_14_id) || 
+        !pSlamDoorTlv->field_10_starts_shut && 
         SwitchStates_Get_466020(pSlamDoorTlv->field_14_id))))
     {
         return 1;
