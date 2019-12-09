@@ -1074,7 +1074,7 @@ EXPORT void CC Factory_MeatSack_4D8140(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-static CompileTimeResourceList<5> kScrabResources(
+static CompileTimeResourceList<12> kScrabResources(
 {
     { ResourceManager::Resource_Animation, 700 },
     { ResourceManager::Resource_Animation, 706 },
