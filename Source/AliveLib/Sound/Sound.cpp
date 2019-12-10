@@ -50,6 +50,38 @@ EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffs
 #endif
 }
 
+
+EXPORT void CC SND_SsQuit_4EFD50()
+{
+    if (sDSound_BBC344)
+    {
+        for (int i = 0; i < 32; i++)
+        {
+            if (sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer)
+            {
+                sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer->Stop();
+                sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer->Release();
+                sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer = nullptr;
+            }
+        }
+
+        for (int i = 0; i < sLoadedSoundsCount_BBC394; i++)
+        {
+            SoundEntry* pEntry = sSoundSamples_BBBF38[i];
+            if (pEntry->field_4_pDSoundBuffer)
+            {
+                pEntry->field_4_pDSoundBuffer->Stop();
+                pEntry->field_4_pDSoundBuffer->Release();
+                pEntry->field_4_pDSoundBuffer = nullptr;
+                pEntry->field_10 = 0;
+            }
+        }
+
+        sDSound_BBC344->Release();
+        sDSound_BBC344 = nullptr;
+    }
+}
+
 EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 {
     DWORD dwReadPos = 0;

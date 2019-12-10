@@ -177,33 +177,6 @@ int SDLSoundBuffer::Duplicate(SDLSoundBuffer** dupePtr)
 
 // Exoddus Functions:
 
-EXPORT void CC SND_SsQuit_4EFD50()
-{
-    for (int i = 0; i < 32; i++)
-    {
-        if (sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer)
-        {
-            sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer->Stop();
-            sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer->Release();
-            sSoundBuffers_BBBAB8[i].field_0_pDSoundBuffer = nullptr;
-        }
-    }
-
-    for (int i = 0; i < sLoadedSoundsCount_BBC394; i++)
-    {
-        SoundEntry* pEntry = sSoundSamples_BBBF38[i];
-        if (pEntry->field_4_pDSoundBuffer)
-        {
-            pEntry->field_4_pDSoundBuffer->Stop();
-            pEntry->field_4_pDSoundBuffer->Release();
-            pEntry->field_4_pDSoundBuffer = nullptr;
-            pEntry->field_10 = 0;
-        }
-    }
-
-    return;
-}
-
 EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
 {
     pSnd->field_4_pDSoundBuffer->mState.bLoop = false;
