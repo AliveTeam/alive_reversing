@@ -249,32 +249,6 @@ int CC SND_Reload_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, uns
     return 0;
 }
 
-EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
-{
-    if (!sDSound_BBC344)
-    {
-        return -1;
-    }
-
-    pSnd->field_10 = 0;
-
-    if (pSnd->field_8_pSoundBuffer)
-    {
-        mem_free_4F4EA0(pSnd->field_8_pSoundBuffer);
-        pSnd->field_8_pSoundBuffer = 0;
-    }
-
-    if (pSnd->field_4_pDSoundBuffer)
-    {
-        pSnd->field_4_pDSoundBuffer->Release();
-        pSnd->field_4_pDSoundBuffer = nullptr;
-    }
-
-    sSoundSamples_BBBF38[pSnd->field_0_tableIdx] = nullptr;
-    sLoadedSoundsCount_BBC394--;
-    return 0;
-}
-
 EXPORT void CC SND_InitVolumeTable_4EEF60()
 {
 #define max(a,b) (((a) > (b)) ? (a) : (b))

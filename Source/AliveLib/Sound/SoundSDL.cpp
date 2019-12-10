@@ -134,6 +134,7 @@ int SDLSoundBuffer::SetPan(signed int pan)
 
 void SDLSoundBuffer::Release()
 {
+    mState.bLoop = false; // because the SDL copy paste of SND_Free_4EFA30 was doing this
     mState.bIsReleased = true;
 }
 
@@ -177,28 +178,6 @@ int SDLSoundBuffer::Duplicate(SDLSoundBuffer** dupePtr)
 
 // Exoddus Functions:
 
-EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
-{
-    pSnd->field_4_pDSoundBuffer->mState.bLoop = false;
-
-    pSnd->field_10 = 0;
-
-    if (pSnd->field_8_pSoundBuffer)
-    {
-        mem_free_4F4EA0(pSnd->field_8_pSoundBuffer);
-        pSnd->field_8_pSoundBuffer = 0;
-    }
-
-    if (pSnd->field_4_pDSoundBuffer)
-    {
-        pSnd->field_4_pDSoundBuffer->Release();
-        pSnd->field_4_pDSoundBuffer = nullptr;
-    }
-
-    sSoundSamples_BBBF38[pSnd->field_0_tableIdx] = nullptr;
-    sLoadedSoundsCount_BBC394--;
-    return 0;
-}
 
 EXPORT void CC SND_InitVolumeTable_4EEF60()
 {
