@@ -17,16 +17,10 @@
 bool gReverbEnabled = false;
 bool gAudioStereo = true;
 
-static int gSoundBufferSamples = 256;
-static int gCurrentSoundBufferSize = 0;
-const int gMixVolume = 127;
 
 SDLSoundBuffer* sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
 
 static SDL_AudioSpec gAudioDeviceSpec = {};
-static AudioFilterMode gAudioFilterMode = AudioFilterMode::Linear;
-static StereoSample_S16 * pTempSoundBuffer;
-static StereoSample_S16 * pNoReverbBuffer;
 
 void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
 {
@@ -54,194 +48,6 @@ void RemoveVoiceFromActiveList(SDLSoundBuffer * pVoice)
     }
 
     printf("WARNING !!: Could not find voice to remove!?!\n");
-}
-
-void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCount)
-{
-    // Check if our buffer size changes, and if its buffer, then resize the array
-    if (sampleBufferCount > gCurrentSoundBufferSize)
-    {
-        if (pTempSoundBuffer != nullptr)
-        {
-            delete[] pTempSoundBuffer;
-            pTempSoundBuffer = nullptr;
-        }
-        if (pNoReverbBuffer != nullptr)
-        {
-            delete[] pNoReverbBuffer;
-            pNoReverbBuffer = nullptr;
-        }
-    }
-
-    if (pTempSoundBuffer == nullptr)
-    {
-        pTempSoundBuffer = new StereoSample_S16[sampleBufferCount];
-    }
-    if (pNoReverbBuffer == nullptr)
-    {
-        pNoReverbBuffer = new StereoSample_S16[sampleBufferCount];
-    }
-
-    memset(pNoReverbBuffer, 0, sampleBufferCount * sizeof(StereoSample_S16));
-
-    bool reverbPass = false;
-
-    for (int vi = 0; vi < MAX_VOICE_COUNT; vi++)
-    {
-        SDLSoundBuffer * pVoice = sAE_ActiveVoices[vi];
-
-        if (pVoice == nullptr || !pVoice->pBuffer)
-        {
-            continue;
-        }
-
-        if (pVoice->mState.bIsReleased)
-        {
-            pVoice->Destroy();
-            continue;
-        }
-
-        // Clear Temp Sample Buffer
-        memset(pTempSoundBuffer, 0, sampleBufferCount * sizeof(StereoSample_S16));
-
-        Sint16* pVoiceBufferPtr = reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data());
-
-        bool loopActive = true;
-        for (int i = 0; i < sampleBufferCount && pVoice->pBuffer && loopActive; i++)
-        {
-            if (!pVoice->pBuffer || pVoice->mState.eStatus != AE_SDL_Voice_Status::Playing || pVoice->mState.iSampleCount == 0)
-            {
-                loopActive = false;
-                continue;
-            }
-
-            if (pVoice->mState.iVolume < pVoice->mState.iVolumeTarget)
-            {
-                pVoice->mState.iVolume++;
-            }
-            else if (pVoice->mState.iVolume > pVoice->mState.iVolumeTarget)
-            {
-                pVoice->mState.iVolume--;
-            }
-
-            if (pVoice->mState.iChannels == 2)
-            {
-                reverbPass = false; // Todo: determine this with flags in the sound object itself.
-
-                                    // For Stereo buffers. The only time this is played is for FMV's.
-                                    // Right now, unless the playback device is at 44100 hz, it sounds awful.
-                                    // TODO: Resampling for stereo
-
-                StereoSample_S16 pSample = reinterpret_cast<StereoSample_S16*>(pVoiceBufferPtr)[static_cast<int>(pVoice->mState.fPlaybackPosition)];
-                pTempSoundBuffer[i].left = static_cast<signed short>((pSample.left * pVoice->mState.iVolume) / 127);
-                pTempSoundBuffer[i].right = static_cast<signed short>((pSample.right * pVoice->mState.iVolume) / 127);
-
-                pVoice->mState.fPlaybackPosition += pVoice->mState.fFrequency;
-            }
-            else
-            {
-                reverbPass = true;
-
-                int s = 0;
-
-                switch (gAudioFilterMode)
-                {
-                case AudioFilterMode::NoFilter:
-                    s = pVoiceBufferPtr[static_cast<int>(pVoice->mState.fPlaybackPosition)];
-                    break;
-                case AudioFilterMode::Linear:
-                    const signed short s1 = pVoiceBufferPtr[static_cast<int>(pVoice->mState.fPlaybackPosition)];
-                    const signed short s2 = pVoiceBufferPtr[(static_cast<int>(pVoice->mState.fPlaybackPosition) + 1) % pVoice->mState.iSampleCount];
-
-                    s = static_cast<int>((s1 + ((s2 - s1) * (pVoice->mState.fPlaybackPosition - floorf(pVoice->mState.fPlaybackPosition)))));
-                    break;
-                }
-
-                signed int leftPan = 10000;
-                signed int rightPan = 10000;
-
-                if (gAudioStereo)
-                {
-                    if (pVoice->mState.iPan < 0)
-                    {
-                        rightPan = 10000 - abs(pVoice->mState.iPan);
-                    }
-                    else if (pVoice->mState.iPan > 0)
-                    {
-                        leftPan = 10000 - abs(pVoice->mState.iPan);
-                    }
-                }
-                else
-                {
-                    signed int r = (leftPan + rightPan) / 2;
-                    leftPan = r;
-                    rightPan = r;
-                }
-
-                pTempSoundBuffer[i].left = static_cast<signed short>((((s * leftPan) / 10000) * pVoice->mState.iVolume) / 127);
-                pTempSoundBuffer[i].right = static_cast<signed short>((((s * rightPan) / 10000) * pVoice->mState.iVolume) / 127);
-
-                pVoice->mState.fPlaybackPosition += pVoice->mState.fFrequency;
-            }
-
-            if (pVoice->mState.fPlaybackPosition >= pVoice->mState.iSampleCount / pVoice->mState.iChannels)
-            {
-                if (pVoice->mState.bLoop)
-                {
-                    // Restart playback for loop.
-                    pVoice->mState.fPlaybackPosition = 0;
-                }
-                else
-                {
-                    pVoice->mState.fPlaybackPosition = 0;
-                    pVoice->mState.eStatus = AE_SDL_Voice_Status::Stopped;
-                }
-            }
-        }
-
-        if (reverbPass)
-        {
-            SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(pTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
-        }
-        else
-        {
-            SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pNoReverbBuffer), reinterpret_cast<Uint8 *>(pTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
-        }
-    }
-
-    // Do Reverb Pass
-
-    if (gReverbEnabled)
-    {
-        Reverb_Mix(pSampleBuffer, AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), gMixVolume);
-    }
-
-    // Mix our no reverb buffer
-    SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(pNoReverbBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), gMixVolume);
-
-    //delete[] tempBuffer;
-    //delete[] noReverbBuffer;
-}
-
-void AE_SDL_Audio_Callback(void * /*userdata*/, Uint8 *stream, int len)
-{
-    memset(stream, 0, len);
-    AE_SDL_Audio_Generate(reinterpret_cast<StereoSample_S16 *>(stream), len / sizeof(StereoSample_S16));
-
-    // Frag code    
-    /*const int lenStereo = len / sizeof(StereoSample_S16);
-    const int fragSize = 128;
-    const int fragments = lenStereo / fragSize;
-
-    for (int i = 0; i < fragments; i++)
-    {
-        AE_SDL_Audio_Generate(reinterpret_cast<StereoSample_S16 *>(stream + (i * fragSize * sizeof(StereoSample_S16))), fragSize);
-    }*/
-}
-
-void AE_SDL_AudioShutdown()
-{
-    // Todo: clean up audio + reverb buffers
 }
 
 SDLSoundBuffer::SDLSoundBuffer()
@@ -504,62 +310,10 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
     return -1;
 }
 
-signed int CC SND_CreateDS_SDL(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
+signed int CC SND_CreateDS_SDL(unsigned int sampleRate, int bitsPerSample, int isStereo)
 {
-    if (!SDL_Init(SDL_INIT_AUDIO))
-    {
-        for (int i = 0; i < SDL_GetNumAudioDrivers(); i++)
-        {
-            printf("SDL Audio Driver %i: %s\n", i, SDL_GetAudioDriver(i));
-        }
-
-        gAudioDeviceSpec.callback = AE_SDL_Audio_Callback;
-        gAudioDeviceSpec.format = AUDIO_S16;
-        gAudioDeviceSpec.channels = 2;
-        gAudioDeviceSpec.freq = 44100;
-        gAudioDeviceSpec.samples = static_cast<Uint16>(gSoundBufferSamples);
-        gAudioDeviceSpec.userdata = NULL;
-
-        if (SDL_OpenAudio(&gAudioDeviceSpec, NULL) < 0) {
-            fprintf(stderr, "Couldn't open SDL audio: %s\n", SDL_GetError());
-        }
-        else
-        {
-            printf("-----------------------------\n");
-            printf("Audio Device opened, got specs:\n");
-            printf("Channels: %i\nFormat: %X\nFreq: %i\nPadding: %i\nSamples: %i\nSize: %i\nSilence: %i\n",
-                gAudioDeviceSpec.channels, gAudioDeviceSpec.format, gAudioDeviceSpec.freq, gAudioDeviceSpec.padding, gAudioDeviceSpec.samples, gAudioDeviceSpec.size, gAudioDeviceSpec.silence);
-            printf("-----------------------------\n");
-
-            gSoundBufferSamples = gAudioDeviceSpec.samples;
-
-            Reverb_Init(gAudioDeviceSpec.freq);
-
-            memset(&sAE_ActiveVoices, 0, sizeof(sAE_ActiveVoices));
-
-            SDL_PauseAudio(0);
-
-            SND_InitVolumeTable_4EEF60();
-
-            if (sLoadedSoundsCount_BBC394)
-            {
-                for (int i = 0; i < 256; i++)
-                {
-                    if (sSoundSamples_BBBF38[i])
-                    {
-                        SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
-                        SND_Reload_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
-                        if ((i + 1) == sLoadedSoundsCount_BBC394)
-                            break;
-                    }
-                }
-            }
-            sLastNotePlayTime_BBC33C = SYS_GetTicks();
-
-            return 0;
-        }
-    }
-
+    sDSound_BBC344 = new SDLSoundSystem();
+    sDSound_BBC344->Init(sampleRate, bitsPerSample, isStereo);
     return 0;
 }
 
@@ -713,5 +467,257 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
 
     return 0;
 }
+
+void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
+{
+    if (SDL_Init(SDL_INIT_AUDIO) != 0)
+    {
+        LOG_ERROR("SDL_Init(SDL_INIT_AUDIO) failed " << SDL_GetError());
+        return;
+    }
+
+    for (int i = 0; i < SDL_GetNumAudioDrivers(); i++)
+    {
+        LOG_INFO("SDL Audio Driver " << i << " " << SDL_GetAudioDriver(i));
+    }
+
+    gAudioDeviceSpec.callback = SDLSoundSystem::AudioCallBackStatic;
+    gAudioDeviceSpec.format = AUDIO_S16;
+    gAudioDeviceSpec.channels = 2;
+    gAudioDeviceSpec.freq = 44100;
+    gAudioDeviceSpec.samples = 256;
+    gAudioDeviceSpec.userdata = this;
+
+    if (SDL_OpenAudio(&gAudioDeviceSpec, NULL) < 0)
+    {
+        LOG_ERROR("Couldn't open SDL audio: " << SDL_GetError());
+        return;
+    }
+
+    LOG_INFO("-----------------------------");
+    LOG_INFO("Audio Device opened, got specs:");
+    LOG_INFO(
+        "Channels: " << gAudioDeviceSpec.channels << " " <<
+        "nFormat: " << gAudioDeviceSpec.format << " " <<
+        "nFreq: " << gAudioDeviceSpec.freq << " " <<
+        "nPadding: " << gAudioDeviceSpec.padding << " " <<
+        "nSamples: " << gAudioDeviceSpec.samples << " " <<
+        "nSize: " << gAudioDeviceSpec.size << " " <<
+        "nSilence: " << gAudioDeviceSpec.silence);
+    LOG_INFO("-----------------------------");
+
+    Reverb_Init(gAudioDeviceSpec.freq);
+
+    SDL_PauseAudio(0);
+
+    SND_InitVolumeTable_4EEF60();
+
+    if (sLoadedSoundsCount_BBC394)
+    {
+        for (int i = 0; i < 256; i++)
+        {
+            if (sSoundSamples_BBBF38[i])
+            {
+                SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
+                //SND_LoadSamples_4EF1C0
+                    SND_Reload_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                if ((i + 1) == sLoadedSoundsCount_BBC394)
+                    break;
+            }
+        }
+    }
+
+    sLastNotePlayTime_BBC33C = SYS_GetTicks();
+}
+
+void SDLSoundSystem::AudioCallBack(Uint8 *stream, int len)
+{
+    memset(stream, 0, len);
+    RenderAudio(reinterpret_cast<StereoSample_S16 *>(stream), len / sizeof(StereoSample_S16));
+}
+
+void SDLSoundSystem::RenderAudio(StereoSample_S16* pSampleBuffer, int sampleBufferCount)
+{
+    // Check if our buffer size changes, and if its buffer, then resize the array
+    if (sampleBufferCount > mCurrentSoundBufferSize)
+    {
+        if (mTempSoundBuffer != nullptr)
+        {
+            delete[] mTempSoundBuffer;
+            mTempSoundBuffer = nullptr;
+        }
+        if (mNoReverbBuffer != nullptr)
+        {
+            delete[] mNoReverbBuffer;
+
+            mNoReverbBuffer = nullptr;
+        }
+        mCurrentSoundBufferSize = sampleBufferCount;
+    }
+
+    if (mTempSoundBuffer == nullptr)
+    {
+        mTempSoundBuffer = new StereoSample_S16[sampleBufferCount];
+    }
+    if (mNoReverbBuffer == nullptr)
+    {
+        mNoReverbBuffer = new StereoSample_S16[sampleBufferCount];
+    }
+
+    memset(mNoReverbBuffer, 0, sampleBufferCount * sizeof(StereoSample_S16));
+
+    for (int vi = 0; vi < MAX_VOICE_COUNT; vi++)
+    {
+        SDLSoundBuffer * pVoice = sAE_ActiveVoices[vi];
+        if (pVoice)
+        {
+            RenderSoundBuffer(*pVoice, pSampleBuffer, sampleBufferCount);
+        }
+    }
+
+    // Do Reverb Pass
+
+    if (gReverbEnabled)
+    {
+        Reverb_Mix(pSampleBuffer, AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
+    }
+
+    // Mix our no reverb buffer
+    SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(mNoReverbBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
+
+    //delete[] tempBuffer;
+    //delete[] noReverbBuffer;
+}
+
+
+void SDLSoundSystem::RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* pSampleBuffer, int sampleBufferCount)
+{
+    bool reverbPass = false;
+
+    SDLSoundBuffer* pVoice = &entry;
+
+    if (pVoice == nullptr || !pVoice->pBuffer || pVoice->pBuffer->empty())
+    {
+        return;
+    }
+
+    if (pVoice->mState.bIsReleased)
+    {
+        pVoice->Destroy(); // TODO: Still correct ??
+        return;
+    }
+
+    // Clear Temp Sample Buffer
+    memset(mTempSoundBuffer, 0, sampleBufferCount * sizeof(StereoSample_S16));
+
+    Sint16* pVoiceBufferPtr = reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data());
+
+    bool loopActive = true;
+    for (int i = 0; i < sampleBufferCount && pVoice->pBuffer && loopActive; i++)
+    {
+        if (pVoice->pBuffer->empty() || pVoice->mState.eStatus != AE_SDL_Voice_Status::Playing || pVoice->mState.iSampleCount == 0)
+        {
+            loopActive = false;
+            continue;
+        }
+
+        if (pVoice->mState.iVolume < pVoice->mState.iVolumeTarget)
+        {
+            pVoice->mState.iVolume++;
+        }
+        else if (pVoice->mState.iVolume > pVoice->mState.iVolumeTarget)
+        {
+            pVoice->mState.iVolume--;
+        }
+
+        if (pVoice->mState.iChannels == 2)
+        {
+            reverbPass = false; // Todo: determine this with flags in the sound object itself.
+                                // For Stereo buffers. The only time this is played is for FMV's.
+                                // Right now, unless the playback device is at 44100 hz, it sounds awful.
+                                // TODO: Resampling for stereo
+
+            StereoSample_S16 pSample = reinterpret_cast<StereoSample_S16*>(pVoiceBufferPtr)[static_cast<int>(pVoice->mState.fPlaybackPosition)];
+            mTempSoundBuffer[i].left = static_cast<signed short>((pSample.left * pVoice->mState.iVolume) / 127);
+            mTempSoundBuffer[i].right = static_cast<signed short>((pSample.right * pVoice->mState.iVolume) / 127);
+
+            pVoice->mState.fPlaybackPosition += pVoice->mState.fFrequency;
+        }
+        else
+        {
+            reverbPass = true;
+
+            int s = 0;
+
+            switch (mAudioFilterMode)
+            {
+            case AudioFilterMode::NoFilter:
+                s = pVoiceBufferPtr[static_cast<int>(pVoice->mState.fPlaybackPosition)];
+                break;
+            case AudioFilterMode::Linear:
+                const signed short s1 = pVoiceBufferPtr[static_cast<int>(pVoice->mState.fPlaybackPosition)];
+                const signed short s2 = pVoiceBufferPtr[(static_cast<int>(pVoice->mState.fPlaybackPosition) + 1) % pVoice->mState.iSampleCount];
+
+                s = static_cast<int>((s1 + ((s2 - s1) * (pVoice->mState.fPlaybackPosition - floorf(pVoice->mState.fPlaybackPosition)))));
+                break;
+            }
+
+            signed int leftPan = 10000;
+            signed int rightPan = 10000;
+
+            if (gAudioStereo)
+            {
+                if (pVoice->mState.iPan < 0)
+                {
+                    rightPan = 10000 - abs(pVoice->mState.iPan);
+                }
+                else if (pVoice->mState.iPan > 0)
+                {
+                    leftPan = 10000 - abs(pVoice->mState.iPan);
+                }
+            }
+            else
+            {
+                signed int r = (leftPan + rightPan) / 2;
+                leftPan = r;
+                rightPan = r;
+            }
+
+            mTempSoundBuffer[i].left = static_cast<signed short>((((s * leftPan) / 10000) * pVoice->mState.iVolume) / 127);
+            mTempSoundBuffer[i].right = static_cast<signed short>((((s * rightPan) / 10000) * pVoice->mState.iVolume) / 127);
+
+            pVoice->mState.fPlaybackPosition += pVoice->mState.fFrequency;
+        }
+
+        if (pVoice->mState.fPlaybackPosition >= pVoice->mState.iSampleCount / pVoice->mState.iChannels)
+        {
+            if (pVoice->mState.bLoop)
+            {
+                // Restart playback for loop.
+                pVoice->mState.fPlaybackPosition = 0;
+            }
+            else
+            {
+                pVoice->mState.fPlaybackPosition = 0;
+                pVoice->mState.eStatus = AE_SDL_Voice_Status::Stopped;
+            }
+        }
+    }
+
+    if (reverbPass)
+    {
+        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(mTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
+    }
+    else
+    {
+        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(mNoReverbBuffer), reinterpret_cast<Uint8 *>(mTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
+    }
+}
+
+void SDLSoundSystem::AudioCallBackStatic(void* userdata, Uint8 *stream, int len)
+{
+    static_cast<SDLSoundSystem*>(userdata)->AudioCallBack(stream, len);
+}
+
 
 #endif

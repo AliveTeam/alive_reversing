@@ -10,7 +10,6 @@
 #include <mmeapi.h>
 #include <timeapi.h>
 
-ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
 ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);
 
 ALIVE_VAR(1, 0xbbc340, int, sPrimarySoundBufferSampleRate_BBC340, 0);
@@ -565,7 +564,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
         return -1;
     }
 
-    AE_BUFFERTYPE* pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
+    TSoundBufferType* pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
     if (!pDSoundBuffer)
     {
         return -1;

@@ -26,6 +26,12 @@ ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
 
 const DWORD k127_dword_575158 = 127;
 
+#if USE_SDL2_SOUND
+ALIVE_VAR(1, 0xBBC344, SDLSoundSystem*, sDSound_BBC344, nullptr);
+#else
+ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
+#endif
+
 EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSample, int isStereo)
 {
 #if USE_SDL2_SOUND
@@ -111,7 +117,7 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)
 {
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
-    AE_BUFFERTYPE* pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
+    TSoundBufferType* pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
 
     if (!pDSoundBuffer || ((idx ^ pSoundBuffer->field_4) & ~511)) // TODO: Refactor
     {
@@ -177,7 +183,7 @@ EXPORT int CC SND_Buffer_Get_Status_4F00F0(int idx, int a2)
 
 EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
 {
-    AE_BUFFERTYPE* pSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    TSoundBufferType* pSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pSoundBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
     {
         return -1;
@@ -194,7 +200,7 @@ EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
 
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
 {
-    AE_BUFFERTYPE* pDSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    TSoundBufferType* pDSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
 
     if (!pDSoundBuffer || (idx ^ pSoundBuffer->field_4) & ~511)
@@ -218,7 +224,7 @@ EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
 
 EXPORT signed int CC SND_Stop_Sample_At_Idx_4EFA90(int idx)
 {
-    AE_BUFFERTYPE* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    TSoundBufferType* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511) // TODO: Same unknown field_4 conversion
     {
         return -1;
@@ -248,7 +254,7 @@ EXPORT SoundBuffer* CC SND_Recycle_Sound_Buffer_4EF9C0(int idx, int sampleIdx, i
 
 EXPORT int CC SND_Get_Buffer_Status_4EE8F0(int idx)
 {
-    AE_BUFFERTYPE* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
+    TSoundBufferType* pBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
     if (!pBuffer || (idx ^ sSoundBuffers_BBBAB8[idx & 511].field_4) & ~511)
     {
         return 0;

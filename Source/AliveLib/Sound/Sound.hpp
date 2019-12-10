@@ -2,25 +2,76 @@
 
 #include "FunctionFwd.hpp"
 
+
 #if !USE_SDL2_SOUND
 #include <mmeapi.h>
 #include <dsound.h>
+#else
+/*
+ *  extended waveform format structure used for all non-PCM formats. this
+ *  structure is common to all non-PCM formats.
+ */
+ // NOTE: Windows type
+typedef struct tWAVEFORMATEX
+{
+    WORD        wFormatTag;         /* format type */
+    WORD        nChannels;          /* number of channels (i.e. mono, stereo...) */
+    DWORD       nSamplesPerSec;     /* sample rate */
+    DWORD       nAvgBytesPerSec;    /* for buffer estimation */
+    WORD        nBlockAlign;        /* block size of data */
+    WORD        wBitsPerSample;     /* number of bits per sample of mono data */
+    WORD        cbSize;             /* the count in bytes of the size of */
+                                    /* extra information (after cbSize) */
+} WAVEFORMATEX, *PWAVEFORMATEX, *NPWAVEFORMATEX, *LPWAVEFORMATEX;
+
+/* flags for wFormatTag field of WAVEFORMAT */
+#define WAVE_FORMAT_PCM     1
+
+// Note: Windows SDound type
+typedef struct _DSBUFFERDESC
+{
+    DWORD           dwSize;
+    DWORD           dwFlags;
+    DWORD           dwBufferBytes;
+    DWORD           dwReserved;
+    LPWAVEFORMATEX  lpwfxFormat;
+#if DIRECTSOUND_VERSION >= 0x0700
+    GUID            guid3DAlgorithm;
+#endif
+} DSBUFFERDESC, *LPDSBUFFERDESC;
+typedef const DSBUFFERDESC *LPCDSBUFFERDESC;
+
+#define FAILED(hr) (((HRESULT)(hr)) < 0)
+#define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
+
+#ifndef _HRESULT_DEFINED
+typedef int HRESULT;
+
+#define S_OK                            ((HRESULT)0L)
 #endif
 
-#include "SoundSDL.hpp"
+#endif
+
 
 #if USE_SDL2_SOUND
-using AE_BUFFERTYPE = class SDLSoundBuffer;
+using TSoundBufferType = class SDLSoundBuffer;
 extern bool gReverbEnabled;
 extern bool gAudioStereo;
 #else
-using AE_BUFFERTYPE = struct IDirectSoundBuffer;
+using TSoundBufferType = struct IDirectSoundBuffer;
+#endif
+
+#if USE_SDL2_SOUND
+class SDLSoundSystem;
+ALIVE_VAR_EXTERN(SDLSoundSystem*, sDSound_BBC344);
+#else
+ALIVE_VAR_EXTERN(LPDIRECTSOUND, sDSound_BBC344);
 #endif
 
 struct SoundEntry
 {
     int field_0_tableIdx;
-    AE_BUFFERTYPE* field_4_pDSoundBuffer;
+    TSoundBufferType* field_4_pDSoundBuffer;
     BYTE* field_8_pSoundBuffer;
     int field_C_buffer_size_bytes;
     int field_10;
@@ -36,7 +87,7 @@ ALIVE_ASSERT_SIZEOF(SoundEntry, 0x24);
 
 struct SoundBuffer
 {
-    AE_BUFFERTYPE * field_0_pDSoundBuffer;
+    TSoundBufferType * field_0_pDSoundBuffer;
     int field_4;
     int field_8_sample_idx;
     int field_C;
