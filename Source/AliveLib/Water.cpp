@@ -4,7 +4,7 @@
 #include "ScreenManager.hpp"
 #include "Game.hpp"
 #include "Sound/Sound.hpp"
-#include "sound/Midi.hpp"
+#include "Sound/Midi.hpp"
 #include "Events.hpp"
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"

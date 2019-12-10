@@ -13,7 +13,6 @@
 #include "BackgroundMusic.hpp"
 #include "Sys.hpp"
 #include "Io.hpp"
-#include "Sound/SoundSDL.hpp" // TODO: Temp
 
 void Midi_ForceLink() { }
 
