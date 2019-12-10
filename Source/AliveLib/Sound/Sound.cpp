@@ -50,6 +50,14 @@ EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffse
 #endif
 }
 
+EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+{
+#if USE_SDL2_SOUND
+    return SND_LoadSamples_SDL(pSnd, sampleOffset, pSoundBuffer, sampleCount);
+#else
+    return SND_LoadSamples_DSound(pSnd, sampleOffset, pSoundBuffer, sampleCount);
+#endif
+}
 
 EXPORT void CC SND_SsQuit_4EFD50()
 {

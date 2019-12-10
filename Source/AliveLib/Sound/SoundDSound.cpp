@@ -302,7 +302,7 @@ EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPer
     return -(sPrimarySoundBuffer_BBC388->SetFormat(&pWaveFormat) != 0);
 }
 
-EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+signed int CC SND_LoadSamples_DSound(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
