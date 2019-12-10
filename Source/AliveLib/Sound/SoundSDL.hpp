@@ -50,11 +50,11 @@ enum AudioFilterMode
     Linear = 1,
 };
 
-class AE_SDL_Voice
+class SDLSoundBuffer
 {
 
 public:
-    AE_SDL_Voice();
+    SDLSoundBuffer();
 
     int SetVolume(int volume);
     int Play(int /*reserved*/, int /*priority*/, int flags);
@@ -70,7 +70,7 @@ public:
     void Destroy();
     
     std::vector<BYTE>* GetBuffer();
-    int Duplicate(AE_SDL_Voice ** dupePtr);
+    int Duplicate(SDLSoundBuffer ** dupePtr);
 
 public:
     struct AE_SDL_Voice_State

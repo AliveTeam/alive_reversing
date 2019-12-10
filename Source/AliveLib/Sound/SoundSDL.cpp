@@ -21,14 +21,14 @@ static int gSoundBufferSamples = 256;
 static int gCurrentSoundBufferSize = 0;
 const int gMixVolume = 127;
 
-AE_SDL_Voice* sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
+SDLSoundBuffer* sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
 
 static SDL_AudioSpec gAudioDeviceSpec = {};
 static AudioFilterMode gAudioFilterMode = AudioFilterMode::Linear;
 static StereoSample_S16 * pTempSoundBuffer;
 static StereoSample_S16 * pNoReverbBuffer;
 
-void AddVoiceToActiveList(AE_SDL_Voice * pVoice)
+void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
 {
     for (int i = 0; i < MAX_VOICE_COUNT; i++)
     {
@@ -42,7 +42,7 @@ void AddVoiceToActiveList(AE_SDL_Voice * pVoice)
     printf("WARNING !!: Failed to allocate voice! No space left!\n");
 }
 
-void RemoveVoiceFromActiveList(AE_SDL_Voice * pVoice)
+void RemoveVoiceFromActiveList(SDLSoundBuffer * pVoice)
 {
     for (int i = 0; i < MAX_VOICE_COUNT; i++)
     {
@@ -88,7 +88,7 @@ void AE_SDL_Audio_Generate(StereoSample_S16 * pSampleBuffer, int sampleBufferCou
 
     for (int vi = 0; vi < MAX_VOICE_COUNT; vi++)
     {
-        AE_SDL_Voice * pVoice = sAE_ActiveVoices[vi];
+        SDLSoundBuffer * pVoice = sAE_ActiveVoices[vi];
 
         if (pVoice == nullptr || !pVoice->pBuffer)
         {
@@ -244,7 +244,7 @@ void AE_SDL_AudioShutdown()
     // Todo: clean up audio + reverb buffers
 }
 
-AE_SDL_Voice::AE_SDL_Voice()
+SDLSoundBuffer::SDLSoundBuffer()
 {
     mState.iVolume = 0;
     mState.iVolumeTarget = 127;
@@ -260,7 +260,7 @@ AE_SDL_Voice::AE_SDL_Voice()
     AddVoiceToActiveList(this);
 }
 
-int AE_SDL_Voice::SetVolume(int volume)
+int SDLSoundBuffer::SetVolume(int volume)
 {
     mState.iVolumeTarget = volume;
 
@@ -274,7 +274,7 @@ int AE_SDL_Voice::SetVolume(int volume)
     return 0;
 }
 
-int AE_SDL_Voice::Play(int, int, int flags)
+int SDLSoundBuffer::Play(int, int, int flags)
 {
     mState.fPlaybackPosition = 0;
     mState.eStatus = AE_SDL_Voice_Status::Playing;
@@ -287,26 +287,26 @@ int AE_SDL_Voice::Play(int, int, int flags)
     return 0;
 }
 
-int AE_SDL_Voice::Stop()
+int SDLSoundBuffer::Stop()
 {
     mState.eStatus = AE_SDL_Voice_Status::Stopped;
 
     return 0;
 }
 
-int AE_SDL_Voice::SetFrequency(int frequency)
+int SDLSoundBuffer::SetFrequency(int frequency)
 {
     mState.fFrequency = frequency / static_cast<float>(gAudioDeviceSpec.freq);
     return 0;
 }
 
-int AE_SDL_Voice::SetCurrentPosition(int position) // This offset is apparently in bytes
+int SDLSoundBuffer::SetCurrentPosition(int position) // This offset is apparently in bytes
 {
     mState.fPlaybackPosition = static_cast<float>(position / mState.iBlockAlign);
     return 0;
 }
 
-int AE_SDL_Voice::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
+int SDLSoundBuffer::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
 {
     *readPos = static_cast<DWORD>(mState.fPlaybackPosition * mState.iBlockAlign);
     *writePos = 0;
@@ -314,24 +314,24 @@ int AE_SDL_Voice::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
     return 0;
 }
 
-int AE_SDL_Voice::GetFrequency(DWORD * freq)
+int SDLSoundBuffer::GetFrequency(DWORD * freq)
 {
     *freq = static_cast<DWORD>(mState.fFrequency * gAudioDeviceSpec.freq);
     return 0;
 }
 
-int AE_SDL_Voice::SetPan(signed int pan)
+int SDLSoundBuffer::SetPan(signed int pan)
 {
     mState.iPan = pan;
     return 0;
 }
 
-void AE_SDL_Voice::Release()
+void SDLSoundBuffer::Release()
 {
     mState.bIsReleased = true;
 }
 
-int AE_SDL_Voice::GetStatus(DWORD * r)
+int SDLSoundBuffer::GetStatus(DWORD * r)
 {
     if (mState.eStatus == AE_SDL_Voice_Status::Playing)
     {
@@ -348,7 +348,7 @@ int AE_SDL_Voice::GetStatus(DWORD * r)
     return 0;
 }
 
-void AE_SDL_Voice::Destroy()
+void SDLSoundBuffer::Destroy()
 {
     // remove self from global list and
     // decrement shared mem ptr to audio buffer
@@ -357,14 +357,14 @@ void AE_SDL_Voice::Destroy()
     delete this;
 }
 
-std::vector<BYTE>* AE_SDL_Voice::GetBuffer()
+std::vector<BYTE>* SDLSoundBuffer::GetBuffer()
 {
     return pBuffer.get();
 }
 
-int AE_SDL_Voice::Duplicate(AE_SDL_Voice ** dupePtr)
+int SDLSoundBuffer::Duplicate(SDLSoundBuffer ** dupePtr)
 {
-    AE_SDL_Voice * dupe = new AE_SDL_Voice();
+    SDLSoundBuffer * dupe = new SDLSoundBuffer();
     memcpy(&dupe->mState, &this->mState, sizeof(AE_SDL_Voice_State));
     dupe->pBuffer = this->pBuffer;
     *dupePtr = dupe;
@@ -464,7 +464,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         pSnd->field_1D_blockAlign = static_cast<unsigned char>(bitsPerSample * ((isStereo != 0) + 1) / 8);
         int sampleByteSize = sampleLength * pSnd->field_1D_blockAlign;
 
-        AE_SDL_Voice * pDSoundBuffer = new AE_SDL_Voice();
+        SDLSoundBuffer * pDSoundBuffer = new SDLSoundBuffer();
         pDSoundBuffer->SetFrequency(sampleRate);
         pDSoundBuffer->mState.iSampleCount = sampleByteSize / 2;
         pDSoundBuffer->pBuffer = std::make_shared<std::vector<BYTE>>(std::vector<BYTE>(sampleByteSize));
@@ -578,7 +578,7 @@ int SND_Play_SDL(const SoundEntry* pSnd, int volume, signed int pan, float freq,
         return -1;
     }
 
-    AE_SDL_Voice* pBufferToUse = pSnd->field_4_pDSoundBuffer;
+    SDLSoundBuffer* pBufferToUse = pSnd->field_4_pDSoundBuffer;
     if (!pBufferToUse)
     {
         return -1;
@@ -638,7 +638,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
         return -1;
     }
 
-    AE_SDL_Voice * pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
+    SDLSoundBuffer * pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
 
     if (!pDSoundBuffer)
     {
