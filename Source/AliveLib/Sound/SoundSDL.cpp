@@ -66,6 +66,29 @@ SDLSoundBuffer::SDLSoundBuffer()
     AddVoiceToActiveList(this);
 }
 
+
+SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int /*soundSysFreq*/)
+{
+    mState.iVolume = 0;
+    mState.iVolumeTarget = 127;
+    mState.bVolDirty = false;
+    mState.iPan = 0;
+    mState.fFrequency = 1.0f;
+    mState.bIsReleased = false;
+    mState.bLoop = false;
+    mState.iChannels = 1;
+    mState.fPlaybackPosition = 0;
+    mState.eStatus = AE_SDL_Voice_Status::Stopped;
+
+
+    mState.iSampleCount = bufferDesc.dwBufferBytes / 2;
+    pBuffer = std::make_shared<std::vector<BYTE>>(bufferDesc.dwBufferBytes);
+    mState.iBlockAlign = bufferDesc.lpwfxFormat->nBlockAlign;
+    mState.iChannels = bufferDesc.lpwfxFormat->nChannels;
+
+    AddVoiceToActiveList(this);
+}
+
 int SDLSoundBuffer::SetVolume(int volume)
 {
     mState.iVolumeTarget = volume;
@@ -213,55 +236,6 @@ EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffse
     return 0;
 }
 
-EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int sampleRate, int bitsPerSample, int isStereo)
-{
-    if (sLoadedSoundsCount_BBC394 < 256)
-    {
-        pSnd->field_1D_blockAlign = static_cast<unsigned char>(bitsPerSample * ((isStereo != 0) + 1) / 8);
-        int sampleByteSize = sampleLength * pSnd->field_1D_blockAlign;
-
-        SDLSoundBuffer * pDSoundBuffer = new SDLSoundBuffer();
-        pDSoundBuffer->SetFrequency(sampleRate);
-        pDSoundBuffer->mState.iSampleCount = sampleByteSize / 2;
-        pDSoundBuffer->pBuffer = std::make_shared<std::vector<BYTE>>(std::vector<BYTE>(sampleByteSize));
-        pDSoundBuffer->mState.iBlockAlign = pSnd->field_1D_blockAlign;
-        pDSoundBuffer->mState.iChannels = (isStereo & 1) ? 2 : 1;
-        pSnd->field_4_pDSoundBuffer = pDSoundBuffer;
-
-        pSnd->field_10 = 0;
-        unsigned char * bufferData = static_cast<unsigned char *>(malloc_4F4E60(sampleByteSize));
-        pSnd->field_8_pSoundBuffer = bufferData;
-        if (bufferData)
-        {
-            pSnd->field_18_sampleRate = sampleRate;
-            pSnd->field_1C_bitsPerSample = static_cast<char>(bitsPerSample);
-            pSnd->field_C_buffer_size_bytes = sampleByteSize;
-            pSnd->field_14_buffer_size_bytes = sampleByteSize;
-            pSnd->field_20_isStereo = isStereo;
-
-            for (int i = 0; i < 256; i++)
-            {
-                if (!sSoundSamples_BBBF38[i])
-                {
-                    sSoundSamples_BBBF38[i] = pSnd;
-                    pSnd->field_0_tableIdx = i;
-                    sLoadedSoundsCount_BBC394++;
-                    return 0;
-                }
-            }
-
-            return 0; // No free spaces left. Should never get here as all calls to Snd_NEW are checked before hand.
-        }
-    }
-    else
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 568, -1, "SND_New: out of samples");
-        return -1;
-    }
-
-    return -1;
-}
-
 signed int CC SND_CreateDS_SDL(unsigned int sampleRate, int bitsPerSample, int isStereo)
 {
     sDSound_BBC344 = new SDLSoundSystem();
@@ -389,6 +363,13 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
     }
 
     sLastNotePlayTime_BBC33C = SYS_GetTicks();
+}
+
+
+HRESULT SDLSoundSystem::CreateSoundBuffer(LPCDSBUFFERDESC pcDSBufferDesc, TSoundBufferType** ppDSBuffer, void* /*pUnkOuter*/)
+{
+    *ppDSBuffer = new SDLSoundBuffer(*pcDSBufferDesc, gAudioDeviceSpec.freq);
+    return S_OK;
 }
 
 void SDLSoundSystem::AudioCallBack(Uint8 *stream, int len)

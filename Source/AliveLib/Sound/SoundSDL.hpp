@@ -58,6 +58,10 @@ class SDLSoundBuffer
 public:
     SDLSoundBuffer();
 
+
+    SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq);
+
+
     int SetVolume(int volume);
     int Play(int /*reserved*/, int /*priority*/, int flags);
     int Stop();
@@ -112,11 +116,7 @@ public:
         return S_OK;
     }
 
-    HRESULT CreateSoundBuffer(LPCDSBUFFERDESC /*pcDSBufferDesc*/, TSoundBufferType** /*ppDSBuffer*/, void* /*pUnkOuter*/)
-    {
-        //*ppDSBuffer = new SDLSoundBuffer(*pcDSBufferDesc, mAudioDeviceSpec.freq);
-        return S_OK;
-    }
+    HRESULT CreateSoundBuffer(LPCDSBUFFERDESC pcDSBufferDesc, TSoundBufferType** ppDSBuffer, void* /*pUnkOuter*/);
 
     HRESULT Release()
     {
