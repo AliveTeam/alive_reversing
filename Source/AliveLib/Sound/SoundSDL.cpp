@@ -269,11 +269,6 @@ signed int CC SND_CreateDS_SDL(unsigned int sampleRate, int bitsPerSample, int i
     return 0;
 }
 
-EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
-{
-    return 0;
-}
-
 int SND_Play_SDL(const SoundEntry* pSnd, int volume, signed int pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
 {
     if (!pSnd)
