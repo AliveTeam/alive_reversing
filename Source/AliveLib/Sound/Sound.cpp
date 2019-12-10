@@ -68,6 +68,15 @@ EXPORT const char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
 #endif
 }
 
+EXPORT void CC SND_InitVolumeTable_4EEF60()
+{
+#if USE_SDL2_SOUND
+    return SND_InitVolumeTable_SDL();
+#else
+    return SND_InitVolumeTable_DSound();
+#endif
+}
+
 EXPORT void CC SND_SsQuit_4EFD50()
 {
     if (sDSound_BBC344)

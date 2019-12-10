@@ -249,7 +249,7 @@ int CC SND_Clear_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsi
     return 0;
 }
 
-EXPORT void CC SND_InitVolumeTable_4EEF60()
+void SND_InitVolumeTable_DSound()
 {
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #define min(a,b) (((a) < (b)) ? (a) : (b))

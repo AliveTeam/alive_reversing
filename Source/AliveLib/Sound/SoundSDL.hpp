@@ -143,6 +143,7 @@ private:
     StereoSample_S16 * mNoReverbBuffer = nullptr;
 };
 
+void SND_InitVolumeTable_SDL();
 signed int SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount);
 signed int SND_CreateDS_SDL(unsigned int sampleRate, int bitsPerSample, int isStereo);
 int SND_Clear_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size);

@@ -202,7 +202,7 @@ int SDLSoundBuffer::Duplicate(SDLSoundBuffer** dupePtr)
 // Exoddus Functions:
 
 
-EXPORT void CC SND_InitVolumeTable_4EEF60()
+void SND_InitVolumeTable_SDL()
 {
     for (int i = 0; i < 127; i++)
     {
