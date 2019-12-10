@@ -83,7 +83,7 @@ public:
 
         AE_SDL_Voice_Status eStatus;
         bool bLoop;
-        std::atomic<bool> bIsReleased;
+        bool bIsReleased;
         float fPlaybackPosition;
 
         int iSampleCount;

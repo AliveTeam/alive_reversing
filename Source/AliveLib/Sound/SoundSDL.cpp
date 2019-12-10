@@ -362,12 +362,10 @@ std::vector<BYTE>* SDLSoundBuffer::GetBuffer()
     return pBuffer.get();
 }
 
-int SDLSoundBuffer::Duplicate(SDLSoundBuffer ** dupePtr)
+int SDLSoundBuffer::Duplicate(SDLSoundBuffer** dupePtr)
 {
-    SDLSoundBuffer * dupe = new SDLSoundBuffer();
-    memcpy(&dupe->mState, &this->mState, sizeof(AE_SDL_Voice_State));
-    dupe->pBuffer = this->pBuffer;
-    *dupePtr = dupe;
+    *dupePtr = new SDLSoundBuffer(*this);
+    AddVoiceToActiveList(*dupePtr);
     return 0;
 }
 
