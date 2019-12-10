@@ -121,7 +121,7 @@ EXPORT char CC DDV_StartAudio_493DF0()
         total_audio_offset_5CA1F0 = audioBufferStartOffset;
         if (!bNoAudio_5CA1F4)
         {
-            if (SND_PlayEx_4EF740(&sDDV_SoundEntry_5CA208, 116, 116, 1.0, 0, 1, 100) < 0)
+            if (FAILED(SND_PlayEx_4EF740(&sDDV_SoundEntry_5CA208, 116, 116, 1.0, 0, 1, 100)))
             {
                 bNoAudio_5CA1F4 = 1;
             }

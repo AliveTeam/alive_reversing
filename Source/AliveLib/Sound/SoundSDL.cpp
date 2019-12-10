@@ -334,92 +334,6 @@ int SND_Play_SDL(const SoundEntry* pSnd, int volume, signed int pan, float freq,
     return 0;
 }
 
-EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
-{
-    if (!pSnd)
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 845, -1, "SND_PlayEx: NULL SAMPLE !!!");
-        return -1;
-    }
-
-    SDLSoundBuffer * pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
-
-    if (!pDSoundBuffer)
-    {
-        return -1;
-    }
-
-    sLastNotePlayTime_BBC33C = SYS_GetTicks();
-
-    int panLeft2 = panLeft;
-    int panRight2 = panRight;
-    if (panLeft > panRight)
-    {
-        panRight2 = panLeft;
-    }
-
-    int panRightConverted = 120 * panRight2 * 127UL >> 14;// >> 14 = 16384
-    if (panRightConverted < 0)
-    {
-        panRightConverted = 0;
-    }
-    else if (panRightConverted > 127)
-    {
-        panRightConverted = 127;
-    }
-
-    if (pSnd->field_20_isStereo & 2)
-    {
-        pDSoundBuffer->SetFrequency(static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5)); // This freq don't get clamped for some reason
-        pDSoundBuffer->SetVolume(static_cast<int>(sVolumeTable_BBBD38[panRightConverted] / 10000.0f));
-        pDSoundBuffer->SetCurrentPosition(0);
-    }
-    else
-    {
-        SoundBuffer* pSoundBuffer = SND_Get_Sound_Buffer_4EF970(pSnd->field_0_tableIdx, panRightConverted + priority);
-        if (!pSoundBuffer)
-        {
-            return -1;
-        }
-
-
-        pDSoundBuffer->Duplicate(&pSoundBuffer->field_0_pDSoundBuffer);
-        pSoundBuffer->field_0_pDSoundBuffer->SetCurrentPosition(0);
-        pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
-
-        if (pMidiStru)
-        {
-            pMidiStru->field_0_sound_buffer_field_4 = pSoundBuffer->field_4;
-        }
-    }
-
-    DWORD freqHz = static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5);
-    if (freqHz < DSBFREQUENCY_MIN)
-    {
-        freqHz = DSBFREQUENCY_MIN;
-    }
-    else if (freqHz >= DSBFREQUENCY_MAX)
-    {
-        freqHz = DSBFREQUENCY_MAX;
-    }
-
-    pDSoundBuffer->SetFrequency(freqHz);
-    pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);
-
-    const int panConverted = (DSBPAN_RIGHT * (panLeft2 - panRight)) / 127; // From PSX pan range to DSound pan range
-    pDSoundBuffer->SetPan(-panConverted); // Fix Inverted Stereo
-
-    if (playFlags & DSBPLAY_LOOPING)
-    {
-        playFlags = DSBPLAY_LOOPING;
-    }
-
-
-    pDSoundBuffer->Play(0, 0, playFlags);
-
-    return 0;
-}
-
 void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
 {
     if (SDL_Init(SDL_INIT_AUDIO) != 0)
@@ -671,5 +585,11 @@ void SDLSoundSystem::AudioCallBackStatic(void* userdata, Uint8 *stream, int len)
     static_cast<SDLSoundSystem*>(userdata)->AudioCallBack(stream, len);
 }
 
+
+// TODO: Consolidate this
+EXPORT char * CC SND_HR_Err_To_String_4EEC70(long)
+{
+    return "unknown error";
+}
 
 #endif
