@@ -222,13 +222,7 @@ int CC SND_Reload_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsign
     return 0;
 }
 
-EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
-{
-    printf("SND_Renew_4EEDD0: %p\n", pSnd);
-    return 0; // TODO
-}
-
-EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
@@ -242,6 +236,7 @@ signed int CC SND_CreateDS_SDL(unsigned int sampleRate, int bitsPerSample, int i
     sDSound_BBC344->Init(sampleRate, bitsPerSample, isStereo);
     return 0;
 }
+
 void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
 {
     if (SDL_Init(SDL_INIT_AUDIO) != 0)
@@ -293,8 +288,7 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
             if (sSoundSamples_BBBF38[i])
             {
                 SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
-                //SND_LoadSamples_4EF1C0
-                    SND_Reload_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
                 if ((i + 1) == sLoadedSoundsCount_BBC394)
                     break;
             }

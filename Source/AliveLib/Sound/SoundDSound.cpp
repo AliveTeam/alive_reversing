@@ -156,7 +156,7 @@ signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, in
                         if (sSoundSamples_BBBF38[i])
                         {
                             SND_Renew_4EEDD0(sSoundSamples_BBBF38[i]);
-                            SND_Reload_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
+                            SND_LoadSamples_4EF1C0(sSoundSamples_BBBF38[i], 0, sSoundSamples_BBBF38[i]->field_8_pSoundBuffer, sSoundSamples_BBBF38[i]->field_C_buffer_size_bytes / (unsigned __int8)sSoundSamples_BBBF38[i]->field_1D_blockAlign);
                             if ((i + 1) == sLoadedSoundsCount_BBC394)
                                 break;
                         }
@@ -302,44 +302,7 @@ EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPer
     return -(sPrimarySoundBuffer_BBC388->SetFormat(&pWaveFormat) != 0);
 }
 
-EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
-{
-    if (!sDSound_BBC344)
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 351, -1, "DirectSound not initialized");
-        return -1;
-    }
-
-    WAVEFORMATEX waveFormat;
-    DSBUFFERDESC bufferDesc;
-
-    waveFormat.wFormatTag = 0;
-    waveFormat.nSamplesPerSec = 0;
-    waveFormat.nAvgBytesPerSec = 0;
-    waveFormat.nBlockAlign = 0;
-    waveFormat.cbSize = 0;
-
-    SND_Init_WaveFormatEx_4EEA00(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo & 1);
-
-    bufferDesc.dwBufferBytes = pSnd->field_14_buffer_size_bytes;
-    bufferDesc.dwReserved = 0;
-    bufferDesc.lpwfxFormat = &waveFormat;
-    bufferDesc.dwSize = 20;
-    bufferDesc.dwFlags = 82144; // TODO: Fix constants
-
-    if (sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0))
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 371, -1, "SND_Renew(): Cannot create ds sound buffer");
-        return -1;
-    }
-    else
-    {
-        pSnd->field_10 = 0;
-        return 0;
-    }
-}
-
-EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;

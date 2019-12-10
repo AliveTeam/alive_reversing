@@ -217,7 +217,7 @@ EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRigh
     if (hr == DSERR_BUFFERLOST)
     {
         // Restore the lost buffer
-        if (SND_Reload_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
+        if (SND_LoadSamples_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign) == 0)
         {
             // Try again
             if (SUCCEEDED(pDSoundBuffer->Play(0, 0, playFlags)))
@@ -323,6 +323,44 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
     }
 }
 
+
+EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd)
+{
+    if (!sDSound_BBC344)
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 351, -1, "DirectSound not initialized");
+        return -1;
+    }
+
+    WAVEFORMATEX waveFormat;
+    DSBUFFERDESC bufferDesc;
+
+    waveFormat.wFormatTag = 0;
+    waveFormat.nSamplesPerSec = 0;
+    waveFormat.nAvgBytesPerSec = 0;
+    waveFormat.nBlockAlign = 0;
+    waveFormat.cbSize = 0;
+
+    SND_Init_WaveFormatEx_4EEA00(&waveFormat, pSnd->field_18_sampleRate, pSnd->field_1C_bitsPerSample, pSnd->field_20_isStereo & 1);
+
+    bufferDesc.dwBufferBytes = pSnd->field_14_buffer_size_bytes;
+    bufferDesc.dwReserved = 0;
+    bufferDesc.lpwfxFormat = &waveFormat;
+    bufferDesc.dwSize = 20;
+    bufferDesc.dwFlags = 82144; // TODO: Fix constants
+
+    if (sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0))
+    {
+        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 371, -1, "SND_Renew(): Cannot create ds sound buffer");
+        return -1;
+    }
+    else
+    {
+        pSnd->field_10 = 0;
+        return 0;
+    }
+}
+
 EXPORT unsigned int CC SND_Get_Sound_Entry_Pos_4EF620(SoundEntry* pSoundEntry)
 {
     DWORD dwReadPos = 0;
@@ -384,7 +422,7 @@ EXPORT int CC SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, int waveD
             memcpy(pSnd->field_8_pSoundBuffer, pWaveData, waveDataLen * pSnd->field_1D_blockAlign);
         }
     }
-    return SND_Reload_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
+    return SND_LoadSamples_4EF1C0(pSnd, 0, pSnd->field_8_pSoundBuffer, pSnd->field_C_buffer_size_bytes / pSnd->field_1D_blockAlign);
 }
 
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC90(int idx, float hzChangeFreq)

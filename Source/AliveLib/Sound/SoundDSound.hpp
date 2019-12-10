@@ -9,6 +9,5 @@ EXPORT int CC SND_Reload_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffs
 EXPORT void CC SND_InitVolumeTable_4EEF60();
 EXPORT char CC SND_CreatePrimarySoundBuffer_4EEEC0(int sampleRate, int bitsPerSample, int isStereo);
 EXPORT int CC SND_SetPrimarySoundBufferFormat_4EE990(int sampleRate, int bitsPerSample, unsigned __int8 isStereo);
-EXPORT signed int CC SND_Renew_4EEDD0(SoundEntry *pSnd);
-EXPORT signed int CC SND_Reload_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount);
+EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount);
 #endif
