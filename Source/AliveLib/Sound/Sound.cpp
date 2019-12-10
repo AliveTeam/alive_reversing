@@ -41,12 +41,12 @@ EXPORT signed int CC SND_CreateDS_4EEAA0(unsigned int sampleRate, int bitsPerSam
 #endif
 }
 
-EXPORT int CC SND_Reload_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+EXPORT int CC SND_Clear_4EF350(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
 {
 #if USE_SDL2_SOUND
-    return SND_Reload_SDL(pSoundEntry, sampleOffset, size);
+    return SND_Clear_SDL(pSoundEntry, sampleOffset, size);
 #else
-    return SND_Reload_DSound(pSoundEntry, sampleOffset, size);
+    return SND_Clear_DSound(pSoundEntry, sampleOffset, size);
 #endif
 }
 

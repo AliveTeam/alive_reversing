@@ -211,7 +211,7 @@ EXPORT void CC SND_InitVolumeTable_4EEF60()
     sVolumeTable_BBBD38[0] = 0;
 }
 
-int CC SND_Reload_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+int CC SND_Clear_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
 {
     const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
     const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;

@@ -179,7 +179,7 @@ signed int CC SND_CreateDS_DSound(unsigned int sampleRate, int bitsPerSample, in
 }
 
 
-int CC SND_Reload_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+int CC SND_Clear_DSound(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
 {
     if (!sDSound_BBC344)
     {

@@ -393,7 +393,7 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                         bNoAudio_5CA1F4 = 1;
                     }
                 }
-                else if (SND_Reload_4EF350(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, gMasher_single_audio_frame_size_5CA240) < 0)
+                else if (SND_Clear_4EF350(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, gMasher_single_audio_frame_size_5CA240) < 0)
                 {
                     // Reload with silence fail
                     bNoAudio_5CA1F4 = 1;
