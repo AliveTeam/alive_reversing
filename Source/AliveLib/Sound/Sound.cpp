@@ -59,6 +59,15 @@ EXPORT signed int CC SND_LoadSamples_4EF1C0(const SoundEntry* pSnd, DWORD sample
 #endif
 }
 
+EXPORT const char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
+{
+#if USE_SDL2_SOUND
+    return SND_HR_Err_To_String_SDL(hr);
+#else
+    return SND_HR_Err_To_String_DSound(hr);
+#endif
+}
+
 EXPORT void CC SND_SsQuit_4EFD50()
 {
     if (sDSound_BBC344)

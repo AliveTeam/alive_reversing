@@ -18,7 +18,7 @@ ALIVE_VAR(1, 0xbbc338, char, sPrimarySoundBufferBitsPerSample_BBC338, 0);
 
 ALIVE_ARY(1, 0xBBC348, char, 64, sDSoundErrorBuffer_BBC348, {});
 
-EXPORT char * CC SND_HR_Err_To_String_4EEC70(HRESULT hr)
+const char* SND_HR_Err_To_String_DSound(HRESULT hr)
 {
     switch (hr)
     {

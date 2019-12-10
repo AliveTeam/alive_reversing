@@ -211,7 +211,7 @@ EXPORT void CC SND_InitVolumeTable_4EEF60()
     sVolumeTable_BBBD38[0] = 0;
 }
 
-int CC SND_Clear_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
+int SND_Clear_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size)
 {
     const DWORD alignedOffset = sampleOffset * pSoundEntry->field_1D_blockAlign;
     const DWORD alignedSize = size * pSoundEntry->field_1D_blockAlign;
@@ -222,7 +222,7 @@ int CC SND_Clear_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigne
     return 0;
 }
 
-signed int CC SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
+signed int SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, unsigned char* pSoundBuffer, unsigned int sampleCount)
 {
     const int offsetBytes = sampleOffset * pSnd->field_1D_blockAlign;
     const unsigned int bufferSizeBytes = sampleCount * pSnd->field_1D_blockAlign;
@@ -230,7 +230,7 @@ signed int CC SND_LoadSamples_SDL(const SoundEntry* pSnd, DWORD sampleOffset, un
     return 0;
 }
 
-signed int CC SND_CreateDS_SDL(unsigned int sampleRate, int bitsPerSample, int isStereo)
+signed int SND_CreateDS_SDL(unsigned int sampleRate, int bitsPerSample, int isStereo)
 {
     sDSound_BBC344 = new SDLSoundSystem();
     sDSound_BBC344->Init(sampleRate, bitsPerSample, isStereo);
@@ -494,9 +494,7 @@ void SDLSoundSystem::AudioCallBackStatic(void* userdata, Uint8 *stream, int len)
     static_cast<SDLSoundSystem*>(userdata)->AudioCallBack(stream, len);
 }
 
-
-// TODO: Consolidate this
-EXPORT char * CC SND_HR_Err_To_String_4EEC70(long)
+const char* SND_HR_Err_To_String_SDL(long)
 {
     return "unknown error";
 }
