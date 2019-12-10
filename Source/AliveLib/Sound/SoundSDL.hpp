@@ -97,8 +97,9 @@ public:
         int iBlockAlign;
     };
 
+    int mSoundSysFreq = 0;
     AE_SDL_Voice_State mState;
-    std::shared_ptr<std::vector<BYTE>> pBuffer;
+    std::shared_ptr<std::vector<BYTE>> mBuffer;
     
 };
 
@@ -134,7 +135,7 @@ private:
     void RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* pSampleBuffer, int sampleBufferCount);
 
 private:
-   // SDL_AudioSpec mAudioDeviceSpec = {};
+    SDL_AudioSpec mAudioDeviceSpec = {};
     static constexpr int kMixVolume = 127;
 
     int mCurrentSoundBufferSize = 0;

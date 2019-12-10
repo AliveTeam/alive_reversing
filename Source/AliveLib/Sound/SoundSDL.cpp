@@ -17,10 +17,7 @@
 bool gReverbEnabled = false;
 bool gAudioStereo = true;
 
-
-SDLSoundBuffer* sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
-
-static SDL_AudioSpec gAudioDeviceSpec = {};
+static SDLSoundBuffer* sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
 
 void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
 {
@@ -67,7 +64,8 @@ SDLSoundBuffer::SDLSoundBuffer()
 }
 
 
-SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int /*soundSysFreq*/)
+SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq)
+    : mSoundSysFreq(soundSysFreq)
 {
     mState.iVolume = 0;
     mState.iVolumeTarget = 127;
@@ -82,7 +80,7 @@ SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int /*soundSysFre
 
 
     mState.iSampleCount = bufferDesc.dwBufferBytes / 2;
-    pBuffer = std::make_shared<std::vector<BYTE>>(bufferDesc.dwBufferBytes);
+    mBuffer = std::make_shared<std::vector<BYTE>>(bufferDesc.dwBufferBytes);
     mState.iBlockAlign = bufferDesc.lpwfxFormat->nBlockAlign;
     mState.iChannels = bufferDesc.lpwfxFormat->nChannels;
 
@@ -125,7 +123,7 @@ int SDLSoundBuffer::Stop()
 
 int SDLSoundBuffer::SetFrequency(int frequency)
 {
-    mState.fFrequency = frequency / static_cast<float>(gAudioDeviceSpec.freq);
+    mState.fFrequency = frequency / static_cast<float>(mSoundSysFreq);
     return 0;
 }
 
@@ -145,7 +143,7 @@ int SDLSoundBuffer::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
 
 int SDLSoundBuffer::GetFrequency(DWORD * freq)
 {
-    *freq = static_cast<DWORD>(mState.fFrequency * gAudioDeviceSpec.freq);
+    *freq = static_cast<DWORD>(mState.fFrequency * mSoundSysFreq);
     return 0;
 }
 
@@ -189,7 +187,7 @@ void SDLSoundBuffer::Destroy()
 
 std::vector<BYTE>* SDLSoundBuffer::GetBuffer()
 {
-    return pBuffer.get();
+    return mBuffer.get();
 }
 
 int SDLSoundBuffer::Duplicate(SDLSoundBuffer** dupePtr)
@@ -250,14 +248,14 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
         LOG_INFO("SDL Audio Driver " << i << " " << SDL_GetAudioDriver(i));
     }
 
-    gAudioDeviceSpec.callback = SDLSoundSystem::AudioCallBackStatic;
-    gAudioDeviceSpec.format = AUDIO_S16;
-    gAudioDeviceSpec.channels = 2;
-    gAudioDeviceSpec.freq = 44100;
-    gAudioDeviceSpec.samples = 256;
-    gAudioDeviceSpec.userdata = this;
+    mAudioDeviceSpec.callback = SDLSoundSystem::AudioCallBackStatic;
+    mAudioDeviceSpec.format = AUDIO_S16;
+    mAudioDeviceSpec.channels = 2;
+    mAudioDeviceSpec.freq = 44100;
+    mAudioDeviceSpec.samples = 256;
+    mAudioDeviceSpec.userdata = this;
 
-    if (SDL_OpenAudio(&gAudioDeviceSpec, NULL) < 0)
+    if (SDL_OpenAudio(&mAudioDeviceSpec, NULL) < 0)
     {
         LOG_ERROR("Couldn't open SDL audio: " << SDL_GetError());
         return;
@@ -266,16 +264,16 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
     LOG_INFO("-----------------------------");
     LOG_INFO("Audio Device opened, got specs:");
     LOG_INFO(
-        "Channels: " << gAudioDeviceSpec.channels << " " <<
-        "nFormat: " << gAudioDeviceSpec.format << " " <<
-        "nFreq: " << gAudioDeviceSpec.freq << " " <<
-        "nPadding: " << gAudioDeviceSpec.padding << " " <<
-        "nSamples: " << gAudioDeviceSpec.samples << " " <<
-        "nSize: " << gAudioDeviceSpec.size << " " <<
-        "nSilence: " << gAudioDeviceSpec.silence);
+        "Channels: " << mAudioDeviceSpec.channels << " " <<
+        "nFormat: " << mAudioDeviceSpec.format << " " <<
+        "nFreq: " << mAudioDeviceSpec.freq << " " <<
+        "nPadding: " << mAudioDeviceSpec.padding << " " <<
+        "nSamples: " << mAudioDeviceSpec.samples << " " <<
+        "nSize: " << mAudioDeviceSpec.size << " " <<
+        "nSilence: " << mAudioDeviceSpec.silence);
     LOG_INFO("-----------------------------");
 
-    Reverb_Init(gAudioDeviceSpec.freq);
+    Reverb_Init(mAudioDeviceSpec.freq);
 
     SDL_PauseAudio(0);
 
@@ -301,7 +299,7 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
 
 HRESULT SDLSoundSystem::CreateSoundBuffer(LPCDSBUFFERDESC pcDSBufferDesc, TSoundBufferType** ppDSBuffer, void* /*pUnkOuter*/)
 {
-    *ppDSBuffer = new SDLSoundBuffer(*pcDSBufferDesc, gAudioDeviceSpec.freq);
+    *ppDSBuffer = new SDLSoundBuffer(*pcDSBufferDesc, mAudioDeviceSpec.freq);
     return S_OK;
 }
 
@@ -371,7 +369,7 @@ void SDLSoundSystem::RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* 
 
     SDLSoundBuffer* pVoice = &entry;
 
-    if (pVoice == nullptr || !pVoice->pBuffer || pVoice->pBuffer->empty())
+    if (pVoice == nullptr || !pVoice->mBuffer || pVoice->mBuffer->empty())
     {
         return;
     }
@@ -388,9 +386,9 @@ void SDLSoundSystem::RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* 
     Sint16* pVoiceBufferPtr = reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data());
 
     bool loopActive = true;
-    for (int i = 0; i < sampleBufferCount && pVoice->pBuffer && loopActive; i++)
+    for (int i = 0; i < sampleBufferCount && pVoice->mBuffer && loopActive; i++)
     {
-        if (pVoice->pBuffer->empty() || pVoice->mState.eStatus != AE_SDL_Voice_Status::Playing || pVoice->mState.iSampleCount == 0)
+        if (pVoice->mBuffer->empty() || pVoice->mState.eStatus != AE_SDL_Voice_Status::Playing || pVoice->mState.iSampleCount == 0)
         {
             loopActive = false;
             continue;
