@@ -145,11 +145,7 @@ private:
 
 signed int CC SND_CreateDS_SDL(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/);
 int CC SND_Reload_SDL(SoundEntry* pSoundEntry, unsigned int sampleOffset, unsigned int size);
-
-int SND_Play_SDL(const SoundEntry* pSnd, int volume, signed int pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority);
-
 EXPORT char * CC SND_HR_Err_To_String_4EEC70(long hr);
-
 
 
 #endif

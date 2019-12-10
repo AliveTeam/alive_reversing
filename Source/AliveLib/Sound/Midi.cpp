@@ -1980,7 +1980,10 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         MIDI_Wait_4FCE50();
                     }
 
-#if USE_SDL2_SOUND
+                    /*
+
+                    TODO: SDL2 sound was using some other pan/volume calcs, why ??
+
                     signed int pan = ((pVagIter->field_11_pad) * (20000 / 127)) - 10000;
 
                     if (panLeft > panRight)
@@ -2002,7 +2005,8 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         pChannel,
                         playFlags,
                         pVagIter->field_E_priority);
-#else
+                    */
+
                     SND_PlayEx_4EF740(
                         &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
                         panLeft,
@@ -2011,7 +2015,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                         pChannel,
                         playFlags,
                         pVagIter->field_E_priority);
-#endif
+
 
                     if (program == 4 || program == 5 || program == 8 || program == 23 || program == 24 || program == 25)
                     {

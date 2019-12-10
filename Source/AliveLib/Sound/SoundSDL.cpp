@@ -242,67 +242,6 @@ signed int CC SND_CreateDS_SDL(unsigned int sampleRate, int bitsPerSample, int i
     sDSound_BBC344->Init(sampleRate, bitsPerSample, isStereo);
     return 0;
 }
-
-int SND_Play_SDL(const SoundEntry* pSnd, int volume, signed int pan, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
-{
-    if (!pSnd)
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 845, -1, "SND_PlayEx: NULL SAMPLE !!!");
-        return -1;
-    }
-
-    SDLSoundBuffer* pBufferToUse = pSnd->field_4_pDSoundBuffer;
-    if (!pBufferToUse)
-    {
-        return -1;
-    }
-
-    sLastNotePlayTime_BBC33C = SYS_GetTicks();
-
-    if (!(pSnd->field_20_isStereo & 2))
-    {
-        SoundBuffer* pFreeBuffer = SND_Get_Sound_Buffer_4EF970(pSnd->field_0_tableIdx, priority);
-        if (!pFreeBuffer)
-        {
-            return -1;
-        }
-
-        pBufferToUse->Duplicate(&pFreeBuffer->field_0_pDSoundBuffer);
-        pBufferToUse = pFreeBuffer->field_0_pDSoundBuffer;
-
-        if (pMidiStru)
-        {
-            pMidiStru->field_0_sound_buffer_field_4 = pFreeBuffer->field_4;
-        }
-    }
-
-    pBufferToUse->SetCurrentPosition(0);
-
-    DWORD freqHz = static_cast<DWORD>((pSnd->field_18_sampleRate * freq) + 0.5);
-    if (freqHz < DSBFREQUENCY_MIN)
-    {
-        freqHz = DSBFREQUENCY_MIN;
-    }
-    else if (freqHz >= DSBFREQUENCY_MAX)
-    {
-        freqHz = DSBFREQUENCY_MAX;
-    }
-
-    pBufferToUse->SetFrequency(freqHz);
-    pBufferToUse->SetVolume(volume);
-    pBufferToUse->SetPan(pan);
-
-    if (playFlags & DSBPLAY_LOOPING)
-    {
-        playFlags = DSBPLAY_LOOPING;
-    }
-
-
-    pBufferToUse->Play(0, 0, playFlags);
-
-    return 0;
-}
-
 void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
 {
     if (SDL_Init(SDL_INIT_AUDIO) != 0)
