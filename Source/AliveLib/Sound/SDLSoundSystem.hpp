@@ -31,6 +31,10 @@ private:
 
     void RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* pSampleBuffer, int sampleBufferCount);
 
+    void RenderMonoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer* pVoice, int i);
+
+    void RenderStereoSample(Sint16* pVoiceBufferPtr, SDLSoundBuffer* pVoice, int i);
+
 private:
     SDL_AudioSpec mAudioDeviceSpec = {};
     static constexpr int kMixVolume = 127;

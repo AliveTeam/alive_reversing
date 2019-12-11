@@ -57,7 +57,7 @@ public:
     }
 };
 
-std::vector<FeedbackBuffer*> feedbackBuffers;
+std::vector<FeedbackBuffer*> feedbackBuffers; // TODO: Fix memory leak
 
 void Reverb_Init(int sampleRate)
 {
