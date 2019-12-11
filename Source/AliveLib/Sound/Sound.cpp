@@ -15,6 +15,8 @@
 #include "ScopedSeq.hpp"
 #include "Sound/SoundSDL.hpp"
 #include "Sound/SoundDSound.hpp"
+#include "Sound/SDLSoundBuffer.hpp"
+#include "Sound/SDLSoundSystem.hpp"
 
 ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc33c, int, sLastNotePlayTime_BBC33C, 0);

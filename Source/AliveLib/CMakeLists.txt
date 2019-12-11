@@ -45,6 +45,10 @@ ExportHooker.hpp
     Sound/SoundDSound.hpp
     Sound/SoundSDL.hpp
     Sound/SoundSDL.cpp
+    Sound/SDLSoundBuffer.hpp
+    Sound/SDLSoundBuffer.cpp
+    Sound/SDLSoundSystem.hpp
+    Sound/SDLSoundSystem.cpp
     stdlib.cpp
     stdlib.hpp
     ResourceManager.cpp
