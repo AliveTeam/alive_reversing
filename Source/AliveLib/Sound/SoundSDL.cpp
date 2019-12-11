@@ -30,7 +30,7 @@ void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
         }
     }
 
-    printf("WARNING !!: Failed to allocate voice! No space left!\n");
+    LOG_ERROR("Failed to allocate voice! No space left");
 }
 
 void RemoveVoiceFromActiveList(SDLSoundBuffer * pVoice)
@@ -44,7 +44,7 @@ void RemoveVoiceFromActiveList(SDLSoundBuffer * pVoice)
         }
     }
 
-    printf("WARNING !!: Could not find voice to remove!?!\n");
+    LOG_ERROR("Could not find voice to remove");
 }
 
 SDLSoundBuffer::SDLSoundBuffer()
@@ -62,7 +62,6 @@ SDLSoundBuffer::SDLSoundBuffer()
 
     AddVoiceToActiveList(this);
 }
-
 
 SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq)
     : mSoundSysFreq(soundSysFreq)
@@ -87,7 +86,7 @@ SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq)
     AddVoiceToActiveList(this);
 }
 
-int SDLSoundBuffer::SetVolume(int volume)
+HRESULT SDLSoundBuffer::SetVolume(int volume)
 {
     mState.iVolumeTarget = volume;
 
@@ -98,10 +97,10 @@ int SDLSoundBuffer::SetVolume(int volume)
 
     mState.bVolDirty = true;
 
-    return 0;
+    return S_OK;
 }
 
-int SDLSoundBuffer::Play(int, int, int flags)
+HRESULT SDLSoundBuffer::Play(int, int, int flags)
 {
     mState.fPlaybackPosition = 0;
     mState.eStatus = AE_SDL_Voice_Status::Playing;
@@ -111,46 +110,45 @@ int SDLSoundBuffer::Play(int, int, int flags)
         mState.bLoop = true;
     }
 
-    return 0;
+    return S_OK;
 }
 
-int SDLSoundBuffer::Stop()
+HRESULT SDLSoundBuffer::Stop()
 {
     mState.eStatus = AE_SDL_Voice_Status::Stopped;
-
-    return 0;
+    return S_OK;
 }
 
-int SDLSoundBuffer::SetFrequency(int frequency)
+HRESULT SDLSoundBuffer::SetFrequency(int frequency)
 {
     mState.fFrequency = frequency / static_cast<float>(mSoundSysFreq);
-    return 0;
+    return S_OK;
 }
 
-int SDLSoundBuffer::SetCurrentPosition(int position) // This offset is apparently in bytes
+HRESULT SDLSoundBuffer::SetCurrentPosition(int position) // This offset is apparently in bytes
 {
     mState.fPlaybackPosition = static_cast<float>(position / mState.iBlockAlign);
-    return 0;
+    return S_OK;
 }
 
-int SDLSoundBuffer::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
+HRESULT SDLSoundBuffer::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
 {
     *readPos = static_cast<DWORD>(mState.fPlaybackPosition * mState.iBlockAlign);
     *writePos = 0;
 
-    return 0;
+    return S_OK;
 }
 
-int SDLSoundBuffer::GetFrequency(DWORD * freq)
+HRESULT SDLSoundBuffer::GetFrequency(DWORD* freq)
 {
     *freq = static_cast<DWORD>(mState.fFrequency * mSoundSysFreq);
-    return 0;
+    return S_OK;
 }
 
-int SDLSoundBuffer::SetPan(signed int pan)
+HRESULT SDLSoundBuffer::SetPan(signed int pan)
 {
     mState.iPan = pan;
-    return 0;
+    return S_OK;
 }
 
 void SDLSoundBuffer::Release()
@@ -159,7 +157,7 @@ void SDLSoundBuffer::Release()
     mState.bIsReleased = true;
 }
 
-int SDLSoundBuffer::GetStatus(DWORD * r)
+HRESULT SDLSoundBuffer::GetStatus(DWORD * r)
 {
     if (mState.eStatus == AE_SDL_Voice_Status::Playing)
     {
@@ -173,7 +171,7 @@ int SDLSoundBuffer::GetStatus(DWORD * r)
     {
         *r |= DSBSTATUS_TERMINATED;
     }
-    return 0;
+    return S_OK;
 }
 
 void SDLSoundBuffer::Destroy()
@@ -190,15 +188,13 @@ std::vector<BYTE>* SDLSoundBuffer::GetBuffer()
     return mBuffer.get();
 }
 
-int SDLSoundBuffer::Duplicate(SDLSoundBuffer** dupePtr)
+void SDLSoundBuffer::Duplicate(SDLSoundBuffer** dupePtr)
 {
     *dupePtr = new SDLSoundBuffer(*this);
     AddVoiceToActiveList(*dupePtr);
-    return 0;
 }
 
 // Exoddus Functions:
-
 
 void SND_InitVolumeTable_SDL()
 {

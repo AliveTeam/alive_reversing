@@ -62,21 +62,22 @@ public:
     SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq);
 
 
-    int SetVolume(int volume);
-    int Play(int /*reserved*/, int /*priority*/, int flags);
-    int Stop();
+    HRESULT SetVolume(int volume);
+    HRESULT Play(int /*reserved*/, int /*priority*/, int flags);
+    HRESULT Stop();
 
-    int SetFrequency(int frequency);
-    int SetCurrentPosition(int position);
-    int GetCurrentPosition(DWORD * readPos, DWORD * writePos);
-    int GetFrequency(DWORD * freq);
-    int SetPan(signed int pan);
+    HRESULT SetFrequency(int frequency);
+    HRESULT SetCurrentPosition(int position);
+    HRESULT GetCurrentPosition(DWORD * readPos, DWORD * writePos);
+    HRESULT GetFrequency(DWORD * freq);
+    HRESULT SetPan(signed int pan);
     void Release();
-    int GetStatus(DWORD * r);
+    HRESULT GetStatus(DWORD * r);
+
     void Destroy();
     
     std::vector<BYTE>* GetBuffer();
-    int Duplicate(SDLSoundBuffer ** dupePtr);
+    void Duplicate(SDLSoundBuffer ** dupePtr);
 
 public:
     struct AE_SDL_Voice_State
