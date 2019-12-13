@@ -92,7 +92,7 @@ SnoozeParticle* SnoozeParticle::ctor_4B06F0(FP xpos, FP ypos, __int16 layer, FP 
     // Interesting calc.. ??
     field_34_dy = (FP_FromDouble(0.15) * FP_FromInteger(Math_NextRandom())) / FP_FromInteger(256);
     field_34_dy += FP_FromDouble(0.35);
-    field_34_dy = (field_34_dy + FP_FromDouble(0.35)) * FP_FromInteger(-1);
+    field_34_dy = field_34_dy * FP_FromInteger(-1);
 
     field_40_layer = layer;
 
