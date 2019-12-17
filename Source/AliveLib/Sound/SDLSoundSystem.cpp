@@ -46,8 +46,6 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
 
     Reverb_Init(mAudioDeviceSpec.freq);
 
-    SDL_PauseAudio(0);
-
     SND_InitVolumeTable_4EEF60();
 
     if (sLoadedSoundsCount_BBC394)
@@ -66,6 +64,14 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
 
     sLastNotePlayTime_BBC33C = SYS_GetTicks();
     mCreated = true;
+
+    // Correctly size the lock free buffer on the main thread before any other threads start
+    mAudioRingBuffer.resize(mAudioDeviceSpec.samples * 6);
+
+    // TODO: Test just running this on the main thread
+    mRenderAudioThread.reset(new std::thread(std::bind(&SDLSoundSystem::RenderAudioThread, this)));
+
+    SDL_PauseAudio(0);
 }
 
 
@@ -86,10 +92,17 @@ HRESULT SDLSoundSystem::Release()
 {
     TRACE_ENTRYEXIT;
 
-    // Stop the audio call back
     if (mCreated)
     {
+        // Stop the audio call back
         SDL_PauseAudio(1);
+
+        // Stop audio rendering thread
+        mRenderAudioThreadQuit = true;
+        if (mRenderAudioThread && mRenderAudioThread->joinable())
+        {
+            mRenderAudioThread->join();
+        }
     }
 
     // Shutdown the sound system
@@ -112,7 +125,41 @@ SDLSoundSystem::~SDLSoundSystem()
 void SDLSoundSystem::AudioCallBack(Uint8 *stream, int len)
 {
     memset(stream, 0, len);
-    RenderAudio(reinterpret_cast<StereoSample_S16 *>(stream), len / sizeof(StereoSample_S16));
+
+    StereoSample_S16* pSampleBuffer = reinterpret_cast<StereoSample_S16*>(stream);
+    const int bufferLenSamples = len / sizeof(StereoSample_S16);
+    const int readAvilSamples = static_cast<int>(mAudioRingBuffer.getAvailableRead());
+    if (readAvilSamples > 0 && readAvilSamples < bufferLenSamples)
+    {
+        LOG_WARNING("Audio buffer underflow!");
+    }
+
+    if (!mAudioRingBuffer.read(pSampleBuffer, bufferLenSamples))
+    {
+        LOG_ERROR("Ring buffer read failure!");
+    }
+}
+
+
+void SDLSoundSystem::RenderAudioThread()
+{
+    std::vector<StereoSample_S16> tmpBuffer;
+    while (!mRenderAudioThreadQuit)
+    {
+        const size_t bufferSize = mAudioRingBuffer.getAvailableWrite();
+        if (bufferSize > 0)
+        {
+            tmpBuffer.resize(bufferSize);
+            memset(tmpBuffer.data(), 0, tmpBuffer.size() * sizeof(StereoSample_S16));
+            RenderAudio(tmpBuffer.data(), static_cast<int>(tmpBuffer.size()));
+            if (!mAudioRingBuffer.write(tmpBuffer.data(), tmpBuffer.size()))
+            {
+                // Couldn't write all the data, should never happen ??
+                LOG_ERROR("Ring buffer write failed");
+            }
+        }
+    }
+    LOG_INFO("Quit");
 }
 
 void SDLSoundSystem::RenderAudio(StereoSample_S16* pSampleBuffer, int sampleBufferCount)

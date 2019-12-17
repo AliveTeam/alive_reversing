@@ -5,8 +5,6 @@
 
 #if USE_SDL2_SOUND
 
-#include <cinder/audio/dsp/RingBuffer.h>
-
 bool gReverbEnabled = false;
 bool gAudioStereo = true;
 

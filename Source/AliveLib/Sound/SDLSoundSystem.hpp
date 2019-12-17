@@ -2,6 +2,10 @@
 
 #include "Sound.hpp"
 #include "SoundSDL.hpp"
+#include <thread>
+
+#define CI_DISABLE_ASSERTS
+#include <cinder/audio/dsp/RingBuffer.h>
 
 enum AudioFilterMode
 {
@@ -29,6 +33,10 @@ private:
     ~SDLSoundSystem();
 
     void AudioCallBack(Uint8* stream, int len);
+
+    void RenderAudioThread();
+
+
     void RenderAudio(StereoSample_S16* pSampleBuffer, int sampleBufferCount);
 
     void RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* pSampleBuffer, int sampleBufferCount);
@@ -45,5 +53,10 @@ private:
     AudioFilterMode mAudioFilterMode = AudioFilterMode::Linear;
     std::vector<StereoSample_S16> mTempSoundBuffer;
     std::vector<StereoSample_S16> mNoReverbBuffer;
+    cinder::audio::dsp::RingBufferT<StereoSample_S16> mAudioRingBuffer;
+    std::atomic_bool mRenderAudioThreadQuit = false;
+    std::unique_ptr<std::thread> mRenderAudioThread;
+
+
     bool mCreated = false;
 };
