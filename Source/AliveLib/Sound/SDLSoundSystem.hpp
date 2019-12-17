@@ -54,7 +54,7 @@ private:
     std::vector<StereoSample_S16> mTempSoundBuffer;
     std::vector<StereoSample_S16> mNoReverbBuffer;
     cinder::audio::dsp::RingBufferT<StereoSample_S16> mAudioRingBuffer;
-    std::atomic_bool mRenderAudioThreadQuit = false;
+    std::atomic_bool mRenderAudioThreadQuit{ false };
     std::unique_ptr<std::thread> mRenderAudioThread;
 
 

@@ -10,7 +10,7 @@ void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
 {
     for (int i = 0; i < MAX_VOICE_COUNT; i++)
     {
-        if (sAE_ActiveVoices[i] == nullptr)
+        if (sAE_ActiveVoices[i].load() == nullptr)
         {
             sAE_ActiveVoices[i] = pVoice;
             return;
