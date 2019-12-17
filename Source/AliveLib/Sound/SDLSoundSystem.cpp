@@ -35,13 +35,14 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
     LOG_INFO("-----------------------------");
     LOG_INFO("Audio Device opened, got specs:");
     LOG_INFO(
-        "Channels: " << mAudioDeviceSpec.channels << " " <<
+        "Channels: " << static_cast<int>(mAudioDeviceSpec.channels) << " " <<
         "nFormat: " << mAudioDeviceSpec.format << " " <<
         "nFreq: " << mAudioDeviceSpec.freq << " " <<
         "nPadding: " << mAudioDeviceSpec.padding << " " <<
         "nSamples: " << mAudioDeviceSpec.samples << " " <<
         "nSize: " << mAudioDeviceSpec.size << " " <<
-        "nSilence: " << mAudioDeviceSpec.silence);
+        "nSilence: " << static_cast<int>(mAudioDeviceSpec.silence));
+    LOG_INFO("Driver: " << SDL_GetCurrentAudioDriver());
     LOG_INFO("-----------------------------");
 
     Reverb_Init(mAudioDeviceSpec.freq);
