@@ -26,6 +26,8 @@ public:
     static void AudioCallBackStatic(void * userdata, Uint8 *stream, int len);
 
 private:
+    ~SDLSoundSystem();
+
     void AudioCallBack(Uint8* stream, int len);
     void RenderAudio(StereoSample_S16* pSampleBuffer, int sampleBufferCount);
 
@@ -41,6 +43,7 @@ private:
 
     int mCurrentSoundBufferSize = 0;
     AudioFilterMode mAudioFilterMode = AudioFilterMode::Linear;
-    StereoSample_S16 * mTempSoundBuffer = nullptr;
-    StereoSample_S16 * mNoReverbBuffer = nullptr;
+    std::vector<StereoSample_S16> mTempSoundBuffer;
+    std::vector<StereoSample_S16> mNoReverbBuffer;
+    bool mCreated = false;
 };

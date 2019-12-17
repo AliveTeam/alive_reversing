@@ -6,7 +6,9 @@
 
 void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, int /*isStereo*/)
 {
-    if (SDL_Init(SDL_INIT_AUDIO) != 0)
+    mCreated = false;
+
+    if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
     {
         LOG_ERROR("SDL_Init(SDL_INIT_AUDIO) failed " << SDL_GetError());
         return;
@@ -63,6 +65,7 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
     }
 
     sLastNotePlayTime_BBC33C = SYS_GetTicks();
+    mCreated = true;
 }
 
 
@@ -81,9 +84,29 @@ HRESULT SDLSoundSystem::CreateSoundBuffer(LPCDSBUFFERDESC pcDSBufferDesc, TSound
 
 HRESULT SDLSoundSystem::Release()
 {
-    // TODO: Free other buffers, safely end audio call back etc
+    TRACE_ENTRYEXIT;
+
+    // Stop the audio call back
+    if (mCreated)
+    {
+        SDL_PauseAudio(1);
+    }
+
+    // Shutdown the sound system
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
+
     delete this;
     return S_OK;
+}
+
+
+SDLSoundSystem::~SDLSoundSystem()
+{
+    TRACE_ENTRYEXIT;
+
+    Reverb_DeInit();
+
+    // TODO: Clean up outstanding samples in sAE_ActiveVoices
 }
 
 void SDLSoundSystem::AudioCallBack(Uint8 *stream, int len)
@@ -97,31 +120,18 @@ void SDLSoundSystem::RenderAudio(StereoSample_S16* pSampleBuffer, int sampleBuff
     // Check if our buffer size changes, and if its buffer, then resize the array
     if (sampleBufferCount > mCurrentSoundBufferSize)
     {
-        if (mTempSoundBuffer != nullptr)
-        {
-            delete[] mTempSoundBuffer;
-            mTempSoundBuffer = nullptr;
-        }
-
-        if (mNoReverbBuffer != nullptr)
-        {
-            delete[] mNoReverbBuffer;
-            mNoReverbBuffer = nullptr;
-        }
-
+        mTempSoundBuffer.resize(sampleBufferCount);
+        mNoReverbBuffer.resize(sampleBufferCount);
         mCurrentSoundBufferSize = sampleBufferCount;
     }
 
-    if (mTempSoundBuffer == nullptr)
+    if (mTempSoundBuffer.empty())
     {
-        mTempSoundBuffer = new StereoSample_S16[sampleBufferCount];
-    }
-    if (mNoReverbBuffer == nullptr)
-    {
-        mNoReverbBuffer = new StereoSample_S16[sampleBufferCount];
+        mTempSoundBuffer.resize(sampleBufferCount);
+        mNoReverbBuffer.resize(sampleBufferCount);
     }
 
-    memset(mNoReverbBuffer, 0, sampleBufferCount * sizeof(StereoSample_S16));
+    memset(mNoReverbBuffer.data(), 0, sampleBufferCount * sizeof(StereoSample_S16));
 
     for (int vi = 0; vi < MAX_VOICE_COUNT; vi++)
     {
@@ -138,7 +148,7 @@ void SDLSoundSystem::RenderAudio(StereoSample_S16* pSampleBuffer, int sampleBuff
         Reverb_Mix(pSampleBuffer, AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
 
         // Mix our no reverb buffer
-        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(mNoReverbBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
+        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(mNoReverbBuffer.data()), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), kMixVolume);
     }
 }
 
@@ -161,7 +171,7 @@ void SDLSoundSystem::RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* 
     }
 
     // Clear Temp Sample Buffer
-    memset(mTempSoundBuffer, 0, sampleBufferCount * sizeof(StereoSample_S16));
+    memset(mTempSoundBuffer.data(), 0, sampleBufferCount * sizeof(StereoSample_S16));
 
     Sint16* pVoiceBufferPtr = reinterpret_cast<Sint16*>(pVoice->GetBuffer()->data());
 
@@ -211,11 +221,11 @@ void SDLSoundSystem::RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* 
 
     if (reverbPass)
     {
-        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(mTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
+        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(pSampleBuffer), reinterpret_cast<Uint8 *>(mTempSoundBuffer.data()), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
     }
     else
     {
-        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(mNoReverbBuffer), reinterpret_cast<Uint8 *>(mTempSoundBuffer), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
+        SDL_MixAudioFormat(reinterpret_cast<Uint8 *>(mNoReverbBuffer.data()), reinterpret_cast<Uint8 *>(mTempSoundBuffer.data()), AUDIO_S16, sampleBufferCount * sizeof(StereoSample_S16), 45);
     }
 }
 

@@ -5,77 +5,76 @@
 
 #include <math.h>
 #include <iostream>
+#include <memory>
+#include <vector>
 
 // Reference https://www.vegardno.net/2016/05/writing-reverb-filter-from-first.html
 
 const int ReverbEchos = 24;
-static StereoSample_S16 sReverbBuffer[1024 * 32];
+static StereoSample_S16 sReverbBuffer[1024 * 32] = {};
 const float gReverbMix = 1.0f / ReverbEchos;
 
 class FeedbackBuffer
 {
 public:
-    FeedbackBuffer(int samples)
+    explicit FeedbackBuffer(int samples)
+        : mSamples(samples)
     {
-        iSamples = samples;
-        pBuffer = new StereoSample_S32[samples];
-        for (int i = 0; i < samples; i++)
+        mBuffer.resize(samples);
+        for (auto& sample : mBuffer)
         {
-            pBuffer[i].left = 0;
-            pBuffer[i].right = 0;
+            sample.left = 0;
+            sample.right = 0;
         }
     }
 
-    ~FeedbackBuffer()
+    void PushSample(StereoSample_S16 s)
     {
-        delete[] pBuffer;
-    }
-
-    int idx = 0;
-    int iSamples;
-    StereoSample_S32 * pBuffer;
-
-    inline void PushSample(StereoSample_S16 s)
-    {
-        pBuffer[idx].left += s.left;
-        pBuffer[idx].right += s.right;
+        mBuffer[mIdx].left += s.left;
+        mBuffer[mIdx].right += s.right;
         
-        idx++;
+        mIdx++;
 
-        if (idx >= iSamples)
+        if (mIdx >= mSamples)
         {
-            idx = 0;
+            mIdx = 0;
         }
     }
 
-    inline StereoSample_S32 GetSample()
+    StereoSample_S32 GetSample()
     {
-        const StereoSample_S32 f = pBuffer[idx];
-        pBuffer[idx].left -= pBuffer[idx].left / 10;
-        pBuffer[idx].right -= pBuffer[idx].right / 10;
+        const StereoSample_S32 f = mBuffer[mIdx];
+        mBuffer[mIdx].left -= mBuffer[mIdx].left / 10;
+        mBuffer[mIdx].right -= mBuffer[mIdx].right / 10;
         return f;
     }
+
+    int mIdx = 0;
+    int mSamples;
+    std::vector<StereoSample_S32> mBuffer;
 };
 
-std::vector<FeedbackBuffer*> feedbackBuffers; // TODO: Fix memory leak
+static std::vector<std::unique_ptr<FeedbackBuffer>> gFeedbackBuffers;
 
 void Reverb_Init(int sampleRate)
 {
-    int sampleGap = sampleRate / 800;
-    sampleGap = sampleGap;
+    const int sampleGap = sampleRate / 800;
     for (int i = 1; i <= ReverbEchos; i++)
     {
-        feedbackBuffers.push_back(new FeedbackBuffer((sampleGap + (i * 2)) * i));
+        gFeedbackBuffers.emplace_back(new FeedbackBuffer((sampleGap + (i * 2)) * i)); // make_unique not in all supports cpp stdlibs
     }
 }
 
-inline void Reverb_PushSample(StereoSample_S16 v)
+void Reverb_DeInit()
 {
-    const size_t feedbackArySize = feedbackBuffers.size();
-    FeedbackBuffer ** feedbackAry = feedbackBuffers.data();
-    for (unsigned int i = 0; i < feedbackArySize; i++)
+    gFeedbackBuffers.clear();
+}
+
+void Reverb_PushSample(StereoSample_S16 v)
+{
+    for (auto& buffer : gFeedbackBuffers)
     {
-        feedbackAry[i]->PushSample(v);
+        buffer->PushSample(v);
     }
 }
 
@@ -84,12 +83,9 @@ inline void Reverb_Update(int index)
     sReverbBuffer[index].left = 0;
     sReverbBuffer[index].right = 0;
 
-    const size_t feedbackArySize = feedbackBuffers.size();
-    FeedbackBuffer ** feedbackAry = feedbackBuffers.data();
-
-    for (unsigned int i = 0; i < feedbackArySize; i++)
+    for (auto& buffer : gFeedbackBuffers)
     {
-        StereoSample_S32 v = feedbackAry[i]->GetSample();
+        const StereoSample_S32 v = buffer->GetSample();
 
         sReverbBuffer[index].left += static_cast<signed short>(v.left * gReverbMix);
         sReverbBuffer[index].right += static_cast<signed short>(v.right * gReverbMix);
