@@ -3,7 +3,8 @@
 
 #define MAX_VOICE_COUNT 1024
 
-SDLSoundBuffer* sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
+// TODO: This probably shouldn't be a atomic as it could result in samples being leaked, still better than having torn pointer values I guess
+std::atomic<SDLSoundBuffer*> sAE_ActiveVoices[MAX_VOICE_COUNT] = {};
 
 void AddVoiceToActiveList(SDLSoundBuffer * pVoice)
 {
@@ -72,8 +73,28 @@ SDLSoundBuffer::SDLSoundBuffer(const DSBUFFERDESC& bufferDesc, int soundSysFreq)
     AddVoiceToActiveList(this);
 }
 
+
+SDLSoundBuffer::SDLSoundBuffer(const SDLSoundBuffer& rhs)
+{
+    *this = rhs;
+    AddVoiceToActiveList(this);
+}
+
+SDLSoundBuffer& SDLSoundBuffer::operator=(const SDLSoundBuffer& rhs)
+{
+    if (this != &rhs)
+    {
+        mSoundSysFreq = rhs.mSoundSysFreq;
+        mState = rhs.mState;
+        mBuffer = rhs.mBuffer;
+    }
+    return *this;
+}
+
 HRESULT SDLSoundBuffer::SetVolume(int volume)
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     mState.iVolumeTarget = volume;
 
     if (!mState.bVolDirty)
@@ -88,6 +109,8 @@ HRESULT SDLSoundBuffer::SetVolume(int volume)
 
 HRESULT SDLSoundBuffer::Play(int, int, int flags)
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     mState.fPlaybackPosition = 0;
     mState.eStatus = SDLSoundBufferStatus::Playing;
 
@@ -101,24 +124,32 @@ HRESULT SDLSoundBuffer::Play(int, int, int flags)
 
 HRESULT SDLSoundBuffer::Stop()
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     mState.eStatus = SDLSoundBufferStatus::Stopped;
     return S_OK;
 }
 
 HRESULT SDLSoundBuffer::SetFrequency(int frequency)
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     mState.fFrequency = frequency / static_cast<float>(mSoundSysFreq);
     return S_OK;
 }
 
 HRESULT SDLSoundBuffer::SetCurrentPosition(int position) // This offset is apparently in bytes
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     mState.fPlaybackPosition = static_cast<float>(position / mState.iBlockAlign);
     return S_OK;
 }
 
 HRESULT SDLSoundBuffer::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     *readPos = static_cast<DWORD>(mState.fPlaybackPosition * mState.iBlockAlign);
     *writePos = 0;
 
@@ -127,24 +158,32 @@ HRESULT SDLSoundBuffer::GetCurrentPosition(DWORD * readPos, DWORD * writePos)
 
 HRESULT SDLSoundBuffer::GetFrequency(DWORD* freq)
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     *freq = static_cast<DWORD>(mState.fFrequency * mSoundSysFreq);
     return S_OK;
 }
 
 HRESULT SDLSoundBuffer::SetPan(signed int pan)
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     mState.iPan = pan;
     return S_OK;
 }
 
 void SDLSoundBuffer::Release()
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     mState.bLoop = false; // because the SDL copy paste of SND_Free_4EFA30 was doing this
     mState.bIsReleased = true;
 }
 
 HRESULT SDLSoundBuffer::GetStatus(DWORD * r)
 {
+    std::lock_guard<std::mutex> lock(mLock);
+
     if (mState.eStatus == SDLSoundBufferStatus::Playing)
     {
         *r |= DSBSTATUS_PLAYING;
@@ -164,8 +203,11 @@ void SDLSoundBuffer::Destroy()
 {
     // remove self from global list and
     // decrement shared mem ptr to audio buffer
+    {
+        std::lock_guard<std::mutex> lock(mLock);
 
-    RemoveVoiceFromActiveList(this);
+        RemoveVoiceFromActiveList(this);
+    }
     delete this;
 }
 
@@ -176,6 +218,6 @@ std::vector<BYTE>* SDLSoundBuffer::GetBuffer()
 
 void SDLSoundBuffer::Duplicate(SDLSoundBuffer** dupePtr)
 {
+    std::lock_guard<std::mutex> lock(mLock);
     *dupePtr = new SDLSoundBuffer(*this);
-    AddVoiceToActiveList(*dupePtr);
 }

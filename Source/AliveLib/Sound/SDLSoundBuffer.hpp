@@ -2,9 +2,10 @@
 
 #include "Sound.hpp"
 #include "SoundSDL.hpp"
+#include <mutex>
 
 #define MAX_VOICE_COUNT 1024
-extern SDLSoundBuffer* sAE_ActiveVoices[MAX_VOICE_COUNT];
+extern std::atomic<SDLSoundBuffer*> sAE_ActiveVoices[MAX_VOICE_COUNT];
 
 
 enum SDLSoundBufferStatus
@@ -18,6 +19,10 @@ class SDLSoundBuffer
 {
 
 public:
+    SDLSoundBuffer(const SDLSoundBuffer& rhs);
+
+    SDLSoundBuffer& operator = (const SDLSoundBuffer& rhs);
+
     SDLSoundBuffer();
 
 
@@ -63,6 +68,6 @@ public:
     int mSoundSysFreq = 0;
     AE_SDL_Voice_State mState;
     std::shared_ptr<std::vector<BYTE>> mBuffer;
-
+    std::mutex mLock;
 };
 
