@@ -183,7 +183,7 @@ void SDLSoundSystem::RenderSoundBuffer(SDLSoundBuffer& entry, StereoSample_S16* 
 
         if (pVoice->mState.iChannels == 2)
         {
-            reverbPass = false; // Todo: determine this with flags in the sound object itself.
+            reverbPass = true; // Todo: determine this with flags in the sound object itself.
                                 // For Stereo buffers. The only time this is played is for FMV's.
                                 // Right now, unless the playback device is at 44100 hz, it sounds awful.
                                 // TODO: Resampling for stereo
