@@ -137,7 +137,7 @@ EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
     return 0;
 }
 
-EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Struct1* pMidiStru, int playFlags, int priority)
+EXPORT int CC SND_PlayEx_4EF740(const SoundEntry* pSnd, int panLeft, int panRight, float freq, MIDI_Channel* pMidiStru, int playFlags, int priority)
 {
     if (!sDSound_BBC344)
     {
@@ -539,8 +539,15 @@ EXPORT signed int CC SND_Buffer_Set_Volume_4EFAD0(int idx, int vol)
 
 EXPORT int CC SND_Buffer_Set_Frequency_4EFC00(int idx, float freq)
 {
-    TSoundBufferType* pDSoundBuffer = sSoundBuffers_BBBAB8[idx & 511].field_0_pDSoundBuffer;
-    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idx & 511];
+    const int idxMasked = idx & 511;
+    if (idxMasked > 32)
+    {
+        LOG_ERROR("Idx out of bounds " << idxMasked << " unmasked " << idx);
+        return -1;
+    }
+
+    TSoundBufferType* pDSoundBuffer = sSoundBuffers_BBBAB8[idxMasked].field_0_pDSoundBuffer;
+    SoundBuffer* pSoundBuffer = &sSoundBuffers_BBBAB8[idxMasked];
 
     if (!pDSoundBuffer || (idx ^ pSoundBuffer->field_4) & ~511)
     {

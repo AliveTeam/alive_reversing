@@ -12,34 +12,34 @@ namespace Test
 struct SoundBlockInfo;
 struct SeqDataRecord;
 
-struct MIDI_Struct1_Sub
+struct MIDI_ADSR_State
 {
     unsigned __int8 field_0_seq_idx;
     unsigned __int8 field_1_program;
     unsigned __int8 field_2_note_byte1;
-    char field_3;
+    char field_3_state;
     unsigned __int16 field_4_attack;
     unsigned __int16 field_6_sustain;
     unsigned __int16 field_8_decay;
     unsigned __int16 field_A_release;
     unsigned __int16 field_C;
-    unsigned __int8 field_E;
-    char field_F;
+    unsigned __int8 field_E_ref_count;
+    char field_F_pad;
 };
-ALIVE_ASSERT_SIZEOF(MIDI_Struct1_Sub, 0x10);
+ALIVE_ASSERT_SIZEOF(MIDI_ADSR_State, 0x10);
 
-struct MIDI_Struct1
+struct MIDI_Channel
 {
     int field_0_sound_buffer_field_4;
-    int field_4;
+    int field_4_priority;
     int field_8_left_vol;
     int field_C;
-    float field_10_float;
+    float field_10_freq;
     int field_14_time;
     int field_18_rightVol;
-    MIDI_Struct1_Sub field_1C;
+    MIDI_ADSR_State field_1C_adsr;
 };
-ALIVE_ASSERT_SIZEOF(MIDI_Struct1, 0x2C);
+ALIVE_ASSERT_SIZEOF(MIDI_Channel, 0x2C);
 
 struct ProgAtr
 {
@@ -135,7 +135,7 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2
 EXPORT void CC MIDI_Stop_All_Channels_4FDFE0();
 EXPORT int CC MIDI_Play_Single_Note_4CA1B0(int vabIdAndProgram, int note, int leftVol, int rightVol);
 EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int leftVolume, int rightVolume, int volume);
-EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Struct1* pData, int vol);
+EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol);
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight);
 EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 field4_match, __int16 pitch);
 EXPORT __int16 CC MIDI_Set_Freq_4FDF70(__int16 idx, int /*program*/, int /*vabId*/, __int16 noteLo, __int16 kZero, __int16 noteHigh, __int16 a7);
