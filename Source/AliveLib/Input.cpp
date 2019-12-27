@@ -897,24 +897,23 @@ void NewParseSettingsIni()
             if (category == "Keyboard")
             {
                 currentCategory = IniCategory::eKeyboard;
-                Input_ResetBinding_4925A0(16, 0);
-                Input_ResetBinding_4925A0(64, 0);
-                Input_ResetBinding_4925A0(256, 0);
-                Input_ResetBinding_4925A0(32, 0);
-                Input_ResetBinding_4925A0(128, 0);
-                Input_ResetBinding_4925A0(512, 0);
+                Input_ResetBinding_4925A0(InputCommands::eRun, 0);
+                Input_ResetBinding_4925A0(InputCommands::eSneak, 0);
+                Input_ResetBinding_4925A0(InputCommands::eHop, 0);
+                Input_ResetBinding_4925A0(InputCommands::eDoAction, 0);
+                Input_ResetBinding_4925A0(InputCommands::eThrowItem, 0);
+                Input_ResetBinding_4925A0(InputCommands::eFartOrRoll, 0);
             } else if (category == "Gamepad")
             {
-                //TODO figure out and possibly delete those resets
-                Input_ResetBinding_4925A0(16, 1);
-                Input_ResetBinding_4925A0(64, 1);
-                Input_ResetBinding_4925A0(256, 1);
-                Input_ResetBinding_4925A0(32, 1);
-                Input_ResetBinding_4925A0(128, 1);
-                Input_ResetBinding_4925A0(512, 1);
-                Input_ResetBinding_4925A0(0x800000, 1);
-                Input_ResetBinding_4925A0(InputCommands::eSpeak2, 1);
                 currentCategory = IniCategory::eGamepad;
+                Input_ResetBinding_4925A0(InputCommands::eRun, 1);
+                Input_ResetBinding_4925A0(InputCommands::eSneak, 1);
+                Input_ResetBinding_4925A0(InputCommands::eHop, 1);
+                Input_ResetBinding_4925A0(InputCommands::eDoAction, 1);
+                Input_ResetBinding_4925A0(InputCommands::eThrowItem, 1);
+                Input_ResetBinding_4925A0(InputCommands::eFartOrRoll, 1);
+                Input_ResetBinding_4925A0(InputCommands::eSpeak1, 1);
+                Input_ResetBinding_4925A0(InputCommands::eSpeak2, 1);
             }
             else if (category == "Alive")
             {
