@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "Input.hpp"
 
-void CC String_FormatString_4969D0(const char* src, char* dst, int /*bufferLen*/, char bUnknown)
+void CC String_FormatString_4969D0(const char* src, char* dst, int /*bufferLen*/, char isAbeMotionsMenuWithAController)
 {
     const char* pSrcIter = src;
     char* pDstIter = dst;
@@ -16,7 +16,7 @@ void CC String_FormatString_4969D0(const char* src, char* dst, int /*bufferLen*/
             const char* pButtonStr = nullptr;
             if (sJoystickEnabled_5C9F70)
             {
-                if (bUnknown)
+                if (isAbeMotionsMenuWithAController) //TODO probably get rid of it, somehow
                 {
                     pButtonStr = Input_GetButtonString_492530(pSrcIter, 2);
                 }
