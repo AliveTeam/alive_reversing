@@ -595,7 +595,7 @@ EXPORT void CC Input_Init_Names_491870()
             {
                 if (curBinding & 1)
                 {
-                    strcpy(stru_5C9798.field_0[k].field_0_name, sJoyButtonNames_5C9908[i]);
+                    strcpy(stru_5C9798.field_0[k+1].field_0_name, sJoyButtonNames_5C9908[i]);
                 }
                 curBinding >>= 1;
                 if (!curBinding)
