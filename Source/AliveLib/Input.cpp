@@ -860,15 +860,22 @@ std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     { "debug_mode", &gDebugHelpersEnabled , true},
 };
 
+enum class IniCategory
+{
+    eNone = -1,
+    eControl,
+    eKeyboard,
+    eGamepad,
+    eAlive
+};
+
 void NewParseSettingsIni()
 {
     const auto abeBuffer = FS::ReadFile(FS::GetPrefPath() + "abe2.ini");
-    
-    const std::string abeConfig(reinterpret_cast<const char *>(abeBuffer.data()), abeBuffer.size());
-    
-    std::vector<std::string>  configSplit = SplitString(abeConfig, '\n');
+    const std::string abeConfig(reinterpret_cast<const char*>(abeBuffer.data()), abeBuffer.size());
+    std::vector<std::string> configSplit = SplitString(abeConfig, '\n');
 
-    bool isKeyboardParams = false;
+    IniCategory currentCategory = IniCategory::eNone;
 
     for (std::string& o : configSplit)
     {
@@ -877,7 +884,7 @@ void NewParseSettingsIni()
             continue;
         }
 
-        if (o[0] == '[') // Category
+        if (o[0] == '[') // Category start
         {
             if (o[o.size() - 1] == '\r')
             {
@@ -886,20 +893,36 @@ void NewParseSettingsIni()
 
             std::string category = o.substr(1, o.size() - 2);
             
-            printf("Category: %s\n", category.c_str());
-
-            isKeyboardParams = false;
-
-            // Do Categories
+            LOG_INFO("Ini category: " << category.c_str());
             if (category == "Keyboard")
             {
-                isKeyboardParams = true;
+                currentCategory = IniCategory::eKeyboard;
                 Input_ResetBinding_4925A0(16, 0);
                 Input_ResetBinding_4925A0(64, 0);
                 Input_ResetBinding_4925A0(256, 0);
                 Input_ResetBinding_4925A0(32, 0);
                 Input_ResetBinding_4925A0(128, 0);
                 Input_ResetBinding_4925A0(512, 0);
+            } else if (category == "Gamepad")
+            {
+                //TODO figure out and possibly delete those resets
+                Input_ResetBinding_4925A0(16, 1);
+                Input_ResetBinding_4925A0(64, 1);
+                Input_ResetBinding_4925A0(256, 1);
+                Input_ResetBinding_4925A0(32, 1);
+                Input_ResetBinding_4925A0(128, 1);
+                Input_ResetBinding_4925A0(512, 1);
+                Input_ResetBinding_4925A0(0x800000, 1);
+                Input_ResetBinding_4925A0(InputCommands::eSpeak2, 1);
+                currentCategory = IniCategory::eGamepad;
+            }
+            else if (category == "Alive")
+            {
+                currentCategory = IniCategory::eAlive;
+            }
+            else if (category == "Control")
+            {
+                currentCategory = IniCategory::eControl;
             }
         }
         else
@@ -910,74 +933,46 @@ void NewParseSettingsIni()
             {
                 printf("Value: %s is %s\n", param[0].c_str(), param[1].c_str());
 
-                if (isKeyboardParams)
+                if (currentCategory == IniCategory::eControl)
+                {
+                    if (param[0] == "controller" && param[1] == "Gamepad")
+                    {
+                        sJoystickEnabled_5C9F70 = 1;
+                    }
+                }
+                else if (currentCategory == IniCategory::eKeyboard)
                 {
                     InputCommands kbInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
                     Input_SetKeyboardBinding_493180(param[1].c_str(), kbInputCommand);
                 }
-                else
+                else if (currentCategory == IniCategory::eGamepad)
                 {
-                    if (param[0] == "controller")
+                    InputCommands gamepadInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
+                    Input_SetGamePadBinding_4931D0(param[1].c_str(), gamepadInputCommand);
+                }
+                else if (currentCategory == IniCategory::eAlive)
+                {
+                    for (const IniCustomSaveEntry& s : gCustomSaveEntries)
                     {
-                        if (param[1] == "Game Pad" || param[1] == "Joystick" ||
-                            param[1] == "GamePad" || param[1] == "Joy stick")
+                        if (param[0] == s.name)
                         {
-                            sJoystickEnabled_5C9F70 = 1;
-                        }
-                    }
-                    else if (param[0] == "buttons")
-                    {
-                        if (sJoystickNumButtons_5C2EFC && atol(param[1].c_str()) != sJoystickNumButtons_5C2EFC)
-                        {
-                            isKeyboardParams = false;
-                        }
-                        else
-                        {
-                            Input_ResetBinding_4925A0(16, 1);
-                            Input_ResetBinding_4925A0(64, 1);
-                            Input_ResetBinding_4925A0(256, 1);
-                            Input_ResetBinding_4925A0(32, 1);
-                            Input_ResetBinding_4925A0(128, 1);
-                            Input_ResetBinding_4925A0(512, 1);
-                            Input_ResetBinding_4925A0(0x800000, 1);
-                            Input_ResetBinding_4925A0(InputCommands::eSpeak2, 1);
-                        }
-                    }
-                    else
-                    {
-                        bool foundConfig = false;
-                        // custom config loader code
-                        {
-                            for (const IniCustomSaveEntry& s : gCustomSaveEntries)
+                            if (s.isBool)
                             {
-                                if (param[0] == s.name)
+                                if (param[1] == "true")
                                 {
-                                    if (s.isBool)
-                                    {
-                                        if (param[1] == "true")
-                                        {
-                                            *reinterpret_cast<bool*>(s.data) = true;
-                                        }
-                                        else
-                                        {
-                                            *reinterpret_cast<bool*>(s.data) = false;
-                                        }
-                                    }
-                                    else // int
-                                    {
-                                        *reinterpret_cast<int*>(s.data) = atoi(param[1].c_str());
-                                    }
-
-                                    foundConfig = true;
-                                    break;
+                                    *reinterpret_cast<bool*>(s.data) = true;
+                                }
+                                else
+                                {
+                                    *reinterpret_cast<bool*>(s.data) = false;
                                 }
                             }
-                        }
+                            else // int
+                            {
+                                *reinterpret_cast<int*>(s.data) = atoi(param[1].c_str());
+                            }
 
-                        if (!foundConfig)
-                        {
-                            InputCommands kbInputCommand = Input_LoadSettingsIni_GetInputCommand_492B80(param[0].c_str());
-                            Input_SetGamePadBinding_4931D0(param[1].c_str(), kbInputCommand);
+                            break;
                         }
                     }
                 }
@@ -985,7 +980,7 @@ void NewParseSettingsIni()
         }
     }
 
-#if __ANDROID__
+#if __ANDROID__ //TODO check/add support
     sJoystickEnabled_5C9F70 = 1;
 #endif
 }
@@ -1468,6 +1463,8 @@ EXPORT void Input_InitJoyStick_460080()
                         printf("Warning: Unable to initialize rumble! SDL Error: %s\n", SDL_GetError());
                     }
                     strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
+
+                    //TODO add binding
                     break;
                 }
                 else {
@@ -1684,19 +1681,7 @@ EXPORT void CC Input_Init_491BC0()
     sJoyButtonNames_5C9908[8] = "";
     sJoyButtonNames_5C9908[9] = "";
 
-    /*
-    sJoyButtonNames_5C9908[0] = "X";
-    sJoyButtonNames_5C9908[1] = "A";
-    sJoyButtonNames_5C9908[2] = "B";
-    sJoyButtonNames_5C9908[3] = "Y";
-    sJoyButtonNames_5C9908[4] = "LB";
-    sJoyButtonNames_5C9908[5] = "RB";
-    sJoyButtonNames_5C9908[6] = "LT";
-    sJoyButtonNames_5C9908[7] = "RT";
-    sJoyButtonNames_5C9908[8] = "";
-    sJoyButtonNames_5C9908[9] = "";
-    */
-#elif USE_SDL2
+#elif USE_SDL2 //TODO Mlg hax
     sJoyButtonNames_5C9908[0] = "X";
     sJoyButtonNames_5C9908[1] = "A";
     sJoyButtonNames_5C9908[2] = "B";
