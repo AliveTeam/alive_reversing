@@ -390,7 +390,7 @@ BOOL MineCar::CheckRoofCollision_46F6B0(FP hitX, FP hitY)
         field_D6_scale != 0 ? 8 : 128) != 0;
 }
 
-__int16 MineCar::CheckFloorCollision_46F730(FP hitX, FP hitY)
+BOOL MineCar::CheckFloorCollision_46F730(FP hitX, FP hitY)
 {
     PathLine* pPathLine = nullptr;
 
@@ -942,11 +942,12 @@ void MineCar::State_1()
 {
     const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     const FP k12Scaled = (field_CC_sprite_scale * FP_FromInteger(12));
+    const FP k12Adjusted = k12Scaled + kGridSize;
     const FP k60Scaled = field_CC_sprite_scale * FP_FromInteger(60);
 
     VCheckCollisionLineStillValid_408A40(10);
 
-    //Abe exists minecar
+    //Abe exits minecar
     if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_117_In_MineCar_4587C0)
     {
         sActiveHero_5C1B68->field_B8_xpos = field_B8_xpos;
@@ -1010,10 +1011,10 @@ void MineCar::State_1()
 
     //Minecar firmly on the ground?
     if (enterRightBlock ||
-        WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Scaled + kGridSize + FP_FromInteger(1)) ||
-        WallHit_408750(k60Scaled - FP_FromInteger(8), k12Scaled + kGridSize + FP_FromInteger(1)))
+        WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Adjusted + FP_FromInteger(1)) ||
+        WallHit_408750(k60Scaled - FP_FromInteger(8), k12Adjusted + FP_FromInteger(1)))
     {
-        if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Scaled + kGridSize + FP_FromInteger(1)))
+        if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Adjusted + FP_FromInteger(1)))
         {
             if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
             {
@@ -1026,45 +1027,8 @@ void MineCar::State_1()
     }
     else
     {
-        //Roof-Floor collision block (Right input)
-        PathLine* pPathLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
-            (kGridSize / FP_FromInteger(4)) + field_B8_xpos,
-            field_BC_ypos - k60Scaled,
-            (kGridSize / FP_FromInteger(4)) + field_B8_xpos,
-            field_BC_ypos,
-            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 2048 : 0x4000))
-        {
-            if (CheckFloorCollision_46F730(k12Scaled + kGridSize + FP_FromInteger(2), FP_FromInteger(4)) ||
-                CheckFloorCollision_46F730(FP_FromInteger(4) - (k12Scaled + kGridSize), FP_FromInteger(4)))
-            {
-                Move_46E640(20872u, kGridSize / FP_FromInteger(4), FP_FromInteger(0), (unsigned short)sInputKey_Right_5550D0, 3, 0);
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
-                {
-                    return;
-                }
-            }
-        }
-
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
-            (kGridSize / FP_FromInteger(4)) + field_B8_xpos,
-            field_BC_ypos - k60Scaled,
-            (kGridSize / FP_FromInteger(4)) + field_B8_xpos,
-            field_BC_ypos,
-            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000))
-        {
-            if (CheckRoofCollision_46F6B0(k12Scaled + kGridSize + FP_FromInteger(2), -k60Scaled) ||
-                CheckRoofCollision_46F6B0(FP_FromInteger(4) - (k12Scaled + kGridSize), -k60Scaled))
-            {
-                Move_46E640(20872u, kGridSize / FP_FromInteger(4), FP_FromInteger(0), (unsigned short)sInputKey_Right_5550D0, 0, 1);
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
-                {
-                    return;
-                }
-            }
-        }
+        HandleRoofFloorRight(&MineCar::CheckFloorCollision_46F730, FP_FromInteger(4), 2048, 0x4000, 3, 0);
+        HandleRoofFloorRight(&MineCar::CheckRoofCollision_46F6B0, -k60Scaled, 0x2000, 0x10000, 0, 1);
     }
     
     // TODO: Refactor
@@ -1098,9 +1062,9 @@ void MineCar::State_1()
     }
 
     if ( enterLeftBlock ||
-        WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)))
+        WallHit_408750(k60Scaled * FP_FromDouble(0.5), -k12Adjusted))
     {
-        if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)))
+        if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), -k12Adjusted))
         {
             if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
             {
@@ -1119,12 +1083,12 @@ void MineCar::State_1()
     FP hitY = {};
     if (!sCollisions_DArray_5C1128->Raycast_417A60(
         field_B8_xpos - (kGridSize / FP_FromInteger(4)),
-        field_BC_ypos - (k60Scaled),
+        field_BC_ypos - k60Scaled,
         field_B8_xpos - (kGridSize / FP_FromInteger(4)),
         field_BC_ypos,
         &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x800 : 0x4000) ||
-        (!CheckFloorCollision_46F730(k12Scaled + kGridSize - FP_FromInteger(4), FP_FromInteger(4)) &&
-        !CheckFloorCollision_46F730(-(k12Scaled + kGridSize + FP_FromInteger(2)), FP_FromInteger(4))) ||
+        (!CheckFloorCollision_46F730(k12Adjusted - FP_FromInteger(4), FP_FromInteger(4)) &&
+        !CheckFloorCollision_46F730(-(k12Adjusted + FP_FromInteger(2)), FP_FromInteger(4))) ||
         (Move_46E640(20900u, -(kGridSize / FP_FromInteger(4)), FP_FromInteger(0), (unsigned short)sInputKey_Left_5550D4, 3, 1), // TODO: Split out
             !sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)))
     {
@@ -1139,9 +1103,9 @@ void MineCar::State_1()
             return;
         }
 
-        if (!CheckRoofCollision_46F6B0(k12Scaled + kGridSize - FP_FromInteger(4), -k60Scaled))
+        if (!CheckRoofCollision_46F6B0(k12Adjusted - FP_FromInteger(4), -k60Scaled))
         {
-            if (!CheckRoofCollision_46F6B0(-(k12Scaled + kGridSize + FP_FromInteger(2)), -k60Scaled))
+            if (!CheckRoofCollision_46F6B0(-(k12Adjusted + FP_FromInteger(2)), -k60Scaled))
             {
                 HandleUpDown();
                 return;
@@ -1155,6 +1119,35 @@ void MineCar::State_1()
             return;
         }
     }
+}
+
+bool MineCar::HandleRoofFloorRight(const mineCarFPFunc func, const FP mineCarFPFuncArg2, const int ModelMask1, const int ModelMask2, const short moveArgument1, const char bChangeDir)
+{
+    const FP kGridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+    const FP k12Scaled = (field_CC_sprite_scale * FP_FromInteger(12));
+    const FP k12Adjusted = k12Scaled + kGridSize;
+    const FP k60Scaled = field_CC_sprite_scale * FP_FromInteger(60);
+    PathLine* pPathLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_5C1128->Raycast_417A60(
+        (kGridSize / FP_FromInteger(4)) + field_B8_xpos,
+        field_BC_ypos - k60Scaled,
+        (kGridSize / FP_FromInteger(4)) + field_B8_xpos,
+        field_BC_ypos,
+        &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? ModelMask1 : ModelMask2))
+    {
+        if ((this->*func)(k12Adjusted + FP_FromInteger(2), mineCarFPFuncArg2) ||
+            (this->*func)(FP_FromInteger(4) - k12Adjusted, mineCarFPFuncArg2))
+        {
+            Move_46E640(20872u, kGridSize / FP_FromInteger(4), FP_FromInteger(0), (unsigned short) sInputKey_Right_5550D0, moveArgument1, bChangeDir);
+            if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void MineCar::HandleUpDown()

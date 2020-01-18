@@ -90,7 +90,7 @@ private:
     EXPORT MineCar* vdtor_46BF50(signed int flags);
     EXPORT void dtor_46F2A0();
     EXPORT BOOL CheckRoofCollision_46F6B0(FP hitX, FP hitY);
-    EXPORT __int16 CheckFloorCollision_46F730(FP hitX, FP hitY);
+    EXPORT BOOL CheckFloorCollision_46F730(FP hitX, FP hitY);
     EXPORT void vUpdate_46C010();
     EXPORT void vUpdate_REAL_46C010();
     EXPORT void vRender_46E760(int **pOt);
@@ -108,7 +108,11 @@ private:
     void State_2();
     void State_3();
 
+    //State_1 helper funcs
     void HandleUpDown();
+
+    using mineCarFPFunc = BOOL (MineCar::*)(FP, FP);
+    bool HandleRoofFloorRight(const mineCarFPFunc func, const FP mineCarFPFuncArg2, const int ModelMask1, const int ModelMask2, const short moveArgument1, const char changeDir);
 
 private:
     int field_118_tlvInfo;
