@@ -3,6 +3,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "FunctionFwd.hpp"
+#include "Input.hpp"
+
 
 struct Path_MineCar : public Path_TLV
 {
@@ -112,7 +114,7 @@ private:
     void HandleUpDown();
 
     using mineCarFPFunc = BOOL (MineCar::*)(FP, FP);
-    bool HandleRoofFloorRight(const mineCarFPFunc func, const FP mineCarFPFuncArg2, const int ModelMask1, const int ModelMask2, const short moveArgument1, const char changeDir);
+    bool HandleRoofFloorRight(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, unsigned short moveArgument1, const short moveArgument2, const char changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2, FP moveX, FP moveY, InputCommands key);
 
 private:
     int field_118_tlvInfo;
