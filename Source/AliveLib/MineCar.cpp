@@ -821,6 +821,11 @@ int MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
     return sizeof(MineCar_SaveState);
 }
 
+void MineCar::vUpdate_REAL_46C010()
+{
+    NOT_IMPLEMENTED();
+}
+
 void MineCar::vUpdate_46C010()
 {
     if (field_114_flags.Get(Flags_114::e114_Bit9))
@@ -941,6 +946,7 @@ void MineCar::State_1()
 
     VCheckCollisionLineStillValid_408A40(10);
 
+    //Abe exists minecar
     if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_117_In_MineCar_4587C0)
     {
         sActiveHero_5C1B68->field_B8_xpos = field_B8_xpos;
@@ -996,14 +1002,15 @@ void MineCar::State_1()
             enterRightBlock = true;
         }
 
-        if ((field_1D4_previous_input & 0xFFFF) == (int)sInputKey_Left_5550D4)
+        if ((field_1D4_previous_input) == (unsigned __int16)sInputKey_Left_5550D4)
         {
             enterRightBlock = true;
         }
     }
 
+    //Minecar firmly on the ground?
     if (enterRightBlock ||
-        WallHit_408750((field_CC_sprite_scale * FP_FromInteger(60)) * FP_FromDouble(0.5), k12Scaled + kGridSize + FP_FromInteger(1)) ||
+        WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Scaled + kGridSize + FP_FromInteger(1)) ||
         WallHit_408750(k60Scaled - FP_FromInteger(8), k12Scaled + kGridSize + FP_FromInteger(1)))
     {
         if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Scaled + kGridSize + FP_FromInteger(1)))
@@ -1019,6 +1026,7 @@ void MineCar::State_1()
     }
     else
     {
+        //Roof-Floor collision block (Right input)
         PathLine* pPathLine = nullptr;
         FP hitX = {};
         FP hitY = {};
@@ -1059,12 +1067,37 @@ void MineCar::State_1()
         }
     }
     
-    if (((!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) &&
-        !sInputObject_5BD4E0.isPressed(field_1D4_previous_input)) ||
-        (unsigned __int16)field_1D6_continue_move_input != sInputKey_Left_5550D4 ||
-        field_1BC == 3 ||
-        field_1D4_previous_input == (unsigned __int16)sInputKey_Right_5550D0 ||
-        field_1BC == 0) ||
+    // TODO: Refactor
+    bool enterLeftBlock = false;
+    if (!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+    {
+        if (!sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
+        {
+            enterLeftBlock = true;
+        }
+
+        if ((unsigned __int16) field_1D6_continue_move_input != sInputKey_Left_5550D4)
+        {
+            enterLeftBlock = true;
+        }
+
+        if (field_1BC == 3)
+        {
+            enterLeftBlock = true;
+        }
+
+        if (field_1BC == 0)
+        {
+            enterLeftBlock = true;
+        }
+
+        if ((field_1D4_previous_input) == (unsigned __int16) sInputKey_Right_5550D0)
+        {
+            enterLeftBlock = true;
+        }
+    }
+
+    if ( enterLeftBlock ||
         WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)))
     {
         if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), -(k12Scaled + kGridSize)))

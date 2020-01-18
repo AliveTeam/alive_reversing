@@ -92,6 +92,7 @@ private:
     EXPORT BOOL CheckRoofCollision_46F6B0(FP hitX, FP hitY);
     EXPORT __int16 CheckFloorCollision_46F730(FP hitX, FP hitY);
     EXPORT void vUpdate_46C010();
+    EXPORT void vUpdate_REAL_46C010();
     EXPORT void vRender_46E760(int **pOt);
     EXPORT void Stop_46E570();
     EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, __int16 unknown, char bChangeDirection);
