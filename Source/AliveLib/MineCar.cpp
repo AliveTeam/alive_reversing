@@ -1085,23 +1085,23 @@ void MineCar::State_1()
     }
     else
     {
-        PathLine* pPathLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
+        //PathLine* pPathLine = nullptr;
+        //FP hitX = {};
+        //FP hitY = {};
 
-        bool rayCast1Cond = sCollisions_DArray_5C1128->Raycast_417A60(
-            field_B8_xpos - (kGridSize / FP_FromInteger(4)),
-            field_BC_ypos - k60Scaled,
-            field_B8_xpos - (kGridSize / FP_FromInteger(4)),
-            field_BC_ypos,
-            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x800 : 0x4000);
+        //bool rayCast1Cond = sCollisions_DArray_5C1128->Raycast_417A60(
+        //    field_B8_xpos - (kGridSize / FP_FromInteger(4)),
+        //    field_BC_ypos - k60Scaled,
+        //    field_B8_xpos - (kGridSize / FP_FromInteger(4)),
+        //    field_BC_ypos,
+        //    &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x800 : 0x4000);
 
-        bool rayCast2Cond = sCollisions_DArray_5C1128->Raycast_417A60(
-            field_B8_xpos - (kGridSize / FP_FromInteger(4)),
-            field_BC_ypos - k60Scaled,
-            field_B8_xpos - (kGridSize / FP_FromInteger(4)),
-            field_BC_ypos,
-            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000);
+        //bool rayCast2Cond = sCollisions_DArray_5C1128->Raycast_417A60(
+        //    field_B8_xpos - (kGridSize / FP_FromInteger(4)),
+        //    field_BC_ypos - k60Scaled,
+        //    field_B8_xpos - (kGridSize / FP_FromInteger(4)),
+        //    field_BC_ypos,
+        //    &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 0x2000 : 0x10000);
 
         short mov1 = 20900u;
         FP mov2 = -(kGridSize / FP_FromInteger(4));
@@ -1109,8 +1109,8 @@ void MineCar::State_1()
 
         InputCommands key = sInputKey_Left_5550D4;
 
-        bool wallcheck = CheckFloorCollision_46F730(k12Adjusted - FP_FromInteger(4), FP_FromInteger(4)) ||
-            CheckFloorCollision_46F730(-(k12Adjusted + FP_FromInteger(2)), FP_FromInteger(4));
+        //bool wallcheck = CheckFloorCollision_46F730(k12Adjusted - FP_FromInteger(4), FP_FromInteger(4)) ||
+        //    CheckFloorCollision_46F730(-(k12Adjusted + FP_FromInteger(2)), FP_FromInteger(4));
 
         //if (rayCast1Cond)
         //{
@@ -1129,39 +1129,46 @@ void MineCar::State_1()
         const FP floorArg2 = FP_FromInteger(4);
         const FP floorArg3 = -(k12Adjusted + FP_FromInteger(2));
 
-        HandleRoofFloorLeftRight(&MineCar::CheckFloorCollision_46F730, floorArg1, floorArg2, floorArg3, 20900u, 3, 1,
+        HandleRoofFloorLeftRight(&MineCar::CheckFloorCollision_46F730, floorArg1, floorArg2, floorArg3, mov1, 3, 1,
     rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, mov2, mov3, key, false, false );
 
-        if (!rayCast1Cond ||
+        const FP roof1 = k12Adjusted - FP_FromInteger(4);
+        const FP roof2 = -k60Scaled;
+        const FP roof3 = -(k12Adjusted + FP_FromInteger(2));
 
-            !wallcheck
-            
-            ||
-            ( // TODO: Split out
-            !sInputObject_5BD4E0.isPressed(key)))
-        {
-            if (!rayCast2Cond)
-            {
-                HandleUpDown();
-                return;
-            }
+        HandleRoofFloorLeftRight(&MineCar::CheckRoofCollision_46F6B0, roof1, roof2, roof3, mov1, 0, 0,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x2000, 0x10000, mov2, mov3, key, false, false);
 
-            if (!CheckRoofCollision_46F6B0(k12Adjusted - FP_FromInteger(4), -k60Scaled))
-            {
-                if (!CheckRoofCollision_46F6B0(-(k12Adjusted + FP_FromInteger(2)), -k60Scaled))
-                {
-                    HandleUpDown();
-                    return;
-                }
-            }
+        //if (!rayCast1Cond ||
 
-            Move_46E640(mov1, mov2, mov3, (unsigned short) key, 0, 0);
-            if (!sInputObject_5BD4E0.isPressed(key))
-            {
-                HandleUpDown();
-                return;
-            }
-        }
+        //    !wallcheck
+        //    
+        //    ||
+        //    ( // TODO: Split out
+        //    !sInputObject_5BD4E0.isPressed(key)))
+        //{
+        //    if (!rayCast2Cond)
+        //    {
+        //        HandleUpDown();
+        //        return;
+        //    }
+
+        //    if (!CheckRoofCollision_46F6B0(k12Adjusted - FP_FromInteger(4), -k60Scaled))
+        //    {
+        //        if (!CheckRoofCollision_46F6B0(-(k12Adjusted + FP_FromInteger(2)), -k60Scaled))
+        //        {
+        //            HandleUpDown();
+        //            return;
+        //        }
+        //    }
+
+        //    Move_46E640(mov1, mov2, mov3, (unsigned short) key, 0, 0);
+        //    if (!sInputObject_5BD4E0.isPressed(key))
+        //    {
+        //        HandleUpDown();
+        //        return;
+        //    }
+        //}
 
 
         //const FP roofArg1 = k12Adjusted - FP_FromInteger(4);
