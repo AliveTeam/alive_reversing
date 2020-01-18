@@ -979,52 +979,14 @@ void MineCar::State_1()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
 
-    // TODO: Refactor
-    bool donyEnterRightBlock = false;
-    if (!sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
-    {
-        if (!sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
-        {
-            donyEnterRightBlock = true;
-        }
-
-        if ((unsigned __int16) field_1D6_continue_move_input != sInputKey_Right_5550D0)
-        {
-            donyEnterRightBlock = true;
-        }
-
-        if (field_1BC == 3)
-        {
-            donyEnterRightBlock = true;
-        }
-
-        if (field_1BC == 0)
-        {
-            donyEnterRightBlock = true;
-        }
-
-        if ((field_1D4_previous_input) == (unsigned __int16) sInputKey_Left_5550D4)
-        {
-            donyEnterRightBlock = true;
-        }
-    }
-
-    if (donyEnterRightBlock ||
-        WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Adjusted + FP_FromInteger(1)) ||
-        WallHit_408750(k60Scaled - FP_FromInteger(8), k12Adjusted + FP_FromInteger(1)))
-    {
-        if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Adjusted + FP_FromInteger(1)))
-        {
-            if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
-            {
-                if (field_1BC != 2 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
-                {
-                    SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
-                }
-            }
-        }
-    }
-    else
+    if ((sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0) ||
+        (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
+        (unsigned __int16) field_1D6_continue_move_input == sInputKey_Right_5550D0 &&
+        field_1D4_previous_input != (unsigned __int16) sInputKey_Right_5550D0 &&
+        field_1BC != 3 &&
+        field_1BC != 0))
+        && !(WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Adjusted + FP_FromInteger(1)) &&
+        WallHit_408750(k60Scaled - FP_FromInteger(8), k12Adjusted + FP_FromInteger(1))))
     {
         FP rayCast1 = (kGridSize / FP_FromInteger(4)) + field_B8_xpos;
         FP rayCast2 = field_BC_ypos - k60Scaled;
@@ -1041,6 +1003,19 @@ void MineCar::State_1()
 
         HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, arg1, -k60Scaled, arg3, 20872u, 0, 1,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x2000, 0x10000, moveX, moveY, key, false, false);
+    }
+    else
+    {
+        if (WallHit_408750(k60Scaled * FP_FromDouble(0.5), k12Adjusted + FP_FromInteger(1)))
+        {
+            if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+            {
+                if (field_1BC != 2 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
+                {
+                    SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
+                }
+            }
+        }
     }
 
     if ((sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) ||
@@ -1083,8 +1058,9 @@ void MineCar::State_1()
                 SFX_Play_46FA90(102u, 127, field_CC_sprite_scale);
             }
         }
-        HandleUpDown();
     }
+
+    HandleUpDown();
 }
 
 bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3,
@@ -1122,6 +1098,7 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
                 }
                 else if (hitX < field_B8_xpos)
                 {
+                    //never hit for some reason?
                     Move_46E640(moveArgument1, moveX, moveY, key, moveArgument2, bChangeDir);
                 }
             }
