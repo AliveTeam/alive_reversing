@@ -97,7 +97,7 @@ private:
     EXPORT void vUpdate_REAL_46C010();
     EXPORT void vRender_46E760(int **pOt);
     EXPORT void Stop_46E570();
-    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, unsigned __int16 input, __int16 unknown, char bChangeDirection);
+    EXPORT void Move_46E640(unsigned __int16 frameTabeOffset, FP velX, FP velY, InputCommands input, __int16 unknown, char bChangeDirection);
     EXPORT __int16 IsBlocked_46F4A0(__int16 a2, int a3);
     EXPORT __int16 FollowDirection_46EA00();
     EXPORT void RunThingsOver_46F380();
@@ -114,7 +114,7 @@ private:
     void HandleUpDown();
 
     using mineCarFPFunc = BOOL (MineCar::*)(FP, FP);
-    bool HandleRoofFloorLeftRight(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, unsigned short moveArgument1, const short moveArgument2, const char changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2, FP moveX, FP moveY, InputCommands key, bool isVertical, bool verticalFlipXCond);
+    bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, unsigned short moveArgument1, const short moveArgument2, const char changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const int ModelMask1, const int ModelMask2, FP moveX, FP moveY, InputCommands key, bool isVertical, bool verticalFlipXCond);
 
 private:
     int field_118_tlvInfo;
