@@ -1213,34 +1213,50 @@ void MineCar::HandleUpDown()
         field_1BC != 1)) &&
         !IsBlocked_46F4A0(3, 0))
     {
-        PathLine* pPathLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast_417A60(
-            field_B8_xpos - (kGridSize + k12Scaled),
-            field_BC_ypos + (k5Scaled) -((k12Scaled + kGridSize) * FP_FromDouble(0.5)),
-            k12Scaled + kGridSize + field_B8_xpos,
-            field_BC_ypos + (k5Scaled) -((k12Scaled + kGridSize) * FP_FromDouble(0.5)),
-            &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 4096 : 0x8000))
-        {
-            if (WallHit_408750(-FP_FromInteger(2), kGridSize + k12Scaled + FP_FromInteger(4)) ||
-                WallHit_408750(k60Scaled - FP_FromInteger(1), kGridSize + k12Scaled + FP_FromInteger(4)))
-            {
-                if (hitX > field_B8_xpos)
-                {
-                    Move_46E640(20836u, FP_FromInteger(0), k5Scaled, (unsigned short) sInputKey_Down_5550DC, 2, 1);
-                }
-            }
+        const FP rayCast1 = field_B8_xpos - (kGridSize + k12Scaled);
+        const FP rayCast2 = field_BC_ypos - (k5Scaled) -((k12Scaled + kGridSize) * FP_FromDouble(0.5));
+        const FP rayCast3 = k12Scaled + kGridSize + field_B8_xpos;
+        const FP rayCast4 = field_BC_ypos - (k5Scaled) -((k12Scaled + kGridSize) * FP_FromDouble(0.5));
 
-            if (WallHit_408750(-FP_FromInteger(2), -(kGridSize + k12Scaled + FP_FromInteger(4))) ||
-                WallHit_408750(k60Scaled - FP_FromInteger(1), -(kGridSize + k12Scaled + FP_FromInteger(4))))
-            {
-                if (hitX < field_B8_xpos)
-                {
-                    Move_46E640(20836u, FP_FromInteger(0), k5Scaled, (unsigned short) sInputKey_Down_5550DC, 1, 0);
-                }
-            }
-        }
+        const FP floorArg1 = -FP_FromInteger(2);
+        const FP floorArg2 = kGridSize + k12Scaled + FP_FromInteger(4);
+        const FP floorArg3 = k60Scaled - FP_FromInteger(1);
+
+        HandleRoofFloorLeftRight(&MineCar::WallHit_408750, floorArg1, floorArg2, floorArg3, 20836u, 2, 1,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, FP_FromInteger(0), k5Scaled, sInputKey_Down_5550DC, true, true);
+
+        HandleRoofFloorLeftRight(&MineCar::WallHit_408750, floorArg1, -floorArg2, floorArg3, 20836u, 1, 0,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, FP_FromInteger(0), k5Scaled, sInputKey_Down_5550DC, true, false);
+
+
+        //PathLine* pPathLine = nullptr;
+        //FP hitX = {};
+        //FP hitY = {};
+        //if (sCollisions_DArray_5C1128->Raycast_417A60(
+        //    field_B8_xpos - (kGridSize + k12Scaled),
+        //    field_BC_ypos + (k5Scaled) -((k12Scaled + kGridSize) * FP_FromDouble(0.5)),
+        //    k12Scaled + kGridSize + field_B8_xpos,
+        //    field_BC_ypos + (k5Scaled) -((k12Scaled + kGridSize) * FP_FromDouble(0.5)),
+        //    &pPathLine, &hitX, &hitY, field_D6_scale != 0 ? 4096 : 0x8000))
+        //{
+        //    if (WallHit_408750(-FP_FromInteger(2), kGridSize + k12Scaled + FP_FromInteger(4)) ||
+        //        WallHit_408750(k60Scaled - FP_FromInteger(1), kGridSize + k12Scaled + FP_FromInteger(4)))
+        //    {
+        //        if (hitX > field_B8_xpos)
+        //        {
+        //            Move_46E640(20836u, FP_FromInteger(0), k5Scaled, (unsigned short) sInputKey_Down_5550DC, 2, 1);
+        //        }
+        //    }
+
+        //    if (WallHit_408750(-FP_FromInteger(2), -(kGridSize + k12Scaled + FP_FromInteger(4))) ||
+        //        WallHit_408750(k60Scaled - FP_FromInteger(1), -(kGridSize + k12Scaled + FP_FromInteger(4))))
+        //    {
+        //        if (hitX < field_B8_xpos)
+        //        {
+        //            Move_46E640(20836u, FP_FromInteger(0), k5Scaled, (unsigned short) sInputKey_Down_5550DC, 1, 0);
+        //        }
+        //    }
+        //}
     }
     else if (IsBlocked_46F4A0(3, 0))
     {
