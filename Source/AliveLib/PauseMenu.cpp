@@ -1244,6 +1244,8 @@ void PauseMenu::Page_Save_Update_491210()
 
         switch (lastPressed)
         {
+        case VK_SHIFT:
+            return;
         // Escape - cancel
         case VK_ESCAPE:
             SFX_Play_46FBA0(17u, 40, 2400);
