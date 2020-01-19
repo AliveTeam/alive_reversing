@@ -859,6 +859,8 @@ struct IniCustomSaveEntry
     bool isBool;
 };
 
+bool canOverwriteIni = true;
+
 std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     { "keep_aspect", { &s_VGA_KeepAspectRatio }, true },
     { "filter_screen", { &s_VGA_FilterScreen }, true },
@@ -866,7 +868,8 @@ std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     { "reverb", { &gReverbEnabled }, true },
     { "audio_stereo", { &gAudioStereo }, true },
 #endif
-    { "debug_mode", { &gDebugHelpersEnabled }, true},
+    { "debug_mode", { &gDebugHelpersEnabled }, true },
+    { "overwrite_ini_by_game", { &canOverwriteIni }, true },
 };
 
 enum class IniCategory
@@ -876,6 +879,14 @@ enum class IniCategory
     eKeyboard,
     eGamepad,
     eAlive
+};
+
+
+const char* iniCategories[4] = {
+    "Control",
+    "Keyboard",
+    "Gamepad",
+    "Alive"
 };
 
 void NewParseSettingsIni()
@@ -903,7 +914,7 @@ void NewParseSettingsIni()
             std::string category = o.substr(1, o.size() - 2);
             
             LOG_INFO("Ini category: " << category.c_str());
-            if (category == "Keyboard")
+            if (category == iniCategories[1])
             {
                 currentCategory = IniCategory::eKeyboard;
                 Input_ResetBinding_4925A0(InputCommands::eRun, 0);
@@ -912,7 +923,8 @@ void NewParseSettingsIni()
                 Input_ResetBinding_4925A0(InputCommands::eDoAction, 0);
                 Input_ResetBinding_4925A0(InputCommands::eThrowItem, 0);
                 Input_ResetBinding_4925A0(InputCommands::eFartOrRoll, 0);
-            } else if (category == "Gamepad")
+            }
+            else if (category == iniCategories[2])
             {
                 currentCategory = IniCategory::eGamepad;
                 Input_ResetBinding_4925A0(InputCommands::eRun, 1);
@@ -924,13 +936,18 @@ void NewParseSettingsIni()
                 Input_ResetBinding_4925A0(InputCommands::eSpeak1, 1);
                 Input_ResetBinding_4925A0(InputCommands::eSpeak2, 1);
             }
-            else if (category == "Alive")
+            else if (category == iniCategories[3])
             {
                 currentCategory = IniCategory::eAlive;
             }
-            else if (category == "Control")
+            else if (category == iniCategories[0])
             {
                 currentCategory = IniCategory::eControl;
+            }
+            else
+            {
+                LOG_ERROR("Wrong INI category name! " << category);
+                currentCategory = IniCategory::eNone;
             }
         }
         else
@@ -946,6 +963,10 @@ void NewParseSettingsIni()
                     if (param[0] == "controller" && param[1] == "Gamepad")
                     {
                         sJoystickEnabled_5C9F70 = 1;
+                    }
+                    else if(param[0] == "controller" && param[1] == "Keyboard")
+                    {
+                        sJoystickEnabled_5C9F70 = 0;
                     }
                 }
                 else if (currentCategory == IniCategory::eKeyboard)
@@ -988,17 +1009,23 @@ void NewParseSettingsIni()
 
 EXPORT void Input_SaveSettingsIni_492840()
 {
+    if (!canOverwriteIni)
+    {
+        return;
+    }
+
     int prevJoyState = sJoystickEnabled_5C9F70;
 
     std::stringstream output;
 
-    output << "[Control Layout]\n";
+    // Control remap
+    output << "[" << iniCategories[0] << "]" << "\n";
 
     if (sJoystickEnabled_5C9F70)
     {
         if (sJoystickEnabled_5C9F70 == 1)
         {
-            output << "controller = Game Pad\n";
+            output << "controller = Gamepad\n";
         }
     }
     else
@@ -1009,7 +1036,9 @@ EXPORT void Input_SaveSettingsIni_492840()
     output << "\n";
 
     sJoystickEnabled_5C9F70 = 0;
-    output << "[Keyboard]\n";
+
+    // Keyboard remap
+    output << "[" << iniCategories[1] << "]" << "\n";
 
     const char * btnString = nullptr;
 
@@ -1048,7 +1077,8 @@ EXPORT void Input_SaveSettingsIni_492840()
 
     output << "\n";
 
-    output << "[Game Pad]\n";
+    // Gamepad remap
+    output << "[" << iniCategories[2] << "]" << "\n";
     output << "buttons = " << sJoystickNumButtons_5C2EFC << "\n";
 
     btnString = Input_GetButtonString_492530("\x5", 1);
@@ -1104,22 +1134,19 @@ EXPORT void Input_SaveSettingsIni_492840()
     output << "\n";
 
     // New Renderer Options
-
-    output << "[ALIVE]\n";
+    output << "[" << iniCategories[3] << "]" << "\n";
 
     for (auto s : gCustomSaveEntries)
     {
         if (s.isBool)
         {
-            output << s.name << " = " << (s.data.boolVal ? "true" : "false") << "\n";
+            output << s.name << " = " << (*s.data.boolVal ? "true" : "false") << "\n";
         }
         else
         {
-            output << s.name << " = " << s.data.intVal << "\n";
+            output << s.name << " = " << *s.data.intVal << "\n";
         }
     }
-
-    /////////////////
 
     std::string strPath = FS::GetPrefPath() + "abe2.ini";
     std::ofstream fileOut(strPath.c_str());
