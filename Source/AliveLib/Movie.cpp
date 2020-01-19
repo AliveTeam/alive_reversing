@@ -97,7 +97,7 @@ EXPORT char CC DDV_StartAudio_493DF0()
             if (!bNoAudio_5CA1F4)
             {
                 void* pAudioFrame = Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
-                if (SND_Reload_4EF1C0(
+                if (SND_LoadSamples_4EF1C0(
                     &sDDV_SoundEntry_5CA208,
                     sampleOffsetPos_5CA238,
                     (unsigned char*)pAudioFrame,
@@ -121,7 +121,7 @@ EXPORT char CC DDV_StartAudio_493DF0()
         total_audio_offset_5CA1F0 = audioBufferStartOffset;
         if (!bNoAudio_5CA1F4)
         {
-            if (SND_PlayEx_4EF740(&sDDV_SoundEntry_5CA208, 116, 116, 1.0, 0, 1, 100) < 0)
+            if (FAILED(SND_PlayEx_4EF740(&sDDV_SoundEntry_5CA208, 116, 116, 1.0, 0, 1, 100)))
             {
                 bNoAudio_5CA1F4 = 1;
             }
@@ -387,13 +387,13 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
                 void* pDecompressedAudioFrame = (BYTE *)Masher::GetDecompressedAudioFrame_4EAC60(pMasherInstance_5CA1EC);
                 if (pDecompressedAudioFrame)
                 {
-                    if (SND_Reload_4EF1C0(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
+                    if (SND_LoadSamples_4EF1C0(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, (unsigned char*)pDecompressedAudioFrame, gMasher_single_audio_frame_size_5CA240) < 0)
                     {
                         // Reload with data fail
                         bNoAudio_5CA1F4 = 1;
                     }
                 }
-                else if (SND_Reload_4EF350(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, gMasher_single_audio_frame_size_5CA240) < 0)
+                else if (SND_Clear_4EF350(&sDDV_SoundEntry_5CA208, sampleOffsetPos_5CA238, gMasher_single_audio_frame_size_5CA240) < 0)
                 {
                     // Reload with silence fail
                     bNoAudio_5CA1F4 = 1;

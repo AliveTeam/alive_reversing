@@ -97,7 +97,7 @@ void Leaf::vUpdate_4E3330()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16 bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    const auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
         field_B8_xpos,
         field_BC_ypos,
         x2,

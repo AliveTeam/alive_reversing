@@ -630,7 +630,7 @@ void Animation::vDecode_40AC90()
 
 bool Animation::DecodeCommon()
 {
-    if (!field_20_ppBlock)
+    if (!field_20_ppBlock || !*field_20_ppBlock)
     {
         return false;
     }

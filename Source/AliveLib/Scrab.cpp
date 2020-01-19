@@ -2588,7 +2588,7 @@ void Scrab::M_HopMidair_6_4A9490()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+        const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
         if (sControlledCharacter_5C1B8C == this)
         {
@@ -2701,7 +2701,7 @@ void Scrab::M_JumpToFall_8_4A9220()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16 bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    const auto bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
     if (sControlledCharacter_5C1B8C == this)
     {
         sub_408C40();
@@ -2859,7 +2859,7 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        const __int16 bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+        const auto bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
         if (sControlledCharacter_5C1B8C == this)
         {
             sub_408C40();

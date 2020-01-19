@@ -3848,7 +3848,7 @@ void Abe::State_14_HoistIdle_452440()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
     sub_408C40();
 
     if (bCollision)
@@ -4559,7 +4559,7 @@ void Abe::State_28_HopMid_451C50()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
     sub_408C40();
 
     if (bCollision)
@@ -4746,7 +4746,7 @@ void Abe::State_31_RunJumpMid_452C10()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
 
     sub_408C40();
 
@@ -8115,7 +8115,7 @@ void Abe::State_117_In_MineCar_4587C0()
     {
         auto pMineCar = static_cast<MineCar*>(sControlledCharacter_5C1B8C);
         if (pMineCar->field_11C_state == MineCarStates::eState_1_ParkedWithAbe &&
-            pMineCar->field_1BC == 3)
+            pMineCar->field_turnDirection_1BC == MineCarDirs::eUp_3)
         {
             PathLine* pLine = nullptr;
             FP hitX = {};

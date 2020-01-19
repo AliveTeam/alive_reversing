@@ -665,7 +665,7 @@ void Glukkon::M_Jump_4_443030()
         sub_408C40();
     }
 
-    __int16 bCollision = FALSE;
+    BOOL bCollision = FALSE;
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
@@ -812,7 +812,7 @@ void Glukkon::M_Fall_7_443510()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
     
     if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30))
     {
