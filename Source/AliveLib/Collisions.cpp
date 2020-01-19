@@ -315,7 +315,7 @@ signed __int16 Collisions::Raycast_Impl(FP X1_16_16, FP Y1_16_16, FP X2_16_16, F
     return FALSE;
 }
 
-signed __int16 Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
+BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, unsigned int modeMask)
 {
     // Take 2 copies of the input before anything changes them, important as the caller can pass in defaults - don't overwrite them if we don't 
     // find a collision!

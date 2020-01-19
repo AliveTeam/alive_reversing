@@ -3549,7 +3549,7 @@ void Paramite::M_Hop_5_48B5B0()
             FP hitX = {};
             FP hitY = {};
             PathLine* pLine = nullptr;
-            const __int16 bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(0.9));
+            const auto bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(0.9));
             
             if (sControlledCharacter_5C1B8C == this)
             {
@@ -3831,7 +3831,7 @@ void Paramite::M_Falling_11_48B200()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+        const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
         if (sControlledCharacter_5C1B8C == this)
         {
@@ -3916,7 +3916,7 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
     FP hitX = {};
     FP hitY = {};
     PathLine* ppPathLine = nullptr;
-    const __int16 bHit = InAirCollision_408810(&ppPathLine, &hitX, &hitY, FP_FromDouble(1.8));
+    const auto bHit = InAirCollision_408810(&ppPathLine, &hitX, &hitY, FP_FromDouble(1.8));
     
     if (sControlledCharacter_5C1B8C == this)
     {

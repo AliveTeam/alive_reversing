@@ -1566,7 +1566,7 @@ void NakedSlig::M_Falling_5_41B650()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16  bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
     if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
     {

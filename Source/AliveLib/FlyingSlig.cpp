@@ -3135,7 +3135,7 @@ __int16 FlyingSlig::CollisionUp_43A640(FP velY)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    __int16 bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
         field_B8_xpos - xOff1,
         field_BC_ypos,
         field_B8_xpos - xOff1,
@@ -3210,7 +3210,7 @@ __int16 FlyingSlig::CollisionDown_43A9E0(FP velY)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    __int16 bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
         field_B8_xpos - xOff1,
         field_BC_ypos,
         field_B8_xpos - xOff1,
@@ -3271,7 +3271,7 @@ __int16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    __int16 bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
         field_B8_xpos,
         field_BC_ypos - yOff1,
         xOff,

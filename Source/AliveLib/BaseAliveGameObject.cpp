@@ -641,7 +641,7 @@ __int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
     return 0;
 }
 
-EXPORT int BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
+EXPORT BOOL BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions_DArray_5C1128->Raycast_417A60(
@@ -655,7 +655,7 @@ EXPORT int BaseAliveGameObject::WallHit_408750(FP offY, FP offX)
         field_D6_scale != 0 ? 6 : 96) != 0; // TODO: Enum for line types
 }
 
-__int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
+BOOL BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
 {
     field_C8_vely += field_CC_sprite_scale * velY;
     if (field_C8_vely > (field_CC_sprite_scale * FP_FromInteger(20)))
@@ -669,7 +669,7 @@ __int16 BaseAliveGameObject::InAirCollision_408810(PathLine** ppPathLine, FP* hi
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
 
-    __int16 bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
         oldXPos,
         oldYPos,
         field_B8_xpos,
