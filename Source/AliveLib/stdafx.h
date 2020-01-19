@@ -97,7 +97,7 @@ struct POINT
 #define VK_LWIN 0x5B
 #define VK_RWIN 0x5C
 
-#define VK_ESCAPE         0x1B
+#define VK_ESCAPE 0x1B
 #define VK_TAB 0x09
 #define VK_LEFT 0x25
 #define VK_RIGHT 0x27
@@ -120,6 +120,7 @@ struct POINT
 #define VK_LSHIFT 0xA0
 #define VK_LBUTTON 0x01
 #define VK_LCONTROL 0xA2
+#define VK_SUBTRACT 0x6D
 
 #define WINAPI
 #define CALLBACK

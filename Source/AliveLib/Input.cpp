@@ -522,7 +522,7 @@ EXPORT void CC Input_EnableInput_4EDDD0()
     sInputEnabled_BBB9D0 = TRUE;
 }
 
-EXPORT void CC Input_DisableInput_4EDDC0()
+EXPORT void CC Input_DisableInputForPauseMenuAndDebug_4EDDC0()
 {
     sInputEnabled_BBB9D0 = FALSE;
 }

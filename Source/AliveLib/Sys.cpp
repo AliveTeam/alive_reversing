@@ -500,7 +500,7 @@ static int sdl_key_to_win32_vkey(SDL_Keycode key)
     case SDLK_BACKSPACE:          return VK_BACK;
     case SDLK_TAB:                return VK_TAB;
     case SDLK_SPACE:              return VK_SPACE;
-    case SDLK_MINUS:              return 0;
+    case SDLK_MINUS:              return VK_SUBTRACT;
     case SDLK_EQUALS:             return 0;
     case SDLK_LEFTBRACKET:        return 0;
     case SDLK_RIGHTBRACKET:       return 0;
@@ -540,7 +540,7 @@ static int sdl_key_to_win32_vkey(SDL_Keycode key)
     case SDLK_NUMLOCKCLEAR:       return 0;
     case SDLK_KP_DIVIDE:          return 0;
     case SDLK_KP_MULTIPLY:        return 0;
-    case SDLK_KP_MINUS:           return 0;
+    case SDLK_KP_MINUS:           return VK_SUBTRACT;
     case SDLK_KP_PLUS:            return 0;
     case SDLK_KP_ENTER:           return VK_RETURN;
     case SDLK_KP_1:               return VK_NUMPAD1;
@@ -693,9 +693,15 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         if (!Input_GetInputEnabled_4EDDE0())
         {
             // "Typing" input
-            sLastPressedKey_BD30A0 = sdl_key_to_win32_vkey(event->key.keysym.sym);
+            const int vk = sdl_key_to_win32_vkey(event->key.keysym.sym);
 
-            LOG_INFO("Key down (input disabled) " << sLastPressedKey_BD30A0);
+            if (vk >= VK_F1 && vk <= VK_F12)
+            {
+                return 0;
+            }
+            sLastPressedKey_BD30A0 = vk;
+
+            //LOG_INFO("Key down (input disabled) " << sLastPressedKey_BD30A0);
 
             // Between A-Z
             if (sLastPressedKey_BD30A0 >= 0x41 && sLastPressedKey_BD30A0 <= 0x5A)
@@ -715,14 +721,20 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
             else if (sLastPressedKey_BD30A0 >= VK_NUMPAD0 && sLastPressedKey_BD30A0 <= VK_NUMPAD9)
             {
                 sLastPressedKey_BD30A0 -= VK_NUMPAD0;
-                if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CAPS))
+                LOG_INFO(sLastPressedKey_BD30A0);
+                if (SDL_GetModState() & (KMOD_SHIFT) && sLastPressedKey_BD30A0 == 1)
                 {
-                    sLastPressedKey_BD30A0 += '!';
+                    sLastPressedKey_BD30A0 = '!';
                 }
                 else
                 {
                     sLastPressedKey_BD30A0 += '0';
                 }
+            }
+
+            else if (sLastPressedKey_BD30A0 == VK_SUBTRACT)
+            {
+                sLastPressedKey_BD30A0 = '-';
             }
 
             sIsAKeyDown_BD309C = TRUE;
@@ -731,7 +743,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         {
             // "Game button" input
             const int vk = sdl_key_to_win32_vkey(event->key.keysym.sym);
-            LOG_INFO("Key down " << vk);
+            //LOG_INFO("Key down " << vk);
 
             Input_SetKeyState_4EDD80(vk, 1);
 
@@ -762,7 +774,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
     else if (event->type == SDL_KEYUP)
     {
         const int vk = sdl_key_to_win32_vkey(event->key.keysym.sym);
-        LOG_INFO("Key up " << vk);
+        //LOG_INFO("Key up " << vk);
         Input_SetKeyState_4EDD80(vk, 0);
         sIsAKeyDown_BD309C = FALSE;
         sLastPressedKey_BD30A0 = 0;

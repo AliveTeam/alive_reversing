@@ -655,7 +655,7 @@ EXPORT void CC Game_Shutdown_4F2C30()
     }
 
     CreateTimer_4EDEC0(0, nullptr); // Creates a timer that calls a call back which is always null, therefore seems like dead code?
-    Input_DisableInput_4EDDC0();
+    Input_DisableInputForPauseMenuAndDebug_4EDDC0();
     //SND_MCI_Close_4F0060(nullptr); // TODO: Seems like more dead code because the mci is never set?
     SND_SsQuit_4EFD50();
     IO_Stop_ASync_IO_Thread_4F26B0();
