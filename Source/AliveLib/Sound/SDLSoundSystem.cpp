@@ -23,7 +23,7 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
     mAudioDeviceSpec.format = AUDIO_S16;
     mAudioDeviceSpec.channels = 2;
     mAudioDeviceSpec.freq = 44100;
-    mAudioDeviceSpec.samples = 256;
+    mAudioDeviceSpec.samples = 2048;
     mAudioDeviceSpec.userdata = this;
 
     if (SDL_OpenAudio(&mAudioDeviceSpec, NULL) < 0)
@@ -67,7 +67,7 @@ void SDLSoundSystem::Init(unsigned int /*sampleRate*/, int /*bitsPerSample*/, in
     mCreated = true;
 
     // Correctly size the lock free buffer on the main thread before any other threads start
-    mAudioRingBuffer.resize(mAudioDeviceSpec.samples * 6);
+    mAudioRingBuffer.resize(mAudioDeviceSpec.samples * 2);
 
     // TODO: Test just running this on the main thread
     mRenderAudioThread.reset(new std::thread(std::bind(&SDLSoundSystem::RenderAudioThread, this)));
