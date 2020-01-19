@@ -65,7 +65,7 @@ struct MineCar_SaveState
     __int16 field_4A;
     int field_4C_tlvInfo;
     MineCarStates field_50_state;
-    __int16 field_52;
+    MineCarDirs field_52;
     __int16 field_54;
     __int16 field_56;
     __int16 field_58;

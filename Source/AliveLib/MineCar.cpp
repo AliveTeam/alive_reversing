@@ -294,7 +294,7 @@ int CC MineCar::CreateFromSaveState_467740(const BYTE* pBuffer)
     pMineCar->field_118_tlvInfo = pState->field_4C_tlvInfo;
 
     pMineCar->field_11C_state = pState->field_50_state;
-    pMineCar->field_turnDirection_1BC = static_cast<MineCarDirs>(pState->field_52);
+    pMineCar->field_turnDirection_1BC = pState->field_52;
     pMineCar->field_1BE = pState->field_54;
     pMineCar->field_1C0 = pState->field_56;
 
@@ -805,7 +805,7 @@ int MineCar::vGetSaveState_467E10(MineCar_SaveState* pState)
     pState->field_4C_tlvInfo = field_118_tlvInfo;
     pState->field_50_state = field_11C_state;
 
-    pState->field_52 = static_cast<short>(field_turnDirection_1BC);
+    pState->field_52 = field_turnDirection_1BC;
     pState->field_54 = field_1BE;
     pState->field_56 = field_1C0;
 
