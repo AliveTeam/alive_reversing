@@ -843,21 +843,30 @@ std::vector<std::string> Ini_SplitParams(std::string line)
     return paramSplit;
 }
 
+union intOrBoolPointer
+{
+    intOrBoolPointer(bool* pBool) : boolVal(pBool) {}
+    intOrBoolPointer(int* pInt) : intVal(pInt) {}
+
+    int* intVal;
+    bool* boolVal;
+};
+
 struct IniCustomSaveEntry
 {
     const char * name;
-    void * data;
+    intOrBoolPointer data;
     bool isBool;
 };
 
 std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
-    { "keep_aspect", &s_VGA_KeepAspectRatio, true },
-    { "filter_screen", &s_VGA_FilterScreen, true },
+    { "keep_aspect", { &s_VGA_KeepAspectRatio }, true },
+    { "filter_screen", { &s_VGA_FilterScreen }, true },
 #if USE_SDL2_SOUND
-    { "reverb", &gReverbEnabled, true },
-    { "audio_stereo", &gAudioStereo, true },
+    { "reverb", { &gReverbEnabled }, true },
+    { "audio_stereo", { &gAudioStereo }, true },
 #endif
-    { "debug_mode", &gDebugHelpersEnabled , true},
+    { "debug_mode", { &gDebugHelpersEnabled }, true},
 };
 
 enum class IniCategory
@@ -951,7 +960,7 @@ void NewParseSettingsIni()
                 }
                 else if (currentCategory == IniCategory::eAlive)
                 {
-                    for (const IniCustomSaveEntry& s : gCustomSaveEntries)
+                    for (IniCustomSaveEntry& s : gCustomSaveEntries)
                     {
                         if (param[0] == s.name)
                         {
@@ -959,16 +968,16 @@ void NewParseSettingsIni()
                             {
                                 if (param[1] == "true")
                                 {
-                                    *reinterpret_cast<bool*>(s.data) = true;
+                                    *s.data.boolVal = true;
                                 }
                                 else
                                 {
-                                    *reinterpret_cast<bool*>(s.data) = false;
+                                    *s.data.boolVal = false;
                                 }
                             }
                             else // int
                             {
-                                *reinterpret_cast<int*>(s.data) = atoi(param[1].c_str());
+                                *s.data.intVal = atoi(param[1].c_str());
                             }
 
                             break;
@@ -1109,11 +1118,11 @@ EXPORT void Input_SaveSettingsIni_492840()
     {
         if (s.isBool)
         {
-            output << s.name << " = " << ((*reinterpret_cast<int*>(s.data) > 0) ? "true" : "false") << "\n";
+            output << s.name << " = " << (s.data.boolVal ? "true" : "false") << "\n";
         }
         else
         {
-            output << s.name << " = " << *reinterpret_cast<int*>(s.data) << "\n";
+            output << s.name << " = " << s.data.intVal << "\n";
         }
     }
 
