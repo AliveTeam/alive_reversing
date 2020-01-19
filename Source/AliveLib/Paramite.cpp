@@ -449,8 +449,8 @@ int Paramite::vGetSaveState_48F220(Paramite_State* pState)
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_40_obj_id = ResolveId(field_118);
     pState->field_44_obj_id = ResolveId(field_11C_web_id);
-    pState->field_44_obj_id = ResolveId(field_120_obj_id);
-    pState->field_44_obj_id = ResolveId(field_124);
+    pState->field_48_obj_id = ResolveId(field_120_obj_id);
+    pState->field_4C_obj_id = ResolveId(field_124);
 
     pState->field_50_ai_idx = 0;
     
