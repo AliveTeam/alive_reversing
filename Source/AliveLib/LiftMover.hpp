@@ -6,13 +6,22 @@
 
 class LiftPoint;
 
+enum class LiftMoverStates : short
+{
+    e0 = 0,
+    e1 = 1,
+    e2 = 2,
+    e3 = 3,
+    e4 = 4,
+    e5 = 5,
+};
+
 struct LiftMover_State
 {
     __int16 field_0_type;
     //__int16 field_2;
     int field_4_tlvInfo;
-    __int16 field_8_state;
-   // __int16 field_A;
+    LiftMoverStates field_8_state;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 
@@ -37,6 +46,7 @@ public:
 
 private:
     EXPORT void vUpdate_40CE20();
+    EXPORT void vUpdate_REAL_40CE20();
     EXPORT void dtor_40CDA0();
     EXPORT LiftMover* vdtor_40CD70(signed int flags);
     EXPORT int vGetSaveState_40D240(LiftMover_State* pState);
@@ -48,7 +58,7 @@ private:
     int field_24_tlvInfo;
     int field_28_lift_id;
     FP field_2C_speed;
-    __int16 field_30_state;
+    LiftMoverStates field_30_state;
     __int16 field_32_bMoveInProgress;
 };
 ALIVE_ASSERT_SIZEOF(LiftMover, 0x34);
