@@ -71,7 +71,7 @@ StatusLight* StatusLight::ctor_4D5250(Path_StatusLight* pTlv, DWORD tlvInfo)
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const short bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    const auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
         field_B8_xpos,
         field_BC_ypos,
         field_B8_xpos,

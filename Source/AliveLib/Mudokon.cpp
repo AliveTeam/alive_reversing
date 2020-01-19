@@ -565,7 +565,7 @@ Mudokon* Mudokon::ctor_474F30(Path_Mudokon* pTlv, int tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    const short bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
+    const auto bCollision = sCollisions_DArray_5C1128->Raycast_417A60(
         FP_FromInteger(pTlv->field_8_top_left.field_0_x),
         FP_FromInteger(pTlv->field_8_top_left.field_2_y),
         FP_FromInteger(pTlv->field_C_bottom_right.field_0_x),

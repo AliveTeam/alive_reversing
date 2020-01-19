@@ -3848,7 +3848,7 @@ void Abe::State_14_HoistIdle_452440()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
     sub_408C40();
 
     if (bCollision)
@@ -4559,7 +4559,7 @@ void Abe::State_28_HopMid_451C50()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
     sub_408C40();
 
     if (bCollision)
@@ -4746,7 +4746,7 @@ void Abe::State_31_RunJumpMid_452C10()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    const __int16 bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+    const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
 
     sub_408C40();
 
