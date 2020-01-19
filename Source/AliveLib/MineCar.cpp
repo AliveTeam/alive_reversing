@@ -938,8 +938,8 @@ void MineCar::State_0()
     }
 }
 
-FP mineCarHeightUnscaled = FP_FromInteger(60);
-FP mineCarWidthUnscaled = FP_FromInteger(12);
+const FP mineCarHeightUnscaled = FP_FromInteger(60);
+const FP mineCarWidthUnscaled = FP_FromInteger(12);
 
 void MineCar::State_1()
 {
