@@ -8115,7 +8115,7 @@ void Abe::State_117_In_MineCar_4587C0()
     {
         auto pMineCar = static_cast<MineCar*>(sControlledCharacter_5C1B8C);
         if (pMineCar->field_11C_state == MineCarStates::eState_1_ParkedWithAbe &&
-            pMineCar->field_1BC == 3)
+            pMineCar->field_turnDirection_1BC == MineCarDirs::eUp_3)
         {
             PathLine* pLine = nullptr;
             FP hitX = {};
