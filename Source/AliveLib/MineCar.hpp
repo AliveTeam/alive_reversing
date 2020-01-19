@@ -145,7 +145,7 @@ private:
     __int16 field_1CC_spawned_path;
     __int16 field_1CE_spawned_camera;
     int field_1D0_sound_channels_mask;
-    __int16 field_1D4_previous_input;
-    __int16 field_1D6_continue_move_input;
+    __int16 field_1D4_previous_input; //TODO change to InputCommands type when we can drop sizeof assert
+    __int16 field_1D6_continue_move_input; //TODO change to InputCommands type when we can drop sizeof assert
 };
 ALIVE_ASSERT_SIZEOF(MineCar, 0x1D8);

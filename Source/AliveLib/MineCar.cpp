@@ -982,10 +982,12 @@ void MineCar::State_1()
     field_C4_velx = FP_FromInteger(0);
     field_C8_vely = FP_FromInteger(0);
 
-    if ((sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0) ||
+    InputCommands inputKey = sInputKey_Right_5550D0;
+
+    if ((sInputObject_5BD4E0.isPressed(inputKey) ||
         (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
-        (unsigned __int16) field_1D6_continue_move_input == sInputKey_Right_5550D0 &&
-        field_1D4_previous_input != (unsigned __int16) sInputKey_Right_5550D0 &&
+        (unsigned __int16) field_1D6_continue_move_input == inputKey &&
+        field_1D4_previous_input != (unsigned __int16) inputKey &&
         field_turnDirection_1BC != MineCarDirs::eUp_3 &&
         field_turnDirection_1BC != MineCarDirs::eDown_0))
         && !(WallHit_408750(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)) &&
@@ -995,25 +997,21 @@ void MineCar::State_1()
         FP rayCast2 = field_BC_ypos - mineCarHeight;
         FP rayCast3 = (kGridSize / FP_FromInteger(4)) + field_B8_xpos;
         FP rayCast4 = field_BC_ypos;
-        FP moveX = kGridSize / FP_FromInteger(4);
-        FP moveY = FP_FromInteger(0);
-        InputCommands key = sInputKey_Right_5550D0;
+        FP velX = kGridSize / FP_FromInteger(4);
+        FP velY = FP_FromInteger(0);
         const FP arg1 = mineCarWidthAdjusted + FP_FromInteger(2);
         const FP arg3 = FP_FromInteger(4) - mineCarWidthAdjusted;
 
-        LOG_INFO("start");
-        LOG_INFO(FP_GetExponent(rayCast1));
-        LOG_INFO(FP_GetExponent(rayCast2));
-        LOG_INFO(FP_GetExponent(rayCast4));
+        unsigned short frameTableOffset = 20872u;
 
-        if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, arg1, FP_FromInteger(4), arg3, 20872u, MineCarDirs::eUp_3, 0,
-            rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, moveX, moveY, key, false, false))
+        if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, arg1, FP_FromInteger(4), arg3, frameTableOffset, MineCarDirs::eUp_3, 0,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, velX, velY, inputKey, false, false))
         {
             return;
         }
 
-        if (HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, arg1, -mineCarHeight, arg3, 20872u, MineCarDirs::eDown_0, 1,
-            rayCast1, rayCast2, rayCast3, rayCast4, 0x2000, 0x10000, moveX, moveY, key, false, false))
+        if (HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, arg1, -mineCarHeight, arg3, frameTableOffset, MineCarDirs::eDown_0, 1,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x2000, 0x10000, velX, velY, inputKey, false, false))
         {
             return;
         }
@@ -1022,7 +1020,7 @@ void MineCar::State_1()
     {
         if (WallHit_408750(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)))
         {
-            if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+            if (sInputObject_5BD4E0.isPressed(inputKey))
             {
                 if (field_turnDirection_1BC != MineCarDirs::eLeft_2 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
                 {
@@ -1032,19 +1030,19 @@ void MineCar::State_1()
         }
     }
 
-    if ((sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4) ||
+    inputKey = sInputKey_Left_5550D4;
+
+    if ((sInputObject_5BD4E0.isPressed(inputKey) ||
         (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
-        (unsigned __int16) field_1D6_continue_move_input == sInputKey_Left_5550D4 &&
-        field_1D4_previous_input != (unsigned __int16) sInputKey_Left_5550D4 &&
+        (unsigned __int16) field_1D6_continue_move_input == inputKey &&
+        field_1D4_previous_input != (unsigned __int16) inputKey &&
         field_turnDirection_1BC != MineCarDirs::eUp_3 &&
         field_turnDirection_1BC != MineCarDirs::eDown_0))
         && !(WallHit_408750(mineCarHeight * FP_FromDouble(0.5), -mineCarWidthAdjusted)))
     {
-        short mov1 = 20900u;
+        unsigned short frameTableOffset = 20900u;
         FP velX = -(kGridSize / FP_FromInteger(4));
         FP velY = FP_FromInteger(0);
-
-        InputCommands key = sInputKey_Left_5550D4;
 
         const FP rayCast1 = field_B8_xpos - (kGridSize / FP_FromInteger(4));
         const FP rayCast2 = field_BC_ypos - mineCarHeight;
@@ -1055,16 +1053,16 @@ void MineCar::State_1()
         const FP floorArg2 = FP_FromInteger(4);
         const FP floorArg3 = -(mineCarWidthAdjusted + FP_FromInteger(2));
 
-        if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, floorArg1, floorArg2, floorArg3, mov1, MineCarDirs::eUp_3, 1,
-            rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, velX, velY, key, false, false))
+        if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, floorArg1, floorArg2, floorArg3, frameTableOffset, MineCarDirs::eUp_3, 1,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, velX, velY, inputKey, false, false))
         {
             return;
         }
 
         const FP roof2 = -mineCarHeight;
 
-        if (HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, floorArg1, roof2, floorArg3, mov1, MineCarDirs::eDown_0, 0,
-            rayCast1, rayCast2, rayCast3, rayCast4, 0x2000, 0x10000, velX, velY, key, false, false))
+        if (HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, floorArg1, roof2, floorArg3, frameTableOffset, MineCarDirs::eDown_0, 0,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x2000, 0x10000, velX, velY, inputKey, false, false))
         {
             return;
         }
@@ -1103,7 +1101,6 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
         {
             if (isVertical)
             {
-                LOG_INFO("V");
                 if (verticalFlipXCond)
                 {
                     if (hitX > field_B8_xpos)
@@ -1114,13 +1111,11 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
                 }
                 else if (hitX < field_B8_xpos)
                 {
-                    //never hit for some reason?
                     Move_46E640(moveArgument1, velX, velY, key, moveArgument2, bChangeDir);
                 }
             }
             else
             {
-                LOG_INFO("H");
                 Move_46E640(moveArgument1, velX, velY, key, moveArgument2, bChangeDir);
             }
             if (sInputObject_5BD4E0.isPressed(key))
@@ -1144,12 +1139,14 @@ void MineCar::HandleUpDown()
     const FP rayCast2 = field_BC_ypos - (k5Scaled) -((mineCarWidthAdjusted) * FP_FromDouble(0.5));
     const FP rayCast3 = mineCarWidthAdjusted + field_B8_xpos;
     const FP rayCast4 = field_BC_ypos - (k5Scaled) -((mineCarWidthAdjusted) * FP_FromDouble(0.5));
-
     const FP velX = FP_FromInteger(0);
     const FP velY = k5Scaled;
+    const unsigned short frameTableOffset = 20836u;
 
-    if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
-        (unsigned __int16) field_1D6_continue_move_input == sInputKey_Up_5550D8 &&
+    InputCommands inputKey = sInputKey_Up_5550D8;
+
+    if (sInputObject_5BD4E0.isPressed(inputKey) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
+        (unsigned __int16) field_1D6_continue_move_input == inputKey &&
         field_1D4_previous_input != (unsigned __int16) sInputKey_Down_5550DC &&
         field_turnDirection_1BC != MineCarDirs::eLeft_2 &&
         field_turnDirection_1BC != MineCarDirs::eRight_1 &&
@@ -1159,21 +1156,21 @@ void MineCar::HandleUpDown()
         const FP funArg2 = mineCarWidthAdjusted + FP_FromInteger(4);
         const FP funArg3 = mineCarHeight + FP_FromInteger(1);
 
-        if(HandleState1Move(&MineCar::WallHit_408750, funArg1, funArg2, funArg3, 20836u, MineCarDirs::eLeft_2, 0,
-            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, -velY, sInputKey_Up_5550D8, true, true))
+        if(HandleState1Move(&MineCar::WallHit_408750, funArg1, funArg2, funArg3, frameTableOffset, MineCarDirs::eLeft_2, 0,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, -velY, inputKey, true, true))
         {
             return;
         }
 
-        if(HandleState1Move(&MineCar::WallHit_408750, funArg1, -funArg2, funArg3, 20836u, MineCarDirs::eRight_1, 1,
-            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, -velY, sInputKey_Up_5550D8, true, false))
+        if(HandleState1Move(&MineCar::WallHit_408750, funArg1, -funArg2, funArg3, frameTableOffset, MineCarDirs::eRight_1, 1,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, -velY, inputKey, true, false))
         {
             return;
         }
     }
     else if (IsBlocked_46F4A0(0, 0))
     {
-        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+        if (sInputObject_5BD4E0.isPressed(inputKey))
         {
             if (field_turnDirection_1BC != MineCarDirs::eDown_0)
             {
@@ -1185,8 +1182,10 @@ void MineCar::HandleUpDown()
         }
     }
 
-    if ((sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
-        (unsigned __int16) field_1D6_continue_move_input == sInputKey_Down_5550DC &&
+    inputKey = sInputKey_Down_5550DC;
+
+    if ((sInputObject_5BD4E0.isPressed(inputKey) || (sInputObject_5BD4E0.isPressed(field_1D4_previous_input) &&
+        (unsigned __int16) field_1D6_continue_move_input == inputKey &&
         field_1D4_previous_input != (unsigned __int16) sInputKey_Up_5550D8 &&
         field_turnDirection_1BC != MineCarDirs::eLeft_2 &&
         field_turnDirection_1BC != MineCarDirs::eRight_1)) &&
@@ -1196,21 +1195,21 @@ void MineCar::HandleUpDown()
         const FP funArg2 = mineCarWidthAdjusted + FP_FromInteger(4);
         const FP funArg3 = mineCarHeight - FP_FromInteger(1);
 
-        if( HandleState1Move(&MineCar::WallHit_408750, funArg1, funArg2, funArg3, 20836u, MineCarDirs::eLeft_2, 1,
-            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, velY, sInputKey_Down_5550DC, true, true))
+        if( HandleState1Move(&MineCar::WallHit_408750, funArg1, funArg2, funArg3, frameTableOffset, MineCarDirs::eLeft_2, 1,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, velY, inputKey, true, true))
         {
             return;
         }
 
-        if (HandleState1Move(&MineCar::WallHit_408750, funArg1, -funArg2, funArg3, 20836u, MineCarDirs::eRight_1, 0,
-            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, velY, sInputKey_Down_5550DC, true, false))
+        if (HandleState1Move(&MineCar::WallHit_408750, funArg1, -funArg2, funArg3, frameTableOffset, MineCarDirs::eRight_1, 0,
+            rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, velY, inputKey, true, false))
         {
             return;
         }
     }
     else if (IsBlocked_46F4A0(3, 0))
     {
-        if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
+        if (sInputObject_5BD4E0.isPressed(inputKey))
         {
             if (field_turnDirection_1BC != MineCarDirs::eUp_3 && !(static_cast<int>(sGnFrame_5C1B84) % 6))
             {
