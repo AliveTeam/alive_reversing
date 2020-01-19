@@ -46,6 +46,7 @@ public:
 
 private:
     EXPORT void vUpdate_40CE20();
+    EXPORT void vUpdate_REAL_40CE20();
     EXPORT void dtor_40CDA0();
     EXPORT LiftMover* vdtor_40CD70(signed int flags);
     EXPORT int vGetSaveState_40D240(LiftMover_State* pState);

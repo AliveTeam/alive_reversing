@@ -70,8 +70,14 @@ int LiftMover::VGetSaveState(BYTE* pSaveBuffer)
     return vGetSaveState_40D240(reinterpret_cast<LiftMover_State*>(pSaveBuffer));
 }
 
+void LiftMover::vUpdate_REAL_40CE20()
+{
+    NOT_IMPLEMENTED();
+}
+
 void LiftMover::vUpdate_40CE20()
 {
+
     LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds_5C1B70.Find(field_28_lift_id, Types::eLiftPoint_78));
     if (field_32_bMoveInProgress)
     {
@@ -123,12 +129,10 @@ void LiftMover::vUpdate_40CE20()
             else
             {
                 pLift->vMove_4626A0(FP_FromInteger(0), field_2C_speed, 0);
-                if (field_2C_speed < FP_FromInteger(0))
+                if ((field_2C_speed > FP_FromInteger(0) && pLift->vOnBottomFloor_4618F0()) ||
+                    (field_2C_speed < FP_FromInteger(0) && pLift->vOnTopFloor_461890()))
                 {
-                    if (pLift->vOnTopFloor_461890())
-                    {
-                        field_30_state = LiftMoverStates::e2;
-                    }
+                    field_30_state = LiftMoverStates::e2;
                 }
             }
             break;
