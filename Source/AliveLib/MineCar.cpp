@@ -993,20 +993,19 @@ void MineCar::State_1()
         && !(WallHit_408750(mineCarHeight * FP_FromDouble(0.5), mineCarWidthAdjusted + FP_FromInteger(1)) &&
         WallHit_408750(mineCarHeight - FP_FromInteger(8), mineCarWidthAdjusted + FP_FromInteger(1))))
     {
-        FP rayCast1 = (kGridSize / FP_FromInteger(4)) + field_B8_xpos;
-        FP rayCast2 = field_BC_ypos - mineCarHeight;
-        FP rayCast3 = (kGridSize / FP_FromInteger(4)) + field_B8_xpos;
-        FP rayCast4 = field_BC_ypos;
-        FP velX = kGridSize / FP_FromInteger(4);
-        FP velY = FP_FromInteger(0);
-        const FP arg1 = mineCarWidthAdjusted + FP_FromInteger(2);
-        const FP arg3 = FP_FromInteger(4) - mineCarWidthAdjusted;
+        const FP rayCast1 = (kGridSize / FP_FromInteger(4)) + field_B8_xpos;
+        const FP rayCast2 = field_BC_ypos - mineCarHeight;
+        const FP rayCast3 = (kGridSize / FP_FromInteger(4)) + field_B8_xpos;
+        const FP rayCast4 = field_BC_ypos;
+        const FP velX = kGridSize / FP_FromInteger(4);
+        const FP velY = FP_FromInteger(0);
+        const FP hitX = mineCarWidthAdjusted + FP_FromInteger(2);
+        const FP hitX2 = FP_FromInteger(4) - mineCarWidthAdjusted;
+        const unsigned short frameTableOffset = 20872u;
 
-        unsigned short frameTableOffset = 20872u;
-
-        if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, arg1, FP_FromInteger(4), arg3, frameTableOffset, MineCarDirs::eUp_3, 0,
+        if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, hitX, FP_FromInteger(4), hitX2, frameTableOffset, MineCarDirs::eUp_3, 0,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, velX, velY, inputKey, false, false) ||
-            HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, arg1, -mineCarHeight, arg3, frameTableOffset, MineCarDirs::eDown_0, 1,
+            HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, hitX, -mineCarHeight, hitX2, frameTableOffset, MineCarDirs::eDown_0, 1,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x2000, 0x10000, velX, velY, inputKey, false, false))
         {
             return;
@@ -1036,23 +1035,19 @@ void MineCar::State_1()
         field_turnDirection_1BC != MineCarDirs::eDown_0))
         && !(WallHit_408750(mineCarHeight * FP_FromDouble(0.5), -mineCarWidthAdjusted)))
     {
-        unsigned short frameTableOffset = 20900u;
-        FP velX = -(kGridSize / FP_FromInteger(4));
-        FP velY = FP_FromInteger(0);
-
         const FP rayCast1 = field_B8_xpos - (kGridSize / FP_FromInteger(4));
         const FP rayCast2 = field_BC_ypos - mineCarHeight;
         const FP rayCast3 = field_B8_xpos - (kGridSize / FP_FromInteger(4));
         const FP rayCast4 = field_BC_ypos;
+        const FP velX = -(kGridSize / FP_FromInteger(4));
+        const FP velY = FP_FromInteger(0);
+        const FP hitX = mineCarWidthAdjusted - FP_FromInteger(4);
+        const FP hitX2 = -(mineCarWidthAdjusted + FP_FromInteger(2));
+        const unsigned short frameTableOffset = 20900u;
 
-        const FP floorArg1 = mineCarWidthAdjusted - FP_FromInteger(4);
-        const FP floorArg2 = FP_FromInteger(4);
-        const FP floorArg3 = -(mineCarWidthAdjusted + FP_FromInteger(2));
-        const FP roof2 = -mineCarHeight;
-
-        if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, floorArg1, floorArg2, floorArg3, frameTableOffset, MineCarDirs::eUp_3, 1,
+        if (HandleState1Move(&MineCar::CheckFloorCollision_46F730, hitX, FP_FromInteger(4), hitX2, frameTableOffset, MineCarDirs::eUp_3, 1,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x800, 0x4000, velX, velY, inputKey, false, false) ||
-            HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, floorArg1, roof2, floorArg3, frameTableOffset, MineCarDirs::eDown_0, 0,
+            HandleState1Move(&MineCar::CheckRoofCollision_46F6B0, hitX, -mineCarHeight, hitX2, frameTableOffset, MineCarDirs::eDown_0, 0,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x2000, 0x10000, velX, velY, inputKey, false, false))
         {
             return;
@@ -1124,8 +1119,8 @@ void MineCar::HandleUpDown()
     const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
     const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
-
     const FP k5Scaled = FP_FromInteger(5) * field_CC_sprite_scale;
+
     const FP rayCast1 = field_B8_xpos - (kGridSize + mineCarWidth);
     const FP rayCast2 = field_BC_ypos - (k5Scaled) -((mineCarWidthAdjusted) * FP_FromDouble(0.5));
     const FP rayCast3 = mineCarWidthAdjusted + field_B8_xpos;
@@ -1143,13 +1138,13 @@ void MineCar::HandleUpDown()
         field_turnDirection_1BC != MineCarDirs::eRight_1 &&
         !IsBlocked_46F4A0(0, 0)))
     {
-        const FP funArg1 = FP_FromInteger(1);
-        const FP funArg2 = mineCarWidthAdjusted + FP_FromInteger(4);
-        const FP funArg3 = mineCarHeight + FP_FromInteger(1);
+        const FP hitX = FP_FromInteger(1);
+        const FP hitY = mineCarWidthAdjusted + FP_FromInteger(4);
+        const FP hitX2 = mineCarHeight + FP_FromInteger(1);
 
-        if(HandleState1Move(&MineCar::WallHit_408750, funArg1, funArg2, funArg3, frameTableOffset, MineCarDirs::eLeft_2, 0,
+        if(HandleState1Move(&MineCar::WallHit_408750, hitX, hitY, hitX2, frameTableOffset, MineCarDirs::eLeft_2, 0,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, -velY, inputKey, true, true) ||
-            HandleState1Move(&MineCar::WallHit_408750, funArg1, -funArg2, funArg3, frameTableOffset, MineCarDirs::eRight_1, 1,
+            HandleState1Move(&MineCar::WallHit_408750, hitX, -hitY, hitX2, frameTableOffset, MineCarDirs::eRight_1, 1,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, -velY, inputKey, true, false))
         {
             return;
@@ -1178,13 +1173,13 @@ void MineCar::HandleUpDown()
         field_turnDirection_1BC != MineCarDirs::eRight_1)) &&
         !IsBlocked_46F4A0(3, 0))
     {
-        const FP funArg1 = -FP_FromInteger(2);
-        const FP funArg2 = mineCarWidthAdjusted + FP_FromInteger(4);
-        const FP funArg3 = mineCarHeight - FP_FromInteger(1);
+        const FP hitX = -FP_FromInteger(2);
+        const FP hitY = mineCarWidthAdjusted + FP_FromInteger(4);
+        const FP hitX2 = mineCarHeight - FP_FromInteger(1);
 
-        if( HandleState1Move(&MineCar::WallHit_408750, funArg1, funArg2, funArg3, frameTableOffset, MineCarDirs::eLeft_2, 1,
+        if( HandleState1Move(&MineCar::WallHit_408750, hitX, hitY, hitX2, frameTableOffset, MineCarDirs::eLeft_2, 1,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, velY, inputKey, true, true) ||
-            HandleState1Move(&MineCar::WallHit_408750, funArg1, -funArg2, funArg3, frameTableOffset, MineCarDirs::eRight_1, 0,
+            HandleState1Move(&MineCar::WallHit_408750, hitX, -hitY, hitX2, frameTableOffset, MineCarDirs::eRight_1, 0,
             rayCast1, rayCast2, rayCast3, rayCast4, 0x1000, 0x8000, velX, velY, inputKey, true, false))
         {
             return;
