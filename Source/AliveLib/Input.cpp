@@ -966,14 +966,7 @@ void NewParseSettingsIni()
                         {
                             if (s.isBool)
                             {
-                                if (param[1] == "true")
-                                {
-                                    *s.data.boolVal = true;
-                                }
-                                else
-                                {
-                                    *s.data.boolVal = false;
-                                }
+                                *s.data.boolVal = param[1] == "true";
                             }
                             else // int
                             {
