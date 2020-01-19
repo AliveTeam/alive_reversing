@@ -1091,7 +1091,7 @@ void PauseMenu::Page_Main_Update_4903E0()
             sSaveString_5C931C[8] = 0;
             // Append the editor arrow char
             strcat(sSaveString_5C931C, sArrowStr_55E398);
-            Input_DisableInput_4EDDC0();
+            Input_DisableInputForPauseMenuAndDebug_4EDDC0();
             return;
 
         case MainPages::ePage_Load_5:
@@ -1225,7 +1225,7 @@ void PauseMenu::Page_Save_Update_491210()
             SFX_Play_46FA90(84u, 90);
             field_13C_save_state = SaveState::ReadingInput_0;
             strcat(sSaveString_5C931C, sArrowStr_55E398);
-            Input_DisableInput_4EDDC0();
+            Input_DisableInputForPauseMenuAndDebug_4EDDC0();
         }
         return;
     }

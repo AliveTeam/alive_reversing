@@ -693,9 +693,15 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         if (!Input_GetInputEnabled_4EDDE0())
         {
             // "Typing" input
-            sLastPressedKey_BD30A0 = sdl_key_to_win32_vkey(event->key.keysym.sym);
+            const int vk = sdl_key_to_win32_vkey(event->key.keysym.sym);
 
-            LOG_INFO("Key down (input disabled) " << sLastPressedKey_BD30A0);
+            if (vk >= VK_F1 && vk <= VK_F12)
+            {
+                return 0;
+            }
+            sLastPressedKey_BD30A0 = vk;
+
+            //LOG_INFO("Key down (input disabled) " << sLastPressedKey_BD30A0);
 
             // Between A-Z
             if (sLastPressedKey_BD30A0 >= 0x41 && sLastPressedKey_BD30A0 <= 0x5A)
@@ -731,7 +737,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
         {
             // "Game button" input
             const int vk = sdl_key_to_win32_vkey(event->key.keysym.sym);
-            LOG_INFO("Key down " << vk);
+            //LOG_INFO("Key down " << vk);
 
             Input_SetKeyState_4EDD80(vk, 1);
 
@@ -762,7 +768,7 @@ static int Sys_EventFilter(void* /*userData*/, SDL_Event* event)
     else if (event->type == SDL_KEYUP)
     {
         const int vk = sdl_key_to_win32_vkey(event->key.keysym.sym);
-        LOG_INFO("Key up " << vk);
+        //LOG_INFO("Key up " << vk);
         Input_SetKeyState_4EDD80(vk, 0);
         sIsAKeyDown_BD309C = FALSE;
         sLastPressedKey_BD30A0 = 0;

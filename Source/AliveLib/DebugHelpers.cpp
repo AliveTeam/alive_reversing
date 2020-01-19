@@ -1019,7 +1019,7 @@ public:
 
             if (mCommandLineEnabled)
             {
-                Input_DisableInput_4EDDC0();
+                Input_DisableInputForPauseMenuAndDebug_4EDDC0();
             }
             else
             {
