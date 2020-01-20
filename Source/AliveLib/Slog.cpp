@@ -1656,8 +1656,7 @@ __int16 Slog::AI_ListeningToSlig_State_2(const FP xpos1GridAHead, BaseAliveGameO
         }
     }
 
-    pObj->field_20_animation.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
-    if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
+    if (pObj->field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX) != field_20_animation.field_4_flags.Get(AnimFlags::eBit5_FlipX))
     {
         field_108_next_motion = eSlogMotions::M_TurnAround_3_4C65C0;
     }
