@@ -502,7 +502,7 @@ void MusicController::EnableMusic_47FB80(__int16 bEnable)
             field_30_music_time = 0;
             field_48_last_music_frame = sMusicTime_5C3024;
 
-            if (field_42_type != MusicTypes::eType4 || field_42_type == MusicTypes::eType7 || field_42_type == MusicTypes::eType9)
+            if (field_42_type == MusicTypes::eType4 || field_42_type == MusicTypes::eType7 || field_42_type == MusicTypes::eType9)
             {
                 field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
             }
