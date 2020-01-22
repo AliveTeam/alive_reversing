@@ -81,6 +81,11 @@ GasCountDown* GasCountDown::ctor_417010(Path_GasCountDown* pTlv, int tlvInfo)
     if (sGasTimer_5C1BE8)
     {
         field_74_time_left = static_cast<short>((field_76_time - (sGnFrame_5C1B84 - sGasTimer_5C1BE8)) / 30);
+        if (field_74_time_left < 0)
+        {
+            field_74_time_left = 0;
+        }
+
         auto pAlarm = alive_new<Alarm>();
         if (pAlarm)
         {
