@@ -26,10 +26,13 @@ EXPORT void CC PSX_Calc_FrameSkip_4945D0()
     const int ticks = currentTime - sPreviousTime_5CA4C8 - delta_time_ring_buffer_5CA310[0] + sLastTicks_5CA4CC;
     
     // Move all elements down one, so the the last value is "empty"
-    memcpy(delta_time_ring_buffer_5CA310, &delta_time_ring_buffer_5CA310[1], sizeof(delta_time_ring_buffer_5CA310) - sizeof(delta_time_ring_buffer_5CA310[0]));// 9 dwords
-    
+    for (int i = 0; i < ALIVE_COUNTOF(delta_time_ring_buffer_5CA310) - 1; i++)
+    {
+        delta_time_ring_buffer_5CA310[i] = delta_time_ring_buffer_5CA310[i + 1];
+    }
+
     // Store at the last/"empty" value
-    delta_time_ring_buffer_5CA310[9] = currentTime - sPreviousTime_5CA4C8;
+    delta_time_ring_buffer_5CA310[ALIVE_COUNTOF(delta_time_ring_buffer_5CA310) - 1] = currentTime - sPreviousTime_5CA4C8;
 
     if (ticks <= 400)
     {
