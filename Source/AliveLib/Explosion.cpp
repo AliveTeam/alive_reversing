@@ -13,7 +13,7 @@
 #include "stdlib.hpp"
 #include "Slig.hpp"
 
-ALIVE_VAR(1, 0x5C1BB6, short, word_5C1BB6, 0);
+ALIVE_VAR(1, 0x5C1BB6, short, word_5C1BB6, 1);
 
 Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, __int16 bSmall)
 {
