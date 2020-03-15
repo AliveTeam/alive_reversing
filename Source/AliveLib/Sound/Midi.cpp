@@ -82,7 +82,7 @@ EXPORT void CC SND_CallBack_4020A4()
 
 using TVSyncCallBackFn = void(CC *)();
 
-EXPORT void CC SND_Set_VSyncCallback_4F8C40(TVSyncCallBackFn)
+EXPORT void CC VSyncCallback_4F8C40(TVSyncCallBackFn)
 {
     // Stub
 }
@@ -305,7 +305,7 @@ static void SND_ResetData()
     }
 }
 
-EXPORT void CC SND_SsInitHot_4FC230()
+EXPORT void CC SSInit_4FC230()
 {
     sGlobalVolumeLevel_right_BD1CDE = 127;
     sGlobalVolumeLevel_left_BD1CDC = 127;
@@ -324,13 +324,13 @@ ALIVE_VAR(1, 0xBB2354, SeqIds, sSeq_Ids_word_BB2354, {});
 ALIVE_VAR(1, 0xbd1cf4, int, sMidi_Inited_dword_BD1CF4, 0);
 ALIVE_VAR(1, 0xbd1cec, unsigned int, sMidiTime_BD1CEC, 0);
 
-EXPORT void CC PSX_SsStart_4FC320()
+EXPORT void CC SpuInitHot_4FC320()
 {
     sMidi_Inited_dword_BD1CF4 = 1;
     sMidiTime_BD1CEC = SYS_GetTicks();
 }
 
-EXPORT void CC PSX_SsSetMVol_4FC360(__int16 left, __int16 right)
+EXPORT void CC SsSetMVol_4FC360(__int16 left, __int16 right)
 {
     sGlobalVolumeLevel_left_BD1CDC = left;
     sGlobalVolumeLevel_right_BD1CDE = right;
@@ -340,15 +340,15 @@ ALIVE_VAR(1, 0xbb2e3c, __int16, sSeqsPlaying_count_word_BB2E3C, 0);
 
 EXPORT void CC SND_Init_4CA1F0()
 {
-    SND_SsInitHot_4FC230();
+    SSInit_4FC230();
     SsSetTableSize_4FE0B0(nullptr, 16, 1);
     SsUtSetReverbDepth_4FE380(0, 0);
     SsUtSetReverbType_4FE360(4);
     SsUtReverbOn_4FE340();
     SsSetTickMode_4FDC20(4096);
-    SND_Set_VSyncCallback_4F8C40(SND_CallBack_4020A4);
-    PSX_SsStart_4FC320();
-    PSX_SsSetMVol_4FC360(100, 100);
+    VSyncCallback_4F8C40(SND_CallBack_4020A4);
+    SpuInitHot_4FC320();
+    SsSetMVol_4FC360(100, 100);
     memset(&sSeq_Ids_word_BB2354, -1, sizeof(SeqIds));
     sSeqsPlaying_count_word_BB2E3C = 0;
 }
@@ -700,7 +700,7 @@ EXPORT void SND_Reset_4C9FB0()
     SND_Stop_All_Seqs_4CA850();
     SND_Free_All_Seqs_4C9F40();
     SND_Free_All_VABS_4C9EB0();
-    PSX_SsSetMVol_4FC360(100, 100);
+    SsSetMVol_4FC360(100, 100);
 }
 
 EXPORT void MIDI_SsEnd_4FC350()
@@ -721,7 +721,7 @@ EXPORT void SND_Shutdown_4CA280()
         sMonkVh_Vb_560F48.field_8_vab_id = -1;
     }
 
-    PSX_SsSetMVol_4FC360(0, 0);
+    SsSetMVol_4FC360(0, 0);
     SsUtReverbOff_4FE350();
     SsUtSetReverbDepth_4FE380(0, 0);
     MIDI_SsEnd_4FC350();
