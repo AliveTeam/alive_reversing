@@ -189,11 +189,11 @@ EXPORT __int16 CC SND_Load_Vab_Header_4FC620(VabHeader* pVabHeader)
 
     const int vab_id = pVabHeader->field_8_id;
     assert(vab_id < 4);
-    SND_SsVabClose_4FC5B0(vab_id);
+    SsVabClose_4FC5B0(vab_id);
     spVabHeaders_C13160[vab_id] = pVabHeader;
     if (sVagCounts_BE6144[vab_id] > 0)
     {
-        SND_SsVabClose_4FC5B0(vab_id);
+        SsVabClose_4FC5B0(vab_id);
     }
 
     int numVags = pVabHeader->field_16_num_vags;
@@ -358,7 +358,7 @@ const SoundBlockInfo soundBlock = { "MONK.VH", "MONK.VB", -1, nullptr };
 ALIVE_VAR(1, 0x560F48, SoundBlockInfo, sMonkVh_Vb_560F48, soundBlock);
 
 
-EXPORT unsigned __int16 CC MIDI_SsIsEos_4FDA80(__int16 idx, __int16 kZero)
+EXPORT unsigned __int16 CC SsIsEos_4FDA80(__int16 idx, __int16 kZero)
 {
     if (!kZero)
     {
@@ -391,7 +391,7 @@ EXPORT __int16 CC MIDI_Stop_Channel_4FE010(__int16 idx)
     return 0;
 }
 
-EXPORT void CC MIDI_SsSeqPlay_4FD900(unsigned __int16 idx, char param_field_2B, __int16 param_field_18)
+EXPORT void CC SsSeqPlay_4FD900(unsigned __int16 idx, char param_field_2B, __int16 param_field_18)
 {
     if (idx < 32u)
     {
@@ -426,14 +426,14 @@ EXPORT void CC MIDI_SsSeqPlay_4FD900(unsigned __int16 idx, char param_field_2B, 
     }
 }
 
-EXPORT void CC MIDI_SsSeqStop_4FD9C0(__int16 idx)
+EXPORT void CC SsSeqStop_4FD9C0(__int16 idx)
 {
     if (sMidiSeqSongs_C13400.table[idx].field_0_seq_data)
     {
         sMidiSeqSongs_C13400.table[idx].field_2B = 0;
         if (sMidiSeqSongs_C13400.table[idx].field_2E >= 0)
         {
-            MIDI_SsSeqPlay_4FD900(sMidiSeqSongs_C13400.table[idx].field_2E, 1, 1);
+            SsSeqPlay_4FD900(sMidiSeqSongs_C13400.table[idx].field_2E, 1, 1);
             sMidiSeqSongs_C13400.table[idx].field_2E = -1;
         }
     }
@@ -454,9 +454,9 @@ EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx)
 {
     if (sSeqDataTable_BB2E38[idx].field_A_id != -1 && sSeqDataTable_BB2E38[idx].field_C_ppSeq_Data)
     {
-        if (MIDI_SsIsEos_4FDA80(sSeqDataTable_BB2E38[idx].field_A_id, 0))
+        if (SsIsEos_4FDA80(sSeqDataTable_BB2E38[idx].field_A_id, 0))
         {
-            MIDI_SsSeqStop_4FD9C0(sSeqDataTable_BB2E38[idx].field_A_id);
+            SsSeqStop_4FD9C0(sSeqDataTable_BB2E38[idx].field_A_id);
         }
     }
 }
@@ -536,7 +536,7 @@ EXPORT int CC MIDI_Play_Single_Note_4CA1B0(int vabIdAndProgram, int note, int le
 
 EXPORT void CC MIDI_Stop_None_Ended_Seq_4FD8D0(__int16 idx)
 {
-    MIDI_SsSeqStop_4FD9C0(idx);
+    SsSeqStop_4FD9C0(idx);
     sMidiSeqSongs_C13400.table[idx].field_C_volume = 0;
     sMidiSeqSongs_C13400.table[idx].field_0_seq_data = 0;
     sMidiSeqSongs_C13400.table[idx].field_1C_pSeqData = nullptr;
@@ -550,10 +550,11 @@ EXPORT void SND_Stop_All_Seqs_4CA850()
     {
         if (sSeq_Ids_word_BB2354.ids[i] >= 0)
         {
-            if (MIDI_SsIsEos_4FDA80(i, 0))
+            if (SsIsEos_4FDA80(i, 0))
             {
-                MIDI_SsSeqStop_4FD9C0(i);
+                SsSeqStop_4FD9C0(i);
             }
+            // TODO: This is actually SsSeqClose ??
             MIDI_Stop_None_Ended_Seq_4FD8D0(i);
             sSeqDataTable_BB2E38[sSeq_Ids_word_BB2354.ids[i]].field_A_id = -1;
             sSeq_Ids_word_BB2354.ids[i] = -1;
@@ -561,13 +562,13 @@ EXPORT void SND_Stop_All_Seqs_4CA850()
     }
 }
 
-EXPORT void SND_SsSeqClose_4CA8E0()
+EXPORT void SsSeqClose_4CA8E0()
 {
     for (short i = 0; i < 16; i++)
     {
         if (sSeq_Ids_word_BB2354.ids[i] >= 0)
         {
-            if (!MIDI_SsIsEos_4FDA80(i, 0))
+            if (!SsIsEos_4FDA80(i, 0))
             {
                 MIDI_Stop_None_Ended_Seq_4FD8D0(i);
                 sSeqDataTable_BB2E38[sSeq_Ids_word_BB2354.ids[i]].field_A_id = -1;
@@ -583,7 +584,7 @@ EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx)
     SeqDataRecord* pRec = &sSeqDataTable_BB2E38[idx];
     if (pRec->field_A_id != -1 && pRec->field_C_ppSeq_Data)
     {
-        return MIDI_SsIsEos_4FDA80(pRec->field_A_id, 0) != 0;
+        return SsIsEos_4FDA80(pRec->field_A_id, 0) != 0;
     }
     return 0;
 }
@@ -604,7 +605,7 @@ EXPORT void CC SND_Free_All_Seqs_4C9F40()
 ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo *, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
 
 
-EXPORT void CC SND_SsVabClose_4FC5B0(int vabId)
+EXPORT void CC SsVabClose_4FC5B0(int vabId)
 {
     MIDI_Stop_All_Channels_4FDFE0();
 
@@ -628,14 +629,14 @@ EXPORT void CC SND_Free_All_VABS_4C9EB0()
     {
         ResourceManager::FreeResource_Impl_49C360(pIter->field_C_pVabHeader);
         pIter->field_C_pVabHeader = nullptr;
-        SND_SsVabClose_4FC5B0(pIter->field_8_vab_id);
+        SsVabClose_4FC5B0(pIter->field_8_vab_id);
         pIter->field_8_vab_id = -1;
         pIter++;
     }
     sLastLoadedSoundBlockInfo_BB2E34 = nullptr;
 }
 
-EXPORT void CC MIDI_SsSeqSetVol_4FDAC0(__int16 idx, __int16 volLeft, __int16 volRight)
+EXPORT void CC SsSeqSetVol_4FDAC0(__int16 idx, __int16 volLeft, __int16 volRight)
 {
     if (sMidiSeqSongs_C13400.table[idx].field_0_seq_data)
     {
@@ -651,7 +652,7 @@ EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight)
         && sSeqDataTable_BB2E38[limitedIdx].field_C_ppSeq_Data
         && SND_SsIsEos_DeInlined_4CACD0(limitedIdx))
     {
-        MIDI_SsSeqSetVol_4FDAC0(sSeqDataTable_BB2E38[limitedIdx].field_A_id, volLeft, volRight);
+        SsSeqSetVol_4FDAC0(sSeqDataTable_BB2E38[limitedIdx].field_A_id, volLeft, volRight);
     }
 }
 
@@ -703,7 +704,7 @@ EXPORT void SND_Reset_4C9FB0()
     SsSetMVol_4FC360(100, 100);
 }
 
-EXPORT void MIDI_SsEnd_4FC350()
+EXPORT void SsEnd_4FC350()
 {
     sMidi_Inited_dword_BD1CF4 = 0;
 }
@@ -717,14 +718,16 @@ EXPORT void SND_Shutdown_4CA280()
         ResourceManager::FreeResource_Impl_49C360(sMonkVh_Vb_560F48.field_C_pVabHeader);
         sMonkVh_Vb_560F48.field_C_pVabHeader = nullptr;
 
-        SND_SsVabClose_4FC5B0(sMonkVh_Vb_560F48.field_8_vab_id);
+        SsVabClose_4FC5B0(sMonkVh_Vb_560F48.field_8_vab_id);
         sMonkVh_Vb_560F48.field_8_vab_id = -1;
     }
 
     SsSetMVol_4FC360(0, 0);
     SsUtReverbOff_4FE350();
     SsUtSetReverbDepth_4FE380(0, 0);
-    MIDI_SsEnd_4FC350();
+    SsEnd_4FC350();
+
+    // TODO: PSX calls a func that just does SpuQuit() here and nothing else
 
     for (int i = 0; i < kNumChannels; i++)
     {
@@ -738,7 +741,7 @@ EXPORT void SND_Shutdown_4CA280()
     {
         if (sVagCounts_BE6144[i] > 0)
         {
-            SND_SsVabClose_4FC5B0(i);
+            SsVabClose_4FC5B0(i);
         }
     }
 
@@ -903,7 +906,7 @@ inline unsigned SwapBytes<unsigned>(unsigned value)
     return unsigned(SwapBytes<WORD>(static_cast<WORD>(value)) << 16) | SwapBytes<WORD>(static_cast<WORD>(value >> 16));
 }
 
-EXPORT __int16 CC MIDI_SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx)
+EXPORT __int16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx)
 {
     // Read header
     SeqHeader seqHeader = {};
@@ -1008,7 +1011,7 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 
         if (sSeqsPlaying_count_word_BB2E3C >= 16)
         {
             // Stop any SEQs that are done
-            SND_SsSeqClose_4CA8E0();
+            SsSeqClose_4CA8E0();
 
             // If none where done then can't continue
             if (sSeqsPlaying_count_word_BB2E3C >= 16)
@@ -1019,15 +1022,15 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 
 
         // Open the SEQ
         const short vabId = static_cast<short>(sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id);
-        rec.field_A_id = MIDI_SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
+        rec.field_A_id = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
 
         // Index into the IDS via the seq ID and map it to the index
         sSeq_Ids_word_BB2354.ids[rec.field_A_id] = idx;
         sSeqsPlaying_count_word_BB2E3C++;
     }
-    else if (MIDI_SsIsEos_4FDA80(rec.field_A_id, 0))
+    else if (SsIsEos_4FDA80(rec.field_A_id, 0))
     {
-        MIDI_SsSeqStop_4FD9C0(rec.field_A_id);
+        SsSeqStop_4FD9C0(rec.field_A_id);
     }
 
     // Clamp left
@@ -1060,15 +1063,15 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 
         }
     }
 
-    MIDI_SsSeqSetVol_4FDAC0(rec.field_A_id, clampedVolLeft, clampedVolRight);
+    SsSeqSetVol_4FDAC0(rec.field_A_id, clampedVolLeft, clampedVolRight);
 
     if (a2)
     {
-        MIDI_SsSeqPlay_4FD900(rec.field_A_id, 1, a2);
+        SsSeqPlay_4FD900(rec.field_A_id, 1, a2);
     }
     else
     {
-        MIDI_SsSeqPlay_4FD900(rec.field_A_id, 1, 0);
+        SsSeqPlay_4FD900(rec.field_A_id, 1, 0);
     }
 
     return 1;
@@ -1087,7 +1090,7 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2
     {
         if (sSeqsPlaying_count_word_BB2E3C >= 16)
         {
-            SND_SsSeqClose_4CA8E0();
+            SsSeqClose_4CA8E0();
             if (sSeqsPlaying_count_word_BB2E3C >= 16)
             {
                 return 0;
@@ -1095,18 +1098,18 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2
         }
 
         const int vabId = sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id;
-        rec.field_A_id = MIDI_SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<short>(vabId));
+        rec.field_A_id = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<short>(vabId));
 
         sSeq_Ids_word_BB2354.ids[rec.field_A_id] = idx;
         sSeqsPlaying_count_word_BB2E3C++;
     }
-    else if (MIDI_SsIsEos_4FDA80(rec.field_A_id, 0))
+    else if (SsIsEos_4FDA80(rec.field_A_id, 0))
     {
         if (!bDontStop)
         {
             return 0;
         }
-        MIDI_SsSeqStop_4FD9C0(rec.field_A_id);
+        SsSeqStop_4FD9C0(rec.field_A_id);
     }
 
     // Clamp vol
@@ -1123,14 +1126,14 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 a2
         }
     }
 
-    MIDI_SsSeqSetVol_4FDAC0(rec.field_A_id, clampedVol, clampedVol);
+    SsSeqSetVol_4FDAC0(rec.field_A_id, clampedVol, clampedVol);
     if (a2)
     {
-        MIDI_SsSeqPlay_4FD900(rec.field_A_id, 1, a2);
+        SsSeqPlay_4FD900(rec.field_A_id, 1, a2);
     }
     else
     {
-        MIDI_SsSeqPlay_4FD900(rec.field_A_id, 1, 0);
+        SsSeqPlay_4FD900(rec.field_A_id, 1, 0);
     }
 
     return 1;
@@ -1519,7 +1522,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                         sMidiSeqSongs_C13400.table[idx2].field_18 = newLoopCount;
                         if (!newLoopCount)
                         {
-                            MIDI_SsSeqStop_4FD9C0(static_cast<short>(idx));
+                            SsSeqStop_4FD9C0(static_cast<short>(idx));
                             return 1;
                         }
                     }

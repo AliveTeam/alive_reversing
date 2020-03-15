@@ -124,7 +124,7 @@ EXPORT void CC MIDI_UpdatePlayer_4FDC80();
 EXPORT void CC SND_StopAll_4CB060();
 EXPORT void CC SND_Init_4CA1F0();
 EXPORT void CC SND_Shutdown_4CA280();
-EXPORT void CC SND_SsVabClose_4FC5B0(int vabId);
+EXPORT void CC SsVabClose_4FC5B0(int vabId);
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask);
 EXPORT void SND_Reset_4C9FB0();
 EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb);
