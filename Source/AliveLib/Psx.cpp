@@ -450,7 +450,7 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
         return;
     }
 
-    MIDI_UpdatePlayer_4FDC80();
+    SsSeqCalledTbyT_4FDC80();
     memcpy(&sLastDispEnv_C2D060, pDispEnv, sizeof(sLastDispEnv_C2D060));
     if (sPsxVram_C1D160.field_4_pLockedPixels)
     {
@@ -466,7 +466,7 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
             PSX_DrawDebugTextBuffers(&sPsxVram_C1D160, rect);
 
             VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
-            MIDI_UpdatePlayer_4FDC80();
+            SsSeqCalledTbyT_4FDC80();
             return;
         }
 
@@ -503,7 +503,7 @@ EXPORT void CC PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, char a2)
 
         // TODO: Removed dead increment here
     }
-    MIDI_UpdatePlayer_4FDC80();
+    SsSeqCalledTbyT_4FDC80();
 }
 
 EXPORT int CC PSX_ResetGraph_4F8800(int)
@@ -848,7 +848,7 @@ EXPORT void CC sub_4945B0()
 EXPORT int CC PSX_VSync_4F6170(int mode)
 {
     sVSync_Unused_578325 = 0;
-    MIDI_UpdatePlayer_4FDC80();
+    SsSeqCalledTbyT_4FDC80();
 
     const int currentTime = SYS_GetTicks();
 
@@ -880,7 +880,7 @@ EXPORT int CC PSX_VSync_4F6170(int mode)
             do
             {
                 timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
-                MIDI_UpdatePlayer_4FDC80();
+                SsSeqCalledTbyT_4FDC80();
             } while (timeSinceLastFrame < 1000 * mode / 60);
 
             frameTimeInMilliseconds = 1000 * mode / 60;

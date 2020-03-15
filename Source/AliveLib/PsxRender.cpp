@@ -3304,7 +3304,7 @@ static bool DrawOTagImpl(int** pOT, __int16 drawEnv_of0, __int16 drawEnv_of1)
             break;
         }
 
-        MIDI_UpdatePlayer_4FDC80();
+        SsSeqCalledTbyT_4FDC80();
 
         PrimAny any;
         any.mVoid = pOtItem;

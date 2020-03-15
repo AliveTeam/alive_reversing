@@ -156,7 +156,7 @@ EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, 
         {
             const short vabId = 0; // Not used by target func
             const short program = 0; // Not used by target func
-            MIDI_Set_Freq_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<short>(static_cast<int>(pSfx->field_2_note) + v3), v4);
+            SsUtChangePitch_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<short>(static_cast<int>(pSfx->field_2_note) + v3), v4);
         }
     }
 }
@@ -204,7 +204,7 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 
         {
             if ((1 << i) & channelBits)
             {
-                MIDI_Set_Freq_4FDF70(i, program, vabId, static_cast<short>(note), 0, static_cast<short>(v9 + note), v10);
+                SsUtChangePitch_4FDF70(i, program, vabId, static_cast<short>(note), 0, static_cast<short>(v9 + note), v10);
             }
         }
     }

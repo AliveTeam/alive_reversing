@@ -120,7 +120,7 @@ ALIVE_ASSERT_SIZEOF(Converted_Vag, 0x12);
 ALIVE_VAR_EXTERN(SoundBlockInfo*, sLastLoadedSoundBlockInfo_BB2E34);
 ALIVE_ARY_EXTERN(VabHeader*, 4, spVabHeaders_C13160);
 
-EXPORT void CC MIDI_UpdatePlayer_4FDC80();
+EXPORT void CC SsSeqCalledTbyT_4FDC80();
 EXPORT void CC SND_StopAll_4CB060();
 EXPORT void CC SND_Init_4CA1F0();
 EXPORT void CC SND_Shutdown_4CA280();
@@ -138,7 +138,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
 EXPORT signed int CC MIDI_Set_Volume_4FDE80(MIDI_Channel* pData, int vol);
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight);
 EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 field4_match, __int16 pitch);
-EXPORT __int16 CC MIDI_Set_Freq_4FDF70(__int16 idx, int /*program*/, int /*vabId*/, __int16 noteLo, __int16 kZero, __int16 noteHigh, __int16 a7);
+EXPORT __int16 CC SsUtChangePitch_4FDF70(__int16 idx, int /*program*/, int /*vabId*/, __int16 noteLo, __int16 kZero, __int16 noteHigh, __int16 a7);
 
 enum SeqId
 {
