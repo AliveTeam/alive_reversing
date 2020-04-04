@@ -8,21 +8,6 @@
 
 ALIVE_VAR(1, 0x560f78, short, sBackgroundMusic_seq_id_560F78, -1);
 
-void CC BackgroundMusic::Stop_4CB000()
-{
-    if (sBackgroundMusic_seq_id_560F78 >= 0)
-    {
-        SND_SEQ_Stop_4CAE60(sBackgroundMusic_seq_id_560F78);
-    }
-}
-
-void CC BackgroundMusic::Play_4CB030()
-{
-    if (sBackgroundMusic_seq_id_560F78 >= 0)
-    {
-        SND_SEQ_PlaySeq_4CA960(sBackgroundMusic_seq_id_560F78, 0, 0);
-    }
-}
 
 BackgroundMusic* BackgroundMusic::ctor_4CB110(__int16 musicId)
 {
@@ -69,4 +54,21 @@ void BackgroundMusic::Update_4CB1A0()
         sBackgroundMusic_seq_id_560F78 = field_20_music_id;
     }
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
+}
+
+// In order of functions in the orignal game these are not part of this object
+void CC BackgroundMusic::Stop_4CB000()
+{
+    if (sBackgroundMusic_seq_id_560F78 >= 0)
+    {
+        SND_SEQ_Stop_4CAE60(sBackgroundMusic_seq_id_560F78);
+    }
+}
+
+void CC BackgroundMusic::Play_4CB030()
+{
+    if (sBackgroundMusic_seq_id_560F78 >= 0)
+    {
+        SND_SEQ_PlaySeq_4CA960(sBackgroundMusic_seq_id_560F78, 0, 0);
+    }
 }

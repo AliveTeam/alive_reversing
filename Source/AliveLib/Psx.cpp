@@ -4,6 +4,7 @@
 #include "Error.hpp"
 #include "bmp.hpp"
 #include "Sound/Midi.hpp"
+#include "Sound/PsxSpuApi.hpp"
 #include "PsxDisplay.hpp"
 #include "VGA.hpp"
 #include "stdlib.hpp"

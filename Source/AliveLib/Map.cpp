@@ -22,6 +22,7 @@
 #include "Events.hpp"
 #include "Movie.hpp"
 #include "Particle.hpp"
+#include "Sound/PsxSpuApi.hpp"
 #include <assert.h>
 
 void Map_ForceLink() { }
@@ -143,7 +144,7 @@ void Map::ScreenChange_480B80()
 
         if (field_A_5C303A_levelId != sCurrentLevelId_5C3030)
         {
-            MIDI_Stop_All_Channels_4FDFE0();
+            SsUtAllKeyOff_4FDFE0(0);
         }
 
         if (field_A_5C303A_levelId != LevelIds::eNone)

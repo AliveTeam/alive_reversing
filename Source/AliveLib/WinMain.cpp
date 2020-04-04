@@ -59,7 +59,6 @@ static void RunTests()
     Test::PsxTests();
     Test::GameTests();
     Test::EventTests();
-    Test::MidiTests();
     Test::ScreenManagerTests();
     Test::ObjectIdsTests();
     Test::PsxRenderTests();
@@ -76,7 +75,6 @@ static void InitOtherHooksAndRunTests()
     Psx_ForceLink();
     DynamicArray_ForceLink();
     Math_ForceLink();
-    Midi_ForceLink();
     Game_ForceLink();
     GameSpeak_ForceLink();
     DDCheat_ForceLink();

@@ -17,6 +17,7 @@
 #include "Sound/SoundDSound.hpp"
 #include "Sound/SDLSoundBuffer.hpp"
 #include "Sound/SDLSoundSystem.hpp"
+#include "Sound/PsxSpuApi.hpp"
 
 ALIVE_VAR(1, 0xBBC394, int, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc33c, int, sLastNotePlayTime_BBC33C, 0);
@@ -659,6 +660,7 @@ ALIVE_VAR(1, 0xBB3078, Sound_Ambiance_Array, sTopBottomAmbiance_BB3078, {});
 ALIVE_VAR(1, 0xBB30D8, Sound_Ambiance_Array, sRightAmbiance_BB30D8, {});
 ALIVE_VAR(1, 0xBB3138, Sound_Ambiance_Array, sLeftAmbiance_BB3138, {});
 
+
 EXPORT void CC SND_Init_Ambiance_4CB480()
 {
     for (auto& amb : sTopBottomAmbiance_BB3078.mArray)
@@ -676,6 +678,7 @@ EXPORT void CC SND_Init_Ambiance_4CB480()
         amb.field_8_pScopedSeq = nullptr;
     }
 }
+
 
 EXPORT void CC SND_Reset_Ambiance_4CB4B0()
 {
@@ -803,6 +806,7 @@ EXPORT void CC Start_Sounds_for_TLV_4CB530(CameraPos direction, Path_TLV* pTlv)
     }
 }
 
+
 EXPORT void CC Start_Slig_sounds_4CB980(CameraPos direction, char kZero)
 {
     Sound_Ambiance_Array* pTable = nullptr;
@@ -829,6 +833,7 @@ EXPORT void CC Start_Slig_sounds_4CB980(CameraPos direction, char kZero)
     }
 }
 
+
 EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, char kZero)
 {
     Sound_Ambiance_Array* pTable = nullptr;
@@ -854,6 +859,7 @@ EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, char kZero)
     }
 }
 
+
 EXPORT void CC Start_Sounds_For_Objects_In_Near_Cameras_4CBB60()
 {
     SND_Reset_Ambiance_4CB4B0();
@@ -861,11 +867,4 @@ EXPORT void CC Start_Sounds_For_Objects_In_Near_Cameras_4CBB60()
     Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos::eCamRight_4, 1, 0);
     Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos::eCamTop_1, 0, -1);
     Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos::eCamBottom_2, 0, 1);
-}
-
-EXPORT void CC SND_Restart_4CB0E0()
-{
-    MusicController::EnableMusic_47FE10(TRUE);
-    BackgroundMusic::Play_4CB030();
-    Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
 }

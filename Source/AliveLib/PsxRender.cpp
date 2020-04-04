@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Psx.hpp"
 #include "Sound/Midi.hpp"
+#include "Sound/PsxSpuApi.hpp"
 #include "Primitives.hpp"
 #include "Game.hpp"
 #include "Error.hpp"

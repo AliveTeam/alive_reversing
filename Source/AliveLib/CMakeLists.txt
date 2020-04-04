@@ -35,6 +35,8 @@ ExportHooker.hpp
     Sfx.cpp
     Game.cpp
     Game.hpp
+    Sound/PsxSpuApi.cpp
+    Sound/PsxSpuApi.hpp
     Sound/Midi.cpp
     Sound/Midi.hpp
     Sound/Sound.cpp
