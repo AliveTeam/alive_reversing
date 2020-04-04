@@ -6361,7 +6361,7 @@ void Paramite::Sound_48F600(ParamiteSpeak soundId, __int16 pitch_min)
     }
     else if (soundId == ParamiteSpeak::AllYa_9)
     {
-        volRight = sSeqData_558D50.mData[20].field_9;
+        volRight = sSeqData_558D50.mSeqs[20].field_9_volume;
     }
     else
     {

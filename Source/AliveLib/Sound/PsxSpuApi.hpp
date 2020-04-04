@@ -104,7 +104,7 @@ struct MIDI_Channel
     int field_0_sound_buffer_field_4;
     int field_4_priority;
     int field_8_left_vol;
-    int field_C;
+    int field_C_vol; // pan vol?
     float field_10_freq;
     int field_14_time;
     int field_18_rightVol;

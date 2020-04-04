@@ -789,7 +789,7 @@ void MusicController::sub_47F260()
             field_3C = pRecord->field_1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
-            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[pRecord->field_0].field_0_idx].field_9, 0);
+            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[pRecord->field_0].field_0_idx].field_9_volume, 0);
             break;
         case MusicTypes::eType7: // chase music
             pRecord = &stru_55D3E0[static_cast<int>(field_24_currentLevelID)];
@@ -797,7 +797,7 @@ void MusicController::sub_47F260()
             field_3C = pRecord->field_1;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
-            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[idx].field_0_idx].field_9, 0);
+            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             break;
         case MusicTypes::eType8: // slig chase?
             pRecord = &stru_55D314[static_cast<int>(field_24_currentLevelID)];
@@ -805,7 +805,7 @@ void MusicController::sub_47F260()
             idx = pRecord->field_0;
             field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
             field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
-            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[idx].field_0_idx].field_9, 0);
+            SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             break;
         case MusicTypes::eType9: // slig possesed
             if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
@@ -815,7 +815,7 @@ void MusicController::sub_47F260()
                 idx = stru_55D358[static_cast<int>(field_24_currentLevelID)].field_0;
                 field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
                 field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2 & 1));
-                SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mData[stru_55D008[idx].field_0_idx].field_9, 0);
+                SetMusicVolumeDelayed_47FB00(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
             }
             else
             {

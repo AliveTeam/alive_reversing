@@ -4,7 +4,7 @@
 
 
 struct SoundBlockInfo;
-struct SeqDataRecord;
+struct OpenSeqHandle;
 struct SfxDefinition;
 
 EXPORT void CC SND_StopAll_4CB060();
@@ -13,12 +13,12 @@ EXPORT void CC SND_Shutdown_4CA280();
 EXPORT void CC SND_Stop_Channels_Mask_4CA810(DWORD bitMask);
 EXPORT void SND_Reset_4C9FB0();
 EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, int reverb);
-EXPORT void CC SND_Load_Seqs_4CAED0(SeqDataRecord* pSeqTable, const char* bsqFileName);
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName);
 EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx);
 EXPORT char CC SND_Seq_Table_Valid_4CAFE0();
 EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 repeatCount, __int16 bDontStop);
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight);
-EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight);
+EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight);
 EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx);
 EXPORT int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max);
 EXPORT int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max);

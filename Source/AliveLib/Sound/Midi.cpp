@@ -31,7 +31,7 @@ struct SeqIds
 
 ALIVE_VAR(1, 0xBB2354, SeqIds, sSeq_Ids_word_BB2354, {});
 ALIVE_VAR(1, 0xbb2e3e, WORD, sSnd_ReloadAbeResources_BB2E3E, 0);
-ALIVE_VAR(1, 0xbb2e38, SeqDataRecord *, sSeqDataTable_BB2E38, nullptr);
+ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle *, sSeqDataTable_BB2E38, nullptr);
 ALIVE_VAR(1, 0xbb2e3c, __int16, sSeqsPlaying_count_word_BB2E3C, 0);
 ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo *, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
 ALIVE_VAR(1, 0x560f58, __int16, sSFXPitchVariationEnabled_560F58, true);
@@ -120,7 +120,7 @@ EXPORT signed __int16 CC SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, __
     }
     else
     {
-        vabBodySize = pVabBodyFile->field_10_num_sectors << 11;
+        vabBodySize = pVabBodyFile->field_10_num_sectors << 11; // TODO * 4096 ?
     }
 
     // Load the VB file data
@@ -455,7 +455,7 @@ EXPORT void SND_Stop_All_Seqs_4CA850()
                 SsSeqStop_4FD9C0(i);
             }
             SsSeqClose_4FD8D0(i);
-            sSeqDataTable_BB2E38[sSeq_Ids_word_BB2354.ids[i]].field_A_id = -1;
+            sSeqDataTable_BB2E38[sSeq_Ids_word_BB2354.ids[i]].field_A_id_seqOpenId = -1;
             sSeq_Ids_word_BB2354.ids[i] = -1;
         }
     }
@@ -471,7 +471,7 @@ EXPORT void SND_Seq_Stop_4CA8E0()
             if (!SsIsEos_4FDA80(i, 0))
             {
                 SsSeqClose_4FD8D0(i);
-                sSeqDataTable_BB2E38[sSeq_Ids_word_BB2354.ids[i]].field_A_id = -1;
+                sSeqDataTable_BB2E38[sSeq_Ids_word_BB2354.ids[i]].field_A_id_seqOpenId = -1;
                 sSeq_Ids_word_BB2354.ids[i] = -1;
                 sSeqsPlaying_count_word_BB2E3C--;
             }
@@ -481,13 +481,13 @@ EXPORT void SND_Seq_Stop_4CA8E0()
 
 EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 repeatCount, __int16 bDontStop)
 {
-    SeqDataRecord& rec = sSeqDataTable_BB2E38[idx];
+    OpenSeqHandle& rec = sSeqDataTable_BB2E38[idx];
     if (!rec.field_C_ppSeq_Data)
     {
         return 0;
     }
 
-    if (rec.field_A_id < 0)
+    if (rec.field_A_id_seqOpenId < 0)
     {
         if (sSeqsPlaying_count_word_BB2E3C >= 16)
         {
@@ -500,22 +500,22 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 re
         }
 
         const int vabId = sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id;
-        rec.field_A_id = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<short>(vabId));
+        rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<short>(vabId));
 
-        sSeq_Ids_word_BB2354.ids[rec.field_A_id] = idx;
+        sSeq_Ids_word_BB2354.ids[rec.field_A_id_seqOpenId] = idx;
         sSeqsPlaying_count_word_BB2E3C++;
     }
-    else if (SsIsEos_4FDA80(rec.field_A_id, 0))
+    else if (SsIsEos_4FDA80(rec.field_A_id_seqOpenId, 0))
     {
         if (!bDontStop)
         {
             return 0;
         }
-        SsSeqStop_4FD9C0(rec.field_A_id);
+        SsSeqStop_4FD9C0(rec.field_A_id_seqOpenId);
     }
 
     // Clamp vol
-    __int16 clampedVol = rec.field_9;
+    __int16 clampedVol = rec.field_9_volume;
     if (clampedVol <= 10)
     {
         clampedVol = 10;
@@ -528,32 +528,32 @@ EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 re
         }
     }
 
-    SsSeqSetVol_4FDAC0(rec.field_A_id, clampedVol, clampedVol);
+    SsSeqSetVol_4FDAC0(rec.field_A_id_seqOpenId, clampedVol, clampedVol);
     if (repeatCount)
     {
-        SsSeqPlay_4FD900(rec.field_A_id, 1, repeatCount);
+        SsSeqPlay_4FD900(rec.field_A_id_seqOpenId, 1, repeatCount);
     }
     else
     {
-        SsSeqPlay_4FD900(rec.field_A_id, 1, 0);
+        SsSeqPlay_4FD900(rec.field_A_id_seqOpenId, 1, 0);
     }
 
     return 1;
 }
 
 
-EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight)
+EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 repeatCount, __int16 volLeft, __int16 volRight)
 {
     LOG_INFO("PLAY SEQ " << idx);
 
-    SeqDataRecord& rec = sSeqDataTable_BB2E38[idx];
+    OpenSeqHandle& rec = sSeqDataTable_BB2E38[idx];
     if (!rec.field_C_ppSeq_Data)
     {
         return 0;
     }
 
     // SEQ isn't in use
-    if (rec.field_A_id < 0)
+    if (rec.field_A_id_seqOpenId < 0)
     {
         // Too many playing
         if (sSeqsPlaying_count_word_BB2E3C >= 16)
@@ -570,15 +570,15 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 
 
         // Open the SEQ
         const short vabId = static_cast<short>(sLastLoadedSoundBlockInfo_BB2E34[rec.field_8_sound_block_idx].field_8_vab_id);
-        rec.field_A_id = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
+        rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
 
         // Index into the IDS via the seq ID and map it to the index
-        sSeq_Ids_word_BB2354.ids[rec.field_A_id] = idx;
+        sSeq_Ids_word_BB2354.ids[rec.field_A_id_seqOpenId] = idx;
         sSeqsPlaying_count_word_BB2E3C++;
     }
-    else if (SsIsEos_4FDA80(rec.field_A_id, 0))
+    else if (SsIsEos_4FDA80(rec.field_A_id_seqOpenId, 0))
     {
-        SsSeqStop_4FD9C0(rec.field_A_id);
+        SsSeqStop_4FD9C0(rec.field_A_id_seqOpenId);
     }
 
     // Clamp left
@@ -611,15 +611,15 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 
         }
     }
 
-    SsSeqSetVol_4FDAC0(rec.field_A_id, clampedVolLeft, clampedVolRight);
+    SsSeqSetVol_4FDAC0(rec.field_A_id_seqOpenId, clampedVolLeft, clampedVolRight);
 
-    if (a2)
+    if (repeatCount)
     {
-        SsSeqPlay_4FD900(rec.field_A_id, 1, a2);
+        SsSeqPlay_4FD900(rec.field_A_id_seqOpenId, 1, repeatCount);
     }
     else
     {
-        SsSeqPlay_4FD900(rec.field_A_id, 1, 0);
+        SsSeqPlay_4FD900(rec.field_A_id_seqOpenId, 1, 0);
     }
 
     return 1;
@@ -628,10 +628,10 @@ EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 
 
 EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx)
 {
-    SeqDataRecord* pRec = &sSeqDataTable_BB2E38[idx];
-    if (pRec->field_A_id != -1 && pRec->field_C_ppSeq_Data)
+    OpenSeqHandle* pRec = &sSeqDataTable_BB2E38[idx];
+    if (pRec->field_A_id_seqOpenId != -1 && pRec->field_C_ppSeq_Data)
     {
-        return SsIsEos_4FDA80(pRec->field_A_id, 0) != 0;
+        return SsIsEos_4FDA80(pRec->field_A_id_seqOpenId, 0) != 0;
     }
     return 0;
 }
@@ -640,27 +640,27 @@ EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx)
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight)
 {
     unsigned __int16 limitedIdx = idx & 0xFFFF;
-    if (sSeqDataTable_BB2E38[limitedIdx].field_A_id != -1
+    if (sSeqDataTable_BB2E38[limitedIdx].field_A_id_seqOpenId != -1
         && sSeqDataTable_BB2E38[limitedIdx].field_C_ppSeq_Data
         && SND_SsIsEos_DeInlined_4CACD0(limitedIdx))
     {
-        SsSeqSetVol_4FDAC0(sSeqDataTable_BB2E38[limitedIdx].field_A_id, volLeft, volRight);
+        SsSeqSetVol_4FDAC0(sSeqDataTable_BB2E38[limitedIdx].field_A_id_seqOpenId, volLeft, volRight);
     }
 }
 
 
 EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx)
 {
-    if (sSeqDataTable_BB2E38[idx].field_A_id != -1 && sSeqDataTable_BB2E38[idx].field_C_ppSeq_Data)
+    if (sSeqDataTable_BB2E38[idx].field_A_id_seqOpenId != -1 && sSeqDataTable_BB2E38[idx].field_C_ppSeq_Data)
     {
-        if (SsIsEos_4FDA80(sSeqDataTable_BB2E38[idx].field_A_id, 0))
+        if (SsIsEos_4FDA80(sSeqDataTable_BB2E38[idx].field_A_id_seqOpenId, 0))
         {
-            SsSeqStop_4FD9C0(sSeqDataTable_BB2E38[idx].field_A_id);
+            SsSeqStop_4FD9C0(sSeqDataTable_BB2E38[idx].field_A_id_seqOpenId);
         }
     }
 }
 
-EXPORT void CC SND_Load_Seqs_4CAED0(SeqDataRecord* pSeqTable, const char* bsqFileName)
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char* bsqFileName)
 {
     if (pSeqTable && bsqFileName)
     {
@@ -672,8 +672,8 @@ EXPORT void CC SND_Load_Seqs_4CAED0(SeqDataRecord* pSeqTable, const char* bsqFil
             for (int i = 0; i < kSeqTableSize; i++)
             {
                 sSeqDataTable_BB2E38[i].field_C_ppSeq_Data = nullptr;
-                sSeqDataTable_BB2E38[i].field_A_id = -1;
-                sSeqDataTable_BB2E38[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(sSeqDataTable_BB2E38[i].field_0_mName);
+                sSeqDataTable_BB2E38[i].field_A_id_seqOpenId = -1;
+                sSeqDataTable_BB2E38[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(sSeqDataTable_BB2E38[i].field_0_mBsqName);
             }
             sNeedToHashSeqNames_560F40 = 0;
         }

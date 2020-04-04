@@ -965,7 +965,7 @@ PathRootContainer pathData =
     }
 };
 
-SeqDataTable sSeqData =
+SeqHandleTable sSeqData =
 {
     {
         { "OPTAMB.SEQ", 0, 0u, 60u, -1, nullptr },
@@ -1116,7 +1116,7 @@ SeqDataTable sSeqData =
     }
 };
 
-ALIVE_VAR(1, 0x558d50, SeqDataTable, sSeqData_558D50, sSeqData);
+ALIVE_VAR(1, 0x558d50, SeqHandleTable, sSeqData_558D50, sSeqData);
 
 const static PerLvlData gMovieMenuInfos_561540[28] =
 {

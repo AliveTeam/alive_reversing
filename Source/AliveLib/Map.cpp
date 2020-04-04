@@ -712,7 +712,7 @@ void Map::GoTo_Camera_481890()
         else
         {
             SND_Load_VABS_4CA350(pathData.field_8_pMusicInfo, pathData.field_10_reverb);
-            SND_Load_Seqs_4CAED0(sSeqData_558D50.mData, pathData.field_C_bsq_file_name);
+            SND_Load_Seqs_4CAED0(sSeqData_558D50.mSeqs, pathData.field_C_bsq_file_name);
 
             auto pBackgroundMusic = alive_new<BackgroundMusic>();
             if (pBackgroundMusic)

@@ -96,7 +96,7 @@ struct PathRoot
     __int16 field_14_bg_music_id;
     const char* field_18_lvl_name;
     __int16 field_1A_num_paths;
-    __int16 field_1C_unused;
+    __int16 field_1C_unused; // message to disply to change cd ??
     int field_1E;
     const char* field_22_lvl_name_cd;
     int field_26;
@@ -123,20 +123,20 @@ struct PerLvlData
     WORD field_E_abe_y_off;
 };
 
-struct SeqDataRecord
+struct OpenSeqHandle
 {
-    const char *field_0_mName;
-    int field_4_generated_res_id;
+    const char* field_0_mBsqName;
+    int field_4_generated_res_id; // A hash of the named which matches the resource Id
     char field_8_sound_block_idx;
-    char field_9;
-    __int16 field_A_id;
+    char field_9_volume;
+    __int16 field_A_id_seqOpenId;
     BYTE *field_C_ppSeq_Data;
 };
-ALIVE_ASSERT_SIZEOF(SeqDataRecord, 0x10);
+ALIVE_ASSERT_SIZEOF(OpenSeqHandle, 0x10);
 
-struct SeqDataTable
+struct SeqHandleTable
 {
-    SeqDataRecord mData[145];
+    OpenSeqHandle mSeqs[145];
 };
 
 EXPORT const PathBlyRec* CC Path_Get_Bly_Record_460F30(LevelIds lvlId, unsigned __int16 pathId);
@@ -148,4 +148,4 @@ EXPORT void CC Path_Format_CameraName_460FB0(char* pStrBuffer, LevelIds levelId,
 const char* CdLvlName(LevelIds lvlId);
 
 ALIVE_VAR_EXTERN(PathRootContainer, sPathData_559660);
-ALIVE_VAR_EXTERN(SeqDataTable, sSeqData_558D50);
+ALIVE_VAR_EXTERN(SeqHandleTable, sSeqData_558D50);

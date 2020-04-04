@@ -66,27 +66,25 @@ struct MIDI_SeqSong
 {
     BYTE *field_0_seq_data;
     unsigned int field_4_time;
-    int field_8;
+    int field_8_playTimeStamp;
     int field_C_volume;
-    int field_10;
-    int field_14;
-    int field_18;
+    int field_10_quaterNoteRes;
+    int field_14_tempo;
+    int field_18_repeatCount;
     BYTE *field_1C_pSeqData;
-    void* field_20_fn_ptr;
+    void* field_20_fn_ptr; // read but never written
     BYTE *field_24_loop_start;
     __int16 field_seq_idx;
-    unsigned char field_2A;
-    char field_2B;
+    unsigned char field_2A_running_status;
+    char field_2B_repeatMode; // TODO: Check
     char field_2C_loop_count;
-    char field_2D;
-    __int16 field_2E;
-    char field_30;
-    char field_31;
-    MIDI_ProgramVolume field_32[16];
-    // char field_32;
-    //MIDI_3_Bytes field_33[16];
-    char field_62;
-    char field_63;
+    char field_2D_pad;
+    __int16 field_2E_seqAccessNum; // never written in a meaningful way
+    char field_30_timeSignatureBars;
+    char field_31_timeSignatureBars2; // bug: maybe they should have assigned beats instead? but never read anyway
+    MIDI_ProgramVolume field_32_progVols[16];
+    char field_62_pad;
+    char field_63_pad;
 };
 ALIVE_ASSERT_SIZEOF(MIDI_SeqSong, 100);
 
@@ -134,10 +132,6 @@ struct MidiSeqSongsTable
     MIDI_SeqSong table[32];
 };
 
-
-
-
-
 ALIVE_VAR(1, 0xBD1CDE, __int16, sGlobalVolumeLevel_right_BD1CDE, 0);
 ALIVE_VAR(1, 0xBD1CDC, __int16, sGlobalVolumeLevel_left_BD1CDC, 0);
 ALIVE_VAR(1, 0xC13180, VabUnknown, s512_byte_C13180, {});
@@ -150,13 +144,8 @@ ALIVE_ASSERT_SIZEOF(MidiChannels, 1056);
 ALIVE_VAR(1, 0xC14080, MidiChannels, sMidi_Channels_C14080, {});
 ALIVE_ASSERT_SIZEOF(MidiSeqSongsTable, 3200);
 ALIVE_VAR(1, 0xC13400, MidiSeqSongsTable, sMidiSeqSongs_C13400, {});
-
 ALIVE_VAR(1, 0xbd1cf4, int, sMidi_Inited_dword_BD1CF4, 0);
 ALIVE_VAR(1, 0xbd1cec, unsigned int, sMidiTime_BD1CEC, 0);
-
-
-
-
 ALIVE_VAR(1, 0xbd1ce8, BOOL, sSoundDatIsNull_BD1CE8, TRUE);
 ALIVE_VAR(1, 0xbd1ce4, char, sbDisableSeqs_BD1CE4, 0);
 ALIVE_VAR(1, 0x578E20, DWORD, sLastTime_578E20, 0xFFFFFFFF);
@@ -222,11 +211,7 @@ EXPORT void CC SSInit_4FC230()
     sGlobalVolumeLevel_left_BD1CDC = 127;
 
     SND_CreateDS_4EEAA0(22050u, 16, 1);
-
-    // TODO: ?? 
-    //SND_ResetData();
 }
-
 
 EXPORT void CC SpuInitHot_4FC320()
 {
@@ -245,10 +230,8 @@ EXPORT void CC SsSetMVol_4FC360(__int16 left, __int16 right)
     sGlobalVolumeLevel_right_BD1CDE = right;
 }
 
-
 EXPORT DWORD* CC SND_SoundsDat_Get_Sample_Offset_4FC3D0(VabHeader *pVabHeader, VabBodyRecord *pBodyRecords, int idx)
 {
-
     if (!pVabHeader || idx < 0)
     {
         return nullptr;
@@ -498,8 +481,6 @@ EXPORT signed int CC MIDI_Allocate_Channel_4FCA50(int /*not_used*/, int priority
         }
         else
         {
-            //const int v6 = sMidi_Channels_C14080.channels[idx].field_14_time;
-            //const int v7 = sMidi_Channels_C14080.channels[idx].field_18_rightVol;
             const int inverted = MIDI_Invert_4FCA40(sMidi_Channels_C14080.channels[i].field_4_priority, sMidi_Channels_C14080.channels[i].field_8_left_vol);
             if (inverted > lowestEndTime)
             {
@@ -613,7 +594,7 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                 {
                     MIDI_Channel* pChannel = &sMidi_Channels_C14080.channels[midiChannel];
                     const BOOL bUnknown = pVagIter->field_0_adsr_attack || pVagIter->field_2_adsr_sustain_level || pVagIter->field_4_adsr_decay != 16 || pVagIter->field_6_adsr_release >= 33u;
-                    pChannel->field_C = maxPan;
+                    pChannel->field_C_vol = maxPan;
                     if (bUnknown)
                     {
                         pChannel->field_1C_adsr.field_3_state = 1;
@@ -670,33 +651,6 @@ EXPORT int CC MIDI_PlayMidiNote_4FCB30(int vabId, int program, int note, int lef
                     {
                         MIDI_Wait_4FCE50();
                     }
-
-                    /*
-
-                    TODO: SDL2 sound was using some other pan/volume calcs, why ??
-
-                    signed int pan = ((pVagIter->field_11_pad) * (20000 / 127)) - 10000;
-
-                    if (panLeft > panRight)
-                    {
-                    pan -= static_cast<signed int>((1.0f - (panRight / static_cast<float>(panLeft))) * 10000);
-                    }
-                    else if (panRight > panLeft)
-                    {
-                    pan += static_cast<signed int>((1.0f - (panLeft / static_cast<float>(panRight))) * 10000);
-                    }
-
-                    pan = std::min(std::max(pan, -10000), 10000);
-
-                    SND_Play_SDL(
-                    &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
-                    ((volume * std::max(leftVol2, rightVol2) * vagVol * sGlobalVolumeLevel_left_BD1CDC) >> 21),
-                    pan,
-                    pChannel->field_10_float, // freq
-                    pChannel,
-                    playFlags,
-                    pVagIter->field_E_priority);
-                    */
 
                     SND_PlayEx_4EF740(
                         &sSoundEntryTable16_BE6160.table[vabId][pVagIter->field_10_vag],
@@ -802,7 +756,6 @@ EXPORT int CC MIDI_Stop_Existing_Single_Note_4FCFF0(int VabIdAndProgram, int not
 
 // TODO: Removed 4FD0C0
 
-
 EXPORT int CC MIDI_Read_Var_Len_4FD0D0(MIDI_SeqSong* pMidiStru)
 {
     int ret = 0;
@@ -891,11 +844,11 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
                 metaEvent = MIDI_ReadByte_4FD6B0(pCtx);
                 if (metaEvent == 0x2F)                // End of track
                 {
-                    oldLoopCount = sMidiSeqSongs_C13400.table[idx2].field_18;
+                    oldLoopCount = sMidiSeqSongs_C13400.table[idx2].field_18_repeatCount;
                     if (oldLoopCount)
                     {
                         newLoopCount = oldLoopCount - 1;
-                        sMidiSeqSongs_C13400.table[idx2].field_18 = newLoopCount;
+                        sMidiSeqSongs_C13400.table[idx2].field_18_repeatCount = newLoopCount;
                         if (!newLoopCount)
                         {
                             SsSeqStop_4FD9C0(static_cast<short>(idx));
@@ -933,7 +886,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
         }
 
         midiByte1 = MIDI_ReadByte_4FD6B0(pCtx);
-        sMidiSeqSongs_C13400.table[idx2].field_2A = static_cast<unsigned char>(midiByte1_copy);// running status ?
+        sMidiSeqSongs_C13400.table[idx2].field_2A_running_status = static_cast<unsigned char>(midiByte1_copy);// running status ?
 
     handle_next_event:
 
@@ -959,7 +912,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
         case 0x80u:                               // Note off
 
             v29 = v16 & 15;
-            v32 = &sMidiSeqSongs_C13400.table[idx2].field_32[v29];
+            v32 = &sMidiSeqSongs_C13400.table[idx2].field_32_progVols[v29];
             for (int i = 0; i < 24; i++)
             {
                 pSub1 = &sMidi_Channels_C14080.channels[i].field_1C_adsr;
@@ -986,7 +939,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
         case 0x90u:                               // Note on
             v17 = v16 & 15;
             v45 = v17;
-            v18 = &sMidiSeqSongs_C13400.table[idx2].field_32[v17];
+            v18 = &sMidiSeqSongs_C13400.table[idx2].field_32_progVols[v17];
             v43 = v18;
             leftVol = (signed __int16)((unsigned int)(v18->field_1_left_vol * sMidiSeqSongs_C13400.table[idx2].field_C_volume) >> 7);
             if (v16 >> 16)
@@ -1104,14 +1057,14 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
 
         case 0xC0u:                               // Program change
         {
-            sMidiSeqSongs_C13400.table[idx2].field_32[v16 & 0xF].field_0_program = BYTE1(v16);
+            sMidiSeqSongs_C13400.table[idx2].field_32_progVols[v16 & 0xF].field_0_program = BYTE1(v16);
         }
         break;
 
         case 0xE0u:                               // Pitch bend
         {
             MIDI_PitchBend_4FDEC0(
-                sMidiSeqSongs_C13400.table[idx2].field_32[v16 & 0xF].field_0_program,
+                sMidiSeqSongs_C13400.table[idx2].field_32_progVols[v16 & 0xF].field_0_program,
                 static_cast<short>(((v16 >> 8) - 0x4000) >> 4));
         }
         break;
@@ -1127,7 +1080,7 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
         if (v38)
         {
             v39 = sMidiTime_BD1CEC;
-            v40 = v38 * sMidiSeqSongs_C13400.table[idx2].field_14 / 1000u + sMidiSeqSongs_C13400.table[idx2].field_4_time;
+            v40 = v38 * sMidiSeqSongs_C13400.table[idx2].field_14_tempo / 1000u + sMidiSeqSongs_C13400.table[idx2].field_4_time;
             sMidiSeqSongs_C13400.table[idx2].field_4_time = v40;
             if (v40 > v39)
             {
@@ -1136,9 +1089,9 @@ EXPORT signed int CC MIDI_ParseMidiMessage_4FD100(int idx)
         }
     } // Loop end
 
-    if (sMidiSeqSongs_C13400.table[idx2].field_2A)
+    if (sMidiSeqSongs_C13400.table[idx2].field_2A_running_status)
     {
-        midiByte1_copy = (unsigned __int8)sMidiSeqSongs_C13400.table[idx2].field_2A;
+        midiByte1_copy = (unsigned __int8)sMidiSeqSongs_C13400.table[idx2].field_2A_running_status;
         goto handle_next_event;
     }
     return 0;
@@ -1153,7 +1106,6 @@ EXPORT void CC MIDI_SkipBytes_4FD6C0(MIDI_SeqSong* pData, int length)
 {
     pData->field_0_seq_data += length;
 }
-
 
 EXPORT __int16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx)
 {
@@ -1195,17 +1147,17 @@ EXPORT __int16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx)
     memset(&sMidiSeqSongs_C13400.table[freeIdx], 0, sizeof(MIDI_SeqSong));
     for (int i = 0; i < 16; i++)
     {
-        sMidiSeqSongs_C13400.table[freeIdx].field_32[i].field_1_left_vol = 112;
-        sMidiSeqSongs_C13400.table[freeIdx].field_32[i].field_2_right_vol = 64;
+        sMidiSeqSongs_C13400.table[freeIdx].field_32_progVols[i].field_1_left_vol = 112;
+        sMidiSeqSongs_C13400.table[freeIdx].field_32_progVols[i].field_2_right_vol = 64;
     }
 
     // Set data based on SEQ header
-    sMidiSeqSongs_C13400.table[freeIdx].field_2E = -1;
-    sMidiSeqSongs_C13400.table[freeIdx].field_10 = SwapBytes(seqHeader.field_8_resolution_of_quater_note);
-    sMidiSeqSongs_C13400.table[freeIdx].field_31 = seqHeader.field_E_time_signature_beats;
-    sMidiSeqSongs_C13400.table[freeIdx].field_30 = seqHeader.field_D_time_signature_bars;
+    sMidiSeqSongs_C13400.table[freeIdx].field_2E_seqAccessNum = -1;
+    sMidiSeqSongs_C13400.table[freeIdx].field_10_quaterNoteRes = SwapBytes(seqHeader.field_8_resolution_of_quater_note);
+    sMidiSeqSongs_C13400.table[freeIdx].field_31_timeSignatureBars2 = seqHeader.field_E_time_signature_beats;
+    sMidiSeqSongs_C13400.table[freeIdx].field_30_timeSignatureBars = seqHeader.field_D_time_signature_bars;
 
-    const int quaterNoteRes = sMidiSeqSongs_C13400.table[freeIdx].field_10;
+    const int quaterNoteRes = sMidiSeqSongs_C13400.table[freeIdx].field_10_quaterNoteRes;
     int calculatedTempo = 0;
     // TODO: Figure out what these tempo calcs are actually doing
     if (quaterNoteRes >= 0)
@@ -1216,12 +1168,12 @@ EXPORT __int16 CC SsSeqOpen_4FD6D0(BYTE* pSeqData, __int16 seqIdx)
     }
     else
     {
-        const int calculatedQuaterNoteRes = -(static_cast<unsigned __int8>(quaterNoteRes) * (-sMidiSeqSongs_C13400.table[freeIdx].field_10 >> 8));
-        sMidiSeqSongs_C13400.table[freeIdx].field_10 = calculatedQuaterNoteRes;
+        const int calculatedQuaterNoteRes = -(static_cast<unsigned __int8>(quaterNoteRes) * (-sMidiSeqSongs_C13400.table[freeIdx].field_10_quaterNoteRes >> 8));
+        sMidiSeqSongs_C13400.table[freeIdx].field_10_quaterNoteRes = calculatedQuaterNoteRes;
         calculatedTempo = -1000000 / calculatedQuaterNoteRes;
     }
 
-    sMidiSeqSongs_C13400.table[freeIdx].field_14 = calculatedTempo;
+    sMidiSeqSongs_C13400.table[freeIdx].field_14_tempo = calculatedTempo;
     sMidiSeqSongs_C13400.table[freeIdx].field_1C_pSeqData = pSeqData;
     sMidiSeqSongs_C13400.table[freeIdx].field_0_seq_data = pSeqData;
     sMidiSeqSongs_C13400.table[freeIdx].field_C_volume = 112;
@@ -1254,28 +1206,28 @@ EXPORT void CC SsSeqPlay_4FD900(unsigned __int16 idx, char repeatMode, __int16 r
         if (rec.field_1C_pSeqData)
         {
             rec.field_4_time = sMidiTime_BD1CEC;
-            rec.field_8 = sMidiTime_BD1CEC;
-            rec.field_18 = repeatCount;
+            rec.field_8_playTimeStamp = sMidiTime_BD1CEC;
+            rec.field_18_repeatCount = repeatCount;
 
-            if (rec.field_2B != -1)
+            if (rec.field_2B_repeatMode != -1)
             {
                 rec.field_0_seq_data = rec.field_1C_pSeqData;
-                rec.field_2A = 0;
+                rec.field_2A_running_status = 0;
                 unsigned int midiTime = MIDI_Read_Var_Len_4FD0D0(&rec);
                 if (midiTime)
                 {
-                    midiTime = (midiTime * rec.field_14) / 1000;
+                    midiTime = (midiTime * rec.field_14_tempo) / 1000;
                 }
                 rec.field_4_time += midiTime;
             }
 
             if (repeatMode)
             {
-                rec.field_2B = repeatMode == 1;
+                rec.field_2B_repeatMode = repeatMode == 1;
             }
             else
             {
-                rec.field_2B = -1;
+                rec.field_2B_repeatMode = -1;
             }
         }
     }
@@ -1286,11 +1238,11 @@ EXPORT void CC SsSeqStop_4FD9C0(__int16 idx)
 {
     if (sMidiSeqSongs_C13400.table[idx].field_0_seq_data)
     {
-        sMidiSeqSongs_C13400.table[idx].field_2B = 0;
-        if (sMidiSeqSongs_C13400.table[idx].field_2E >= 0)
+        sMidiSeqSongs_C13400.table[idx].field_2B_repeatMode = 0;
+        if (sMidiSeqSongs_C13400.table[idx].field_2E_seqAccessNum >= 0)
         {
-            SsSeqPlay_4FD900(sMidiSeqSongs_C13400.table[idx].field_2E, 1, 1);
-            sMidiSeqSongs_C13400.table[idx].field_2E = -1;
+            SsSeqPlay_4FD900(sMidiSeqSongs_C13400.table[idx].field_2E_seqAccessNum, 1, 1);
+            sMidiSeqSongs_C13400.table[idx].field_2E_seqAccessNum = -1;
         }
     }
 
@@ -1316,7 +1268,7 @@ EXPORT unsigned __int16 CC SsIsEos_4FDA80(__int16 idx, __int16 kZero)
     {
         if (sMidiSeqSongs_C13400.table[idx].field_0_seq_data)
         {
-            if (sMidiSeqSongs_C13400.table[idx].field_2B)
+            if (sMidiSeqSongs_C13400.table[idx].field_2B_repeatMode)
             {
                 return 1;
             }
@@ -1343,13 +1295,13 @@ EXPORT void CC MIDI_SetTempo_4FDB80(__int16 idx, __int16 kZero, __int16 tempo)
 {
     if (!kZero)
     {
-        if (sMidiSeqSongs_C13400.table[idx].field_10 >= 0)
+        if (sMidiSeqSongs_C13400.table[idx].field_10_quaterNoteRes >= 0) // TODO: BUG - will div zero?
         {
-            sMidiSeqSongs_C13400.table[idx].field_14 = tempo;
+            sMidiSeqSongs_C13400.table[idx].field_14_tempo = tempo;
         }
         else
         {
-            sMidiSeqSongs_C13400.table[idx].field_14 = -1000000 / sMidiSeqSongs_C13400.table[idx].field_10;
+            sMidiSeqSongs_C13400.table[idx].field_14_tempo = -1000000 / sMidiSeqSongs_C13400.table[idx].field_10_quaterNoteRes;
         }
     }
 }
@@ -1376,7 +1328,7 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
             {
                 if (sMidiSeqSongs_C13400.table[i].field_0_seq_data)
                 {
-                    if (sMidiSeqSongs_C13400.table[i].field_2B == 1)
+                    if (sMidiSeqSongs_C13400.table[i].field_2B_repeatMode == 1)
                     {
                         MIDI_ParseMidiMessage_4FD100(i);
                     }
@@ -1386,8 +1338,6 @@ EXPORT void CC SsSeqCalledTbyT_4FDC80()
         }
     }
 }
-
-
 
 EXPORT void CC MIDI_ADSR_Update_4FDCE0()
 {
@@ -1429,20 +1379,20 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                         (signed __int64)(((double)timeDiff2 / (double)pChannel->field_1C_adsr.field_4_attack
                             + (double)timeDiff2 / (double)pChannel->field_1C_adsr.field_4_attack
                             - (double)timeDiff2 / (double)pChannel->field_1C_adsr.field_4_attack * ((double)timeDiff2 / (double)pChannel->field_1C_adsr.field_4_attack))
-                            * (double)pChannel->field_C));
+                            * (double)pChannel->field_C_vol));
                     break;
                 }
             case 3:
                 if (timeDiff1 < pChannel->field_1C_adsr.field_6_sustain)
                 {
-                    const int v8 = pChannel->field_C * (16 - pChannel->field_1C_adsr.field_8_decay) >> 4;
-                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C - timeDiffSquared * v8 / (pChannel->field_1C_adsr.field_6_sustain * pChannel->field_1C_adsr.field_6_sustain));
+                    const int v8 = pChannel->field_C_vol * (16 - pChannel->field_1C_adsr.field_8_decay) >> 4;
+                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C_vol - timeDiffSquared * v8 / (pChannel->field_1C_adsr.field_6_sustain * pChannel->field_1C_adsr.field_6_sustain));
                     break;
                 }
                 pChannel->field_1C_adsr.field_3_state = 3;
                 pChannel->field_14_time += pChannel->field_1C_adsr.field_6_sustain;
                 timeDiff1 -= pChannel->field_1C_adsr.field_6_sustain;
-                if (MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C * pChannel->field_1C_adsr.field_8_decay >> 4))
+                if (MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C_vol * pChannel->field_1C_adsr.field_8_decay >> 4))
                 {
                     // Fall through to case 4
                 }
@@ -1457,7 +1407,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                     pChannel->field_14_time = sMidiTime_BD1CEC;
                     timeDiff1 = 0;
                     timeDiffSquared = 0;
-                    pChannel->field_C = pChannel->field_8_left_vol;
+                    pChannel->field_C_vol = pChannel->field_8_left_vol;
                     // Fall through to case 5
                 }
                 else
@@ -1472,7 +1422,7 @@ EXPORT void CC MIDI_ADSR_Update_4FDCE0()
                 }
                 else
                 {
-                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C - timeDiffSquared * pChannel->field_C / (pChannel->field_1C_adsr.field_A_release * pChannel->field_1C_adsr.field_A_release));
+                    MIDI_Set_Volume_4FDE80(pChannel, pChannel->field_C_vol - timeDiffSquared * pChannel->field_C_vol / (pChannel->field_1C_adsr.field_A_release * pChannel->field_1C_adsr.field_A_release));
                 }
                 break;
             default:
@@ -1510,7 +1460,7 @@ EXPORT __int16 CC MIDI_PitchBend_4FDEC0(__int16 program, __int16 pitch)
         if (sMidi_Channels_C14080.channels[i].field_1C_adsr.field_1_program == program)
         {
             const float freq = pitcha * sMidi_Channels_C14080.channels[i].field_10_freq;
-            SND_Buffer_Set_Frequency_4EFC00(sMidi_Channels_C14080.channels[i].field_C, freq);
+            SND_Buffer_Set_Frequency_4EFC00(sMidi_Channels_C14080.channels[i].field_C_vol, freq);
         }
     }
     return 0;
@@ -1542,7 +1492,7 @@ EXPORT __int16 CC SsUtKeyOffV_4FE010(__int16 idx)
     if (pChannel->field_1C_adsr.field_3_state)
     {
         pChannel->field_1C_adsr.field_3_state = 4;
-        pChannel->field_C = pChannel->field_8_left_vol;
+        pChannel->field_C_vol = pChannel->field_8_left_vol;
         if (pChannel->field_1C_adsr.field_A_release < 300)
         {
             pChannel->field_1C_adsr.field_A_release = 300;
@@ -1592,9 +1542,6 @@ EXPORT void SsUtSetReverbDepth_4FE380(int, int)
 {
     // Stub
 }
-
-// ============================================ END MODULE ===============
-
 
 EXPORT void SpuClearReverbWorkArea_4FA690(int)
 {
