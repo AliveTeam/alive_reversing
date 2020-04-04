@@ -5,7 +5,7 @@
 #include "Map.hpp"
 #include "BackgroundMusic.hpp"
 #include "MusicController.hpp"
-#include "Sound/Sound.hpp"
+#include "AmbientSound.hpp"
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"

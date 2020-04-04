@@ -30,7 +30,7 @@
 #include "Dove.hpp"
 #include "BulletShell.hpp"
 #include "GameSpeak.hpp"
-#include "Sound/Sound.hpp"
+#include "AmbientSound.hpp"
 #include "VRam.hpp"
 #include "Electrocute.hpp"
 

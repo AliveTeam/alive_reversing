@@ -4,7 +4,7 @@
 #include "ResourceManager.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
-#include "Sound/Sound.hpp"
+#include "AmbientSound.hpp"
 #include <assert.h>
 
 ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);

@@ -53,6 +53,8 @@ ExportHooker.hpp
     Sound/SDLSoundSystem.cpp
     stdlib.cpp
     stdlib.hpp
+    AmbientSound.cpp
+    AmbientSound.hpp
     ResourceManager.cpp
     ResourceManager.hpp
     BaseGameObject.cpp

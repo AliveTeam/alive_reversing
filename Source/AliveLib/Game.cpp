@@ -7,7 +7,8 @@
 #include "Error.hpp"
 #include "Psx.hpp"
 #include "DynamicArray.hpp"
-#include "Sound/Sound.hpp"
+#include "Sound/Sound.hpp" // for shut down func
+#include "AmbientSound.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"

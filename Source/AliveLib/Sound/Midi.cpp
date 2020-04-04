@@ -17,6 +17,7 @@
 #include "PathData.hpp"
 
 #include "PsxSpuApi.hpp"
+#include "AmbientSound.hpp"
 
 EXPORT void SND_Stop_All_Seqs_4CA850();
 EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, int channelsBits, __int16 pitch);
