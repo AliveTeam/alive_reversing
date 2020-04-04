@@ -30,6 +30,7 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "Bullet.hpp"
+#include "Sound/Midi.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char* const sGlukkonMotionNames[25] =

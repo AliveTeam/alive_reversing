@@ -20,6 +20,7 @@
 #include "PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "SlamDoor.hpp"
+#include "Sound/Midi.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, BYTE, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, short, sFleechCount_5BC20E, 0);

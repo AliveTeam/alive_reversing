@@ -5,7 +5,7 @@
 
 struct SoundBlockInfo;
 struct SeqDataRecord;
-
+struct SfxDefinition;
 
 EXPORT void CC SND_StopAll_4CB060();
 EXPORT void CC SND_Init_4CA1F0();
@@ -18,6 +18,10 @@ EXPORT void CC SND_SEQ_Stop_4CAE60(unsigned __int16 idx);
 EXPORT char CC SND_Seq_Table_Valid_4CAFE0();
 EXPORT signed __int16 CC SND_SEQ_PlaySeq_4CA960(unsigned __int16 idx, __int16 repeatCount, __int16 bDontStop);
 EXPORT void CC SND_SEQ_SetVol_4CAD20(int idx, __int16 volLeft, __int16 volRight);
+EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight);
+EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx);
+EXPORT int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max);
+EXPORT int CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, __int16 volume, __int16 pitch_min, __int16 pitch_max);
 
 enum SeqId
 {
@@ -55,6 +59,3 @@ enum SeqId
     SaveTriggerMusic_31 = 31,
     SecretMusic_32 = 32
 };
-
-EXPORT __int16 CC SND_SEQ_Play_4CAB10(unsigned __int16 idx, __int16 a2, __int16 volLeft, __int16 volRight);
-EXPORT int CC SND_SsIsEos_DeInlined_4CACD0(unsigned __int16 idx);

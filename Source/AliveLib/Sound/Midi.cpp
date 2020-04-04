@@ -379,8 +379,6 @@ EXPORT int CC SND_4CA5D0(int program, int vabId, int note, __int16 vol, __int16 
     return channelBits;
 }
 
-
-
 int CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, __int16 volLeft, __int16 volRight, __int16 pitch_min, __int16 pitch_max)
 {
     if (pitch_min == 0x7FFF)
