@@ -131,6 +131,7 @@ struct POINT
 #endif
 
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include <map>
 #include <gmock/gmock.h>
