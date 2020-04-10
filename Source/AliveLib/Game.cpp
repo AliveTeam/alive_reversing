@@ -361,7 +361,7 @@ EXPORT void CC Main_ParseCommandLineArguments_494EA0(const char* /*pCmdLineNotUs
         }
 
 #if DEVELOPER_MODE
-        if (strstr(pCommandLine, "-debug"))
+        //if (strstr(pCommandLine, "-debug"))
         {
             gDebugHelpersEnabled = true;
         }

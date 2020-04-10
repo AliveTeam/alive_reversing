@@ -938,7 +938,10 @@ EXPORT void CC Sys_SetWindowPos_4EE1B1(int width, int height)
 #if USE_SDL2
 static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, int x, int y, int nWidth, int nHeight)
 {
-#if __ANDROID__
+#ifdef __ANDROID__ || __SWITCH__
+
+	// For platforms that can fail if not created in proper fullscreen,
+	// get the screen size at startup.
     SDL_Rect gScreenRect = { 0, 0, 640, 480 };
     SDL_DisplayMode displayMode;
     if( SDL_GetCurrentDisplayMode( 0, &displayMode ) == 0 )

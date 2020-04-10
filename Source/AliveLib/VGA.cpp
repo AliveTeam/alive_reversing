@@ -293,7 +293,7 @@ EXPORT signed int CC VGA_DisplaySet_4F32C0(unsigned __int16 width, unsigned __in
 
         sVGA_Inited_BC0BB8 = 1;
 
-        gRenderer = SDL_CreateRenderer(Sys_GetHWnd_4F2C70(), -1, 0);
+        gRenderer = SDL_CreateRenderer(Sys_GetHWnd_4F2C70(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
         //  gRenderer = SDL_CreateSoftwareRenderer(sVGA_bmp_primary_BD2A20.field_0_pSurface);
         if (!gRenderer)
         {

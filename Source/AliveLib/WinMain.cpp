@@ -42,7 +42,9 @@
 #include "SlamDoor.hpp"
 #include "QuikSave.hpp"
 
+#if !DISABLE_EASYLOGGING
 INITIALIZE_EASYLOGGINGPP;
+#endif
 
 static void RunTests()
 {

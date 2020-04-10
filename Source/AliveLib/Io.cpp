@@ -2,6 +2,9 @@
 #include "Io.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
+#include "DebugHelpers.hpp"
+
+#include <string>
 
 #if !_WIN32
 #include <dirent.h>
@@ -26,10 +29,24 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
         fileName += 2;
     }
 
+	std::string fixedPath(fileName);
+
+#if __SWITCH__
+	// Access data using Switch ROMFS
+	// Todo: try also loading from current directory.
+	fixedPath = "romfs:/" + fixedPath;
+#endif
+
+	// lowercase our string.
+	std::transform(fixedPath.begin(), fixedPath.end(), fixedPath.begin(),
+		[](unsigned char c) { return std::tolower(c); });
+
+	DEV_CONSOLE_PRINTF("IO Open: %s", fixedPath.c_str());
+
 #if USE_SDL2_IO
-    return SDL_RWFromFile(fileName, mode);
+    return SDL_RWFromFile(fixedPath.c_str(), mode);
 #else
-    return fopen_520C64(fileName, mode);
+    return fopen_520C64(fileName.c_str(), mode);
 #endif
 }
 

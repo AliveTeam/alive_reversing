@@ -4,6 +4,8 @@
 #include "Sys.hpp"
 #include "stdlib.hpp"
 
+#include <stdarg.h>
+
 #define ERROR_IMPL true
 
 struct ErrorData
