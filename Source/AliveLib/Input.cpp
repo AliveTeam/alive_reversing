@@ -1001,10 +1001,6 @@ void NewParseSettingsIni()
             }
         }
     }
-
-#if __ANDROID__ //TODO check/add support
-    sJoystickEnabled_5C9F70 = 1;
-#endif
 }
 
 EXPORT void Input_SaveSettingsIni_492840()
@@ -1477,7 +1473,25 @@ EXPORT void Input_InitJoyStick_460080()
 #if USE_SDL2
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
-    if (!SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER))
+	
+	bool bInitJoy = SDL_Init(SDL_INIT_JOYSTICK);
+	bool bInitHaptic = SDL_Init(SDL_INIT_HAPTIC);
+	bool bInitGamePad = SDL_Init(SDL_INIT_GAMECONTROLLER);
+	
+	if (bInitJoy)
+	{
+		DEV_CONSOLE_PRINTF("Joy Init Failed");
+	}
+	if (bInitHaptic)
+	{
+		DEV_CONSOLE_PRINTF("Haptic Init Failed");
+	}
+	if (bInitGamePad)
+	{
+		DEV_CONSOLE_PRINTF("GamePad Init Failed");
+	}
+	
+    if (!bInitJoy)
     {
         DEV_CONSOLE_PRINTF("SDL GamePads: %i", SDL_NumJoysticks());
         for (int i = 0; i < SDL_NumJoysticks(); ++i) {
@@ -1485,14 +1499,17 @@ EXPORT void Input_InitJoyStick_460080()
                 pSDLController = SDL_GameControllerOpen(i);
                 if (pSDLController) {
                     sJoystickEnabled_5C2EF4 = true;
+					sJoystickEnabled_5C9F70 = 1;
                     pSDLControllerHaptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(pSDLController));
                     if (SDL_HapticRumbleInit(pSDLControllerHaptic) < 0)
                     {
                         printf("Warning: Unable to initialize rumble! SDL Error: %s\n", SDL_GetError());
                     }
                     strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
+					
+					DEV_CONSOLE_PRINTF("Active Controller: %s", SDL_GameControllerName(pSDLController));
 
-                    //TODO add binding
+                    //TODO add binding 
                     break;
                 }
                 else {
