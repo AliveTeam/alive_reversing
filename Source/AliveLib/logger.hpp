@@ -15,13 +15,22 @@
 
 #define LOGGING 1
 
-#ifdef LOGGING
+#if LOGGING
+#if DISABLE_EASYLOGGING
+#define TRACE_ENTRYEXIT 
+#define LOG_TRACE(msg) //printf("[T] %s\n", msg)
+#define LOG_INFO(msg) //printf("[I] %s\n", msg)
+#define LOG_WARNING(msg) //printf("[W] %s\n", msg)
+#define LOG_ERROR(msg) //printf("[E] %s\n", msg)
+#define LOG_(msg) //printf("%s\n", msg)
+#else
 #define TRACE_ENTRYEXIT Logging::AutoLog __funcTrace(FNAME)
 #define LOG_TRACE(msg) LOG(INFO) << FNAME << " [T] " << msg
 #define LOG_INFO(msg) LOG(INFO) << FNAME << " [I] " << msg
 #define LOG_WARNING(msg) LOG(WARNING) << FNAME << " [W] " << msg
 #define LOG_ERROR(msg) LOG(ERROR) << FNAME << " [E] " << msg
 #define LOG_(msg) LOG(INFO) << msg;
+#endif
 #else
 #define TRACE_ENTRYEXIT
 #define LOG_TRACE(msg)
@@ -82,7 +91,7 @@ namespace Logging
 
         ~AutoLog()
         {
-            if (std::uncaught_exception())
+            if (std::uncaught_exceptions())
             {
                 LOG_("[EXIT_EXCEPTION] " << mFuncName);
             }
