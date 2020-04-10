@@ -26,6 +26,8 @@
 #include "Glukkon.hpp"
 #include "LvlArchive.hpp"
 
+#include <string>
+
 MainMenuController * MainMenuController::gMainMenuController = nullptr;
 
 ALIVE_VAR(1, 0xbb4400, int, sMainMenuObjectCounter_BB4400, 0);
@@ -2062,8 +2064,15 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         strcpy(&lvFilename[7], sPathData_559660.paths[levelId].field_22_lvl_name_cd);
         auto lvFilenameNoPrefix = &lvFilename[7];
 
-        while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
+#if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
+		std::string subFolderPath(&lvFilenameNoPrefix[1]);
+		subFolderPath = "levels\\" + subFolderPath;
+        while (!MainMenuController::checkIfDemoFileExists_4D1430((char*)subFolderPath.c_str()) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
         {
+#else
+		while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
+		{
+#endif
             sLevelId_dword_5CA408 = levelId;
             if (word_5C1B9C)
             {
