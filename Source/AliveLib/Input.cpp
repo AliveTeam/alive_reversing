@@ -1727,16 +1727,29 @@ EXPORT void CC Input_Init_491BC0()
     sJoyButtonNames_5C9908[9] = "";
 
 #elif USE_SDL2 //TODO Mlg hax
-    sJoyButtonNames_5C9908[0] = "X";
-    sJoyButtonNames_5C9908[1] = "A";
-    sJoyButtonNames_5C9908[2] = "B";
-    sJoyButtonNames_5C9908[3] = "Y";
-    sJoyButtonNames_5C9908[4] = "LB";
-    sJoyButtonNames_5C9908[5] = "RB";
-    sJoyButtonNames_5C9908[6] = "LT";
-    sJoyButtonNames_5C9908[7] = "RT";
-    sJoyButtonNames_5C9908[8] = "";
-    sJoyButtonNames_5C9908[9] = "";
+#if __SWITCH__
+	sJoyButtonNames_5C9908[0] = "Y";
+	sJoyButtonNames_5C9908[1] = "B";
+	sJoyButtonNames_5C9908[2] = "A";
+	sJoyButtonNames_5C9908[3] = "X";
+	sJoyButtonNames_5C9908[4] = "L";
+	sJoyButtonNames_5C9908[5] = "R";
+	sJoyButtonNames_5C9908[6] = "ZL";
+	sJoyButtonNames_5C9908[7] = "ZR";
+	sJoyButtonNames_5C9908[8] = "";
+	sJoyButtonNames_5C9908[9] = "";
+#else
+	sJoyButtonNames_5C9908[0] = "X";
+	sJoyButtonNames_5C9908[1] = "A";
+	sJoyButtonNames_5C9908[2] = "B";
+	sJoyButtonNames_5C9908[3] = "Y";
+	sJoyButtonNames_5C9908[4] = "LB";
+	sJoyButtonNames_5C9908[5] = "RB";
+	sJoyButtonNames_5C9908[6] = "LT";
+	sJoyButtonNames_5C9908[7] = "RT";
+	sJoyButtonNames_5C9908[8] = "";
+	sJoyButtonNames_5C9908[9] = "";
+#endif
 #else
     sJoyButtonNames_5C9908[0] = "B1";
     sJoyButtonNames_5C9908[1] = "B2";
