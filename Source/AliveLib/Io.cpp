@@ -31,15 +31,20 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
 
 	std::string fixedPath(fileName);
 
-#if __SWITCH__
-	// Access data using Switch ROMFS
-	// Todo: try also loading from current directory.
-	fixedPath = "romfs:/" + fixedPath;
-#endif
-
 	// lowercase our string.
 	std::transform(fixedPath.begin(), fixedPath.end(), fixedPath.begin(),
 		[](unsigned char c) { return std::tolower(c); });
+
+#if __SWITCH__
+    auto localDir = SDL_RWFromFile(fixedPath.c_str(), mode);
+    if (localDir)
+    {
+        return localDir;
+    }
+
+    // Access data using Switch ROMFS
+    fixedPath = "romfs:/" + fixedPath;
+#endif
 
 	DEV_CONSOLE_PRINTF("IO Open: %s", fixedPath.c_str());
 
