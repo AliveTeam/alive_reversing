@@ -2,8 +2,9 @@
 
 #include <exception>
 #include <iostream>
+#if !DISABLE_EASYLOGGING
 #include "easylogging++.h"
-
+#endif
 #if _MSC_VER
 #define FNAME __FUNCTION__
 #else
