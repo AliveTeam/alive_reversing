@@ -184,6 +184,8 @@ EXPORT void CC VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, int /*screenMod
                 dst.w = renderedWidth;
                 dst.h = renderedHeight;
                 pDst = &dst;
+
+                pCopyRect->h -= 1; // Stops our screen filter from sampling pixels past 240 rows.
             }
             else
             {
