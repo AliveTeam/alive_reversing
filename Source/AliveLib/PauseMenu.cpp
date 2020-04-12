@@ -24,7 +24,7 @@ ALIVE_ARY(1, 0x5C92F0, char, 16, sScreenStringBuffer_5C92F0, { 0 });
 
 ALIVE_ARY(1, 0x5C931C, char, 32, sSaveString_5C931C, {});
 
-#if __ANDROID__ || __SWITCH__ || __CONSOLE__
+#if defined(__ANDROID__) || defined(__SWITCH__) || defined(__CONSOLE__)
 #define CONSOLE_SAVE_MENU 1
 #else
 #define CONSOLE_SAVE_MENU 0

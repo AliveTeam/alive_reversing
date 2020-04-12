@@ -1727,7 +1727,7 @@ EXPORT void CC Input_Init_491BC0()
     sJoyButtonNames_5C9908[9] = "";
 
 #elif USE_SDL2 //TODO Mlg hax
-#if __SWITCH__
+#ifdef __SWITCH__
 	sJoyButtonNames_5C9908[0] = "Y";
 	sJoyButtonNames_5C9908[1] = "B";
 	sJoyButtonNames_5C9908[2] = "A";
