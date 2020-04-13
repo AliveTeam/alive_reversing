@@ -1474,9 +1474,9 @@ EXPORT void Input_InitJoyStick_460080()
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
     
-    bool bInitJoy = SDL_Init(SDL_INIT_JOYSTICK);
-    bool bInitHaptic = SDL_Init(SDL_INIT_HAPTIC);
-    bool bInitGamePad = SDL_Init(SDL_INIT_GAMECONTROLLER);
+    auto bInitJoy = SDL_Init(SDL_INIT_JOYSTICK);
+    auto bInitHaptic = SDL_Init(SDL_INIT_HAPTIC);
+    auto bInitGamePad = SDL_Init(SDL_INIT_GAMECONTROLLER);
     
     if (bInitJoy)
     {
