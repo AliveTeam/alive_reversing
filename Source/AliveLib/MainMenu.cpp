@@ -1973,7 +1973,7 @@ void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
-void MainMenuController::remove_ISO9660_Suffix_4D1660(char* out, char *in)
+void MainMenuController::remove_ISO9660_Suffix_4D1660(char* out, const char *in)
 {
     while (*in)
     {
@@ -1989,9 +1989,9 @@ void MainMenuController::remove_ISO9660_Suffix_4D1660(char* out, char *in)
     }
 }
 
-char MainMenuController::checkIfDemoFileExists_4D1430(char* input)
+char MainMenuController::checkIfDemoFileExists_4D1430(const char* input)
 {
-    char* inputMod = input;
+    const char* inputMod = input;
     if (inputMod[0] == '\\')
     {
         inputMod++;
@@ -2067,7 +2067,7 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
 #if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
         std::string subFolderPath(&lvFilenameNoPrefix[1]);
         subFolderPath = "levels\\" + subFolderPath;
-        while (!MainMenuController::checkIfDemoFileExists_4D1430((char*)subFolderPath.c_str()) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
+        while (!MainMenuController::checkIfDemoFileExists_4D1430(subFolderPath.c_str()) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
         {
 #else
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
