@@ -1017,11 +1017,11 @@ const char kArrowChar = 3;
 ALIVE_ARY(1, 0x55E398, char, 2, sArrowStr_55E398, { kArrowChar, 0 });
 
 #if CONSOLE_SAVE_MENU
-const int saveSlotCount = 8;
+static const int saveSlotCount = 8;
 
-std::string saveSlotTexts[saveSlotCount];
-std::vector<CustomPauseMenuItem> consoleSaveMenuItems;
-bool savePageToSave = true;
+static std::string saveSlotTexts[saveSlotCount];
+static std::vector<CustomPauseMenuItem> consoleSaveMenuItems;
+static bool savePageToSave = true;
 void save_game_slot(int slot)
 {
     std::string saveFileName = "SAVED GAME " + std::to_string(slot) + ".sav";
@@ -1092,7 +1092,7 @@ void init_console_save_menu()
     }
 }
 
-CustomPauseMenu consoleSaveMenu(&consoleSaveMenuItems, "Save Game");
+static CustomPauseMenu consoleSaveMenu(&consoleSaveMenuItems, "Save Game");
 #endif
 
 void PauseMenu::Page_Main_Update_4903E0()
