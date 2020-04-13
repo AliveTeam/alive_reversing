@@ -2065,13 +2065,13 @@ signed int MainMenuController::LoadDemo_Update_4D1040(DWORD)
         auto lvFilenameNoPrefix = &lvFilename[7];
 
 #if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
-		std::string subFolderPath(&lvFilenameNoPrefix[1]);
-		subFolderPath = "levels\\" + subFolderPath;
+        std::string subFolderPath(&lvFilenameNoPrefix[1]);
+        subFolderPath = "levels\\" + subFolderPath;
         while (!MainMenuController::checkIfDemoFileExists_4D1430((char*)subFolderPath.c_str()) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
         {
 #else
-		while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
-		{
+        while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
+        {
 #endif
             sLevelId_dword_5CA408 = levelId;
             if (word_5C1B9C)

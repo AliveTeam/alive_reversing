@@ -942,8 +942,8 @@ static int CC Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWind
 
 #if defined(__ANDROID__) || defined(__SWITCH__)
 
-	// For platforms that can fail if not created in proper fullscreen,
-	// get the screen size at startup.
+    // For platforms that can fail if not created in proper fullscreen,
+    // get the screen size at startup.
     SDL_Rect gScreenRect = { 0, 0, 640, 480 };
     SDL_DisplayMode displayMode;
     if(SDL_GetDesktopDisplayMode( 0, &displayMode ) == 0 )

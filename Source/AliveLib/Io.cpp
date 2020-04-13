@@ -29,11 +29,11 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
         fileName += 2;
     }
 
-	std::string fixedPath(fileName);
+    std::string fixedPath(fileName);
 
-	// lowercase our string.
-	std::transform(fixedPath.begin(), fixedPath.end(), fixedPath.begin(),
-		[](unsigned char c) { return std::tolower(c); });
+    // lowercase our string.
+    std::transform(fixedPath.begin(), fixedPath.end(), fixedPath.begin(),
+        [](unsigned char c) { return std::tolower(c); });
 
 #if __SWITCH__
     auto localDir = SDL_RWFromFile(fixedPath.c_str(), mode);
@@ -46,7 +46,7 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
     fixedPath = "romfs:/" + fixedPath;
 #endif
 
-	DEV_CONSOLE_PRINTF("IO Open: %s", fixedPath.c_str());
+    DEV_CONSOLE_PRINTF("IO Open: %s", fixedPath.c_str());
 
 #if USE_SDL2_IO
     return SDL_RWFromFile(fixedPath.c_str(), mode);

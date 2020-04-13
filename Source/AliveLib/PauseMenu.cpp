@@ -1024,72 +1024,72 @@ std::vector<CustomPauseMenuItem> consoleSaveMenuItems;
 bool savePageToSave = true;
 void save_game_slot(int slot)
 {
-	std::string saveFileName = "SAVED GAME " + std::to_string(slot) + ".sav";
-	if (access_impl(saveFileName.c_str(), 4))
-	{
-		FILE* hFile = fopen(saveFileName.c_str(), "wb");
-		if (hFile)
-		{
-			fwrite(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-			fclose_520CBE(hFile);
-			sSavedGameToLoadIdx_BB43FC = 0;
-		}
-	}
+    std::string saveFileName = "SAVED GAME " + std::to_string(slot) + ".sav";
+    if (access_impl(saveFileName.c_str(), 4))
+    {
+        FILE* hFile = fopen(saveFileName.c_str(), "wb");
+        if (hFile)
+        {
+            fwrite(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
+            fclose_520CBE(hFile);
+            sSavedGameToLoadIdx_BB43FC = 0;
+        }
+    }
 }
 bool load_game_slot(int slot)
 {
-	std::string saveFileName = "SAVED GAME " + std::to_string(slot) + ".sav";
+    std::string saveFileName = "SAVED GAME " + std::to_string(slot) + ".sav";
 
-	FILE* hFile = fopen_520C64(saveFileName.c_str(), "rb");
-	if (hFile)
-	{
-		fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-		sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
-		sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
-		Quicksave_LoadActive_4C9170();
-		fclose_520CBE(hFile);
-		return true;
-	}
+    FILE* hFile = fopen_520C64(saveFileName.c_str(), "rb");
+    if (hFile)
+    {
+        fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
+        sActiveHero_5C1B68->field_B8_xpos = FP_FromInteger(0);
+        sActiveHero_5C1B68->field_BC_ypos = FP_FromInteger(0);
+        Quicksave_LoadActive_4C9170();
+        fclose_520CBE(hFile);
+        return true;
+    }
 
-	return false;
+    return false;
 }
 void init_console_save_menu()
 {
-	consoleSaveMenuItems.clear();
+    consoleSaveMenuItems.clear();
 
-	for (int i = 0; i < saveSlotCount; i++)
-	{
-		std::string saveFileName = "SAVED GAME " + std::to_string(i + 1) + ".sav";
-		if (access_impl(saveFileName.c_str(), 4))
-		{
-			saveSlotTexts[i] = "Empty Save " + std::to_string(i + 1);
-		}
-		else
-		{
-			saveSlotTexts[i] = "Saved Game " + std::to_string(i + 1);
-		}
+    for (int i = 0; i < saveSlotCount; i++)
+    {
+        std::string saveFileName = "SAVED GAME " + std::to_string(i + 1) + ".sav";
+        if (access_impl(saveFileName.c_str(), 4))
+        {
+            saveSlotTexts[i] = "Empty Save " + std::to_string(i + 1);
+        }
+        else
+        {
+            saveSlotTexts[i] = "Saved Game " + std::to_string(i + 1);
+        }
 
-		consoleSaveMenuItems.push_back({ saveSlotTexts[i].c_str(), [i](CustomPauseMenu* pm) {
-			if (savePageToSave)
-			{
-				save_game_slot(i + 1);
-				pm->ClosePauseMenu();
-			}
-			else
-			{
-				if (load_game_slot(i + 1))
-				{
-					pm->ClosePauseMenu();
-				}
-				else
-				{
-					// Cant load save. Play an error sound.
-					SFX_Play_46FBA0(17u, 30, 2400);
-				}
-			}
+        consoleSaveMenuItems.push_back({ saveSlotTexts[i].c_str(), [i](CustomPauseMenu* pm) {
+            if (savePageToSave)
+            {
+                save_game_slot(i + 1);
+                pm->ClosePauseMenu();
+            }
+            else
+            {
+                if (load_game_slot(i + 1))
+                {
+                    pm->ClosePauseMenu();
+                }
+                else
+                {
+                    // Cant load save. Play an error sound.
+                    SFX_Play_46FBA0(17u, 30, 2400);
+                }
+            }
 
-			} });
-	}
+            } });
+    }
 }
 
 CustomPauseMenu consoleSaveMenu(&consoleSaveMenuItems, "Save Game");
@@ -1157,52 +1157,52 @@ void PauseMenu::Page_Main_Update_4903E0()
 
         case MainPages::ePage_Save_4:
             field_136 = 5;
-			SFX_Play_46FA90(0x54u, 90);
-			Quicksave_4C90D0();
+            SFX_Play_46FA90(0x54u, 90);
+            Quicksave_4C90D0();
 #if CONSOLE_SAVE_MENU
-			init_console_save_menu();
-			consoleSaveMenu.Activate();
-			savePageToSave = true;
+            init_console_save_menu();
+            consoleSaveMenu.Activate();
+            savePageToSave = true;
 #else
             field_144_active_menu = sPM_Page_Save_5465C8;
-			
-			field_13C_save_state = SaveState::ReadingInput_0;
-			word12C_flags &= ~0xA;
-			field_13E = -1;
-			word12C_flags |= 0x400;
-			field_13A = 0;
-			
-			// Set the default save name to be the current level/path/camera
-			Path_Format_CameraName_460FB0(
-				sSaveString_5C931C,
-				gMap_5C3030.sCurrentLevelId_5C3030,
-				gMap_5C3030.sCurrentPathId_5C3032,
-				gMap_5C3030.sCurrentCamId_5C3034);
-			// Null terminate it
-			sSaveString_5C931C[8] = 0;
-			// Append the editor arrow char
-			strcat(sSaveString_5C931C, sArrowStr_55E398);
-			Input_DisableInputForPauseMenuAndDebug_4EDDC0();
+            
+            field_13C_save_state = SaveState::ReadingInput_0;
+            word12C_flags &= ~0xA;
+            field_13E = -1;
+            word12C_flags |= 0x400;
+            field_13A = 0;
+            
+            // Set the default save name to be the current level/path/camera
+            Path_Format_CameraName_460FB0(
+                sSaveString_5C931C,
+                gMap_5C3030.sCurrentLevelId_5C3030,
+                gMap_5C3030.sCurrentPathId_5C3032,
+                gMap_5C3030.sCurrentCamId_5C3034);
+            // Null terminate it
+            sSaveString_5C931C[8] = 0;
+            // Append the editor arrow char
+            strcat(sSaveString_5C931C, sArrowStr_55E398);
+            Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 #endif
             return;
 
         case MainPages::ePage_Load_5:
 #if CONSOLE_SAVE_MENU
-			init_console_save_menu();
-			consoleSaveMenu.Activate();
-			savePageToSave = false;
+            init_console_save_menu();
+            consoleSaveMenu.Activate();
+            savePageToSave = false;
 #else
-			Quicksave_FindSaves_4D4150();
-			field_136 = 4;
-			field_144_active_menu = sPM_Page_Load_546628;
-			word12C_flags &= ~0xA;
-			field_13C_save_state = SaveState::ReadingInput_0;
-			word12C_flags |= 0x400;
-			field_13E = -1;
-			field_13A = 0;
+            Quicksave_FindSaves_4D4150();
+            field_136 = 4;
+            field_144_active_menu = sPM_Page_Load_546628;
+            word12C_flags &= ~0xA;
+            field_13C_save_state = SaveState::ReadingInput_0;
+            word12C_flags |= 0x400;
+            field_13E = -1;
+            field_13A = 0;
 #endif
 
-			SFX_Play_46FA90(0x54u, 90);
+            SFX_Play_46FA90(0x54u, 90);
             return;
 
         case MainPages::ePage_RestartPath_6:

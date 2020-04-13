@@ -408,10 +408,10 @@ EXPORT char CC DDV_Play_Impl_4932E0(const char* pMovieName)
 
             if (sFrameInterleaveNum_5CA23C > 15)
             {
-				sInputObject_5BD4E0.Update_45F040();
+                sInputObject_5BD4E0.Update_45F040();
                 if (Input_IsVKPressed_4EDD40(VK_ESCAPE) || Input_IsVKPressed_4EDD40(VK_RETURN)
-					|| sInputObject_5BD4E0.isPressed(InputCommands::eFartOrRoll) || sInputObject_5BD4E0.isPressed(InputCommands::ePause)
-					|| sInputObject_5BD4E0.isPressed(InputCommands::eBack))
+                    || sInputObject_5BD4E0.isPressed(InputCommands::eFartOrRoll) || sInputObject_5BD4E0.isPressed(InputCommands::ePause)
+                    || sInputObject_5BD4E0.isPressed(InputCommands::eBack))
                 {
                     // User quit video playback
                     if (sDDV_SoundEntry_5CA208.field_4_pDSoundBuffer)

@@ -1473,24 +1473,24 @@ EXPORT void Input_InitJoyStick_460080()
 #if USE_SDL2
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
-	
-	bool bInitJoy = SDL_Init(SDL_INIT_JOYSTICK);
-	bool bInitHaptic = SDL_Init(SDL_INIT_HAPTIC);
-	bool bInitGamePad = SDL_Init(SDL_INIT_GAMECONTROLLER);
-	
-	if (bInitJoy)
-	{
-		DEV_CONSOLE_PRINTF("Joy Init Failed");
-	}
-	if (bInitHaptic)
-	{
-		DEV_CONSOLE_PRINTF("Haptic Init Failed");
-	}
-	if (bInitGamePad)
-	{
-		DEV_CONSOLE_PRINTF("GamePad Init Failed");
-	}
-	
+    
+    bool bInitJoy = SDL_Init(SDL_INIT_JOYSTICK);
+    bool bInitHaptic = SDL_Init(SDL_INIT_HAPTIC);
+    bool bInitGamePad = SDL_Init(SDL_INIT_GAMECONTROLLER);
+    
+    if (bInitJoy)
+    {
+        DEV_CONSOLE_PRINTF("Joy Init Failed");
+    }
+    if (bInitHaptic)
+    {
+        DEV_CONSOLE_PRINTF("Haptic Init Failed");
+    }
+    if (bInitGamePad)
+    {
+        DEV_CONSOLE_PRINTF("GamePad Init Failed");
+    }
+    
     if (!bInitJoy)
     {
         DEV_CONSOLE_PRINTF("SDL GamePads: %i", SDL_NumJoysticks());
@@ -1499,15 +1499,15 @@ EXPORT void Input_InitJoyStick_460080()
                 pSDLController = SDL_GameControllerOpen(i);
                 if (pSDLController) {
                     sJoystickEnabled_5C2EF4 = true;
-					sJoystickEnabled_5C9F70 = 1;
+                    sJoystickEnabled_5C9F70 = 1;
                     pSDLControllerHaptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(pSDLController));
                     if (SDL_HapticRumbleInit(pSDLControllerHaptic) < 0)
                     {
                         printf("Warning: Unable to initialize rumble! SDL Error: %s\n", SDL_GetError());
                     }
                     strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
-					
-					DEV_CONSOLE_PRINTF("Active Controller: %s", SDL_GameControllerName(pSDLController));
+                    
+                    DEV_CONSOLE_PRINTF("Active Controller: %s", SDL_GameControllerName(pSDLController));
 
                     //TODO add binding 
                     break;
@@ -1728,27 +1728,27 @@ EXPORT void CC Input_Init_491BC0()
 
 #elif USE_SDL2 //TODO Mlg hax
 #ifdef __SWITCH__
-	sJoyButtonNames_5C9908[0] = "Y";
-	sJoyButtonNames_5C9908[1] = "B";
-	sJoyButtonNames_5C9908[2] = "A";
-	sJoyButtonNames_5C9908[3] = "X";
-	sJoyButtonNames_5C9908[4] = "L";
-	sJoyButtonNames_5C9908[5] = "R";
-	sJoyButtonNames_5C9908[6] = "ZL";
-	sJoyButtonNames_5C9908[7] = "ZR";
-	sJoyButtonNames_5C9908[8] = "";
-	sJoyButtonNames_5C9908[9] = "";
+    sJoyButtonNames_5C9908[0] = "Y";
+    sJoyButtonNames_5C9908[1] = "B";
+    sJoyButtonNames_5C9908[2] = "A";
+    sJoyButtonNames_5C9908[3] = "X";
+    sJoyButtonNames_5C9908[4] = "L";
+    sJoyButtonNames_5C9908[5] = "R";
+    sJoyButtonNames_5C9908[6] = "ZL";
+    sJoyButtonNames_5C9908[7] = "ZR";
+    sJoyButtonNames_5C9908[8] = "";
+    sJoyButtonNames_5C9908[9] = "";
 #else
-	sJoyButtonNames_5C9908[0] = "X";
-	sJoyButtonNames_5C9908[1] = "A";
-	sJoyButtonNames_5C9908[2] = "B";
-	sJoyButtonNames_5C9908[3] = "Y";
-	sJoyButtonNames_5C9908[4] = "LB";
-	sJoyButtonNames_5C9908[5] = "RB";
-	sJoyButtonNames_5C9908[6] = "LT";
-	sJoyButtonNames_5C9908[7] = "RT";
-	sJoyButtonNames_5C9908[8] = "";
-	sJoyButtonNames_5C9908[9] = "";
+    sJoyButtonNames_5C9908[0] = "X";
+    sJoyButtonNames_5C9908[1] = "A";
+    sJoyButtonNames_5C9908[2] = "B";
+    sJoyButtonNames_5C9908[3] = "Y";
+    sJoyButtonNames_5C9908[4] = "LB";
+    sJoyButtonNames_5C9908[5] = "RB";
+    sJoyButtonNames_5C9908[6] = "LT";
+    sJoyButtonNames_5C9908[7] = "RT";
+    sJoyButtonNames_5C9908[8] = "";
+    sJoyButtonNames_5C9908[9] = "";
 #endif
 #else
     sJoyButtonNames_5C9908[0] = "B1";
