@@ -33,7 +33,7 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
 
     // lowercase our string.
     std::transform(fixedPath.begin(), fixedPath.end(), fixedPath.begin(),
-        [](unsigned char c) { return std::tolower(c); });
+        [](unsigned char c) { return tolower(c); });
 
 #if __SWITCH__
     auto localDir = SDL_RWFromFile(fixedPath.c_str(), mode);
