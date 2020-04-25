@@ -7,26 +7,23 @@
 
 enum class FleechSound : unsigned __int8
 {
-    Unknown_0 = 0,
-    Unknown_1 = 1,
-    Unknown_2 = 2,
-    Unknown_3 = 3,
-    Unknown_4 = 4,
-    Unknown_5 = 5,
-    Unknown_6 = 6,
-    Unknown_7 = 7,
-    Unknown_8 = 8,
-    Unknown_9 = 9,
-    Unknown_10 = 10,
-    Unknown_11 = 11,
-    Unknown_12 = 12,
-    Unknown_13 = 13,
-    Unknown_14 = 14,
-    Unknown_15 = 15,
-    Unknown_16 = 16,
-    Unknown_17 = 17,
-    Unknown_18 = 18,
-    Unknown_19 = 19,
+    PatrolCry_0 = 0,
+    Burp_1 = 1,
+    Digesting_2 = 2,
+    SleepingInhale_3 = 3,
+    SleepingExhale_4 = 4,
+    Unknown_5 = 5, // unused? sounds like a whipping sound
+    WakeUp_6 = 6,
+    Scared_7 = 7,
+    Devour_8 = 8,
+    LandOnFloor_9 = 9,
+    LickTarget_10 = 10,
+    LedgeHoist_11 = 11,
+    DeathByHeight_12 = 12,
+    Dismember_13 = 13,
+    CrawlRNG1_14 = 14,
+    CrawlRNG2_15 = 15,
+    CrawlRNG3_16 = 16,
 };
 
 struct Path_Fleech : public Path_TLV
