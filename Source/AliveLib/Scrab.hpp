@@ -54,17 +54,17 @@ enum eScrabMotions : int
 
 enum class ScrabSound : unsigned __int8
 {
-    Unknown_0 = 0,
-    Unknown_1 = 1,
-    Unknown_2 = 2,
-    Unknown_3 = 3,
-    Unknown_4 = 4,
-    Unknown_5 = 5,
-    Unknown_6 = 6,
-    Unknown_7 = 7,
-    Death_8 = 8,
-    Unknown_9 = 9,
-    Unknown_10 = 10,
+    Howl_0 = 0,
+    DeathHowl_1 = 1,
+    Empty_2 = 2,
+    Empty_3 = 3,
+    HitCollision_4 = 4,
+    Shredding_5 = 5,
+    Walk1_6 = 6,
+    Walk2_7 = 7,
+    Yell_8 = 8,
+    Empty_9 = 9,
+    Empty_10 = 10,
 };
 
 struct Path_Scrab : public Path_TLV
