@@ -697,7 +697,7 @@ void Fleech::M_Crawl_4_42E960()
         {
             if (field_20_animation.field_92_current_frame == 4)
             {
-                Sound_430520(FleechSound::Unknown_14);
+                Sound_430520(FleechSound::CrawlRNG1_14);
             }
             else if (field_20_animation.field_92_current_frame == 6)
             {
@@ -2135,7 +2135,7 @@ int Fleech::Sound_430520(FleechSound soundId)
     LOG_INFO((int)soundId);
     SfxDefinition effectDef = getSfxDef(soundId);
     __int16 defaultSndIdxVol = effectDef.field_3_default_volume;
-    if (soundId == FleechSound::Unknown_14)
+    if (soundId == FleechSound::CrawlRNG1_14)
     {
         const int rndIdx = Math_RandomRange_496AB0(14, 16);
         effectDef = getSfxDef(static_cast<FleechSound>(rndIdx));
@@ -2376,7 +2376,7 @@ __int16 Fleech::vTakeDamage_42A5C0(BaseGameObject* pFrom)
         break;
 
     case Types::eParamite_96:
-        Sound_430520(FleechSound::Unknown_13);
+        Sound_430520(FleechSound::Dismember_13);
         // Fall through
 
     case Types::eScrab_112:
