@@ -63,8 +63,6 @@ enum class ScrabSound : unsigned __int8
     Walk1_6 = 6,
     Walk2_7 = 7,
     Yell_8 = 8,
-    Empty_9 = 9,
-    Empty_10 = 10,
 };
 
 struct Path_Scrab : public Path_TLV
