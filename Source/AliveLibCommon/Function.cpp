@@ -1,8 +1,6 @@
-#include "stdafx.h"
 #include "Function.hpp"
 #include <set>
 #include <fstream>
-#include "Sys.hpp"
 
 #if defined(_WIN32) && !defined(_WIN64)
 #include "detours.h"
@@ -18,12 +16,6 @@ void SetVTable(void* thisPtr, DWORD vTable)
         *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
     }
 #endif
-}
-
-[[noreturn]] void ALIVE_FATAL(const char* errMsg)
-{
-    Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");
-    abort();
 }
 
 struct TVarInfo
@@ -58,7 +50,7 @@ void CheckVars()
                     // Var has been defined twice
                     std::stringstream s;
                     s << "Var at addr 0x" << std::hex << varToCheck.mAddr << " (" << varToCheck.mName << ") is defined more than once (" << var.mName << ")";
-                    ALIVE_FATAL(s.str().c_str());
+                    HOOK_FATAL(s.str().c_str());
                 }
 
                 // TODO: check size of varToCheck within range
@@ -73,7 +65,7 @@ void CheckVars()
                     // Var overlaps
                     std::stringstream s;
                     s << "Var at addr 0x" << std::hex << varToCheck.mAddr << " (" << varToCheck.mName << ") overlaps other data (" << var.mName << ") offset 0x" <<  std::hex << (std::abs((LONG)(varToCheck.mAddr - var.mAddr)));
-                    ALIVE_FATAL(s.str().c_str());
+                    HOOK_FATAL(s.str().c_str());
                 }
             }
         }

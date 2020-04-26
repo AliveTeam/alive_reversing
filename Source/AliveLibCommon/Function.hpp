@@ -106,7 +106,7 @@ inline const AIFunctionData<AIFunctionType>& GetOriginalFn(AIFunctionType fn, co
             return addrPair;
         }
     }
-    ALIVE_FATAL("No matching address!");
+    abort();
 }
 #endif
 

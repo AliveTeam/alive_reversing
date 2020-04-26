@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "ExportHooker.hpp"
 
 #if defined(_WIN32) && !defined(_WIN64)
@@ -45,7 +44,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
     if (!DetourEnumerateExports(mhInstance, this, EnumExports))
     {
-        ALIVE_FATAL("Export enumeration failed");
+        HOOK_FATAL("Export enumeration failed");
     }
 
     if (saveImplementedFuncs)
@@ -65,7 +64,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
             else
             {
                 const std::string msg = "UnDecorateSymbolName failed on " + e.mName;
-                ALIVE_FATAL(msg.c_str());
+                HOOK_FATAL(msg.c_str());
             }
 
             if (e.mIsImplemented)
@@ -113,14 +112,14 @@ void ExportHooker::ProcessExports()
 
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourTransactionBegin failed");
+        HOOK_FATAL("DetourTransactionBegin failed");
     }
 
     err = DetourUpdateThread(GetCurrentThread());
 
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourUpdateThread failed");
+        HOOK_FATAL("DetourUpdateThread failed");
     }
 
     for (auto& e : mExports)
@@ -150,28 +149,28 @@ void ExportHooker::ProcessExports()
 
         if (err != NO_ERROR)
         {
-            ALIVE_FATAL("DetourAttach failed");
+            HOOK_FATAL("DetourAttach failed");
         }
     }
 
     err = DetourTransactionCommit();
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourTransactionCommit failed");
+        HOOK_FATAL("DetourTransactionCommit failed");
     }
 
     err = DetourTransactionBegin();
 
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourTransactionBegin failed");
+        HOOK_FATAL("DetourTransactionBegin failed");
     }
 
     err = DetourUpdateThread(GetCurrentThread());
 
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourUpdateThread failed");
+        HOOK_FATAL("DetourUpdateThread failed");
     }
 
     for (const auto& p : mRealStubs)
@@ -203,7 +202,7 @@ void ExportHooker::ProcessExports()
     err = DetourTransactionCommit();
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourTransactionCommit failed");
+        HOOK_FATAL("DetourTransactionCommit failed");
     }
 #endif
 }
@@ -257,12 +256,12 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                         DWORD old = 0;
                         if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
                         {
-                            ALIVE_FATAL("Failed to make memory writable");
+                            HOOK_FATAL("Failed to make memory writable");
                         }
                         *ptr = 0x90;
                         if (!::VirtualProtect(ptr, 1, old, &old))
                         {
-                            ALIVE_FATAL("Failed to restore old memory protection");
+                            HOOK_FATAL("Failed to restore old memory protection");
                         }
                     }
                     return info;
@@ -334,7 +333,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                     {
                         std::stringstream s;
                         s << "Duplicated real function stub for address " << std::hex << "0x" << addr << " " << exportedFunctionName;
-                        ALIVE_FATAL(s.str().c_str());
+                        HOOK_FATAL(s.str().c_str());
                     }
                     mRealStubs[addr] = (DWORD)pCode;
                     if (!IsAlive())
@@ -353,7 +352,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                     {
                         std::stringstream s;
                         s << "Duplicated impl function for address " << std::hex << "0x" << addr << " already used by " << it->second.Name() << " when checking " << exportedFunctionName;
-                        ALIVE_FATAL(s.str().c_str());
+                        HOOK_FATAL(s.str().c_str());
                     }
 
 
