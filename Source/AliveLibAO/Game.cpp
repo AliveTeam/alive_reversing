@@ -74,6 +74,11 @@ public:
 
     }
 
+    virtual void VUnknown()
+    {
+
+    }
+
 public:
     //int field_0_VTable;
     __int16 field_4_typeId;
@@ -276,6 +281,11 @@ public:
         //LOG_INFO("Don't kill me!");
     }
 
+    virtual void VUnknown() override
+    {
+        LOG_INFO("??");
+    }
+
     bool bLog = false;
 
 private:
@@ -284,8 +294,7 @@ private:
  
     void DumpObjects()
     {
-        //if (GetKeyState(VK_F12) & 0x8000)
-        if (bLog)
+        if ((GetKeyState(VK_F12) & 0x8000) || bLog)
         {
             LOG_INFO("==Dump start===");
             for (int i = 0; i < gBaseGameObject_list_9F2DF0->field_4_used_size; i++)
