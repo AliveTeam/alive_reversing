@@ -37,13 +37,59 @@ EXPORT void Mem_Free_450770(void*)
     NOT_IMPLEMENTED();
 }
 
+ALIVE_VAR(1, 0x9F2DF0, class DynamicArray*, gBaseGameObject_list_9F2DF0, nullptr);
+
+EXPORT void CC Remove_Item_417350(void*)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+class BaseGameObject
+{
+public:
+    EXPORT BaseGameObject* ctor_487E10(__int16 arraySize);
+
+
+    void dtor_487DF0()
+    {
+        SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
+        Remove_Item_417350(this);
+    }
+
+    virtual BaseGameObject* VDestructor(signed int flags) = 0;
+
+    virtual void VUpdate()
+    {
+
+    }
+
+    virtual void VRender(int**)
+    {
+
+    }
+
+    virtual void VScreenChanged()
+    {
+
+    }
+
+public:
+    //int field_0_VTable;
+    __int16 field_4_typeId;
+    unsigned __int16 field_6_flags;
+    int field_8_update_delay;
+    char field_C_bCanKill;
+    char field_D;
+    __int16 field_E;
+};
+ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
+
 class DynamicArray
 {
 public:
     EXPORT DynamicArray* ctor_4043E0(__int16 startingSize)
     {
-        NOT_IMPLEMENTED();
-
         const auto sizeInBytes = startingSize * sizeof(void*);
         field_0_array = reinterpret_cast<void**>(alloc_450740(sizeInBytes));
 
@@ -63,16 +109,12 @@ public:
 
     EXPORT void dtor_404440()
     {
-        NOT_IMPLEMENTED();
-
         Mem_Free_450770(field_0_array);
     }
 
 public:
     EXPORT __int16 Push_Back_404450(void *item)
     {
-        //NOT_IMPLEMENTED();
-
         if (!item || !field_0_array)
         {
             return 0;
@@ -140,7 +182,7 @@ protected:
         }
         return 0;
     }
-
+public:
     void** field_0_array;
 public:
     __int16 field_4_used_size;
@@ -152,78 +194,8 @@ private:
 
 ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
 
-ALIVE_VAR(1, 0x9F2DF0, DynamicArray*, gBaseGameObject_list_9F2DF0, nullptr);
 
-EXPORT void CC Remove_Item_417350(void*)
-{
-    NOT_IMPLEMENTED();
-}
 
-class BaseGameObject
-{
-public:
-    EXPORT BaseGameObject* ctor_487E10(__int16 arraySize)
-    {
-        SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
-
-        if (!this) // Compiler code or hack
-        {
-            return this;
-        }
-
-        field_8_update_delay = 0;
-        field_4_typeId = 0;
-        field_C_bCanKill = 0;
-
-        field_6_flags &= ~0x3F5u;
-        field_6_flags |= 2;
-
-        if (!arraySize)
-        {
-            return this;
-        }
-
-        if (!gBaseGameObject_list_9F2DF0->Push_Back_404450(this))
-        {
-            field_6_flags |= 1u;
-        }
-
-        return this;
-    }
-
-    void dtor_487DF0()
-    {
-        SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
-        Remove_Item_417350(this);
-    }
-
-    virtual BaseGameObject* VDestructor(signed int flags) = 0;
-
-    virtual void VUpdate()
-    {
-
-    }
-
-    virtual void VRender(int**)
-    {
-
-    }
-
-    virtual void VScreenChanged()
-    {
-
-    }
-
-protected:
-    //int field_0_VTable;
-    __int16 field_4_typeId;
-    unsigned __int16 field_6_flags;
-    int field_8_update_delay;
-    char field_C_bCanKill;
-    char field_D;
-    __int16 field_E;
-};
-ALIVE_ASSERT_SIZEOF(BaseGameObject, 0x10);
 
 class ResourceManager
 {
@@ -232,6 +204,32 @@ public:
     {
         NOT_IMPLEMENTED();
     }
+};
+
+class ObjectDumper;
+ObjectDumper* gObjDumper = nullptr;
+
+
+const static std::map<DWORD, std::string> sVTableToName = 
+{
+    { 0x4ba340, "DDCheat"},
+    { 0x4bc028, "FG1"},
+    { 0x4bb270, "Hoist"},
+    { 0x4ba1a8, "DoorLight"},
+    { 0x4bb288, "HoistParticle"},
+    { 0x4ba8a8, "CheatController"},
+    { 0x4bb158, "Abe"},
+    { 0x4bbba8, "MusicController"},
+    { 0x4ba890, "GameSpeak"},
+    { 0x4ba230, "ScreenManager"},
+    { 0x4ba230, "ScreenManager"},
+    { 0x4bcd30, "BackgroundMusic"},
+    { 0x4bcd30, "BackgroundMusic"},
+    { 0x4bb088, "ResourceManager"},
+    { 0x4bce78, "Menu"},
+
+    // 102 VTable: 0x4bd7c8
+    // 
 };
 
 class ObjectDumper : public BaseGameObject
@@ -245,6 +243,9 @@ public:
         LOG_INFO(field_6_flags);
 
         field_6_flags |= 0x300;
+        field_8_update_delay = 0;
+
+        gObjDumper = this;
     }
 
 
@@ -255,6 +256,7 @@ public:
 
     virtual BaseGameObject* VDestructor(signed int flags) override
     {
+        gObjDumper = nullptr;
         dtor_487DF0();
         if (flags & 1)
         {
@@ -265,14 +267,93 @@ public:
 
     virtual void VUpdate() override
     {
-        LOG_INFO("update");
+        DumpObjects();
+
     }
 
     virtual void VScreenChanged() override
     {
-        LOG_INFO("Don't kill me!");
+        //LOG_INFO("Don't kill me!");
     }
+
+    bool bLog = false;
+
+private:
+
+
+ 
+    void DumpObjects()
+    {
+        //if (GetKeyState(VK_F12) & 0x8000)
+        if (bLog)
+        {
+            LOG_INFO("==Dump start===");
+            for (int i = 0; i < gBaseGameObject_list_9F2DF0->field_4_used_size; i++)
+            {
+                auto pObj = reinterpret_cast<BaseGameObject*>(gBaseGameObject_list_9F2DF0->field_0_array[i]);
+                struct VTable
+                {
+                    DWORD addr;
+                };
+
+                VTable* pTable = reinterpret_cast<VTable*>(pObj);
+
+                auto it = sVTableToName.find(pTable->addr);
+                
+                if (it != std::end(sVTableToName))
+                {
+                    //LOG_INFO("Add object with id: " << std::dec << pObj->field_4_typeId << " VTable: " << it->second);
+                }
+                else
+                {
+                    LOG_INFO("Add object with id: " << std::dec << pObj->field_4_typeId << " VTable: 0x" << std::hex << pTable->addr);
+                }
+            }
+            LOG_INFO("==Dump end===");
+            bLog = false;
+        }
+    }
+
 };
+
+static void TriggerObjectDump()
+{
+    if (gObjDumper)
+    {
+        gObjDumper->bLog = true;
+    }
+}
+
+EXPORT BaseGameObject* BaseGameObject::ctor_487E10(__int16 arraySize)
+{
+    SetVTable(this, 0x4BD488); // vTable_BaseGameObject_4BD488
+
+    if (!this) // Compiler code or hack
+    {
+        return this;
+    }
+
+    field_8_update_delay = 0;
+    field_4_typeId = 0;
+    field_C_bCanKill = 0;
+
+    field_6_flags &= ~0x3F5u;
+    field_6_flags |= 2;
+
+    if (!arraySize)
+    {
+        TriggerObjectDump();
+        return this;
+    }
+
+    if (!gBaseGameObject_list_9F2DF0->Push_Back_404450(this))
+    {
+        field_6_flags |= 1u;
+    }
+
+    TriggerObjectDump();
+    return this;
+}
 
 EXPORT int CC Nop_49A750()
 {
@@ -280,3 +361,4 @@ EXPORT int CC Nop_49A750()
     alive_new<ObjectDumper>();
     return 0;
 }
+
