@@ -102,7 +102,7 @@ namespace Alive
 #endif
     }
 
-    int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
+    int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int blendMode, int otLayer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, __int16 colorRandomRange)
     {
         if (!sFontDrawScreenSpace_5CA4B4)
         {
@@ -110,7 +110,7 @@ namespace Alive
         }
 
         int characterRenderCount = 0;
-        const int maxRenderX = static_cast<int>(a15 / 0.575);
+        const int maxRenderX = static_cast<int>(maxRenderWidth / 0.575);
         short offsetX = static_cast<short>(x);
         int charInfoIndex = 0;
         auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
@@ -152,7 +152,7 @@ namespace Alive
 
             PolyFT4_Init_4F8870(poly);
             Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
-            Poly_Set_Blending_4F8A20(&poly->mBase.header, a2);
+            Poly_Set_Blending_4F8A20(&poly->mBase.header, blendMode);
 
             SetRGB0
             (
