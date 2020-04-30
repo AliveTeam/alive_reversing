@@ -458,7 +458,7 @@ void EvilFart::vUpdate_423100()
         }
         
         InputControlFart_423BB0();
-        setActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
         
         FP x2Offset = {};
         if (field_C4_velx < FP_FromInteger(0))

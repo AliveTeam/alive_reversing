@@ -72,7 +72,7 @@ protected:
 
 
 public:
-    EXPORT void setActiveCameraDelayedFromDir_408C40();
+    EXPORT void SetActiveCameraDelayedFromDir_408C40();
 public:
     EXPORT __int16 MapFollowMe_408D10(__int16 snapToGrid);
 protected:

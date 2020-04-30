@@ -908,7 +908,7 @@ void FlyingSlig::Movement_4396E0()
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
 
-    setActiveCameraDelayedFromDir_408C40();
+    SetActiveCameraDelayedFromDir_408C40();
 
     if (field_17E_flags.Get(Flags_17E::eBit5_Throw))
     {

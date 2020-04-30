@@ -564,7 +564,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget_425290(int idToFi
     return nullptr;
 }
 
-EXPORT void BaseAliveGameObject::setActiveCameraDelayedFromDir_408C40()
+EXPORT void BaseAliveGameObject::SetActiveCameraDelayedFromDir_408C40()
 {
      if (sControlledCharacter_5C1B8C == this)
      {

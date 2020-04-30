@@ -663,7 +663,7 @@ void Glukkon::M_Jump_4_443030()
 
     if (sControlledCharacter_5C1B8C == this)
     {
-        setActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 
     BOOL bCollision = FALSE;
@@ -817,7 +817,7 @@ void Glukkon::M_Fall_7_443510()
     
     if (BrainIs(&Glukkon::AI_3_PlayerControlled_441A30))
     {
-        setActiveCameraDelayedFromDir_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 
     if (bCollision)
@@ -2273,7 +2273,7 @@ void Glukkon::vUpdate_43F770()
         if (sControlledCharacter_5C1B8C == this && field_110_id != -1)
         {
             field_C8_vely = field_BC_ypos - field_1DC;
-            setActiveCameraDelayedFromDir_408C40();
+            SetActiveCameraDelayedFromDir_408C40();
         }
         field_1DC = field_BC_ypos;
     }

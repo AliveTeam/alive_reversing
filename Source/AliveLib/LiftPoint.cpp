@@ -863,7 +863,7 @@ void LiftPoint::MoveObjectsOnLift_497600(FP xVelocity)
                 // Keep the player in the screen
                 const FP oldVelY = pObj->field_C8_vely;
                 pObj->field_C8_vely = field_C8_vely;
-                pObj->setActiveCameraDelayedFromDir_408C40();
+                pObj->SetActiveCameraDelayedFromDir_408C40();
 
                 // And keep the old velY
                 pObj->field_C8_vely = oldVelY;
