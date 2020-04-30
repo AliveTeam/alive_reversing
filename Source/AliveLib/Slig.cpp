@@ -1324,7 +1324,7 @@ void Slig::M_Falling_7_4B42D0()
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = InAirCollision_408810(&ppPathLine, &hitX, &hitY, FP_FromDouble(1.8));
-    sub_408C40();
+    setActiveCameraDelayedFromDir_408C40();
     if (bCollision)
     {
         switch (ppPathLine->field_8_type)
@@ -5043,7 +5043,7 @@ void Slig::vUpdate_4B17C0()
             field_C8_vely = FP_FromInteger(0);
         }
 
-        sub_408C40();
+        setActiveCameraDelayedFromDir_408C40();
 
         field_F8_LastLineYPos = field_BC_ypos;
     }
@@ -6251,7 +6251,7 @@ void Slig::CheckPlatformVanished_4B3640()
             VOnTrapDoorOpen();
             field_106_current_motion = savedMotion;
         }
-        sub_408C40();
+        setActiveCameraDelayedFromDir_408C40();
     }
 }
 

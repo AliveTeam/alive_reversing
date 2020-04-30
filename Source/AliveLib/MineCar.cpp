@@ -1302,7 +1302,7 @@ void MineCar::State_2()
     {
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;
-        sub_408C40();
+        setActiveCameraDelayedFromDir_408C40();
         RunThingsOver_46F380();
         return;
     }
@@ -1323,7 +1323,7 @@ void MineCar::State_2()
         }
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;
-        sub_408C40();
+        setActiveCameraDelayedFromDir_408C40();
         RunThingsOver_46F380();
         return;
     }
@@ -1333,7 +1333,7 @@ void MineCar::State_2()
 
 void MineCar::State_3()
 {
-    sub_408C40();
+    setActiveCameraDelayedFromDir_408C40();
     field_1C2_falling_counter++;
 
     if (field_1D0_sound_channels_mask)

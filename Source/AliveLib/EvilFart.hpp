@@ -5,6 +5,13 @@
 
 enum class LevelIds : __int16;
 
+enum class FartStates : __int16
+{
+    e0_IDLE = 0,
+    e1_FLYING = 1,
+    e2_DECHANTING = 2,
+};
+
 struct EvilFart_State
 {
     Types field_0_type;
@@ -34,7 +41,7 @@ struct EvilFart_State
     BitField16<Flags_2C> field_2C;
 
     __int16 field_2E_alive_timer;
-    __int16 field_30_state;
+    FartStates field_30_state;
     __int16 field_32;
     int field_34_timer;
     int field_38_timer;
@@ -64,8 +71,10 @@ private:
 
     EXPORT __int16 VTakeDamage_423B70(BaseGameObject* pFrom);
     EXPORT void vUpdate_423100();
+    EXPORT void vUpdate_REAL_423100();
 
     void CalculateFartColour();
+    void BlowUp();
 
     EXPORT void dtor_423D80();
     EXPORT EvilFart* vdtor_4230D0(signed int flags);
@@ -77,7 +86,7 @@ private:
     __int16 field_11E_path;
     LevelIds field_120_level;
     __int16 field_122_camera;
-    __int16 field_124_state;
+    FartStates field_124_state;
     __int16 field_126_pad;
     int field_128_timer;
     int field_12C_back_to_abe_timer;

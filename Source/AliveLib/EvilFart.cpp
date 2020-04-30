@@ -81,7 +81,7 @@ EvilFart* EvilFart::ctor_422E30()
 
     ResetFartColour();
 
-    field_124_state = 0;
+    field_124_state = FartStates::e0_IDLE;
     field_118_bBlowUp = 0;
 
     field_C4_velx = FP_FromInteger(0);
@@ -287,7 +287,7 @@ void EvilFart::vOnPossesed_423DA0()
 
     sControlledCharacter_5C1B8C = this;
 
-    field_124_state = 1;
+    field_124_state = FartStates::e1_FLYING;
     field_11A_bPossesed = 1;
 
     ResetFartColour();
@@ -316,6 +316,11 @@ __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
     return 1;
 }
 
+void EvilFart::vUpdate_REAL_423100()
+{
+    NOT_IMPLEMENTED();
+}
+
 void EvilFart::vUpdate_423100()
 {
     if (Event_Get_422C00(kEventDeathReset))
@@ -323,32 +328,26 @@ void EvilFart::vUpdate_423100()
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
 
-    field_11C_alive_timer--;
+    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_86_HandstoneBegin_45BD00)
+    {
+        field_11C_alive_timer--;
+    }
 
-    if (sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_86_HandstoneBegin_45BD00 && field_11C_alive_timer == 0)
+    if ((sActiveHero_5C1B68->field_106_current_motion != eAbeStates::State_86_HandstoneBegin_45BD00) && field_11C_alive_timer + 1 <= 0)
     {
         if (!field_118_bBlowUp)
         {
-            auto pExplosionMem = alive_new<Explosion>();
-            if (pExplosionMem)
+            BlowUp();
+            if (field_124_state == FartStates::e0_IDLE)
             {
-                pExplosionMem->ctor_4A1200(
-                    field_B8_xpos,
-                    field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
-                    field_CC_sprite_scale,
-                    0);
+                field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
-        }
-
-        if (field_124_state == 0)
-        {
-            field_6_flags.Set(BaseGameObject::eDead_Bit3);
-        }
-        else
-        {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
-            field_118_bBlowUp = 1;
-            field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 35;
+            else
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
+                field_118_bBlowUp = 1;
+                field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 35;
+            }
         }
     }
 
@@ -385,12 +384,13 @@ void EvilFart::vUpdate_423100()
         }
     }
 
-    if (field_124_state == 0)
+    if (field_124_state == FartStates::e0_IDLE)
     {
         CalculateFartColour();
         return;
     }
-    else if (field_124_state == 1)
+
+    if (field_124_state == FartStates::e1_FLYING)
     {
         if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
         {
@@ -446,7 +446,7 @@ void EvilFart::vUpdate_423100()
                 }
 
                 Abe_SFX_457EC0(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
-                field_130_sound_channels = 0; // OG BUG ?? v32;
+                field_130_sound_channels = 0; // TODO OG BUG ?? v32;
             }
         }
         else
@@ -463,8 +463,7 @@ void EvilFart::vUpdate_423100()
         }
         
         InputControlFart_423BB0();
-        sub_408C40();
-
+        setActiveCameraDelayedFromDir_408C40();
         
         FP x2Offset = {};
         if (field_C4_velx < FP_FromInteger(0))
@@ -537,7 +536,7 @@ void EvilFart::vUpdate_423100()
             {
                 if (!field_11A_bPossesed)
                 {
-                    field_124_state = 2;
+                    field_124_state = FartStates::e2_DECHANTING;
                     field_128_timer = sGnFrame_5C1B84 + 15;
                     field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 50;
                     SFX_Play_46FA90(0x11u, 0);
@@ -548,11 +547,12 @@ void EvilFart::vUpdate_423100()
         CalculateFartColour();
         return;
     }
-    else if (field_124_state == 2)
+
+    if (field_124_state == FartStates::e2_DECHANTING)
     {
         if (!Input_IsChanting_45F260())
         {
-            field_124_state = 1;
+            field_124_state = FartStates::e1_FLYING;
             return;
         }
 
@@ -574,15 +574,7 @@ void EvilFart::vUpdate_423100()
 
         if (!field_118_bBlowUp && static_cast<int>(sGnFrame_5C1B84) > field_128_timer)
         {
-            auto pExplosionMem2 = alive_new<Explosion>();
-            if (pExplosionMem2)
-            {
-                pExplosionMem2->ctor_4A1200(
-                    field_B8_xpos,
-                    field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
-                    field_CC_sprite_scale,
-                    0);
-            }
+            BlowUp();
 
             field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
             field_118_bBlowUp = 1;
@@ -591,10 +583,23 @@ void EvilFart::vUpdate_423100()
     }
 }
 
+void EvilFart::BlowUp()
+{
+    auto pExplosionMem2 = alive_new<Explosion>();
+    if (pExplosionMem2)
+    {
+        pExplosionMem2->ctor_4A1200(
+            field_B8_xpos,
+            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(50)),
+            field_CC_sprite_scale,
+            0);
+    }
+}
+
 void EvilFart::CalculateFartColour()
 {
     FP scaledValue;
-    if (field_124_state == 0)
+    if (field_124_state == FartStates::e0_IDLE)
     {
         scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(220);
     }
