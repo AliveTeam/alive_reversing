@@ -7,9 +7,9 @@ enum class LevelIds : __int16;
 
 enum class FartStates : __int16
 {
-    e0_IDLE = 0,
-    e1_FLYING = 1,
-    e2_DECHANTING = 2,
+    eIdle_0 = 0,
+    eFlying_1 = 1,
+    eDechanting_2 = 2
 };
 
 struct EvilFart_State
@@ -71,7 +71,6 @@ private:
 
     EXPORT __int16 VTakeDamage_423B70(BaseGameObject* pFrom);
     EXPORT void vUpdate_423100();
-    EXPORT void vUpdate_REAL_423100();
 
     void CalculateFartColour();
     void BlowUp();

@@ -81,7 +81,7 @@ EvilFart* EvilFart::ctor_422E30()
 
     ResetFartColour();
 
-    field_124_state = FartStates::e0_IDLE;
+    field_124_state = FartStates::eIdle_0;
     field_118_bBlowUp = 0;
 
     field_C4_velx = FP_FromInteger(0);
@@ -287,7 +287,7 @@ void EvilFart::vOnPossesed_423DA0()
 
     sControlledCharacter_5C1B8C = this;
 
-    field_124_state = FartStates::e1_FLYING;
+    field_124_state = FartStates::eFlying_1;
     field_11A_bPossesed = 1;
 
     ResetFartColour();
@@ -316,11 +316,6 @@ __int16 EvilFart::VTakeDamage_423B70(BaseGameObject* pFrom)
     return 1;
 }
 
-void EvilFart::vUpdate_REAL_423100()
-{
-    NOT_IMPLEMENTED();
-}
-
 void EvilFart::vUpdate_423100()
 {
     if (Event_Get_422C00(kEventDeathReset))
@@ -338,7 +333,7 @@ void EvilFart::vUpdate_423100()
         if (!field_118_bBlowUp)
         {
             BlowUp();
-            if (field_124_state == FartStates::e0_IDLE)
+            if (field_124_state == FartStates::eIdle_0)
             {
                 field_6_flags.Set(BaseGameObject::eDead_Bit3);
             }
@@ -384,13 +379,13 @@ void EvilFart::vUpdate_423100()
         }
     }
 
-    if (field_124_state == FartStates::e0_IDLE)
+    if (field_124_state == FartStates::eIdle_0)
     {
         CalculateFartColour();
         return;
     }
 
-    if (field_124_state == FartStates::e1_FLYING)
+    if (field_124_state == FartStates::eFlying_1)
     {
         if (FP_GetExponent(field_C4_velx) || FP_GetExponent(field_C8_vely))
         {
@@ -536,7 +531,7 @@ void EvilFart::vUpdate_423100()
             {
                 if (!field_11A_bPossesed)
                 {
-                    field_124_state = FartStates::e2_DECHANTING;
+                    field_124_state = FartStates::eDechanting_2;
                     field_128_timer = sGnFrame_5C1B84 + 15;
                     field_12C_back_to_abe_timer = sGnFrame_5C1B84 + 50;
                     SFX_Play_46FA90(0x11u, 0);
@@ -548,11 +543,11 @@ void EvilFart::vUpdate_423100()
         return;
     }
 
-    if (field_124_state == FartStates::e2_DECHANTING)
+    if (field_124_state == FartStates::eDechanting_2)
     {
         if (!Input_IsChanting_45F260())
         {
-            field_124_state = FartStates::e1_FLYING;
+            field_124_state = FartStates::eFlying_1;
             return;
         }
 
@@ -599,7 +594,7 @@ void EvilFart::BlowUp()
 void EvilFart::CalculateFartColour()
 {
     FP scaledValue;
-    if (field_124_state == FartStates::e0_IDLE)
+    if (field_124_state == FartStates::eIdle_0)
     {
         scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(220);
     }
