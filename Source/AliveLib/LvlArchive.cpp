@@ -163,6 +163,8 @@ LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
     auto pHeader = reinterpret_cast<LvlHeader_Sub*>(*field_0_0x2800_res);
     if (!pHeader->field_0_num_files)
     {
+        LOG_ERROR("Couldn't find " << pFileName << " in LVL");
+        assert(false);
         return nullptr;
     }
 
@@ -173,6 +175,7 @@ LvlFileRecord* LvlArchive::Find_File_Record_433160(const char* pFileName)
         if (fileRecordIndex >= pHeader->field_0_num_files)
         {
             LOG_ERROR("Couldn't find " << pFileName << " in LVL");
+            assert(false);
             return nullptr;
         }
     }

@@ -1339,7 +1339,7 @@ void Abe::Update_449DC0()
             if (field_BC_ypos >= mapHeight)
             {
                 field_BC_ypos = mapHeight - FP_FromDouble(1.0);
-                sub_408C40();
+                SetActiveCameraDelayedFromDir_408C40();
                 return;
             }
         }
@@ -1349,7 +1349,7 @@ void Abe::Update_449DC0()
             field_C8_vely = FP_FromInteger(0);
         }
 
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
     else
     {
@@ -3498,7 +3498,7 @@ void Abe::State_3_Fall_459B60()
     FP hitY = {};
     PathLine* pPathLine = nullptr;
     const int bCollision = InAirCollision_408810(&pPathLine, &hitX, &hitY, FP_FromDouble(1.80)); // 0x1CCCC
-    sub_408C40();
+    SetActiveCameraDelayedFromDir_408C40();
 
     // Are we falling into a local well?
     field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
@@ -3849,7 +3849,7 @@ void Abe::State_14_HoistIdle_452440()
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
-    sub_408C40();
+    SetActiveCameraDelayedFromDir_408C40();
 
     if (bCollision)
     {
@@ -4505,7 +4505,7 @@ void Abe::State_27_HopBegin_4521C0()
             }
         }
         field_B8_xpos += field_C4_velx;
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -4560,7 +4560,7 @@ void Abe::State_28_HopMid_451C50()
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
-    sub_408C40();
+    SetActiveCameraDelayedFromDir_408C40();
 
     if (bCollision)
     {
@@ -4748,7 +4748,7 @@ void Abe::State_31_RunJumpMid_452C10()
     PathLine* pLine = nullptr;
     const auto bCollision = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
 
-    sub_408C40();
+    SetActiveCameraDelayedFromDir_408C40();
 
     if (bCollision)
     {
@@ -6521,7 +6521,7 @@ void Abe::State_80_WellShotOut_45D150()
         field_B8_xpos += field_C4_velx;
         field_BC_ypos += field_C8_vely;
 
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
 
         field_FC_pPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             nullptr,
@@ -9754,7 +9754,7 @@ void Abe::FollowLift_45A500()
             VOnTrapDoorOpen();
             field_1AC_flags.Set(Flags_1AC::e1AC_Bit1);
         }
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 }
 

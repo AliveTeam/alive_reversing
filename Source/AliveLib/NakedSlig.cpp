@@ -1570,7 +1570,7 @@ void NakedSlig::M_Falling_5_41B650()
 
     if (BrainIs(&NakedSlig::AI_3_Possesed_41A5B0))
     {
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 
     if (bCollision)

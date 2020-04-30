@@ -734,7 +734,7 @@ void Scrab::vUpdate_4A3530()
                     field_C8_vely = FP_FromInteger(0);
                 }
                 
-                sub_408C40();
+                SetActiveCameraDelayedFromDir_408C40();
                 field_F8_LastLineYPos = field_BC_ypos;
                 return;
             }
@@ -855,7 +855,7 @@ void Scrab::vUpdate_4A3530()
             if (sControlledCharacter_5C1B8C == this && field_110_id != -1)
             {
                 field_C8_vely = field_BC_ypos - field_13C;
-                sub_408C40();
+                SetActiveCameraDelayedFromDir_408C40();
             }
             field_13C = field_BC_ypos;
             return;
@@ -2592,7 +2592,7 @@ void Scrab::M_HopMidair_6_4A9490()
 
         if (sControlledCharacter_5C1B8C == this)
         {
-            sub_408C40();
+            SetActiveCameraDelayedFromDir_408C40();
         }
 
         if (bCollision)
@@ -2704,7 +2704,7 @@ void Scrab::M_JumpToFall_8_4A9220()
     const auto bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
     if (sControlledCharacter_5C1B8C == this)
     {
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 
     if (bHit)
@@ -2862,7 +2862,7 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
         const auto bHit = InAirCollision_408810(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
         if (sControlledCharacter_5C1B8C == this)
         {
-            sub_408C40();
+            SetActiveCameraDelayedFromDir_408C40();
         }
 
         if (bHit)

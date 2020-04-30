@@ -3553,7 +3553,7 @@ void Paramite::M_Hop_5_48B5B0()
             
             if (sControlledCharacter_5C1B8C == this)
             {
-                sub_408C40();
+                SetActiveCameraDelayedFromDir_408C40();
             }
 
             if (bHit)
@@ -3835,7 +3835,7 @@ void Paramite::M_Falling_11_48B200()
 
         if (sControlledCharacter_5C1B8C == this)
         {
-            sub_408C40();
+            SetActiveCameraDelayedFromDir_408C40();
         }
 
         if (bCollision)
@@ -3920,7 +3920,7 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
     
     if (sControlledCharacter_5C1B8C == this)
     {
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 
     if (bHit)
@@ -4555,7 +4555,7 @@ void Paramite::M_RunningAttack_31_48C9E0()
     {
         if (sControlledCharacter_5C1B8C == this)
         {
-            sub_408C40();
+            SetActiveCameraDelayedFromDir_408C40();
             if (FindTarget_488C30())
             {
                 pObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_120_obj_id));
@@ -4758,7 +4758,7 @@ void Paramite::M_WebGoingUp_36_48D000()
 
     if (sControlledCharacter_5C1B8C == this)
     {
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 
     if (field_20_animation.field_92_current_frame == 0 || field_20_animation.field_92_current_frame == 3)
@@ -4867,7 +4867,7 @@ void Paramite::M_WebGoingDown_37_48CC60()
 
     if (sControlledCharacter_5C1B8C == this)
     {
-        sub_408C40();
+        SetActiveCameraDelayedFromDir_408C40();
     }
 
     if (field_20_animation.field_92_current_frame == 0 || field_20_animation.field_92_current_frame == 3)
@@ -5349,7 +5349,7 @@ void Paramite::vUpdate_4871B0()
                 if (field_BC_ypos >= FP_FromInteger(mapBounds.field_2_y))
                 {
                     field_BC_ypos = FP_FromInteger(mapBounds.field_2_y) - FP_FromInteger(1);
-                    sub_408C40();
+                    SetActiveCameraDelayedFromDir_408C40();
                     return;
                 }
             }
@@ -5358,7 +5358,7 @@ void Paramite::vUpdate_4871B0()
                 field_C4_velx = FP_FromInteger(0);
                 field_C8_vely = FP_FromInteger(0);
             }
-            sub_408C40();
+            SetActiveCameraDelayedFromDir_408C40();
         }
         else
         {
