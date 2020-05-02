@@ -4,7 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-class Class_5480D4;
+class OrbWhirlWindParticle;
 
 class OrbWhirlWind : public BaseGameObject
 {
@@ -26,9 +26,9 @@ private:
     int field_20;
     __int16 field_24;
     __int16 field_26_bUnknown;
-    __int16 field_28_obj_array_idx;
+    __int16 field_28_particleIdx;
     //__int16 field_2A; // padding ?
-    Class_5480D4* field_2C_objArray[16];
+    OrbWhirlWindParticle* field_2C_particles[16];
     FP field_6C_xpos;
     FP field_70_ypos;
     FP field_74_scale;

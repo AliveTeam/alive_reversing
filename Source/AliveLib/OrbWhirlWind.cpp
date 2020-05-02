@@ -7,10 +7,10 @@
 #include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
 
-class Class_5480D4
+class OrbWhirlWindParticle
 {
 public:
-    EXPORT Class_5480D4* ctor_4E40C0(FP xpos, FP ypos, FP scale, __int16 a5)
+    EXPORT OrbWhirlWindParticle* ctor_4E40C0(FP xpos, FP ypos, FP scale, __int16 a5)
     {
         SetVTable(&field_8_Anim, 0x544290);
 
@@ -82,7 +82,7 @@ public:
     }
     
     // WARNING: Not a derived type - keep virtuals in order for BC
-    EXPORT virtual Class_5480D4* vdtor_4E42D0(char flags)
+    EXPORT virtual OrbWhirlWindParticle* vdtor_4E42D0(char flags)
     {
         dtor_4E4300();
         if (flags & 1)
@@ -335,7 +335,7 @@ private:
     FP field_104;
     BYTE** field_108_res;
 };
-ALIVE_ASSERT_SIZEOF(Class_5480D4, 0x10C);
+ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x10C);
 
 BaseGameObject* OrbWhirlWind::VDestructor(signed int flags)
 {
@@ -372,21 +372,21 @@ OrbWhirlWind* OrbWhirlWind::ctor_4E3C90(FP xpos, FP ypos, FP scale, __int16 bUnk
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_28_obj_array_idx = 0;
-    memset(field_2C_objArray, 0, sizeof(field_2C_objArray));
+    field_28_particleIdx = 0;
+    memset(field_2C_particles, 0, sizeof(field_2C_particles));
 
     return this;
 }
 
 void OrbWhirlWind::ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
 {
-    for (int i = 0; i < field_28_obj_array_idx; i++)
+    for (int i = 0; i < field_28_particleIdx; i++)
     {
-        if (field_2C_objArray[i])
+        if (field_2C_particles[i])
         {
-            if (!field_2C_objArray[i]->IsActive_4E4370())
+            if (!field_2C_particles[i]->IsActive_4E4370())
             {
-                field_2C_objArray[i]->Spin_4E4A10(xpos, ypos, scale, pObj);
+                field_2C_particles[i]->Spin_4E4A10(xpos, ypos, scale, pObj);
             }
         }
     }
@@ -395,13 +395,13 @@ void OrbWhirlWind::ToSpin_4E3FD0(FP xpos, FP ypos, FP scale, BaseGameObject* pOb
 
 void OrbWhirlWind::ToStop_4E4050()
 {
-    for (int i = 0; i < field_28_obj_array_idx; i++)
+    for (int i = 0; i < field_28_particleIdx; i++)
     {
-        if (field_2C_objArray[i])
+        if (field_2C_particles[i])
         {
-            if (!field_2C_objArray[i]->IsActive_4E4370())
+            if (!field_2C_particles[i]->IsActive_4E4370())
             {
-                field_2C_objArray[i]->ToStop_4E4AD0();
+                field_2C_particles[i]->ToStop_4E4AD0();
             }
         }
     }
@@ -410,13 +410,13 @@ void OrbWhirlWind::ToStop_4E4050()
 
 void OrbWhirlWind::vRender_4E3F80(int** ppOt)
 {
-    for (int i = 0; i < field_28_obj_array_idx; i++)
+    for (int i = 0; i < field_28_particleIdx; i++)
     {
-        if (field_2C_objArray[i])
+        if (field_2C_particles[i])
         {
-            if (!field_2C_objArray[i]->IsActive_4E4370())
+            if (!field_2C_particles[i]->IsActive_4E4370())
             {
-                field_2C_objArray[i]->VRender_4E4B10(ppOt);
+                field_2C_particles[i]->VRender_4E4B10(ppOt);
             }
         }
     }
@@ -429,11 +429,11 @@ void OrbWhirlWind::vUpdate_4E3E20()
         if (field_24 == 2)
         {
             bool unknown = false;
-            for (int i = 0; i < field_28_obj_array_idx; i++)
+            for (int i = 0; i < field_28_particleIdx; i++)
             {
-                if (field_2C_objArray[i])
+                if (field_2C_particles[i])
                 {
-                    if (!field_2C_objArray[i]->IsActive_4E4370())
+                    if (!field_2C_particles[i]->IsActive_4E4370())
                     {
                         unknown = true;
                         break;
@@ -451,19 +451,19 @@ void OrbWhirlWind::vUpdate_4E3E20()
     {
         if (!(field_20 % 4))
         {
-            auto pObj = alive_new<Class_5480D4>();
-            if (pObj)
+            auto pParticle = alive_new<OrbWhirlWindParticle>();
+            if (pParticle)
             {
-                pObj->ctor_4E40C0(
+                pParticle->ctor_4E40C0(
                     field_6C_xpos,
                     field_70_ypos,
                     field_74_scale,
                     field_26_bUnknown);
             }
 
-            field_2C_objArray[field_28_obj_array_idx++] = pObj;
+            field_2C_particles[field_28_particleIdx++] = pParticle;
 
-            if (field_28_obj_array_idx >= ALIVE_COUNTOF(field_2C_objArray))
+            if (field_28_particleIdx >= ALIVE_COUNTOF(field_2C_particles))
             {
                 field_24 = 1;
             }
@@ -472,13 +472,13 @@ void OrbWhirlWind::vUpdate_4E3E20()
         ++field_20;
     }
 
-    for (int i = 0; i < field_28_obj_array_idx; i++)
+    for (int i = 0; i < field_28_particleIdx; i++)
     {
-        if (field_2C_objArray[i])
+        if (field_2C_particles[i])
         {
-            if (!field_2C_objArray[i]->IsActive_4E4370())
+            if (!field_2C_particles[i]->IsActive_4E4370())
             {
-                field_2C_objArray[i]->VUpdate_4E4510();
+                field_2C_particles[i]->VUpdate_4E4510();
             }
         }
     }
@@ -489,7 +489,7 @@ void OrbWhirlWind::dtor_4E3D80()
     SetVTable(this, 0x5480B8);
 
     gObjList_drawables_5C1124->Remove_Item(this);
-    for (auto& obj : field_2C_objArray)
+    for (auto& obj : field_2C_particles)
     {
         if (obj)
         {
