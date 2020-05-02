@@ -557,7 +557,10 @@ public:
 
     virtual void VUpdate() override
     {
-        //DumpObjects();
+        if (GetKeyState(VK_F12))
+        {
+            DumpObjects();
+        }
 
         mCounter++;
         if (mCounter > 250 && !mLoaded)
