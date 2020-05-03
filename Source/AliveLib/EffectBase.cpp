@@ -55,14 +55,14 @@ void EffectBase::vRender_4AB970(int** pOt)
     Prim_Tile* pTile = &field_24_tile[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile);
     SetRGB0(pTile,
-        static_cast<BYTE>(field_6E_b),
+        static_cast<BYTE>(field_6E_r),
         static_cast<BYTE>(field_70_g),
-        static_cast<BYTE>(field_72_r));
+        static_cast<BYTE>(field_72_b));
     SetXY0(pTile, 0, 0);
     pTile->field_14_w = 640;
     pTile->field_16_h = gPsxDisplay_5C1130.field_2_height;
 
-    if (field_6E_b || field_70_g || field_72_r || !field_74_bSemiTrans)
+    if (field_6E_r || field_70_g || field_72_b || !field_74_bSemiTrans)
     {
         Poly_Set_SemiTrans_4F8A60(&pTile->mBase.header, field_74_bSemiTrans);
         OrderingTable_Add_4F8AA0(&pOt[field_6C_layer], &pTile->mBase.header);

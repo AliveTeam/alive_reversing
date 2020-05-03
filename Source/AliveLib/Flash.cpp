@@ -9,9 +9,9 @@ Flash* Flash::ctor_428570(__int16 layer, unsigned __int8 r, unsigned __int8 g, u
     ctor_4AB7A0(layer, abr);
     SetVTable(this, 0x544F0C); // vTbl_Flash_544F0C
     field_4_typeId = Types::eFlash_117;
-    field_6E_b = r;
+    field_6E_r = r;
     field_70_g = g;
-    field_72_r = b;
+    field_72_b = b;
     field_78_flash_time = time + sGnFrame_5C1B84;
     return this;
 }
