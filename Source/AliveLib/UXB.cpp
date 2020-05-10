@@ -196,7 +196,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     {
         if (!tlv_params->field_16_state)
         {
-            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
+            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             PlaySFX_4DE930(2);
@@ -217,7 +217,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         }
         else
         {
-            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
+            field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
             field_128_animation.Set_Animation_Data_409C80(544, 0);
             field_20_animation.Set_Animation_Data_409C80(0x2000, 0);
@@ -429,7 +429,7 @@ void UXB::Update_4DF030()
                 field_1C6_red_blink_count--;
                 if (!field_1C6_red_blink_count)
                 {
-                    field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, kGrenflshResID, 0, 0), 0);
+                    field_128_animation.Load_Pal_40A530(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kGrenflshResID, 0, 0), 0);
                     field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit1_IsRed);
                 }
             }

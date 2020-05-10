@@ -263,7 +263,7 @@ int CC NakedSlig::CreateFromSaveState_41AE80(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("CRAWLSLG.BND", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSligBlowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
     }

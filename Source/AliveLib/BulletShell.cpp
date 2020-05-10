@@ -23,7 +23,7 @@ BulletShell* BulletShell::ctor_4AD340(FP xpos, FP ypos, __int16 direction, FP sc
     else
     {
         field_4_typeId = Types::eNone_0;
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, kShellResID);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kShellResID);
         Animation_Init_424E10(320, 5, 5u, ppRes, 1, 1);
         
         field_CC_sprite_scale = scale;

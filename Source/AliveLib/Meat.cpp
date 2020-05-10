@@ -21,7 +21,7 @@ Meat* Meat::ctor_4694A0(FP xpos, FP ypos, __int16 count)
     field_11A_bDead = 0;
     field_4_typeId = Types::eMeat_84;
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 2023, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kMeatResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }

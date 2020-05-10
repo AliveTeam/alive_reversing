@@ -648,57 +648,57 @@ int CC Slig::CreateFromSaveState_4B3B50(const BYTE* pBuffer)
 
     const __int16 disabledResources = pTlv->field_48_disable_resources;
 
-    if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgleverResID, 0, 0))
+    if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgleverResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLGLEVER.BAN", nullptr);
     }
 
-    if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgliftResID, 0, 0))
+    if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgliftResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLGLIFT.BAN", nullptr);
     }
 
-    if (!(disabledResources & 0x40) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgsleepResID, 0, 0))
+    if (!(disabledResources & 0x40) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgsleepResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLGSLEEP.BAN", nullptr);
     }
 
-    if ((disabledResources & 0x80u) == 0 && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgknfdResID, 0, 0))
+    if ((disabledResources & 0x80u) == 0 && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgknfdResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLGKNFD.BAN", nullptr);
     }
 
-    if (!(disabledResources & 0x100) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgedgeResID, 0, 0))
+    if (!(disabledResources & 0x100) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgedgeResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLGEDGE.BAN", nullptr);
     }
 
-    if (!(disabledResources & 0x200) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgsmashResID, 0, 0))
+    if (!(disabledResources & 0x200) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgsmashResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLGSMASH.BAN", nullptr);
     }
 
-    if (!(disabledResources & 0x400) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgbeatResID, 0, 0))
+    if (!(disabledResources & 0x400) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbeatResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLGBEAT.BAN", nullptr);
     }
 
-    if (!(disabledResources & 4) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgzshotResID, 0, 0))
+    if (!(disabledResources & 4) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgzshotResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLIGZ.BND", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlgbasicResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLIG.BND", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSligBlowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kRockShadowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kRockShadowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }

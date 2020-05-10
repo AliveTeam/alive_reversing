@@ -507,8 +507,8 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_120_font.ctor_433590(240, pal_560F80, &sFont1Context_5BC5C8);
     field_F4_resources = {};
 
-    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbespek2ResID, TRUE, FALSE);
-    field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kOptflareResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespek2ResID, TRUE, FALSE);
+    field_F4_resources.field_0_resources[MenuResIds::eOptionFlare] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOptflareResID, TRUE, FALSE);
 
     field_F4_resources.field_0_resources[MenuResIds::eUnknown] = nullptr;
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
@@ -522,9 +522,9 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     else
     {
         ResourceManager::LoadResourceFile_49C170("ABEINTRO.BAN", nullptr);
-        field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbeintroResID, TRUE, FALSE);
+        field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeintroResID, TRUE, FALSE);
         ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", nullptr);
-        field_F4_resources.field_0_resources[MenuResIds::eDoor] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDoorResID, TRUE, FALSE);
+        field_F4_resources.field_0_resources[MenuResIds::eDoor] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDoorResID, TRUE, FALSE);
         Animation_Init_424E10(50212, 233, 0x7Du, field_F4_resources.field_0_resources[MenuResIds::eDoor], 1, 1);
     }
 
@@ -622,7 +622,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     if (gMap_5C3030.sCurrentCamId_5C3034 == 30)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbespeakResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 0, 0))
         {
             ResourceManager::LoadResourceFile_49C130("ABESPEAK.BAN", reinterpret_cast<ResourceManager::TLoaderFn>(callback_4D06E0), reinterpret_cast<Camera *>(this), 0);
         }
@@ -3684,7 +3684,7 @@ void MainMenuController::UpdateHighliteGlow_4D0630()
 void MainMenuController::callback_4D06E0(MainMenuController* pMenu)
 {
     pMenu->field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = 
-            ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kAbespeakResID, TRUE, FALSE);
+            ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, TRUE, FALSE);
 }
 
 void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, int** ot, Alive::Font* font, int* polyIndex, char op2)
