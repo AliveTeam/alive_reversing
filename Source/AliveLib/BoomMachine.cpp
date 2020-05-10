@@ -17,7 +17,7 @@ public:
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x54557C);
-        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6009);
+        BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kR1bpipeResID);
         Animation_Init_424E10(3700, 67, 36u, ppRes, 1, 1);
 
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -157,7 +157,7 @@ BoomMachine* BoomMachine::ctor_445B30(Path_BoomMachine* pTlv, int tlvInfo)
     SetVTable(this, 0x5455C4);
     field_4_typeId = Types::eGrenadeMachine_66;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6008);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kR1buttonResID);
     Animation_Init_424E10(1736, 26, 17u, ppRes, 1, 1);
     
     field_DC_bApplyShadows &= ~1u;

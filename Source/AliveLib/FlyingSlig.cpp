@@ -344,17 +344,17 @@ int CC FlyingSlig::CreateFromSaveState_437E40(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kBigflashResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("BIGFLASH.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kVaporResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kVaporResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("VAPOR.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kSlogBlowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlogBlowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", nullptr);
     }

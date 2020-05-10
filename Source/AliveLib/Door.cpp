@@ -573,7 +573,7 @@ TrainDoor* TrainDoor::ctor_4DD090(Path_TrainDoor* pTlv, int tlvInfo)
     field_4_typeId = Types::eDoor_33;
     field_F4_tlvInfo = tlvInfo;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 2013);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_2013);
     Animation_Init_424E10(4752, 44, 56u, ppRes, 1, 1);
     
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);

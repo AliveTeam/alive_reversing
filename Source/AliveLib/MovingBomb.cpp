@@ -34,7 +34,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     SetVTable(this, 0x546270);
     field_4_typeId = Types::eTimedMine_or_MovingBomb_10;
     
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 3006);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMovebombResID);
     Animation_Init_424E10(17548, 76, 30, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -77,13 +77,13 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
     field_134 = pTlv->field_1A_disable_resources;
     if (!(field_134 & 1))
     {
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 25);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID);
     }
 
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 301);
-    Add_Resource_4DC130(ResourceManager::Resource_Animation, 365);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, 25);
-    Add_Resource_4DC130(ResourceManager::Resource_Palt, 576);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMetalResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kAbeblowResID);
+    Add_Resource_4DC130(ResourceManager::Resource_Palt, ResourceID::kSlogBlowResID);
     
     FP hitX = {};
     FP hitY = {};

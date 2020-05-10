@@ -2867,11 +2867,11 @@ TintEntry stru_560A48[] =
 void Slog::Init_4C46A0()
 {
     field_4_typeId = Types::eSlog_126;
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogbasicResID, 1, 0));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogrstnResID, 1, 0));
-    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogattkResID, 1, 0));
-    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogknfdResID, 1, 0));
-    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kDogidleResID, 1, 0));
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogbasicResID, 1, 0));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogrstnResID, 1, 0));
+    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogattkResID, 1, 0));
+    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogknfdResID, 1, 0));
+    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kDogidleResID, 1, 0));
     Animation_Init_424E10(96464, 121, 57, field_10_resources_array.ItemAt(0), 1, 1);
 
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);

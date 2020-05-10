@@ -835,7 +835,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
         }
         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE)); // TODO: ResId
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
         }
     } },
 });

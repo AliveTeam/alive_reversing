@@ -200,7 +200,7 @@ Particle* CC New_Particle_426C30(FP xpos, FP ypos, FP scale, __int16 layer)
 
 void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 344, 0, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 0, 0);
 
     auto pParticle = alive_new<Particle>();
     if (pParticle)
@@ -225,7 +225,7 @@ void CC New_Particle_4269B0(FP xpos, FP ypos, FP scale)
 
 void CC New_Particle_426890(FP xpos, FP ypos, char direction, FP scale)
 {
-    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kBigflashResID, 0, 0);
+    BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 0, 0);
     auto pParticle = alive_new<Particle>();
     if (pParticle)
     {
