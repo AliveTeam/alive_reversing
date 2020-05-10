@@ -274,7 +274,7 @@ int CC Fleech::CreateFromSaveState_42DD50(const BYTE* pBuffer)
         ResourceManager::LoadResourceFile_49C170("FLEECH.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 580, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_580, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLEEBLOW.BAN", nullptr);
     }
@@ -1757,7 +1757,7 @@ int CC Animation_OnFrame_Fleech_449A60(void* pObj, signed __int16* pData)
 void Fleech::Init_42A170()
 {
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kFleechResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 580, TRUE, FALSE));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_580, TRUE, FALSE));
     
     Animation_Init_424E10(37704, 73, 35u, field_10_resources_array.ItemAt(0), 1, 1);
 

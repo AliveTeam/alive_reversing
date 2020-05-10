@@ -30,7 +30,7 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTi
         field_12C_tPageAbr = 1;
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 355);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kSplineResID);
     Animation_Init_424E10(frameTable, 14, 9, ppRes, 1, 1u);
 
     field_132_pSprts_count = field_12E_part_count * field_130_count_per_part;

@@ -19,12 +19,12 @@ Bone* Bone::ctor_4112C0(FP xpos, FP ypos, __int16 countId)
     field_11A_bDead = 0;
     SetVTable(this, 0x54431C);
     field_4_typeId = Types::eBone_11;
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 591, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_591, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 591);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_591);
     Animation_Init_424E10(456, 15, 9, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -644,7 +644,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
     SetVTable(this, 0x5443B0);
     field_4_typeId = Types::eBoneBag_12;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 590);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_590);
     // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
     *((WORD *)*ppRes + 4374) = 0;
 

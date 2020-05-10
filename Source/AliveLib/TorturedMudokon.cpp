@@ -67,7 +67,7 @@ BaseGameObject* TorturedMudokon::VDestructor(signed int flags)
 
 void TorturedMudokon::sub_47BE60(Animation* pAnim)
 {
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 375); // TODO: ResId
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_375);
     if (pAnim->Init_40A030(500, gObjList_animations_5C1A24, this, 17, 19, ppRes, 1, 0, 0))
     {
         pAnim->field_C_render_layer = field_20_animation.field_C_render_layer;

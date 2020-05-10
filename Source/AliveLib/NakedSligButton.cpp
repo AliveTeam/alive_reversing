@@ -26,7 +26,7 @@ NakedSligButton* NakedSligButton::ctor_4148F0(Path_NakedSligButton* pTlv, int tl
 
     field_4_typeId = Types::eSligButton_16;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 1057);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknwonResID_1057);
     Animation_Init_424E10(408, 25, 12, ppRes, 1, 1);
     field_F4_tlvInfo = tlvInfo;
 

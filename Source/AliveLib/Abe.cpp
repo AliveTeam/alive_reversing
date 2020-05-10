@@ -1068,14 +1068,14 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
 
     if (sActiveHero_5C1B68->field_198_has_evil_fart)
     {
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6017, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
         }
 
         if (!sActiveHero_5C1B68->field_10_resources_array.ItemAt(22))
         {
-            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6017, TRUE, FALSE)); // TODO: ResId
+            sActiveHero_5C1B68->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
         }
 
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, 0, 0))
@@ -9868,9 +9868,9 @@ __int16 Abe::GetEvilFart_4585F0(__int16 bDontLoad)
         return 1;
     }
 
-    field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6017, TRUE, FALSE));
-    field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 25, TRUE, FALSE));
-    field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 301, TRUE, FALSE));
+    field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeblowResID, TRUE, FALSE));
+    field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID, TRUE, FALSE));
     pBrewMachine->field_144_total_brew_count--;
     field_198_has_evil_fart = TRUE;
 

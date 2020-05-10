@@ -196,7 +196,7 @@ void Grenade::Init_448110(FP xpos, FP ypos)
 {
     field_4_typeId = Types::eGrenade_65;
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 6005, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kGrenadeResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }

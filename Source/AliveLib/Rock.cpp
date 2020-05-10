@@ -21,12 +21,12 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
 
     field_11A_bDead = 0;
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 350, 0, 0))
+    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAberockResID, 0, 0))
     {
         LoadRockTypes_49AB30(field_C2_lvl_number, field_C0_path_number);
     }
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 350);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kAberockResID);
     Animation_Init_424E10(488, 17, 9, ppRes, 1, 1);
     field_6_flags.Clear(BaseGameObject::eInteractive_Bit8);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
@@ -44,7 +44,7 @@ Rock* Rock::ctor_49E150(FP xpos, FP ypos, __int16 count)
     field_118_count = count;
     field_11C_state = RockStates::eState_0;
 
-    BYTE** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, 350, 0, 0);
+    BYTE** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, ResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
         field_20_animation.Load_Pal_40A530(ppPal, 0);

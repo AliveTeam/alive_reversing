@@ -288,23 +288,23 @@ Glukkon* Glukkon::ctor_43F030(Path_Glukkon* pTlv, int tlvInfo)
     case GlukkonTypes::Normal_0:
     case GlukkonTypes::Normal_4:
     case GlukkonTypes::Normal_5:
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 801);
-        Animation_Init_424E10(169608, 163, 79, Add_Resource_4DC130(ResourceManager::Resource_Animation, 800), 1, 1);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_801);
+        Animation_Init_424E10(169608, 163, 79, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlkbasicResID), 1, 1);
         break;
 
     case GlukkonTypes::Aslik_1:
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 803);
-        Animation_Init_424E10(171356, 157, 76, Add_Resource_4DC130(ResourceManager::Resource_Animation, 802), 1, 1);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_803);
+        Animation_Init_424E10(171356, 157, 76, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukAslikResID), 1, 1);
         break;
 
     case GlukkonTypes::Drpik_2:
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 805);
-        Animation_Init_424E10(193064,162,78, Add_Resource_4DC130(ResourceManager::Resource_Animation, 804), 1, 1);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_805);
+        Animation_Init_424E10(193064,162,78, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukDripikResID), 1, 1);
         break;
 
     case GlukkonTypes::Phleg_3:
-        Add_Resource_4DC130(ResourceManager::Resource_Animation, 807);
-        Animation_Init_424E10(199500, 145, 72, Add_Resource_4DC130(ResourceManager::Resource_Animation, 806), 1, 1);
+        Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_807);
+        Animation_Init_424E10(199500, 145, 72, Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kGlukPhlegResID), 1, 1);
         break;
     default:
         break;

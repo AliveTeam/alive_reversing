@@ -355,7 +355,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
         field_C_objectId = tlvInfo;
     }
 
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 412, 1, 0));
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbasicResID, 1, 0));
     Animation_Init_424E10(135512, 160, 68, field_10_resources_array.ItemAt(0), 1, 1);
 
     field_4_typeId = Types::eSlig_125;
@@ -4661,60 +4661,60 @@ __int16 Slig::AI_GameEnder_35_4BF640()
 
 void Slig::Init_4BB0D0()
 {
-    field_10_resources_array.SetAt(10, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 319, 1, 0));
-    field_10_resources_array.SetAt(11, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 423, 1, 0));
-    field_10_resources_array.SetAt(12, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 360, 1, 0));
-    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation,  414, 1, 0));
-    field_10_resources_array.SetAt(16, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 354, 1, 0));
+    field_10_resources_array.SetAt(10, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kBigflashResID, 1, 0));
+    field_10_resources_array.SetAt(11, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 1, 0));
+    field_10_resources_array.SetAt(12, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kShellResID, 1, 0));
+    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation,  ResourceID::kSlgknbkResID, 1, 0));
+    field_10_resources_array.SetAt(16, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSquibSmokeResID, 1, 0));
     
     if (!(field_218_tlv_data.field_48_disable_resources & 0x80))
     {
-        field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 418, 1, 0));
+        field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgknfdResID, 1, 0));
     }
 
     if (!(field_218_tlv_data.field_48_disable_resources & 0x100))
     {
-        field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 415, 1, 0));
+        field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgedgeResID, 1, 0));
     }
     
     if (!(field_218_tlv_data.field_48_disable_resources & 1))
     {
-        field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 419, 1, 0));
+        field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgleverResID, 1, 0));
     }
     
     if (!(field_218_tlv_data.field_48_disable_resources & 2))
     {
-        field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 420, 1, 0));
+        field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgliftResID, 1, 0));
     }
     
     if (!(field_218_tlv_data.field_48_disable_resources & 0x200))
     {
-        field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 416, 1, 0));
+        field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgsmashResID, 1, 0));
     }
     
     if (!(field_218_tlv_data.field_48_disable_resources & 0x400))
     {
-        field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 426, 1, 0));
+        field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgbeatResID, 1, 0));
     }
     
     if (!(field_218_tlv_data.field_48_disable_resources & 4))
     {
-        field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 417, 1, 0));
+        field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgzshotResID, 1, 0));
     }
     
     if (!(field_218_tlv_data.field_48_disable_resources & 0x40))
     {
-        field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 413, 1, 0));
+        field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlgsleepResID, 1, 0));
     }
     
     if (!(field_218_tlv_data.field_48_disable_resources & 8))
     {
-        field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 344, 1, 0));
+        field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kZflashResID, 1, 0));
     }
     
     if (!(field_218_tlv_data.field_48_disable_resources & 0x10))
     {
-        field_10_resources_array.SetAt(15, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, 28, 1, 0));
+        field_10_resources_array.SetAt(15, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbeknokzResID, 1, 0));
     }
 
     field_15E = 0;

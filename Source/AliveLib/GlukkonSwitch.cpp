@@ -21,7 +21,7 @@ GlukkonSwitch* GlukkonSwitch::ctor_444E60(Path_GlukkonSwitch* pTlv, int tlvInfo)
     SetVTable(this, 0x545534);
     field_4_typeId = Types::eHelpPhone_68;
     
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6027);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6027);
     Animation_Init_424E10(1512, 70, 19u, ppRes, 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);

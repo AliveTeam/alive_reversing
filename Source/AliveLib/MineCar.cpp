@@ -21,7 +21,7 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     SetVTable(this, 0x5461FC);
     field_4_typeId = Types::eMineCar_89;
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownID_6013); // TODO: Id
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownID_6013);
     Animation_Init_424E10(
         20812,
         128,

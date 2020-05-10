@@ -19,7 +19,7 @@ SecurityDoor* SecurityDoor::ctor_4ABFC0(Path_SecurityDoor* pTlv, int tlvInfo)
 
     SetVTable(this, 0x547028);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, 6027);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6027);
     Animation_Init_424E10(1512, 70, 19u, ppRes, 1, 1u);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
