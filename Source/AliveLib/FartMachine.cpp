@@ -51,7 +51,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, int tlvInfo)
     field_F4_font_context.LoadFontType_433400(2);
     field_104_font.ctor_433590(3, byte_550F08, &field_F4_font_context);
 
-    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownID_6016);
+    BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kUnknownResID_6016);
     Animation_Init_424E10(316, 19, 11, ppRes, 1, 1u);
 
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kEvilFartResID);
