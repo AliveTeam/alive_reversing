@@ -15,14 +15,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Greeter, 0x18);
 
 enum class GreeterStates : __int16
 {
-    eState_0,
-    eState_1,
-    eState_2,
-    eState_3,
-    eState_4,
-    eState_5,
-    eState_6,
-    eState_7
+    eState_0_Patrol,
+    eState_1_PatrolTurn,
+    eState_2_Speak,
+    eState_3_ChaseSpeak,
+    eState_4_Chase,
+    eState_5_Knockback,
+    eState_6_ToChase,
+    eState_7_Fall
 };
 
 struct Greeter_State
