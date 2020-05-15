@@ -618,7 +618,7 @@ EvilFart* EvilFart::vdtor_4230D0(signed int flags)
     dtor_423D80();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

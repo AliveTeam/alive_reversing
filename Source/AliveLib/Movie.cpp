@@ -23,14 +23,14 @@ EXPORT Masher * CC Masher_Alloc_4EAB80(
     Masher_AudioHeader** ppMasherAudioHeader, 
     int* errCode)
 {
-    Masher* pMasher = reinterpret_cast<Masher*>(malloc_4954D0(sizeof(Masher)));
+    Masher* pMasher = reinterpret_cast<Masher*>(alive_new_malloc(sizeof(Masher)));
     if (pMasher)
     {
         *errCode = pMasher->Init_4E6770(pFileName);
         if (*errCode)
         {
             pMasher->dtor_4E6AB0();
-            Mem_Free_495540(pMasher);
+            alive_delete_free(pMasher);
             return nullptr;
         }
         else
@@ -53,7 +53,7 @@ EXPORT void CC Masher_DeAlloc_4EAC00(Masher* pMasher)
     if (pMasher)
     {
         pMasher->dtor_4E6AB0();
-        Mem_Free_495540(pMasher);
+        alive_delete_free(pMasher);
     }
 }
 
@@ -691,7 +691,7 @@ BaseGameObject* Movie::vdtor_4DFE80(signed int flags)
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

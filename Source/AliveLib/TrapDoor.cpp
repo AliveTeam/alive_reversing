@@ -237,7 +237,7 @@ EXPORT BaseGameObject* TrapDoor::vdtor_4DD8A0(signed int flags)
     dtor_4DD8D0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

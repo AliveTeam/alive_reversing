@@ -464,7 +464,7 @@ BaseGameObject* MusicController::vdtor_47EF20(signed int flags)
     dtor_47EF50();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

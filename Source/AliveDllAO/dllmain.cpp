@@ -4,7 +4,7 @@
 
 #include "Game.hpp"
 
-bool IsAlive()
+bool RunningAsInjectedDll()
 {
     return true;
 }
@@ -14,7 +14,7 @@ extern "C"
     EXPORT void CC ForceThisDllToLoadInExoddusExe()
     {
         // Never called because:
-        // The patched Exoddsue.exe loads this Dll and its WinMain calls this function but:
+        // The patched Exoddus.exe loads this Dll and its WinMain calls this function but:
         // 1. The dll is statically loaded as the EXE has been patched.
         // 2. See that dll main hooks all reimplemented functions.
         // 3. WinMain is reimplemented so the real EXE's WinMain is now a jmp to WinMain_4EE631

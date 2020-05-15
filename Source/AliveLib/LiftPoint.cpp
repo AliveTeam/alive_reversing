@@ -1052,7 +1052,7 @@ LiftPoint* LiftPoint::vdtor_4619D0(signed int flags)
     dtor_4624E0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -229,7 +229,7 @@ BaseGameObject* DDCheat::vdtor_415500(signed int flags)
     dtor_415530();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -226,7 +226,7 @@ Water* Water::vdtor_4E0850(signed int flags)
     dtor_4E0880();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

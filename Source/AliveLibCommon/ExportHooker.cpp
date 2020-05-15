@@ -79,7 +79,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
     }
 
-    if (IsAlive())
+    if (RunningAsInjectedDll())
     {
         LoadDisabledHooks();
         ProcessExports();
@@ -175,7 +175,7 @@ void ExportHooker::ProcessExports()
 
     for (const auto& p : mRealStubs)
     {
-        if (IsAlive())
+        if (RunningAsInjectedDll())
         {
             // Redirect p.second (our stub) to the real game function p (p.second -> p)
             // however! p may have already been hooked to q (p -> q).
@@ -250,7 +250,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                 {
                     info.mUnMangledFunctioName = pBothNames;
 
-                    if (!IsAlive())
+                    if (!RunningAsInjectedDll())
                     {
                         BYTE* ptr = &reinterpret_cast<BYTE*>(pExportedFunctionAddress)[i + 4];
                         DWORD old = 0;
@@ -336,7 +336,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                         HOOK_FATAL(s.str().c_str());
                     }
                     mRealStubs[addr] = (DWORD)pCode;
-                    if (!IsAlive())
+                    if (!RunningAsInjectedDll())
                     {
                         // Disable the int 3/break point in the real stub in standalone
                         GetExportInformation(pCode, exportedFunctionName);

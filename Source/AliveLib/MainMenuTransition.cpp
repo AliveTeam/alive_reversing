@@ -265,7 +265,7 @@ BaseGameObject* MainMenuTransition::vdtor_4642C0(signed int flags)
     dtor_4642F0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

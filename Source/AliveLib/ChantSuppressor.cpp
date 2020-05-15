@@ -110,7 +110,7 @@ private:
         dtor_416550();
         if (flags & 1)
         {
-            Mem_Free_495540(this);
+            alive_delete_free(this);
         }
         return this;
     }
@@ -189,7 +189,7 @@ ChantSuppressor* ChantSuppressor::vdtor_4664B0(signed int flags)
     dtor_4664E0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

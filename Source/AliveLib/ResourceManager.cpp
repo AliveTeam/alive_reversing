@@ -98,7 +98,7 @@ BaseGameObject* ResourceManager::vdtor_4649B0(signed int flags)
     dtor_4649E0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -296,18 +296,18 @@ void ResourceManager::OnResourceLoaded_464CE0()
             }
         }
         fileSectionsArrayIter.Remove_At_Iter_40CCA0();
-        Mem_Free_495540(pFilePart);
+        alive_delete_free(pFilePart);
     }
 
     // Remove from pending files
     field_20_files_pending_loading.Remove_Item(field_2C_pFileItem);
 
     // Free/destruct the removed item
-    Mem_Free_495560(field_2C_pFileItem->field_0_fileName);
+    alive_non_zero_free(field_2C_pFileItem->field_0_fileName);
     if (field_2C_pFileItem)
     {
         field_2C_pFileItem->dtor_464EA0();
-        Mem_Free_495540(field_2C_pFileItem);
+        alive_delete_free(field_2C_pFileItem);
     }
     field_2C_pFileItem = nullptr;
 }
@@ -387,7 +387,7 @@ void ResourceManager::LoadResource_464EE0(const char* pFileItem, DWORD type, DWO
 
     auto pNewFileRec = alive_new<ResourceManager_FileRecord_1C>();
     pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
-    pNewFileRec->field_0_fileName = reinterpret_cast<char*>(malloc_non_zero_4954F0(strlen(pFileItem) + 1));
+    pNewFileRec->field_0_fileName = reinterpret_cast<char*>(alive_malloc_non_zero(strlen(pFileItem) + 1));
     strcpy(pNewFileRec->field_0_fileName, pFileItem);
     pNewFileRec->field_4_pResourcesToLoadList = 0;
     pNewFileRec->field_8_type = type;
@@ -467,7 +467,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char* pFileName, Resour
 
         // TODO: De-inline ctor
         pNewFileRec->field_10_file_sections_dArray.ctor_40CA60(3);
-        pNewFileRec->field_0_fileName = reinterpret_cast<char*>(malloc_non_zero_4954F0(strlen(pFileName) + 1));
+        pNewFileRec->field_0_fileName = reinterpret_cast<char*>(alive_malloc_non_zero(strlen(pFileName) + 1));
         strcpy(pNewFileRec->field_0_fileName, pFileName);
         pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
         pNewFileRec->field_8_type = 0;
@@ -503,7 +503,7 @@ void ResourceManager::LoadResourceFile_465460(const char* filename, Camera* pCam
         pFileRecord->field_10_file_sections_dArray.ctor_40CA60(3);
     }
 
-    pFileRecord->field_0_fileName = reinterpret_cast<char*>(malloc_non_zero_4954F0(strlen(filename) + 1));
+    pFileRecord->field_0_fileName = reinterpret_cast<char*>(alive_malloc_non_zero(strlen(filename) + 1));
     strcpy(pFileRecord->field_0_fileName, filename);
     pFileRecord->field_4_pResourcesToLoadList = 0;
     pFileRecord->field_8_type = 0;
@@ -573,16 +573,16 @@ void ResourceManager::Shutdown_465610()
                 break;
             }
             fileSectionsIter.Remove_At_Iter_40CCA0();
-            Mem_Free_495540(pFileSection);
+            alive_delete_free(pFileSection);
 
             fileSectionIdx = fileSectionsIter.field_4_idx;
         }
 
         iter.Remove_At_Iter_40CCA0();
-        Mem_Free_495560(pFileRec->field_0_fileName);
+        alive_non_zero_free(pFileRec->field_0_fileName);
 
         pFileRec->dtor_464EA0();
-        Mem_Free_495540(pFileRec);
+        alive_delete_free(pFileRec);
 
         fileIdx = iter.field_4_idx;
     }
@@ -620,16 +620,16 @@ void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera* pCamera)
                 if (pFilePartItem->field_C_fn_arg_pCamera == pCamera)
                 {
                     filePartsIter.Remove_At_Iter_40CCA0();
-                    Mem_Free_495540(pFilePartItem);
+                    alive_delete_free(pFilePartItem);
                 }
             }
 
             if (pFileItem->field_10_file_sections_dArray.IsEmpty())
             {
                 filesIter.Remove_At_Iter_40CCA0();
-                Mem_Free_495560(pFileItem->field_0_fileName);
+                alive_non_zero_free(pFileItem->field_0_fileName);
                 pFileItem->dtor_464EA0();
-                Mem_Free_495540(pFileItem);
+                alive_delete_free(pFileItem);
             }
         }
     }

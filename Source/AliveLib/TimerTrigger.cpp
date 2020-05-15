@@ -66,7 +66,7 @@ TimerTrigger* TimerTrigger::vdtor_4CDD00(signed int flags)
     dtor_4CDD30();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

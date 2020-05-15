@@ -315,7 +315,7 @@ AbilityRing* AbilityRing::vdtor_49D080(signed int flags)
     dtor_49D0B0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

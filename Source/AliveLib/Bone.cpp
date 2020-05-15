@@ -169,7 +169,7 @@ Bone* Bone::vdtor_411580(signed int flags)
 
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -716,7 +716,7 @@ BoneBag* BoneBag::vdtor_4127C0(signed int flags)
     dtor_4127F0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -115,7 +115,7 @@ EXPORT signed int CC SND_Free_4EFA30(SoundEntry* pSnd)
 
     if (pSnd->field_8_pSoundBuffer)
     {
-        mem_free_4F4EA0(pSnd->field_8_pSoundBuffer);
+        alive_free(pSnd->field_8_pSoundBuffer);
         pSnd->field_8_pSoundBuffer = 0;
     }
 
@@ -302,7 +302,7 @@ EXPORT signed int CC SND_New_4EEFF0(SoundEntry *pSnd, int sampleLength, int samp
         else
         {
             pSnd->field_10 = 0;
-            unsigned char * bufferData = static_cast<unsigned char *>(malloc_4F4E60(sampleByteSize));
+            unsigned char * bufferData = static_cast<unsigned char *>(alive_malloc(sampleByteSize));
             pSnd->field_8_pSoundBuffer = bufferData;
             if (bufferData)
             {

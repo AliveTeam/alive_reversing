@@ -574,55 +574,55 @@ EXPORT void CC Game_Run_466D40()
     if (gObjList_animations_5C1A24)
     {
         gObjList_animations_5C1A24->dtor_40CAD0();
-        Mem_Free_495540(gObjList_animations_5C1A24);
+        alive_delete_free(gObjList_animations_5C1A24);
     }
 
     if (gObjList_drawables_5C1124)
     {
         gObjList_drawables_5C1124->dtor_40CAD0();
-        Mem_Free_495540(gObjList_drawables_5C1124);
+        alive_delete_free(gObjList_drawables_5C1124);
     }
 
     if (gFG1List_5D1E28)
     {
         gFG1List_5D1E28->dtor_40CAD0();
-        Mem_Free_495540(gFG1List_5D1E28);
+        alive_delete_free(gFG1List_5D1E28);
     }
 
     if (gBaseGameObject_list_BB47C4)
     {
         gBaseGameObject_list_BB47C4->dtor_40CAD0();
-        Mem_Free_495540(gBaseGameObject_list_BB47C4);
+        alive_delete_free(gBaseGameObject_list_BB47C4);
     }
 
     if (ObjList_5C1B78)
     {
         ObjList_5C1B78->dtor_40CAD0();
-        Mem_Free_495540(ObjList_5C1B78);
+        alive_delete_free(ObjList_5C1B78);
     }
 
     if (ObjList_5BD4D8)
     {
         ObjList_5BD4D8->dtor_40CAD0();
-        Mem_Free_495540(ObjList_5BD4D8);
+        alive_delete_free(ObjList_5BD4D8);
     }
 
     if (sShadowZone_dArray_5C1B80)
     {
         sShadowZone_dArray_5C1B80->dtor_40CAD0();
-        Mem_Free_495540(sShadowZone_dArray_5C1B80);
+        alive_delete_free(sShadowZone_dArray_5C1B80);
     }
 
     if (gBaseAliveGameObjects_5C1B7C)
     {
         gBaseAliveGameObjects_5C1B7C->dtor_40CAD0();
-        Mem_Free_495540(gBaseAliveGameObjects_5C1B7C);
+        alive_delete_free(gBaseAliveGameObjects_5C1B7C);
     }
 
     if (sCollisions_DArray_5C1128)
     {
         sCollisions_DArray_5C1128->dtor_4189F0();
-        Mem_Free_495540(sCollisions_DArray_5C1128);
+        alive_delete_free(sCollisions_DArray_5C1128);
     }
 
     pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?

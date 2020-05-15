@@ -122,7 +122,7 @@ FootSwitch* FootSwitch::vdtor_4DE240(signed int flags)
     dtor_4DE670();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

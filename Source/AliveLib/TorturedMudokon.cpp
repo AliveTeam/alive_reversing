@@ -161,7 +161,7 @@ TorturedMudokon* TorturedMudokon::vdtor_47BE30(signed int flags)
     dtor_47C380();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

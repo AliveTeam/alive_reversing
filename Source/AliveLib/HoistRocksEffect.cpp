@@ -104,7 +104,7 @@ HoistRocksEffect* HoistRocksEffect::vdtor_45D430(signed int flags)
     dtor_45D6D0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

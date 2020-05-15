@@ -320,7 +320,7 @@ Grenade* Grenade::vdtor_4480E0(signed int flags)
 
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

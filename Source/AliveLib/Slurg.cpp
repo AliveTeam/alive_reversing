@@ -194,7 +194,7 @@ Slurg* Slurg::vdtor_4C8760(signed int flags)
 
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -486,7 +486,7 @@ SlurgSpawner* SlurgSpawner::vdtor_4C8370(signed int flags)
     dtor_4C83A0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

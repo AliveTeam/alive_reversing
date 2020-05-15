@@ -54,7 +54,7 @@ SlogSpawner* SlogSpawner::vdtor_4C8080(signed int flags)
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

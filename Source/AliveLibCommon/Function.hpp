@@ -20,7 +20,7 @@
 // we call the games stdlib function due to being marked as not implemented. Then in the standalone exe we have to run whatever impl we have which
 // is a forward call to the matching stdlib function. We use this instead of NOT_IMPLEMENTED() to highlite this odd corner case and so that we do not
 // get log spam about stdlib functions not being implemented.
-#define STDLIB_FUNCTION() { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; if (IsAlive()) { __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } }
+#define STDLIB_FUNCTION() { const static auto __kAddr__ = __FUNCTION__ "\0" __FUNCDNAME__; if (RunningAsInjectedDll()) { __asm push eax __asm mov eax, __kAddr__ __asm pop eax __asm nop __asm nop __asm nop __asm nop __asm int 3 __asm nop __asm nop __asm nop __asm nop } }
 #endif
 
 #else
@@ -31,19 +31,19 @@
 #define ALIVE_ARY(Redirect, Addr, TypeName, Size, VarName, ...)\
 TypeName LocalArray_##VarName[Size]=__VA_ARGS__;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalArray_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\
-TypeName* VarName = (Redirect && IsAlive()) ? reinterpret_cast<TypeName*>(Addr) : reinterpret_cast<TypeName*>(&LocalArray_##VarName[0]);
+TypeName* VarName = (Redirect && RunningAsInjectedDll()) ? reinterpret_cast<TypeName*>(Addr) : reinterpret_cast<TypeName*>(&LocalArray_##VarName[0]);
 #define ALIVE_ARY_SIZEOF(VarName) sizeof(LocalArray_##VarName)
 
 // Only use this for pointers to arrays until it can be changed to ALIVE_ARY (so this is only used when the array size is not yet known)
 #define ALIVE_PTR(Redirect, Addr, TypeName, VarName, Value)\
 TypeName LocalPtr_##VarName = Value;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalPtr_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\
-std::remove_pointer<TypeName>::type * VarName = (Redirect && IsAlive()) ? reinterpret_cast<TypeName>(Addr) : LocalPtr_##VarName;
+std::remove_pointer<TypeName>::type * VarName = (Redirect && RunningAsInjectedDll()) ? reinterpret_cast<TypeName>(Addr) : LocalPtr_##VarName;
 
 #define ALIVE_VAR(Redirect, Addr, TypeName, VarName, Value)\
 TypeName LocalVar_##VarName = Value;\
 AliveVar Var_##VarName(#VarName, Addr, sizeof(LocalVar_##VarName), std::is_pointer<TypeName>::value, std::is_const<TypeName>::value);\
-TypeName& VarName = (Redirect && IsAlive()) ? *reinterpret_cast<TypeName*>(Addr) : LocalVar_##VarName;
+TypeName& VarName = (Redirect && RunningAsInjectedDll()) ? *reinterpret_cast<TypeName*>(Addr) : LocalVar_##VarName;
 
 
 void CheckVars();
@@ -114,7 +114,7 @@ template <class AIFunctionType, class AITable>
 inline bool BrainIs(AIFunctionType fn, AIFunctionType& brainVar, const AITable& table)
 {
 #if _WIN32 || !_WIN64
-    if (IsAlive())
+    if (RunningAsInjectedDll())
     {
         const DWORD actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
         AIFunctionType hack = nullptr;
@@ -129,7 +129,7 @@ template <class AIFunctionType, class AITable>
 void SetBrain(AIFunctionType fn, AIFunctionType& brainVar, const AITable& table)
 {
 #if _WIN32 || !_WIN64
-    if (IsAlive())
+    if (RunningAsInjectedDll())
     {
         const DWORD actualAddressToUse = GetOriginalFn(fn, table).mOriginal;
         // Hack to overwrite the member function pointer bytes with arbitrary data

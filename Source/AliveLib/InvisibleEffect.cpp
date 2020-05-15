@@ -18,14 +18,14 @@ EXPORT InvisibleEffect* InvisibleEffect::ctor_45F280(BaseAliveGameObject* pTarge
 
     field_44_objId = pTarget->field_8_object_id;
 
-    field_24_pAlloc = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_24_pAlloc = reinterpret_cast<WORD*>(alive_malloc_non_zero(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
         field_24_pAlloc,
         &field_28);
 
-    field_30_pPalAlloc = reinterpret_cast<WORD*>(malloc_non_zero_4954F0(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
+    field_30_pPalAlloc = reinterpret_cast<WORD*>(alive_malloc_non_zero(pTarget->field_20_animation.field_90_pal_depth * sizeof(WORD)));
     Pal_Copy_483560(
         pTarget->field_20_animation.field_8C_pal_vram_xy,
         pTarget->field_20_animation.field_90_pal_depth,
@@ -56,12 +56,12 @@ EXPORT void InvisibleEffect::dtor_45F410()
 
     if (field_24_pAlloc)
     {
-        Mem_Free_495560(field_24_pAlloc);
+        alive_non_zero_free(field_24_pAlloc);
     }
 
     if (field_30_pPalAlloc)
     {
-        Mem_Free_495560(field_30_pPalAlloc);
+        alive_non_zero_free(field_30_pPalAlloc);
     }
 
     BaseGameObject_dtor_4DBEC0();
@@ -278,7 +278,7 @@ EXPORT BaseGameObject* InvisibleEffect::vdtor_45F3E0(signed int flags)
     dtor_45F410();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

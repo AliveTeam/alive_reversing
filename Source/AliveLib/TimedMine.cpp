@@ -301,7 +301,7 @@ TimedMine* TimedMine::vdtor_4108B0(signed int flags)
     dtor_410970();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

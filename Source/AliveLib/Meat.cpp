@@ -164,7 +164,7 @@ Meat* Meat::vdtor_4696C0(signed int flags)
     dtor_4696F0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -579,7 +579,7 @@ MeatSack* MeatSack::vdtor_46A5E0(signed int flags)
     dtor_46A610();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-bool IsAlive();
+bool RunningAsInjectedDll();
 
 #ifdef _MSC_VER
 #define EXPORT __declspec(dllexport)

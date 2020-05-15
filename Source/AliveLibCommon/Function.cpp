@@ -11,7 +11,7 @@ bool gVTableHack = true;
 void SetVTable(void* thisPtr, DWORD vTable)
 {
 #if !_WIN64
-    if (IsAlive() && gVTableHack)
+    if (RunningAsInjectedDll() && gVTableHack)
     {
         *reinterpret_cast<DWORD**>(thisPtr) = reinterpret_cast<DWORD*>(vTable);
     }

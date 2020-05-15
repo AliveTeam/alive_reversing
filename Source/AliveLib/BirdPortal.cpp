@@ -99,7 +99,7 @@ BirdPortal* BirdPortal::vdtor_498050(signed int flags)
     dtor_4980A0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -1249,7 +1249,7 @@ BaseAnimatedWithPhysicsGameObject* BirdPortalTerminator::vdtor_497A70(signed int
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

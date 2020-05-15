@@ -73,7 +73,7 @@ PossessionFlicker* PossessionFlicker::vdtor_431AD0(signed int flags)
     dtor_431B00();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

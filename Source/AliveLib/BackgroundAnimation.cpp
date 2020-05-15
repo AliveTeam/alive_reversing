@@ -107,7 +107,7 @@ BaseGameObject* BackgroundAnimation::vdtor_40D420(signed int flags)
     dtor_40D4C0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -113,7 +113,7 @@ SlapLockWhirlWind* SlapLockWhirlWind::vdtor_43DA40(signed int flags)
     dtor_43DA70();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -330,7 +330,7 @@ SlapLock* SlapLock::vdtor_43DED0(signed int flags)
     dtor_43DF00();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

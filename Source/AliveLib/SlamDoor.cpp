@@ -279,7 +279,7 @@ SlamDoor * SlamDoor::vdtor_4AFD20(signed int flags)
     dtor_4B0620();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

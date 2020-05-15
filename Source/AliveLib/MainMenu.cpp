@@ -646,7 +646,7 @@ BaseGameObject* MainMenuController::vdtor_4CEF00(signed int flags)
     dtor_4CEF30();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

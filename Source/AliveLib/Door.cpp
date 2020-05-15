@@ -390,7 +390,7 @@ Door* Door::vdtor_41E9D0(signed int flags)
     dtor_41EA00();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -613,7 +613,7 @@ TrainDoor* TrainDoor::vdtor_4DD1D0(signed int flags)
     dtor_4DD200();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

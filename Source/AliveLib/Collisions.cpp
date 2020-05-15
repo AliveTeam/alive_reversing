@@ -17,7 +17,7 @@ Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const B
     field_C_max_count = pCollisionInfo->field_10_num_collision_items + 40;
 
     // Allocate memory for collisions array
-    field_0_pArray = reinterpret_cast<PathLine*>(malloc_non_zero_4954F0(field_C_max_count * sizeof(PathLine)));
+    field_0_pArray = reinterpret_cast<PathLine*>(alive_malloc_non_zero(field_C_max_count * sizeof(PathLine)));
 
     // Copy collision line data out of Path resource
     memcpy(field_0_pArray, &pPathRes[pCollisionInfo->field_C_collision_offset], field_4_current_item_count * sizeof(PathLine));
@@ -35,7 +35,7 @@ Collisions* Collisions::ctor_418930(const CollisionInfo* pCollisionInfo, const B
 
 void Collisions::dtor_4189F0()
 {
-    Mem_Free_495560(field_0_pArray);
+    alive_non_zero_free(field_0_pArray);
 }
 
 void CC Collisions::Factory_4188A0(const CollisionInfo* pCollisionInfo, const BYTE* pPathRes)
@@ -329,7 +329,7 @@ BOOL Collisions::Raycast_417A60(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_
 
     signed __int16 ret_impl = Raycast_Impl(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineImpl, &implX, &implY, modeMask);
 
-    if (IsAlive())
+    if (RunningAsInjectedDll())
     {
         signed __int16 ret_real = Raycast_Real_417A60(X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, &pLineReal, &realX, &realY, modeMask);
 
@@ -525,7 +525,7 @@ namespace Test
             0x039d
         };
 
-        c.field_0_pArray = reinterpret_cast<PathLine*>(malloc_non_zero_4954F0(1 * sizeof(PathLine)));
+        c.field_0_pArray = reinterpret_cast<PathLine*>(alive_malloc_non_zero(1 * sizeof(PathLine)));
         memcpy(c.field_0_pArray, &test, 1 * sizeof(PathLine));
         c.field_4_current_item_count = 1;
         c.field_C_max_count = 1;

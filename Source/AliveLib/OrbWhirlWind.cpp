@@ -87,7 +87,7 @@ public:
         dtor_4E4300();
         if (flags & 1)
         {
-            Mem_Free_495540(this);
+            alive_delete_free(this);
         }
         return this;
     }
@@ -505,7 +505,7 @@ OrbWhirlWind* OrbWhirlWind::vdtor_4E3D50(signed int flags)
     dtor_4E3D80();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

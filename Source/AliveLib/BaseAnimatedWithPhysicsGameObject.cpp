@@ -74,7 +74,7 @@ EXPORT void BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject
         if (field_E0_pShadow)
         {
             field_E0_pShadow->dtor_4ACA30();
-            Mem_Free_495540(field_E0_pShadow);
+            alive_delete_free(field_E0_pShadow);
         }
     }
     BaseGameObject_dtor_4DBEC0();
@@ -85,7 +85,7 @@ BaseGameObject* BaseAnimatedWithPhysicsGameObject::vdtor_424A40(signed int flags
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

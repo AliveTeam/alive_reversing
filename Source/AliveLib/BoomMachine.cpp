@@ -69,7 +69,7 @@ private:
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
         if (flags & 1)
         {
-            Mem_Free_495540(this);
+            alive_delete_free(this);
         }
         return this;
     }
@@ -301,7 +301,7 @@ BoomMachine* BoomMachine::vdtor_445E10(signed int flags)
     dtor_445E40();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

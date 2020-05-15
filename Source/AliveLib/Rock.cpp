@@ -136,7 +136,7 @@ Rock* Rock::vdtor_49E370(signed int flags)
     dtor_49E3A0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -635,7 +635,7 @@ RockSack* RockSack::vdtor_49F2E0(signed int flags)
     dtor_49F310();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "ExportHooker.hpp"
 
-bool IsAlive()
+bool RunningAsInjectedDll()
 {
     return true;
 }

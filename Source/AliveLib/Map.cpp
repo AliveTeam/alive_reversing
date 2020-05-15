@@ -317,13 +317,13 @@ void Map::RemoveObjectsWithPurpleLight_480740(__int16 bParam)
     if (pObjectsWithLightsArray)
     {
         pObjectsWithLightsArray->dtor_40CAD0();
-        Mem_Free_495540(pObjectsWithLightsArray);
+        alive_delete_free(pObjectsWithLightsArray);
     }
 
     if (pPurpleLightArray)
     {
         pPurpleLightArray->dtor_40CAD0();
-        Mem_Free_495540(pPurpleLightArray);
+        alive_delete_free(pPurpleLightArray);
     }
 }
 
@@ -540,7 +540,7 @@ void Map::Shutdown_4804E0()
         if (field_2C_5C305C_camera_array[i])
         {
             field_2C_5C305C_camera_array[i]->dtor_480E00();
-            Mem_Free_495540(field_2C_5C305C_camera_array[i]);
+            alive_delete_free(field_2C_5C305C_camera_array[i]);
             field_2C_5C305C_camera_array[i] = nullptr;
         }
     }
@@ -551,7 +551,7 @@ void Map::Shutdown_4804E0()
     if (sPath_dword_BB47C0)
     {
         sPath_dword_BB47C0->dtor_4DB1A0();
-        Mem_Free_495540(sPath_dword_BB47C0);
+        alive_delete_free(sPath_dword_BB47C0);
     }
     sPath_dword_BB47C0 = nullptr;
     
@@ -647,7 +647,7 @@ void Map::GoTo_Camera_481890()
             if (field_2C_5C305C_camera_array[i])
             {
                 field_2C_5C305C_camera_array[i]->dtor_480E00();
-                Mem_Free_495540(field_2C_5C305C_camera_array[i]);
+                alive_delete_free(field_2C_5C305C_camera_array[i]);
                 field_2C_5C305C_camera_array[i] = nullptr;
             }
         }
@@ -798,7 +798,7 @@ void Map::GoTo_Camera_481890()
         if (sCollisions_DArray_5C1128)
         {
             sCollisions_DArray_5C1128->dtor_4189F0();
-            Mem_Free_495540(sCollisions_DArray_5C1128);
+            alive_delete_free(sCollisions_DArray_5C1128);
         }
 
         sCollisions_DArray_5C1128 = alive_new<Collisions>();
@@ -844,7 +844,7 @@ void Map::GoTo_Camera_481890()
         if (field_40_stru_5[i])
         {
             field_40_stru_5[i]->dtor_480E00();
-            Mem_Free_495540(field_40_stru_5[i]);
+            alive_delete_free(field_40_stru_5[i]);
             field_40_stru_5[i] = nullptr;
         }
     }

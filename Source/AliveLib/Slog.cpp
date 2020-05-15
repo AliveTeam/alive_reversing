@@ -3047,7 +3047,7 @@ Slog* Slog::vdtor_4C4510(signed int flags)
     dtor_4C49A0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -782,7 +782,7 @@ NakedSlig* NakedSlig::vdtor_418FB0(signed int flags)
     dtor_418FE0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

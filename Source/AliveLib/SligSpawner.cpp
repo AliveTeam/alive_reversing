@@ -55,7 +55,7 @@ SligSpawner* SligSpawner::vdtor_409800(signed int flags)
     dtor_409A70();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -118,7 +118,7 @@ WorkWheel* WorkWheel::vdtor_4E3820(signed int flags)
     dtor_4E3850();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

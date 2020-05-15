@@ -519,7 +519,7 @@ Scrab* Scrab::vdtor_4A41B0(signed int flags)
     dtor_4A42B0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

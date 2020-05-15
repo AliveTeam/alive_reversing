@@ -1152,7 +1152,7 @@ BaseGameObject* Abe::vdtor_44B350(signed int flags)
     dtor_44B380();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

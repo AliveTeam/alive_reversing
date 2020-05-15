@@ -85,7 +85,7 @@ BaseGameObject* ScreenManager::vdtor_40E460(signed int flags)
     dtor_40E490();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -1251,7 +1251,7 @@ Mudokon* Mudokon::vdtor_475770(signed int flags)
     Mudokon::dtor_475B60();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

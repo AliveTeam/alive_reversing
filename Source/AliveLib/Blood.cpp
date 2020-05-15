@@ -171,7 +171,7 @@ BaseGameObject* Blood::vDtor_40F5A0(signed int flags)
     dtor_40F5D0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
