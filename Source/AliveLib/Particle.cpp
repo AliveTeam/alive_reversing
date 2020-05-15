@@ -93,7 +93,7 @@ EXPORT Particle* CC New_Particle_426F40(FP xpos, FP ypos, FP scale)
     return pParticle;
 }
 
-EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velY, FP velX, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g)
+EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g)
 {
     BYTE** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kOmmflareResID, 0, 0);
     auto pParticle = alive_new<Particle>();
@@ -107,8 +107,8 @@ EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velY, FP velX, FP s
     pParticle->field_D4_b = g;
     pParticle->field_D2_g = b;
 
-    pParticle->field_C8_vely = velX;
-    pParticle->field_C4_velx = velY;
+    pParticle->field_C8_vely = velY;
+    pParticle->field_C4_velx = velX;
 
     pParticle->field_DC_bApplyShadows &= ~1u;
 

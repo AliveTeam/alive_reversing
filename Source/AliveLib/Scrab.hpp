@@ -352,11 +352,11 @@ private:
     int field_124_fight_target_obj_id;
     __int16 field_128_attack_delay;
     __int16 field_12A_patrol_type;
-    int field_12C;
+    int field_12C_timer;
     int field_130;
     FP field_134;
     FP field_138;
-    FP field_13C;
+    FP field_13C_last_ypos;
     __int16 field_140;
     __int16 field_142;
     int field_144_tlvInfo;
@@ -390,7 +390,7 @@ private:
     __int16 field_18E;
     __int16 field_190;
     __int16 field_192;
-    GameSpeakEvents field_194;
+    GameSpeakEvents field_194_speak;
     __int16 field_196;
     FP field_198;
     FP field_19C;

@@ -17,7 +17,7 @@ public:
 ALIVE_ASSERT_SIZEOF(Particle, 0xF8);
 
 EXPORT Particle* CC New_Particle_426F40(FP xpos, FP ypos, FP scale);
-EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velY, FP velX, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g);
+EXPORT Particle* CC New_Particle_426AA0(FP xpos, FP ypos, FP velX, FP velY, FP scale, __int16 layer, BYTE r, BYTE b, BYTE g);
 EXPORT Particle* CC New_Chant_Particle_426BE0(FP xpos, FP ypos, FP scale, __int16 layer);
 EXPORT void CC New_Particles_426C70(FP xpos, FP ypos, FP scale, __int16 count, BYTE r, BYTE g, BYTE b);
 EXPORT void New_Particle_45BC70(class BaseAliveGameObject* pObj);
