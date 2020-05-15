@@ -218,6 +218,20 @@ public:
 
     EXPORT static int CCSTD Find_Flags_4DC170(int objectId);
 
+protected:
+    // Helper to check if a timer has expired
+    template<class T>
+    static inline bool Expired(const T& value)
+    {
+        return static_cast<int>(sGnFrame_5C1B84) > value;
+    }
+
+    template<class T>
+    static auto MakeTimer(const T value)
+    {
+        return static_cast<int>(sGnFrame_5C1B84) + value;
+    }
+
 public:
     Types field_4_typeId;
     BitField16<Options> field_6_flags;

@@ -335,63 +335,79 @@ void Grinder::vUpdate_420C50()
 
     const CameraPos soundDirection = gMap_5C3030.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos);
 
-    if (field_F4_state == GrinderStates::State_0_Restart_Cycle)
+    switch (field_F4_state)
     {
-        if (field_108_off_timer <= static_cast<int>(sGnFrame_5C1B84) || (field_128_flags.Get(Flags::eBit4_Toggle)))
+    case GrinderStates::State_0_Restart_Cycle:
+        if (Expired(field_108_off_timer) || field_128_flags.Get(eBit4_Toggle))
         {
-            if (!(field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_id) == (field_128_flags.Get(Flags::eBit1))))
+            if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get_466020(field_F8_id) == (field_128_flags.Get(eBit1))))
             {
                 field_F4_state = GrinderStates::State_1_Going_Down;
 
                 switch (field_FA_direction)
                 {
                 case GrinderDirection::eDown_0:
-                    field_20_animation.Set_Animation_Data_409C80(6688, 0);
+                    field_20_animation.Set_Animation_Data_409C80(6688, nullptr);
                     break;
-
                 case GrinderDirection::eRight_1:
                 case GrinderDirection::eLeft_2:
-                    field_20_animation.Set_Animation_Data_409C80(6712, 0);
+                    field_20_animation.Set_Animation_Data_409C80(6712, nullptr);
                     break;
                 }
 
                 field_128_flags.Clear(Flags::eBit5);
                 field_11C_speed2 = field_118_speed;
-                field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
+                field_10C_audio_channels_mask = SFX_Play_46FC20(97u, 25, soundDirection);
                 return;
             }
         }
 
-        if (field_128_flags.Get(Flags::eBit3_UseId) &&
-            !(field_128_flags.Get(Flags::eBit4_Toggle)) &&
-            FP_GetExponent(field_120_off_speed) &&
-            field_108_off_timer <= static_cast<int>(sGnFrame_5C1B84))
+        if (field_128_flags.Get(Flags::eBit3_UseId) && 
+            !(field_128_flags.Get(Flags::eBit4_Toggle)) && 
+            FP_GetExponent(field_120_off_speed) > 0 && Expired(field_108_off_timer))
         {
+            field_F4_state = GrinderStates::State_1_Going_Down;
+
             switch (field_FA_direction)
             {
             case GrinderDirection::eDown_0:
-                field_20_animation.Set_Animation_Data_409C80(6688, 0);
+                field_20_animation.Set_Animation_Data_409C80(6688, nullptr);
                 break;
 
             case GrinderDirection::eRight_1:
-                field_20_animation.Set_Animation_Data_409C80(6712, 0);
+                field_20_animation.Set_Animation_Data_409C80(6712, nullptr);
                 break;
 
             case GrinderDirection::eLeft_2:
-                field_20_animation.Set_Animation_Data_409C80(6712, 0);
+                field_20_animation.Set_Animation_Data_409C80(6712, nullptr);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
                 break;
             }
 
             field_128_flags.Set(Flags::eBit5);
             field_11C_speed2 = field_120_off_speed;
-
-            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
-            return;
+            field_10C_audio_channels_mask = SFX_Play_46FC20(97u, 25, soundDirection);
         }
-    }
-    else if (field_F4_state == GrinderStates::State_2_GoingUp)
-    {
+        break;
+
+    case GrinderStates::State_1_Going_Down:
+        if (!field_10C_audio_channels_mask)
+        {
+            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
+        }
+
+        DamageTouchingObjects_421060();
+
+        field_124_xyoff = field_124_xyoff - field_11C_speed2;
+        if (field_124_xyoff <= FP_FromInteger(0))
+        {
+            field_F4_state = GrinderStates::State_2_GoingUp;
+            SFX_Play_46FC20(99u, 50, soundDirection, FP_FromInteger(1));
+        }
+        EmitSparks_4206D0();
+        break;
+
+    case GrinderStates::State_2_GoingUp:
         if (!field_10C_audio_channels_mask)
         {
             field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
@@ -424,7 +440,7 @@ void Grinder::vUpdate_420C50()
                 min_off = field_FC_min_off_time;
             }
 
-            field_108_off_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(min_off, max_off);
+            field_108_off_timer = MakeTimer(Math_RandomRange_496AB0(min_off, max_off));
 
             if (field_FA_direction == GrinderDirection::eDown_0)
             {
@@ -435,30 +451,14 @@ void Grinder::vUpdate_420C50()
                 field_20_animation.Set_Animation_Data_409C80(6736, 0);
             }
 
-            if (field_128_flags.Get(Flags::eBit4_Toggle))
+            if (field_128_flags.Get(eBit4_Toggle))
             {
-                SwitchStates_Set_465FF0(field_F8_id, !field_128_flags.Get(Flags::eBit1));
+                SwitchStates_Set_465FF0(field_F8_id, !field_128_flags.Get(eBit1));
             }
         }
 
         EmitSparks_4206D0();
-    }
-    else if (field_F4_state == GrinderStates::State_1_Going_Down)
-    {
-        if (!field_10C_audio_channels_mask)
-        {
-            field_10C_audio_channels_mask = SFX_Play_46FC20(0x61u, 25, soundDirection);
-        }
-
-        DamageTouchingObjects_421060();
-        field_124_xyoff = field_124_xyoff - field_11C_speed2;
-        if (field_124_xyoff <= FP_FromInteger(0))
-        {
-            field_F4_state = GrinderStates::State_2_GoingUp;
-            SFX_Play_46FC20(0x63u, 50, soundDirection);
-        }
-
-        EmitSparks_4206D0();
+        break;
     }
 }
 
