@@ -4,6 +4,8 @@
 #include "DynamicArray.hpp"
 #include "BitField.hpp"
 
+ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
+
 enum class Types : __int16
 {
     eNone_0 = 0,
@@ -227,7 +229,7 @@ protected:
     }
 
     template<class T>
-    static auto MakeTimer(const T value)
+    static int MakeTimer(const T value)
     {
         return static_cast<int>(sGnFrame_5C1B84) + value;
     }
