@@ -1668,10 +1668,10 @@ __int16 Scrab::AI_ChasingEnemy_State_2(BaseAliveGameObject* pObj)
 __int16 Scrab::AI_Fighting_2_4A5840()
 {
     auto pTarget = static_cast<Scrab*>(sObjectIds_5C1B70.Find_449CF0(field_124_fight_target_obj_id));
-    if (field_11C_sub_state != 10 &&
-        field_11C_sub_state != 11 &&
-        field_11C_sub_state != 12 &&
-        field_11C_sub_state != 13 &&
+    if (field_11C_sub_state != AI_Fighting::eState2_Battling_10 &&
+        field_11C_sub_state != AI_Fighting::eState2_Victorious_11 &&
+        field_11C_sub_state != AI_Fighting::eState2_SmashingOpponent_12 &&
+        field_11C_sub_state != AI_Fighting::eState2_VictoryYell_13 &&
         (!pTarget ||
         pTarget->field_6_flags.Get(BaseGameObject::eDead_Bit3) ||
         (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(45), pTarget->field_B8_xpos - field_B8_xpos)) ||
