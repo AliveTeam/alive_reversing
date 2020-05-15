@@ -4,6 +4,8 @@
 #include "DynamicArray.hpp"
 #include "BitField.hpp"
 
+ALIVE_VAR_EXTERN(unsigned int, sGnFrame_5C1B84);
+
 enum class Types : __int16
 {
     eNone_0 = 0,
@@ -217,6 +219,20 @@ public:
     EXPORT void BaseGameObject_dtor_4DBEC0();
 
     EXPORT static int CCSTD Find_Flags_4DC170(int objectId);
+
+protected:
+    // Helper to check if a timer has expired
+    template<class T>
+    static inline bool Expired(const T& value)
+    {
+        return static_cast<int>(sGnFrame_5C1B84) > value;
+    }
+
+    template<class T>
+    static int MakeTimer(const T value)
+    {
+        return static_cast<int>(sGnFrame_5C1B84) + value;
+    }
 
 public:
     Types field_4_typeId;
