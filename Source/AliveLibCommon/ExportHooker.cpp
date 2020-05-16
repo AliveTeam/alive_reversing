@@ -47,6 +47,8 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
         HOOK_FATAL("Export enumeration failed");
     }
 
+    LOG_INFO("Enumerated " << mExportCount << " exports");
+
     if (saveImplementedFuncs)
     {
         std::ofstream implementedStream("decompiled_functions.txt");
@@ -84,6 +86,9 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
         LoadDisabledHooks();
         ProcessExports();
     }
+
+    LOG_INFO("Hooked (" << mHookedCount << "/" << mExportCount << ") exports");
+
 #endif
 }
 
@@ -140,6 +145,7 @@ void ExportHooker::ProcessExports()
         {
             // Redirect real game function to our impl
             err = DetourAttach(&(PVOID&)e.mHookedGameFunctionAddr, e.mCode);
+            mHookedCount++;
         }
         else
         {
@@ -258,7 +264,7 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                         {
                             HOOK_FATAL("Failed to make memory writable");
                         }
-                        *ptr = 0x90;
+                        *ptr = 0x90; // Nop out the break instruction to prevent not implemented crashing in standalone
                         if (!::VirtualProtect(ptr, 1, old, &old))
                         {
                             HOOK_FATAL("Failed to restore old memory protection");
@@ -268,9 +274,8 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                 }
                 else
                 {
-                    LOG_INFO("didn't match address");
+                    LOG_INFO("didn't match address: " << exportedFunctionName);
                 }
-
             }
         }
     }
@@ -282,6 +287,8 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
 void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
 {
 #if defined(_WIN32) && !defined(_WIN64)
+    mExportCount++;
+
     std::string exportedFunctionName(pszName);
     auto underScorePos = exportedFunctionName.find_first_of('_');
     while (underScorePos != std::string::npos)
