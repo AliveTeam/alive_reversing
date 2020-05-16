@@ -2,7 +2,7 @@
 #include "logger.hpp"
 #include "Function.hpp"
 #include <set>
-#include "..\AliveLib\FixedPoint.hpp"
+#include "../AliveLib/FixedPoint.hpp"
 
 void Game_ForceLink()
 {
