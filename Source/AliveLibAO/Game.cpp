@@ -342,6 +342,7 @@ public:
     EXPORT __int16 LoadFontType_41C040(int)
     {
         NOT_IMPLEMENTED();
+        return 0;
     }
 
 
@@ -367,6 +368,7 @@ public:
     EXPORT AliveFont* ctor_41C170(int /*a2*/, BYTE* /*pPal*/, FontContext* /*pContext*/)
     {
         NOT_IMPLEMENTED();
+        return this;
     }
 
     EXPORT unsigned int MeasureWidth_41C2B0(const char* /*pStr*/)

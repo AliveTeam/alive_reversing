@@ -35,7 +35,7 @@ endif()
 export(TARGETS AliveDllAO FILE AliveDllAO.cmake)
 install(TARGETS AliveDllAO DESTINATION .)
 
-install(FILES "C:\\GOG Games\\Abes Exoddus\\AliveDllAO.map" DESTINATION ".")
+install(FILES "C:\\GOG Games\\AO\\AliveDllAO.map" DESTINATION ".")
 
 if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
     if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
