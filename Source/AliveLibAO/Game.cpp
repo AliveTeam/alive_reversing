@@ -1,3 +1,4 @@
+#include "stdafx_ao.h"
 #include "Game.hpp"
 #include "logger.hpp"
 #include "Function.hpp"
