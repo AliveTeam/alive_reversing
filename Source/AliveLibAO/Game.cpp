@@ -559,10 +559,12 @@ public:
 
     virtual void VUpdate() override
     {
-        if (GetKeyState(VK_F12))
+#ifdef _MSC_VER
+        if (::GetKeyState(VK_F12))
         {
             DumpObjects();
         }
+#endif
 
         mCounter++;
         if (mCounter > 250 && !mLoaded)
