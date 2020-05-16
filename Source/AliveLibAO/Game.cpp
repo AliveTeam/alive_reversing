@@ -663,6 +663,7 @@ private:
  
     void DumpObjects()
     {
+#ifdef _MSC_VER
         if ((GetKeyState(VK_F12) & 0x8000) || bLog)
         {
             LOG_INFO("==Dump start===");
@@ -690,6 +691,7 @@ private:
             LOG_INFO("==Dump end===");
             bLog = false;
         }
+#endif
     }
 
 };
