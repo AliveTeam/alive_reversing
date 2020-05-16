@@ -513,7 +513,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_F4_resources.field_0_resources[MenuResIds::eUnknown] = nullptr;
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
 
-    if (gMap_5C3030.sCurrentCamId_5C3034 == 6)
+    if (gMap_5C3030.field_4_current_camera == 6)
     {
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
         field_F4_resources.field_0_resources[MenuResIds::eDoor] = nullptr;
@@ -548,7 +548,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_200_highlite_glow_speed = -8;
     field_1F0 = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
 
-    field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.sCurrentCamId_5C3034));
+    field_214_page_index = static_cast<short>(GetPageIndexFromCam_4D05A0(gMap_5C3030.field_4_current_camera));
     field_21C_bDoScreenTransistionEffect = 1;
     field_21E_bChangeScreen = 0;
     field_1F8_page_timeout = 0;
@@ -567,7 +567,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     field_23C_T80.Clear(Flags::eBit23);
     field_23C_T80.Clear(Flags::eBit24_Chant_Seq_Playing);
 
-    if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
+    if (gMap_5C3030.field_4_current_camera == 1)
     {
         MainMenuController::Set_Anim_4D05E0(9, 0);
         field_23C_T80.Set(Flags::eBit17_bDisableChangingSelection);
@@ -605,7 +605,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
     sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 
-    if (gMap_5C3030.sCurrentCamId_5C3034 == 6)
+    if (gMap_5C3030.field_4_current_camera == 6)
     {
         field_1FC_button_index = 0;
         field_250 = 0;
@@ -619,7 +619,7 @@ MainMenuController* MainMenuController::ctor_4CE9A0(Path_TLV* /*pTlv*/, TlvItemI
         return this;
     }
 
-    if (gMap_5C3030.sCurrentCamId_5C3034 == 30)
+    if (gMap_5C3030.field_4_current_camera == 30)
     {
         ResourceManager::Reclaim_Memory_49C470(0);
         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kAbespeakResID, 0, 0))
@@ -1489,7 +1489,7 @@ signed int MainMenuController::Page_FMV_Level_Update_4D4AB0(DWORD input_held)
             }
             stru_5C3110.Free_433130();
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(gMap_5C3030.field_2C_5C305C_camera_array[0]->field_C_pCamRes));
+            pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes));
             pScreenManager_5BB5F4->MoveImage_40EB70();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
             SND_Restart_4CB0E0();
@@ -1916,7 +1916,7 @@ EXPORT signed int MainMenuController::BackStory_Or_NewGame_Update_4D1C60(DWORD i
             }
 
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressToVRam_40EF60((WORD**)gMap_5C3030.field_2C_5C305C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->DecompressToVRam_40EF60((WORD**)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->MoveImage_40EB70();
             pScreenManager_5BB5F4->field_40_flags |= 0x10000; // Render enable flag
             SND_Restart_4CB0E0();
@@ -2836,7 +2836,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
         const auto currentCam = field_240_credits_current_cam + 1;
         field_240_credits_current_cam = currentCam;
         field_1F4_credits_next_frame = sGnFrame_5C1B84 + 160;
-        if (gMap_5C3030.sCurrentPathId_5C3032 == 2)
+        if (gMap_5C3030.field_2_current_path == 2)
         {
             if (currentCam > 22)
             {
@@ -2864,11 +2864,11 @@ void MainMenuController::HandleCreditsControllerUpdate()
 // Todo: needs cleanup
 void MainMenuController::HandleMainMenuUpdate()
 {
-    if (gMap_5C3030.sCurrentCamId_5C3034 == 5 || gMap_5C3030.sCurrentCamId_5C3034 == 11 || gMap_5C3030.sCurrentCamId_5C3034 == 4)
+    if (gMap_5C3030.field_4_current_camera == 5 || gMap_5C3030.field_4_current_camera == 11 || gMap_5C3030.field_4_current_camera == 4)
     {
         MusicController::sub_47FD60(MusicController::MusicTypes::eType4, this, 0, 0);
     }
-    else if (gMap_5C3030.sCurrentCamId_5C3034 == 12 || gMap_5C3030.sCurrentCamId_5C3034 == 13)
+    else if (gMap_5C3030.field_4_current_camera == 12 || gMap_5C3030.field_4_current_camera == 13)
     {
         MusicController::sub_47FD60(MusicController::MusicTypes::eType8, this, 0, 0);
     }
@@ -2988,7 +2988,7 @@ void MainMenuController::HandleMainMenuUpdate()
         // Todo: change all field_10_fn_update function types to unsigned.
         const unsigned int pageUpdateRet = (this->*(pPage->field_10_fn_update))(inputHeld);
 
-        if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == static_cast<unsigned int>(gMap_5C3030.sCurrentCamId_5C3034))
+        if (pageUpdateRet <= 0 || (pageUpdateRet & 0xFF) == static_cast<unsigned int>(gMap_5C3030.field_4_current_camera))
         {
             return;
         }

@@ -582,7 +582,7 @@ void PauseMenu::Render_490BD0(int ** ot)
 
 EXPORT void PauseMenu::vsub_490D30()
 {
-    if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eCredits_16)
+    if (gMap_5C3030.field_A_level == LevelIds::eCredits_16)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -1084,9 +1084,9 @@ void PauseMenu::Page_Main_Update_4903E0()
             // Set the default save name to be the current level/path/camera
             Path_Format_CameraName_460FB0(
                 sSaveString_5C931C,
-                gMap_5C3030.sCurrentLevelId_5C3030,
-                gMap_5C3030.sCurrentPathId_5C3032,
-                gMap_5C3030.sCurrentCamId_5C3034);
+                gMap_5C3030.field_0_current_level,
+                gMap_5C3030.field_2_current_path,
+                gMap_5C3030.field_4_current_camera);
             // Null terminate it
             sSaveString_5C931C[8] = 0;
             // Append the editor arrow char
@@ -1597,9 +1597,9 @@ void PauseMenu::Update_48FD80()
                 field_130 = 8;
                 Path_Format_CameraName_460FB0(
                     sScreenStringBuffer_5C92F0,
-                    gMap_5C3030.sCurrentLevelId_5C3030,
-                    gMap_5C3030.sCurrentPathId_5C3032,
-                    gMap_5C3030.sCurrentCamId_5C3034);
+                    gMap_5C3030.field_0_current_level,
+                    gMap_5C3030.field_2_current_path,
+                    gMap_5C3030.field_4_current_camera);
 
                 // TODO: never read ??
                 //byte_5C92F8 = 0;

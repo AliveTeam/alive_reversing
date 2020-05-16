@@ -157,7 +157,7 @@ ChantSuppressor* ChantSuppressor::ctor_466350(Path_ChantSuppressor* pTlv, int tl
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID);
     Animation_Init_424E10(2228, 53, 28u, ppRes, 1, 1u);
     
-    SetTint_425600(sChantOrbTints_55C1EC, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(sChantOrbTints_55C1EC, gMap_5C3030.field_0_current_level);
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);

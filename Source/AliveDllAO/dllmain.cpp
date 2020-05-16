@@ -20,6 +20,9 @@ extern "C"
         // 3. WinMain is reimplemented so the real EXE's WinMain is now a jmp to WinMain_4EE631
         // 4. Therefore the patched WinMain that jmp's to this function is overwritten before 
         // it can ever be executed.
+        LOG_ERROR("Entry point was not hooked!");
+        //Winmain_ForceLink(); // Else the entire AliveLib will be discarded by the linker because there are 0 calls to any of it
+        //abort();
     }
 }
 

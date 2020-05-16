@@ -111,7 +111,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
     field_134_switch_idx = pTlv->field_10_id;
     field_138_switch_state = pTlv->field_12_start_state;
 
-    const int levelIdx = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
+    const int levelIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
 
     int frameTableOffset = 0;
     if (field_138_switch_state == SwitchStates_Get_466020(field_134_switch_idx))
@@ -158,7 +158,7 @@ EXPORT TrapDoor* TrapDoor::ctor_4DD570(Path_TrapDoor* pTlv, Map* pMap, int tlvIn
         field_124_pCollisionLine->field_8_type = 36;
     }
 
-    SetTint_425600(sTrapDoorTints_5639AC, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(sTrapDoorTints_5639AC, gMap_5C3030.field_0_current_level);
 
     field_140_x = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_144_y = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -196,7 +196,7 @@ signed int CC TrapDoor::CreateFromSaveState_4DDED0(const BYTE* pData)
     auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
     auto pTlv = static_cast<Path_TrapDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pState->field_8_tlvInfo));
 
-    switch (gMap_5C3030.sCurrentLevelId_5C3030)
+    switch (gMap_5C3030.field_0_current_level)
     {
     case LevelIds::eMudomoVault_3:
     case LevelIds::eMudancheeVault_4:
@@ -258,17 +258,17 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
         {
             Open_4DD960();
             field_136_state = TrapDoorState::eState_1;
-            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_8, 0);
+            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.field_0_current_level)].field_8, 0);
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_Ender_14 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_Ender_12 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_Ender_13 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
             {
                 SFX_Play_46FC20(0x50u, 45, direction);
                 SFX_Play_46FC20(0x4Cu, 90, direction);
@@ -290,19 +290,19 @@ EXPORT void TrapDoor::vUpdate_4DDA90()
 
         if ((field_13E_set_switch_on_dead && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get_466020(field_134_switch_idx) != field_138_switch_state)
         {
-            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_C, 0);
+            field_20_animation.Set_Animation_Data_409C80(sTrapDoorData_547B78[static_cast<int>(gMap_5C3030.field_0_current_level)].field_C, 0);
             
             field_136_state = TrapDoorState::eState_3;
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_Ender_14 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_Ender_12 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_Ender_13 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
             {
                 SFX_Play_46FC20(0x4Eu, 60, direction);
                 SFX_Play_46FC20(0x4Du, 90, direction);
@@ -334,8 +334,8 @@ EXPORT void TrapDoor::vRender_4DDDD0(int **ot)
 
 EXPORT void TrapDoor::vScreenChanged_4DDE40()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
+        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);

@@ -79,7 +79,7 @@ Switch* Switch::ctor_4D5860(Path_Switch* pTlv, DWORD tlvInfo)
         field_D6_scale = 1;
     }
 
-    SetTint_425600(&kSwitchTints_563228[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&kSwitchTints_563228[0], gMap_5C3030.field_0_current_level);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -132,8 +132,8 @@ Switch* Switch::vdtor_4D5AD0(signed int flags)
 void Switch::vScreenChanged_4D5B90()
 {
     if (!(field_100_flags & 2) ||
-        gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
+        gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
+        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -156,15 +156,15 @@ void Switch::vUpdate_4D5C00()
 
         if (field_20_animation.field_4_flags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_Ender_14
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_Ender_12
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_Ender_13
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1
+                || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8
+                || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14
+                || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5
+                || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_Ender_12
+                || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6
+                || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_Ender_13
+                || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9
+                || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
             {
                 SFX_Play_46FBA0(0x50u, 30, 400);
             }

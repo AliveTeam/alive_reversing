@@ -281,9 +281,9 @@ void EvilFart::vOnPossesed_423DA0()
     
     field_20_animation.field_B_render_mode = 1;
 
-    field_120_level = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_11E_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_122_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    field_120_level = gMap_5C3030.field_0_current_level;
+    field_11E_path = gMap_5C3030.field_2_current_path;
+    field_122_camera = gMap_5C3030.field_4_current_camera;
 
     sControlledCharacter_5C1B8C = this;
 

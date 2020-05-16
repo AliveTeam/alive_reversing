@@ -20,7 +20,7 @@ private:
     EXPORT void vRender_409710(int **pOt);
     EXPORT void vUpdate_409460();
 private:
-    __int16 field_78_b_value;
+    __int16 field_78_r_value;
     __int16 field_7A;
     int field_7C_15_timer;
     int field_80_duration_timer;

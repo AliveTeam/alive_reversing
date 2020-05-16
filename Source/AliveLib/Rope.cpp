@@ -62,7 +62,7 @@ Rope* Rope::ctor_4A0A70(unsigned __int16 left, __int16 top, unsigned __int16 bot
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kRopesResID);
     Animation_Init_424E10(748, 9, 16, ppRes, 1, 1);
-    SetTint_425600(kRopeTints_55FD68, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(kRopeTints_55FD68, gMap_5C3030.field_0_current_level);
 
     field_20_animation.field_14_scale = scale;
     field_CC_sprite_scale = scale;
@@ -152,7 +152,7 @@ EXPORT void Rope::vRender_4A0E30(int** pOt)
     PSX_Point camPos = {};
     gMap_5C3030.GetCurrentCamCoords_480680(&camPos);
     // In the current level/map?
-    if (field_C2_lvl_number == gMap_5C3030.sCurrentLevelId_5C3030 && field_C0_path_number == gMap_5C3030.sCurrentPathId_5C3032)
+    if (field_C2_lvl_number == gMap_5C3030.field_0_current_level && field_C0_path_number == gMap_5C3030.field_2_current_path)
     {
         // In the current camera x range?
         if (field_B8_xpos >= FP_FromInteger(camPos.field_0_x) && field_B8_xpos <= FP_FromInteger(camPos.field_0_x + 375))

@@ -111,7 +111,7 @@ Paramite* Paramite::ctor_4879B0(Path_Paramite* pTlv, int tlvInfo)
         1,
         1);
 
-    SetTint_425600(&stru_55D73C[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&stru_55D73C[0], gMap_5C3030.field_0_current_level);
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     field_114_flags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -4507,7 +4507,7 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
             SetBrain(&Paramite::AI_Patrol_0_4835B0);
             field_12C_brain_ret = 0;
             gMap_5C3030.SetActiveCam_480D30(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eEffect0_InstantChange, 0, 0);
-            if (field_152_return_camera != gMap_5C3030.sCurrentCamId_5C3034)
+            if (field_152_return_camera != gMap_5C3030.field_4_current_camera)
             {
                 if (field_178_flags.Get(Flags_178::eBit6))
                 {
@@ -5147,7 +5147,7 @@ void Paramite::dtor_487FC0()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
+        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
                 field_14E_return_level,
@@ -5529,9 +5529,9 @@ void Paramite::vPossessed_488B60()
     field_108_next_motion = eParamiteMotions::M_Idle_0_489FB0;
     field_12C_brain_ret = 0;
     field_130_timer = sGnFrame_5C1B84 + 30;
-    field_14E_return_level = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_150_return_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_152_return_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    field_14E_return_level = gMap_5C3030.field_0_current_level;
+    field_150_return_path = gMap_5C3030.field_2_current_path;
+    field_152_return_camera = gMap_5C3030.field_4_current_camera;
 }
 
 __int16 Paramite::vTakeDamage_488250(BaseGameObject* pFrom)

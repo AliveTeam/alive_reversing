@@ -361,7 +361,7 @@ EXPORT void CCSTD Path::TLV_Reset_4DB8E0(unsigned int tlvOffset_levelId_PathId, 
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030))
+    if (data.parts.levelId == static_cast<int>(gMap_5C3030.field_0_current_level))
     {
         const PathBlyRec* pBlyRec = Path_Get_Bly_Record_460F30(static_cast<LevelIds>(data.parts.levelId), data.parts.pathId);
         BYTE** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
@@ -414,7 +414,7 @@ EXPORT void CC Path::Start_Sounds_For_Objects_In_Camera_4CBAF0(CameraPos directi
 
 EXPORT void CCSTD Path::Reset_TLVs_4DBCF0(unsigned __int16 pathId)
 {
-    const PathData *  pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, pathId)->field_4_pPathData;
+    const PathData *  pPathData = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, pathId)->field_4_pPathData;
     const int camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
     const int camsY = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
     BYTE** ppPath = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, pathId, TRUE, FALSE);

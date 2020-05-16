@@ -17,7 +17,7 @@ InputCommands sCheatKeyArray_PathSkip_5515E8[6] = { eLeft, eRight, eUp, eDown, e
 
 EXPORT void CC CheatController_Cheat_FMV_421AD0()
 {
-    if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
+    if (gMap_5C3030.field_4_current_camera == 1)
     {
         sEnableCheatFMV_5C1BEC = !sEnableCheatFMV_5C1BEC;
     }
@@ -25,7 +25,7 @@ EXPORT void CC CheatController_Cheat_FMV_421AD0()
 
 EXPORT void CC CheatController_Cheat_LevelSelect_421B00()
 {
-    if (gMap_5C3030.sCurrentCamId_5C3034 == 1)
+    if (gMap_5C3030.field_4_current_camera == 1)
     {
         sEnableCheatLevelSelect_5C1BEE = !sEnableCheatLevelSelect_5C1BEE;
     }
@@ -97,7 +97,7 @@ void CheatController::Update_421C70()
             for (auto i = sCheatArray_5515F8; i->field_0_level_mask; i++)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)) & i->field_0_level_mask)
+                if ((1 << static_cast<int>(gMap_5C3030.field_0_current_level)) & i->field_0_level_mask)
                 {
                     if (held == i->field_8_cheat_code_ary[i->field_C_success_idx])
                     {

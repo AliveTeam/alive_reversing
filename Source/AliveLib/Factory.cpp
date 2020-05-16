@@ -173,7 +173,7 @@ EXPORT void CC Factory_Door_4D6F00(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOf
     if (loadmode == 1 || loadmode == 2)
     {
         Map::LoadResource_4DBE00("ABEDOOR.BAN", ResourceManager::Resource_Animation, ResourceID::kAbedoorResID, loadmode, FALSE);
-        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        switch (gMap_5C3030.field_0_current_level)
         {
         case LevelIds::eNecrum_2:
         case LevelIds::eMudomoVault_3:
@@ -254,7 +254,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
     if (loadMode == 1 || loadMode == 2)
     {
         gMap_5C3030.LoadResource_4DBE00("ABELIFT.BAN", ResourceManager::Resource_Animation, ResourceID::kAbeliftResID, loadMode);
-        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        switch (gMap_5C3030.field_0_current_level)
         {
         case LevelIds::eNecrum_2:
             LoadLiftPointResources("NECROPE.BAN", "NELIFT.BND", loadMode);
@@ -314,8 +314,8 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                 if (pTlv->field_8_top_left.field_0_x <= xpos && 
                     xpos <= pTlv->field_C_bottom_right.field_0_x &&
                     pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_id && 
-                    pLiftPoint->field_C2_lvl_number == gMap_5C3030.sCurrentLevelId_5C3030 && 
-                    pLiftPoint->field_C0_path_number == gMap_5C3030.sCurrentPathId_5C3032)
+                    pLiftPoint->field_C2_lvl_number == gMap_5C3030.field_0_current_level && 
+                    pLiftPoint->field_C0_path_number == gMap_5C3030.field_2_current_path)
                 {
                     // Yes so just reset its data
                     Path::TLV_Reset_4DB8E0(tlvOffsetLevelIdPathId.all, -1, 0, 0);
@@ -465,7 +465,7 @@ EXPORT void CC Factory_FallingItem_4D81B0(Path_TLV* pTlv, Path*, TlvItemInfoUnio
 {
     if (loadmode == 1 || loadmode == 2)
     {
-        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8)
+        if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
         {
             gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, ResourceID::kF2rockResID, loadmode);
             gMap_5C3030.LoadResource_4DBE00("STICK.BAN", ResourceManager::Resource_Animation, ResourceID::kStickResID, loadmode);
@@ -496,7 +496,7 @@ EXPORT void CC Factory_PullRingRope_4D8320(Path_TLV* pTlv, Path*, TlvItemInfoUni
     if (loadmode == 1 || loadmode == 2)
     {
         gMap_5C3030.LoadResource_4DBE00("ABEHOIST.BAN", ResourceManager::Resource_Animation, ResourceID::kAbehoistResID, loadmode);
-        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        switch (gMap_5C3030.field_0_current_level)
         {
         case LevelIds::eNecrum_2:
         case LevelIds::eMudomoVault_3:
@@ -876,7 +876,7 @@ EXPORT void CC Factory_TrapDoor_4D9B90(Path_TLV* pTlv, Path* , TlvItemInfoUnion 
 {
     if (loadmode == 1 || loadmode == 2)
     {
-        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        switch (gMap_5C3030.field_0_current_level)
         {
         case LevelIds::eMudomoVault_3:
         case LevelIds::eMudancheeVault_4:
@@ -960,7 +960,7 @@ EXPORT void CC Factory_FootSwitch_4D9D00(Path_TLV* pTlv, Path*, TlvItemInfoUnion
 {
     if (loadmode == 1 || loadmode == 2)
     {
-        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        switch (gMap_5C3030.field_0_current_level)
         {
         case LevelIds::eMudomoVault_3:
         case LevelIds::eMudancheeVault_4:
@@ -1457,7 +1457,7 @@ EXPORT void CC Factory_Glukkon_4DA550(Path_TLV* pTlv , Path*, TlvItemInfoUnion t
 
     if (loadMode == 1 || loadMode == 2)
     {
-        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        switch (gMap_5C3030.field_0_current_level)
         {
         case LevelIds::eFeeCoDepot_5:
         case LevelIds::eFeeCoDepot_Ender_12:
@@ -1595,9 +1595,9 @@ EXPORT void CC Factory_Fleech_4D8C30(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlv
         gMap_5C3030.LoadResource_4DBE00("FLEEBLOW.BAN", ResourceManager::Resource_Animation, 580, loadMode);
     }
     else if (
-        gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMudancheeVault_Ender_7 || 
-        gMap_5C3030.sCurrentPathId_5C3032 != 9 || 
-        gMap_5C3030.sCurrentCamId_5C3034 != 4)
+        gMap_5C3030.field_0_current_level != LevelIds::eMudancheeVault_Ender_7 || 
+        gMap_5C3030.field_2_current_path != 9 || 
+        gMap_5C3030.field_4_current_camera != 4)
     {
         auto pFleech = alive_new<Fleech>();
         if (pFleech)
@@ -1627,7 +1627,7 @@ EXPORT void CC Factory_SlamDoor_4DA9C0(Path_TLV* pTlv, Path*, TlvItemInfoUnion t
 {
     if (loadmode == 1 || loadmode == 2)
     {
-        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        switch (gMap_5C3030.field_0_current_level)
         {
         case LevelIds::eNecrum_2:
         case LevelIds::eMudomoVault_3:
@@ -1820,7 +1820,7 @@ EXPORT void CC Factory_ExplosionSet_4DADC0(Path_TLV* pTlv, Path*, TlvItemInfoUni
 {
     if (loadMode == 1 || loadMode == 2)
     {
-        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8)
+        if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
         {
             gMap_5C3030.LoadResource_4DBE00("DRPROCK.BAN", ResourceManager::Resource_Animation, kDrpRockResID, loadMode);
             gMap_5C3030.LoadResource_4DBE00("FALLBONZ.BAN", ResourceManager::Resource_Animation, kF2rockResID, loadMode);

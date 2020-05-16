@@ -285,8 +285,8 @@ __int16 Bone::OnCollision_412140(BaseAnimatedWithPhysicsGameObject* pObj)
 
 void Bone::vScreenChanged_4122D0()
 {
-    if (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
-        gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
+        gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -650,7 +650,7 @@ BoneBag* BoneBag::ctor_4125C0(Path_BoneBag* pTlv, int tlvInfo)
 
     Animation_Init_424E10(8748, 64, 60, ppRes, 1, 1);
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-    SetTint_425600(&stru_550EC0[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&stru_550EC0[0], gMap_5C3030.field_0_current_level);
 
     field_11C_is_hit = 0;
     field_118_tlvInfo = tlvInfo;

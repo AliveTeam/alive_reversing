@@ -616,7 +616,7 @@ void MusicController::Update_47F730()
     {
         field_58_flags.Clear(Flags_58::e58_ScreenChanged_Bit2);
 
-        if (gMap_5C3030.sCurrentLevelId_5C3030 != field_24_currentLevelID)
+        if (gMap_5C3030.field_0_current_level != field_24_currentLevelID)
         {
             field_44 = 0;
             field_3C = 1;
@@ -638,7 +638,7 @@ void MusicController::Update_47F730()
                 field_40_flags_and_idx = -1;
             }
             
-            field_24_currentLevelID = gMap_5C3030.sCurrentLevelId_5C3030;
+            field_24_currentLevelID = gMap_5C3030.field_0_current_level;
 
             // music on flag ?
             if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1))

@@ -234,8 +234,8 @@ void Mine::Update_46B5D0()
     if (field_118 != 1)
     {
         BaseGameObject * pEventObj = Event_Get_422C00(kEventDeathReset);
-        if (pEventObj || field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 ||
-            field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032)
+        if (pEventObj || field_C2_lvl_number != gMap_5C3030.field_0_current_level ||
+            field_C0_path_number != gMap_5C3030.field_2_current_path)
         {
             field_6_flags.Set(Options::eDead_Bit3);
         }
@@ -266,8 +266,8 @@ void Mine::Render_46B7A0(int ** pOt)
 
 void Mine::ScreenChanged_46BAE0()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId
-        || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level
+        || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path
         || !field_1BC_flags.Get(Mine_Flags_1BC::e1BC_Bit1))
     {
         field_6_flags.Set(Options::eDead_Bit3);

@@ -45,8 +45,8 @@ BaseAnimatedWithPhysicsGameObject * BaseAnimatedWithPhysicsGameObject::BaseAnima
     field_DC_bApplyShadows &= ~2;
     field_DC_bApplyShadows |= 1;
 
-    field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
-    field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_C0_path_number = gMap_5C3030.field_2_current_path;
+    field_C2_lvl_number = gMap_5C3030.field_0_current_level;
 
     field_CC_sprite_scale = FP_FromInteger(1);
 
@@ -115,8 +115,8 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(int** pOrderingTable)
     if (field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
         // Only render if in the active level, path and camera
-        if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number
-            && gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number
+        if (gMap_5C3030.field_2_current_path == field_C0_path_number
+            && gMap_5C3030.field_0_current_level == field_C2_lvl_number
             && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
             field_20_animation.field_14_scale = field_CC_sprite_scale;

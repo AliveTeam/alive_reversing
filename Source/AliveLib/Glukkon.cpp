@@ -136,7 +136,7 @@ signed int CC Glukkon::CreateFromSaveState_442830(const BYTE* pData)
     const Glukkon_SaveState* pSaveState = reinterpret_cast< const Glukkon_SaveState* >( pData );
     auto pTlv = static_cast< Path_Glukkon* >( sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(pSaveState->field_44_tlvInfo) );
 
-    switch (gMap_5C3030.sCurrentLevelId_5C3030)
+    switch (gMap_5C3030.field_0_current_level)
     {
         case LevelIds::eFeeCoDepot_5:
         case LevelIds::eFeeCoDepot_Ender_12:
@@ -1761,9 +1761,9 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
     case 4:
     {
         pScreenManager_5BB5F4->field_40_flags &= ~0x10000;
-        sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.sCurrentLevelId_5C3030);
+        sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.field_0_current_level);
 
-        const FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, field_1A8_tlvData.field_28_movie_to_play_id);
+        const FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, field_1A8_tlvData.field_28_movie_to_play_id);
 
         DWORD pos = 0;
         Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
@@ -1782,7 +1782,7 @@ __int16 Glukkon::AI_3_PlayerControlled_441A30()
             return field_210;
         }
         gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-        pScreenManager_5BB5F4->DecompressToVRam_40EF60((WORD**)gMap_5C3030.field_2C_5C305C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
+        pScreenManager_5BB5F4->DecompressToVRam_40EF60((WORD**)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
         if (pDeathFadeOut)
         {
             pDeathFadeOut->Init_427140(40, 0, 1, 8);
@@ -2072,7 +2072,7 @@ void Glukkon::Init_43F260()
 
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
 
-    SetTint_425600(&stru_5546B4[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&stru_5546B4[0], gMap_5C3030.field_0_current_level);
     field_B8_xpos = FP_FromInteger((field_1A8_tlvData.field_8_top_left.field_0_x  + field_1A8_tlvData.field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_2_y);
     
@@ -2288,9 +2288,9 @@ void Glukkon::vPossessed_440160()
     SetBrain(&Glukkon::AI_3_PlayerControlled_441A30);
     field_210 = 0;
     field_1D4_timer = sGnFrame_5C1B84 + 35;
-    field_1E4_level = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_1E6_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_1E8_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    field_1E4_level = gMap_5C3030.field_0_current_level;
+    field_1E6_path = gMap_5C3030.field_2_current_path;
+    field_1E8_camera = gMap_5C3030.field_4_current_camera;
 }
 
 void Glukkon::Update_Slurg_WatchPoints_440600()
@@ -2939,7 +2939,7 @@ void Glukkon::ToDead_43F640()
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
 
-        if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
+        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
                 field_1E4_level,

@@ -94,8 +94,8 @@ MineCar* MineCar::ctor_46BC80(Path_MineCar* pTlv, int tlvInfo, int /*a4*/, int /
     // can travel "up" then we set this key to "up" such that holding down "right" automatically moves the car up.
     field_1D6_continue_move_input = static_cast<short>(sInputKey_ThrowItem_5550F4);
 
-    field_1CC_spawned_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_1CE_spawned_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    field_1CC_spawned_path = gMap_5C3030.field_2_current_path;
+    field_1CE_spawned_camera = gMap_5C3030.field_4_current_camera;
     field_1D0_sound_channels_mask = 0;
     field_1C4 = 0;
 
@@ -959,8 +959,8 @@ void MineCar::State_1()
         field_124_anim.Set_Animation_Data_409C80(20824, 0);
         field_20_animation.Set_Animation_Data_409C80(20812, 0);
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        field_1CC_spawned_path = gMap_5C3030.sCurrentPathId_5C3032;
-        field_1CE_spawned_camera = gMap_5C3030.sCurrentCamId_5C3034;
+        field_1CC_spawned_path = gMap_5C3030.field_2_current_path;
+        field_1CE_spawned_camera = gMap_5C3030.field_4_current_camera;
         sActiveHero_5C1B68->VCheckCollisionLineStillValid_408A40(10);
 
         SFX_Play_46FBA0(57u, 100, 500, field_CC_sprite_scale);

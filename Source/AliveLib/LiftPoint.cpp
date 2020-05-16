@@ -94,7 +94,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
         field_D6_scale = 1;
     }
 
-    const LiftPointData& rPlatformData = sLiftPointData_545AC8[static_cast<DWORD>(gMap_5C3030.sCurrentLevelId_5C3030)];
+    const LiftPointData& rPlatformData = sLiftPointData_545AC8[static_cast<DWORD>(gMap_5C3030.field_0_current_level)];
     AddDynamicCollision_4971C0(
         rPlatformData.field_0_maxW_platform,
         rPlatformData.field_4_maxH_platform,
@@ -114,7 +114,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
         field_124_pCollisionLine->field_8_type = 36; // TODO: Type
     }
 
-    SetTint_425600(sLiftTints_55BF50, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(sLiftTints_55BF50, gMap_5C3030.field_0_current_level);
 
     const FP oldX = field_B8_xpos;
     MapFollowMe_408D10(TRUE);
@@ -126,7 +126,7 @@ LiftPoint* LiftPoint::ctor_461030(Path_LiftPoint* pTlv, int tlvInfo)
 
 
     BYTE** ppPulleyAnim = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
-    const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)];
+    const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<int>(gMap_5C3030.field_0_current_level)];
     if (field_13C_lift_wheel.Init_40A030(
         rLiftWheelData.field_C_lift_wheel_frame_table_offset,
         gObjList_animations_5C1A24,
@@ -294,7 +294,7 @@ int CC LiftPoint::CreateFromSaveState_4630F0(const BYTE* pData)
         ResourceManager::LoadResourceFile_49C170("ABELIFT.BAN", nullptr);
     }
 
-    switch (gMap_5C3030.sCurrentLevelId_5C3030)
+    switch (gMap_5C3030.field_0_current_level)
     {
     case LevelIds::eMines_1:
         LoadLiftResourceBans("ROPES.BAN", "MILIFT.BND");
@@ -446,8 +446,8 @@ void LiftPoint::vRender_462730(int** pOt)
     // Renders the pulley, lift platform and lift platform wheel
 
     // In the current level/map?
-    if (field_C2_lvl_number == gMap_5C3030.sCurrentLevelId_5C3030 &&
-        field_C0_path_number == gMap_5C3030.sCurrentPathId_5C3032)
+    if (field_C2_lvl_number == gMap_5C3030.field_0_current_level &&
+        field_C0_path_number == gMap_5C3030.field_2_current_path)
     {
         // Within the current camera X bounds?
         PSX_Point camPos = {};
@@ -473,7 +473,7 @@ void LiftPoint::vRender_462730(int** pOt)
             field_13C_lift_wheel.field_9_g = static_cast<BYTE>(g);
             field_13C_lift_wheel.field_A_b = static_cast<BYTE>(b);
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+            if (gMap_5C3030.field_0_current_level != LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.vRender_40B820(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
@@ -538,7 +538,7 @@ void LiftPoint::vRender_462730(int** pOt)
             // The base animation is the actual lift/platform itself
             BaseAnimatedWithPhysicsGameObject::VRender(pOt);
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 && Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.vRender_40B820(
                     FP_GetExponent(field_B8_xpos - pScreenManager_5BB5F4->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
@@ -822,11 +822,11 @@ void LiftPoint::vUpdate_461AE0()
         field_1D4_pulley_anim.field_4_flags.Clear(AnimFlags::eBit19_LoopBackwards);
     }
 
-    if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudomoVault_3 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudomoVault_Ender_11 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudancheeVault_4 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudancheeVault_Ender_7)
+    if (gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eMudomoVault_3 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eMudomoVault_Ender_11 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eMudancheeVault_4 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eMudancheeVault_Ender_7)
     {
         if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.field_4_flags.Get(AnimFlags::eBit2_Animate))
         {
@@ -838,7 +838,7 @@ void LiftPoint::vUpdate_461AE0()
         SFX_Play_46FA90(0x1Fu, 0);
     }
 
-    if ((field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 || field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032 || Event_Get_422C00(kEventDeathReset)) 
+    if ((field_C2_lvl_number != gMap_5C3030.field_0_current_level || field_C0_path_number != gMap_5C3030.field_2_current_path || Event_Get_422C00(kEventDeathReset)) 
         && field_118_count <= 0)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -986,7 +986,7 @@ void LiftPoint::CreatePulleyIfExists_462C80()
     field_26E_pulley_ypos = pFound->field_8_top_left.field_2_y;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPulleyResID);
-    const LiftPointData& data = sLiftPointData_545AC8[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)];
+    const LiftPointData& data = sLiftPointData_545AC8[static_cast<int>(gMap_5C3030.field_0_current_level)];
     field_1D4_pulley_anim.Init_40A030(
         data.field_10_pulley_frame_table_offset,
         gObjList_animations_5C1A24,
@@ -1040,8 +1040,8 @@ void LiftPoint::vScreenChanged_463020()
         }
     }
 
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
+        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

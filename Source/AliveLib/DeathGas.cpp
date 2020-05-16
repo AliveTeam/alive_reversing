@@ -124,7 +124,7 @@ void DeathGas::dtor_43C270()
 
 void DeathGas::vScreenChanged_43CA50()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
         sActiveHero_5C1B68 == spAbe_554D5C)
     {

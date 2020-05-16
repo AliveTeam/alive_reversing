@@ -66,15 +66,15 @@ public:
         eMapBottom_3 = 3,
     };
 
-    LevelIds sCurrentLevelId_5C3030;
-    __int16 sCurrentPathId_5C3032;
-    __int16 sCurrentCamId_5C3034;
+    LevelIds field_0_current_level;
+    __int16 field_2_current_path;
+    __int16 field_4_current_camera;
     __int16 field_6_state;
     __int16 field_8_force_load;
 
-    LevelIds field_A_5C303A_levelId;
-    __int16 field_C_5C303C_pathId;
-    __int16 field_E_cameraId;
+    LevelIds field_A_level;
+    __int16 field_C_path;
+    __int16 field_E_camera;
     CameraSwapEffects field_10_screen_change_effect;
     unsigned __int16 field_12_fmv_base_id;
 
@@ -90,7 +90,7 @@ public:
 
     FP_Point field_24_camera_offset;
 
-    Camera* field_2C_5C305C_camera_array[5];
+    Camera* field_2C_camera_array[5];
     Camera* field_40_stru_5[5];
     Map_120 field_54_path_res_array;
 

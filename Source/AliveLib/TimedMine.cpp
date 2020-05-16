@@ -109,7 +109,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     field_11C_tlv = tlv.all;
     field_120_gnframe = sGnFrame_5C1B84;
-    SetBaseAnimPaletteTint_425690(sTimedMineTint_550EB8, gMap_5C3030.sCurrentLevelId_5C3030, kBombResID);
+    SetBaseAnimPaletteTint_425690(sTimedMineTint_550EB8, gMap_5C3030.field_0_current_level, kBombResID);
 
     const FP gridSnap = ScaleToGridSize_4498B0(field_CC_sprite_scale);
     field_6_flags.Set(Options::eInteractive_Bit8);
@@ -308,7 +308,7 @@ TimedMine* TimedMine::vdtor_4108B0(signed int flags)
 
 void TimedMine::vScreenChanged_411270()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

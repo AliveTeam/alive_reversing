@@ -527,8 +527,8 @@ void Command_HelperUpdate()
         sHasTeleported = false;
         sActiveHero_5C1B68->field_106_current_motion = eAbeStates::State_3_Fall_459B60;
         sActiveHero_5C1B68->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7);
-        sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
-        sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+        sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.field_0_current_level;
+        sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.field_2_current_path;
         sActiveHero_5C1B68->field_100_pCollisionLine = nullptr;
         sActiveHero_5C1B68->field_F8_LastLineYPos = sActiveHero_5C1B68->field_BC_ypos;
         sActiveHero_5C1B68->field_CC_sprite_scale = FP_FromDouble(1.0);
@@ -1004,9 +1004,9 @@ public:
         char camBuffer[32];
         Path_Format_CameraName_460FB0(
             camBuffer,
-            gMap_5C3030.sCurrentLevelId_5C3030,
-            gMap_5C3030.sCurrentPathId_5C3032,
-            gMap_5C3030.sCurrentCamId_5C3034);
+            gMap_5C3030.field_0_current_level,
+            gMap_5C3030.field_2_current_path,
+            gMap_5C3030.field_4_current_camera);
         sprintf(titleBuffer, "Oddworld Abe's Exoddus DEV MODE - %s", camBuffer);
         Sys_SetWindowText(Sys_GetHWnd_4F2C70(), titleBuffer);
 

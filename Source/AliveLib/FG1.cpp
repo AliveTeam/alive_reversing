@@ -49,8 +49,8 @@ FG1* FG1::ctor_499FC0(BYTE** pFG1Res)
 
     field_4_typeId = Types::eFG1_101;
 
-    field_24_level_id = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_26_path_id = gMap_5C3030.sCurrentPathId_5C3032;
+    field_24_level_id = gMap_5C3030.field_0_current_level;
+    field_26_path_id = gMap_5C3030.field_2_current_path;
 
     gFG1List_5D1E28->Push_Back(this);
     

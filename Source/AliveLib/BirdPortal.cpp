@@ -56,8 +56,8 @@ BaseGameObject* BirdPortal::ctor_497E00(Path_BirdPortal* pTlv, int tlvInfo)
         field_60_scale = FP_FromInteger(1);
     }
 
-    field_8E_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_8C_level = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_8E_path = gMap_5C3030.field_2_current_path;
+    field_8C_level = gMap_5C3030.field_0_current_level;
     field_28_state = States::State_0;
     field_5C_timer = 0;
     field_6C_terminator_id = -1;
@@ -564,12 +564,12 @@ void BirdPortal::vUpdate_498280()
 void BirdPortal::vScreenChanged_499B50()
 {
     if (field_28_state <= States::State_1 || field_28_state >= States::State_21 || 
-        ((gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
-         gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId) && 
+        ((gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
+         gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path) && 
 
         (field_28_state != States::State_16 || field_24_portal_type != PortalType::eAbe_0 || 
-            gMap_5C3030.field_A_5C303A_levelId != field_7C_dest_level || 
-            gMap_5C3030.field_C_5C303C_pathId != field_7E_dest_path)))
+            gMap_5C3030.field_A_level != field_7C_dest_level || 
+            gMap_5C3030.field_C_path != field_7E_dest_path)))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -921,8 +921,8 @@ BOOL BirdPortal::vStateIs16_499850()
 
 void BirdPortal::vExitPortal_499870()
 {
-    field_8E_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_8C_level = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_8E_path = gMap_5C3030.field_2_current_path;
+    field_8C_level = gMap_5C3030.field_0_current_level;
 
     auto pPortalExitTlv = static_cast<Path_BirdPortal_Exit*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::PortalExit_29, 0));
     if (pPortalExitTlv)
@@ -957,8 +957,8 @@ void BirdPortal::vExitPortal_499870()
         }
 
         sActiveHero_5C1B68->field_CC_sprite_scale = field_60_scale;
-        sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
-        sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+        sActiveHero_5C1B68->field_C2_lvl_number = gMap_5C3030.field_0_current_level;
+        sActiveHero_5C1B68->field_C0_path_number = gMap_5C3030.field_2_current_path;
 
         field_28_state = States::State_17;
     }

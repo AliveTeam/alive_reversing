@@ -121,7 +121,7 @@ void StatsSign::vRender_47B900(int ** pOt)
     if (!field_108_is_hidden)
     {
         char text[12] = {};
-        sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)]);
+        sprintf(text, "%3d", sMudsInLevelCount_55CFAC[static_cast<int>(gMap_5C3030.field_0_current_level)]);
         int maxWidth = field_90_font3.MeasureWidth_433700(text);
 
         __int16 flickerAmount = 50; // ax

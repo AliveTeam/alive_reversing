@@ -136,27 +136,27 @@ void Map::ScreenChange_480B80()
         //dword_5CA4A8 = 0; // TODO: Never used?
 
         // TODO: Refactor this logic
-        if (!sMap_bDoPurpleLightEffect_5C311C && field_A_5C303A_levelId == sCurrentLevelId_5C3030)
+        if (!sMap_bDoPurpleLightEffect_5C311C && field_A_level == field_0_current_level)
         {
             ScreenChange_Common();
             return;
         }
 
-        if (field_A_5C303A_levelId != sCurrentLevelId_5C3030)
+        if (field_A_level != field_0_current_level)
         {
             SsUtAllKeyOff_4FDFE0(0);
         }
 
-        if (field_A_5C303A_levelId != LevelIds::eNone)
+        if (field_A_level != LevelIds::eNone)
         {
-            if (field_A_5C303A_levelId == LevelIds::eCredits_16)
+            if (field_A_level == LevelIds::eCredits_16)
             {
                 sSoundChannelsMask_5C3120 = 0;
                 ScreenChange_Common();
                 return;
             }
         }
-        else if (sCurrentLevelId_5C3030 == LevelIds::eMenu_0)
+        else if (field_0_current_level == LevelIds::eMenu_0)
         {
             sSoundChannelsMask_5C3120 = 0;
             ScreenChange_Common();
@@ -342,13 +342,13 @@ void Map::Handle_PathTransition_481610()
 
     if (field_18_pAliveObj && pPathChangeTLV)
     {
-        field_A_5C303A_levelId = pPathChangeTLV->field_10_level;
-        field_C_5C303C_pathId = pPathChangeTLV->field_12_path;
-        field_E_cameraId = pPathChangeTLV->field_14_camera;
+        field_A_level = pPathChangeTLV->field_10_level;
+        field_C_path = pPathChangeTLV->field_12_path;
+        field_E_camera = pPathChangeTLV->field_14_camera;
         field_12_fmv_base_id = pPathChangeTLV->field_16_movie;
         field_10_screen_change_effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
-        field_18_pAliveObj->field_C2_lvl_number = field_A_5C303A_levelId;
-        field_18_pAliveObj->field_C0_path_number = field_C_5C303C_pathId;
+        field_18_pAliveObj->field_C2_lvl_number = field_A_level;
+        field_18_pAliveObj->field_C0_path_number = field_C_path;
         GoTo_Camera_481890();
 
         // Translate TLV scale to internal scale?
@@ -413,11 +413,11 @@ void Map::Handle_PathTransition_481610()
         }
 
         DWORD pCamNameOffset = sizeof(CameraName) * (field_D0_cam_x_idx + (field_D2_cam_y_idx * sPath_dword_BB47C0->field_6_cams_on_x));
-        BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[sCurrentPathId_5C3032];
+        BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
         CameraName* pCameraName = reinterpret_cast<CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
-        field_E_cameraId =
+        field_E_camera =
             1 * (pCameraName->name[7] - '0') +
             10 * (pCameraName->name[6] - '0');
 
@@ -427,12 +427,12 @@ void Map::Handle_PathTransition_481610()
 
 CameraPos Map::GetDirection_4811A0(int level, int path, FP xpos, FP ypos)
 {
-    if (level != static_cast<int>(sCurrentLevelId_5C3030))
+    if (level != static_cast<int>(field_0_current_level))
     {
         return CameraPos::eCamInvalid_m1;
     }
 
-    if (path != sCurrentPathId_5C3032)
+    if (path != field_2_current_path)
     {
         return CameraPos::eCamInvalid_m1;
     }
@@ -499,17 +499,17 @@ void Map::Init_4803F0(LevelIds level, __int16 path, __int16 camera, CameraSwapEf
     sPath_dword_BB47C0 = alive_new<Path>();
     sPath_dword_BB47C0->ctor_4DB170();
 
-    field_2C_5C305C_camera_array[0] = 0;
-    field_2C_5C305C_camera_array[1] = 0;
-    field_2C_5C305C_camera_array[2] = 0;
-    field_2C_5C305C_camera_array[3] = 0;
-    field_2C_5C305C_camera_array[4] = 0;
+    field_2C_camera_array[0] = 0;
+    field_2C_camera_array[1] = 0;
+    field_2C_camera_array[2] = 0;
+    field_2C_camera_array[3] = 0;
+    field_2C_camera_array[4] = 0;
 
     field_22 = -1;
 
-    sCurrentCamId_5C3034 = static_cast<short>(-1);
-    sCurrentPathId_5C3032 = static_cast<short>(-1);
-    sCurrentLevelId_5C3030 = LevelIds::eNone;
+    field_4_current_camera = static_cast<short>(-1);
+    field_2_current_path = static_cast<short>(-1);
+    field_0_current_level = LevelIds::eNone;
 
     field_8_force_load = 0;
 
@@ -537,11 +537,11 @@ void Map::Shutdown_4804E0()
     // Free cameras
     for (int i = 0; i < 5; i++)
     {
-        if (field_2C_5C305C_camera_array[i])
+        if (field_2C_camera_array[i])
         {
-            field_2C_5C305C_camera_array[i]->dtor_480E00();
-            alive_delete_free(field_2C_5C305C_camera_array[i]);
-            field_2C_5C305C_camera_array[i] = nullptr;
+            field_2C_camera_array[i]->dtor_480E00();
+            alive_delete_free(field_2C_camera_array[i]);
+            field_2C_camera_array[i] = nullptr;
         }
     }
 
@@ -561,11 +561,11 @@ void Map::Shutdown_4804E0()
 
 void Map::Reset_4805D0()
 {
-    field_2C_5C305C_camera_array[0] = 0;
-    field_2C_5C305C_camera_array[1] = 0;
-    field_2C_5C305C_camera_array[2] = 0;
-    field_2C_5C305C_camera_array[3] = 0;
-    field_2C_5C305C_camera_array[4] = 0;
+    field_2C_camera_array[0] = 0;
+    field_2C_camera_array[1] = 0;
+    field_2C_camera_array[2] = 0;
+    field_2C_camera_array[3] = 0;
+    field_2C_camera_array[4] = 0;
     memset(&field_54_path_res_array, 0, sizeof(field_54_path_res_array));
     field_CC = 1;
     field_CE_free_all_anim_and_palts = 0;
@@ -575,14 +575,14 @@ void Map::Reset_4805D0()
 void Map::GoTo_Camera_481890()
 {
     __int16 bShowLoadingIcon = FALSE;
-    if (sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && sCurrentLevelId_5C3030 != LevelIds::eCredits_16 && sCurrentLevelId_5C3030 != LevelIds::eNone)
+    if (field_0_current_level != LevelIds::eMenu_0 && field_0_current_level != LevelIds::eCredits_16 && field_0_current_level != LevelIds::eNone)
     {
         bShowLoadingIcon = TRUE;
     }
 
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
     {
-        BaseGameObject* pFmvRet = FMV_Camera_Change_482650(nullptr, this, sCurrentLevelId_5C3030);
+        BaseGameObject* pFmvRet = FMV_Camera_Change_482650(nullptr, this, field_0_current_level);
         do
         {
             SYS_EventsPump_494580();
@@ -619,47 +619,47 @@ void Map::GoTo_Camera_481890()
         sSoundChannelsMask_5C3120 = SND_4CA5D0(0, 0, 36, 70, 0, 0);
     }
 
-    if (sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && sCurrentLevelId_5C3030 != LevelIds::eNone)
+    if (field_0_current_level != LevelIds::eMenu_0 && field_0_current_level != LevelIds::eNone)
     {
-        if (field_A_5C303A_levelId != sCurrentLevelId_5C3030
+        if (field_A_level != field_0_current_level
             || field_8_force_load
-            || (field_C_5C303C_pathId != sCurrentPathId_5C3032 && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
+            || (field_C_path != field_2_current_path && field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
             )
         {
             Game_ShowLoadingIcon_482D80();
         }
     }
 
-    if (field_A_5C303A_levelId != sCurrentLevelId_5C3030
-        || field_C_5C303C_pathId != sCurrentPathId_5C3032
+    if (field_A_level != field_0_current_level
+        || field_C_path != field_2_current_path
         || field_8_force_load)
     {
         field_22 = Get_Path_Unknown_480710();
     }
 
-    if (field_A_5C303A_levelId != sCurrentLevelId_5C3030 || field_8_force_load)
+    if (field_A_level != field_0_current_level || field_8_force_load)
     {
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
         
         // Free all cameras
         for (int i = 0; i < 5; i++)
         {
-            if (field_2C_5C305C_camera_array[i])
+            if (field_2C_camera_array[i])
             {
-                field_2C_5C305C_camera_array[i]->dtor_480E00();
-                alive_delete_free(field_2C_5C305C_camera_array[i]);
-                field_2C_5C305C_camera_array[i] = nullptr;
+                field_2C_camera_array[i]->dtor_480E00();
+                alive_delete_free(field_2C_camera_array[i]);
+                field_2C_camera_array[i] = nullptr;
             }
         }
 
-        if (sCurrentLevelId_5C3030 != LevelIds::eNone)
+        if (field_0_current_level != LevelIds::eNone)
         {
             // Close LVL archives
             sLvlArchive_5BC520.Free_433130();
             stru_5C3110.Free_433130();
 
             // Free all but the first ?
-            for (int i = 1; i <= sPathData_559660.paths[static_cast<int>(sCurrentLevelId_5C3030)].field_1A_num_paths; ++i)
+            for (int i = 1; i <= sPathData_559660.paths[static_cast<int>(field_0_current_level)].field_1A_num_paths; ++i)
             {
                 ResourceManager::FreeResource_49C330(field_54_path_res_array.field_0_pPathRecs[i]);
                 field_54_path_res_array.field_0_pPathRecs[i] = nullptr;
@@ -667,7 +667,7 @@ void Map::GoTo_Camera_481890()
 
             sPath_dword_BB47C0->Free_4DB1C0();
 
-            if (field_A_5C303A_levelId != sCurrentLevelId_5C3030)
+            if (field_A_level != field_0_current_level)
             {
                 SND_Reset_4C9FB0();
             }
@@ -677,7 +677,7 @@ void Map::GoTo_Camera_481890()
 
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
 
-        const PathRoot& pathData = sPathData_559660.paths[static_cast<int>(field_A_5C303A_levelId)];
+        const PathRoot& pathData = sPathData_559660.paths[static_cast<int>(field_A_level)];
 
         // Open LVL
         while (!sLvlArchive_5BC520.Open_Archive_432E80(pathData.field_22_lvl_name_cd))
@@ -705,7 +705,7 @@ void Map::GoTo_Camera_481890()
             field_54_path_res_array.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
         }
 
-        if (field_A_5C303A_levelId == sCurrentLevelId_5C3030)
+        if (field_A_level == field_0_current_level)
         {
             MusicController::sub_47FD60(MusicController::MusicTypes::eType0, sActiveHero_5C1B68, 0, 0);
         }
@@ -734,27 +734,27 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    if (!field_C_5C303C_pathId)
+    if (!field_C_path)
     {
-        field_C_5C303C_pathId = 1;
+        field_C_path = 1;
     }
 
-    const __int16 prevPathId = sCurrentPathId_5C3032;
-    const LevelIds prevLevelId = sCurrentLevelId_5C3030;
+    const __int16 prevPathId = field_2_current_path;
+    const LevelIds prevLevelId = field_0_current_level;
 
-    sCurrentPathId_5C3032 = field_C_5C303C_pathId;
-    sCurrentLevelId_5C3030 = field_A_5C303A_levelId;
-    sCurrentCamId_5C3034 = field_E_cameraId;
+    field_2_current_path = field_C_path;
+    field_0_current_level = field_A_level;
+    field_4_current_camera = field_E_camera;
 
-    const PathBlyRec* pPathRec_1 = Path_Get_Bly_Record_460F30(field_A_5C303A_levelId, field_C_5C303C_pathId);
+    const PathBlyRec* pPathRec_1 = Path_Get_Bly_Record_460F30(field_A_level, field_C_path);
     field_D4_ptr = pPathRec_1->field_4_pPathData;
     
     sPath_dword_BB47C0->Init_4DB200(
         field_D4_ptr,
-        field_A_5C303A_levelId,
-        field_C_5C303C_pathId,
-        field_E_cameraId,
-        field_54_path_res_array.field_0_pPathRecs[field_C_5C303C_pathId]);
+        field_A_level,
+        field_C_path,
+        field_E_camera,
+        field_54_path_res_array.field_0_pPathRecs[field_C_path]);
     
     if (sQuickSave_saved_switchResetters_count_BB234C > 0)
     {
@@ -762,14 +762,14 @@ void Map::GoTo_Camera_481890()
     }
 
     char pStrBuffer[13] = {};
-    Path_Format_CameraName_460FB0(pStrBuffer, field_A_5C303A_levelId, field_C_5C303C_pathId, field_E_cameraId);
+    Path_Format_CameraName_460FB0(pStrBuffer, field_A_level, field_C_path, field_E_camera);
 
     DWORD pCamNameOffset = 0;
     if (sizeof(CameraName) * sPath_dword_BB47C0->field_6_cams_on_x * sPath_dword_BB47C0->field_8_cams_on_y > 0)
     {
         for (;;)
         {
-            BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_C_5C303C_pathId];
+            BYTE* pPathRes = *field_54_path_res_array.field_0_pPathRecs[field_C_path];
             CameraName* pCameraNameIter = reinterpret_cast<CameraName*>(pPathRes + pCamNameOffset);
 
             if (strncmp(pCameraNameIter->name, pStrBuffer, sizeof(CameraName)) == 0)
@@ -793,7 +793,7 @@ void Map::GoTo_Camera_481890()
     field_24_camera_offset.field_4_y = FP_FromInteger(field_D2_cam_y_idx * field_D4_ptr->field_C_grid_height);
 
     // If map has changed then load new collision info
-    if (prevPathId != sCurrentPathId_5C3032 || prevLevelId != sCurrentLevelId_5C3030)
+    if (prevPathId != field_2_current_path || prevLevelId != field_0_current_level)
     {
         if (sCollisions_DArray_5C1128)
         {
@@ -804,7 +804,7 @@ void Map::GoTo_Camera_481890()
         sCollisions_DArray_5C1128 = alive_new<Collisions>();
         if (sCollisions_DArray_5C1128)
         {
-            sCollisions_DArray_5C1128->ctor_418930(pPathRec_1->field_8_pCollisionData, *field_54_path_res_array.field_0_pPathRecs[sCurrentPathId_5C3032]);
+            sCollisions_DArray_5C1128->ctor_418930(pPathRec_1->field_8_pCollisionData, *field_54_path_res_array.field_0_pPathRecs[field_2_current_path]);
         }
     }
 
@@ -817,15 +817,15 @@ void Map::GoTo_Camera_481890()
     // Copy camera array and blank out the source
     for (int i = 0; i < 5; i++)
     {
-        field_40_stru_5[i] = field_2C_5C305C_camera_array[i];
-        field_2C_5C305C_camera_array[i] = nullptr;
+        field_40_stru_5[i] = field_2C_camera_array[i];
+        field_2C_camera_array[i] = nullptr;
     }
 
-    field_2C_5C305C_camera_array[0] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx,         1);
-    field_2C_5C305C_camera_array[3] = Create_Camera_4829E0(field_D0_cam_x_idx - 1,  field_D2_cam_y_idx,         0);
-    field_2C_5C305C_camera_array[4] = Create_Camera_4829E0(field_D0_cam_x_idx + 1,  field_D2_cam_y_idx,         0);
-    field_2C_5C305C_camera_array[1] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx - 1,     0);
-    field_2C_5C305C_camera_array[2] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx + 1,     0);
+    field_2C_camera_array[0] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx,         1);
+    field_2C_camera_array[3] = Create_Camera_4829E0(field_D0_cam_x_idx - 1,  field_D2_cam_y_idx,         0);
+    field_2C_camera_array[4] = Create_Camera_4829E0(field_D0_cam_x_idx + 1,  field_D2_cam_y_idx,         0);
+    field_2C_camera_array[1] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx - 1,     0);
+    field_2C_camera_array[2] = Create_Camera_4829E0(field_D0_cam_x_idx,      field_D2_cam_y_idx + 1,     0);
  
     // Free resources for each camera
     for (int i = 0; i < 5; i++)
@@ -849,12 +849,12 @@ void Map::GoTo_Camera_481890()
         }
     }
 
-    Map::Load_Path_Items_482C10(field_2C_5C305C_camera_array[0], 0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[0], 0);
     pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
-    Map::Load_Path_Items_482C10(field_2C_5C305C_camera_array[3], 0);
-    Map::Load_Path_Items_482C10(field_2C_5C305C_camera_array[4], 0);
-    Map::Load_Path_Items_482C10(field_2C_5C305C_camera_array[1], 0);
-    Map::Load_Path_Items_482C10(field_2C_5C305C_camera_array[2], 0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[3], 0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[4], 0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[1], 0);
+    Map::Load_Path_Items_482C10(field_2C_camera_array[2], 0);
 
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!pScreenManager_5BB5F4)
@@ -862,16 +862,16 @@ void Map::GoTo_Camera_481890()
         pScreenManager_5BB5F4 = alive_new<ScreenManager>();
         if (pScreenManager_5BB5F4)
         {
-            pScreenManager_5BB5F4->ctor_40E3E0(field_2C_5C305C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
+            pScreenManager_5BB5F4->ctor_40E3E0(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
         }
     }
 
     sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, 0, -1);
-    if (prevPathId != sCurrentPathId_5C3032 || prevLevelId != sCurrentLevelId_5C3030)
+    if (prevPathId != field_2_current_path || prevLevelId != field_0_current_level)
     {
         if (sActiveHero_5C1B68)
         {
-            if (sCurrentPathId_5C3032 == sActiveHero_5C1B68->field_C0_path_number)
+            if (field_2_current_path == sActiveHero_5C1B68->field_C0_path_number)
             {
                 sActiveHero_5C1B68->VCheckCollisionLineStillValid_408A40(10);
             }
@@ -882,18 +882,18 @@ void Map::GoTo_Camera_481890()
 
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect5_1_FMV)
     {
-        Map::FMV_Camera_Change_482650(field_2C_5C305C_camera_array[0]->field_C_pCamRes, this, field_A_5C303A_levelId);
+        Map::FMV_Camera_Change_482650(field_2C_camera_array[0]->field_C_pCamRes, this, field_A_level);
     }
 
     if (field_10_screen_change_effect == CameraSwapEffects::eEffect11)
     {
-        pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(field_2C_5C305C_camera_array[0]->field_C_pCamRes));
+        pScreenManager_5BB5F4->DecompressToVRam_40EF60(reinterpret_cast<WORD**>(field_2C_camera_array[0]->field_C_pCamRes));
         pScreenManager_5BB5F4->InvalidateRect_40EC10(0, 0, 640, 240);
         pScreenManager_5BB5F4->MoveImage_40EB70();
         pScreenManager_5BB5F4->field_40_flags |= 0x10000;
     }
 
-    if (prevLevelId != sCurrentLevelId_5C3030)
+    if (prevLevelId != field_0_current_level)
     {
         pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     }
@@ -920,7 +920,7 @@ void Map::GoTo_Camera_481890()
                 auto obj = alive_new<CameraSwapper>();
                 if (obj)
                 {
-                    obj->ctor_4E5000(field_2C_5C305C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, 368 / 2, 240 / 2);
+                    obj->ctor_4E5000(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, 368 / 2, 240 / 2);
                 }
             }
             else
@@ -956,7 +956,7 @@ void Map::GoTo_Camera_481890()
 
 Camera* Map::GetCamera(CameraPos pos)
 {
-    return field_2C_5C305C_camera_array[static_cast<int>(pos)];
+    return field_2C_camera_array[static_cast<int>(pos)];
 }
 
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
@@ -972,7 +972,7 @@ void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 
         const short rightPos = static_cast<short>(midX - FP_GetExponent(camX));
         const short xpos2 = rightPos;
-        obj->ctor_4E5000(field_2C_5C305C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
+        obj->ctor_4E5000(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
     }
 }
 
@@ -997,14 +997,14 @@ void Map::Get_Abe_Spawn_Pos_4806D0(PSX_Point* pPoint)
 __int16 Map::Get_Path_Unknown_480710()
 {
     // TODO: Probably need to redo field_C data as 1 bytes instead of a word
-    return Path_Get_Bly_Record_460F30(field_A_5C303A_levelId, field_C_5C303C_pathId)->field_C & 0xFF;
+    return Path_Get_Bly_Record_460F30(field_A_level, field_C_path)->field_C & 0xFF;
 }
 
 void Map::Create_FG1s_480F10()
 {
     pScreenManager_5BB5F4->UnsetDirtyBits_FG1_40ED70();
 
-    Camera* pCamera = field_2C_5C305C_camera_array[0];
+    Camera* pCamera = field_2C_camera_array[0];
     for (int i = 0; i < pCamera->field_0.Size(); i++)
     {
         BYTE** ppRes = pCamera->field_0.ItemAt(i);
@@ -1037,7 +1037,7 @@ signed __int16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRe
         return 0;
     }
 
-    Camera* pCamera = field_2C_5C305C_camera_array[static_cast<int>(camIdx)];
+    Camera* pCamera = field_2C_camera_array[static_cast<int>(camIdx)];
     if (!pCamera)
     {
         return 0;
@@ -1061,7 +1061,7 @@ signed __int16 Map::Get_Camera_World_Rect_481410(CameraPos camIdx, PSX_RECT* pRe
 __int16 Map::Is_Point_In_Current_Camera_4810D0(int level, int path, FP xpos, FP ypos, __int16 width)
 {
     const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
-    if (static_cast<LevelIds>(level) != sCurrentLevelId_5C3030 || path != sCurrentPathId_5C3032) // TODO: Remove when 100%
+    if (static_cast<LevelIds>(level) != field_0_current_level || path != field_2_current_path) // TODO: Remove when 100%
     {
         return 0;
     }
@@ -1112,15 +1112,15 @@ EXPORT CameraPos Map::Rect_Location_Relative_To_Active_Camera_480FE0(PSX_RECT* p
 
 signed __int16 Map::SetActiveCam_480D30(LevelIds level, __int16 path, __int16 cam, CameraSwapEffects screenChangeEffect, __int16 fmvBaseId, __int16 forceChange)
 {
-    if (!forceChange && cam == sCurrentCamId_5C3034 && level == sCurrentLevelId_5C3030 && path == sCurrentPathId_5C3032)
+    if (!forceChange && cam == field_4_current_camera && level == field_0_current_level && path == field_2_current_path)
     {
         return 0;
     }
 
-    field_E_cameraId = cam;
+    field_E_camera = cam;
     field_12_fmv_base_id = fmvBaseId;
-    field_C_5C303C_pathId = path;
-    field_A_5C303A_levelId = level;
+    field_C_path = path;
+    field_A_level = level;
     field_10_screen_change_effect = screenChangeEffect;
 
     field_6_state = 2;
@@ -1241,8 +1241,8 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
     for (int i = 0; i < 5; i++)
     {
         if (field_40_stru_5[i]
-            && field_40_stru_5[i]->field_1A_level == sCurrentLevelId_5C3030
-            && field_40_stru_5[i]->field_18_path == sCurrentPathId_5C3032
+            && field_40_stru_5[i]->field_1A_level == field_0_current_level
+            && field_40_stru_5[i]->field_18_path == field_2_current_path
             && field_40_stru_5[i]->field_14_xpos == xpos
             && field_40_stru_5[i]->field_16_ypos == ypos)
         {
@@ -1253,7 +1253,7 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    BYTE* pPathData = *field_54_path_res_array.field_0_pPathRecs[sCurrentPathId_5C3032];
+    BYTE* pPathData = *field_54_path_res_array.field_0_pPathRecs[field_2_current_path];
     CameraName* pCamName = reinterpret_cast<CameraName*>(&pPathData[(xpos + (ypos * sPath_dword_BB47C0->field_6_cams_on_x)) * sizeof(CameraName)]);
 
     // Empty/blank camera in the map array
@@ -1275,8 +1275,8 @@ Camera* Map::Create_Camera_4829E0(__int16 xpos, __int16 ypos, int /*a4*/)
 
     newCamera->field_30_flags &= -1;
 
-    newCamera->field_1A_level = sCurrentLevelId_5C3030;
-    newCamera->field_18_path = sCurrentPathId_5C3032;;
+    newCamera->field_1A_level = field_0_current_level;
+    newCamera->field_18_path = field_2_current_path;;
 
     // Calculate hash/resource ID of the camera
     newCamera->field_10_camera_resource_id =
@@ -1365,9 +1365,9 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
 
     if (pObj && pPathChangeTLV)
     {
-        field_A_5C303A_levelId = pPathChangeTLV->field_10_level;
-        field_C_5C303C_pathId = pPathChangeTLV->field_12_path;
-        field_E_cameraId = pPathChangeTLV->field_14_camera;
+        field_A_level = pPathChangeTLV->field_10_level;
+        field_C_path = pPathChangeTLV->field_12_path;
+        field_E_camera = pPathChangeTLV->field_14_camera;
         if (kMinus1 < 0)
         {
             // Map the TLV/editor value of screen change to the internal screen change
@@ -1408,8 +1408,8 @@ signed __int16 Map::SetActiveCameraDelayed_4814A0(MapDirections direction, BaseA
              break;
          }
 
-        field_A_5C303A_levelId = sCurrentLevelId_5C3030;
-        field_C_5C303C_pathId = sCurrentPathId_5C3032;
+        field_A_level = field_0_current_level;
+        field_C_path = field_2_current_path;
         unknown = static_cast<CameraSwapEffects>(kMinus1); // TODO: Correct ??
     }
 

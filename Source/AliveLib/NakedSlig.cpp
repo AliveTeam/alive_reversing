@@ -117,7 +117,7 @@ NakedSlig* NakedSlig::ctor_418C70(Path_NakedSlig* pTlv, int tlvInfo)
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSligBlowResID, 1, 0));
     Animation_Init_424E10(53684, 109, 37, field_10_resources_array.ItemAt(0), 1, 1);
 
-    SetTint_425600(&stru_5514B8[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&stru_5514B8[0], gMap_5C3030.field_0_current_level);
 
     field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
 
@@ -426,9 +426,9 @@ void NakedSlig::vPossessed_4195F0()
     SetBrain(&NakedSlig::AI_3_Possesed_41A5B0);
     field_208_brain_sub_state = 0;
     field_1AC_timer = sGnFrame_5C1B84 + 35;
-    field_1BA_prev_level = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_1BC_prev_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_1BE_prev_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    field_1BA_prev_level = gMap_5C3030.field_0_current_level;
+    field_1BC_prev_path = gMap_5C3030.field_2_current_path;
+    field_1BE_prev_camera = gMap_5C3030.field_4_current_camera;
 }
 
 void NakedSlig::Set_AnimAndMotion_419890(__int16 currentMotion, __int16 bClearNextMotion)
@@ -754,7 +754,7 @@ void NakedSlig::dtor_418FE0()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
-        if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
+        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
                 field_1BA_prev_level,
@@ -1631,8 +1631,8 @@ void NakedSlig::M_Speaking_8_41BF70()
 {
     if (field_20_animation.field_92_current_frame == 2 && field_1C0_speak != SligSpeak::None)
     {
-        if (gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number && 
-            gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number && 
+        if (gMap_5C3030.field_2_current_path == field_C0_path_number && 
+            gMap_5C3030.field_0_current_level == field_C2_lvl_number && 
             Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
             Sfx_Slig_GameSpeak_4C04F0(field_1C0_speak, 0, 0, this);

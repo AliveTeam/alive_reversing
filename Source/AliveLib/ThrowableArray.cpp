@@ -169,7 +169,7 @@ void ThrowableArray::vUpdate_49AA50()
 {
     if (field_22_flags & 1)
     {
-        LoadRockTypes_49AB30(gMap_5C3030.sCurrentLevelId_5C3030, gMap_5C3030.sCurrentPathId_5C3032);
+        LoadRockTypes_49AB30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
         Add_49A7A0(0);
         field_22_flags &= ~1u;
         field_6_flags.Clear(BaseGameObject::eUpdatable_Bit2);
@@ -186,7 +186,7 @@ signed int ThrowableArray::vGetSaveState_49B2A0(BYTE* pSaveBuffer)
 
 void ThrowableArray::vScreenChange_49AAA0()
 {
-    if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0 && gMap_5C3030.field_A_5C303A_levelId != LevelIds::eCredits_16)
+    if (gMap_5C3030.field_A_level != LevelIds::eMenu_0 && gMap_5C3030.field_A_level != LevelIds::eCredits_16)
     {
         if (word_55FAFC[gMap_5C3030.field_22] != word_55FAFC[gMap_5C3030.Get_Path_Unknown_480710()])
         {
@@ -279,7 +279,7 @@ void ThrowableArray::Add_49A7A0(__int16 count)
 
 signed int CC ThrowableArray::CreateFromSaveState_49B200(const BYTE* pState)
 {
-    LoadRockTypes_49AB30(gMap_5C3030.sCurrentLevelId_5C3030, gMap_5C3030.sCurrentPathId_5C3032);
+    LoadRockTypes_49AB30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
     auto pArray = alive_new<ThrowableArray>();
     if (pArray)
     {

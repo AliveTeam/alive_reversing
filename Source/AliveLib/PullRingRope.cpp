@@ -43,7 +43,7 @@ PullRingRope* PullRingRope::ctor_49B2D0(Path_PullRingRope* pTlv, int tlvInfo)
     BYTE** v4 = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kPullringResID);
     Animation_Init_424E10(3020, 35, 0x16u, v4, 1, 1);
 
-    SetTint_425600(sPullRingRopeTints_55FD1C, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(sPullRingRopeTints_55FD1C, gMap_5C3030.field_0_current_level);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -185,11 +185,11 @@ void PullRingRope::vUpdate_49B720()
             field_10C &= ~1u;
             field_100_state = State::eState_2;
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
             {
                 SFX_Play_46FA90(0x50u, 0);
             }
