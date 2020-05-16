@@ -422,7 +422,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
         field_D6_scale = 1;
     }
 
-    SetBaseAnimPaletteTint_425690(&stru_560570[0], gMap_5C3030.sCurrentLevelId_5C3030, 412);
+    SetBaseAnimPaletteTint_425690(&stru_560570[0], gMap_5C3030.field_0_current_level, 412);
 
     FP hitX = {};
     FP hitY = {};
@@ -446,7 +446,7 @@ Slig* Slig::ctor_4B1370(Path_Slig* pTlv, int tlvInfo)
     
     vStackOnObjectsOfType_425840(Types::eSlig_125);
     
-    if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 && gMap_5C3030.sCurrentPathId_5C3032 == 2 && gMap_5C3030.sCurrentCamId_5C3034 == 5)
+    if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 && gMap_5C3030.field_2_current_path == 2 && gMap_5C3030.field_4_current_camera == 5)
     {
         field_DA_xOffset = 0;
     }
@@ -481,8 +481,8 @@ void renderWithGlowingEyes(int** ot, BaseAliveGameObject* actor, __int16* pPalAl
 {
     if (actor->field_20_animation.field_4_flags.Get(AnimFlags::eBit3_Render))
     {
-        if (gMap_5C3030.sCurrentPathId_5C3032 == actor->field_C0_path_number &&
-            gMap_5C3030.sCurrentLevelId_5C3030 == actor->field_C2_lvl_number &&
+        if (gMap_5C3030.field_2_current_path == actor->field_C0_path_number &&
+            gMap_5C3030.field_0_current_level == actor->field_C2_lvl_number &&
             actor->Is_In_Current_Camera_424A70() == CameraPos::eCamCurrent_0)
         {
             actor->field_20_animation.field_14_scale = actor->field_CC_sprite_scale;
@@ -3807,8 +3807,8 @@ __int16 Slig::AI_Chasing2_17_4BCBD0()
         return 118;
     }
 
-    if (field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032 ||
-        field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030 || 
+    if (field_C0_path_number != gMap_5C3030.field_2_current_path ||
+        field_C2_lvl_number != gMap_5C3030.field_0_current_level || 
         (Event_Get_422C00(kEventDeathReset) && 
         !gMap_5C3030.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, field_B8_xpos, field_BC_ypos, 0)))
     {
@@ -3842,7 +3842,7 @@ __int16 Slig::AI_Chasing1_18_4BCEB0()
     }
     else
     {
-        if (field_C0_path_number != gMap_5C3030.sCurrentPathId_5C3032 || field_C2_lvl_number != gMap_5C3030.sCurrentLevelId_5C3030)
+        if (field_C0_path_number != gMap_5C3030.field_2_current_path || field_C2_lvl_number != gMap_5C3030.field_0_current_level)
         {
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
@@ -4861,7 +4861,7 @@ void Slig::dtor_4B1CF0()
         
         MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
 
-        if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
+        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
                 field_146_level,
@@ -4899,7 +4899,7 @@ Slig* Slig::vdtor_4B1790(signed int flags)
     dtor_4B1CF0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -5109,9 +5109,9 @@ void Slig::vUpdate_4B17C0()
 
 void Slig::vScreenChanged_4B1E20()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || 
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || 
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
-        (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId && this != sControlledCharacter_5C1B8C))
+        (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path && this != sControlledCharacter_5C1B8C))
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -5128,9 +5128,9 @@ void Slig::vPossessed_4B2F10()
     SetBrain(&Slig::AI_Possessed_2_4BBCF0);
     field_11C_ai_sub_state = AI_Possessed::eState2_StartPossession_0;
 
-    field_146_level = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_148_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_14A_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    field_146_level = gMap_5C3030.field_0_current_level;
+    field_148_path = gMap_5C3030.field_2_current_path;
+    field_14A_camera = gMap_5C3030.field_4_current_camera;
 
     MusicController::sub_47FD60(MusicController::MusicTypes::eType9, this, 1, 0);
 }

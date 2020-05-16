@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "stdafx_common.h"
 #include "ExportHooker.hpp"
 
 #if defined(_WIN32) && !defined(_WIN64)
@@ -45,8 +45,10 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
     if (!DetourEnumerateExports(mhInstance, this, EnumExports))
     {
-        ALIVE_FATAL("Export enumeration failed");
+        HOOK_FATAL("Export enumeration failed");
     }
+
+    LOG_INFO("Enumerated " << mExportCount << " exports");
 
     if (saveImplementedFuncs)
     {
@@ -65,7 +67,7 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
             else
             {
                 const std::string msg = "UnDecorateSymbolName failed on " + e.mName;
-                ALIVE_FATAL(msg.c_str());
+                HOOK_FATAL(msg.c_str());
             }
 
             if (e.mIsImplemented)
@@ -80,11 +82,14 @@ void ExportHooker::Apply(bool saveImplementedFuncs /*= false*/)
 
     }
 
-    if (IsAlive())
+    if (RunningAsInjectedDll())
     {
         LoadDisabledHooks();
         ProcessExports();
     }
+
+    LOG_INFO("Hooked (" << mHookedCount << "/" << mExportCount << ") exports");
+
 #endif
 }
 
@@ -113,14 +118,14 @@ void ExportHooker::ProcessExports()
 
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourTransactionBegin failed");
+        HOOK_FATAL("DetourTransactionBegin failed");
     }
 
     err = DetourUpdateThread(GetCurrentThread());
 
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourUpdateThread failed");
+        HOOK_FATAL("DetourUpdateThread failed");
     }
 
     for (auto& e : mExports)
@@ -141,6 +146,7 @@ void ExportHooker::ProcessExports()
         {
             // Redirect real game function to our impl
             err = DetourAttach(&(PVOID&)e.mHookedGameFunctionAddr, e.mCode);
+            mHookedCount++;
         }
         else
         {
@@ -150,33 +156,33 @@ void ExportHooker::ProcessExports()
 
         if (err != NO_ERROR)
         {
-            ALIVE_FATAL("DetourAttach failed");
+            HOOK_FATAL("DetourAttach failed");
         }
     }
 
     err = DetourTransactionCommit();
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourTransactionCommit failed");
+        HOOK_FATAL("DetourTransactionCommit failed");
     }
 
     err = DetourTransactionBegin();
 
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourTransactionBegin failed");
+        HOOK_FATAL("DetourTransactionBegin failed");
     }
 
     err = DetourUpdateThread(GetCurrentThread());
 
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourUpdateThread failed");
+        HOOK_FATAL("DetourUpdateThread failed");
     }
 
     for (const auto& p : mRealStubs)
     {
-        if (IsAlive())
+        if (RunningAsInjectedDll())
         {
             // Redirect p.second (our stub) to the real game function p (p.second -> p)
             // however! p may have already been hooked to q (p -> q).
@@ -203,7 +209,7 @@ void ExportHooker::ProcessExports()
     err = DetourTransactionCommit();
     if (err != NO_ERROR)
     {
-        ALIVE_FATAL("DetourTransactionCommit failed");
+        HOOK_FATAL("DetourTransactionCommit failed");
     }
 #endif
 }
@@ -251,27 +257,26 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
                 {
                     info.mUnMangledFunctioName = pBothNames;
 
-                    if (!IsAlive())
+                    if (!RunningAsInjectedDll())
                     {
                         BYTE* ptr = &reinterpret_cast<BYTE*>(pExportedFunctionAddress)[i + 4];
                         DWORD old = 0;
                         if (!::VirtualProtect(ptr, 1, PAGE_EXECUTE_READWRITE, &old))
                         {
-                            ALIVE_FATAL("Failed to make memory writable");
+                            HOOK_FATAL("Failed to make memory writable");
                         }
-                        *ptr = 0x90;
+                        *ptr = 0x90; // Nop out the break instruction to prevent not implemented crashing in standalone
                         if (!::VirtualProtect(ptr, 1, old, &old))
                         {
-                            ALIVE_FATAL("Failed to restore old memory protection");
+                            HOOK_FATAL("Failed to restore old memory protection");
                         }
                     }
                     return info;
                 }
                 else
                 {
-                    LOG_INFO("didn't match address");
+                    LOG_INFO("didn't match address: " << exportedFunctionName);
                 }
-
             }
         }
     }
@@ -283,6 +288,8 @@ ExportHooker::ExportInformation ExportHooker::GetExportInformation(PVOID pExport
 void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
 {
 #if defined(_WIN32) && !defined(_WIN64)
+    mExportCount++;
+
     std::string exportedFunctionName(pszName);
     auto underScorePos = exportedFunctionName.find_first_of('_');
     while (underScorePos != std::string::npos)
@@ -334,10 +341,10 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                     {
                         std::stringstream s;
                         s << "Duplicated real function stub for address " << std::hex << "0x" << addr << " " << exportedFunctionName;
-                        ALIVE_FATAL(s.str().c_str());
+                        HOOK_FATAL(s.str().c_str());
                     }
                     mRealStubs[addr] = (DWORD)pCode;
-                    if (!IsAlive())
+                    if (!RunningAsInjectedDll())
                     {
                         // Disable the int 3/break point in the real stub in standalone
                         GetExportInformation(pCode, exportedFunctionName);
@@ -353,7 +360,7 @@ void ExportHooker::OnExport(PCHAR pszName, PVOID pCode)
                     {
                         std::stringstream s;
                         s << "Duplicated impl function for address " << std::hex << "0x" << addr << " already used by " << it->second.Name() << " when checking " << exportedFunctionName;
-                        ALIVE_FATAL(s.str().c_str());
+                        HOOK_FATAL(s.str().c_str());
                     }
 
 

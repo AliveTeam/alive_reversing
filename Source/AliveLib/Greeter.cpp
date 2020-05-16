@@ -274,7 +274,7 @@ Greeter* Greeter::vdtor_4468B0(signed int flags)
     dtor_4468E0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

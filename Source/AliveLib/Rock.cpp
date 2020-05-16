@@ -115,7 +115,7 @@ void Rock::VTimeToExplodeRandom_411490()
 
 void Rock::vScreenChanged_49F030()
 {
-    if (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId || gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -136,7 +136,7 @@ Rock* Rock::vdtor_49E370(signed int flags)
     dtor_49E3A0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -635,7 +635,7 @@ RockSack* RockSack::vdtor_49F2E0(signed int flags)
     dtor_49F310();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

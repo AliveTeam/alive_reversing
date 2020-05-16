@@ -42,9 +42,9 @@ DeathFadeOut* DeathFadeOut::ctor_427030(__int16 layer, __int16 direction, __int1
 
     Init_427140(layer, direction, destroyOnDone, speed);
 
-    field_72_r = field_78_current_fade_rgb;
+    field_72_b = field_78_current_fade_rgb;
     field_70_g = field_78_current_fade_rgb;
-    field_6E_b = field_78_current_fade_rgb;
+    field_6E_r = field_78_current_fade_rgb;
 
     return this;
 }
@@ -87,7 +87,7 @@ DeathFadeOut* DeathFadeOut::vdtor_4270F0(signed int flags)
     dtor_427120();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -113,9 +113,9 @@ void DeathFadeOut::Update_4271C0()
 
 void DeathFadeOut::vRender_427210(int** pOt)
 {
-    field_72_r = field_78_current_fade_rgb;
+    field_72_b = field_78_current_fade_rgb;
     field_70_g = field_78_current_fade_rgb;
-    field_6E_b = field_78_current_fade_rgb;
+    field_6E_r = field_78_current_fade_rgb;
 
     EffectBase::VRender(pOt);
 

@@ -2890,7 +2890,7 @@ void Slog::Init_4C46A0()
     field_138_listening_to_slig_id = -1;
     field_118_target_id = -1;
     field_15C_bone_id = -1;
-    SetTint_425600(&stru_560A48[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&stru_560A48[0], gMap_5C3030.field_0_current_level);
     field_20_animation.field_C_render_layer = 34;
 
     if (field_CC_sprite_scale == FP_FromInteger(1))
@@ -3047,7 +3047,7 @@ Slog* Slog::vdtor_4C4510(signed int flags)
     dtor_4C49A0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

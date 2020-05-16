@@ -40,7 +40,7 @@ int main()
 }
 #endif
 
-bool IsAlive()
+bool RunningAsInjectedDll()
 {
     return false;
 }

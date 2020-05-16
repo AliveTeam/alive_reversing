@@ -29,7 +29,7 @@ IO_FileHandleType IO_Open(const char* fileName, const char * mode)
 #if USE_SDL2_IO
     return SDL_RWFromFile(fileName, mode);
 #else
-    return fopen_520C64(fileName, mode);
+    return alive_fopen(fileName, mode);
 #endif
 }
 
@@ -38,7 +38,7 @@ int IO_Seek(IO_FileHandleType pHandle, int offset, int origin)
 #if USE_SDL2_IO
     return static_cast<int>(pHandle->seek(pHandle, offset, origin));
 #else
-    return fseek_521955(pHandle, offset, origin);
+    return alive_fseek(pHandle, offset, origin);
 #endif
 }
 
@@ -47,7 +47,7 @@ int IO_Close(IO_FileHandleType pHandle)
 #if USE_SDL2_IO
     return pHandle->close(pHandle);
 #else
-    return fclose_520CBE(pHandle);
+    return alive_fclose(pHandle);
 #endif
 }
 
@@ -56,13 +56,13 @@ size_t IO_Read(IO_FileHandleType pHandle, void *ptr, size_t size, size_t maxnum)
 #if USE_SDL2_IO
     return pHandle->read(pHandle, ptr, size, maxnum);
 #else
-    return fread_520B5C(ptr, size, maxnum, pHandle);
+    return alive_fread(ptr, size, maxnum, pHandle);
 #endif
 }
 
 EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
 {
-    IO_Handle* pHandle = reinterpret_cast<IO_Handle*>(malloc_4F4E60(sizeof(IO_Handle)));
+    IO_Handle* pHandle = reinterpret_cast<IO_Handle*>(alive_malloc(sizeof(IO_Handle)));
     if (!pHandle)
     {
         return nullptr;
@@ -98,7 +98,7 @@ EXPORT IO_Handle* CC IO_Open_4F2320(const char* fileName, int modeFlag)
     }
     else
     {
-        mem_free_4F4EA0(pHandle);
+        alive_free(pHandle);
         return nullptr;
     }
 }
@@ -140,7 +140,7 @@ EXPORT void CC IO_fclose_4F24E0(IO_Handle* hFile)
     {
         IO_WaitForComplete_4F2510(hFile);
         IO_Close(hFile->field_8_hFile);
-        mem_free_4F4EA0(hFile);
+        alive_free(hFile);
     }
 }
 
@@ -300,12 +300,12 @@ EXPORT void CC IO_Close_ASync_4EAD40(void* hFile)
     {
         CloseHandle(pHandle->field_18_hEvent);
     }
-    Mem_Free_495540(pHandle);
+    alive_delete_free(pHandle);
 }
 
 EXPORT void* CC IO_Open_ASync_4EADA0(const char* filename)
 {
-    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(malloc_5212C0(sizeof(IO_Movie_Handle)));
+    IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(alive_internal_malloc(sizeof(IO_Movie_Handle)));
     if (!pHandle)
     {
         return nullptr;

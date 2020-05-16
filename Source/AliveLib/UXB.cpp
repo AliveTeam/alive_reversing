@@ -151,7 +151,7 @@ UXB* UXB::ctor_4DE9A0(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 0;
 
-    SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(sTintMap_UXB_563A3C, gMap_5C3030.field_0_current_level);
 
     field_6_flags.Set(BaseGameObject::Options::eInteractive_Bit8);
     field_1C8_flags.Clear(UXB_Flags_1C8::e1C8_Bit0);
@@ -394,7 +394,7 @@ BaseGameObject* UXB::vdtor_4DEEA0(signed int flags)
     dtor_4DEF60();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

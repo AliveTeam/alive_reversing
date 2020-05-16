@@ -34,15 +34,15 @@ Alarm* Alarm::ctor_409300(Path_Alarm* pTlv, int tlvInfo)
     SetVTable(this, 0x544074); // vTbl_GlukkonPanic_544074
     field_4_typeId = Types::eAlarm_1;
 
-    field_78_b_value = 0;
+    field_78_r_value = 0;
     field_90_state = eState_0_WaitForSwitchEnable;
 
     // This won't count as an alarm instance till this id is enabled
     field_88_switch_id = pTlv->field_10_id;
 
-    field_6E_b = 0;
+    field_6E_r = 0;
     field_70_g = 0;
-    field_72_r = 0;
+    field_72_b = 0;
 
     field_8A_duration = pTlv->field_12_duration;
 
@@ -56,7 +56,7 @@ Alarm* Alarm::ctor_4091F0(__int16 a2, __int16 switchId, __int16 a4, __int16 laye
     SetVTable(this, 0x544074); // vTbl_GlukkonPanic_544074
     field_4_typeId = Types::eAlarm_1;
 
-    field_78_b_value = 0;
+    field_78_r_value = 0;
     field_90_state = eState_1_AfterConstructed;
     field_84_tlvOffsetLevelPathCamId = 0xFFFF;
     const int v7 = sGnFrame_5C1B84 + a4;
@@ -76,9 +76,9 @@ Alarm* Alarm::ctor_4091F0(__int16 a2, __int16 switchId, __int16 a4, __int16 laye
         sAlarmObjId_550D70 = field_8_object_id;
     }
 
-    field_6E_b = 0;
+    field_6E_r = 0;
     field_70_g = 0;
-    field_72_r = 0;
+    field_72_b = 0;
 
     return this;
 }
@@ -117,7 +117,7 @@ Alarm* Alarm::vdtor_4092D0(signed int flags)
     dtor_409380();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -152,7 +152,7 @@ void Alarm::vUpdate_409460()
 
         if (!SwitchStates_Get_466020(field_88_switch_id))
         {
-            field_6E_b = field_78_b_value;
+            field_6E_r = field_78_r_value;
             return;
         }
 
@@ -169,7 +169,7 @@ void Alarm::vUpdate_409460()
         field_90_state = eState_2_Enabling;
         SFX_Play_46FA90(0x26u, 0);
         field_80_duration_timer = sGnFrame_5C1B84 + field_8A_duration;
-        field_6E_b = field_78_b_value;
+        field_6E_r = field_78_r_value;
         break;
 
     case eState_1_AfterConstructed: // When not created by a map TLV
@@ -181,7 +181,7 @@ void Alarm::vUpdate_409460()
         {
             if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
             {
-                field_6E_b = field_78_b_value;
+                field_6E_r = field_78_r_value;
                 return;
             }
 
@@ -190,55 +190,55 @@ void Alarm::vUpdate_409460()
 
             if (!field_88_switch_id)
             {
-                field_6E_b = field_78_b_value;
+                field_6E_r = field_78_r_value;
                 return;
             }
 
             SwitchStates_Set_465FF0(field_88_switch_id, 1);
-            field_6E_b = field_78_b_value;
+            field_6E_r = field_78_r_value;
         }
         break;
 
     case eState_2_Enabling:
-        field_78_b_value += 25;
+        field_78_r_value += 25;
 
-        if (field_78_b_value < 100)
+        if (field_78_r_value < 100)
         {
-            field_6E_b = field_78_b_value;
+            field_6E_r = field_78_r_value;
             return;
         }
 
-        field_78_b_value = 100;
+        field_78_r_value = 100;
         field_90_state = eState_3_OnFlash;
         field_7C_15_timer = sGnFrame_5C1B84 + 15;
         SFX_Play_46FA90(0x26u, 0);
-        field_6E_b = field_78_b_value;
+        field_6E_r = field_78_r_value;
         break;
 
     case eState_3_OnFlash:
         if (static_cast<int>(sGnFrame_5C1B84) <= field_7C_15_timer)
         {
-            field_6E_b = field_78_b_value;
+            field_6E_r = field_78_r_value;
             return;
         }
 
         field_90_state = eState_4_Disabling;
-        field_6E_b = field_78_b_value;
+        field_6E_r = field_78_r_value;
         break;
 
     case eState_4_Disabling:
-        field_78_b_value -= 25;
+        field_78_r_value -= 25;
 
-        if (field_78_b_value > 0)
+        if (field_78_r_value > 0)
         {
-            field_6E_b = field_78_b_value;
+            field_6E_r = field_78_r_value;
             return;
         }
 
-        field_78_b_value = 0;
+        field_78_r_value = 0;
         field_7C_15_timer = sGnFrame_5C1B84 + 15;
         field_90_state = eState_5_Disabled;
-        field_6E_b = field_78_b_value;
+        field_6E_r = field_78_r_value;
         break;
 
     case eState_5_Disabled:
@@ -253,12 +253,12 @@ void Alarm::vUpdate_409460()
                 field_90_state = eState_2_Enabling;
                 SFX_Play_46FA90(0x26u, 0);
             }
-            field_6E_b = field_78_b_value;
+            field_6E_r = field_78_r_value;
         }
         break;
 
     default:
-        field_6E_b = field_78_b_value;
+        field_6E_r = field_78_r_value;
         break;
     }
 }

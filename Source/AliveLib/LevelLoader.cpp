@@ -91,7 +91,7 @@ LevelLoader* LevelLoader::vdtor_4DD3B0(signed int flags)
     dtor_4DD3E0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

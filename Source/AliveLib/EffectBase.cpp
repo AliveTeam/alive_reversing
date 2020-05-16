@@ -24,8 +24,8 @@ EffectBase* EffectBase::ctor_4AB7A0(__int16 layer, char abr)
     field_4_typeId = Types::eEffectBase_115;
     gObjList_drawables_5C1124->Push_Back(this);
     field_6_flags.Set(BaseGameObject::eDrawable_Bit4);
-    field_20_path_id = gMap_5C3030.sCurrentPathId_5C3032;
-    field_22_level_id = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_20_path_id = gMap_5C3030.field_2_current_path;
+    field_22_level_id = gMap_5C3030.field_0_current_level;
     Init_SetTPage_4F5B60(&field_4C_tPage[0], 0, 0, PSX_getTPage_4F60E0(2, abr, 0, 0));
     Init_SetTPage_4F5B60(&field_4C_tPage[1], 0, 0, PSX_getTPage_4F60E0(2, abr, 0, 0));
     field_6C_layer = layer;
@@ -45,7 +45,7 @@ EffectBase* EffectBase::vdtor_4AB8C0(signed int flags)
     dtor_4AB8F0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -55,14 +55,14 @@ void EffectBase::vRender_4AB970(int** pOt)
     Prim_Tile* pTile = &field_24_tile[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_Tile(pTile);
     SetRGB0(pTile,
-        static_cast<BYTE>(field_6E_b),
+        static_cast<BYTE>(field_6E_r),
         static_cast<BYTE>(field_70_g),
-        static_cast<BYTE>(field_72_r));
+        static_cast<BYTE>(field_72_b));
     SetXY0(pTile, 0, 0);
     pTile->field_14_w = 640;
     pTile->field_16_h = gPsxDisplay_5C1130.field_2_height;
 
-    if (field_6E_b || field_70_g || field_72_r || !field_74_bSemiTrans)
+    if (field_6E_r || field_70_g || field_72_b || !field_74_bSemiTrans)
     {
         Poly_Set_SemiTrans_4F8A60(&pTile->mBase.header, field_74_bSemiTrans);
         OrderingTable_Add_4F8AA0(&pOt[field_6C_layer], &pTile->mBase.header);

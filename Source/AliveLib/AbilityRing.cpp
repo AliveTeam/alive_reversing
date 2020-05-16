@@ -210,9 +210,9 @@ AbilityRing* AbilityRing::ctor_49C730(FP xpos, FP ypos, RingTypes ringType, FP s
             break;
         }
 
-        field_282_path = gMap_5C3030.sCurrentPathId_5C3032;
+        field_282_path = gMap_5C3030.field_2_current_path;
         field_20_layer = 39;
-        field_280_level = gMap_5C3030.sCurrentLevelId_5C3030;
+        field_280_level = gMap_5C3030.field_0_current_level;
         field_27C_prims = 1;
         field_27E_tPageMode = 1;
 
@@ -315,7 +315,7 @@ AbilityRing* AbilityRing::vdtor_49D080(signed int flags)
     dtor_49D0B0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

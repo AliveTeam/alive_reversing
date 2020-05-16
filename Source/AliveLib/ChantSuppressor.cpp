@@ -16,10 +16,10 @@
 #include "ZapLine.hpp"
 #include "Function.hpp"
 
-class Class_544534 : public BaseAnimatedWithPhysicsGameObject
+class Sparks : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    EXPORT Class_544534* ctor_416390(FP xpos, FP ypos, FP scale)
+    EXPORT Sparks* ctor_416390(FP xpos, FP ypos, FP scale)
     {
         BaseAnimatedWithPhysicsGameObject_ctor_424930(0);
         SetVTable(this, 0x544534);
@@ -105,12 +105,12 @@ private:
         BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     }
 
-    EXPORT Class_544534* vdtor_416520(signed int flags)
+    EXPORT Sparks* vdtor_416520(signed int flags)
     {
         dtor_416550();
         if (flags & 1)
         {
-            Mem_Free_495540(this);
+            alive_delete_free(this);
         }
         return this;
     }
@@ -120,7 +120,7 @@ private:
     __int16 field_F8_not_used2;
     __int16 field_FA_16_random;
 };
-ALIVE_ASSERT_SIZEOF(Class_544534, 0xFC);
+ALIVE_ASSERT_SIZEOF(Sparks, 0xFC);
 
 const TintEntry sChantOrbTints_55C1EC[18] =
 {
@@ -157,7 +157,7 @@ ChantSuppressor* ChantSuppressor::ctor_466350(Path_ChantSuppressor* pTlv, int tl
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kMaimGameResID);
     Animation_Init_424E10(2228, 53, 28u, ppRes, 1, 1u);
     
-    SetTint_425600(sChantOrbTints_55C1EC, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(sChantOrbTints_55C1EC, gMap_5C3030.field_0_current_level);
 
     field_B8_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -189,7 +189,7 @@ ChantSuppressor* ChantSuppressor::vdtor_4664B0(signed int flags)
     dtor_4664E0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -347,7 +347,7 @@ void ChantSuppressor::vUpdate_4665A0()
                 pScreenShake->ctor_4ACF70(1, 0);
             }
 
-            auto pUnknownObj = alive_new<Class_544534>();
+            auto pUnknownObj = alive_new<Sparks>();
             if (pUnknownObj)
             {
                 pUnknownObj->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
@@ -357,7 +357,7 @@ void ChantSuppressor::vUpdate_4665A0()
                 pUnknownObj->field_D0_r = 255;
             }
 
-            auto pUnknownObj2 = alive_new<Class_544534>();
+            auto pUnknownObj2 = alive_new<Sparks>();
             if (pUnknownObj2)
             {
                 pUnknownObj2->ctor_416390(field_B8_xpos, field_BC_ypos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
@@ -369,7 +369,7 @@ void ChantSuppressor::vUpdate_4665A0()
 
             for (int i = 0; i < 9; i++)
             {
-                auto pUnknownObj4 = alive_new<Class_544534>();
+                auto pUnknownObj4 = alive_new<Sparks>();
                 if (pUnknownObj4)
                 {
                     pUnknownObj4->ctor_416390(xpos, ypos, field_CC_sprite_scale);

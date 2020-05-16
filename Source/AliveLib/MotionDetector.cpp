@@ -40,7 +40,7 @@ MotionDetectorLaser* MotionDetectorLaser::vdtor_468360(signed int flags)
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -205,7 +205,7 @@ MotionDetector* MotionDetector::vdtor_468850(signed int flags)
     dtor_468880();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

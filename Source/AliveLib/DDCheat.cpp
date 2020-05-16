@@ -120,9 +120,9 @@ void DDCheat::Menu_Teleport_415E20()
     }
     else if (field_38_input_pressed & InputCommands::eSneak)
     {
-        sTeleport_Level_550F5C = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
-        sTeleport_Path_550F5E = gMap_5C3030.sCurrentPathId_5C3032;
-        sTeleport_Cam_550F60 = gMap_5C3030.sCurrentCamId_5C3034;
+        sTeleport_Level_550F5C = static_cast<int>(gMap_5C3030.field_0_current_level);
+        sTeleport_Path_550F5E = gMap_5C3030.field_2_current_path;
+        sTeleport_Cam_550F60 = gMap_5C3030.field_4_current_camera;
     }
     else if (field_38_input_pressed & InputCommands::eUnPause_OrConfirm)
     {
@@ -144,21 +144,21 @@ void DDCheat::Menu_Movies_416000()
         sDDCheat_MovieSelectIdx_5BBFF0++;
     }
 
-    if (Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0 )
+    if (Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0 )
     {
         sDDCheat_MovieSelectIdx_5BBFF0 = 1;
     }
 
     if (field_38_input_pressed & InputCommands::eDown)
     {
-        Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
+        Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
     }
     if (field_38_input_pressed & InputCommands::eUp)
     {
-        FmvInfo *movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, sDDCheat_MovieSelectIdx_5BBFF0);
+        FmvInfo *movieToPlayInfo = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, sDDCheat_MovieSelectIdx_5BBFF0);
         DWORD pos = 0;
         Get_fmvs_sectors_494460(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
-        sLevelId_dword_5CA408 = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
+        sLevelId_dword_5CA408 = static_cast<int>(gMap_5C3030.field_0_current_level);
         auto movieToPlay = alive_new<Movie>();
         if (movieToPlay != nullptr)
         {
@@ -171,7 +171,7 @@ void DDCheat::Menu_Movies_416000()
             );
         }
     }
-    FmvInfo* fmvInfo = &sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_pFmvArray[sDDCheat_MovieSelectIdx_5BBFF0];
+    FmvInfo* fmvInfo = &sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_pFmvArray[sDDCheat_MovieSelectIdx_5BBFF0];
     DDCheat::DebugStr_4F5560("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
     field_20 += 6;
 }
@@ -229,7 +229,7 @@ BaseGameObject* DDCheat::vdtor_415500(signed int flags)
     dtor_415530();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -299,7 +299,7 @@ void DDCheat::Update_415780()
             }
         }
 
-        if ((gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMenu_0 && gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommands::eCheatMode)
+        if ((gMap_5C3030.field_0_current_level != LevelIds::eMenu_0 && gMap_5C3030.field_0_current_level != LevelIds::eNone) && sActiveHero_5C1B68 && activePadPressed & InputCommands::eCheatMode)
         {
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
@@ -346,15 +346,15 @@ void DDCheat::Update_415780()
         {
             DebugStr_4F5560(
                 "\n%sP%dC%d gnframe=%5d",
-                sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_18_lvl_name,
-                gMap_5C3030.sCurrentPathId_5C3032,
-                gMap_5C3030.sCurrentCamId_5C3034,
+                sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_18_lvl_name,
+                gMap_5C3030.field_2_current_path,
+                gMap_5C3030.field_4_current_camera,
                 sGnFrame_5C1B84);
 
             
 
 #if DEVELOPER_MODE
-            if (sActiveHero_5C1B68 && gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMenu_0)
+            if (sActiveHero_5C1B68 && gMap_5C3030.field_0_current_level != LevelIds::eMenu_0)
             {
                 // HACK When quitting sControlledCharacter_5C1B8C becomes a dangling pointer
                 // probably this should be removed as there is no sane way to check this pointer is still valid

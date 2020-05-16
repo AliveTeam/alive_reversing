@@ -728,7 +728,7 @@ EXPORT signed int CC PSX_StoreImage_4F5E90(const PSX_RECT* rect, WORD* pData)
 EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
 {
     const unsigned int pixelCount = pRect->w * pRect->h;
-    WORD* pConversionBuffer = reinterpret_cast<WORD*>(malloc_4F4E60(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
+    WORD* pConversionBuffer = reinterpret_cast<WORD*>(alive_malloc(pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)));
     if (!pConversionBuffer)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 579, 0, "LoadImage16: can't do color conversion.");
@@ -737,7 +737,7 @@ EXPORT int CC PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const BYTE* pData)
 
     PSX_Pal_Conversion_4F98D0(reinterpret_cast<const WORD*>(pData), pConversionBuffer, pixelCount);
     const auto loadImageRet = PSX_LoadImage_4F5FB0(pRect, reinterpret_cast<BYTE*>(pConversionBuffer));
-    mem_free_4F4EA0(pConversionBuffer);
+    alive_free(pConversionBuffer);
     return loadImageRet;
 }
 

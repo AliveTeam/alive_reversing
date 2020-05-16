@@ -127,7 +127,7 @@ SnoozeParticle* SnoozeParticle::vdtor_4B08D0(signed int flags)
     dtor_4B0900();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

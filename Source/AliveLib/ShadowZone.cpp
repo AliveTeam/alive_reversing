@@ -28,8 +28,8 @@ ShadowZone* ShadowZone::ctor_463900(Path_ShadowZone* pTlv, Path* /*pPath*/, DWOR
     
     sShadowZone_dArray_5C1B80->Push_Back(this);
     
-    field_26_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_24_level = gMap_5C3030.sCurrentLevelId_5C3030;
+    field_26_path = gMap_5C3030.field_2_current_path;
+    field_24_level = gMap_5C3030.field_0_current_level;
     
     field_20_tlvInfo = tlvInfo;
 
@@ -134,7 +134,7 @@ ShadowZone* ShadowZone::vdtor_463A70(signed int flags)
     dtor_463BB0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -1,12 +1,6 @@
 project(AliveLib VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrc
-ExportHooker.hpp
-    ExportHooker.cpp
-    logger.hpp
-    Function.cpp
-    Function.hpp
-    FunctionFwd.hpp
     Input.cpp
     Input.hpp
     DynamicArray.cpp
@@ -412,6 +406,7 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
 endif()
 
 target_link_libraries(AliveLib
+    AliveLibCommon
     EasyLogging++
     googletest
     Cinder

@@ -96,6 +96,11 @@ static void InitOtherHooksAndRunTests()
 ALIVE_VAR(1, 0xBBBA04, int, sExitCode_BBBA04, 0);
 ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
 
+void Winmain_ForceLink()
+{
+
+}
+
 // Manual calls to construct global static objects when not running as dll/injected into the real game.
 // There are only a very small amount of global static constructors to call.
 EXPORT void Static_Inits()

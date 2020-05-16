@@ -91,7 +91,7 @@ GameEnderController* GameEnderController::vdtor_43B8D0(signed int flags)
     BaseGameObject_dtor_4DBEC0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -106,7 +106,7 @@ void GameEnderController::vScreenChanged_43BC80()
         }
     }
 
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

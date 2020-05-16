@@ -596,7 +596,7 @@ void FlyingSlig::dtor_434990()
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
         MusicController::sub_47FD60(MusicController::MusicTypes::eType0, this, 0, 0);
-        if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
+        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
                 field_2A0_abe_level,
@@ -637,7 +637,7 @@ FlyingSlig* FlyingSlig::vdtor_434870(signed int flags)
     dtor_434990();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -649,9 +649,9 @@ void FlyingSlig::VScreenChanged()
 
 void FlyingSlig::vScreenChanged_434C10()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710() ||
-        (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId &&
+        (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path &&
         (this != sControlledCharacter_5C1B8C ||
         field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
     {
@@ -2783,9 +2783,9 @@ void FlyingSlig::vPossessed_434FB0()
     field_114_flags.Set(Flags_114::e114_Bit4_bPossesed);
     field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1);
 
-    field_2A0_abe_level = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_2A2_abe_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_2A4_abe_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    field_2A0_abe_level = gMap_5C3030.field_0_current_level;
+    field_2A2_abe_path = gMap_5C3030.field_2_current_path;
+    field_2A4_abe_camera = gMap_5C3030.field_4_current_camera;
     
     field_2A8_max_x_speed = FP_FromDouble(5.5) * field_CC_sprite_scale;
     field_2AC_up_vel = FP_FromDouble(-5.5) * field_CC_sprite_scale;

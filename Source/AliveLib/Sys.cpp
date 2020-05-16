@@ -975,7 +975,7 @@ static int CC Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindow
     windowClass.cbClsExtra = 0;
     windowClass.cbWndExtra = 0;
     windowClass.hInstance = sInstance_BBB9EC;
-    if (IsAlive())
+    if (RunningAsInjectedDll())
     {
         windowClass.hIcon = ::LoadIconA(sInstance_BBB9EC, IDI_APPLICATION);
     }

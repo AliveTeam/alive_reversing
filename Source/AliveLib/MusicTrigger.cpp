@@ -86,7 +86,7 @@ EXPORT BaseGameObject* MusicTrigger::vdtor_47FEE0(signed int flags)
     dtor_4800C0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -103,7 +103,7 @@ EXPORT void MusicTrigger::dtor_4800C0()
 
 EXPORT void MusicTrigger::vScreenChange_4802A0()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

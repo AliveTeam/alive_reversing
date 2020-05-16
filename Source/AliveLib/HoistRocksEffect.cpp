@@ -104,7 +104,7 @@ HoistRocksEffect* HoistRocksEffect::vdtor_45D430(signed int flags)
     dtor_45D6D0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -169,8 +169,8 @@ void HoistRocksEffect::Update_45D460()
             if (particle.field_C_yVel >= FP_FromInteger(10))
             {
                 if (!gMap_5C3030.Is_Point_In_Current_Camera_4810D0(
-                    gMap_5C3030.sCurrentLevelId_5C3030,
-                    gMap_5C3030.sCurrentPathId_5C3032,
+                    gMap_5C3030.field_0_current_level,
+                    gMap_5C3030.field_2_current_path,
                     particle.field_4_xpos,
                     particle.field_8_ypos,
                     0))

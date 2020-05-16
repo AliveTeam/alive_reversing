@@ -41,9 +41,9 @@ EXPORT ZapLine* ZapLine::ctor_4CC690(FP x1, FP y1, FP x2, FP y2, __int16 aliveTi
     field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::ResourceType::Resource_Spline, 0, sizeof(ZapLineSprites) * field_132_pSprts_count);// Spln (spline?)
     
     field_134_pSprts = reinterpret_cast<ZapLineSprites*>(*field_F8_ppRes);
-    field_138_buf1 = reinterpret_cast<PSX_Point*>(malloc_non_zero_4954F0(sizeof(PSX_Point) * field_132_pSprts_count));
-    field_13C_buf2 = reinterpret_cast<ZapPoint*>(malloc_non_zero_4954F0(sizeof(ZapPoint) * field_130_count_per_part));
-    field_140_buf3 = reinterpret_cast<FP_Point*>(malloc_non_zero_4954F0(sizeof(FP_Point) * field_12E_part_count));
+    field_138_buf1 = reinterpret_cast<PSX_Point*>(alive_malloc_non_zero(sizeof(PSX_Point) * field_132_pSprts_count));
+    field_13C_buf2 = reinterpret_cast<ZapPoint*>(alive_malloc_non_zero(sizeof(ZapPoint) * field_130_count_per_part));
+    field_140_buf3 = reinterpret_cast<FP_Point*>(alive_malloc_non_zero(sizeof(FP_Point) * field_12E_part_count));
     
     field_128_max_alive_time = aliveTime;
     
@@ -133,7 +133,7 @@ ZapLine* ZapLine::vdtor_4CCAA0(signed int flags)
     dtor_4CCCB0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -162,9 +162,9 @@ void ZapLine::dtor_4CCCB0()
 {
     SetVTable(this, 0x5478A0);
     ResourceManager::FreeResource_49C330(field_F8_ppRes);
-    Mem_Free_495560(field_138_buf1);
-    Mem_Free_495560(field_13C_buf2);
-    Mem_Free_495560(field_140_buf3);
+    alive_non_zero_free(field_138_buf1);
+    alive_non_zero_free(field_13C_buf2);
+    alive_non_zero_free(field_140_buf3);
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
 }
 

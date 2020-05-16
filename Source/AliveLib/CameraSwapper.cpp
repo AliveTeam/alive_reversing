@@ -128,7 +128,7 @@ BaseGameObject* CameraSwapper::vdtor_4E4D90(signed int flags)
     dtor_4E5790();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

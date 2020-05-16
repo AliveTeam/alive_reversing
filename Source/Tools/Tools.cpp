@@ -18,7 +18,7 @@
 
 EXPORT void Static_Inits();
 
-bool IsAlive()
+bool RunningAsInjectedDll()
 {
     return false;
 }

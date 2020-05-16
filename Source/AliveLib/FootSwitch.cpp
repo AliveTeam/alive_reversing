@@ -67,7 +67,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
     field_4_typeId = Types::eFootSwitch_56;
     field_100_obj_id = -1;
 
-    const int idx = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
+    const int idx = static_cast<int>(gMap_5C3030.field_0_current_level);
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kTriggerResID);
     Animation_Init_424E10(
         sFootSwitchData_547D60[idx].field_0_frameTableOffset,
@@ -79,7 +79,7 @@ FootSwitch* FootSwitch::ctor_4DE090(Path_FootSwitch* pTlv, int tlvInfo)
 
     field_20_animation.field_C_render_layer = 25;
 
-    SetTint_425600(sFootSwitchTints_5639F4, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(sFootSwitchTints_5639F4, gMap_5C3030.field_0_current_level);
 
     field_FA_id = pTlv->field_10_id;
 
@@ -122,7 +122,7 @@ FootSwitch* FootSwitch::vdtor_4DE240(signed int flags)
     dtor_4DE670();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -150,7 +150,7 @@ void FootSwitch::vUpdate_4DE270()
         if (pLastStoodOnMe)
         {
             field_100_obj_id = pLastStoodOnMe->field_8_object_id;
-            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_frameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_frameTableOffset, nullptr);
             field_F8_state = States::eWaitForGetOffMe_1;
         }
     }
@@ -165,7 +165,7 @@ void FootSwitch::vUpdate_4DE270()
             SwitchStates_Do_Operation_465F00(field_FA_id, field_FC_action);
             field_F8_state = States::eWaitForGetOffMe_1;
 
-            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_frameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_frameTableOffset, nullptr);
 
             auto pParticleBurst = alive_new<ParticleBurst>();
             if (pParticleBurst)
@@ -179,11 +179,11 @@ void FootSwitch::vUpdate_4DE270()
                     9);
             }
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
-                gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
+                gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
             {
                 SFX_Play_46FBA0(0x50u, 30, 400);
                 SFX_Play_46FBA0(0x4Cu, 60, 800);
@@ -248,7 +248,7 @@ void FootSwitch::vUpdate_4DE270()
             pLastStoodOnMe->field_6_flags.Get(BaseGameObject::eDead_Bit3))
         {
             field_F8_state = States::eWaitForStepOnMe_0;
-            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0_frameTableOffset, nullptr);
+            field_20_animation.Set_Animation_Data_409C80(sFootSwitchData_547D60[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0_frameTableOffset, nullptr);
             field_100_obj_id = -1;
         }
     }

@@ -129,7 +129,7 @@ public:
         dtor_45D9E0();
         if (flags & 1)
         {
-            Mem_Free_495540(this);
+            alive_delete_free(this);
         }
         return this;
     }
@@ -346,7 +346,7 @@ private:
         dtor_45DFC0();
         if (flags & 1)
         {
-            Mem_Free_495540(this);
+            alive_delete_free(this);
         }
         return this;
     }
@@ -417,7 +417,7 @@ DoorFlame* DoorFlame::vdtor_45E690(signed int flags)
     dtor_45E6C0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

@@ -280,9 +280,9 @@ void QuikSave_RestoreObjectStates_D481890_4C9BE0(const BYTE* pSaveData)
 
     // Skip the 2 zero entries, the saved flag words come after the object save state data
     const BYTE* pSrcFlags = reinterpret_cast<const BYTE*>(pSaveData2 + 2);
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_1A_num_paths; i++)
+    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_1A_num_paths; i++)
     {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, i);
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
@@ -375,9 +375,9 @@ static void WriteFlags(BYTE*& pSaveBuffer, const Path_TLV* pTlv, const BitField8
 
 EXPORT void CCSTD Quicksave_SaveBlyData_4C9660(BYTE* pSaveBuffer)
 {
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_1A_num_paths; i++)
+    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_1A_num_paths; i++)
     {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, i);
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
@@ -437,9 +437,9 @@ ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {}
 EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 {
     sQuickSave_saved_switchResetters_count_BB234C = 0;
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_1A_num_paths; i++)
+    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_1A_num_paths; i++)
     {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, i);
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
@@ -486,9 +486,9 @@ EXPORT void CC Quicksave_SaveSwitchResetterStates_4C9870()
 EXPORT void CC Quicksave_RestoreSwitchResetterStates_4C9A30()
 {
     int idx = 0;
-    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_1A_num_paths; i++)
+    for (short i = 1; i <= sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_1A_num_paths; i++)
     {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, i);
+        const PathBlyRec* pPathRec = Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, i);
         if (pPathRec->field_0_blyName)
         {
             const PathData* pPathData = pPathRec->field_4_pPathData;
@@ -632,9 +632,9 @@ EXPORT void CC Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 
         char src[12] = {};
         sprintf(src, "%2sP%02dC%02d", 
-            sPathData_559660.paths[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_18_lvl_name,
-            gMap_5C3030.sCurrentPathId_5C3032,
-            gMap_5C3030.sCurrentCamId_5C3034);
+            sPathData_559660.paths[static_cast<int>(gMap_5C3030.field_0_current_level)].field_18_lvl_name,
+            gMap_5C3030.field_2_current_path,
+            gMap_5C3030.field_4_current_camera);
         MEMCARD_Write_SJISC_String_4A2770(src, &pSave->field_0_header.field_0_frame_1_name[32], 8);
         Quicksave_SaveWorldInfo_4C9310(&pSave->field_204_world_info);
         pSave->field_45C_switch_states = sSwitchStates_5C1A28;
@@ -670,7 +670,7 @@ void CC Quicksave_4C90D0()
     pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, 0);
     pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, 1);
     pScreenManager_5BB5F4->InvalidateRect_40EC90(0, 0, 640, 240, 2);
-    Path_Get_Bly_Record_460F30(gMap_5C3030.sCurrentLevelId_5C3030, gMap_5C3030.sCurrentPathId_5C3032);
+    Path_Get_Bly_Record_460F30(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path);
     Quicksave_SaveToMemory_4C91A0(&sActiveQuicksaveData_BAF7F8);
 }
 
@@ -708,9 +708,9 @@ void CC Quicksave_SaveWorldInfo_4C9310(Quicksave_WorldInfo* pInfo)
     sControlledCharacter_5C1B8C->vGetBoundingRect_424FD0(&rect, 1);
 
     pInfo->field_0_gnFrame = sGnFrame_5C1B84;
-    pInfo->field_4_level = gMap_5C3030.sCurrentLevelId_5C3030;
-    pInfo->field_6_path = gMap_5C3030.sCurrentPathId_5C3032;
-    pInfo->field_8_cam = gMap_5C3030.sCurrentCamId_5C3034;
+    pInfo->field_4_level = gMap_5C3030.field_0_current_level;
+    pInfo->field_6_path = gMap_5C3030.field_2_current_path;
+    pInfo->field_8_cam = gMap_5C3030.field_4_current_camera;
     pInfo->field_2E = word_5C1BBC;
     
     for (int i = 0; i < ALIVE_COUNTOF(pInfo->field_18_saved_killed_muds_per_path); i++)

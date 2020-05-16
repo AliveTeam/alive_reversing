@@ -51,7 +51,7 @@ EXPORT FallingItem* FallingItem::ctor_4272C0(Path_FallingItem* pTlv, int tlvInfo
     Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kExplo2ResID);
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2rockResID);
-    const int lvlIdx = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
+    const int lvlIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
     Animation_Init_424E10(
         sFallingItemData_544DC0[lvlIdx].field_0,
         sFallingItemData_544DC0[lvlIdx].field_8,
@@ -122,7 +122,7 @@ FallingItem* FallingItem::ctor_427560(__int16 xpos, __int16 ypos, __int16 scale,
     field_118_tlvInfo = -1;
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2rockResID);
-    const int lvlIdx = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
+    const int lvlIdx = static_cast<int>(gMap_5C3030.field_0_current_level);
     Animation_Init_424E10(
         sFallingItemData_544DC0[lvlIdx].field_0,
         sFallingItemData_544DC0[lvlIdx].field_8,
@@ -218,15 +218,15 @@ FallingItem* FallingItem::vdtor_427530(signed int flags)
     dtor_427EB0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
 
 void FallingItem::vScreenChanged_428180()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
+        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
         field_11C_state != State::eState_3_Falling)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -277,7 +277,7 @@ EXPORT void FallingItem::vUpdate_427780()
             field_11C_state = State::eState_2_WaitForFallDelay;
             field_C4_velx = FP_FromInteger(0);
             field_C8_vely = FP_FromInteger(0);
-            field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4, nullptr);
+            field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4, nullptr);
             field_128_delay_timer = sGnFrame_5C1B84 + field_124_delay_time;
         }
         break;
@@ -288,7 +288,7 @@ EXPORT void FallingItem::vUpdate_427780()
         field_11C_state = State::eState_2_WaitForFallDelay;
         field_C4_velx = FP_FromInteger(0);
         field_C8_vely = FP_FromInteger(0);
-        field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4, nullptr);
+        field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4, nullptr);
         field_128_delay_timer = sGnFrame_5C1B84 + field_124_delay_time;
         break;
 
@@ -366,7 +366,7 @@ EXPORT void FallingItem::vUpdate_427780()
             pShake->ctor_4ACF70(0, field_CC_sprite_scale == FP_FromDouble(0.5));
         }
 
-        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8)
+        if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8)
         {
             auto pPart = alive_new<ParticleBurst>();
             if (pPart)
@@ -453,7 +453,7 @@ field_140_sound_channels = 0;
         }
         else
         {
-            field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0, nullptr);
+            field_20_animation.Set_Animation_Data_409C80(sFallingItemData_544DC0[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0, nullptr);
             field_6_flags.Set(BaseGameObject::eCanExplode_Bit7);
             field_C8_vely = FP_FromInteger(0);
             field_C4_velx = FP_FromInteger(0);

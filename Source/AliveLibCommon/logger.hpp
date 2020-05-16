@@ -31,6 +31,13 @@
 #define LOG_(msg)
 #endif
 
+[[noreturn]] inline void HOOK_FATAL(const char* errMsg)
+{
+    LOG_ERROR(errMsg);
+    abort();
+}
+
+
 class outbuf : public std::streambuf
 {
 public:

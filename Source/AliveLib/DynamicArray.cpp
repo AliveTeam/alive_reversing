@@ -12,7 +12,7 @@ DynamicArray* DynamicArray::ctor_40CA60(__int16 startingSize)
         startingSize = 1;
     }
 
-    field_0_array = reinterpret_cast<void**>(malloc_non_zero_4954F0(startingSize * sizeof(void*)));
+    field_0_array = reinterpret_cast<void**>(alive_malloc_non_zero(startingSize * sizeof(void*)));
     field_4_used_size = 0;
     field_6_max_size = 0;
 
@@ -37,7 +37,7 @@ DynamicArray* DynamicArray::ctor_40C9E0(__int16 startingSize)
 
 void DynamicArray::dtor_40CAD0()
 {
-    Mem_Free_495560(field_0_array);
+    alive_non_zero_free(field_0_array);
 }
 
 __int16 DynamicArray::Push_Back_40CAF0(void* pValue)
@@ -88,7 +88,7 @@ __int16 DynamicArray::Expand_40CBE0(__int16 expandSize)
 {
     // Calculate new size and allocate buffer
     const __int16 newSize = field_6_max_size + expandSize;
-    void** pNewBuffer = reinterpret_cast<void**>(malloc_non_zero_4954F0(newSize * sizeof(void*)));
+    void** pNewBuffer = reinterpret_cast<void**>(alive_malloc_non_zero(newSize * sizeof(void*)));
     if (!pNewBuffer)
     {
         return 0;
@@ -101,7 +101,7 @@ __int16 DynamicArray::Expand_40CBE0(__int16 expandSize)
     // OG BUG: Null checked here but not at the memcpy
     if (field_0_array)
     {
-        Mem_Free_495560(field_0_array);
+        alive_non_zero_free(field_0_array);
     }
 
     // Update max size and array pointer

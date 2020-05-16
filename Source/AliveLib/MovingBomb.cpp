@@ -72,7 +72,7 @@ MovingBomb* MovingBomb::ctor_46FD40(Path_MovingBomb* pTlv, int tlvInfo)
         field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
     }
 
-    SetTint_425600(&stru_55C734[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&stru_55C734[0], gMap_5C3030.field_0_current_level);
 
     field_134 = pTlv->field_1A_disable_resources;
     if (!(field_134 & 1))
@@ -145,7 +145,7 @@ MovingBomb* MovingBomb::vdtor_470040(signed int flags)
     dtor_4700C0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

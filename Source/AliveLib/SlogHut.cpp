@@ -59,7 +59,7 @@ SlogHut* SlogHut::vdtor_4C4100(signed int flags)
     dtor_4C4130();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

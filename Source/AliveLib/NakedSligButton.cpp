@@ -79,7 +79,7 @@ NakedSligButton* NakedSligButton::vdtor_414A60(signed int flags)
     dtor_414A90();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

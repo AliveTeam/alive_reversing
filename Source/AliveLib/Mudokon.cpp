@@ -1251,7 +1251,7 @@ Mudokon* Mudokon::vdtor_475770(signed int flags)
     Mudokon::dtor_475B60();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -5285,7 +5285,7 @@ __int16 Mudokon::AI_AngryWorker_8_47E910()
             return field_190_sub_state;
         }
 
-        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
+        if (gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
         {
             field_194_timer = sGnFrame_5C1B84 + 90;
         }
@@ -6658,11 +6658,11 @@ void Mudokon::KnockForward_45_474180()
         Abe_SFX_2_457A40(13, 0, 32767, this);
     }
 
-    if ((gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
+    if ((gMap_5C3030.field_0_current_level == LevelIds::eMines_1 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
         && field_20_animation.field_92_current_frame == 7)
     {
         Abe_SFX_2_457A40(6, 80, -200, this);
@@ -6684,11 +6684,11 @@ void Mudokon::KnockedBackToStandUp_46_4742A0()
 
     Event_Broadcast_422BC0(kEventNoise, this);
 
-    if ((gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9) && 
+    if ((gMap_5C3030.field_0_current_level == LevelIds::eMines_1||
+        gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6 ||
+        gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9) && 
         field_20_animation.field_92_current_frame == 7)
     {
         Abe_SFX_2_457A40(6, 80, -200, this);

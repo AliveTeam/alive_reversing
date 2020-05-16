@@ -79,7 +79,7 @@ namespace Alive
         field_30_poly_count = maxCharLength;
 #if DEVELOPER_MODE // Use normal memory allocating for fonts, so we don't overload the resource heap
         auto db = new void*[1];
-        db[0] = malloc_4954D0(sizeof(Poly_FT4) * 2 * maxCharLength);
+        db[0] = alive_new_malloc(sizeof(Poly_FT4) * 2 * maxCharLength);
         field_20_fnt_poly_block_ptr = reinterpret_cast<BYTE**>(db);
 #else
         field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource_49BF40(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
@@ -95,14 +95,14 @@ namespace Alive
 
 #if DEVELOPER_MODE 
         auto db = reinterpret_cast<void**>(field_20_fnt_poly_block_ptr);
-        Mem_Free_495540(*db);
+        alive_delete_free(*db);
         delete[] db;
 #else
         ResourceManager::FreeResource_49C330(field_20_fnt_poly_block_ptr);
 #endif
     }
 
-    int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int a2, int otLayer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int a15, __int16 colorRandomRange)
+    int Font::DrawString_4337D0(int **ot, const char *text, int x, __int16 y, char abr, int bSemiTrans, int blendMode, int otLayer, BYTE r, BYTE g, BYTE b, int polyOffset, FP scale, int maxRenderWidth, __int16 colorRandomRange)
     {
         if (!sFontDrawScreenSpace_5CA4B4)
         {
@@ -110,7 +110,7 @@ namespace Alive
         }
 
         int characterRenderCount = 0;
-        const int maxRenderX = static_cast<int>(a15 / 0.575);
+        const int maxRenderX = static_cast<int>(maxRenderWidth / 0.575);
         short offsetX = static_cast<short>(x);
         int charInfoIndex = 0;
         auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
@@ -152,7 +152,7 @@ namespace Alive
 
             PolyFT4_Init_4F8870(poly);
             Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
-            Poly_Set_Blending_4F8A20(&poly->mBase.header, a2);
+            Poly_Set_Blending_4F8A20(&poly->mBase.header, blendMode);
 
             SetRGB0
             (

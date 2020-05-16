@@ -110,7 +110,7 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
         field_118_flags.Set(SlamDoor_Flags_118::e118_Bit5_Delete);
     }
 
-    const int currentLevelId = static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030);
+    const int currentLevelId = static_cast<int>(gMap_5C3030.field_0_current_level);
 
     Animation_Init_424E10(
         sSlamDoorData_547168[currentLevelId].field_8_frameTableOffset,
@@ -160,7 +160,7 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
         field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit1_bClosed);
     }
 
-    SetTint_425600(sSlamDoorTints_5603B0, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(sSlamDoorTints_5603B0, gMap_5C3030.field_0_current_level);
 
     FP hitX;
     FP hitY;
@@ -236,7 +236,7 @@ SlamDoor * SlamDoor::ctor_4AF700(Path_SlamDoor * pTlv, TlvItemInfoUnion tlvInfo)
         }
         field_120_pCollisionLine_5_1 = pPathLine;
         field_20_animation.Set_Animation_Data_409C80(
-            sSlamDoorData_547168[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_ppRes,
+            sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_ppRes,
             0);
     }
     else
@@ -279,7 +279,7 @@ SlamDoor * SlamDoor::vdtor_4AFD20(signed int flags)
     dtor_4B0620();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -333,7 +333,7 @@ void SlamDoor::vUpdate_4AFD50()
         {
             field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
             field_20_animation.Set_Animation_Data_409C80(
-                sSlamDoorData_547168[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_8_frameTableOffset, nullptr);
+                sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)].field_8_frameTableOffset, nullptr);
 
             if (field_CC_sprite_scale == FP_FromInteger(1))
             {
@@ -403,7 +403,7 @@ void SlamDoor::vUpdate_4AFD50()
         }
         else
         {
-            field_20_animation.Set_Animation_Data_409C80(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0_frameTableOffset, 0);
+            field_20_animation.Set_Animation_Data_409C80(sSlamDoorData_547168[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0_frameTableOffset, 0);
             Rect_Clear_418040(&field_11C_pCollisionLine_6_2->field_0_rect);
             field_11C_pCollisionLine_6_2 = nullptr;
 
@@ -496,7 +496,7 @@ int CC SlamDoor::CreateFromSaveState_4C08B0(const BYTE * pData)
 
     if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, ResourceID::kSlamResID, 0, 0))
     {
-        switch (gMap_5C3030.sCurrentLevelId_5C3030)
+        switch (gMap_5C3030.field_0_current_level)
         {
         case LevelIds::eNecrum_2:
         case LevelIds::eMudomoVault_3:

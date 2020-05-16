@@ -28,7 +28,7 @@ BaseGameObject* BackgroundMusic::vdtor_4CB150(signed int flags)
     dtor_4CB180();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -47,7 +47,7 @@ void BackgroundMusic::Update_4CB1A0()
 {
     if (field_20_music_id >= 0)
     {
-        if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone || gMap_5C3030.sCurrentPathId_5C3032 != 1 || gMap_5C3030.sCurrentCamId_5C3034 != 10)
+        if (gMap_5C3030.field_0_current_level != LevelIds::eNone || gMap_5C3030.field_2_current_path != 1 || gMap_5C3030.field_4_current_camera != 10)
         {
             SND_SEQ_PlaySeq_4CA960(field_20_music_id, 0, 0);
         }

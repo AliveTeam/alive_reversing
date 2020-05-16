@@ -35,19 +35,19 @@ void ObjectIds::Destructor()
             field_4_pBuffer[i] = pCurrent->field_8_pNext;
 
             // Now free current, repeat until everything is gone
-            Mem_Free_495540(pCurrent);
+            alive_delete_free(pCurrent);
         }
     }
 
     // Free the backing array
-    Mem_Free_495560(field_4_pBuffer);
+    alive_non_zero_free(field_4_pBuffer);
 }
 
 void ObjectIds::ctor_449AE0(unsigned int size)
 {
     // Allocate the array and set all items to nullptr
     field_0_buffer_size = size;
-    field_4_pBuffer = reinterpret_cast<ObjectId_Record**>(malloc_non_zero_4954F0(sizeof(ObjectId_Record*) * size));
+    field_4_pBuffer = reinterpret_cast<ObjectId_Record**>(alive_malloc_non_zero(sizeof(ObjectId_Record*) * size));
     for (unsigned int i = 0; i < field_0_buffer_size; i++)
     {
         field_4_pBuffer[i] = nullptr;
@@ -120,7 +120,7 @@ signed __int16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
     }
 
     // Free the found record
-    Mem_Free_495540(pFound);
+    alive_delete_free(pFound);
 
     return 1;
 }

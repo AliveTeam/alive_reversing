@@ -4,78 +4,78 @@
 #include "Error.hpp"
 
 // stdlib proxys, see comment on STDLIB_FUNCTION for details.
-EXPORT void CC free_521334(void* ptr)
+EXPORT void CC ae_internal_free_521334(void* ptr)
 {
     STDLIB_FUNCTION();
     ::free(ptr);
 }
 
-EXPORT void* CC malloc_5212C0(size_t size)
+EXPORT void* CC ae_internal_malloc_5212C0(size_t size)
 {
     STDLIB_FUNCTION();
     return ::malloc(size);
 }
 
-EXPORT void* CC realloc_522335(void* ptr, size_t size)
+EXPORT void* CC ae_realloc_522335(void* ptr, size_t size)
 {
     STDLIB_FUNCTION();
     return ::realloc(ptr, size);
 }
 
-EXPORT int CC fseek_521955(FILE* stream, int offset, int origin)
+EXPORT int CC ae_fseek_521955(FILE* stream, int offset, int origin)
 {
     STDLIB_FUNCTION();
     return fseek(stream, offset, origin);
 }
 
-EXPORT size_t CC fread_520B5C(void* ptr, size_t size, size_t count, FILE* stream)
+EXPORT size_t CC ae_fread_520B5C(void* ptr, size_t size, size_t count, FILE* stream)
 {
     STDLIB_FUNCTION();
     return fread(ptr, size, count, stream);
 }
 
-EXPORT FILE* CC fopen_520C64(const char* filename, const char* mode)
+EXPORT FILE* CC ae_fopen_520C64(const char* filename, const char* mode)
 {
     STDLIB_FUNCTION();
     return fopen(filename, mode);
 }
 
-EXPORT int CC fclose_520CBE(FILE* stream)
+EXPORT int CC ae_fclose_520CBE(FILE* stream)
 {
     STDLIB_FUNCTION();
     return fclose(stream);
 }
 
 // Game specific stdlib wrappers
-EXPORT void* CC malloc_4F4E60(size_t size)
+EXPORT void* CC ae_malloc_4F4E60(size_t size)
 {
     if (size > 0)
     {
-        return malloc_5212C0(size);
+        return ae_internal_malloc_5212C0(size);
     }
 
     ALIVE_FATAL("0 bytes allocated");
 }
 
-EXPORT void* CC malloc_4954D0(size_t size) // Probably operator new
+EXPORT void* CC ae_new_malloc_4954D0(size_t size)
 {
-    return malloc_5212C0(size);
+    return ae_internal_malloc_5212C0(size);
 }
 
-EXPORT void* CC malloc_non_zero_4954F0(size_t size)
+EXPORT void* CC ae_malloc_non_zero_4954F0(size_t size)
 {
     if (size == 0)
     {
         size = 1;
     }
-    return malloc_5212C0(size);
+    return ae_internal_malloc_5212C0(size);
 }
 
-EXPORT void CC mem_free_4F4EA0(void* ptr)
+EXPORT void CC ae_free_4F4EA0(void* ptr)
 {
     if (ptr)
     {
-        free_521334(ptr);
+        ae_internal_free_521334(ptr);
     }
     else
     {
@@ -83,22 +83,22 @@ EXPORT void CC mem_free_4F4EA0(void* ptr)
     }
 }
 
-EXPORT void CC Mem_Free_495540(void* ptr)
+EXPORT void CC ae_delete_free_495540(void* ptr)
 {
-    free_521334(ptr);
+    ae_internal_free_521334(ptr);
 }
 
-EXPORT void CC Mem_Free_495560(void *ptr)
+EXPORT void CC ae_non_zero_free_495560(void *ptr)
 {
-    free_521334(ptr);
+    ae_internal_free_521334(ptr);
 }
 
 EXPORT void* CC realloc_4F4E80(void* ptr, size_t size)
 {
-    return realloc_522335(ptr, size);
+    return ae_realloc_522335(ptr, size);
 }
 
-EXPORT int CC remove_520B27(LPCSTR lpFileName)
+EXPORT int CC ae_remove_520B27(LPCSTR lpFileName)
 {
     STDLIB_FUNCTION();
     return ::remove(lpFileName);
@@ -111,4 +111,65 @@ int access_impl(char const* fileName, int accessMode)
 #else
     return access(fileName, accessMode);
 #endif
+}
+
+
+void* CC alive_new_malloc(size_t size)
+{
+    return ae_new_malloc_4954D0(size);
+}
+
+void* CC alive_malloc(size_t size)
+{
+    return ae_malloc_4F4E60(size);
+}
+
+void* CC alive_internal_malloc(size_t size)
+{
+    return ae_internal_malloc_5212C0(size);
+}
+
+void CC alive_free(void* ptr)
+{
+    ae_free_4F4EA0(ptr);
+}
+
+void* CC alive_malloc_non_zero(size_t size)
+{
+    return ae_malloc_non_zero_4954F0(size);
+}
+
+void CC alive_non_zero_free(void *ptr)
+{
+    ae_non_zero_free_495560(ptr);
+}
+
+void CC alive_delete_free(void* ptr)
+{
+    ae_delete_free_495540(ptr);
+}
+
+int CC alive_fseek(FILE* stream, int offset, int origin)
+{
+    return ae_fseek_521955(stream, offset, origin);
+}
+
+size_t CC alive_fread(void* ptr, size_t size, size_t count, FILE* stream)
+{
+    return ae_fread_520B5C(ptr, size, count, stream);
+}
+
+FILE* CC alive_fopen(const char* filename, const char* mode)
+{
+    return ae_fopen_520C64(filename, mode);
+}
+
+int CC alive_fclose(FILE* stream)
+{
+    return ae_fclose_520CBE(stream);
+}
+
+int CC alive_remove(LPCSTR lpFileName)
+{
+    return ae_remove_520B27(lpFileName);
 }

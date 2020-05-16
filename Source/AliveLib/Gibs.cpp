@@ -130,7 +130,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     {
         if (gibType == 3)
         {
-            SetTint_425600(kGibTints_55C744, gMap_5C3030.sCurrentLevelId_5C3030);
+            SetTint_425600(kGibTints_55C744, gMap_5C3030.field_0_current_level);
         }
         else if (gibType == 4)
         {
@@ -141,7 +141,7 @@ EXPORT Gibs* Gibs::ctor_40FB40(int gibType, FP xpos, FP ypos, FP xOff, FP yOff, 
     }
     else
     {
-        SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.sCurrentLevelId_5C3030);
+        SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_0_current_level);
     }
 
     field_5D4_parts_used_count = 4;
@@ -258,7 +258,7 @@ Gibs* Gibs::vdtor_410100(signed int flags)
     dtor_410170();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

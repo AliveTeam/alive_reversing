@@ -58,6 +58,13 @@ EXPORT LRESULT CC Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wP
 #endif
 DWORD SYS_GetTicks();
 
+[[noreturn]] inline void ALIVE_FATAL(const char* errMsg)
+{
+    Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");
+    abort();
+}
+
+
 struct SoundEntry;
 
 ALIVE_VAR_EXTERN(SoundEntry*, sMovieSoundEntry_5CA230);

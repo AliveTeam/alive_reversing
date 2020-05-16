@@ -50,7 +50,7 @@ EXPORT BaseGameObject* Particle::vdtor_4CC5D0(signed int flags)
     BaseAnimatedWithPhysicsGameObject_dtor_424AD0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

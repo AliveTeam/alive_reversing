@@ -80,7 +80,7 @@ void PlatformBase::dtor_4973E0()
 
     if (field_124_pCollisionLine)
     {
-        if (gMap_5C3030.sCurrentLevelId_5C3030 == field_C2_lvl_number && gMap_5C3030.sCurrentPathId_5C3032 == field_C0_path_number)
+        if (gMap_5C3030.field_0_current_level == field_C2_lvl_number && gMap_5C3030.field_2_current_path == field_C0_path_number)
         {
             Rect_Clear_418040(&field_124_pCollisionLine->field_0_rect);
         }
@@ -116,7 +116,7 @@ PlatformBase* PlatformBase::vdtor_4974B0(signed int flags)
     dtor_4973E0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

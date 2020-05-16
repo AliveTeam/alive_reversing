@@ -47,7 +47,7 @@ Grinder* Grinder::ctor_4200D0(Path_Grinder* pTlv, DWORD tlvInfo)
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 0;
 
-    SetTint_425600(kGrinderTints_551548, gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(kGrinderTints_551548, gMap_5C3030.field_0_current_level);
     Path_Grinder_Data tlvData = pTlv->field_10_data;
 
     field_128_flags.Clear(Flags::eBit2_StartOn);
@@ -489,7 +489,7 @@ Grinder* Grinder::vdtor_4206A0(signed int flags)
     dtor_420B60();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

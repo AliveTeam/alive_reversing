@@ -72,7 +72,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     }
 
     field_FA_door_number = pTlvData->field_18_door_number;
-    if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5)
+    if (gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5)
     {
         switch (field_FA_door_number)
         {
@@ -214,7 +214,7 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
     }
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kF2p3dorResID);
-    if (!ppRes || stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0_frameTableOffset_closed == 0)
+    if (!ppRes || stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0_frameTableOffset_closed == 0)
     {
         field_6_flags.Clear(BaseGameObject::eDrawable_Bit4);
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
@@ -236,9 +236,9 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         else
         {
             Animation_Init_424E10(
-                stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_frameTableOffset_open,
-                static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_8_maxW),
-                static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_C_maxH),
+                stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_frameTableOffset_open,
+                static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_8_maxW),
+                static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_C_maxH),
                 ppRes,
                 1,
                 1u);
@@ -259,9 +259,9 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
         else
         {
             Animation_Init_424E10(
-                stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_0_frameTableOffset_closed,
-                static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_8_maxW),
-                static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_C_maxH),
+                stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_0_frameTableOffset_closed,
+                static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_8_maxW),
+                static_cast<WORD>(stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_C_maxH),
                 ppRes,
                 1,
                 1u);
@@ -319,12 +319,12 @@ Door* Door::ctor_41E250(Path_Door* pTlvData, int tlvInfo)
 
     // Another OWI special
     FP yAdjustHack = {};
-    if ((gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eBarracks_6 &&
-        gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eBarracks_Ender_13) ||
+    if ((gMap_5C3030.field_0_current_level != LevelIds::eBarracks_6 &&
+        gMap_5C3030.field_0_current_level != LevelIds::eBarracks_Ender_13) ||
         gMap_5C3030.field_22 == 108)
     {
-        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8 ||
-            gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_Ender_14)
+        if (gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8 ||
+            gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_Ender_14)
         {
             yAdjustHack = FP_FromInteger(10) * field_CC_sprite_scale;
         }
@@ -390,7 +390,7 @@ Door* Door::vdtor_41E9D0(signed int flags)
     dtor_41EA00();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -481,7 +481,7 @@ void Door::vUpdate_41EBE0()
                 else
                 {
                     field_20_animation.Set_Animation_Data_409C80(
-                        stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_frameTableOffset_open,
+                        stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_frameTableOffset_open,
                         nullptr);
                 }
 
@@ -505,7 +505,7 @@ void Door::vUpdate_41EBE0()
                 else
                 {
                     field_20_animation.Set_Animation_Data_409C80(
-                        stru_544888[static_cast<int>(gMap_5C3030.sCurrentLevelId_5C3030)].field_4_frameTableOffset_open,
+                        stru_544888[static_cast<int>(gMap_5C3030.field_0_current_level)].field_4_frameTableOffset_open,
                         nullptr);
                 }
 
@@ -613,7 +613,7 @@ TrainDoor* TrainDoor::vdtor_4DD1D0(signed int flags)
     dtor_4DD200();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

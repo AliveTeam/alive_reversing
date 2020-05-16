@@ -47,4 +47,6 @@ private:
 
     std::map<DWORD, DWORD> mRealStubs;
     std::set<DWORD> mDisabledImpls;
+    int mExportCount = 0;
+    int mHookedCount = 0;
 };

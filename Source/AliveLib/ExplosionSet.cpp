@@ -101,7 +101,7 @@ ExplosionSet* ExplosionSet::vdtor_414D80(signed int flags)
     dtor_414DB0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -116,8 +116,8 @@ void ExplosionSet::dtor_414DB0()
 
 void ExplosionSet::vScreenChanged_415190()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 == gMap_5C3030.field_A_5C303A_levelId &&
-        gMap_5C3030.sCurrentPathId_5C3032 == gMap_5C3030.field_C_5C303C_pathId)
+    if (gMap_5C3030.field_0_current_level == gMap_5C3030.field_A_level &&
+        gMap_5C3030.field_2_current_path == gMap_5C3030.field_C_path)
     {
         field_5C_flags.Clear(Flags_5C::eBit3);
     }
@@ -227,7 +227,7 @@ void ExplosionSet::vUpdate_414E30()
             field_46++;
             field_44_start_delay = field_56_delay;
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1 && Math_RandomRange_496AB0(1, 5) >= 4)
             {
                 auto pExplosion = alive_new<Explosion>();
                 if (pExplosion)

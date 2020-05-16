@@ -96,7 +96,7 @@ ParamiteWeb* ParamiteWeb::vdtor_4E1AF0(signed int flags)
     dtor_4E1B20();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -132,7 +132,7 @@ void ParamiteWeb::vRender_4E1BA0(int** pOt)
 {
     PSX_Point camCoords = {};
     gMap_5C3030.GetCurrentCamCoords_480680(&camCoords);
-    if (field_C2_lvl_number == gMap_5C3030.sCurrentLevelId_5C3030 && field_C0_path_number == gMap_5C3030.sCurrentPathId_5C3032)
+    if (field_C2_lvl_number == gMap_5C3030.field_0_current_level && field_C0_path_number == gMap_5C3030.field_2_current_path)
     {
         if (field_B8_xpos >= FP_FromInteger(camCoords.field_0_x) && field_B8_xpos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {

@@ -66,7 +66,7 @@ TimerTrigger* TimerTrigger::vdtor_4CDD00(signed int flags)
     dtor_4CDD30();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -135,8 +135,8 @@ void TimerTrigger::ToggleAllIds_4CDEC0()
 void TimerTrigger::vScreenChanged_4CDF00()
 {
     if (field_22_state == TimerTriggerStates::eWaitForEnabled_0 || field_22_state == TimerTriggerStates::eCheckForStartAgain_2 ||
-        gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
+        gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
+        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);

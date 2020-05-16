@@ -109,8 +109,8 @@ BOOL Meat::VCanEatMe_4696A0()
 
 void Meat::vScreenChanged_46A130()
 {
-    if (gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
-        gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    if (gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
+        gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }
@@ -164,7 +164,7 @@ Meat* Meat::vdtor_4696C0(signed int flags)
     dtor_4696F0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -466,7 +466,7 @@ MeatSack* MeatSack::ctor_46A410(Path_MeatSack* pTlv, int tlvInfo)
 
     BYTE** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, ResourceID::kD2elumResID);
     Animation_Init_424E10(15848, 93, 86, ppRes, 1, 1);
-    SetTint_425600(&stru_55C254[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&stru_55C254[0], gMap_5C3030.field_0_current_level);
 
     field_DC_bApplyShadows &= ~1u;
     field_118_tlvInfo = tlvInfo;
@@ -579,7 +579,7 @@ MeatSack* MeatSack::vdtor_46A5E0(signed int flags)
     dtor_46A610();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

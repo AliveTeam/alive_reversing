@@ -111,7 +111,7 @@ BaseGameObject* BaseAliveGameObject::vdtor_408210(signed int flags)
     dtor_4080B0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -297,8 +297,8 @@ void BaseAliveGameObject::vOnPathTransition_408320(__int16 cameraWorldXPos, __in
     field_B8_xpos = FP_FromInteger(SnapToXGrid_449930(field_CC_sprite_scale, FP_GetExponent(field_B8_xpos)));
 
     if (sActiveHero_5C1B68 == this && 
-        gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2 &&
-        gMap_5C3030.sCurrentPathId_5C3032 == 2 &&
+        gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2 &&
+        gMap_5C3030.field_2_current_path == 2 &&
         (field_106_current_motion == eAbeStates::State_23_RollLoop_453A90 || field_106_current_motion == eAbeStates::State_17_CrouchIdle_456BC0))
     {
         // Yummy OWI hack - hard code Abe's location when path change to Necrum's first path after the Mines :)
@@ -623,8 +623,8 @@ __int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
     {
         if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapLeft_0, this, -1))
         {
-            field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
-            field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+            field_C2_lvl_number = gMap_5C3030.field_0_current_level;
+            field_C0_path_number = gMap_5C3030.field_2_current_path;
             return 1;
         }
     }
@@ -633,8 +633,8 @@ __int16 BaseAliveGameObject::MapFollowMe_408D10(__int16 snapToGrid)
     {
         if (sControlledCharacter_5C1B8C == this && gMap_5C3030.SetActiveCameraDelayed_4814A0(Map::MapDirections::eMapRight_1, this, -1))
         {
-            field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
-            field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+            field_C2_lvl_number = gMap_5C3030.field_0_current_level;
+            field_C0_path_number = gMap_5C3030.field_2_current_path;
             return 1;
         }
     }

@@ -136,7 +136,7 @@ Well* Well::vdtor_4E2CA0(signed int flags)
     dtor_4E3090();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }

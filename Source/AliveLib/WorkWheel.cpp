@@ -118,7 +118,7 @@ WorkWheel* WorkWheel::vdtor_4E3820(signed int flags)
     dtor_4E3850();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -195,7 +195,7 @@ void WorkWheel::vUpdate_4E38E0()
     {
         if (field_100_on_counter > field_FE_duration)
         {
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10 && field_F8_id == 100)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10 && field_F8_id == 100)
             {
                 CreateGameEnderController_43B7A0();
             }
@@ -214,8 +214,8 @@ void WorkWheel::vUpdate_4E38E0()
 
 void WorkWheel::vScreenChanged_4E3AD0()
 {
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId ||
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId ||
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level ||
+        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path ||
         field_FC_state == WheelStates::eIdle)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);

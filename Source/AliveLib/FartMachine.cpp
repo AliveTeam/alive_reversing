@@ -82,7 +82,7 @@ FartMachine* FartMachine::ctor_413060(Path_FartMachine* pTlv, int tlvInfo)
     field_B8_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    field_1E6_cam_id = gMap_5C3030.sCurrentCamId_5C3034;
+    field_1E6_cam_id = gMap_5C3030.field_4_current_camera;
     return this;
 }
 
@@ -106,7 +106,7 @@ FartMachine* FartMachine::vdtor_413290(signed int flags)
     dtor_413330();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -140,7 +140,7 @@ void FartMachine::vUpdate_4132C0()
 
 void FartMachine::vRender_4133F0(int** pOt)
 {
-    if (gMap_5C3030.sCurrentCamId_5C3034 == field_1E6_cam_id)
+    if (gMap_5C3030.field_4_current_camera == field_1E6_cam_id)
     {
         char text[12] = {};
         sprintf(text, "%02d", field_144_total_brew_count);

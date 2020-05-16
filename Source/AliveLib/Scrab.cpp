@@ -196,7 +196,7 @@ Scrab* Scrab::ctor_4A3C40(Path_Scrab* pTlv, int tlvInfo, __int16 spawnedScale)
         field_1C_update_delay = 30;
     }
 
-    SetTint_425600(&sScrabTints_560260[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&sScrabTints_560260[0], gMap_5C3030.field_0_current_level);
     
     field_DC_bApplyShadows |= 2u;
 
@@ -519,7 +519,7 @@ Scrab* Scrab::vdtor_4A41B0(signed int flags)
     dtor_4A42B0();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -547,7 +547,7 @@ void Scrab::dtor_4A42B0()
     if (sControlledCharacter_5C1B8C == this)
     {
         sControlledCharacter_5C1B8C = sActiveHero_5C1B68;
-        if (gMap_5C3030.field_A_5C303A_levelId != LevelIds::eMenu_0)
+        if (gMap_5C3030.field_A_level != LevelIds::eMenu_0)
         {
             gMap_5C3030.SetActiveCam_480D30(
                 field_166_level,
@@ -3603,9 +3603,9 @@ void Scrab::vPossesed_4A5620()
     field_120_obj_id = -1;
     field_124_fight_target_obj_id = -1;
     field_12C_timer = sGnFrame_5C1B84 + 35;
-    field_166_level = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_168_path = gMap_5C3030.sCurrentPathId_5C3032;
-    field_16A_camera = gMap_5C3030.sCurrentCamId_5C3034;
+    field_166_level = gMap_5C3030.field_0_current_level;
+    field_168_path = gMap_5C3030.field_2_current_path;
+    field_16A_camera = gMap_5C3030.field_4_current_camera;
 }
 
 BYTE** Scrab::ResBlockForMotion_4A43E0(__int16 motion)
@@ -3665,8 +3665,8 @@ void Scrab::vScreenChanged_4A5560()
 {
     BaseGameObject* pChaseTarget = sObjectIds_5C1B70.Find_449CF0(field_120_obj_id);
 
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || 
-        gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId || 
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || 
+        gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || 
         gMap_5C3030.field_22 != gMap_5C3030.Get_Path_Unknown_480710())
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);

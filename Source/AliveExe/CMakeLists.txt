@@ -15,7 +15,7 @@ target_compile_features(AliveExe
 
 target_compile_definitions(AliveExe PRIVATE "_CRT_SECURE_NO_WARNINGS")
 
-target_link_libraries(AliveExe AliveLib)
+target_link_libraries(AliveExe AliveLib AliveLibAO)
 
 export(TARGETS AliveExe FILE AliveExe.cmake)
 install(TARGETS AliveExe DESTINATION .)

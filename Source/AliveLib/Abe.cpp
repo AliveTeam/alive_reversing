@@ -400,11 +400,11 @@ EXPORT int CC Abe_SFX_2_457A40(char sfxId, int volume, int pitchMin, BaseAliveGa
         sndIndex = 25;
         break;
     case 0xD:
-        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1
-            || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8
-            || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5
-            || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6
-            || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
+        if (gMap_5C3030.field_0_current_level == LevelIds::eMines_1
+            || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8
+            || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5
+            || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6
+            || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
         {
             sndIndex = 2;
         }
@@ -713,7 +713,7 @@ Abe* Abe::ctor_44AD10(int frameTableOffset, int /*a3*/, int /*a4*/, int /*a5*/)
 
 
     // Changes Abe's "default" colour depending on the level we are in
-    SetTint_425600(&sTintTable_Abe_554D20[0], gMap_5C3030.sCurrentLevelId_5C3030);
+    SetTint_425600(&sTintTable_Abe_554D20[0], gMap_5C3030.field_0_current_level);
 
     field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     field_20_animation.field_B_render_mode = 0;
@@ -955,7 +955,7 @@ signed int CC Abe::CreateFromSaveState_44D4F0(const BYTE* pData)
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*sActiveHero_5C1B68->field_20_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
     sActiveHero_5C1B68->field_20_animation.Load_Pal_40A530(sActiveHero_5C1B68->field_20_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
-    sActiveHero_5C1B68->SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.sCurrentLevelId_5C3030);
+    sActiveHero_5C1B68->SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_0_current_level);
     sActiveHero_5C1B68->field_20_animation.field_B_render_mode = 0;
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
     sActiveHero_5C1B68->field_20_animation.field_4_flags.Clear(AnimFlags::eBit16_bBlending);
@@ -1152,7 +1152,7 @@ BaseGameObject* Abe::vdtor_44B350(signed int flags)
     dtor_44B380();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
@@ -1565,7 +1565,7 @@ void Abe::Update_449DC0()
         {
             if (field_1AE.Get(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender))
             {
-                if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eNecrum_2)
+                if (gMap_5C3030.field_0_current_level == LevelIds::eNecrum_2)
                 {
                     field_168_ring_pulse_timer = sGnFrame_5C1B84 + 200000;
                     field_16C_bHaveShrykull = 0;
@@ -1723,23 +1723,23 @@ void Abe::vScreenChanged_44D240()
 {
     if (sControlledCharacter_5C1B8C == this)
     {
-        field_C2_lvl_number = gMap_5C3030.field_A_5C303A_levelId;
-        field_C0_path_number = gMap_5C3030.field_C_5C303C_pathId;
+        field_C2_lvl_number = gMap_5C3030.field_A_level;
+        field_C0_path_number = gMap_5C3030.field_C_path;
     }
 
     // Level has changed?
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level)
     {
-        if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eMines_1 && !word_5C1BA0)
+        if (gMap_5C3030.field_A_level == LevelIds::eMines_1 && !word_5C1BA0)
         {
             field_128.field_18_say = MudSounds::eHelloNeutral_3;
             field_144_auto_say_timer = sGnFrame_5C1B84 + 35;
         }
 
         // Set the correct tint for this map
-        SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_A_5C303A_levelId);
+        SetTint_425600(sTintTable_Abe_554D20, gMap_5C3030.field_A_level);
 
-        if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone)
+        if (gMap_5C3030.field_0_current_level != LevelIds::eNone)
         {
             if (field_1A2_rock_or_bone_count > 0)
             {
@@ -1759,36 +1759,36 @@ void Abe::vScreenChanged_44D240()
             field_168_ring_pulse_timer = 0;
         }
 
-        if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eNecrum_2)
+        if (gMap_5C3030.field_A_level == LevelIds::eNecrum_2)
         {
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudancheeVault_Ender_7)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMudancheeVault_Ender_7)
             {
                 field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender);
             }
 
-            if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudomoVault_Ender_11)
+            if (gMap_5C3030.field_0_current_level == LevelIds::eMudomoVault_Ender_11)
             {
                 field_1AE.Set(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender);
             }
         }
 
-        if (gMap_5C3030.field_A_5C303A_levelId == LevelIds::eCredits_16 || gMap_5C3030.field_A_5C303A_levelId == LevelIds::eMenu_0)
+        if (gMap_5C3030.field_A_level == LevelIds::eCredits_16 || gMap_5C3030.field_A_level == LevelIds::eMenu_0)
         {
             // Remove Abe for menu/credits levels?
             field_6_flags.Set(BaseGameObject::eDead_Bit3);
         }
     }
 
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId || gMap_5C3030.sCurrentPathId_5C3032 != gMap_5C3030.field_C_5C303C_pathId)
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
     {
         field_168_ring_pulse_timer = 0;
-        if (gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eNone)
+        if (gMap_5C3030.field_0_current_level != LevelIds::eNone)
         {
             field_198_has_evil_fart = 0;
         }
     }
 
-    if (gMap_5C3030.sCurrentLevelId_5C3030 != gMap_5C3030.field_A_5C303A_levelId && !(field_114_flags.Get(Flags_114::e114_Bit9)))
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level && !(field_114_flags.Get(Flags_114::e114_Bit9)))
     {
         for (char& val : sSavedKilledMudsPerPath_5C1B50.mData)
         {
@@ -2549,7 +2549,7 @@ void Abe::vOn_TLV_Collision_44B5D0(Path_TLV* pTlv)
         }
         else if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
         {
-            if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89 || gMap_5C3030.sCurrentLevelId_5C3030 != LevelIds::eMines_1)
+            if (sControlledCharacter_5C1B8C->field_4_typeId != Types::eMineCar_89 || gMap_5C3030.field_0_current_level != LevelIds::eMines_1)
             {
                 Abe_SFX_457EC0(MudSounds::eDeathDrop_15, 0, 0, this);
                 Event_Broadcast_422BC0(kEventNoise, this);
@@ -6218,11 +6218,11 @@ void Abe::State_71_Knockback_455090()
 
             MoveWithVelocity_450FA0(FP_FromDouble(0.67));
 
-            if ((gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMines_1
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBonewerkz_8
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eFeeCoDepot_5
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBarracks_6
-                || gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_9)
+            if ((gMap_5C3030.field_0_current_level == LevelIds::eMines_1
+                || gMap_5C3030.field_0_current_level == LevelIds::eBonewerkz_8
+                || gMap_5C3030.field_0_current_level == LevelIds::eFeeCoDepot_5
+                || gMap_5C3030.field_0_current_level == LevelIds::eBarracks_6
+                || gMap_5C3030.field_0_current_level == LevelIds::eBrewery_9)
                 && field_20_animation.field_92_current_frame == 7)
             {
                 Abe_SFX_2_457A40(6, 80, -200, this);
@@ -6597,9 +6597,9 @@ void Abe::State_82_Inside_Of_A_Well_Express_45CC80()
     field_128.field_8 = FP_FromInteger(0);
     field_F8_LastLineYPos = field_BC_ypos;
 
-    if (field_19A_to_level != gMap_5C3030.sCurrentLevelId_5C3030 ||
-        field_19C_to_path != gMap_5C3030.sCurrentPathId_5C3032 ||
-        field_19E_to_camera != gMap_5C3030.sCurrentCamId_5C3034)
+    if (field_19A_to_level != gMap_5C3030.field_0_current_level ||
+        field_19C_to_path != gMap_5C3030.field_2_current_path ||
+        field_19E_to_camera != gMap_5C3030.field_4_current_camera)
     {
         field_124_gnFrame = 1;
 
@@ -6678,8 +6678,8 @@ void Abe::State_83_Shoot_Out_Of_A_Well_45CF70()
         }
     }
 
-    field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
-    field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+    field_C2_lvl_number = gMap_5C3030.field_0_current_level;
+    field_C0_path_number = gMap_5C3030.field_2_current_path;
 
     if (pWell)
     {
@@ -6846,11 +6846,11 @@ void Abe::State_86_HandstoneBegin_45BD00()
             {
                 pScreenManager_5BB5F4->field_40_flags |= 0x10000;
 
-                FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.sCurrentLevelId_5C3030, field_184_fmv_id);
+                FmvInfo* pFmvRec = Path_Get_FMV_Record_460F70(gMap_5C3030.field_0_current_level, field_184_fmv_id);
                 DWORD pos = 0;
 
                 Get_fmvs_sectors_494460(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
-                sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.sCurrentLevelId_5C3030);
+                sLevelId_dword_5CA408 = static_cast<DWORD>(gMap_5C3030.field_0_current_level);
 
                 Movie* pMovie = alive_new<Movie>();
                 if (pMovie)
@@ -6873,7 +6873,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
                 }
 
                 field_148_fade_obj_id = pFade33->field_8_object_id;
-                field_19E_to_camera = gMap_5C3030.sCurrentCamId_5C3034;
+                field_19E_to_camera = gMap_5C3030.field_4_current_camera;
                 gMap_5C3030.SetActiveCam_480D30(field_C2_lvl_number, field_C0_path_number, field_186_to_camera_id[0], CameraSwapEffects::eEffect0_InstantChange, 0, 0);
             }
         }
@@ -6883,7 +6883,7 @@ void Abe::State_86_HandstoneBegin_45BD00()
         if (sMovie_ref_count_BB4AE4 == 0)
         {
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager_5BB5F4->DecompressToVRam_40EF60((unsigned __int16 **)gMap_5C3030.field_2C_5C305C_camera_array[0]->field_C_pCamRes);
+            pScreenManager_5BB5F4->DecompressToVRam_40EF60((unsigned __int16 **)gMap_5C3030.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager_5BB5F4->field_40_flags |= 0x10000;
             pCircularFade->Vsub_4CE300(0, 0);
             field_120_state = 3;
@@ -7867,19 +7867,19 @@ void Abe::State_114_DoorEnter_459470()
 
         // An OWI hack.. when both mudomo and mundanchee are done force back to necrum mines
         bool hackChange = false;
-        if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudomoVault_Ender_11)
+        if (gMap_5C3030.field_0_current_level == LevelIds::eMudomoVault_Ender_11)
         {
-            if (gMap_5C3030.sCurrentPathId_5C3032 == 13 &&
-                gMap_5C3030.sCurrentCamId_5C3034 == 14 &&
+            if (gMap_5C3030.field_2_current_path == 13 &&
+                gMap_5C3030.field_4_current_camera == 14 &&
                 field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_bIsMudancheeVault_Ender))
             {
                 hackChange = true;
             }
         }
-        else if (gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eMudancheeVault_Ender_7)
+        else if (gMap_5C3030.field_0_current_level == LevelIds::eMudancheeVault_Ender_7)
         {
-            if (gMap_5C3030.sCurrentPathId_5C3032 == 11 &&
-                gMap_5C3030.sCurrentCamId_5C3034 == 2 &&
+            if (gMap_5C3030.field_2_current_path == 11 &&
+                gMap_5C3030.field_4_current_camera == 2 &&
                 field_1AE.Get(Flags_1AE::e1AE_Bit1_bIsMudancheeVault_Ender))
             {
                 hackChange = true;
@@ -7928,8 +7928,8 @@ void Abe::State_114_DoorEnter_459470()
     case 5u:
     {
         gMap_5C3030.field_1E_door = 0;
-        field_C2_lvl_number = gMap_5C3030.sCurrentLevelId_5C3030;
-        field_C0_path_number = gMap_5C3030.sCurrentPathId_5C3032;
+        field_C2_lvl_number = gMap_5C3030.field_0_current_level;
+        field_C0_path_number = gMap_5C3030.field_2_current_path;
 
         Path_Door* pDoorTlv2 = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera_4DB6D0(TlvTypes::Door_5, 0));
         field_FC_pPathTLV = pDoorTlv2;
@@ -9954,7 +9954,7 @@ EXPORT void CC Abe_SFX_457EC0(MudSounds idx, __int16 volume, int pitch, BaseAliv
         }
         case MudSounds::eGiggle_8:
         {
-            if (pHero == sActiveHero_5C1B68 && gMap_5C3030.sCurrentLevelId_5C3030 == LevelIds::eBrewery_Ender_10)
+            if (pHero == sActiveHero_5C1B68 && gMap_5C3030.field_0_current_level == LevelIds::eBrewery_Ender_10)
             {
                 idx = MudSounds::eLaugh_10;
             }

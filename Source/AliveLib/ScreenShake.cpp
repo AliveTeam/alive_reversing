@@ -55,7 +55,7 @@ EXPORT BaseGameObject* ScreenShake::vdtor_4AD030(signed int flags)
     dtor_4AD060();
     if (flags & 1)
     {
-        Mem_Free_495540(this);
+        alive_delete_free(this);
     }
     return this;
 }
