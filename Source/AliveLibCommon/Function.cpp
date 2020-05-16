@@ -1,4 +1,4 @@
-
+#include "stdafx_common.h"
 #include "Function.hpp"
 #include <set>
 #include <fstream>

@@ -1,3 +1,4 @@
+#include "stdafx_common.h"
 #include "ExportHooker.hpp"
 
 #if defined(_WIN32) && !defined(_WIN64)
