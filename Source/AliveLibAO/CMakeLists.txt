@@ -5,7 +5,7 @@ SET(AliveLibSrcAO
    Game.cpp
 )
 
-#ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibSrcAO)
+ADD_MSVC_PRECOMPILED_HEADER(stdafx_ao.h stdafx_ao.cpp AliveLibSrcAO)
 
 add_library(AliveLibAO ${AliveLibSrcAO})
 

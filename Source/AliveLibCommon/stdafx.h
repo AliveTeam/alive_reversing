@@ -6,4 +6,3 @@
 #pragma once
 
 #include "pch_shared.h"
-#include "config.h"
