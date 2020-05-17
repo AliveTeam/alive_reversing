@@ -1,7 +1,7 @@
 #include "logger.hpp"
 #include "Function.hpp"
 #include "ExportHooker.hpp"
-
+#include "BaseGameObject.hpp"
 #include "Game.hpp"
 
 bool RunningAsInjectedDll()
@@ -35,6 +35,7 @@ BOOL WINAPI DllMain(
     )
 {
     Game_ForceLink();
+    AliveLibAO_ForceLink();
 
 
     if (fdwReason == DLL_PROCESS_ATTACH)

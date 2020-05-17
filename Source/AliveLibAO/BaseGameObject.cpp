@@ -3,6 +3,8 @@
 #include "DynamicArray.hpp"
 #include "Function.hpp"
 
+void AliveLibAO_ForceLink() {}
+
 EXPORT void CC Remove_Item_417350(void*)
 {
     NOT_IMPLEMENTED();
