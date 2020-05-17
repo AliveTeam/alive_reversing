@@ -1,6 +1,6 @@
-project(AliveLib VERSION 0.1 LANGUAGES CXX)
+project(AliveLibAE VERSION 0.1 LANGUAGES CXX)
 
-SET(AliveLibSrc
+SET(AliveLibAESrc
     Input.cpp
     Input.hpp
     DynamicArray.cpp
@@ -359,31 +359,31 @@ SET(AliveLibSrc
     ScopedSeq.hpp
 )
 
-ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibSrc)
+ADD_MSVC_PRECOMPILED_HEADER(stdafx.h stdafx.cpp AliveLibAESrc)
 
-add_library(AliveLib ${AliveLibSrc})
+add_library(AliveLibAE ${AliveLibAESrc})
 
-target_include_directories(AliveLib PUBLIC
+target_include_directories(AliveLibAE PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
 
-target_compile_definitions(AliveLib PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
-target_compile_definitions(AliveLib PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
+target_compile_definitions(AliveLibAE PRIVATE "_CRT_SECURE_NO_WARNINGS")
+target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
+target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
 if (MSVC)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)
-        target_compile_options(AliveLib PRIVATE /W4 /wd4996 /WX /MP)
+        target_compile_options(AliveLibAE PRIVATE /W4 /wd4996 /WX /MP)
     else()
-        target_compile_options(AliveLib PRIVATE /W4 /wd4996 /MP)
+        target_compile_options(AliveLibAE PRIVATE /W4 /wd4996 /MP)
     endif()
 
-    set_target_properties(AliveLib PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
-    set_target_properties(AliveLib PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
+    set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
+    set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
 endif()
 
-target_compile_features(AliveLib
+target_compile_features(AliveLibAE
     PRIVATE cxx_strong_enums
     PRIVATE cxx_static_assert
     PRIVATE cxx_lambdas
@@ -405,7 +405,7 @@ if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
     set(WIN32_LIBS ${WIN32_LIBS} Detours)
 endif()
 
-target_link_libraries(AliveLib
+target_link_libraries(AliveLibAE
     AliveLibCommon
     EasyLogging++
     googletest
@@ -414,4 +414,4 @@ target_link_libraries(AliveLib
     ${SDL2_LIBRARIES}
     )
 
-export(TARGETS AliveLib FILE AliveLib.cmake)
+export(TARGETS AliveLibAE FILE AliveLibAE.cmake)

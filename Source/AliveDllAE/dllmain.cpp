@@ -1,7 +1,7 @@
 #include "logger.hpp"
 #include "Function.hpp"
 #include "ExportHooker.hpp"
-#include "../AliveLib/WinMain.hpp"
+#include "../AliveLibAE/WinMain.hpp"
 
 bool RunningAsInjectedDll()
 {
