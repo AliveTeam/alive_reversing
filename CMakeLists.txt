@@ -57,16 +57,15 @@ enable_testing()
 add_subdirectory(3rdParty)
 add_subdirectory(Source/AliveLibCommon)
 add_subdirectory(Source/AliveLibAO)
-add_subdirectory(Source/AliveLib)
+add_subdirectory(Source/AliveLibAE)
 add_subdirectory(Source/AliveExe)
-add_subdirectory(Source/Tools)
 
 if (WIN32)
-    add_subdirectory(Source/AliveDll)
+    add_subdirectory(Source/AliveDllAE)
     add_subdirectory(Source/AliveDllAO)
 endif()
 
-add_dependencies(AliveLib UpdateConfigHeader)
+add_dependencies(AliveLibAE UpdateConfigHeader)
 
 if(WIN32)
     # On Windows generate ZIP packages

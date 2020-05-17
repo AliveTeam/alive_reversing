@@ -11,7 +11,7 @@ bool RunningAsInjectedDll()
 
 extern "C"
 {
-    EXPORT void CC ForceThisDllToLoadInExoddusExe()
+    EXPORT void CC ForceThisDllToLoadInAbeWinExe()
     {
         // Never called because:
         // The patched Exoddus.exe loads this Dll and its WinMain calls this function but:
@@ -21,7 +21,7 @@ extern "C"
         // 4. Therefore the patched WinMain that jmp's to this function is overwritten before 
         // it can ever be executed.
         LOG_ERROR("Entry point was not hooked!");
-        //Winmain_ForceLink(); // Else the entire AliveLib will be discarded by the linker because there are 0 calls to any of it
+        //Winmain_ForceLink(); // Else the entire AliveLibAO will be discarded by the linker because there are 0 calls to any of it
         //abort();
     }
 }

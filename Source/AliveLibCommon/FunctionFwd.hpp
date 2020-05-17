@@ -50,3 +50,7 @@ extern TypeName& VarName;
 #define ALIVE_ARY_EXTERN(TypeName, Size, VarName)\
 extern AliveVar Var_##VarName;\
 extern TypeName* VarName ;
+
+
+#define START_NS_AO namespace AO {
+#define END_NS_AO }
